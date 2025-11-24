@@ -1,11 +1,21 @@
 import { Course, CourseRegistration } from '@bluedot/db';
-import { CTALinkOrButton, ProgressDots, useCurrentTimeMs } from '@bluedot/ui';
+import {
+  CTALinkOrButton, ProgressDots, useCurrentTimeMs, OverflowMenu, type OverflowMenuItemProps,
+} from '@bluedot/ui';
 import { useState } from 'react';
-import { formatDateMonthAndDay, formatDateTimeRelative, formatTime12HourClock } from '../../lib/utils';
+import {
+  buildGroupSlackChannelUrl, formatDateMonthAndDay, formatDateTimeRelative, formatTime12HourClock,
+} from '../../lib/utils';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
-import GroupSwitchModal from '../courses/GroupSwitchModal';
+import GroupSwitchModal, { type SwitchType } from '../courses/GroupSwitchModal';
 
 const HOUR_IN_MS = 60 * 60 * 1000;
+
+// TODO actual styles
+const BUTTON_STYLES = {
+  primary: { variant: 'primary' as const, className: 'bg-[#2244BB]' },
+  secondary: { variant: 'outline-black' as const, className: 'bg-transparent border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter' },
+};
 
 type CourseDetailsRowProps = {
   discussion: GroupDiscussion;
@@ -13,8 +23,17 @@ type CourseDetailsRowProps = {
   isPast?: boolean;
   course: Course;
   isFacilitator: boolean;
-  setSelectedDiscussion: (discussion: GroupDiscussion) => void;
-  setGroupSwitchModalOpen: (open: boolean) => void;
+  handleOpenGroupSwitchModal: (params: { discussion: GroupDiscussion; switchType: SwitchType }) => void;
+};
+
+// TODO decide whether to unify with GroupDiscussionBanner
+type ButtonConfig = {
+  id: string;
+  label: React.ReactNode;
+  style: keyof typeof BUTTON_STYLES;
+  url?: string;
+  onClick?: () => void;
+  isVisible: boolean;
 };
 
 const CourseDetailsRow = ({
@@ -23,8 +42,7 @@ const CourseDetailsRow = ({
   isPast = false,
   course,
   isFacilitator,
-  setSelectedDiscussion,
-  setGroupSwitchModalOpen,
+  handleOpenGroupSwitchModal,
 }: CourseDetailsRowProps) => {
   const currentTimeMs = useCurrentTimeMs();
 
@@ -41,6 +59,52 @@ const CourseDetailsRow = ({
   } else if (course.slug && discussion.unitNumber !== null) {
     buttonUrl = `/courses/${course.slug}/${discussion.unitNumber}`;
   }
+
+  const discussionMeetLink = discussion.zoomLink || '';
+  const discussionPrepareLink = course.slug && discussion.unitNumber !== null ? `/courses/${course.slug}/${discussion.unitNumber}` : '';
+  const slackChannelLink = discussion.slackChannelId ? buildGroupSlackChannelUrl(discussion.slackChannelId) : '';
+
+  const buttons: ButtonConfig[] = [
+    // Primary CTA
+    {
+      id: 'join-now',
+      label: 'Join now',
+      style: 'primary',
+      url: discussionMeetLink,
+      isVisible: isNext && isStartingSoon,
+    },
+    {
+      id: 'prepare-for-discussion',
+      label: 'Prepare for discussion',
+      style: 'primary',
+      url: discussionPrepareLink,
+      isVisible: isNext && !isStartingSoon,
+    },
+    // Secondary CTA
+    {
+      id: 'cant-make-it',
+      label: "Can't make it?",
+      style: 'secondary',
+      onClick: () => handleOpenGroupSwitchModal({ discussion, switchType: 'Switch group for one unit' }),
+      isVisible: !isFacilitator && !isPast,
+    },
+    // Inside overflow menu
+    {
+      id: 'message-group',
+      label: 'Message group',
+      style: 'secondary',
+      url: slackChannelLink,
+      isVisible: !isPast,
+    },
+    {
+      id: 'switch-group-permanently',
+      label: 'Switch group permanently',
+      style: 'secondary',
+      onClick: () => handleOpenGroupSwitchModal({ discussion, switchType: 'Switch group permanently' }),
+      isVisible: !isFacilitator && !isPast,
+    },
+  ];
+  const visibleButtons = buttons.filter((button) => button.isVisible);
 
   return (
     <div key={discussion.id} className="py-4 border-b border-gray-100 last:border-0">
@@ -100,10 +164,8 @@ const CourseDetailsRow = ({
                   url="#"
                   aria-label={`Switch group for Unit ${discussion.unitNumber}`}
                   onClick={(e) => {
-                    e.preventDefault();
-                    // Set the discussion for the modal
-                    setSelectedDiscussion(discussion);
-                    setGroupSwitchModalOpen(true);
+                    e.preventDefault(); // TODO Audit reason for this, add a comment if it is required
+                    handleOpenGroupSwitchModal({ discussion, switchType: 'Switch group for one unit' });
                   }}
                 >
                   Switch group
@@ -149,33 +211,61 @@ const CourseDetailsRow = ({
 
         {/* Action buttons */}
         <div className="flex flex-row gap-2">
-          {isNext && (
-            <CTALinkOrButton
-              variant="primary"
-              size="small"
-              url={buttonUrl}
-              disabled={!discussion.zoomLink && isStartingSoon}
-              target="_blank"
-            >
-              {buttonText}
-            </CTALinkOrButton>
-          )}
-          {!isFacilitator && !isPast && (
-            <CTALinkOrButton
-              variant="outline-black"
-              size="small"
-              url="#"
-              aria-label={`Switch group for Unit ${discussion.unitNumber}`}
-              onClick={(e) => {
-                e.preventDefault();
-                // Set the discussion for the modal
-                setSelectedDiscussion(discussion);
-                setGroupSwitchModalOpen(true);
-              }}
-            >
-              Switch group
-            </CTALinkOrButton>
-          )}
+          {(() => {
+            const primaryButtons = visibleButtons.filter((b) => b.style === 'primary');
+            const secondaryButtons = visibleButtons.filter((b) => b.style === 'secondary');
+            const firstSecondaryButton = secondaryButtons[0];
+            const overflowButtons = secondaryButtons.slice(1);
+
+            return (
+              <>
+                {/* Primary buttons */}
+                {primaryButtons.map((button) => (
+                  <CTALinkOrButton
+                    key={button.id}
+                    variant="primary"
+                    size="small"
+                    url={button.url}
+                    onClick={button.onClick}
+                    disabled={button.id === 'join-now' && !discussion.zoomLink}
+                    target={button.url ? '_blank' : undefined}
+                  >
+                    {button.label}
+                  </CTALinkOrButton>
+                ))}
+
+                {/* First secondary button */}
+                {firstSecondaryButton && (
+                  <CTALinkOrButton
+                    key={firstSecondaryButton.id}
+                    variant="outline-black"
+                    size="small"
+                    url={firstSecondaryButton.url}
+                    onClick={firstSecondaryButton.onClick}
+                    aria-label={typeof firstSecondaryButton.label === 'string' ? firstSecondaryButton.label : undefined}
+                  >
+                    {firstSecondaryButton.label}
+                  </CTALinkOrButton>
+                )}
+
+                {/* Overflow menu for remaining secondary buttons */}
+                {overflowButtons.length > 0 && (
+                  <OverflowMenu
+                    ariaLabel="More actions"
+                    buttonClassName="px-3 py-1.5 text-size-sm border border-gray-300 rounded hover:bg-gray-50 transition-colors"
+                    items={overflowButtons.map((button): OverflowMenuItemProps => ({
+                      id: button.id,
+                      label: button.label,
+                      ...(button.url
+                        ? { href: button.url, target: '_blank' }
+                        : { onAction: button.onClick }
+                      ),
+                    }))}
+                  />
+                )}
+              </>
+            );
+          })()}
         </div>
       </div>
     </div>
@@ -201,12 +291,19 @@ const CourseDetails = ({
 }: CourseDetailsProps) => {
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [selectedDiscussion, setSelectedDiscussion] = useState<GroupDiscussion | null>(null);
+  const [selectedSwitchType, setSelectedSwitchType] = useState<SwitchType>('Switch group for one unit');
   const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>('upcoming');
   const [showAllUpcoming, setShowAllUpcoming] = useState(false);
   const [showAllAttended, setShowAllAttended] = useState(false);
 
   // TODO make issue: "Use consistent method for checking whether a user is the facilitator"
   const isFacilitator = courseRegistration.role === 'Facilitator';
+
+  const handleOpenGroupSwitchModal = ({ discussion, switchType }: { discussion: GroupDiscussion; switchType: SwitchType }) => {
+    setSelectedDiscussion(discussion);
+    setSelectedSwitchType(switchType);
+    setGroupSwitchModalOpen(true);
+  };
 
   return (
     <>
@@ -262,8 +359,7 @@ const CourseDetails = ({
                             isPast={false}
                             course={course}
                             isFacilitator={isFacilitator}
-                            setSelectedDiscussion={setSelectedDiscussion}
-                            setGroupSwitchModalOpen={setGroupSwitchModalOpen}
+                            handleOpenGroupSwitchModal={handleOpenGroupSwitchModal}
                           />
                         ))}
 
@@ -299,8 +395,7 @@ const CourseDetails = ({
                             isPast
                             course={course}
                             isFacilitator={isFacilitator}
-                            setSelectedDiscussion={setSelectedDiscussion}
-                            setGroupSwitchModalOpen={setGroupSwitchModalOpen}
+                            handleOpenGroupSwitchModal={handleOpenGroupSwitchModal}
                           />
                         ))}
 
@@ -332,7 +427,8 @@ const CourseDetails = ({
             setGroupSwitchModalOpen(false);
             setSelectedDiscussion(null);
           }}
-          initialUnitNumber={selectedDiscussion.unitRecord.unitNumber.toString()}
+          initialUnitNumber={selectedDiscussion?.unitRecord.unitNumber.toString()}
+          initialSwitchType={selectedSwitchType}
           courseSlug={course.slug}
         />
       )}
