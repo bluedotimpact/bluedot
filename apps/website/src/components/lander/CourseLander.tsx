@@ -76,26 +76,51 @@ const CourseLander = ({ courseSlug, baseApplicationUrl, createContentFor }: Cour
 
       <GraduateSection />
 
+      <div className="border-t-hairline border-color-divider" />
+
       <WhoIsThisForSection {...content.whoIsThisFor} />
+
+      <div className="border-t-hairline border-color-divider" />
 
       <CourseCurriculumSection {...content.curriculum} />
 
+      <div className="border-t-hairline border-color-divider" />
+
       <CourseBenefitsSection {...content.courseBenefits} />
+
+      <div className="border-t-hairline border-color-divider" />
 
       <CourseInformationSection {...content.courseInformation} />
 
-      {content.quotes && <QuoteSection {...content.quotes} />}
-
-      {content.communityMembers && (
-        <CommunityMembersSubSection
-          members={content.communityMembers}
-          title={content.communityMembersTitle}
-        />
+      {content.quotes && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <QuoteSection {...content.quotes} />
+        </>
       )}
 
-      {content.partners && <PartnerSection {...content.partners} />}
+      {content.communityMembers && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <CommunityMembersSubSection
+            members={content.communityMembers}
+            title={content.communityMembersTitle}
+          />
+        </>
+      )}
+
+      {content.partners && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <PartnerSection {...content.partners} />
+        </>
+      )}
+
+      <div className="border-t-hairline border-color-divider" />
 
       <FAQSection {...content.faq} />
+
+      <div className="border-t-hairline border-color-divider" />
 
       <LandingBanner {...content.banner} />
     </div>

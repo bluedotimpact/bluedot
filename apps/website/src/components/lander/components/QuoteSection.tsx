@@ -18,7 +18,7 @@ export type QuoteSectionProps = {
 
 // Design constants - these stay consistent across all courses
 const COLORS = {
-  background: '#FAFAF7',
+  background: '#FFFFFF',
   cardBg: '#ECF0FF',
   text: '#13132E',
   accent: '#2244BB',
