@@ -97,6 +97,7 @@ export const buildTimeDeltaString = (event: Event, locale?: string) => {
   const endDate = new Date(event.endAt);
   const timeZone = event.location === 'ONLINE' ? undefined : event.timezone;
 
+  // Check if event spans multiple days
   const dateComparator = new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
     month: 'numeric',
@@ -105,37 +106,39 @@ export const buildTimeDeltaString = (event: Event, locale?: string) => {
   });
   const isMultiDay = dateComparator.format(startDate) !== dateComparator.format(endDate);
 
-  const timeFormatOptions: Intl.DateTimeFormatOptions = {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-    timeZone,
+  const formatTime = (date: Date, extraOptions: Intl.DateTimeFormatOptions = {}) => {
+    return new Intl.DateTimeFormat(locale, {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+      timeZone,
+      ...extraOptions,
+    }).format(date);
   };
 
-  // Use locale parameter (undefined respects user locale)
-  const timeStart = new Intl.DateTimeFormat(locale, { ...timeFormatOptions, weekday: 'short' }).format(startDate);
-  // Use `timeZoneName: 'short'` to show timezone abbreviation after end date
-  let timeEnd = new Intl.DateTimeFormat(locale, { ...timeFormatOptions, timeZoneName: 'short' }).format(endDate);
+  const timeStart = formatTime(startDate, { weekday: 'short' });
 
   if (isMultiDay) {
-    const dateFormatter = new Intl.DateTimeFormat(locale, {
+    // For multi-day: "Weekday Time (Date) Timezone"
+    const timeEndWeekday = formatTime(endDate, { weekday: 'short' });
+    const timeEndDate = new Intl.DateTimeFormat(locale, {
       month: 'short',
       day: 'numeric',
       timeZone,
-    });
-    const timezoneFormatter = new Intl.DateTimeFormat(locale, {
+    }).format(endDate);
+
+    // Extract timezone abbreviation
+    const timezoneParts = new Intl.DateTimeFormat(locale, {
       timeZoneName: 'short',
       timeZone,
-    });
-    // If multi-day we should show the weekday before the time, date in brackets, and timezone after
-    const timeEndWeekday = new Intl.DateTimeFormat(locale, { ...timeFormatOptions, weekday: 'short' }).format(endDate);
-    const timeEndDate = dateFormatter.format(endDate);
-    // Extract timezone abbreviation from the formatted string
-    const timezoneParts = timezoneFormatter.formatToParts(endDate);
+    }).formatToParts(endDate);
     const timezone = timezoneParts.find((part) => part.type === 'timeZoneName')?.value || '';
-    timeEnd = `${timeEndWeekday} (${timeEndDate}) ${timezone}`;
+
+    return `${timeStart} - ${timeEndWeekday} (${timeEndDate}) ${timezone}`;
   }
 
+  // For single-day: "Weekday Time - Time Timezone"
+  const timeEnd = formatTime(endDate, { timeZoneName: 'short' });
   return `${timeStart} - ${timeEnd}`;
 };
 
