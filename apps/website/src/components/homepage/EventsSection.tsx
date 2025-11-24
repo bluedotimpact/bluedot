@@ -93,7 +93,7 @@ const DateBadge = ({ month, day }: { month: string; day: string }) => {
  * 3. If the event is shown over multiple days, the end date is shown before the end time, e.g. "9:00 am - Mar 5 5:00 pm
  *    GMT"
  */
-const buildTimeDeltaString = (event: Event) => {
+export const buildTimeDeltaString = (event: Event, locale?: string) => {
   const startDate = new Date(event.startAt);
   const endDate = new Date(event.endAt);
   const timeZone = event.location === 'ONLINE' ? undefined : event.timezone;
@@ -113,10 +113,10 @@ const buildTimeDeltaString = (event: Event) => {
     timeZone,
   };
 
-  // Use `undefined` to respect user locale
-  const timeStart = new Intl.DateTimeFormat(undefined, { ...timeFormatOptions, weekday: 'short' }).format(startDate);
+  // Use locale parameter (undefined respects user locale)
+  const timeStart = new Intl.DateTimeFormat(locale, { ...timeFormatOptions, weekday: 'short' }).format(startDate);
   // Use `timeZoneName: 'short'` to show timezone abbreviation after end date
-  const timeEnd = new Intl.DateTimeFormat(undefined, { ...timeFormatOptions, timeZoneName: 'short' }).format(endDate);
+  let timeEnd = new Intl.DateTimeFormat(locale, { ...timeFormatOptions, timeZoneName: 'short' }).format(endDate);
 
   let endDateString = '';
   if (isMultiDay) {
