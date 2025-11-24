@@ -86,11 +86,11 @@ const DateBadge = ({ month, day }: { month: string; day: string }) => {
 };
 
 /** Given a transformed Luma event, returns a time delta string:
- * 1. If the event is online, the time delta is shown in local user time, e.g. "9:00 am - 5:00 pm GMT+2" (for a user in
+ * 1. If the event is online, the time delta is shown in local user time, e.g. "Mon 9:00 am - 5:00 pm GMT+2" (for a user in
  *    GMT+2)
- * 2. If the event is in-person, the time delta is shown in the event's timezone, e.g. "2 pm - 5 pm GMT" (even if user
+ * 2. If the event is in-person, the time delta is shown in the event's timezone, e.g. "Mon 2 pm - 5 pm GMT" (even if user
  *    in GMT+2)
- * 3. If the event is shown over multiple days, the end date is shown in brackets, e.g. "9:00 am - Fri 5:00 pm (5 Mar)"
+ * 3. If the event is shown over multiple days, the end date is shown in brackets, e.g. "Mon 9:00 am - Fri 5:00 pm (5 Mar)"
  */
 export const buildTimeDeltaString = (event: Event, locale?: string) => {
   const startDate = new Date(event.startAt);
