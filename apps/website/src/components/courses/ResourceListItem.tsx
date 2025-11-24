@@ -142,7 +142,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
       // Optimistically update `getResourceCompletions` so that the Sidebar immediately updates
       await utils.resources.getResourceCompletions.cancel();
 
-      const previousData = queryClient.getQueryData(resourceCompletionsQueryKey);
+      const previousQueriesData = queryClient.getQueriesData({ queryKey: resourceCompletionsQueryKey });
 
       queryClient.setQueriesData(
         { queryKey: resourceCompletionsQueryKey },
@@ -180,13 +180,12 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
         },
       );
 
-      return { previousData };
+      return { previousQueriesData };
     },
     onError: (_err, _variables, mutationResult) => {
-      queryClient.setQueryData(
-        resourceCompletionsQueryKey,
-        mutationResult?.previousData,
-      );
+      mutationResult?.previousQueriesData.forEach(([queryKey, data]) => {
+        queryClient.setQueryData(queryKey, data);
+      });
     },
   });
 
