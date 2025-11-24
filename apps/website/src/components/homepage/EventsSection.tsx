@@ -90,7 +90,7 @@ const DateBadge = ({ month, day }: { month: string; day: string }) => {
  *    GMT+2)
  * 2. If the event is in-person, the time delta is shown in the event's timezone, e.g. "Mon 2 pm - 5 pm GMT" (even if user
  *    in GMT+2)
- * 3. If the event is shown over multiple days, the end date is shown in brackets, e.g. "Mon 9:00 am - Fri 5:00 pm (5 Mar)"
+ * 3. If the event is shown over multiple days, the end date is in brackets with timezone after, e.g. "Mon 9:00 am - Fri 5:00 pm (5 Mar) GMT"
  */
 export const buildTimeDeltaString = (event: Event, locale?: string) => {
   const startDate = new Date(event.startAt);
@@ -123,10 +123,17 @@ export const buildTimeDeltaString = (event: Event, locale?: string) => {
       day: 'numeric',
       timeZone,
     });
-    // If multi-day we should show the weekday before the time and the date after the time in brackets
+    const timezoneFormatter = new Intl.DateTimeFormat(locale, {
+      timeZoneName: 'short',
+      timeZone,
+    });
+    // If multi-day we should show the weekday before the time, date in brackets, and timezone after
     const timeEndWeekday = new Intl.DateTimeFormat(locale, { ...timeFormatOptions, weekday: 'short' }).format(endDate);
     const timeEndDate = dateFormatter.format(endDate);
-    timeEnd = `${timeEndWeekday} (${timeEndDate})`;
+    // Extract timezone abbreviation from the formatted string
+    const timezoneParts = timezoneFormatter.formatToParts(endDate);
+    const timezone = timezoneParts.find((part) => part.type === 'timeZoneName')?.value || '';
+    timeEnd = `${timeEndWeekday} (${timeEndDate}) ${timezone}`;
   }
 
   return `${timeStart} - ${timeEnd}`;

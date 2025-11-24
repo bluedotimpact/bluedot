@@ -107,8 +107,8 @@ describe('buildTimeDeltaString', () => {
 
       const result = buildTimeDeltaString(event, LOCALE);
 
-      // Multi-day format: "Weekday Time - Weekday Time (Date)"
-      expect(result).toBe('Fri 9:00 am - Sun 5:00 pm (17 Mar)');
+      // Multi-day format: "Weekday Time - Weekday Time (Date) Timezone"
+      expect(result).toBe('Fri 9:00 am - Sun 5:00 pm (17 Mar) UTC');
     });
 
     test('handles multi-day event spanning month boundary', () => {
@@ -124,7 +124,7 @@ describe('buildTimeDeltaString', () => {
 
       const result = buildTimeDeltaString(event, LOCALE);
 
-      expect(result).toBe('Sat 9:00 am - Tue 5:00 pm (2 Apr)');
+      expect(result).toBe('Sat 9:00 am - Tue 5:00 pm (2 Apr) UTC');
     });
 
     test('handles multi-day event with different year', () => {
@@ -141,7 +141,7 @@ describe('buildTimeDeltaString', () => {
       const result = buildTimeDeltaString(event, LOCALE);
 
       // Month abbreviation for January
-      expect(result).toBe('Mon 10:00 am - Thu 6:00 pm (2 Jan)');
+      expect(result).toBe('Mon 10:00 am - Thu 6:00 pm (2 Jan) UTC');
     });
   });
 
@@ -159,8 +159,8 @@ describe('buildTimeDeltaString', () => {
 
       const result = buildTimeDeltaString(event, LOCALE);
 
-      // en-GB abbreviates September as "Sept"
-      expect(result).toBe('Tue 9:00 am - Thu 5:00 pm (12 Sept)');
+      // en-GB abbreviates September as "Sept", GMT-7 (PDT) for Los Angeles
+      expect(result).toBe('Tue 9:00 am - Thu 5:00 pm (12 Sept) GMT-7');
     });
 
     test('handles multi-day event in Asia timezone', () => {
@@ -176,7 +176,8 @@ describe('buildTimeDeltaString', () => {
 
       const result = buildTimeDeltaString(event, LOCALE);
 
-      expect(result).toBe('Wed 9:00 am - Fri 6:00 pm (22 Nov)');
+      // GMT+9 (JST) for Tokyo
+      expect(result).toBe('Wed 9:00 am - Fri 6:00 pm (22 Nov) GMT+9');
     });
   });
 
@@ -212,7 +213,7 @@ describe('buildTimeDeltaString', () => {
       const result = buildTimeDeltaString(event, LOCALE);
 
       // This crosses midnight in the event timezone, so it's multi-day
-      expect(result).toBe('Thu 10:00 pm - Fri 12:00 am (15 Mar)');
+      expect(result).toBe('Thu 10:00 pm - Fri 12:00 am (15 Mar) GMT-4');
     });
 
     test('handles single hour event', () => {
@@ -298,7 +299,7 @@ describe('buildTimeDeltaString', () => {
       const result = buildTimeDeltaString(event, 'en-US');
 
       // en-US uses uppercase AM/PM and different date format
-      expect(result).toBe('Fri 9:00 AM - Sun 5:00 PM (Mar 17)');
+      expect(result).toBe('Fri 9:00 AM - Sun 5:00 PM (Mar 17) UTC');
     });
   });
 });
