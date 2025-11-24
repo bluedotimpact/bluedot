@@ -132,6 +132,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   );
 
   const queryClient = useQueryClient();
+  const resourceCompletionsQueryKey = getQueryKey(trpc.resources.getResourceCompletions, undefined, 'query');
 
   const saveCompletionMutation = trpc.resources.saveResourceCompletion.useMutation({
     onSettled: () => {
@@ -140,8 +141,11 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
     onMutate: async (newData) => {
       // Optimistically update `getResourceCompletions` so that the Sidebar immediately updates
       await utils.resources.getResourceCompletions.cancel();
+
+      const previousData = queryClient.getQueryData(resourceCompletionsQueryKey);
+
       queryClient.setQueriesData(
-        { queryKey: getQueryKey(trpc.resources.getResourceCompletions, undefined, 'query') },
+        { queryKey: resourceCompletionsQueryKey },
         (oldData: inferRouterOutputs<AppRouter>['resources']['getResourceCompletions']) => {
           if (!oldData) return [];
 
@@ -174,6 +178,14 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
           }
           return newArray;
         },
+      );
+
+      return { previousData };
+    },
+    onError: (_err, _variables, mutationResult) => {
+      queryClient.setQueryData(
+        resourceCompletionsQueryKey,
+        mutationResult?.previousData,
       );
     },
   });
