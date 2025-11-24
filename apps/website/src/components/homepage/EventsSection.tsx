@@ -90,8 +90,7 @@ const DateBadge = ({ month, day }: { month: string; day: string }) => {
  *    GMT+2)
  * 2. If the event is in-person, the time delta is shown in the event's timezone, e.g. "2 pm - 5 pm GMT" (even if user
  *    in GMT+2)
- * 3. If the event is shown over multiple days, the end date is shown before the end time, e.g. "9:00 am - Mar 5 5:00 pm
- *    GMT"
+ * 3. If the event is shown over multiple days, the end date is shown in brackets, e.g. "9:00 am - Fri 5:00 pm (5 Mar)"
  */
 export const buildTimeDeltaString = (event: Event, locale?: string) => {
   const startDate = new Date(event.startAt);
