@@ -117,17 +117,19 @@ export const buildTimeDeltaString = (event: Event, locale?: string) => {
   // Use `timeZoneName: 'short'` to show timezone abbreviation after end date
   let timeEnd = new Intl.DateTimeFormat(locale, { ...timeFormatOptions, timeZoneName: 'short' }).format(endDate);
 
-  let endDateString = '';
   if (isMultiDay) {
-    const dateFormatter = new Intl.DateTimeFormat(undefined, {
+    const dateFormatter = new Intl.DateTimeFormat(locale, {
       month: 'short',
       day: 'numeric',
       timeZone,
     });
-    endDateString = `${dateFormatter.format(endDate)} `; // Add trailing space
+    // If multi-day we should show the weekday before the time and the date after the time in brackets
+    const timeEndWeekday = new Intl.DateTimeFormat(locale, { ...timeFormatOptions, weekday: 'short' }).format(endDate);
+    const timeEndDate = dateFormatter.format(endDate);
+    timeEnd = `${timeEndWeekday} (${timeEndDate})`;
   }
 
-  return `${timeStart} - ${endDateString}${timeEnd}`;
+  return `${timeStart} - ${timeEnd}`;
 };
 
 const EventCard = ({ event }: { event: Event }) => {
