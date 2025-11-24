@@ -121,10 +121,10 @@ const FutureOfAiLander = ({
     if (typeof window !== 'undefined' && window.dataLayer) {
       window.dataLayer.push({
         event: 'newbies',
-        course_slug: 'future-of-ai',
+        course_slug: courseData.course.slug,
       });
     }
-  }, []);
+  }, [courseData.course.slug]);
 
   return (
     <>
