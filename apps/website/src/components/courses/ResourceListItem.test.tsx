@@ -1,8 +1,14 @@
+import '@testing-library/jest-dom';
+import { RESOURCE_FEEDBACK, type ResourceFeedbackValue } from '@bluedot/db/src/schema';
+import { useAuthStore } from '@bluedot/ui';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { render } from '@testing-library/react';
 import {
-  describe, expect, it, vi,
+  beforeEach, describe, expect, it, vi, type Mock,
 } from 'vitest';
+import { TRPCError } from '@trpc/server';
+import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import { ResourceListItem } from './ResourceListItem';
 
@@ -42,6 +48,18 @@ vi.mock('./MarkdownExtendedRenderer', () => ({
     return <div className={className}>{children}</div>;
   },
 }));
+
+vi.mock('@bluedot/ui', async () => {
+  const actual = await vi.importActual('@bluedot/ui');
+  return {
+    ...actual,
+    useAuthStore: vi.fn(),
+  };
+});
+
+const mockedUseAuthStore = useAuthStore as unknown as Mock;
+
+const mockAuth = { token: 'test-token', email: 'test@bluedot.org' };
 
 describe('ResourceListItem - Listen to Article Feature', () => {
   const baseResource = {
@@ -230,5 +248,150 @@ describe('ResourceListItem - Listen to Article Feature', () => {
     // Should not have separators when only year is present
     const metadata = container.querySelector('.resource-item__bottom-metadata');
     expect(metadata?.textContent).not.toContain('·');
+  });
+});
+
+describe('ResourceListItem - Optimistic Updates', () => {
+  const baseResource = {
+    id: 'test-resource-1',
+    resourceName: 'Optimistic UI Test Resource',
+    resourceType: 'article',
+    resourceLink: 'https://example.com',
+    unitId: 'unit1',
+    authors: 'Test Author',
+    year: 2024,
+    timeFocusOnMins: 5,
+    resourceGuide: null,
+    syncedAudioUrl: null,
+    coreFurtherMaybe: null,
+    readingOrder: null,
+    avgRating: null,
+    autoNumberId: null,
+  };
+
+  const mockCompletionData = {
+    id: 'completion-1',
+    unitResourceIdRead: 'test-resource-1',
+    unitResourceIdWrite: 'test-resource-1',
+    email: 'test@example.com',
+    isCompleted: false,
+    resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE as ResourceFeedbackValue,
+    feedback: '',
+    rating: null,
+    autoNumberId: null,
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockedUseAuthStore.mockImplementation((selector) => selector({ auth: mockAuth }));
+  });
+
+  it('should optimistically mark as complete before server responds', async () => {
+    const user = userEvent.setup();
+
+    let resolveMutation: (value: typeof mockCompletionData) => void = () => {};
+    const mutationPendingPromise = new Promise<typeof mockCompletionData>((resolve) => {
+      resolveMutation = resolve;
+    });
+
+    server.use(
+      trpcMsw.resources.getResourceCompletion.query(() => mockCompletionData),
+      trpcMsw.resources.saveResourceCompletion.mutation(async () => {
+        const result = await mutationPendingPromise;
+        return result as typeof mockCompletionData;
+      }),
+    );
+
+    render(<ResourceListItem resource={baseResource} />, { wrapper: TrpcProvider });
+
+    const toggleButton = await screen.findByLabelText('Mark as complete');
+    user.click(toggleButton);
+
+    await waitFor(() => {
+      expect(screen.getByLabelText('Mark as incomplete')).toBeInTheDocument();
+    });
+
+    resolveMutation({ ...mockCompletionData, isCompleted: true });
+
+    // UI stays in same state after mutation resolves
+    await waitFor(() => {
+      expect(screen.getByLabelText('Mark as incomplete')).toBeInTheDocument();
+    });
+  });
+
+  it('should optimistically update feedback selection', async () => {
+    const user = userEvent.setup();
+
+    // Start with a completed resource so we can see the feedback buttons
+    const completedMock = { ...mockCompletionData, isCompleted: true };
+
+    let resolveMutation: (value: typeof completedMock) => void = () => {};
+    const mutationPendingPromise = new Promise<typeof completedMock>((resolve) => {
+      resolveMutation = resolve;
+    });
+
+    server.use(
+      trpcMsw.resources.getResourceCompletion.query(() => completedMock),
+      trpcMsw.resources.saveResourceCompletion.mutation(async () => {
+        const result = await mutationPendingPromise;
+        return result as typeof completedMock;
+      }),
+    );
+
+    render(<ResourceListItem resource={baseResource} />, { wrapper: TrpcProvider });
+
+    // Wait for the feedback section to appear (it appears when isCompleted is true)
+    await screen.findByRole('region', { name: 'Resource feedback section' });
+
+    // `getAll` since there are two buttons - one for mobile and one for desktop
+    const likeButton = screen.getAllByLabelText('Like this resource')[0];
+    if (!likeButton) throw new Error('Like button not found');
+    user.click(likeButton);
+
+    await waitFor(() => {
+      expect(likeButton).toHaveAttribute('aria-pressed', 'true');
+    });
+
+    resolveMutation({ ...completedMock, resourceFeedback: RESOURCE_FEEDBACK.LIKE });
+
+    // UI is in same state after mutation resolves
+    await waitFor(() => {
+      expect(likeButton).toHaveAttribute('aria-pressed', 'true');
+    });
+  });
+
+  it('should revert optimistic update if mutation fails', async () => {
+    const user = userEvent.setup();
+    let rejectMutation: (error: TRPCError) => void = () => {};
+    const mutationPendingPromise = new Promise((_, reject) => {
+      rejectMutation = reject;
+    });
+
+    server.use(
+      trpcMsw.resources.getResourceCompletion.query(() => mockCompletionData),
+
+      trpcMsw.resources.saveResourceCompletion.mutation(async () => {
+        await mutationPendingPromise; // This line will throw when we call rejectMutation()
+        return { ...mockCompletionData, isCompleted: true }; // Unreachable
+      }),
+    );
+
+    render(<ResourceListItem resource={baseResource} />, { wrapper: TrpcProvider });
+
+    const toggleButton = await screen.findByLabelText('Mark as complete');
+    user.click(toggleButton);
+
+    // Optimistic update
+    await waitFor(() => {
+      expect(screen.getByLabelText('Mark as incomplete')).toBeInTheDocument();
+    });
+
+    // Trigger rejection
+    rejectMutation(new TRPCError({ code: 'INTERNAL_SERVER_ERROR' }));
+
+    // Verify rollback
+    await waitFor(() => {
+      expect(screen.getByLabelText('Mark as complete')).toBeInTheDocument();
+    });
   });
 });
