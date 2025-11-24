@@ -1,6 +1,7 @@
 import { Course, CourseRegistration } from '@bluedot/db';
 import {
   CTALinkOrButton, ProgressDots, useCurrentTimeMs, OverflowMenu, type OverflowMenuItemProps,
+  cn,
 } from '@bluedot/ui';
 import { useState } from 'react';
 import {
@@ -11,10 +12,9 @@ import GroupSwitchModal, { type SwitchType } from '../courses/GroupSwitchModal';
 
 const HOUR_IN_MS = 60 * 60 * 1000;
 
-// TODO actual styles
 const BUTTON_STYLES = {
-  primary: { variant: 'primary' as const, className: 'bg-[#2244BB]' },
-  secondary: { variant: 'outline-black' as const, className: 'bg-transparent border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter' },
+  primary: { variant: 'primary' as const, className: 'w-auto bg-[#2244BB]' },
+  secondary: { variant: 'outline-black' as const, className: 'w-auto bg-[#13132E0D] hover:bg-[#13132E1C] text-[#13132E] border-none' },
 };
 
 type CourseDetailsRowProps = {
@@ -50,15 +50,6 @@ const CourseDetailsRow = ({
   // TODO unify with GroupDiscussionBanner
   const timeUntilStartMs = discussion.startDateTime * 1000 - currentTimeMs;
   const isStartingSoon = timeUntilStartMs < HOUR_IN_MS && timeUntilStartMs > 0;
-
-  // Determine button text and URL based on timing
-  const buttonText = isStartingSoon ? 'Join Discussion' : 'Prepare for discussion';
-  let buttonUrl = '#';
-  if (isStartingSoon) {
-    buttonUrl = discussion.zoomLink || '#';
-  } else if (course.slug && discussion.unitNumber !== null) {
-    buttonUrl = `/courses/${course.slug}/${discussion.unitNumber}`;
-  }
 
   const discussionMeetLink = discussion.zoomLink || '';
   const discussionPrepareLink = course.slug && discussion.unitNumber !== null ? `/courses/${course.slug}/${discussion.unitNumber}` : '';
@@ -106,81 +97,17 @@ const CourseDetailsRow = ({
   ];
   const visibleButtons = buttons.filter((button) => button.isVisible);
 
+  const primaryButton = visibleButtons.filter((button) => button.style === 'primary')[0];
+  const cantMakeItButton = visibleButtons.filter((button) => button.id === 'cant-make-it')[0];
+  const overflowButtons = visibleButtons.filter((button) => button.id !== primaryButton?.id && button.id !== cantMakeItButton?.id);
+
   return (
     <div key={discussion.id} className="py-4 border-b border-gray-100 last:border-0">
-      {/* Mobile layout */}
-      <div className="flex gap-4 sm:hidden">
-        {/* Date and time column */}
-        <div className="flex flex-col items-center justify-start min-w-[50px] pt-1">
-          <div className="text-size-sm font-semibold text-gray-900 text-center">
-            {formatDateMonthAndDay(discussion.startDateTime)}
-          </div>
-          <div className="text-size-xs text-gray-500 text-center">
-            {formatTime12HourClock(discussion.startDateTime)}
-          </div>
-        </div>
-
-        {/* Unit details and buttons column */}
-        <div className="flex-1 flex flex-col gap-3">
-          {/* Discussion details */}
-          <div className="flex flex-col gap-1">
-            <div className="text-size-sm font-medium text-gray-900">
-              {discussion.unitRecord
-                ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
-                : `Unit ${discussion.unitNumber || ''}`}
-            </div>
-            {!isPast && (
-              <div className={`text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
-                {`Starts ${formatDateTimeRelative({ dateTimeMs: discussion.startDateTime * 1000, currentTimeMs })}`}
-              </div>
-            )}
-            {isPast && discussion.groupDetails && (
-              <div className="text-size-xs text-gray-500">
-                {discussion.groupDetails.groupName || 'Group'}
-              </div>
-            )}
-          </div>
-
-          {/* Action buttons */}
-          <div className="flex flex-col gap-2">
-            {isNext && (
-              <div className="w-full">
-                <CTALinkOrButton
-                  variant="primary"
-                  size="small"
-                  url={buttonUrl}
-                  disabled={!discussion.zoomLink && isStartingSoon}
-                  target="_blank"
-                >
-                  {buttonText}
-                </CTALinkOrButton>
-              </div>
-            )}
-            {!isFacilitator && !isPast && (
-              <div className="w-full">
-                <CTALinkOrButton
-                  variant="outline-black"
-                  size="small"
-                  url="#"
-                  aria-label={`Switch group for Unit ${discussion.unitNumber}`}
-                  onClick={(e) => {
-                    e.preventDefault(); // TODO Audit reason for this, add a comment if it is required
-                    handleOpenGroupSwitchModal({ discussion, switchType: 'Switch group for one unit' });
-                  }}
-                >
-                  Switch group
-                </CTALinkOrButton>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Desktop layout */}
-      <div className="hidden sm:flex sm:items-start sm:justify-between">
-        <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-2 sm:items-start sm:justify-between">
+        {/* Left side: Date/time and discussion details */}
+        <div className="flex gap-4 min-w-0">
           {/* Date and time */}
-          <div className="flex flex-col items-center justify-center min-w-[60px]">
+          <div className="flex flex-col items-center justify-start sm:justify-center min-w-[50px] sm:min-w-[60px] pt-1 sm:pt-0">
             <div className="text-size-sm font-semibold text-gray-900 text-center">
               {formatDateMonthAndDay(discussion.startDateTime)}
             </div>
@@ -190,19 +117,20 @@ const CourseDetailsRow = ({
           </div>
 
           {/* Discussion details */}
-          <div className="flex flex-col gap-1">
-            <div className="text-size-sm font-medium text-gray-900">
+          <div className="flex flex-col gap-1 min-w-0">
+            {/* TODO refactor to simplify */}
+            <div className="text-size-sm font-medium text-gray-900 truncate">
               {discussion.unitRecord
                 ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
                 : `Unit ${discussion.unitNumber || ''}`}
             </div>
             {!isPast && (
-              <div className={`text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
+              <div className={`truncate text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
                 {`Starts ${formatDateTimeRelative({ dateTimeMs: discussion.startDateTime * 1000, currentTimeMs })}`}
               </div>
             )}
             {isPast && discussion.groupDetails && (
-              <div className="text-size-xs text-gray-500">
+              <div className="truncate text-size-xs text-gray-500">
                 {discussion.groupDetails.groupName || 'Group'}
               </div>
             )}
@@ -210,62 +138,47 @@ const CourseDetailsRow = ({
         </div>
 
         {/* Action buttons */}
-        <div className="flex flex-row gap-2">
-          {(() => {
-            const primaryButtons = visibleButtons.filter((b) => b.style === 'primary');
-            const secondaryButtons = visibleButtons.filter((b) => b.style === 'secondary');
-            const firstSecondaryButton = secondaryButtons[0];
-            const overflowButtons = secondaryButtons.slice(1);
-
-            return (
-              <>
-                {/* Primary buttons */}
-                {primaryButtons.map((button) => (
-                  <CTALinkOrButton
-                    key={button.id}
-                    variant="primary"
-                    size="small"
-                    url={button.url}
-                    onClick={button.onClick}
-                    disabled={button.id === 'join-now' && !discussion.zoomLink}
-                    target={button.url ? '_blank' : undefined}
-                  >
-                    {button.label}
-                  </CTALinkOrButton>
-                ))}
-
-                {/* First secondary button */}
-                {firstSecondaryButton && (
-                  <CTALinkOrButton
-                    key={firstSecondaryButton.id}
-                    variant="outline-black"
-                    size="small"
-                    url={firstSecondaryButton.url}
-                    onClick={firstSecondaryButton.onClick}
-                    aria-label={typeof firstSecondaryButton.label === 'string' ? firstSecondaryButton.label : undefined}
-                  >
-                    {firstSecondaryButton.label}
-                  </CTALinkOrButton>
-                )}
-
-                {/* Overflow menu for remaining secondary buttons */}
-                {overflowButtons.length > 0 && (
-                  <OverflowMenu
-                    ariaLabel="More actions"
-                    buttonClassName="px-3 py-1.5 text-size-sm border border-gray-300 rounded hover:bg-gray-50 transition-colors"
-                    items={overflowButtons.map((button): OverflowMenuItemProps => ({
-                      id: button.id,
-                      label: button.label,
-                      ...(button.url
-                        ? { href: button.url, target: '_blank' }
-                        : { onAction: button.onClick }
-                      ),
-                    }))}
-                  />
-                )}
-              </>
-            );
-          })()}
+        <div className="flex flex-col sm:flex-row gap-2">
+          {primaryButton && (
+            <CTALinkOrButton
+              key={primaryButton.id}
+              variant={BUTTON_STYLES[primaryButton.style].variant}
+              size="small"
+              className={BUTTON_STYLES[primaryButton.style].className}
+              url={primaryButton.url}
+              onClick={primaryButton.onClick}
+            >
+              {primaryButton.label}
+            </CTALinkOrButton>
+          )}
+          <div className="flex flex-row gap-2">
+            {cantMakeItButton && (
+              <CTALinkOrButton
+                key={cantMakeItButton.id}
+                variant={BUTTON_STYLES[cantMakeItButton.style].variant}
+                size="small"
+                className={cn('flex-1', BUTTON_STYLES[cantMakeItButton.style].className)}
+                url={cantMakeItButton.url}
+                onClick={cantMakeItButton.onClick}
+              >
+                {cantMakeItButton.label}
+              </CTALinkOrButton>
+            )}
+            {overflowButtons.length > 0 && (
+              <OverflowMenu
+                ariaLabel="More actions"
+                buttonClassName={BUTTON_STYLES.secondary.className}
+                items={overflowButtons.map((button): OverflowMenuItemProps => ({
+                  id: button.id,
+                  label: button.label,
+                  ...(button.url
+                    ? { href: button.url, target: '_blank' }
+                    : { onAction: button.onClick }
+                  ),
+                }))}
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>
