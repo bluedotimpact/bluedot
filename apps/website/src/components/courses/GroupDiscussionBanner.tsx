@@ -13,7 +13,7 @@ import { IoAdd } from 'react-icons/io5';
 import { FaCopy } from 'react-icons/fa6';
 import clsx from 'clsx';
 import GroupSwitchModal from './GroupSwitchModal';
-import { formatDateTimeRelative } from '../../lib/utils';
+import { buildGroupSlackChannelUrl, formatDateTimeRelative } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
 // Time constants
@@ -96,7 +96,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   const discussionMeetLink = groupDiscussion.zoomLink || '';
   const discussionDocLink = groupDiscussion.activityDoc || '';
   const slackChannelLink = groupDiscussion.slackChannelId
-    ? `https://app.slack.com/client/T01K0M15NEQ/${groupDiscussion.slackChannelId}`
+    ? buildGroupSlackChannelUrl(groupDiscussion.slackChannelId)
     : '';
 
   const copyHostKeyIfFacilitator = async () => {

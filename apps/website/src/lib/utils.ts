@@ -31,6 +31,10 @@ export const parseZodValidationError = (err: AxiosError<{ error?: string }>, def
   return defaultErrorMessage;
 };
 
+export const buildGroupSlackChannelUrl = (slackChannelId: string) => {
+  return `https://app.slack.com/client/T01K0M15NEQ/${slackChannelId}`;
+};
+
 /** Example: '3:00 PM' */
 export const formatTime12HourClock = (dateTimeSeconds: number): string => {
   const date = new Date(dateTimeSeconds * 1000);

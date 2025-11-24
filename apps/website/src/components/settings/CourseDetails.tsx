@@ -7,6 +7,181 @@ import GroupSwitchModal from '../courses/GroupSwitchModal';
 
 const HOUR_IN_MS = 60 * 60 * 1000;
 
+type CourseDetailsRowProps = {
+  discussion: GroupDiscussion;
+  isNext?: boolean;
+  isPast?: boolean;
+  course: Course;
+  isFacilitator: boolean;
+  setSelectedDiscussion: (discussion: GroupDiscussion) => void;
+  setGroupSwitchModalOpen: (open: boolean) => void;
+};
+
+const CourseDetailsRow = ({
+  discussion,
+  isNext = false,
+  isPast = false,
+  course,
+  isFacilitator,
+  setSelectedDiscussion,
+  setGroupSwitchModalOpen,
+}: CourseDetailsRowProps) => {
+  const currentTimeMs = useCurrentTimeMs();
+
+  // Check if discussion starts in less than 1 hour
+  // TODO unify with GroupDiscussionBanner
+  const timeUntilStartMs = discussion.startDateTime * 1000 - currentTimeMs;
+  const isStartingSoon = timeUntilStartMs < HOUR_IN_MS && timeUntilStartMs > 0;
+
+  // Determine button text and URL based on timing
+  const buttonText = isStartingSoon ? 'Join Discussion' : 'Prepare for discussion';
+  let buttonUrl = '#';
+  if (isStartingSoon) {
+    buttonUrl = discussion.zoomLink || '#';
+  } else if (course.slug && discussion.unitNumber !== null) {
+    buttonUrl = `/courses/${course.slug}/${discussion.unitNumber}`;
+  }
+
+  return (
+    <div key={discussion.id} className="py-4 border-b border-gray-100 last:border-0">
+      {/* Mobile layout */}
+      <div className="flex gap-4 sm:hidden">
+        {/* Date and time column */}
+        <div className="flex flex-col items-center justify-start min-w-[50px] pt-1">
+          <div className="text-size-sm font-semibold text-gray-900 text-center">
+            {formatDateMonthAndDay(discussion.startDateTime)}
+          </div>
+          <div className="text-size-xs text-gray-500 text-center">
+            {formatTime12HourClock(discussion.startDateTime)}
+          </div>
+        </div>
+
+        {/* Unit details and buttons column */}
+        <div className="flex-1 flex flex-col gap-3">
+          {/* Discussion details */}
+          <div className="flex flex-col gap-1">
+            <div className="text-size-sm font-medium text-gray-900">
+              {discussion.unitRecord
+                ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
+                : `Unit ${discussion.unitNumber || ''}`}
+            </div>
+            {!isPast && (
+              <div className={`text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
+                {`Starts ${formatDateTimeRelative({ dateTimeMs: discussion.startDateTime * 1000, currentTimeMs })}`}
+              </div>
+            )}
+            {isPast && discussion.groupDetails && (
+              <div className="text-size-xs text-gray-500">
+                {discussion.groupDetails.groupName || 'Group'}
+              </div>
+            )}
+          </div>
+
+          {/* Action buttons */}
+          <div className="flex flex-col gap-2">
+            {isNext && (
+              <div className="w-full">
+                <CTALinkOrButton
+                  variant="primary"
+                  size="small"
+                  url={buttonUrl}
+                  disabled={!discussion.zoomLink && isStartingSoon}
+                  target="_blank"
+                >
+                  {buttonText}
+                </CTALinkOrButton>
+              </div>
+            )}
+            {!isFacilitator && !isPast && (
+              <div className="w-full">
+                <CTALinkOrButton
+                  variant="outline-black"
+                  size="small"
+                  url="#"
+                  aria-label={`Switch group for Unit ${discussion.unitNumber}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    // Set the discussion for the modal
+                    setSelectedDiscussion(discussion);
+                    setGroupSwitchModalOpen(true);
+                  }}
+                >
+                  Switch group
+                </CTALinkOrButton>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop layout */}
+      <div className="hidden sm:flex sm:items-start sm:justify-between">
+        <div className="flex gap-4">
+          {/* Date and time */}
+          <div className="flex flex-col items-center justify-center min-w-[60px]">
+            <div className="text-size-sm font-semibold text-gray-900 text-center">
+              {formatDateMonthAndDay(discussion.startDateTime)}
+            </div>
+            <div className="text-size-xs text-gray-500 text-center">
+              {formatTime12HourClock(discussion.startDateTime)}
+            </div>
+          </div>
+
+          {/* Discussion details */}
+          <div className="flex flex-col gap-1">
+            <div className="text-size-sm font-medium text-gray-900">
+              {discussion.unitRecord
+                ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
+                : `Unit ${discussion.unitNumber || ''}`}
+            </div>
+            {!isPast && (
+              <div className={`text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
+                {`Starts ${formatDateTimeRelative({ dateTimeMs: discussion.startDateTime * 1000, currentTimeMs })}`}
+              </div>
+            )}
+            {isPast && discussion.groupDetails && (
+              <div className="text-size-xs text-gray-500">
+                {discussion.groupDetails.groupName || 'Group'}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Action buttons */}
+        <div className="flex flex-row gap-2">
+          {isNext && (
+            <CTALinkOrButton
+              variant="primary"
+              size="small"
+              url={buttonUrl}
+              disabled={!discussion.zoomLink && isStartingSoon}
+              target="_blank"
+            >
+              {buttonText}
+            </CTALinkOrButton>
+          )}
+          {!isFacilitator && !isPast && (
+            <CTALinkOrButton
+              variant="outline-black"
+              size="small"
+              url="#"
+              aria-label={`Switch group for Unit ${discussion.unitNumber}`}
+              onClick={(e) => {
+                e.preventDefault();
+                // Set the discussion for the modal
+                setSelectedDiscussion(discussion);
+                setGroupSwitchModalOpen(true);
+              }}
+            >
+              Switch group
+            </CTALinkOrButton>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 type CourseDetailsProps = {
   course: Course;
   courseRegistration: CourseRegistration;
@@ -29,163 +204,9 @@ const CourseDetails = ({
   const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>('upcoming');
   const [showAllUpcoming, setShowAllUpcoming] = useState(false);
   const [showAllAttended, setShowAllAttended] = useState(false);
-  const currentTimeMs = useCurrentTimeMs();
 
+  // TODO make issue: "Use consistent method for checking whether a user is the facilitator"
   const isFacilitator = courseRegistration.role === 'Facilitator';
-
-  const renderDiscussionItem = (discussion: GroupDiscussion, isNext = false, isPast = false) => {
-    // Check if discussion starts in less than 1 hour
-    const timeUntilStartMs = discussion.startDateTime * 1000 - currentTimeMs;
-    const isStartingSoon = timeUntilStartMs < HOUR_IN_MS && timeUntilStartMs > 0;
-
-    // Determine button text and URL based on timing
-    const buttonText = isStartingSoon ? 'Join Discussion' : 'Prepare for discussion';
-    let buttonUrl = '#';
-    if (isStartingSoon) {
-      buttonUrl = discussion.zoomLink || '#';
-    } else if (course.slug && discussion.unitNumber !== null) {
-      buttonUrl = `/courses/${course.slug}/${discussion.unitNumber}`;
-    }
-
-    return (
-      <div key={discussion.id} className="py-4 border-b border-gray-100 last:border-0">
-        {/* Mobile layout */}
-        <div className="flex gap-4 sm:hidden">
-          {/* Date and time column */}
-          <div className="flex flex-col items-center justify-start min-w-[50px] pt-1">
-            <div className="text-size-sm font-semibold text-gray-900 text-center">
-              {formatDateMonthAndDay(discussion.startDateTime)}
-            </div>
-            <div className="text-size-xs text-gray-500 text-center">
-              {formatTime12HourClock(discussion.startDateTime)}
-            </div>
-          </div>
-
-          {/* Unit details and buttons column */}
-          <div className="flex-1 flex flex-col gap-3">
-            {/* Discussion details */}
-            <div className="flex flex-col gap-1">
-              <div className="text-size-sm font-medium text-gray-900">
-                {discussion.unitRecord
-                  ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
-                  : `Unit ${discussion.unitNumber || ''}`}
-              </div>
-              {!isPast && (
-                <div className={`text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
-                  {`Starts ${formatDateTimeRelative({ dateTimeMs: discussion.startDateTime * 1000, currentTimeMs })}`}
-                </div>
-              )}
-              {isPast && discussion.groupDetails && (
-                <div className="text-size-xs text-gray-500">
-                  {discussion.groupDetails.groupName || 'Group'}
-                </div>
-              )}
-            </div>
-
-            {/* Action buttons */}
-            <div className="flex flex-col gap-2">
-              {isNext && (
-                <div className="w-full">
-                  <CTALinkOrButton
-                    variant="primary"
-                    size="small"
-                    url={buttonUrl}
-                    disabled={!discussion.zoomLink && isStartingSoon}
-                    target="_blank"
-                  >
-                    {buttonText}
-                  </CTALinkOrButton>
-                </div>
-              )}
-              {!isFacilitator && !isPast && (
-                <div className="w-full">
-                  <CTALinkOrButton
-                    variant="outline-black"
-                    size="small"
-                    url="#"
-                    aria-label={`Switch group for Unit ${discussion.unitNumber}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      // Set the discussion for the modal
-                      setSelectedDiscussion(discussion);
-                      setGroupSwitchModalOpen(true);
-                    }}
-                  >
-                    Switch group
-                  </CTALinkOrButton>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Desktop layout */}
-        <div className="hidden sm:flex sm:items-start sm:justify-between">
-          <div className="flex gap-4">
-            {/* Date and time */}
-            <div className="flex flex-col items-center justify-center min-w-[60px]">
-              <div className="text-size-sm font-semibold text-gray-900 text-center">
-                {formatDateMonthAndDay(discussion.startDateTime)}
-              </div>
-              <div className="text-size-xs text-gray-500 text-center">
-                {formatTime12HourClock(discussion.startDateTime)}
-              </div>
-            </div>
-
-            {/* Discussion details */}
-            <div className="flex flex-col gap-1">
-              <div className="text-size-sm font-medium text-gray-900">
-                {discussion.unitRecord
-                  ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
-                  : `Unit ${discussion.unitNumber || ''}`}
-              </div>
-              {!isPast && (
-                <div className={`text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
-                  {`Starts ${formatDateTimeRelative({ dateTimeMs: discussion.startDateTime * 1000, currentTimeMs })}`}
-                </div>
-              )}
-              {isPast && discussion.groupDetails && (
-                <div className="text-size-xs text-gray-500">
-                  {discussion.groupDetails.groupName || 'Group'}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Action buttons */}
-          <div className="flex flex-row gap-2">
-            {isNext && (
-              <CTALinkOrButton
-                variant="primary"
-                size="small"
-                url={buttonUrl}
-                disabled={!discussion.zoomLink && isStartingSoon}
-                target="_blank"
-              >
-                {buttonText}
-              </CTALinkOrButton>
-            )}
-            {!isFacilitator && !isPast && (
-              <CTALinkOrButton
-                variant="outline-black"
-                size="small"
-                url="#"
-                aria-label={`Switch group for Unit ${discussion.unitNumber}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  // Set the discussion for the modal
-                  setSelectedDiscussion(discussion);
-                  setGroupSwitchModalOpen(true);
-                }}
-              >
-                Switch group
-              </CTALinkOrButton>
-            )}
-          </div>
-        </div>
-      </div>
-    );
-  };
 
   return (
     <>
@@ -233,7 +254,18 @@ const CourseDetails = ({
                     <div>
                       {/* Show first 3 or all based on showAllUpcoming state */}
                       {(showAllUpcoming ? upcomingDiscussions : upcomingDiscussions.slice(0, 3))
-                        .map((discussion, index) => renderDiscussionItem(discussion, index === 0, false))}
+                        .map((discussion, index) => (
+                          <CourseDetailsRow
+                            key={discussion.id}
+                            discussion={discussion}
+                            isNext={index === 0}
+                            isPast={false}
+                            course={course}
+                            isFacilitator={isFacilitator}
+                            setSelectedDiscussion={setSelectedDiscussion}
+                            setGroupSwitchModalOpen={setGroupSwitchModalOpen}
+                          />
+                        ))}
 
                       {/* "See all"/"Show less" button when more than 3 upcoming discussions */}
                       {upcomingDiscussions.length > 3 && (
@@ -260,7 +292,17 @@ const CourseDetails = ({
                     <div>
                       {/* Show first 3 or all based on showAllAttended state */}
                       {(showAllAttended ? attendedDiscussions : attendedDiscussions.slice(0, 3))
-                        .map((discussion) => renderDiscussionItem(discussion, false, true))}
+                        .map((discussion) => (
+                          <CourseDetailsRow
+                            key={discussion.id}
+                            discussion={discussion}
+                            isPast
+                            course={course}
+                            isFacilitator={isFacilitator}
+                            setSelectedDiscussion={setSelectedDiscussion}
+                            setGroupSwitchModalOpen={setGroupSwitchModalOpen}
+                          />
+                        ))}
 
                       {/* "See all"/"Show less" button when more than 3 attended discussions */}
                       {attendedDiscussions.length > 3 && (
