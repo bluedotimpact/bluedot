@@ -1,5 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import type {
+  Course,
+  CourseRegistration,
+  MeetPerson,
+} from '@bluedot/db';
+import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import CoursesContent from './CoursesContent';
+import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
+import {
+  createMockCourse,
+  createMockCourseRegistration,
+  createMockMeetPerson,
+  createMockGroupDiscussion,
+} from '../../__tests__/testUtils';
 
 const meta: Meta<typeof CoursesContent> = {
   title: 'Settings/CoursesContent',
@@ -12,29 +25,153 @@ const meta: Meta<typeof CoursesContent> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Basic story showing the component structure
-// In a real environment, this would fetch data from the API endpoints
-export const Default: Story = {
+const mockCourse1 = createMockCourse({
+  id: 'course-1',
+  title: 'Introduction to AI Safety',
+  slug: 'intro-ai-safety',
+});
+
+const mockCourse2 = createMockCourse({
+  id: 'course-2',
+  title: 'Advanced AI Safety',
+  slug: 'advanced-ai-safety',
+});
+
+const mockRegistrationInProgress = createMockCourseRegistration({
+  id: 'reg-1',
+  courseId: 'course-1',
+  roundStatus: 'Active',
+  certificateCreatedAt: null,
+});
+
+const mockRegistrationCompleted = createMockCourseRegistration({
+  id: 'reg-2',
+  courseId: 'course-2',
+  roundStatus: 'Completed',
+  certificateCreatedAt: 1672531200, // Jan 1 2023
+});
+
+const mockRegistrationActiveWithCert = createMockCourseRegistration({
+  id: 'reg-3',
+  courseId: 'course-1',
+  roundStatus: 'Active',
+  certificateCreatedAt: 1672531200,
+});
+
+const mockMeetPerson = createMockMeetPerson({
+  id: 'meet-person-1',
+});
+
+const mockDiscussion: GroupDiscussion = {
+  ...createMockGroupDiscussion({
+    id: 'discussion-1',
+  }),
+  unitRecord: { unitNumber: '1', title: 'Introduction' } as GroupDiscussion['unitRecord'],
+  groupDetails: {
+    id: 'group-1',
+    round: 'Round 1',
+    autoNumberId: 1,
+    groupName: 'Group A',
+    groupDiscussions: ['discussion-1'],
+    participants: ['participant-1'],
+    whoCanSwitchIntoThisGroup: ['participant-1'],
+    startTimeUtc: Math.floor(Date.now() / 1000),
+  } as GroupDiscussion['groupDetails'],
 };
 
-// To see different states, you would need to mock the API responses
-// Consider adding MSW to your Storybook setup for interactive stories
-export const WithMockDescription: Story = {
+const createHandlers = ({
+  registrations = [],
+  courses = [],
+  meetPerson = mockMeetPerson,
+  discussions = [mockDiscussion],
+  error = false,
+}: {
+  registrations?: CourseRegistration[];
+  courses?: Course[];
+  meetPerson?: MeetPerson | null;
+  discussions?: GroupDiscussion[];
+  error?: boolean;
+} = {}) => {
+  if (error) {
+    return [
+      trpcStorybookMsw.courseRegistrations.getAll.query(() => {
+        throw new Error('Failed to fetch');
+      }),
+      trpcStorybookMsw.courses.getAll.query(() => {
+        throw new Error('Failed to fetch');
+      }),
+    ];
+  }
+
+  return [
+    trpcStorybookMsw.courseRegistrations.getAll.query(() => registrations),
+    trpcStorybookMsw.courses.getAll.query(() => courses),
+    trpcStorybookMsw.meetPerson.getByCourseRegistrationId.query(() => meetPerson),
+    trpcStorybookMsw.groupDiscussions.getByDiscussionIds.query(() => ({
+      discussions,
+    })),
+  ];
+};
+
+export const Default: Story = {
   parameters: {
-    docs: {
-      description: {
-        story: `
-This component displays a user's enrolled courses, separated into:
-- **In Progress**: Active courses the user is currently taking
-- **Completed**: Courses where the user has received a certificate
+    msw: {
+      handlers: createHandlers({
+        registrations: [mockRegistrationInProgress, mockRegistrationCompleted],
+        courses: [mockCourse1, mockCourse2],
+      }),
+    },
+  },
+};
 
-The component fetches data from two endpoints:
-- \`/api/course-registrations\`: User's course enrollments
-- \`/api/courses\`: Course details
+export const Empty: Story = {
+  parameters: {
+    msw: {
+      handlers: createHandlers({
+        registrations: [],
+        courses: [],
+      }),
+    },
+  },
+};
 
-Each course row is rendered using the CourseListRow component.
-        `,
-      },
+export const OnlyInProgress: Story = {
+  parameters: {
+    msw: {
+      handlers: createHandlers({
+        registrations: [mockRegistrationInProgress],
+        courses: [mockCourse1],
+      }),
+    },
+  },
+};
+
+export const OnlyCompleted: Story = {
+  parameters: {
+    msw: {
+      handlers: createHandlers({
+        registrations: [mockRegistrationCompleted],
+        courses: [mockCourse2],
+      }),
+    },
+  },
+};
+
+export const ActiveWithCertificate: Story = {
+  parameters: {
+    msw: {
+      handlers: createHandlers({
+        registrations: [mockRegistrationActiveWithCert],
+        courses: [mockCourse1],
+      }),
+    },
+  },
+};
+
+export const ErrorState: Story = {
+  parameters: {
+    msw: {
+      handlers: createHandlers({ error: true }),
     },
   },
 };
