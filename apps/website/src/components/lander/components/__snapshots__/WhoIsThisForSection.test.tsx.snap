@@ -2,7 +2,7 @@
 
 exports[`WhoIsThisForSection > renders correctly 1`] = `
 <section
-  class="w-full bg-[#FAFAF7]"
+  class="w-full bg-white"
 >
   <div
     class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 md:pt-20 md:pb-16 min-[1024px]:px-spacing-x lg:pt-24 lg:pb-20"

@@ -63,7 +63,7 @@ const PartnerCard = ({
 
 const PartnerSection = ({ title, partners }: PartnerSectionProps) => {
   return (
-    <section className="w-full bg-[#FAFAF7]">
+    <section className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:py-16 lg:py-24">
 
         {/* Section Header */}
