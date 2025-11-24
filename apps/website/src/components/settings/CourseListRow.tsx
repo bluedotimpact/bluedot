@@ -98,7 +98,7 @@ const CourseListRow = ({
         url={buttonUrl}
         disabled={disabled}
         target="_blank"
-        className="w-full sm:w-auto"
+        className="w-full sm:w-auto bg-[#2244BB]"
       >
         {buttonText}
       </CTALinkOrButton>
@@ -111,6 +111,9 @@ const CourseListRow = ({
     if (!isCompleted && nextDiscussion) {
       if (isExpanded || isLoading) return null;
 
+      // TODO Suggest reasons not to change this to "Week 2/6 · Group 03: Marie Curie":
+      // - Week vs day cadence not generally supported
+      // - Method for getting the total number of units quite fragile
       return `Unit ${nextDiscussion.unitNumber} starts ${formatDateTimeRelative({ dateTimeMs: nextDiscussion.startDateTime * 1000, currentTimeMs })}`;
     }
 

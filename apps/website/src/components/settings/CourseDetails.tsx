@@ -125,7 +125,7 @@ const CourseDetailsRow = ({
                 : `Unit ${discussion.unitNumber || ''}`}
             </div>
             {!isPast && (
-              <div className={`truncate text-size-xs ${isNext ? 'text-blue-600 font-medium' : 'text-gray-500'}`}>
+              <div className={`truncate text-size-xs ${isNext ? 'text-[#2244BB] font-medium' : 'text-gray-500'}`}>
                 {`Starts ${formatDateTimeRelative({ dateTimeMs: discussion.startDateTime * 1000, currentTimeMs })}`}
               </div>
             )}
@@ -230,7 +230,7 @@ const CourseDetails = ({
                 onClick={() => setActiveTab('upcoming')}
                 className={`relative py-2 px-1 text-size-xs font-medium transition-colors ${
                   activeTab === 'upcoming'
-                    ? 'text-blue-600 border-b-2 border-blue-600'
+                    ? 'text-[#2244BB] border-b-2 border-[#2244BB]'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
@@ -241,7 +241,7 @@ const CourseDetails = ({
                 onClick={() => setActiveTab('attended')}
                 className={`relative py-2 px-1 text-size-xs font-medium transition-colors ${
                   activeTab === 'attended'
-                    ? 'text-blue-600 border-b-2 border-blue-600'
+                    ? 'text-[#2244BB] border-b-2 border-[#2244BB]'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
@@ -282,7 +282,7 @@ const CourseDetails = ({
                           <button
                             type="button"
                             onClick={() => setShowAllUpcoming(!showAllUpcoming)}
-                            className="text-size-sm font-medium text-blue-600 hover:text-blue-700 transition-colors cursor-pointer"
+                            className="text-size-sm font-medium text-[#2244BB] hover:text-blue-700 transition-colors cursor-pointer"
                           >
                             {showAllUpcoming
                               ? 'Show less'
@@ -318,7 +318,7 @@ const CourseDetails = ({
                           <button
                             type="button"
                             onClick={() => setShowAllAttended(!showAllAttended)}
-                            className="text-size-sm font-medium text-blue-600 hover:text-blue-700 transition-colors cursor-pointer"
+                            className="text-size-sm font-medium text-[#2244BB] hover:text-blue-700 transition-colors cursor-pointer"
                           >
                             {showAllAttended ? 'Show less' : `See all (${attendedDiscussions.length}) discussions`}
                           </button>

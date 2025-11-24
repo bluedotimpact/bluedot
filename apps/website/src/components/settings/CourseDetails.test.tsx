@@ -55,4 +55,16 @@ describe('CourseDetails', () => {
       expect(screen.getByText('No upcoming discussions')).toBeInTheDocument();
     });
   });
+
+  // TODO add tests:
+  // - Upcoming discussions:
+  //   - Participant:
+  //     - Multiple discussions, none soon, can click through to course page
+  //     - Can't make it button works on specific discussions (two after clicking away from one)
+  //     - All overflow items have expected link
+  //     - Multiple discussions, one soon, can click through to zoom link
+  //   - Facilitator:
+  //     - Can't make it button doesn't appear
+  //     - Overflow items still work
+  // - Attended discussions: displayed, no clickable widgets inside container
 });
