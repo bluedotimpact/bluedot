@@ -229,14 +229,20 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
 
   // Handle marking resource as complete
   const handleToggleComplete = useCallback((newIsCompleted = !isCompleted) => {
-    handleSaveCompletion(newIsCompleted);
+    // We catch the error to prevent "Unhandled Promise Rejection"
+    // UI rollback is handled by the mutation's `onError` callback
+    handleSaveCompletion(newIsCompleted).catch(() => {
+      // Do nothing
+    });
   }, [isCompleted, handleSaveCompletion]);
 
   // Handle like/dislike feedback
   const handleFeedback = useCallback((feedbackValue: ResourceFeedbackValue) => {
     // Toggle off if clicking the same feedback button
     const newFeedback = resourceFeedback === feedbackValue ? RESOURCE_FEEDBACK.NO_RESPONSE : feedbackValue;
-    handleSaveCompletion(true, newFeedback, feedback || '');
+    handleSaveCompletion(true, newFeedback, feedback || '').catch(() => {
+      // Do nothing
+    });
   }, [resourceFeedback, feedback, handleSaveCompletion]);
 
   if (completionLoading) {
