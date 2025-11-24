@@ -305,7 +305,7 @@ describe('ResourceListItem - Optimistic Updates', () => {
     render(<ResourceListItem resource={baseResource} />, { wrapper: TrpcProvider });
 
     const toggleButton = await screen.findByLabelText('Mark as complete');
-    user.click(toggleButton);
+    await user.click(toggleButton);
 
     await waitFor(() => {
       expect(screen.getByLabelText('Mark as incomplete')).toBeInTheDocument();
@@ -346,7 +346,7 @@ describe('ResourceListItem - Optimistic Updates', () => {
     // `getAll` since there are two buttons - one for mobile and one for desktop
     const likeButton = screen.getAllByLabelText('Like this resource')[0];
     if (!likeButton) throw new Error('Like button not found');
-    user.click(likeButton);
+    await user.click(likeButton);
 
     await waitFor(() => {
       expect(likeButton).toHaveAttribute('aria-pressed', 'true');
@@ -379,7 +379,7 @@ describe('ResourceListItem - Optimistic Updates', () => {
     render(<ResourceListItem resource={baseResource} />, { wrapper: TrpcProvider });
 
     const toggleButton = await screen.findByLabelText('Mark as complete');
-    user.click(toggleButton);
+    await user.click(toggleButton);
 
     // Optimistic update
     await waitFor(() => {
