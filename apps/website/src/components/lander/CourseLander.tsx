@@ -93,9 +93,7 @@ const CourseLander = ({ courseSlug, baseApplicationUrl, createContentFor }: Cour
       <CourseInformationSection {...content.courseInformation} />
 
       {content.quotes && (
-        <>
-          <QuoteSection {...content.quotes} />
-        </>
+        <QuoteSection {...content.quotes} />
       )}
 
       {content.communityMembers && (
