@@ -92,14 +92,8 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   const startTimeDisplayRelative = useMemo(() => formatDateTimeRelative({ dateTimeMs: groupDiscussion.startDateTime * 1000, currentTimeMs }), [groupDiscussion.startDateTime, currentTimeMs]);
 
   // Dynamic discussion starts soon check
-  const discussionIsSoonOrLive = useMemo(
-    () => (groupDiscussion.startDateTime * 1000 - currentTimeMs) <= ONE_HOUR_MS && currentTimeMs <= (groupDiscussion.endDateTime * 1000),
-    [groupDiscussion.startDateTime, groupDiscussion.endDateTime, currentTimeMs],
-  );
-  const discussionIsLive = useMemo(
-    () => (groupDiscussion.startDateTime * 1000) <= currentTimeMs && currentTimeMs <= (groupDiscussion.endDateTime * 1000),
-    [groupDiscussion.startDateTime, groupDiscussion.endDateTime, currentTimeMs],
-  );
+  const discussionIsSoonOrLive = (groupDiscussion.startDateTime * 1000 - currentTimeMs) <= ONE_HOUR_MS && currentTimeMs <= (groupDiscussion.endDateTime * 1000);
+  const discussionIsLive = (groupDiscussion.startDateTime * 1000) <= currentTimeMs && currentTimeMs <= (groupDiscussion.endDateTime * 1000);
 
   const discussionMeetLink = groupDiscussion.zoomLink || '';
   const discussionDocLink = groupDiscussion.activityDoc || '';

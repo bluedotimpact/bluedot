@@ -14,12 +14,42 @@ import { SlackIcon } from '../icons/SlackIcon';
 import type { IButtonOrMenuItem } from '../courses/GroupDiscussionBanner';
 import { DocumentIcon } from '../icons/DocumentIcon';
 
-const HOUR_IN_MS = 60 * 60 * 1000;
+// Time constants
+const ONE_HOUR_MS = 3600_000; // 1 hour in milliseconds
 
 const BUTTON_STYLES = {
   primary: { variant: 'primary' as const, className: 'w-auto bg-[#2244BB]' },
   secondary: { variant: 'outline-black' as const, className: 'w-auto bg-[#13132E0D] hover:bg-[#13132E1C] text-[#13132E] border-none' },
   ghost: { variant: 'outline-black' as const, className: 'w-auto bg-[#13132E0D] hover:bg-[#13132E1C] text-[#13132E] border-none' },
+};
+
+const TimeWidget: React.FC<{
+  isLive: boolean;
+  dateTimeSeconds: number; // Unix timestamp in seconds
+}> = ({ isLive, dateTimeSeconds }) => {
+  if (isLive) {
+    return (
+      <div className="flex flex-col items-center justify-center min-w-[85px] border border-gray-200 rounded-lg overflow-hidden">
+        <div className="text-size-sm font-bold pt-2 pb-1.5 text-gray-900 text-center">
+          NOW
+        </div>
+        <div className="text-size-xs font-semibold text-white text-center bg-[#2244BB] py-1 w-full">
+          LIVE
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col items-center justify-center min-w-[85px] p-2 border border-gray-200 rounded-lg">
+      <div className="text-size-sm font-semibold text-gray-900 text-center">
+        {formatDateMonthAndDay(dateTimeSeconds)}
+      </div>
+      <div className="text-size-xs text-gray-500 text-center">
+        {formatTime12HourClock(dateTimeSeconds)}
+      </div>
+    </div>
+  );
 };
 
 type CourseDetailsRowProps = {
@@ -41,10 +71,9 @@ const CourseDetailsRow = ({
 }: CourseDetailsRowProps) => {
   const currentTimeMs = useCurrentTimeMs();
 
-  // Check if discussion starts in less than 1 hour
   // TODO unify with GroupDiscussionBanner
-  const timeUntilStartMs = discussion.startDateTime * 1000 - currentTimeMs;
-  const isStartingSoon = timeUntilStartMs < HOUR_IN_MS && timeUntilStartMs > 0;
+  const discussionIsSoonOrLive = (discussion.startDateTime * 1000 - currentTimeMs) <= ONE_HOUR_MS && currentTimeMs <= (discussion.endDateTime * 1000);
+  const discussionIsLive = (discussion.startDateTime * 1000) <= currentTimeMs && currentTimeMs <= (discussion.endDateTime * 1000);
 
   const discussionMeetLink = discussion.zoomLink || '';
   const discussionPrepareLink = course.slug && discussion.unitNumber !== null ? `/courses/${course.slug}/${discussion.unitNumber}` : '';
@@ -58,7 +87,7 @@ const CourseDetailsRow = ({
       label: 'Join now',
       variant: 'primary',
       url: discussionMeetLink,
-      isVisible: isNext && isStartingSoon,
+      isVisible: isNext && discussionIsSoonOrLive,
       target: '_blank',
     },
     {
@@ -66,7 +95,7 @@ const CourseDetailsRow = ({
       label: 'Prepare for discussion',
       variant: 'primary',
       url: discussionPrepareLink,
-      isVisible: isNext && !isStartingSoon,
+      isVisible: isNext && !discussionIsSoonOrLive,
     },
     // Secondary CTA
     {
@@ -94,7 +123,7 @@ const CourseDetailsRow = ({
       url: discussionDocLink,
       target: '_blank',
       // TODO unify logic with GroupDiscussionBanner, especially isSoonOrLive
-      isVisible: isStartingSoon || isFacilitator,
+      isVisible: discussionIsSoonOrLive || isFacilitator,
       overflowIcon: <DocumentIcon className="mx-auto" />,
     },
     {
@@ -114,32 +143,24 @@ const CourseDetailsRow = ({
 
   return (
     <div key={discussion.id} className="py-4 border-b border-gray-100 last:border-0">
-      <div className="flex flex-col sm:flex-row gap-2 sm:items-start sm:justify-between">
+      <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
         {/* Left side: Date/time and discussion details */}
-        <div className="flex gap-4 min-w-0">
-          {/* Date and time */}
-          <div className="flex flex-col items-center justify-start sm:justify-center min-w-[50px] sm:min-w-[60px] pt-1 sm:pt-0">
-            <div className="text-size-sm font-semibold text-gray-900 text-center">
-              {formatDateMonthAndDay(discussion.startDateTime)}
-            </div>
-            <div className="text-size-xs text-gray-500 text-center">
-              {formatTime12HourClock(discussion.startDateTime)}
-            </div>
-          </div>
+        <div className="flex items-center gap-4 min-w-0">
+          <TimeWidget isLive={discussionIsLive} dateTimeSeconds={discussion.startDateTime} />
 
           {/* Discussion details */}
-          <div className="flex flex-col gap-1 min-w-0">
-            {/* TODO refactor to simplify */}
+          <div className="flex flex-col gap-1.5 min-w-0">
             <div className="text-size-sm font-medium text-gray-900 truncate">
               {discussion.unitRecord
                 ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
                 : `Unit ${discussion.unitNumber || ''}`}
             </div>
-            {!isPast && (
+            {!isPast && isNext && (
               <div className={`truncate text-size-xs ${isNext ? 'text-[#2244BB] font-medium' : 'text-gray-500'}`}>
                 {`Starts ${formatDateTimeRelative({ dateTimeMs: discussion.startDateTime * 1000, currentTimeMs })}`}
               </div>
             )}
+            {/* TODO remove when moving this info up a level */}
             {isPast && discussion.groupDetails && (
               <div className="truncate text-size-xs text-gray-500">
                 {discussion.groupDetails.groupName || 'Group'}
