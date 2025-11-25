@@ -159,7 +159,7 @@ const CourseListRow = ({
   return (
     <div>
       <div
-        className={`border-x border-t ${isLast && !isExpanded ? 'border-b' : ''} ${isFirst ? 'rounded-t-xl' : ''} ${isLast && !isExpanded ? 'rounded-b-xl' : ''} border-gray-200 ${isExpanded ? 'bg-white' : ''} ${hoverClass} transition-colors duration-200 group ${!isCompleted ? 'cursor-pointer' : ''}`}
+        className={`border-x border-t ${isLast && !isExpanded ? 'border-b' : ''} ${isFirst ? 'rounded-t-xl' : ''} ${isLast && !isExpanded ? 'rounded-b-xl' : ''} border-charcoal-light ${isExpanded ? 'bg-white' : ''} ${hoverClass} transition-colors duration-200 group ${!isCompleted ? 'cursor-pointer' : ''}`}
         onClick={!isCompleted ? () => setIsExpanded(!isExpanded) : undefined}
         onKeyDown={!isCompleted ? (e) => {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -178,9 +178,9 @@ const CourseListRow = ({
             <div className="flex items-start gap-3">
               {/* Content */}
               <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-size-lg text-black leading-[22px]">{course.title}</h3>
+                <h3 className="font-semibold text-size-md text-black text-pretty">{course.title}</h3>
                 {subtitle && (
-                  <p className="flex items-center gap-1.5 mt-1 text-size-xs font-medium text-gray-500 leading-4">
+                  <p className="flex items-center gap-1.5 mt-1.5 text-size-xs font-medium text-gray-500 leading-4">
                     {subtitle}
                   </p>
                 )}

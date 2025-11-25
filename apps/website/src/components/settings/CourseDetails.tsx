@@ -111,7 +111,7 @@ const CourseDetailsRow = ({
   const overflowButtons = visibleButtons.filter((button) => button.id !== primaryButton?.id && button.id !== cantMakeItButton?.id);
 
   return (
-    <div key={discussion.id} className="py-4 border-b border-gray-100 last:border-0">
+    <div key={discussion.id} className="py-5 border-b border-charcoal-light last:border-0">
       <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
         {/* Left side: Date/time and discussion details */}
         <div className="flex items-center gap-4 min-w-0">
@@ -224,10 +224,10 @@ const CourseDetails = ({
 
   return (
     <>
-      <div className={`bg-white border-x border-b border-gray-200 ${isLast ? 'rounded-b-xl' : ''}`} role="region" aria-label={`Expanded details for ${course.title}`}>
+      <div className={`bg-white border-x border-b border-charcoal-light ${isLast ? 'rounded-b-xl' : ''}`} role="region" aria-label={`Expanded details for ${course.title}`}>
         <div>
           {/* Section header with tabs */}
-          <div className="flex border-b border-gray-200">
+          <div className="flex border-b border-charcoal-light">
             <div className="flex px-4 sm:px-8 gap-8">
               <button
                 type="button"
@@ -254,7 +254,7 @@ const CourseDetails = ({
             </div>
           </div>
 
-          <div className="p-4 sm:px-8 sm:py-4">
+          <div className="p-4 sm:px-8 sm:py-3">
             {/* Content */}
             {isLoading ? (
               <div className="flex justify-center py-8">
