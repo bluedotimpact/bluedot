@@ -16,6 +16,7 @@ import GroupSwitchModal from './GroupSwitchModal';
 import { buildGroupSlackChannelUrl, formatDateTimeRelative } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 import { SlackIcon } from '../icons/SlackIcon';
+import { DocumentIcon } from '../icons/DocumentIcon';
 
 // Time constants
 const ONE_HOUR_MS = 3600_000; // 1 hour in milliseconds
@@ -152,6 +153,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       url: discussionDocLink,
       target: '_blank',
       isVisible: discussionIsSoonOrLive || userRole === 'facilitator',
+      overflowIcon: <DocumentIcon className="mx-auto" />,
     },
     {
       id: 'message-group',
@@ -322,6 +324,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   );
 };
 
+// TODO make issue to move icons into icons/ folder
 const VideoIcon: React.FC<{ size?: number; className?: string }> = ({ size = 14, className }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

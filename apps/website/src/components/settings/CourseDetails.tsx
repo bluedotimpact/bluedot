@@ -12,6 +12,7 @@ import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import GroupSwitchModal, { type SwitchType } from '../courses/GroupSwitchModal';
 import { SlackIcon } from '../icons/SlackIcon';
 import type { IButtonOrMenuItem } from '../courses/GroupDiscussionBanner';
+import { DocumentIcon } from '../icons/DocumentIcon';
 
 const HOUR_IN_MS = 60 * 60 * 1000;
 
@@ -48,6 +49,7 @@ const CourseDetailsRow = ({
   const discussionMeetLink = discussion.zoomLink || '';
   const discussionPrepareLink = course.slug && discussion.unitNumber !== null ? `/courses/${course.slug}/${discussion.unitNumber}` : '';
   const slackChannelLink = discussion.slackChannelId ? buildGroupSlackChannelUrl(discussion.slackChannelId) : '';
+  const discussionDocLink = discussion.activityDoc || '';
 
   const buttons: IButtonOrMenuItem[] = [
     // Primary CTA
@@ -78,18 +80,30 @@ const CourseDetailsRow = ({
     // Inside overflow menu
     {
       id: 'message-group',
-      label: <div className="grid grid-cols-[20px_1fr] gap-[6px] items-center"><SlackIcon className="mx-auto" />Message group</div>,
+      label: 'Message group',
       variant: 'secondary',
       url: slackChannelLink,
-      isVisible: !isPast,
       target: '_blank',
+      isVisible: !isPast,
+      overflowIcon: <SlackIcon className="mx-auto" />,
+    },
+    {
+      id: 'discussion-doc',
+      label: 'Open discussion doc',
+      variant: 'secondary',
+      url: discussionDocLink,
+      target: '_blank',
+      // TODO unify logic with GroupDiscussionBanner, especially isSoonOrLive
+      isVisible: isStartingSoon || isFacilitator,
+      overflowIcon: <DocumentIcon className="mx-auto" />,
     },
     {
       id: 'switch-group-permanently',
-      label: <div className="grid grid-cols-[20px_1fr] gap-[6px] items-center"><FaArrowRightArrowLeft className="mx-auto" />Switch group permanently</div>,
+      label: 'Switch group permanently',
       variant: 'secondary',
       onClick: () => handleOpenGroupSwitchModal({ discussion, switchType: 'Switch group permanently' }),
       isVisible: !isFacilitator && !isPast,
+      overflowIcon: <FaArrowRightArrowLeft className="mx-auto size-[14px]" />,
     },
   ];
   const visibleButtons = buttons.filter((button) => button.isVisible);
@@ -169,9 +183,14 @@ const CourseDetailsRow = ({
                 buttonClassName={BUTTON_STYLES.secondary.className}
                 items={overflowButtons.map((button): OverflowMenuItemProps => ({
                   id: button.id,
-                  label: button.label,
+                  label: button.overflowIcon ? (
+                    <div className="grid grid-cols-[20px_1fr] gap-[6px] items-center">
+                      {button.overflowIcon}
+                      {button.label}
+                    </div>
+                  ) : button.label,
                   ...(button.url
-                    ? { href: button.url, target: '_blank' }
+                    ? { href: button.url, target: button.target }
                     : { onAction: button.onClick }
                   ),
                 }))}
