@@ -11,16 +11,19 @@ import {
 import Head from 'next/head';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { JobPosting, jobPostingTable } from '@bluedot/db';
+import path from 'path';
 import { ROUTES } from '../../lib/routes';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
 import db from '../../lib/api/db';
+import { fileExists } from '../../utils/fileExists';
 
 type JobPostingPageProps = {
   slug: string;
   job: JobPosting;
+  jobOgImage?: string;
 };
 
-const JobPostingPage = ({ slug, job }: JobPostingPageProps) => {
+const JobPostingPage = ({ slug, job, jobOgImage }: JobPostingPageProps) => {
   const currentRoute: BluedotRoute = {
     title: job.title || 'Job Posting',
     url: `${ROUTES.joinUs.url}/${slug}`,
@@ -37,7 +40,7 @@ const JobPostingPage = ({ slug, job }: JobPostingPageProps) => {
         <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
         <meta key="og:type" property="og:type" content="website" />
         <meta key="og:url" property="og:url" content={`https://bluedot.org/join-us/${encodeURIComponent(slug)}`} />
-        <meta key="og:image" property="og:image" content={`https://bluedot.org/images/jobs/link-preview/${job.slug}.png`} />
+        <meta key="og:image" property="og:image" content={jobOgImage || 'https://bluedot.org/images/logo/icon-on-blue.png'} />
         <meta key="og:image:width" property="og:image:width" content="1200" />
         <meta key="og:image:height" property="og:image:height" content="630" />
         <meta key="og:image:type" property="og:image:type" content="image/png" />
@@ -121,10 +124,16 @@ export const getStaticProps: GetStaticProps<JobPostingPageProps> = async ({ para
     // Fetches both published and unlisted jobs, but not unpublished ones
     const job = await db.get(jobPostingTable, { slug, publicationStatus: { '!=': 'Unpublished' } });
 
+    let jobOgImage: string | undefined;
+    if (await fileExists(path.join(process.cwd(), 'public', 'images', 'jobs', 'link-preview', `${job.slug}.png`))) {
+      jobOgImage = `${process.env.NEXT_PUBLIC_SITE_URL}/images/jobs/link-preview/${job.slug}.png`;
+    }
+
     return {
       props: {
         slug,
         job,
+        jobOgImage,
       },
       revalidate: 300,
     };
