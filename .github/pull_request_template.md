@@ -19,7 +19,7 @@ Fixes #
 ## Screenshot
 <!-- If this PR results in visual changes -->
 
-| 📸 |  |
-|---------|---|
-| 📱  | <!-- Include a **Mobile** screenshot or screen recording demonstrating your change--> |
-| 🖥️ | <!-- Include a **Desktop** screenshot or screen recording demonstrating your change--> |
+| 📸 | Before | After |
+|---------|---|---|
+| 📱  | <!-- **Mobile** before --> | <!-- **Mobile** after --> |
+| 🖥️ | <!-- **Desktop** before --> | <!-- **Desktop** after --> |
