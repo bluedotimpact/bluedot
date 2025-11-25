@@ -10,12 +10,15 @@ import {
 } from '../../lib/utils';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import GroupSwitchModal, { type SwitchType } from '../courses/GroupSwitchModal';
+import { SlackIcon } from '../icons/SlackIcon';
+import type { IButtonOrMenuItem } from '../courses/GroupDiscussionBanner';
 
 const HOUR_IN_MS = 60 * 60 * 1000;
 
 const BUTTON_STYLES = {
   primary: { variant: 'primary' as const, className: 'w-auto bg-[#2244BB]' },
   secondary: { variant: 'outline-black' as const, className: 'w-auto bg-[#13132E0D] hover:bg-[#13132E1C] text-[#13132E] border-none' },
+  ghost: { variant: 'outline-black' as const, className: 'w-auto bg-[#13132E0D] hover:bg-[#13132E1C] text-[#13132E] border-none' },
 };
 
 type CourseDetailsRowProps = {
@@ -25,18 +28,6 @@ type CourseDetailsRowProps = {
   course: Course;
   isFacilitator: boolean;
   handleOpenGroupSwitchModal: (params: { discussion: GroupDiscussion; switchType: SwitchType }) => void;
-};
-
-// TODO decide whether to unify with GroupDiscussionBanner
-type ButtonConfig = {
-  id: string;
-  label: React.ReactNode;
-  style: keyof typeof BUTTON_STYLES;
-  url?: string;
-  onClick?: () => void;
-  isVisible: boolean;
-  ariaLabel?: string;
-  target?: React.HTMLAttributeAnchorTarget;
 };
 
 const CourseDetailsRow = ({
@@ -58,12 +49,12 @@ const CourseDetailsRow = ({
   const discussionPrepareLink = course.slug && discussion.unitNumber !== null ? `/courses/${course.slug}/${discussion.unitNumber}` : '';
   const slackChannelLink = discussion.slackChannelId ? buildGroupSlackChannelUrl(discussion.slackChannelId) : '';
 
-  const buttons: ButtonConfig[] = [
+  const buttons: IButtonOrMenuItem[] = [
     // Primary CTA
     {
       id: 'join-now',
       label: 'Join now',
-      style: 'primary',
+      variant: 'primary',
       url: discussionMeetLink,
       isVisible: isNext && isStartingSoon,
       target: '_blank',
@@ -71,7 +62,7 @@ const CourseDetailsRow = ({
     {
       id: 'prepare-for-discussion',
       label: 'Prepare for discussion',
-      style: 'primary',
+      variant: 'primary',
       url: discussionPrepareLink,
       isVisible: isNext && !isStartingSoon,
     },
@@ -79,7 +70,7 @@ const CourseDetailsRow = ({
     {
       id: 'cant-make-it',
       label: "Can't make it?",
-      style: 'secondary',
+      variant: 'secondary',
       onClick: () => handleOpenGroupSwitchModal({ discussion, switchType: 'Switch group for one unit' }),
       isVisible: !isFacilitator && !isPast,
       ariaLabel: `Switch group for Unit ${discussion.unitNumber}`,
@@ -88,7 +79,7 @@ const CourseDetailsRow = ({
     {
       id: 'message-group',
       label: <div className="grid grid-cols-[20px_1fr] gap-[6px] items-center"><SlackIcon className="mx-auto" />Message group</div>,
-      style: 'secondary',
+      variant: 'secondary',
       url: slackChannelLink,
       isVisible: !isPast,
       target: '_blank',
@@ -96,14 +87,14 @@ const CourseDetailsRow = ({
     {
       id: 'switch-group-permanently',
       label: <div className="grid grid-cols-[20px_1fr] gap-[6px] items-center"><FaArrowRightArrowLeft className="mx-auto" />Switch group permanently</div>,
-      style: 'secondary',
+      variant: 'secondary',
       onClick: () => handleOpenGroupSwitchModal({ discussion, switchType: 'Switch group permanently' }),
       isVisible: !isFacilitator && !isPast,
     },
   ];
   const visibleButtons = buttons.filter((button) => button.isVisible);
 
-  const primaryButton = visibleButtons.filter((button) => button.style === 'primary')[0];
+  const primaryButton = visibleButtons.filter((button) => button.variant === 'primary')[0];
   const cantMakeItButton = visibleButtons.filter((button) => button.id === 'cant-make-it')[0];
   const overflowButtons = visibleButtons.filter((button) => button.id !== primaryButton?.id && button.id !== cantMakeItButton?.id);
 
@@ -148,9 +139,9 @@ const CourseDetailsRow = ({
           {primaryButton && (
             <CTALinkOrButton
               key={primaryButton.id}
-              variant={BUTTON_STYLES[primaryButton.style].variant}
+              variant={BUTTON_STYLES[primaryButton.variant].variant}
               size="small"
-              className={BUTTON_STYLES[primaryButton.style].className}
+              className={BUTTON_STYLES[primaryButton.variant].className}
               url={primaryButton.url}
               onClick={primaryButton.onClick}
               target={primaryButton.target}
@@ -162,9 +153,9 @@ const CourseDetailsRow = ({
             {cantMakeItButton && (
               <CTALinkOrButton
                 key={cantMakeItButton.id}
-                variant={BUTTON_STYLES[cantMakeItButton.style].variant}
+                variant={BUTTON_STYLES[cantMakeItButton.variant].variant}
                 size="small"
-                className={cn('flex-1', BUTTON_STYLES[cantMakeItButton.style].className)}
+                className={cn('flex-1', BUTTON_STYLES[cantMakeItButton.variant].className)}
                 url={cantMakeItButton.url}
                 onClick={cantMakeItButton.onClick}
                 aria-label={cantMakeItButton.ariaLabel}
@@ -359,27 +350,5 @@ const CourseDetails = ({
     </>
   );
 };
-
-export const SlackIcon: React.FC<{ size?: number; className?: string }> = ({ size = 20, className }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={size}
-    height={size}
-    viewBox="0 0 20 20"
-    fill="none"
-    className={className}
-  >
-    <g>
-      <path d="M10 8.125V10H4.375C3.87772 10 3.40081 9.80246 3.04917 9.45083C2.69754 9.09919 2.5 8.62228 2.5 8.125C2.5 7.62772 2.69754 7.15081 3.04917 6.79917C3.40081 6.44754 3.87772 6.25 4.375 6.25H8.125C8.62228 6.25 9.09919 6.44754 9.45083 6.79917C9.80246 7.15081 10 7.62772 10 8.125Z" stroke="#13132E" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M10 6.25H8.125C7.62772 6.25 7.15081 6.05246 6.79917 5.70083C6.44754 5.34919 6.25 4.87228 6.25 4.375C6.25 3.87772 6.44754 3.40081 6.79917 3.04917C7.15081 2.69754 7.62772 2.5 8.125 2.5C8.62228 2.5 9.09919 2.69754 9.45083 3.04917C9.80246 3.40081 10 3.87772 10 4.375V6.25Z" stroke="#13132E" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M11.875 10H10V4.375C10 3.87772 10.1975 3.40081 10.5492 3.04917C10.9008 2.69754 11.3777 2.5 11.875 2.5C12.3723 2.5 12.8492 2.69754 13.2008 3.04917C13.5525 3.40081 13.75 3.87772 13.75 4.375V8.125C13.75 8.62228 13.5525 9.09919 13.2008 9.45083C12.8492 9.80246 12.3723 10 11.875 10Z" stroke="#13132E" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M13.75 10V8.125C13.75 7.62772 13.9475 7.15081 14.2992 6.79917C14.6508 6.44754 15.1277 6.25 15.625 6.25C16.1223 6.25 16.5992 6.44754 16.9508 6.79917C17.3025 7.15081 17.5 7.62772 17.5 8.125C17.5 8.62228 17.3025 9.09919 16.9508 9.45083C16.5992 9.80246 16.1223 10 15.625 10H13.75Z" stroke="#13132E" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M10 11.875V10H15.625C16.1223 10 16.5992 10.1975 16.9508 10.5492C17.3025 10.9008 17.5 11.3777 17.5 11.875C17.5 12.3723 17.3025 12.8492 16.9508 13.2008C16.5992 13.5525 16.1223 13.75 15.625 13.75H11.875C11.3777 13.75 10.9008 13.5525 10.5492 13.2008C10.1975 12.8492 10 12.3723 10 11.875Z" stroke="#13132E" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M10 13.75H11.875C12.3723 13.75 12.8492 13.9475 13.2008 14.2992C13.5525 14.6508 13.75 15.1277 13.75 15.625C13.75 16.1223 13.5525 16.5992 13.2008 16.9508C12.8492 17.3025 12.3723 17.5 11.875 17.5C11.3777 17.5 10.9008 17.3025 10.5492 16.9508C10.1975 16.5992 10 16.1223 10 15.625V13.75Z" stroke="#13132E" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M8.125 10H10V15.625C10 16.1223 9.80246 16.5992 9.45083 16.9508C9.09919 17.3025 8.62228 17.5 8.125 17.5C7.62772 17.5 7.15081 17.3025 6.79917 16.9508C6.44754 16.5992 6.25 16.1223 6.25 15.625V11.875C6.25 11.3777 6.44754 10.9008 6.79917 10.5492C7.15081 10.1975 7.62772 10 8.125 10Z" stroke="#13132E" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M6.25 10V11.875C6.25 12.3723 6.05246 12.8492 5.70083 13.2008C5.34919 13.5525 4.87228 13.75 4.375 13.75C3.87772 13.75 3.40081 13.5525 3.04917 13.2008C2.69754 12.8492 2.5 12.3723 2.5 11.875C2.5 11.3777 2.69754 10.9008 3.04917 10.5492C3.40081 10.1975 3.87772 10 4.375 10H6.25Z" stroke="#13132E" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round" />
-    </g>
-  </svg>
-);
 
 export default CourseDetails;
