@@ -43,6 +43,7 @@ describe('JobPostingPage SSR/SEO', () => {
       <JobPostingPage
         slug="ai-safety-researcher"
         job={mockJob}
+        jobOgImage={`https://bluedot.org/images/jobs/link-preview/${mockJob.slug}.png`}
       />,
     );
 

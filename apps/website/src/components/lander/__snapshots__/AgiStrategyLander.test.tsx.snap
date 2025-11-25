@@ -61,7 +61,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       name="twitter:description"
     />
     <meta
-      content="/images/agi-strategy/hero-banner-split.png"
+      content="https://bluedot.org/images/courses/link-preview/agi-strategy.png"
       name="twitter:image"
     />
     <section
