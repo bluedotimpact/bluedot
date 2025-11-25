@@ -318,7 +318,6 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   );
 };
 
-// TODO make issue to move icons into icons/ folder
 const VideoIcon: React.FC<{ size?: number; className?: string }> = ({ size = 14, className }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

@@ -42,7 +42,6 @@ const CourseDetailsRow = ({
 }: CourseDetailsRowProps) => {
   const currentTimeMs = useCurrentTimeMs();
 
-  // TODO unify with GroupDiscussionBanner
   const discussionIsSoonOrLive = (discussion.startDateTime * 1000 - currentTimeMs) <= ONE_HOUR_MS && currentTimeMs <= (discussion.endDateTime * 1000);
   const discussionIsLive = (discussion.startDateTime * 1000) <= currentTimeMs && currentTimeMs <= (discussion.endDateTime * 1000);
 
@@ -212,7 +211,6 @@ const CourseDetails = ({
   const [showAllUpcoming, setShowAllUpcoming] = useState(false);
   const [showAllAttended, setShowAllAttended] = useState(false);
 
-  // TODO make issue: "Use consistent method for checking whether a user is the facilitator"
   const isFacilitator = courseRegistration.role === 'Facilitator';
 
   const handleOpenGroupSwitchModal = ({ discussion, switchType }: { discussion?: GroupDiscussion; switchType: SwitchType }) => {
