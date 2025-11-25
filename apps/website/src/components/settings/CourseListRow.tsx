@@ -7,13 +7,21 @@ import CourseDetails from './CourseDetails';
 import { ROUTES } from '../../lib/routes';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
 import { trpc } from '../../utils/trpc';
-import { formatDateTimeRelative } from '../../lib/utils';
+import type { GroupDiscussion } from '../../server/routers/group-discussions';
 
 type CourseListRowProps = {
   course: Course;
   courseRegistration: CourseRegistration;
   isFirst?: boolean;
   isLast?: boolean;
+};
+
+const getMaxUnitNumber = (discussions: GroupDiscussion[]): number | null => {
+  const unitNumbers = discussions
+    .map((d) => d.unitNumber)
+    .filter((n): n is number => n !== null);
+
+  return unitNumbers.length > 0 ? Math.max(...unitNumbers) : null;
 };
 
 const CourseListRow = ({
@@ -109,12 +117,17 @@ const CourseListRow = ({
 
   const getSubtitle = (): ReactNode | null => {
     if (!isCompleted && nextDiscussion) {
-      if (isExpanded || isLoading) return null;
+      if (isLoading) return null;
 
-      // TODO Suggest reasons not to change this to "Week 2/6 · Group 03: Marie Curie":
-      // - Week vs day cadence not generally supported
-      // - Method for getting the total number of units quite fragile
-      return `Unit ${nextDiscussion.unitNumber} starts ${formatDateTimeRelative({ dateTimeMs: nextDiscussion.startDateTime * 1000, currentTimeMs })}`;
+      const maxUnitNumber = getMaxUnitNumber(expectedDiscussions);
+      const groupName = nextDiscussion.groupDetails?.groupName || 'Unknown group';
+
+      if (nextDiscussion.unitNumber !== null && maxUnitNumber !== null) {
+        return `Unit ${nextDiscussion.unitNumber}/${maxUnitNumber} · ${groupName}`;
+      }
+
+      // Fallback if we don't have unit numbers
+      return groupName;
     }
 
     if (isCompleted && courseRegistration.certificateCreatedAt) {

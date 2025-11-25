@@ -160,12 +160,6 @@ const CourseDetailsRow = ({
                 {`Starts ${formatDateTimeRelative({ dateTimeMs: discussion.startDateTime * 1000, currentTimeMs })}`}
               </div>
             )}
-            {/* TODO remove when moving this info up a level */}
-            {isPast && discussion.groupDetails && (
-              <div className="truncate text-size-xs text-gray-500">
-                {discussion.groupDetails.groupName || 'Group'}
-              </div>
-            )}
           </div>
         </div>
 
