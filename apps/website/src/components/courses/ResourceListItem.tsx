@@ -137,6 +137,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   const saveCompletionMutation = trpc.resources.saveResourceCompletion.useMutation({
     onSettled: () => {
       utils.resources.getResourceCompletion.invalidate({ unitResourceId: resource.id });
+      utils.resources.getResourceCompletions.invalidate();
     },
     onMutate: async (newData) => {
       // Optimistically update `getResourceCompletions` so that the Sidebar immediately updates
