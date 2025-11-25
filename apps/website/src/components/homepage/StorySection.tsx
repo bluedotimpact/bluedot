@@ -9,7 +9,7 @@ const StorySection = () => {
 
         <div className="shrink-0 w-[234px] aspect-[234/229] min-[680px]:w-[334px] min-[680px]:aspect-square min-[1280px]:w-[400px] min-[1440px]:w-[450px]">
           <img
-            src="/images/homepage/large-photo.png"
+            src="/images/homepage/large-photo.webp"
             alt="BlueDot team members at an event"
             className="size-full rounded-[12px] border border-[rgba(19,19,46,0.1)] object-cover object-center"
           />

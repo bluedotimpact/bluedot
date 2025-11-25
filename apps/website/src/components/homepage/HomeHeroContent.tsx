@@ -10,7 +10,7 @@ const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
       <div
         className="relative flex flex-col min-h-[653px] min-[680px]:max-[1023px]:min-h-[659px] min-[1024px]:max-[1279px]:min-h-[738px] min-[1280px]:max-[1439px]:min-h-[821px] min-[1440px]:min-h-[821px] w-full -scale-x-100 bg-cover bg-center"
         style={{
-          backgroundImage: 'url(\'/images/homepage/hero.jpg\')',
+          backgroundImage: 'url(\'/images/homepage/hero.webp\')',
         }}
       >
 
