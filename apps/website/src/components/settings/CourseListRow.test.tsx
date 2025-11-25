@@ -11,7 +11,7 @@ import {
   it,
   vi,
 } from 'vitest';
-import { createMockCourse, createMockCourseRegistration } from '../../__tests__/testUtils';
+import { createMockCourse, createMockCourseRegistration, createMockMeetPerson } from '../../__tests__/testUtils';
 import CourseListRow from './CourseListRow';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
@@ -44,18 +44,7 @@ describe('CourseListRow', () => {
     courseId: 'course-1',
   });
 
-  const mockMeetPerson = {
-    id: 'meet-person-1',
-    name: 'Test User',
-    applicationsBaseRecordId: null,
-    round: 'Round 1',
-    expectedDiscussionsParticipant: [],
-    expectedDiscussionsFacilitator: [],
-    attendedDiscussions: [],
-    groupsAsParticipant: [],
-    buckets: [],
-    autoNumberId: 1,
-  };
+  const mockMeetPerson = createMockMeetPerson();
 
   const mockDiscussions = {
     discussions: [],
