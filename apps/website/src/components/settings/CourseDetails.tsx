@@ -23,35 +23,6 @@ const BUTTON_STYLES = {
   ghost: { variant: 'outline-black' as const, className: 'w-auto bg-[#13132E0D] hover:bg-[#13132E1C] text-[#13132E] border-none' },
 };
 
-const TimeWidget: React.FC<{
-  isLive: boolean;
-  dateTimeSeconds: number; // Unix timestamp in seconds
-}> = ({ isLive, dateTimeSeconds }) => {
-  if (isLive) {
-    return (
-      <div className="flex flex-col items-center justify-center min-w-[85px] border border-gray-200 rounded-lg overflow-hidden">
-        <div className="text-size-sm font-bold pt-2 pb-1.5 text-gray-900 text-center">
-          NOW
-        </div>
-        <div className="text-size-xs font-semibold text-white text-center bg-[#2244BB] py-1 w-full">
-          LIVE
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex flex-col items-center justify-center min-w-[85px] p-2 border border-gray-200 rounded-lg">
-      <div className="text-size-sm font-semibold text-gray-900 text-center">
-        {formatDateMonthAndDay(dateTimeSeconds)}
-      </div>
-      <div className="text-size-xs text-gray-500 text-center">
-        {formatTime12HourClock(dateTimeSeconds)}
-      </div>
-    </div>
-  );
-};
-
 type CourseDetailsRowProps = {
   discussion: GroupDiscussion;
   isNext?: boolean;
@@ -122,7 +93,6 @@ const CourseDetailsRow = ({
       variant: 'secondary',
       url: discussionDocLink,
       target: '_blank',
-      // TODO unify logic with GroupDiscussionBanner, especially isSoonOrLive
       isVisible: discussionIsSoonOrLive || isFacilitator,
       overflowIcon: <DocumentIcon className="mx-auto" />,
     },
@@ -382,6 +352,35 @@ const CourseDetails = ({
         />
       )}
     </>
+  );
+};
+
+const TimeWidget: React.FC<{
+  isLive: boolean;
+  dateTimeSeconds: number; // Unix timestamp in seconds
+}> = ({ isLive, dateTimeSeconds }) => {
+  if (isLive) {
+    return (
+      <div className="flex flex-col items-center justify-center min-w-[85px] border border-gray-200 rounded-lg overflow-hidden">
+        <div className="text-size-sm font-bold pt-2 pb-1.5 text-gray-900 text-center">
+          NOW
+        </div>
+        <div className="text-size-xs font-semibold text-white text-center bg-[#2244BB] py-1 w-full">
+          LIVE
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col items-center justify-center min-w-[85px] p-2 border border-gray-200 rounded-lg">
+      <div className="text-size-sm font-semibold text-gray-900 text-center">
+        {formatDateMonthAndDay(dateTimeSeconds)}
+      </div>
+      <div className="text-size-xs text-gray-500 text-center">
+        {formatTime12HourClock(dateTimeSeconds)}
+      </div>
+    </div>
   );
 };
 

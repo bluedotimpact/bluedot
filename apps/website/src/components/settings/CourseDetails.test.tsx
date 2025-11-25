@@ -306,6 +306,58 @@ describe('CourseDetails: Participant view', () => {
     expect(modal).not.toHaveTextContent(/Unit \d/);
     expect(screen.getByText('Switch type: Switch group permanently')).toBeInTheDocument();
   });
+
+  it('shows NOW/LIVE indicators and "Open discussion doc" menu item when discussion is live', async () => {
+    const user = userEvent.setup();
+    const currentTimeMs = Date.now();
+
+    // WHEN: A discussion is currently live (started but not yet ended)
+    const upcomingDiscussions = [
+      {
+        ...createMockGroupDiscussion({
+          id: 'discussion-live',
+          unitNumber: 2,
+          startDateTime: Math.floor(currentTimeMs / 1000) - 10 * 60, // Started 10 minutes ago
+          endDateTime: Math.floor(currentTimeMs / 1000) + 50 * 60, // Ends in 50 minutes
+          slackChannelId: 'C1234567890',
+          activityDoc: 'https://docs.google.com/document/d/abc123',
+          zoomLink: 'https://zoom.us/j/123456789?pwd=abc123',
+        }),
+        unitRecord: createMockUnit({ unitNumber: '2', title: 'Unit Two' }),
+        groupDetails: createMockGroup(),
+      },
+    ];
+
+    render(
+      <CourseDetails
+        course={mockCourse}
+        courseRegistration={mockCourseRegistration}
+        upcomingDiscussions={upcomingDiscussions}
+        attendedDiscussions={[]}
+        isLoading={false}
+      />,
+    );
+
+    // THEN: The NOW and LIVE indicators should be visible
+    await waitFor(() => {
+      expect(screen.getByText('NOW')).toBeInTheDocument();
+      expect(screen.getByText('LIVE')).toBeInTheDocument();
+    });
+
+    // THEN: Open the overflow menu
+    const overflowButton = screen.getByRole('button', { name: 'More actions' });
+    expect(overflowButton).toBeInTheDocument();
+
+    await act(async () => {
+      await user.click(overflowButton);
+    });
+
+    // THEN: "Open discussion doc" should be present in the overflow menu
+    const discussionDocLink = screen.getByRole('menuitem', { name: 'Open discussion doc' });
+    expect(discussionDocLink).toBeInTheDocument();
+    expect(discussionDocLink).toHaveAttribute('href', 'https://docs.google.com/document/d/abc123');
+    expect(discussionDocLink).toHaveAttribute('target', '_blank');
+  });
 });
 
 describe('CourseDetails: Facilitator view', () => {
