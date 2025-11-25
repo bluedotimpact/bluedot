@@ -432,9 +432,11 @@ describe('GroupSwitchModal', () => {
       expect(fullGroupOption).toHaveClass('opacity-50');
       expect(startedGroupOption).toHaveClass('opacity-50');
 
-      // Verify "No spots left" message appears
+      // Verify "No spots left" message appears for full groups
       const noSpotsMessages = screen.getAllByText('No spots left');
       expect(noSpotsMessages.length).toBeGreaterThan(0);
+      // Verify "This discussion has passed" message appears for started discussions
+      expect(screen.getByText('This discussion has passed')).toBeInTheDocument();
 
       // Open unit selector to check if Unit 2 is disabled
       const unitButton = screen.getByLabelText('Select Unit');
