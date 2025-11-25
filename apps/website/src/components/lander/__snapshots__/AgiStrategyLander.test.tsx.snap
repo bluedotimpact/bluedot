@@ -141,7 +141,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="w-full bg-white"
     >
       <div
-        class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x lg:py-24"
+        class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24 xl:py-24"
       >
         <h2
           class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-12 md:mb-16 tracking-[-0.01em]"
@@ -290,7 +290,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="w-full bg-white"
     >
       <div
-        class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 md:px-spacing-x lg:py-24"
+        class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 md:px-spacing-x min-[1280px]:py-24 xl:py-24"
       >
         <h2
           class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-12 md:mb-16 tracking-[-0.01em]"
@@ -326,7 +326,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="w-full bg-white"
     >
       <div
-        class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 md:px-spacing-x lg:py-24"
+        class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 md:px-spacing-x min-[1280px]:py-24 xl:py-24"
       >
         <h2
           class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-16 tracking-[-0.01em]"
@@ -454,7 +454,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="w-full bg-white"
     >
       <div
-        class="max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-12 min-[1280px]:px-44 xl:px-40 py-12 min-[680px]:py-16 min-[1024px]:py-16 xl:py-24 flex flex-col items-center gap-12 md:gap-16"
+        class="max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-12 min-[1280px]:px-44 xl:px-40 py-12 min-[680px]:py-16 min-[1280px]:py-24 xl:py-24 flex flex-col items-center gap-12 md:gap-16"
       >
         <h2
           class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]"
@@ -594,14 +594,11 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         </div>
       </div>
     </section>
-    <div
-      class="border-t-hairline border-color-divider"
-    />
     <section
       aria-atomic="true"
       aria-label="Quote carousel"
       aria-live="polite"
-      class="relative w-full py-6 px-5 sm:py-6 sm:px-5 min-[680px]:py-6 min-[680px]:px-8 lg:p-12 overflow-x-hidden"
+      class="relative w-full py-6 px-5 sm:px-5 min-[680px]:pt-8 min-[680px]:pb-16 min-[680px]:px-8 lg:p-12 xl:pb-24 overflow-x-hidden"
       style="background-color: #FFFFFF;"
     >
       <div
@@ -860,7 +857,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="w-full bg-white"
     >
       <div
-        class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:py-16 lg:py-24"
+        class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:py-16 min-[1280px]:py-24"
       >
         <h2
           class="text-[28px] min-[680px]:text-[32px] min-[1280px]:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-[#13132E] text-center mb-12 md:mb-16 max-w-[734px] mx-auto"
@@ -1404,7 +1401,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="w-full bg-white"
     >
       <div
-        class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:py-16 lg:py-24"
+        class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:pt-16 min-[680px]:pb-12 min-[1024px]:py-16 min-[1280px]:py-24"
       >
         <div
           class="max-w-[928px] mx-auto flex flex-col gap-12 md:gap-16"
@@ -1523,11 +1520,8 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         </div>
       </div>
     </section>
-    <div
-      class="border-t-hairline border-color-divider"
-    />
     <section
-      class="w-full bg-white py-12 min-[680px]:py-16 lg:py-20"
+      class="w-full bg-white pb-12 min-[680px]:pb-16 min-[1024px]:pb-16 min-[1280px]:pb-24"
     >
       <div
         class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x"
