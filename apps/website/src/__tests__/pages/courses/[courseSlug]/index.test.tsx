@@ -60,7 +60,7 @@ describe('CoursePage SSR/SEO', () => {
     expect(ogType?.getAttribute('content')).toBe('website');
 
     const ogImage = document.querySelector('meta[property="og:image"]');
-    expect(ogImage?.getAttribute('content')).toBe('https://bluedot.org/images/logo/icon-on-blue.png');
+    expect(ogImage?.getAttribute('content')).toBe(`https://bluedot.org/images/courses/link-preview/${mockCourse.slug}.png`);
 
     const ogUrl = document.querySelector('meta[property="og:url"]');
     expect(ogUrl?.getAttribute('content')).toBe(`https://bluedot.org/courses/${encodeURIComponent(mockCourse.slug)}`);
