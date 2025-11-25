@@ -98,9 +98,9 @@ const StandardCoursePage = ({ courseData }: { courseData: CourseAndUnits }) => {
             <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
             <meta key="og:type" property="og:type" content="website" />
             <meta key="og:url" property="og:url" content={`https://bluedot.org/courses/${encodeURIComponent(courseData.course.slug)}`} />
-            <meta key="og:image" property="og:image" content="https://bluedot.org/images/logo/icon-on-blue.png" />
-            <meta key="og:image:width" property="og:image:width" content="1000" />
-            <meta key="og:image:height" property="og:image:height" content="1000" />
+            <meta key="og:image" property="og:image" content={`https://bluedot.org/images/courses/link-preview/${courseData.course.slug}.png`} />
+            <meta key="og:image:width" property="og:image:width" content="1200" />
+            <meta key="og:image:height" property="og:image:height" content="630" />
             <meta key="og:image:type" property="og:image:type" content="image/png" />
             <meta key="og:image:alt" property="og:image:alt" content="BlueDot Impact logo" />
           </Head>
