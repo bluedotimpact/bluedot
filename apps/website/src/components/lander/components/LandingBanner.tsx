@@ -23,7 +23,7 @@ const LandingBanner = ({
   noiseImageSrc,
 }: LandingBannerProps) => {
   return (
-    <section className="w-full bg-white py-12 min-[680px]:py-16 lg:py-20">
+    <section className="w-full bg-white pb-12 min-[680px]:pb-16 min-[1024px]:pb-16 min-[1280px]:pb-24">
       <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x">
         <div
           className="relative w-full h-[382px] min-[680px]:h-[360px] mx-auto overflow-hidden rounded-xl bg-[#13132E] bg-cover bg-center xl:max-w-[1118px]"

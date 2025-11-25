@@ -94,7 +94,6 @@ const CourseLander = ({ courseSlug, baseApplicationUrl, createContentFor }: Cour
 
       {content.quotes && (
         <>
-          <div className="border-t-hairline border-color-divider" />
           <QuoteSection {...content.quotes} />
         </>
       )}
@@ -119,8 +118,6 @@ const CourseLander = ({ courseSlug, baseApplicationUrl, createContentFor }: Cour
       <div className="border-t-hairline border-color-divider" />
 
       <FAQSection {...content.faq} />
-
-      <div className="border-t-hairline border-color-divider" />
 
       <LandingBanner {...content.banner} />
     </div>
