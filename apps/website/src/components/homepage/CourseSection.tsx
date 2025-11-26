@@ -501,7 +501,7 @@ const CourseCardRedesigned = ({
         <img
           alt=""
           className="absolute inset-0 size-full object-cover"
-          src="/images/courses/courses-gradient.png"
+          src="/images/courses/courses-gradient.webp"
           style={{
             transform: gradientRotation === 0
               ? 'none'
