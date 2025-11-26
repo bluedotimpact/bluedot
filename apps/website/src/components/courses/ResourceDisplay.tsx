@@ -147,6 +147,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
                 <ResourceListItem
                   key={resource.id}
                   resource={resource}
+                  resourceCompletion={resourceCompletionMap.get(resource.id)}
                 />
               ))}
             </ul>
