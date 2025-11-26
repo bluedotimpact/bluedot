@@ -390,14 +390,13 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
   );
 
   if (config.useCard) {
-    const dynamicSubtitle = meetPerson?.role?.toLowerCase() === 'participant'
-      ? "If you've engaged in >80% of discussions and submitted your action plan, you'll receive a certificate."
-      : "If you've engaged in >80% of discussions, you'll receive a certificate.";
-
+    // Only non-FOAI courses use cards (FOAI has useCard: false)
+    // At this point, participants have already returned null, so only facilitators/errors/no-meetPerson reach here
+    // Show subtitle without action plan requirement since only participants need action plans
     return (
       <Card
         title={requestCertConfig.title || ''}
-        subtitle={dynamicSubtitle}
+        subtitle="If you've engaged in >80% of discussions, you'll receive a certificate."
         className="container-lined p-8 bg-white"
       >
         {content}
