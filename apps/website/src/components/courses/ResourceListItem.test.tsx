@@ -295,7 +295,6 @@ describe('ResourceListItem - Optimistic Updates', () => {
     });
 
     server.use(
-      trpcMsw.resources.getResourceCompletion.query(() => mockCompletionData),
       trpcMsw.resources.saveResourceCompletion.mutation(async () => {
         const result = await mutationPendingPromise;
         return result as typeof mockCompletionData;
@@ -331,7 +330,6 @@ describe('ResourceListItem - Optimistic Updates', () => {
     });
 
     server.use(
-      trpcMsw.resources.getResourceCompletion.query(() => completedMock),
       trpcMsw.resources.saveResourceCompletion.mutation(async () => {
         const result = await mutationPendingPromise;
         return result as typeof completedMock;
@@ -368,8 +366,6 @@ describe('ResourceListItem - Optimistic Updates', () => {
     });
 
     server.use(
-      trpcMsw.resources.getResourceCompletion.query(() => mockCompletionData),
-
       trpcMsw.resources.saveResourceCompletion.mutation(async () => {
         await mutationPendingPromise; // This line will throw when we call rejectMutation()
         return { ...mockCompletionData, isCompleted: true }; // Unreachable
