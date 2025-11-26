@@ -78,4 +78,16 @@ describe('JobPostingPage SSR/SEO', () => {
       expect(structuredData.hiringOrganization.name).toBe('BlueDot Impact');
     }
   });
+
+  test('uses fallback logo image when no `jobOgImage` provided', () => {
+    renderWithHead(
+      <JobPostingPage
+        slug="ai-safety-researcher"
+        job={mockJob}
+      />,
+    );
+
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    expect(ogImage?.getAttribute('content')).toBe('https://bluedot.org/images/logo/icon-on-blue.png');
+  });
 });
