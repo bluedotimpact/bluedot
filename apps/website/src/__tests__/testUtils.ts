@@ -171,7 +171,6 @@ export const createMockMeetPerson = (overrides: Partial<MeetPerson> = {}): MeetP
   name: 'Test User',
   applicationsBaseRecordId: null,
   projectSubmission: [],
-  role: 'Participant',
   buckets: [],
   round: null,
   expectedDiscussionsParticipant: [],

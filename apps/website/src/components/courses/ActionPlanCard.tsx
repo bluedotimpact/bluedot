@@ -67,10 +67,6 @@ const ActionPlanCardAuthed: React.FC<ActionPlanCardProps> = ({ courseId }) => {
     return null;
   }
 
-  if (meetPerson.role?.toLowerCase() !== 'participant') {
-    return null;
-  }
-
   // Check if conditions are met to show the card
   // 1. User is in a facilitated course (courseId !== FOAI_COURSE_ID)
   if (courseRegistration?.courseId === FOAI_COURSE_ID) {

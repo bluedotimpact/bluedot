@@ -336,16 +336,25 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
   // Only future-of-ai certificates can be earned independently
   // Note: the check `courseRegistration?.courseId !== FOAI_COURSE_ID` is required because we
   // used to auto-create course registrations for independent learners for all courses, see https://github.com/bluedotimpact/bluedot/issues/1500
-  if (courseRegistration?.courseId !== FOAI_COURSE_ID && !courseRegistration?.certificateId) {
+  if (courseRegistration?.courseId !== FOAI_COURSE_ID) {
     // Hide certificate card if user should see ActionPlanCard instead
-    // ActionPlanCard shows when: facilitated course + no certificate + meetPerson exists + role is Participant
-    if (meetPerson && !meetPersonError && meetPerson.role?.toLowerCase() === 'participant') {
+    // ActionPlanCard shows when: facilitated course + no certificate + meetPerson exists
+    // If meetPerson doesn't exist or there's an error fetching it, show certificate card as fallback
+    if (!courseRegistration?.certificateId && meetPerson && !meetPersonError) {
       // Return null - ActionPlanCard will show instead
       return null;
     }
 
-    // For all other cases (facilitators, errors, no meetPerson): continue to request certificate section
-    // This provides a safe fallback that shows helpful certificate information
+    const { notEligible } = config.texts;
+    return (
+      <Card
+        title={notEligible.title}
+        subtitle={notEligible.subtitle}
+        className="container-lined p-8 bg-white"
+      >
+        {config.showCommunity && <CommunitySection />}
+      </Card>
+    );
   }
 
   // Request certificate state
@@ -390,13 +399,10 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
   );
 
   if (config.useCard) {
-    // Only non-FOAI courses use cards (FOAI has useCard: false)
-    // At this point, participants have already returned null, so only facilitators/errors/no-meetPerson reach here
-    // Show subtitle without action plan requirement since only participants need action plans
     return (
       <Card
         title={requestCertConfig.title || ''}
-        subtitle="If you've engaged in >80% of discussions, you'll receive a certificate."
+        subtitle={requestCertConfig.subtitle || ''}
         className="container-lined p-8 bg-white"
       >
         {content}
