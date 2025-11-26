@@ -1,7 +1,9 @@
 import { render, RenderResult } from '@testing-library/react';
 import type {
-  Chunk, Course, CourseRegistration, Group, GroupDiscussion, Unit,
+  Chunk, Course, CourseRegistration, Group, GroupDiscussion, ResourceCompletion, Unit,
+  UnitResource,
 } from '@bluedot/db';
+import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -47,6 +49,8 @@ const MOCK_COURSE_ID = 'course-id';
 const MOCK_COURSE_REGISTRATION_ID = 'course-registration-id';
 const MOCK_CHUNK_ID = 'chunk-id';
 const MOCK_GROUP_ID = 'group-id';
+const MOCK_RESOURCE_ID = 'resource-id';
+const MOCK_RESOURCE_COMPLETION_ID = 'resource-completion-id';
 
 export const createMockCourse = (overrides: Partial<Course> = {}): Course => ({
   averageRating: 4.5,
@@ -162,5 +166,36 @@ export const createMockGroupDiscussion = (overrides: Partial<GroupDiscussion> = 
   unitNumber: 1,
   zoomAccount: null,
   zoomLink: null,
+  ...overrides,
+});
+
+export const createMockResource = (overrides: Partial<UnitResource> = {}): UnitResource => ({
+  id: MOCK_RESOURCE_ID,
+  resourceName: 'Introduction to AI Safety',
+  resourceType: 'article',
+  resourceLink: 'https://example.com/article',
+  resourceGuide: 'This is a guide to the resource',
+  authors: 'John Doe',
+  timeFocusOnMins: 10,
+  coreFurtherMaybe: 'Core',
+  readingOrder: null,
+  unitId: 'unit-1',
+  avgRating: null,
+  syncedAudioUrl: null,
+  year: 2024,
+  autoNumberId: null,
+  ...overrides,
+});
+
+export const createMockResourceCompletion = (overrides: Partial<ResourceCompletion> = {}): ResourceCompletion => ({
+  autoNumberId: null,
+  email: '',
+  feedback: null,
+  id: MOCK_RESOURCE_COMPLETION_ID,
+  isCompleted: false,
+  rating: null,
+  resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE,
+  unitResourceIdRead: MOCK_RESOURCE_ID,
+  unitResourceIdWrite: MOCK_RESOURCE_ID,
   ...overrides,
 });
