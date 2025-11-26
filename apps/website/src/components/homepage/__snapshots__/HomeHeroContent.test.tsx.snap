@@ -7,7 +7,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
   >
     <div
       class="relative flex flex-col min-h-[653px] min-[680px]:max-[1023px]:min-h-[659px] min-[1024px]:max-[1279px]:min-h-[738px] min-[1280px]:max-[1439px]:min-h-[821px] min-[1440px]:min-h-[821px] w-full -scale-x-100 bg-cover bg-center"
-      style="background-image: url("/images/homepage/hero.jpg");"
+      style="background-image: url("/images/homepage/hero.webp");"
     >
       <div
         class="relative z-20 min-h-[60px] min-[680px]:max-[1023px]:min-h-[60px] min-[1024px]:min-h-[76px] -scale-x-100"
