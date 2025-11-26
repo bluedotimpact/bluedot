@@ -162,7 +162,7 @@ export const getStaticProps: GetStaticProps<CoursePageProps> = async ({ params }
   try {
     const courseData = await getCourseData(courseSlug);
 
-    let courseOgImage;
+    let courseOgImage: string | undefined;
     if (await fileExists(path.join(process.cwd(), 'public', 'images', 'courses', 'link-preview', `${courseSlug}.png`))) {
       courseOgImage = `${process.env.NEXT_PUBLIC_SITE_URL}/images/courses/link-preview/${courseSlug}.png`;
     }
