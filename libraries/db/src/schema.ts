@@ -496,6 +496,10 @@ export const meetPersonTable = pgAirtable('meet_person', {
       pgColumn: text().array(),
       airtableId: 'fldFjRSrXH8Z5sGaQ',
     },
+    role: {
+      pgColumn: text(),
+      airtableId: 'fldcMg0UmqlneGerA',
+    },
     /**
      * A bucket defines a set of groups, where participants are allowed to switch between the
      * groups if requested. This field is an array of all the buckets the person is a member of.
