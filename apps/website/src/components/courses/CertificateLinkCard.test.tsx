@@ -85,6 +85,7 @@ describe('CertificateLinkCard', () => {
           certificateId: null,
         })),
         trpcMsw.meetPerson.getByCourseRegistrationId.query(() => createMockMeetPerson({
+          role: 'Participant',
           projectSubmission: [], // No action plan submitted
         })),
       );
@@ -97,7 +98,7 @@ describe('CertificateLinkCard', () => {
       });
     });
 
-    test('renders course without certificate - non-FoAI without meetPerson shows not eligible', async () => {
+    test('renders course without certificate - non-FoAI without meetPerson shows certificate card as fallback', async () => {
       // Mock query with no certificate and meetPerson returns null
       server.use(
         trpcMsw.courseRegistrations.getByCourseId.query(({ input }) => createMockCourseRegistration({
@@ -109,18 +110,16 @@ describe('CertificateLinkCard', () => {
 
       render(<CertificateLinkCard courseId="rec123456789" />, { wrapper: TrpcProvider });
 
-      // Should show not eligible message when meetPerson is null
+      // Should show certificate card as safe fallback when meetPerson is null (edge case)
+      // Since meetPerson is null, dynamic subtitle shows non-participant version (no action plan mention)
       await waitFor(() => {
-        expect(
-          screen.getByText(
-            "This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate.",
-          ),
-        ).toBeInTheDocument();
+        expect(screen.getByText('Your Certificate')).toBeInTheDocument();
+        expect(screen.getByText("If you've engaged in >80% of discussions, you'll receive a certificate.")).toBeInTheDocument();
+        expect(screen.getByText('Request Certificate')).toBeInTheDocument();
       });
-      expect(screen.getByText('Your Certificate')).toBeInTheDocument();
     });
 
-    test('renders course without certificate when meetPerson errors - shows not eligible as fallback', async () => {
+    test('renders course without certificate when meetPerson errors - shows request certificate as fallback', async () => {
       // Mock query with no certificate and meetPerson query errors
       server.use(
         trpcMsw.courseRegistrations.getByCourseId.query(({ input }) => createMockCourseRegistration({
@@ -134,15 +133,13 @@ describe('CertificateLinkCard', () => {
 
       render(<CertificateLinkCard courseId="rec123456789" />, { wrapper: TrpcProvider });
 
-      // Should show not eligible message as fallback when meetPerson errors
+      // Should show request certificate as fallback when meetPerson errors
+      // Note: meetPerson is undefined due to error, so dynamic subtitle shows non-participant version (no action plan mention)
       await waitFor(() => {
-        expect(
-          screen.getByText(
-            "This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate.",
-          ),
-        ).toBeInTheDocument();
+        expect(screen.getByText('Your Certificate')).toBeInTheDocument();
+        expect(screen.getByText("If you've engaged in >80% of discussions, you'll receive a certificate.")).toBeInTheDocument();
+        expect(screen.getByText('Request Certificate')).toBeInTheDocument();
       });
-      expect(screen.getByText('Your Certificate')).toBeInTheDocument();
     });
 
     test('renders course without certificate - FoAI shows request button', async () => {
@@ -227,6 +224,64 @@ describe('CertificateLinkCard', () => {
 
       // Community section SHOULD appear for FoAI course
       expect(screen.getByText('Join the Community')).toBeInTheDocument();
+    });
+
+    test('renders Facilitator without certificate - shows certificate card immediately', async () => {
+      server.use(
+        trpcMsw.courseRegistrations.getByCourseId.query(({ input }) => createMockCourseRegistration({
+          courseId: input.courseId,
+          certificateId: null,
+        })),
+        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => createMockMeetPerson({
+          role: 'Facilitator',
+        })),
+      );
+
+      render(<CertificateLinkCard courseId="rec123456789" />, { wrapper: TrpcProvider });
+
+      await waitFor(() => {
+        expect(screen.getByText('Your Certificate')).toBeInTheDocument();
+        expect(screen.getByText("If you've engaged in >80% of discussions, you'll receive a certificate.")).toBeInTheDocument();
+        expect(screen.getByText('Request Certificate')).toBeInTheDocument();
+      });
+    });
+
+    test('renders Participant without certificate - returns null (ActionPlanCard shows)', async () => {
+      server.use(
+        trpcMsw.courseRegistrations.getByCourseId.query(({ input }) => createMockCourseRegistration({
+          courseId: input.courseId,
+          certificateId: null,
+        })),
+        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => createMockMeetPerson({
+          role: 'Participant',
+          projectSubmission: [],
+        })),
+      );
+
+      const { container } = render(<CertificateLinkCard courseId="rec123456789" />, { wrapper: TrpcProvider });
+
+      await waitFor(() => {
+        expect(container.firstChild).toBeNull();
+      });
+    });
+
+    test('renders facilitator role with case variations - shows certificate card', async () => {
+      server.use(
+        trpcMsw.courseRegistrations.getByCourseId.query(({ input }) => createMockCourseRegistration({
+          courseId: input.courseId,
+          certificateId: null,
+        })),
+        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => createMockMeetPerson({
+          role: 'facilitator',
+        })),
+      );
+
+      render(<CertificateLinkCard courseId="rec123456789" />, { wrapper: TrpcProvider });
+
+      await waitFor(() => {
+        expect(screen.getByText('Your Certificate')).toBeInTheDocument();
+        expect(screen.getByText("If you've engaged in >80% of discussions, you'll receive a certificate.")).toBeInTheDocument();
+      });
     });
   });
 });

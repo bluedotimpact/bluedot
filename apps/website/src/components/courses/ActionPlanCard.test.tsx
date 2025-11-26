@@ -69,6 +69,7 @@ describe('ActionPlanCard', () => {
     test('Scenario 1: Facilitated course, no certificate, no action plan → shows ActionPlanCard', async () => {
       const mockMeetPerson = createMockMeetPerson({
         id: 'recABC123',
+        role: 'Participant',
         projectSubmission: [],
       });
 
@@ -98,6 +99,7 @@ describe('ActionPlanCard', () => {
     test('Scenario 2: Facilitated course, no certificate, action plan submitted → shows disabled button', async () => {
       const mockMeetPerson = createMockMeetPerson({
         id: 'recABC123',
+        role: 'Participant',
         projectSubmission: ['submission-1'],
       });
 
@@ -191,6 +193,79 @@ describe('ActionPlanCard', () => {
       );
 
       expect(container.firstChild).toBeNull();
+    });
+
+    test('Scenario 7: Facilitator role → returns null (no action plan needed)', async () => {
+      const mockMeetPerson = createMockMeetPerson({
+        id: 'recABC123',
+        role: 'Facilitator',
+        projectSubmission: [],
+      });
+
+      server.use(
+        trpcMsw.courseRegistrations.getByCourseId.query(() => createMockCourseRegistration({
+          courseId: FACILITATED_COURSE_ID,
+          certificateId: null,
+        })),
+        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => mockMeetPerson),
+      );
+
+      const { container } = render(
+        <ActionPlanCard courseId={FACILITATED_COURSE_ID} />,
+        { wrapper: TrpcProvider },
+      );
+
+      await waitFor(() => {
+        expect(container.firstChild).toBeNull();
+      });
+    });
+
+    test('Scenario 8: Participant role with case variations → shows ActionPlanCard', async () => {
+      const mockMeetPerson = createMockMeetPerson({
+        id: 'recABC123',
+        role: 'participant',
+        projectSubmission: [],
+      });
+
+      server.use(
+        trpcMsw.courseRegistrations.getByCourseId.query(() => createMockCourseRegistration({
+          courseId: FACILITATED_COURSE_ID,
+          certificateId: null,
+        })),
+        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => mockMeetPerson),
+      );
+
+      render(<ActionPlanCard courseId={FACILITATED_COURSE_ID} />, { wrapper: TrpcProvider });
+
+      await waitFor(() => {
+        expect(screen.getByText('Your Certificate')).toBeInTheDocument();
+        expect(screen.getByText('Engage in >80% of discussions and submit your action plan to receive your certificate.')).toBeInTheDocument();
+      });
+    });
+
+    test('Scenario 9: Null role → returns null (treated as non-participant)', async () => {
+      const mockMeetPerson = createMockMeetPerson({
+        id: 'recABC123',
+        role: null,
+        projectSubmission: [],
+      });
+
+      server.use(
+        trpcMsw.courseRegistrations.getByCourseId.query(() => createMockCourseRegistration({
+          courseId: FACILITATED_COURSE_ID,
+          certificateId: null,
+        })),
+        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => mockMeetPerson),
+      );
+
+      const { container } = render(
+        <ActionPlanCard courseId={FACILITATED_COURSE_ID} />,
+        { wrapper: TrpcProvider },
+      );
+
+      await waitFor(() => {
+        expect(container.firstChild).toBeNull();
+      });
     });
   });
 });
