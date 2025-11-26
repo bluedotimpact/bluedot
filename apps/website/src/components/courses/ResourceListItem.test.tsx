@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { RESOURCE_FEEDBACK, type ResourceFeedbackValue } from '@bluedot/db/src/schema';
+import { RESOURCE_FEEDBACK, type ResourceCompletion } from '@bluedot/db/src/schema';
 import { useAuthStore } from '@bluedot/ui';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -11,6 +11,7 @@ import { TRPCError } from '@trpc/server';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import { ResourceListItem } from './ResourceListItem';
+import { createMockResource, createMockResourceCompletion } from '../../__tests__/testUtils';
 
 // Mock next-auth
 vi.mock('next-auth/react', () => ({
@@ -62,26 +63,11 @@ const mockedUseAuthStore = useAuthStore as unknown as Mock;
 const mockAuth = { token: 'test-token', email: 'test@bluedot.org' };
 
 describe('ResourceListItem - Listen to Article Feature', () => {
-  const baseResource = {
-    id: 'test-resource-1',
-    resourceName: 'Introduction to AI Safety',
-    resourceType: 'article',
-    resourceLink: 'https://example.com/article',
-    resourceGuide: 'This is a guide to the resource',
-    authors: 'John Doe',
-    timeFocusOnMins: 10,
-    coreFurtherMaybe: null,
-    readingOrder: null,
-    unitId: 'unit123',
-    avgRating: null,
-    syncedAudioUrl: null,
-    year: 2024,
-    autoNumberId: null,
-  };
+  const mockResource = createMockResource();
 
   it('should render metadata without Listen to article button when no audio URL', () => {
     const { container, queryByText } = render(
-      <ResourceListItem resource={baseResource} />,
+      <ResourceListItem resource={mockResource} />,
       { wrapper: TrpcProvider },
     );
 
@@ -98,7 +84,7 @@ describe('ResourceListItem - Listen to Article Feature', () => {
 
   it('should render Listen to article button when audio URL is provided', () => {
     const resourceWithAudio = {
-      ...baseResource,
+      ...mockResource,
       syncedAudioUrl: 'https://open.spotify.com/episode/abc123',
     };
 
@@ -117,7 +103,7 @@ describe('ResourceListItem - Listen to Article Feature', () => {
 
   it('should render Listen to article with proper separator when metadata exists', () => {
     const resourceWithAudio = {
-      ...baseResource,
+      ...mockResource,
       authors: 'Jane Smith',
       timeFocusOnMins: 15,
       syncedAudioUrl: 'https://open.spotify.com/episode/xyz789',
@@ -141,7 +127,7 @@ describe('ResourceListItem - Listen to Article Feature', () => {
 
   it('should render Listen to article even without other metadata', () => {
     const resourceWithOnlyAudio = {
-      ...baseResource,
+      ...mockResource,
       authors: null,
       timeFocusOnMins: null,
       syncedAudioUrl: 'https://open.spotify.com/episode/solo123',
@@ -167,7 +153,7 @@ describe('ResourceListItem - Listen to Article Feature', () => {
   it('should handle various metadata combinations with audio URL', () => {
     // Only author and audio
     const authorAndAudio = {
-      ...baseResource,
+      ...mockResource,
       authors: 'Alice Brown',
       timeFocusOnMins: null,
       syncedAudioUrl: 'https://open.spotify.com/episode/author123',
@@ -181,7 +167,7 @@ describe('ResourceListItem - Listen to Article Feature', () => {
 
     // Only time and audio
     const timeAndAudio = {
-      ...baseResource,
+      ...mockResource,
       authors: null,
       timeFocusOnMins: 20,
       syncedAudioUrl: 'https://open.spotify.com/episode/time123',
@@ -196,7 +182,7 @@ describe('ResourceListItem - Listen to Article Feature', () => {
 
   it('should display year field correctly in metadata', () => {
     const { queryByText } = render(
-      <ResourceListItem resource={baseResource} />,
+      <ResourceListItem resource={mockResource} />,
       { wrapper: TrpcProvider },
     );
 
@@ -206,7 +192,7 @@ describe('ResourceListItem - Listen to Article Feature', () => {
 
   it('should handle metadata without year field', () => {
     const resourceWithoutYear = {
-      ...baseResource,
+      ...mockResource,
       year: null,
     };
 
@@ -230,7 +216,7 @@ describe('ResourceListItem - Listen to Article Feature', () => {
 
   it('should handle only year field in metadata', () => {
     const resourceWithOnlyYear = {
-      ...baseResource,
+      ...mockResource,
       authors: null,
       timeFocusOnMins: null,
     };
@@ -252,34 +238,8 @@ describe('ResourceListItem - Listen to Article Feature', () => {
 });
 
 describe('ResourceListItem - Optimistic Updates', () => {
-  const baseResource = {
-    id: 'test-resource-1',
-    resourceName: 'Optimistic UI Test Resource',
-    resourceType: 'article',
-    resourceLink: 'https://example.com',
-    unitId: 'unit1',
-    authors: 'Test Author',
-    year: 2024,
-    timeFocusOnMins: 5,
-    resourceGuide: null,
-    syncedAudioUrl: null,
-    coreFurtherMaybe: null,
-    readingOrder: null,
-    avgRating: null,
-    autoNumberId: null,
-  };
-
-  const mockCompletionData = {
-    id: 'completion-1',
-    unitResourceIdRead: 'test-resource-1',
-    unitResourceIdWrite: 'test-resource-1',
-    email: 'test@example.com',
-    isCompleted: false,
-    resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE as ResourceFeedbackValue,
-    feedback: '',
-    rating: null,
-    autoNumberId: null,
-  };
+  const mockResource = createMockResource();
+  const mockResourceCompletion = createMockResourceCompletion({ resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE });
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -289,19 +249,22 @@ describe('ResourceListItem - Optimistic Updates', () => {
   it('should optimistically mark as complete before server responds', async () => {
     const user = userEvent.setup();
 
-    let resolveMutation: (value: typeof mockCompletionData) => void = () => {};
-    const mutationPendingPromise = new Promise<typeof mockCompletionData>((resolve) => {
+    let resolveMutation: (value: ResourceCompletion) => void = () => {};
+    const mutationPendingPromise = new Promise<ResourceCompletion>((resolve) => {
       resolveMutation = resolve;
     });
 
     server.use(
       trpcMsw.resources.saveResourceCompletion.mutation(async () => {
         const result = await mutationPendingPromise;
-        return result as typeof mockCompletionData;
+        return {
+          ...result,
+          feedback: result.feedback?.trimEnd(),
+        };
       }),
     );
 
-    render(<ResourceListItem resource={baseResource} />, { wrapper: TrpcProvider });
+    render(<ResourceListItem resource={mockResource} resourceCompletion={mockResourceCompletion} />, { wrapper: TrpcProvider });
 
     const toggleButton = await screen.findByLabelText('Mark as complete');
     await user.click(toggleButton);
@@ -310,7 +273,7 @@ describe('ResourceListItem - Optimistic Updates', () => {
       expect(screen.getByLabelText('Mark as incomplete')).toBeInTheDocument();
     });
 
-    resolveMutation({ ...mockCompletionData, isCompleted: true });
+    resolveMutation({ ...mockResourceCompletion, isCompleted: true });
 
     // UI stays in same state after mutation resolves
     await waitFor(() => {
@@ -322,7 +285,7 @@ describe('ResourceListItem - Optimistic Updates', () => {
     const user = userEvent.setup();
 
     // Start with a completed resource so we can see the feedback buttons
-    const completedMock = { ...mockCompletionData, isCompleted: true };
+    const completedMock = { ...mockResourceCompletion, isCompleted: true };
 
     let resolveMutation: (value: typeof completedMock) => void = () => {};
     const mutationPendingPromise = new Promise<typeof completedMock>((resolve) => {
@@ -332,11 +295,14 @@ describe('ResourceListItem - Optimistic Updates', () => {
     server.use(
       trpcMsw.resources.saveResourceCompletion.mutation(async () => {
         const result = await mutationPendingPromise;
-        return result as typeof completedMock;
+        return {
+          ...result,
+          feedback: result.feedback?.trimEnd(),
+        };
       }),
     );
 
-    render(<ResourceListItem resource={baseResource} />, { wrapper: TrpcProvider });
+    render(<ResourceListItem resource={mockResource} resourceCompletion={completedMock} />, { wrapper: TrpcProvider });
 
     // Wait for the feedback section to appear (it appears when isCompleted is true)
     await screen.findByRole('region', { name: 'Resource feedback section' });
@@ -368,11 +334,15 @@ describe('ResourceListItem - Optimistic Updates', () => {
     server.use(
       trpcMsw.resources.saveResourceCompletion.mutation(async () => {
         await mutationPendingPromise; // This line will throw when we call rejectMutation()
-        return { ...mockCompletionData, isCompleted: true }; // Unreachable
+        const result = { ...mockResourceCompletion, isCompleted: true };
+        return {
+          ...result,
+          feedback: result.feedback?.trimEnd(),
+        }; // Unreachable
       }),
     );
 
-    render(<ResourceListItem resource={baseResource} />, { wrapper: TrpcProvider });
+    render(<ResourceListItem resource={mockResource} resourceCompletion={mockResourceCompletion} />, { wrapper: TrpcProvider });
 
     const toggleButton = await screen.findByLabelText('Mark as complete');
     await user.click(toggleButton);
