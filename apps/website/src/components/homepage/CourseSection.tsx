@@ -529,7 +529,7 @@ const CourseCardRedesigned = ({
       <div
         className="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
         style={{
-          backgroundImage: 'url(/images/agi-strategy/noise.png)',
+          backgroundImage: 'url(/images/agi-strategy/noise.webp)',
           backgroundRepeat: 'repeat',
           backgroundSize: '464.64px 736.56px',
           backgroundPosition: 'top left',
