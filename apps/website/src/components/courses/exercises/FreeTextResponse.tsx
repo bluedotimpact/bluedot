@@ -34,7 +34,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   // This prevents the refetch from overwriting user's unsaved changes
   const initialExerciseResponse = React.useRef(exerciseResponse);
   useEffect(() => {
-    if (initialExerciseResponse.current !== exerciseResponse && !answer) {
+    if (initialExerciseResponse.current !== exerciseResponse && answer === '') {
       setAnswer(exerciseResponse || '');
       initialExerciseResponse.current = exerciseResponse;
     }
