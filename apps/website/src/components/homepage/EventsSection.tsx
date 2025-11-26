@@ -56,18 +56,6 @@ const CAROUSEL_CONFIG = {
 const DateBadge = ({ month, day }: { month: string; day: string }) => {
   return (
     <div className="relative size-16 min-[1024px]:size-20 bg-white rounded-lg min-[1024px]:rounded-lg shadow-[0px_1.6px_4.8px_1.6px_rgba(0,0,0,0.05),0px_0.8px_1.6px_0px_rgba(0,0,0,0.15)] min-[1024px]:shadow-[0px_2px_6px_2px_rgba(0,0,0,0.05),0px_1px_2px_0px_rgba(0,0,0,0.15)] overflow-hidden flex flex-col">
-      {/* Noise Texture Overlay */}
-      {/* Tailwind doesn't support blend modes - using inline style */}
-      <div
-        className="absolute top-0 inset-x-0 bottom-[43.2px] min-[1024px]:bottom-[54px] opacity-50 pointer-events-none"
-        style={{
-          backgroundImage: 'url(/images/homepage/noise.svg)',
-          backgroundSize: '371.712px 589.248px',
-          backgroundRepeat: 'repeat',
-          mixBlendMode: 'soft-light',
-        }}
-      />
-
       {/* Month Label */}
       <div className="relative flex items-center justify-center py-[4.8px] min-[1024px]:py-1.5 border-b border-[rgba(19,19,46,0.1)] bg-gradient-to-r from-blue-600 to-blue-500">
         <span className="text-[11.2px] min-[1024px]:text-[14px] font-semibold uppercase tracking-[0.4px] min-[1024px]:tracking-[0.5px] text-white leading-[11.2px] min-[1024px]:leading-[14px]">
