@@ -88,6 +88,24 @@ const CertificatePage = ({ certificate, certificateId }: CertificatePageProps) =
         <title>{`${certificate.recipientName}'s Certificate | BlueDot Impact`}</title>
         <meta name="description" content={`Certificate of completion for ${certificate.courseName}`} />
         <meta name="robots" content="noindex" />
+
+        {/* Open Graph meta tags */}
+        <meta key="og:title" property="og:title" content={`${certificate.recipientName}'s Certificate`} />
+        <meta key="og:description" property="og:description" content={`Certificate of completion for ${certificate.courseName}`} />
+        <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
+        <meta key="og:type" property="og:type" content="website" />
+        <meta key="og:url" property="og:url" content={`https://bluedot.org/certification?id=${certificateId}`} />
+        <meta key="og:image" property="og:image" content="https://bluedot.org/images/certificates/badge.png" />
+        <meta key="og:image:width" property="og:image:width" content="500" />
+        <meta key="og:image:height" property="og:image:height" content="501" />
+        <meta key="og:image:type" property="og:image:type" content="image/png" />
+        <meta key="og:image:alt" property="og:image:alt" content={`${certificate.recipientName}'s Certificate - ${certificate.courseName}`} />
+
+        {/* Twitter Card meta tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${certificate.recipientName}'s Certificate`} />
+        <meta name="twitter:description" content={`Certificate of completion for ${certificate.courseName}`} />
+        <meta name="twitter:image" content="https://bluedot.org/images/certificates/badge.png" />
       </Head>
 
       <Section className="flex-1 pt-12">
