@@ -17,6 +17,7 @@ import { buildGroupSlackChannelUrl, formatDateTimeRelative } from '../../lib/uti
 import { trpc } from '../../utils/trpc';
 import { SlackIcon } from '../icons/SlackIcon';
 import { DocumentIcon } from '../icons/DocumentIcon';
+import GroupSwitchModalV2 from './GroupSwitchModalV2';
 
 const ONE_HOUR_MS = 3600_000;
 
@@ -301,7 +302,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       </div>
 
       {groupSwitchModalOpen && (
-        <GroupSwitchModal
+        <GroupSwitchModalV2
           handleClose={() => setGroupSwitchModalOpen(false)}
           initialUnitNumber={(discussionUnit || unit).unitNumber.toString()}
           courseSlug={unit.courseSlug}

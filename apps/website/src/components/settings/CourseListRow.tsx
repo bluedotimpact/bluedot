@@ -8,6 +8,7 @@ import { ROUTES } from '../../lib/routes';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
 import { trpc } from '../../utils/trpc';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
+import GroupSwitchModalV2 from '../courses/GroupSwitchModalV2';
 
 type CourseListRowProps = {
   course: Course;
@@ -330,7 +331,7 @@ const CourseListRow = ({
 
       {/* Group switching modal for participants without a group */}
       {groupSwitchModalOpen && course.slug && (
-        <GroupSwitchModal
+        <GroupSwitchModalV2
           handleClose={() => setGroupSwitchModalOpen(false)}
           initialSwitchType="Switch group permanently"
           courseSlug={course.slug}

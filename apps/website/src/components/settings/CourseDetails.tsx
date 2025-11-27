@@ -13,6 +13,7 @@ import GroupSwitchModal, { type SwitchType } from '../courses/GroupSwitchModal';
 import { SlackIcon } from '../icons/SlackIcon';
 import type { ButtonOrMenuItem } from '../courses/GroupDiscussionBanner';
 import { DocumentIcon } from '../icons/DocumentIcon';
+import GroupSwitchModalV2 from '../courses/GroupSwitchModalV2';
 
 const ONE_HOUR_MS = 3600_000;
 
@@ -336,7 +337,7 @@ const CourseDetails = ({
         </div>
       </div>
       {groupSwitchModalOpen && course.slug && (
-        <GroupSwitchModal
+        <GroupSwitchModalV2
           handleClose={() => {
             setGroupSwitchModalOpen(false);
             setInitialUnitNumber(undefined);

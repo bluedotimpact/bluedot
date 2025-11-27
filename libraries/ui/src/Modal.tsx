@@ -17,6 +17,8 @@ export type ModalProps = {
   title?: ReactNode;
   children: ReactNode;
   bottomDrawerOnMobile?: boolean;
+  /** ariaLabel for case where `title` is not a string, otherwise prefer leaving blank (`title` will be used) */
+  ariaLabel?: string;
 };
 
 const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
@@ -24,6 +26,7 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
   setIsOpen,
   title,
   children,
+  ariaLabel,
 }) => {
   return (
     <ModalOverlay
@@ -33,15 +36,15 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
       className="fixed inset-0 z-60 overflow-y-auto bg-black/25 flex min-h-full items-center justify-center p-4 backdrop-blur-xs"
     >
       <AriaModal>
-        <Dialog className="bg-white rounded-lg shadow-xl w-full py-10 px-6 outline-none">
-          <div className="flex justify-between items-center mb-4 px-4">
-            {title && <Heading slot="title" className="text-size-lg font-semibold">{title}</Heading>}
+        <Dialog className="bg-white rounded-lg shadow-xl w-full outline-none" aria-label={ariaLabel}>
+          <div className="flex justify-between items-center py-4 px-6 border-b border-charcoal-light">
+            {title && typeof title === 'string' ? <Heading slot="title" className="text-size-lg font-semibold flex-1">{title}</Heading> : title}
             <ClickTarget onClick={() => setIsOpen(false)} className="text-gray-500 hover:text-gray-700 cursor-pointer">
               <span className="text-2xl">&times;</span>
             </ClickTarget>
           </div>
 
-          <div className="overflow-y-auto px-4 max-h-[600px]">
+          <div className="overflow-y-auto p-6 max-h-[600px]">
             {children}
           </div>
         </Dialog>
@@ -56,6 +59,7 @@ export const Modal: React.FC<ModalProps> = ({
   title,
   children,
   bottomDrawerOnMobile = false,
+  ariaLabel,
 }) => {
   const isDesktop = useAboveBreakpoint(breakpoints.md);
 
@@ -68,14 +72,14 @@ export const Modal: React.FC<ModalProps> = ({
 
   if (shouldUseMobileDrawer) {
     return (
-      <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} initialSize="fit-screen">
+      <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} initialSize="fit-screen" ariaLabel={ariaLabel}>
         {children}
       </BottomDrawerModal>
     );
   }
 
   return (
-    <DesktopModal isOpen={isOpen} setIsOpen={setIsOpen} title={title}>
+    <DesktopModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} ariaLabel={ariaLabel}>
       {children}
     </DesktopModal>
   );
