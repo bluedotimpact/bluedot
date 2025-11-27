@@ -108,7 +108,11 @@ const NewsletterBanner = () => {
               successMessage || errorMessage ? 'opacity-0 pointer-events-none' : 'opacity-100'
             }`}
           >
+            <label htmlFor="newsletter-email" className="sr-only">
+              Email address
+            </label>
             <input
+              id="newsletter-email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}

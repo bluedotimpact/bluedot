@@ -48,21 +48,26 @@ const CustomerioAnalytics = () => {
     // 1. _app.tsx uses dynamic() to prevent SSR execution
     // 2. This import() prevents build-time bundling which causes "Cannot access 'Ue' before initialization"
     //    The Customer.io package has internal circular dependencies that break Next.js builds
-    import('@customerio/cdp-analytics-browser').then(({ AnalyticsBrowser }) => {
-      cioInstance = AnalyticsBrowser.load(
-        {
-          cdnURL: 'https://cdp-eu.customer.io',
-          writeKey: CUSTOMERIO_WRITE_KEY,
-        },
-        {
-          integrations: {
-            'Customer.io Data Pipelines': {
-              auto_track: false,
+    import('@customerio/cdp-analytics-browser')
+      .then(({ AnalyticsBrowser }) => {
+        cioInstance = AnalyticsBrowser.load(
+          {
+            cdnURL: 'https://cdp-eu.customer.io',
+            writeKey: CUSTOMERIO_WRITE_KEY,
+          },
+          {
+            integrations: {
+              'Customer.io Data Pipelines': {
+                auto_track: false,
+              },
             },
           },
-        },
-      );
-    });
+        );
+      })
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.error('Failed to load Customer.io SDK:', error);
+      });
   }, []);
 
   return null;
