@@ -11,11 +11,10 @@ import {
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import GroupSwitchModal, { type SwitchType } from '../courses/GroupSwitchModal';
 import { SlackIcon } from '../icons/SlackIcon';
-import type { IButtonOrMenuItem } from '../courses/GroupDiscussionBanner';
+import type { ButtonOrMenuItem } from '../courses/GroupDiscussionBanner';
 import { DocumentIcon } from '../icons/DocumentIcon';
 
-// Time constants
-const ONE_HOUR_MS = 3600_000; // 1 hour in milliseconds
+const ONE_HOUR_MS = 3600_000;
 
 const BUTTON_STYLES = {
   primary: { variant: 'primary' as const, className: 'w-auto bg-[#2244BB]' },
@@ -50,7 +49,7 @@ const CourseDetailsRow = ({
   const slackChannelLink = discussion.slackChannelId ? buildGroupSlackChannelUrl(discussion.slackChannelId) : '';
   const discussionDocLink = discussion.activityDoc || '';
 
-  const buttons: IButtonOrMenuItem[] = [
+  const buttons: ButtonOrMenuItem[] = [
     // Primary CTA
     {
       id: 'join-now',
@@ -355,7 +354,7 @@ const CourseDetails = ({
 
 const TimeWidget: React.FC<{
   isLive: boolean;
-  dateTimeSeconds: number; // Unix timestamp in seconds
+  dateTimeSeconds: number;
 }> = ({ isLive, dateTimeSeconds }) => {
   if (isLive) {
     return (

@@ -18,8 +18,7 @@ import { trpc } from '../../utils/trpc';
 import { SlackIcon } from '../icons/SlackIcon';
 import { DocumentIcon } from '../icons/DocumentIcon';
 
-// Time constants
-const ONE_HOUR_MS = 3600_000; // 1 hour in milliseconds
+const ONE_HOUR_MS = 3600_000;
 
 const BUTTON_STYLES = {
   primary: { variant: 'primary' as const, className: 'bg-[#2244BB]' },
@@ -27,13 +26,7 @@ const BUTTON_STYLES = {
   ghost: { variant: 'outline-black' as const, className: 'bg-transparent border-none text-[#2244BB] hover:bg-bluedot-lighter' },
 };
 
-/**
- * Interface for an actionable item that may rendered as either
- * a button or a menu item.
- *
- * Note: If this is used beyond GroupDiscussionBanner and CourseDetails, extract to a lib/ file
- */
-export type IButtonOrMenuItem = {
+export type ButtonOrMenuItem = {
   id: string;
   label: React.ReactNode;
   variant: 'primary' | 'secondary' | 'ghost';
@@ -113,7 +106,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     }
   };
 
-  const buttons: IButtonOrMenuItem[] = [
+  const buttons: ButtonOrMenuItem[] = [
     // Live discussion buttons
     {
       id: 'join-now',
