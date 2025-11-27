@@ -6,6 +6,13 @@ const NewsletterBanner = () => {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [successMessage, setSuccessMessage] = React.useState('');
   const [errorMessage, setErrorMessage] = React.useState('');
+  const isMountedRef = React.useRef(true);
+
+  React.useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,7 +34,9 @@ const NewsletterBanner = () => {
 
       // Auto-hide success message after 3 seconds
       setTimeout(() => {
-        setSuccessMessage('');
+        if (isMountedRef.current) {
+          setSuccessMessage('');
+        }
       }, 3000);
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -37,7 +46,9 @@ const NewsletterBanner = () => {
 
       // Auto-hide error message after 5 seconds
       setTimeout(() => {
-        setErrorMessage('');
+        if (isMountedRef.current) {
+          setErrorMessage('');
+        }
       }, 5000);
     }
   };
