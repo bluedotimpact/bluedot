@@ -35,15 +35,6 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
               stroke-width="1.25"
             />
           </g>
-          <defs>
-            <clippath>
-              <rect
-                fill="white"
-                height="14"
-                width="14"
-              />
-            </clippath>
-          </defs>
         </svg>
       </div>
       <div
@@ -100,15 +91,6 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
                 stroke-width="1.25"
               />
             </g>
-            <defs>
-              <clippath>
-                <rect
-                  fill="white"
-                  height="14"
-                  width="14"
-                />
-              </clippath>
-            </defs>
           </svg>
           <div
             class="translate-y-[0.5px]"
@@ -216,15 +198,6 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
               stroke-width="1.25"
             />
           </g>
-          <defs>
-            <clippath>
-              <rect
-                fill="white"
-                height="14"
-                width="14"
-              />
-            </clippath>
-          </defs>
         </svg>
         <div
           class="translate-y-[0.5px]"
@@ -318,15 +291,6 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
               stroke-width="1.25"
             />
           </g>
-          <defs>
-            <clippath>
-              <rect
-                fill="white"
-                height="14"
-                width="14"
-              />
-            </clippath>
-          </defs>
         </svg>
       </div>
       <div
@@ -383,15 +347,6 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
                 stroke-width="1.25"
               />
             </g>
-            <defs>
-              <clippath>
-                <rect
-                  fill="white"
-                  height="14"
-                  width="14"
-                />
-              </clippath>
-            </defs>
           </svg>
           <div
             class="translate-y-[0.5px]"
@@ -486,15 +441,6 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
               stroke-width="1.25"
             />
           </g>
-          <defs>
-            <clippath>
-              <rect
-                fill="white"
-                height="14"
-                width="14"
-              />
-            </clippath>
-          </defs>
         </svg>
         <div
           class="translate-y-[0.5px]"
@@ -575,15 +521,6 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
               stroke-width="1.25"
             />
           </g>
-          <defs>
-            <clippath>
-              <rect
-                fill="white"
-                height="14"
-                width="14"
-              />
-            </clippath>
-          </defs>
         </svg>
       </div>
       <div
@@ -622,9 +559,7 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
         <a
           class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter flex gap-[6px] items-center ml-auto"
           href="/settings/courses"
-          rel="noopener noreferrer"
           tabindex="0"
-          target="_blank"
         >
           See details
         </a>
@@ -673,9 +608,7 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
       <a
         class="cta-button justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter flex flex-1 gap-[6px] items-center whitespace-nowrap ml-auto"
         href="/settings/courses"
-        rel="noopener noreferrer"
         tabindex="0"
-        target="_blank"
       >
         See details
       </a>
