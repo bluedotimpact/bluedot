@@ -124,7 +124,7 @@ const CourseDetailsRow = ({
                 : `Unit ${discussion.unitNumber || ''}`}
             </div>
             {!isPast && isNext && (
-              <div className={`truncate text-size-xs ${isNext ? 'text-[#2244BB] font-medium' : 'text-gray-500'}`}>
+              <div className="truncate text-size-xs text-[#2244BB] font-medium">
                 {`Starts ${formatDateTimeRelative({ dateTimeMs: discussion.startDateTime * 1000, currentTimeMs })}`}
               </div>
             )}
