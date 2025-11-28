@@ -92,6 +92,7 @@ export const InProgress: Story = {
     courseRegistration: mockInProgressRegistration,
     isFirst: true,
     isLast: false,
+    isCompleted: false,
   },
   parameters: {
     msw: {
@@ -106,6 +107,7 @@ export const Completed: Story = {
     courseRegistration: mockCompletedRegistration,
     isFirst: false,
     isLast: true,
+    isCompleted: true,
   },
   parameters: {
     msw: {
