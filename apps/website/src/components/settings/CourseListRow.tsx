@@ -14,6 +14,7 @@ type CourseListRowProps = {
   courseRegistration: CourseRegistration;
   isFirst?: boolean;
   isLast?: boolean;
+  isCompleted?: boolean;
 };
 
 const getMaxUnitNumber = (discussions: GroupDiscussion[]): number | null => {
@@ -25,9 +26,8 @@ const getMaxUnitNumber = (discussions: GroupDiscussion[]): number | null => {
 };
 
 const CourseListRow = ({
-  course, courseRegistration, isFirst = false, isLast = false,
+  course, courseRegistration, isFirst = false, isLast = false, isCompleted = false,
 }: CourseListRowProps) => {
-  const isCompleted = !!courseRegistration.certificateCreatedAt;
   const [isExpanded, setIsExpanded] = useState(!isCompleted); // Expand by default if in progress
   const currentTimeMs = useCurrentTimeMs();
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);

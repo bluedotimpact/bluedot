@@ -53,6 +53,7 @@ const CoursesContent = () => {
                   courseRegistration={courseRegistration}
                   isFirst={index === 0}
                   isLast={index === inProgressCourses.length - 1}
+                  isCompleted={false}
                 />
               ))}
             </div>
@@ -73,6 +74,7 @@ const CoursesContent = () => {
                   courseRegistration={courseRegistration}
                   isFirst={index === 0}
                   isLast={index === completedCourses.length - 1}
+                  isCompleted
                 />
               ))}
             </div>
