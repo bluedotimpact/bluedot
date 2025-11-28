@@ -9,6 +9,7 @@ import {
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { GetStaticProps, GetStaticPaths } from 'next';
+import path from 'path';
 
 import { ROUTES } from '../../../lib/routes';
 import MarkdownExtendedRenderer from '../../../components/courses/MarkdownExtendedRenderer';
@@ -21,22 +22,24 @@ import { createTechnicalAiSafetyContent, TECHNICAL_AI_SAFETY_APPLICATION_URL } f
 import GraduateSection from '../../../components/homepage/GraduateSection';
 import { CourseUnitsSection } from '../../../components/courses/CourseUnitsSection';
 import { getCourseData, type CourseAndUnits } from '../../../server/routers/courses';
+import { fileExists } from '../../../utils/fileExists';
 
 type CoursePageProps = {
   courseSlug: string;
   courseData: CourseAndUnits;
+  courseOgImage?: string
 };
 
-const CoursePage = ({ courseSlug, courseData }: CoursePageProps) => {
+const CoursePage = ({ courseSlug, courseData, courseOgImage }: CoursePageProps) => {
   return (
     <div>
-      {renderCoursePage({ courseSlug, courseData })}
+      {renderCoursePage({ courseSlug, courseData, courseOgImage })}
     </div>
   );
 };
 
 // Helper function to render the appropriate course page based on slug
-const renderCoursePage = ({ courseSlug: slug, courseData }: CoursePageProps) => {
+const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: CoursePageProps) => {
   // Custom lander cases
   if (slug === 'future-of-ai') {
     return <FutureOfAiLander courseData={courseData} />;
@@ -52,6 +55,7 @@ const renderCoursePage = ({ courseSlug: slug, courseData }: CoursePageProps) => 
         courseSlug={slug}
         baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL}
         createContentFor={createAgiStrategyContent}
+        courseOgImage={courseOgImage}
       />
     );
   }
@@ -62,6 +66,7 @@ const renderCoursePage = ({ courseSlug: slug, courseData }: CoursePageProps) => 
         courseSlug={slug}
         baseApplicationUrl={BIOSECURITY_APPLICATION_URL}
         createContentFor={createBioSecurityContent}
+        courseOgImage={courseOgImage}
       />
     );
   }
@@ -72,17 +77,18 @@ const renderCoursePage = ({ courseSlug: slug, courseData }: CoursePageProps) => 
         courseSlug={slug}
         baseApplicationUrl={TECHNICAL_AI_SAFETY_APPLICATION_URL}
         createContentFor={createTechnicalAiSafetyContent}
+        courseOgImage={courseOgImage}
       />
     );
   }
 
   // Default case
-  return <StandardCoursePage courseData={courseData} />;
+  return <StandardCoursePage courseData={courseData} courseOgImage={courseOgImage} />;
 };
 
 const registerInterestUrl = 'https://web.miniextensions.com/aGd0mXnpcN1gfqlnYNZc';
 
-const StandardCoursePage = ({ courseData }: { courseData: CourseAndUnits }) => {
+const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseAndUnits, courseOgImage?: string }) => {
   const { latestUtmParams } = useLatestUtmParams();
   const registerInterestUrlWithUtm = latestUtmParams.utm_source ? addQueryParam(registerInterestUrl, 'prefill_Source', latestUtmParams.utm_source) : registerInterestUrl;
 
@@ -93,6 +99,16 @@ const StandardCoursePage = ({ courseData }: { courseData: CourseAndUnits }) => {
           <Head>
             <title>{`${courseData.course.title} | BlueDot Impact`}</title>
             <meta name="description" content={courseData.course.description} />
+            <meta key="og:title" property="og:title" content={courseData.course.title} />
+            <meta key="og:description" property="og:description" content={courseData.course.shortDescription} />
+            <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
+            <meta key="og:type" property="og:type" content="website" />
+            <meta key="og:url" property="og:url" content={`https://bluedot.org/courses/${encodeURIComponent(courseData.course.slug)}`} />
+            <meta key="og:image" property="og:image" content={courseOgImage || 'https://bluedot.org/images/logo/icon-on-blue.png'} />
+            <meta key="og:image:width" property="og:image:width" content={courseOgImage ? '1200' : '1000'} />
+            <meta key="og:image:height" property="og:image:height" content={courseOgImage ? '630' : '1000'} />
+            <meta key="og:image:type" property="og:image:type" content="image/png" />
+            <meta key="og:image:alt" property="og:image:alt" content="BlueDot Impact logo" />
           </Head>
           <HeroSection>
             <HeroH1>{courseData.course.title}</HeroH1>
@@ -146,10 +162,16 @@ export const getStaticProps: GetStaticProps<CoursePageProps> = async ({ params }
   try {
     const courseData = await getCourseData(courseSlug);
 
+    let courseOgImage: string | undefined;
+    if (await fileExists(path.join(process.cwd(), 'public', 'images', 'courses', 'link-preview', `${courseSlug}.png`))) {
+      courseOgImage = `${process.env.NEXT_PUBLIC_SITE_URL}/images/courses/link-preview/${courseSlug}.png`;
+    }
+
     return {
       props: {
         courseSlug,
         courseData,
+        courseOgImage,
       },
       revalidate: 300,
     };

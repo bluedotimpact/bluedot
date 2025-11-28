@@ -43,13 +43,30 @@ describe('JobPostingPage SSR/SEO', () => {
       <JobPostingPage
         slug="ai-safety-researcher"
         job={mockJob}
+        jobOgImage={`https://bluedot.org/images/jobs/link-preview/${mockJob.slug}.png`}
       />,
     );
 
     expect(document.title).toBe('AI Safety Researcher | BlueDot Impact');
 
     const metaDescription = document.querySelector('meta[name="description"]');
-    expect(metaDescription?.getAttribute('content')).toBe('Join our research team');
+    expect(metaDescription?.getAttribute('content')).toBe(mockJob.subtitle);
+
+    // Check Open Graph tags
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    expect(ogTitle?.getAttribute('content')).toBe(mockJob.title);
+
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    expect(ogDescription?.getAttribute('content')).toBe(mockJob.subtitle);
+
+    const ogType = document.querySelector('meta[property="og:type"]');
+    expect(ogType?.getAttribute('content')).toBe('website');
+
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    expect(ogImage?.getAttribute('content')).toBe(`https://bluedot.org/images/jobs/link-preview/${mockJob.slug}.png`);
+
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    expect(ogUrl?.getAttribute('content')).toBe(`https://bluedot.org/join-us/${encodeURIComponent(mockJob.slug)}`);
 
     const jsonLdScript = document.querySelector('script[type="application/ld+json"]');
     expect(jsonLdScript).toBeTruthy();
@@ -60,5 +77,17 @@ describe('JobPostingPage SSR/SEO', () => {
       expect(structuredData.title).toBe('AI Safety Researcher');
       expect(structuredData.hiringOrganization.name).toBe('BlueDot Impact');
     }
+  });
+
+  test('uses fallback logo image when no `jobOgImage` provided', () => {
+    renderWithHead(
+      <JobPostingPage
+        slug="ai-safety-researcher"
+        job={mockJob}
+      />,
+    );
+
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    expect(ogImage?.getAttribute('content')).toBe('https://bluedot.org/images/logo/icon-on-blue.png');
   });
 });
