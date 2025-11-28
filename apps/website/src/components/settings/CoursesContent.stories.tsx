@@ -60,11 +60,19 @@ const mockRegistrationActiveWithCert = createMockCourseRegistration({
 
 const mockMeetPerson = createMockMeetPerson({
   id: 'meet-person-1',
+  expectedDiscussionsParticipant: ['discussion-1'],
+  attendedDiscussions: [],
+  groupsAsParticipant: ['group-1'],
 });
 
+const now = Math.floor(Date.now() / 1000);
+const hour = 60 * 60;
 const mockDiscussion: GroupDiscussion = {
   ...createMockGroupDiscussion({
     id: 'discussion-1',
+    startDateTime: now + hour, // Starts in 1 hour
+    endDateTime: now + 2 * hour, // Ends in 2 hours
+    unitNumber: 1,
   }),
   unitRecord: { unitNumber: '1', title: 'Introduction' } as GroupDiscussion['unitRecord'],
   groupDetails: {
@@ -75,7 +83,7 @@ const mockDiscussion: GroupDiscussion = {
     groupDiscussions: ['discussion-1'],
     participants: ['participant-1'],
     whoCanSwitchIntoThisGroup: ['participant-1'],
-    startTimeUtc: Math.floor(Date.now() / 1000),
+    startTimeUtc: now,
   } as GroupDiscussion['groupDetails'],
 };
 
