@@ -88,6 +88,6 @@ describe('JobPostingPage SSR/SEO', () => {
     );
 
     const ogImage = document.querySelector('meta[property="og:image"]');
-    expect(ogImage?.getAttribute('content')).toBe('https://bluedot.org/images/logo/icon-on-blue.png');
+    expect(ogImage?.getAttribute('content')).toBe('https://bluedot.org/images/logo/link-preview-fallback.png');
   });
 });
