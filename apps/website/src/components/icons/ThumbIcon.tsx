@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const ThumbIcon: React.FC<{
   filled: boolean;
   color?: string;
