@@ -164,7 +164,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   <img
                     alt=""
                     class="absolute inset-0 size-full object-cover"
-                    src="/images/courses/courses-gradient.png"
+                    src="/images/courses/courses-gradient.webp"
                     style="transform: none; transform-origin: center;"
                   />
                 </div>
@@ -173,7 +173,7 @@ exports[`CourseSection > renders as expected 1`] = `
                 />
                 <div
                   class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
-                  style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                  style="background-image: url("/images/agi-strategy/noise.webp"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                 />
                 <div
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
@@ -250,7 +250,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   <img
                     alt=""
                     class="absolute inset-0 size-full object-cover"
-                    src="/images/courses/courses-gradient.png"
+                    src="/images/courses/courses-gradient.webp"
                     style="transform: rotate(45deg) scale(2); transform-origin: center;"
                   />
                 </div>
@@ -262,7 +262,7 @@ exports[`CourseSection > renders as expected 1`] = `
                 />
                 <div
                   class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
-                  style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                  style="background-image: url("/images/agi-strategy/noise.webp"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                 />
                 <div
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
@@ -343,7 +343,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   <img
                     alt=""
                     class="absolute inset-0 size-full object-cover"
-                    src="/images/courses/courses-gradient.png"
+                    src="/images/courses/courses-gradient.webp"
                     style="transform: rotate(90deg) scale(2); transform-origin: center;"
                   />
                 </div>
@@ -355,7 +355,7 @@ exports[`CourseSection > renders as expected 1`] = `
                 />
                 <div
                   class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
-                  style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                  style="background-image: url("/images/agi-strategy/noise.webp"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                 />
                 <div
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
@@ -432,7 +432,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   <img
                     alt=""
                     class="absolute inset-0 size-full object-cover"
-                    src="/images/courses/courses-gradient.png"
+                    src="/images/courses/courses-gradient.webp"
                     style="transform: rotate(135deg) scale(2); transform-origin: center;"
                   />
                 </div>
@@ -444,7 +444,7 @@ exports[`CourseSection > renders as expected 1`] = `
                 />
                 <div
                   class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
-                  style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                  style="background-image: url("/images/agi-strategy/noise.webp"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                 />
                 <div
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
@@ -521,7 +521,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   <img
                     alt=""
                     class="absolute inset-0 size-full object-cover"
-                    src="/images/courses/courses-gradient.png"
+                    src="/images/courses/courses-gradient.webp"
                     style="transform: rotate(180deg) scale(2); transform-origin: center;"
                   />
                 </div>
@@ -533,7 +533,7 @@ exports[`CourseSection > renders as expected 1`] = `
                 />
                 <div
                   class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
-                  style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                  style="background-image: url("/images/agi-strategy/noise.webp"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                 />
                 <div
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
@@ -625,7 +625,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     <img
                       alt=""
                       class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.png"
+                      src="/images/courses/courses-gradient.webp"
                       style="transform: none; transform-origin: center;"
                     />
                   </div>
@@ -634,7 +634,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   />
                   <div
                     class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
-                    style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                    style="background-image: url("/images/agi-strategy/noise.webp"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                   />
                   <div
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
@@ -711,7 +711,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     <img
                       alt=""
                       class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.png"
+                      src="/images/courses/courses-gradient.webp"
                       style="transform: rotate(45deg) scale(2); transform-origin: center;"
                     />
                   </div>
@@ -723,7 +723,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   />
                   <div
                     class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
-                    style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                    style="background-image: url("/images/agi-strategy/noise.webp"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                   />
                   <div
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
@@ -800,7 +800,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     <img
                       alt=""
                       class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.png"
+                      src="/images/courses/courses-gradient.webp"
                       style="transform: rotate(90deg) scale(2); transform-origin: center;"
                     />
                   </div>
@@ -812,7 +812,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   />
                   <div
                     class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
-                    style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                    style="background-image: url("/images/agi-strategy/noise.webp"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                   />
                   <div
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
@@ -889,7 +889,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     <img
                       alt=""
                       class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.png"
+                      src="/images/courses/courses-gradient.webp"
                       style="transform: rotate(135deg) scale(2); transform-origin: center;"
                     />
                   </div>
@@ -901,7 +901,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   />
                   <div
                     class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
-                    style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                    style="background-image: url("/images/agi-strategy/noise.webp"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                   />
                   <div
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
@@ -978,7 +978,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     <img
                       alt=""
                       class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.png"
+                      src="/images/courses/courses-gradient.webp"
                       style="transform: rotate(180deg) scale(2); transform-origin: center;"
                     />
                   </div>
@@ -990,7 +990,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   />
                   <div
                     class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
-                    style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                    style="background-image: url("/images/agi-strategy/noise.webp"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                   />
                   <div
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
@@ -1067,7 +1067,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     <img
                       alt=""
                       class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.png"
+                      src="/images/courses/courses-gradient.webp"
                       style="transform: none; transform-origin: center;"
                     />
                   </div>
@@ -1076,7 +1076,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   />
                   <div
                     class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
-                    style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                    style="background-image: url("/images/agi-strategy/noise.webp"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                   />
                   <div
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
@@ -1153,7 +1153,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     <img
                       alt=""
                       class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.png"
+                      src="/images/courses/courses-gradient.webp"
                       style="transform: rotate(45deg) scale(2); transform-origin: center;"
                     />
                   </div>
@@ -1165,7 +1165,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   />
                   <div
                     class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
-                    style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                    style="background-image: url("/images/agi-strategy/noise.webp"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                   />
                   <div
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
@@ -1242,7 +1242,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     <img
                       alt=""
                       class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.png"
+                      src="/images/courses/courses-gradient.webp"
                       style="transform: rotate(90deg) scale(2); transform-origin: center;"
                     />
                   </div>
@@ -1254,7 +1254,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   />
                   <div
                     class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
-                    style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                    style="background-image: url("/images/agi-strategy/noise.webp"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                   />
                   <div
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
@@ -1331,7 +1331,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     <img
                       alt=""
                       class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.png"
+                      src="/images/courses/courses-gradient.webp"
                       style="transform: rotate(135deg) scale(2); transform-origin: center;"
                     />
                   </div>
@@ -1343,7 +1343,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   />
                   <div
                     class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
-                    style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                    style="background-image: url("/images/agi-strategy/noise.webp"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                   />
                   <div
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
@@ -1420,7 +1420,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     <img
                       alt=""
                       class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.png"
+                      src="/images/courses/courses-gradient.webp"
                       style="transform: rotate(180deg) scale(2); transform-origin: center;"
                     />
                   </div>
@@ -1432,7 +1432,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   />
                   <div
                     class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
-                    style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                    style="background-image: url("/images/agi-strategy/noise.webp"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                   />
                   <div
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
@@ -1509,7 +1509,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     <img
                       alt=""
                       class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.png"
+                      src="/images/courses/courses-gradient.webp"
                       style="transform: none; transform-origin: center;"
                     />
                   </div>
@@ -1518,7 +1518,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   />
                   <div
                     class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
-                    style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                    style="background-image: url("/images/agi-strategy/noise.webp"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                   />
                   <div
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
@@ -1595,7 +1595,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     <img
                       alt=""
                       class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.png"
+                      src="/images/courses/courses-gradient.webp"
                       style="transform: rotate(45deg) scale(2); transform-origin: center;"
                     />
                   </div>
@@ -1607,7 +1607,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   />
                   <div
                     class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
-                    style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                    style="background-image: url("/images/agi-strategy/noise.webp"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                   />
                   <div
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
@@ -1684,7 +1684,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     <img
                       alt=""
                       class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.png"
+                      src="/images/courses/courses-gradient.webp"
                       style="transform: rotate(90deg) scale(2); transform-origin: center;"
                     />
                   </div>
@@ -1696,7 +1696,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   />
                   <div
                     class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
-                    style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                    style="background-image: url("/images/agi-strategy/noise.webp"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                   />
                   <div
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
@@ -1773,7 +1773,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     <img
                       alt=""
                       class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.png"
+                      src="/images/courses/courses-gradient.webp"
                       style="transform: rotate(135deg) scale(2); transform-origin: center;"
                     />
                   </div>
@@ -1785,7 +1785,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   />
                   <div
                     class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
-                    style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                    style="background-image: url("/images/agi-strategy/noise.webp"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                   />
                   <div
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
@@ -1862,7 +1862,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     <img
                       alt=""
                       class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.png"
+                      src="/images/courses/courses-gradient.webp"
                       style="transform: rotate(180deg) scale(2); transform-origin: center;"
                     />
                   </div>
@@ -1874,7 +1874,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   />
                   <div
                     class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
-                    style="background-image: url("/images/agi-strategy/noise.png"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
+                    style="background-image: url("/images/agi-strategy/noise.webp"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
                   />
                   <div
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"

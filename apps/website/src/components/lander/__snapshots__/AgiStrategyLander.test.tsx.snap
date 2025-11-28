@@ -21,7 +21,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       property="og:description"
     />
     <meta
-      content="/images/agi-strategy/hero-banner-split.png"
+      content="https://bluedot.org/images/courses/link-preview/agi-strategy.png"
       property="og:image"
     />
     <meta
@@ -45,6 +45,10 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       property="og:site_name"
     />
     <meta
+      content="https://bluedot.org/courses/agi-strategy"
+      property="og:url"
+    />
+    <meta
       content="summary_large_image"
       name="twitter:card"
     />
@@ -57,7 +61,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       name="twitter:description"
     />
     <meta
-      content="/images/agi-strategy/hero-banner-split.png"
+      content="https://bluedot.org/images/courses/link-preview/agi-strategy.png"
       name="twitter:image"
     />
     <section
@@ -121,7 +125,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           />
           <div
             class="absolute inset-0 pointer-events-none bg-contain bg-repeat mix-blend-soft-light"
-            style="background-image: url("/images/agi-strategy/noise.png");"
+            style="background-image: url("/images/agi-strategy/noise.webp");"
           />
         </div>
       </div>
@@ -1534,7 +1538,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         >
           <div
             class="absolute inset-0 pointer-events-none bg-contain bg-repeat mix-blend-soft-light"
-            style="background-image: url("/images/agi-strategy/noise.png");"
+            style="background-image: url("/images/agi-strategy/noise.webp");"
           />
           <div
             class="relative flex flex-col items-center justify-center h-full px-14 py-16 gap-8 text-center"

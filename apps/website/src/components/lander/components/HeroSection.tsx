@@ -77,7 +77,7 @@ const HeroSection = ({
           {/* Noise layer */}
           <div
             className="absolute inset-0 pointer-events-none bg-contain bg-repeat mix-blend-soft-light"
-            style={{ backgroundImage: 'url(\'/images/agi-strategy/noise.png\')' }}
+            style={{ backgroundImage: 'url(\'/images/agi-strategy/noise.webp\')' }}
           />
         </div>
 

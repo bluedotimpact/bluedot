@@ -30,7 +30,7 @@ const SWITCH_TYPE_OPTIONS = [
   { value: 'Switch group permanently', label: 'Switch group permanently' },
 ] as const;
 
-type SwitchType = (typeof SWITCH_TYPE_OPTIONS)[number]['value'];
+export type SwitchType = (typeof SWITCH_TYPE_OPTIONS)[number]['value'];
 
 const getGMTOffsetWithCity = () => {
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;

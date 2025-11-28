@@ -247,6 +247,6 @@ export const createTechnicalAiSafetyContent = (
     imageAlt: 'Technical AI Safety banner',
     iconSrc: '/images/agi-strategy/bluedot-icon.svg',
     iconAlt: 'BlueDot',
-    noiseImageSrc: '/images/agi-strategy/noise.png',
+    noiseImageSrc: '/images/agi-strategy/noise.webp',
   },
 });
