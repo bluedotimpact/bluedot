@@ -137,7 +137,7 @@ export const createMockChunk = (overrides: Partial<Chunk> = {}): Chunk => ({
 });
 
 export const createMockGroup = (overrides: Partial<Group> = {}): Group => ({
-  autoNumberId: null,
+  autoNumberId: 1,
   groupDiscussions: [],
   groupName: 'Group 1',
   id: MOCK_GROUP_ID,
@@ -151,7 +151,7 @@ export const createMockGroup = (overrides: Partial<Group> = {}): Group => ({
 export const createMockGroupDiscussion = (overrides: Partial<GroupDiscussion> = {}): GroupDiscussion => ({
   activityDoc: null,
   attendees: [],
-  autoNumberId: null,
+  autoNumberId: 1,
   courseBuilderUnitRecordId: `unit-${overrides.unitNumber || 1}`,
   courseSite: null,
   endDateTime: Math.floor(Date.now() / 1000) + 2 * 60 * 60, // 2 hours from now (seconds)
@@ -183,12 +183,12 @@ export const createMockResource = (overrides: Partial<UnitResource> = {}): UnitR
   avgRating: null,
   syncedAudioUrl: null,
   year: 2024,
-  autoNumberId: null,
+  autoNumberId: 1,
   ...overrides,
 });
 
 export const createMockResourceCompletion = (overrides: Partial<ResourceCompletion> = {}): ResourceCompletion => ({
-  autoNumberId: null,
+  autoNumberId: 1,
   email: '',
   feedback: null,
   id: MOCK_RESOURCE_COMPLETION_ID,
