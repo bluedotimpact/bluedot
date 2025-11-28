@@ -61,7 +61,7 @@ const NewsletterBanner = () => {
         <div
           className="absolute inset-0 min-[680px]:rounded-xl -scale-x-100 bg-cover"
           style={{
-            backgroundImage: 'url(\'/images/homepage/hero.jpg\')',
+            backgroundImage: 'url(\'/images/homepage/hero.webp\')',
             backgroundPosition: '50% 60%',
           }}
         />
