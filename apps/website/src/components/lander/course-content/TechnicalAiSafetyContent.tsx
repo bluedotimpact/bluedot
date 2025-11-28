@@ -1,6 +1,5 @@
 import {
   PiBriefcase,
-  PiCompass,
   PiFlask,
   PiClockClockwise,
   PiChats,
@@ -8,7 +7,8 @@ import {
   PiCalendarDots,
   PiRocketLaunch,
   PiUsersThree,
-  PiHandCoins,
+  PiCode,
+  PiChalkboardTeacherLight,
 } from 'react-icons/pi';
 import Link from 'next/link';
 import { CourseLanderContent } from '../CourseLander';
@@ -27,7 +27,7 @@ export const createTechnicalAiSafetyContent = (
   hero: {
     categoryLabel: 'TECHNICAL AI SAFETY',
     title: 'Start building safer AI',
-    description: 'Understand current safety techniques. Map the gaps. Identify where you can contribute. Get funded to start shipping. All in 30 hours.',
+    description: 'Understand current safety techniques. Map the gaps. Identify where you can contribute. All in 30 hours.',
     primaryCta: {
       text: 'Apply now',
       url: applicationUrlWithUtm,
@@ -37,7 +37,7 @@ export const createTechnicalAiSafetyContent = (
       url: `/courses/${courseSlug}/1`,
     },
     imageSrc: '/images/lander/technical-ai-safety/hero-banner-split.png',
-    imageAlt: 'Technical AI Safety visualization',
+    imageAlt: 'Technical AI Safety visualisation',
   },
 
   whoIsThisFor: {
@@ -49,15 +49,16 @@ export const createTechnicalAiSafetyContent = (
         description: 'who want to take big bets on the most impactful research ideas.',
       },
       {
+        icon: PiCode,
+        boldText: 'For software engineers',
+        description: 'who want to scale AI safety research.',
+      },
+      {
         icon: PiBriefcase,
         boldText: 'For policy professionals',
         description: 'who need deep technical understanding to build governance solutions.',
       },
-      {
-        icon: PiCompass,
-        boldText: 'For leaders',
-        description: 'who want to drive high-impact safety work.',
-      },
+
     ],
     bottomCta: {
       boldText: "Don't fit these perfectly? Apply anyway.",
@@ -78,7 +79,7 @@ export const createTechnicalAiSafetyContent = (
       {
         icon: PiRocketLaunch,
         title: 'Take action in less than 30 hours',
-        description: "Skip months of scattered reading. This Technical AI Safety course gives you a structured overview of key safety techniques. Understand what works, what fails, and where the gaps are. You'll finish with a fundable plan.",
+        description: "Skip months of scattered reading. This Technical AI Safety course gives you a structured overview of key safety techniques. Understand what works, what fails, and where the gaps are. You'll finish with a plan for contributing.",
       },
       {
         icon: PiUsersThree,
@@ -86,9 +87,9 @@ export const createTechnicalAiSafetyContent = (
         description: "This course isn't for everyone. We're building a community of people who are energised to take ambitious actions to make AI go well, including starting new companies, policy entrepreneurship, and high-impact research bets. Completing this course will give you access to this community.",
       },
       {
-        icon: PiHandCoins,
-        title: 'Get funded to accelerate your impact',
-        description: "If your final course proposal is strong, you'll receive $10-50k to kickstart your transition into impactful work, and you'll be invited to co-work with us in London for 1-2 weeks. We'll do whatever it takes to accelerate your journey.",
+        icon: PiChalkboardTeacherLight,
+        title: 'Learn with experts',
+        description: "Every discussion is facilitated by an AI safety expert who can answer your technical questions, challenge your assumptions, and connect concepts to real work happening. They'll help connect you to concrete pathways for contribution.",
       },
     ],
   },
@@ -198,11 +199,6 @@ export const createTechnicalAiSafetyContent = (
   faq: {
     title: 'Frequently Asked Questions',
     items: [
-      {
-        id: 'funding',
-        question: 'Can I just apply for funding?',
-        answer: 'Funding is only available for graduates of the course.',
-      },
       {
         id: 'technical',
         question: 'How much technical background do I need?',
