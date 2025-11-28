@@ -4,9 +4,11 @@ import {
 import { requestCounter } from '@bluedot/ui/src/utils/makeMakeApiRoute';
 import { initTRPC, TRPCError } from '@trpc/server';
 import { getHTTPStatusCodeFromError } from '@trpc/server/http';
+import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { SpanStatusCode, trace } from '@opentelemetry/api';
 import db from '../lib/api/db';
+import env from '../lib/api/env';
 import { Context } from './context';
 
 // Avoid exporting the entire t-object since it's not very descriptive.
@@ -114,9 +116,21 @@ const checkAdminAccess = async (email: string) => {
   }
 };
 
+/* Override `undefined` responses as `null` so that React query does not reject as a failed Promise, leading to
+`isError` being true on queries/mutations. */
+const overRideUndefinedResponse = t.middleware(async (opts) => {
+  const result = await opts.next();
+  if (result.ok && result.data === undefined) {
+    result.data = null;
+    slackAlert(env, [`tRPC procedure at path "${opts.path}" returned undefined response. Converted to null.`]);
+  }
+
+  return result;
+});
+
 // Base router and procedure helpers
 export const { router } = t;
-export const publicProcedure = t.procedure.use(openTelemetryMiddleware);
+export const publicProcedure = t.procedure.use(openTelemetryMiddleware).use(overRideUndefinedResponse);
 export const protectedProcedure = publicProcedure.use(({ ctx, next }) => {
   if (!ctx.auth) {
     throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Authentication required' });
