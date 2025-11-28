@@ -1,9 +1,11 @@
 import React from 'react';
 import { unitResourceTable, exerciseTable, InferSelectModel } from '@bluedot/db';
-import { Collapsible } from '@bluedot/ui';
+import { Collapsible, ProgressDots, useAuthStore } from '@bluedot/ui';
+import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { ResourceListItem } from './ResourceListItem';
 import Exercise from './exercises/Exercise';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
+import { trpc } from '../../utils/trpc';
 
 type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
 type ExerciseType = InferSelectModel<typeof exerciseTable.pg>;
@@ -64,6 +66,18 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
   unitTitle,
   unitNumber,
 }) => {
+  const auth = useAuthStore((s) => s.auth);
+  const { data: resourceCompletions, isLoading: resourceCompletionsLoading, error: resourceCompletionsError } = trpc.resources.getResourceCompletions.useQuery({ unitResourceIds: resources.map((r) => r.id) }, { enabled: resources.length > 0 && Boolean(auth) });
+
+  if (resourceCompletionsLoading) {
+    return <ProgressDots />;
+  }
+
+  if (resourceCompletionsError) {
+    return <ErrorView error={resourceCompletionsError} />;
+  }
+
+  const resourceCompletionMap = new Map(resourceCompletions?.map((rc) => [rc.unitResourceIdRead, rc]));
   const coreResources = filterResourcesByType(resources, 'Core');
   const optionalResources = filterResourcesByType(resources, 'Further');
   const totalCoreResourceTime = calculateResourceTime(coreResources);
@@ -96,6 +110,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
               <ResourceListItem
                 key={resource.id}
                 resource={resource}
+                resourceCompletion={resourceCompletionMap.get(resource.id)}
                 aria-label={unitContext ? `${resource.resourceName} - ${unitContext}` : resource.resourceName}
               />
             ))}
@@ -132,6 +147,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
                 <ResourceListItem
                   key={resource.id}
                   resource={resource}
+                  resourceCompletion={resourceCompletionMap.get(resource.id)}
                 />
               ))}
             </ul>

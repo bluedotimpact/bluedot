@@ -4,13 +4,14 @@ import {
 import { useRouter } from 'next/router';
 import {
   addQueryParam,
-  ProgressDots, useAuthStore,
+  useAuthStore,
 } from '@bluedot/ui';
-import { ErrorView } from '@bluedot/ui/src/ErrorView';
 /**
  * Prevents barrel file import errors when importing RESOURCE_FEEDBACK from @bluedot/db
  */
-import { RESOURCE_FEEDBACK, ResourceFeedbackValue, type UnitResource } from '@bluedot/db/src/schema';
+import {
+  RESOURCE_FEEDBACK, ResourceFeedbackValue, type ResourceCompletion, type UnitResource,
+} from '@bluedot/db/src/schema';
 import { useQueryClient } from '@tanstack/react-query';
 import { getQueryKey } from '@trpc/react-query';
 import type { inferRouterOutputs } from '@trpc/server';
@@ -111,32 +112,21 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({ resourceFeedback, onF
 
 type ResourceListItemProps = {
   resource: UnitResource;
+  resourceCompletion?: ResourceCompletion;
 };
 
-export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
+export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource, resourceCompletion }) => {
   const router = useRouter();
   const auth = useAuthStore((s) => s.auth);
   const utils = trpc.useUtils();
   const [isHovered, setIsHovered] = useState(false);
   const [feedback, setFeedback] = useState('');
 
-  // TODO: instead of loading only individual resource completion, load all resource completions in parent and pass data
-  // Fetch resource completion data (only when authenticated)
-  const {
-    data: completionData,
-    isLoading: completionLoading,
-    error: completionError,
-  } = trpc.resources.getResourceCompletion.useQuery(
-    { unitResourceId: resource.id },
-    { enabled: !!auth },
-  );
-
   const queryClient = useQueryClient();
   const resourceCompletionsQueryKey = getQueryKey(trpc.resources.getResourceCompletions, undefined, 'query');
 
   const saveCompletionMutation = trpc.resources.saveResourceCompletion.useMutation({
     onSettled: () => {
-      utils.resources.getResourceCompletion.invalidate({ unitResourceId: resource.id });
       utils.resources.getResourceCompletions.invalidate();
     },
     onMutate: async (newData) => {
@@ -194,15 +184,15 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   // Only use mutation variables if mutation hasn't failed (to support rollback on error)
   const isCompleted = (!saveCompletionMutation.isError && saveCompletionMutation.variables?.isCompleted !== undefined)
     ? saveCompletionMutation.variables.isCompleted
-    : (completionData?.isCompleted ?? false);
+    : (resourceCompletion?.isCompleted ?? false);
   const resourceFeedback = (!saveCompletionMutation.isError && saveCompletionMutation.variables?.resourceFeedback !== undefined)
     ? saveCompletionMutation.variables.resourceFeedback
-    : (completionData?.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE);
+    : (resourceCompletion?.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE);
 
   // Sync feedback state with server data (both mutation variables and fetched data)
   useEffect(() => {
     const optimisticFeedback = saveCompletionMutation.variables?.feedback;
-    const serverFeedback = completionData?.feedback;
+    const serverFeedback = resourceCompletion?.feedback;
 
     // Only use optimistic feedback if there is no error
     if (!saveCompletionMutation.isError && optimisticFeedback !== undefined) {
@@ -210,7 +200,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
     } else {
       setFeedback(serverFeedback ?? '');
     }
-  }, [saveCompletionMutation.variables?.feedback, completionData?.feedback, saveCompletionMutation.isError]);
+  }, [saveCompletionMutation.variables?.feedback, resourceCompletion?.feedback, saveCompletionMutation.isError]);
 
   const handleSaveCompletion = useCallback((
     updatedIsCompleted: boolean | undefined,
@@ -244,14 +234,6 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
       // Do nothing
     });
   }, [resourceFeedback, feedback, handleSaveCompletion]);
-
-  if (completionLoading) {
-    return <ProgressDots />;
-  }
-
-  if (completionError) {
-    return <ErrorView error={completionError} />;
-  }
 
   return (
     <li className="resource-item-wrapper">
