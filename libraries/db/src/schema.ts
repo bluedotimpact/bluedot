@@ -612,6 +612,49 @@ export const meetCourseTable = pgAirtable('meet_course', {
   },
 });
 
+export const facilitatorDiscussionSwitchingTable = pgAirtable('change_discussion_time', {
+  baseId: COURSE_RUNNER_BASE_ID,
+  tableId: 'tblYpyG4RjhlMTmSm',
+  columns: {
+    facilitator: {
+      pgColumn: text(),
+      airtableId: 'fld2b1RzEHEh6BgD0',
+    },
+    round: {
+      pgColumn: text(),
+      airtableId: 'fldA4ysQjCtLMEZjR',
+    },
+    group: {
+      pgColumn: text(),
+      airtableId: 'fldadGhShdoBgH8TD',
+    },
+    intensity: {
+      pgColumn: text(),
+      airtableId: 'fldJZcoeuE9TwntMJ',
+    },
+    updatedAt: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fld3ITxndtB6ZZtN5',
+    },
+    anythingElse: {
+      pgColumn: text(),
+      airtableId: 'fldjWbb2vvQkcQaOs',
+    },
+    switchType: {
+      pgColumn: text().notNull(),
+      airtableId: 'fldZK15BFH6C4FlKG',
+    },
+    discussion: {
+      pgColumn: text(),
+      airtableId: 'fld8rNtdlycJiiYqI',
+    },
+    status: {
+      pgColumn: text().notNull(),
+      airtableId: 'fldxn1fWLefkcySaA',
+    },
+  },
+});
+
 export const blogTable = pgAirtable('blog', {
   baseId: WEB_CONTENT_BASE_ID,
   tableId: 'tblT8jgeG4QWX2Fj4',
