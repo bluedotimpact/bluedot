@@ -118,7 +118,7 @@ const checkAdminAccess = async (email: string) => {
 
 /* Override `undefined` responses as `null` so that React query does not reject as a failed Promise, leading to
 `isError` being true on queries/mutations. */
-const overRideUndefinedResponse = t.middleware(async (opts) => {
+const overrideUndefinedResponse = t.middleware(async (opts) => {
   const result = await opts.next();
   if (result.ok && result.data === undefined) {
     result.data = null;
@@ -130,7 +130,7 @@ const overRideUndefinedResponse = t.middleware(async (opts) => {
 
 // Base router and procedure helpers
 export const { router } = t;
-export const publicProcedure = t.procedure.use(openTelemetryMiddleware).use(overRideUndefinedResponse);
+export const publicProcedure = t.procedure.use(openTelemetryMiddleware).use(overrideUndefinedResponse);
 export const protectedProcedure = publicProcedure.use(({ ctx, next }) => {
   if (!ctx.auth) {
     throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Authentication required' });
