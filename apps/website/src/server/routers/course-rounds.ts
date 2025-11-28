@@ -73,8 +73,15 @@ export const courseRoundsRouter = router({
 
         if (numberOfUnits && numberOfUnits > 0) {
           const isPartTime = intensity?.toLowerCase() === 'part-time';
-          const unitLengthInDays = isPartTime ? 7 : 1;
-          const daysToAdd = (numberOfUnits - 1) * unitLengthInDays;
+
+          let daysToAdd: number;
+          if (isPartTime) {
+            // Part-time: Add numberOfUnits weeks, then subtract 1 day
+            daysToAdd = (numberOfUnits * 7) - 1;
+          } else {
+            // Intensive: Add (numberOfUnits - 1) days
+            daysToAdd = numberOfUnits - 1;
+          }
 
           computedLast = new Date(first.getTime() + daysToAdd * 24 * 60 * 60 * 1000);
         } else if (lastDate) {
