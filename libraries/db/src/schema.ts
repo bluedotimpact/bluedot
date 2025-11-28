@@ -1216,3 +1216,4 @@ export type ApplicationsCourse = InferSelectModel<typeof applicationsCourseTable
 export type CourseRegistration = InferSelectModel<typeof courseRegistrationTable.pg>;
 export type User = InferSelectModel<typeof userTable.pg>;
 export type ResourceCompletion = InferSelectModel<typeof resourceCompletionTable.pg>;
+export type FacilitatorSwitching = InferSelectModel<typeof facilitatorDiscussionSwitchingTable.pg>;

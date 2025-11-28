@@ -66,6 +66,7 @@ export type {
   CourseRegistration,
   User,
   ResourceCompletion,
+  FacilitatorSwitching,
 } from './schema';
 
 export { getPgAirtableFromIds, PgAirtableTable } from './lib/db-core';
