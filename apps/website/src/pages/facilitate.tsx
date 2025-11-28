@@ -102,8 +102,6 @@ The AGI Strategy course runs for 5 sessions, while the Technical AI Safety and B
 
 We also pay for **1:1 mentoring and talent development activities** at the value of 1 session ($250). This recognizes the high-leverage impact of individualized support in helping participants launch careers in AI safety.
 
-If you facilitate more than one group, we'll pay you at the same rate for the additional time commitment.
-
 We sometimes disband or re-shuffle groups due to attendance. You may also volunteer to cover other facilitator's group discussions. In either of these cases, we will update your compensation accordingly.
 
 ### Payment methods
