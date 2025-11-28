@@ -31,6 +31,7 @@ export {
   courseRegistrationTable,
   userTable,
   resourceCompletionTable,
+  facilitatorDiscussionSwitchingTable,
 } from './schema';
 
 // Type exports
