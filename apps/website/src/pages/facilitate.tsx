@@ -86,9 +86,9 @@ The right candidates see these positions as either:
 
 ## Compensation
 
-We pay **$250 per session**, which works out to **$50/hour** for approximately 5 hours per session.
+We pay **$250 per session**, which works out to **$50/hour** for approximately 5 hours per session (3 hours preparation + 2 hours discussion).
 
-If you are facilitating more than 3 groups, we will compensate you on a $50/hour basis, given the reduced time required to prepare for each session.
+If you are facilitating more than 1 group, we will pay $150 per session for every additional group, given the reduced time required to prepare for each session.
 
 ### What counts as a session?
 
