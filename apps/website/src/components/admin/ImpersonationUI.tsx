@@ -45,8 +45,8 @@ export const UserSearchModal = ({
   const showNoResults = !isLoading && searchResults?.length === 0 && searchQuery.length > 0;
 
   return (
-    <Modal isOpen={isOpen} setIsOpen={(open) => !open && onClose()} title="Impersonate a user">
-      <div className="max-w-[600px]">
+    <Modal bottomDrawerOnMobile isOpen={isOpen} setIsOpen={(open) => !open && onClose()} title="Impersonate a user">
+      <div className="max-w-[600px] mx-auto">
         <div className="flex items-center gap-2 border border-gray-300 rounded px-3 py-2 mb-4">
           <RiSearchLine className="text-gray-400" size={18} />
           <input
@@ -59,7 +59,7 @@ export const UserSearchModal = ({
           />
         </div>
 
-        <div className="h-[300px] overflow-y-auto">
+        <div className="md:h-[400px] overflow-y-auto">
           {isLoading && <ProgressDots />}
           {showNoResults && <p className="text-gray-500 text-center py-4">No users found</p>}
           {searchResults && searchResults.length > 0 && searchResults.map((user) => (
