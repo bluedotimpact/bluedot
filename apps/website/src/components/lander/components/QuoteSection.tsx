@@ -266,7 +266,7 @@ const QuoteSection = ({ quotes }: QuoteSectionProps) => {
 
         {/* Navigation controls - Match 680px Figma specs exactly */}
         <div className="flex items-center justify-center w-[calc(100vw-40px)] min-[680px]:gap-8 min-[680px]:w-[calc(100vw-64px)] lg:w-[928px] lg:h-[38px] lg:gap-8 relative z-10">
-          {/* Left arrow - Shows at 680px+ matching CommunityMembersSubSection */}
+          {/* Left arrow - Shows at 680px+ matching CommunityCarousel */}
           {isDesktop && (
             <button
               type="button"
@@ -306,7 +306,7 @@ const QuoteSection = ({ quotes }: QuoteSectionProps) => {
             ))}
           </div>
 
-          {/* Right arrow - Shows at 680px+ matching CommunityMembersSubSection */}
+          {/* Right arrow - Shows at 680px+ matching CommunityCarousel */}
           {isDesktop && (
             <button
               type="button"

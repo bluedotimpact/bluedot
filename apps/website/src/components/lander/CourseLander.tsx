@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { addQueryParam, useLatestUtmParams } from '@bluedot/ui';
-import CommunityMembersSubSection, { CommunityMember } from './components/CommunityMembersSubSection';
+import CommunityCarousel, { CommunityMember } from '../shared/CommunityCarousel';
 import GraduateSection from './components/GraduateSection';
 import PartnerSection, { PartnerSectionProps } from './components/PartnerSection';
 import CourseBenefitsSection, { CourseBenefitsSectionProps } from './components/CourseBenefitsSection';
@@ -103,9 +103,10 @@ const CourseLander = ({
       {content.communityMembers && (
         <>
           <div className="border-t-hairline border-color-divider" />
-          <CommunityMembersSubSection
+          <CommunityCarousel
             members={content.communityMembers}
             title={content.communityMembersTitle}
+            variant="lander"
           />
         </>
       )}

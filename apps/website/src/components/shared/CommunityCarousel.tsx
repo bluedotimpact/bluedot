@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { NewText } from '@bluedot/ui';
 import clsx from 'clsx';
 
-type CommunityMember = {
+export type CommunityMember = {
   name: string;
   jobTitle: string;
   course: string;
@@ -16,50 +16,12 @@ type CommunityMember = {
   url: string;
 };
 
-const COMMUNITY_MEMBERS: CommunityMember[] = [
-  {
-    name: 'Neel Nanda',
-    jobTitle: 'Mech Interp Lead at Google DeepMind',
-    course: 'Former participant and facilitator',
-    imageSrc: '/images/graduates/neel.jpeg',
-    url: 'https://www.neelnanda.io/about',
-  },
-  {
-    name: 'Catherine Fist',
-    jobTitle: 'Head of Delivery at UK AISI',
-    course: 'AI Governance Course Graduate',
-    imageSrc: '/images/graduates/catherine.jpeg',
-    url: 'https://www.linkedin.com/in/catherine-fist/',
-  },
-  {
-    name: 'Adam Jones',
-    jobTitle: 'Member of Technical Staff at Anthropic',
-    course: 'Former AI safety lead at BlueDot',
-    imageSrc: '/images/graduates/adam.jpg',
-    url: 'https://adamjones.me/',
-  },
-  {
-    name: 'Marius Hobbhahn',
-    jobTitle: 'CEO at Apollo Research',
-    course: 'AI Alignment Course Graduate',
-    imageSrc: '/images/graduates/marius.jpeg',
-    url: 'https://www.mariushobbhahn.com/aboutme/',
-  },
-  {
-    name: 'Chiara Gerosa',
-    jobTitle: 'Executive Director at Talos',
-    course: 'AI Governance Course Facilitator',
-    imageSrc: '/images/graduates/chiara.jpeg',
-    url: 'https://www.linkedin.com/in/chiaragerosa/',
-  },
-  {
-    name: 'Richard Ngo',
-    jobTitle: 'Former OpenAI and DeepMind',
-    course: 'AI Alignment Course Designer',
-    imageSrc: '/images/graduates/richard.jpg',
-    url: 'https://www.richardcngo.com/',
-  },
-];
+export type CommunityCarouselProps = {
+  members: CommunityMember[];
+  title?: string;
+  subtitle?: string;
+  variant?: 'homepage' | 'lander';
+};
 
 const CARD_CONFIG = {
   AUTO_SCROLL_INTERVAL: 3000,
@@ -104,7 +66,7 @@ const CommunityMemberCard = ({ member }: { member: CommunityMember }) => (
   </Link>
 );
 
-const HeaderNavigationButton = ({
+const NavigationButton = ({
   direction,
   onClick,
   disabled,
@@ -138,7 +100,12 @@ const HeaderNavigationButton = ({
   </button>
 );
 
-const OurCommunitySection = () => {
+const CommunityCarousel = ({
+  members,
+  title,
+  subtitle,
+  variant = 'homepage',
+}: CommunityCarouselProps) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const autoScrollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -146,8 +113,8 @@ const OurCommunitySection = () => {
   const prefersReducedMotionRef = useRef(false);
 
   const createInfiniteScrollData = () => {
-    if (COMMUNITY_MEMBERS.length === 0) return [];
-    return [...COMMUNITY_MEMBERS, ...COMMUNITY_MEMBERS, ...COMMUNITY_MEMBERS];
+    if (members.length === 0) return [];
+    return [...members, ...members, ...members];
   };
 
   const infiniteMembers = createInfiniteScrollData();
@@ -247,23 +214,23 @@ const OurCommunitySection = () => {
   }, []);
 
   useEffect(() => {
-    if (scrollContainerRef.current && COMMUNITY_MEMBERS.length > 0) {
+    if (scrollContainerRef.current && members.length > 0) {
       const cardWidth = getCardWidth();
       const gap = getCardGap();
       const scrollUnit = cardWidth + gap;
-      const sectionWidth = COMMUNITY_MEMBERS.length * scrollUnit;
+      const sectionWidth = members.length * scrollUnit;
       scrollContainerRef.current.scrollLeft = sectionWidth;
     }
-  }, [getCardWidth, getCardGap]);
+  }, [members.length, getCardWidth, getCardGap]);
 
   const handleScroll = useCallback(() => {
     const container = scrollContainerRef.current;
-    if (container && !isResettingRef.current && COMMUNITY_MEMBERS.length > 0) {
+    if (container && !isResettingRef.current && members.length > 0) {
       const { scrollLeft } = container;
       const cardWidth = getCardWidth();
       const gap = getCardGap();
       const scrollUnit = cardWidth + gap;
-      const sectionWidth = COMMUNITY_MEMBERS.length * scrollUnit;
+      const sectionWidth = members.length * scrollUnit;
 
       if (scrollLeft >= sectionWidth * 2) {
         isResettingRef.current = true;
@@ -275,7 +242,7 @@ const OurCommunitySection = () => {
         isResettingRef.current = false;
       }
     }
-  }, [getCardWidth, getCardGap]);
+  }, [members.length, getCardWidth, getCardGap]);
 
   const scroll = useCallback((direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -302,30 +269,52 @@ const OurCommunitySection = () => {
     }
   }, [scroll]);
 
+  const defaultTitle = variant === 'homepage'
+    ? 'Our community'
+    : 'Meet our alumni shaping AI\'s future';
+
+  const headerSizeClasses = variant === 'homepage'
+    ? 'text-[28px] min-[680px]:text-[36px] min-[1024px]:text-[40px] min-[1280px]:text-[48px]'
+    : 'text-[28px] min-[680px]:text-[32px] xl:text-[36px]';
+
   return (
     <section className="w-full bg-white py-12 md:py-16 lg:py-20 xl:py-24 px-5 min-[680px]:px-8 lg:px-12 xl:px-16 2xl:px-20">
-      {/* Header Container - aligned with course cards */}
+      {/* Header Container */}
       <div className="mx-auto max-w-screen-xl mb-8 min-[680px]:mb-16 min-[1024px]:mb-20 min-[1440px]:mb-16">
         {/* Header Section */}
         <div className="flex flex-col items-center text-center min-[680px]:flex-row min-[680px]:items-end min-[680px]:justify-between min-[680px]:text-left gap-8 min-[680px]:gap-16">
           {/* Header Content */}
           <div className="flex flex-col gap-8">
-            <h2 className="text-[28px] min-[680px]:text-[36px] min-[1024px]:text-[40px] min-[1280px]:text-[48px] font-medium leading-[125%] text-[#13132E] tracking-[-1px]" style={{ fontFeatureSettings: "'ss04' on" }}>
-              Our community
-            </h2>
-            <NewText.P className="text-[16px] min-[680px]:text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80 max-w-full">
-              Learn more about the incredible work our community is doing.
-            </NewText.P>
+            {variant === 'homepage' ? (
+              <h2
+                className={clsx(
+                  headerSizeClasses,
+                  'font-medium leading-[125%] text-[#13132E] tracking-[-1px]',
+                )}
+                style={{ fontFeatureSettings: "'ss04' on" }}
+              >
+                {title || defaultTitle}
+              </h2>
+            ) : (
+              <NewText.H2 className={clsx(headerSizeClasses, 'font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]')}>
+                {title || defaultTitle}
+              </NewText.H2>
+            )}
+            {subtitle && (
+              <NewText.P className="text-[16px] min-[680px]:text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80 max-w-full">
+                {subtitle}
+              </NewText.P>
+            )}
           </div>
 
-          {/* Navigation Buttons */}
+          {/* Navigation Buttons - Desktop */}
           <div className="hidden min-[680px]:flex gap-3 flex-shrink-0">
-            <HeaderNavigationButton
+            <NavigationButton
               direction="left"
               onClick={() => scroll('left')}
               disabled={false}
             />
-            <HeaderNavigationButton
+            <NavigationButton
               direction="right"
               onClick={() => scroll('right')}
               disabled={false}
@@ -334,9 +323,9 @@ const OurCommunitySection = () => {
         </div>
       </div>
 
-      {/* Carousel Container - full bleed on both sides */}
+      {/* Carousel Container */}
       <div className="relative -mx-5 min-[680px]:-mx-8 lg:-mx-12 xl:-mx-16 2xl:-mx-20">
-        <div id="our-community-carousel-description" className="sr-only">
+        <div id="community-carousel-description" className="sr-only">
           This carousel uses infinite scrolling and auto-advances every few seconds. Hover to pause auto-scrolling. Use arrow keys to navigate when focused. Navigation buttons allow manual control.
         </div>
 
@@ -357,11 +346,11 @@ const OurCommunitySection = () => {
           // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
           tabIndex={0}
           role="region"
-          aria-label="Our community carousel"
-          aria-describedby="our-community-carousel-description"
+          aria-label="Community members carousel"
+          aria-describedby="community-carousel-description"
         >
           {infiniteMembers.map((member, index) => {
-            const sectionNumber = Math.floor(index / COMMUNITY_MEMBERS.length);
+            const sectionNumber = Math.floor(index / members.length);
             const uniqueKey = `${member.name}-${index}-${sectionNumber}`;
             return (
               <div key={uniqueKey}>
@@ -372,14 +361,14 @@ const OurCommunitySection = () => {
         </div>
       </div>
 
-      {/* Mobile Navigation Buttons - centered below carousel */}
+      {/* Mobile Navigation Buttons */}
       <div className="flex min-[680px]:hidden gap-3 justify-center mt-8">
-        <HeaderNavigationButton
+        <NavigationButton
           direction="left"
           onClick={() => scroll('left')}
           disabled={false}
         />
-        <HeaderNavigationButton
+        <NavigationButton
           direction="right"
           onClick={() => scroll('right')}
           disabled={false}
@@ -389,4 +378,4 @@ const OurCommunitySection = () => {
   );
 };
 
-export default OurCommunitySection;
+export default CommunityCarousel;
