@@ -1,18 +1,16 @@
 import {
-  syncRequestsTable, gte, desc, userTable, courseRegistrationTable, sql, adminUsersTable, eq,
+  syncRequestsTable, gte, desc, userTable, courseRegistrationTable, sql,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
-import { adminProcedure, protectedProcedure, router } from '../trpc';
+import {
+  adminProcedure, checkAdminAccess, protectedProcedure, router,
+} from '../trpc';
 
 export const adminRouter = router({
   isAdmin: protectedProcedure.query(async ({ ctx }) => {
-    const admin = await db.pg.select()
-      .from(adminUsersTable)
-      .where(eq(adminUsersTable.email, ctx.auth.email))
-      .limit(1);
-    return admin.length > 0;
+    return checkAdminAccess(ctx.auth.email);
   }),
   searchUsers: adminProcedure
     .input(z.object({ query: z.string().max(200).optional() }))
