@@ -30,9 +30,16 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   const router = useRouter();
   const [answer, setAnswer] = useState<string>(exerciseResponse || '');
 
+  // Track the last synced exerciseResponse to detect when it changes
+  // Only sync from server when user has cleared their local answer (answer === '')
+  // This prevents refetch from overwriting user's in-progress typing
+  const lastSyncedExerciseResponse = React.useRef(exerciseResponse);
   useEffect(() => {
-    setAnswer(exerciseResponse || '');
-  }, [exerciseResponse]);
+    if (lastSyncedExerciseResponse.current !== exerciseResponse && answer === '') {
+      setAnswer(exerciseResponse || '');
+      lastSyncedExerciseResponse.current = exerciseResponse;
+    }
+  }, [exerciseResponse, answer]);
 
   const handleSave = useCallback(async (value: string) => {
     await onExerciseSubmit(value, value.trim().length > 0);
