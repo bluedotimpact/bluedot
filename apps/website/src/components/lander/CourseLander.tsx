@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { addQueryParam, useLatestUtmParams } from '@bluedot/ui';
-import CommunityCarousel, { CommunityMember } from '../shared/CommunityCarousel';
+import CommunityCarousel, { CommunityMember } from './CommunityCarousel';
 import GraduateSection from './components/GraduateSection';
 import PartnerSection, { PartnerSectionProps } from './components/PartnerSection';
 import CourseBenefitsSection, { CourseBenefitsSectionProps } from './components/CourseBenefitsSection';

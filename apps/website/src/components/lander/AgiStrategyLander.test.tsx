@@ -38,7 +38,7 @@ vi.mock('./components/TestimonialSubSection', () => ({
   Testimonial: {},
 }));
 
-vi.mock('../shared/CommunityCarousel', () => ({
+vi.mock('./CommunityCarousel', () => ({
   default: ({ members, title }: { members?: unknown[]; title?: string }) => (
     <div data-testid="community-members-section">
       {title && <h2>{title}</h2>}

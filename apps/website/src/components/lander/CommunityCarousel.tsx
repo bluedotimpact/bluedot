@@ -27,79 +27,6 @@ const CARD_CONFIG = {
   AUTO_SCROLL_INTERVAL: 3000,
 } as const;
 
-const CommunityMemberCard = ({ member }: { member: CommunityMember }) => (
-  <Link
-    href={member.url}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="flex flex-col flex-shrink-0 bg-white border border-[rgba(19,19,46,0.1)] rounded-xl overflow-hidden cursor-pointer w-[276px] min-[680px]:w-[288px] min-[1280px]:w-[320px] h-auto"
-  >
-    {/* Image Section */}
-    <div className="flex-shrink-0 w-full h-[296px] min-[680px]:h-[320px]">
-      <img
-        src={member.imageSrc}
-        alt={`Profile of ${member.name}`}
-        className="size-full object-cover"
-      />
-    </div>
-
-    {/* Content Section */}
-    <div className="flex flex-col items-start justify-between p-6 gap-4 min-h-[157px]">
-      {/* Name and Job Title Container */}
-      <div className="flex flex-col items-start gap-1 w-full">
-        {/* Name */}
-        <NewText.P className="text-[18px] font-semibold leading-[125%] text-[#13132E] text-left w-full">
-          {member.name}
-        </NewText.P>
-
-        {/* Job Title */}
-        <NewText.P className="text-[14px] font-medium leading-[160%] text-[#13132E] text-left w-full self-stretch">
-          {member.jobTitle}
-        </NewText.P>
-      </div>
-
-      {/* Course */}
-      <NewText.P className="text-[14px] font-normal leading-[160%] text-[#13132E] text-left w-full opacity-60">
-        {member.course}
-      </NewText.P>
-    </div>
-  </Link>
-);
-
-const NavigationButton = ({
-  direction,
-  onClick,
-  disabled,
-}: {
-  direction: 'left' | 'right';
-  onClick: () => void;
-  disabled: boolean;
-}) => (
-  <button
-    type="button"
-    onClick={onClick}
-    disabled={disabled}
-    className={clsx(
-      'size-[44px] rounded-full flex items-center justify-center',
-      'bg-[rgba(19,19,46,0.08)]',
-      'transition-all duration-200',
-      disabled
-        ? 'opacity-50 cursor-not-allowed'
-        : 'opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer',
-    )}
-    aria-label={`Scroll ${direction}`}
-  >
-    <span
-      className="text-[#13132E] text-[22.4px] font-medium select-none"
-      style={{
-        transform: direction === 'left' ? 'scaleX(-1)' : 'none',
-      }}
-    >
-      →
-    </span>
-  </button>
-);
-
 const CommunityCarousel = ({
   members,
   title,
@@ -377,5 +304,78 @@ const CommunityCarousel = ({
     </section>
   );
 };
+
+const CommunityMemberCard = ({ member }: { member: CommunityMember }) => (
+  <Link
+    href={member.url}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="flex flex-col flex-shrink-0 bg-white border border-[rgba(19,19,46,0.1)] rounded-xl overflow-hidden cursor-pointer w-[276px] min-[680px]:w-[288px] min-[1280px]:w-[320px] h-auto"
+  >
+    {/* Image Section */}
+    <div className="flex-shrink-0 w-full h-[296px] min-[680px]:h-[320px]">
+      <img
+        src={member.imageSrc}
+        alt={`Profile of ${member.name}`}
+        className="size-full object-cover"
+      />
+    </div>
+
+    {/* Content Section */}
+    <div className="flex flex-col items-start justify-between p-6 gap-4 min-h-[157px]">
+      {/* Name and Job Title Container */}
+      <div className="flex flex-col items-start gap-1 w-full">
+        {/* Name */}
+        <NewText.P className="text-[18px] font-semibold leading-[125%] text-[#13132E] text-left w-full">
+          {member.name}
+        </NewText.P>
+
+        {/* Job Title */}
+        <NewText.P className="text-[14px] font-medium leading-[160%] text-[#13132E] text-left w-full self-stretch">
+          {member.jobTitle}
+        </NewText.P>
+      </div>
+
+      {/* Course */}
+      <NewText.P className="text-[14px] font-normal leading-[160%] text-[#13132E] text-left w-full opacity-60">
+        {member.course}
+      </NewText.P>
+    </div>
+  </Link>
+);
+
+const NavigationButton = ({
+  direction,
+  onClick,
+  disabled,
+}: {
+  direction: 'left' | 'right';
+  onClick: () => void;
+  disabled: boolean;
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    disabled={disabled}
+    className={clsx(
+      'size-[44px] rounded-full flex items-center justify-center',
+      'bg-[rgba(19,19,46,0.08)]',
+      'transition-all duration-200',
+      disabled
+        ? 'opacity-50 cursor-not-allowed'
+        : 'opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer',
+    )}
+    aria-label={`Scroll ${direction}`}
+  >
+    <span
+      className="text-[#13132E] text-[22.4px] font-medium select-none"
+      style={{
+        transform: direction === 'left' ? 'scaleX(-1)' : 'none',
+      }}
+    >
+      →
+    </span>
+  </button>
+);
 
 export default CommunityCarousel;

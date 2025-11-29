@@ -3,7 +3,7 @@ import CourseSection from '../components/homepage/CourseSection';
 import StorySection from '../components/homepage/StorySection';
 import HomeHeroContent from '../components/homepage/HomeHeroContent';
 import HomepageBlogSection from '../components/homepage/HomepageBlogSection';
-import CommunityCarousel from '../components/shared/CommunityCarousel';
+import CommunityCarousel from '../components/lander/CommunityCarousel';
 import EventsSection from '../components/homepage/EventsSection';
 
 const COMMUNITY_MEMBERS = [
