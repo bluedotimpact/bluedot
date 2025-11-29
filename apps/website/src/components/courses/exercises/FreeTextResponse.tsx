@@ -30,13 +30,14 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   const router = useRouter();
   const [answer, setAnswer] = useState<string>(exerciseResponse || '');
 
-  // Only sync from exerciseResponse on initial mount, not on subsequent changes
-  // This prevents the refetch from overwriting user's unsaved changes
-  const initialExerciseResponse = React.useRef(exerciseResponse);
+  // Track the last synced exerciseResponse to detect when it changes
+  // Only sync from server when user has cleared their local answer (answer === '')
+  // This prevents refetch from overwriting user's in-progress typing
+  const lastSyncedExerciseResponse = React.useRef(exerciseResponse);
   useEffect(() => {
-    if (initialExerciseResponse.current !== exerciseResponse && answer === '') {
+    if (lastSyncedExerciseResponse.current !== exerciseResponse && answer === '') {
       setAnswer(exerciseResponse || '');
-      initialExerciseResponse.current = exerciseResponse;
+      lastSyncedExerciseResponse.current = exerciseResponse;
     }
   }, [exerciseResponse, answer]);
 

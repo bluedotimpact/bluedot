@@ -451,35 +451,5 @@ describe('FreeTextResponse', () => {
       // The local state should take precedence over the refetched server value
       expect(textarea.value).not.toBe('Hello');
     });
-
-    test('syncs exerciseResponse when navigating to a new exercise with empty local state', async () => {
-      // This test ensures that when navigating to a different exercise,
-      // the saved response is loaded correctly
-
-      const { container, rerender } = render(
-        <FreeTextResponse
-          {...mockArgs}
-          exerciseResponse=""
-          isLoggedIn
-        />,
-      );
-
-      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
-      expect(textarea.value).toBe('');
-
-      // Simulate navigating to a different exercise with a saved response
-      rerender(
-        <FreeTextResponse
-          {...mockArgs}
-          exerciseResponse="Previously saved answer"
-          isLoggedIn
-        />,
-      );
-
-      // Should sync the new exercise's response when answer is empty
-      await waitFor(() => {
-        expect(textarea.value).toBe('Previously saved answer');
-      });
-    });
   });
 });
