@@ -5,6 +5,8 @@ import type { AppRouter } from '../server/routers/_app';
 
 const TEN_SECONDS_MS = 10 * 1000;
 
+export const IMPERSONATION_STORAGE_KEY = 'bluedot_impersonating';
+
 function getBaseUrl() {
   if (typeof window !== 'undefined') {
     // browser should use relative path
@@ -19,7 +21,7 @@ function getBaseUrl() {
  * If the token is close to expiry (< 50s remaining) or expired, it will refresh the token first.
  */
 export async function getHeadersWithValidToken() {
-  const { auth, refresh } = useAuthStore.getState();
+  let { auth, refresh } = useAuthStore.getState();
 
   if (!auth) {
     return { authorization: '' };
@@ -35,17 +37,22 @@ export async function getHeadersWithValidToken() {
     && auth.oidcSettings
   ) {
     await refresh();
-    const { auth: refreshedAuth } = useAuthStore.getState();
-    return {
-      authorization: refreshedAuth?.token
-        ? `Bearer ${refreshedAuth.token}`
-        : '',
-    };
+
+    const refreshedAuth = useAuthStore.getState();
+    auth = refreshedAuth.auth;
+    refresh = refreshedAuth.refresh;
   }
 
-  return {
-    authorization: auth.token ? `Bearer ${auth.token}` : '',
+  const headers: Record<string, string> = {
+    authorization: auth?.token ? `Bearer ${auth.token}` : '',
   };
+
+  const isImpersonating = typeof window !== 'undefined' ? sessionStorage.getItem(IMPERSONATION_STORAGE_KEY) : null;
+  if (isImpersonating) {
+    headers['x-impersonate-user'] = isImpersonating;
+  }
+
+  return headers;
 }
 
 export const trpc = createTRPCNext<AppRouter>({
