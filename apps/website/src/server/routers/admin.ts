@@ -1,9 +1,60 @@
-import { syncRequestsTable, gte, desc } from '@bluedot/db';
+import {
+  syncRequestsTable, gte, desc, userTable, courseRegistrationTable, sql, adminUsersTable, eq,
+} from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
+import { z } from 'zod';
 import db from '../../lib/api/db';
-import { adminProcedure, router } from '../trpc';
+import { adminProcedure, protectedProcedure, router } from '../trpc';
 
 export const adminRouter = router({
+  isAdmin: protectedProcedure.query(async ({ ctx }) => {
+    const admin = await db.pg.select()
+      .from(adminUsersTable)
+      .where(eq(adminUsersTable.email, ctx.auth.email))
+      .limit(1);
+    return admin.length > 0;
+  }),
+  searchUsers: adminProcedure
+    .input(z.object({ query: z.string().max(200).optional() }))
+    .query(async ({ input }) => {
+      const trimmedQuery = (input.query || '').trim();
+
+      // Build WHERE clause based on query
+      let whereClause;
+      if (!trimmedQuery) {
+        whereClause = sql`TRUE`;
+      } else if (trimmedQuery.includes('@')) {
+        whereClause = sql`LOWER(u.email) = LOWER(${trimmedQuery})`;
+      } else {
+        whereClause = sql`u.name ILIKE ${`%${trimmedQuery}%`}`;
+      }
+
+      const results = await db.pg.execute(sql`
+        SELECT
+          u.id,
+          u.email,
+          u.name,
+          u."lastSeenAt",
+          COALESCE(
+            (SELECT COUNT(*)
+             FROM ${courseRegistrationTable.pg} cr
+             WHERE cr.email = u.email AND (cr."certificateId" IS NOT NULL OR cr.decision = 'Accepted')),
+            0
+          )::int AS "courseCount"
+        FROM ${userTable.pg} u
+        WHERE ${whereClause}
+        ORDER BY u."lastSeenAt" DESC NULLS LAST
+        LIMIT 20
+      `);
+
+      return results.rows.map((row) => ({
+        id: row.id as string,
+        email: row.email as string,
+        name: row.name as string | null,
+        lastSeenAt: row.lastSeenAt as string | null,
+        courseCount: row.courseCount as number,
+      }));
+    }),
   syncHistory: adminProcedure.query(async () => {
     // Get last 24 hours of requests, newest first
     const twentyFourHoursAgo = new Date();
