@@ -85,12 +85,14 @@ const getGroupSwitchDescription = ({
   isTemporarySwitch,
   selectedUnitNumber,
   spotsLeftIfKnown,
+  hasStarted = false,
 }: {
   userIsParticipant?: boolean;
   isSelected: boolean;
   isTemporarySwitch: boolean;
   selectedUnitNumber?: string;
   spotsLeftIfKnown: number | null;
+  hasStarted?: boolean;
 }): React.ReactNode => {
   if (isTemporarySwitch) {
     if (userIsParticipant) {
@@ -112,6 +114,10 @@ const getGroupSwitchDescription = ({
     if (isSelected) {
       return <span className="text-[#0037FF]">You are switching into this group for all upcoming units</span>;
     }
+  }
+
+  if (isTemporarySwitch && hasStarted) {
+    return <span>This discussion has passed</span>;
   }
 
   // Default: N spots left
@@ -319,6 +325,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
           isTemporarySwitch: true,
           selectedUnitNumber,
           spotsLeftIfKnown: d.spotsLeftIfKnown,
+          hasStarted: d.hasStarted,
         }),
         onSelect: () => setSelectedDiscussionId(d.discussion.id),
         onConfirm: handleSubmit,
