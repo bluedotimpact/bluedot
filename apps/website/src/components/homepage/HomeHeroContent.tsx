@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { H1 } from '@bluedot/ui/src/Text';
-import HomeGraduateSection from './HomeGraduateSection';
+import GraduateSection from '../lander/components/GraduateSection';
 
 const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
   <>
@@ -43,7 +43,7 @@ const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
 
         {/* Alumni Section - at bottom of hero */}
         <div className="relative z-20 -scale-x-100">
-          <HomeGraduateSection />
+          <GraduateSection />
         </div>
       </div>
     </div>
