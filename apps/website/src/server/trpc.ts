@@ -101,7 +101,7 @@ const openTelemetryMiddleware = t.middleware(async (opts) => {
   }
 });
 
-const checkAdminAccess = async (email: string): Promise<boolean> => {
+export const checkAdminAccess = async (email: string): Promise<boolean> => {
   const user = await db.getFirst(userTable, { filter: { email } });
 
   return user?.isAdmin === true;
