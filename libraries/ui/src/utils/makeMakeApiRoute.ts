@@ -5,7 +5,7 @@ import {
   trace, metrics,
   SpanStatusCode,
 } from '@opentelemetry/api';
-import { slackAlert } from '@bluedot/utils/src/slackNotifications';
+import { slackAlert } from '@bluedot/utils';
 import { logger } from './logger';
 
 export type RouteOptions<ReqZT extends ZodType, ResZT extends ZodType, RequiresAuth extends boolean> = {
