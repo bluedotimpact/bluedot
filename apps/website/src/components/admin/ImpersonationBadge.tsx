@@ -31,7 +31,7 @@ export const ImpersonationBadge = () => {
 
   const { data: user } = trpc.users.getUser.useQuery(undefined, { enabled: !!userId });
 
-  if (!user) return null;
+  if (!userId || !user) return null;
 
   // Mask the user's email. The admin viewing the page is allowed to see the email, this is just
   // a practical safeguard to reduce the risk of exposing the email in e.g. screen recordings
