@@ -21,7 +21,7 @@ export const adminRouter = router({
       let whereClause;
       if (!trimmedQuery) {
         whereClause = sql`TRUE`;
-      } else if (trimmedQuery.includes('@')) {
+      } else if (z.string().email().safeParse(trimmedQuery).success) {
         whereClause = sql`LOWER(u.email) = LOWER(${trimmedQuery})`;
       } else {
         whereClause = sql`u.name ILIKE ${`%${trimmedQuery}%`}`;

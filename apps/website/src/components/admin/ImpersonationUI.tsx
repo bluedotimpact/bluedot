@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import { Modal, ProgressDots, useCurrentTimeMs } from '@bluedot/ui';
+import {
+  ErrorSection, Modal, ProgressDots, useCurrentTimeMs,
+} from '@bluedot/ui';
 import { RiSearchLine, RiCloseLine } from 'react-icons/ri';
 import { IMPERSONATION_STORAGE_KEY, trpc } from '../../utils/trpc';
 import { formatDateTimeRelative } from '../../lib/utils';
@@ -42,13 +44,13 @@ export const UserSearchModal = ({
   }, [isOpen]);
 
   const query = searchQuery.trim() || undefined;
-  const { data: searchResults, isLoading } = trpc.admin.searchUsers.useQuery(
+  const { data: searchResults, isLoading, error } = trpc.admin.searchUsers.useQuery(
     { query },
     { enabled: isOpen },
   );
 
-  const handleSelectUser = (email: string) => {
-    sessionStorage.setItem(IMPERSONATION_STORAGE_KEY, email);
+  const handleSelectUser = (userId: string) => {
+    sessionStorage.setItem(IMPERSONATION_STORAGE_KEY, userId);
     onClose();
     window.location.reload();
   };
@@ -58,6 +60,8 @@ export const UserSearchModal = ({
   return (
     <Modal bottomDrawerOnMobile isOpen={isOpen} setIsOpen={(open) => !open && onClose()} title="Impersonate a user">
       <div className="max-w-[600px] mx-auto">
+        {/* Spacer to stop the modal shrinking when there are no results */}
+        <div className="w-[600px] max-w-full h-0" />
         <div className="flex items-center gap-2 border border-gray-300 rounded px-3 py-2 mb-4">
           <RiSearchLine className="text-gray-400" size={18} />
           <input
@@ -71,13 +75,14 @@ export const UserSearchModal = ({
         </div>
 
         <div className="md:h-[400px] overflow-y-auto">
+          {error && <ErrorSection error={error} />}
           {isLoading && <ProgressDots />}
           {showNoResults && <p className="text-gray-500 text-center py-4">No users found</p>}
           {searchResults && searchResults.length > 0 && searchResults.map((user) => (
             <button
               key={user.id}
               type="button"
-              onClick={() => handleSelectUser(user.email)}
+              onClick={() => handleSelectUser(user.id)}
               className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
             >
               <div className="flex items-center justify-between gap-4">
@@ -101,19 +106,21 @@ export const UserSearchModal = ({
 };
 
 export const ImpersonationBadge = () => {
-  const [email, setEmail] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setEmail(sessionStorage.getItem(IMPERSONATION_STORAGE_KEY));
+      setUserId(sessionStorage.getItem(IMPERSONATION_STORAGE_KEY));
     }
   }, []);
 
-  if (!email) return null;
+  const { data: user } = trpc.users.getUser.useQuery(undefined, { enabled: !!userId });
+
+  if (!user) return null;
 
   // Mask the user's email. The admin viewing the page is allowed to see the email, this is just
   // a practical safeguard to reduce the risk of exposing the email in e.g. screen recordings
-  const maskedEmail = maskEmail(email);
+  const maskedEmail = maskEmail(user.email);
 
   return (
     <div className="fixed bottom-4 left-4 z-50 bg-yellow-400 text-black px-3 py-2 rounded-lg shadow-lg flex items-center gap-2 text-size-sm font-medium">
