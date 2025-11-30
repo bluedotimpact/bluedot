@@ -26,6 +26,10 @@ export const usersRouter = router({
   changePassword: protectedProcedure
     .input(changePasswordSchema)
     .mutation(async ({ ctx, input }) => {
+      if (ctx.impersonation) {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'Cannot change password when impersonating another user' });
+      }
+
       const { currentPassword, newPassword } = input;
       const userEmail = ctx.auth.email;
       const userSub = ctx.auth.sub;
