@@ -5,8 +5,10 @@ import {
   test,
   vi,
 } from 'vitest';
-import SideBar from './SideBar';
 import { createMockChunk, createMockUnit } from '../../__tests__/testUtils';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
+import SideBar from './SideBar';
+import type { ChunkWithContent } from './UnitLayout';
 
 const COURSE_UNITS = [
   createMockUnit({
@@ -45,15 +47,22 @@ const CHUNKS = [
 
 describe('SideBar', () => {
   test('renders default as expected', () => {
+    const chunksWithContent: ChunkWithContent[] = CHUNKS.map((chunk) => ({
+      ...chunk,
+      resources: [],
+      exercises: [],
+    }));
+
     const { container } = render(
       <SideBar
         courseTitle="What the fish [Test Course]"
         units={COURSE_UNITS}
         currentUnitNumber={1}
-        chunks={CHUNKS}
+        chunks={chunksWithContent}
         currentChunkIndex={0}
         onChunkSelect={vi.fn()}
       />,
+      { wrapper: TrpcProvider },
     );
     expect(container).toMatchSnapshot();
   });

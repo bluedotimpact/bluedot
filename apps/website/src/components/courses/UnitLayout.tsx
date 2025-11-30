@@ -40,7 +40,7 @@ const CourseIcon: React.FC = () => (
   </svg>
 );
 
-type ChunkWithContent = Chunk & {
+export type ChunkWithContent = Chunk & {
   resources: UnitResource[];
   exercises: Exercise[];
 };

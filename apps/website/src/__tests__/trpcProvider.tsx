@@ -1,4 +1,4 @@
-import { QueryClient } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { httpLink } from '@trpc/client';
 import { createTRPCReact } from '@trpc/react-query';
 import { useState } from 'react';
@@ -40,7 +40,9 @@ export const TrpcProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <trpcTest.Provider client={trpcClient} queryClient={queryClient}>
-      {children}
+      <QueryClientProvider client={queryClient}>
+        {children}
+      </QueryClientProvider>
     </trpcTest.Provider>
   );
 };
