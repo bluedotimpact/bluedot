@@ -9,7 +9,7 @@ exports[`Nav > renders with courses 1`] = `
       class="nav__container section-base"
     >
       <div
-        class="nav__bar w-full flex justify-between items-center min-h-(--nav-height-mobile) min-[1024px]:min-h-[76px]"
+        class="nav__bar w-full flex justify-between items-center min-h-(--nav-height-mobile) min-[1024px]:min-h-(--nav-height-desktop)"
       >
         <div
           class="flex items-center"

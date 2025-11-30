@@ -425,7 +425,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
       </div>
     </div>
     <div
-      class="unit__breadcrumbs-wrapper hidden md:block md:sticky md:top-16 z-10 border-b-[0.5px] border-[rgba(19,19,46,0.2)] h-[48px] bg-color-canvas md:ml-[360px]"
+      class="unit__breadcrumbs-wrapper hidden md:block md:sticky md:top-(--nav-height-mobile) lg:top-(--nav-height-desktop) z-10 border-b-[0.5px] border-[rgba(19,19,46,0.2)] h-[48px] bg-color-canvas md:ml-[360px]"
     >
       <div
         class="flex flex-row justify-between items-center size-full px-6 gap-2"
