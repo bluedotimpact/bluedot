@@ -68,6 +68,7 @@ describe('CourseListRow', () => {
       <CourseListRow
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
+        isCompleted={false}
       />,
       { wrapper: TrpcProvider },
     );
@@ -85,6 +86,7 @@ describe('CourseListRow', () => {
       <CourseListRow
         course={mockCourse}
         courseRegistration={completedRegistration}
+        isCompleted
       />,
       { wrapper: TrpcProvider },
     );
@@ -96,6 +98,7 @@ describe('CourseListRow', () => {
       <CourseListRow
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
+        isCompleted={false}
       />,
       { wrapper: TrpcProvider },
     );
@@ -124,6 +127,7 @@ describe('CourseListRow', () => {
       <CourseListRow
         course={mockCourse}
         courseRegistration={completedRegistration}
+        isCompleted
       />,
       { wrapper: TrpcProvider },
     );
@@ -147,6 +151,7 @@ describe('CourseListRow', () => {
       <CourseListRow
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
+        isCompleted={false}
       />,
       { wrapper: TrpcProvider },
     );
