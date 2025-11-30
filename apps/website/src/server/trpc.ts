@@ -1,6 +1,5 @@
 import {
-  AirtableTsError, ErrorType,
-  userTable,
+  AirtableTsError, ErrorType, userTable,
 } from '@bluedot/db';
 import { requestCounter } from '@bluedot/ui/src/utils/makeMakeApiRoute';
 import { initTRPC, TRPCError } from '@trpc/server';
