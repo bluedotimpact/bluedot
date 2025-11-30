@@ -6,7 +6,7 @@ import { IconButton, BugReportModal } from '@bluedot/ui';
 import { ExpandedSectionsState, DRAWER_CLASSES, DRAWER_Z_PROFILE } from './utils';
 import { ROUTES } from '../../lib/routes';
 import { A } from '../Text';
-import { UserSearchModal } from '../admin/ImpersonationUI';
+import { UserSearchModal } from '../admin/UserSearchModal';
 import { trpc } from '../../utils/trpc';
 
 export const ProfileLinks: React.FC<{
@@ -107,7 +107,7 @@ export const ProfileLinks: React.FC<{
         </div>
       </div>
       <BugReportModal isOpen={isBugReportModalOpen} setIsOpen={setIsBugReportModalOpen} />
-      <UserSearchModal isOpen={isImpersonateModalOpen} onClose={() => setIsImpersonateModalOpen(false)} />
+      {isImpersonateModalOpen && <UserSearchModal isOpen={isImpersonateModalOpen} onClose={() => setIsImpersonateModalOpen(false)} />}
     </div>
   );
 };
