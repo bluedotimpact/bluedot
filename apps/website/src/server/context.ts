@@ -1,6 +1,7 @@
 import { loginPresets } from '@bluedot/ui';
 import { logger } from '@bluedot/ui/src/api';
 import * as trpcNext from '@trpc/server/adapters/next';
+import { z } from 'zod';
 import { checkAdminAccess } from './trpc';
 
 export const createContext = async ({ req }: trpcNext.CreateNextContextOptions) => {
@@ -17,8 +18,8 @@ export const createContext = async ({ req }: trpcNext.CreateNextContextOptions) 
     const auth = await loginPresets.keycloak.verifyAndDecodeToken(token);
 
     const impersonateEmail = req.headers['x-impersonate-user'] as string | undefined;
-    if (impersonateEmail && await checkAdminAccess(auth.email)) {
-      logger.info(`Admin ${auth.email} impersonating ${impersonateEmail}`);
+    const isValidEmail = impersonateEmail && z.string().email().safeParse(impersonateEmail).success;
+    if (isValidEmail && await checkAdminAccess(auth.email)) {
       return {
         auth: { ...auth, email: impersonateEmail },
         impersonation: { adminEmail: auth.email, targetEmail: impersonateEmail },

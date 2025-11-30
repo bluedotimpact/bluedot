@@ -7,7 +7,7 @@ import { getHTTPStatusCodeFromError } from '@trpc/server/http';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { SpanStatusCode, trace } from '@opentelemetry/api';
 import db from '../lib/api/db';
-import { Context } from './context';
+import type { Context } from './context';
 
 // Avoid exporting the entire t-object since it's not very descriptive.
 // For instance, the use of a t variable is common in i18n libraries.
