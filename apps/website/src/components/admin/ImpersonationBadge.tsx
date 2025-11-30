@@ -38,16 +38,18 @@ export const ImpersonationBadge = () => {
   const maskedEmail = maskEmail(user.email);
 
   return (
-    <div className="fixed bottom-4 left-4 z-50 bg-yellow-400 text-black px-3 py-2 rounded-lg shadow-lg flex items-center gap-2 text-size-sm font-medium">
-      <span>Impersonating: {maskedEmail}</span>
-      <button
-        type="button"
-        onClick={() => { sessionStorage.removeItem(IMPERSONATION_STORAGE_KEY); window.location.reload(); }}
-        className="p-0.5 hover:bg-yellow-500 rounded"
-        aria-label="Stop impersonating"
-      >
-        <RiCloseLine size={16} />
-      </button>
+    <div className="fixed z-50 bottom-4 px-4 max-w-[100vw]">
+      <div className="max-w-full bg-yellow-400 text-black px-3 py-2 rounded-lg shadow-lg flex items-center gap-2 text-size-sm font-medium">
+        <span className="truncate">Impersonating: {maskedEmail}</span>
+        <button
+          type="button"
+          onClick={() => { sessionStorage.removeItem(IMPERSONATION_STORAGE_KEY); window.location.reload(); }}
+          className="p-0.5 hover:bg-yellow-500 rounded"
+          aria-label="Stop impersonating"
+        >
+          <RiCloseLine size={16} />
+        </button>
+      </div>
     </div>
   );
 };
