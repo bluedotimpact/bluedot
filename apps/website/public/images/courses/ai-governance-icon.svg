@@ -1,11 +1,16 @@
 <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_20_30522)">
-<path d="M12 48H84" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M48 84C67.8823 84 84 67.8823 84 48C84 28.1177 67.8823 12 48 12C28.1177 12 12 28.1177 12 48C12 67.8823 28.1177 84 48 84Z" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M63 48C63 72 48 84 48 84C48 84 33 72 33 48C33 24 48 12 48 12C48 12 63 24 63 48Z" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<g clip-path="url(#clip0_3053_8864)">
+<path d="M48 3L39 39L48 48L57 39L48 3Z" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M48 93L39 57L48 48L57 57L48 93Z" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M57 39L93 48L57 57" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M39 39L3 48L39 57" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M15.1388 44.9662C15.8469 37.2945 19.2168 30.1123 24.6646 24.6645C30.1124 19.2167 37.2946 15.8467 44.9663 15.1387" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M44.9663 80.8607C37.2946 80.1526 30.1124 76.7827 24.6646 71.3349C19.2168 65.8871 15.8469 58.7049 15.1388 51.0332" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M80.8618 51.0332C80.1537 58.7049 76.7838 65.8871 71.336 71.3349C65.8882 76.7827 58.706 80.1526 51.0343 80.8607" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M51.0343 15.1387C58.706 15.8467 65.8882 19.2167 71.336 24.6645C76.7838 30.1123 80.1537 37.2945 80.8618 44.9662" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
 </g>
 <defs>
-<clipPath id="clip0_20_30522">
+<clipPath id="clip0_3053_8864">
 <rect width="96" height="96" fill="white"/>
 </clipPath>
 </defs>

@@ -19,7 +19,7 @@ import CourseLander from '../../../components/lander/CourseLander';
 import { createAgiStrategyContent, AGI_STRATEGY_APPLICATION_URL } from '../../../components/lander/course-content/AgiStrategyContent';
 import { createBioSecurityContent, BIOSECURITY_APPLICATION_URL } from '../../../components/lander/course-content/BioSecurityContent';
 import { createTechnicalAiSafetyContent, TECHNICAL_AI_SAFETY_APPLICATION_URL } from '../../../components/lander/course-content/TechnicalAiSafetyContent';
-import GraduateSection from '../../../components/homepage/GraduateSection';
+import GraduateSection from '../../../components/lander/components/GraduateSection';
 import { CourseUnitsSection } from '../../../components/courses/CourseUnitsSection';
 import { getCourseData, type CourseAndUnits } from '../../../server/routers/courses';
 import { fileExists } from '../../../utils/fileExists';
@@ -104,9 +104,9 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
             <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
             <meta key="og:type" property="og:type" content="website" />
             <meta key="og:url" property="og:url" content={`https://bluedot.org/courses/${encodeURIComponent(courseData.course.slug)}`} />
-            <meta key="og:image" property="og:image" content={courseOgImage || 'https://bluedot.org/images/logo/icon-on-blue.png'} />
-            <meta key="og:image:width" property="og:image:width" content={courseOgImage ? '1200' : '1000'} />
-            <meta key="og:image:height" property="og:image:height" content={courseOgImage ? '630' : '1000'} />
+            <meta key="og:image" property="og:image" content={courseOgImage || 'https://bluedot.org/images/logo/link-preview-fallback.png'} />
+            <meta key="og:image:width" property="og:image:width" content="1200" />
+            <meta key="og:image:height" property="og:image:height" content="630" />
             <meta key="og:image:type" property="og:image:type" content="image/png" />
             <meta key="og:image:alt" property="og:image:alt" content="BlueDot Impact logo" />
           </Head>

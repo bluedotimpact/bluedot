@@ -101,7 +101,9 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               <a
                 class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] cursor-pointer transition-colors"
                 href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX"
+                rel="noopener noreferrer"
                 tabindex="0"
+                target="_blank"
               >
                 Apply now
               </a>
@@ -302,24 +304,20 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           Curriculum Overview
         </h2>
         <div
-          class="flex justify-center"
+          class="progress-dots my-6 flex items-center justify-center space-x-2"
         >
-          <div
-            class="progress-dots flex justify-center space-x-2 my-6"
-          >
-            <span
-              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
-              style="animation-delay: 0ms;"
-            />
-            <span
-              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
-              style="animation-delay: 150ms;"
-            />
-            <span
-              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
-              style="animation-delay: 300ms;"
-            />
-          </div>
+          <span
+            class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+            style="animation-delay: 0ms;"
+          />
+          <span
+            class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+            style="animation-delay: 150ms;"
+          />
+          <span
+            class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+            style="animation-delay: 300ms;"
+          />
         </div>
       </div>
     </section>

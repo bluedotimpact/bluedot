@@ -59,9 +59,9 @@ const CourseLander = ({
         {/* Open Graph meta tags */}
         <meta property="og:title" content={content.meta.title} />
         <meta property="og:description" content={content.meta.description} />
-        <meta property="og:image" content={courseOgImage || 'https://bluedot.org/images/logo/icon-on-blue.png'} />
-        <meta property="og:image:width" content={courseOgImage ? '1200' : '1000'} />
-        <meta property="og:image:height" content={courseOgImage ? '630' : '1000'} />
+        <meta property="og:image" content={courseOgImage || 'https://bluedot.org/images/logo/link-preview-fallback.png'} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content={content.meta.title} />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="BlueDot Impact" />
@@ -71,7 +71,7 @@ const CourseLander = ({
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={content.meta.title} />
         <meta name="twitter:description" content={content.meta.description} />
-        <meta name="twitter:image" content={courseOgImage || 'https://bluedot.org/images/logo/icon-on-blue.png'} />
+        <meta name="twitter:image" content={courseOgImage || 'https://bluedot.org/images/logo/link-preview-fallback.png'} />
       </Head>
 
       <HeroSection {...content.hero} />
