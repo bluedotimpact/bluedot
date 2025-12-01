@@ -222,13 +222,17 @@ const CourseDetails = ({
 
   const isFacilitator = courseRegistration.role === 'Facilitator';
 
-  const handleOpenGroupSwitchModal = ({ discussion, switchType }: { discussion?: GroupDiscussion; switchType: SwitchType }) => {
-    const unitNumber = switchType === 'Switch group for one unit' && discussion?.unitRecord
-      ? discussion?.unitRecord.unitNumber.toString()
-      : undefined;
-    setInitialUnitNumber(unitNumber);
-    setSelectedSwitchType(switchType);
-    setGroupSwitchModalOpen(true);
+  const handleOpenSwitchModal = ({ discussion, switchType }: { discussion?: GroupDiscussion; switchType: SwitchType }) => {
+    if (isFacilitator) {
+      setFacilitatorSwitchModalOpen(true);
+    } else {
+      const unitNumber = switchType === 'Switch group for one unit' && discussion?.unitRecord
+        ? discussion?.unitRecord.unitNumber.toString()
+        : undefined;
+      setInitialUnitNumber(unitNumber);
+      setSelectedSwitchType(switchType);
+      setGroupSwitchModalOpen(true);
+    }
   };
 
   return (
@@ -283,7 +287,7 @@ const CourseDetails = ({
                             isPast={false}
                             course={course}
                             isFacilitator={isFacilitator}
-                            handleOpenGroupSwitchModal={handleOpenGroupSwitchModal}
+                            handleOpenGroupSwitchModal={handleOpenSwitchModal}
                           />
                         ))}
 
@@ -319,7 +323,7 @@ const CourseDetails = ({
                             isPast
                             course={course}
                             isFacilitator={isFacilitator}
-                            handleOpenGroupSwitchModal={handleOpenGroupSwitchModal}
+                            handleOpenGroupSwitchModal={handleOpenSwitchModal}
                           />
                         ))}
 
