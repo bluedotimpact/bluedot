@@ -109,18 +109,18 @@ const RoundGroup = ({
         </span>
       </div>
 
-      <div className="flex flex-col gap-5">
+      <ul className="list-none flex flex-col gap-5">
         {rounds.map((round, index) => (
-          <div key={round.id}>
+          <li key={round.id}>
             <RoundItem round={round} applicationUrl={applicationUrl} />
             {index < rounds.length - 1 && (
               <div className="relative mt-5">
                 <div className="absolute inset-x-0 h-px bg-[rgba(19,19,46,0.1)]" />
               </div>
             )}
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 };
