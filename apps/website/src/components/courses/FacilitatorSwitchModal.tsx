@@ -72,6 +72,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 
           <div className="flex flex-col gap-2">
             <H1 className="text-size-md font-medium">Step 4: Select new discussion time</H1>
+            <P>The selected time is in your time zone: {Intl.DateTimeFormat().resolvedOptions().timeZone}</P>
           </div>
         </form>
       </div>
