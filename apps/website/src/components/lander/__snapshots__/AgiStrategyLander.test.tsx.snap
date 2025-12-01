@@ -304,24 +304,20 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           Curriculum Overview
         </h2>
         <div
-          class="flex justify-center"
+          class="progress-dots my-6 flex items-center justify-center space-x-2"
         >
-          <div
-            class="progress-dots flex justify-center space-x-2 my-6"
-          >
-            <span
-              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
-              style="animation-delay: 0ms;"
-            />
-            <span
-              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
-              style="animation-delay: 150ms;"
-            />
-            <span
-              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
-              style="animation-delay: 300ms;"
-            />
-          </div>
+          <span
+            class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+            style="animation-delay: 0ms;"
+          />
+          <span
+            class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+            style="animation-delay: 150ms;"
+          />
+          <span
+            class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+            style="animation-delay: 300ms;"
+          />
         </div>
       </div>
     </section>

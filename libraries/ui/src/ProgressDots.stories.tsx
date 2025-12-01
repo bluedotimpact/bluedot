@@ -17,3 +17,10 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {},
 };
+
+export const WithCustomClassName: Story = {
+  args: {
+    className: 'bg-bluedot-normal p-4 rounded',
+    dotClassName: 'bg-white',
+  },
+};
