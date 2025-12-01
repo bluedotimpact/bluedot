@@ -34,7 +34,7 @@ export const createTechnicalAiSafetyContent = (
     },
     secondaryCta: {
       text: 'Browse curriculum',
-      url: `/courses/${courseSlug}/1`,
+      url: `/courses/${courseSlug}/1/1`,
     },
     imageSrc: '/images/lander/technical-ai-safety/hero-banner-split.png',
     imageAlt: 'Technical AI Safety visualisation',
