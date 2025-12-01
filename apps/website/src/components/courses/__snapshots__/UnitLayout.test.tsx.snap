@@ -28,7 +28,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             xmlns="http://www.w3.org/2000/svg"
           >
             <rect
-              fill="#2244BB"
+              class="fill-bluedot-normal"
               height="40"
               rx="8"
               width="40"
@@ -132,7 +132,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             xmlns="http://www.w3.org/2000/svg"
           >
             <rect
-              fill="#2244BB"
+              class="fill-bluedot-normal"
               height="44"
               rx="8"
               width="44"
@@ -555,7 +555,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             class="unit__title-container"
           >
             <p
-              class="bluedot-p not-prose unit__course-title font-semibold text-[13px] leading-[140%] tracking-[0.04em] uppercase text-[#2244BB] mb-2"
+              class="bluedot-p not-prose unit__course-title font-semibold text-[13px] leading-[140%] tracking-[0.04em] uppercase text-bluedot-normal mb-2"
             >
               Unit 
               1
@@ -584,7 +584,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             class="unit__cta-container flex flex-row justify-center mt-6 mx-1 mb-14 sm:mb-0"
           >
             <button
-              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link [&]:bg-[#2244BB] [&]:hover:bg-[color-mix(in_oklab,#2244BB,black_20%)] hover:text-white"
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link [&]:bg-bluedot-normal [&]:hover:bg-[color-mix(in_oklab,var(--bluedot-normal),black_20%)] hover:text-white"
               type="button"
             >
               Continue
@@ -652,7 +652,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
 
 exports[`UnitLayout > renders previous and next unit buttons for middle unit 1`] = `
 <button
-  class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link [&]:bg-[#2244BB] [&]:hover:bg-[color-mix(in_oklab,#2244BB,black_20%)] hover:text-white"
+  class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link [&]:bg-bluedot-normal [&]:hover:bg-[color-mix(in_oklab,var(--bluedot-normal),black_20%)] hover:text-white"
   type="button"
 >
   Continue

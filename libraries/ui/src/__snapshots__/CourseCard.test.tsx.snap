@@ -24,7 +24,7 @@ exports[`CourseCard > renders Featured as expected 1`] = `
           Description
         </p>
         <button
-          class="cta-button flex items-center justify-center w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm py-3 rounded-sm font-[650] cta-button--primary link-on-dark px-6 mt-auto bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors duration-200"
+          class="cta-button flex items-center justify-center w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm py-3 rounded-sm font-[650] cta-button--primary link-on-dark px-6 mt-auto bg-bluedot-normal text-white hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors duration-200"
           type="button"
         >
           Apply now
