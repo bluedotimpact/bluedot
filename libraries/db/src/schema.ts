@@ -612,7 +612,7 @@ export const meetCourseTable = pgAirtable('meet_course', {
   },
 });
 
-export const facilitatorDiscussionSwitchingTable = pgAirtable('change_discussion_time', {
+export const facilitatorDiscussionSwitchingTable = pgAirtable('facilitator_discussion_switching', {
   baseId: COURSE_RUNNER_BASE_ID,
   tableId: 'tblYpyG4RjhlMTmSm',
   columns: {
