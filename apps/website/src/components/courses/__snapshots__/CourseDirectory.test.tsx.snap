@@ -19,7 +19,7 @@ exports[`CourseDirectory > renders default as expected 1`] = `
           >
             <a
               class="flex flex-col container-lined p-6 max-w-[828px] size-full transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
-              href="/courses/course-slug"
+              href="/courses/course-2"
               tabindex="0"
             >
               <div
@@ -52,7 +52,7 @@ exports[`CourseDirectory > renders default as expected 1`] = `
             </a>
             <a
               class="flex flex-col container-lined p-6 max-w-[828px] size-full transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
-              href="/courses/course-slug"
+              href="/courses/course-2"
               tabindex="0"
             >
               <div

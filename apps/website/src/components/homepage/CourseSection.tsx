@@ -435,8 +435,6 @@ const CourseCardsGrid = ({
   featuredCourse: Course;
   otherCourses: Course[];
 }) => {
-  const { getPrimaryCourseURL } = usePrimaryCourseURL();
-
   const allCoursesForGrid = [featuredCourse, ...otherCourses.slice(0, 4)];
 
   const renderCard = (course: Course, index: number) => (
@@ -449,7 +447,6 @@ const CourseCardsGrid = ({
       course={course}
       gradientRotation={GRADIENT_ROTATIONS[index] || 0}
       isFirstCard={index === 0}
-      url={getPrimaryCourseURL(course.slug)}
     />
   );
 
