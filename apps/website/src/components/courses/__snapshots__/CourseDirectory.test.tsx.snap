@@ -1,0 +1,92 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CourseDirectory > renders default as expected 1`] = `
+<div>
+  <section
+    class="section section-body"
+  >
+    <div
+      class="section__body"
+    >
+      <div
+        class="flex flex-col gap-spacing-x"
+      >
+        <div
+          class="flex flex-col gap-4 mt-2"
+        >
+          <div
+            class="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-4"
+          >
+            <a
+              class="flex flex-col container-lined p-6 max-w-[828px] size-full transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
+              href="/courses/course-slug"
+              tabindex="0"
+            >
+              <div
+                class="h-[200px] w-full mb-4"
+              >
+                <img
+                  alt="Test Course 1"
+                  class="size-full object-cover rounded-lg"
+                  src="img1.jpg"
+                />
+              </div>
+              <div
+                class="flex flex-col flex-1"
+              >
+                <div
+                  class="flex-1"
+                >
+                  <h3
+                    class="bluedot-h3 not-prose mb-3"
+                  >
+                    Test Course 1
+                  </h3>
+                  <p
+                    class="bluedot-p not-prose text-bluedot-black"
+                  >
+                    Desc 1
+                  </p>
+                </div>
+              </div>
+            </a>
+            <a
+              class="flex flex-col container-lined p-6 max-w-[828px] size-full transition-transform duration-200 hover:scale-[1.01] hover:container-elevated"
+              href="/courses/course-slug"
+              tabindex="0"
+            >
+              <div
+                class="h-[200px] w-full mb-4"
+              >
+                <img
+                  alt="Test Course 2"
+                  class="size-full object-cover rounded-lg"
+                  src="img2.jpg"
+                />
+              </div>
+              <div
+                class="flex flex-col flex-1"
+              >
+                <div
+                  class="flex-1"
+                >
+                  <h3
+                    class="bluedot-h3 not-prose mb-3"
+                  >
+                    Test Course 2
+                  </h3>
+                  <p
+                    class="bluedot-p not-prose text-bluedot-black"
+                  >
+                    Desc 2
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+`;
