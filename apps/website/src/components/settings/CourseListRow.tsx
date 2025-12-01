@@ -106,7 +106,7 @@ const CourseListRow = ({
         url={buttonUrl}
         disabled={disabled}
         target="_blank"
-        className="w-full sm:w-auto bg-[#2244BB]"
+        className="w-full sm:w-auto bg-bluedot-normal"
       >
         {buttonText}
       </CTALinkOrButton>
