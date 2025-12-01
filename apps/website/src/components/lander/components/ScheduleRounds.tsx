@@ -137,7 +137,7 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
   return (
     <div className="flex flex-col min-[680px]:flex-row min-[680px]:items-center min-[680px]:justify-between gap-2 min-[680px]:gap-4">
       <div className="flex items-stretch gap-3 min-[680px]:gap-4">
-        <div className="w-1 flex-shrink-0 rounded-sm bg-[#2244BB]" />
+        <div className="w-1 flex-shrink-0 rounded-sm bg-[#1144CC]" />
         <div className="flex flex-col gap-3 min-[680px]:gap-0">
           <div>
             {round.dateRange && (
@@ -154,7 +154,7 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
             href={applyUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-medium text-[15px] leading-[1.6] text-[#2244BB] group min-[680px]:hidden"
+            className="font-medium text-[15px] leading-[1.6] text-[#1144CC] group min-[680px]:hidden"
           >
             <span className="transition-transform group-hover:-translate-x-1 inline-block">Apply now</span>
             <span className="ml-1 transition-opacity group-hover:opacity-100 opacity-0 inline-block">
@@ -168,7 +168,7 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
         href={applyUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="hidden min-[680px]:flex font-medium text-[15px] leading-[1.6] text-[#2244BB] group items-center ml-auto"
+        className="hidden min-[680px]:flex font-medium text-[15px] leading-[1.6] text-[#1144CC] group items-center ml-auto"
       >
         <span className="transition-transform group-hover:-translate-x-1">Apply now</span>
         <span className="ml-1 transition-opacity group-hover:opacity-100 opacity-0">
