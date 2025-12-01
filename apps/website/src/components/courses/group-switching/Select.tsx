@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useState, type Key } from 'react';
 import {
   Button,
   Label,
@@ -27,7 +27,7 @@ const Select = ({
   const [isOpen, setIsOpen] = useState(false);
   const selectedOption = options.find((op) => op.value === value);
 
-  const handleSelectionChange = (key: React.Key | null) => {
+  const handleSelectionChange = (key: Key | null) => {
     if (key !== null) {
       onChange?.(key as string);
       setIsOpen(false);
