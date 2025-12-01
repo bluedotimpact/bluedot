@@ -178,45 +178,6 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource, re
         queryClient.setQueryData(queryKey, data);
       });
     },
-    onMutate: async (newData) => {
-      // Optimistically update `getResourceCompletions` so that the Sidebar immediately updates
-      await utils.resources.getResourceCompletions.cancel();
-      queryClient.setQueriesData(
-        { queryKey: getQueryKey(trpc.resources.getResourceCompletions, undefined, 'query') },
-        (oldData: inferRouterOutputs<AppRouter>['resources']['getResourceCompletions']) => {
-          if (!oldData) return [];
-
-          // Create a shallow copy for safe mutation
-          const newArray = [...oldData];
-
-          const { unitResourceId, ...updatedFields } = newData;
-
-          const existingIndex = oldData.findIndex((item) => item.unitResourceIdRead === resource.id);
-
-          if (newArray[existingIndex]) {
-            // If an existing item is found, update it
-            newArray[existingIndex] = {
-              ...newArray[existingIndex],
-              ...updatedFields,
-            };
-          } else if (newData.isCompleted) {
-            // If no existing item and isCompleted is true, add a new item
-            newArray.push({
-              id: unitResourceId,
-              autoNumberId: null,
-              email: auth?.email ?? '',
-              unitResourceIdRead: unitResourceId,
-              unitResourceIdWrite: unitResourceId,
-              rating: updatedFields.rating ?? null,
-              feedback: updatedFields.feedback ?? '',
-              resourceFeedback: updatedFields.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,
-              isCompleted: updatedFields.isCompleted ?? false,
-            });
-          }
-          return newArray;
-        },
-      );
-    },
   });
 
   // Derive `isCompleted` and `resourceFeedback` from mutation variables (for optimistic updates) or fetched data (on first load)
