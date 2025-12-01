@@ -27,7 +27,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     <Modal
       isOpen
       setIsOpen={(open: boolean) => !open && handleClose()}
-      title="Update group discussion time"
+      title="Update your discussion time"
       bottomDrawerOnMobile
     >
       <div className="w-full max-w-[600px]">
