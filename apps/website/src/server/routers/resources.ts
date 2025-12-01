@@ -1,5 +1,5 @@
 import {
-  and, eq, inArray, resourceCompletionTable,
+  and, desc, eq, inArray, resourceCompletionTable,
 } from '@bluedot/db';
 import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 import { z } from 'zod';
@@ -7,38 +7,19 @@ import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
 
 export const resourcesRouter = router({
-  getResourceCompletion: protectedProcedure
-    .input(z.object({ unitResourceId: z.string().min(1) }))
-    .query(async ({ input, ctx }) => {
-      const resourceCompletion = await db.getFirst(resourceCompletionTable, {
-        filter: {
-          unitResourceIdRead: input.unitResourceId,
-          email: ctx.auth.email,
-        },
-      });
-
-      // Return null when no completion exists
-      if (!resourceCompletion) {
-        return null;
-      }
-
-      // Return the actual resource completion with trimmed feedback
-      return {
-        ...resourceCompletion,
-        // Trim feedback field (Airtable quirk)
-        feedback: resourceCompletion.feedback?.trimEnd() ?? null,
-      };
-    }),
-
   getResourceCompletions: protectedProcedure
     .input(z.object({ unitResourceIds: z.array(z.string().min(1)) }))
     .query(async ({ input, ctx }) => {
-      const resourceCompletions = await db.pg.select().from(resourceCompletionTable.pg).where(
-        and(
-          inArray(resourceCompletionTable.pg.unitResourceIdRead, input.unitResourceIds),
-          eq(resourceCompletionTable.pg.email, ctx.auth.email),
-        ),
-      );
+      const resourceCompletions = await db.pg
+        .select()
+        .from(resourceCompletionTable.pg)
+        .where(
+          and(
+            inArray(resourceCompletionTable.pg.unitResourceIdRead, input.unitResourceIds),
+            eq(resourceCompletionTable.pg.email, ctx.auth.email),
+          ),
+        )
+        .orderBy(desc(resourceCompletionTable.pg.autoNumberId));
 
       // Deduplicate by unitResourceIdRead, keeping only the first occurrence.
       // Although we should only have one resource completion for a resource per user, it is possible to have multiple
