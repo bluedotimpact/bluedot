@@ -532,6 +532,10 @@ export const meetPersonTable = pgAirtable('meet_person', {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldRtqMTFX50uqLw5',
     },
+    email: {
+      pgColumn: text(),
+      airtableId: 'fld9BqZjF67r9Ce6O',
+    },
   },
 });
 
