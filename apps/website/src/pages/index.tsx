@@ -48,8 +48,8 @@ const HomePage = () => {
       <EventsSection />
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
-      <HomepageBlogSection maxItems={3} />
       <StorySection />
+      <HomepageBlogSection maxItems={3} />
     </div>
   );
 };

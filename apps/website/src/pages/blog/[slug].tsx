@@ -46,6 +46,11 @@ const BlogPostPage = ({ slug, blog }: BlogPostPageProps) => {
         <meta key="og:description" property="og:description" content={blog.title} />
         <meta key="og:type" property="og:type" content="article" />
         <meta key="og:url" property="og:url" content={`https://bluedot.org/blog/${encodeURIComponent(slug)}`} />
+        <meta key="og:image" property="og:image" content="https://bluedot.org/images/logo/link-preview-fallback.png" />
+        <meta key="og:image:width" property="og:image:width" content="1200" />
+        <meta key="og:image:height" property="og:image:height" content="630" />
+        <meta key="og:image:type" property="og:image:type" content="image/png" />
+        <meta key="og:image:alt" property="og:image:alt" content="BlueDot Impact logo" />
         <script
           type="application/ld+json"
           // eslint-disable-next-line react/no-danger

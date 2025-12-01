@@ -1,18 +1,19 @@
 import clsx from 'clsx';
 import { H1 } from '@bluedot/ui/src/Text';
-import HomeGraduateSection from './HomeGraduateSection';
+import GraduateSection from '../lander/components/GraduateSection';
 
 const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
   <>
     {/* Hero with integrated nav and alumni */}
     <div className={clsx('relative w-full', className)}>
       {/* Main Hero Container */}
-      <div
-        className="relative flex flex-col min-h-[653px] min-[680px]:max-[1023px]:min-h-[659px] min-[1024px]:max-[1279px]:min-h-[738px] min-[1280px]:max-[1439px]:min-h-[821px] min-[1440px]:min-h-[821px] w-full -scale-x-100 bg-cover bg-center"
-        style={{
-          backgroundImage: 'url(\'/images/homepage/hero.jpg\')',
-        }}
-      >
+      <div className="relative flex flex-col min-h-[653px] min-[680px]:max-[1023px]:min-h-[659px] min-[1024px]:max-[1279px]:min-h-[738px] min-[1280px]:max-[1439px]:min-h-[821px] min-[1440px]:min-h-[821px] w-full -scale-x-100">
+        <img
+          src="/images/homepage/hero.webp"
+          alt=""
+          className="absolute inset-0 size-full object-cover"
+          fetchPriority="high"
+        />
 
         {/* Nav spacer */}
         <div className="relative z-20 min-h-[60px] min-[680px]:max-[1023px]:min-h-[60px] min-[1024px]:min-h-[76px] -scale-x-100" />
@@ -42,7 +43,7 @@ const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
 
         {/* Alumni Section - at bottom of hero */}
         <div className="relative z-20 -scale-x-100">
-          <HomeGraduateSection />
+          <GraduateSection />
         </div>
       </div>
     </div>

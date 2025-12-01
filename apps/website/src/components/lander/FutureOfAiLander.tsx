@@ -22,7 +22,7 @@ import { useEffect } from 'react';
 
 import { H1, H2, H3 } from '../Text';
 import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
-import GraduateSection from '../homepage/GraduateSection';
+import GraduateSection from './components/GraduateSection';
 import type { CourseAndUnits } from '../../server/routers/courses';
 
 const FutureOfAiBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
@@ -121,16 +121,25 @@ const FutureOfAiLander = ({
     if (typeof window !== 'undefined' && window.dataLayer) {
       window.dataLayer.push({
         event: 'newbies',
-        course_slug: 'future-of-ai',
+        course_slug: courseData.course.slug,
       });
     }
-  }, []);
+  }, [courseData.course.slug]);
 
   return (
     <>
       <Head>
         <title>{courseData.course.title} | BlueDot Impact</title>
         <meta name="description" content={customDescription} />
+        <meta property="og:title" content={courseData.course.title} />
+        <meta property="og:description" content={customDescription} />
+        <meta property="og:image" content={`https://bluedot.org/images/courses/link-preview/${courseData.course.slug}.png`} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content={courseData.course.title} />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="BlueDot Impact" />
+        <meta property="og:url" content={`https://bluedot.org/courses/${encodeURIComponent(courseData.course.slug)}`} />
       </Head>
 
       {/* Hero section */}

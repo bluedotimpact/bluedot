@@ -2,10 +2,10 @@
 
 exports[`CourseInformationSection > renders correctly 1`] = `
 <section
-  class="w-full bg-[#FAFAF7]"
+  class="w-full bg-white"
 >
   <div
-    class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:py-16 lg:pt-24 lg:pb-20 flex flex-col items-center gap-12 md:gap-16"
+    class="max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-12 min-[1280px]:px-44 xl:px-40 py-12 min-[680px]:py-16 min-[1280px]:py-24 xl:py-24 flex flex-col items-center gap-12 md:gap-16"
   >
     <h2
       class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]"
@@ -13,59 +13,45 @@ exports[`CourseInformationSection > renders correctly 1`] = `
       Course information
     </h2>
     <div
-      class="w-full lg:w-[928px] bg-white border border-[rgba(19,19,46,0.1)] rounded-xl py-8 flex flex-col items-center gap-6"
+      class="w-[calc(100vw-40px)] min-[680px]:w-[calc(100vw-64px)] lg:w-[928px] xl:w-[1120px] bg-white border border-[rgba(19,19,46,0.1)] rounded-xl py-8 flex flex-col items-center gap-6"
     >
       <div
         class="flex flex-col w-full"
       >
         <div>
           <div
-            class="flex flex-col md:flex-row items-start px-6 md:px-8 py-0 gap-4 md:gap-8"
+            class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
           >
             <div
-              class="flex items-center gap-3 md:min-w-[240px]"
+              class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
             >
-              <div
-                class="text-[#13132E]"
-              >
-                <svg
-                  class="size-6"
-                  fill="currentColor"
-                  height="1em"
-                  stroke="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 256 256"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M251.76,88.94l-120-64a8,8,0,0,0-7.52,0l-120,64a8,8,0,0,0,0,14.12L32,117.87v48.42a15.91,15.91,0,0,0,4.06,10.65C49.16,191.53,78.51,216,128,216a130,130,0,0,0,48-8.76V240a8,8,0,0,0,16,0V199.51a115.63,115.63,0,0,0,27.94-22.57A15.91,15.91,0,0,0,224,166.29V117.87l27.76-14.81a8,8,0,0,0,0-14.12ZM128,200c-43.27,0-68.72-21.14-80-33.71V126.4l76.24,40.66a8,8,0,0,0,7.52,0L176,143.47v46.34C163.4,195.69,147.52,200,128,200Zm80-33.75a97.83,97.83,0,0,1-16,14.25V134.93l16-8.53ZM188,118.94l-.22-.13-56-29.87a8,8,0,0,0-7.52,14.12L171,128l-43,22.93L25,96,128,41.07,231,96Z"
-                  />
-                </svg>
-              </div>
               <p
                 class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-[#13132E]"
               >
                 Options
               </p>
             </div>
-            <p
-              class="bluedot-p not-prose text-[16px] leading-[160%] text-[#13132E] opacity-80 flex-1 font-normal"
+            <div
+              class="flex-1 min-w-0"
             >
-              <span
-                class="font-semibold"
+              <p
+                class="bluedot-p not-prose text-[15px] leading-[160%] text-[#13132E] opacity-80 font-normal"
               >
-                Intensive
-              </span>
-              : 6-day course (5h/day)
-              <br />
-              <span
-                class="font-semibold"
-              >
-                Part-time
-              </span>
-              : 6-week course (5h/week)
-            </p>
+                <span
+                  class="font-semibold"
+                >
+                  Intensive
+                </span>
+                : 6-day course (5h/day)
+                <br />
+                <span
+                  class="font-semibold"
+                >
+                  Part-time
+                </span>
+                : 6-week course (5h/week)
+              </p>
+            </div>
           </div>
           <div
             class="w-full h-px bg-[#13132E] opacity-10 my-6"
@@ -73,53 +59,39 @@ exports[`CourseInformationSection > renders correctly 1`] = `
         </div>
         <div>
           <div
-            class="flex flex-col md:flex-row items-start px-6 md:px-8 py-0 gap-4 md:gap-8"
+            class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
           >
             <div
-              class="flex items-center gap-3 md:min-w-[240px]"
+              class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
             >
-              <div
-                class="text-[#13132E]"
-              >
-                <svg
-                  class="size-6"
-                  fill="currentColor"
-                  height="1em"
-                  stroke="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 256 256"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M136,80v43.47l36.12,21.67a8,8,0,0,1-8.24,13.72l-40-24A8,8,0,0,1,120,128V80a8,8,0,0,1,16,0Zm88-24a8,8,0,0,0-8,8V82c-6.35-7.36-12.83-14.45-20.12-21.83a96,96,0,1,0-2,137.7,8,8,0,0,0-11-11.64A80,80,0,1,1,184.54,71.4C192.68,79.64,199.81,87.58,207,96H184a8,8,0,0,0,0,16h40a8,8,0,0,0,8-8V64A8,8,0,0,0,224,56Z"
-                  />
-                </svg>
-              </div>
               <p
                 class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-[#13132E]"
               >
                 Commitment
               </p>
             </div>
-            <p
-              class="bluedot-p not-prose text-[16px] leading-[160%] text-[#13132E] opacity-80 flex-1 font-normal"
+            <div
+              class="flex-1 min-w-0"
             >
-              Each day or week, you will:
-              <br />
-              <span
-                class="font-semibold"
+              <p
+                class="bluedot-p not-prose text-[15px] leading-[160%] text-[#13132E] opacity-80 font-normal"
               >
-                Complete 2-3 hours
-              </span>
-               of reading and writing, and 
-              <span
-                class="font-semibold"
-              >
-                join ~8 peers in a 2-hour Zoom meeting
-              </span>
-               to discuss the content.
-            </p>
+                Each day or week, you will:
+                <br />
+                <span
+                  class="font-semibold"
+                >
+                  Complete 2-3 hours
+                </span>
+                 of reading and writing, and 
+                <span
+                  class="font-semibold"
+                >
+                  join ~8 peers in a 2-hour Zoom meeting
+                </span>
+                 to discuss the content.
+              </p>
+            </div>
           </div>
           <div
             class="w-full h-px bg-[#13132E] opacity-10 my-6"
@@ -127,40 +99,26 @@ exports[`CourseInformationSection > renders correctly 1`] = `
         </div>
         <div>
           <div
-            class="flex flex-col md:flex-row items-start px-6 md:px-8 py-0 gap-4 md:gap-8"
+            class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
           >
             <div
-              class="flex items-center gap-3 md:min-w-[240px]"
+              class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
             >
-              <div
-                class="text-[#13132E]"
-              >
-                <svg
-                  class="size-6"
-                  fill="currentColor"
-                  height="1em"
-                  stroke="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 256 256"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M216,80H184V48a16,16,0,0,0-16-16H40A16,16,0,0,0,24,48V176a8,8,0,0,0,13,6.22L72,154V184a16,16,0,0,0,16,16h93.59L219,230.22a8,8,0,0,0,5,1.78,8,8,0,0,0,8-8V96A16,16,0,0,0,216,80ZM66.55,137.78,40,159.25V48H168v88H71.58A8,8,0,0,0,66.55,137.78ZM216,207.25l-26.55-21.47a8,8,0,0,0-5-1.78H88V152h80a16,16,0,0,0,16-16V96h32Z"
-                  />
-                </svg>
-              </div>
               <p
                 class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-[#13132E]"
               >
                 Facilitator
               </p>
             </div>
-            <p
-              class="bluedot-p not-prose text-[16px] leading-[160%] text-[#13132E] opacity-80 flex-1 font-normal"
+            <div
+              class="flex-1 min-w-0"
             >
-              All discussions will be facilitated by an AI safety expert.
-            </p>
+              <p
+                class="bluedot-p not-prose text-[15px] leading-[160%] text-[#13132E] opacity-80 font-normal"
+              >
+                All discussions will be facilitated by an AI safety expert.
+              </p>
+            </div>
           </div>
           <div
             class="w-full h-px bg-[#13132E] opacity-10 my-6"
@@ -168,40 +126,26 @@ exports[`CourseInformationSection > renders correctly 1`] = `
         </div>
         <div>
           <div
-            class="flex flex-col md:flex-row items-start px-6 md:px-8 py-0 gap-4 md:gap-8"
+            class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
           >
             <div
-              class="flex items-center gap-3 md:min-w-[240px]"
+              class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
             >
-              <div
-                class="text-[#13132E]"
-              >
-                <svg
-                  class="size-6"
-                  fill="currentColor"
-                  height="1em"
-                  stroke="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 256 256"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M230.33,141.06a24.34,24.34,0,0,0-18.61-4.77C230.5,117.33,240,98.48,240,80c0-26.47-21.29-48-47.46-48A47.58,47.58,0,0,0,156,48.75,47.58,47.58,0,0,0,119.46,32C93.29,32,72,53.53,72,80c0,11,3.24,21.69,10.06,33a31.87,31.87,0,0,0-14.75,8.4L44.69,144H16A16,16,0,0,0,0,160v40a16,16,0,0,0,16,16H120a7.93,7.93,0,0,0,1.94-.24l64-16a6.94,6.94,0,0,0,1.19-.4L226,182.82l.44-.2a24.6,24.6,0,0,0,3.93-41.56ZM119.46,48A31.15,31.15,0,0,1,148.6,67a8,8,0,0,0,14.8,0,31.15,31.15,0,0,1,29.14-19C209.59,48,224,62.65,224,80c0,19.51-15.79,41.58-45.66,63.9l-11.09,2.55A28,28,0,0,0,140,112H100.68C92.05,100.36,88,90.12,88,80,88,62.65,102.41,48,119.46,48ZM16,160H40v40H16Zm203.43,8.21-38,16.18L119,200H56V155.31l22.63-22.62A15.86,15.86,0,0,1,89.94,128H140a12,12,0,0,1,0,24H112a8,8,0,0,0,0,16h32a8.32,8.32,0,0,0,1.79-.2l67-15.41.31-.08a8.6,8.6,0,0,1,6.3,15.9Z"
-                  />
-                </svg>
-              </div>
               <p
                 class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-[#13132E]"
               >
                 Price
               </p>
             </div>
-            <p
-              class="bluedot-p not-prose text-[16px] leading-[160%] text-[#13132E] opacity-80 flex-1 font-normal"
+            <div
+              class="flex-1 min-w-0"
             >
-              This course is freely available and operates on a "pay-what-you-want" model.
-            </p>
+              <p
+                class="bluedot-p not-prose text-[15px] leading-[160%] text-[#13132E] opacity-80 font-normal"
+              >
+                This course is freely available and operates on a "pay-what-you-want" model.
+              </p>
+            </div>
           </div>
           <div
             class="w-full h-px bg-[#13132E] opacity-10 my-6"
@@ -209,71 +153,30 @@ exports[`CourseInformationSection > renders correctly 1`] = `
         </div>
         <div>
           <div
-            class="flex flex-col px-6 md:px-8 py-0 gap-4 md:gap-6"
+            class="flex flex-col min-[680px]:flex-row px-5 min-[680px]:px-8 py-0 gap-6 min-[680px]:gap-6 md:gap-8 items-start w-full"
           >
             <div
-              class="flex flex-col md:flex-row items-start gap-4 md:gap-8"
+              class="min-[680px]:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
             >
-              <div
-                class="flex items-center gap-3 md:min-w-[240px]"
+              <p
+                class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-[#13132E]"
               >
-                <div
-                  class="text-[#13132E]"
-                >
-                  <svg
-                    class="size-6"
-                    fill="currentColor"
-                    height="1em"
-                    stroke="currentColor"
-                    stroke-width="0"
-                    viewBox="0 0 256 256"
-                    width="1em"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-68-76a12,12,0,1,1-12-12A12,12,0,0,1,140,132Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,132ZM96,172a12,12,0,1,1-12-12A12,12,0,0,1,96,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,140,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,172Z"
-                    />
-                  </svg>
-                </div>
-                <p
-                  class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-[#13132E]"
-                >
-                  Schedule
-                </p>
-              </div>
-              <div
-                class="flex-1"
-              >
-                <div
-                  class="text-[16px] leading-[160%] text-[#13132E] opacity-80 font-normal"
-                >
-                  New cohorts start every month:
-                  <br />
-                  Next round 
-                  <span
-                    class="font-semibold"
-                  >
-                    27th Oct
-                  </span>
-                  , application deadline 
-                  <span
-                    class="font-semibold"
-                  >
-                    19th Oct
-                  </span>
-                </div>
-              </div>
+                Schedule
+              </p>
             </div>
             <div
-              class="flex justify-start md:justify-center"
+              class="w-full min-[680px]:flex-1 min-[680px]:min-w-0"
             >
-              <a
-                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--primary link-on-dark px-5 py-[9px] md:px-5 md:py-3 md:text-[16px] font-medium bg-[#2244BB] text-white rounded-md hover:bg-[#1a3399] cursor-pointer transition-colors"
-                href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX"
-                tabindex="0"
+              <div
+                class="flex flex-col gap-4"
               >
-                Apply now
-              </a>
+                <div
+                  class="h-20 w-full animate-pulse rounded bg-gray-200"
+                />
+                <div
+                  class="h-20 w-full animate-pulse rounded bg-gray-200"
+                />
+              </div>
             </div>
           </div>
         </div>

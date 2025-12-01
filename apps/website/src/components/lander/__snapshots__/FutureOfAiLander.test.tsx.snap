@@ -534,78 +534,44 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
     </div>
   </div>
   <section
-    class="section section-body graduate-section !py-8"
+    class="w-full h-[106px] min-[680px]:h-[91px] bg-white border-b-hairline border-color-divider flex items-center"
   >
     <div
-      class="section__body"
+      class="w-full flex items-center justify-center 2xl:justify-end p-5 sm:px-6 md:px-12 2xl:pl-[272px] 2xl:pr-[48px]"
     >
       <div
-        class="graduate-section__container flex flex-col md:flex-row gap-6 items-center"
+        class="flex flex-col sm:flex-row items-center gap-4 sm:gap-5 w-full max-w-[1200px] 2xl:max-w-none"
       >
-        <div
-          class="graduate-section__header flex items-center gap-2 shrink-0"
+        <p
+          class="bluedot-p not-prose text-[#13132E] text-[16px] leading-[26px] whitespace-nowrap flex-shrink-0"
         >
-          <div
-            class="face-tiles flex items-center "
-          >
-            <div
-              class="face-tiles__container flex -space-x-3"
-            >
-              <div
-                class="face-tiles__avatar rounded-full border border-white overflow-hidden"
-                style="width: 32px; height: 32px;"
-              >
-                <img
-                  alt="Matthew"
-                  class="face-tiles__avatar-img size-full object-cover"
-                  src="/images/graduates/matthew.png"
-                />
-              </div>
-              <div
-                class="face-tiles__avatar rounded-full border border-white overflow-hidden"
-                style="width: 32px; height: 32px;"
-              >
-                <img
-                  alt="Sarah"
-                  class="face-tiles__avatar-img size-full object-cover"
-                  src="/images/graduates/sarah.png"
-                />
-              </div>
-              <div
-                class="face-tiles__avatar rounded-full border border-white overflow-hidden"
-                style="width: 32px; height: 32px;"
-              >
-                <img
-                  alt="Kendrea"
-                  class="face-tiles__avatar-img size-full object-cover"
-                  src="/images/graduates/kendrea.png"
-                />
-              </div>
-              <div
-                class="face-tiles__counter flex items-center justify-center bg-bluedot-lighter text-bluedot-normal font-semibold text-size-xs border border-bluedot-normal w-[66px] h-8 rounded-2xl px-2 py-4"
-              >
-                +
-                4000
-              </div>
-            </div>
-          </div>
-          <p
-            class="bluedot-p not-prose graduate-section__text flex-shrink-0"
-          >
-            Our graduates work at
-          </p>
-        </div>
+          Our 6,000+ alumni work at
+        </p>
         <div
-          class="w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)]"
+          class="w-full sm:flex-1 inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(90deg,transparent_0,_black_12.63%,_black_80.26%,transparent_100%)]"
         >
           <ul
-            class="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll list-none"
+            class="flex items-center justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll list-none"
           >
             <li>
               <img
                 alt="OpenAI"
                 class="h-6"
                 src="/images/third-party-logos/openai.svg"
+              />
+            </li>
+            <li>
+              <img
+                alt="Anthropic"
+                class="h-6 !h-3"
+                src="/images/third-party-logos/anthropic.svg"
+              />
+            </li>
+            <li>
+              <img
+                alt="Google DeepMind"
+                class="h-6"
+                src="/images/third-party-logos/deepmind.svg"
               />
             </li>
             <li>
@@ -624,13 +590,6 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
             </li>
             <li>
               <img
-                alt="Anthropic"
-                class="h-6 !h-3"
-                src="/images/third-party-logos/anthropic.svg"
-              />
-            </li>
-            <li>
-              <img
                 alt="Amnesty International"
                 class="h-6"
                 src="/images/third-party-logos/amnesty.png"
@@ -641,13 +600,6 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
                 alt="Time"
                 class="h-6"
                 src="/images/third-party-logos/time.png"
-              />
-            </li>
-            <li>
-              <img
-                alt="Google DeepMind"
-                class="h-6"
-                src="/images/third-party-logos/deepmind.svg"
               />
             </li>
             <li>
@@ -666,7 +618,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
             </li>
             <li>
               <img
-                alt="Stanford University: Human Centered Artificial Intelligence Institute"
+                alt="Stanford HAI"
                 class="h-6"
                 src="/images/third-party-logos/hai.png"
               />
@@ -688,13 +640,27 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
           </ul>
           <ul
             aria-hidden="true"
-            class="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll list-none"
+            class="flex items-center justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll list-none"
           >
             <li>
               <img
                 alt="OpenAI"
                 class="h-6"
                 src="/images/third-party-logos/openai.svg"
+              />
+            </li>
+            <li>
+              <img
+                alt="Anthropic"
+                class="h-6 !h-3"
+                src="/images/third-party-logos/anthropic.svg"
+              />
+            </li>
+            <li>
+              <img
+                alt="Google DeepMind"
+                class="h-6"
+                src="/images/third-party-logos/deepmind.svg"
               />
             </li>
             <li>
@@ -713,13 +679,6 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
             </li>
             <li>
               <img
-                alt="Anthropic"
-                class="h-6 !h-3"
-                src="/images/third-party-logos/anthropic.svg"
-              />
-            </li>
-            <li>
-              <img
                 alt="Amnesty International"
                 class="h-6"
                 src="/images/third-party-logos/amnesty.png"
@@ -730,13 +689,6 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
                 alt="Time"
                 class="h-6"
                 src="/images/third-party-logos/time.png"
-              />
-            </li>
-            <li>
-              <img
-                alt="Google DeepMind"
-                class="h-6"
-                src="/images/third-party-logos/deepmind.svg"
               />
             </li>
             <li>
@@ -755,7 +707,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
             </li>
             <li>
               <img
-                alt="Stanford University: Human Centered Artificial Intelligence Institute"
+                alt="Stanford HAI"
                 class="h-6"
                 src="/images/third-party-logos/hai.png"
               />

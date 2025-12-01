@@ -18,6 +18,7 @@ import {
   type UnitResource,
 } from '@bluedot/db';
 import { skipToken } from '@tanstack/react-query';
+import ActionPlanCard from './ActionPlanCard';
 import CertificateLinkCard from './CertificateLinkCard';
 import Congratulations from './Congratulations';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
@@ -313,7 +314,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
 
       {/* Breadcrumbs bar - positioned sticky and full width */}
       <div className={clsx(
-        'unit__breadcrumbs-wrapper hidden md:block md:sticky md:top-16 z-10 border-b-[0.5px] border-[rgba(19,19,46,0.2)] h-[48px] bg-color-canvas',
+        'unit__breadcrumbs-wrapper hidden md:block md:sticky md:top-(--nav-height-mobile) lg:top-(--nav-height-desktop) z-10 border-b-[0.5px] border-[rgba(19,19,46,0.2)] h-[48px] bg-color-canvas',
         isSidebarHidden ? 'md:ml-0' : 'md:ml-[360px]',
       )}
       >
@@ -454,6 +455,9 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 className="mt-8 md:mt-6"
               />
               <div className="mt-8 md:mt-6">
+                <ActionPlanCard courseId={unit.courseId} />
+              </div>
+              <div className="mt-4">
                 <CertificateLinkCard courseId={unit.courseId} />
               </div>
             </>

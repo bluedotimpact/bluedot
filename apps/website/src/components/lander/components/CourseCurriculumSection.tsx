@@ -22,7 +22,7 @@ export type CourseCurriculumSectionProps = {
 /* Common Section Wrapper */
 const SectionWrapper = ({ children, title }: { children: React.ReactNode; title: string }) => (
   <section className="w-full bg-white">
-    <div className="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 md:px-spacing-x md:pt-20 md:pb-16 lg:pt-24 lg:pb-20">
+    <div className="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 md:px-spacing-x min-[1280px]:py-24 xl:py-24">
       <H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-12 md:mb-16 tracking-[-0.01em]">
         {title}
       </H2>

@@ -63,8 +63,8 @@ const PartnerCard = ({
 
 const PartnerSection = ({ title, partners }: PartnerSectionProps) => {
   return (
-    <section className="w-full bg-[#FAFAF7]">
-      <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:py-16 lg:py-24">
+    <section className="w-full bg-white">
+      <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:py-16 min-[1280px]:py-24">
 
         {/* Section Header */}
         <h2 className="text-[28px] min-[680px]:text-[32px] min-[1280px]:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-[#13132E] text-center mb-12 md:mb-16 max-w-[734px] mx-auto">

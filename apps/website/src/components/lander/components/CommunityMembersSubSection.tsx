@@ -233,7 +233,7 @@ const CommunityMembersSubSection = ({
   };
 
   return (
-    <section className="community-members-section w-full bg-[#FAFAF7] py-12 min-[680px]:py-16 lg:py-24" data-testid="community-members-section">
+    <section className="community-members-section w-full bg-white py-12 min-[680px]:py-16 min-[1024px]:py-16 min-[1280px]:py-24" data-testid="community-members-section">
       {/* Header Container - constrained to content width */}
       <div className="mx-auto px-5 min-[680px]:px-8 lg:px-40 max-w-[1440px] mb-16">
         {/* Custom Header Section */}

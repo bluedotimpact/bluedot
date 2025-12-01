@@ -1,7 +1,16 @@
 import { render, RenderResult } from '@testing-library/react';
 import type {
-  Chunk, Course, CourseRegistration, Group, GroupDiscussion, Unit,
+  Chunk,
+  Course,
+  CourseRegistration,
+  Group,
+  GroupDiscussion,
+  MeetPerson,
+  ResourceCompletion,
+  Unit,
+  UnitResource,
 } from '@bluedot/db';
+import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -47,6 +56,9 @@ const MOCK_COURSE_ID = 'course-id';
 const MOCK_COURSE_REGISTRATION_ID = 'course-registration-id';
 const MOCK_CHUNK_ID = 'chunk-id';
 const MOCK_GROUP_ID = 'group-id';
+const MOCK_MEET_PERSON_ID = 'meet-person-id';
+const MOCK_RESOURCE_ID = 'resource-id';
+const MOCK_RESOURCE_COMPLETION_ID = 'resource-completion-id';
 
 export const createMockCourse = (overrides: Partial<Course> = {}): Course => ({
   averageRating: 4.5,
@@ -78,7 +90,7 @@ export const createMockCourseRegistration = (overrides: Partial<CourseRegistrati
   certificateCreatedAt: null,
   certificateId: null,
   courseApplicationsBaseId: 'base123',
-  courseId: 'course-1',
+  courseId: MOCK_COURSE_ID,
   decision: 'Accept',
   email: 'user@example.com',
   firstName: 'Test',
@@ -98,7 +110,7 @@ export const createMockUnit = (overrides: Partial<Unit> = {}): Unit => ({
   autoNumberId: 1,
   chunks: ['recuC87TILbjW4eF4'],
   content: null,
-  courseId: 'rec8CeVOWU0mGu2Jf',
+  courseId: MOCK_COURSE_ID,
   coursePath: '/courses/test-course',
   courseSlug: 'test-course',
   courseTitle: 'Test Course',
@@ -133,7 +145,7 @@ export const createMockChunk = (overrides: Partial<Chunk> = {}): Chunk => ({
 });
 
 export const createMockGroup = (overrides: Partial<Group> = {}): Group => ({
-  autoNumberId: null,
+  autoNumberId: 1,
   groupDiscussions: [],
   groupName: 'Group 1',
   id: MOCK_GROUP_ID,
@@ -147,7 +159,7 @@ export const createMockGroup = (overrides: Partial<Group> = {}): Group => ({
 export const createMockGroupDiscussion = (overrides: Partial<GroupDiscussion> = {}): GroupDiscussion => ({
   activityDoc: null,
   attendees: [],
-  autoNumberId: null,
+  autoNumberId: 1,
   courseBuilderUnitRecordId: `unit-${overrides.unitNumber || 1}`,
   courseSite: null,
   endDateTime: Math.floor(Date.now() / 1000) + 2 * 60 * 60, // 2 hours from now (seconds)
@@ -162,5 +174,52 @@ export const createMockGroupDiscussion = (overrides: Partial<GroupDiscussion> = 
   unitNumber: 1,
   zoomAccount: null,
   zoomLink: null,
+  ...overrides,
+});
+
+export const createMockMeetPerson = (overrides: Partial<MeetPerson> = {}): MeetPerson => ({
+  id: MOCK_MEET_PERSON_ID,
+  name: 'Test User',
+  applicationsBaseRecordId: null,
+  projectSubmission: [],
+  role: 'Participant',
+  buckets: [],
+  round: null,
+  expectedDiscussionsParticipant: [],
+  expectedDiscussionsFacilitator: [],
+  attendedDiscussions: [],
+  groupsAsParticipant: [],
+  autoNumberId: 1,
+  ...overrides,
+});
+
+export const createMockResource = (overrides: Partial<UnitResource> = {}): UnitResource => ({
+  id: MOCK_RESOURCE_ID,
+  resourceName: 'Introduction to AI Safety',
+  resourceType: 'article',
+  resourceLink: 'https://example.com/article',
+  resourceGuide: 'This is a guide to the resource',
+  authors: 'John Doe',
+  timeFocusOnMins: 10,
+  coreFurtherMaybe: 'Core',
+  readingOrder: null,
+  unitId: 'unit-1',
+  avgRating: null,
+  syncedAudioUrl: null,
+  year: 2024,
+  autoNumberId: 1,
+  ...overrides,
+});
+
+export const createMockResourceCompletion = (overrides: Partial<ResourceCompletion> = {}): ResourceCompletion => ({
+  autoNumberId: 1,
+  email: '',
+  feedback: null,
+  id: MOCK_RESOURCE_COMPLETION_ID,
+  isCompleted: false,
+  rating: null,
+  resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE,
+  unitResourceIdRead: MOCK_RESOURCE_ID,
+  unitResourceIdWrite: MOCK_RESOURCE_ID,
   ...overrides,
 });

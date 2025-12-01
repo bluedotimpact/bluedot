@@ -13,11 +13,12 @@ import { IoAdd } from 'react-icons/io5';
 import { FaCopy } from 'react-icons/fa6';
 import clsx from 'clsx';
 import GroupSwitchModal from './GroupSwitchModal';
-import { formatDateTimeRelative } from '../../lib/utils';
+import { buildGroupSlackChannelUrl, formatDateTimeRelative } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
+import { SlackIcon } from '../icons/SlackIcon';
+import { DocumentIcon } from '../icons/DocumentIcon';
 
-// Time constants
-const ONE_HOUR_MS = 3600_000; // 1 hour in milliseconds
+const ONE_HOUR_MS = 3600_000;
 
 const BUTTON_STYLES = {
   primary: { variant: 'primary' as const, className: 'bg-[#2244BB]' },
@@ -25,19 +26,19 @@ const BUTTON_STYLES = {
   ghost: { variant: 'outline-black' as const, className: 'bg-transparent border-none text-[#2244BB] hover:bg-bluedot-lighter' },
 };
 
-type ButtonConfig = {
+export type ButtonOrMenuItem = {
   id: string;
   label: React.ReactNode;
-  style: keyof typeof BUTTON_STYLES;
+  variant: 'primary' | 'secondary' | 'ghost';
   url?: string;
   onClick?: () => void;
   isVisible: boolean;
+  target?: React.HTMLAttributeAnchorTarget;
+  ariaLabel?: string;
   /**
-   * Buttons can be in a different order on mobile. If `mobileIndex` is set, it determines
-   * the order on mobile. If not set, the button is placed after all buttons with a definite
-   * `mobileIndex`. For buttons with equal or no `mobileIndex` the existing order is preserved.
+   * Optional icon to display only when the button appears in the overflow menu
    */
-  mobileIndex?: number;
+  overflowIcon?: React.ReactNode;
 };
 
 type GroupDiscussionBannerProps = {
@@ -84,19 +85,13 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   const startTimeDisplayRelative = useMemo(() => formatDateTimeRelative({ dateTimeMs: groupDiscussion.startDateTime * 1000, currentTimeMs }), [groupDiscussion.startDateTime, currentTimeMs]);
 
   // Dynamic discussion starts soon check
-  const discussionIsSoonOrLive = useMemo(
-    () => (groupDiscussion.startDateTime * 1000 - currentTimeMs) <= ONE_HOUR_MS && currentTimeMs <= (groupDiscussion.endDateTime * 1000),
-    [groupDiscussion.startDateTime, groupDiscussion.endDateTime, currentTimeMs],
-  );
-  const discussionIsLive = useMemo(
-    () => (groupDiscussion.startDateTime * 1000) <= currentTimeMs && currentTimeMs <= (groupDiscussion.endDateTime * 1000),
-    [groupDiscussion.startDateTime, groupDiscussion.endDateTime, currentTimeMs],
-  );
+  const discussionIsSoonOrLive = (groupDiscussion.startDateTime * 1000 - currentTimeMs) <= ONE_HOUR_MS && currentTimeMs <= (groupDiscussion.endDateTime * 1000);
+  const discussionIsLive = (groupDiscussion.startDateTime * 1000) <= currentTimeMs && currentTimeMs <= (groupDiscussion.endDateTime * 1000);
 
   const discussionMeetLink = groupDiscussion.zoomLink || '';
   const discussionDocLink = groupDiscussion.activityDoc || '';
   const slackChannelLink = groupDiscussion.slackChannelId
-    ? `https://app.slack.com/client/T01K0M15NEQ/${groupDiscussion.slackChannelId}`
+    ? buildGroupSlackChannelUrl(groupDiscussion.slackChannelId)
     : '';
 
   const copyHostKeyIfFacilitator = async () => {
@@ -111,7 +106,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     }
   };
 
-  const buttons: ButtonConfig[] = [
+  const buttons: ButtonOrMenuItem[] = [
     // Live discussion buttons
     {
       id: 'join-now',
@@ -121,10 +116,10 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           <div className="translate-y-[0.5px]">Join now</div>
         </>
       ),
-      style: 'primary',
+      variant: 'primary',
       url: discussionMeetLink,
+      target: '_blank',
       isVisible: discussionIsSoonOrLive,
-      mobileIndex: 0,
     },
     {
       id: 'host-key',
@@ -134,41 +129,47 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           {hostKeyCopied ? 'Copied host key!' : `Host key: ${hostKeyForFacilitators}`}
         </>
       ),
-      style: 'secondary',
+      variant: 'secondary',
       onClick: copyHostKeyIfFacilitator,
       isVisible: discussionIsSoonOrLive && userRole === 'facilitator' && !!hostKeyForFacilitators,
     },
     {
       id: 'discussion-doc',
       label: 'Open discussion doc',
-      style: 'secondary',
+      variant: 'secondary',
       url: discussionDocLink,
+      target: '_blank',
       isVisible: discussionIsSoonOrLive || userRole === 'facilitator',
+      overflowIcon: <DocumentIcon className="mx-auto" />,
     },
     {
       id: 'message-group',
       label: 'Message group',
-      style: 'secondary',
+      variant: 'secondary',
       url: slackChannelLink,
+      target: '_blank',
       isVisible: discussionIsSoonOrLive,
+      overflowIcon: <SlackIcon className="mx-auto" />,
     },
     // Upcoming discussion buttons
     {
       id: 'see-details',
       label: 'See details',
-      style: 'secondary',
+      variant: 'secondary',
       url: '/settings/courses',
       isVisible: !discussionIsSoonOrLive,
     },
     {
       id: 'cant-make-it',
       label: "Can't make it?",
-      style: 'ghost',
+      variant: 'ghost',
       onClick: () => setGroupSwitchModalOpen(true),
       isVisible: userRole !== 'facilitator',
-      mobileIndex: 1,
     },
   ];
+  // Buttons should be in a slightly different order on mobile.
+  // Put these ids first, preserve the existing order after that.
+  const mobileButtonPrecedence = ['join-now', 'cant-make-it'];
 
   const visibleButtons = buttons.filter((button) => button.isVisible);
 
@@ -201,7 +202,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           {isOpen && (
             <div id="discussion-banner-desktop-container" className={`hidden ${desktopShowContainerQuery} gap-2 flex-1 items-center ml-2`}>
               {visibleButtons.map((button, index) => {
-                const style = BUTTON_STYLES[button.style];
+                const style = BUTTON_STYLES[button.variant];
                 const isLastButton = index === visibleButtons.length - 1;
                 return (
                   <CTALinkOrButton
@@ -210,7 +211,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                     size="small"
                     url={button.url}
                     onClick={button.onClick}
-                    target={button.url ? '_blank' : undefined}
+                    target={button.target}
                     className={clsx(style.className, 'flex gap-[6px] items-center', isLastButton && 'ml-auto')}
                   >
                     {button.label}
@@ -235,13 +236,16 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
         {isOpen && (() => {
           const MAX_DIRECT_BUTTONS = 2;
           const sortedForMobile = [...visibleButtons].sort((a, b) => {
-            // If both have mobileIndex, sort by value
-            if (a.mobileIndex !== undefined && b.mobileIndex !== undefined) {
-              return a.mobileIndex - b.mobileIndex;
+            const aIndex = mobileButtonPrecedence.indexOf(a.id);
+            const bIndex = mobileButtonPrecedence.indexOf(b.id);
+
+            // If both are in precedence list, sort by their position
+            if (aIndex !== -1 && bIndex !== -1) {
+              return aIndex - bIndex;
             }
-            // If one has mobileIndex and not the other, put the one with mobileIndex first
-            if (a.mobileIndex !== undefined) return -1;
-            if (b.mobileIndex !== undefined) return 1;
+            // If one is in precedence list and not the other, put it first
+            if (aIndex !== -1) return -1;
+            if (bIndex !== -1) return 1;
             // Otherwise preserve the original order
             return 0;
           });
@@ -253,9 +257,9 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
             <div id="discussion-banner-mobile-container" className={`flex ${desktopHideContainerQuery} gap-2 items-start`}>
               {directButtons.map((button) => {
                 // On mobile, convert ghost to secondary
-                const mobileStyle = button.style === 'ghost' ? 'secondary' : button.style;
-                const style = BUTTON_STYLES[mobileStyle];
-                const isPrimary = button.style === 'primary';
+                const mobileVariant = button.variant === 'ghost' ? 'secondary' : button.variant;
+                const style = BUTTON_STYLES[mobileVariant];
+                const isPrimary = button.variant === 'primary';
 
                 return (
                   <CTALinkOrButton
@@ -264,7 +268,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                     size="small"
                     url={button.url}
                     onClick={button.onClick}
-                    target={button.url ? '_blank' : undefined}
+                    target={button.target}
                     className={clsx(style.className, 'flex flex-1 gap-[6px] items-center whitespace-nowrap', !isPrimary && 'ml-auto')}
                   >
                     {button.label}
@@ -278,9 +282,14 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                   buttonClassName="flex items-center justify-center rounded-md cursor-pointer bg-transparent border border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter self-stretch p-[6px]"
                   items={overflowButtons.map((button): OverflowMenuItemProps => ({
                     id: button.id,
-                    label: button.label,
+                    label: button.overflowIcon ? (
+                      <div className="grid grid-cols-[20px_1fr] gap-[6px] items-center">
+                        {button.overflowIcon}
+                        {button.label}
+                      </div>
+                    ) : button.label,
                     ...(button.url
-                      ? { href: button.url, target: '_blank' }
+                      ? { href: button.url, target: button.target }
                       : { onAction: button.onClick }
                     ),
                   }))}
@@ -315,11 +324,6 @@ const VideoIcon: React.FC<{ size?: number; className?: string }> = ({ size = 14,
       <path d="M13.4166 4.08341L9.33331 7.00008L13.4166 9.91675V4.08341Z" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
       <path d="M8.16665 2.91675H1.74998C1.10565 2.91675 0.583313 3.43908 0.583313 4.08341V9.91675C0.583313 10.5611 1.10565 11.0834 1.74998 11.0834H8.16665C8.81098 11.0834 9.33331 10.5611 9.33331 9.91675V4.08341C9.33331 3.43908 8.81098 2.91675 8.16665 2.91675Z" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
     </g>
-    <defs>
-      <clipPath>
-        <rect width="14" height="14" fill="white" />
-      </clipPath>
-    </defs>
   </svg>
 );
 

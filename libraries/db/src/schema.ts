@@ -492,6 +492,14 @@ export const meetPersonTable = pgAirtable('meet_person', {
       pgColumn: text(),
       airtableId: 'fldoKAVy6QPWZmofb',
     },
+    projectSubmission: {
+      pgColumn: text().array(),
+      airtableId: 'fldFjRSrXH8Z5sGaQ',
+    },
+    role: {
+      pgColumn: text(),
+      airtableId: 'fldcMg0UmqlneGerA',
+    },
     /**
      * A bucket defines a set of groups, where participants are allowed to switch between the
      * groups if requested. This field is an array of all the buckets the person is a member of.
@@ -561,13 +569,34 @@ export const applicationsRoundTable = pgAirtable('applications_round', {
   baseId: APPLICATIONS_BASE_ID,
   tableId: 'tblt1XjyP5KPoVPfB',
   columns: {
-    courseRoundIntensity: {
+    courseRoundIntensity: { // e.g., "AI Alignment (2024 Feb W08)" or  "AGI Strategy (2025 Dec W51) - Intensive", or "AGI Strategy (2026 Jan W02) - Part-time"
       pgColumn: text(),
       airtableId: 'fldvOk9j9FbDV5aLl',
     },
     applicationDeadline: {
       pgColumn: text(),
       airtableId: 'fldXrkZ6Vg8zDh1ZU',
+    },
+    firstDiscussionDate: {
+      pgColumn: text(),
+      airtableId: 'fldLQNa0te7r3GpBU',
+    },
+    lastDiscussionDate: {
+      pgColumn: text(),
+      airtableId: 'fldTHHKka0wYfLBIa',
+    },
+    courseId: {
+      pgColumn: text(),
+      airtableId: 'fldz8sTIZz3O0fJoi',
+    },
+    intensity: {
+      pgColumn: text(),
+      airtableId: 'fldONnpcLTSwwy1NJ',
+    },
+    // Equal to number of days or weeks in the course
+    numberOfUnits: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldgu6vcBcT7KiIG7',
     },
   },
 });
@@ -1060,6 +1089,10 @@ export const userTable = pgAirtable('user', {
     autoNumberId: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fld93rcijT2GzMtFS',
+    },
+    isAdmin: {
+      pgColumn: boolean(),
+      airtableId: 'fldtx4adP1XOOpg5e',
     },
   },
 });

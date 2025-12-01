@@ -120,17 +120,19 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                         <span>
                           {formatTime(chunk.estimatedTime)}
                         </span>
-                        {resourceCompletionsLoading ? (
-                          <ProgressDots className="my-0.5 ml-2" />
-                        ) : (
-                          groupedResourceCompletionData[index] && groupedResourceCompletionData[index].chunkCoreResources.length > 0 && (
-                            <>
-                              {/* Dot is outside of span so strikethrough doesn't extend to dot and look overly long */}
-                              ⋅
-                              <span className={clsx(groupedResourceCompletionData[index].allResourcesCompleted && 'line-through')}>
-                                {groupedResourceCompletionData[index].completedCoreResources.length} of {groupedResourceCompletionData[index].chunkCoreResources.length} completed
-                              </span>
-                            </>
+                        {auth && (
+                          resourceCompletionsLoading ? (
+                            <ProgressDots className="my-0.5 ml-2" />
+                          ) : (
+                            groupedResourceCompletionData[index] && groupedResourceCompletionData[index].chunkCoreResources.length > 0 && (
+                              <>
+                                {/* Dot is outside of span so strikethrough doesn't extend to dot and look overly long */}
+                                ⋅
+                                <span className={clsx(groupedResourceCompletionData[index].allResourcesCompleted && 'line-through')}>
+                                  {groupedResourceCompletionData[index].completedCoreResources.length} of {groupedResourceCompletionData[index].chunkCoreResources.length} completed
+                                </span>
+                              </>
+                            )
                           )
                         )}
                       </div>

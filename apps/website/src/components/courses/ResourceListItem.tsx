@@ -4,13 +4,14 @@ import {
 import { useRouter } from 'next/router';
 import {
   addQueryParam,
-  ProgressDots, useAuthStore,
+  useAuthStore,
 } from '@bluedot/ui';
-import { ErrorView } from '@bluedot/ui/src/ErrorView';
 /**
  * Prevents barrel file import errors when importing RESOURCE_FEEDBACK from @bluedot/db
  */
-import { RESOURCE_FEEDBACK, ResourceFeedbackValue, type UnitResource } from '@bluedot/db/src/schema';
+import {
+  RESOURCE_FEEDBACK, ResourceFeedbackValue, type ResourceCompletion, type UnitResource,
+} from '@bluedot/db/src/schema';
 import { useQueryClient } from '@tanstack/react-query';
 import { getQueryKey } from '@trpc/react-query';
 import type { inferRouterOutputs } from '@trpc/server';
@@ -111,31 +112,71 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({ resourceFeedback, onF
 
 type ResourceListItemProps = {
   resource: UnitResource;
+  resourceCompletion?: ResourceCompletion;
 };
 
-export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
+export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource, resourceCompletion }) => {
   const router = useRouter();
   const auth = useAuthStore((s) => s.auth);
   const utils = trpc.useUtils();
   const [isHovered, setIsHovered] = useState(false);
   const [feedback, setFeedback] = useState('');
 
-  // TODO: instead of loading only individual resource completion, load all resource completions in parent and pass data
-  // Fetch resource completion data (only when authenticated)
-  const {
-    data: completionData,
-    isLoading: completionLoading,
-    error: completionError,
-  } = trpc.resources.getResourceCompletion.useQuery(
-    { unitResourceId: resource.id },
-    { enabled: !!auth },
-  );
-
   const queryClient = useQueryClient();
+  const resourceCompletionsQueryKey = getQueryKey(trpc.resources.getResourceCompletions, undefined, 'query');
 
   const saveCompletionMutation = trpc.resources.saveResourceCompletion.useMutation({
     onSettled: () => {
-      utils.resources.getResourceCompletion.invalidate({ unitResourceId: resource.id });
+      utils.resources.getResourceCompletions.invalidate();
+    },
+    onMutate: async (newData) => {
+      // Optimistically update `getResourceCompletions` so that the Sidebar immediately updates
+      await utils.resources.getResourceCompletions.cancel();
+
+      const previousQueriesData = queryClient.getQueriesData({ queryKey: resourceCompletionsQueryKey });
+
+      queryClient.setQueriesData(
+        { queryKey: resourceCompletionsQueryKey },
+        (oldData: inferRouterOutputs<AppRouter>['resources']['getResourceCompletions']) => {
+          if (!oldData) return [];
+
+          // Create a shallow copy for safe mutation
+          const newArray = [...oldData];
+
+          const { unitResourceId, ...updatedFields } = newData;
+
+          const existingIndex = oldData.findIndex((item) => item.unitResourceIdRead === resource.id);
+
+          if (newArray[existingIndex]) {
+            // If an existing item is found, update it
+            newArray[existingIndex] = {
+              ...newArray[existingIndex],
+              ...updatedFields,
+            };
+          } else if (newData.isCompleted) {
+            // If no existing item and isCompleted is true, add a new item
+            newArray.push({
+              id: unitResourceId,
+              autoNumberId: null,
+              email: auth?.email ?? '',
+              unitResourceIdRead: unitResourceId,
+              unitResourceIdWrite: unitResourceId,
+              rating: updatedFields.rating ?? null,
+              feedback: updatedFields.feedback ?? '',
+              resourceFeedback: updatedFields.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,
+              isCompleted: updatedFields.isCompleted ?? false,
+            });
+          }
+          return newArray;
+        },
+      );
+
+      return { previousQueriesData };
+    },
+    onError: (_err, _variables, mutationResult) => {
+      mutationResult?.previousQueriesData.forEach(([queryKey, data]) => {
+        queryClient.setQueryData(queryKey, data);
+      });
     },
     onMutate: async (newData) => {
       // Optimistically update `getResourceCompletions` so that the Sidebar immediately updates
@@ -179,14 +220,26 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
   });
 
   // Derive `isCompleted` and `resourceFeedback` from mutation variables (for optimistic updates) or fetched data (on first load)
-  const isCompleted = saveCompletionMutation.variables?.isCompleted ?? completionData?.isCompleted ?? false;
-  const resourceFeedback = saveCompletionMutation.variables?.resourceFeedback ?? completionData?.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE;
+  // Only use mutation variables if mutation hasn't failed (to support rollback on error)
+  const isCompleted = (!saveCompletionMutation.isError && saveCompletionMutation.variables?.isCompleted !== undefined)
+    ? saveCompletionMutation.variables.isCompleted
+    : (resourceCompletion?.isCompleted ?? false);
+  const resourceFeedback = (!saveCompletionMutation.isError && saveCompletionMutation.variables?.resourceFeedback !== undefined)
+    ? saveCompletionMutation.variables.resourceFeedback
+    : (resourceCompletion?.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE);
 
   // Sync feedback state with server data (both mutation variables and fetched data)
   useEffect(() => {
-    const serverFeedback = saveCompletionMutation.variables?.feedback ?? completionData?.feedback ?? '';
-    setFeedback(serverFeedback);
-  }, [saveCompletionMutation.variables?.feedback, completionData?.feedback]);
+    const optimisticFeedback = saveCompletionMutation.variables?.feedback;
+    const serverFeedback = resourceCompletion?.feedback;
+
+    // Only use optimistic feedback if there is no error
+    if (!saveCompletionMutation.isError && optimisticFeedback !== undefined) {
+      setFeedback(optimisticFeedback);
+    } else {
+      setFeedback(serverFeedback ?? '');
+    }
+  }, [saveCompletionMutation.variables?.feedback, resourceCompletion?.feedback, saveCompletionMutation.isError]);
 
   const handleSaveCompletion = useCallback((
     updatedIsCompleted: boolean | undefined,
@@ -205,23 +258,21 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
 
   // Handle marking resource as complete
   const handleToggleComplete = useCallback((newIsCompleted = !isCompleted) => {
-    handleSaveCompletion(newIsCompleted);
+    // We catch the error to prevent "Unhandled Promise Rejection"
+    // UI rollback is handled by the mutation's `onError` callback
+    handleSaveCompletion(newIsCompleted).catch(() => {
+      // Do nothing
+    });
   }, [isCompleted, handleSaveCompletion]);
 
   // Handle like/dislike feedback
   const handleFeedback = useCallback((feedbackValue: ResourceFeedbackValue) => {
     // Toggle off if clicking the same feedback button
     const newFeedback = resourceFeedback === feedbackValue ? RESOURCE_FEEDBACK.NO_RESPONSE : feedbackValue;
-    handleSaveCompletion(true, newFeedback, feedback || '');
+    handleSaveCompletion(true, newFeedback, feedback || '').catch(() => {
+      // Do nothing
+    });
   }, [resourceFeedback, feedback, handleSaveCompletion]);
-
-  if (completionLoading) {
-    return <ProgressDots />;
-  }
-
-  if (completionError) {
-    return <ErrorView error={completionError} />;
-  }
 
   return (
     <li className="resource-item-wrapper">

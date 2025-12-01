@@ -2,7 +2,6 @@ import {
   PiBriefcase,
   PiCompass,
   PiFlask,
-  PiGraduationCap,
   PiClockClockwise,
   PiChats,
   PiHandHeart,
@@ -59,6 +58,12 @@ export const createAgiStrategyContent = (
         description: 'who want to take big bets on the most impactful research ideas.',
       },
     ],
+    bottomCta: {
+      boldText: "Don't fit these perfectly? Apply anyway.",
+      text: 'Some of our most impactful participants have included teachers, policymakers, engineers, and community leaders. We bet on drive and ambition, not CVs.',
+      buttonText: 'Apply now',
+      buttonUrl: applicationUrlWithUtm,
+    },
   },
 
   curriculum: {
@@ -91,18 +96,8 @@ export const createAgiStrategyContent = (
     title: 'Course information',
     applicationUrl: applicationUrlWithUtm,
     scheduleCtaText: 'Apply now',
+    courseSlug,
     details: [
-      {
-        icon: PiGraduationCap,
-        label: 'Options',
-        description: (
-          <>
-            <span className="font-semibold">Intensive</span>: 5-day course (5h/day)
-            <br />
-            <span className="font-semibold">Part-time</span>: 5-week course (5h/week)
-          </>
-        ),
-      },
       {
         icon: PiClockClockwise,
         label: 'Commitment',
@@ -129,33 +124,7 @@ export const createAgiStrategyContent = (
         label: 'Schedule',
         description: null,
         isSchedule: true,
-        scheduleDescription: (
-          <>
-            <span className="font-semibold">Round 3 (next round)</span>
-            <br />
-            Deadline: <span className="font-semibold">Nov 13th</span>
-            <br />
-            Start: <span className="font-semibold">Nov 17th</span>
-            <br />
-            End: <span className="font-semibold">Dec 21st</span>
-            <br />
-            + multiple 5-day cohorts each week!
-            <br />
-            <br />
-            We will also be running a number of 5-day cohorts during the holiday weeks!
-            <br />
-            <br />
-            <span className="font-semibold">Round 4</span>
-            <br />
-            Deadline: <span className="font-semibold">Jan 2nd</span>
-            <br />
-            Start: <span className="font-semibold">Jan 5th</span>
-            <br />
-            End: <span className="font-semibold">Feb 1st</span>
-            <br />
-            + multiple 5-day cohorts each week!
-          </>
-        ),
+        scheduleDescription: 'Check above for upcoming rounds and application deadlines.',
       },
     ],
   },
@@ -351,6 +320,6 @@ export const createAgiStrategyContent = (
     imageAlt: 'AGI Strategy banner',
     iconSrc: '/images/agi-strategy/bluedot-icon.svg',
     iconAlt: 'BlueDot',
-    noiseImageSrc: '/images/agi-strategy/noise.png',
+    noiseImageSrc: '/images/agi-strategy/noise.webp',
   },
 });

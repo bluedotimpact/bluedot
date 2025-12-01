@@ -111,3 +111,26 @@ export const Facilitator: Story = {
     },
   },
 };
+
+export const LiveDiscussion: Story = {
+  args: {
+    courseRegistration: { ...mockCourseRegistration, role: 'Participant' },
+    upcomingDiscussions: [
+      {
+        ...mockDiscussions['discussion-1']!,
+        startDateTime: now - 15 * 60, // Started 15 minutes ago
+        endDateTime: now + 45 * 60, // Ends in 45 minutes
+        activityDoc: 'https://docs.google.com/document/d/abc123',
+        slackChannelId: 'C1234567890',
+      },
+      mockDiscussions['discussion-2']!,
+    ],
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'When a discussion is currently live, the time widget shows "NOW / LIVE" and the primary CTA is "Join now".',
+      },
+    },
+  },
+};
