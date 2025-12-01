@@ -1,4 +1,4 @@
-import { Modal } from '@bluedot/ui';
+import { CTALinkOrButton, Modal } from '@bluedot/ui';
 import React, { useState } from 'react';
 import { H1, P } from '../Text';
 import Select from './group-switching/Select';
@@ -74,6 +74,8 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             <H1 className="text-size-md font-medium">Step 4: Select new discussion time</H1>
             <P>The selected time is in your time zone: {Intl.DateTimeFormat().resolvedOptions().timeZone}</P>
           </div>
+
+          <CTALinkOrButton className="w-full bg-[#1144CC]">Submit</CTALinkOrButton>
         </form>
       </div>
     </Modal>
