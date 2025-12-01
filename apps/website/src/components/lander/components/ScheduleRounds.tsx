@@ -137,7 +137,7 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
   return (
     <div className="flex flex-col min-[680px]:flex-row min-[680px]:items-center min-[680px]:justify-between gap-2 min-[680px]:gap-4">
       <div className="flex items-stretch gap-3 min-[680px]:gap-4">
-        <div className="w-1 flex-shrink-0 rounded-sm bg-[#1144CC]" />
+        <div className="w-1 flex-shrink-0 rounded-sm bg-[#1144CC] min-[680px]:opacity-20 min-[680px]:hover:opacity-100" />
         <div className="flex flex-col gap-3 min-[680px]:gap-0">
           <div>
             {round.dateRange && (
