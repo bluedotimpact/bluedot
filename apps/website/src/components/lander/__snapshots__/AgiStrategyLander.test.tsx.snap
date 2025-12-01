@@ -109,7 +109,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </a>
               <a
                 class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md border border-[rgba(19,19,46,0.3)] text-[#13132E] bg-transparent hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E] cursor-pointer transition-colors"
-                href="/courses/agi-strategy/1"
+                href="/courses/agi-strategy/1/1"
                 tabindex="0"
               >
                 Browse curriculum
