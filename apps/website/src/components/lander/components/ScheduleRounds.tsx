@@ -176,15 +176,15 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
         className="hidden min-[680px]:flex flex-row items-center justify-between gap-4 group"
       >
         <div className="flex items-stretch gap-4">
-          <div className="w-1 flex-shrink-0 rounded-sm bg-[#1144CC] opacity-30 group-hover:opacity-100 transition-opacity" />
+          <div className="w-1 flex-shrink-0 rounded-sm bg-[#1144CC] opacity-30 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity" />
           <div className="flex flex-col">
             {dateContent}
           </div>
         </div>
 
         <div className="flex font-medium text-[15px] leading-[1.6] text-[#1144CC] items-center ml-auto">
-          <span className="transition-transform group-hover:-translate-x-1">Apply now</span>
-          <span className="ml-1 transition-opacity group-hover:opacity-100 opacity-0">
+          <span className="transition-transform group-hover:-translate-x-1 group-focus:-translate-x-1">Apply now</span>
+          <span className="ml-1 transition-opacity group-hover:opacity-100 group-focus:opacity-100 opacity-0">
             →
           </span>
         </div>
