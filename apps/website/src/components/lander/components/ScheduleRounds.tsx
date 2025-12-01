@@ -156,10 +156,7 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
             rel="noopener noreferrer"
             className="font-medium text-[15px] leading-[1.6] text-[#1144CC] group min-[680px]:hidden"
           >
-            Apply now
-            <span className="ml-1">
-              →
-            </span>
+            Apply now →
           </a>
         </div>
       </div>
