@@ -10,6 +10,7 @@ import {
 } from '../../lib/utils';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import GroupSwitchModal, { type SwitchType } from '../courses/GroupSwitchModal';
+import FacilitatorSwitchModal from '../courses/FacilitatorSwitchModal';
 import { SlackIcon } from '../icons/SlackIcon';
 import type { ButtonOrMenuItem } from '../courses/GroupDiscussionBanner';
 import { DocumentIcon } from '../icons/DocumentIcon';
@@ -74,6 +75,14 @@ const CourseDetailsRow = ({
       onClick: () => handleOpenGroupSwitchModal({ discussion, switchType: 'Switch group for one unit' }),
       isVisible: !isFacilitator && !isPast,
       ariaLabel: `Switch group for Unit ${discussion.unitNumber}`,
+    },
+    {
+      id: 'cant-make-it-facilitator',
+      label: 'Update discussion time',
+      variant: 'secondary',
+      onClick: () => handleOpenGroupSwitchModal({ discussion, switchType: 'Switch group for one unit' }),
+      isVisible: isFacilitator && !isPast,
+      ariaLabel: `Update discussion for Unit ${discussion.unitNumber}`,
     },
     // Inside overflow menu
     {
@@ -204,6 +213,7 @@ const CourseDetails = ({
   isLast = false,
 }: CourseDetailsProps) => {
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
+  const [facilitatorSwitchModalOpen, setFacilitatorSwitchModalOpen] = useState(false);
   const [initialUnitNumber, setInitialUnitNumber] = useState<string | undefined>(undefined);
   const [selectedSwitchType, setSelectedSwitchType] = useState<SwitchType>('Switch group for one unit');
   const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>('upcoming');
@@ -343,6 +353,16 @@ const CourseDetails = ({
           }}
           initialUnitNumber={initialUnitNumber}
           initialSwitchType={selectedSwitchType}
+          courseSlug={course.slug}
+        />
+      )}
+      {facilitatorSwitchModalOpen && course.slug && (
+        <FacilitatorSwitchModal
+          handleClose={() => {
+            setFacilitatorSwitchModalOpen(false);
+            setInitialUnitNumber(undefined);
+          }}
+          initialUnitNumber={initialUnitNumber}
           courseSlug={course.slug}
         />
       )}
