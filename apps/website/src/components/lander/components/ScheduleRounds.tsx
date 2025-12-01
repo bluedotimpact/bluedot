@@ -160,6 +160,7 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
               href={applyUrl}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Apply now (opens in a new tab)"
               className="font-medium text-[15px] leading-[1.6] text-[#1144CC]"
             >
               Apply now →
@@ -173,6 +174,7 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
         href={applyUrl}
         target="_blank"
         rel="noopener noreferrer"
+        aria-label="Apply now (opens in a new tab)"
         className="hidden min-[680px]:flex flex-row items-center justify-between gap-4 group"
       >
         <div className="flex items-stretch gap-4">
