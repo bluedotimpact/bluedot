@@ -151,7 +151,7 @@ const Form: React.FC<{
           />
         </label>
         <div className="mt-6">
-          {submitting && <div className="flex w-full justify-center"><ProgressDots /></div>}
+          {submitting && <ProgressDots className="w-full" />}
           {!submitting && (
             <>
               <NewText.P className={`text-size-xs text-red-500 mb-2 ${formState.isDirty ? 'font-bold' : ''}`}>
@@ -205,7 +205,7 @@ const FormWrapper: React.FC = () => {
 
   if (!info || info.type === 'loading') {
     return (
-      <ProgressDots className="w-full h-screen flex justify-center items-center" />
+      <ProgressDots className="w-full h-screen" />
     );
   }
 
