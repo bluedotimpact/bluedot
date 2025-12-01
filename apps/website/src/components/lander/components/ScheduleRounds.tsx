@@ -156,8 +156,8 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
             rel="noopener noreferrer"
             className="font-medium text-[15px] leading-[1.6] text-[#1144CC] group min-[680px]:hidden"
           >
-            <span className="transition-transform group-hover:-translate-x-1 inline-block">Apply now</span>
-            <span className="ml-1 transition-opacity group-hover:opacity-100 opacity-0 inline-block">
+            Apply now
+            <span className="ml-1">
               →
             </span>
           </a>
