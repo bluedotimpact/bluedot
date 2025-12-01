@@ -636,6 +636,10 @@ export const facilitatorDiscussionSwitchingTable = pgAirtable('facilitator_discu
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fld3ITxndtB6ZZtN5',
     },
+    createdAt: {
+      pgColumn: numeric({ mode: 'number' }).notNull(),
+      airtableId: 'fldECp0oKixn3pFkm',
+    },
     anythingElse: {
       pgColumn: text(),
       airtableId: 'fldjWbb2vvQkcQaOs',
