@@ -135,43 +135,65 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
   const applyUrl = `${applicationUrl}${separator}prefill_%5B%3E%5D%20Round=${round.id}`;
 
   return (
-    <div className="flex flex-col min-[680px]:flex-row min-[680px]:items-center min-[680px]:justify-between gap-2 min-[680px]:gap-4">
-      <div className="flex items-stretch gap-3 min-[680px]:gap-4">
-        <div className="w-1 flex-shrink-0 rounded-sm bg-[#1144CC] min-[680px]:opacity-20 min-[680px]:hover:opacity-100" />
-        <div className="flex flex-col gap-3 min-[680px]:gap-0">
-          <div>
-            {round.dateRange && (
-              <p className="text-[15px] font-semibold leading-[1.6] text-[#13132E]">
-                {round.dateRange}
+    <>
+      {/* Mobile: only "Apply now" link is clickable */}
+      <div className="min-[680px]:hidden flex flex-col gap-2">
+        <div className="flex items-stretch gap-3">
+          <div className="w-1 flex-shrink-0 rounded-sm bg-[#1144CC]" />
+          <div className="flex flex-col gap-3">
+            <div>
+              {round.dateRange && (
+                <p className="text-[15px] font-semibold leading-[1.6] text-[#13132E]">
+                  {round.dateRange}
+                </p>
+              )}
+              <p className="text-[15px] leading-[1.6] text-[#13132E] opacity-50">
+                Application closes {round.applicationDeadline}
               </p>
-            )}
-            <p className="text-[15px] leading-[1.6] text-[#13132E] opacity-50">
-              Application closes {round.applicationDeadline}
-            </p>
-          </div>
+            </div>
 
-          <a
-            href={applyUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium text-[15px] leading-[1.6] text-[#1144CC] group min-[680px]:hidden"
-          >
-            Apply now →
-          </a>
+            <a
+              href={applyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-[15px] leading-[1.6] text-[#1144CC]"
+            >
+              Apply now →
+            </a>
+          </div>
         </div>
       </div>
 
+      {/* Desktop: entire card is clickable */}
       <a
         href={applyUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="hidden min-[680px]:flex font-medium text-[15px] leading-[1.6] text-[#1144CC] group items-center ml-auto"
+        className="hidden min-[680px]:flex flex-row items-center justify-between gap-4 group"
       >
-        <span className="transition-transform group-hover:-translate-x-1">Apply now</span>
-        <span className="ml-1 transition-opacity group-hover:opacity-100 opacity-0">
-          →
-        </span>
+        <div className="flex items-stretch gap-4">
+          <div className="w-1 flex-shrink-0 rounded-sm bg-[#1144CC] opacity-30 group-hover:opacity-100 transition-opacity" />
+          <div className="flex flex-col">
+            <div>
+              {round.dateRange && (
+                <p className="text-[15px] font-semibold leading-[1.6] text-[#13132E]">
+                  {round.dateRange}
+                </p>
+              )}
+              <p className="text-[15px] leading-[1.6] text-[#13132E] opacity-50">
+                Application closes {round.applicationDeadline}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex font-medium text-[15px] leading-[1.6] text-[#1144CC] items-center ml-auto">
+          <span className="transition-transform group-hover:-translate-x-1">Apply now</span>
+          <span className="ml-1 transition-opacity group-hover:opacity-100 opacity-0">
+            →
+          </span>
+        </div>
       </a>
-    </div>
+    </>
   );
 };
