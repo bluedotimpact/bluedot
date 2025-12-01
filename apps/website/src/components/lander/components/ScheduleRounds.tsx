@@ -134,6 +134,19 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
   const separator = applicationUrl.includes('?') ? '&' : '?';
   const applyUrl = `${applicationUrl}${separator}prefill_%5B%3E%5D%20Round=${round.id}`;
 
+  const dateContent = (
+    <div>
+      {round.dateRange && (
+      <p className="text-[15px] font-semibold leading-[1.6] text-[#13132E]">
+        {round.dateRange}
+      </p>
+      )}
+      <p className="text-[15px] leading-[1.6] text-[#13132E] opacity-50">
+        Application closes {round.applicationDeadline}
+      </p>
+    </div>
+  );
+
   return (
     <>
       {/* Mobile: only "Apply now" link is clickable */}
@@ -141,16 +154,7 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
         <div className="flex items-stretch gap-3">
           <div className="w-1 flex-shrink-0 rounded-sm bg-[#1144CC]" />
           <div className="flex flex-col gap-3">
-            <div>
-              {round.dateRange && (
-                <p className="text-[15px] font-semibold leading-[1.6] text-[#13132E]">
-                  {round.dateRange}
-                </p>
-              )}
-              <p className="text-[15px] leading-[1.6] text-[#13132E] opacity-50">
-                Application closes {round.applicationDeadline}
-              </p>
-            </div>
+            {dateContent}
 
             <a
               href={applyUrl}
@@ -174,16 +178,7 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
         <div className="flex items-stretch gap-4">
           <div className="w-1 flex-shrink-0 rounded-sm bg-[#1144CC] opacity-30 group-hover:opacity-100 transition-opacity" />
           <div className="flex flex-col">
-            <div>
-              {round.dateRange && (
-                <p className="text-[15px] font-semibold leading-[1.6] text-[#13132E]">
-                  {round.dateRange}
-                </p>
-              )}
-              <p className="text-[15px] leading-[1.6] text-[#13132E] opacity-50">
-                Application closes {round.applicationDeadline}
-              </p>
-            </div>
+            {dateContent}
           </div>
         </div>
 
