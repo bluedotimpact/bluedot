@@ -45,7 +45,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           </div>
 
           <div className="flex flex-col gap-2">
-            <H1 className="text-size-md font-medium text-[#00114D]">Step 1: Select switch type</H1>
+            <H1 className="text-size-md font-medium">Step 1: Select switch type</H1>
             <P>
               If you want to make updates to specific units instead of all upcoming group discussions, please select
               "Switch for one unit".
@@ -60,18 +60,18 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           </div>
 
           <div className="flex flex-col gap-2">
-            <H1 className="text-size-md font-medium text-[#00114D]">Step 2: Select group</H1>
+            <H1 className="text-size-md font-medium">Step 2: Select group</H1>
             <Select label="Group" options={[]} placeholder="Choose a group" />
           </div>
 
           <div className="flex flex-col gap-2">
-            <H1 className="text-size-md font-medium text-[#00114D]">Step 3: Select unit</H1>
+            <H1 className="text-size-md font-medium">Step 3: Select unit</H1>
             <P>Which unit are you updating?</P>
             <Select label="Unit" options={[]} placeholder="Choose a unit" />
           </div>
 
           <div className="flex flex-col gap-2">
-            <H1 className="text-size-md font-medium text-[#00114D]">Step 4: Select new discussion time</H1>
+            <H1 className="text-size-md font-medium">Step 4: Select new discussion time</H1>
           </div>
         </form>
       </div>
