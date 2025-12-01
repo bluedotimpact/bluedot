@@ -1137,6 +1137,10 @@ export const userTable = pgAirtable('user', {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fld93rcijT2GzMtFS',
     },
+    isAdmin: {
+      pgColumn: boolean(),
+      airtableId: 'fldtx4adP1XOOpg5e',
+    },
   },
 });
 

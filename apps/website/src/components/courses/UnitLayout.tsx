@@ -40,7 +40,7 @@ const CourseIcon: React.FC = () => (
   </svg>
 );
 
-type ChunkWithContent = Chunk & {
+export type ChunkWithContent = Chunk & {
   resources: UnitResource[];
   exercises: Exercise[];
 };
@@ -314,7 +314,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
 
       {/* Breadcrumbs bar - positioned sticky and full width */}
       <div className={clsx(
-        'unit__breadcrumbs-wrapper hidden md:block md:sticky md:top-16 z-10 border-b-[0.5px] border-[rgba(19,19,46,0.2)] h-[48px] bg-color-canvas',
+        'unit__breadcrumbs-wrapper hidden md:block md:sticky md:top-(--nav-height-mobile) lg:top-(--nav-height-desktop) z-10 border-b-[0.5px] border-[rgba(19,19,46,0.2)] h-[48px] bg-color-canvas',
         isSidebarHidden ? 'md:ml-0' : 'md:ml-[360px]',
       )}
       >

@@ -86,9 +86,9 @@ The right candidates see these positions as either:
 
 ## Compensation
 
-We pay **$250 per session**, which works out to **$50/hour** for approximately 5 hours per session.
+We pay **$250 per session**, which works out to **$50/hour** for approximately 5 hours per session (3 hours preparation + 2 hours discussion).
 
-If you are facilitating more than 3 groups, we will compensate you on a $50/hour basis, given the reduced time required to prepare for each session.
+If you are facilitating more than 1 group, we will pay $150 per session for every additional group, given the reduced time required to prepare for each session.
 
 ### What counts as a session?
 
@@ -101,8 +101,6 @@ The AGI Strategy course runs for 5 sessions, while the Technical AI Safety and B
 ### Additional compensation
 
 We also pay for **1:1 mentoring and talent development activities** at the value of 1 session ($250). This recognizes the high-leverage impact of individualized support in helping participants launch careers in AI safety.
-
-If you facilitate more than one group, we'll pay you at the same rate for the additional time commitment.
 
 We sometimes disband or re-shuffle groups due to attendance. You may also volunteer to cover other facilitator's group discussions. In either of these cases, we will update your compensation accordingly.
 

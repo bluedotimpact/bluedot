@@ -36,9 +36,12 @@ type CourseLanderProps = {
   courseSlug: string;
   baseApplicationUrl: string;
   createContentFor: (applicationUrlWithUtm: string, courseSlug: string) => CourseLanderContent;
+  courseOgImage?: string
 };
 
-const CourseLander = ({ courseSlug, baseApplicationUrl, createContentFor }: CourseLanderProps) => {
+const CourseLander = ({
+  courseSlug, baseApplicationUrl, createContentFor, courseOgImage,
+}: CourseLanderProps) => {
   const { latestUtmParams } = useLatestUtmParams();
 
   const applicationUrlWithUtm = latestUtmParams.utm_source
@@ -56,18 +59,19 @@ const CourseLander = ({ courseSlug, baseApplicationUrl, createContentFor }: Cour
         {/* Open Graph meta tags */}
         <meta property="og:title" content={content.meta.title} />
         <meta property="og:description" content={content.meta.description} />
-        <meta property="og:image" content="/images/agi-strategy/hero-banner-split.png" />
+        <meta property="og:image" content={courseOgImage || 'https://bluedot.org/images/logo/link-preview-fallback.png'} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content={content.meta.title} />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="BlueDot Impact" />
+        <meta property="og:url" content={`https://bluedot.org/courses/${encodeURIComponent(courseSlug)}`} />
 
         {/* Twitter Card meta tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={content.meta.title} />
         <meta name="twitter:description" content={content.meta.description} />
-        <meta name="twitter:image" content="/images/agi-strategy/hero-banner-split.png" />
+        <meta name="twitter:image" content={courseOgImage || 'https://bluedot.org/images/logo/link-preview-fallback.png'} />
       </Head>
 
       <HeroSection {...content.hero} />

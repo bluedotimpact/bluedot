@@ -501,7 +501,7 @@ const CourseCardRedesigned = ({
         <img
           alt=""
           className="absolute inset-0 size-full object-cover"
-          src="/images/courses/courses-gradient.png"
+          src="/images/courses/courses-gradient.webp"
           style={{
             transform: gradientRotation === 0
               ? 'none'
@@ -529,7 +529,7 @@ const CourseCardRedesigned = ({
       <div
         className="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
         style={{
-          backgroundImage: 'url(/images/agi-strategy/noise.png)',
+          backgroundImage: 'url(/images/agi-strategy/noise.webp)',
           backgroundRepeat: 'repeat',
           backgroundSize: '464.64px 736.56px',
           backgroundPosition: 'top left',

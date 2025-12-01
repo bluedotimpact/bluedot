@@ -15,6 +15,8 @@ import { inter } from '../lib/fonts';
 import { trpc } from '../utils/trpc';
 
 const AnnouncementBanner = dynamic(() => import('../components/AnnouncementBanner'), { ssr: false });
+// Dynamic import prevents SSR execution - required because Customer.io package has circular dependencies
+const CustomerioAnalytics = dynamic(() => import('../components/analytics/CustomerioAnalytics'), { ssr: false });
 
 const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
@@ -66,6 +68,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
             )}
           <CookieBanner />
           <GoogleTagManager />
+          <CustomerioAnalytics />
           <CircleWidget />
         </div>
       </PostHogProvider>

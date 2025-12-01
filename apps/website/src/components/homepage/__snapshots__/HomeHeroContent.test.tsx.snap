@@ -6,9 +6,14 @@ exports[`HomeHeroContent > renders as expected 1`] = `
     class="relative w-full"
   >
     <div
-      class="relative flex flex-col min-h-[653px] min-[680px]:max-[1023px]:min-h-[659px] min-[1024px]:max-[1279px]:min-h-[738px] min-[1280px]:max-[1439px]:min-h-[821px] min-[1440px]:min-h-[821px] w-full -scale-x-100 bg-cover bg-center"
-      style="background-image: url("/images/homepage/hero.webp");"
+      class="relative flex flex-col min-h-[653px] min-[680px]:max-[1023px]:min-h-[659px] min-[1024px]:max-[1279px]:min-h-[738px] min-[1280px]:max-[1439px]:min-h-[821px] min-[1440px]:min-h-[821px] w-full -scale-x-100"
     >
+      <img
+        alt=""
+        class="absolute inset-0 size-full object-cover"
+        fetchpriority="high"
+        src="/images/homepage/hero.webp"
+      />
       <div
         class="relative z-20 min-h-[60px] min-[680px]:max-[1023px]:min-h-[60px] min-[1024px]:min-h-[76px] -scale-x-100"
       />
@@ -50,7 +55,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
               <p
                 class="bluedot-p not-prose text-[#13132E] text-[16px] leading-[26px] whitespace-nowrap flex-shrink-0"
               >
-                Our 5,000+ alumni work at
+                Our 6,000+ alumni work at
               </p>
               <div
                 class="w-full sm:flex-1 inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(90deg,transparent_0,_black_12.63%,_black_80.26%,transparent_100%)]"
