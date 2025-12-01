@@ -1,0 +1,48 @@
+import { render } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
+import QuoteSection from './QuoteSection';
+
+const mockProps = {
+  quotes: [
+    {
+      quote: '"AI could surpass almost all humans at almost everything shortly after 2027."',
+      name: 'Dario Amodei',
+      role: 'CEO, Anthropic',
+      imageSrc: '/images/lander/foai/dario.jpeg',
+      url: 'https://example.com/source',
+    },
+    {
+      quote: '"The downside is, at some point, humanity loses control."',
+      name: 'Sundar Pichai',
+      role: 'CEO, Google',
+      imageSrc: '/images/agi-strategy/sundar.jpg',
+      url: 'https://example.com/source2',
+    },
+  ],
+};
+
+describe('QuoteSection', () => {
+  it('renders correctly', () => {
+    const { container } = render(<QuoteSection {...mockProps} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it('renders the first quote', () => {
+    const { getAllByText } = render(<QuoteSection {...mockProps} />);
+    expect(getAllByText(mockProps.quotes[0]!.quote).length).toBeGreaterThan(0);
+  });
+
+  it('renders the quote author name and role', () => {
+    const { getAllByText } = render(<QuoteSection {...mockProps} />);
+    expect(getAllByText('Dario Amodei').length).toBeGreaterThan(0);
+    expect(getAllByText('CEO, Anthropic').length).toBeGreaterThan(0);
+  });
+
+  it('renders navigation indicators', () => {
+    const { getAllByRole } = render(<QuoteSection {...mockProps} />);
+    const indicators = getAllByRole('button', { name: /Go to quote/ });
+
+    expect(mockProps.quotes.length).toBeGreaterThan(0);
+    expect(indicators).toHaveLength(mockProps.quotes.length);
+  });
+});

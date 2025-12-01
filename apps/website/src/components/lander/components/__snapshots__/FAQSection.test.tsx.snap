@@ -1,0 +1,169 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`FAQSection > renders correctly 1`] = `
+<section
+  class="w-full bg-white"
+>
+  <div
+    class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:pt-16 min-[680px]:pb-12 min-[1024px]:py-16 min-[1280px]:py-24"
+  >
+    <div
+      class="max-w-[928px] mx-auto flex flex-col gap-12 md:gap-16"
+    >
+      <h2
+        class="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-[#13132E] text-center"
+      >
+        Frequently Asked Questions
+      </h2>
+      <div
+        class="flex flex-col gap-6"
+      >
+        <div
+          class="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
+        >
+          <button
+            aria-controls="faq-answer-technical"
+            aria-expanded="false"
+            class="w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease py-6 hover:bg-gray-50"
+            type="button"
+          >
+            <span
+              class="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow"
+            >
+              How much technical background do I need?
+            </span>
+            <svg
+              class="flex-shrink-0 transition-transform duration-300 ease "
+              fill="none"
+              height="17"
+              viewBox="0 0 16 17"
+              width="16"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0 8.5H16M8 0.5L8 16.5"
+                stroke="#001133"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+          <div
+            class="grid transition-[grid-template-rows] duration-300 ease grid-rows-[0fr]"
+            id="faq-answer-technical"
+          >
+            <div
+              class="overflow-hidden"
+            >
+              <div
+                class="px-8 pb-6"
+              >
+                <div
+                  class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
+                >
+                  You should understand the basics of how LLMs are trained.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
+        >
+          <button
+            aria-controls="faq-answer-agi-strategy"
+            aria-expanded="false"
+            class="w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease py-6 hover:bg-gray-50"
+            type="button"
+          >
+            <span
+              class="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow"
+            >
+              Do I need to take the AGI strategy course first?
+            </span>
+            <svg
+              class="flex-shrink-0 transition-transform duration-300 ease "
+              fill="none"
+              height="17"
+              viewBox="0 0 16 17"
+              width="16"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0 8.5H16M8 0.5L8 16.5"
+                stroke="#001133"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+          <div
+            class="grid transition-[grid-template-rows] duration-300 ease grid-rows-[0fr]"
+            id="faq-answer-agi-strategy"
+          >
+            <div
+              class="overflow-hidden"
+            >
+              <div
+                class="px-8 pb-6"
+              >
+                <div
+                  class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
+                >
+                  It's not required, but strongly recommended.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
+        >
+          <button
+            aria-controls="faq-answer-bluedot"
+            aria-expanded="false"
+            class="w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease py-6 hover:bg-gray-50"
+            type="button"
+          >
+            <span
+              class="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow"
+            >
+              Who is BlueDot Impact?
+            </span>
+            <svg
+              class="flex-shrink-0 transition-transform duration-300 ease "
+              fill="none"
+              height="17"
+              viewBox="0 0 16 17"
+              width="16"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0 8.5H16M8 0.5L8 16.5"
+                stroke="#001133"
+                stroke-width="2"
+              />
+            </svg>
+          </button>
+          <div
+            class="grid transition-[grid-template-rows] duration-300 ease grid-rows-[0fr]"
+            id="faq-answer-bluedot"
+          >
+            <div
+              class="overflow-hidden"
+            >
+              <div
+                class="px-8 pb-6"
+              >
+                <div
+                  class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
+                >
+                  We're a London-based startup focused on AI safety education.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
