@@ -1,4 +1,4 @@
-import { NewText } from '@bluedot/ui';
+import { CTALinkOrButton, NewText } from '@bluedot/ui';
 import { IconType } from 'react-icons';
 
 const { H2, P } = NewText;
@@ -9,18 +9,27 @@ export type TargetAudience = {
   description: string;
 };
 
+export type BottomCta = {
+  boldText: string;
+  text: string;
+  buttonText: string;
+  buttonUrl: string;
+};
+
 export type WhoIsThisForSectionProps = {
   title?: string;
   targetAudiences: TargetAudience[];
+  bottomCta?: BottomCta;
 };
 
 const WhoIsThisForSection = ({
   title = 'Who this course is for',
   targetAudiences,
+  bottomCta,
 }: WhoIsThisForSectionProps) => {
   return (
-    <section className="w-full bg-[#FAFAF7]">
-      <div className="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 md:pt-20 md:pb-16 min-[1024px]:px-spacing-x lg:pt-24 lg:pb-20">
+    <section className="w-full bg-white">
+      <div className="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24 xl:py-24">
         <H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-12 md:mb-16 tracking-[-0.01em]">
           {title}
         </H2>
@@ -40,6 +49,23 @@ const WhoIsThisForSection = ({
             </div>
           ))}
         </div>
+
+        {/* Bottom CTA Section */}
+        {bottomCta && (
+          <div className="w-full max-w-[924px] mx-auto flex flex-col items-center gap-6 mt-12 md:mt-16">
+            <P className="text-size-sm text-[#13132E]/80 text-center">
+              <span className="font-semibold">{bottomCta.boldText}</span>
+              <span> {bottomCta.text}</span>
+            </P>
+            <CTALinkOrButton
+              variant="outline-black"
+              url={bottomCta.buttonUrl}
+              className="!font-medium text-size-sm px-5 py-2.5 !rounded-md !border-[rgba(19,19,46,0.3)] !text-[#13132e]"
+            >
+              {bottomCta.buttonText}
+            </CTALinkOrButton>
+          </div>
+        )}
       </div>
     </section>
   );

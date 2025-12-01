@@ -7,13 +7,21 @@ import CourseDetails from './CourseDetails';
 import { ROUTES } from '../../lib/routes';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
 import { trpc } from '../../utils/trpc';
-import { formatDateTimeRelative } from '../../lib/utils';
+import type { GroupDiscussion } from '../../server/routers/group-discussions';
 
 type CourseListRowProps = {
   course: Course;
   courseRegistration: CourseRegistration;
   isFirst?: boolean;
   isLast?: boolean;
+};
+
+const getMaxUnitNumber = (discussions: GroupDiscussion[]): number | null => {
+  const unitNumbers = discussions
+    .map((d) => d.unitNumber)
+    .filter((n): n is number => n !== null);
+
+  return unitNumbers.length > 0 ? Math.max(...unitNumbers) : null;
 };
 
 const CourseListRow = ({
@@ -98,7 +106,7 @@ const CourseListRow = ({
         url={buttonUrl}
         disabled={disabled}
         target="_blank"
-        className="w-full sm:w-auto"
+        className="w-full sm:w-auto bg-[#2244BB]"
       >
         {buttonText}
       </CTALinkOrButton>
@@ -109,9 +117,17 @@ const CourseListRow = ({
 
   const getSubtitle = (): ReactNode | null => {
     if (!isCompleted && nextDiscussion) {
-      if (isExpanded || isLoading) return null;
+      if (isLoading) return null;
 
-      return `Unit ${nextDiscussion.unitNumber} starts ${formatDateTimeRelative({ dateTimeMs: nextDiscussion.startDateTime * 1000, currentTimeMs })}`;
+      const maxUnitNumber = getMaxUnitNumber(expectedDiscussions);
+      const groupName = nextDiscussion.groupDetails?.groupName || 'Unknown group';
+
+      if (nextDiscussion.unitNumber !== null && maxUnitNumber !== null) {
+        return `Unit ${nextDiscussion.unitNumber}/${maxUnitNumber} · ${groupName}`;
+      }
+
+      // Fallback if we don't have unit numbers
+      return groupName;
     }
 
     if (isCompleted && courseRegistration.certificateCreatedAt) {
@@ -143,7 +159,7 @@ const CourseListRow = ({
   return (
     <div>
       <div
-        className={`border-x border-t ${isLast && !isExpanded ? 'border-b' : ''} ${isFirst ? 'rounded-t-xl' : ''} ${isLast && !isExpanded ? 'rounded-b-xl' : ''} border-gray-200 ${isExpanded ? 'bg-white' : ''} ${hoverClass} transition-colors duration-200 group ${!isCompleted ? 'cursor-pointer' : ''}`}
+        className={`border-x border-t ${isLast && !isExpanded ? 'border-b' : ''} ${isFirst ? 'rounded-t-xl' : ''} ${isLast && !isExpanded ? 'rounded-b-xl' : ''} border-charcoal-light ${isExpanded ? 'bg-white' : ''} ${hoverClass} transition-colors duration-200 group ${!isCompleted ? 'cursor-pointer' : ''}`}
         onClick={!isCompleted ? () => setIsExpanded(!isExpanded) : undefined}
         onKeyDown={!isCompleted ? (e) => {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -162,9 +178,9 @@ const CourseListRow = ({
             <div className="flex items-start gap-3">
               {/* Content */}
               <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-size-lg text-black leading-[22px]">{course.title}</h3>
+                <h3 className="font-semibold text-size-md text-black text-pretty">{course.title}</h3>
                 {subtitle && (
-                  <p className="flex items-center gap-1.5 mt-1 text-size-xs font-medium text-gray-500 leading-4">
+                  <p className="flex items-center gap-1.5 mt-1.5 text-size-xs font-medium text-gray-500 leading-4">
                     {subtitle}
                   </p>
                 )}

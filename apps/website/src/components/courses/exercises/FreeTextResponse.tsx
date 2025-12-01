@@ -9,7 +9,6 @@ import { useRouter } from 'next/router';
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
 import { getLoginUrl } from '../../../utils/getLoginUrl';
 import AutoSaveTextarea from './AutoSaveTextarea';
-import { downloadAsText } from '../../../utils/downloadExerciseResponse';
 
 type FreeTextResponseProps = {
   className?: string;
@@ -42,31 +41,9 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   return (
     <div className={clsx('container-lined bg-white p-8 flex flex-col gap-6', className)}>
       <div className="flex flex-col gap-4">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1 flex flex-col gap-2">
-            <div className="flex items-start justify-between gap-4">
-              <p className="bluedot-h4 not-prose">{title}</p>
-              {isLoggedIn && (
-                <button
-                  type="button"
-                  onClick={() => downloadAsText({ title, description, response: answer || '' })}
-                  aria-label="Download as TXT"
-                  className="p-1 -mt-1 -mr-1 rounded-md text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal flex-shrink-0"
-                >
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M10 2.5V12.5M10 12.5L6.25 8.75M10 12.5L13.75 8.75M3.75 16.25H16.25"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </button>
-              )}
-            </div>
-            <MarkdownExtendedRenderer>{description}</MarkdownExtendedRenderer>
-          </div>
+        <div className="flex flex-col gap-2">
+          <p className="bluedot-h4 not-prose">{title}</p>
+          <MarkdownExtendedRenderer>{description}</MarkdownExtendedRenderer>
         </div>
       </div>
       <AutoSaveTextarea

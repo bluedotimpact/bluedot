@@ -3,6 +3,7 @@ import {
   CTALinkOrButton,
 } from '@bluedot/ui';
 import type { IconType } from 'react-icons';
+import { ScheduleRounds } from './ScheduleRounds';
 
 const { H2, P } = NewText;
 
@@ -28,6 +29,8 @@ export type CourseInformationSectionProps = {
   details: CourseDetail[];
   /** Text for the CTA button in the schedule section */
   scheduleCtaText: string;
+  /** Course slug to fetch dynamic schedule rounds from database */
+  courseSlug: string;
 };
 
 const CourseInformationSection = ({
@@ -35,75 +38,74 @@ const CourseInformationSection = ({
   applicationUrl,
   details,
   scheduleCtaText,
+  courseSlug,
 }: CourseInformationSectionProps) => {
   return (
-    <section className="w-full bg-[#FAFAF7]">
-      <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:py-16 lg:pt-24 lg:pb-20 flex flex-col items-center gap-12 md:gap-16">
+    <section className="w-full bg-white">
+      <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-12 min-[1280px]:px-44 xl:px-40 py-12 min-[680px]:py-16 min-[1280px]:py-24 xl:py-24 flex flex-col items-center gap-12 md:gap-16">
         {/* Section Title */}
         <H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]">
           {title}
         </H2>
 
-        {/* White Card Container - Fixed width on larger screens, responsive on mobile */}
-        <div className="w-full lg:w-[928px] bg-white border border-[rgba(19,19,46,0.1)] rounded-xl py-8 flex flex-col items-center gap-6">
+        {/* White Card Container - Scales with viewport then fixed width on larger screens */}
+        <div className="w-[calc(100vw-40px)] min-[680px]:w-[calc(100vw-64px)] lg:w-[928px] xl:w-[1120px] bg-white border border-[rgba(19,19,46,0.1)] rounded-xl py-8 flex flex-col items-center gap-6">
           {/* Course Details List */}
           <div className="flex flex-col w-full">
             {details.map((detail, index) => (
               <div key={detail.label}>
                 {detail.isSchedule ? (
-                  /* Special layout for Schedule item */
-                  <div className="flex flex-col px-6 md:px-8 py-0 gap-4 md:gap-6">
-                    {/* Schedule header and description in standard two-column layout */}
-                    <div className="flex flex-col md:flex-row items-start gap-4 md:gap-8">
-                      {/* Icon and Label */}
-                      <div className="flex items-center gap-3 md:min-w-[240px]">
-                        <div className="text-[#13132E]">
-                          <detail.icon className="size-6" />
-                        </div>
-                        <P className="text-[16px] font-semibold leading-[125%] text-[#13132E]">
-                          {detail.label}
-                        </P>
-                      </div>
-
-                      {/* Description text only */}
-                      <div className="flex-1">
-                        <div className="text-[16px] leading-[160%] text-[#13132E] opacity-80 font-normal">
-                          {detail.scheduleDescription}
-                        </div>
-                      </div>
+                  /* Schedule section  */
+                  <div className="flex flex-col min-[680px]:flex-row px-5 min-[680px]:px-8 py-0 gap-6 min-[680px]:gap-6 md:gap-8 items-start w-full">
+                    {/* Schedule Label (left column, no icon) */}
+                    <div className="min-[680px]:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0">
+                      <P className="text-[16px] font-semibold leading-[125%] text-[#13132E]">
+                        {detail.label}
+                      </P>
                     </div>
 
-                    {/* Button centered across full width */}
-                    <div className="flex justify-start md:justify-center">
-                      <CTALinkOrButton
-                        url={applicationUrl}
-                        className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-[16px] font-medium bg-[#2244BB] text-white rounded-md hover:bg-[#1a3399] cursor-pointer transition-colors"
-                      >
-                        {scheduleCtaText}
-                      </CTALinkOrButton>
+                    {/* Schedule Content (right column) */}
+                    <div className="w-full min-[680px]:flex-1 min-[680px]:min-w-0">
+                      <ScheduleRounds
+                        courseSlug={courseSlug}
+                        applicationUrl={applicationUrl}
+                        fallbackContent={(
+                          <div className="flex flex-col gap-4">
+                            <div className="text-[15px] leading-[160%] text-[#13132E] opacity-80 font-normal">
+                              {detail.scheduleDescription}
+                            </div>
+                            <div className="flex justify-start">
+                              <CTALinkOrButton
+                                url={applicationUrl}
+                                className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-[16px] font-medium bg-[#2244BB] text-white rounded-md hover:bg-[#1a3399] cursor-pointer transition-colors"
+                              >
+                                {scheduleCtaText}
+                              </CTALinkOrButton>
+                            </div>
+                          </div>
+                        )}
+                      />
                     </div>
                   </div>
                 ) : (
-                  /* Standard layout for other items */
-                  <div className="flex flex-col md:flex-row items-start px-6 md:px-8 py-0 gap-4 md:gap-8">
-                    {/* Icon and Label */}
-                    <div className="flex items-center gap-3 md:min-w-[240px]">
-                      <div className="text-[#13132E]">
-                        <detail.icon className="size-6" />
-                      </div>
+                  <div className="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8">
+                    {/* Label */}
+                    <div className="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0">
                       <P className="text-[16px] font-semibold leading-[125%] text-[#13132E]">
                         {detail.label}
                       </P>
                     </div>
 
                     {/* Description */}
-                    <P className="text-[16px] leading-[160%] text-[#13132E] opacity-80 flex-1 font-normal">
-                      {detail.description}
-                    </P>
+                    <div className="flex-1 min-w-0">
+                      <P className="text-[15px] leading-[160%] text-[#13132E] opacity-80 font-normal">
+                        {detail.description}
+                      </P>
+                    </div>
                   </div>
                 )}
 
-                {/* Divider - not after last item */}
+                {/* Divider */}
                 {index < details.length - 1 && (
                   <div className="w-full h-px bg-[#13132E] opacity-10 my-6" />
                 )}

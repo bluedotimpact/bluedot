@@ -1,6 +1,13 @@
 import { render, RenderResult } from '@testing-library/react';
 import type {
-  Chunk, Course, CourseRegistration, Group, GroupDiscussion, ResourceCompletion, Unit,
+  Chunk,
+  Course,
+  CourseRegistration,
+  Group,
+  GroupDiscussion,
+  MeetPerson,
+  ResourceCompletion,
+  Unit,
   UnitResource,
 } from '@bluedot/db';
 import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
@@ -49,6 +56,7 @@ const MOCK_COURSE_ID = 'course-id';
 const MOCK_COURSE_REGISTRATION_ID = 'course-registration-id';
 const MOCK_CHUNK_ID = 'chunk-id';
 const MOCK_GROUP_ID = 'group-id';
+const MOCK_MEET_PERSON_ID = 'meet-person-id';
 const MOCK_RESOURCE_ID = 'resource-id';
 const MOCK_RESOURCE_COMPLETION_ID = 'resource-completion-id';
 
@@ -82,7 +90,7 @@ export const createMockCourseRegistration = (overrides: Partial<CourseRegistrati
   certificateCreatedAt: null,
   certificateId: null,
   courseApplicationsBaseId: 'base123',
-  courseId: 'course-1',
+  courseId: MOCK_COURSE_ID,
   decision: 'Accept',
   email: 'user@example.com',
   firstName: 'Test',
@@ -102,7 +110,7 @@ export const createMockUnit = (overrides: Partial<Unit> = {}): Unit => ({
   autoNumberId: 1,
   chunks: ['recuC87TILbjW4eF4'],
   content: null,
-  courseId: 'rec8CeVOWU0mGu2Jf',
+  courseId: MOCK_COURSE_ID,
   coursePath: '/courses/test-course',
   courseSlug: 'test-course',
   courseTitle: 'Test Course',
@@ -166,6 +174,22 @@ export const createMockGroupDiscussion = (overrides: Partial<GroupDiscussion> = 
   unitNumber: 1,
   zoomAccount: null,
   zoomLink: null,
+  ...overrides,
+});
+
+export const createMockMeetPerson = (overrides: Partial<MeetPerson> = {}): MeetPerson => ({
+  id: MOCK_MEET_PERSON_ID,
+  name: 'Test User',
+  applicationsBaseRecordId: null,
+  projectSubmission: [],
+  role: 'Participant',
+  buckets: [],
+  round: null,
+  expectedDiscussionsParticipant: [],
+  expectedDiscussionsFacilitator: [],
+  attendedDiscussions: [],
+  groupsAsParticipant: [],
+  autoNumberId: 1,
   ...overrides,
 });
 

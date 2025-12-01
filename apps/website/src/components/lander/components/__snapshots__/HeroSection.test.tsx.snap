@@ -34,7 +34,9 @@ exports[`HeroSection > renders correctly (snapshot) 1`] = `
             <a
               class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] cursor-pointer transition-colors"
               href="https://example.com/apply"
+              rel="noopener noreferrer"
               tabindex="0"
+              target="_blank"
             >
               Apply now
             </a>
@@ -58,7 +60,7 @@ exports[`HeroSection > renders correctly (snapshot) 1`] = `
         />
         <div
           class="absolute inset-0 pointer-events-none bg-contain bg-repeat mix-blend-soft-light"
-          style="background-image: url("/images/agi-strategy/noise.png");"
+          style="background-image: url("/images/agi-strategy/noise.webp");"
         />
       </div>
     </div>

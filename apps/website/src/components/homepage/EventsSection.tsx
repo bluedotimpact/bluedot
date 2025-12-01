@@ -56,18 +56,6 @@ const CAROUSEL_CONFIG = {
 const DateBadge = ({ month, day }: { month: string; day: string }) => {
   return (
     <div className="relative size-16 min-[1024px]:size-20 bg-white rounded-lg min-[1024px]:rounded-lg shadow-[0px_1.6px_4.8px_1.6px_rgba(0,0,0,0.05),0px_0.8px_1.6px_0px_rgba(0,0,0,0.15)] min-[1024px]:shadow-[0px_2px_6px_2px_rgba(0,0,0,0.05),0px_1px_2px_0px_rgba(0,0,0,0.15)] overflow-hidden flex flex-col">
-      {/* Noise Texture Overlay */}
-      {/* Tailwind doesn't support blend modes - using inline style */}
-      <div
-        className="absolute top-0 inset-x-0 bottom-[43.2px] min-[1024px]:bottom-[54px] opacity-50 pointer-events-none"
-        style={{
-          backgroundImage: 'url(/images/homepage/noise.svg)',
-          backgroundSize: '371.712px 589.248px',
-          backgroundRepeat: 'repeat',
-          mixBlendMode: 'soft-light',
-        }}
-      />
-
       {/* Month Label */}
       <div className="relative flex items-center justify-center py-[4.8px] min-[1024px]:py-1.5 border-b border-[rgba(19,19,46,0.1)] bg-gradient-to-r from-blue-600 to-blue-500">
         <span className="text-[11.2px] min-[1024px]:text-[14px] font-semibold uppercase tracking-[0.4px] min-[1024px]:tracking-[0.5px] text-white leading-[11.2px] min-[1024px]:leading-[14px]">
@@ -85,20 +73,69 @@ const DateBadge = ({ month, day }: { month: string; day: string }) => {
   );
 };
 
-const EventCard = ({ event }: { event: Event }) => {
+/** Given a transformed Luma event, returns a time delta string:
+ * 1. If the event is online, the time delta is shown in local user time, e.g. "Mon 9:00 am - 5:00 pm GMT+2" (for a user in
+ *    GMT+2)
+ * 2. If the event is in-person, the time delta is shown in the event's timezone, e.g. "Mon 2 pm - 5 pm GMT" (even if user
+ *    in GMT+2)
+ * 3. If the event is shown over multiple days, the end date is in brackets with timezone after, e.g. "Mon 9:00 am - Fri 5:00 pm (5 Mar) GMT"
+ */
+export const buildTimeDeltaString = (event: Event, locale?: string) => {
   const startDate = new Date(event.startAt);
   const endDate = new Date(event.endAt);
+  const timeZone = event.location === 'ONLINE' ? undefined : event.timezone;
 
-  const timeFormat: Intl.DateTimeFormatOptions = {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
+  // Check if event spans multiple days
+  const dateComparator = new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    timeZone,
+  });
+  const isMultiDay = dateComparator.format(startDate) !== dateComparator.format(endDate);
+
+  const formatTime = (date: Date, extraOptions: Intl.DateTimeFormatOptions = {}) => {
+    return new Intl.DateTimeFormat(locale, {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+      timeZone,
+      ...extraOptions,
+    }).format(date);
   };
 
+  const timeStart = formatTime(startDate, { weekday: 'short' });
+
+  if (isMultiDay) {
+    // For multi-day: "Weekday Time (Date) Timezone"
+    const timeEndWeekday = formatTime(endDate, { weekday: 'short' });
+    const timeEndDate = new Intl.DateTimeFormat(locale, {
+      month: 'short',
+      day: 'numeric',
+      timeZone,
+    }).format(endDate);
+
+    // Extract timezone abbreviation
+    const timezoneParts = new Intl.DateTimeFormat(locale, {
+      timeZoneName: 'short',
+      timeZone,
+    }).formatToParts(endDate);
+    const timezone = timezoneParts.find((part) => part.type === 'timeZoneName')?.value || '';
+
+    return `${timeStart} - ${timeEndWeekday} (${timeEndDate}) ${timezone}`;
+  }
+
+  // For single-day: "Weekday Time - Time Timezone"
+  const timeEnd = formatTime(endDate, { timeZoneName: 'short' });
+  return `${timeStart} - ${timeEnd}`;
+};
+
+const EventCard = ({ event }: { event: Event }) => {
+  const startDate = new Date(event.startAt);
   const month = startDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
   const day = startDate.getDate().toString();
-  // Use `undefined` to respect user's locale for time formatting
-  const timeString = `${startDate.toLocaleTimeString(undefined, timeFormat)} - ${endDate.toLocaleTimeString(undefined, timeFormat)}`;
+
+  const timeString = buildTimeDeltaString(event);
 
   return (
     <div className="flex flex-col justify-between h-[264px] min-[680px]:min-h-[248px] min-[1024px]:min-h-[280px] min-[1280px]:min-h-[320px] pl-6 border-l border-[rgba(19,19,46,0.15)] w-[232px] min-[680px]:w-auto flex-shrink-0 min-[680px]:flex-shrink min-[680px]:flex-grow min-[680px]:basis-0">

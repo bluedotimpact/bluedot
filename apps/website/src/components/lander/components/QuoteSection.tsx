@@ -18,7 +18,7 @@ export type QuoteSectionProps = {
 
 // Design constants - these stay consistent across all courses
 const COLORS = {
-  background: '#FAFAF7',
+  background: '#FFFFFF',
   cardBg: '#ECF0FF',
   text: '#13132E',
   accent: '#2244BB',
@@ -226,7 +226,7 @@ const QuoteSection = ({ quotes }: QuoteSectionProps) => {
 
   return (
     <section
-      className="relative w-full py-6 px-5 sm:py-6 sm:px-5 min-[680px]:py-6 min-[680px]:px-8 lg:p-12 overflow-x-hidden"
+      className="relative w-full py-6 px-5 sm:px-5 min-[680px]:pt-8 min-[680px]:pb-16 min-[680px]:px-8 lg:p-12 xl:pb-24 overflow-x-hidden"
       style={{ backgroundColor: COLORS.background }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
