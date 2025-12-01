@@ -12,9 +12,9 @@ import type { GroupDiscussion } from '../../server/routers/group-discussions';
 type CourseListRowProps = {
   course: Course;
   courseRegistration: CourseRegistration;
-  isFirst?: boolean;
-  isLast?: boolean;
-  isCompleted?: boolean;
+  isFirst: boolean;
+  isLast: boolean;
+  isCompleted: boolean;
 };
 
 const getMaxUnitNumber = (discussions: GroupDiscussion[]): number | null => {
