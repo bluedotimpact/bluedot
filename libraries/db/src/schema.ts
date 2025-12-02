@@ -41,14 +41,6 @@ export const syncMetadataTable = pgTable('sync_metadata', {
   updatedAt: timestamp().defaultNow(),
 });
 
-/**
- * @deprecated Use `isAdmin` field on userTable instead.
- */
-export const adminUsersTable = pgTable('admin_users', {
-  email: text().primaryKey(),
-  addedAt: timestamp().defaultNow().notNull(),
-});
-
 // Define sync status type
 export type SyncStatus = 'queued' | 'running' | 'completed';
 
@@ -1146,7 +1138,6 @@ export const resourceCompletionTable = pgAirtable('resource_completion', {
 // Type exports for all tables
 export type Meta = InferSelectModel<typeof metaTable>;
 export type SyncMetadata = InferSelectModel<typeof syncMetadataTable>;
-export type AdminUser = InferSelectModel<typeof adminUsersTable>;
 export type SyncRequest = InferSelectModel<typeof syncRequestsTable>;
 export type Course = InferSelectModel<typeof courseTable.pg>;
 export type UnitFeedback = InferSelectModel<typeof unitFeedbackTable.pg>;
