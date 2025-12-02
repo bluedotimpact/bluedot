@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { NewText } from '@bluedot/ui';
 import clsx from 'clsx';
 
-export type CommunityMember = {
+type CommunityMember = {
   name: string;
   jobTitle: string;
   course: string;
@@ -16,23 +16,129 @@ export type CommunityMember = {
   url: string;
 };
 
-export type CommunityCarouselProps = {
-  members: CommunityMember[];
-  title?: string;
-  subtitle?: string;
-  variant?: 'homepage' | 'lander';
-};
+const COMMUNITY_MEMBERS: CommunityMember[] = [
+  {
+    name: 'Neel Nanda',
+    jobTitle: 'Mech Interp Lead at Google DeepMind',
+    course: 'Former participant and facilitator',
+    imageSrc: '/images/graduates/neel.jpeg',
+    url: 'https://www.neelnanda.io/about',
+  },
+  {
+    name: 'Catherine Fist',
+    jobTitle: 'Head of Delivery at UK AISI',
+    course: 'AI Governance Course Graduate',
+    imageSrc: '/images/graduates/catherine.jpeg',
+    url: 'https://www.linkedin.com/in/catherine-fist/',
+  },
+  {
+    name: 'Adam Jones',
+    jobTitle: 'Member of Technical Staff at Anthropic',
+    course: 'Former AI safety lead at BlueDot',
+    imageSrc: '/images/graduates/adam.jpg',
+    url: 'https://adamjones.me/',
+  },
+  {
+    name: 'Marius Hobbhahn',
+    jobTitle: 'CEO at Apollo Research',
+    course: 'AI Alignment Course Graduate',
+    imageSrc: '/images/graduates/marius.jpeg',
+    url: 'https://www.mariushobbhahn.com/aboutme/',
+  },
+  {
+    name: 'Chiara Gerosa',
+    jobTitle: 'Executive Director at Talos',
+    course: 'AI Governance Course Facilitator',
+    imageSrc: '/images/graduates/chiara.jpeg',
+    url: 'https://www.linkedin.com/in/chiaragerosa/',
+  },
+  {
+    name: 'Richard Ngo',
+    jobTitle: 'Former OpenAI and DeepMind',
+    course: 'AI Alignment Course Designer',
+    imageSrc: '/images/graduates/richard.jpg',
+    url: 'https://www.richardcngo.com/',
+  },
+];
 
 const CARD_CONFIG = {
   AUTO_SCROLL_INTERVAL: 3000,
 } as const;
 
-const CommunityCarousel = ({
-  members,
-  title,
-  subtitle,
-  variant = 'homepage',
-}: CommunityCarouselProps) => {
+const CommunityMemberCard = ({ member }: { member: CommunityMember }) => (
+  <Link
+    href={member.url}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="flex flex-col flex-shrink-0 bg-white border border-[rgba(19,19,46,0.1)] rounded-xl overflow-hidden cursor-pointer w-[276px] min-[680px]:w-[288px] min-[1280px]:w-[320px] h-auto"
+  >
+    {/* Image Section */}
+    <div className="flex-shrink-0 w-full h-[296px] min-[680px]:h-[320px]">
+      <img
+        src={member.imageSrc}
+        alt={`Profile of ${member.name}`}
+        className="size-full object-cover"
+      />
+    </div>
+
+    {/* Content Section */}
+    <div className="flex flex-col items-start justify-between p-6 gap-4 min-h-[157px]">
+      {/* Name and Job Title Container */}
+      <div className="flex flex-col items-start gap-1 w-full">
+        {/* Name */}
+        <NewText.P className="text-[18px] font-semibold leading-[125%] text-[#13132E] text-left w-full">
+          {member.name}
+        </NewText.P>
+
+        {/* Job Title */}
+        <NewText.P className="text-[14px] font-medium leading-[160%] text-[#13132E] text-left w-full self-stretch">
+          {member.jobTitle}
+        </NewText.P>
+      </div>
+
+      {/* Course */}
+      <NewText.P className="text-[14px] font-normal leading-[160%] text-[#13132E] text-left w-full opacity-60">
+        {member.course}
+      </NewText.P>
+    </div>
+  </Link>
+);
+
+const HeaderNavigationButton = ({
+  direction,
+  onClick,
+  disabled,
+}: {
+  direction: 'left' | 'right';
+  onClick: () => void;
+  disabled: boolean;
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    disabled={disabled}
+    className={clsx(
+      'size-[44px] rounded-full flex items-center justify-center',
+      'bg-[rgba(19,19,46,0.08)]',
+      'transition-all duration-200',
+      disabled
+        ? 'opacity-50 cursor-not-allowed'
+        : 'opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer',
+    )}
+    aria-label={`Scroll ${direction}`}
+  >
+    <span
+      className="text-[#13132E] text-[22.4px] font-medium select-none"
+      style={{
+        transform: direction === 'left' ? 'scaleX(-1)' : 'none',
+      }}
+    >
+      →
+    </span>
+  </button>
+);
+
+const OurCommunitySection = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const autoScrollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -40,8 +146,8 @@ const CommunityCarousel = ({
   const prefersReducedMotionRef = useRef(false);
 
   const createInfiniteScrollData = () => {
-    if (members.length === 0) return [];
-    return [...members, ...members, ...members];
+    if (COMMUNITY_MEMBERS.length === 0) return [];
+    return [...COMMUNITY_MEMBERS, ...COMMUNITY_MEMBERS, ...COMMUNITY_MEMBERS];
   };
 
   const infiniteMembers = createInfiniteScrollData();
@@ -141,23 +247,23 @@ const CommunityCarousel = ({
   }, []);
 
   useEffect(() => {
-    if (scrollContainerRef.current && members.length > 0) {
+    if (scrollContainerRef.current && COMMUNITY_MEMBERS.length > 0) {
       const cardWidth = getCardWidth();
       const gap = getCardGap();
       const scrollUnit = cardWidth + gap;
-      const sectionWidth = members.length * scrollUnit;
+      const sectionWidth = COMMUNITY_MEMBERS.length * scrollUnit;
       scrollContainerRef.current.scrollLeft = sectionWidth;
     }
-  }, [members.length, getCardWidth, getCardGap]);
+  }, [getCardWidth, getCardGap]);
 
   const handleScroll = useCallback(() => {
     const container = scrollContainerRef.current;
-    if (container && !isResettingRef.current && members.length > 0) {
+    if (container && !isResettingRef.current && COMMUNITY_MEMBERS.length > 0) {
       const { scrollLeft } = container;
       const cardWidth = getCardWidth();
       const gap = getCardGap();
       const scrollUnit = cardWidth + gap;
-      const sectionWidth = members.length * scrollUnit;
+      const sectionWidth = COMMUNITY_MEMBERS.length * scrollUnit;
 
       if (scrollLeft >= sectionWidth * 2) {
         isResettingRef.current = true;
@@ -169,7 +275,7 @@ const CommunityCarousel = ({
         isResettingRef.current = false;
       }
     }
-  }, [members.length, getCardWidth, getCardGap]);
+  }, [getCardWidth, getCardGap]);
 
   const scroll = useCallback((direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -196,52 +302,30 @@ const CommunityCarousel = ({
     }
   }, [scroll]);
 
-  const defaultTitle = variant === 'homepage'
-    ? 'Our community'
-    : 'Meet our alumni shaping AI\'s future';
-
-  const headerSizeClasses = variant === 'homepage'
-    ? 'text-[28px] min-[680px]:text-[36px] min-[1024px]:text-[40px] min-[1280px]:text-[48px]'
-    : 'text-[28px] min-[680px]:text-[32px] xl:text-[36px]';
-
   return (
     <section className="w-full bg-white py-12 md:py-16 lg:py-20 xl:py-24 px-5 min-[680px]:px-8 lg:px-12 xl:px-16 2xl:px-20">
-      {/* Header Container */}
+      {/* Header Container - aligned with course cards */}
       <div className="mx-auto max-w-screen-xl mb-8 min-[680px]:mb-16 min-[1024px]:mb-20 min-[1440px]:mb-16">
         {/* Header Section */}
         <div className="flex flex-col items-center text-center min-[680px]:flex-row min-[680px]:items-end min-[680px]:justify-between min-[680px]:text-left gap-8 min-[680px]:gap-16">
           {/* Header Content */}
           <div className="flex flex-col gap-8">
-            {variant === 'homepage' ? (
-              <h2
-                className={clsx(
-                  headerSizeClasses,
-                  'font-medium leading-[125%] text-[#13132E] tracking-[-1px]',
-                )}
-                style={{ fontFeatureSettings: "'ss04' on" }}
-              >
-                {title || defaultTitle}
-              </h2>
-            ) : (
-              <NewText.H2 className={clsx(headerSizeClasses, 'font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]')}>
-                {title || defaultTitle}
-              </NewText.H2>
-            )}
-            {subtitle && (
-              <NewText.P className="text-[16px] min-[680px]:text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80 max-w-full">
-                {subtitle}
-              </NewText.P>
-            )}
+            <h2 className="text-[28px] min-[680px]:text-[36px] min-[1024px]:text-[40px] min-[1280px]:text-[48px] font-medium leading-[125%] text-[#13132E] tracking-[-1px]" style={{ fontFeatureSettings: "'ss04' on" }}>
+              Our community
+            </h2>
+            <NewText.P className="text-[16px] min-[680px]:text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80 max-w-full">
+              Learn more about the incredible work our community is doing.
+            </NewText.P>
           </div>
 
-          {/* Navigation Buttons - Desktop */}
+          {/* Navigation Buttons */}
           <div className="hidden min-[680px]:flex gap-3 flex-shrink-0">
-            <NavigationButton
+            <HeaderNavigationButton
               direction="left"
               onClick={() => scroll('left')}
               disabled={false}
             />
-            <NavigationButton
+            <HeaderNavigationButton
               direction="right"
               onClick={() => scroll('right')}
               disabled={false}
@@ -250,9 +334,9 @@ const CommunityCarousel = ({
         </div>
       </div>
 
-      {/* Carousel Container */}
+      {/* Carousel Container - full bleed on both sides */}
       <div className="relative -mx-5 min-[680px]:-mx-8 lg:-mx-12 xl:-mx-16 2xl:-mx-20">
-        <div id="community-carousel-description" className="sr-only">
+        <div id="our-community-carousel-description" className="sr-only">
           This carousel uses infinite scrolling and auto-advances every few seconds. Hover to pause auto-scrolling. Use arrow keys to navigate when focused. Navigation buttons allow manual control.
         </div>
 
@@ -273,11 +357,11 @@ const CommunityCarousel = ({
           // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
           tabIndex={0}
           role="region"
-          aria-label="Community members carousel"
-          aria-describedby="community-carousel-description"
+          aria-label="Our community carousel"
+          aria-describedby="our-community-carousel-description"
         >
           {infiniteMembers.map((member, index) => {
-            const sectionNumber = Math.floor(index / members.length);
+            const sectionNumber = Math.floor(index / COMMUNITY_MEMBERS.length);
             const uniqueKey = `${member.name}-${index}-${sectionNumber}`;
             return (
               <div key={uniqueKey}>
@@ -288,14 +372,14 @@ const CommunityCarousel = ({
         </div>
       </div>
 
-      {/* Mobile Navigation Buttons */}
+      {/* Mobile Navigation Buttons - centered below carousel */}
       <div className="flex min-[680px]:hidden gap-3 justify-center mt-8">
-        <NavigationButton
+        <HeaderNavigationButton
           direction="left"
           onClick={() => scroll('left')}
           disabled={false}
         />
-        <NavigationButton
+        <HeaderNavigationButton
           direction="right"
           onClick={() => scroll('right')}
           disabled={false}
@@ -305,77 +389,4 @@ const CommunityCarousel = ({
   );
 };
 
-const CommunityMemberCard = ({ member }: { member: CommunityMember }) => (
-  <Link
-    href={member.url}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="flex flex-col flex-shrink-0 bg-white border border-[rgba(19,19,46,0.1)] rounded-xl overflow-hidden cursor-pointer w-[276px] min-[680px]:w-[288px] min-[1280px]:w-[320px] h-auto"
-  >
-    {/* Image Section */}
-    <div className="flex-shrink-0 w-full h-[296px] min-[680px]:h-[320px]">
-      <img
-        src={member.imageSrc}
-        alt={`Profile of ${member.name}`}
-        className="size-full object-cover"
-      />
-    </div>
-
-    {/* Content Section */}
-    <div className="flex flex-col items-start justify-between p-6 gap-4 min-h-[157px]">
-      {/* Name and Job Title Container */}
-      <div className="flex flex-col items-start gap-1 w-full">
-        {/* Name */}
-        <NewText.P className="text-[18px] font-semibold leading-[125%] text-[#13132E] text-left w-full">
-          {member.name}
-        </NewText.P>
-
-        {/* Job Title */}
-        <NewText.P className="text-[14px] font-medium leading-[160%] text-[#13132E] text-left w-full self-stretch">
-          {member.jobTitle}
-        </NewText.P>
-      </div>
-
-      {/* Course */}
-      <NewText.P className="text-[14px] font-normal leading-[160%] text-[#13132E] text-left w-full opacity-60">
-        {member.course}
-      </NewText.P>
-    </div>
-  </Link>
-);
-
-const NavigationButton = ({
-  direction,
-  onClick,
-  disabled,
-}: {
-  direction: 'left' | 'right';
-  onClick: () => void;
-  disabled: boolean;
-}) => (
-  <button
-    type="button"
-    onClick={onClick}
-    disabled={disabled}
-    className={clsx(
-      'size-[44px] rounded-full flex items-center justify-center',
-      'bg-[rgba(19,19,46,0.08)]',
-      'transition-all duration-200',
-      disabled
-        ? 'opacity-50 cursor-not-allowed'
-        : 'opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer',
-    )}
-    aria-label={`Scroll ${direction}`}
-  >
-    <span
-      className="text-[#13132E] text-[22.4px] font-medium select-none"
-      style={{
-        transform: direction === 'left' ? 'scaleX(-1)' : 'none',
-      }}
-    >
-      →
-    </span>
-  </button>
-);
-
-export default CommunityCarousel;
+export default OurCommunitySection;
