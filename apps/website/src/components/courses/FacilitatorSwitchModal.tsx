@@ -2,6 +2,7 @@ import { CTALinkOrButton, Modal } from '@bluedot/ui';
 import React, { useState } from 'react';
 import { H1, P } from '../Text';
 import Select from './group-switching/Select';
+import { trpc } from '../../utils/trpc';
 
 export type FacilitatorSwitchModalProps = {
   handleClose: () => void;
@@ -23,6 +24,9 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 }) => {
   const [switchType, setSwitchType] = useState<SwitchType | undefined>(undefined);
 
+  const { data: discussions, isLoading, isError } = trpc.facilitators.discussionsAvailable.useQuery({
+    courseSlug,
+  });
   return (
     <Modal
       isOpen
