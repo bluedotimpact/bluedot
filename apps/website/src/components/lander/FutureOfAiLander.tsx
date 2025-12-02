@@ -22,7 +22,7 @@ import { useEffect } from 'react';
 
 import { H1, H2, H3 } from '../Text';
 import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
-import GraduateSection from '../homepage/GraduateSection';
+import GraduateSection from './components/GraduateSection';
 import type { CourseAndUnits } from '../../server/routers/courses';
 
 const FutureOfAiBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {

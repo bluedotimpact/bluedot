@@ -16,6 +16,11 @@ const meta: Meta<typeof CourseListRow> = {
   parameters: {
     layout: 'padded',
   },
+  args: {
+    isFirst: true,
+    isLast: false,
+    isCompleted: false,
+  },
 };
 
 export default meta;
@@ -90,8 +95,7 @@ export const InProgress: Story = {
   args: {
     course: mockCourse,
     courseRegistration: mockInProgressRegistration,
-    isFirst: true,
-    isLast: false,
+    isCompleted: false,
   },
   parameters: {
     msw: {
@@ -106,6 +110,7 @@ export const Completed: Story = {
     courseRegistration: mockCompletedRegistration,
     isFirst: false,
     isLast: true,
+    isCompleted: true,
   },
   parameters: {
     msw: {
@@ -118,8 +123,6 @@ export const Facilitator: Story = {
   args: {
     course: mockCourse,
     courseRegistration: mockFacilitatorRegistration,
-    isFirst: true,
-    isLast: true,
   },
   parameters: {
     msw: {

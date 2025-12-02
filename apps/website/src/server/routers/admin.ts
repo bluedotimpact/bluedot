@@ -1,9 +1,59 @@
-import { syncRequestsTable, gte, desc } from '@bluedot/db';
+import {
+  syncRequestsTable, gte, desc, userTable, courseRegistrationTable, sql,
+} from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
+import { z } from 'zod';
 import db from '../../lib/api/db';
-import { adminProcedure, router } from '../trpc';
+import {
+  adminProcedure, checkAdminAccess, protectedProcedure, router,
+} from '../trpc';
 
 export const adminRouter = router({
+  isAdmin: protectedProcedure.query(async ({ ctx }) => {
+    return checkAdminAccess(ctx.auth.email);
+  }),
+  searchUsers: adminProcedure
+    .input(z.object({ searchTerm: z.string().max(200).optional() }))
+    .query(async ({ input }) => {
+      const trimmedSearchTerm = (input.searchTerm || '').trim();
+
+      let whereClause;
+      if (!trimmedSearchTerm) {
+        whereClause = sql`TRUE`;
+      } else {
+        const pattern = `%${trimmedSearchTerm}%`;
+        whereClause = sql`(u.email ILIKE ${pattern} OR u.name ILIKE ${pattern})`;
+      }
+
+      // Sort exact email matches first, otherwise sort by most recently active
+      const results = await db.pg.execute(sql`
+        SELECT
+          u.id,
+          u.email,
+          u.name,
+          u."lastSeenAt",
+          COALESCE(
+            (SELECT COUNT(*)
+             FROM ${courseRegistrationTable.pg} cr
+             WHERE cr.email = u.email AND (cr."certificateId" IS NOT NULL OR cr.decision = 'Accepted')),
+            0
+          )::int AS "courseCount"
+        FROM ${userTable.pg} u
+        WHERE ${whereClause}
+        ORDER BY
+          CASE WHEN LOWER(u.email) = LOWER(${trimmedSearchTerm}) THEN 0 ELSE 1 END,
+          u."lastSeenAt" DESC NULLS LAST
+        LIMIT 20
+      `);
+
+      return results.rows.map((row) => ({
+        id: row.id as string,
+        email: row.email as string,
+        name: row.name as string | null,
+        lastSeenAt: row.lastSeenAt as string | null,
+        courseCount: row.courseCount as number,
+      }));
+    }),
   syncHistory: adminProcedure.query(async () => {
     // Get last 24 hours of requests, newest first
     const twentyFourHoursAgo = new Date();

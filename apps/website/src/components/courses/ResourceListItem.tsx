@@ -4,13 +4,17 @@ import {
 import { useRouter } from 'next/router';
 import {
   addQueryParam,
-  ProgressDots, useAuthStore,
+  useAuthStore,
 } from '@bluedot/ui';
-import { ErrorView } from '@bluedot/ui/src/ErrorView';
 /**
  * Prevents barrel file import errors when importing RESOURCE_FEEDBACK from @bluedot/db
  */
-import { RESOURCE_FEEDBACK, ResourceFeedbackValue, type UnitResource } from '@bluedot/db/src/schema';
+import {
+  RESOURCE_FEEDBACK, ResourceFeedbackValue, type ResourceCompletion, type UnitResource,
+} from '@bluedot/db/src/schema';
+import { useQueryClient } from '@tanstack/react-query';
+import { getQueryKey } from '@trpc/react-query';
+import type { inferRouterOutputs } from '@trpc/server';
 import {
   A, P,
 } from '../Text';
@@ -20,41 +24,8 @@ import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import ListenToArticleButton from './ListenToArticleButton';
 import AutoSaveTextarea from './exercises/AutoSaveTextarea';
 import { trpc } from '../../utils/trpc';
-
-// Simplified SVG icon components
-const ThumbIcon: React.FC<{
-  filled: boolean;
-  color?: string;
-  isDislike?: boolean;
-}> = ({ filled, color = 'currentColor', isDislike = false }) => {
-  // Flip horizontally for dislike (thumbs down) by flipping on Y-axis
-  const transform = isDislike ? 'scale(1, -1) translate(0, -16)' : undefined;
-
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      stroke={color}
-      strokeWidth="1.25"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <g transform={transform}>
-        <path d="M2.5 6.5H5.5V13H2.5C2.36739 13 2.24021 12.9473 2.14645 12.8536C2.05268 12.7598 2 12.6326 2 12.5V7C2 6.86739 2.05268 6.74021 2.14645 6.64645C2.24021 6.55268 2.36739 6.5 2.5 6.5Z" />
-        {filled && (
-          <path
-            d="M5.5 6.5L8 1.5C8.53043 1.5 9.03914 1.71071 9.41421 2.08579C9.78929 2.46086 10 2.96957 10 3.5V5H14C14.1419 5.00004 14.2821 5.03026 14.4113 5.08865C14.5406 5.14704 14.656 5.23227 14.7498 5.33867C14.8436 5.44507 14.9137 5.57021 14.9555 5.70579C14.9972 5.84136 15.0096 5.98426 14.9919 6.125L14.2419 12.125C14.2114 12.3666 14.0939 12.5888 13.9113 12.7499C13.7286 12.911 13.4935 12.9999 13.25 13H5.5"
-            fill={color}
-          />
-        )}
-        <path d="M5.5 6.5L8 1.5C8.53043 1.5 9.03914 1.71071 9.41421 2.08579C9.78929 2.46086 10 2.96957 10 3.5V5H14C14.1419 5.00004 14.2821 5.03026 14.4113 5.08865C14.5406 5.14704 14.656 5.23227 14.7498 5.33867C14.8436 5.44507 14.9137 5.57021 14.9555 5.70579C14.9972 5.84136 15.0096 5.98426 14.9919 6.125L14.2419 12.125C14.2114 12.3666 14.0939 12.5888 13.9113 12.7499C13.7286 12.911 13.4935 12.9999 13.25 13H5.5" />
-      </g>
-    </svg>
-  );
-};
+import { ThumbIcon } from '../icons/ThumbIcon';
+import type { AppRouter } from '../../server/routers/_app';
 
 // Feedback section component used by both desktop and mobile
 type FeedbackSectionProps = {
@@ -83,6 +54,9 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({ resourceFeedback, onF
       textColorClass = 'text-[#2244BB]';
     }
 
+    // Flip vertically for dislike (thumbs down) by flipping on Y-axis
+    const transform = isLikeButton ? undefined : 'scale(1, -1) translate(0, -16)';
+
     return (
       <button
         type="button"
@@ -91,7 +65,7 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({ resourceFeedback, onF
         aria-label={`${isLikeButton ? 'Like' : 'Dislike'} this resource${isActive ? ' (selected)' : ''}`}
         aria-pressed={isActive}
       >
-        <ThumbIcon filled={isActive} isDislike={!isLikeButton} />
+        <ThumbIcon filled={isActive} transform={transform} />
         {isLikeButton ? 'Like' : 'Dislike'}
       </button>
     );
@@ -107,40 +81,95 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({ resourceFeedback, onF
 
 type ResourceListItemProps = {
   resource: UnitResource;
+  resourceCompletion?: ResourceCompletion;
 };
 
-export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) => {
+export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource, resourceCompletion }) => {
   const router = useRouter();
   const auth = useAuthStore((s) => s.auth);
   const utils = trpc.useUtils();
   const [isHovered, setIsHovered] = useState(false);
   const [feedback, setFeedback] = useState('');
 
-  // Fetch resource completion data (only when authenticated)
-  const {
-    data: completionData,
-    isLoading: completionLoading,
-    error: completionError,
-  } = trpc.resources.getResourceCompletion.useQuery(
-    { unitResourceId: resource.id },
-    { enabled: !!auth },
-  );
+  const queryClient = useQueryClient();
+  const resourceCompletionsQueryKey = getQueryKey(trpc.resources.getResourceCompletions, undefined, 'query');
 
   const saveCompletionMutation = trpc.resources.saveResourceCompletion.useMutation({
     onSettled: () => {
-      utils.resources.getResourceCompletion.invalidate({ unitResourceId: resource.id });
+      utils.resources.getResourceCompletions.invalidate();
+    },
+    onMutate: async (newData) => {
+      // Optimistically update `getResourceCompletions` so that the Sidebar immediately updates
+      await utils.resources.getResourceCompletions.cancel();
+
+      const previousQueriesData = queryClient.getQueriesData({ queryKey: resourceCompletionsQueryKey });
+
+      queryClient.setQueriesData(
+        { queryKey: resourceCompletionsQueryKey },
+        (oldData: inferRouterOutputs<AppRouter>['resources']['getResourceCompletions']) => {
+          if (!oldData) return [];
+
+          // Create a shallow copy for safe mutation
+          const newArray = [...oldData];
+
+          const { unitResourceId, ...updatedFields } = newData;
+
+          const existingIndex = oldData.findIndex((item) => item.unitResourceIdRead === resource.id);
+
+          if (newArray[existingIndex]) {
+            // If an existing item is found, update it
+            newArray[existingIndex] = {
+              ...newArray[existingIndex],
+              ...updatedFields,
+            };
+          } else if (newData.isCompleted) {
+            // If no existing item and isCompleted is true, add a new item
+            newArray.push({
+              id: unitResourceId,
+              autoNumberId: null,
+              email: auth?.email ?? '',
+              unitResourceIdRead: unitResourceId,
+              unitResourceIdWrite: unitResourceId,
+              rating: updatedFields.rating ?? null,
+              feedback: updatedFields.feedback ?? '',
+              resourceFeedback: updatedFields.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,
+              isCompleted: updatedFields.isCompleted ?? false,
+            });
+          }
+          return newArray;
+        },
+      );
+
+      return { previousQueriesData };
+    },
+    onError: (_err, _variables, mutationResult) => {
+      mutationResult?.previousQueriesData.forEach(([queryKey, data]) => {
+        queryClient.setQueryData(queryKey, data);
+      });
     },
   });
 
   // Derive `isCompleted` and `resourceFeedback` from mutation variables (for optimistic updates) or fetched data (on first load)
-  const isCompleted = saveCompletionMutation.variables?.isCompleted ?? completionData?.isCompleted ?? false;
-  const resourceFeedback = saveCompletionMutation.variables?.resourceFeedback ?? completionData?.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE;
+  // Only use mutation variables if mutation hasn't failed (to support rollback on error)
+  const isCompleted = (!saveCompletionMutation.isError && saveCompletionMutation.variables?.isCompleted !== undefined)
+    ? saveCompletionMutation.variables.isCompleted
+    : (resourceCompletion?.isCompleted ?? false);
+  const resourceFeedback = (!saveCompletionMutation.isError && saveCompletionMutation.variables?.resourceFeedback !== undefined)
+    ? saveCompletionMutation.variables.resourceFeedback
+    : (resourceCompletion?.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE);
 
   // Sync feedback state with server data (both mutation variables and fetched data)
   useEffect(() => {
-    const serverFeedback = saveCompletionMutation.variables?.feedback ?? completionData?.feedback ?? '';
-    setFeedback(serverFeedback);
-  }, [saveCompletionMutation.variables?.feedback, completionData?.feedback]);
+    const optimisticFeedback = saveCompletionMutation.variables?.feedback;
+    const serverFeedback = resourceCompletion?.feedback;
+
+    // Only use optimistic feedback if there is no error
+    if (!saveCompletionMutation.isError && optimisticFeedback !== undefined) {
+      setFeedback(optimisticFeedback);
+    } else {
+      setFeedback(serverFeedback ?? '');
+    }
+  }, [saveCompletionMutation.variables?.feedback, resourceCompletion?.feedback, saveCompletionMutation.isError]);
 
   const handleSaveCompletion = useCallback((
     updatedIsCompleted: boolean | undefined,
@@ -159,23 +188,21 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource }) 
 
   // Handle marking resource as complete
   const handleToggleComplete = useCallback((newIsCompleted = !isCompleted) => {
-    handleSaveCompletion(newIsCompleted);
+    // We catch the error to prevent "Unhandled Promise Rejection"
+    // UI rollback is handled by the mutation's `onError` callback
+    handleSaveCompletion(newIsCompleted).catch(() => {
+      // Do nothing
+    });
   }, [isCompleted, handleSaveCompletion]);
 
   // Handle like/dislike feedback
   const handleFeedback = useCallback((feedbackValue: ResourceFeedbackValue) => {
     // Toggle off if clicking the same feedback button
     const newFeedback = resourceFeedback === feedbackValue ? RESOURCE_FEEDBACK.NO_RESPONSE : feedbackValue;
-    handleSaveCompletion(true, newFeedback, feedback || '');
+    handleSaveCompletion(true, newFeedback, feedback || '').catch(() => {
+      // Do nothing
+    });
   }, [resourceFeedback, feedback, handleSaveCompletion]);
-
-  if (completionLoading) {
-    return <ProgressDots />;
-  }
-
-  if (completionError) {
-    return <ErrorView error={completionError} />;
-  }
 
   return (
     <li className="resource-item-wrapper">

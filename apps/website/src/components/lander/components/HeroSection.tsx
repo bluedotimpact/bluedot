@@ -55,6 +55,7 @@ const HeroSection = ({
               <CTALinkOrButton
                 url={primaryCta.url}
                 size="small"
+                target="_blank"
                 className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] cursor-pointer transition-colors"
               >
                 {primaryCta.text}
