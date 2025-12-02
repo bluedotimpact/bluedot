@@ -5,7 +5,7 @@ import {
   groupDiscussionTable,
   groupTable,
   inArray,
-  meetPersonTable
+  meetPersonTable,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import z from 'zod';

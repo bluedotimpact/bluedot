@@ -47,6 +47,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     if (isError) {
       return <ErrorView error={error} />;
     }
+
     return (
       <>
         <div className="flex flex-col gap-2">
