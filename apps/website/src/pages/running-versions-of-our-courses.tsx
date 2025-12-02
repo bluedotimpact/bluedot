@@ -31,7 +31,7 @@ const ContentPage = () => {
 
 _To take part in our facilitated courses instead, see the courses linked on [our homepage](https://bluedot.org/)._
 
-_Let us know how you're using our courses [here](https://forms.bluedot.org/UdXLJKhY463CAI0Th2cj), so we can potentially offer more support in the future._
+_Let us know how you're using our courses [here](https://web.mini.extensions.com/UdXLJKhY463CAI0Th2cj), so we can potentially offer more support in the future._
 
 We’re thrilled you’re excited to run an independent version of our course! This page sets out guidance for branding your course, as well as explains what support we can offer local groups.
 
