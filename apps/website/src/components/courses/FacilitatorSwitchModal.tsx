@@ -26,13 +26,18 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   const [switchType, setSwitchType] = useState<SwitchType | undefined>(undefined);
 
   const {
-    data: discussions,
+    data: switchData,
     isLoading,
     isError,
     error,
   } = trpc.facilitators.discussionsAvailable.useQuery({
     courseSlug,
   });
+
+  const groupOptions = switchData?.groupsAvailable.map((group) => ({
+    value: group.group.id,
+    label: group.group.groupName || 'Group [Unknown]',
+  })) || [];
 
   const renderContent = () => {
     if (isLoading) {
@@ -57,7 +62,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 
         <div className="flex flex-col gap-2">
           <H1 className="text-size-md font-medium">2. For which group?</H1>
-          <Select label="Group" options={[]} placeholder="Choose a group" />
+          <Select label="Group" options={groupOptions} placeholder="Choose a group" />
         </div>
 
         <div className="flex flex-col gap-2">
