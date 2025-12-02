@@ -135,22 +135,21 @@ export const groupDiscussionsRouter = router({
       }
 
       const currentTimeSeconds = Math.floor(Date.now() / 1000);
-      const cutoffTimeSeconds = Math.floor((Date.now() - 15 * 60 * 1000) / 1000);
 
-      // Get all discussions that haven't ended yet (including 15-minute grace period after end time)
+      // Get all discussions that haven't ended yet
       const groupDiscussions = await db.pg.select()
         .from(groupDiscussionTable.pg)
         .where(
           and(
             eq(groupDiscussionTable.pg.round, roundId),
             sql`(${groupDiscussionTable.pg.participantsExpected} @> ARRAY[${participant.id}] OR ${groupDiscussionTable.pg.facilitators} @> ARRAY[${participant.id}])`,
-            sql`${groupDiscussionTable.pg.endDateTime} > ${cutoffTimeSeconds}`,
+            sql`${groupDiscussionTable.pg.endDateTime} > ${currentTimeSeconds}`,
           ),
         )
         .orderBy(groupDiscussionTable.pg.startDateTime);
 
-      // Priority: Show ongoing meeting (including 15 min after end), otherwise show next upcoming
-      const ongoingDiscussion = groupDiscussions.find((d) => d.startDateTime <= currentTimeSeconds && d.endDateTime > cutoffTimeSeconds);
+      // Priority: Show ongoing meeting, otherwise show next upcoming
+      const ongoingDiscussion = groupDiscussions.find((d) => d.startDateTime <= currentTimeSeconds && d.endDateTime > currentTimeSeconds);
       const upcomingDiscussion = groupDiscussions.find((d) => d.startDateTime > currentTimeSeconds);
       const groupDiscussion = ongoingDiscussion ?? upcomingDiscussion ?? null;
 
