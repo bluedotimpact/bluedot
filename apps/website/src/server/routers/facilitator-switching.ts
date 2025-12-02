@@ -67,8 +67,8 @@ export const facilitatorSwitchingRouter = router({
       });
 
       return {
-        discussions: discussionsAvailable,
-        groups: groupsAvailable,
+        discussionsAvailable,
+        groupsAvailable,
       };
     }),
 
