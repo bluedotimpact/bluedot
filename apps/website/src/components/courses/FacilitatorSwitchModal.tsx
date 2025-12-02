@@ -11,12 +11,12 @@ export type FacilitatorSwitchModalProps = {
   courseSlug: string;
 };
 
-const SWITCH_TYPE_OPTIONS = [
+const SWITCH_OPTIONS = [
   { value: 'Change for one unit', label: 'Change for one unit' },
   { value: 'Change permanently', label: 'Change permanently' },
 ] as const;
 
-export type SwitchType = (typeof SWITCH_TYPE_OPTIONS)[number]['value'];
+export type SwitchType = (typeof SWITCH_OPTIONS)[number]['value'];
 
 const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   handleClose,
@@ -55,7 +55,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             label="Action"
             value={switchType}
             onChange={(value) => setSwitchType(value as SwitchType)}
-            options={SWITCH_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
+            options={SWITCH_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
             placeholder="Choose an option"
           />
         </div>
