@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import HeroSection from './HeroSection';
 
 const meta = {
-  title: 'website/AgiStrategy/HeroSection',
+  title: 'website/CourseLander/HeroSection',
   component: HeroSection,
   parameters: {
     layout: 'fullscreen',

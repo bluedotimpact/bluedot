@@ -10,6 +10,7 @@ import { PostHogProvider } from '../components/analytics/PostHogProvider';
 import { Nav } from '../components/Nav/Nav';
 import { CookieBanner } from '../components/CookieBanner';
 import { CircleWidget } from '../components/community/CircleWidget';
+import { ImpersonationBadge } from '../components/admin/ImpersonationBadge';
 import { useCourses } from '../lib/hooks/useCourses';
 import { inter } from '../lib/fonts';
 import { trpc } from '../utils/trpc';
@@ -70,6 +71,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
           <GoogleTagManager />
           <CustomerioAnalytics />
           <CircleWidget />
+          <ImpersonationBadge />
         </div>
       </PostHogProvider>
     </LatestUtmParamsProvider>

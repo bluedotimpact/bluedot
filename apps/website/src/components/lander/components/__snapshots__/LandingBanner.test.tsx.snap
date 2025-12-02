@@ -1,0 +1,44 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`LandingBanner > renders correctly 1`] = `
+<section
+  class="w-full bg-white pb-12 min-[680px]:pb-16 min-[1024px]:pb-16 min-[1280px]:pb-24"
+>
+  <div
+    class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x"
+  >
+    <div
+      aria-label="AGI Strategy banner"
+      class="relative w-full h-[382px] min-[680px]:h-[360px] mx-auto overflow-hidden rounded-xl bg-[#13132E] bg-cover bg-center xl:max-w-[1118px]"
+      role="img"
+      style="background-image: url("/images/agi-strategy/hero-banner-split.png");"
+    >
+      <div
+        class="absolute inset-0 pointer-events-none bg-contain bg-repeat mix-blend-soft-light"
+        style="background-image: url("/images/agi-strategy/noise.webp");"
+      />
+      <div
+        class="relative flex flex-col items-center justify-center h-full px-14 py-16 gap-8 text-center"
+      >
+        <img
+          alt="BlueDot"
+          class="w-8 h-[30px]"
+          src="/images/agi-strategy/bluedot-icon.svg"
+        />
+        <h3
+          class="bluedot-h3 not-prose max-w-[238px] min-[680px]:max-w-[496px] text-[20px] min-[680px]:text-[36px] font-[600] text-white leading-[140%] min-[680px]:leading-[125%]"
+        >
+          Start building towards a good future today
+        </h3>
+        <a
+          class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none [--ghost-gray:#13132E] hover:text-(--ghost-gray) text-[16px] font-medium leading-[24px] px-5 py-3 h-12 bg-white text-[#13132E] rounded-md hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
+          href="https://example.com/apply"
+          tabindex="0"
+        >
+          Apply now
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+`;
