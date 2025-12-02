@@ -1,5 +1,5 @@
 import {
-  adminUsersTable, AirtableTsError, eq, ErrorType,
+  AirtableTsError, ErrorType, userTable,
 } from '@bluedot/db';
 import { requestCounter } from '@bluedot/ui/src/utils/makeMakeApiRoute';
 import { initTRPC, TRPCError } from '@trpc/server';
@@ -101,17 +101,10 @@ const openTelemetryMiddleware = t.middleware(async (opts) => {
   }
 });
 
-const checkAdminAccess = async (email: string) => {
-  try {
-    const admin = await db.pg.select()
-      .from(adminUsersTable)
-      .where(eq(adminUsersTable.email, email))
-      .limit(1);
+const checkAdminAccess = async (email: string): Promise<boolean> => {
+  const user = await db.getFirst(userTable, { filter: { email } });
 
-    return admin.length > 0;
-  } catch {
-    return false;
-  }
+  return user?.isAdmin === true;
 };
 
 // Base router and procedure helpers

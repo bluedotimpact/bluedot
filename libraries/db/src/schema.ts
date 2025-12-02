@@ -42,10 +42,7 @@ export const syncMetadataTable = pgTable('sync_metadata', {
 });
 
 /**
- * Admin users table for pg-sync dashboard access control.
- * NOTE: This is a regular pgTable, NOT synced from Airtable.
- * Used solely for internal admin authentication. Currently we add
- * emails manually to this table.
+ * @deprecated Use `isAdmin` field on userTable instead.
  */
 export const adminUsersTable = pgTable('admin_users', {
   email: text().primaryKey(),
