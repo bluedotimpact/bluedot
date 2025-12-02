@@ -4,7 +4,7 @@ import React, {
 } from 'react';
 import {
   cn,
-  CTALinkOrButton, ErrorSection, Modal, ProgressDots, useAuthStore,
+  CTALinkOrButton, ErrorSection, Modal, ProgressDots,
 } from '@bluedot/ui';
 import {
   Button,
@@ -147,7 +147,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
   const isTemporarySwitch = switchType === 'Switch group for one unit';
 
-  const auth = useAuthStore((s) => s.auth);
+  const { data: user, error: userError } = trpc.users.getUser.useQuery();
 
   const { data: courseData, isLoading: isCourseLoading, error: courseError } = trpc.courses.getBySlug.useQuery({ courseSlug });
 
@@ -349,6 +349,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
       <div className="w-full max-w-[600px]">
         {(isDiscussionsLoading || isCourseLoading) && <ProgressDots />}
         {submitGroupSwitchMutation.isError && <ErrorSection error={submitGroupSwitchMutation.error} />}
+        {userError && <ErrorSection error={userError} />}
         {courseError && <ErrorSection error={courseError} />}
         {discussionsError && <ErrorSection error={discussionsError} />}
         {showSuccess && (
@@ -450,7 +451,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
           {isManualRequest && (
             <>
-              {auth?.email && (
+              {user?.email && (
                 <div className="flex flex-col gap-2">
                   <h3 className="text-size-sm font-medium text-[#00114D]">Update your availability</h3>
                   <p className="text-size-xs text-[#666C80]">
@@ -461,7 +462,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                     className="mx-auto"
                     target="_blank"
                     rel="noopener noreferrer"
-                    url={`https://availability.bluedot.org/form/bluedot-course?email=${encodeURIComponent(auth.email)}&utm_source=bluedot-group-switch-modal`}
+                    url={`https://availability.bluedot.org/form/bluedot-course?email=${encodeURIComponent(user.email)}&utm_source=bluedot-group-switch-modal`}
                     aria-label="Update availability (open in new tab)"
                   >
                     Update availability
