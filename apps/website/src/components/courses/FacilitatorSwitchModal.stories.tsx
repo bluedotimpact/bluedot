@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { TRPCError } from '@trpc/server';
 import { createMockGroup, createMockGroupDiscussion } from '../../__tests__/testUtils';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 import type { DiscussionsAvailable } from '../../server/routers/group-switching';
@@ -99,10 +100,38 @@ export const Default: Story = {
   },
 };
 
-export const DifferentUnit: Story = {
+export const Loading: Story = {
   args: {
     handleClose: () => {},
-    initialUnitNumber: '3',
+    initialUnitNumber: '1',
     courseSlug: 'fish-test-course',
+  },
+  parameters: {
+    msw: {
+      handlers: [
+        trpcStorybookMsw.facilitators.discussionsAvailable.query(async () => {
+          return new Promise(() => {
+            /* never resolves */
+          });
+        }),
+      ],
+    },
+  },
+};
+
+export const Error: Story = {
+  args: {
+    handleClose: () => {},
+    initialUnitNumber: '1',
+    courseSlug: 'fish-test-course',
+  },
+  parameters: {
+    msw: {
+      handlers: [
+        trpcStorybookMsw.facilitators.discussionsAvailable.query(async () => {
+          throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to fetch discussions' });
+        }),
+      ],
+    },
   },
 };
