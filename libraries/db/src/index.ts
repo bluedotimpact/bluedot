@@ -36,7 +36,6 @@ export {
 export type {
   Meta,
   SyncMetadata,
-  AdminUser,
   SyncRequest,
   SyncStatus,
   Course,
