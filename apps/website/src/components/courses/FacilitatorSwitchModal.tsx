@@ -46,10 +46,6 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 
           <div className="flex flex-col gap-2">
             <H1 className="text-size-md font-medium">Step 1: Select switch type</H1>
-            <P>
-              If you want to make updates to specific units instead of all upcoming group discussions, please select
-              "Switch for one unit".
-            </P>
             <Select
               label="Action"
               value={switchType}
