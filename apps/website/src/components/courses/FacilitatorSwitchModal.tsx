@@ -1,8 +1,9 @@
-import { CTALinkOrButton, Modal } from '@bluedot/ui';
+import { CTALinkOrButton, Modal, ProgressDots } from '@bluedot/ui';
+import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import React, { useState } from 'react';
+import { trpc } from '../../utils/trpc';
 import { H1, P } from '../Text';
 import Select from './group-switching/Select';
-import { trpc } from '../../utils/trpc';
 
 export type FacilitatorSwitchModalProps = {
   handleClose: () => void;
@@ -24,9 +25,58 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 }) => {
   const [switchType, setSwitchType] = useState<SwitchType | undefined>(undefined);
 
-  const { data: discussions, isLoading, isError } = trpc.facilitators.discussionsAvailable.useQuery({
+  const {
+    data: discussions,
+    isLoading,
+    isError,
+    error,
+  } = trpc.facilitators.discussionsAvailable.useQuery({
     courseSlug,
   });
+
+  const renderContent = () => {
+    if (isLoading) {
+      return <ProgressDots />;
+    }
+
+    if (isError) {
+      return <ErrorView error={error} />;
+    }
+    return (
+      <>
+        <div className="flex flex-col gap-2">
+          <H1 className="text-size-md font-medium">1. What kind of update are you making?</H1>
+          <Select
+            label="Action"
+            value={switchType}
+            onChange={(value) => setSwitchType(value as SwitchType)}
+            options={SWITCH_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
+            placeholder="Choose an option"
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <H1 className="text-size-md font-medium">2. For which group?</H1>
+          <Select label="Group" options={[]} placeholder="Choose a group" />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <H1 className="text-size-md font-medium">3. For which discussion?</H1>
+          <Select label="Discussion" options={[]} placeholder="Choose a discussion" />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <H1 className="text-size-md font-medium">4. Select new discussion time</H1>
+          <P>The selected time is in your time zone: {Intl.DateTimeFormat().resolvedOptions().timeZone}</P>
+        </div>
+
+        <CTALinkOrButton className="w-full bg-[#1144CC]">Submit</CTALinkOrButton>
+      </>
+    );
+  };
+
+  console.log(discussions, isLoading, isError);
+
   return (
     <Modal
       isOpen
@@ -47,34 +97,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
               </P>
             </div>
           </div>
-
-          <div className="flex flex-col gap-2">
-            <H1 className="text-size-md font-medium">1. What kind of update are you making?</H1>
-            <Select
-              label="Action"
-              value={switchType}
-              onChange={(value) => setSwitchType(value as SwitchType)}
-              options={SWITCH_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
-              placeholder="Choose an option"
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <H1 className="text-size-md font-medium">2. For which group?</H1>
-            <Select label="Group" options={[]} placeholder="Choose a group" />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <H1 className="text-size-md font-medium">3. For which discussion?</H1>
-            <Select label="Discussion" options={[]} placeholder="Choose a discussion" />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <H1 className="text-size-md font-medium">4. Select new discussion time</H1>
-            <P>The selected time is in your time zone: {Intl.DateTimeFormat().resolvedOptions().timeZone}</P>
-          </div>
-
-          <CTALinkOrButton className="w-full bg-[#1144CC]">Submit</CTALinkOrButton>
+          {renderContent()}
         </form>
       </div>
     </Modal>
