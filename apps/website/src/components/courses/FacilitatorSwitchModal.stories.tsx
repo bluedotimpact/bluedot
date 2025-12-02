@@ -16,7 +16,7 @@ export const Default: Story = {
   args: {
     handleClose: () => {},
     initialUnitNumber: '1',
-    courseSlug: 'ai-safety',
+    courseSlug: 'fish-test-course',
   },
 };
 
@@ -24,6 +24,6 @@ export const DifferentUnit: Story = {
   args: {
     handleClose: () => {},
     initialUnitNumber: '3',
-    courseSlug: 'ai-safety',
+    courseSlug: 'fish-test-course',
   },
 };
