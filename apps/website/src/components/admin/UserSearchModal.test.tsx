@@ -61,7 +61,7 @@ describe('UserSearchModal', () => {
 
     server.use(
       trpcMsw.admin.searchUsers.query(({ input }) => {
-        if (input.query === 'john') {
+        if (input.searchTerm === 'john') {
           return [mockUsers[0]!];
         }
         return mockUsers;

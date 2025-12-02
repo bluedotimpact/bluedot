@@ -13,7 +13,7 @@ export const UserSearchModal = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchTermInput, setSearchTermInput] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   const currentTimeMs = useCurrentTimeMs();
 
@@ -23,9 +23,9 @@ export const UserSearchModal = ({
     }
   }, [isOpen]);
 
-  const query = searchQuery.trim() || 'test'; // Fallback to 'test' to show recently used test users
+  const searchTerm = searchTermInput.trim() || 'test'; // Fallback to 'test' to show recently used test users
   const { data: searchResults, isLoading, error } = trpc.admin.searchUsers.useQuery(
-    { query },
+    { searchTerm },
     { enabled: isOpen },
   );
 
@@ -35,7 +35,7 @@ export const UserSearchModal = ({
     window.location.reload();
   };
 
-  const showNoResults = !isLoading && searchResults?.length === 0 && searchQuery.length > 0;
+  const showNoResults = !isLoading && searchResults?.length === 0 && searchTermInput.length > 0;
 
   return (
     <Modal bottomDrawerOnMobile isOpen={isOpen} setIsOpen={(open) => !open && onClose()} title="Impersonate a user">
@@ -47,8 +47,8 @@ export const UserSearchModal = ({
           <input
             ref={inputRef}
             type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            value={searchTermInput}
+            onChange={(e) => setSearchTermInput(e.target.value)}
             placeholder="Search by name or email..."
             className="flex-1 outline-none"
           />

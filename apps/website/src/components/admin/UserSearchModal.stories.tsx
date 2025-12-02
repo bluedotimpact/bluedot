@@ -48,7 +48,7 @@ export const Default: Story = {
     msw: {
       handlers: [
         trpcStorybookMsw.admin.searchUsers.query(({ input }) => {
-          const query = input.query?.toLowerCase() || '';
+          const query = input.searchTerm?.toLowerCase() || '';
 
           if (!query) return mockUsers;
 

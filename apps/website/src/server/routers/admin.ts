@@ -13,20 +13,19 @@ export const adminRouter = router({
     return checkAdminAccess(ctx.auth.email);
   }),
   searchUsers: adminProcedure
-    .input(z.object({ query: z.string().max(200).optional() }))
+    .input(z.object({ searchTerm: z.string().max(200).optional() }))
     .query(async ({ input }) => {
-      const trimmedQuery = (input.query || '').trim();
+      const trimmedSearchTerm = (input.searchTerm || '').trim();
 
-      // Build WHERE clause based on query
       let whereClause;
-      if (!trimmedQuery) {
+      if (!trimmedSearchTerm) {
         whereClause = sql`TRUE`;
-      } else if (z.string().email().safeParse(trimmedQuery).success) {
-        whereClause = sql`LOWER(u.email) = LOWER(${trimmedQuery})`;
       } else {
-        whereClause = sql`u.name ILIKE ${`%${trimmedQuery}%`}`;
+        const pattern = `%${trimmedSearchTerm}%`;
+        whereClause = sql`(u.email ILIKE ${pattern} OR u.name ILIKE ${pattern})`;
       }
 
+      // Sort exact email matches first, otherwise sort by most recently active
       const results = await db.pg.execute(sql`
         SELECT
           u.id,
@@ -41,7 +40,9 @@ export const adminRouter = router({
           )::int AS "courseCount"
         FROM ${userTable.pg} u
         WHERE ${whereClause}
-        ORDER BY u."lastSeenAt" DESC NULLS LAST
+        ORDER BY
+          CASE WHEN LOWER(u.email) = LOWER(${trimmedSearchTerm}) THEN 0 ELSE 1 END,
+          u."lastSeenAt" DESC NULLS LAST
         LIMIT 20
       `);
 
