@@ -45,7 +45,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           </div>
 
           <div className="flex flex-col gap-2">
-            <H1 className="text-size-md font-medium">Step 1: Select switch type</H1>
+            <H1 className="text-size-md font-medium">1. What kind of update are you making?</H1>
             <Select
               label="Action"
               value={switchType}
@@ -56,18 +56,17 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           </div>
 
           <div className="flex flex-col gap-2">
-            <H1 className="text-size-md font-medium">Step 2: Select group</H1>
+            <H1 className="text-size-md font-medium">2. For which group?</H1>
             <Select label="Group" options={[]} placeholder="Choose a group" />
           </div>
 
           <div className="flex flex-col gap-2">
-            <H1 className="text-size-md font-medium">Step 3: Select unit</H1>
-            <P>Which unit are you updating?</P>
-            <Select label="Unit" options={[]} placeholder="Choose a unit" />
+            <H1 className="text-size-md font-medium">3. For which discussion?</H1>
+            <Select label="Discussion" options={[]} placeholder="Choose a discussion" />
           </div>
 
           <div className="flex flex-col gap-2">
-            <H1 className="text-size-md font-medium">Step 4: Select new discussion time</H1>
+            <H1 className="text-size-md font-medium">4. Select new discussion time</H1>
             <P>The selected time is in your time zone: {Intl.DateTimeFormat().resolvedOptions().timeZone}</P>
           </div>
 
