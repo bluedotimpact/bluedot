@@ -248,28 +248,17 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   };
 
   const getModalTitle = () => {
-    if (isManualRequest) {
-      return !showSuccess ? 'Request manual switch' : (
-        <div className="flex items-center gap-3">
-          <SendIcon />
-          <span>We are working on your request</span>
-        </div>
-      );
-    }
-    if (showSuccess) {
-      return (
-        <div className="flex items-center gap-3">
-          <SuccessIcon />
-          <span>Success!</span>
-        </div>
-      );
-    }
+    const textClassName = 'text-size-md py-2 font-semibold mx-auto';
+    if (isManualRequest && !showSuccess) return <div className={textClassName}>Request manual switch</div>;
+    if (isManualRequest && showSuccess) return <div className={textClassName}>We are working on your request</div>;
+    if (showSuccess) return <div className={textClassName}>Success</div>;
+
     return (
       <Select
         value={switchType}
         onChange={(value) => setSwitchType(value as SwitchType)}
         options={SWITCH_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
-        className="border-none bg-transparent w-fit mx-auto [&>button]:px-6"
+        className="border-none font-medium bg-transparent w-fit mx-auto [&>button]:px-6 [&>button]:py-3"
       />
     );
   };
@@ -499,20 +488,6 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 const UserIcon = ({ className }: { className?: string }) => (
   <svg className={className} width="1em" height="1em" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M10 10.5V9.5C10 8.96957 9.78929 8.46086 9.41421 8.08579C9.03914 7.71071 8.53043 7.5 8 7.5H4C3.46957 7.5 2.96086 7.71071 2.58579 8.08579C2.21071 8.46086 2 8.96957 2 9.5V10.5M8 3.5C8 4.60457 7.10457 5.5 6 5.5C4.89543 5.5 4 4.60457 4 3.5C4 2.39543 4.89543 1.5 6 1.5C7.10457 1.5 8 2.39543 8 3.5Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
-const SuccessIcon = () => (
-  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect className="fill-bluedot-normal" width="24" height="24" rx="12" />
-    <path d="M16 9L10.6496 14.3504C10.567 14.433 10.433 14.433 10.3504 14.3504L8 12" stroke="white" strokeWidth="1.75" strokeLinecap="round" />
-  </svg>
-);
-
-const SendIcon = () => (
-  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect className="fill-bluedot-normal" width="24" height="24" rx="12" />
-    <path d="M17 7L11.5 12.5M17 7L13.5 17L11.5 12.5M17 7L7 10.5L11.5 12.5" stroke="white" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
