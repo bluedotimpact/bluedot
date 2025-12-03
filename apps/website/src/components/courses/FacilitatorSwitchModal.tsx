@@ -40,6 +40,10 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     value: group.id,
     label: group.groupName || 'Group [Unknown]',
   })) || [];
+
+  const discussionOptions = switchData?.discussionsByGroup[selectedGroupId || '']?.map((discussion) => ({
+    value: discussion.id,
+    label: discussion.label,
   })) || [];
 
   const renderContent = () => {
@@ -77,7 +81,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 
         <div className="flex flex-col gap-2">
           <H1 className="text-size-md font-medium">3. For which discussion?</H1>
-          <Select label="Discussion" options={[]} placeholder="Choose a discussion" />
+          <Select label="Discussion" options={discussionOptions} placeholder="Choose a discussion" />
         </div>
 
         <div className="flex flex-col gap-2">
