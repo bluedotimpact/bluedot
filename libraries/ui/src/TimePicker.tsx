@@ -8,7 +8,7 @@ import {
 import { parseTime } from '@internationalized/date';
 import { cn } from './utils';
 
-type TimePickerProps = {
+export type TimePickerProps = {
   label?: string;
   hideLabel?: boolean;
   value?: Date | null;
