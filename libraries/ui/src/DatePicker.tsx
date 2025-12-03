@@ -45,8 +45,18 @@ export const DatePicker = ({
   buttonClassName,
   popoverClassName,
 }: DatePickerProps) => {
-  // Convert JS Date to DatePicker's expected DateValue
-  const dateValue = value ? parseDate(value.toISOString().split('T')[0]!) : null;
+  // Convert JS Date to DatePicker's expected DateValue.
+  // undefined → uncontrolled, null → controlled empty value.
+  let dateValue: DateValue | null | undefined;
+  if (value === undefined) {
+    dateValue = undefined;
+  } else if (value === null) {
+    dateValue = null;
+  } else {
+    const isoString = value.toISOString();
+    const dateString = isoString.split('T')[0]!;
+    dateValue = parseDate(dateString);
+  }
 
   const handleChange = (newValue: DateValue | null) => {
     // Convert DateValue to JS Date object
