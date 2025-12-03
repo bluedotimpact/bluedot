@@ -22,7 +22,7 @@ import { LuChevronsUpDown, LuChevronLeft, LuChevronRight } from 'react-icons/lu'
 import { parseDate } from '@internationalized/date';
 import { cn } from './utils';
 
-type DatePickerProps = {
+export type DatePickerProps = {
   label?: string;
   hideLabel?: boolean;
   value?: Date | null;
