@@ -113,8 +113,13 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           <H1 className="text-size-md font-medium text-black">4. Select new discussion time</H1>
           <P>The selected time is in your time zone: {Intl.DateTimeFormat().resolvedOptions().timeZone}</P>
           <div className="flex flex-row gap-4">
-            <DatePicker value={selectedDate ?? selectedDiscussionDateTime} onChange={setSelectedDate} />
-            <TimePicker className="w-fit" value={selectedTime ?? selectedDiscussionDateTime} onChange={setSelectedTime} />
+            <DatePicker value={selectedDate ?? selectedDiscussionDateTime} onChange={setSelectedDate} hideLabel />
+            <TimePicker
+              className="w-fit"
+              value={selectedTime ?? selectedDiscussionDateTime}
+              onChange={setSelectedTime}
+              hideLabel
+            />
           </div>
         </div>
 
