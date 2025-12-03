@@ -64,7 +64,7 @@ export const DatePicker = ({
           {(segment) => (
             <DateSegment
               segment={segment}
-              className="rounded-xs px-0.5 tabular-nums caret-transparent outline-hidden placeholder-shown:italic focus:bg-violet-700 focus:text-white"
+              className="rounded-xs px-0.5 tabular-nums caret-transparent outline-hidden placeholder-shown:italic focus:bg-bluedot-normal focus:text-white"
             />
           )}
         </DateInput>
@@ -94,7 +94,7 @@ export const DatePicker = ({
                 {(date) => (
                   <CalendarCell
                     date={date}
-                    className="outside-month:text-gray-300 pressed:bg-gray-200 selected:bg-violet-700 selected:text-white flex size-9 cursor-default items-center justify-center rounded-full ring-violet-600/70 ring-offset-2 outline-hidden hover:bg-gray-100 focus-visible:ring-3"
+                    className="outside-month:text-gray-300 pressed:bg-gray-200 selected:bg-bluedot-normal selected:text-white flex size-9 cursor-default items-center justify-center rounded-full ring-bluedot-normal ring-offset-2 outline-hidden hover:bg-gray-100 focus-visible:ring-3"
                   />
                 )}
               </CalendarGridBody>
@@ -110,7 +110,7 @@ const RoundButton = (props: ButtonProps) => {
   return (
     <Button
       {...props}
-      className="pressed:bg-gray-200 flex size-9 cursor-default items-center justify-center rounded-full border-0 bg-transparent text-gray-600 ring-violet-600/70 ring-offset-2 outline-hidden hover:bg-gray-100 focus-visible:ring-3"
+      className="pressed:bg-gray-200 flex size-9 cursor-default items-center justify-center rounded-full border-0 bg-transparent text-gray-600 ring-bluedot-normal ring-offset-2 outline-hidden hover:bg-gray-100 focus-visible:ring-3"
     />
   );
 };
