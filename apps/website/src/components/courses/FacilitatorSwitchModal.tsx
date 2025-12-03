@@ -60,6 +60,31 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   const time = selectedDiscussionDateTime?.toLocaleTimeString(undefined, { timeStyle: 'short' });
   const selectedDiscussionTimeString = `${dayOfWeek}, ${date} at ${time}`;
 
+  const handleSubmit = () => {
+    if (!switchType || !selectedGroupId) {
+      return;
+    }
+
+    const discussionId = switchType === 'Change for one unit' ? selectedDiscussionId : undefined;
+
+    if (!selectedDate) {
+      return;
+    }
+    if (!selectedTime) {
+      return;
+    }
+
+    // Already in UTC
+    const newDateTime = new Date(selectedDate);
+    newDateTime.setHours(selectedTime.getHours(), selectedTime.getMinutes(), 0, 0);
+
+    submitUpdateMutation.mutate({
+      courseSlug,
+      discussionId,
+      newDateTime,
+    });
+  };
+
   const renderContent = () => {
     if (isLoading) {
       return <ProgressDots />;
