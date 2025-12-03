@@ -351,9 +351,10 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
       setIsOpen={(open: boolean) => !open && handleClose()}
       title={title}
       bottomDrawerOnMobile
+      desktopHeaderClassName="md:border-b md:border-charcoal-light md:py-3 md:mb-0"
       ariaLabel="Group switching"
     >
-      <div className="w-full max-w-[600px]">
+      <div className="w-full pt-4 max-w-[600px]">
         {(isDiscussionsLoading || isCourseLoading) && <ProgressDots />}
         {submitGroupSwitchMutation.isError && <ErrorSection error={submitGroupSwitchMutation.error} />}
         {courseError && <ErrorSection error={courseError} />}

@@ -11,6 +11,7 @@ import { ClickTarget } from './ClickTarget';
 import { breakpoints, useAboveBreakpoint } from './hooks/useBreakpoint';
 import { BottomDrawerModal } from './BottomDrawerModal';
 import { CloseIcon } from './icons/CloseIcon';
+import { cn } from './utils';
 
 export type ModalProps = {
   isOpen: boolean;
@@ -18,6 +19,7 @@ export type ModalProps = {
   title?: ReactNode;
   children: ReactNode;
   bottomDrawerOnMobile?: boolean;
+  desktopHeaderClassName?: string;
   /** ariaLabel for case where `title` is not a string, otherwise prefer leaving blank (`title` will be used) */
   ariaLabel?: string;
 };
@@ -27,6 +29,7 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
   setIsOpen,
   title,
   children,
+  desktopHeaderClassName,
   ariaLabel,
 }) => {
   return (
@@ -37,15 +40,15 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
       className="fixed inset-0 z-60 overflow-y-auto bg-black/25 flex min-h-full items-center justify-center p-4 backdrop-blur-xs"
     >
       <AriaModal>
-        <Dialog className="bg-white rounded-xl pb-2 shadow-xl w-full outline-none" aria-label={ariaLabel}>
-          <div className="flex justify-between items-center py-3 px-6 border-b border-charcoal-light">
-            {title && typeof title === 'string' ? <Heading slot="title" className="text-size-lg font-semibold flex-1">{title}</Heading> : title}
+        <Dialog className="bg-white rounded-xl shadow-xl w-full pb-8 outline-none" aria-label={ariaLabel}>
+          <div className={cn('flex justify-between items-center mb-4 pt-10 px-8', desktopHeaderClassName)}>
+            {title && typeof title === 'string' ? <Heading slot="title" className="text-size-lg font-semibold">{title}</Heading> : title}
             <ClickTarget onClick={() => setIsOpen(false)} className="text-black rounded-[50%] p-1 -mr-2 hover:bg-gray-100 cursor-pointer">
               <CloseIcon size={20} />
             </ClickTarget>
           </div>
 
-          <div className="overflow-y-auto p-6 max-h-[600px]">
+          <div className="overflow-y-auto px-8 max-h-[600px]">
             {children}
           </div>
         </Dialog>
@@ -60,6 +63,7 @@ export const Modal: React.FC<ModalProps> = ({
   title,
   children,
   bottomDrawerOnMobile = false,
+  desktopHeaderClassName,
   ariaLabel,
 }) => {
   const isDesktop = useAboveBreakpoint(breakpoints.md);
@@ -73,7 +77,7 @@ export const Modal: React.FC<ModalProps> = ({
 
   if (shouldUseMobileDrawer) {
     return (
-      <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} initialSize="fit-screen" ariaLabel={ariaLabel}>
+      <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} initialSize="fit-screen" ariaLabel={ariaLabel} desktopHeaderClassName={desktopHeaderClassName}>
         {children}
       </BottomDrawerModal>
     );
