@@ -6,19 +6,22 @@ import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import path from 'path';
 import UnitLayout from '../../../../components/courses/UnitLayout';
 import db from '../../../../lib/api/db';
 import { removeInactiveChunkIdsFromUnits } from '../../../../lib/api/utils';
 import { trpc } from '../../../../utils/trpc';
 import { FOAI_COURSE_ID } from '../../../../lib/constants';
+import { fileExists } from '../../../../utils/fileExists';
 
 type CourseUnitChunkPageProps = UnitWithChunks & {
   courseSlug: string;
   unitNumber: string;
+  courseOgImage?: string
 };
 
 const CourseUnitChunkPage = ({
-  units, unit, chunks, courseSlug, unitNumber,
+  units, unit, chunks, courseSlug, unitNumber, courseOgImage,
 }: CourseUnitChunkPageProps) => {
   const router = useRouter();
   const {
@@ -103,6 +106,17 @@ const CourseUnitChunkPage = ({
       <Head>
         <title>{title}</title>
         <meta name="description" content={metaDescription} />
+        <meta name="description" content={metaDescription} />
+        <meta key="og:title" property="og:title" content={title} />
+        <meta key="og:description" property="og:description" content={metaDescription} />
+        <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
+        <meta key="og:type" property="og:type" content="website" />
+        <meta key="og:url" property="og:url" content={`https://bluedot.org/courses/${unit.courseSlug}`} />
+        <meta key="og:image" property="og:image" content={courseOgImage || 'https://bluedot.org/images/logo/link-preview-fallback.png'} />
+        <meta key="og:image:width" property="og:image:width" content="1200" />
+        <meta key="og:image:height" property="og:image:height" content="630" />
+        <meta key="og:image:type" property="og:image:type" content="image/png" />
+        <meta key="og:image:alt" property="og:image:alt" content="BlueDot Impact logo" />
       </Head>
       <UnitLayout
         chunks={chunks}
@@ -130,11 +144,17 @@ export const getServerSideProps: GetServerSideProps<CourseUnitChunkPageProps> = 
   try {
     const unitWithContent = await getUnitWithChunks(courseSlug, unitNumber);
 
+    let courseOgImage: string | undefined;
+    if (await fileExists(path.join(process.cwd(), 'public', 'images', 'courses', 'link-preview', `${courseSlug}.png`))) {
+      courseOgImage = `${process.env.NEXT_PUBLIC_SITE_URL}/images/courses/link-preview/${courseSlug}.png`;
+    }
+
     return {
       props: {
         ...unitWithContent,
         courseSlug,
         unitNumber,
+        courseOgImage,
       },
     };
   } catch (error) {
