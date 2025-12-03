@@ -135,6 +135,7 @@ export const facilitatorSwitchingRouter = router({
           discussion: discussionId || null,
           facilitator: facilitator.id,
           status: 'Requested',
+          switchType: discussionId ? 'Change for one unit' : 'Change permanently',
           updatedDatetime: Math.floor(newDateTime.getTime() / 1000),
         });
       } else {
@@ -142,6 +143,7 @@ export const facilitatorSwitchingRouter = router({
           discussion: discussionId || null,
           facilitator: facilitator.id,
           status: 'Requested',
+          switchType: discussionId ? 'Change for one unit' : 'Change permanently',
           updatedDatetime: Math.floor(newDateTime.getTime() / 1000),
         });
       }
