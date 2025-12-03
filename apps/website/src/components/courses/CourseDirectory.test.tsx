@@ -16,7 +16,7 @@ const mockCourses = [
     level: 'Beginner',
     averageRating: 4.5,
     image: 'img1.jpg',
-    slug: 'course-2',
+    slug: 'course-1',
     durationDescription: '4 weeks',
   }),
   createMockCourse({
