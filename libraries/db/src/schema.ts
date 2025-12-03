@@ -621,7 +621,8 @@ export const facilitatorDiscussionSwitchingTable = pgAirtable('facilitator_discu
       pgColumn: text(),
       airtableId: 'fldJZcoeuE9TwntMJ',
     },
-    updatedAt: {
+    updatedDatetime: {
+      // The new discussion time requested by facilitator
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fld3ITxndtB6ZZtN5',
     },

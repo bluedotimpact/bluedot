@@ -5,6 +5,7 @@ import { CgChevronDown } from 'react-icons/cg';
 import { ROUTES } from '../../lib/routes';
 import { A } from '../Text';
 import { useCourses } from '../../lib/hooks/useCourses';
+import { usePrimaryCourseURL } from '../../lib/hooks/usePrimaryCourseURL';
 import {
   DRAWER_CLASSES,
   ExpandedSectionsState,
@@ -28,11 +29,12 @@ export const NavLinks: React.FC<{
   isHomepage = false,
 }) => {
   const { courses, loading } = useCourses();
+  const { getPrimaryCourseURL } = usePrimaryCourseURL();
 
   const navCourses = loading ? [] : [
     ...(courses.slice(0, 3) || []).map((course) => ({
       title: course.title,
-      url: course.path,
+      url: getPrimaryCourseURL(course.slug),
       isNew: course.isNew || false,
     })),
     { title: 'Browse all', url: ROUTES.courses.url },

@@ -39,7 +39,7 @@ export const NavCta: React.FC<{
         baseClasses,
         isHomepage
           ? 'bg-white hover:bg-white/90 text-[#02034B] hover:text-[#02034B]'
-          : 'bg-[#2244BB] hover:bg-[#1a3599] text-white hover:text-white',
+          : 'bg-bluedot-normal hover:bg-[#1a3599] text-white hover:text-white',
       );
     }
 

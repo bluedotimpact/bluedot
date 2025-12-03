@@ -33,7 +33,7 @@ export const createAgiStrategyContent = (
     },
     secondaryCta: {
       text: 'Browse curriculum',
-      url: `/courses/${courseSlug}/1`,
+      url: `/courses/${courseSlug}/1/1`,
     },
     imageSrc: '/images/agi-strategy/hero-banner-split.png',
     imageAlt: 'AGI Strategy visualization',

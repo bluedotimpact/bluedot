@@ -21,7 +21,7 @@ const COLORS = {
   background: '#FFFFFF',
   cardBg: '#ECF0FF',
   text: '#13132E',
-  accent: '#2244BB',
+  accent: 'var(--bluedot-normal)',
 };
 
 // Font sizing configuration
@@ -266,12 +266,11 @@ const QuoteSection = ({ quotes }: QuoteSectionProps) => {
 
         {/* Navigation controls - Match 680px Figma specs exactly */}
         <div className="flex items-center justify-center w-[calc(100vw-40px)] min-[680px]:gap-8 min-[680px]:w-[calc(100vw-64px)] lg:w-[928px] lg:h-[38px] lg:gap-8 relative z-10">
-          {/* Left arrow - Shows at 680px+ matching CommunityMembersSubSection */}
           {isDesktop && (
             <button
               type="button"
               onClick={handlePrevious}
-              className="size-12 rounded-full flex items-center justify-center bg-[rgba(19,19,46,0.08)] transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#2244BB]"
+              className="size-12 rounded-full flex items-center justify-center bg-[rgba(19,19,46,0.08)] transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
               aria-label="Previous quote"
             >
               <span
@@ -292,7 +291,7 @@ const QuoteSection = ({ quotes }: QuoteSectionProps) => {
                 type="button"
                 key={`indicator-${quote.name}`}
                 onClick={() => handleIndicatorClick(index)}
-                className="flex-1 py-4 h-[38px] min-[680px]:flex-none min-[680px]:w-24 min-[680px]:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#2244BB]"
+                className="flex-1 py-4 h-[38px] min-[680px]:flex-none min-[680px]:w-24 min-[680px]:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
                 aria-label={`Go to quote ${index + 1}`}
               >
                 <div
@@ -306,12 +305,11 @@ const QuoteSection = ({ quotes }: QuoteSectionProps) => {
             ))}
           </div>
 
-          {/* Right arrow - Shows at 680px+ matching CommunityMembersSubSection */}
           {isDesktop && (
             <button
               type="button"
               onClick={handleNext}
-              className="size-12 rounded-full flex items-center justify-center bg-[rgba(19,19,46,0.08)] transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#2244BB]"
+              className="size-12 rounded-full flex items-center justify-center bg-[rgba(19,19,46,0.08)] transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
               aria-label="Next quote"
             >
               <span
