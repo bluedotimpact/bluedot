@@ -47,6 +47,13 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     label: discussion.label,
   })) || [];
 
+  const selectedDiscussion = switchData?.discussionsByGroup[selectedGroupId || '']?.find(((d) => d.id === selectedDiscussionId));
+  const selectedDiscussionDateTime = new Date((selectedDiscussion?.startDateTime || 0) * 1000);
+  const dayOfWeek = selectedDiscussionDateTime.toLocaleDateString(undefined, { weekday: 'short' });
+  const date = selectedDiscussionDateTime.toLocaleDateString(undefined, { dateStyle: 'medium' });
+  const time = selectedDiscussionDateTime.toLocaleTimeString(undefined, { timeStyle: 'short' });
+  const selectedDiscussionTimeString = `${dayOfWeek}, ${date} at ${time}`;
+
   const renderContent = () => {
     if (isLoading) {
       return <ProgressDots />;
@@ -89,6 +96,11 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             onChange={(value) => setSelectedDiscussionId(value)}
             placeholder="Choose a discussion"
           />
+          {selectedDiscussion && (
+            <P>
+              Current time: <span className="text-bluedot-normal">{selectedDiscussionTimeString}</span>
+            </P>
+          )}
         </div>
 
         <div className="flex flex-col gap-2">
