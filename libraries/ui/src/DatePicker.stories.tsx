@@ -51,3 +51,14 @@ export const Controlled: Story = {
     return <ControlledDemo />;
   },
 };
+
+export const CustomStyles: Story = {
+  args: {
+    label: 'Custom Styled Date Picker',
+    className: 'w-full',
+    labelClassName: 'text-blue-600 font-bold text-lg',
+    inputClassName: 'bg-blue-50 border-blue-300 hover:border-blue-500',
+    buttonClassName: 'text-blue-600 hover:bg-blue-100',
+    popoverClassName: 'shadow-2xl border-2 border-blue-200',
+  },
+};
