@@ -26,6 +26,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 }) => {
   const [switchType, setSwitchType] = useState<SwitchType | undefined>(undefined);
   const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(undefined);
+  const [selectedDiscussionId, setSelectedDiscussionId] = useState<string | undefined>(undefined);
 
   const {
     data: switchData,
@@ -81,7 +82,13 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 
         <div className="flex flex-col gap-2">
           <H1 className="text-size-md font-medium">3. For which discussion?</H1>
-          <Select label="Discussion" options={discussionOptions} placeholder="Choose a discussion" />
+          <Select
+            label="Discussion"
+            options={discussionOptions}
+            value={selectedDiscussionId}
+            onChange={(value) => setSelectedDiscussionId(value)}
+            placeholder="Choose a discussion"
+          />
         </div>
 
         <div className="flex flex-col gap-2">
