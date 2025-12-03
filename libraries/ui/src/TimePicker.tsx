@@ -34,14 +34,12 @@ export const TimePicker = ({
 
   // Convert TimeValue to Date object in onChange
   const handleChange = (newValue: TimeValue | null) => {
-    if (onChange) {
-      if (newValue) {
-        const date = new Date();
-        date.setHours(newValue.hour, newValue.minute, 0, 0);
-        onChange(date);
-      } else {
-        onChange(null);
-      }
+    if (newValue) {
+      const date = new Date();
+      date.setHours(newValue.hour, newValue.minute, 0, 0);
+      onChange?.(date);
+    } else {
+      onChange?.(null);
     }
   };
 
