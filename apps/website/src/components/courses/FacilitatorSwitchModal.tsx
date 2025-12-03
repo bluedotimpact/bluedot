@@ -67,6 +67,8 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   const time = selectedDiscussionDateTime?.toLocaleTimeString(undefined, { timeStyle: 'short' });
   const selectedDiscussionTimeString = `${dayOfWeek}, ${date} at ${time}`;
 
+  const submitDisabled = !switchType || !selectedGroupId || submitUpdateMutation.isPending;
+
   const handleSubmit = () => {
     if (!switchType || !selectedGroupId) {
       return;
@@ -156,7 +158,13 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           </div>
         </div>
 
-        <CTALinkOrButton className="bg-bluedot-normal w-full">Submit</CTALinkOrButton>
+        <CTALinkOrButton
+          className="bg-bluedot-normal w-full disabled:opacity-50"
+          onClick={handleSubmit}
+          disabled={submitDisabled}
+        >
+          Submit
+        </CTALinkOrButton>
       </>
     );
   };
