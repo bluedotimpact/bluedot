@@ -6,6 +6,7 @@ import {
   groupTable,
   inArray,
   meetPersonTable,
+  unitTable,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
@@ -62,5 +63,15 @@ export const facilitatorSwitchingRouter = router({
         groupsAvailable,
       };
     }),
+      const units = await Promise.all(
+        groupDiscussions.map(async (discussion) => {
+          if (!discussion.courseBuilderUnitRecordId) {
+            return null;
+          }
+          const unit = await db.getFirst(unitTable, { filter: { id: discussion.courseBuilderUnitRecordId, courseSlug, unitStatus: 'Active' } });
+          return unit;
+        }),
+      );
+
 
 });
