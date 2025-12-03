@@ -1,10 +1,10 @@
-import { CTALinkOrButton, Modal, ProgressDots } from '@bluedot/ui';
+import { CTALinkOrButton, DatePicker, Modal, ProgressDots, TimePicker } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import React, { useState } from 'react';
 import { trpc } from '../../utils/trpc';
+import { InfoIcon } from '../icons/InfoIcon';
 import { H1, P } from '../Text';
 import Select from './group-switching/Select';
-import { InfoIcon } from '../icons/InfoIcon';
 
 export type FacilitatorSwitchModalProps = {
   handleClose: () => void;
@@ -27,6 +27,8 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   const [switchType, setSwitchType] = useState<SwitchType | undefined>(undefined);
   const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(undefined);
   const [selectedDiscussionId, setSelectedDiscussionId] = useState<string | undefined>(undefined);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedTime, setSelectedTime] = useState<Date | null>(null);
 
   const {
     data: switchData,
@@ -50,10 +52,10 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   const selectedDiscussion = switchData?.discussionsByGroup[selectedGroupId || '']?.find(
     (d) => d.id === selectedDiscussionId,
   );
-  const selectedDiscussionDateTime = new Date((selectedDiscussion?.startDateTime || 0) * 1000);
-  const dayOfWeek = selectedDiscussionDateTime.toLocaleDateString(undefined, { weekday: 'short' });
-  const date = selectedDiscussionDateTime.toLocaleDateString(undefined, { dateStyle: 'medium' });
-  const time = selectedDiscussionDateTime.toLocaleTimeString(undefined, { timeStyle: 'short' });
+  const selectedDiscussionDateTime = selectedDiscussion ? new Date((selectedDiscussion.startDateTime || 0) * 1000) : undefined;
+  const dayOfWeek = selectedDiscussionDateTime?.toLocaleDateString(undefined, { weekday: 'short' });
+  const date = selectedDiscussionDateTime?.toLocaleDateString(undefined, { dateStyle: 'medium' });
+  const time = selectedDiscussionDateTime?.toLocaleTimeString(undefined, { timeStyle: 'short' });
   const selectedDiscussionTimeString = `${dayOfWeek}, ${date} at ${time}`;
 
   const renderContent = () => {
@@ -108,6 +110,10 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
         <div className="flex flex-col gap-2">
           <H1 className="text-size-md font-medium text-black">4. Select new discussion time</H1>
           <P>The selected time is in your time zone: {Intl.DateTimeFormat().resolvedOptions().timeZone}</P>
+          <div className="flex flex-row gap-4">
+            <DatePicker value={selectedDate ?? selectedDiscussionDateTime} />
+            <TimePicker value={selectedTime ?? selectedDiscussionDateTime} />
+          </div>
         </div>
 
         <CTALinkOrButton className="bg-bluedot-normal w-full">Submit</CTALinkOrButton>
