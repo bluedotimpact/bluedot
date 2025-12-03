@@ -55,7 +55,12 @@ export const DatePicker = ({
   };
 
   return (
-    <AriaDatePicker className={cn('group flex w-[200px] flex-col gap-1', className)} value={dateValue} onChange={handleChange}>
+    <AriaDatePicker
+      className={cn('group flex w-[200px] flex-col gap-1', className)}
+      value={dateValue}
+      onChange={handleChange}
+      aria-label={hideLabel ? label : undefined}
+    >
       {!hideLabel && (
         <Label className={cn('cursor-default text-black', labelClassName)}>{label}</Label>
       )}
