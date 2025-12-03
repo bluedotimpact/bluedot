@@ -18,6 +18,8 @@ type SelectProps = {
   className?: string;
 };
 
+// TODO add tests, move to ui/Select
+
 const Select = ({
   options,
   value,
@@ -62,8 +64,7 @@ const Select = ({
                 <ListBoxItem
                   key={option.value}
                   id={option.value}
-                  // TODO support ReactNode properly here
-                  textValue={option.label}
+                  textValue={(typeof option.label === 'string' ? option.label : option.value)}
                   isDisabled={option.disabled}
                   className={clsx(
                     'px-4 py-3 text-size-sm transition-colors hover:bg-gray-100 focus:bg-blue-50 focus:text-blue-900 outline-none flex items-center justify-between gap-3',

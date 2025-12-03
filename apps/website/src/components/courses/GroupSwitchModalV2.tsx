@@ -7,6 +7,8 @@ import {
   CTALinkOrButton, ErrorSection, Modal, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
 import clsx from 'clsx';
+import { FaArrowRightArrowLeft } from 'react-icons/fa6';
+import { ClockUserIcon } from '../icons/ClockUserIcon';
 import { formatTime12HourClock, formatDateMonthAndDay, formatDateDayOfWeek } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 import Select from './group-switching/Select';
@@ -19,8 +21,14 @@ export type GroupSwitchModalProps = {
 };
 
 const SWITCH_TYPE_OPTIONS = [
-  { value: 'Switch group for one unit', label: 'Switch group for one unit' },
-  { value: 'Switch group permanently', label: 'Switch group permanently' },
+  {
+    value: 'Switch group for one unit',
+    label: <span className="grid grid-cols-[20px_1fr] gap-[6px] items-center"><ClockUserIcon className="mx-auto size-[19px]" /> Switch group for one unit</span>,
+  },
+  {
+    value: 'Switch group permanently',
+    label: <span className="grid grid-cols-[20px_1fr] gap-[6px] items-center"><FaArrowRightArrowLeft className="mx-auto size-[14px]" /> Switch group permanently</span>,
+  },
 ] as const;
 
 type SwitchType = (typeof SWITCH_TYPE_OPTIONS)[number]['value'];
@@ -261,7 +269,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         value={switchType}
         onChange={(value) => setSwitchType(value as SwitchType)}
         options={SWITCH_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
-        className="border-none w-fit mx-auto"
+        className="border-none w-fit mx-auto [&>button]:px-6"
       />
     );
   };
