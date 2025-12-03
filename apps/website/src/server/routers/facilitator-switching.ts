@@ -40,13 +40,6 @@ export const facilitatorSwitchingRouter = router({
       if (!facilitator) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'No facilitator found for this course registration' });
       }
-      if (!facilitator.round) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'No round associated with this facilitator' });
-      }
-
-      const groups = await db.scan(groupTable, {
-        round: facilitator.round,
-      });
 
       const groupDiscussions = await db.pg
         .select()
@@ -59,12 +52,10 @@ export const facilitatorSwitchingRouter = router({
           ),
         );
 
-      const { discussionsAvailable, groupsAvailable } = calculateGroupAvailability({
-        groupDiscussions,
-        groups,
-        maxParticipants: null,
-        participantId: facilitator.id,
-      });
+      // TODO: only fetch what columns we need?
+      const groups = await db.pg.select().from(groupTable.pg).where(
+        inArray(groupTable.pg.id, groupDiscussions.map((discussion) => discussion.group)),
+      );
 
       return {
         discussionsAvailable,
