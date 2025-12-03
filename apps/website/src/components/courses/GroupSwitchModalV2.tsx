@@ -23,11 +23,11 @@ export type GroupSwitchModalProps = {
 const SWITCH_TYPE_OPTIONS = [
   {
     value: 'Switch group for one unit',
-    label: <span className="grid grid-cols-[20px_1fr] gap-[6px] items-center"><ClockUserIcon className="mx-auto size-[19px]" /> Switch group for one unit</span>,
+    label: <span className="grid text-size-md grid-cols-[20px_1fr] gap-2 items-center"><ClockUserIcon className="mx-auto size-[22px] -translate-y-px" /> Switch group for one unit</span>,
   },
   {
     value: 'Switch group permanently',
-    label: <span className="grid grid-cols-[20px_1fr] gap-[6px] items-center"><FaArrowRightArrowLeft className="mx-auto size-[14px]" /> Switch group permanently</span>,
+    label: <span className="grid text-size-md grid-cols-[20px_1fr] gap-2 items-center"><FaArrowRightArrowLeft className="mx-auto size-[14px]" /> Switch group permanently</span>,
   },
 ] as const;
 
@@ -96,22 +96,22 @@ const getGroupSwitchDescription = ({
   if (isTemporarySwitch) {
     if (userIsParticipant) {
       return isSelected
-        ? <span className="text-[#0037FF]">You are attending this discussion</span>
+        ? <span className="text-bluedot-normal">You are attending this discussion</span>
         : <span>You are switching out of this discussion</span>;
     }
 
     if (isSelected && selectedUnitNumber !== undefined) {
-      return <span className="text-[#0037FF]">You are joining this group for <strong>Unit {selectedUnitNumber}</strong></span>;
+      return <span className="text-bluedot-normal">You are joining this group for <strong>Unit {selectedUnitNumber}</strong></span>;
     }
   } else {
     if (userIsParticipant) {
       return isSelected
-        ? <span className="text-[#0037FF]">You are currently in this group</span>
+        ? <span className="text-bluedot-normal">You are currently in this group</span>
         : <span>You are switching out of this group for all upcoming units</span>;
     }
 
     if (isSelected) {
-      return <span className="text-[#0037FF]">You are switching into this group for all upcoming units</span>;
+      return <span className="text-bluedot-normal">You are switching into this group for all upcoming units</span>;
     }
   }
 
@@ -345,16 +345,20 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
   const timezoneMessage = `Times are in your time zone: ${getGMTOffsetWithCity()}`;
 
+  const unitLabel = '1. Select unit to switch group discussion slot';
+  const reasonLabel = `${isTemporarySwitch ? '2' : '1'}. Tell us why you're making this change (required)`;
+  const selectGroupLabel = `${isTemporarySwitch ? '3' : '2'}. Select a group`;
+
   return (
     <Modal
       isOpen
       setIsOpen={(open: boolean) => !open && handleClose()}
       title={title}
       bottomDrawerOnMobile
-      desktopHeaderClassName="md:border-b md:border-charcoal-light md:py-3 md:mb-0"
+      desktopHeaderClassName="border-b border-charcoal-light pt-3 pb-2 mb-0"
       ariaLabel="Group switching"
     >
-      <div className="w-full pt-4 max-w-[600px]">
+      <div className="w-full pt-6 max-w-[600px]">
         {(isDiscussionsLoading || isCourseLoading) && <ProgressDots />}
         {submitGroupSwitchMutation.isError && <ErrorSection error={submitGroupSwitchMutation.error} />}
         {courseError && <ErrorSection error={courseError} />}
@@ -372,7 +376,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
           </div>
         )}
         {!isDiscussionsLoading && !isCourseLoading && !showSuccess && (
-        <form className="flex flex-col gap-5">
+        <form className="flex flex-col gap-8">
           {isManualRequest && (
             <div className="text-size-sm text-[#666C80]">
               We're keen for you to request manual switches where necessary to attend group discussions.
@@ -381,41 +385,40 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
             </div>
           )}
           {isTemporarySwitch && (
-            <Select
-              label="Unit"
-              value={selectedUnitNumber}
-              onChange={(value) => setSelectedUnitNumber(value)}
-              options={unitOptions}
-              placeholder="Select a unit"
-            />
-          )}
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-col gap-2">
-              <div className="flex flex-col gap-2">
-                <label htmlFor="reason" className="text-size-sm font-medium text-[#00114D]">Tell us why you're making this change.*</label>
-                <p id="reason-description" className="text-size-xs text-[#666C80]">
-                  Participants who stick with their group usually have a better experience on the course.
-                </p>
-              </div>
-              <textarea
-                id="reason"
-                placeholder="Share your reason here"
-                value={reason}
-                onChange={(e) => setReason(e.target.value)}
-                className="border border-color-divider rounded-lg px-3 py-2 min-h-[80px] bg-white"
-                required
-                aria-describedby="reason-description"
-                aria-label="Reason for group switch request"
+            <div className="flex flex-col gap-3">
+              <span className="text-size-sm font-medium text-[#13132E]">{unitLabel}</span>
+              <Select
+                value={selectedUnitNumber}
+                onChange={(value) => setSelectedUnitNumber(value)}
+                options={unitOptions}
+                placeholder="Select a unit"
               />
             </div>
+          )}
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
+              <label htmlFor="reason" className="text-size-sm font-medium text-[#13132E]">{reasonLabel}</label>
+              <p id="reason-description" className="text-size-xs text-[#666C80]">
+                Participants who stick with their group usually have a better experience on the course.
+              </p>
+            </div>
+            <textarea
+              id="reason"
+              placeholder="Share your reason here..."
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              className="border border-color-divider rounded-lg px-3 py-2 min-h-[80px] bg-white"
+              required
+              aria-describedby="reason-description"
+              aria-label="Reason for group switch request"
+            />
           </div>
           {!isManualRequest && (
             <>
-              <div className="h-px bg-color-divider" />
-              <div className="flex flex-col gap-2">
-                <div className="block text-size-sm font-medium text-[#00114D]">
-                  Select a group
-                </div>
+              <div className="flex flex-col gap-3">
+                <span className="text-size-sm font-medium text-[#13132E]">
+                  {selectGroupLabel}
+                </span>
                 {currentInfo && (
                   <GroupSwitchOption {...currentInfo} />
                 )}
@@ -431,15 +434,18 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                   <GroupSwitchOption key={option.id} {...option} />
                 ))}
               </div>
-              <div className="border-t border-color-divider pt-4">
-                <div className="flex flex-col gap-2">
-                  <h3 className="text-size-sm font-medium text-[#00114D]">Don't see a group that works?</h3>
-                  <p className="text-size-xs text-[#666C80]">
-                    You can request a manual switch to join a group that's full or a group that is not
-                    listed above, and we'll do our best to accommodate you.
-                  </p>
+              <div className="border-t border-color-divider pt-8 mb-2">
+                <div className="flex flex-col gap-3">
+                  <div className="flex flex-col gap-2">
+                    <h3 className="text-size-sm font-medium text-[#13132E]">Don't see a group that works?</h3>
+                    <p className="text-size-xs text-[#666C80]">
+                      You can request a manual switch to join a group that's full or a group that is not
+                      listed above, and we'll do our best to accommodate you.
+                    </p>
+                  </div>
                   <CTALinkOrButton
                     variant="secondary"
+                    className="border-[#13132E] text-[#13132E] my-1"
                     onClick={() => setIsManualRequest(true)}
                     aria-label="Request manual group switch"
                   >
@@ -489,6 +495,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   );
 };
 
+// TODO move these to icons/
 const UserIcon = ({ className }: { className?: string }) => (
   <svg className={className} width="1em" height="1em" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M10 10.5V9.5C10 8.96957 9.78929 8.46086 9.41421 8.08579C9.03914 7.71071 8.53043 7.5 8 7.5H4C3.46957 7.5 2.96086 7.71071 2.58579 8.08579C2.21071 8.46086 2 8.96957 2 9.5V10.5M8 3.5C8 4.60457 7.10457 5.5 6 5.5C4.89543 5.5 4 4.60457 4 3.5C4 2.39543 4.89543 1.5 6 1.5C7.10457 1.5 8 2.39543 8 3.5Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
@@ -497,14 +504,14 @@ const UserIcon = ({ className }: { className?: string }) => (
 
 const SuccessIcon = () => (
   <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="24" height="24" rx="12" fill="#0037FF" />
+    <rect className="fill-bluedot-normal" width="24" height="24" rx="12" />
     <path d="M16 9L10.6496 14.3504C10.567 14.433 10.433 14.433 10.3504 14.3504L8 12" stroke="white" strokeWidth="1.75" strokeLinecap="round" />
   </svg>
 );
 
 const SendIcon = () => (
   <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="24" height="24" rx="12" fill="#0037FF" />
+    <rect className="fill-bluedot-normal" width="24" height="24" rx="12" />
     <path d="M17 7L11.5 12.5M17 7L13.5 17L11.5 12.5M17 7L7 10.5L11.5 12.5" stroke="white" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
@@ -552,7 +559,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
 
     // Later classes have higher priority
     classNames.push('rounded-lg p-3 transition-all cursor-pointer border bg-white hover:bg-blue-50 border-gray-200 hover:border-gray-300');
-    if (isSelected) classNames.push('border-[#0037FF] hover:border-[#0037FF] bg-blue-50');
+    if (isSelected) classNames.push('border-bluedot-normal hover:border-bluedot-normal bg-blue-50');
     if (isDisabled && !userIsParticipant) classNames.push('opacity-50 cursor-not-allowed hover:bg-white');
     if (userIsParticipant) classNames.push('border-none bg-transparent hover:bg-transparent cursor-auto');
 
@@ -585,7 +592,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
           {displayDate && displayTime && (
             <>
               <div className="font-medium whitespace-nowrap mb-[3px] mt-px">{displayDate}</div>
-              <div className={clsx('text-size-xs whitespace-nowrap', isSelected ? 'text-[#0037FF]' : 'text-gray-500')}>{displayTime}</div>
+              <div className={clsx('text-size-xs whitespace-nowrap', isSelected ? 'text-bluedot-normal' : 'text-gray-500')}>{displayTime}</div>
             </>
           )}
         </div>

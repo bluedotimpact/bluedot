@@ -1,5 +1,5 @@
 import { cn } from '@bluedot/ui';
-import clsx from 'clsx';
+import clsx from 'clsx'; // TODO replace all with cn
 import type { Key, ReactNode } from 'react';
 import {
   Button,
@@ -44,7 +44,7 @@ const Select = ({
       {({ isOpen }) => (
         <>
           <Button
-            className="w-full gap-3 flex justify-between px-4 py-3 items-center cursor-pointer text-left transition-all"
+            className="w-full gap-3 flex justify-between p-4 items-center cursor-pointer text-left transition-all"
           >
             <span className="text-size-sm text-[#13132E] flex-1 min-w-0">
               {selectedOption?.label || value || placeholder}
@@ -56,7 +56,7 @@ const Select = ({
           </Button>
           <Popover
             placement="bottom"
-            offset={4}
+            offset={8}
             className="w-(--trigger-width) bg-white rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.08)] border border-color-divider overflow-hidden"
           >
             <ListBox className="flex flex-col max-h-60 overflow-y-auto outline-none">
@@ -66,9 +66,9 @@ const Select = ({
                   id={option.value}
                   textValue={(typeof option.label === 'string' ? option.label : option.value)}
                   isDisabled={option.disabled}
-                  className={clsx(
-                    'px-4 py-3 text-size-sm transition-colors hover:bg-gray-100 focus:bg-blue-50 focus:text-blue-900 outline-none flex items-center justify-between gap-3',
-                    option.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
+                  className={cn(
+                    'p-4 text-size-sm transition-colors focus:bg-blue-50 focus:text-blue-900 outline-none flex items-center justify-between gap-3',
+                    option.disabled ? 'opacity-50 cursor-not-allowed' : ' hover:bg-gray-100 cursor-pointer',
                   )}
                 >
                   <span>{option.label}</span>

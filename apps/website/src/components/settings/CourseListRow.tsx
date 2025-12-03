@@ -331,13 +331,13 @@ const CourseListRow = ({
 
       {/* Group switching modal for participants without a group */}
       {/* {groupSwitchModalOpen && course.slug && ( */}
-      {/* {course.slug === 'fish-test-course' && (
+      {course.slug === 'fish-test-course' && (
         <GroupSwitchModalV2
           handleClose={() => setGroupSwitchModalOpen(false)}
           initialSwitchType="Switch group permanently"
           courseSlug={course.slug}
         />
-      )} */}
+      )}
     </div>
   );
 };
