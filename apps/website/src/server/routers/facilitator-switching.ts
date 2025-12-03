@@ -67,7 +67,7 @@ export const facilitatorSwitchingRouter = router({
         }),
       );
 
-      const discussionsByGroup: Record<string, { id: string, startTime: number, endTime: number, label: string, hasStarted: boolean }[]> = {};
+      const discussionsByGroup: Record<string, { id: string, startDateTime: number, endDateTime: number, label: string, hasStarted: boolean }[]> = {};
       for (const discussion of groupDiscussions) {
         if (!discussionsByGroup[discussion.group]) {
           discussionsByGroup[discussion.group] = [];
@@ -76,8 +76,8 @@ export const facilitatorSwitchingRouter = router({
 
         discussionsByGroup[discussion.group]?.push({
           id: discussion.id,
-          startTime: discussion.startDateTime,
-          endTime: discussion.endDateTime,
+          startDateTime: discussion.startDateTime,
+          endDateTime: discussion.endDateTime,
           label: unit ? `Unit ${unit.unitNumber}: ${unit.title}` : 'Unknown Unit',
           hasStarted: discussion.startDateTime * 1000 <= Date.now(),
         });
