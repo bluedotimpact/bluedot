@@ -1,4 +1,6 @@
-import { CTALinkOrButton, DatePicker, Modal, ProgressDots, TimePicker } from '@bluedot/ui';
+import {
+  CTALinkOrButton, DatePicker, Modal, ProgressDots, TimePicker,
+} from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import React, { useState } from 'react';
 import { trpc } from '../../utils/trpc';
