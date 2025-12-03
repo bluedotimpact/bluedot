@@ -33,7 +33,7 @@ export const createBioSecurityContent = (
     },
     secondaryCta: {
       text: 'Browse curriculum',
-      url: `/courses/${courseSlug}/1`,
+      url: `/courses/${courseSlug}/1/1`,
     },
     imageSrc: '/images/lander/biosecurity/hero-banner-split.png',
     imageAlt: 'Biosecurity visualization',
