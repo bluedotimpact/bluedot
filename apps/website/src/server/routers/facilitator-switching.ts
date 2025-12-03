@@ -95,4 +95,55 @@ export const facilitatorSwitchingRouter = router({
 
       return { groups, discussionsByGroup };
     }),
+
+  updateDiscussion: protectedProcedure
+    .input(
+      z.object({
+        courseSlug: z.string(),
+        // When provided, we will update only a single discussion's date/time. Otherwise all future discussions are updated.
+        discussionId: z.string().optional(),
+        newDateTime: z.date(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { discussionId, newDateTime } = input;
+
+      const facilitator = await getFacilitator(input.courseSlug, ctx.auth.email);
+
+      let existingUpdate;
+
+      if (discussionId) {
+        existingUpdate = await db.getFirst(facilitatorDiscussionSwitchingTable, {
+          filter: {
+            discussion: discussionId,
+            facilitator: facilitator.id,
+          },
+          sortBy: 'createdAt',
+        });
+      } else {
+        existingUpdate = await db.getFirst(facilitatorDiscussionSwitchingTable, {
+          filter: {
+            facilitator: facilitator.id,
+          },
+          sortBy: 'createdAt',
+        });
+      }
+
+      if (existingUpdate) {
+        await db.update(facilitatorDiscussionSwitchingTable, {
+          id: existingUpdate.id,
+          discussion: discussionId || null,
+          facilitator: facilitator.id,
+          status: 'Requested',
+          updatedDatetime: Math.floor(newDateTime.getTime() / 1000),
+        });
+      } else {
+        await db.insert(facilitatorDiscussionSwitchingTable, {
+          discussion: discussionId || null,
+          facilitator: facilitator.id,
+          status: 'Requested',
+          updatedDatetime: Math.floor(newDateTime.getTime() / 1000),
+        });
+      }
+    }),
 });
