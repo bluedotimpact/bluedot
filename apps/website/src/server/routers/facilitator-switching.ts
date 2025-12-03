@@ -111,42 +111,12 @@ export const facilitatorSwitchingRouter = router({
 
       const facilitator = await getFacilitator(courseSlug, ctx.auth.email);
 
-      let existingUpdate;
-
-      if (discussionId) {
-        existingUpdate = await db.getFirst(facilitatorDiscussionSwitchingTable, {
-          filter: {
-            discussion: discussionId,
-            facilitator: facilitator.id,
-          },
-          sortBy: 'createdAt',
-        });
-      } else {
-        existingUpdate = await db.getFirst(facilitatorDiscussionSwitchingTable, {
-          filter: {
-            facilitator: facilitator.id,
-          },
-          sortBy: 'createdAt',
-        });
-      }
-
-      if (existingUpdate) {
-        await db.update(facilitatorDiscussionSwitchingTable, {
-          id: existingUpdate.id,
-          discussion: discussionId || null,
-          facilitator: facilitator.id,
-          status: 'Requested',
-          switchType: discussionId ? 'Change for one unit' : 'Change permanently',
-          updatedDatetime: Math.floor(newDateTime.getTime() / 1000),
-        });
-      } else {
-        await db.insert(facilitatorDiscussionSwitchingTable, {
-          discussion: discussionId || null,
-          facilitator: facilitator.id,
-          status: 'Requested',
-          switchType: discussionId ? 'Change for one unit' : 'Change permanently',
-          updatedDatetime: Math.floor(newDateTime.getTime() / 1000),
-        });
-      }
+      await db.insert(facilitatorDiscussionSwitchingTable, {
+        discussion: discussionId || null,
+        facilitator: facilitator.id,
+        status: 'Requested',
+        switchType: discussionId ? 'Change for one unit' : 'Change permanently',
+        updatedDatetime: newDateTime,
+      });
     }),
 });
