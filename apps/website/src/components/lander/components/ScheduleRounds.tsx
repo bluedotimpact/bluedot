@@ -185,8 +185,8 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
         </div>
 
         <div className="flex font-medium text-[15px] leading-[1.6] text-[#1144CC] items-center ml-auto">
-          <span className="transition-transform group-hover:-translate-x-1 group-focus:-translate-x-1">Apply now</span>
-          <span className="ml-1 transition-opacity group-hover:opacity-100 group-focus:opacity-100 opacity-0">
+          <span className="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1">Apply now</span>
+          <span className="ml-1 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 opacity-0">
             →
           </span>
         </div>
