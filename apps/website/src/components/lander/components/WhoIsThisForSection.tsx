@@ -39,7 +39,7 @@ const WhoIsThisForSection = ({
               key={boldText}
               className="flex flex-col items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
             >
-              <div className="size-14 min-[680px]:size-14 bg-[#2244BB] rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="size-14 min-[680px]:size-14 bg-bluedot-normal rounded-lg flex items-center justify-center flex-shrink-0">
                 <IconComponent className="text-white" size={28} />
               </div>
               <P className="text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-[#13132E]">

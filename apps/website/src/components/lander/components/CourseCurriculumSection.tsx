@@ -123,7 +123,7 @@ const CurriculumUnit = ({
         onClick={handleToggle}
         className={`w-full px-3 flex items-center gap-2 cursor-pointer transition-all duration-300 ease ${
           isOpen ? 'pt-[18px] pb-[6px]' : 'py-[18px]'
-        } ${!isOpen ? 'hover:bg-gray-50' : ''} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#2244BB]`}
+        } ${!isOpen ? 'hover:bg-gray-50' : ''} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-bluedot-normal`}
         aria-expanded={isOpen}
         aria-controls={`curriculum-unit-${unit.id}`}
       >

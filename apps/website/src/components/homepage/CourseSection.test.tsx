@@ -1,8 +1,10 @@
 import { sendGAEvent } from '@next/third-parties/google';
 import { fireEvent, render } from '@testing-library/react';
 import {
-  describe, expect, test, vi,
+  describe, expect, test, vi, beforeEach,
 } from 'vitest';
+import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
 import CourseSection from './CourseSection';
 
 // Mock GA event tracking
@@ -11,13 +13,19 @@ vi.mock('@next/third-parties/google', () => ({
 }));
 
 describe('CourseSection', () => {
+  beforeEach(() => {
+    // Mock tRPC endpoints with empty data
+    server.use(trpcMsw.courses.getAll.query(() => []));
+    server.use(trpcMsw.courseRegistrations.getAll.query(() => []));
+  });
+
   test('renders as expected', () => {
-    const { container } = render(<CourseSection />);
+    const { container } = render(<CourseSection />, { wrapper: TrpcProvider });
     expect(container).toMatchSnapshot();
   });
 
   test('tracks clicks on course cards', () => {
-    const { container } = render(<CourseSection />);
+    const { container } = render(<CourseSection />, { wrapper: TrpcProvider });
 
     // Click the featured course card using BEM class selector
     const featuredCard = container.querySelector('.course-card--featured') as HTMLElement;

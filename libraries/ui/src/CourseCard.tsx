@@ -57,7 +57,7 @@ const FeaturedCourseCard: React.FC<CourseCardProps> = ({
             </p>
           )}
           <CTALinkOrButton
-            className="px-6 mt-auto bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors duration-200"
+            className="px-6 mt-auto bg-bluedot-normal text-white hover:bg-[#1a3399] focus:bg-[#1a3399] transition-colors duration-200"
             withChevron={false}
           >
             {applyByText(applicationDeadline)}

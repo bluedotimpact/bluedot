@@ -4,7 +4,7 @@ import React, {
 } from 'react';
 import {
   cn,
-  CTALinkOrButton, ErrorSection, Modal, ProgressDots, useAuthStore,
+  CTALinkOrButton, ErrorSection, Modal, ProgressDots,
 } from '@bluedot/ui';
 import {
   Button,
@@ -97,22 +97,22 @@ const getGroupSwitchDescription = ({
   if (isTemporarySwitch) {
     if (userIsParticipant) {
       return isSelected
-        ? <span className="text-[#0037FF]">You are attending this discussion</span>
+        ? <span className="text-bluedot-normal">You are attending this discussion</span>
         : <span>You are switching out of this discussion</span>;
     }
 
     if (isSelected && selectedUnitNumber !== undefined) {
-      return <span className="text-[#0037FF]">You are joining this group for <strong>Unit {selectedUnitNumber}</strong></span>;
+      return <span className="text-bluedot-normal">You are joining this group for <strong>Unit {selectedUnitNumber}</strong></span>;
     }
   } else {
     if (userIsParticipant) {
       return isSelected
-        ? <span className="text-[#0037FF]">You are currently in this group</span>
+        ? <span className="text-bluedot-normal">You are currently in this group</span>
         : <span>You are switching out of this group for all upcoming units</span>;
     }
 
     if (isSelected) {
-      return <span className="text-[#0037FF]">You are switching into this group for all upcoming units</span>;
+      return <span className="text-bluedot-normal">You are switching into this group for all upcoming units</span>;
     }
   }
 
@@ -147,7 +147,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
   const isTemporarySwitch = switchType === 'Switch group for one unit';
 
-  const auth = useAuthStore((s) => s.auth);
+  const { data: user, error: userError } = trpc.users.getUser.useQuery();
 
   const { data: courseData, isLoading: isCourseLoading, error: courseError } = trpc.courses.getBySlug.useQuery({ courseSlug });
 
@@ -349,6 +349,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
       <div className="w-full max-w-[600px]">
         {(isDiscussionsLoading || isCourseLoading) && <ProgressDots />}
         {submitGroupSwitchMutation.isError && <ErrorSection error={submitGroupSwitchMutation.error} />}
+        {userError && <ErrorSection error={userError} />}
         {courseError && <ErrorSection error={courseError} />}
         {discussionsError && <ErrorSection error={discussionsError} />}
         {showSuccess && (
@@ -450,7 +451,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
           {isManualRequest && (
             <>
-              {auth?.email && (
+              {user?.email && (
                 <div className="flex flex-col gap-2">
                   <h3 className="text-size-sm font-medium text-[#00114D]">Update your availability</h3>
                   <p className="text-size-xs text-[#666C80]">
@@ -461,7 +462,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                     className="mx-auto"
                     target="_blank"
                     rel="noopener noreferrer"
-                    url={`https://availability.bluedot.org/form/bluedot-course?email=${encodeURIComponent(auth.email)}&utm_source=bluedot-group-switch-modal`}
+                    url={`https://availability.bluedot.org/form/bluedot-course?email=${encodeURIComponent(user.email)}&utm_source=bluedot-group-switch-modal`}
                     aria-label="Update availability (open in new tab)"
                   >
                     Update availability
@@ -571,14 +572,14 @@ const UserIcon = ({ className }: { className?: string }) => (
 
 const SuccessIcon = () => (
   <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="24" height="24" rx="12" fill="#0037FF" />
+    <rect className="fill-bluedot-normal" width="24" height="24" rx="12" />
     <path d="M16 9L10.6496 14.3504C10.567 14.433 10.433 14.433 10.3504 14.3504L8 12" stroke="white" strokeWidth="1.75" strokeLinecap="round" />
   </svg>
 );
 
 const SendIcon = () => (
   <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="24" height="24" rx="12" fill="#0037FF" />
+    <rect className="fill-bluedot-normal" width="24" height="24" rx="12" />
     <path d="M17 7L11.5 12.5M17 7L13.5 17L11.5 12.5M17 7L7 10.5L11.5 12.5" stroke="white" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
@@ -626,7 +627,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
 
     // Later classes have higher priority
     classNames.push('rounded-lg p-3 transition-all cursor-pointer border bg-white hover:bg-blue-50 border-gray-200 hover:border-gray-300');
-    if (isSelected) classNames.push('border-[#0037FF] hover:border-[#0037FF] bg-blue-50');
+    if (isSelected) classNames.push('border-bluedot-normal hover:border-bluedot-normal bg-blue-50');
     if (isDisabled && !userIsParticipant) classNames.push('opacity-50 cursor-not-allowed hover:bg-white');
     if (userIsParticipant) classNames.push('border-none bg-transparent hover:bg-transparent cursor-auto');
 
@@ -659,7 +660,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
           {displayDate && displayTime && (
             <>
               <div className="font-medium whitespace-nowrap mb-[3px] mt-px">{displayDate}</div>
-              <div className={clsx('text-size-xs whitespace-nowrap', isSelected ? 'text-[#0037FF]' : 'text-gray-500')}>{displayTime}</div>
+              <div className={clsx('text-size-xs whitespace-nowrap', isSelected ? 'text-bluedot-normal' : 'text-gray-500')}>{displayTime}</div>
             </>
           )}
         </div>

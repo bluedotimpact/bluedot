@@ -9,13 +9,13 @@ import {
   useEffect, useRef, useCallback, useState,
 } from 'react';
 import { PiShieldStarLight, PiShootingStarLight, PiUsersThreeLight } from 'react-icons/pi';
+import { usePrimaryCourseURL } from '../../lib/hooks/usePrimaryCourseURL';
 import { withClickTracking } from '../../lib/withClickTracking';
 
 type Course = {
-  id: string;
+  slug: string;
   title: string;
   shortDescription: string;
-  path: string;
   durationDescription?: string;
   cadence?: string;
   additionalTag?: string;
@@ -27,20 +27,18 @@ type Course = {
 // Hardcoded course data
 const HARDCODED_COURSES: Course[] = [
   {
-    id: 'future-of-ai',
+    slug: 'future-of-ai',
     title: 'The Future of AI',
     shortDescription: 'An introduction to what AI can do today, where it\'s going over the next decade, and how you can start contributing to a better future.',
-    path: '/courses/future-of-ai',
     durationDescription: '1h',
     cadence: 'Self-paced',
     isFeatured: true,
     icon: '/images/courses/future-of-ai-icon.svg',
   },
   {
-    id: 'agi-strategy',
+    slug: 'agi-strategy',
     title: 'AGI Strategy',
     shortDescription: 'A deep dive into the incentives driving the AI companies, what\'s at stake, and the strategies for ensuring AI benefits humanity. You\'ll finish with your own action plan.',
-    path: '/courses/agi-strategy',
     durationDescription: '30h',
     cadence: 'Cohort-based',
     additionalTag: 'Every month',
@@ -48,10 +46,9 @@ const HARDCODED_COURSES: Course[] = [
     icon: '/images/courses/agi-strategy-icon.svg',
   },
   {
-    id: 'biosecurity',
+    slug: 'biosecurity',
     title: 'Biosecurity',
     shortDescription: 'For people who want to build a pandemic-proof world. Learn how we can defend against AI-enabled bioattacks.',
-    path: '/courses/biosecurity',
     durationDescription: '30h',
     cadence: 'Cohort-based',
     additionalTag: 'Every month',
@@ -59,10 +56,9 @@ const HARDCODED_COURSES: Course[] = [
     icon: '/images/courses/biosecurity-icon.svg',
   },
   {
-    id: 'technical-ai-safety',
+    slug: 'technical-ai-safety',
     title: 'Technical AI Safety',
     shortDescription: 'For technical talent who want to drive AI safety research and policy professionals building governance solutions.',
-    path: '/courses/technical-ai-safety',
     durationDescription: '30h',
     cadence: 'Cohort-based',
     additionalTag: 'Every month',
@@ -70,10 +66,9 @@ const HARDCODED_COURSES: Course[] = [
     icon: '/images/courses/technical-ai-safety-icon.svg',
   },
   {
-    id: 'ai-governance',
+    slug: 'governance',
     title: 'AI Governance',
     shortDescription: 'Learn about the policy landscape, regulatory tools, and institutional reforms needed to navigate the transition to transformative AI.',
-    path: '/courses/governance',
     durationDescription: '25h',
     cadence: 'Cohort-based',
     additionalTag: 'Coming Jan 2026',
@@ -396,14 +391,14 @@ const CourseCarousel = ({
         >
           {infiniteCourses.map((course, index) => {
             const originalIndex = index % courses.length;
-            const uniqueKey = `${course.id}-${index}`;
+            const uniqueKey = `${course.slug}-${index}`;
 
             return (
               <CourseCardRedesignedWithTracking
                 key={uniqueKey}
                 trackingEventParams={{
                   course_title: course.title,
-                  course_url: course.path,
+                  course_url: `/courses/${course.slug}`, // Always use lander rather than getPrimaryCourseURL(course.slug) to simplify analytics
                 }}
                 course={course}
                 gradientRotation={GRADIENT_ROTATIONS[originalIndex] || 0}
@@ -444,10 +439,10 @@ const CourseCardsGrid = ({
 
   const renderCard = (course: Course, index: number) => (
     <CourseCardRedesignedWithTracking
-      key={course.id}
+      key={course.slug}
       trackingEventParams={{
         course_title: course.title,
-        course_url: course.path,
+        course_url: `/courses/${course.slug}`, // Always use lander rather than getPrimaryCourseURL(course.slug) to simplify analytics
       }}
       course={course}
       gradientRotation={GRADIENT_ROTATIONS[index] || 0}
@@ -483,11 +478,13 @@ const CourseCardRedesigned = ({
   className?: string;
   isFirstCard?: boolean;
 }) => {
+  const { getPrimaryCourseURL } = usePrimaryCourseURL();
+
   const iconSrc = course.icon || '/images/logo/BlueDot_Impact_Icon_White.svg';
 
   return (
     <a
-      href={course.path}
+      href={getPrimaryCourseURL(course.slug)}
       className={clsx(
         'relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block',
         isFirstCard ? 'course-card--featured' : 'course-card--regular',
@@ -610,7 +607,7 @@ const CourseSection = () => {
   // Component determines featured course logic internally
   const featuredCourse = courses.find((course) => course.isFeatured) || courses[0]!;
   const otherCourses = courses
-    .filter((course) => course.id !== featuredCourse.id)
+    .filter((course) => course.slug !== featuredCourse.slug)
     .slice(0, 4);
 
   return (

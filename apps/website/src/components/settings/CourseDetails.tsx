@@ -17,7 +17,7 @@ import { DocumentIcon } from '../icons/DocumentIcon';
 const ONE_HOUR_MS = 3600_000;
 
 const BUTTON_STYLES = {
-  primary: { variant: 'primary' as const, className: 'w-auto bg-[#2244BB]' },
+  primary: { variant: 'primary' as const, className: 'w-auto bg-bluedot-normal' },
   secondary: { variant: 'outline-black' as const, className: 'w-auto bg-[#13132E0D] hover:bg-[#13132E1C] text-[#13132E] border-none' },
   ghost: { variant: 'outline-black' as const, className: 'w-auto bg-[#13132E0D] hover:bg-[#13132E1C] text-[#13132E] border-none' },
 };
@@ -124,7 +124,7 @@ const CourseDetailsRow = ({
                 : `Unit ${discussion.unitNumber || ''}`}
             </div>
             {!isPast && isNext && (
-              <div className="truncate text-size-xs text-[#2244BB] font-medium">
+              <div className="truncate text-size-xs text-bluedot-normal font-medium">
                 {`Starts ${formatDateTimeRelative({ dateTimeMs: discussion.startDateTime * 1000, currentTimeMs })}`}
               </div>
             )}
@@ -233,7 +233,7 @@ const CourseDetails = ({
                 onClick={() => setActiveTab('upcoming')}
                 className={`relative py-2 px-1 text-size-xs font-medium transition-colors ${
                   activeTab === 'upcoming'
-                    ? 'text-[#2244BB] border-b-2 border-[#2244BB]'
+                    ? 'text-bluedot-normal border-b-2 border-bluedot-normal'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
@@ -244,7 +244,7 @@ const CourseDetails = ({
                 onClick={() => setActiveTab('attended')}
                 className={`relative py-2 px-1 text-size-xs font-medium transition-colors ${
                   activeTab === 'attended'
-                    ? 'text-[#2244BB] border-b-2 border-[#2244BB]'
+                    ? 'text-bluedot-normal border-b-2 border-bluedot-normal'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
@@ -283,7 +283,7 @@ const CourseDetails = ({
                           <button
                             type="button"
                             onClick={() => setShowAllUpcoming(!showAllUpcoming)}
-                            className="text-size-sm font-medium text-[#2244BB] hover:text-blue-700 transition-colors cursor-pointer"
+                            className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
                           >
                             {showAllUpcoming
                               ? 'Show less'
@@ -319,7 +319,7 @@ const CourseDetails = ({
                           <button
                             type="button"
                             onClick={() => setShowAllAttended(!showAllAttended)}
-                            className="text-size-sm font-medium text-[#2244BB] hover:text-blue-700 transition-colors cursor-pointer"
+                            className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
                           >
                             {showAllAttended ? 'Show less' : `See all (${attendedDiscussions.length}) discussions`}
                           </button>
@@ -360,7 +360,7 @@ const TimeWidget: React.FC<{
         <div className="text-size-sm font-bold pt-2 pb-1.5 text-gray-900 text-center">
           NOW
         </div>
-        <div className="text-size-xs font-semibold text-white text-center bg-[#2244BB] py-1 w-full">
+        <div className="text-size-xs font-semibold text-white text-center bg-bluedot-normal py-1 w-full">
           LIVE
         </div>
       </div>

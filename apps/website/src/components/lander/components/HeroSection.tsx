@@ -34,7 +34,7 @@ const HeroSection = ({
             <div className="space-y-5 sm:space-y-4">
               {/* Course Category */}
               {categoryLabel && (
-                <P className="text-size-md font-semibold tracking-wide text-[#2244BB]">
+                <P className="text-size-md font-semibold tracking-wide text-bluedot-normal">
                   {categoryLabel}
                 </P>
               )}
@@ -56,7 +56,7 @@ const HeroSection = ({
                 url={primaryCta.url}
                 size="small"
                 target="_blank"
-                className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] cursor-pointer transition-colors"
+                className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-bluedot-normal text-white hover:bg-[#1a3399] focus:bg-[#1a3399] cursor-pointer transition-colors"
               >
                 {primaryCta.text}
               </CTALinkOrButton>

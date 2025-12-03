@@ -1,7 +1,9 @@
 import { render } from '@testing-library/react';
 import {
-  describe, expect, test,
+  describe, expect, test, beforeEach,
 } from 'vitest';
+import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
 import CourseDirectory from './CourseDirectory';
 import { createMockCourse } from '../../__tests__/testUtils';
 
@@ -14,7 +16,7 @@ const mockCourses = [
     level: 'Beginner',
     averageRating: 4.5,
     image: 'img1.jpg',
-    path: '/course1',
+    slug: 'course-1',
     durationDescription: '4 weeks',
   }),
   createMockCourse({
@@ -25,7 +27,7 @@ const mockCourses = [
     level: 'Intermediate',
     averageRating: 4.0,
     image: 'img2.jpg',
-    path: '/course2',
+    slug: 'course-2',
     durationDescription: '6 weeks',
   }),
 ];
@@ -36,8 +38,14 @@ const defaultProps = {
 };
 
 describe('CourseDirectory', () => {
+  beforeEach(() => {
+    // Mock tRPC endpoints with empty data, results are not needed for this test
+    server.use(trpcMsw.courses.getAll.query(() => []));
+    server.use(trpcMsw.courseRegistrations.getAll.query(() => []));
+  });
+
   test('renders default as expected', () => {
-    const { container } = render(<CourseDirectory {...defaultProps} />);
+    const { container } = render(<CourseDirectory {...defaultProps} />, { wrapper: TrpcProvider });
 
     expect(container).toMatchSnapshot();
   });
@@ -48,7 +56,7 @@ describe('CourseDirectory', () => {
       loading: true,
       courses: undefined,
     };
-    const { container, queryByText } = render(<CourseDirectory {...props} />);
+    const { container, queryByText } = render(<CourseDirectory {...props} />, { wrapper: TrpcProvider });
 
     expect(queryByText(mockCourses[0]!.title!)).toBeNull();
     expect(queryByText(mockCourses[1]!.title!)).toBeNull();

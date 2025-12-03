@@ -7,6 +7,7 @@ import {
   FC,
 } from 'react';
 import type { AppRouter } from '../../server/routers/_app';
+import { usePrimaryCourseURL } from '../../lib/hooks/usePrimaryCourseURL';
 import { CourseSearchCard } from './CourseSearchCard';
 
 export type CourseDirectoryProps = {
@@ -18,6 +19,8 @@ const CourseDirectory: FC<CourseDirectoryProps> = ({
   courses,
   loading,
 }) => {
+  const { getPrimaryCourseURL } = usePrimaryCourseURL();
+
   return (
     <Section>
       <div className="flex flex-col gap-spacing-x">
@@ -32,7 +35,7 @@ const CourseDirectory: FC<CourseDirectoryProps> = ({
                   title={course.title}
                   description={course.shortDescription}
                   imageSrc={course.image || undefined}
-                  url={course.path}
+                  url={getPrimaryCourseURL(course.slug)}
                 />
               ))}
           </div>
