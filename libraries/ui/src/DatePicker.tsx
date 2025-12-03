@@ -6,22 +6,44 @@ import {
   DateInput,
   DatePicker as AriaDatePicker,
   DateSegment,
+  DateValue,
   Dialog,
   Group,
   Heading,
   Label,
   Popover,
-  CalendarGridBody, CalendarGridHeader, CalendarHeaderCell,
+  CalendarGridBody,
+  CalendarGridHeader,
+  CalendarHeaderCell,
 } from 'react-aria-components';
 import type { ButtonProps, PopoverProps } from 'react-aria-components';
-import { LuChevronsUpDown, LuChevronLeft, LuChevronRight } from "react-icons/lu";
+import { LuChevronsUpDown, LuChevronLeft, LuChevronRight } from 'react-icons/lu';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { parseDate } from '@internationalized/date';
 
+type DatePickerProps = {
+  label?: string;
+  hideLabel?: boolean;
+  value?: Date | null;
+  onChange?: (value: Date | null) => void;
+};
 
-export const DatePicker = () => {
+export const DatePicker = ({
+  label = 'Date', hideLabel = false, value, onChange,
+}: DatePickerProps) => {
+  // Convert JS Date to DatePicker's expected DateValue
+  const dateValue = value ? parseDate(value.toISOString().split('T')[0]!) : null;
+
+  const handleChange = (newValue: DateValue | null) => {
+    // Convert DateValue to JS Date object
+    const date = newValue ? new Date(newValue.toString()) : null;
+    onChange?.(date);
+  };
+
   return (
-    <AriaDatePicker className="group flex flex-col gap-1 w-[200px]">
-      <Label className="text-white cursor-default">Date</Label>
-      <Group className="flex rounded-lg bg-white/90 focus-within:bg-white group-open:bg-white transition pl-3 shadow-md text-gray-700 focus-visible:ring-2 ring-black">
+    <AriaDatePicker className="group flex w-[200px] flex-col gap-1" value={dateValue} onChange={handleChange}>
+      <Label className={`cursor-default text-white ${hideLabel ? 'sr-only' : ''}`}>{label}</Label>
+      <Group className="flex rounded-lg border border-gray-200 bg-white/90 pl-3 text-gray-700 ring-black transition group-open:bg-white focus-within:bg-white focus-visible:ring-2">
         <DateInput className="flex flex-1 py-2">
           {(segment) => (
             <DateSegment
