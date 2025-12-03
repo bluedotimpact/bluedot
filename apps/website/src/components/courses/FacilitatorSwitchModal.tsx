@@ -89,7 +89,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           <P>The selected time is in your time zone: {Intl.DateTimeFormat().resolvedOptions().timeZone}</P>
         </div>
 
-        <CTALinkOrButton className="w-full bg-[#1144CC]">Submit</CTALinkOrButton>
+        <CTALinkOrButton className="w-full bg-bluedot-normal">Submit</CTALinkOrButton>
       </>
     );
   };
