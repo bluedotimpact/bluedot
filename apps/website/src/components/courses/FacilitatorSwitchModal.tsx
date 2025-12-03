@@ -36,9 +36,10 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     courseSlug,
   });
 
-  const groupOptions = switchData?.groupsAvailable.map((group) => ({
-    value: group.group.id,
-    label: group.group.groupName || 'Group [Unknown]',
+  const groupOptions = switchData?.groups.map((group) => ({
+    value: group.id,
+    label: group.groupName || 'Group [Unknown]',
+  })) || [];
   })) || [];
 
   const renderContent = () => {

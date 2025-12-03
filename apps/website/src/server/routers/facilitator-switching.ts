@@ -12,7 +12,6 @@ import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
-import { calculateGroupAvailability } from './group-switching';
 
 export const facilitatorSwitchingRouter = router({
   discussionsAvailable: protectedProcedure
@@ -58,11 +57,6 @@ export const facilitatorSwitchingRouter = router({
         inArray(groupTable.pg.id, groupDiscussions.map((discussion) => discussion.group)),
       );
 
-      return {
-        discussionsAvailable,
-        groupsAvailable,
-      };
-    }),
       const units = await Promise.all(
         groupDiscussions.map(async (discussion) => {
           if (!discussion.courseBuilderUnitRecordId) {
@@ -73,5 +67,22 @@ export const facilitatorSwitchingRouter = router({
         }),
       );
 
+      const discussionsByGroup: Record<string, { id: string, startTime: number, endTime: number, label: string, hasStarted: boolean }[]> = {};
+      for (const discussion of groupDiscussions) {
+        if (!discussionsByGroup[discussion.group]) {
+          discussionsByGroup[discussion.group] = [];
+        }
+        const unit = units.find((u) => u && u.id === discussion.courseBuilderUnitRecordId);
 
+        discussionsByGroup[discussion.group]?.push({
+          id: discussion.id,
+          startTime: discussion.startDateTime,
+          endTime: discussion.endDateTime,
+          label: unit ? `Unit ${unit.unitNumber}: ${unit.title}` : 'Unknown Unit',
+          hasStarted: discussion.startDateTime * 1000 <= Date.now(),
+        });
+      }
+
+      return { groups, discussionsByGroup };
+    }),
 });
