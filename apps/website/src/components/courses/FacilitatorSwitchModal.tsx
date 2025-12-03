@@ -37,17 +37,15 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     courseSlug,
   });
 
-  const groupOptions =
-    switchData?.groups.map((group) => ({
-      value: group.id,
-      label: group.groupName || 'Group [Unknown]',
-    })) || [];
+  const groupOptions = switchData?.groups.map((group) => ({
+    value: group.id,
+    label: group.groupName || 'Group [Unknown]',
+  })) || [];
 
-  const discussionOptions =
-    switchData?.discussionsByGroup[selectedGroupId || '']?.map((discussion) => ({
-      value: discussion.id,
-      label: discussion.label,
-    })) || [];
+  const discussionOptions = switchData?.discussionsByGroup[selectedGroupId || '']?.map((discussion) => ({
+    value: discussion.id,
+    label: discussion.label,
+  })) || [];
 
   const selectedDiscussion = switchData?.discussionsByGroup[selectedGroupId || '']?.find(
     (d) => d.id === selectedDiscussionId,
