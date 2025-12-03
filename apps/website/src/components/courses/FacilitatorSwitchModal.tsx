@@ -52,7 +52,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   const selectedDiscussion = switchData?.discussionsByGroup[selectedGroupId || '']?.find(
     (d) => d.id === selectedDiscussionId,
   );
-  const selectedDiscussionDateTime = selectedDiscussion ? new Date((selectedDiscussion.startDateTime || 0) * 1000) : undefined;
+  const selectedDiscussionDateTime = selectedDiscussion ? new Date((selectedDiscussion.startDateTime) * 1000) : undefined;
   const dayOfWeek = selectedDiscussionDateTime?.toLocaleDateString(undefined, { weekday: 'short' });
   const date = selectedDiscussionDateTime?.toLocaleDateString(undefined, { dateStyle: 'medium' });
   const time = selectedDiscussionDateTime?.toLocaleTimeString(undefined, { timeStyle: 'short' });
