@@ -10,6 +10,7 @@ import {
 import { ClickTarget } from './ClickTarget';
 import { breakpoints, useAboveBreakpoint } from './hooks/useBreakpoint';
 import { BottomDrawerModal } from './BottomDrawerModal';
+import { CloseIcon } from './icons/CloseIcon';
 
 export type ModalProps = {
   isOpen: boolean;
@@ -36,11 +37,11 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
       className="fixed inset-0 z-60 overflow-y-auto bg-black/25 flex min-h-full items-center justify-center p-4 backdrop-blur-xs"
     >
       <AriaModal>
-        <Dialog className="bg-white rounded-lg shadow-xl w-full outline-none" aria-label={ariaLabel}>
-          <div className="flex justify-between items-center py-4 px-6 border-b border-charcoal-light">
+        <Dialog className="bg-white rounded-xl pb-2 shadow-xl w-full outline-none" aria-label={ariaLabel}>
+          <div className="flex justify-between items-center py-3 px-6 border-b border-charcoal-light">
             {title && typeof title === 'string' ? <Heading slot="title" className="text-size-lg font-semibold flex-1">{title}</Heading> : title}
-            <ClickTarget onClick={() => setIsOpen(false)} className="text-gray-500 hover:text-gray-700 cursor-pointer">
-              <span className="text-2xl">&times;</span>
+            <ClickTarget onClick={() => setIsOpen(false)} className="text-black rounded-[50%] p-1 -mr-2 hover:bg-gray-100 cursor-pointer">
+              <CloseIcon size={20} />
             </ClickTarget>
           </div>
 

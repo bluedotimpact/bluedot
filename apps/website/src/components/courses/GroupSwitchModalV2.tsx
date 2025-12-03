@@ -269,7 +269,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         value={switchType}
         onChange={(value) => setSwitchType(value as SwitchType)}
         options={SWITCH_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
-        className="border-none w-fit mx-auto [&>button]:px-6"
+        className="border-none bg-transparent w-fit mx-auto [&>button]:px-6"
       />
     );
   };

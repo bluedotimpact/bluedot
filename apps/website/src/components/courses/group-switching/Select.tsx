@@ -46,7 +46,7 @@ const Select = ({
           <Button
             className="w-full gap-3 flex justify-between px-4 py-3 items-center cursor-pointer text-left transition-all"
           >
-            <span className="text-size-sm text-gray-900 flex-1 min-w-0">
+            <span className="text-size-sm text-[#13132E] flex-1 min-w-0">
               {selectedOption?.label || value || placeholder}
             </span>
             <FaChevronDown
