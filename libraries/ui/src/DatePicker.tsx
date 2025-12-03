@@ -42,7 +42,9 @@ export const DatePicker = ({
 
   return (
     <AriaDatePicker className="group flex w-[200px] flex-col gap-1" value={dateValue} onChange={handleChange}>
-      <Label className={`cursor-default text-white ${hideLabel ? 'sr-only' : ''}`}>{label}</Label>
+      {!hideLabel && (
+        <Label className="cursor-default text-black">{label}</Label>
+      )}
       <Group className="flex rounded-lg border border-gray-200 bg-white/90 pl-3 text-gray-700 ring-black transition group-open:bg-white focus-within:bg-white focus-visible:ring-2">
         <DateInput className="flex flex-1 py-2">
           {(segment) => (
