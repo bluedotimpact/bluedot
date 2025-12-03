@@ -12,7 +12,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
         class="px-3 py-1 flex items-center justify-center border-[#C9D4F5] bg-white border rounded"
       >
         <svg
-          class="text-[#2244BB]"
+          class="text-bluedot-normal"
           fill="none"
           height="20"
           viewBox="0 0 14 14"
@@ -41,17 +41,17 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
         class="flex gap-[6px] min-w-0 flex-initial"
       >
         <span
-          class="text-[#2244BB] font-bold whitespace-nowrap"
+          class="text-bluedot-normal font-bold whitespace-nowrap"
         >
           Discussion in 30 minutes
         </span>
         <span
-          class="text-[#2244BB] whitespace-nowrap"
+          class="text-bluedot-normal whitespace-nowrap"
         >
           •
         </span>
         <button
-          class="text-[#2244BB] underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
+          class="text-bluedot-normal underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
           type="button"
         >
           Unit 1: Introduction to AI Safety
@@ -62,7 +62,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
         id="discussion-banner-desktop-container"
       >
         <a
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--primary link-on-dark bg-[#2244BB] flex gap-[6px] items-center"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--primary link-on-dark bg-bluedot-normal flex gap-[6px] items-center"
           href="https://zoom.us/j/123456789"
           rel="noopener noreferrer"
           tabindex="0"
@@ -99,7 +99,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
           </div>
         </a>
         <button
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter flex gap-[6px] items-center"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center"
           type="button"
         >
           <svg
@@ -118,7 +118,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
           Host key: 123456
         </button>
         <a
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter flex gap-[6px] items-center"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center"
           href="https://docs.google.com/document/d/abc123"
           rel="noopener noreferrer"
           tabindex="0"
@@ -127,7 +127,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
           Open discussion doc
         </a>
         <a
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter flex gap-[6px] items-center ml-auto"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center ml-auto"
           href="https://app.slack.com/client/T01K0M15NEQ/C1234567890"
           rel="noopener noreferrer"
           tabindex="0"
@@ -141,7 +141,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
       </div>
       <button
         aria-label="Collapse upcoming discussion banner"
-        class="cursor-pointer text-[#2244BB] ml-auto hover:opacity-80"
+        class="cursor-pointer text-bluedot-normal ml-auto hover:opacity-80"
         type="button"
       >
         <svg
@@ -169,7 +169,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
       id="discussion-banner-mobile-container"
     >
       <a
-        class="cta-button justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--primary link-on-dark bg-[#2244BB] flex flex-1 gap-[6px] items-center whitespace-nowrap"
+        class="cta-button justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--primary link-on-dark bg-bluedot-normal flex flex-1 gap-[6px] items-center whitespace-nowrap"
         href="https://zoom.us/j/123456789"
         rel="noopener noreferrer"
         tabindex="0"
@@ -206,7 +206,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
         </div>
       </a>
       <button
-        class="cta-button justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter flex flex-1 gap-[6px] items-center whitespace-nowrap ml-auto"
+        class="cta-button justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex flex-1 gap-[6px] items-center whitespace-nowrap ml-auto"
         type="button"
       >
         <svg
@@ -228,7 +228,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
         aria-expanded="false"
         aria-haspopup="true"
         aria-label="More discussion options"
-        class="flex items-center justify-center rounded-md cursor-pointer bg-transparent border border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter self-stretch p-[6px]"
+        class="flex items-center justify-center rounded-md cursor-pointer bg-transparent border border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter self-stretch p-[6px]"
         data-rac=""
         data-react-aria-pressable="true"
         id="react-aria-:r4:"
@@ -268,7 +268,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
         class="px-3 py-1 flex items-center justify-center border-[#C9D4F5] bg-white border rounded"
       >
         <svg
-          class="text-[#2244BB]"
+          class="text-bluedot-normal"
           fill="none"
           height="20"
           viewBox="0 0 14 14"
@@ -297,17 +297,17 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
         class="flex gap-[6px] min-w-0 flex-initial"
       >
         <span
-          class="text-[#2244BB] font-bold whitespace-nowrap"
+          class="text-bluedot-normal font-bold whitespace-nowrap"
         >
           Discussion in 30 minutes
         </span>
         <span
-          class="text-[#2244BB] whitespace-nowrap"
+          class="text-bluedot-normal whitespace-nowrap"
         >
           •
         </span>
         <button
-          class="text-[#2244BB] underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
+          class="text-bluedot-normal underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
           type="button"
         >
           Unit 1: Introduction to AI Safety
@@ -318,7 +318,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
         id="discussion-banner-desktop-container"
       >
         <a
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--primary link-on-dark bg-[#2244BB] flex gap-[6px] items-center"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--primary link-on-dark bg-bluedot-normal flex gap-[6px] items-center"
           href="https://zoom.us/j/123456789"
           rel="noopener noreferrer"
           tabindex="0"
@@ -355,7 +355,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
           </div>
         </a>
         <a
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter flex gap-[6px] items-center"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center"
           href="https://docs.google.com/document/d/abc123"
           rel="noopener noreferrer"
           tabindex="0"
@@ -364,7 +364,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
           Open discussion doc
         </a>
         <a
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter flex gap-[6px] items-center"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center"
           href="https://app.slack.com/client/T01K0M15NEQ/C1234567890"
           rel="noopener noreferrer"
           tabindex="0"
@@ -373,7 +373,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
           Message group
         </a>
         <button
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border border-black bg-transparent border-none text-[#2244BB] hover:bg-bluedot-lighter flex gap-[6px] items-center ml-auto"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border border-black bg-transparent border-none text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center ml-auto"
           type="button"
         >
           Can't make it?
@@ -384,7 +384,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
       </div>
       <button
         aria-label="Collapse upcoming discussion banner"
-        class="cursor-pointer text-[#2244BB] ml-auto hover:opacity-80"
+        class="cursor-pointer text-bluedot-normal ml-auto hover:opacity-80"
         type="button"
       >
         <svg
@@ -412,7 +412,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
       id="discussion-banner-mobile-container"
     >
       <a
-        class="cta-button justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--primary link-on-dark bg-[#2244BB] flex flex-1 gap-[6px] items-center whitespace-nowrap"
+        class="cta-button justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--primary link-on-dark bg-bluedot-normal flex flex-1 gap-[6px] items-center whitespace-nowrap"
         href="https://zoom.us/j/123456789"
         rel="noopener noreferrer"
         tabindex="0"
@@ -449,7 +449,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
         </div>
       </a>
       <button
-        class="cta-button justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter flex flex-1 gap-[6px] items-center whitespace-nowrap ml-auto"
+        class="cta-button justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex flex-1 gap-[6px] items-center whitespace-nowrap ml-auto"
         type="button"
       >
         Can't make it?
@@ -458,7 +458,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
         aria-expanded="false"
         aria-haspopup="true"
         aria-label="More discussion options"
-        class="flex items-center justify-center rounded-md cursor-pointer bg-transparent border border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter self-stretch p-[6px]"
+        class="flex items-center justify-center rounded-md cursor-pointer bg-transparent border border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter self-stretch p-[6px]"
         data-rac=""
         data-react-aria-pressable="true"
         id="react-aria-:r0:"
@@ -498,7 +498,7 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
         class="px-3 py-1 flex items-center justify-center border-[#C9D4F5] bg-white border rounded"
       >
         <svg
-          class="text-[#2244BB]"
+          class="text-bluedot-normal"
           fill="none"
           height="20"
           viewBox="0 0 14 14"
@@ -527,17 +527,17 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
         class="flex gap-[6px] min-w-0 flex-initial"
       >
         <span
-          class="text-[#2244BB] font-bold whitespace-nowrap"
+          class="text-bluedot-normal font-bold whitespace-nowrap"
         >
           Discussion in 2 hours
         </span>
         <span
-          class="text-[#2244BB] whitespace-nowrap"
+          class="text-bluedot-normal whitespace-nowrap"
         >
           •
         </span>
         <button
-          class="text-[#2244BB] underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
+          class="text-bluedot-normal underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
           type="button"
         >
           Unit 1: Introduction to AI Safety
@@ -548,7 +548,7 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
         id="discussion-banner-desktop-container"
       >
         <a
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter flex gap-[6px] items-center"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center"
           href="https://docs.google.com/document/d/abc123"
           rel="noopener noreferrer"
           tabindex="0"
@@ -557,7 +557,7 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
           Open discussion doc
         </a>
         <a
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter flex gap-[6px] items-center ml-auto"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center ml-auto"
           href="/settings/courses"
           tabindex="0"
         >
@@ -569,7 +569,7 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
       </div>
       <button
         aria-label="Collapse upcoming discussion banner"
-        class="cursor-pointer text-[#2244BB] ml-auto hover:opacity-80"
+        class="cursor-pointer text-bluedot-normal ml-auto hover:opacity-80"
         type="button"
       >
         <svg
@@ -597,7 +597,7 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
       id="discussion-banner-mobile-container"
     >
       <a
-        class="cta-button justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter flex flex-1 gap-[6px] items-center whitespace-nowrap ml-auto"
+        class="cta-button justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex flex-1 gap-[6px] items-center whitespace-nowrap ml-auto"
         href="https://docs.google.com/document/d/abc123"
         rel="noopener noreferrer"
         tabindex="0"
@@ -606,7 +606,7 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
         Open discussion doc
       </a>
       <a
-        class="cta-button justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter flex flex-1 gap-[6px] items-center whitespace-nowrap ml-auto"
+        class="cta-button justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex flex-1 gap-[6px] items-center whitespace-nowrap ml-auto"
         href="/settings/courses"
         tabindex="0"
       >

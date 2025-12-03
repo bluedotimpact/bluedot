@@ -77,7 +77,7 @@ const CourseInformationSection = ({
                             <div className="flex justify-start">
                               <CTALinkOrButton
                                 url={applicationUrl}
-                                className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-[16px] font-medium bg-[#2244BB] text-white rounded-md hover:bg-[#1a3399] cursor-pointer transition-colors"
+                                className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-[16px] font-medium bg-bluedot-normal text-white rounded-md hover:bg-[#1a3399] cursor-pointer transition-colors"
                               >
                                 {scheduleCtaText}
                               </CTALinkOrButton>

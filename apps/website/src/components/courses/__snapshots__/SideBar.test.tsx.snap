@@ -19,7 +19,7 @@ exports[`SideBar > renders default as expected 1`] = `
           xmlns="http://www.w3.org/2000/svg"
         >
           <rect
-            fill="#2244BB"
+            class="fill-bluedot-normal"
             height="44"
             rx="8"
             width="44"

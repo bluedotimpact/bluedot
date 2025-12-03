@@ -30,7 +30,7 @@ export const MobileNavLinks: React.FC<{
 
     return clsx(
       baseClasses,
-      'bg-[#2244BB] hover:bg-[#1a3599] text-white hover:text-white',
+      'bg-bluedot-normal hover:bg-[#1a3599] text-white hover:text-white',
     );
   };
 

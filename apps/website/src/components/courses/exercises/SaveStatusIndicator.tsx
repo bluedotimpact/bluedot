@@ -17,7 +17,7 @@ const CheckmarkIcon = () => (
       boxSizing: 'border-box',
       width: '16px',
       height: '16px',
-      border: '1.25px solid #2244BB',
+      border: '1.25px solid var(--bluedot-normal)',
       borderRadius: '666.667px',
       position: 'relative',
       display: 'flex',
@@ -35,8 +35,8 @@ const CheckmarkIcon = () => (
       }}
     >
       <path
+        className="stroke-bluedot-normal"
         d="M1 4.5L3.5 7L8 1.5"
-        stroke="#2244BB"
         strokeWidth="1.25"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -173,7 +173,7 @@ const SaveStatusIndicator: React.FC<SaveStatusIndicatorProps> = ({
           : '0.5px solid rgba(34, 68, 187, 0.15)',
         borderRadius: '0px 0px 10px 10px',
         marginTop: '-10px',
-        color: '#2244BB',
+        color: 'var(--bluedot-normal)',
         zIndex: 0,
       }}
       role="status"
