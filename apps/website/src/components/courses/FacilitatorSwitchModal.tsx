@@ -76,16 +76,16 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 
     const discussionId = switchType === 'Change for one unit' ? selectedDiscussionId : undefined;
 
-    if (!selectedDate) {
-      return;
-    }
-    if (!selectedTime) {
+    const dateToUse = selectedDate ?? selectedDiscussionDateTime;
+    const timeToUse = selectedTime ?? selectedDiscussionDateTime;
+
+    if (!dateToUse || !timeToUse) {
       return;
     }
 
     // Already in UTC
-    const newDateTime = new Date(selectedDate);
-    newDateTime.setHours(selectedTime.getHours(), selectedTime.getMinutes(), 0, 0);
+    const newDateTime = new Date(dateToUse);
+    newDateTime.setHours(timeToUse.getHours(), timeToUse.getMinutes(), 0, 0);
 
     submitUpdateMutation.mutate({
       courseSlug,
