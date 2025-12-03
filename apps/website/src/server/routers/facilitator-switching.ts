@@ -83,6 +83,11 @@ export const facilitatorSwitchingRouter = router({
         });
       }
 
+      // Sort discussions within each group by startDateTime (earliest first)
+      for (const discussions of Object.values(discussionsByGroup)) {
+        discussions.sort((a, b) => a.startDateTime - b.startDateTime);
+      }
+
       return { groups, discussionsByGroup };
     }),
 });
