@@ -13,7 +13,7 @@ import z from 'zod';
 import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
 
-const getGroupDiscussionsForFacilitator = async (courseSlug: string, facilitatorEmail: string) => {
+const getFacilitator = async (courseSlug: string, facilitatorEmail: string) => {
   const course = await db.get(courseTable, { slug: courseSlug });
   if (!course) {
     throw new TRPCError({ code: 'NOT_FOUND', message: `No course with slug ${courseSlug} found` });
@@ -34,16 +34,7 @@ const getGroupDiscussionsForFacilitator = async (courseSlug: string, facilitator
     throw new TRPCError({ code: 'NOT_FOUND', message: 'No facilitator found for this course registration' });
   }
 
-  return db.pg
-    .select()
-    .from(groupDiscussionTable.pg)
-    .where(
-      and(
-        inArray(groupDiscussionTable.pg.id, facilitator.expectedDiscussionsFacilitator || []),
-        // TODO: if `startDateTime` is in GMT, will there be problems with timezone?
-        // gte(groupDiscussionTable.pg.startDateTime, Date.now()),
-      ),
-    );
+  return facilitator;
 };
 
 export const facilitatorSwitchingRouter = router({
@@ -54,7 +45,18 @@ export const facilitatorSwitchingRouter = router({
       }),
     )
     .query(async ({ input: { courseSlug }, ctx }) => {
-      const groupDiscussions = await getGroupDiscussionsForFacilitator(courseSlug, ctx.auth.email);
+      const facilitator = await getFacilitator(courseSlug, ctx.auth.email);
+
+      const groupDiscussions = await db.pg
+        .select()
+        .from(groupDiscussionTable.pg)
+        .where(
+          and(
+            inArray(groupDiscussionTable.pg.id, facilitator.expectedDiscussionsFacilitator || []),
+            // TODO: if `startDateTime` is in GMT, will there be problems with timezone?
+            // gte(groupDiscussionTable.pg.startDateTime, Date.now()),
+          ),
+        );
       // TODO: only fetch what columns we need?
       const groups = await db.pg.select().from(groupTable.pg).where(
         inArray(groupTable.pg.id, groupDiscussions.map((discussion) => discussion.group)),
