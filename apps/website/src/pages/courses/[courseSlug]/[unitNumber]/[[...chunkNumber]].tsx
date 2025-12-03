@@ -106,7 +106,6 @@ const CourseUnitChunkPage = ({
       <Head>
         <title>{title}</title>
         <meta name="description" content={metaDescription} />
-        <meta name="description" content={metaDescription} />
         <meta key="og:title" property="og:title" content={title} />
         <meta key="og:description" property="og:description" content={metaDescription} />
         <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
