@@ -93,6 +93,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           />
         </div>
 
+        {/* TODO: disable/hide when changing permanently */}
         <div className="flex flex-col gap-2">
           <H1 className="text-size-md font-medium text-black">3. For which discussion?</H1>
           <Select
