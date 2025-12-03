@@ -70,7 +70,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     return (
       <>
         <div className="flex flex-col gap-2">
-          <H1 className="text-size-md font-medium">1. What kind of update are you making?</H1>
+          <H1 className="text-size-md font-medium text-black">1. What kind of update are you making?</H1>
           <Select
             label="Action"
             value={switchType}
@@ -81,7 +81,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
         </div>
 
         <div className="flex flex-col gap-2">
-          <H1 className="text-size-md font-medium">2. For which group?</H1>
+          <H1 className="text-size-md font-medium text-black">2. For which group?</H1>
           <Select
             label="Group"
             value={selectedGroupId}
@@ -92,7 +92,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
         </div>
 
         <div className="flex flex-col gap-2">
-          <H1 className="text-size-md font-medium">3. For which discussion?</H1>
+          <H1 className="text-size-md font-medium text-black">3. For which discussion?</H1>
           <Select
             label="Discussion"
             options={discussionOptions}
@@ -108,11 +108,11 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
         </div>
 
         <div className="flex flex-col gap-2">
-          <H1 className="text-size-md font-medium">4. Select new discussion time</H1>
+          <H1 className="text-size-md font-medium text-black">4. Select new discussion time</H1>
           <P>The selected time is in your time zone: {Intl.DateTimeFormat().resolvedOptions().timeZone}</P>
         </div>
 
-        <CTALinkOrButton className="w-full bg-bluedot-normal">Submit</CTALinkOrButton>
+        <CTALinkOrButton className="bg-bluedot-normal w-full">Submit</CTALinkOrButton>
       </>
     );
   };
