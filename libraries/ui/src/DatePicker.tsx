@@ -20,16 +20,30 @@ import type { ButtonProps, PopoverProps } from 'react-aria-components';
 import { LuChevronsUpDown, LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { parseDate } from '@internationalized/date';
+import { cn } from './utils';
 
 type DatePickerProps = {
   label?: string;
   hideLabel?: boolean;
   value?: Date | null;
   onChange?: (value: Date | null) => void;
+  className?: string;
+  labelClassName?: string;
+  inputClassName?: string;
+  buttonClassName?: string;
+  popoverClassName?: string;
 };
 
 export const DatePicker = ({
-  label = 'Date', hideLabel = false, value, onChange,
+  label = 'Date',
+  hideLabel = false,
+  value,
+  onChange,
+  className,
+  labelClassName,
+  inputClassName,
+  buttonClassName,
+  popoverClassName,
 }: DatePickerProps) => {
   // Convert JS Date to DatePicker's expected DateValue
   const dateValue = value ? parseDate(value.toISOString().split('T')[0]!) : null;
@@ -41,11 +55,11 @@ export const DatePicker = ({
   };
 
   return (
-    <AriaDatePicker className="group flex w-[200px] flex-col gap-1" value={dateValue} onChange={handleChange}>
+    <AriaDatePicker className={cn('group flex w-[200px] flex-col gap-1', className)} value={dateValue} onChange={handleChange}>
       {!hideLabel && (
-        <Label className="cursor-default text-black">{label}</Label>
+        <Label className={cn('cursor-default text-black', labelClassName)}>{label}</Label>
       )}
-      <Group className="flex rounded-lg border border-gray-200 bg-white/90 pl-3 text-gray-700 ring-black transition group-open:bg-white focus-within:bg-white focus-visible:ring-2">
+      <Group className={cn('flex rounded-lg border border-gray-200 bg-white/90 pl-3 text-gray-700 ring-black transition group-open:bg-white focus-within:bg-white focus-visible:ring-2', inputClassName)}>
         <DateInput className="flex flex-1 py-2">
           {(segment) => (
             <DateSegment
@@ -54,11 +68,11 @@ export const DatePicker = ({
             />
           )}
         </DateInput>
-        <Button className="pressed:bg-purple-100 flex items-center rounded-r-lg border-0 border-l border-solid border-l-purple-200 bg-transparent px-3 text-gray-700 ring-black outline-hidden transition focus-visible:ring-2">
+        <Button className={cn('pressed:bg-purple-100 flex items-center rounded-r-lg border-0 border-l border-solid border-l-purple-200 bg-transparent px-3 text-gray-700 ring-black outline-hidden transition focus-visible:ring-2', buttonClassName)}>
           <LuChevronsUpDown className="size-4" />
         </Button>
       </Group>
-      <MyPopover>
+      <CalendarPopover popoverClassName={popoverClassName}>
         <Dialog className="p-6 text-gray-600">
           <Calendar>
             <header className="flex w-full items-center gap-1 px-1 pb-4 font-serif">
@@ -87,7 +101,7 @@ export const DatePicker = ({
             </CalendarGrid>
           </Calendar>
         </Dialog>
-      </MyPopover>
+      </CalendarPopover>
     </AriaDatePicker>
   );
 };
@@ -101,19 +115,16 @@ const RoundButton = (props: ButtonProps) => {
   );
 };
 
-const MyPopover = (props: PopoverProps) => {
+const CalendarPopover = ({ popoverClassName, ...props }: PopoverProps & { popoverClassName?: string }) => {
   return (
     <Popover
       {...props}
-      className={({ isEntering, isExiting }) => `overflow-auto rounded-lg bg-white ring-1 ring-black/10 drop-shadow-lg ${
-        isEntering
-          ? 'animate-in fade-in placement-bottom:slide-in-from-top-1 placement-top:slide-in-from-bottom-1 duration-200 ease-out'
-          : ''
-      } ${
-        isExiting
-          ? 'animate-out fade-out placement-bottom:slide-out-to-top-1 placement-top:slide-out-to-bottom-1 duration-150 ease-in'
-          : ''
-      } `}
+      className={({ isEntering, isExiting }) => cn(
+        'overflow-auto rounded-lg bg-white ring-1 ring-black/10 drop-shadow-lg',
+        isEntering && 'animate-in fade-in placement-bottom:slide-in-from-top-1 placement-top:slide-in-from-bottom-1 duration-200 ease-out',
+        isExiting && 'animate-out fade-out placement-bottom:slide-out-to-top-1 placement-top:slide-out-to-bottom-1 duration-150 ease-in',
+        popoverClassName,
+      )}
     />
   );
 };
