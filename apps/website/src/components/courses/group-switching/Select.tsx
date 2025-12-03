@@ -39,14 +39,14 @@ const Select = ({
     <AriaSelect
       selectedKey={value}
       onSelectionChange={handleSelectionChange}
-      className={cn('w-full flex flex-col bg-white border border-color-divider rounded-lg transition-all', className)}
+      className={cn('w-full flex flex-col bg-white border border-color-divider rounded-lg transition-all text-size-sm', className)}
     >
       {({ isOpen }) => (
         <>
           <Button
             className="w-full gap-3 flex justify-between p-4 items-center cursor-pointer text-left transition-all"
           >
-            <span className="text-size-sm text-[#13132E] flex-1 min-w-0">
+            <span className="text-[#13132E] flex-1 min-w-0">
               {selectedOption?.label || value || placeholder}
             </span>
             <FaChevronDown

@@ -23,11 +23,11 @@ export type GroupSwitchModalProps = {
 const SWITCH_TYPE_OPTIONS = [
   {
     value: 'Switch group for one unit',
-    label: <span className="grid text-size-md grid-cols-[20px_1fr] gap-2 items-center"><ClockUserIcon className="mx-auto size-[22px] -translate-y-px" /> Switch group for one unit</span>,
+    label: <span className="grid grid-cols-[20px_1fr] gap-2 items-center"><ClockUserIcon className="mx-auto size-[22px] -translate-y-px" /> Switch group for one unit</span>,
   },
   {
     value: 'Switch group permanently',
-    label: <span className="grid text-size-md grid-cols-[20px_1fr] gap-2 items-center"><FaArrowRightArrowLeft className="mx-auto size-[14px]" /> Switch group permanently</span>,
+    label: <span className="grid grid-cols-[20px_1fr] gap-2 items-center"><FaArrowRightArrowLeft className="mx-auto size-[14px]" /> Switch group permanently</span>,
   },
 ] as const;
 
@@ -139,6 +139,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const [selectedDiscussionId, setSelectedDiscussionId] = useState('');
   const [isManualRequest, setIsManualRequest] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [hasUpdatedAvailability, setHasUpdatedAvailability] = useState(false);
 
   const isTemporarySwitch = switchType === 'Switch group for one unit';
 
@@ -216,7 +217,9 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
   const currentInfo = getCurrentDiscussionInfo();
 
-  const isSubmitDisabled = isSubmitting || !((isTemporarySwitch ? selectedDiscussionId : selectedGroupId) || isManualRequest) || !reason.trim();
+  const isSubmitDisabled = isSubmitting
+    || !reason.trim()
+    || (isManualRequest ? !hasUpdatedAvailability : !(isTemporarySwitch ? selectedDiscussionId : selectedGroupId));
 
   useEffect(() => {
     setSelectedDiscussionId('');
@@ -258,7 +261,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         value={switchType}
         onChange={(value) => setSwitchType(value as SwitchType)}
         options={SWITCH_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
-        className="border-none font-medium bg-transparent w-fit mx-auto [&>button]:px-6 [&>button]:py-3"
+        className="border-none text-size-md font-medium bg-transparent w-fit mx-auto [&>button]:px-6 [&>button]:py-3"
       />
     );
   };
@@ -334,8 +337,17 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
   const timezoneMessage = `Times are in your time zone: ${getGMTOffsetWithCity()}`;
 
-  const unitLabel = '1. Select unit to switch group discussion slot';
-  const reasonLabel = `${isTemporarySwitch ? '2' : '1'}. Tell us why you're making this change (required)`;
+  // Labels differ between manual request and auto-switch flows
+  const switchTypeLabel = '1. What are you switching?';
+  const unitLabel = `${isManualRequest ? '2' : '1'}. Select unit to switch group discussion slot`;
+
+  // Reason step: Manual+temp=3, Manual+perm=2, Auto+temp=2, Auto+perm=1
+  const getReasonStepNumber = () => {
+    if (isManualRequest) return isTemporarySwitch ? 3 : 2;
+    return isTemporarySwitch ? 2 : 1;
+  };
+  const reasonLabel = `${getReasonStepNumber()}. Tell us why you're making this change (required)`;
+  const availabilityLabel = `${isTemporarySwitch ? '4' : '3'}. Update availability (required)`;
   const selectGroupLabel = `${isTemporarySwitch ? '3' : '2'}. Select a group`;
 
   return (
@@ -366,13 +378,18 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         )}
         {!isDiscussionsLoading && !isCourseLoading && !showSuccess && (
         <form className="flex flex-col gap-8">
+          {/* Manual request: Switch type dropdown */}
           {isManualRequest && (
-            <div className="text-size-sm text-[#666C80]">
-              We're keen for you to request manual switches where necessary to attend group discussions.
-              However, because they do take time for us to process we expect you to have made a sincere
-              effort to make your original discussion group and consider others available on the previous screen.
+            <div className="flex flex-col gap-3">
+              <span className="text-size-sm font-medium text-[#13132E]">{switchTypeLabel}</span>
+              <Select
+                value={switchType}
+                onChange={(value) => setSwitchType(value as SwitchType)}
+                options={SWITCH_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
+              />
             </div>
           )}
+          {/* Unit selector (temporary switch only) */}
           {isTemporarySwitch && (
             <div className="flex flex-col gap-3">
               <span className="text-size-sm font-medium text-[#13132E]">{unitLabel}</span>
@@ -447,34 +464,44 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
           {isManualRequest && (
             <>
-              {auth?.email && (
-                <div className="flex flex-col gap-2">
-                  <h3 className="text-size-sm font-medium text-[#00114D]">Update your availability</h3>
-                  <p className="text-size-xs text-[#666C80]">
-                    This helps us assign you to a group which best suits you. Then, return here to click "Submit".
-                  </p>
-                  <CTALinkOrButton
-                    variant="secondary"
-                    className="mx-auto"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    url={`https://availability.bluedot.org/form/bluedot-course?email=${encodeURIComponent(auth.email)}&utm_source=bluedot-group-switch-modal`}
-                    aria-label="Update availability (open in new tab)"
-                  >
-                    Update availability
-                  </CTALinkOrButton>
-                </div>
-              )}
-              <div className="flex gap-2 justify-end">
-                <CTALinkOrButton
-                  className="mx-auto"
-                  onClick={handleSubmit}
-                  disabled={isSubmitDisabled}
-                  aria-label={isSubmitting ? 'Submitting group switch request' : 'Submit group switch request'}
-                >
-                  {isSubmitting ? 'Submitting...' : 'Submit'}
-                </CTALinkOrButton>
+              {/* Availability section */}
+              <div className="flex flex-col gap-3">
+                <span className="text-size-sm font-medium text-[#13132E]">{availabilityLabel}</span>
+                <p className="text-size-xs text-[#666C80]">
+                  To help us assign you to a group which best suits you,{' '}
+                  {auth?.email ? (
+                    <a
+                      href={`https://availability.bluedot.org/form/bluedot-course?email=${encodeURIComponent(auth.email)}&utm_source=bluedot-group-switch-modal`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-bluedot-normal underline"
+                    >
+                      please update your availability
+                    </a>
+                  ) : (
+                    <span>please update your availability</span>
+                  )}
+                  . Then check the box below and request your manual switch.
+                </p>
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={hasUpdatedAvailability}
+                    onChange={(e) => setHasUpdatedAvailability(e.target.checked)}
+                    className="size-5 rounded border-gray-300 text-bluedot-normal focus:ring-bluedot-normal cursor-pointer"
+                  />
+                  <span className="text-size-sm text-[#13132E]">I have updated my availability</span>
+                </label>
               </div>
+              {/* Submit button */}
+              <CTALinkOrButton
+                className="w-full"
+                onClick={handleSubmit}
+                disabled={isSubmitDisabled}
+                aria-label={isSubmitting ? 'Submitting group switch request' : 'Submit group switch request'}
+              >
+                {isSubmitting ? 'Submitting...' : 'Request Manual Switch'}
+              </CTALinkOrButton>
             </>
           )}
         </form>
