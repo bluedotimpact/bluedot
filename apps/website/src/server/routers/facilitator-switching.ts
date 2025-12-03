@@ -13,6 +13,39 @@ import z from 'zod';
 import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
 
+const getGroupDiscussionsForFacilitator = async (courseSlug: string, facilitatorEmail: string) => {
+  const course = await db.get(courseTable, { slug: courseSlug });
+  if (!course) {
+    throw new TRPCError({ code: 'NOT_FOUND', message: `No course with slug ${courseSlug} found` });
+  }
+
+  const courseRegistration = await db.getFirst(courseRegistrationTable, {
+    filter: {
+      email: facilitatorEmail,
+      courseId: course.id,
+    },
+  });
+  if (!courseRegistration) {
+    throw new TRPCError({ code: 'NOT_FOUND', message: 'No course registration found' });
+  }
+
+  const facilitator = await db.get(meetPersonTable, { applicationsBaseRecordId: courseRegistration.id });
+  if (!facilitator) {
+    throw new TRPCError({ code: 'NOT_FOUND', message: 'No facilitator found for this course registration' });
+  }
+
+  return db.pg
+    .select()
+    .from(groupDiscussionTable.pg)
+    .where(
+      and(
+        inArray(groupDiscussionTable.pg.id, facilitator.expectedDiscussionsFacilitator || []),
+        // TODO: if `startDateTime` is in GMT, will there be problems with timezone?
+        // gte(groupDiscussionTable.pg.startDateTime, Date.now()),
+      ),
+    );
+};
+
 export const facilitatorSwitchingRouter = router({
   discussionsAvailable: protectedProcedure
     .input(
@@ -21,37 +54,7 @@ export const facilitatorSwitchingRouter = router({
       }),
     )
     .query(async ({ input: { courseSlug }, ctx }) => {
-      const course = await db.get(courseTable, { slug: courseSlug });
-      if (!course) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: `No course with slug ${courseSlug} found` });
-      }
-
-      const courseRegistration = await db.getFirst(courseRegistrationTable, {
-        filter: {
-          email: ctx.auth.email,
-          courseId: course.id,
-        },
-      });
-      if (!courseRegistration) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'No course registration found' });
-      }
-
-      const facilitator = await db.get(meetPersonTable, { applicationsBaseRecordId: courseRegistration.id });
-      if (!facilitator) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'No facilitator found for this course registration' });
-      }
-
-      const groupDiscussions = await db.pg
-        .select()
-        .from(groupDiscussionTable.pg)
-        .where(
-          and(
-            inArray(groupDiscussionTable.pg.id, facilitator.expectedDiscussionsFacilitator || []),
-            // TODO: if `startDateTime` is in GMT, will there be problems with timezone?
-            // gte(groupDiscussionTable.pg.startDateTime, Date.now()),
-          ),
-        );
-
+      const groupDiscussions = await getGroupDiscussionsForFacilitator(courseSlug, ctx.auth.email);
       // TODO: only fetch what columns we need?
       const groups = await db.pg.select().from(groupTable.pg).where(
         inArray(groupTable.pg.id, groupDiscussions.map((discussion) => discussion.group)),
