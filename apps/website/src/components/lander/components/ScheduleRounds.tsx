@@ -136,11 +136,7 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
 
   const dateContent = (
     <div>
-      {round.dateRange && (
-      <p className="text-[15px] font-semibold leading-[1.6] text-[#13132E]">
-        {round.dateRange}
-      </p>
-      )}
+      {round.dateRange && <p className="text-[15px] leading-[1.6] font-semibold text-[#13132E]">{round.dateRange}</p>}
       <p className="text-[15px] leading-[1.6] text-[#13132E] opacity-50">
         Application closes {round.applicationDeadline}
       </p>
@@ -150,9 +146,9 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
   return (
     <>
       {/* Mobile: only "Apply now" link is clickable */}
-      <div className="min-[680px]:hidden flex flex-col gap-2">
+      <div className="flex flex-col gap-2 min-[680px]:hidden">
         <div className="flex items-stretch gap-3">
-          <div className="w-1 flex-shrink-0 rounded-sm bg-[#1144CC]" />
+          <div className="bg-bluedot-normal w-1 flex-shrink-0 rounded-sm" />
           <div className="flex flex-col gap-3">
             {dateContent}
 
@@ -161,7 +157,7 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Apply now (opens in a new tab)"
-              className="font-medium text-[15px] leading-[1.6] text-[#1144CC]"
+              className="text-bluedot-normal text-[15px] leading-[1.6] font-medium"
             >
               Apply now →
             </a>
@@ -175,18 +171,18 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Apply now (opens in a new tab)"
-        className="hidden min-[680px]:flex flex-row items-center justify-between gap-4 group"
+        className="group hidden flex-row items-center justify-between gap-4 min-[680px]:flex"
       >
         <div className="flex items-stretch gap-4">
-          <div className="w-1 flex-shrink-0 rounded-sm bg-[#1144CC] opacity-30 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity" />
-          <div className="flex flex-col">
-            {dateContent}
-          </div>
+          <div className="bg-bluedot-normal w-1 flex-shrink-0 rounded-sm opacity-30 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" />
+          <div className="flex flex-col">{dateContent}</div>
         </div>
 
-        <div className="flex font-medium text-[15px] leading-[1.6] text-[#1144CC] items-center ml-auto">
-          <span className="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1">Apply now</span>
-          <span className="ml-1 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 opacity-0">
+        <div className="text-bluedot-normal ml-auto flex items-center text-[15px] leading-[1.6] font-medium">
+          <span className="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1">
+            Apply now
+          </span>
+          <span className="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
             →
           </span>
         </div>
