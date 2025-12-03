@@ -37,17 +37,21 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     courseSlug,
   });
 
-  const groupOptions = switchData?.groups.map((group) => ({
-    value: group.id,
-    label: group.groupName || 'Group [Unknown]',
-  })) || [];
+  const groupOptions =
+    switchData?.groups.map((group) => ({
+      value: group.id,
+      label: group.groupName || 'Group [Unknown]',
+    })) || [];
 
-  const discussionOptions = switchData?.discussionsByGroup[selectedGroupId || '']?.map((discussion) => ({
-    value: discussion.id,
-    label: discussion.label,
-  })) || [];
+  const discussionOptions =
+    switchData?.discussionsByGroup[selectedGroupId || '']?.map((discussion) => ({
+      value: discussion.id,
+      label: discussion.label,
+    })) || [];
 
-  const selectedDiscussion = switchData?.discussionsByGroup[selectedGroupId || '']?.find(((d) => d.id === selectedDiscussionId));
+  const selectedDiscussion = switchData?.discussionsByGroup[selectedGroupId || '']?.find(
+    (d) => d.id === selectedDiscussionId,
+  );
   const selectedDiscussionDateTime = new Date((selectedDiscussion?.startDateTime || 0) * 1000);
   const dayOfWeek = selectedDiscussionDateTime.toLocaleDateString(undefined, { weekday: 'short' });
   const date = selectedDiscussionDateTime.toLocaleDateString(undefined, { dateStyle: 'medium' });
