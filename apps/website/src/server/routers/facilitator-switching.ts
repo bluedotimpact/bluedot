@@ -2,6 +2,7 @@ import {
   and,
   courseRegistrationTable,
   courseTable,
+  facilitatorDiscussionSwitchingTable,
   groupDiscussionTable,
   groupTable,
   inArray,
