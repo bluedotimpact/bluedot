@@ -164,7 +164,16 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           onClick={handleSubmit}
           disabled={submitDisabled}
         >
-          Submit
+          {submitUpdateMutation.isPending ? (
+            <div className="flex items-center gap-2">
+              <ProgressDots className="my-0" dotClassName="bg-white" />
+              Submitting...
+            </div>
+          ) : (
+            <span>
+              Submit
+            </span>
+          )}
         </CTALinkOrButton>
       </>
     );
