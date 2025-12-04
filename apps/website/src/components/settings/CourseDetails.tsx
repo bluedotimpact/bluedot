@@ -364,9 +364,7 @@ const CourseDetails = ({
         <FacilitatorSwitchModal
           handleClose={() => {
             setFacilitatorSwitchModalOpen(false);
-            setInitialUnitNumber(undefined);
           }}
-          initialUnitNumber={initialUnitNumber}
           courseSlug={course.slug}
         />
       )}

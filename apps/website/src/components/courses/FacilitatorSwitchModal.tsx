@@ -11,7 +11,6 @@ import Select from './group-switching/Select';
 
 export type FacilitatorSwitchModalProps = {
   handleClose: () => void;
-  initialUnitNumber?: string;
   courseSlug: string;
 };
 
@@ -25,7 +24,6 @@ export type SwitchType = (typeof SWITCH_OPTIONS)[number]['value'];
 const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   handleClose,
   courseSlug,
-  initialUnitNumber = '1',
 }) => {
   const [switchType, setSwitchType] = useState<SwitchType | undefined>(undefined);
   const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(undefined);
