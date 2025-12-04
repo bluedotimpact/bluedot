@@ -10,11 +10,13 @@ import {
 import { ClickTarget } from './ClickTarget';
 import { breakpoints, useAboveBreakpoint } from './hooks/useBreakpoint';
 import { BottomDrawerModal } from './BottomDrawerModal';
+import { cn } from './utils';
 
 export type ModalProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   title?: ReactNode;
+  titleClassName?: string;
   children: ReactNode;
   bottomDrawerOnMobile?: boolean;
 };
@@ -23,6 +25,7 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
   isOpen,
   setIsOpen,
   title,
+  titleClassName,
   children,
 }) => {
   return (
@@ -35,7 +38,7 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
       <AriaModal>
         <Dialog className="bg-white rounded-lg shadow-xl w-full py-10 px-6 outline-none">
           <div className="flex justify-between items-center mb-4 px-4">
-            {title && <Heading slot="title" className="text-size-lg font-semibold">{title}</Heading>}
+            {title && <Heading slot="title" className={cn('text-size-lg font-semibold', titleClassName)}>{title}</Heading>}
             <ClickTarget onClick={() => setIsOpen(false)} className="text-gray-500 hover:text-gray-700 cursor-pointer">
               <span className="text-2xl">&times;</span>
             </ClickTarget>
@@ -54,6 +57,7 @@ export const Modal: React.FC<ModalProps> = ({
   isOpen,
   setIsOpen,
   title,
+  titleClassName,
   children,
   bottomDrawerOnMobile = false,
 }) => {
@@ -68,14 +72,14 @@ export const Modal: React.FC<ModalProps> = ({
 
   if (shouldUseMobileDrawer) {
     return (
-      <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} initialSize="fit-screen">
+      <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} titleClassName={titleClassName} initialSize="fit-screen">
         {children}
       </BottomDrawerModal>
     );
   }
 
   return (
-    <DesktopModal isOpen={isOpen} setIsOpen={setIsOpen} title={title}>
+    <DesktopModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} titleClassName={titleClassName}>
       {children}
     </DesktopModal>
   );
