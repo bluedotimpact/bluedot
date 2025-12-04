@@ -103,17 +103,19 @@ export const facilitatorSwitchingRouter = router({
         courseSlug: z.string(),
         // When provided, we will update only a single discussion's date/time. Otherwise all future discussions are updated.
         discussionId: z.string().optional(),
+        groupId: z.string(),
         newDateTime: z.number(), // Unix timestamp in milliseconds
       }),
     )
     .mutation(async ({ input, ctx }) => {
-      const { courseSlug, discussionId, newDateTime } = input;
+      const { courseSlug, discussionId, groupId, newDateTime } = input;
 
       const facilitator = await getFacilitator(courseSlug, ctx.auth.email);
 
       await db.insert(facilitatorDiscussionSwitchingTable, {
         discussion: discussionId || null,
         facilitator: facilitator.id,
+        group: groupId,
         status: 'Requested',
         switchType: discussionId ? 'Change for one unit' : 'Change permanently',
         updatedDatetime: newDateTime,

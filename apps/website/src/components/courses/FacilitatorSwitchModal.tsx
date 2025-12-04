@@ -90,6 +90,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     submitUpdateMutation.mutate({
       courseSlug,
       discussionId,
+      groupId: selectedGroupId,
       newDateTime: Math.floor(newDateTime.getTime() / 1000),
     });
   };
