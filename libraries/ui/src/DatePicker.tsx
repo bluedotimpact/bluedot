@@ -109,7 +109,7 @@ export const DatePicker = ({
                 {(date) => (
                   <CalendarCell
                     date={date}
-                    className="outside-month:text-gray-300 pressed:bg-gray-200 selected:bg-bluedot-normal selected:text-white flex size-9 cursor-default items-center justify-center rounded-full ring-bluedot-normal ring-offset-2 outline-hidden hover:bg-gray-100 focus-visible:ring-3"
+                    className="outside-month:text-gray-300 pressed:bg-gray-200 data-[selected]:bg-bluedot-normal data-[selected]:text-white flex size-9 cursor-default items-center justify-center rounded-full ring-bluedot-normal ring-offset-2 outline-hidden hover:bg-gray-100 focus-visible:ring-3"
                   />
                 )}
               </CalendarGridBody>
