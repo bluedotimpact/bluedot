@@ -600,7 +600,7 @@ describe('GroupSwitchModal', () => {
           if (callCount === 1) {
             throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Network error' });
           }
-          return undefined;
+          return null;
         }),
       );
 
