@@ -42,12 +42,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     courseSlug,
   });
 
-  const submitUpdateMutation = trpc.facilitators.updateDiscussion.useMutation({
-    onSuccess: () => {
-      console.log('success');
-      // TODO
-    },
-  });
+  const submitUpdateMutation = trpc.facilitators.updateDiscussion.useMutation();
 
   const groupOptions = switchData?.groups.map((group) => ({
     value: group.id,
