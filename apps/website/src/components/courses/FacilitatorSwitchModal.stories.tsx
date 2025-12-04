@@ -22,13 +22,20 @@ const mockSwitchingData = {
       {
         id: 'discussion-1',
         label: 'Unit 1',
+        startDateTime: Math.floor(Date.now() / 1000) - 3600, // 1 hour ago
+        endDateTime: Math.floor(Date.now() / 1000) - 1800, // .5 hours ago
+        hasStarted: true,
+      },
+      {
+        id: 'discussion-2',
+        label: 'Unit 2',
         startDateTime: Math.floor(Date.now() / 1000) + 3600, // 1 hour from now
         endDateTime: Math.floor(Date.now() / 1000) + 5400, // 1.5 hours from now
         hasStarted: false,
       },
       {
-        id: 'discussion-2',
-        label: 'Unit 2',
+        id: 'discussion-3',
+        label: 'Unit 3',
         startDateTime: Math.floor(Date.now() / 1000) + 7200, // 2 hours from now
         endDateTime: Math.floor(Date.now() / 1000) + 5400, // 1.5 hours from now
         hasStarted: false,
