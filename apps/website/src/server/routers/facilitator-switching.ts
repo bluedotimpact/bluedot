@@ -108,7 +108,9 @@ export const facilitatorSwitchingRouter = router({
       }),
     )
     .mutation(async ({ input, ctx }) => {
-      const { courseSlug, discussionId, groupId, newDateTime } = input;
+      const {
+        courseSlug, discussionId, groupId, newDateTime,
+      } = input;
 
       const facilitator = await getFacilitator(courseSlug, ctx.auth.email);
 
