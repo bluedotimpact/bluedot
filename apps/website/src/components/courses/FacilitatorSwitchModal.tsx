@@ -96,6 +96,26 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     });
   };
 
+  const renderBanner = () => {
+    if (submitUpdateMutation.isSuccess) {
+      return null;
+    }
+
+    return (
+      <div className="inline-flex items-center justify-between self-stretch rounded-md bg-[#E5EDFE] px-4 py-3">
+        <div className="flex flex-1 items-start justify-start gap-3">
+          <div className="flex items-center justify-start">
+            <InfoIcon className="size-5 shrink-0" />
+          </div>
+          <P className="flex-1 justify-start text-[#1144CC]">
+            Please discuss any changes with your participants beforehand. Any changes will update the calendar
+            invitation and Course Hub information, but not notify your participants.
+          </P>
+        </div>
+      </div>
+    );
+  };
+
   const renderContent = () => {
     if (isLoading) {
       return <ProgressDots />;
@@ -203,17 +223,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     >
       <div className="w-full max-w-[600px]">
         <form className="flex flex-col gap-8">
-          <div className="inline-flex items-center justify-between self-stretch rounded-md bg-[#E5EDFE] px-4 py-3">
-            <div className="flex flex-1 items-start justify-start gap-3">
-              <div className="flex items-center justify-start">
-                <InfoIcon className="size-5 shrink-0" />
-              </div>
-              <P className="flex-1 justify-start text-[#1144CC]">
-                Please discuss any changes with your participants beforehand. Any changes will update the calendar
-                invitation and Course Hub information, but not notify your participants.
-              </P>
-            </div>
-          </div>
+          {renderBanner()}
           {renderContent()}
         </form>
       </div>
