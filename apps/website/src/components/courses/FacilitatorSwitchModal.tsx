@@ -120,6 +120,9 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             <P className="text-[#13132E] opacity-80">We've updated your group's {selectedDiscussionId ? 'discussion' : 'discussions'}.</P>
             <P className="text-[#13132E] opacity-80 text-center">You should see the changes reflected in the calendar event and Course Hub. Please allow up to 10 minutes.</P>
           </div>
+          <CTALinkOrButton className="bg-bluedot-normal w-full" onClick={handleClose}>
+            Close
+          </CTALinkOrButton>
         </div>
       );
     }
