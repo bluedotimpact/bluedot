@@ -52,6 +52,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   const discussionOptions = switchData?.discussionsByGroup[selectedGroupId || '']?.map((discussion) => ({
     value: discussion.id,
     label: discussion.label,
+    disabled: discussion.hasStarted,
   })) || [];
 
   const selectedDiscussion = switchData?.discussionsByGroup[selectedGroupId || '']?.find(
