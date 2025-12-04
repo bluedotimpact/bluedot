@@ -398,5 +398,6 @@ export const groupSwitchingRouter = router({
       };
 
       await db.insert(groupSwitchingTable, recordToCreate);
+      return null;
     }),
 });
