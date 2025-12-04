@@ -205,7 +205,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       title={submitUpdateMutation.isSuccess ? 'Success' : 'Update your discussion time'}
       bottomDrawerOnMobile
     >
-      <div className="w-full max-w-[600px]">
+      <div className="w-full md:w-[600px]">
         <form className="flex flex-col gap-8">
           {renderContent()}
         </form>
