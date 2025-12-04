@@ -64,6 +64,8 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 
   const submitDisabled = !switchType || !selectedGroupId || submitUpdateMutation.isPending;
 
+  const isSingleUnitChange = switchType === 'Change for one unit';
+
   const handleSubmit = () => {
     if (!switchType || !selectedGroupId) {
       return;
@@ -146,25 +148,26 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           />
         </div>
 
-        {/* TODO: disable/hide when changing permanently */}
-        <div className="flex flex-col gap-2">
-          <H1 className="text-size-md font-medium text-black">3. For which discussion?</H1>
-          <Select
-            label="Discussion"
-            options={discussionOptions}
-            value={selectedDiscussionId}
-            onChange={(value) => setSelectedDiscussionId(value)}
-            placeholder="Choose a discussion"
-          />
-          {selectedDiscussion && (
-            <P>
-              Current time: <span className="text-bluedot-normal">{selectedDiscussionTimeString}</span>
-            </P>
-          )}
-        </div>
+        {isSingleUnitChange && (
+          <div className="flex flex-col gap-2">
+            <H1 className="text-size-md font-medium text-black">3. For which discussion?</H1>
+            <Select
+              label="Discussion"
+              options={discussionOptions}
+              value={selectedDiscussionId}
+              onChange={(value) => setSelectedDiscussionId(value)}
+              placeholder="Choose a discussion"
+            />
+            {selectedDiscussion && (
+              <P>
+                Current time: <span className="text-bluedot-normal">{selectedDiscussionTimeString}</span>
+              </P>
+            )}
+          </div>
+        )}
 
         <div className="flex flex-col gap-2">
-          <H1 className="text-size-md font-medium text-black">4. Select new discussion time</H1>
+          <H1 className="text-size-md font-medium text-black">{isSingleUnitChange ? '4' : '3'}. Select new discussion time</H1>
           <P>The selected time is in your time zone: {Intl.DateTimeFormat().resolvedOptions().timeZone}</P>
           <div className="flex flex-row gap-4">
             <DatePicker value={selectedDate ?? selectedDiscussionDateTime} onChange={setSelectedDate} hideLabel />
