@@ -49,6 +49,9 @@ export const Default: Story = {
         trpcStorybookMsw.facilitators.discussionsAvailable.query(async () => {
           return mockSwitchingData;
         }),
+        trpcStorybookMsw.facilitators.updateDiscussion.mutation(async () => {
+          return null;
+        }),
       ],
     },
   },
