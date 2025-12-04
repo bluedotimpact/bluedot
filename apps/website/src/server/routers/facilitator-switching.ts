@@ -118,5 +118,7 @@ export const facilitatorSwitchingRouter = router({
         switchType: discussionId ? 'Change for one unit' : 'Change permanently',
         updatedDatetime: newDateTime,
       });
+
+      return null;
     }),
 });
