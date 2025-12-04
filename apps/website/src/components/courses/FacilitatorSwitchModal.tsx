@@ -4,6 +4,7 @@ import {
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import React, { useState } from 'react';
 import { trpc } from '../../utils/trpc';
+import { CheckIcon } from '../icons/CheckIcon';
 import { InfoIcon } from '../icons/InfoIcon';
 import { H1, P } from '../Text';
 import Select from './group-switching/Select';
@@ -102,6 +103,18 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 
     if (isError) {
       return <ErrorView error={error} />;
+    }
+
+    if (submitUpdateMutation.isSuccess) {
+      return (
+        <div className="flex flex-col items-center justify-center gap-6 max-w-[400px] mx-auto">
+          <div className="rounded-full bg-bluedot-normal/10 p-4 flex">
+            <CheckIcon className="text-bluedot-normal" />
+          </div>
+          <P className="text-[#13132E] opacity-80">We've updated your group's {selectedDiscussionId ? 'discussion' : 'discussions'}.</P>
+          <P className="text-[#13132E] opacity-80 text-center">You should see the changes reflected in the calendar event and Course Hub. Please allow up to 10 minutes.</P>
+        </div>
+      );
     }
 
     return (
