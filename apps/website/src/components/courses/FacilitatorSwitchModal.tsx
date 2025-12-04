@@ -198,8 +198,6 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     );
   };
 
-  console.log(discussions, isLoading, isError);
-
   return (
     <Modal
       isOpen
