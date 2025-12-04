@@ -171,3 +171,31 @@ export const BottomDrawerOnMobile: Story = {
     return <BottomDrawerOnMobileDemo />;
   },
 };
+
+export const CentredTitle: Story = {
+  render: () => {
+    const CentredTitleDemo = () => {
+      const [isOpen, setIsOpen] = useState(false);
+
+      return (
+        <div>
+          <CTALinkOrButton onClick={() => setIsOpen(true)}>Open Modal with Centred Title</CTALinkOrButton>
+          <Modal
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            title="Success"
+            titleClassName="text-center flex-1"
+          >
+            <div className="flex flex-col items-center justify-center gap-6 py-8">
+              <p className="text-center max-w-[400px]">
+                This modal demonstrates a centred title using the <code>titleClassName</code> prop.
+              </p>
+            </div>
+          </Modal>
+        </div>
+      );
+    };
+
+    return <CentredTitleDemo />;
+  },
+};
