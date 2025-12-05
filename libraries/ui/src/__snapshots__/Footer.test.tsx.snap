@@ -501,63 +501,45 @@ exports[`Footer > renders default as expected 1`] = `
         <div
           class="text-size-sm text-[#CCD7FF] leading-[26px] min-[680px]:mt-0 lg:mt-12 2xl:mt-[64px]"
         >
-          <div>
-            <span>
-              © 
-              2025
-              . 
-              <a
-                class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
-                href="https://bluedot.org/"
-                tabindex="0"
-              >
-                BlueDot Impact
-              </a>
-               operates as:
-            </span>
-            <ul
-              class="list-none pl-0 my-2"
+          <p
+            class="mb-2"
+          >
+            © 
+            2025
+            . BlueDot Impact operates as a UK CLG (
+            <a
+              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
+              href="https://find-and-update.company-information.service.gov.uk/company/14964572"
+              tabindex="0"
             >
-              <li>
-                - BlueDot Impact Ltd: UK CLG, company number: 
-                <a
-                  class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
-                  href="https://find-and-update.company-information.service.gov.uk/company/14964572"
-                  tabindex="0"
-                >
-                  14964572
-                </a>
-              </li>
-              <li>
-                - BlueDot Impact US Inc: 501(c)3, EIN: 
-                <a
-                  class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
-                  href="https://projects.propublica.org/nonprofits/organizations/994885308"
-                  tabindex="0"
-                >
-                  99-4885308
-                </a>
-              </li>
-            </ul>
-            <p
-              class="my-2"
+              14964572
+            </a>
+            ) and a US 501(c)3 (
+            <a
+              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
+              href="https://projects.propublica.org/nonprofits/organizations/994885308"
+              tabindex="0"
             >
-              Funded by 
-              <a
-                class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
-                href="https://www.coefficientgiving.org/"
-                tabindex="0"
-              >
-                Coefficient Giving
-              </a>
-              .
-            </p>
-            <p
-              class="mt-2"
+              99-4885308
+            </a>
+            ).
+          </p>
+          <p
+            class="mb-2"
+          >
+            US Address: 1680 Mission St. Suite 411, San Francisco, CA 94103
+          </p>
+          <p>
+            Funded by 
+            <a
+              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
+              href="https://www.coefficientgiving.org/"
+              tabindex="0"
             >
-              US Address: 1680 Mission St. Suite 411, San Francisco, CA 94103
-            </p>
-          </div>
+              Coefficient Giving
+            </a>
+            .
+          </p>
         </div>
       </div>
     </div>
@@ -1066,63 +1048,45 @@ exports[`Footer > renders with optional args 1`] = `
         <div
           class="text-size-sm text-[#CCD7FF] leading-[26px] min-[680px]:mt-0 lg:mt-12 2xl:mt-[64px]"
         >
-          <div>
-            <span>
-              © 
-              2025
-              . 
-              <a
-                class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
-                href="https://bluedot.org/"
-                tabindex="0"
-              >
-                BlueDot Impact
-              </a>
-               operates as:
-            </span>
-            <ul
-              class="list-none pl-0 my-2"
+          <p
+            class="mb-2"
+          >
+            © 
+            2025
+            . BlueDot Impact operates as a UK CLG (
+            <a
+              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
+              href="https://find-and-update.company-information.service.gov.uk/company/14964572"
+              tabindex="0"
             >
-              <li>
-                - BlueDot Impact Ltd: UK CLG, company number: 
-                <a
-                  class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
-                  href="https://find-and-update.company-information.service.gov.uk/company/14964572"
-                  tabindex="0"
-                >
-                  14964572
-                </a>
-              </li>
-              <li>
-                - BlueDot Impact US Inc: 501(c)3, EIN: 
-                <a
-                  class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
-                  href="https://projects.propublica.org/nonprofits/organizations/994885308"
-                  tabindex="0"
-                >
-                  99-4885308
-                </a>
-              </li>
-            </ul>
-            <p
-              class="my-2"
+              14964572
+            </a>
+            ) and a US 501(c)3 (
+            <a
+              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
+              href="https://projects.propublica.org/nonprofits/organizations/994885308"
+              tabindex="0"
             >
-              Funded by 
-              <a
-                class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
-                href="https://www.coefficientgiving.org/"
-                tabindex="0"
-              >
-                Coefficient Giving
-              </a>
-              .
-            </p>
-            <p
-              class="mt-2"
+              99-4885308
+            </a>
+            ).
+          </p>
+          <p
+            class="mb-2"
+          >
+            US Address: 1680 Mission St. Suite 411, San Francisco, CA 94103
+          </p>
+          <p>
+            Funded by 
+            <a
+              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
+              href="https://www.coefficientgiving.org/"
+              tabindex="0"
             >
-              US Address: 1680 Mission St. Suite 411, San Francisco, CA 94103
-            </p>
-          </div>
+              Coefficient Giving
+            </a>
+            .
+          </p>
         </div>
       </div>
     </div>
