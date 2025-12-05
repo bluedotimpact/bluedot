@@ -510,7 +510,9 @@ exports[`Footer > renders default as expected 1`] = `
             <a
               class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
               href="https://find-and-update.company-information.service.gov.uk/company/14964572"
+              rel="noopener noreferrer"
               tabindex="0"
+              target="_blank"
             >
               14964572
             </a>
@@ -518,7 +520,9 @@ exports[`Footer > renders default as expected 1`] = `
             <a
               class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
               href="https://projects.propublica.org/nonprofits/organizations/994885308"
+              rel="noopener noreferrer"
               tabindex="0"
+              target="_blank"
             >
               99-4885308
             </a>
@@ -534,7 +538,9 @@ exports[`Footer > renders default as expected 1`] = `
             <a
               class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
               href="https://www.coefficientgiving.org/"
+              rel="noopener noreferrer"
               tabindex="0"
+              target="_blank"
             >
               Coefficient Giving
             </a>
@@ -1057,7 +1063,9 @@ exports[`Footer > renders with optional args 1`] = `
             <a
               class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
               href="https://find-and-update.company-information.service.gov.uk/company/14964572"
+              rel="noopener noreferrer"
               tabindex="0"
+              target="_blank"
             >
               14964572
             </a>
@@ -1065,7 +1073,9 @@ exports[`Footer > renders with optional args 1`] = `
             <a
               class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
               href="https://projects.propublica.org/nonprofits/organizations/994885308"
+              rel="noopener noreferrer"
               tabindex="0"
+              target="_blank"
             >
               99-4885308
             </a>
@@ -1081,7 +1091,9 @@ exports[`Footer > renders with optional args 1`] = `
             <a
               class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
               href="https://www.coefficientgiving.org/"
+              rel="noopener noreferrer"
               tabindex="0"
+              target="_blank"
             >
               Coefficient Giving
             </a>
