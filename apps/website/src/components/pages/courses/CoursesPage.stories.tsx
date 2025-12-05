@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { createMockCourse } from '../../__tests__/testUtils';
-import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
-import CoursesPage from './index';
+import { createMockCourse } from '../../../__tests__/testUtils';
+import { trpcStorybookMsw } from '../../../__tests__/trpcMswSetup.browser';
+import CoursesPage from '../../../pages/courses/index';
 
 const mockCourses = [
   createMockCourse({
