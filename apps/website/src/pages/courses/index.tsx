@@ -58,7 +58,7 @@ const COURSE_ICONS: Record<string, string> = {
   'ai-governance': '/images/courses/ai-governance-icon.svg',
   'agi-strategy': '/images/courses/agi-strategy-icon.svg',
   'technical-ai-safety': '/images/courses/technical-ai-safety-icon.svg',
-  'biosecurity': '/images/courses/biosecurity-icon.svg',
+  biosecurity: '/images/courses/biosecurity-icon.svg',
 };
 
 const COURSE_DESCRIPTIONS: Record<string, string> = {
@@ -66,12 +66,11 @@ const COURSE_DESCRIPTIONS: Record<string, string> = {
   'ai-governance': 'Learn about the policy landscape, regulatory tools, and institutional reforms needed to navigate the transition to transformative AI.',
   'agi-strategy': 'A deep dive into the incentives driving the AI companies, what\'s at stake, and the strategies for ensuring AI benefits humanity. You\'ll finish with your own action plan.',
   'technical-ai-safety': 'For technical talent who want to drive AI safety research and policy professionals building governance solutions.',
-  'biosecurity': 'For people who want to build a pandemic-proof world. Learn how we can defend against AI-enabled bioattacks.',
+  biosecurity: 'For people who want to build a pandemic-proof world. Learn how we can defend against AI-enabled bioattacks.',
 };
 
 /* Self-paced courses have no cohort rounds - just open access content */
-const isSelfPacedCourse = (course: Course): boolean =>
-  course.cadence?.toLowerCase() === 'self-paced' || course.slug === 'future-of-ai';
+const isSelfPacedCourse = (course: Course): boolean => course.cadence?.toLowerCase() === 'self-paced' || course.slug === 'future-of-ai';
 
 /* Custom hook to fetch and sort courses with their round data */
 const useSortedCourses = () => {
@@ -255,7 +254,7 @@ const useActiveSection = (sectionIds: string[]): string | null => {
   const [activeSection, setActiveSection] = useState<string | null>(null);
 
   useEffect(() => {
-    if (sectionIds.length === 0) return;
+    if (sectionIds.length === 0) return undefined;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -447,8 +446,8 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
       {/* Mobile Layout */}
       <div className="flex flex-col min-[680px]:hidden">
         {/* Course Icon */}
-        <div className="w-16 h-16 rounded-[12px] bg-[#1144cc] flex items-center justify-center mb-6" aria-hidden="true">
-          <img src={iconSrc} alt="" className="w-10 h-10" />
+        <div className="size-16 rounded-[12px] bg-[#1144cc] flex items-center justify-center mb-6" aria-hidden="true">
+          <img src={iconSrc} alt="" className="size-10" />
         </div>
 
         <Link
@@ -466,8 +465,8 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
 
       {/* Desktop Layout */}
       <div className="hidden min-[680px]:flex items-start gap-6">
-        <div className="w-16 h-16 flex-shrink-0 rounded-[12px] bg-[#1144cc] flex items-center justify-center" aria-hidden="true">
-          <img src={iconSrc} alt="" className="w-10 h-10" />
+        <div className="size-16 flex-shrink-0 rounded-[12px] bg-[#1144cc] flex items-center justify-center" aria-hidden="true">
+          <img src={iconSrc} alt="" className="size-10" />
         </div>
 
         <Link
@@ -561,7 +560,7 @@ const FormatSection = ({ type, rounds, course }: FormatSectionProps) => {
 
   return (
     <div className="flex flex-col">
-      <div className="text-[15px] leading-[1.25] text-[#13132e] mb-6">
+      <div className="text-[15px] leading-tight text-[#13132e] mb-6">
         <span className="font-semibold uppercase tracking-[0.45px]">{label}</span>
         <span className="ml-1 font-normal opacity-80">{description}</span>
       </div>
@@ -655,7 +654,7 @@ type NoUpcomingRoundsProps = {
 
 const NoUpcomingRounds = ({ course }: NoUpcomingRoundsProps) => {
   return (
-    <div className="flex items-center min-h-[48px] border-l-[4px] border-[rgba(19,19,46,0.2)] pl-5">
+    <div className="flex items-center min-h-[48px] border-l-4 border-[rgba(19,19,46,0.2)] pl-5">
       <p className="text-[15px] leading-[1.6] font-normal text-[#13132e] opacity-50">
         No upcoming rounds.{' '}
         <Link href={course.path} className="text-[#1144cc] font-medium hover:underline cursor-pointer">
