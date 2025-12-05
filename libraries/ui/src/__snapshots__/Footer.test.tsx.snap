@@ -516,7 +516,7 @@ exports[`Footer > renders default as expected 1`] = `
                operates as:
             </span>
             <ul
-              class="list-none pl-0 mt-2 mb-2"
+              class="list-none pl-0 my-2"
             >
               <li>
                 - BlueDot Impact Ltd: UK CLG, company number: 
@@ -540,7 +540,7 @@ exports[`Footer > renders default as expected 1`] = `
               </li>
             </ul>
             <p
-              class="mt-2 mb-2"
+              class="my-2"
             >
               Funded by 
               <a
@@ -1081,7 +1081,7 @@ exports[`Footer > renders with optional args 1`] = `
                operates as:
             </span>
             <ul
-              class="list-none pl-0 mt-2 mb-2"
+              class="list-none pl-0 my-2"
             >
               <li>
                 - BlueDot Impact Ltd: UK CLG, company number: 
@@ -1105,7 +1105,7 @@ exports[`Footer > renders with optional args 1`] = `
               </li>
             </ul>
             <p
-              class="mt-2 mb-2"
+              class="my-2"
             >
               Funded by 
               <a

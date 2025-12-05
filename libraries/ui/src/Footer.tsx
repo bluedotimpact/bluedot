@@ -172,11 +172,11 @@ export const Footer: React.FC<FooterProps> = ({
             <div className="text-size-sm text-[#CCD7FF] leading-[26px] min-[680px]:mt-0 lg:mt-12 2xl:mt-[64px]">
               <div>
                 <span>&copy; {new Date().getFullYear()}. <A href="https://bluedot.org/" className="text-[#CCD7FF] hover:text-white">BlueDot Impact</A> operates as:</span>
-                <ul className="list-none pl-0 mt-2 mb-2">
+                <ul className="list-none pl-0 my-2">
                   <li>- BlueDot Impact Ltd: UK CLG, company number: <A href="https://find-and-update.company-information.service.gov.uk/company/14964572" className="text-[#CCD7FF] hover:text-white">14964572</A></li>
                   <li>- BlueDot Impact US Inc: 501(c)3, EIN: <A href="https://projects.propublica.org/nonprofits/organizations/994885308" className="text-[#CCD7FF] hover:text-white">99-4885308</A></li>
                 </ul>
-                <p className="mt-2 mb-2">Funded by <A href="https://www.coefficientgiving.org/" className="text-[#CCD7FF] hover:text-white">Coefficient Giving</A>.</p>
+                <p className="my-2">Funded by <A href="https://www.coefficientgiving.org/" className="text-[#CCD7FF] hover:text-white">Coefficient Giving</A>.</p>
                 <p className="mt-2">US Address: 1680 Mission St. Suite 411, San Francisco, CA 94103</p>
               </div>
             </div>
