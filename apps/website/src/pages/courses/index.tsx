@@ -1,4 +1,6 @@
-import { ProgressDots, ErrorSection } from '@bluedot/ui';
+import {
+  ProgressDots, ErrorSection, addQueryParam, useLatestUtmParams,
+} from '@bluedot/ui';
 import { H1 } from '@bluedot/ui/src/Text';
 import type { inferRouterOutputs } from '@trpc/server';
 import clsx from 'clsx';
@@ -7,41 +9,13 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import type { AppRouter } from '../../server/routers/_app';
 import { trpc } from '../../utils/trpc';
-
-/* Hero Section Component */
-const CoursesHero = () => {
-  return (
-    <section className="relative w-full min-h-[317px] min-[680px]:min-h-[366px] overflow-hidden">
-      {/* Background Image */}
-      <img
-        src="/images/homepage/hero.webp"
-        alt=""
-        className="absolute inset-0 size-full object-cover -scale-x-100"
-        fetchPriority="high"
-      />
-
-      {/* Content Container */}
-      <div className="relative z-10 flex flex-col justify-end h-full min-h-[317px] min-[680px]:min-h-[366px] px-5 pb-12 pt-20 min-[680px]:px-8 min-[680px]:pb-16 min-[680px]:pt-20 min-[1024px]:px-12 min-[1280px]:px-16 min-[1920px]:px-0">
-        <div className="w-full mx-auto min-[1920px]:max-w-[1360px]">
-          <div className="flex flex-col gap-6 max-w-[780px]">
-            {/* Title */}
-            <H1 className="text-[32px] min-[680px]:text-[40px] min-[1024px]:text-[48px] leading-tight font-medium tracking-[-1px] text-white">
-              Course Schedule
-            </H1>
-
-            {/* Description */}
-            <p className="text-size-sm min-[680px]:text-[18px] min-[1024px]:text-[20px] leading-[1.55] tracking-[-0.1px] text-white">
-              Join our next cohort and learn from AI safety experts. All courses are freely available on a pay-what-you-want model.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
+import { AGI_STRATEGY_APPLICATION_URL } from '../../components/lander/course-content/AgiStrategyContent';
+import { BIOSECURITY_APPLICATION_URL } from '../../components/lander/course-content/BioSecurityContent';
+import { TECHNICAL_AI_SAFETY_APPLICATION_URL } from '../../components/lander/course-content/TechnicalAiSafetyContent';
 
 type Course = inferRouterOutputs<AppRouter>['courses']['getAll'][number];
 type CourseRounds = inferRouterOutputs<AppRouter>['courseRounds']['getRoundsForCourse'];
+type Round = CourseRounds['intense'][number];
 
 /* Course Menu Configuration */
 const COURSE_MENU_ITEMS = [
@@ -67,6 +41,12 @@ const COURSE_DESCRIPTIONS: Record<string, string> = {
   'agi-strategy': 'A deep dive into the incentives driving the AI companies, what\'s at stake, and the strategies for ensuring AI benefits humanity. You\'ll finish with your own action plan.',
   'technical-ai-safety': 'For technical talent who want to drive AI safety research and policy professionals building governance solutions.',
   biosecurity: 'For people who want to build a pandemic-proof world. Learn how we can defend against AI-enabled bioattacks.',
+};
+
+const COURSE_APPLICATION_URLS: Record<string, string> = {
+  'agi-strategy': AGI_STRATEGY_APPLICATION_URL,
+  biosecurity: BIOSECURITY_APPLICATION_URL,
+  'technical-ai-safety': TECHNICAL_AI_SAFETY_APPLICATION_URL,
 };
 
 /* Self-paced courses have no cohort rounds - just open access content */
@@ -241,19 +221,14 @@ const CoursesPage = () => {
       {/* Hero Section */}
       <CoursesHero />
 
-      {/* Main Content Area - Responsive container widths and margins per spec */}
-      {/* 1280px: 64px padding (px-16), 1024px: 48px padding (px-12) */}
+      {/* Main Content Area */}
       <div className="w-full mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-12 min-[1280px]:px-16 min-[1440px]:px-20 min-[1920px]:max-w-[1360px] min-[1920px]:px-0">
-        {/* Section padding: 32px top / 64px bottom at 320px, 64px at 680px+, 96px at 1280px+ */}
         <div className="pt-8 pb-16 min-[680px]:py-16 min-[1280px]:py-24">
-          {/* At 1280px+: side-by-side (sidebar LEFT, content right) with 64px gap */}
-          {/* At 1024px and below: stacked (breadcrumb ABOVE, divider, then courses) */}
           <div className="flex flex-col min-[1280px]:flex-row min-[1280px]:gap-16">
-            {/* Breadcrumb Menu - LEFT side at 1280px+, ABOVE at 1024px and below */}
+            {/* Breadcrumb Menu */}
             <BreadcrumbMenu courses={displayedCourses} />
 
             {/* Horizontal divider - only visible on stacked layout (below 1280px) */}
-            {/* At 1024px: 64px margin above divider, 64px padding below */}
             <div className="min-[1280px]:hidden mt-16 pt-16 border-t border-[rgba(19,19,46,0.1)]" />
 
             {/* Course Cards Section */}
@@ -273,9 +248,36 @@ const CoursesPage = () => {
 
 export default CoursesPage;
 
-/* Breadcrumb Menu Component */
-type BreadcrumbMenuProps = {
-  courses: Course[];
+/* Hero Section */
+const CoursesHero = () => {
+  return (
+    <section className="relative w-full min-h-[317px] min-[680px]:min-h-[366px] overflow-hidden">
+      {/* Background Image */}
+      <img
+        src="/images/homepage/hero.webp"
+        alt=""
+        className="absolute inset-0 size-full object-cover -scale-x-100"
+        fetchPriority="high"
+      />
+
+      {/* Content Container */}
+      <div className="relative z-10 flex flex-col justify-end h-full min-h-[317px] min-[680px]:min-h-[366px] px-5 pb-12 pt-20 min-[680px]:px-8 min-[680px]:pb-16 min-[680px]:pt-20 min-[1024px]:px-12 min-[1280px]:px-16 min-[1920px]:px-0">
+        <div className="w-full mx-auto min-[1920px]:max-w-[1360px]">
+          <div className="flex flex-col gap-6 max-w-[780px]">
+            {/* Title */}
+            <H1 className="text-[32px] min-[680px]:text-[40px] min-[1024px]:text-[48px] leading-tight font-medium tracking-[-1px] text-white">
+              Course Schedule
+            </H1>
+
+            {/* Description */}
+            <p className="text-size-sm min-[680px]:text-[18px] min-[1024px]:text-[20px] leading-[1.55] tracking-[-0.1px] text-white">
+              Join our next cohort and learn from AI safety experts. All courses are freely available on a pay-what-you-want model.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 /* Hook to track active section via IntersectionObserver */
@@ -311,6 +313,11 @@ const useActiveSection = (sectionIds: string[]): string | null => {
   }, [sectionIds]);
 
   return activeSection;
+};
+
+/* Breadcrumb Menu */
+type BreadcrumbMenuProps = {
+  courses: Course[];
 };
 
 const BreadcrumbMenu = ({ courses }: BreadcrumbMenuProps) => {
@@ -380,7 +387,7 @@ const BreadcrumbMenu = ({ courses }: BreadcrumbMenuProps) => {
   );
 };
 
-/* Course Cards List */
+/* Courses List */
 type CoursesListProps = {
   courses: Course[];
 };
@@ -392,7 +399,6 @@ const CoursesList = ({ courses }: CoursesListProps) => {
         <div key={course.id} id={`course-${course.slug}`}>
           <CourseCard course={course} />
           {index < courses.length - 1 && (
-            /* Divider spacing: 48px at mobile, 64px at 1024px, 80px at 1280px+ */
             <div className="my-12 min-[1024px]:my-16 min-[1280px]:my-20 border-t border-[rgba(19,19,46,0.1)]" />
           )}
         </div>
@@ -401,7 +407,7 @@ const CoursesList = ({ courses }: CoursesListProps) => {
   );
 };
 
-/* Course Card Component */
+/* Course Card */
 type CourseCardProps = {
   course: Course;
 };
@@ -453,9 +459,16 @@ const CourseCard = ({ course }: CourseCardProps) => {
           </div>
         )}
 
-        {/* No upcoming rounds message - only for cohort-based courses without rounds */}
+        {/* No Upcoming Rounds */}
         {!roundsLoading && !isSelfPaced && !showRounds && (
-          <NoUpcomingRounds course={course} />
+          <div className="flex items-center min-h-[48px] border-l-4 border-[rgba(19,19,46,0.2)] pl-5">
+            <p className="text-[15px] leading-[1.6] font-normal text-[#13132e] opacity-50">
+              No upcoming rounds.{' '}
+              <Link href={course.path} className="text-[#1144cc] font-medium hover:underline cursor-pointer">
+                Learn more about this course
+              </Link>
+            </p>
+          </div>
         )}
       </div>
     </article>
@@ -568,8 +581,6 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
 };
 
 /* Format Section (Intensive or Part-time) */
-type Round = CourseRounds['intense'][number];
-
 type FormatSectionProps = {
   type: 'intensive' | 'part-time';
   rounds: Round[];
@@ -599,7 +610,6 @@ const FormatSection = ({ type, rounds, course }: FormatSectionProps) => {
           <li key={round.id}>
             <CourseRoundItem round={round} course={course} />
             {index < rounds.length - 1 && (
-              /* 32px total spacing between rounds: 16px above divider + 16px below */
               <div className="my-4 border-t border-[rgba(19,19,46,0.1)]" />
             )}
           </li>
@@ -616,9 +626,19 @@ type CourseRoundItemProps = {
 };
 
 const CourseRoundItem = ({ round, course }: CourseRoundItemProps) => {
-  const applicationUrl = course.detailsUrl || course.path;
-  const separator = applicationUrl.includes('?') ? '&' : '?';
-  const applyUrl = `${applicationUrl}${separator}prefill_%5B%3E%5D%20Round=${round.id}`;
+  const { latestUtmParams } = useLatestUtmParams();
+
+  // Use the miniextensions URL from course content, falling back to detailsUrl or course path
+  const baseApplicationUrl = COURSE_APPLICATION_URLS[course.slug] || course.detailsUrl || course.path;
+
+  // Add UTM source prefill if available
+  const applicationUrlWithUtm = latestUtmParams.utm_source
+    ? addQueryParam(baseApplicationUrl, 'prefill_Source', latestUtmParams.utm_source)
+    : baseApplicationUrl;
+
+  // Add round prefill - manually construct to use %20 encoding (miniextensions requires this format)
+  const separator = applicationUrlWithUtm.includes('?') ? '&' : '?';
+  const applyUrl = `${applicationUrlWithUtm}${separator}prefill_%5B%3E%5D%20Round=${round.id}`;
 
   // Format the date range with en dash instead of hyphen
   const formattedDateRange = round.dateRange?.replace(' - ', ' – ') || 'TBD';
@@ -673,23 +693,5 @@ const CourseRoundItem = ({ round, course }: CourseRoundItemProps) => {
         </div>
       </a>
     </>
-  );
-};
-
-/* No Upcoming Rounds Fallback */
-type NoUpcomingRoundsProps = {
-  course: Course;
-};
-
-const NoUpcomingRounds = ({ course }: NoUpcomingRoundsProps) => {
-  return (
-    <div className="flex items-center min-h-[48px] border-l-4 border-[rgba(19,19,46,0.2)] pl-5">
-      <p className="text-[15px] leading-[1.6] font-normal text-[#13132e] opacity-50">
-        No upcoming rounds.{' '}
-        <Link href={course.path} className="text-[#1144cc] font-medium hover:underline cursor-pointer">
-          Learn more about this course
-        </Link>
-      </p>
-    </div>
   );
 };
