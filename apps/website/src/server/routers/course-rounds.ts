@@ -107,7 +107,8 @@ export const courseRoundsRouter = router({
           applicationDeadline: round.applicationDeadline
             ? formatDate(round.applicationDeadline)
             : 'TBD',
-          applicationDeadlineRaw: round.applicationDeadline, // Keep raw date for sorting
+          applicationDeadlineRaw: round.applicationDeadline,
+          firstDiscussionDateRaw: round.firstDiscussionDate,
           dateRange: formatDateRange(
             round.firstDiscussionDate,
             round.lastDiscussionDate,
@@ -118,14 +119,22 @@ export const courseRoundsRouter = router({
         };
       });
 
-      // Sort by application deadline (earliest first)
-      // Rounds without deadlines ('TBD') are sorted to the end
+      // Sort by start date (earliest first), then by duration (shorter first)
       enrichedRounds.sort((a, b) => {
-        if (!a.applicationDeadlineRaw && !b.applicationDeadlineRaw) return 0;
-        if (!a.applicationDeadlineRaw) return 1; // a goes to end
-        if (!b.applicationDeadlineRaw) return -1; // b goes to end
+        if (!a.firstDiscussionDateRaw && !b.firstDiscussionDateRaw) return 0;
+        if (!a.firstDiscussionDateRaw) return 1;
+        if (!b.firstDiscussionDateRaw) return -1;
 
-        return new Date(a.applicationDeadlineRaw).getTime() - new Date(b.applicationDeadlineRaw).getTime();
+        const aStartDate = new Date(a.firstDiscussionDateRaw).getTime();
+        const bStartDate = new Date(b.firstDiscussionDateRaw).getTime();
+
+        if (aStartDate === bStartDate) {
+          const aUnits = a.numberOfUnits ?? Infinity;
+          const bUnits = b.numberOfUnits ?? Infinity;
+          return aUnits - bUnits;
+        }
+
+        return aStartDate - bStartDate;
       });
 
       // Group by intensity type

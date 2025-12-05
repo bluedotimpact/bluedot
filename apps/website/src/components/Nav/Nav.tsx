@@ -13,7 +13,7 @@ import { ExpandedSectionsState } from './utils';
 export const Nav: React.FC = () => {
   const router = useRouter();
   const isLoggedIn = !!useAuthStore((s) => s.auth);
-  const isHomepage = router.pathname === '/';
+  const isHomepage = router.pathname === '/' || router.pathname === '/courses';
 
   const [expandedSections, setExpandedSections] = useState<ExpandedSectionsState>({
     about: false,
