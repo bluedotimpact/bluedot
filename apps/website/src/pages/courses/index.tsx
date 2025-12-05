@@ -87,31 +87,43 @@ const useSortedCourses = () => {
   const allRoundsLoaded = roundsQueries.every((q) => !q.isLoading);
   const isLoading = coursesLoading || !allRoundsLoaded;
 
-  // Build a map of course slug to their earliest upcoming round date
+  // Build a map of course slug to their sorting data
   const courseRoundsMap = useMemo(() => {
-    const map = new Map<string, { earliestDeadline: string | null; rounds: CourseRounds }>();
+    const map = new Map<string, {
+      earliestStartDate: string | null;
+      shortestDuration: number | null;
+      rounds: CourseRounds;
+    }>();
 
     displayedCourses.forEach((course, index) => {
       const roundsData = roundsQueries[index]?.data;
       if (roundsData) {
-        // Get the earliest application deadline across all rounds
         const allRounds = [...(roundsData.intense || []), ...(roundsData.partTime || [])];
-        const deadlines = allRounds
-          .map((r) => r.applicationDeadlineRaw)
+
+        // Get earliest start date across all rounds
+        const startDates = allRounds
+          .map((r) => r.firstDiscussionDateRaw)
           .filter((d): d is string => !!d);
 
-        const earliestDeadline = deadlines.length > 0
-          ? deadlines.reduce((a, b) => (new Date(a) < new Date(b) ? a : b))
+        const earliestStartDate = startDates.length > 0
+          ? startDates.reduce((a, b) => (new Date(a) < new Date(b) ? a : b))
           : null;
 
-        map.set(course.slug, { earliestDeadline, rounds: roundsData });
+        // Get shortest duration for tiebreaker (from the round with earliest start)
+        let shortestDuration: number | null = null;
+        if (earliestStartDate) {
+          const earliestRound = allRounds.find((r) => r.firstDiscussionDateRaw === earliestStartDate);
+          shortestDuration = earliestRound?.numberOfUnits ?? null;
+        }
+
+        map.set(course.slug, { earliestStartDate, shortestDuration, rounds: roundsData });
       }
     });
 
     return map;
   }, [displayedCourses, roundsQueries]);
 
-  // Sort courses: self-paced first, then by earliest upcoming round
+  // Sort courses: self-paced first, then by earliest start date
   const sortedCourses = useMemo(() => {
     if (!allRoundsLoaded) return displayedCourses;
 
@@ -123,17 +135,34 @@ const useSortedCourses = () => {
       if (aIsSelfPaced && !bIsSelfPaced) return -1;
       if (!aIsSelfPaced && bIsSelfPaced) return 1;
 
-      // Both self-paced or both cohort-based: sort by earliest upcoming round
-      const aDeadline = courseRoundsMap.get(a.slug)?.earliestDeadline;
-      const bDeadline = courseRoundsMap.get(b.slug)?.earliestDeadline;
+      // Both self-paced: sort alphabetically
+      if (aIsSelfPaced && bIsSelfPaced) {
+        return a.title.localeCompare(b.title);
+      }
+
+      // Cohort-based: sort by earliest upcoming start date
+      const aData = courseRoundsMap.get(a.slug);
+      const bData = courseRoundsMap.get(b.slug);
+      const aStartDate = aData?.earliestStartDate;
+      const bStartDate = bData?.earliestStartDate;
 
       // Courses with no upcoming rounds go to the end
-      if (!aDeadline && !bDeadline) return a.title.localeCompare(b.title);
-      if (!aDeadline) return 1;
-      if (!bDeadline) return -1;
+      if (!aStartDate && !bStartDate) return a.title.localeCompare(b.title);
+      if (!aStartDate) return 1;
+      if (!bStartDate) return -1;
 
-      // Sort by earliest deadline (soonest first)
-      return new Date(aDeadline).getTime() - new Date(bDeadline).getTime();
+      const aStartTime = new Date(aStartDate).getTime();
+      const bStartTime = new Date(bStartDate).getTime();
+
+      // Same start date: shorter duration first
+      if (aStartTime === bStartTime) {
+        const aDuration = aData?.shortestDuration ?? Infinity;
+        const bDuration = bData?.shortestDuration ?? Infinity;
+        return aDuration - bDuration;
+      }
+
+      // Earlier start date first
+      return aStartTime - bStartTime;
     });
   }, [displayedCourses, courseRoundsMap, allRoundsLoaded]);
 
