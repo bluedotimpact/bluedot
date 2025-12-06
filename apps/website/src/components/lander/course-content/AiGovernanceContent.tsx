@@ -57,16 +57,6 @@ export const createAiGovernanceContent = (
     ],
   },
 
-  curriculum: {
-    title: 'Curriculum Overview',
-    courseSlug,
-  },
-
-  courseBenefits: {
-    title: 'How this course will benefit you',
-    benefits: [],
-  },
-
   courseInformation: {
     title: 'Course information',
     applicationUrl: applicationUrlWithUtm,
@@ -102,11 +92,6 @@ export const createAiGovernanceContent = (
         scheduleDescription: 'Check above for upcoming rounds and application deadlines.',
       },
     ],
-  },
-
-  faq: {
-    title: 'Frequently Asked Questions',
-    items: [],
   },
 
   banner: {

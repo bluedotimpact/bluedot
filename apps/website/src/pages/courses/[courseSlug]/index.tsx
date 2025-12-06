@@ -28,7 +28,7 @@ import { fileExists } from '../../../utils/fileExists';
 type CoursePageProps = {
   courseSlug: string;
   courseData: CourseAndUnits;
-  courseOgImage?: string
+  courseOgImage?: string | null
 };
 
 const CoursePage = ({ courseSlug, courseData, courseOgImage }: CoursePageProps) => {
@@ -100,7 +100,7 @@ const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: Cours
 
 const registerInterestUrl = 'https://web.miniextensions.com/aGd0mXnpcN1gfqlnYNZc';
 
-const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseAndUnits, courseOgImage?: string }) => {
+const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseAndUnits, courseOgImage?: string | null }) => {
   const { latestUtmParams } = useLatestUtmParams();
   const registerInterestUrlWithUtm = latestUtmParams.utm_source ? addQueryParam(registerInterestUrl, 'prefill_Source', latestUtmParams.utm_source) : registerInterestUrl;
 
@@ -174,7 +174,7 @@ export const getStaticProps: GetStaticProps<CoursePageProps> = async ({ params }
   try {
     const courseData = await getCourseData(courseSlug);
 
-    let courseOgImage: string | undefined;
+    let courseOgImage: string | null = null;
     if (await fileExists(path.join(process.cwd(), 'public', 'images', 'courses', 'link-preview', `${courseSlug}.png`))) {
       courseOgImage = `${process.env.NEXT_PUBLIC_SITE_URL}/images/courses/link-preview/${courseSlug}.png`;
     }
