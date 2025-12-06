@@ -76,7 +76,7 @@ export const Footer: React.FC<FooterProps> = ({
   ];
 
   const resourceLinks = [
-    { url: '/blog', label: 'Blog' },
+    { url: 'https://blog.bluedot.org', label: 'Blog', target: '_blank' },
     { url: 'https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer', label: 'Events', target: '_blank' },
     { url: '/privacy-policy', label: 'Privacy Policy' },
   ];
