@@ -37,24 +37,32 @@ export const getSubstackBlogPosts = async () => {
     return rssCache.data;
   }
 
-  const parser = new Parser();
-  const feed = await parser.parseURL('https://blog.bluedot.org/feed');
+  try {
+    const parser = new Parser();
+    const feed = await parser.parseURL('https://blog.bluedot.org/feed');
 
-  const posts = feed.items.map((item) => ({
-    title: item.title || '',
-    link: item.link || '',
-    pubDate: item.pubDate || item.isoDate || '',
-    author: item.creator || item.author || '',
-    contentSnippet: item.contentSnippet || '',
-  }));
+    const posts = feed.items.map((item) => ({
+      title: item.title || '',
+      link: item.link || '',
+      pubDate: item.pubDate || item.isoDate || '',
+      author: item.creator || item.author || '',
+      contentSnippet: item.contentSnippet || '',
+    }));
 
-  // Update cache
-  rssCache = {
-    data: posts,
-    timestamp: Date.now(),
-  };
+    // Update cache
+    rssCache = {
+      data: posts,
+      timestamp: Date.now(),
+    };
 
-  return posts;
+    return posts;
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to fetch Substack RSS feed:', error);
+
+    // Return stale cache if available, otherwise empty array
+    return rssCache?.data ?? [];
+  }
 };
 
 export const blogsRouter = router({
