@@ -129,9 +129,12 @@ exports[`Nav > renders with courses 1`] = `
                     Events
                   </a>
                   <a
+                    aria-label="Blog (opens in new tab)"
                     class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
-                    href="/blog"
+                    href="https://blog.bluedot.org"
+                    rel="noopener noreferrer"
                     tabindex="0"
+                    target="_blank"
                   >
                     Blog
                   </a>
@@ -253,9 +256,12 @@ exports[`Nav > renders with courses 1`] = `
               Events
             </a>
             <a
+              aria-label="Blog (opens in new tab)"
               class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
-              href="/blog"
+              href="https://blog.bluedot.org"
+              rel="noopener noreferrer"
               tabindex="0"
+              target="_blank"
             >
               Blog
             </a>

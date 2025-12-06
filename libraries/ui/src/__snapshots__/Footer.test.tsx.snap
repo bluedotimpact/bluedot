@@ -103,8 +103,10 @@ exports[`Footer > renders default as expected 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/blog"
+                  href="https://blog.bluedot.org"
+                  rel="noopener noreferrer"
                   tabindex="0"
+                  target="_blank"
                 >
                   Blog
                 </a>
@@ -210,8 +212,10 @@ exports[`Footer > renders default as expected 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/blog"
+                  href="https://blog.bluedot.org"
+                  rel="noopener noreferrer"
                   tabindex="0"
+                  target="_blank"
                 >
                   Blog
                 </a>
@@ -398,8 +402,10 @@ exports[`Footer > renders default as expected 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/blog"
+                  href="https://blog.bluedot.org"
+                  rel="noopener noreferrer"
                   tabindex="0"
+                  target="_blank"
                 >
                   Blog
                 </a>
@@ -656,8 +662,10 @@ exports[`Footer > renders with optional args 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/blog"
+                  href="https://blog.bluedot.org"
+                  rel="noopener noreferrer"
                   tabindex="0"
+                  target="_blank"
                 >
                   Blog
                 </a>
@@ -763,8 +771,10 @@ exports[`Footer > renders with optional args 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/blog"
+                  href="https://blog.bluedot.org"
+                  rel="noopener noreferrer"
                   tabindex="0"
+                  target="_blank"
                 >
                   Blog
                 </a>
@@ -951,8 +961,10 @@ exports[`Footer > renders with optional args 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/blog"
+                  href="https://blog.bluedot.org"
+                  rel="noopener noreferrer"
                   tabindex="0"
+                  target="_blank"
                 >
                   Blog
                 </a>

@@ -8,6 +8,11 @@ module.exports = withDefaultBlueDotNextConfig({
         destination: '/blog/running-versions-of-our-courses',
         permanent: true,
       },
+      {
+        source: '/blog/:slug',
+        destination: 'https://blog.bluedot.org/p/:slug',
+        permanent: true,
+      },
     ];
   },
   headers: [
