@@ -19,6 +19,7 @@ import CourseLander from '../../../components/lander/CourseLander';
 import { createAgiStrategyContent, AGI_STRATEGY_APPLICATION_URL } from '../../../components/lander/course-content/AgiStrategyContent';
 import { createBioSecurityContent, BIOSECURITY_APPLICATION_URL } from '../../../components/lander/course-content/BioSecurityContent';
 import { createTechnicalAiSafetyContent, TECHNICAL_AI_SAFETY_APPLICATION_URL } from '../../../components/lander/course-content/TechnicalAiSafetyContent';
+import { createAiGovernanceContent, AI_GOVERNANCE_APPLICATION_URL } from '../../../components/lander/course-content/AiGovernanceContent';
 import GraduateSection from '../../../components/lander/components/GraduateSection';
 import { CourseUnitsSection } from '../../../components/courses/CourseUnitsSection';
 import { getCourseData, type CourseAndUnits } from '../../../server/routers/courses';
@@ -77,6 +78,17 @@ const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: Cours
         courseSlug={slug}
         baseApplicationUrl={TECHNICAL_AI_SAFETY_APPLICATION_URL}
         createContentFor={createTechnicalAiSafetyContent}
+        courseOgImage={courseOgImage}
+      />
+    );
+  }
+
+  if (slug === 'ai-governance') {
+    return (
+      <CourseLander
+        courseSlug={slug}
+        baseApplicationUrl={AI_GOVERNANCE_APPLICATION_URL}
+        createContentFor={createAiGovernanceContent}
         courseOgImage={courseOgImage}
       />
     );
