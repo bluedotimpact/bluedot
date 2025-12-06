@@ -19,13 +19,13 @@ export const getAllPublishedBlogs = async () => {
 
 // Cache for RSS feed data
 let rssCache: {
-  data: Array<{
+  data: {
     title: string;
     link: string;
     pubDate: string;
     author?: string;
     contentSnippet?: string;
-  }>;
+  }[];
   timestamp: number;
 } | null = null;
 
