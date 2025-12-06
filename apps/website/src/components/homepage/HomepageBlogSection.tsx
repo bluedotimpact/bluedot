@@ -12,7 +12,7 @@ export type HomepageBlogSectionProps = {
 };
 
 const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
-  const { data: blogs, isLoading: loading, error } = trpc.blogs.getAll.useQuery();
+  const { data: blogs, isLoading: loading, error } = trpc.blogs.getSubstack.useQuery();
 
   if (error) {
     return <ErrorSection error={error} />;
@@ -50,7 +50,8 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
 
           <CTALinkOrButton
             url={ROUTES.blog.url}
-            className="hidden min-[680px]:flex h-11 px-4 bg-[rgba(19,19,46,0.1)] text-[#13132e] hover:text-[#13132e] text-[15px] font-medium tracking-[-0.3px] leading-[1.6] rounded-md hover:bg-[rgba(19,19,46,0.15)] whitespace-nowrap"
+            target="_blank"
+            className="hidden min-[680px]:flex h-[44px] px-[17px] py-[16px] text-[14px] font-normal leading-[18.2px] tracking-[0.42px] text-white bg-[#0033CC] rounded-[6px] hover:bg-[#0029A3] transition-all duration-200 whitespace-nowrap"
           >
             Read our blog
           </CTALinkOrButton>
@@ -62,7 +63,7 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
         ) : (
           <div className="flex flex-col min-[1025px]:flex-row gap-0 min-[1025px]:gap-12">
             {blogs?.slice(0, maxItems).map((blog, index) => (
-              <div key={blog.id} className="flex flex-col min-[1025px]:flex-row min-[1025px]:flex-1">
+              <div key={blog.link} className="flex flex-col min-[1025px]:flex-row min-[1025px]:flex-1">
                 <BlogCard blog={blog} />
                 {index < (maxItems ? Math.min(maxItems, blogs.length) : blogs.length) - 1 && (
                   <BlogDivider />
@@ -75,7 +76,8 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
         {/* Mobile CTA Button */}
         <CTALinkOrButton
           url={ROUTES.blog.url}
-          className="min-[680px]:hidden mt-12 h-11 px-4 bg-[rgba(19,19,46,0.1)] text-[#13132e] hover:text-[#13132e] text-[15px] font-medium tracking-[-0.3px] leading-[1.6] rounded-md hover:bg-[rgba(19,19,46,0.15)]"
+          target="_blank"
+          className="min-[680px]:hidden mt-12 h-[44px] px-[17px] py-[16px] text-[14px] font-normal leading-[18.2px] tracking-[0.42px] text-white bg-[#0033CC] rounded-[6px] hover:bg-[#0029A3] transition-all duration-200"
         >
           Read our blog
         </CTALinkOrButton>
@@ -91,7 +93,7 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
 export default HomepageBlogSection;
 
 type BlogCardProps = {
-  blog: inferRouterOutputs<AppRouter>['blogs']['getAll'][number];
+  blog: inferRouterOutputs<AppRouter>['blogs']['getSubstack'][number];
 };
 
 const getOrdinalSuffix = (day: number): string => {
@@ -105,11 +107,11 @@ const getOrdinalSuffix = (day: number): string => {
 };
 
 const BlogCard = ({ blog }: BlogCardProps) => {
-  const url = `/blog/${blog.slug}`;
+  const url = blog.link;
 
   let formattedDate = 'UNKNOWN DATE';
-  if (blog.publishedAt) {
-    const date = new Date(blog.publishedAt * 1000);
+  if (blog.pubDate) {
+    const date = new Date(blog.pubDate);
     const month = date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
     const day = date.getDate();
     const year = date.getFullYear();
@@ -117,7 +119,7 @@ const BlogCard = ({ blog }: BlogCardProps) => {
     formattedDate = `${month} ${day}${ordinal}, ${year}`;
   }
 
-  const authorName = blog.authorName?.toUpperCase() || 'UNKNOWN AUTHOR';
+  const authorName = blog.author?.toUpperCase() || 'UNKNOWN AUTHOR';
 
   return (
     <Link href={url} className="flex flex-col gap-6 min-[680px]:gap-4 min-[1024px]:gap-6 rounded-xl group">

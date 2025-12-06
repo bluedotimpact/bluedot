@@ -79,7 +79,7 @@ export const NavLinks: React.FC<{
       >
         Events
       </A>
-      <A href={ROUTES.blog.url} className={getLinkClasses(isCurrentPath(ROUTES.blog.url))}>
+      <A href={ROUTES.blog.url} target="_blank" rel="noopener noreferrer" className={getLinkClasses(isCurrentPath(ROUTES.blog.url))} aria-label="Blog (opens in new tab)">
         Blog
       </A>
       <A href={ROUTES.about.url} className={getLinkClasses(isCurrentPath(ROUTES.about.url))}>
