@@ -122,7 +122,7 @@ const BlogCard = ({ blog }: BlogCardProps) => {
   const authorName = blog.author?.toUpperCase() || 'UNKNOWN AUTHOR';
 
   return (
-    <Link href={url} className="flex flex-col gap-6 min-[680px]:gap-4 min-[1024px]:gap-6 rounded-xl group">
+    <Link href={url} target="_blank" rel="noopener noreferrer" className="flex flex-col gap-6 min-[680px]:gap-4 min-[1024px]:gap-6 rounded-xl group">
       <h3 className="text-[20px] min-[680px]:text-2xl leading-[1.3] tracking-[-0.4px] min-[680px]:tracking-[-0.18px] min-[1920px]:tracking-[-0.48px] text-[#13132e] font-normal group-hover:opacity-70 transition-opacity">
         {blog.title || 'Untitled'}
       </h3>
