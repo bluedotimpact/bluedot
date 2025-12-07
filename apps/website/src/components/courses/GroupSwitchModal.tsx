@@ -6,9 +6,9 @@ import {
   cn,
   CTALinkOrButton, ErrorSection, Modal, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
-import clsx from 'clsx';
 import { FaArrowRightArrowLeft } from 'react-icons/fa6';
 import { ClockUserIcon } from '../icons/ClockUserIcon';
+import { UserIcon } from '../icons/UserIcon';
 import { formatTime12HourClock, formatDateMonthAndDay, formatDateDayOfWeek } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 import Select from './group-switching/Select';
@@ -521,13 +521,6 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   );
 };
 
-// TODO move these to icons/
-const UserIcon = ({ className }: { className?: string }) => (
-  <svg className={className} width="1em" height="1em" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M10 10.5V9.5C10 8.96957 9.78929 8.46086 9.41421 8.08579C9.03914 7.71071 8.53043 7.5 8 7.5H4C3.46957 7.5 2.96086 7.71071 2.58579 8.08579C2.21071 8.46086 2 8.96957 2 9.5V10.5M8 3.5C8 4.60457 7.10457 5.5 6 5.5C4.89543 5.5 4 4.60457 4 3.5C4 2.39543 4.89543 1.5 6 1.5C7.10457 1.5 8 2.39543 8 3.5Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
 type GroupSwitchOptionProps = {
   id?: string;
   groupName: string;
@@ -566,21 +559,14 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
     return formatTime12HourClock(dateTime);
   }, [dateTime]);
 
-  const getClassNames = () => {
-    const classNames = [];
-
-    // Later classes have higher priority
-    classNames.push('rounded-lg p-3 transition-all cursor-pointer border bg-white hover:bg-blue-50 border-gray-200 hover:border-gray-300');
-    if (isSelected) classNames.push('border-bluedot-normal hover:border-bluedot-normal bg-blue-50');
-    if (isDisabled && !userIsParticipant) classNames.push('opacity-50 cursor-not-allowed hover:bg-white');
-    if (userIsParticipant) classNames.push('border-none bg-transparent hover:bg-transparent cursor-auto');
-
-    return cn(...classNames);
-  };
-
   return (
     <div
-      className={getClassNames()}
+      className={cn(
+        'rounded-lg p-3 transition-all cursor-pointer border bg-white hover:bg-blue-50 border-gray-200 hover:border-gray-300',
+        isSelected && 'border-bluedot-normal hover:border-bluedot-normal bg-blue-50',
+        isDisabled && !userIsParticipant && 'opacity-50 cursor-not-allowed hover:bg-white',
+        userIsParticipant && 'border-none bg-transparent hover:bg-transparent cursor-auto',
+      )}
       {...(!isDisabled && !userIsParticipant && {
         onClick: onSelect,
         onKeyDown: (e: React.KeyboardEvent) => {
@@ -604,7 +590,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
           {displayDate && displayTime && (
             <>
               <div className="font-medium whitespace-nowrap mb-[3px] mt-px">{displayDate}</div>
-              <div className={clsx('text-size-xs whitespace-nowrap', isSelected ? 'text-bluedot-normal' : 'text-gray-500')}>{displayTime}</div>
+              <div className={`text-size-xs whitespace-nowrap ${isSelected ? 'text-bluedot-normal' : 'text-gray-500'}`}>{displayTime}</div>
             </>
           )}
         </div>
