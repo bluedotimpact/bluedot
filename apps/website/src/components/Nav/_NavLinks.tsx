@@ -32,12 +32,12 @@ export const NavLinks: React.FC<{
   const { getPrimaryCourseURL } = usePrimaryCourseURL();
 
   const navCourses = loading ? [] : [
-    ...(courses.slice(0, 3) || []).map((course) => ({
+    ...(courses || []).map((course) => ({
       title: course.title,
       url: getPrimaryCourseURL(course.slug),
       isNew: course.isNew || false,
     })),
-    { title: 'Browse all', url: ROUTES.courses.url },
+    { title: 'See upcoming rounds', url: ROUTES.courses.url },
   ];
   const getLinkClasses = (isCurrentPathValue?: boolean) => {
     // Mobile drawer always has white background, so always use dark text
