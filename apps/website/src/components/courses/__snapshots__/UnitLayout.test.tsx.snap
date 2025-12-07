@@ -39,23 +39,18 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             />
           </svg>
           <div
-            class="mobile-unit-header__course-title-container flex flex-col text-left"
+            class="mobile-unit-header__course-title-container flex flex-col justify-center text-left flex-1 min-w-0"
           >
-            <p
-              class="mobile-unit-header__course-breadcrumb text-[12px] font-medium leading-[140%] tracking-[-0.5%] text-[#6A6F7A]"
-            >
-              What the fish [Test Course]
-            </p>
             <div
               class="mobile-unit-header__course-title-row flex items-center gap-1"
             >
               <p
-                class="mobile-unit-header__course-title text-[13px] font-semibold leading-[100%] tracking-[-0.5%] text-[#13132E]"
+                class="mobile-unit-header__course-title text-[17px] font-semibold leading-[120%] tracking-[-0.5%] text-[#13132E] truncate"
               >
-                Basic Principles of Fish
+                What the fish [Test Course]
               </p>
               <svg
-                class="size-3 text-[#13132E]"
+                class="size-3 text-[#13132E] flex-shrink-0"
                 fill="currentColor"
                 height="1em"
                 stroke="currentColor"
@@ -122,7 +117,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
         class="p-[24px]"
       >
         <div
-          class="flex flex-row items-start gap-[16px]"
+          class="flex flex-row items-center gap-[16px]"
         >
           <svg
             fill="none"
@@ -143,18 +138,13 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             />
           </svg>
           <div
-            class="flex flex-col justify-center gap-[4px] flex-1"
+            class="flex flex-1 min-w-0"
           >
             <h2
-              class="font-semibold text-[18px] leading-[120%] text-[#13132E] align-middle"
+              class="font-semibold text-[26px] leading-[44px] text-[#13132E]"
             >
               What the fish [Test Course]
             </h2>
-            <p
-              class="text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#6A6F7A]"
-            >
-              Interactive Course
-            </p>
           </div>
         </div>
       </div>
