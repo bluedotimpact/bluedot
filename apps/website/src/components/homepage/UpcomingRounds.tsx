@@ -39,7 +39,10 @@ export const UpcomingRounds = () => {
   const intensiveRounds = selectDiverseRounds(allRounds.intense);
   const partTimeRounds = selectDiverseRounds(allRounds.partTime);
 
-  if (intensiveRounds.length === 0 && partTimeRounds.length === 0) {
+  const hasIntensiveRounds = intensiveRounds.length > 0;
+  const hasPartTimeRounds = partTimeRounds.length > 0;
+
+  if (!hasIntensiveRounds && !hasPartTimeRounds) {
     return null;
   }
 
@@ -53,14 +56,14 @@ export const UpcomingRounds = () => {
 
         {/* Rounds Container */}
         <div className="flex flex-col gap-16 w-full">
-          {intensiveRounds.length > 0 && (
+          {hasIntensiveRounds && (
             <RoundGroup
               label="INTENSIVE"
               rounds={intensiveRounds}
             />
           )}
 
-          {partTimeRounds.length > 0 && (
+          {hasPartTimeRounds && (
             <RoundGroup
               label="PART-TIME"
               rounds={partTimeRounds}

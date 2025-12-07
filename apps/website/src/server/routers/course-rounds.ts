@@ -231,6 +231,7 @@ export const courseRoundsRouter = router({
       // Enrich rounds with course info and formatting
       const enrichedRounds = allRounds
         .map((round) => {
+          if (!round.courseId) return null;
           const course = courseMap.get(round.courseId);
           if (!course) return null;
 
