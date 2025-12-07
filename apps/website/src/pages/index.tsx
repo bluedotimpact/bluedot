@@ -92,6 +92,8 @@ const HomePage = () => {
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
       <StorySection />
+      {/* Divider */}
+      <div className="border-t-hairline border-color-divider" />
       <HomepageBlogSection maxItems={3} />
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />

@@ -19,7 +19,7 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
 
   if (loading) {
     return (
-      <section className="relative bg-white min-[680px]:border-b border-[rgba(19,19,46,0.1)] py-12 px-5 min-[680px]:py-16 min-[680px]:px-8 min-[1024px]:py-20 min-[1024px]:px-12 min-[1280px]:py-24 min-[1280px]:px-16 2xl:px-20">
+      <section className="relative bg-white py-12 px-5 min-[680px]:py-16 min-[680px]:px-8 min-[1024px]:py-20 min-[1024px]:px-12 min-[1280px]:py-24 min-[1280px]:px-16 2xl:px-20">
         <div className="relative z-10 max-w-screen-xl mx-auto">
           <div className="flex justify-between items-center mb-12 min-[680px]:mb-16 min-[1024px]:mb-20 min-[1280px]:mb-16">
             <h2
@@ -36,7 +36,7 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
   }
 
   return (
-    <section className="relative bg-white min-[680px]:border-b border-[rgba(19,19,46,0.1)] py-12 px-5 min-[680px]:py-16 min-[680px]:px-8 min-[1024px]:py-20 min-[1024px]:px-12 min-[1280px]:py-24 min-[1280px]:px-16 2xl:px-20">
+    <section className="relative bg-white py-12 px-5 min-[680px]:py-16 min-[680px]:px-8 min-[1024px]:py-20 min-[1024px]:px-12 min-[1280px]:py-24 min-[1280px]:px-16 2xl:px-20">
       <div className="relative z-10 max-w-screen-xl mx-auto">
         {/* Header Section */}
         <div className="flex flex-col min-[680px]:flex-row justify-between items-center gap-4 mb-12 min-[680px]:mb-16 min-[1024px]:mb-20 min-[1280px]:mb-16">
