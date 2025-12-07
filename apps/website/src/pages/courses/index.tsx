@@ -143,7 +143,7 @@ const CoursesPage = () => {
   const { courses: displayedCourses, isLoading, error } = useSortedCourses();
 
   return (
-    <div className="bg-white">
+    <div className="bg-white min-[680px]:pb-16 min-[1280px]:pb-24">
       <Head>
         <title>AI safety courses with certificates</title>
         <meta name="description" content="Courses that support you to develop the knowledge, community and network needed to pursue a high-impact career." />
@@ -227,7 +227,7 @@ const CoursesPage = () => {
         </div>
 
         {/* Newsletter Banner - ml-[316px] aligns with courses list (breadcrumb 252px + gap 64px) */}
-        <div className="-mx-5 mt-16 min-[680px]:mx-0 min-[680px]:mt-12 min-[680px]:mb-16 min-[1024px]:mt-16 min-[1280px]:ml-[316px] min-[1280px]:mt-20 min-[1280px]:mb-24">
+        <div className="-mx-5 mt-16 min-[680px]:mx-0 min-[680px]:mt-12 min-[1024px]:mt-16 min-[1280px]:ml-[316px] min-[1280px]:mt-20">
           <NewsletterBanner />
         </div>
       </div>
