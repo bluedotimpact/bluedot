@@ -16,6 +16,7 @@ type SelectProps = {
   onChange?: (value: string) => void;
   placeholder?: string;
   className?: string;
+  ariaLabel?: string;
 };
 
 // TODO add tests, move to ui/Select
@@ -26,6 +27,7 @@ const Select = ({
   onChange,
   placeholder = 'Select an option',
   className,
+  ariaLabel,
 }: SelectProps) => {
   const selectedOption = options.find((op) => op.value === value);
 
@@ -39,6 +41,7 @@ const Select = ({
     <AriaSelect
       selectedKey={value}
       onSelectionChange={handleSelectionChange}
+      aria-label={ariaLabel}
       className={cn('w-full flex flex-col bg-white border border-color-divider rounded-lg transition-all text-size-sm', className)}
     >
       {({ isOpen }) => (

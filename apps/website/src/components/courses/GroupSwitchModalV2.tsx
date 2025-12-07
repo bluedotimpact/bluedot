@@ -86,12 +86,14 @@ const getGroupSwitchDescription = ({
   isTemporarySwitch,
   selectedUnitNumber,
   spotsLeftIfKnown,
+  hasStarted = false,
 }: {
   userIsParticipant?: boolean;
   isSelected: boolean;
   isTemporarySwitch: boolean;
   selectedUnitNumber?: string;
   spotsLeftIfKnown: number | null;
+  hasStarted?: boolean;
 }): React.ReactNode => {
   if (isTemporarySwitch) {
     if (userIsParticipant) {
@@ -113,6 +115,10 @@ const getGroupSwitchDescription = ({
     if (isSelected) {
       return <span className="text-bluedot-normal">You are switching into this group for all upcoming units</span>;
     }
+  }
+
+  if (isTemporarySwitch && hasStarted) {
+    return <span>This discussion has passed</span>;
   }
 
   // Default: N spots left
@@ -262,6 +268,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         onChange={(value) => setSwitchType(value as SwitchType)}
         options={SWITCH_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
         className="border-none text-size-md font-medium bg-transparent w-fit mx-auto [&>button]:px-6 [&>button]:py-3"
+        ariaLabel="Select action"
       />
     );
   };
@@ -319,6 +326,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
           isTemporarySwitch: true,
           selectedUnitNumber,
           spotsLeftIfKnown: d.spotsLeftIfKnown,
+          hasStarted: d.hasStarted,
         }),
         onSelect: () => setSelectedDiscussionId(d.discussion.id),
         onConfirm: handleSubmit,
@@ -386,6 +394,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                 value={switchType}
                 onChange={(value) => setSwitchType(value as SwitchType)}
                 options={SWITCH_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
+                ariaLabel="Select action"
               />
             </div>
           )}
@@ -398,6 +407,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                 onChange={(value) => setSelectedUnitNumber(value)}
                 options={unitOptions}
                 placeholder="Select a unit"
+                ariaLabel="Select unit"
               />
             </div>
           )}
