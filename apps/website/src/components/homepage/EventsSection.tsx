@@ -393,7 +393,7 @@ const EventsSection = () => {
               {/* CTA Button - below cards for tablet/desktop */}
               <CTALinkOrButton
                 url="https://luma.com/bluedotevents?utm_source=website&utm_campaign=events-section"
-                className="hidden min-[680px]:block h-[44px] px-[17px] py-[16px] text-[14px] font-normal leading-[18.2px] tracking-[0.42px] text-white bg-[#0033CC] rounded-[6px] hover:bg-[#0029A3] transition-all duration-200 whitespace-nowrap"
+                className="hidden min-[680px]:flex h-[44px] px-[17px] text-[14px] font-normal leading-[18.2px] tracking-[0.42px] text-white bg-[#0033CC] rounded-[6px] hover:bg-[#0029A3] transition-all duration-200 whitespace-nowrap"
               >
                 See upcoming events
               </CTALinkOrButton>

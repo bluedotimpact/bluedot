@@ -28,10 +28,6 @@ export const createFutureOfAiContent = (
       text: 'Start the free course',
       url: FUTURE_OF_AI_START_URL,
     },
-    secondaryCta: {
-      text: 'Browse curriculum',
-      url: FUTURE_OF_AI_START_URL,
-    },
     imageSrc: '/images/lander/foai/hero-banner-split.png',
     imageAlt: 'Future of AI visualization',
   },

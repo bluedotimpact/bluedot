@@ -19,15 +19,6 @@ type Course = inferRouterOutputs<AppRouter>['courses']['getAll'][number];
 type CourseRounds = inferRouterOutputs<AppRouter>['courseRounds']['getRoundsForCourse'];
 type Round = CourseRounds['intense'][number];
 
-/* Course Menu Configuration */
-const COURSE_MENU_ITEMS = [
-  { slug: 'future-of-ai', title: 'The Future of AI', isNew: false },
-  { slug: 'ai-governance', title: 'AI Governance', isNew: false },
-  { slug: 'agi-strategy', title: 'AGI Strategy', isNew: false },
-  { slug: 'technical-ai-safety', title: 'Technical AI Safety', isNew: true },
-  { slug: 'biosecurity', title: 'Biosecurity', isNew: true },
-] as const;
-
 const COURSE_DESCRIPTIONS: Record<string, string> = {
   'future-of-ai': 'An introduction to what AI can do today, where it\'s going over the next decade, and how you can start contributing to a better future.',
   'ai-governance': 'Learn about the policy landscape, regulatory tools, and institutional reforms needed to navigate the transition to transformative AI.',
@@ -347,8 +338,7 @@ const BreadcrumbMenu = ({ courses }: BreadcrumbMenuProps) => {
 
       <ul className="flex flex-col">
         {courses.map((course) => {
-          const menuItem = COURSE_MENU_ITEMS.find((item) => item.slug === course.slug);
-          const isNew = menuItem?.isNew ?? false;
+          const isNew = course.isNew ?? false;
           const isActive = activeSection === `course-${course.slug}`;
 
           return (
