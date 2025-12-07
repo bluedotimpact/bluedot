@@ -55,6 +55,10 @@ export const createAiGovernanceContent = (
         description: 'who want to think through the biggest open questions in how to govern AI and build a credible portfolio of work',
       },
     ],
+    bottomCta: {
+      boldText: "Don't fit these perfectly? Apply anyway.",
+      text: 'Some of our most impactful participants have included teachers, policymakers, engineers, and community leaders. We bet on drive and ambition, not CVs.',
+    },
   },
 
   courseInformation: {

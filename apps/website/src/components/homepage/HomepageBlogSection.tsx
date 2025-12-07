@@ -5,7 +5,6 @@ import type { inferRouterOutputs } from '@trpc/server';
 import { ROUTES } from '../../lib/routes';
 import type { AppRouter } from '../../server/routers/_app';
 import { trpc } from '../../utils/trpc';
-import NewsletterBanner from './NewsletterBanner';
 
 export type HomepageBlogSectionProps = {
   maxItems?: number | undefined;
@@ -20,7 +19,7 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
 
   if (loading) {
     return (
-      <section className="relative bg-white min-[680px]:border-b border-[rgba(19,19,46,0.1)] py-12 px-5 min-[680px]:py-16 min-[680px]:px-8 min-[1024px]:py-20 min-[1024px]:px-12 min-[1280px]:py-24 min-[1280px]:px-16 2xl:px-20">
+      <section className="relative bg-white py-12 px-5 min-[680px]:py-16 min-[680px]:px-8 min-[1024px]:py-20 min-[1024px]:px-12 min-[1280px]:py-24 min-[1280px]:px-16 2xl:px-20">
         <div className="relative z-10 max-w-screen-xl mx-auto">
           <div className="flex justify-between items-center mb-12 min-[680px]:mb-16 min-[1024px]:mb-20 min-[1280px]:mb-16">
             <h2
@@ -37,7 +36,7 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
   }
 
   return (
-    <section className="relative bg-white min-[680px]:border-b border-[rgba(19,19,46,0.1)] py-12 px-5 min-[680px]:py-16 min-[680px]:px-8 min-[1024px]:py-20 min-[1024px]:px-12 min-[1280px]:py-24 min-[1280px]:px-16 2xl:px-20">
+    <section className="relative bg-white py-12 px-5 min-[680px]:py-16 min-[680px]:px-8 min-[1024px]:py-20 min-[1024px]:px-12 min-[1280px]:py-24 min-[1280px]:px-16 2xl:px-20">
       <div className="relative z-10 max-w-screen-xl mx-auto">
         {/* Header Section */}
         <div className="flex flex-col min-[680px]:flex-row justify-between items-center gap-4 mb-12 min-[680px]:mb-16 min-[1024px]:mb-20 min-[1280px]:mb-16">
@@ -74,17 +73,14 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
         )}
 
         {/* Mobile CTA Button */}
-        <CTALinkOrButton
-          url={ROUTES.blog.url}
-          target="_blank"
-          className="min-[680px]:hidden mt-12 h-[44px] px-[17px] py-[16px] text-[14px] font-normal leading-[18.2px] tracking-[0.42px] text-white bg-[#0033CC] rounded-[6px] hover:bg-[#0029A3] transition-all duration-200"
-        >
-          Read our blog
-        </CTALinkOrButton>
-
-        {/* Newsletter Banner */}
-        <div className="-mx-5 -mb-12 mt-16 min-[680px]:mx-0 min-[680px]:mb-0 lg:mt-20 xl:mt-24">
-          <NewsletterBanner />
+        <div className="min-[680px]:hidden flex justify-center mt-12">
+          <CTALinkOrButton
+            url={ROUTES.blog.url}
+            target="_blank"
+            className="h-[44px] px-[17px] py-[16px] text-[14px] font-normal leading-[18.2px] tracking-[0.42px] text-white bg-[#0033CC] rounded-[6px] hover:bg-[#0029A3] transition-all duration-200"
+          >
+            Read our blog
+          </CTALinkOrButton>
         </div>
       </div>
     </section>

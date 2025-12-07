@@ -260,7 +260,7 @@ const CoursesHero = () => {
 
             {/* Description */}
             <p className="text-size-sm min-[680px]:text-[18px] min-[1024px]:text-[20px] leading-[1.55] tracking-[-0.1px] text-white">
-              Join our next cohort and learn from AI safety experts. All courses are freely available on a pay-what-you-want model.
+              Learn how you can have a positive impact on the future of AI via one of our upcoming free courses.
             </p>
           </div>
         </div>

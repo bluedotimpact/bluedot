@@ -4,7 +4,7 @@ import { ROUTES } from '../../lib/routes';
 
 const StorySection = () => {
   return (
-    <section className="bg-white border-b border-[rgba(19,19,46,0.1)] py-[48px] px-5 min-[680px]:py-[64px] min-[680px]:px-8 min-[1024px]:py-[80px] lg:px-12 min-[1280px]:py-[96px] xl:px-16 2xl:px-20">
+    <section className="bg-white py-[48px] px-5 min-[680px]:py-[64px] min-[680px]:px-8 min-[1024px]:py-[80px] lg:px-12 min-[1280px]:py-[96px] xl:px-16 2xl:px-20">
       <div className="flex flex-col min-[1024px]:flex-row items-center justify-center gap-[64px] min-[1024px]:gap-[80px] min-[1280px]:gap-[96px] min-[1440px]:gap-[120px] max-w-screen-xl mx-auto">
 
         <div className="shrink-0 w-[234px] aspect-[234/229] min-[680px]:w-[334px] min-[680px]:aspect-square min-[1280px]:w-[400px] min-[1440px]:w-[450px]">

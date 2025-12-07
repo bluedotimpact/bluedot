@@ -12,8 +12,8 @@ export type TargetAudience = {
 export type BottomCta = {
   boldText: string;
   text: string;
-  buttonText: string;
-  buttonUrl: string;
+  buttonText?: string;
+  buttonUrl?: string;
 };
 
 export type WhoIsThisForSectionProps = {
@@ -57,13 +57,15 @@ const WhoIsThisForSection = ({
               <span className="font-semibold">{bottomCta.boldText}</span>
               <span> {bottomCta.text}</span>
             </P>
-            <CTALinkOrButton
-              variant="outline-black"
-              url={bottomCta.buttonUrl}
-              className="!font-medium text-size-sm px-5 py-2.5 !rounded-md !border-[rgba(19,19,46,0.3)] !text-[#13132e]"
-            >
-              {bottomCta.buttonText}
-            </CTALinkOrButton>
+            {bottomCta.buttonText && bottomCta.buttonUrl && (
+              <CTALinkOrButton
+                variant="outline-black"
+                url={bottomCta.buttonUrl}
+                className="!font-medium text-size-sm px-5 py-2.5 !rounded-md !border-[rgba(19,19,46,0.3)] !text-[#13132e]"
+              >
+                {bottomCta.buttonText}
+              </CTALinkOrButton>
+            )}
           </div>
         )}
       </div>

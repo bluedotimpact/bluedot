@@ -67,12 +67,12 @@ const CourseCurriculumSection = ({
               const bNum = parseInt(b.unitNumber || '0', 10);
               return aNum - bNum;
             })
-            .map((unit, index) => (
+            .map((unit) => (
               <CurriculumUnit
                 key={unit.id}
                 unit={unit}
                 courseSlug={courseSlug}
-                defaultExpanded={index === 0}
+                defaultExpanded={false}
               />
             ))}
         </div>
