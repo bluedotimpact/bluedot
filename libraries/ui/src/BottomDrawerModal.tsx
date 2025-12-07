@@ -14,6 +14,7 @@ import {
 } from 'framer-motion';
 import clsx from 'clsx';
 import type { ModalProps } from './Modal';
+import { cn } from './utils';
 
 // Layout constants
 const NAV_HEIGHT = 64;
@@ -34,6 +35,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
   isOpen,
   setIsOpen,
   title,
+  titleClassName,
   initialSize,
   children,
 }) => {
@@ -181,7 +183,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
 
                     {title && (
                       <div className="flex items-center justify-between px-5 pb-4">
-                        <h2 id="mobile-modal-title" className="text-size-lg font-semibold text-[#13132E]">
+                        <h2 id="mobile-modal-title" className={cn('text-size-lg font-semibold text-[#13132E]', titleClassName)}>
                           {title}
                         </h2>
                       </div>
