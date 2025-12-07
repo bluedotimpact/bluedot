@@ -93,7 +93,7 @@ describe('Nav', () => {
       // Check specific course links and their URLs
       const featuredCourse = Array.from(courseLinks).find((link) => link.textContent?.includes('Featured Course'));
       const newCourse = Array.from(courseLinks).find((link) => link.textContent?.includes('New Course'));
-      const browseAll = Array.from(courseLinks).find((link) => link.textContent === 'Browse all');
+      const seeUpcomingRounds = Array.from(courseLinks).find((link) => link.textContent === 'See upcoming rounds');
 
       expect(featuredCourse).toBeDefined();
       expect(featuredCourse?.getAttribute('href')).toBe('/courses/future-of-ai');
@@ -101,8 +101,8 @@ describe('Nav', () => {
       expect(newCourse).toBeDefined();
       expect(newCourse?.getAttribute('href')).toBe('/courses/ops');
 
-      expect(browseAll).toBeDefined();
-      expect(browseAll?.getAttribute('href')).toBe('/courses');
+      expect(seeUpcomingRounds).toBeDefined();
+      expect(seeUpcomingRounds?.getAttribute('href')).toBe('/courses');
 
       // Verify "New" tag
       const newTags = container.querySelectorAll(`${selector} .tag`);

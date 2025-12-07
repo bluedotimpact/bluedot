@@ -12,6 +12,8 @@ import { trpc } from '../../utils/trpc';
 import { AGI_STRATEGY_APPLICATION_URL } from '../../components/lander/course-content/AgiStrategyContent';
 import { BIOSECURITY_APPLICATION_URL } from '../../components/lander/course-content/BioSecurityContent';
 import { TECHNICAL_AI_SAFETY_APPLICATION_URL } from '../../components/lander/course-content/TechnicalAiSafetyContent';
+import NewsletterBanner from '../../components/homepage/NewsletterBanner';
+import { CourseIcon } from '../../components/courses/CourseIcon';
 
 type Course = inferRouterOutputs<AppRouter>['courses']['getAll'][number];
 type CourseRounds = inferRouterOutputs<AppRouter>['courseRounds']['getRoundsForCourse'];
@@ -25,15 +27,6 @@ const COURSE_MENU_ITEMS = [
   { slug: 'technical-ai-safety', title: 'Technical AI Safety', isNew: true },
   { slug: 'biosecurity', title: 'Biosecurity', isNew: true },
 ] as const;
-
-/* Course Icon Mapping */
-const COURSE_ICONS: Record<string, string> = {
-  'future-of-ai': '/images/courses/future-of-ai-icon.svg',
-  'ai-governance': '/images/courses/ai-governance-icon.svg',
-  'agi-strategy': '/images/courses/agi-strategy-icon.svg',
-  'technical-ai-safety': '/images/courses/technical-ai-safety-icon.svg',
-  biosecurity: '/images/courses/biosecurity-icon.svg',
-};
 
 const COURSE_DESCRIPTIONS: Record<string, string> = {
   'future-of-ai': 'An introduction to what AI can do today, where it\'s going over the next decade, and how you can start contributing to a better future.',
@@ -223,7 +216,7 @@ const CoursesPage = () => {
 
       {/* Main Content Area */}
       <div className="w-full mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-12 min-[1280px]:px-16 min-[1440px]:px-20 min-[1920px]:max-w-[1360px] min-[1920px]:px-0">
-        <div className="pt-8 pb-16 min-[680px]:py-16 min-[1280px]:py-24">
+        <div className="pt-8 min-[680px]:pt-16 min-[1280px]:pt-24">
           <div className="flex flex-col min-[1280px]:flex-row min-[1280px]:gap-16">
             {/* Breadcrumb Menu */}
             <BreadcrumbMenu courses={displayedCourses} />
@@ -240,6 +233,11 @@ const CoursesPage = () => {
               )}
             </div>
           </div>
+        </div>
+
+        {/* Newsletter Banner - ml-[316px] aligns with courses list (breadcrumb 252px + gap 64px) */}
+        <div className="-mx-5 mt-16 min-[680px]:mx-0 min-[680px]:mt-12 min-[680px]:mb-16 min-[1024px]:mt-16 min-[1280px]:ml-[316px] min-[1280px]:mt-20 min-[1280px]:mb-24">
+          <NewsletterBanner />
         </div>
       </div>
     </div>
@@ -481,15 +479,13 @@ type CourseHeaderProps = {
 };
 
 const CourseHeader = ({ course }: CourseHeaderProps) => {
-  const iconSrc = COURSE_ICONS[course.slug] || '/images/logo/BlueDot_Impact_Icon_White.svg';
-
   return (
     <>
       {/* Mobile Layout */}
       <div className="flex flex-col min-[680px]:hidden">
         {/* Course Icon */}
-        <div className="size-16 rounded-[12px] bg-[#1144cc] flex items-center justify-center mb-6" aria-hidden="true">
-          <img src={iconSrc} alt="" className="size-10" />
+        <div className="mb-6" aria-hidden="true">
+          <CourseIcon courseSlug={course.slug} size="xlarge" className="rounded-[12px]" />
         </div>
 
         <Link
@@ -507,9 +503,7 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
 
       {/* Desktop Layout */}
       <div className="hidden min-[680px]:flex items-start gap-6">
-        <div className="size-16 flex-shrink-0 rounded-[12px] bg-[#1144cc] flex items-center justify-center" aria-hidden="true">
-          <img src={iconSrc} alt="" className="size-10" />
-        </div>
+        <CourseIcon courseSlug={course.slug} size="xlarge" className="rounded-[12px]" />
 
         <Link
           href={course.path}

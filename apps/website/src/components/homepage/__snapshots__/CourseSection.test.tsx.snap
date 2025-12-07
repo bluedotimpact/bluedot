@@ -592,7 +592,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       <span
                         class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                       >
-                        Coming Jan 2026
+                        Coming Feb 2026
                       </span>
                     </div>
                   </div>
@@ -1049,7 +1049,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          Coming Jan 2026
+                          Coming Feb 2026
                         </span>
                       </div>
                     </div>
@@ -1491,7 +1491,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          Coming Jan 2026
+                          Coming Feb 2026
                         </span>
                       </div>
                     </div>
@@ -1933,7 +1933,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          Coming Jan 2026
+                          Coming Feb 2026
                         </span>
                       </div>
                     </div>

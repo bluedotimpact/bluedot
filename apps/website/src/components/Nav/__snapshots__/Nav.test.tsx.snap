@@ -113,7 +113,7 @@ exports[`Nav > renders with courses 1`] = `
                           href="/courses"
                           tabindex="0"
                         >
-                          Browse all
+                          See upcoming rounds
                         </a>
                       </div>
                     </div>
@@ -240,7 +240,7 @@ exports[`Nav > renders with courses 1`] = `
                     href="/courses"
                     tabindex="0"
                   >
-                    Browse all
+                    See upcoming rounds
                   </a>
                 </div>
               </div>
