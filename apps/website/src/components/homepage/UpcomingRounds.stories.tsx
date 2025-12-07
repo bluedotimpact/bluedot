@@ -93,7 +93,7 @@ const mockPartTimeRounds: Round[] = [
   },
 ];
 
-const meta = {
+const meta: Meta<typeof UpcomingRounds> = {
   title: 'Website/Homepage/UpcomingRounds',
   component: UpcomingRounds,
   parameters: {
@@ -113,7 +113,7 @@ const meta = {
     },
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof UpcomingRounds>;
+};
 
 export default meta;
 type Story = StoryObj<typeof meta>;
