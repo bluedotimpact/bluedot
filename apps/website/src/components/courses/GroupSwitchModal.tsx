@@ -4,19 +4,14 @@ import React, {
 } from 'react';
 import {
   cn,
-  CTALinkOrButton, ErrorSection, Modal, ProgressDots,
+  CTALinkOrButton, ErrorSection, Modal, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
-import {
-  Button,
-  Label,
-  ListBox,
-  ListBoxItem,
-  Select as AriaSelect,
-} from 'react-aria-components';
-import { FaChevronDown, FaCheck } from 'react-icons/fa6';
 import clsx from 'clsx';
+import { FaArrowRightArrowLeft } from 'react-icons/fa6';
+import { ClockUserIcon } from '../icons/ClockUserIcon';
 import { formatTime12HourClock, formatDateMonthAndDay, formatDateDayOfWeek } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
+import Select from './group-switching/Select';
 
 export type GroupSwitchModalProps = {
   handleClose: () => void;
@@ -26,11 +21,17 @@ export type GroupSwitchModalProps = {
 };
 
 const SWITCH_TYPE_OPTIONS = [
-  { value: 'Switch group for one unit', label: 'Switch group for one unit' },
-  { value: 'Switch group permanently', label: 'Switch group permanently' },
+  {
+    value: 'Switch group for one unit',
+    label: <span className="grid grid-cols-[20px_1fr] gap-2 items-center"><ClockUserIcon className="mx-auto size-[22px] -translate-y-px" /> Switch group for one unit</span>,
+  },
+  {
+    value: 'Switch group permanently',
+    label: <span className="grid grid-cols-[20px_1fr] gap-2 items-center"><FaArrowRightArrowLeft className="mx-auto size-[14px]" /> Switch group permanently</span>,
+  },
 ] as const;
 
-export type SwitchType = (typeof SWITCH_TYPE_OPTIONS)[number]['value'];
+type SwitchType = (typeof SWITCH_TYPE_OPTIONS)[number]['value'];
 
 const getGMTOffsetWithCity = () => {
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -144,10 +145,11 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   const [selectedDiscussionId, setSelectedDiscussionId] = useState('');
   const [isManualRequest, setIsManualRequest] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [hasUpdatedAvailability, setHasUpdatedAvailability] = useState(false);
 
   const isTemporarySwitch = switchType === 'Switch group for one unit';
 
-  const { data: user, error: userError } = trpc.users.getUser.useQuery();
+  const auth = useAuthStore((s) => s.auth);
 
   const { data: courseData, isLoading: isCourseLoading, error: courseError } = trpc.courses.getBySlug.useQuery({ courseSlug });
 
@@ -221,7 +223,9 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
   const currentInfo = getCurrentDiscussionInfo();
 
-  const isSubmitDisabled = isSubmitting || !((isTemporarySwitch ? selectedDiscussionId : selectedGroupId) || isManualRequest) || !reason.trim();
+  const isSubmitDisabled = isSubmitting
+    || !reason.trim()
+    || (isManualRequest ? !hasUpdatedAvailability : !(isTemporarySwitch ? selectedDiscussionId : selectedGroupId));
 
   useEffect(() => {
     setSelectedDiscussionId('');
@@ -253,23 +257,20 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   };
 
   const getModalTitle = () => {
-    if (isManualRequest) {
-      return !showSuccess ? 'Request manual switch' : (
-        <div className="flex items-center gap-3">
-          <SendIcon />
-          <span>We are working on your request</span>
-        </div>
-      );
-    }
-    if (showSuccess) {
-      return (
-        <div className="flex items-center gap-3">
-          <SuccessIcon />
-          <span>Success!</span>
-        </div>
-      );
-    }
-    return 'Group switching';
+    const textClassName = 'text-size-md py-2 font-semibold mx-auto';
+    if (isManualRequest && !showSuccess) return <div className={textClassName}>Request manual switch</div>;
+    if (isManualRequest && showSuccess) return <div className={textClassName}>We are working on your request</div>;
+    if (showSuccess) return <div className={textClassName}>Success</div>;
+
+    return (
+      <Select
+        value={switchType}
+        onChange={(value) => setSwitchType(value as SwitchType)}
+        options={SWITCH_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
+        className="border-none text-size-md font-medium bg-transparent w-fit mx-auto [&>button]:px-6 [&>button]:py-3"
+        ariaLabel="Select action"
+      />
+    );
   };
   const title = getModalTitle();
 
@@ -344,12 +345,31 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
   const timezoneMessage = `Times are in your time zone: ${getGMTOffsetWithCity()}`;
 
+  // Labels differ between manual request and auto-switch flows
+  const switchTypeLabel = '1. What are you switching?';
+  const unitLabel = `${isManualRequest ? '2' : '1'}. Select unit to switch group discussion slot`;
+
+  // Reason step: Manual+temp=3, Manual+perm=2, Auto+temp=2, Auto+perm=1
+  const getReasonStepNumber = () => {
+    if (isManualRequest) return isTemporarySwitch ? 3 : 2;
+    return isTemporarySwitch ? 2 : 1;
+  };
+  const reasonLabel = `${getReasonStepNumber()}. Tell us why you're making this change (required)`;
+  const availabilityLabel = `${isTemporarySwitch ? '4' : '3'}. Update availability (required)`;
+  const selectGroupLabel = `${isTemporarySwitch ? '3' : '2'}. Select a group`;
+
   return (
-    <Modal isOpen setIsOpen={(open: boolean) => !open && handleClose()} title={title} bottomDrawerOnMobile>
-      <div className="w-full max-w-[600px]">
+    <Modal
+      isOpen
+      setIsOpen={(open: boolean) => !open && handleClose()}
+      title={title}
+      bottomDrawerOnMobile
+      desktopHeaderClassName="border-b border-charcoal-light pt-3 pb-2 mb-0"
+      ariaLabel="Group switching"
+    >
+      <div className="w-full pt-6 max-w-[600px]">
         {(isDiscussionsLoading || isCourseLoading) && <ProgressDots />}
         {submitGroupSwitchMutation.isError && <ErrorSection error={submitGroupSwitchMutation.error} />}
-        {userError && <ErrorSection error={userError} />}
         {courseError && <ErrorSection error={courseError} />}
         {discussionsError && <ErrorSection error={discussionsError} />}
         {showSuccess && (
@@ -365,56 +385,56 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
           </div>
         )}
         {!isDiscussionsLoading && !isCourseLoading && !showSuccess && (
-        <form className="flex flex-col gap-5">
+        <form className="flex flex-col gap-8">
+          {/* Manual request: Switch type dropdown */}
           {isManualRequest && (
-            <div className="text-size-sm text-[#666C80]">
-              We're keen for you to request manual switches where necessary to attend group discussions.
-              However, because they do take time for us to process we expect you to have made a sincere
-              effort to make your original discussion group and consider others available on the previous screen.
-            </div>
-          )}
-          <Select
-            label="Action"
-            value={switchType}
-            onChange={(value) => setSwitchType(value as SwitchType)}
-            options={SWITCH_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
-          />
-          {isTemporarySwitch && (
-            <Select
-              label="Unit"
-              value={selectedUnitNumber}
-              onChange={(value) => setSelectedUnitNumber(value)}
-              options={unitOptions}
-              placeholder="Select a unit"
-            />
-          )}
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-col gap-2">
-              <div className="flex flex-col gap-2">
-                <label htmlFor="reason" className="text-size-sm font-medium text-[#00114D]">Tell us why you're making this change.*</label>
-                <p id="reason-description" className="text-size-xs text-[#666C80]">
-                  Participants who stick with their group usually have a better experience on the course.
-                </p>
-              </div>
-              <textarea
-                id="reason"
-                placeholder="Share your reason here"
-                value={reason}
-                onChange={(e) => setReason(e.target.value)}
-                className="border border-color-divider rounded-lg px-3 py-2 min-h-[80px] bg-white"
-                required
-                aria-describedby="reason-description"
-                aria-label="Reason for group switch request"
+            <div className="flex flex-col gap-3">
+              <span className="text-size-sm font-medium text-[#13132E]">{switchTypeLabel}</span>
+              <Select
+                value={switchType}
+                onChange={(value) => setSwitchType(value as SwitchType)}
+                options={SWITCH_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
+                ariaLabel="Select action"
               />
             </div>
+          )}
+          {/* Unit selector (temporary switch only) */}
+          {isTemporarySwitch && (
+            <div className="flex flex-col gap-3">
+              <span className="text-size-sm font-medium text-[#13132E]">{unitLabel}</span>
+              <Select
+                value={selectedUnitNumber}
+                onChange={(value) => setSelectedUnitNumber(value)}
+                options={unitOptions}
+                placeholder="Select a unit"
+                ariaLabel="Select unit"
+              />
+            </div>
+          )}
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
+              <label htmlFor="reason" className="text-size-sm font-medium text-[#13132E]">{reasonLabel}</label>
+              <p id="reason-description" className="text-size-xs text-[#666C80]">
+                Participants who stick with their group usually have a better experience on the course.
+              </p>
+            </div>
+            <textarea
+              id="reason"
+              placeholder="Share your reason here..."
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              className="border border-color-divider rounded-lg px-3 py-2 min-h-[80px] bg-white"
+              required
+              aria-describedby="reason-description"
+              aria-label="Reason for group switch request"
+            />
           </div>
           {!isManualRequest && (
             <>
-              <div className="h-px bg-color-divider" />
-              <div className="flex flex-col gap-2">
-                <div className="block text-size-sm font-medium text-[#00114D]">
-                  Select a group
-                </div>
+              <div className="flex flex-col gap-3">
+                <span className="text-size-sm font-medium text-[#13132E]">
+                  {selectGroupLabel}
+                </span>
                 {currentInfo && (
                   <GroupSwitchOption {...currentInfo} />
                 )}
@@ -430,15 +450,18 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                   <GroupSwitchOption key={option.id} {...option} />
                 ))}
               </div>
-              <div className="border-t border-color-divider pt-4">
-                <div className="flex flex-col gap-2">
-                  <h3 className="text-size-sm font-medium text-[#00114D]">Don't see a group that works?</h3>
-                  <p className="text-size-xs text-[#666C80]">
-                    You can request a manual switch to join a group that's full or a group that is not
-                    listed above, and we'll do our best to accommodate you.
-                  </p>
+              <div className="border-t border-color-divider pt-8 mb-2">
+                <div className="flex flex-col gap-3">
+                  <div className="flex flex-col gap-2">
+                    <h3 className="text-size-sm font-medium text-[#13132E]">Don't see a group that works?</h3>
+                    <p className="text-size-xs text-[#666C80]">
+                      You can request a manual switch to join a group that's full or a group that is not
+                      listed above, and we'll do our best to accommodate you.
+                    </p>
+                  </div>
                   <CTALinkOrButton
                     variant="secondary"
+                    className="border-[#13132E] text-[#13132E] my-1"
                     onClick={() => setIsManualRequest(true)}
                     aria-label="Request manual group switch"
                   >
@@ -451,34 +474,44 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
 
           {isManualRequest && (
             <>
-              {user?.email && (
-                <div className="flex flex-col gap-2">
-                  <h3 className="text-size-sm font-medium text-[#00114D]">Update your availability</h3>
-                  <p className="text-size-xs text-[#666C80]">
-                    This helps us assign you to a group which best suits you. Then, return here to click "Submit".
-                  </p>
-                  <CTALinkOrButton
-                    variant="secondary"
-                    className="mx-auto"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    url={`https://availability.bluedot.org/form/bluedot-course?email=${encodeURIComponent(user.email)}&utm_source=bluedot-group-switch-modal`}
-                    aria-label="Update availability (open in new tab)"
-                  >
-                    Update availability
-                  </CTALinkOrButton>
-                </div>
-              )}
-              <div className="flex gap-2 justify-end">
-                <CTALinkOrButton
-                  className="mx-auto"
-                  onClick={handleSubmit}
-                  disabled={isSubmitDisabled}
-                  aria-label={isSubmitting ? 'Submitting group switch request' : 'Submit group switch request'}
-                >
-                  {isSubmitting ? 'Submitting...' : 'Submit'}
-                </CTALinkOrButton>
+              {/* Availability section */}
+              <div className="flex flex-col gap-3">
+                <span className="text-size-sm font-medium text-[#13132E]">{availabilityLabel}</span>
+                <p className="text-size-xs text-[#666C80]">
+                  To help us assign you to a group which best suits you,{' '}
+                  {auth?.email ? (
+                    <a
+                      href={`https://availability.bluedot.org/form/bluedot-course?email=${encodeURIComponent(auth.email)}&utm_source=bluedot-group-switch-modal`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-bluedot-normal underline"
+                    >
+                      please update your availability
+                    </a>
+                  ) : (
+                    <span>please update your availability</span>
+                  )}
+                  . Then check the box below and request your manual switch.
+                </p>
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={hasUpdatedAvailability}
+                    onChange={(e) => setHasUpdatedAvailability(e.target.checked)}
+                    className="size-5 rounded border-gray-300 text-bluedot-normal focus:ring-bluedot-normal cursor-pointer"
+                  />
+                  <span className="text-size-sm text-[#13132E]">I have updated my availability</span>
+                </label>
               </div>
+              {/* Submit button */}
+              <CTALinkOrButton
+                className="w-full"
+                onClick={handleSubmit}
+                disabled={isSubmitDisabled}
+                aria-label={isSubmitting ? 'Submitting group switch request' : 'Submit group switch request'}
+              >
+                {isSubmitting ? 'Submitting...' : 'Request Manual Switch'}
+              </CTALinkOrButton>
             </>
           )}
         </form>
@@ -488,99 +521,10 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   );
 };
 
-type SelectProps = {
-  label: string;
-  options: { value: string; label: string; disabled?: boolean }[];
-  value?: string;
-  onChange?: (value: string) => void;
-  placeholder?: string;
-};
-
-const Select: React.FC<SelectProps> = ({
-  label,
-  options,
-  value,
-  onChange,
-  placeholder = 'Select an option',
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const selectedOption = options.find((op) => op.value === value);
-
-  const handleSelectionChange = (key: React.Key | null) => {
-    if (key !== null) {
-      onChange?.(key as string);
-      setIsOpen(false);
-    }
-  };
-
-  return (
-    <AriaSelect
-      selectedKey={value}
-      aria-label={`Select ${label}`}
-      onSelectionChange={handleSelectionChange}
-      className="w-full flex flex-col bg-white border border-color-divider rounded-lg transition-all"
-    >
-      <Button
-        className="w-full flex border-none justify-between px-4 py-3 items-center cursor-pointer text-left"
-        onPress={() => setIsOpen(!isOpen)}
-      >
-        <div className="flex flex-col gap-2 flex-1 min-w-0">
-          <Label className="text-size-xs font-medium text-gray-500 flex-shrink-0">
-            {label}
-          </Label>
-          {!isOpen && (
-            <div className="text-size-sm text-gray-900">
-              {selectedOption?.label || value || placeholder}
-            </div>
-          )}
-        </div>
-        <FaChevronDown
-          className={`size-3 flex-shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`}
-          aria-hidden="true"
-        />
-      </Button>
-      {isOpen && (
-        <ListBox className="flex flex-col px-4 pb-3 gap-1 max-h-60 overflow-y-auto outline-none">
-          {options.map((option) => (
-            <ListBoxItem
-              key={option.value}
-              id={option.value}
-              textValue={option.label}
-              isDisabled={option.disabled}
-              className={clsx(
-                'px-3 py-2 gap-3 text-size-sm rounded transition-colors hover:bg-gray-50 focus:bg-blue-50 focus:text-blue-900 outline-none flex items-center',
-                option.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
-              )}
-            >
-              <span>{option.label}</span>
-              {option.value === value && (
-                <FaCheck className="size-3 text-blue-600" aria-hidden="true" />
-              )}
-            </ListBoxItem>
-          ))}
-        </ListBox>
-      )}
-    </AriaSelect>
-  );
-};
-
+// TODO move these to icons/
 const UserIcon = ({ className }: { className?: string }) => (
   <svg className={className} width="1em" height="1em" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M10 10.5V9.5C10 8.96957 9.78929 8.46086 9.41421 8.08579C9.03914 7.71071 8.53043 7.5 8 7.5H4C3.46957 7.5 2.96086 7.71071 2.58579 8.08579C2.21071 8.46086 2 8.96957 2 9.5V10.5M8 3.5C8 4.60457 7.10457 5.5 6 5.5C4.89543 5.5 4 4.60457 4 3.5C4 2.39543 4.89543 1.5 6 1.5C7.10457 1.5 8 2.39543 8 3.5Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
-const SuccessIcon = () => (
-  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect className="fill-bluedot-normal" width="24" height="24" rx="12" />
-    <path d="M16 9L10.6496 14.3504C10.567 14.433 10.433 14.433 10.3504 14.3504L8 12" stroke="white" strokeWidth="1.75" strokeLinecap="round" />
-  </svg>
-);
-
-const SendIcon = () => (
-  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect className="fill-bluedot-normal" width="24" height="24" rx="12" />
-    <path d="M17 7L11.5 12.5M17 7L13.5 17L11.5 12.5M17 7L7 10.5L11.5 12.5" stroke="white" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 

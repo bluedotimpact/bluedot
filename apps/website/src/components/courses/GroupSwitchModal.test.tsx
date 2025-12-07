@@ -151,7 +151,9 @@ describe('GroupSwitchModal', () => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
       });
 
-      expect(screen.getByText('Switch group for one unit')).toBeInTheDocument();
+      // Verify the switch type selector shows "Switch group for one unit"
+      // React Aria creates hidden <option> elements for accessibility, so multiple matches expected
+      expect(screen.getAllByText(/Switch group for one unit/i).length).toBeGreaterThanOrEqual(1);
 
       // Current and alternative discussions are shown
       expect(screen.getByText('Morning Group A')).toBeInTheDocument();
@@ -192,7 +194,7 @@ describe('GroupSwitchModal', () => {
       });
 
       await waitFor(() => {
-        expect(screen.getByText('Success!')).toBeInTheDocument();
+        expect(screen.getByText('Success')).toBeInTheDocument();
       });
     });
 
@@ -210,10 +212,10 @@ describe('GroupSwitchModal', () => {
       });
 
       // Change switch type to "Switch group permanently"
-      const actionButton = screen.getByLabelText('Select Action');
-      fireEvent.click(actionButton);
-      const listbox = await screen.findByRole('listbox', { name: /Action/i });
-      const permanentOption = within(listbox).getByText('Switch group permanently');
+      const switchTypeButton = screen.getByRole('button', { name: /Select action/i });
+      fireEvent.click(switchTypeButton);
+      const listbox = await screen.findByRole('listbox', { name: /Select action/i });
+      const permanentOption = within(listbox).getByText(/Switch group permanently/i);
       fireEvent.click(permanentOption);
 
       // Wait for UI to update and show groups instead of discussions
@@ -260,7 +262,7 @@ describe('GroupSwitchModal', () => {
       });
 
       await waitFor(() => {
-        expect(screen.getByText('Success!')).toBeInTheDocument();
+        expect(screen.getByText('Success')).toBeInTheDocument();
       });
     });
 
@@ -283,13 +285,16 @@ describe('GroupSwitchModal', () => {
 
       await waitFor(() => {
         // UI changes to show manual request form
-        expect(screen.getByText(/keen for you to request manual switches/i)).toBeInTheDocument();
+        expect(screen.getByText(/To help us assign you to a group which best suits you/i)).toBeInTheDocument();
       });
 
       const reasonTextarea = screen.getByLabelText('Reason for group switch request');
       fireEvent.change(reasonTextarea, {
         target: { value: 'None of the available times work for my schedule' },
       });
+
+      const availabilityCheckbox = screen.getByRole('checkbox', { name: /I have updated my availability/i });
+      fireEvent.click(availabilityCheckbox);
 
       const submitButton = screen.getByRole('button', { name: /Submit group switch request/i });
       expect(submitButton).not.toBeDisabled();
@@ -353,16 +358,14 @@ describe('GroupSwitchModal', () => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
       });
 
-      // Verify selectedUnitNumber defaults to "2"
-      const unitButton = screen.getByLabelText('Select Unit');
-      expect(unitButton).toHaveTextContent('2');
-
-      // Verify Unit 2 discussion is shown
+      // Verify selectedUnitNumber defaults to "2" and Unit 2 discussion is shown
       expect(screen.getByText('Unit 2 Group')).toBeInTheDocument();
+      const unitButton = screen.getByRole('button', { name: /Select unit/i });
+      expect(unitButton).toBeInTheDocument();
 
       // Change to unit 1
       fireEvent.click(unitButton);
-      const unitListbox = await screen.findByRole('listbox', { name: /Unit/i });
+      const unitListbox = await screen.findByRole('listbox', { name: /Select unit/i });
       const unit1Option = within(unitListbox).getByText(/Unit 1/i);
       fireEvent.click(unit1Option);
 
@@ -439,10 +442,10 @@ describe('GroupSwitchModal', () => {
       expect(screen.getByText('This discussion has passed')).toBeInTheDocument();
 
       // Open unit selector to check if Unit 2 is disabled
-      const unitButton = screen.getByLabelText('Select Unit');
+      const unitButton = screen.getByRole('button', { name: /Select unit/i });
       fireEvent.click(unitButton);
 
-      const unitListbox = await screen.findByRole('listbox', { name: /Unit/i });
+      const unitListbox = await screen.findByRole('listbox', { name: /Select unit/i });
       const unit2Option = within(unitListbox).getByText(/Unit 2.*no upcoming discussions/i);
       expect(unit2Option).toBeInTheDocument();
 
@@ -450,20 +453,20 @@ describe('GroupSwitchModal', () => {
       const unit2ListItem = unit2Option.closest('[role="option"]');
       expect(unit2ListItem).toHaveAttribute('aria-disabled', 'true');
 
-      // Now switch to manual request mode and verify units become enabled
-      fireEvent.click(unitButton); // Close the unit dropdown
+      // Switch to manual request mode and verify units become enabled
+      fireEvent.click(unitButton);
       const manualSwitchButton = screen.getByRole('button', { name: /Request manual group switch/i });
       fireEvent.click(manualSwitchButton);
 
       await waitFor(() => {
-        expect(screen.getByText(/keen for you to request manual switches/i)).toBeInTheDocument();
+        expect(screen.getByText(/To help us assign you to a group which best suits you/i)).toBeInTheDocument();
       });
 
       // Open unit selector again in manual mode
-      const unitButtonInManualMode = screen.getByLabelText('Select Unit');
+      const unitButtonInManualMode = screen.getByRole('button', { name: /Select unit/i });
       fireEvent.click(unitButtonInManualMode);
 
-      const unitListboxInManualMode = await screen.findByRole('listbox', { name: /Unit/i });
+      const unitListboxInManualMode = await screen.findByRole('listbox', { name: /Select unit/i });
       const unit2OptionInManualMode = within(unitListboxInManualMode).getByText(/Unit 2/i);
 
       // Verify Unit 2 is now enabled in manual mode
@@ -504,13 +507,16 @@ describe('GroupSwitchModal', () => {
       // Verify manual request flow still works
       fireEvent.click(manualSwitchButton);
       await waitFor(() => {
-        expect(screen.getByText(/keen for you to request manual switches/i)).toBeInTheDocument();
+        expect(screen.getByText(/To help us assign you to a group which best suits you/i)).toBeInTheDocument();
       });
 
       const reasonTextarea = screen.getByLabelText('Reason for group switch request');
       fireEvent.change(reasonTextarea, {
         target: { value: 'No available options work for me' },
       });
+
+      const availabilityCheckbox = screen.getByRole('checkbox', { name: /I have updated my availability/i });
+      fireEvent.click(availabilityCheckbox);
 
       const submitButton = screen.getByRole('button', { name: /Submit group switch request/i });
       fireEvent.click(submitButton);
@@ -558,10 +564,10 @@ describe('GroupSwitchModal', () => {
       });
 
       // Switch to "Switch group permanently"
-      const actionButton = screen.getByLabelText('Select Action');
+      const actionButton = screen.getByRole('button', { name: /Select action/i });
       fireEvent.click(actionButton);
-      const listbox = await screen.findByRole('listbox', { name: /Action/i });
-      const permanentOption = within(listbox).getByText('Switch group permanently');
+      const listbox = await screen.findByRole('listbox', { name: /Select action/i });
+      const permanentOption = within(listbox).getByText(/Switch group permanently/i);
       fireEvent.click(permanentOption);
 
       // Verify selection is cleared - no Confirm button should appear without selecting a group
@@ -578,10 +584,10 @@ describe('GroupSwitchModal', () => {
       });
 
       // Switch back to "Switch group for one unit"
-      const actionButton2 = screen.getByLabelText('Select Action');
+      const actionButton2 = screen.getByRole('button', { name: /Select action/i });
       fireEvent.click(actionButton2);
-      const listbox2 = await screen.findByRole('listbox', { name: /Action/i });
-      const oneUnitOption = within(listbox2).getByText('Switch group for one unit');
+      const listbox2 = await screen.findByRole('listbox', { name: /Select action/i });
+      const oneUnitOption = within(listbox2).getByText(/Switch group for one unit/i);
       fireEvent.click(oneUnitOption);
 
       // Verify selection is cleared again
@@ -642,8 +648,11 @@ describe('GroupSwitchModal', () => {
       fireEvent.click(manualSwitchButton);
 
       await waitFor(() => {
-        expect(screen.getByText(/keen for you to request manual switches/i)).toBeInTheDocument();
+        expect(screen.getByText(/To help us assign you to a group which best suits you/i)).toBeInTheDocument();
       });
+
+      const availabilityCheckbox = screen.getByRole('checkbox', { name: /I have updated my availability/i });
+      fireEvent.click(availabilityCheckbox);
 
       const submitButton = screen.getByRole('button', { name: /Submit group switch request/i });
       fireEvent.click(submitButton);
@@ -754,7 +763,7 @@ describe('GroupSwitchModal', () => {
       });
 
       await waitFor(() => {
-        expect(screen.getByText('Success!')).toBeInTheDocument();
+        expect(screen.getByText('Success')).toBeInTheDocument();
       });
     });
 
@@ -780,7 +789,7 @@ describe('GroupSwitchModal', () => {
       fireEvent.click(manualSwitchButton);
 
       await waitFor(() => {
-        expect(screen.getByText(/keen for you to request manual switches/i)).toBeInTheDocument();
+        expect(screen.getByText(/To help us assign you to a group which best suits you/i)).toBeInTheDocument();
       });
 
       // Fill in form
@@ -788,6 +797,9 @@ describe('GroupSwitchModal', () => {
       fireEvent.change(reasonTextarea, {
         target: { value: 'I need to join a group as I was accepted late' },
       });
+
+      const availabilityCheckbox = screen.getByRole('checkbox', { name: /I have updated my availability/i });
+      fireEvent.click(availabilityCheckbox);
 
       const submitButton = screen.getByRole('button', { name: /Submit group switch request/i });
       fireEvent.click(submitButton);
