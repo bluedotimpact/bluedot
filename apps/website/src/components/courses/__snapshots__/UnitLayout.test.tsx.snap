@@ -560,7 +560,16 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           </div>
           <div
             class="markdown-extended-renderer prose prose-p:text-[16px] prose-li:text-[16px] prose-p:leading-[160%] prose-li:leading-[160%] prose-p:tracking-[-0.002em] prose-li:tracking-[-0.002em] prose-p:font-normal prose-li:font-normal prose-p:font-sans prose-li:font-sans prose-strong:font-sans prose-strong:font-semibold prose-strong:text-[16px] prose-strong:leading-[160%] prose-strong:tracking-[-0.002em] prose-a:font-normal prose-a:underline max-w-none mt-8 md:mt-6"
-          />
+          >
+            <p>
+              Five years ago, AI systems struggled to form coherent sentences. Today, &gt;5% of the world use AI products like ChatGPT every week for help with work, studies, and creative projects. These systems extend far beyond a simple chat. They can produce art, write complex code, and control robots to do real-world tasks.
+            </p>
+            
+
+            <p>
+              This unit explores how AI is evolving from simple "tools" into autonomous "agents",  capable of setting goals, making complex plans, and acting in the real world.
+            </p>
+          </div>
           <div
             class="unit__cta-container flex flex-row justify-center mt-6 mx-1 mb-14 sm:mb-0"
           >
