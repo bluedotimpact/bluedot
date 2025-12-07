@@ -13,6 +13,7 @@ import { AGI_STRATEGY_APPLICATION_URL } from '../../components/lander/course-con
 import { BIOSECURITY_APPLICATION_URL } from '../../components/lander/course-content/BioSecurityContent';
 import { TECHNICAL_AI_SAFETY_APPLICATION_URL } from '../../components/lander/course-content/TechnicalAiSafetyContent';
 import NewsletterBanner from '../../components/homepage/NewsletterBanner';
+import { CourseIcon } from '../../components/courses/CourseIcon';
 
 type Course = inferRouterOutputs<AppRouter>['courses']['getAll'][number];
 type CourseRounds = inferRouterOutputs<AppRouter>['courseRounds']['getRoundsForCourse'];
@@ -26,15 +27,6 @@ const COURSE_MENU_ITEMS = [
   { slug: 'technical-ai-safety', title: 'Technical AI Safety', isNew: true },
   { slug: 'biosecurity', title: 'Biosecurity', isNew: true },
 ] as const;
-
-/* Course Icon Mapping */
-const COURSE_ICONS: Record<string, string> = {
-  'future-of-ai': '/images/courses/future-of-ai-icon.svg',
-  'ai-governance': '/images/courses/ai-governance-icon.svg',
-  'agi-strategy': '/images/courses/agi-strategy-icon.svg',
-  'technical-ai-safety': '/images/courses/technical-ai-safety-icon.svg',
-  biosecurity: '/images/courses/biosecurity-icon.svg',
-};
 
 const COURSE_DESCRIPTIONS: Record<string, string> = {
   'future-of-ai': 'An introduction to what AI can do today, where it\'s going over the next decade, and how you can start contributing to a better future.',
@@ -487,15 +479,13 @@ type CourseHeaderProps = {
 };
 
 const CourseHeader = ({ course }: CourseHeaderProps) => {
-  const iconSrc = COURSE_ICONS[course.slug] || '/images/logo/BlueDot_Impact_Icon_White.svg';
-
   return (
     <>
       {/* Mobile Layout */}
       <div className="flex flex-col min-[680px]:hidden">
         {/* Course Icon */}
-        <div className="size-16 rounded-[12px] bg-[#1144cc] flex items-center justify-center mb-6" aria-hidden="true">
-          <img src={iconSrc} alt="" className="size-10" />
+        <div className="mb-6" aria-hidden="true">
+          <CourseIcon courseSlug={course.slug} size="xlarge" className="rounded-[12px]" />
         </div>
 
         <Link
@@ -513,9 +503,7 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
 
       {/* Desktop Layout */}
       <div className="hidden min-[680px]:flex items-start gap-6">
-        <div className="size-16 flex-shrink-0 rounded-[12px] bg-[#1144cc] flex items-center justify-center" aria-hidden="true">
-          <img src={iconSrc} alt="" className="size-10" />
-        </div>
+        <CourseIcon courseSlug={course.slug} size="xlarge" className="rounded-[12px]" />
 
         <Link
           href={course.path}

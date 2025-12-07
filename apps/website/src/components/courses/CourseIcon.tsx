@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { COURSE_ICONS } from '../../lib/constants';
 
-type CourseIconSize = 'small' | 'medium' | 'large';
+type CourseIconSize = 'small' | 'medium' | 'large' | 'xlarge';
 
 type CourseIconProps = {
   courseSlug: string;
@@ -25,6 +25,11 @@ const SIZE_CONFIG = {
     container: 'size-11', // 44x44
     image: 'size-7', // 28px
     svg: { width: 44, height: 44, viewBox: '0 0 44 44' },
+  },
+  xlarge: {
+    container: 'size-16', // 64x64
+    image: 'size-10', // 40px
+    svg: { width: 64, height: 64, viewBox: '0 0 64 64' },
   },
 } as const;
 
