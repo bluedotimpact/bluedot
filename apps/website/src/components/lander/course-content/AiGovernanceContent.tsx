@@ -52,7 +52,7 @@ export const createAiGovernanceContent = (
       {
         icon: PiUsers,
         boldText: 'Researchers and analysts',
-        description: 'who want to think through the biggest open questions in how to governance AI and build a credible portfolio of work',
+        description: 'who want to think through the biggest open questions in how to govern AI and build a credible portfolio of work',
       },
     ],
   },
