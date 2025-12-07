@@ -461,7 +461,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
                   </div>
                   <CTALinkOrButton
                     variant="secondary"
-                    className="border-[#13132E] text-[#13132E] my-1"
+                    className="border-[#13132E] text-[#13132E] hover:bg-blue-50"
                     onClick={() => setIsManualRequest(true)}
                     aria-label="Request manual group switch"
                   >
