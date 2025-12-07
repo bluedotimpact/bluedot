@@ -7,7 +7,7 @@ export type HeroSectionProps = {
   title: string;
   description: string;
   primaryCta: { text: string; url: string };
-  secondaryCta: { text: string; url: string };
+  secondaryCta?: { text: string; url: string };
   imageSrc: string;
   imageAlt: string;
 };
@@ -55,19 +55,20 @@ const HeroSection = ({
               <CTALinkOrButton
                 url={primaryCta.url}
                 size="small"
-                target="_blank"
                 className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-bluedot-normal text-white hover:bg-[#1a3399] focus:bg-[#1a3399] cursor-pointer transition-colors"
               >
                 {primaryCta.text}
               </CTALinkOrButton>
 
-              <CTALinkOrButton
-                url={secondaryCta.url}
-                size="small"
-                className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md border border-[rgba(19,19,46,0.3)] text-[#13132E] bg-transparent hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E] cursor-pointer transition-colors"
-              >
-                {secondaryCta.text}
-              </CTALinkOrButton>
+              {secondaryCta && (
+                <CTALinkOrButton
+                  url={secondaryCta.url}
+                  size="small"
+                  className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md border border-[rgba(19,19,46,0.3)] text-[#13132E] bg-transparent hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E] cursor-pointer transition-colors"
+                >
+                  {secondaryCta.text}
+                </CTALinkOrButton>
+              )}
             </div>
           </div>
         </div>
