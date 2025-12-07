@@ -8,6 +8,11 @@ module.exports = withDefaultBlueDotNextConfig({
         destination: '/blog/running-versions-of-our-courses',
         permanent: true,
       },
+      {
+        source: '/courses/governance',
+        destination: '/courses/ai-governance',
+        permanent: true,
+      },
     ];
   },
   headers: [
