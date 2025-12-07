@@ -21,14 +21,14 @@ export type CourseLanderContent = {
   meta: CourseLanderMeta;
   hero: HeroSectionProps;
   whoIsThisFor: WhoIsThisForSectionProps;
-  curriculum: CourseCurriculumSectionProps;
-  courseBenefits: CourseBenefitsSectionProps;
+  curriculum?: CourseCurriculumSectionProps;
+  courseBenefits?: CourseBenefitsSectionProps;
   courseInformation: CourseInformationSectionProps;
   quotes?: QuoteSectionProps;
   communityMembers?: CommunityMember[];
   communityMembersTitle?: string;
   partners?: PartnerSectionProps;
-  faq: FAQSectionProps;
+  faq?: FAQSectionProps;
   banner: LandingBannerProps;
 };
 
@@ -36,7 +36,7 @@ type CourseLanderProps = {
   courseSlug: string;
   baseApplicationUrl: string;
   createContentFor: (applicationUrlWithUtm: string, courseSlug: string) => CourseLanderContent;
-  courseOgImage?: string
+  courseOgImage?: string | null
 };
 
 const CourseLander = ({
@@ -84,13 +84,19 @@ const CourseLander = ({
 
       <WhoIsThisForSection {...content.whoIsThisFor} />
 
-      <div className="border-t-hairline border-color-divider" />
+      {content.curriculum && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <CourseCurriculumSection {...content.curriculum} />
+        </>
+      )}
 
-      <CourseCurriculumSection {...content.curriculum} />
-
-      <div className="border-t-hairline border-color-divider" />
-
-      <CourseBenefitsSection {...content.courseBenefits} />
+      {content.courseBenefits && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <CourseBenefitsSection {...content.courseBenefits} />
+        </>
+      )}
 
       <div className="border-t-hairline border-color-divider" />
 
@@ -118,9 +124,12 @@ const CourseLander = ({
         </>
       )}
 
-      <div className="border-t-hairline border-color-divider" />
-
-      <FAQSection {...content.faq} />
+      {content.faq && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <FAQSection {...content.faq} />
+        </>
+      )}
 
       <LandingBanner {...content.banner} />
     </div>

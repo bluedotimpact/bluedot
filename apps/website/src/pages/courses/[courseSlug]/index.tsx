@@ -13,12 +13,13 @@ import path from 'path';
 
 import { ROUTES } from '../../../lib/routes';
 import MarkdownExtendedRenderer from '../../../components/courses/MarkdownExtendedRenderer';
-import FutureOfAiLander from '../../../components/lander/FutureOfAiLander';
 import AiSafetyOpsLander from '../../../components/lander/AiSafetyOpsLander';
 import CourseLander from '../../../components/lander/CourseLander';
 import { createAgiStrategyContent, AGI_STRATEGY_APPLICATION_URL } from '../../../components/lander/course-content/AgiStrategyContent';
 import { createBioSecurityContent, BIOSECURITY_APPLICATION_URL } from '../../../components/lander/course-content/BioSecurityContent';
 import { createTechnicalAiSafetyContent, TECHNICAL_AI_SAFETY_APPLICATION_URL } from '../../../components/lander/course-content/TechnicalAiSafetyContent';
+import { createAiGovernanceContent, AI_GOVERNANCE_APPLICATION_URL } from '../../../components/lander/course-content/AiGovernanceContent';
+import { createFutureOfAiContent, FUTURE_OF_AI_START_URL } from '../../../components/lander/course-content/FutureOfAiContent';
 import GraduateSection from '../../../components/lander/components/GraduateSection';
 import { CourseUnitsSection } from '../../../components/courses/CourseUnitsSection';
 import { getCourseData, type CourseAndUnits } from '../../../server/routers/courses';
@@ -27,7 +28,7 @@ import { fileExists } from '../../../utils/fileExists';
 type CoursePageProps = {
   courseSlug: string;
   courseData: CourseAndUnits;
-  courseOgImage?: string
+  courseOgImage?: string | null
 };
 
 const CoursePage = ({ courseSlug, courseData, courseOgImage }: CoursePageProps) => {
@@ -42,7 +43,14 @@ const CoursePage = ({ courseSlug, courseData, courseOgImage }: CoursePageProps) 
 const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: CoursePageProps) => {
   // Custom lander cases
   if (slug === 'future-of-ai') {
-    return <FutureOfAiLander courseData={courseData} />;
+    return (
+      <CourseLander
+        courseSlug={slug}
+        baseApplicationUrl={FUTURE_OF_AI_START_URL}
+        createContentFor={createFutureOfAiContent}
+        courseOgImage={courseOgImage}
+      />
+    );
   }
 
   if (slug === 'ops') {
@@ -82,13 +90,24 @@ const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: Cours
     );
   }
 
+  if (slug === 'ai-governance') {
+    return (
+      <CourseLander
+        courseSlug={slug}
+        baseApplicationUrl={AI_GOVERNANCE_APPLICATION_URL}
+        createContentFor={createAiGovernanceContent}
+        courseOgImage={courseOgImage}
+      />
+    );
+  }
+
   // Default case
   return <StandardCoursePage courseData={courseData} courseOgImage={courseOgImage} />;
 };
 
 const registerInterestUrl = 'https://web.miniextensions.com/aGd0mXnpcN1gfqlnYNZc';
 
-const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseAndUnits, courseOgImage?: string }) => {
+const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseAndUnits, courseOgImage?: string | null }) => {
   const { latestUtmParams } = useLatestUtmParams();
   const registerInterestUrlWithUtm = latestUtmParams.utm_source ? addQueryParam(registerInterestUrl, 'prefill_Source', latestUtmParams.utm_source) : registerInterestUrl;
 
@@ -162,7 +181,7 @@ export const getStaticProps: GetStaticProps<CoursePageProps> = async ({ params }
   try {
     const courseData = await getCourseData(courseSlug);
 
-    let courseOgImage: string | undefined;
+    let courseOgImage: string | null = null;
     if (await fileExists(path.join(process.cwd(), 'public', 'images', 'courses', 'link-preview', `${courseSlug}.png`))) {
       courseOgImage = `${process.env.NEXT_PUBLIC_SITE_URL}/images/courses/link-preview/${courseSlug}.png`;
     }

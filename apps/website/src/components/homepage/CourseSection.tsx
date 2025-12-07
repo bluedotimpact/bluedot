@@ -71,7 +71,7 @@ const HARDCODED_COURSES: Course[] = [
     shortDescription: 'Learn about the policy landscape, regulatory tools, and institutional reforms needed to navigate the transition to transformative AI.',
     durationDescription: '25h',
     cadence: 'Cohort-based',
-    additionalTag: 'Coming Jan 2026',
+    additionalTag: 'Coming Feb 2026',
     isFeatured: false,
     icon: '/images/courses/ai-governance-icon.svg',
   },
