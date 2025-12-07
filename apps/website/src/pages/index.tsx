@@ -5,6 +5,7 @@ import HomeHeroContent from '../components/homepage/HomeHeroContent';
 import HomepageBlogSection from '../components/homepage/HomepageBlogSection';
 import CommunityCarousel from '../components/lander/CommunityCarousel';
 import EventsSection from '../components/homepage/EventsSection';
+import NewsletterBanner from '../components/homepage/NewsletterBanner';
 
 const COMMUNITY_MEMBERS = [
   {
@@ -87,6 +88,13 @@ const HomePage = () => {
       <CourseSection />
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
+      <EventsSection />
+      {/* Divider */}
+      <div className="border-t-hairline border-color-divider" />
+      <StorySection />
+      <HomepageBlogSection maxItems={3} />
+      {/* Divider */}
+      <div className="border-t-hairline border-color-divider" />
       <CommunityCarousel
         members={COMMUNITY_MEMBERS}
         subtitle="Learn more about the incredible work our community is doing."
@@ -94,11 +102,12 @@ const HomePage = () => {
       />
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
-      <EventsSection />
-      {/* Divider */}
-      <div className="border-t-hairline border-color-divider" />
-      <StorySection />
-      <HomepageBlogSection maxItems={3} />
+      {/* Newsletter Section */}
+      <section className="w-full bg-white py-12 px-5 min-[680px]:py-16 min-[680px]:px-8 min-[1024px]:py-20 min-[1024px]:px-12 min-[1280px]:py-24 min-[1280px]:px-16 2xl:px-20">
+        <div className="mx-auto max-w-screen-xl">
+          <NewsletterBanner />
+        </div>
+      </section>
     </div>
   );
 };
