@@ -7,7 +7,7 @@ import { trpc } from '../../utils/trpc';
 import { A } from '../Text';
 import { filterResourcesByType } from './ResourceDisplay';
 import type { ChunkWithContent } from './UnitLayout';
-import { COURSE_ICONS } from '../../lib/constants';
+import { CourseIcon } from './CourseIcon';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 
@@ -176,8 +176,6 @@ const SideBar: React.FC<SideBarProps> = ({
     return !!unit.unitNumber && currentUnitNumber === Number(unit.unitNumber);
   };
 
-  const iconSrc = COURSE_ICONS[courseSlug];
-
   return (
     <div className={clsx(
       'sidebar flex flex-col bg-color-canvas',
@@ -189,16 +187,7 @@ const SideBar: React.FC<SideBarProps> = ({
       {/* Header */}
       <div className="p-[24px]">
         <div className="flex flex-row items-center gap-[16px]">
-          {iconSrc ? (
-            <div className="size-11 rounded-[8px] bg-[#1144cc] flex items-center justify-center flex-shrink-0">
-              <img src={iconSrc} alt="" className="size-7" />
-            </div>
-          ) : (
-            <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect className="fill-bluedot-normal" width="44" height="44" rx="8" />
-              <path d="M33.9941 23.4938L30.4941 26.9938C30.3299 27.158 30.1072 27.2502 29.875 27.2502C29.6428 27.2502 29.4201 27.158 29.2559 26.9938C29.0918 26.8296 28.9995 26.6069 28.9995 26.3747C28.9995 26.1425 29.0918 25.9198 29.2559 25.7556L31.263 23.7497H21.487L15.362 29.8747H18.5C18.7321 29.8747 18.9546 29.9669 19.1187 30.131C19.2828 30.2951 19.375 30.5176 19.375 30.7497C19.375 30.9818 19.2828 31.2043 19.1187 31.3684C18.9546 31.5325 18.7321 31.6247 18.5 31.6247H13.25C13.0179 31.6247 12.7954 31.5325 12.6313 31.3684C12.4672 31.2043 12.375 30.9818 12.375 30.7497V25.4997C12.375 25.2676 12.4672 25.0451 12.6313 24.881C12.7954 24.7169 13.0179 24.6247 13.25 24.6247C13.4821 24.6247 13.7046 24.7169 13.8687 24.881C14.0328 25.0451 14.125 25.2676 14.125 25.4997V28.6377L20.25 22.5127V12.7367L18.2441 14.7438C18.0799 14.908 17.8572 15.0002 17.625 15.0002C17.3928 15.0002 17.1701 14.908 17.0059 14.7438C16.8418 14.5796 16.7495 14.3569 16.7495 14.1247C16.7495 13.8925 16.8418 13.6698 17.0059 13.5056L20.5059 10.0056C20.5872 9.92429 20.6837 9.85976 20.7899 9.81572C20.8961 9.77169 21.01 9.74902 21.125 9.74902C21.24 9.74902 21.3538 9.77169 21.4601 9.81572C21.5663 9.85976 21.6628 9.92429 21.7441 10.0056L25.2441 13.5056C25.4082 13.6698 25.5005 13.8925 25.5005 14.1247C25.5005 14.3569 25.4082 14.5796 25.2441 14.7438C25.0799 14.908 24.8572 15.0002 24.625 15.0002C24.3928 15.0002 24.1701 14.908 24.0059 14.7438L22 12.7367V21.9997H31.263L29.2559 19.9938C29.0918 19.8296 28.9995 19.6069 28.9995 19.3747C28.9995 19.1425 29.0918 18.9198 29.2559 18.7556C29.4201 18.5915 29.6428 18.4992 29.875 18.4992C30.1072 18.4992 30.3299 18.5915 30.4941 18.7556L33.9941 22.2556C34.0754 22.3369 34.14 22.4334 34.184 22.5396C34.228 22.6459 34.2507 22.7597 34.2507 22.8747C34.2507 22.9897 34.228 23.1036 34.184 23.2098C34.14 23.316 34.0754 23.4125 33.9941 23.4938Z" fill="white" />
-            </svg>
-          )}
+          <CourseIcon courseSlug={courseSlug} size="large" />
           <div className="flex flex-1 min-w-0">
             <h2 className="font-semibold text-[26px] leading-[44px] text-[#13132E]">{courseTitle}</h2>
           </div>
