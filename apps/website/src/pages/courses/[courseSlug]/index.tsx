@@ -13,13 +13,13 @@ import path from 'path';
 
 import { ROUTES } from '../../../lib/routes';
 import MarkdownExtendedRenderer from '../../../components/courses/MarkdownExtendedRenderer';
-import FutureOfAiLander from '../../../components/lander/FutureOfAiLander';
 import AiSafetyOpsLander from '../../../components/lander/AiSafetyOpsLander';
 import CourseLander from '../../../components/lander/CourseLander';
 import { createAgiStrategyContent, AGI_STRATEGY_APPLICATION_URL } from '../../../components/lander/course-content/AgiStrategyContent';
 import { createBioSecurityContent, BIOSECURITY_APPLICATION_URL } from '../../../components/lander/course-content/BioSecurityContent';
 import { createTechnicalAiSafetyContent, TECHNICAL_AI_SAFETY_APPLICATION_URL } from '../../../components/lander/course-content/TechnicalAiSafetyContent';
 import { createAiGovernanceContent, AI_GOVERNANCE_APPLICATION_URL } from '../../../components/lander/course-content/AiGovernanceContent';
+import { createFutureOfAiContent, FUTURE_OF_AI_START_URL } from '../../../components/lander/course-content/FutureOfAiContent';
 import GraduateSection from '../../../components/lander/components/GraduateSection';
 import { CourseUnitsSection } from '../../../components/courses/CourseUnitsSection';
 import { getCourseData, type CourseAndUnits } from '../../../server/routers/courses';
@@ -43,7 +43,14 @@ const CoursePage = ({ courseSlug, courseData, courseOgImage }: CoursePageProps) 
 const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: CoursePageProps) => {
   // Custom lander cases
   if (slug === 'future-of-ai') {
-    return <FutureOfAiLander courseData={courseData} />;
+    return (
+      <CourseLander
+        courseSlug={slug}
+        baseApplicationUrl={FUTURE_OF_AI_START_URL}
+        createContentFor={createFutureOfAiContent}
+        courseOgImage={courseOgImage}
+      />
+    );
   }
 
   if (slug === 'ops') {
