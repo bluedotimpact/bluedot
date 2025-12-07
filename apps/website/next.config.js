@@ -9,6 +9,11 @@ module.exports = withDefaultBlueDotNextConfig({
         permanent: true,
       },
       {
+        source: '/blog/:slug',
+        destination: 'https://blog.bluedot.org/p/:slug',
+        permanent: true,
+      },
+      {
         source: '/courses/governance',
         destination: '/courses/ai-governance',
         permanent: true,

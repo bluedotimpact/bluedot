@@ -35,7 +35,7 @@ const joinUs: BluedotRoute = {
 
 const blog: BluedotRoute = {
   title: 'Blog',
-  url: '/blog',
+  url: 'https://blog.bluedot.org',
   parentPages: [home],
 };
 
