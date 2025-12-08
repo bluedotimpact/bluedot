@@ -46,21 +46,6 @@ export const Default: Story = {
   },
 };
 
-export const WithSelectedValue: Story = {
-  args: {
-    options: manyOptions,
-    value: 'option-3',
-    placeholder: 'Select a time slot',
-  },
-};
-
-export const WithDisabledOption: Story = {
-  args: {
-    options: manyOptions,
-    placeholder: 'Select a time slot',
-  },
-};
-
 const ControlledSelect = () => {
   const [value, setValue] = useState<string | undefined>(undefined);
 

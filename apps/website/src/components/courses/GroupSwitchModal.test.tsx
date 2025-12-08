@@ -293,7 +293,7 @@ describe('GroupSwitchModal', () => {
         target: { value: 'None of the available times work for my schedule' },
       });
 
-      const availabilityCheckbox = screen.getByRole('checkbox', { name: /I have updated my availability/i });
+      const availabilityCheckbox = screen.getByRole('checkbox', { name: /I have checked my availability/i });
       fireEvent.click(availabilityCheckbox);
 
       const submitButton = screen.getByRole('button', { name: /Submit group switch request/i });
@@ -551,7 +551,7 @@ describe('GroupSwitchModal', () => {
         target: { value: 'No available options work for me' },
       });
 
-      const availabilityCheckbox = screen.getByRole('checkbox', { name: /I have updated my availability/i });
+      const availabilityCheckbox = screen.getByRole('checkbox', { name: /I have checked my availability/i });
       fireEvent.click(availabilityCheckbox);
 
       const submitButton = screen.getByRole('button', { name: /Submit group switch request/i });
@@ -687,7 +687,7 @@ describe('GroupSwitchModal', () => {
         expect(screen.getByText(/To help us assign you to a group which best suits you/i)).toBeInTheDocument();
       });
 
-      const availabilityCheckbox = screen.getByRole('checkbox', { name: /I have updated my availability/i });
+      const availabilityCheckbox = screen.getByRole('checkbox', { name: /I have checked my availability/i });
       fireEvent.click(availabilityCheckbox);
 
       const submitButton = screen.getByRole('button', { name: /Submit group switch request/i });
@@ -834,7 +834,7 @@ describe('GroupSwitchModal', () => {
         target: { value: 'I need to join a group as I was accepted late' },
       });
 
-      const availabilityCheckbox = screen.getByRole('checkbox', { name: /I have updated my availability/i });
+      const availabilityCheckbox = screen.getByRole('checkbox', { name: /I have checked my availability/i });
       fireEvent.click(availabilityCheckbox);
 
       const submitButton = screen.getByRole('button', { name: /Submit group switch request/i });
