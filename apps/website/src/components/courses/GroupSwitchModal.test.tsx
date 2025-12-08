@@ -159,7 +159,7 @@ describe('GroupSwitchModal', () => {
       expect(screen.getByText('Morning Group A')).toBeInTheDocument();
       expect(screen.getByText('Evening Group B')).toBeInTheDocument();
 
-      const reasonTextarea = screen.getByLabelText(/Tell us why you're making this change/i);
+      const reasonTextarea = screen.getByLabelText('Reason for group switch request');
       fireEvent.change(reasonTextarea, {
         target: { value: 'I have a scheduling conflict' },
       });

@@ -1,6 +1,5 @@
 import React, {
-  useState, useMemo,
-  useEffect,
+  useState, useMemo, useEffect,
 } from 'react';
 import {
   cn,
@@ -31,7 +30,7 @@ const SWITCH_TYPE_OPTIONS = [
   },
 ] as const;
 
-type SwitchType = (typeof SWITCH_TYPE_OPTIONS)[number]['value'];
+export type SwitchType = (typeof SWITCH_TYPE_OPTIONS)[number]['value'];
 
 const getGMTOffsetWithCity = () => {
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -132,6 +131,15 @@ const getGroupSwitchDescription = ({
   return <><UserIcon className="-translate-y-px" /><span>{spotsLeftIfKnown} spot{spotsLeftIfKnown === 1 ? '' : 's'} left</span></>;
 };
 
+// Form section - each has a numbered title, optional subtitle, and a control
+type FormSection = {
+  id: string;
+  isVisible: boolean;
+  title: string;
+  subtitle?: React.ReactNode;
+  control: React.ReactNode;
+};
+
 const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   handleClose,
   courseSlug,
@@ -162,6 +170,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
   });
 
   const isSubmitting = submitGroupSwitchMutation.isPending;
+  const isLoading = isCourseLoading || isDiscussionsLoading;
 
   const groups = switchingData?.groupsAvailable ?? [];
   const discussions = switchingData?.discussionsAvailable?.[selectedUnitNumber] ?? [];
@@ -236,7 +245,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     setSelectedDiscussionId('');
   }, [selectedUnitNumber]);
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (isSubmitDisabled) return;
 
     const oldGroupId = !isTemporarySwitch ? oldGroup?.group.id : undefined;
@@ -272,7 +281,6 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
       />
     );
   };
-  const title = getModalTitle();
 
   const getSuccessMessages = () => {
     if (isManualRequest) {
@@ -343,32 +351,103 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     ? `There ${alternativeCount === 1 ? 'is' : 'are'} ${alternativeCount} alternative time slot${alternativeCount === 1 ? '' : 's'} available for this discussion`
     : `There ${alternativeCount === 1 ? 'is' : 'are'} ${alternativeCount} alternative group${alternativeCount === 1 ? '' : 's'} available`;
 
-  const timezoneMessage = `Times are in your time zone: ${getGMTOffsetWithCity()}`;
+  const formSections: FormSection[] = [
+    {
+      id: 'switch-type',
+      isVisible: isManualRequest,
+      title: 'What are you switching?',
+      control: (
+        <Select
+          value={switchType}
+          onChange={(value) => setSwitchType(value as SwitchType)}
+          options={SWITCH_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
+          ariaLabel="Select action"
+        />
+      ),
+    },
+    {
+      id: 'unit-selector',
+      isVisible: isTemporarySwitch,
+      title: 'Select unit to switch group discussion slot',
+      control: (
+        <Select
+          value={selectedUnitNumber}
+          onChange={(value) => setSelectedUnitNumber(value)}
+          options={unitOptions}
+          placeholder="Select a unit"
+          ariaLabel="Select unit"
+        />
+      ),
+    },
+    {
+      id: 'reason',
+      isVisible: true,
+      title: "Tell us why you're making this change (required)",
+      subtitle: 'Participants who stick with their group usually have a better experience on the course.',
+      control: (
+        <textarea
+          placeholder="Share your reason here..."
+          value={reason}
+          onChange={(e) => setReason(e.target.value)}
+          className="border border-color-divider rounded-lg px-3 py-2 min-h-[80px] bg-white"
+          required
+          aria-label="Reason for group switch request"
+        />
+      ),
+    },
+    {
+      id: 'group-selection',
+      isVisible: !isManualRequest,
+      title: 'Select a group',
+      control: (
+        <div className="flex flex-col gap-2">
+          {currentInfo && <GroupSwitchOption {...currentInfo} />}
+          <p className="text-size-xs mt-1 text-[#666C80]">{alternativeCountMessage}</p>
+          <p className="text-size-xs text-[#666C80]">Times are in your time zone: {getGMTOffsetWithCity()}</p>
+          <div className="flex flex-col gap-2 mt-2">
+            {groupSwitchOptions.map((option) => (
+              <GroupSwitchOption key={option.id} {...option} />
+            ))}
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: 'availability',
+      isVisible: isManualRequest,
+      title: 'Update availability (required)',
+      subtitle: (
+        <>
+          To help us assign you to a group which best suits you, {auth?.email ? <a href={`https://availability.bluedot.org/form/bluedot-course?email=${encodeURIComponent(auth.email)}&utm_source=bluedot-group-switch-modal`} target="_blank" rel="noopener noreferrer" className="text-bluedot-normal underline">please update your availability</a> : <span>please update your availability</span>}.
+          Then check the box below and request your manual switch.
+        </>),
+      control: (
+        <label className="flex items-center gap-2 cursor-pointer w-fit">
+          <input
+            type="checkbox"
+            checked={hasUpdatedAvailability}
+            onChange={(e) => setHasUpdatedAvailability(e.target.checked)}
+            className="size-4 rounded border-gray-300 text-bluedot-normal focus:ring-bluedot-normal cursor-pointer"
+          />
+          <span className="text-size-sm text-[#13132E]">I have updated my availability</span>
+        </label>
+      ),
+    },
+  ];
 
-  // Labels differ between manual request and auto-switch flows
-  const switchTypeLabel = '1. What are you switching?';
-  const unitLabel = `${isManualRequest ? '2' : '1'}. Select unit to switch group discussion slot`;
-
-  // Reason step: Manual+temp=3, Manual+perm=2, Auto+temp=2, Auto+perm=1
-  const getReasonStepNumber = () => {
-    if (isManualRequest) return isTemporarySwitch ? 3 : 2;
-    return isTemporarySwitch ? 2 : 1;
-  };
-  const reasonLabel = `${getReasonStepNumber()}. Tell us why you're making this change (required)`;
-  const availabilityLabel = `${isTemporarySwitch ? '4' : '3'}. Update availability (required)`;
-  const selectGroupLabel = `${isTemporarySwitch ? '3' : '2'}. Select a group`;
+  const visibleSections = formSections.filter((s) => s.isVisible);
 
   return (
     <Modal
       isOpen
       setIsOpen={(open: boolean) => !open && handleClose()}
-      title={title}
+      title={getModalTitle()}
       bottomDrawerOnMobile
       desktopHeaderClassName="border-b border-charcoal-light pt-3 pb-2 mb-0"
       ariaLabel="Group switching"
     >
       <div className="w-full pt-6 max-w-[600px]">
-        {(isDiscussionsLoading || isCourseLoading) && <ProgressDots />}
+        {isLoading && <ProgressDots />}
         {submitGroupSwitchMutation.isError && <ErrorSection error={submitGroupSwitchMutation.error} />}
         {courseError && <ErrorSection error={courseError} />}
         {discussionsError && <ErrorSection error={discussionsError} />}
@@ -384,126 +463,20 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
             ))}
           </div>
         )}
-        {!isDiscussionsLoading && !isCourseLoading && !showSuccess && (
-        <form className="flex flex-col gap-8">
-          {/* Manual request: Switch type dropdown */}
-          {isManualRequest && (
-            <div className="flex flex-col gap-3">
-              <span className="text-size-sm font-medium text-[#13132E]">{switchTypeLabel}</span>
-              <Select
-                value={switchType}
-                onChange={(value) => setSwitchType(value as SwitchType)}
-                options={SWITCH_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
-                ariaLabel="Select action"
-              />
-            </div>
-          )}
-          {/* Unit selector (temporary switch only) */}
-          {isTemporarySwitch && (
-            <div className="flex flex-col gap-3">
-              <span className="text-size-sm font-medium text-[#13132E]">{unitLabel}</span>
-              <Select
-                value={selectedUnitNumber}
-                onChange={(value) => setSelectedUnitNumber(value)}
-                options={unitOptions}
-                placeholder="Select a unit"
-                ariaLabel="Select unit"
-              />
-            </div>
-          )}
-          <div className="flex flex-col gap-3">
-            <div className="flex flex-col gap-2">
-              <label htmlFor="reason" className="text-size-sm font-medium text-[#13132E]">{reasonLabel}</label>
-              <p id="reason-description" className="text-size-xs text-[#666C80]">
-                Participants who stick with their group usually have a better experience on the course.
-              </p>
-            </div>
-            <textarea
-              id="reason"
-              placeholder="Share your reason here..."
-              value={reason}
-              onChange={(e) => setReason(e.target.value)}
-              className="border border-color-divider rounded-lg px-3 py-2 min-h-[80px] bg-white"
-              required
-              aria-describedby="reason-description"
-              aria-label="Reason for group switch request"
-            />
-          </div>
-          {!isManualRequest && (
-            <>
-              <div className="flex flex-col gap-3">
-                <span className="text-size-sm font-medium text-[#13132E]">
-                  {selectGroupLabel}
-                </span>
-                {currentInfo && (
-                  <GroupSwitchOption {...currentInfo} />
-                )}
-                <p className="text-size-xs text-[#666C80]">
-                  {alternativeCountMessage}
-                </p>
-                <p className="text-size-xs text-[#666C80]">
-                  {timezoneMessage}
-                </p>
-              </div>
-              <div className="flex flex-col gap-2">
-                {groupSwitchOptions.map((option) => (
-                  <GroupSwitchOption key={option.id} {...option} />
-                ))}
-              </div>
-              <div className="border-t border-color-divider pt-8 mb-2">
-                <div className="flex flex-col gap-3">
-                  <div className="flex flex-col gap-2">
-                    <h3 className="text-size-sm font-medium text-[#13132E]">Don't see a group that works?</h3>
-                    <p className="text-size-xs text-[#666C80]">
-                      You can request a manual switch to join a group that's full or a group that is not
-                      listed above, and we'll do our best to accommodate you.
-                    </p>
-                  </div>
-                  <CTALinkOrButton
-                    variant="secondary"
-                    className="border-[#13132E] text-[#13132E] hover:bg-blue-50"
-                    onClick={() => setIsManualRequest(true)}
-                    aria-label="Request manual group switch"
-                  >
-                    Request manual switch
-                  </CTALinkOrButton>
-                </div>
-              </div>
-            </>
-          )}
-
-          {isManualRequest && (
-            <>
-              {/* Availability section */}
-              <div className="flex flex-col gap-3">
-                <span className="text-size-sm font-medium text-[#13132E]">{availabilityLabel}</span>
-                <p className="text-size-xs text-[#666C80]">
-                  To help us assign you to a group which best suits you,{' '}
-                  {auth?.email ? (
-                    <a
-                      href={`https://availability.bluedot.org/form/bluedot-course?email=${encodeURIComponent(auth.email)}&utm_source=bluedot-group-switch-modal`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-bluedot-normal underline"
-                    >
-                      please update your availability
-                    </a>
-                  ) : (
-                    <span>please update your availability</span>
+        {!isLoading && !showSuccess && (
+          <form className="flex flex-col gap-8">
+            {visibleSections.map((section, index) => (
+              <div key={section.id} className="flex flex-col gap-3">
+                <div className="flex flex-col gap-2">
+                  <span className="text-size-sm font-medium text-[#13132E]">{index + 1}. {section.title}</span>
+                  {section.subtitle && (
+                    <p className="text-size-xs text-[#666C80]">{section.subtitle}</p>
                   )}
-                  . Then check the box below and request your manual switch.
-                </p>
-                <label className="flex items-center gap-3 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={hasUpdatedAvailability}
-                    onChange={(e) => setHasUpdatedAvailability(e.target.checked)}
-                    className="size-5 rounded border-gray-300 text-bluedot-normal focus:ring-bluedot-normal cursor-pointer"
-                  />
-                  <span className="text-size-sm text-[#13132E]">I have updated my availability</span>
-                </label>
+                </div>
+                {section.control}
               </div>
-              {/* Submit button */}
+            ))}
+            {isManualRequest && (
               <CTALinkOrButton
                 className="w-full"
                 onClick={handleSubmit}
@@ -512,9 +485,29 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
               >
                 {isSubmitting ? 'Submitting...' : 'Request Manual Switch'}
               </CTALinkOrButton>
-            </>
-          )}
-        </form>
+            )}
+          </form>
+        )}
+        {!isLoading && !showSuccess && !isManualRequest && (
+          <div className="border-t border-color-divider pt-8 mt-8 mb-2">
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2">
+                <h3 className="text-size-sm font-medium text-[#13132E]">Don't see a group that works?</h3>
+                <p className="text-size-xs text-[#666C80]">
+                  You can request a manual switch to join a group that's full or a group that is not
+                  listed above, and we'll do our best to accommodate you.
+                </p>
+              </div>
+              <CTALinkOrButton
+                variant="secondary"
+                className="border-[#13132E] text-[#13132E] hover:bg-blue-50"
+                onClick={() => setIsManualRequest(true)}
+                aria-label="Request manual group switch"
+              >
+                Request manual switch
+              </CTALinkOrButton>
+            </div>
+          </div>
         )}
       </div>
     </Modal>
