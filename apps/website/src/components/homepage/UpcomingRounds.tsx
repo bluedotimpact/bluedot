@@ -188,7 +188,7 @@ function selectDiverseRounds(rounds: Round[]): Round[] {
   for (const round of rounds) {
     if (selectedRounds.length >= 3) break;
 
-    const courseId = round.courseId ?? round.id;
+    const { courseId } = round;
     if (!seenCourses.has(courseId)) {
       selectedRounds.push(round);
       seenCourses.add(courseId);
