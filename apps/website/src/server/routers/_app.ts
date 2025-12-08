@@ -1,11 +1,12 @@
 import { router } from '../trpc';
 import { adminRouter } from './admin';
 import { blogsRouter } from './blogs';
-import { exercisesRouter } from './exercises';
 import { certificatesRouter } from './certificates';
 import { courseRegistrationsRouter } from './course-registrations';
 import { courseRoundsRouter } from './course-rounds';
 import { coursesRouter } from './courses';
+import { exercisesRouter } from './exercises';
+import { facilitatorSwitchingRouter } from './facilitator-switching';
 import { groupDiscussionsRouter } from './group-discussions';
 import { groupSwitchingRouter } from './group-switching';
 import { jobsRouter } from './jobs';
@@ -23,6 +24,7 @@ export const appRouter = router({
   courseRegistrations: courseRegistrationsRouter,
   courseRounds: courseRoundsRouter,
   courses: coursesRouter,
+  facilitators: facilitatorSwitchingRouter,
   groupDiscussions: groupDiscussionsRouter,
   groupSwitching: groupSwitchingRouter,
   jobs: jobsRouter,
