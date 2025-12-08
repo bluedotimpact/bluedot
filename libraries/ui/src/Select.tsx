@@ -30,12 +30,12 @@ export const Select = ({
 }: SelectProps) => {
   const selectedOption = options.find((op) => op.value === value);
   const isDesktop = useAboveBreakpoint(breakpoints.md);
-  const [isOpenOnMobile, setIsOpenOnMobile] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleSelect = (key: Key | null) => {
     if (key !== null) {
       onChange?.(key as string);
-      setIsOpenOnMobile(false);
+      setIsOpen(false);
     }
   };
 
@@ -66,20 +66,20 @@ export const Select = ({
       <AriaSelect
         selectedKey={value}
         onSelectionChange={handleSelect}
-        isOpen={isDesktop ? isOpenOnMobile : false}
-        onOpenChange={setIsOpenOnMobile}
+        isOpen={isDesktop ? isOpen : false}
+        onOpenChange={setIsOpen}
         aria-label={ariaLabel}
         className={cn('w-full flex flex-col bg-white border border-color-divider rounded-lg transition-all text-size-sm', className)}
       >
         <Button
           className="w-full gap-3 flex justify-between p-4 items-center cursor-pointer text-left transition-all"
-          onPress={() => setIsOpenOnMobile(true)}
+          onPress={() => setIsOpen(true)}
         >
           <span className="text-[#13132E] flex-1 min-w-0">
             {selectedOption?.label || value || placeholder}
           </span>
           <FaChevronDown
-            className={cn('size-3 -translate-y-px flex-shrink-0 transition-transform', isOpenOnMobile ? 'rotate-180' : 'rotate-0')}
+            className={cn('size-3 -translate-y-px flex-shrink-0 transition-transform', isOpen ? 'rotate-180' : 'rotate-0')}
             aria-hidden="true"
           />
         </Button>
@@ -93,7 +93,7 @@ export const Select = ({
         </Popover>
       </AriaSelect>
       {isDesktop === false && (
-        <BottomDrawerModal isOpen={isOpenOnMobile} setIsOpen={setIsOpenOnMobile} initialSize="fit-content">
+        <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} initialSize="fit-content">
           {listContent}
         </BottomDrawerModal>
       )}
