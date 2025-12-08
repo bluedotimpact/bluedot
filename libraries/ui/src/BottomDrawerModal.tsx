@@ -140,8 +140,8 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                 }}
                 role="dialog"
                 aria-modal="true"
-                aria-labelledby={title && titleIsString ? 'mobile-modal-title' : undefined}
-                aria-label={ariaLabel}
+                aria-labelledby={titleIsString ? 'mobile-modal-title' : undefined}
+                aria-label={!titleIsString ? ariaLabel : undefined}
                 tabIndex={-1}
                 drag="y"
                 dragListener={false}
