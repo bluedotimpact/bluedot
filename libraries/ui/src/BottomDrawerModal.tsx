@@ -202,7 +202,6 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                       isDragging && 'pointer-events-none',
                     )}
                   >
-                    {/* TODO flag diff here is fix for a separate centering bug */}
                     <div className="w-full flex justify-center" ref={contentRef}>
                       {children}
                     </div>

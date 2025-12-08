@@ -106,10 +106,3 @@ export * from './SocialShare';
 
 export { useCurrentTimeMs } from './hooks/useCurrentTimeMs';
 export { useLatestUtmParams, LatestUtmParamsProvider } from './hooks/useLatestUtmParams';
-// TODO delete below here
-export { breakpoints, useAboveBreakpoint } from './hooks/useBreakpoint';
-
-// Internal components (used by other libraries but not public API)
-
-export { BottomDrawerModal } from './BottomDrawerModal';
-export type { BottomDrawerModalProps } from './BottomDrawerModal';
