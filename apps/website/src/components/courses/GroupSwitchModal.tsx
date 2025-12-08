@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import {
   cn, ClickTarget, CTALinkOrButton,
-  ErrorSection, Modal, ProgressDots, useAuthStore,
+  ErrorSection, Modal, ProgressDots,
   Select,
 } from '@bluedot/ui';
 import { FaArrowLeft, FaArrowRightArrowLeft } from 'react-icons/fa6';
@@ -45,12 +45,14 @@ export default function GroupSwitchModal({
 
   const isTemporarySwitch = switchType === 'Switch group for one unit';
 
-  const auth = useAuthStore((s) => s.auth);
+  const { data: user, error: userError } = trpc.users.getUser.useQuery();
 
   const { data: courseData, isLoading: isCourseLoading, error: courseError } = trpc.courses.getBySlug.useQuery({ courseSlug });
 
   const { data: switchingData, isLoading: isDiscussionsLoading, error: discussionsError } = trpc.groupSwitching.discussionsAvailable.useQuery(
     { courseSlug },
+    // Disable once `showSuccess` is true, to avoid `selectedOption` (which
+    // displays on the success screen) being overwritten.
     { enabled: !showSuccess },
   );
 
@@ -125,7 +127,8 @@ export default function GroupSwitchModal({
 
   const isSubmitDisabled = isSubmitting
     || !reason.trim()
-    || (isManualRequest ? !hasUpdatedAvailability : !(isTemporarySwitch ? selectedDiscussionId : selectedGroupId));
+    || (isManualRequest && !hasUpdatedAvailability)
+    || (!isManualRequest && !(isTemporarySwitch ? selectedDiscussionId : selectedGroupId));
 
   useEffect(() => {
     setSelectedDiscussionId('');
@@ -315,12 +318,13 @@ export default function GroupSwitchModal({
     },
     {
       id: 'availability',
-      isVisible: isManualRequest,
+      isVisible: !!user && isManualRequest,
       title: 'Update availability (required)',
-      subtitle: (
+      subtitle: user ? (
         <>
-          To help us assign you to a group which best suits you, {auth?.email ? <a href={`https://availability.bluedot.org/form/bluedot-course?email=${encodeURIComponent(auth.email)}&utm_source=bluedot-group-switch-modal`} target="_blank" rel="noopener noreferrer" className="text-bluedot-normal underline">please update your availability</a> : <span>please update your availability</span>}.
-        </>),
+          To help us assign you to a group which best suits you, <a href={`https://availability.bluedot.org/form/bluedot-course?email=${encodeURIComponent(user.email)}&utm_source=bluedot-group-switch-modal`} target="_blank" rel="noopener noreferrer" className="text-bluedot-normal underline">please update your availability</a>.
+        </>
+      ) : undefined,
       control: (
         <label className="flex items-center gap-2 cursor-pointer w-fit">
           <input
@@ -351,6 +355,7 @@ export default function GroupSwitchModal({
         <div className="w-[600px] max-w-full h-0" />
         {isLoading && <ProgressDots />}
         {submitGroupSwitchMutation.isError && <ErrorSection error={submitGroupSwitchMutation.error} />}
+        {userError && <ErrorSection error={userError} />}
         {courseError && <ErrorSection error={courseError} />}
         {discussionsError && <ErrorSection error={discussionsError} />}
         {!isLoading && !showSuccess && (

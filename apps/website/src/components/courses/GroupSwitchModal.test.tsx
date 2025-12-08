@@ -36,6 +36,13 @@ const mockedUseAuthStore = useAuthStore as unknown as Mock;
 
 const mockAuth = { token: 'test-token', email: 'test@bluedot.org' };
 
+const mockUser = {
+  id: 'user-1',
+  email: 'test@bluedot.org',
+  name: 'Test User',
+  lastSeenAt: new Date().toISOString(),
+};
+
 const mockUnit1 = createMockUnit({
   title: 'Introduction to AI Safety',
   unitNumber: '1',
@@ -127,6 +134,7 @@ describe('GroupSwitchModal', () => {
     mockSubmitGroupSwitch = vi.fn();
 
     server.use(
+      trpcMsw.users.getUser.query(() => mockUser),
       trpcMsw.courses.getBySlug.query(() => mockCourseData),
       trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingData),
       trpcMsw.groupSwitching.switchGroup.mutation(({ input }) => {
