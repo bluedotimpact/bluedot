@@ -464,50 +464,52 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
           </div>
         )}
         {!isLoading && !showSuccess && (
-          <form className="flex flex-col gap-8">
-            {visibleSections.map((section, index) => (
-              <div key={section.id} className="flex flex-col gap-3">
-                <div className="flex flex-col gap-2">
-                  <span className="text-size-sm font-medium text-[#13132E]">{index + 1}. {section.title}</span>
-                  {section.subtitle && (
-                    <p className="text-size-xs text-[#666C80]">{section.subtitle}</p>
-                  )}
+          <>
+            <form className="flex flex-col gap-8">
+              {visibleSections.map((section, index) => (
+                <div key={section.id} className="flex flex-col gap-3">
+                  <div className="flex flex-col gap-2">
+                    <span className="text-size-sm font-medium text-[#13132E]">{index + 1}. {section.title}</span>
+                    {section.subtitle && (
+                      <p className="text-size-xs text-[#666C80]">{section.subtitle}</p>
+                    )}
+                  </div>
+                  {section.control}
                 </div>
-                {section.control}
+              ))}
+              {isManualRequest && (
+                <CTALinkOrButton
+                  className="w-full"
+                  onClick={handleSubmit}
+                  disabled={isSubmitDisabled}
+                  aria-label={isSubmitting ? 'Submitting group switch request' : 'Submit group switch request'}
+                >
+                  {isSubmitting ? 'Submitting...' : 'Request Manual Switch'}
+                </CTALinkOrButton>
+              )}
+            </form>
+            {!isManualRequest && (
+              <div className="border-t border-color-divider pt-8 mt-8 mb-2">
+                <div className="flex flex-col gap-3">
+                  <div className="flex flex-col gap-2">
+                    <h3 className="text-size-sm font-medium text-[#13132E]">Don't see a group that works?</h3>
+                    <p className="text-size-xs text-[#666C80]">
+                      You can request a manual switch to join a group that's full or a group that is not
+                      listed above, and we'll do our best to accommodate you.
+                    </p>
+                  </div>
+                  <CTALinkOrButton
+                    variant="secondary"
+                    className="border-[#13132E] text-[#13132E] hover:bg-blue-50"
+                    onClick={() => setIsManualRequest(true)}
+                    aria-label="Request manual group switch"
+                  >
+                    Request manual switch
+                  </CTALinkOrButton>
+                </div>
               </div>
-            ))}
-            {isManualRequest && (
-              <CTALinkOrButton
-                className="w-full"
-                onClick={handleSubmit}
-                disabled={isSubmitDisabled}
-                aria-label={isSubmitting ? 'Submitting group switch request' : 'Submit group switch request'}
-              >
-                {isSubmitting ? 'Submitting...' : 'Request Manual Switch'}
-              </CTALinkOrButton>
             )}
-          </form>
-        )}
-        {!isLoading && !showSuccess && !isManualRequest && (
-          <div className="border-t border-color-divider pt-8 mt-8 mb-2">
-            <div className="flex flex-col gap-3">
-              <div className="flex flex-col gap-2">
-                <h3 className="text-size-sm font-medium text-[#13132E]">Don't see a group that works?</h3>
-                <p className="text-size-xs text-[#666C80]">
-                  You can request a manual switch to join a group that's full or a group that is not
-                  listed above, and we'll do our best to accommodate you.
-                </p>
-              </div>
-              <CTALinkOrButton
-                variant="secondary"
-                className="border-[#13132E] text-[#13132E] hover:bg-blue-50"
-                onClick={() => setIsManualRequest(true)}
-                aria-label="Request manual group switch"
-              >
-                Request manual switch
-              </CTALinkOrButton>
-            </div>
-          </div>
+          </>
         )}
       </div>
     </Modal>
