@@ -41,9 +41,9 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
     >
       <AriaModal>
         <Dialog className="bg-white rounded-xl shadow-xl w-full pb-8 outline-none" aria-label={ariaLabel}>
-          <div className={cn('flex justify-between items-center mb-4 pt-10 px-8', desktopHeaderClassName)}>
+          <div className={cn('flex justify-between items-center mb-4 pt-10 pl-8 pr-6', desktopHeaderClassName)}>
             {title && typeof title === 'string' ? <Heading slot="title" className="text-size-lg font-semibold">{title}</Heading> : title}
-            <ClickTarget onClick={() => setIsOpen(false)} className="text-black rounded-[50%] p-1 -mr-2 hover:bg-gray-100 cursor-pointer">
+            <ClickTarget onClick={() => setIsOpen(false)} className="text-black rounded-[50%] p-1 hover:bg-gray-100 cursor-pointer">
               <CloseIcon size={20} />
             </ClickTarget>
           </div>

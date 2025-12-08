@@ -319,6 +319,42 @@ describe('GroupSwitchModal', () => {
         expect(screen.getByText(/We are working on your request/i)).toBeInTheDocument();
       });
     });
+
+    test('back button in manual request mode returns to group selection', async () => {
+      render(
+        <TrpcProvider>
+          <GroupSwitchModal
+            handleClose={() => {}}
+            courseSlug="ai-safety"
+          />
+        </TrpcProvider>,
+      );
+
+      await waitFor(() => {
+        expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
+      });
+
+      // Click "Request manual switch" button to enter manual mode
+      const manualSwitchButton = screen.getByRole('button', { name: /Request manual group switch/i });
+      fireEvent.click(manualSwitchButton);
+
+      await waitFor(() => {
+        expect(screen.getByText(/To help us assign you to a group which best suits you/i)).toBeInTheDocument();
+      });
+
+      // Verify back button is visible
+      const backButton = screen.getByRole('button', { name: /Back to group selection/i });
+      expect(backButton).toBeInTheDocument();
+
+      // Click back button
+      fireEvent.click(backButton);
+
+      // Verify we're back to group selection view
+      await waitFor(() => {
+        expect(screen.queryByText(/To help us assign you to a group which best suits you/i)).not.toBeInTheDocument();
+        expect(screen.getByText(/Don't see a group that works/i)).toBeInTheDocument();
+      });
+    });
   });
 
   describe('Form state', () => {

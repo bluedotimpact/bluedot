@@ -2,10 +2,10 @@ import React, {
   useState, useMemo, useEffect,
 } from 'react';
 import {
-  cn,
-  CTALinkOrButton, ErrorSection, Modal, ProgressDots, useAuthStore,
+  cn, ClickTarget, CTALinkOrButton,
+  ErrorSection, Modal, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
-import { FaArrowRightArrowLeft } from 'react-icons/fa6';
+import { FaArrowLeft, FaArrowRightArrowLeft } from 'react-icons/fa6';
 import { ClockUserIcon } from '../icons/ClockUserIcon';
 import { UserIcon } from '../icons/UserIcon';
 import { formatTime12HourClock, formatDateMonthAndDay, formatDateDayOfWeek } from '../../lib/utils';
@@ -49,7 +49,10 @@ export default function GroupSwitchModal({
 
   const { data: courseData, isLoading: isCourseLoading, error: courseError } = trpc.courses.getBySlug.useQuery({ courseSlug });
 
-  const { data: switchingData, isLoading: isDiscussionsLoading, error: discussionsError } = trpc.groupSwitching.discussionsAvailable.useQuery({ courseSlug });
+  const { data: switchingData, isLoading: isDiscussionsLoading, error: discussionsError } = trpc.groupSwitching.discussionsAvailable.useQuery(
+    { courseSlug },
+    { enabled: !showSuccess },
+  );
 
   const submitGroupSwitchMutation = trpc.groupSwitching.switchGroup.useMutation({
     onSuccess: () => {
@@ -154,8 +157,23 @@ export default function GroupSwitchModal({
   };
 
   const getModalTitle = () => {
-    const textClassName = 'text-size-md py-2 font-semibold mx-auto';
-    if (isManualRequest && !showSuccess) return <div className={textClassName}>Request manual switch</div>;
+    const textClassName = 'text-size-md py-3 font-semibold mx-auto';
+
+    if (isManualRequest && !showSuccess) {
+      return (
+        <div className="flex items-center w-full">
+          <ClickTarget
+            onClick={() => setIsManualRequest(false)}
+            className="text-black rounded-[50%] p-[6px] hover:bg-gray-100 cursor-pointer"
+            aria-label="Back to group selection"
+          >
+            <FaArrowLeft size={16} />
+          </ClickTarget>
+          <div className={cn(textClassName, 'md:pr-0 pr-6')}>Request manual switch</div>
+        </div>
+      );
+    }
+
     if (isManualRequest && showSuccess) return <div className={textClassName}>We are working on your request</div>;
     if (showSuccess) return <div className={textClassName}>Success</div>;
 
@@ -170,18 +188,13 @@ export default function GroupSwitchModal({
     );
   };
 
-  const getSuccessMessages = () => {
+  const getSuccessMessage = () => {
     if (isManualRequest) {
-      return [
-        'We aim to process your request within 1-2 business days.',
-        "Once your switch is complete, you will receive a calendar invitation and be added to your new group's Slack channel.",
-      ];
+      return <>We aim to process your request within 1-2 business days. Once your switch is complete, you will receive a calendar invitation and be added to your new group's Slack channel.</>;
     }
 
-    const message = `You will receive ${isTemporarySwitch ? 'a calendar invite' : 'the calendar invites'} shortly and be added to the group's Slack channel.`;
-    return [message];
+    return <>You <strong>will receive {isTemporarySwitch ? 'a calendar invite' : 'the calendar invites'} shortly</strong> and be added to the group's Slack channel.</>;
   };
-  const successMessages = getSuccessMessages();
 
   const groupOptions: GroupSwitchOptionProps[] = groups
     .filter((g) => !g.userIsParticipant)
@@ -335,69 +348,73 @@ export default function GroupSwitchModal({
       ariaLabel="Group switching"
     >
       <div className="w-full pt-6 max-w-[600px]">
+        {/* Spacer to stop the modal shrinking when there are no results */}
+        <div className="w-[600px] max-w-full h-0" />
         {isLoading && <ProgressDots />}
         {submitGroupSwitchMutation.isError && <ErrorSection error={submitGroupSwitchMutation.error} />}
         {courseError && <ErrorSection error={courseError} />}
         {discussionsError && <ErrorSection error={discussionsError} />}
+        {!isLoading && !showSuccess && (
+          <form className="flex flex-col gap-8">
+            {visibleFormSections.map((section, index) => (
+              <div key={section.id} className="flex flex-col gap-3">
+                <div className="flex flex-col gap-2">
+                  <span className="text-size-sm font-medium text-[#13132E]">{index + 1}. {section.title}</span>
+                  {section.subtitle && (
+                    <p className="text-size-xs text-[#666C80]">{section.subtitle}</p>
+                  )}
+                </div>
+                {section.control}
+              </div>
+            ))}
+            {isManualRequest && (
+              <CTALinkOrButton
+                className="w-full"
+                onClick={handleSubmit}
+                disabled={isSubmitDisabled}
+                aria-label={isSubmitting ? 'Submitting group switch request' : 'Submit group switch request'}
+              >
+                {isSubmitting ? 'Submitting...' : 'Request Manual Switch'}
+              </CTALinkOrButton>
+            )}
+          </form>
+        )}
+        {!isLoading && !showSuccess && !isManualRequest && (
+          <div className="border-t border-color-divider pt-8 mt-8 mb-2">
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2">
+                <h3 className="text-size-sm font-medium text-[#13132E]">Don't see a group that works?</h3>
+                <p className="text-size-xs text-[#666C80]">
+                  You can request a manual switch to join a group that's full or a group that is not
+                  listed above, and we'll do our best to accommodate you.
+                </p>
+              </div>
+              <CTALinkOrButton
+                variant="secondary"
+                className="border-[#13132E] text-[#13132E] hover:bg-blue-50"
+                onClick={() => setIsManualRequest(true)}
+                aria-label="Request manual group switch"
+              >
+                Request manual switch
+              </CTALinkOrButton>
+            </div>
+          </div>
+        )}
         {showSuccess && (
-          <div className="flex flex-col gap-4">
+          <div className="flex items-center flex-col gap-4">
             {!isManualRequest && selectedOption && (
               <GroupSwitchOption {...selectedOption} userIsParticipant />
             )}
-            {successMessages.map((message) => (
-              <p key={message} className="text-size-sm text-[#666C80]">
-                {message}
-              </p>
-            ))}
+            <p className="text-size-sm text-center max-w-[500px] text-[#666C80]">
+              {getSuccessMessage()}
+            </p>
+            <CTALinkOrButton
+              className="w-full mt-4"
+              onClick={handleClose}
+            >
+              Close
+            </CTALinkOrButton>
           </div>
-        )}
-        {!isLoading && !showSuccess && (
-          <>
-            <form className="flex flex-col gap-8">
-              {visibleFormSections.map((section, index) => (
-                <div key={section.id} className="flex flex-col gap-3">
-                  <div className="flex flex-col gap-2">
-                    <span className="text-size-sm font-medium text-[#13132E]">{index + 1}. {section.title}</span>
-                    {section.subtitle && (
-                      <p className="text-size-xs text-[#666C80]">{section.subtitle}</p>
-                    )}
-                  </div>
-                  {section.control}
-                </div>
-              ))}
-              {isManualRequest && (
-                <CTALinkOrButton
-                  className="w-full"
-                  onClick={handleSubmit}
-                  disabled={isSubmitDisabled}
-                  aria-label={isSubmitting ? 'Submitting group switch request' : 'Submit group switch request'}
-                >
-                  {isSubmitting ? 'Submitting...' : 'Request Manual Switch'}
-                </CTALinkOrButton>
-              )}
-            </form>
-            {!isManualRequest && (
-              <div className="border-t border-color-divider pt-8 mt-8 mb-2">
-                <div className="flex flex-col gap-3">
-                  <div className="flex flex-col gap-2">
-                    <h3 className="text-size-sm font-medium text-[#13132E]">Don't see a group that works?</h3>
-                    <p className="text-size-xs text-[#666C80]">
-                      You can request a manual switch to join a group that's full or a group that is not
-                      listed above, and we'll do our best to accommodate you.
-                    </p>
-                  </div>
-                  <CTALinkOrButton
-                    variant="secondary"
-                    className="border-[#13132E] text-[#13132E] hover:bg-blue-50"
-                    onClick={() => setIsManualRequest(true)}
-                    aria-label="Request manual group switch"
-                  >
-                    Request manual switch
-                  </CTALinkOrButton>
-                </div>
-              </div>
-            )}
-          </>
         )}
       </div>
     </Modal>
