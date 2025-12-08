@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
-  CTALinkOrButton, NewText,
+  CTALinkOrButton, H1, A,
 } from '@bluedot/ui';
 import { PageState } from '../lib/client/pageState';
 import { Page } from './Page';
@@ -41,7 +41,7 @@ const AppJoinView: React.FC<AppJoinViewProps> = ({
 
   return (
     <Page>
-      <NewText.H1 className="mb-4">{secondsToOpen <= 0 ? 'Enjoy your meeting!' : `Joining your meeting in ${secondsToOpen}...`}</NewText.H1>
+      <H1 className="mb-4">{secondsToOpen <= 0 ? 'Enjoy your meeting!' : `Joining your meeting in ${secondsToOpen}...`}</H1>
       {meetingHostKeyMessage}
       <CTALinkOrButton onClick={() => joinDirect()}>Join now</CTALinkOrButton>
       {activityDoc && (
@@ -56,7 +56,7 @@ const AppJoinView: React.FC<AppJoinViewProps> = ({
         </CTALinkOrButton>
       )}
       {secondsToOpen <= 0 && (
-        <p className="mt-4">Button doesn't work? <NewText.A href={`https://zoom.us/j/${meetingNumber}?pwd=${meetingPassword}`} className="underline">Join via Zoom website</NewText.A></p>
+        <p className="mt-4">Button doesn't work? <A href={`https://zoom.us/j/${meetingNumber}?pwd=${meetingPassword}`} className="underline">Join via Zoom website</A></p>
       ) }
     </Page>
   );

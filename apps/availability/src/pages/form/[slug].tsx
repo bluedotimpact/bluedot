@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import {
-  CTALinkOrButton, ErrorSection, Input, NewText, ProgressDots, Section, Textarea,
+  CTALinkOrButton, ErrorSection, Input, H1, P, ProgressDots, Section, Textarea,
 } from '@bluedot/ui';
 import * as wa from 'weekly-availabilities';
 import { SubmitRequest } from '../api/public/submit';
@@ -126,10 +126,10 @@ const Form: React.FC<{
   return (
     <main className="min-h-screen bg-bluedot-darker flow-root px-8 py-12">
       <Section className="border-b-0 py-16 px-12 bg-cream-normal rounded-lg max-w-3xl">
-        <NewText.P className="uppercase text-color-secondary-text">Time availability form</NewText.P>
-        <NewText.H1 className="text-3xl">{title}</NewText.H1>
+        <P className="uppercase text-color-secondary-text">Time availability form</P>
+        <H1 className="text-3xl">{title}</H1>
         <div className="space-y-2 mt-4">
-          <NewText.P>Submit your availability so we can schedule your discussions at times that suit you.</NewText.P>
+          <P>Submit your availability so we can schedule your discussions at times that suit you.</P>
         </div>
         <div className="grid sm:grid-cols-2 gap-4 sm:gap-2 mt-6">
           <label className="text-size-xs text-stone-500 block">Email<br />
@@ -142,7 +142,7 @@ const Form: React.FC<{
           </label>
           <TimeOffsetSelector control={control} name="timezone" />
         </div>
-        <NewText.P className="text-size-xs text-stone-500 mt-6 mb-4">Click and drag to indicate the times you will be regularly free during the course. It’s okay if you can’t make the odd week here and there - you can switch group for weeks where you can’t make your usual time.</NewText.P>
+        <P className="text-size-xs text-stone-500 mt-6 mb-4">Click and drag to indicate the times you will be regularly free during the course. It's okay if you can't make the odd week here and there - you can switch group for weeks where you can't make your usual time.</P>
         <TimeAvailabilityInput control={control} name="timeAv" />
         <label className="text-size-xs text-stone-500 block mt-4">(Optional) Additional comments<br />
           <Textarea
@@ -154,12 +154,12 @@ const Form: React.FC<{
           {submitting && <ProgressDots className="w-full" />}
           {!submitting && (
             <>
-              <NewText.P className={`text-size-xs text-red-500 mb-2 ${formState.isDirty ? 'font-bold' : ''}`}>
+              <P className={`text-size-xs text-red-500 mb-2 ${formState.isDirty ? 'font-bold' : ''}`}>
                 {!isValidEmail() && <>* Input a valid email.<br /></>}
                 {!longEnoughInterval()
                   && <>* Fill out at least one interval of length at least {minLength} minutes.</>}
 
-              </NewText.P>
+              </P>
               <CTALinkOrButton
                 onClick={() => handleSubmit(onSubmit)()}
                 disabled={!isValidEmail() || !longEnoughInterval()}

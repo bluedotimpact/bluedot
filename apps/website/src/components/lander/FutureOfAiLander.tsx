@@ -2,8 +2,11 @@ import Head from 'next/head';
 import clsx from 'clsx';
 import {
   CTALinkOrButton,
-  Section,
+  H1,
+  H2,
+  H3,
   QuoteCarousel,
+  Section,
   type Quote,
 } from '@bluedot/ui';
 import {
@@ -19,8 +22,6 @@ import {
   FaLightbulb,
 } from 'react-icons/fa6';
 import { useEffect } from 'react';
-
-import { H1, H2, H3 } from '../Text';
 import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
 import GraduateSection from './components/GraduateSection';
 import type { CourseAndUnits } from '../../server/routers/courses';

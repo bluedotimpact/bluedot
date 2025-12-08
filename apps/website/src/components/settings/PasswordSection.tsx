@@ -2,13 +2,13 @@ import {
   CTALinkOrButton,
   Input,
   Modal,
+  P,
   ProgressDots,
 } from '@bluedot/ui';
 import { TRPCClientError } from '@trpc/client';
 import { useEffect, useRef, useState } from 'react';
 import { changePasswordWithConfirmSchema } from '../../lib/schemas/user/changePassword.schema';
 import { trpc } from '../../utils/trpc';
-import { P } from '../Text';
 
 const PasswordSection = () => {
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);

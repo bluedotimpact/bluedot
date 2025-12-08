@@ -1,7 +1,8 @@
 import React from 'react';
-import { ClickTarget, NewText, BluedotRoute } from '@bluedot/ui';
+import {
+  A, BluedotRoute, ClickTarget, H2, P,
+} from '@bluedot/ui';
 import clsx from 'clsx';
-import { H2 } from '../Text';
 
 type SettingsTab = 'account' | 'courses';
 
@@ -72,9 +73,9 @@ const SettingsNavigation = ({ activeTab }: { activeTab: SettingsTab }) => {
                 aria-label={`${item.label} settings`}
               >
                 <span className="flex items-center gap-3 w-full">
-                  <NewText.P className={`text-[13px] leading-[22px] flex-grow !m-0 ${isActive ? 'font-semibold' : 'font-normal'}`}>
+                  <P className={`text-[13px] leading-[22px] flex-grow !m-0 ${isActive ? 'font-semibold' : 'font-normal'}`}>
                     {item.label}
-                  </NewText.P>
+                  </P>
                 </span>
               </ClickTarget>
             </li>
@@ -102,7 +103,7 @@ const SettingsBreadcrumbs = ({ route }: { route: BluedotRoute }) => {
             return (
               <li key={item.url} className="breadcrumbs__item flex items-center">
                 {isSettingsItem ? (
-                  <NewText.P
+                  <P
                     className={clsx(
                       'breadcrumbs__link !m-0',
                       isLast && 'opacity-50',
@@ -110,9 +111,9 @@ const SettingsBreadcrumbs = ({ route }: { route: BluedotRoute }) => {
                     aria-current={isLast ? 'page' : undefined}
                   >
                     {item.title}
-                  </NewText.P>
+                  </P>
                 ) : (
-                  <NewText.A
+                  <A
                     className={clsx(
                       'breadcrumbs__link no-underline',
                       isLast && 'opacity-50',
@@ -121,7 +122,7 @@ const SettingsBreadcrumbs = ({ route }: { route: BluedotRoute }) => {
                     aria-current={isLast ? 'page' : undefined}
                   >
                     {item.title}
-                  </NewText.A>
+                  </A>
                 )}
                 {!isLast && (
                   <span className="breadcrumbs__separator mx-2" aria-hidden="true">{'>'}</span>

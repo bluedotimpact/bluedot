@@ -1,7 +1,6 @@
 import {
-  ProgressDots, ErrorSection, addQueryParam, useLatestUtmParams,
+  addQueryParam, ErrorSection, H1, ProgressDots, useLatestUtmParams,
 } from '@bluedot/ui';
-import { H1 } from '@bluedot/ui/src/Text';
 import type { inferRouterOutputs } from '@trpc/server';
 import clsx from 'clsx';
 import Head from 'next/head';

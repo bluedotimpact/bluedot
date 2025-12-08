@@ -1,4 +1,4 @@
-import { NewText } from '@bluedot/ui';
+import { P } from '@bluedot/ui';
 
 export type ExampleComponentProps = {
   name?: string,
@@ -6,6 +6,6 @@ export type ExampleComponentProps = {
 
 export const ExampleComponent: React.FC<ExampleComponentProps> = ({ name }) => {
   return (
-    <NewText.P>Hello {name ?? 'world'}!</NewText.P>
+    <P>Hello {name ?? 'world'}!</P>
   );
 };

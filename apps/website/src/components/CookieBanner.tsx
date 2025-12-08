@@ -1,7 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { CTALinkOrButton } from '@bluedot/ui/src/CTALinkOrButton';
-import { A } from '@bluedot/ui/src/Text';
+import { A, CTALinkOrButton } from '@bluedot/ui';
 import { useConsentStore } from './analytics/consent';
 
 export type CookieBannerProps = {

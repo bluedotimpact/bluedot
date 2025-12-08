@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { NewText } from '@bluedot/ui';
+import { H1, P } from '@bluedot/ui';
 
 const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange']; // Add more colors as needed
 const images = ['bdi.png', 'aisf.png', 'bsf.png']; // Array of images
@@ -28,8 +28,8 @@ const Dewi = () => {
 
   return (
     <div className="section-body gap-4">
-      <NewText.H1>Dewi's magic page</NewText.H1>
-      <NewText.P>Value is {value}</NewText.P>
+      <H1>Dewi's magic page</H1>
+      <P>Value is {value}</P>
       <img src={getCurrentImage()} alt="" style={{ width: '300px' }} />
     </div>
   );

@@ -76,8 +76,10 @@ export type { TagProps } from './Tag';
 export { Textarea } from './Textarea';
 export type { TextareaProps } from './Textarea';
 
-// This will eventually be exported directly, but for now it's namespaced as NewText to avoid mistakes in the migration from LegacyText
-export * as NewText from './Text';
+// Export text components directly
+export {
+  H1, H2, H3, H4, P, A,
+} from './Text';
 
 export { UnitCard } from './UnitCard';
 export type { UnitCardProps } from './UnitCard';
