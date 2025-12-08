@@ -195,6 +195,12 @@
             a {
                 font-weight: inherit;
             }
+
+            /* Preserve header font size when bolded */
+            strong {
+                font-size: inherit;
+                font-weight: inherit;
+            }
         }
     }
 }
