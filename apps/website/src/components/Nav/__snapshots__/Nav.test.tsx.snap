@@ -108,6 +108,9 @@ exports[`Nav > renders with courses 1`] = `
                             New
                           </span>
                         </a>
+                        <div
+                          class="border-t border-gray-200 my-2"
+                        />
                         <a
                           class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
                           href="/courses"
@@ -235,6 +238,9 @@ exports[`Nav > renders with courses 1`] = `
                       New
                     </span>
                   </a>
+                  <div
+                    class="border-t border-gray-200 my-2"
+                  />
                   <a
                     class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
                     href="/courses"
