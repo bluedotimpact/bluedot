@@ -48,7 +48,7 @@ export const UpcomingRounds = () => {
 
   return (
     <section className="bg-white pt-[16px] pb-[48px] px-5 min-[680px]:pt-0 min-[680px]:pb-[64px] min-[680px]:px-8 min-[1024px]:pb-[80px] lg:px-12 min-[1280px]:pb-[96px] min-[1440px]:pt-[24px] min-[1920px]:pt-0 xl:px-16 2xl:px-20">
-      <div className="flex flex-col items-center gap-16 max-w-screen-xl mx-auto">
+      <div className="flex flex-col items-center gap-6 max-w-screen-xl mx-auto">
         {/* Section Title */}
         <h2 className="text-[24px] leading-[140%] tracking-[-0.5px] font-[450] text-[#13132E] text-center">
           Upcoming rounds
@@ -74,7 +74,7 @@ export const UpcomingRounds = () => {
         {/* CTA Button */}
         <CTALinkOrButton
           url="/courses"
-          className="px-4 bg-[rgba(19,19,46,0.1)] text-[#13132e] hover:text-[#13132e] text-[15px] font-[450] tracking-[-0.3px] rounded-md hover:bg-[rgba(19,19,46,0.15)]"
+          className="mt-[24px] px-4 bg-[rgba(19,19,46,0.1)] text-[#13132e] hover:text-[#13132e] text-[15px] font-[450] tracking-[-0.3px] rounded-md hover:bg-[rgba(19,19,46,0.15)]"
         >
           See all rounds
         </CTALinkOrButton>
