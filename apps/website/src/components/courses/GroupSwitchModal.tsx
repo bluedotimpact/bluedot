@@ -4,13 +4,13 @@ import React, {
 import {
   cn, ClickTarget, CTALinkOrButton,
   ErrorSection, Modal, ProgressDots, useAuthStore,
+  Select,
 } from '@bluedot/ui';
 import { FaArrowLeft, FaArrowRightArrowLeft } from 'react-icons/fa6';
 import { ClockUserIcon } from '../icons/ClockUserIcon';
 import { UserIcon } from '../icons/UserIcon';
 import { formatTime12HourClock, formatDateMonthAndDay, formatDateDayOfWeek } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
-import Select from './group-switching/Select';
 
 export type GroupSwitchModalProps = {
   handleClose: () => void;
