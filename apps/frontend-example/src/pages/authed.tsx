@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { CTALinkOrButton, H1, H2, P, A, withAuth } from '@bluedot/ui';
+import {
+  CTALinkOrButton, H1, H2, P, A, withAuth,
+} from '@bluedot/ui';
 import { useRouter } from 'next/router';
 
 const AuthedPage = withAuth(({ auth, setAuth }) => {
