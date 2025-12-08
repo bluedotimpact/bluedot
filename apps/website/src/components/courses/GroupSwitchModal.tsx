@@ -320,7 +320,6 @@ export default function GroupSwitchModal({
       subtitle: (
         <>
           To help us assign you to a group which best suits you, {auth?.email ? <a href={`https://availability.bluedot.org/form/bluedot-course?email=${encodeURIComponent(auth.email)}&utm_source=bluedot-group-switch-modal`} target="_blank" rel="noopener noreferrer" className="text-bluedot-normal underline">please update your availability</a> : <span>please update your availability</span>}.
-          Then check the box below and request your manual switch.
         </>),
       control: (
         <label className="flex items-center gap-2 cursor-pointer w-fit">
@@ -330,7 +329,7 @@ export default function GroupSwitchModal({
             onChange={(e) => setHasUpdatedAvailability(e.target.checked)}
             className="size-4 rounded border-gray-300 text-bluedot-normal focus:ring-bluedot-normal cursor-pointer"
           />
-          <span className="text-size-sm text-[#13132E]">I have updated my availability</span>
+          <span className="text-size-sm text-[#13132E]">I have checked my availability and updated if necessary</span>
         </label>
       ),
     },
