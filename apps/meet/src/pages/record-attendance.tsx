@@ -2,7 +2,7 @@ import { useSearchParams } from 'next/navigation';
 import useAxios from 'axios-hooks';
 import { useState } from 'react';
 import {
-  CTALinkOrButton, ErrorSection, Input, NewText,
+  CTALinkOrButton, ErrorSection, Input, H1,
 } from '@bluedot/ui';
 import { Page } from '../components/Page';
 import { RecordAttendanceRequest, RecordAttendanceResponse } from './api/public/record-attendance';
@@ -40,7 +40,7 @@ const RecordAttendancePage: React.FC<{ groupDiscussionId: string, participantId:
   if (loading) {
     return (
       <Page>
-        <NewText.H1>Updating attendance...</NewText.H1>
+        <H1>Updating attendance...</H1>
       </Page>
     );
   }
@@ -48,14 +48,14 @@ const RecordAttendancePage: React.FC<{ groupDiscussionId: string, participantId:
   if (data) {
     return (
       <Page>
-        <NewText.H1>Thanks for marking your attendance!</NewText.H1>
+        <H1>Thanks for marking your attendance!</H1>
       </Page>
     );
   }
 
   return (
     <Page>
-      <NewText.H1 className="mb-4">Manual attendance update</NewText.H1>
+      <H1 className="mb-4">Manual attendance update</H1>
       <p className="mb-2">Why do you need to update your attendance?</p>
       <div className="grid gap-2 md:w-1/2">
         {[

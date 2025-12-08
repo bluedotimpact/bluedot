@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { NewText, ProgressDots, asError } from '@bluedot/ui';
+import { H2, P, A, ProgressDots, asError } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import { SavedDemoOutput } from '../api/saved-output/[savedDemoOutputId]';
 import { GenerateReactComponentSavedDemoOutputViewer } from '../generate-react-component';
@@ -28,10 +28,10 @@ const ContentViewer: React.FC<{ savedDemoOutput: SavedDemoOutput, courseLink: st
 
     return (
       <>
-        <NewText.H2 className="text-red-500">Couldn't interpret your demo</NewText.H2>
-        <NewText.P>This can sometimes happen if the link is invalid or the content has been deleted.</NewText.P>
-        <NewText.P>Using the demos yourself is often more fun anyway - you can find them all in our free <NewText.A href={courseLink}>Future of AI Course</NewText.A>.</NewText.P>
-        <NewText.P>Details: {asError(error).message}</NewText.P>
+        <H2 className="text-red-500">Couldn't interpret your demo</H2>
+        <P>This can sometimes happen if the link is invalid or the content has been deleted.</P>
+        <P>Using the demos yourself is often more fun anyway - you can find them all in our free <A href={courseLink}>Future of AI Course</A>.</P>
+        <P>Details: {asError(error).message}</P>
       </>
     );
   }
@@ -52,7 +52,7 @@ const SharePage: React.FC = () => {
   if (loading || !savedDemoOutputId) {
     return (
       <main className="mx-auto px-4 py-8">
-        <NewText.P className="text-center">Loading shared content...</NewText.P>
+        <P className="text-center">Loading shared content...</P>
         <ProgressDots />
       </main>
     );
@@ -61,10 +61,10 @@ const SharePage: React.FC = () => {
   if (error || !savedDemoOutput) {
     return (
       <main className="mx-auto px-4 py-8">
-        <NewText.H2 className="text-red-500">Couldn't find your demo</NewText.H2>
-        <NewText.P>This can sometimes happen if the link is invalid or the content has been deleted.</NewText.P>
-        <NewText.P>Using the demos yourself is often more fun anyway - you can find them all in our free <NewText.A href={courseLink}>Future of AI Course</NewText.A>.</NewText.P>
-        <NewText.P>Details: {error?.message || 'Failed to load shared content'}</NewText.P>
+        <H2 className="text-red-500">Couldn't find your demo</H2>
+        <P>This can sometimes happen if the link is invalid or the content has been deleted.</P>
+        <P>Using the demos yourself is often more fun anyway - you can find them all in our free <A href={courseLink}>Future of AI Course</A>.</P>
+        <P>Details: {error?.message || 'Failed to load shared content'}</P>
       </main>
     );
   }

@@ -1,6 +1,6 @@
 import {
   ErrorSection,
-  NewText,
+  P, A,
   ProgressDots,
   withAuth,
 } from '@bluedot/ui';
@@ -54,7 +54,7 @@ const BlogPostPage = withAuth(({ auth }) => {
       <BodyEditor auth={auth} onSave={saveBlog}>
         {data.blog.body}
       </BodyEditor>
-      <NewText.P><NewText.A href={`https://airtable.com/app63L1YChHfS6RJF/pagR4C2qmcFgavPlo?QaMci=${data.blog.id}`}>Return to Airtable</NewText.A></NewText.P>
+      <P><A href={`https://airtable.com/app63L1YChHfS6RJF/pagR4C2qmcFgavPlo?QaMci=${data.blog.id}`}>Return to Airtable</A></P>
     </>
   );
 });

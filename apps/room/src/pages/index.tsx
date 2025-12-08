@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import {
-  ClickTarget, ErrorSection, NewText, withAuth,
+  ClickTarget, ErrorSection, H1, withAuth,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import { Room } from '../lib/types';
@@ -37,7 +37,7 @@ const DashboardPage = withAuth(({ auth }) => {
     return (
       <div className="p-8">
         <div className="section-base">
-          <NewText.H1 className="mb-4">Rooms</NewText.H1>
+          <H1 className="mb-4">Rooms</H1>
           <div className="animate-pulse grid gap-6 md:grid-cols-2">
             <div className="h-20 bg-stone-200 rounded" />
             <div className="h-20 bg-stone-200 rounded" />
@@ -57,7 +57,7 @@ const DashboardPage = withAuth(({ auth }) => {
   return (
     <div className="py-8">
       <div className="section-base">
-        <NewText.H1 className="mb-4">Rooms</NewText.H1>
+        <H1 className="mb-4">Rooms</H1>
 
         <div className="grid gap-6 md:grid-cols-2">
           {rooms.map((room) => (
