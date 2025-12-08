@@ -92,13 +92,24 @@ const preprocessAirtableContent = (content: string): string => {
     '[$1]($1)',
   );
 
+  // Get MDX component names from getSupportedComponents (excluding lowercase 'a' link override)
+  const supportedComponents = Object.keys(getSupportedComponents()).filter(
+    (name) => name[0] === name[0].toUpperCase(),
+  );
+
+  // Create regex pattern to match component names
+  // Need to match both opening and closing tags: <Embed> and </Embed>
+  const componentPattern = supportedComponents.join('|');
+  const escapedComponentPattern = supportedComponents.map((name) => `\\/${name}`).join('|');
+
   // Fix Escape < that aren't part of JSX components
   // Preserves: <Embed>, <Callout>, <Exercise>, <Collapsible>, <Greeting>
   // Escapes everything else: <2000 → \<2000
-  processed = processed.replace(
-    /<(?!(Embed|Callout|Exercise|Collapsible|Greeting|\/Embed|\/Callout|\/Exercise|\/Collapsible|\/Greeting)\b)/g,
-    '\\<',
+  const regex = new RegExp(
+    `<(?!(${componentPattern}|${escapedComponentPattern})\\b)`,
+    'g',
   );
+  processed = processed.replace(regex, '\\<');
 
   return processed;
 };
