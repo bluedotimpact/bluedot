@@ -1,5 +1,6 @@
 import clsx from 'clsx';
-import { A, ProgressDots, Tag } from '@bluedot/ui';
+import React from 'react';
+import { Tag, ProgressDots, A } from '@bluedot/ui';
 import { CgChevronDown } from 'react-icons/cg';
 
 import { ROUTES } from '../../lib/routes';
@@ -174,25 +175,30 @@ const NavDropdown: React.FC<{
               const linkTextColor = 'text-[#02034B] hover:text-[#02034B]';
 
               return (
-                <A
-                  key={link.url}
-                  href={link.url}
-                  className={clsx(
-                    'nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle',
-                    'pt-1',
-                    linkTextColor,
+                <React.Fragment key={link.url}>
+                  {/* Add separator before "See upcoming rounds" */}
+                  {link.title === 'See upcoming rounds' && (
+                    <div className="border-t border-gray-200 my-2" />
                   )}
-                  onClick={() => {
-                    onToggle();
-                  }}
-                >
-                  {link.title}
-                  {link.isNew && (
-                    <Tag variant="secondary" className="uppercase ml-2 !p-1">
-                      New
-                    </Tag>
-                  )}
-                </A>
+                  <A
+                    href={link.url}
+                    className={clsx(
+                      'nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle',
+                      'pt-1',
+                      linkTextColor,
+                    )}
+                    onClick={() => {
+                      onToggle();
+                    }}
+                  >
+                    {link.title}
+                    {link.isNew && (
+                      <Tag variant="secondary" className="uppercase ml-2 !p-1">
+                        New
+                      </Tag>
+                    )}
+                  </A>
+                </React.Fragment>
               );
             })
           )}
