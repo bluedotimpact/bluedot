@@ -94,7 +94,10 @@ const preprocessAirtableContent = (content: string): string => {
 
   // Get MDX component names from getSupportedComponents (excluding lowercase 'a' link override)
   const supportedComponents = Object.keys(getSupportedComponents()).filter(
-    (name) => name[0] === name[0].toUpperCase(),
+    (name) => {
+      const firstChar = name[0];
+      return firstChar !== undefined && firstChar === firstChar.toUpperCase();
+    },
   );
 
   // Create regex pattern to match component names
