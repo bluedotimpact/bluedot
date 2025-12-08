@@ -1,5 +1,7 @@
 import React from 'react';
-import { A, BluedotRoute, ClickTarget, H2, P } from '@bluedot/ui';
+import {
+  A, BluedotRoute, ClickTarget, H2, P,
+} from '@bluedot/ui';
 import clsx from 'clsx';
 
 type SettingsTab = 'account' | 'courses';

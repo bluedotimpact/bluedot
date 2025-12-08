@@ -1,4 +1,6 @@
-import { CTALinkOrButton, ErrorSection, P, ProgressDots } from '@bluedot/ui';
+import {
+  CTALinkOrButton, ErrorSection, P, ProgressDots,
+} from '@bluedot/ui';
 import { ROUTES } from '../../lib/routes';
 import CourseListRow from './CourseListRow';
 import { trpc } from '../../utils/trpc';

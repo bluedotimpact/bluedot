@@ -77,9 +77,9 @@ export { Textarea } from './Textarea';
 export type { TextareaProps } from './Textarea';
 
 // Export text components directly
-export { H1, H2, H3, H4, P, A } from './Text';
-// Keep NewText export temporarily for backwards compatibility during migration
-export * as NewText from './Text';
+export {
+  H1, H2, H3, H4, P, A,
+} from './Text';
 
 export { UnitCard } from './UnitCard';
 export type { UnitCardProps } from './UnitCard';

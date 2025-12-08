@@ -1,4 +1,6 @@
-import { CTALinkOrButton, ErrorSection, P, ProgressDots } from '@bluedot/ui';
+import {
+  CTALinkOrButton, ErrorSection, P, ProgressDots,
+} from '@bluedot/ui';
 import Link from 'next/link';
 import type { inferRouterOutputs } from '@trpc/server';
 import { ROUTES } from '../../lib/routes';

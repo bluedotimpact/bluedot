@@ -1,4 +1,6 @@
-import { A, Collapsible, P, Section } from '@bluedot/ui';
+import {
+  A, Collapsible, P, Section,
+} from '@bluedot/ui';
 
 const FAQSection = () => {
   return (

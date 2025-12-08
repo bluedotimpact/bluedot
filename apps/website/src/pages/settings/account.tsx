@@ -1,4 +1,6 @@
-import { ErrorSection, Modal, P, ProgressDots } from '@bluedot/ui';
+import {
+  ErrorSection, Modal, P, ProgressDots,
+} from '@bluedot/ui';
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import { ROUTES } from '../../lib/routes';
