@@ -222,7 +222,7 @@ Third line also appears separately
 
 ### **This entire H3 header is bolded**
 
-Regular H3 header for comparison
+### Regular H3 header for comparison
 
 **Expected:** Bolded headers maintain the same size as regular headers.
 
