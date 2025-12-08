@@ -19,119 +19,6 @@ export type GroupSwitchModalProps = {
   courseSlug: string;
 };
 
-const SWITCH_TYPE_OPTIONS = [
-  {
-    value: 'Switch group for one unit',
-    label: <span className="grid grid-cols-[20px_1fr] gap-2 items-center"><ClockUserIcon className="mx-auto size-[22px] -translate-y-px" /> Switch group for one unit</span>,
-  },
-  {
-    value: 'Switch group permanently',
-    label: <span className="grid grid-cols-[20px_1fr] gap-2 items-center"><FaArrowRightArrowLeft className="mx-auto size-[14px]" /> Switch group permanently</span>,
-  },
-] as const;
-
-export type SwitchType = (typeof SWITCH_TYPE_OPTIONS)[number]['value'];
-
-const getGMTOffsetWithCity = () => {
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const now = new Date();
-  const offsetMinutes = now.getTimezoneOffset();
-  const offsetHours = Math.abs(offsetMinutes) / 60;
-  const offsetSign = offsetMinutes <= 0 ? '+' : '-';
-  const offsetFormatted = `${offsetSign}${Math.floor(offsetHours).toString().padStart(2, '0')}:${(Math.abs(offsetMinutes) % 60).toString().padStart(2, '0')}`;
-  const cityName = timezone.split('/').pop()?.replace(/_/g, ' ') || timezone;
-  return `(GMT ${offsetFormatted}) ${cityName}`;
-};
-
-export const sortGroupSwitchOptions = (options: GroupSwitchOptionProps[]): GroupSwitchOptionProps[] => {
-  return [...options].sort((a, b) => {
-    // Sort enabled before disabled
-    const disabledA = a.isDisabled ?? false;
-    const disabledB = b.isDisabled ?? false;
-    if (disabledA !== disabledB) {
-      return disabledA ? 1 : -1;
-    }
-
-    // Sort by time ascending
-    const timeAMs = (a.dateTime ?? 0) * 1000;
-    const timeBMs = (b.dateTime ?? 0) * 1000;
-
-    // For recurring times, consider only weekday and time of day in local timezone
-    if (a.isRecurringTime && b.isRecurringTime) {
-      const dateA = new Date(timeAMs);
-      const dateB = new Date(timeBMs);
-
-      // Convert to Monday-first week (Monday=0, Sunday=6)
-      const dayA = (dateA.getDay() + 6) % 7;
-      const dayB = (dateB.getDay() + 6) % 7;
-
-      if (dayA !== dayB) {
-        return dayA - dayB;
-      }
-
-      const timeOfDayA = dateA.getHours() * 3600 + dateA.getMinutes() * 60 + dateA.getSeconds();
-      const timeOfDayB = dateB.getHours() * 3600 + dateB.getMinutes() * 60 + dateB.getSeconds();
-      return timeOfDayA - timeOfDayB;
-    }
-
-    // For non-recurring times, sort by absolute timestamp
-    return timeAMs - timeBMs;
-  });
-};
-
-const getGroupSwitchDescription = ({
-  userIsParticipant = false,
-  isSelected,
-  isTemporarySwitch,
-  selectedUnitNumber,
-  spotsLeftIfKnown,
-  hasStarted = false,
-}: {
-  userIsParticipant?: boolean;
-  isSelected: boolean;
-  isTemporarySwitch: boolean;
-  selectedUnitNumber?: string;
-  spotsLeftIfKnown: number | null;
-  hasStarted?: boolean;
-}): React.ReactNode => {
-  if (isTemporarySwitch) {
-    if (userIsParticipant) {
-      return isSelected
-        ? <span className="text-bluedot-normal">You are attending this discussion</span>
-        : <span>You are switching out of this discussion</span>;
-    }
-
-    if (isSelected && selectedUnitNumber !== undefined) {
-      return <span className="text-bluedot-normal">You are joining this group for <strong>Unit {selectedUnitNumber}</strong></span>;
-    }
-  } else {
-    if (userIsParticipant) {
-      return isSelected
-        ? <span className="text-bluedot-normal">You are currently in this group</span>
-        : <span>You are switching out of this group for all upcoming units</span>;
-    }
-
-    if (isSelected) {
-      return <span className="text-bluedot-normal">You are switching into this group for all upcoming units</span>;
-    }
-  }
-
-  if (isTemporarySwitch && hasStarted) {
-    return <span>This discussion has passed</span>;
-  }
-
-  // Default: N spots left
-  const hasAnySpotsLeft = spotsLeftIfKnown !== 0;
-  if (!hasAnySpotsLeft) {
-    return <><UserIcon className="-translate-y-px" /><span>No spots left</span></>;
-  }
-  if (spotsLeftIfKnown === null) {
-    return <><UserIcon className="-translate-y-px" /><span>Spots available</span></>;
-  }
-  return <><UserIcon className="-translate-y-px" /><span>{spotsLeftIfKnown} spot{spotsLeftIfKnown === 1 ? '' : 's'} left</span></>;
-};
-
-// Form section - each has a numbered title, optional subtitle, and a control
 type FormSection = {
   id: string;
   isVisible: boolean;
@@ -140,12 +27,13 @@ type FormSection = {
   control: React.ReactNode;
 };
 
-const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
+// eslint-disable-next-line react/function-component-definition
+export default function GroupSwitchModal({
   handleClose,
   courseSlug,
   initialUnitNumber = '1',
   initialSwitchType = 'Switch group for one unit',
-}) => {
+}: GroupSwitchModalProps) {
   const [switchType, setSwitchType] = useState<SwitchType>(initialSwitchType);
   const [selectedUnitNumber, setSelectedUnitNumber] = useState(initialUnitNumber);
   const [reason, setReason] = useState('');
@@ -435,7 +323,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
     },
   ];
 
-  const visibleSections = formSections.filter((s) => s.isVisible);
+  const visibleFormSections = formSections.filter((s) => s.isVisible);
 
   return (
     <Modal
@@ -466,7 +354,7 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
         {!isLoading && !showSuccess && (
           <>
             <form className="flex flex-col gap-8">
-              {visibleSections.map((section, index) => (
+              {visibleFormSections.map((section, index) => (
                 <div key={section.id} className="flex flex-col gap-3">
                   <div className="flex flex-col gap-2">
                     <span className="text-size-sm font-medium text-[#13132E]">{index + 1}. {section.title}</span>
@@ -514,6 +402,118 @@ const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
       </div>
     </Modal>
   );
+}
+
+const SWITCH_TYPE_OPTIONS = [
+  {
+    value: 'Switch group for one unit',
+    label: <span className="grid grid-cols-[20px_1fr] gap-2 items-center"><ClockUserIcon className="mx-auto size-[22px] -translate-y-px" /> Switch group for one unit</span>,
+  },
+  {
+    value: 'Switch group permanently',
+    label: <span className="grid grid-cols-[20px_1fr] gap-2 items-center"><FaArrowRightArrowLeft className="mx-auto size-[14px]" /> Switch group permanently</span>,
+  },
+] as const;
+
+export type SwitchType = (typeof SWITCH_TYPE_OPTIONS)[number]['value'];
+
+const getGMTOffsetWithCity = () => {
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const now = new Date();
+  const offsetMinutes = now.getTimezoneOffset();
+  const offsetHours = Math.abs(offsetMinutes) / 60;
+  const offsetSign = offsetMinutes <= 0 ? '+' : '-';
+  const offsetFormatted = `${offsetSign}${Math.floor(offsetHours).toString().padStart(2, '0')}:${(Math.abs(offsetMinutes) % 60).toString().padStart(2, '0')}`;
+  const cityName = timezone.split('/').pop()?.replace(/_/g, ' ') || timezone;
+  return `(GMT ${offsetFormatted}) ${cityName}`;
+};
+
+export const sortGroupSwitchOptions = (options: GroupSwitchOptionProps[]): GroupSwitchOptionProps[] => {
+  return [...options].sort((a, b) => {
+    // Sort enabled before disabled
+    const disabledA = a.isDisabled ?? false;
+    const disabledB = b.isDisabled ?? false;
+    if (disabledA !== disabledB) {
+      return disabledA ? 1 : -1;
+    }
+
+    // Sort by time ascending
+    const timeAMs = (a.dateTime ?? 0) * 1000;
+    const timeBMs = (b.dateTime ?? 0) * 1000;
+
+    // For recurring times, consider only weekday and time of day in local timezone
+    if (a.isRecurringTime && b.isRecurringTime) {
+      const dateA = new Date(timeAMs);
+      const dateB = new Date(timeBMs);
+
+      // Convert to Monday-first week (Monday=0, Sunday=6)
+      const dayA = (dateA.getDay() + 6) % 7;
+      const dayB = (dateB.getDay() + 6) % 7;
+
+      if (dayA !== dayB) {
+        return dayA - dayB;
+      }
+
+      const timeOfDayA = dateA.getHours() * 3600 + dateA.getMinutes() * 60 + dateA.getSeconds();
+      const timeOfDayB = dateB.getHours() * 3600 + dateB.getMinutes() * 60 + dateB.getSeconds();
+      return timeOfDayA - timeOfDayB;
+    }
+
+    // For non-recurring times, sort by absolute timestamp
+    return timeAMs - timeBMs;
+  });
+};
+
+const getGroupSwitchDescription = ({
+  userIsParticipant = false,
+  isSelected,
+  isTemporarySwitch,
+  selectedUnitNumber,
+  spotsLeftIfKnown,
+  hasStarted = false,
+}: {
+  userIsParticipant?: boolean;
+  isSelected: boolean;
+  isTemporarySwitch: boolean;
+  selectedUnitNumber?: string;
+  spotsLeftIfKnown: number | null;
+  hasStarted?: boolean;
+}): React.ReactNode => {
+  if (isTemporarySwitch) {
+    if (userIsParticipant) {
+      return isSelected
+        ? <span className="text-bluedot-normal">You are attending this discussion</span>
+        : <span>You are switching out of this discussion</span>;
+    }
+
+    if (isSelected && selectedUnitNumber !== undefined) {
+      return <span className="text-bluedot-normal">You are joining this group for <strong>Unit {selectedUnitNumber}</strong></span>;
+    }
+  } else {
+    if (userIsParticipant) {
+      return isSelected
+        ? <span className="text-bluedot-normal">You are currently in this group</span>
+        : <span>You are switching out of this group for all upcoming units</span>;
+    }
+
+    if (isSelected) {
+      return <span className="text-bluedot-normal">You are switching into this group for all upcoming units</span>;
+    }
+  }
+
+  if (isTemporarySwitch && hasStarted) {
+    return <span>This discussion has passed</span>;
+  }
+
+  // Default: N spots left
+  const hasAnySpotsLeft = spotsLeftIfKnown !== 0;
+  if (!hasAnySpotsLeft) {
+    return <><UserIcon className="-translate-y-px" /><span>No spots left</span></>;
+  }
+  if (spotsLeftIfKnown === null) {
+    return <><UserIcon className="-translate-y-px" /><span>Spots available</span></>;
+  }
+  return <><UserIcon className="-translate-y-px" /><span>{spotsLeftIfKnown} spot{spotsLeftIfKnown === 1 ? '' : 's'} left</span></>;
 };
 
 type GroupSwitchOptionProps = {
@@ -616,5 +616,3 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
     </div>
   );
 };
-
-export default GroupSwitchModal;
