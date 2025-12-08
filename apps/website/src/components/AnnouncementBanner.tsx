@@ -1,10 +1,9 @@
 'use client';
 
-import { CTALinkOrButton, useCurrentTimeMs } from '@bluedot/ui';
+import { CTALinkOrButton, P, useCurrentTimeMs } from '@bluedot/ui';
 import clsx from 'clsx';
 import React from 'react';
 import { useAnnouncementBannerStore } from '../stores/announcementBanner';
-import { P } from './Text';
 
 /**
  * Generates a unique key for an announcement banner based on its content.

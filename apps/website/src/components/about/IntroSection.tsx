@@ -1,5 +1,4 @@
-import { Section } from '@bluedot/ui';
-import { P } from '../Text';
+import { P, Section } from '@bluedot/ui';
 
 const IntroSection = () => {
   return (

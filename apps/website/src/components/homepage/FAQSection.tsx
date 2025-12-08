@@ -1,5 +1,4 @@
-import { Collapsible, Section } from '@bluedot/ui';
-import { A, P } from '../Text';
+import { A, Collapsible, P, Section } from '@bluedot/ui';
 
 const FAQSection = () => {
   return (

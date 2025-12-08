@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { H1 } from '@bluedot/ui/src/Text';
+import { H1 } from '@bluedot/ui';
 import GraduateSection from '../lander/components/GraduateSection';
 
 const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (

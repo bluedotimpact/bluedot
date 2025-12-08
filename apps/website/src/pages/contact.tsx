@@ -1,12 +1,13 @@
 import {
+  A,
   Breadcrumbs,
   HeroH1,
   HeroSection,
+  P,
   Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { ROUTES } from '../lib/routes';
-import { A, P } from '../components/Text';
 
 const CURRENT_ROUTE = ROUTES.contact;
 

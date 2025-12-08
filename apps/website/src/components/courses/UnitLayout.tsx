@@ -2,9 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import {
-  Section,
+  A,
   CTALinkOrButton,
   ErrorSection,
+  H1,
+  P,
+  Section,
   useAuthStore,
 } from '@bluedot/ui';
 import {
@@ -28,9 +31,6 @@ import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import { ResourceDisplay } from './ResourceDisplay';
 import SideBar from './SideBar';
 import { ROUTES } from '../../lib/routes';
-import {
-  A, H1, P,
-} from '../Text';
 import { trpc } from '../../utils/trpc';
 import { CourseIcon } from './CourseIcon';
 

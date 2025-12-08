@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
+import { H3, P } from '@bluedot/ui';
 import SocialShare from './SocialShare';
-import { H3, P } from '../Text';
 import FoAICongratulations from './FoAICongratulations';
 import { FOAI_COURSE_ID } from '../../lib/constants';
 

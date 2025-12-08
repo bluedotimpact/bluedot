@@ -1,11 +1,10 @@
 import {
-  NewText,
   CTALinkOrButton,
+  H2,
+  P,
 } from '@bluedot/ui';
 import type { IconType } from 'react-icons';
 import { ScheduleRounds } from './ScheduleRounds';
-
-const { H2, P } = NewText;
 
 export type CourseDetail = {
   /** Icon component from react-icons (e.g., PiGraduationCap, PiClockClockwise) */

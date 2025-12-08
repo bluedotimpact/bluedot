@@ -1,10 +1,9 @@
 import { InferSelectModel, unitTable } from '@bluedot/db';
-import { ProgressDots, useAuthStore } from '@bluedot/ui';
+import { A, ProgressDots, useAuthStore } from '@bluedot/ui';
 import clsx from 'clsx';
 import React from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
 import { trpc } from '../../utils/trpc';
-import { A } from '../Text';
 import { filterResourcesByType } from './ResourceDisplay';
 import type { ChunkWithContent } from './UnitLayout';
 import { CourseIcon } from './CourseIcon';

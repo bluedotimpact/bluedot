@@ -5,7 +5,7 @@ import {
   useCallback,
 } from 'react';
 import Link from 'next/link';
-import { NewText } from '@bluedot/ui';
+import { H2, P } from '@bluedot/ui';
 import clsx from 'clsx';
 
 export type CommunityMember = {
@@ -223,14 +223,14 @@ const CommunityCarousel = ({
                 {title || defaultTitle}
               </h2>
             ) : (
-              <NewText.H2 className={clsx(headerSizeClasses, 'font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]')}>
+              <H2 className={clsx(headerSizeClasses, 'font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]')}>
                 {title || defaultTitle}
-              </NewText.H2>
+              </H2>
             )}
             {subtitle && (
-              <NewText.P className="text-[16px] min-[680px]:text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80 max-w-full">
+              <P className="text-[16px] min-[680px]:text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80 max-w-full">
                 {subtitle}
-              </NewText.P>
+              </P>
             )}
           </div>
 
@@ -326,20 +326,20 @@ const CommunityMemberCard = ({ member }: { member: CommunityMember }) => (
       {/* Name and Job Title Container */}
       <div className="flex flex-col items-start gap-1 w-full">
         {/* Name */}
-        <NewText.P className="text-[18px] font-semibold leading-[125%] text-[#13132E] text-left w-full">
+        <P className="text-[18px] font-semibold leading-[125%] text-[#13132E] text-left w-full">
           {member.name}
-        </NewText.P>
+        </P>
 
         {/* Job Title */}
-        <NewText.P className="text-[14px] font-medium leading-[160%] text-[#13132E] text-left w-full self-stretch">
+        <P className="text-[14px] font-medium leading-[160%] text-[#13132E] text-left w-full self-stretch">
           {member.jobTitle}
-        </NewText.P>
+        </P>
       </div>
 
       {/* Course */}
-      <NewText.P className="text-[14px] font-normal leading-[160%] text-[#13132E] text-left w-full opacity-60">
+      <P className="text-[14px] font-normal leading-[160%] text-[#13132E] text-left w-full opacity-60">
         {member.course}
-      </NewText.P>
+      </P>
     </div>
   </Link>
 );

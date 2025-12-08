@@ -1,5 +1,4 @@
-import { CTALinkOrButton } from '@bluedot/ui';
-import { H2, P } from '@bluedot/ui/src/Text';
+import { CTALinkOrButton, H2, P } from '@bluedot/ui';
 import { ROUTES } from '../../lib/routes';
 
 const StorySection = () => {

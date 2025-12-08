@@ -1,5 +1,4 @@
-import { Section, SectionHeading } from '@bluedot/ui';
-import { P } from '../Text';
+import { P, Section, SectionHeading } from '@bluedot/ui';
 
 const CultureSection = () => {
   return (

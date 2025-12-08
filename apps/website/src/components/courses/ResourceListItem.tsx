@@ -3,7 +3,9 @@ import {
 } from 'react';
 import { useRouter } from 'next/router';
 import {
+  A,
   addQueryParam,
+  P,
   useAuthStore,
 } from '@bluedot/ui';
 /**
@@ -15,9 +17,6 @@ import {
 import { useQueryClient } from '@tanstack/react-query';
 import { getQueryKey } from '@trpc/react-query';
 import type { inferRouterOutputs } from '@trpc/server';
-import {
-  A, P,
-} from '../Text';
 import { ROUTES } from '../../lib/routes';
 import { FaviconImage } from './FaviconImage';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';

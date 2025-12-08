@@ -1,9 +1,10 @@
 import {
-  CTALinkOrButton,
-  HeroSection,
-  HeroH1,
-  HeroCTAContainer,
   Breadcrumbs,
+  CTALinkOrButton,
+  HeroH1,
+  HeroSection,
+  HeroCTAContainer,
+  P,
   Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
@@ -14,7 +15,6 @@ import TeamSection from '../components/about/TeamSection';
 import JoinUsCta from '../components/about/JoinUsCta';
 import BeliefsSection from '../components/about/BeliefsSection';
 import { ROUTES } from '../lib/routes';
-import { P } from '../components/Text';
 
 const CURRENT_ROUTE = ROUTES.about;
 

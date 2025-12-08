@@ -1,6 +1,5 @@
-import { ProgressDots, ErrorSection, CTALinkOrButton } from '@bluedot/ui';
+import { CTALinkOrButton, ErrorSection, P, ProgressDots } from '@bluedot/ui';
 import { ROUTES } from '../../lib/routes';
-import { P } from '../Text';
 import CourseListRow from './CourseListRow';
 import { trpc } from '../../utils/trpc';
 

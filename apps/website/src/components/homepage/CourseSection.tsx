@@ -1,9 +1,6 @@
 import {
-  Section,
+  H1, H3, H4, P, Section,
 } from '@bluedot/ui';
-import {
-  H1, H3, H4, P,
-} from '@bluedot/ui/src/Text';
 import clsx from 'clsx';
 import {
   useEffect, useRef, useCallback, useState,

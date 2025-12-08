@@ -1,9 +1,8 @@
 import clsx from 'clsx';
-import { Tag, ProgressDots } from '@bluedot/ui';
+import { A, ProgressDots, Tag } from '@bluedot/ui';
 import { CgChevronDown } from 'react-icons/cg';
 
 import { ROUTES } from '../../lib/routes';
-import { A } from '../Text';
 import { useCourses } from '../../lib/hooks/useCourses';
 import { usePrimaryCourseURL } from '../../lib/hooks/usePrimaryCourseURL';
 import {

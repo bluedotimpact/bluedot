@@ -1,10 +1,9 @@
-import { CTALinkOrButton, Input } from '@bluedot/ui';
+import { CTALinkOrButton, Input, P } from '@bluedot/ui';
 import clsx from 'clsx';
 import React, { useCallback, useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { FaUndo } from 'react-icons/fa';
-import { P } from '../../Text';
 import { formatStringToArray } from '../../../lib/utils';
 import { getLoginUrl } from '../../../utils/getLoginUrl';
 // eslint-disable-next-line import/no-cycle
