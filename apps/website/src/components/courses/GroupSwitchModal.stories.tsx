@@ -128,7 +128,7 @@ export const Default: Story = {
           return mockSwitchingData;
         }),
         trpcStorybookMsw.groupSwitching.switchGroup.mutation(() => {
-          return undefined;
+          return null;
         }),
       ],
     },
@@ -151,7 +151,7 @@ export const AlternativeUnit: Story = {
           return mockSwitchingData;
         }),
         trpcStorybookMsw.groupSwitching.switchGroup.mutation(() => {
-          return undefined;
+          return null;
         }),
       ],
     },
@@ -197,7 +197,7 @@ export const Loading: Story = {
           return mockSwitchingData;
         }),
         trpcStorybookMsw.groupSwitching.switchGroup.mutation(() => {
-          return undefined;
+          return null;
         }),
       ],
     },
