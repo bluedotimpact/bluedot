@@ -520,7 +520,7 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
     <>
       {/* Mobile Layout */}
       <div className="flex min-[680px]:hidden">
-        <div className="bg-[#1144cc] opacity-20 w-1 flex-shrink-0 rounded-sm" />
+        <div className="bg-[#1144cc] w-1 flex-shrink-0 rounded-sm" />
         <div className="flex flex-col pl-5">
           <p className="text-[15px] leading-[1.6] font-semibold text-[#13132e]">Self-paced learning</p>
           <p className="text-[15px] leading-[1.6] font-normal text-[#13132e] opacity-50">
