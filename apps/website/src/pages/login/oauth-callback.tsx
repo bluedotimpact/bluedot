@@ -42,10 +42,8 @@ export default () => {
           }
 
           if (typeof window !== 'undefined' && response.isNewUser) {
-            // Set initial UTM params in PostHog for new users. They
-            // should be captured automatically by posthog, but because the
-            // first landing page has the UTM params buried in `redirectUrl` they
-            // may be dropped.
+            // Set initial UTM params in PostHog for new
+            // users. These should never change once set.
             const initialUtmParams: Record<string, string> = {};
             if (initialUtmSource) initialUtmParams.$initial_utm_source = initialUtmSource;
             if (initialUtmCampaign) initialUtmParams.$initial_utm_campaign = initialUtmCampaign;
