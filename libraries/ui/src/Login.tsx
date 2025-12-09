@@ -207,7 +207,7 @@ export const LoginRedirectPage: React.FC<LoginPageProps> = ({ loginPreset }) => 
           window.location.href = loginProviderUrl;
         });
     }
-  }, [auth, appendLatestUtmParamsToUrl, redirectTo, prefilledEmail, loginPreset]);
+  }, [auth, appendLatestUtmParamsToUrl, redirectTo, prefilledEmail, loginPreset, isUtmParamsLoading]);
 
   if (auth) {
     return <Navigate url={redirectTo} />;
