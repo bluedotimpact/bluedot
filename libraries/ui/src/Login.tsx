@@ -162,9 +162,13 @@ export const LoginRedirectPage: React.FC<LoginPageProps> = ({ loginPreset }) => 
   const redirectTo = (typeof window !== 'undefined' && getQueryParam(window.location.href, 'redirect_to')) || '/';
   const prefilledEmail = typeof window !== 'undefined' ? getQueryParam(window.location.href, 'email') || undefined : undefined;
   const auth = useAuthStore((s) => s.auth);
-  const { appendLatestUtmParamsToUrl } = useLatestUtmParams();
+  const { appendLatestUtmParamsToUrl, isLoading: isUtmParamsLoading } = useLatestUtmParams();
 
   useEffect(() => {
+    if (isUtmParamsLoading) {
+      return;
+    }
+
     if (!auth) {
       // Track if user is coming from Future of AI course
       // @ts-ignore dataLayer was added to window in apps/website in the GoogleTagManager.tsx file
