@@ -127,7 +127,6 @@ describe('LoginRedirectPage', () => {
       request_type: 'si:r',
       state: {
         redirectTo: CUSTOM_REDIRECT_PATH,
-        attribution: expect.any(Object),
       },
     });
 
@@ -151,7 +150,6 @@ describe('LoginRedirectPage', () => {
       request_type: 'si:r',
       state: {
         redirectTo: '/',
-        attribution: expect.any(Object),
       },
     });
 
@@ -203,7 +201,6 @@ describe('LoginOauthCallbackPage', () => {
       refreshToken: mockUser.refresh_token,
       oidcSettings: mockLoginPreset.oidcSettings,
       email: mockUser.profile.email,
-      attribution: undefined,
     };
 
     await waitFor(() => {
