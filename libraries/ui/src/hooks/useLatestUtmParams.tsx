@@ -9,6 +9,7 @@ import {
   useEffect,
 } from 'react';
 import { useRouter } from 'next/router';
+import posthog from 'posthog-js';
 import { addQueryParam } from '../utils/addQueryParam';
 
 type LatestUtmParamsContextType = {
@@ -56,6 +57,8 @@ export const LatestUtmParamsProvider: FC<{ children: ReactNode }> = ({
     // replace the entire stored set (not merge) to avoid mismatched attribution
     if (hasCurrentUtmParams) {
       setLatestUtmParams(currentParams);
+
+      posthog.capture('$set', { $set: currentParams });
     }
   }, [router.isReady, router.query]);
 

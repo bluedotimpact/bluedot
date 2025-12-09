@@ -3,7 +3,6 @@ import { OidcClient, OidcClientSettings } from 'oidc-client-ts';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { createPublicKey, createVerify, JsonWebKey } from 'crypto';
-import posthog from 'posthog-js';
 import { Navigate } from './Navigate';
 import { Auth, useAuthStore } from './utils/auth';
 import { ErrorSection } from './ErrorSection';
@@ -177,16 +176,6 @@ export const LoginRedirectPage: React.FC<LoginPageProps> = ({ loginPreset }) => 
         });
       }
 
-      // Add a visible indicator
-      // This is currently not working as expected, see: https://github.com/bluedotimpact/bluedot/issues/1441
-      const attribution = {
-        referralCode: typeof window !== 'undefined' ? getQueryParam(window.location.href, 'r') : undefined,
-        utmSource: typeof window !== 'undefined' ? getQueryParam(window.location.href, 'utm_source') : undefined,
-        utmCampaign: typeof window !== 'undefined' ? getQueryParam(window.location.href, 'utm_campaign') : undefined,
-        utmTerm: typeof window !== 'undefined' ? getQueryParam(window.location.href, 'utm_term') : undefined,
-        utmMedium: typeof window !== 'undefined' ? getQueryParam(window.location.href, 'utm_medium') : undefined,
-      };
-
       // Append latest UTM params to redirectTo URL to ensure they persist through the OAuth flow
       const redirectToWithUtms = appendLatestUtmParamsToUrl(redirectTo);
 
@@ -204,7 +193,7 @@ export const LoginRedirectPage: React.FC<LoginPageProps> = ({ loginPreset }) => 
       new OidcClient(oidcSettings)
         .createSigninRequest({
           request_type: 'si:r',
-          state: { redirectTo: redirectToWithUtms, attribution },
+          state: { redirectTo: redirectToWithUtms },
         })
         .then((req) => {
           const isRegister = getQueryParam(window.location.href, 'register') === 'true';
@@ -246,7 +235,6 @@ export const LoginOauthCallbackPage: React.FC<LoginOauthCallbackPageProps> = ({ 
         if (typeof user.profile.email !== 'string') {
           throw new Error('Bad login response: user.profile.email is missing or not a string');
         }
-        const { attribution } = (user.userState as { attribution?: Auth['attribution'] });
 
         const auth = {
           expiresAt: user.expires_at * 1000,
@@ -254,19 +242,9 @@ export const LoginOauthCallbackPage: React.FC<LoginOauthCallbackPageProps> = ({ 
           refreshToken: user.refresh_token,
           oidcSettings: loginPreset.oidcSettings,
           email: user.profile.email,
-          attribution,
         };
 
         setAuth(auth);
-
-        // Track attribution in PostHog if available
-        if (auth.attribution) {
-          const attributionData = {
-            ...auth.attribution,
-            email: auth.email,
-          };
-          posthog.capture('attribution_data', attributionData);
-        }
 
         const redirectTo = (user.userState as { redirectTo?: string }).redirectTo || '/';
 
