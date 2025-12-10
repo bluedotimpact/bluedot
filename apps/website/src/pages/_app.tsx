@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import { GoogleTagManager } from '../components/analytics/GoogleTagManager';
 import { PostHogProvider } from '../components/analytics/PostHogProvider';
-import { Nav } from '../components/Nav/Nav';
+import { Header } from '../components/Header';
 import { CookieBanner } from '../components/CookieBanner';
 import { CircleWidget } from '../components/community/CircleWidget';
 import { ImpersonationBadge } from '../components/admin/ImpersonationBadge';
@@ -26,6 +26,27 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   const hideFooter = 'hideFooter' in Component;
   const { courses, loading } = useCourses();
 
+  const getAnnouncementBanner = () => {
+    if (fromSite) {
+      return (
+        <AnnouncementBanner ctaText="Learn more" ctaUrl="/blog/course-website-consolidation">
+          <b>Welcome from {fromSite === 'aisf' ? 'AI Safety Fundamentals' : 'Biosecurity Fundamentals'}!</b> We've consolidated our course sites in the BlueDot Impact platform to provide a more consistent and higher-quality experience.
+        </AnnouncementBanner>
+      );
+    }
+
+    if (router.pathname === '/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]'
+      && router.query.courseSlug === 'technical-ai-safety') {
+      return (
+        <AnnouncementBanner hideAfter={new Date('2025-10-31T23:59:59+01:00')}>
+          <b>🛠 Under construction</b>: Check back after Oct 31 for the updated version!
+        </AnnouncementBanner>
+      );
+    }
+
+    return undefined;
+  };
+
   return (
     <LatestUtmParamsProvider>
       <PostHogProvider>
@@ -40,18 +61,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
             ? <Component {...pageProps} />
             : (
               <>
-                <Nav />
-                {fromSite && (
-                  <AnnouncementBanner ctaText="Learn more" ctaUrl="/blog/course-website-consolidation">
-                    <b>Welcome from {fromSite === 'aisf' ? 'AI Safety Fundamentals' : 'Biosecurity Fundamentals'}!</b> We've consolidated our course sites in the BlueDot Impact platform to provide a more consistent and higher-quality experience.
-                  </AnnouncementBanner>
-                )}
-                {router.pathname === '/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]'
-                  && router.query.courseSlug === 'technical-ai-safety' && (
-                  <AnnouncementBanner hideAfter={new Date('2025-10-31T23:59:59+01:00')}>
-                    <b>🛠 Under construction</b>: Check back after Oct 31 for the updated version!
-                  </AnnouncementBanner>
-                )}
+                <Header announcementBanner={getAnnouncementBanner()} />
                 <main className="bluedot-base">
                   <Component {...pageProps} />
                 </main>
