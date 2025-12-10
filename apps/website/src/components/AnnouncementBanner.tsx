@@ -54,10 +54,10 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
 }) => {
   const bannerKey = getAnnouncementBannerKey(children);
   const dismissBanner = useAnnouncementBannerStore((state) => state.dismissBanner);
-  // If this banner has been dismissed (now or in the past) don't show it
   const isDismissed = useAnnouncementBannerStore((s) => Boolean(s.dismissedBanners[bannerKey]));
   const currentTimeMs = useCurrentTimeMs();
 
+  // If this banner has been dismissed (now or in the past) don't show it
   if (isDismissed) {
     return null;
   }
@@ -71,7 +71,12 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
   }
 
   return (
-    <div className={clsx('announcement-banner w-full py-4 bg-bluedot-lighter', className)}>
+    <div
+      className={clsx(
+        'announcement-banner w-full py-4 bg-bluedot-lighter',
+        className,
+      )}
+    >
       <div className="announcement-banner__container section-base flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
         <P className="announcement-banner__content text-center sm:text-left">{children}</P>
         <div className="flex gap-2">

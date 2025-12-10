@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
+import { Nav } from '../../components/Nav/Nav';
 import type { AppRouter } from '../../server/routers/_app';
 import { trpc } from '../../utils/trpc';
 import { AGI_STRATEGY_APPLICATION_URL } from '../../components/lander/course-content/AgiStrategyContent';
@@ -240,6 +241,7 @@ export default CoursesPage;
 const CoursesHero = () => {
   return (
     <section className="relative w-full min-h-[317px] min-[680px]:min-h-[366px] overflow-hidden">
+      <Nav />
       {/* Background Image */}
       <img
         src="/images/homepage/hero.webp"
