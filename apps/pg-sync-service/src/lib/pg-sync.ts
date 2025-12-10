@@ -152,6 +152,15 @@ async function attachRecordDataViaTableFetch(
 
   const { baseId, tableId } = firstUpdate;
 
+  // Check if this table is configured for sync before attempting bulk fetch
+  const pgAirtable = getPgAirtableFromIds({ baseId, tableId });
+  if (!pgAirtable) {
+    logger.info(
+      `[attachRecordDataViaTableFetch] Table ${baseId}/${tableId} not configured for sync, skipping bulk fetch`,
+    );
+    return webhookUpdates;
+  }
+
   const deletes = webhookUpdates.filter((u) => u.isDelete);
   const nonDeletes = webhookUpdates.filter((u) => !u.isDelete);
 
