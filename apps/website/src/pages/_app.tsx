@@ -35,15 +35,6 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
       );
     }
 
-    if (router.pathname === '/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]'
-      && router.query.courseSlug === 'technical-ai-safety') {
-      return (
-        <AnnouncementBanner hideAfter={new Date('2025-10-31T23:59:59+01:00')}>
-          <b>🛠 Under construction</b>: Check back after Oct 31 for the updated version!
-        </AnnouncementBanner>
-      );
-    }
-
     return undefined;
   };
 
