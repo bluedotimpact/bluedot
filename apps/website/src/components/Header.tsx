@@ -9,21 +9,14 @@ type HeaderProps = {
 };
 
 /**
- * Header component that wraps the announcement banner and nav together.
- * On homepage/courses pages, positions both absolutely over the hero.
- * On other pages, renders them in normal document flow.
+ * Header component that handles the announcement banner and nav.
  */
 export const Header: React.FC<HeaderProps> = ({ announcementBanner }) => {
   const router = useRouter();
-  const isAbsoluteNav = router.pathname === '/' || router.pathname === '/courses';
+  const pageRendersOwnNav = router.pathname === '/' || router.pathname === '/courses';
 
-  if (isAbsoluteNav) {
-    return (
-      <header className="absolute top-0 inset-x-0 z-50 flex flex-col">
-        {announcementBanner}
-        <Nav />
-      </header>
-    );
+  if (pageRendersOwnNav) {
+    return announcementBanner ?? null;
   }
 
   return (
