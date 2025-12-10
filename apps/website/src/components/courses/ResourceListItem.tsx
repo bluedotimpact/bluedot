@@ -34,13 +34,13 @@ type FeedbackSectionProps = {
 };
 
 const FeedbackSection: React.FC<FeedbackSectionProps> = ({ resourceFeedback, onFeedback, variant }) => {
-  const gapClass = variant === 'mobile' ? 'gap-1' : 'gap-[1px]';
+  const gapClass = variant === 'mobile' ? 'gap-1' : 'gap-1';
 
   const renderButton = (feedbackValue: ResourceFeedbackValue) => {
     const isActive = feedbackValue === resourceFeedback;
     const isLikeButton = feedbackValue === RESOURCE_FEEDBACK.LIKE;
 
-    const activeBackground = isLikeButton ? 'bg-[rgba(34,68,187,0.1)]' : 'bg-[rgba(19,19,46,0.1)]';
+    const activeBackground = isLikeButton ? 'bg-[rgba(0,55,255,0.06)]' : 'bg-[rgba(19,19,46,0.1)]';
     const hoverBackground = 'hover:bg-[rgba(19,19,46,0.08)]';
 
     const baseClasses = 'flex flex-row justify-center items-center px-2 py-1.5 h-[30px] rounded-md border-none transition-all duration-200 font-medium text-[13px] leading-[140%] tracking-[-0.005em] cursor-pointer';
@@ -50,7 +50,7 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({ resourceFeedback, onF
 
     let textColorClass = 'text-[#13132E]';
     if (isActive && isLikeButton) {
-      textColorClass = 'text-bluedot-normal';
+      textColorClass = 'text-[#2244bb]';
     }
 
     // Flip vertically for dislike (thumbs down) by flipping on Y-axis
@@ -391,11 +391,11 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource, re
         {auth && isCompleted && (
           <div className="hidden lg:block">
             <div
-              className="hidden lg:flex flex-col transition-all duration-200 px-6 pt-[17px] pb-4 gap-3 w-full bg-[rgba(19,19,46,0.05)] border-[0.5px] border-[rgba(19,19,46,0.15)] rounded-b-[10px] -mt-[10px] relative z-0"
+              className="hidden lg:flex flex-col transition-all duration-200 pt-[23px] pb-4 px-4 gap-2 w-full bg-[rgba(19,19,46,0.05)] border-[0.5px] border-[rgba(19,19,46,0.15)] rounded-b-[10px] -mt-4 relative z-0"
               role="region"
               aria-label="Resource feedback section"
             >
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3 px-2">
                 <P className="font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-[#13132E] opacity-60">
                   Was this resource useful?
                 </P>

@@ -156,7 +156,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
   };
 
   const textareaClasses = cn(
-    'box-border w-full bg-white rounded-[10px] px-6 py-5 z-[1]',
+    'box-border w-full bg-white rounded-[6px] p-4 z-[1]',
     'font-normal text-[14px] leading-[160%] tracking-[-0.002em] text-[#13132E]',
     'resize-y outline-none transition-all duration-200 block',
     'border-[0.5px] border-[rgba(19,19,46,0.25)]',
