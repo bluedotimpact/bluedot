@@ -1,3 +1,4 @@
+import { CourseRegistration } from '@bluedot/db';
 import {
   CTALinkOrButton, ErrorSection, P, ProgressDots,
 } from '@bluedot/ui';
@@ -16,6 +17,7 @@ const CoursesContent = () => {
 
   // Combine courses and enrollments
   const enrolledCourses = (courseRegistrations || [])
+    .filter((reg) => reg.roundStatus !== 'Future')
     .map((courseRegistration) => {
       const course = courses?.find((c) => c.id === courseRegistration.courseId);
       return course ? [{ course, courseRegistration }] : [];
@@ -23,12 +25,15 @@ const CoursesContent = () => {
     .flat();
 
   // Group courses by status
-  const inProgressCourses = enrolledCourses.filter(({ courseRegistration }) => courseRegistration.roundStatus === 'Active');
+  const isCompleted = (reg: CourseRegistration) => !!reg.certificateCreatedAt || reg.roundStatus === 'Past';
 
-  const completedCourses = enrolledCourses.filter(({ courseRegistration }) => !!courseRegistration.certificateCreatedAt).sort((a, b) => {
-    // Sort completed courses by completion date (newest first)
-    return (b.courseRegistration.certificateCreatedAt ?? 0) - (a.courseRegistration.certificateCreatedAt ?? 0);
-  });
+  const completedCourses = enrolledCourses
+    .filter(({ courseRegistration }) => isCompleted(courseRegistration))
+    // No-cert courses first (to nudge user to complete), then by completion date descending
+    .sort((a, b) => (b.courseRegistration.certificateCreatedAt ?? Infinity) - (a.courseRegistration.certificateCreatedAt ?? Infinity));
+
+  // In-progress: everything else (Active + no certificate)
+  const inProgressCourses = enrolledCourses.filter(({ courseRegistration }) => !isCompleted(courseRegistration));
 
   const loading = courseRegistrationsLoading || coursesLoading;
   const error = courseRegistrationsError || coursesError;
