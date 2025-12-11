@@ -75,7 +75,7 @@ export const certificatesRouter = router({
       }
 
       // Check if all exercises for this course have been completed
-      const allExercises = await db.scan(exerciseTable, { courseIdRead: courseId, status: 'Active' });
+      const allExercises = await db.scan(exerciseTable, { courseIdWrite: courseId, status: 'Active' });
 
       if (allExercises.length === 0) {
         throw new TRPCError({ code: 'BAD_REQUEST', message: 'No exercises found for this course' });
@@ -93,10 +93,20 @@ export const certificatesRouter = router({
         .sort((a, b) => Number(a.unitNumber) - Number(b.unitNumber));
 
       if (incompleteExercises.length > 0) {
+        const exerciseList = incompleteExercises
+          .map((e) => {
+            // Handle missing unit numbers gracefully
+            if (e.unitNumber) {
+              return `- Unit ${e.unitNumber}: ${e.title}`;
+            }
+            return `- ${e.title}`;
+          })
+          .join('\n');
+
         throw new TRPCError({
           code: 'BAD_REQUEST',
           message: `You have ${incompleteExercises.length} incomplete exercises:
-${incompleteExercises.map((e) => `- Unit ${e.unitNumber}: ${e.title}`).join('\n')}
+${exerciseList}
 Please complete all exercises before requesting a certificate.`,
         });
       }
