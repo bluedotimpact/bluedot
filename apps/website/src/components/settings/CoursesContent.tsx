@@ -17,7 +17,7 @@ const CoursesContent = () => {
 
   // Combine courses and enrollments
   const enrolledCourses = (courseRegistrations || [])
-    .filter((reg) => reg.roundStatus !== 'Future')
+    .filter((reg) => reg.roundStatus === 'Active' || reg.roundStatus === 'Past' || reg.certificateCreatedAt)
     .map((courseRegistration) => {
       const course = courses?.find((c) => c.id === courseRegistration.courseId);
       return course ? [{ course, courseRegistration }] : [];
