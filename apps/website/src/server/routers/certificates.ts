@@ -90,7 +90,7 @@ export const certificatesRouter = router({
           const response = exerciseResponses.find((resp) => resp.exerciseId === exercise.id);
           return !response || !response.completed;
         })
-        .sort((a, b) => Number(a.unitNumber) - Number(b.unitNumber));
+        .sort((a, b) => Number(a.unitNumber || Infinity) - Number(b.unitNumber || Infinity));
 
       if (incompleteExercises.length > 0) {
         const exerciseList = incompleteExercises
