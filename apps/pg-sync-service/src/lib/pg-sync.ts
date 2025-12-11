@@ -8,9 +8,11 @@ import { db } from './db';
 import { AirtableAction, AirtableWebhook } from './webhook';
 import { RateLimiter } from './rate-limiter';
 import { syncManager } from './sync-manager';
+import { fetchAllRecordsFromAirtable } from './scan';
 import env from '../env';
 
 export const MAX_RETRIES = 3;
+const BULK_FETCH_THRESHOLD = 100;
 const highPriorityQueue: AirtableAction[] = [];
 const lowPriorityQueue: AirtableAction[] = [];
 const rateLimiter = new RateLimiter(5);
@@ -117,28 +119,148 @@ export function deduplicateActions(updates: AirtableAction[]): AirtableAction[] 
 }
 
 /**
- * Poll all webhooks for updates and add them to the update queue.
+ * Groups webhook updates by which table they belong to
+ */
+function groupUpdatesByTable(
+  updates: AirtableAction[],
+): Record<string, AirtableAction[]> {
+  const grouped: Record<string, AirtableAction[]> = {};
+  for (const update of updates) {
+    const tableKey = `${update.baseId}::${update.tableId}`;
+    if (!grouped[tableKey]) grouped[tableKey] = [];
+    grouped[tableKey].push(update);
+  }
+  return grouped;
+}
+
+/**
+ * When we have many updates for a table, fetch ALL records from that table once
+ * instead of making individual API calls for each record (which are rate-limited).
+ * This attaches the full record data so processing is fast.
+ */
+async function attachRecordDataViaTableFetch(
+  webhookUpdates: AirtableAction[],
+): Promise<AirtableAction[]> {
+  if (webhookUpdates.length === 0) {
+    return webhookUpdates;
+  }
+
+  const firstUpdate = webhookUpdates[0];
+  if (!firstUpdate) {
+    return webhookUpdates;
+  }
+
+  const { baseId, tableId } = firstUpdate;
+
+  // Check if this table is configured for sync before attempting bulk fetch
+  const pgAirtable = getPgAirtableFromIds({ baseId, tableId });
+  if (!pgAirtable) {
+    logger.info(
+      `[attachRecordDataViaTableFetch] Table ${baseId}/${tableId} not configured for sync, skipping bulk fetch`,
+    );
+    return webhookUpdates;
+  }
+
+  const deletes = webhookUpdates.filter((u) => u.isDelete);
+  const nonDeletes = webhookUpdates.filter((u) => !u.isDelete);
+
+  if (nonDeletes.length === 0) {
+    logger.info(
+      `[attachRecordDataViaTableFetch] All ${deletes.length} updates are deletes for ${baseId}/${tableId}, skipping table fetch`,
+    );
+    return deletes;
+  }
+
+  logger.info(
+    `[attachRecordDataViaTableFetch] Processing ${nonDeletes.length} creates/updates and ${deletes.length} deletes for ${baseId}/${tableId}`,
+  );
+
+  try {
+    const allRecords = await fetchAllRecordsFromAirtable(baseId, tableId);
+    logger.info(
+      `[attachRecordDataViaTableFetch] Fetched ${allRecords.length} records from ${baseId}/${tableId}`,
+    );
+
+    const recordsById = new Map(allRecords.map((r) => [r.id, r]));
+
+    const actionsWithData: AirtableAction[] = [];
+    let missingCount = 0;
+    for (const update of nonDeletes) {
+      const recordData = recordsById.get(update.recordId);
+      if (recordData) {
+        actionsWithData.push({
+          baseId,
+          tableId,
+          recordId: update.recordId,
+          fieldIds: update.fieldIds,
+          isDelete: false,
+          recordData,
+        });
+      } else {
+        missingCount += 1;
+        logger.warn(
+          `[attachRecordDataViaTableFetch] Record ${update.recordId} not found in table fetch for ${baseId}/${tableId}`,
+        );
+      }
+    }
+
+    if (missingCount > 0) {
+      logger.warn(
+        `[attachRecordDataViaTableFetch] ${missingCount} of ${nonDeletes.length} records were missing from table fetch for ${baseId}/${tableId}`,
+      );
+    }
+
+    return [...deletes, ...actionsWithData];
+  } catch (error) {
+    logger.error(
+      `[attachRecordDataViaTableFetch] Failed for ${baseId}/${tableId}, `
+      + 'falling back to normal processing:',
+      error,
+    );
+    return webhookUpdates;
+  }
+}
+
+/**
+ * Poll all webhooks for updates and intelligently handles large batches
  */
 export async function pollForUpdates(): Promise<void> {
-  // Gather all updates from each webhook
   const webhooks = Object.values(webhookInstances);
-  const allUpdates: AirtableAction[][] = [];
 
   for (const webhook of webhooks) {
     try {
       // eslint-disable-next-line no-await-in-loop
       const updates = await webhook.popActions();
-      allUpdates.push(deduplicateActions(updates));
+      const dedupedUpdates = deduplicateActions(updates);
+
+      // eslint-disable-next-line no-continue
+      if (dedupedUpdates.length === 0) continue;
+
+      // Group by table to detect large batches
+      const updatesByTable = groupUpdatesByTable(dedupedUpdates);
+
+      // Process each table's updates
+      for (const [tableKey, tableUpdates] of Object.entries(updatesByTable)) {
+        if (tableUpdates.length >= BULK_FETCH_THRESHOLD) {
+          logger.info(
+            `[pollForUpdates] Large batch detected: ${tableUpdates.length} updates for ${tableKey}, using bulk fetch optimization`,
+          );
+          // eslint-disable-next-line no-await-in-loop
+          const updatesWithData = await attachRecordDataViaTableFetch(tableUpdates);
+          logger.info(
+            `[pollForUpdates] Bulk fetch completed: queued ${updatesWithData.length} actions for ${tableKey}`,
+          );
+          addToQueue(updatesWithData, 'high');
+        } else {
+          logger.info(
+            `[pollForUpdates] Normal batch: ${tableUpdates.length} updates for ${tableKey}`,
+          );
+          addToQueue(tableUpdates, 'high');
+        }
+      }
     } catch (err) {
       logger.error('[pollForUpdates] Failed to poll webhook:', err);
     }
-  }
-
-  for (const updates of allUpdates) {
-    if (updates.length > 0) {
-      logger.info(`[pollForUpdates] Adding ${updates.length} updates to queue`);
-    }
-    addToQueue(updates, 'high');
   }
 }
 
