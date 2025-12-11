@@ -2,14 +2,14 @@ import { courseRegistrationTable, courseTable } from '@bluedot/db';
 import {
   CTALinkOrButton,
   Footer,
-  NewText,
+  H1,
+  P,
   Section,
   ShareButton,
 } from '@bluedot/ui';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { FaCircleCheck } from 'react-icons/fa6';
-import { P } from '../components/Text';
 import db from '../lib/api/db';
 import { ROUTES } from '../lib/routes';
 
@@ -51,8 +51,8 @@ const CertificatePage = ({ certificate, certificateId }: CertificatePageProps) =
       <main className="bluedot-base flex flex-col">
         <Section className="flex-1">
           <div className="flex flex-col gap-4 mt-4">
-            <NewText.H1>Missing certificate id</NewText.H1>
-            <NewText.P>Check the link you were sent and try again.</NewText.P>
+            <H1>Missing certificate id</H1>
+            <P>Check the link you were sent and try again.</P>
             <div className="flex flex-row gap-4">
               <CTALinkOrButton url={ROUTES.courses.url}>Back to Courses</CTALinkOrButton>
               <CTALinkOrButton url={ROUTES.contact.url} variant="secondary">Contact us</CTALinkOrButton>
@@ -69,8 +69,8 @@ const CertificatePage = ({ certificate, certificateId }: CertificatePageProps) =
       <main className="bluedot-base flex flex-col">
         <Section className="flex-1">
           <div className="flex flex-col gap-4 mt-4">
-            <NewText.H1>Certificate not found</NewText.H1>
-            <NewText.P>We couldn't find the certificate you're looking for.</NewText.P>
+            <H1>Certificate not found</H1>
+            <P>We couldn't find the certificate you're looking for.</P>
             <div className="flex flex-row gap-4">
               <CTALinkOrButton url={ROUTES.courses.url}>Back to Courses</CTALinkOrButton>
               <CTALinkOrButton url={ROUTES.contact.url} variant="secondary">Contact us</CTALinkOrButton>

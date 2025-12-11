@@ -180,3 +180,67 @@ This only affects components, and not markdown text. So escaping works normally 
 `,
   },
 };
+
+export const MarkdownRenderingFixes: Story = {
+  name: 'Markdown Rendering Fixes',
+  args: {
+    children: `# Markdown Rendering Fixes
+
+---
+
+## Issue #1: Text with < Characters
+
+Medical <countermeasures (MCMs) such as vaccines and therapeutics are essential tools for pandemic preparedness.
+
+This platform is used by <2000 users worldwide, serving populations <5000 people in remote areas.
+
+**Expected:** All text with \`<\` characters displays correctly without breaking the page.
+
+---
+
+## Issue #2: Autolinks Work
+
+Visit <https://greendale.edu/ai-soc/ai-alignment> for course information.
+
+Documentation: <https://docs.example.com/guide>
+
+**Expected:** URLs in angle brackets are clickable links that open in a new tab.
+
+---
+
+## Issue #3: Single Line Breaks
+
+First line of text
+Second line appears on a new line (not same line)
+Third line also appears separately
+
+**Expected:** Single newlines create visible line breaks.
+
+---
+
+## Issue #4: Bolded Headers Maintain Size
+
+### **This entire H3 header is bolded**
+
+### Regular H3 header for comparison
+
+**Expected:** Bolded headers maintain the same size as regular headers.
+
+---
+
+## Real-World Example
+
+### **Bolded Header Example**
+
+This platform is used by <2000 users worldwide.
+Visit <https://example.com> for more details.
+
+Key points:
+First consideration
+Second consideration
+Third consideration
+
+<Embed url="https://www.youtube.com/embed/dQw4w9WgXcQ" />
+`,
+  },
+};

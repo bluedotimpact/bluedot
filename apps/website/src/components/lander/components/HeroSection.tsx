@@ -1,6 +1,4 @@
-import { CTALinkOrButton, NewText } from '@bluedot/ui';
-
-const { H1, P } = NewText;
+import { CTALinkOrButton, H1, P } from '@bluedot/ui';
 
 export type HeroSectionProps = {
   categoryLabel?: string; // Optional course category label

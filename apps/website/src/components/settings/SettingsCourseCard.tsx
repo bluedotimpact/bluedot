@@ -4,14 +4,15 @@ import {
   FaCubesStacked,
 } from 'react-icons/fa6';
 import {
-  CTALinkOrButton,
   addQueryParam,
   ClickTarget,
+  CTALinkOrButton,
+  H2,
+  P,
   useCurrentTimeMs,
 } from '@bluedot/ui';
 import { courseRegistrationTable, courseTable } from '@bluedot/db';
 import { ROUTES } from '../../lib/routes';
-import { H2, P } from '../Text';
 import SocialShare from '../courses/SocialShare';
 import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
 

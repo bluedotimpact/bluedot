@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import {
   describe, expect, test, vi, beforeEach,
 } from 'vitest';
@@ -90,11 +90,14 @@ describe('CoursesPage', () => {
   });
 
   test('displays courses when loaded', async () => {
-    render(<CoursesPage />, { wrapper: TrpcProvider });
+    const { container } = render(<CoursesPage />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      expect(screen.queryByText('The Future of AI')).not.toBeNull();
-      expect(screen.queryByText('AI Governance')).not.toBeNull();
+      // Check for course titles in the course cards (h2 elements), not nav links
+      const courseTitles = container.querySelectorAll('article h2');
+      const titleTexts = Array.from(courseTitles).map((h2) => h2.textContent);
+      expect(titleTexts).toContain('The Future of AI');
+      expect(titleTexts).toContain('AI Governance');
     });
   });
 });

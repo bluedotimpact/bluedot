@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { P } from '@bluedot/ui/src/Text';
+import { P } from '@bluedot/ui';
 
 const logos = [
   { src: '/images/third-party-logos/openai.svg', alt: 'OpenAI' },

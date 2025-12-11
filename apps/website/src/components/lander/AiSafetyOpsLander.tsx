@@ -1,8 +1,11 @@
 import Head from 'next/head';
 import {
   CTALinkOrButton,
-  Section,
+  H1,
+  H2,
+  H3,
   QuoteCarousel,
+  Section,
 } from '@bluedot/ui';
 import {
   HeroH1,
@@ -11,8 +14,6 @@ import {
   HeroSection,
 } from '@bluedot/ui/src/HeroSection';
 import { FaCalendarAlt, FaUserFriends, FaLaptop } from 'react-icons/fa';
-
-import { H1, H2, H3 } from '../Text';
 import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
 import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
 

@@ -33,7 +33,7 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
       >
         <textarea
           aria-label="Text input area"
-          class="box-border w-full bg-white rounded-[10px] px-6 py-5 z-[1] font-normal text-[14px] leading-[160%] tracking-[-0.002em] text-[#13132E] resize-y outline-none transition-all duration-200 block border-[0.5px] border-[rgba(19,19,46,0.25)] focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] disabled:cursor-not-allowed disabled:opacity-60 [&::-webkit-resizer]:hidden min-h-[140px]"
+          class="box-border w-full bg-white rounded-[6px] p-4 z-[1] font-normal text-[14px] leading-[160%] tracking-[-0.002em] text-[#13132E] resize-y outline-none transition-all duration-200 block border-[0.5px] border-[rgba(19,19,46,0.25)] focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] disabled:cursor-not-allowed disabled:opacity-60 [&::-webkit-resizer]:hidden min-h-[140px]"
           disabled=""
           placeholder="Create an account to save your answers"
         />
@@ -147,7 +147,7 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
         <textarea
           aria-describedby="save-status-message"
           aria-label="Text input area"
-          class="box-border w-full bg-white rounded-[10px] px-6 py-5 z-[1] font-normal text-[14px] leading-[160%] tracking-[-0.002em] text-[#13132E] resize-y outline-none transition-all duration-200 block border-[0.5px] border-[rgba(19,19,46,0.25)] focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] disabled:cursor-not-allowed disabled:opacity-60 [&::-webkit-resizer]:hidden min-h-[140px]"
+          class="box-border w-full bg-white rounded-[6px] p-4 z-[1] font-normal text-[14px] leading-[160%] tracking-[-0.002em] text-[#13132E] resize-y outline-none transition-all duration-200 block border-[0.5px] border-[rgba(19,19,46,0.25)] focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] disabled:cursor-not-allowed disabled:opacity-60 [&::-webkit-resizer]:hidden min-h-[140px]"
           placeholder="Enter your answer here"
         />
         <div
@@ -231,7 +231,7 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
         <textarea
           aria-describedby="save-status-message"
           aria-label="Text input area"
-          class="box-border w-full bg-white rounded-[10px] px-6 py-5 z-[1] font-normal text-[14px] leading-[160%] tracking-[-0.002em] text-[#13132E] resize-y outline-none transition-all duration-200 block border-[0.5px] border-[rgba(19,19,46,0.25)] focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] disabled:cursor-not-allowed disabled:opacity-60 [&::-webkit-resizer]:hidden min-h-[140px]"
+          class="box-border w-full bg-white rounded-[6px] p-4 z-[1] font-normal text-[14px] leading-[160%] tracking-[-0.002em] text-[#13132E] resize-y outline-none transition-all duration-200 block border-[0.5px] border-[rgba(19,19,46,0.25)] focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] disabled:cursor-not-allowed disabled:opacity-60 [&::-webkit-resizer]:hidden min-h-[140px]"
           placeholder="Enter your answer here"
         >
           This is my saved answer.

@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import {
   ErrorSection,
+  H2,
+  P,
   ProgressDots,
 } from '@bluedot/ui';
 import { CgChevronDown } from 'react-icons/cg';
 import type { Unit } from '@bluedot/db';
-import { H2, P } from '../../Text';
 import { trpc } from '../../../utils/trpc';
 
 export type CourseCurriculumSectionProps = {

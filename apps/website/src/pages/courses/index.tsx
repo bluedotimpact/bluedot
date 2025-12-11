@@ -1,12 +1,12 @@
 import {
-  ProgressDots, ErrorSection, addQueryParam, useLatestUtmParams,
+  addQueryParam, ErrorSection, H1, ProgressDots, useLatestUtmParams,
 } from '@bluedot/ui';
-import { H1 } from '@bluedot/ui/src/Text';
 import type { inferRouterOutputs } from '@trpc/server';
 import clsx from 'clsx';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
+import { Nav } from '../../components/Nav/Nav';
 import type { AppRouter } from '../../server/routers/_app';
 import { trpc } from '../../utils/trpc';
 import { AGI_STRATEGY_APPLICATION_URL } from '../../components/lander/course-content/AgiStrategyContent';
@@ -241,6 +241,7 @@ export default CoursesPage;
 const CoursesHero = () => {
   return (
     <section className="relative w-full min-h-[317px] min-[680px]:min-h-[366px] overflow-hidden">
+      <Nav />
       {/* Background Image */}
       <img
         src="/images/homepage/hero.webp"
@@ -521,7 +522,7 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
     <>
       {/* Mobile Layout */}
       <div className="flex min-[680px]:hidden">
-        <div className="bg-[#1144cc] opacity-20 w-1 flex-shrink-0 rounded-sm" />
+        <div className="bg-[#1144cc] w-1 flex-shrink-0 rounded-sm" />
         <div className="flex flex-col pl-5">
           <p className="text-[15px] leading-[1.6] font-semibold text-[#13132e]">Self-paced learning</p>
           <p className="text-[15px] leading-[1.6] font-normal text-[#13132e] opacity-50">
