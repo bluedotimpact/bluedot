@@ -23,10 +23,10 @@ body:
         
         • tech debt: Code health improvements (doesn't change user functionality, makes codebase more maintainable)
       options:
-        - feature
-        - devex
-        - enhancement
-        - tech debt
+        - type: feature
+        - type: devex
+        - type: enhancement
+        - type: tech debt
     validations:
       required: true
 
