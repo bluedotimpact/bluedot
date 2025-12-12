@@ -19,8 +19,8 @@ jobs:
 
             console.log(body)
             
-            // Extract priority from format: {"feature" => "feature"}
-            # const typeMatch = body.match(/\{"([^"]+)"\s*=>\s*"([^"]+)"\}/);
+            // Extract type from format: "type: feature"
+            const typeMatch = body.match(/type:\s*(\w+)/i);
             
             if (!typeMatch) {
               console.log('Type not found in issue body');
@@ -28,7 +28,7 @@ jobs:
             }
             
             const typeValue = typeMatch[1];
-            console.log(`Applying label: ${typeValue}`);
+            console.log(`Setting type to: ${typeValue}`);
             
             await github.rest.issues.addLabels({
               owner: context.repo.owner,
