@@ -9,10 +9,10 @@ body:
         Thanks for taking the time to suggest a new feature!
 
   - type: dropdown
-    id: issue-type
+    id: type
     attributes:
       label: Type
-      description: What type of issue is this?
+      description: What type of feature is this?
       options:
         - feature
         - enhancement
