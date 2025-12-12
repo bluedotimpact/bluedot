@@ -4,7 +4,7 @@ on:
     types: [opened]
 
 jobs:
-  add-priority-label:
+  add-type-label:
     if: contains(github.event.issue.body, 'Type')
     runs-on: ubuntu-latest
     permissions:
