@@ -2,7 +2,6 @@ name: Design task
 description: Create a design task or request
 title: "Short descriptive title"
 type: "needs design"
-projects: ["BlueDot design/engineering kanban"]
 assignees: [herrhaase]
 body:
   - type: markdown
