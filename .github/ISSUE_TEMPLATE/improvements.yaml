@@ -2,6 +2,7 @@ name: Feature request
 description: Suggest a new feature or document an idea
 title: "Short descriptive title"
 assignees: []
+projects: ["BlueDot design/engineering kanban"]
 body:
   - type: markdown
     attributes:
