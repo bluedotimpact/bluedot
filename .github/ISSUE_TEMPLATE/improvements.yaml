@@ -16,8 +16,11 @@ body:
         What type of feature is this?
         
         • feature: A request, idea, or new functionality
+        
         • devex: Improvements that make development faster/easier
+        
         • enhancement: Improvements to existing features that users will notice
+        
         • tech debt: Code health improvements (doesn't change user functionality, makes codebase more maintainable)
       options:
         - feature
@@ -60,9 +63,13 @@ body:
         What priority do you think this should have?
         
         • P0: Critical - Absolutely critical and requires immediate action
+        
         • P1: High - Major issue for current sprint/release cycle (2-week sprint)
+        
         • P2: Medium - Standard issue for a future release (default)
+        
         • P3: Low - Minor issue/enhancement that can be postponed
+        
         • P4: Trivial/Wishlist - Not a priority, may never be addressed
       options:
         - P2: Medium (Default)
