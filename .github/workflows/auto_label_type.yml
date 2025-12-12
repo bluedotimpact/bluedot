@@ -16,9 +16,11 @@ jobs:
           script: |
             const issue = context.payload.issue;
             const body = issue.body;
+
+            console.log(body)
             
             // Extract priority from format: {"feature" => "feature"}
-            const typeMatch = body.match(/\{"([^"]+)"\s*=>\s*"([^"]+)"\}/);
+            # const typeMatch = body.match(/\{"([^"]+)"\s*=>\s*"([^"]+)"\}/);
             
             if (!typeMatch) {
               console.log('Type not found in issue body');
@@ -32,5 +34,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: issue.number,
-              type: [typeValue]
+              type: typeValue
             });
