@@ -12,12 +12,18 @@ body:
     id: type
     attributes:
       label: Type
-      description: What type of feature is this?
+      description: |
+        What type of feature is this?
+        
+        • feature: A request, idea, or new functionality
+        • devex: Improvements that make development faster/easier
+        • enhancement: Improvements to existing features that users will notice
+        • tech debt: Code health improvements (doesn't change user functionality, makes codebase more maintainable)
       options:
         - feature
+        - devex
         - enhancement
         - tech debt
-        - devex
     validations:
       required: true
 
