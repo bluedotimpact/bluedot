@@ -33,7 +33,7 @@ jobs:
               'P1': 'P1: High',
               'P2': 'P2: Medium',
               'P3': 'P3: Low',
-              'P4': 'P4: Trivial/Wishlist'
+              'wishlist': 'P4: Trivial/Wishlist'
             };
             
             const label = labelMap[priorityCode];
