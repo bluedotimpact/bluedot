@@ -20,7 +20,7 @@ jobs:
             console.log(body)
             
             // Extract type from format: "type: feature"
-            const typeMatch = body.match(/type:\s*(\w+)/i);
+            const typeMatch = body.match(/\{"type"\s*=>\s*"([^"]+)"\}/);
             
             if (!typeMatch) {
               console.log('Type not found in issue body');
