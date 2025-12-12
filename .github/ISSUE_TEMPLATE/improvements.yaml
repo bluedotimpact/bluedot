@@ -8,6 +8,19 @@ body:
       value: |
         Thanks for taking the time to suggest a new feature!
 
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: Type
+      description: What type of issue is this?
+      options:
+        - feature
+        - enhancement
+        - tech debt
+        - devex
+    validations:
+      required: true
+
   - type: textarea
     id: summary
     attributes:
