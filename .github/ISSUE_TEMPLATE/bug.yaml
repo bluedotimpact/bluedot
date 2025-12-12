@@ -1,7 +1,7 @@
 name: Bug Report
 description: Report a bug
-title: "[Bug] Short descriptive title"
-labels: [bug]
+title: "Short descriptive title"
+type: "bug"
 assignees: []
 body:
   - type: markdown
