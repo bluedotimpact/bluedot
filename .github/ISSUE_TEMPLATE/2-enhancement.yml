@@ -2,7 +2,6 @@ name: Suggest enhancements
 description: Suggest an improvement to an existing feature for users
 title: "Short descriptive title"
 assignees: []
-projects: ["BlueDot design/engineering kanban"]
 type: "enhancement"
 body:
   - type: markdown
