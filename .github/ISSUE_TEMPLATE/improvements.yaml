@@ -1,7 +1,6 @@
-name: Feature Report
+name: Feature request
 description: Suggest a new feature or document an idea
 title: "Short descriptive title"
-type: "feature"
 assignees: []
 body:
   - type: markdown
@@ -14,7 +13,7 @@ body:
     attributes:
       label: 🧩 Summary
       description: Briefly describe the feature or idea in one or two sentences.
-      placeholder: A clear and concise description of the feature you'd like to see.
+      placeholder: A clear and concise description of the feature you'd like to see and how this either helps with user or developer experience, or improving the codebase health.
     validations:
       required: true
 
