@@ -59,11 +59,13 @@ export const makeMakeApiRoute = <AuthResult extends BaseAuthResult>({ env, verif
       // Extract method and path for instrumentation
       const method = req.method || 'UNKNOWN';
       const path = req.url || 'UNKNOWN';
+      const userAgent = req.headers['user-agent'] ?? 'unknown';
 
       // Get the current active span
       const activeSpan = trace.getActiveSpan();
       activeSpan?.setAttribute('http.method', method);
       activeSpan?.setAttribute('http.url', path);
+      activeSpan?.setAttribute('user.agent', userAgent);
 
       let statusCode = 200;
 
@@ -114,6 +116,7 @@ export const makeMakeApiRoute = <AuthResult extends BaseAuthResult>({ env, verif
           method,
           path,
           status_code: statusCode.toString(),
+          user_agent: userAgent,
         });
       } catch (err: unknown) {
         if (createHttpError.isHttpError(err) && err.expose) {
@@ -125,6 +128,7 @@ export const makeMakeApiRoute = <AuthResult extends BaseAuthResult>({ env, verif
             method,
             path,
             status_code: err.statusCode.toString(),
+            user_agent: userAgent,
           });
 
           logger.warn('Client error handling request:', err);
@@ -142,6 +146,7 @@ export const makeMakeApiRoute = <AuthResult extends BaseAuthResult>({ env, verif
           method,
           path,
           status_code: statusCode.toString(),
+          user_agent: userAgent,
         });
 
         logger.error('Internal error handling request:', err);
