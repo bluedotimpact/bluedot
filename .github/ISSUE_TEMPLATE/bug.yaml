@@ -2,6 +2,7 @@ name: Bug Report
 description: Report a bug
 title: "Short descriptive title"
 type: "bug"
+projects: ["BlueDot design/engineering kanban"]
 assignees: []
 body:
   - type: markdown
