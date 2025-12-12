@@ -3,40 +3,19 @@ description: Suggest a new feature or document an idea
 title: "Short descriptive title"
 assignees: []
 projects: ["BlueDot design/engineering kanban"]
+type: "feature"
 body:
   - type: markdown
     attributes:
       value: |
         Thanks for taking the time to suggest a new feature!
 
-  - type: dropdown
-    id: type
-    attributes:
-      label: Type
-      description: |
-        What type of feature is this?
-        
-        • feature: A request, idea, or new functionality
-        
-        • devex: Improvements that make development faster/easier
-        
-        • enhancement: Improvements to existing features that users will notice
-        
-        • tech debt: Code health improvements (doesn't change user functionality, makes codebase more maintainable)
-      options:
-        - type: feature
-        - type: devex
-        - type: enhancement
-        - type: tech debt
-    validations:
-      required: true
-
   - type: textarea
     id: summary
     attributes:
       label: 🧩 Summary
       description: Briefly describe the feature or idea in one or two sentences.
-      placeholder: A clear and concise description of the feature you'd like to see and how this either helps with user or developer experience, or improving the codebase health.
+      placeholder: A clear and concise description of the feature you'd like to see and how this improves user experience.
     validations:
       required: true
 
