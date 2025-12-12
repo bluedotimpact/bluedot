@@ -9,11 +9,14 @@ import {
   useEffect,
 } from 'react';
 import { useRouter } from 'next/router';
+import posthog from 'posthog-js';
 import { addQueryParam } from '../utils/addQueryParam';
 
 type LatestUtmParamsContextType = {
   latestUtmParams: Record<string, string>;
   appendLatestUtmParamsToUrl: (url: string) => string;
+  /** Whether the provider is still checking the current route for UTM params. */
+  isLoading: boolean;
 };
 
 const latestUtmParamsContext = createContext<LatestUtmParamsContextType | null>(null);
@@ -31,6 +34,10 @@ export const LatestUtmParamsProvider: FC<{ children: ReactNode }> = ({
 }) => {
   const router = useRouter();
   const [latestUtmParams, setLatestUtmParams] = useState<Record<string, string>>({});
+  const [lastProcessedPathAndQuery, setLastProcessedPathAndQuery] = useState<string | null>(null);
+
+  // isLoading is true when we haven't processed the current route yet
+  const isLoading = !router.isReady || router.asPath !== lastProcessedPathAndQuery;
 
   useEffect(() => {
     if (!router.isReady) {
@@ -56,8 +63,12 @@ export const LatestUtmParamsProvider: FC<{ children: ReactNode }> = ({
     // replace the entire stored set (not merge) to avoid mismatched attribution
     if (hasCurrentUtmParams) {
       setLatestUtmParams(currentParams);
+
+      posthog.capture('$set', { $set: currentParams });
     }
-  }, [router.isReady, router.query]);
+
+    setLastProcessedPathAndQuery(router.asPath);
+  }, [router.isReady, router.asPath, router.query]);
 
   const appendLatestUtmParamsToUrl = useCallback(
     (url: string) => {
@@ -75,8 +86,8 @@ export const LatestUtmParamsProvider: FC<{ children: ReactNode }> = ({
   );
 
   const contextValue = useMemo(
-    () => ({ latestUtmParams, appendLatestUtmParamsToUrl }),
-    [latestUtmParams, appendLatestUtmParamsToUrl],
+    () => ({ latestUtmParams, appendLatestUtmParamsToUrl, isLoading }),
+    [latestUtmParams, appendLatestUtmParamsToUrl, isLoading],
   );
 
   return (
@@ -95,6 +106,7 @@ export const useLatestUtmParams = () => {
     return {
       latestUtmParams: {},
       appendLatestUtmParamsToUrl: (url: string) => url,
+      isLoading: false,
     };
   }
 
