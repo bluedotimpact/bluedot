@@ -1,0 +1,57 @@
+name: Reduce tech debt
+description: Suggest improvements that improve codebase health (but doesn't change user functionality)
+title: "Short descriptive title"
+type: "tech debt"
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to suggest a new feature!
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: 🧩 Summary
+      description: Briefly describe the improvement in one or two sentences.
+      placeholder: A clear and concise description of the improvement you'd like to see and how it improves the codebase health.
+    validations:
+      required: true
+
+  - type: textarea
+    id: requirements
+    attributes:
+      label: ✅ Definition of done
+      description: What needs to be true for this task to be considered complete?
+      placeholder: A clear description of what needs to be implemented for this feature to be complete.
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: 📌 Notes / Designs
+      description: Include Figma links, screenshots, or Loom walkthroughs.
+      placeholder: Add any other context about the feature request here.
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Suggested Priority Level
+      description: |
+        What priority do you think this should have?
+        
+        • P0: Critical - Absolutely critical and requires immediate action
+        • P1: High - Major issue for current sprint/release cycle (2-week sprint)
+        • P2: Medium - Standard issue for a future release (default)
+        • P3: Low - Minor issue/enhancement that can be postponed
+        • P4: Trivial/Wishlist - Not a priority, may never be addressed
+      options:
+        - P2: Medium (Default)
+        - P0: Critical
+        - P1: High
+        - P3: Low
+        - P4: Trivial/Wishlist
+      default: 0
+    validations:
+      required: true
