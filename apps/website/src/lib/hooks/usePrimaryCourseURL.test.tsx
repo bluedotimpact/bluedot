@@ -89,7 +89,7 @@ describe('usePrimaryCourseURL', () => {
     });
     const mockRegistration = createMockCourseRegistration({
       courseId,
-      roundStatus: 'Completed',
+      roundStatus: 'Past',
     });
 
     server.use(trpcMsw.courses.getAll.query(() => [mockCourse]));

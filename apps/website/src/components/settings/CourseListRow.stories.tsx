@@ -37,7 +37,7 @@ const mockInProgressRegistration = createMockCourseRegistration();
 
 // Mock course registration for completed course
 const mockCompletedRegistration = createMockCourseRegistration({
-  roundStatus: 'Completed',
+  roundStatus: 'Past',
   certificateId: 'cert-123',
   certificateCreatedAt: 1700000000,
 });

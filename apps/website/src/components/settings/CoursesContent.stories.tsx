@@ -47,7 +47,7 @@ const mockRegistrationInProgress = createMockCourseRegistration({
 const mockRegistrationCompleted = createMockCourseRegistration({
   id: 'reg-2',
   courseId: 'course-2',
-  roundStatus: 'Completed',
+  roundStatus: 'Past',
   certificateCreatedAt: 1672531200, // Jan 1 2023
 });
 
