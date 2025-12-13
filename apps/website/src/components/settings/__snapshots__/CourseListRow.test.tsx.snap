@@ -168,8 +168,8 @@ exports[`CourseListRow > renders in-progress course correctly (snapshot) 1`] = `
 <div>
   <div>
     <div
-      aria-expanded="true"
-      class="border-x border-t border-charcoal-light transition-colors duration-200 group cursor-pointer bg-white"
+      aria-expanded="false"
+      class="border-x border-t border-charcoal-light transition-colors duration-200 group cursor-pointer hover:bg-white"
       role="button"
       tabindex="0"
     >
@@ -192,13 +192,13 @@ exports[`CourseListRow > renders in-progress course correctly (snapshot) 1`] = `
               </h3>
             </div>
             <button
-              aria-expanded="true"
-              aria-label="Collapse Introduction to AI Safety details"
+              aria-expanded="false"
+              aria-label="Expand Introduction to AI Safety details"
               class="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150 flex-shrink-0"
               type="button"
             >
               <svg
-                class="transition-transform duration-200 rotate-90"
+                class="transition-transform duration-200 "
                 fill="none"
                 height="20"
                 viewBox="0 0 20 20"
@@ -233,13 +233,13 @@ exports[`CourseListRow > renders in-progress course correctly (snapshot) 1`] = `
             role="presentation"
           >
             <button
-              aria-expanded="true"
-              aria-label="Collapse Introduction to AI Safety details"
+              aria-expanded="false"
+              aria-label="Expand Introduction to AI Safety details"
               class="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150"
               type="button"
             >
               <svg
-                class="transition-transform duration-200 rotate-90"
+                class="transition-transform duration-200 "
                 fill="none"
                 height="20"
                 viewBox="0 0 20 20"
@@ -258,11 +258,6 @@ exports[`CourseListRow > renders in-progress course correctly (snapshot) 1`] = `
           </div>
         </div>
       </div>
-    </div>
-    <div
-      aria-label="Expanded details for Introduction to AI Safety"
-    >
-      Course Details Content
     </div>
   </div>
 </div>

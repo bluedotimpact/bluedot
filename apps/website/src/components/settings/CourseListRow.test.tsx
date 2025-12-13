@@ -100,34 +100,45 @@ describe('CourseListRow', () => {
     expect(container).toMatchSnapshot();
   });
 
-  it('shows collapse button for in-progress course (expanded by default)', () => {
-    const inProgressRegistration = {
-      ...mockCourseRegistration,
-      roundStatus: 'Active',
-      certificateCreatedAt: null,
-    };
-
+  it('starts expanded when startExpanded prop is true', () => {
     render(
       <CourseListRow
         course={mockCourse}
-        courseRegistration={inProgressRegistration}
+        courseRegistration={mockCourseRegistration}
+        isFirst={false}
+        isLast={false}
+        startExpanded
+      />,
+      { wrapper: TrpcProvider },
+    );
+
+    // Check for collapse button since course is expanded
+    const collapseButtons = screen.getAllByLabelText('Collapse Introduction to AI Safety details');
+    expect(collapseButtons.length).toBeGreaterThan(0);
+    expect(collapseButtons[0]).toHaveAttribute('aria-expanded', 'true');
+
+    // Should show expanded details
+    expect(screen.getByLabelText('Expanded details for Introduction to AI Safety')).toBeInTheDocument();
+  });
+
+  it('starts collapsed when startExpanded prop is false (default)', () => {
+    render(
+      <CourseListRow
+        course={mockCourse}
+        courseRegistration={mockCourseRegistration}
         isFirst={false}
         isLast={false}
       />,
       { wrapper: TrpcProvider },
     );
 
-    // Check for collapse button since in-progress courses are expanded by default
-    const collapseButtons = screen.getAllByLabelText('Collapse Introduction to AI Safety details');
-    expect(collapseButtons.length).toBeGreaterThan(0);
-    expect(collapseButtons[0]).toHaveAttribute('aria-expanded', 'true');
+    // Check for expand button since course is collapsed
+    const expandButtons = screen.getAllByLabelText('Expand Introduction to AI Safety details');
+    expect(expandButtons.length).toBeGreaterThan(0);
+    expect(expandButtons[0]).toHaveAttribute('aria-expanded', 'false');
 
-    // The component renders the title (multiple times for responsive design)
-    const titleElements = screen.getAllByText('Introduction to AI Safety');
-    expect(titleElements.length).toBeGreaterThan(0);
-
-    // Should show expanded details
-    expect(screen.getByLabelText('Expanded details for Introduction to AI Safety')).toBeInTheDocument();
+    // Should not show expanded details
+    expect(screen.queryByLabelText('Expanded details for Introduction to AI Safety')).not.toBeInTheDocument();
   });
 
   it('shows view certificate link for completed course', () => {
@@ -152,28 +163,22 @@ describe('CourseListRow', () => {
     expect(certificateLinks[0]).toBeInTheDocument();
     const completedTexts = screen.getAllByText(/Completed on/);
     expect(completedTexts.length).toBeGreaterThan(0);
-
-    // Completed courses start collapsed (not showing details)
-    expect(screen.queryByLabelText('Expanded details for Introduction to AI Safety')).not.toBeInTheDocument();
   });
 
   it('collapses and expands course details', async () => {
-    const inProgressRegistration = {
-      ...mockCourseRegistration,
-    };
-
     const user = userEvent.setup();
     render(
       <CourseListRow
         course={mockCourse}
-        courseRegistration={inProgressRegistration}
+        courseRegistration={mockCourseRegistration}
         isFirst={false}
         isLast={false}
+        startExpanded
       />,
       { wrapper: TrpcProvider },
     );
 
-    // In-progress courses are expanded by default
+    // Started expanded
     const collapseButtons = screen.getAllByLabelText('Collapse Introduction to AI Safety details');
     const collapseButton = collapseButtons[0]!;
     expect(screen.getByLabelText('Expanded details for Introduction to AI Safety')).toBeInTheDocument();
