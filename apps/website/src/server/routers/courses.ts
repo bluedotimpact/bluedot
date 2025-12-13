@@ -91,7 +91,7 @@ export const coursesRouter = router({
       }),
     )
     .query(async ({ input: { courseSlug } }) => {
-      const course = await db.get(courseTable, { slug: courseSlug }).catch(() => null);
+      const course = await db.get(courseTable, { slug: courseSlug });
       if (!course) {
         throw new TRPCError({ code: 'NOT_FOUND', message: `Course "${courseSlug}" not found` });
       }
