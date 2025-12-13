@@ -1,104 +1,72 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import {
-  FaRegUser,
-  FaRightLeft,
-  FaArrowRightFromBracket,
-  FaEnvelope,
-  FaPhone,
-  FaGlobe,
-  FaArrowRightToBracket,
-  FaUserGroup,
-} from 'react-icons/fa6';
+import { useState } from 'react';
 import { Select } from './Select';
 
 const meta: Meta<typeof Select> = {
-  title: 'UI/Select',
+  title: 'ui/Select',
   component: Select,
-  args: {
-    options: [
-      {
-        value: 'switch-group',
-        label: 'Switch Group',
-        icon: <FaRightLeft className="text-gray-600" />,
-      },
-      {
-        value: 'drop-out',
-        label: 'Drop out / Defer',
-        icon: <FaArrowRightFromBracket className="text-gray-600" />,
-      },
-      { value: 'option3', label: 'Option 3' },
-    ],
+  tags: ['autodocs'],
+  parameters: {
+    layout: 'centered',
   },
-};
+  decorators: [
+    (Story) => (
+      <div style={{ width: 320 }}>
+        <Story />
+      </div>
+    ),
+  ],
+} satisfies Meta<typeof Select>;
 
 export default meta;
-type Story = StoryObj<typeof Select>;
+type Story = StoryObj<typeof meta>;
+
+const manyOptions = [
+  { value: 'option-1', label: 'Monday 9:00 AM - 10:00 AM (GMT)' },
+  { value: 'option-2', label: 'Monday 2:00 PM - 3:00 PM (GMT)' },
+  { value: 'option-3', label: 'Tuesday 10:00 AM - 11:00 AM (GMT)' },
+  { value: 'option-4', label: 'Tuesday 4:00 PM - 5:00 PM (GMT)' },
+  { value: 'option-5', label: 'Wednesday 9:00 AM - 10:00 AM (GMT)' },
+  { value: 'option-6', label: 'Wednesday 1:00 PM - 2:00 PM (GMT)' },
+  { value: 'option-7', label: 'Thursday 11:00 AM - 12:00 PM (GMT)' },
+  { value: 'option-8', label: 'Thursday 3:00 PM - 4:00 PM (GMT)' },
+  { value: 'option-9', label: 'Friday 10:00 AM - 11:00 AM (GMT)' },
+  { value: 'option-10', label: 'Friday 2:00 PM - 3:00 PM (GMT)' },
+  { value: 'option-11', label: 'Saturday 9:00 AM - 10:00 AM (GMT)' },
+  { value: 'option-12', label: 'Saturday 11:00 AM - 12:00 PM (GMT)' },
+  { value: 'option-13', label: 'Sunday 10:00 AM - 11:00 AM (GMT)', disabled: true },
+  { value: 'option-14', label: 'Sunday 2:00 PM - 3:00 PM (GMT)' },
+  { value: 'option-15', label: 'Monday 6:00 PM - 7:00 PM (GMT)' },
+];
 
 export const Default: Story = {
   args: {
-    label: 'Select an option',
-    placeholder: 'Example Placeholder',
-    icon: <FaRegUser />,
-    options: [
-      {
-        value: 'switch-group',
-        label: 'Switch Group',
-        icon: <FaRightLeft className="text-gray-600" />,
-      },
-      {
-        value: 'drop-out',
-        label: 'Drop out / Defer',
-        icon: <FaArrowRightFromBracket className="text-gray-600" />,
-      },
-      { value: 'cohort23-groupA', label: 'Cohort 23: Group A' },
-    ],
+    options: manyOptions,
+    placeholder: 'Select a time slot',
   },
 };
 
-export const WithIcon: Story = {
-  args: {
-    label: 'User',
-    icon: <FaRegUser />,
-    placeholder: 'Select a user',
-  },
+const ControlledSelect = () => {
+  const [value, setValue] = useState<string | undefined>(undefined);
+
+  return (
+    <div className="flex flex-col gap-4">
+      <Select
+        options={manyOptions}
+        value={value}
+        onChange={setValue}
+        placeholder="Select a time slot"
+      />
+      <p className="text-size-sm text-gray-500">
+        Selected: {value || 'None'}
+      </p>
+    </div>
+  );
 };
 
-export const Disabled: Story = {
+export const Controlled: Story = {
+  render: () => <ControlledSelect />,
   args: {
-    label: 'Disabled Select',
-    disabled: true,
-    value: 'option1',
-  },
-};
-
-export const WithIconsInOptions: Story = {
-  args: {
-    label: 'Contact Method',
-    placeholder: 'Choose contact method',
-    options: [
-      { value: 'email', label: 'Email', icon: <FaEnvelope className="text-gray-600" /> },
-      { value: 'phone', label: 'Phone', icon: <FaPhone className="text-gray-600" /> },
-      { value: 'website', label: 'Website', icon: <FaGlobe className="text-gray-600" /> },
-    ],
-  },
-};
-
-export const WithBothIcons: Story = {
-  args: {
-    label: 'User Contact',
-    icon: <FaUserGroup />,
-    placeholder: 'Cohort 22: Group A',
-    options: [
-      {
-        value: 'switch-group',
-        label: 'Switch Group',
-        icon: <FaRightLeft className="text-black-200" />,
-      },
-      {
-        value: 'drop-out',
-        label: 'Drop out / Defer',
-        icon: <FaArrowRightToBracket className="text-black-200" />,
-      },
-    ],
+    options: [],
   },
 };

@@ -1,153 +1,53 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Select > renders disabled state 1`] = `
-<div>
+exports[`Select > applies disabled styling to disabled options 1`] = `
+<div
+  inert=""
+>
   <template
     data-react-aria-hidden="true"
   />
   <div
-    class="flex flex-col gap-2"
-    data-disabled="true"
+    class="w-full flex flex-col bg-white border border-color-divider rounded-lg transition-all text-size-sm"
+    data-focus-visible="true"
+    data-focused="true"
+    data-open="true"
     data-rac=""
   >
-    <span
-      class="text-size-sm font-medium"
-      id="react-aria-:r11:"
-    >
-      Disabled Select
-    </span>
     <button
-      aria-expanded="false"
+      aria-controls="react-aria-:r12:"
+      aria-expanded="true"
       aria-haspopup="listbox"
-      aria-labelledby="react-aria-:r15: react-aria-:r11:"
-      class="flex items-center px-3 py-[10px] gap-2 w-fit h-[42px] bg-[rgba(0,85,255,0.05)] rounded-md focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal transition-colors hover:bg-[rgba(0,85,255,0.1)] data-[pressed]:bg-[rgba(0,17,77,0.15)] data-[expanded]:bg-[rgba(0,17,77,0.15)] aria-expanded:bg-[rgba(0,17,77,0.15)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[rgba(0,85,255,0.05)]"
-      data-disabled="true"
+      aria-label="Test select"
+      aria-labelledby="react-aria-:r18: react-aria-:r13:"
+      class="w-full gap-3 flex justify-between p-4 items-center cursor-pointer text-left transition-all"
+      data-focus-visible="true"
+      data-focused="true"
+      data-pressed="true"
       data-rac=""
       data-react-aria-pressable="true"
-      disabled=""
-      id="react-aria-:r10:"
-      type="button"
-    >
-      <span
-        class="font-medium text-[13px] leading-[22px] text-left text-gray-500"
-        data-rac=""
-        id="react-aria-:r15:"
-      >
-        Cat
-      </span>
-      <svg
-        class="size-[14px] opacity-50"
-        fill="none"
-        height="14"
-        viewBox="0 0 14 14"
-        width="14"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M3.5 5.25L7 8.75L10.5 5.25"
-          stroke="#00114D"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1.25"
-        />
-      </svg>
-    </button>
-    <div
-      aria-hidden="true"
-      data-a11y-ignore="aria-hidden-focus"
-      data-react-aria-prevent-focus="true"
-      data-testid="hidden-select-container"
-      style="border: 0px; clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: fixed; width: 1px; white-space: nowrap; top: 0px; left: 0px;"
-    >
-      <label>
-        <select
-          disabled=""
-          tabindex="-1"
-        >
-          <option />
-          <option
-            value="cat"
-          >
-            Cat
-          </option>
-          <option
-            value="dog"
-          >
-            Dog
-          </option>
-          <option
-            value="bird"
-          >
-            Bird
-          </option>
-        </select>
-      </label>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Select > renders with icon 1`] = `
-<div>
-  <template
-    data-react-aria-hidden="true"
-  />
-  <div
-    class="flex flex-col gap-2"
-    data-rac=""
-  >
-    <span
-      class="text-size-sm font-medium"
-      id="react-aria-:rn:"
-    >
-      User
-    </span>
-    <button
-      aria-expanded="false"
-      aria-haspopup="listbox"
-      aria-labelledby="react-aria-:rr: react-aria-:rn:"
-      class="flex items-center px-3 py-[10px] gap-2 w-fit h-[42px] bg-[rgba(0,85,255,0.05)] rounded-md focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal transition-colors hover:bg-[rgba(0,85,255,0.1)] data-[pressed]:bg-[rgba(0,17,77,0.15)] data-[expanded]:bg-[rgba(0,17,77,0.15)] aria-expanded:bg-[rgba(0,17,77,0.15)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[rgba(0,85,255,0.05)]"
-      data-rac=""
-      data-react-aria-pressable="true"
-      id="react-aria-:rm:"
+      id="react-aria-:r13:"
       tabindex="0"
       type="button"
     >
       <span
-        class="font-medium text-[13px] leading-[22px] text-left text-bluedot-darker"
-        data-placeholder="true"
-        data-rac=""
-        id="react-aria-:rr:"
+        class="text-[#13132E] flex-1 min-w-0"
       >
-        <div
-          class="flex items-center gap-2"
-        >
-          <span
-            class="size-4 text-bluedot-darker"
-          >
-            <span>
-              👤
-            </span>
-          </span>
-          <span>
-            Select an option
-          </span>
-        </div>
+        Select an option
       </span>
       <svg
-        class="size-[14px]"
-        fill="none"
-        height="14"
-        viewBox="0 0 14 14"
-        width="14"
+        aria-hidden="true"
+        class="size-3 -translate-y-px flex-shrink-0 transition-transform rotate-180"
+        fill="currentColor"
+        height="1em"
+        stroke="currentColor"
+        stroke-width="0"
+        viewBox="0 0 512 512"
+        width="1em"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M3.5 5.25L7 8.75L10.5 5.25"
-          stroke="#00114D"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1.25"
+          d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
         />
       </svg>
     </button>
@@ -165,19 +65,14 @@ exports[`Select > renders with icon 1`] = `
         >
           <option />
           <option
-            value="cat"
+            value="option1"
           >
-            Cat
+            Option 1
           </option>
           <option
-            value="dog"
+            value="option2"
           >
-            Dog
-          </option>
-          <option
-            value="bird"
-          >
-            Bird
+            Option 2
           </option>
         </select>
       </label>
@@ -186,26 +81,21 @@ exports[`Select > renders with icon 1`] = `
 </div>
 `;
 
-exports[`Select > renders with label 1`] = `
+exports[`Select > renders with selected value 1`] = `
 <div>
   <template
     data-react-aria-hidden="true"
   />
   <div
-    class="flex flex-col gap-2"
+    class="w-full flex flex-col bg-white border border-color-divider rounded-lg transition-all text-size-sm"
     data-rac=""
   >
-    <span
-      class="text-size-sm font-medium"
-      id="react-aria-:r3:"
-    >
-      Pet
-    </span>
     <button
       aria-expanded="false"
       aria-haspopup="listbox"
-      aria-labelledby="react-aria-:r7: react-aria-:r3:"
-      class="flex items-center px-3 py-[10px] gap-2 w-fit h-[42px] bg-[rgba(0,85,255,0.05)] rounded-md focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal transition-colors hover:bg-[rgba(0,85,255,0.1)] data-[pressed]:bg-[rgba(0,17,77,0.15)] data-[expanded]:bg-[rgba(0,17,77,0.15)] aria-expanded:bg-[rgba(0,17,77,0.15)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[rgba(0,85,255,0.05)]"
+      aria-label="Test select"
+      aria-labelledby="react-aria-:r7: react-aria-:r2:"
+      class="w-full gap-3 flex justify-between p-4 items-center cursor-pointer text-left transition-all"
       data-rac=""
       data-react-aria-pressable="true"
       id="react-aria-:r2:"
@@ -213,27 +103,23 @@ exports[`Select > renders with label 1`] = `
       type="button"
     >
       <span
-        class="font-medium text-[13px] leading-[22px] text-left text-bluedot-darker"
-        data-placeholder="true"
-        data-rac=""
-        id="react-aria-:r7:"
+        class="text-[#13132E] flex-1 min-w-0"
       >
-        Select an option
+        Option 1
       </span>
       <svg
-        class="size-[14px]"
-        fill="none"
-        height="14"
-        viewBox="0 0 14 14"
-        width="14"
+        aria-hidden="true"
+        class="size-3 -translate-y-px flex-shrink-0 transition-transform rotate-0"
+        fill="currentColor"
+        height="1em"
+        stroke="currentColor"
+        stroke-width="0"
+        viewBox="0 0 512 512"
+        width="1em"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M3.5 5.25L7 8.75L10.5 5.25"
-          stroke="#00114D"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1.25"
+          d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
         />
       </svg>
     </button>
@@ -251,99 +137,14 @@ exports[`Select > renders with label 1`] = `
         >
           <option />
           <option
-            value="cat"
+            value="option1"
           >
-            Cat
+            Option 1
           </option>
           <option
-            value="dog"
+            value="option2"
           >
-            Dog
-          </option>
-          <option
-            value="bird"
-          >
-            Bird
-          </option>
-        </select>
-      </label>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Select > shows placeholder when no value selected 1`] = `
-<div>
-  <template
-    data-react-aria-hidden="true"
-  />
-  <div
-    class="flex flex-col gap-2"
-    data-rac=""
-  >
-    <button
-      aria-expanded="false"
-      aria-haspopup="listbox"
-      aria-labelledby="react-aria-:rh:"
-      class="flex items-center px-3 py-[10px] gap-2 w-fit h-[42px] bg-[rgba(0,85,255,0.05)] rounded-md focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal transition-colors hover:bg-[rgba(0,85,255,0.1)] data-[pressed]:bg-[rgba(0,17,77,0.15)] data-[expanded]:bg-[rgba(0,17,77,0.15)] aria-expanded:bg-[rgba(0,17,77,0.15)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[rgba(0,85,255,0.05)]"
-      data-rac=""
-      data-react-aria-pressable="true"
-      id="react-aria-:rc:"
-      tabindex="0"
-      type="button"
-    >
-      <span
-        class="font-medium text-[13px] leading-[22px] text-left text-bluedot-darker"
-        data-placeholder="true"
-        data-rac=""
-        id="react-aria-:rh:"
-      >
-        Choose a pet
-      </span>
-      <svg
-        class="size-[14px]"
-        fill="none"
-        height="14"
-        viewBox="0 0 14 14"
-        width="14"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M3.5 5.25L7 8.75L10.5 5.25"
-          stroke="#00114D"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="1.25"
-        />
-      </svg>
-    </button>
-    <div
-      aria-hidden="true"
-      data-a11y-ignore="aria-hidden-focus"
-      data-react-aria-prevent-focus="true"
-      data-testid="hidden-select-container"
-      style="border: 0px; clip-path: inset(50%); height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: fixed; width: 1px; white-space: nowrap; top: 0px; left: 0px;"
-    >
-      <label>
-        <select
-          tabindex="-1"
-          title=""
-        >
-          <option />
-          <option
-            value="cat"
-          >
-            Cat
-          </option>
-          <option
-            value="dog"
-          >
-            Dog
-          </option>
-          <option
-            value="bird"
-          >
-            Bird
+            Option 2
           </option>
         </select>
       </label>

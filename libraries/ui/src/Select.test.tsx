@@ -1,77 +1,74 @@
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import {
   describe, test, expect, vi,
 } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
 import { Select } from './Select';
 
+vi.mock('./hooks/useBreakpoint', async () => {
+  const actual = await vi.importActual('./hooks/useBreakpoint');
+  return {
+    ...actual,
+    useAboveBreakpoint: vi.fn().mockReturnValue(true),
+  };
+});
+
+const mockOptions = [
+  { value: 'option1', label: 'Option 1' },
+  { value: 'option2', label: 'Option 2' },
+];
+
 describe('Select', () => {
-  const mockOptions = [
-    { value: 'cat', label: 'Cat' },
-    { value: 'dog', label: 'Dog' },
-    { value: 'bird', label: 'Bird' },
-  ];
-
-  test('renders with label', () => {
+  test('renders with selected value', () => {
     const { container } = render(
       <Select
-        label="Pet"
         options={mockOptions}
+        value="option1"
+        onChange={() => {}}
+        ariaLabel="Test select"
       />,
     );
+
+    expect(screen.getByRole('button')).toHaveTextContent('Option 1');
+
     expect(container).toMatchSnapshot();
   });
 
-  test('shows placeholder when no value selected', () => {
-    const { container } = render(
-      <Select
-        placeholder="Choose a pet"
-        options={mockOptions}
-      />,
-    );
-    expect(container).toMatchSnapshot();
-  });
-
-  test('renders with icon', () => {
-    const { container } = render(
-      <Select
-        label="User"
-        icon={<span>👤</span>}
-        options={mockOptions}
-      />,
-    );
-    expect(container).toMatchSnapshot();
-  });
-
-  test('renders disabled state', () => {
-    const { container } = render(
-      <Select
-        label="Disabled Select"
-        disabled
-        value="cat"
-        options={mockOptions}
-      />,
-    );
-    expect(container).toMatchSnapshot();
-  });
-
-  test('calls onChange when option selected', async () => {
-    const onChange = vi.fn();
+  test('calls onChange when an option is selected', () => {
+    const handleChange = vi.fn();
     render(
       <Select
-        label="Pet"
         options={mockOptions}
-        onChange={onChange}
+        value="option1"
+        onChange={handleChange}
+        ariaLabel="Test select"
       />,
     );
 
-    // Open dropdown
-    const button = screen.getByRole('button');
-    fireEvent.click(button);
+    fireEvent.click(screen.getByRole('button'));
+    fireEvent.click(screen.getByRole('option', { name: 'Option 2' }));
 
-    // Select an option by role and accessible name
-    const option = screen.getByRole('option', { name: 'Dog' });
-    fireEvent.click(option);
+    expect(handleChange).toHaveBeenCalledWith('option2');
+  });
 
-    expect(onChange).toHaveBeenCalledWith('dog');
+  test('applies disabled styling to disabled options', () => {
+    const optionsWithDisabled = [
+      { value: 'option1', label: 'Option 1' },
+      { value: 'option2', label: 'Option 2', disabled: true },
+    ];
+    const { container } = render(
+      <Select
+        options={optionsWithDisabled}
+        onChange={() => {}}
+        ariaLabel="Test select"
+      />,
+    );
+
+    fireEvent.click(screen.getByRole('button'));
+
+    const disabledOption = screen.getByRole('option', { name: 'Option 2' });
+    expect(disabledOption).toHaveClass('opacity-50', 'cursor-not-allowed');
+
+    expect(container).toMatchSnapshot();
   });
 });
