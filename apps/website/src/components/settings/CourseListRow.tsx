@@ -19,12 +19,13 @@ type CourseListRowProps = {
   courseRegistration: CourseRegistration;
   isFirst: boolean;
   isLast: boolean;
+  startExpanded?: boolean;
 };
 
 const CourseListRow = ({
-  course, courseRegistration, isFirst = false, isLast = false,
+  course, courseRegistration, isFirst = false, isLast = false, startExpanded = false,
 }: CourseListRowProps) => {
-  const [isExpanded, setIsExpanded] = useState(!courseRegistration.certificateCreatedAt && courseRegistration.roundStatus !== 'Past');
+  const [isExpanded, setIsExpanded] = useState(startExpanded);
   const currentTimeMs = useCurrentTimeMs();
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
 
