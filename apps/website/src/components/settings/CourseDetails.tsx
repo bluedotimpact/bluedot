@@ -223,7 +223,7 @@ const CourseDetails = ({
 
   return (
     <>
-      <div className={`bg-white border-x border-b border-charcoal-light ${isLast ? 'rounded-b-xl' : ''}`} role="region" aria-label={`Expanded details for ${course.title}`}>
+      <div className={`bg-white border-x border-charcoal-light ${isLast ? 'border-b rounded-b-xl' : ''}`} role="region" aria-label={`Expanded details for ${course.title}`}>
         <div>
           {/* Section header with tabs */}
           <div className="flex border-b border-charcoal-light">
