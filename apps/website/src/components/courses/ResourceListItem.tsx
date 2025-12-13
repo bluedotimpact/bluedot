@@ -391,7 +391,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource, re
         {auth && isCompleted && (
           <div className="hidden lg:block">
             <div
-              className="hidden lg:flex flex-col transition-all duration-200 pt-[23px] pb-4 px-4 gap-2 w-full bg-[rgba(19,19,46,0.05)] border-[0.5px] border-[rgba(19,19,46,0.15)] rounded-b-[10px] -mt-4 relative z-0"
+              className={`hidden lg:flex flex-col transition-all duration-200 pt-[23px] px-4 gap-2 w-full bg-[rgba(19,19,46,0.05)] border-[0.5px] border-[rgba(19,19,46,0.15)] rounded-b-[10px] -mt-4 relative z-0 ${resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || feedback ? 'pb-4' : 'pb-[9px]'}`}
               role="region"
               aria-label="Resource feedback section"
             >
