@@ -114,3 +114,5 @@ export const formatDateTimeRelative = ({
   }
   return buildRelativeTimeString(absMinutes, absHours, absCalendarDays, ' ago');
 };
+
+export const getActionPlanUrl = (meetPersonId: string) => `https://web.miniextensions.com/7WZKkZiusMiAO1RMznFv?prefill_Participant=${meetPersonId}`;

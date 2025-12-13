@@ -3,7 +3,7 @@ import {
   CTALinkOrButton, addQueryParam, useCurrentTimeMs, cn,
 } from '@bluedot/ui';
 import { FaCheck } from 'react-icons/fa6';
-import { Course, CourseRegistration } from '@bluedot/db';
+import { Course, CourseRegistration, MeetPerson } from '@bluedot/db';
 import { skipToken } from '@tanstack/react-query';
 import CourseDetails from './CourseDetails';
 import { ROUTES } from '../../lib/routes';
@@ -11,6 +11,7 @@ import GroupSwitchModal from '../courses/GroupSwitchModal';
 import { trpc } from '../../utils/trpc';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
+import { getActionPlanUrl } from '../../lib/utils';
 import { COURSE_CONFIG } from '../../lib/constants';
 
 type CourseListRowProps = {
@@ -18,14 +19,6 @@ type CourseListRowProps = {
   courseRegistration: CourseRegistration;
   isFirst: boolean;
   isLast: boolean;
-};
-
-const getMaxUnitNumber = (discussions: GroupDiscussion[]): number | null => {
-  const unitNumbers = discussions
-    .map((d) => d.unitNumber)
-    .filter((n): n is number => n !== null);
-
-  return unitNumbers.length > 0 ? Math.max(...unitNumbers) : null;
 };
 
 const CourseListRow = ({
@@ -84,116 +77,25 @@ const CourseListRow = ({
   );
   const nextDiscussion = upcomingDiscussions[0];
 
-  const getPrimaryCtaButton = () => {
-    if (courseRegistration.certificateCreatedAt) {
-      return (
-        <CTALinkOrButton
-          variant="black"
-          size="small"
-          url={courseRegistration.certificateId
-            ? addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)
-            : course.path}
-          className="w-full sm:w-auto"
-        >
-          View your certificate
-        </CTALinkOrButton>
-      );
-    }
+  const primaryCtaButton = getPrimaryCtaButton({
+    course,
+    courseRegistration,
+    meetPerson,
+    expectedDiscussions,
+    nextDiscussion,
+    currentTimeMs,
+    isLoading,
+  });
 
-    if (isLoading || !nextDiscussion) return null;
-
-    const nextDiscussionTimeState = getDiscussionTimeState({ discussion: nextDiscussion, currentTimeMs });
-    const isNextDiscussionSoonOrLive = nextDiscussionTimeState === 'soon' || nextDiscussionTimeState === 'live';
-
-    const buttonText = isNextDiscussionSoonOrLive ? 'Join Discussion' : 'Prepare for discussion';
-    let buttonUrl = '#';
-    if (isNextDiscussionSoonOrLive) {
-      buttonUrl = nextDiscussion.zoomLink || '#';
-    } else if (course.slug && nextDiscussion.unitNumber !== null) {
-      buttonUrl = `/courses/${course.slug}/${nextDiscussion.unitNumber}`;
-    }
-    const disabled = !nextDiscussion.zoomLink && isNextDiscussionSoonOrLive;
-
-    return (
-      <CTALinkOrButton
-        variant="primary"
-        size="small"
-        url={buttonUrl}
-        disabled={disabled}
-        target="_blank"
-        className="w-full sm:w-auto bg-bluedot-normal"
-      >
-        {buttonText}
-      </CTALinkOrButton>
-    );
-  };
-
-  const primaryCtaButton = getPrimaryCtaButton();
-
-  const getSubtitle = (): ReactNode | null => {
-    if (courseRegistration.certificateCreatedAt) {
-      return (
-        <>
-          {`Completed on ${new Date(courseRegistration.certificateCreatedAt * 1000).toLocaleDateString('en-US', {
-            month: 'short',
-            day: 'numeric',
-            year: 'numeric',
-          })}`}
-          <span className="inline-flex items-center justify-center size-3.5 bg-gray-500 rounded-full">
-            <FaCheck className="size-1.5 text-white" />
-          </span>
-        </>
-      );
-    }
-
-    if (nextDiscussion) {
-      if (isLoading) return null;
-
-      const maxUnitNumber = getMaxUnitNumber(expectedDiscussions);
-      const groupName = nextDiscussion.groupDetails?.groupName || 'Unknown group';
-
-      if (nextDiscussion.unitNumber !== null && maxUnitNumber !== null) {
-        return `Unit ${nextDiscussion.unitNumber}/${maxUnitNumber} · ${groupName}`;
-      }
-
-      // Fallback if we don't have unit numbers
-      return groupName;
-    }
-
-    // Completed course without certificate, explain why
-    if (courseRegistration.roundStatus === 'Past' && !courseRegistration.certificateCreatedAt) {
-      if (isLoading) return null;
-
-      const courseConfig = COURSE_CONFIG[course.slug];
-      const attendedCount = meetPerson?.attendedDiscussions?.length ?? 0;
-      const expectedCount = expectedDiscussions.length;
-      const missedCount = expectedCount - attendedCount;
-      const missedTooMany = missedCount > 1;
-      const hasSubmittedActionPlan = meetPerson?.projectSubmission && meetPerson.projectSubmission.length > 0;
-
-      const missingDiscussions = missedTooMany;
-      const missingActionPlan = courseConfig?.certificateRequiresActionPlan && !hasSubmittedActionPlan;
-
-      if (missingDiscussions && missingActionPlan) {
-        return 'To receive a certificate you can miss at most 1 discussion and must submit your action plan';
-      }
-      if (missingDiscussions) {
-        return 'To receive a certificate you can miss at most 1 discussion';
-      }
-      if (missingActionPlan) {
-        return 'To receive a certificate you must submit your action plan';
-      }
-      // All requirements met but no certificate yet - pending manual processing
-      return 'Certificate pending';
-    }
-
-    if (isNotInGroup) {
-      return 'We\'re assigning you to a group, you\'ll receive an email from us within the next few days';
-    }
-    return null;
-  };
-
-  const subtitle = getSubtitle();
+  const subtitle = getSubtitle({
+    course,
+    courseRegistration,
+    meetPerson,
+    expectedDiscussions,
+    nextDiscussion,
+    isLoading,
+    isNotInGroup,
+  });
 
   return (
     <div>
@@ -353,3 +255,190 @@ const CourseListRow = ({
 };
 
 export default CourseListRow;
+
+function getMaxUnitNumber(discussions: GroupDiscussion[]): number | null {
+  const unitNumbers = discussions
+    .map((d) => d.unitNumber)
+    .filter((n): n is number => n !== null);
+
+  return unitNumbers.length > 0 ? Math.max(...unitNumbers) : null;
+}
+
+const getCertificateEligibility = ({
+  courseSlug,
+  attendedCount,
+  expectedCount,
+  hasSubmittedActionPlan,
+}: {
+  courseSlug: string;
+  attendedCount: number;
+  expectedCount: number;
+  hasSubmittedActionPlan: boolean;
+}): { isEligible: boolean; reason: 'low-attendance' | 'missing-action-plan' | null } => {
+  const missedCount = expectedCount - attendedCount;
+
+  // Low attendance takes precedence. There is no point submitting action plan if you haven't attended enough
+  if (expectedCount > 0 && missedCount > 1) {
+    return { isEligible: false, reason: 'low-attendance' };
+  }
+  const requiresActionPlan = COURSE_CONFIG[courseSlug]?.certificateRequiresActionPlan;
+  if (requiresActionPlan && !hasSubmittedActionPlan) {
+    return { isEligible: false, reason: 'missing-action-plan' };
+  }
+  return { isEligible: true, reason: null };
+};
+
+const getPrimaryCtaButton = ({
+  course,
+  courseRegistration,
+  meetPerson,
+  expectedDiscussions,
+  nextDiscussion,
+  currentTimeMs,
+  isLoading,
+}: {
+  course: Course;
+  courseRegistration: CourseRegistration;
+  meetPerson: MeetPerson | null | undefined;
+  expectedDiscussions: GroupDiscussion[];
+  nextDiscussion: GroupDiscussion | undefined;
+  currentTimeMs: number;
+  isLoading: boolean;
+}): ReactNode => {
+  if (courseRegistration.certificateCreatedAt) {
+    return (
+      <CTALinkOrButton
+        variant="black"
+        size="small"
+        url={courseRegistration.certificateId
+          ? addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)
+          : course.path}
+        className="w-full sm:w-auto"
+      >
+        View your certificate
+      </CTALinkOrButton>
+    );
+  }
+
+  if (isLoading) return null;
+
+  // Show action plan button if they've attended enough but haven't submitted
+  const { reason } = getCertificateEligibility({
+    courseSlug: course.slug,
+    attendedCount: meetPerson?.attendedDiscussions?.length ?? 0,
+    expectedCount: expectedDiscussions.length,
+    hasSubmittedActionPlan: !!(meetPerson?.projectSubmission && meetPerson.projectSubmission.length > 0),
+  });
+  if (reason === 'missing-action-plan' && meetPerson) {
+    return (
+      <CTALinkOrButton
+        variant="primary"
+        size="small"
+        url={getActionPlanUrl(meetPerson.id)}
+        target="_blank"
+        className="w-full sm:w-auto bg-bluedot-normal"
+      >
+        Submit your action plan
+      </CTALinkOrButton>
+    );
+  }
+
+  if (!nextDiscussion) return null;
+
+  const nextDiscussionTimeState = getDiscussionTimeState({ discussion: nextDiscussion, currentTimeMs });
+  const isNextDiscussionSoonOrLive = nextDiscussionTimeState === 'soon' || nextDiscussionTimeState === 'live';
+
+  const buttonText = isNextDiscussionSoonOrLive ? 'Join Discussion' : 'Prepare for discussion';
+  let buttonUrl = '#';
+  if (isNextDiscussionSoonOrLive) {
+    buttonUrl = nextDiscussion.zoomLink || '#';
+  } else if (course.slug && nextDiscussion.unitNumber !== null) {
+    buttonUrl = `/courses/${course.slug}/${nextDiscussion.unitNumber}`;
+  }
+  const disabled = !nextDiscussion.zoomLink && isNextDiscussionSoonOrLive;
+
+  return (
+    <CTALinkOrButton
+      variant="primary"
+      size="small"
+      url={buttonUrl}
+      disabled={disabled}
+      target="_blank"
+      className="w-full sm:w-auto bg-bluedot-normal"
+    >
+      {buttonText}
+    </CTALinkOrButton>
+  );
+};
+
+const getSubtitle = ({
+  course,
+  courseRegistration,
+  meetPerson,
+  expectedDiscussions,
+  nextDiscussion,
+  isLoading,
+  isNotInGroup,
+}: {
+  course: Course;
+  courseRegistration: CourseRegistration;
+  meetPerson: MeetPerson | null | undefined;
+  expectedDiscussions: GroupDiscussion[];
+  nextDiscussion: GroupDiscussion | undefined;
+  isLoading: boolean;
+  isNotInGroup: boolean | null | undefined;
+}): ReactNode => {
+  if (courseRegistration.certificateCreatedAt) {
+    return (
+      <>
+        {`Completed on ${new Date(courseRegistration.certificateCreatedAt * 1000).toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+        })}`}
+        <span className="inline-flex items-center justify-center size-3.5 bg-gray-500 rounded-full">
+          <FaCheck className="size-1.5 text-white" />
+        </span>
+      </>
+    );
+  }
+
+  if (nextDiscussion) {
+    if (isLoading) return null;
+
+    const maxUnitNumber = getMaxUnitNumber(expectedDiscussions);
+    const groupName = nextDiscussion.groupDetails?.groupName || 'Unknown group';
+
+    if (nextDiscussion.unitNumber !== null && maxUnitNumber !== null) {
+      return `Unit ${nextDiscussion.unitNumber}/${maxUnitNumber} · ${groupName}`;
+    }
+
+    // Fallback if we don't have unit numbers
+    return groupName;
+  }
+
+  // Completed course without certificate, explain why
+  if (courseRegistration.roundStatus === 'Past' && !courseRegistration.certificateCreatedAt) {
+    if (isLoading) return null;
+
+    const { reason } = getCertificateEligibility({
+      courseSlug: course.slug,
+      attendedCount: meetPerson?.attendedDiscussions?.length ?? 0,
+      expectedCount: expectedDiscussions.length,
+      hasSubmittedActionPlan: !!(meetPerson?.projectSubmission && meetPerson.projectSubmission.length > 0),
+    });
+
+    if (reason === 'low-attendance') {
+      return 'To receive a certificate you can miss at most 1 discussion';
+    }
+    if (reason === 'missing-action-plan') {
+      return 'To receive a certificate you must submit your action plan';
+    }
+    return 'Certificate pending';
+  }
+
+  if (isNotInGroup) {
+    return 'We\'re assigning you to a group, you\'ll receive an email from us within the next few days';
+  }
+  return null;
+};
