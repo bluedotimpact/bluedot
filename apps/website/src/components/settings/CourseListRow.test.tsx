@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import {
-  act, render, screen,
+  act, render, screen, waitFor,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
@@ -64,13 +64,18 @@ describe('CourseListRow', () => {
   });
 
   it('renders in-progress course correctly (snapshot)', () => {
+    const inProgressRegistration = {
+      ...mockCourseRegistration,
+      roundStatus: 'Active',
+      certificateCreatedAt: null,
+    };
+
     const { container } = render(
       <CourseListRow
         course={mockCourse}
-        courseRegistration={mockCourseRegistration}
+        courseRegistration={inProgressRegistration}
         isFirst={false}
         isLast={false}
-        isCompleted={false}
       />,
       { wrapper: TrpcProvider },
     );
@@ -80,6 +85,7 @@ describe('CourseListRow', () => {
   it('renders completed course correctly (snapshot)', () => {
     const completedRegistration = {
       ...mockCourseRegistration,
+      roundStatus: 'Past',
       certificateCreatedAt: new Date('2024-01-01').getTime() / 1000, // Jan 1, 2024 in seconds
       certificateId: 'cert-123',
     };
@@ -90,7 +96,6 @@ describe('CourseListRow', () => {
         courseRegistration={completedRegistration}
         isFirst={false}
         isLast={false}
-        isCompleted
       />,
       { wrapper: TrpcProvider },
     );
@@ -98,13 +103,18 @@ describe('CourseListRow', () => {
   });
 
   it('shows collapse button for in-progress course (expanded by default)', () => {
+    const inProgressRegistration = {
+      ...mockCourseRegistration,
+      roundStatus: 'Active',
+      certificateCreatedAt: null,
+    };
+
     render(
       <CourseListRow
         course={mockCourse}
-        courseRegistration={mockCourseRegistration}
+        courseRegistration={inProgressRegistration}
         isFirst={false}
         isLast={false}
-        isCompleted={false}
       />,
       { wrapper: TrpcProvider },
     );
@@ -125,6 +135,7 @@ describe('CourseListRow', () => {
   it('shows view certificate link for completed course', () => {
     const completedRegistration = {
       ...mockCourseRegistration,
+      roundStatus: 'Past',
       certificateCreatedAt: new Date('2024-01-01').getTime() / 1000, // Jan 1, 2024 in seconds
       certificateId: 'cert-123',
     };
@@ -135,7 +146,6 @@ describe('CourseListRow', () => {
         courseRegistration={completedRegistration}
         isFirst={false}
         isLast={false}
-        isCompleted
       />,
       { wrapper: TrpcProvider },
     );
@@ -145,23 +155,28 @@ describe('CourseListRow', () => {
     const completedTexts = screen.getAllByText(/Completed on/);
     expect(completedTexts.length).toBeGreaterThan(0);
 
-    // Completed courses should not have expand/collapse buttons
-    expect(screen.queryByLabelText(/Expand.*details/)).not.toBeInTheDocument();
-    expect(screen.queryByLabelText(/Collapse.*details/)).not.toBeInTheDocument();
+    // Completed courses now have expand/collapse buttons (collapsed by default)
+    const expandButtons = screen.getAllByLabelText(/Expand.*details/);
+    expect(expandButtons.length).toBeGreaterThan(0);
 
-    // Completed courses should not show expanded details
+    // Completed courses start collapsed (not showing details)
     expect(screen.queryByLabelText('Expanded details for Introduction to AI Safety')).not.toBeInTheDocument();
   });
 
   it('collapses and expands course details', async () => {
+    const inProgressRegistration = {
+      ...mockCourseRegistration,
+      roundStatus: 'Active',
+      certificateCreatedAt: null,
+    };
+
     const user = userEvent.setup();
     render(
       <CourseListRow
         course={mockCourse}
-        courseRegistration={mockCourseRegistration}
+        courseRegistration={inProgressRegistration}
         isFirst={false}
         isLast={false}
-        isCompleted={false}
       />,
       { wrapper: TrpcProvider },
     );
@@ -188,5 +203,216 @@ describe('CourseListRow', () => {
     expect(screen.getByLabelText('Expanded details for Introduction to AI Safety')).toBeInTheDocument();
     expect(collapseButton).toHaveAttribute('aria-expanded', 'true');
     expect(collapseButton).toHaveAttribute('aria-label', 'Collapse Introduction to AI Safety details');
+  });
+
+  it('derives completion status from registration data (roundStatus Past without cert = completed)', () => {
+    // Edge case: roundStatus is 'Past' but no certificate yet - should be treated as completed
+    const pastNoCertRegistration = {
+      ...mockCourseRegistration,
+      roundStatus: 'Past',
+      certificateCreatedAt: null,
+      certificateId: null,
+    };
+
+    render(
+      <CourseListRow
+        course={mockCourse}
+        courseRegistration={pastNoCertRegistration}
+        isFirst={false}
+        isLast={false}
+      />,
+      { wrapper: TrpcProvider },
+    );
+
+    // Should be treated as completed (collapsed by default, has expand button)
+    const expandButtons = screen.getAllByLabelText(/Expand.*details/);
+    expect(expandButtons.length).toBeGreaterThan(0);
+
+    // Should not show expanded details (collapsed by default for completed)
+    expect(screen.queryByLabelText('Expanded details for Introduction to AI Safety')).not.toBeInTheDocument();
+
+    // Should not show "View your certificate" button since there's no certificate
+    expect(screen.queryByRole('link', { name: 'View your certificate' })).not.toBeInTheDocument();
+  });
+
+  it('shows discussion requirement message when completed without cert and missed too many discussions', async () => {
+    const pastNoCertRegistration = {
+      ...mockCourseRegistration,
+      roundStatus: 'Past',
+      certificateCreatedAt: null,
+      certificateId: null,
+    };
+
+    // Mock meetPerson with 5 expected but only 2 attended (missed 3, which is > 1)
+    const meetPersonMissedTooMany = {
+      ...mockMeetPerson,
+      expectedDiscussionsParticipant: ['disc-1', 'disc-2', 'disc-3', 'disc-4', 'disc-5'],
+      attendedDiscussions: ['disc-1', 'disc-2'],
+      projectSubmission: null,
+    };
+
+    const mockExpectedDiscussions = {
+      discussions: [
+        { id: 'disc-1', startDateTime: 1000, endDateTime: 2000, unitNumber: 1 },
+        { id: 'disc-2', startDateTime: 3000, endDateTime: 4000, unitNumber: 2 },
+        { id: 'disc-3', startDateTime: 5000, endDateTime: 6000, unitNumber: 3 },
+        { id: 'disc-4', startDateTime: 7000, endDateTime: 8000, unitNumber: 4 },
+        { id: 'disc-5', startDateTime: 9000, endDateTime: 10000, unitNumber: 5 },
+      ],
+    };
+
+    server.use(
+      trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPersonMissedTooMany),
+      trpcMsw.groupDiscussions.getByDiscussionIds.query(() => mockExpectedDiscussions),
+    );
+
+    render(
+      <CourseListRow
+        course={mockCourse}
+        courseRegistration={pastNoCertRegistration}
+        isFirst={false}
+        isLast={false}
+      />,
+      { wrapper: TrpcProvider },
+    );
+
+    // Wait for the subtitle to appear (multiple elements due to responsive design)
+    const subtitleTexts = await screen.findAllByText(/To receive a certificate you can miss at most 1 discussion/);
+    expect(subtitleTexts.length).toBeGreaterThan(0);
+  });
+
+  it('shows action plan requirement message for agi-strategy course when missing action plan', async () => {
+    const agiStrategyCourse = {
+      ...mockCourse,
+      slug: 'agi-strategy',
+    };
+
+    const pastNoCertRegistration = {
+      ...mockCourseRegistration,
+      roundStatus: 'Past',
+      certificateCreatedAt: null,
+      certificateId: null,
+    };
+
+    // Mock meetPerson with 5 expected and 4 attended (missed 1, which is allowed) but no action plan
+    const meetPersonNoActionPlan = {
+      ...mockMeetPerson,
+      expectedDiscussionsParticipant: ['disc-1', 'disc-2', 'disc-3', 'disc-4', 'disc-5'],
+      attendedDiscussions: ['disc-1', 'disc-2', 'disc-3', 'disc-4'],
+      projectSubmission: null,
+    };
+
+    const mockExpectedDiscussions = {
+      discussions: [
+        { id: 'disc-1', startDateTime: 1000, endDateTime: 2000, unitNumber: 1 },
+        { id: 'disc-2', startDateTime: 3000, endDateTime: 4000, unitNumber: 2 },
+        { id: 'disc-3', startDateTime: 5000, endDateTime: 6000, unitNumber: 3 },
+        { id: 'disc-4', startDateTime: 7000, endDateTime: 8000, unitNumber: 4 },
+        { id: 'disc-5', startDateTime: 9000, endDateTime: 10000, unitNumber: 5 },
+      ],
+    };
+
+    server.use(
+      trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPersonNoActionPlan),
+      trpcMsw.groupDiscussions.getByDiscussionIds.query(() => mockExpectedDiscussions),
+    );
+
+    render(
+      <CourseListRow
+        course={agiStrategyCourse}
+        courseRegistration={pastNoCertRegistration}
+        isFirst={false}
+        isLast={false}
+      />,
+      { wrapper: TrpcProvider },
+    );
+
+    // Wait for the subtitle to appear
+    const subtitleTexts = await screen.findAllByText(/To receive a certificate you must submit your action plan/);
+    expect(subtitleTexts.length).toBeGreaterThan(0);
+  });
+
+  it('shows certificate pending message when all requirements met but no certificate', async () => {
+    const pastNoCertRegistration = {
+      ...mockCourseRegistration,
+      roundStatus: 'Past',
+      certificateCreatedAt: null,
+      certificateId: null,
+    };
+
+    // Mock meetPerson with 5 expected and 4 attended (missed 1, which is allowed)
+    const meetPersonAllMet = {
+      ...mockMeetPerson,
+      expectedDiscussionsParticipant: ['disc-1', 'disc-2', 'disc-3', 'disc-4', 'disc-5'],
+      attendedDiscussions: ['disc-1', 'disc-2', 'disc-3', 'disc-4'],
+      projectSubmission: null, // Not required for this course (not agi-strategy)
+    };
+
+    const mockExpectedDiscussions = {
+      discussions: [
+        { id: 'disc-1', startDateTime: 1000, endDateTime: 2000, unitNumber: 1 },
+        { id: 'disc-2', startDateTime: 3000, endDateTime: 4000, unitNumber: 2 },
+        { id: 'disc-3', startDateTime: 5000, endDateTime: 6000, unitNumber: 3 },
+        { id: 'disc-4', startDateTime: 7000, endDateTime: 8000, unitNumber: 4 },
+        { id: 'disc-5', startDateTime: 9000, endDateTime: 10000, unitNumber: 5 },
+      ],
+    };
+
+    server.use(
+      trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPersonAllMet),
+      trpcMsw.groupDiscussions.getByDiscussionIds.query(() => mockExpectedDiscussions),
+    );
+
+    render(
+      <CourseListRow
+        course={mockCourse}
+        courseRegistration={pastNoCertRegistration}
+        isFirst={false}
+        isLast={false}
+      />,
+      { wrapper: TrpcProvider },
+    );
+
+    // Wait for the subtitle to appear
+    const subtitleTexts = await screen.findAllByText(/Certificate pending/);
+    expect(subtitleTexts.length).toBeGreaterThan(0);
+  });
+
+  it('allows completed course to be expanded and shows CourseDetails', async () => {
+    const completedRegistration = {
+      ...mockCourseRegistration,
+      roundStatus: 'Past',
+      certificateCreatedAt: new Date('2024-01-01').getTime() / 1000,
+      certificateId: 'cert-123',
+    };
+
+    const user = userEvent.setup();
+    render(
+      <CourseListRow
+        course={mockCourse}
+        courseRegistration={completedRegistration}
+        isFirst={false}
+        isLast={false}
+      />,
+      { wrapper: TrpcProvider },
+    );
+
+    // Completed courses start collapsed
+    expect(screen.queryByLabelText('Expanded details for Introduction to AI Safety')).not.toBeInTheDocument();
+
+    // Get the expand button
+    const expandButton = screen.getAllByLabelText('Expand Introduction to AI Safety details')[0]!;
+    expect(expandButton).toHaveAttribute('aria-expanded', 'false');
+
+    // Click to expand
+    await user.click(expandButton);
+
+    // First verify the button state changed
+    await waitFor(() => {
+      expect(expandButton).toHaveAttribute('aria-expanded', 'true');
+    });
+
+    // Should now show expanded details
+    expect(screen.getByLabelText('Expanded details for Introduction to AI Safety')).toBeInTheDocument();
   });
 });
