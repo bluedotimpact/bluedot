@@ -1,5 +1,7 @@
 import { useState, useEffect, ReactNode } from 'react';
-import { CTALinkOrButton, addQueryParam, useCurrentTimeMs } from '@bluedot/ui';
+import {
+  CTALinkOrButton, addQueryParam, useCurrentTimeMs, cn,
+} from '@bluedot/ui';
 import { FaCheck } from 'react-icons/fa6';
 import { Course, CourseRegistration } from '@bluedot/db';
 import { skipToken } from '@tanstack/react-query';
@@ -9,13 +11,13 @@ import GroupSwitchModal from '../courses/GroupSwitchModal';
 import { trpc } from '../../utils/trpc';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
+import { COURSE_CONFIG } from '../../lib/constants';
 
 type CourseListRowProps = {
   course: Course;
   courseRegistration: CourseRegistration;
   isFirst: boolean;
   isLast: boolean;
-  isCompleted: boolean;
 };
 
 const getMaxUnitNumber = (discussions: GroupDiscussion[]): number | null => {
@@ -27,15 +29,14 @@ const getMaxUnitNumber = (discussions: GroupDiscussion[]): number | null => {
 };
 
 const CourseListRow = ({
-  course, courseRegistration, isFirst = false, isLast = false, isCompleted = false,
+  course, courseRegistration, isFirst = false, isLast = false,
 }: CourseListRowProps) => {
-  const [isExpanded, setIsExpanded] = useState(!isCompleted); // Expand by default if in progress
+  const [isExpanded, setIsExpanded] = useState(!courseRegistration.certificateCreatedAt && courseRegistration.roundStatus !== 'Past');
   const currentTimeMs = useCurrentTimeMs();
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
 
   const { data: meetPerson, isLoading: isMeetPersonLoading } = trpc.meetPerson.getByCourseRegistrationId.useQuery(
-    // Don't run this query when the course is already completed
-    isCompleted ? skipToken : { courseRegistrationId: courseRegistration.id },
+    { courseRegistrationId: courseRegistration.id },
   );
 
   // Only fetch expected discussions for the list row
@@ -84,7 +85,22 @@ const CourseListRow = ({
   const nextDiscussion = upcomingDiscussions[0];
 
   const getPrimaryCtaButton = () => {
-    if (!nextDiscussion) return null;
+    if (courseRegistration.certificateCreatedAt) {
+      return (
+        <CTALinkOrButton
+          variant="black"
+          size="small"
+          url={courseRegistration.certificateId
+            ? addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)
+            : course.path}
+          className="w-full sm:w-auto"
+        >
+          View your certificate
+        </CTALinkOrButton>
+      );
+    }
+
+    if (isLoading || !nextDiscussion) return null;
 
     const nextDiscussionTimeState = getDiscussionTimeState({ discussion: nextDiscussion, currentTimeMs });
     const isNextDiscussionSoonOrLive = nextDiscussionTimeState === 'soon' || nextDiscussionTimeState === 'live';
@@ -115,21 +131,7 @@ const CourseListRow = ({
   const primaryCtaButton = getPrimaryCtaButton();
 
   const getSubtitle = (): ReactNode | null => {
-    if (!isCompleted && nextDiscussion) {
-      if (isLoading) return null;
-
-      const maxUnitNumber = getMaxUnitNumber(expectedDiscussions);
-      const groupName = nextDiscussion.groupDetails?.groupName || 'Unknown group';
-
-      if (nextDiscussion.unitNumber !== null && maxUnitNumber !== null) {
-        return `Unit ${nextDiscussion.unitNumber}/${maxUnitNumber} · ${groupName}`;
-      }
-
-      // Fallback if we don't have unit numbers
-      return groupName;
-    }
-
-    if (isCompleted && courseRegistration.certificateCreatedAt) {
+    if (courseRegistration.certificateCreatedAt) {
       return (
         <>
           {`Completed on ${new Date(courseRegistration.certificateCreatedAt * 1000).toLocaleDateString('en-US', {
@@ -144,6 +146,47 @@ const CourseListRow = ({
       );
     }
 
+    if (nextDiscussion) {
+      if (isLoading) return null;
+
+      const maxUnitNumber = getMaxUnitNumber(expectedDiscussions);
+      const groupName = nextDiscussion.groupDetails?.groupName || 'Unknown group';
+
+      if (nextDiscussion.unitNumber !== null && maxUnitNumber !== null) {
+        return `Unit ${nextDiscussion.unitNumber}/${maxUnitNumber} · ${groupName}`;
+      }
+
+      // Fallback if we don't have unit numbers
+      return groupName;
+    }
+
+    // Completed course without certificate, explain why
+    if (courseRegistration.roundStatus === 'Past' && !courseRegistration.certificateCreatedAt) {
+      if (isLoading) return null;
+
+      const courseConfig = COURSE_CONFIG[course.slug];
+      const attendedCount = meetPerson?.attendedDiscussions?.length ?? 0;
+      const expectedCount = expectedDiscussions.length;
+      const missedCount = expectedCount - attendedCount;
+      const missedTooMany = missedCount > 1;
+      const hasSubmittedActionPlan = meetPerson?.projectSubmission && meetPerson.projectSubmission.length > 0;
+
+      const missingDiscussions = missedTooMany;
+      const missingActionPlan = courseConfig?.certificateRequiresActionPlan && !hasSubmittedActionPlan;
+
+      if (missingDiscussions && missingActionPlan) {
+        return 'To receive a certificate you can miss at most 1 discussion and must submit your action plan';
+      }
+      if (missingDiscussions) {
+        return 'To receive a certificate you can miss at most 1 discussion';
+      }
+      if (missingActionPlan) {
+        return 'To receive a certificate you must submit your action plan';
+      }
+      // All requirements met but no certificate yet - pending manual processing
+      return 'Certificate pending';
+    }
+
     if (isNotInGroup) {
       return 'We\'re assigning you to a group, you\'ll receive an email from us within the next few days';
     }
@@ -152,23 +195,26 @@ const CourseListRow = ({
 
   const subtitle = getSubtitle();
 
-  // Determine hover class based on completion status
-  const hoverClass = !isExpanded && !isCompleted ? 'hover:bg-white' : '';
-
   return (
     <div>
       <div
-        className={`border-x border-t ${isLast && !isExpanded ? 'border-b' : ''} ${isFirst ? 'rounded-t-xl' : ''} ${isLast && !isExpanded ? 'rounded-b-xl' : ''} border-charcoal-light ${isExpanded ? 'bg-white' : ''} ${hoverClass} transition-colors duration-200 group ${!isCompleted ? 'cursor-pointer' : ''}`}
-        onClick={!isCompleted ? () => setIsExpanded(!isExpanded) : undefined}
-        onKeyDown={!isCompleted ? (e) => {
+        className={cn(
+          'border-x border-t border-charcoal-light transition-colors duration-200 group cursor-pointer',
+          isLast && !isExpanded && 'border-b',
+          isFirst && 'rounded-t-xl',
+          isLast && !isExpanded && 'rounded-b-xl',
+          isExpanded ? 'bg-white' : 'hover:bg-white',
+        )}
+        onClick={() => setIsExpanded(!isExpanded)}
+        onKeyDown={(e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             setIsExpanded(!isExpanded);
           }
-        } : undefined}
-        role={!isCompleted ? 'button' : undefined}
-        tabIndex={!isCompleted ? 0 : undefined}
-        aria-expanded={!isCompleted ? isExpanded : undefined}
+        }}
+        role="button"
+        tabIndex={0}
+        aria-expanded={isExpanded}
       >
         <div className="p-4 sm:px-8 sm:py-6">
           {/* Mobile layout */}
@@ -185,55 +231,38 @@ const CourseListRow = ({
                 )}
               </div>
 
-              {/* Expand/collapse button - only visible for in-progress courses */}
-              {!isCompleted && (
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsExpanded(!isExpanded);
-                  }}
-                  className="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150 flex-shrink-0"
-                  aria-label={isExpanded ? `Collapse ${course.title} details` : `Expand ${course.title} details`}
-                  aria-expanded={isExpanded}
+              {/* Expand/collapse button */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsExpanded(!isExpanded);
+                }}
+                className="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150 flex-shrink-0"
+                aria-label={isExpanded ? `Collapse ${course.title} details` : `Expand ${course.title} details`}
+                aria-expanded={isExpanded}
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}
                 >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}
-                  >
-                    <path
-                      d="M7.5 5L12.5 10L7.5 15"
-                      stroke="#1F2937"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </button>
-              )}
+                  <path
+                    d="M7.5 5L12.5 10L7.5 15"
+                    stroke="#1F2937"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
             </div>
 
             {/* Bottom row: Action buttons */}
-            {isCompleted && (
-              <div className="flex">
-                <CTALinkOrButton
-                  variant="black"
-                  size="small"
-                  url={courseRegistration.certificateId
-                    ? addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)
-                    : course.path}
-                  className="w-full"
-                >
-                  View your certificate
-                </CTALinkOrButton>
-              </div>
-            )}
-            {/* Show primary button for discussion or join group when collapsed on mobile */}
-            {!isExpanded && !isCompleted && !isLoading && primaryCtaButton && (
+            {!isExpanded && primaryCtaButton && (
               <div
                 className="flex"
                 onClick={(e) => e.stopPropagation()}
@@ -264,59 +293,43 @@ const CourseListRow = ({
               onKeyDown={(e) => e.stopPropagation()}
               role="presentation"
             >
-              {/* View certificate button - only for completed courses */}
-              {isCompleted && (
-                <CTALinkOrButton
-                  variant="black"
-                  size="small"
-                  url={courseRegistration.certificateId
-                    ? addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)
-                    : course.path}
-                >
-                  View your certificate
-                </CTALinkOrButton>
-              )}
+              {/* Show primary button when collapsed on desktop */}
+              {!isExpanded && primaryCtaButton}
 
-              {/* Show primary button for discussion or join group when collapsed on desktop */}
-              {!isExpanded && !isCompleted && !isLoading && primaryCtaButton}
-
-              {/* Expand/collapse button - only for in-progress courses */}
-              {!isCompleted && (
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsExpanded(!isExpanded);
-                  }}
-                  className="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150"
-                  aria-label={isExpanded ? `Collapse ${course.title} details` : `Expand ${course.title} details`}
-                  aria-expanded={isExpanded}
+              {/* Expand/collapse button */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsExpanded(!isExpanded);
+                }}
+                className="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150"
+                aria-label={isExpanded ? `Collapse ${course.title} details` : `Expand ${course.title} details`}
+                aria-expanded={isExpanded}
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}
                 >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}
-                  >
-                    <path
-                      d="M7.5 5L12.5 10L7.5 15"
-                      stroke="#1F2937"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </button>
-              )}
+                  <path
+                    d="M7.5 5L12.5 10L7.5 15"
+                    stroke="#1F2937"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Expanded view - only for in-progress courses */}
-      {isExpanded && !isCompleted && (
+      {isExpanded && (
         <CourseDetails
           course={course}
           courseRegistration={courseRegistration}
