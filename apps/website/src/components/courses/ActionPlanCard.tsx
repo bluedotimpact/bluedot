@@ -5,6 +5,7 @@ import React from 'react';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { trpc } from '../../utils/trpc';
 import { FOAI_COURSE_ID } from '../../lib/constants';
+import { getActionPlanUrl } from '../../lib/utils';
 
 type ActionPlanCardProps = {
   courseId: string;
@@ -83,7 +84,7 @@ const ActionPlanCardAuthed: React.FC<ActionPlanCardProps> = ({ courseId }) => {
   }
 
   // All conditions met - show the action plan card
-  const actionPlanUrl = `https://web.miniextensions.com/7WZKkZiusMiAO1RMznFv?prefill_Participant=${meetPerson.id}`;
+  const actionPlanUrl = getActionPlanUrl(meetPerson.id);
 
   return (
     <Card

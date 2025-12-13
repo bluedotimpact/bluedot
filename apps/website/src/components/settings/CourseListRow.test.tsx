@@ -316,6 +316,11 @@ describe('CourseListRow', () => {
     // Wait for the subtitle to appear (multiple elements due to responsive design)
     const subtitleTexts = await screen.findAllByText(/To receive a certificate you must submit your action plan/);
     expect(subtitleTexts.length).toBeGreaterThan(0);
+
+    // Should also show the "Submit your action plan" button
+    const actionPlanButtons = await screen.findAllByRole('link', { name: 'Submit your action plan' });
+    expect(actionPlanButtons.length).toBeGreaterThan(0);
+    expect(actionPlanButtons[0]).toHaveAttribute('href', expect.stringContaining('miniextensions.com'));
   });
 
   it('shows requirement message when course is "Past" with no cert: "Certificate pending" if there is no concrete reason', async () => {
