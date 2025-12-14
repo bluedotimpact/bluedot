@@ -98,6 +98,9 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
   useEffect(() => {
     if (!editor) return;
 
+    // Don't sync while user is actively editing - let them type without interference
+    if (isFocussed) return;
+
     const currentContent = editor.storage.markdown.getMarkdown();
 
     // If external value equals what we last saved, ignore
@@ -109,7 +112,7 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
       editor.commands.setContent(value || '');
       lastSavedContent.current = value || '';
     }
-  }, [value, editor]);
+  }, [value, editor, isFocussed]);
 
   // Cleanup all timers on unmount
   useEffect(() => {

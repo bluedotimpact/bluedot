@@ -1,5 +1,5 @@
 import {
-  useCallback, useEffect, useState,
+  useCallback, useEffect, useRef, useState,
 } from 'react';
 import { useRouter } from 'next/router';
 import {
@@ -88,7 +88,8 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource, re
   const auth = useAuthStore((s) => s.auth);
   const utils = trpc.useUtils();
   const [isHovered, setIsHovered] = useState(false);
-  const [feedback, setFeedback] = useState('');
+  const [feedback, setFeedback] = useState(resourceCompletion?.feedback ?? '');
+  const lastSavedFeedback = useRef<string>(resourceCompletion?.feedback ?? '');
 
   const queryClient = useQueryClient();
   const resourceCompletionsQueryKey = getQueryKey(trpc.resources.getResourceCompletions, undefined, 'query');
@@ -157,18 +158,13 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource, re
     ? saveCompletionMutation.variables.resourceFeedback
     : (resourceCompletion?.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE);
 
-  // Sync feedback state with server data (both mutation variables and fetched data)
+  // Sync feedback state with server data (skip if it's just our own save coming back)
   useEffect(() => {
-    const optimisticFeedback = saveCompletionMutation.variables?.feedback;
-    const serverFeedback = resourceCompletion?.feedback;
-
-    // Only use optimistic feedback if there is no error
-    if (!saveCompletionMutation.isError && optimisticFeedback !== undefined) {
-      setFeedback(optimisticFeedback);
-    } else {
-      setFeedback(serverFeedback ?? '');
-    }
-  }, [saveCompletionMutation.variables?.feedback, resourceCompletion?.feedback, saveCompletionMutation.isError]);
+    const serverFeedback = resourceCompletion?.feedback ?? '';
+    if (serverFeedback === lastSavedFeedback.current) return;
+    setFeedback(serverFeedback);
+    lastSavedFeedback.current = serverFeedback;
+  }, [resourceCompletion?.feedback]);
 
   const handleSaveCompletion = useCallback((
     updatedIsCompleted: boolean | undefined,
@@ -375,7 +371,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource, re
                     value={feedback}
                     onChange={setFeedback}
                     onSave={async (value) => {
-                      // Save the draft and await the promise
+                      lastSavedFeedback.current = value || '';
                       await handleSaveCompletion(isCompleted, resourceFeedback, value || '');
                     }}
                     placeholder="What did or didn't you find useful about this resource?"
@@ -411,7 +407,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource, re
                   value={feedback}
                   onChange={setFeedback}
                   onSave={async (value) => {
-                    // Save the draft and await the promise
+                    lastSavedFeedback.current = value || '';
                     await handleSaveCompletion(isCompleted, resourceFeedback, value || '');
                   }}
                   placeholder="What did or didn't you find useful about this resource?"
