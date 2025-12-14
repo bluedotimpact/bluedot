@@ -51,9 +51,8 @@ describe('CourseDetails', () => {
       <CourseDetails
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
-        upcomingDiscussions={[]}
-        pastDiscussions={[]}
-        attendedDiscussionIds={new Set()}
+        expectedDiscussions={[]}
+        attendedDiscussions={[]}
         isLoading={false}
       />,
     );
@@ -90,7 +89,7 @@ describe('CourseDetails: Participant view', () => {
     const currentTimeMs = Date.now();
 
     // WHEN: There are multiple upcoming discussions, all >1 hour away
-    const upcomingDiscussions = [
+    const expectedDiscussions = [
       {
         ...createMockGroupDiscussion({
           unitNumber: 3,
@@ -115,9 +114,8 @@ describe('CourseDetails: Participant view', () => {
       <CourseDetails
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
-        upcomingDiscussions={upcomingDiscussions}
-        pastDiscussions={[]}
-        attendedDiscussionIds={new Set()}
+        expectedDiscussions={expectedDiscussions}
+        attendedDiscussions={[]}
         isLoading={false}
       />,
     );
@@ -134,7 +132,7 @@ describe('CourseDetails: Participant view', () => {
     const currentTimeMs = Date.now();
 
     // WHEN: The first discussion starts in <1 hour (starting soon)
-    const upcomingDiscussions = [
+    const expectedDiscussions = [
       {
         ...createMockGroupDiscussion({
           unitNumber: 2,
@@ -160,9 +158,8 @@ describe('CourseDetails: Participant view', () => {
       <CourseDetails
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
-        upcomingDiscussions={upcomingDiscussions}
-        pastDiscussions={[]}
-        attendedDiscussionIds={new Set()}
+        expectedDiscussions={expectedDiscussions}
+        attendedDiscussions={[]}
         isLoading={false}
       />,
     );
@@ -181,7 +178,7 @@ describe('CourseDetails: Participant view', () => {
     const currentTimeMs = Date.now();
 
     // WHEN: There are multiple upcoming discussions
-    const upcomingDiscussions = [
+    const expectedDiscussions = [
       {
         ...createMockGroupDiscussion({
           id: 'discussion-5',
@@ -208,9 +205,8 @@ describe('CourseDetails: Participant view', () => {
       <CourseDetails
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
-        upcomingDiscussions={upcomingDiscussions}
-        pastDiscussions={[]}
-        attendedDiscussionIds={new Set()}
+        expectedDiscussions={expectedDiscussions}
+        attendedDiscussions={[]}
         isLoading={false}
       />,
     );
@@ -251,7 +247,7 @@ describe('CourseDetails: Participant view', () => {
     const currentTimeMs = Date.now();
 
     // WHEN: There are upcoming discussions with Slack channels
-    const upcomingDiscussions = [
+    const expectedDiscussions = [
       {
         ...createMockGroupDiscussion({
           id: 'discussion-3',
@@ -269,9 +265,8 @@ describe('CourseDetails: Participant view', () => {
       <CourseDetails
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
-        upcomingDiscussions={upcomingDiscussions}
-        pastDiscussions={[]}
-        attendedDiscussionIds={new Set()}
+        expectedDiscussions={expectedDiscussions}
+        attendedDiscussions={[]}
         isLoading={false}
       />,
     );
@@ -317,7 +312,7 @@ describe('CourseDetails: Participant view', () => {
     const currentTimeMs = Date.now();
 
     // WHEN: A discussion is currently live (started but not yet ended)
-    const upcomingDiscussions = [
+    const expectedDiscussions = [
       {
         ...createMockGroupDiscussion({
           id: 'discussion-live',
@@ -337,9 +332,8 @@ describe('CourseDetails: Participant view', () => {
       <CourseDetails
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
-        upcomingDiscussions={upcomingDiscussions}
-        pastDiscussions={[]}
-        attendedDiscussionIds={new Set()}
+        expectedDiscussions={expectedDiscussions}
+        attendedDiscussions={[]}
         isLoading={false}
       />,
     );
@@ -382,8 +376,8 @@ describe('CourseDetails: Past discussions tab', () => {
     const user = userEvent.setup();
     const currentTimeMs = Date.now();
 
-    // Past discussions - user attended disc-1 and disc-2, but missed disc-3
-    const pastDiscussions = [
+    // Expected discussions - all in the past
+    const expectedDiscussions = [
       {
         ...createMockGroupDiscussion({
           id: 'disc-1',
@@ -417,15 +411,17 @@ describe('CourseDetails: Past discussions tab', () => {
     ];
 
     // User attended disc-1 and disc-2, but NOT disc-3
-    const attendedDiscussionIds = new Set(['disc-1', 'disc-2']);
+    const attendedDiscussions = [
+      expectedDiscussions[0]!, // disc-1
+      expectedDiscussions[1]!, // disc-2
+    ];
 
     render(
       <CourseDetails
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
-        upcomingDiscussions={[]}
-        pastDiscussions={pastDiscussions}
-        attendedDiscussionIds={attendedDiscussionIds}
+        expectedDiscussions={expectedDiscussions}
+        attendedDiscussions={attendedDiscussions}
         isLoading={false}
       />,
     );
@@ -464,7 +460,7 @@ describe('CourseDetails: Facilitator view', () => {
     const currentTimeMs = Date.now();
 
     // WHEN: There are upcoming discussions with Slack channels
-    const upcomingDiscussions = [
+    const expectedDiscussions = [
       {
         ...createMockGroupDiscussion({
           id: 'discussion-4',
@@ -482,9 +478,8 @@ describe('CourseDetails: Facilitator view', () => {
       <CourseDetails
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
-        upcomingDiscussions={upcomingDiscussions}
-        pastDiscussions={[]}
-        attendedDiscussionIds={new Set()}
+        expectedDiscussions={expectedDiscussions}
+        attendedDiscussions={[]}
         isLoading={false}
       />,
     );

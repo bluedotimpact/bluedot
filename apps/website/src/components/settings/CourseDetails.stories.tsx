@@ -11,6 +11,7 @@ const now = Math.floor(Date.now() / 1000);
 const hour = 60 * 60;
 
 const mockDiscussions: Record<string, GroupDiscussion> = {
+  // Upcoming discussions
   'discussion-1': {
     id: 'discussion-1',
     facilitators: ['facilitator-1'],
@@ -53,6 +54,7 @@ const mockDiscussions: Record<string, GroupDiscussion> = {
     unitRecord: { unitNumber: '2', title: 'AI Alignment' } as GroupDiscussion['unitRecord'],
     groupDetails: { groupName: 'Group A' } as GroupDiscussion['groupDetails'],
   },
+  // Past discussion (attended)
   'discussion-3': {
     id: 'discussion-3',
     facilitators: ['facilitator-1'],
@@ -74,6 +76,28 @@ const mockDiscussions: Record<string, GroupDiscussion> = {
     unitRecord: { unitNumber: '0', title: 'Kickoff' } as GroupDiscussion['unitRecord'],
     groupDetails: { groupName: 'Group A' } as GroupDiscussion['groupDetails'],
   },
+  // Past discussion (NOT attended - will show "Did not attend")
+  'discussion-4-missed': {
+    id: 'discussion-4-missed',
+    facilitators: ['facilitator-1'],
+    participantsExpected: ['participant-1'],
+    attendees: [],
+    startDateTime: now - 14 * 24 * hour,
+    endDateTime: now - 14 * 24 * hour + hour,
+    group: 'group-1',
+    zoomAccount: null,
+    courseSite: null,
+    unitNumber: -1,
+    unit: null,
+    zoomLink: 'https://zoom.us/j/101',
+    activityDoc: null,
+    slackChannelId: null,
+    round: null,
+    courseBuilderUnitRecordId: 'unit-intro',
+    autoNumberId: null,
+    unitRecord: { unitNumber: 'Intro', title: 'Welcome Session' } as GroupDiscussion['unitRecord'],
+    groupDetails: { groupName: 'Group A' } as GroupDiscussion['groupDetails'],
+  },
 };
 
 const meta: Meta<typeof CourseDetails> = {
@@ -84,8 +108,13 @@ const meta: Meta<typeof CourseDetails> = {
   },
   args: {
     course: mockCourse,
+    expectedDiscussions: [
+      mockDiscussions['discussion-4-missed']!,
+      mockDiscussions['discussion-3']!,
+      mockDiscussions['discussion-1']!,
+      mockDiscussions['discussion-2']!,
+    ],
     attendedDiscussions: [mockDiscussions['discussion-3']!],
-    upcomingDiscussions: [mockDiscussions['discussion-1']!, mockDiscussions['discussion-2']!],
     isLoading: false,
   },
 };
@@ -115,7 +144,8 @@ export const Facilitator: Story = {
 export const LiveDiscussion: Story = {
   args: {
     courseRegistration: { ...mockCourseRegistration, role: 'Participant' },
-    upcomingDiscussions: [
+    expectedDiscussions: [
+      mockDiscussions['discussion-3']!,
       {
         ...mockDiscussions['discussion-1']!,
         startDateTime: now - 15 * 60, // Started 15 minutes ago

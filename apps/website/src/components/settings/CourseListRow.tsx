@@ -51,8 +51,13 @@ const CourseListRow = ({
     ? meetPerson?.expectedDiscussionsFacilitator || []
     : meetPerson?.expectedDiscussionsParticipant || [];
 
-  const { data: expectedResults, isLoading: isLoadingDiscussions } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
+  const { data: expectedResults, isLoading: isLoadingExpected } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
     expectedDiscussionIds.length > 0 ? { discussionIds: expectedDiscussionIds } : skipToken,
+  );
+
+  const attendedDiscussionIds = meetPerson?.attendedDiscussions || [];
+  const { data: attendedResults, isLoading: isLoadingAttended } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
+    attendedDiscussionIds.length > 0 ? { discussionIds: attendedDiscussionIds } : skipToken,
   );
 
   // Sort discussions by startDateTime
@@ -60,7 +65,11 @@ const CourseListRow = ({
     (a, b) => a.startDateTime - b.startDateTime,
   );
 
-  const isLoading = isMeetPersonLoading || isLoadingDiscussions;
+  const attendedDiscussions = [...(attendedResults?.discussions ?? [])].sort(
+    (a, b) => a.startDateTime - b.startDateTime,
+  );
+
+  const isLoading = isMeetPersonLoading || isLoadingExpected || isLoadingAttended;
 
   useEffect(() => {
     if (isNotInGroup) {
@@ -69,18 +78,9 @@ const CourseListRow = ({
   }, [isNotInGroup]);
 
   // Get the next upcoming discussion from expectedDiscussions
-  const upcomingDiscussions = expectedDiscussions.filter(
+  const nextDiscussion = expectedDiscussions.find(
     (discussion) => (discussion.endDateTime * 1000) > currentTimeMs,
   );
-  const nextDiscussion = upcomingDiscussions[0];
-
-  // Get past discussions (expected discussions that have ended)
-  const pastDiscussions = expectedDiscussions.filter(
-    (discussion) => (discussion.endDateTime * 1000) <= currentTimeMs,
-  );
-
-  // Get attended discussion IDs for quick lookup
-  const attendedDiscussionIds = new Set(meetPerson?.attendedDiscussions || []);
 
   // Check if next discussion is starting soon (within 1 hour)
   const isNextDiscussionStartingSoon = nextDiscussion
@@ -322,9 +322,8 @@ const CourseListRow = ({
           course={course}
           courseRegistration={courseRegistration}
           isLast={isLast}
-          pastDiscussions={pastDiscussions}
-          attendedDiscussionIds={attendedDiscussionIds}
-          upcomingDiscussions={upcomingDiscussions}
+          expectedDiscussions={expectedDiscussions}
+          attendedDiscussions={attendedDiscussions}
           isLoading={isLoading}
         />
       )}

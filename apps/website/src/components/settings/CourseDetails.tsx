@@ -198,9 +198,8 @@ const CourseDetailsRow = ({
 type CourseDetailsProps = {
   course: Course;
   courseRegistration: CourseRegistration;
-  pastDiscussions: GroupDiscussion[];
-  attendedDiscussionIds: Set<string>;
-  upcomingDiscussions: GroupDiscussion[];
+  expectedDiscussions: GroupDiscussion[];
+  attendedDiscussions: GroupDiscussion[];
   isLoading: boolean;
   isLast?: boolean;
 };
@@ -208,12 +207,12 @@ type CourseDetailsProps = {
 const CourseDetails = ({
   course,
   courseRegistration,
-  pastDiscussions,
-  attendedDiscussionIds,
-  upcomingDiscussions,
+  expectedDiscussions,
+  attendedDiscussions,
   isLoading,
   isLast = false,
 }: CourseDetailsProps) => {
+  const currentTimeMs = useCurrentTimeMs();
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [initialUnitNumber, setInitialUnitNumber] = useState<string | undefined>(undefined);
   const [selectedSwitchType, setSelectedSwitchType] = useState<SwitchType>('Switch group for one unit');
@@ -222,6 +221,30 @@ const CourseDetails = ({
   const [showAllPast, setShowAllPast] = useState(false);
 
   const isFacilitator = courseRegistration.role === 'Facilitator';
+
+  const upcomingDiscussions = expectedDiscussions.filter(
+    (discussion) => (discussion.endDateTime * 1000) > currentTimeMs,
+  );
+
+  const attendedDiscussionIds = new Set(attendedDiscussions.map((d) => d.id));
+  const expectedDiscussionIds = new Set(expectedDiscussions.map((d) => d.id));
+
+  // Compute past discussions: union of past expected discussions and attended discussions
+  const getPastDiscussions = () => {
+    const pastExpectedDiscussions = expectedDiscussions.filter(
+      (discussion) => (discussion.endDateTime * 1000) <= currentTimeMs,
+    );
+
+    const attendedNotInExpected = attendedDiscussions.filter(
+      (discussion) => !expectedDiscussionIds.has(discussion.id),
+    );
+
+    // Combine and sort by startDateTime
+    return [...pastExpectedDiscussions, ...attendedNotInExpected].sort(
+      (a, b) => a.startDateTime - b.startDateTime,
+    );
+  };
+  const pastDiscussions = getPastDiscussions();
 
   const handleOpenGroupSwitchModal = ({ discussion, switchType }: { discussion?: GroupDiscussion; switchType: SwitchType }) => {
     const unitNumber = switchType === 'Switch group for one unit' && discussion?.unitRecord
