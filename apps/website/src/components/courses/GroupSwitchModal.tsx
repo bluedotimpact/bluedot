@@ -160,7 +160,7 @@ export default function GroupSwitchModal({
   };
 
   const getModalTitle = () => {
-    const textClassName = 'text-size-md py-3 font-semibold mx-auto';
+    const modalTitleClassName = 'text-size-md py-3 font-semibold mx-auto';
 
     if (isManualRequest && !showSuccess) {
       return (
@@ -172,13 +172,13 @@ export default function GroupSwitchModal({
           >
             <FaArrowLeft size={16} />
           </ClickTarget>
-          <div className={cn(textClassName, 'md:pr-0 pr-6')}>Request manual switch</div>
+          <div className={cn(modalTitleClassName, 'md:pr-0 pr-6')}>Request manual switch</div>
         </div>
       );
     }
 
-    if (isManualRequest && showSuccess) return <div className={textClassName}>We are working on your request</div>;
-    if (showSuccess) return <div className={textClassName}>Success</div>;
+    if (isManualRequest && showSuccess) return <div className={modalTitleClassName}>We are working on your request</div>;
+    if (showSuccess) return <div className={modalTitleClassName}>Success</div>;
 
     return (
       <Select
