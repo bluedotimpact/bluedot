@@ -49,7 +49,7 @@ export default function GroupSwitchModal({
 
   const { data: courseData, isLoading: isCourseLoading, error: courseError } = trpc.courses.getBySlug.useQuery({ courseSlug });
 
-  const { data: switchingData, isLoading: isDiscussionsLoading, error: discussionsError } = trpc.groupSwitching.discussionsAvailable.useQuery(
+  const { data: availableGroupsAndDiscussions, isLoading: isDiscussionsLoading, error: discussionsError } = trpc.groupSwitching.discussionsAvailable.useQuery(
     { courseSlug },
     // Disable once `showSuccess` is true, to avoid `selectedOption` (which
     // displays on the success screen) being overwritten.
@@ -65,11 +65,11 @@ export default function GroupSwitchModal({
   const isSubmitting = submitGroupSwitchMutation.isPending;
   const isLoading = isCourseLoading || isDiscussionsLoading;
 
-  const groups = switchingData?.groupsAvailable ?? [];
-  const discussions = switchingData?.discussionsAvailable?.[selectedUnitNumber] ?? [];
+  const groups = availableGroupsAndDiscussions?.groupsAvailable ?? [];
+  const discussions = availableGroupsAndDiscussions?.discussionsAvailable?.[selectedUnitNumber] ?? [];
 
   const unitOptions = courseData?.units.map((u) => {
-    const unitDiscussions = switchingData?.discussionsAvailable?.[u.unitNumber];
+    const unitDiscussions = availableGroupsAndDiscussions?.discussionsAvailable?.[u.unitNumber];
     const hasAvailableDiscussions = unitDiscussions?.some((d) => !d.hasStarted);
 
     return {

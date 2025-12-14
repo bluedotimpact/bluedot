@@ -33,7 +33,7 @@ const mockCourseData: { course: Course, units: Unit[] } = {
   ],
 };
 
-const mockSwitchingData: DiscussionsAvailable = {
+const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
   groupsAvailable: [
     {
       group: createMockGroup({
@@ -125,7 +125,7 @@ export const Default: Story = {
           return mockCourseData;
         }),
         trpcStorybookMsw.groupSwitching.discussionsAvailable.query(async () => {
-          return mockSwitchingData;
+          return mockAvailableGroupsAndDiscussions;
         }),
         trpcStorybookMsw.groupSwitching.switchGroup.mutation(() => {
           return undefined;
@@ -148,7 +148,7 @@ export const AlternativeUnit: Story = {
           return mockCourseData;
         }),
         trpcStorybookMsw.groupSwitching.discussionsAvailable.query(async () => {
-          return mockSwitchingData;
+          return mockAvailableGroupsAndDiscussions;
         }),
         trpcStorybookMsw.groupSwitching.switchGroup.mutation(() => {
           return undefined;
@@ -171,7 +171,7 @@ export const NoAvailableGroups: Story = {
           return mockCourseData;
         }),
         trpcStorybookMsw.groupSwitching.discussionsAvailable.query(() => {
-          return mockSwitchingData;
+          return mockAvailableGroupsAndDiscussions;
         }),
       ],
     },
@@ -194,7 +194,7 @@ export const Loading: Story = {
         }),
         trpcStorybookMsw.groupSwitching.discussionsAvailable.query(async () => {
           await delay(2000);
-          return mockSwitchingData;
+          return mockAvailableGroupsAndDiscussions;
         }),
         trpcStorybookMsw.groupSwitching.switchGroup.mutation(() => {
           return undefined;

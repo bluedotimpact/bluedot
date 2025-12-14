@@ -69,7 +69,7 @@ const mockCourseDataWithTwoUnits = {
 };
 
 // Match real API structure exactly
-const mockSwitchingData: DiscussionsAvailable = {
+const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
   groupsAvailable: [
     {
       group: createMockGroup({
@@ -136,7 +136,7 @@ describe('GroupSwitchModal', () => {
     server.use(
       trpcMsw.users.getUser.query(() => mockUser),
       trpcMsw.courses.getBySlug.query(() => mockCourseData),
-      trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingData),
+      trpcMsw.groupSwitching.discussionsAvailable.query(() => mockAvailableGroupsAndDiscussions),
       trpcMsw.groupSwitching.switchGroup.mutation(({ input }) => {
         mockSubmitGroupSwitch(input);
         return undefined;
@@ -367,11 +367,11 @@ describe('GroupSwitchModal', () => {
 
   describe('Form state', () => {
     test('Form starts with the unit specified by `currentUnit` pre-selected', async () => {
-      const baseDiscussion = mockSwitchingData.discussionsAvailable[1]![0]!;
-      const mockSwitchingDataWithUnit2: DiscussionsAvailable = {
-        ...mockSwitchingData,
+      const baseDiscussion = mockAvailableGroupsAndDiscussions.discussionsAvailable[1]![0]!;
+      const mockAvailableGroupsAndDiscussionsWithUnit2: DiscussionsAvailable = {
+        ...mockAvailableGroupsAndDiscussions,
         discussionsAvailable: {
-          1: mockSwitchingData.discussionsAvailable[1] || [],
+          1: mockAvailableGroupsAndDiscussions.discussionsAvailable[1] || [],
           2: [
             {
               ...baseDiscussion,
@@ -387,7 +387,7 @@ describe('GroupSwitchModal', () => {
 
       server.use(
         trpcMsw.courses.getBySlug.query(() => mockCourseDataWithTwoUnits),
-        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingDataWithUnit2),
+        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockAvailableGroupsAndDiscussionsWithUnit2),
       );
 
       render(
@@ -421,12 +421,12 @@ describe('GroupSwitchModal', () => {
 
     test('Full discussions, started discussions, and units with no upcoming discussions are disabled', async () => {
       // Create mock data with disabled options
-      const currentDiscussion = mockSwitchingData.discussionsAvailable[1]![0]!;
-      const mockSwitchingDataWithDisabled: DiscussionsAvailable = {
+      const currentDiscussion = mockAvailableGroupsAndDiscussions.discussionsAvailable[1]![0]!;
+      const mockAvailableGroupsAndDiscussionsWithDisabled: DiscussionsAvailable = {
         groupsAvailable: [
-          { ...mockSwitchingData.groupsAvailable[0]!, group: { ...mockSwitchingData.groupsAvailable[0]!.group, groupName: 'Current Group' } },
-          { ...mockSwitchingData.groupsAvailable[1]!, group: { ...mockSwitchingData.groupsAvailable[1]!.group, groupName: 'Full Group', id: 'group-full' }, spotsLeftIfKnown: 0 },
-          { ...mockSwitchingData.groupsAvailable[1]!, group: { ...mockSwitchingData.groupsAvailable[1]!.group, groupName: 'Already Started Group', id: 'group-started' }, allDiscussionsHaveStarted: true },
+          { ...mockAvailableGroupsAndDiscussions.groupsAvailable[0]!, group: { ...mockAvailableGroupsAndDiscussions.groupsAvailable[0]!.group, groupName: 'Current Group' } },
+          { ...mockAvailableGroupsAndDiscussions.groupsAvailable[1]!, group: { ...mockAvailableGroupsAndDiscussions.groupsAvailable[1]!.group, groupName: 'Full Group', id: 'group-full' }, spotsLeftIfKnown: 0 },
+          { ...mockAvailableGroupsAndDiscussions.groupsAvailable[1]!, group: { ...mockAvailableGroupsAndDiscussions.groupsAvailable[1]!.group, groupName: 'Already Started Group', id: 'group-started' }, allDiscussionsHaveStarted: true },
         ],
         discussionsAvailable: {
           1: [
@@ -452,7 +452,7 @@ describe('GroupSwitchModal', () => {
       // Override mock for this test
       server.use(
         trpcMsw.courses.getBySlug.query(() => mockCourseDataWithTwoUnits),
-        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingDataWithDisabled),
+        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockAvailableGroupsAndDiscussionsWithDisabled),
       );
 
       render(
@@ -519,14 +519,14 @@ describe('GroupSwitchModal', () => {
     });
 
     test('Manual switching is still available when there are no discussions available (in "Switch group for one unit" mode)', async () => {
-      const mockSwitchingDataEmpty: DiscussionsAvailable = {
-        ...mockSwitchingData,
+      const mockAvailableGroupsAndDiscussionsEmpty: DiscussionsAvailable = {
+        ...mockAvailableGroupsAndDiscussions,
         groupsAvailable: [],
         discussionsAvailable: { 1: [] },
       };
 
       server.use(
-        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingDataEmpty),
+        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockAvailableGroupsAndDiscussionsEmpty),
       );
 
       render(
@@ -709,15 +709,15 @@ describe('GroupSwitchModal', () => {
 
   describe('Participant without group', () => {
     // Derive mock data from base by setting userIsParticipant to false everywhere
-    const mockSwitchingDataNoGroup: DiscussionsAvailable = {
-      ...mockSwitchingData,
-      groupsAvailable: mockSwitchingData.groupsAvailable.map((g) => ({
+    const mockAvailableGroupsAndDiscussionsNoGroup: DiscussionsAvailable = {
+      ...mockAvailableGroupsAndDiscussions,
+      groupsAvailable: mockAvailableGroupsAndDiscussions.groupsAvailable.map((g) => ({
         ...g,
         userIsParticipant: false,
         spotsLeftIfKnown: 3,
       })),
       discussionsAvailable: {
-        1: mockSwitchingData.discussionsAvailable[1]!.map((d) => ({
+        1: mockAvailableGroupsAndDiscussions.discussionsAvailable[1]!.map((d) => ({
           ...d,
           userIsParticipant: false,
           spotsLeftIfKnown: 3,
@@ -734,7 +734,7 @@ describe('GroupSwitchModal', () => {
       });
 
       server.use(
-        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingDataNoGroup),
+        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockAvailableGroupsAndDiscussionsNoGroup),
       );
     });
 
