@@ -12,6 +12,9 @@ import type {
 } from '@bluedot/db';
 import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 
+// Re-export from libraries/ui for convenience
+export { createMockOidcResponse } from '@bluedot/ui/src/utils/testUtils';
+
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace JSX {
