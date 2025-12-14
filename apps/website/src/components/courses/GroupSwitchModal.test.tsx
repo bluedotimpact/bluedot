@@ -79,7 +79,7 @@ const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
       }),
       userIsParticipant: true,
       spotsLeftIfKnown: 0,
-      allDiscussionsHaveStarted: false,
+      isTooLateToSwitchTo: false,
     },
     {
       group: createMockGroup({
@@ -89,7 +89,7 @@ const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
       }),
       userIsParticipant: false,
       spotsLeftIfKnown: 3,
-      allDiscussionsHaveStarted: false,
+      isTooLateToSwitchTo: false,
     },
   ],
   discussionsAvailable: {
@@ -103,7 +103,7 @@ const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
         groupName: 'Morning Group A',
         userIsParticipant: true, // This is the current discussion
         spotsLeftIfKnown: 0,
-        hasStarted: false,
+        isTooLateToSwitchTo: false,
       },
       {
         discussion: createMockGroupDiscussion({
@@ -114,7 +114,7 @@ const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
         groupName: 'Evening Group B',
         userIsParticipant: false, // Available to switch to
         spotsLeftIfKnown: 2,
-        hasStarted: false, // Not started yet, so available
+        isTooLateToSwitchTo: false, // Not started yet, so available
       },
     ],
   },
@@ -426,7 +426,7 @@ describe('GroupSwitchModal', () => {
         groupsAvailable: [
           { ...mockAvailableGroupsAndDiscussions.groupsAvailable[0]!, group: { ...mockAvailableGroupsAndDiscussions.groupsAvailable[0]!.group, groupName: 'Current Group' } },
           { ...mockAvailableGroupsAndDiscussions.groupsAvailable[1]!, group: { ...mockAvailableGroupsAndDiscussions.groupsAvailable[1]!.group, groupName: 'Full Group', id: 'group-full' }, spotsLeftIfKnown: 0 },
-          { ...mockAvailableGroupsAndDiscussions.groupsAvailable[1]!, group: { ...mockAvailableGroupsAndDiscussions.groupsAvailable[1]!.group, groupName: 'Already Started Group', id: 'group-started' }, allDiscussionsHaveStarted: true },
+          { ...mockAvailableGroupsAndDiscussions.groupsAvailable[1]!, group: { ...mockAvailableGroupsAndDiscussions.groupsAvailable[1]!.group, groupName: 'Already Started Group', id: 'group-started' }, isTooLateToSwitchTo: true },
         ],
         discussionsAvailable: {
           1: [
@@ -442,7 +442,7 @@ describe('GroupSwitchModal', () => {
               groupName: 'Already Started Group',
               userIsParticipant: false,
               spotsLeftIfKnown: 2,
-              hasStarted: true,
+              isTooLateToSwitchTo: true,
             },
           ],
           2: [], // Unit 2 has no upcoming discussions

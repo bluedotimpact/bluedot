@@ -11,6 +11,7 @@ import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
+import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 
 export type DiscussionsAvailable = inferRouterOutputs<typeof groupSwitchingRouter>['discussionsAvailable'];
 
@@ -19,7 +20,7 @@ type DiscussionsByUnit = Record<string, {
   spotsLeftIfKnown: number | null;
   userIsParticipant: boolean;
   groupName: string;
-  hasStarted: boolean;
+  isTooLateToSwitchTo: boolean;
 }[]>;
 
 export function calculateGroupAvailability({
@@ -44,10 +45,10 @@ export function calculateGroupAvailability({
     group: Group;
     spotsLeftIfKnown: number | null;
     userIsParticipant: boolean;
-    allDiscussionsHaveStarted: boolean;
+    isTooLateToSwitchTo: boolean;
   }> = {};
 
-  const now = Date.now();
+  const currentTimeMs = Date.now();
 
   for (const discussion of groupDiscussions) {
     // Skip discussions without unit numbers
@@ -73,14 +74,15 @@ export function calculateGroupAvailability({
       discussionsByUnit[unitKey] = [];
     }
 
-    const hasStarted = discussion.startDateTime * 1000 <= now;
+    const timeState = getDiscussionTimeState({ discussion, currentTimeMs });
+    const isTooLateToSwitchTo = timeState === 'live' || timeState === 'ended';
 
     discussionsByUnit[unitKey].push({
       discussion,
       spotsLeftIfKnown,
       userIsParticipant,
       groupName,
-      hasStarted,
+      isTooLateToSwitchTo,
     });
 
     // Update group data
@@ -90,17 +92,18 @@ export function calculateGroupAvailability({
       // First time seeing this group
       groupData[groupId] = {
         group,
-        spotsLeftIfKnown: !hasStarted ? spotsLeftIfKnown : null,
+        spotsLeftIfKnown: isTooLateToSwitchTo ? null : spotsLeftIfKnown,
         userIsParticipant: group.participants.includes(participantId),
-        allDiscussionsHaveStarted: hasStarted,
+        isTooLateToSwitchTo,
       };
     } else {
       // Update existing group data
       const existing = groupData[groupId];
 
-      existing.allDiscussionsHaveStarted = existing.allDiscussionsHaveStarted && hasStarted;
+      // It's too late to switch into the group if it's too late to switch into *any* of the discussions
+      existing.isTooLateToSwitchTo = existing.isTooLateToSwitchTo && isTooLateToSwitchTo;
 
-      if (!hasStarted) {
+      if (!isTooLateToSwitchTo) {
         // Update spotsLeftIfKnown
         if (existing.spotsLeftIfKnown !== null && spotsLeftIfKnown !== null) {
           existing.spotsLeftIfKnown = Math.min(existing.spotsLeftIfKnown, spotsLeftIfKnown);

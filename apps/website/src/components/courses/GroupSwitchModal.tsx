@@ -72,7 +72,7 @@ export default function GroupSwitchModal({
 
   const unitOptions = courseData?.units.map((u) => {
     const unitDiscussions = availableGroupsAndDiscussions?.discussionsAvailable?.[u.unitNumber];
-    const hasAvailableDiscussions = unitDiscussions?.some((d) => !d.hasStarted);
+    const hasAvailableDiscussions = unitDiscussions?.some((d) => !d.isTooLateToSwitchTo);
 
     return {
       value: u.unitNumber.toString(),
@@ -209,7 +209,7 @@ export default function GroupSwitchModal({
         id: g.group.id,
         groupName: g.group.groupName ?? 'Group [Unknown]',
         dateTime: g.group.startTimeUtc,
-        isDisabled: g.spotsLeftIfKnown === 0 || g.allDiscussionsHaveStarted,
+        isDisabled: g.spotsLeftIfKnown === 0 || g.isTooLateToSwitchTo,
         isSelected,
         isRecurringTime: true,
         description: getGroupSwitchDescription({
@@ -233,14 +233,14 @@ export default function GroupSwitchModal({
         id: d.discussion.id,
         groupName: d.groupName,
         dateTime: d.discussion.startDateTime,
-        isDisabled: d.spotsLeftIfKnown === 0 || d.hasStarted,
+        isDisabled: d.spotsLeftIfKnown === 0 || d.isTooLateToSwitchTo,
         isSelected,
         description: getGroupSwitchDescription({
           isSelected,
           isTemporarySwitch: true,
           selectedUnitNumber,
           spotsLeftIfKnown: d.spotsLeftIfKnown,
-          hasStarted: d.hasStarted,
+          isTooLateToSwitchTo: d.isTooLateToSwitchTo,
         }),
         onSelect: () => setSelectedDiscussionId(d.discussion.id),
         onConfirm: handleSubmit,
@@ -493,14 +493,14 @@ const getGroupSwitchDescription = ({
   isTemporarySwitch,
   selectedUnitNumber,
   spotsLeftIfKnown,
-  hasStarted = false,
+  isTooLateToSwitchTo = false,
 }: {
   userIsParticipant?: boolean;
   isSelected: boolean;
   isTemporarySwitch: boolean;
   selectedUnitNumber?: string;
   spotsLeftIfKnown: number | null;
-  hasStarted?: boolean;
+  isTooLateToSwitchTo?: boolean;
 }): React.ReactNode => {
   if (isTemporarySwitch) {
     if (userIsParticipant) {
@@ -524,7 +524,7 @@ const getGroupSwitchDescription = ({
     }
   }
 
-  if (isTemporarySwitch && hasStarted) {
+  if (isTemporarySwitch && isTooLateToSwitchTo) {
     return <span>This discussion has passed</span>;
   }
 
