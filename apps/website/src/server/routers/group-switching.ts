@@ -7,11 +7,9 @@ import {
   type Group,
   type GroupDiscussion,
 } from '@bluedot/db';
-import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
-import env from '../../lib/api/env';
 import { protectedProcedure, router } from '../trpc';
 
 export type DiscussionsAvailable = inferRouterOutputs<typeof groupSwitchingRouter>['discussionsAvailable'];
@@ -192,9 +190,8 @@ export const groupSwitchingRouter = router({
       const allowedGroups = await getGroupsAllowedToSwitchInto();
 
       if (allowedGroups.filter((g) => !g.participants.includes(participant.id)).length === 0) {
-        await slackAlert(env, [
-          `[Group switching] Warning for course registration ${participant.id} (Course runner base id): No groups allowed to switch into. This is likely due to "Who can switch into this group" field on the user's group not being set correctly.`,
-        ]);
+        // eslint-disable-next-line no-console
+        console.warn(`[Group switching] Warning for course registration ${participant.id} (Course runner base id): No groups allowed to switch into. This is likely due to "Who can switch into this group" field on the user's group not being set correctly.`);
       }
 
       const allowedGroupDiscussions = allowedGroups.length ? await db.scan(groupDiscussionTable, {

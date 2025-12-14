@@ -36,6 +36,13 @@ const mockedUseAuthStore = useAuthStore as unknown as Mock;
 
 const mockAuth = { token: 'test-token', email: 'test@bluedot.org' };
 
+const mockUser = {
+  id: 'user-1',
+  email: 'test@bluedot.org',
+  name: 'Test User',
+  lastSeenAt: new Date().toISOString(),
+};
+
 const mockUnit1 = createMockUnit({
   title: 'Introduction to AI Safety',
   unitNumber: '1',
@@ -62,7 +69,7 @@ const mockCourseDataWithTwoUnits = {
 };
 
 // Match real API structure exactly
-const mockSwitchingData: DiscussionsAvailable = {
+const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
   groupsAvailable: [
     {
       group: createMockGroup({
@@ -127,8 +134,9 @@ describe('GroupSwitchModal', () => {
     mockSubmitGroupSwitch = vi.fn();
 
     server.use(
+      trpcMsw.users.getUser.query(() => mockUser),
       trpcMsw.courses.getBySlug.query(() => mockCourseData),
-      trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingData),
+      trpcMsw.groupSwitching.discussionsAvailable.query(() => mockAvailableGroupsAndDiscussions),
       trpcMsw.groupSwitching.switchGroup.mutation(({ input }) => {
         mockSubmitGroupSwitch(input);
         return undefined;
@@ -151,13 +159,15 @@ describe('GroupSwitchModal', () => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
       });
 
-      expect(screen.getByText('Switch group for one unit')).toBeInTheDocument();
+      // Verify the switch type selector shows "Switch group for one unit"
+      // React Aria creates hidden <option> elements for accessibility, so multiple matches expected
+      expect(screen.getAllByText(/Switch group for one unit/i).length).toBeGreaterThanOrEqual(1);
 
       // Current and alternative discussions are shown
       expect(screen.getByText('Morning Group A')).toBeInTheDocument();
       expect(screen.getByText('Evening Group B')).toBeInTheDocument();
 
-      const reasonTextarea = screen.getByLabelText(/Tell us why you're making this change/i);
+      const reasonTextarea = screen.getByLabelText('Reason for group switch request');
       fireEvent.change(reasonTextarea, {
         target: { value: 'I have a scheduling conflict' },
       });
@@ -192,7 +202,7 @@ describe('GroupSwitchModal', () => {
       });
 
       await waitFor(() => {
-        expect(screen.getByText('Success!')).toBeInTheDocument();
+        expect(screen.getByText('Success')).toBeInTheDocument();
       });
     });
 
@@ -210,10 +220,10 @@ describe('GroupSwitchModal', () => {
       });
 
       // Change switch type to "Switch group permanently"
-      const actionButton = screen.getByLabelText('Select Action');
-      fireEvent.click(actionButton);
-      const listbox = await screen.findByRole('listbox', { name: /Action/i });
-      const permanentOption = within(listbox).getByText('Switch group permanently');
+      const switchTypeButton = screen.getByRole('button', { name: /Select action/i });
+      fireEvent.click(switchTypeButton);
+      const listbox = await screen.findByRole('listbox', { name: /Select action/i });
+      const permanentOption = within(listbox).getByText(/Switch group permanently/i);
       fireEvent.click(permanentOption);
 
       // Wait for UI to update and show groups instead of discussions
@@ -260,7 +270,7 @@ describe('GroupSwitchModal', () => {
       });
 
       await waitFor(() => {
-        expect(screen.getByText('Success!')).toBeInTheDocument();
+        expect(screen.getByText('Success')).toBeInTheDocument();
       });
     });
 
@@ -283,13 +293,16 @@ describe('GroupSwitchModal', () => {
 
       await waitFor(() => {
         // UI changes to show manual request form
-        expect(screen.getByText(/keen for you to request manual switches/i)).toBeInTheDocument();
+        expect(screen.getByText(/To help us assign you to a group which best suits you/i)).toBeInTheDocument();
       });
 
       const reasonTextarea = screen.getByLabelText('Reason for group switch request');
       fireEvent.change(reasonTextarea, {
         target: { value: 'None of the available times work for my schedule' },
       });
+
+      const availabilityCheckbox = screen.getByRole('checkbox', { name: /I have checked my availability/i });
+      fireEvent.click(availabilityCheckbox);
 
       const submitButton = screen.getByRole('button', { name: /Submit group switch request/i });
       expect(submitButton).not.toBeDisabled();
@@ -314,15 +327,51 @@ describe('GroupSwitchModal', () => {
         expect(screen.getByText(/We are working on your request/i)).toBeInTheDocument();
       });
     });
+
+    test('back button in manual request mode returns to group selection', async () => {
+      render(
+        <TrpcProvider>
+          <GroupSwitchModal
+            handleClose={() => {}}
+            courseSlug="ai-safety"
+          />
+        </TrpcProvider>,
+      );
+
+      await waitFor(() => {
+        expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
+      });
+
+      // Click "Request manual switch" button to enter manual mode
+      const manualSwitchButton = screen.getByRole('button', { name: /Request manual group switch/i });
+      fireEvent.click(manualSwitchButton);
+
+      await waitFor(() => {
+        expect(screen.getByText(/To help us assign you to a group which best suits you/i)).toBeInTheDocument();
+      });
+
+      // Verify back button is visible
+      const backButton = screen.getByRole('button', { name: /Back to group selection/i });
+      expect(backButton).toBeInTheDocument();
+
+      // Click back button
+      fireEvent.click(backButton);
+
+      // Verify we're back to group selection view
+      await waitFor(() => {
+        expect(screen.queryByText(/To help us assign you to a group which best suits you/i)).not.toBeInTheDocument();
+        expect(screen.getByText(/Don't see a group that works/i)).toBeInTheDocument();
+      });
+    });
   });
 
   describe('Form state', () => {
     test('Form starts with the unit specified by `currentUnit` pre-selected', async () => {
-      const baseDiscussion = mockSwitchingData.discussionsAvailable[1]![0]!;
-      const mockSwitchingDataWithUnit2: DiscussionsAvailable = {
-        ...mockSwitchingData,
+      const baseDiscussion = mockAvailableGroupsAndDiscussions.discussionsAvailable[1]![0]!;
+      const mockAvailableGroupsAndDiscussionsWithUnit2: DiscussionsAvailable = {
+        ...mockAvailableGroupsAndDiscussions,
         discussionsAvailable: {
-          1: mockSwitchingData.discussionsAvailable[1] || [],
+          1: mockAvailableGroupsAndDiscussions.discussionsAvailable[1] || [],
           2: [
             {
               ...baseDiscussion,
@@ -338,7 +387,7 @@ describe('GroupSwitchModal', () => {
 
       server.use(
         trpcMsw.courses.getBySlug.query(() => mockCourseDataWithTwoUnits),
-        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingDataWithUnit2),
+        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockAvailableGroupsAndDiscussionsWithUnit2),
       );
 
       render(
@@ -353,16 +402,14 @@ describe('GroupSwitchModal', () => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
       });
 
-      // Verify selectedUnitNumber defaults to "2"
-      const unitButton = screen.getByLabelText('Select Unit');
-      expect(unitButton).toHaveTextContent('2');
-
-      // Verify Unit 2 discussion is shown
+      // Verify selectedUnitNumber defaults to "2" and Unit 2 discussion is shown
       expect(screen.getByText('Unit 2 Group')).toBeInTheDocument();
+      const unitButton = screen.getByRole('button', { name: /Select unit/i });
+      expect(unitButton).toBeInTheDocument();
 
       // Change to unit 1
       fireEvent.click(unitButton);
-      const unitListbox = await screen.findByRole('listbox', { name: /Unit/i });
+      const unitListbox = await screen.findByRole('listbox', { name: /Select unit/i });
       const unit1Option = within(unitListbox).getByText(/Unit 1/i);
       fireEvent.click(unit1Option);
 
@@ -374,12 +421,12 @@ describe('GroupSwitchModal', () => {
 
     test('Full discussions, started discussions, and units with no upcoming discussions are disabled', async () => {
       // Create mock data with disabled options
-      const currentDiscussion = mockSwitchingData.discussionsAvailable[1]![0]!;
-      const mockSwitchingDataWithDisabled: DiscussionsAvailable = {
+      const currentDiscussion = mockAvailableGroupsAndDiscussions.discussionsAvailable[1]![0]!;
+      const mockAvailableGroupsAndDiscussionsWithDisabled: DiscussionsAvailable = {
         groupsAvailable: [
-          { ...mockSwitchingData.groupsAvailable[0]!, group: { ...mockSwitchingData.groupsAvailable[0]!.group, groupName: 'Current Group' } },
-          { ...mockSwitchingData.groupsAvailable[1]!, group: { ...mockSwitchingData.groupsAvailable[1]!.group, groupName: 'Full Group', id: 'group-full' }, spotsLeftIfKnown: 0 },
-          { ...mockSwitchingData.groupsAvailable[1]!, group: { ...mockSwitchingData.groupsAvailable[1]!.group, groupName: 'Already Started Group', id: 'group-started' }, allDiscussionsHaveStarted: true },
+          { ...mockAvailableGroupsAndDiscussions.groupsAvailable[0]!, group: { ...mockAvailableGroupsAndDiscussions.groupsAvailable[0]!.group, groupName: 'Current Group' } },
+          { ...mockAvailableGroupsAndDiscussions.groupsAvailable[1]!, group: { ...mockAvailableGroupsAndDiscussions.groupsAvailable[1]!.group, groupName: 'Full Group', id: 'group-full' }, spotsLeftIfKnown: 0 },
+          { ...mockAvailableGroupsAndDiscussions.groupsAvailable[1]!, group: { ...mockAvailableGroupsAndDiscussions.groupsAvailable[1]!.group, groupName: 'Already Started Group', id: 'group-started' }, allDiscussionsHaveStarted: true },
         ],
         discussionsAvailable: {
           1: [
@@ -405,7 +452,7 @@ describe('GroupSwitchModal', () => {
       // Override mock for this test
       server.use(
         trpcMsw.courses.getBySlug.query(() => mockCourseDataWithTwoUnits),
-        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingDataWithDisabled),
+        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockAvailableGroupsAndDiscussionsWithDisabled),
       );
 
       render(
@@ -439,10 +486,10 @@ describe('GroupSwitchModal', () => {
       expect(screen.getByText('This discussion has passed')).toBeInTheDocument();
 
       // Open unit selector to check if Unit 2 is disabled
-      const unitButton = screen.getByLabelText('Select Unit');
+      const unitButton = screen.getByRole('button', { name: /Select unit/i });
       fireEvent.click(unitButton);
 
-      const unitListbox = await screen.findByRole('listbox', { name: /Unit/i });
+      const unitListbox = await screen.findByRole('listbox', { name: /Select unit/i });
       const unit2Option = within(unitListbox).getByText(/Unit 2.*no upcoming discussions/i);
       expect(unit2Option).toBeInTheDocument();
 
@@ -450,20 +497,20 @@ describe('GroupSwitchModal', () => {
       const unit2ListItem = unit2Option.closest('[role="option"]');
       expect(unit2ListItem).toHaveAttribute('aria-disabled', 'true');
 
-      // Now switch to manual request mode and verify units become enabled
-      fireEvent.click(unitButton); // Close the unit dropdown
+      // Switch to manual request mode and verify units become enabled
+      fireEvent.click(unitButton);
       const manualSwitchButton = screen.getByRole('button', { name: /Request manual group switch/i });
       fireEvent.click(manualSwitchButton);
 
       await waitFor(() => {
-        expect(screen.getByText(/keen for you to request manual switches/i)).toBeInTheDocument();
+        expect(screen.getByText(/To help us assign you to a group which best suits you/i)).toBeInTheDocument();
       });
 
       // Open unit selector again in manual mode
-      const unitButtonInManualMode = screen.getByLabelText('Select Unit');
+      const unitButtonInManualMode = screen.getByRole('button', { name: /Select unit/i });
       fireEvent.click(unitButtonInManualMode);
 
-      const unitListboxInManualMode = await screen.findByRole('listbox', { name: /Unit/i });
+      const unitListboxInManualMode = await screen.findByRole('listbox', { name: /Select unit/i });
       const unit2OptionInManualMode = within(unitListboxInManualMode).getByText(/Unit 2/i);
 
       // Verify Unit 2 is now enabled in manual mode
@@ -472,14 +519,14 @@ describe('GroupSwitchModal', () => {
     });
 
     test('Manual switching is still available when there are no discussions available (in "Switch group for one unit" mode)', async () => {
-      const mockSwitchingDataEmpty: DiscussionsAvailable = {
-        ...mockSwitchingData,
+      const mockAvailableGroupsAndDiscussionsEmpty: DiscussionsAvailable = {
+        ...mockAvailableGroupsAndDiscussions,
         groupsAvailable: [],
         discussionsAvailable: { 1: [] },
       };
 
       server.use(
-        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingDataEmpty),
+        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockAvailableGroupsAndDiscussionsEmpty),
       );
 
       render(
@@ -504,13 +551,16 @@ describe('GroupSwitchModal', () => {
       // Verify manual request flow still works
       fireEvent.click(manualSwitchButton);
       await waitFor(() => {
-        expect(screen.getByText(/keen for you to request manual switches/i)).toBeInTheDocument();
+        expect(screen.getByText(/To help us assign you to a group which best suits you/i)).toBeInTheDocument();
       });
 
       const reasonTextarea = screen.getByLabelText('Reason for group switch request');
       fireEvent.change(reasonTextarea, {
         target: { value: 'No available options work for me' },
       });
+
+      const availabilityCheckbox = screen.getByRole('checkbox', { name: /I have checked my availability/i });
+      fireEvent.click(availabilityCheckbox);
 
       const submitButton = screen.getByRole('button', { name: /Submit group switch request/i });
       fireEvent.click(submitButton);
@@ -558,10 +608,10 @@ describe('GroupSwitchModal', () => {
       });
 
       // Switch to "Switch group permanently"
-      const actionButton = screen.getByLabelText('Select Action');
+      const actionButton = screen.getByRole('button', { name: /Select action/i });
       fireEvent.click(actionButton);
-      const listbox = await screen.findByRole('listbox', { name: /Action/i });
-      const permanentOption = within(listbox).getByText('Switch group permanently');
+      const listbox = await screen.findByRole('listbox', { name: /Select action/i });
+      const permanentOption = within(listbox).getByText(/Switch group permanently/i);
       fireEvent.click(permanentOption);
 
       // Verify selection is cleared - no Confirm button should appear without selecting a group
@@ -578,10 +628,10 @@ describe('GroupSwitchModal', () => {
       });
 
       // Switch back to "Switch group for one unit"
-      const actionButton2 = screen.getByLabelText('Select Action');
+      const actionButton2 = screen.getByRole('button', { name: /Select action/i });
       fireEvent.click(actionButton2);
-      const listbox2 = await screen.findByRole('listbox', { name: /Action/i });
-      const oneUnitOption = within(listbox2).getByText('Switch group for one unit');
+      const listbox2 = await screen.findByRole('listbox', { name: /Select action/i });
+      const oneUnitOption = within(listbox2).getByText(/Switch group for one unit/i);
       fireEvent.click(oneUnitOption);
 
       // Verify selection is cleared again
@@ -642,8 +692,11 @@ describe('GroupSwitchModal', () => {
       fireEvent.click(manualSwitchButton);
 
       await waitFor(() => {
-        expect(screen.getByText(/keen for you to request manual switches/i)).toBeInTheDocument();
+        expect(screen.getByText(/To help us assign you to a group which best suits you/i)).toBeInTheDocument();
       });
+
+      const availabilityCheckbox = screen.getByRole('checkbox', { name: /I have checked my availability/i });
+      fireEvent.click(availabilityCheckbox);
 
       const submitButton = screen.getByRole('button', { name: /Submit group switch request/i });
       fireEvent.click(submitButton);
@@ -656,15 +709,15 @@ describe('GroupSwitchModal', () => {
 
   describe('Participant without group', () => {
     // Derive mock data from base by setting userIsParticipant to false everywhere
-    const mockSwitchingDataNoGroup: DiscussionsAvailable = {
-      ...mockSwitchingData,
-      groupsAvailable: mockSwitchingData.groupsAvailable.map((g) => ({
+    const mockAvailableGroupsAndDiscussionsNoGroup: DiscussionsAvailable = {
+      ...mockAvailableGroupsAndDiscussions,
+      groupsAvailable: mockAvailableGroupsAndDiscussions.groupsAvailable.map((g) => ({
         ...g,
         userIsParticipant: false,
         spotsLeftIfKnown: 3,
       })),
       discussionsAvailable: {
-        1: mockSwitchingData.discussionsAvailable[1]!.map((d) => ({
+        1: mockAvailableGroupsAndDiscussions.discussionsAvailable[1]!.map((d) => ({
           ...d,
           userIsParticipant: false,
           spotsLeftIfKnown: 3,
@@ -681,7 +734,7 @@ describe('GroupSwitchModal', () => {
       });
 
       server.use(
-        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockSwitchingDataNoGroup),
+        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockAvailableGroupsAndDiscussionsNoGroup),
       );
     });
 
@@ -754,7 +807,7 @@ describe('GroupSwitchModal', () => {
       });
 
       await waitFor(() => {
-        expect(screen.getByText('Success!')).toBeInTheDocument();
+        expect(screen.getByText('Success')).toBeInTheDocument();
       });
     });
 
@@ -780,7 +833,7 @@ describe('GroupSwitchModal', () => {
       fireEvent.click(manualSwitchButton);
 
       await waitFor(() => {
-        expect(screen.getByText(/keen for you to request manual switches/i)).toBeInTheDocument();
+        expect(screen.getByText(/To help us assign you to a group which best suits you/i)).toBeInTheDocument();
       });
 
       // Fill in form
@@ -788,6 +841,9 @@ describe('GroupSwitchModal', () => {
       fireEvent.change(reasonTextarea, {
         target: { value: 'I need to join a group as I was accepted late' },
       });
+
+      const availabilityCheckbox = screen.getByRole('checkbox', { name: /I have checked my availability/i });
+      fireEvent.click(availabilityCheckbox);
 
       const submitButton = screen.getByRole('button', { name: /Submit group switch request/i });
       fireEvent.click(submitButton);
