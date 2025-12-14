@@ -52,7 +52,8 @@ describe('CourseDetails', () => {
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
         upcomingDiscussions={[]}
-        attendedDiscussions={[]}
+        pastDiscussions={[]}
+        attendedDiscussionIds={new Set()}
         isLoading={false}
       />,
     );
@@ -115,7 +116,8 @@ describe('CourseDetails: Participant view', () => {
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
         upcomingDiscussions={upcomingDiscussions}
-        attendedDiscussions={[]}
+        pastDiscussions={[]}
+        attendedDiscussionIds={new Set()}
         isLoading={false}
       />,
     );
@@ -159,7 +161,8 @@ describe('CourseDetails: Participant view', () => {
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
         upcomingDiscussions={upcomingDiscussions}
-        attendedDiscussions={[]}
+        pastDiscussions={[]}
+        attendedDiscussionIds={new Set()}
         isLoading={false}
       />,
     );
@@ -206,7 +209,8 @@ describe('CourseDetails: Participant view', () => {
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
         upcomingDiscussions={upcomingDiscussions}
-        attendedDiscussions={[]}
+        pastDiscussions={[]}
+        attendedDiscussionIds={new Set()}
         isLoading={false}
       />,
     );
@@ -266,7 +270,8 @@ describe('CourseDetails: Participant view', () => {
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
         upcomingDiscussions={upcomingDiscussions}
-        attendedDiscussions={[]}
+        pastDiscussions={[]}
+        attendedDiscussionIds={new Set()}
         isLoading={false}
       />,
     );
@@ -333,7 +338,8 @@ describe('CourseDetails: Participant view', () => {
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
         upcomingDiscussions={upcomingDiscussions}
-        attendedDiscussions={[]}
+        pastDiscussions={[]}
+        attendedDiscussionIds={new Set()}
         isLoading={false}
       />,
     );
@@ -357,6 +363,86 @@ describe('CourseDetails: Participant view', () => {
     expect(discussionDocLink).toBeInTheDocument();
     expect(discussionDocLink).toHaveAttribute('href', 'https://docs.google.com/document/d/abc123');
     expect(discussionDocLink).toHaveAttribute('target', '_blank');
+  });
+});
+
+describe('CourseDetails: Past discussions tab', () => {
+  const mockCourse = createMockCourse({
+    id: 'course-1',
+    title: 'Introduction to AI Safety',
+    slug: 'ai-safety',
+  });
+
+  const mockCourseRegistration = createMockCourseRegistration({
+    courseId: 'course-1',
+    role: 'Participant',
+  });
+
+  it('shows all past discussions with non-attended ones visually distinct', async () => {
+    const user = userEvent.setup();
+    const currentTimeMs = Date.now();
+
+    // Past discussions - user attended disc-1 and disc-2, but missed disc-3
+    const pastDiscussions = [
+      {
+        ...createMockGroupDiscussion({
+          id: 'disc-1',
+          unitNumber: 1,
+          startDateTime: Math.floor(currentTimeMs / 1000) - 14 * 24 * 60 * 60, // 14 days ago
+          endDateTime: Math.floor(currentTimeMs / 1000) - 14 * 24 * 60 * 60 + 60 * 60,
+        }),
+        unitRecord: createMockUnit({ unitNumber: '1', title: 'Unit One' }),
+        groupDetails: createMockGroup(),
+      },
+      {
+        ...createMockGroupDiscussion({
+          id: 'disc-2',
+          unitNumber: 2,
+          startDateTime: Math.floor(currentTimeMs / 1000) - 7 * 24 * 60 * 60, // 7 days ago
+          endDateTime: Math.floor(currentTimeMs / 1000) - 7 * 24 * 60 * 60 + 60 * 60,
+        }),
+        unitRecord: createMockUnit({ unitNumber: '2', title: 'Unit Two' }),
+        groupDetails: createMockGroup(),
+      },
+      {
+        ...createMockGroupDiscussion({
+          id: 'disc-3',
+          unitNumber: 3,
+          startDateTime: Math.floor(currentTimeMs / 1000) - 1 * 24 * 60 * 60, // 1 day ago
+          endDateTime: Math.floor(currentTimeMs / 1000) - 1 * 24 * 60 * 60 + 60 * 60,
+        }),
+        unitRecord: createMockUnit({ unitNumber: '3', title: 'Unit Three' }),
+        groupDetails: createMockGroup(),
+      },
+    ];
+
+    // User attended disc-1 and disc-2, but NOT disc-3
+    const attendedDiscussionIds = new Set(['disc-1', 'disc-2']);
+
+    render(
+      <CourseDetails
+        course={mockCourse}
+        courseRegistration={mockCourseRegistration}
+        upcomingDiscussions={[]}
+        pastDiscussions={pastDiscussions}
+        attendedDiscussionIds={attendedDiscussionIds}
+        isLoading={false}
+      />,
+    );
+
+    // Click on "Past discussions" tab
+    const pastTab = screen.getByRole('button', { name: 'Past discussions' });
+    await act(async () => {
+      await user.click(pastTab);
+    });
+
+    // All three past discussions should be shown
+    expect(screen.getByText('Unit 1: Unit One')).toBeInTheDocument();
+    expect(screen.getByText('Unit 2: Unit Two')).toBeInTheDocument();
+    expect(screen.getByText('Unit 3: Unit Three')).toBeInTheDocument();
+
+    // The non-attended discussion should show "Did not attend"
+    expect(screen.getByText('Did not attend')).toBeInTheDocument();
   });
 });
 
@@ -397,7 +483,8 @@ describe('CourseDetails: Facilitator view', () => {
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
         upcomingDiscussions={upcomingDiscussions}
-        attendedDiscussions={[]}
+        pastDiscussions={[]}
+        attendedDiscussionIds={new Set()}
         isLoading={false}
       />,
     );

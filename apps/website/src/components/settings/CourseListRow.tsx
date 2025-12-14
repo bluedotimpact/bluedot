@@ -55,20 +55,12 @@ const CourseListRow = ({
     expectedDiscussionIds.length > 0 ? { discussionIds: expectedDiscussionIds } : skipToken,
   );
 
-  const { data: attendedResults, isLoading: isLoadingAttendees } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
-    (meetPerson?.attendedDiscussions || []).length > 0 ? { discussionIds: meetPerson?.attendedDiscussions || [] } : skipToken,
-  );
-
   // Sort discussions by startDateTime
   const expectedDiscussions = [...(expectedResults?.discussions ?? [])].sort(
     (a, b) => a.startDateTime - b.startDateTime,
   );
 
-  const attendedDiscussions = [...(attendedResults?.discussions ?? [])].sort(
-    (a, b) => a.startDateTime - b.startDateTime,
-  );
-
-  const isLoading = isMeetPersonLoading || isLoadingDiscussions || isLoadingAttendees;
+  const isLoading = isMeetPersonLoading || isLoadingDiscussions;
 
   useEffect(() => {
     if (isNotInGroup) {
@@ -81,6 +73,14 @@ const CourseListRow = ({
     (discussion) => (discussion.endDateTime * 1000) > currentTimeMs,
   );
   const nextDiscussion = upcomingDiscussions[0];
+
+  // Get past discussions (expected discussions that have ended)
+  const pastDiscussions = expectedDiscussions.filter(
+    (discussion) => (discussion.endDateTime * 1000) <= currentTimeMs,
+  );
+
+  // Get attended discussion IDs for quick lookup
+  const attendedDiscussionIds = new Set(meetPerson?.attendedDiscussions || []);
 
   // Check if next discussion is starting soon (within 1 hour)
   const isNextDiscussionStartingSoon = nextDiscussion
@@ -322,7 +322,8 @@ const CourseListRow = ({
           course={course}
           courseRegistration={courseRegistration}
           isLast={isLast}
-          attendedDiscussions={attendedDiscussions}
+          pastDiscussions={pastDiscussions}
+          attendedDiscussionIds={attendedDiscussionIds}
           upcomingDiscussions={upcomingDiscussions}
           isLoading={isLoading}
         />

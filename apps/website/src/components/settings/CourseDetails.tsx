@@ -26,6 +26,7 @@ type CourseDetailsRowProps = {
   discussion: GroupDiscussion;
   isNext?: boolean;
   isPast?: boolean;
+  didAttend?: boolean;
   course: Course;
   isFacilitator: boolean;
   handleOpenGroupSwitchModal: (params: { discussion: GroupDiscussion; switchType: SwitchType }) => void;
@@ -35,6 +36,7 @@ const CourseDetailsRow = ({
   discussion,
   isNext = false,
   isPast = false,
+  didAttend = true,
   course,
   isFacilitator,
   handleOpenGroupSwitchModal,
@@ -109,8 +111,10 @@ const CourseDetailsRow = ({
   const cantMakeItButton = visibleButtons.filter((button) => button.id === 'cant-make-it')[0];
   const overflowButtons = visibleButtons.filter((button) => button.id !== primaryButton?.id && button.id !== cantMakeItButton?.id);
 
+  const didNotAttend = isPast && !didAttend;
+
   return (
-    <div key={discussion.id} className="py-5 border-b border-charcoal-light last:border-0">
+    <div key={discussion.id} className={cn('py-5 border-b border-charcoal-light last:border-0', didNotAttend && 'opacity-60')}>
       <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
         {/* Left side: Date/time and discussion details */}
         <div className="flex items-center gap-4 min-w-0">
@@ -118,7 +122,7 @@ const CourseDetailsRow = ({
 
           {/* Discussion details */}
           <div className="flex flex-col gap-1.5 min-w-0">
-            <div className="text-size-sm font-medium text-gray-900 truncate">
+            <div className={cn('text-size-sm font-medium truncate', didNotAttend ? 'text-gray-500' : 'text-gray-900')}>
               {discussion.unitRecord
                 ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
                 : `Unit ${discussion.unitNumber || ''}`}
@@ -126,6 +130,11 @@ const CourseDetailsRow = ({
             {!isPast && isNext && (
               <div className="truncate text-size-xs text-bluedot-normal font-medium">
                 {`Starts ${formatDateTimeRelative({ dateTimeMs: discussion.startDateTime * 1000, currentTimeMs })}`}
+              </div>
+            )}
+            {didNotAttend && (
+              <div className="truncate text-size-xs text-gray-400 font-medium">
+                Did not attend
               </div>
             )}
           </div>
@@ -189,7 +198,8 @@ const CourseDetailsRow = ({
 type CourseDetailsProps = {
   course: Course;
   courseRegistration: CourseRegistration;
-  attendedDiscussions: GroupDiscussion[];
+  pastDiscussions: GroupDiscussion[];
+  attendedDiscussionIds: Set<string>;
   upcomingDiscussions: GroupDiscussion[];
   isLoading: boolean;
   isLast?: boolean;
@@ -198,7 +208,8 @@ type CourseDetailsProps = {
 const CourseDetails = ({
   course,
   courseRegistration,
-  attendedDiscussions,
+  pastDiscussions,
+  attendedDiscussionIds,
   upcomingDiscussions,
   isLoading,
   isLast = false,
@@ -206,9 +217,9 @@ const CourseDetails = ({
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [initialUnitNumber, setInitialUnitNumber] = useState<string | undefined>(undefined);
   const [selectedSwitchType, setSelectedSwitchType] = useState<SwitchType>('Switch group for one unit');
-  const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>('upcoming');
+  const [activeTab, setActiveTab] = useState<'upcoming' | 'past'>('upcoming');
   const [showAllUpcoming, setShowAllUpcoming] = useState(false);
-  const [showAllAttended, setShowAllAttended] = useState(false);
+  const [showAllPast, setShowAllPast] = useState(false);
 
   const isFacilitator = courseRegistration.role === 'Facilitator';
 
@@ -241,14 +252,14 @@ const CourseDetails = ({
               </button>
               <button
                 type="button"
-                onClick={() => setActiveTab('attended')}
+                onClick={() => setActiveTab('past')}
                 className={`relative py-2 px-1 text-size-xs font-medium transition-colors ${
-                  activeTab === 'attended'
+                  activeTab === 'past'
                     ? 'text-bluedot-normal border-b-2 border-bluedot-normal'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
-                Attended discussions
+                Past discussions
               </button>
             </div>
           </div>
@@ -296,38 +307,39 @@ const CourseDetails = ({
                     <p className="text-size-sm text-gray-500 py-4">No upcoming discussions</p>
                   )
                 )}
-                {activeTab === 'attended' && (
-                  // Show all attended discussions without any filtering
-                  attendedDiscussions.length > 0 ? (
+                {activeTab === 'past' && (
+                  // Show all past discussions, indicating which ones weren't attended
+                  pastDiscussions.length > 0 ? (
                     <div>
-                      {/* Show first 3 or all based on showAllAttended state */}
-                      {(showAllAttended ? attendedDiscussions : attendedDiscussions.slice(0, 3))
+                      {/* Show first 3 or all based on showAllPast state */}
+                      {(showAllPast ? pastDiscussions : pastDiscussions.slice(0, 3))
                         .map((discussion) => (
                           <CourseDetailsRow
                             key={discussion.id}
                             discussion={discussion}
                             isPast
+                            didAttend={attendedDiscussionIds.has(discussion.id)}
                             course={course}
                             isFacilitator={isFacilitator}
                             handleOpenGroupSwitchModal={handleOpenGroupSwitchModal}
                           />
                         ))}
 
-                      {/* "See all"/"Show less" button when more than 3 attended discussions */}
-                      {attendedDiscussions.length > 3 && (
+                      {/* "See all"/"Show less" button when more than 3 past discussions */}
+                      {pastDiscussions.length > 3 && (
                         <div className="pt-4 text-center">
                           <button
                             type="button"
-                            onClick={() => setShowAllAttended(!showAllAttended)}
+                            onClick={() => setShowAllPast(!showAllPast)}
                             className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
                           >
-                            {showAllAttended ? 'Show less' : `See all (${attendedDiscussions.length}) discussions`}
+                            {showAllPast ? 'Show less' : `See all (${pastDiscussions.length}) discussions`}
                           </button>
                         </div>
                       )}
                     </div>
                   ) : (
-                    <p className="text-size-sm text-gray-500 py-4">No attended discussions yet</p>
+                    <p className="text-size-sm text-gray-500 py-4">No past discussions</p>
                   )
                 )}
               </div>
