@@ -9,6 +9,8 @@ import { LatestUtmParamsProvider, useLatestUtmParams } from '@bluedot/ui/src/hoo
 import { LoginRedirectPage, loginPresets } from '@bluedot/ui';
 import { getQueryParam } from '@bluedot/ui/src/utils/getQueryParam';
 import OauthCallbackPage from '../pages/login/oauth-callback';
+import { server, trpcMsw } from './trpcMswSetup';
+import { TrpcProvider } from './trpcProvider';
 
 vi.mock('posthog-js', () => ({
   default: {
@@ -46,20 +48,6 @@ vi.mock('@bluedot/ui/src/utils/auth', () => ({
     auth: null,
     setAuth: mockSetAuth,
   })),
-}));
-
-// Mock trpc
-const mockMutateAsync = vi.fn();
-vi.mock('../utils/trpc', () => ({
-  trpc: {
-    users: {
-      ensureExists: {
-        useMutation: () => ({
-          mutateAsync: mockMutateAsync,
-        }),
-      },
-    },
-  },
 }));
 
 const mockUseRouter = useRouter as ReturnType<typeof vi.fn>;
@@ -154,9 +142,9 @@ describe('PostHog UTM tracking: End-to-end tests of key points where UTM params 
     // Step 2: User completes OAuth and lands on oauth-callback
     // The OIDC response includes the redirectTo with UTM params
     mockProcessSigninResponse.mockResolvedValue(createMockUser(redirectToWithUtm));
-    mockMutateAsync.mockResolvedValue({ isNewUser: true });
+    server.use(trpcMsw.users.ensureExists.mutation(() => ({ isNewUser: true })));
 
-    render(<OauthCallbackPage />);
+    render(<OauthCallbackPage />, { wrapper: TrpcProvider });
 
     // Verify $initial_utm_* params are set
     await waitFor(() => {
@@ -235,9 +223,9 @@ describe('PostHog UTM tracking: End-to-end tests of key points where UTM params 
 
     // Step 3: User completes OAuth and lands on oauth-callback
     mockProcessSigninResponse.mockResolvedValue(createMockUser(redirectToWithUtm));
-    mockMutateAsync.mockResolvedValue({ isNewUser: true });
+    server.use(trpcMsw.users.ensureExists.mutation(() => ({ isNewUser: true })));
 
-    render(<OauthCallbackPage />);
+    render(<OauthCallbackPage />, { wrapper: TrpcProvider });
 
     // Verify $initial_utm_* params are set
     await waitFor(() => {
