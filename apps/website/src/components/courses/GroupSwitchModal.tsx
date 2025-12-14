@@ -590,7 +590,6 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
         onKeyDown: (e: React.KeyboardEvent) => {
           if (e.key === 'Enter' || e.key === ' ') {
             const target = e.target as HTMLElement;
-            // Don't prevent default if focus is on the confirm button
             if (target?.tagName === 'BUTTON') {
               return;
             }
