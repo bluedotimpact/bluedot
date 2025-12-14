@@ -222,29 +222,26 @@ const CourseDetails = ({
 
   const isFacilitator = courseRegistration.role === 'Facilitator';
 
-  const upcomingDiscussions = expectedDiscussions.filter(
-    (discussion) => (discussion.endDateTime * 1000) > currentTimeMs,
-  );
-
   const attendedDiscussionIds = new Set(attendedDiscussions.map((d) => d.id));
-  const expectedDiscussionIds = new Set(expectedDiscussions.map((d) => d.id));
 
-  // Compute past discussions: union of past expected discussions and attended discussions
-  const getPastDiscussions = () => {
-    const pastExpectedDiscussions = expectedDiscussions.filter(
-      (discussion) => (discussion.endDateTime * 1000) <= currentTimeMs,
-    );
+  // Combine discussions, preferring expected over attended when both exist
+  const allDiscussions = [...expectedDiscussions, ...attendedDiscussions]
+    .reduce((acc, discussion) => {
+      const existing = acc.find((d) => d.id === discussion.id);
+      if (!existing) {
+        acc.push(discussion);
+      }
+      return acc;
+    }, [] as GroupDiscussion[])
+    .sort((a, b) => a.startDateTime - b.startDateTime);
 
-    const attendedNotInExpected = attendedDiscussions.filter(
-      (discussion) => !expectedDiscussionIds.has(discussion.id),
-    );
-
-    // Combine and sort by startDateTime
-    return [...pastExpectedDiscussions, ...attendedNotInExpected].sort(
-      (a, b) => a.startDateTime - b.startDateTime,
-    );
-  };
-  const pastDiscussions = getPastDiscussions();
+  const isUpcoming = (discussion: GroupDiscussion) => (discussion.endDateTime * 1000) > currentTimeMs;
+  const upcomingDiscussions = allDiscussions.filter(
+    (discussion) => isUpcoming(discussion),
+  );
+  const pastDiscussions = allDiscussions.filter(
+    (discussion) => !isUpcoming(discussion),
+  );
 
   const handleOpenGroupSwitchModal = ({ discussion, switchType }: { discussion?: GroupDiscussion; switchType: SwitchType }) => {
     const unitNumber = switchType === 'Switch group for one unit' && discussion?.unitRecord
