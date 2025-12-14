@@ -51,9 +51,11 @@ export default function GroupSwitchModal({
 
   const { data: availableGroupsAndDiscussions, isLoading: isDiscussionsLoading, error: discussionsError } = trpc.groupSwitching.discussionsAvailable.useQuery(
     { courseSlug },
-    // Disable once `showSuccess` is true, to avoid `selectedOption` (which
-    // displays on the success screen) being overwritten.
-    { enabled: !showSuccess },
+    {
+      // Disable once `showSuccess` is true, to avoid `selectedOption` (which displays on the success screen) being overwritten
+      enabled: !showSuccess,
+      refetchInterval: 30_000,
+    },
   );
 
   const submitGroupSwitchMutation = trpc.groupSwitching.switchGroup.useMutation({
