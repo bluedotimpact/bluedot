@@ -86,7 +86,7 @@ export default function GroupSwitchModal({
   const oldGroup = groups.find((g) => g.userIsParticipant);
   const oldDiscussion = discussions.find((d) => d.userIsParticipant);
 
-  const getCurrentDiscussionInfo = (): GroupSwitchOptionProps | null => {
+  const formatCurrentDiscussionAsGroupSwitchOption = (): GroupSwitchOptionProps | null => {
     if (isTemporarySwitch && oldDiscussion) {
       return {
         id: oldDiscussion.discussion.id,
@@ -123,7 +123,7 @@ export default function GroupSwitchModal({
     return null;
   };
 
-  const currentInfo = getCurrentDiscussionInfo();
+  const currentDiscussionAsGroupSwitchOption = formatCurrentDiscussionAsGroupSwitchOption();
 
   const isSubmitDisabled = isSubmitting
     || !reason.trim()
@@ -305,7 +305,7 @@ export default function GroupSwitchModal({
       title: 'Select a group',
       control: (
         <div className="flex flex-col gap-2">
-          {currentInfo && <GroupSwitchOption {...currentInfo} />}
+          {currentDiscussionAsGroupSwitchOption && <GroupSwitchOption {...currentDiscussionAsGroupSwitchOption} />}
           <p className="text-size-xs mt-1 text-[#666C80]">{alternativeCountMessage}</p>
           <p className="text-size-xs text-[#666C80]">Times are in your time zone: {getGMTOffsetWithCity()}</p>
           <div className="flex flex-col gap-2 mt-2">
