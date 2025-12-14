@@ -2,11 +2,23 @@ import React, {
   useCallback, useEffect, useState, useRef,
 } from 'react';
 import { cn } from '@bluedot/ui';
+import { useEditor, EditorContent } from '@tiptap/react';
+import Document from '@tiptap/extension-document';
+import Paragraph from '@tiptap/extension-paragraph';
+import Text from '@tiptap/extension-text';
+import Bold from '@tiptap/extension-bold';
+import Italic from '@tiptap/extension-italic';
+import BulletList from '@tiptap/extension-bullet-list';
+import OrderedList from '@tiptap/extension-ordered-list';
+import ListItem from '@tiptap/extension-list-item';
+import History from '@tiptap/extension-history';
+import { Markdown } from 'tiptap-markdown';
+import Placeholder from '@tiptap/extension-placeholder';
 import SaveStatusIndicator from './SaveStatusIndicator';
 
 type SaveStatus = 'idle' | 'typing' | 'saving' | 'saved' | 'error';
 
-type AutoSaveTextareaProps = {
+type RichTextAutoSaveEditorProps = {
   value: string;
   onChange: (value: string) => void;
   onSave: (value: string) => Promise<void>;
@@ -16,7 +28,7 @@ type AutoSaveTextareaProps = {
   className?: string;
 };
 
-const TEXTAREA_HEIGHT_STYLES = {
+const EDITOR_HEIGHT_STYLES = {
   short: 'min-h-[75px]',
   normal: 'min-h-[140px]',
 } as const;
@@ -24,7 +36,7 @@ const TEXTAREA_HEIGHT_STYLES = {
 const AUTOSAVE_DELAY_IN_MS = 20000; // 20 seconds
 const PERIODIC_SAVE_INTERVAL_IN_MS = 180000; // 3 minutes
 
-const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
+const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
   value,
   onChange,
   onSave,
@@ -40,8 +52,64 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
   const inactivityTimerRef = useRef<number | null>(null);
   const statusTimerRef = useRef<number | null>(null);
   const valueRef = useRef<string>(value);
+  const lastSavedContent = useRef<string>(value);
 
   const isEditing = value !== lastSavedValue;
+
+  // Initialize TipTap editor
+  const editor = useEditor({
+    extensions: [
+      Document,
+      Paragraph,
+      Text,
+      Bold,
+      Italic,
+      BulletList,
+      OrderedList,
+      ListItem,
+      History,
+      // Type assertion needed due to tiptap-markdown version conflicts
+      Markdown as never,
+      Placeholder.configure({ placeholder }),
+    ],
+    content: value,
+    editable: !disabled,
+    immediatelyRender: false,
+    onUpdate: ({ editor: updatedEditor }) => {
+      const markdown = updatedEditor.storage.markdown.getMarkdown();
+      onChange(markdown);
+    },
+    onFocus: () => {
+      if (!disabled) setIsFocussed(true);
+    },
+    onBlur: () => {
+      if (disabled) return;
+
+      const currentContent = editor?.storage.markdown.getMarkdown() || '';
+      if (currentContent !== lastSavedValue) {
+        // Cancel inactivity timer on blur save
+        if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
+        saveValue(currentContent);
+      }
+    },
+  }, [disabled, placeholder]);
+
+  // Sync from external value (e.g., when exercise changes)
+  useEffect(() => {
+    if (!editor) return;
+
+    const currentContent = editor.storage.markdown.getMarkdown();
+
+    // If external value equals what we last saved, ignore
+    // (this is just save confirmation coming back)
+    if (value === lastSavedContent.current) return;
+
+    // If value is genuinely different, sync it
+    if (value !== currentContent) {
+      editor.commands.setContent(value || '');
+      lastSavedContent.current = value || '';
+    }
+  }, [value, editor]);
 
   // Cleanup all timers on unmount
   useEffect(() => {
@@ -63,6 +131,7 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
     try {
       await onSave(valueToSave);
       setLastSavedValue(valueToSave);
+      lastSavedContent.current = valueToSave;
       setSaveStatus('saved');
 
       // Clear previous status timer and set new one
@@ -130,59 +199,58 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
     };
   }, [value, isEditing, disabled, saveValue, isFocussed]);
 
-  const handleBlur = () => {
-    if (disabled) return;
-
-    if (value !== lastSavedValue) {
-      // Cancel inactivity timer on blur save
-      if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
-      saveValue(value);
-    }
-  };
-
-  const handleFocus = () => {
-    if (disabled) return;
-    setIsFocussed(true);
-  };
-
   const handleRetry = () => {
     if (value !== lastSavedValue) {
       saveValue(value);
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    onChange(e.target.value);
+  // Click anywhere in the container to focus the editor
+  const handleContainerClick = () => {
+    if (!disabled && editor && !editor.isFocused) {
+      editor.commands.focus('end');
+    }
   };
 
-  const textareaClasses = cn(
-    'box-border w-full bg-white rounded-[6px] p-4 z-[1]',
-    'font-normal text-[14px] leading-[160%] tracking-[-0.002em] text-[#13132E]',
-    'resize-y outline-none transition-all duration-200 block',
+  const editorContainerClasses = cn(
+    'resize-y overflow-auto relative cursor-text',
+    'box-border w-full bg-white rounded-[6px] z-[1] p-4',
     'border-[0.5px] border-[rgba(19,19,46,0.25)]',
-    'focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)]',
-    'disabled:cursor-not-allowed disabled:opacity-60',
+    'focus-within:border-[1.25px] focus-within:border-[#1641D9] focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)]',
+    'transition-all duration-200',
     '[&::-webkit-resizer]:hidden',
-    TEXTAREA_HEIGHT_STYLES[height],
+    disabled && 'cursor-not-allowed opacity-60',
+    EDITOR_HEIGHT_STYLES[height],
     className,
   );
 
   return (
     <div className="flex flex-col relative">
       <div className="relative w-full z-[1]">
-        <textarea
-          value={value}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          onFocus={handleFocus}
-          className={textareaClasses}
-          placeholder={placeholder}
-          disabled={disabled}
-          aria-label="Text input area"
-          aria-describedby={!disabled ? 'save-status-message' : undefined}
-        />
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Click-to-focus is UX convenience; keyboard input handled by EditorContent inside */}
+        <div className={editorContainerClasses} onClick={handleContainerClick}>
+          <EditorContent
+            editor={editor}
+            className={cn(
+              'outline-none max-w-none',
+              '[&_.ProseMirror]:outline-none',
+              '[&_.ProseMirror]:font-normal [&_.ProseMirror]:text-[14px] [&_.ProseMirror]:leading-[160%] [&_.ProseMirror]:tracking-[-0.002em] [&_.ProseMirror]:text-[#13132E]',
+              '[&_.ProseMirror_p]:m-0',
+              '[&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1',
+              '[&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1',
+              '[&_.ProseMirror_li]:my-0.5',
+              '[&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)]',
+              '[&_.ProseMirror_p.is-editor-empty:first-child::before]:text-[#999]',
+              '[&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left',
+              '[&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none',
+              '[&_.ProseMirror_p.is-editor-empty:first-child::before]:h-0',
+            )}
+            aria-label="Rich text input area"
+            aria-describedby={!disabled ? 'save-status-message' : undefined}
+          />
+        </div>
         {/* Custom drag notches overlay */}
-        <div className="auto-save-textarea-drag-notches absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]">
+        <div className="absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]">
           <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g opacity="0.6" clipPath="url(#clip0_auto_save)">
               <path d="M11.875 7L7.5 11.375" stroke="#13132E" strokeLinecap="round" strokeLinejoin="round" />
@@ -208,4 +276,4 @@ const AutoSaveTextarea: React.FC<AutoSaveTextareaProps> = ({
   );
 };
 
-export default AutoSaveTextarea;
+export default RichTextAutoSaveEditor;

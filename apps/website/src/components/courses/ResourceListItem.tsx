@@ -21,7 +21,7 @@ import { ROUTES } from '../../lib/routes';
 import { FaviconImage } from './FaviconImage';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import ListenToArticleButton from './ListenToArticleButton';
-import AutoSaveTextarea from './exercises/AutoSaveTextarea';
+import RichTextAutoSaveEditor from './exercises/RichTextAutoSaveEditor';
 import { trpc } from '../../utils/trpc';
 import { ThumbIcon } from '../icons/ThumbIcon';
 import type { AppRouter } from '../../server/routers/_app';
@@ -371,7 +371,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource, re
 
                 {/* Text feedback textarea for mobile - only show when there's a completion record and Like or Dislike is selected */}
                 {isCompleted && (resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || feedback) && (
-                  <AutoSaveTextarea
+                  <RichTextAutoSaveEditor
                     value={feedback}
                     onChange={setFeedback}
                     onSave={async (value) => {
@@ -407,7 +407,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource, re
               </div>
               {/* Only show textarea when Like or Dislike is selected */}
               {isCompleted && (resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || feedback) && (
-                <AutoSaveTextarea
+                <RichTextAutoSaveEditor
                   value={feedback}
                   onChange={setFeedback}
                   onSave={async (value) => {

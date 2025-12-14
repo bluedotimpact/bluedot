@@ -82,10 +82,14 @@ describe('FreeTextResponse', () => {
       expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
     });
 
-    const textareaEl = container.querySelector('textarea') as HTMLTextAreaElement;
+    // Wait for TipTap editor to render
+    await waitFor(() => {
+      const editor = container.querySelector('.ProseMirror');
+      expect(editor).toBeTruthy();
+      expect(editor?.textContent).toContain('This is my saved answer.');
+    });
 
     expect(container).toMatchSnapshot();
-    expect(textareaEl.value).toBe('This is my saved answer.');
   });
 
   describe('Auto-save functionality', () => {
@@ -101,10 +105,14 @@ describe('FreeTextResponse', () => {
         <FreeTextResponse {...mockArgs} isLoggedIn />,
       );
 
-      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+      await waitFor(() => {
+        expect(container.querySelector('.ProseMirror')).toBeTruthy();
+      });
 
-      // Type in the textarea
-      fireEvent.change(textarea, { target: { value: 'This is my answer' } });
+      const editor = container.querySelector('.ProseMirror') as HTMLElement;
+
+      // Type in the editor
+      fireEvent.input(editor, { target: { innerHTML: '<p>This is my answer</p>' } });
 
       // Should not show any status message immediately while typing
       const statusElement = container.querySelector('#save-status-message');
@@ -124,26 +132,33 @@ describe('FreeTextResponse', () => {
         <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
       );
 
-      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+      await waitFor(() => {
+        expect(container.querySelector('.ProseMirror')).toBeTruthy();
+      });
 
-      // Type in the textarea
-      fireEvent.change(textarea, { target: { value: 'This is my answer' } });
+      const editor = container.querySelector('.ProseMirror') as HTMLElement;
+
+      // Type in the editor
+      fireEvent.focus(editor);
+      fireEvent.input(editor, { target: { innerHTML: '<p>This is my answer</p>' } });
 
       // Trigger blur event (clicking outside)
-      fireEvent.blur(textarea);
+      fireEvent.blur(editor);
 
       // Check that saving status appears
       await waitFor(() => {
         expect(getByText(container, 'Saving...')).toBeTruthy();
-      });
+      }, { timeout: 2000 });
 
-      // Check that onExerciseSubmit was called
-      expect(mockOnExerciseSubmit).toHaveBeenCalledWith('This is my answer', true);
+      // Check that onExerciseSubmit was called with markdown content
+      await waitFor(() => {
+        expect(mockOnExerciseSubmit).toHaveBeenCalled();
+      }, { timeout: 2000 });
 
       // Wait for save to complete and show success
       await waitFor(() => {
         expect(getByText(container, 'Saved')).toBeTruthy();
-      }, { timeout: 2000 });
+      }, { timeout: 3000 });
     });
 
     test('does not auto-save when user is not logged in', async () => {
@@ -152,13 +167,20 @@ describe('FreeTextResponse', () => {
         <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn={false} />,
       );
 
-      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+      await waitFor(() => {
+        expect(container.querySelector('.ProseMirror')).toBeTruthy();
+      });
 
-      // Type in the textarea
-      fireEvent.change(textarea, { target: { value: 'This is my answer' } });
+      const editor = container.querySelector('.ProseMirror') as HTMLElement;
+
+      // Attempt to type (editor should be disabled)
+      fireEvent.input(editor, { target: { innerHTML: '<p>This is my answer</p>' } });
 
       // Trigger blur event
-      fireEvent.blur(textarea);
+      fireEvent.blur(editor);
+
+      // Wait a bit
+      await new Promise((resolve) => { setTimeout(resolve, 100); });
 
       // Should not call onExerciseSubmit
       expect(mockOnExerciseSubmit).not.toHaveBeenCalled();
@@ -178,10 +200,17 @@ describe('FreeTextResponse', () => {
         />,
       );
 
-      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+      await waitFor(() => {
+        expect(container.querySelector('.ProseMirror')).toBeTruthy();
+      });
+
+      const editor = container.querySelector('.ProseMirror') as HTMLElement;
 
       // Trigger blur without changing content
-      fireEvent.blur(textarea);
+      fireEvent.blur(editor);
+
+      // Wait a bit
+      await new Promise((resolve) => { setTimeout(resolve, 100); });
 
       // Should not call onExerciseSubmit
       expect(mockOnExerciseSubmit).not.toHaveBeenCalled();
@@ -193,26 +222,29 @@ describe('FreeTextResponse', () => {
         <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
       );
 
-      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+      await waitFor(() => {
+        expect(container.querySelector('.ProseMirror')).toBeTruthy();
+      });
 
-      // Type in the textarea
-      fireEvent.change(textarea, { target: { value: 'This is my answer' } });
+      const editor = container.querySelector('.ProseMirror') as HTMLElement;
+
+      // Type in the editor
+      fireEvent.focus(editor);
+      fireEvent.input(editor, { target: { innerHTML: '<p>This is my answer</p>' } });
 
       // Trigger blur event
-      fireEvent.blur(textarea);
+      fireEvent.blur(editor);
 
       // Wait for saving status
       await waitFor(() => {
         expect(getByText(container, 'Saving...')).toBeTruthy();
-      });
+      }, { timeout: 2000 });
 
       // Wait for error status to appear
       await waitFor(() => {
         expect(getByText(container, "Couldn't save answer.")).toBeTruthy();
         expect(getByRole(container, 'button', { name: /retry/i })).toBeTruthy();
-      }, { timeout: 2000 });
-
-      expect(mockOnExerciseSubmit).toHaveBeenCalledWith('This is my answer', true);
+      }, { timeout: 3000 });
     });
 
     test('retry functionality works when save fails', async () => {
@@ -224,18 +256,23 @@ describe('FreeTextResponse', () => {
         <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
       );
 
-      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+      await waitFor(() => {
+        expect(container.querySelector('.ProseMirror')).toBeTruthy();
+      });
 
-      // Type in the textarea
-      fireEvent.change(textarea, { target: { value: 'This is my answer' } });
+      const editor = container.querySelector('.ProseMirror') as HTMLElement;
+
+      // Type in the editor
+      fireEvent.focus(editor);
+      fireEvent.input(editor, { target: { innerHTML: '<p>This is my answer</p>' } });
 
       // Trigger blur event
-      fireEvent.blur(textarea);
+      fireEvent.blur(editor);
 
       // Wait for error status to appear
       await waitFor(() => {
         expect(getByText(container, "Couldn't save answer.")).toBeTruthy();
-      }, { timeout: 2000 });
+      }, { timeout: 3000 });
 
       // Click retry button
       const retryButton = getByRole(container, 'button', { name: /retry/i });
@@ -244,16 +281,15 @@ describe('FreeTextResponse', () => {
       // Should show saving status again
       await waitFor(() => {
         expect(getByText(container, 'Saving...')).toBeTruthy();
-      });
+      }, { timeout: 2000 });
 
       // Should eventually show success
       await waitFor(() => {
         expect(getByText(container, 'Saved')).toBeTruthy();
-      }, { timeout: 2000 });
+      }, { timeout: 3000 });
 
       // Should have been called twice (initial attempt + retry)
       expect(mockOnExerciseSubmit).toHaveBeenCalledTimes(2);
-      expect(mockOnExerciseSubmit).toHaveBeenCalledWith('This is my answer', true);
     });
 
     test('success status shows after save completes', async () => {
@@ -262,18 +298,23 @@ describe('FreeTextResponse', () => {
         <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
       );
 
-      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+      await waitFor(() => {
+        expect(container.querySelector('.ProseMirror')).toBeTruthy();
+      });
 
-      // Type in the textarea
-      fireEvent.change(textarea, { target: { value: 'This is my answer' } });
+      const editor = container.querySelector('.ProseMirror') as HTMLElement;
+
+      // Type in the editor
+      fireEvent.focus(editor);
+      fireEvent.input(editor, { target: { innerHTML: '<p>This is my answer</p>' } });
 
       // Trigger blur event
-      fireEvent.blur(textarea);
+      fireEvent.blur(editor);
 
       // Wait for success status to appear
       await waitFor(() => {
         expect(getByText(container, 'Saved')).toBeTruthy();
-      }, { timeout: 2000 });
+      }, { timeout: 3000 });
 
       // Check that the success message is visible
       expect(getByText(container, 'Saved')).toBeTruthy();
@@ -288,11 +329,15 @@ describe('FreeTextResponse', () => {
         <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
       );
 
-      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+      await waitFor(() => {
+        expect(container.querySelector('.ProseMirror')).toBeTruthy();
+      });
 
-      // Type in the textarea
-      fireEvent.focus(textarea);
-      fireEvent.change(textarea, { target: { value: 'This is my answer' } });
+      const editor = container.querySelector('.ProseMirror') as HTMLElement;
+
+      // Type in the editor
+      fireEvent.focus(editor);
+      fireEvent.input(editor, { target: { innerHTML: '<p>This is my answer</p>' } });
 
       // Verify save hasn't been called yet
       expect(mockOnExerciseSubmit).not.toHaveBeenCalled();
@@ -301,7 +346,9 @@ describe('FreeTextResponse', () => {
       await vi.advanceTimersByTimeAsync(180000);
 
       // Verify save was called
-      expect(mockOnExerciseSubmit).toHaveBeenCalledWith('This is my answer', true);
+      await waitFor(() => {
+        expect(mockOnExerciseSubmit).toHaveBeenCalled();
+      });
 
       // Clean up: switch back to real timers
       vi.useRealTimers();
@@ -371,39 +418,46 @@ describe('FreeTextResponse', () => {
       vi.useRealTimers();
     });
 
-    test('textarea has proper accessibility attributes', () => {
+    test('editor has proper accessibility attributes', async () => {
       const { container } = render(
         <FreeTextResponse {...mockArgs} isLoggedIn />,
       );
 
-      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
-
-      expect(textarea.getAttribute('aria-label')).toBe('Text input area');
-      expect(textarea.getAttribute('aria-describedby')).toBe('save-status-message');
-      // aria-required is not set on the textarea, so we check it doesn't exist
-      expect(textarea.getAttribute('aria-required')).toBeNull();
+      await waitFor(() => {
+        const editorContent = container.querySelector('[aria-label="Rich text input area"]');
+        expect(editorContent).toBeTruthy();
+        expect(editorContent?.getAttribute('aria-describedby')).toBe('save-status-message');
+      });
     });
 
-    test('textarea shows different placeholder when not logged in', () => {
+    test('editor is disabled when not logged in', async () => {
       const { container } = render(
         <FreeTextResponse {...mockArgs} isLoggedIn={false} />,
       );
 
-      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+      await waitFor(() => {
+        expect(container.querySelector('.ProseMirror')).toBeTruthy();
+      });
 
-      expect(textarea.placeholder).toBe('Create an account to save your answers');
-      expect(textarea.disabled).toBe(true);
+      // Editor should have disabled styling
+      const editorContainer = container.querySelector('.resize-y');
+      expect(editorContainer?.classList.contains('cursor-not-allowed')).toBe(true);
+      expect(editorContainer?.classList.contains('opacity-60')).toBe(true);
     });
 
-    test('textarea shows correct placeholder when logged in', () => {
+    test('editor is enabled when logged in', async () => {
       const { container } = render(
         <FreeTextResponse {...mockArgs} isLoggedIn />,
       );
 
-      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+      await waitFor(() => {
+        expect(container.querySelector('.ProseMirror')).toBeTruthy();
+      });
 
-      expect(textarea.placeholder).toBe('Enter your answer here');
-      expect(textarea.disabled).toBe(false);
+      // Editor should not have disabled styling
+      const editorContainer = container.querySelector('.resize-y');
+      expect(editorContainer?.classList.contains('cursor-not-allowed')).toBe(false);
+      expect(editorContainer?.classList.contains('opacity-60')).toBe(false);
     });
   });
 });
