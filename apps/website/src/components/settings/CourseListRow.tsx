@@ -55,9 +55,8 @@ const CourseListRow = ({
     expectedDiscussionIds.length > 0 ? { discussionIds: expectedDiscussionIds } : skipToken,
   );
 
-  const attendedDiscussionIds = meetPerson?.attendedDiscussions || [];
   const { data: attendedResults, isLoading: isLoadingAttended } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
-    attendedDiscussionIds.length > 0 ? { discussionIds: attendedDiscussionIds } : skipToken,
+    (meetPerson?.attendedDiscussions || []).length > 0 ? { discussionIds: meetPerson?.attendedDiscussions || [] } : skipToken,
   );
 
   // Sort discussions by startDateTime
@@ -77,7 +76,7 @@ const CourseListRow = ({
     }
   }, [isNotInGroup]);
 
-  // Get the next upcoming discussion from expectedDiscussions
+  // Get the next upcoming discussion: relies on expectedDiscussions being in ascending time order
   const nextDiscussion = expectedDiscussions.find(
     (discussion) => (discussion.endDateTime * 1000) > currentTimeMs,
   );
