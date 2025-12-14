@@ -13,8 +13,7 @@ import GroupSwitchModal, { type SwitchType } from '../courses/GroupSwitchModal';
 import { SlackIcon } from '../icons/SlackIcon';
 import type { ButtonOrMenuItem } from '../courses/GroupDiscussionBanner';
 import { DocumentIcon } from '../icons/DocumentIcon';
-
-const ONE_HOUR_MS = 3600_000;
+import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 
 const BUTTON_STYLES = {
   primary: { variant: 'primary' as const, className: 'w-auto bg-bluedot-normal' },
@@ -41,8 +40,9 @@ const CourseDetailsRow = ({
 }: CourseDetailsRowProps) => {
   const currentTimeMs = useCurrentTimeMs();
 
-  const discussionIsSoonOrLive = (discussion.startDateTime * 1000 - currentTimeMs) <= ONE_HOUR_MS && currentTimeMs <= (discussion.endDateTime * 1000);
-  const discussionIsLive = (discussion.startDateTime * 1000) <= currentTimeMs && currentTimeMs <= (discussion.endDateTime * 1000);
+  const discussionTimeState = getDiscussionTimeState({ discussion, currentTimeMs });
+  const discussionIsSoonOrLive = discussionTimeState === 'live' || discussionTimeState === 'soon';
+  const discussionIsLive = discussionTimeState === 'live';
 
   const discussionMeetLink = discussion.zoomLink || '';
   const discussionPrepareLink = course.slug && discussion.unitNumber !== null ? `/courses/${course.slug}/${discussion.unitNumber}` : '';
