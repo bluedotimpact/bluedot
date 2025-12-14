@@ -11,6 +11,7 @@ import { getQueryParam } from '@bluedot/ui/src/utils/getQueryParam';
 import OauthCallbackPage from '../pages/login/oauth-callback';
 import { server, trpcMsw } from './trpcMswSetup';
 import { TrpcProvider } from './trpcProvider';
+import { createMockOidcResponse } from './testUtils';
 
 vi.mock('posthog-js', () => ({
   default: {
@@ -52,19 +53,6 @@ vi.mock('@bluedot/ui/src/utils/auth', () => ({
 
 const mockUseRouter = useRouter as ReturnType<typeof vi.fn>;
 const mockPosthogCapture = posthog.capture as ReturnType<typeof vi.fn>;
-
-const createMockUser = (redirectTo: string) => ({
-  expires_at: Math.floor(Date.now() / 1000) + 3600,
-  id_token: 'test-id-token',
-  refresh_token: 'test-refresh-token',
-  profile: {
-    email: 'test@example.com',
-    sub: 'test-sub',
-  },
-  userState: {
-    redirectTo,
-  },
-});
 
 describe('PostHog UTM tracking: End-to-end tests of key points where UTM params should be tracked', () => {
   beforeEach(() => {
@@ -141,7 +129,7 @@ describe('PostHog UTM tracking: End-to-end tests of key points where UTM params 
 
     // Step 2: User completes OAuth and lands on oauth-callback
     // The OIDC response includes the redirectTo with UTM params
-    mockProcessSigninResponse.mockResolvedValue(createMockUser(redirectToWithUtm));
+    mockProcessSigninResponse.mockResolvedValue(createMockOidcResponse({ userState: { redirectTo: redirectToWithUtm } }));
     server.use(trpcMsw.users.ensureExists.mutation(() => ({ isNewUser: true })));
 
     render(<OauthCallbackPage />, { wrapper: TrpcProvider });
@@ -222,7 +210,7 @@ describe('PostHog UTM tracking: End-to-end tests of key points where UTM params 
     vi.clearAllMocks();
 
     // Step 3: User completes OAuth and lands on oauth-callback
-    mockProcessSigninResponse.mockResolvedValue(createMockUser(redirectToWithUtm));
+    mockProcessSigninResponse.mockResolvedValue(createMockOidcResponse({ userState: { redirectTo: redirectToWithUtm } }));
     server.use(trpcMsw.users.ensureExists.mutation(() => ({ isNewUser: true })));
 
     render(<OauthCallbackPage />, { wrapper: TrpcProvider });
