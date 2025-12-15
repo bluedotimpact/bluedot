@@ -100,7 +100,7 @@ export function calculateGroupAvailability({
       // Update existing group data
       const existing = groupData[groupId];
 
-      // It's too late to switch into the group if it's too late to switch into *any* of the discussions
+      // It's too late to switch into the group if it's too late to switch into *all* of the discussions
       existing.isTooLateToSwitchTo = existing.isTooLateToSwitchTo && isTooLateToSwitchTo;
 
       if (!isTooLateToSwitchTo) {
