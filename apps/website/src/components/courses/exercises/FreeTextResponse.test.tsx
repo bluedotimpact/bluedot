@@ -424,10 +424,8 @@ describe('FreeTextResponse', () => {
         expect(container.querySelector('.ProseMirror')).toBeTruthy();
       });
 
-      // Editor should have disabled styling
-      const editorContainer = container.querySelector('.resize-y');
-      expect(editorContainer?.classList.contains('cursor-not-allowed')).toBe(true);
-      expect(editorContainer?.classList.contains('opacity-60')).toBe(true);
+      const editor = container.querySelector('.ProseMirror') as HTMLElement;
+      expect(editor.getAttribute('contenteditable')).toBe('false');
     });
 
     test('editor is enabled when logged in', async () => {
@@ -439,10 +437,8 @@ describe('FreeTextResponse', () => {
         expect(container.querySelector('.ProseMirror')).toBeTruthy();
       });
 
-      // Editor should not have disabled styling
-      const editorContainer = container.querySelector('.resize-y');
-      expect(editorContainer?.classList.contains('cursor-not-allowed')).toBe(false);
-      expect(editorContainer?.classList.contains('opacity-60')).toBe(false);
+      const editor = container.querySelector('.ProseMirror') as HTMLElement;
+      expect(editor.getAttribute('contenteditable')).toBe('true');
     });
   });
 });

@@ -62,7 +62,7 @@ describe('RichTextAutoSaveEditor', () => {
     });
   });
 
-  test('disabled state applies correct styling and hides save indicator', async () => {
+  test('disabled state makes editor non-editable and hides save indicator', async () => {
     const { container } = render(
       <RichTextAutoSaveEditor
         {...defaultProps}
@@ -74,10 +74,8 @@ describe('RichTextAutoSaveEditor', () => {
       expect(container.querySelector('.ProseMirror')).toBeTruthy();
     });
 
-    // Check disabled styling
-    const editorContainer = container.querySelector('.resize-y');
-    expect(editorContainer?.classList.contains('cursor-not-allowed')).toBe(true);
-    expect(editorContainer?.classList.contains('opacity-60')).toBe(true);
+    const editor = container.querySelector('.ProseMirror') as HTMLElement;
+    expect(editor.getAttribute('contenteditable')).toBe('false');
 
     // No save status indicator when disabled
     expect(container.querySelector('#save-status-message')).toBeNull();
