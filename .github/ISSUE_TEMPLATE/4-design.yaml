@@ -4,11 +4,6 @@ title: "Short descriptive title"
 type: "needs design"
 assignees: [herrhaase]
 body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for creating a design issue!
-
   - type: textarea
     id: summary
     attributes:
@@ -34,25 +29,10 @@ body:
       description: Include Figma links, screenshots, inspiration, user research, or other relevant context.
       placeholder: Add any other context about the design request here.
 
-  - type: dropdown
-    id: priority
+  - type: markdown
     attributes:
-      label: Suggested Priority Level
-      description: |
-        What priority do you think this should have?
-        
-        • P0: Critical - Absolutely critical and requires immediate action
-        • P1: High - Major issue for current sprint/release cycle (2-week sprint)
-        • P2: Medium - Standard issue for a future release (default)
-        • P3: Low - Minor issue/enhancement that can be postponed
-        • P4: Trivial/Wishlist - Not a priority, may never be addressed
-      options:
-        - P2: Medium (Default)
-        - P0: Critical
-        - P1: High
-        - P3: Low
-        - P4: Trivial/Wishlist
-      default: 0
-    validations:
-      required: true
+      value: |
+        ## Thanks for taking the time to submit this!
+        Your issue will be automatically added to the [kanban](https://github.com/orgs/bluedotimpact/projects/6/views/9). Please go there to set the priority level.
+
 
