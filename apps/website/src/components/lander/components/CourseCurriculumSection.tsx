@@ -110,7 +110,7 @@ const CurriculumUnit = ({
 
   const rawTitle = unit.courseUnit || unit.title || `Unit ${unit.unitNumber}`;
 
-  // Regex to strip course prefix from unit titles (handles "AGI Strategy - Unit 1" and "AGI-Strategy - Unit 1")
+  // Strip redundant course prefix: "AGI Strategy - Unit 1: Intro" → "Unit 1: Intro"
   const coursePattern = courseName.split(' ').join('[\\s-]');
   const regex = new RegExp(`^${coursePattern}\\s*-\\s*`, 'i');
   const unitTitle = rawTitle.replace(regex, '').trim();
