@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 // eslint-disable-next-line import/no-cycle
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
 import { getLoginUrl } from '../../../utils/getLoginUrl';
-import AutoSaveTextarea from './AutoSaveTextarea';
+import RichTextAutoSaveEditor from './RichTextAutoSaveEditor';
 
 type FreeTextResponseProps = {
   className?: string;
@@ -46,7 +46,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
           <MarkdownExtendedRenderer>{description}</MarkdownExtendedRenderer>
         </div>
       </div>
-      <AutoSaveTextarea
+      <RichTextAutoSaveEditor
         value={answer}
         onChange={setAnswer}
         onSave={handleSave}

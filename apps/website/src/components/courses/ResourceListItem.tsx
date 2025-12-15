@@ -1,5 +1,5 @@
 import {
-  useCallback, useEffect, useState,
+  useCallback, useEffect, useRef, useState,
 } from 'react';
 import { useRouter } from 'next/router';
 import {
@@ -21,7 +21,7 @@ import { ROUTES } from '../../lib/routes';
 import { FaviconImage } from './FaviconImage';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import ListenToArticleButton from './ListenToArticleButton';
-import AutoSaveTextarea from './exercises/AutoSaveTextarea';
+import RichTextAutoSaveEditor from './exercises/RichTextAutoSaveEditor';
 import { trpc } from '../../utils/trpc';
 import { ThumbIcon } from '../icons/ThumbIcon';
 import type { AppRouter } from '../../server/routers/_app';
@@ -88,7 +88,8 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource, re
   const auth = useAuthStore((s) => s.auth);
   const utils = trpc.useUtils();
   const [isHovered, setIsHovered] = useState(false);
-  const [feedback, setFeedback] = useState('');
+  const [feedback, setFeedback] = useState(resourceCompletion?.feedback ?? '');
+  const lastSavedFeedback = useRef<string>(resourceCompletion?.feedback ?? '');
 
   const queryClient = useQueryClient();
   const resourceCompletionsQueryKey = getQueryKey(trpc.resources.getResourceCompletions, undefined, 'query');
@@ -157,18 +158,13 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource, re
     ? saveCompletionMutation.variables.resourceFeedback
     : (resourceCompletion?.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE);
 
-  // Sync feedback state with server data (both mutation variables and fetched data)
+  // Sync feedback state with server data (skip if it's just our own save coming back)
   useEffect(() => {
-    const optimisticFeedback = saveCompletionMutation.variables?.feedback;
-    const serverFeedback = resourceCompletion?.feedback;
-
-    // Only use optimistic feedback if there is no error
-    if (!saveCompletionMutation.isError && optimisticFeedback !== undefined) {
-      setFeedback(optimisticFeedback);
-    } else {
-      setFeedback(serverFeedback ?? '');
-    }
-  }, [saveCompletionMutation.variables?.feedback, resourceCompletion?.feedback, saveCompletionMutation.isError]);
+    const serverFeedback = resourceCompletion?.feedback ?? '';
+    if (serverFeedback === lastSavedFeedback.current) return;
+    setFeedback(serverFeedback);
+    lastSavedFeedback.current = serverFeedback;
+  }, [resourceCompletion?.feedback]);
 
   const handleSaveCompletion = useCallback((
     updatedIsCompleted: boolean | undefined,
@@ -371,11 +367,11 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource, re
 
                 {/* Text feedback textarea for mobile - only show when there's a completion record and Like or Dislike is selected */}
                 {isCompleted && (resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || feedback) && (
-                  <AutoSaveTextarea
+                  <RichTextAutoSaveEditor
                     value={feedback}
                     onChange={setFeedback}
                     onSave={async (value) => {
-                      // Save the draft and await the promise
+                      lastSavedFeedback.current = value || '';
                       await handleSaveCompletion(isCompleted, resourceFeedback, value || '');
                     }}
                     placeholder="What did or didn't you find useful about this resource?"
@@ -407,11 +403,11 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource, re
               </div>
               {/* Only show textarea when Like or Dislike is selected */}
               {isCompleted && (resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || feedback) && (
-                <AutoSaveTextarea
+                <RichTextAutoSaveEditor
                   value={feedback}
                   onChange={setFeedback}
                   onSave={async (value) => {
-                    // Save the draft and await the promise
+                    lastSavedFeedback.current = value || '';
                     await handleSaveCompletion(isCompleted, resourceFeedback, value || '');
                   }}
                   placeholder="What did or didn't you find useful about this resource?"
