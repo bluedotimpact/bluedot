@@ -8,6 +8,7 @@ import { ROUTES } from '../../lib/routes';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
 import { trpc } from '../../utils/trpc';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
+import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 
 type CourseListRowProps = {
   course: Course;
@@ -78,26 +79,24 @@ const CourseListRow = ({
 
   // Get the next upcoming discussion from expectedDiscussions
   const upcomingDiscussions = expectedDiscussions.filter(
-    (discussion) => (discussion.endDateTime * 1000) > currentTimeMs,
+    (discussion) => getDiscussionTimeState({ discussion, currentTimeMs }) !== 'ended',
   );
   const nextDiscussion = upcomingDiscussions[0];
-
-  // Check if next discussion is starting soon (within 1 hour)
-  const isNextDiscussionStartingSoon = nextDiscussion
-    ? (nextDiscussion.startDateTime * 1000 - currentTimeMs) < 3_600_000 && (nextDiscussion.startDateTime * 1000 - currentTimeMs) > 0
-    : false;
 
   const getPrimaryCtaButton = () => {
     if (!nextDiscussion) return null;
 
-    const buttonText = isNextDiscussionStartingSoon ? 'Join Discussion' : 'Prepare for discussion';
+    const nextDiscussionTimeState = getDiscussionTimeState({ discussion: nextDiscussion, currentTimeMs });
+    const isNextDiscussionSoonOrLive = nextDiscussionTimeState === 'soon' || nextDiscussionTimeState === 'live';
+
+    const buttonText = isNextDiscussionSoonOrLive ? 'Join Discussion' : 'Prepare for discussion';
     let buttonUrl = '#';
-    if (isNextDiscussionStartingSoon) {
+    if (isNextDiscussionSoonOrLive) {
       buttonUrl = nextDiscussion.zoomLink || '#';
     } else if (course.slug && nextDiscussion.unitNumber !== null) {
       buttonUrl = `/courses/${course.slug}/${nextDiscussion.unitNumber}`;
     }
-    const disabled = !nextDiscussion.zoomLink && isNextDiscussionStartingSoon;
+    const disabled = !nextDiscussion.zoomLink && isNextDiscussionSoonOrLive;
 
     return (
       <CTALinkOrButton
