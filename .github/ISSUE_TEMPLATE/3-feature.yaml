@@ -4,11 +4,6 @@ title: "Short descriptive title"
 assignees: []
 type: "feature"
 body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for taking the time to suggest a new feature!
-
   - type: textarea
     id: summary
     attributes:
@@ -33,29 +28,9 @@ body:
       label: 📌 Notes / Designs
       description: Include Figma links, screenshots, or Loom walkthroughs.
       placeholder: Add any other context about the feature request here.
-
-  - type: dropdown
-    id: priority
+      
+  - type: markdown
     attributes:
-      label: Suggested Priority Level
-      description: |
-        What priority do you think this should have?
-        
-        • P0: Critical - Absolutely critical and requires immediate action
-        
-        • P1: High - Major issue for current sprint/release cycle (2-week sprint)
-        
-        • P2: Medium - Standard issue for a future release (default)
-        
-        • P3: Low - Minor issue/enhancement that can be postponed
-        
-        • P4: Trivial/Wishlist - Not a priority, may never be addressed
-      options:
-        - P2: Medium (Default)
-        - P0: Critical
-        - P1: High
-        - P3: Low
-        - P4: Trivial/Wishlist
-      default: 0
-    validations:
-      required: true
+      value: |
+        ## Thanks for taking the time to submit this!
+        Your issue will be automatically added to the [kanban](https://github.com/orgs/bluedotimpact/projects/6/views/9). Please go there to set the priority level.
