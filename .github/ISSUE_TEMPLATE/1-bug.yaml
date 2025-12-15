@@ -44,5 +44,5 @@ body:
   - type: markdown
     attributes:
       value: |
-        "## Thanks for taking the time to submit this!"
+        ## Thanks for taking the time to submit this!
         Your issue will be automatically added to the [kanban](https://github.com/orgs/bluedotimpact/projects/6/views/9). Please go there to set the priority level.
