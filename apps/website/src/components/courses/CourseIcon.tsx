@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { COURSE_ICONS } from '../../lib/constants';
+import { COURSE_CONFIG } from '../../lib/constants';
 
 type CourseIconSize = 'small' | 'medium' | 'large' | 'xlarge';
 
@@ -38,7 +38,7 @@ export const CourseIcon: React.FC<CourseIconProps> = ({
   size = 'medium',
   className,
 }) => {
-  const iconSrc = COURSE_ICONS[courseSlug];
+  const iconSrc = COURSE_CONFIG[courseSlug]?.icon;
   const config = SIZE_CONFIG[size];
 
   // If course has a specific icon, use it

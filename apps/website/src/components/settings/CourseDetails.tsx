@@ -203,10 +203,12 @@ const CourseDetails = ({
   isLoading,
   isLast = false,
 }: CourseDetailsProps) => {
+  const showUpcomingTab = courseRegistration.roundStatus === 'Active' || upcomingDiscussions.length > 0;
+
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [initialUnitNumber, setInitialUnitNumber] = useState<string | undefined>(undefined);
   const [selectedSwitchType, setSelectedSwitchType] = useState<SwitchType>('Switch group for one unit');
-  const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>('upcoming');
+  const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>(showUpcomingTab ? 'upcoming' : 'attended');
   const [showAllUpcoming, setShowAllUpcoming] = useState(false);
   const [showAllAttended, setShowAllAttended] = useState(false);
 
@@ -228,17 +230,19 @@ const CourseDetails = ({
           {/* Section header with tabs */}
           <div className="flex border-b border-charcoal-light">
             <div className="flex px-4 sm:px-8 gap-8">
-              <button
-                type="button"
-                onClick={() => setActiveTab('upcoming')}
-                className={`relative py-2 px-1 text-size-xs font-medium transition-colors ${
-                  activeTab === 'upcoming'
-                    ? 'text-bluedot-normal border-b-2 border-bluedot-normal'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                Upcoming discussions
-              </button>
+              {showUpcomingTab && (
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('upcoming')}
+                  className={`relative py-2 px-1 text-size-xs font-medium transition-colors ${
+                    activeTab === 'upcoming'
+                      ? 'text-bluedot-normal border-b-2 border-bluedot-normal'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  Upcoming discussions
+                </button>
+              )}
               <button
                 type="button"
                 onClick={() => setActiveTab('attended')}

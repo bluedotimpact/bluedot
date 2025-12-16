@@ -25,7 +25,7 @@ const CoursesContent = () => {
     .flat();
 
   // Group courses by status
-  const isCompleted = (reg: CourseRegistration) => !!reg.certificateCreatedAt || reg.roundStatus === 'Past';
+  const isCompleted = (reg: CourseRegistration) => reg.roundStatus !== 'Active';
 
   const completedCourses = enrolledCourses
     .filter(({ courseRegistration }) => isCompleted(courseRegistration))
@@ -59,7 +59,7 @@ const CoursesContent = () => {
                   courseRegistration={courseRegistration}
                   isFirst={index === 0}
                   isLast={index === inProgressCourses.length - 1}
-                  isCompleted={false}
+                  startExpanded
                 />
               ))}
             </div>
@@ -80,7 +80,6 @@ const CoursesContent = () => {
                   courseRegistration={courseRegistration}
                   isFirst={index === 0}
                   isLast={index === completedCourses.length - 1}
-                  isCompleted
                 />
               ))}
             </div>
