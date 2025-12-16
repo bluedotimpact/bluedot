@@ -247,7 +247,8 @@ const CoursesHero = () => {
         src="/images/homepage/hero.webp"
         alt=""
         className="absolute inset-0 size-full object-cover -scale-x-100"
-        fetchPriority="high"
+        // Workaround for bug with camelcase `fetchPriority`: https://github.com/facebook/react/issues/25682
+        {...{ fetchpriority: 'high' }}
       />
 
       {/* Content Container */}
