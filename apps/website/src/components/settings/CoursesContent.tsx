@@ -25,7 +25,7 @@ const CoursesContent = () => {
     .flat();
 
   // Group courses by status
-  const isCompleted = (reg: CourseRegistration) => !!reg.certificateCreatedAt || reg.roundStatus === 'Past';
+  const isCompleted = (reg: CourseRegistration) => reg.roundStatus === 'Past';
 
   const completedCourses = enrolledCourses
     .filter(({ courseRegistration }) => isCompleted(courseRegistration))
