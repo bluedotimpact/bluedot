@@ -203,7 +203,7 @@ const CourseDetails = ({
   isLoading,
   isLast = false,
 }: CourseDetailsProps) => {
-  const showUpcomingTab = !courseRegistration.certificateCreatedAt || upcomingDiscussions.length > 0;
+  const showUpcomingTab = courseRegistration.roundStatus === 'Active' || upcomingDiscussions.length > 0;
 
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [initialUnitNumber, setInitialUnitNumber] = useState<string | undefined>(undefined);
