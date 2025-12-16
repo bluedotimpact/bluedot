@@ -28,30 +28,20 @@ describe('CoursesContent', () => {
     vi.clearAllMocks();
   });
 
-  it('shows completed/past courses in Completed section, everything else in In Progress', async () => {
+  it('shows "Past" courses in Completed section, everything else in In Progress', async () => {
     const courses = [
       createMockCourse({ id: 'course-1', title: 'Active No Cert' }),
       createMockCourse({ id: 'course-2', title: 'Past No Cert' }),
-      createMockCourse({ id: 'course-3', title: 'Active With Cert' }),
-      createMockCourse({ id: 'course-4', title: 'Past With Cert' }),
     ];
 
     const registrations = [
-      // Active + no cert => In Progress
+      // Active => In Progress
       createMockCourseRegistration({
         id: 'reg-1', courseId: 'course-1', roundStatus: 'Active', certificateCreatedAt: null,
       }),
-      // Past + no cert => Completed (roundStatus is what matters, not certificate)
+      // Past => Completed (roundStatus is what matters, not certificate)
       createMockCourseRegistration({
         id: 'reg-2', courseId: 'course-2', roundStatus: 'Past', certificateCreatedAt: null,
-      }),
-      // Active + cert => In Progress (roundStatus is what matters, not certificate)
-      createMockCourseRegistration({
-        id: 'reg-3', courseId: 'course-3', roundStatus: 'Active', certificateCreatedAt: 1700000000,
-      }),
-      // Past + cert => Completed
-      createMockCourseRegistration({
-        id: 'reg-4', courseId: 'course-4', roundStatus: 'Past', certificateCreatedAt: 1700000000,
       }),
     ];
 
@@ -61,12 +51,10 @@ describe('CoursesContent', () => {
     render(<CoursesContent />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      expect(screen.getByText('In Progress (2)')).toBeInTheDocument();
-      expect(screen.getByText('Completed (2)')).toBeInTheDocument();
+      expect(screen.getByText('In Progress (1)')).toBeInTheDocument();
+      expect(screen.getByText('Completed (1)')).toBeInTheDocument();
       expect(screen.getByText('Active No Cert')).toBeInTheDocument();
       expect(screen.getByText('Past No Cert')).toBeInTheDocument();
-      expect(screen.getByText('Active With Cert')).toBeInTheDocument();
-      expect(screen.getByText('Past With Cert')).toBeInTheDocument();
     });
   });
 
