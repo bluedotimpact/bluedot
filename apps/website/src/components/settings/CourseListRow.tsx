@@ -325,6 +325,33 @@ const getPrimaryCtaButton = ({
 
   if (isLoading) return null;
 
+  if (nextDiscussion) {
+    const nextDiscussionTimeState = getDiscussionTimeState({ discussion: nextDiscussion, currentTimeMs });
+    const isNextDiscussionSoonOrLive = nextDiscussionTimeState === 'soon' || nextDiscussionTimeState === 'live';
+
+    const buttonText = isNextDiscussionSoonOrLive ? 'Join Discussion' : 'Prepare for discussion';
+    let buttonUrl = '#';
+    if (isNextDiscussionSoonOrLive) {
+      buttonUrl = nextDiscussion.zoomLink || '#';
+    } else if (course.slug && nextDiscussion.unitNumber !== null) {
+      buttonUrl = `/courses/${course.slug}/${nextDiscussion.unitNumber}`;
+    }
+    const disabled = !nextDiscussion.zoomLink && isNextDiscussionSoonOrLive;
+
+    return (
+      <CTALinkOrButton
+        variant="primary"
+        size="small"
+        url={buttonUrl}
+        disabled={disabled}
+        target="_blank"
+        className="w-full sm:w-auto bg-bluedot-normal"
+      >
+        {buttonText}
+      </CTALinkOrButton>
+    );
+  }
+
   // Show action plan button if they've attended enough but haven't submitted
   const { reason } = getCertificateEligibility({
     courseSlug: course.slug,
@@ -346,32 +373,7 @@ const getPrimaryCtaButton = ({
     );
   }
 
-  if (!nextDiscussion) return null;
-
-  const nextDiscussionTimeState = getDiscussionTimeState({ discussion: nextDiscussion, currentTimeMs });
-  const isNextDiscussionSoonOrLive = nextDiscussionTimeState === 'soon' || nextDiscussionTimeState === 'live';
-
-  const buttonText = isNextDiscussionSoonOrLive ? 'Join Discussion' : 'Prepare for discussion';
-  let buttonUrl = '#';
-  if (isNextDiscussionSoonOrLive) {
-    buttonUrl = nextDiscussion.zoomLink || '#';
-  } else if (course.slug && nextDiscussion.unitNumber !== null) {
-    buttonUrl = `/courses/${course.slug}/${nextDiscussion.unitNumber}`;
-  }
-  const disabled = !nextDiscussion.zoomLink && isNextDiscussionSoonOrLive;
-
-  return (
-    <CTALinkOrButton
-      variant="primary"
-      size="small"
-      url={buttonUrl}
-      disabled={disabled}
-      target="_blank"
-      className="w-full sm:w-auto bg-bluedot-normal"
-    >
-      {buttonText}
-    </CTALinkOrButton>
-  );
+  return null;
 };
 
 const getSubtitle = ({

@@ -41,11 +41,11 @@ describe('CoursesContent', () => {
       createMockCourseRegistration({
         id: 'reg-1', courseId: 'course-1', roundStatus: 'Active', certificateCreatedAt: null,
       }),
-      // Past + no cert => Completed (key edge case, not fully self-evident but this is the definition we are going with)
+      // Past + no cert => Completed (roundStatus is what matters, not certificate)
       createMockCourseRegistration({
         id: 'reg-2', courseId: 'course-2', roundStatus: 'Past', certificateCreatedAt: null,
       }),
-      // Active + cert => Completed (cert takes precedence)
+      // Active + cert => In Progress (roundStatus is what matters, not certificate)
       createMockCourseRegistration({
         id: 'reg-3', courseId: 'course-3', roundStatus: 'Active', certificateCreatedAt: 1700000000,
       }),
@@ -61,8 +61,8 @@ describe('CoursesContent', () => {
     render(<CoursesContent />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      expect(screen.getByText('In Progress (1)')).toBeInTheDocument();
-      expect(screen.getByText('Completed (3)')).toBeInTheDocument();
+      expect(screen.getByText('In Progress (2)')).toBeInTheDocument();
+      expect(screen.getByText('Completed (2)')).toBeInTheDocument();
       expect(screen.getByText('Active No Cert')).toBeInTheDocument();
       expect(screen.getByText('Past No Cert')).toBeInTheDocument();
       expect(screen.getByText('Active With Cert')).toBeInTheDocument();

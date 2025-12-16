@@ -210,11 +210,13 @@ describe('CourseListRow', () => {
       certificateId: null,
     };
 
-    // Mock meetPerson with 5 expected but only 2 attended (missed 3, which is > 1)
+    // Mock meetPerson with 5 units but only 2 attended (missed 3, which is > 1)
     const meetPersonMissedTooMany = {
       ...mockMeetPerson,
       expectedDiscussionsParticipant: ['disc-1', 'disc-2', 'disc-3', 'disc-4', 'disc-5'],
       attendedDiscussions: ['disc-1', 'disc-2'],
+      uniqueDiscussionAttendance: 2,
+      numUnits: 5,
       projectSubmission: null,
     };
 
@@ -272,11 +274,13 @@ describe('CourseListRow', () => {
       certificateId: null,
     };
 
-    // Mock meetPerson with 5 expected and 4 attended (missed 1, which is allowed) but no action plan
+    // Mock meetPerson with 5 units and 4 attended (missed 1, which is allowed) but no action plan
     const meetPersonNoActionPlan = {
       ...mockMeetPerson,
       expectedDiscussionsParticipant: ['disc-1', 'disc-2', 'disc-3', 'disc-4', 'disc-5'],
       attendedDiscussions: ['disc-1', 'disc-2', 'disc-3', 'disc-4'],
+      uniqueDiscussionAttendance: 4,
+      numUnits: 5,
       projectSubmission: null,
     };
 
@@ -326,7 +330,7 @@ describe('CourseListRow', () => {
     expect(actionPlanButtons[0]).toHaveAttribute('href', expect.stringContaining('miniextensions.com'));
   });
 
-  it('shows requirement message when course is "Past" with no cert: "Certificate pending" if there is no concrete reason', async () => {
+  it('shows requirement message when course is "Past" with no cert: show all requirements if there is no concrete reason found', async () => {
     const pastNoCertRegistration = {
       ...mockCourseRegistration,
       roundStatus: 'Past',
@@ -339,6 +343,8 @@ describe('CourseListRow', () => {
       ...mockMeetPerson,
       expectedDiscussionsParticipant: ['disc-1', 'disc-2', 'disc-3', 'disc-4', 'disc-5'],
       attendedDiscussions: ['disc-1', 'disc-2', 'disc-3', 'disc-4'],
+      uniqueDiscussionAttendance: 4,
+      numUnits: 5,
       projectSubmission: null, // Not required for this course (not agi-strategy)
     };
 
@@ -379,7 +385,7 @@ describe('CourseListRow', () => {
     );
 
     // Wait for the subtitle to appear (multiple elements due to responsive design)
-    const subtitleTexts = await screen.findAllByText(/Certificate pending/);
+    const subtitleTexts = await screen.findAllByText(/To receive a certificate you can miss at most 1 discussion/);
     expect(subtitleTexts.length).toBeGreaterThan(0);
   });
 });
