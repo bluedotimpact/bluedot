@@ -513,6 +513,10 @@ export const meetPersonTable = pgAirtable('meet_person', {
       pgColumn: text().array(),
       airtableId: 'fldTEkxGZQxTqHhdX',
     },
+    uniqueDiscussionAttendance: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldMVAZse1xe6ENWs',
+    },
     groupsAsParticipant: {
       pgColumn: text().array(),
       airtableId: 'fldryDThWSl7SkkYB',
@@ -520,6 +524,10 @@ export const meetPersonTable = pgAirtable('meet_person', {
     autoNumberId: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldRtqMTFX50uqLw5',
+    },
+    numUnits: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fld1ICMPmCd5y7B17',
     },
   },
 });
