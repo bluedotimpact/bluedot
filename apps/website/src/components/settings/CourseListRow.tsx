@@ -435,7 +435,9 @@ const getSubtitle = ({
     if (reason === 'missing-action-plan') {
       return 'To receive a certificate you must submit your action plan';
     }
-    return 'Certificate pending';
+
+    const requiresActionPlan = COURSE_CONFIG[course.slug]?.certificateRequiresActionPlan;
+    return `To receive a certificate you can miss at most 1 discussion${requiresActionPlan ? ' and must submit your action plan' : ''}`;
   }
 
   if (isNotInGroup) {
