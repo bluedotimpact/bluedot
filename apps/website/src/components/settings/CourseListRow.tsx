@@ -82,7 +82,6 @@ const CourseListRow = ({
     course,
     courseRegistration,
     meetPerson,
-    expectedDiscussions,
     nextDiscussion,
     currentTimeMs,
     isLoading,
@@ -267,19 +266,24 @@ function getMaxUnitNumber(discussions: GroupDiscussion[]): number | null {
 
 const getCertificateEligibility = ({
   courseSlug,
-  attendedCount,
-  expectedCount,
+  uniqueDiscussionAttendance,
+  numUnits,
   hasSubmittedActionPlan,
 }: {
   courseSlug: string;
-  attendedCount: number;
-  expectedCount: number;
+  uniqueDiscussionAttendance: number | null | undefined;
+  numUnits: number | null | undefined;
   hasSubmittedActionPlan: boolean;
 }): { isEligible: boolean; reason: 'low-attendance' | 'missing-action-plan' | null } => {
-  const missedCount = expectedCount - attendedCount;
+  // If we are missing info about their attendance, assume they are eligible
+  // and allow downstream code to handle their certificate being missing in the most generic way
+  if (uniqueDiscussionAttendance === null || uniqueDiscussionAttendance === undefined || numUnits === null || numUnits === undefined) {
+    return { isEligible: true, reason: null };
+  }
+  const missedCount = numUnits - uniqueDiscussionAttendance;
 
   // Low attendance takes precedence. There is no point submitting action plan if you haven't attended enough
-  if (expectedCount > 0 && missedCount > 1) {
+  if (numUnits > 0 && missedCount > 1) {
     return { isEligible: false, reason: 'low-attendance' };
   }
   const requiresActionPlan = COURSE_CONFIG[courseSlug]?.certificateRequiresActionPlan;
@@ -293,7 +297,6 @@ const getPrimaryCtaButton = ({
   course,
   courseRegistration,
   meetPerson,
-  expectedDiscussions,
   nextDiscussion,
   currentTimeMs,
   isLoading,
@@ -301,7 +304,6 @@ const getPrimaryCtaButton = ({
   course: Course;
   courseRegistration: CourseRegistration;
   meetPerson: MeetPerson | null | undefined;
-  expectedDiscussions: GroupDiscussion[];
   nextDiscussion: GroupDiscussion | undefined;
   currentTimeMs: number;
   isLoading: boolean;
@@ -326,8 +328,8 @@ const getPrimaryCtaButton = ({
   // Show action plan button if they've attended enough but haven't submitted
   const { reason } = getCertificateEligibility({
     courseSlug: course.slug,
-    attendedCount: meetPerson?.attendedDiscussions?.length ?? 0,
-    expectedCount: expectedDiscussions.length,
+    uniqueDiscussionAttendance: meetPerson?.uniqueDiscussionAttendance,
+    numUnits: meetPerson?.numUnits,
     hasSubmittedActionPlan: !!(meetPerson?.projectSubmission && meetPerson.projectSubmission.length > 0),
   });
   if (reason === 'missing-action-plan' && meetPerson) {
@@ -424,8 +426,8 @@ const getSubtitle = ({
 
     const { reason } = getCertificateEligibility({
       courseSlug: course.slug,
-      attendedCount: meetPerson?.attendedDiscussions?.length ?? 0,
-      expectedCount: expectedDiscussions.length,
+      uniqueDiscussionAttendance: meetPerson?.uniqueDiscussionAttendance,
+      numUnits: meetPerson?.numUnits,
       hasSubmittedActionPlan: !!(meetPerson?.projectSubmission && meetPerson.projectSubmission.length > 0),
     });
 
