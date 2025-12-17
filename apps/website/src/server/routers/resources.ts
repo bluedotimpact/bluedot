@@ -72,7 +72,6 @@ export const resourcesRouter = router({
         updatedResourceCompletion = await db.update(resourceCompletionTable, {
           id: resourceCompletion.id,
           unitResourceId: input.unitResourceId,
-          unitResourceIdWrite: input.unitResourceId,
           rating: input.rating ?? resourceCompletion.rating,
           isCompleted: input.isCompleted ?? resourceCompletion.isCompleted,
           feedback: input.feedback ?? resourceCompletion.feedback,
@@ -83,7 +82,6 @@ export const resourcesRouter = router({
         updatedResourceCompletion = await db.insert(resourceCompletionTable, {
           email: ctx.auth.email,
           unitResourceId: input.unitResourceId,
-          unitResourceIdWrite: input.unitResourceId,
           rating: input.rating ?? null,
           isCompleted: input.isCompleted ?? false,
           feedback: input.feedback ?? '',
