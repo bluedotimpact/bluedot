@@ -25,6 +25,10 @@ export const ingressNginx = new k8s.helm.v3.Release('ingress-nginx', {
         // https://cert-manager.io/docs/releases/release-notes/release-notes-1.18/#acme-http01-challenge-paths-now-use-pathtype-exact-in-ingress-routes
         // https://github.com/kubernetes/ingress-nginx/issues/11176
         'strict-validate-path-type': false,
+
+        // Forward real client IP for geolocation (e.g., PostHog GeoIP)
+        'use-forwarded-headers': 'true',
+        'compute-full-forwarded-for': 'true',
       },
       ingressClassResource: {
         default: 'true',
