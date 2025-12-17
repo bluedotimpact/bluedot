@@ -114,7 +114,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource, re
 
           const { unitResourceId, ...updatedFields } = newData;
 
-          const existingIndex = oldData.findIndex((item) => item.unitResourceIdRead === resource.id);
+          const existingIndex = oldData.findIndex((item) => item.unitResourceId === resource.id);
 
           if (newArray[existingIndex]) {
             // If an existing item is found, update it
@@ -128,6 +128,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource, re
               id: unitResourceId,
               autoNumberId: null,
               email: auth?.email ?? '',
+              unitResourceId,
               unitResourceIdRead: unitResourceId,
               unitResourceIdWrite: unitResourceId,
               rating: updatedFields.rating ?? null,
