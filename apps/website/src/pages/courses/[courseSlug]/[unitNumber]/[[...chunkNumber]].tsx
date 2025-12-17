@@ -117,7 +117,7 @@ const CourseUnitChunkPage = ({
         <meta key="og:image:width" property="og:image:width" content="1200" />
         <meta key="og:image:height" property="og:image:height" content="630" />
         <meta key="og:image:type" property="og:image:type" content="image/png" />
-        <meta key="og:image:alt" property="og:image:alt" content="BlueDot Impact logo" />
+        <meta key="og:image:alt" property="og:image:alt" content={`${unit.courseTitle} course preview`} />
 
         {/* Twitter Card meta tags */}
         <meta name="twitter:card" content="summary_large_image" />
@@ -152,7 +152,7 @@ export const getServerSideProps: GetServerSideProps<CourseUnitChunkPageProps> = 
     const unitWithContent = await getUnitWithChunks(courseSlug, unitNumber);
 
     // Check for course-specific OG image, fallback to default BlueDot logo
-    let courseOgImage = `${process.env.NEXT_PUBLIC_SITE_URL}/images/logo/link-preview-fallback.png`;
+    let courseOgImage = 'https://bluedot.org/images/logo/link-preview-fallback.png';
     if (await fileExists(path.join(process.cwd(), 'public', 'images', 'courses', 'link-preview', `${courseSlug}.png`))) {
       courseOgImage = `${process.env.NEXT_PUBLIC_SITE_URL}/images/courses/link-preview/${courseSlug}.png`;
     }
