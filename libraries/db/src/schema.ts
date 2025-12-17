@@ -1155,10 +1155,16 @@ export const resourceCompletionTable = pgAirtable('resource_completion', {
   baseId: COURSE_BUILDER_BASE_ID,
   tableId: 'tblu6YnR7Lh0Bsl6v',
   columns: {
+    unitResourceId: {
+      pgColumn: text(),
+      airtableId: 'fldk4dbWAohE312Qn',
+    },
+    /** @deprecated use `unitResourceId` instead */
     unitResourceIdWrite: {
       pgColumn: text(),
       airtableId: 'fldk4dbWAohE312Qn',
     },
+    /** @deprecated use `unitResourceId` instead */
     unitResourceIdRead: {
       pgColumn: text(),
       airtableId: 'fldoTb7xx0QQVHXvM',

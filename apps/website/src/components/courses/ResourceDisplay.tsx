@@ -77,7 +77,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
     return <ErrorView error={resourceCompletionsError} />;
   }
 
-  const resourceCompletionMap = new Map(resourceCompletions?.map((rc) => [rc.unitResourceIdRead, rc]));
+  const resourceCompletionMap = new Map(resourceCompletions?.map((rc) => [rc.unitResourceId, rc]));
   const coreResources = filterResourcesByType(resources, 'Core');
   const optionalResources = filterResourcesByType(resources, 'Further');
   const totalCoreResourceTime = calculateResourceTime(coreResources);
