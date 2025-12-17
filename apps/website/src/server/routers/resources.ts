@@ -27,6 +27,9 @@ export const resourcesRouter = router({
       // Airtable, so we handle it here.
       const seenIds = new Set<string>();
       const uniqueCompletions = resourceCompletions.filter((completion) => {
+        if (!completion.unitResourceIdRead) {
+          return false;
+        }
         if (seenIds.has(completion.unitResourceIdRead)) {
           return false;
         }

@@ -71,7 +71,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   const groupedResourceCompletionData = chunks.map((chunk) => {
     const coreChunkResources = filterResourcesByType(chunk.resources, 'Core');
     const coreResourceIds = new Set(coreChunkResources.map((resource) => resource.id));
-    const completedCoreResources = resourceCompletions?.filter((completion) => completion.isCompleted && coreResourceIds.has(completion.unitResourceIdRead)) || [];
+    const completedCoreResources = resourceCompletions?.filter((completion) => completion.isCompleted && completion.unitResourceIdRead && coreResourceIds.has(completion.unitResourceIdRead)) || [];
 
     return {
       chunkCoreResources: coreChunkResources,
