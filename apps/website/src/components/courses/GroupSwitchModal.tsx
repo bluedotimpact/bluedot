@@ -128,7 +128,6 @@ export default function GroupSwitchModal({
   const currentDiscussionAsGroupSwitchOption = formatCurrentDiscussionAsGroupSwitchOption();
 
   const isSubmitDisabled = isSubmitting
-    || !reason.trim()
     || (isManualRequest && !hasUpdatedAvailability)
     || (!isManualRequest && !(isTemporarySwitch ? selectedDiscussionId : selectedGroupId));
 
@@ -288,7 +287,7 @@ export default function GroupSwitchModal({
     {
       id: 'reason',
       isVisible: true,
-      title: "Tell us why you're making this change (required)",
+      title: "Tell us why you're making this change",
       subtitle: 'Participants who stick with their group usually have a better experience on the course.',
       control: (
         <textarea
@@ -335,7 +334,7 @@ export default function GroupSwitchModal({
             onChange={(e) => setHasUpdatedAvailability(e.target.checked)}
             className="size-4 rounded border-gray-300 text-bluedot-normal focus:ring-bluedot-normal cursor-pointer"
           />
-          <span className="text-size-sm text-[#13132E]">I have checked my availability and updated if necessary</span>
+          <span className="text-size-sm text-[#13132E]">I have updated my availability</span>
         </label>
       ),
     },
