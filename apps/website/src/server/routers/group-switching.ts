@@ -223,7 +223,7 @@ export const groupSwitchingRouter = router({
     .input(
       z.object({
         switchType: z.enum(['Switch group for one unit', 'Switch group permanently']),
-        notesFromParticipant: z.string().min(1),
+        notesFromParticipant: z.string().optional(),
         oldGroupId: z.string().optional(),
         newGroupId: z.string().optional(),
         oldDiscussionId: z.string().optional(),
