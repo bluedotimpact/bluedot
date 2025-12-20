@@ -8,6 +8,23 @@ import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
 import { trpc } from '../../utils/trpc';
 import type { Event } from '../../server/routers/luma';
 
+// Featured events - these will appear first (if not yet passed)
+// Add Luma event URLs here to prioritize them (e.g., 'https://lu.ma/your-event-slug')
+const FEATURED_EVENT_URLS: string[] = [
+  // Example:
+  // "https://luma.com/b5i3zi74",
+];
+
+// Normalize URL for comparison (removes trailing slashes, query params, standardizes protocol)
+const normalizeUrl = (url: string): string => {
+  try {
+    const parsed = new URL(url);
+    return `${parsed.protocol}//${parsed.host}${parsed.pathname.replace(/\/$/, '')}`.toLowerCase();
+  } catch {
+    return url.toLowerCase().replace(/\/$/, '');
+  }
+};
+
 type Photo = {
   id: string;
   src: string;
@@ -333,9 +350,40 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
   );
 };
 
-const EventsSection = () => {
+/** Sorts events with featured URLs first, preserving the order specified in featuredUrls */
+const sortEventsWithFeaturedUrls = (events: Event[], featuredUrls: string[]): Event[] => {
+  if (featuredUrls.length === 0) return events;
+
+  const normalizedFeaturedUrls = featuredUrls.map(normalizeUrl);
+  const featuredEvents: Event[] = [];
+  const regularEvents: Event[] = [];
+
+  for (const event of events) {
+    const normalizedEventUrl = normalizeUrl(event.url);
+    if (normalizedFeaturedUrls.includes(normalizedEventUrl)) {
+      featuredEvents.push(event);
+    } else {
+      regularEvents.push(event);
+    }
+  }
+
+  // Featured events first (in the order they appear in featuredUrls),
+  // then remaining events in their original chronological order
+  const sortedFeatured = featuredEvents.sort(
+    (a, b) => normalizedFeaturedUrls.indexOf(normalizeUrl(a.url)) - normalizedFeaturedUrls.indexOf(normalizeUrl(b.url)),
+  );
+
+  return [...sortedFeatured, ...regularEvents];
+};
+
+type EventsSectionProps = {
+  featuredUrls?: string[];
+};
+
+const EventsSection = ({ featuredUrls = FEATURED_EVENT_URLS }: EventsSectionProps) => {
   const { data: events, isLoading } = trpc.luma.getUpcomingEvents.useQuery();
-  const displayEvents = (events || []).slice(0, 4);
+  const sortedEvents = sortEventsWithFeaturedUrls(events || [], featuredUrls);
+  const displayEvents = sortedEvents.slice(0, 4);
 
   return (
     <section
