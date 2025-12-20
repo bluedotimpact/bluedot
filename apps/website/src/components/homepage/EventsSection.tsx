@@ -12,7 +12,7 @@ import type { Event } from '../../server/routers/luma';
 // Add Luma event URLs here to prioritize them (e.g., 'https://lu.ma/your-event-slug')
 const FEATURED_EVENT_URLS: string[] = [
   // Example:
-  // "https://luma.com/b5i3zi74",
+  // 'https://lu.ma/b5i3zi74',
 ];
 
 // Normalize URL for comparison (removes trailing slashes, query params, standardizes protocol)
