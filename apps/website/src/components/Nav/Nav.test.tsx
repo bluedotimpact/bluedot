@@ -215,8 +215,8 @@ describe('Nav', () => {
       expect(mobileNavDrawer!.className).not.toMatch(/max-h-0/);
     });
 
-    // Simulate clicking outside the nav drawer
-    fireEvent.click(document.body);
+    // Simulate clicking outside the nav drawer (useClickOutside uses mousedown)
+    fireEvent.mouseDown(document.body);
 
     // Ensure the nav drawer is closed
     await waitFor(() => {

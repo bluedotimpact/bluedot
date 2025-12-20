@@ -6,6 +6,7 @@ import { CgChevronDown } from 'react-icons/cg';
 import { ROUTES } from '../../lib/routes';
 import { useCourses } from '../../lib/hooks/useCourses';
 import { usePrimaryCourseURL } from '../../lib/hooks/usePrimaryCourseURL';
+import { useClickOutside } from '../../lib/hooks/useClickOutside';
 import {
   DRAWER_CLASSES,
   ExpandedSectionsState,
@@ -67,6 +68,7 @@ export const NavLinks: React.FC<{
           mobileNav: expandedSections.mobileNav,
           profile: false,
         })}
+        onClose={() => updateExpandedSections({ explore: false })}
         title="Courses"
         loading={loading}
       />
@@ -79,13 +81,25 @@ export const NavLinks: React.FC<{
       >
         Events
       </A>
-      <A href={ROUTES.blog.url} target="_blank" rel="noopener noreferrer" className={getLinkClasses(isCurrentPath(ROUTES.blog.url))} aria-label="Blog (opens in new tab)">
+      <A
+        href={ROUTES.blog.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={getLinkClasses(isCurrentPath(ROUTES.blog.url))}
+        aria-label="Blog (opens in new tab)"
+      >
         Blog
       </A>
-      <A href={ROUTES.about.url} className={getLinkClasses(isCurrentPath(ROUTES.about.url))}>
+      <A
+        href={ROUTES.about.url}
+        className={getLinkClasses(isCurrentPath(ROUTES.about.url))}
+      >
         About
       </A>
-      <A href={ROUTES.joinUs.url} className={getLinkClasses(isCurrentPath(ROUTES.joinUs.url))}>
+      <A
+        href={ROUTES.joinUs.url}
+        className={getLinkClasses(isCurrentPath(ROUTES.joinUs.url))}
+      >
         Jobs
       </A>
     </div>
@@ -99,6 +113,7 @@ const NavDropdown: React.FC<{
   isHomepage: boolean;
   links: { title: string; url: string; isNew?: boolean | null }[];
   onToggle: () => void;
+  onClose: () => void;
   title: string;
   // Optional
   className?: string;
@@ -109,10 +124,13 @@ const NavDropdown: React.FC<{
   isHomepage,
   links,
   onToggle,
+  onClose,
   title,
   className,
   loading,
 }) => {
+  const dropdownRef = useClickOutside<HTMLDivElement>(onClose, isExpanded);
+
   const getDropdownButtonClasses = () => {
     // Mobile drawer always has white background, so always use dark text
     // Desktop navbar uses white text on homepage, dark text elsewhere
@@ -140,7 +158,7 @@ const NavDropdown: React.FC<{
   };
 
   return (
-    <div className="nav-dropdown">
+    <div ref={dropdownRef} className="nav-dropdown">
       <button
         type="button"
         onClick={onToggle}
