@@ -11,6 +11,7 @@ import {
   ExpandedSectionsState,
 } from './utils';
 import { getLoginUrl } from '../../utils/getLoginUrl';
+import { useClickOutside } from '../../lib/hooks/useClickOutside';
 
 export const MobileNavLinks: React.FC<{
   expandedSections: ExpandedSectionsState;
@@ -25,6 +26,11 @@ export const MobileNavLinks: React.FC<{
 }) => {
   const router = useRouter();
   const joinUrl = getLoginUrl(router.asPath, true);
+  const mobileNavRef = useClickOutside<HTMLDivElement>(
+    () => updateExpandedSections({ mobileNav: false }),
+    expandedSections.mobileNav,
+  );
+
   const getPrimaryButtonClasses = () => {
     const baseClasses = 'px-3 py-[5px] rounded-[5px] text-size-sm font-[450] leading-[160%] items-center justify-center';
 
@@ -43,7 +49,7 @@ export const MobileNavLinks: React.FC<{
   };
 
   return (
-    <div className="mobile-nav-links lg:hidden">
+    <div ref={mobileNavRef} className="mobile-nav-links lg:hidden">
       <IconButton
         open={expandedSections.mobileNav}
         Icon={<HamburgerIcon />}

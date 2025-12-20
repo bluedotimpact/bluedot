@@ -7,6 +7,7 @@ import { ExpandedSectionsState, DRAWER_CLASSES, DRAWER_Z_PROFILE } from './utils
 import { ROUTES } from '../../lib/routes';
 import { UserSearchModal } from '../admin/UserSearchModal';
 import { trpc } from '../../utils/trpc';
+import { useClickOutside } from '../../lib/hooks/useClickOutside';
 
 export const ProfileLinks: React.FC<{
   expandedSections: ExpandedSectionsState;
@@ -20,6 +21,10 @@ export const ProfileLinks: React.FC<{
   const [isBugReportModalOpen, setIsBugReportModalOpen] = useState(false);
   const [isImpersonateModalOpen, setIsImpersonateModalOpen] = useState(false);
   const { data: isAdmin } = trpc.admin.isAdmin.useQuery();
+  const profileRef = useClickOutside<HTMLDivElement>(
+    () => updateExpandedSections({ profile: false }),
+    expandedSections.profile,
+  );
 
   const onToggleProfile = () => updateExpandedSections({
     about: false,
@@ -37,7 +42,7 @@ export const ProfileLinks: React.FC<{
   };
 
   return (
-    <div className="profile-links">
+    <div ref={profileRef} className="profile-links">
       <IconButton
         className={clsx(
           'profile-links__btn',
