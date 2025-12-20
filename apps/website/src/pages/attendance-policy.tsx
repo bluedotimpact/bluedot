@@ -65,7 +65,7 @@ We reserve the right to remove participants from the course who consistently dis
 
 Note that to receive a certificate of completion at the end of the course, you need to attend >80% of the group discussions and submit a project!
 
-If you feel like poor attendance or disruptive behaviour from others in your group is disrupting your learning, please mention this to your facilitator or [our team](https://bluedot.org/contact).
+If you feel like poor attendance or disruptive behaviour from others in your group is disrupting your learning, please mention this to your facilitator or [our team](mailto:team@bluedot.org).
 `}
         </MarkdownExtendedRenderer>
       </Section>

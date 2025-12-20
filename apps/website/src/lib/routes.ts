@@ -39,11 +39,9 @@ const blog: BluedotRoute = {
   parentPages: [home],
 };
 
-// Avoid changing the /contact route - we reference it lots of places.
-// If you are changing it, update libraries/ui/src/constants.ts
 const contact: BluedotRoute = {
   title: 'Contact us',
-  url: '/contact',
+  url: 'mailto:team@bluedot.org',
   parentPages: [home],
 };
 
