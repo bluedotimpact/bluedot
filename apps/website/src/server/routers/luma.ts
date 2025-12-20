@@ -85,7 +85,7 @@ async function refreshCache(): Promise<Event[]> {
       const now = new Date().toISOString();
       const url = new URL('https://public-api.luma.com/v1/calendar/list-events');
       url.searchParams.set('after', now);
-      url.searchParams.set('pagination_limit', '4');
+      url.searchParams.set('pagination_limit', '40');
       url.searchParams.set('sort_column', 'start_at');
       url.searchParams.set('sort_direction', 'asc');
 
