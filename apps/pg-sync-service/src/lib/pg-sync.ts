@@ -279,8 +279,11 @@ async function processSingleUpdate(update: AirtableAction): Promise<boolean> {
         and(
           eq(metaTable.airtableBaseId, update.baseId),
           eq(metaTable.airtableTableId, update.tableId),
-          ...(!update.isDelete
-            ? [inArray(metaTable.airtableFieldId, update.fieldIds ?? [])]
+          // Only filter by fieldIds if they exist and are non-empty
+          // Created records have no fieldIds, so we skip the filter to allow them through
+          // If fieldIds is undefined/empty, we just check if the table is tracked at all
+          ...(!update.isDelete && update.fieldIds && update.fieldIds.length > 0
+            ? [inArray(metaTable.airtableFieldId, update.fieldIds)]
             : []),
         ),
       ).limit(1);
