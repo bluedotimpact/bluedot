@@ -21,6 +21,15 @@ type UnitMetadata = {
   exerciseCount: number;
 };
 
+const formatDuration = (minutes: number): string => {
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+
+  if (hours === 0) return `${mins} min`;
+  if (mins === 0) return `${hours} hr`;
+  return `${hours} hr ${mins} min`;
+};
+
 const SectionWrapper = ({ children, title }: { children: React.ReactNode; title: string }) => (
   <section className="w-full bg-white">
     <div className="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 md:px-spacing-x min-[1280px]:py-24 xl:py-24">
@@ -65,7 +74,7 @@ const UnitMetadataDisplay = ({
         <>
           <CgTime className="size-[18px] text-[#13132E] opacity-60" />
           <span className="text-[13px] font-medium leading-[1.4] tracking-[-0.065px] text-[#13132E] opacity-60">
-            {duration}min
+            {formatDuration(duration)}
           </span>
         </>
       )}
