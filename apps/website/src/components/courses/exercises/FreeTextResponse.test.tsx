@@ -440,5 +440,51 @@ describe('FreeTextResponse', () => {
       const editor = container.querySelector('.ProseMirror') as HTMLElement;
       expect(editor.getAttribute('contenteditable')).toBe('true');
     });
+
+    test('does not overwrite user input when exerciseResponse prop updates during typing', async () => {
+      // This test verifies the fix for issue #1614:
+      // If a user continues typing while saving, the refetch triggered by invalidation
+      // should not overwrite their new input.
+
+      const mockOnExerciseSubmit = vi.fn().mockResolvedValue({});
+      const { container, rerender } = render(
+        <FreeTextResponse
+          {...mockArgs}
+          onExerciseSubmit={mockOnExerciseSubmit}
+          exerciseResponse=""
+          isLoggedIn
+        />,
+      );
+
+      const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+
+      // User types initial text
+      fireEvent.change(textarea, { target: { value: 'Hello' } });
+      expect(textarea.value).toBe('Hello');
+
+      // User continues typing before save completes
+      fireEvent.change(textarea, { target: { value: 'Hello World' } });
+      expect(textarea.value).toBe('Hello World');
+
+      // Simulate the exerciseResponse prop updating (as would happen after refetch)
+      // This simulates the server response coming back with the old saved value
+      rerender(
+        <FreeTextResponse
+          {...mockArgs}
+          onExerciseSubmit={mockOnExerciseSubmit}
+          exerciseResponse="Hello"
+          isLoggedIn
+        />,
+      );
+
+      // Wait a tick for effects to run
+      await waitFor(() => {
+        // Verify that the user's current input is NOT overwritten
+        expect(textarea.value).toBe('Hello World');
+      });
+
+      // The local state should take precedence over the refetched server value
+      expect(textarea.value).not.toBe('Hello');
+    });
   });
 });
