@@ -193,5 +193,19 @@ describe('Logout Page - Redirect Logic', () => {
     render(<LogoutPage />);
     navigate = screen.getByTestId('navigate');
     expect(navigate.getAttribute('data-url')).toBe('/');
+
+    // Auth-required page when logged out (should also redirect to home)
+    cleanup();
+    vi.clearAllMocks();
+    mockedShouldRedirectBackAfterLogout.mockReturnValue(false);
+    mockedUseRouter.mockReturnValue({
+      query: { redirect_to: '/settings/account' },
+      pathname: '/login/clear',
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any);
+
+    render(<LogoutPage />);
+    navigate = screen.getByTestId('navigate');
+    expect(navigate.getAttribute('data-url')).toBe('/');
   });
 });

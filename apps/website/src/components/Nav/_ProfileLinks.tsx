@@ -88,9 +88,11 @@ export const ProfileLinks: React.FC<{
             Submit Feedback
           </button>
           <A
-            href={`${ROUTES.logout.url}?redirect_to=${encodeURIComponent(
-              window.location.pathname + window.location.search + window.location.hash,
-            )}`}
+            href={typeof window !== 'undefined'
+              ? `${ROUTES.logout.url}?redirect_to=${encodeURIComponent(
+                window.location.pathname + window.location.search + window.location.hash,
+              )}`
+              : ROUTES.logout.url}
             className={getNavLinkClasses()}
             onClick={onToggleProfile}
           >Log out

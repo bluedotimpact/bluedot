@@ -40,7 +40,9 @@ const LogoutPage: React.FC = () => {
   // Fallback for when auth is already cleared
   if (!auth) {
     // If we have a safe redirect target, use it even when already logged out
-    const fallbackUrl = redirectTo?.startsWith('/') && !redirectTo.startsWith('//')
+    const fallbackUrl = redirectTo?.startsWith('/')
+      && !redirectTo.startsWith('//')
+      && shouldRedirectBackAfterLogout(redirectTo)
       ? redirectTo
       : '/';
     return <Navigate url={fallbackUrl} />;
