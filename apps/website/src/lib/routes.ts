@@ -113,3 +113,18 @@ export const ROUTES = {
   settingsAccount,
   settingsCourses,
 } as const;
+
+/**
+ * Determines if a user should be redirected back to a given path after logout.
+ * Returns false for auth-required pages to avoid showing error states.
+ *
+ * @param path - The path to check (e.g., "/courses/governance" or "/settings/account")
+ * @returns true if safe to redirect back, false if should redirect to home instead
+ */
+export const shouldRedirectBackAfterLogout = (path: string): boolean => {
+  // Don't redirect to auth-required pages (would show errors after logout)
+  // Don't redirect to login pages (confusing UX - user just logged out)
+  const blockedPrefixes = ['/settings', '/profile', '/login'];
+
+  return !blockedPrefixes.some((prefix) => path.startsWith(prefix));
+};
