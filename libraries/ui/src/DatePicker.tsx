@@ -86,7 +86,7 @@ export const DatePicker = ({
           {
             positionAnchor: `--${popoverId}`,
             top: 'anchor(bottom)',
-            left: '50vw',
+            left: 'anchor(center)',
             transform: 'translateX(-50%)',
             marginTop: '8px',
           } as React.CSSProperties
