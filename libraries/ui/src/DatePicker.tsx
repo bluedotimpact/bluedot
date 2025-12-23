@@ -68,6 +68,8 @@ export const DatePicker = ({
           id={inputId}
           type="text"
           value={inputValue}
+          readOnly={value === undefined}
+          onClick={() => value === undefined && popoverRef.current?.showPopover()}
           onChange={(e) => setInputValue(e.target.value)}
           onBlur={handleInputBlur}
           placeholder="Select date..."
