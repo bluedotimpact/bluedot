@@ -240,7 +240,7 @@ export default CoursesPage;
 /* Hero Section */
 const CoursesHero = () => {
   return (
-    <section className="relative w-full min-h-[317px] min-[680px]:min-h-[366px] overflow-hidden">
+    <section className="relative w-full min-h-[317px] min-[680px]:min-h-[366px]">
       <Nav />
       {/* Background Image */}
       <img
