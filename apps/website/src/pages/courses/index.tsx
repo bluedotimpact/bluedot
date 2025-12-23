@@ -25,6 +25,7 @@ const COURSE_DESCRIPTIONS: Record<string, string> = {
   'agi-strategy': 'A deep dive into the incentives driving the AI companies, what\'s at stake, and the strategies for ensuring AI benefits humanity. You\'ll finish with your own action plan.',
   'technical-ai-safety': 'For technical talent who want to drive AI safety research and policy professionals building governance solutions.',
   biosecurity: 'For people who want to build a pandemic-proof world. Learn how we can defend against AI-enabled bioattacks.',
+  'technical-ai-safety-project': 'For those who want to make a technical contribution to AI safety research or engineering.',
 };
 
 const COURSE_APPLICATION_URLS: Record<string, string> = {

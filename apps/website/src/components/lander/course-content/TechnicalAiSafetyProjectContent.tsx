@@ -46,7 +46,7 @@ export const createTechnicalAiSafetyProjectContent = (
       {
         icon: PiFlask,
         boldText: 'For early researchers',
-        description: 'who want to build taste for AI safety research.',
+        description: 'who want to build their AI safety research portfolio.',
       },
       {
         icon: PiGraduationCap,
@@ -73,7 +73,7 @@ export const createTechnicalAiSafetyProjectContent = (
         title: 'Publish a project in 30 hours',
         description: (
           <>
-            Go from extending a paper or improving research code to a published write-up in 30 hours.
+            Go from extending a paper or improving research code to a published write-up.
             <br /><br />
             <a href="https://bluedot.org/projects/" target="_blank" rel="noopener noreferrer" className="underline">Past participants</a> have reproduced findings from METR, fixed TransformerLens issues, and replicated evals using Inspect. You'll publish a blog post and X thread showcasing your work.
           </>
@@ -82,7 +82,7 @@ export const createTechnicalAiSafetyProjectContent = (
       {
         icon: PiUsersThree,
         title: 'Find collaborators and opportunities',
-        description: 'Work alongside 6-8 peers. Past graduates have found co-founders, collaborators, roles, and funding through their projects. Your write-up becomes a public signal of your capabilities.',
+        description: "We'll feature the best projects on our website and socials. Past graduates have found co-founders, collaborators, roles, and funding through their projects. Your write-up becomes a public signal of your skills.",
       },
       {
         icon: PiChalkboardTeacherLight,
