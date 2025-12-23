@@ -12,5 +12,5 @@ export const COURSE_CONFIG: Record<string, CourseConfigItem> = {
   'agi-strategy': { icon: '/images/courses/agi-strategy-icon.svg', certificateRequiresActionPlan: true },
   'technical-ai-safety': { icon: '/images/courses/technical-ai-safety-icon.svg' },
   biosecurity: { icon: '/images/courses/biosecurity-icon.svg' },
-  // 'technical-ai-safety-project': { icon: '/images/courses/technical-ai-safety-project-icon.svg' }, // TODO: Add custom icon (SVG) when ready
+  'technical-ai-safety-project': { icon: '/images/courses/technical-ai-safety-project-icon.svg' },
 };
