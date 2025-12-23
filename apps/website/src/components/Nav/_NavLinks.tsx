@@ -167,6 +167,8 @@ const NavDropdown: React.FC<{
       <button
         type="button"
         onClick={onToggle}
+        aria-expanded={isExpanded}
+        aria-controls={`${title.toLowerCase()}-dropdown`}
         className={clsx(
           'nav-dropdown__btn flex items-center gap-2 cursor-pointer',
           'nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle',
@@ -182,6 +184,9 @@ const NavDropdown: React.FC<{
         />
       </button>
       <div
+        id={`${title.toLowerCase()}-dropdown`}
+        role="region"
+        aria-label={`${title} menu`}
         className={clsx(
           'nav-dropdown__content-wrapper overflow-hidden',
           isExpanded ? 'z-40' : 'pointer-events-none',

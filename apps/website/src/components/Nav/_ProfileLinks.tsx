@@ -3,7 +3,9 @@ import clsx from 'clsx';
 import { FaCircleUser } from 'react-icons/fa6';
 import { A, BugReportModal, IconButton } from '@bluedot/ui';
 
-import { ExpandedSectionsState, DRAWER_CLASSES, DRAWER_Z_PROFILE, PROFILE_DROPDOWN_CLASS } from './utils';
+import {
+  ExpandedSectionsState, DRAWER_CLASSES, DRAWER_Z_PROFILE, PROFILE_DROPDOWN_CLASS,
+} from './utils';
 import { ROUTES } from '../../lib/routes';
 import { UserSearchModal } from '../admin/UserSearchModal';
 import { trpc } from '../../utils/trpc';

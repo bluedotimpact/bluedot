@@ -65,6 +65,8 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                       class="nav-dropdown"
                     >
                       <button
+                        aria-controls="courses-dropdown"
+                        aria-expanded="false"
                         class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                         type="button"
                       >
@@ -86,7 +88,10 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                         </svg>
                       </button>
                       <div
+                        aria-label="Courses menu"
                         class="nav-dropdown__content-wrapper overflow-hidden pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out overflow-hidden bg-white max-h-0 opacity-0 pb-0 pointer-events-none"
+                        id="courses-dropdown"
+                        role="region"
                       >
                         <div
                           class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty"
@@ -181,6 +186,8 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                 class="nav-dropdown"
               >
                 <button
+                  aria-controls="courses-dropdown"
+                  aria-expanded="false"
                   class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                   type="button"
                 >
@@ -202,7 +209,10 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   </svg>
                 </button>
                 <div
+                  aria-label="Courses menu"
                   class="nav-dropdown__content-wrapper overflow-hidden pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out overflow-hidden bg-white max-h-0 opacity-0 pb-0 pointer-events-none"
+                  id="courses-dropdown"
+                  role="region"
                 >
                   <div
                     class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty"
