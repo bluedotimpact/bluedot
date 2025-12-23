@@ -18,6 +18,21 @@ export const Default: Story = {
   args: {
     value: new Date(),
   },
+  render: () => {
+    const ControlledDemo = () => {
+      const [date, setDate] = useState<Date | undefined>(undefined);
+
+      return (
+        <div className="flex flex-col gap-4">
+          <DatePicker label="Pick a date" value={date} onChange={setDate} />
+          <div className="text-white text-size-sm">
+            Selected: {date ? date.toLocaleDateString() : 'None'}
+          </div>
+        </div>
+      );
+    };
+    return <ControlledDemo />;
+  },
 };
 
 export const CustomLabel: Story = {
@@ -30,25 +45,6 @@ export const HiddenLabel: Story = {
   args: {
     label: 'Date',
     hideLabel: true,
-  },
-};
-
-export const Controlled: Story = {
-  render: () => {
-    const ControlledDemo = () => {
-      const [date, setDate] = useState<Date | null>(null);
-
-      return (
-        <div className="flex flex-col gap-4">
-          <DatePicker label="Pick a date" value={date} onChange={setDate} />
-          <div className="text-white text-size-sm">
-            Selected: {date ? date.toLocaleDateString() : 'None'}
-          </div>
-        </div>
-      );
-    };
-
-    return <ControlledDemo />;
   },
 };
 
