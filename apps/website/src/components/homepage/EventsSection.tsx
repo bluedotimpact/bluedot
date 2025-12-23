@@ -63,6 +63,9 @@ const BLUEDOT_EVENTS_PHOTOS: Photo[] = [
   {
     id: '10', src: '/images/homepage/events-10.png', alt: 'BlueDot event', width: 637,
   },
+  {
+    id: '11', src: '/images/homepage/events-11.png', alt: 'BlueDot event', width: 500,
+  },
 ];
 
 const CAROUSEL_CONFIG = {
