@@ -30,7 +30,7 @@ export const DatePicker = ({
   const inputId = useId();
   const popoverId = useId();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setInputValue(newValue);
 
@@ -68,7 +68,8 @@ export const DatePicker = ({
           id={inputId}
           type="text"
           value={inputValue}
-          onChange={handleInputChange}
+          onChange={(e) => setInputValue(e.target.value)}
+          onBlur={handleInputBlur}
           placeholder="Select date..."
           aria-label={hideLabel ? label : undefined}
           style={{ anchorName: `--${popoverId}` } as React.CSSProperties}
