@@ -1,5 +1,4 @@
 import {
-  PiBriefcase,
   PiFlask,
   PiClockClockwise,
   PiChats,
@@ -9,55 +8,51 @@ import {
   PiUsersThree,
   PiCode,
   PiChalkboardTeacherLight,
+  PiGraduationCap,
 } from 'react-icons/pi';
 import { CourseLanderContent } from '../CourseLander';
 
-export const TECHNICAL_AI_SAFETY_APPLICATION_URL = 'https://web.miniextensions.com/9YX1i46qewCv5m17v8rl';
+export const TECHNICAL_AI_SAFETY_PROJECT_APPLICATION_URL = 'https://web.miniextensions.com/2lQmY04m6DdfeGbIYgsG';
 
-export const createTechnicalAiSafetyContent = (
+export const createTechnicalAiSafetyProjectContent = (
   applicationUrlWithUtm: string,
   courseSlug: string,
 ): CourseLanderContent => ({
   meta: {
-    title: 'Technical AI Safety Course | BlueDot Impact',
-    description: 'Start building safer AI. Join our intensive course for builders shaping the future of artificial general intelligence.',
+    title: 'Technical AI Safety Project | BlueDot Impact',
+    description: 'Make a technical contribution to AI safety in 30 hours.',
   },
 
   hero: {
-    categoryLabel: 'TECHNICAL AI SAFETY',
-    title: 'Start building safer AI',
-    description: 'Understand current safety techniques. Map the gaps. Identify where you can contribute. All in 30 hours.',
+    categoryLabel: 'TECHNICAL AI SAFETY PROJECT',
+    title: 'Make a technical contribution to AI safety in 30 hours',
+    description: 'Work with an AI safety expert to make a contribution to AI safety research or engineering. All in 30 hours.',
     primaryCta: {
       text: 'Apply now',
-      url: applicationUrlWithUtm,
-    },
-    secondaryCta: {
-      text: 'Browse curriculum',
-      url: `/courses/${courseSlug}/1/1`,
+      url: TECHNICAL_AI_SAFETY_PROJECT_APPLICATION_URL,
     },
     imageSrc: '/images/lander/technical-ai-safety/hero-banner-split.png',
-    imageAlt: 'Technical AI Safety visualisation',
+    imageAlt: 'Technical AI Safety Project visualisation',
   },
 
   whoIsThisFor: {
     title: 'Who this course is for',
     targetAudiences: [
       {
-        icon: PiFlask,
-        boldText: 'For ML researchers',
-        description: 'who want to take big bets on the most impactful research ideas.',
-      },
-      {
         icon: PiCode,
         boldText: 'For software engineers',
-        description: 'who want to scale AI safety research.',
+        description: 'who want to contribute their technical skills to build tools for or scale AI safety research.',
       },
       {
-        icon: PiBriefcase,
-        boldText: 'For policy professionals',
-        description: 'who need deep technical understanding to build governance solutions.',
+        icon: PiFlask,
+        boldText: 'For early researchers',
+        description: 'who want to build taste for AI safety research.',
       },
-
+      {
+        icon: PiGraduationCap,
+        boldText: 'For Technical AI Safety course graduates',
+        description: 'who want to build their portfolio.',
+      },
     ],
     bottomCta: {
       boldText: "Don't fit these perfectly? Apply anyway.",
@@ -75,18 +70,24 @@ export const createTechnicalAiSafetyContent = (
     benefits: [
       {
         icon: PiRocketLaunch,
-        title: 'Take action in less than 30 hours',
-        description: "Skip months of scattered reading. This Technical AI Safety course gives you a structured overview of key safety techniques. Understand what works, what fails, and where the gaps are. You'll finish with a plan for contributing.",
+        title: 'Publish a project in 30 hours',
+        description: (
+          <>
+            Go from extending a paper or improving research code to a published write-up in 30 hours.
+            <br /><br />
+            <a href="https://bluedot.org/projects/" target="_blank" rel="noopener noreferrer" className="underline">Past participants</a> have reproduced findings from METR, fixed TransformerLens issues, and replicated evals using Inspect. You'll publish a blog post and X thread showcasing your work.
+          </>
+        ),
       },
       {
         icon: PiUsersThree,
-        title: 'Join a network of builders',
-        description: "This course isn't for everyone. We're building a community of people who are energised to take ambitious actions to make AI go well, including starting new companies, policy entrepreneurship, and high-impact research bets. Completing this course will give you access to this community.",
+        title: 'Find collaborators and opportunities',
+        description: 'Work alongside 6-8 peers. Past graduates have found co-founders, collaborators, roles, and funding through their projects. Your write-up becomes a public signal of your capabilities.',
       },
       {
         icon: PiChalkboardTeacherLight,
-        title: 'Learn with experts',
-        description: "Every discussion is facilitated by an AI safety expert who can answer your technical questions, challenge your assumptions, and connect concepts to real work happening. They'll help connect you to concrete pathways for contribution.",
+        title: 'Get mentorship from an AI safety expert',
+        description: 'You\'ll have regular check-ins with an AI safety expert who can debug your approach, validate extension ideas, and give rapid feedback. No more spinning your wheels alone. Get answers in hours, not days.',
       },
     ],
   },
@@ -102,9 +103,11 @@ export const createTechnicalAiSafetyContent = (
         label: 'Commitment',
         description: (
           <>
-            Each day or week, you will:
+            You will spend <b>30 hours</b> working on your project. Each week you will:
             <br />
-            <span className="font-semibold">Complete 2-3 hours</span> of reading and writing, and <span className="font-semibold">join ~8 peers in a 2-hour Zoom meeting</span> to discuss the content.
+            • Provide regular updates on your progress
+            <br />
+            • Join ~8 peers and an AI safety expert in a 1-hour check-in to discuss your progress and get feedback
           </>
         ),
       },
@@ -201,18 +204,18 @@ export const createTechnicalAiSafetyContent = (
         question: 'How much technical background do I need?',
         answer: (
           <>
-            You should understand the basics of how LLMs are trained/fine-tuned, that AI development is driven by data, algorithms and compute, and that the reward function for neural networks is optimised through gradient descent.
-            <br /> <br />
-            Our 2-hour, self-paced <a href="https://bluedot-impact.notion.site/AI-Foundations-293f8e69035380f29863c4c92c41fac7" target="_blank" rel="noopener noreferrer" className="underline">AI Foundations course</a> will give you enough background.
+            You should be comfortable coding—either through professional experience or a few fully completed projects. Our mentorship focuses on scoping and refining your project ideas, not teaching you to code.
+
+            If you're not comfortable coding, you could instead work on a written project, like a blog post reflecting on a past BlueDot course or exploring different ways you could contribute to AI safety.
           </>
         ),
       },
       {
-        id: 'agi-strategy',
-        question: 'Do I need to take the AGI strategy course first?',
+        id: 'technical-ai-safety',
+        question: 'Do I need to take the Technical AI Safety course first?',
         answer: (
           <>
-            It's not required, but strongly recommended. The AGI Strategy course provides essential context that this course builds on. While you can start here directly, you'll get more value if you understand how technical safety fits into the broader landscape of making AI go well.
+            We designed this course as a follow-up to the Technical AI Safety course. We will be prioritising graduates from the course, but we'll also consider applicants who can demonstrate equivalent knowledge of technical AI safety concepts.
           </>
         ),
       },
@@ -233,7 +236,7 @@ export const createTechnicalAiSafetyContent = (
   },
 
   banner: {
-    title: 'Start building towards a good future today',
+    title: 'Make a technical contribution to AI safety',
     ctaText: 'Apply now',
     ctaUrl: applicationUrlWithUtm,
     imageSrc: '/images/agi-strategy/hero-banner-split.png',

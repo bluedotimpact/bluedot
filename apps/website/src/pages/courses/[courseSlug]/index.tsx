@@ -20,6 +20,7 @@ import { createBioSecurityContent, BIOSECURITY_APPLICATION_URL } from '../../../
 import { createTechnicalAiSafetyContent, TECHNICAL_AI_SAFETY_APPLICATION_URL } from '../../../components/lander/course-content/TechnicalAiSafetyContent';
 import { createAiGovernanceContent, AI_GOVERNANCE_APPLICATION_URL } from '../../../components/lander/course-content/AiGovernanceContent';
 import { createFutureOfAiContent, FUTURE_OF_AI_START_URL } from '../../../components/lander/course-content/FutureOfAiContent';
+import { createTechnicalAiSafetyProjectContent, TECHNICAL_AI_SAFETY_PROJECT_APPLICATION_URL } from '../../../components/lander/course-content/TechnicalAiSafetyProjectContent';
 import GraduateSection from '../../../components/lander/components/GraduateSection';
 import { CourseUnitsSection } from '../../../components/courses/CourseUnitsSection';
 import { getCourseData, type CourseAndUnits } from '../../../server/routers/courses';
@@ -101,6 +102,16 @@ const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: Cours
     );
   }
 
+  if (slug === 'technical-ai-safety-project') {
+    return (
+      <CourseLander
+        courseSlug={slug}
+        baseApplicationUrl={TECHNICAL_AI_SAFETY_PROJECT_APPLICATION_URL}
+        createContentFor={createTechnicalAiSafetyProjectContent}
+        courseOgImage={courseOgImage}
+      />
+    );
+  }
   // Default case
   return <StandardCoursePage courseData={courseData} courseOgImage={courseOgImage} />;
 };
