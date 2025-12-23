@@ -10,7 +10,6 @@ import {
   PiCode,
   PiChalkboardTeacherLight,
 } from 'react-icons/pi';
-import Link from 'next/link';
 import { CourseLanderContent } from '../CourseLander';
 
 export const TECHNICAL_AI_SAFETY_APPLICATION_URL = 'https://web.miniextensions.com/9YX1i46qewCv5m17v8rl';
@@ -204,7 +203,7 @@ export const createTechnicalAiSafetyContent = (
           <>
             You should understand the basics of how LLMs are trained/fine-tuned, that AI development is driven by data, algorithms and compute, and that the reward function for neural networks is optimised through gradient descent.
             <br /> <br />
-            Our 2-hour, self-paced <span className="underline"><Link href="https://bluedot-impact.notion.site/AI-Foundations-293f8e69035380f29863c4c92c41fac7" target="_blank">AI Foundations course</Link></span> will give you enough background.
+            Our 2-hour, self-paced <a href="https://bluedot-impact.notion.site/AI-Foundations-293f8e69035380f29863c4c92c41fac7" target="_blank" rel="noopener noreferrer" className="underline">AI Foundations course</a> will give you enough background.
           </>
         ),
       },

@@ -10,7 +10,6 @@ import {
   PiChalkboardTeacherLight,
   PiGraduationCap,
 } from 'react-icons/pi';
-import Link from 'next/link';
 import { CourseLanderContent } from '../CourseLander';
 
 export const TECHNICAL_AI_SAFETY_PROJECT_APPLICATION_URL = 'https://web.miniextensions.com/2lQmY04m6DdfeGbIYgsG';
@@ -21,12 +20,12 @@ export const createTechnicalAiSafetyProjectContent = (
 ): CourseLanderContent => ({
   meta: {
     title: 'Technical AI Safety Project | BlueDot Impact',
-    description: 'Make a contribution to AI safety research or engineering in 30 hours.',
+    description: 'Make a technical contribution to AI safety in 30 hours.',
   },
 
   hero: {
     categoryLabel: 'TECHNICAL AI SAFETY PROJECT',
-    title: 'Make a contribution to AI safety research or engineering in 30 hours',
+    title: 'Make a technical contribution to AI safety in 30 hours',
     description: 'Work with an AI safety expert to make a contribution to AI safety research or engineering. All in 30 hours.',
     primaryCta: {
       text: 'Apply now',
@@ -74,7 +73,9 @@ export const createTechnicalAiSafetyProjectContent = (
         title: 'Publish a project in 30 hours',
         description: (
           <>
-            Complete one full project cycle in 30 hours, from extending a paper or improving research code to a published write-up. <Link href="https://bluedot.org/projects/" target="_blank" rel="noopener noreferrer" className="underline">Past participants</Link> have reproduced findings from METR, fixed TransformerLens issues, and replicated evals using Inspect. You'll publish a blog post and X thread showcasing your work.
+            Go from extending a paper or improving research code to a published write-up in 30 hours.
+            <br /><br />
+            <a href="https://bluedot.org/projects/" target="_blank" rel="noopener noreferrer" className="underline">Past participants</a> have reproduced findings from METR, fixed TransformerLens issues, and replicated evals using Inspect. You'll publish a blog post and X thread showcasing your work.
           </>
         ),
       },
@@ -103,10 +104,10 @@ export const createTechnicalAiSafetyProjectContent = (
         description: (
           <>
             You will spend <b>30 hours</b> working on your project. Each week you will:
-            <ul>
-              <li>• Provide regular updates on your progress</li>
-              <li>• Join ~8 peers and an AI safety expert in a 1-hour check-in to discuss your progress and get feedback</li>
-            </ul>
+            <br />
+            • Provide regular updates on your progress
+            <br />
+            • Join ~8 peers and an AI safety expert in a 1-hour check-in to discuss your progress and get feedback
           </>
         ),
       },
@@ -235,7 +236,7 @@ export const createTechnicalAiSafetyProjectContent = (
   },
 
   banner: {
-    title: 'Make a contribution to AI safety research or engineering',
+    title: 'Make a technical contribution to AI safety',
     ctaText: 'Apply now',
     ctaUrl: applicationUrlWithUtm,
     imageSrc: '/images/agi-strategy/hero-banner-split.png',
