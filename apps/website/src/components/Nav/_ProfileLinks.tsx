@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { FaCircleUser } from 'react-icons/fa6';
 import { A, BugReportModal, IconButton } from '@bluedot/ui';
 
-import { ExpandedSectionsState, DRAWER_CLASSES, DRAWER_Z_PROFILE } from './utils';
+import { ExpandedSectionsState, DRAWER_CLASSES, DRAWER_Z_PROFILE, PROFILE_DROPDOWN_CLASS } from './utils';
 import { ROUTES } from '../../lib/routes';
 import { UserSearchModal } from '../admin/UserSearchModal';
 import { trpc } from '../../utils/trpc';
@@ -24,6 +24,7 @@ export const ProfileLinks: React.FC<{
   const profileRef = useClickOutside<HTMLDivElement>(
     () => updateExpandedSections({ profile: false }),
     expandedSections.profile,
+    `.${PROFILE_DROPDOWN_CLASS}`,
   );
 
   const onToggleProfile = () => updateExpandedSections({
@@ -42,7 +43,7 @@ export const ProfileLinks: React.FC<{
   };
 
   return (
-    <div ref={profileRef} className="profile-links">
+    <div ref={profileRef} className={PROFILE_DROPDOWN_CLASS}>
       <IconButton
         className={clsx(
           'profile-links__btn',
