@@ -1,9 +1,5 @@
 import { isValid, parse } from 'date-fns';
-import {
-  useId,
-  useRef,
-  useState,
-} from 'react';
+import { useId, useRef, useState } from 'react';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/style.css';
 import { LuChevronsUpDown } from 'react-icons/lu';
@@ -18,11 +14,7 @@ export type DatePickerProps = {
 };
 
 export const DatePicker = ({
-  label = 'Date',
-  hideLabel = false,
-  value,
-  onChange,
-  className,
+  label = 'Date', hideLabel = false, value, onChange, className,
 }: DatePickerProps) => {
   const [inputValue, setInputValue] = useState(value ? value.toLocaleDateString() : '');
   const [month, setMonth] = useState<Date>(value ?? new Date());
@@ -75,13 +67,13 @@ export const DatePicker = ({
           placeholder="Select date..."
           aria-label={hideLabel ? label : undefined}
           style={{ anchorName: `--${popoverId}` } as React.CSSProperties}
-          className="w-full rounded-lg bg-transparent py-2 pl-3 pr-9 outline-none placeholder:italic"
+          className="w-full rounded-lg bg-transparent py-2 pr-9 pl-3 outline-none placeholder:italic"
         />
         <button
           type="button"
           popoverTarget={popoverId}
           aria-label="Open calendar"
-          className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 outline-none"
+          className="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3 text-gray-400 outline-none"
         >
           <LuChevronsUpDown className="size-4" />
         </button>
@@ -90,13 +82,15 @@ export const DatePicker = ({
         ref={popoverRef}
         id={popoverId}
         popover="auto"
-        style={{
-          positionAnchor: `--${popoverId}`,
-          top: 'anchor(bottom)',
-          left: '50vw',
-          transform: 'translateX(-50%)',
-          marginTop: '8px',
-        } as React.CSSProperties}
+        style={
+          {
+            positionAnchor: `--${popoverId}`,
+            top: 'anchor(bottom)',
+            left: '50vw',
+            transform: 'translateX(-50%)',
+            marginTop: '8px',
+          } as React.CSSProperties
+        }
         className="overflow-auto rounded-lg bg-white p-4 ring-1 ring-black/10 drop-shadow-lg"
       >
         <DayPicker
