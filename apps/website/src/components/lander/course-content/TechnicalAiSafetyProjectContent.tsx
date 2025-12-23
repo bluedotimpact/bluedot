@@ -46,7 +46,7 @@ export const createTechnicalAiSafetyProjectContent = (
       {
         icon: PiFlask,
         boldText: 'For early researchers',
-        description: 'who want to build taste for AI safety research.',
+        description: 'who want to build their AI safety research portfolio.',
       },
       {
         icon: PiGraduationCap,
