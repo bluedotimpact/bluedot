@@ -48,6 +48,7 @@ vi.mock('next/router', () => ({
 const mockRouter = {
   asPath: '/test-page',
   pathname: '/test-page',
+  push: vi.fn(),
 };
 
 // Setup router mock and tRPC mock before each test
@@ -221,6 +222,38 @@ describe('Nav', () => {
     // Ensure the nav drawer is closed
     await waitFor(() => {
       expect(mobileNavDrawer!.className).toMatch(/max-h-0/);
+    });
+  });
+
+  test('user can click a course link in the dropdown', async () => {
+    render(<Nav />, { wrapper: TrpcProvider });
+
+    // Multiple "Courses" buttons exist (desktop + mobile), use first (desktop)
+    const coursesButton = screen.getAllByRole('button', { name: 'Courses' })[0]!;
+    expect(coursesButton.getAttribute('aria-expanded')).toBe('false');
+
+    fireEvent.click(coursesButton);
+
+    await waitFor(() => {
+      expect(coursesButton.getAttribute('aria-expanded')).toBe('true');
+    });
+
+    // Multiple "Courses menu" regions exist (desktop + mobile), use first (desktop)
+    const dropdowns = screen.getAllByRole('region', { name: 'Courses menu' });
+    expect(dropdowns[0]).toBeDefined();
+
+    const featuredCourseLinks = await screen.findAllByRole('link', { name: /Featured Course/i });
+    const desktopFeaturedCourseLink = featuredCourseLinks[0]!;
+
+    // Mousedown should not close the dropdown prematurely
+    fireEvent.mouseDown(desktopFeaturedCourseLink);
+    expect(coursesButton.getAttribute('aria-expanded')).toBe('true');
+    expect(screen.getAllByRole('link', { name: /Featured Course/i })).toHaveLength(2);
+
+    fireEvent.click(desktopFeaturedCourseLink);
+
+    await waitFor(() => {
+      expect(coursesButton.getAttribute('aria-expanded')).toBe('false');
     });
   });
 

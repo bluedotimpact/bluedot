@@ -9,6 +9,7 @@ import { NavLinks } from './_NavLinks';
 import {
   DRAWER_CLASSES,
   ExpandedSectionsState,
+  MOBILE_NAV_CLASS,
 } from './utils';
 import { getLoginUrl } from '../../utils/getLoginUrl';
 import { useClickOutside } from '../../lib/hooks/useClickOutside';
@@ -29,6 +30,7 @@ export const MobileNavLinks: React.FC<{
   const mobileNavRef = useClickOutside<HTMLDivElement>(
     () => updateExpandedSections({ mobileNav: false }),
     expandedSections.mobileNav,
+    `.${MOBILE_NAV_CLASS}`,
   );
 
   const getPrimaryButtonClasses = () => {
@@ -49,7 +51,7 @@ export const MobileNavLinks: React.FC<{
   };
 
   return (
-    <div ref={mobileNavRef} className="mobile-nav-links lg:hidden">
+    <div ref={mobileNavRef} className={`${MOBILE_NAV_CLASS} lg:hidden`}>
       <IconButton
         open={expandedSections.mobileNav}
         Icon={<HamburgerIcon />}

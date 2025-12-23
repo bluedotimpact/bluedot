@@ -10,6 +10,7 @@ import { useClickOutside } from '../../lib/hooks/useClickOutside';
 import {
   DRAWER_CLASSES,
   ExpandedSectionsState,
+  NAV_DROPDOWN_CLASS,
 } from './utils';
 
 const isCurrentPath = (url: string): boolean => {
@@ -129,7 +130,11 @@ const NavDropdown: React.FC<{
   className,
   loading,
 }) => {
-  const dropdownRef = useClickOutside<HTMLDivElement>(onClose, isExpanded);
+  const dropdownRef = useClickOutside<HTMLDivElement>(
+    onClose,
+    isExpanded,
+    `.${NAV_DROPDOWN_CLASS}`,
+  );
 
   const getDropdownButtonClasses = () => {
     // Mobile drawer always has white background, so always use dark text
@@ -158,10 +163,12 @@ const NavDropdown: React.FC<{
   };
 
   return (
-    <div ref={dropdownRef} className="nav-dropdown">
+    <div ref={dropdownRef} className={NAV_DROPDOWN_CLASS}>
       <button
         type="button"
         onClick={onToggle}
+        aria-expanded={isExpanded}
+        aria-controls={`${title.toLowerCase()}-dropdown`}
         className={clsx(
           'nav-dropdown__btn flex items-center gap-2 cursor-pointer',
           'nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle',
@@ -177,6 +184,9 @@ const NavDropdown: React.FC<{
         />
       </button>
       <div
+        id={`${title.toLowerCase()}-dropdown`}
+        role="region"
+        aria-label={`${title} menu`}
         className={clsx(
           'nav-dropdown__content-wrapper overflow-hidden',
           isExpanded ? 'z-40' : 'pointer-events-none',
@@ -206,7 +216,7 @@ const NavDropdown: React.FC<{
                       linkTextColor,
                     )}
                     onClick={() => {
-                      onToggle();
+                      onClose();
                     }}
                   >
                     {link.title}
