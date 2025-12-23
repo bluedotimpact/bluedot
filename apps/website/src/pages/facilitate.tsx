@@ -148,7 +148,7 @@ We can pay facilitators in countries supported by [Wise](https://wise.com/help/a
         <MarkdownExtendedRenderer>{`
 ## Any other questions?
 
-We're really keen to hear from people interested in facilitating our courses. If you have any questions please contact [joshua@bluedot.org](mailto:joshua@bluedot.org) or reach out via our [contact page](https://bluedot.org/contact)!
+We're really keen to hear from people interested in facilitating our courses. If you have any questions please contact [joshua@bluedot.org](mailto:joshua@bluedot.org) or reach out at [team@bluedot.org](mailto:team@bluedot.org)!
 `}
         </MarkdownExtendedRenderer>
       </Section>

@@ -69,7 +69,7 @@ exports[`Footer > renders default as expected 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/contact"
+                  href="mailto:team@bluedot.org"
                   tabindex="0"
                 >
                   Contact us
@@ -178,7 +178,7 @@ exports[`Footer > renders default as expected 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/contact"
+                  href="mailto:team@bluedot.org"
                   tabindex="0"
                 >
                   Contact us
@@ -368,7 +368,7 @@ exports[`Footer > renders default as expected 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/contact"
+                  href="mailto:team@bluedot.org"
                   tabindex="0"
                 >
                   Contact us
@@ -628,7 +628,7 @@ exports[`Footer > renders with optional args 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/contact"
+                  href="mailto:team@bluedot.org"
                   tabindex="0"
                 >
                   Contact us
@@ -737,7 +737,7 @@ exports[`Footer > renders with optional args 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/contact"
+                  href="mailto:team@bluedot.org"
                   tabindex="0"
                 >
                   Contact us
@@ -927,7 +927,7 @@ exports[`Footer > renders with optional args 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/contact"
+                  href="mailto:team@bluedot.org"
                   tabindex="0"
                 >
                   Contact us

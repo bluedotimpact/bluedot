@@ -72,7 +72,7 @@ export const Footer: React.FC<FooterProps> = ({
     { url: '/about', label: 'About us' },
     { url: 'https://donate.stripe.com/5kA3fpgjpdJv6o89AA', label: 'Support us' },
     { url: '/join-us', label: 'Join us' },
-    { url: '/contact', label: 'Contact us' },
+    { url: 'mailto:team@bluedot.org', label: 'Contact us' },
   ];
 
   const resourceLinks = [
