@@ -91,9 +91,9 @@ export const DatePicker = ({
         style={{
           positionAnchor: `--${popoverId}`,
           top: 'anchor(bottom)',
-          marginTop: '4px',
           left: '50vw',
           transform: 'translateX(-50%)',
+          marginTop: '8px',
         } as React.CSSProperties}
         className="overflow-auto rounded-lg bg-white p-4 ring-1 ring-black/10 drop-shadow-lg"
       >
