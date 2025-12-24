@@ -99,7 +99,7 @@ export const DatePicker = ({
           onChange={(e) => setInputValue(e.target.value)}
           onBlur={handleInputBlur}
           placeholder="Select date..."
-          aria-label={label}
+          aria-label={label ?? 'Select date'}
           style={{ anchorName: `--${popoverId}` } as React.CSSProperties}
           className={cn('w-full rounded-lg bg-transparent py-2 pr-9 pl-3 outline-none placeholder:italic', classNames?.input)}
         />
