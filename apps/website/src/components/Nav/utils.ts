@@ -16,7 +16,7 @@ export const DRAWER_CLASSES = (isOpen: boolean, zIndex: typeof DRAWER_Z_DEFAULT 
   'px-spacing-x transition-all duration-300 ease-in-out',
   'bg-white',
   isOpen
-    ? `max-h-[calc(100vh-76px)] opacity-100 pt-4 pb-10 border-b border-color-border ${zIndex} overflow-y-auto`
+    ? `max-h-[calc(100vh-60px)] min-[1024px]:max-h-[calc(100vh-76px)] opacity-100 pt-4 pb-10 border-b border-color-border ${zIndex} overflow-y-auto`
     : 'max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden',
 );
 
