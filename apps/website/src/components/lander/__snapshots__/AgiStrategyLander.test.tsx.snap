@@ -277,6 +277,13 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               Some of our most impactful participants have included teachers, policymakers, engineers, and community leaders. We bet on drive and ambition, not CVs.
             </span>
           </p>
+          <a
+            class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+            href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX"
+            tabindex="0"
+          >
+            Apply now
+          </a>
         </div>
       </div>
     </section>

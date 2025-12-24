@@ -61,6 +61,8 @@ export const createAgiStrategyContent = (
     bottomCta: {
       boldText: "Don't fit these perfectly? Apply anyway.",
       text: 'Some of our most impactful participants have included teachers, policymakers, engineers, and community leaders. We bet on drive and ambition, not CVs.',
+      buttonText: 'Apply now',
+      buttonUrl: applicationUrlWithUtm,
     },
   },
 
