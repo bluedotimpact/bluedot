@@ -155,7 +155,7 @@ const FutureOfAiLander = ({
               <FaClock /> Just 2 hours
             </div>
             <div className="flex gap-2 items-center border border-color-border rounded-lg px-3 py-2 text-size-sm text-color-text-on-dark">
-              <FaBoltLightning /> {courseData.course.cadence || 'Self-paced'}
+              <FaBoltLightning /> Self-paced
             </div>
             <div className="flex gap-2 items-center border border-color-border rounded-lg px-3 py-2 text-size-sm text-color-text-on-dark">
               <FaAward /> Free certificate
@@ -196,7 +196,7 @@ const FutureOfAiLander = ({
                   <FaClock /> Just 2 hours
                 </div>
                 <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-                  <FaBoltLightning /> {courseData.course.cadence}
+                  <FaBoltLightning />
                 </div>
                 <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
                   <FaAward /> Free certificate

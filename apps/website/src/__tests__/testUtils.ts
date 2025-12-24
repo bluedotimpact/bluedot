@@ -65,7 +65,6 @@ const MOCK_RESOURCE_COMPLETION_ID = 'resource-completion-id';
 
 export const createMockCourse = (overrides: Partial<Course> = {}): Course => ({
   averageRating: 4.5,
-  cadence: 'Weekly',
   certificationBadgeImage: 'badge.png',
   certificationDescription: 'Certificate description',
   description: 'Course description',

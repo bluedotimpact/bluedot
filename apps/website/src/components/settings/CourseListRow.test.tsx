@@ -34,7 +34,6 @@ describe('CourseListRow', () => {
     image: '/course-image.jpg',
     path: '/courses/ai-safety',
     slug: 'ai-safety',
-    cadence: 'Weekly',
     level: 'Beginner',
   });
 
