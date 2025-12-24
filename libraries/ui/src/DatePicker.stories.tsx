@@ -50,10 +50,17 @@ export const HiddenLabel: Story = {
 export const CustomStyles: Story = {
   args: {
     label: 'Custom Styled Date Picker',
-    className: 'w-full',
-    labelClassName: 'text-blue-600 font-bold text-lg',
-    inputClassName: 'bg-blue-50 border-blue-300 hover:border-blue-500',
-    buttonClassName: 'text-blue-600 hover:bg-blue-100',
-    popoverClassName: 'shadow-2xl border-2 border-blue-200',
+    classNames: {
+      root: 'border border-bluedot-normal rounded-lg p-2',
+      label: 'text-bluedot-normal font-semibold',
+      input: 'text-bluedot-normal placeholder-bluedot-light',
+      button: 'text-bluedot-normal hover:text-bluedot-dark',
+      popover: 'ring-bluedot-normal',
+      calendar: {
+        selected: 'bg-bluedot-normal text-white',
+        today: 'text-bluedot-normal underline',
+        chevron: 'fill-bluedot-normal hover:fill-bluedot-dark',
+      },
+    },
   },
 };

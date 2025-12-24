@@ -2,7 +2,7 @@ import { isValid, format, parse } from 'date-fns';
 import {
   useEffect, useId, useRef, useState,
 } from 'react';
-import { DayPicker } from 'react-day-picker';
+import { DayPicker, type ClassNames } from 'react-day-picker';
 import 'react-day-picker/style.css';
 import { LuChevronsUpDown } from 'react-icons/lu';
 import { cn } from './utils';
@@ -29,15 +29,24 @@ export const getLocaleDateFormat = (): string => {
     .join('');
 };
 
+type DatePickerClassNames = {
+  root?: string;
+  label?: string;
+  input?: string;
+  button?: string;
+  popover?: string;
+  calendar?: Partial<ClassNames>;
+};
+
 export type DatePickerProps = {
   label?: string;
   value?: Date;
   onChange?: (value?: Date) => void;
-  className?: string;
+  classNames?: DatePickerClassNames;
 };
 
 export const DatePicker = ({
-  label, value, onChange, className,
+  label, value, onChange, classNames,
 }: DatePickerProps) => {
   const localeFormat = getLocaleDateFormat();
   const [inputValue, setInputValue] = useState(value ? format(value, localeFormat) : '');
@@ -73,9 +82,9 @@ export const DatePicker = ({
   };
 
   return (
-    <div className={cn('group relative flex w-[200px] flex-col gap-1', className)}>
+    <div className={cn('group relative flex w-[200px] flex-col gap-1', classNames?.root)}>
       {label ? (
-        <label htmlFor={inputId} className="text-black">
+        <label htmlFor={inputId} className={cn('text-black', classNames?.label)}>
           {label}
         </label>
       ) : null}
@@ -92,13 +101,13 @@ export const DatePicker = ({
           placeholder="Select date..."
           aria-label={label}
           style={{ anchorName: `--${popoverId}` } as React.CSSProperties}
-          className="w-full rounded-lg bg-transparent py-2 pr-9 pl-3 outline-none placeholder:italic"
+          className={cn('w-full rounded-lg bg-transparent py-2 pr-9 pl-3 outline-none placeholder:italic', classNames?.input)}
         />
         <button
           type="button"
           popoverTarget={popoverId}
           aria-label="Open calendar"
-          className="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3 text-gray-400 outline-none"
+          className={cn('absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3 text-gray-400 outline-none', classNames?.button)}
         >
           <LuChevronsUpDown className="size-4" />
         </button>
@@ -116,7 +125,7 @@ export const DatePicker = ({
             marginTop: '8px',
           } as React.CSSProperties
         }
-        className="overflow-auto rounded-lg bg-white p-4 ring-1 ring-black/10 drop-shadow-sm"
+        className={cn('overflow-auto rounded-lg bg-white p-4 ring-1 ring-black/10 drop-shadow-sm', classNames?.popover)}
       >
         <DayPicker
           mode="single"
@@ -128,6 +137,7 @@ export const DatePicker = ({
           classNames={{
             chevron: 'fill-bluedot-normal',
             today: 'text-bluedot-normal',
+            ...classNames?.calendar,
           }}
         />
       </div>
