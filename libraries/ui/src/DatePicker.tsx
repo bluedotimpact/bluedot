@@ -59,6 +59,9 @@ export const DatePicker = ({
     const parsedDate = parse(newValue, localeFormat, new Date());
     if (isValid(parsedDate)) {
       onChange?.(parsedDate);
+    } else {
+      // Reset to previous valid value if parsing fails
+      setInputValue(value ? format(value, localeFormat) : '');
     }
   };
 
