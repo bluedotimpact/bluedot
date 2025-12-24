@@ -73,7 +73,7 @@ export const DatePicker = ({
   return (
     <div className={cn('group relative flex w-[200px] flex-col gap-1', className)}>
       {!hideLabel ? (
-        <label htmlFor={inputId} className="cursor-default text-black">
+        <label htmlFor={inputId} className="text-black">
           {label}
         </label>
       ) : null}
