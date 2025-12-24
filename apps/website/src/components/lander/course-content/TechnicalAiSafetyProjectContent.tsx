@@ -29,7 +29,7 @@ export const createTechnicalAiSafetyProjectContent = (
     description: 'Work with an AI safety expert to make a contribution to AI safety research or engineering. All in 30 hours.',
     primaryCta: {
       text: 'Apply now',
-      url: TECHNICAL_AI_SAFETY_PROJECT_APPLICATION_URL,
+      url: applicationUrlWithUtm,
     },
     secondaryCta: {
       text: 'Browse curriculum',
@@ -62,7 +62,7 @@ export const createTechnicalAiSafetyProjectContent = (
       boldText: "Don't fit these perfectly? Apply anyway.",
       text: 'Some of our most impactful participants have included teachers, policymakers, engineers, and community leaders. We bet on drive and ambition, not CVs.',
       buttonText: 'Apply now',
-      buttonUrl: TECHNICAL_AI_SAFETY_PROJECT_APPLICATION_URL,
+      buttonUrl: applicationUrlWithUtm,
     },
   },
 
