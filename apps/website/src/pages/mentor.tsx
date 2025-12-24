@@ -59,7 +59,7 @@ As a mentor, you'll be shaping the public artefacts participants use to launch t
 
 **Be proactive in following up.** We have a Slack group set up by default, but we encourage you to experiment with what works best for your group. Some groups find it easier to provide regular updates over Telegram or WhatsApp instead.
 
-**You'll lead a weekly 1-hour check-in** with your group to keep everyone accountable. The check-ins are also a good opportunity for participants to learn from each other. If attendance drops, talk to your participants about how to make these more valuable, and let us know if it becomes an issue.
+**You'll lead a weekly 1-hour group check-in** to keep everyone accountable. The check-ins are also a good opportunity for participants to learn from each other. If attendance drops, talk to your participants about how to make these more valuable, and let us know if it becomes an issue.
 
 ## Compensation
 
