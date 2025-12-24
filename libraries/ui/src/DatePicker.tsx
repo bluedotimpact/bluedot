@@ -5,6 +5,24 @@ import 'react-day-picker/style.css';
 import { LuChevronsUpDown } from 'react-icons/lu';
 import { cn } from './utils';
 
+// Utility function to get the locale-specific date format of the user
+// e.g. "MM/dd/yyyy" for US, "dd/MM/yyyy" for UK, etc.
+export const getLocaleDateFormat = (): string => {
+  const parts = new Intl.DateTimeFormat().formatToParts(new Date(2000, 11, 31));
+
+  return parts
+    .map((part) => {
+      switch (part.type) {
+        case 'day': return 'dd';
+        case 'month': return 'MM';
+        case 'year': return 'yyyy';
+        case 'literal': return part.value;
+        default: return '';
+      }
+    })
+    .join('');
+};
+
 export type DatePickerProps = {
   label?: string;
   hideLabel?: boolean;
@@ -21,21 +39,16 @@ export const DatePicker = ({
   const popoverRef = useRef<HTMLDivElement>(null);
   const inputId = useId();
   const popoverId = useId();
+  const format = getLocaleDateFormat();
 
   const handleInputBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setInputValue(newValue);
 
-    // Try parsing common date formats
-    const formats = ['MM/dd/yyyy', 'dd/MM/yyyy', 'yyyy-MM-dd', 'M/d/yyyy', 'd/M/yyyy'];
-
-    for (const format of formats) {
-      const parsedDate = parse(newValue, format, new Date());
-      if (isValid(parsedDate)) {
-        onChange?.(parsedDate);
-        setMonth(parsedDate);
-        return;
-      }
+    const parsedDate = parse(newValue, format, new Date());
+    if (isValid(parsedDate)) {
+      onChange?.(parsedDate);
+      setMonth(parsedDate);
     }
   };
 
