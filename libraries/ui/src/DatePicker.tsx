@@ -8,7 +8,11 @@ import { cn } from './utils';
 // Utility function to get the locale-specific date format of the user
 // e.g. "MM/dd/yyyy" for US, "dd/MM/yyyy" for UK, etc.
 export const getLocaleDateFormat = (): string => {
-  const parts = new Intl.DateTimeFormat().formatToParts(new Date(2000, 11, 31));
+  const parts = new Intl.DateTimeFormat(undefined, {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(new Date(2000, 11, 31));
 
   return parts
     .map((part) => {
