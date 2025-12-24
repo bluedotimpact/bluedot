@@ -39,12 +39,12 @@ export type DatePickerProps = {
 export const DatePicker = ({
   label, value, onChange, className,
 }: DatePickerProps) => {
-  const [inputValue, setInputValue] = useState(value ? value.toLocaleDateString() : '');
+  const localeFormat = getLocaleDateFormat();
+  const [inputValue, setInputValue] = useState(value ? format(value, localeFormat) : '');
   const [month, setMonth] = useState<Date>(value ?? new Date());
   const popoverRef = useRef<HTMLDivElement>(null);
   const inputId = useId();
   const popoverId = useId();
-  const localeFormat = getLocaleDateFormat();
 
   useEffect(() => {
     setInputValue(value ? format(value, localeFormat) : '');
