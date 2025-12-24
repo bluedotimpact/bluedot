@@ -13,11 +13,11 @@ export const PROFILE_DROPDOWN_CLASS = 'profile-links' as const;
 export const DRAWER_CLASSES = (isOpen: boolean, zIndex: typeof DRAWER_Z_DEFAULT | typeof DRAWER_Z_PROFILE = DRAWER_Z_DEFAULT) => clsx(
   'absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full',
   'lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))]',
-  'px-spacing-x transition-all duration-300 ease-in-out overflow-hidden',
+  'px-spacing-x transition-all duration-300 ease-in-out',
   'bg-white',
   isOpen
-    ? `max-h-[700px] opacity-100 pt-4 pb-10 border-b border-color-border ${zIndex}`
-    : 'max-h-0 opacity-0 pb-0 pointer-events-none',
+    ? `max-h-[calc(100vh-60px)] min-[1024px]:max-h-[calc(100vh-76px)] opacity-100 pt-4 pb-10 border-b border-color-border ${zIndex} overflow-y-auto`
+    : 'max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden',
 );
 
 export type ExpandedSectionsState = {
