@@ -57,9 +57,9 @@ const WhoIsThisForSection = ({
             </P>
             {bottomCta.buttonText && bottomCta.buttonUrl && (
               <CTALinkOrButton
-                variant="outline-black"
                 url={bottomCta.buttonUrl}
-                className="!font-medium text-size-sm px-5 py-2.5 !rounded-md !border-[rgba(19,19,46,0.3)] !text-[#13132e]"
+                variant="primary"
+                size="medium"
               >
                 {bottomCta.buttonText}
               </CTALinkOrButton>
