@@ -60,6 +60,7 @@ export const DatePicker = ({
           id={inputId}
           type="text"
           value={inputValue}
+          // Input field is editable only after a date has been selected
           readOnly={value === undefined}
           onClick={() => value === undefined && popoverRef.current?.showPopover()}
           onChange={(e) => setInputValue(e.target.value)}
