@@ -52,7 +52,7 @@ export const DatePicker = ({
     if (value) setMonth(value);
   }, [value, localeFormat]);
 
-  const handleInputBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setInputValue(newValue);
 
