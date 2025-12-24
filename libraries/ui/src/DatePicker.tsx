@@ -103,7 +103,7 @@ export const DatePicker = ({
           onClick={() => value === undefined && popoverRef.current?.showPopover()}
           onChange={(e) => setInputValue(e.target.value)}
           onBlur={handleInputBlur}
-          placeholder="Select date..."
+          placeholder={localeFormat.toLowerCase()}
           aria-label={label ?? 'Select date'}
           style={{ anchorName: `--${popoverId}` } as React.CSSProperties}
           className={cn(
