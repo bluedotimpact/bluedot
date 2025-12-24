@@ -188,13 +188,13 @@ const NavDropdown: React.FC<{
         role="region"
         aria-label={`${title} menu`}
         className={clsx(
-          'nav-dropdown__content-wrapper overflow-hidden',
+          'nav-dropdown__content-wrapper',
           isExpanded ? 'z-40' : 'pointer-events-none',
           getDropdownContentClasses(),
           className,
         )}
       >
-        <div className={clsx('nav-dropdown__dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty')}>
+        <div className={clsx('nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty')}>
           {loading ? (
             <ProgressDots className="py-2" />
           ) : (
