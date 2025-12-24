@@ -1,4 +1,4 @@
-import { isValid, format, parse } from 'date-fns';
+import { format, isValid, parse } from 'date-fns';
 import {
   useEffect, useId, useRef, useState,
 } from 'react';
@@ -19,11 +19,16 @@ export const getLocaleDateFormat = (): string => {
   return parts
     .map((part) => {
       switch (part.type) {
-        case 'day': return 'dd';
-        case 'month': return 'MM';
-        case 'year': return 'yyyy';
-        case 'literal': return part.value;
-        default: return '';
+        case 'day':
+          return 'dd';
+        case 'month':
+          return 'MM';
+        case 'year':
+          return 'yyyy';
+        case 'literal':
+          return part.value;
+        default:
+          return '';
       }
     })
     .join('');
@@ -101,13 +106,19 @@ export const DatePicker = ({
           placeholder="Select date..."
           aria-label={label ?? 'Select date'}
           style={{ anchorName: `--${popoverId}` } as React.CSSProperties}
-          className={cn('w-full rounded-lg bg-transparent py-2 pr-9 pl-3 outline-none placeholder:italic', classNames?.input)}
+          className={cn(
+            'w-full rounded-lg bg-transparent py-2 pr-9 pl-3 outline-none placeholder:italic',
+            classNames?.input,
+          )}
         />
         <button
           type="button"
           popoverTarget={popoverId}
           aria-label="Open calendar"
-          className={cn('absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3 text-gray-400 outline-none', classNames?.button)}
+          className={cn(
+            'absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3 text-gray-400 outline-none',
+            classNames?.button,
+          )}
         >
           <LuChevronsUpDown className="size-4" />
         </button>
