@@ -25,8 +25,8 @@ const mockCertificate = {
   certificateCreatedAt: 1609459200,
   recipientName: 'Jane Smith',
   courseName: 'AI Safety Fundamentals',
+  courseSlug: 'ai-safety-fundamentals',
   certificationDescription: 'Has successfully completed the course',
-  certificationBadgeImageSrc: 'https://example.com/badge.svg',
   courseDetailsUrl: 'https://example.com/course',
 };
 
@@ -41,12 +41,13 @@ describe('CertificatePage SSR/SEO', () => {
       <CertificatePage
         certificate={mockCertificate}
         certificateId="cert123"
+        certificationBadgeFilename="ai-safety-fundamentals.png"
       />,
     );
 
-    expect(document.title).toBe("Jane Smith's Certificate | BlueDot Impact");
+    expect(document.title).toBe('Jane Smith has completed AI Safety Fundamentals | BlueDot Impact');
 
     const metaDescription = document.querySelector('meta[name="description"]');
-    expect(metaDescription?.getAttribute('content')).toBe('Certificate of completion for AI Safety Fundamentals');
+    expect(metaDescription?.getAttribute('content')).toBe('Has successfully completed the course');
   });
 });

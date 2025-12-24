@@ -13,11 +13,10 @@ import GroupSwitchModal, { type SwitchType } from '../courses/GroupSwitchModal';
 import { SlackIcon } from '../icons/SlackIcon';
 import type { ButtonOrMenuItem } from '../courses/GroupDiscussionBanner';
 import { DocumentIcon } from '../icons/DocumentIcon';
-
-const ONE_HOUR_MS = 3600_000;
+import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 
 const BUTTON_STYLES = {
-  primary: { variant: 'primary' as const, className: 'w-auto bg-[#2244BB]' },
+  primary: { variant: 'primary' as const, className: 'w-auto bg-bluedot-normal' },
   secondary: { variant: 'outline-black' as const, className: 'w-auto bg-[#13132E0D] hover:bg-[#13132E1C] text-[#13132E] border-none' },
   ghost: { variant: 'outline-black' as const, className: 'w-auto bg-[#13132E0D] hover:bg-[#13132E1C] text-[#13132E] border-none' },
 };
@@ -41,8 +40,9 @@ const CourseDetailsRow = ({
 }: CourseDetailsRowProps) => {
   const currentTimeMs = useCurrentTimeMs();
 
-  const discussionIsSoonOrLive = (discussion.startDateTime * 1000 - currentTimeMs) <= ONE_HOUR_MS && currentTimeMs <= (discussion.endDateTime * 1000);
-  const discussionIsLive = (discussion.startDateTime * 1000) <= currentTimeMs && currentTimeMs <= (discussion.endDateTime * 1000);
+  const discussionTimeState = getDiscussionTimeState({ discussion, currentTimeMs });
+  const discussionIsSoonOrLive = discussionTimeState === 'live' || discussionTimeState === 'soon';
+  const discussionIsLive = discussionTimeState === 'live';
 
   const discussionMeetLink = discussion.zoomLink || '';
   const discussionPrepareLink = course.slug && discussion.unitNumber !== null ? `/courses/${course.slug}/${discussion.unitNumber}` : '';
@@ -124,7 +124,7 @@ const CourseDetailsRow = ({
                 : `Unit ${discussion.unitNumber || ''}`}
             </div>
             {!isPast && isNext && (
-              <div className="truncate text-size-xs text-[#2244BB] font-medium">
+              <div className="truncate text-size-xs text-bluedot-normal font-medium">
                 {`Starts ${formatDateTimeRelative({ dateTimeMs: discussion.startDateTime * 1000, currentTimeMs })}`}
               </div>
             )}
@@ -203,10 +203,12 @@ const CourseDetails = ({
   isLoading,
   isLast = false,
 }: CourseDetailsProps) => {
+  const showUpcomingTab = courseRegistration.roundStatus === 'Active' || upcomingDiscussions.length > 0;
+
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [initialUnitNumber, setInitialUnitNumber] = useState<string | undefined>(undefined);
   const [selectedSwitchType, setSelectedSwitchType] = useState<SwitchType>('Switch group for one unit');
-  const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>('upcoming');
+  const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>(showUpcomingTab ? 'upcoming' : 'attended');
   const [showAllUpcoming, setShowAllUpcoming] = useState(false);
   const [showAllAttended, setShowAllAttended] = useState(false);
 
@@ -223,28 +225,30 @@ const CourseDetails = ({
 
   return (
     <>
-      <div className={`bg-white border-x border-b border-charcoal-light ${isLast ? 'rounded-b-xl' : ''}`} role="region" aria-label={`Expanded details for ${course.title}`}>
+      <div className={`bg-white border-x border-charcoal-light ${isLast ? 'border-b rounded-b-xl' : ''}`} role="region" aria-label={`Expanded details for ${course.title}`}>
         <div>
           {/* Section header with tabs */}
           <div className="flex border-b border-charcoal-light">
             <div className="flex px-4 sm:px-8 gap-8">
-              <button
-                type="button"
-                onClick={() => setActiveTab('upcoming')}
-                className={`relative py-2 px-1 text-size-xs font-medium transition-colors ${
-                  activeTab === 'upcoming'
-                    ? 'text-[#2244BB] border-b-2 border-[#2244BB]'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                Upcoming discussions
-              </button>
+              {showUpcomingTab && (
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('upcoming')}
+                  className={`relative py-2 px-1 text-size-xs font-medium transition-colors ${
+                    activeTab === 'upcoming'
+                      ? 'text-bluedot-normal border-b-2 border-bluedot-normal'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  Upcoming discussions
+                </button>
+              )}
               <button
                 type="button"
                 onClick={() => setActiveTab('attended')}
                 className={`relative py-2 px-1 text-size-xs font-medium transition-colors ${
                   activeTab === 'attended'
-                    ? 'text-[#2244BB] border-b-2 border-[#2244BB]'
+                    ? 'text-bluedot-normal border-b-2 border-bluedot-normal'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
@@ -283,7 +287,7 @@ const CourseDetails = ({
                           <button
                             type="button"
                             onClick={() => setShowAllUpcoming(!showAllUpcoming)}
-                            className="text-size-sm font-medium text-[#2244BB] hover:text-blue-700 transition-colors cursor-pointer"
+                            className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
                           >
                             {showAllUpcoming
                               ? 'Show less'
@@ -319,7 +323,7 @@ const CourseDetails = ({
                           <button
                             type="button"
                             onClick={() => setShowAllAttended(!showAllAttended)}
-                            className="text-size-sm font-medium text-[#2244BB] hover:text-blue-700 transition-colors cursor-pointer"
+                            className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
                           >
                             {showAllAttended ? 'Show less' : `See all (${attendedDiscussions.length}) discussions`}
                           </button>
@@ -360,7 +364,7 @@ const TimeWidget: React.FC<{
         <div className="text-size-sm font-bold pt-2 pb-1.5 text-gray-900 text-center">
           NOW
         </div>
-        <div className="text-size-xs font-semibold text-white text-center bg-[#2244BB] py-1 w-full">
+        <div className="text-size-xs font-semibold text-white text-center bg-bluedot-normal py-1 w-full">
           LIVE
         </div>
       </div>

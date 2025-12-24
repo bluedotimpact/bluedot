@@ -4,6 +4,7 @@ import {
 import { OidcClient } from 'oidc-client-ts';
 import { Auth, useAuthStore } from '@bluedot/ui';
 import { getHeadersWithValidToken } from './trpc';
+import { createMockOidcResponse } from '../__tests__/testUtils';
 
 vi.mock('oidc-client-ts', () => ({
   OidcClient: vi.fn(),
@@ -20,14 +21,6 @@ const createAuth = (overrides?: Partial<Auth>): Auth => ({
     redirect_uri: 'http://localhost:3000/callback',
   },
   email: 'test+auth@bluedot.org',
-  ...overrides,
-});
-
-const createMockOidcResponse = (overrides?: Record<string, unknown>) => ({
-  id_token: 'new-test-token',
-  expires_at: Math.floor(Date.now() / 1000) + 3600,
-  refresh_token: 'new-refresh-token',
-  profile: { email: 'test+auth@bluedot.org' },
   ...overrides,
 });
 

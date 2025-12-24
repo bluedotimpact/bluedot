@@ -1,0 +1,291 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`PartnerSection > renders correctly 1`] = `
+<section
+  class="w-full bg-white"
+>
+  <div
+    class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:py-16 min-[1280px]:py-24"
+  >
+    <h2
+      class="text-[28px] min-[680px]:text-[32px] min-[1280px]:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-[#13132E] text-center mb-12 md:mb-16 max-w-[734px] mx-auto"
+    >
+      Co-created with our network of leading AI industry partners
+    </h2>
+    <div
+      class="max-lg:block hidden -mx-5 min-[680px]:-mx-8 lg:-mx-spacing-x"
+    >
+      <div
+        class="w-full inline-flex flex-nowrap overflow-hidden group"
+      >
+        <div
+          class="flex items-start gap-12 animate-infinite-scroll pl-12 group-hover:[animation-play-state:paused]"
+        >
+          <div
+            class="flex flex-col w-[220px] h-[210px] gap-4 flex-shrink-0"
+          >
+            <a
+              class="flex items-center h-16 group"
+              href="https://www.joinef.com/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <img
+                alt="Entrepreneur First"
+                class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
+                src="/images/agi-strategy/ef.svg"
+              />
+            </a>
+            <div
+              class="h-[130px]"
+            >
+              <p
+                class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
+              >
+                We collaborate with EF to host AI safety hackathons.
+              </p>
+            </div>
+          </div>
+          <div
+            class="w-[0.5px] h-[210px] bg-[#231C57] opacity-20 flex-shrink-0"
+          />
+          <div
+            class="flex flex-col w-[220px] h-[210px] gap-4 flex-shrink-0"
+          >
+            <a
+              class="flex items-center h-16 group"
+              href="https://ifp.org/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <img
+                alt="Institute for Progress"
+                class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
+                src="/images/agi-strategy/ifp.svg"
+              />
+            </a>
+            <div
+              class="h-[130px]"
+            >
+              <p
+                class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
+              >
+                We collaborate with IFP to get impactful projects off the ground.
+              </p>
+            </div>
+          </div>
+          <div
+            class="w-[0.5px] h-[210px] bg-[#231C57] opacity-20 flex-shrink-0"
+          />
+          <div
+            class="flex flex-col w-[220px] h-[210px] gap-4 flex-shrink-0"
+          >
+            <a
+              class="flex items-center h-16 group"
+              href="https://www.fiftyyears.com/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <img
+                alt="50 Years"
+                class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
+                src="/images/agi-strategy/fifty-years.svg"
+              />
+            </a>
+            <div
+              class="h-[130px]"
+            >
+              <p
+                class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
+              >
+                We fast-track entrepreneurs into their 5050 AI cohorts.
+              </p>
+            </div>
+          </div>
+          <div
+            class="w-[0.5px] h-[210px] bg-[#231C57] opacity-20 flex-shrink-0"
+          />
+        </div>
+        <div
+          aria-hidden="true"
+          class="flex items-start gap-12 animate-infinite-scroll pl-12 group-hover:[animation-play-state:paused]"
+        >
+          <div
+            class="flex flex-col w-[220px] h-[210px] gap-4 flex-shrink-0"
+          >
+            <a
+              class="flex items-center h-16 group"
+              href="https://www.joinef.com/"
+              rel="noopener noreferrer"
+              tabindex="-1"
+              target="_blank"
+            >
+              <img
+                alt="Entrepreneur First"
+                class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
+                src="/images/agi-strategy/ef.svg"
+              />
+            </a>
+            <div
+              class="h-[130px]"
+            >
+              <p
+                class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
+              >
+                We collaborate with EF to host AI safety hackathons.
+              </p>
+            </div>
+          </div>
+          <div
+            class="w-[0.5px] h-[210px] bg-[#231C57] opacity-20 flex-shrink-0"
+          />
+          <div
+            class="flex flex-col w-[220px] h-[210px] gap-4 flex-shrink-0"
+          >
+            <a
+              class="flex items-center h-16 group"
+              href="https://ifp.org/"
+              rel="noopener noreferrer"
+              tabindex="-1"
+              target="_blank"
+            >
+              <img
+                alt="Institute for Progress"
+                class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
+                src="/images/agi-strategy/ifp.svg"
+              />
+            </a>
+            <div
+              class="h-[130px]"
+            >
+              <p
+                class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
+              >
+                We collaborate with IFP to get impactful projects off the ground.
+              </p>
+            </div>
+          </div>
+          <div
+            class="w-[0.5px] h-[210px] bg-[#231C57] opacity-20 flex-shrink-0"
+          />
+          <div
+            class="flex flex-col w-[220px] h-[210px] gap-4 flex-shrink-0"
+          >
+            <a
+              class="flex items-center h-16 group"
+              href="https://www.fiftyyears.com/"
+              rel="noopener noreferrer"
+              tabindex="-1"
+              target="_blank"
+            >
+              <img
+                alt="50 Years"
+                class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
+                src="/images/agi-strategy/fifty-years.svg"
+              />
+            </a>
+            <div
+              class="h-[130px]"
+            >
+              <p
+                class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
+              >
+                We fast-track entrepreneurs into their 5050 AI cohorts.
+              </p>
+            </div>
+          </div>
+          <div
+            class="w-[0.5px] h-[210px] bg-[#231C57] opacity-20 flex-shrink-0"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="lg:grid hidden grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-12"
+    >
+      <div
+        class="flex flex-col gap-6 md:gap-8 min-h-[174px]"
+      >
+        <a
+          class="flex items-center h-16 group"
+          href="https://www.joinef.com/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <img
+            alt="Entrepreneur First"
+            class="object-contain max-w-full max-h-[64px] transition-opacity duration-200 group-hover:opacity-80"
+            src="/images/agi-strategy/ef.svg"
+          />
+        </a>
+        <div
+          class="flex-1"
+        >
+          <p
+            class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
+          >
+            A London-based startup incubation programme. We collaborate with EF to host AI safety hackathons.
+          </p>
+        </div>
+      </div>
+      <div
+        class="flex flex-col gap-6 md:gap-8 min-h-[174px]"
+      >
+        <a
+          class="flex items-center h-16 group"
+          href="https://ifp.org/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <img
+            alt="Institute for Progress"
+            class="object-contain max-w-full max-h-[64px] transition-opacity duration-200 group-hover:opacity-80"
+            src="/images/agi-strategy/ifp.svg"
+          />
+        </a>
+        <div
+          class="flex-1"
+        >
+          <p
+            class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
+          >
+            IFP is a science and innovation think tank. We collaborate with IFP to get impactful projects off the ground.
+          </p>
+        </div>
+      </div>
+      <div
+        class="flex flex-col gap-6 md:gap-8 min-h-[174px]"
+      >
+        <a
+          class="flex items-center h-16 group"
+          href="https://www.fiftyyears.com/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <img
+            alt="50 Years"
+            class="object-contain max-w-full max-h-[64px] transition-opacity duration-200 group-hover:opacity-80"
+            src="/images/agi-strategy/fifty-years.svg"
+          />
+        </a>
+        <div
+          class="flex-1"
+        >
+          <p
+            class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
+          >
+            A pre-seed and seed VC firm. We fast-track our most promising entrepreneurs into their 5050 AI cohorts.
+          </p>
+        </div>
+      </div>
+      <div
+        class="col-span-1 md:col-span-2 lg:col-span-3"
+      >
+        <div
+          class="border-t border-[#231C57] opacity-20"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+`;

@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import clsx from 'clsx';
 import { FaCircleUser } from 'react-icons/fa6';
-import { IconButton, BugReportModal } from '@bluedot/ui';
+import { A, BugReportModal, IconButton } from '@bluedot/ui';
 
-import { ExpandedSectionsState, DRAWER_CLASSES, DRAWER_Z_PROFILE } from './utils';
+import {
+  ExpandedSectionsState, DRAWER_CLASSES, DRAWER_Z_PROFILE, PROFILE_DROPDOWN_CLASS,
+} from './utils';
 import { ROUTES } from '../../lib/routes';
-import { A } from '../Text';
+import { UserSearchModal } from '../admin/UserSearchModal';
+import { trpc } from '../../utils/trpc';
+import { useClickOutside } from '../../lib/hooks/useClickOutside';
 
 export const ProfileLinks: React.FC<{
   expandedSections: ExpandedSectionsState;
@@ -16,7 +20,14 @@ export const ProfileLinks: React.FC<{
   updateExpandedSections,
   isHomepage = false,
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isBugReportModalOpen, setIsBugReportModalOpen] = useState(false);
+  const [isImpersonateModalOpen, setIsImpersonateModalOpen] = useState(false);
+  const { data: isAdmin } = trpc.admin.isAdmin.useQuery();
+  const profileRef = useClickOutside<HTMLDivElement>(
+    () => updateExpandedSections({ profile: false }),
+    expandedSections.profile,
+    `.${PROFILE_DROPDOWN_CLASS}`,
+  );
 
   const onToggleProfile = () => updateExpandedSections({
     about: false,
@@ -34,7 +45,7 @@ export const ProfileLinks: React.FC<{
   };
 
   return (
-    <div className="profile-links">
+    <div ref={profileRef} className={PROFILE_DROPDOWN_CLASS}>
       <IconButton
         className={clsx(
           'profile-links__btn',
@@ -72,7 +83,7 @@ export const ProfileLinks: React.FC<{
           <button
             type="button"
             onClick={() => {
-              setIsModalOpen(true);
+              setIsBugReportModalOpen(true);
               updateExpandedSections({ profile: false });
             }}
             className={clsx('bluedot-a', getNavLinkClasses())}
@@ -80,14 +91,34 @@ export const ProfileLinks: React.FC<{
             Submit Feedback
           </button>
           <A
-            href={ROUTES.logout.url}
+            href={typeof window !== 'undefined'
+              ? `${ROUTES.logout.url}?redirect_to=${encodeURIComponent(
+                window.location.pathname + window.location.search + window.location.hash,
+              )}`
+              : ROUTES.logout.url}
             className={getNavLinkClasses()}
             onClick={onToggleProfile}
           >Log out
           </A>
+          {isAdmin && (
+            <>
+              <div className="border-t border-gray-200 my-2" />
+              <button
+                type="button"
+                onClick={() => {
+                  setIsImpersonateModalOpen(true);
+                  updateExpandedSections({ profile: false });
+                }}
+                className={clsx('bluedot-a', getNavLinkClasses())}
+              >
+                Impersonate a user
+              </button>
+            </>
+          )}
         </div>
       </div>
-      <BugReportModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
+      <BugReportModal isOpen={isBugReportModalOpen} setIsOpen={setIsBugReportModalOpen} />
+      {isImpersonateModalOpen && <UserSearchModal isOpen={isImpersonateModalOpen} onClose={() => setIsImpersonateModalOpen(false)} />}
     </div>
   );
 };

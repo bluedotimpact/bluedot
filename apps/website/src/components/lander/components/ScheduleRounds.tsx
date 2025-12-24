@@ -109,18 +109,18 @@ const RoundGroup = ({
         </span>
       </div>
 
-      <div className="flex flex-col gap-5">
+      <ul className="list-none flex flex-col gap-5">
         {rounds.map((round, index) => (
-          <div key={round.id}>
+          <li key={round.id}>
             <RoundItem round={round} applicationUrl={applicationUrl} />
             {index < rounds.length - 1 && (
               <div className="relative mt-5">
                 <div className="absolute inset-x-0 h-px bg-[rgba(19,19,46,0.1)]" />
               </div>
             )}
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 };
@@ -134,47 +134,59 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
   const separator = applicationUrl.includes('?') ? '&' : '?';
   const applyUrl = `${applicationUrl}${separator}prefill_%5B%3E%5D%20Round=${round.id}`;
 
-  return (
-    <div className="flex flex-col min-[680px]:flex-row min-[680px]:items-center min-[680px]:justify-between gap-2 min-[680px]:gap-4">
-      <div className="flex items-stretch gap-3 min-[680px]:gap-4">
-        <div className="w-1 flex-shrink-0 rounded-sm bg-[#2244BB]" />
-        <div className="flex flex-col gap-3 min-[680px]:gap-0">
-          <div>
-            {round.dateRange && (
-              <p className="text-[15px] font-semibold leading-[1.6] text-[#13132E]">
-                {round.dateRange}
-              </p>
-            )}
-            <p className="text-[15px] leading-[1.6] text-[#13132E] opacity-50">
-              Application closes {round.applicationDeadline}
-            </p>
-          </div>
+  const dateContent = (
+    <div>
+      {round.dateRange && <p className="text-[15px] leading-[1.6] font-semibold text-[#13132E]">{round.dateRange}</p>}
+      <p className="text-[15px] leading-[1.6] text-[#13132E] opacity-50">
+        Application closes {round.applicationDeadline}
+      </p>
+    </div>
+  );
 
-          <a
-            href={applyUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium text-[15px] leading-[1.6] text-[#2244BB] group min-[680px]:hidden"
-          >
-            <span className="transition-transform group-hover:-translate-x-1 inline-block">Apply now</span>
-            <span className="ml-1 transition-opacity group-hover:opacity-100 opacity-0 inline-block">
-              →
-            </span>
-          </a>
+  return (
+    <>
+      {/* Mobile: only "Apply now" link is clickable */}
+      <div className="flex flex-col gap-2 min-[680px]:hidden">
+        <div className="flex items-stretch gap-3">
+          <div className="bg-bluedot-normal w-1 flex-shrink-0 rounded-sm" />
+          <div className="flex flex-col gap-3">
+            {dateContent}
+
+            <a
+              href={applyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Apply now (opens in a new tab)"
+              className="text-bluedot-normal text-[15px] leading-[1.6] font-medium"
+            >
+              Apply now
+            </a>
+          </div>
         </div>
       </div>
 
+      {/* Desktop: entire card is clickable */}
       <a
         href={applyUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="hidden min-[680px]:flex font-medium text-[15px] leading-[1.6] text-[#2244BB] group items-center ml-auto"
+        aria-label="Apply now (opens in a new tab)"
+        className="group hidden flex-row items-center justify-between gap-4 min-[680px]:flex"
       >
-        <span className="transition-transform group-hover:-translate-x-1">Apply now</span>
-        <span className="ml-1 transition-opacity group-hover:opacity-100 opacity-0">
-          →
-        </span>
+        <div className="flex items-stretch gap-4">
+          <div className="bg-bluedot-normal w-1 flex-shrink-0 rounded-sm opacity-30 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" />
+          <div className="flex flex-col">{dateContent}</div>
+        </div>
+
+        <div className="text-bluedot-normal ml-auto flex items-center text-[15px] leading-[1.6] font-medium">
+          <span className="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1">
+            Apply now
+          </span>
+          <span className="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+            →
+          </span>
+        </div>
       </a>
-    </div>
+    </>
   );
 };

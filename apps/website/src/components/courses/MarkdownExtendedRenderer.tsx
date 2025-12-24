@@ -8,6 +8,7 @@ import type { Plugin } from 'unified';
 import type { MdxJsxFlowElement } from 'mdast-util-mdx-jsx';
 import { Collapsible } from '@bluedot/ui';
 import remarkGfm from 'remark-gfm';
+import remarkBreaks from 'remark-breaks';
 import Greeting from './Greeting';
 import Embed from './Embed';
 import Callout from './Callout';
@@ -77,6 +78,45 @@ export const getSupportedComponents = () => ({
   a: Link,
 });
 
+/**
+ * Preprocesses Airtable content to escape characters that break MDX parsing.
+ * Must run BEFORE evaluate() to prevent parse errors.
+ */
+const preprocessAirtableContent = (content: string): string => {
+  let processed = content;
+
+  // Convert autolinks to markdown links
+  // <https://example.com> → [https://example.com](https://example.com)
+  processed = processed.replace(
+    /<(https?:\/\/[^\s>]+)>/g,
+    '[$1]($1)',
+  );
+
+  // Get MDX component names from getSupportedComponents (excluding lowercase 'a' link override)
+  const supportedComponents = Object.keys(getSupportedComponents()).filter(
+    (name) => {
+      const firstChar = name[0];
+      return firstChar !== undefined && firstChar === firstChar.toUpperCase();
+    },
+  );
+
+  // Create regex pattern to match component names
+  // Need to match both opening and closing tags: <Embed> and </Embed>
+  const componentPattern = supportedComponents.join('|');
+  const escapedComponentPattern = supportedComponents.map((name) => `\\/${name}`).join('|');
+
+  // Fix Escape < that aren't part of JSX components
+  // Preserves: <Embed>, <Callout>, <Exercise>, <Collapsible>, <Greeting>
+  // Escapes everything else: <2000 → \<2000
+  const regex = new RegExp(
+    `<(?!(${componentPattern}|${escapedComponentPattern})\\b)`,
+    'g',
+  );
+  processed = processed.replace(regex, '\\<');
+
+  return processed;
+};
+
 // Custom jsxs function that adds keys to list items
 // This is needed to fix React warnings about missing keys in lists
 const jsxsWithKey = (type: React.ElementType, props: Record<string, unknown> & { children?: React.ReactNode }) => {
@@ -105,8 +145,8 @@ const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children, c
     }
 
     (async () => {
-      const evalResult = await evaluate(children, {
-        remarkPlugins: [remarkUnescapeMdxAttributes, remarkGfm],
+      const evalResult = await evaluate(preprocessAirtableContent(children), {
+        remarkPlugins: [remarkBreaks, remarkUnescapeMdxAttributes, remarkGfm],
         Fragment: React.Fragment,
         jsx: React.createElement,
         jsxs: jsxsWithKey,

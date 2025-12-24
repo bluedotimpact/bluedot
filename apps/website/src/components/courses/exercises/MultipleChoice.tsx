@@ -1,10 +1,9 @@
-import { CTALinkOrButton, Input } from '@bluedot/ui';
+import { CTALinkOrButton, Input, P } from '@bluedot/ui';
 import clsx from 'clsx';
 import React, { useCallback, useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { FaUndo } from 'react-icons/fa';
-import { P } from '../../Text';
 import { formatStringToArray } from '../../../lib/utils';
 import { getLoginUrl } from '../../../utils/getLoginUrl';
 // eslint-disable-next-line import/no-cycle
@@ -108,7 +107,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     if (isIncorrect) return 'bg-[#DC00001A] border-[#DC0000]';
 
     // Default style for selected option (when no answer has been submitted yet)
-    return 'bg-[#F0F5FD] border-[#2244BB]';
+    return 'bg-[#F0F5FD] border-bluedot-normal';
   };
 
   return (
@@ -141,7 +140,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         </div>
         {!isLoggedIn && (
           <CTALinkOrButton
-            className="!bg-[#2244BB] !whitespace-normal"
+            className="!bg-bluedot-normal !whitespace-normal"
             variant="primary"
             url={getLoginUrl(router.asPath, true)}
             withChevron
@@ -152,7 +151,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         {/* Submit button */}
         {isLoggedIn && !isCorrect && !isIncorrect && (
           <CTALinkOrButton
-            className="!bg-[#2244BB]"
+            className="!bg-bluedot-normal"
             variant="primary"
             onClick={handleSubmit(onSubmit)}
             disabled={isSubmitting || !currentAnswer}
@@ -171,7 +170,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
         )}
       </form>
       {isCorrect && (
-        <P className="relative z-0 -mt-2 w-full rounded-lg bg-[#F0F5FD] px-6 pt-4 pb-2 text-[#2244BB]">
+        <P className="relative z-0 -mt-2 w-full rounded-lg bg-[#F0F5FD] px-6 pt-4 pb-2 text-bluedot-normal">
           Correct! Quiz completed. 🎉
         </P>
       )}

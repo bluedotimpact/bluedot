@@ -1,18 +1,21 @@
 import clsx from 'clsx';
-import { H1 } from '@bluedot/ui/src/Text';
+import { H1 } from '@bluedot/ui';
 import GraduateSection from '../lander/components/GraduateSection';
+import { Nav } from '../Nav/Nav';
 
 const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
   <>
     {/* Hero with integrated nav and alumni */}
     <div className={clsx('relative w-full', className)}>
+      <Nav />
       {/* Main Hero Container */}
       <div className="relative flex flex-col min-h-[653px] min-[680px]:max-[1023px]:min-h-[659px] min-[1024px]:max-[1279px]:min-h-[738px] min-[1280px]:max-[1439px]:min-h-[821px] min-[1440px]:min-h-[821px] w-full -scale-x-100">
         <img
           src="/images/homepage/hero.webp"
           alt=""
           className="absolute inset-0 size-full object-cover"
-          fetchPriority="high"
+          // Workaround for bug with camelcase `fetchPriority`: https://github.com/facebook/react/issues/25682
+          {...{ fetchpriority: 'high' }}
         />
 
         {/* Nav spacer */}

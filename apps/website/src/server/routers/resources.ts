@@ -15,22 +15,25 @@ export const resourcesRouter = router({
         .from(resourceCompletionTable.pg)
         .where(
           and(
-            inArray(resourceCompletionTable.pg.unitResourceIdRead, input.unitResourceIds),
+            inArray(resourceCompletionTable.pg.unitResourceId, input.unitResourceIds),
             eq(resourceCompletionTable.pg.email, ctx.auth.email),
           ),
         )
         .orderBy(desc(resourceCompletionTable.pg.autoNumberId));
 
-      // Deduplicate by unitResourceIdRead, keeping only the first occurrence.
+      // Deduplicate by unitResourceId, keeping only the first occurrence.
       // Although we should only have one resource completion for a resource per user, it is possible to have multiple
       // (e.g. if a user quickly submits multiple times before the first is saved). We cannot enforce uniqueness in
       // Airtable, so we handle it here.
       const seenIds = new Set<string>();
       const uniqueCompletions = resourceCompletions.filter((completion) => {
-        if (seenIds.has(completion.unitResourceIdRead)) {
+        if (!completion.unitResourceId) {
           return false;
         }
-        seenIds.add(completion.unitResourceIdRead);
+        if (seenIds.has(completion.unitResourceId)) {
+          return false;
+        }
+        seenIds.add(completion.unitResourceId);
         return true;
       });
 
@@ -56,7 +59,7 @@ export const resourcesRouter = router({
     .mutation(async ({ input, ctx }) => {
       const resourceCompletion = await db.getFirst(resourceCompletionTable, {
         filter: {
-          unitResourceIdRead: input.unitResourceId,
+          unitResourceId: input.unitResourceId,
           email: ctx.auth.email,
         },
       });
@@ -68,6 +71,7 @@ export const resourcesRouter = router({
         // Update existing resource completion
         updatedResourceCompletion = await db.update(resourceCompletionTable, {
           id: resourceCompletion.id,
+          unitResourceId: input.unitResourceId,
           unitResourceIdWrite: input.unitResourceId,
           rating: input.rating ?? resourceCompletion.rating,
           isCompleted: input.isCompleted ?? resourceCompletion.isCompleted,
@@ -78,6 +82,7 @@ export const resourcesRouter = router({
         // Create new resource completion
         updatedResourceCompletion = await db.insert(resourceCompletionTable, {
           email: ctx.auth.email,
+          unitResourceId: input.unitResourceId,
           unitResourceIdWrite: input.unitResourceId,
           rating: input.rating ?? null,
           isCompleted: input.isCompleted ?? false,

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ClickTarget, NewText } from '@bluedot/ui';
+import { ClickTarget, H3 } from '@bluedot/ui';
 import prompts from './responses.json';
 import MarkdownRenderer from '../../components/MarkdownRenderer';
 
@@ -91,7 +91,7 @@ const DemoPage: React.FC = () => {
   return (
     <main className="mx-auto px-4">
       <div className="mb-8">
-        <NewText.H3 className="my-2">Examples:</NewText.H3>
+        <H3 className="my-2">Examples:</H3>
         <div className="flex flex-wrap gap-2">
           {prompts.map((prompt, index) => (
             <ClickTarget

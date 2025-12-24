@@ -1,0 +1,36 @@
+name: Feature request
+description: Suggest a new feature or document an idea
+title: "Short descriptive title"
+assignees: []
+type: "feature"
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: 🧩 Summary
+      description: Briefly describe the feature or idea in one or two sentences.
+      placeholder: A clear and concise description of the feature you'd like to see and how this improves user experience.
+    validations:
+      required: true
+
+  - type: textarea
+    id: requirements
+    attributes:
+      label: ✅ Definition of done
+      description: What needs to be true for this task to be considered complete?
+      placeholder: A clear description of what needs to be implemented for this feature to be complete.
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: 📌 Notes / Designs
+      description: Include Figma links, screenshots, or Loom walkthroughs.
+      placeholder: Add any other context about the feature request here.
+      
+  - type: markdown
+    attributes:
+      value: |
+        ## Thanks for taking the time to submit this!
+        Your issue will be automatically added to the [kanban](https://github.com/orgs/bluedotimpact/projects/6/views/9). Please go there to set the priority level.

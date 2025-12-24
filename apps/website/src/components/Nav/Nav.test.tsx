@@ -18,6 +18,7 @@ const mockCourses = [
     id: '1',
     title: 'Featured Course',
     description: 'Featured course description',
+    slug: 'future-of-ai',
     path: '/courses/future-of-ai',
     image: '/images/courses/featured.jpg',
     durationDescription: '4 weeks',
@@ -29,6 +30,7 @@ const mockCourses = [
     id: '2',
     title: 'New Course',
     description: 'New course description',
+    slug: 'ops',
     path: '/courses/ops',
     image: '/images/courses/new.jpg',
     durationDescription: '2 weeks',
@@ -46,6 +48,7 @@ vi.mock('next/router', () => ({
 const mockRouter = {
   asPath: '/test-page',
   pathname: '/test-page',
+  push: vi.fn(),
 };
 
 // Setup router mock and tRPC mock before each test
@@ -91,7 +94,7 @@ describe('Nav', () => {
       // Check specific course links and their URLs
       const featuredCourse = Array.from(courseLinks).find((link) => link.textContent?.includes('Featured Course'));
       const newCourse = Array.from(courseLinks).find((link) => link.textContent?.includes('New Course'));
-      const browseAll = Array.from(courseLinks).find((link) => link.textContent === 'Browse all');
+      const seeUpcomingRounds = Array.from(courseLinks).find((link) => link.textContent === 'See upcoming rounds');
 
       expect(featuredCourse).toBeDefined();
       expect(featuredCourse?.getAttribute('href')).toBe('/courses/future-of-ai');
@@ -99,8 +102,8 @@ describe('Nav', () => {
       expect(newCourse).toBeDefined();
       expect(newCourse?.getAttribute('href')).toBe('/courses/ops');
 
-      expect(browseAll).toBeDefined();
-      expect(browseAll?.getAttribute('href')).toBe('/courses');
+      expect(seeUpcomingRounds).toBeDefined();
+      expect(seeUpcomingRounds?.getAttribute('href')).toBe('/courses');
 
       // Verify "New" tag
       const newTags = container.querySelectorAll(`${selector} .tag`);
@@ -213,12 +216,44 @@ describe('Nav', () => {
       expect(mobileNavDrawer!.className).not.toMatch(/max-h-0/);
     });
 
-    // Simulate clicking outside the nav drawer
-    fireEvent.click(document.body);
+    // Simulate clicking outside the nav drawer (useClickOutside uses mousedown)
+    fireEvent.mouseDown(document.body);
 
     // Ensure the nav drawer is closed
     await waitFor(() => {
       expect(mobileNavDrawer!.className).toMatch(/max-h-0/);
+    });
+  });
+
+  test('user can click a course link in the dropdown', async () => {
+    render(<Nav />, { wrapper: TrpcProvider });
+
+    // Multiple "Courses" buttons exist (desktop + mobile), use first (desktop)
+    const coursesButton = screen.getAllByRole('button', { name: 'Courses' })[0]!;
+    expect(coursesButton.getAttribute('aria-expanded')).toBe('false');
+
+    fireEvent.click(coursesButton);
+
+    await waitFor(() => {
+      expect(coursesButton.getAttribute('aria-expanded')).toBe('true');
+    });
+
+    // Multiple "Courses menu" regions exist (desktop + mobile), use first (desktop)
+    const dropdowns = screen.getAllByRole('region', { name: 'Courses menu' });
+    expect(dropdowns[0]).toBeDefined();
+
+    const featuredCourseLinks = await screen.findAllByRole('link', { name: /Featured Course/i });
+    const desktopFeaturedCourseLink = featuredCourseLinks[0]!;
+
+    // Mousedown should not close the dropdown prematurely
+    fireEvent.mouseDown(desktopFeaturedCourseLink);
+    expect(coursesButton.getAttribute('aria-expanded')).toBe('true');
+    expect(screen.getAllByRole('link', { name: /Featured Course/i })).toHaveLength(2);
+
+    fireEvent.click(desktopFeaturedCourseLink);
+
+    await waitFor(() => {
+      expect(coursesButton.getAttribute('aria-expanded')).toBe('false');
     });
   });
 

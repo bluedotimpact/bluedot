@@ -1,13 +1,11 @@
-import { CTALinkOrButton, NewText } from '@bluedot/ui';
-
-const { H1, P } = NewText;
+import { CTALinkOrButton, H1, P } from '@bluedot/ui';
 
 export type HeroSectionProps = {
   categoryLabel?: string; // Optional course category label
   title: string;
   description: string;
   primaryCta: { text: string; url: string };
-  secondaryCta: { text: string; url: string };
+  secondaryCta?: { text: string; url: string };
   imageSrc: string;
   imageAlt: string;
 };
@@ -34,7 +32,7 @@ const HeroSection = ({
             <div className="space-y-5 sm:space-y-4">
               {/* Course Category */}
               {categoryLabel && (
-                <P className="text-size-md font-semibold tracking-wide text-[#2244BB]">
+                <P className="text-size-md font-semibold tracking-wide text-bluedot-normal">
                   {categoryLabel}
                 </P>
               )}
@@ -55,19 +53,20 @@ const HeroSection = ({
               <CTALinkOrButton
                 url={primaryCta.url}
                 size="small"
-                target="_blank"
-                className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-[#2244BB] text-white hover:bg-[#1a3399] focus:bg-[#1a3399] cursor-pointer transition-colors"
+                className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-bluedot-normal text-white hover:bg-[#1a3399] focus:bg-[#1a3399] cursor-pointer transition-colors"
               >
                 {primaryCta.text}
               </CTALinkOrButton>
 
-              <CTALinkOrButton
-                url={secondaryCta.url}
-                size="small"
-                className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md border border-[rgba(19,19,46,0.3)] text-[#13132E] bg-transparent hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E] cursor-pointer transition-colors"
-              >
-                {secondaryCta.text}
-              </CTALinkOrButton>
+              {secondaryCta && (
+                <CTALinkOrButton
+                  url={secondaryCta.url}
+                  size="small"
+                  className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md border border-[rgba(19,19,46,0.3)] text-[#13132E] bg-transparent hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E] cursor-pointer transition-colors"
+                >
+                  {secondaryCta.text}
+                </CTALinkOrButton>
+              )}
             </div>
           </div>
         </div>

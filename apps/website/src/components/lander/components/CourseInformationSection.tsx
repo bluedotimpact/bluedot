@@ -1,11 +1,10 @@
 import {
-  NewText,
   CTALinkOrButton,
+  H2,
+  P,
 } from '@bluedot/ui';
 import type { IconType } from 'react-icons';
 import { ScheduleRounds } from './ScheduleRounds';
-
-const { H2, P } = NewText;
 
 export type CourseDetail = {
   /** Icon component from react-icons (e.g., PiGraduationCap, PiClockClockwise) */
@@ -77,7 +76,7 @@ const CourseInformationSection = ({
                             <div className="flex justify-start">
                               <CTALinkOrButton
                                 url={applicationUrl}
-                                className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-[16px] font-medium bg-[#2244BB] text-white rounded-md hover:bg-[#1a3399] cursor-pointer transition-colors"
+                                className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-[16px] font-medium bg-bluedot-normal text-white rounded-md hover:bg-[#1a3399] cursor-pointer transition-colors"
                               >
                                 {scheduleCtaText}
                               </CTALinkOrButton>

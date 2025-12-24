@@ -3,7 +3,6 @@ export { PgAirtableDb } from './lib/client';
 export {
   metaTable,
   syncMetadataTable,
-  adminUsersTable,
   syncRequestsTable,
   unitFeedbackTable,
   exerciseResponseTable,
@@ -31,13 +30,13 @@ export {
   courseRegistrationTable,
   userTable,
   resourceCompletionTable,
+  facilitatorDiscussionSwitchingTable,
 } from './schema';
 
 // Type exports
 export type {
   Meta,
   SyncMetadata,
-  AdminUser,
   SyncRequest,
   SyncStatus,
   Course,
@@ -66,6 +65,7 @@ export type {
   CourseRegistration,
   User,
   ResourceCompletion,
+  FacilitatorSwitching,
 } from './schema';
 
 export { getPgAirtableFromIds, PgAirtableTable } from './lib/db-core';

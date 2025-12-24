@@ -2,24 +2,26 @@ import { courseRegistrationTable, courseTable } from '@bluedot/db';
 import {
   CTALinkOrButton,
   Footer,
-  NewText,
+  H1,
+  P,
   Section,
   ShareButton,
 } from '@bluedot/ui';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
+import path from 'path';
 import { FaCircleCheck } from 'react-icons/fa6';
-import { P } from '../components/Text';
 import db from '../lib/api/db';
 import { ROUTES } from '../lib/routes';
+import { fileExists } from '../utils/fileExists';
 
 type Certificate = {
   certificateId: string;
   certificateCreatedAt: number;
   recipientName: string;
   courseName: string;
+  courseSlug: string;
   certificationDescription: string;
-  certificationBadgeImageSrc: string;
   courseDetailsUrl: string;
 };
 
@@ -32,9 +34,9 @@ async function getCertificateData(certificateId: string) {
     certificateCreatedAt: courseRegistration.certificateCreatedAt ?? Date.now() / 1000,
     recipientName: courseRegistration.fullName,
     courseName: course.title,
+    courseSlug: course.slug,
     courseDetailsUrl: course.detailsUrl,
     certificationDescription: course.certificationDescription || '',
-    certificationBadgeImageSrc: course.certificationBadgeImage || '',
   };
 
   return certificate;
@@ -43,16 +45,17 @@ async function getCertificateData(certificateId: string) {
 type CertificatePageProps = {
   certificate: Certificate | null;
   certificateId: string | null;
+  certificationBadgeFilename: string;
 };
 
-const CertificatePage = ({ certificate, certificateId }: CertificatePageProps) => {
+const CertificatePage = ({ certificate, certificateId, certificationBadgeFilename }: CertificatePageProps) => {
   if (!certificateId) {
     return (
       <main className="bluedot-base flex flex-col">
         <Section className="flex-1">
           <div className="flex flex-col gap-4 mt-4">
-            <NewText.H1>Missing certificate id</NewText.H1>
-            <NewText.P>Check the link you were sent and try again.</NewText.P>
+            <H1>Missing certificate id</H1>
+            <P>Check the link you were sent and try again.</P>
             <div className="flex flex-row gap-4">
               <CTALinkOrButton url={ROUTES.courses.url}>Back to Courses</CTALinkOrButton>
               <CTALinkOrButton url={ROUTES.contact.url} variant="secondary">Contact us</CTALinkOrButton>
@@ -69,8 +72,8 @@ const CertificatePage = ({ certificate, certificateId }: CertificatePageProps) =
       <main className="bluedot-base flex flex-col">
         <Section className="flex-1">
           <div className="flex flex-col gap-4 mt-4">
-            <NewText.H1>Certificate not found</NewText.H1>
-            <NewText.P>We couldn't find the certificate you're looking for.</NewText.P>
+            <H1>Certificate not found</H1>
+            <P>We couldn't find the certificate you're looking for.</P>
             <div className="flex flex-row gap-4">
               <CTALinkOrButton url={ROUTES.courses.url}>Back to Courses</CTALinkOrButton>
               <CTALinkOrButton url={ROUTES.contact.url} variant="secondary">Contact us</CTALinkOrButton>
@@ -82,12 +85,34 @@ const CertificatePage = ({ certificate, certificateId }: CertificatePageProps) =
     );
   }
 
+  // Build badge URLs from filename determined server-side
+  const badgeAbsoluteUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/images/certificates/${certificationBadgeFilename}`;
+  const badgeRelativeUrl = `/images/certificates/${certificationBadgeFilename}`;
+
   return (
     <main className="bluedot-base flex flex-col">
       <Head>
-        <title>{`${certificate.recipientName}'s Certificate | BlueDot Impact`}</title>
-        <meta name="description" content={`Certificate of completion for ${certificate.courseName}`} />
+        <title>{`${certificate.recipientName} has completed ${certificate.courseName} | BlueDot Impact`}</title>
+        <meta name="description" content={certificate.certificationDescription || `Certificate of completion for ${certificate.courseName}`} />
         <meta name="robots" content="noindex" />
+
+        {/* Open Graph meta tags */}
+        <meta property="og:title" content={`${certificate.recipientName} has completed the ${certificate.courseName} course`} />
+        <meta property="og:description" content={certificate.certificationDescription || `Certificate of completion for ${certificate.courseName}`} />
+        <meta property="og:site_name" content="BlueDot Impact" />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={`${process.env.NEXT_PUBLIC_SITE_URL}/certification?id=${encodeURIComponent(certificateId)}`} />
+        <meta property="og:image" content={badgeAbsoluteUrl} />
+        <meta property="og:image:width" content="500" />
+        <meta property="og:image:height" content="500" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:alt" content={`${certificate.courseName} certification badge`} />
+
+        {/* Twitter Card meta tags */}
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={`${certificate.recipientName} has completed the ${certificate.courseName} course`} />
+        <meta name="twitter:description" content={certificate.certificationDescription || `Certificate of completion for ${certificate.courseName}`} />
+        <meta name="twitter:image" content={badgeAbsoluteUrl} />
       </Head>
 
       <Section className="flex-1 pt-12">
@@ -100,14 +125,19 @@ const CertificatePage = ({ certificate, certificateId }: CertificatePageProps) =
               </div>
               <P className="text-gray-700">This certificate was issued to <span className="font-bold">{certificate.recipientName}</span> on {new Date(certificate.certificateCreatedAt * 1000).toLocaleDateString()}</P>
             </div>
-            <ShareButton text={`I was just awarded my certificate for BlueDot Impact's ${certificate.courseName} course!`} url={`https://bluedot.org/certification?id=${certificateId}`}>Share your achievement</ShareButton>
+            <ShareButton text={`I was just awarded my certificate for BlueDot Impact's ${certificate.courseName} course!`} url={`${process.env.NEXT_PUBLIC_SITE_URL}/certification?id=${certificateId}`}>Share your achievement</ShareButton>
           </div>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-8 my-12">
           <div className="max-w-sm mx-auto sm:w-1/3">
-            {/* TODO: fix images with postgres sync <img src={certificate.certificationBadgeImageSrc} alt="Certificate badge" /> */}
-            <img src="https://storage.k8s.bluedot.org/website-assets/editor/8258c691-866c-4f81-826d-be26322d6681.svg" alt="Certificate badge" />
+            <img
+              src={badgeRelativeUrl}
+              alt={`${certificate.courseName} certification badge`}
+              onError={(e) => {
+                e.currentTarget.src = '/images/certificates/certificate-fallback-image.png';
+              }}
+            />
           </div>
 
           <div className="sm:w-2/3 space-y-4">
@@ -136,12 +166,25 @@ export const getServerSideProps: GetServerSideProps<CertificatePageProps> = asyn
       props: {
         certificate: null,
         certificateId: null,
+        certificationBadgeFilename: 'certificate-fallback-image.png',
       },
     };
   }
 
   try {
     const certificate = await getCertificateData(certificateId);
+
+    // Check if course-specific badge exists, otherwise use fallback
+    const badgePath = path.join(
+      process.cwd(),
+      'public',
+      'images',
+      'certificates',
+      `${certificate.courseSlug}.png`,
+    );
+    const certificationBadgeFilename = (await fileExists(badgePath))
+      ? `${certificate.courseSlug}.png`
+      : 'certificate-fallback-image.png';
 
     // Equivalent to `revalidate: 300` in getStaticProps. That can't be used here because we are
     // using query params rather than path params.
@@ -154,6 +197,7 @@ export const getServerSideProps: GetServerSideProps<CertificatePageProps> = asyn
       props: {
         certificate,
         certificateId,
+        certificationBadgeFilename,
       },
     };
   } catch (error) {
@@ -164,6 +208,7 @@ export const getServerSideProps: GetServerSideProps<CertificatePageProps> = asyn
       props: {
         certificate: null,
         certificateId,
+        certificationBadgeFilename: 'certificate-fallback-image.png',
       },
     };
   }

@@ -1,0 +1,229 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`QuoteSection > renders correctly 1`] = `
+<section
+  aria-atomic="true"
+  aria-label="Quote carousel"
+  aria-live="polite"
+  class="relative w-full py-6 px-5 sm:px-5 min-[680px]:pt-8 min-[680px]:pb-16 min-[680px]:px-8 lg:p-12 xl:pb-24 overflow-x-hidden"
+  style="background-color: #FFFFFF;"
+>
+  <div
+    class="flex flex-col items-center gap-8 w-full max-w-[calc(100vw-40px)] min-[680px]:max-w-none min-[680px]:w-[calc(100vw-64px)] lg:w-auto lg:max-w-none mx-auto overflow-visible"
+  >
+    <div
+      class="relative w-full"
+    >
+      <div
+        class="lg:hidden relative"
+      >
+        <div
+          class="flex justify-center w-full"
+        >
+          <div
+            class="w-[calc(100vw-40px)] min-[680px]:w-[calc(100vw-64px)] relative z-10"
+          >
+            <div
+              class="w-full rounded-xl overflow-hidden"
+              style="background-color: #ECF0FF;"
+            >
+              <div
+                class="flex flex-col lg:flex-row-reverse w-full h-[465px] min-[680px]:!h-[377px] lg:h-[385px]"
+              >
+                <div
+                  class="flex flex-col items-center lg:items-start py-8 px-6 min-[680px]:!py-8 min-[680px]:!px-6 lg:!p-16 gap-6 sm:gap-8 min-[680px]:gap-12 flex-grow justify-between"
+                >
+                  <blockquote
+                    class="text-[20px] min-[680px]:text-[24px] lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
+                    style="color: #13132E;"
+                  >
+                    "AI could surpass almost all humans at almost everything shortly after 2027."
+                  </blockquote>
+                  <div
+                    class="flex flex-col items-center lg:items-start gap-4 lg:gap-0"
+                  >
+                    <a
+                      class="cursor-pointer"
+                      href="https://example.com/source"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <img
+                        alt="Dario Amodei"
+                        class="size-12 sm:size-16 object-cover rounded-full lg:hidden"
+                        src="/images/lander/foai/dario.jpeg"
+                      />
+                    </a>
+                    <div
+                      class="flex flex-col items-center lg:items-start"
+                    >
+                      <div
+                        class="text-[18px] leading-tight font-semibold"
+                        style="color: #13132E;"
+                      >
+                        Dario Amodei
+                      </div>
+                      <div
+                        class="text-[16px] leading-[1.6] opacity-80 text-center lg:text-left lg:px-0"
+                        style="color: #13132E;"
+                      >
+                        CEO, Anthropic
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="hidden lg:block w-80 h-[385px] flex-shrink-0 overflow-hidden rounded-l-xl"
+                >
+                  <a
+                    class="block size-full cursor-pointer"
+                    href="https://example.com/source"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <img
+                      alt="Dario Amodei"
+                      class="size-full object-cover rounded-l-xl"
+                      src="/images/lander/foai/dario.jpeg"
+                    />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="hidden lg:block relative"
+      >
+        <div
+          class="flex justify-center w-full"
+        >
+          <div
+            class="lg:w-[928px] xl:w-[1120px] relative z-10"
+          >
+            <div
+              class="w-full rounded-xl overflow-hidden"
+              style="background-color: #ECF0FF;"
+            >
+              <div
+                class="flex flex-col lg:flex-row-reverse w-full h-[465px] min-[680px]:!h-[377px] lg:h-[385px]"
+              >
+                <div
+                  class="flex flex-col items-center lg:items-start py-8 px-6 min-[680px]:!py-8 min-[680px]:!px-6 lg:!p-16 gap-6 sm:gap-8 min-[680px]:gap-12 flex-grow justify-between"
+                >
+                  <blockquote
+                    class="text-[20px] min-[680px]:text-[24px] lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
+                    style="color: #13132E;"
+                  >
+                    "AI could surpass almost all humans at almost everything shortly after 2027."
+                  </blockquote>
+                  <div
+                    class="flex flex-col items-center lg:items-start gap-4 lg:gap-0"
+                  >
+                    <a
+                      class="cursor-pointer"
+                      href="https://example.com/source"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <img
+                        alt="Dario Amodei"
+                        class="size-12 sm:size-16 object-cover rounded-full lg:hidden"
+                        src="/images/lander/foai/dario.jpeg"
+                      />
+                    </a>
+                    <div
+                      class="flex flex-col items-center lg:items-start"
+                    >
+                      <div
+                        class="text-[18px] leading-tight font-semibold"
+                        style="color: #13132E;"
+                      >
+                        Dario Amodei
+                      </div>
+                      <div
+                        class="text-[16px] leading-[1.6] opacity-80 text-center lg:text-left lg:px-0"
+                        style="color: #13132E;"
+                      >
+                        CEO, Anthropic
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="hidden lg:block w-80 h-[385px] flex-shrink-0 overflow-hidden rounded-l-xl"
+                >
+                  <a
+                    class="block size-full cursor-pointer"
+                    href="https://example.com/source"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <img
+                      alt="Dario Amodei"
+                      class="size-full object-cover rounded-l-xl"
+                      src="/images/lander/foai/dario.jpeg"
+                    />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex items-center justify-center w-[calc(100vw-40px)] min-[680px]:gap-8 min-[680px]:w-[calc(100vw-64px)] lg:w-[928px] lg:h-[38px] lg:gap-8 relative z-10"
+    >
+      <button
+        aria-label="Previous quote"
+        class="size-12 rounded-full flex items-center justify-center bg-[rgba(19,19,46,0.08)] transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+        type="button"
+      >
+        <span
+          class="text-[#13132E] text-[22.4px] font-medium select-none"
+          style="transform: scaleX(-1);"
+        >
+          →
+        </span>
+      </button>
+      <div
+        class="flex gap-2 w-[280px] h-[38px] min-[680px]:w-[408px] min-[680px]:h-[38px] lg:w-[408px] lg:h-[38px]"
+      >
+        <button
+          aria-label="Go to quote 1"
+          class="flex-1 py-4 h-[38px] min-[680px]:flex-none min-[680px]:w-24 min-[680px]:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+          type="button"
+        >
+          <div
+            class="w-full min-[680px]:w-24 h-1.5 rounded transition-all duration-300"
+            style="background-color: var(--bluedot-normal); opacity: 1;"
+          />
+        </button>
+        <button
+          aria-label="Go to quote 2"
+          class="flex-1 py-4 h-[38px] min-[680px]:flex-none min-[680px]:w-24 min-[680px]:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+          type="button"
+        >
+          <div
+            class="w-full min-[680px]:w-24 h-1.5 rounded transition-all duration-300"
+            style="background-color: #13132E; opacity: 0.15;"
+          />
+        </button>
+      </div>
+      <button
+        aria-label="Next quote"
+        class="size-12 rounded-full flex items-center justify-center bg-[rgba(19,19,46,0.08)] transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+        type="button"
+      >
+        <span
+          class="text-[#13132E] text-[22.4px] font-medium select-none"
+        >
+          →
+        </span>
+      </button>
+    </div>
+  </div>
+</section>
+`;

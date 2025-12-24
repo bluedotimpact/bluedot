@@ -29,7 +29,7 @@ TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
         borderRadius: 2,
         colors: {
           ...theme.colors,
-          primary: '#0037FF',
+          primary: '#1144CC',
         },
       })}
       classNames={{

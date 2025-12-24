@@ -12,6 +12,9 @@ import type {
 } from '@bluedot/db';
 import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 
+// Re-export from libraries/ui for convenience
+export { createMockOidcResponse } from '@bluedot/ui/src/utils/testUtils';
+
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace JSX {
@@ -188,6 +191,8 @@ export const createMockMeetPerson = (overrides: Partial<MeetPerson> = {}): MeetP
   expectedDiscussionsParticipant: [],
   expectedDiscussionsFacilitator: [],
   attendedDiscussions: [],
+  uniqueDiscussionAttendance: null,
+  numUnits: null,
   groupsAsParticipant: [],
   autoNumberId: 1,
   ...overrides,
@@ -219,6 +224,7 @@ export const createMockResourceCompletion = (overrides: Partial<ResourceCompleti
   isCompleted: false,
   rating: null,
   resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE,
+  unitResourceId: MOCK_RESOURCE_ID,
   unitResourceIdRead: MOCK_RESOURCE_ID,
   unitResourceIdWrite: MOCK_RESOURCE_ID,
   ...overrides,

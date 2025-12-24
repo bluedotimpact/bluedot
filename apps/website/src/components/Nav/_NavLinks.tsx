@@ -1,13 +1,16 @@
 import clsx from 'clsx';
-import { Tag, ProgressDots } from '@bluedot/ui';
+import React from 'react';
+import { Tag, ProgressDots, A } from '@bluedot/ui';
 import { CgChevronDown } from 'react-icons/cg';
 
 import { ROUTES } from '../../lib/routes';
-import { A } from '../Text';
 import { useCourses } from '../../lib/hooks/useCourses';
+import { usePrimaryCourseURL } from '../../lib/hooks/usePrimaryCourseURL';
+import { useClickOutside } from '../../lib/hooks/useClickOutside';
 import {
   DRAWER_CLASSES,
   ExpandedSectionsState,
+  NAV_DROPDOWN_CLASS,
 } from './utils';
 
 const isCurrentPath = (url: string): boolean => {
@@ -28,14 +31,15 @@ export const NavLinks: React.FC<{
   isHomepage = false,
 }) => {
   const { courses, loading } = useCourses();
+  const { getPrimaryCourseURL } = usePrimaryCourseURL();
 
   const navCourses = loading ? [] : [
-    ...(courses.slice(0, 3) || []).map((course) => ({
+    ...(courses || []).map((course) => ({
       title: course.title,
-      url: course.path,
+      url: getPrimaryCourseURL(course.slug),
       isNew: course.isNew || false,
     })),
-    { title: 'Browse all', url: ROUTES.courses.url },
+    { title: 'See upcoming rounds', url: ROUTES.courses.url },
   ];
   const getLinkClasses = (isCurrentPathValue?: boolean) => {
     // Mobile drawer always has white background, so always use dark text
@@ -65,6 +69,7 @@ export const NavLinks: React.FC<{
           mobileNav: expandedSections.mobileNav,
           profile: false,
         })}
+        onClose={() => updateExpandedSections({ explore: false })}
         title="Courses"
         loading={loading}
       />
@@ -77,13 +82,25 @@ export const NavLinks: React.FC<{
       >
         Events
       </A>
-      <A href={ROUTES.blog.url} className={getLinkClasses(isCurrentPath(ROUTES.blog.url))}>
+      <A
+        href={ROUTES.blog.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={getLinkClasses(isCurrentPath(ROUTES.blog.url))}
+        aria-label="Blog (opens in new tab)"
+      >
         Blog
       </A>
-      <A href={ROUTES.about.url} className={getLinkClasses(isCurrentPath(ROUTES.about.url))}>
+      <A
+        href={ROUTES.about.url}
+        className={getLinkClasses(isCurrentPath(ROUTES.about.url))}
+      >
         About
       </A>
-      <A href={ROUTES.joinUs.url} className={getLinkClasses(isCurrentPath(ROUTES.joinUs.url))}>
+      <A
+        href={ROUTES.joinUs.url}
+        className={getLinkClasses(isCurrentPath(ROUTES.joinUs.url))}
+      >
         Jobs
       </A>
     </div>
@@ -97,6 +114,7 @@ const NavDropdown: React.FC<{
   isHomepage: boolean;
   links: { title: string; url: string; isNew?: boolean | null }[];
   onToggle: () => void;
+  onClose: () => void;
   title: string;
   // Optional
   className?: string;
@@ -107,10 +125,17 @@ const NavDropdown: React.FC<{
   isHomepage,
   links,
   onToggle,
+  onClose,
   title,
   className,
   loading,
 }) => {
+  const dropdownRef = useClickOutside<HTMLDivElement>(
+    onClose,
+    isExpanded,
+    `.${NAV_DROPDOWN_CLASS}`,
+  );
+
   const getDropdownButtonClasses = () => {
     // Mobile drawer always has white background, so always use dark text
     // Desktop navbar uses white text on homepage, dark text elsewhere
@@ -138,10 +163,12 @@ const NavDropdown: React.FC<{
   };
 
   return (
-    <div className="nav-dropdown">
+    <div ref={dropdownRef} className={NAV_DROPDOWN_CLASS}>
       <button
         type="button"
         onClick={onToggle}
+        aria-expanded={isExpanded}
+        aria-controls={`${title.toLowerCase()}-dropdown`}
         className={clsx(
           'nav-dropdown__btn flex items-center gap-2 cursor-pointer',
           'nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle',
@@ -157,14 +184,17 @@ const NavDropdown: React.FC<{
         />
       </button>
       <div
+        id={`${title.toLowerCase()}-dropdown`}
+        role="region"
+        aria-label={`${title} menu`}
         className={clsx(
-          'nav-dropdown__content-wrapper overflow-hidden',
+          'nav-dropdown__content-wrapper',
           isExpanded ? 'z-40' : 'pointer-events-none',
           getDropdownContentClasses(),
           className,
         )}
       >
-        <div className={clsx('nav-dropdown__dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty')}>
+        <div className={clsx('nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty')}>
           {loading ? (
             <ProgressDots className="py-2" />
           ) : (
@@ -173,25 +203,30 @@ const NavDropdown: React.FC<{
               const linkTextColor = 'text-[#02034B] hover:text-[#02034B]';
 
               return (
-                <A
-                  key={link.url}
-                  href={link.url}
-                  className={clsx(
-                    'nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle',
-                    'pt-1',
-                    linkTextColor,
+                <React.Fragment key={link.url}>
+                  {/* Add separator before "See upcoming rounds" */}
+                  {link.title === 'See upcoming rounds' && (
+                    <div className="border-t border-gray-200 my-2" />
                   )}
-                  onClick={() => {
-                    onToggle();
-                  }}
-                >
-                  {link.title}
-                  {link.isNew && (
-                    <Tag variant="secondary" className="uppercase ml-2 !p-1">
-                      New
-                    </Tag>
-                  )}
-                </A>
+                  <A
+                    href={link.url}
+                    className={clsx(
+                      'nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle',
+                      'pt-1',
+                      linkTextColor,
+                    )}
+                    onClick={() => {
+                      onClose();
+                    }}
+                  >
+                    {link.title}
+                    {link.isNew && (
+                      <Tag variant="secondary" className="uppercase ml-2 !p-1">
+                        New
+                      </Tag>
+                    )}
+                  </A>
+                </React.Fragment>
               );
             })
           )}

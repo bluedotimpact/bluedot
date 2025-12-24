@@ -31,14 +31,29 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
       <div
         class="relative w-full z-[1]"
       >
-        <textarea
-          aria-label="Text input area"
-          class="box-border w-full bg-white rounded-[10px] px-6 py-5 z-[1] font-normal text-[14px] leading-[160%] tracking-[-0.002em] text-[#13132E] resize-y outline-none transition-all duration-200 block border-[0.5px] border-[rgba(19,19,46,0.25)] focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] disabled:cursor-not-allowed disabled:opacity-60 [&::-webkit-resizer]:hidden min-h-[140px]"
-          disabled=""
-          placeholder="Create an account to save your answers"
-        />
         <div
-          class="auto-save-textarea-drag-notches absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]"
+          class="resize-y overflow-auto relative box-border w-full bg-white rounded-[6px] z-[1] p-4 border-[0.5px] border-[rgba(19,19,46,0.25)] focus-within:border-[1.25px] focus-within:border-[#1641D9] focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 [&::-webkit-resizer]:hidden cursor-not-allowed opacity-60 min-h-[140px]"
+        >
+          <div
+            aria-label="Rich text input area"
+            class="outline-none max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:font-normal [&_.ProseMirror]:text-[14px] [&_.ProseMirror]:leading-[160%] [&_.ProseMirror]:tracking-[-0.002em] [&_.ProseMirror]:text-[#13132E] [&_.ProseMirror_p]:m-0 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1 [&_.ProseMirror_li]:my-0.5 [&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-[#999] [&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left [&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:h-0"
+          >
+            <div
+              class="tiptap ProseMirror"
+              contenteditable="false"
+              role="textbox"
+              translate="no"
+            >
+              <p>
+                <br
+                  class="ProseMirror-trailingBreak"
+                />
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]"
         >
           <svg
             fill="none"
@@ -144,14 +159,34 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
       <div
         class="relative w-full z-[1]"
       >
-        <textarea
-          aria-describedby="save-status-message"
-          aria-label="Text input area"
-          class="box-border w-full bg-white rounded-[10px] px-6 py-5 z-[1] font-normal text-[14px] leading-[160%] tracking-[-0.002em] text-[#13132E] resize-y outline-none transition-all duration-200 block border-[0.5px] border-[rgba(19,19,46,0.25)] focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] disabled:cursor-not-allowed disabled:opacity-60 [&::-webkit-resizer]:hidden min-h-[140px]"
-          placeholder="Enter your answer here"
-        />
         <div
-          class="auto-save-textarea-drag-notches absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]"
+          class="resize-y overflow-auto relative cursor-text box-border w-full bg-white rounded-[6px] z-[1] p-4 border-[0.5px] border-[rgba(19,19,46,0.25)] focus-within:border-[1.25px] focus-within:border-[#1641D9] focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 [&::-webkit-resizer]:hidden min-h-[140px]"
+        >
+          <div
+            aria-describedby="save-status-message"
+            aria-label="Rich text input area"
+            class="outline-none max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:font-normal [&_.ProseMirror]:text-[14px] [&_.ProseMirror]:leading-[160%] [&_.ProseMirror]:tracking-[-0.002em] [&_.ProseMirror]:text-[#13132E] [&_.ProseMirror_p]:m-0 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1 [&_.ProseMirror_li]:my-0.5 [&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-[#999] [&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left [&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:h-0"
+          >
+            <div
+              class="tiptap ProseMirror"
+              contenteditable="true"
+              role="textbox"
+              tabindex="0"
+              translate="no"
+            >
+              <p
+                class="is-empty is-editor-empty"
+                data-placeholder="Enter your answer here"
+              >
+                <br
+                  class="ProseMirror-trailingBreak"
+                />
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]"
         >
           <svg
             fill="none"
@@ -228,16 +263,29 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
       <div
         class="relative w-full z-[1]"
       >
-        <textarea
-          aria-describedby="save-status-message"
-          aria-label="Text input area"
-          class="box-border w-full bg-white rounded-[10px] px-6 py-5 z-[1] font-normal text-[14px] leading-[160%] tracking-[-0.002em] text-[#13132E] resize-y outline-none transition-all duration-200 block border-[0.5px] border-[rgba(19,19,46,0.25)] focus:border-[1.25px] focus:border-[#1641D9] focus:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] disabled:cursor-not-allowed disabled:opacity-60 [&::-webkit-resizer]:hidden min-h-[140px]"
-          placeholder="Enter your answer here"
-        >
-          This is my saved answer.
-        </textarea>
         <div
-          class="auto-save-textarea-drag-notches absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]"
+          class="resize-y overflow-auto relative cursor-text box-border w-full bg-white rounded-[6px] z-[1] p-4 border-[0.5px] border-[rgba(19,19,46,0.25)] focus-within:border-[1.25px] focus-within:border-[#1641D9] focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 [&::-webkit-resizer]:hidden min-h-[140px]"
+        >
+          <div
+            aria-describedby="save-status-message"
+            aria-label="Rich text input area"
+            class="outline-none max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:font-normal [&_.ProseMirror]:text-[14px] [&_.ProseMirror]:leading-[160%] [&_.ProseMirror]:tracking-[-0.002em] [&_.ProseMirror]:text-[#13132E] [&_.ProseMirror_p]:m-0 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1 [&_.ProseMirror_li]:my-0.5 [&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-[#999] [&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left [&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:h-0"
+          >
+            <div
+              class="tiptap ProseMirror"
+              contenteditable="true"
+              role="textbox"
+              tabindex="0"
+              translate="no"
+            >
+              <p>
+                This is my saved answer.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]"
         >
           <svg
             fill="none"

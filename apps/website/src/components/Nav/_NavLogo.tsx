@@ -1,4 +1,4 @@
-import { A } from '../Text';
+import { A } from '@bluedot/ui';
 import { TRANSITION_DURATION_CLASS } from './utils';
 
 export const NavLogo: React.FC<{ isHomepage: boolean }> = ({ isHomepage }) => {

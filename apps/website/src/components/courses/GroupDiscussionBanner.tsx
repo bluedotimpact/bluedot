@@ -17,13 +17,12 @@ import { buildGroupSlackChannelUrl, formatDateTimeRelative } from '../../lib/uti
 import { trpc } from '../../utils/trpc';
 import { SlackIcon } from '../icons/SlackIcon';
 import { DocumentIcon } from '../icons/DocumentIcon';
-
-const ONE_HOUR_MS = 3600_000;
+import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 
 const BUTTON_STYLES = {
-  primary: { variant: 'primary' as const, className: 'bg-[#2244BB]' },
-  secondary: { variant: 'outline-black' as const, className: 'bg-transparent border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter' },
-  ghost: { variant: 'outline-black' as const, className: 'bg-transparent border-none text-[#2244BB] hover:bg-bluedot-lighter' },
+  primary: { variant: 'primary' as const, className: 'bg-bluedot-normal' },
+  secondary: { variant: 'outline-black' as const, className: 'bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter' },
+  ghost: { variant: 'outline-black' as const, className: 'bg-transparent border-none text-bluedot-normal hover:bg-bluedot-lighter' },
 };
 
 export type ButtonOrMenuItem = {
@@ -84,9 +83,9 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   // Recalculate time strings when currentTime changes
   const startTimeDisplayRelative = useMemo(() => formatDateTimeRelative({ dateTimeMs: groupDiscussion.startDateTime * 1000, currentTimeMs }), [groupDiscussion.startDateTime, currentTimeMs]);
 
-  // Dynamic discussion starts soon check
-  const discussionIsSoonOrLive = (groupDiscussion.startDateTime * 1000 - currentTimeMs) <= ONE_HOUR_MS && currentTimeMs <= (groupDiscussion.endDateTime * 1000);
-  const discussionIsLive = (groupDiscussion.startDateTime * 1000) <= currentTimeMs && currentTimeMs <= (groupDiscussion.endDateTime * 1000);
+  const discussionTimeState = getDiscussionTimeState({ discussion: groupDiscussion, currentTimeMs });
+  const discussionIsSoonOrLive = discussionTimeState === 'live' || discussionTimeState === 'soon';
+  const discussionIsLive = discussionTimeState === 'live';
 
   const discussionMeetLink = groupDiscussion.zoomLink || '';
   const discussionDocLink = groupDiscussion.activityDoc || '';
@@ -183,16 +182,18 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     <>
       <div className="@container flex flex-col gap-3 px-4 py-3 bg-[#E4EDFE] border-b border-[#C9D4F5]">
         <div className="flex items-center gap-3 text-size-xs">
-          <IndicatorIcon isLive={discussionIsLive} />
+          {(discussionIsLive || discussionIsSoonOrLive) && (
+            <IndicatorIcon isLive={discussionIsLive} />
+          )}
           <div className="flex gap-[6px] min-w-0 flex-initial">
-            <span className="text-[#2244BB] font-bold whitespace-nowrap">
+            <span className="text-bluedot-normal font-bold whitespace-nowrap">
               {discussionIsLive ? 'Discussion is live' : `Discussion ${startTimeDisplayRelative}`}
             </span>
-            <span className="text-[#2244BB] whitespace-nowrap">•</span>
+            <span className="text-bluedot-normal whitespace-nowrap">•</span>
             <button
               type="button"
               onClick={onClickPrepare}
-              className="text-[#2244BB] underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
+              className="text-bluedot-normal underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
             >
               {unitTitle}
             </button>
@@ -226,7 +227,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
             type="button"
             aria-label={isOpen ? 'Collapse upcoming discussion banner' : 'Expand upcoming discussion banner'}
             onClick={() => setIsOpen(!isOpen)}
-            className="cursor-pointer text-[#2244BB] ml-auto hover:opacity-80"
+            className="cursor-pointer text-bluedot-normal ml-auto hover:opacity-80"
           >
             <IoAdd size={24} style={isOpen ? { transform: 'rotate(45deg)', transition: 'transform 200ms' } : { transition: 'transform 200ms' }} />
           </button>
@@ -279,7 +280,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
               {hasOverflow && (
                 <OverflowMenu
                   ariaLabel="More discussion options"
-                  buttonClassName="flex items-center justify-center rounded-md cursor-pointer bg-transparent border border-[#B5C3EC] text-[#2244BB] hover:bg-bluedot-lighter self-stretch p-[6px]"
+                  buttonClassName="flex items-center justify-center rounded-md cursor-pointer bg-transparent border border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter self-stretch p-[6px]"
                   items={overflowButtons.map((button): OverflowMenuItemProps => ({
                     id: button.id,
                     label: button.overflowIcon ? (
@@ -330,13 +331,13 @@ const VideoIcon: React.FC<{ size?: number; className?: string }> = ({ size = 14,
 const IndicatorIcon: React.FC<{ isLive: boolean }> = ({ isLive }) => (
   <div className={clsx(
     'px-3 py-1 flex items-center justify-center border-[#C9D4F5]',
-    isLive ? 'bg-[#2244BB] font-bold border-4 rounded-lg' : 'bg-white border rounded',
+    isLive ? 'bg-bluedot-normal font-bold border-4 rounded-lg' : 'bg-white border rounded',
   )}
   >
     {isLive ? (
       <div className="text-white -translate-y-[0.5px]">LIVE</div>
     ) : (
-      <VideoIcon size={20} className="text-[#2244BB]" />
+      <VideoIcon size={20} className="text-bluedot-normal" />
     )}
   </div>
 );

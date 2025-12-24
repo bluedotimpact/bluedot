@@ -41,17 +41,6 @@ export const syncMetadataTable = pgTable('sync_metadata', {
   updatedAt: timestamp().defaultNow(),
 });
 
-/**
- * Admin users table for pg-sync dashboard access control.
- * NOTE: This is a regular pgTable, NOT synced from Airtable.
- * Used solely for internal admin authentication. Currently we add
- * emails manually to this table.
- */
-export const adminUsersTable = pgTable('admin_users', {
-  email: text().primaryKey(),
-  addedAt: timestamp().defaultNow().notNull(),
-});
-
 // Define sync status type
 export type SyncStatus = 'queued' | 'running' | 'completed';
 
@@ -524,6 +513,10 @@ export const meetPersonTable = pgAirtable('meet_person', {
       pgColumn: text().array(),
       airtableId: 'fldTEkxGZQxTqHhdX',
     },
+    uniqueDiscussionAttendance: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldMVAZse1xe6ENWs',
+    },
     groupsAsParticipant: {
       pgColumn: text().array(),
       airtableId: 'fldryDThWSl7SkkYB',
@@ -535,6 +528,10 @@ export const meetPersonTable = pgAirtable('meet_person', {
     email: {
       pgColumn: text(),
       airtableId: 'fld9BqZjF67r9Ce6O',
+    },
+    numUnits: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fld1ICMPmCd5y7B17',
     },
   },
 });
@@ -612,6 +609,53 @@ export const meetCourseTable = pgAirtable('meet_course', {
     courseSite: {
       pgColumn: text().notNull(),
       airtableId: 'fldzJ2h89blzv6MSb',
+    },
+  },
+});
+
+export const facilitatorDiscussionSwitchingTable = pgAirtable('facilitator_discussion_switching', {
+  baseId: COURSE_RUNNER_BASE_ID,
+  tableId: 'tblYpyG4RjhlMTmSm',
+  columns: {
+    facilitator: {
+      pgColumn: text(),
+      airtableId: 'fld2b1RzEHEh6BgD0',
+    },
+    round: {
+      pgColumn: text(),
+      airtableId: 'fldA4ysQjCtLMEZjR',
+    },
+    group: {
+      pgColumn: text(),
+      airtableId: 'fldadGhShdoBgH8TD',
+    },
+    intensity: {
+      pgColumn: text(),
+      airtableId: 'fldJZcoeuE9TwntMJ',
+    },
+    facilitatorRequestedDatetime: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fld3ITxndtB6ZZtN5',
+    },
+    createdAt: {
+      pgColumn: numeric({ mode: 'number' }).notNull(),
+      airtableId: 'fldECp0oKixn3pFkm',
+    },
+    anythingElse: {
+      pgColumn: text(),
+      airtableId: 'fldjWbb2vvQkcQaOs',
+    },
+    switchType: {
+      pgColumn: text().notNull(),
+      airtableId: 'fldZK15BFH6C4FlKG',
+    },
+    discussion: {
+      pgColumn: text(),
+      airtableId: 'fld8rNtdlycJiiYqI',
+    },
+    status: {
+      pgColumn: text().notNull(),
+      airtableId: 'fldxn1fWLefkcySaA',
     },
   },
 });
@@ -1115,12 +1159,18 @@ export const resourceCompletionTable = pgAirtable('resource_completion', {
   baseId: COURSE_BUILDER_BASE_ID,
   tableId: 'tblu6YnR7Lh0Bsl6v',
   columns: {
-    unitResourceIdWrite: {
-      pgColumn: text().notNull(),
+    unitResourceId: {
+      pgColumn: text(),
       airtableId: 'fldk4dbWAohE312Qn',
     },
+    /** @deprecated use `unitResourceId` instead */
+    unitResourceIdWrite: {
+      pgColumn: text(),
+      airtableId: 'fldk4dbWAohE312Qn',
+    },
+    /** @deprecated use `unitResourceId` instead */
     unitResourceIdRead: {
-      pgColumn: text().notNull(),
+      pgColumn: text(),
       airtableId: 'fldoTb7xx0QQVHXvM',
     },
     rating: {
@@ -1153,7 +1203,6 @@ export const resourceCompletionTable = pgAirtable('resource_completion', {
 // Type exports for all tables
 export type Meta = InferSelectModel<typeof metaTable>;
 export type SyncMetadata = InferSelectModel<typeof syncMetadataTable>;
-export type AdminUser = InferSelectModel<typeof adminUsersTable>;
 export type SyncRequest = InferSelectModel<typeof syncRequestsTable>;
 export type Course = InferSelectModel<typeof courseTable.pg>;
 export type UnitFeedback = InferSelectModel<typeof unitFeedbackTable.pg>;
@@ -1181,3 +1230,4 @@ export type ApplicationsCourse = InferSelectModel<typeof applicationsCourseTable
 export type CourseRegistration = InferSelectModel<typeof courseRegistrationTable.pg>;
 export type User = InferSelectModel<typeof userTable.pg>;
 export type ResourceCompletion = InferSelectModel<typeof resourceCompletionTable.pg>;
+export type FacilitatorSwitching = InferSelectModel<typeof facilitatorDiscussionSwitchingTable.pg>;

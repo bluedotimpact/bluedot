@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { P } from '@bluedot/ui/src/Text';
+import { P } from '@bluedot/ui';
 
 const logos = [
   { src: '/images/third-party-logos/openai.svg', alt: 'OpenAI' },
@@ -18,7 +18,7 @@ const logos = [
 
 const GraduateSection = () => {
   return (
-    <section className="w-full h-[106px] min-[680px]:h-[91px] bg-white border-b-hairline border-color-divider flex items-center">
+    <section className="w-full h-[106px] min-[680px]:h-[91px] bg-white flex items-center">
       <div className="w-full flex items-center justify-center 2xl:justify-end p-5 sm:px-6 md:px-12 2xl:pl-[272px] 2xl:pr-[48px]">
         {/* Container with text and logos */}
         <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-5 w-full max-w-[1200px] 2xl:max-w-none">

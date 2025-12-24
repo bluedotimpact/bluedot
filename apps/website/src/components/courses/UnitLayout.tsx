@@ -2,9 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import {
-  Section,
+  A,
   CTALinkOrButton,
   ErrorSection,
+  H1,
+  P,
+  Section,
   useAuthStore,
 } from '@bluedot/ui';
 import {
@@ -28,17 +31,8 @@ import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import { ResourceDisplay } from './ResourceDisplay';
 import SideBar from './SideBar';
 import { ROUTES } from '../../lib/routes';
-import {
-  A, H1, P,
-} from '../Text';
 import { trpc } from '../../utils/trpc';
-
-const CourseIcon: React.FC = () => (
-  <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="40" height="40" rx="8" fill="#2244BB" />
-    <path d="M31.9941 21.4938L28.4941 24.9938C28.3299 25.158 28.1072 25.2502 27.875 25.2502C27.6428 25.2502 27.4201 25.158 27.2559 24.9938C27.0918 24.8296 26.9995 24.6069 26.9995 24.3747C26.9995 24.1425 27.0918 23.9198 27.2559 23.7556L29.263 21.7497H19.487L13.362 27.8747H16.5C16.7321 27.8747 16.9546 27.9669 17.1187 28.131C17.2828 28.2951 17.375 28.5176 17.375 28.7497C17.375 28.9818 17.2828 29.2043 17.1187 29.3684C16.9546 29.5325 16.7321 29.6247 16.5 29.6247H11.25C11.0179 29.6247 10.7954 29.5325 10.6313 29.3684C10.4672 29.2043 10.375 28.9818 10.375 28.7497V23.4997C10.375 23.2676 10.4672 23.0451 10.6313 22.881C10.7954 22.7169 11.0179 22.6247 11.25 22.6247C11.4821 22.6247 11.7046 22.7169 11.8687 22.881C12.0328 23.0451 12.125 23.2676 12.125 23.4997V26.6377L18.25 20.5127V10.7367L16.2441 12.7438C16.0799 12.908 15.8572 13.0002 15.625 13.0002C15.3928 13.0002 15.1701 12.908 15.0059 12.7438C14.8418 12.5796 14.7495 12.3569 14.7495 12.1247C14.7495 11.8925 14.8418 11.6698 15.0059 11.5056L18.5059 8.00564C18.5872 7.92429 18.6837 7.85976 18.7899 7.81572C18.8961 7.77169 19.01 7.74902 19.125 7.74902C19.24 7.74902 19.3538 7.77169 19.4601 7.81572C19.5663 7.85976 19.6628 7.92429 19.7441 8.00564L23.2441 11.5056C23.4082 11.6698 23.5005 11.8925 23.5005 12.1247C23.5005 12.3569 23.4082 12.5796 23.2441 12.7438C23.0799 12.908 22.8572 13.0002 22.625 13.0002C22.3928 13.0002 22.1701 12.908 22.0059 12.7438L20 10.7367V19.9997H29.263L27.2559 17.9938C27.0918 17.8296 26.9995 17.6069 26.9995 17.3747C26.9995 17.1425 27.0918 16.9198 27.2559 16.7556C27.4201 16.5915 27.6428 16.4992 27.875 16.4992C28.1072 16.4992 28.3299 16.5915 28.4941 16.7556L31.9941 20.2556C32.0754 20.3369 32.14 20.4334 32.184 20.5396C32.228 20.6459 32.2507 20.7597 32.2507 20.8747C32.2507 20.9897 32.228 21.1036 32.184 21.2098C32.14 21.316 32.0754 21.4125 31.9941 21.4938Z" fill="white" />
-  </svg>
-);
+import { CourseIcon } from './CourseIcon';
 
 export type ChunkWithContent = Chunk & {
   resources: UnitResource[];
@@ -66,6 +60,7 @@ type MobileHeaderProps = {
   isFirstChunk: boolean;
   isLastChunk: boolean;
   onCourseMenuClick: () => void;
+  courseSlug: string;
 };
 
 const MobileHeader: React.FC<MobileHeaderProps> = ({
@@ -78,6 +73,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
   onPrevClick,
   onNextClick,
   onCourseMenuClick,
+  courseSlug,
 }) => {
   return (
     <div className={clsx('mobile-unit-header bg-color-canvas border-b border-color-divider w-full h-[76px] flex items-center px-3', className)}>
@@ -89,12 +85,11 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
           onClick={onCourseMenuClick}
           aria-label="Open course navigation menu"
         >
-          <CourseIcon />
-          <div className="mobile-unit-header__course-title-container flex flex-col text-left">
-            <p className="mobile-unit-header__course-breadcrumb text-[12px] font-medium leading-[140%] tracking-[-0.5%] text-[#6A6F7A]">{unit.courseTitle}</p>
+          <CourseIcon courseSlug={courseSlug} size="small" />
+          <div className="mobile-unit-header__course-title-container flex flex-col justify-center text-left flex-1 min-w-0">
             <div className="mobile-unit-header__course-title-row flex items-center gap-1">
-              <p className="mobile-unit-header__course-title text-[13px] font-semibold leading-[100%] tracking-[-0.5%] text-[#13132E]">{unit.title}</p>
-              <FaChevronDown className="size-3 text-[#13132E]" />
+              <p className="mobile-unit-header__course-title text-[17px] font-semibold leading-[120%] tracking-[-0.5%] text-[#13132E] truncate">{unit.courseTitle}</p>
+              <FaChevronDown className="size-3 text-[#13132E] flex-shrink-0" />
             </div>
           </div>
         </button>
@@ -297,12 +292,14 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         isFirstChunk={isFirstChunk}
         isLastChunk={isLastChunk}
         onCourseMenuClick={() => setIsMobileCourseMenuOpen(true)}
+        courseSlug={courseSlug}
       />
 
       {/* Sidebar - positioned fixed and separate from main layout flow */}
       {!isSidebarHidden && (
         <SideBar
           courseTitle={unit.courseTitle}
+          courseSlug={courseSlug}
           className="hidden md:block md:fixed md:overflow-y-auto md:max-h-[calc(100vh-57px)]" // Adjust for Nav height only
           units={units}
           currentUnitNumber={parseInt(unitNumber)}
@@ -421,7 +418,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         )}
         >
           <div className="unit__title-container">
-            <P className="unit__course-title font-semibold text-[13px] leading-[140%] tracking-[0.04em] uppercase text-[#2244BB] mb-2">Unit {unit.unitNumber}: {unit.title}</P>
+            <P className="unit__course-title font-semibold text-[13px] leading-[140%] tracking-[0.04em] uppercase text-bluedot-normal mb-2">Unit {unit.unitNumber}: {unit.title}</P>
             {chunk?.chunkTitle && (
               <H1 className="unit__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-[#13132E]">{chunk.chunkTitle}</H1>
             )}
@@ -465,7 +462,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             // Margin-bottom is added to accommodate the Circle widget on mobile screens
             <div className="unit__cta-container flex flex-row justify-center mt-6 mx-1 mb-14 sm:mb-0">
               <CTALinkOrButton
-                className="unit__cta-link [&]:bg-[#2244BB] [&]:hover:bg-[color-mix(in_oklab,#2244BB,black_20%)] hover:text-white"
+                className="unit__cta-link [&]:bg-bluedot-normal [&]:hover:bg-[color-mix(in_oklab,var(--bluedot-normal),black_20%)] hover:text-white"
                 onClick={handleNextClick}
                 variant="primary"
                 withChevron
@@ -487,6 +484,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         isOpen={isMobileCourseMenuOpen}
         setIsOpen={setIsMobileCourseMenuOpen}
         courseTitle={unit.courseTitle}
+        courseSlug={courseSlug}
         units={units}
         currentUnitNumber={parseInt(unitNumber)}
         chunks={chunks}

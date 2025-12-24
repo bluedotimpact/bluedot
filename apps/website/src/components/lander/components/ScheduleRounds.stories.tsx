@@ -9,6 +9,7 @@ const mockIntensiveRounds = [
     intensity: 'intensive',
     applicationDeadline: '15 Jan',
     applicationDeadlineRaw: '2025-01-15',
+    firstDiscussionDateRaw: '2025-01-20',
     dateRange: '20 Jan - 24 Jan',
     numberOfUnits: 5,
   },
@@ -17,6 +18,7 @@ const mockIntensiveRounds = [
     intensity: 'intensive',
     applicationDeadline: '15 Feb',
     applicationDeadlineRaw: '2025-02-15',
+    firstDiscussionDateRaw: '2025-02-20',
     dateRange: '20 Feb - 24 Feb',
     numberOfUnits: 5,
   },
@@ -28,6 +30,7 @@ const mockPartTimeRounds = [
     intensity: 'part-time',
     applicationDeadline: '01 Mar',
     applicationDeadlineRaw: '2025-03-01',
+    firstDiscussionDateRaw: '2025-03-10',
     dateRange: '10 Mar - 04 May',
     numberOfUnits: 8,
   },
@@ -36,6 +39,7 @@ const mockPartTimeRounds = [
     intensity: 'part-time',
     applicationDeadline: '01 Jun',
     applicationDeadlineRaw: '2025-06-01',
+    firstDiscussionDateRaw: '2025-06-10',
     dateRange: '10 Jun - 04 Aug',
     numberOfUnits: 8,
   },
@@ -49,7 +53,7 @@ const FallbackContent = (
     <div className="flex justify-start">
       <CTALinkOrButton
         url="https://example.com/apply"
-        className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-[16px] font-medium bg-[#2244BB] text-white rounded-md hover:bg-[#1a3399] cursor-pointer transition-colors"
+        className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-[16px] font-medium bg-[#1144CC] text-white rounded-md hover:bg-[#1a3399] cursor-pointer transition-colors"
       >
         Apply now
       </CTALinkOrButton>

@@ -3,8 +3,55 @@ import CourseSection from '../components/homepage/CourseSection';
 import StorySection from '../components/homepage/StorySection';
 import HomeHeroContent from '../components/homepage/HomeHeroContent';
 import HomepageBlogSection from '../components/homepage/HomepageBlogSection';
-import OurCommunitySection from '../components/homepage/OurCommunitySection';
+import CommunityCarousel from '../components/lander/CommunityCarousel';
 import EventsSection from '../components/homepage/EventsSection';
+import NewsletterBanner from '../components/homepage/NewsletterBanner';
+import { UpcomingRounds } from '../components/homepage/UpcomingRounds';
+
+const COMMUNITY_MEMBERS = [
+  {
+    name: 'Neel Nanda',
+    jobTitle: 'Mech Interp Lead at Google DeepMind',
+    course: 'Former participant and facilitator',
+    imageSrc: '/images/graduates/neel.jpeg',
+    url: 'https://www.neelnanda.io/about',
+  },
+  {
+    name: 'Catherine Fist',
+    jobTitle: 'Head of Delivery at UK AISI',
+    course: 'AI Governance Course Graduate',
+    imageSrc: '/images/graduates/catherine.jpeg',
+    url: 'https://www.linkedin.com/in/catherine-fist/',
+  },
+  {
+    name: 'Adam Jones',
+    jobTitle: 'Member of Technical Staff at Anthropic',
+    course: 'Former AI safety lead at BlueDot',
+    imageSrc: '/images/graduates/adam.jpg',
+    url: 'https://adamjones.me/',
+  },
+  {
+    name: 'Marius Hobbhahn',
+    jobTitle: 'CEO at Apollo Research',
+    course: 'AI Alignment Course Graduate',
+    imageSrc: '/images/graduates/marius.jpeg',
+    url: 'https://www.mariushobbhahn.com/aboutme/',
+  },
+  {
+    name: 'Chiara Gerosa',
+    jobTitle: 'Executive Director at Talos',
+    course: 'AI Governance Course Facilitator',
+    imageSrc: '/images/graduates/chiara.jpeg',
+    url: 'https://www.linkedin.com/in/chiaragerosa/',
+  },
+  {
+    name: 'Richard Ngo',
+    jobTitle: 'Former OpenAI and DeepMind',
+    course: 'AI Alignment Course Designer',
+    imageSrc: '/images/graduates/richard.jpg',
+    url: 'https://www.richardcngo.com/',
+  },
+];
 
 const HomePage = () => {
   return (
@@ -40,16 +87,31 @@ const HomePage = () => {
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
       <CourseSection />
-      {/* Divider */}
-      <div className="border-t-hairline border-color-divider" />
-      <OurCommunitySection />
+      <UpcomingRounds />
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
       <EventsSection />
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
       <StorySection />
+      {/* Divider */}
+      <div className="border-t-hairline border-color-divider" />
       <HomepageBlogSection maxItems={3} />
+      {/* Divider */}
+      <div className="border-t-hairline border-color-divider" />
+      <CommunityCarousel
+        members={COMMUNITY_MEMBERS}
+        subtitle="Learn more about the incredible work our community is doing."
+        variant="homepage"
+      />
+      {/* Divider */}
+      <div className="border-t-hairline border-color-divider" />
+      {/* Newsletter Section */}
+      <section className="w-full bg-white min-[680px]:py-16 min-[680px]:px-8 min-[1024px]:py-20 min-[1024px]:px-12 min-[1280px]:py-24 min-[1280px]:px-16 2xl:px-20">
+        <div className="mx-auto max-w-screen-xl">
+          <NewsletterBanner />
+        </div>
+      </section>
     </div>
   );
 };

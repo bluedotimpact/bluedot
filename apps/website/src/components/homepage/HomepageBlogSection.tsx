@@ -1,18 +1,18 @@
-import { CTALinkOrButton, ErrorSection, ProgressDots } from '@bluedot/ui';
-import { P } from '@bluedot/ui/src/Text';
+import {
+  CTALinkOrButton, ErrorSection, P, ProgressDots,
+} from '@bluedot/ui';
 import Link from 'next/link';
 import type { inferRouterOutputs } from '@trpc/server';
 import { ROUTES } from '../../lib/routes';
 import type { AppRouter } from '../../server/routers/_app';
 import { trpc } from '../../utils/trpc';
-import NewsletterBanner from './NewsletterBanner';
 
 export type HomepageBlogSectionProps = {
   maxItems?: number | undefined;
 };
 
 const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
-  const { data: blogs, isLoading: loading, error } = trpc.blogs.getAll.useQuery();
+  const { data: blogs, isLoading: loading, error } = trpc.blogs.getSubstack.useQuery();
 
   if (error) {
     return <ErrorSection error={error} />;
@@ -20,7 +20,7 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
 
   if (loading) {
     return (
-      <section className="relative bg-white min-[680px]:border-b border-[rgba(19,19,46,0.1)] py-12 px-5 min-[680px]:py-16 min-[680px]:px-8 min-[1024px]:py-20 min-[1024px]:px-12 min-[1280px]:py-24 min-[1280px]:px-16 2xl:px-20">
+      <section className="relative bg-white py-12 px-5 min-[680px]:py-16 min-[680px]:px-8 min-[1024px]:py-20 min-[1024px]:px-12 min-[1280px]:py-24 min-[1280px]:px-16 2xl:px-20">
         <div className="relative z-10 max-w-screen-xl mx-auto">
           <div className="flex justify-between items-center mb-12 min-[680px]:mb-16 min-[1024px]:mb-20 min-[1280px]:mb-16">
             <h2
@@ -37,7 +37,7 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
   }
 
   return (
-    <section className="relative bg-white min-[680px]:border-b border-[rgba(19,19,46,0.1)] py-12 px-5 min-[680px]:py-16 min-[680px]:px-8 min-[1024px]:py-20 min-[1024px]:px-12 min-[1280px]:py-24 min-[1280px]:px-16 2xl:px-20">
+    <section className="relative bg-white py-12 px-5 min-[680px]:py-16 min-[680px]:px-8 min-[1024px]:py-20 min-[1024px]:px-12 min-[1280px]:py-24 min-[1280px]:px-16 2xl:px-20">
       <div className="relative z-10 max-w-screen-xl mx-auto">
         {/* Header Section */}
         <div className="flex flex-col min-[680px]:flex-row justify-between items-center gap-4 mb-12 min-[680px]:mb-16 min-[1024px]:mb-20 min-[1280px]:mb-16">
@@ -50,7 +50,8 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
 
           <CTALinkOrButton
             url={ROUTES.blog.url}
-            className="hidden min-[680px]:flex h-11 px-4 bg-[rgba(19,19,46,0.1)] text-[#13132e] hover:text-[#13132e] text-[15px] font-medium tracking-[-0.3px] leading-[1.6] rounded-md hover:bg-[rgba(19,19,46,0.15)] whitespace-nowrap"
+            target="_blank"
+            className="hidden min-[680px]:flex h-[44px] px-[17px] py-[16px] text-[14px] font-normal leading-[18.2px] tracking-[0.42px] text-white bg-[#0033CC] rounded-[6px] hover:bg-[#0029A3] transition-all duration-200 whitespace-nowrap"
           >
             Read our blog
           </CTALinkOrButton>
@@ -62,7 +63,7 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
         ) : (
           <div className="flex flex-col min-[1025px]:flex-row gap-0 min-[1025px]:gap-12">
             {blogs?.slice(0, maxItems).map((blog, index) => (
-              <div key={blog.id} className="flex flex-col min-[1025px]:flex-row min-[1025px]:flex-1">
+              <div key={blog.link} className="flex flex-col min-[1025px]:flex-row min-[1025px]:flex-1">
                 <BlogCard blog={blog} />
                 {index < (maxItems ? Math.min(maxItems, blogs.length) : blogs.length) - 1 && (
                   <BlogDivider />
@@ -73,16 +74,14 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
         )}
 
         {/* Mobile CTA Button */}
-        <CTALinkOrButton
-          url={ROUTES.blog.url}
-          className="min-[680px]:hidden mt-12 h-11 px-4 bg-[rgba(19,19,46,0.1)] text-[#13132e] hover:text-[#13132e] text-[15px] font-medium tracking-[-0.3px] leading-[1.6] rounded-md hover:bg-[rgba(19,19,46,0.15)]"
-        >
-          Read our blog
-        </CTALinkOrButton>
-
-        {/* Newsletter Banner */}
-        <div className="-mx-5 -mb-12 mt-16 min-[680px]:mx-0 min-[680px]:mb-0 lg:mt-20 xl:mt-24">
-          <NewsletterBanner />
+        <div className="min-[680px]:hidden flex justify-center mt-12">
+          <CTALinkOrButton
+            url={ROUTES.blog.url}
+            target="_blank"
+            className="h-[44px] px-[17px] py-[16px] text-[14px] font-normal leading-[18.2px] tracking-[0.42px] text-white bg-[#0033CC] rounded-[6px] hover:bg-[#0029A3] transition-all duration-200"
+          >
+            Read our blog
+          </CTALinkOrButton>
         </div>
       </div>
     </section>
@@ -91,7 +90,7 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
 export default HomepageBlogSection;
 
 type BlogCardProps = {
-  blog: inferRouterOutputs<AppRouter>['blogs']['getAll'][number];
+  blog: inferRouterOutputs<AppRouter>['blogs']['getSubstack'][number];
 };
 
 const getOrdinalSuffix = (day: number): string => {
@@ -105,11 +104,11 @@ const getOrdinalSuffix = (day: number): string => {
 };
 
 const BlogCard = ({ blog }: BlogCardProps) => {
-  const url = `/blog/${blog.slug}`;
+  const url = blog.link;
 
   let formattedDate = 'UNKNOWN DATE';
-  if (blog.publishedAt) {
-    const date = new Date(blog.publishedAt * 1000);
+  if (blog.pubDate) {
+    const date = new Date(blog.pubDate);
     const month = date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
     const day = date.getDate();
     const year = date.getFullYear();
@@ -117,10 +116,10 @@ const BlogCard = ({ blog }: BlogCardProps) => {
     formattedDate = `${month} ${day}${ordinal}, ${year}`;
   }
 
-  const authorName = blog.authorName?.toUpperCase() || 'UNKNOWN AUTHOR';
+  const authorName = blog.author?.toUpperCase() || 'UNKNOWN AUTHOR';
 
   return (
-    <Link href={url} className="flex flex-col gap-6 min-[680px]:gap-4 min-[1024px]:gap-6 rounded-xl group">
+    <Link href={url} target="_blank" rel="noopener noreferrer" className="flex flex-col gap-6 min-[680px]:gap-4 min-[1024px]:gap-6 rounded-xl group">
       <h3 className="text-[20px] min-[680px]:text-2xl leading-[1.3] tracking-[-0.4px] min-[680px]:tracking-[-0.18px] min-[1920px]:tracking-[-0.48px] text-[#13132e] font-normal group-hover:opacity-70 transition-opacity">
         {blog.title || 'Untitled'}
       </h3>
