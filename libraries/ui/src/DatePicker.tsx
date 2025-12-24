@@ -33,7 +33,7 @@ export type DatePickerProps = {
   label?: string;
   hideLabel?: boolean;
   value?: Date;
-  onChange?: (value: Date) => void;
+  onChange?: (value?: Date) => void;
   className?: string;
 };
 
@@ -63,9 +63,7 @@ export const DatePicker = ({
   };
 
   const handleSelect = (date?: Date) => {
-    if (date) {
-      onChange?.(date);
-    }
+    onChange?.(date);
     popoverRef.current?.hidePopover();
   };
 
