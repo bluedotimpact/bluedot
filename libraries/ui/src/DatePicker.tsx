@@ -31,14 +31,13 @@ export const getLocaleDateFormat = (): string => {
 
 export type DatePickerProps = {
   label?: string;
-  hideLabel?: boolean;
   value?: Date;
   onChange?: (value?: Date) => void;
   className?: string;
 };
 
 export const DatePicker = ({
-  label = 'Date', hideLabel = false, value, onChange, className,
+  label, value, onChange, className,
 }: DatePickerProps) => {
   const [inputValue, setInputValue] = useState(value ? value.toLocaleDateString() : '');
   const [month, setMonth] = useState<Date>(value ?? new Date());
@@ -72,7 +71,7 @@ export const DatePicker = ({
 
   return (
     <div className={cn('group relative flex w-[200px] flex-col gap-1', className)}>
-      {!hideLabel ? (
+      {label ? (
         <label htmlFor={inputId} className="text-black">
           {label}
         </label>
@@ -88,7 +87,7 @@ export const DatePicker = ({
           onChange={(e) => setInputValue(e.target.value)}
           onBlur={handleInputBlur}
           placeholder="Select date..."
-          aria-label={hideLabel ? label : undefined}
+          aria-label={label}
           style={{ anchorName: `--${popoverId}` } as React.CSSProperties}
           className="w-full rounded-lg bg-transparent py-2 pr-9 pl-3 outline-none placeholder:italic"
         />
