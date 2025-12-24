@@ -53,7 +53,10 @@ export const DatePicker = ({
 
   const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    setInputValue(newValue);
+    if (!newValue) {
+      onChange?.(undefined);
+      return;
+    }
 
     const parsedDate = parse(newValue, localeFormat, new Date());
     if (isValid(parsedDate)) {
