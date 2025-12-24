@@ -1,5 +1,7 @@
-import { isValid, parse } from 'date-fns';
-import { useId, useRef, useState } from 'react';
+import { isValid, format, parse } from 'date-fns';
+import {
+  useEffect, useId, useRef, useState,
+} from 'react';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/style.css';
 import { LuChevronsUpDown } from 'react-icons/lu';
@@ -43,24 +45,26 @@ export const DatePicker = ({
   const popoverRef = useRef<HTMLDivElement>(null);
   const inputId = useId();
   const popoverId = useId();
-  const format = getLocaleDateFormat();
+  const localeFormat = getLocaleDateFormat();
+
+  useEffect(() => {
+    setInputValue(value ? format(value, localeFormat) : '');
+    if (value) setMonth(value);
+  }, [value, localeFormat]);
 
   const handleInputBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setInputValue(newValue);
 
-    const parsedDate = parse(newValue, format, new Date());
+    const parsedDate = parse(newValue, localeFormat, new Date());
     if (isValid(parsedDate)) {
       onChange?.(parsedDate);
-      setMonth(parsedDate);
     }
   };
 
   const handleSelect = (date?: Date) => {
     if (date) {
       onChange?.(date);
-      setInputValue(date.toLocaleDateString());
-      setMonth(date);
     }
     popoverRef.current?.hidePopover();
   };
