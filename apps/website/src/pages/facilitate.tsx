@@ -118,21 +118,21 @@ We can pay facilitators in countries supported by [Wise](https://wise.com/help/a
         </p>
         <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto">
           <CTALinkOrButton
-            url={AGI_STRATEGY_APPLICATION_URL}
+            url={`${AGI_STRATEGY_APPLICATION_URL}?prefill_%5Ba%5D%20Role=Facilitator`}
             variant="primary"
             className="w-full text-center"
           >
             AGI Strategy
           </CTALinkOrButton>
           <CTALinkOrButton
-            url={BIOSECURITY_APPLICATION_URL}
+            url={`${BIOSECURITY_APPLICATION_URL}?prefill_%5Ba%5D%20Role=Facilitator`}
             variant="primary"
             className="w-full text-center"
           >
             Biosecurity
           </CTALinkOrButton>
           <CTALinkOrButton
-            url={TECHNICAL_AI_SAFETY_APPLICATION_URL}
+            url={`${TECHNICAL_AI_SAFETY_APPLICATION_URL}?prefill_%5Ba%5D%20Role=Facilitator`}
             variant="primary"
             className="w-full text-center"
           >
