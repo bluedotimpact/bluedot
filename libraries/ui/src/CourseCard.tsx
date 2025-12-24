@@ -14,8 +14,6 @@ export type CourseCardProps = React.PropsWithChildren<{
   // eslint-disable-next-line react/no-unused-prop-types
   cardType?: 'Featured' | 'Regular',
   // eslint-disable-next-line react/no-unused-prop-types
-  cadence: string,
-  // eslint-disable-next-line react/no-unused-prop-types
   courseLength: string, // Expected format: "5 days"
   imageClassName?: string,
 }>;
@@ -85,12 +83,11 @@ export const CourseCard: React.FC<CourseCardProps> = ({
   url,
   applicationDeadline,
   cardType = 'Regular',
-  cadence,
   courseLength,
   imageSrc,
   imageClassName,
 }) => {
-  // Footer with course duration and cadence removed per user request
+  // Footer with course duration removed per user request
 
   return cardType === 'Featured' ? (
     <FeaturedCourseCard
@@ -101,7 +98,6 @@ export const CourseCard: React.FC<CourseCardProps> = ({
       applicationDeadline={applicationDeadline}
       imageSrc={imageSrc}
       imageClassName={imageClassName}
-      cadence={cadence}
       courseLength={courseLength}
     />
   ) : (

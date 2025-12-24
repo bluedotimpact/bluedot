@@ -8,7 +8,6 @@ describe('CourseCard', () => {
     title: 'Title',
     description: 'Description',
     url: 'https://bluedot.org/courses/what-the-fish',
-    cadence: 'Self-paced',
     courseLength: '10 hours',
   };
 
@@ -31,7 +30,6 @@ describe('CourseCard', () => {
       <CourseCard
         {...defaultProps}
         applicationDeadline="Feb 1"
-        cadence="Self-paced"
         imageSrc="/images/team/custom-size.jpg"
       />,
     );

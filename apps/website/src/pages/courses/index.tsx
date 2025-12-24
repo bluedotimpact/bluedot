@@ -34,8 +34,8 @@ const COURSE_APPLICATION_URLS: Record<string, string> = {
   'technical-ai-safety': TECHNICAL_AI_SAFETY_APPLICATION_URL,
 };
 
-/* Self-paced courses have no cohort rounds - just open access content */
-const isSelfPacedCourse = (course: Course): boolean => course.cadence?.toLowerCase() === 'self-paced' || course.slug === 'future-of-ai';
+/* FoAI course has no cohort rounds - just open access content */
+const isSelfPacedCourse = (course: Course): boolean => course.slug === 'future-of-ai';
 
 /* Custom hook to fetch and sort courses with their round data */
 const useSortedCourses = () => {
