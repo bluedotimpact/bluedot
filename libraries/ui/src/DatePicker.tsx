@@ -101,6 +101,10 @@ export const DatePicker = ({
           month={month}
           onMonthChange={setMonth}
           showOutsideDays
+          classNames={{
+            chevron: 'fill-bluedot-normal',
+            today: 'text-bluedot-normal',
+          }}
         />
       </div>
     </div>
