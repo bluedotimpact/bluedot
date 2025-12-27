@@ -1163,16 +1163,6 @@ export const resourceCompletionTable = pgAirtable('resource_completion', {
       pgColumn: text(),
       airtableId: 'fldk4dbWAohE312Qn',
     },
-    /** @deprecated use `unitResourceId` instead */
-    unitResourceIdWrite: {
-      pgColumn: text(),
-      airtableId: 'fldk4dbWAohE312Qn',
-    },
-    /** @deprecated use `unitResourceId` instead */
-    unitResourceIdRead: {
-      pgColumn: text(),
-      airtableId: 'fldoTb7xx0QQVHXvM',
-    },
     rating: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldq6J5taZX4xLDfD',
