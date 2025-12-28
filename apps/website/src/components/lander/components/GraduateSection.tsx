@@ -32,14 +32,16 @@ const GraduateSection = () => {
             <ul className="flex items-center justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll list-none">
               {logos.map((logo) => (
                 <li key={logo.src}>
-                  <img className={clsx('h-6', logo.customClassName)} src={logo.src} alt={logo.alt} />
+                  {/* // Workaround for bug with camelcase `fetchPriority`: https://github.com/facebook/react/issues/25682 */}
+                  <img className={clsx('h-6', logo.customClassName)} src={logo.src} alt={logo.alt} {...{ fetchpriority: 'high' }} />
                 </li>
               ))}
             </ul>
             <ul className="flex items-center justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll list-none" aria-hidden="true">
               {logos.map((logo) => (
                 <li key={logo.src}>
-                  <img className={clsx('h-6', logo.customClassName)} src={logo.src} alt={logo.alt} />
+                  {/* // Workaround for bug with camelcase `fetchPriority`: https://github.com/facebook/react/issues/25682 */}
+                  <img className={clsx('h-6', logo.customClassName)} src={logo.src} alt={logo.alt} {...{ fetchpriority: 'high' }} />
                 </li>
               ))}
             </ul>
