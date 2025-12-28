@@ -15,7 +15,7 @@ const mockProps = {
       quote: '"The downside is, at some point, humanity loses control."',
       name: 'Sundar Pichai',
       role: 'CEO, Google',
-      imageSrc: '/images/agi-strategy/sundar.jpg',
+      imageSrc: '/images/agi-strategy/sundar.webp',
       url: 'https://example.com/source2',
     },
   ],

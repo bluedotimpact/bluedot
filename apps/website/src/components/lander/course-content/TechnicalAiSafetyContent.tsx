@@ -238,7 +238,7 @@ export const createTechnicalAiSafetyContent = (
     title: 'Start building towards a good future today',
     ctaText: 'Apply now',
     ctaUrl: applicationUrlWithUtm,
-    imageSrc: '/images/agi-strategy/hero-banner-split.png',
+    imageSrc: '/images/lander/agi-strategy/hero-banner-split.webp',
     imageAlt: 'Technical AI Safety banner',
     iconSrc: '/images/agi-strategy/bluedot-icon.svg',
     iconAlt: 'BlueDot',
