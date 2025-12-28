@@ -557,6 +557,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="OpenAI"
                 class="h-6"
+                fetchpriority="high"
                 src="/images/third-party-logos/openai.svg"
               />
             </li>
@@ -564,6 +565,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="Anthropic"
                 class="h-6 !h-3"
+                fetchpriority="high"
                 src="/images/third-party-logos/anthropic.svg"
               />
             </li>
@@ -571,6 +573,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="Google DeepMind"
                 class="h-6"
+                fetchpriority="high"
                 src="/images/third-party-logos/deepmind.svg"
               />
             </li>
@@ -578,6 +581,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="AI Security Institute"
                 class="h-6"
+                fetchpriority="high"
                 src="/images/third-party-logos/aisi.webp"
               />
             </li>
@@ -585,6 +589,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="United Nations"
                 class="h-6"
+                fetchpriority="high"
                 src="/images/third-party-logos/un.webp"
               />
             </li>
@@ -592,6 +597,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="Amnesty International"
                 class="h-6"
+                fetchpriority="high"
                 src="/images/third-party-logos/amnesty.webp"
               />
             </li>
@@ -599,6 +605,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="Time"
                 class="h-6"
+                fetchpriority="high"
                 src="/images/third-party-logos/time.webp"
               />
             </li>
@@ -606,6 +613,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="NATO"
                 class="h-6"
+                fetchpriority="high"
                 src="/images/third-party-logos/nato.webp"
               />
             </li>
@@ -613,6 +621,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="OECD"
                 class="h-6"
+                fetchpriority="high"
                 src="/images/third-party-logos/oecd.webp"
               />
             </li>
@@ -620,6 +629,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="Stanford HAI"
                 class="h-6"
+                fetchpriority="high"
                 src="/images/third-party-logos/hai.webp"
               />
             </li>
@@ -627,6 +637,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="Apple"
                 class="h-6"
+                fetchpriority="high"
                 src="/images/third-party-logos/apple.webp"
               />
             </li>
@@ -634,6 +645,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="Harvard Kennedy School"
                 class="h-6"
+                fetchpriority="high"
                 src="/images/third-party-logos/harvard.webp"
               />
             </li>
@@ -646,6 +658,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="OpenAI"
                 class="h-6"
+                fetchpriority="high"
                 src="/images/third-party-logos/openai.svg"
               />
             </li>
@@ -653,6 +666,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="Anthropic"
                 class="h-6 !h-3"
+                fetchpriority="high"
                 src="/images/third-party-logos/anthropic.svg"
               />
             </li>
@@ -660,6 +674,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="Google DeepMind"
                 class="h-6"
+                fetchpriority="high"
                 src="/images/third-party-logos/deepmind.svg"
               />
             </li>
@@ -667,6 +682,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="AI Security Institute"
                 class="h-6"
+                fetchpriority="high"
                 src="/images/third-party-logos/aisi.webp"
               />
             </li>
@@ -674,6 +690,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="United Nations"
                 class="h-6"
+                fetchpriority="high"
                 src="/images/third-party-logos/un.webp"
               />
             </li>
@@ -681,6 +698,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="Amnesty International"
                 class="h-6"
+                fetchpriority="high"
                 src="/images/third-party-logos/amnesty.webp"
               />
             </li>
@@ -688,6 +706,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="Time"
                 class="h-6"
+                fetchpriority="high"
                 src="/images/third-party-logos/time.webp"
               />
             </li>
@@ -695,6 +714,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="NATO"
                 class="h-6"
+                fetchpriority="high"
                 src="/images/third-party-logos/nato.webp"
               />
             </li>
@@ -702,6 +722,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="OECD"
                 class="h-6"
+                fetchpriority="high"
                 src="/images/third-party-logos/oecd.webp"
               />
             </li>
@@ -709,6 +730,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="Stanford HAI"
                 class="h-6"
+                fetchpriority="high"
                 src="/images/third-party-logos/hai.webp"
               />
             </li>
@@ -716,6 +738,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="Apple"
                 class="h-6"
+                fetchpriority="high"
                 src="/images/third-party-logos/apple.webp"
               />
             </li>
@@ -723,6 +746,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="Harvard Kennedy School"
                 class="h-6"
+                fetchpriority="high"
                 src="/images/third-party-logos/harvard.webp"
               />
             </li>
