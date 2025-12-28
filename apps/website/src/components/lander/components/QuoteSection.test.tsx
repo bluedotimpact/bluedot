@@ -8,7 +8,7 @@ const mockProps = {
       quote: '"AI could surpass almost all humans at almost everything shortly after 2027."',
       name: 'Dario Amodei',
       role: 'CEO, Anthropic',
-      imageSrc: '/images/lander/foai/dario.jpeg',
+      imageSrc: '/images/lander/foai/dario.webp',
       url: 'https://example.com/source',
     },
     {

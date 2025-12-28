@@ -149,7 +149,7 @@ export const createAgiStrategyContent = (
         quote: '"AI could surpass almost all humans at almost everything shortly after 2027."',
         name: 'Dario Amodei',
         role: 'CEO, Anthropic',
-        imageSrc: '/images/lander/foai/dario.jpeg',
+        imageSrc: '/images/lander/foai/dario.webp',
         url: 'https://arstechnica.com/ai/2025/01/anthropic-chief-says-ai-could-surpass-almost-all-humans-at-almost-everything-shortly-after-2027/',
       },
       {
