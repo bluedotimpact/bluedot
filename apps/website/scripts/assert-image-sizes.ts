@@ -4,7 +4,6 @@
  * - Size limit: 200KB
  * - Escape hatch: prefix filename with "oversize-"
  */
-
 import fs from 'fs';
 import path from 'path';
 
@@ -57,14 +56,14 @@ function main() {
       console.log(`  ${err}`);
     }
     console.log(`
-Most images can get under 200KB by converting to WebP and resizing to 2x the
-rendered size (for retina displays). WebP typically achieves 50-80% smaller
+Most images can get under 200KB by converting to .webp and resizing to at most
+2x the rendered size (for retina displays). .webp typically achieves 50-80% smaller
 files than PNG/JPEG at equivalent quality.
 
 To fix:
   0. Install ImageMagick if needed:  brew install imagemagick
   1. Resize and convert:  magick input.png -resize WIDTHx -quality 85 output.webp
-     Set width to 2x the max rendered size. For banners or repeating images,
+     Set WIDTH to 2x the max rendered size. For banners or repeating images,
      pick a sensible middle ground (e.g. 1200-1600px).
   2. If intentionally large, prefix filename with "oversize-"
 `);
