@@ -90,6 +90,10 @@ export const courseTable = pgAirtable('course', {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fld77qMwZ1de2owvx',
     },
+    image: {
+      pgColumn: text(),
+      airtableId: 'fldh90A6x8HwQSkMy',
+    },
     slug: {
       pgColumn: text().notNull(),
       airtableId: 'fldHWXKaVuHJAaMbP',
