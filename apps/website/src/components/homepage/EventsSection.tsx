@@ -34,37 +34,37 @@ type Photo = {
 
 const BLUEDOT_EVENTS_PHOTOS: Photo[] = [
   {
-    id: '1', src: '/images/homepage/events-1.png', alt: 'BlueDot event', width: 512,
+    id: '1', src: '/images/homepage/events-1.webp', alt: 'BlueDot event', width: 512,
   },
   {
-    id: '2', src: '/images/homepage/events-2.png', alt: 'BlueDot event', width: 647,
+    id: '2', src: '/images/homepage/events-2.webp', alt: 'BlueDot event', width: 647,
   },
   {
-    id: '3', src: '/images/homepage/events-3.png', alt: 'BlueDot event', width: 512,
+    id: '3', src: '/images/homepage/events-3.webp', alt: 'BlueDot event', width: 512,
   },
   {
-    id: '4', src: '/images/homepage/events-4.png', alt: 'BlueDot event', width: 499,
+    id: '4', src: '/images/homepage/events-4.webp', alt: 'BlueDot event', width: 499,
   },
   {
-    id: '5', src: '/images/homepage/events-5.png', alt: 'BlueDot event', width: 325,
+    id: '5', src: '/images/homepage/events-5.webp', alt: 'BlueDot event', width: 325,
   },
   {
-    id: '6', src: '/images/homepage/events-6.png', alt: 'BlueDot event', width: 512,
+    id: '6', src: '/images/homepage/events-6.webp', alt: 'BlueDot event', width: 512,
   },
   {
-    id: '7', src: '/images/homepage/events-7.png', alt: 'BlueDot event', width: 433,
+    id: '7', src: '/images/homepage/events-7.webp', alt: 'BlueDot event', width: 433,
   },
   {
-    id: '8', src: '/images/homepage/events-8.png', alt: 'BlueDot event', width: 325,
+    id: '8', src: '/images/homepage/events-8.webp', alt: 'BlueDot event', width: 325,
   },
   {
-    id: '9', src: '/images/homepage/events-9.png', alt: 'BlueDot event', width: 637,
+    id: '9', src: '/images/homepage/events-9.webp', alt: 'BlueDot event', width: 637,
   },
   {
-    id: '10', src: '/images/homepage/events-10.png', alt: 'BlueDot event', width: 637,
+    id: '10', src: '/images/homepage/events-10.webp', alt: 'BlueDot event', width: 637,
   },
   {
-    id: '11', src: '/images/homepage/events-11.png', alt: 'BlueDot event', width: 500,
+    id: '11', src: '/images/homepage/events-11.webp', alt: 'BlueDot event', width: 500,
   },
 ];
 
