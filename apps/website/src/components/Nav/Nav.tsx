@@ -9,10 +9,19 @@ import { MobileNavLinks } from './_MobileNavLinks';
 import { DesktopNavLinks } from './_DesktopNavLinks';
 import { ExpandedSectionsState } from './utils';
 
-export const Nav: React.FC = () => {
+type NavProps = {
+  variant?: 'default' | 'transparent' | 'colored';
+  backgroundColor?: string;
+};
+
+export const Nav: React.FC<NavProps> = ({ variant: variantProp, backgroundColor }) => {
   const router = useRouter();
   const isLoggedIn = !!useAuthStore((s) => s.auth);
   const isHomepage = router.pathname === '/' || router.pathname === '/courses';
+
+  // Determine variant: prop > homepage detection > default
+  const variant = variantProp ?? (isHomepage ? 'transparent' : 'default');
+  const isDarkVariant = variant === 'transparent' || variant === 'colored';
 
   const [expandedSections, setExpandedSections] = useState<ExpandedSectionsState>({
     about: false,
@@ -43,10 +52,16 @@ export const Nav: React.FC = () => {
   }, []);
 
   const getNavClasses = () => {
-    if (isHomepage) {
+    if (variant === 'transparent') {
       return clsx(
         'nav absolute top-0 inset-x-0 z-50 w-full transition-all duration-300',
         'bg-transparent',
+        'border-b border-white/15',
+      );
+    }
+    if (variant === 'colored') {
+      return clsx(
+        'nav sticky top-0 z-50 w-full transition-all duration-300',
         'border-b border-white/15',
       );
     }
@@ -57,8 +72,10 @@ export const Nav: React.FC = () => {
     );
   };
 
+  const navStyle = variant === 'colored' && backgroundColor ? { backgroundColor } : undefined;
+
   return (
-    <nav className={getNavClasses()}>
+    <nav className={getNavClasses()} style={navStyle}>
       <div className="nav__container section-base">
         <div className="nav__bar w-full flex justify-between items-center min-h-(--nav-height-mobile) min-[1024px]:min-h-(--nav-height-desktop)">
           {/* Left side: Logo */}
@@ -68,11 +85,11 @@ export const Nav: React.FC = () => {
               expandedSections={expandedSections}
               updateExpandedSections={updateExpandedSections}
               isLoggedIn={isLoggedIn}
-              isHomepage={isHomepage}
+              isHomepage={isDarkVariant}
             />
 
             {/* Logo */}
-            <NavLogo isHomepage={isHomepage} />
+            <NavLogo isHomepage={isDarkVariant} />
           </div>
 
           {/* Center/Right side: Nav Links and CTA */}
@@ -81,13 +98,13 @@ export const Nav: React.FC = () => {
             <DesktopNavLinks
               expandedSections={expandedSections}
               updateExpandedSections={updateExpandedSections}
-              isHomepage={isHomepage}
+              isHomepage={isDarkVariant}
             />
 
             {/* CTA Buttons */}
             <NavCta
               isLoggedIn={isLoggedIn}
-              isHomepage={isHomepage}
+              isHomepage={isDarkVariant}
               expandedSections={expandedSections}
               updateExpandedSections={updateExpandedSections}
             />

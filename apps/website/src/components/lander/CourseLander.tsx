@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { addQueryParam, useLatestUtmParams } from '@bluedot/ui';
+import { Nav } from '../Nav/Nav';
 import CommunityCarousel, { CommunityMember } from './CommunityCarousel';
 import GraduateSection from './components/GraduateSection';
 import PartnerSection, { PartnerSectionProps } from './components/PartnerSection';
@@ -49,6 +50,7 @@ const CourseLander = ({
     : baseApplicationUrl;
 
   const content = createContentFor(applicationUrlWithUtm, courseSlug);
+  const hasDarkHero = !!content.hero.backgroundColor;
 
   return (
     <div className="bg-white">
@@ -74,6 +76,11 @@ const CourseLander = ({
         <meta name="twitter:image" content={courseOgImage || 'https://bluedot.org/images/logo/link-preview-fallback.png'} />
       </Head>
 
+      {/* Nav - colored variant for dark hero, default for light hero */}
+      <Nav
+        variant={hasDarkHero ? 'colored' : 'default'}
+        backgroundColor={hasDarkHero ? content.hero.backgroundColor : undefined}
+      />
       <HeroSection {...content.hero} />
 
       <div className="border-t-hairline border-color-divider" />

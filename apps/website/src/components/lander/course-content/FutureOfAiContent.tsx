@@ -11,6 +11,12 @@ import { CourseLanderContent } from '../CourseLander';
 
 export const FUTURE_OF_AI_START_URL = '/courses/future-of-ai/1/1';
 
+const FOAI_COLORS = {
+  background: '#260843',
+  accent: '#ffffff',
+  categoryLabel: '#F992EA',
+};
+
 export const createFutureOfAiContent = (
   _applicationUrlWithUtm: string,
   courseSlug: string,
@@ -21,14 +27,21 @@ export const createFutureOfAiContent = (
   },
 
   hero: {
-    categoryLabel: 'FUTURE OF AI',
-    title: 'Understand what\'s coming. Join the conversation.',
-    description: 'Get informed about AI\'s trajectory and society\'s biggest choices in just 2 hours. No technical background needed.',
+    backgroundColor: FOAI_COLORS.background,
+    accentColor: FOAI_COLORS.accent,
+    categoryLabelColor: FOAI_COLORS.categoryLabel,
+    categoryLabel: 'COHORT-BASED COURSE',
+    title: 'The Future of AI',
+    description: 'Start building towards a pandemic-proof world: Understand current efforts to prevent, detect and respond to pandemic threats. Identify where you can contribute. Get funded to start building. All in 30 hours.',
     primaryCta: {
-      text: 'Start the free course',
+      text: 'Apply now',
       url: FUTURE_OF_AI_START_URL,
     },
-    imageSrc: '/images/lander/foai/hero-banner-split.png',
+    secondaryCta: {
+      text: 'Browse curriculum',
+      url: `/courses/${courseSlug}/1/1`,
+    },
+    imageSrc: '/images/lander/foai/hero-graphic.png',
     imageAlt: 'Future of AI visualization',
   },
 

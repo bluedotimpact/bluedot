@@ -48,4 +48,16 @@ describe('HeroSection', () => {
     expect(image).toHaveAttribute('src', '/images/agi-strategy/hero-banner.png');
     expect(image).toHaveAttribute('alt', 'AGI Strategy visualization');
   });
+
+  it('renders dark variant correctly (snapshot)', () => {
+    const darkProps = {
+      ...defaultProps,
+      backgroundColor: '#0a284c',
+      accentColor: '#91cfff',
+      categoryLabel: 'COHORT-BASED COURSE',
+      title: 'The Future of AI',
+    };
+    const { container } = render(<HeroSection {...darkProps} />);
+    expect(container).toMatchSnapshot();
+  });
 });

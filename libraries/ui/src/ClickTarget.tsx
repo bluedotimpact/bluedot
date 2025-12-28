@@ -3,6 +3,7 @@ import NextLink from 'next/link';
 
 export type ClickTargetProps = React.PropsWithChildren<{
   className?: string;
+  style?: React.CSSProperties;
   onClick?: ((e: React.BaseSyntheticEvent) => void);
   url?: string,
   target?: React.HTMLAttributeAnchorTarget,
@@ -14,6 +15,7 @@ export type ClickTargetProps = React.PropsWithChildren<{
 export const ClickTarget = ({
   children,
   className,
+  style,
   onClick,
   disabled,
   url,
@@ -38,6 +40,7 @@ export const ClickTarget = ({
       <NextLink
         href={url}
         className={className}
+        style={style}
         onClick={handleInteraction}
         target={target}
         rel={safeRel}
@@ -53,6 +56,7 @@ export const ClickTarget = ({
   return (
     <button
       className={className}
+      style={style}
       onClick={handleInteraction}
       disabled={disabled}
       aria-label={ariaLabel}

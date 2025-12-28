@@ -8,6 +8,7 @@ export type CTALinkOrButtonProps = {
   size?: 'small' | 'medium';
   withChevron?: boolean;
   withBackChevron?: boolean;
+  style?: React.CSSProperties;
 } & ClickTargetProps;
 
 // `disabled:` attributes apply to buttons, `aria-disabled:` to links
@@ -28,6 +29,7 @@ const CTA_VARIANT_STYLES = {
 
 export const CTALinkOrButton: React.FC<CTALinkOrButtonProps> = ({
   className,
+  style,
   variant = 'primary',
   size = 'medium',
   withChevron = false,
@@ -43,6 +45,7 @@ export const CTALinkOrButton: React.FC<CTALinkOrButtonProps> = ({
         CTA_VARIANT_STYLES[variant],
         className,
       )}
+      style={style}
       {...rest}
     >
       {withBackChevron && (

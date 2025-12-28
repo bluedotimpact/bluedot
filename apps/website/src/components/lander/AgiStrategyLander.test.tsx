@@ -12,6 +12,15 @@ vi.mock('next/head', () => ({
   default: ({ children }: { children: React.ReactNode }) => children,
 }));
 
+// Mock Next.js router
+vi.mock('next/router', () => ({
+  useRouter: () => ({
+    pathname: '/courses/agi-strategy',
+    query: {},
+    asPath: '/courses/agi-strategy',
+  }),
+}));
+
 // Mock @bluedot/ui hooks
 vi.mock('@bluedot/ui', async () => {
   const actual = await vi.importActual('@bluedot/ui');
