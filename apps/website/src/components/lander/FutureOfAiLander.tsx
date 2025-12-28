@@ -67,19 +67,19 @@ const testimonials: Testimonial[] = [
     quote: 'I recommend the course for everyone who is interested in the future of AI, and wants to think seriously about the implications of this technology.',
     name: 'Craig Dickson',
     role: 'Senior Data Analyst, Klarna',
-    imageSrc: '/images/graduates/craig.png',
+    imageSrc: '/images/graduates/craig.webp',
   },
   {
     quote: 'The course also gave me something I didn\'t expect: a global community of changemakers, dreamers and thinkers.',
     name: 'Crystal Isanda',
     role: 'Foresight Fellow, UNICEF',
-    imageSrc: '/images/graduates/crystal.jpeg',
+    imageSrc: '/images/graduates/crystal.webp',
   },
   {
     quote: 'This course is excellent for any skill level. AI Safety should be our collective goal and BlueDot Impact is doing just that one cohort at a time.',
     name: 'Vipul Gupta',
     role: 'Senior Software Engineer, Balena',
-    imageSrc: '/images/graduates/vipul.png',
+    imageSrc: '/images/graduates/vipul.webp',
   },
 ];
 
