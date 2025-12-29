@@ -18,6 +18,9 @@ export type { CollapsibleProps } from './Collapsible';
 export { CTALinkOrButton } from './CTALinkOrButton';
 export type { CTALinkOrButtonProps } from './CTALinkOrButton';
 
+export { DatePicker } from './DatePicker';
+export type { DatePickerProps } from './DatePicker';
+
 export { ErrorSection } from './ErrorSection';
 export type { ErrorSectionProps } from './ErrorSection';
 
