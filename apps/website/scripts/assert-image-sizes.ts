@@ -67,6 +67,7 @@ To fix:
      Set WIDTH to 2x the max rendered size. For banners or repeating images,
      pick a sensible middle ground (e.g. 1200-1600px).
   2. If intentionally large, prefix filename with "oversize-"
+  3. If converting the format, make sure to UPDATE ANY REFERENCES IN CODE TO USE THE NEW FILE EXTENSION
 `);
     process.exit(1);
   }
