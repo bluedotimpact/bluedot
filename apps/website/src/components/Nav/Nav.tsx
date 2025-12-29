@@ -10,18 +10,17 @@ import { DesktopNavLinks } from './_DesktopNavLinks';
 import { ExpandedSectionsState } from './utils';
 
 type NavProps = {
-  variant?: 'default' | 'transparent' | 'colored';
-  background?: string; // CSS background (solid color or gradient)
+  variant?: 'default' | 'transparent';
 };
 
-export const Nav: React.FC<NavProps> = ({ variant: variantProp, background }) => {
+export const Nav: React.FC<NavProps> = ({ variant: variantProp }) => {
   const router = useRouter();
   const isLoggedIn = !!useAuthStore((s) => s.auth);
   const isHomepage = router.pathname === '/' || router.pathname === '/courses';
 
   // Determine variant: prop > homepage detection > default
   const variant = variantProp ?? (isHomepage ? 'transparent' : 'default');
-  const isOnColoredBackground = variant === 'transparent' || variant === 'colored';
+  const isOnColoredBackground = variant === 'transparent';
 
   const [expandedSections, setExpandedSections] = useState<ExpandedSectionsState>({
     about: false,
@@ -59,12 +58,6 @@ export const Nav: React.FC<NavProps> = ({ variant: variantProp, background }) =>
         'border-b border-white/15',
       );
     }
-    if (variant === 'colored') {
-      return clsx(
-        'nav sticky top-0 z-50 w-full transition-all duration-300',
-        'border-b border-white/15',
-      );
-    }
     return clsx(
       'nav sticky top-0 z-50 w-full transition-all duration-300',
       'bg-white',
@@ -72,10 +65,8 @@ export const Nav: React.FC<NavProps> = ({ variant: variantProp, background }) =>
     );
   };
 
-  const navStyle = variant === 'colored' && background ? { background } : undefined;
-
   return (
-    <nav className={getNavClasses()} style={navStyle}>
+    <nav className={getNavClasses()}>
       <div className="nav__container section-base">
         <div className="nav__bar w-full flex justify-between items-center min-h-(--nav-height-mobile) min-[1024px]:min-h-(--nav-height-desktop)">
           {/* Left side: Logo */}
