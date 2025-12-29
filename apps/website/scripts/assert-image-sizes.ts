@@ -34,9 +34,14 @@ function formatBytes(bytes: number): string {
     : `${(bytes / 1024 / 1024).toFixed(1)}MB`;
 }
 
+type OversizedImage = {
+  relativePath: string;
+  size: number;
+};
+
 function main() {
   const images = getAllImages(IMAGES_DIR);
-  const errors: string[] = [];
+  const oversized: OversizedImage[] = [];
 
   for (const imgPath of images) {
     const filename = path.basename(imgPath);
@@ -47,28 +52,33 @@ function main() {
 
     const stats = fs.statSync(imgPath);
     if (stats.size > SIZE_LIMIT) {
-      errors.push(`/${relativePath} is ${formatBytes(stats.size)} (limit ${formatBytes(SIZE_LIMIT)})`);
+      oversized.push({ relativePath, size: stats.size });
     }
   }
 
-  if (errors.length > 0) {
-    console.log(`Found ${errors.length} images over ${formatBytes(SIZE_LIMIT)}:\n`);
-    for (const err of errors) {
-      console.log(`  ${err}`);
-    }
-    console.log(`
-Most images can get under 200KB by converting to .webp and resizing to at most
-2x the rendered size (for retina displays). .webp typically achieves 50-80% smaller
-files than PNG/JPEG at equivalent quality.
+  if (oversized.length > 0) {
+    console.log(`Found ${oversized.length} images over ${formatBytes(SIZE_LIMIT)}:\n`);
+    for (const img of oversized) {
+      const ext = path.extname(img.relativePath);
+      const webpPath = img.relativePath.replace(ext, '.webp');
+      const isAlreadyWebp = ext.toLowerCase() === '.webp';
 
-To fix:
-  0. Install ImageMagick if needed:  brew install imagemagick
-  1. Resize and convert:  magick input.png -resize WIDTHx -quality 85 output.webp
-     Set WIDTH to 2x the max rendered size. For banners or repeating images,
-     pick a sensible middle ground (e.g. 1200-1600px).
-  2. If intentionally large, prefix filename with "oversize-"
-  3. If converting the format, make sure to UPDATE ANY REFERENCES IN CODE TO USE THE NEW FILE EXTENSION
-`);
+      console.log(`  /${img.relativePath} (${formatBytes(img.size)})`);
+      if (isAlreadyWebp) {
+        console.log(`    Already WebP. Resize it: magick public/${img.relativePath} -resize WIDTHx -quality 85 public/${img.relativePath}`);
+      } else {
+        console.log(`    Run command: magick public/${img.relativePath} -quality 85 public/${webpPath}`);
+      }
+    }
+
+    console.log();
+    console.log('If not already installed, install ImageMagick with `brew install imagemagick`');
+    console.log(`If still over ${formatBytes(SIZE_LIMIT)} after conversion, resize: add '-resize WIDTHx' (set to 2x rendered width)`);
+    console.log('If intentionally large, prefix filename with \'oversize-\'');
+    console.log('Cleanup after conversion:');
+    console.log('  - Update any references in code to use the new filename');
+    console.log('  - Delete the old version');
+    console.log();
     process.exit(1);
   }
 
