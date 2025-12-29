@@ -18,6 +18,16 @@ module.exports = withDefaultBlueDotNextConfig({
         destination: '/courses/ai-governance',
         permanent: true,
       },
+      {
+        source: '/mentor',
+        destination: '/join-us/mentor',
+        permanent: true,
+      },
+      {
+        source: '/facilitate',
+        destination: '/join-us/facilitate',
+        permanent: true,
+      },
     ];
   },
   headers: [

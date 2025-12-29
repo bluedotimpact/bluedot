@@ -200,7 +200,8 @@ const HeroSection = ({
 
           {/* Image - stacked on mobile, absolutely positioned to viewport edge on lg+ */}
           <div className="h-80 sm:h-[430px] lg:absolute lg:right-0 lg:top-0 lg:bottom-0 lg:w-1/2 lg:h-auto overflow-hidden">
-            <img src={imageSrc} alt={imageAlt} className="size-full object-cover lg:object-center" />
+            {/* Workaround for bug with camelcase `fetchPriority`: https://github.com/facebook/react/issues/25682 */}
+            <img src={imageSrc} alt={imageAlt} className="size-full object-cover lg:object-center" {...{ fetchpriority: 'high' }} />
           </div>
         </div>
       ) : (
@@ -253,7 +254,8 @@ const HeroSection = ({
 
           {/* Image - stacked on mobile, absolutely positioned to viewport edge on lg+ */}
           <div className="h-80 sm:h-[430px] lg:absolute lg:right-0 lg:top-0 lg:bottom-0 lg:w-1/2 lg:h-auto overflow-hidden">
-            <img src={imageSrc} alt={imageAlt} className="size-full object-cover lg:object-center" />
+          {/* Workaround for bug with camelcase `fetchPriority`: https://github.com/facebook/react/issues/25682 */}
+            <img src={imageSrc} alt={imageAlt} className="size-full object-cover lg:object-center"  {...{ fetchpriority: 'high' }} />
             {/* Noise layer */}
             <div
               className="absolute inset-0 pointer-events-none bg-contain bg-repeat mix-blend-soft-light"

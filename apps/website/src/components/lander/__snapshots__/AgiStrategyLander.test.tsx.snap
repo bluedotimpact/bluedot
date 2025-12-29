@@ -409,7 +409,8 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           <img
             alt="AGI Strategy visualization"
             class="size-full object-cover lg:object-center"
-            src="/images/agi-strategy/hero-banner-split.png"
+            fetchpriority="high"
+            src="/images/lander/agi-strategy/hero-banner-split.webp"
           />
           <div
             class="absolute inset-0 pointer-events-none bg-contain bg-repeat mix-blend-soft-light"
@@ -932,7 +933,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                           <img
                             alt="Ursula von der Leyen"
                             class="size-12 sm:size-16 object-cover rounded-full lg:hidden"
-                            src="/images/agi-strategy/ursula.png"
+                            src="/images/agi-strategy/ursula.webp"
                           />
                         </a>
                         <div
@@ -965,7 +966,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                         <img
                           alt="Ursula von der Leyen"
                           class="size-full object-cover rounded-l-xl"
-                          src="/images/agi-strategy/ursula.png"
+                          src="/images/agi-strategy/ursula.webp"
                         />
                       </a>
                     </div>
@@ -1011,7 +1012,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                           <img
                             alt="Ursula von der Leyen"
                             class="size-12 sm:size-16 object-cover rounded-full lg:hidden"
-                            src="/images/agi-strategy/ursula.png"
+                            src="/images/agi-strategy/ursula.webp"
                           />
                         </a>
                         <div
@@ -1044,7 +1045,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                         <img
                           alt="Ursula von der Leyen"
                           class="size-full object-cover rounded-l-xl"
-                          src="/images/agi-strategy/ursula.png"
+                          src="/images/agi-strategy/ursula.webp"
                         />
                       </a>
                     </div>
@@ -1818,7 +1819,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           aria-label="AGI Strategy banner"
           class="relative w-full h-[382px] min-[680px]:h-[360px] mx-auto overflow-hidden rounded-xl bg-[#13132E] bg-cover bg-center xl:max-w-[1118px]"
           role="img"
-          style="background-image: url("/images/agi-strategy/hero-banner-split.png");"
+          style="background-image: url("/images/lander/agi-strategy/hero-banner-split.webp");"
         >
           <div
             class="absolute inset-0 pointer-events-none bg-contain bg-repeat mix-blend-soft-light"

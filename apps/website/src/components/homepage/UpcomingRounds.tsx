@@ -55,7 +55,7 @@ export const UpcomingRounds = () => {
         </h2>
 
         {/* Rounds Container */}
-        <div className="flex flex-col gap-16 w-full">
+        <div className="flex flex-col gap-16 w-full min-[680px]:max-w-[780px] min-[680px]:mx-auto">
           {hasIntensiveRounds && (
             <RoundGroup
               label="INTENSIVE"

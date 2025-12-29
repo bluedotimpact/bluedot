@@ -1099,6 +1099,22 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       pgColumn: text(),
       airtableId: 'fldQ9PM3ejhilPFc6',
     },
+    // Format: weekly-availabilities library format (https://github.com/domdomegg/weekly-availabilities)
+    // Days: M=Mon, T=Tue, W=Wed, R=Thu, F=Fri, S=Sat, U=Sun
+    // Example: "M16:00 M18:00, W20:00 R08:00" = Monday 4-6pm UTC, Wednesday 8pm to Thursday 8am UTC
+    availabilityIntervalsUTC: {
+      pgColumn: text(),
+      airtableId: 'fldFpLDHyPPDvnJYg',
+    },
+    availabilityComments: {
+      pgColumn: text(),
+      airtableId: 'fldur7dw7JEiAQNFK',
+    },
+    // Format: "UTC[+/-]HH:MM", e.g. "UTC+01:00", "UTC-05:00", "UTC00:00"
+    availabilityTimezone: {
+      pgColumn: text(),
+      airtableId: 'fld9Y4WfeafUNMxMH',
+    },
   },
 });
 

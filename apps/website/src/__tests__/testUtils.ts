@@ -74,7 +74,7 @@ export const createMockCourse = (overrides: Partial<Course> = {}): Course => ({
   durationDescription: '4 weeks',
   durationHours: 40,
   id: MOCK_COURSE_ID,
-  image: '/images/courses/default.jpg',
+  image: '/images/courses/default.webp',
   isFeatured: false,
   isNew: false,
   level: 'Beginner',

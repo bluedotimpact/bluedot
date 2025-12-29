@@ -25,7 +25,7 @@ export const CourseSearchCard: React.FC<CourseSearchCardProps> = ({
   title,
   url,
 }) => {
-  const defaultImageSrc = '/images/courses/default.jpg';
+  const defaultImageSrc = '/images/courses/default.webp';
 
   return (
     <ClickTarget

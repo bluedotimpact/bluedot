@@ -32,7 +32,7 @@ export const createAiGovernanceContent = (
       text: 'Browse curriculum',
       url: `/courses/${courseSlug}/1/1`,
     },
-    imageSrc: '/images/ai-governance/hero-banner-split.png',
+    imageSrc: '/images/lander/ai-governance/hero-banner-split.webp',
     imageAlt: 'AI Governance visualization',
   },
 
@@ -104,7 +104,7 @@ export const createAiGovernanceContent = (
     title: 'Steer the future of AI today',
     ctaText: 'Apply now',
     ctaUrl: applicationUrlWithUtm,
-    imageSrc: '/images/ai-governance/hero-banner-split.png',
+    imageSrc: '/images/lander/ai-governance/hero-banner-split.webp',
     imageAlt: 'AI Governance banner',
     iconSrc: '/images/agi-strategy/bluedot-icon.svg',
     iconAlt: 'BlueDot',
