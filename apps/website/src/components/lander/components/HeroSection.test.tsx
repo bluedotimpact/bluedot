@@ -52,7 +52,7 @@ describe('HeroSection', () => {
   it('renders dark variant correctly (snapshot)', () => {
     const darkProps = {
       ...defaultProps,
-      backgroundColor: '#0a284c',
+      background: '#0a284c',
       accentColor: '#91cfff',
       categoryLabel: 'COHORT-BASED COURSE',
       title: 'The Future of AI',

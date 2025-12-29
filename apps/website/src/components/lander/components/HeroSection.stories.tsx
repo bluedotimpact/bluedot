@@ -42,9 +42,9 @@ const meta = {
       description: 'Alt text for the image',
       control: 'text',
     },
-    backgroundColor: {
-      description: 'Custom background color for dark theme variants',
-      control: 'color',
+    background: {
+      description: 'CSS background (solid color or gradient) for dark theme variants',
+      control: 'text',
     },
     accentColor: {
       description: 'Accent color for category label and CTAs in dark theme',
@@ -91,7 +91,7 @@ export const DarkTheme: Story = {
     },
     imageSrc: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop',
     imageAlt: 'Future of AI visualization',
-    backgroundColor: '#0a284c',
+    background: '#0a284c',
     accentColor: '#91cfff',
   },
 };

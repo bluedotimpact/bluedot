@@ -11,10 +11,10 @@ import { ExpandedSectionsState } from './utils';
 
 type NavProps = {
   variant?: 'default' | 'transparent' | 'colored';
-  backgroundColor?: string;
+  background?: string; // CSS background (solid color or gradient)
 };
 
-export const Nav: React.FC<NavProps> = ({ variant: variantProp, backgroundColor }) => {
+export const Nav: React.FC<NavProps> = ({ variant: variantProp, background }) => {
   const router = useRouter();
   const isLoggedIn = !!useAuthStore((s) => s.auth);
   const isHomepage = router.pathname === '/' || router.pathname === '/courses';
@@ -72,7 +72,7 @@ export const Nav: React.FC<NavProps> = ({ variant: variantProp, backgroundColor 
     );
   };
 
-  const navStyle = variant === 'colored' && backgroundColor ? { backgroundColor } : undefined;
+  const navStyle = variant === 'colored' && background ? { background } : undefined;
 
   return (
     <nav className={getNavClasses()} style={navStyle}>
