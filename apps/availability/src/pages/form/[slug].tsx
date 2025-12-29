@@ -9,66 +9,15 @@ import * as wa from 'weekly-availabilities';
 import { SubmitRequest } from '../api/public/submit';
 import { GetFormResponse } from '../api/public/get-form';
 import { TimeOffsetSelector } from '../../components/TimeOffsetSelector';
-import { MINUTES_IN_UNIT, TimeAvailabilityInput } from '../../components/TimeAvailabilityInput';
+import { TimeAvailabilityInput } from '../../components/TimeAvailabilityInput';
 import { formatOffsetFromMinutesToString, parseOffsetFromStringToMinutes } from '../../lib/offset';
+import { weeklyTimeAvToIntervals, intervalsToWeeklyTimeAv, shiftIntervals } from '../../lib/util';
 
 type FormFieldData = {
   email: string;
   timezone: string;
   timeAv: Record<wa.WeeklyTime, boolean>;
   comment: string;
-};
-
-const weeklyTimeAvToIntervals = (timeAv: Record<wa.WeeklyTime, boolean>): wa.Interval[] => {
-  return wa.unionSchedules(Object.entries(timeAv)
-    .filter(([, available]) => available)
-    .map(([weeklyTime]) => [
-      parseInt(weeklyTime),
-      parseInt(weeklyTime) + MINUTES_IN_UNIT,
-    ] as wa.Interval));
-};
-
-const intervalsToWeeklyTimeAv = (intervals: wa.Interval[]): Record<wa.WeeklyTime, boolean> => {
-  const timeAv: Record<number, boolean> = {};
-  for (const [start, end] of intervals) {
-    // Mark each MINUTES_IN_UNIT slot within the interval as true
-    for (let t = start as number; t < (end as number); t += MINUTES_IN_UNIT) {
-      timeAv[t] = true;
-    }
-  }
-  return timeAv as Record<wa.WeeklyTime, boolean>;
-};
-
-const shift = (intervals: wa.Interval[], offsetInMinutes: number): wa.Interval[] => {
-  const shifted = intervals.flatMap(([b, e]) => {
-    if (e - b > 10080) {
-      throw new Error('Invalid weekly interval: greater than 10080 minutes');
-    }
-
-    let newB: number = b + offsetInMinutes;
-    let newE: number = e + offsetInMinutes;
-
-    while (newB < 0) {
-      newB += 10080;
-      newE += 10080;
-    }
-
-    while (newB > 10080) {
-      newB -= 10080;
-      newE -= 10080;
-    }
-
-    if (newE > 10080) {
-      return [
-        [0, newE - 10080],
-        [newB, 10080],
-      ] as wa.Interval[];
-    }
-
-    return [[newB, newE]] as wa.Interval[];
-  });
-  // Simplify and merge adjacent intervals
-  return wa.unionSchedules(shifted);
 };
 
 const Form: React.FC<{
@@ -86,7 +35,7 @@ const Form: React.FC<{
   const [error, setError] = useState<unknown | undefined>();
   const onSubmit = async (data: FormFieldData) => {
     setSubmitting(true);
-    const intervals = shift(weeklyTimeAvToIntervals(data.timeAv), parseOffsetFromStringToMinutes(data.timezone));
+    const intervals = shiftIntervals(weeklyTimeAvToIntervals(data.timeAv), parseOffsetFromStringToMinutes(data.timezone));
 
     try {
       const response = await axios.post(
@@ -118,7 +67,7 @@ const Form: React.FC<{
   };
 
   const longEnoughInterval = () => {
-    const timeAv = shift(weeklyTimeAvToIntervals(watch('timeAv')), parseOffsetFromStringToMinutes(watch('timezone')));
+    const timeAv = shiftIntervals(weeklyTimeAvToIntervals(watch('timeAv')), parseOffsetFromStringToMinutes(watch('timezone')));
     return timeAv.some(([start, end]) => end - start >= minLength);
   };
 
@@ -206,7 +155,7 @@ const getDefaultFormValues = (searchParams: URLSearchParams): FormFieldData => {
     try {
       const intervalsUTC = wa.parseIntervals(prefillIntervalsUTC);
       const offsetMinutes = parseOffsetFromStringToMinutes(timezone);
-      const intervalsLocal = shift(intervalsUTC, -offsetMinutes);
+      const intervalsLocal = shiftIntervals(intervalsUTC, -offsetMinutes);
 
       timeAv = intervalsToWeeklyTimeAv(intervalsLocal);
     } catch {
