@@ -21,7 +21,7 @@ export const Nav: React.FC<NavProps> = ({ variant: variantProp, background }) =>
 
   // Determine variant: prop > homepage detection > default
   const variant = variantProp ?? (isHomepage ? 'transparent' : 'default');
-  const isDarkVariant = variant === 'transparent' || variant === 'colored';
+  const isOnColoredBackground = variant === 'transparent' || variant === 'colored';
 
   const [expandedSections, setExpandedSections] = useState<ExpandedSectionsState>({
     about: false,
@@ -85,11 +85,11 @@ export const Nav: React.FC<NavProps> = ({ variant: variantProp, background }) =>
               expandedSections={expandedSections}
               updateExpandedSections={updateExpandedSections}
               isLoggedIn={isLoggedIn}
-              isHomepage={isDarkVariant}
+              onColoredBackground={isOnColoredBackground}
             />
 
             {/* Logo */}
-            <NavLogo isHomepage={isDarkVariant} />
+            <NavLogo onColoredBackground={isOnColoredBackground} />
           </div>
 
           {/* Center/Right side: Nav Links and CTA */}
@@ -98,13 +98,13 @@ export const Nav: React.FC<NavProps> = ({ variant: variantProp, background }) =>
             <DesktopNavLinks
               expandedSections={expandedSections}
               updateExpandedSections={updateExpandedSections}
-              isHomepage={isDarkVariant}
+              onColoredBackground={isOnColoredBackground}
             />
 
             {/* CTA Buttons */}
             <NavCta
               isLoggedIn={isLoggedIn}
-              isHomepage={isDarkVariant}
+              onColoredBackground={isOnColoredBackground}
               expandedSections={expandedSections}
               updateExpandedSections={updateExpandedSections}
             />

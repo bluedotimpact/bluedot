@@ -17,8 +17,9 @@ const FOAI_COLORS = {
      2. Top-right subtle glow - very faint greenish highlight
      3. Colorful gradient - green→gold→purple from top-right (reduced opacity for muted look)
      4. Base color - dark olive */
-  background: 'linear-gradient(to right, rgba(30, 30, 20, 0.6) 0%, rgba(30, 30, 20, 0.4) 25%, rgba(30, 30, 20, 0.2) 45%, transparent 60%), radial-gradient(ellipse 70% 60% at 85% 20%, rgba(155, 180, 115, 0.12) 0%, transparent 60%), radial-gradient(ellipse 200% 180% at 105% -5%, rgba(150, 207, 156, 0.35) 0%, rgba(163, 179, 110, 0.35) 28.6%, rgba(176, 152, 64, 0.35) 57.2%, rgba(147, 120, 64, 0.35) 67.9%, rgba(118, 88, 64, 0.35) 78.6%, rgba(89, 56, 63, 0.35) 89.3%, rgba(60, 24, 63, 0.35) 100%), #29281D',
+  gradient: 'linear-gradient(to right, rgba(30, 30, 20, 0.6) 0%, rgba(30, 30, 20, 0.4) 25%, rgba(30, 30, 20, 0.2) 45%, transparent 60%), radial-gradient(ellipse 70% 60% at 85% 20%, rgba(155, 180, 115, 0.12) 0%, transparent 60%), radial-gradient(ellipse 200% 180% at 105% -5%, rgba(150, 207, 156, 0.35) 0%, rgba(163, 179, 110, 0.35) 28.6%, rgba(176, 152, 64, 0.35) 57.2%, rgba(147, 120, 64, 0.35) 67.9%, rgba(118, 88, 64, 0.35) 78.6%, rgba(89, 56, 63, 0.35) 89.3%, rgba(60, 24, 63, 0.35) 100%), #29281D',
   accent: '#E6DBA6',
+  iconBackground: '#64663E',
 };
 
 export const createFutureOfAiContent = (
@@ -31,18 +32,14 @@ export const createFutureOfAiContent = (
   },
 
   hero: {
-    background: FOAI_COLORS.background,
+    gradient: FOAI_COLORS.gradient,
     accentColor: FOAI_COLORS.accent,
     categoryLabel: 'COHORT-BASED COURSE',
     title: 'The Future of AI',
-    description: 'An introduction to what AI can do today, where it’s going over the next decade, and how you can start contributing to a better future.',
+    description: 'An introduction to what AI can do today, where it\'s going over the next decade, and how you can start contributing to a better future.',
     primaryCta: {
-      text: 'Apply now',
+      text: 'Start the free course',
       url: FUTURE_OF_AI_START_URL,
-    },
-    secondaryCta: {
-      text: 'Browse curriculum',
-      url: `/courses/${courseSlug}/1/1`,
     },
     imageSrc: '/images/lander/foai/hero-graphic.png',
     imageAlt: 'Future of AI visualization',
@@ -50,6 +47,7 @@ export const createFutureOfAiContent = (
   },
 
   whoIsThisFor: {
+    iconBackgroundColor: FOAI_COLORS.iconBackground,
     title: 'Who this course is for',
     targetAudiences: [
       {

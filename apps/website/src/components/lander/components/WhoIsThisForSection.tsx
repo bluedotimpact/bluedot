@@ -18,12 +18,14 @@ export type WhoIsThisForSectionProps = {
   title?: string;
   targetAudiences: TargetAudience[];
   bottomCta?: BottomCta;
+  iconBackgroundColor?: string; // Custom icon background color - defaults to BlueDot blue
 };
 
 const WhoIsThisForSection = ({
   title = 'Who this course is for',
   targetAudiences,
   bottomCta,
+  iconBackgroundColor,
 }: WhoIsThisForSectionProps) => {
   return (
     <section className="w-full bg-white">
@@ -37,7 +39,10 @@ const WhoIsThisForSection = ({
               key={boldText}
               className="flex flex-col items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
             >
-              <div className="size-14 min-[680px]:size-14 bg-bluedot-normal rounded-lg flex items-center justify-center flex-shrink-0">
+              <div
+                className={`size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 ${!iconBackgroundColor ? 'bg-bluedot-normal' : ''}`}
+                style={iconBackgroundColor ? { backgroundColor: iconBackgroundColor } : undefined}
+              >
                 <IconComponent className="text-white" size={28} />
               </div>
               <P className="text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-[#13132E]">
@@ -58,7 +63,7 @@ const WhoIsThisForSection = ({
             {bottomCta.buttonText && bottomCta.buttonUrl && (
               <CTALinkOrButton
                 url={bottomCta.buttonUrl}
-                variant="primary"
+                variant="outline-black"
                 size="medium"
               >
                 {bottomCta.buttonText}

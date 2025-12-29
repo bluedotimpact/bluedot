@@ -4,17 +4,17 @@ import { ExpandedSectionsState } from './utils';
 export const DesktopNavLinks: React.FC<{
   expandedSections: ExpandedSectionsState;
   updateExpandedSections: (updates: Partial<ExpandedSectionsState>) => void;
-  isHomepage?: boolean;
+  onColoredBackground?: boolean;
 }> = ({
   expandedSections,
   updateExpandedSections,
-  isHomepage = false,
+  onColoredBackground = false,
 }) => {
   return (
     <NavLinks
       expandedSections={expandedSections}
       updateExpandedSections={updateExpandedSections}
-      isHomepage={isHomepage}
+      onColoredBackground={onColoredBackground}
       className="hidden lg:flex"
     />
   );

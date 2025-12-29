@@ -19,7 +19,7 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
         class="flex flex-col items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
       >
         <div
-          class="size-14 min-[680px]:size-14 bg-bluedot-normal rounded-lg flex items-center justify-center flex-shrink-0"
+          class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-normal"
         >
           <svg
             class="text-white"
@@ -54,7 +54,7 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
         class="flex flex-col items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
       >
         <div
-          class="size-14 min-[680px]:size-14 bg-bluedot-normal rounded-lg flex items-center justify-center flex-shrink-0"
+          class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-normal"
         >
           <svg
             class="text-white"
@@ -89,7 +89,7 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
         class="flex flex-col items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
       >
         <div
-          class="size-14 min-[680px]:size-14 bg-bluedot-normal rounded-lg flex items-center justify-center flex-shrink-0"
+          class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-normal"
         >
           <svg
             class="text-white"

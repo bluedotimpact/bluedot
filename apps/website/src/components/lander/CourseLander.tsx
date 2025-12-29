@@ -50,7 +50,6 @@ const CourseLander = ({
     : baseApplicationUrl;
 
   const content = createContentFor(applicationUrlWithUtm, courseSlug);
-  const hasDarkHero = !!content.hero.background;
 
   return (
     <div className="bg-white">
@@ -76,8 +75,7 @@ const CourseLander = ({
         <meta name="twitter:image" content={courseOgImage || 'https://bluedot.org/images/logo/link-preview-fallback.png'} />
       </Head>
 
-      {/* Nav - transparent for dark hero (overlays gradient), default for light hero */}
-      <Nav variant={hasDarkHero ? 'transparent' : 'default'} />
+      <Nav variant={content.hero.gradient ? 'transparent' : 'default'} />
       <HeroSection {...content.hero} />
 
       <div className="border-t-hairline border-color-divider" />

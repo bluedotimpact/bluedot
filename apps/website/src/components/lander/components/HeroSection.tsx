@@ -8,9 +8,9 @@ export type HeroSectionProps = {
   secondaryCta?: { text: string; url: string };
   imageSrc: string;
   imageAlt: string;
-  background?: string; // CSS background (solid color or gradient) - triggers dark mode when set
+  gradient?: string;
   accentColor?: string;
-  imageAspectRatio?: string; // e.g., "1408/1112" - for pixel-perfect sizing from Figma (dark variant only)
+  imageAspectRatio?: string;
 };
 
 // Main exported component
@@ -22,20 +22,19 @@ const HeroSection = ({
   secondaryCta,
   imageSrc,
   imageAlt,
-  background,
+  gradient,
   accentColor,
   imageAspectRatio = '1/1',
 }: HeroSectionProps) => {
-  const isDark = !!background;
+  const hasGradient = !!gradient;
 
   return (
     <section
-      className={`w-full ${!isDark ? 'bg-white' : ''}`}
-      /* Tailwind can't do dynamic colors from props */
-      style={isDark ? { background } : undefined}
+      className={`w-full ${!hasGradient ? 'bg-white' : ''}`}
+      style={hasGradient ? { background: gradient } : undefined}
     >
-      {isDark ? (
-        /* Dark variant: single column centered layout for mobile/tablet, side-by-side on desktop */
+      {hasGradient ? (
+        /* Gradient variant: single column centered layout for mobile/tablet, side-by-side on desktop */
         <div className="relative max-w-max-width mx-auto px-8 min-[1024px]:pl-[80px] min-[1024px]:pr-0">
           {/* Mobile/Tablet: Single column centered layout */}
           <div className="flex flex-col items-center gap-8 pt-[calc(var(--nav-height-mobile)+32px)] pb-8 min-[680px]:pt-[calc(var(--nav-height-mobile)+48px)] min-[1024px]:hidden">
@@ -67,8 +66,8 @@ const HeroSection = ({
               <div className="flex flex-col min-[680px]:flex-row gap-3 w-full min-[680px]:w-auto min-[680px]:justify-center">
                 <CTALinkOrButton
                   url={primaryCta.url}
-                  size="small"
-                  className="h-[50px] px-5 py-3 text-[16px] font-medium rounded-md cursor-pointer transition-colors text-[#13132e] w-full min-[680px]:w-auto"
+                  variant="unstyled"
+                  className="h-[50px] px-5 py-3 text-[16px] font-medium rounded-md cursor-pointer transition-all text-[#13132e] w-full min-[680px]:w-auto hover:brightness-90"
                   style={accentColor ? { backgroundColor: accentColor } : undefined}
                 >
                   {primaryCta.text}
@@ -77,8 +76,8 @@ const HeroSection = ({
                 {secondaryCta && (
                   <CTALinkOrButton
                     url={secondaryCta.url}
-                    size="small"
-                    className="h-[50px] px-5 py-3 text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-colors border w-full min-[680px]:w-auto"
+                    variant="unstyled"
+                    className="h-[50px] px-5 py-3 text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-all border w-full min-[680px]:w-auto hover:bg-white/10"
                     style={accentColor ? { borderColor: accentColor, color: accentColor } : undefined}
                   >
                     {secondaryCta.text}
@@ -112,8 +111,8 @@ const HeroSection = ({
                 <div className="flex gap-3">
                   <CTALinkOrButton
                     url={primaryCta.url}
-                    size="small"
-                    className="h-[50px] px-5 py-2.5 text-[16px] font-medium rounded-md cursor-pointer transition-colors text-[#13132e]"
+                    variant="unstyled"
+                    className="h-[50px] px-5 py-2.5 text-[16px] font-medium rounded-md cursor-pointer transition-all text-[#13132e] hover:brightness-90"
                     style={accentColor ? { backgroundColor: accentColor } : undefined}
                   >
                     {primaryCta.text}
@@ -122,8 +121,8 @@ const HeroSection = ({
                   {secondaryCta && (
                     <CTALinkOrButton
                       url={secondaryCta.url}
-                      size="small"
-                      className="h-[50px] px-5 py-2.5 text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-colors border"
+                      variant="unstyled"
+                      className="h-[50px] px-5 py-2.5 text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-all border hover:bg-white/10"
                       style={accentColor ? { borderColor: accentColor, color: accentColor } : undefined}
                     >
                       {secondaryCta.text}
@@ -145,7 +144,7 @@ const HeroSection = ({
           </div>
         </div>
       ) : (
-        /* Light variant: original layout */
+        /* Default variant: original layout */
         <div className="relative max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-spacing-x">
           <div className="py-8 sm:pt-8 lg:py-0 lg:w-1/2 lg:min-h-[600px] lg:flex lg:items-center">
             <div className="w-full lg:max-w-[512px] space-y-8">
