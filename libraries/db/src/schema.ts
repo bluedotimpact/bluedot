@@ -525,6 +525,10 @@ export const meetPersonTable = pgAirtable('meet_person', {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldRtqMTFX50uqLw5',
     },
+    email: {
+      pgColumn: text(),
+      airtableId: 'fld9BqZjF67r9Ce6O',
+    },
     numUnits: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fld1ICMPmCd5y7B17',
@@ -1158,16 +1162,6 @@ export const resourceCompletionTable = pgAirtable('resource_completion', {
     unitResourceId: {
       pgColumn: text(),
       airtableId: 'fldk4dbWAohE312Qn',
-    },
-    /** @deprecated use `unitResourceId` instead */
-    unitResourceIdWrite: {
-      pgColumn: text(),
-      airtableId: 'fldk4dbWAohE312Qn',
-    },
-    /** @deprecated use `unitResourceId` instead */
-    unitResourceIdRead: {
-      pgColumn: text(),
-      airtableId: 'fldoTb7xx0QQVHXvM',
     },
     rating: {
       pgColumn: numeric({ mode: 'number' }),

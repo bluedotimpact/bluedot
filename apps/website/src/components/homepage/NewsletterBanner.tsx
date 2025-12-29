@@ -74,18 +74,6 @@ const NewsletterBanner = () => {
             mixBlendMode: 'overlay', // Tailwind doesn't support mix-blend-mode
           }}
         />
-
-        {/* Noise Texture */}
-        <div
-          className="absolute inset-0 min-[680px]:rounded-xl opacity-50"
-          style={{
-            backgroundImage: 'url(/images/homepage/noise.svg)',
-            backgroundSize: '464.64px 736.56px',
-            backgroundRepeat: 'repeat',
-            backgroundPosition: 'top left',
-            mixBlendMode: 'soft-light', // Tailwind doesn't support mix-blend-mode
-          }}
-        />
       </div>
 
       {/* Content */}

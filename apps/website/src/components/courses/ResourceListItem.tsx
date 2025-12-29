@@ -129,8 +129,6 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource, re
               autoNumberId: null,
               email: auth?.email ?? '',
               unitResourceId,
-              unitResourceIdRead: unitResourceId,
-              unitResourceIdWrite: unitResourceId,
               rating: updatedFields.rating ?? null,
               feedback: updatedFields.feedback ?? '',
               resourceFeedback: updatedFields.resourceFeedback ?? RESOURCE_FEEDBACK.NO_RESPONSE,

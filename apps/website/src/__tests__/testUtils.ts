@@ -225,7 +225,5 @@ export const createMockResourceCompletion = (overrides: Partial<ResourceCompleti
   rating: null,
   resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE,
   unitResourceId: MOCK_RESOURCE_ID,
-  unitResourceIdRead: MOCK_RESOURCE_ID,
-  unitResourceIdWrite: MOCK_RESOURCE_ID,
   ...overrides,
 });
