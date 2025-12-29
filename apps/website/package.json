@@ -9,7 +9,7 @@
     "build": "next build",
     "postbuild": "tsx scripts/sitemap-generator.ts",
     "lint:images": "tsx scripts/assert-image-sizes.ts",
-    "lint": "eslint . --report-unused-disable-directives --max-warnings=0 && npm run lint:images",
+    "lint": "npm run lint:images && eslint . --report-unused-disable-directives --max-warnings=0",
     "lint:fix": "npm run lint -- --fix",
     "test": "vitest --run",
     "test:update": "npm run test -- -u",

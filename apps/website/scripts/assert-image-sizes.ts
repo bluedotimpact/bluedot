@@ -2,7 +2,9 @@
 /**
  * Lint rule for images in public/images.
  * - Size limit: 200KB
- * - Escape hatch: prefix filename with "oversize-"
+ * - Exceptions:
+ *   - Filenames prefixed "oversize-" (add this if you really need an image to be over the limit)
+ *   - Files under link-preview/* paths. These can be larger as they should never be loaded in a page
  */
 import fs from 'fs';
 import path from 'path';
@@ -40,10 +42,9 @@ function main() {
     const filename = path.basename(imgPath);
     const relativePath = path.relative(path.resolve(__dirname, '../public'), imgPath);
 
-    // Skip oversize-prefixed files
     if (filename.startsWith(OVERSIZE_PREFIX)) continue;
+    if (relativePath.includes('link-preview')) continue;
 
-    // Check size
     const stats = fs.statSync(imgPath);
     if (stats.size > SIZE_LIMIT) {
       errors.push(`/${relativePath} is ${formatBytes(stats.size)} (limit ${formatBytes(SIZE_LIMIT)})`);
