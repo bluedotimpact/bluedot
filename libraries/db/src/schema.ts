@@ -1099,6 +1099,18 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       pgColumn: text(),
       airtableId: 'fldQ9PM3ejhilPFc6',
     },
+    availabilityIntervalsUTC: {
+      pgColumn: text(),
+      airtableId: 'fldFpLDHyPPDvnJYg',
+    },
+    availabilityComments: {
+      pgColumn: text(),
+      airtableId: 'fldur7dw7JEiAQNFK',
+    },
+    availabilityTimezone: {
+      pgColumn: text(),
+      airtableId: 'fld9Y4WfeafUNMxMH',
+    },
   },
 });
 
