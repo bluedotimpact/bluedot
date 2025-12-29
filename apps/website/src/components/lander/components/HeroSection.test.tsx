@@ -49,15 +49,15 @@ describe('HeroSection', () => {
     expect(image).toHaveAttribute('alt', 'AGI Strategy visualization');
   });
 
-  it('renders dark variant correctly (snapshot)', () => {
-    const darkProps = {
+  it('renders gradient variant correctly (snapshot)', () => {
+    const gradientProps = {
       ...defaultProps,
-      background: '#0a284c',
+      gradient: 'linear-gradient(135deg, #0a284c 0%, #1a3a5c 100%)',
       accentColor: '#91cfff',
       categoryLabel: 'COHORT-BASED COURSE',
       title: 'The Future of AI',
     };
-    const { container } = render(<HeroSection {...darkProps} />);
+    const { container } = render(<HeroSection {...gradientProps} />);
     expect(container).toMatchSnapshot();
   });
 });
