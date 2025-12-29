@@ -19,13 +19,24 @@ type FormFieldData = {
   comment: string;
 };
 
-const toIntervals = (timeAv: Record<wa.WeeklyTime, boolean>): wa.Interval[] => {
+const weeklyTimeAvToIntervals = (timeAv: Record<wa.WeeklyTime, boolean>): wa.Interval[] => {
   return wa.unionSchedules(Object.entries(timeAv)
     .filter(([, available]) => available)
     .map(([weeklyTime]) => [
       parseInt(weeklyTime),
       parseInt(weeklyTime) + MINUTES_IN_UNIT,
     ] as wa.Interval));
+};
+
+const intervalsToWeeklyTimeAv = (intervals: wa.Interval[]): Record<wa.WeeklyTime, boolean> => {
+  const timeAv: Record<number, boolean> = {};
+  for (const [start, end] of intervals) {
+    // Mark each MINUTES_IN_UNIT slot within the interval as true
+    for (let t = start as number; t < (end as number); t += MINUTES_IN_UNIT) {
+      timeAv[t] = true;
+    }
+  }
+  return timeAv as Record<wa.WeeklyTime, boolean>;
 };
 
 const shift = (intervals: wa.Interval[], offsetInMinutes: number): wa.Interval[] => {
@@ -75,7 +86,7 @@ const Form: React.FC<{
   const [error, setError] = useState<unknown | undefined>();
   const onSubmit = async (data: FormFieldData) => {
     setSubmitting(true);
-    const intervals = shift(toIntervals(data.timeAv), parseOffsetFromStringToMinutes(data.timezone));
+    const intervals = shift(weeklyTimeAvToIntervals(data.timeAv), parseOffsetFromStringToMinutes(data.timezone));
 
     try {
       const response = await axios.post(
@@ -107,7 +118,7 @@ const Form: React.FC<{
   };
 
   const longEnoughInterval = () => {
-    const timeAv = shift(toIntervals(watch('timeAv')), parseOffsetFromStringToMinutes(watch('timezone')));
+    const timeAv = shift(weeklyTimeAvToIntervals(watch('timeAv')), parseOffsetFromStringToMinutes(watch('timezone')));
     return timeAv.some(([start, end]) => end - start >= minLength);
   };
 
@@ -179,15 +190,42 @@ type FormInfo =
   | { type: 'error', error: string }
   | { type: 'data', data: GetFormResponse };
 
+const getDefaultFormValues = (searchParams: URLSearchParams): FormFieldData => {
+  const email = searchParams.get('email') ?? '';
+  const comment = searchParams.get('prefill_comment') ?? '';
+
+  // Use prefilled timezone if provided, otherwise use browser timezone
+  const prefillTimezone = searchParams.get('prefill_timezone');
+  const timezone = prefillTimezone ?? formatOffsetFromMinutesToString(new Date().getTimezoneOffset());
+
+  // Parse prefilled intervals (stored in UTC) and convert to local time
+  const prefillIntervalsUTC = searchParams.get('prefill_intervals');
+  let timeAv: Record<wa.WeeklyTime, boolean> = {};
+
+  if (prefillIntervalsUTC) {
+    try {
+      const intervalsUTC = wa.parseIntervals(prefillIntervalsUTC);
+      const offsetMinutes = parseOffsetFromStringToMinutes(timezone);
+      const intervalsLocal = shift(intervalsUTC, -offsetMinutes);
+
+      timeAv = intervalsToWeeklyTimeAv(intervalsLocal);
+    } catch {
+      // If parsing fails, just use empty timeAv
+      // eslint-disable-next-line no-console
+      console.warn('Failed to parse prefilled intervals:', prefillIntervalsUTC);
+    }
+  }
+
+  return {
+    email, timezone, timeAv, comment,
+  };
+};
+
 const FormWrapper: React.FC = () => {
   const { query: { slug } } = useRouter();
   const searchParams = typeof window === 'undefined' ? new URLSearchParams() : new URL(document.location.href).searchParams;
   const formMethods = useForm<FormFieldData>({
-    defaultValues: {
-      email: searchParams.get('email') ?? '',
-      timezone: formatOffsetFromMinutesToString(new Date().getTimezoneOffset()),
-      timeAv: {},
-    },
+    defaultValues: getDefaultFormValues(searchParams),
   });
 
   const [info, setInfo] = useState<FormInfo>();
