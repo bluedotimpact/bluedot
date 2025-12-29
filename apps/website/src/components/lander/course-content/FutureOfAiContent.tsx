@@ -11,6 +11,17 @@ import { CourseLanderContent } from '../CourseLander';
 
 export const FUTURE_OF_AI_START_URL = '/courses/future-of-ai/1/1';
 
+const FOAI_COLORS = {
+  /* Gradient layers:
+     1. Left-side darkness - horizontal gradient to darken left edge
+     2. Top-right subtle glow - very faint greenish highlight
+     3. Colorful gradient - green→gold→purple from top-right (reduced opacity for muted look)
+     4. Base color - dark olive */
+  gradient: 'linear-gradient(to right, rgba(30, 30, 20, 0.6) 0%, rgba(30, 30, 20, 0.4) 25%, rgba(30, 30, 20, 0.2) 45%, transparent 60%), radial-gradient(ellipse 70% 60% at 85% 20%, rgba(155, 180, 115, 0.12) 0%, transparent 60%), radial-gradient(ellipse 200% 180% at 105% -5%, rgba(150, 207, 156, 0.35) 0%, rgba(163, 179, 110, 0.35) 28.6%, rgba(176, 152, 64, 0.35) 57.2%, rgba(147, 120, 64, 0.35) 67.9%, rgba(118, 88, 64, 0.35) 78.6%, rgba(89, 56, 63, 0.35) 89.3%, rgba(60, 24, 63, 0.35) 100%), #29281D',
+  accent: '#E6DBA6',
+  iconBackground: '#64663E',
+};
+
 export const createFutureOfAiContent = (
   _applicationUrlWithUtm: string,
   courseSlug: string,
@@ -21,18 +32,22 @@ export const createFutureOfAiContent = (
   },
 
   hero: {
-    categoryLabel: 'FUTURE OF AI',
-    title: 'Understand what\'s coming. Join the conversation.',
-    description: 'Get informed about AI\'s trajectory and society\'s biggest choices in just 2 hours. No technical background needed.',
+    gradient: FOAI_COLORS.gradient,
+    accentColor: FOAI_COLORS.accent,
+    categoryLabel: 'COHORT-BASED COURSE',
+    title: 'The Future of AI',
+    description: 'An introduction to what AI can do today, where it\'s going over the next decade, and how you can start contributing to a better future.',
     primaryCta: {
       text: 'Start the free course',
       url: FUTURE_OF_AI_START_URL,
     },
-    imageSrc: '/images/lander/foai/hero-banner-split.webp',
+    imageSrc: '/images/lander/foai/hero-graphic.png',
     imageAlt: 'Future of AI visualization',
+    imageAspectRatio: '1408/1112',
   },
 
   whoIsThisFor: {
+    iconBackgroundColor: FOAI_COLORS.iconBackground,
     title: 'Who this course is for',
     targetAudiences: [
       {

@@ -64,59 +64,351 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       content="https://bluedot.org/images/courses/link-preview/agi-strategy.png"
       name="twitter:image"
     />
-    <section
-      class="w-full bg-white"
+    <nav
+      class="nav sticky top-0 z-50 w-full transition-all duration-300 bg-white border-b border-color-divider"
     >
       <div
-        class="flex flex-col sm:pt-8 sm:gap-12 lg:pt-0 lg:gap-0 lg:grid lg:grid-cols-2 lg:h-[600px]"
+        class="nav__container section-base"
       >
         <div
-          class="px-5 py-8 sm:px-8 sm:py-0 lg:flex lg:items-center lg:px-12 xl:pl-[max(48px,calc((100vw-1436px)/2+48px))] xl:pr-8"
+          class="nav__bar w-full flex justify-between items-center min-h-(--nav-height-mobile) min-[1024px]:min-h-(--nav-height-desktop)"
         >
           <div
-            class="w-full lg:max-w-[512px] space-y-8 sm:space-y-8"
+            class="flex items-center"
           >
             <div
-              class="space-y-5 sm:space-y-4"
+              class="mobile-nav-links lg:hidden"
             >
-              <p
-                class="bluedot-p not-prose text-size-md font-semibold tracking-wide text-bluedot-normal"
+              <button
+                class="icon-button size-[32px] flex items-center justify-center hover:cursor-pointer mobile-nav-links__btn"
+                type="button"
               >
-                AGI STRATEGY
-              </p>
-              <h1
-                class="bluedot-h1 not-prose text-[32px] sm:text-[40px] sm:leading-tight lg:text-[40px] xl:text-5xl leading-tight font-semibold text-[#13132E] tracking-[-0.5px]"
+                <svg
+                  fill="none"
+                  height="48"
+                  viewBox="0 0 48 48"
+                  width="48"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M16 18H32"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-width="2"
+                  />
+                  <path
+                    d="M16 24H32"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-width="2"
+                  />
+                  <path
+                    d="M16 30H32"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+              <div
+                class="mobile-nav-links__drawer absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
               >
-                Start building the defences that protect humanity
-              </h1>
-              <p
-                class="bluedot-p not-prose text-size-sm sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed text-[#13132E] opacity-80"
-              >
-                Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours.
-              </p>
+                <div
+                  class="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 lg:hidden"
+                  role="presentation"
+                >
+                  <div
+                    class="nav-links flex gap-9 [&>*]:w-fit mobile-nav-links__nav-links flex-col"
+                  >
+                    <div
+                      class="nav-dropdown"
+                    >
+                      <button
+                        aria-controls="courses-dropdown"
+                        aria-expanded="false"
+                        class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                        type="button"
+                      >
+                        Courses
+                        <svg
+                          class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                          fill="none"
+                          height="1em"
+                          stroke="currentColor"
+                          stroke-width="0"
+                          viewBox="0 0 24 24"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
+                            fill="currentColor"
+                          />
+                        </svg>
+                      </button>
+                      <div
+                        aria-label="Courses menu"
+                        class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                        id="courses-dropdown"
+                        role="region"
+                      >
+                        <div
+                          class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                        >
+                          <div
+                            class="progress-dots my-6 flex items-center justify-center space-x-2 py-2"
+                          >
+                            <span
+                              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                              style="animation-delay: 0ms;"
+                            />
+                            <span
+                              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                              style="animation-delay: 150ms;"
+                            />
+                            <span
+                              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                              style="animation-delay: 300ms;"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <a
+                      aria-label="Events (opens in new tab)"
+                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                      href="https://lu.ma/bluedotevents?utm_source=website&utm_campaign=nav"
+                      rel="noopener noreferrer"
+                      tabindex="0"
+                      target="_blank"
+                    >
+                      Events
+                    </a>
+                    <a
+                      aria-label="Blog (opens in new tab)"
+                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                      href="https://blog.bluedot.org"
+                      rel="noopener noreferrer"
+                      tabindex="0"
+                      target="_blank"
+                    >
+                      Blog
+                    </a>
+                    <a
+                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                      href="/about"
+                      tabindex="0"
+                    >
+                      About
+                    </a>
+                    <a
+                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                      href="/join-us"
+                      tabindex="0"
+                    >
+                      Jobs
+                    </a>
+                  </div>
+                  <div
+                    class="mobile-nav-cta flex flex-col gap-4 pt-6 mt-6 border-t border-color-divider"
+                  >
+                    <a
+                      class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--primary link-on-dark mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-bluedot-normal hover:bg-[#1a3599] text-white hover:text-white"
+                      href="/login?register=true&redirect_to=%2Fcourses%2Fagi-strategy"
+                      tabindex="0"
+                    >
+                      Start for free
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div
-              class="flex gap-3"
+            <a
+              class="bluedot-a not-prose logo shrink-0 w-[151px] min-[681px]:w-[200px] no-underline"
+              href="/"
+              tabindex="0"
             >
-              <a
-                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-bluedot-normal text-white hover:bg-[#1a3399] focus:bg-[#1a3399] cursor-pointer transition-colors"
-                href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX"
-                tabindex="0"
+              <img
+                alt="BlueDot Impact Logo"
+                class="logo__img h-5 min-[681px]:h-6 mr-auto transition-all duration-300"
+                src="/images/logo/BlueDot_Impact_Logo.svg"
+              />
+            </a>
+          </div>
+          <div
+            class="flex items-center gap-12"
+          >
+            <div
+              class="nav-links flex gap-9 [&>*]:w-fit hidden lg:flex"
+            >
+              <div
+                class="nav-dropdown"
               >
-                Apply now
+                <button
+                  aria-controls="courses-dropdown"
+                  aria-expanded="false"
+                  class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                  type="button"
+                >
+                  Courses
+                  <svg
+                    class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                    fill="none"
+                    height="1em"
+                    stroke="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 24 24"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </button>
+                <div
+                  aria-label="Courses menu"
+                  class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                  id="courses-dropdown"
+                  role="region"
+                >
+                  <div
+                    class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                  >
+                    <div
+                      class="progress-dots my-6 flex items-center justify-center space-x-2 py-2"
+                    >
+                      <span
+                        class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                        style="animation-delay: 0ms;"
+                      />
+                      <span
+                        class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                        style="animation-delay: 150ms;"
+                      />
+                      <span
+                        class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                        style="animation-delay: 300ms;"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a
+                aria-label="Events (opens in new tab)"
+                class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                href="https://lu.ma/bluedotevents?utm_source=website&utm_campaign=nav"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                Events
               </a>
               <a
-                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md border border-[rgba(19,19,46,0.3)] text-[#13132E] bg-transparent hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E] cursor-pointer transition-colors"
-                href="/courses/agi-strategy/1/1"
+                aria-label="Blog (opens in new tab)"
+                class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                href="https://blog.bluedot.org"
+                rel="noopener noreferrer"
+                tabindex="0"
+                target="_blank"
+              >
+                Blog
+              </a>
+              <a
+                class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                href="/about"
                 tabindex="0"
               >
-                Browse curriculum
+                About
+              </a>
+              <a
+                class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                href="/join-us"
+                tabindex="0"
+              >
+                Jobs
+              </a>
+            </div>
+            <div
+              class="nav-cta flex flex-row items-center gap-4"
+            >
+              <a
+                class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--secondary bg-transparent nav-cta__secondary-cta flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center border border-color-divider text-color-text hover:text-color-text hover:bg-gray-50"
+                href="/login?redirect_to=%2Fcourses%2Fagi-strategy"
+                tabindex="0"
+              >
+                Sign in
+              </a>
+              <a
+                class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--primary link-on-dark nav-cta__primary-cta hidden min-[680px]:flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-bluedot-normal hover:bg-[#1a3599] text-white hover:text-white"
+                href="/login?register=true&redirect_to=%2Fcourses%2Fagi-strategy"
+                tabindex="0"
+              >
+                Start for free
               </a>
             </div>
           </div>
         </div>
+      </div>
+    </nav>
+    <section
+      class="w-full bg-white"
+    >
+      <div
+        class="relative"
+      >
         <div
-          class="h-80 sm:h-[430px] lg:h-full relative overflow-hidden"
+          class="max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-spacing-x"
+        >
+          <div
+            class="py-8 sm:pt-8 lg:py-0 lg:w-1/2 lg:min-h-[600px] lg:flex lg:items-center"
+          >
+            <div
+              class="w-full lg:max-w-[512px] space-y-8"
+            >
+              <div
+                class="space-y-5 sm:space-y-4"
+              >
+                <p
+                  class="bluedot-p not-prose text-size-md font-semibold tracking-wide text-bluedot-normal"
+                >
+                  AGI STRATEGY
+                </p>
+                <h1
+                  class="bluedot-h1 not-prose text-[32px] sm:text-[40px] sm:leading-tight lg:text-[40px] xl:text-5xl leading-tight font-semibold tracking-[-0.5px] text-[#13132E]"
+                >
+                  Start building the defences that protect humanity
+                </h1>
+                <p
+                  class="bluedot-p not-prose text-size-sm sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed opacity-80 text-[#13132E]"
+                >
+                  Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours.
+                </p>
+              </div>
+              <div
+                class="flex gap-3"
+              >
+                <a
+                  class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md cursor-pointer transition-colors bg-bluedot-normal text-white hover:bg-[#1a3399] focus:bg-[#1a3399]"
+                  href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX"
+                  tabindex="0"
+                >
+                  Apply now
+                </a>
+                <a
+                  class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-colors border border-[rgba(19,19,46,0.3)] text-[#13132E] hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E]"
+                  href="/courses/agi-strategy/1/1"
+                  tabindex="0"
+                >
+                  Browse curriculum
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="h-80 sm:h-[430px] lg:absolute lg:right-0 lg:inset-y-0 lg:w-1/2 lg:h-auto overflow-hidden"
         >
           <img
             alt="AGI Strategy visualization"
@@ -157,10 +449,10 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           class="grid grid-cols-1 min-[680px]:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
         >
           <div
-            class="flex flex-col items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
+            class="flex flex-col items-center min-[680px]:items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
           >
             <div
-              class="size-14 min-[680px]:size-14 bg-bluedot-normal rounded-lg flex items-center justify-center flex-shrink-0"
+              class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-normal"
             >
               <svg
                 class="text-white"
@@ -192,10 +484,10 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             </p>
           </div>
           <div
-            class="flex flex-col items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
+            class="flex flex-col items-center min-[680px]:items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
           >
             <div
-              class="size-14 min-[680px]:size-14 bg-bluedot-normal rounded-lg flex items-center justify-center flex-shrink-0"
+              class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-normal"
             >
               <svg
                 class="text-white"
@@ -227,10 +519,10 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             </p>
           </div>
           <div
-            class="flex flex-col items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
+            class="flex flex-col items-center min-[680px]:items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
           >
             <div
-              class="size-14 min-[680px]:size-14 bg-bluedot-normal rounded-lg flex items-center justify-center flex-shrink-0"
+              class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-normal"
             >
               <svg
                 class="text-white"
@@ -279,7 +571,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             </span>
           </p>
           <a
-            class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+            class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm cta-button--outline-black bg-transparent border border-[rgba(19,19,46,0.3)] text-black hover:bg-gray-50 font-medium"
             href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX"
             tabindex="0"
           >

@@ -48,4 +48,16 @@ describe('HeroSection', () => {
     expect(image).toHaveAttribute('src', '/images/agi-strategy/hero-banner.png');
     expect(image).toHaveAttribute('alt', 'AGI Strategy visualization');
   });
+
+  it('renders gradient variant correctly (snapshot)', () => {
+    const gradientProps = {
+      ...defaultProps,
+      gradient: 'linear-gradient(135deg, #0a284c 0%, #1a3a5c 100%)',
+      accentColor: '#91cfff',
+      categoryLabel: 'COHORT-BASED COURSE',
+      title: 'The Future of AI',
+    };
+    const { container } = render(<HeroSection {...gradientProps} />);
+    expect(container).toMatchSnapshot();
+  });
 });

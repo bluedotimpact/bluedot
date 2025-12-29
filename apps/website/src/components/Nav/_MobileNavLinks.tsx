@@ -18,12 +18,12 @@ export const MobileNavLinks: React.FC<{
   expandedSections: ExpandedSectionsState;
   updateExpandedSections: (updates: Partial<ExpandedSectionsState>) => void;
   isLoggedIn: boolean;
-  isHomepage?: boolean;
+  onColoredBackground?: boolean;
 }> = ({
   expandedSections,
   updateExpandedSections,
   isLoggedIn,
-  isHomepage = false,
+  onColoredBackground = false,
 }) => {
   const router = useRouter();
   const joinUrl = getLoginUrl(router.asPath, true);
@@ -58,7 +58,7 @@ export const MobileNavLinks: React.FC<{
         setOpen={onToggleMobileNav}
         className={clsx(
           'mobile-nav-links__btn',
-          isHomepage && 'text-white [&_svg]:text-white',
+          onColoredBackground && 'text-white [&_svg]:text-white',
         )}
       />
       <div className={clsx('mobile-nav-links__drawer', DRAWER_CLASSES(expandedSections.mobileNav))}>
@@ -92,7 +92,7 @@ export const MobileNavLinks: React.FC<{
             className="mobile-nav-links__nav-links flex-col"
             expandedSections={expandedSections}
             updateExpandedSections={updateExpandedSections}
-            isHomepage={isHomepage}
+            onColoredBackground={onColoredBackground}
           />
 
           {/* CTA Buttons for mobile - prevent duplication with navbar buttons */}

@@ -65,7 +65,7 @@ describe('CTALinkOrButton', () => {
     const button = screen.getByRole('button');
     expect(button).toBeTruthy();
     expect(button.className).includes('cta-button--outline-black');
-    expect(button.className).includes('border-black');
+    expect(button.className).includes('border-[rgba(19,19,46,0.3)]');
     expect(button.className).includes('text-black');
   });
 
