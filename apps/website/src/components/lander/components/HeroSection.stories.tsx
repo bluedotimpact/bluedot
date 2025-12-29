@@ -42,8 +42,8 @@ const meta = {
       description: 'Alt text for the image',
       control: 'text',
     },
-    background: {
-      description: 'CSS background (solid color or gradient) for dark theme variants',
+    gradient: {
+      description: 'CSS gradient background for gradient hero variants',
       control: 'text',
     },
     accentColor: {
@@ -91,7 +91,7 @@ export const DarkTheme: Story = {
     },
     imageSrc: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop',
     imageAlt: 'Future of AI visualization',
-    background: '#0a284c',
+    gradient: 'linear-gradient(135deg, #0a284c 0%, #1a3a5c 100%)',
     accentColor: '#91cfff',
   },
 };
