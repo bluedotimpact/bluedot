@@ -30,12 +30,19 @@ const HeroSection = ({
   // Centered layout with constrained image sizing (for pixel-perfect Figma matching)
   const useConstrainedImageLayout = hasGradient && !!imageAspectRatio;
 
+  const getLayoutType = () => {
+    if (useConstrainedImageLayout) return 'constrained';
+    if (hasGradient) return 'gradient';
+    return 'light';
+  };
+  const layoutType = getLayoutType();
+
   return (
     <section
       className={`w-full ${!hasGradient ? 'bg-white' : ''}`}
       style={hasGradient ? { background: gradient } : undefined}
     >
-      {useConstrainedImageLayout ? (
+      {layoutType === 'constrained' && (
         /* Constrained image layout: centered on mobile, pixel-perfect image sizing */
         <div className="relative max-w-max-width mx-auto px-8 min-[1024px]:pl-[80px] min-[1024px]:pr-0">
           {/* Mobile/Tablet: Single column centered layout */}
@@ -145,7 +152,8 @@ const HeroSection = ({
             </div>
           </div>
         </div>
-      ) : hasGradient ? (
+      )}
+      {layoutType === 'gradient' && (
         /* Gradient with standard layout: image extends to viewport edge */
         <div className="relative">
           <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-spacing-x">
@@ -199,12 +207,13 @@ const HeroSection = ({
           </div>
 
           {/* Image - stacked on mobile, absolutely positioned to viewport edge on lg+ */}
-          <div className="h-80 sm:h-[430px] lg:absolute lg:right-0 lg:top-0 lg:bottom-0 lg:w-1/2 lg:h-auto overflow-hidden">
+          <div className="h-80 sm:h-[430px] lg:absolute lg:right-0 lg:inset-y-0 lg:w-1/2 lg:h-auto overflow-hidden">
             {/* Workaround for bug with camelcase `fetchPriority`: https://github.com/facebook/react/issues/25682 */}
             <img src={imageSrc} alt={imageAlt} className="size-full object-cover lg:object-center" {...{ fetchpriority: 'high' }} />
           </div>
         </div>
-      ) : (
+      )}
+      {layoutType === 'light' && (
         /* Light variant: image extends to viewport edge */
         <div className="relative">
           <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-spacing-x">
@@ -253,9 +262,9 @@ const HeroSection = ({
           </div>
 
           {/* Image - stacked on mobile, absolutely positioned to viewport edge on lg+ */}
-          <div className="h-80 sm:h-[430px] lg:absolute lg:right-0 lg:top-0 lg:bottom-0 lg:w-1/2 lg:h-auto overflow-hidden">
-          {/* Workaround for bug with camelcase `fetchPriority`: https://github.com/facebook/react/issues/25682 */}
-            <img src={imageSrc} alt={imageAlt} className="size-full object-cover lg:object-center"  {...{ fetchpriority: 'high' }} />
+          <div className="h-80 sm:h-[430px] lg:absolute lg:right-0 lg:inset-y-0 lg:w-1/2 lg:h-auto overflow-hidden">
+            {/* Workaround for bug with camelcase `fetchPriority`: https://github.com/facebook/react/issues/25682 */}
+            <img src={imageSrc} alt={imageAlt} className="size-full object-cover lg:object-center" {...{ fetchpriority: 'high' }} />
             {/* Noise layer */}
             <div
               className="absolute inset-0 pointer-events-none bg-contain bg-repeat mix-blend-soft-light"

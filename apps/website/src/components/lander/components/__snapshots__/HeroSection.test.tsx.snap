@@ -6,45 +6,49 @@ exports[`HeroSection > renders correctly (snapshot) 1`] = `
     class="w-full bg-white"
   >
     <div
-      class="relative max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-spacing-x"
+      class="relative"
     >
       <div
-        class="py-8 sm:pt-8 lg:py-0 lg:w-1/2 lg:min-h-[600px] lg:flex lg:items-center"
+        class="max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-spacing-x"
       >
         <div
-          class="w-full lg:max-w-[512px] space-y-8"
+          class="py-8 sm:pt-8 lg:py-0 lg:w-1/2 lg:min-h-[600px] lg:flex lg:items-center"
         >
           <div
-            class="space-y-5 sm:space-y-4"
+            class="w-full lg:max-w-[512px] space-y-8"
           >
-            <h1
-              class="bluedot-h1 not-prose text-[32px] sm:text-[40px] sm:leading-tight lg:text-[40px] xl:text-5xl leading-tight font-semibold tracking-[-0.5px] text-[#13132E]"
+            <div
+              class="space-y-5 sm:space-y-4"
             >
-              AGI Strategy – Learn how to navigate humanity's most critical decade
-            </h1>
-            <p
-              class="bluedot-p not-prose text-size-sm sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed opacity-80 text-[#13132E]"
+              <h1
+                class="bluedot-h1 not-prose text-[32px] sm:text-[40px] sm:leading-tight lg:text-[40px] xl:text-5xl leading-tight font-semibold tracking-[-0.5px] text-[#13132E]"
+              >
+                AGI Strategy – Learn how to navigate humanity's most critical decade
+              </h1>
+              <p
+                class="bluedot-p not-prose text-size-sm sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed opacity-80 text-[#13132E]"
+              >
+                Artificial General Intelligence is moving from research to reality. Understand the race, the risks, and the strategic decisions that will shape economies, security, and our collective future.
+              </p>
+            </div>
+            <div
+              class="flex gap-3"
             >
-              Artificial General Intelligence is moving from research to reality. Understand the race, the risks, and the strategic decisions that will shape economies, security, and our collective future.
-            </p>
-          </div>
-          <div
-            class="flex gap-3"
-          >
-            <a
-              class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md cursor-pointer transition-colors bg-bluedot-normal text-white hover:bg-[#1a3399] focus:bg-[#1a3399]"
-              href="https://example.com/apply"
-              tabindex="0"
-            >
-              Apply now
-            </a>
-            <a
-              class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-colors border border-[rgba(19,19,46,0.3)] text-[#13132E] hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E]"
-              href="/courses/agi-strategy/1"
-              tabindex="0"
-            >
-              Browse curriculum
-            </a>
+              <a
+                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md cursor-pointer transition-colors bg-bluedot-normal text-white hover:bg-[#1a3399] focus:bg-[#1a3399]"
+                href="https://example.com/apply"
+                tabindex="0"
+              >
+                Apply now
+              </a>
+              <a
+                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-colors border border-[rgba(19,19,46,0.3)] text-[#13132E] hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E]"
+                href="/courses/agi-strategy/1"
+                tabindex="0"
+              >
+                Browse curriculum
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -74,77 +78,19 @@ exports[`HeroSection > renders gradient variant correctly (snapshot) 1`] = `
     style="background: linear-gradient(135deg, #0a284c 0%, #1a3a5c 100%);"
   >
     <div
-      class="relative max-w-max-width mx-auto px-8 min-[1024px]:pl-[80px] min-[1024px]:pr-0"
+      class="relative"
     >
       <div
-        class="flex flex-col items-center gap-8 pt-[calc(var(--nav-height-mobile)+32px)] pb-8 min-[680px]:pt-[calc(var(--nav-height-mobile)+48px)] min-[1024px]:hidden"
+        class="max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-spacing-x"
       >
         <div
-          class="flex items-center justify-center w-[280px] min-[680px]:w-[400px]"
-          style="aspect-ratio: 1 / 1;"
-        >
-          <img
-            alt="AGI Strategy visualization"
-            class="size-full object-contain"
-            src="/images/agi-strategy/hero-banner.png"
-          />
-        </div>
-        <div
-          class="w-full flex flex-col items-center gap-5 text-center"
+          class="py-8 sm:pt-8 lg:py-0 lg:w-1/2 lg:min-h-[600px] lg:flex lg:items-center"
         >
           <div
-            class="space-y-4"
-          >
-            <p
-              class="bluedot-p not-prose text-[14px] font-medium tracking-[0.28px] uppercase"
-              style="color: #91cfff;"
-            >
-              COHORT-BASED COURSE
-            </p>
-            <h1
-              class="text-[32px] min-[680px]:text-[40px] leading-tight font-semibold tracking-[-0.5px] text-white"
-            >
-              The Future of AI
-            </h1>
-            <p
-              class="text-[16px] min-[680px]:text-[18px] leading-[1.6] opacity-80 text-white"
-            >
-              Artificial General Intelligence is moving from research to reality. Understand the race, the risks, and the strategic decisions that will shape economies, security, and our collective future.
-            </p>
-          </div>
-          <div
-            class="flex flex-col min-[680px]:flex-row gap-3 w-full min-[680px]:w-auto min-[680px]:justify-center"
-          >
-            <a
-              class="cta-button flex items-center justify-center duration-200 whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none h-[50px] px-5 py-3 text-[16px] font-medium rounded-md cursor-pointer transition-all text-[#13132e] w-full min-[680px]:w-auto hover:brightness-90"
-              href="https://example.com/apply"
-              style="background-color: #91cfff;"
-              tabindex="0"
-            >
-              Apply now
-            </a>
-            <a
-              class="cta-button flex items-center justify-center duration-200 whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none h-[50px] px-5 py-3 text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-all border w-full min-[680px]:w-auto hover:bg-white/10"
-              href="/courses/agi-strategy/1"
-              style="border-color: #91cfff; color: #91cfff;"
-              tabindex="0"
-            >
-              Browse curriculum
-            </a>
-          </div>
-        </div>
-      </div>
-      <div
-        class="hidden min-[1024px]:block"
-      >
-        <div
-          class="w-1/2 min-h-[600px] flex items-center pt-[var(--nav-height-desktop)] pr-[24px] min-[1280px]:pr-[152px]"
-        >
-          <div
-            class="w-full max-w-[512px] space-y-8"
+            class="w-full lg:max-w-[512px] space-y-8"
           >
             <div
-              class="space-y-4"
+              class="space-y-5 sm:space-y-4"
             >
               <p
                 class="bluedot-p not-prose text-size-md font-semibold tracking-wide"
@@ -153,12 +99,12 @@ exports[`HeroSection > renders gradient variant correctly (snapshot) 1`] = `
                 COHORT-BASED COURSE
               </p>
               <h1
-                class="bluedot-h1 not-prose text-[40px] xl:text-5xl leading-tight font-semibold tracking-[-0.5px] text-white"
+                class="bluedot-h1 not-prose text-[32px] sm:text-[40px] sm:leading-tight lg:text-[40px] xl:text-5xl leading-tight font-semibold tracking-[-0.5px] text-white"
               >
                 The Future of AI
               </h1>
               <p
-                class="bluedot-p not-prose text-size-lg leading-[1.6] opacity-80 text-white"
+                class="bluedot-p not-prose text-size-sm sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed opacity-80 text-white"
               >
                 Artificial General Intelligence is moving from research to reality. Understand the race, the risks, and the strategic decisions that will shape economies, security, and our collective future.
               </p>
@@ -167,7 +113,7 @@ exports[`HeroSection > renders gradient variant correctly (snapshot) 1`] = `
               class="flex gap-3"
             >
               <a
-                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none h-[50px] px-5 py-2.5 text-[16px] font-medium rounded-md cursor-pointer transition-all text-[#13132e] hover:brightness-90"
+                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary bg-bluedot-normal link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md cursor-pointer transition-colors text-[#13132e] hover:brightness-90"
                 href="https://example.com/apply"
                 style="background-color: #91cfff;"
                 tabindex="0"
@@ -175,7 +121,7 @@ exports[`HeroSection > renders gradient variant correctly (snapshot) 1`] = `
                 Apply now
               </a>
               <a
-                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none h-[50px] px-5 py-2.5 text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-all border hover:bg-white/10"
+                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-colors border hover:bg-white/10"
                 href="/courses/agi-strategy/1"
                 style="border-color: #91cfff; color: #91cfff;"
                 tabindex="0"
@@ -185,16 +131,16 @@ exports[`HeroSection > renders gradient variant correctly (snapshot) 1`] = `
             </div>
           </div>
         </div>
-        <div
-          class="absolute right-0 bottom-0 w-1/2 top-[var(--nav-height-desktop)]"
-        >
-          <img
-            alt="AGI Strategy visualization"
-            class="size-full object-contain"
-            src="/images/agi-strategy/hero-banner.png"
-            style="object-position: right center;"
-          />
-        </div>
+      </div>
+      <div
+        class="h-80 sm:h-[430px] lg:absolute lg:right-0 lg:inset-y-0 lg:w-1/2 lg:h-auto overflow-hidden"
+      >
+        <img
+          alt="AGI Strategy visualization"
+          class="size-full object-cover lg:object-center"
+          fetchpriority="high"
+          src="/images/agi-strategy/hero-banner.png"
+        />
       </div>
     </div>
   </section>
