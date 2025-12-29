@@ -51,7 +51,7 @@ exports[`QuoteSection > renders correctly 1`] = `
                       <img
                         alt="Dario Amodei"
                         class="size-12 sm:size-16 object-cover rounded-full lg:hidden"
-                        src="/images/lander/foai/dario.jpeg"
+                        src="/images/lander/foai/dario.webp"
                       />
                     </a>
                     <div
@@ -84,7 +84,7 @@ exports[`QuoteSection > renders correctly 1`] = `
                     <img
                       alt="Dario Amodei"
                       class="size-full object-cover rounded-l-xl"
-                      src="/images/lander/foai/dario.jpeg"
+                      src="/images/lander/foai/dario.webp"
                     />
                   </a>
                 </div>
@@ -130,7 +130,7 @@ exports[`QuoteSection > renders correctly 1`] = `
                       <img
                         alt="Dario Amodei"
                         class="size-12 sm:size-16 object-cover rounded-full lg:hidden"
-                        src="/images/lander/foai/dario.jpeg"
+                        src="/images/lander/foai/dario.webp"
                       />
                     </a>
                     <div
@@ -163,7 +163,7 @@ exports[`QuoteSection > renders correctly 1`] = `
                     <img
                       alt="Dario Amodei"
                       class="size-full object-cover rounded-l-xl"
-                      src="/images/lander/foai/dario.jpeg"
+                      src="/images/lander/foai/dario.webp"
                     />
                   </a>
                 </div>

@@ -193,7 +193,7 @@ exports[`TeamSection > renders as expected 1`] = `
                       <img
                         alt="Josh Landes - Community"
                         class="team-section__card-image size-[300px] object-cover"
-                        src="/images/team/josh_v2.jpeg"
+                        src="/images/team/josh_v2.webp"
                       />
                     </a>
                   </div>

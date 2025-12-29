@@ -162,7 +162,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
             <img
               alt="Dario Amodei"
               class="quote-carousel__image rounded-full object-cover size-14"
-              src="/images/lander/foai/dario.jpeg"
+              src="/images/lander/foai/dario.webp"
             />
             <div
               class="quote-carousel__author-name mt-1"
@@ -181,7 +181,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
             <img
               alt="Demis Hassabis"
               class="quote-carousel__image rounded-full object-cover size-14"
-              src="/images/lander/foai/demis.jpeg"
+              src="/images/lander/foai/demis.webp"
             />
             <div
               class="quote-carousel__author-name mt-1"
@@ -200,7 +200,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
             <img
               alt="Ursula von der Leyen"
               class="quote-carousel__image rounded-full object-cover size-14"
-              src="/images/lander/foai/ursula.png"
+              src="/images/lander/foai/ursula.webp"
             />
             <div
               class="quote-carousel__author-name mt-1"
@@ -427,7 +427,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="Dario Amodei"
                 class="quote-carousel__image rounded-full object-cover size-14"
-                src="/images/lander/foai/dario.jpeg"
+                src="/images/lander/foai/dario.webp"
               />
               <div
                 class="quote-carousel__author-name mt-1"
@@ -446,7 +446,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="Demis Hassabis"
                 class="quote-carousel__image rounded-full object-cover size-14"
-                src="/images/lander/foai/demis.jpeg"
+                src="/images/lander/foai/demis.webp"
               />
               <div
                 class="quote-carousel__author-name mt-1"
@@ -465,7 +465,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="Ursula von der Leyen"
                 class="quote-carousel__image rounded-full object-cover size-14"
-                src="/images/lander/foai/ursula.png"
+                src="/images/lander/foai/ursula.webp"
               />
               <div
                 class="quote-carousel__author-name mt-1"
@@ -790,7 +790,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
             <img
               alt="Learn on your terms"
               class="size-full object-cover object-top"
-              src="/images/lander/foai/learn-desktop.png"
+              src="/images/lander/foai/learn-desktop.webp"
             />
           </picture>
           <div
@@ -844,7 +844,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
             <img
               alt="Try cutting-edge tools"
               class="size-full object-cover object-top"
-              src="/images/lander/foai/try-desktop.png"
+              src="/images/lander/foai/try-desktop.webp"
             />
           </picture>
           <div
@@ -898,7 +898,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
             <img
               alt="Get certified"
               class="size-full object-cover object-top"
-              src="/images/lander/foai/cert-desktop.png"
+              src="/images/lander/foai/cert-desktop.webp"
             />
           </picture>
           <div
@@ -947,12 +947,12 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
           >
             <source
               media="(max-width: 767px)"
-              srcset="/images/lander/foai/community-mobile.png"
+              srcset="/images/lander/foai/community-mobile.webp"
             />
             <img
               alt="Join the conversation"
               class="size-full object-cover object-top"
-              src="/images/lander/foai/community-desktop.png"
+              src="/images/lander/foai/community-desktop.webp"
             />
           </picture>
           <div
@@ -1030,7 +1030,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="Craig Dickson"
                 class="quote-carousel__image rounded-full object-cover size-14"
-                src="/images/graduates/craig.png"
+                src="/images/graduates/craig.webp"
               />
               <div
                 class="quote-carousel__author-name mt-1"
@@ -1049,7 +1049,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="Crystal Isanda"
                 class="quote-carousel__image rounded-full object-cover size-14"
-                src="/images/graduates/crystal.jpeg"
+                src="/images/graduates/crystal.webp"
               />
               <div
                 class="quote-carousel__author-name mt-1"
@@ -1068,7 +1068,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
               <img
                 alt="Vipul Gupta"
                 class="quote-carousel__image rounded-full object-cover size-14"
-                src="/images/graduates/vipul.png"
+                src="/images/graduates/vipul.webp"
               />
               <div
                 class="quote-carousel__author-name mt-1"
@@ -1181,7 +1181,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
                         <img
                           alt="Craig Dickson"
                           class="size-full object-cover"
-                          src="/images/graduates/craig.png"
+                          src="/images/graduates/craig.webp"
                         />
                       </div>
                       <div
@@ -1225,7 +1225,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
                         <img
                           alt="Crystal Isanda"
                           class="size-full object-cover"
-                          src="/images/graduates/crystal.jpeg"
+                          src="/images/graduates/crystal.webp"
                         />
                       </div>
                       <div
@@ -1269,7 +1269,7 @@ exports[`FutureOfAiLander > renders as expected 1`] = `
                         <img
                           alt="Vipul Gupta"
                           class="size-full object-cover"
-                          src="/images/graduates/vipul.png"
+                          src="/images/graduates/vipul.webp"
                         />
                       </div>
                       <div
