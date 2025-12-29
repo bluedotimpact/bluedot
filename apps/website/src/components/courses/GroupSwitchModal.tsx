@@ -481,8 +481,8 @@ export const buildAvailabilityFormUrl = ({
     params.set('prefill_timezone', availabilityTimezone);
   }
 
-  // Only include comments if they won't make the URL too long
-  if (availabilityComments && availabilityComments.length <= 2000) {
+  // Only include comments if they won't make the URL too long (2000 chars overall is generally considered safe)
+  if (availabilityComments && availabilityComments.length <= 1500) {
     params.set('prefill_comment', availabilityComments);
   }
 
