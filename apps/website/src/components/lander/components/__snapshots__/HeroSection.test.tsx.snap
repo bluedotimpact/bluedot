@@ -73,13 +73,14 @@ exports[`HeroSection > renders dark variant correctly (snapshot) 1`] = `
     style="background: #0a284c;"
   >
     <div
-      class="relative max-w-max-width mx-auto px-8 min-[1024px]:px-spacing-x"
+      class="relative max-w-max-width mx-auto px-8 min-[1024px]:pl-[80px] min-[1024px]:pr-0"
     >
       <div
-        class="flex flex-col items-center gap-8 py-8 min-[1024px]:hidden"
+        class="flex flex-col items-center gap-8 pt-[calc(var(--nav-height-mobile)+32px)] pb-8 min-[680px]:pt-[calc(var(--nav-height-mobile)+48px)] min-[1024px]:hidden"
       >
         <div
-          class="flex items-center justify-center size-[280px] min-[680px]:size-[400px]"
+          class="flex items-center justify-center w-[280px] min-[680px]:w-[400px]"
+          style="aspect-ratio: 1 / 1;"
         >
           <img
             alt="AGI Strategy visualization"
@@ -136,7 +137,7 @@ exports[`HeroSection > renders dark variant correctly (snapshot) 1`] = `
         class="hidden min-[1024px]:block"
       >
         <div
-          class="w-1/2 min-h-[600px] flex items-center pt-[var(--nav-height-desktop)]"
+          class="w-1/2 min-h-[600px] flex items-center pt-[var(--nav-height-desktop)] pr-[24px] min-[1280px]:pr-[152px]"
         >
           <div
             class="w-full max-w-[512px] space-y-8"
