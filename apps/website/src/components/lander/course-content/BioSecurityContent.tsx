@@ -14,6 +14,13 @@ import { CourseLanderContent } from '../CourseLander';
 
 export const BIOSECURITY_APPLICATION_URL = 'https://web.miniextensions.com/aHs5xwcmFOE2nbMf0zaY';
 
+const BIOSECURITY_COLORS = {
+  gradient: 'linear-gradient(135deg, #012A07 10%, rgba(1, 42, 7, 0.00) 90%), radial-gradient(110.09% 127.37% at 112.15% 117.08%, rgba(220, 238, 171, 0.45) 0%, rgba(86, 140, 94, 0.45) 50%, rgba(1, 42, 7, 0.45) 100%), radial-gradient(97.29% 122.23% at 85.59% 126.89%, rgba(222, 149, 47, 0.35) 0%, rgba(157, 205, 98, 0.35) 52.4%, rgba(28, 175, 141, 0.35) 100%), #012A07',
+  accent: '#ABEEB5',
+  categoryLabel: '#81DBAF',
+  iconBackground: '#316761',
+};
+
 export const createBioSecurityContent = (
   applicationUrlWithUtm: string,
   courseSlug: string,
@@ -24,9 +31,12 @@ export const createBioSecurityContent = (
   },
 
   hero: {
-    categoryLabel: 'BIOSECURITY',
-    title: 'Start building towards a pandemic-proof world',
-    description: 'Understand current efforts to prevent, detect and respond to pandemic threats. Identify where you can contribute. Get funded to start building. All in 30 hours.',
+    gradient: BIOSECURITY_COLORS.gradient,
+    accentColor: BIOSECURITY_COLORS.accent,
+    categoryLabelColor: BIOSECURITY_COLORS.categoryLabel,
+    categoryLabel: 'COHORT-BASED COURSE',
+    title: 'Biosecurity',
+    description: 'Start building towards a pandemic-proof world:\nUnderstand current efforts to prevent, detect and respond\n to pandemic threats. Identify where you can contribute.\n Get funded to start building. All in 30 hours.',
     primaryCta: {
       text: 'Apply now',
       url: applicationUrlWithUtm,
@@ -35,11 +45,13 @@ export const createBioSecurityContent = (
       text: 'Browse curriculum',
       url: `/courses/${courseSlug}/1/1`,
     },
-    imageSrc: '/images/lander/biosecurity/hero-banner-split.webp',
+    imageSrc: '/images/lander/biosecurity/hero-graphic.png',
     imageAlt: 'Biosecurity visualization',
+    imageAspectRatio: '1408/1122',
   },
 
   whoIsThisFor: {
+    iconBackgroundColor: BIOSECURITY_COLORS.iconBackground,
     title: 'Who this course is for',
     targetAudiences: [
       {

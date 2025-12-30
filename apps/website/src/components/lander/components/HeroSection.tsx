@@ -2,6 +2,7 @@ import { CTALinkOrButton, H1, P } from '@bluedot/ui';
 
 export type HeroSectionProps = {
   categoryLabel?: string;
+  categoryLabelColor?: string;
   title: string;
   description: string;
   primaryCta: { text: string; url: string };
@@ -16,6 +17,7 @@ export type HeroSectionProps = {
 // Main exported component
 const HeroSection = ({
   categoryLabel,
+  categoryLabelColor,
   title,
   description,
   primaryCta,
@@ -29,6 +31,7 @@ const HeroSection = ({
   const hasGradient = !!gradient;
   // Centered layout with constrained image sizing (for pixel-perfect Figma matching)
   const useConstrainedImageLayout = hasGradient && !!imageAspectRatio;
+  const effectiveCategoryLabelColor = categoryLabelColor || accentColor;
 
   const getLayoutType = () => {
     if (useConstrainedImageLayout) return 'constrained';
@@ -57,8 +60,8 @@ const HeroSection = ({
               <div className="space-y-4">
                 {categoryLabel && (
                   <p
-                    className="bluedot-p not-prose text-[14px] font-medium tracking-[0.28px] uppercase"
-                    style={{ color: accentColor }}
+                    className="bluedot-p not-prose text-[14px] font-medium tracking-[0.28px] leading-[1.6] uppercase"
+                    style={{ color: effectiveCategoryLabelColor }}
                   >
                     {categoryLabel}
                   </p>
@@ -66,7 +69,7 @@ const HeroSection = ({
                 <h1 className="text-[32px] min-[680px]:text-[40px] leading-tight font-semibold tracking-[-0.5px] text-white">
                   {title}
                 </h1>
-                <p className="text-[16px] min-[680px]:text-[18px] leading-[1.6] opacity-80 text-white">
+                <p className="text-[16px] min-[680px]:text-[18px] leading-[1.6] opacity-80 text-white whitespace-pre-line">
                   {description}
                 </p>
               </div>
@@ -98,13 +101,13 @@ const HeroSection = ({
 
           {/* Desktop: Side-by-side layout with absolute positioned image */}
           <div className="hidden min-[1024px]:block">
-            <div className="w-1/2 min-h-[600px] flex items-center pt-[var(--nav-height-desktop)] pr-[24px] min-[1280px]:pr-[152px]">
-              <div className="w-full max-w-[512px] space-y-8">
+            <div className="w-3/5 min-h-[600px] flex items-center pt-[var(--nav-height-desktop)] pr-[200px]">
+              <div className="w-full space-y-8">
                 <div className="space-y-4">
                   {categoryLabel && (
                     <p
-                      className="bluedot-p not-prose text-size-md font-semibold tracking-wide"
-                      style={{ color: accentColor }}
+                      className="bluedot-p not-prose text-[14px] font-medium tracking-[0.28px] leading-[1.6] uppercase"
+                      style={{ color: effectiveCategoryLabelColor }}
                     >
                       {categoryLabel}
                     </p>
@@ -112,7 +115,7 @@ const HeroSection = ({
                   <H1 className="text-[40px] xl:text-5xl leading-tight font-semibold tracking-[-0.5px] text-white">
                     {title}
                   </H1>
-                  <P className="text-size-lg leading-[1.6] opacity-80 text-white">
+                  <P className="text-size-md leading-[1.6] opacity-80 text-white whitespace-pre-line">
                     {description}
                   </P>
                 </div>
@@ -164,8 +167,8 @@ const HeroSection = ({
                 <div className="space-y-5 sm:space-y-4">
                   {categoryLabel && (
                     <p
-                      className="bluedot-p not-prose text-size-md font-semibold tracking-wide"
-                      style={{ color: accentColor }}
+                      className="bluedot-p not-prose text-[14px] font-medium tracking-[0.28px] leading-[1.6] uppercase"
+                      style={{ color: effectiveCategoryLabelColor }}
                     >
                       {categoryLabel}
                     </p>
@@ -175,7 +178,7 @@ const HeroSection = ({
                     {title}
                   </H1>
 
-                  <P className="text-size-sm sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed opacity-80 text-white">
+                  <P className="text-size-sm sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed opacity-80 text-white whitespace-pre-line">
                     {description}
                   </P>
                 </div>
@@ -223,16 +226,19 @@ const HeroSection = ({
                 {/* Text Content */}
                 <div className="space-y-5 sm:space-y-4">
                   {categoryLabel && (
-                    <P className="text-size-md font-semibold tracking-wide text-bluedot-normal">
+                    <p
+                      className="bluedot-p not-prose text-[14px] font-medium tracking-[0.28px] leading-[1.6] uppercase text-bluedot-normal"
+                      style={{ color: effectiveCategoryLabelColor }}
+                    >
                       {categoryLabel}
-                    </P>
+                    </p>
                   )}
 
                   <H1 className="text-[32px] sm:text-[40px] sm:leading-tight lg:text-[40px] xl:text-5xl leading-tight font-semibold tracking-[-0.5px] text-[#13132E]">
                     {title}
                   </H1>
 
-                  <P className="text-size-sm sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed opacity-80 text-[#13132E]">
+                  <P className="text-size-sm sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed opacity-80 text-[#13132E] whitespace-pre-line">
                     {description}
                   </P>
                 </div>
