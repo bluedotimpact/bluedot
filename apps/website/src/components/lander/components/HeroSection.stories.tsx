@@ -95,3 +95,26 @@ export const DarkTheme: Story = {
     accentColor: '#91cfff',
   },
 };
+
+// Biosecurity course with green gradient (light source from bottom-right)
+export const Biosecurity: Story = {
+  args: {
+    categoryLabel: 'COHORT-BASED COURSE',
+    title: 'Biosecurity',
+    description: 'Start building towards a pandemic-proof world: Understand current efforts to prevent, detect and respond to pandemic threats. Identify where you can contribute. Get funded to start building. All in 30 hours.',
+    primaryCta: {
+      text: 'Apply now',
+      url: 'https://example.com/apply',
+    },
+    secondaryCta: {
+      text: 'Browse curriculum',
+      url: '/courses/biosecurity/1/1',
+    },
+    imageSrc: '/images/lander/biosecurity/hero-graphic.png',
+    imageAlt: 'Biosecurity visualization',
+    imageAspectRatio: '1408/1122',
+    gradient: 'linear-gradient(135deg, #012A07 10%, rgba(1, 42, 7, 0.00) 90%), radial-gradient(110.09% 127.37% at 112.15% 117.08%, rgba(220, 238, 171, 0.45) 0%, rgba(86, 140, 94, 0.45) 50%, rgba(1, 42, 7, 0.45) 100%), radial-gradient(97.29% 122.23% at 85.59% 126.89%, rgba(222, 149, 47, 0.35) 0%, rgba(157, 205, 98, 0.35) 52.4%, rgba(28, 175, 141, 0.35) 100%), #012A07',
+    accentColor: '#ABEEB5',
+    categoryLabelColor: '#81DBAF',
+  },
+};

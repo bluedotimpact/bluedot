@@ -26,7 +26,7 @@ exports[`HeroSection > renders correctly (snapshot) 1`] = `
                 AGI Strategy – Learn how to navigate humanity's most critical decade
               </h1>
               <p
-                class="bluedot-p not-prose text-size-sm sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed opacity-80 text-[#13132E]"
+                class="bluedot-p not-prose text-size-sm sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed opacity-80 text-[#13132E] whitespace-pre-line"
               >
                 Artificial General Intelligence is moving from research to reality. Understand the race, the risks, and the strategic decisions that will shape economies, security, and our collective future.
               </p>
@@ -93,7 +93,7 @@ exports[`HeroSection > renders gradient variant correctly (snapshot) 1`] = `
               class="space-y-5 sm:space-y-4"
             >
               <p
-                class="bluedot-p not-prose text-size-md font-semibold tracking-wide"
+                class="bluedot-p not-prose text-[14px] font-medium tracking-[0.28px] leading-[1.6] uppercase"
                 style="color: #91cfff;"
               >
                 COHORT-BASED COURSE
@@ -104,7 +104,7 @@ exports[`HeroSection > renders gradient variant correctly (snapshot) 1`] = `
                 The Future of AI
               </h1>
               <p
-                class="bluedot-p not-prose text-size-sm sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed opacity-80 text-white"
+                class="bluedot-p not-prose text-size-sm sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed opacity-80 text-white whitespace-pre-line"
               >
                 Artificial General Intelligence is moving from research to reality. Understand the race, the risks, and the strategic decisions that will shape economies, security, and our collective future.
               </p>
