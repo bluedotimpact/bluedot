@@ -103,4 +103,35 @@ describe('CoursesContent', () => {
       expect(titles[2]).toHaveTextContent('Older Cert');
     });
   });
+
+  it('hides completed courses for facilitators', async () => {
+    const courses = [
+      createMockCourse({ id: 'course-1', title: 'Currently facilitating' }),
+      createMockCourse({ id: 'course-2', title: 'Facilitated in past' }),
+    ];
+
+    const registrations = [
+      createMockCourseRegistration({
+        id: 'reg-1', courseId: 'course-1', roundStatus: 'Active', certificateCreatedAt: null, role: 'Facilitator',
+      }),
+      createMockCourseRegistration({
+        id: 'reg-2', courseId: 'course-2', roundStatus: 'Past', certificateCreatedAt: null, role: 'Facilitator',
+      }),
+    ];
+
+    server.use(trpcMsw.courses.getAll.query(() => courses));
+    server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
+
+    render(<CoursesContent />, { wrapper: TrpcProvider });
+
+    await waitFor(() => {
+      const inProgressSection = screen.getByLabelText('In Progress courses');
+      const inProgressTitles = inProgressSection.querySelectorAll('[data-testid="course-row"]');
+
+      expect(inProgressTitles[0]).toHaveTextContent('Currently facilitating');
+
+      const completedSection = screen.queryAllByLabelText('Completed courses');
+      expect(completedSection).toHaveLength(0);
+    });
+  });
 });
