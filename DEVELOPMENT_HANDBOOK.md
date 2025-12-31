@@ -281,7 +281,7 @@ You should generally aim to get all images under 200kB. This is usually achievab
 
 3. **Update references** in code to use the new `.webp` filename and delete the old version.
 
-4. **(Optional) For hero/banner images** that appear above the fold, add `fetchPriority="high"` to the `<img>` tag to improve Largest Contentful Paint. *Don't* do this if the image doesn't appear above the fold.
+4. **(Optional) For hero/banner images** that appear above the fold, add `{...{ fetchpriority: 'high' }}` to the `<img>` tag to improve Largest Contentful Paint. *Don't* do this if the image doesn't appear above the fold.
 
 If you don't have ImageMagick installed, run `brew install imagemagick` on mac.
 
