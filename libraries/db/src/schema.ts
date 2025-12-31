@@ -533,6 +533,16 @@ export const meetPersonTable = pgAirtable('meet_person', {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fld1ICMPmCd5y7B17',
     },
+    /** URL to the course feedback form (includes prefill_ parameters for this specific user) */
+    courseFeedbackForm: {
+      pgColumn: text(),
+      airtableId: 'fldCLOXf2tv3g46ea',
+    },
+    /** Linked records to Course feedback table. If non-empty, feedback has been submitted */
+    courseFeedback: {
+      pgColumn: text().array(),
+      airtableId: 'fldD7uatp5h4szlzB',
+    },
   },
 });
 
