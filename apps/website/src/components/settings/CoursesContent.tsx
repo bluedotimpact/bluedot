@@ -15,6 +15,8 @@ const CoursesContent = () => {
 
   const { data: courses, isLoading: coursesLoading, error: coursesError } = trpc.courses.getAll.useQuery();
 
+  const isCompleted = (reg: CourseRegistration) => reg.roundStatus !== 'Active';
+
   // Combine courses and enrollments
   const enrolledCourses = (courseRegistrations || [])
     .filter((reg) => reg.roundStatus === 'Active' || reg.roundStatus === 'Past' || reg.certificateCreatedAt)
@@ -23,17 +25,18 @@ const CoursesContent = () => {
       return course ? [{ course, courseRegistration }] : [];
     })
     .flat();
+  const enrolledCoursesToDisplay = enrolledCourses
+    // Don't show completed courses for facilitators, they don't get certificates
+    .filter(({ courseRegistration }) => !(isCompleted(courseRegistration) && courseRegistration.role === 'Facilitator'));
 
   // Group courses by status
-  const isCompleted = (reg: CourseRegistration) => reg.roundStatus !== 'Active';
-
-  const completedCourses = enrolledCourses
+  const completedCourses = enrolledCoursesToDisplay
     .filter(({ courseRegistration }) => isCompleted(courseRegistration))
     // No-cert courses first (to nudge user to complete), then by completion date descending
     .sort((a, b) => (b.courseRegistration.certificateCreatedAt ?? Infinity) - (a.courseRegistration.certificateCreatedAt ?? Infinity));
 
   // In-progress: everything else (Active + no certificate)
-  const inProgressCourses = enrolledCourses.filter(({ courseRegistration }) => !isCompleted(courseRegistration));
+  const inProgressCourses = enrolledCoursesToDisplay.filter(({ courseRegistration }) => !isCompleted(courseRegistration));
 
   const loading = courseRegistrationsLoading || coursesLoading;
   const error = courseRegistrationsError || coursesError;
@@ -88,7 +91,7 @@ const CoursesContent = () => {
 
       </div>
 
-      {enrolledCourses.length === 0 && (
+      {enrolledCoursesToDisplay.length === 0 && (
         <div className="flex flex-col gap-4 mt-4">
           <P>You haven't started any courses yet</P>
           <CTALinkOrButton url={ROUTES.courses.url}>Join a course</CTALinkOrButton>
