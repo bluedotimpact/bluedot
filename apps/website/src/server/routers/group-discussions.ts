@@ -51,7 +51,6 @@ export const groupDiscussionsRouter = router({
         const invalidIds = rawDiscussions.filter((d) => !validDiscussions.includes(d)).map((d) => d.id);
         const errorMessage = `Discussions missing unit reference: ${invalidIds.join(', ')}`;
         logger.error(errorMessage);
-        await slackAlert(env, [errorMessage]);
       }
 
       if (validDiscussions.length === 0) {
