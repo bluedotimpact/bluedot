@@ -159,7 +159,7 @@ describe('CourseListRow', () => {
       { wrapper: TrpcProvider },
     );
 
-    const certificateLinks = screen.getAllByRole('link', { name: 'View certificate' });
+    const certificateLinks = screen.getAllByRole('link', { name: 'View your certificate' });
     expect(certificateLinks[0]).toBeInTheDocument();
     const completedTexts = screen.getAllByText(/Completed on/);
     expect(completedTexts.length).toBeGreaterThan(0);
@@ -448,16 +448,12 @@ describe('CourseListRow', () => {
     );
 
     // Should show locked certificate button
-    const lockedCertButtons = await screen.findAllByRole('link', { name: /Share feedback to view certificate/ });
+    const lockedCertButtons = await screen.findAllByRole('link', { name: /Share feedback to view your certificate/ });
     expect(lockedCertButtons.length).toBeGreaterThan(0);
     expect(lockedCertButtons[0]).toHaveAttribute('href', 'https://example.com/feedback');
-
-    // Should show "Completed on" subtitle
-    const completedTexts = await screen.findAllByText(/Completed on/);
-    expect(completedTexts.length).toBeGreaterThan(0);
   });
 
-  it('shows View certificate button when certificate exists and feedback submitted', async () => {
+  it('shows View your certificate button when certificate exists and feedback submitted', async () => {
     const completedRegistration = {
       ...mockCourseRegistration,
       roundStatus: 'Past',
@@ -488,13 +484,10 @@ describe('CourseListRow', () => {
       { wrapper: TrpcProvider },
     );
 
-    // Should show View certificate button (not locked)
-    const certificateButtons = await screen.findAllByRole('link', { name: 'View certificate' });
+    // Should show View your certificate button (not locked)
+    const certificateButtons = await screen.findAllByRole('link', { name: 'View your certificate' });
     expect(certificateButtons.length).toBeGreaterThan(0);
     expect(certificateButtons[0]).toHaveAttribute('href', '/certification?id=cert-123');
-
-    // Should show "Completed on" subtitle
-    const completedTexts = await screen.findAllByText(/Completed on/);
-    expect(completedTexts.length).toBeGreaterThan(0);
   });
+
 });

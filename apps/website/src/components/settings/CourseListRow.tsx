@@ -167,7 +167,7 @@ const CourseListRow = ({
             </div>
 
             {/* Bottom row: Action buttons */}
-            {!isExpanded && ctaButtons && (
+            {!isExpanded && ctaButtons.length > 0 && (
               <div
                 className="flex gap-2"
                 onClick={(e) => e.stopPropagation()}
@@ -199,7 +199,7 @@ const CourseListRow = ({
               role="presentation"
             >
               {/* Show buttons when collapsed on desktop */}
-              {!isExpanded && ctaButtons}
+              {!isExpanded && ctaButtons.length > 0 && ctaButtons}
 
               {/* Expand/collapse button */}
               <button
@@ -281,51 +281,51 @@ const getCtaButtons = ({
   nextDiscussion: GroupDiscussion | undefined;
   currentTimeMs: number;
   isLoading: boolean;
-}): ReactNode => {
+}): ReactNode[] => {
   const feedbackFormUrl = meetPerson?.courseFeedbackForm;
   const hasSubmittedFeedback = (meetPerson?.courseFeedback?.length ?? 0) > 0;
   const hasSubmittedActionPlan = (meetPerson?.projectSubmission?.length ?? 0) > 0;
   const requiresActionPlan = COURSE_CONFIG[course.slug]?.certificateRequiresActionPlan;
 
-  // Certificate exists
+  // Certificate exists but feedback not yet submitted: show locked certificate button linking to feedback form
+  if (courseRegistration.certificateCreatedAt && !hasSubmittedFeedback && feedbackFormUrl) {
+    return [(
+      <CTALinkOrButton
+        key="locked-cert"
+        variant="black"
+        size="small"
+        url={feedbackFormUrl}
+        target="_blank"
+        className="w-full sm:w-auto gap-1.5"
+      >
+        <FaLock className="-translate-y-[2px]" />
+        Share feedback to view your certificate
+      </CTALinkOrButton>
+    )];
+  }
+
+  // Certificate exists and feedback submitted (or no feedback form): show view certificate button
   if (courseRegistration.certificateCreatedAt) {
     const certificateUrl = courseRegistration.certificateId
       ? addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)
       : course.path;
 
-    // Feedback not submitted - show locked certificate button
-    if (!hasSubmittedFeedback && feedbackFormUrl) {
-      return (
-        <CTALinkOrButton
-          variant="black"
-          size="small"
-          url={feedbackFormUrl}
-          target="_blank"
-          className="w-full sm:w-auto"
-        >
-          <FaLock className="size-3 mr-1.5 -mt-px" />
-          Share feedback to view certificate
-        </CTALinkOrButton>
-      );
-    }
-
-    // Feedback submitted (or no feedback form) - show view certificate
-    return (
+    return [(
       <CTALinkOrButton
+        key="view-cert"
         variant="black"
         size="small"
         url={certificateUrl}
         className="w-full sm:w-auto"
       >
-        View certificate
+        View your certificate
       </CTALinkOrButton>
-    );
+    )];
   }
 
-  if (isLoading) return null;
+  if (isLoading) return [];
 
-  // Course still in progress - show discussion buttons
-  if (nextDiscussion) {
+  if (courseRegistration.roundStatus === 'Active' && nextDiscussion) {
     const nextDiscussionTimeState = getDiscussionTimeState({ discussion: nextDiscussion, currentTimeMs });
     const isNextDiscussionSoonOrLive = nextDiscussionTimeState === 'soon' || nextDiscussionTimeState === 'live';
 
@@ -338,8 +338,9 @@ const getCtaButtons = ({
     }
     const disabled = !nextDiscussion.zoomLink && isNextDiscussionSoonOrLive;
 
-    return (
+    return [(
       <CTALinkOrButton
+        key="discussion"
         variant="primary"
         size="small"
         url={buttonUrl}
@@ -349,15 +350,12 @@ const getCtaButtons = ({
       >
         {buttonText}
       </CTALinkOrButton>
-    );
+    )];
   }
 
-  // Course completed (roundStatus === 'Past'), no certificate yet
-  // Show feedback button + action plan button (if applicable)
   if (courseRegistration.roundStatus === 'Past') {
     const buttons: ReactNode[] = [];
 
-    // Share feedback button (shown if feedback form exists and not yet submitted)
     if (feedbackFormUrl && !hasSubmittedFeedback) {
       buttons.push(
         <CTALinkOrButton
@@ -378,13 +376,18 @@ const getCtaButtons = ({
       if (hasSubmittedActionPlan) {
         // Action plan submitted - show filled checkmark button (non-interactive)
         buttons.push(
-          <span
+          <CTALinkOrButton
             key="action-plan"
-            className="inline-flex items-center justify-center whitespace-nowrap text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold bg-bluedot-darker text-white w-full sm:w-auto"
+            variant="black"
+            size="small"
+            disabled
+            className="w-full sm:w-auto disabled:opacity-100"
           >
-            <FaCheck className="size-3 mr-1.5 -mt-px" />
             Action plan submitted
-          </span>,
+            <span className="inline-flex items-center justify-center size-3.5 bg-white rounded-full ml-1.5">
+              <FaCheck className="size-1.5 text-bluedot-darker" />
+            </span>
+          </CTALinkOrButton>,
         );
       } else if (meetPerson) {
         // Action plan NOT submitted - show submit button
@@ -403,12 +406,10 @@ const getCtaButtons = ({
       }
     }
 
-    if (buttons.length > 0) {
-      return <>{buttons}</>;
-    }
+    return buttons;
   }
 
-  return null;
+  return [];
 };
 
 const getSubtitle = ({

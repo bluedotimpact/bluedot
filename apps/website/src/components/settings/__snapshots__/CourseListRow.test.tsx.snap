@@ -83,7 +83,7 @@ exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
               href="/certification?id=cert-123"
               tabindex="0"
             >
-              View certificate
+              View your certificate
             </a>
           </div>
         </div>
@@ -131,7 +131,7 @@ exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
               href="/certification?id=cert-123"
               tabindex="0"
             >
-              View certificate
+              View your certificate
             </a>
             <button
               aria-expanded="false"
