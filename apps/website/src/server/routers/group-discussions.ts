@@ -8,11 +8,9 @@ import {
   zoomAccountTable,
 } from '@bluedot/db';
 import { logger } from '@bluedot/ui/src/api';
-import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
-import env from '../../lib/api/env';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 
