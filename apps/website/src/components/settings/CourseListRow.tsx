@@ -2,7 +2,7 @@ import { useState, useEffect, ReactNode } from 'react';
 import {
   CTALinkOrButton, addQueryParam, useCurrentTimeMs, cn,
 } from '@bluedot/ui';
-import { FaCheck } from 'react-icons/fa6';
+import { FaCheck, FaLock } from 'react-icons/fa6';
 import { Course, CourseRegistration, MeetPerson } from '@bluedot/db';
 import { skipToken } from '@tanstack/react-query';
 import CourseDetails from './CourseDetails';
@@ -20,18 +20,22 @@ type CourseListRowProps = {
   isFirst: boolean;
   isLast: boolean;
   startExpanded?: boolean;
+  /** For testing: override the meetPerson data instead of fetching from tRPC */
+  mockMeetPerson?: MeetPerson | null;
 };
 
 const CourseListRow = ({
-  course, courseRegistration, isFirst = false, isLast = false, startExpanded = false,
+  course, courseRegistration, isFirst = false, isLast = false, startExpanded = false, mockMeetPerson,
 }: CourseListRowProps) => {
   const [isExpanded, setIsExpanded] = useState(startExpanded);
   const currentTimeMs = useCurrentTimeMs();
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
 
-  const { data: meetPerson, isLoading: isMeetPersonLoading } = trpc.meetPerson.getByCourseRegistrationId.useQuery(
+  const { data: fetchedMeetPerson, isLoading: isMeetPersonLoading } = trpc.meetPerson.getByCourseRegistrationId.useQuery(
     { courseRegistrationId: courseRegistration.id },
+    { enabled: mockMeetPerson === undefined },
   );
+  const meetPerson = mockMeetPerson !== undefined ? mockMeetPerson : fetchedMeetPerson;
 
   // Only fetch expected discussions for the list row
   // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
@@ -78,7 +82,7 @@ const CourseListRow = ({
   );
   const nextDiscussion = upcomingDiscussions[0];
 
-  const primaryCtaButton = getPrimaryCtaButton({
+  const ctaButtons = getCtaButtons({
     course,
     courseRegistration,
     meetPerson,
@@ -88,7 +92,6 @@ const CourseListRow = ({
   });
 
   const subtitle = getSubtitle({
-    course,
     courseRegistration,
     meetPerson,
     expectedDiscussions,
@@ -164,14 +167,14 @@ const CourseListRow = ({
             </div>
 
             {/* Bottom row: Action buttons */}
-            {!isExpanded && primaryCtaButton && (
+            {!isExpanded && ctaButtons && (
               <div
-                className="flex"
+                className="flex gap-2"
                 onClick={(e) => e.stopPropagation()}
                 onKeyDown={(e) => e.stopPropagation()}
                 role="presentation"
               >
-                {primaryCtaButton}
+                {ctaButtons}
               </div>
             )}
           </div>
@@ -190,13 +193,13 @@ const CourseListRow = ({
 
             {/* Actions */}
             <div
-              className="flex items-center gap-3 flex-shrink-0"
+              className="flex items-center gap-2 flex-shrink-0"
               onClick={(e) => e.stopPropagation()}
               onKeyDown={(e) => e.stopPropagation()}
               role="presentation"
             >
-              {/* Show primary button when collapsed on desktop */}
-              {!isExpanded && primaryCtaButton}
+              {/* Show buttons when collapsed on desktop */}
+              {!isExpanded && ctaButtons}
 
               {/* Expand/collapse button */}
               <button
@@ -264,36 +267,7 @@ function getMaxUnitNumber(discussions: GroupDiscussion[]): number | null {
   return unitNumbers.length > 0 ? Math.max(...unitNumbers) : null;
 }
 
-const getCertificateEligibility = ({
-  courseSlug,
-  uniqueDiscussionAttendance,
-  numUnits,
-  hasSubmittedActionPlan,
-}: {
-  courseSlug: string;
-  uniqueDiscussionAttendance: number | null | undefined;
-  numUnits: number | null | undefined;
-  hasSubmittedActionPlan: boolean;
-}): { isEligible: boolean; reason: 'low-attendance' | 'missing-action-plan' | null } => {
-  // If we are missing info about their attendance, assume they are eligible
-  // and allow downstream code to handle their certificate being missing in the most generic way
-  if (uniqueDiscussionAttendance === null || uniqueDiscussionAttendance === undefined || numUnits === null || numUnits === undefined) {
-    return { isEligible: true, reason: null };
-  }
-  const missedCount = numUnits - uniqueDiscussionAttendance;
-
-  // Low attendance takes precedence. There is no point submitting action plan if you haven't attended enough
-  if (numUnits > 0 && missedCount > 1) {
-    return { isEligible: false, reason: 'low-attendance' };
-  }
-  const requiresActionPlan = COURSE_CONFIG[courseSlug]?.certificateRequiresActionPlan;
-  if (requiresActionPlan && !hasSubmittedActionPlan) {
-    return { isEligible: false, reason: 'missing-action-plan' };
-  }
-  return { isEligible: true, reason: null };
-};
-
-const getPrimaryCtaButton = ({
+const getCtaButtons = ({
   course,
   courseRegistration,
   meetPerson,
@@ -308,23 +282,49 @@ const getPrimaryCtaButton = ({
   currentTimeMs: number;
   isLoading: boolean;
 }): ReactNode => {
+  const feedbackFormUrl = meetPerson?.courseFeedbackForm;
+  const hasSubmittedFeedback = (meetPerson?.courseFeedback?.length ?? 0) > 0;
+  const hasSubmittedActionPlan = (meetPerson?.projectSubmission?.length ?? 0) > 0;
+  const requiresActionPlan = COURSE_CONFIG[course.slug]?.certificateRequiresActionPlan;
+
+  // Certificate exists
   if (courseRegistration.certificateCreatedAt) {
+    const certificateUrl = courseRegistration.certificateId
+      ? addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)
+      : course.path;
+
+    // Feedback not submitted - show locked certificate button
+    if (!hasSubmittedFeedback && feedbackFormUrl) {
+      return (
+        <CTALinkOrButton
+          variant="black"
+          size="small"
+          url={feedbackFormUrl}
+          target="_blank"
+          className="w-full sm:w-auto"
+        >
+          <FaLock className="size-3 mr-1.5 -mt-px" />
+          Share feedback to view certificate
+        </CTALinkOrButton>
+      );
+    }
+
+    // Feedback submitted (or no feedback form) - show view certificate
     return (
       <CTALinkOrButton
         variant="black"
         size="small"
-        url={courseRegistration.certificateId
-          ? addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)
-          : course.path}
+        url={certificateUrl}
         className="w-full sm:w-auto"
       >
-        View your certificate
+        View certificate
       </CTALinkOrButton>
     );
   }
 
   if (isLoading) return null;
 
+  // Course still in progress - show discussion buttons
   if (nextDiscussion) {
     const nextDiscussionTimeState = getDiscussionTimeState({ discussion: nextDiscussion, currentTimeMs });
     const isNextDiscussionSoonOrLive = nextDiscussionTimeState === 'soon' || nextDiscussionTimeState === 'live';
@@ -352,32 +352,66 @@ const getPrimaryCtaButton = ({
     );
   }
 
-  // Show action plan button if they've attended enough but haven't submitted
-  const { reason } = getCertificateEligibility({
-    courseSlug: course.slug,
-    uniqueDiscussionAttendance: meetPerson?.uniqueDiscussionAttendance,
-    numUnits: meetPerson?.numUnits,
-    hasSubmittedActionPlan: !!(meetPerson?.projectSubmission && meetPerson.projectSubmission.length > 0),
-  });
-  if (reason === 'missing-action-plan' && meetPerson) {
-    return (
-      <CTALinkOrButton
-        variant="primary"
-        size="small"
-        url={getActionPlanUrl(meetPerson.id)}
-        target="_blank"
-        className="w-full sm:w-auto bg-bluedot-normal"
-      >
-        Submit your action plan
-      </CTALinkOrButton>
-    );
+  // Course completed (roundStatus === 'Past'), no certificate yet
+  // Show feedback button + action plan button (if applicable)
+  if (courseRegistration.roundStatus === 'Past') {
+    const buttons: ReactNode[] = [];
+
+    // Share feedback button (shown if feedback form exists and not yet submitted)
+    if (feedbackFormUrl && !hasSubmittedFeedback) {
+      buttons.push(
+        <CTALinkOrButton
+          key="feedback"
+          variant="outline-black"
+          size="small"
+          url={feedbackFormUrl}
+          target="_blank"
+          className="w-full sm:w-auto"
+        >
+          Share feedback
+        </CTALinkOrButton>,
+      );
+    }
+
+    // Action plan button (only for courses that require it)
+    if (requiresActionPlan) {
+      if (hasSubmittedActionPlan) {
+        // Action plan submitted - show filled checkmark button (non-interactive)
+        buttons.push(
+          <span
+            key="action-plan"
+            className="inline-flex items-center justify-center whitespace-nowrap text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold bg-bluedot-darker text-white w-full sm:w-auto"
+          >
+            <FaCheck className="size-3 mr-1.5 -mt-px" />
+            Action plan submitted
+          </span>,
+        );
+      } else if (meetPerson) {
+        // Action plan NOT submitted - show submit button
+        buttons.push(
+          <CTALinkOrButton
+            key="action-plan"
+            variant="black"
+            size="small"
+            url={getActionPlanUrl(meetPerson.id)}
+            target="_blank"
+            className="w-full sm:w-auto"
+          >
+            Submit action plan
+          </CTALinkOrButton>,
+        );
+      }
+    }
+
+    if (buttons.length > 0) {
+      return <>{buttons}</>;
+    }
   }
 
   return null;
 };
 
 const getSubtitle = ({
-  course,
   courseRegistration,
   meetPerson,
   expectedDiscussions,
@@ -385,7 +419,6 @@ const getSubtitle = ({
   isLoading,
   isNotInGroup,
 }: {
-  course: Course;
   courseRegistration: CourseRegistration;
   meetPerson: MeetPerson | null | undefined;
   expectedDiscussions: GroupDiscussion[];
@@ -422,26 +455,13 @@ const getSubtitle = ({
     return groupName;
   }
 
-  // Completed course without certificate, explain why
-  if (courseRegistration.roundStatus === 'Past' && !courseRegistration.certificateCreatedAt) {
+  // Completed course without certificate - show attendance count
+  if (courseRegistration.roundStatus === 'Past') {
     if (isLoading) return null;
 
-    const { reason } = getCertificateEligibility({
-      courseSlug: course.slug,
-      uniqueDiscussionAttendance: meetPerson?.uniqueDiscussionAttendance,
-      numUnits: meetPerson?.numUnits,
-      hasSubmittedActionPlan: !!(meetPerson?.projectSubmission && meetPerson.projectSubmission.length > 0),
-    });
-
-    if (reason === 'low-attendance') {
-      return 'To receive a certificate you can miss at most 1 discussion';
-    }
-    if (reason === 'missing-action-plan') {
-      return 'To receive a certificate you must submit your action plan';
-    }
-
-    const requiresActionPlan = COURSE_CONFIG[course.slug]?.certificateRequiresActionPlan;
-    return `To receive a certificate you can miss at most 1 discussion${requiresActionPlan ? ' and must submit your action plan' : ''}`;
+    const attended = meetPerson?.uniqueDiscussionAttendance ?? 0;
+    const total = meetPerson?.numUnits ?? 0;
+    return `You attended ${attended} out of ${total} discussions`;
   }
 
   if (isNotInGroup) {
