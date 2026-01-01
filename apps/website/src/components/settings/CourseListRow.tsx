@@ -84,6 +84,7 @@ const CourseListRow = ({
     meetPerson,
     nextDiscussion,
     currentTimeMs,
+    isExpanded,
     isLoading,
   });
 
@@ -194,8 +195,7 @@ const CourseListRow = ({
               onKeyDown={(e) => e.stopPropagation()}
               role="presentation"
             >
-              {/* Show buttons when collapsed on desktop */}
-              {!isExpanded && ctaButtons.length > 0 && ctaButtons}
+              {ctaButtons.length > 0 && ctaButtons}
 
               {/* Expand/collapse button */}
               <button
@@ -269,6 +269,7 @@ const getCtaButtons = ({
   meetPerson,
   nextDiscussion,
   currentTimeMs,
+  isExpanded,
   isLoading,
 }: {
   course: Course;
@@ -276,6 +277,7 @@ const getCtaButtons = ({
   meetPerson: MeetPerson | null | undefined;
   nextDiscussion: GroupDiscussion | undefined;
   currentTimeMs: number;
+  isExpanded: boolean;
   isLoading: boolean;
 }): ReactNode[] => {
   const feedbackFormUrl = meetPerson?.courseFeedbackForm;
@@ -321,7 +323,8 @@ const getCtaButtons = ({
 
   if (isLoading) return [];
 
-  if (courseRegistration.roundStatus === 'Active' && nextDiscussion) {
+  // Join or prepare link for next discussion: Hide if expanded because the button is repeated below
+  if (courseRegistration.roundStatus === 'Active' && !isExpanded && nextDiscussion) {
     const nextDiscussionTimeState = getDiscussionTimeState({ discussion: nextDiscussion, currentTimeMs });
     const isNextDiscussionSoonOrLive = nextDiscussionTimeState === 'soon' || nextDiscussionTimeState === 'live';
 
