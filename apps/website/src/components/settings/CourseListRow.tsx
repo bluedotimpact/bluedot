@@ -20,22 +20,18 @@ type CourseListRowProps = {
   isFirst: boolean;
   isLast: boolean;
   startExpanded?: boolean;
-  /** For testing: override the meetPerson data instead of fetching from tRPC */
-  mockMeetPerson?: MeetPerson | null;
 };
 
 const CourseListRow = ({
-  course, courseRegistration, isFirst = false, isLast = false, startExpanded = false, mockMeetPerson,
+  course, courseRegistration, isFirst = false, isLast = false, startExpanded = false,
 }: CourseListRowProps) => {
   const [isExpanded, setIsExpanded] = useState(startExpanded);
   const currentTimeMs = useCurrentTimeMs();
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
 
-  const { data: fetchedMeetPerson, isLoading: isMeetPersonLoading } = trpc.meetPerson.getByCourseRegistrationId.useQuery(
+  const { data: meetPerson, isLoading: isMeetPersonLoading } = trpc.meetPerson.getByCourseRegistrationId.useQuery(
     { courseRegistrationId: courseRegistration.id },
-    { enabled: mockMeetPerson === undefined },
   );
-  const meetPerson = mockMeetPerson !== undefined ? mockMeetPerson : fetchedMeetPerson;
 
   // Only fetch expected discussions for the list row
   // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
