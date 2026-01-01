@@ -1,8 +1,9 @@
 import { useState, useEffect, ReactNode } from 'react';
 import {
   CTALinkOrButton, addQueryParam, useCurrentTimeMs, cn,
+  Tooltip,
 } from '@bluedot/ui';
-import { FaCheck, FaLock } from 'react-icons/fa6';
+import { FaCheck, FaCircleInfo, FaLock } from 'react-icons/fa6';
 import { Course, CourseRegistration, MeetPerson } from '@bluedot/db';
 import { skipToken } from '@tanstack/react-query';
 import CourseDetails from './CourseDetails';
@@ -125,6 +126,7 @@ const CourseListRow = ({
             <div className="flex items-start gap-3">
               {/* Content */}
               <div className="flex-1 min-w-0">
+                {/* TODO do mobile tooltip */}
                 <h3 className="font-semibold text-size-md text-black text-pretty">{course.title}</h3>
                 {subtitle && (
                   <p className="flex items-center gap-1.5 mt-1.5 text-size-xs font-medium text-gray-500 leading-4">
@@ -180,7 +182,7 @@ const CourseListRow = ({
           <div className="hidden sm:flex items-center gap-4">
             {/* Content */}
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-size-base text-gray-900 leading-normal">{course.title}</h3>
+              <h3 className="font-semibold text-size-base text-gray-900 leading-normal">{course.title} <Tooltip content="instructions for getting cert"><FaCircleInfo /></Tooltip></h3>
               {subtitle && (
                 <p className="flex items-center gap-1.5 mt-0.5 text-size-xs font-medium text-gray-500 leading-4">
                   {subtitle}
