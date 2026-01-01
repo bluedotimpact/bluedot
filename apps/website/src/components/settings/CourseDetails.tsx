@@ -91,7 +91,7 @@ const CourseDetailsRow = ({
       variant: 'secondary',
       url: discussionDocLink,
       target: '_blank',
-      isVisible: discussionIsSoonOrLive || isFacilitator,
+      isVisible: !isPast && (discussionIsSoonOrLive || isFacilitator),
       overflowIcon: <DocumentIcon className="mx-auto" />,
     },
     {
