@@ -295,7 +295,7 @@ const getCtaButtons = ({
         className="w-full sm:w-auto gap-1.5"
       >
         <FaLock className="-translate-y-[2px]" />
-        Share feedback to view your certificate
+        <span>Share feedback to view your certificate</span>
       </CTALinkOrButton>
     )];
   }
@@ -377,10 +377,10 @@ const getCtaButtons = ({
             variant="black"
             size="small"
             disabled
-            className="w-full sm:w-auto disabled:opacity-100"
+            className="w-full sm:w-auto disabled:opacity-100 gap-1.5"
           >
-            Action plan submitted
-            <span className="inline-flex items-center justify-center size-3.5 bg-white rounded-full ml-1.5">
+            <span>Action plan submitted</span>
+            <span className="inline-flex -translate-y-px items-center justify-center size-3.5 bg-white rounded-full">
               <FaCheck className="size-1.5 text-bluedot-darker" />
             </span>
           </CTALinkOrButton>,
