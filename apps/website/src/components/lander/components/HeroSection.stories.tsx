@@ -136,7 +136,6 @@ export const AgiStrategy: Story = {
   },
 };
 
-
 // Technical AI Safety gradient hero with constrained image layout
 export const TechnicalAISafety: Story = {
   args: {
