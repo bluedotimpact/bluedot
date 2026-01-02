@@ -25,6 +25,7 @@ exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
                 class="font-semibold text-size-md text-black text-pretty"
               >
                 Introduction to AI Safety
+                 
               </h3>
               <p
                 class="flex items-center gap-1.5 mt-1.5 text-size-xs font-medium text-gray-500 leading-4"
@@ -97,6 +98,7 @@ exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
               class="font-semibold text-size-base text-gray-900 leading-normal"
             >
               Introduction to AI Safety
+               
             </h3>
             <p
               class="flex items-center gap-1.5 mt-0.5 text-size-xs font-medium text-gray-500 leading-4"
@@ -189,6 +191,7 @@ exports[`CourseListRow > renders in-progress course correctly (snapshot) 1`] = `
                 class="font-semibold text-size-md text-black text-pretty"
               >
                 Introduction to AI Safety
+                 
               </h3>
             </div>
             <button
@@ -226,6 +229,7 @@ exports[`CourseListRow > renders in-progress course correctly (snapshot) 1`] = `
               class="font-semibold text-size-base text-gray-900 leading-normal"
             >
               Introduction to AI Safety
+               
             </h3>
           </div>
           <div
