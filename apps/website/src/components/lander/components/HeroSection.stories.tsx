@@ -141,7 +141,7 @@ export const TechnicalAISafety: Story = {
   args: {
     categoryLabel: 'COHORT-BASED COURSE',
     title: 'Technical AI Safety',
-    description: 'Make a technical contribution to AI safety in 30 hours. Work with an AI safety expert to contribute to AI safety research or engineering.',
+    description: 'Understand current safety techniques. Map the gaps. Identify where you can contribute. All in 30 hours.',
     primaryCta: {
       text: 'Apply now',
       url: 'https://example.com/apply',
