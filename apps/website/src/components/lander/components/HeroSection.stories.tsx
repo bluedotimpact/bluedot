@@ -118,3 +118,24 @@ export const Biosecurity: Story = {
     categoryLabelColor: '#81DBAF',
   },
 };
+
+export const AgiStrategy: Story = {
+  args: {
+    categoryLabel: 'COHORT-BASED COURSE',
+    title: 'AGI Strategy',
+    description: 'Start building the defences that protect humanity: Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours.',
+    primaryCta: {
+      text: 'Apply now',
+      url: 'https://example.com/apply',
+    },
+    secondaryCta: {
+      text: 'Browse curriculum',
+      url: '/courses/agi-strategy/1/1',
+    },
+    imageSrc: '/images/lander/agi-strategy/hero-graphic.png',
+    imageAlt: 'AGI Strategy visualization',
+    imageAspectRatio: '1408/1122',
+    gradient: '#051944',
+    accentColor: '#BCA9FF',
+  },
+};
