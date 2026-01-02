@@ -43,12 +43,13 @@ const Exercise: React.FC<ExerciseProps> = ({
     },
   });
 
+  // TODO convert parameters to destruction object
   const handleExerciseSubmit = async (exerciseResponse: string, completed?: boolean) => {
     // Use mutateAsync to ensure the mutation completes and cache updates before UI re-renders with the new response
     await saveResponseMutation.mutateAsync({
       exerciseId,
       response: exerciseResponse,
-      completed: completed ?? true,
+      completed, // undefined means "don't change", backend preserves existing value
     });
   };
 
@@ -73,6 +74,7 @@ const Exercise: React.FC<ExerciseProps> = ({
           description={exerciseData.description || ''}
           title={exerciseData.title || ''}
           exerciseResponse={responseData?.response}
+          isCompleted={responseData?.completed ?? false}
           isLoggedIn={!!auth}
           onExerciseSubmit={handleExerciseSubmit}
         />
