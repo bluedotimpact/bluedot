@@ -1,5 +1,6 @@
 import React from 'react';
 import { RiLoader4Line } from 'react-icons/ri';
+import { UndoIcon } from '../../icons/UndoIcon';
 
 type SaveStatus = 'idle' | 'typing' | 'saving' | 'saved' | 'error';
 
@@ -121,16 +122,7 @@ const getStatusConfig = (savedText: string): Record<SaveStatus, {
           }}
         >
           Retry
-          <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g clipPath="url(#clip0_955_5635)">
-              <path d="M2 3.49994V6.49994M2 6.49994H5M2 6.49994L4.61063 4.11056C5.37508 3.34625 6.34782 2.82415 7.40729 2.60951C8.46677 2.39487 9.56601 2.4972 10.5677 2.90372C11.5693 3.31024 12.429 4.00291 13.0392 4.8952C13.6494 5.78749 13.9832 6.83982 13.9988 7.92071C14.0144 9.0016 13.7111 10.0631 13.1268 10.9726C12.5426 11.8821 11.7033 12.5993 10.7137 13.0345C9.72422 13.4698 8.62838 13.6037 7.56316 13.4197C6.49793 13.2357 5.51055 12.7419 4.72438 11.9999" stroke="#13132E" strokeWidth="1.25" strokeLinecap="square" />
-            </g>
-            <defs>
-              <clipPath id="clip0_955_5635">
-                <rect width="16" height="16" fill="white" transform="translate(0.5)" />
-              </clipPath>
-            </defs>
-          </svg>
+          <UndoIcon className="text-[#13132E] ml-0.5" />
         </button>
       </span>
     ),

@@ -36,7 +36,7 @@ export const exercisesRouter = router({
           id: exerciseResponse.id,
           exerciseId: input.exerciseId,
           response: input.response,
-          completed: input.completed ?? exerciseResponse.completed, // preserve existing completion status when not explicitly provided
+          completed: input.completed ?? exerciseResponse.completed,
         });
       }
 

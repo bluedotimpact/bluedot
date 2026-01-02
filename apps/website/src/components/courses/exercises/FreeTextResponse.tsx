@@ -1,5 +1,4 @@
-import clsx from 'clsx';
-import { CTALinkOrButton } from '@bluedot/ui';
+import { cn, CTALinkOrButton } from '@bluedot/ui';
 import React, {
   useCallback, useEffect,
   useState,
@@ -66,7 +65,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             aria-label={`Mark as ${isCompleted ? 'incomplete' : 'complete'}`}
-            className={clsx(
+            className={cn(
               'size-6 rounded-full flex items-center justify-center p-0 transition-all duration-300 box-border',
               isDisabled ? 'cursor-not-allowed' : 'cursor-pointer',
               isCompleted && 'bg-bluedot-normal border-none',
@@ -81,7 +80,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
         </div>
       )}
 
-      <div className={clsx('container-lined bg-white p-8 flex flex-col gap-6', className)}>
+      <div className={cn('container-lined bg-white p-8 flex flex-col gap-6', className)}>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <p className="bluedot-h4 not-prose">{title}</p>
@@ -119,11 +118,9 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
                 type="button"
                 onClick={handleMarkComplete}
                 disabled={isDisabled}
-                className={clsx(
-                  'flex flex-row justify-center items-center px-2.5 py-1.5 gap-2 h-[30px] rounded-md border-none font-medium text-[13px] leading-[140%] tracking-[-0.005em] transition-all duration-200',
-                  isDisabled
-                    ? 'bg-bluedot-normal/40 text-white/60 cursor-not-allowed'
-                    : 'bg-bluedot-normal text-white cursor-pointer',
+                className={cn(
+                  'flex flex-row justify-center items-center px-2.5 py-1.5 gap-2 h-[30px] rounded-md border-none font-medium text-[13px] leading-[140%] tracking-[-0.005em] transition-all duration-200 bg-bluedot-normal text-white cursor-pointer',
+                  isDisabled && 'opacity-60 cursor-not-allowed',
                 )}
                 aria-label="Mark exercise as complete"
               >

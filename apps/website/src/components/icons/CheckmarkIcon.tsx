@@ -20,7 +20,6 @@ export const CheckmarkIcon: React.FC<CheckmarkIconProps> = ({ className, variant
     )}
     aria-hidden="true"
   >
-    {/* TODO check if there are other cases that use this, and make them adopt this icon as well */}
     <path d="M2.5 6L5 8.5L9.5 3.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
