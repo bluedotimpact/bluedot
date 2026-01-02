@@ -43,7 +43,13 @@ const Exercise: React.FC<ExerciseProps> = ({
     },
   });
 
-  // TODO convert parameters to destruction object
+  // Optimistically update `isCompleted` using mutation variables.
+  // Note: generally use onMutate/onSettled if doing optimistic updates of whole
+  // objects, this is just a simple workaround for this one field.
+  const isCompleted = (!saveResponseMutation.isError && saveResponseMutation.variables?.completed !== undefined)
+    ? saveResponseMutation.variables.completed
+    : (responseData?.completed ?? false);
+
   const handleExerciseSubmit = async (exerciseResponse: string, completed?: boolean) => {
     // Use mutateAsync to ensure the mutation completes and cache updates before UI re-renders with the new response
     await saveResponseMutation.mutateAsync({
@@ -74,7 +80,7 @@ const Exercise: React.FC<ExerciseProps> = ({
           description={exerciseData.description || ''}
           title={exerciseData.title || ''}
           exerciseResponse={responseData?.response}
-          isCompleted={responseData?.completed ?? false}
+          isCompleted={isCompleted}
           isLoggedIn={!!auth}
           onExerciseSubmit={handleExerciseSubmit}
         />
