@@ -1,8 +1,8 @@
 import { useState, useEffect, ReactNode } from 'react';
 import {
-  CTALinkOrButton, addQueryParam, useCurrentTimeMs, cn,
+  CTALinkOrButton, addQueryParam, useCurrentTimeMs, cn, Tooltip,
 } from '@bluedot/ui';
-import { FaCheck } from 'react-icons/fa6';
+import { FaCheck, FaLock } from 'react-icons/fa6';
 import { Course, CourseRegistration, MeetPerson } from '@bluedot/db';
 import { skipToken } from '@tanstack/react-query';
 import CourseDetails from './CourseDetails';
@@ -78,23 +78,31 @@ const CourseListRow = ({
   );
   const nextDiscussion = upcomingDiscussions[0];
 
-  const primaryCtaButton = getPrimaryCtaButton({
+  const ctaButtons = getCtaButtons({
     course,
     courseRegistration,
     meetPerson,
     nextDiscussion,
     currentTimeMs,
+    isExpanded,
     isLoading,
   });
 
   const subtitle = getSubtitle({
-    course,
     courseRegistration,
     meetPerson,
     expectedDiscussions,
     nextDiscussion,
     isLoading,
     isNotInGroup,
+  });
+
+  const { reasonNotEligibleForCert } = getCertificateEligibility({
+    hasCertificate: !!courseRegistration.certificateCreatedAt,
+    courseSlug: course.slug,
+    uniqueDiscussionAttendance: meetPerson?.uniqueDiscussionAttendance,
+    numUnits: meetPerson?.numUnits,
+    hasSubmittedActionPlan: !!(meetPerson?.projectSubmission && meetPerson.projectSubmission.length > 0),
   });
 
   return (
@@ -125,7 +133,14 @@ const CourseListRow = ({
             <div className="flex items-start gap-3">
               {/* Content */}
               <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-size-md text-black text-pretty">{course.title}</h3>
+                <h3 className="font-semibold text-size-md text-black text-pretty">
+                  {course.title}{' '}
+                  {reasonNotEligibleForCert && (
+                    <span className="ml-0.5 inline-flex items-center align-middle">
+                      <Tooltip content={reasonNotEligibleForCert} ariaLabel="Show certificate eligibility information" />
+                    </span>
+                  )}
+                </h3>
                 {subtitle && (
                   <p className="flex items-center gap-1.5 mt-1.5 text-size-xs font-medium text-gray-500 leading-4">
                     {subtitle}
@@ -164,14 +179,14 @@ const CourseListRow = ({
             </div>
 
             {/* Bottom row: Action buttons */}
-            {!isExpanded && primaryCtaButton && (
+            {!isExpanded && ctaButtons.length > 0 && (
               <div
-                className="flex"
+                className="flex gap-2"
                 onClick={(e) => e.stopPropagation()}
                 onKeyDown={(e) => e.stopPropagation()}
                 role="presentation"
               >
-                {primaryCtaButton}
+                {ctaButtons}
               </div>
             )}
           </div>
@@ -180,7 +195,14 @@ const CourseListRow = ({
           <div className="hidden sm:flex items-center gap-4">
             {/* Content */}
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-size-base text-gray-900 leading-normal">{course.title}</h3>
+              <h3 className="font-semibold text-size-base text-gray-900 leading-normal">
+                {course.title}{' '}
+                {reasonNotEligibleForCert && (
+                  <span className="ml-0.5 inline-flex items-center align-middle">
+                    <Tooltip content={reasonNotEligibleForCert} ariaLabel="Show certificate eligibility information" />
+                  </span>
+                )}
+              </h3>
               {subtitle && (
                 <p className="flex items-center gap-1.5 mt-0.5 text-size-xs font-medium text-gray-500 leading-4">
                   {subtitle}
@@ -190,13 +212,12 @@ const CourseListRow = ({
 
             {/* Actions */}
             <div
-              className="flex items-center gap-3 flex-shrink-0"
+              className="flex items-center gap-2 flex-shrink-0"
               onClick={(e) => e.stopPropagation()}
               onKeyDown={(e) => e.stopPropagation()}
               role="presentation"
             >
-              {/* Show primary button when collapsed on desktop */}
-              {!isExpanded && primaryCtaButton}
+              {ctaButtons.length > 0 && ctaButtons}
 
               {/* Expand/collapse button */}
               <button
@@ -265,40 +286,47 @@ function getMaxUnitNumber(discussions: GroupDiscussion[]): number | null {
 }
 
 const getCertificateEligibility = ({
+  hasCertificate,
   courseSlug,
   uniqueDiscussionAttendance,
   numUnits,
   hasSubmittedActionPlan,
 }: {
+  hasCertificate: boolean;
   courseSlug: string;
   uniqueDiscussionAttendance: number | null | undefined;
   numUnits: number | null | undefined;
   hasSubmittedActionPlan: boolean;
-}): { isEligible: boolean; reason: 'low-attendance' | 'missing-action-plan' | null } => {
+}): { isEligibleForCert: boolean; reasonNotEligibleForCert: string | null } => {
+  if (hasCertificate) {
+    return { isEligibleForCert: true, reasonNotEligibleForCert: null };
+  }
+
   // If we are missing info about their attendance, assume they are eligible
   // and allow downstream code to handle their certificate being missing in the most generic way
   if (uniqueDiscussionAttendance === null || uniqueDiscussionAttendance === undefined || numUnits === null || numUnits === undefined) {
-    return { isEligible: true, reason: null };
+    return { isEligibleForCert: true, reasonNotEligibleForCert: null };
   }
   const missedCount = numUnits - uniqueDiscussionAttendance;
 
   // Low attendance takes precedence. There is no point submitting action plan if you haven't attended enough
   if (numUnits > 0 && missedCount > 1) {
-    return { isEligible: false, reason: 'low-attendance' };
+    return { isEligibleForCert: false, reasonNotEligibleForCert: 'To be eligible for a certificate, you must miss no more than 1 discussion.' };
   }
   const requiresActionPlan = COURSE_CONFIG[courseSlug]?.certificateRequiresActionPlan;
   if (requiresActionPlan && !hasSubmittedActionPlan) {
-    return { isEligible: false, reason: 'missing-action-plan' };
+    return { isEligibleForCert: false, reasonNotEligibleForCert: 'To be eligible for a certificate, you need to submit your action plan and miss no more than 1 discussion.' };
   }
-  return { isEligible: true, reason: null };
+  return { isEligibleForCert: true, reasonNotEligibleForCert: null };
 };
 
-const getPrimaryCtaButton = ({
+const getCtaButtons = ({
   course,
   courseRegistration,
   meetPerson,
   nextDiscussion,
   currentTimeMs,
+  isExpanded,
   isLoading,
 }: {
   course: Course;
@@ -306,26 +334,54 @@ const getPrimaryCtaButton = ({
   meetPerson: MeetPerson | null | undefined;
   nextDiscussion: GroupDiscussion | undefined;
   currentTimeMs: number;
+  isExpanded: boolean;
   isLoading: boolean;
-}): ReactNode => {
-  if (courseRegistration.certificateCreatedAt) {
-    return (
+}): ReactNode[] => {
+  const feedbackFormUrl = meetPerson?.courseFeedbackForm;
+  const hasSubmittedFeedback = (meetPerson?.courseFeedback?.length ?? 0) > 0;
+  const hasSubmittedActionPlan = (meetPerson?.projectSubmission?.length ?? 0) > 0;
+  const requiresActionPlan = COURSE_CONFIG[course.slug]?.certificateRequiresActionPlan;
+
+  // Certificate exists but feedback not yet submitted: show locked certificate button linking to feedback form
+  if (courseRegistration.certificateCreatedAt && !hasSubmittedFeedback && feedbackFormUrl) {
+    return [(
       <CTALinkOrButton
+        key="locked-cert"
         variant="black"
         size="small"
-        url={courseRegistration.certificateId
-          ? addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)
-          : course.path}
+        url={feedbackFormUrl}
+        target="_blank"
+        className="w-full sm:w-auto gap-1.5"
+      >
+        <FaLock className="-translate-y-px" />
+        <span>Share feedback to view your certificate</span>
+      </CTALinkOrButton>
+    )];
+  }
+
+  // Certificate exists and feedback submitted (or no feedback form): show view certificate button
+  if (courseRegistration.certificateCreatedAt) {
+    const certificateUrl = courseRegistration.certificateId
+      ? addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)
+      : course.path;
+
+    return [(
+      <CTALinkOrButton
+        key="view-cert"
+        variant="black"
+        size="small"
+        url={certificateUrl}
         className="w-full sm:w-auto"
       >
         View your certificate
       </CTALinkOrButton>
-    );
+    )];
   }
 
-  if (isLoading) return null;
+  if (isLoading) return [];
 
-  if (nextDiscussion) {
+  // Join or prepare link for next discussion: Hide if expanded because the button is repeated below
+  if (courseRegistration.roundStatus === 'Active' && !isExpanded && nextDiscussion) {
     const nextDiscussionTimeState = getDiscussionTimeState({ discussion: nextDiscussion, currentTimeMs });
     const isNextDiscussionSoonOrLive = nextDiscussionTimeState === 'soon' || nextDiscussionTimeState === 'live';
 
@@ -338,8 +394,9 @@ const getPrimaryCtaButton = ({
     }
     const disabled = !nextDiscussion.zoomLink && isNextDiscussionSoonOrLive;
 
-    return (
+    return [(
       <CTALinkOrButton
+        key="discussion"
         variant="primary"
         size="small"
         url={buttonUrl}
@@ -349,35 +406,69 @@ const getPrimaryCtaButton = ({
       >
         {buttonText}
       </CTALinkOrButton>
-    );
+    )];
   }
 
-  // Show action plan button if they've attended enough but haven't submitted
-  const { reason } = getCertificateEligibility({
-    courseSlug: course.slug,
-    uniqueDiscussionAttendance: meetPerson?.uniqueDiscussionAttendance,
-    numUnits: meetPerson?.numUnits,
-    hasSubmittedActionPlan: !!(meetPerson?.projectSubmission && meetPerson.projectSubmission.length > 0),
-  });
-  if (reason === 'missing-action-plan' && meetPerson) {
-    return (
-      <CTALinkOrButton
-        variant="primary"
-        size="small"
-        url={getActionPlanUrl(meetPerson.id)}
-        target="_blank"
-        className="w-full sm:w-auto bg-bluedot-normal"
-      >
-        Submit your action plan
-      </CTALinkOrButton>
-    );
+  if (courseRegistration.roundStatus === 'Past') {
+    const buttons: ReactNode[] = [];
+
+    if (feedbackFormUrl && !hasSubmittedFeedback) {
+      buttons.push(
+        <CTALinkOrButton
+          key="feedback"
+          variant="outline-black"
+          size="small"
+          url={feedbackFormUrl}
+          target="_blank"
+          className="w-full sm:w-auto border-bluedot-darker"
+        >
+          Share feedback
+        </CTALinkOrButton>,
+      );
+    }
+
+    // Action plan button (only for courses that require it)
+    if (requiresActionPlan) {
+      if (hasSubmittedActionPlan) {
+        // Action plan submitted - show filled checkmark button (non-interactive)
+        buttons.push(
+          <CTALinkOrButton
+            key="action-plan"
+            variant="black"
+            size="small"
+            disabled
+            className="w-full sm:w-auto disabled:opacity-80 gap-1.5"
+          >
+            <span>Action plan submitted</span>
+            <span className="inline-flex -translate-y-px items-center justify-center size-3.5 bg-white rounded-full">
+              <FaCheck className="size-1.5 text-bluedot-darker" />
+            </span>
+          </CTALinkOrButton>,
+        );
+      } else if (meetPerson) {
+        // Action plan NOT submitted - show submit button
+        buttons.push(
+          <CTALinkOrButton
+            key="action-plan"
+            variant="black"
+            size="small"
+            url={getActionPlanUrl(meetPerson.id)}
+            target="_blank"
+            className="w-full sm:w-auto"
+          >
+            Submit action plan
+          </CTALinkOrButton>,
+        );
+      }
+    }
+
+    return buttons;
   }
 
-  return null;
+  return [];
 };
 
 const getSubtitle = ({
-  course,
   courseRegistration,
   meetPerson,
   expectedDiscussions,
@@ -385,7 +476,6 @@ const getSubtitle = ({
   isLoading,
   isNotInGroup,
 }: {
-  course: Course;
   courseRegistration: CourseRegistration;
   meetPerson: MeetPerson | null | undefined;
   expectedDiscussions: GroupDiscussion[];
@@ -422,26 +512,13 @@ const getSubtitle = ({
     return groupName;
   }
 
-  // Completed course without certificate, explain why
-  if (courseRegistration.roundStatus === 'Past' && !courseRegistration.certificateCreatedAt) {
+  // Completed course without certificate - show attendance count
+  if (courseRegistration.roundStatus === 'Past') {
     if (isLoading) return null;
 
-    const { reason } = getCertificateEligibility({
-      courseSlug: course.slug,
-      uniqueDiscussionAttendance: meetPerson?.uniqueDiscussionAttendance,
-      numUnits: meetPerson?.numUnits,
-      hasSubmittedActionPlan: !!(meetPerson?.projectSubmission && meetPerson.projectSubmission.length > 0),
-    });
-
-    if (reason === 'low-attendance') {
-      return 'To receive a certificate you can miss at most 1 discussion';
-    }
-    if (reason === 'missing-action-plan') {
-      return 'To receive a certificate you must submit your action plan';
-    }
-
-    const requiresActionPlan = COURSE_CONFIG[course.slug]?.certificateRequiresActionPlan;
-    return `To receive a certificate you can miss at most 1 discussion${requiresActionPlan ? ' and must submit your action plan' : ''}`;
+    const attended = meetPerson?.uniqueDiscussionAttendance ?? 0;
+    const total = meetPerson?.numUnits ?? 0;
+    return `You attended ${attended} out of ${total} discussions`;
   }
 
   if (isNotInGroup) {
