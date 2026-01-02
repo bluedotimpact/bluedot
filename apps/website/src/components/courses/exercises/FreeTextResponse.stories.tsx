@@ -15,49 +15,54 @@ const FreeTextResponseWrapper: React.FC<WrapperProps> = ({
   const [exerciseResponse, setExerciseResponse] = useState(initialResponse);
 
   return (
-    <FreeTextResponse
-      {...props}
-      exerciseResponse={exerciseResponse}
-      isCompleted={isCompleted}
-      onExerciseSubmit={async (response, completed) => {
-        setExerciseResponse(response);
-        if (completed !== undefined) {
-          setIsCompleted(completed);
-        }
-      }}
-    />
+    <div className="pl-8">
+      <FreeTextResponse
+        {...props}
+        exerciseResponse={exerciseResponse}
+        isCompleted={isCompleted}
+        onExerciseSubmit={async (response, completed) => {
+          setExerciseResponse(response);
+          if (completed !== undefined) {
+            setIsCompleted(completed);
+          }
+        }}
+      />
+    </div>
   );
 };
 
 const meta = {
   title: 'website/courses/FreeTextResponse',
+  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   component: FreeTextResponseWrapper,
   tags: ['autodocs'],
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: 'fullscreen',
   },
-  args: {
-    title: 'Understanding LLMs',
-    description: 'Why is a language model\'s ability to predict \'the next word\' capable of producing complex behaviors like solving maths problems?',
-  },
+  args: {},
 } satisfies Meta<typeof FreeTextResponseWrapper>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {},
+  args: {
+    title: 'Understanding LLMs',
+    description: 'Why is a language model\'s ability to predict \'the next word\' capable of producing complex behaviors like solving maths problems?',
+  },
 };
 
 export const LoggedIn: Story = {
   args: {
+    ...Default.args,
     isLoggedIn: true,
   },
 };
 
 export const Saved: Story = {
   args: {
+    ...Default.args,
     exerciseResponse: 'This is my saved answer.',
     isLoggedIn: true,
   },
@@ -65,6 +70,7 @@ export const Saved: Story = {
 
 export const Completed: Story = {
   args: {
+    ...Default.args,
     exerciseResponse: 'This is my saved answer.',
     isCompleted: true,
     isLoggedIn: true,
