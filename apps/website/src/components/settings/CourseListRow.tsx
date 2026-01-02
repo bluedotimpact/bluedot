@@ -311,11 +311,11 @@ const getCertificateEligibility = ({
 
   // Low attendance takes precedence. There is no point submitting action plan if you haven't attended enough
   if (numUnits > 0 && missedCount > 1) {
-    return { isEligibleForCert: false, reasonNotEligibleForCert: 'To receive a certificate you can miss at most 1 discussion.' };
+    return { isEligibleForCert: false, reasonNotEligibleForCert: 'To be eligible for a certificate, you must miss no more than 1 discussion.' };
   }
   const requiresActionPlan = COURSE_CONFIG[courseSlug]?.certificateRequiresActionPlan;
   if (requiresActionPlan && !hasSubmittedActionPlan) {
-    return { isEligibleForCert: false, reasonNotEligibleForCert: 'To receive a certificate you must submit your action plan.' };
+    return { isEligibleForCert: false, reasonNotEligibleForCert: 'To be eligible for a certificate, you need to submit your action plan and miss no more than 1 discussion.' };
   }
   return { isEligibleForCert: true, reasonNotEligibleForCert: null };
 };
