@@ -253,7 +253,7 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
         />
         <button
           aria-label="Mark exercise as complete"
-          class="flex flex-row justify-center items-center px-2.5 py-1.5 gap-2 h-[30px] rounded-md border-none font-medium text-[13px] leading-[140%] tracking-[-0.005em] transition-all duration-200 bg-bluedot-normal/40 text-white/60 cursor-not-allowed"
+          class="flex flex-row justify-center items-center px-2.5 py-1.5 gap-2 h-[30px] rounded-md border-none font-medium text-[13px] leading-[140%] tracking-[-0.005em] transition-all duration-200 bg-bluedot-normal text-white opacity-60 cursor-not-allowed"
           disabled=""
           type="button"
         >

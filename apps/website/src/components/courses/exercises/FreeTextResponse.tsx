@@ -45,12 +45,12 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
     await onExerciseSubmit(value, undefined);
   }, [onExerciseSubmit]);
 
-  const handleMarkComplete = useCallback(async () => {
-    await onExerciseSubmit(answer, true);
+  const handleMarkComplete = useCallback(() => {
+    onExerciseSubmit(answer, true).catch(() => {});
   }, [answer, onExerciseSubmit]);
 
-  const handleMarkIncomplete = useCallback(async () => {
-    await onExerciseSubmit(answer, false);
+  const handleMarkIncomplete = useCallback(() => {
+    onExerciseSubmit(answer, false).catch(() => {});
   }, [answer, onExerciseSubmit]);
 
   return (
@@ -130,7 +130,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
               <button
                 type="button"
                 onClick={handleMarkIncomplete}
-                className="flex items-center gap-2 transition-all duration-200 hover:opacity-70 bg-transparent border-none cursor-pointer p-0"
+                className="flex items-center gap-2 h-[30px] transition-all duration-200 hover:opacity-70 bg-transparent border-none cursor-pointer p-0"
                 aria-label="Mark exercise as incomplete"
               >
                 <span className="font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-bluedot-normal">
