@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode } from 'react';
 import {
   Button,
   DialogTrigger,
@@ -13,6 +13,7 @@ export type TooltipProps = {
   children?: ReactNode;
   placement?: React.ComponentProps<typeof Popover>['placement'];
   className?: string;
+  ariaLabel?: string;
 };
 
 /**
@@ -23,15 +24,11 @@ export const Tooltip: React.FC<TooltipProps> = ({
   children = <InfoCircleIcon />,
   placement = 'top',
   className,
+  ariaLabel = 'Show info tooltip',
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <DialogTrigger isOpen={isOpen} onOpenChange={setIsOpen}>
-      <Button
-        className="cursor-pointer"
-        onPress={() => setIsOpen(!isOpen)}
-      >
+    <DialogTrigger>
+      <Button className="cursor-pointer" aria-label={ariaLabel}>
         {children}
       </Button>
       <Popover

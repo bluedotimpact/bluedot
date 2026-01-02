@@ -7,6 +7,7 @@ exports[`Tooltip > opens on click and matches snapshot 1`] = `
   <button
     aria-controls="react-aria-:r0:"
     aria-expanded="true"
+    aria-label="Show information"
     class="cursor-pointer"
     data-pressed="true"
     data-rac=""

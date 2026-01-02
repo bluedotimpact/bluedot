@@ -1,7 +1,6 @@
 import { useState, useEffect, ReactNode } from 'react';
 import {
-  CTALinkOrButton, addQueryParam, useCurrentTimeMs, cn,
-  Tooltip,
+  CTALinkOrButton, addQueryParam, useCurrentTimeMs, cn, Tooltip,
 } from '@bluedot/ui';
 import { FaCheck, FaLock } from 'react-icons/fa6';
 import { Course, CourseRegistration, MeetPerson } from '@bluedot/db';
@@ -138,7 +137,7 @@ const CourseListRow = ({
                   {course.title}{' '}
                   {reasonNotEligibleForCert && (
                     <span className="ml-0.5 inline-flex items-center align-middle">
-                      <Tooltip content={reasonNotEligibleForCert} />
+                      <Tooltip content={reasonNotEligibleForCert} ariaLabel="Show certificate eligibility information" />
                     </span>
                   )}
                 </h3>
@@ -200,7 +199,7 @@ const CourseListRow = ({
                 {course.title}{' '}
                 {reasonNotEligibleForCert && (
                   <span className="ml-0.5 inline-flex items-center align-middle">
-                    <Tooltip content={reasonNotEligibleForCert} />
+                    <Tooltip content={reasonNotEligibleForCert} ariaLabel="Show certificate eligibility information" />
                   </span>
                 )}
               </h3>
