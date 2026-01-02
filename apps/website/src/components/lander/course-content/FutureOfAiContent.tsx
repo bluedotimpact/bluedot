@@ -34,7 +34,7 @@ export const createFutureOfAiContent = (
   hero: {
     gradient: FOAI_COLORS.gradient,
     accentColor: FOAI_COLORS.accent,
-    categoryLabel: 'COHORT-BASED COURSE',
+    categoryLabel: 'SELF-PACED COURSE',
     title: 'The Future of AI',
     description: 'An introduction to what AI can do today, where it\'s going over the next decade, and how you can start contributing to a better future.',
     primaryCta: {
