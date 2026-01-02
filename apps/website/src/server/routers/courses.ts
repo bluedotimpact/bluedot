@@ -1,7 +1,6 @@
 import {
   and,
   chunkTable,
-  Course,
   courseTable,
   eq,
   exerciseTable,
@@ -16,15 +15,6 @@ import { publicProcedure, router } from '../trpc';
 
 export type CourseAndUnits = inferRouterOutputs<typeof coursesRouter>['getBySlug'];
 export type CurriculumMetadata = inferRouterOutputs<typeof coursesRouter>['getCurriculumMetadata'];
-
-// GH-1876: Mock course for UI testing (only in development)
-const MOCK_COURSE: Partial<Course> = {
-  id: 'mock-course-agi',
-  title: 'AGI Strategy',
-  slug: 'agi-strategy',
-  path: '/courses/agi-strategy',
-  status: 'Active',
-};
 
 /**
  * Fetches course data and its associated units by course slug.
@@ -50,12 +40,6 @@ export async function getCourseData(courseSlug: string) {
 
 export const getAllActiveCourses = async () => {
   const courses = await db.scan(courseTable, { status: 'Active' });
-
-  // GH-1876: Add mock course for UI testing (development only)
-  if (process.env.NODE_ENV !== 'production') {
-    return [...courses, MOCK_COURSE as Course];
-  }
-
   return courses;
 };
 
