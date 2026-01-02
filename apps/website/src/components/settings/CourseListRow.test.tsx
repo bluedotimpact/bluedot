@@ -489,5 +489,4 @@ describe('CourseListRow', () => {
     expect(certificateButtons.length).toBeGreaterThan(0);
     expect(certificateButtons[0]).toHaveAttribute('href', '/certification?id=cert-123');
   });
-
 });
