@@ -9,7 +9,7 @@ import { protectedProcedure, router } from '../trpc';
 const MOCK_MEET_PERSON_DATA: Record<string, Partial<MeetPerson>> = {
   'mock-reg-1': { // No cert, action plan not submitted
     id: 'mock-meet-person-1',
-    uniqueDiscussionAttendance: 2,
+    uniqueDiscussionAttendance: 4,
     numUnits: 5,
     groupsAsParticipant: ['group-1'],
     courseFeedbackForm: 'https://airtable.com/example-feedback-form',

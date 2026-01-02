@@ -1,0 +1,23 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Tooltip > opens on click and matches snapshot 1`] = `
+<div
+  inert=""
+>
+  <button
+    aria-controls="react-aria-:r0:"
+    aria-expanded="true"
+    class="cursor-pointer"
+    data-pressed="true"
+    data-rac=""
+    data-react-aria-pressable="true"
+    id="react-aria-:r1:"
+    tabindex="0"
+    type="button"
+  >
+    <span>
+      Tooltip trigger
+    </span>
+  </button>
+</div>
+`;

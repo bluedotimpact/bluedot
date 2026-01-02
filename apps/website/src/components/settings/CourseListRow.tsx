@@ -3,7 +3,7 @@ import {
   CTALinkOrButton, addQueryParam, useCurrentTimeMs, cn,
   Tooltip,
 } from '@bluedot/ui';
-import { FaCheck, FaCircleInfo, FaLock } from 'react-icons/fa6';
+import { FaCheck, FaLock } from 'react-icons/fa6';
 import { Course, CourseRegistration, MeetPerson } from '@bluedot/db';
 import { skipToken } from '@tanstack/react-query';
 import CourseDetails from './CourseDetails';
@@ -98,6 +98,14 @@ const CourseListRow = ({
     isNotInGroup,
   });
 
+  const { reasonNotEligibleForCert } = getCertificateEligibility({
+    hasCertificate: !!courseRegistration.certificateCreatedAt,
+    courseSlug: course.slug,
+    uniqueDiscussionAttendance: meetPerson?.uniqueDiscussionAttendance,
+    numUnits: meetPerson?.numUnits,
+    hasSubmittedActionPlan: !!(meetPerson?.projectSubmission && meetPerson.projectSubmission.length > 0),
+  });
+
   return (
     <div>
       <div
@@ -126,8 +134,14 @@ const CourseListRow = ({
             <div className="flex items-start gap-3">
               {/* Content */}
               <div className="flex-1 min-w-0">
-                {/* TODO do mobile tooltip */}
-                <h3 className="font-semibold text-size-md text-black text-pretty">{course.title}</h3>
+                <h3 className="font-semibold text-size-md text-black text-pretty">
+                  {course.title}{' '}
+                  {reasonNotEligibleForCert && (
+                    <span className="ml-0.5 inline-flex items-center align-middle">
+                      <Tooltip content={reasonNotEligibleForCert} />
+                    </span>
+                  )}
+                </h3>
                 {subtitle && (
                   <p className="flex items-center gap-1.5 mt-1.5 text-size-xs font-medium text-gray-500 leading-4">
                     {subtitle}
@@ -182,7 +196,14 @@ const CourseListRow = ({
           <div className="hidden sm:flex items-center gap-4">
             {/* Content */}
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-size-base text-gray-900 leading-normal">{course.title} <Tooltip content="instructions for getting cert"><FaCircleInfo /></Tooltip></h3>
+              <h3 className="font-semibold text-size-base text-gray-900 leading-normal">
+                {course.title}{' '}
+                {reasonNotEligibleForCert && (
+                  <span className="ml-0.5 inline-flex items-center align-middle">
+                    <Tooltip content={reasonNotEligibleForCert} />
+                  </span>
+                )}
+              </h3>
               {subtitle && (
                 <p className="flex items-center gap-1.5 mt-0.5 text-size-xs font-medium text-gray-500 leading-4">
                   {subtitle}
@@ -264,6 +285,41 @@ function getMaxUnitNumber(discussions: GroupDiscussion[]): number | null {
 
   return unitNumbers.length > 0 ? Math.max(...unitNumbers) : null;
 }
+
+const getCertificateEligibility = ({
+  hasCertificate,
+  courseSlug,
+  uniqueDiscussionAttendance,
+  numUnits,
+  hasSubmittedActionPlan,
+}: {
+  hasCertificate: boolean;
+  courseSlug: string;
+  uniqueDiscussionAttendance: number | null | undefined;
+  numUnits: number | null | undefined;
+  hasSubmittedActionPlan: boolean;
+}): { isEligibleForCert: boolean; reasonNotEligibleForCert: string | null } => {
+  if (hasCertificate) {
+    return { isEligibleForCert: true, reasonNotEligibleForCert: null };
+  }
+
+  // If we are missing info about their attendance, assume they are eligible
+  // and allow downstream code to handle their certificate being missing in the most generic way
+  if (uniqueDiscussionAttendance === null || uniqueDiscussionAttendance === undefined || numUnits === null || numUnits === undefined) {
+    return { isEligibleForCert: true, reasonNotEligibleForCert: null };
+  }
+  const missedCount = numUnits - uniqueDiscussionAttendance;
+
+  // Low attendance takes precedence. There is no point submitting action plan if you haven't attended enough
+  if (numUnits > 0 && missedCount > 1) {
+    return { isEligibleForCert: false, reasonNotEligibleForCert: 'To receive a certificate you can miss at most 1 discussion.' };
+  }
+  const requiresActionPlan = COURSE_CONFIG[courseSlug]?.certificateRequiresActionPlan;
+  if (requiresActionPlan && !hasSubmittedActionPlan) {
+    return { isEligibleForCert: false, reasonNotEligibleForCert: 'To receive a certificate you must submit your action plan.' };
+  }
+  return { isEligibleForCert: true, reasonNotEligibleForCert: null };
+};
 
 const getCtaButtons = ({
   course,
