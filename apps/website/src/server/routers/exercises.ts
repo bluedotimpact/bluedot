@@ -36,9 +36,10 @@ export const exercisesRouter = router({
           id: exerciseResponse.id,
           exerciseId: input.exerciseId,
           response: input.response,
-          completed: input.completed ?? false,
+          completed: input.completed ?? exerciseResponse.completed,
         });
       }
+
       return db.insert(exerciseResponseTable, {
         email: ctx.auth.email,
         exerciseId: input.exerciseId,
