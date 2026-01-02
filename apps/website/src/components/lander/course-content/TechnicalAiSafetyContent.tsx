@@ -14,6 +14,16 @@ import { CourseLanderContent } from '../CourseLander';
 
 export const TECHNICAL_AI_SAFETY_APPLICATION_URL = 'https://web.miniextensions.com/9YX1i46qewCv5m17v8rl';
 
+const TAS_COLORS = {
+  /* Gradient layers:
+     1. Left-side darkness - horizontal gradient to darken left edge for text readability
+     2. Bottom-right warm glow - peach → purple → dark purple (from Figma)
+     3. Base color - deep purple/magenta */
+  gradient: 'linear-gradient(to right, rgba(20, 8, 25, 0.6) 0%, rgba(20, 8, 25, 0.4) 20%, rgba(20, 8, 25, 0.2) 40%, transparent 55%), radial-gradient(130% 160% at 100% 108.81%, rgba(255, 202, 171, 0.40) 0%, rgba(126, 85, 144, 0.40) 52.4%, rgba(46, 16, 54, 0.40) 100%), #2E1036',
+  accent: '#E0A5F9',
+  iconBackground: 'hsla(284, 46%, 30%, 1)',
+};
+
 export const createTechnicalAiSafetyContent = (
   applicationUrlWithUtm: string,
   courseSlug: string,
@@ -24,8 +34,10 @@ export const createTechnicalAiSafetyContent = (
   },
 
   hero: {
-    categoryLabel: 'TECHNICAL AI SAFETY',
-    title: 'Start building safer AI',
+    gradient: TAS_COLORS.gradient,
+    accentColor: TAS_COLORS.accent,
+    categoryLabel: 'COHORT-BASED COURSE',
+    title: 'Technical AI Safety',
     description: 'Understand current safety techniques. Map the gaps. Identify where you can contribute. All in 30 hours.',
     primaryCta: {
       text: 'Apply now',
@@ -35,11 +47,13 @@ export const createTechnicalAiSafetyContent = (
       text: 'Browse curriculum',
       url: `/courses/${courseSlug}/1/1`,
     },
-    imageSrc: '/images/lander/technical-ai-safety/hero-banner-split.webp',
-    imageAlt: 'Technical AI Safety visualisation',
+    imageSrc: '/images/lander/technical-ai-safety/hero-graphic.png',
+    imageAlt: 'Technical AI Safety visualization',
+    imageAspectRatio: '1408/1122',
   },
 
   whoIsThisFor: {
+    iconBackgroundColor: TAS_COLORS.iconBackground,
     title: 'Who this course is for',
     targetAudiences: [
       {

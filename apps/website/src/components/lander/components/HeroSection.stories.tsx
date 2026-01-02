@@ -135,3 +135,25 @@ export const AgiStrategy: Story = {
     accentColor: '#BCA9FF',
   },
 };
+
+// Technical AI Safety gradient hero with constrained image layout
+export const TechnicalAISafety: Story = {
+  args: {
+    categoryLabel: 'COHORT-BASED COURSE',
+    title: 'Technical AI Safety',
+    description: 'Understand current safety techniques. Map the gaps. Identify where you can contribute. All in 30 hours.',
+    primaryCta: {
+      text: 'Apply now',
+      url: 'https://example.com/apply',
+    },
+    secondaryCta: {
+      text: 'Browse curriculum',
+      url: '/courses/technical-ai-safety/1/1',
+    },
+    imageSrc: '/images/lander/technical-ai-safety/hero-graphic.png',
+    imageAlt: 'Technical AI Safety visualization',
+    gradient: 'linear-gradient(to right, rgba(20, 8, 25, 0.6) 0%, rgba(20, 8, 25, 0.4) 20%, rgba(20, 8, 25, 0.2) 40%, transparent 55%), radial-gradient(130% 160% at 100% 108.81%, rgba(255, 202, 171, 0.40) 0%, rgba(126, 85, 144, 0.40) 52.4%, rgba(46, 16, 54, 0.40) 100%), #2E1036',
+    accentColor: '#E0A5F9',
+    imageAspectRatio: '1408/1122',
+  },
+};
