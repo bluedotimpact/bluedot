@@ -65,7 +65,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       name="twitter:image"
     />
     <nav
-      class="nav sticky top-0 z-50 w-full transition-all duration-300 bg-white border-b border-color-divider"
+      class="nav absolute top-0 inset-x-0 z-50 w-full transition-all duration-300 bg-transparent border-b border-white/15"
     >
       <div
         class="nav__container section-base"
@@ -80,7 +80,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="mobile-nav-links lg:hidden"
             >
               <button
-                class="icon-button size-[32px] flex items-center justify-center hover:cursor-pointer mobile-nav-links__btn"
+                class="icon-button size-[32px] flex items-center justify-center hover:cursor-pointer mobile-nav-links__btn text-white [&_svg]:text-white"
                 type="button"
               >
                 <svg
@@ -126,7 +126,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       <button
                         aria-controls="courses-dropdown"
                         aria-expanded="false"
-                        class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                        class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                         type="button"
                       >
                         Courses
@@ -176,7 +176,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     </div>
                     <a
                       aria-label="Events (opens in new tab)"
-                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                       href="https://lu.ma/bluedotevents?utm_source=website&utm_campaign=nav"
                       rel="noopener noreferrer"
                       tabindex="0"
@@ -186,7 +186,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     </a>
                     <a
                       aria-label="Blog (opens in new tab)"
-                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                       href="https://blog.bluedot.org"
                       rel="noopener noreferrer"
                       tabindex="0"
@@ -195,14 +195,14 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       Blog
                     </a>
                     <a
-                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                       href="/about"
                       tabindex="0"
                     >
                       About
                     </a>
                     <a
-                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                       href="/join-us"
                       tabindex="0"
                     >
@@ -231,7 +231,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               <img
                 alt="BlueDot Impact Logo"
                 class="logo__img h-5 min-[681px]:h-6 mr-auto transition-all duration-300"
-                src="/images/logo/BlueDot_Impact_Logo.svg"
+                src="/images/logo/BlueDot_Impact_Logo_White.svg"
               />
             </a>
           </div>
@@ -247,7 +247,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 <button
                   aria-controls="courses-dropdown"
                   aria-expanded="false"
-                  class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                  class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                   type="button"
                 >
                   Courses
@@ -297,7 +297,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
               <a
                 aria-label="Events (opens in new tab)"
-                class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                 href="https://lu.ma/bluedotevents?utm_source=website&utm_campaign=nav"
                 rel="noopener noreferrer"
                 tabindex="0"
@@ -307,7 +307,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </a>
               <a
                 aria-label="Blog (opens in new tab)"
-                class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                 href="https://blog.bluedot.org"
                 rel="noopener noreferrer"
                 tabindex="0"
@@ -316,14 +316,14 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 Blog
               </a>
               <a
-                class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                 href="/about"
                 tabindex="0"
               >
                 About
               </a>
               <a
-                class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                 href="/join-us"
                 tabindex="0"
               >
@@ -334,14 +334,14 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="nav-cta flex flex-row items-center gap-4"
             >
               <a
-                class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--secondary bg-transparent nav-cta__secondary-cta flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center border border-color-divider text-color-text hover:text-color-text hover:bg-gray-50"
+                class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--secondary nav-cta__secondary-cta flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-white/15 border border-white/20 text-white hover:text-white hover:bg-white/20 backdrop-blur-sm"
                 href="/login?redirect_to=%2Fcourses%2Fagi-strategy"
                 tabindex="0"
               >
                 Sign in
               </a>
               <a
-                class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--primary link-on-dark nav-cta__primary-cta hidden min-[680px]:flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-bluedot-normal hover:bg-[#1a3599] text-white hover:text-white"
+                class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--primary link-on-dark nav-cta__primary-cta hidden min-[680px]:flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-white hover:bg-white/90 text-[#02034B] hover:text-[#02034B]"
                 href="/login?register=true&redirect_to=%2Fcourses%2Fagi-strategy"
                 tabindex="0"
               >
@@ -353,52 +353,113 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       </div>
     </nav>
     <section
-      class="w-full bg-white"
+      class="w-full "
     >
       <div
-        class="relative"
+        class="relative max-w-max-width mx-auto px-8 min-[1024px]:pl-[80px] min-[1024px]:pr-0"
       >
         <div
-          class="max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-spacing-x"
+          class="flex flex-col items-center gap-8 pt-[calc(var(--nav-height-mobile)+32px)] pb-8 min-[680px]:pt-[calc(var(--nav-height-mobile)+48px)] min-[1024px]:hidden"
         >
           <div
-            class="py-8 sm:pt-8 lg:py-0 lg:w-1/2 lg:min-h-[600px] lg:flex lg:items-center"
+            class="flex items-center justify-center w-[280px] min-[680px]:w-[400px]"
+            style="aspect-ratio: 1408 / 1122;"
+          >
+            <img
+              alt="AGI Strategy visualization"
+              class="size-full object-contain"
+              src="/images/lander/agi-strategy/hero-graphic.png"
+            />
+          </div>
+          <div
+            class="w-full flex flex-col items-center gap-5 text-center"
           >
             <div
-              class="w-full lg:max-w-[512px] space-y-8"
+              class="space-y-4"
+            >
+              <p
+                class="bluedot-p not-prose text-[14px] font-medium tracking-[0.28px] leading-[1.6] uppercase"
+                style="color: #BCA9FF;"
+              >
+                COHORT-BASED COURSE
+              </p>
+              <h1
+                class="text-[32px] min-[680px]:text-[40px] leading-tight font-semibold tracking-[-0.5px] text-white"
+              >
+                AGI Strategy
+              </h1>
+              <p
+                class="text-[16px] min-[680px]:text-[18px] leading-[1.6] opacity-80 text-white whitespace-pre-line"
+              >
+                Start building the defences that protect humanity: Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours.
+              </p>
+            </div>
+            <div
+              class="flex flex-col min-[680px]:flex-row gap-3 w-full min-[680px]:w-auto min-[680px]:justify-center"
+            >
+              <a
+                class="cta-button flex items-center justify-center duration-200 whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none h-[50px] px-5 py-3 text-[16px] font-medium rounded-md cursor-pointer transition-all text-[#13132e] w-full min-[680px]:w-auto hover:brightness-90"
+                href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX"
+                style="background-color: #BCA9FF;"
+                tabindex="0"
+              >
+                Apply now
+              </a>
+              <a
+                class="cta-button flex items-center justify-center duration-200 whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none h-[50px] px-5 py-3 text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-all border w-full min-[680px]:w-auto hover:bg-white/10"
+                href="/courses/agi-strategy/1/1"
+                style="border-color: #BCA9FF; color: #BCA9FF;"
+                tabindex="0"
+              >
+                Browse curriculum
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="hidden min-[1024px]:block"
+        >
+          <div
+            class="w-3/5 min-h-[600px] flex items-center pt-[var(--nav-height-desktop)] pr-[200px]"
+          >
+            <div
+              class="w-full space-y-8"
             >
               <div
-                class="space-y-5 sm:space-y-4"
+                class="space-y-4"
               >
                 <p
-                  class="bluedot-p not-prose text-[14px] font-medium tracking-[0.28px] leading-[1.6] uppercase text-bluedot-normal"
+                  class="bluedot-p not-prose text-[14px] font-medium tracking-[0.28px] leading-[1.6] uppercase"
+                  style="color: #BCA9FF;"
                 >
-                  AGI STRATEGY
+                  COHORT-BASED COURSE
                 </p>
                 <h1
-                  class="bluedot-h1 not-prose text-[32px] sm:text-[40px] sm:leading-tight lg:text-[40px] xl:text-5xl leading-tight font-semibold tracking-[-0.5px] text-[#13132E]"
+                  class="bluedot-h1 not-prose text-[40px] xl:text-5xl leading-tight font-semibold tracking-[-0.5px] text-white"
                 >
-                  Start building the defences that protect humanity
+                  AGI Strategy
                 </h1>
                 <p
-                  class="bluedot-p not-prose text-size-sm sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed opacity-80 text-[#13132E] whitespace-pre-line"
+                  class="bluedot-p not-prose text-size-md leading-[1.6] opacity-80 text-white whitespace-pre-line"
                 >
-                  Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours.
+                  Start building the defences that protect humanity: Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours.
                 </p>
               </div>
               <div
                 class="flex gap-3"
               >
                 <a
-                  class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md cursor-pointer transition-colors bg-bluedot-normal text-white hover:bg-[#1a3399] focus:bg-[#1a3399]"
+                  class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none h-[50px] px-5 py-2.5 text-[16px] font-medium rounded-md cursor-pointer transition-all text-[#13132e] hover:brightness-90"
                   href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX"
+                  style="background-color: #BCA9FF;"
                   tabindex="0"
                 >
                   Apply now
                 </a>
                 <a
-                  class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-colors border border-[rgba(19,19,46,0.3)] text-[#13132E] hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E]"
+                  class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none h-[50px] px-5 py-2.5 text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-all border hover:bg-white/10"
                   href="/courses/agi-strategy/1/1"
+                  style="border-color: #BCA9FF; color: #BCA9FF;"
                   tabindex="0"
                 >
                   Browse curriculum
@@ -406,20 +467,16 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
           </div>
-        </div>
-        <div
-          class="h-80 sm:h-[430px] lg:absolute lg:right-0 lg:inset-y-0 lg:w-1/2 lg:h-auto overflow-hidden"
-        >
-          <img
-            alt="AGI Strategy visualization"
-            class="size-full object-cover lg:object-center"
-            fetchpriority="high"
-            src="/images/lander/agi-strategy/hero-banner-split.webp"
-          />
           <div
-            class="absolute inset-0 pointer-events-none bg-contain bg-repeat mix-blend-soft-light"
-            style="background-image: url("/images/agi-strategy/noise.webp");"
-          />
+            class="absolute right-0 bottom-0 w-1/2 top-[var(--nav-height-desktop)]"
+          >
+            <img
+              alt="AGI Strategy visualization"
+              class="size-full object-contain"
+              src="/images/lander/agi-strategy/hero-graphic.png"
+              style="object-position: right center;"
+            />
+          </div>
         </div>
       </div>
     </section>
@@ -452,7 +509,8 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             class="flex flex-col items-center min-[680px]:items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
           >
             <div
-              class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-normal"
+              class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 "
+              style="background-color: #2C3F81;"
             >
               <svg
                 class="text-white"
@@ -487,7 +545,8 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             class="flex flex-col items-center min-[680px]:items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
           >
             <div
-              class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-normal"
+              class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 "
+              style="background-color: #2C3F81;"
             >
               <svg
                 class="text-white"
@@ -522,7 +581,8 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             class="flex flex-col items-center min-[680px]:items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:h-[264px]"
           >
             <div
-              class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-normal"
+              class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 "
+              style="background-color: #2C3F81;"
             >
               <svg
                 class="text-white"
