@@ -75,24 +75,20 @@ export const Default: Story = {
   },
 };
 
-// Dark theme variant with custom colors
-export const DarkTheme: Story = {
+export const FutureOfAI: Story = {
   args: {
-    categoryLabel: 'COHORT-BASED COURSE',
+    categoryLabel: 'SELF-PACED COURSE',
     title: 'The Future of AI',
-    description: "Get informed about AI's trajectory and society's biggest choices in just 2 hours. No technical background needed.",
+    description: "An introduction to what AI can do today, where it's going over the next decade, and how you can start contributing to a better future.",
     primaryCta: {
       text: 'Start the free course',
       url: '/courses/future-of-ai/1/1',
     },
-    secondaryCta: {
-      text: 'Browse curriculum',
-      url: '/courses/future-of-ai/1/1',
-    },
-    imageSrc: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop',
+    imageSrc: '/images/lander/foai/hero-graphic.png',
     imageAlt: 'Future of AI visualization',
-    gradient: 'linear-gradient(135deg, #0a284c 0%, #1a3a5c 100%)',
-    accentColor: '#91cfff',
+    imageAspectRatio: '1408/1112',
+    gradient: 'linear-gradient(to right, rgba(30, 30, 20, 0.6) 0%, rgba(30, 30, 20, 0.4) 25%, rgba(30, 30, 20, 0.2) 45%, transparent 60%), radial-gradient(ellipse 70% 60% at 85% 20%, rgba(155, 180, 115, 0.12) 0%, transparent 60%), radial-gradient(ellipse 200% 180% at 105% -5%, rgba(150, 207, 156, 0.35) 0%, rgba(163, 179, 110, 0.35) 28.6%, rgba(176, 152, 64, 0.35) 57.2%, rgba(147, 120, 64, 0.35) 67.9%, rgba(118, 88, 64, 0.35) 78.6%, rgba(89, 56, 63, 0.35) 89.3%, rgba(60, 24, 63, 0.35) 100%), #29281D',
+    accentColor: '#E6DBA6',
   },
 };
 
@@ -135,7 +131,7 @@ export const AgiStrategy: Story = {
     imageSrc: '/images/lander/agi-strategy/hero-graphic.png',
     imageAlt: 'AGI Strategy visualization',
     imageAspectRatio: '1408/1122',
-    gradient: '#051944',
+    gradient: 'linear-gradient(to right, rgba(10, 8, 36, 0.9) 0%, rgba(10, 8, 36, 0.4) 5%, rgba(10, 8, 36, 0.15) 15%, rgba(10, 8, 36, 0.05) 30%, transparent 45%), radial-gradient(115% 175% at 95% 135%, rgba(255, 194, 195, 0.65) 0%, rgba(255, 194, 195, 0.50) 25%, rgba(53, 42, 106, 0.65) 60%, rgba(10, 8, 36, 0.60) 100%), #181D3F',
     accentColor: '#BCA9FF',
   },
 };
