@@ -16,7 +16,7 @@ import {
 } from 'vitest';
 import { useAuthStore } from '@bluedot/ui';
 import { TRPCError } from '@trpc/server';
-import GroupSwitchModal, { sortGroupSwitchOptions } from './GroupSwitchModal';
+import GroupSwitchModal, { sortGroupSwitchOptions, buildAvailabilityFormUrl } from './GroupSwitchModal';
 import type { DiscussionsAvailable } from '../../server/routers/group-switching';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
@@ -865,6 +865,36 @@ describe('GroupSwitchModal', () => {
       await waitFor(() => {
         expect(screen.getByText(/We are working on your request/i)).toBeInTheDocument();
       });
+    });
+  });
+
+  describe('buildAvailabilityFormUrl', () => {
+    test('builds URL with email and utm_source only when no course registration', () => {
+      const url = buildAvailabilityFormUrl({
+        email: 'test@example.com',
+        utmSource: 'test-source',
+      });
+      expect(url).toBe('https://availability.bluedot.org/form/bluedot-course?email=test%40example.com&utm_source=test-source');
+    });
+
+    test('builds URL with prefill parameters when course registration has availability', () => {
+      const url = buildAvailabilityFormUrl({
+        email: 'test@example.com',
+        utmSource: 'bluedot-group-switch-modal',
+        courseRegistration: {
+          availabilityIntervalsUTC: 'M16:00 M18:00, W20:00 R08:00',
+          availabilityTimezone: 'UTC+01:00',
+          availabilityComments: 'I prefer morning sessions',
+        },
+      });
+
+      const parsed = new URL(url);
+      expect(parsed.origin + parsed.pathname).toBe('https://availability.bluedot.org/form/bluedot-course');
+      expect(parsed.searchParams.get('email')).toBe('test@example.com');
+      expect(parsed.searchParams.get('utm_source')).toBe('bluedot-group-switch-modal');
+      expect(parsed.searchParams.get('prefill_intervals')).toBe('M16:00 M18:00, W20:00 R08:00');
+      expect(parsed.searchParams.get('prefill_timezone')).toBe('UTC+01:00');
+      expect(parsed.searchParams.get('prefill_comment')).toBe('I prefer morning sessions');
     });
   });
 
