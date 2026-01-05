@@ -1,11 +1,12 @@
 import {
-  CTALinkOrButton,
-  HeroSection,
-  HeroH1,
-  HeroH2,
-  Section,
+  A,
   Breadcrumbs,
   BluedotRoute,
+  CTALinkOrButton,
+  HeroH1,
+  HeroH2,
+  HeroSection,
+  Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { GetStaticProps, GetStaticPaths } from 'next';
@@ -13,7 +14,6 @@ import { Project, projectTable } from '@bluedot/db';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import { ROUTES } from '../../lib/routes';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
-import { A } from '../../components/Text';
 import db from '../../lib/api/db';
 
 type ProjectPostPageProps = {

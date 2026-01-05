@@ -8,6 +8,26 @@ module.exports = withDefaultBlueDotNextConfig({
         destination: '/blog/running-versions-of-our-courses',
         permanent: true,
       },
+      {
+        source: '/blog/:slug',
+        destination: 'https://blog.bluedot.org/p/:slug',
+        permanent: true,
+      },
+      {
+        source: '/courses/governance',
+        destination: '/courses/ai-governance',
+        permanent: true,
+      },
+      {
+        source: '/mentor',
+        destination: '/join-us/mentor',
+        permanent: true,
+      },
+      {
+        source: '/facilitate',
+        destination: '/join-us/facilitate',
+        permanent: true,
+      },
     ];
   },
   headers: [

@@ -43,7 +43,6 @@ const oidcRefreshWithRetries = async (auth: Auth): Promise<Auth> => {
         refreshToken: user.refresh_token ?? auth.refreshToken,
         oidcSettings: auth.oidcSettings,
         email: user.profile.email ?? auth.email,
-        attribution: auth.attribution,
       };
     } catch (error) {
       lastError = error instanceof Error ? error : new Error(String(error));
@@ -67,14 +66,6 @@ export type Auth = {
   refreshToken?: string,
   oidcSettings?: OidcClientSettings,
   email: string,
-  /** Marketing attribution data */
-  attribution?: {
-    referralCode?: string,
-    utmSource?: string,
-    utmCampaign?: string,
-    utmTerm?: string,
-    utmMedium?: string,
-  }
 };
 
 export const useAuthStore = create<{
@@ -108,7 +99,6 @@ export const useAuthStore = create<{
 
     posthog.identify(auth.email, {
       email: auth.email,
-      ...(auth.attribution || {}),
     });
 
     const now = Date.now();

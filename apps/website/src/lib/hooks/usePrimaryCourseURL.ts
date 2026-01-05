@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { useAuthStore } from '@bluedot/ui';
 import { trpc } from '../../utils/trpc';
 
 /**
@@ -7,8 +8,12 @@ import { trpc } from '../../utils/trpc';
  * - Otherwise -> /courses/{slug} (lander page)
  */
 export const usePrimaryCourseURL = () => {
+  const isLoggedIn = !!useAuthStore((s) => s.auth);
   const { data: coursesData } = trpc.courses.getAll.useQuery();
-  const { data: registrations } = trpc.courseRegistrations.getAll.useQuery();
+  // Only fetch registrations when user is logged in (this endpoint requires auth)
+  const { data: registrations } = trpc.courseRegistrations.getAll.useQuery(undefined, {
+    enabled: isLoggedIn,
+  });
 
   const getPrimaryCourseURL = useCallback((courseSlug: string): string => {
     const course = coursesData?.find((c) => c.slug === courseSlug);

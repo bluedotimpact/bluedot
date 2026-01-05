@@ -1,5 +1,4 @@
-import { CTALinkOrButton } from '@bluedot/ui';
-import { H3 } from '../../Text';
+import { CTALinkOrButton, H3 } from '@bluedot/ui';
 
 export type LandingBannerProps = {
   title: string;

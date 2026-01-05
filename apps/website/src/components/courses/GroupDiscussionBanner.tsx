@@ -17,8 +17,7 @@ import { buildGroupSlackChannelUrl, formatDateTimeRelative } from '../../lib/uti
 import { trpc } from '../../utils/trpc';
 import { SlackIcon } from '../icons/SlackIcon';
 import { DocumentIcon } from '../icons/DocumentIcon';
-
-const ONE_HOUR_MS = 3600_000;
+import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 
 const BUTTON_STYLES = {
   primary: { variant: 'primary' as const, className: 'bg-bluedot-normal' },
@@ -84,9 +83,9 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   // Recalculate time strings when currentTime changes
   const startTimeDisplayRelative = useMemo(() => formatDateTimeRelative({ dateTimeMs: groupDiscussion.startDateTime * 1000, currentTimeMs }), [groupDiscussion.startDateTime, currentTimeMs]);
 
-  // Dynamic discussion starts soon check
-  const discussionIsSoonOrLive = (groupDiscussion.startDateTime * 1000 - currentTimeMs) <= ONE_HOUR_MS && currentTimeMs <= (groupDiscussion.endDateTime * 1000);
-  const discussionIsLive = (groupDiscussion.startDateTime * 1000) <= currentTimeMs && currentTimeMs <= (groupDiscussion.endDateTime * 1000);
+  const discussionTimeState = getDiscussionTimeState({ discussion: groupDiscussion, currentTimeMs });
+  const discussionIsSoonOrLive = discussionTimeState === 'live' || discussionTimeState === 'soon';
+  const discussionIsLive = discussionTimeState === 'live';
 
   const discussionMeetLink = groupDiscussion.zoomLink || '';
   const discussionDocLink = groupDiscussion.activityDoc || '';
@@ -183,7 +182,9 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     <>
       <div className="@container flex flex-col gap-3 px-4 py-3 bg-[#E4EDFE] border-b border-[#C9D4F5]">
         <div className="flex items-center gap-3 text-size-xs">
-          <IndicatorIcon isLive={discussionIsLive} />
+          {(discussionIsLive || discussionIsSoonOrLive) && (
+            <IndicatorIcon isLive={discussionIsLive} />
+          )}
           <div className="flex gap-[6px] min-w-0 flex-initial">
             <span className="text-bluedot-normal font-bold whitespace-nowrap">
               {discussionIsLive ? 'Discussion is live' : `Discussion ${startTimeDisplayRelative}`}

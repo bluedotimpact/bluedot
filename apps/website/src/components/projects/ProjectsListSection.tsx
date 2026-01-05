@@ -1,5 +1,5 @@
 import {
-  Card, CTALinkOrButton, ErrorSection, ProgressDots, Section,
+  Card, CTALinkOrButton, ErrorSection, H3, P, ProgressDots, Section,
 } from '@bluedot/ui';
 import type { inferRouterOutputs } from '@trpc/server';
 import React from 'react';
@@ -7,7 +7,6 @@ import { isMobile } from 'react-device-detect';
 import { ROUTES } from '../../lib/routes';
 import type { AppRouter } from '../../server/routers/_app';
 import { trpc } from '../../utils/trpc';
-import { H3, P } from '../Text';
 
 type CmsProject = inferRouterOutputs<AppRouter>['projects']['getAll'][number];
 

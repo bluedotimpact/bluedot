@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import {
-  ErrorSection, NewText, withAuth, CTALinkOrButton, Card, ProgressDots,
+  ErrorSection, H1, H2, P, A, withAuth, CTALinkOrButton, Card, ProgressDots,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import { personTable } from '@bluedot/db';
@@ -14,12 +14,12 @@ const AuthedPage = withAuth(({ auth, setAuth }) => {
 
   return (
     <div className="section-body gap-4">
-      <NewText.H1>Authed page</NewText.H1>
-      <NewText.P>Here's the token we got: <code className="select-all">{auth.token}</code> (view on <NewText.A href={`https://jwt.io/#debugger-io?token=${auth.token}`}>jwt.io</NewText.A>)</NewText.P>
-      <NewText.P>It expires at: {new Date(auth.expiresAt).toISOString()}</NewText.P>
-      <NewText.H2>People</NewText.H2>
+      <H1>Authed page</H1>
+      <P>Here's the token we got: <code className="select-all">{auth.token}</code> (view on <A href={`https://jwt.io/#debugger-io?token=${auth.token}`}>jwt.io</A>)</P>
+      <P>It expires at: {new Date(auth.expiresAt).toISOString()}</P>
+      <H2>People</H2>
       <PeopleListView />
-      <NewText.H2>Logout</NewText.H2>
+      <H2>Logout</H2>
       <CTALinkOrButton onClick={() => {
         // This is a little jank: if we immediately setAuth to false the withAuth HOC will redirect us to login first
         router.push('/');
@@ -55,7 +55,7 @@ const PeopleListView: React.FC = withAuth(({ auth }) => {
     <div className="grid md:grid-cols-4 gap-4">
       {data?.map((person) => (
         <Card key={person.id} title={`${person.firstName} ${person.lastName}`} className="container-lined p-4">
-          <NewText.P><NewText.A href={`https://airtable.com/${PERSON_TABLE_BASE_ID}/${PERSON_TABLE_ID}/${person.id}`}>View in Airtable</NewText.A></NewText.P>
+          <P><A href={`https://airtable.com/${PERSON_TABLE_BASE_ID}/${PERSON_TABLE_ID}/${person.id}`}>View in Airtable</A></P>
         </Card>
       ))}
     </div>

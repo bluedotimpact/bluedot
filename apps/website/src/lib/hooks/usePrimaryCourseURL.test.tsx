@@ -1,17 +1,30 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import {
-  describe, expect, it, beforeEach,
+  describe, expect, it, beforeEach, vi,
 } from 'vitest';
+import { useAuthStore } from '@bluedot/ui';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import { createMockCourse, createMockCourseRegistration } from '../../__tests__/testUtils';
 import { usePrimaryCourseURL } from './usePrimaryCourseURL';
+
+vi.mock('@bluedot/ui', async () => {
+  const actual = await vi.importActual('@bluedot/ui');
+  return {
+    ...actual,
+    useAuthStore: vi.fn(),
+  };
+});
+
+const mockAuth = { token: 'test-token', email: 'test@bluedot.org', expiresAt: Date.now() + 3600000 };
 
 describe('usePrimaryCourseURL', () => {
   beforeEach(() => {
     // Default: no courses, no registrations
     server.use(trpcMsw.courses.getAll.query(() => []));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => []));
+    // Default: user is logged in (so registrations query is enabled)
+    vi.mocked(useAuthStore).mockImplementation((selector) => selector({ auth: mockAuth }));
   });
 
   it('returns lander URL when course not found', async () => {
@@ -76,7 +89,7 @@ describe('usePrimaryCourseURL', () => {
     });
     const mockRegistration = createMockCourseRegistration({
       courseId,
-      roundStatus: 'Completed',
+      roundStatus: 'Past',
     });
 
     server.use(trpcMsw.courses.getAll.query(() => [mockCourse]));

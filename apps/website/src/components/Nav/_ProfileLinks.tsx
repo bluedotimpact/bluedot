@@ -1,26 +1,33 @@
 import { useState } from 'react';
 import clsx from 'clsx';
 import { FaCircleUser } from 'react-icons/fa6';
-import { IconButton, BugReportModal } from '@bluedot/ui';
+import { A, BugReportModal, IconButton } from '@bluedot/ui';
 
-import { ExpandedSectionsState, DRAWER_CLASSES, DRAWER_Z_PROFILE } from './utils';
+import {
+  ExpandedSectionsState, DRAWER_CLASSES, DRAWER_Z_PROFILE, PROFILE_DROPDOWN_CLASS,
+} from './utils';
 import { ROUTES } from '../../lib/routes';
-import { A } from '../Text';
 import { UserSearchModal } from '../admin/UserSearchModal';
 import { trpc } from '../../utils/trpc';
+import { useClickOutside } from '../../lib/hooks/useClickOutside';
 
 export const ProfileLinks: React.FC<{
   expandedSections: ExpandedSectionsState;
   updateExpandedSections: (updates: Partial<ExpandedSectionsState>) => void;
-  isHomepage?: boolean;
+  onColoredBackground?: boolean;
 }> = ({
   expandedSections,
   updateExpandedSections,
-  isHomepage = false,
+  onColoredBackground = false,
 }) => {
   const [isBugReportModalOpen, setIsBugReportModalOpen] = useState(false);
   const [isImpersonateModalOpen, setIsImpersonateModalOpen] = useState(false);
   const { data: isAdmin } = trpc.admin.isAdmin.useQuery();
+  const profileRef = useClickOutside<HTMLDivElement>(
+    () => updateExpandedSections({ profile: false }),
+    expandedSections.profile,
+    `.${PROFILE_DROPDOWN_CLASS}`,
+  );
 
   const onToggleProfile = () => updateExpandedSections({
     about: false,
@@ -38,11 +45,11 @@ export const ProfileLinks: React.FC<{
   };
 
   return (
-    <div className="profile-links">
+    <div ref={profileRef} className={PROFILE_DROPDOWN_CLASS}>
       <IconButton
         className={clsx(
           'profile-links__btn',
-          isHomepage && 'text-white [&_svg]:text-white',
+          onColoredBackground && 'text-white [&_svg]:text-white',
         )}
         open={expandedSections.profile}
         Icon={<FaCircleUser className="size-6 opacity-75" />}
@@ -84,7 +91,11 @@ export const ProfileLinks: React.FC<{
             Submit Feedback
           </button>
           <A
-            href={ROUTES.logout.url}
+            href={typeof window !== 'undefined'
+              ? `${ROUTES.logout.url}?redirect_to=${encodeURIComponent(
+                window.location.pathname + window.location.search + window.location.hash,
+              )}`
+              : ROUTES.logout.url}
             className={getNavLinkClasses()}
             onClick={onToggleProfile}
           >Log out

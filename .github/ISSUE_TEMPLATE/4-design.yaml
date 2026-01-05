@@ -1,0 +1,38 @@
+name: Design task
+description: Create a design task or request
+title: "Short descriptive title"
+type: "needs design"
+assignees: [herrhaase]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: 🎨 Summary
+      description: Briefly describe the design task or request in one or two sentences.
+      placeholder: A clear and concise description of what needs to be designed.
+    validations:
+      required: true
+
+  - type: textarea
+    id: requirements
+    attributes:
+      label: ✅ Definition of done
+      description: What needs to be true for this design to be considered complete?
+      placeholder: A clear description of the deliverables (e.g., Figma mockups, design system updates, prototype, etc.).
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: 📌 Notes / References
+      description: Include Figma links, screenshots, inspiration, user research, or other relevant context.
+      placeholder: Add any other context about the design request here.
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Thanks for taking the time to submit this!
+        Your issue will be automatically added to the [kanban](https://github.com/orgs/bluedotimpact/projects/6/views/9). Please go there to set the priority level.
+
+

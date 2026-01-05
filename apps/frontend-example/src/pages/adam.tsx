@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  NewText, Input, Card, CTALinkOrButton,
+  H1, H2, P, A, Input, Card, CTALinkOrButton,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import { GetPeopleResponse } from './api/public/people';
@@ -21,24 +21,24 @@ const HomePage = () => {
 
   return (
     <div className="section-body gap-4">
-      <NewText.H1>Adam's page!</NewText.H1>
-      <NewText.P>Increment by:</NewText.P>
+      <H1>Adam's page!</H1>
+      <P>Increment by:</P>
       <Input type="number" value={incrementBy} onChange={(e) => setIncrementBy(e.target.valueAsNumber)} />
 
-      <NewText.P>Value is {value}</NewText.P>
+      <P>Value is {value}</P>
       <div className="flex gap-2">
         <CTALinkOrButton onClick={() => setValue((c) => c + incrementBy)}>+</CTALinkOrButton>
         <CTALinkOrButton onClick={() => setValue((c) => c - incrementBy)}>-</CTALinkOrButton>
       </div>
 
-      <NewText.H2>People</NewText.H2>
+      <H2>People</H2>
       {loading
-        ? <NewText.P className="animate-pulse">Loading...</NewText.P>
+        ? <P className="animate-pulse">Loading...</P>
         : (
           <div className="grid grid-cols-2 gap-2">
             {data?.persons.map((person) => (
               <Card key={person.id} title={`${person.firstName} ${person.lastName}`} className="container-lined p-4">
-                <NewText.P><NewText.A href={`https://airtable.com/${PERSON_TABLE_BASE_ID}/${PERSON_TABLE_ID}/${person.id}`}>View in Airtable</NewText.A></NewText.P>
+                <P><A href={`https://airtable.com/${PERSON_TABLE_BASE_ID}/${PERSON_TABLE_ID}/${person.id}`}>View in Airtable</A></P>
               </Card>
             ))}
           </div>

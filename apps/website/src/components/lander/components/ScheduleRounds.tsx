@@ -159,7 +159,7 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
               aria-label="Apply now (opens in a new tab)"
               className="text-bluedot-normal text-[15px] leading-[1.6] font-medium"
             >
-              Apply now →
+              Apply now
             </a>
           </div>
         </div>

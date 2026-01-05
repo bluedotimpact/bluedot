@@ -1,12 +1,11 @@
-import { NewText } from '@bluedot/ui';
+import { H2, H3, P } from '@bluedot/ui';
 import { IconType } from 'react-icons';
-
-const { H2, H3, P } = NewText;
+import { ReactNode } from 'react';
 
 export type BenefitCard = {
   icon: IconType;
   title: string;
-  description: string;
+  description: string | ReactNode;
 };
 
 export type CourseBenefitsSectionProps = {

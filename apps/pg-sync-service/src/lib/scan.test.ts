@@ -15,6 +15,22 @@ vi.mock('./db', () => ({
   },
 }));
 
+vi.mock('@bluedot/db', () => ({
+  eq: vi.fn(),
+  and: vi.fn(),
+  inArray: vi.fn(),
+  metaTable: {},
+  getPgAirtableFromIds: vi.fn().mockReturnValue({
+    airtable: {
+      name: 'testTable',
+      baseId: 'testBase',
+      tableId: 'testTable',
+      schema: { name: 'string' },
+      mappings: { name: 'Name' },
+    },
+  }),
+}));
+
 vi.mock('@bluedot/utils/src/slackNotifications', () => ({
   slackAlert: vi.fn(),
 }));
@@ -104,7 +120,7 @@ describe('processTableForInitialSync', () => {
         mockPgAirtable,
         mockAddToQueue,
       ),
-    ).rejects.toThrow('Scan failed');
+    ).rejects.toThrow('Failed to fetch records after 3 retries');
 
     expect(mockAddToQueue).not.toHaveBeenCalled();
   });

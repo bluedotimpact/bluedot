@@ -6,6 +6,66 @@ import { db } from './db';
 import { AirtableAction } from './webhook';
 
 /**
+ * Fetches ALL records from an Airtable table with retry logic
+ */
+export async function fetchAllRecordsFromAirtable(
+  baseId: string,
+  tableId: string,
+) {
+  const pgAirtable = getPgAirtableFromIds({ baseId, tableId });
+  if (!pgAirtable) {
+    throw new Error(`No pgAirtable config found for ${baseId}/${tableId}`);
+  }
+
+  const maxRetries = 3;
+  const retryDelay = 1000;
+  let lastError: Error | null = null;
+
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      return await db.airtableClient.scan(pgAirtable.airtable) as ({ id: string } & Record<string, string | string[] | number | boolean | null>)[];
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(String(error));
+      if (attempt < maxRetries) {
+        logger.warn(`[${tableId}] Fetch failed (attempt ${attempt}/${maxRetries}), retrying...`, error);
+        // eslint-disable-next-line no-await-in-loop -- Intentional retry delay
+        await new Promise((resolve) => {
+          setTimeout(resolve, retryDelay);
+        });
+      }
+    }
+  }
+
+  throw new Error(`Failed to fetch records after ${maxRetries} retries: ${lastError?.message}`);
+}
+
+/**
+ * Converts Airtable records into AirtableActions with recordData pre-attached
+ * @param filterToRecordIds - If provided, only includes these specific record IDs
+ */
+export function convertRecordsToActionsWithData(
+  baseId: string,
+  tableId: string,
+  fieldIds: string[],
+  airtableRecords: Awaited<ReturnType<typeof fetchAllRecordsFromAirtable>>,
+  filterToRecordIds?: Set<string>,
+) {
+  const recordsToConvert = filterToRecordIds
+    ? airtableRecords.filter((record) => filterToRecordIds.has(record.id))
+    : airtableRecords;
+
+  return recordsToConvert.map((record) => ({
+    baseId,
+    tableId,
+    recordId: record.id,
+    isDelete: false,
+    fieldIds,
+    recordData: record,
+  }));
+}
+
+/**
  * Core function that scans all records from a table and queues them for processing.
  */
 export async function processTableForInitialSync(
@@ -16,74 +76,35 @@ export async function processTableForInitialSync(
   addToQueue: (action: AirtableAction, priority: 'low' | 'high') => void,
 ): Promise<number> {
   const startTime = Date.now();
-  const maxRetries = 3;
-  const retryDelay = 1000;
 
   const heartbeatInterval = setInterval(() => {
     const elapsed = Math.round((Date.now() - startTime) / 1000);
     logger.info(`[${tableId}] Heartbeat: ${elapsed}s elapsed`);
   }, 10000);
 
-  // TODO clean this up overall
   try {
-    let records;
-    let lastError: Error | null = null;
-
-    for (let attempt = 1; attempt <= maxRetries; attempt++) {
-      try {
-        // eslint-disable-next-line no-await-in-loop
-        records = await db.airtableClient.scan(pgAirtable.airtable);
-        break;
-      } catch (error) {
-        lastError = error instanceof Error ? error : new Error(String(error));
-
-        if (attempt < maxRetries) {
-          logger.warn(`[${tableId}] Scan failed on attempt ${attempt}/${maxRetries}, retrying in ${retryDelay}ms:`, error);
-          // eslint-disable-next-line no-await-in-loop -- Intentional retry delay
-          await new Promise((resolve) => {
-            setTimeout(resolve, retryDelay);
-          });
-        }
-      }
-    }
-
-    if (!records) {
-      const errorDetails = {
-        baseId,
-        tableId,
-        fieldIds,
-        maxRetries,
-        lastErrorType: lastError?.name || 'Unknown',
-        lastErrorMessage: lastError?.message || 'No error details available',
-      };
-      throw new Error(`Failed to scan records after ${maxRetries} retries: ${JSON.stringify(errorDetails)}`);
-    }
-
+    // Use extracted function
+    const airtableRecords = await fetchAllRecordsFromAirtable(baseId, tableId);
     const duration = Date.now() - startTime;
-    logger.info(`Scanned ${records.length} records from ${tableId} in ${duration}ms`);
+    logger.info(`Fetched ${airtableRecords.length} records from ${tableId} in ${duration}ms`);
 
-    for (const [index, record] of records.entries()) {
-      const action: AirtableAction = {
-        baseId,
-        tableId,
-        recordId: record.id,
-        isDelete: false,
-        fieldIds,
-        recordData: record as { id: string } & Record<string, string | string[] | number | boolean | null>,
-      };
+    // Use extracted function
+    const actions = convertRecordsToActionsWithData(baseId, tableId, fieldIds, airtableRecords);
 
+    // Queue all actions
+    for (const [index, action] of actions.entries()) {
       addToQueue(action, 'low');
 
-      if (records.length > 10000 && (index + 1) % 5000 === 0) {
-        const progress = Math.round(((index + 1) / records.length) * 100);
-        logger.info(`Progress: ${index + 1}/${records.length} (${progress}%)`);
+      if (airtableRecords.length > 10000 && (index + 1) % 5000 === 0) {
+        const progress = Math.round(((index + 1) / airtableRecords.length) * 100);
+        logger.info(`Progress: ${index + 1}/${airtableRecords.length} (${progress}%)`);
       }
     }
 
-    logger.info(`Queued ${records.length} records from ${tableId}`);
-    return records.length;
+    logger.info(`Queued ${actions.length} records from ${tableId}`);
+    return actions.length;
   } catch (error) {
-    logger.error(`Error scanning ${tableId}:`, error);
+    logger.error(`Error syncing table ${tableId}:`, error);
     throw error;
   } finally {
     clearInterval(heartbeatInterval);

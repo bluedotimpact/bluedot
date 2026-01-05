@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { CTALinkOrButton, NewText, withAuth } from '@bluedot/ui';
+import {
+  CTALinkOrButton, H1, H2, P, A, withAuth,
+} from '@bluedot/ui';
 import { useRouter } from 'next/router';
 
 const AuthedPage = withAuth(({ auth, setAuth }) => {
@@ -14,9 +16,9 @@ const AuthedPage = withAuth(({ auth, setAuth }) => {
 
   return (
     <div className="section-body gap-4">
-      <NewText.H1>Authed page</NewText.H1>
-      <NewText.P>Here's the token we got: <code className="select-all">{auth.token}</code> (view on <NewText.A href={`https://jwt.io/#debugger-io?token=${auth.token}`}>jwt.io</NewText.A>)</NewText.P>
-      <NewText.P>It expires at: {new Date(auth.expiresAt).toISOString()}</NewText.P>
+      <H1>Authed page</H1>
+      <P>Here's the token we got: <code className="select-all">{auth.token}</code> (view on <A href={`https://jwt.io/#debugger-io?token=${auth.token}`}>jwt.io</A>)</P>
+      <P>It expires at: {new Date(auth.expiresAt).toISOString()}</P>
       <CTALinkOrButton onClick={() => setCount((c) => c + 1)}>
         count is {count}
       </CTALinkOrButton>
@@ -24,7 +26,7 @@ const AuthedPage = withAuth(({ auth, setAuth }) => {
       <CourseListView />
       <H2>Create course</H2>
       <CTALinkOrButton onClick={() => { mutate({ body: {}, headers: { authorization: '' } }); }}>Create</CTALinkOrButton> */}
-      <NewText.H2>Logout</NewText.H2>
+      <H2>Logout</H2>
       <CTALinkOrButton onClick={() => {
         // This is a little jank: if we immediately setAuth to false the withAuth HOC will redirect us to login first
         router.push('/');

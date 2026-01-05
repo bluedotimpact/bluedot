@@ -1,7 +1,6 @@
 import {
-  Card, CTALinkOrButton, ErrorSection, ProgressDots, Section,
+  Card, CTALinkOrButton, ErrorSection, P, ProgressDots, Section,
 } from '@bluedot/ui';
-import { P } from '@bluedot/ui/src/Text';
 import type { inferRouterOutputs } from '@trpc/server';
 import { ROUTES } from '../../lib/routes';
 import type { AppRouter } from '../../server/routers/_app';
