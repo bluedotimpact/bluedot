@@ -89,8 +89,9 @@ const CertificatePage = ({
   }
 
   // Build URLs from filenames determined server-side
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bluedot.org';
   const badgeRelativeUrl = `/images/certificates/${certificationBadgeFilename}`;
-  const linkPreviewAbsoluteUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/images/certificates/link-preview/${linkPreviewFilename}`;
+  const linkPreviewAbsoluteUrl = `${siteUrl}/images/certificates/link-preview/${linkPreviewFilename}`;
 
   return (
     <main className="bluedot-base flex flex-col">
@@ -104,7 +105,7 @@ const CertificatePage = ({
         <meta property="og:description" content={certificate.certificationDescription || `Certificate of completion for ${certificate.courseName}`} />
         <meta property="og:site_name" content="BlueDot Impact" />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content={`${process.env.NEXT_PUBLIC_SITE_URL}/certification?id=${encodeURIComponent(certificateId)}`} />
+        <meta property="og:url" content={`${siteUrl}/certification?id=${encodeURIComponent(certificateId)}`} />
         <meta property="og:image" content={linkPreviewAbsoluteUrl} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
@@ -128,7 +129,7 @@ const CertificatePage = ({
               </div>
               <P className="text-gray-700">This certificate was issued to <span className="font-bold">{certificate.recipientName}</span> on {new Date(certificate.certificateCreatedAt * 1000).toLocaleDateString()}</P>
             </div>
-            <ShareButton text={`I was just awarded my certificate for BlueDot Impact's ${certificate.courseName} course!`} url={`${process.env.NEXT_PUBLIC_SITE_URL}/certification?id=${certificateId}`}>Share your achievement</ShareButton>
+            <ShareButton text={`I was just awarded my certificate for BlueDot Impact's ${certificate.courseName} course!`} url={`${siteUrl}/certification?id=${certificateId}`}>Share your achievement</ShareButton>
           </div>
         </div>
 
