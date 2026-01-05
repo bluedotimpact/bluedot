@@ -59,7 +59,7 @@ exports[`HeroSection > renders correctly (snapshot) 1`] = `
           alt="AGI Strategy visualization"
           class="size-full object-cover lg:object-center"
           fetchpriority="high"
-          src="/images/agi-strategy/hero-banner.png"
+          src="/images/agi-strategy/noise.webp"
         />
         <div
           class="absolute inset-0 pointer-events-none bg-contain bg-repeat mix-blend-soft-light"
@@ -139,7 +139,7 @@ exports[`HeroSection > renders gradient variant correctly (snapshot) 1`] = `
           alt="AGI Strategy visualization"
           class="size-full object-cover lg:object-center"
           fetchpriority="high"
-          src="/images/agi-strategy/hero-banner.png"
+          src="/images/agi-strategy/noise.webp"
         />
       </div>
     </div>

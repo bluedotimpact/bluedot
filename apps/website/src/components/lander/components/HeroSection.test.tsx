@@ -15,7 +15,7 @@ describe('HeroSection', () => {
       text: 'Browse curriculum',
       url: '/courses/agi-strategy/1',
     },
-    imageSrc: '/images/agi-strategy/hero-banner.png',
+    imageSrc: '/images/agi-strategy/noise.webp',
     imageAlt: 'AGI Strategy visualization',
   };
 
@@ -45,7 +45,7 @@ describe('HeroSection', () => {
     render(<HeroSection {...defaultProps} />);
 
     const image = screen.getByRole('img');
-    expect(image).toHaveAttribute('src', '/images/agi-strategy/hero-banner.png');
+    expect(image).toHaveAttribute('src', '/images/agi-strategy/noise.webp');
     expect(image).toHaveAttribute('alt', 'AGI Strategy visualization');
   });
 
