@@ -11,6 +11,16 @@ import { CourseLanderContent } from '../CourseLander';
 
 export const AI_GOVERNANCE_APPLICATION_URL = 'https://web.miniextensions.com/BSUqN3WHmeL9MbzAj2P6';
 
+const COURSE_COLORS = {
+  gradient: `
+    linear-gradient(270deg, rgba(5, 24, 67, 0.00) -3.82%, rgba(5, 24, 67, 0.50) 98.44%),
+    radial-gradient(96.03% 113.39% at 98.65% 96.93%, rgba(175, 196, 151, 0.40) 0%, rgba(21, 148, 194, 0.40) 44.58%, rgba(5, 24, 67, 0.40) 100%),
+    #051843
+  `,
+  accent: '#adfeff',
+  iconBackground: '#1F588A',
+};
+
 export const createAiGovernanceContent = (
   applicationUrlWithUtm: string,
   courseSlug: string,
@@ -21,9 +31,9 @@ export const createAiGovernanceContent = (
   },
 
   hero: {
-    categoryLabel: 'AI GOVERNANCE',
-    title: 'Shape the institutions that will govern the most powerful technology in history',
-    description: 'Master the frameworks to analyse AI risks, understand regulatory tools, and design effective policy interventions. In less than 30 hours.',
+    categoryLabel: 'COHORT-BASED COURSE',
+    title: 'AI Governance',
+    description: 'Learn about the policy landscape, regulatory tools, and institutional reforms needed to navigate the transition to transformative AI.',
     primaryCta: {
       text: 'Apply now',
       url: applicationUrlWithUtm,
@@ -32,11 +42,15 @@ export const createAiGovernanceContent = (
       text: 'Browse curriculum',
       url: `/courses/${courseSlug}/1/1`,
     },
-    imageSrc: '/images/lander/ai-governance/hero-banner-split.webp',
+    imageSrc: '/images/lander/ai-governance/hero-graphic.png',
     imageAlt: 'AI Governance visualization',
+    gradient: COURSE_COLORS.gradient,
+    accentColor: COURSE_COLORS.accent,
+    imageAspectRatio: '1408/1122',
   },
 
   whoIsThisFor: {
+    iconBackgroundColor: COURSE_COLORS.iconBackground,
     title: 'Who this course is for',
     targetAudiences: [
       {
