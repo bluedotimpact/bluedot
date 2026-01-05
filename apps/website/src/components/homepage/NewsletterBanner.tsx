@@ -41,7 +41,7 @@ const NewsletterBanner = () => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Failed to subscribe:', error);
-      setErrorMessage('Something went wrong. Please try again later.');
+      setErrorMessage('Something went wrong. Please try again in a different browser.');
       setIsSubmitting(false);
 
       // Auto-hide error message after 5 seconds
