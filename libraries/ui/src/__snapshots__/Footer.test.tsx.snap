@@ -503,7 +503,7 @@ exports[`Footer > renders default as expected 1`] = `
         >
           <span>
             © 
-            2025
+            2026
             . 
             <a
               class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
@@ -1040,7 +1040,7 @@ exports[`Footer > renders with optional args 1`] = `
         >
           <span>
             © 
-            2025
+            2026
             . 
             <a
               class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
