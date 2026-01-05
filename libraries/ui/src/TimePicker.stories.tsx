@@ -15,8 +15,18 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {
-    value: new Date(),
+  render: () => {
+    const ControlledDemo = () => {
+      const [time, setTime] = useState<Date | null>(null);
+
+      return (
+        <div className="flex flex-col gap-4">
+          <TimePicker label="Pick a time" value={time} onChange={setTime} />
+          <div className="text-size-sm text-white">Selected: {time ? time.toLocaleTimeString() : 'None'}</div>
+        </div>
+      );
+    };
+    return <ControlledDemo />;
   },
 };
 
@@ -30,23 +40,6 @@ export const HiddenLabel: Story = {
   args: {
     label: 'Time',
     hideLabel: true,
-  },
-};
-
-export const Controlled: Story = {
-  render: () => {
-    const ControlledDemo = () => {
-      const [time, setTime] = useState<Date | null>(null);
-
-      return (
-        <div className="flex flex-col gap-4">
-          <TimePicker label="Pick a time" value={time} onChange={setTime} />
-          <div className="text-size-sm text-white">Selected: {time ? time.toLocaleTimeString() : 'None'}</div>
-        </div>
-      );
-    };
-
-    return <ControlledDemo />;
   },
 };
 
