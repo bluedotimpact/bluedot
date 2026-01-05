@@ -38,8 +38,7 @@ export const CustomLabel: Story = {
 
 export const HiddenLabel: Story = {
   args: {
-    label: 'Time',
-    hideLabel: true,
+    label: undefined,
   },
 };
 

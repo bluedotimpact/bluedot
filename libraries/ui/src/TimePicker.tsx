@@ -6,7 +6,6 @@ import { cn } from './utils';
 
 export type TimePickerProps = {
   label?: string;
-  hideLabel?: boolean;
   value?: Date | null;
   onChange?: (value: Date | null) => void;
   className?: string;
@@ -15,8 +14,7 @@ export type TimePickerProps = {
 };
 
 export const TimePicker = ({
-  label = 'Time',
-  hideLabel = false,
+  label,
   value,
   onChange,
   className,
@@ -44,9 +42,9 @@ export const TimePicker = ({
       className={cn('group flex w-[200px] flex-col gap-1', className)}
       value={time}
       onChange={handleChange}
-      aria-label={hideLabel ? label : undefined}
+      aria-label={label || undefined}
     >
-      {!hideLabel && <Label className={cn('cursor-default text-black', labelClassName)}>{label}</Label>}
+      {label && <Label className={cn('cursor-default text-black', labelClassName)}>{label}</Label>}
       <DateInput
         className={cn(
           'flex rounded-lg border border-gray-200 bg-white/90 px-3 py-2 text-gray-700 ring-black transition focus-within:bg-white focus-visible:ring-2',
