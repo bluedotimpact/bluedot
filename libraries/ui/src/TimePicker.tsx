@@ -56,7 +56,7 @@ export const TimePicker = ({
         {(segment) => (
           <DateSegment
             segment={segment}
-            className="rounded-xs px-0.5 tabular-nums caret-transparent outline-hidden placeholder-shown:italic focus:bg-bluedot-normal focus:text-white"
+            className="focus:bg-bluedot-normal rounded-xs px-0.5 tabular-nums caret-transparent outline-hidden placeholder-shown:italic focus:text-white"
           />
         )}
       </DateInput>
