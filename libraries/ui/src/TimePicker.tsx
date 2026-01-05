@@ -42,7 +42,6 @@ export const TimePicker = ({
       className={cn('group flex w-[200px] flex-col gap-1', className)}
       value={time}
       onChange={handleChange}
-      aria-label={label}
     >
       {label && <Label className={cn('cursor-default text-black', labelClassName)}>{label}</Label>}
       <DateInput
