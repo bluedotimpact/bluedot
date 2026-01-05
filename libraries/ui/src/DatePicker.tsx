@@ -89,9 +89,21 @@ export const DatePicker = ({
 
   const updatePopoverPosition = useCallback(() => {
     if (triggerRef.current && popoverRef.current) {
-      const rect = triggerRef.current.getBoundingClientRect();
-      const top = rect.bottom + 8;
-      const left = rect.left + rect.width / 2;
+      const triggerRect = triggerRef.current.getBoundingClientRect();
+      const popoverRect = popoverRef.current.getBoundingClientRect();
+      const left = triggerRect.left + triggerRect.width / 2;
+
+      const spaceBelow = window.innerHeight - triggerRect.bottom;
+      const spaceAbove = triggerRect.top;
+      const popoverHeight = popoverRect.height || 332;
+
+      // Position above if not enough space below and more space above
+      const shouldPositionAbove = spaceBelow < popoverHeight && spaceAbove > spaceBelow;
+
+      const top = shouldPositionAbove
+        ? triggerRect.top - popoverHeight - 8
+        : triggerRect.bottom + 8;
+
       popoverRef.current.style.top = `${top}px`;
       popoverRef.current.style.left = `${left}px`;
     }
