@@ -56,7 +56,9 @@ export const DatePicker = ({
   const localeFormat = getLocaleDateFormat();
   const [inputValue, setInputValue] = useState(value ? format(value, localeFormat) : '');
   const [month, setMonth] = useState<Date>(value ?? new Date());
+  const [popoverPos, setPopoverPos] = useState({ top: 0, left: 0 });
   const popoverRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
   const inputId = useId();
   const popoverId = useId();
 
@@ -86,8 +88,27 @@ export const DatePicker = ({
     popoverRef.current?.hidePopover();
   };
 
+  const updatePopoverPosition = () => {
+    if (triggerRef.current) {
+      const rect = triggerRef.current.getBoundingClientRect();
+      setPopoverPos({
+        top: rect.bottom + 8,
+        left: rect.left + rect.width / 2,
+      });
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', updatePopoverPosition);
+    window.addEventListener('scroll', updatePopoverPosition);
+    return () => {
+      window.removeEventListener('resize', updatePopoverPosition);
+      window.removeEventListener('scroll', updatePopoverPosition);
+    };
+  }, []);
+
   return (
-    <div className={cn('group relative flex w-[200px] flex-col gap-1', classNames?.root)}>
+    <div ref={triggerRef} className={cn('group relative flex w-[200px] flex-col gap-1', classNames?.root)}>
       {label ? (
         <label htmlFor={inputId} className={cn('text-black', classNames?.label)}>
           {label}
@@ -100,12 +121,16 @@ export const DatePicker = ({
           value={inputValue}
           // Input field is editable only after a date has been selected
           readOnly={value === undefined}
-          onClick={() => value === undefined && popoverRef.current?.showPopover()}
+          onClick={() => {
+            if (value === undefined) {
+              updatePopoverPosition();
+              popoverRef.current?.showPopover();
+            }
+          }}
           onChange={(e) => setInputValue(e.target.value)}
           onBlur={handleInputBlur}
           placeholder={localeFormat.toLowerCase()}
           aria-label={label ?? 'Select date'}
-          style={{ anchorName: `--${popoverId}` } as React.CSSProperties}
           className={cn(
             'w-full rounded-lg bg-transparent py-2 pr-9 pl-3 outline-none placeholder:italic',
             classNames?.input,
@@ -114,6 +139,7 @@ export const DatePicker = ({
         <button
           type="button"
           popoverTarget={popoverId}
+          onClick={updatePopoverPosition}
           aria-label="Open calendar"
           className={cn(
             'absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3 text-gray-400 outline-none',
@@ -129,11 +155,10 @@ export const DatePicker = ({
         popover="auto"
         style={
           {
-            positionAnchor: `--${popoverId}`,
-            top: 'anchor(bottom)',
-            left: 'anchor(center)',
+            position: 'fixed',
+            top: `${popoverPos.top}px`,
+            left: `${popoverPos.left}px`,
             transform: 'translateX(-50%)',
-            marginTop: '8px',
           } as React.CSSProperties
         }
         className={cn('overflow-auto rounded-lg bg-white p-4 ring-1 ring-black/10 drop-shadow-sm', classNames?.popover)}
