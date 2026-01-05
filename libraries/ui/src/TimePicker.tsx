@@ -1,10 +1,7 @@
 import {
-  DateInput, DateSegment,
-  Label,
-  TimeField,
-  TimeValue,
+  DateInput, DateSegment, Label, TimeField,
 } from 'react-aria-components';
-import { parseTime } from '@internationalized/date';
+import { Time } from '@internationalized/date';
 import { cn } from './utils';
 
 export type TimePickerProps = {
@@ -26,13 +23,11 @@ export const TimePicker = ({
   labelClassName,
   inputClassName,
 }: TimePickerProps) => {
-  // Convert Date to TimeValue via HH:mm format
-  const timeValue = value
-    ? parseTime(`${value.getHours().toString().padStart(2, '0')}:${value.getMinutes().toString().padStart(2, '0')}`)
-    : null;
+  // Convert Date to Time object
+  const time = value ? new Time(value.getHours(), value.getMinutes()) : null;
 
-  // Convert TimeValue to Date object in onChange
-  const handleChange = (newValue: TimeValue | null) => {
+  // Convert Time object to Date object in onChange
+  const handleChange = (newValue: Time | null) => {
     if (!onChange) return;
 
     if (newValue) {
@@ -47,7 +42,7 @@ export const TimePicker = ({
   return (
     <TimeField
       className={cn('group flex w-[200px] flex-col gap-1', className)}
-      value={timeValue}
+      value={time}
       onChange={handleChange}
       aria-label={hideLabel ? label : undefined}
     >
