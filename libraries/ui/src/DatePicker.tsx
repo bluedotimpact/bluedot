@@ -1,6 +1,6 @@
 import { format, isValid, parse } from 'date-fns';
 import {
-  useEffect, useId, useRef, useState,
+  useCallback, useEffect, useId, useRef, useState,
 } from 'react';
 import { DayPicker, type ClassNames } from 'react-day-picker';
 import 'react-day-picker/style.css';
@@ -87,7 +87,7 @@ export const DatePicker = ({
     popoverRef.current?.hidePopover();
   };
 
-  const updatePopoverPosition = () => {
+  const updatePopoverPosition = useCallback(() => {
     if (triggerRef.current && popoverRef.current) {
       const rect = triggerRef.current.getBoundingClientRect();
       const top = rect.bottom + 8;
@@ -95,7 +95,7 @@ export const DatePicker = ({
       popoverRef.current.style.top = `${top}px`;
       popoverRef.current.style.left = `${left}px`;
     }
-  };
+  }, []);
 
   useEffect(() => {
     window.addEventListener('resize', updatePopoverPosition);
@@ -104,7 +104,7 @@ export const DatePicker = ({
       window.removeEventListener('resize', updatePopoverPosition);
       window.removeEventListener('scroll', updatePopoverPosition, true);
     };
-  }, []);
+  }, [updatePopoverPosition]);
 
   return (
     <div ref={triggerRef} className={cn('group relative flex w-[200px] flex-col gap-1', classNames?.root)}>
