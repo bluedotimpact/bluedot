@@ -92,7 +92,6 @@ export const FutureOfAI: Story = {
   },
 };
 
-// Biosecurity course with green gradient (light source from bottom-right)
 export const Biosecurity: Story = {
   args: {
     categoryLabel: 'COHORT-BASED COURSE',
@@ -136,7 +135,6 @@ export const AgiStrategy: Story = {
   },
 };
 
-// Technical AI Safety gradient hero with constrained image layout
 export const TechnicalAISafety: Story = {
   args: {
     categoryLabel: 'COHORT-BASED COURSE',
@@ -155,5 +153,26 @@ export const TechnicalAISafety: Story = {
     gradient: 'linear-gradient(to right, rgba(20, 8, 25, 0.6) 0%, rgba(20, 8, 25, 0.4) 20%, rgba(20, 8, 25, 0.2) 40%, transparent 55%), radial-gradient(130% 160% at 100% 108.81%, rgba(255, 202, 171, 0.40) 0%, rgba(126, 85, 144, 0.40) 52.4%, rgba(46, 16, 54, 0.40) 100%), #2E1036',
     accentColor: '#E0A5F9',
     imageAspectRatio: '1408/1122',
+  },
+};
+
+export const AiGovernance: Story = {
+  args: {
+    categoryLabel: 'COHORT-BASED COURSE',
+    title: 'AI Governance',
+    description: 'Learn about the policy landscape, regulatory tools, and institutional reforms needed to navigate the transition to transformative AI.',
+    primaryCta: {
+      text: 'Apply now',
+      url: 'https://web.miniextensions.com/BSUqN3WHmeL9MbzAj2P6',
+    },
+    secondaryCta: {
+      text: 'Browse curriculum',
+      url: '/courses/ai-governance/1/1',
+    },
+    imageSrc: '/images/lander/ai-governance/hero-graphic.png',
+    imageAlt: 'AI Governance visualization',
+    imageAspectRatio: '1408/1122',
+    gradient: 'linear-gradient(270deg, rgba(5, 24, 67, 0.00) -3.82%, rgba(5, 24, 67, 0.50) 98.44%), radial-gradient(96.03% 113.39% at 98.65% 96.93%, rgba(175, 196, 151, 0.40) 0%, rgba(21, 148, 194, 0.40) 44.58%, rgba(5, 24, 67, 0.40) 100%), #051843',
+    accentColor: '#adfeff',
   },
 };
