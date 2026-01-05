@@ -7,13 +7,13 @@ const testimonials = [
     quote: 'I love this course!',
     name: 'John Doe',
     role: 'Software Engineer',
-    imageSrc: '/images/graduates/john.png',
+    imageSrc: '/images/graduates/adam.webp',
   },
   {
     quote: 'I love this course!',
     name: 'Jane Doe',
     role: 'Sr. Software Engineer',
-    imageSrc: '/images/graduates/jane.png',
+    imageSrc: '/images/graduates/ana.webp',
   },
 ];
 
