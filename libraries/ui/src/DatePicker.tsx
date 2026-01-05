@@ -56,7 +56,6 @@ export const DatePicker = ({
   const localeFormat = getLocaleDateFormat();
   const [inputValue, setInputValue] = useState(value ? format(value, localeFormat) : '');
   const [month, setMonth] = useState<Date>(value ?? new Date());
-  const [popoverPos, setPopoverPos] = useState({ top: 0, left: 0 });
   const popoverRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
   const inputId = useId();
@@ -89,21 +88,21 @@ export const DatePicker = ({
   };
 
   const updatePopoverPosition = () => {
-    if (triggerRef.current) {
+    if (triggerRef.current && popoverRef.current) {
       const rect = triggerRef.current.getBoundingClientRect();
-      setPopoverPos({
-        top: rect.bottom + 8,
-        left: rect.left + rect.width / 2,
-      });
+      const top = rect.bottom + 8;
+      const left = rect.left + rect.width / 2;
+      popoverRef.current.style.top = `${top}px`;
+      popoverRef.current.style.left = `${left}px`;
     }
   };
 
   useEffect(() => {
     window.addEventListener('resize', updatePopoverPosition);
-    window.addEventListener('scroll', updatePopoverPosition);
+    window.addEventListener('scroll', updatePopoverPosition, true);
     return () => {
       window.removeEventListener('resize', updatePopoverPosition);
-      window.removeEventListener('scroll', updatePopoverPosition);
+      window.removeEventListener('scroll', updatePopoverPosition, true);
     };
   }, []);
 
@@ -156,8 +155,6 @@ export const DatePicker = ({
         style={
           {
             position: 'fixed',
-            top: `${popoverPos.top}px`,
-            left: `${popoverPos.left}px`,
             transform: 'translateX(-50%)',
           } as React.CSSProperties
         }
