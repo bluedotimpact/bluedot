@@ -60,7 +60,11 @@ export default function GroupSwitchModal({
 
   const { data: courseRegistration } = trpc.courseRegistrations.getByCourseId.useQuery(
     { courseId: courseData?.course.id ?? '' },
-    { enabled: !!courseData?.course.id },
+    {
+      enabled: !!courseData?.course.id,
+      refetchOnWindowFocus: true,
+      staleTime: 0,
+    },
   );
 
   const submitGroupSwitchMutation = trpc.groupSwitching.switchGroup.useMutation({
