@@ -69,6 +69,7 @@ describe('CourseUnitPage', () => {
         chunks={mockChunksWithContent}
         courseSlug="test-course"
         unitNumber="0"
+        courseOgImage="https://bluedot.org/images/logo/link-preview-fallback.png"
       />,
       { wrapper: TrpcProvider },
     );
@@ -108,6 +109,7 @@ describe('CourseUnitPage', () => {
         chunks={mockChunksWithContent}
         courseSlug="test-course"
         unitNumber="3"
+        courseOgImage="https://bluedot.org/images/logo/link-preview-fallback.png"
       />,
       { wrapper: TrpcProvider },
     );
@@ -147,6 +149,7 @@ describe('CourseUnitPage', () => {
         chunks={mockChunksWithContent}
         courseSlug="test-course"
         unitNumber="3"
+        courseOgImage="https://bluedot.org/images/logo/link-preview-fallback.png"
       />,
       { wrapper: TrpcProvider },
     );
@@ -185,6 +188,7 @@ describe('CourseUnitPage', () => {
         chunks={mockChunksWithContent}
         courseSlug="test-course"
         unitNumber="3"
+        courseOgImage="https://bluedot.org/images/logo/link-preview-fallback.png"
       />,
       { wrapper: TrpcProvider },
     );
@@ -225,6 +229,7 @@ describe('CourseUnitPage', () => {
           chunks={mockChunksWithContent}
           courseSlug="test-course"
           unitNumber="3"
+          courseOgImage="https://bluedot.org/images/logo/link-preview-fallback.png"
         />
       </TrpcProvider>,
     );

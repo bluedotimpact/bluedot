@@ -16,6 +16,7 @@ const ActivePostHogProvider: React.FC<React.PropsWithChildren> = ({ children }) 
   useEffect(() => {
     posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
       api_host: 'https://analytics.k8s.bluedot.org',
+      capture_performance: true,
       loaded: (instance) => {
         // Can't specify debug reliably via config :(
         // https://github.com/PostHog/posthog-js/issues/1387

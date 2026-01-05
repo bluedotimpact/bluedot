@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { FaChevronRight } from 'react-icons/fa6';
 import { Modal } from '@bluedot/ui';
 import { unitTable, chunkTable, InferSelectModel } from '@bluedot/db';
+import { CourseIcon } from './CourseIcon';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 type Chunk = InferSelectModel<typeof chunkTable.pg>;
@@ -11,6 +12,7 @@ type MobileCourseModalProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   courseTitle: string;
+  courseSlug: string;
   units: Unit[];
   currentUnitNumber: number;
   chunks: Chunk[];
@@ -18,13 +20,6 @@ type MobileCourseModalProps = {
   onChunkSelect: (index: number) => void;
   onUnitSelect?: (unitPath: string) => void;
 };
-
-const CourseIcon = () => (
-  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect className="fill-bluedot-normal" width="40" height="40" rx="8" />
-    <path d="M31.9941 21.4938L28.4941 24.9938C28.3299 25.158 28.1072 25.2502 27.875 25.2502C27.6428 25.2502 27.4201 25.158 27.2559 24.9938C27.0918 24.8296 26.9995 24.6069 26.9995 24.3747C26.9995 24.1425 27.0918 23.9198 27.2559 23.7556L29.263 21.7497H19.487L13.362 27.8747H16.5C16.7321 27.8747 16.9546 27.9669 17.1187 28.131C17.2828 28.2951 17.375 28.5176 17.375 28.7497C17.375 28.9818 17.2828 29.2043 17.1187 29.3684C16.9546 29.5325 16.7321 29.6247 16.5 29.6247H11.25C11.0179 29.6247 10.7954 29.5325 10.6313 29.3684C10.4672 29.2043 10.375 28.9818 10.375 28.7497V23.4997C10.375 23.2676 10.4672 23.0451 10.6313 22.881C10.7954 22.7169 11.0179 22.6247 11.25 22.6247C11.4821 22.6247 11.7046 22.7169 11.8687 22.881C12.0328 23.0451 12.125 23.2676 12.125 23.4997V26.6377L18.25 20.5127V10.7367L16.2441 12.7438C16.0799 12.908 15.8572 13.0002 15.625 13.0002C15.3928 13.0002 15.1701 12.908 15.0059 12.7438C14.8418 12.5796 14.7495 12.3569 14.7495 12.1247C14.7495 11.8925 14.8418 11.6698 15.0059 11.5056L18.5059 8.00564C18.5872 7.92429 18.6837 7.85976 18.7899 7.81572C18.8961 7.77169 19.01 7.74902 19.125 7.74902C19.24 7.74902 19.3538 7.77169 19.4601 7.81572C19.5663 7.85976 19.6628 7.92429 19.7441 8.00564L23.2441 11.5056C23.4082 11.6698 23.5005 11.8925 23.5005 12.1247C23.5005 12.3569 23.4082 12.5796 23.2441 12.7438C23.0799 12.908 22.8572 13.0002 22.625 13.0002C22.3928 13.0002 22.1701 12.908 22.0059 12.7438L20 10.7367V19.9997H29.263L27.2559 17.9938C27.0918 17.8296 26.9995 17.6069 26.9995 17.3747C26.9995 17.1425 27.0918 16.9198 27.2559 16.7556C27.4201 16.5915 27.6428 16.4992 27.875 16.4992C28.1072 16.4992 28.3299 16.5915 28.4941 16.7556L31.9941 20.2556C32.0754 20.3369 32.14 20.4334 32.184 20.5396C32.228 20.6459 32.2507 20.7597 32.2507 20.8747C32.2507 20.9897 32.228 21.1036 32.184 21.2098C32.14 21.316 32.0754 21.4125 31.9941 21.4938Z" fill="white" />
-  </svg>
-);
 
 const ChunkIcon: React.FC<{ isActive?: boolean }> = ({ isActive }) => {
   if (isActive) {
@@ -47,6 +42,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
   isOpen,
   setIsOpen,
   courseTitle,
+  courseSlug,
   units,
   currentUnitNumber,
   chunks,
@@ -87,12 +83,11 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
       setIsOpen={setIsOpen}
       title={(
         <div className="flex items-center gap-4 pb-1">
-          <CourseIcon />
-          <div className="flex flex-col justify-center gap-0.5 flex-1">
-            <h3 className="text-size-md leading-[110%] font-semibold text-[#13132E]">
+          <CourseIcon courseSlug={courseSlug} />
+          <div className="flex flex-1 min-w-0">
+            <h3 className="text-[20px] leading-[40px] font-semibold text-[#13132E]">
               {courseTitle}
             </h3>
-            <p className="text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#6A6F7A]">Interactive Course</p>
           </div>
         </div>
       )}

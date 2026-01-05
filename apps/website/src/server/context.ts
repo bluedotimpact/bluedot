@@ -7,10 +7,11 @@ import { checkAdminAccess } from './trpc';
 
 export const createContext = async ({ req }: trpcNext.CreateNextContextOptions) => {
   const authHeader = req.headers.authorization;
+  const userAgent = req.headers['user-agent'];
 
   // Only attempt to verify if we have a valid Bearer token format
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return { auth: null, impersonation: null };
+    return { auth: null, impersonation: null, userAgent };
   }
 
   const token = authHeader.slice('Bearer '.length).trim();
@@ -31,15 +32,16 @@ export const createContext = async ({ req }: trpcNext.CreateNextContextOptions) 
         return {
           auth: { ...auth, email: targetUser.email },
           impersonation: { adminEmail: auth.email, targetEmail: targetUser.email },
+          userAgent,
         };
       }
     }
 
-    return { auth, impersonation: null };
+    return { auth, impersonation: null, userAgent };
   } catch (error) {
     // Token verification failed - return null and let protectedProcedure handle it
     logger.error('Error verifying token', error);
-    return { auth: null, impersonation: null };
+    return { auth: null, impersonation: null, userAgent };
   }
 };
 

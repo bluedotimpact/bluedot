@@ -2,7 +2,7 @@ import useAxios from 'axios-hooks';
 import axios, { AxiosResponse } from 'axios';
 import {
   ClickTarget,
-  CTALinkOrButton, ErrorSection, NewText,
+  CTALinkOrButton, ErrorSection, H1,
   ProgressDots,
   useCurrentTimeMs,
 } from '@bluedot/ui';
@@ -42,7 +42,7 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
 
   return (
     <Page>
-      <NewText.H1 className="mb-4">Hey there! Who are you?</NewText.H1>
+      <H1 className="mb-4">Hey there! Who are you?</H1>
       {(data.meetingStartTime > (currentTimeMs / 1000) + 10 * 60)
           && (
             <div className="alert -mx-2 my-4 p-4 bg-yellow-100 border-l-4 border-yellow-300 border-solid ">

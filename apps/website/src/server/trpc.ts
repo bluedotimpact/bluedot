@@ -50,10 +50,13 @@ const openTelemetryMiddleware = t.middleware(async (opts) => {
   if (type === 'query') method = 'GET';
   else if (type === 'mutation') method = 'POST';
 
+  const userAgent = ctx.userAgent ?? 'unknown';
+
   const activeSpan = trace.getActiveSpan();
   activeSpan?.setAttribute('http.method', method);
   activeSpan?.setAttribute('http.url', path);
   activeSpan?.setAttribute('user.email', ctx.auth?.email ?? 'anonymous');
+  activeSpan?.setAttribute('user.agent', userAgent);
 
   let statusCode = 200;
 
@@ -67,6 +70,7 @@ const openTelemetryMiddleware = t.middleware(async (opts) => {
       method,
       path,
       status_code: statusCode.toString(),
+      user_agent: userAgent,
     });
 
     return result;
@@ -97,6 +101,7 @@ const openTelemetryMiddleware = t.middleware(async (opts) => {
       method,
       path,
       status_code: statusCode.toString(),
+      user_agent: userAgent,
     });
 
     throw finalError;

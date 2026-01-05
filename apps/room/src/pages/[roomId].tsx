@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import {
-  NewText, Input, withAuth, ErrorSection, CTALinkOrButton,
+  H3, P, A, Input, withAuth, ErrorSection, CTALinkOrButton,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
 import axios from 'axios';
@@ -98,7 +98,7 @@ const RoomControlPage = withAuth(({ auth }) => {
       <div className="max-w-2xl mx-auto">
         <div className="container-lined p-8 my-4 space-y-4">
           <div className="flex items-center justify-between">
-            <NewText.H3 className="!mt-0">{room.name}</NewText.H3>
+            <H3 className="!mt-0">{room.name}</H3>
             <div className="hidden sm:block">
               <RoomHealthIndicator status={room.status} />
             </div>
@@ -140,7 +140,7 @@ const RoomControlPage = withAuth(({ auth }) => {
               </div>
             ) : (
               <div className="flex flex-col gap-4">
-                <NewText.P>Currently viewing <NewText.A href={room.status.currentUrl} className="underline">{room.status.currentUrl}</NewText.A></NewText.P>
+                <P>Currently viewing <A href={room.status.currentUrl} className="underline">{room.status.currentUrl}</A></P>
                 <CTALinkOrButton onClick={() => setPiCurrentUrl(defaultDisplayUrl)}>
                   Leave {room.status.currentUrl.includes('meet') ? 'meeting' : 'page'}
                 </CTALinkOrButton>
@@ -150,8 +150,8 @@ const RoomControlPage = withAuth(({ auth }) => {
 
           {!isRoomHealthy(room.status) && (
             <div>
-              <NewText.P>This room is offline. {room.status.lastHeartbeatAt ? `It was last seen at ${new Date(room.status.lastHeartbeatAt * 1000).toLocaleString()}` : 'We have not seen it online recently'}.</NewText.P>
-              <NewText.P>Make sure the meeting room device is turned on and has an internet connection.</NewText.P>
+              <P>This room is offline. {room.status.lastHeartbeatAt ? `It was last seen at ${new Date(room.status.lastHeartbeatAt * 1000).toLocaleString()}` : 'We have not seen it online recently'}.</P>
+              <P>Make sure the meeting room device is turned on and has an internet connection.</P>
             </div>
           )}
         </div>

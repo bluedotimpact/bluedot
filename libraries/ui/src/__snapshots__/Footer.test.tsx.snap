@@ -69,7 +69,7 @@ exports[`Footer > renders default as expected 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/contact"
+                  href="mailto:team@bluedot.org"
                   tabindex="0"
                 >
                   Contact us
@@ -103,8 +103,10 @@ exports[`Footer > renders default as expected 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/blog"
+                  href="https://blog.bluedot.org"
+                  rel="noopener noreferrer"
                   tabindex="0"
+                  target="_blank"
                 >
                   Blog
                 </a>
@@ -176,7 +178,7 @@ exports[`Footer > renders default as expected 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/contact"
+                  href="mailto:team@bluedot.org"
                   tabindex="0"
                 >
                   Contact us
@@ -210,8 +212,10 @@ exports[`Footer > renders default as expected 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/blog"
+                  href="https://blog.bluedot.org"
+                  rel="noopener noreferrer"
                   tabindex="0"
+                  target="_blank"
                 >
                   Blog
                 </a>
@@ -364,7 +368,7 @@ exports[`Footer > renders default as expected 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/contact"
+                  href="mailto:team@bluedot.org"
                   tabindex="0"
                 >
                   Contact us
@@ -398,8 +402,10 @@ exports[`Footer > renders default as expected 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/blog"
+                  href="https://blog.bluedot.org"
+                  rel="noopener noreferrer"
                   tabindex="0"
+                  target="_blank"
                 >
                   Blog
                 </a>
@@ -501,35 +507,51 @@ exports[`Footer > renders default as expected 1`] = `
         <div
           class="text-size-sm text-[#CCD7FF] leading-[26px] min-[680px]:mt-0 lg:mt-12 2xl:mt-[64px]"
         >
-          <span>
+          <p
+            class="mb-2"
+          >
             © 
-            2025
-            . 
-            <a
-              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
-              href="https://bluedot.org/"
-              tabindex="0"
-            >
-              BlueDot Impact
-            </a>
-             is funded by 
-            <a
-              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
-              href="https://www.coefficientgiving.org/"
-              tabindex="0"
-            >
-              Coefficient Giving
-            </a>
-            , and is a non-profit based in the UK (company number 
+            2026
+            . BlueDot Impact operates as a UK CLG (
             <a
               class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
               href="https://find-and-update.company-information.service.gov.uk/company/14964572"
+              rel="noopener noreferrer"
               tabindex="0"
+              target="_blank"
             >
               14964572
             </a>
+            ) and a US 501(c)3 (
+            <a
+              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
+              href="https://projects.propublica.org/nonprofits/organizations/994885308"
+              rel="noopener noreferrer"
+              tabindex="0"
+              target="_blank"
+            >
+              99-4885308
+            </a>
             ).
-          </span>
+          </p>
+          <p
+            class="mb-2"
+          >
+            US Address: 1680 Mission St. Suite 411, San Francisco, CA 94103
+          </p>
+          <p>
+            Funded by 
+            <a
+              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
+              href="https://www.coefficientgiving.org/"
+              rel="noopener noreferrer"
+              tabindex="0"
+              target="_blank"
+            >
+              Coefficient Giving
+            </a>
+            .
+          </p>
         </div>
       </div>
     </div>
@@ -606,7 +628,7 @@ exports[`Footer > renders with optional args 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/contact"
+                  href="mailto:team@bluedot.org"
                   tabindex="0"
                 >
                   Contact us
@@ -640,8 +662,10 @@ exports[`Footer > renders with optional args 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/blog"
+                  href="https://blog.bluedot.org"
+                  rel="noopener noreferrer"
                   tabindex="0"
+                  target="_blank"
                 >
                   Blog
                 </a>
@@ -713,7 +737,7 @@ exports[`Footer > renders with optional args 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/contact"
+                  href="mailto:team@bluedot.org"
                   tabindex="0"
                 >
                   Contact us
@@ -747,8 +771,10 @@ exports[`Footer > renders with optional args 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/blog"
+                  href="https://blog.bluedot.org"
+                  rel="noopener noreferrer"
                   tabindex="0"
+                  target="_blank"
                 >
                   Blog
                 </a>
@@ -901,7 +927,7 @@ exports[`Footer > renders with optional args 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/contact"
+                  href="mailto:team@bluedot.org"
                   tabindex="0"
                 >
                   Contact us
@@ -935,8 +961,10 @@ exports[`Footer > renders with optional args 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/blog"
+                  href="https://blog.bluedot.org"
+                  rel="noopener noreferrer"
                   tabindex="0"
+                  target="_blank"
                 >
                   Blog
                 </a>
@@ -1038,35 +1066,51 @@ exports[`Footer > renders with optional args 1`] = `
         <div
           class="text-size-sm text-[#CCD7FF] leading-[26px] min-[680px]:mt-0 lg:mt-12 2xl:mt-[64px]"
         >
-          <span>
+          <p
+            class="mb-2"
+          >
             © 
-            2025
-            . 
-            <a
-              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
-              href="https://bluedot.org/"
-              tabindex="0"
-            >
-              BlueDot Impact
-            </a>
-             is funded by 
-            <a
-              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
-              href="https://www.coefficientgiving.org/"
-              tabindex="0"
-            >
-              Coefficient Giving
-            </a>
-            , and is a non-profit based in the UK (company number 
+            2026
+            . BlueDot Impact operates as a UK CLG (
             <a
               class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
               href="https://find-and-update.company-information.service.gov.uk/company/14964572"
+              rel="noopener noreferrer"
               tabindex="0"
+              target="_blank"
             >
               14964572
             </a>
+            ) and a US 501(c)3 (
+            <a
+              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
+              href="https://projects.propublica.org/nonprofits/organizations/994885308"
+              rel="noopener noreferrer"
+              tabindex="0"
+              target="_blank"
+            >
+              99-4885308
+            </a>
             ).
-          </span>
+          </p>
+          <p
+            class="mb-2"
+          >
+            US Address: 1680 Mission St. Suite 411, San Francisco, CA 94103
+          </p>
+          <p>
+            Funded by 
+            <a
+              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
+              href="https://www.coefficientgiving.org/"
+              rel="noopener noreferrer"
+              tabindex="0"
+              target="_blank"
+            >
+              Coefficient Giving
+            </a>
+            .
+          </p>
         </div>
       </div>
     </div>

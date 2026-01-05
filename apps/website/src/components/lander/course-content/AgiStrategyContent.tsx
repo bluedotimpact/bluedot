@@ -14,6 +14,16 @@ import { CourseLanderContent } from '../CourseLander';
 
 export const AGI_STRATEGY_APPLICATION_URL = 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX';
 
+const AGI_STRATEGY_COLORS = {
+  /* Gradient layers:
+     1. Left-side darkness - horizontal gradient to darken left edge for text readability
+     2. Main colorful gradient - pink→purple→dark blue from bottom-right
+     3. Base color - dark navy */
+  gradient: 'linear-gradient(to right, rgba(10, 8, 36, 0.9) 0%, rgba(10, 8, 36, 0.4) 5%, rgba(10, 8, 36, 0.15) 15%, rgba(10, 8, 36, 0.05) 30%, transparent 45%), radial-gradient(115% 175% at 95% 135%, rgba(255, 194, 195, 0.65) 0%, rgba(255, 194, 195, 0.50) 25%, rgba(53, 42, 106, 0.65) 60%, rgba(10, 8, 36, 0.60) 100%), #181D3F',
+  accent: '#BCA9FF',
+  iconBackground: '#2C3F81',
+};
+
 export const createAgiStrategyContent = (
   applicationUrlWithUtm: string,
   courseSlug: string,
@@ -24,9 +34,11 @@ export const createAgiStrategyContent = (
   },
 
   hero: {
-    categoryLabel: 'AGI STRATEGY',
-    title: 'Start building the defences that protect humanity',
-    description: 'Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours.',
+    gradient: AGI_STRATEGY_COLORS.gradient,
+    accentColor: AGI_STRATEGY_COLORS.accent,
+    categoryLabel: 'COHORT-BASED COURSE',
+    title: 'AGI Strategy',
+    description: 'Start building the defences that protect humanity: Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours.',
     primaryCta: {
       text: 'Apply now',
       url: applicationUrlWithUtm,
@@ -35,11 +47,13 @@ export const createAgiStrategyContent = (
       text: 'Browse curriculum',
       url: `/courses/${courseSlug}/1/1`,
     },
-    imageSrc: '/images/agi-strategy/hero-banner-split.png',
+    imageSrc: '/images/lander/agi-strategy/hero-graphic.png',
     imageAlt: 'AGI Strategy visualization',
+    imageAspectRatio: '1408/1122',
   },
 
   whoIsThisFor: {
+    iconBackgroundColor: AGI_STRATEGY_COLORS.iconBackground,
     title: 'Who this course is for',
     targetAudiences: [
       {
@@ -135,28 +149,28 @@ export const createAgiStrategyContent = (
         quote: '"We should not underestimate the real threats coming from AI [while] we have a narrowing window of opportunity to guide this technology responsibly."',
         name: 'Ursula von der Leyen',
         role: 'President, European Commission',
-        imageSrc: '/images/agi-strategy/ursula.png',
+        imageSrc: '/images/agi-strategy/ursula.webp',
         url: 'https://neighbourhood-enlargement.ec.europa.eu/news/2023-state-union-address-president-von-der-leyen-2023-09-13_en',
       },
       {
         quote: '"I\'ve always thought of AI as the most profound technology humanity is working on. More profound than fire or electricity or anything that we\'ve done in the past… The downside is, at some point, that humanity loses control of the technology it\'s developing."',
         name: 'Sundar Pichai',
         role: 'CEO, Google',
-        imageSrc: '/images/agi-strategy/sundar.jpg',
+        imageSrc: '/images/agi-strategy/sundar.webp',
         url: 'https://garrisonlovely.substack.com/p/a-compilation-of-tech-executives',
       },
       {
         quote: '"AI could surpass almost all humans at almost everything shortly after 2027."',
         name: 'Dario Amodei',
         role: 'CEO, Anthropic',
-        imageSrc: '/images/lander/foai/dario.jpeg',
+        imageSrc: '/images/lander/foai/dario.webp',
         url: 'https://arstechnica.com/ai/2025/01/anthropic-chief-says-ai-could-surpass-almost-all-humans-at-almost-everything-shortly-after-2027/',
       },
       {
         quote: '"I\'m all in favor of accelerating technological progress, but there is something unsettling about the way OpenAI explicitly declares its mission to be the creation of AGI. AI is a wonderful tool for the betterment of humanity; AGI is a potential successor species … To the extent the mission produces extra motivation for the team to ship good products, it\'s a positive. To the extent it might actually succeed, it\'s a reason for concern."',
         name: 'David Sacks',
         role: 'White House AI and Crypto Czar',
-        imageSrc: '/images/agi-strategy/david-sacks.jpg',
+        imageSrc: '/images/agi-strategy/david-sacks.webp',
         url: 'https://x.com/HumanHarlan/status/1864858286065111298',
       },
     ],
@@ -167,42 +181,42 @@ export const createAgiStrategyContent = (
       name: 'Neel Nanda',
       jobTitle: 'Mech Interp Lead at Google DeepMind',
       course: 'Former participant and facilitator',
-      imageSrc: '/images/graduates/neel.jpeg',
+      imageSrc: '/images/graduates/neel.webp',
       url: 'https://www.neelnanda.io/about',
     },
     {
       name: 'Marius Hobbhahn',
       jobTitle: 'CEO at Apollo Research',
       course: 'AI Alignment Course Graduate',
-      imageSrc: '/images/graduates/marius.jpeg',
+      imageSrc: '/images/graduates/marius.webp',
       url: 'https://www.mariushobbhahn.com/aboutme/',
     },
     {
       name: 'Chiara Gerosa',
       jobTitle: 'Executive Director at Talos',
       course: 'AI Governance Course Facilitator',
-      imageSrc: '/images/graduates/chiara.jpeg',
+      imageSrc: '/images/graduates/chiara.webp',
       url: 'https://www.linkedin.com/in/chiaragerosa/',
     },
     {
       name: 'Richard Ngo',
       jobTitle: 'Former OpenAI and DeepMind',
       course: 'AI Alignment Course Designer',
-      imageSrc: '/images/graduates/richard.jpg',
+      imageSrc: '/images/graduates/richard.webp',
       url: 'https://www.richardcngo.com/',
     },
     {
       name: 'Adam Jones',
       jobTitle: 'Member of Technical Staff at Anthropic',
       course: 'Former AI safety lead at BlueDot',
-      imageSrc: '/images/graduates/adam.jpg',
+      imageSrc: '/images/graduates/adam.webp',
       url: 'https://adamjones.me/',
     },
     {
       name: 'Catherine Fist',
       jobTitle: 'Head of Delivery at UK AISI',
       course: 'AI Governance Course Graduate',
-      imageSrc: '/images/graduates/catherine.jpeg',
+      imageSrc: '/images/graduates/catherine.webp',
       url: 'https://www.linkedin.com/in/catherine-fist/',
     },
   ],
@@ -316,7 +330,7 @@ export const createAgiStrategyContent = (
     title: 'Start building towards a good future today',
     ctaText: 'Apply now',
     ctaUrl: applicationUrlWithUtm,
-    imageSrc: '/images/agi-strategy/hero-banner-split.png',
+    imageSrc: '/images/lander/agi-strategy/hero-banner-split.webp',
     imageAlt: 'AGI Strategy banner',
     iconSrc: '/images/agi-strategy/bluedot-icon.svg',
     iconAlt: 'BlueDot',

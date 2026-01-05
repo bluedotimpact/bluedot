@@ -9,22 +9,30 @@ import { NavLinks } from './_NavLinks';
 import {
   DRAWER_CLASSES,
   ExpandedSectionsState,
+  MOBILE_NAV_CLASS,
 } from './utils';
 import { getLoginUrl } from '../../utils/getLoginUrl';
+import { useClickOutside } from '../../lib/hooks/useClickOutside';
 
 export const MobileNavLinks: React.FC<{
   expandedSections: ExpandedSectionsState;
   updateExpandedSections: (updates: Partial<ExpandedSectionsState>) => void;
   isLoggedIn: boolean;
-  isHomepage?: boolean;
+  onColoredBackground?: boolean;
 }> = ({
   expandedSections,
   updateExpandedSections,
   isLoggedIn,
-  isHomepage = false,
+  onColoredBackground = false,
 }) => {
   const router = useRouter();
   const joinUrl = getLoginUrl(router.asPath, true);
+  const mobileNavRef = useClickOutside<HTMLDivElement>(
+    () => updateExpandedSections({ mobileNav: false }),
+    expandedSections.mobileNav,
+    `.${MOBILE_NAV_CLASS}`,
+  );
+
   const getPrimaryButtonClasses = () => {
     const baseClasses = 'px-3 py-[5px] rounded-[5px] text-size-sm font-[450] leading-[160%] items-center justify-center';
 
@@ -43,14 +51,14 @@ export const MobileNavLinks: React.FC<{
   };
 
   return (
-    <div className="mobile-nav-links lg:hidden">
+    <div ref={mobileNavRef} className={`${MOBILE_NAV_CLASS} lg:hidden`}>
       <IconButton
         open={expandedSections.mobileNav}
         Icon={<HamburgerIcon />}
         setOpen={onToggleMobileNav}
         className={clsx(
           'mobile-nav-links__btn',
-          isHomepage && 'text-white [&_svg]:text-white',
+          onColoredBackground && 'text-white [&_svg]:text-white',
         )}
       />
       <div className={clsx('mobile-nav-links__drawer', DRAWER_CLASSES(expandedSections.mobileNav))}>
@@ -84,7 +92,7 @@ export const MobileNavLinks: React.FC<{
             className="mobile-nav-links__nav-links flex-col"
             expandedSections={expandedSections}
             updateExpandedSections={updateExpandedSections}
-            isHomepage={isHomepage}
+            onColoredBackground={onColoredBackground}
           />
 
           {/* CTA Buttons for mobile - prevent duplication with navbar buttons */}

@@ -2,8 +2,11 @@ import Head from 'next/head';
 import clsx from 'clsx';
 import {
   CTALinkOrButton,
-  Section,
+  H1,
+  H2,
+  H3,
   QuoteCarousel,
+  Section,
   type Quote,
 } from '@bluedot/ui';
 import {
@@ -19,8 +22,6 @@ import {
   FaLightbulb,
 } from 'react-icons/fa6';
 import { useEffect } from 'react';
-
-import { H1, H2, H3 } from '../Text';
 import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
 import GraduateSection from './components/GraduateSection';
 import type { CourseAndUnits } from '../../server/routers/courses';
@@ -45,19 +46,19 @@ const quotes: Quote[] = [
     quote: 'AI could surpass almost all humans at almost everything shortly after 2027.',
     name: 'Dario Amodei',
     role: 'CEO, Anthropic',
-    imageSrc: '/images/lander/foai/dario.jpeg',
+    imageSrc: '/images/lander/foai/dario.webp',
   },
   {
     quote: 'We must take the risks of AI as seriously as other major global challenges, like climate change.',
     name: 'Demis Hassabis',
     role: 'CEO, Google DeepMind',
-    imageSrc: '/images/lander/foai/demis.jpeg',
+    imageSrc: '/images/lander/foai/demis.webp',
   },
   {
     quote: 'We should not underestimate the real threats coming from AI... we have a narrowing window of opportunity to guide this technology responsibly.',
     name: 'Ursula von der Leyen',
     role: 'President, European Commission',
-    imageSrc: '/images/lander/foai/ursula.png',
+    imageSrc: '/images/lander/foai/ursula.webp',
   },
 ];
 
@@ -66,19 +67,19 @@ const testimonials: Testimonial[] = [
     quote: 'I recommend the course for everyone who is interested in the future of AI, and wants to think seriously about the implications of this technology.',
     name: 'Craig Dickson',
     role: 'Senior Data Analyst, Klarna',
-    imageSrc: '/images/graduates/craig.png',
+    imageSrc: '/images/graduates/craig.webp',
   },
   {
     quote: 'The course also gave me something I didn\'t expect: a global community of changemakers, dreamers and thinkers.',
     name: 'Crystal Isanda',
     role: 'Foresight Fellow, UNICEF',
-    imageSrc: '/images/graduates/crystal.jpeg',
+    imageSrc: '/images/graduates/crystal.webp',
   },
   {
     quote: 'This course is excellent for any skill level. AI Safety should be our collective goal and BlueDot Impact is doing just that one cohort at a time.',
     name: 'Vipul Gupta',
     role: 'Senior Software Engineer, Balena',
-    imageSrc: '/images/graduates/vipul.png',
+    imageSrc: '/images/graduates/vipul.webp',
   },
 ];
 
@@ -87,29 +88,29 @@ const features = [
     title: 'Learn on your terms',
     description: 'Cover the fundamentals in just 2 hours. Go at your own pace, learn when it suits you, and finish feeling confident and informed– all for free.',
     ctaText: 'Get started',
-    desktopImageSrc: '/images/lander/foai/learn-desktop.png',
+    desktopImageSrc: '/images/lander/foai/learn-desktop.webp',
     mobileImageSrc: '/images/lander/foai/learn-mobile.png',
   },
   {
     title: 'Try cutting-edge tools',
     description: 'Get hands-on with the AI tools making headlines. Interactive demos let you experience the future of AI– not just read about it.',
     ctaText: 'Explore AI in action',
-    desktopImageSrc: '/images/lander/foai/try-desktop.png',
+    desktopImageSrc: '/images/lander/foai/try-desktop.webp',
     mobileImageSrc: '/images/lander/foai/try-mobile.png',
   },
   {
     title: 'Get certified',
     description: 'Earn an industry-recognized certificate that shows you’re engaged with the future of AI and helps you stand out in roles focused on AI, policy, or the public good.',
     ctaText: 'Earn your certificate',
-    desktopImageSrc: '/images/lander/foai/cert-desktop.png',
+    desktopImageSrc: '/images/lander/foai/cert-desktop.webp',
     mobileImageSrc: '/images/lander/foai/cert-mobile.png',
   },
   {
     title: 'Join the conversation',
     description: 'Join a community of thousands of people who care about AI’s impact and are working together to share knowledge and opportunities.',
     ctaText: 'Take the first step',
-    desktopImageSrc: '/images/lander/foai/community-desktop.png',
-    mobileImageSrc: '/images/lander/foai/community-mobile.png',
+    desktopImageSrc: '/images/lander/foai/community-desktop.webp',
+    mobileImageSrc: '/images/lander/foai/community-mobile.webp',
   },
 ];
 

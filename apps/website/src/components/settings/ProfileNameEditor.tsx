@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import {
-  Input,
   CTALinkOrButton,
+  Input,
+  P,
 } from '@bluedot/ui';
-import { P } from '../Text';
 import { updateNameSchema } from '../../lib/schemas/user/me.schema';
 import { trpc } from '../../utils/trpc';
 

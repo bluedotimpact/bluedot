@@ -99,7 +99,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
           </div>
         </a>
         <button
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center"
           type="button"
         >
           <svg
@@ -118,7 +118,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
           Host key: 123456
         </button>
         <a
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center"
           href="https://docs.google.com/document/d/abc123"
           rel="noopener noreferrer"
           tabindex="0"
@@ -127,7 +127,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
           Open discussion doc
         </a>
         <a
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center ml-auto"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center ml-auto"
           href="https://app.slack.com/client/T01K0M15NEQ/C1234567890"
           rel="noopener noreferrer"
           tabindex="0"
@@ -206,7 +206,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
         </div>
       </a>
       <button
-        class="cta-button justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex flex-1 gap-[6px] items-center whitespace-nowrap ml-auto"
+        class="cta-button justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex flex-1 gap-[6px] items-center whitespace-nowrap ml-auto"
         type="button"
       >
         <svg
@@ -355,7 +355,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
           </div>
         </a>
         <a
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center"
           href="https://docs.google.com/document/d/abc123"
           rel="noopener noreferrer"
           tabindex="0"
@@ -364,7 +364,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
           Open discussion doc
         </a>
         <a
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center"
           href="https://app.slack.com/client/T01K0M15NEQ/C1234567890"
           rel="noopener noreferrer"
           tabindex="0"
@@ -373,7 +373,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
           Message group
         </a>
         <button
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border border-black bg-transparent border-none text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center ml-auto"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border border-[rgba(19,19,46,0.3)] font-medium bg-transparent border-none text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center ml-auto"
           type="button"
         >
           Can't make it?
@@ -449,7 +449,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
         </div>
       </a>
       <button
-        class="cta-button justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex flex-1 gap-[6px] items-center whitespace-nowrap ml-auto"
+        class="cta-button justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex flex-1 gap-[6px] items-center whitespace-nowrap ml-auto"
         type="button"
       >
         Can't make it?
@@ -495,35 +495,6 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
       class="flex items-center gap-3 text-size-xs"
     >
       <div
-        class="px-3 py-1 flex items-center justify-center border-[#C9D4F5] bg-white border rounded"
-      >
-        <svg
-          class="text-bluedot-normal"
-          fill="none"
-          height="20"
-          viewBox="0 0 14 14"
-          width="20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g>
-            <path
-              d="M13.4166 4.08341L9.33331 7.00008L13.4166 9.91675V4.08341Z"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1.25"
-            />
-            <path
-              d="M8.16665 2.91675H1.74998C1.10565 2.91675 0.583313 3.43908 0.583313 4.08341V9.91675C0.583313 10.5611 1.10565 11.0834 1.74998 11.0834H8.16665C8.81098 11.0834 9.33331 10.5611 9.33331 9.91675V4.08341C9.33331 3.43908 8.81098 2.91675 8.16665 2.91675Z"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1.25"
-            />
-          </g>
-        </svg>
-      </div>
-      <div
         class="flex gap-[6px] min-w-0 flex-initial"
       >
         <span
@@ -548,7 +519,7 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
         id="discussion-banner-desktop-container"
       >
         <a
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center"
           href="https://docs.google.com/document/d/abc123"
           rel="noopener noreferrer"
           tabindex="0"
@@ -557,7 +528,7 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
           Open discussion doc
         </a>
         <a
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center ml-auto"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center ml-auto"
           href="/settings/courses"
           tabindex="0"
         >
@@ -597,7 +568,7 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
       id="discussion-banner-mobile-container"
     >
       <a
-        class="cta-button justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex flex-1 gap-[6px] items-center whitespace-nowrap ml-auto"
+        class="cta-button justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex flex-1 gap-[6px] items-center whitespace-nowrap ml-auto"
         href="https://docs.google.com/document/d/abc123"
         rel="noopener noreferrer"
         tabindex="0"
@@ -606,7 +577,7 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
         Open discussion doc
       </a>
       <a
-        class="cta-button justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--outline-black border bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex flex-1 gap-[6px] items-center whitespace-nowrap ml-auto"
+        class="cta-button justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex flex-1 gap-[6px] items-center whitespace-nowrap ml-auto"
         href="/settings/courses"
         tabindex="0"
       >

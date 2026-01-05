@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { addQueryParam, useLatestUtmParams } from '@bluedot/ui';
+import { Nav } from '../Nav/Nav';
 import CommunityCarousel, { CommunityMember } from './CommunityCarousel';
 import GraduateSection from './components/GraduateSection';
 import PartnerSection, { PartnerSectionProps } from './components/PartnerSection';
@@ -21,14 +22,14 @@ export type CourseLanderContent = {
   meta: CourseLanderMeta;
   hero: HeroSectionProps;
   whoIsThisFor: WhoIsThisForSectionProps;
-  curriculum: CourseCurriculumSectionProps;
-  courseBenefits: CourseBenefitsSectionProps;
+  curriculum?: CourseCurriculumSectionProps;
+  courseBenefits?: CourseBenefitsSectionProps;
   courseInformation: CourseInformationSectionProps;
   quotes?: QuoteSectionProps;
   communityMembers?: CommunityMember[];
   communityMembersTitle?: string;
   partners?: PartnerSectionProps;
-  faq: FAQSectionProps;
+  faq?: FAQSectionProps;
   banner: LandingBannerProps;
 };
 
@@ -36,7 +37,7 @@ type CourseLanderProps = {
   courseSlug: string;
   baseApplicationUrl: string;
   createContentFor: (applicationUrlWithUtm: string, courseSlug: string) => CourseLanderContent;
-  courseOgImage?: string
+  courseOgImage?: string | null
 };
 
 const CourseLander = ({
@@ -74,6 +75,7 @@ const CourseLander = ({
         <meta name="twitter:image" content={courseOgImage || 'https://bluedot.org/images/logo/link-preview-fallback.png'} />
       </Head>
 
+      <Nav variant={content.hero.gradient ? 'transparent' : 'default'} />
       <HeroSection {...content.hero} />
 
       <div className="border-t-hairline border-color-divider" />
@@ -84,13 +86,19 @@ const CourseLander = ({
 
       <WhoIsThisForSection {...content.whoIsThisFor} />
 
-      <div className="border-t-hairline border-color-divider" />
+      {content.curriculum && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <CourseCurriculumSection {...content.curriculum} />
+        </>
+      )}
 
-      <CourseCurriculumSection {...content.curriculum} />
-
-      <div className="border-t-hairline border-color-divider" />
-
-      <CourseBenefitsSection {...content.courseBenefits} />
+      {content.courseBenefits && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <CourseBenefitsSection {...content.courseBenefits} />
+        </>
+      )}
 
       <div className="border-t-hairline border-color-divider" />
 
@@ -118,9 +126,12 @@ const CourseLander = ({
         </>
       )}
 
-      <div className="border-t-hairline border-color-divider" />
-
-      <FAQSection {...content.faq} />
+      {content.faq && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <FAQSection {...content.faq} />
+        </>
+      )}
 
       <LandingBanner {...content.banner} />
     </div>

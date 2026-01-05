@@ -33,7 +33,7 @@ const mockCourseData: { course: Course, units: Unit[] } = {
   ],
 };
 
-const mockSwitchingData: DiscussionsAvailable = {
+const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
   groupsAvailable: [
     {
       group: createMockGroup({
@@ -43,7 +43,7 @@ const mockSwitchingData: DiscussionsAvailable = {
       }),
       userIsParticipant: true,
       spotsLeftIfKnown: 0,
-      allDiscussionsHaveStarted: false,
+      isTooLateToSwitchTo: false,
     },
     {
       group: createMockGroup({
@@ -53,7 +53,7 @@ const mockSwitchingData: DiscussionsAvailable = {
       }),
       userIsParticipant: false,
       spotsLeftIfKnown: 3,
-      allDiscussionsHaveStarted: false,
+      isTooLateToSwitchTo: false,
     },
     {
       group: createMockGroup({
@@ -63,7 +63,7 @@ const mockSwitchingData: DiscussionsAvailable = {
       }),
       userIsParticipant: false,
       spotsLeftIfKnown: 0,
-      allDiscussionsHaveStarted: false,
+      isTooLateToSwitchTo: false,
     },
   ],
   discussionsAvailable: {
@@ -75,7 +75,7 @@ const mockSwitchingData: DiscussionsAvailable = {
         groupName: 'Morning Group A',
         userIsParticipant: true,
         spotsLeftIfKnown: 0,
-        hasStarted: false,
+        isTooLateToSwitchTo: false,
       },
       {
         discussion: createMockGroupDiscussion({
@@ -84,7 +84,7 @@ const mockSwitchingData: DiscussionsAvailable = {
         groupName: 'Evening Group B',
         userIsParticipant: false,
         spotsLeftIfKnown: 2,
-        hasStarted: false,
+        isTooLateToSwitchTo: false,
       },
     ],
     2: [
@@ -95,7 +95,7 @@ const mockSwitchingData: DiscussionsAvailable = {
         groupName: 'Weekend Group C',
         userIsParticipant: false,
         spotsLeftIfKnown: 1,
-        hasStarted: false,
+        isTooLateToSwitchTo: false,
       },
     ],
   },
@@ -125,10 +125,10 @@ export const Default: Story = {
           return mockCourseData;
         }),
         trpcStorybookMsw.groupSwitching.discussionsAvailable.query(async () => {
-          return mockSwitchingData;
+          return mockAvailableGroupsAndDiscussions;
         }),
         trpcStorybookMsw.groupSwitching.switchGroup.mutation(() => {
-          return undefined;
+          return null;
         }),
       ],
     },
@@ -148,10 +148,10 @@ export const AlternativeUnit: Story = {
           return mockCourseData;
         }),
         trpcStorybookMsw.groupSwitching.discussionsAvailable.query(async () => {
-          return mockSwitchingData;
+          return mockAvailableGroupsAndDiscussions;
         }),
         trpcStorybookMsw.groupSwitching.switchGroup.mutation(() => {
-          return undefined;
+          return null;
         }),
       ],
     },
@@ -171,7 +171,7 @@ export const NoAvailableGroups: Story = {
           return mockCourseData;
         }),
         trpcStorybookMsw.groupSwitching.discussionsAvailable.query(() => {
-          return mockSwitchingData;
+          return mockAvailableGroupsAndDiscussions;
         }),
       ],
     },
@@ -194,10 +194,10 @@ export const Loading: Story = {
         }),
         trpcStorybookMsw.groupSwitching.discussionsAvailable.query(async () => {
           await delay(2000);
-          return mockSwitchingData;
+          return mockAvailableGroupsAndDiscussions;
         }),
         trpcStorybookMsw.groupSwitching.switchGroup.mutation(() => {
-          return undefined;
+          return null;
         }),
       ],
     },

@@ -1,6 +1,6 @@
 import {
   ErrorSection,
-  NewText,
+  P, A,
   ProgressDots,
   withAuth,
 } from '@bluedot/ui';
@@ -54,7 +54,7 @@ const ProjectPostPage = withAuth(({ auth }) => {
       <BodyEditor auth={auth} onSave={saveProject}>
         {data.project.body}
       </BodyEditor>
-      <NewText.P><NewText.A href={`https://airtable.com/app63L1YChHfS6RJF/pagkPlWBx7S9LDhBJ?QaMci=${data.project.id}`}>Return to Airtable</NewText.A></NewText.P>
+      <P><A href={`https://airtable.com/app63L1YChHfS6RJF/pagkPlWBx7S9LDhBJ?QaMci=${data.project.id}`}>Return to Airtable</A></P>
     </>
   );
 });

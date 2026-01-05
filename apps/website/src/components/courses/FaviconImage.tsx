@@ -7,6 +7,11 @@ type FaviconImageProps = {
   alt?: string;
 };
 
+// Google's Favicon API can't resolve favicons for some domains (e.g., Substack custom domains)
+const FAVICON_OVERRIDES: Record<string, string> = {
+  'blog.bluedot.org': 'https://bluedot.org/favicon.ico',
+};
+
 /**
  * Component that displays a favicon for a given URL using Google's favicon API
  * Falls back gracefully if the favicon fails to load
@@ -36,9 +41,8 @@ export const FaviconImage: React.FC<FaviconImageProps> = ({
   // API Configuration
   const API_FAVICON_SIZE = 256; // Size requested from Google's API (higher res for quality)
 
-  // Request high-resolution favicon from Google's API
-  // We fetch at 256px for quality, then scale down to displaySize for crisp rendering
-  const faviconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=${API_FAVICON_SIZE}`;
+  const faviconUrl = FAVICON_OVERRIDES[domain]
+    ?? `https://www.google.com/s2/favicons?domain=${domain}&sz=${API_FAVICON_SIZE}`;
 
   return (
     <img

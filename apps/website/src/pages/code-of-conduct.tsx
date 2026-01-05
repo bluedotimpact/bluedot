@@ -64,7 +64,7 @@ The following types of behaviour are unacceptable during course events and discu
 
 ## Reporting
 
-If you see a violation of our code of conduct, please report it by [contacting us](https://bluedot.org/contact), to a facilitator, or to someone you trust who can inform us on your behalf.
+If you see a violation of our code of conduct, please report it by [contacting us](mailto:team@bluedot.org), to a facilitator, or to someone you trust who can inform us on your behalf.
 
 ## Credits
 

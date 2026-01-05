@@ -19,7 +19,6 @@ const meta: Meta<typeof CourseListRow> = {
   args: {
     isFirst: true,
     isLast: false,
-    isCompleted: false,
   },
 };
 
@@ -37,7 +36,7 @@ const mockInProgressRegistration = createMockCourseRegistration();
 
 // Mock course registration for completed course
 const mockCompletedRegistration = createMockCourseRegistration({
-  roundStatus: 'Completed',
+  roundStatus: 'Past',
   certificateId: 'cert-123',
   certificateCreatedAt: 1700000000,
 });
@@ -95,7 +94,6 @@ export const InProgress: Story = {
   args: {
     course: mockCourse,
     courseRegistration: mockInProgressRegistration,
-    isCompleted: false,
   },
   parameters: {
     msw: {
@@ -110,7 +108,6 @@ export const Completed: Story = {
     courseRegistration: mockCompletedRegistration,
     isFirst: false,
     isLast: true,
-    isCompleted: true,
   },
   parameters: {
     msw: {
@@ -187,6 +184,77 @@ export const LongTitle: Story = {
   parameters: {
     msw: {
       handlers: createMswHandlers(mockMeetPerson),
+    },
+  },
+};
+
+// Past course, attended enough discussions, but hasn't submitted action plan
+const mockAgiStrategyCourse = createMockCourse({
+  title: 'AGI Strategy',
+  slug: 'agi-strategy',
+  path: '/courses/agi-strategy',
+});
+
+const mockPastNoCertRegistration = createMockCourseRegistration({
+  roundStatus: 'Past',
+  certificateId: null,
+  certificateCreatedAt: null,
+});
+
+const pastDiscussions = Array.from({ length: 5 }, (_, i) => ({
+  ...createMockGroupDiscussion({
+    id: `disc-${i + 1}`,
+    startDateTime: now - (10 - i) * hour,
+    endDateTime: now - (9 - i) * hour,
+  }),
+  unitNumber: i + 1,
+  unitRecord: { unitNumber: String(i + 1), title: `Unit ${i + 1}` } as GroupDiscussion['unitRecord'],
+  groupDetails: mockDiscussion.groupDetails,
+}));
+
+export const MissingActionPlan: Story = {
+  args: {
+    course: mockAgiStrategyCourse,
+    courseRegistration: mockPastNoCertRegistration,
+    isFirst: true,
+    isLast: true,
+  },
+  parameters: {
+    msw: {
+      handlers: [
+        trpcStorybookMsw.meetPerson.getByCourseRegistrationId.query(() => createMockMeetPerson({
+          expectedDiscussionsParticipant: ['disc-1', 'disc-2', 'disc-3', 'disc-4', 'disc-5'],
+          attendedDiscussions: ['disc-1', 'disc-2', 'disc-3', 'disc-4'], // Attended 4 of 5 (allowed)
+          groupsAsParticipant: ['group-1'],
+          projectSubmission: null, // No action plan submitted
+        })),
+        trpcStorybookMsw.groupDiscussions.getByDiscussionIds.query(() => ({
+          discussions: pastDiscussions,
+        })),
+      ],
+    },
+  },
+};
+
+export const LowAttendance: Story = {
+  args: {
+    course: mockCourse,
+    courseRegistration: mockPastNoCertRegistration,
+    isFirst: true,
+    isLast: true,
+  },
+  parameters: {
+    msw: {
+      handlers: [
+        trpcStorybookMsw.meetPerson.getByCourseRegistrationId.query(() => createMockMeetPerson({
+          expectedDiscussionsParticipant: ['disc-1', 'disc-2', 'disc-3', 'disc-4', 'disc-5'],
+          attendedDiscussions: ['disc-1', 'disc-2'], // Only attended 2 of 5 (missed too many)
+          groupsAsParticipant: ['group-1'],
+        })),
+        trpcStorybookMsw.groupDiscussions.getByDiscussionIds.query(() => ({
+          discussions: pastDiscussions,
+        })),
+      ],
     },
   },
 };

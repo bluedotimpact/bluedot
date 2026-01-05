@@ -121,4 +121,48 @@ describe('MarkdownExtendedRenderer', () => {
       expect(titleElement?.textContent).toBe('The backslash symbol (\\) is used to escape');
     });
   });
+
+  describe('markdown rendering fixes', () => {
+    test('preprocesses content: escapes < characters, converts autolinks, preserves MDX components', async () => {
+      const { container } = render(
+        <MarkdownExtendedRenderer>
+          {'Used by <2000 users.\n\nVisit <https://example.com> for info.\n\n<Greeting>World</Greeting>'}
+        </MarkdownExtendedRenderer>,
+      );
+
+      await waitFor(() => {
+        expect(container.querySelector('p')).toBeTruthy();
+        expect(container.querySelector('a')).toBeTruthy();
+      });
+
+      const paragraphs = container.querySelectorAll('p');
+
+      // < characters render correctly
+      expect(paragraphs[0]?.textContent).toBe('Used by <2000 users.');
+
+      // Autolinks are converted to clickable links
+      const link = container.querySelector('a');
+      expect(link?.getAttribute('href')).toBe('https://example.com');
+      expect(link?.getAttribute('target')).toBe('_blank');
+
+      // MDX components still work
+      expect(paragraphs[2]?.textContent).toBe('Hello World');
+    });
+
+    test('remark-breaks plugin: single newlines create line breaks', async () => {
+      const { container } = render(
+        <MarkdownExtendedRenderer>
+          {'First line\nSecond line\nThird line'}
+        </MarkdownExtendedRenderer>,
+      );
+
+      await waitFor(() => {
+        expect(container.querySelector('p')).toBeTruthy();
+      });
+
+      const paragraph = container.querySelector('p');
+      const brTags = paragraph?.querySelectorAll('br');
+      expect(brTags?.length).toBe(2); // 2 line breaks for 3 lines
+    });
+  });
 });

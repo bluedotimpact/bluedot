@@ -8,6 +8,23 @@ import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
 import { trpc } from '../../utils/trpc';
 import type { Event } from '../../server/routers/luma';
 
+// Featured events - these will appear first (if not yet passed)
+// Add Luma event URLs here to prioritize them (e.g., 'https://lu.ma/your-event-slug')
+const FEATURED_EVENT_URLS: string[] = [
+  // Example:
+  // 'https://lu.ma/b5i3zi74',
+];
+
+// Normalize URL for comparison (removes trailing slashes, query params, standardizes protocol)
+const normalizeUrl = (url: string): string => {
+  try {
+    const parsed = new URL(url);
+    return `${parsed.protocol}//${parsed.host}${parsed.pathname.replace(/\/$/, '')}`.toLowerCase();
+  } catch {
+    return url.toLowerCase().replace(/\/$/, '');
+  }
+};
+
 type Photo = {
   id: string;
   src: string;
@@ -17,34 +34,37 @@ type Photo = {
 
 const BLUEDOT_EVENTS_PHOTOS: Photo[] = [
   {
-    id: '1', src: '/images/homepage/events-1.png', alt: 'BlueDot event', width: 512,
+    id: '1', src: '/images/homepage/events-1.webp', alt: 'BlueDot event', width: 512,
   },
   {
-    id: '2', src: '/images/homepage/events-2.png', alt: 'BlueDot event', width: 647,
+    id: '2', src: '/images/homepage/events-2.webp', alt: 'BlueDot event', width: 647,
   },
   {
-    id: '3', src: '/images/homepage/events-3.png', alt: 'BlueDot event', width: 512,
+    id: '3', src: '/images/homepage/events-3.webp', alt: 'BlueDot event', width: 512,
   },
   {
-    id: '4', src: '/images/homepage/events-4.png', alt: 'BlueDot event', width: 499,
+    id: '4', src: '/images/homepage/events-4.webp', alt: 'BlueDot event', width: 499,
   },
   {
-    id: '5', src: '/images/homepage/events-5.png', alt: 'BlueDot event', width: 325,
+    id: '5', src: '/images/homepage/events-5.webp', alt: 'BlueDot event', width: 325,
   },
   {
-    id: '6', src: '/images/homepage/events-6.png', alt: 'BlueDot event', width: 512,
+    id: '6', src: '/images/homepage/events-6.webp', alt: 'BlueDot event', width: 512,
   },
   {
-    id: '7', src: '/images/homepage/events-7.png', alt: 'BlueDot event', width: 433,
+    id: '7', src: '/images/homepage/events-7.webp', alt: 'BlueDot event', width: 433,
   },
   {
-    id: '8', src: '/images/homepage/events-8.png', alt: 'BlueDot event', width: 325,
+    id: '8', src: '/images/homepage/events-8.webp', alt: 'BlueDot event', width: 325,
   },
   {
-    id: '9', src: '/images/homepage/events-9.png', alt: 'BlueDot event', width: 637,
+    id: '9', src: '/images/homepage/events-9.webp', alt: 'BlueDot event', width: 637,
   },
   {
-    id: '10', src: '/images/homepage/events-10.png', alt: 'BlueDot event', width: 637,
+    id: '10', src: '/images/homepage/events-10.webp', alt: 'BlueDot event', width: 637,
+  },
+  {
+    id: '11', src: '/images/homepage/events-11.webp', alt: 'BlueDot event', width: 500,
   },
 ];
 
@@ -333,9 +353,40 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
   );
 };
 
-const EventsSection = () => {
+/** Sorts events with featured URLs first, preserving the order specified in featuredUrls */
+const sortEventsWithFeaturedUrls = (events: Event[], featuredUrls: string[]): Event[] => {
+  if (featuredUrls.length === 0) return events;
+
+  const normalizedFeaturedUrls = featuredUrls.map(normalizeUrl);
+  const featuredEvents: Event[] = [];
+  const regularEvents: Event[] = [];
+
+  for (const event of events) {
+    const normalizedEventUrl = normalizeUrl(event.url);
+    if (normalizedFeaturedUrls.includes(normalizedEventUrl)) {
+      featuredEvents.push(event);
+    } else {
+      regularEvents.push(event);
+    }
+  }
+
+  // Featured events first (in the order they appear in featuredUrls),
+  // then remaining events in their original chronological order
+  const sortedFeatured = featuredEvents.sort(
+    (a, b) => normalizedFeaturedUrls.indexOf(normalizeUrl(a.url)) - normalizedFeaturedUrls.indexOf(normalizeUrl(b.url)),
+  );
+
+  return [...sortedFeatured, ...regularEvents];
+};
+
+type EventsSectionProps = {
+  featuredUrls?: string[];
+};
+
+const EventsSection = ({ featuredUrls = FEATURED_EVENT_URLS }: EventsSectionProps) => {
   const { data: events, isLoading } = trpc.luma.getUpcomingEvents.useQuery();
-  const displayEvents = (events || []).slice(0, 4);
+  const sortedEvents = sortEventsWithFeaturedUrls(events || [], featuredUrls);
+  const displayEvents = sortedEvents.slice(0, 4);
 
   return (
     <section
@@ -390,12 +441,13 @@ const EventsSection = () => {
                 </div>
               </div>
 
-              {/* CTA Button - below cards for tablet/desktop */}
+              {/* CTA Button - visible on all screen sizes */}
               <CTALinkOrButton
                 url="https://luma.com/bluedotevents?utm_source=website&utm_campaign=events-section"
-                className="hidden min-[680px]:block h-11 px-4 bg-[rgba(19,19,46,0.1)] text-[#13132e] hover:text-[#13132e] text-[15px] font-medium tracking-[-0.3px] rounded-md hover:bg-[rgba(19,19,46,0.15)] whitespace-nowrap"
+                target="_blank"
+                className="flex h-[44px] px-[17px] text-[14px] font-normal leading-[18.2px] tracking-[0.42px] text-white bg-[#0033CC] rounded-[6px] hover:bg-[#0029A3] transition-all duration-200 whitespace-nowrap"
               >
-                See all events
+                See upcoming events
               </CTALinkOrButton>
             </>
           )}

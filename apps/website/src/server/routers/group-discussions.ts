@@ -8,12 +8,11 @@ import {
   zoomAccountTable,
 } from '@bluedot/db';
 import { logger } from '@bluedot/ui/src/api';
-import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
-import env from '../../lib/api/env';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
+import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 
 export type GroupDiscussion = inferRouterOutputs<
   typeof groupDiscussionsRouter
@@ -50,7 +49,6 @@ export const groupDiscussionsRouter = router({
         const invalidIds = rawDiscussions.filter((d) => !validDiscussions.includes(d)).map((d) => d.id);
         const errorMessage = `Discussions missing unit reference: ${invalidIds.join(', ')}`;
         logger.error(errorMessage);
-        await slackAlert(env, [errorMessage]);
       }
 
       if (validDiscussions.length === 0) {
@@ -134,24 +132,20 @@ export const groupDiscussionsRouter = router({
         return null;
       }
 
-      const currentTimeSeconds = Math.floor(Date.now() / 1000);
+      const currentTimeMs = Date.now();
 
-      // Get all discussions that haven't ended yet
       const groupDiscussions = await db.pg.select()
         .from(groupDiscussionTable.pg)
         .where(
           and(
             eq(groupDiscussionTable.pg.round, roundId),
             sql`(${groupDiscussionTable.pg.participantsExpected} @> ARRAY[${participant.id}] OR ${groupDiscussionTable.pg.facilitators} @> ARRAY[${participant.id}])`,
-            sql`${groupDiscussionTable.pg.endDateTime} > ${currentTimeSeconds}`,
           ),
         )
         .orderBy(groupDiscussionTable.pg.startDateTime);
 
-      // Priority: Show ongoing meeting, otherwise show next upcoming
-      const ongoingDiscussion = groupDiscussions.find((d) => d.startDateTime <= currentTimeSeconds && d.endDateTime > currentTimeSeconds);
-      const upcomingDiscussion = groupDiscussions.find((d) => d.startDateTime > currentTimeSeconds);
-      const groupDiscussion = ongoingDiscussion ?? upcomingDiscussion ?? null;
+      // Get the first discussion that hasn't ended (already ordered by start time)
+      const groupDiscussion = groupDiscussions.find((d) => getDiscussionTimeState({ discussion: d, currentTimeMs }) !== 'ended') ?? null;
 
       // Determine user role and get host key if facilitator
       let userRole: 'participant' | 'facilitator' | undefined;

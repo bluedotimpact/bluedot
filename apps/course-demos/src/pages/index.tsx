@@ -1,12 +1,12 @@
 import {
-  CTALinkOrButton, NewText,
+  CTALinkOrButton, H1, P,
 } from '@bluedot/ui';
 
 const HomePage = () => {
   return (
     <div className="section-body gap-2">
-      <NewText.H1>course-demos</NewText.H1>
-      <NewText.P>This site contains demos that BlueDot Impact uses on our courses</NewText.P>
+      <H1>course-demos</H1>
+      <P>This site contains demos that BlueDot Impact uses on our courses</P>
       <CTALinkOrButton url="https://bluedot.org" withChevron className="mt-4">Learn more about our courses</CTALinkOrButton>
     </div>
   );

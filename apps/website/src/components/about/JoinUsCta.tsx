@@ -1,5 +1,4 @@
-import { CTALinkOrButton } from '@bluedot/ui';
-import { H3 } from '../Text';
+import { CTALinkOrButton, H3 } from '@bluedot/ui';
 import { ROUTES } from '../../lib/routes';
 
 const JoinUsCta = () => {

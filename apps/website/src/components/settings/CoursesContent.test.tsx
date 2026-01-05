@@ -24,32 +24,37 @@ vi.mock('./CourseListRow', () => ({
 }));
 
 describe('CoursesContent', () => {
-  const courseId = 'course-1';
-  const mockCourseData = createMockCourse({
-    id: courseId,
-    title: 'Introduction to AI Safety',
-    description: 'Learn the fundamentals of AI safety.',
-    durationDescription: '8 weeks',
-    image: '/course-image.jpg',
-    path: '/courses/ai-safety',
-  });
-
-  const mockCourseRegistration = createMockCourseRegistration({ courseId });
-
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it('displays in-progress courses', async () => {
-    server.use(trpcMsw.courses.getAll.query(() => [mockCourseData]));
-    server.use(trpcMsw.courseRegistrations.getAll.query(() => [mockCourseRegistration]));
+  it('shows "Past" courses in Completed section, everything else in In Progress', async () => {
+    const courses = [
+      createMockCourse({ id: 'course-1', title: 'Active No Cert' }),
+      createMockCourse({ id: 'course-2', title: 'Past No Cert' }),
+    ];
+
+    const registrations = [
+      // Active => In Progress
+      createMockCourseRegistration({
+        id: 'reg-1', courseId: 'course-1', roundStatus: 'Active', certificateCreatedAt: null,
+      }),
+      // Past => Completed (roundStatus is what matters, not certificate)
+      createMockCourseRegistration({
+        id: 'reg-2', courseId: 'course-2', roundStatus: 'Past', certificateCreatedAt: null,
+      }),
+    ];
+
+    server.use(trpcMsw.courses.getAll.query(() => courses));
+    server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
 
     render(<CoursesContent />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      expect(screen.getByLabelText('In Progress courses')).toBeInTheDocument();
       expect(screen.getByText('In Progress (1)')).toBeInTheDocument();
-      expect(screen.getByText('Introduction to AI Safety')).toBeInTheDocument();
+      expect(screen.getByText('Completed (1)')).toBeInTheDocument();
+      expect(screen.getByText('Active No Cert')).toBeInTheDocument();
+      expect(screen.getByText('Past No Cert')).toBeInTheDocument();
     });
   });
 
@@ -62,6 +67,71 @@ describe('CoursesContent', () => {
     await waitFor(() => {
       expect(screen.getByText("You haven't started any courses yet")).toBeInTheDocument();
       expect(screen.getByRole('link', { name: 'Join a course' })).toBeInTheDocument();
+    });
+  });
+
+  it('sorts completed courses with no-cert first, then by completion date descending', async () => {
+    const courses = [
+      createMockCourse({ id: 'course-1', title: 'No Cert' }),
+      createMockCourse({ id: 'course-2', title: 'Older Cert' }),
+      createMockCourse({ id: 'course-3', title: 'Newer Cert' }),
+    ];
+
+    const registrations = [
+      createMockCourseRegistration({
+        id: 'reg-1', courseId: 'course-1', roundStatus: 'Past', certificateCreatedAt: null,
+      }),
+      createMockCourseRegistration({
+        id: 'reg-2', courseId: 'course-2', roundStatus: 'Past', certificateCreatedAt: 1600000000,
+      }),
+      createMockCourseRegistration({
+        id: 'reg-3', courseId: 'course-3', roundStatus: 'Past', certificateCreatedAt: 1700000000,
+      }),
+    ];
+
+    server.use(trpcMsw.courses.getAll.query(() => courses));
+    server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
+
+    render(<CoursesContent />, { wrapper: TrpcProvider });
+
+    await waitFor(() => {
+      const completedSection = screen.getByLabelText('Completed courses');
+      const titles = completedSection.querySelectorAll('[data-testid="course-row"]');
+      // No cert first, then newer cert, then older cert
+      expect(titles[0]).toHaveTextContent('No Cert');
+      expect(titles[1]).toHaveTextContent('Newer Cert');
+      expect(titles[2]).toHaveTextContent('Older Cert');
+    });
+  });
+
+  it('hides completed courses for facilitators', async () => {
+    const courses = [
+      createMockCourse({ id: 'course-1', title: 'Currently facilitating' }),
+      createMockCourse({ id: 'course-2', title: 'Facilitated in past' }),
+    ];
+
+    const registrations = [
+      createMockCourseRegistration({
+        id: 'reg-1', courseId: 'course-1', roundStatus: 'Active', certificateCreatedAt: null, role: 'Facilitator',
+      }),
+      createMockCourseRegistration({
+        id: 'reg-2', courseId: 'course-2', roundStatus: 'Past', certificateCreatedAt: null, role: 'Facilitator',
+      }),
+    ];
+
+    server.use(trpcMsw.courses.getAll.query(() => courses));
+    server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
+
+    render(<CoursesContent />, { wrapper: TrpcProvider });
+
+    await waitFor(() => {
+      const inProgressSection = screen.getByLabelText('In Progress courses');
+      const inProgressTitles = inProgressSection.querySelectorAll('[data-testid="course-row"]');
+
+      expect(inProgressTitles[0]).toHaveTextContent('Currently facilitating');
+
+      const completedSection = screen.queryAllByLabelText('Completed courses');
+      expect(completedSection).toHaveLength(0);
     });
   });
 });

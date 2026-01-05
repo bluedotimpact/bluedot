@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  CTALinkOrButton, NewText,
+  CTALinkOrButton, H1, P,
 } from '@bluedot/ui';
 
 const HomePage = () => {
@@ -8,14 +8,14 @@ const HomePage = () => {
 
   return (
     <div className="section-body gap-2">
-      <NewText.H1>frontend-example</NewText.H1>
-      <NewText.P>This is some example text</NewText.P>
+      <H1>frontend-example</H1>
+      <P>This is some example text</P>
       <CTALinkOrButton onClick={() => setCount((c) => c + 1)}>
         Click count is {count}
       </CTALinkOrButton>
-      <NewText.P>
+      <P>
         Edit <code>src/pages/index.tsx</code> and save to test HMR
-      </NewText.P>
+      </P>
       <CTALinkOrButton url="/authed" withChevron>View page requiring auth</CTALinkOrButton>
     </div>
   );

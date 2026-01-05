@@ -13,7 +13,7 @@ exports[`CourseSearchCard > renders default as expected 1`] = `
       <img
         alt="Title"
         class="size-full object-cover rounded-lg"
-        src="/images/courses/default.jpg"
+        src="/images/courses/default.webp"
       />
     </div>
     <div

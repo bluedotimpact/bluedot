@@ -11,7 +11,7 @@ exports[`LandingBanner > renders correctly 1`] = `
       aria-label="AGI Strategy banner"
       class="relative w-full h-[382px] min-[680px]:h-[360px] mx-auto overflow-hidden rounded-xl bg-[#13132E] bg-cover bg-center xl:max-w-[1118px]"
       role="img"
-      style="background-image: url("/images/agi-strategy/hero-banner-split.png");"
+      style="background-image: url("/images/lander/agi-strategy/hero-banner-split.webp");"
     >
       <div
         class="absolute inset-0 pointer-events-none bg-contain bg-repeat mix-blend-soft-light"

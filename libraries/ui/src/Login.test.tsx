@@ -8,6 +8,7 @@ import { Navigate } from './Navigate';
 import { useAuthStore } from './utils/auth';
 import { getQueryParam } from './utils/getQueryParam';
 import '@testing-library/jest-dom';
+import { createMockOidcResponse } from './utils/testUtils';
 
 const CUSTOM_REDIRECT_PATH = '/custom-path';
 const OIDC_PROVIDER_URL = 'https://mock-oidc-provider.com/';
@@ -52,21 +53,6 @@ vi.mock('oidc-client-ts', () => {
       processSigninResponse: mockProcessSigninResponse,
     })),
   };
-});
-
-const createMockUser = (overrides = {}) => ({
-  expires_at: Math.floor(Date.now() / 1000) + 3600,
-  id_token: 'id-token',
-  refresh_token: 'refresh-token',
-  profile: {
-    email: 'email@bluedot.org',
-    sub: 'sub-id',
-  },
-  userState: {
-    redirectTo: CUSTOM_REDIRECT_PATH,
-  },
-  url: OIDC_PROVIDER_URL,
-  ...overrides,
 });
 
 const originalWindowLocation = window.location;
@@ -127,7 +113,6 @@ describe('LoginRedirectPage', () => {
       request_type: 'si:r',
       state: {
         redirectTo: CUSTOM_REDIRECT_PATH,
-        attribution: expect.any(Object),
       },
     });
 
@@ -151,7 +136,6 @@ describe('LoginRedirectPage', () => {
       request_type: 'si:r',
       state: {
         redirectTo: '/',
-        attribution: expect.any(Object),
       },
     });
 
@@ -187,8 +171,8 @@ describe('LoginOauthCallbackPage', () => {
 
   test('should set auth and call `onLoginComplete` on success', async () => {
     const mockOnLoginComplete = vi.fn();
-    const mockUser = createMockUser();
-    mockProcessSigninResponse.mockResolvedValue(mockUser);
+    const mockSigninResponse = createMockOidcResponse({ userState: { redirectTo: CUSTOM_REDIRECT_PATH } });
+    mockProcessSigninResponse.mockResolvedValue(mockSigninResponse);
 
     render(
       <LoginOauthCallbackPage
@@ -198,12 +182,11 @@ describe('LoginOauthCallbackPage', () => {
     );
 
     const expectedAuthObject = {
-      expiresAt: mockUser.expires_at * 1000,
-      token: mockUser.id_token,
-      refreshToken: mockUser.refresh_token,
+      expiresAt: mockSigninResponse.expires_at * 1000,
+      token: mockSigninResponse.id_token,
+      refreshToken: mockSigninResponse.refresh_token,
       oidcSettings: mockLoginPreset.oidcSettings,
-      email: mockUser.profile.email,
-      attribution: undefined,
+      email: mockSigninResponse.profile.email,
     };
 
     await waitFor(() => {
@@ -239,9 +222,9 @@ describe('LoginOauthCallbackPage', () => {
   });
 
   test('should throw error if user.expires_at is missing', async () => {
-    const mockUser = createMockUser({ expires_at: undefined });
+    const mockSigninResponse = createMockOidcResponse({ expires_at: undefined });
 
-    mockProcessSigninResponse.mockResolvedValue(mockUser);
+    mockProcessSigninResponse.mockResolvedValue(mockSigninResponse);
 
     const { getByText } = render(<LoginOauthCallbackPage loginPreset={mockLoginPreset} />);
 
@@ -256,8 +239,8 @@ describe('LoginOauthCallbackPage', () => {
   });
 
   test('should throw error if user.id_token is missing', async () => {
-    const mockUser = createMockUser({ id_token: undefined });
-    mockProcessSigninResponse.mockResolvedValue(mockUser);
+    const mockSigninResponse = createMockOidcResponse({ id_token: undefined });
+    mockProcessSigninResponse.mockResolvedValue(mockSigninResponse);
 
     const { getByText } = render(<LoginOauthCallbackPage loginPreset={mockLoginPreset} />);
 
@@ -272,8 +255,8 @@ describe('LoginOauthCallbackPage', () => {
   });
 
   test('should throw error if user.profile.email is missing', async () => {
-    const mockUser = createMockUser({ profile: { email: undefined } });
-    mockProcessSigninResponse.mockResolvedValue(mockUser);
+    const mockSigninResponse = createMockOidcResponse({ profile: { email: undefined } });
+    mockProcessSigninResponse.mockResolvedValue(mockSigninResponse);
 
     const { getByText } = render(<LoginOauthCallbackPage loginPreset={mockLoginPreset} />);
 
@@ -288,7 +271,7 @@ describe('LoginOauthCallbackPage', () => {
   });
 
   test('should redirect to "/" when userState.redirectTo is missing', async () => {
-    mockProcessSigninResponse.mockResolvedValue(createMockUser({ userState: {} }));
+    mockProcessSigninResponse.mockResolvedValue(createMockOidcResponse({ userState: {} }));
     render(<LoginOauthCallbackPage loginPreset={mockLoginPreset} />);
     await waitFor(() => expect(mockPush).toHaveBeenCalledWith('/'));
   });

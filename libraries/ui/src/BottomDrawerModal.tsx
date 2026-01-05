@@ -36,6 +36,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
   title,
   initialSize,
   children,
+  ariaLabel,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -105,6 +106,8 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
     }
   };
 
+  const titleIsString = typeof title === 'string';
+
   return (
     <ModalOverlay
       isDismissable
@@ -137,7 +140,8 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                 }}
                 role="dialog"
                 aria-modal="true"
-                aria-labelledby={title ? 'mobile-modal-title' : undefined}
+                aria-labelledby={titleIsString ? 'mobile-modal-title' : undefined}
+                aria-label={!titleIsString ? (ariaLabel || 'Dialog') : undefined}
                 tabIndex={-1}
                 drag="y"
                 dragListener={false}
@@ -181,9 +185,11 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
 
                     {title && (
                       <div className="flex items-center justify-between px-5 pb-4">
-                        <h2 id="mobile-modal-title" className="text-size-lg font-semibold text-[#13132E]">
-                          {title}
-                        </h2>
+                        {titleIsString ? (
+                          <h2 id="mobile-modal-title" className="text-size-lg font-semibold text-[#13132E]">
+                            {title}
+                          </h2>
+                        ) : title}
                       </div>
                     )}
                   </div>
@@ -196,7 +202,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                       isDragging && 'pointer-events-none',
                     )}
                   >
-                    <div className="w-full" ref={contentRef}>
+                    <div className="w-full flex justify-center" ref={contentRef}>
                       {children}
                     </div>
                   </div>
