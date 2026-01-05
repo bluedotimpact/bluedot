@@ -4,7 +4,6 @@ import {
   TimeField,
   TimeValue,
 } from 'react-aria-components';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { parseTime } from '@internationalized/date';
 import { cn } from './utils';
 
