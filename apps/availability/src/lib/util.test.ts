@@ -21,7 +21,7 @@ describe('weeklyTimeAvToIntervals and intervalsToWeeklyTimeAv', () => {
   });
 
   test('round-trips correctly for intervals crossing day boundary', () => {
-    // Sunday 23:00 to Monday 01:00 (crosses week boundary at 10080)
+    // Sunday 23:00 to Monday 01:00 (crosses week boundary at MINUTES_IN_WEEK)
     const timeAv = {
       10020: true, // Sunday 23:00
       10050: true, // Sunday 23:30

@@ -1,6 +1,7 @@
 import * as wa from 'weekly-availabilities';
 
 export const MINUTES_IN_UNIT = 30;
+export const MINUTES_IN_WEEK = 10_080;
 
 export function snapToRect(
   {
@@ -53,27 +54,27 @@ export const intervalsToWeeklyTimeAv = (intervals: wa.Interval[]): Record<wa.Wee
  */
 export const shiftIntervals = (intervals: wa.Interval[], offsetInMinutes: number): wa.Interval[] => {
   const shifted = intervals.flatMap(([b, e]) => {
-    if (e - b > 10080) {
-      throw new Error('Invalid weekly interval: greater than 10080 minutes');
+    if (e - b > MINUTES_IN_WEEK) {
+      throw new Error('Invalid weekly interval: greater than MINUTES_IN_WEEK minutes');
     }
 
     let newB: number = b + offsetInMinutes;
     let newE: number = e + offsetInMinutes;
 
     while (newB < 0) {
-      newB += 10080;
-      newE += 10080;
+      newB += MINUTES_IN_WEEK;
+      newE += MINUTES_IN_WEEK;
     }
 
-    while (newB > 10080) {
-      newB -= 10080;
-      newE -= 10080;
+    while (newB > MINUTES_IN_WEEK) {
+      newB -= MINUTES_IN_WEEK;
+      newE -= MINUTES_IN_WEEK;
     }
 
-    if (newE > 10080) {
+    if (newE > MINUTES_IN_WEEK) {
       return [
-        [0, newE - 10080],
-        [newB, 10080],
+        [0, newE - MINUTES_IN_WEEK],
+        [newB, MINUTES_IN_WEEK],
       ] as wa.Interval[];
     }
 
