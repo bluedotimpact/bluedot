@@ -13,7 +13,9 @@ type HeaderProps = {
  */
 export const Header: React.FC<HeaderProps> = ({ announcementBanner }) => {
   const router = useRouter();
-  const pageRendersOwnNav = router.pathname === '/' || router.pathname === '/courses';
+  // Pages that render their own Nav: homepage, /courses index, and course lander pages
+  const isCourseLander = router.pathname === '/courses/[courseSlug]';
+  const pageRendersOwnNav = router.pathname === '/' || router.pathname === '/courses' || isCourseLander;
 
   if (pageRendersOwnNav) {
     return announcementBanner ?? null;

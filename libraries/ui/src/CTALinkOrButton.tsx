@@ -4,10 +4,11 @@ import { ClickTarget, ClickTargetProps } from './ClickTarget';
 import { cn } from './utils';
 
 export type CTALinkOrButtonProps = {
-  variant?: 'primary' | 'secondary' | 'black' | 'outline-black' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'black' | 'outline-black' | 'ghost' | 'unstyled';
   size?: 'small' | 'medium';
   withChevron?: boolean;
   withBackChevron?: boolean;
+  style?: React.CSSProperties;
 } & ClickTargetProps;
 
 // `disabled:` attributes apply to buttons, `aria-disabled:` to links
@@ -22,12 +23,14 @@ const CTA_VARIANT_STYLES = {
   primary: 'cta-button--primary bg-bluedot-normal link-on-dark',
   secondary: 'cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter',
   black: 'cta-button--black bg-bluedot-darker link-on-dark hover:bg-bluedot-darkest',
-  'outline-black': 'cta-button--outline-black bg-transparent border border-black text-black hover:bg-gray-50',
+  'outline-black': 'cta-button--outline-black bg-transparent border border-[rgba(19,19,46,0.3)] text-black hover:bg-gray-50 font-medium',
   ghost: '[--ghost-gray:#13132E] text-(--ghost-gray)/60 hover:text-(--ghost-gray) hover:bg-(--ghost-gray)/10',
+  unstyled: '', // No color/hover styles - fully controlled by className/style props
 } as const;
 
 export const CTALinkOrButton: React.FC<CTALinkOrButtonProps> = ({
   className,
+  style,
   variant = 'primary',
   size = 'medium',
   withChevron = false,
@@ -43,6 +46,7 @@ export const CTALinkOrButton: React.FC<CTALinkOrButtonProps> = ({
         CTA_VARIANT_STYLES[variant],
         className,
       )}
+      style={style}
       {...rest}
     >
       {withBackChevron && (

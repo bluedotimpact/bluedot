@@ -9,10 +9,18 @@ import { MobileNavLinks } from './_MobileNavLinks';
 import { DesktopNavLinks } from './_DesktopNavLinks';
 import { ExpandedSectionsState } from './utils';
 
-export const Nav: React.FC = () => {
+type NavProps = {
+  variant?: 'default' | 'transparent';
+};
+
+export const Nav: React.FC<NavProps> = ({ variant: variantProp }) => {
   const router = useRouter();
   const isLoggedIn = !!useAuthStore((s) => s.auth);
   const isHomepage = router.pathname === '/' || router.pathname === '/courses';
+
+  // Determine variant: prop > homepage detection > default
+  const variant = variantProp ?? (isHomepage ? 'transparent' : 'default');
+  const isOnColoredBackground = variant === 'transparent';
 
   const [expandedSections, setExpandedSections] = useState<ExpandedSectionsState>({
     about: false,
@@ -43,7 +51,7 @@ export const Nav: React.FC = () => {
   }, []);
 
   const getNavClasses = () => {
-    if (isHomepage) {
+    if (variant === 'transparent') {
       return clsx(
         'nav absolute top-0 inset-x-0 z-50 w-full transition-all duration-300',
         'bg-transparent',
@@ -68,11 +76,11 @@ export const Nav: React.FC = () => {
               expandedSections={expandedSections}
               updateExpandedSections={updateExpandedSections}
               isLoggedIn={isLoggedIn}
-              isHomepage={isHomepage}
+              onColoredBackground={isOnColoredBackground}
             />
 
             {/* Logo */}
-            <NavLogo isHomepage={isHomepage} />
+            <NavLogo onColoredBackground={isOnColoredBackground} />
           </div>
 
           {/* Center/Right side: Nav Links and CTA */}
@@ -81,13 +89,13 @@ export const Nav: React.FC = () => {
             <DesktopNavLinks
               expandedSections={expandedSections}
               updateExpandedSections={updateExpandedSections}
-              isHomepage={isHomepage}
+              onColoredBackground={isOnColoredBackground}
             />
 
             {/* CTA Buttons */}
             <NavCta
               isLoggedIn={isLoggedIn}
-              isHomepage={isHomepage}
+              onColoredBackground={isOnColoredBackground}
               expandedSections={expandedSections}
               updateExpandedSections={updateExpandedSections}
             />

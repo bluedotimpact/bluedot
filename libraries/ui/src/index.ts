@@ -15,9 +15,6 @@ export type { ClickTargetProps } from './ClickTarget';
 export { Collapsible } from './Collapsible';
 export type { CollapsibleProps } from './Collapsible';
 
-export { CourseCard } from './CourseCard';
-export type { CourseCardProps } from './CourseCard';
-
 export { CTALinkOrButton } from './CTALinkOrButton';
 export type { CTALinkOrButtonProps } from './CTALinkOrButton';
 
@@ -75,6 +72,9 @@ export type { TagProps } from './Tag';
 
 export { Textarea } from './Textarea';
 export type { TextareaProps } from './Textarea';
+
+export { Tooltip } from './Tooltip';
+export type { TooltipProps } from './Tooltip';
 
 // Export text components directly
 export {

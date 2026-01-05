@@ -21,7 +21,7 @@ const teamMembers = [
     linkedInUrl: 'https://linkedin.com/in/anglilian',
   },
   {
-    imageSrc: '/images/team/josh_v2.jpeg',
+    imageSrc: '/images/team/josh_v2.webp',
     name: 'Josh Landes',
     role: 'Community',
     linkedInUrl: 'https://linkedin.com/in/josh-landes12',

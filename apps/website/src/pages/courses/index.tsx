@@ -217,7 +217,7 @@ const CoursesPage = () => {
             <div className="min-[1280px]:hidden mt-16 pt-16 border-t border-[rgba(19,19,46,0.1)]" />
 
             {/* Course Cards Section */}
-            <div className="flex-1">
+            <div className="flex-1 max-w-[780px] min-[1280px]:max-w-none">
               {error && <ErrorSection error={error} />}
               {isLoading && <ProgressDots />}
               {!isLoading && !error && (

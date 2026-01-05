@@ -73,7 +73,7 @@ export const createMockCourse = (overrides: Partial<Course> = {}): Course => ({
   durationDescription: '4 weeks',
   durationHours: 40,
   id: MOCK_COURSE_ID,
-  image: '/images/courses/default.jpg',
+  image: '/images/courses/default.webp',
   isFeatured: false,
   isNew: false,
   level: 'Beginner',
@@ -194,6 +194,9 @@ export const createMockMeetPerson = (overrides: Partial<MeetPerson> = {}): MeetP
   numUnits: null,
   groupsAsParticipant: [],
   autoNumberId: 1,
+  email: 'test@example.com',
+  courseFeedbackForm: null,
+  courseFeedback: null,
   ...overrides,
 });
 
@@ -224,7 +227,5 @@ export const createMockResourceCompletion = (overrides: Partial<ResourceCompleti
   rating: null,
   resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE,
   unitResourceId: MOCK_RESOURCE_ID,
-  unitResourceIdRead: MOCK_RESOURCE_ID,
-  unitResourceIdWrite: MOCK_RESOURCE_ID,
   ...overrides,
 });

@@ -41,7 +41,7 @@ const NewsletterBanner = () => {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Failed to subscribe:', error);
-      setErrorMessage('Something went wrong. Please try again later.');
+      setErrorMessage('Something went wrong. Please try again in a different browser.');
       setIsSubmitting(false);
 
       // Auto-hide error message after 5 seconds
@@ -72,18 +72,6 @@ const NewsletterBanner = () => {
           style={{
             background: 'linear-gradient(to bottom, rgba(0,0,0,0) 5.172%, rgba(0,0,0,0.6) 100%)',
             mixBlendMode: 'overlay', // Tailwind doesn't support mix-blend-mode
-          }}
-        />
-
-        {/* Noise Texture */}
-        <div
-          className="absolute inset-0 min-[680px]:rounded-xl opacity-50"
-          style={{
-            backgroundImage: 'url(/images/homepage/noise.svg)',
-            backgroundSize: '464.64px 736.56px',
-            backgroundRepeat: 'repeat',
-            backgroundPosition: 'top left',
-            mixBlendMode: 'soft-light', // Tailwind doesn't support mix-blend-mode
           }}
         />
       </div>

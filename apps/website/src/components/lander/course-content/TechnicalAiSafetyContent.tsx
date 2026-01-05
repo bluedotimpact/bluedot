@@ -14,6 +14,16 @@ import { CourseLanderContent } from '../CourseLander';
 
 export const TECHNICAL_AI_SAFETY_APPLICATION_URL = 'https://web.miniextensions.com/9YX1i46qewCv5m17v8rl';
 
+const TAS_COLORS = {
+  /* Gradient layers:
+     1. Left-side darkness - horizontal gradient to darken left edge for text readability
+     2. Bottom-right warm glow - peach → purple → dark purple (from Figma)
+     3. Base color - deep purple/magenta */
+  gradient: 'linear-gradient(to right, rgba(20, 8, 25, 0.6) 0%, rgba(20, 8, 25, 0.4) 20%, rgba(20, 8, 25, 0.2) 40%, transparent 55%), radial-gradient(130% 160% at 100% 108.81%, rgba(255, 202, 171, 0.40) 0%, rgba(126, 85, 144, 0.40) 52.4%, rgba(46, 16, 54, 0.40) 100%), #2E1036',
+  accent: '#E0A5F9',
+  iconBackground: 'hsla(284, 46%, 30%, 1)',
+};
+
 export const createTechnicalAiSafetyContent = (
   applicationUrlWithUtm: string,
   courseSlug: string,
@@ -24,8 +34,10 @@ export const createTechnicalAiSafetyContent = (
   },
 
   hero: {
-    categoryLabel: 'TECHNICAL AI SAFETY',
-    title: 'Start building safer AI',
+    gradient: TAS_COLORS.gradient,
+    accentColor: TAS_COLORS.accent,
+    categoryLabel: 'COHORT-BASED COURSE',
+    title: 'Technical AI Safety',
     description: 'Understand current safety techniques. Map the gaps. Identify where you can contribute. All in 30 hours.',
     primaryCta: {
       text: 'Apply now',
@@ -35,11 +47,13 @@ export const createTechnicalAiSafetyContent = (
       text: 'Browse curriculum',
       url: `/courses/${courseSlug}/1/1`,
     },
-    imageSrc: '/images/lander/technical-ai-safety/hero-banner-split.png',
-    imageAlt: 'Technical AI Safety visualisation',
+    imageSrc: '/images/lander/technical-ai-safety/hero-graphic.png',
+    imageAlt: 'Technical AI Safety visualization',
+    imageAspectRatio: '1408/1122',
   },
 
   whoIsThisFor: {
+    iconBackgroundColor: TAS_COLORS.iconBackground,
     title: 'Who this course is for',
     targetAudiences: [
       {
@@ -134,63 +148,63 @@ export const createTechnicalAiSafetyContent = (
       name: 'Neel Nanda',
       jobTitle: 'Mech Interp Lead at Google DeepMind',
       course: 'Former participant and facilitator',
-      imageSrc: '/images/graduates/neel.jpeg',
+      imageSrc: '/images/graduates/neel.webp',
       url: 'https://www.neelnanda.io/about',
     },
     {
       name: 'Marius Hobbhahn',
       jobTitle: 'CEO at Apollo Research',
       course: 'AI Alignment Course Graduate',
-      imageSrc: '/images/graduates/marius.jpeg',
+      imageSrc: '/images/graduates/marius.webp',
       url: 'https://www.mariushobbhahn.com/aboutme/',
     },
     {
       name: 'Richard Ngo',
       jobTitle: 'Former OpenAI and DeepMind',
       course: 'AI Alignment Course Designer',
-      imageSrc: '/images/graduates/richard.jpg',
+      imageSrc: '/images/graduates/richard.webp',
       url: 'https://www.richardcngo.com/',
     },
     {
       name: 'Adam Jones',
       jobTitle: 'Member of Technical Staff at Anthropic',
       course: 'Former AI safety lead at BlueDot',
-      imageSrc: '/images/graduates/adam.jpg',
+      imageSrc: '/images/graduates/adam.webp',
       url: 'https://adamjones.me/',
     },
     {
       name: 'Juan Felipe Ceron Uribe',
       jobTitle: 'AI Alignment Research Engineer at OpenAI',
       course: 'Former participant and facilitator',
-      imageSrc: '/images/graduates/juan-felipe.jpeg',
+      imageSrc: '/images/graduates/juan-felipe.webp',
       url: 'https://www.linkedin.com/in/juan-felipe-ceron-uribe/',
     },
     {
       name: 'Nikita Ostrovsky',
       jobTitle: 'AI Reporter at TIME',
       course: 'AI Alignment Course Graduate',
-      imageSrc: '/images/graduates/nikita.jpeg',
+      imageSrc: '/images/graduates/nikita.webp',
       url: 'https://www.linkedin.com/in/nikostro/',
     },
     {
       name: 'Ana Carvalho',
       jobTitle: 'Contributor to AI Safety Engineering Taskforce',
       course: 'AI Alignment Course Graduate',
-      imageSrc: '/images/graduates/ana.jpg',
+      imageSrc: '/images/graduates/ana.webp',
       url: 'https://www.linkedin.com/in/anapmc/',
     },
     {
       name: 'Sabrina Shih',
       jobTitle: 'AI Policy Manager at Responsible AI Institute',
       course: 'AI Alignment Course Graduate',
-      imageSrc: '/images/graduates/sabrina.jpg',
+      imageSrc: '/images/graduates/sabrina.webp',
       url: 'https://www.linkedin.com/in/sabrinajadeshih/',
     },
     {
       name: 'Cameron Holmes',
       jobTitle: 'Senior Research Manager at MATS',
       course: 'AI Alignment Course Graduate',
-      imageSrc: '/images/graduates/cameron.png',
+      imageSrc: '/images/graduates/cameron.webp',
       url: 'https://www.linkedin.com/in/cameronholmes1/',
     },
   ],
@@ -238,7 +252,7 @@ export const createTechnicalAiSafetyContent = (
     title: 'Start building towards a good future today',
     ctaText: 'Apply now',
     ctaUrl: applicationUrlWithUtm,
-    imageSrc: '/images/agi-strategy/hero-banner-split.png',
+    imageSrc: '/images/lander/agi-strategy/hero-banner-split.webp',
     imageAlt: 'Technical AI Safety banner',
     iconSrc: '/images/agi-strategy/bluedot-icon.svg',
     iconAlt: 'BlueDot',

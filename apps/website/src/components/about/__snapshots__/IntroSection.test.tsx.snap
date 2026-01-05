@@ -60,7 +60,7 @@ exports[`IntroSection > renders default as expected 1`] = `
         <img
           alt="BlueDot Impact team"
           class="intro-section__image max-w-[570px] w-full h-auto max-h-[400px] object-cover rounded-md mt-6 sm:mt-0 shrink-0"
-          src="/images/culture/About-Us_v1.jpg"
+          src="/images/culture/About-Us_v1.webp"
         />
       </div>
     </div>

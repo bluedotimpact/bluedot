@@ -23,12 +23,12 @@ export const NavLinks: React.FC<{
   expandedSections: ExpandedSectionsState;
   updateExpandedSections: (updates: Partial<ExpandedSectionsState>) => void;
   className?: string;
-  isHomepage?: boolean;
+  onColoredBackground?: boolean;
 }> = ({
   expandedSections,
   updateExpandedSections,
   className,
-  isHomepage = false,
+  onColoredBackground = false,
 }) => {
   const { courses, loading } = useCourses();
   const { getPrimaryCourseURL } = usePrimaryCourseURL();
@@ -43,9 +43,9 @@ export const NavLinks: React.FC<{
   ];
   const getLinkClasses = (isCurrentPathValue?: boolean) => {
     // Mobile drawer always has white background, so always use dark text
-    // Desktop navbar uses white text on homepage, dark text elsewhere
+    // Desktop navbar uses white text on colored background, dark text elsewhere
     let textColor = 'text-color-text hover:text-color-text';
-    if (!expandedSections.mobileNav && isHomepage) {
+    if (!expandedSections.mobileNav && onColoredBackground) {
       textColor = 'text-white hover:text-white nav-link-animation-dark';
     }
 
@@ -61,7 +61,7 @@ export const NavLinks: React.FC<{
       <NavDropdown
         expandedSections={expandedSections}
         isExpanded={expandedSections.explore}
-        isHomepage={isHomepage}
+        onColoredBackground={onColoredBackground}
         links={navCourses}
         onToggle={() => updateExpandedSections({
           about: false,
@@ -111,7 +111,7 @@ const NavDropdown: React.FC<{
   // Required
   expandedSections: ExpandedSectionsState;
   isExpanded: boolean;
-  isHomepage: boolean;
+  onColoredBackground: boolean;
   links: { title: string; url: string; isNew?: boolean | null }[];
   onToggle: () => void;
   onClose: () => void;
@@ -122,7 +122,7 @@ const NavDropdown: React.FC<{
 }> = ({
   expandedSections,
   isExpanded,
-  isHomepage,
+  onColoredBackground,
   links,
   onToggle,
   onClose,
@@ -138,11 +138,11 @@ const NavDropdown: React.FC<{
 
   const getDropdownButtonClasses = () => {
     // Mobile drawer always has white background, so always use dark text
-    // Desktop navbar uses white text on homepage, dark text elsewhere
+    // Desktop navbar uses white text on colored background, dark text elsewhere
     if (expandedSections.mobileNav) {
       return 'text-color-text hover:text-color-text';
     }
-    if (isHomepage) {
+    if (onColoredBackground) {
       return 'text-white hover:text-white nav-link-animation-dark';
     }
     return 'text-color-text hover:text-color-text';

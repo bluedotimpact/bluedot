@@ -41,7 +41,8 @@ describe('CertificatePage SSR/SEO', () => {
       <CertificatePage
         certificate={mockCertificate}
         certificateId="cert123"
-        certificationBadgeFilename="ai-safety-fundamentals.png"
+        certificationBadgeFilename="badge-image.png"
+        linkPreviewFilename="link-preview-image.png"
       />,
     );
 
@@ -49,5 +50,11 @@ describe('CertificatePage SSR/SEO', () => {
 
     const metaDescription = document.querySelector('meta[name="description"]');
     expect(metaDescription?.getAttribute('content')).toBe('Has successfully completed the course');
+
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    expect(ogImage?.getAttribute('content')).toContain('/images/certificates/link-preview/link-preview-image.png');
+
+    const twitterImage = document.querySelector('meta[name="twitter:image"]');
+    expect(twitterImage?.getAttribute('content')).toContain('/images/certificates/link-preview/link-preview-image.png');
   });
 });
