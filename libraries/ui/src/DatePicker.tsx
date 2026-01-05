@@ -123,7 +123,7 @@ export const DatePicker = ({
           onClick={() => {
             if (value === undefined) {
               updatePopoverPosition();
-              popoverRef.current?.showPopover();
+              popoverRef.current?.togglePopover();
             }
           }}
           onChange={(e) => setInputValue(e.target.value)}
