@@ -6,8 +6,8 @@ import { cn } from './utils';
 
 export type TimePickerProps = {
   label?: string;
-  value?: Date | null;
-  onChange?: (value: Date | null) => void;
+  value?: Date;
+  onChange?: (value?: Date) => void;
   className?: string;
   labelClassName?: string;
   inputClassName?: string;
@@ -33,7 +33,7 @@ export const TimePicker = ({
       date.setHours(newValue.hour, newValue.minute, 0, 0);
       onChange(date);
     } else {
-      onChange(null);
+      onChange(undefined);
     }
   };
 
