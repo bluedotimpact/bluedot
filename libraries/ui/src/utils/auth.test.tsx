@@ -5,6 +5,7 @@ import { OidcClient } from 'oidc-client-ts';
 import { render } from '@testing-library/react';
 import * as React from 'react';
 import { Auth, useAuthStore, withAuth } from './auth';
+import { createMockOidcResponse } from './testUtils';
 
 // Mock Next.js router
 const mockPush = vi.fn();
@@ -38,15 +39,6 @@ const createAuth = (overrides?: Partial<Auth>): Auth => ({
     redirect_uri: 'http://localhost:3000/callback',
   },
   email: 'test+auth@bluedot.org',
-  ...overrides,
-});
-
-// Helper to create mock OIDC response
-const createMockOidcResponse = (overrides?: Record<string, unknown>) => ({
-  id_token: 'new-test-token',
-  expires_at: Math.floor(Date.now() / 1000) + 3600,
-  refresh_token: 'new-refresh-token',
-  profile: {},
   ...overrides,
 });
 

@@ -1,8 +1,8 @@
-import { A } from '../Text';
+import { A } from '@bluedot/ui';
 import { TRANSITION_DURATION_CLASS } from './utils';
 
-export const NavLogo: React.FC<{ isHomepage: boolean }> = ({ isHomepage }) => {
-  const logo = isHomepage
+export const NavLogo: React.FC<{ onColoredBackground: boolean }> = ({ onColoredBackground }) => {
+  const logo = onColoredBackground
     ? '/images/logo/BlueDot_Impact_Logo_White.svg'
     : '/images/logo/BlueDot_Impact_Logo.svg';
 

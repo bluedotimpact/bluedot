@@ -1,6 +1,11 @@
-import { describe, expect, test } from 'vitest';
-import { buildTimeDeltaString } from './EventsSection';
+import { render, screen, waitFor } from '@testing-library/react';
+import {
+  describe, expect, test, beforeEach,
+} from 'vitest';
+import EventsSection, { buildTimeDeltaString } from './EventsSection';
 import type { Event } from '../../server/routers/luma';
+import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
 
 const LOCALE = 'en-GB';
 
@@ -301,5 +306,127 @@ describe('buildTimeDeltaString', () => {
       // en-US uses uppercase AM/PM and different date format
       expect(result).toBe('Fri 9:00 AM - Sun 5:00 PM (Mar 17) UTC');
     });
+  });
+});
+
+describe('EventsSection featured events', () => {
+  const mockEvents: Event[] = [
+    {
+      id: 'event-1',
+      title: 'First Chronologically',
+      startAt: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString(),
+      endAt: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000 + 2 * 60 * 60 * 1000).toISOString(),
+      location: 'LONDON',
+      timezone: 'Europe/London',
+      url: 'https://lu.ma/event-1',
+    },
+    {
+      id: 'event-2',
+      title: 'Second Chronologically',
+      startAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+      endAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000 + 2 * 60 * 60 * 1000).toISOString(),
+      location: 'ONLINE',
+      timezone: 'UTC',
+      url: 'https://lu.ma/event-2',
+    },
+    {
+      id: 'event-3',
+      title: 'Third Chronologically - Featured',
+      startAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
+      endAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000 + 2 * 60 * 60 * 1000).toISOString(),
+      location: 'NEW YORK',
+      timezone: 'America/New_York',
+      url: 'https://lu.ma/event-3',
+    },
+    {
+      id: 'event-4',
+      title: 'Fourth Chronologically',
+      startAt: new Date(Date.now() + 21 * 24 * 60 * 60 * 1000).toISOString(),
+      endAt: new Date(Date.now() + 21 * 24 * 60 * 60 * 1000 + 2 * 60 * 60 * 1000).toISOString(),
+      location: 'TOKYO',
+      timezone: 'Asia/Tokyo',
+      url: 'https://lu.ma/event-4',
+    },
+  ];
+
+  beforeEach(() => {
+    server.use(trpcMsw.luma.getUpcomingEvents.query(() => mockEvents));
+  });
+
+  // Helper to get event titles in order from the desktop layout (single row)
+  const getDesktopEventTitles = (container: HTMLElement): string[] => {
+    // Desktop layout uses flex, find the container with "hidden min-[1280px]:flex"
+    const desktopContainer = container.querySelector('.hidden.min-\\[1280px\\]\\:flex');
+    if (!desktopContainer) return [];
+    const headings = desktopContainer.querySelectorAll('h3');
+    return Array.from(headings).map((h) => h.textContent || '');
+  };
+
+  test('displays events in chronological order when no featured URLs provided', async () => {
+    const { container } = render(<EventsSection featuredUrls={[]} />, { wrapper: TrpcProvider });
+
+    await waitFor(() => {
+      expect(screen.getAllByText('First Chronologically').length).toBeGreaterThan(0);
+    });
+
+    const titles = getDesktopEventTitles(container);
+    expect(titles).toEqual([
+      'First Chronologically',
+      'Second Chronologically',
+      'Third Chronologically - Featured',
+      'Fourth Chronologically',
+    ]);
+  });
+
+  test('displays featured event first when featuredUrls is provided', async () => {
+    const { container } = render(
+      <EventsSection featuredUrls={['https://lu.ma/event-3']} />,
+      { wrapper: TrpcProvider },
+    );
+
+    await waitFor(() => {
+      expect(screen.getAllByText('Third Chronologically - Featured').length).toBeGreaterThan(0);
+    });
+
+    const titles = getDesktopEventTitles(container);
+    expect(titles).toEqual([
+      'Third Chronologically - Featured',
+      'First Chronologically',
+      'Second Chronologically',
+      'Fourth Chronologically',
+    ]);
+  });
+
+  test('handles URL normalization (trailing slashes)', async () => {
+    const { container } = render(
+      <EventsSection featuredUrls={['https://lu.ma/event-3/']} />,
+      { wrapper: TrpcProvider },
+    );
+
+    await waitFor(() => {
+      expect(screen.getAllByText('Third Chronologically - Featured').length).toBeGreaterThan(0);
+    });
+
+    const titles = getDesktopEventTitles(container);
+    expect(titles[0]).toBe('Third Chronologically - Featured');
+  });
+
+  test('preserves order of multiple featured events as specified in featuredUrls', async () => {
+    const { container } = render(
+      <EventsSection featuredUrls={['https://lu.ma/event-4', 'https://lu.ma/event-2']} />,
+      { wrapper: TrpcProvider },
+    );
+
+    await waitFor(() => {
+      expect(screen.getAllByText('Fourth Chronologically').length).toBeGreaterThan(0);
+    });
+
+    const titles = getDesktopEventTitles(container);
+    expect(titles).toEqual([
+      'Fourth Chronologically',
+      'Second Chronologically',
+      'First Chronologically',
+      'Third Chronologically - Featured',
+    ]);
   });
 });

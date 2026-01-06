@@ -167,32 +167,32 @@ exports[`JoinUsPage > should render correctly 1`] = `
             <img
               alt="BlueDot Impact team"
               class="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm"
-              src="/images/culture/culture_dewi_v1.jpeg"
+              src="/images/culture/culture_dewi_v1.webp"
             />
             <img
               alt="BlueDot Impact team"
               class="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm"
-              src="/images/culture/culture_talking_v2.jpeg"
+              src="/images/culture/culture_talking_v2.webp"
             />
             <img
               alt="BlueDot Impact team"
               class="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm"
-              src="/images/culture/culture_cap_v1.jpeg"
+              src="/images/culture/culture_cap_v1.webp"
             />
             <img
               alt="BlueDot Impact team"
               class="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm"
-              src="/images/culture/culture_will_v1.jpeg"
+              src="/images/culture/culture_will_v1.webp"
             />
             <img
               alt="BlueDot Impact team"
               class="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm"
-              src="/images/culture/culture_josh_v1.jpg"
+              src="/images/culture/culture_josh_v1.webp"
             />
             <img
               alt="BlueDot Impact team"
               class="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm"
-              src="/images/culture/culture_keyboard_v1.jpeg"
+              src="/images/culture/culture_keyboard_v1.webp"
             />
           </div>
         </div>

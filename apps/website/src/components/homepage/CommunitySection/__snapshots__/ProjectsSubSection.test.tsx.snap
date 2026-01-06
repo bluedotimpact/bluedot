@@ -58,7 +58,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
                   <img
                     alt="Contextual Constitutional AI"
                     class="card__image max-w-full max-h-full object-cover rounded-lg "
-                    src="/images/project-winners/akshat-naik.png"
+                    src="/images/project-winners/akshat-naik.webp"
                   />
                 </div>
                 <div
@@ -100,7 +100,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
                   <img
                     alt="Safety Haven: Justifying and exploring an antitrust safe haven for AI safety research collaboration"
                     class="card__image max-w-full max-h-full object-cover rounded-lg "
-                    src="/images/project-winners/ella-duus.png"
+                    src="/images/project-winners/ella-duus.webp"
                   />
                 </div>
                 <div
@@ -142,7 +142,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
                   <img
                     alt="Societal Adaptation to AI Human-Labor Automation"
                     class="card__image max-w-full max-h-full object-cover rounded-lg "
-                    src="/images/project-winners/yuval-rymon.png"
+                    src="/images/project-winners/yuval-rymon.webp"
                   />
                 </div>
                 <div
@@ -184,7 +184,7 @@ exports[`ProjectsSubSection > renders as expected 1`] = `
                   <img
                     alt="Are you secretly training AI? Methods for uncovering covert AI training: A framework for feasibility and future research"
                     class="card__image max-w-full max-h-full object-cover rounded-lg "
-                    src="/images/project-winners/naci-cankaya.png"
+                    src="/images/project-winners/naci-cankaya.webp"
                   />
                 </div>
                 <div

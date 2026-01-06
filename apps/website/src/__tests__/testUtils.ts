@@ -12,6 +12,9 @@ import type {
 } from '@bluedot/db';
 import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 
+// Re-export from libraries/ui for convenience
+export { createMockOidcResponse } from '@bluedot/ui/src/utils/testUtils';
+
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace JSX {
@@ -71,7 +74,7 @@ export const createMockCourse = (overrides: Partial<Course> = {}): Course => ({
   durationDescription: '4 weeks',
   durationHours: 40,
   id: MOCK_COURSE_ID,
-  image: '/images/courses/default.jpg',
+  image: '/images/courses/default.webp',
   isFeatured: false,
   isNew: false,
   level: 'Beginner',
@@ -188,8 +191,13 @@ export const createMockMeetPerson = (overrides: Partial<MeetPerson> = {}): MeetP
   expectedDiscussionsParticipant: [],
   expectedDiscussionsFacilitator: [],
   attendedDiscussions: [],
+  uniqueDiscussionAttendance: null,
+  numUnits: null,
   groupsAsParticipant: [],
   autoNumberId: 1,
+  email: 'test@example.com',
+  courseFeedbackForm: null,
+  courseFeedback: null,
   ...overrides,
 });
 
@@ -219,7 +227,6 @@ export const createMockResourceCompletion = (overrides: Partial<ResourceCompleti
   isCompleted: false,
   rating: null,
   resourceFeedback: RESOURCE_FEEDBACK.NO_RESPONSE,
-  unitResourceIdRead: MOCK_RESOURCE_ID,
-  unitResourceIdWrite: MOCK_RESOURCE_ID,
+  unitResourceId: MOCK_RESOURCE_ID,
   ...overrides,
 });

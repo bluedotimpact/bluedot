@@ -4,7 +4,10 @@ exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
 <div>
   <div>
     <div
-      class="border-x border-t    border-charcoal-light   transition-colors duration-200 group "
+      aria-expanded="false"
+      class="border-x border-t border-charcoal-light transition-colors duration-200 group cursor-pointer hover:bg-white"
+      role="button"
+      tabindex="0"
     >
       <div
         class="p-4 sm:px-8 sm:py-6"
@@ -22,6 +25,7 @@ exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
                 class="font-semibold text-size-md text-black text-pretty"
               >
                 Introduction to AI Safety
+                 
               </h3>
               <p
                 class="flex items-center gap-1.5 mt-1.5 text-size-xs font-medium text-gray-500 leading-4"
@@ -47,12 +51,36 @@ exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
                 </span>
               </p>
             </div>
+            <button
+              aria-expanded="false"
+              aria-label="Expand Introduction to AI Safety details"
+              class="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150 flex-shrink-0"
+              type="button"
+            >
+              <svg
+                class="transition-transform duration-200 "
+                fill="none"
+                height="20"
+                viewBox="0 0 20 20"
+                width="20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M7.5 5L12.5 10L7.5 15"
+                  stroke="#1F2937"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                />
+              </svg>
+            </button>
           </div>
           <div
-            class="flex"
+            class="flex gap-2"
+            role="presentation"
           >
             <a
-              class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--black bg-bluedot-darker link-on-dark hover:bg-bluedot-darkest w-full"
+              class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--black bg-bluedot-darker link-on-dark hover:bg-bluedot-darkest w-full sm:w-auto"
               href="/certification?id=cert-123"
               tabindex="0"
             >
@@ -70,6 +98,7 @@ exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
               class="font-semibold text-size-base text-gray-900 leading-normal"
             >
               Introduction to AI Safety
+               
             </h3>
             <p
               class="flex items-center gap-1.5 mt-0.5 text-size-xs font-medium text-gray-500 leading-4"
@@ -96,16 +125,39 @@ exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
             </p>
           </div>
           <div
-            class="flex items-center gap-3 flex-shrink-0"
+            class="flex items-center gap-2 flex-shrink-0"
             role="presentation"
           >
             <a
-              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--black bg-bluedot-darker link-on-dark hover:bg-bluedot-darkest"
+              class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--black bg-bluedot-darker link-on-dark hover:bg-bluedot-darkest w-full sm:w-auto"
               href="/certification?id=cert-123"
               tabindex="0"
             >
               View your certificate
             </a>
+            <button
+              aria-expanded="false"
+              aria-label="Expand Introduction to AI Safety details"
+              class="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150"
+              type="button"
+            >
+              <svg
+                class="transition-transform duration-200 "
+                fill="none"
+                height="20"
+                viewBox="0 0 20 20"
+                width="20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M7.5 5L12.5 10L7.5 15"
+                  stroke="#1F2937"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                />
+              </svg>
+            </button>
           </div>
         </div>
       </div>
@@ -118,8 +170,8 @@ exports[`CourseListRow > renders in-progress course correctly (snapshot) 1`] = `
 <div>
   <div>
     <div
-      aria-expanded="true"
-      class="border-x border-t    border-charcoal-light bg-white  transition-colors duration-200 group cursor-pointer"
+      aria-expanded="false"
+      class="border-x border-t border-charcoal-light transition-colors duration-200 group cursor-pointer hover:bg-white"
       role="button"
       tabindex="0"
     >
@@ -139,16 +191,17 @@ exports[`CourseListRow > renders in-progress course correctly (snapshot) 1`] = `
                 class="font-semibold text-size-md text-black text-pretty"
               >
                 Introduction to AI Safety
+                 
               </h3>
             </div>
             <button
-              aria-expanded="true"
-              aria-label="Collapse Introduction to AI Safety details"
+              aria-expanded="false"
+              aria-label="Expand Introduction to AI Safety details"
               class="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150 flex-shrink-0"
               type="button"
             >
               <svg
-                class="transition-transform duration-200 rotate-90"
+                class="transition-transform duration-200 "
                 fill="none"
                 height="20"
                 viewBox="0 0 20 20"
@@ -176,20 +229,21 @@ exports[`CourseListRow > renders in-progress course correctly (snapshot) 1`] = `
               class="font-semibold text-size-base text-gray-900 leading-normal"
             >
               Introduction to AI Safety
+               
             </h3>
           </div>
           <div
-            class="flex items-center gap-3 flex-shrink-0"
+            class="flex items-center gap-2 flex-shrink-0"
             role="presentation"
           >
             <button
-              aria-expanded="true"
-              aria-label="Collapse Introduction to AI Safety details"
+              aria-expanded="false"
+              aria-label="Expand Introduction to AI Safety details"
               class="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150"
               type="button"
             >
               <svg
-                class="transition-transform duration-200 rotate-90"
+                class="transition-transform duration-200 "
                 fill="none"
                 height="20"
                 viewBox="0 0 20 20"
@@ -208,11 +262,6 @@ exports[`CourseListRow > renders in-progress course correctly (snapshot) 1`] = `
           </div>
         </div>
       </div>
-    </div>
-    <div
-      aria-label="Expanded details for Introduction to AI Safety"
-    >
-      Course Details Content
     </div>
   </div>
 </div>

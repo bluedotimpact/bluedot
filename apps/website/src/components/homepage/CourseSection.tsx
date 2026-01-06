@@ -1,9 +1,6 @@
 import {
-  Section,
+  H1, H3, H4, P, Section,
 } from '@bluedot/ui';
-import {
-  H1, H3, H4, P,
-} from '@bluedot/ui/src/Text';
 import clsx from 'clsx';
 import {
   useEffect, useRef, useCallback, useState,
@@ -30,7 +27,7 @@ const HARDCODED_COURSES: Course[] = [
     slug: 'future-of-ai',
     title: 'The Future of AI',
     shortDescription: 'An introduction to what AI can do today, where it\'s going over the next decade, and how you can start contributing to a better future.',
-    durationDescription: '1h',
+    durationDescription: '2h',
     cadence: 'Self-paced',
     isFeatured: true,
     icon: '/images/courses/future-of-ai-icon.svg',
@@ -39,7 +36,7 @@ const HARDCODED_COURSES: Course[] = [
     slug: 'agi-strategy',
     title: 'AGI Strategy',
     shortDescription: 'A deep dive into the incentives driving the AI companies, what\'s at stake, and the strategies for ensuring AI benefits humanity. You\'ll finish with your own action plan.',
-    durationDescription: '30h',
+    durationDescription: '25h',
     cadence: 'Cohort-based',
     additionalTag: 'Every month',
     isFeatured: false,
@@ -71,7 +68,7 @@ const HARDCODED_COURSES: Course[] = [
     shortDescription: 'Learn about the policy landscape, regulatory tools, and institutional reforms needed to navigate the transition to transformative AI.',
     durationDescription: '25h',
     cadence: 'Cohort-based',
-    additionalTag: 'Coming Jan 2026',
+    additionalTag: 'Coming Feb 2026',
     isFeatured: false,
     icon: '/images/courses/ai-governance-icon.svg',
   },

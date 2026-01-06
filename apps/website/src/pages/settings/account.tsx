@@ -1,8 +1,9 @@
-import { ProgressDots, ErrorSection, Modal } from '@bluedot/ui';
+import {
+  ErrorSection, Modal, P, ProgressDots,
+} from '@bluedot/ui';
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import { ROUTES } from '../../lib/routes';
-import { P } from '../../components/Text';
 import SettingsLayout from '../../components/settings/SettingsLayout';
 import ProfileNameEditor from '../../components/settings/ProfileNameEditor';
 import PasswordSection from '../../components/settings/PasswordSection';

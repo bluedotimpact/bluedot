@@ -34,6 +34,21 @@ const mockUnits = [
   }),
 ];
 
+const mockMetadata = [
+  {
+    unitId: 'unit-1', unitNumber: '1', duration: 45, exerciseCount: 2,
+  },
+  {
+    unitId: 'unit-2', unitNumber: '2', duration: 60, exerciseCount: 3,
+  },
+  {
+    unitId: 'unit-3', unitNumber: '3', duration: 35, exerciseCount: 1,
+  },
+  {
+    unitId: 'unit-4', unitNumber: '4', duration: 50, exerciseCount: 2,
+  },
+];
+
 const mockCourse = createMockCourse({
   slug: 'agi-strategy',
   title: 'AGI Strategy',
@@ -72,6 +87,7 @@ export const Default: Story = {
           course: mockCourse,
           units: mockUnits,
         })),
+        trpcStorybookMsw.courses.getCurriculumMetadata.query(() => mockMetadata),
       ],
     },
   },
@@ -100,6 +116,11 @@ export const SingleUnit: Story = {
             }),
           ],
         })),
+        trpcStorybookMsw.courses.getCurriculumMetadata.query(() => [
+          {
+            unitId: 'unit-1', unitNumber: '1', duration: 30, exerciseCount: 1,
+          },
+        ]),
       ],
     },
   },
@@ -120,6 +141,71 @@ export const Empty: Story = {
           }),
           units: [],
         })),
+        trpcStorybookMsw.courses.getCurriculumMetadata.query(() => []),
+      ],
+    },
+  },
+};
+
+export const WithDurationOnly: Story = {
+  args: {
+    title: 'Curriculum Overview',
+    courseSlug: 'duration-only',
+  },
+  parameters: {
+    msw: {
+      handlers: [
+        trpcStorybookMsw.courses.getBySlug.query(() => ({
+          course: createMockCourse({
+            slug: 'duration-only',
+            title: 'Duration Only Course',
+          }),
+          units: [
+            createMockUnit({
+              id: 'unit-1',
+              unitNumber: '1',
+              title: 'Unit with Duration Only',
+              menuText: 'This unit has a duration but no exercises.',
+            }),
+          ],
+        })),
+        trpcStorybookMsw.courses.getCurriculumMetadata.query(() => [
+          {
+            unitId: 'unit-1', unitNumber: '1', duration: 25, exerciseCount: 0,
+          },
+        ]),
+      ],
+    },
+  },
+};
+
+export const WithExercisesOnly: Story = {
+  args: {
+    title: 'Curriculum Overview',
+    courseSlug: 'exercises-only',
+  },
+  parameters: {
+    msw: {
+      handlers: [
+        trpcStorybookMsw.courses.getBySlug.query(() => ({
+          course: createMockCourse({
+            slug: 'exercises-only',
+            title: 'Exercises Only Course',
+          }),
+          units: [
+            createMockUnit({
+              id: 'unit-1',
+              unitNumber: '1',
+              title: 'Unit with Exercises Only',
+              menuText: 'This unit has exercises but no duration set.',
+            }),
+          ],
+        })),
+        trpcStorybookMsw.courses.getCurriculumMetadata.query(() => [
+          {
+            unitId: 'unit-1', unitNumber: '1', duration: null, exerciseCount: 4,
+          },
+        ]),
       ],
     },
   },

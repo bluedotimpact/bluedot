@@ -15,9 +15,6 @@ export type { ClickTargetProps } from './ClickTarget';
 export { Collapsible } from './Collapsible';
 export type { CollapsibleProps } from './Collapsible';
 
-export { CourseCard } from './CourseCard';
-export type { CourseCardProps } from './CourseCard';
-
 export { CTALinkOrButton } from './CTALinkOrButton';
 export type { CTALinkOrButtonProps } from './CTALinkOrButton';
 
@@ -79,11 +76,13 @@ export type { TagProps } from './Tag';
 export { Textarea } from './Textarea';
 export type { TextareaProps } from './Textarea';
 
-export { TimePicker } from './TimePicker';
-export type { TimePickerProps } from './TimePicker';
+export { Tooltip } from './Tooltip';
+export type { TooltipProps } from './Tooltip';
 
-// This will eventually be exported directly, but for now it's namespaced as NewText to avoid mistakes in the migration from LegacyText
-export * as NewText from './Text';
+// Export text components directly
+export {
+  H1, H2, H3, H4, P, A,
+} from './Text';
 
 export { UnitCard } from './UnitCard';
 export type { UnitCardProps } from './UnitCard';

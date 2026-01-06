@@ -49,7 +49,7 @@ exports[`Nav > renders with courses 1`] = `
               </svg>
             </button>
             <div
-              class="mobile-nav-links__drawer absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out overflow-hidden bg-white max-h-0 opacity-0 pb-0 pointer-events-none"
+              class="mobile-nav-links__drawer absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
             >
               <div
                 class="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 lg:hidden"
@@ -62,6 +62,8 @@ exports[`Nav > renders with courses 1`] = `
                     class="nav-dropdown"
                   >
                     <button
+                      aria-controls="courses-dropdown"
+                      aria-expanded="false"
                       class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
                       type="button"
                     >
@@ -83,10 +85,13 @@ exports[`Nav > renders with courses 1`] = `
                       </svg>
                     </button>
                     <div
-                      class="nav-dropdown__content-wrapper overflow-hidden pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out overflow-hidden bg-white max-h-0 opacity-0 pb-0 pointer-events-none"
+                      aria-label="Courses menu"
+                      class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                      id="courses-dropdown"
+                      role="region"
                     >
                       <div
-                        class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty"
+                        class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                       >
                         <a
                           class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
@@ -108,12 +113,15 @@ exports[`Nav > renders with courses 1`] = `
                             New
                           </span>
                         </a>
+                        <div
+                          class="border-t border-gray-200 my-2"
+                        />
                         <a
                           class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
                           href="/courses"
                           tabindex="0"
                         >
-                          Browse all
+                          See upcoming rounds
                         </a>
                       </div>
                     </div>
@@ -129,9 +137,12 @@ exports[`Nav > renders with courses 1`] = `
                     Events
                   </a>
                   <a
+                    aria-label="Blog (opens in new tab)"
                     class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
-                    href="/blog"
+                    href="https://blog.bluedot.org"
+                    rel="noopener noreferrer"
                     tabindex="0"
+                    target="_blank"
                   >
                     Blog
                   </a>
@@ -186,6 +197,8 @@ exports[`Nav > renders with courses 1`] = `
               class="nav-dropdown"
             >
               <button
+                aria-controls="courses-dropdown"
+                aria-expanded="false"
                 class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
                 type="button"
               >
@@ -207,10 +220,13 @@ exports[`Nav > renders with courses 1`] = `
                 </svg>
               </button>
               <div
-                class="nav-dropdown__content-wrapper overflow-hidden pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out overflow-hidden bg-white max-h-0 opacity-0 pb-0 pointer-events-none"
+                aria-label="Courses menu"
+                class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                id="courses-dropdown"
+                role="region"
               >
                 <div
-                  class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit overflow-hidden mx-auto text-pretty"
+                  class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                 >
                   <a
                     class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
@@ -232,12 +248,15 @@ exports[`Nav > renders with courses 1`] = `
                       New
                     </span>
                   </a>
+                  <div
+                    class="border-t border-gray-200 my-2"
+                  />
                   <a
                     class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
                     href="/courses"
                     tabindex="0"
                   >
-                    Browse all
+                    See upcoming rounds
                   </a>
                 </div>
               </div>
@@ -253,9 +272,12 @@ exports[`Nav > renders with courses 1`] = `
               Events
             </a>
             <a
+              aria-label="Blog (opens in new tab)"
               class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
-              href="/blog"
+              href="https://blog.bluedot.org"
+              rel="noopener noreferrer"
               tabindex="0"
+              target="_blank"
             >
               Blog
             </a>

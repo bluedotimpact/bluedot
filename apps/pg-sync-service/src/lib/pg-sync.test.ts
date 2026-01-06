@@ -27,6 +27,11 @@ vi.mock('./db', () => ({
           }),
         }),
       }),
+      update: vi.fn().mockReturnValue({
+        set: vi.fn().mockReturnValue({
+          where: vi.fn().mockResolvedValue(undefined),
+        }),
+      }),
     },
     ensureReplicated: vi.fn().mockResolvedValue(undefined),
   },
@@ -50,6 +55,7 @@ vi.mock('@bluedot/db', () => ({
     airtableFieldId: 'fieldId',
     enabled: 'enabled',
   },
+  syncMetadataTable: {},
 }));
 
 describe('deduplicateActions', () => {

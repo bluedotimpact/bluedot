@@ -1,5 +1,4 @@
-import { Section } from '@bluedot/ui';
-import { P } from '../Text';
+import { P, Section } from '@bluedot/ui';
 
 const IntroSection = () => {
   return (
@@ -14,7 +13,7 @@ const IntroSection = () => {
             <P>BlueDot Impact Co-Founders</P>
           </span>
         </div>
-        <img className="intro-section__image max-w-[570px] w-full h-auto max-h-[400px] object-cover rounded-md mt-6 sm:mt-0 shrink-0" src="/images/culture/About-Us_v1.jpg" alt="BlueDot Impact team" />
+        <img className="intro-section__image max-w-[570px] w-full h-auto max-h-[400px] object-cover rounded-md mt-6 sm:mt-0 shrink-0" src="/images/culture/About-Us_v1.webp" alt="BlueDot Impact team" />
       </div>
     </Section>
   );

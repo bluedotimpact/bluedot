@@ -83,8 +83,8 @@ describe('calculateGroupAvailability', () => {
       participantId: mockParticipantId,
     });
 
-    expect(result.groupsAvailable[0]?.allDiscussionsHaveStarted).toBe(true);
-    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.hasStarted).toBe(true);
+    expect(result.groupsAvailable[0]?.isTooLateToSwitchTo).toBe(true);
+    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.isTooLateToSwitchTo).toBe(true);
   });
 
   it('should detect when discussions have not started', () => {
@@ -98,8 +98,8 @@ describe('calculateGroupAvailability', () => {
       participantId: mockParticipantId,
     });
 
-    expect(result.groupsAvailable[0]?.allDiscussionsHaveStarted).toBe(false);
-    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.hasStarted).toBe(false);
+    expect(result.groupsAvailable[0]?.isTooLateToSwitchTo).toBe(false);
+    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.isTooLateToSwitchTo).toBe(false);
   });
 
   it('should handle multiple discussions per group correctly', () => {
@@ -124,8 +124,8 @@ describe('calculateGroupAvailability', () => {
       participantId: mockParticipantId,
     });
 
-    // Group should show allDiscussionsHaveStarted as false (mixed)
-    expect(result.groupsAvailable[0]?.allDiscussionsHaveStarted).toBe(false);
+    // Group should show isTooLateToSwitchTo as false (mixed)
+    expect(result.groupsAvailable[0]?.isTooLateToSwitchTo).toBe(false);
     // Group spotsLeftIfKnown should be the minimum of available spots from non-started discussions
     expect(result.groupsAvailable[0]?.spotsLeftIfKnown).toBe(3); // 5 max - 2 participants from future discussion
   });
@@ -150,7 +150,7 @@ describe('calculateGroupAvailability', () => {
       participantId: mockParticipantId,
     });
 
-    expect(result.groupsAvailable[0]?.allDiscussionsHaveStarted).toBe(true);
+    expect(result.groupsAvailable[0]?.isTooLateToSwitchTo).toBe(true);
     expect(result.groupsAvailable[0]?.spotsLeftIfKnown).toBeNull(); // No spots available when all started
   });
 

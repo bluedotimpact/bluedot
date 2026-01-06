@@ -14,12 +14,12 @@ export const NavCta: React.FC<{
   updateExpandedSections: (updates: Partial<ExpandedSectionsState>) => void;
   // Optional
   isLoggedIn?: boolean;
-  isHomepage?: boolean;
+  onColoredBackground?: boolean;
 }> = ({
   isLoggedIn,
   expandedSections,
   updateExpandedSections,
-  isHomepage = false,
+  onColoredBackground = false,
 }) => {
   const router = useRouter();
   const [loginUrl, setLoginUrl] = useState(ROUTES.login.url);
@@ -37,7 +37,7 @@ export const NavCta: React.FC<{
     if (type === 'primary') {
       return clsx(
         baseClasses,
-        isHomepage
+        onColoredBackground
           ? 'bg-white hover:bg-white/90 text-[#02034B] hover:text-[#02034B]'
           : 'bg-bluedot-normal hover:bg-[#1a3599] text-white hover:text-white',
       );
@@ -45,7 +45,7 @@ export const NavCta: React.FC<{
 
     return clsx(
       baseClasses,
-      isHomepage
+      onColoredBackground
         ? 'bg-white/15 border border-white/20 text-white hover:text-white hover:bg-white/20 backdrop-blur-sm'
         : 'border border-color-divider text-color-text hover:text-color-text hover:bg-gray-50',
     );
@@ -57,7 +57,7 @@ export const NavCta: React.FC<{
         <ProfileLinks
           expandedSections={expandedSections}
           updateExpandedSections={updateExpandedSections}
-          isHomepage={isHomepage}
+          onColoredBackground={onColoredBackground}
         />
       ) : (
         <>

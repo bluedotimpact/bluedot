@@ -1,1 +1,1 @@
-export const contactUsUrl = 'https://bluedot.org/contact';
+export const contactUsUrl = 'mailto:team@bluedot.org';

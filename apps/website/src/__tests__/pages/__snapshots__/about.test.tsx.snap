@@ -148,7 +148,7 @@ exports[`AboutPage > should render correctly 1`] = `
           <img
             alt="BlueDot Impact team"
             class="intro-section__image max-w-[570px] w-full h-auto max-h-[400px] object-cover rounded-md mt-6 sm:mt-0 shrink-0"
-            src="/images/culture/About-Us_v1.jpg"
+            src="/images/culture/About-Us_v1.webp"
           />
         </div>
       </div>
@@ -784,7 +784,7 @@ exports[`AboutPage > should render correctly 1`] = `
                         <img
                           alt="Josh Landes - Community"
                           class="team-section__card-image size-[300px] object-cover"
-                          src="/images/team/josh_v2.jpeg"
+                          src="/images/team/josh_v2.webp"
                         />
                       </a>
                     </div>
@@ -928,7 +928,7 @@ exports[`AboutPage > should render correctly 1`] = `
         </p>
         <a
           class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter mt-5"
-          href="/contact"
+          href="mailto:team@bluedot.org"
           tabindex="0"
         >
           Contact us

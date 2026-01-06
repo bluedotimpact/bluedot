@@ -1,8 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
-import { ClickTarget } from '@bluedot/ui';
+import { ClickTarget, H3, P } from '@bluedot/ui';
 import { FaStar } from 'react-icons/fa6';
-import { H3, P } from '../Text';
 
 export type CourseSearchCardProps = React.PropsWithChildren<{
   // Required
@@ -26,7 +25,7 @@ export const CourseSearchCard: React.FC<CourseSearchCardProps> = ({
   title,
   url,
 }) => {
-  const defaultImageSrc = '/images/courses/default.jpg';
+  const defaultImageSrc = '/images/courses/default.webp';
 
   return (
     <ClickTarget

@@ -1,16 +1,16 @@
-import {
-  cn,
-  CTALinkOrButton, ErrorSection, Modal, ProgressDots,
-} from '@bluedot/ui';
-import clsx from 'clsx';
 import React, {
-  useEffect,
-  useMemo,
-  useState,
+  useState, useMemo, useEffect,
 } from 'react';
-import { formatDateDayOfWeek, formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
+import {
+  cn, ClickTarget, CTALinkOrButton,
+  ErrorSection, Modal, ProgressDots,
+  Select,
+} from '@bluedot/ui';
+import { FaArrowLeft, FaArrowRightArrowLeft } from 'react-icons/fa6';
+import { ClockUserIcon } from '../icons/ClockUserIcon';
+import { UserIcon } from '../icons/UserIcon';
+import { formatTime12HourClock, formatDateMonthAndDay, formatDateDayOfWeek } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
-import Select from './group-switching/Select';
 
 export type GroupSwitchModalProps = {
   handleClose: () => void;
@@ -19,9 +19,431 @@ export type GroupSwitchModalProps = {
   courseSlug: string;
 };
 
+type FormSection = {
+  id: string;
+  isVisible: boolean;
+  title: string;
+  subtitle?: React.ReactNode;
+  control: React.ReactNode;
+};
+
+// eslint-disable-next-line react/function-component-definition
+export default function GroupSwitchModal({
+  handleClose,
+  courseSlug,
+  initialUnitNumber = '1',
+  initialSwitchType = 'Switch group for one unit',
+}: GroupSwitchModalProps) {
+  const [switchType, setSwitchType] = useState<SwitchType>(initialSwitchType);
+  const [selectedUnitNumber, setSelectedUnitNumber] = useState(initialUnitNumber);
+  const [reason, setReason] = useState('');
+  const [selectedGroupId, setSelectedGroupId] = useState('');
+  const [selectedDiscussionId, setSelectedDiscussionId] = useState('');
+  const [isManualRequest, setIsManualRequest] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [hasUpdatedAvailability, setHasUpdatedAvailability] = useState(false);
+
+  const isTemporarySwitch = switchType === 'Switch group for one unit';
+
+  const { data: user, error: userError } = trpc.users.getUser.useQuery();
+
+  const { data: courseData, isLoading: isCourseLoading, error: courseError } = trpc.courses.getBySlug.useQuery({ courseSlug });
+
+  const { data: availableGroupsAndDiscussions, isLoading: isDiscussionsLoading, error: discussionsError } = trpc.groupSwitching.discussionsAvailable.useQuery(
+    { courseSlug },
+    {
+      // Disable once `showSuccess` is true, to avoid `selectedOption` (which displays on the success screen) being overwritten
+      enabled: !showSuccess,
+      refetchInterval: 30_000,
+    },
+  );
+
+  const { data: courseRegistration } = trpc.courseRegistrations.getByCourseId.useQuery(
+    { courseId: courseData?.course.id ?? '' },
+    {
+      enabled: !!courseData?.course.id,
+      refetchOnWindowFocus: true,
+      staleTime: 0,
+    },
+  );
+
+  const submitGroupSwitchMutation = trpc.groupSwitching.switchGroup.useMutation({
+    onSuccess: () => {
+      setShowSuccess(true);
+    },
+  });
+
+  const isSubmitting = submitGroupSwitchMutation.isPending;
+  const isLoading = isCourseLoading || isDiscussionsLoading;
+
+  const groups = availableGroupsAndDiscussions?.groupsAvailable ?? [];
+  const discussions = availableGroupsAndDiscussions?.discussionsAvailable?.[selectedUnitNumber] ?? [];
+
+  const unitOptions = courseData?.units.map((u) => {
+    const unitDiscussions = availableGroupsAndDiscussions?.discussionsAvailable?.[u.unitNumber];
+    const hasAvailableDiscussions = unitDiscussions?.some((d) => !d.isTooLateToSwitchTo);
+
+    return {
+      value: u.unitNumber.toString(),
+      label: `Unit ${u.unitNumber}: ${u.title}${!hasAvailableDiscussions ? ' (no upcoming discussions)' : ''}`,
+      disabled: !isManualRequest && !hasAvailableDiscussions,
+    };
+  }) ?? [];
+
+  // Note: There are cases of people being in multiple discussions per unit, and there may be
+  // people in multiple groups too. We're not explicitly supporting that case at the moment, but
+  // we do at least display the group/discussion the user is switching out of so that
+  // they can notice and request manual support.
+  const oldGroup = groups.find((g) => g.userIsParticipant);
+  const oldDiscussion = discussions.find((d) => d.userIsParticipant);
+
+  const formatCurrentDiscussionAsGroupSwitchOption = (): GroupSwitchOptionProps | null => {
+    if (isTemporarySwitch && oldDiscussion) {
+      return {
+        id: oldDiscussion.discussion.id,
+        groupName: oldDiscussion.groupName,
+        dateTime: oldDiscussion.discussion.startDateTime,
+        description: getGroupSwitchDescription({
+          userIsParticipant: true,
+          isSelected: !selectedDiscussionId,
+          isTemporarySwitch,
+          selectedUnitNumber,
+          spotsLeftIfKnown: null,
+        }),
+        userIsParticipant: true,
+      };
+    }
+    if (!isTemporarySwitch && oldGroup) {
+      // For permanent switch, show recurring discussion time
+      return {
+        id: oldGroup.group.id,
+        groupName: oldGroup.group.groupName ?? 'Group [Unknown]',
+        dateTime: oldGroup.group.startTimeUtc,
+        description: getGroupSwitchDescription({
+          userIsParticipant: true,
+          isSelected: !selectedGroupId,
+          isTemporarySwitch,
+          selectedUnitNumber,
+          spotsLeftIfKnown: null,
+        }),
+        userIsParticipant: true,
+        isRecurringTime: true,
+      };
+    }
+
+    return null;
+  };
+
+  const currentDiscussionAsGroupSwitchOption = formatCurrentDiscussionAsGroupSwitchOption();
+
+  const isSubmitDisabled = isSubmitting
+    || (isManualRequest && !hasUpdatedAvailability)
+    || (!isManualRequest && !(isTemporarySwitch ? selectedDiscussionId : selectedGroupId));
+
+  useEffect(() => {
+    setSelectedDiscussionId('');
+    setSelectedGroupId('');
+  }, [switchType]);
+
+  useEffect(() => {
+    setSelectedDiscussionId('');
+  }, [selectedUnitNumber]);
+
+  const handleSubmit = () => {
+    if (isSubmitDisabled) return;
+
+    const oldGroupId = !isTemporarySwitch ? oldGroup?.group.id : undefined;
+    const newGroupId = !isTemporarySwitch && !isManualRequest ? selectedGroupId : undefined;
+    const oldDiscussionId = isTemporarySwitch ? oldDiscussion?.discussion.id : undefined;
+    const newDiscussionId = isTemporarySwitch && !isManualRequest ? selectedDiscussionId : undefined;
+
+    submitGroupSwitchMutation.mutate({
+      switchType,
+      notesFromParticipant: reason,
+      isManualRequest,
+      oldGroupId,
+      newGroupId,
+      oldDiscussionId,
+      newDiscussionId,
+      courseSlug,
+    });
+  };
+
+  const getModalTitle = () => {
+    const modalTitleClassName = 'text-size-md py-3 font-semibold mx-auto';
+
+    if (isManualRequest && !showSuccess) {
+      return (
+        <div className="flex items-center w-full">
+          <ClickTarget
+            onClick={() => setIsManualRequest(false)}
+            className="text-black rounded-[50%] p-[6px] hover:bg-gray-100 cursor-pointer"
+            aria-label="Back to group selection"
+          >
+            <FaArrowLeft size={16} />
+          </ClickTarget>
+          <div className={cn(modalTitleClassName, 'md:pr-0 pr-6')}>Request manual switch</div>
+        </div>
+      );
+    }
+
+    if (isManualRequest && showSuccess) return <div className={modalTitleClassName}>We are working on your request</div>;
+    if (showSuccess) return <div className={modalTitleClassName}>Success</div>;
+
+    return (
+      <Select
+        value={switchType}
+        onChange={(value) => setSwitchType(value as SwitchType)}
+        options={SWITCH_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
+        className="border-none text-size-md font-medium bg-transparent w-fit mx-auto [&>button]:px-6 [&>button]:py-3"
+        ariaLabel="Select action"
+      />
+    );
+  };
+
+  const getSuccessMessage = () => {
+    if (isManualRequest) {
+      return <>We aim to process your request within 1-2 business days. Once your switch is complete, you will receive a calendar invitation and be added to your new group's Slack channel.</>;
+    }
+
+    return <>You <strong>will receive {isTemporarySwitch ? 'a calendar invite' : 'the calendar invites'} shortly</strong> and be added to the group's Slack channel.</>;
+  };
+
+  const groupOptions: GroupSwitchOptionProps[] = groups
+    .filter((g) => !g.userIsParticipant)
+    .map((g) => {
+      const isSelected = selectedGroupId === g.group.id;
+      return {
+        id: g.group.id,
+        groupName: g.group.groupName ?? 'Group [Unknown]',
+        dateTime: g.group.startTimeUtc,
+        isDisabled: g.spotsLeftIfKnown === 0 || g.isTooLateToSwitchTo,
+        isSelected,
+        isRecurringTime: true,
+        description: getGroupSwitchDescription({
+          isSelected,
+          isTemporarySwitch: false,
+          selectedUnitNumber,
+          spotsLeftIfKnown: g.spotsLeftIfKnown,
+        }),
+        onSelect: () => setSelectedGroupId(g.group.id),
+        onConfirm: handleSubmit,
+        canSubmit: !isSubmitDisabled,
+        isSubmitting,
+      };
+    });
+
+  const discussionOptions: GroupSwitchOptionProps[] = discussions
+    .filter((d) => !d.userIsParticipant)
+    .map((d) => {
+      const isSelected = selectedDiscussionId === d.discussion.id;
+      return {
+        id: d.discussion.id,
+        groupName: d.groupName,
+        dateTime: d.discussion.startDateTime,
+        isDisabled: d.spotsLeftIfKnown === 0 || d.isTooLateToSwitchTo,
+        isSelected,
+        description: getGroupSwitchDescription({
+          isSelected,
+          isTemporarySwitch: true,
+          selectedUnitNumber,
+          spotsLeftIfKnown: d.spotsLeftIfKnown,
+          isTooLateToSwitchTo: d.isTooLateToSwitchTo,
+        }),
+        onSelect: () => setSelectedDiscussionId(d.discussion.id),
+        onConfirm: handleSubmit,
+        canSubmit: !isSubmitDisabled,
+        isSubmitting,
+      };
+    });
+
+  const groupSwitchOptions = sortGroupSwitchOptions(isTemporarySwitch ? discussionOptions : groupOptions);
+  const selectedOption = groupSwitchOptions.find((op) => op.isSelected);
+
+  const alternativeCount = groupSwitchOptions.filter((op) => !op.isDisabled).length;
+  const alternativeCountMessage = isTemporarySwitch
+    ? `There ${alternativeCount === 1 ? 'is' : 'are'} ${alternativeCount} alternative time slot${alternativeCount === 1 ? '' : 's'} available for this discussion`
+    : `There ${alternativeCount === 1 ? 'is' : 'are'} ${alternativeCount} alternative group${alternativeCount === 1 ? '' : 's'} available`;
+
+  const formSections: FormSection[] = [
+    {
+      id: 'switch-type',
+      isVisible: isManualRequest,
+      title: 'What are you switching?',
+      control: (
+        <Select
+          value={switchType}
+          onChange={(value) => setSwitchType(value as SwitchType)}
+          options={SWITCH_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
+          ariaLabel="Select action"
+        />
+      ),
+    },
+    {
+      id: 'unit-selector',
+      isVisible: isTemporarySwitch,
+      title: 'Select unit to switch group discussion slot',
+      control: (
+        <Select
+          value={selectedUnitNumber}
+          onChange={(value) => setSelectedUnitNumber(value)}
+          options={unitOptions}
+          placeholder="Select a unit"
+          ariaLabel="Select unit"
+        />
+      ),
+    },
+    {
+      id: 'reason',
+      isVisible: true,
+      title: "Tell us why you're making this change",
+      subtitle: 'Participants who stick with their group usually have a better experience on the course.',
+      control: (
+        <textarea
+          placeholder="Share your reason here..."
+          value={reason}
+          onChange={(e) => setReason(e.target.value)}
+          className="border border-color-divider rounded-lg px-3 py-2 min-h-[80px] bg-white"
+          required
+          aria-label="Reason for group switch request"
+        />
+      ),
+    },
+    {
+      id: 'group-selection',
+      isVisible: !isManualRequest,
+      title: 'Select a group',
+      control: (
+        <div className="flex flex-col gap-2">
+          {currentDiscussionAsGroupSwitchOption && <GroupSwitchOption {...currentDiscussionAsGroupSwitchOption} />}
+          <p className="text-size-xs mt-1 text-[#666C80]">{alternativeCountMessage}</p>
+          <p className="text-size-xs text-[#666C80]">Times are in your time zone: {getGMTOffsetWithCity()}</p>
+          <div className="flex flex-col gap-2 mt-2">
+            {groupSwitchOptions.map((option) => (
+              <GroupSwitchOption key={option.id} {...option} />
+            ))}
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: 'availability',
+      isVisible: !!user && isManualRequest,
+      title: 'Update availability (required)',
+      subtitle: user ? (
+        <>
+          To help us assign you to a group which best suits you, <a href={buildAvailabilityFormUrl({ email: user.email, utmSource: 'bluedot-group-switch-modal', courseRegistration })} target="_blank" rel="noopener noreferrer" className="text-bluedot-normal underline">please update your availability</a>.
+        </>
+      ) : undefined,
+      control: (
+        <label className="flex items-center gap-2 cursor-pointer w-fit">
+          <input
+            type="checkbox"
+            checked={hasUpdatedAvailability}
+            onChange={(e) => setHasUpdatedAvailability(e.target.checked)}
+            className="size-4 rounded border-gray-300 text-bluedot-normal focus:ring-bluedot-normal cursor-pointer"
+          />
+          <span className="text-size-sm text-[#13132E]">I have updated my availability</span>
+        </label>
+      ),
+    },
+  ];
+
+  const visibleFormSections = formSections.filter((s) => s.isVisible);
+
+  return (
+    <Modal
+      isOpen
+      setIsOpen={(open: boolean) => !open && handleClose()}
+      title={getModalTitle()}
+      bottomDrawerOnMobile
+      desktopHeaderClassName="border-b border-charcoal-light pt-3 pb-2 mb-0"
+      ariaLabel="Group switching"
+    >
+      <div className="w-full pt-6 max-w-[600px]">
+        {/* Spacer to stop the modal shrinking when there are no results */}
+        <div className="w-[600px] max-w-full h-0" />
+        {isLoading && <ProgressDots />}
+        {submitGroupSwitchMutation.isError && <ErrorSection error={submitGroupSwitchMutation.error} />}
+        {userError && <ErrorSection error={userError} />}
+        {courseError && <ErrorSection error={courseError} />}
+        {discussionsError && <ErrorSection error={discussionsError} />}
+        {!isLoading && !showSuccess && (
+          <form className="flex flex-col gap-8">
+            {visibleFormSections.map((section, index) => (
+              <div key={section.id} className="flex flex-col gap-3">
+                <div className="flex flex-col gap-2">
+                  <span className="text-size-sm font-medium text-[#13132E]">{index + 1}. {section.title}</span>
+                  {section.subtitle && (
+                    <p className="text-size-xs text-[#666C80]">{section.subtitle}</p>
+                  )}
+                </div>
+                {section.control}
+              </div>
+            ))}
+            {isManualRequest && (
+              <CTALinkOrButton
+                className="w-full"
+                onClick={handleSubmit}
+                disabled={isSubmitDisabled}
+                aria-label={isSubmitting ? 'Submitting group switch request' : 'Submit group switch request'}
+              >
+                {isSubmitting ? 'Submitting...' : 'Request Manual Switch'}
+              </CTALinkOrButton>
+            )}
+          </form>
+        )}
+        {!isLoading && !showSuccess && !isManualRequest && (
+          <div className="border-t border-color-divider pt-8 mt-8 mb-2">
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2">
+                <h3 className="text-size-sm font-medium text-[#13132E]">Don't see a group that works?</h3>
+                <p className="text-size-xs text-[#666C80]">
+                  You can request a manual switch to join a group that's full or a group that is not
+                  listed above, and we'll do our best to accommodate you.
+                </p>
+              </div>
+              <CTALinkOrButton
+                variant="secondary"
+                className="border-[#13132E] text-[#13132E] hover:bg-blue-50"
+                onClick={() => setIsManualRequest(true)}
+                aria-label="Request manual group switch"
+              >
+                Request manual switch
+              </CTALinkOrButton>
+            </div>
+          </div>
+        )}
+        {showSuccess && (
+          <div className="flex items-center flex-col gap-4">
+            {!isManualRequest && selectedOption && (
+              <GroupSwitchOption {...selectedOption} userIsParticipant />
+            )}
+            <p className="text-size-sm text-center max-w-[500px] text-[#666C80]">
+              {getSuccessMessage()}
+            </p>
+            <CTALinkOrButton
+              className="w-full mt-4"
+              onClick={handleClose}
+            >
+              Close
+            </CTALinkOrButton>
+          </div>
+        )}
+      </div>
+    </Modal>
+  );
+}
+
 const SWITCH_TYPE_OPTIONS = [
-  { value: 'Switch group for one unit', label: 'Switch group for one unit' },
-  { value: 'Switch group permanently', label: 'Switch group permanently' },
+  {
+    value: 'Switch group for one unit',
+    label: <span className="grid grid-cols-[20px_1fr] gap-2 items-center"><ClockUserIcon className="mx-auto size-[22px] -translate-y-px" /> Switch group for one unit</span>,
+  },
+  {
+    value: 'Switch group permanently',
+    label: <span className="grid grid-cols-[20px_1fr] gap-2 items-center"><FaArrowRightArrowLeft className="mx-auto size-[14px]" /> Switch group permanently</span>,
+  },
 ] as const;
 
 export type SwitchType = (typeof SWITCH_TYPE_OPTIONS)[number]['value'];
@@ -35,6 +457,40 @@ const getGMTOffsetWithCity = () => {
   const offsetFormatted = `${offsetSign}${Math.floor(offsetHours).toString().padStart(2, '0')}:${(Math.abs(offsetMinutes) % 60).toString().padStart(2, '0')}`;
   const cityName = timezone.split('/').pop()?.replace(/_/g, ' ') || timezone;
   return `(GMT ${offsetFormatted}) ${cityName}`;
+};
+
+export const buildAvailabilityFormUrl = ({
+  email,
+  utmSource,
+  courseRegistration,
+}: {
+  email: string;
+  utmSource: string;
+  courseRegistration?: {
+    availabilityIntervalsUTC?: string | null;
+    availabilityTimezone?: string | null;
+    availabilityComments?: string | null;
+  } | null;
+}): string => {
+  const params = new URLSearchParams();
+  params.set('email', email);
+  params.set('utm_source', utmSource);
+
+  const { availabilityIntervalsUTC, availabilityTimezone, availabilityComments } = courseRegistration ?? {};
+
+  if (availabilityIntervalsUTC) {
+    params.set('prefill_intervals', availabilityIntervalsUTC);
+  }
+  if (availabilityTimezone) {
+    params.set('prefill_timezone', availabilityTimezone);
+  }
+
+  // Only include comments if they won't make the URL too long (2000 chars overall is generally considered safe)
+  if (availabilityComments && availabilityComments.length <= 1500) {
+    params.set('prefill_comment', availabilityComments);
+  }
+
+  return `https://availability.bluedot.org/form/bluedot-course?${params.toString()}`;
 };
 
 export const sortGroupSwitchOptions = (options: GroupSwitchOptionProps[]): GroupSwitchOptionProps[] => {
@@ -79,14 +535,14 @@ const getGroupSwitchDescription = ({
   isTemporarySwitch,
   selectedUnitNumber,
   spotsLeftIfKnown,
-  hasStarted = false,
+  isTooLateToSwitchTo = false,
 }: {
   userIsParticipant?: boolean;
   isSelected: boolean;
   isTemporarySwitch: boolean;
   selectedUnitNumber?: string;
   spotsLeftIfKnown: number | null;
-  hasStarted?: boolean;
+  isTooLateToSwitchTo?: boolean;
 }): React.ReactNode => {
   if (isTemporarySwitch) {
     if (userIsParticipant) {
@@ -110,7 +566,7 @@ const getGroupSwitchDescription = ({
     }
   }
 
-  if (isTemporarySwitch && hasStarted) {
+  if (isTemporarySwitch && isTooLateToSwitchTo) {
     return <span>This discussion has passed</span>;
   }
 
@@ -124,383 +580,6 @@ const getGroupSwitchDescription = ({
   }
   return <><UserIcon className="-translate-y-px" /><span>{spotsLeftIfKnown} spot{spotsLeftIfKnown === 1 ? '' : 's'} left</span></>;
 };
-
-const GroupSwitchModal: React.FC<GroupSwitchModalProps> = ({
-  handleClose,
-  courseSlug,
-  initialUnitNumber = '1',
-  initialSwitchType = 'Switch group for one unit',
-}) => {
-  const [switchType, setSwitchType] = useState<SwitchType>(initialSwitchType);
-  const [selectedUnitNumber, setSelectedUnitNumber] = useState(initialUnitNumber);
-  const [reason, setReason] = useState('');
-  const [selectedGroupId, setSelectedGroupId] = useState('');
-  const [selectedDiscussionId, setSelectedDiscussionId] = useState('');
-  const [isManualRequest, setIsManualRequest] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-
-  const isTemporarySwitch = switchType === 'Switch group for one unit';
-
-  const { data: user, error: userError } = trpc.users.getUser.useQuery();
-
-  const { data: courseData, isLoading: isCourseLoading, error: courseError } = trpc.courses.getBySlug.useQuery({ courseSlug });
-
-  const { data: switchingData, isLoading: isDiscussionsLoading, error: discussionsError } = trpc.groupSwitching.discussionsAvailable.useQuery({ courseSlug });
-
-  const submitGroupSwitchMutation = trpc.groupSwitching.switchGroup.useMutation({
-    onSuccess: () => {
-      setShowSuccess(true);
-    },
-  });
-
-  const isSubmitting = submitGroupSwitchMutation.isPending;
-
-  const groups = switchingData?.groupsAvailable ?? [];
-  const discussions = switchingData?.discussionsAvailable?.[selectedUnitNumber] ?? [];
-
-  const unitOptions = courseData?.units.map((u) => {
-    const unitDiscussions = switchingData?.discussionsAvailable?.[u.unitNumber];
-    const hasAvailableDiscussions = unitDiscussions?.some((d) => !d.hasStarted);
-
-    return {
-      value: u.unitNumber.toString(),
-      label: `Unit ${u.unitNumber}: ${u.title}${!hasAvailableDiscussions ? ' (no upcoming discussions)' : ''}`,
-      disabled: !isManualRequest && !hasAvailableDiscussions,
-    };
-  }) ?? [];
-
-  // Note: There are cases of people being in multiple discussions per unit, and there may be
-  // people in multiple groups too. We're not explicitly supporting that case at the moment, but
-  // we do at least display the group/discussion the user is switching out of so that
-  // they can notice and request manual support.
-  const oldGroup = groups.find((g) => g.userIsParticipant);
-  const oldDiscussion = discussions.find((d) => d.userIsParticipant);
-
-  const getCurrentDiscussionInfo = (): GroupSwitchOptionProps | null => {
-    if (isTemporarySwitch && oldDiscussion) {
-      return {
-        id: oldDiscussion.discussion.id,
-        groupName: oldDiscussion.groupName,
-        dateTime: oldDiscussion.discussion.startDateTime,
-        description: getGroupSwitchDescription({
-          userIsParticipant: true,
-          isSelected: !selectedDiscussionId,
-          isTemporarySwitch,
-          selectedUnitNumber,
-          spotsLeftIfKnown: null,
-        }),
-        userIsParticipant: true,
-      };
-    }
-    if (!isTemporarySwitch && oldGroup) {
-      // For permanent switch, show recurring discussion time
-      return {
-        id: oldGroup.group.id,
-        groupName: oldGroup.group.groupName ?? 'Group [Unknown]',
-        dateTime: oldGroup.group.startTimeUtc,
-        description: getGroupSwitchDescription({
-          userIsParticipant: true,
-          isSelected: !selectedGroupId,
-          isTemporarySwitch,
-          selectedUnitNumber,
-          spotsLeftIfKnown: null,
-        }),
-        userIsParticipant: true,
-        isRecurringTime: true,
-      };
-    }
-
-    return null;
-  };
-
-  const currentInfo = getCurrentDiscussionInfo();
-
-  const isSubmitDisabled = isSubmitting || !((isTemporarySwitch ? selectedDiscussionId : selectedGroupId) || isManualRequest) || !reason.trim();
-
-  useEffect(() => {
-    setSelectedDiscussionId('');
-    setSelectedGroupId('');
-  }, [switchType]);
-
-  useEffect(() => {
-    setSelectedDiscussionId('');
-  }, [selectedUnitNumber]);
-
-  const handleSubmit = async () => {
-    if (isSubmitDisabled) return;
-
-    const oldGroupId = !isTemporarySwitch ? oldGroup?.group.id : undefined;
-    const newGroupId = !isTemporarySwitch && !isManualRequest ? selectedGroupId : undefined;
-    const oldDiscussionId = isTemporarySwitch ? oldDiscussion?.discussion.id : undefined;
-    const newDiscussionId = isTemporarySwitch && !isManualRequest ? selectedDiscussionId : undefined;
-
-    submitGroupSwitchMutation.mutate({
-      switchType,
-      notesFromParticipant: reason,
-      isManualRequest,
-      oldGroupId,
-      newGroupId,
-      oldDiscussionId,
-      newDiscussionId,
-      courseSlug,
-    });
-  };
-
-  const getModalTitle = () => {
-    if (isManualRequest) {
-      return !showSuccess ? 'Request manual switch' : (
-        <div className="flex items-center gap-3">
-          <SendIcon />
-          <span>We are working on your request</span>
-        </div>
-      );
-    }
-    if (showSuccess) {
-      return (
-        <div className="flex items-center gap-3">
-          <SuccessIcon />
-          <span>Success!</span>
-        </div>
-      );
-    }
-    return 'Group switching';
-  };
-  const title = getModalTitle();
-
-  const getSuccessMessages = () => {
-    if (isManualRequest) {
-      return [
-        'We aim to process your request within 1-2 business days.',
-        "Once your switch is complete, you will receive a calendar invitation and be added to your new group's Slack channel.",
-      ];
-    }
-
-    const message = `You will receive ${isTemporarySwitch ? 'a calendar invite' : 'the calendar invites'} shortly and be added to the group's Slack channel.`;
-    return [message];
-  };
-  const successMessages = getSuccessMessages();
-
-  const groupOptions: GroupSwitchOptionProps[] = groups
-    .filter((g) => !g.userIsParticipant)
-    .map((g) => {
-      const isSelected = selectedGroupId === g.group.id;
-      return {
-        id: g.group.id,
-        groupName: g.group.groupName ?? 'Group [Unknown]',
-        dateTime: g.group.startTimeUtc,
-        isDisabled: g.spotsLeftIfKnown === 0 || g.allDiscussionsHaveStarted,
-        isSelected,
-        isRecurringTime: true,
-        description: getGroupSwitchDescription({
-          isSelected,
-          isTemporarySwitch: false,
-          selectedUnitNumber,
-          spotsLeftIfKnown: g.spotsLeftIfKnown,
-        }),
-        onSelect: () => setSelectedGroupId(g.group.id),
-        onConfirm: handleSubmit,
-        canSubmit: !isSubmitDisabled,
-        isSubmitting,
-      };
-    });
-
-  const discussionOptions: GroupSwitchOptionProps[] = discussions
-    .filter((d) => !d.userIsParticipant)
-    .map((d) => {
-      const isSelected = selectedDiscussionId === d.discussion.id;
-      return {
-        id: d.discussion.id,
-        groupName: d.groupName,
-        dateTime: d.discussion.startDateTime,
-        isDisabled: d.spotsLeftIfKnown === 0 || d.hasStarted,
-        isSelected,
-        description: getGroupSwitchDescription({
-          isSelected,
-          isTemporarySwitch: true,
-          selectedUnitNumber,
-          spotsLeftIfKnown: d.spotsLeftIfKnown,
-          hasStarted: d.hasStarted,
-        }),
-        onSelect: () => setSelectedDiscussionId(d.discussion.id),
-        onConfirm: handleSubmit,
-        canSubmit: !isSubmitDisabled,
-        isSubmitting,
-      };
-    });
-
-  const groupSwitchOptions = sortGroupSwitchOptions(isTemporarySwitch ? discussionOptions : groupOptions);
-  const selectedOption = groupSwitchOptions.find((op) => op.isSelected);
-
-  const alternativeCount = groupSwitchOptions.filter((op) => !op.isDisabled).length;
-  const alternativeCountMessage = isTemporarySwitch
-    ? `There ${alternativeCount === 1 ? 'is' : 'are'} ${alternativeCount} alternative time slot${alternativeCount === 1 ? '' : 's'} available for this discussion`
-    : `There ${alternativeCount === 1 ? 'is' : 'are'} ${alternativeCount} alternative group${alternativeCount === 1 ? '' : 's'} available`;
-
-  const timezoneMessage = `Times are in your time zone: ${getGMTOffsetWithCity()}`;
-
-  return (
-    <Modal isOpen setIsOpen={(open: boolean) => !open && handleClose()} title={title} bottomDrawerOnMobile>
-      <div className="w-full max-w-[600px]">
-        {(isDiscussionsLoading || isCourseLoading) && <ProgressDots />}
-        {submitGroupSwitchMutation.isError && <ErrorSection error={submitGroupSwitchMutation.error} />}
-        {userError && <ErrorSection error={userError} />}
-        {courseError && <ErrorSection error={courseError} />}
-        {discussionsError && <ErrorSection error={discussionsError} />}
-        {showSuccess && (
-          <div className="flex flex-col gap-4">
-            {!isManualRequest && selectedOption && (
-              <GroupSwitchOption {...selectedOption} userIsParticipant />
-            )}
-            {successMessages.map((message) => (
-              <p key={message} className="text-size-sm text-[#666C80]">
-                {message}
-              </p>
-            ))}
-          </div>
-        )}
-        {!isDiscussionsLoading && !isCourseLoading && !showSuccess && (
-        <form className="flex flex-col gap-5">
-          {isManualRequest && (
-            <div className="text-size-sm text-[#666C80]">
-              We're keen for you to request manual switches where necessary to attend group discussions.
-              However, because they do take time for us to process we expect you to have made a sincere
-              effort to make your original discussion group and consider others available on the previous screen.
-            </div>
-          )}
-          <Select
-            label="Action"
-            value={switchType}
-            onChange={(value) => setSwitchType(value as SwitchType)}
-            options={SWITCH_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
-          />
-          {isTemporarySwitch && (
-            <Select
-              label="Unit"
-              value={selectedUnitNumber}
-              onChange={(value) => setSelectedUnitNumber(value)}
-              options={unitOptions}
-              placeholder="Select a unit"
-            />
-          )}
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-col gap-2">
-              <div className="flex flex-col gap-2">
-                <label htmlFor="reason" className="text-size-sm font-medium text-[#00114D]">Tell us why you're making this change.*</label>
-                <p id="reason-description" className="text-size-xs text-[#666C80]">
-                  Participants who stick with their group usually have a better experience on the course.
-                </p>
-              </div>
-              <textarea
-                id="reason"
-                placeholder="Share your reason here"
-                value={reason}
-                onChange={(e) => setReason(e.target.value)}
-                className="border border-color-divider rounded-lg px-3 py-2 min-h-[80px] bg-white"
-                required
-                aria-describedby="reason-description"
-                aria-label="Reason for group switch request"
-              />
-            </div>
-          </div>
-          {!isManualRequest && (
-            <>
-              <div className="h-px bg-color-divider" />
-              <div className="flex flex-col gap-2">
-                <div className="block text-size-sm font-medium text-[#00114D]">
-                  Select a group
-                </div>
-                {currentInfo && (
-                  <GroupSwitchOption {...currentInfo} />
-                )}
-                <p className="text-size-xs text-[#666C80]">
-                  {alternativeCountMessage}
-                </p>
-                <p className="text-size-xs text-[#666C80]">
-                  {timezoneMessage}
-                </p>
-              </div>
-              <div className="flex flex-col gap-2">
-                {groupSwitchOptions.map((option) => (
-                  <GroupSwitchOption key={option.id} {...option} />
-                ))}
-              </div>
-              <div className="border-t border-color-divider pt-4">
-                <div className="flex flex-col gap-2">
-                  <h3 className="text-size-sm font-medium text-[#00114D]">Don't see a group that works?</h3>
-                  <p className="text-size-xs text-[#666C80]">
-                    You can request a manual switch to join a group that's full or a group that is not
-                    listed above, and we'll do our best to accommodate you.
-                  </p>
-                  <CTALinkOrButton
-                    variant="secondary"
-                    onClick={() => setIsManualRequest(true)}
-                    aria-label="Request manual group switch"
-                  >
-                    Request manual switch
-                  </CTALinkOrButton>
-                </div>
-              </div>
-            </>
-          )}
-
-          {isManualRequest && (
-            <>
-              {user?.email && (
-                <div className="flex flex-col gap-2">
-                  <h3 className="text-size-sm font-medium text-[#00114D]">Update your availability</h3>
-                  <p className="text-size-xs text-[#666C80]">
-                    This helps us assign you to a group which best suits you. Then, return here to click "Submit".
-                  </p>
-                  <CTALinkOrButton
-                    variant="secondary"
-                    className="mx-auto"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    url={`https://availability.bluedot.org/form/bluedot-course?email=${encodeURIComponent(user.email)}&utm_source=bluedot-group-switch-modal`}
-                    aria-label="Update availability (open in new tab)"
-                  >
-                    Update availability
-                  </CTALinkOrButton>
-                </div>
-              )}
-              <div className="flex gap-2 justify-end">
-                <CTALinkOrButton
-                  className="mx-auto"
-                  onClick={handleSubmit}
-                  disabled={isSubmitDisabled}
-                  aria-label={isSubmitting ? 'Submitting group switch request' : 'Submit group switch request'}
-                >
-                  {isSubmitting ? 'Submitting...' : 'Submit'}
-                </CTALinkOrButton>
-              </div>
-            </>
-          )}
-        </form>
-        )}
-      </div>
-    </Modal>
-  );
-};
-
-const UserIcon = ({ className }: { className?: string }) => (
-  <svg className={className} width="1em" height="1em" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M10 10.5V9.5C10 8.96957 9.78929 8.46086 9.41421 8.08579C9.03914 7.71071 8.53043 7.5 8 7.5H4C3.46957 7.5 2.96086 7.71071 2.58579 8.08579C2.21071 8.46086 2 8.96957 2 9.5V10.5M8 3.5C8 4.60457 7.10457 5.5 6 5.5C4.89543 5.5 4 4.60457 4 3.5C4 2.39543 4.89543 1.5 6 1.5C7.10457 1.5 8 2.39543 8 3.5Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
-const SuccessIcon = () => (
-  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect className="fill-bluedot-normal" width="24" height="24" rx="12" />
-    <path d="M16 9L10.6496 14.3504C10.567 14.433 10.433 14.433 10.3504 14.3504L8 12" stroke="white" strokeWidth="1.75" strokeLinecap="round" />
-  </svg>
-);
-
-const SendIcon = () => (
-  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect className="fill-bluedot-normal" width="24" height="24" rx="12" />
-    <path d="M17 7L11.5 12.5M17 7L13.5 17L11.5 12.5M17 7L7 10.5L11.5 12.5" stroke="white" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
 
 type GroupSwitchOptionProps = {
   id?: string;
@@ -540,27 +619,19 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
     return formatTime12HourClock(dateTime);
   }, [dateTime]);
 
-  const getClassNames = () => {
-    const classNames = [];
-
-    // Later classes have higher priority
-    classNames.push('rounded-lg p-3 transition-all cursor-pointer border bg-white hover:bg-blue-50 border-gray-200 hover:border-gray-300');
-    if (isSelected) classNames.push('border-bluedot-normal hover:border-bluedot-normal bg-blue-50');
-    if (isDisabled && !userIsParticipant) classNames.push('opacity-50 cursor-not-allowed hover:bg-white');
-    if (userIsParticipant) classNames.push('border-none bg-transparent hover:bg-transparent cursor-auto');
-
-    return cn(...classNames);
-  };
-
   return (
     <div
-      className={getClassNames()}
+      className={cn(
+        'rounded-lg p-3 transition-all cursor-pointer border bg-white hover:bg-blue-50 border-gray-200 hover:border-gray-300',
+        isSelected && 'border-bluedot-normal hover:border-bluedot-normal bg-blue-50',
+        isDisabled && !userIsParticipant && 'opacity-50 cursor-not-allowed hover:bg-white',
+        userIsParticipant && 'border-none bg-transparent hover:bg-transparent cursor-auto',
+      )}
       {...(!isDisabled && !userIsParticipant && {
         onClick: onSelect,
         onKeyDown: (e: React.KeyboardEvent) => {
           if (e.key === 'Enter' || e.key === ' ') {
             const target = e.target as HTMLElement;
-            // Don't prevent default if focus is on the confirm button
             if (target?.tagName === 'BUTTON') {
               return;
             }
@@ -578,7 +649,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
           {displayDate && displayTime && (
             <>
               <div className="font-medium whitespace-nowrap mb-[3px] mt-px">{displayDate}</div>
-              <div className={clsx('text-size-xs whitespace-nowrap', isSelected ? 'text-bluedot-normal' : 'text-gray-500')}>{displayTime}</div>
+              <div className={`text-size-xs whitespace-nowrap ${isSelected ? 'text-bluedot-normal' : 'text-gray-500'}`}>{displayTime}</div>
             </>
           )}
         </div>
@@ -609,5 +680,3 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
     </div>
   );
 };
-
-export default GroupSwitchModal;

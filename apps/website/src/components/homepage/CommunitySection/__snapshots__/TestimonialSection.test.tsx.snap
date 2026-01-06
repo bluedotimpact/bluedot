@@ -46,7 +46,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
                   <img
                     alt="John Doe"
                     class="size-full object-cover"
-                    src="/images/graduates/john.png"
+                    src="/images/graduates/adam.webp"
                   />
                 </div>
                 <div
@@ -90,7 +90,7 @@ exports[`TestimonialSection > renders as expected 1`] = `
                   <img
                     alt="Jane Doe"
                     class="size-full object-cover"
-                    src="/images/graduates/jane.png"
+                    src="/images/graduates/ana.webp"
                   />
                 </div>
                 <div

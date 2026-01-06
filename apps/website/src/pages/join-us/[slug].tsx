@@ -133,7 +133,7 @@ export const getStaticProps: GetStaticProps<JobPostingPageProps> = async ({ para
       props: {
         slug,
         job,
-        jobOgImage,
+        ...(jobOgImage && { jobOgImage }),
       },
       revalidate: 300,
     };
