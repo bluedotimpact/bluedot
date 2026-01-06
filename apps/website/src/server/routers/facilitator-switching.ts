@@ -120,7 +120,7 @@ export const facilitatorSwitchingRouter = router({
         group: groupId,
         status: 'Requested',
         switchType: discussionId ? 'Change for one unit' : 'Change permanently',
-        updatedDatetime: newDateTime,
+        facilitatorRequestedDatetime: newDateTime,
       });
 
       return null;
