@@ -158,7 +158,7 @@ const EventCard = ({ event }: { event: Event }) => {
   const timeString = buildTimeDeltaString(event);
 
   return (
-    <div className="flex flex-col justify-between h-[264px] min-[680px]:min-h-[248px] min-[1024px]:min-h-[280px] min-[1280px]:min-h-[320px] pl-6 border-l border-[rgba(19,19,46,0.15)] w-[232px] min-[680px]:w-auto flex-shrink-0 min-[680px]:flex-shrink min-[680px]:flex-grow min-[680px]:basis-0">
+    <div className="flex flex-col gap-8 min-[680px]:gap-7 min-[1024px]:gap-8 min-[1280px]:gap-12 min-h-[216px] min-[680px]:min-h-[208px] min-[1024px]:min-h-[232px] min-[1280px]:min-h-[248px] pl-6 border-l border-[rgba(19,19,46,0.15)] w-[232px] min-[680px]:w-auto flex-shrink-0 min-[680px]:flex-shrink min-[680px]:flex-grow min-[680px]:basis-0">
       <DateBadge month={month} day={day} />
 
       <div className="flex flex-col gap-3">
