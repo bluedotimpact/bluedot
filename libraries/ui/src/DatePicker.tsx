@@ -1,145 +1,191 @@
+import { format, isValid, parse } from 'date-fns';
 import {
-  Button,
-  Calendar,
-  CalendarCell,
-  CalendarGrid,
-  DateInput,
-  DatePicker as AriaDatePicker,
-  DateSegment,
-  DateValue,
-  Dialog,
-  Group,
-  Heading,
-  Label,
-  Popover,
-  CalendarGridBody,
-  CalendarGridHeader,
-  CalendarHeaderCell,
-} from 'react-aria-components';
-import type { ButtonProps, PopoverProps } from 'react-aria-components';
-import { LuChevronsUpDown, LuChevronLeft, LuChevronRight } from 'react-icons/lu';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { parseDate } from '@internationalized/date';
+  useCallback, useEffect, useId, useRef, useState,
+} from 'react';
+import { DayPicker, type ClassNames } from 'react-day-picker';
+import 'react-day-picker/style.css';
+import { LuChevronsUpDown } from 'react-icons/lu';
 import { cn } from './utils';
+
+// Utility function to get the locale-specific date format of the user
+// e.g. "MM/dd/yyyy" for US, "dd/MM/yyyy" for UK, etc.
+export const getLocaleDateFormat = (): string => {
+  const parts = new Intl.DateTimeFormat(undefined, {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(new Date(2000, 11, 31));
+
+  return parts
+    .map((part) => {
+      switch (part.type) {
+        case 'day':
+          return 'dd';
+        case 'month':
+          return 'MM';
+        case 'year':
+          return 'yyyy';
+        case 'literal':
+          return part.value;
+        default:
+          return '';
+      }
+    })
+    .join('');
+};
+
+type DatePickerClassNames = {
+  root?: string;
+  label?: string;
+  input?: string;
+  button?: string;
+  popover?: string;
+  calendar?: Partial<ClassNames>;
+};
 
 export type DatePickerProps = {
   label?: string;
-  hideLabel?: boolean;
-  value?: Date | null;
-  onChange?: (value: Date | null) => void;
-  className?: string;
-  labelClassName?: string;
-  inputClassName?: string;
-  buttonClassName?: string;
-  popoverClassName?: string;
+  value?: Date;
+  onChange?: (value?: Date) => void;
+  classNames?: DatePickerClassNames;
 };
 
 export const DatePicker = ({
-  label = 'Date',
-  hideLabel = false,
-  value,
-  onChange,
-  className,
-  labelClassName,
-  inputClassName,
-  buttonClassName,
-  popoverClassName,
+  label, value, onChange, classNames,
 }: DatePickerProps) => {
-  // Convert JS Date to DatePicker's expected DateValue.
-  // undefined → uncontrolled, null → controlled empty value.
-  let dateValue: DateValue | null | undefined;
-  if (value === undefined) {
-    dateValue = undefined;
-  } else if (value === null) {
-    dateValue = null;
-  } else {
-    const isoString = value.toISOString();
-    const dateString = isoString.split('T')[0]!;
-    dateValue = parseDate(dateString);
-  }
+  const localeFormat = getLocaleDateFormat();
+  const [inputValue, setInputValue] = useState(value ? format(value, localeFormat) : '');
+  const [month, setMonth] = useState<Date>(value ?? new Date());
+  const popoverRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
+  const inputId = useId();
+  const popoverId = useId();
 
-  const handleChange = (newValue: DateValue | null) => {
-    // Convert DateValue to JS Date object
-    const date = newValue ? new Date(newValue.toString()) : null;
-    onChange?.(date);
+  useEffect(() => {
+    setInputValue(value ? format(value, localeFormat) : '');
+    if (value) setMonth(value);
+  }, [value, localeFormat]);
+
+  const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    if (!newValue) {
+      onChange?.(undefined);
+      return;
+    }
+
+    const parsedDate = parse(newValue, localeFormat, new Date());
+    if (isValid(parsedDate)) {
+      onChange?.(parsedDate);
+    } else {
+      // Reset to previous valid value if parsing fails
+      setInputValue(value ? format(value, localeFormat) : '');
+    }
   };
 
+  const handleSelect = (date?: Date) => {
+    onChange?.(date);
+    popoverRef.current?.hidePopover();
+  };
+
+  const updatePopoverPosition = useCallback(() => {
+    if (triggerRef.current && popoverRef.current) {
+      const triggerRect = triggerRef.current.getBoundingClientRect();
+      const popoverRect = popoverRef.current.getBoundingClientRect();
+      const left = triggerRect.left + triggerRect.width / 2;
+
+      const spaceBelow = window.innerHeight - triggerRect.bottom;
+      const spaceAbove = triggerRect.top;
+      const popoverHeight = popoverRect.height || 332;
+
+      // Position above if not enough space below and more space above
+      const shouldPositionAbove = spaceBelow < popoverHeight && spaceAbove > spaceBelow;
+
+      const top = shouldPositionAbove
+        ? triggerRect.top - popoverHeight - 8
+        : triggerRect.bottom + 8;
+
+      popoverRef.current.style.top = `${top}px`;
+      popoverRef.current.style.left = `${left}px`;
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('resize', updatePopoverPosition);
+    window.addEventListener('scroll', updatePopoverPosition, true);
+    return () => {
+      window.removeEventListener('resize', updatePopoverPosition);
+      window.removeEventListener('scroll', updatePopoverPosition, true);
+    };
+  }, [updatePopoverPosition]);
+
   return (
-    <AriaDatePicker
-      className={cn('group flex w-[200px] flex-col gap-1', className)}
-      value={dateValue}
-      onChange={handleChange}
-      aria-label={hideLabel ? label : undefined}
-    >
-      {!hideLabel && (
-        <Label className={cn('cursor-default text-black', labelClassName)}>{label}</Label>
-      )}
-      <Group className={cn('flex rounded-lg border border-gray-200 bg-white/90 pl-3 text-gray-700 ring-black transition group-open:bg-white focus-within:bg-white focus-visible:ring-2', inputClassName)}>
-        <DateInput className="flex flex-1 py-2">
-          {(segment) => (
-            <DateSegment
-              segment={segment}
-              className="rounded-xs px-0.5 tabular-nums caret-transparent outline-hidden placeholder-shown:italic focus:bg-bluedot-normal focus:text-white"
-            />
+    <div ref={triggerRef} className={cn('group relative flex w-[200px] flex-col gap-1', classNames?.root)}>
+      {label ? (
+        <label htmlFor={inputId} className={cn('text-black', classNames?.label)}>
+          {label}
+        </label>
+      ) : null}
+      <div className="relative rounded-lg border border-gray-200 bg-white/90 text-gray-700 transition focus-within:bg-white">
+        <input
+          id={inputId}
+          type="text"
+          value={inputValue}
+          // Input field is editable only after a date has been selected
+          readOnly={value === undefined}
+          onClick={() => {
+            if (value === undefined) {
+              updatePopoverPosition();
+              popoverRef.current?.togglePopover();
+            }
+          }}
+          onChange={(e) => setInputValue(e.target.value)}
+          onBlur={handleInputBlur}
+          placeholder={localeFormat.toLowerCase()}
+          aria-label={label ?? 'Select date'}
+          className={cn(
+            'w-full rounded-lg bg-transparent py-2 pr-9 pl-3 outline-none placeholder:italic',
+            classNames?.input,
           )}
-        </DateInput>
-        <Button className={cn('pressed:bg-purple-100 flex items-center rounded-r-lg border-0 border-l border-solid border-l-purple-200 bg-transparent px-3 text-gray-700 ring-black outline-hidden transition focus-visible:ring-2', buttonClassName)}>
+        />
+        <button
+          type="button"
+          popoverTarget={popoverId}
+          onClick={updatePopoverPosition}
+          aria-label="Open calendar"
+          className={cn(
+            'absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3 text-gray-400 outline-none',
+            classNames?.button,
+          )}
+        >
           <LuChevronsUpDown className="size-4" />
-        </Button>
-      </Group>
-      <CalendarPopover popoverClassName={popoverClassName}>
-        <Dialog className="p-6 text-gray-600">
-          <Calendar>
-            <header className="flex w-full items-center gap-1 px-1 pb-4 font-serif">
-              <Heading className="ml-2 flex-1 text-2xl font-semibold" />
-              <RoundButton slot="previous">
-                <LuChevronLeft />
-              </RoundButton>
-              <RoundButton slot="next">
-                <LuChevronRight />
-              </RoundButton>
-            </header>
-            <CalendarGrid className="border-separate border-spacing-1">
-              <CalendarGridHeader>
-                {(day) => (
-                  <CalendarHeaderCell className="text-size-xs font-semibold text-gray-500">{day}</CalendarHeaderCell>
-                )}
-              </CalendarGridHeader>
-              <CalendarGridBody>
-                {(date) => (
-                  <CalendarCell
-                    date={date}
-                    className="outside-month:text-gray-300 pressed:bg-gray-200 selected:bg-bluedot-normal selected:text-white flex size-9 cursor-default items-center justify-center rounded-full ring-bluedot-normal ring-offset-2 outline-hidden hover:bg-gray-100 focus-visible:ring-3"
-                  />
-                )}
-              </CalendarGridBody>
-            </CalendarGrid>
-          </Calendar>
-        </Dialog>
-      </CalendarPopover>
-    </AriaDatePicker>
-  );
-};
-
-const RoundButton = (props: ButtonProps) => {
-  return (
-    <Button
-      {...props}
-      className="pressed:bg-gray-200 flex size-9 cursor-default items-center justify-center rounded-full border-0 bg-transparent text-gray-600 ring-bluedot-normal ring-offset-2 outline-hidden hover:bg-gray-100 focus-visible:ring-3"
-    />
-  );
-};
-
-const CalendarPopover = ({ popoverClassName, ...props }: PopoverProps & { popoverClassName?: string }) => {
-  return (
-    <Popover
-      {...props}
-      className={({ isEntering, isExiting }) => cn(
-        'overflow-auto rounded-lg bg-white ring-1 ring-black/10 drop-shadow-lg',
-        isEntering && 'animate-in fade-in placement-bottom:slide-in-from-top-1 placement-top:slide-in-from-bottom-1 duration-200 ease-out',
-        isExiting && 'animate-out fade-out placement-bottom:slide-out-to-top-1 placement-top:slide-out-to-bottom-1 duration-150 ease-in',
-        popoverClassName,
-      )}
-    />
+        </button>
+      </div>
+      <div
+        ref={popoverRef}
+        id={popoverId}
+        popover="auto"
+        style={
+          {
+            position: 'fixed',
+            transform: 'translateX(-50%)',
+          } as React.CSSProperties
+        }
+        className={cn('overflow-auto rounded-lg bg-white p-4 ring-1 ring-black/10 drop-shadow-sm', classNames?.popover)}
+      >
+        <DayPicker
+          mode="single"
+          selected={value}
+          onSelect={handleSelect}
+          month={month}
+          onMonthChange={setMonth}
+          showOutsideDays
+          classNames={{
+            chevron: 'fill-bluedot-normal',
+            today: 'text-bluedot-normal',
+            ...classNames?.calendar,
+          }}
+        />
+      </div>
+    </div>
   );
 };
