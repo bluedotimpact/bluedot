@@ -3,6 +3,7 @@ import {
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import React, { useState } from 'react';
+import type { GroupDiscussion } from '@bluedot/db';
 import { trpc } from '../../utils/trpc';
 import { CheckIcon } from '../icons/CheckIcon';
 import { InfoIcon } from '../icons/InfoIcon';
@@ -10,6 +11,7 @@ import { InfoIcon } from '../icons/InfoIcon';
 export type FacilitatorSwitchModalProps = {
   handleClose: () => void;
   courseSlug: string;
+  initialDiscussion: GroupDiscussion | null;
 };
 
 const SWITCH_OPTIONS = [
@@ -19,10 +21,10 @@ const SWITCH_OPTIONS = [
 
 export type SwitchType = (typeof SWITCH_OPTIONS)[number]['value'];
 
-const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({ handleClose, courseSlug }) => {
   const [switchType, setSwitchType] = useState<SwitchType | undefined>(undefined);
   const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(undefined);
   const [selectedDiscussionId, setSelectedDiscussionId] = useState<string | undefined>(undefined);
+const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({ handleClose, courseSlug, initialDiscussion }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<Date | null>(null);
 

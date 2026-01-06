@@ -221,12 +221,14 @@ const CourseDetails = ({
   const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>(showUpcomingTab ? 'upcoming' : 'attended');
   const [showAllUpcoming, setShowAllUpcoming] = useState(false);
   const [showAllAttended, setShowAllAttended] = useState(false);
+  const [selectedDiscussion, setSelectedDiscussion] = useState<GroupDiscussion | null>(null);
 
   const isFacilitator = courseRegistration.role === 'Facilitator';
 
   const handleOpenSwitchModal = ({ discussion, switchType }: { discussion?: GroupDiscussion; switchType: SwitchType }) => {
     if (isFacilitator) {
       setFacilitatorSwitchModalOpen(true);
+      setSelectedDiscussion(discussion || null);
     } else {
       const unitNumber = switchType === 'Switch group for one unit' && discussion?.unitRecord
         ? discussion?.unitRecord.unitNumber.toString()
@@ -368,8 +370,10 @@ const CourseDetails = ({
         <FacilitatorSwitchModal
           handleClose={() => {
             setFacilitatorSwitchModalOpen(false);
+            setSelectedDiscussion(null);
           }}
           courseSlug={course.slug}
+          initialDiscussion={selectedDiscussion}
         />
       )}
     </>
