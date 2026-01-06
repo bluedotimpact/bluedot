@@ -173,7 +173,6 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
               className="w-fit"
               value={selectedTime ?? selectedDiscussionDateTime}
               onChange={setSelectedTime}
-              hideLabel
             />
           </div>
         </div>
