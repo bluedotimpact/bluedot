@@ -25,8 +25,8 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({ handleC
   const [switchType, setSwitchType] = useState<SwitchType | undefined>('Change for one unit');
   const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(initialDiscussion?.group);
   const [selectedDiscussionId, setSelectedDiscussionId] = useState<string | undefined>(initialDiscussion?.id);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [selectedTime, setSelectedTime] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [selectedTime, setSelectedTime] = useState<Date | undefined>(undefined);
 
   const {
     data: switchData,
