@@ -48,6 +48,7 @@ export const Default: Story = {
   args: {
     handleClose: () => {},
     courseSlug: 'fish-test-course',
+    initialDiscussion: null,
   },
   parameters: {
     msw: {
@@ -67,6 +68,7 @@ export const Loading: Story = {
   args: {
     handleClose: () => {},
     courseSlug: 'fish-test-course',
+    initialDiscussion: null,
   },
   parameters: {
     msw: {
@@ -85,6 +87,7 @@ export const Error: Story = {
   args: {
     handleClose: () => {},
     courseSlug: 'fish-test-course',
+    initialDiscussion: null,
   },
   parameters: {
     msw: {
