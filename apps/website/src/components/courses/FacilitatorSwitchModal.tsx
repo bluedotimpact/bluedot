@@ -1,13 +1,11 @@
 import {
-  CTALinkOrButton, DatePicker, Modal, ProgressDots, TimePicker,
+  CTALinkOrButton, DatePicker, H1, Modal, P, ProgressDots, Select, TimePicker,
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import React, { useState } from 'react';
 import { trpc } from '../../utils/trpc';
 import { CheckIcon } from '../icons/CheckIcon';
 import { InfoIcon } from '../icons/InfoIcon';
-import { H1, P } from '../Text';
-import Select from './group-switching/Select';
 
 export type FacilitatorSwitchModalProps = {
   handleClose: () => void;
@@ -129,7 +127,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
         <div className="flex flex-col gap-2">
           <H1 className="text-size-md font-medium text-black">1. What kind of update are you making?</H1>
           <Select
-            label="Action"
+            ariaLabel="Action"
             value={switchType}
             onChange={(value) => setSwitchType(value as SwitchType)}
             options={SWITCH_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
@@ -140,7 +138,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
         <div className="flex flex-col gap-2">
           <H1 className="text-size-md font-medium text-black">2. For which group?</H1>
           <Select
-            label="Group"
+            ariaLabel="Group"
             value={selectedGroupId}
             onChange={(value) => setSelectedGroupId(value)}
             options={groupOptions}
@@ -152,7 +150,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           <div className="flex flex-col gap-2">
             <H1 className="text-size-md font-medium text-black">3. For which discussion?</H1>
             <Select
-              label="Discussion"
+              ariaLabel="Discussion"
               options={discussionOptions}
               value={selectedDiscussionId}
               onChange={(value) => setSelectedDiscussionId(value)}
