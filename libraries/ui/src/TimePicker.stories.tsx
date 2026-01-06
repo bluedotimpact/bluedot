@@ -15,25 +15,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {
-    value: new Date(),
-  },
-};
-
-export const CustomLabel: Story = {
-  args: {
-    label: 'Select Time',
-  },
-};
-
-export const HiddenLabel: Story = {
-  args: {
-    label: 'Time',
-    hideLabel: true,
-  },
-};
-
-export const Controlled: Story = {
   render: () => {
     const ControlledDemo = () => {
       const [time, setTime] = useState<Date | null>(null);
@@ -45,8 +26,19 @@ export const Controlled: Story = {
         </div>
       );
     };
-
     return <ControlledDemo />;
+  },
+};
+
+export const CustomLabel: Story = {
+  args: {
+    label: 'Select Time',
+  },
+};
+
+export const HiddenLabel: Story = {
+  args: {
+    label: undefined,
   },
 };
 
