@@ -77,7 +77,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({ handleC
       return;
     }
 
-    // Already in UTC
+    // Local date and time, converted to UTC with `getTime()` below
     const newDateTime = new Date(dateToUse);
     newDateTime.setHours(timeToUse.getHours(), timeToUse.getMinutes(), 0, 0);
 
@@ -85,6 +85,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({ handleC
       courseSlug,
       discussionId,
       groupId: selectedGroupId,
+      // `getTime()` converts to UTC milliseconds, we convert to seconds
       newDateTime: Math.floor(newDateTime.getTime() / 1000),
     });
   };

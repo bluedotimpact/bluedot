@@ -104,7 +104,7 @@ export const facilitatorSwitchingRouter = router({
         // When provided, we will update only a single discussion's date/time. Otherwise all future discussions are updated.
         discussionId: z.string().optional(),
         groupId: z.string(),
-        newDateTime: z.number(), // Unix timestamp in milliseconds
+        newDateTime: z.number(), // Unix timestamp in seconds
       }),
     )
     .mutation(async ({ input, ctx }) => {
