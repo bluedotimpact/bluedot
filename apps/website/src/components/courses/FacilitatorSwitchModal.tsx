@@ -19,10 +19,7 @@ const SWITCH_OPTIONS = [
 
 export type SwitchType = (typeof SWITCH_OPTIONS)[number]['value'];
 
-const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
-  handleClose,
-  courseSlug,
-}) => {
+const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({ handleClose, courseSlug }) => {
   const [switchType, setSwitchType] = useState<SwitchType | undefined>(undefined);
   const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(undefined);
   const [selectedDiscussionId, setSelectedDiscussionId] = useState<string | undefined>(undefined);
@@ -106,13 +103,17 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 
     if (submitUpdateMutation.isSuccess) {
       return (
-        <div className="flex flex-col items-center justify-center gap-8 w-full">
-          <div className="rounded-full bg-bluedot-normal/10 p-4 flex">
+        <div className="flex w-full flex-col items-center justify-center gap-8">
+          <div className="bg-bluedot-normal/10 flex rounded-full p-4">
             <CheckIcon className="text-bluedot-normal" />
           </div>
-          <div className="flex flex-col gap-4 items-center max-w-[400px]">
-            <P className="text-[#13132E] opacity-80">We've updated your group's {selectedDiscussionId ? 'discussion' : 'discussions'}.</P>
-            <P className="text-[#13132E] opacity-80 text-center">You should see the changes reflected in the calendar event and Course Hub. Please allow up to 10 minutes.</P>
+          <div className="flex max-w-[400px] flex-col items-center gap-4">
+            <P className="text-[#13132E] opacity-80">
+              We've updated your group's {selectedDiscussionId ? 'discussion' : 'discussions'}.
+            </P>
+            <P className="text-center text-[#13132E] opacity-80">
+              You should see the changes reflected in the calendar event and Course Hub. Please allow up to 10 minutes.
+            </P>
           </div>
           <CTALinkOrButton className="bg-bluedot-normal w-full" onClick={handleClose}>
             Close
@@ -165,7 +166,9 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
         )}
 
         <div className="flex flex-col gap-2">
-          <H1 className="text-size-md font-medium text-black">{isSingleUnitChange ? '4' : '3'}. Select new discussion time</H1>
+          <H1 className="text-size-md font-medium text-black">
+            {isSingleUnitChange ? '4' : '3'}. Select new discussion time
+          </H1>
           <P>The selected time is in your time zone: {Intl.DateTimeFormat().resolvedOptions().timeZone}</P>
           <div className="flex flex-row gap-4">
             <DatePicker value={selectedDate ?? selectedDiscussionDateTime} onChange={setSelectedDate} hideLabel />
@@ -188,9 +191,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
               Submitting...
             </div>
           ) : (
-            <span>
-              Submit
-            </span>
+            <span>Submit</span>
           )}
         </CTALinkOrButton>
       </>
@@ -205,9 +206,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       bottomDrawerOnMobile
     >
       <div className="w-full md:w-[600px]">
-        <form className="flex flex-col gap-8">
-          {renderContent()}
-        </form>
+        <form className="flex flex-col gap-8">{renderContent()}</form>
       </div>
     </Modal>
   );
@@ -221,8 +220,8 @@ const InformationBanner = () => {
           <InfoIcon className="size-5 shrink-0" />
         </div>
         <P className="flex-1 justify-start text-[#1144CC]">
-          Please discuss any changes with your participants beforehand. Any changes will update the calendar
-          invitation and Course Hub information, but not notify your participants.
+          Please discuss any changes with your participants beforehand. Any changes will update the calendar invitation
+          and Course Hub information, but not notify your participants.
         </P>
       </div>
     </div>
