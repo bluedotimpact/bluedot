@@ -36,8 +36,8 @@ const mockSwitchingData = {
       {
         id: 'discussion-3',
         label: 'Unit 3',
-        startDateTime: Math.floor(Date.now() / 1000) + 7200, // 2 hours from now
-        endDateTime: Math.floor(Date.now() / 1000) + 5400, // 1.5 hours from now
+        startDateTime: Math.floor(Date.now() / 1000) + 5400, // 1.5 hours from now
+        endDateTime: Math.floor(Date.now() / 1000) + 7200, // 2 hours from now
         hasStarted: false,
       },
     ],
