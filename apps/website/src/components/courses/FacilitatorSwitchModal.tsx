@@ -21,10 +21,10 @@ const SWITCH_OPTIONS = [
 
 export type SwitchType = (typeof SWITCH_OPTIONS)[number]['value'];
 
-  const [switchType, setSwitchType] = useState<SwitchType | undefined>(undefined);
-  const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(undefined);
-  const [selectedDiscussionId, setSelectedDiscussionId] = useState<string | undefined>(undefined);
 const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({ handleClose, courseSlug, initialDiscussion }) => {
+  const [switchType, setSwitchType] = useState<SwitchType | undefined>('Change for one unit');
+  const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(initialDiscussion?.group);
+  const [selectedDiscussionId, setSelectedDiscussionId] = useState<string | undefined>(initialDiscussion?.id);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<Date | null>(null);
 
