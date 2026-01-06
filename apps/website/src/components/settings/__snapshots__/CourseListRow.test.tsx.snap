@@ -192,6 +192,36 @@ exports[`CourseListRow > renders in-progress course correctly (snapshot) 1`] = `
               >
                 Introduction to AI Safety
                  
+                <span
+                  class="ml-0.5 inline-flex items-center align-middle"
+                >
+                  <button
+                    aria-expanded="false"
+                    aria-label="Show certificate eligibility information"
+                    class="cursor-pointer"
+                    data-rac=""
+                    data-react-aria-pressable="true"
+                    id="react-aria-:r1:"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <svg
+                      class="fill-none stroke-2 text-gray-500"
+                      fill="none"
+                      height="16"
+                      viewBox="0 0 15 15"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M7.25 9.75V7.25M7.25 4.75H7.25625M13.5 7.25C13.5 10.7018 10.7018 13.5 7.25 13.5C3.79822 13.5 1 10.7018 1 7.25C1 3.79822 3.79822 1 7.25 1C10.7018 1 13.5 3.79822 13.5 7.25Z"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </button>
+                </span>
               </h3>
             </div>
             <button
@@ -230,6 +260,36 @@ exports[`CourseListRow > renders in-progress course correctly (snapshot) 1`] = `
             >
               Introduction to AI Safety
                
+              <span
+                class="ml-0.5 inline-flex items-center align-middle"
+              >
+                <button
+                  aria-expanded="false"
+                  aria-label="Show certificate eligibility information"
+                  class="cursor-pointer"
+                  data-rac=""
+                  data-react-aria-pressable="true"
+                  id="react-aria-:r5:"
+                  tabindex="0"
+                  type="button"
+                >
+                  <svg
+                    class="fill-none stroke-2 text-gray-500"
+                    fill="none"
+                    height="16"
+                    viewBox="0 0 15 15"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M7.25 9.75V7.25M7.25 4.75H7.25625M13.5 7.25C13.5 10.7018 10.7018 13.5 7.25 13.5C3.79822 13.5 1 10.7018 1 7.25C1 3.79822 3.79822 1 7.25 1C10.7018 1 13.5 3.79822 13.5 7.25Z"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </button>
+              </span>
             </h3>
           </div>
           <div
