@@ -17,7 +17,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => {
     const ControlledDemo = () => {
-      const [time, setTime] = useState<Date | null>(null);
+      const [time, setTime] = useState<Date | undefined>(undefined);
 
       return (
         <div className="flex flex-col gap-4">
