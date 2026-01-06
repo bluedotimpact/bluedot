@@ -47,7 +47,6 @@ const mockSwitchingData = {
 export const Default: Story = {
   args: {
     handleClose: () => {},
-    initialUnitNumber: '1',
     courseSlug: 'fish-test-course',
   },
   parameters: {
@@ -67,7 +66,6 @@ export const Default: Story = {
 export const Loading: Story = {
   args: {
     handleClose: () => {},
-    initialUnitNumber: '1',
     courseSlug: 'fish-test-course',
   },
   parameters: {
@@ -86,7 +84,6 @@ export const Loading: Story = {
 export const Error: Story = {
   args: {
     handleClose: () => {},
-    initialUnitNumber: '1',
     courseSlug: 'fish-test-course',
   },
   parameters: {
