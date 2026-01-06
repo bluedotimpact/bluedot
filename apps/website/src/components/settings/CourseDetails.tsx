@@ -216,7 +216,6 @@ const CourseDetails = ({
 
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [facilitatorSwitchModalOpen, setFacilitatorSwitchModalOpen] = useState(false);
-  const [initialUnitNumber, setInitialUnitNumber] = useState<string | undefined>(undefined);
   const [selectedSwitchType, setSelectedSwitchType] = useState<SwitchType>('Switch group for one unit');
   const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>(showUpcomingTab ? 'upcoming' : 'attended');
   const [showAllUpcoming, setShowAllUpcoming] = useState(false);
@@ -226,14 +225,11 @@ const CourseDetails = ({
   const isFacilitator = courseRegistration.role === 'Facilitator';
 
   const handleOpenSwitchModal = ({ discussion, switchType }: { discussion?: GroupDiscussion; switchType: SwitchType }) => {
+    setSelectedDiscussion(discussion || null);
+
     if (isFacilitator) {
       setFacilitatorSwitchModalOpen(true);
-      setSelectedDiscussion(discussion || null);
     } else {
-      const unitNumber = switchType === 'Switch group for one unit' && discussion?.unitRecord
-        ? discussion?.unitRecord.unitNumber.toString()
-        : undefined;
-      setInitialUnitNumber(unitNumber);
       setSelectedSwitchType(switchType);
       setGroupSwitchModalOpen(true);
     }
@@ -359,9 +355,11 @@ const CourseDetails = ({
         <GroupSwitchModal
           handleClose={() => {
             setGroupSwitchModalOpen(false);
-            setInitialUnitNumber(undefined);
+            setSelectedDiscussion(null);
           }}
-          initialUnitNumber={initialUnitNumber}
+          initialUnitNumber={selectedSwitchType === 'Switch group for one unit' && selectedDiscussion?.unitRecord
+            ? selectedDiscussion?.unitRecord.unitNumber.toString()
+            : undefined}
           initialSwitchType={selectedSwitchType}
           courseSlug={course.slug}
         />
