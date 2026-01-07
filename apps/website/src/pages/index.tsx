@@ -87,7 +87,6 @@ const HomePage = () => {
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
       <CourseSection />
-      <UpcomingRounds />
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
       <EventsSection />
