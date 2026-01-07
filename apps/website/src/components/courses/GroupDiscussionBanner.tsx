@@ -78,7 +78,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
 
   const unitTitle = discussionUnit
     ? `Unit ${discussionUnit.unitNumber}: ${discussionUnit.title}`
-    : `Unit ${groupDiscussion.unitNumber || ''}`; // Fallback to unitNumber if unit not found
+    : `Unit ${groupDiscussion.unitFallback || ''}`; // Fallback to unitFallback if unit not found
 
   // Recalculate time strings when currentTime changes
   const startTimeDisplayRelative = useMemo(() => formatDateTimeRelative({ dateTimeMs: groupDiscussion.startDateTime * 1000, currentTimeMs }), [groupDiscussion.startDateTime, currentTimeMs]);
