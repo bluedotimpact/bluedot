@@ -5,6 +5,7 @@ import z from 'zod';
 import db from '../../lib/api/db';
 import env from '../../lib/api/env';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
+import { FOAI_COURSE_ID } from '../../lib/constants';
 
 export const certificatesRouter = router({
   // This is a public procedure because it's called from an Airtable script, not from within the app
@@ -72,6 +73,15 @@ export const certificatesRouter = router({
       if (courseRegistration.certificateId) {
         // Already created, nothing to do
         return courseRegistration;
+      }
+
+      // Only FOAI course allows self-requesting certificates
+      // Non-FOAI courses require certificates to be issued via the `create` procedure (admin process)
+      if (courseRegistration.courseId !== FOAI_COURSE_ID) {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'Self-requesting certificates is only available for the Future of AI course. For other courses, certificates are issued after completing your facilitated cohort.',
+        });
       }
 
       // Check if all exercises for this course have been completed
