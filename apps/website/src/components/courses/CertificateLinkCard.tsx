@@ -410,21 +410,8 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
     </>
   );
 
-  if (config.useCard) {
-    // Only non-FOAI courses use cards (FOAI has useCard: false)
-    // At this point, participants have already returned null, so only facilitators/errors/no-meetPerson reach here
-    // Show subtitle without action plan requirement since only participants need action plans
-    return (
-      <Card
-        title={requestCertConfig.title || ''}
-        subtitle="If you've engaged in >80% of discussions, you'll receive a certificate."
-        className="container-lined p-8 bg-white"
-      >
-        {content}
-      </Card>
-    );
-  }
-
+  // Only FOAI courses reach here (non-FOAI courses return early above)
+  // FOAI has useCard: false, so we use the container layout
   return (
     <div className="container-lined p-8 bg-white">
       {content}
