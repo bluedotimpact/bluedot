@@ -16,7 +16,6 @@ import {
   createMockGroupDiscussion,
   createMockUnit,
 } from '../../__tests__/testUtils';
-import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import CourseDetails from './CourseDetails';
 
 // Mock GroupSwitchModal to avoid testing it here
