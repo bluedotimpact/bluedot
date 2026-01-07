@@ -16,6 +16,7 @@ import {
   createMockGroupDiscussion,
   createMockUnit,
 } from '../../__tests__/testUtils';
+import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import CourseDetails from './CourseDetails';
 
 // Mock GroupSwitchModal to avoid testing it here
@@ -82,6 +83,39 @@ describe('CourseDetails: Participant view', () => {
   const mockCourseRegistration = createMockCourseRegistration({
     courseId: 'course-1',
     role: 'Participant',
+  });
+
+  it('displays unit title from unitFallback when unitRecord is missing', async () => {
+    const currentTimeMs = Date.now();
+
+    // WHEN: A discussion has no unitRecord but has unitFallback
+    const upcomingDiscussions = [
+      {
+        ...createMockGroupDiscussion({
+          unitNumber: 3,
+          startDateTime: Math.floor(currentTimeMs / 1000) + 2 * 60 * 60,
+          endDateTime: Math.floor(currentTimeMs / 1000) + 3 * 60 * 60,
+        }),
+        unitRecord: null, // No unit record
+        unitFallback: '3 : Advanced Concepts',
+        groupDetails: createMockGroup(),
+      },
+    ];
+
+    render(
+      <CourseDetails
+        course={mockCourse}
+        courseRegistration={mockCourseRegistration}
+        upcomingDiscussions={upcomingDiscussions}
+        attendedDiscussions={[]}
+        isLoading={false}
+      />,
+    );
+
+    // THEN: The unit title is displayed using the fallback field
+    await waitFor(() => {
+      expect(screen.getByText('Unit 3 : Advanced Concepts')).toBeInTheDocument();
+    });
   });
 
   it('links to the course content when the next upcoming discussion is far in the future', async () => {
