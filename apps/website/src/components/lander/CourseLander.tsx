@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { addQueryParam, useLatestUtmParams } from '@bluedot/ui';
+import { Nav } from '../Nav/Nav';
 import CommunityCarousel, { CommunityMember } from './CommunityCarousel';
 import GraduateSection from './components/GraduateSection';
 import PartnerSection, { PartnerSectionProps } from './components/PartnerSection';
@@ -74,6 +75,7 @@ const CourseLander = ({
         <meta name="twitter:image" content={courseOgImage || 'https://bluedot.org/images/logo/link-preview-fallback.png'} />
       </Head>
 
+      <Nav variant={content.hero.gradient ? 'transparent' : 'default'} />
       <HeroSection {...content.hero} />
 
       <div className="border-t-hairline border-color-divider" />

@@ -511,7 +511,7 @@ exports[`Footer > renders default as expected 1`] = `
             class="mb-2"
           >
             © 
-            2025
+            2026
             . BlueDot Impact operates as a UK CLG (
             <a
               class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
@@ -1070,7 +1070,7 @@ exports[`Footer > renders with optional args 1`] = `
             class="mb-2"
           >
             © 
-            2025
+            2026
             . BlueDot Impact operates as a UK CLG (
             <a
               class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"

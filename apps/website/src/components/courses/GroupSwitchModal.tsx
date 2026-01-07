@@ -58,6 +58,15 @@ export default function GroupSwitchModal({
     },
   );
 
+  const { data: courseRegistration } = trpc.courseRegistrations.getByCourseId.useQuery(
+    { courseId: courseData?.course.id ?? '' },
+    {
+      enabled: !!courseData?.course.id,
+      refetchOnWindowFocus: true,
+      staleTime: 0,
+    },
+  );
+
   const submitGroupSwitchMutation = trpc.groupSwitching.switchGroup.useMutation({
     onSuccess: () => {
       setShowSuccess(true);
@@ -323,7 +332,7 @@ export default function GroupSwitchModal({
       title: 'Update availability (required)',
       subtitle: user ? (
         <>
-          To help us assign you to a group which best suits you, <a href={`https://availability.bluedot.org/form/bluedot-course?email=${encodeURIComponent(user.email)}&utm_source=bluedot-group-switch-modal`} target="_blank" rel="noopener noreferrer" className="text-bluedot-normal underline">please update your availability</a>.
+          To help us assign you to a group which best suits you, <a href={buildAvailabilityFormUrl({ email: user.email, utmSource: 'bluedot-group-switch-modal', courseRegistration })} target="_blank" rel="noopener noreferrer" className="text-bluedot-normal underline">please update your availability</a>.
         </>
       ) : undefined,
       control: (
@@ -448,6 +457,40 @@ const getGMTOffsetWithCity = () => {
   const offsetFormatted = `${offsetSign}${Math.floor(offsetHours).toString().padStart(2, '0')}:${(Math.abs(offsetMinutes) % 60).toString().padStart(2, '0')}`;
   const cityName = timezone.split('/').pop()?.replace(/_/g, ' ') || timezone;
   return `(GMT ${offsetFormatted}) ${cityName}`;
+};
+
+export const buildAvailabilityFormUrl = ({
+  email,
+  utmSource,
+  courseRegistration,
+}: {
+  email: string;
+  utmSource: string;
+  courseRegistration?: {
+    availabilityIntervalsUTC?: string | null;
+    availabilityTimezone?: string | null;
+    availabilityComments?: string | null;
+  } | null;
+}): string => {
+  const params = new URLSearchParams();
+  params.set('email', email);
+  params.set('utm_source', utmSource);
+
+  const { availabilityIntervalsUTC, availabilityTimezone, availabilityComments } = courseRegistration ?? {};
+
+  if (availabilityIntervalsUTC) {
+    params.set('prefill_intervals', availabilityIntervalsUTC);
+  }
+  if (availabilityTimezone) {
+    params.set('prefill_timezone', availabilityTimezone);
+  }
+
+  // Only include comments if they won't make the URL too long (2000 chars overall is generally considered safe)
+  if (availabilityComments && availabilityComments.length <= 1500) {
+    params.set('prefill_comment', availabilityComments);
+  }
+
+  return `https://availability.bluedot.org/form/bluedot-course?${params.toString()}`;
 };
 
 export const sortGroupSwitchOptions = (options: GroupSwitchOptionProps[]): GroupSwitchOptionProps[] => {

@@ -160,16 +160,6 @@ exports[`CourseSection > renders as expected 1`] = `
               >
                 <div
                   class="absolute inset-0 pointer-events-none"
-                >
-                  <img
-                    alt=""
-                    class="absolute inset-0 size-full object-cover"
-                    src="/images/courses/courses-gradient.webp"
-                    style="transform: none; transform-origin: center;"
-                  />
-                </div>
-                <div
-                  class="absolute inset-0 bg-[rgba(0,51,204,0.4)] pointer-events-none"
                 />
                 <div
                   class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
@@ -244,19 +234,6 @@ exports[`CourseSection > renders as expected 1`] = `
                 class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--regular"
                 href="/courses/agi-strategy"
               >
-                <div
-                  class="absolute inset-0 pointer-events-none"
-                >
-                  <img
-                    alt=""
-                    class="absolute inset-0 size-full object-cover"
-                    src="/images/courses/courses-gradient.webp"
-                    style="transform: rotate(45deg) scale(2); transform-origin: center;"
-                  />
-                </div>
-                <div
-                  class="absolute inset-0 bg-[rgba(0,51,204,0.4)] pointer-events-none"
-                />
                 <div
                   class="absolute inset-0 pointer-events-none"
                 />
@@ -339,19 +316,6 @@ exports[`CourseSection > renders as expected 1`] = `
               >
                 <div
                   class="absolute inset-0 pointer-events-none"
-                >
-                  <img
-                    alt=""
-                    class="absolute inset-0 size-full object-cover"
-                    src="/images/courses/courses-gradient.webp"
-                    style="transform: rotate(90deg) scale(2); transform-origin: center;"
-                  />
-                </div>
-                <div
-                  class="absolute inset-0 bg-[rgba(0,51,204,0.4)] pointer-events-none"
-                />
-                <div
-                  class="absolute inset-0 pointer-events-none"
                 />
                 <div
                   class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
@@ -428,19 +392,6 @@ exports[`CourseSection > renders as expected 1`] = `
               >
                 <div
                   class="absolute inset-0 pointer-events-none"
-                >
-                  <img
-                    alt=""
-                    class="absolute inset-0 size-full object-cover"
-                    src="/images/courses/courses-gradient.webp"
-                    style="transform: rotate(135deg) scale(2); transform-origin: center;"
-                  />
-                </div>
-                <div
-                  class="absolute inset-0 bg-[rgba(0,51,204,0.4)] pointer-events-none"
-                />
-                <div
-                  class="absolute inset-0 pointer-events-none"
                 />
                 <div
                   class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
@@ -515,19 +466,6 @@ exports[`CourseSection > renders as expected 1`] = `
                 class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--regular"
                 href="/courses/governance"
               >
-                <div
-                  class="absolute inset-0 pointer-events-none"
-                >
-                  <img
-                    alt=""
-                    class="absolute inset-0 size-full object-cover"
-                    src="/images/courses/courses-gradient.webp"
-                    style="transform: rotate(180deg) scale(2); transform-origin: center;"
-                  />
-                </div>
-                <div
-                  class="absolute inset-0 bg-[rgba(0,51,204,0.4)] pointer-events-none"
-                />
                 <div
                   class="absolute inset-0 pointer-events-none"
                 />
@@ -621,16 +559,6 @@ exports[`CourseSection > renders as expected 1`] = `
                 >
                   <div
                     class="absolute inset-0 pointer-events-none"
-                  >
-                    <img
-                      alt=""
-                      class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.webp"
-                      style="transform: none; transform-origin: center;"
-                    />
-                  </div>
-                  <div
-                    class="absolute inset-0 bg-[rgba(0,51,204,0.4)] pointer-events-none"
                   />
                   <div
                     class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
@@ -705,19 +633,6 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/agi-strategy"
                 >
-                  <div
-                    class="absolute inset-0 pointer-events-none"
-                  >
-                    <img
-                      alt=""
-                      class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.webp"
-                      style="transform: rotate(45deg) scale(2); transform-origin: center;"
-                    />
-                  </div>
-                  <div
-                    class="absolute inset-0 bg-[rgba(0,51,204,0.4)] pointer-events-none"
-                  />
                   <div
                     class="absolute inset-0 pointer-events-none"
                   />
@@ -796,19 +711,6 @@ exports[`CourseSection > renders as expected 1`] = `
                 >
                   <div
                     class="absolute inset-0 pointer-events-none"
-                  >
-                    <img
-                      alt=""
-                      class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.webp"
-                      style="transform: rotate(90deg) scale(2); transform-origin: center;"
-                    />
-                  </div>
-                  <div
-                    class="absolute inset-0 bg-[rgba(0,51,204,0.4)] pointer-events-none"
-                  />
-                  <div
-                    class="absolute inset-0 pointer-events-none"
                   />
                   <div
                     class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
@@ -885,19 +787,6 @@ exports[`CourseSection > renders as expected 1`] = `
                 >
                   <div
                     class="absolute inset-0 pointer-events-none"
-                  >
-                    <img
-                      alt=""
-                      class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.webp"
-                      style="transform: rotate(135deg) scale(2); transform-origin: center;"
-                    />
-                  </div>
-                  <div
-                    class="absolute inset-0 bg-[rgba(0,51,204,0.4)] pointer-events-none"
-                  />
-                  <div
-                    class="absolute inset-0 pointer-events-none"
                   />
                   <div
                     class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
@@ -972,19 +861,6 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/governance"
                 >
-                  <div
-                    class="absolute inset-0 pointer-events-none"
-                  >
-                    <img
-                      alt=""
-                      class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.webp"
-                      style="transform: rotate(180deg) scale(2); transform-origin: center;"
-                    />
-                  </div>
-                  <div
-                    class="absolute inset-0 bg-[rgba(0,51,204,0.4)] pointer-events-none"
-                  />
                   <div
                     class="absolute inset-0 pointer-events-none"
                   />
@@ -1063,16 +939,6 @@ exports[`CourseSection > renders as expected 1`] = `
                 >
                   <div
                     class="absolute inset-0 pointer-events-none"
-                  >
-                    <img
-                      alt=""
-                      class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.webp"
-                      style="transform: none; transform-origin: center;"
-                    />
-                  </div>
-                  <div
-                    class="absolute inset-0 bg-[rgba(0,51,204,0.4)] pointer-events-none"
                   />
                   <div
                     class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
@@ -1147,19 +1013,6 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/agi-strategy"
                 >
-                  <div
-                    class="absolute inset-0 pointer-events-none"
-                  >
-                    <img
-                      alt=""
-                      class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.webp"
-                      style="transform: rotate(45deg) scale(2); transform-origin: center;"
-                    />
-                  </div>
-                  <div
-                    class="absolute inset-0 bg-[rgba(0,51,204,0.4)] pointer-events-none"
-                  />
                   <div
                     class="absolute inset-0 pointer-events-none"
                   />
@@ -1238,19 +1091,6 @@ exports[`CourseSection > renders as expected 1`] = `
                 >
                   <div
                     class="absolute inset-0 pointer-events-none"
-                  >
-                    <img
-                      alt=""
-                      class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.webp"
-                      style="transform: rotate(90deg) scale(2); transform-origin: center;"
-                    />
-                  </div>
-                  <div
-                    class="absolute inset-0 bg-[rgba(0,51,204,0.4)] pointer-events-none"
-                  />
-                  <div
-                    class="absolute inset-0 pointer-events-none"
                   />
                   <div
                     class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
@@ -1327,19 +1167,6 @@ exports[`CourseSection > renders as expected 1`] = `
                 >
                   <div
                     class="absolute inset-0 pointer-events-none"
-                  >
-                    <img
-                      alt=""
-                      class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.webp"
-                      style="transform: rotate(135deg) scale(2); transform-origin: center;"
-                    />
-                  </div>
-                  <div
-                    class="absolute inset-0 bg-[rgba(0,51,204,0.4)] pointer-events-none"
-                  />
-                  <div
-                    class="absolute inset-0 pointer-events-none"
                   />
                   <div
                     class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
@@ -1414,19 +1241,6 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/governance"
                 >
-                  <div
-                    class="absolute inset-0 pointer-events-none"
-                  >
-                    <img
-                      alt=""
-                      class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.webp"
-                      style="transform: rotate(180deg) scale(2); transform-origin: center;"
-                    />
-                  </div>
-                  <div
-                    class="absolute inset-0 bg-[rgba(0,51,204,0.4)] pointer-events-none"
-                  />
                   <div
                     class="absolute inset-0 pointer-events-none"
                   />
@@ -1505,16 +1319,6 @@ exports[`CourseSection > renders as expected 1`] = `
                 >
                   <div
                     class="absolute inset-0 pointer-events-none"
-                  >
-                    <img
-                      alt=""
-                      class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.webp"
-                      style="transform: none; transform-origin: center;"
-                    />
-                  </div>
-                  <div
-                    class="absolute inset-0 bg-[rgba(0,51,204,0.4)] pointer-events-none"
                   />
                   <div
                     class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
@@ -1589,19 +1393,6 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/agi-strategy"
                 >
-                  <div
-                    class="absolute inset-0 pointer-events-none"
-                  >
-                    <img
-                      alt=""
-                      class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.webp"
-                      style="transform: rotate(45deg) scale(2); transform-origin: center;"
-                    />
-                  </div>
-                  <div
-                    class="absolute inset-0 bg-[rgba(0,51,204,0.4)] pointer-events-none"
-                  />
                   <div
                     class="absolute inset-0 pointer-events-none"
                   />
@@ -1680,19 +1471,6 @@ exports[`CourseSection > renders as expected 1`] = `
                 >
                   <div
                     class="absolute inset-0 pointer-events-none"
-                  >
-                    <img
-                      alt=""
-                      class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.webp"
-                      style="transform: rotate(90deg) scale(2); transform-origin: center;"
-                    />
-                  </div>
-                  <div
-                    class="absolute inset-0 bg-[rgba(0,51,204,0.4)] pointer-events-none"
-                  />
-                  <div
-                    class="absolute inset-0 pointer-events-none"
                   />
                   <div
                     class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
@@ -1769,19 +1547,6 @@ exports[`CourseSection > renders as expected 1`] = `
                 >
                   <div
                     class="absolute inset-0 pointer-events-none"
-                  >
-                    <img
-                      alt=""
-                      class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.webp"
-                      style="transform: rotate(135deg) scale(2); transform-origin: center;"
-                    />
-                  </div>
-                  <div
-                    class="absolute inset-0 bg-[rgba(0,51,204,0.4)] pointer-events-none"
-                  />
-                  <div
-                    class="absolute inset-0 pointer-events-none"
                   />
                   <div
                     class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
@@ -1856,19 +1621,6 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/governance"
                 >
-                  <div
-                    class="absolute inset-0 pointer-events-none"
-                  >
-                    <img
-                      alt=""
-                      class="absolute inset-0 size-full object-cover"
-                      src="/images/courses/courses-gradient.webp"
-                      style="transform: rotate(180deg) scale(2); transform-origin: center;"
-                    />
-                  </div>
-                  <div
-                    class="absolute inset-0 bg-[rgba(0,51,204,0.4)] pointer-events-none"
-                  />
                   <div
                     class="absolute inset-0 pointer-events-none"
                   />

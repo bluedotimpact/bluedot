@@ -393,6 +393,14 @@ export const groupDiscussionTable = pgAirtable('group_discussion', {
       pgColumn: text(),
       airtableId: 'fld87QFyiHceHbpKG',
     },
+    /**
+     * Format: "{unitNumber}: {unit.title}". This field exists to retain the unit title if the
+     * unit is deleted or disconnected, use as a fallback any time you need to render the unit title of a discussion.
+     */
+    unitFallback: {
+      pgColumn: text(),
+      airtableId: 'fldyVGCyb9026vDkK',
+    },
     autoNumberId: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldDeRm7N60URakjA',
@@ -532,6 +540,16 @@ export const meetPersonTable = pgAirtable('meet_person', {
     numUnits: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fld1ICMPmCd5y7B17',
+    },
+    /** URL to the course feedback form (includes prefill_ parameters for this specific user) */
+    courseFeedbackForm: {
+      pgColumn: text(),
+      airtableId: 'fldCLOXf2tv3g46ea',
+    },
+    /** Linked records to Course feedback table. If non-empty, feedback has been submitted */
+    courseFeedback: {
+      pgColumn: text().array(),
+      airtableId: 'fldD7uatp5h4szlzB',
     },
   },
 });
@@ -1098,6 +1116,22 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
     source: {
       pgColumn: text(),
       airtableId: 'fldQ9PM3ejhilPFc6',
+    },
+    // Format: weekly-availabilities library format (https://github.com/domdomegg/weekly-availabilities)
+    // Days: M=Mon, T=Tue, W=Wed, R=Thu, F=Fri, S=Sat, U=Sun
+    // Example: "M16:00 M18:00, W20:00 R08:00" = Monday 4-6pm UTC, Wednesday 8pm to Thursday 8am UTC
+    availabilityIntervalsUTC: {
+      pgColumn: text(),
+      airtableId: 'fldFpLDHyPPDvnJYg',
+    },
+    availabilityComments: {
+      pgColumn: text(),
+      airtableId: 'fldur7dw7JEiAQNFK',
+    },
+    // Format: "UTC[+/-]HH:MM", e.g. "UTC+01:00", "UTC-05:00", "UTC00:00"
+    availabilityTimezone: {
+      pgColumn: text(),
+      airtableId: 'fld9Y4WfeafUNMxMH',
     },
   },
 });

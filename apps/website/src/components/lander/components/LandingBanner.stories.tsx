@@ -57,7 +57,7 @@ export const Default: Story = {
     title: 'Start building towards a good future today',
     ctaText: 'Apply now',
     ctaUrl: 'https://example.com/apply',
-    imageSrc: '/images/agi-strategy/hero-banner-split.png',
+    imageSrc: '/images/lander/agi-strategy/hero-banner-split.webp',
     imageAlt: 'AGI Strategy banner',
     iconSrc: '/images/agi-strategy/bluedot-icon.svg',
     iconAlt: 'BlueDot',

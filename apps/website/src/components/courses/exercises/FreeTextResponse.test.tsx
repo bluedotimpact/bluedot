@@ -441,4 +441,76 @@ describe('FreeTextResponse', () => {
       expect(editor.getAttribute('contenteditable')).toBe('true');
     });
   });
+
+  describe('Completion functionality', () => {
+    test('complete button is disabled when no text, enabled when text entered, and calls handler correctly', async () => {
+      const user = userEvent.setup();
+      const mockOnExerciseSubmit = vi.fn().mockResolvedValue({});
+
+      // First render without text - buttons should be disabled
+      const { container, rerender } = render(
+        <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
+      );
+
+      await waitFor(() => {
+        expect(container.querySelector('.ProseMirror')).toBeTruthy();
+      });
+
+      const buttons = container.querySelectorAll('button[aria-label*="Mark"]');
+      buttons.forEach((button) => {
+        expect(button.hasAttribute('disabled')).toBe(true);
+      });
+
+      // Re-render with text - buttons should be enabled
+      rerender(
+        <FreeTextResponse {...mockArgs} exerciseResponse="Some answer" onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
+      );
+
+      await waitFor(() => {
+        const desktopButton = container.querySelector('button[aria-label="Mark as complete"]');
+        expect(desktopButton?.hasAttribute('disabled')).toBe(false);
+      });
+
+      // Click complete and verify handler called correctly
+      const completeButton = container.querySelector('button[aria-label="Mark as complete"]') as HTMLElement;
+      await user.click(completeButton);
+
+      expect(mockOnExerciseSubmit).toHaveBeenCalledWith('Some answer', true);
+    });
+
+    test('clicking uncomplete calls handler with false', async () => {
+      const user = userEvent.setup();
+      const mockOnExerciseSubmit = vi.fn().mockResolvedValue({});
+
+      const { container } = render(
+        <FreeTextResponse {...mockArgs} exerciseResponse="Some answer" isCompleted onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
+      );
+
+      await waitFor(() => {
+        expect(container.querySelector('.ProseMirror')).toBeTruthy();
+      });
+
+      // Should show "Mark as incomplete" button and "Completed" text
+      const incompleteButton = container.querySelector('button[aria-label="Mark as incomplete"]');
+      expect(incompleteButton).toBeTruthy();
+      expect(container.textContent).toContain('Completed');
+
+      // Click and verify
+      await user.click(incompleteButton as HTMLElement);
+      expect(mockOnExerciseSubmit).toHaveBeenCalledWith('Some answer', false);
+    });
+
+    test('completion UI hidden when logged out', async () => {
+      const { container } = render(
+        <FreeTextResponse {...mockArgs} exerciseResponse="Some answer" />,
+      );
+
+      await waitFor(() => {
+        expect(container.querySelector('.ProseMirror')).toBeTruthy();
+      });
+
+      const completeButtons = container.querySelectorAll('button[aria-label*="Mark"]');
+      expect(completeButtons.length).toBe(0);
+    });
+  });
 });

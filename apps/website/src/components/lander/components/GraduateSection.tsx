@@ -5,15 +5,15 @@ const logos = [
   { src: '/images/third-party-logos/openai.svg', alt: 'OpenAI' },
   { src: '/images/third-party-logos/anthropic.svg', alt: 'Anthropic', customClassName: '!h-3' },
   { src: '/images/third-party-logos/deepmind.svg', alt: 'Google DeepMind' },
-  { src: '/images/third-party-logos/aisi.png', alt: 'AI Security Institute' },
-  { src: '/images/third-party-logos/un.png', alt: 'United Nations' },
-  { src: '/images/third-party-logos/amnesty.png', alt: 'Amnesty International' },
-  { src: '/images/third-party-logos/time.png', alt: 'Time' },
-  { src: '/images/third-party-logos/nato.png', alt: 'NATO' },
-  { src: '/images/third-party-logos/oecd.png', alt: 'OECD' },
-  { src: '/images/third-party-logos/hai.png', alt: 'Stanford HAI' },
-  { src: '/images/third-party-logos/apple.png', alt: 'Apple' },
-  { src: '/images/third-party-logos/harvard.png', alt: 'Harvard Kennedy School' },
+  { src: '/images/third-party-logos/aisi.webp', alt: 'AI Security Institute' },
+  { src: '/images/third-party-logos/un.webp', alt: 'United Nations' },
+  { src: '/images/third-party-logos/amnesty.webp', alt: 'Amnesty International' },
+  { src: '/images/third-party-logos/time.webp', alt: 'Time' },
+  { src: '/images/third-party-logos/nato.webp', alt: 'NATO' },
+  { src: '/images/third-party-logos/oecd.webp', alt: 'OECD' },
+  { src: '/images/third-party-logos/hai.webp', alt: 'Stanford HAI' },
+  { src: '/images/third-party-logos/apple.webp', alt: 'Apple' },
+  { src: '/images/third-party-logos/harvard.webp', alt: 'Harvard Kennedy School' },
 ];
 
 const GraduateSection = () => {
@@ -32,14 +32,16 @@ const GraduateSection = () => {
             <ul className="flex items-center justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll list-none">
               {logos.map((logo) => (
                 <li key={logo.src}>
-                  <img className={clsx('h-6', logo.customClassName)} src={logo.src} alt={logo.alt} />
+                  {/* // Workaround for bug with camelcase `fetchPriority`: https://github.com/facebook/react/issues/25682 */}
+                  <img className={clsx('h-6', logo.customClassName)} src={logo.src} alt={logo.alt} {...{ fetchpriority: 'high' }} />
                 </li>
               ))}
             </ul>
             <ul className="flex items-center justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll list-none" aria-hidden="true">
               {logos.map((logo) => (
                 <li key={logo.src}>
-                  <img className={clsx('h-6', logo.customClassName)} src={logo.src} alt={logo.alt} />
+                  {/* // Workaround for bug with camelcase `fetchPriority`: https://github.com/facebook/react/issues/25682 */}
+                  <img className={clsx('h-6', logo.customClassName)} src={logo.src} alt={logo.alt} {...{ fetchpriority: 'high' }} />
                 </li>
               ))}
             </ul>

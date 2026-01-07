@@ -74,7 +74,7 @@ export const createMockCourse = (overrides: Partial<Course> = {}): Course => ({
   durationDescription: '4 weeks',
   durationHours: 40,
   id: MOCK_COURSE_ID,
-  image: '/images/courses/default.jpg',
+  image: '/images/courses/default.webp',
   isFeatured: false,
   isNew: false,
   level: 'Beginner',
@@ -174,6 +174,7 @@ export const createMockGroupDiscussion = (overrides: Partial<GroupDiscussion> = 
   slackChannelId: null,
   startDateTime: Math.floor(Date.now() / 1000) + 60 * 60, // 1 hour from now (seconds)
   unit: `unit-${overrides.unitNumber || 1}`,
+  unitFallback: null,
   unitNumber: 1,
   zoomAccount: null,
   zoomLink: null,
@@ -195,6 +196,9 @@ export const createMockMeetPerson = (overrides: Partial<MeetPerson> = {}): MeetP
   numUnits: null,
   groupsAsParticipant: [],
   autoNumberId: 1,
+  email: 'test@example.com',
+  courseFeedbackForm: null,
+  courseFeedback: null,
   ...overrides,
 });
 

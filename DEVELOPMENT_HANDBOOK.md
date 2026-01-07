@@ -256,6 +256,35 @@ The `parseZodValidationError` function from `lib/utils.ts` parses backend error 
 
 **Decision**: We moved away from BEM to Tailwind for cleaner, more maintainable styles.
 
+#### Handling image assets
+
+We keep images in the codebase and rely on manual optimisation rather than using `next/image`. The site isn't very image-heavy, so this keeps things simple and gives us full control over image quality and size when needed.
+
+For images referenced from outside the codebase itself (in Airtable data fields), place them under `public/images/content/`. This is so
+devs know to be more careful about deleting those images, as they might
+be referenced elsewhere.
+
+**How to optimize images:**
+
+You should generally aim to get all images under 200kB. This is usually achievable unless you need a very large detailed image.
+
+1. **Convert to WebP** using ImageMagick:
+   ```bash
+   magick input.png -quality 85 output.webp
+   ```
+
+2. **If still over 200KB**, resize to 2x the maximum rendered width:
+   ```bash
+   magick input.png -resize WIDTHx -quality 85 output.webp
+   ```
+   For example, if an image displays at max 400px wide, use `-resize 800x`.
+
+3. **Update references** in code to use the new `.webp` filename and delete the old version.
+
+4. **(Optional) For hero/banner images** that appear above the fold, add `{...{ fetchpriority: 'high' }}` to the `<img>` tag to improve Largest Contentful Paint. *Don't* do this if the image doesn't appear above the fold.
+
+If you don't have ImageMagick installed, run `brew install imagemagick` on mac.
+
 #### Testing Standards
 
 **Testing Philosophy**: We follow React Testing Library best practices - "The more your tests resemble the way your software is used, the more confidence they can give you."

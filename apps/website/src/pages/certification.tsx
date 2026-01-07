@@ -46,9 +46,12 @@ type CertificatePageProps = {
   certificate: Certificate | null;
   certificateId: string | null;
   certificationBadgeFilename: string;
+  linkPreviewFilename: string;
 };
 
-const CertificatePage = ({ certificate, certificateId, certificationBadgeFilename }: CertificatePageProps) => {
+const CertificatePage = ({
+  certificate, certificateId, certificationBadgeFilename, linkPreviewFilename,
+}: CertificatePageProps) => {
   if (!certificateId) {
     return (
       <main className="bluedot-base flex flex-col">
@@ -85,9 +88,10 @@ const CertificatePage = ({ certificate, certificateId, certificationBadgeFilenam
     );
   }
 
-  // Build badge URLs from filename determined server-side
-  const badgeAbsoluteUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/images/certificates/${certificationBadgeFilename}`;
+  // Build URLs from filenames determined server-side
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bluedot.org';
   const badgeRelativeUrl = `/images/certificates/${certificationBadgeFilename}`;
+  const linkPreviewAbsoluteUrl = `${siteUrl}/images/certificates/link-preview/${linkPreviewFilename}`;
 
   return (
     <main className="bluedot-base flex flex-col">
@@ -101,18 +105,18 @@ const CertificatePage = ({ certificate, certificateId, certificationBadgeFilenam
         <meta property="og:description" content={certificate.certificationDescription || `Certificate of completion for ${certificate.courseName}`} />
         <meta property="og:site_name" content="BlueDot Impact" />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content={`${process.env.NEXT_PUBLIC_SITE_URL}/certification?id=${encodeURIComponent(certificateId)}`} />
-        <meta property="og:image" content={badgeAbsoluteUrl} />
-        <meta property="og:image:width" content="500" />
-        <meta property="og:image:height" content="500" />
+        <meta property="og:url" content={`${siteUrl}/certification?id=${encodeURIComponent(certificateId)}`} />
+        <meta property="og:image" content={linkPreviewAbsoluteUrl} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta property="og:image:type" content="image/png" />
         <meta property="og:image:alt" content={`${certificate.courseName} certification badge`} />
 
         {/* Twitter Card meta tags */}
-        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={`${certificate.recipientName} has completed the ${certificate.courseName} course`} />
         <meta name="twitter:description" content={certificate.certificationDescription || `Certificate of completion for ${certificate.courseName}`} />
-        <meta name="twitter:image" content={badgeAbsoluteUrl} />
+        <meta name="twitter:image" content={linkPreviewAbsoluteUrl} />
       </Head>
 
       <Section className="flex-1 pt-12">
@@ -125,7 +129,7 @@ const CertificatePage = ({ certificate, certificateId, certificationBadgeFilenam
               </div>
               <P className="text-gray-700">This certificate was issued to <span className="font-bold">{certificate.recipientName}</span> on {new Date(certificate.certificateCreatedAt * 1000).toLocaleDateString()}</P>
             </div>
-            <ShareButton text={`I was just awarded my certificate for BlueDot Impact's ${certificate.courseName} course!`} url={`${process.env.NEXT_PUBLIC_SITE_URL}/certification?id=${certificateId}`}>Share your achievement</ShareButton>
+            <ShareButton text={`I was just awarded my certificate for BlueDot Impact's ${certificate.courseName} course!`} url={`${siteUrl}/certification?id=${certificateId}`}>Share your achievement</ShareButton>
           </div>
         </div>
 
@@ -167,6 +171,7 @@ export const getServerSideProps: GetServerSideProps<CertificatePageProps> = asyn
         certificate: null,
         certificateId: null,
         certificationBadgeFilename: 'certificate-fallback-image.png',
+        linkPreviewFilename: 'link-preview-fallback.png',
       },
     };
   }
@@ -186,6 +191,19 @@ export const getServerSideProps: GetServerSideProps<CertificatePageProps> = asyn
       ? `${certificate.courseSlug}.png`
       : 'certificate-fallback-image.png';
 
+    // Check if course-specific link preview exists, otherwise use fallback
+    const linkPreviewFsPath = path.join(
+      process.cwd(),
+      'public',
+      'images',
+      'certificates',
+      'link-preview',
+      `${certificate.courseSlug}.png`,
+    );
+    const linkPreviewFilename = (await fileExists(linkPreviewFsPath))
+      ? `${certificate.courseSlug}.png`
+      : 'link-preview-fallback.png';
+
     // Equivalent to `revalidate: 300` in getStaticProps. That can't be used here because we are
     // using query params rather than path params.
     res.setHeader(
@@ -198,6 +216,7 @@ export const getServerSideProps: GetServerSideProps<CertificatePageProps> = asyn
         certificate,
         certificateId,
         certificationBadgeFilename,
+        linkPreviewFilename,
       },
     };
   } catch (error) {
@@ -209,6 +228,7 @@ export const getServerSideProps: GetServerSideProps<CertificatePageProps> = asyn
         certificate: null,
         certificateId,
         certificationBadgeFilename: 'certificate-fallback-image.png',
+        linkPreviewFilename: 'link-preview-fallback.png',
       },
     };
   }

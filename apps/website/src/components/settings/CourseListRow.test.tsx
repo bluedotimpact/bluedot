@@ -202,7 +202,7 @@ describe('CourseListRow', () => {
     expect(collapseButton).toHaveAttribute('aria-label', 'Collapse Introduction to AI Safety details');
   });
 
-  it('shows requirement message when course is "Past" with no cert: missed too many discussions', async () => {
+  it('shows attendance count when course is "Past" with no cert', async () => {
     const pastNoCertRegistration = {
       ...mockCourseRegistration,
       roundStatus: 'Past',
@@ -210,14 +210,16 @@ describe('CourseListRow', () => {
       certificateId: null,
     };
 
-    // Mock meetPerson with 5 units but only 2 attended (missed 3, which is > 1)
-    const meetPersonMissedTooMany = {
+    // Mock meetPerson with 5 units but only 2 attended
+    const meetPersonLowAttendance = {
       ...mockMeetPerson,
       expectedDiscussionsParticipant: ['disc-1', 'disc-2', 'disc-3', 'disc-4', 'disc-5'],
       attendedDiscussions: ['disc-1', 'disc-2'],
       uniqueDiscussionAttendance: 2,
       numUnits: 5,
       projectSubmission: null,
+      courseFeedbackForm: 'https://example.com/feedback',
+      courseFeedback: [],
     };
 
     const mockExpectedDiscussions = {
@@ -241,7 +243,7 @@ describe('CourseListRow', () => {
     };
 
     server.use(
-      trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPersonMissedTooMany),
+      trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPersonLowAttendance),
       // @ts-expect-error
       trpcMsw.groupDiscussions.getByDiscussionIds.query(() => mockExpectedDiscussions),
     );
@@ -257,11 +259,15 @@ describe('CourseListRow', () => {
     );
 
     // Wait for the subtitle to appear (multiple elements due to responsive design)
-    const subtitleTexts = await screen.findAllByText(/To receive a certificate you can miss at most 1 discussion/);
+    const subtitleTexts = await screen.findAllByText(/You attended 2 out of 5 discussions/);
     expect(subtitleTexts.length).toBeGreaterThan(0);
+
+    // Should show Share feedback button
+    const feedbackButtons = await screen.findAllByRole('link', { name: 'Share feedback' });
+    expect(feedbackButtons.length).toBeGreaterThan(0);
   });
 
-  it('shows requirement message when course is "Past" with no cert: submit action plan', async () => {
+  it('shows Submit action plan button for agi-strategy course without action plan', async () => {
     const agiStrategyCourse = {
       ...mockCourse,
       slug: 'agi-strategy',
@@ -274,7 +280,7 @@ describe('CourseListRow', () => {
       certificateId: null,
     };
 
-    // Mock meetPerson with 5 units and 4 attended (missed 1, which is allowed) but no action plan
+    // Mock meetPerson with no action plan submitted
     const meetPersonNoActionPlan = {
       ...mockMeetPerson,
       expectedDiscussionsParticipant: ['disc-1', 'disc-2', 'disc-3', 'disc-4', 'disc-5'],
@@ -282,6 +288,8 @@ describe('CourseListRow', () => {
       uniqueDiscussionAttendance: 4,
       numUnits: 5,
       projectSubmission: null,
+      courseFeedbackForm: 'https://example.com/feedback',
+      courseFeedback: [],
     };
 
     const mockExpectedDiscussions = {
@@ -320,17 +328,26 @@ describe('CourseListRow', () => {
       { wrapper: TrpcProvider },
     );
 
-    // Wait for the subtitle to appear (multiple elements due to responsive design)
-    const subtitleTexts = await screen.findAllByText(/To receive a certificate you must submit your action plan/);
+    // Wait for the subtitle showing attendance count
+    const subtitleTexts = await screen.findAllByText(/You attended 4 out of 5 discussions/);
     expect(subtitleTexts.length).toBeGreaterThan(0);
 
-    // Should also show the "Submit your action plan" button
-    const actionPlanButtons = await screen.findAllByRole('link', { name: 'Submit your action plan' });
+    // Should show the "Submit action plan" button
+    const actionPlanButtons = await screen.findAllByRole('link', { name: 'Submit action plan' });
     expect(actionPlanButtons.length).toBeGreaterThan(0);
     expect(actionPlanButtons[0]).toHaveAttribute('href', expect.stringContaining('miniextensions.com'));
+
+    // Should also show Share feedback button
+    const feedbackButtons = await screen.findAllByRole('link', { name: 'Share feedback' });
+    expect(feedbackButtons.length).toBeGreaterThan(0);
   });
 
-  it('shows requirement message when course is "Past" with no cert: show all requirements if there is no concrete reason found', async () => {
+  it('shows Action plan submitted button when action plan is submitted for agi-strategy course', async () => {
+    const agiStrategyCourse = {
+      ...mockCourse,
+      slug: 'agi-strategy',
+    };
+
     const pastNoCertRegistration = {
       ...mockCourseRegistration,
       roundStatus: 'Past',
@@ -338,14 +355,16 @@ describe('CourseListRow', () => {
       certificateId: null,
     };
 
-    // Mock meetPerson with 5 expected and 4 attended (missed 1, which is allowed)
-    const meetPersonAllMet = {
+    // Mock meetPerson with action plan submitted
+    const meetPersonWithActionPlan = {
       ...mockMeetPerson,
       expectedDiscussionsParticipant: ['disc-1', 'disc-2', 'disc-3', 'disc-4', 'disc-5'],
       attendedDiscussions: ['disc-1', 'disc-2', 'disc-3', 'disc-4'],
       uniqueDiscussionAttendance: 4,
       numUnits: 5,
-      projectSubmission: null, // Not required for this course (not agi-strategy)
+      projectSubmission: ['action-plan-record-1'],
+      courseFeedbackForm: 'https://example.com/feedback',
+      courseFeedback: [],
     };
 
     const mockExpectedDiscussions = {
@@ -369,14 +388,14 @@ describe('CourseListRow', () => {
     };
 
     server.use(
-      trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPersonAllMet),
+      trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPersonWithActionPlan),
       // @ts-expect-error
       trpcMsw.groupDiscussions.getByDiscussionIds.query(() => mockExpectedDiscussions),
     );
 
     render(
       <CourseListRow
-        course={mockCourse}
+        course={agiStrategyCourse}
         courseRegistration={pastNoCertRegistration}
         isFirst={false}
         isLast={false}
@@ -384,8 +403,90 @@ describe('CourseListRow', () => {
       { wrapper: TrpcProvider },
     );
 
-    // Wait for the subtitle to appear (multiple elements due to responsive design)
-    const subtitleTexts = await screen.findAllByText(/To receive a certificate you can miss at most 1 discussion/);
+    // Wait for the subtitle showing attendance count
+    const subtitleTexts = await screen.findAllByText(/You attended 4 out of 5 discussions/);
     expect(subtitleTexts.length).toBeGreaterThan(0);
+
+    // Should show disabled "Action plan submitted" button
+    const actionPlanSubmittedButtons = await screen.findAllByRole('button', { name: /Action plan submitted/ });
+    expect(actionPlanSubmittedButtons.length).toBeGreaterThan(0);
+
+    // Should also show Share feedback button
+    const feedbackButtons = await screen.findAllByRole('link', { name: 'Share feedback' });
+    expect(feedbackButtons.length).toBeGreaterThan(0);
+  });
+
+  it('shows locked certificate button when certificate exists but feedback not submitted', async () => {
+    const completedRegistration = {
+      ...mockCourseRegistration,
+      roundStatus: 'Past',
+      certificateCreatedAt: new Date('2024-01-01').getTime() / 1000,
+      certificateId: 'cert-123',
+    };
+
+    // Mock meetPerson with certificate but no feedback submitted
+    const meetPersonNoFeedback = {
+      ...mockMeetPerson,
+      uniqueDiscussionAttendance: 5,
+      numUnits: 5,
+      courseFeedbackForm: 'https://example.com/feedback',
+      courseFeedback: [], // No feedback submitted
+    };
+
+    server.use(
+      trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPersonNoFeedback),
+    );
+
+    render(
+      <CourseListRow
+        course={mockCourse}
+        courseRegistration={completedRegistration}
+        isFirst={false}
+        isLast={false}
+      />,
+      { wrapper: TrpcProvider },
+    );
+
+    // Should show locked certificate button
+    const lockedCertButtons = await screen.findAllByRole('link', { name: /Share feedback to view your certificate/ });
+    expect(lockedCertButtons.length).toBeGreaterThan(0);
+    expect(lockedCertButtons[0]).toHaveAttribute('href', 'https://example.com/feedback');
+  });
+
+  it('shows View your certificate button when certificate exists and feedback submitted', async () => {
+    const completedRegistration = {
+      ...mockCourseRegistration,
+      roundStatus: 'Past',
+      certificateCreatedAt: new Date('2024-01-01').getTime() / 1000,
+      certificateId: 'cert-123',
+    };
+
+    // Mock meetPerson with certificate AND feedback submitted
+    const meetPersonWithFeedback = {
+      ...mockMeetPerson,
+      uniqueDiscussionAttendance: 5,
+      numUnits: 5,
+      courseFeedbackForm: 'https://example.com/feedback',
+      courseFeedback: ['feedback-record-1'], // Feedback submitted
+    };
+
+    server.use(
+      trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPersonWithFeedback),
+    );
+
+    render(
+      <CourseListRow
+        course={mockCourse}
+        courseRegistration={completedRegistration}
+        isFirst={false}
+        isLast={false}
+      />,
+      { wrapper: TrpcProvider },
+    );
+
+    // Should show View your certificate button (not locked)
+    const certificateButtons = await screen.findAllByRole('link', { name: 'View your certificate' });
+    expect(certificateButtons.length).toBeGreaterThan(0);
+    expect(certificateButtons[0]).toHaveAttribute('href', '/certification?id=cert-123');
   });
 });

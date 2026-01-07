@@ -11,12 +11,12 @@ const CultureSection = () => {
           <P>We seek exceptional people who combine a sense of urgency with the empathy to help others thrive, whether that's fellow team members or the thousands of professionals in our global community.</P>
         </div>
         <div className="culture-section__image-grid grid mt-6 grid-cols-2 gap-x-2 gap-y-4 sm:mt-0 sm:grid-cols-3 sm:gap-4">
-          <img className="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm" src="/images/culture/culture_dewi_v1.jpeg" alt="BlueDot Impact team" />
-          <img className="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm" src="/images/culture/culture_talking_v2.jpeg" alt="BlueDot Impact team" />
-          <img className="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm" src="/images/culture/culture_cap_v1.jpeg" alt="BlueDot Impact team" />
-          <img className="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm" src="/images/culture/culture_will_v1.jpeg" alt="BlueDot Impact team" />
-          <img className="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm" src="/images/culture/culture_josh_v1.jpg" alt="BlueDot Impact team" />
-          <img className="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm" src="/images/culture/culture_keyboard_v1.jpeg" alt="BlueDot Impact team" />
+          <img className="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm" src="/images/culture/culture_dewi_v1.webp" alt="BlueDot Impact team" />
+          <img className="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm" src="/images/culture/culture_talking_v2.webp" alt="BlueDot Impact team" />
+          <img className="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm" src="/images/culture/culture_cap_v1.webp" alt="BlueDot Impact team" />
+          <img className="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm" src="/images/culture/culture_will_v1.webp" alt="BlueDot Impact team" />
+          <img className="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm" src="/images/culture/culture_josh_v1.webp" alt="BlueDot Impact team" />
+          <img className="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm" src="/images/culture/culture_keyboard_v1.webp" alt="BlueDot Impact team" />
         </div>
       </div>
     </Section>

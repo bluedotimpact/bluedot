@@ -14,11 +14,11 @@ import { useClickOutside } from '../../lib/hooks/useClickOutside';
 export const ProfileLinks: React.FC<{
   expandedSections: ExpandedSectionsState;
   updateExpandedSections: (updates: Partial<ExpandedSectionsState>) => void;
-  isHomepage?: boolean;
+  onColoredBackground?: boolean;
 }> = ({
   expandedSections,
   updateExpandedSections,
-  isHomepage = false,
+  onColoredBackground = false,
 }) => {
   const [isBugReportModalOpen, setIsBugReportModalOpen] = useState(false);
   const [isImpersonateModalOpen, setIsImpersonateModalOpen] = useState(false);
@@ -49,7 +49,7 @@ export const ProfileLinks: React.FC<{
       <IconButton
         className={clsx(
           'profile-links__btn',
-          isHomepage && 'text-white [&_svg]:text-white',
+          onColoredBackground && 'text-white [&_svg]:text-white',
         )}
         open={expandedSections.profile}
         Icon={<FaCircleUser className="size-6 opacity-75" />}

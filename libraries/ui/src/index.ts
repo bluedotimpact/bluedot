@@ -73,6 +73,9 @@ export type { TagProps } from './Tag';
 export { Textarea } from './Textarea';
 export type { TextareaProps } from './Textarea';
 
+export { Tooltip } from './Tooltip';
+export type { TooltipProps } from './Tooltip';
+
 // Export text components directly
 export {
   H1, H2, H3, H4, P, A,

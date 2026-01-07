@@ -33,19 +33,19 @@ const sampleTestimonials: Testimonial[] = [
     quote: 'This course completely changed my perspective on AI safety. The frameworks we learned are directly applicable to my work.',
     name: 'Sarah Chen',
     role: 'ML Engineer at DeepMind',
-    imageSrc: '/images/graduates/neel.jpeg',
+    imageSrc: '/images/graduates/neel.webp',
   },
   {
     quote: 'The community I joined through this course has been invaluable. I now have a network of like-minded professionals working on the most important problems.',
     name: 'Marcus Johnson',
     role: 'Policy Researcher at RAND',
-    imageSrc: '/images/graduates/marius.jpeg',
+    imageSrc: '/images/graduates/marius.webp',
   },
   {
     quote: 'After completing the course, I transitioned into AI safety research. The curriculum gave me the foundation I needed to make the switch.',
     name: 'Elena Rodriguez',
     role: 'Research Scientist at Anthropic',
-    imageSrc: '/images/graduates/chiara.jpeg',
+    imageSrc: '/images/graduates/chiara.webp',
   },
 ];
 
