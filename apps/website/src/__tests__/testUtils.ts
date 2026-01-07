@@ -174,6 +174,7 @@ export const createMockGroupDiscussion = (overrides: Partial<GroupDiscussion> = 
   slackChannelId: null,
   startDateTime: Math.floor(Date.now() / 1000) + 60 * 60, // 1 hour from now (seconds)
   unit: `unit-${overrides.unitNumber || 1}`,
+  unitFallback: null,
   unitNumber: 1,
   zoomAccount: null,
   zoomLink: null,
