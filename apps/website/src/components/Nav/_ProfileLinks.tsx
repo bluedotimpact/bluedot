@@ -75,22 +75,6 @@ export const ProfileLinks: React.FC<{
           >Courses
           </A>
           <A
-            href={ROUTES.contact.url}
-            className={getNavLinkClasses()}
-            onClick={onToggleProfile}
-          >Help
-          </A>
-          <button
-            type="button"
-            onClick={() => {
-              setIsBugReportModalOpen(true);
-              updateExpandedSections({ profile: false });
-            }}
-            className={clsx('bluedot-a', getNavLinkClasses())}
-          >
-            Submit Feedback
-          </button>
-          <A
             href={typeof window !== 'undefined'
               ? `${ROUTES.logout.url}?redirect_to=${encodeURIComponent(
                 window.location.pathname + window.location.search + window.location.hash,
