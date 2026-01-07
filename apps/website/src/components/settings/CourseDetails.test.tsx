@@ -97,7 +97,7 @@ describe('CourseDetails: Participant view', () => {
           endDateTime: Math.floor(currentTimeMs / 1000) + 3 * 60 * 60,
         }),
         unitRecord: null, // No unit record
-        unitFallback: '3 : Advanced Concepts',
+        unitFallback: '3: Advanced Concepts',
         groupDetails: createMockGroup(),
       },
     ];
@@ -114,7 +114,7 @@ describe('CourseDetails: Participant view', () => {
 
     // THEN: The unit title is displayed using the fallback field
     await waitFor(() => {
-      expect(screen.getByText('Unit 3 : Advanced Concepts')).toBeInTheDocument();
+      expect(screen.getByText('Unit 3: Advanced Concepts')).toBeInTheDocument();
     });
   });
 
