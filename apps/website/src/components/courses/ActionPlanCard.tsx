@@ -89,7 +89,7 @@ const ActionPlanCardAuthed: React.FC<ActionPlanCardProps> = ({ courseId }) => {
   return (
     <Card
       title="Your Certificate"
-      subtitle="Engage in >80% of discussions and submit your action plan to receive your certificate."
+      subtitle="To be eligible for a certificate, you need to submit your action plan/project and miss no more than 1 discussion."
       className="container-lined p-8 bg-white"
     >
       <CTALinkOrButton

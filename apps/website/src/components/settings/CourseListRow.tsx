@@ -101,11 +101,12 @@ const CourseListRow = ({
   let reasonNotEligibleForCert: string | null = null;
   const isFacilitatedCourse = course.slug !== FOAI_COURSE_SLUG;
 
-  if (!courseRegistration.certificateCreatedAt && isFacilitatedCourse) {
+  if (!courseRegistration.certificateCreatedAt && isFacilitatedCourse
+    && meetPerson?.uniqueDiscussionAttendance != null && meetPerson?.numUnits != null
+  ) {
     const hasSubmittedActionPlan = (meetPerson?.projectSubmission?.length ?? 0) > 0;
-    const numUnits = meetPerson?.numUnits ?? 0;
-    const attendance = meetPerson?.uniqueDiscussionAttendance ?? 0;
-    const hasAttendedEnough = numUnits === 0 || (numUnits - attendance) <= 1;
+    const { numUnits, uniqueDiscussionAttendance } = meetPerson;
+    const hasAttendedEnough = numUnits === 0 || (numUnits - uniqueDiscussionAttendance) <= 1;
 
     if (!hasAttendedEnough || !hasSubmittedActionPlan) {
       reasonNotEligibleForCert = 'To be eligible for a certificate, you need to submit your action plan/project and miss no more than 1 discussion.';
