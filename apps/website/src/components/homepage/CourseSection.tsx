@@ -19,6 +19,16 @@ type Course = {
   isFeatured?: boolean;
   image?: string | null;
   icon?: string;
+  gradient?: string;
+};
+
+// Course-specific gradient backgrounds (matching lander color identities)
+const COURSE_GRADIENTS = {
+  'future-of-ai': 'linear-gradient(to right, rgba(30, 30, 20, 0.6) 0%, rgba(30, 30, 20, 0.4) 25%, rgba(30, 30, 20, 0.2) 45%, transparent 60%), radial-gradient(ellipse 200% 180% at 105% 105%, rgba(150, 207, 156, 0.35) 0%, rgba(163, 179, 110, 0.35) 28.6%, rgba(176, 152, 64, 0.35) 57.2%, rgba(147, 120, 64, 0.35) 67.9%, rgba(118, 88, 64, 0.35) 78.6%, rgba(89, 56, 63, 0.35) 89.3%, rgba(60, 24, 63, 0.35) 100%), #29281D',
+  'agi-strategy': 'linear-gradient(to right, rgba(10, 8, 36, 0.9) 0%, rgba(10, 8, 36, 0.4) 5%, rgba(10, 8, 36, 0.15) 15%, rgba(10, 8, 36, 0.05) 30%, transparent 45%), radial-gradient(115% 175% at 95% 135%, rgba(255, 194, 195, 0.65) 0%, rgba(255, 194, 195, 0.50) 25%, rgba(53, 42, 106, 0.65) 60%, rgba(10, 8, 36, 0.60) 100%), #181D3F',
+  biosecurity: 'linear-gradient(135deg, #012A07 10%, rgba(1, 42, 7, 0.00) 90%), radial-gradient(110.09% 127.37% at 112.15% 117.08%, rgba(220, 238, 171, 0.45) 0%, rgba(86, 140, 94, 0.45) 50%, rgba(1, 42, 7, 0.45) 100%), radial-gradient(97.29% 122.23% at 85.59% 126.89%, rgba(222, 149, 47, 0.35) 0%, rgba(157, 205, 98, 0.35) 52.4%, rgba(28, 175, 141, 0.35) 100%), #012A07',
+  'technical-ai-safety': 'linear-gradient(to right, rgba(20, 8, 25, 0.6) 0%, rgba(20, 8, 25, 0.4) 20%, rgba(20, 8, 25, 0.2) 40%, transparent 55%), radial-gradient(130% 160% at 100% 108.81%, rgba(255, 202, 171, 0.40) 0%, rgba(126, 85, 144, 0.40) 52.4%, rgba(46, 16, 54, 0.40) 100%), #2E1036',
+  governance: 'linear-gradient(270deg, rgba(5, 24, 67, 0.00) -3.82%, rgba(5, 24, 67, 0.50) 98.44%), radial-gradient(96.03% 113.39% at 98.65% 96.93%, rgba(175, 196, 151, 0.40) 0%, rgba(21, 148, 194, 0.40) 44.58%, rgba(5, 24, 67, 0.40) 100%), #051843',
 };
 
 // Hardcoded course data
@@ -31,6 +41,7 @@ const HARDCODED_COURSES: Course[] = [
     cadence: 'Self-paced',
     isFeatured: true,
     icon: '/images/courses/future-of-ai-icon.svg',
+    gradient: COURSE_GRADIENTS['future-of-ai'],
   },
   {
     slug: 'agi-strategy',
@@ -41,6 +52,7 @@ const HARDCODED_COURSES: Course[] = [
     additionalTag: 'Every month',
     isFeatured: false,
     icon: '/images/courses/agi-strategy-icon.svg',
+    gradient: COURSE_GRADIENTS['agi-strategy'],
   },
   {
     slug: 'biosecurity',
@@ -51,6 +63,7 @@ const HARDCODED_COURSES: Course[] = [
     additionalTag: 'Every month',
     isFeatured: false,
     icon: '/images/courses/biosecurity-icon.svg',
+    gradient: COURSE_GRADIENTS.biosecurity,
   },
   {
     slug: 'technical-ai-safety',
@@ -61,6 +74,7 @@ const HARDCODED_COURSES: Course[] = [
     additionalTag: 'Every month',
     isFeatured: false,
     icon: '/images/courses/technical-ai-safety-icon.svg',
+    gradient: COURSE_GRADIENTS['technical-ai-safety'],
   },
   {
     slug: 'governance',
@@ -71,10 +85,9 @@ const HARDCODED_COURSES: Course[] = [
     additionalTag: 'Coming Feb 2026',
     isFeatured: false,
     icon: '/images/courses/ai-governance-icon.svg',
+    gradient: COURSE_GRADIENTS.governance,
   },
 ];
-
-const GRADIENT_ROTATIONS = [0, 45, 90, 135, 180];
 
 /* Header Section */
 const HeaderSection = () => (
@@ -387,7 +400,6 @@ const CourseCarousel = ({
           aria-label="Courses carousel"
         >
           {infiniteCourses.map((course, index) => {
-            const originalIndex = index % courses.length;
             const uniqueKey = `${course.slug}-${index}`;
 
             return (
@@ -398,7 +410,6 @@ const CourseCarousel = ({
                   course_url: `/courses/${course.slug}`, // Always use lander rather than getPrimaryCourseURL(course.slug) to simplify analytics
                 }}
                 course={course}
-                gradientRotation={GRADIENT_ROTATIONS[originalIndex] || 0}
                 className="flex-shrink-0 w-[276px] md:w-[400px]"
                 isFirstCard={course.isFeatured}
               />
@@ -442,7 +453,6 @@ const CourseCardsGrid = ({
         course_url: `/courses/${course.slug}`, // Always use lander rather than getPrimaryCourseURL(course.slug) to simplify analytics
       }}
       course={course}
-      gradientRotation={GRADIENT_ROTATIONS[index] || 0}
       isFirstCard={index === 0}
     />
   );
@@ -466,12 +476,10 @@ const CourseCardsGrid = ({
 
 const CourseCardRedesigned = ({
   course,
-  gradientRotation,
   className,
   isFirstCard = false,
 }: {
   course: Course;
-  gradientRotation: number;
   className?: string;
   isFirstCard?: boolean;
 }) => {
@@ -488,36 +496,11 @@ const CourseCardRedesigned = ({
         className,
       )}
     >
-      {/* Background Layers - All in proper stacking order */}
-      {/* Layer 1: Gradient image - only scale when rotating */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Tailwind doesn't support dynamic rotation angles - using inline style */}
-        <img
-          alt=""
-          className="absolute inset-0 size-full object-cover"
-          src="/images/courses/courses-gradient.webp"
-          style={{
-            transform: gradientRotation === 0
-              ? 'none'
-              : `rotate(${gradientRotation}deg) scale(2)`, // Scale 2x for full coverage on all viewport sizes
-            transformOrigin: 'center',
-          }}
-        />
-      </div>
-
-      {/* Layer 2: Blue overlay - always present */}
-      <div className="absolute inset-0 bg-[rgba(0,51,204,0.4)] pointer-events-none" />
-
-      {/* Layer 3: Bottom gradient - only for non-first cards */}
-      {/* Tailwind doesn't support precise gradient stop percentages - using inline style */}
-      {!isFirstCard && (
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: 'linear-gradient(180deg, rgba(1, 19, 95, 0) 28.438%, rgba(1, 19, 95, 0.7) 100%)',
-          }}
-        />
-      )}
+      {/* Background Layer: Course-specific gradient */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: course.gradient }}
+      />
 
       {/* Layer 4: Noise texture */}
       <div
