@@ -20,6 +20,8 @@ const FOAI_COLORS = {
   gradient: 'linear-gradient(to right, rgba(30, 30, 20, 0.6) 0%, rgba(30, 30, 20, 0.4) 25%, rgba(30, 30, 20, 0.2) 45%, transparent 60%), radial-gradient(ellipse 70% 60% at 85% 20%, rgba(155, 180, 115, 0.12) 0%, transparent 60%), radial-gradient(ellipse 200% 180% at 105% -5%, rgba(150, 207, 156, 0.35) 0%, rgba(163, 179, 110, 0.35) 28.6%, rgba(176, 152, 64, 0.35) 57.2%, rgba(147, 120, 64, 0.35) 67.9%, rgba(118, 88, 64, 0.35) 78.6%, rgba(89, 56, 63, 0.35) 89.3%, rgba(60, 24, 63, 0.35) 100%), #29281D',
   accent: '#E6DBA6',
   iconBackground: '#64663E',
+  bright: '#faf6e1',
+  full: '#8c8146',
 };
 
 export const createFutureOfAiContent = (
@@ -81,6 +83,7 @@ export const createFutureOfAiContent = (
 
   courseBenefits: {
     title: 'How this course will benefit you',
+    iconBackgroundColor: FOAI_COLORS.bright,
     benefits: [
       {
         icon: PiClock,
@@ -105,6 +108,7 @@ export const createFutureOfAiContent = (
     applicationUrl: FUTURE_OF_AI_START_URL,
     scheduleCtaText: 'Start now',
     courseSlug,
+    accentColor: FOAI_COLORS.full,
     details: [
       {
         icon: PiClock,
@@ -135,6 +139,8 @@ export const createFutureOfAiContent = (
   },
 
   quotes: {
+    cardBackgroundColor: FOAI_COLORS.bright,
+    accentColor: FOAI_COLORS.full,
     quotes: [
       {
         quote: '"AI could surpass almost all humans at almost everything shortly after 2027."',

@@ -11,9 +11,11 @@ export type BenefitCard = {
 export type CourseBenefitsSectionProps = {
   title: string;
   benefits: BenefitCard[];
+  /** Background color for the icon container. Defaults to '#ECF0FF' */
+  iconBackgroundColor?: string;
 };
 
-const CourseBenefitsSection = ({ title, benefits }: CourseBenefitsSectionProps) => {
+const CourseBenefitsSection = ({ title, benefits, iconBackgroundColor = '#ECF0FF' }: CourseBenefitsSectionProps) => {
   return (
     <section className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 md:px-spacing-x min-[1280px]:py-24 xl:py-24">
@@ -23,7 +25,10 @@ const CourseBenefitsSection = ({ title, benefits }: CourseBenefitsSectionProps) 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {benefits.map(({ icon: Icon, title: benefitTitle, description }) => (
             <div key={benefitTitle} className="flex flex-col gap-6">
-              <div className="size-14 bg-[#ECF0FF] rounded-lg flex items-center justify-center flex-shrink-0">
+              <div
+                className="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
+                style={{ backgroundColor: iconBackgroundColor }}
+              >
                 <Icon className="text-black" size={28} />
               </div>
               <div className="space-y-2">

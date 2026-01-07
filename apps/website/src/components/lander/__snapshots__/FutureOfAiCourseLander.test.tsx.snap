@@ -1,27 +1,27 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] = `
+exports[`FutureOfAiCourseLander (new CourseLander version) > renders the complete page correctly (snapshot) 1`] = `
 <div>
   <div
     class="bg-white"
   >
     <title>
-      AGI Strategy Course | BlueDot Impact
+      Future of AI Course | BlueDot Impact
     </title>
     <meta
-      content="Develop strategic thinking skills for AGI governance and long-term AI strategy. Join our intensive course for strategists shaping the future of artificial general intelligence."
+      content="Understand what's coming. Join the conversation. Get informed about AI's trajectory and society's biggest choices in just 2 hours. No technical background needed."
       name="description"
     />
     <meta
-      content="AGI Strategy Course | BlueDot Impact"
+      content="Future of AI Course | BlueDot Impact"
       property="og:title"
     />
     <meta
-      content="Develop strategic thinking skills for AGI governance and long-term AI strategy. Join our intensive course for strategists shaping the future of artificial general intelligence."
+      content="Understand what's coming. Join the conversation. Get informed about AI's trajectory and society's biggest choices in just 2 hours. No technical background needed."
       property="og:description"
     />
     <meta
-      content="https://bluedot.org/images/courses/link-preview/agi-strategy.png"
+      content="https://bluedot.org/images/courses/link-preview/future-of-ai.png"
       property="og:image"
     />
     <meta
@@ -33,7 +33,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       property="og:image:height"
     />
     <meta
-      content="AGI Strategy Course | BlueDot Impact"
+      content="Future of AI Course | BlueDot Impact"
       property="og:image:alt"
     />
     <meta
@@ -45,7 +45,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       property="og:site_name"
     />
     <meta
-      content="https://bluedot.org/courses/agi-strategy"
+      content="https://bluedot.org/courses/future-of-ai"
       property="og:url"
     />
     <meta
@@ -53,15 +53,15 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       name="twitter:card"
     />
     <meta
-      content="AGI Strategy Course | BlueDot Impact"
+      content="Future of AI Course | BlueDot Impact"
       name="twitter:title"
     />
     <meta
-      content="Develop strategic thinking skills for AGI governance and long-term AI strategy. Join our intensive course for strategists shaping the future of artificial general intelligence."
+      content="Understand what's coming. Join the conversation. Get informed about AI's trajectory and society's biggest choices in just 2 hours. No technical background needed."
       name="twitter:description"
     />
     <meta
-      content="https://bluedot.org/images/courses/link-preview/agi-strategy.png"
+      content="https://bluedot.org/images/courses/link-preview/future-of-ai.png"
       name="twitter:image"
     />
     <nav
@@ -214,7 +214,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   >
                     <a
                       class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--primary link-on-dark mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-bluedot-normal hover:bg-[#1a3599] text-white hover:text-white"
-                      href="/login?register=true&redirect_to=%2Fcourses%2Fagi-strategy"
+                      href="/login?register=true&redirect_to=%2Fcourses%2Ffuture-of-ai"
                       tabindex="0"
                     >
                       Start for free
@@ -335,14 +335,14 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             >
               <a
                 class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--secondary nav-cta__secondary-cta flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-white/15 border border-white/20 text-white hover:text-white hover:bg-white/20 backdrop-blur-sm"
-                href="/login?redirect_to=%2Fcourses%2Fagi-strategy"
+                href="/login?redirect_to=%2Fcourses%2Ffuture-of-ai"
                 tabindex="0"
               >
                 Sign in
               </a>
               <a
                 class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--primary link-on-dark nav-cta__primary-cta hidden min-[680px]:flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-white hover:bg-white/90 text-[#02034B] hover:text-[#02034B]"
-                href="/login?register=true&redirect_to=%2Fcourses%2Fagi-strategy"
+                href="/login?register=true&redirect_to=%2Fcourses%2Ffuture-of-ai"
                 tabindex="0"
               >
                 Start for free
@@ -363,12 +363,12 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         >
           <div
             class="flex items-center justify-center w-[280px] min-[680px]:w-[400px]"
-            style="aspect-ratio: 1408 / 1122;"
+            style="aspect-ratio: 1408 / 1112;"
           >
             <img
-              alt="AGI Strategy visualization"
+              alt="Future of AI visualization"
               class="size-full object-contain"
-              src="/images/lander/agi-strategy/hero-graphic.png"
+              src="/images/lander/foai/hero-graphic.png"
             />
           </div>
           <div
@@ -379,19 +379,19 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             >
               <p
                 class="bluedot-p not-prose text-[14px] font-medium tracking-[0.28px] leading-[1.6] uppercase"
-                style="color: #BCA9FF;"
+                style="color: #E6DBA6;"
               >
-                COHORT-BASED COURSE
+                SELF-PACED COURSE
               </p>
               <h1
                 class="text-[32px] min-[680px]:text-[40px] leading-tight font-semibold tracking-[-0.5px] text-white"
               >
-                AGI Strategy
+                The Future of AI
               </h1>
               <p
                 class="text-[16px] min-[680px]:text-[18px] leading-[1.6] opacity-80 text-white whitespace-pre-line"
               >
-                Start building the defences that protect humanity: Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours.
+                An introduction to what AI can do today, where it's going over the next decade, and how you can start contributing to a better future.
               </p>
             </div>
             <div
@@ -399,19 +399,11 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             >
               <a
                 class="cta-button flex items-center justify-center duration-200 whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none h-[50px] px-5 py-3 text-[16px] font-medium rounded-md cursor-pointer transition-all text-[#13132e] w-full min-[680px]:w-auto hover:brightness-90"
-                href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX"
-                style="background-color: #BCA9FF;"
+                href="/courses/future-of-ai/1/1"
+                style="background-color: #E6DBA6;"
                 tabindex="0"
               >
-                Apply now
-              </a>
-              <a
-                class="cta-button flex items-center justify-center duration-200 whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none h-[50px] px-5 py-3 text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-all border w-full min-[680px]:w-auto hover:bg-white/10"
-                href="/courses/agi-strategy/1/1"
-                style="border-color: #BCA9FF; color: #BCA9FF;"
-                tabindex="0"
-              >
-                Browse curriculum
+                Start the free course
               </a>
             </div>
           </div>
@@ -430,19 +422,19 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               >
                 <p
                   class="bluedot-p not-prose text-[14px] font-medium tracking-[0.28px] leading-[1.6] uppercase"
-                  style="color: #BCA9FF;"
+                  style="color: #E6DBA6;"
                 >
-                  COHORT-BASED COURSE
+                  SELF-PACED COURSE
                 </p>
                 <h1
                   class="bluedot-h1 not-prose text-[40px] xl:text-5xl leading-tight font-semibold tracking-[-0.5px] text-white"
                 >
-                  AGI Strategy
+                  The Future of AI
                 </h1>
                 <p
                   class="bluedot-p not-prose text-size-md leading-[1.6] opacity-80 text-white whitespace-pre-line"
                 >
-                  Start building the defences that protect humanity: Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours.
+                  An introduction to what AI can do today, where it's going over the next decade, and how you can start contributing to a better future.
                 </p>
               </div>
               <div
@@ -450,19 +442,11 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               >
                 <a
                   class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none h-[50px] px-5 py-2.5 text-[16px] font-medium rounded-md cursor-pointer transition-all text-[#13132e] hover:brightness-90"
-                  href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX"
-                  style="background-color: #BCA9FF;"
+                  href="/courses/future-of-ai/1/1"
+                  style="background-color: #E6DBA6;"
                   tabindex="0"
                 >
-                  Apply now
-                </a>
-                <a
-                  class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none h-[50px] px-5 py-2.5 text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-all border hover:bg-white/10"
-                  href="/courses/agi-strategy/1/1"
-                  style="border-color: #BCA9FF; color: #BCA9FF;"
-                  tabindex="0"
-                >
-                  Browse curriculum
+                  Start the free course
                 </a>
               </div>
             </div>
@@ -471,9 +455,9 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             class="absolute right-0 bottom-0 w-1/2 top-[var(--nav-height-desktop)]"
           >
             <img
-              alt="AGI Strategy visualization"
+              alt="Future of AI visualization"
               class="size-full object-contain"
-              src="/images/lander/agi-strategy/hero-graphic.png"
+              src="/images/lander/foai/hero-graphic.png"
               style="object-position: right center;"
             />
           </div>
@@ -510,7 +494,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           >
             <div
               class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 "
-              style="background-color: #2C3F81;"
+              style="background-color: #64663E;"
             >
               <svg
                 class="text-white"
@@ -523,7 +507,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M216,56H176V48a24,24,0,0,0-24-24H104A24,24,0,0,0,80,48v8H40A16,16,0,0,0,24,72V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V72A16,16,0,0,0,216,56ZM96,48a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96ZM216,72v41.61A184,184,0,0,1,128,136a184.07,184.07,0,0,1-88-22.38V72Zm0,128H40V131.64A200.19,200.19,0,0,0,128,152a200.25,200.25,0,0,0,88-20.37V200ZM104,112a8,8,0,0,1,8-8h32a8,8,0,0,1,0,16H112A8,8,0,0,1,104,112Z"
+                  d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z"
                 />
               </svg>
             </div>
@@ -533,11 +517,10 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               <span
                 class="font-semibold"
               >
-                For entrepreneurs and operators
+                For anyone who wants to understand AI's impact on society.
               </span>
               <span>
                  
-                who want to build solutions that protect humanity.
               </span>
             </p>
           </div>
@@ -546,7 +529,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           >
             <div
               class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 "
-              style="background-color: #2C3F81;"
+              style="background-color: #64663E;"
             >
               <svg
                 class="text-white"
@@ -559,7 +542,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216ZM172.42,72.84l-64,32a8.05,8.05,0,0,0-3.58,3.58l-32,64A8,8,0,0,0,80,184a8.1,8.1,0,0,0,3.58-.84l64-32a8.05,8.05,0,0,0,3.58-3.58l32-64a8,8,0,0,0-10.74-10.74ZM138,138,97.89,158.11,118,118l40.15-20.07Z"
+                  d="M176,232a8,8,0,0,1-8,8H88a8,8,0,0,1,0-16h80A8,8,0,0,1,176,232Zm40-128a87.55,87.55,0,0,1-33.64,69.21A16.24,16.24,0,0,0,176,186v6a16,16,0,0,1-16,16H96a16,16,0,0,1-16-16v-6a16,16,0,0,0-6.23-12.66A87.59,87.59,0,0,1,40,104.49C39.74,56.83,78.26,17.14,125.88,16A88,88,0,0,1,216,104Zm-16,0a72,72,0,0,0-73.74-72c-39,.92-70.47,33.39-70.26,72.39a71.65,71.65,0,0,0,27.64,56.3A32,32,0,0,1,96,186v6h64v-6a32.15,32.15,0,0,1,12.47-25.35A71.65,71.65,0,0,0,200,104Zm-16.11-9.34a57.6,57.6,0,0,0-46.56-46.55,8,8,0,0,0-2.66,15.78c16.57,2.79,30.63,16.85,33.44,33.45A8,8,0,0,0,176,104a9,9,0,0,0,1.35-.11A8,8,0,0,0,183.89,94.66Z"
                 />
               </svg>
             </div>
@@ -569,11 +552,11 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               <span
                 class="font-semibold"
               >
-                For leaders
+                For people concerned about AI's direction
               </span>
               <span>
                  
-                who want to steer AI's trajectory towards beneficial outcomes for humanity.
+                and wanting to engage with the issues.
               </span>
             </p>
           </div>
@@ -582,7 +565,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           >
             <div
               class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 "
-              style="background-color: #2C3F81;"
+              style="background-color: #64663E;"
             >
               <svg
                 class="text-white"
@@ -595,7 +578,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M221.69,199.77,160,96.92V40h8a8,8,0,0,0,0-16H88a8,8,0,0,0,0,16h8V96.92L34.31,199.77A16,16,0,0,0,48,224H208a16,16,0,0,0,13.72-24.23ZM110.86,103.25A7.93,7.93,0,0,0,112,99.14V40h32V99.14a7.93,7.93,0,0,0,1.14,4.11L183.36,167c-12,2.37-29.07,1.37-51.75-10.11-15.91-8.05-31.05-12.32-45.22-12.81ZM48,208l28.54-47.58c14.25-1.74,30.31,1.85,47.82,10.72,19,9.61,35,12.88,48,12.88a69.89,69.89,0,0,0,19.55-2.7L208,208Z"
+                  d="M223.85,47.12a16,16,0,0,0-15-15c-12.58-.75-44.73.4-71.41,27.07L132.69,64H74.36A15.91,15.91,0,0,0,63,68.68L28.7,103a16,16,0,0,0,9.07,27.16l38.47,5.37,44.21,44.21,5.37,38.49a15.94,15.94,0,0,0,10.78,12.92,16.11,16.11,0,0,0,5.1.83A15.91,15.91,0,0,0,153,227.3L187.32,193A15.91,15.91,0,0,0,192,181.64V123.31l4.77-4.77C223.45,91.86,224.6,59.71,223.85,47.12ZM74.36,80h42.33L77.16,119.52,40,114.34Zm74.41-9.45a76.65,76.65,0,0,1,59.11-22.47,76.46,76.46,0,0,1-22.42,59.16L128,164.68,91.32,128ZM176,181.64,141.67,216l-5.19-37.17L176,139.31Zm-74.16,9.5C97.34,201,82.29,224,40,224a8,8,0,0,1-8-8c0-42.29,23-57.34,32.86-61.85a8,8,0,0,1,6.64,14.56c-6.43,2.93-20.62,12.36-23.12,38.91,26.55-2.5,36-16.69,38.91-23.12a8,8,0,1,1,14.56,6.64Z"
                 />
               </svg>
             </div>
@@ -605,11 +588,11 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               <span
                 class="font-semibold"
               >
-                For researchers
+                For those ready to join the conversation
               </span>
               <span>
                  
-                who want to take big bets on the most impactful research ideas.
+                about humanity's technological future.
               </span>
             </p>
           </div>
@@ -623,19 +606,19 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             <span
               class="font-semibold"
             >
-              Don't fit these perfectly? Apply anyway.
+              Not sure if this is for you?
             </span>
             <span>
                
-              Some of our most impactful participants have included teachers, policymakers, engineers, and community leaders. We bet on drive and ambition, not CVs.
+              If you read the news and wonder what AI actually means for your life, your community, and the world - this course is for you. No prerequisites. No technical knowledge required.
             </span>
           </p>
           <a
             class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm cta-button--outline-black bg-transparent border border-[rgba(19,19,46,0.3)] text-black hover:bg-gray-50 font-medium"
-            href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX"
+            href="/courses/future-of-ai/1/1"
             tabindex="0"
           >
-            Apply now
+            Start the free course
           </a>
         </div>
       </div>
@@ -694,7 +677,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           >
             <div
               class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
-              style="background-color: #f3e8ff;"
+              style="background-color: #faf6e1;"
             >
               <svg
                 class="text-black"
@@ -707,7 +690,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M223.85,47.12a16,16,0,0,0-15-15c-12.58-.75-44.73.4-71.41,27.07L132.69,64H74.36A15.91,15.91,0,0,0,63,68.68L28.7,103a16,16,0,0,0,9.07,27.16l38.47,5.37,44.21,44.21,5.37,38.49a15.94,15.94,0,0,0,10.78,12.92,16.11,16.11,0,0,0,5.1.83A15.91,15.91,0,0,0,153,227.3L187.32,193A15.91,15.91,0,0,0,192,181.64V123.31l4.77-4.77C223.45,91.86,224.6,59.71,223.85,47.12ZM74.36,80h42.33L77.16,119.52,40,114.34Zm74.41-9.45a76.65,76.65,0,0,1,59.11-22.47,76.46,76.46,0,0,1-22.42,59.16L128,164.68,91.32,128ZM176,181.64,141.67,216l-5.19-37.17L176,139.31Zm-74.16,9.5C97.34,201,82.29,224,40,224a8,8,0,0,1-8-8c0-42.29,23-57.34,32.86-61.85a8,8,0,0,1,6.64,14.56c-6.43,2.93-20.62,12.36-23.12,38.91,26.55-2.5,36-16.69,38.91-23.12a8,8,0,1,1,14.56,6.64Z"
+                  d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"
                 />
               </svg>
             </div>
@@ -717,12 +700,12 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               <h3
                 class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
               >
-                Take action in less than 30 hours
+                Get informed in 2 hours
               </h3>
               <p
                 class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
               >
-                You don't need another degree. This AGI Strategy course replaces years of self-study with three frameworks: incentive mapping to understand the AGI race, kill chains to analyse AI threats, and defence-in-depth to design interventions that counter them. You'll finish with a fundable plan.
+                No degree required. This course replaces weeks of confusing articles with clear explanations of what's actually happening with AI and where it's headed.
               </p>
             </div>
           </div>
@@ -731,7 +714,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           >
             <div
               class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
-              style="background-color: #f3e8ff;"
+              style="background-color: #faf6e1;"
             >
               <svg
                 class="text-black"
@@ -744,7 +727,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M244.8,150.4a8,8,0,0,1-11.2-1.6A51.6,51.6,0,0,0,192,128a8,8,0,0,1-7.37-4.89,8,8,0,0,1,0-6.22A8,8,0,0,1,192,112a24,24,0,1,0-23.24-30,8,8,0,1,1-15.5-4A40,40,0,1,1,219,117.51a67.94,67.94,0,0,1,27.43,21.68A8,8,0,0,1,244.8,150.4ZM190.92,212a8,8,0,1,1-13.84,8,57,57,0,0,0-98.16,0,8,8,0,1,1-13.84-8,72.06,72.06,0,0,1,33.74-29.92,48,48,0,1,1,58.36,0A72.06,72.06,0,0,1,190.92,212ZM128,176a32,32,0,1,0-32-32A32,32,0,0,0,128,176ZM72,120a8,8,0,0,0-8-8A24,24,0,1,1,87.24,82a8,8,0,1,0,15.5-4A40,40,0,1,0,37,117.51,67.94,67.94,0,0,0,9.6,139.19a8,8,0,1,0,12.8,9.61A51.6,51.6,0,0,1,64,128,8,8,0,0,0,72,120Z"
+                  d="M208,40H48A24,24,0,0,0,24,64V176a24,24,0,0,0,24,24h72v16H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16H136V200h72a24,24,0,0,0,24-24V64A24,24,0,0,0,208,40ZM48,56H208a8,8,0,0,1,8,8v80H40V64A8,8,0,0,1,48,56ZM208,184H48a8,8,0,0,1-8-8V160H216v16A8,8,0,0,1,208,184Z"
                 />
               </svg>
             </div>
@@ -754,12 +737,12 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               <h3
                 class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
               >
-                Join a network of builders
+                Try the tools yourself
               </h3>
               <p
                 class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
               >
-                This course isn't for everyone. We're building a community of people who are energised to take ambitious actions to make AI go well, including starting new companies, policy entrepreneurship, and high-impact research bets. Completing this course will give you access to this community.
+                Don't just read about AI - use it. Interactive demos let you experience cutting-edge AI systems directly in your browser.
               </p>
             </div>
           </div>
@@ -768,7 +751,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           >
             <div
               class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
-              style="background-color: #f3e8ff;"
+              style="background-color: #faf6e1;"
             >
               <svg
                 class="text-black"
@@ -781,7 +764,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M230.33,141.06a24.43,24.43,0,0,0-21.24-4.23l-41.84,9.62A28,28,0,0,0,140,112H89.94a31.82,31.82,0,0,0-22.63,9.37L44.69,144H16A16,16,0,0,0,0,160v40a16,16,0,0,0,16,16H120a7.93,7.93,0,0,0,1.94-.24l64-16a6.94,6.94,0,0,0,1.19-.4L226,182.82l.44-.2a24.6,24.6,0,0,0,3.93-41.56ZM16,160H40v40H16Zm203.43,8.21-38,16.18L119,200H56V155.31l22.63-22.62A15.86,15.86,0,0,1,89.94,128H140a12,12,0,0,1,0,24H112a8,8,0,0,0,0,16h32a8.32,8.32,0,0,0,1.79-.2l67-15.41.31-.08a8.6,8.6,0,0,1,6.3,15.9ZM164,96a36,36,0,0,0,5.9-.48,36,36,0,1,0,28.22-47A36,36,0,1,0,164,96Zm60-12a20,20,0,1,1-20-20A20,20,0,0,1,224,84ZM164,40a20,20,0,0,1,19.25,14.61,36,36,0,0,0-15,24.93A20.42,20.42,0,0,1,164,80a20,20,0,0,1,0-40Z"
+                  d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z"
                 />
               </svg>
             </div>
@@ -791,12 +774,12 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               <h3
                 class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
               >
-                Get funded to accelerate your impact
+                Join thousands who care
               </h3>
               <p
                 class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
               >
-                If your final course proposal is strong, you'll receive $10-50k to kickstart your transition into impactful work, and you'll be invited to co-work with us in London for 1-2 weeks. We'll do whatever it takes to accelerate your journey.
+                Connect with a global community discussing AI's trajectory. Turn individual concern into collective understanding and action.
               </p>
             </div>
           </div>
@@ -842,20 +825,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <p
                     class="bluedot-p not-prose text-[15px] leading-[160%] text-[#13132E] opacity-80 font-normal"
                   >
-                    Each day or week, you will:
-                    <br />
-                    <span
-                      class="font-semibold"
-                    >
-                      Complete 2-3 hours
-                    </span>
-                     of reading and writing, and 
-                    <span
-                      class="font-semibold"
-                    >
-                      join ~8 peers in a 2-hour Zoom meeting
-                    </span>
-                     to discuss the content.
+                    Self-paced. Complete the 2-hour course whenever suits you. Interactive content with reflection prompts throughout.
                   </p>
                 </div>
               </div>
@@ -873,7 +843,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <p
                     class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-[#13132E]"
                   >
-                    Facilitator
+                    Format
                   </p>
                 </div>
                 <div
@@ -882,7 +852,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <p
                     class="bluedot-p not-prose text-[15px] leading-[160%] text-[#13132E] opacity-80 font-normal"
                   >
-                    All discussions will be facilitated by an AI safety expert.
+                    Entirely online. Accessible from any device. Includes videos, interactive demos, and discussion prompts.
                   </p>
                 </div>
               </div>
@@ -909,7 +879,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <p
                     class="bluedot-p not-prose text-[15px] leading-[160%] text-[#13132E] opacity-80 font-normal"
                   >
-                    This course is freely available and operates on a "pay-what-you-want" model.
+                    Completely free. No hidden costs.
                   </p>
                 </div>
               </div>
@@ -919,30 +889,52 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             </div>
             <div>
               <div
-                class="flex flex-col min-[680px]:flex-row px-5 min-[680px]:px-8 py-0 gap-6 min-[680px]:gap-6 md:gap-8 items-start w-full"
+                class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
               >
                 <div
-                  class="min-[680px]:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
+                  class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
                 >
                   <p
                     class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-[#13132E]"
                   >
-                    Schedule
+                    Certificate
                   </p>
                 </div>
                 <div
-                  class="w-full min-[680px]:flex-1 min-[680px]:min-w-0"
+                  class="flex-1 min-w-0"
                 >
-                  <div
-                    class="flex flex-col gap-4"
+                  <p
+                    class="bluedot-p not-prose text-[15px] leading-[160%] text-[#13132E] opacity-80 font-normal"
                   >
-                    <div
-                      class="h-20 w-full animate-pulse rounded bg-gray-200"
-                    />
-                    <div
-                      class="h-20 w-full animate-pulse rounded bg-gray-200"
-                    />
-                  </div>
+                    Industry-recognised certificate upon completion showing you're informed about AI's future.
+                  </p>
+                </div>
+              </div>
+              <div
+                class="w-full h-px bg-[#13132E] opacity-10 my-6"
+              />
+            </div>
+            <div>
+              <div
+                class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
+              >
+                <div
+                  class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
+                >
+                  <p
+                    class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-[#13132E]"
+                  >
+                    Start now
+                  </p>
+                </div>
+                <div
+                  class="flex-1 min-w-0"
+                >
+                  <p
+                    class="bluedot-p not-prose text-[15px] leading-[160%] text-[#13132E] opacity-80 font-normal"
+                  >
+                    Begin immediately. No waiting for cohorts or application approval.
+                  </p>
                 </div>
               </div>
             </div>
@@ -974,7 +966,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               >
                 <div
                   class="w-full rounded-xl overflow-hidden"
-                  style="background-color: #f3e8ff;"
+                  style="background-color: #faf6e1;"
                 >
                   <div
                     class="flex flex-col lg:flex-row-reverse w-full h-[465px] min-[680px]:!h-[377px] lg:h-[385px]"
@@ -986,21 +978,21 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                         class="text-[20px] min-[680px]:text-[24px] lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
                         style="color: #13132E;"
                       >
-                        "We should not underestimate the real threats coming from AI [while] we have a narrowing window of opportunity to guide this technology responsibly."
+                        "AI could surpass almost all humans at almost everything shortly after 2027."
                       </blockquote>
                       <div
                         class="flex flex-col items-center lg:items-start gap-4 lg:gap-0"
                       >
                         <a
                           class="cursor-pointer"
-                          href="https://neighbourhood-enlargement.ec.europa.eu/news/2023-state-union-address-president-von-der-leyen-2023-09-13_en"
+                          href="https://arstechnica.com/ai/2025/01/anthropic-chief-says-ai-could-surpass-almost-all-humans-at-almost-everything-shortly-after-2027/"
                           rel="noopener noreferrer"
                           target="_blank"
                         >
                           <img
-                            alt="Ursula von der Leyen"
+                            alt="Dario Amodei"
                             class="size-12 sm:size-16 object-cover rounded-full lg:hidden"
-                            src="/images/agi-strategy/ursula.webp"
+                            src="/images/lander/foai/dario.webp"
                           />
                         </a>
                         <div
@@ -1010,13 +1002,13 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                             class="text-[18px] leading-tight font-semibold"
                             style="color: #13132E;"
                           >
-                            Ursula von der Leyen
+                            Dario Amodei
                           </div>
                           <div
                             class="text-[16px] leading-[1.6] opacity-80 text-center lg:text-left lg:px-0"
                             style="color: #13132E;"
                           >
-                            President, European Commission
+                            CEO, Anthropic
                           </div>
                         </div>
                       </div>
@@ -1026,14 +1018,14 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     >
                       <a
                         class="block size-full cursor-pointer"
-                        href="https://neighbourhood-enlargement.ec.europa.eu/news/2023-state-union-address-president-von-der-leyen-2023-09-13_en"
+                        href="https://arstechnica.com/ai/2025/01/anthropic-chief-says-ai-could-surpass-almost-all-humans-at-almost-everything-shortly-after-2027/"
                         rel="noopener noreferrer"
                         target="_blank"
                       >
                         <img
-                          alt="Ursula von der Leyen"
+                          alt="Dario Amodei"
                           class="size-full object-cover rounded-l-xl"
-                          src="/images/agi-strategy/ursula.webp"
+                          src="/images/lander/foai/dario.webp"
                         />
                       </a>
                     </div>
@@ -1053,7 +1045,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               >
                 <div
                   class="w-full rounded-xl overflow-hidden"
-                  style="background-color: #f3e8ff;"
+                  style="background-color: #faf6e1;"
                 >
                   <div
                     class="flex flex-col lg:flex-row-reverse w-full h-[465px] min-[680px]:!h-[377px] lg:h-[385px]"
@@ -1065,21 +1057,21 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                         class="text-[20px] min-[680px]:text-[24px] lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
                         style="color: #13132E;"
                       >
-                        "We should not underestimate the real threats coming from AI [while] we have a narrowing window of opportunity to guide this technology responsibly."
+                        "AI could surpass almost all humans at almost everything shortly after 2027."
                       </blockquote>
                       <div
                         class="flex flex-col items-center lg:items-start gap-4 lg:gap-0"
                       >
                         <a
                           class="cursor-pointer"
-                          href="https://neighbourhood-enlargement.ec.europa.eu/news/2023-state-union-address-president-von-der-leyen-2023-09-13_en"
+                          href="https://arstechnica.com/ai/2025/01/anthropic-chief-says-ai-could-surpass-almost-all-humans-at-almost-everything-shortly-after-2027/"
                           rel="noopener noreferrer"
                           target="_blank"
                         >
                           <img
-                            alt="Ursula von der Leyen"
+                            alt="Dario Amodei"
                             class="size-12 sm:size-16 object-cover rounded-full lg:hidden"
-                            src="/images/agi-strategy/ursula.webp"
+                            src="/images/lander/foai/dario.webp"
                           />
                         </a>
                         <div
@@ -1089,13 +1081,13 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                             class="text-[18px] leading-tight font-semibold"
                             style="color: #13132E;"
                           >
-                            Ursula von der Leyen
+                            Dario Amodei
                           </div>
                           <div
                             class="text-[16px] leading-[1.6] opacity-80 text-center lg:text-left lg:px-0"
                             style="color: #13132E;"
                           >
-                            President, European Commission
+                            CEO, Anthropic
                           </div>
                         </div>
                       </div>
@@ -1105,14 +1097,14 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     >
                       <a
                         class="block size-full cursor-pointer"
-                        href="https://neighbourhood-enlargement.ec.europa.eu/news/2023-state-union-address-president-von-der-leyen-2023-09-13_en"
+                        href="https://arstechnica.com/ai/2025/01/anthropic-chief-says-ai-could-surpass-almost-all-humans-at-almost-everything-shortly-after-2027/"
                         rel="noopener noreferrer"
                         target="_blank"
                       >
                         <img
-                          alt="Ursula von der Leyen"
+                          alt="Dario Amodei"
                           class="size-full object-cover rounded-l-xl"
-                          src="/images/agi-strategy/ursula.webp"
+                          src="/images/lander/foai/dario.webp"
                         />
                       </a>
                     </div>
@@ -1147,7 +1139,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             >
               <div
                 class="w-full min-[680px]:w-24 h-1.5 rounded transition-all duration-300"
-                style="background-color: #9177dc; opacity: 1;"
+                style="background-color: #8c8146; opacity: 1;"
               />
             </button>
             <button
@@ -1170,16 +1162,6 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 style="background-color: #13132E; opacity: 0.15;"
               />
             </button>
-            <button
-              aria-label="Go to quote 4"
-              class="flex-1 py-4 h-[38px] min-[680px]:flex-none min-[680px]:w-24 min-[680px]:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
-              type="button"
-            >
-              <div
-                class="w-full min-[680px]:w-24 h-1.5 rounded transition-all duration-300"
-                style="background-color: #13132E; opacity: 0.15;"
-              />
-            </button>
           </div>
           <button
             aria-label="Next quote"
@@ -1192,561 +1174,6 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               →
             </span>
           </button>
-        </div>
-      </div>
-    </section>
-    <div
-      class="border-t-hairline border-color-divider"
-    />
-    <div
-      data-testid="community-members-section"
-    >
-      <span>
-        Members: 
-        6
-      </span>
-    </div>
-    <div
-      class="border-t-hairline border-color-divider"
-    />
-    <section
-      class="w-full bg-white"
-    >
-      <div
-        class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:py-16 min-[1280px]:py-24"
-      >
-        <h2
-          class="text-[28px] min-[680px]:text-[32px] min-[1280px]:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-[#13132E] text-center mb-12 md:mb-16 max-w-[734px] mx-auto"
-        >
-          Co-created with our network of leading AI industry partners
-        </h2>
-        <div
-          class="max-lg:block hidden -mx-5 min-[680px]:-mx-8 lg:-mx-spacing-x"
-        >
-          <div
-            class="w-full inline-flex flex-nowrap overflow-hidden group"
-          >
-            <div
-              class="flex items-start gap-12 animate-infinite-scroll pl-12 group-hover:[animation-play-state:paused]"
-            >
-              <div
-                class="flex flex-col w-[220px] h-[210px] gap-4 flex-shrink-0"
-              >
-                <a
-                  class="flex items-center h-16 group"
-                  href="https://www.joinef.com/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <img
-                    alt="Entrepreneur First"
-                    class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
-                    src="/images/agi-strategy/ef.svg"
-                  />
-                </a>
-                <div
-                  class="h-[130px]"
-                >
-                  <p
-                    class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
-                  >
-                    We collaborate with EF to host AI safety and def/acc 
-                    <a
-                      class="underline hover:opacity-70 transition-opacity"
-                      href="https://luma.com/AI-security-hackathon"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      hackathons
-                    </a>
-                    .
-                  </p>
-                </div>
-              </div>
-              <div
-                class="w-[0.5px] h-[210px] bg-[#231C57] opacity-20 flex-shrink-0"
-              />
-              <div
-                class="flex flex-col w-[220px] h-[210px] gap-4 flex-shrink-0"
-              >
-                <a
-                  class="flex items-center h-16 group"
-                  href="https://ifp.org/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <img
-                    alt="Institute for Progress"
-                    class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
-                    src="/images/agi-strategy/ifp.svg"
-                  />
-                </a>
-                <div
-                  class="h-[130px]"
-                >
-                  <p
-                    class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
-                  >
-                    We collaborate with IFP to get impactful projects from their 
-                    <a
-                      class="underline hover:opacity-70 transition-opacity"
-                      href="https://ifp.org/the-launch-sequence/"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      Launch Sequence
-                    </a>
-                     off the ground.
-                  </p>
-                </div>
-              </div>
-              <div
-                class="w-[0.5px] h-[210px] bg-[#231C57] opacity-20 flex-shrink-0"
-              />
-              <div
-                class="flex flex-col w-[220px] h-[210px] gap-4 flex-shrink-0"
-              >
-                <a
-                  class="flex items-center h-16 group"
-                  href="https://www.fiftyyears.com/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <img
-                    alt="50 Years"
-                    class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
-                    src="/images/agi-strategy/fifty-years.svg"
-                  />
-                </a>
-                <div
-                  class="h-[130px]"
-                >
-                  <p
-                    class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
-                  >
-                    We fast-track our most promising entrepreneurs into their 
-                    <a
-                      class="underline hover:opacity-70 transition-opacity"
-                      href="https://www.fiftyyears.com/5050/ai"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      5050 AI cohorts
-                    </a>
-                    , focused on building an aligned AI future.
-                  </p>
-                </div>
-              </div>
-              <div
-                class="w-[0.5px] h-[210px] bg-[#231C57] opacity-20 flex-shrink-0"
-              />
-              <div
-                class="flex flex-col w-[220px] h-[210px] gap-4 flex-shrink-0"
-              >
-                <a
-                  class="flex items-center h-16 group"
-                  href="https://seldonlab.com/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <img
-                    alt="Seldon Lab"
-                    class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
-                    src="/images/agi-strategy/seldon-lab.svg"
-                  />
-                </a>
-                <div
-                  class="h-[130px]"
-                >
-                  <p
-                    class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
-                  >
-                    We help our most entrepreneurial community members get ready to join future Seldon batches.
-                  </p>
-                </div>
-              </div>
-              <div
-                class="w-[0.5px] h-[210px] bg-[#231C57] opacity-20 flex-shrink-0"
-              />
-              <div
-                class="flex flex-col w-[220px] h-[210px] gap-4 flex-shrink-0"
-              >
-                <a
-                  class="flex items-center h-16 group"
-                  href="https://halcyonfutures.org/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <img
-                    alt="Halcyon Futures"
-                    class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
-                    src="/images/agi-strategy/halcyon-futures.svg"
-                  />
-                </a>
-                <div
-                  class="h-[130px]"
-                >
-                  <p
-                    class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
-                  >
-                    We introduce our most promising leaders to Halcyon.
-                  </p>
-                </div>
-              </div>
-              <div
-                class="w-[0.5px] h-[210px] bg-[#231C57] opacity-20 flex-shrink-0"
-              />
-            </div>
-            <div
-              aria-hidden="true"
-              class="flex items-start gap-12 animate-infinite-scroll pl-12 group-hover:[animation-play-state:paused]"
-            >
-              <div
-                class="flex flex-col w-[220px] h-[210px] gap-4 flex-shrink-0"
-              >
-                <a
-                  class="flex items-center h-16 group"
-                  href="https://www.joinef.com/"
-                  rel="noopener noreferrer"
-                  tabindex="-1"
-                  target="_blank"
-                >
-                  <img
-                    alt="Entrepreneur First"
-                    class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
-                    src="/images/agi-strategy/ef.svg"
-                  />
-                </a>
-                <div
-                  class="h-[130px]"
-                >
-                  <p
-                    class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
-                  >
-                    We collaborate with EF to host AI safety and def/acc 
-                    <a
-                      class="underline hover:opacity-70 transition-opacity"
-                      href="https://luma.com/AI-security-hackathon"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      hackathons
-                    </a>
-                    .
-                  </p>
-                </div>
-              </div>
-              <div
-                class="w-[0.5px] h-[210px] bg-[#231C57] opacity-20 flex-shrink-0"
-              />
-              <div
-                class="flex flex-col w-[220px] h-[210px] gap-4 flex-shrink-0"
-              >
-                <a
-                  class="flex items-center h-16 group"
-                  href="https://ifp.org/"
-                  rel="noopener noreferrer"
-                  tabindex="-1"
-                  target="_blank"
-                >
-                  <img
-                    alt="Institute for Progress"
-                    class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
-                    src="/images/agi-strategy/ifp.svg"
-                  />
-                </a>
-                <div
-                  class="h-[130px]"
-                >
-                  <p
-                    class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
-                  >
-                    We collaborate with IFP to get impactful projects from their 
-                    <a
-                      class="underline hover:opacity-70 transition-opacity"
-                      href="https://ifp.org/the-launch-sequence/"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      Launch Sequence
-                    </a>
-                     off the ground.
-                  </p>
-                </div>
-              </div>
-              <div
-                class="w-[0.5px] h-[210px] bg-[#231C57] opacity-20 flex-shrink-0"
-              />
-              <div
-                class="flex flex-col w-[220px] h-[210px] gap-4 flex-shrink-0"
-              >
-                <a
-                  class="flex items-center h-16 group"
-                  href="https://www.fiftyyears.com/"
-                  rel="noopener noreferrer"
-                  tabindex="-1"
-                  target="_blank"
-                >
-                  <img
-                    alt="50 Years"
-                    class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
-                    src="/images/agi-strategy/fifty-years.svg"
-                  />
-                </a>
-                <div
-                  class="h-[130px]"
-                >
-                  <p
-                    class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
-                  >
-                    We fast-track our most promising entrepreneurs into their 
-                    <a
-                      class="underline hover:opacity-70 transition-opacity"
-                      href="https://www.fiftyyears.com/5050/ai"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      5050 AI cohorts
-                    </a>
-                    , focused on building an aligned AI future.
-                  </p>
-                </div>
-              </div>
-              <div
-                class="w-[0.5px] h-[210px] bg-[#231C57] opacity-20 flex-shrink-0"
-              />
-              <div
-                class="flex flex-col w-[220px] h-[210px] gap-4 flex-shrink-0"
-              >
-                <a
-                  class="flex items-center h-16 group"
-                  href="https://seldonlab.com/"
-                  rel="noopener noreferrer"
-                  tabindex="-1"
-                  target="_blank"
-                >
-                  <img
-                    alt="Seldon Lab"
-                    class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
-                    src="/images/agi-strategy/seldon-lab.svg"
-                  />
-                </a>
-                <div
-                  class="h-[130px]"
-                >
-                  <p
-                    class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
-                  >
-                    We help our most entrepreneurial community members get ready to join future Seldon batches.
-                  </p>
-                </div>
-              </div>
-              <div
-                class="w-[0.5px] h-[210px] bg-[#231C57] opacity-20 flex-shrink-0"
-              />
-              <div
-                class="flex flex-col w-[220px] h-[210px] gap-4 flex-shrink-0"
-              >
-                <a
-                  class="flex items-center h-16 group"
-                  href="https://halcyonfutures.org/"
-                  rel="noopener noreferrer"
-                  tabindex="-1"
-                  target="_blank"
-                >
-                  <img
-                    alt="Halcyon Futures"
-                    class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
-                    src="/images/agi-strategy/halcyon-futures.svg"
-                  />
-                </a>
-                <div
-                  class="h-[130px]"
-                >
-                  <p
-                    class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
-                  >
-                    We introduce our most promising leaders to Halcyon.
-                  </p>
-                </div>
-              </div>
-              <div
-                class="w-[0.5px] h-[210px] bg-[#231C57] opacity-20 flex-shrink-0"
-              />
-            </div>
-          </div>
-        </div>
-        <div
-          class="lg:grid hidden grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-12"
-        >
-          <div
-            class="flex flex-col gap-6 md:gap-8 min-h-[174px]"
-          >
-            <a
-              class="flex items-center h-16 group"
-              href="https://www.joinef.com/"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <img
-                alt="Entrepreneur First"
-                class="object-contain max-w-full max-h-[64px] transition-opacity duration-200 group-hover:opacity-80"
-                src="/images/agi-strategy/ef.svg"
-              />
-            </a>
-            <div
-              class="flex-1"
-            >
-              <p
-                class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
-              >
-                A London-based startup incubation programme. We collaborate with EF to host AI safety and def/acc 
-                <a
-                  class="underline hover:opacity-70 transition-opacity"
-                  href="https://luma.com/AI-security-hackathon"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  hackathons
-                </a>
-                . See 
-                <a
-                  class="underline hover:opacity-70 transition-opacity"
-                  href="https://luma.com/bluedotevents"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  here
-                </a>
-                 for future events.
-              </p>
-            </div>
-          </div>
-          <div
-            class="flex flex-col gap-6 md:gap-8 min-h-[174px]"
-          >
-            <a
-              class="flex items-center h-16 group"
-              href="https://ifp.org/"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <img
-                alt="Institute for Progress"
-                class="object-contain max-w-full max-h-[64px] transition-opacity duration-200 group-hover:opacity-80"
-                src="/images/agi-strategy/ifp.svg"
-              />
-            </a>
-            <div
-              class="flex-1"
-            >
-              <p
-                class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
-              >
-                IFP is a science and innovation think tank. We collaborate with IFP to get impactful projects from their 
-                <a
-                  class="underline hover:opacity-70 transition-opacity"
-                  href="https://ifp.org/the-launch-sequence/"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Launch Sequence
-                </a>
-                 off the ground.
-              </p>
-            </div>
-          </div>
-          <div
-            class="flex flex-col gap-6 md:gap-8 min-h-[174px]"
-          >
-            <a
-              class="flex items-center h-16 group"
-              href="https://www.fiftyyears.com/"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <img
-                alt="50 Years"
-                class="object-contain max-w-full max-h-[64px] transition-opacity duration-200 group-hover:opacity-80"
-                src="/images/agi-strategy/fifty-years.svg"
-              />
-            </a>
-            <div
-              class="flex-1"
-            >
-              <p
-                class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
-              >
-                A pre-seed and seed VC firm. We fast-track our most promising entrepreneurs into their 
-                <a
-                  class="underline hover:opacity-70 transition-opacity"
-                  href="https://www.fiftyyears.com/5050/ai"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  5050 AI cohorts
-                </a>
-                , focused on building an aligned AI future.
-              </p>
-            </div>
-          </div>
-          <div
-            class="col-span-1 md:col-span-2 lg:col-span-3"
-          >
-            <div
-              class="border-t border-[#231C57] opacity-20"
-            />
-          </div>
-          <div
-            class="flex flex-col gap-6 md:gap-8 min-h-[174px]"
-          >
-            <a
-              class="flex items-center h-16 group"
-              href="https://seldonlab.com/"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <img
-                alt="Seldon Lab"
-                class="object-contain max-w-full max-h-[64px] transition-opacity duration-200 group-hover:opacity-80"
-                src="/images/agi-strategy/seldon-lab.svg"
-              />
-            </a>
-            <div
-              class="flex-1"
-            >
-              <p
-                class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
-              >
-                Seldon offers guidance and investments in the next generation of AGI security startups. We help our most entrepreneurial community members get ready to join future Seldon batches.
-              </p>
-            </div>
-          </div>
-          <div
-            class="flex flex-col gap-6 md:gap-8 min-h-[174px]"
-          >
-            <a
-              class="flex items-center h-16 group"
-              href="https://halcyonfutures.org/"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <img
-                alt="Halcyon Futures"
-                class="object-contain max-w-full max-h-[64px] transition-opacity duration-200 group-hover:opacity-80"
-                src="/images/agi-strategy/halcyon-futures.svg"
-              />
-            </a>
-            <div
-              class="flex-1"
-            >
-              <p
-                class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
-              >
-                Halcyon identifies leaders from business, policy, and academia, and helps them take on new ambitious projects. We introduce our most promising leaders to Halcyon.
-              </p>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -1774,7 +1201,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
             >
               <button
-                aria-controls="faq-answer-funding"
+                aria-controls="faq-answer-technical-knowledge"
                 aria-expanded="false"
                 class="w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease py-6 hover:bg-gray-50"
                 type="button"
@@ -1782,7 +1209,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 <span
                   class="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow"
                 >
-                  Can I just apply for funding?
+                  Do I need technical knowledge?
                 </span>
                 <svg
                   class="flex-shrink-0 transition-transform duration-300 ease "
@@ -1801,7 +1228,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </button>
               <div
                 class="grid transition-[grid-template-rows] duration-300 ease grid-rows-[0fr]"
-                id="faq-answer-funding"
+                id="faq-answer-technical-knowledge"
               >
                 <div
                   class="overflow-hidden"
@@ -1812,7 +1239,103 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     <div
                       class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
                     >
-                      Funding is only available for graduates of the course.
+                      No. This course is designed for everyone. If you can use a web browser, you can take this course.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
+            >
+              <button
+                aria-controls="faq-answer-duration"
+                aria-expanded="false"
+                class="w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease py-6 hover:bg-gray-50"
+                type="button"
+              >
+                <span
+                  class="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow"
+                >
+                  How long does it take?
+                </span>
+                <svg
+                  class="flex-shrink-0 transition-transform duration-300 ease "
+                  fill="none"
+                  height="17"
+                  viewBox="0 0 16 17"
+                  width="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0 8.5H16M8 0.5L8 16.5"
+                    stroke="#001133"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+              <div
+                class="grid transition-[grid-template-rows] duration-300 ease grid-rows-[0fr]"
+                id="faq-answer-duration"
+              >
+                <div
+                  class="overflow-hidden"
+                >
+                  <div
+                    class="px-8 pb-6"
+                  >
+                    <div
+                      class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
+                    >
+                      About 2 hours total. You can complete it in one sitting or come back across multiple sessions - your progress is saved.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
+            >
+              <button
+                aria-controls="faq-answer-certificate"
+                aria-expanded="false"
+                class="w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease py-6 hover:bg-gray-50"
+                type="button"
+              >
+                <span
+                  class="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow"
+                >
+                  Will I get a certificate?
+                </span>
+                <svg
+                  class="flex-shrink-0 transition-transform duration-300 ease "
+                  fill="none"
+                  height="17"
+                  viewBox="0 0 16 17"
+                  width="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0 8.5H16M8 0.5L8 16.5"
+                    stroke="#001133"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+              <div
+                class="grid transition-[grid-template-rows] duration-300 ease grid-rows-[0fr]"
+                id="faq-answer-certificate"
+              >
+                <div
+                  class="overflow-hidden"
+                >
+                  <div
+                    class="px-8 pb-6"
+                  >
+                    <div
+                      class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
+                    >
+                      Yes. Complete the course and you'll receive a certificate showing you understand AI's current capabilities and future trajectory.
                     </div>
                   </div>
                 </div>
@@ -1860,13 +1383,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     <div
                       class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
                     >
-                      We're a London-based startup. Since 2022, we've trained 5,000 people, with ~1,000 now working on making AI go well.
-                      <br />
-                      <br />
-                      Our courses are the main entry point into the AI safety field.
-                      <br />
-                      <br />
-                      We're an intense 4-person team. We've raised $35M in total, including $25M in 2025.
+                      We're the world's leading talent accelerator for beneficial AI and societal resilience. Since 2022, we've trained 6,000+ people. Our courses are the main entry point into the AI safety field. We're a small team. We've raised $34M in total, including $25M in 2025.
                     </div>
                   </div>
                 </div>
@@ -1883,10 +1400,10 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x"
       >
         <div
-          aria-label="AGI Strategy banner"
+          aria-label="Future of AI banner"
           class="relative w-full h-[382px] min-[680px]:h-[360px] mx-auto overflow-hidden rounded-xl bg-[#13132E] bg-cover bg-center xl:max-w-[1118px]"
           role="img"
-          style="background-image: url("/images/lander/agi-strategy/hero-banner-split.webp");"
+          style="background-image: url("/images/lander/foai/hero-banner-split.webp");"
         >
           <div
             class="absolute inset-0 pointer-events-none bg-contain bg-repeat mix-blend-soft-light"
@@ -1903,14 +1420,14 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             <h3
               class="bluedot-h3 not-prose max-w-[238px] min-[680px]:max-w-[496px] text-[20px] min-[680px]:text-[36px] font-[600] text-white leading-[140%] min-[680px]:leading-[125%]"
             >
-              Start building towards a good future today
+              Start understanding AI's future today
             </h3>
             <a
               class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none [--ghost-gray:#13132E] hover:text-(--ghost-gray) text-[16px] font-medium leading-[24px] px-5 py-3 h-12 bg-white text-[#13132E] rounded-md hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
-              href="https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX"
+              href="/courses/future-of-ai/1/1"
               tabindex="0"
             >
-              Apply now
+              Start the free course
             </a>
           </div>
         </div>

@@ -25,7 +25,7 @@ const mockProps = {
 };
 
 describe('CourseBenefitsSection', () => {
-  it('renders correctly', () => {
+  it('renders correctly with default colors', () => {
     const { container } = render(<CourseBenefitsSection {...mockProps} />);
     expect(container.firstChild).toMatchSnapshot();
   });
@@ -50,5 +50,42 @@ describe('CourseBenefitsSection', () => {
 
     // Check third card description
     expect(getByText(/If your final course proposal is strong/)).toBeDefined();
+  });
+
+  it('renders with custom icon background color (AGI Strategy purple)', () => {
+    const { container } = render(
+      <CourseBenefitsSection {...mockProps} iconBackgroundColor="#f3e8ff" />,
+    );
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it('renders with custom icon background color (Biosecurity green)', () => {
+    const { container } = render(
+      <CourseBenefitsSection {...mockProps} iconBackgroundColor="#e5faea" />,
+    );
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it('renders with custom icon background color (Future of AI cream)', () => {
+    const { container } = render(
+      <CourseBenefitsSection {...mockProps} iconBackgroundColor="#faf6e1" />,
+    );
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it('renders with custom icon background color (AI Governance blue)', () => {
+    const { container } = render(
+      <CourseBenefitsSection {...mockProps} iconBackgroundColor="#ddf4ff" />,
+    );
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it('applies custom icon background color to icon containers', () => {
+    const customBgColor = '#e5faea';
+    const { container } = render(
+      <CourseBenefitsSection {...mockProps} iconBackgroundColor={customBgColor} />,
+    );
+    const iconContainers = container.querySelectorAll(`[style*="background-color: ${customBgColor}"]`);
+    expect(iconContainers.length).toBe(mockProps.benefits.length);
   });
 });

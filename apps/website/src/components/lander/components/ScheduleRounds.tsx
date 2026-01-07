@@ -10,12 +10,15 @@ type ScheduleRoundsProps = {
   courseSlug: string;
   applicationUrl: string;
   fallbackContent?: React.ReactNode;
+  /** Accent color for bars and "Apply now" links. Defaults to bluedot-normal */
+  accentColor?: string;
 };
 
 export const ScheduleRounds = ({
   courseSlug,
   applicationUrl,
   fallbackContent,
+  accentColor,
 }: ScheduleRoundsProps) => {
   const { data: rounds, isLoading } = trpc.courseRounds.getRoundsForCourse.useQuery(
     { courseSlug },
@@ -61,6 +64,7 @@ export const ScheduleRounds = ({
           descriptionShort={intenseDescription}
           rounds={rounds.intense}
           applicationUrl={applicationUrl}
+          accentColor={accentColor}
         />
       )}
 
@@ -72,6 +76,7 @@ export const ScheduleRounds = ({
           descriptionShort={partTimeDescription}
           rounds={rounds.partTime}
           applicationUrl={applicationUrl}
+          accentColor={accentColor}
         />
       )}
     </div>
@@ -85,6 +90,7 @@ type RoundGroupProps = {
   descriptionShort: string;
   rounds: Round[];
   applicationUrl: string;
+  accentColor?: string;
 };
 
 const RoundGroup = ({
@@ -94,6 +100,7 @@ const RoundGroup = ({
   descriptionShort,
   rounds,
   applicationUrl,
+  accentColor,
 }: RoundGroupProps) => {
   return (
     <div className="flex flex-col gap-6">
@@ -112,7 +119,7 @@ const RoundGroup = ({
       <ul className="list-none flex flex-col gap-5">
         {rounds.map((round, index) => (
           <li key={round.id}>
-            <RoundItem round={round} applicationUrl={applicationUrl} />
+            <RoundItem round={round} applicationUrl={applicationUrl} accentColor={accentColor} />
             {index < rounds.length - 1 && (
               <div className="relative mt-5">
                 <div className="absolute inset-x-0 h-px bg-[rgba(19,19,46,0.1)]" />
@@ -128,9 +135,10 @@ const RoundGroup = ({
 type RoundItemProps = {
   round: Round;
   applicationUrl: string;
+  accentColor?: string;
 };
 
-const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
+const RoundItem = ({ round, applicationUrl, accentColor }: RoundItemProps) => {
   const separator = applicationUrl.includes('?') ? '&' : '?';
   const applyUrl = `${applicationUrl}${separator}prefill_%5B%3E%5D%20Round=${round.id}`;
 
@@ -148,7 +156,10 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
       {/* Mobile: only "Apply now" link is clickable */}
       <div className="flex flex-col gap-2 min-[680px]:hidden">
         <div className="flex items-stretch gap-3">
-          <div className="bg-bluedot-normal w-1 flex-shrink-0 rounded-sm" />
+          <div
+            className="w-1 flex-shrink-0 rounded-sm"
+            style={{ backgroundColor: accentColor || 'var(--bluedot-normal)' }}
+          />
           <div className="flex flex-col gap-3">
             {dateContent}
 
@@ -157,7 +168,8 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Apply now (opens in a new tab)"
-              className="text-bluedot-normal text-[15px] leading-[1.6] font-medium"
+              className="text-[15px] leading-[1.6] font-medium"
+              style={{ color: accentColor || 'var(--bluedot-normal)' }}
             >
               Apply now
             </a>
@@ -174,11 +186,17 @@ const RoundItem = ({ round, applicationUrl }: RoundItemProps) => {
         className="group hidden flex-row items-center justify-between gap-4 min-[680px]:flex"
       >
         <div className="flex items-stretch gap-4">
-          <div className="bg-bluedot-normal w-1 flex-shrink-0 rounded-sm opacity-30 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" />
+          <div
+            className="w-1 flex-shrink-0 rounded-sm opacity-30 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+            style={{ backgroundColor: accentColor || 'var(--bluedot-normal)' }}
+          />
           <div className="flex flex-col">{dateContent}</div>
         </div>
 
-        <div className="text-bluedot-normal ml-auto flex items-center text-[15px] leading-[1.6] font-medium">
+        <div
+          className="ml-auto flex items-center text-[15px] leading-[1.6] font-medium"
+          style={{ color: accentColor || 'var(--bluedot-normal)' }}
+        >
           <span className="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1">
             Apply now
           </span>

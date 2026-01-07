@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CourseBenefitsSection > renders correctly 1`] = `
+exports[`CourseBenefitsSection > renders correctly with default colors 1`] = `
 <section
   class="w-full bg-white"
 >
@@ -19,7 +19,8 @@ exports[`CourseBenefitsSection > renders correctly 1`] = `
         class="flex flex-col gap-6"
       >
         <div
-          class="size-14 bg-[#ECF0FF] rounded-lg flex items-center justify-center flex-shrink-0"
+          class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
+          style="background-color: #ECF0FF;"
         >
           <svg
             class="text-black"
@@ -55,7 +56,8 @@ exports[`CourseBenefitsSection > renders correctly 1`] = `
         class="flex flex-col gap-6"
       >
         <div
-          class="size-14 bg-[#ECF0FF] rounded-lg flex items-center justify-center flex-shrink-0"
+          class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
+          style="background-color: #ECF0FF;"
         >
           <svg
             class="text-black"
@@ -91,7 +93,532 @@ exports[`CourseBenefitsSection > renders correctly 1`] = `
         class="flex flex-col gap-6"
       >
         <div
-          class="size-14 bg-[#ECF0FF] rounded-lg flex items-center justify-center flex-shrink-0"
+          class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
+          style="background-color: #ECF0FF;"
+        >
+          <svg
+            class="text-black"
+            fill="currentColor"
+            height="28"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 256 256"
+            width="28"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M230.33,141.06a24.43,24.43,0,0,0-21.24-4.23l-41.84,9.62A28,28,0,0,0,140,112H89.94a31.82,31.82,0,0,0-22.63,9.37L44.69,144H16A16,16,0,0,0,0,160v40a16,16,0,0,0,16,16H120a7.93,7.93,0,0,0,1.94-.24l64-16a6.94,6.94,0,0,0,1.19-.4L226,182.82l.44-.2a24.6,24.6,0,0,0,3.93-41.56ZM16,160H40v40H16Zm203.43,8.21-38,16.18L119,200H56V155.31l22.63-22.62A15.86,15.86,0,0,1,89.94,128H140a12,12,0,0,1,0,24H112a8,8,0,0,0,0,16h32a8.32,8.32,0,0,0,1.79-.2l67-15.41.31-.08a8.6,8.6,0,0,1,6.3,15.9ZM164,96a36,36,0,0,0,5.9-.48,36,36,0,1,0,28.22-47A36,36,0,1,0,164,96Zm60-12a20,20,0,1,1-20-20A20,20,0,0,1,224,84ZM164,40a20,20,0,0,1,19.25,14.61,36,36,0,0,0-15,24.93A20.42,20.42,0,0,1,164,80a20,20,0,0,1,0-40Z"
+            />
+          </svg>
+        </div>
+        <div
+          class="space-y-2"
+        >
+          <h3
+            class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
+          >
+            Get funded to accelerate your impact
+          </h3>
+          <p
+            class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
+          >
+            If your final course proposal is strong, you'll receive $10-50k to kickstart your transition into impactful work.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`CourseBenefitsSection > renders with custom icon background color (AGI Strategy purple) 1`] = `
+<section
+  class="w-full bg-white"
+>
+  <div
+    class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 md:px-spacing-x min-[1280px]:py-24 xl:py-24"
+  >
+    <h2
+      class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-16 tracking-[-0.01em]"
+    >
+      How this course will benefit you
+    </h2>
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+    >
+      <div
+        class="flex flex-col gap-6"
+      >
+        <div
+          class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
+          style="background-color: #f3e8ff;"
+        >
+          <svg
+            class="text-black"
+            fill="currentColor"
+            height="28"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 256 256"
+            width="28"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M223.85,47.12a16,16,0,0,0-15-15c-12.58-.75-44.73.4-71.41,27.07L132.69,64H74.36A15.91,15.91,0,0,0,63,68.68L28.7,103a16,16,0,0,0,9.07,27.16l38.47,5.37,44.21,44.21,5.37,38.49a15.94,15.94,0,0,0,10.78,12.92,16.11,16.11,0,0,0,5.1.83A15.91,15.91,0,0,0,153,227.3L187.32,193A15.91,15.91,0,0,0,192,181.64V123.31l4.77-4.77C223.45,91.86,224.6,59.71,223.85,47.12ZM74.36,80h42.33L77.16,119.52,40,114.34Zm74.41-9.45a76.65,76.65,0,0,1,59.11-22.47,76.46,76.46,0,0,1-22.42,59.16L128,164.68,91.32,128ZM176,181.64,141.67,216l-5.19-37.17L176,139.31Zm-74.16,9.5C97.34,201,82.29,224,40,224a8,8,0,0,1-8-8c0-42.29,23-57.34,32.86-61.85a8,8,0,0,1,6.64,14.56c-6.43,2.93-20.62,12.36-23.12,38.91,26.55-2.5,36-16.69,38.91-23.12a8,8,0,1,1,14.56,6.64Z"
+            />
+          </svg>
+        </div>
+        <div
+          class="space-y-2"
+        >
+          <h3
+            class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
+          >
+            Take action in less than 30 hours
+          </h3>
+          <p
+            class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
+          >
+            You don't need another degree. This AGI Strategy course replaces years of self-study with three frameworks.
+          </p>
+        </div>
+      </div>
+      <div
+        class="flex flex-col gap-6"
+      >
+        <div
+          class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
+          style="background-color: #f3e8ff;"
+        >
+          <svg
+            class="text-black"
+            fill="currentColor"
+            height="28"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 256 256"
+            width="28"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M244.8,150.4a8,8,0,0,1-11.2-1.6A51.6,51.6,0,0,0,192,128a8,8,0,0,1-7.37-4.89,8,8,0,0,1,0-6.22A8,8,0,0,1,192,112a24,24,0,1,0-23.24-30,8,8,0,1,1-15.5-4A40,40,0,1,1,219,117.51a67.94,67.94,0,0,1,27.43,21.68A8,8,0,0,1,244.8,150.4ZM190.92,212a8,8,0,1,1-13.84,8,57,57,0,0,0-98.16,0,8,8,0,1,1-13.84-8,72.06,72.06,0,0,1,33.74-29.92,48,48,0,1,1,58.36,0A72.06,72.06,0,0,1,190.92,212ZM128,176a32,32,0,1,0-32-32A32,32,0,0,0,128,176ZM72,120a8,8,0,0,0-8-8A24,24,0,1,1,87.24,82a8,8,0,1,0,15.5-4A40,40,0,1,0,37,117.51,67.94,67.94,0,0,0,9.6,139.19a8,8,0,1,0,12.8,9.61A51.6,51.6,0,0,1,64,128,8,8,0,0,0,72,120Z"
+            />
+          </svg>
+        </div>
+        <div
+          class="space-y-2"
+        >
+          <h3
+            class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
+          >
+            Join a network of builders
+          </h3>
+          <p
+            class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
+          >
+            This course isn't for everyone. We're building a community of people who are energised to take ambitious actions.
+          </p>
+        </div>
+      </div>
+      <div
+        class="flex flex-col gap-6"
+      >
+        <div
+          class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
+          style="background-color: #f3e8ff;"
+        >
+          <svg
+            class="text-black"
+            fill="currentColor"
+            height="28"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 256 256"
+            width="28"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M230.33,141.06a24.43,24.43,0,0,0-21.24-4.23l-41.84,9.62A28,28,0,0,0,140,112H89.94a31.82,31.82,0,0,0-22.63,9.37L44.69,144H16A16,16,0,0,0,0,160v40a16,16,0,0,0,16,16H120a7.93,7.93,0,0,0,1.94-.24l64-16a6.94,6.94,0,0,0,1.19-.4L226,182.82l.44-.2a24.6,24.6,0,0,0,3.93-41.56ZM16,160H40v40H16Zm203.43,8.21-38,16.18L119,200H56V155.31l22.63-22.62A15.86,15.86,0,0,1,89.94,128H140a12,12,0,0,1,0,24H112a8,8,0,0,0,0,16h32a8.32,8.32,0,0,0,1.79-.2l67-15.41.31-.08a8.6,8.6,0,0,1,6.3,15.9ZM164,96a36,36,0,0,0,5.9-.48,36,36,0,1,0,28.22-47A36,36,0,1,0,164,96Zm60-12a20,20,0,1,1-20-20A20,20,0,0,1,224,84ZM164,40a20,20,0,0,1,19.25,14.61,36,36,0,0,0-15,24.93A20.42,20.42,0,0,1,164,80a20,20,0,0,1,0-40Z"
+            />
+          </svg>
+        </div>
+        <div
+          class="space-y-2"
+        >
+          <h3
+            class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
+          >
+            Get funded to accelerate your impact
+          </h3>
+          <p
+            class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
+          >
+            If your final course proposal is strong, you'll receive $10-50k to kickstart your transition into impactful work.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`CourseBenefitsSection > renders with custom icon background color (AI Governance blue) 1`] = `
+<section
+  class="w-full bg-white"
+>
+  <div
+    class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 md:px-spacing-x min-[1280px]:py-24 xl:py-24"
+  >
+    <h2
+      class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-16 tracking-[-0.01em]"
+    >
+      How this course will benefit you
+    </h2>
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+    >
+      <div
+        class="flex flex-col gap-6"
+      >
+        <div
+          class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
+          style="background-color: #ddf4ff;"
+        >
+          <svg
+            class="text-black"
+            fill="currentColor"
+            height="28"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 256 256"
+            width="28"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M223.85,47.12a16,16,0,0,0-15-15c-12.58-.75-44.73.4-71.41,27.07L132.69,64H74.36A15.91,15.91,0,0,0,63,68.68L28.7,103a16,16,0,0,0,9.07,27.16l38.47,5.37,44.21,44.21,5.37,38.49a15.94,15.94,0,0,0,10.78,12.92,16.11,16.11,0,0,0,5.1.83A15.91,15.91,0,0,0,153,227.3L187.32,193A15.91,15.91,0,0,0,192,181.64V123.31l4.77-4.77C223.45,91.86,224.6,59.71,223.85,47.12ZM74.36,80h42.33L77.16,119.52,40,114.34Zm74.41-9.45a76.65,76.65,0,0,1,59.11-22.47,76.46,76.46,0,0,1-22.42,59.16L128,164.68,91.32,128ZM176,181.64,141.67,216l-5.19-37.17L176,139.31Zm-74.16,9.5C97.34,201,82.29,224,40,224a8,8,0,0,1-8-8c0-42.29,23-57.34,32.86-61.85a8,8,0,0,1,6.64,14.56c-6.43,2.93-20.62,12.36-23.12,38.91,26.55-2.5,36-16.69,38.91-23.12a8,8,0,1,1,14.56,6.64Z"
+            />
+          </svg>
+        </div>
+        <div
+          class="space-y-2"
+        >
+          <h3
+            class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
+          >
+            Take action in less than 30 hours
+          </h3>
+          <p
+            class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
+          >
+            You don't need another degree. This AGI Strategy course replaces years of self-study with three frameworks.
+          </p>
+        </div>
+      </div>
+      <div
+        class="flex flex-col gap-6"
+      >
+        <div
+          class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
+          style="background-color: #ddf4ff;"
+        >
+          <svg
+            class="text-black"
+            fill="currentColor"
+            height="28"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 256 256"
+            width="28"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M244.8,150.4a8,8,0,0,1-11.2-1.6A51.6,51.6,0,0,0,192,128a8,8,0,0,1-7.37-4.89,8,8,0,0,1,0-6.22A8,8,0,0,1,192,112a24,24,0,1,0-23.24-30,8,8,0,1,1-15.5-4A40,40,0,1,1,219,117.51a67.94,67.94,0,0,1,27.43,21.68A8,8,0,0,1,244.8,150.4ZM190.92,212a8,8,0,1,1-13.84,8,57,57,0,0,0-98.16,0,8,8,0,1,1-13.84-8,72.06,72.06,0,0,1,33.74-29.92,48,48,0,1,1,58.36,0A72.06,72.06,0,0,1,190.92,212ZM128,176a32,32,0,1,0-32-32A32,32,0,0,0,128,176ZM72,120a8,8,0,0,0-8-8A24,24,0,1,1,87.24,82a8,8,0,1,0,15.5-4A40,40,0,1,0,37,117.51,67.94,67.94,0,0,0,9.6,139.19a8,8,0,1,0,12.8,9.61A51.6,51.6,0,0,1,64,128,8,8,0,0,0,72,120Z"
+            />
+          </svg>
+        </div>
+        <div
+          class="space-y-2"
+        >
+          <h3
+            class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
+          >
+            Join a network of builders
+          </h3>
+          <p
+            class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
+          >
+            This course isn't for everyone. We're building a community of people who are energised to take ambitious actions.
+          </p>
+        </div>
+      </div>
+      <div
+        class="flex flex-col gap-6"
+      >
+        <div
+          class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
+          style="background-color: #ddf4ff;"
+        >
+          <svg
+            class="text-black"
+            fill="currentColor"
+            height="28"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 256 256"
+            width="28"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M230.33,141.06a24.43,24.43,0,0,0-21.24-4.23l-41.84,9.62A28,28,0,0,0,140,112H89.94a31.82,31.82,0,0,0-22.63,9.37L44.69,144H16A16,16,0,0,0,0,160v40a16,16,0,0,0,16,16H120a7.93,7.93,0,0,0,1.94-.24l64-16a6.94,6.94,0,0,0,1.19-.4L226,182.82l.44-.2a24.6,24.6,0,0,0,3.93-41.56ZM16,160H40v40H16Zm203.43,8.21-38,16.18L119,200H56V155.31l22.63-22.62A15.86,15.86,0,0,1,89.94,128H140a12,12,0,0,1,0,24H112a8,8,0,0,0,0,16h32a8.32,8.32,0,0,0,1.79-.2l67-15.41.31-.08a8.6,8.6,0,0,1,6.3,15.9ZM164,96a36,36,0,0,0,5.9-.48,36,36,0,1,0,28.22-47A36,36,0,1,0,164,96Zm60-12a20,20,0,1,1-20-20A20,20,0,0,1,224,84ZM164,40a20,20,0,0,1,19.25,14.61,36,36,0,0,0-15,24.93A20.42,20.42,0,0,1,164,80a20,20,0,0,1,0-40Z"
+            />
+          </svg>
+        </div>
+        <div
+          class="space-y-2"
+        >
+          <h3
+            class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
+          >
+            Get funded to accelerate your impact
+          </h3>
+          <p
+            class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
+          >
+            If your final course proposal is strong, you'll receive $10-50k to kickstart your transition into impactful work.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`CourseBenefitsSection > renders with custom icon background color (Biosecurity green) 1`] = `
+<section
+  class="w-full bg-white"
+>
+  <div
+    class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 md:px-spacing-x min-[1280px]:py-24 xl:py-24"
+  >
+    <h2
+      class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-16 tracking-[-0.01em]"
+    >
+      How this course will benefit you
+    </h2>
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+    >
+      <div
+        class="flex flex-col gap-6"
+      >
+        <div
+          class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
+          style="background-color: #e5faea;"
+        >
+          <svg
+            class="text-black"
+            fill="currentColor"
+            height="28"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 256 256"
+            width="28"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M223.85,47.12a16,16,0,0,0-15-15c-12.58-.75-44.73.4-71.41,27.07L132.69,64H74.36A15.91,15.91,0,0,0,63,68.68L28.7,103a16,16,0,0,0,9.07,27.16l38.47,5.37,44.21,44.21,5.37,38.49a15.94,15.94,0,0,0,10.78,12.92,16.11,16.11,0,0,0,5.1.83A15.91,15.91,0,0,0,153,227.3L187.32,193A15.91,15.91,0,0,0,192,181.64V123.31l4.77-4.77C223.45,91.86,224.6,59.71,223.85,47.12ZM74.36,80h42.33L77.16,119.52,40,114.34Zm74.41-9.45a76.65,76.65,0,0,1,59.11-22.47,76.46,76.46,0,0,1-22.42,59.16L128,164.68,91.32,128ZM176,181.64,141.67,216l-5.19-37.17L176,139.31Zm-74.16,9.5C97.34,201,82.29,224,40,224a8,8,0,0,1-8-8c0-42.29,23-57.34,32.86-61.85a8,8,0,0,1,6.64,14.56c-6.43,2.93-20.62,12.36-23.12,38.91,26.55-2.5,36-16.69,38.91-23.12a8,8,0,1,1,14.56,6.64Z"
+            />
+          </svg>
+        </div>
+        <div
+          class="space-y-2"
+        >
+          <h3
+            class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
+          >
+            Take action in less than 30 hours
+          </h3>
+          <p
+            class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
+          >
+            You don't need another degree. This AGI Strategy course replaces years of self-study with three frameworks.
+          </p>
+        </div>
+      </div>
+      <div
+        class="flex flex-col gap-6"
+      >
+        <div
+          class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
+          style="background-color: #e5faea;"
+        >
+          <svg
+            class="text-black"
+            fill="currentColor"
+            height="28"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 256 256"
+            width="28"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M244.8,150.4a8,8,0,0,1-11.2-1.6A51.6,51.6,0,0,0,192,128a8,8,0,0,1-7.37-4.89,8,8,0,0,1,0-6.22A8,8,0,0,1,192,112a24,24,0,1,0-23.24-30,8,8,0,1,1-15.5-4A40,40,0,1,1,219,117.51a67.94,67.94,0,0,1,27.43,21.68A8,8,0,0,1,244.8,150.4ZM190.92,212a8,8,0,1,1-13.84,8,57,57,0,0,0-98.16,0,8,8,0,1,1-13.84-8,72.06,72.06,0,0,1,33.74-29.92,48,48,0,1,1,58.36,0A72.06,72.06,0,0,1,190.92,212ZM128,176a32,32,0,1,0-32-32A32,32,0,0,0,128,176ZM72,120a8,8,0,0,0-8-8A24,24,0,1,1,87.24,82a8,8,0,1,0,15.5-4A40,40,0,1,0,37,117.51,67.94,67.94,0,0,0,9.6,139.19a8,8,0,1,0,12.8,9.61A51.6,51.6,0,0,1,64,128,8,8,0,0,0,72,120Z"
+            />
+          </svg>
+        </div>
+        <div
+          class="space-y-2"
+        >
+          <h3
+            class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
+          >
+            Join a network of builders
+          </h3>
+          <p
+            class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
+          >
+            This course isn't for everyone. We're building a community of people who are energised to take ambitious actions.
+          </p>
+        </div>
+      </div>
+      <div
+        class="flex flex-col gap-6"
+      >
+        <div
+          class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
+          style="background-color: #e5faea;"
+        >
+          <svg
+            class="text-black"
+            fill="currentColor"
+            height="28"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 256 256"
+            width="28"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M230.33,141.06a24.43,24.43,0,0,0-21.24-4.23l-41.84,9.62A28,28,0,0,0,140,112H89.94a31.82,31.82,0,0,0-22.63,9.37L44.69,144H16A16,16,0,0,0,0,160v40a16,16,0,0,0,16,16H120a7.93,7.93,0,0,0,1.94-.24l64-16a6.94,6.94,0,0,0,1.19-.4L226,182.82l.44-.2a24.6,24.6,0,0,0,3.93-41.56ZM16,160H40v40H16Zm203.43,8.21-38,16.18L119,200H56V155.31l22.63-22.62A15.86,15.86,0,0,1,89.94,128H140a12,12,0,0,1,0,24H112a8,8,0,0,0,0,16h32a8.32,8.32,0,0,0,1.79-.2l67-15.41.31-.08a8.6,8.6,0,0,1,6.3,15.9ZM164,96a36,36,0,0,0,5.9-.48,36,36,0,1,0,28.22-47A36,36,0,1,0,164,96Zm60-12a20,20,0,1,1-20-20A20,20,0,0,1,224,84ZM164,40a20,20,0,0,1,19.25,14.61,36,36,0,0,0-15,24.93A20.42,20.42,0,0,1,164,80a20,20,0,0,1,0-40Z"
+            />
+          </svg>
+        </div>
+        <div
+          class="space-y-2"
+        >
+          <h3
+            class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
+          >
+            Get funded to accelerate your impact
+          </h3>
+          <p
+            class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
+          >
+            If your final course proposal is strong, you'll receive $10-50k to kickstart your transition into impactful work.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`CourseBenefitsSection > renders with custom icon background color (Future of AI cream) 1`] = `
+<section
+  class="w-full bg-white"
+>
+  <div
+    class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 md:px-spacing-x min-[1280px]:py-24 xl:py-24"
+  >
+    <h2
+      class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-16 tracking-[-0.01em]"
+    >
+      How this course will benefit you
+    </h2>
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+    >
+      <div
+        class="flex flex-col gap-6"
+      >
+        <div
+          class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
+          style="background-color: #faf6e1;"
+        >
+          <svg
+            class="text-black"
+            fill="currentColor"
+            height="28"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 256 256"
+            width="28"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M223.85,47.12a16,16,0,0,0-15-15c-12.58-.75-44.73.4-71.41,27.07L132.69,64H74.36A15.91,15.91,0,0,0,63,68.68L28.7,103a16,16,0,0,0,9.07,27.16l38.47,5.37,44.21,44.21,5.37,38.49a15.94,15.94,0,0,0,10.78,12.92,16.11,16.11,0,0,0,5.1.83A15.91,15.91,0,0,0,153,227.3L187.32,193A15.91,15.91,0,0,0,192,181.64V123.31l4.77-4.77C223.45,91.86,224.6,59.71,223.85,47.12ZM74.36,80h42.33L77.16,119.52,40,114.34Zm74.41-9.45a76.65,76.65,0,0,1,59.11-22.47,76.46,76.46,0,0,1-22.42,59.16L128,164.68,91.32,128ZM176,181.64,141.67,216l-5.19-37.17L176,139.31Zm-74.16,9.5C97.34,201,82.29,224,40,224a8,8,0,0,1-8-8c0-42.29,23-57.34,32.86-61.85a8,8,0,0,1,6.64,14.56c-6.43,2.93-20.62,12.36-23.12,38.91,26.55-2.5,36-16.69,38.91-23.12a8,8,0,1,1,14.56,6.64Z"
+            />
+          </svg>
+        </div>
+        <div
+          class="space-y-2"
+        >
+          <h3
+            class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
+          >
+            Take action in less than 30 hours
+          </h3>
+          <p
+            class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
+          >
+            You don't need another degree. This AGI Strategy course replaces years of self-study with three frameworks.
+          </p>
+        </div>
+      </div>
+      <div
+        class="flex flex-col gap-6"
+      >
+        <div
+          class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
+          style="background-color: #faf6e1;"
+        >
+          <svg
+            class="text-black"
+            fill="currentColor"
+            height="28"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 256 256"
+            width="28"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M244.8,150.4a8,8,0,0,1-11.2-1.6A51.6,51.6,0,0,0,192,128a8,8,0,0,1-7.37-4.89,8,8,0,0,1,0-6.22A8,8,0,0,1,192,112a24,24,0,1,0-23.24-30,8,8,0,1,1-15.5-4A40,40,0,1,1,219,117.51a67.94,67.94,0,0,1,27.43,21.68A8,8,0,0,1,244.8,150.4ZM190.92,212a8,8,0,1,1-13.84,8,57,57,0,0,0-98.16,0,8,8,0,1,1-13.84-8,72.06,72.06,0,0,1,33.74-29.92,48,48,0,1,1,58.36,0A72.06,72.06,0,0,1,190.92,212ZM128,176a32,32,0,1,0-32-32A32,32,0,0,0,128,176ZM72,120a8,8,0,0,0-8-8A24,24,0,1,1,87.24,82a8,8,0,1,0,15.5-4A40,40,0,1,0,37,117.51,67.94,67.94,0,0,0,9.6,139.19a8,8,0,1,0,12.8,9.61A51.6,51.6,0,0,1,64,128,8,8,0,0,0,72,120Z"
+            />
+          </svg>
+        </div>
+        <div
+          class="space-y-2"
+        >
+          <h3
+            class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
+          >
+            Join a network of builders
+          </h3>
+          <p
+            class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
+          >
+            This course isn't for everyone. We're building a community of people who are energised to take ambitious actions.
+          </p>
+        </div>
+      </div>
+      <div
+        class="flex flex-col gap-6"
+      >
+        <div
+          class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
+          style="background-color: #faf6e1;"
         >
           <svg
             class="text-black"
