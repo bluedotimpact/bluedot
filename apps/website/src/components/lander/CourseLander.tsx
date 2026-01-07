@@ -9,6 +9,7 @@ import WhoIsThisForSection, { WhoIsThisForSectionProps } from './components/WhoI
 import HeroSection, { HeroSectionProps } from './components/HeroSection';
 import QuoteSection, { QuoteSectionProps } from './components/QuoteSection';
 import CourseInformationSection, { CourseInformationSectionProps } from './components/CourseInformationSection';
+import CourseCurriculumSection, { CourseCurriculumSectionProps } from './components/CourseCurriculumSection';
 import FAQSection, { FAQSectionProps } from './components/FAQSection';
 import LandingBanner, { LandingBannerProps } from './components/LandingBanner';
 
@@ -21,6 +22,7 @@ export type CourseLanderContent = {
   meta: CourseLanderMeta;
   hero: HeroSectionProps;
   whoIsThisFor: WhoIsThisForSectionProps;
+  curriculum?: CourseCurriculumSectionProps;
   courseBenefits?: CourseBenefitsSectionProps;
   courseInformation: CourseInformationSectionProps;
   quotes?: QuoteSectionProps;
@@ -83,6 +85,13 @@ const CourseLander = ({
       <div className="border-t-hairline border-color-divider" />
 
       <WhoIsThisForSection {...content.whoIsThisFor} />
+
+      {content.curriculum && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <CourseCurriculumSection {...content.curriculum} />
+        </>
+      )}
 
       {content.courseBenefits && (
         <>

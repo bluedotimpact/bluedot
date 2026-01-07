@@ -80,6 +80,11 @@ export const createAgiStrategyContent = (
     },
   },
 
+  curriculum: {
+    title: 'Curriculum Overview',
+    courseSlug,
+  },
+
   courseBenefits: {
     title: 'How this course will benefit you',
     benefits: [
