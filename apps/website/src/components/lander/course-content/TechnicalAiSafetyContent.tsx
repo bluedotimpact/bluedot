@@ -22,6 +22,9 @@ const TAS_COLORS = {
   gradient: 'linear-gradient(to right, rgba(20, 8, 25, 0.6) 0%, rgba(20, 8, 25, 0.4) 20%, rgba(20, 8, 25, 0.2) 40%, transparent 55%), radial-gradient(130% 160% at 100% 108.81%, rgba(255, 202, 171, 0.40) 0%, rgba(126, 85, 144, 0.40) 52.4%, rgba(46, 16, 54, 0.40) 100%), #2E1036',
   accent: '#E0A5F9',
   iconBackground: 'hsla(284, 46%, 30%, 1)',
+  bright: '#ffe9ff',
+  mid: '#b880d1',
+  full: '#a060bb',
 };
 
 export const createTechnicalAiSafetyContent = (
@@ -83,6 +86,7 @@ export const createTechnicalAiSafetyContent = (
 
   courseBenefits: {
     title: 'How this course will benefit you',
+    iconBackgroundColor: TAS_COLORS.bright,
     benefits: [
       {
         icon: PiRocketLaunch,
@@ -107,6 +111,7 @@ export const createTechnicalAiSafetyContent = (
     applicationUrl: applicationUrlWithUtm,
     scheduleCtaText: 'Apply now',
     courseSlug,
+    accentColor: TAS_COLORS.full,
     details: [
       {
         icon: PiClockClockwise,

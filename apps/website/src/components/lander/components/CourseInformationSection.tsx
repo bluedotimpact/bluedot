@@ -30,6 +30,8 @@ export type CourseInformationSectionProps = {
   scheduleCtaText: string;
   /** Course slug to fetch dynamic schedule rounds from database */
   courseSlug: string;
+  /** Accent color for bars and "Apply now" links in the schedule section */
+  accentColor?: string;
 };
 
 const CourseInformationSection = ({
@@ -38,6 +40,7 @@ const CourseInformationSection = ({
   details,
   scheduleCtaText,
   courseSlug,
+  accentColor,
 }: CourseInformationSectionProps) => {
   return (
     <section className="w-full bg-white">
@@ -68,6 +71,7 @@ const CourseInformationSection = ({
                       <ScheduleRounds
                         courseSlug={courseSlug}
                         applicationUrl={applicationUrl}
+                        accentColor={accentColor}
                         fallbackContent={(
                           <div className="flex flex-col gap-4">
                             <div className="text-[15px] leading-[160%] text-[#13132E] opacity-80 font-normal">

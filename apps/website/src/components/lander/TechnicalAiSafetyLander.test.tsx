@@ -1,0 +1,142 @@
+import {
+  describe, it, expect, vi,
+} from 'vitest';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import CourseLander from './CourseLander';
+import { createTechnicalAiSafetyContent, TECHNICAL_AI_SAFETY_APPLICATION_URL } from './course-content/TechnicalAiSafetyContent';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
+
+// Mock Next.js Head component
+vi.mock('next/head', () => ({
+  default: ({ children }: { children: React.ReactNode }) => children,
+}));
+
+// Mock Next.js router
+vi.mock('next/router', () => ({
+  useRouter: () => ({
+    pathname: '/courses/technical-ai-safety',
+    query: {},
+    asPath: '/courses/technical-ai-safety',
+  }),
+}));
+
+// Mock @bluedot/ui hooks
+vi.mock('@bluedot/ui', async () => {
+  const actual = await vi.importActual('@bluedot/ui');
+  return {
+    ...actual,
+    useLatestUtmParams: () => ({
+      latestUtmParams: { utm_source: undefined },
+    }),
+  };
+});
+
+// Mock child components that might have complex dependencies
+vi.mock('./components/GraduateSection', () => ({
+  default: () => <div data-testid="graduate-section">Graduate Section</div>,
+}));
+
+vi.mock('./components/TestimonialSubSection', () => ({
+  default: ({ testimonials, title }: { testimonials?: unknown[]; title: string }) => (
+    <div data-testid="testimonial-section">
+      <h2>{title}</h2>
+      {testimonials?.length && <span>Testimonials: {testimonials.length}</span>}
+    </div>
+  ),
+  Testimonial: {},
+}));
+
+vi.mock('./CommunityCarousel', () => ({
+  default: ({ members, title }: { members?: unknown[]; title?: string }) => (
+    <div data-testid="community-members-section">
+      {title && <h2>{title}</h2>}
+      {members?.length && <span>Members: {members.length}</span>}
+    </div>
+  ),
+  CommunityMember: {},
+}));
+
+describe('TechnicalAiSafetyLander', () => {
+  it('renders the complete page correctly (snapshot)', () => {
+    const { container } = render(
+      <CourseLander
+        courseSlug="technical-ai-safety"
+        baseApplicationUrl={TECHNICAL_AI_SAFETY_APPLICATION_URL}
+        createContentFor={createTechnicalAiSafetyContent}
+        courseOgImage="https://bluedot.org/images/courses/link-preview/technical-ai-safety.png"
+      />,
+      { wrapper: TrpcProvider },
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  it('renders HeroSection with correct props', () => {
+    render(
+      <CourseLander
+        courseSlug="technical-ai-safety"
+        baseApplicationUrl={TECHNICAL_AI_SAFETY_APPLICATION_URL}
+        createContentFor={createTechnicalAiSafetyContent}
+      />,
+      { wrapper: TrpcProvider },
+    );
+
+    expect(screen.getAllByText('Technical AI Safety').length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Understand current safety techniques/).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole('link', { name: /Apply now/i }).length).toBeGreaterThan(0);
+  });
+
+  it('renders Graduate section', () => {
+    render(
+      <CourseLander
+        courseSlug="technical-ai-safety"
+        baseApplicationUrl={TECHNICAL_AI_SAFETY_APPLICATION_URL}
+        createContentFor={createTechnicalAiSafetyContent}
+      />,
+      { wrapper: TrpcProvider },
+    );
+    expect(screen.getByTestId('graduate-section')).toBeInTheDocument();
+  });
+
+  it('renders community members section', () => {
+    render(
+      <CourseLander
+        courseSlug="technical-ai-safety"
+        baseApplicationUrl={TECHNICAL_AI_SAFETY_APPLICATION_URL}
+        createContentFor={createTechnicalAiSafetyContent}
+      />,
+      { wrapper: TrpcProvider },
+    );
+
+    const communityMembersSection = screen.getByTestId('community-members-section');
+    expect(communityMembersSection).toBeInTheDocument();
+  });
+
+  it('renders Technical AI Safety banner with CTA', () => {
+    render(
+      <CourseLander
+        courseSlug="technical-ai-safety"
+        baseApplicationUrl={TECHNICAL_AI_SAFETY_APPLICATION_URL}
+        createContentFor={createTechnicalAiSafetyContent}
+      />,
+      { wrapper: TrpcProvider },
+    );
+
+    expect(screen.getByText('Start building towards a good future today')).toBeInTheDocument();
+  });
+
+  it('has correct meta tags in Head', () => {
+    const { container } = render(
+      <CourseLander
+        courseSlug="technical-ai-safety"
+        baseApplicationUrl={TECHNICAL_AI_SAFETY_APPLICATION_URL}
+        createContentFor={createTechnicalAiSafetyContent}
+      />,
+      { wrapper: TrpcProvider },
+    );
+
+    const titleElement = container.querySelector('title');
+    expect(titleElement).toBeTruthy();
+    expect(titleElement?.textContent).toBe('Technical AI Safety Course | BlueDot Impact');
+  });
+});

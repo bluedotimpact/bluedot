@@ -19,6 +19,8 @@ const COURSE_COLORS = {
   `,
   accent: '#adfeff',
   iconBackground: '#1F588A',
+  bright: '#ddf4ff',
+  full: '#4092d6',
 };
 
 export const createAiGovernanceContent = (
@@ -82,6 +84,7 @@ export const createAiGovernanceContent = (
     applicationUrl: applicationUrlWithUtm,
     scheduleCtaText: 'Apply now',
     courseSlug,
+    accentColor: COURSE_COLORS.full,
     details: [
       {
         icon: PiClockClockwise,

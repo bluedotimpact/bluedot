@@ -1,6 +1,58 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ScheduleRounds > renders correctly 1`] = `
+exports[`ScheduleRounds > renders correctly with default colors 1`] = `
+<div
+  class="flex flex-col gap-4"
+>
+  <div
+    class="h-20 w-full animate-pulse rounded bg-gray-200"
+  />
+  <div
+    class="h-20 w-full animate-pulse rounded bg-gray-200"
+  />
+</div>
+`;
+
+exports[`ScheduleRounds > renders with custom accent color (AGI Strategy purple) 1`] = `
+<div
+  class="flex flex-col gap-4"
+>
+  <div
+    class="h-20 w-full animate-pulse rounded bg-gray-200"
+  />
+  <div
+    class="h-20 w-full animate-pulse rounded bg-gray-200"
+  />
+</div>
+`;
+
+exports[`ScheduleRounds > renders with custom accent color (AI Governance blue) 1`] = `
+<div
+  class="flex flex-col gap-4"
+>
+  <div
+    class="h-20 w-full animate-pulse rounded bg-gray-200"
+  />
+  <div
+    class="h-20 w-full animate-pulse rounded bg-gray-200"
+  />
+</div>
+`;
+
+exports[`ScheduleRounds > renders with custom accent color (Biosecurity green) 1`] = `
+<div
+  class="flex flex-col gap-4"
+>
+  <div
+    class="h-20 w-full animate-pulse rounded bg-gray-200"
+  />
+  <div
+    class="h-20 w-full animate-pulse rounded bg-gray-200"
+  />
+</div>
+`;
+
+exports[`ScheduleRounds > renders with custom accent color (Future of AI gold) 1`] = `
 <div
   class="flex flex-col gap-4"
 >

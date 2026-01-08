@@ -14,10 +14,14 @@ export type QuoteWithUrl = Quote & {
 export type QuoteSectionProps = {
   /** Array of quotes to display in the carousel */
   quotes: QuoteWithUrl[];
+  /** Background color for the quote card. Defaults to '#ECF0FF' */
+  cardBackgroundColor?: string;
+  /** Accent color for the active navigation indicator. Defaults to bluedot-normal */
+  accentColor?: string;
 };
 
 // Design constants - these stay consistent across all courses
-const COLORS = {
+const DEFAULT_COLORS = {
   background: '#FFFFFF',
   cardBg: '#ECF0FF',
   text: '#13132E',
@@ -48,9 +52,10 @@ const getFontSizeForQuote = (quote: string): string => {
   return FONT_SIZE_CLASSES.DEFAULT;
 };
 
-const QuoteCard = ({ quote, isActive = true }: {
+const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
   quote: QuoteWithUrl;
   isActive?: boolean;
+  cardBackgroundColor?: string;
 }) => {
   const cardContent = (
     <div className="flex flex-col lg:flex-row-reverse w-full h-[465px] min-[680px]:!h-[377px] lg:h-[385px]">
@@ -59,7 +64,7 @@ const QuoteCard = ({ quote, isActive = true }: {
         {/* Quote text - sizing automatically determined by content length */}
         <blockquote
           className={`${getFontSizeForQuote(quote.quote)} leading-normal lg:leading-tight font-semibold text-center lg:text-left`}
-          style={{ color: COLORS.text }}
+          style={{ color: DEFAULT_COLORS.text }}
         >
           {quote.quote}
         </blockquote>
@@ -85,10 +90,10 @@ const QuoteCard = ({ quote, isActive = true }: {
 
           {/* Name and role */}
           <div className="flex flex-col items-center lg:items-start">
-            <div className="text-[18px] leading-tight font-semibold" style={{ color: COLORS.text }}>
+            <div className="text-[18px] leading-tight font-semibold" style={{ color: DEFAULT_COLORS.text }}>
               {quote.name}
             </div>
-            <div className="text-[16px] leading-[1.6] opacity-80 text-center lg:text-left lg:px-0" style={{ color: COLORS.text }}>
+            <div className="text-[16px] leading-[1.6] opacity-80 text-center lg:text-left lg:px-0" style={{ color: DEFAULT_COLORS.text }}>
               {quote.role}
             </div>
           </div>
@@ -124,14 +129,14 @@ const QuoteCard = ({ quote, isActive = true }: {
   return (
     <div
       className="w-full rounded-xl overflow-hidden"
-      style={{ backgroundColor: COLORS.cardBg }}
+      style={{ backgroundColor: cardBackgroundColor || DEFAULT_COLORS.cardBg }}
     >
       {cardContent}
     </div>
   );
 };
 
-const QuoteSection = ({ quotes }: QuoteSectionProps) => {
+const QuoteSection = ({ quotes, cardBackgroundColor, accentColor }: QuoteSectionProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -227,7 +232,7 @@ const QuoteSection = ({ quotes }: QuoteSectionProps) => {
   return (
     <section
       className="relative w-full py-6 px-5 sm:px-5 min-[680px]:pt-8 min-[680px]:pb-16 min-[680px]:px-8 lg:p-12 xl:pb-24 overflow-x-hidden"
-      style={{ backgroundColor: COLORS.background }}
+      style={{ backgroundColor: DEFAULT_COLORS.background }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onFocusCapture={handleFocusCapture}
@@ -248,7 +253,7 @@ const QuoteSection = ({ quotes }: QuoteSectionProps) => {
             {/* Main quote card - centered */}
             <div className="flex justify-center w-full">
               <div className="w-[calc(100vw-40px)] min-[680px]:w-[calc(100vw-64px)] relative z-10">
-                <QuoteCard quote={activeQuote} isActive />
+                <QuoteCard quote={activeQuote} isActive cardBackgroundColor={cardBackgroundColor} />
               </div>
             </div>
           </div>
@@ -258,7 +263,7 @@ const QuoteSection = ({ quotes }: QuoteSectionProps) => {
             {/* Main quote card - centered */}
             <div className="flex justify-center w-full">
               <div className="lg:w-[928px] xl:w-[1120px] relative z-10">
-                <QuoteCard quote={activeQuote} isActive />
+                <QuoteCard quote={activeQuote} isActive cardBackgroundColor={cardBackgroundColor} />
               </div>
             </div>
           </div>
@@ -297,7 +302,7 @@ const QuoteSection = ({ quotes }: QuoteSectionProps) => {
                 <div
                   className="w-full min-[680px]:w-24 h-1.5 rounded transition-all duration-300"
                   style={{
-                    backgroundColor: index === activeIndex ? COLORS.accent : COLORS.text,
+                    backgroundColor: index === activeIndex ? (accentColor || DEFAULT_COLORS.accent) : DEFAULT_COLORS.text,
                     opacity: index === activeIndex ? 1 : 0.15,
                   }}
                 />

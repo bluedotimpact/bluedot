@@ -102,3 +102,43 @@ export const LongQuotes: Story = {
     ],
   },
 };
+
+export const AgiStrategyColors: Story = {
+  args: {
+    quotes: sampleQuotes,
+    cardBackgroundColor: '#f3e8ff',
+    accentColor: '#9177dc',
+  },
+};
+
+export const BiosecurityColors: Story = {
+  args: {
+    quotes: sampleQuotes,
+    cardBackgroundColor: '#e5faea',
+    accentColor: '#3da462',
+  },
+};
+
+export const FutureOfAiColors: Story = {
+  args: {
+    quotes: sampleQuotes,
+    cardBackgroundColor: '#faf6e1',
+    accentColor: '#8c8146',
+  },
+};
+
+export const AiGovernanceColors: Story = {
+  args: {
+    quotes: sampleQuotes,
+    cardBackgroundColor: '#ddf4ff',
+    accentColor: '#4092d6',
+  },
+};
+
+export const TechnicalAiSafetyColors: Story = {
+  args: {
+    quotes: sampleQuotes,
+    cardBackgroundColor: '#ffe9ff',
+    accentColor: '#a060bb',
+  },
+};

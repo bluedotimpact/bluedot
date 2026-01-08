@@ -19,6 +19,8 @@ const BIOSECURITY_COLORS = {
   accent: '#ABEEB5',
   categoryLabel: '#81DBAF',
   iconBackground: '#316761',
+  bright: '#e5faea',
+  full: '#3da462',
 };
 
 export const createBioSecurityContent = (
@@ -80,6 +82,7 @@ export const createBioSecurityContent = (
 
   courseBenefits: {
     title: 'How this course will benefit you',
+    iconBackgroundColor: BIOSECURITY_COLORS.bright,
     benefits: [
       {
         icon: PiRocketLaunch,
@@ -104,6 +107,7 @@ export const createBioSecurityContent = (
     applicationUrl: applicationUrlWithUtm,
     scheduleCtaText: 'Apply now',
     courseSlug,
+    accentColor: BIOSECURITY_COLORS.full,
     details: [
       {
         icon: PiClockClockwise,
@@ -137,6 +141,8 @@ export const createBioSecurityContent = (
   },
 
   quotes: {
+    cardBackgroundColor: BIOSECURITY_COLORS.bright,
+    accentColor: BIOSECURITY_COLORS.full,
     quotes: [
       {
         quote: '"[COVID-19] has been very severe … it has affected every corner of this planet. But this is not necessarily the big one."',

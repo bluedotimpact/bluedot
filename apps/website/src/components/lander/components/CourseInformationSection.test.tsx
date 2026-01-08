@@ -65,7 +65,7 @@ const mockProps = {
 };
 
 describe('CourseInformationSection', () => {
-  it('renders correctly', () => {
+  it('renders correctly with default colors', () => {
     const { container } = render(<CourseInformationSection {...mockProps} />, { wrapper: TrpcProvider });
     expect(container.firstChild).toMatchSnapshot();
   });
@@ -101,5 +101,37 @@ describe('CourseInformationSection', () => {
     expect(getByText('join ~8 peers in a 2-hour Zoom meeting')).toBeDefined();
     expect(getByText(/facilitated by an AI safety expert/)).toBeDefined();
     expect(getByText(/pay-what-you-want/)).toBeDefined();
+  });
+
+  it('renders with custom accent color (AGI Strategy purple)', () => {
+    const { container } = render(
+      <CourseInformationSection {...mockProps} accentColor="#9177dc" />,
+      { wrapper: TrpcProvider },
+    );
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it('renders with custom accent color (Biosecurity green)', () => {
+    const { container } = render(
+      <CourseInformationSection {...mockProps} accentColor="#3da462" />,
+      { wrapper: TrpcProvider },
+    );
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it('renders with custom accent color (Future of AI gold)', () => {
+    const { container } = render(
+      <CourseInformationSection {...mockProps} accentColor="#8c8146" />,
+      { wrapper: TrpcProvider },
+    );
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it('renders with custom accent color (AI Governance blue)', () => {
+    const { container } = render(
+      <CourseInformationSection {...mockProps} accentColor="#4092d6" />,
+      { wrapper: TrpcProvider },
+    );
+    expect(container.firstChild).toMatchSnapshot();
   });
 });
