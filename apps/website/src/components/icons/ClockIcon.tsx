@@ -1,4 +1,3 @@
-import { cn } from '@bluedot/ui';
 import React from 'react';
 
 export const ClockIcon: React.FC<{
@@ -15,7 +14,7 @@ export const ClockIcon: React.FC<{
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className={cn(className)}
+    className={className}
   >
     <path
       d="M21 12.75C20.6184 17.37 16.7184 21 12 21C9.61305 21 7.32387 20.0518 5.63604 18.364C3.94821 16.6761 3 14.3869 3 12C3 7.28156 6.63 3.38156 11.25 3"
