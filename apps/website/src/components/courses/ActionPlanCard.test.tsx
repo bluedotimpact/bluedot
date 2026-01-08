@@ -85,7 +85,7 @@ describe('ActionPlanCard', () => {
 
       await waitFor(() => {
         expect(screen.getByText('Your Certificate')).toBeInTheDocument();
-        expect(screen.getByText('Engage in >80% of discussions and submit your action plan to receive your certificate.')).toBeInTheDocument();
+        expect(screen.getByText('To be eligible for a certificate, you need to submit your action plan/project and miss no more than 1 discussion.')).toBeInTheDocument();
       });
 
       // Verify button and URL
@@ -115,7 +115,7 @@ describe('ActionPlanCard', () => {
 
       await waitFor(() => {
         expect(screen.getByText('Your Certificate')).toBeInTheDocument();
-        expect(screen.getByText('Engage in >80% of discussions and submit your action plan to receive your certificate.')).toBeInTheDocument();
+        expect(screen.getByText('To be eligible for a certificate, you need to submit your action plan/project and miss no more than 1 discussion.')).toBeInTheDocument();
       });
 
       // Verify button shows submitted state
