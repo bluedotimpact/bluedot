@@ -185,8 +185,8 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             <DatePicker value={selectedDate ?? selectedDiscussionDateTime} onChange={setSelectedDate} />
             <TimePicker
               className="w-fit"
-              value={selectedTime ?? selectedDiscussionDateTime}
-              onChange={setSelectedTime}
+              timeValue={selectedTime ?? selectedDiscussionDateTime}
+              onTimeChange={setSelectedTime}
             />
           </div>
         </div>
