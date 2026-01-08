@@ -11,9 +11,10 @@ import {
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import GroupSwitchModal, { type SwitchType } from '../courses/GroupSwitchModal';
 import FacilitatorSwitchModal from '../courses/FacilitatorSwitchModal';
-import { SlackIcon } from '../icons/SlackIcon';
 import type { ButtonOrMenuItem } from '../courses/GroupDiscussionBanner';
 import { DocumentIcon } from '../icons/DocumentIcon';
+import { ClockIcon } from '../icons/ClockIcon';
+import { SlackIcon } from '../icons/SlackIcon';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 
 const BUTTON_STYLES = {
@@ -83,6 +84,7 @@ const CourseDetailsRow = ({
       onClick: () => handleOpenGroupSwitchModal({ discussion, switchType: 'Switch group for one unit' }),
       isVisible: isFacilitator && !isPast,
       ariaLabel: `Update discussion for Unit ${discussion.unitNumber}`,
+      overflowIcon: <ClockIcon className="mx-auto" size={20} />,
     },
     // Inside overflow menu
     {
