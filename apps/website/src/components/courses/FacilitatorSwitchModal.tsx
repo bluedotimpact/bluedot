@@ -141,7 +141,10 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           <Select
             ariaLabel="Group"
             value={selectedGroupId}
-            onChange={(value) => setSelectedGroupId(value)}
+            onChange={(value) => {
+              setSelectedGroupId(value);
+              setSelectedDiscussionId(undefined);
+            }}
             options={groupOptions}
             placeholder="Choose a group"
           />
