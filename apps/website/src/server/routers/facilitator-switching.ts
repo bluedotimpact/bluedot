@@ -104,12 +104,12 @@ export const facilitatorSwitchingRouter = router({
         // When provided, we will update only a single discussion's date/time. Otherwise all future discussions are updated.
         discussionId: z.string().optional(),
         groupId: z.string(),
-        newDateTime: z.number(), // Unix timestamp in seconds
+        requestedDateTimeInSeconds: z.number(), // Unix timestamp in seconds
       }),
     )
     .mutation(async ({ input, ctx }) => {
       const {
-        courseSlug, discussionId, groupId, newDateTime,
+        courseSlug, discussionId, groupId, requestedDateTimeInSeconds,
       } = input;
 
       const facilitator = await getFacilitator(courseSlug, ctx.auth.email);
@@ -120,7 +120,7 @@ export const facilitatorSwitchingRouter = router({
         group: groupId,
         status: 'Requested',
         switchType: discussionId ? 'Change for one unit' : 'Change permanently',
-        facilitatorRequestedDatetime: newDateTime,
+        facilitatorRequestedDatetime: requestedDateTimeInSeconds,
       });
 
       return null;

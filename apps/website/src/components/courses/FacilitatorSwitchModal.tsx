@@ -94,7 +94,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       discussionId,
       groupId: selectedGroupId,
       // `getTime()` converts to UTC milliseconds, we convert to seconds
-      newDateTime: Math.floor(newDateTime.getTime() / 1000),
+      requestedDateTimeInSeconds: Math.floor(newDateTime.getTime() / 1000),
     });
   };
 
