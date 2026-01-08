@@ -62,13 +62,18 @@ export const facilitatorSwitchingRouter = router({
 
       // If no discussionId is provided, ensure the facilitator is allowed to manage at least one discussion for the group
       if (!discussionId) {
+        const allowedDiscussions = facilitator.expectedDiscussionsFacilitator || [];
+        if (allowedDiscussions.length === 0) {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitator is not allowed to manage any discussions' });
+        }
+
         const groupDiscussions = await db.pg
           .select({ id: groupDiscussionTable.pg.id })
           .from(groupDiscussionTable.pg)
           .where(
             and(
               eq(groupDiscussionTable.pg.group, groupId),
-              inArray(groupDiscussionTable.pg.id, facilitator.expectedDiscussionsFacilitator || []),
+              inArray(groupDiscussionTable.pg.id, allowedDiscussions),
             ),
           );
 
