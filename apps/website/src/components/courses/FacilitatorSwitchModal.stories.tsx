@@ -14,9 +14,11 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const mockGroup = createMockGroup({ id: 'group-1', groupName: 'Group 1' });
+const mockGroup1 = createMockGroup({ id: 'group-1', groupName: 'Monday 9am ET' });
+const mockGroup2 = createMockGroup({ id: 'group-2', groupName: 'Wednesday 2pm ET' });
 
 const mockDiscussions = [
+  // Group 1 discussions
   {
     ...createMockGroupDiscussion({
       id: 'discussion-1',
@@ -24,7 +26,7 @@ const mockDiscussions = [
       startDateTime: Math.floor(Date.now() / 1000) - 3600, // 1 hour ago
       endDateTime: Math.floor(Date.now() / 1000) - 1800, // .5 hours ago
     }),
-    groupDetails: mockGroup,
+    groupDetails: mockGroup1,
     unitRecord: createMockUnit({ unitNumber: '1', title: 'Introduction' }),
   },
   {
@@ -34,7 +36,7 @@ const mockDiscussions = [
       startDateTime: Math.floor(Date.now() / 1000) + 3600, // 1 hour from now
       endDateTime: Math.floor(Date.now() / 1000) + 5400, // 1.5 hours from now
     }),
-    groupDetails: mockGroup,
+    groupDetails: mockGroup1,
     unitRecord: createMockUnit({ unitNumber: '2', title: 'Advanced Topics' }),
   },
   {
@@ -44,8 +46,29 @@ const mockDiscussions = [
       startDateTime: Math.floor(Date.now() / 1000) + 5400, // 1.5 hours from now
       endDateTime: Math.floor(Date.now() / 1000) + 7200, // 2 hours from now
     }),
-    groupDetails: mockGroup,
+    groupDetails: mockGroup1,
     unitRecord: createMockUnit({ unitNumber: '3', title: 'Conclusion' }),
+  },
+  // Group 2 discussions
+  {
+    ...createMockGroupDiscussion({
+      id: 'discussion-4',
+      group: 'group-2',
+      startDateTime: Math.floor(Date.now() / 1000) + 7200, // 2 hours from now
+      endDateTime: Math.floor(Date.now() / 1000) + 9000, // 2.5 hours from now
+    }),
+    groupDetails: mockGroup2,
+    unitRecord: createMockUnit({ unitNumber: '1', title: 'Introduction' }),
+  },
+  {
+    ...createMockGroupDiscussion({
+      id: 'discussion-5',
+      group: 'group-2',
+      startDateTime: Math.floor(Date.now() / 1000) + 86400, // 1 day from now
+      endDateTime: Math.floor(Date.now() / 1000) + 88200, // 1 day + .5 hours from now
+    }),
+    groupDetails: mockGroup2,
+    unitRecord: createMockUnit({ unitNumber: '2', title: 'Advanced Topics' }),
   },
 ];
 
