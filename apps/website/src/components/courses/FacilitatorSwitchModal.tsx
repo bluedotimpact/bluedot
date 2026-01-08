@@ -67,7 +67,8 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       return;
     }
 
-    const discussionId = switchType === 'Change for one unit' ? selectedDiscussionId : undefined;
+    // When `discussionId` is undefined the backend automation will update all future discussions for the group
+    const discussionId = isSingleUnitChange ? selectedDiscussionId : undefined;
 
     const dateToUse = selectedDate ?? selectedDiscussionDateTime;
     const timeToUse = selectedTime ?? selectedDiscussionDateTime;
@@ -108,7 +109,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           </div>
           <div className="flex max-w-[400px] flex-col items-center gap-4">
             <P className="text-[#13132E] opacity-80">
-              We've updated your group's {selectedDiscussionId ? 'discussion' : 'discussions'}.
+              We've updated your group's {isSingleUnitChange ? 'discussion' : 'discussions'}.
             </P>
             <P className="text-center text-[#13132E] opacity-80">
               You should see the changes reflected in the calendar event and Course Hub. Please allow up to 10 minutes.
