@@ -1,11 +1,12 @@
+import type { GroupDiscussion } from '@bluedot/db';
 import {
   CTALinkOrButton, DatePicker, H1, Modal, P, ProgressDots, Select, TimePicker,
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import React, { useState } from 'react';
-import type { GroupDiscussion } from '@bluedot/db';
 import { trpc } from '../../utils/trpc';
 import { CheckIcon } from '../icons/CheckIcon';
+import { ClockIcon } from '../icons/ClockIcon';
 import { InfoIcon } from '../icons/InfoIcon';
 
 export type FacilitatorSwitchModalProps = {
@@ -96,6 +97,16 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       // `getTime()` converts to UTC milliseconds, we convert to seconds
       requestedDateTimeInSeconds: Math.floor(newDateTime.getTime() / 1000),
     });
+  };
+
+  const renderTitle = () => {
+    const titleText = submitUpdateMutation.isSuccess ? 'Success' : 'Update your discussion time';
+    return (
+      <div className="flex w-full items-center gap-2">
+        <ClockIcon />
+        <div className="text-size-md font-semibold">{titleText}</div>
+      </div>
+    );
   };
 
   const renderContent = () => {
@@ -213,7 +224,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     <Modal
       isOpen
       setIsOpen={(open: boolean) => !open && handleClose()}
-      title={submitUpdateMutation.isSuccess ? 'Success' : 'Update your discussion time'}
+      title={renderTitle()}
       bottomDrawerOnMobile
     >
       <div className="w-full md:w-[600px]">
