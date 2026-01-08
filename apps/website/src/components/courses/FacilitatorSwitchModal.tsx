@@ -1,9 +1,17 @@
-import type { GroupDiscussion } from '@bluedot/db';
+import type { Group } from '@bluedot/db';
 import {
-  CTALinkOrButton, DatePicker, H1, Modal, P, ProgressDots, Select, TimePicker,
+  CTALinkOrButton,
+  DatePicker,
+  H1,
+  Modal,
+  P,
+  ProgressDots,
+  Select,
+  TimePicker,
+  useCurrentTimeMs,
 } from '@bluedot/ui';
-import { ErrorView } from '@bluedot/ui/src/ErrorView';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import { trpc } from '../../utils/trpc';
 import { CheckIcon } from '../icons/CheckIcon';
 import { ClockIcon } from '../icons/ClockIcon';
@@ -13,6 +21,7 @@ export type FacilitatorSwitchModalProps = {
   handleClose: () => void;
   courseSlug: string;
   initialDiscussion: GroupDiscussion | null;
+  allDiscussions?: GroupDiscussion[];
 };
 
 const SWITCH_OPTIONS = [
@@ -26,6 +35,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   handleClose,
   courseSlug,
   initialDiscussion,
+  allDiscussions,
 }) => {
   const [switchType, setSwitchType] = useState<SwitchType | undefined>('Change for one unit');
   const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(initialDiscussion?.group);
@@ -33,14 +43,51 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<Date | undefined>(undefined);
 
-  const {
-    data: switchData,
-    isLoading,
-    isError,
-    error,
-  } = trpc.facilitators.discussionsAvailable.useQuery({
-    courseSlug,
-  });
+  const currentTimeMs = useCurrentTimeMs();
+
+  const discussionsByGroup: Record<string, {
+    id: string;
+    startDateTime: number;
+    endDateTime: number;
+    label: string;
+    hasStarted: boolean;
+  }[]
+  > = {};
+  const groupsMap = new Map<string, Group>();
+
+  for (const discussion of allDiscussions ?? []) {
+    const groupId = discussion.group;
+
+    if (discussion.groupDetails && !groupsMap.has(groupId)) {
+      groupsMap.set(groupId, discussion.groupDetails);
+    }
+
+    if (!discussionsByGroup[groupId]) {
+      discussionsByGroup[groupId] = [];
+    }
+
+    const label = discussion.unitRecord
+      ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
+      : 'Unknown Unit';
+
+    discussionsByGroup[groupId]?.push({
+      id: discussion.id,
+      startDateTime: discussion.startDateTime,
+      endDateTime: discussion.endDateTime,
+      label,
+      hasStarted: discussion.startDateTime * 1000 <= currentTimeMs,
+    });
+  }
+
+  // Sort discussions within each group by startDateTime
+  for (const discussions of Object.values(discussionsByGroup)) {
+    discussions.sort((a, b) => a.startDateTime - b.startDateTime);
+  }
+
+  const switchData = {
+    groups: Array.from(groupsMap.values()),
+    discussionsByGroup,
+  };
 
   const submitUpdateMutation = trpc.facilitators.updateDiscussion.useMutation();
 
@@ -110,19 +157,6 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   };
 
   const renderContent = () => {
-    if (isLoading) {
-      return (
-        <>
-          <InformationBanner />
-          <ProgressDots />
-        </>
-      );
-    }
-
-    if (isError) {
-      return <ErrorView error={error} />;
-    }
-
     if (submitUpdateMutation.isSuccess) {
       return (
         <div className="flex w-full flex-col items-center justify-center gap-8">

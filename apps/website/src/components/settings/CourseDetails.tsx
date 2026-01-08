@@ -203,6 +203,7 @@ type CourseDetailsProps = {
   courseRegistration: CourseRegistration;
   attendedDiscussions: GroupDiscussion[];
   upcomingDiscussions: GroupDiscussion[];
+  expectedDiscussions?: GroupDiscussion[];
   isLoading: boolean;
   isLast?: boolean;
 };
@@ -212,6 +213,7 @@ const CourseDetails = ({
   courseRegistration,
   attendedDiscussions,
   upcomingDiscussions,
+  expectedDiscussions,
   isLoading,
   isLast = false,
 }: CourseDetailsProps) => {
@@ -375,6 +377,7 @@ const CourseDetails = ({
           }}
           courseSlug={course.slug}
           initialDiscussion={selectedDiscussion}
+          allDiscussions={expectedDiscussions}
         />
       )}
     </>
