@@ -45,50 +45,11 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   const currentTimeMs = useCurrentTimeMs();
   const submitUpdateMutation = trpc.facilitators.updateDiscussion.useMutation();
 
-  // Build group options and discussions by group from allDiscussions
-  const groupOptionsMap = new Map<string, { value: string; label: string }>();
-  const discussionsByGroup: Record<string, { id: string; label: string; hasStarted: boolean; startDateTime: number }[]> = {};
+  const { groupOptions, discussionOptionsByGroup } = buildOptions(allDiscussions ?? [], currentTimeMs);
 
-  for (const discussion of allDiscussions ?? []) {
-    const groupId = discussion.group;
-
-    if (discussion.groupDetails && !groupOptionsMap.has(groupId)) {
-      groupOptionsMap.set(groupId, {
-        value: groupId,
-        label: discussion.groupDetails.groupName || 'Group [Unknown]',
-      });
-    }
-
-    if (!discussionsByGroup[groupId]) {
-      discussionsByGroup[groupId] = [];
-    }
-
-    discussionsByGroup[groupId].push({
-      id: discussion.id,
-      label: discussion.unitRecord
-        ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
-        : 'Unknown Unit',
-      hasStarted: discussion.startDateTime * 1000 <= currentTimeMs,
-      startDateTime: discussion.startDateTime,
-    });
-  }
-
-  // Sort discussions within each group by startDateTime
-  for (const discussions of Object.values(discussionsByGroup)) {
-    discussions.sort((a, b) => a.startDateTime - b.startDateTime);
-  }
-
-  const groupOptions = Array.from(groupOptionsMap.values());
-
-  const discussionOptions = discussionsByGroup[selectedGroupId || '']?.map((d) => ({
-    value: d.id,
-    label: d.label,
-    disabled: d.hasStarted,
-  })) || [];
-
-  const selectedDiscussion = discussionsByGroup[selectedGroupId || '']?.find(
-    (d) => d.id === selectedDiscussionId,
-  );
+  const discussionsForGroup = discussionOptionsByGroup[selectedGroupId || ''] ?? [];
+  const discussionOptions = discussionsForGroup.map((d) => d.option);
+  const selectedDiscussion = discussionsForGroup.find((d) => d.option.value === selectedDiscussionId);
   const selectedDiscussionDateTime = selectedDiscussion ? new Date(selectedDiscussion.startDateTime * 1000) : undefined;
   const dayOfWeek = selectedDiscussionDateTime?.toLocaleDateString(undefined, { weekday: 'short' });
   const date = selectedDiscussionDateTime?.toLocaleDateString(undefined, { dateStyle: 'medium' });
@@ -266,6 +227,48 @@ const InformationBanner = () => {
       </div>
     </div>
   );
+};
+
+type SelectOption = { value: string; label: string; disabled?: boolean };
+
+const buildOptions = (discussions: GroupDiscussion[], currentTimeMs: number) => {
+  const groupOptions: SelectOption[] = [];
+  const discussionOptionsByGroup: Record<string, { startDateTime: number; option: SelectOption }[]> = {};
+  const seenGroups = new Set<string>();
+
+  for (const discussion of discussions) {
+    const groupId = discussion.group;
+
+    if (discussion.groupDetails && !seenGroups.has(groupId)) {
+      seenGroups.add(groupId);
+      groupOptions.push({
+        value: groupId,
+        label: discussion.groupDetails.groupName || 'Group [Unknown]',
+      });
+    }
+
+    if (!discussionOptionsByGroup[groupId]) {
+      discussionOptionsByGroup[groupId] = [];
+    }
+
+    discussionOptionsByGroup[groupId].push({
+      startDateTime: discussion.startDateTime,
+      option: {
+        value: discussion.id,
+        label: discussion.unitRecord
+          ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
+          : 'Unknown Unit',
+        disabled: discussion.startDateTime * 1000 <= currentTimeMs,
+      },
+    });
+  }
+
+  // Sort discussions within each group by startDateTime
+  for (const group of Object.values(discussionOptionsByGroup)) {
+    group.sort((a, b) => a.startDateTime - b.startDateTime);
+  }
+
+  return { groupOptions, discussionOptionsByGroup };
 };
 
 export default FacilitatorSwitchModal;
