@@ -6,8 +6,8 @@ import { cn } from './utils';
 
 export type TimePickerProps = {
   label?: string;
-  value?: Date;
-  onChange?: (value?: Date) => void;
+  timeValue?: Date;
+  onTimeChange?: (value?: Date) => void;
   className?: string;
   labelClassName?: string;
   inputClassName?: string;
@@ -15,25 +15,25 @@ export type TimePickerProps = {
 
 export const TimePicker = ({
   label,
-  value,
-  onChange,
+  timeValue,
+  onTimeChange,
   className,
   labelClassName,
   inputClassName,
 }: TimePickerProps) => {
   // Convert Date to Time object
-  const time = value ? new Time(value.getHours(), value.getMinutes()) : null;
+  const time = timeValue ? new Time(timeValue.getHours(), timeValue.getMinutes()) : null;
 
   // Convert Time object to Date object in onChange
   const handleChange = (newValue: Time | null) => {
-    if (!onChange) return;
+    if (!onTimeChange) return;
 
     if (newValue) {
-      const date = value ? new Date(value) : new Date();
+      const date = timeValue ? new Date(timeValue) : new Date();
       date.setHours(newValue.hour, newValue.minute, 0, 0);
-      onChange(date);
+      onTimeChange(date);
     } else {
-      onChange(undefined);
+      onTimeChange(undefined);
     }
   };
 

@@ -21,7 +21,7 @@ export const Default: Story = {
 
       return (
         <div className="flex flex-col gap-4">
-          <TimePicker label="Pick a time" value={time} onChange={setTime} />
+          <TimePicker label="Pick a time" timeValue={time} onTimeChange={setTime} />
           <div className="text-size-sm text-white">Selected: {time ? time.toLocaleTimeString() : 'None'}</div>
         </div>
       );
