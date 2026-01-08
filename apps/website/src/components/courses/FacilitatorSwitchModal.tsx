@@ -47,9 +47,8 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 
   const { groupOptions, discussionOptionsByGroup } = buildOptions(allDiscussions ?? [], currentTimeMs);
 
-  const discussionsForGroup = discussionOptionsByGroup[selectedGroupId || ''] ?? [];
-  const discussionOptions = discussionsForGroup.map((d) => d.option);
-  const selectedDiscussion = discussionsForGroup.find((d) => d.option.value === selectedDiscussionId);
+  const discussionOptions = discussionOptionsByGroup[selectedGroupId || ''] ?? [];
+  const selectedDiscussion = discussionOptions.find((d) => d.value === selectedDiscussionId);
   const selectedDiscussionDateTime = selectedDiscussion ? new Date(selectedDiscussion.startDateTime * 1000) : undefined;
   const dayOfWeek = selectedDiscussionDateTime?.toLocaleDateString(undefined, { weekday: 'short' });
   const date = selectedDiscussionDateTime?.toLocaleDateString(undefined, { dateStyle: 'medium' });
@@ -229,11 +228,12 @@ const InformationBanner = () => {
   );
 };
 
-type SelectOption = { value: string; label: string; disabled?: boolean };
+type GroupOption = { value: string; label: string; disabled?: boolean };
+type DiscussionOption = GroupOption & { startDateTime: number };
 
 const buildOptions = (discussions: GroupDiscussion[], currentTimeMs: number) => {
-  const groupOptions: SelectOption[] = [];
-  const discussionOptionsByGroup: Record<string, { startDateTime: number; option: SelectOption }[]> = {};
+  const groupOptions: GroupOption[] = [];
+  const discussionOptionsByGroup: Record<string, DiscussionOption[]> = {};
   const seenGroups = new Set<string>();
 
   for (const discussion of discussions) {
@@ -252,14 +252,12 @@ const buildOptions = (discussions: GroupDiscussion[], currentTimeMs: number) => 
     }
 
     discussionOptionsByGroup[groupId].push({
+      value: discussion.id,
+      label: discussion.unitRecord
+        ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
+        : 'Unknown Unit',
+      disabled: discussion.startDateTime * 1000 <= currentTimeMs,
       startDateTime: discussion.startDateTime,
-      option: {
-        value: discussion.id,
-        label: discussion.unitRecord
-          ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
-          : 'Unknown Unit',
-        disabled: discussion.startDateTime * 1000 <= currentTimeMs,
-      },
     });
   }
 
