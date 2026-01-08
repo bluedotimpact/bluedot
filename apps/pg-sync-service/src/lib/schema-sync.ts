@@ -161,7 +161,7 @@ export async function ensureSchemaUpToDate(): Promise<boolean> {
   } catch (error) {
     const schemaError = `[schema-sync] ❌ Failed to update database schema: ${error instanceof Error ? error.message : String(error)}`;
     logger.error(schemaError);
-    await slackAlert(env, [schemaError]);
+    slackAlert(env, [schemaError]);
     throw error;
   }
 }

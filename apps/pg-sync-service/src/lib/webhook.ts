@@ -112,12 +112,12 @@ export class AirtableWebhook {
         };
 
         logger.error(`[WEBHOOK] ${webhookListError}: ${JSON.stringify(errorDetails)}`);
-        await slackAlert(env, [`[WEBHOOK] ${webhookListError}: ${formatForSlack(errorDetails)}`]);
+        slackAlert(env, [`[WEBHOOK] ${webhookListError}: ${formatForSlack(errorDetails)}`]);
         throw error;
       } else {
         const e = new Error(`${webhookListError}. Check your Airtable PAT has webhook:manage permissions.`, { cause: error });
         logger.error(e);
-        await slackAlert(env, [`[WEBHOOK] ${e.message}`]);
+        slackAlert(env, [`[WEBHOOK] ${e.message}`]);
         throw e;
       }
     });
@@ -454,7 +454,7 @@ export class AirtableWebhook {
         await this.axiosInstance.delete(`/bases/${this.baseId}/webhooks/${this.webhookId}`);
         const deleteMessage = `[WEBHOOK] Deleted invalid webhook ${this.webhookId} for base ${this.baseId}`;
         logger.info(deleteMessage);
-        await slackAlert(env, [deleteMessage]);
+        slackAlert(env, [deleteMessage]);
       } catch (error) {
         logger.warn(`[WEBHOOK] Failed to delete invalid webhook ${this.webhookId}:`, error);
       }

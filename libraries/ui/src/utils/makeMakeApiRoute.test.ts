@@ -10,6 +10,7 @@ const mockEnv = {
   APP_NAME: 'test-app',
   ALERTS_SLACK_BOT_TOKEN: 'mock-token',
   ALERTS_SLACK_CHANNEL_ID: 'mock-channel',
+  INFO_SLACK_CHANNEL_ID: 'mock-info-channel',
 };
 
 const mockVerifyToken = vi.fn().mockImplementation((token: string) => {
