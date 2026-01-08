@@ -5,10 +5,8 @@ import {
   eq,
   facilitatorDiscussionSwitchingTable,
   groupDiscussionTable,
-  groupTable,
   inArray,
   meetPersonTable,
-  unitTable,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
@@ -40,64 +38,6 @@ const getFacilitator = async (courseSlug: string, facilitatorEmail: string) => {
 };
 
 export const facilitatorSwitchingRouter = router({
-  discussionsAvailable: protectedProcedure
-    .input(
-      z.object({
-        courseSlug: z.string(),
-      }),
-    )
-    .query(async ({ input: { courseSlug }, ctx }) => {
-      const facilitator = await getFacilitator(courseSlug, ctx.auth.email);
-
-      const groupDiscussions = await db.pg
-        .select()
-        .from(groupDiscussionTable.pg)
-        .where(
-          and(
-            inArray(groupDiscussionTable.pg.id, facilitator.expectedDiscussionsFacilitator || []),
-            // TODO: if `startDateTime` is in GMT, will there be problems with timezone?
-            // gte(groupDiscussionTable.pg.startDateTime, Date.now()),
-          ),
-        );
-      // TODO: only fetch what columns we need?
-      const groups = await db.pg.select().from(groupTable.pg).where(
-        inArray(groupTable.pg.id, groupDiscussions.map((discussion) => discussion.group)),
-      );
-
-      const units = await Promise.all(
-        groupDiscussions.map(async (discussion) => {
-          if (!discussion.courseBuilderUnitRecordId) {
-            return null;
-          }
-          const unit = await db.getFirst(unitTable, { filter: { id: discussion.courseBuilderUnitRecordId, courseSlug, unitStatus: 'Active' } });
-          return unit;
-        }),
-      );
-
-      const discussionsByGroup: Record<string, { id: string, startDateTime: number, endDateTime: number, label: string, hasStarted: boolean }[]> = {};
-      for (const discussion of groupDiscussions) {
-        if (!discussionsByGroup[discussion.group]) {
-          discussionsByGroup[discussion.group] = [];
-        }
-        const unit = units.find((u) => u && u.id === discussion.courseBuilderUnitRecordId);
-
-        discussionsByGroup[discussion.group]?.push({
-          id: discussion.id,
-          startDateTime: discussion.startDateTime,
-          endDateTime: discussion.endDateTime,
-          label: unit ? `Unit ${unit.unitNumber}: ${unit.title}` : 'Unknown Unit',
-          hasStarted: discussion.startDateTime * 1000 <= Date.now(),
-        });
-      }
-
-      // Sort discussions within each group by startDateTime (earliest first)
-      for (const discussions of Object.values(discussionsByGroup)) {
-        discussions.sort((a, b) => a.startDateTime - b.startDateTime);
-      }
-
-      return { groups, discussionsByGroup };
-    }),
-
   updateDiscussion: protectedProcedure
     .input(
       z.object({
