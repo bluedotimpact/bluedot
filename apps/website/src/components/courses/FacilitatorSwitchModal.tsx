@@ -241,7 +241,7 @@ const InformationBanner = () => {
         <div className="flex items-center justify-start">
           <InfoIcon className="size-5 shrink-0" />
         </div>
-        <P className="flex-1 justify-start text-[#1144CC]">
+        <P className="text-bluedot-normal flex-1 justify-start">
           Please discuss any changes with your participants beforehand. Any changes will update the calendar invitation
           and Course Hub information, but not notify your participants.
         </P>
