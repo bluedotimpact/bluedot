@@ -26,12 +26,12 @@ export const groupDiscussionsRouter = router({
         return { discussions: [] };
       }
 
-      const rawDiscussions = await db.scan(groupDiscussionTable, {
+      const discussions = await db.scan(groupDiscussionTable, {
         OR: discussionIds.map((id) => ({ id })),
       });
 
-      if (rawDiscussions.length !== discussionIds.length) {
-        const foundIds = new Set(rawDiscussions.map((d) => d.id));
+      if (discussions.length !== discussionIds.length) {
+        const foundIds = new Set(discussions.map((d) => d.id));
         const missingIds = discussionIds.filter((id) => !foundIds.has(id));
         logger.error(`Some group discussions not found for the provided IDs: ${missingIds.join(', ')}`);
         throw new TRPCError({
@@ -40,23 +40,8 @@ export const groupDiscussionsRouter = router({
         });
       }
 
-      // There are cases where `courseBuilderUnitRecordId` is missing for unknown reasons,
-      // filter these out so we can proceed with as many valid discussions as we can.
-      // See https://github.com/bluedotimpact/bluedot/issues/1557 for discussion of the underlying issue.
-      const validDiscussions = rawDiscussions.filter((d) => !!d.courseBuilderUnitRecordId);
-
-      if (validDiscussions.length < rawDiscussions.length) {
-        const invalidIds = rawDiscussions.filter((d) => !validDiscussions.includes(d)).map((d) => d.id);
-        const errorMessage = `Discussions missing unit reference: ${invalidIds.join(', ')}`;
-        logger.error(errorMessage);
-      }
-
-      if (validDiscussions.length === 0) {
-        return { discussions: [] };
-      }
-
-      const groupIds = [...new Set(validDiscussions.map((d) => d.group))];
-      const unitIds = [...new Set(validDiscussions.map((d) => d.courseBuilderUnitRecordId!))];
+      const groupIds = [...new Set(discussions.map((d) => d.group))];
+      const unitIds = [...new Set(discussions.map((d) => d.courseBuilderUnitRecordId).filter((id): id is string => !!id))];
 
       const [groups, units] = await Promise.all([
         db.scan(groupTable, {
@@ -71,21 +56,14 @@ export const groupDiscussionsRouter = router({
       const groupMap = new Map(groups.map((g) => [g.id, g]));
       const unitMap = new Map(units.map((u) => [u.id, u]));
 
-      const discussionsWithDetails = validDiscussions.map((discussion) => {
+      const discussionsWithDetails = discussions.map((discussion) => {
         const group = groupMap.get(discussion.group);
-        const unit = unitMap.get(discussion.courseBuilderUnitRecordId!);
+        const unit = (discussion.courseBuilderUnitRecordId && unitMap.get(discussion.courseBuilderUnitRecordId)) || null;
 
         if (!group) {
           throw new TRPCError({
             code: 'NOT_FOUND',
             message: `Related group not found for discussion ${discussion.id}`,
-          });
-        }
-
-        if (!unit) {
-          throw new TRPCError({
-            code: 'NOT_FOUND',
-            message: `Associated unit not found for discussion ${discussion.id}`,
           });
         }
 

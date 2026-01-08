@@ -121,7 +121,7 @@ const CourseDetailsRow = ({
             <div className="text-size-sm font-medium text-gray-900 truncate">
               {discussion.unitRecord
                 ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
-                : `Unit ${discussion.unitNumber || ''}`}
+                : `Unit ${discussion.unitFallback || ''}`}
             </div>
             {!isPast && isNext && (
               <div className="truncate text-size-xs text-bluedot-normal font-medium">
