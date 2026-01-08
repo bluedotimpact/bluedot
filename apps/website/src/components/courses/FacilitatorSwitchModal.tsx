@@ -1,4 +1,3 @@
-import type { Group } from '@bluedot/db';
 import {
   CTALinkOrButton,
   DatePicker,
@@ -44,38 +43,33 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   const [selectedTime, setSelectedTime] = useState<Date | undefined>(undefined);
 
   const currentTimeMs = useCurrentTimeMs();
+  const submitUpdateMutation = trpc.facilitators.updateDiscussion.useMutation();
 
-  const discussionsByGroup: Record<string, {
-    id: string;
-    startDateTime: number;
-    endDateTime: number;
-    label: string;
-    hasStarted: boolean;
-  }[]
-  > = {};
-  const groupsMap = new Map<string, Group>();
+  // Build group options and discussions by group from allDiscussions
+  const groupOptionsMap = new Map<string, { value: string; label: string }>();
+  const discussionsByGroup: Record<string, { id: string; label: string; hasStarted: boolean; startDateTime: number }[]> = {};
 
   for (const discussion of allDiscussions ?? []) {
     const groupId = discussion.group;
 
-    if (discussion.groupDetails && !groupsMap.has(groupId)) {
-      groupsMap.set(groupId, discussion.groupDetails);
+    if (discussion.groupDetails && !groupOptionsMap.has(groupId)) {
+      groupOptionsMap.set(groupId, {
+        value: groupId,
+        label: discussion.groupDetails.groupName || 'Group [Unknown]',
+      });
     }
 
     if (!discussionsByGroup[groupId]) {
       discussionsByGroup[groupId] = [];
     }
 
-    const label = discussion.unitRecord
-      ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
-      : 'Unknown Unit';
-
-    discussionsByGroup[groupId]?.push({
+    discussionsByGroup[groupId].push({
       id: discussion.id,
-      startDateTime: discussion.startDateTime,
-      endDateTime: discussion.endDateTime,
-      label,
+      label: discussion.unitRecord
+        ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
+        : 'Unknown Unit',
       hasStarted: discussion.startDateTime * 1000 <= currentTimeMs,
+      startDateTime: discussion.startDateTime,
     });
   }
 
@@ -84,25 +78,15 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     discussions.sort((a, b) => a.startDateTime - b.startDateTime);
   }
 
-  const switchData = {
-    groups: Array.from(groupsMap.values()),
-    discussionsByGroup,
-  };
+  const groupOptions = Array.from(groupOptionsMap.values());
 
-  const submitUpdateMutation = trpc.facilitators.updateDiscussion.useMutation();
-
-  const groupOptions = switchData?.groups.map((group) => ({
-    value: group.id,
-    label: group.groupName || 'Group [Unknown]',
+  const discussionOptions = discussionsByGroup[selectedGroupId || '']?.map((d) => ({
+    value: d.id,
+    label: d.label,
+    disabled: d.hasStarted,
   })) || [];
 
-  const discussionOptions = switchData?.discussionsByGroup[selectedGroupId || '']?.map((discussion) => ({
-    value: discussion.id,
-    label: discussion.label,
-    disabled: discussion.hasStarted,
-  })) || [];
-
-  const selectedDiscussion = switchData?.discussionsByGroup[selectedGroupId || '']?.find(
+  const selectedDiscussion = discussionsByGroup[selectedGroupId || '']?.find(
     (d) => d.id === selectedDiscussionId,
   );
   const selectedDiscussionDateTime = selectedDiscussion ? new Date(selectedDiscussion.startDateTime * 1000) : undefined;
