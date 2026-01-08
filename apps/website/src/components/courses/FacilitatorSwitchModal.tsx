@@ -16,19 +16,19 @@ import { CheckIcon } from '../icons/CheckIcon';
 import { ClockIcon } from '../icons/ClockIcon';
 import { InfoIcon } from '../icons/InfoIcon';
 
-export type FacilitatorSwitchModalProps = {
-  handleClose: () => void;
-  courseSlug: string;
-  initialDiscussion: GroupDiscussion | null;
-  allDiscussions?: GroupDiscussion[];
-};
-
 const SWITCH_OPTIONS = [
   { value: 'Change for one unit', label: 'Change for one unit' },
   { value: 'Change permanently', label: 'Change permanently' },
 ] as const;
 
 export type SwitchType = (typeof SWITCH_OPTIONS)[number]['value'];
+
+export type FacilitatorSwitchModalProps = {
+  handleClose: () => void;
+  courseSlug: string;
+  initialDiscussion: GroupDiscussion | null;
+  allDiscussions?: GroupDiscussion[];
+};
 
 const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   handleClose,
