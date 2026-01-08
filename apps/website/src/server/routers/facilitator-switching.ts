@@ -114,6 +114,10 @@ export const facilitatorSwitchingRouter = router({
 
       const facilitator = await getFacilitator(courseSlug, ctx.auth.email);
 
+      if (discussionId && !facilitator.expectedDiscussionsFacilitator?.includes(discussionId)) {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitator is not allowed to manage this discussion' });
+      }
+
       await db.insert(facilitatorDiscussionSwitchingTable, {
         discussion: discussionId || null,
         facilitator: facilitator.id,
