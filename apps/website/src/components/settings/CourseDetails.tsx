@@ -81,6 +81,7 @@ const CourseDetailsRow = ({
       id: 'cant-make-it-facilitator',
       label: 'Update discussion time',
       variant: 'secondary',
+      // TODO: make `switchType` optional, remove unneeded field
       onClick: () => handleOpenGroupSwitchModal({ discussion, switchType: 'Switch group for one unit' }),
       isVisible: isFacilitator && !isPast,
       ariaLabel: `Update discussion for Unit ${discussion.unitNumber}`,
