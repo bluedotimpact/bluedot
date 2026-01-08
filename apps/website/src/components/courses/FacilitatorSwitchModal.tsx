@@ -50,10 +50,9 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   const discussionOptions = discussionOptionsByGroup[selectedGroupId || ''] ?? [];
   const selectedDiscussion = discussionOptions.find((d) => d.value === selectedDiscussionId);
   const selectedDiscussionDateTime = selectedDiscussion ? new Date(selectedDiscussion.startDateTime * 1000) : undefined;
-  const dayOfWeek = selectedDiscussionDateTime?.toLocaleDateString(undefined, { weekday: 'short' });
-  const date = selectedDiscussionDateTime?.toLocaleDateString(undefined, { dateStyle: 'medium' });
-  const time = selectedDiscussionDateTime?.toLocaleTimeString(undefined, { timeStyle: 'short' });
-  const selectedDiscussionTimeString = `${dayOfWeek}, ${date} at ${time}`;
+  const selectedDiscussionTimeString = selectedDiscussionDateTime
+    ? `${selectedDiscussionDateTime.toLocaleDateString(undefined, { weekday: 'short' })}, ${selectedDiscussionDateTime.toLocaleDateString(undefined, { dateStyle: 'medium' })} at ${selectedDiscussionDateTime.toLocaleTimeString(undefined, { timeStyle: 'short' })}`
+    : undefined;
 
   const submitDisabled = !switchType
     || !selectedGroupId
