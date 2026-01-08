@@ -95,6 +95,8 @@ const RoundGroup = ({
   rounds,
   applicationUrl,
 }: RoundGroupProps) => {
+  // Limit to max 3 upcoming rounds displayed
+  const displayedRounds = rounds.slice(0, 3);
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col min-[680px]:flex-row min-[680px]:items-end gap-1 text-[15px] text-[#13132E]">
@@ -110,10 +112,10 @@ const RoundGroup = ({
       </div>
 
       <ul className="list-none flex flex-col gap-5">
-        {rounds.map((round, index) => (
+        {displayedRounds.map((round, index) => (
           <li key={round.id}>
             <RoundItem round={round} applicationUrl={applicationUrl} />
-            {index < rounds.length - 1 && (
+            {index < displayedRounds.length - 1 && (
               <div className="relative mt-5">
                 <div className="absolute inset-x-0 h-px bg-[rgba(19,19,46,0.1)]" />
               </div>

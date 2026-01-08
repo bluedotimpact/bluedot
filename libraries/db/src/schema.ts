@@ -393,6 +393,14 @@ export const groupDiscussionTable = pgAirtable('group_discussion', {
       pgColumn: text(),
       airtableId: 'fld87QFyiHceHbpKG',
     },
+    /**
+     * Format: "{unitNumber}: {unit.title}". This field exists to retain the unit title if the
+     * unit is deleted or disconnected, use as a fallback any time you need to render the unit title of a discussion.
+     */
+    unitFallback: {
+      pgColumn: text(),
+      airtableId: 'fldyVGCyb9026vDkK',
+    },
     autoNumberId: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldDeRm7N60URakjA',

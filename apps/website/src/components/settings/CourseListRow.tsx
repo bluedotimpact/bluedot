@@ -12,7 +12,7 @@ import { trpc } from '../../utils/trpc';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 import { getActionPlanUrl } from '../../lib/utils';
-import { COURSE_CONFIG } from '../../lib/constants';
+import { FOAI_COURSE_SLUG } from '../../lib/constants';
 
 type CourseListRowProps = {
   course: Course;
@@ -97,13 +97,21 @@ const CourseListRow = ({
     isNotInGroup,
   });
 
-  const { reasonNotEligibleForCert } = getCertificateEligibility({
-    hasCertificate: !!courseRegistration.certificateCreatedAt,
-    courseSlug: course.slug,
-    uniqueDiscussionAttendance: meetPerson?.uniqueDiscussionAttendance,
-    numUnits: meetPerson?.numUnits,
-    hasSubmittedActionPlan: !!(meetPerson?.projectSubmission && meetPerson.projectSubmission.length > 0),
-  });
+  // Determine if we need to show eligibility tooltip for facilitated courses
+  let reasonNotEligibleForCert: string | null = null;
+  const isFacilitatedCourse = course.slug !== FOAI_COURSE_SLUG;
+
+  if (!courseRegistration.certificateCreatedAt && isFacilitatedCourse
+    && meetPerson?.uniqueDiscussionAttendance != null && meetPerson?.numUnits != null
+  ) {
+    const hasSubmittedActionPlan = (meetPerson?.projectSubmission?.length ?? 0) > 0;
+    const { numUnits, uniqueDiscussionAttendance } = meetPerson;
+    const hasAttendedEnough = numUnits === 0 || (numUnits - uniqueDiscussionAttendance) <= 1;
+
+    if (!hasAttendedEnough || !hasSubmittedActionPlan) {
+      reasonNotEligibleForCert = 'To be eligible for a certificate, you need to submit your action plan/project and miss no more than 1 discussion.';
+    }
+  }
 
   return (
     <div>
@@ -285,41 +293,6 @@ function getMaxUnitNumber(discussions: GroupDiscussion[]): number | null {
   return unitNumbers.length > 0 ? Math.max(...unitNumbers) : null;
 }
 
-const getCertificateEligibility = ({
-  hasCertificate,
-  courseSlug,
-  uniqueDiscussionAttendance,
-  numUnits,
-  hasSubmittedActionPlan,
-}: {
-  hasCertificate: boolean;
-  courseSlug: string;
-  uniqueDiscussionAttendance: number | null | undefined;
-  numUnits: number | null | undefined;
-  hasSubmittedActionPlan: boolean;
-}): { isEligibleForCert: boolean; reasonNotEligibleForCert: string | null } => {
-  if (hasCertificate) {
-    return { isEligibleForCert: true, reasonNotEligibleForCert: null };
-  }
-
-  // If we are missing info about their attendance, assume they are eligible
-  // and allow downstream code to handle their certificate being missing in the most generic way
-  if (uniqueDiscussionAttendance === null || uniqueDiscussionAttendance === undefined || numUnits === null || numUnits === undefined) {
-    return { isEligibleForCert: true, reasonNotEligibleForCert: null };
-  }
-  const missedCount = numUnits - uniqueDiscussionAttendance;
-
-  // Low attendance takes precedence. There is no point submitting action plan if you haven't attended enough
-  if (numUnits > 0 && missedCount > 1) {
-    return { isEligibleForCert: false, reasonNotEligibleForCert: 'To be eligible for a certificate, you must miss no more than 1 discussion.' };
-  }
-  const requiresActionPlan = COURSE_CONFIG[courseSlug]?.certificateRequiresActionPlan;
-  if (requiresActionPlan && !hasSubmittedActionPlan) {
-    return { isEligibleForCert: false, reasonNotEligibleForCert: 'To be eligible for a certificate, you need to submit your action plan and miss no more than 1 discussion.' };
-  }
-  return { isEligibleForCert: true, reasonNotEligibleForCert: null };
-};
-
 const getCtaButtons = ({
   course,
   courseRegistration,
@@ -340,7 +313,8 @@ const getCtaButtons = ({
   const feedbackFormUrl = meetPerson?.courseFeedbackForm;
   const hasSubmittedFeedback = (meetPerson?.courseFeedback?.length ?? 0) > 0;
   const hasSubmittedActionPlan = (meetPerson?.projectSubmission?.length ?? 0) > 0;
-  const requiresActionPlan = COURSE_CONFIG[course.slug]?.certificateRequiresActionPlan;
+  // All facilitated courses (non-FOAI) require action plan/project submission
+  const requiresActionPlan = course.slug !== FOAI_COURSE_SLUG;
 
   // Certificate exists but feedback not yet submitted: show locked certificate button linking to feedback form
   if (courseRegistration.certificateCreatedAt && !hasSubmittedFeedback && feedbackFormUrl) {

@@ -575,7 +575,9 @@ type FormatSectionProps = {
 };
 
 const FormatSection = ({ type, rounds, course }: FormatSectionProps) => {
-  const firstRound = rounds[0];
+  // Limit to display only first 3 rounds
+  const displayedRounds = rounds.slice(0, 3);
+  const firstRound = displayedRounds[0];
   const numberOfUnits = firstRound?.numberOfUnits;
   const label = type === 'intensive' ? 'Intensive:' : 'Part-time:';
   const unitLabel = type === 'intensive' ? 'day' : 'week';
@@ -593,10 +595,10 @@ const FormatSection = ({ type, rounds, course }: FormatSectionProps) => {
       </div>
 
       <ul className="flex flex-col">
-        {rounds.map((round, index) => (
+        {displayedRounds.map((round, index) => (
           <li key={round.id}>
             <CourseRoundItem round={round} course={course} />
-            {index < rounds.length - 1 && (
+            {index < displayedRounds.length - 1 && (
               <div className="my-4 border-t border-[rgba(19,19,46,0.1)]" />
             )}
           </li>

@@ -344,8 +344,29 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
       return null;
     }
 
-    // For all other cases (facilitators, errors, no meetPerson): continue to request certificate section
-    // This provides a safe fallback that shows helpful certificate information
+    const isFacilitator = meetPerson && !meetPersonError && meetPerson.role?.toLowerCase() === 'facilitator';
+
+    if (isFacilitator) {
+      // Facilitators: show requirements message WITHOUT button
+      // (certificates issued via backend after 80% attendance)
+      return (
+        <Card
+          title="Your Certificate"
+          subtitle="If you've engaged in >80% of discussions, you'll receive a certificate."
+          className="container-lined p-8 bg-white"
+        />
+      );
+    }
+
+    // For independent learners (no meetPerson) or errors: show "not eligible" message
+    const { notEligible } = config.texts;
+    return (
+      <Card
+        title={notEligible.title}
+        subtitle={notEligible.subtitle}
+        className="container-lined p-8 bg-white"
+      />
+    );
   }
 
   // Request certificate state
@@ -389,21 +410,8 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
     </>
   );
 
-  if (config.useCard) {
-    // Only non-FOAI courses use cards (FOAI has useCard: false)
-    // At this point, participants have already returned null, so only facilitators/errors/no-meetPerson reach here
-    // Show subtitle without action plan requirement since only participants need action plans
-    return (
-      <Card
-        title={requestCertConfig.title || ''}
-        subtitle="If you've engaged in >80% of discussions, you'll receive a certificate."
-        className="container-lined p-8 bg-white"
-      >
-        {content}
-      </Card>
-    );
-  }
-
+  // Only FOAI courses reach here (non-FOAI courses return early above)
+  // FOAI has useCard: false, so we use the container layout
   return (
     <div className="container-lined p-8 bg-white">
       {content}
