@@ -2,6 +2,7 @@ import {
   and,
   courseRegistrationTable,
   courseTable,
+  eq,
   facilitatorDiscussionSwitchingTable,
   groupDiscussionTable,
   groupTable,
@@ -114,8 +115,26 @@ export const facilitatorSwitchingRouter = router({
 
       const facilitator = await getFacilitator(courseSlug, ctx.auth.email);
 
+      // Ensure the facilitator is allowed to manage the specified discussion
       if (discussionId && !facilitator.expectedDiscussionsFacilitator?.includes(discussionId)) {
         throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitator is not allowed to manage this discussion' });
+      }
+
+      // If no discussionId is provided, ensure the facilitator is allowed to manage at least one discussion for the group
+      if (!discussionId) {
+        const groupDiscussions = await db.pg
+          .select({ id: groupDiscussionTable.pg.id })
+          .from(groupDiscussionTable.pg)
+          .where(
+            and(
+              eq(groupDiscussionTable.pg.group, groupId),
+              inArray(groupDiscussionTable.pg.id, facilitator.expectedDiscussionsFacilitator || []),
+            ),
+          );
+
+        if (groupDiscussions.length === 0) {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitator is not allowed to manage any discussions in this group' });
+        }
       }
 
       await db.insert(facilitatorDiscussionSwitchingTable, {
