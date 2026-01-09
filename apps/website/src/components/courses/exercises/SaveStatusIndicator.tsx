@@ -82,7 +82,9 @@ const SaveStatusIndicator: React.FC<SaveStatusIndicatorProps> = ({
       id={id}
       className={cn(
         '-mt-[10px] pt-[10px] relative z-0 rounded-b-[10px] transition-all duration-200',
-        isError ? 'bg-[rgba(220,0,0,0.05)]' : 'bg-[#F4F7FD] border-[0.5px] border-[rgba(34,68,187,0.1)] border-t-0',
+        isError
+          ? 'bg-[rgba(220,0,0,0.05)] border-[0.5px] border-[rgba(220,0,0,0.1)] border-t-0'
+          : 'bg-[#F4F7FD] border-[0.5px] border-[rgba(34,68,187,0.1)] border-t-0',
       )}
       role="status"
       aria-live="polite"
