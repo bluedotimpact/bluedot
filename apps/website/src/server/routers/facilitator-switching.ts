@@ -14,7 +14,10 @@ import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
 
 const getFacilitator = async (courseSlug: string, facilitatorEmail: string) => {
-  const course = await db.get(courseTable, { slug: courseSlug });
+  const course = await db.getFirst(courseTable, {
+    filter: { slug: courseSlug },
+    sortBy: 'slug',
+  });
   if (!course) {
     throw new TRPCError({ code: 'NOT_FOUND', message: `No course with slug ${courseSlug} found` });
   }
