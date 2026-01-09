@@ -35,4 +35,3 @@ export const CircledCheckmarkIcon: React.FC<CircledCheckmarkIconProps> = ({
     </svg>
   </div>
 );
-
