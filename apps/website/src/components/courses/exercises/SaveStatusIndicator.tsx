@@ -1,5 +1,6 @@
 import React from 'react';
 import { RiLoader4Line } from 'react-icons/ri';
+import { cn } from '@bluedot/ui';
 import { UndoIcon } from '../../icons/UndoIcon';
 
 type SaveStatus = 'idle' | 'typing' | 'saving' | 'saved' | 'error';
@@ -136,44 +137,28 @@ const SaveStatusIndicator: React.FC<SaveStatusIndicatorProps> = ({
   onRetry,
   savedText = 'Answer saved', // Default to "Answer saved" for backward compatibility
 }) => {
-  // Hide the indicator when status is idle or typing
-  if (status === 'idle' || status === 'typing') return null;
-
-  // Get the config with the custom saved text
   const statusConfig = getStatusConfig(savedText);
   const config = statusConfig[status];
-
-  if (!config) return null;
-
   const isError = status === 'error';
-  const text = typeof config.text === 'function' ? config.text(onRetry) : config.text;
+  const isIdle = status === 'idle' || status === 'typing';
+  const textConfig = config?.text;
+  const text = typeof textConfig === 'function' ? textConfig(onRetry) : textConfig;
 
   return (
     <div
       id={id}
-      className="flex items-center gap-2 text-size-sm font-medium transition-all duration-200"
-      style={{
-        boxSizing: 'border-box',
-        padding: '22px 24px 14px',
-        width: '100%',
-        height: '54px',
-        background: isError
-          ? 'linear-gradient(0deg, rgba(220, 0, 0, 0.05), rgba(220, 0, 0, 0.05)), rgba(255, 255, 255, 0.5)'
-          : '#F0F5FD',
-        border: isError
-          ? 'none'
-          : '0.5px solid rgba(34, 68, 187, 0.15)',
-        borderRadius: '0px 0px 10px 10px',
-        marginTop: '-10px',
-        color: 'var(--bluedot-normal)',
-        zIndex: 0,
-      }}
+      className={cn(
+        '-mt-[10px] pt-[10px] relative z-0 rounded-b-[10px] transition-all duration-200',
+        isError ? 'bg-[rgba(220,0,0,0.03)]' : 'bg-[#F4F7FD] border-[0.5px] border-[rgba(34,68,187,0.1)] border-t-0',
+      )}
       role="status"
       aria-live="polite"
       aria-atomic="true"
     >
-      {config.icon}
-      {text}
+      <div className="flex items-center gap-1.5 w-full h-7.5 px-3 text-size-xxs font-medium text-bluedot-normal">
+        {!isIdle && config?.icon}
+        {!isIdle && text}
+      </div>
     </div>
   );
 };
