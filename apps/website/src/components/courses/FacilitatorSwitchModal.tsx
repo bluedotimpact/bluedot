@@ -187,6 +187,12 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           </div>
         </div>
 
+        {submitUpdateMutation.isError && (
+          <P className="text-red-600">
+            {submitUpdateMutation.error?.message || 'An error occurred. Please try again.'}
+          </P>
+        )}
+
         <CTALinkOrButton
           className="bg-bluedot-normal w-full disabled:opacity-50"
           onClick={handleSubmit}

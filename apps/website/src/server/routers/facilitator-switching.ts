@@ -56,6 +56,11 @@ export const facilitatorSwitchingRouter = router({
         courseSlug, discussionId, groupId, requestedDateTimeInSeconds,
       } = input;
 
+      const nowInSeconds = Math.floor(Date.now() / 1000);
+      if (requestedDateTimeInSeconds <= nowInSeconds) {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'Requested time must be in the future' });
+      }
+
       const facilitator = await getFacilitator(courseSlug, ctx.auth.email);
 
       // Ensure the facilitator is allowed to manage the specified discussion
