@@ -95,7 +95,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     const titleText = submitUpdateMutation.isSuccess ? 'Success' : 'Update your discussion time';
     return (
       <div className="flex w-full items-center justify-center gap-2">
-        <ClockIcon />
+        {!submitUpdateMutation.isSuccess && <ClockIcon />}
         <div className="text-size-md font-semibold">{titleText}</div>
       </div>
     );
