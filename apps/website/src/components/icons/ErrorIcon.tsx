@@ -23,7 +23,6 @@ export const ErrorIcon: React.FC<ErrorIconProps> = ({
       height={size * 0.625}
       viewBox="0 0 10 10"
       fill="none"
-      className="absolute"
     >
       <path
         d="M2 2L8 8M8 2L2 8"
