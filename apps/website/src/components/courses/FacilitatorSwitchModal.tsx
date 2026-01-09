@@ -113,7 +113,10 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
               We've updated your group's {isSingleUnitChange ? 'discussion' : 'discussions'}.
             </P>
             <P className="text-center text-[#13132E] opacity-80">
-              You should see the changes reflected in the calendar event and Course Hub. Please allow up to 10 minutes.
+              As a reminder, <span className="font-bold">we have not notified your participants</span>, so please make sure you communicate this with them. You should see the changes reflected in the calendar event and Course Hub.
+            </P>
+            <P className="text-[#13132E] opacity-80">
+              Please allow up to 10 minutes.
             </P>
           </div>
           <CTALinkOrButton className="bg-bluedot-normal w-full" onClick={handleClose}>
