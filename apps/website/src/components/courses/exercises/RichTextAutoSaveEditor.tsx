@@ -26,6 +26,8 @@ type RichTextAutoSaveEditorProps = {
   disabled?: boolean;
   height?: 'short' | 'normal';
   className?: string;
+  /** Debug only: force a specific status for styling purposes */
+  debugForceStatus?: SaveStatus;
 };
 
 const EDITOR_HEIGHT_STYLES = {
@@ -44,6 +46,7 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
   disabled = false,
   height = 'normal',
   className,
+  debugForceStatus,
 }) => {
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
   const [lastSavedValue, setLastSavedValue] = useState<string>(value);
@@ -269,7 +272,7 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
       </div>
       {!disabled && (
         <SaveStatusIndicator
-          status={saveStatus}
+          status={debugForceStatus ?? saveStatus}
           id="save-status-message"
           onRetry={handleRetry}
           savedText="Saved"

@@ -11,6 +11,9 @@ import RichTextAutoSaveEditor from './RichTextAutoSaveEditor';
 import { CheckmarkIcon } from '../../icons/CheckmarkIcon';
 import { UndoIcon } from '../../icons/UndoIcon';
 
+// Debug statuses to show - REMOVE BEFORE MERGE
+const DEBUG_STATUSES = ['idle', 'typing', 'saving', 'saved', 'error'] as const;
+
 export type FreeTextResponseProps = {
   className?: string;
   description: string;
@@ -142,6 +145,25 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
           </div>
         )}
       </div>
+
+      {/* DEBUG: Copies with each status - REMOVE BEFORE MERGE */}
+      {DEBUG_STATUSES.map((status) => (
+        <div key={status} className={cn('container-lined bg-white p-8 flex flex-col gap-6 mt-6', className)}>
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <p className="bluedot-h4 not-prose">{title} ({status})</p>
+              <MarkdownExtendedRenderer>{description}</MarkdownExtendedRenderer>
+            </div>
+          </div>
+          <RichTextAutoSaveEditor
+            value={answer}
+            onChange={() => {}}
+            onSave={async () => {}}
+            placeholder="Enter your answer here"
+            debugForceStatus={status}
+          />
+        </div>
+      ))}
     </li>
   );
 };
