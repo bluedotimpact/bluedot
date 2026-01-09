@@ -64,8 +64,11 @@ export const facilitatorSwitchingRouter = router({
       const facilitator = await getFacilitator(courseSlug, ctx.auth.email);
 
       // Ensure the facilitator is allowed to manage the specified discussion
-      if (discussionId && !facilitator.expectedDiscussionsFacilitator?.includes(discussionId)) {
-        throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitator is not allowed to manage this discussion' });
+      if (discussionId) {
+        const discussion = await db.getFirst(groupDiscussionTable, { filter: { id: discussionId } });
+        if (!discussion || discussion.group !== groupId) {
+          throw new TRPCError({ code: 'BAD_REQUEST', message: 'Discussion does not belong to the specified group' });
+        }
       }
 
       // If no discussionId is provided, ensure the facilitator is allowed to manage at least one discussion for the group
