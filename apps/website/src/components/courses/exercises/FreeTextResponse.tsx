@@ -40,6 +40,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
 
   const hasText = answer.trim().length > 0;
   const isDisabled = !isCompleted && !hasText;
+  const showCompleteButton = isLoggedIn;
 
   const handleSave = useCallback(async (value: string) => {
     await onExerciseSubmit(value, undefined);
@@ -55,8 +56,8 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
 
   return (
     <li className="relative list-none">
-      {/* Desktop "complete" button */}
-      {isLoggedIn && (
+      {/* Desktop "complete" checkbox */}
+      {showCompleteButton && (
         <div className="absolute hidden lg:block -left-[calc(24px+clamp(12px,3vw,24px))] top-6 z-[1]">
           <button
             type="button"
@@ -80,7 +81,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
         </div>
       )}
 
-      <div className={cn('container-lined bg-white p-8 flex flex-col gap-6', isLoggedIn && 'pb-6', className)}>
+      <div className={cn('container-lined bg-white p-8 flex flex-col gap-6 pb-6', className)}>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <p className="bluedot-h4 not-prose">{title}</p>
@@ -89,7 +90,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
         </div>
 
         {/* Editor + Complete button wrapper */}
-        <div className={cn('flex flex-col', isLoggedIn ? 'gap-4' : 'gap-6')}>
+        <div className={cn('flex flex-col gap-6')}>
           <RichTextAutoSaveEditor
             value={answer}
             onChange={setAnswer}
@@ -112,7 +113,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
           )}
 
           {/* "Complete" button */}
-          {isLoggedIn && (
+          {showCompleteButton && (
             <div>
               <div className="w-full h-0 opacity-20 border-[0.5px] lg:border-none lg:mb-0 border-[#13132E] mb-4" />
 
