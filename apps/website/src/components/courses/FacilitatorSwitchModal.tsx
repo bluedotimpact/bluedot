@@ -108,7 +108,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           <div className="bg-bluedot-normal/10 flex rounded-full p-4">
             <CheckIcon className="text-bluedot-normal" />
           </div>
-          <div className="flex max-w-[400px] flex-col items-center gap-4">
+          <div className="flex max-w-[512px] flex-col items-center gap-4">
             <P className="text-[#13132E] opacity-80">
               We've updated your group's {isSingleUnitChange ? 'discussion' : 'discussions'}.
             </P>
