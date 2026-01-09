@@ -54,13 +54,14 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     ? `${selectedDiscussionDateTime.toLocaleDateString(undefined, { weekday: 'short' })}, ${selectedDiscussionDateTime.toLocaleDateString(undefined, { dateStyle: 'medium' })} at ${selectedDiscussionDateTime.toLocaleTimeString(undefined, { timeStyle: 'short' })}`
     : undefined;
 
+  const isSingleUnitChange = switchType === 'Change for one unit';
+
   const submitDisabled = !switchType
     || !selectedGroupId
+    || (isSingleUnitChange && !selectedDiscussionId)
     || (!selectedDate && !selectedDiscussionDateTime)
     || (!selectedTime && !selectedDiscussionDateTime)
     || submitUpdateMutation.isPending;
-
-  const isSingleUnitChange = switchType === 'Change for one unit';
 
   const handleSubmit = () => {
     if (!switchType || !selectedGroupId) {
