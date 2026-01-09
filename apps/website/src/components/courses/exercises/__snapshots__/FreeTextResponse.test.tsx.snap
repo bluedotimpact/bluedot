@@ -245,11 +245,9 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
           </div>
         </div>
       </div>
-      <div
-        class="lg:hidden"
-      >
+      <div>
         <div
-          class="w-full h-0 opacity-20 border-[0.5px] border-[#13132E] mb-4"
+          class="w-full h-0 opacity-20 border-[0.5px] lg:border-none lg:mb-0 border-[#13132E] mb-4"
         />
         <button
           aria-label="Mark exercise as complete"
@@ -372,11 +370,9 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
           </div>
         </div>
       </div>
-      <div
-        class="lg:hidden"
-      >
+      <div>
         <div
-          class="w-full h-0 opacity-20 border-[0.5px] border-[#13132E] mb-4"
+          class="w-full h-0 opacity-20 border-[0.5px] lg:border-none lg:mb-0 border-[#13132E] mb-4"
         />
         <button
           aria-label="Mark exercise as complete"
