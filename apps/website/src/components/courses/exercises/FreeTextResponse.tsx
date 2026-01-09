@@ -11,9 +11,6 @@ import RichTextAutoSaveEditor from './RichTextAutoSaveEditor';
 import { CheckmarkIcon } from '../../icons/CheckmarkIcon';
 import { UndoIcon } from '../../icons/UndoIcon';
 
-// Debug statuses to show - REMOVE BEFORE MERGE
-const DEBUG_STATUSES = ['idle', 'typing', 'saving', 'saved', 'error'] as const;
-
 export type FreeTextResponseProps = {
   className?: string;
   description: string;
@@ -149,36 +146,6 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
           )}
         </div>
       </div>
-
-      {/* DEBUG: Copies with each status - REMOVE BEFORE MERGE */}
-      {DEBUG_STATUSES.map((status) => (
-        <div key={status} className={cn('container-lined bg-white p-8 pb-6 flex flex-col gap-6 mt-6', className)}>
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
-              <p className="bluedot-h4 not-prose">{title} ({status})</p>
-              <MarkdownExtendedRenderer>{description}</MarkdownExtendedRenderer>
-            </div>
-          </div>
-          <div className="flex flex-col gap-4">
-            <RichTextAutoSaveEditor
-              value={answer}
-              onChange={() => {}}
-              onSave={async () => {}}
-              placeholder="Enter your answer here"
-              debugForceStatus={status}
-            />
-            <div>
-              <div className="w-full h-0 opacity-20 border-[0.5px] lg:border-none lg:mb-0 border-[#13132E] mb-4" />
-              <button
-                type="button"
-                className="flex flex-row justify-center items-center px-2.5 py-1.5 gap-2 h-[30px] rounded-md border-none font-medium text-[13px] leading-[140%] tracking-[-0.005em] transition-all duration-200 bg-bluedot-normal text-white cursor-pointer"
-              >
-                Complete
-              </button>
-            </div>
-          </div>
-        </div>
-      ))}
     </li>
   );
 };
