@@ -108,10 +108,10 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
           </div>
         )}
 
-        {/* Mobile "complete" button */}
+        {/* "Complete" button */}
         {isLoggedIn && (
-          <div className="lg:hidden">
-            <div className="w-full h-0 opacity-20 border-[0.5px] border-[#13132E] mb-4" />
+          <div>
+            <div className="w-full h-0 opacity-20 border-[0.5px] lg:border-none lg:mb-0 border-[#13132E] mb-4" />
 
             {!isCompleted ? (
               <button
