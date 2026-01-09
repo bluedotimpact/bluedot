@@ -154,14 +154,13 @@ export const courseRoundsRouter = router({
           id: courseTable.pg.id,
           title: courseTable.pg.title,
           slug: courseTable.pg.slug,
-          cadence: courseTable.pg.cadence,
         })
         .from(courseTable.pg)
         .where(eq(courseTable.pg.status, 'Active'));
 
-      // Filter out self-paced courses (cadence = 'self-paced' or slug = 'future-of-ai')
+      // Filter out self-paced courses (slug = 'future-of-ai')
       const courses = allCourses.filter(
-        (course) => course.cadence?.toLowerCase() !== 'self-paced' && course.slug !== 'future-of-ai',
+        (course) => course.slug !== 'future-of-ai',
       );
 
       // Only show rounds where deadline hasn't passed everywhere in the world

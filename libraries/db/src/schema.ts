@@ -114,10 +114,6 @@ export const courseTable = pgAirtable('course', {
       pgColumn: text().array().notNull(),
       airtableId: 'fldxi3h4LD2Bs3efO',
     },
-    cadence: {
-      pgColumn: text().notNull(),
-      airtableId: 'fldTI1NI7ocFIWcmv',
-    },
     level: {
       pgColumn: text().notNull(),
       airtableId: 'fldkL7aWITGCPqzxc',
