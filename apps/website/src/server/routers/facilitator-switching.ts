@@ -32,7 +32,9 @@ const getFacilitator = async (courseSlug: string, facilitatorEmail: string) => {
     throw new TRPCError({ code: 'NOT_FOUND', message: 'No course registration found' });
   }
 
-  const facilitator = await db.get(meetPersonTable, { applicationsBaseRecordId: courseRegistration.id });
+  const facilitator = await db.getFirst(meetPersonTable, {
+    filter: { applicationsBaseRecordId: courseRegistration.id },
+  });
   if (!facilitator) {
     throw new TRPCError({ code: 'NOT_FOUND', message: 'No facilitator found for this course registration' });
   }
@@ -172,7 +174,7 @@ export const facilitatorSwitchingRouter = router({
         throw new TRPCError({ code: 'BAD_REQUEST', message: 'Cannot change facilitator for a discussion that has already started' });
       }
 
-      const newFacilitator = await db.get(meetPersonTable, { id: newFacilitatorId });
+      const newFacilitator = await db.getFirst(meetPersonTable, { filter: { id: newFacilitatorId } });
       if (!newFacilitator) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'New facilitator not found' });
       }
