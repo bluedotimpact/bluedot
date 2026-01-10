@@ -213,7 +213,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     if (modalType === 'Update discussion time') {
       return (
         <>
-          <UpdateDiscussionBanner />
+          <InformationBanner modalType={modalType} />
           <div className="flex flex-col gap-2">
             <H1 className="text-size-md font-medium text-black">1. What kind of update are you making?</H1>
             <Select
@@ -298,7 +298,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 
     return (
       <>
-        <UpdateFacilitatorBanner />
+        <InformationBanner modalType={modalType} />
         <div className="flex flex-col gap-2">
           <H1 className="text-size-md font-medium text-black">1. For which group?</H1>
           <Select
@@ -379,7 +379,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   );
 };
 
-const UpdateDiscussionBanner = () => {
+const InformationBanner = ({ modalType }: { modalType: ModalType }) => {
   return (
     <div className="inline-flex items-center justify-between self-stretch rounded-md bg-[#E5EDFE] px-4 py-3">
       <div className="flex flex-1 items-start justify-start gap-3">
@@ -387,23 +387,9 @@ const UpdateDiscussionBanner = () => {
           <InfoIcon className="size-5 shrink-0" />
         </div>
         <P className="text-bluedot-normal flex-1 justify-start">
-          Please discuss any changes with your participants beforehand. Any changes will update the calendar invitation
-          and Course Hub information, but not notify your participants.
-        </P>
-      </div>
-    </div>
-  );
-};
-
-const UpdateFacilitatorBanner = () => {
-  return (
-    <div className="inline-flex items-center justify-between self-stretch rounded-md bg-[#E5EDFE] px-4 py-3">
-      <div className="flex flex-1 items-start justify-start gap-3">
-        <div className="flex items-center justify-start">
-          <InfoIcon className="size-5 shrink-0" />
-        </div>
-        <P className="text-bluedot-normal flex-1 justify-start">
-          Please make sure you have agreed on these changes with the facilitator beforehand.
+          {modalType === 'Update discussion time'
+            ? 'Please discuss any changes with your participants beforehand. Any changes will update the calendar invitation and Course Hub information, but not notify your participants.'
+            : 'Please make sure you have agreed on these changes with the facilitator beforehand.'}
         </P>
       </div>
     </div>
