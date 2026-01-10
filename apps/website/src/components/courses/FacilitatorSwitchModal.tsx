@@ -247,6 +247,68 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
         </>
       );
     }
+
+    return (
+      <>
+        <UpdateFacilitatorBanner />
+        <div className="flex flex-col gap-2">
+          <H1 className="text-size-md font-medium text-black">1. For which group?</H1>
+          <Select
+            ariaLabel="Group"
+            value={selectedGroupId}
+            onChange={(value) => {
+              setSelectedGroupId(value);
+              setSelectedDiscussionId(undefined);
+            }}
+            options={groupOptions}
+            placeholder="Choose a group"
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <H1 className="text-size-md font-medium text-black">2. For which discussion?</H1>
+          <Select
+            ariaLabel="Discussion"
+            options={discussionOptions}
+            value={selectedDiscussionId}
+            onChange={(value) => setSelectedDiscussionId(value)}
+            placeholder="Choose a discussion"
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <H1 className="text-size-md font-medium text-black">3. Select new facilitator</H1>
+          <Select
+            ariaLabel="New facilitator"
+            options={facilitatorsQuery.data ?? []}
+            value={selectedNewFacilitatorId}
+            onChange={(value) => setSelectedNewFacilitatorId(value)}
+            placeholder={facilitatorsQuery.isLoading ? 'Loading facilitators...' : 'Choose a facilitator'}
+          />
+        </div>
+
+        {submitFacilitatorChangeMutation.isError && (
+          <P className="text-red-600">
+            {submitFacilitatorChangeMutation.error?.message || 'An error occurred. Please try again.'}
+          </P>
+        )}
+
+        <CTALinkOrButton
+          className="bg-bluedot-normal w-full disabled:opacity-50"
+          onClick={handleFacilitatorChangeSubmit}
+          disabled={facilitatorChangeSubmitDisabled}
+        >
+          {submitFacilitatorChangeMutation.isPending ? (
+            <div className="flex items-center gap-2">
+              <ProgressDots className="my-0" dotClassName="bg-white" />
+              Submitting...
+            </div>
+          ) : (
+            <span>Submit</span>
+          )}
+        </CTALinkOrButton>
+      </>
+    );
   };
 
   return (
@@ -274,6 +336,21 @@ const UpdateDiscussionBanner = () => {
         <P className="text-bluedot-normal flex-1 justify-start">
           Please discuss any changes with your participants beforehand. Any changes will update the calendar invitation
           and Course Hub information, but not notify your participants.
+        </P>
+      </div>
+    </div>
+  );
+};
+
+const UpdateFacilitatorBanner = () => {
+  return (
+    <div className="inline-flex items-center justify-between self-stretch rounded-md bg-[#E5EDFE] px-4 py-3">
+      <div className="flex flex-1 items-start justify-start gap-3">
+        <div className="flex items-center justify-start">
+          <InfoIcon className="size-5 shrink-0" />
+        </div>
+        <P className="text-bluedot-normal flex-1 justify-start">
+          Please make sure you have agreed on these changes with the facilitator beforehand.
         </P>
       </div>
     </div>
