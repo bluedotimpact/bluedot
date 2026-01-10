@@ -140,4 +140,52 @@ export const facilitatorSwitchingRouter = router({
 
       return null;
     }),
+
+  requestFacilitatorChange: protectedProcedure
+    .input(
+      z.object({
+        courseSlug: z.string(),
+        discussionId: z.string(),
+        groupId: z.string(),
+        newFacilitatorId: z.string(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const {
+        courseSlug, discussionId, groupId, newFacilitatorId,
+      } = input;
+
+      const facilitator = await getFacilitator(courseSlug, ctx.auth.email);
+      const allowedDiscussions = facilitator.expectedDiscussionsFacilitator || [];
+
+      if (allowedDiscussions.length === 0 || !allowedDiscussions.includes(discussionId)) {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitator is not allowed to manage this discussion' });
+      }
+
+      const discussion = await db.getFirst(groupDiscussionTable, { filter: { id: discussionId } });
+      if (!discussion || discussion.group !== groupId) {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'Discussion does not belong to the specified group' });
+      }
+
+      const newFacilitator = await db.get(meetPersonTable, { id: newFacilitatorId });
+      if (!newFacilitator) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'New facilitator not found' });
+      }
+      if (newFacilitator.round !== facilitator.round) {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'New facilitator must be in the same round' });
+      }
+      if (newFacilitator.role !== 'Facilitator') {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'Selected person is not a facilitator' });
+      }
+
+      await db.insert(facilitatorDiscussionSwitchingTable, {
+        discussion: discussionId,
+        facilitator: newFacilitator.id,
+        group: groupId,
+        status: 'Requested',
+        switchType: 'Update discussion facilitator',
+      });
+
+      return null;
+    }),
 });
