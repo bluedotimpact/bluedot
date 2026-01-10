@@ -151,89 +151,91 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       );
     }
 
-    return (
-      <>
-        <InformationBanner />
-        <div className="flex flex-col gap-2">
-          <H1 className="text-size-md font-medium text-black">1. What kind of update are you making?</H1>
-          <Select
-            ariaLabel="Action"
-            value={switchType}
-            onChange={(value) => setSwitchType(value as SwitchType)}
-            options={SWITCH_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
-            placeholder="Choose an option"
-          />
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <H1 className="text-size-md font-medium text-black">2. For which group?</H1>
-          <Select
-            ariaLabel="Group"
-            value={selectedGroupId}
-            onChange={(value) => {
-              setSelectedGroupId(value);
-              setSelectedDiscussionId(undefined);
-            }}
-            options={groupOptions}
-            placeholder="Choose a group"
-          />
-        </div>
-
-        {isSingleUnitChange && (
+    if (modalType === 'Update discussion time') {
+      return (
+        <>
+          <InformationBanner />
           <div className="flex flex-col gap-2">
-            <H1 className="text-size-md font-medium text-black">3. For which discussion?</H1>
+            <H1 className="text-size-md font-medium text-black">1. What kind of update are you making?</H1>
             <Select
-              ariaLabel="Discussion"
-              options={discussionOptions}
-              value={selectedDiscussionId}
-              onChange={(value) => setSelectedDiscussionId(value)}
-              placeholder="Choose a discussion"
-            />
-            {selectedDiscussion && (
-              <P>
-                Current time: <span className="text-bluedot-normal">{selectedDiscussionTimeString}</span>
-              </P>
-            )}
-          </div>
-        )}
-
-        <div className="flex flex-col gap-2">
-          <H1 className="text-size-md font-medium text-black">
-            {isSingleUnitChange ? '4' : '3'}. Select new discussion time
-          </H1>
-          <P>The selected time is in your time zone: {Intl.DateTimeFormat().resolvedOptions().timeZone}</P>
-          <div className="flex flex-row gap-4">
-            <DatePicker value={selectedDate ?? selectedDiscussionDateTime} onChange={setSelectedDate} />
-            <TimePicker
-              className="w-fit"
-              timeValue={selectedTime ?? selectedDiscussionDateTime}
-              onTimeChange={setSelectedTime}
+              ariaLabel="Action"
+              value={switchType}
+              onChange={(value) => setSwitchType(value as SwitchType)}
+              options={SWITCH_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
+              placeholder="Choose an option"
             />
           </div>
-        </div>
 
-        {submitUpdateMutation.isError && (
-          <P className="text-red-600">
-            {submitUpdateMutation.error?.message || 'An error occurred. Please try again.'}
-          </P>
-        )}
+          <div className="flex flex-col gap-2">
+            <H1 className="text-size-md font-medium text-black">2. For which group?</H1>
+            <Select
+              ariaLabel="Group"
+              value={selectedGroupId}
+              onChange={(value) => {
+                setSelectedGroupId(value);
+                setSelectedDiscussionId(undefined);
+              }}
+              options={groupOptions}
+              placeholder="Choose a group"
+            />
+          </div>
 
-        <CTALinkOrButton
-          className="bg-bluedot-normal w-full disabled:opacity-50"
-          onClick={handleSubmit}
-          disabled={submitDisabled}
-        >
-          {submitUpdateMutation.isPending ? (
-            <div className="flex items-center gap-2">
-              <ProgressDots className="my-0" dotClassName="bg-white" />
-              Submitting...
+          {isSingleUnitChange && (
+            <div className="flex flex-col gap-2">
+              <H1 className="text-size-md font-medium text-black">3. For which discussion?</H1>
+              <Select
+                ariaLabel="Discussion"
+                options={discussionOptions}
+                value={selectedDiscussionId}
+                onChange={(value) => setSelectedDiscussionId(value)}
+                placeholder="Choose a discussion"
+              />
+              {selectedDiscussion && (
+                <P>
+                  Current time: <span className="text-bluedot-normal">{selectedDiscussionTimeString}</span>
+                </P>
+              )}
             </div>
-          ) : (
-            <span>Submit</span>
           )}
-        </CTALinkOrButton>
-      </>
-    );
+
+          <div className="flex flex-col gap-2">
+            <H1 className="text-size-md font-medium text-black">
+              {isSingleUnitChange ? '4' : '3'}. Select new discussion time
+            </H1>
+            <P>The selected time is in your time zone: {Intl.DateTimeFormat().resolvedOptions().timeZone}</P>
+            <div className="flex flex-row gap-4">
+              <DatePicker value={selectedDate ?? selectedDiscussionDateTime} onChange={setSelectedDate} />
+              <TimePicker
+                className="w-fit"
+                timeValue={selectedTime ?? selectedDiscussionDateTime}
+                onTimeChange={setSelectedTime}
+              />
+            </div>
+          </div>
+
+          {submitUpdateMutation.isError && (
+            <P className="text-red-600">
+              {submitUpdateMutation.error?.message || 'An error occurred. Please try again.'}
+            </P>
+          )}
+
+          <CTALinkOrButton
+            className="bg-bluedot-normal w-full disabled:opacity-50"
+            onClick={handleSubmit}
+            disabled={submitDisabled}
+          >
+            {submitUpdateMutation.isPending ? (
+              <div className="flex items-center gap-2">
+                <ProgressDots className="my-0" dotClassName="bg-white" />
+                Submitting...
+              </div>
+            ) : (
+              <span>Submit</span>
+            )}
+          </CTALinkOrButton>
+        </>
+      );
+    }
   };
 
   return (
