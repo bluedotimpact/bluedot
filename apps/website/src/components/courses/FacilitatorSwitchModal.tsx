@@ -15,10 +15,17 @@ import { trpc } from '../../utils/trpc';
 import { CheckIcon } from '../icons/CheckIcon';
 import { ClockIcon } from '../icons/ClockIcon';
 import { InfoIcon } from '../icons/InfoIcon';
+import { SwitchUserIcon } from '../icons/SwitchUserIcon';
 
 const MODAL_TYPE_OPTIONS = [
-  { value: 'Update discussion time', label: 'Update discussion time' },
-  { value: 'Change facilitator', label: 'Change facilitator' },
+  {
+    value: 'Update discussion time',
+    label: <span className="grid grid-cols-[20px_1fr] gap-2 items-center"><ClockIcon /> Update discussion time</span>,
+  },
+  {
+    value: 'Change facilitator',
+    label: <span className="grid grid-cols-[20px_1fr] gap-2 items-center"><SwitchUserIcon /> Change facilitator</span>,
+  },
 ] as const;
 
 type ModalType = (typeof MODAL_TYPE_OPTIONS)[number]['value'];
@@ -100,12 +107,22 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   };
 
   const renderTitle = () => {
-    const titleText = submitUpdateMutation.isSuccess ? 'Success' : 'Update your discussion time';
+    if (submitUpdateMutation.isSuccess) {
+      return (
+        <div className="flex w-full items-center justify-center gap-2">
+          <div className="text-size-md font-semibold">Success</div>
+        </div>
+      );
+    }
+
     return (
-      <div className="flex w-full items-center justify-center gap-2">
-        {!submitUpdateMutation.isSuccess && <ClockIcon />}
-        <div className="text-size-md font-semibold">{titleText}</div>
-      </div>
+      <Select
+        ariaLabel="Select action type"
+        value={modalType}
+        onChange={(value) => setModalType(value as ModalType)}
+        options={MODAL_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
+        className="border-none text-size-md font-medium bg-transparent w-fit mx-auto [&>button]:px-6 [&>button]:py-3"
+      />
     );
   };
 
