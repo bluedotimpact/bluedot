@@ -87,7 +87,9 @@ export const facilitatorSwitchingRouter = router({
       }),
     )
     .mutation(async ({ input, ctx }) => {
-      const { courseSlug, discussionId, groupId, requestedDateTimeInSeconds } = input;
+      const {
+        courseSlug, discussionId, groupId, requestedDateTimeInSeconds,
+      } = input;
 
       const nowInSeconds = Math.floor(Date.now() / 1000);
       if (requestedDateTimeInSeconds <= nowInSeconds) {
