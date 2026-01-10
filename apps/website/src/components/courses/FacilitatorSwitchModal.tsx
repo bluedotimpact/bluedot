@@ -64,6 +64,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 
   const currentTimeMs = useCurrentTimeMs();
   const submitUpdateMutation = trpc.facilitators.updateDiscussion.useMutation();
+  const submitFacilitatorChangeMutation = trpc.facilitators.requestFacilitatorChange.useMutation();
 
   // Fetch facilitators when in "Change facilitator" mode
   const facilitatorsQuery = trpc.facilitators.getFacilitatorsForRound.useQuery(
@@ -154,6 +155,29 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
               Hub.
             </P>
             <P className="text-center text-[#13132E] opacity-80">Please allow up to 10 minutes to see the changes.</P>
+          </div>
+          <CTALinkOrButton className="bg-bluedot-normal w-full" onClick={handleClose}>
+            Close
+          </CTALinkOrButton>
+        </div>
+      );
+    }
+
+    if (submitFacilitatorChangeMutation.isSuccess) {
+      return (
+        <div className="flex w-full flex-col items-center justify-center gap-8">
+          <div className="bg-bluedot-normal/10 flex rounded-full p-4">
+            <CheckIcon className="text-bluedot-normal" />
+          </div>
+          <div className="flex max-w-[512px] flex-col items-center gap-4">
+            <P className="text-center text-[#13132E] opacity-80">
+              You won't be facilitating the group discussion for {selectedDiscussion?.label} for the group{' '}
+              {groupOptions.find((g) => g.value === selectedGroupId)?.label}.
+            </P>
+            <P className="text-center text-[#13132E] opacity-80">
+              You should see the changes reflected in the calendar event and Course Hub. Please allow up to 10 minutes
+              to see the changes.
+            </P>
           </div>
           <CTALinkOrButton className="bg-bluedot-normal w-full" onClick={handleClose}>
             Close
