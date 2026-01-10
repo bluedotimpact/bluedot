@@ -167,6 +167,11 @@ export const facilitatorSwitchingRouter = router({
         throw new TRPCError({ code: 'BAD_REQUEST', message: 'Discussion does not belong to the specified group' });
       }
 
+      const nowInSeconds = Math.floor(Date.now() / 1000);
+      if (discussion.startDateTime <= nowInSeconds) {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'Cannot change facilitator for a discussion that has already started' });
+      }
+
       const newFacilitator = await db.get(meetPersonTable, { id: newFacilitatorId });
       if (!newFacilitator) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'New facilitator not found' });
