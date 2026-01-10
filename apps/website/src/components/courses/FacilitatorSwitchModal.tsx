@@ -16,6 +16,13 @@ import { CheckIcon } from '../icons/CheckIcon';
 import { ClockIcon } from '../icons/ClockIcon';
 import { InfoIcon } from '../icons/InfoIcon';
 
+const MODAL_TYPE_OPTIONS = [
+  { value: 'Update discussion time', label: 'Update discussion time' },
+  { value: 'Change facilitator', label: 'Change facilitator' },
+] as const;
+
+type ModalType = (typeof MODAL_TYPE_OPTIONS)[number]['value'];
+
 const SWITCH_OPTIONS = [
   { value: 'Change for one unit', label: 'Change for one unit' },
   { value: 'Change permanently', label: 'Change permanently' },
@@ -36,6 +43,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   initialDiscussion,
   allDiscussions,
 }) => {
+  const [modalType, setModalType] = useState<ModalType>('Update discussion time');
   const [switchType, setSwitchType] = useState<SwitchType | undefined>('Change for one unit');
   const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(initialDiscussion?.group);
   const [selectedDiscussionId, setSelectedDiscussionId] = useState<string | undefined>(initialDiscussion?.id);
