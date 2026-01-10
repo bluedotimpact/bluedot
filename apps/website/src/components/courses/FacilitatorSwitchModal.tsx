@@ -165,7 +165,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     if (modalType === 'Update discussion time') {
       return (
         <>
-          <InformationBanner />
+          <UpdateDiscussionBanner />
           <div className="flex flex-col gap-2">
             <H1 className="text-size-md font-medium text-black">1. What kind of update are you making?</H1>
             <Select
@@ -264,7 +264,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   );
 };
 
-const InformationBanner = () => {
+const UpdateDiscussionBanner = () => {
   return (
     <div className="inline-flex items-center justify-between self-stretch rounded-md bg-[#E5EDFE] px-4 py-3">
       <div className="flex flex-1 items-start justify-start gap-3">
