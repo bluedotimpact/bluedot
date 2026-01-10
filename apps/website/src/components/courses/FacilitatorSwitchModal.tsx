@@ -60,6 +60,12 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   const currentTimeMs = useCurrentTimeMs();
   const submitUpdateMutation = trpc.facilitators.updateDiscussion.useMutation();
 
+  // Fetch facilitators when in "Change facilitator" mode
+  const facilitatorsQuery = trpc.facilitators.getFacilitatorsForRound.useQuery(
+    { courseSlug },
+    { enabled: modalType === 'Change facilitator' },
+  );
+
   const { groupOptions, discussionOptionsByGroup } = buildOptions(allDiscussions ?? [], currentTimeMs);
 
   const discussionOptions = discussionOptionsByGroup[selectedGroupId || ''] ?? [];
