@@ -108,6 +108,7 @@ export const ChangeFacilitatorView: Story = {
     courseSlug: 'fish-test-course',
     initialDiscussion: mockDiscussions[1] ?? null,
     allDiscussions: mockDiscussions,
+    initialModalType: 'Change facilitator',
   },
   parameters: {
     msw: {
