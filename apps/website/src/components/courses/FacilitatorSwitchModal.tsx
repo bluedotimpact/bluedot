@@ -73,8 +73,8 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   const [selectedNewFacilitatorId, setSelectedNewFacilitatorId] = useState<string | undefined>();
 
   const currentTimeMs = useCurrentTimeMs();
-  const submitUpdateMutation = trpc.facilitators.updateDiscussion.useMutation();
-  const submitFacilitatorChangeMutation = trpc.facilitators.requestFacilitatorChange.useMutation();
+  const updateDiscussionTimeMutation = trpc.facilitators.updateDiscussion.useMutation();
+  const changeFacilitatorMutation = trpc.facilitators.requestFacilitatorChange.useMutation();
 
   // Fetch facilitators when in "Change facilitator" mode
   const facilitatorsQuery = trpc.facilitators.getFacilitatorsForRound.useQuery(
@@ -98,7 +98,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     || (isSingleUnitChange && !selectedDiscussionId)
     || (!selectedDate && !selectedDiscussionDateTime)
     || (!selectedTime && !selectedDiscussionDateTime)
-    || submitUpdateMutation.isPending;
+    || updateDiscussionTimeMutation.isPending;
 
   const handleSubmit = () => {
     if (!switchType || !selectedGroupId) {
@@ -119,7 +119,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     const newDateTime = new Date(dateToUse);
     newDateTime.setHours(timeToUse.getHours(), timeToUse.getMinutes(), 0, 0);
 
-    submitUpdateMutation.mutate({
+    updateDiscussionTimeMutation.mutate({
       courseSlug,
       discussionId,
       groupId: selectedGroupId,
@@ -129,12 +129,12 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   };
 
   // Change facilitator mode
-  const facilitatorChangeSubmitDisabled = !selectedGroupId || !selectedDiscussionId || !selectedNewFacilitatorId || submitFacilitatorChangeMutation.isPending;
+  const facilitatorChangeSubmitDisabled = !selectedGroupId || !selectedDiscussionId || !selectedNewFacilitatorId || changeFacilitatorMutation.isPending;
 
   const handleFacilitatorChangeSubmit = () => {
     if (!selectedGroupId || !selectedDiscussionId || !selectedNewFacilitatorId) return;
 
-    submitFacilitatorChangeMutation.mutate({
+    changeFacilitatorMutation.mutate({
       courseSlug,
       discussionId: selectedDiscussionId,
       groupId: selectedGroupId,
@@ -143,7 +143,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   };
 
   const renderTitle = () => {
-    if (submitUpdateMutation.isSuccess || submitFacilitatorChangeMutation.isSuccess) {
+    if (updateDiscussionTimeMutation.isSuccess || changeFacilitatorMutation.isSuccess) {
       return (
         <div className="flex w-full items-center justify-center gap-2">
           <div className="text-size-md font-semibold">Success</div>
@@ -163,7 +163,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   };
 
   const renderContent = () => {
-    if (submitUpdateMutation.isSuccess) {
+    if (updateDiscussionTimeMutation.isSuccess) {
       return (
         <div className="flex w-full flex-col items-center justify-center gap-8">
           <div className="bg-bluedot-normal/10 flex rounded-full p-4">
@@ -187,7 +187,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       );
     }
 
-    if (submitFacilitatorChangeMutation.isSuccess) {
+    if (changeFacilitatorMutation.isSuccess) {
       return (
         <div className="flex w-full flex-col items-center justify-center gap-8">
           <div className="bg-bluedot-normal/10 flex rounded-full p-4">
@@ -272,9 +272,9 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             </div>
           </div>
 
-          {submitUpdateMutation.isError && (
+          {updateDiscussionTimeMutation.isError && (
             <P className="text-red-600">
-              {submitUpdateMutation.error?.message || 'An error occurred. Please try again.'}
+              {updateDiscussionTimeMutation.error?.message || 'An error occurred. Please try again.'}
             </P>
           )}
 
@@ -283,7 +283,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             onClick={handleSubmit}
             disabled={submitDisabled}
           >
-            {submitUpdateMutation.isPending ? (
+            {updateDiscussionTimeMutation.isPending ? (
               <div className="flex items-center gap-2">
                 <ProgressDots className="my-0" dotClassName="bg-white" />
                 Submitting...
@@ -335,9 +335,9 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           />
         </div>
 
-        {submitFacilitatorChangeMutation.isError && (
+        {changeFacilitatorMutation.isError && (
           <P className="text-red-600">
-            {submitFacilitatorChangeMutation.error?.message || 'An error occurred. Please try again.'}
+            {changeFacilitatorMutation.error?.message || 'An error occurred. Please try again.'}
           </P>
         )}
 
@@ -346,7 +346,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           onClick={handleFacilitatorChangeSubmit}
           disabled={facilitatorChangeSubmitDisabled}
         >
-          {submitFacilitatorChangeMutation.isPending ? (
+          {changeFacilitatorMutation.isPending ? (
             <div className="flex items-center gap-2">
               <ProgressDots className="my-0" dotClassName="bg-white" />
               Submitting...
