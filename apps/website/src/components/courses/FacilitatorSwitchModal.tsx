@@ -36,7 +36,7 @@ const MODAL_TYPE_OPTIONS = [
   },
 ] as const;
 
-type ModalType = (typeof MODAL_TYPE_OPTIONS)[number]['value'];
+export type ModalType = (typeof MODAL_TYPE_OPTIONS)[number]['value'];
 
 const SWITCH_OPTIONS = [
   { value: 'Change for one unit', label: 'Change for one unit' },
