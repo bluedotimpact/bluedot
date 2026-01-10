@@ -50,6 +50,7 @@ export type FacilitatorSwitchModalProps = {
   courseSlug: string;
   initialDiscussion: GroupDiscussion | null;
   allDiscussions?: GroupDiscussion[];
+  initialModalType?: ModalType;
 };
 
 const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
@@ -57,8 +58,9 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   courseSlug,
   initialDiscussion,
   allDiscussions,
+  initialModalType = 'Update discussion time',
 }) => {
-  const [modalType, setModalType] = useState<ModalType>('Update discussion time');
+  const [modalType, setModalType] = useState<ModalType>(initialModalType);
 
   // Update discussion time state
   const [switchType, setSwitchType] = useState<SwitchType | undefined>('Change for one unit');
