@@ -118,6 +118,20 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     });
   };
 
+  // Change facilitator mode
+  const facilitatorChangeSubmitDisabled = !selectedGroupId || !selectedDiscussionId || !selectedNewFacilitatorId || submitFacilitatorChangeMutation.isPending;
+
+  const handleFacilitatorChangeSubmit = () => {
+    if (!selectedGroupId || !selectedDiscussionId || !selectedNewFacilitatorId) return;
+
+    submitFacilitatorChangeMutation.mutate({
+      courseSlug,
+      discussionId: selectedDiscussionId,
+      groupId: selectedGroupId,
+      newFacilitatorId: selectedNewFacilitatorId,
+    });
+  };
+
   const renderTitle = () => {
     if (submitUpdateMutation.isSuccess) {
       return (
