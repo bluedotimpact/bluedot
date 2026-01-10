@@ -41,6 +41,39 @@ const getFacilitator = async (courseSlug: string, facilitatorEmail: string) => {
 };
 
 export const facilitatorSwitchingRouter = router({
+  getFacilitatorsForRound: protectedProcedure
+    .input(z.object({ courseSlug: z.string() }))
+    .query(async ({ input, ctx }) => {
+      const { courseSlug } = input;
+
+      const currentFacilitator = await getFacilitator(courseSlug, ctx.auth.email);
+      if (!currentFacilitator.round) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Facilitator is not assigned to a round' });
+      }
+
+      // Get all meetPersons in the same round who are facilitators
+      const facilitators = await db.pg
+        .select({
+          id: meetPersonTable.pg.id,
+          name: meetPersonTable.pg.name,
+        })
+        .from(meetPersonTable.pg)
+        .where(
+          and(
+            eq(meetPersonTable.pg.round, currentFacilitator.round),
+            eq(meetPersonTable.pg.role, 'Facilitator'),
+          ),
+        );
+
+      // Return as options for Select, excluding the current facilitator
+      return facilitators
+        .filter((f) => f.id !== currentFacilitator.id)
+        .map((f) => ({
+          value: f.id,
+          label: f.name,
+        }));
+    }),
+
   updateDiscussion: protectedProcedure
     .input(
       z.object({
