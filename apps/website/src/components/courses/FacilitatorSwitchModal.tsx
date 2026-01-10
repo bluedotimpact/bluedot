@@ -20,11 +20,19 @@ import { SwitchUserIcon } from '../icons/SwitchUserIcon';
 const MODAL_TYPE_OPTIONS = [
   {
     value: 'Update discussion time',
-    label: <span className="grid grid-cols-[20px_1fr] gap-2 items-center"><ClockIcon /> Update discussion time</span>,
+    label: (
+      <span className="grid grid-cols-[20px_1fr] items-center gap-2">
+        <ClockIcon /> Update discussion time
+      </span>
+    ),
   },
   {
     value: 'Change facilitator',
-    label: <span className="grid grid-cols-[20px_1fr] gap-2 items-center"><SwitchUserIcon /> Change facilitator</span>,
+    label: (
+      <span className="grid grid-cols-[20px_1fr] items-center gap-2">
+        <SwitchUserIcon /> Change facilitator
+      </span>
+    ),
   },
 ] as const;
 
