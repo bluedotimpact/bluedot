@@ -32,7 +32,7 @@ const getFacilitator = async (courseSlug: string, facilitatorEmail: string) => {
     throw new TRPCError({ code: 'NOT_FOUND', message: 'No course registration found' });
   }
 
-  const facilitator = await db.get(meetPersonTable, { applicationsBaseRecordId: courseRegistration.id });
+  const facilitator = await db.getFirst(meetPersonTable, { filter: { applicationsBaseRecordId: courseRegistration.id } });
   if (!facilitator) {
     throw new TRPCError({ code: 'NOT_FOUND', message: 'No facilitator found for this course registration' });
   }
