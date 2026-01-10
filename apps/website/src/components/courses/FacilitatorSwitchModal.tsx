@@ -51,11 +51,16 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   allDiscussions,
 }) => {
   const [modalType, setModalType] = useState<ModalType>('Update discussion time');
+
+  // Update discussion time state
   const [switchType, setSwitchType] = useState<SwitchType | undefined>('Change for one unit');
   const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(initialDiscussion?.group);
   const [selectedDiscussionId, setSelectedDiscussionId] = useState<string | undefined>(initialDiscussion?.id);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<Date | undefined>(undefined);
+
+  // Change facilitator state
+  const [selectedNewFacilitatorId, setSelectedNewFacilitatorId] = useState<string | undefined>();
 
   const currentTimeMs = useCurrentTimeMs();
   const submitUpdateMutation = trpc.facilitators.updateDiscussion.useMutation();
