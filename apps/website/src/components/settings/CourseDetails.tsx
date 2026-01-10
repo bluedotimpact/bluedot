@@ -89,6 +89,14 @@ const CourseDetailsRow = ({
       ariaLabel: `Update discussion for Unit ${discussion.unitNumber}`,
       overflowIcon: <ClockIcon className="mx-auto" size={20} />,
     },
+    {
+      id: 'change-facilitator',
+      label: 'Change facilitator',
+      variant: 'secondary',
+      onClick: () => onOpenFacilitatorModal(discussion, 'Change facilitator'),
+      isVisible: isFacilitator && !isPast,
+      overflowIcon: <SwitchUserIcon className="mx-auto" size={20} />,
+    },
     // Inside overflow menu
     {
       id: 'message-group',
@@ -115,14 +123,6 @@ const CourseDetailsRow = ({
       onClick: () => onOpenGroupSwitch(discussion, 'Switch group permanently'),
       isVisible: !isFacilitator && !isPast,
       overflowIcon: <FaArrowRightArrowLeft className="mx-auto size-[14px]" />,
-    },
-    {
-      id: 'change-facilitator',
-      label: 'Change facilitator',
-      variant: 'secondary',
-      onClick: () => onOpenFacilitatorModal(discussion, 'Change facilitator'),
-      isVisible: isFacilitator && !isPast,
-      overflowIcon: <SwitchUserIcon className="mx-auto" size={18} />,
     },
   ];
   const visibleButtons = buttons.filter((button) => button.isVisible);
