@@ -6,6 +6,7 @@ import env from '../../lib/api/env';
 const CACHE_TTL_MS = 60_000; // 1 minute
 const FAILURE_THRESHOLD = 3; // Alert after N consecutive failures
 const SLACK_ALERT_COOLDOWN_MS = 60_000; // Max 1 alert per minute
+const EXCLUDED_EVENT_TITLE_SUFFIXES = ['paper reading club', 'paper reading group'];
 
 type LumaEvent = {
   name: string;
@@ -111,8 +112,10 @@ async function refreshCache(): Promise<Event[]> {
 
       const events = (data.entries || [])
         .map(({ api_id, event }) => transformEvent(api_id, event))
-        // Ignore paper reading clubs/groups
-        .filter((event) => !event.title.endsWith('Paper Reading Club') && !event.title.endsWith('Paper Reading Group'));
+        .filter((event) => {
+          const titleLower = event.title.toLowerCase();
+          return !EXCLUDED_EVENT_TITLE_SUFFIXES.some((suffix) => titleLower.endsWith(suffix));
+        });
 
       // Success: update cache and reset failure counter
       cachedEvents = events;
