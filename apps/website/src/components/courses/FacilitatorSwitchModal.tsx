@@ -326,6 +326,11 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 
         <div className="flex flex-col gap-2">
           <H1 className="text-size-md font-medium text-black">3. Select new facilitator</H1>
+          {facilitatorsQuery.isError && (
+            <P className="text-red-600">
+              {facilitatorsQuery.error?.message || 'Failed to load facilitators. Please try again.'}
+            </P>
+          )}
           <Select
             ariaLabel="New facilitator"
             options={facilitatorsQuery.data ?? []}
