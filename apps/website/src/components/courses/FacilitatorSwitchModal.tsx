@@ -143,7 +143,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   };
 
   const renderTitle = () => {
-    if (submitUpdateMutation.isSuccess) {
+    if (submitUpdateMutation.isSuccess || submitFacilitatorChangeMutation.isSuccess) {
       return (
         <div className="flex w-full items-center justify-center gap-2">
           <div className="text-size-md font-semibold">Success</div>
