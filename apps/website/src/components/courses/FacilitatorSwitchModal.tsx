@@ -121,7 +121,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
         value={modalType}
         onChange={(value) => setModalType(value as ModalType)}
         options={MODAL_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
-        className="border-none text-size-md font-medium bg-transparent w-fit mx-auto [&>button]:px-6 [&>button]:py-3"
+        className="text-size-md mx-auto w-fit border-none bg-transparent font-medium [&>button]:px-6 [&>button]:py-3"
       />
     );
   };
@@ -138,11 +138,11 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
               We've updated your group's {isSingleUnitChange ? 'discussion' : 'discussions'}.
             </P>
             <P className="text-center text-[#13132E] opacity-80">
-              As a reminder, <span className="font-bold">we have not notified your participants</span>, so please make sure you communicate this with them. You should see the changes reflected in the calendar event and Course Hub.
+              As a reminder, <span className="font-bold">we have not notified your participants</span>, so please make
+              sure you communicate this with them. You should see the changes reflected in the calendar event and Course
+              Hub.
             </P>
-            <P className="text-center text-[#13132E] opacity-80">
-              Please allow up to 10 minutes to see the changes.
-            </P>
+            <P className="text-center text-[#13132E] opacity-80">Please allow up to 10 minutes to see the changes.</P>
           </div>
           <CTALinkOrButton className="bg-bluedot-normal w-full" onClick={handleClose}>
             Close
