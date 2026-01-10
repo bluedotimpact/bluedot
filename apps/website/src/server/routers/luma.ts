@@ -109,7 +109,10 @@ async function refreshCache(): Promise<Event[]> {
         next_cursor?: string;
       };
 
-      const events = (data.entries || []).map(({ api_id, event }) => transformEvent(api_id, event));
+      const events = (data.entries || [])
+        .map(({ api_id, event }) => transformEvent(api_id, event))
+        // Ignore paper reading clubs/groups
+        .filter((event) => !event.title.endsWith('Paper Reading Club') && !event.title.endsWith('Paper Reading Group'));
 
       // Success: update cache and reset failure counter
       cachedEvents = events;
