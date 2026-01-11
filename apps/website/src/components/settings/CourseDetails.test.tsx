@@ -14,6 +14,7 @@ import {
   createMockCourseRegistration,
   createMockGroup,
   createMockGroupDiscussion,
+  createMockMeetPerson,
   createMockUnit,
 } from '../../__tests__/testUtils';
 import CourseDetails from './CourseDetails';
@@ -52,7 +53,9 @@ describe('CourseDetails', () => {
         courseRegistration={mockCourseRegistration}
         upcomingDiscussions={[]}
         attendedDiscussions={[]}
+        facilitatedDiscussions={[]}
         isLoading={false}
+        meetPerson={null}
       />,
     );
 
@@ -115,7 +118,9 @@ describe('CourseDetails: Participant view', () => {
         courseRegistration={mockCourseRegistration}
         upcomingDiscussions={upcomingDiscussions}
         attendedDiscussions={[]}
+        facilitatedDiscussions={[]}
         isLoading={false}
+        meetPerson={null}
       />,
     );
 
@@ -159,7 +164,9 @@ describe('CourseDetails: Participant view', () => {
         courseRegistration={mockCourseRegistration}
         upcomingDiscussions={upcomingDiscussions}
         attendedDiscussions={[]}
+        facilitatedDiscussions={[]}
         isLoading={false}
+        meetPerson={null}
       />,
     );
 
@@ -206,7 +213,9 @@ describe('CourseDetails: Participant view', () => {
         courseRegistration={mockCourseRegistration}
         upcomingDiscussions={upcomingDiscussions}
         attendedDiscussions={[]}
+        facilitatedDiscussions={[]}
         isLoading={false}
+        meetPerson={null}
       />,
     );
 
@@ -266,7 +275,9 @@ describe('CourseDetails: Participant view', () => {
         courseRegistration={mockCourseRegistration}
         upcomingDiscussions={upcomingDiscussions}
         attendedDiscussions={[]}
+        facilitatedDiscussions={[]}
         isLoading={false}
+        meetPerson={null}
       />,
     );
 
@@ -333,7 +344,9 @@ describe('CourseDetails: Participant view', () => {
         courseRegistration={mockCourseRegistration}
         upcomingDiscussions={upcomingDiscussions}
         attendedDiscussions={[]}
+        facilitatedDiscussions={[]}
         isLoading={false}
+        meetPerson={null}
       />,
     );
 
@@ -397,7 +410,9 @@ describe('CourseDetails: Facilitator view', () => {
         courseRegistration={mockCourseRegistration}
         upcomingDiscussions={upcomingDiscussions}
         attendedDiscussions={[]}
+        facilitatedDiscussions={[]}
         isLoading={false}
+        meetPerson={null}
       />,
     );
 
@@ -426,5 +441,206 @@ describe('CourseDetails: Facilitator view', () => {
 
     // THEN: "Switch group permanently" should NOT appear for facilitators
     expect(screen.queryByRole('menuitem', { name: 'Switch group permanently' })).not.toBeInTheDocument();
+  });
+});
+
+describe('CourseDetails: Facilitated section view', () => {
+  // GIVEN: A past facilitated course displayed in the "Facilitated" section
+  const mockCourse = createMockCourse({
+    id: 'course-1',
+    title: 'AI Safety Course',
+    slug: 'ai-safety',
+  });
+
+  const mockCourseRegistration = createMockCourseRegistration({
+    courseId: 'course-1',
+    role: 'Facilitator',
+    roundStatus: 'Past',
+  });
+
+  it('shows "Facilitated discussions" tab when isFacilitated is true', async () => {
+    const facilitatedDiscussions = [
+      {
+        ...createMockGroupDiscussion({
+          id: 'discussion-1',
+          unitNumber: 1,
+          startDateTime: Math.floor(Date.now() / 1000) - 7 * 24 * 60 * 60, // 7 days ago
+          endDateTime: Math.floor(Date.now() / 1000) - 7 * 24 * 60 * 60 + 60 * 60,
+        }),
+        unitRecord: createMockUnit({ unitNumber: '1', title: 'Introduction' }),
+        groupDetails: createMockGroup({ groupName: 'Group Alpha' }),
+      },
+    ];
+
+    render(
+      <CourseDetails
+        course={mockCourse}
+        courseRegistration={mockCourseRegistration}
+        upcomingDiscussions={[]}
+        attendedDiscussions={[]}
+        facilitatedDiscussions={facilitatedDiscussions}
+        isLoading={false}
+        isFacilitated
+        meetPerson={createMockMeetPerson({ expectedDiscussionsFacilitator: ['discussion-1'] })}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText('Facilitated discussions (1)')).toBeInTheDocument();
+    });
+
+    // Should NOT show Upcoming or Attended tabs when isFacilitated
+    expect(screen.queryByText('Upcoming discussions')).not.toBeInTheDocument();
+    expect(screen.queryByText('Attended discussions')).not.toBeInTheDocument();
+  });
+
+  it('displays facilitated discussions with unit title and group name', async () => {
+    const facilitatedDiscussions = [
+      {
+        ...createMockGroupDiscussion({
+          id: 'discussion-1',
+          unitNumber: 2,
+          startDateTime: Math.floor(Date.now() / 1000) - 7 * 24 * 60 * 60,
+          endDateTime: Math.floor(Date.now() / 1000) - 7 * 24 * 60 * 60 + 60 * 60,
+        }),
+        unitRecord: createMockUnit({ unitNumber: '2', title: 'Advanced Concepts' }),
+        groupDetails: createMockGroup({ groupName: 'Group Beta' }),
+      },
+    ];
+
+    render(
+      <CourseDetails
+        course={mockCourse}
+        courseRegistration={mockCourseRegistration}
+        upcomingDiscussions={[]}
+        attendedDiscussions={[]}
+        facilitatedDiscussions={facilitatedDiscussions}
+        isLoading={false}
+        isFacilitated
+        meetPerson={createMockMeetPerson({ expectedDiscussionsFacilitator: ['discussion-1'] })}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText('Unit 2: Advanced Concepts')).toBeInTheDocument();
+      expect(screen.getByText('Group Beta')).toBeInTheDocument();
+    });
+  });
+
+  it('shows "See all" button when more than 3 facilitated discussions', async () => {
+    const facilitatedDiscussions = Array.from({ length: 5 }, (_, i) => ({
+      ...createMockGroupDiscussion({
+        id: `discussion-${i}`,
+        unitNumber: i + 1,
+        startDateTime: Math.floor(Date.now() / 1000) - (i + 1) * 24 * 60 * 60,
+        endDateTime: Math.floor(Date.now() / 1000) - (i + 1) * 24 * 60 * 60 + 60 * 60,
+      }),
+      unitRecord: createMockUnit({ unitNumber: `${i + 1}`, title: `Unit ${i + 1}` }),
+      groupDetails: createMockGroup({ groupName: `Group ${i + 1}` }),
+    }));
+
+    render(
+      <CourseDetails
+        course={mockCourse}
+        courseRegistration={mockCourseRegistration}
+        upcomingDiscussions={[]}
+        attendedDiscussions={[]}
+        facilitatedDiscussions={facilitatedDiscussions}
+        isLoading={false}
+        isFacilitated
+        meetPerson={createMockMeetPerson({ expectedDiscussionsFacilitator: facilitatedDiscussions.map((d) => d.id) })}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText('See all (5) discussions')).toBeInTheDocument();
+    });
+  });
+
+  it('shows empty state when no facilitated discussions', async () => {
+    render(
+      <CourseDetails
+        course={mockCourse}
+        courseRegistration={mockCourseRegistration}
+        upcomingDiscussions={[]}
+        attendedDiscussions={[]}
+        facilitatedDiscussions={[]}
+        isLoading={false}
+        isFacilitated
+        meetPerson={createMockMeetPerson({ expectedDiscussionsFacilitator: [] })}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText('No facilitated discussions yet')).toBeInTheDocument();
+    });
+  });
+});
+
+describe('CourseDetails: Edge case - both participant and facilitator discussions', () => {
+  // GIVEN: A user who has both participant and facilitator discussions for the same course
+  const mockCourse = createMockCourse({
+    id: 'course-1',
+    title: 'Mixed Role Course',
+    slug: 'mixed-role',
+  });
+
+  const mockCourseRegistration = createMockCourseRegistration({
+    courseId: 'course-1',
+    role: 'Participant', // Their current role
+    roundStatus: 'Past',
+  });
+
+  it('shows both "Attended discussions" and "Facilitated discussions" tabs when user has both', async () => {
+    const currentTimeMs = Date.now();
+
+    const attendedDiscussions = [
+      {
+        ...createMockGroupDiscussion({
+          id: 'attended-1',
+          unitNumber: 1,
+          startDateTime: Math.floor(currentTimeMs / 1000) - 14 * 24 * 60 * 60,
+          endDateTime: Math.floor(currentTimeMs / 1000) - 14 * 24 * 60 * 60 + 60 * 60,
+        }),
+        unitRecord: createMockUnit({ unitNumber: '1', title: 'Attended Unit' }),
+        groupDetails: createMockGroup({ groupName: 'Attended Group' }),
+      },
+    ];
+
+    const facilitatedDiscussions = [
+      {
+        ...createMockGroupDiscussion({
+          id: 'facilitated-1',
+          unitNumber: 2,
+          startDateTime: Math.floor(currentTimeMs / 1000) - 7 * 24 * 60 * 60,
+          endDateTime: Math.floor(currentTimeMs / 1000) - 7 * 24 * 60 * 60 + 60 * 60,
+        }),
+        unitRecord: createMockUnit({ unitNumber: '2', title: 'Facilitated Unit' }),
+        groupDetails: createMockGroup({ groupName: 'Facilitated Group' }),
+      },
+    ];
+
+    const meetPerson = createMockMeetPerson({
+      expectedDiscussionsParticipant: ['attended-1'],
+      expectedDiscussionsFacilitator: ['facilitated-1'],
+    });
+
+    render(
+      <CourseDetails
+        course={mockCourse}
+        courseRegistration={mockCourseRegistration}
+        upcomingDiscussions={[]}
+        attendedDiscussions={attendedDiscussions}
+        facilitatedDiscussions={facilitatedDiscussions}
+        isLoading={false}
+        meetPerson={meetPerson}
+      />,
+    );
+
+    await waitFor(() => {
+      // Both tabs should be visible
+      expect(screen.getByText('Attended discussions')).toBeInTheDocument();
+      expect(screen.getByText('Facilitated discussions (1)')).toBeInTheDocument();
+    });
   });
 });

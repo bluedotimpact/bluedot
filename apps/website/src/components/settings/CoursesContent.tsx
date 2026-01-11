@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { CourseRegistration } from '@bluedot/db';
 import {
   CTALinkOrButton, ErrorSection, P, ProgressDots,
@@ -6,7 +7,13 @@ import { ROUTES } from '../../lib/routes';
 import CourseListRow from './CourseListRow';
 import { trpc } from '../../utils/trpc';
 
+const SEE_ALL_THRESHOLD = 5;
+
 const CoursesContent = () => {
+  const [showAllInProgress, setShowAllInProgress] = useState(false);
+  const [showAllCompleted, setShowAllCompleted] = useState(false);
+  const [showAllFacilitated, setShowAllFacilitated] = useState(false);
+
   const {
     data: courseRegistrations,
     isLoading: courseRegistrationsLoading,
@@ -25,24 +32,35 @@ const CoursesContent = () => {
       return course ? [{ course, courseRegistration }] : [];
     })
     .flat();
-  const enrolledCoursesToDisplay = enrolledCourses
-    // Don't show completed courses for facilitators, they don't get certificates
-    .filter(({ courseRegistration }) => !(isCompleted(courseRegistration) && courseRegistration.role === 'Facilitator'));
 
   // Group courses by status
-  const completedCourses = enrolledCoursesToDisplay
-    .filter(({ courseRegistration }) => isCompleted(courseRegistration))
+  // Completed: past courses for participants (non-facilitators)
+  const completedCourses = enrolledCourses
+    .filter(({ courseRegistration }) => isCompleted(courseRegistration) && courseRegistration.role !== 'Facilitator')
     // No-cert courses first (to nudge user to complete), then by completion date descending
     .sort((a, b) => (b.courseRegistration.certificateCreatedAt ?? Infinity) - (a.courseRegistration.certificateCreatedAt ?? Infinity));
 
-  // In-progress: everything else (Active + no certificate)
-  const inProgressCourses = enrolledCoursesToDisplay.filter(({ courseRegistration }) => !isCompleted(courseRegistration));
+  // Facilitated: past courses for facilitators
+  const facilitatedCourses = enrolledCourses
+    .filter(({ courseRegistration }) => isCompleted(courseRegistration) && courseRegistration.role === 'Facilitator')
+    // Sort by most recent first (using certificateCreatedAt as proxy, though facilitators don't get certs)
+    .sort((a, b) => (b.courseRegistration.certificateCreatedAt ?? Infinity) - (a.courseRegistration.certificateCreatedAt ?? Infinity));
+
+  // In-progress: Active courses (both participants and facilitators)
+  const inProgressCourses = enrolledCourses.filter(({ courseRegistration }) => !isCompleted(courseRegistration));
+
+  // Calculate which courses to display based on "See all" state
+  const displayedInProgressCourses = showAllInProgress ? inProgressCourses : inProgressCourses.slice(0, SEE_ALL_THRESHOLD);
+  const displayedCompletedCourses = showAllCompleted ? completedCourses : completedCourses.slice(0, SEE_ALL_THRESHOLD);
+  const displayedFacilitatedCourses = showAllFacilitated ? facilitatedCourses : facilitatedCourses.slice(0, SEE_ALL_THRESHOLD);
 
   const loading = courseRegistrationsLoading || coursesLoading;
   const error = courseRegistrationsError || coursesError;
 
   if (loading) return <ProgressDots />;
   if (error) return <ErrorSection error={error} />;
+
+  const totalEnrolledCourses = inProgressCourses.length + completedCourses.length + facilitatedCourses.length;
 
   return (
     <div aria-label="Courses list">
@@ -55,17 +73,28 @@ const CoursesContent = () => {
               </P>
             </div>
             <div>
-              {inProgressCourses.map(({ course, courseRegistration }, index) => (
+              {displayedInProgressCourses.map(({ course, courseRegistration }, index) => (
                 <CourseListRow
                   key={courseRegistration.id}
                   course={course}
                   courseRegistration={courseRegistration}
                   isFirst={index === 0}
-                  isLast={index === inProgressCourses.length - 1}
+                  isLast={index === displayedInProgressCourses.length - 1}
                   startExpanded
                 />
               ))}
             </div>
+            {inProgressCourses.length > SEE_ALL_THRESHOLD && (
+              <div className="pt-4 text-center">
+                <button
+                  type="button"
+                  onClick={() => setShowAllInProgress(!showAllInProgress)}
+                  className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
+                >
+                  {showAllInProgress ? 'Show less' : `See all (${inProgressCourses.length}) courses`}
+                </button>
+              </div>
+            )}
           </section>
         )}
         {completedCourses.length > 0 && (
@@ -76,22 +105,64 @@ const CoursesContent = () => {
               </P>
             </div>
             <div>
-              {completedCourses.map(({ course, courseRegistration }, index) => (
+              {displayedCompletedCourses.map(({ course, courseRegistration }, index) => (
                 <CourseListRow
                   key={courseRegistration.id}
                   course={course}
                   courseRegistration={courseRegistration}
                   isFirst={index === 0}
-                  isLast={index === completedCourses.length - 1}
+                  isLast={index === displayedCompletedCourses.length - 1}
                 />
               ))}
             </div>
+            {completedCourses.length > SEE_ALL_THRESHOLD && (
+              <div className="pt-4 text-center">
+                <button
+                  type="button"
+                  onClick={() => setShowAllCompleted(!showAllCompleted)}
+                  className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
+                >
+                  {showAllCompleted ? 'Show less' : `See all (${completedCourses.length}) courses`}
+                </button>
+              </div>
+            )}
           </section>
         )}
-
+        {facilitatedCourses.length > 0 && (
+          <section aria-label="Facilitated courses">
+            <div className="flex items-center justify-between mb-4">
+              <P className="font-semibold">
+                Facilitated ({facilitatedCourses.length})
+              </P>
+            </div>
+            <div>
+              {displayedFacilitatedCourses.map(({ course, courseRegistration }, index) => (
+                <CourseListRow
+                  key={courseRegistration.id}
+                  course={course}
+                  courseRegistration={courseRegistration}
+                  isFirst={index === 0}
+                  isLast={index === displayedFacilitatedCourses.length - 1}
+                  isFacilitated
+                />
+              ))}
+            </div>
+            {facilitatedCourses.length > SEE_ALL_THRESHOLD && (
+              <div className="pt-4 text-center">
+                <button
+                  type="button"
+                  onClick={() => setShowAllFacilitated(!showAllFacilitated)}
+                  className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
+                >
+                  {showAllFacilitated ? 'Show less' : `See all (${facilitatedCourses.length}) courses`}
+                </button>
+              </div>
+            )}
+          </section>
+        )}
       </div>
 
-      {enrolledCoursesToDisplay.length === 0 && (
+      {totalEnrolledCourses === 0 && (
         <div className="flex flex-col gap-4 mt-4">
           <P>You haven't started any courses yet</P>
           <CTALinkOrButton url={ROUTES.courses.url}>Join a course</CTALinkOrButton>

@@ -20,10 +20,12 @@ type CourseListRowProps = {
   isFirst: boolean;
   isLast: boolean;
   startExpanded?: boolean;
+  /** True when this row is displayed in the "Facilitated" section (past facilitated courses) */
+  isFacilitated?: boolean;
 };
 
 const CourseListRow = ({
-  course, courseRegistration, isFirst = false, isLast = false, startExpanded = false,
+  course, courseRegistration, isFirst = false, isLast = false, startExpanded = false, isFacilitated = false,
 }: CourseListRowProps) => {
   const [isExpanded, setIsExpanded] = useState(startExpanded);
   const currentTimeMs = useCurrentTimeMs();
@@ -78,6 +80,12 @@ const CourseListRow = ({
   );
   const nextDiscussion = upcomingDiscussions[0];
 
+  // For facilitated courses in the "Facilitated" section, compute which discussions were actually facilitated
+  // (intersection of attendedDiscussions and expectedDiscussionsFacilitator)
+  const facilitatedDiscussions = isFacilitated
+    ? attendedDiscussions.filter((d) => (meetPerson?.expectedDiscussionsFacilitator ?? []).includes(d.id))
+    : [];
+
   const ctaButtons = getCtaButtons({
     course,
     courseRegistration,
@@ -86,6 +94,7 @@ const CourseListRow = ({
     currentTimeMs,
     isExpanded,
     isLoading,
+    isFacilitated,
   });
 
   const subtitle = getSubtitle({
@@ -95,6 +104,7 @@ const CourseListRow = ({
     nextDiscussion,
     isLoading,
     isNotInGroup,
+    isFacilitated,
   });
 
   // Determine if we need to show eligibility tooltip for facilitated courses
@@ -267,7 +277,10 @@ const CourseListRow = ({
           isLast={isLast}
           attendedDiscussions={attendedDiscussions}
           upcomingDiscussions={upcomingDiscussions}
+          facilitatedDiscussions={facilitatedDiscussions}
           isLoading={isLoading}
+          isFacilitated={isFacilitated}
+          meetPerson={meetPerson}
         />
       )}
 
@@ -301,6 +314,7 @@ const getCtaButtons = ({
   currentTimeMs,
   isExpanded,
   isLoading,
+  isFacilitated,
 }: {
   course: Course;
   courseRegistration: CourseRegistration;
@@ -309,12 +323,32 @@ const getCtaButtons = ({
   currentTimeMs: number;
   isExpanded: boolean;
   isLoading: boolean;
+  isFacilitated: boolean;
 }): ReactNode[] => {
   const feedbackFormUrl = meetPerson?.courseFeedbackForm;
   const hasSubmittedFeedback = (meetPerson?.courseFeedback?.length ?? 0) > 0;
   const hasSubmittedActionPlan = (meetPerson?.projectSubmission?.length ?? 0) > 0;
   // All facilitated courses (non-FOAI) require action plan/project submission
   const requiresActionPlan = course.slug !== FOAI_COURSE_SLUG;
+
+  // For past facilitated courses: only show feedback button if not yet submitted, otherwise nothing
+  if (isFacilitated) {
+    if (feedbackFormUrl && !hasSubmittedFeedback) {
+      return [(
+        <CTALinkOrButton
+          key="feedback"
+          variant="outline-black"
+          size="small"
+          url={feedbackFormUrl}
+          target="_blank"
+          className="w-full sm:w-auto border-bluedot-darker"
+        >
+          Share feedback
+        </CTALinkOrButton>
+      )];
+    }
+    return [];
+  }
 
   // Certificate exists but feedback not yet submitted: show locked certificate button linking to feedback form
   if (courseRegistration.certificateCreatedAt && !hasSubmittedFeedback && feedbackFormUrl) {
@@ -449,6 +483,7 @@ const getSubtitle = ({
   nextDiscussion,
   isLoading,
   isNotInGroup,
+  isFacilitated,
 }: {
   courseRegistration: CourseRegistration;
   meetPerson: MeetPerson | null | undefined;
@@ -456,7 +491,23 @@ const getSubtitle = ({
   nextDiscussion: GroupDiscussion | undefined;
   isLoading: boolean;
   isNotInGroup: boolean | null | undefined;
+  isFacilitated: boolean;
 }): ReactNode => {
+  // For past facilitated courses: show round name (TODO) + checkmark
+  if (isFacilitated) {
+    // TODO: Get round name from meetPerson.round or add a new field
+    // Format should be like "Round 2026 Feb W08 Part-time"
+    const roundName = 'TODO: Round name';
+    return (
+      <>
+        {roundName}
+        <span className="inline-flex items-center justify-center size-3.5 bg-gray-500 rounded-full">
+          <FaCheck className="size-1.5 text-white" />
+        </span>
+      </>
+    );
+  }
+
   if (courseRegistration.certificateCreatedAt) {
     return (
       <>
