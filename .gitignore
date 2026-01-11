@@ -41,3 +41,4 @@ core
 .DS_Store
 *.pem
 .vscode/launch.json
+.cursorrules
