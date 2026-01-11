@@ -280,8 +280,6 @@ const CourseListRow = ({
           upcomingDiscussions={upcomingDiscussions}
           facilitatedDiscussions={facilitatedDiscussions}
           isLoading={isLoading}
-          isFacilitated={isFacilitated}
-          meetPerson={meetPerson}
         />
       )}
 

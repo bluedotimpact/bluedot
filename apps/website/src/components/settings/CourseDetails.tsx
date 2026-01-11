@@ -1,4 +1,4 @@
-import { Course, CourseRegistration, MeetPerson } from '@bluedot/db';
+import { Course, CourseRegistration } from '@bluedot/db';
 import {
   CTALinkOrButton, ProgressDots, useCurrentTimeMs, OverflowMenu, type OverflowMenuItemProps,
   cn,
@@ -186,51 +186,14 @@ const CourseDetailsRow = ({
   );
 };
 
-/** Simplified row component for displaying past facilitated discussions (no action buttons) */
-const FacilitatedDiscussionRow = ({
-  discussion,
-}: {
-  discussion: GroupDiscussion;
-}) => {
-  const groupName = discussion.groupDetails?.groupName || 'Unknown group';
-
-  return (
-    <div key={discussion.id} className="py-5 border-b border-charcoal-light last:border-0">
-      <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
-        {/* Left side: Date/time and discussion details */}
-        <div className="flex items-center gap-4 min-w-0">
-          <TimeWidget isLive={false} dateTimeSeconds={discussion.startDateTime} />
-
-          {/* Discussion details */}
-          <div className="flex flex-col gap-1.5 min-w-0">
-            <div className="text-size-sm font-medium text-gray-900 truncate">
-              {discussion.unitRecord
-                ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
-                : `Unit ${discussion.unitNumber || ''}`}
-            </div>
-            <div className="truncate text-size-xs text-gray-500 font-medium flex items-center gap-1">
-              <span>👥</span>
-              <span>{groupName}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 type CourseDetailsProps = {
   course: Course;
   courseRegistration: CourseRegistration;
   attendedDiscussions: GroupDiscussion[];
   upcomingDiscussions: GroupDiscussion[];
-  /** Discussions that were actually facilitated (attended ∩ expectedDiscussionsFacilitator) */
   facilitatedDiscussions: GroupDiscussion[];
   isLoading: boolean;
   isLast?: boolean;
-  /** True when this is displayed in the "Facilitated" section */
-  isFacilitated?: boolean;
-  meetPerson: MeetPerson | null | undefined;
 };
 
 const CourseDetails = ({
@@ -241,37 +204,27 @@ const CourseDetails = ({
   facilitatedDiscussions,
   isLoading,
   isLast = false,
-  isFacilitated = false,
-  meetPerson,
 }: CourseDetailsProps) => {
-  const showUpcomingTab = courseRegistration.roundStatus === 'Active' || upcomingDiscussions.length > 0;
+  const showUpcomingTab = upcomingDiscussions.length > 0;
+  const showAttendedTab = attendedDiscussions.length > 0;
+  const showFacilitatedTab = facilitatedDiscussions.length > 0;
+
+  const getInitialTab = (): 'upcoming' | 'attended' | 'facilitated' => {
+    if (showUpcomingTab) return 'upcoming';
+    if (showAttendedTab) return 'attended';
+    if (showFacilitatedTab) return 'facilitated';
+    return 'attended'; // fallback
+  };
 
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [initialUnitNumber, setInitialUnitNumber] = useState<string | undefined>(undefined);
   const [selectedSwitchType, setSelectedSwitchType] = useState<SwitchType>('Switch group for one unit');
+  const [activeTab, setActiveTab] = useState<'upcoming' | 'attended' | 'facilitated'>(getInitialTab());
   const [showAllUpcoming, setShowAllUpcoming] = useState(false);
   const [showAllAttended, setShowAllAttended] = useState(false);
   const [showAllFacilitated, setShowAllFacilitated] = useState(false);
 
-  const isFacilitatorRole = courseRegistration.role === 'Facilitator';
-
-  // Edge case: user has both participant and facilitator discussions (pre-2025 data, ~15 users)
-  const hasParticipantDiscussions = (meetPerson?.expectedDiscussionsParticipant?.length ?? 0) > 0;
-  const hasFacilitatorDiscussions = (meetPerson?.expectedDiscussionsFacilitator?.length ?? 0) > 0;
-  const showBothAttendedAndFacilitatedTabs = hasParticipantDiscussions && hasFacilitatorDiscussions;
-
-  // Determine which tabs to show
-  const showFacilitatedTab = isFacilitated || (isFacilitatorRole && !showBothAttendedAndFacilitatedTabs) || showBothAttendedAndFacilitatedTabs;
-  const showAttendedTab = !isFacilitatorRole || showBothAttendedAndFacilitatedTabs;
-
-  // Determine initial active tab
-  const getInitialTab = (): 'upcoming' | 'attended' | 'facilitated' => {
-    if (isFacilitated) return 'facilitated';
-    if (showUpcomingTab) return 'upcoming';
-    if (showFacilitatedTab && isFacilitatorRole && !showBothAttendedAndFacilitatedTabs) return 'facilitated';
-    return 'attended';
-  };
-  const [activeTab, setActiveTab] = useState<'upcoming' | 'attended' | 'facilitated'>(getInitialTab());
+  const isFacilitator = courseRegistration.role === 'Facilitator';
 
   const handleOpenGroupSwitchModal = ({ discussion, switchType }: { discussion?: GroupDiscussion; switchType: SwitchType }) => {
     const unitNumber = switchType === 'Switch group for one unit' && discussion?.unitRecord
@@ -289,7 +242,7 @@ const CourseDetails = ({
           {/* Section header with tabs */}
           <div className="flex border-b border-charcoal-light">
             <div className="flex px-4 sm:px-8 gap-8">
-              {showUpcomingTab && !isFacilitated && (
+              {showUpcomingTab && (
                 <button
                   type="button"
                   onClick={() => setActiveTab('upcoming')}
@@ -302,7 +255,7 @@ const CourseDetails = ({
                   Upcoming discussions
                 </button>
               )}
-              {showAttendedTab && !isFacilitated && (
+              {showAttendedTab && (
                 <button
                   type="button"
                   onClick={() => setActiveTab('attended')}
@@ -350,7 +303,7 @@ const CourseDetails = ({
                             isNext={index === 0}
                             isPast={false}
                             course={course}
-                            isFacilitator={isFacilitatorRole}
+                            isFacilitator={isFacilitator}
                             handleOpenGroupSwitchModal={handleOpenGroupSwitchModal}
                           />
                         ))}
@@ -386,7 +339,7 @@ const CourseDetails = ({
                             discussion={discussion}
                             isPast
                             course={course}
-                            isFacilitator={isFacilitatorRole}
+                            isFacilitator={isFacilitator}
                             handleOpenGroupSwitchModal={handleOpenGroupSwitchModal}
                           />
                         ))}
@@ -409,19 +362,19 @@ const CourseDetails = ({
                   )
                 )}
                 {activeTab === 'facilitated' && (
-                  // Show facilitated discussions
                   facilitatedDiscussions.length > 0 ? (
                     <div>
-                      {/* Show first 3 or all based on showAllFacilitated state */}
                       {(showAllFacilitated ? facilitatedDiscussions : facilitatedDiscussions.slice(0, 3))
                         .map((discussion) => (
-                          <FacilitatedDiscussionRow
+                          <CourseDetailsRow
                             key={discussion.id}
                             discussion={discussion}
+                            isPast
+                            course={course}
+                            isFacilitator={isFacilitator}
+                            handleOpenGroupSwitchModal={handleOpenGroupSwitchModal}
                           />
                         ))}
-
-                      {/* "See all"/"Show less" button when more than 3 facilitated discussions */}
                       {facilitatedDiscussions.length > 3 && (
                         <div className="pt-4 text-center">
                           <button
