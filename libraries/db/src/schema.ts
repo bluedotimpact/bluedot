@@ -569,6 +569,14 @@ export const roundTable = pgAirtable('round', {
   baseId: COURSE_RUNNER_BASE_ID,
   tableId: 'tblu6u7F2NHfCMgsk',
   columns: {
+    /**
+     * Primary field in Airtable, called "Course - Round" there.
+     * Constructed by formula, example: "AGI Strategy (2025 Aug W35) - Intensive"
+     */
+    title: {
+      pgColumn: text(),
+      airtableId: 'fldEBVjEF9l2IEyG7',
+    },
     course: {
       pgColumn: text().notNull(),
       airtableId: 'fldvx7D6Uw0VxMPr0',
