@@ -60,9 +60,13 @@ const CourseListRow = ({
     (a, b) => a.startDateTime - b.startDateTime,
   );
 
-  const attendedDiscussions = [...(attendedResults?.discussions ?? [])].sort(
+  const allAttendedDiscussions = [...(attendedResults?.discussions ?? [])].sort(
     (a, b) => a.startDateTime - b.startDateTime,
   );
+
+  const facilitatorDiscussionIds = new Set(meetPerson?.expectedDiscussionsFacilitator ?? []);
+  const facilitatedDiscussions = allAttendedDiscussions.filter((d) => facilitatorDiscussionIds.has(d.id));
+  const attendedDiscussions = allAttendedDiscussions.filter((d) => !facilitatorDiscussionIds.has(d.id));
 
   const isLoading = isMeetPersonLoading || isLoadingDiscussions || isLoadingAttendees;
 
@@ -77,8 +81,6 @@ const CourseListRow = ({
     (discussion) => getDiscussionTimeState({ discussion, currentTimeMs }) !== 'ended',
   );
   const nextDiscussion = upcomingDiscussions[0];
-
-  const facilitatedDiscussions = attendedDiscussions.filter((d) => (meetPerson?.expectedDiscussionsFacilitator ?? []).includes(d.id));
 
   const ctaButtons = getCtaButtons({
     course,
