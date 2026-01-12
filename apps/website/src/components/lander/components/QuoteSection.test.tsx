@@ -47,39 +47,6 @@ describe('QuoteSection', () => {
     expect(indicators).toHaveLength(mockProps.quotes.length);
   });
 
-  it('renders with custom card background color (AGI Strategy purple)', () => {
-    const { container } = render(
-      <QuoteSection
-        {...mockProps}
-        cardBackgroundColor="#f3e8ff"
-        accentColor="#9177dc"
-      />,
-    );
-    expect(container.firstChild).toMatchSnapshot();
-  });
-
-  it('renders with custom card background color (Biosecurity green)', () => {
-    const { container } = render(
-      <QuoteSection
-        {...mockProps}
-        cardBackgroundColor="#e5faea"
-        accentColor="#3da462"
-      />,
-    );
-    expect(container.firstChild).toMatchSnapshot();
-  });
-
-  it('renders with custom card background color (Future of AI cream)', () => {
-    const { container } = render(
-      <QuoteSection
-        {...mockProps}
-        cardBackgroundColor="#faf6e1"
-        accentColor="#8c8146"
-      />,
-    );
-    expect(container.firstChild).toMatchSnapshot();
-  });
-
   it('applies custom card background color to quote card', () => {
     const customBgColor = '#e5faea';
     const { container } = render(

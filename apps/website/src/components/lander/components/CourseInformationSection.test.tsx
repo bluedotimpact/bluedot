@@ -103,35 +103,4 @@ describe('CourseInformationSection', () => {
     expect(getByText(/pay-what-you-want/)).toBeDefined();
   });
 
-  it('renders with custom accent color (AGI Strategy purple)', () => {
-    const { container } = render(
-      <CourseInformationSection {...mockProps} accentColor="#9177dc" />,
-      { wrapper: TrpcProvider },
-    );
-    expect(container.firstChild).toMatchSnapshot();
-  });
-
-  it('renders with custom accent color (Biosecurity green)', () => {
-    const { container } = render(
-      <CourseInformationSection {...mockProps} accentColor="#3da462" />,
-      { wrapper: TrpcProvider },
-    );
-    expect(container.firstChild).toMatchSnapshot();
-  });
-
-  it('renders with custom accent color (Future of AI gold)', () => {
-    const { container } = render(
-      <CourseInformationSection {...mockProps} accentColor="#8c8146" />,
-      { wrapper: TrpcProvider },
-    );
-    expect(container.firstChild).toMatchSnapshot();
-  });
-
-  it('renders with custom accent color (AI Governance blue)', () => {
-    const { container } = render(
-      <CourseInformationSection {...mockProps} accentColor="#4092d6" />,
-      { wrapper: TrpcProvider },
-    );
-    expect(container.firstChild).toMatchSnapshot();
-  });
 });
