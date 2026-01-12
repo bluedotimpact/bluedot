@@ -30,7 +30,7 @@ type CourseDetailsRowProps = {
   isPast?: boolean;
   course: Course;
   isFacilitator: boolean;
-  onOpenGroupSwitch: (discussion: GroupDiscussion, switchType: SwitchType) => void;
+  onOpenGroupSwitchModal: (discussion: GroupDiscussion, switchType: SwitchType) => void;
   onOpenFacilitatorModal: (discussion: GroupDiscussion, modalType: FacilitatorModalType) => void;
 };
 
@@ -40,7 +40,7 @@ const CourseDetailsRow = ({
   isPast = false,
   course,
   isFacilitator,
-  onOpenGroupSwitch,
+  onOpenGroupSwitchModal,
   onOpenFacilitatorModal,
 }: CourseDetailsRowProps) => {
   const currentTimeMs = useCurrentTimeMs();
@@ -76,7 +76,7 @@ const CourseDetailsRow = ({
       id: 'cant-make-it',
       label: "Can't make it?",
       variant: 'secondary',
-      onClick: () => onOpenGroupSwitch(discussion, 'Switch group for one unit'),
+      onClick: () => onOpenGroupSwitchModal(discussion, 'Switch group for one unit'),
       isVisible: !isFacilitator && !isPast,
       ariaLabel: `Switch group for Unit ${discussion.unitNumber}`,
     },
@@ -120,7 +120,7 @@ const CourseDetailsRow = ({
       id: 'switch-group-permanently',
       label: 'Switch group permanently',
       variant: 'secondary',
-      onClick: () => onOpenGroupSwitch(discussion, 'Switch group permanently'),
+      onClick: () => onOpenGroupSwitchModal(discussion, 'Switch group permanently'),
       isVisible: !isFacilitator && !isPast,
       overflowIcon: <FaArrowRightArrowLeft className="mx-auto size-[14px]" />,
     },
@@ -306,7 +306,7 @@ const CourseDetails = ({
                             isPast={false}
                             course={course}
                             isFacilitator={isFacilitator}
-                            onOpenGroupSwitch={handleOpenGroupSwitch}
+                            onOpenGroupSwitchModal={handleOpenGroupSwitch}
                             onOpenFacilitatorModal={handleOpenFacilitatorModal}
                           />
                         ))}
@@ -343,7 +343,7 @@ const CourseDetails = ({
                             isPast
                             course={course}
                             isFacilitator={isFacilitator}
-                            onOpenGroupSwitch={handleOpenGroupSwitch}
+                            onOpenGroupSwitchModal={handleOpenGroupSwitch}
                             onOpenFacilitatorModal={handleOpenFacilitatorModal}
                           />
                         ))}
