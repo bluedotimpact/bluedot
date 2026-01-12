@@ -20,12 +20,11 @@ type CourseListRowProps = {
   isFirst: boolean;
   isLast: boolean;
   startExpanded?: boolean;
-  /** True when this row is displayed in the "Facilitated" section (past facilitated courses) */
-  isFacilitated?: boolean;
+  isFacilitatorRole?: boolean;
 };
 
 const CourseListRow = ({
-  course, courseRegistration, isFirst = false, isLast = false, startExpanded = false, isFacilitated = false,
+  course, courseRegistration, isFirst = false, isLast = false, startExpanded = false, isFacilitatorRole = false,
 }: CourseListRowProps) => {
   const [isExpanded, setIsExpanded] = useState(startExpanded);
   const currentTimeMs = useCurrentTimeMs();
@@ -80,11 +79,7 @@ const CourseListRow = ({
   );
   const nextDiscussion = upcomingDiscussions[0];
 
-  // For facilitated courses in the "Facilitated" section, compute which discussions were actually facilitated
-  // (intersection of attendedDiscussions and expectedDiscussionsFacilitator)
-  const facilitatedDiscussions = isFacilitated
-    ? attendedDiscussions.filter((d) => (meetPerson?.expectedDiscussionsFacilitator ?? []).includes(d.id))
-    : [];
+  const facilitatedDiscussions = attendedDiscussions.filter((d) => (meetPerson?.expectedDiscussionsFacilitator ?? []).includes(d.id));
 
   const ctaButtons = getCtaButtons({
     course,
@@ -94,7 +89,7 @@ const CourseListRow = ({
     currentTimeMs,
     isExpanded,
     isLoading,
-    isFacilitated,
+    isFacilitatorRole: isFacilitatorRole,
   });
 
   const subtitle = getSubtitle({
@@ -104,7 +99,7 @@ const CourseListRow = ({
     nextDiscussion,
     isLoading,
     isNotInGroup,
-    isFacilitated,
+    isFacilitatorRole: isFacilitatorRole,
   });
 
   // Determine if we need to show eligibility tooltip for courses with discussions (not FOAI)
@@ -112,7 +107,7 @@ const CourseListRow = ({
   let reasonNotEligibleForCert: string | null = null;
   const isDiscussionBasedCourse = course.slug !== FOAI_COURSE_SLUG;
 
-  if (!isFacilitated && !courseRegistration.certificateCreatedAt && isDiscussionBasedCourse
+  if (!isFacilitatorRole && !courseRegistration.certificateCreatedAt && isDiscussionBasedCourse
     && meetPerson?.uniqueDiscussionAttendance != null && meetPerson?.numUnits != null
   ) {
     const hasSubmittedActionPlan = (meetPerson?.projectSubmission?.length ?? 0) > 0;
@@ -313,7 +308,7 @@ const getCtaButtons = ({
   currentTimeMs,
   isExpanded,
   isLoading,
-  isFacilitated,
+  isFacilitatorRole,
 }: {
   course: Course;
   courseRegistration: CourseRegistration;
@@ -322,32 +317,13 @@ const getCtaButtons = ({
   currentTimeMs: number;
   isExpanded: boolean;
   isLoading: boolean;
-  isFacilitated: boolean;
+  isFacilitatorRole: boolean;
 }): ReactNode[] => {
   const feedbackFormUrl = meetPerson?.courseFeedbackForm;
   const hasSubmittedFeedback = (meetPerson?.courseFeedback?.length ?? 0) > 0;
   const hasSubmittedActionPlan = (meetPerson?.projectSubmission?.length ?? 0) > 0;
   // All facilitated courses (non-FOAI) require action plan/project submission
   const requiresActionPlan = course.slug !== FOAI_COURSE_SLUG;
-
-  // For past facilitated courses: only show feedback button if not yet submitted, otherwise nothing
-  if (isFacilitated) {
-    if (feedbackFormUrl && !hasSubmittedFeedback) {
-      return [(
-        <CTALinkOrButton
-          key="feedback"
-          variant="outline-black"
-          size="small"
-          url={feedbackFormUrl}
-          target="_blank"
-          className="w-full sm:w-auto border-bluedot-darker"
-        >
-          Share feedback
-        </CTALinkOrButton>
-      )];
-    }
-    return [];
-  }
 
   // Certificate exists but feedback not yet submitted: show locked certificate button linking to feedback form
   if (courseRegistration.certificateCreatedAt && !hasSubmittedFeedback && feedbackFormUrl) {
@@ -435,7 +411,7 @@ const getCtaButtons = ({
     }
 
     // Action plan button (only for courses that require it)
-    if (requiresActionPlan) {
+    if (requiresActionPlan && !isFacilitatorRole) {
       if (hasSubmittedActionPlan) {
         // Action plan submitted - show filled checkmark button (non-interactive)
         buttons.push(
@@ -482,7 +458,7 @@ const getSubtitle = ({
   nextDiscussion,
   isLoading,
   isNotInGroup,
-  isFacilitated,
+  isFacilitatorRole,
 }: {
   courseRegistration: CourseRegistration;
   meetPerson: MeetPerson | null | undefined;
@@ -490,10 +466,10 @@ const getSubtitle = ({
   nextDiscussion: GroupDiscussion | undefined;
   isLoading: boolean;
   isNotInGroup: boolean | null | undefined;
-  isFacilitated: boolean;
+  isFacilitatorRole: boolean;
 }): ReactNode => {
   // For past facilitated courses: show round name (TODO) + checkmark
-  if (isFacilitated) {
+  if (isFacilitatorRole) {
     // TODO: Get round name from meetPerson.round or add a new field
     // Format should be like "Round 2026 Feb W08 Part-time"
     const roundName = 'TODO: Round name';

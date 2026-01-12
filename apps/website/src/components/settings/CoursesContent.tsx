@@ -143,7 +143,7 @@ const CoursesContent = () => {
                   courseRegistration={courseRegistration}
                   isFirst={index === 0}
                   isLast={index === displayedFacilitatedCourses.length - 1}
-                  isFacilitated
+                  isFacilitatorRole
                 />
               ))}
             </div>

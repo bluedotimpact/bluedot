@@ -205,15 +205,14 @@ const CourseDetails = ({
   isLoading,
   isLast = false,
 }: CourseDetailsProps) => {
-  const showUpcomingTab = upcomingDiscussions.length > 0;
-  const showAttendedTab = attendedDiscussions.length > 0;
+  const showUpcomingTab = courseRegistration.roundStatus === 'Active' || upcomingDiscussions.length > 0;
   const showFacilitatedTab = facilitatedDiscussions.length > 0;
+  const showAttendedTab = !(showFacilitatedTab && attendedDiscussions.length === 0);
 
   const getInitialTab = (): 'upcoming' | 'attended' | 'facilitated' => {
     if (showUpcomingTab) return 'upcoming';
-    if (showAttendedTab) return 'attended';
     if (showFacilitatedTab) return 'facilitated';
-    return 'attended'; // fallback
+    return 'attended';
   };
 
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
