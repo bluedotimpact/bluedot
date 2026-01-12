@@ -104,9 +104,9 @@ const CourseListRow = ({
   // Determine if we need to show eligibility tooltip for courses with discussions (not FOAI)
   // Skip for Facilitated section since facilitators don't get certificates
   let reasonNotEligibleForCert: string | null = null;
-  const isDiscussionBasedCourse = course.slug !== FOAI_COURSE_SLUG;
+  const isFacilitatedCourse = course.slug !== FOAI_COURSE_SLUG;
 
-  if (!isFacilitatorRole && !courseRegistration.certificateCreatedAt && isDiscussionBasedCourse
+  if (!isFacilitatorRole && !courseRegistration.certificateCreatedAt && isFacilitatedCourse
     && meetPerson?.uniqueDiscussionAttendance != null && meetPerson?.numUnits != null
   ) {
     const hasSubmittedActionPlan = (meetPerson?.projectSubmission?.length ?? 0) > 0;
