@@ -50,7 +50,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   // Conditionally fetch data if `allDiscussions` is not provided
   const shouldFetch = !allDiscussions || allDiscussions.length === 0;
   const {
-    data: fetchedData,
+    data: fetchedDiscussions,
     isLoading,
     isError,
     error,
@@ -58,10 +58,9 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     shouldFetch ? { courseSlug } : skipToken,
   );
 
-  // Build options from either passed `allDiscussions` or fetched data
-  const { groupOptions, discussionOptionsByGroup } = shouldFetch
-    ? buildOptionsFromFetchedData(fetchedData)
-    : buildOptions(allDiscussions ?? [], currentTimeMs);
+  // Use either passed `allDiscussions` or fetched data
+  const discussions = allDiscussions ?? fetchedDiscussions ?? [];
+  const { groupOptions, discussionOptionsByGroup } = buildOptions(discussions, currentTimeMs);
 
   const discussionOptions = discussionOptionsByGroup[selectedGroupId || ''] ?? [];
   const selectedDiscussion = discussionOptions.find((d) => d.value === selectedDiscussionId);
@@ -274,37 +273,15 @@ const InformationBanner = () => {
 type GroupOption = { value: string; label: string; disabled?: boolean };
 type DiscussionOption = GroupOption & { startDateTime: number };
 
-type FetchedDataType = {
-  groups: { id: string; groupName: string | null }[];
-  discussionsByGroup: Record<string, { id: string; startDateTime: number; endDateTime: number; label: string; hasStarted: boolean }[]>;
-} | undefined;
-
-const buildOptionsFromFetchedData = (
-  fetchedData: FetchedDataType,
-): { groupOptions: GroupOption[]; discussionOptionsByGroup: Record<string, DiscussionOption[]> } => {
-  if (!fetchedData) {
-    return { groupOptions: [], discussionOptionsByGroup: {} };
-  }
-
-  const groupOptions: GroupOption[] = fetchedData.groups.map((group) => ({
-    value: group.id,
-    label: group.groupName || 'Group [Unknown]',
-  }));
-
-  const discussionOptionsByGroup: Record<string, DiscussionOption[]> = {};
-  for (const [groupId, discussions] of Object.entries(fetchedData.discussionsByGroup)) {
-    discussionOptionsByGroup[groupId] = discussions.map((discussion) => ({
-      value: discussion.id,
-      label: discussion.label,
-      disabled: discussion.hasStarted,
-      startDateTime: discussion.startDateTime,
-    }));
-  }
-
-  return { groupOptions, discussionOptionsByGroup };
+type DiscussionInput = {
+  id: string;
+  group: string;
+  startDateTime: number;
+  groupDetails?: { groupName: string | null } | null;
+  unitRecord?: { unitNumber: string; title: string } | null;
 };
 
-const buildOptions = (discussions: GroupDiscussion[], currentTimeMs: number) => {
+const buildOptions = (discussions: DiscussionInput[], currentTimeMs: number) => {
   const groupOptions: GroupOption[] = [];
   const discussionOptionsByGroup: Record<string, DiscussionOption[]> = {};
   const seenGroups = new Set<string>();
@@ -312,11 +289,11 @@ const buildOptions = (discussions: GroupDiscussion[], currentTimeMs: number) => 
   for (const discussion of discussions) {
     const groupId = discussion.group;
 
-    if (discussion.groupDetails && !seenGroups.has(groupId)) {
+    if (!seenGroups.has(groupId)) {
       seenGroups.add(groupId);
       groupOptions.push({
         value: groupId,
-        label: discussion.groupDetails.groupName || 'Group [Unknown]',
+        label: discussion.groupDetails?.groupName || 'Group [Unknown]',
       });
     }
 
