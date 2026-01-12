@@ -462,14 +462,10 @@ const getSubtitle = ({
   isNotInGroup: boolean | null | undefined;
   isFacilitatorRole: boolean;
 }): ReactNode => {
-  // For past facilitated courses: show round name (TODO) + checkmark
-  if (isFacilitatorRole) {
-    // TODO: Get round name from meetPerson.round or add a new field
-    // Format should be like "Round 2026 Feb W08 Part-time"
-    const roundName = 'TODO: Round name';
+  if (isFacilitatorRole && courseRegistration.roundName) {
     return (
       <>
-        {roundName}
+        {courseRegistration.roundName}
         <span className="inline-flex items-center justify-center size-3.5 bg-gray-500 rounded-full">
           <FaCheck className="size-1.5 text-white" />
         </span>
