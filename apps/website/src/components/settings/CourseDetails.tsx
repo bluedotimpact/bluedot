@@ -30,7 +30,7 @@ type CourseDetailsRowProps = {
   handleOpenGroupSwitchModal: (params: { discussion: GroupDiscussion; switchType: SwitchType }) => void;
 };
 
-const CourseDetailsRow = ({
+const DiscussionListRow = ({
   discussion,
   isNext = false,
   isPast = false,
@@ -212,7 +212,7 @@ const DiscussionList = ({
   return (
     <div>
       {(showAll ? discussions : discussions.slice(0, 3)).map((discussion, index) => (
-        <CourseDetailsRow
+        <DiscussionListRow
           key={discussion.id}
           discussion={discussion}
           isNext={!isPast && index === 0}
@@ -271,7 +271,7 @@ const CourseDetails = ({
   const [selectedSwitchType, setSelectedSwitchType] = useState<SwitchType>('Switch group for one unit');
   const [activeTab, setActiveTab] = useState<'upcoming' | 'attended' | 'facilitated'>(getInitialTab());
 
-  const isFacilitator = courseRegistration.role === 'Facilitator';
+  const isFacilitatorRole = courseRegistration.role === 'Facilitator';
 
   const handleOpenGroupSwitchModal = ({ discussion, switchType }: { discussion?: GroupDiscussion; switchType: SwitchType }) => {
     const unitNumber = switchType === 'Switch group for one unit' && discussion?.unitRecord
@@ -341,7 +341,7 @@ const CourseDetails = ({
                   <DiscussionList
                     discussions={upcomingDiscussions}
                     course={course}
-                    isFacilitator={isFacilitator}
+                    isFacilitator={isFacilitatorRole}
                     handleOpenGroupSwitchModal={handleOpenGroupSwitchModal}
                     isPast={false}
                     emptyMessage="No upcoming discussions"
@@ -351,7 +351,7 @@ const CourseDetails = ({
                   <DiscussionList
                     discussions={attendedDiscussions}
                     course={course}
-                    isFacilitator={isFacilitator}
+                    isFacilitator={isFacilitatorRole}
                     handleOpenGroupSwitchModal={handleOpenGroupSwitchModal}
                     isPast
                     emptyMessage="No attended discussions yet"
@@ -361,7 +361,7 @@ const CourseDetails = ({
                   <DiscussionList
                     discussions={facilitatedDiscussions}
                     course={course}
-                    isFacilitator={isFacilitator}
+                    isFacilitator={isFacilitatorRole}
                     handleOpenGroupSwitchModal={handleOpenGroupSwitchModal}
                     isPast
                     emptyMessage="No facilitated discussions yet"
