@@ -435,7 +435,7 @@ describe('CourseDetails: Facilitator view', () => {
     expect(screen.queryByRole('menuitem', { name: 'Switch group permanently' })).not.toBeInTheDocument();
   });
 
-  it('shows Facilitated discussions tab when facilitatedDiscussions has items', async () => {
+  it('shows Facilitated discussions tab with count when facilitatedDiscussions has items', async () => {
     const currentTimeMs = Date.now();
     const facilitatedDiscussions = [{
       ...createMockGroupDiscussion({
@@ -458,7 +458,8 @@ describe('CourseDetails: Facilitator view', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: 'Facilitated discussions' })).toBeInTheDocument();
+      // Tab should show count for pay calculation
+      expect(screen.getByRole('button', { name: 'Facilitated discussions (1)' })).toBeInTheDocument();
     });
   });
 });
