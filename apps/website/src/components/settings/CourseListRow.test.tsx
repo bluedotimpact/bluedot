@@ -71,8 +71,6 @@ describe('CourseListRow', () => {
       <CourseListRow
         course={mockCourse}
         courseRegistration={inProgressRegistration}
-        isFirst={false}
-        isLast={false}
       />,
       { wrapper: TrpcProvider },
     );
@@ -91,8 +89,6 @@ describe('CourseListRow', () => {
       <CourseListRow
         course={mockCourse}
         courseRegistration={completedRegistration}
-        isFirst={false}
-        isLast={false}
       />,
       { wrapper: TrpcProvider },
     );
@@ -104,8 +100,6 @@ describe('CourseListRow', () => {
       <CourseListRow
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
-        isFirst={false}
-        isLast={false}
         startExpanded
       />,
       { wrapper: TrpcProvider },
@@ -125,8 +119,6 @@ describe('CourseListRow', () => {
       <CourseListRow
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
-        isFirst={false}
-        isLast={false}
       />,
       { wrapper: TrpcProvider },
     );
@@ -152,8 +144,6 @@ describe('CourseListRow', () => {
       <CourseListRow
         course={mockCourse}
         courseRegistration={completedRegistration}
-        isFirst={false}
-        isLast={false}
       />,
       { wrapper: TrpcProvider },
     );
@@ -170,8 +160,6 @@ describe('CourseListRow', () => {
       <CourseListRow
         course={mockCourse}
         courseRegistration={mockCourseRegistration}
-        isFirst={false}
-        isLast={false}
         startExpanded
       />,
       { wrapper: TrpcProvider },
@@ -251,8 +239,6 @@ describe('CourseListRow', () => {
       <CourseListRow
         course={mockCourse}
         courseRegistration={pastNoCertRegistration}
-        isFirst={false}
-        isLast={false}
       />,
       { wrapper: TrpcProvider },
     );
@@ -321,8 +307,6 @@ describe('CourseListRow', () => {
       <CourseListRow
         course={facilitatedCourse}
         courseRegistration={pastNoCertRegistration}
-        isFirst={false}
-        isLast={false}
       />,
       { wrapper: TrpcProvider },
     );
@@ -396,8 +380,6 @@ describe('CourseListRow', () => {
       <CourseListRow
         course={facilitatedCourse}
         courseRegistration={pastNoCertRegistration}
-        isFirst={false}
-        isLast={false}
       />,
       { wrapper: TrpcProvider },
     );
@@ -440,8 +422,6 @@ describe('CourseListRow', () => {
       <CourseListRow
         course={mockCourse}
         courseRegistration={completedRegistration}
-        isFirst={false}
-        isLast={false}
       />,
       { wrapper: TrpcProvider },
     );
@@ -477,8 +457,6 @@ describe('CourseListRow', () => {
       <CourseListRow
         course={mockCourse}
         courseRegistration={completedRegistration}
-        isFirst={false}
-        isLast={false}
       />,
       { wrapper: TrpcProvider },
     );
@@ -487,5 +465,40 @@ describe('CourseListRow', () => {
     const certificateButtons = await screen.findAllByRole('link', { name: 'View your certificate' });
     expect(certificateButtons.length).toBeGreaterThan(0);
     expect(certificateButtons[0]).toHaveAttribute('href', '/certification?id=cert-123');
+  });
+
+  it('shows round name subtitle and hides action plan button for past facilitator course', async () => {
+    const facilitatorRegistration = {
+      ...mockCourseRegistration,
+      role: 'Facilitator' as const,
+      roundStatus: 'Past',
+      roundName: 'AGI Strategy (2025 Aug W35) - Intensive',
+    };
+
+    const meetPersonFacilitator = {
+      ...mockMeetPerson,
+      expectedDiscussionsFacilitator: ['disc-1'],
+      expectedDiscussionsParticipant: [],
+      projectSubmission: null,
+    };
+
+    server.use(
+      trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPersonFacilitator),
+    );
+
+    render(
+      <CourseListRow
+        course={{ ...mockCourse, slug: 'agi-strategy' }}
+        courseRegistration={facilitatorRegistration}
+      />,
+      { wrapper: TrpcProvider },
+    );
+
+    // Should show round name in subtitle
+    const roundNameTexts = await screen.findAllByText(/AGI Strategy \(2025 Aug W35\) - Intensive/);
+    expect(roundNameTexts.length).toBeGreaterThan(0);
+
+    // Should NOT show action plan button for facilitators
+    expect(screen.queryByRole('link', { name: 'Submit action plan' })).not.toBeInTheDocument();
   });
 });
