@@ -101,8 +101,7 @@ const CourseListRow = ({
     isFacilitatorRole,
   });
 
-  // Determine if we need to show eligibility tooltip for courses with discussions (not FOAI)
-  // Skip for Facilitated section since facilitators don't get certificates
+  // Determine if we need to show eligibility tooltip for facilitated courses
   let reasonNotEligibleForCert: string | null = null;
   const isFacilitatedCourse = course.slug !== FOAI_COURSE_SLUG;
 
