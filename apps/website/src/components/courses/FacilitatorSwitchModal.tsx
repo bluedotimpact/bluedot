@@ -28,7 +28,8 @@ export type SwitchType = (typeof SWITCH_OPTIONS)[number]['value'];
 export type FacilitatorSwitchModalProps = {
   handleClose: () => void;
   courseSlug: string;
-  initialDiscussion: GroupDiscussion | null;
+  /** Only `id` and `group` needed from initialDiscussion */
+  initialDiscussion: { id: string; group: string } | null;
   allDiscussions?: GroupDiscussion[];
 };
 
