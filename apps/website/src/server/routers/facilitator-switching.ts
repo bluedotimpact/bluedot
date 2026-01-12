@@ -62,43 +62,29 @@ export const facilitatorSwitchingRouter = router({
             // gte(groupDiscussionTable.pg.startDateTime, Date.now()),
           ),
         );
-      // TODO: only fetch what columns we need?
+
       const groups = await db.pg.select().from(groupTable.pg).where(
         inArray(groupTable.pg.id, groupDiscussions.map((discussion) => discussion.group)),
       );
 
-      const units = await Promise.all(
-        groupDiscussions.map(async (discussion) => {
-          if (!discussion.courseBuilderUnitRecordId) {
-            return null;
-          }
-          const unit = await db.getFirst(unitTable, { filter: { id: discussion.courseBuilderUnitRecordId, courseSlug, unitStatus: 'Active' } });
-          return unit;
-        }),
-      );
+      const unitIds = [...new Set(groupDiscussions.map((d) => d.courseBuilderUnitRecordId).filter(Boolean))] as string[];
+      const units = unitIds.length > 0
+        ? await db.scan(unitTable, {
+          OR: unitIds.map((id) => ({ id, courseSlug, unitStatus: 'Active' as const })),
+        })
+        : [];
 
-      const discussionsByGroup: Record<string, { id: string, startDateTime: number, endDateTime: number, label: string, hasStarted: boolean }[]> = {};
-      for (const discussion of groupDiscussions) {
-        if (!discussionsByGroup[discussion.group]) {
-          discussionsByGroup[discussion.group] = [];
-        }
-        const unit = units.find((u) => u && u.id === discussion.courseBuilderUnitRecordId);
+      const groupMap = new Map(groups.map((g) => [g.id, g]));
+      const unitMap = new Map(units.map((u) => [u.id, u]));
 
-        discussionsByGroup[discussion.group]?.push({
-          id: discussion.id,
-          startDateTime: discussion.startDateTime,
-          endDateTime: discussion.endDateTime,
-          label: unit ? `Unit ${unit.unitNumber}: ${unit.title}` : 'Unknown Unit',
-          hasStarted: discussion.startDateTime * 1000 <= Date.now(),
-        });
-      }
+      // Return enriched discussions in the same shape as GroupDiscussion from group-discussions router
+      const enrichedDiscussions = groupDiscussions.map((discussion) => ({
+        ...discussion,
+        groupDetails: groupMap.get(discussion.group) ?? null,
+        unitRecord: unitMap.get(discussion.courseBuilderUnitRecordId ?? '') ?? null,
+      }));
 
-      // Sort discussions within each group by startDateTime (earliest first)
-      for (const discussions of Object.values(discussionsByGroup)) {
-        discussions.sort((a, b) => a.startDateTime - b.startDateTime);
-      }
-
-      return { groups, discussionsByGroup };
+      return enrichedDiscussions;
     }),
 
   updateDiscussion: protectedProcedure
