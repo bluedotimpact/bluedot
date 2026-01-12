@@ -12,6 +12,7 @@ import { skipToken } from '@tanstack/react-query';
 import { IoAdd } from 'react-icons/io5';
 import { FaCopy } from 'react-icons/fa6';
 import clsx from 'clsx';
+import FacilitatorSwitchModal from './FacilitatorSwitchModal';
 import GroupSwitchModal from './GroupSwitchModal';
 import { buildGroupSlackChannelUrl, formatDateTimeRelative } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
@@ -57,6 +58,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
+  const [facilitatorSwitchModalOpen, setFacilitatorSwitchModalOpen] = useState(false);
   const currentTimeMs = useCurrentTimeMs();
   const [hostKeyCopied, setHostKeyCopied] = useState(false);
 
@@ -162,8 +164,14 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       id: 'cant-make-it',
       label: "Can't make it?",
       variant: 'ghost',
-      onClick: () => setGroupSwitchModalOpen(true),
-      isVisible: userRole !== 'facilitator',
+      onClick: () => {
+        if (userRole === 'participant') {
+          setGroupSwitchModalOpen(true);
+        } else {
+          setFacilitatorSwitchModalOpen(true);
+        }
+      },
+      isVisible: true,
     },
   ];
   // Buttons should be in a slightly different order on mobile.
@@ -306,6 +314,14 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           handleClose={() => setGroupSwitchModalOpen(false)}
           initialUnitNumber={(discussionUnit || unit).unitNumber.toString()}
           courseSlug={unit.courseSlug}
+        />
+      )}
+
+      {facilitatorSwitchModalOpen && (
+        <FacilitatorSwitchModal
+          handleClose={() => setFacilitatorSwitchModalOpen(false)}
+          courseSlug={unit.courseSlug}
+          initialDiscussion={groupDiscussion}
         />
       )}
     </>
