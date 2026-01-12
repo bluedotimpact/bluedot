@@ -102,5 +102,4 @@ describe('CourseInformationSection', () => {
     expect(getByText(/facilitated by an AI safety expert/)).toBeDefined();
     expect(getByText(/pay-what-you-want/)).toBeDefined();
   });
-
 });
