@@ -20,11 +20,10 @@ type CourseListRowProps = {
   isFirst: boolean;
   isLast: boolean;
   startExpanded?: boolean;
-  isFacilitatorRole?: boolean;
 };
 
 const CourseListRow = ({
-  course, courseRegistration, isFirst = false, isLast = false, startExpanded = false, isFacilitatorRole = false,
+  course, courseRegistration, isFirst = false, isLast = false, startExpanded = false,
 }: CourseListRowProps) => {
   const [isExpanded, setIsExpanded] = useState(startExpanded);
   const currentTimeMs = useCurrentTimeMs();
@@ -36,15 +35,15 @@ const CourseListRow = ({
 
   // Only fetch expected discussions for the list row
   // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
-  const isFacilitator = courseRegistration.role === 'Facilitator';
+  const isFacilitatorRole = courseRegistration.role === 'Facilitator';
 
   // Edge case: The user has been accepted but has no group assigned
   const isNotInGroup = meetPerson
-    && (isFacilitator
+    && (isFacilitatorRole
       ? !meetPerson.expectedDiscussionsFacilitator || meetPerson.expectedDiscussionsFacilitator.length === 0
       : !meetPerson.groupsAsParticipant || meetPerson.groupsAsParticipant.length === 0);
 
-  const expectedDiscussionIds = isFacilitator
+  const expectedDiscussionIds = isFacilitatorRole
     ? meetPerson?.expectedDiscussionsFacilitator || []
     : meetPerson?.expectedDiscussionsParticipant || [];
 
@@ -89,7 +88,7 @@ const CourseListRow = ({
     currentTimeMs,
     isExpanded,
     isLoading,
-    isFacilitatorRole: isFacilitatorRole,
+    isFacilitatorRole,
   });
 
   const subtitle = getSubtitle({
@@ -99,7 +98,7 @@ const CourseListRow = ({
     nextDiscussion,
     isLoading,
     isNotInGroup,
-    isFacilitatorRole: isFacilitatorRole,
+    isFacilitatorRole,
   });
 
   // Determine if we need to show eligibility tooltip for courses with discussions (not FOAI)

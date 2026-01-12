@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CourseRegistration } from '@bluedot/db';
+import { Course, CourseRegistration } from '@bluedot/db';
 import {
   CTALinkOrButton, ErrorSection, P, ProgressDots,
 } from '@bluedot/ui';
@@ -7,13 +7,7 @@ import { ROUTES } from '../../lib/routes';
 import CourseListRow from './CourseListRow';
 import { trpc } from '../../utils/trpc';
 
-const SEE_ALL_THRESHOLD = 5;
-
 const CoursesContent = () => {
-  const [showAllInProgress, setShowAllInProgress] = useState(false);
-  const [showAllCompleted, setShowAllCompleted] = useState(false);
-  const [showAllFacilitated, setShowAllFacilitated] = useState(false);
-
   const {
     data: courseRegistrations,
     isLoading: courseRegistrationsLoading,
@@ -49,11 +43,6 @@ const CoursesContent = () => {
   // In-progress: Active courses (both participants and facilitators)
   const inProgressCourses = enrolledCourses.filter(({ courseRegistration }) => !isCompleted(courseRegistration));
 
-  // Calculate which courses to display based on "See all" state
-  const displayedInProgressCourses = showAllInProgress ? inProgressCourses : inProgressCourses.slice(0, SEE_ALL_THRESHOLD);
-  const displayedCompletedCourses = showAllCompleted ? completedCourses : completedCourses.slice(0, SEE_ALL_THRESHOLD);
-  const displayedFacilitatedCourses = showAllFacilitated ? facilitatedCourses : facilitatedCourses.slice(0, SEE_ALL_THRESHOLD);
-
   const loading = courseRegistrationsLoading || coursesLoading;
   const error = courseRegistrationsError || coursesError;
 
@@ -67,97 +56,20 @@ const CoursesContent = () => {
       <div className="space-y-8">
         {inProgressCourses.length > 0 && (
           <section aria-label="In Progress courses" className="lg:mt-2">
-            <div className="flex items-center justify-between mb-4">
-              <P className="font-semibold">
-                In Progress ({inProgressCourses.length})
-              </P>
-            </div>
-            <div>
-              {displayedInProgressCourses.map(({ course, courseRegistration }, index) => (
-                <CourseListRow
-                  key={courseRegistration.id}
-                  course={course}
-                  courseRegistration={courseRegistration}
-                  isFirst={index === 0}
-                  isLast={index === displayedInProgressCourses.length - 1}
-                  startExpanded
-                />
-              ))}
-            </div>
-            {inProgressCourses.length > SEE_ALL_THRESHOLD && (
-              <div className="pt-4 text-center">
-                <button
-                  type="button"
-                  onClick={() => setShowAllInProgress(!showAllInProgress)}
-                  className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
-                >
-                  {showAllInProgress ? 'Show less' : `See all (${inProgressCourses.length}) courses`}
-                </button>
-              </div>
-            )}
+            <P className="font-semibold mb-4">In Progress ({inProgressCourses.length})</P>
+            <CourseList courses={inProgressCourses} startExpanded />
           </section>
         )}
         {completedCourses.length > 0 && (
           <section aria-label="Completed courses">
-            <div className="flex items-center justify-between mb-4">
-              <P className="font-semibold">
-                Completed ({completedCourses.length})
-              </P>
-            </div>
-            <div>
-              {displayedCompletedCourses.map(({ course, courseRegistration }, index) => (
-                <CourseListRow
-                  key={courseRegistration.id}
-                  course={course}
-                  courseRegistration={courseRegistration}
-                  isFirst={index === 0}
-                  isLast={index === displayedCompletedCourses.length - 1}
-                />
-              ))}
-            </div>
-            {completedCourses.length > SEE_ALL_THRESHOLD && (
-              <div className="pt-4 text-center">
-                <button
-                  type="button"
-                  onClick={() => setShowAllCompleted(!showAllCompleted)}
-                  className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
-                >
-                  {showAllCompleted ? 'Show less' : `See all (${completedCourses.length}) courses`}
-                </button>
-              </div>
-            )}
+            <P className="font-semibold mb-4">Completed ({completedCourses.length})</P>
+            <CourseList courses={completedCourses} />
           </section>
         )}
         {facilitatedCourses.length > 0 && (
           <section aria-label="Facilitated courses">
-            <div className="flex items-center justify-between mb-4">
-              <P className="font-semibold">
-                Facilitated ({facilitatedCourses.length})
-              </P>
-            </div>
-            <div>
-              {displayedFacilitatedCourses.map(({ course, courseRegistration }, index) => (
-                <CourseListRow
-                  key={courseRegistration.id}
-                  course={course}
-                  courseRegistration={courseRegistration}
-                  isFirst={index === 0}
-                  isLast={index === displayedFacilitatedCourses.length - 1}
-                  isFacilitatorRole
-                />
-              ))}
-            </div>
-            {facilitatedCourses.length > SEE_ALL_THRESHOLD && (
-              <div className="pt-4 text-center">
-                <button
-                  type="button"
-                  onClick={() => setShowAllFacilitated(!showAllFacilitated)}
-                  className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
-                >
-                  {showAllFacilitated ? 'Show less' : `See all (${facilitatedCourses.length}) courses`}
-                </button>
-              </div>
-            )}
+            <P className="font-semibold mb-4">Facilitated ({facilitatedCourses.length})</P>
+            <CourseList courses={facilitatedCourses} />
           </section>
         )}
       </div>
@@ -169,6 +81,44 @@ const CoursesContent = () => {
         </div>
       )}
     </div>
+  );
+};
+
+const CourseList = ({ courses, startExpanded = false }: {
+  courses: { course: Course; courseRegistration: CourseRegistration }[];
+  startExpanded?: boolean;
+}) => {
+  const SEE_ALL_THRESHOLD = 3;
+
+  const [showAll, setShowAll] = useState(false);
+  const displayed = showAll ? courses : courses.slice(0, SEE_ALL_THRESHOLD);
+
+  return (
+    <>
+      <div>
+        {displayed.map(({ course, courseRegistration }, index) => (
+          <CourseListRow
+            key={courseRegistration.id}
+            course={course}
+            courseRegistration={courseRegistration}
+            isFirst={index === 0}
+            isLast={index === displayed.length - 1}
+            startExpanded={startExpanded}
+          />
+        ))}
+      </div>
+      {courses.length > SEE_ALL_THRESHOLD && (
+        <div className="pt-4 text-center">
+          <button
+            type="button"
+            onClick={() => setShowAll(!showAll)}
+            className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
+          >
+            {showAll ? 'Show less' : `See all (${courses.length}) courses`}
+          </button>
+        </div>
+      )}
+    </>
   );
 };
 
