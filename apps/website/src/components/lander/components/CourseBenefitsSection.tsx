@@ -11,7 +11,6 @@ export type BenefitCard = {
 export type CourseBenefitsSectionProps = {
   title: string;
   benefits: BenefitCard[];
-  /** Background color for the icon container. Defaults to '#ECF0FF' */
   iconBackgroundColor?: string;
 };
 
