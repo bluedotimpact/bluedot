@@ -48,8 +48,8 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   const currentTimeMs = useCurrentTimeMs();
   const submitUpdateMutation = trpc.facilitators.updateDiscussion.useMutation();
 
-  // Conditionally fetch data if `allDiscussions` is not provided
-  const shouldFetch = !allDiscussions || allDiscussions.length === 0;
+  // Only fetch data if `allDiscussions` is not provided
+  const shouldFetch = allDiscussions === undefined;
   const {
     data: fetchedDiscussions,
     isLoading,
