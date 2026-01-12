@@ -17,6 +17,10 @@ vi.mock('./GroupSwitchModal', () => ({
   default: () => <div data-testid="group-switch-modal">Group Switch Modal</div>,
 }));
 
+vi.mock('./FacilitatorSwitchModal', () => ({
+  default: () => <div data-testid="facilitator-switch-modal">Facilitator Switch Modal</div>,
+}));
+
 Object.defineProperty(navigator, 'clipboard', {
   value: {
     writeText: vi.fn(),
@@ -112,16 +116,16 @@ describe('GroupDiscussionBanner', () => {
       const expandButton = await screen.findByRole('button', { name: 'Expand upcoming discussion banner' });
       fireEvent.click(expandButton);
 
-      // Desktop and mobile should both have host key button
+      // Desktop should have host key button and "Can't make it?" for facilitator switching
       const desktopContainer = container.querySelector('#discussion-banner-desktop-container') as HTMLElement;
       const desktopButtons = within(desktopContainer);
       expect(desktopButtons.getByRole('button', { name: 'Host key: 123456' })).toBeInTheDocument();
+      expect(desktopButtons.getByRole('button', { name: "Can't make it?" })).toBeInTheDocument();
+
+      // Mobile has host key in overflow menu, so just check "Can't make it?" is visible
       const mobileContainer = container.querySelector('#discussion-banner-mobile-container') as HTMLElement;
       const mobileButtons = within(mobileContainer);
-      expect(mobileButtons.getByRole('button', { name: 'Host key: 123456' })).toBeInTheDocument();
-
-      // Group switch button shouldn't appear anywhere
-      expect(screen.queryByRole('button', { name: "Can't make it?" })).not.toBeInTheDocument();
+      expect(mobileButtons.getByRole('button', { name: "Can't make it?" })).toBeInTheDocument();
 
       expect(container).toMatchSnapshot();
     });
@@ -233,7 +237,7 @@ describe('GroupDiscussionBanner', () => {
   });
 
   describe('User Role Specific Behavior', () => {
-    test('facilitator does not see "Can\'t make it?" button', async () => {
+    test('facilitator clicking "Can\'t make it?" opens facilitator switch modal', async () => {
       render(
         <GroupDiscussionBanner
           unit={mockUnit}
@@ -245,8 +249,13 @@ describe('GroupDiscussionBanner', () => {
         { wrapper: TrpcProvider },
       );
 
-      await screen.findByRole('button', { name: 'Expand upcoming discussion banner' });
-      expect(screen.queryByText("Can't make it?")).not.toBeInTheDocument();
+      const expandButton = await screen.findByRole('button', { name: 'Expand upcoming discussion banner' });
+      fireEvent.click(expandButton);
+
+      const cantMakeItButtons = screen.getAllByText("Can't make it?");
+      fireEvent.click(cantMakeItButtons[0]!);
+
+      expect(screen.getByTestId('facilitator-switch-modal')).toBeInTheDocument();
     });
 
     test('facilitator sees discussion doc button even when discussion is not starting soon', async () => {

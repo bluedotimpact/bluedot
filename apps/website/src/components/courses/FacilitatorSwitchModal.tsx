@@ -9,6 +9,8 @@ import {
   TimePicker,
   useCurrentTimeMs,
 } from '@bluedot/ui';
+import { ErrorView } from '@bluedot/ui/src/ErrorView';
+import { skipToken } from '@tanstack/react-query';
 import { useState } from 'react';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import { trpc } from '../../utils/trpc';
@@ -48,7 +50,8 @@ export type SwitchType = (typeof SWITCH_OPTIONS)[number]['value'];
 export type FacilitatorSwitchModalProps = {
   handleClose: () => void;
   courseSlug: string;
-  initialDiscussion: GroupDiscussion | null;
+  /** Only `id` and `group` needed from initialDiscussion */
+  initialDiscussion: { id: string; group: string } | null;
   allDiscussions?: GroupDiscussion[];
   initialModalType?: ModalType;
 };
@@ -82,7 +85,20 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     { enabled: modalType === 'Change facilitator' },
   );
 
-  const { groupOptions, discussionOptionsByGroup } = buildOptions(allDiscussions ?? [], currentTimeMs);
+  // Only fetch data if `allDiscussions` is not provided
+  const shouldFetch = allDiscussions === undefined;
+  const {
+    data: fetchedDiscussions,
+    isLoading,
+    isError,
+    error,
+  } = trpc.facilitators.discussionsAvailable.useQuery(
+    shouldFetch ? { courseSlug } : skipToken,
+  );
+
+  // Use either passed `allDiscussions` or fetched data
+  const discussions = allDiscussions ?? fetchedDiscussions ?? [];
+  const { groupOptions, discussionOptionsByGroup } = buildOptions(discussions, currentTimeMs);
 
   const discussionOptions = discussionOptionsByGroup[selectedGroupId || ''] ?? [];
   const selectedDiscussion = discussionOptions.find((d) => d.value === selectedDiscussionId);
@@ -163,6 +179,19 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   };
 
   const renderContent = () => {
+    if (shouldFetch && isLoading) {
+      return (
+        <>
+          <InformationBanner modalType={modalType} />
+          <ProgressDots />
+        </>
+      );
+    }
+
+    if (shouldFetch && isError) {
+      return <ErrorView error={error} />;
+    }
+
     if (updateDiscussionTimeMutation.isSuccess) {
       return (
         <div className="flex w-full flex-col items-center justify-center gap-8">
@@ -399,7 +428,15 @@ const InformationBanner = ({ modalType }: { modalType: ModalType }) => {
 type GroupOption = { value: string; label: string; disabled?: boolean };
 type DiscussionOption = GroupOption & { startDateTime: number };
 
-const buildOptions = (discussions: GroupDiscussion[], currentTimeMs: number) => {
+type DiscussionInput = {
+  id: string;
+  group: string;
+  startDateTime: number;
+  groupDetails?: { groupName: string | null } | null;
+  unitRecord?: { unitNumber: string; title: string } | null;
+};
+
+const buildOptions = (discussions: DiscussionInput[], currentTimeMs: number) => {
   const groupOptions: GroupOption[] = [];
   const discussionOptionsByGroup: Record<string, DiscussionOption[]> = {};
   const seenGroups = new Set<string>();
@@ -407,11 +444,11 @@ const buildOptions = (discussions: GroupDiscussion[], currentTimeMs: number) => 
   for (const discussion of discussions) {
     const groupId = discussion.group;
 
-    if (discussion.groupDetails && !seenGroups.has(groupId)) {
+    if (!seenGroups.has(groupId)) {
       seenGroups.add(groupId);
       groupOptions.push({
         value: groupId,
-        label: discussion.groupDetails.groupName || 'Group [Unknown]',
+        label: discussion.groupDetails?.groupName || 'Group [Unknown]',
       });
     }
 
