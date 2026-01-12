@@ -186,6 +186,57 @@ const CourseDetailsRow = ({
   );
 };
 
+type DiscussionListProps = {
+  discussions: GroupDiscussion[];
+  course: Course;
+  isFacilitator: boolean;
+  handleOpenGroupSwitchModal: (params: { discussion: GroupDiscussion; switchType: SwitchType }) => void;
+  isPast: boolean;
+  emptyMessage: string;
+};
+
+const DiscussionList = ({
+  discussions,
+  course,
+  isFacilitator,
+  handleOpenGroupSwitchModal,
+  isPast,
+  emptyMessage,
+}: DiscussionListProps) => {
+  const [showAll, setShowAll] = useState(false);
+
+  if (discussions.length === 0) {
+    return <p className="text-size-sm text-gray-500 py-4">{emptyMessage}</p>;
+  }
+
+  return (
+    <div>
+      {(showAll ? discussions : discussions.slice(0, 3)).map((discussion, index) => (
+        <CourseDetailsRow
+          key={discussion.id}
+          discussion={discussion}
+          isNext={!isPast && index === 0}
+          isPast={isPast}
+          course={course}
+          isFacilitator={isFacilitator}
+          handleOpenGroupSwitchModal={handleOpenGroupSwitchModal}
+        />
+      ))}
+      {discussions.length > 3 && (
+        <div className="pt-4 text-center">
+          <button
+            type="button"
+            onClick={() => setShowAll(!showAll)}
+            className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
+          >
+            {showAll ? 'Show less' : `See all (${discussions.length}) discussions`}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
 type CourseDetailsProps = {
   course: Course;
   courseRegistration: CourseRegistration;
@@ -219,9 +270,6 @@ const CourseDetails = ({
   const [initialUnitNumber, setInitialUnitNumber] = useState<string | undefined>(undefined);
   const [selectedSwitchType, setSelectedSwitchType] = useState<SwitchType>('Switch group for one unit');
   const [activeTab, setActiveTab] = useState<'upcoming' | 'attended' | 'facilitated'>(getInitialTab());
-  const [showAllUpcoming, setShowAllUpcoming] = useState(false);
-  const [showAllAttended, setShowAllAttended] = useState(false);
-  const [showAllFacilitated, setShowAllFacilitated] = useState(false);
 
   const isFacilitator = courseRegistration.role === 'Facilitator';
 
@@ -290,105 +338,34 @@ const CourseDetails = ({
             ) : (
               <div className="min-h-[200px]">
                 {activeTab === 'upcoming' && (
-                  // Show only expected discussions where end datetime hasn't passed
-                  upcomingDiscussions.length > 0 ? (
-                    <div>
-                      {/* Show first 3 or all based on showAllUpcoming state */}
-                      {(showAllUpcoming ? upcomingDiscussions : upcomingDiscussions.slice(0, 3))
-                        .map((discussion, index) => (
-                          <CourseDetailsRow
-                            key={discussion.id}
-                            discussion={discussion}
-                            isNext={index === 0}
-                            isPast={false}
-                            course={course}
-                            isFacilitator={isFacilitator}
-                            handleOpenGroupSwitchModal={handleOpenGroupSwitchModal}
-                          />
-                        ))}
-
-                      {/* "See all"/"Show less" button when more than 3 upcoming discussions */}
-                      {upcomingDiscussions.length > 3 && (
-                        <div className="pt-4 text-center">
-                          <button
-                            type="button"
-                            onClick={() => setShowAllUpcoming(!showAllUpcoming)}
-                            className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
-                          >
-                            {showAllUpcoming
-                              ? 'Show less'
-                              : `See all (${upcomingDiscussions.length}) discussions`}
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <p className="text-size-sm text-gray-500 py-4">No upcoming discussions</p>
-                  )
+                  <DiscussionList
+                    discussions={upcomingDiscussions}
+                    course={course}
+                    isFacilitator={isFacilitator}
+                    handleOpenGroupSwitchModal={handleOpenGroupSwitchModal}
+                    isPast={false}
+                    emptyMessage="No upcoming discussions"
+                  />
                 )}
                 {activeTab === 'attended' && (
-                  // Show all attended discussions without any filtering
-                  attendedDiscussions.length > 0 ? (
-                    <div>
-                      {/* Show first 3 or all based on showAllAttended state */}
-                      {(showAllAttended ? attendedDiscussions : attendedDiscussions.slice(0, 3))
-                        .map((discussion) => (
-                          <CourseDetailsRow
-                            key={discussion.id}
-                            discussion={discussion}
-                            isPast
-                            course={course}
-                            isFacilitator={isFacilitator}
-                            handleOpenGroupSwitchModal={handleOpenGroupSwitchModal}
-                          />
-                        ))}
-
-                      {/* "See all"/"Show less" button when more than 3 attended discussions */}
-                      {attendedDiscussions.length > 3 && (
-                        <div className="pt-4 text-center">
-                          <button
-                            type="button"
-                            onClick={() => setShowAllAttended(!showAllAttended)}
-                            className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
-                          >
-                            {showAllAttended ? 'Show less' : `See all (${attendedDiscussions.length}) discussions`}
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <p className="text-size-sm text-gray-500 py-4">No attended discussions yet</p>
-                  )
+                  <DiscussionList
+                    discussions={attendedDiscussions}
+                    course={course}
+                    isFacilitator={isFacilitator}
+                    handleOpenGroupSwitchModal={handleOpenGroupSwitchModal}
+                    isPast
+                    emptyMessage="No attended discussions yet"
+                  />
                 )}
                 {activeTab === 'facilitated' && (
-                  facilitatedDiscussions.length > 0 ? (
-                    <div>
-                      {(showAllFacilitated ? facilitatedDiscussions : facilitatedDiscussions.slice(0, 3))
-                        .map((discussion) => (
-                          <CourseDetailsRow
-                            key={discussion.id}
-                            discussion={discussion}
-                            isPast
-                            course={course}
-                            isFacilitator={isFacilitator}
-                            handleOpenGroupSwitchModal={handleOpenGroupSwitchModal}
-                          />
-                        ))}
-                      {facilitatedDiscussions.length > 3 && (
-                        <div className="pt-4 text-center">
-                          <button
-                            type="button"
-                            onClick={() => setShowAllFacilitated(!showAllFacilitated)}
-                            className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
-                          >
-                            {showAllFacilitated ? 'Show less' : `See all (${facilitatedDiscussions.length}) discussions`}
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <p className="text-size-sm text-gray-500 py-4">No facilitated discussions yet</p>
-                  )
+                  <DiscussionList
+                    discussions={facilitatedDiscussions}
+                    course={course}
+                    isFacilitator={isFacilitator}
+                    handleOpenGroupSwitchModal={handleOpenGroupSwitchModal}
+                    isPast
+                    emptyMessage="No facilitated discussions yet"
+                  />
                 )}
               </div>
             )}
