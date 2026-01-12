@@ -11,7 +11,7 @@ import {
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { skipToken } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import { trpc } from '../../utils/trpc';
 import { CheckIcon } from '../icons/CheckIcon';
@@ -74,6 +74,16 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 
   // Change facilitator state
   const [selectedNewFacilitatorId, setSelectedNewFacilitatorId] = useState<string | undefined>();
+
+  // Reset mode-specific state when modal type changes
+  useEffect(() => {
+    if (modalType === 'Update discussion time') {
+      setSelectedNewFacilitatorId(undefined);
+    } else {
+      setSelectedDate(undefined);
+      setSelectedTime(undefined);
+    }
+  }, [modalType]);
 
   const currentTimeMs = useCurrentTimeMs();
   const updateDiscussionTimeMutation = trpc.facilitators.updateDiscussion.useMutation();
