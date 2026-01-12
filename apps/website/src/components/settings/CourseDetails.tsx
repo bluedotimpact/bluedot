@@ -10,7 +10,7 @@ import {
 } from '../../lib/utils';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import GroupSwitchModal, { type SwitchType } from '../courses/GroupSwitchModal';
-import FacilitatorSwitchModal, { type ModalType as FacilitatorModalType } from '../courses/FacilitatorSwitchModal';
+import FacilitatorSwitchModal, { type FacilitatorModalType } from '../courses/FacilitatorSwitchModal';
 import { SwitchUserIcon } from '../icons/SwitchUserIcon';
 import type { ButtonOrMenuItem } from '../courses/GroupDiscussionBanner';
 import { DocumentIcon } from '../icons/DocumentIcon';

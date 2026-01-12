@@ -38,7 +38,7 @@ const MODAL_TYPE_OPTIONS = [
   },
 ] as const;
 
-export type ModalType = (typeof MODAL_TYPE_OPTIONS)[number]['value'];
+export type FacilitatorModalType = (typeof MODAL_TYPE_OPTIONS)[number]['value'];
 
 const SWITCH_OPTIONS = [
   { value: 'Change for one unit', label: 'Change for one unit' },
@@ -53,7 +53,7 @@ export type FacilitatorSwitchModalProps = {
   /** Only `id` and `group` needed from initialDiscussion */
   initialDiscussion: { id: string; group: string } | null;
   allDiscussions?: GroupDiscussion[];
-  initialModalType?: ModalType;
+  initialModalType?: FacilitatorModalType;
 };
 
 const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
@@ -63,7 +63,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   allDiscussions,
   initialModalType = 'Update discussion time',
 }) => {
-  const [modalType, setModalType] = useState<ModalType>(initialModalType);
+  const [modalType, setModalType] = useState<FacilitatorModalType>(initialModalType);
 
   // Update discussion time state
   const [switchType, setSwitchType] = useState<SwitchType | undefined>('Change for one unit');
@@ -171,7 +171,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       <Select
         ariaLabel="Select action type"
         value={modalType}
-        onChange={(value) => setModalType(value as ModalType)}
+        onChange={(value) => setModalType(value as FacilitatorModalType)}
         options={MODAL_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
         className="text-size-md mx-auto w-fit border-none bg-transparent font-medium [&>button]:px-6 [&>button]:py-3"
       />
@@ -408,7 +408,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   );
 };
 
-const InformationBanner = ({ modalType }: { modalType: ModalType }) => {
+const InformationBanner = ({ modalType }: { modalType: FacilitatorModalType }) => {
   return (
     <div className="inline-flex items-center justify-between self-stretch rounded-md bg-[#E5EDFE] px-4 py-3">
       <div className="flex flex-1 items-start justify-start gap-3">
