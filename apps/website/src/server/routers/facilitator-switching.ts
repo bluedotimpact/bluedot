@@ -233,6 +233,7 @@ export const facilitatorSwitchingRouter = router({
         group: groupId,
         status: 'Requested',
         switchType: 'Update discussion facilitator',
+        anythingElse: `Requested by facilitator ${facilitator.id}`,
       });
 
       return null;
