@@ -244,7 +244,6 @@ type CourseDetailsProps = {
   upcomingDiscussions: GroupDiscussion[];
   facilitatedDiscussions: GroupDiscussion[];
   isLoading: boolean;
-  isLast?: boolean;
 };
 
 const CourseDetails = ({
@@ -254,7 +253,6 @@ const CourseDetails = ({
   upcomingDiscussions,
   facilitatedDiscussions,
   isLoading,
-  isLast = false,
 }: CourseDetailsProps) => {
   const showUpcomingTab = courseRegistration.roundStatus === 'Active' || upcomingDiscussions.length > 0;
   const showFacilitatedTab = facilitatedDiscussions.length > 0;
@@ -284,7 +282,7 @@ const CourseDetails = ({
 
   return (
     <>
-      <div className={`bg-white border-x border-charcoal-light ${isLast ? 'border-b rounded-b-xl' : ''}`} role="region" aria-label={`Expanded details for ${course.title}`}>
+      <div className="bg-white" role="region" aria-label={`Expanded details for ${course.title}`}>
         <div>
           {/* Section header with tabs */}
           <div className="flex border-b border-charcoal-light">

@@ -17,13 +17,11 @@ import { FOAI_COURSE_SLUG } from '../../lib/constants';
 type CourseListRowProps = {
   course: Course;
   courseRegistration: CourseRegistration;
-  isFirst: boolean;
-  isLast: boolean;
   startExpanded?: boolean;
 };
 
 const CourseListRow = ({
-  course, courseRegistration, isFirst = false, isLast = false, startExpanded = false,
+  course, courseRegistration, startExpanded = false,
 }: CourseListRowProps) => {
   const [isExpanded, setIsExpanded] = useState(startExpanded);
   const currentTimeMs = useCurrentTimeMs();
@@ -121,13 +119,10 @@ const CourseListRow = ({
   }
 
   return (
-    <div>
+    <div className="border-b border-charcoal-light last:border-b-0">
       <div
         className={cn(
-          'border-x border-t border-charcoal-light transition-colors duration-200 group cursor-pointer',
-          isLast && !isExpanded && 'border-b',
-          isFirst && 'rounded-t-xl',
-          isLast && !isExpanded && 'rounded-b-xl',
+          'transition-colors duration-200 group cursor-pointer',
           isExpanded ? 'bg-white' : 'hover:bg-white',
         )}
         onClick={() => setIsExpanded(!isExpanded)}
@@ -271,7 +266,6 @@ const CourseListRow = ({
         <CourseDetails
           course={course}
           courseRegistration={courseRegistration}
-          isLast={isLast}
           attendedDiscussions={attendedDiscussions}
           upcomingDiscussions={upcomingDiscussions}
           facilitatedDiscussions={facilitatedDiscussions}

@@ -95,14 +95,12 @@ const CourseList = ({ courses, startExpanded = false }: {
 
   return (
     <>
-      <div>
-        {displayed.map(({ course, courseRegistration }, index) => (
+      <div className="border border-charcoal-light rounded-xl overflow-hidden">
+        {displayed.map(({ course, courseRegistration }) => (
           <CourseListRow
             key={courseRegistration.id}
             course={course}
             courseRegistration={courseRegistration}
-            isFirst={index === 0}
-            isLast={index === displayed.length - 1}
             startExpanded={startExpanded}
           />
         ))}
