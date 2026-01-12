@@ -58,8 +58,6 @@ export const facilitatorSwitchingRouter = router({
         .where(
           and(
             inArray(groupDiscussionTable.pg.id, facilitator.expectedDiscussionsFacilitator || []),
-            // TODO: if `startDateTime` is in GMT, will there be problems with timezone?
-            // gte(groupDiscussionTable.pg.startDateTime, Date.now()),
           ),
         );
 
