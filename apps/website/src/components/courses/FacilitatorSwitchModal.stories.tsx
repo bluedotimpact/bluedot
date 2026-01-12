@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { TRPCError } from '@trpc/server';
 import { createMockGroup, createMockGroupDiscussion, createMockUnit } from '../../__tests__/testUtils';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 import FacilitatorSwitchModal from './FacilitatorSwitchModal';
@@ -72,7 +73,7 @@ const mockDiscussions = [
   },
 ];
 
-export const Default: Story = {
+export const WithPassedDiscussions: Story = {
   args: {
     handleClose: () => {},
     courseSlug: 'fish-test-course',
@@ -84,6 +85,62 @@ export const Default: Story = {
       handlers: [
         trpcStorybookMsw.facilitators.updateDiscussion.mutation(async () => {
           return null;
+        }),
+      ],
+    },
+  },
+};
+
+export const WithFetchedDiscussions: Story = {
+  args: {
+    handleClose: () => {},
+    courseSlug: 'fish-test-course',
+    initialDiscussion: { id: 'discussion-2', group: 'group-1' },
+  },
+  parameters: {
+    msw: {
+      handlers: [
+        trpcStorybookMsw.facilitators.discussionsAvailable.query(async () => {
+          return mockDiscussions;
+        }),
+        trpcStorybookMsw.facilitators.updateDiscussion.mutation(async () => {
+          return null;
+        }),
+      ],
+    },
+  },
+};
+
+export const Loading: Story = {
+  args: {
+    handleClose: () => {},
+    courseSlug: 'fish-test-course',
+    initialDiscussion: null,
+  },
+  parameters: {
+    msw: {
+      handlers: [
+        trpcStorybookMsw.facilitators.discussionsAvailable.query(async () => {
+          return new Promise(() => {
+            /* never resolves */
+          });
+        }),
+      ],
+    },
+  },
+};
+
+export const Error: Story = {
+  args: {
+    handleClose: () => {},
+    courseSlug: 'fish-test-course',
+    initialDiscussion: null,
+  },
+  parameters: {
+    msw: {
+      handlers: [
+        trpcStorybookMsw.facilitators.discussionsAvailable.query(async () => {
+          throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to fetch discussions' });
         }),
       ],
     },
