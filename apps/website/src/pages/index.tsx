@@ -6,7 +6,6 @@ import HomepageBlogSection from '../components/homepage/HomepageBlogSection';
 import CommunityCarousel from '../components/lander/CommunityCarousel';
 import EventsSection from '../components/homepage/EventsSection';
 import NewsletterBanner from '../components/homepage/NewsletterBanner';
-import { UpcomingRounds } from '../components/homepage/UpcomingRounds';
 
 const COMMUNITY_MEMBERS = [
   {
@@ -87,7 +86,6 @@ const HomePage = () => {
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
       <CourseSection />
-      <UpcomingRounds />
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
       <EventsSection />

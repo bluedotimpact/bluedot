@@ -114,10 +114,6 @@ export const courseTable = pgAirtable('course', {
       pgColumn: text().array().notNull(),
       airtableId: 'fldxi3h4LD2Bs3efO',
     },
-    cadence: {
-      pgColumn: text().notNull(),
-      airtableId: 'fldTI1NI7ocFIWcmv',
-    },
     level: {
       pgColumn: text().notNull(),
       airtableId: 'fldkL7aWITGCPqzxc',
@@ -393,6 +389,14 @@ export const groupDiscussionTable = pgAirtable('group_discussion', {
       pgColumn: text(),
       airtableId: 'fld87QFyiHceHbpKG',
     },
+    /**
+     * Format: "{unitNumber}: {unit.title}". This field exists to retain the unit title if the
+     * unit is deleted or disconnected, use as a fallback any time you need to render the unit title of a discussion.
+     */
+    unitFallback: {
+      pgColumn: text(),
+      airtableId: 'fldyVGCyb9026vDkK',
+    },
     autoNumberId: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldDeRm7N60URakjA',
@@ -565,6 +569,14 @@ export const roundTable = pgAirtable('round', {
   baseId: COURSE_RUNNER_BASE_ID,
   tableId: 'tblu6u7F2NHfCMgsk',
   columns: {
+    /**
+     * Primary field in Airtable, called "Course - Round" there.
+     * Constructed by formula, example: "AGI Strategy (2025 Aug W35) - Intensive"
+     */
+    title: {
+      pgColumn: text(),
+      airtableId: 'fldEBVjEF9l2IEyG7',
+    },
     course: {
       pgColumn: text().notNull(),
       airtableId: 'fldvx7D6Uw0VxMPr0',
@@ -1124,6 +1136,14 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
     availabilityTimezone: {
       pgColumn: text(),
       airtableId: 'fld9Y4WfeafUNMxMH',
+    },
+    /**
+     * Formula field that returns the round name.
+     * Example: "AGI Strategy (2025 Aug W35) - Intensive"
+     */
+    roundName: {
+      pgColumn: text(),
+      airtableId: 'fldQymBa7milTYP9q',
     },
   },
 });

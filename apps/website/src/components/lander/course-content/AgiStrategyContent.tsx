@@ -82,11 +82,6 @@ export const createAgiStrategyContent = (
     },
   },
 
-  curriculum: {
-    title: 'Curriculum Overview',
-    courseSlug,
-  },
-
   courseBenefits: {
     title: 'How this course will benefit you',
     iconBackgroundColor: AGI_STRATEGY_COLORS.bright,

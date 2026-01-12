@@ -34,7 +34,6 @@ describe('CourseListRow', () => {
     image: '/course-image.jpg',
     path: '/courses/ai-safety',
     slug: 'ai-safety',
-    cadence: 'Weekly',
     level: 'Beginner',
   });
 
@@ -267,8 +266,8 @@ describe('CourseListRow', () => {
     expect(feedbackButtons.length).toBeGreaterThan(0);
   });
 
-  it('shows Submit action plan button for agi-strategy course without action plan', async () => {
-    const agiStrategyCourse = {
+  it('shows Submit action plan button for any facilitated course without action plan', async () => {
+    const facilitatedCourse = {
       ...mockCourse,
       slug: 'agi-strategy',
     };
@@ -320,7 +319,7 @@ describe('CourseListRow', () => {
 
     render(
       <CourseListRow
-        course={agiStrategyCourse}
+        course={facilitatedCourse}
         courseRegistration={pastNoCertRegistration}
         isFirst={false}
         isLast={false}
@@ -342,8 +341,8 @@ describe('CourseListRow', () => {
     expect(feedbackButtons.length).toBeGreaterThan(0);
   });
 
-  it('shows Action plan submitted button when action plan is submitted for agi-strategy course', async () => {
-    const agiStrategyCourse = {
+  it('shows Action plan submitted button when action plan is submitted for any facilitated course', async () => {
+    const facilitatedCourse = {
       ...mockCourse,
       slug: 'agi-strategy',
     };
@@ -395,7 +394,7 @@ describe('CourseListRow', () => {
 
     render(
       <CourseListRow
-        course={agiStrategyCourse}
+        course={facilitatedCourse}
         courseRegistration={pastNoCertRegistration}
         isFirst={false}
         isLast={false}

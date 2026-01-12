@@ -149,7 +149,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
         </div>
       </div>
       <div
-        class="flex-1 overflow-y-auto"
+        class="flex-1 overflow-y-auto pb-6"
       >
         <div
           class="relative"

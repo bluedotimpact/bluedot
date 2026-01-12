@@ -194,7 +194,7 @@ const SideBar: React.FC<SideBarProps> = ({
       </div>
 
       {/* Units */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto pb-6">
         {units.map((unit) => (
           <SideBarCollapsible
             key={unit.id}

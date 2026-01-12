@@ -33,7 +33,6 @@ const mockUnits = [
 
 const mockCourse = createMockCourse({
   title: 'Future of AI',
-  cadence: '',
 });
 
 const courseData = {
