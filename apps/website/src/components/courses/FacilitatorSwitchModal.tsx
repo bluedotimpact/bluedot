@@ -45,9 +45,9 @@ const SWITCH_OPTIONS = [
   { value: 'Change permanently', label: 'Change permanently' },
 ] as const;
 
-export type SwitchType = (typeof SWITCH_OPTIONS)[number]['value'];
+type SwitchType = (typeof SWITCH_OPTIONS)[number]['value'];
 
-export type FacilitatorSwitchModalProps = {
+type FacilitatorSwitchModalProps = {
   handleClose: () => void;
   courseSlug: string;
   /** Only `id` and `group` needed from initialDiscussion */
