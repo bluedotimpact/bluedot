@@ -323,7 +323,7 @@ const CourseDetails = ({
                       : 'text-gray-600 hover:text-gray-900'
                   }`}
                 >
-                  Facilitated discussions ({facilitatedDiscussions.length})
+                  Facilitated discussions
                 </button>
               )}
             </div>

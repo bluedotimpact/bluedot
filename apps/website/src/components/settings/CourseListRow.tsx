@@ -320,7 +320,8 @@ const getCtaButtons = ({
   const requiresActionPlan = course.slug !== FOAI_COURSE_SLUG;
 
   // Certificate exists but feedback not yet submitted: show locked certificate button linking to feedback form
-  if (courseRegistration.certificateCreatedAt && !hasSubmittedFeedback && feedbackFormUrl) {
+  // (Facilitators don't get certificates, so skip this for them)
+  if (!isFacilitatorRole && courseRegistration.certificateCreatedAt && !hasSubmittedFeedback && feedbackFormUrl) {
     return [(
       <CTALinkOrButton
         key="locked-cert"
@@ -464,12 +465,13 @@ const getSubtitle = ({
 }): ReactNode => {
   if (isFacilitatorRole && courseRegistration.roundName) {
     return (
-      <>
+      <span className="min-w-0 text-pretty">
         {courseRegistration.roundName}
-        <span className="inline-flex items-center justify-center size-3.5 bg-gray-500 rounded-full">
+        {' '}
+        <span className="inline-flex items-center justify-center size-3.5 bg-gray-500 rounded-full align-text-bottom ml-0.5">
           <FaCheck className="size-1.5 text-white" />
         </span>
-      </>
+      </span>
     );
   }
 
