@@ -3,13 +3,13 @@
 exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facilitator with host key 1`] = `
 <div>
   <div
-    class="@container flex flex-col gap-3 border-b border-[#C9D4F5] bg-[#E4EDFE] px-4 py-3"
+    class="@container flex flex-col gap-3 px-4 py-3 bg-[#E4EDFE] border-b border-[#C9D4F5]"
   >
     <div
-      class="text-size-xs flex items-center gap-3"
+      class="flex items-center gap-3 text-size-xs"
     >
       <div
-        class="flex items-center justify-center border-[#C9D4F5] px-3 py-1 rounded border bg-white"
+        class="px-3 py-1 flex items-center justify-center border-[#C9D4F5] bg-white border rounded"
       >
         <svg
           class="text-bluedot-normal"
@@ -38,7 +38,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
         </svg>
       </div>
       <div
-        class="flex min-w-0 flex-initial gap-[6px]"
+        class="flex gap-[6px] min-w-0 flex-initial"
       >
         <span
           class="text-bluedot-normal font-bold whitespace-nowrap"
@@ -51,7 +51,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
           •
         </span>
         <button
-          class="text-bluedot-normal min-w-0 cursor-pointer truncate underline underline-offset-2 hover:opacity-80"
+          class="text-bluedot-normal underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
           type="button"
         >
           Unit 1: Introduction to AI Safety
@@ -249,13 +249,13 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
 exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for participant when discussion starts soon 1`] = `
 <div>
   <div
-    class="@container flex flex-col gap-3 border-b border-[#C9D4F5] bg-[#E4EDFE] px-4 py-3"
+    class="@container flex flex-col gap-3 px-4 py-3 bg-[#E4EDFE] border-b border-[#C9D4F5]"
   >
     <div
-      class="text-size-xs flex items-center gap-3"
+      class="flex items-center gap-3 text-size-xs"
     >
       <div
-        class="flex items-center justify-center border-[#C9D4F5] px-3 py-1 rounded border bg-white"
+        class="px-3 py-1 flex items-center justify-center border-[#C9D4F5] bg-white border rounded"
       >
         <svg
           class="text-bluedot-normal"
@@ -284,7 +284,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
         </svg>
       </div>
       <div
-        class="flex min-w-0 flex-initial gap-[6px]"
+        class="flex gap-[6px] min-w-0 flex-initial"
       >
         <span
           class="text-bluedot-normal font-bold whitespace-nowrap"
@@ -297,7 +297,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
           •
         </span>
         <button
-          class="text-bluedot-normal min-w-0 cursor-pointer truncate underline underline-offset-2 hover:opacity-80"
+          class="text-bluedot-normal underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
           type="button"
         >
           Unit 1: Introduction to AI Safety
@@ -465,13 +465,13 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
 exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees discussion doc button even when discussion is not starting soon 1`] = `
 <div>
   <div
-    class="@container flex flex-col gap-3 border-b border-[#C9D4F5] bg-[#E4EDFE] px-4 py-3"
+    class="@container flex flex-col gap-3 px-4 py-3 bg-[#E4EDFE] border-b border-[#C9D4F5]"
   >
     <div
-      class="text-size-xs flex items-center gap-3"
+      class="flex items-center gap-3 text-size-xs"
     >
       <div
-        class="flex min-w-0 flex-initial gap-[6px]"
+        class="flex gap-[6px] min-w-0 flex-initial"
       >
         <span
           class="text-bluedot-normal font-bold whitespace-nowrap"
@@ -484,7 +484,7 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
           •
         </span>
         <button
-          class="text-bluedot-normal min-w-0 cursor-pointer truncate underline underline-offset-2 hover:opacity-80"
+          class="text-bluedot-normal underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
           type="button"
         >
           Unit 1: Introduction to AI Safety
