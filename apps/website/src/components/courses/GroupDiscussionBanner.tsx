@@ -1,21 +1,24 @@
-import React, { useState, useMemo, useEffect } from 'react';
 import type { GroupDiscussion, Unit } from '@bluedot/db';
 import {
-  CTALinkOrButton, useCurrentTimeMs, OverflowMenu, type OverflowMenuItemProps,
+  CTALinkOrButton,
+  OverflowMenu,
+  useCurrentTimeMs,
+  type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import { skipToken } from '@tanstack/react-query';
-import { IoAdd } from 'react-icons/io5';
-import { FaCopy } from 'react-icons/fa6';
 import clsx from 'clsx';
-import FacilitatorSwitchModal, { FacilitatorModalType } from './FacilitatorSwitchModal';
-import GroupSwitchModal from './GroupSwitchModal';
+import React, { useEffect, useMemo, useState } from 'react';
+import { FaCopy } from 'react-icons/fa6';
+import { IoAdd } from 'react-icons/io5';
+import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 import { buildGroupSlackChannelUrl, formatDateTimeRelative } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
-import { SlackIcon } from '../icons/SlackIcon';
-import { DocumentIcon } from '../icons/DocumentIcon';
-import { SwitchUserIcon } from '../icons/SwitchUserIcon';
 import { ClockIcon } from '../icons/ClockIcon';
-import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
+import { DocumentIcon } from '../icons/DocumentIcon';
+import { SlackIcon } from '../icons/SlackIcon';
+import { SwitchUserIcon } from '../icons/SwitchUserIcon';
+import FacilitatorSwitchModal, { FacilitatorModalType } from './FacilitatorSwitchModal';
+import GroupSwitchModal from './GroupSwitchModal';
 
 const BUTTON_STYLES = {
   primary: { variant: 'primary' as const, className: 'bg-bluedot-normal' },
