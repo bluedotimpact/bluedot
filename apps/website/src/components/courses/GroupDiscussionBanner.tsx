@@ -172,15 +172,8 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       id: 'cant-make-it',
       label: "Can't make it?",
       variant: 'ghost',
-      onClick: () => {
-        if (isFacilitator) {
-          setFacilitatorSwitchModalOpen(true);
-          setFacilitatorSwitchModalType('Update discussion time');
-        } else {
-          setGroupSwitchModalOpen(true);
-        }
-      },
-      isVisible: true,
+      onClick: () => setGroupSwitchModalOpen(true),
+      isVisible: !isFacilitator,
     },
   ];
   // Buttons should be in a slightly different order on mobile.
