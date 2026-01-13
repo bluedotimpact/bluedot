@@ -254,7 +254,7 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
           <div
             aria-atomic="true"
             aria-live="polite"
-            class="-mt-[10px] pt-[10px] relative z-0 rounded-b-[10px] transition-opacity duration-200 border-[0.5px] opacity-0"
+            class="-mt-[10px] pt-[10px] relative z-0 rounded-b-[10px] transition-opacity duration-200 border-[0.5px] border-t-0 opacity-0"
             id="save-status-message"
             role="status"
           >
@@ -391,7 +391,7 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
           <div
             aria-atomic="true"
             aria-live="polite"
-            class="-mt-[10px] pt-[10px] relative z-0 rounded-b-[10px] transition-opacity duration-200 border-[0.5px] opacity-0"
+            class="-mt-[10px] pt-[10px] relative z-0 rounded-b-[10px] transition-opacity duration-200 border-[0.5px] border-t-0 opacity-0"
             id="save-status-message"
             role="status"
           >

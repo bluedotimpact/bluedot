@@ -35,7 +35,7 @@ const getStatusConfig = (savedText: string): Record<SaveStatus, {
     text: savedText,
   },
   error: {
-    icon: <ErrorIcon size={14} className="-translate-y-[0.5px]" />,
+    icon: <ErrorIcon size={16} className="-translate-y-[0.5px]" />,
     text: (onRetry) => (
       <span className="flex items-center gap-1">
         <span style={{ color: '#DC0000' }}>Couldn't save answer.</span>
@@ -81,7 +81,7 @@ const SaveStatusIndicator: React.FC<SaveStatusIndicatorProps> = ({
     <div
       id={id}
       className={cn(
-        '-mt-[10px] pt-[10px] relative z-0 rounded-b-[10px] transition-opacity duration-200 border border-[0.5px] opacity-0',
+        '-mt-[10px] pt-[10px] relative z-0 rounded-b-[10px] transition-opacity duration-200 border-[0.5px] border-t-0 opacity-0',
         !isIdle && (isError
           ? 'opacity-100 bg-[rgba(220,0,0,0.05)] border-[rgba(220,0,0,0.1)]'
           : 'opacity-100 bg-[#F4F7FD] border-[rgba(34,68,187,0.1)]'),
