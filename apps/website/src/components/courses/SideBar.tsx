@@ -21,6 +21,7 @@ type SideBarProps = {
   chunks: ChunkWithContent[];
   currentChunkIndex: number;
   onChunkSelect: (index: number) => void;
+  // Optional
   applyCTAProps?: ApplyCTAProps;
   className?: string;
 };
