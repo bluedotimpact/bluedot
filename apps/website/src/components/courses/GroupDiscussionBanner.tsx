@@ -317,7 +317,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                       : { onAction: button.onClick }
                     ),
                   }))}
-                  trigger="See details"
+                  trigger="More details"
                 />
               )}
             </div>
