@@ -259,7 +259,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
 
         {/* Mobile button container */}
         {isOpen && (() => {
-          const MAX_DIRECT_BUTTONS = 2;
+          const MAX_DIRECT_BUTTONS = 3;
           const sortedForMobile = [...visibleButtons].sort((a, b) => {
             const aIndex = mobileButtonPrecedence.indexOf(a.id);
             const bIndex = mobileButtonPrecedence.indexOf(b.id);
@@ -284,7 +284,6 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                 // On mobile, convert ghost to secondary
                 const mobileVariant = button.variant === 'ghost' ? 'secondary' : button.variant;
                 const style = BUTTON_STYLES[mobileVariant];
-                const isPrimary = button.variant === 'primary';
 
                 return (
                   <CTALinkOrButton
@@ -294,7 +293,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                     url={button.url}
                     onClick={button.onClick}
                     target={button.target}
-                    className={clsx(style.className, 'flex flex-1 gap-[6px] items-center whitespace-nowrap', !isPrimary && 'ml-auto')}
+                    className={clsx(style.className, 'flex-1 gap-[6px] w-full')}
                   >
                     {button.label}
                   </CTALinkOrButton>
@@ -304,7 +303,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
               {hasOverflow && (
                 <OverflowMenu
                   ariaLabel="More discussion options"
-                  buttonClassName="flex items-center justify-center rounded-md cursor-pointer bg-transparent border border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter self-stretch p-[6px]"
+                  buttonClassName="flex-1 border border-[#B5C3EC] w-full px-3 py-2.5 h-9 text-[13px] font-medium"
                   items={overflowButtons.map((button): OverflowMenuItemProps => ({
                     id: button.id,
                     label: button.overflowIcon ? (
@@ -318,6 +317,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                       : { onAction: button.onClick }
                     ),
                   }))}
+                  trigger="See details"
                 />
               )}
             </div>
