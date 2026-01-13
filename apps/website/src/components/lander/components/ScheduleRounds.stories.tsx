@@ -99,20 +99,72 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const defaultMswHandlers = {
+  msw: {
+    handlers: [
+      trpcStorybookMsw.courseRounds.getRoundsForCourse.query(() => ({
+        intense: mockIntensiveRounds,
+        partTime: mockPartTimeRounds,
+      })),
+    ],
+  },
+};
+
 export const Default: Story = {
   args: {
     courseSlug: 'agi-strategy',
     applicationUrl: 'https://example.com/apply',
     fallbackContent: FallbackContent,
   },
-  parameters: {
-    msw: {
-      handlers: [
-        trpcStorybookMsw.courseRounds.getRoundsForCourse.query(() => ({
-          intense: mockIntensiveRounds,
-          partTime: mockPartTimeRounds,
-        })),
-      ],
-    },
+  parameters: defaultMswHandlers,
+};
+
+export const AgiStrategyColors: Story = {
+  args: {
+    courseSlug: 'agi-strategy',
+    applicationUrl: 'https://example.com/apply',
+    fallbackContent: FallbackContent,
+    accentColor: '#9177dc',
   },
+  parameters: defaultMswHandlers,
+};
+
+export const BiosecurityColors: Story = {
+  args: {
+    courseSlug: 'biosecurity',
+    applicationUrl: 'https://example.com/apply',
+    fallbackContent: FallbackContent,
+    accentColor: '#3da462',
+  },
+  parameters: defaultMswHandlers,
+};
+
+export const FutureOfAiColors: Story = {
+  args: {
+    courseSlug: 'future-of-ai',
+    applicationUrl: 'https://example.com/apply',
+    fallbackContent: FallbackContent,
+    accentColor: '#8c8146',
+  },
+  parameters: defaultMswHandlers,
+};
+
+export const AiGovernanceColors: Story = {
+  args: {
+    courseSlug: 'ai-governance',
+    applicationUrl: 'https://example.com/apply',
+    fallbackContent: FallbackContent,
+    accentColor: '#4092d6',
+  },
+  parameters: defaultMswHandlers,
+};
+
+export const TechnicalAiSafetyColors: Story = {
+  args: {
+    courseSlug: 'technical-ai-safety',
+    applicationUrl: 'https://example.com/apply',
+    fallbackContent: FallbackContent,
+    accentColor: '#a060bb',
+  },
+  parameters: defaultMswHandlers,
 };

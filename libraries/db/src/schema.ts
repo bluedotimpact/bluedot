@@ -569,6 +569,14 @@ export const roundTable = pgAirtable('round', {
   baseId: COURSE_RUNNER_BASE_ID,
   tableId: 'tblu6u7F2NHfCMgsk',
   columns: {
+    /**
+     * Primary field in Airtable, called "Course - Round" there.
+     * Constructed by formula, example: "AGI Strategy (2025 Aug W35) - Intensive"
+     */
+    title: {
+      pgColumn: text(),
+      airtableId: 'fldEBVjEF9l2IEyG7',
+    },
     course: {
       pgColumn: text().notNull(),
       airtableId: 'fldvx7D6Uw0VxMPr0',
@@ -1128,6 +1136,14 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
     availabilityTimezone: {
       pgColumn: text(),
       airtableId: 'fld9Y4WfeafUNMxMH',
+    },
+    /**
+     * Formula field that returns the round name.
+     * Example: "AGI Strategy (2025 Aug W35) - Intensive"
+     */
+    roundName: {
+      pgColumn: text(),
+      airtableId: 'fldQymBa7milTYP9q',
     },
   },
 });

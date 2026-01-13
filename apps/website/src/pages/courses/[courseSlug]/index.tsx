@@ -21,6 +21,7 @@ import { createTechnicalAiSafetyContent, TECHNICAL_AI_SAFETY_APPLICATION_URL } f
 import { createAiGovernanceContent, AI_GOVERNANCE_APPLICATION_URL } from '../../../components/lander/course-content/AiGovernanceContent';
 import { createFutureOfAiContent, FUTURE_OF_AI_START_URL } from '../../../components/lander/course-content/FutureOfAiContent';
 import { createTechnicalAiSafetyProjectContent, TECHNICAL_AI_SAFETY_PROJECT_APPLICATION_URL } from '../../../components/lander/course-content/TechnicalAiSafetyProjectContent';
+import { createIncubatorWeekContent, INCUBATOR_WEEK_APPLICATION_URL } from '../../../components/lander/course-content/IncubatorWeekContent';
 import GraduateSection from '../../../components/lander/components/GraduateSection';
 import { CourseUnitsSection } from '../../../components/courses/CourseUnitsSection';
 import { getCourseData, type CourseAndUnits } from '../../../server/routers/courses';
@@ -112,6 +113,18 @@ const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: Cours
       />
     );
   }
+
+  if (slug === 'incubator-week') {
+    return (
+      <CourseLander
+        courseSlug={slug}
+        baseApplicationUrl={INCUBATOR_WEEK_APPLICATION_URL}
+        createContentFor={createIncubatorWeekContent}
+        courseOgImage={courseOgImage}
+      />
+    );
+  }
+
   // Default case
   return <StandardCoursePage courseData={courseData} courseOgImage={courseOgImage} />;
 };

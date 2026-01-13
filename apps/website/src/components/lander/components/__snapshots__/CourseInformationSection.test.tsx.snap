@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CourseInformationSection > renders correctly 1`] = `
+exports[`CourseInformationSection > renders correctly with default colors 1`] = `
 <section
   class="w-full bg-white"
 >

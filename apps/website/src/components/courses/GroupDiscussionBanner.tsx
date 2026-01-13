@@ -84,7 +84,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
 
   const unitTitle = discussionUnit
     ? `Unit ${discussionUnit.unitNumber}: ${discussionUnit.title}`
-    : `Unit ${groupDiscussion.unitNumber || ''}`; // Fallback to unitNumber if unit not found
+    : `Unit ${groupDiscussion.unitFallback || ''}`; // Fallback to unitFallback if unit not found
 
   // Recalculate time strings when currentTime changes
   const startTimeDisplayRelative = useMemo(
@@ -182,6 +182,17 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
         setFacilitatorSwitchModalType('Change facilitator');
       },
       isVisible: isFacilitator,
+      overflowIcon: <SwitchUserIcon className="mx-auto" />,
+    },
+    {
+      id: 'change-facilitator',
+      label: 'Change facilitator',
+      variant: 'secondary',
+      onClick: () => {
+        setFacilitatorSwitchModalOpen(true);
+        setFacilitatorSwitchModalType('Change facilitator');
+      },
+      isVisible: userRole === 'facilitator',
       overflowIcon: <SwitchUserIcon className="mx-auto" />,
     },
     {
