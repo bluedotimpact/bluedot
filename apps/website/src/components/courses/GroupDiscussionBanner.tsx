@@ -185,17 +185,6 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       overflowIcon: <SwitchUserIcon className="mx-auto" />,
     },
     {
-      id: 'change-facilitator',
-      label: 'Change facilitator',
-      variant: 'secondary',
-      onClick: () => {
-        setFacilitatorSwitchModalOpen(true);
-        setFacilitatorSwitchModalType('Change facilitator');
-      },
-      isVisible: userRole === 'facilitator',
-      overflowIcon: <SwitchUserIcon className="mx-auto" />,
-    },
-    {
       id: 'cant-make-it',
       label: "Can't make it?",
       variant: 'ghost',
