@@ -36,9 +36,7 @@ const CoursesContent = () => {
 
   // Facilitated: past courses for facilitators
   const facilitatedCourses = enrolledCourses
-    .filter(({ courseRegistration }) => isCompleted(courseRegistration) && courseRegistration.role === 'Facilitator')
-    // Sort by most recent first (using certificateCreatedAt as proxy, though facilitators don't get certs)
-    .sort((a, b) => (b.courseRegistration.certificateCreatedAt ?? Infinity) - (a.courseRegistration.certificateCreatedAt ?? Infinity));
+    .filter(({ courseRegistration }) => isCompleted(courseRegistration) && courseRegistration.role === 'Facilitator');
 
   // In-progress: Active courses (both participants and facilitators)
   const inProgressCourses = enrolledCourses.filter(({ courseRegistration }) => !isCompleted(courseRegistration));
