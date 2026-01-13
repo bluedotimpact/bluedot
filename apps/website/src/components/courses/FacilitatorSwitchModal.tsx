@@ -11,26 +11,49 @@ import {
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { skipToken } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import { trpc } from '../../utils/trpc';
 import { CheckIcon } from '../icons/CheckIcon';
 import { ClockIcon } from '../icons/ClockIcon';
 import { InfoIcon } from '../icons/InfoIcon';
+import { SwitchUserIcon } from '../icons/SwitchUserIcon';
+
+const MODAL_TYPE_OPTIONS = [
+  {
+    value: 'Update discussion time',
+    label: (
+      <span className="grid grid-cols-[20px_1fr] items-center gap-2">
+        <ClockIcon /> Update discussion time
+      </span>
+    ),
+  },
+  {
+    value: 'Change facilitator',
+    label: (
+      <span className="grid grid-cols-[20px_1fr] items-center gap-2">
+        <SwitchUserIcon /> Change facilitator
+      </span>
+    ),
+  },
+] as const;
+
+export type FacilitatorModalType = (typeof MODAL_TYPE_OPTIONS)[number]['value'];
 
 const SWITCH_OPTIONS = [
   { value: 'Change for one unit', label: 'Change for one unit' },
   { value: 'Change permanently', label: 'Change permanently' },
 ] as const;
 
-export type SwitchType = (typeof SWITCH_OPTIONS)[number]['value'];
+type SwitchType = (typeof SWITCH_OPTIONS)[number]['value'];
 
-export type FacilitatorSwitchModalProps = {
+type FacilitatorSwitchModalProps = {
   handleClose: () => void;
   courseSlug: string;
   /** Only `id` and `group` needed from initialDiscussion */
   initialDiscussion: { id: string; group: string } | null;
   allDiscussions?: GroupDiscussion[];
+  initialModalType?: FacilitatorModalType;
 };
 
 const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
@@ -38,15 +61,39 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   courseSlug,
   initialDiscussion,
   allDiscussions,
+  initialModalType = 'Update discussion time',
 }) => {
+  const [modalType, setModalType] = useState<FacilitatorModalType>(initialModalType);
+
+  // Update discussion time state
   const [switchType, setSwitchType] = useState<SwitchType | undefined>('Change for one unit');
   const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(initialDiscussion?.group);
   const [selectedDiscussionId, setSelectedDiscussionId] = useState<string | undefined>(initialDiscussion?.id);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<Date | undefined>(undefined);
 
+  // Change facilitator state
+  const [selectedNewFacilitatorId, setSelectedNewFacilitatorId] = useState<string | undefined>();
+
+  // Reset mode-specific state when modal type changes
+  useEffect(() => {
+    if (modalType === 'Update discussion time') {
+      setSelectedNewFacilitatorId(undefined);
+    } else {
+      setSelectedDate(undefined);
+      setSelectedTime(undefined);
+    }
+  }, [modalType]);
+
   const currentTimeMs = useCurrentTimeMs();
-  const submitUpdateMutation = trpc.facilitators.updateDiscussion.useMutation();
+  const updateDiscussionTimeMutation = trpc.facilitators.updateDiscussion.useMutation();
+  const changeFacilitatorMutation = trpc.facilitators.requestFacilitatorChange.useMutation();
+
+  // Fetch facilitators when in "Change facilitator" mode
+  const facilitatorsQuery = trpc.facilitators.getFacilitatorsForRound.useQuery(
+    { courseSlug },
+    { enabled: modalType === 'Change facilitator' },
+  );
 
   // Only fetch data if `allDiscussions` is not provided
   const shouldFetch = allDiscussions === undefined;
@@ -77,7 +124,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     || (isSingleUnitChange && !selectedDiscussionId)
     || (!selectedDate && !selectedDiscussionDateTime)
     || (!selectedTime && !selectedDiscussionDateTime)
-    || submitUpdateMutation.isPending;
+    || updateDiscussionTimeMutation.isPending;
 
   const handleSubmit = () => {
     if (!switchType || !selectedGroupId) {
@@ -98,7 +145,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     const newDateTime = new Date(dateToUse);
     newDateTime.setHours(timeToUse.getHours(), timeToUse.getMinutes(), 0, 0);
 
-    submitUpdateMutation.mutate({
+    updateDiscussionTimeMutation.mutate({
       courseSlug,
       discussionId,
       groupId: selectedGroupId,
@@ -107,13 +154,37 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     });
   };
 
+  // Change facilitator mode
+  const facilitatorChangeSubmitDisabled = !selectedGroupId || !selectedDiscussionId || !selectedNewFacilitatorId || changeFacilitatorMutation.isPending;
+
+  const handleFacilitatorChangeSubmit = () => {
+    if (!selectedGroupId || !selectedDiscussionId || !selectedNewFacilitatorId) return;
+
+    changeFacilitatorMutation.mutate({
+      courseSlug,
+      discussionId: selectedDiscussionId,
+      groupId: selectedGroupId,
+      newFacilitatorId: selectedNewFacilitatorId,
+    });
+  };
+
   const renderTitle = () => {
-    const titleText = submitUpdateMutation.isSuccess ? 'Success' : 'Update your discussion time';
+    if (updateDiscussionTimeMutation.isSuccess || changeFacilitatorMutation.isSuccess) {
+      return (
+        <div className="flex w-full items-center justify-center gap-2">
+          <div className="text-size-md font-semibold">Success</div>
+        </div>
+      );
+    }
+
     return (
-      <div className="flex w-full items-center justify-center gap-2">
-        {!submitUpdateMutation.isSuccess && <ClockIcon />}
-        <div className="text-size-md font-semibold">{titleText}</div>
-      </div>
+      <Select
+        ariaLabel="Select action type"
+        value={modalType}
+        onChange={(value) => setModalType(value as FacilitatorModalType)}
+        options={MODAL_TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
+        className="text-size-md mx-auto w-fit border-none bg-transparent font-medium [&>button]:px-6 [&>button]:py-3"
+      />
     );
   };
 
@@ -121,7 +192,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     if (shouldFetch && isLoading) {
       return (
         <>
-          <InformationBanner />
+          <InformationBanner modalType={modalType} />
           <ProgressDots />
         </>
       );
@@ -131,7 +202,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       return <ErrorView error={error} />;
     }
 
-    if (submitUpdateMutation.isSuccess) {
+    if (updateDiscussionTimeMutation.isSuccess) {
       return (
         <div className="flex w-full flex-col items-center justify-center gap-8">
           <div className="bg-bluedot-normal/10 flex rounded-full p-4">
@@ -142,10 +213,33 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
               We've updated your group's {isSingleUnitChange ? 'discussion' : 'discussions'}.
             </P>
             <P className="text-center text-[#13132E] opacity-80">
-              As a reminder, <span className="font-bold">we have not notified your participants</span>, so please make sure you communicate this with them. You should see the changes reflected in the calendar event and Course Hub.
+              As a reminder, <span className="font-bold">we have not notified your participants</span>, so please make
+              sure you communicate this with them. You should see the changes reflected in the calendar event and Course
+              Hub.
+            </P>
+            <P className="text-center text-[#13132E] opacity-80">Please allow up to 10 minutes to see the changes.</P>
+          </div>
+          <CTALinkOrButton className="bg-bluedot-normal w-full" onClick={handleClose}>
+            Close
+          </CTALinkOrButton>
+        </div>
+      );
+    }
+
+    if (changeFacilitatorMutation.isSuccess) {
+      return (
+        <div className="flex w-full flex-col items-center justify-center gap-8">
+          <div className="bg-bluedot-normal/10 flex rounded-full p-4">
+            <CheckIcon className="text-bluedot-normal" />
+          </div>
+          <div className="flex max-w-[512px] flex-col items-center gap-4">
+            <P className="text-center text-[#13132E] opacity-80">
+              You won't be facilitating the group discussion for {selectedDiscussion?.label} for the group{' '}
+              {groupOptions.find((g) => g.value === selectedGroupId)?.label}.
             </P>
             <P className="text-center text-[#13132E] opacity-80">
-              Please allow up to 10 minutes to see the changes.
+              You should see the changes reflected in the calendar event and Course Hub. Please allow up to 10 minutes
+              to see the changes.
             </P>
           </div>
           <CTALinkOrButton className="bg-bluedot-normal w-full" onClick={handleClose}>
@@ -155,22 +249,97 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       );
     }
 
+    if (modalType === 'Update discussion time') {
+      return (
+        <>
+          <InformationBanner modalType={modalType} />
+          <div className="flex flex-col gap-2">
+            <H1 className="text-size-md font-medium text-black">1. What kind of update are you making?</H1>
+            <Select
+              ariaLabel="Action"
+              value={switchType}
+              onChange={(value) => setSwitchType(value as SwitchType)}
+              options={SWITCH_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
+              placeholder="Choose an option"
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <H1 className="text-size-md font-medium text-black">2. For which group?</H1>
+            <Select
+              ariaLabel="Group"
+              value={selectedGroupId}
+              onChange={(value) => {
+                setSelectedGroupId(value);
+                setSelectedDiscussionId(undefined);
+              }}
+              options={groupOptions}
+              placeholder="Choose a group"
+            />
+          </div>
+
+          {isSingleUnitChange && (
+            <div className="flex flex-col gap-2">
+              <H1 className="text-size-md font-medium text-black">3. For which discussion?</H1>
+              <Select
+                ariaLabel="Discussion"
+                options={discussionOptions}
+                value={selectedDiscussionId}
+                onChange={(value) => setSelectedDiscussionId(value)}
+                placeholder="Choose a discussion"
+              />
+              {selectedDiscussion && (
+                <P>
+                  Current time: <span className="text-bluedot-normal">{selectedDiscussionTimeString}</span>
+                </P>
+              )}
+            </div>
+          )}
+
+          <div className="flex flex-col gap-2">
+            <H1 className="text-size-md font-medium text-black">
+              {isSingleUnitChange ? '4' : '3'}. Select new discussion time
+            </H1>
+            <P>The selected time is in your time zone: {Intl.DateTimeFormat().resolvedOptions().timeZone}</P>
+            <div className="flex flex-row gap-4">
+              <DatePicker value={selectedDate ?? selectedDiscussionDateTime} onChange={setSelectedDate} />
+              <TimePicker
+                className="w-fit"
+                timeValue={selectedTime ?? selectedDiscussionDateTime}
+                onTimeChange={setSelectedTime}
+              />
+            </div>
+          </div>
+
+          {updateDiscussionTimeMutation.isError && (
+            <P className="text-red-600">
+              {updateDiscussionTimeMutation.error?.message || 'An error occurred. Please try again.'}
+            </P>
+          )}
+
+          <CTALinkOrButton
+            className="bg-bluedot-normal w-full disabled:opacity-50"
+            onClick={handleSubmit}
+            disabled={submitDisabled}
+          >
+            {updateDiscussionTimeMutation.isPending ? (
+              <div className="flex items-center gap-2">
+                <ProgressDots className="my-0" dotClassName="bg-white" />
+                Submitting...
+              </div>
+            ) : (
+              <span>Submit</span>
+            )}
+          </CTALinkOrButton>
+        </>
+      );
+    }
+
     return (
       <>
-        <InformationBanner />
+        <InformationBanner modalType={modalType} />
         <div className="flex flex-col gap-2">
-          <H1 className="text-size-md font-medium text-black">1. What kind of update are you making?</H1>
-          <Select
-            ariaLabel="Action"
-            value={switchType}
-            onChange={(value) => setSwitchType(value as SwitchType)}
-            options={SWITCH_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
-            placeholder="Choose an option"
-          />
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <H1 className="text-size-md font-medium text-black">2. For which group?</H1>
+          <H1 className="text-size-md font-medium text-black">1. For which group?</H1>
           <Select
             ariaLabel="Group"
             value={selectedGroupId}
@@ -183,51 +352,45 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           />
         </div>
 
-        {isSingleUnitChange && (
-          <div className="flex flex-col gap-2">
-            <H1 className="text-size-md font-medium text-black">3. For which discussion?</H1>
-            <Select
-              ariaLabel="Discussion"
-              options={discussionOptions}
-              value={selectedDiscussionId}
-              onChange={(value) => setSelectedDiscussionId(value)}
-              placeholder="Choose a discussion"
-            />
-            {selectedDiscussion && (
-              <P>
-                Current time: <span className="text-bluedot-normal">{selectedDiscussionTimeString}</span>
-              </P>
-            )}
-          </div>
-        )}
-
         <div className="flex flex-col gap-2">
-          <H1 className="text-size-md font-medium text-black">
-            {isSingleUnitChange ? '4' : '3'}. Select new discussion time
-          </H1>
-          <P>The selected time is in your time zone: {Intl.DateTimeFormat().resolvedOptions().timeZone}</P>
-          <div className="flex flex-row gap-4">
-            <DatePicker value={selectedDate ?? selectedDiscussionDateTime} onChange={setSelectedDate} />
-            <TimePicker
-              className="w-fit"
-              timeValue={selectedTime ?? selectedDiscussionDateTime}
-              onTimeChange={setSelectedTime}
-            />
-          </div>
+          <H1 className="text-size-md font-medium text-black">2. For which discussion?</H1>
+          <Select
+            ariaLabel="Discussion"
+            options={discussionOptions}
+            value={selectedDiscussionId}
+            onChange={(value) => setSelectedDiscussionId(value)}
+            placeholder="Choose a discussion"
+          />
         </div>
 
-        {submitUpdateMutation.isError && (
+        <div className="flex flex-col gap-2">
+          <H1 className="text-size-md font-medium text-black">3. Select new facilitator</H1>
+          {facilitatorsQuery.isError && (
+            <P className="text-red-600">
+              {facilitatorsQuery.error?.message || 'Failed to load facilitators. Please try again.'}
+            </P>
+          )}
+          <Select
+            ariaLabel="New facilitator"
+            options={facilitatorsQuery.data ?? []}
+            value={selectedNewFacilitatorId}
+            onChange={(value) => setSelectedNewFacilitatorId(value)}
+            placeholder={facilitatorsQuery.isLoading ? 'Loading facilitators...' : 'Choose a facilitator'}
+          />
+        </div>
+
+        {changeFacilitatorMutation.isError && (
           <P className="text-red-600">
-            {submitUpdateMutation.error?.message || 'An error occurred. Please try again.'}
+            {changeFacilitatorMutation.error?.message || 'An error occurred. Please try again.'}
           </P>
         )}
 
         <CTALinkOrButton
           className="bg-bluedot-normal w-full disabled:opacity-50"
-          onClick={handleSubmit}
-          disabled={submitDisabled}
+          onClick={handleFacilitatorChangeSubmit}
+          disabled={facilitatorChangeSubmitDisabled}
         >
-          {submitUpdateMutation.isPending ? (
+          {changeFacilitatorMutation.isPending ? (
             <div className="flex items-center gap-2">
               <ProgressDots className="my-0" dotClassName="bg-white" />
               Submitting...
@@ -255,7 +418,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   );
 };
 
-const InformationBanner = () => {
+const InformationBanner = ({ modalType }: { modalType: FacilitatorModalType }) => {
   return (
     <div className="inline-flex items-center justify-between self-stretch rounded-md bg-[#E5EDFE] px-4 py-3">
       <div className="flex flex-1 items-start justify-start gap-3">
@@ -263,8 +426,9 @@ const InformationBanner = () => {
           <InfoIcon className="size-5 shrink-0" />
         </div>
         <P className="text-bluedot-normal flex-1 justify-start">
-          Please discuss any changes with your participants beforehand. Any changes will update the calendar invitation
-          and Course Hub information, but not notify your participants.
+          {modalType === 'Update discussion time'
+            ? 'Please discuss any changes with your participants beforehand. Any changes will update the calendar invitation and Course Hub information, but not notify your participants.'
+            : 'Please make sure you have agreed on these changes with the facilitator beforehand.'}
         </P>
       </div>
     </div>

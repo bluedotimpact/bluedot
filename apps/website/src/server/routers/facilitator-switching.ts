@@ -43,6 +43,39 @@ const getFacilitator = async (courseSlug: string, facilitatorEmail: string) => {
 };
 
 export const facilitatorSwitchingRouter = router({
+  getFacilitatorsForRound: protectedProcedure
+    .input(z.object({ courseSlug: z.string() }))
+    .query(async ({ input, ctx }) => {
+      const { courseSlug } = input;
+
+      const currentFacilitator = await getFacilitator(courseSlug, ctx.auth.email);
+      if (!currentFacilitator.round) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Facilitator is not assigned to a round' });
+      }
+
+      // Get all meetPersons in the same round who are facilitators
+      const facilitators = await db.pg
+        .select({
+          id: meetPersonTable.pg.id,
+          name: meetPersonTable.pg.name,
+        })
+        .from(meetPersonTable.pg)
+        .where(
+          and(
+            eq(meetPersonTable.pg.round, currentFacilitator.round),
+            eq(meetPersonTable.pg.role, 'Facilitator'),
+          ),
+        );
+
+      // Return as options for Select, excluding the current facilitator
+      return facilitators
+        .filter((f) => f.id !== currentFacilitator.id)
+        .map((f) => ({
+          value: f.id,
+          label: f.name,
+        }));
+    }),
+
   discussionsAvailable: protectedProcedure
     .input(
       z.object({
@@ -108,9 +141,13 @@ export const facilitatorSwitchingRouter = router({
       const facilitator = await getFacilitator(courseSlug, ctx.auth.email);
       const allowedDiscussions = facilitator.expectedDiscussionsFacilitator || [];
 
+      if (allowedDiscussions.length === 0) {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitator is not allowed to manage any discussions' });
+      }
+
       // Ensure the facilitator is allowed to manage the specified discussion
       if (discussionId) {
-        if (allowedDiscussions.length === 0 || !allowedDiscussions.includes(discussionId)) {
+        if (!allowedDiscussions.includes(discussionId)) {
           throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitator is not allowed to manage this discussion' });
         }
         const discussion = await db.getFirst(groupDiscussionTable, { filter: { id: discussionId } });
@@ -121,10 +158,6 @@ export const facilitatorSwitchingRouter = router({
 
       // If no discussionId is provided, ensure the facilitator is allowed to manage at least one discussion for the group
       if (!discussionId) {
-        if (allowedDiscussions.length === 0) {
-          throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitator is not allowed to manage any discussions' });
-        }
-
         const groupDiscussions = await db.pg
           .select({ id: groupDiscussionTable.pg.id })
           .from(groupDiscussionTable.pg)
@@ -147,6 +180,60 @@ export const facilitatorSwitchingRouter = router({
         status: 'Requested',
         switchType: discussionId ? 'Change for one unit' : 'Change permanently',
         facilitatorRequestedDatetime: requestedDateTimeInSeconds,
+      });
+
+      return null;
+    }),
+
+  requestFacilitatorChange: protectedProcedure
+    .input(
+      z.object({
+        courseSlug: z.string(),
+        discussionId: z.string(),
+        groupId: z.string(),
+        newFacilitatorId: z.string(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const {
+        courseSlug, discussionId, groupId, newFacilitatorId,
+      } = input;
+
+      const facilitator = await getFacilitator(courseSlug, ctx.auth.email);
+      const allowedDiscussions = facilitator.expectedDiscussionsFacilitator || [];
+
+      if (allowedDiscussions.length === 0 || !allowedDiscussions.includes(discussionId)) {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitator is not allowed to manage this discussion' });
+      }
+
+      const discussion = await db.getFirst(groupDiscussionTable, { filter: { id: discussionId } });
+      if (!discussion || discussion.group !== groupId) {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'Discussion does not belong to the specified group' });
+      }
+
+      const nowInSeconds = Math.floor(Date.now() / 1000);
+      if (discussion.startDateTime <= nowInSeconds) {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'Cannot change facilitator for a discussion that has already started' });
+      }
+
+      const newFacilitator = await db.getFirst(meetPersonTable, { filter: { id: newFacilitatorId } });
+      if (!newFacilitator) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'New facilitator not found' });
+      }
+      if (newFacilitator.round !== facilitator.round) {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'New facilitator must be in the same round' });
+      }
+      if (newFacilitator.role !== 'Facilitator') {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'Selected person is not a facilitator' });
+      }
+
+      await db.insert(facilitatorDiscussionSwitchingTable, {
+        discussion: discussionId,
+        facilitator: newFacilitator.id,
+        group: groupId,
+        status: 'Requested',
+        switchType: 'Update discussion facilitator',
+        anythingElse: `Requested by facilitator ${facilitator.id}`,
       });
 
       return null;

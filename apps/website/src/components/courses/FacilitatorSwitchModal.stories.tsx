@@ -73,6 +73,12 @@ const mockDiscussions = [
   },
 ];
 
+const mockFacilitators = [
+  { value: 'facilitator-1', label: 'Alice Johnson' },
+  { value: 'facilitator-2', label: 'Bob Smith' },
+  { value: 'facilitator-3', label: 'Carol Williams' },
+];
+
 export const WithPassedDiscussions: Story = {
   args: {
     handleClose: () => {},
@@ -84,6 +90,37 @@ export const WithPassedDiscussions: Story = {
     msw: {
       handlers: [
         trpcStorybookMsw.facilitators.updateDiscussion.mutation(async () => {
+          return null;
+        }),
+        trpcStorybookMsw.facilitators.getFacilitatorsForRound.query(async () => {
+          return mockFacilitators;
+        }),
+        trpcStorybookMsw.facilitators.requestFacilitatorChange.mutation(async () => {
+          return null;
+        }),
+      ],
+    },
+  },
+};
+
+export const ChangeFacilitatorView: Story = {
+  args: {
+    handleClose: () => {},
+    courseSlug: 'fish-test-course',
+    initialDiscussion: mockDiscussions[1] ?? null,
+    allDiscussions: mockDiscussions,
+    initialModalType: 'Change facilitator',
+  },
+  parameters: {
+    msw: {
+      handlers: [
+        trpcStorybookMsw.facilitators.updateDiscussion.mutation(async () => {
+          return null;
+        }),
+        trpcStorybookMsw.facilitators.getFacilitatorsForRound.query(async () => {
+          return mockFacilitators;
+        }),
+        trpcStorybookMsw.facilitators.requestFacilitatorChange.mutation(async () => {
           return null;
         }),
       ],

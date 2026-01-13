@@ -12,12 +12,13 @@ import { skipToken } from '@tanstack/react-query';
 import { IoAdd } from 'react-icons/io5';
 import { FaCopy } from 'react-icons/fa6';
 import clsx from 'clsx';
-import FacilitatorSwitchModal from './FacilitatorSwitchModal';
+import FacilitatorSwitchModal, { FacilitatorModalType } from './FacilitatorSwitchModal';
 import GroupSwitchModal from './GroupSwitchModal';
 import { buildGroupSlackChannelUrl, formatDateTimeRelative } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 import { SlackIcon } from '../icons/SlackIcon';
 import { DocumentIcon } from '../icons/DocumentIcon';
+import { SwitchUserIcon } from '../icons/SwitchUserIcon';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 
 const BUTTON_STYLES = {
@@ -59,6 +60,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [facilitatorSwitchModalOpen, setFacilitatorSwitchModalOpen] = useState(false);
+  const [facilitatorSwitchModalType, setFacilitatorSwitchModalType] = useState<FacilitatorModalType>('Update discussion time');
   const currentTimeMs = useCurrentTimeMs();
   const [hostKeyCopied, setHostKeyCopied] = useState(false);
 
@@ -161,6 +163,17 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       isVisible: !discussionIsSoonOrLive,
     },
     {
+      id: 'change-facilitator',
+      label: 'Change facilitator',
+      variant: 'secondary',
+      onClick: () => {
+        setFacilitatorSwitchModalOpen(true);
+        setFacilitatorSwitchModalType('Change facilitator');
+      },
+      isVisible: userRole === 'facilitator',
+      overflowIcon: <SwitchUserIcon className="mx-auto" />,
+    },
+    {
       id: 'cant-make-it',
       label: "Can't make it?",
       variant: 'ghost',
@@ -169,6 +182,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           setGroupSwitchModalOpen(true);
         } else {
           setFacilitatorSwitchModalOpen(true);
+          setFacilitatorSwitchModalType('Update discussion time');
         }
       },
       isVisible: true,
@@ -322,6 +336,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           handleClose={() => setFacilitatorSwitchModalOpen(false)}
           courseSlug={unit.courseSlug}
           initialDiscussion={groupDiscussion}
+          initialModalType={facilitatorSwitchModalType}
         />
       )}
     </>
