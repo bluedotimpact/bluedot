@@ -661,7 +661,8 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             class="flex flex-col gap-6"
           >
             <div
-              class="size-14 bg-[#ECF0FF] rounded-lg flex items-center justify-center flex-shrink-0"
+              class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
+              style="background-color: #f3e8ff;"
             >
               <svg
                 class="text-black"
@@ -697,7 +698,8 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             class="flex flex-col gap-6"
           >
             <div
-              class="size-14 bg-[#ECF0FF] rounded-lg flex items-center justify-center flex-shrink-0"
+              class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
+              style="background-color: #f3e8ff;"
             >
               <svg
                 class="text-black"
@@ -733,7 +735,8 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             class="flex flex-col gap-6"
           >
             <div
-              class="size-14 bg-[#ECF0FF] rounded-lg flex items-center justify-center flex-shrink-0"
+              class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
+              style="background-color: #f3e8ff;"
             >
               <svg
                 class="text-black"
@@ -939,7 +942,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               >
                 <div
                   class="w-full rounded-xl overflow-hidden"
-                  style="background-color: #ECF0FF;"
+                  style="background-color: #f3e8ff;"
                 >
                   <div
                     class="flex flex-col lg:flex-row-reverse w-full h-[465px] min-[680px]:!h-[377px] lg:h-[385px]"
@@ -1018,7 +1021,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               >
                 <div
                   class="w-full rounded-xl overflow-hidden"
-                  style="background-color: #ECF0FF;"
+                  style="background-color: #f3e8ff;"
                 >
                   <div
                     class="flex flex-col lg:flex-row-reverse w-full h-[465px] min-[680px]:!h-[377px] lg:h-[385px]"
@@ -1112,7 +1115,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             >
               <div
                 class="w-full min-[680px]:w-24 h-1.5 rounded transition-all duration-300"
-                style="background-color: var(--bluedot-normal); opacity: 1;"
+                style="background-color: #9177dc; opacity: 1;"
               />
             </button>
             <button

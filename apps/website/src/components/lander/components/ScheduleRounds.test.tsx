@@ -10,7 +10,7 @@ const mockProps = {
 };
 
 describe('ScheduleRounds', () => {
-  it('renders correctly', () => {
+  it('renders correctly with default colors', () => {
     const { container } = render(<ScheduleRounds {...mockProps} />, { wrapper: TrpcProvider });
     expect(container.firstChild).toMatchSnapshot();
   });
