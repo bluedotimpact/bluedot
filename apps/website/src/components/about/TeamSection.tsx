@@ -26,6 +26,18 @@ const teamMembers = [
     role: 'Community',
     linkedInUrl: 'https://linkedin.com/in/josh-landes12',
   },
+  {
+    imageSrc: '/images/team/aniketchakravorty.jpg',
+    name: 'Aniket Chakravorty',
+    role: 'AI Strategy Specialist',
+    linkedInUrl: 'https://www.linkedin.com/in/aniket-chakravorty-724458256/',
+  },
+  {
+    imageSrc: '/images/team/samdower.png',
+    name: 'Sam Dower',
+    role: 'Technical AI Safety Specialist',
+    linkedInUrl: 'https://www.linkedin.com/in/samuel-dower/',
+  },
 ];
 
 const TeamSection = () => {
