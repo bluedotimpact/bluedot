@@ -1,9 +1,11 @@
 import { z } from 'zod';
 import {
-  applicationsRoundTable, courseTable, eq, and, or, sql,
+  applicationsRoundTable, courseTable, courseRegistrationTable, eq, and, or, sql,
 } from '@bluedot/db';
 import { publicProcedure, router } from '../trpc';
 import db from '../../lib/api/db';
+import { COURSE_CONFIG } from '../../lib/constants';
+import type { ApplyCTAProps } from '../../components/courses/SideBar';
 
 /**
  * Fetches course rounds data by course slug.
@@ -289,5 +291,59 @@ export const courseRoundsRouter = router({
       };
 
       return grouped;
+    }),
+
+  getApplyCTAProps: publicProcedure
+    .input(z.object({ courseSlug: z.string() }))
+    .query(async ({ ctx, input }): Promise<ApplyCTAProps | null> => {
+      const { courseSlug } = input;
+      const applicationUrl = COURSE_CONFIG[courseSlug as keyof typeof COURSE_CONFIG]?.applicationUrl;
+      if (!applicationUrl) return null;
+
+      const course = await db.getFirst(courseTable, { sortBy: 'slug', filter: { slug: courseSlug } });
+      if (!course) return null;
+
+      const deadlineThreshold = new Date(Date.now() - 12 * 60 * 60 * 1000);
+      const upcomingRounds = await db.pg
+        .select({ applicationDeadline: applicationsRoundTable.pg.applicationDeadline })
+        .from(applicationsRoundTable.pg)
+        .where(
+          and(
+            eq(applicationsRoundTable.pg.courseId, course.id),
+            or(
+              sql`${applicationsRoundTable.pg.applicationDeadline} IS NULL`,
+              sql`${applicationsRoundTable.pg.applicationDeadline}::timestamp >= ${deadlineThreshold.toISOString()}::timestamp`,
+            ),
+          ),
+        )
+        .orderBy(sql`${applicationsRoundTable.pg.firstDiscussionDate} ASC NULLS LAST`)
+        .limit(1);
+
+      if (!upcomingRounds.length) return null;
+
+      const deadline = upcomingRounds[0]?.applicationDeadline ?? null;
+      const formatDeadline = (isoDate: string | null) => {
+        if (!isoDate) return null;
+        const date = new Date(isoDate);
+        return `${date.getUTCDate()} ${date.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' })}`;
+      };
+
+      let hasApplied = false;
+      if (ctx.auth?.email) {
+        const result = await db.pg.execute<{ exists: boolean }>(sql`
+          SELECT EXISTS (
+            SELECT 1 FROM ${courseRegistrationTable.pg}
+            WHERE ${courseRegistrationTable.pg.email} = ${ctx.auth.email}
+            AND ${courseRegistrationTable.pg.courseId} = ${course.id}
+          )
+        `);
+        hasApplied = result.rows[0]?.exists ?? false;
+      }
+
+      return {
+        applicationDeadline: formatDeadline(deadline),
+        applicationUrl,
+        hasApplied,
+      };
     }),
 });

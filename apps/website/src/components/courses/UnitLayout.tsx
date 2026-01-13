@@ -29,7 +29,7 @@ import KeyboardNavMenu from './KeyboardNavMenu';
 import { MobileCourseModal } from './MobileCourseModal';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import { ResourceDisplay } from './ResourceDisplay';
-import SideBar from './SideBar';
+import SideBar, { type ApplyCTAProps } from './SideBar';
 import { ROUTES } from '../../lib/routes';
 import { trpc } from '../../utils/trpc';
 import { CourseIcon } from './CourseIcon';
@@ -48,6 +48,8 @@ type UnitLayoutProps = {
   chunkIndex: number;
   setChunkIndex: (index: number) => void;
   courseSlug: string;
+  // Optional
+  applyCTAProps?: ApplyCTAProps;
 };
 
 type MobileHeaderProps = {
@@ -138,6 +140,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   chunkIndex,
   setChunkIndex,
   courseSlug,
+  applyCTAProps,
 }) => {
   const router = useRouter();
   const auth = useAuthStore((s) => s.auth);
@@ -306,6 +309,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           chunks={chunks}
           currentChunkIndex={chunkIndex}
           onChunkSelect={handleChunkSelect}
+          applyCTAProps={applyCTAProps}
         />
       )}
 

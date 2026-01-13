@@ -1,5 +1,7 @@
 import { InferSelectModel, unitTable } from '@bluedot/db';
-import { A, ProgressDots, useAuthStore } from '@bluedot/ui';
+import {
+  A, CTALinkOrButton, ProgressDots, useAuthStore,
+} from '@bluedot/ui';
 import clsx from 'clsx';
 import React from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
@@ -19,7 +21,7 @@ type SideBarProps = {
   chunks: ChunkWithContent[];
   currentChunkIndex: number;
   onChunkSelect: (index: number) => void;
-  // Optional
+  applyCTAProps?: ApplyCTAProps;
   className?: string;
 };
 
@@ -161,6 +163,27 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   );
 };
 
+export type ApplyCTAProps = {
+  applicationDeadline: string | null;
+  applicationUrl: string;
+  hasApplied: boolean;
+};
+
+const ApplyCTA = ({ applicationDeadline, applicationUrl, hasApplied }: ApplyCTAProps) => {
+  if (hasApplied) return null;
+
+  return (
+    <CTALinkOrButton
+      url={applicationUrl}
+      variant="outline-black"
+      target="_blank"
+      className="px-3 py-1.5 text-[14px]"
+    >
+      {applicationDeadline ? `Apply by ${applicationDeadline}` : 'Apply now'}
+    </CTALinkOrButton>
+  );
+};
+
 const SideBar: React.FC<SideBarProps> = ({
   courseTitle,
   courseSlug,
@@ -170,6 +193,7 @@ const SideBar: React.FC<SideBarProps> = ({
   chunks,
   currentChunkIndex,
   onChunkSelect,
+  applyCTAProps,
 }) => {
   const isCurrentUnit = (unit: Unit): boolean => {
     return !!unit.unitNumber && currentUnitNumber === Number(unit.unitNumber);
@@ -184,13 +208,14 @@ const SideBar: React.FC<SideBarProps> = ({
     )}
     >
       {/* Header */}
-      <div className="p-[24px]">
+      <div className="p-6 flex flex-col gap-5">
         <div className="flex flex-row items-center gap-[16px]">
           <CourseIcon courseSlug={courseSlug} size="large" />
           <div className="flex flex-1 min-w-0">
             <h2 className="font-semibold text-[26px] leading-[44px] text-[#13132E]">{courseTitle}</h2>
           </div>
         </div>
+        {applyCTAProps && <ApplyCTA {...applyCTAProps} />}
       </div>
 
       {/* Units */}
