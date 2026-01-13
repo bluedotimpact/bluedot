@@ -158,13 +158,6 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     },
     // Upcoming discussion buttons
     {
-      id: 'see-details',
-      label: 'See details',
-      variant: 'secondary',
-      url: '/settings/courses',
-      isVisible: !discussionIsSoonOrLive,
-    },
-    {
       id: 'change-facilitator',
       label: 'Change facilitator',
       variant: 'secondary',
