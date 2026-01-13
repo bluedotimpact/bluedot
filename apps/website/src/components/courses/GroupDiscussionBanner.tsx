@@ -279,7 +279,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           const hasOverflow = overflowButtons.length > 0;
 
           return (
-            <div id="discussion-banner-mobile-container" className={`flex ${desktopHideContainerQuery} gap-2 items-start`}>
+            <div id="discussion-banner-mobile-container" className={`flex flex-col sm:flex-row ${desktopHideContainerQuery} gap-2 `}>
               {directButtons.map((button) => {
                 // On mobile, convert ghost to secondary
                 const mobileVariant = button.variant === 'ghost' ? 'secondary' : button.variant;
