@@ -191,7 +191,11 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   // Buttons should be in a slightly different order on mobile.
   // Put these ids first, preserve the existing order after that.
   const mobileButtonPrecedence = ['join-now', 'cant-make-it'];
-  const desktopDirectIds = ['join-now', 'host-key', 'discussion-doc'];
+  // Participants see all buttons directly on desktop (no overflow menu)
+  // Facilitators see join-now, host-key, discussion-doc directly; rest in overflow
+  const desktopDirectIds = isFacilitator
+    ? ['join-now', 'host-key', 'discussion-doc']
+    : ['join-now', 'host-key', 'discussion-doc', 'cant-make-it', 'message-group'];
 
   const visibleButtons = buttons.filter((button) => button.isVisible);
 
@@ -226,11 +230,14 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           {isOpen && (() => {
             const desktopDirectButtons = visibleButtons.filter((b) => desktopDirectIds.includes(b.id));
             const desktopOverflowButtons = visibleButtons.filter((b) => !desktopDirectIds.includes(b.id));
+            const hasOverflow = desktopOverflowButtons.length > 0;
 
             return (
               <div id="discussion-banner-desktop-container" className={`hidden ${desktopShowContainerQuery} gap-2 flex-1 items-center ml-2`}>
                 {desktopDirectButtons.map((button) => {
-                  const style = BUTTON_STYLES[button.variant === 'ghost' ? 'secondary' : button.variant];
+                  const style = BUTTON_STYLES[button.variant];
+                  // Right-align "Can't make it?" (or last direct button if there's no overflow)
+                  const isRightAligned = button.id === 'cant-make-it' || (!hasOverflow && button === desktopDirectButtons[desktopDirectButtons.length - 1]);
                   return (
                     <CTALinkOrButton
                       key={button.id}
@@ -239,34 +246,31 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                       url={button.url}
                       onClick={button.onClick}
                       target={button.target}
-                      className={clsx(style.className, 'flex gap-[6px] items-center')}
+                      className={clsx(style.className, 'flex gap-[6px] items-center', isRightAligned && 'ml-auto')}
                     >
                       {button.label}
                     </CTALinkOrButton>
                   );
                 })}
-                {desktopOverflowButtons.length > 0 && (
-                  <>
-                    <div className="flex-1" />
-                    <OverflowMenu
-                      ariaLabel="More discussion options"
-                      buttonClassName="border border-[#B5C3EC] px-3 py-2.5 h-9 text-[13px] font-medium whitespace-nowrap"
-                      items={desktopOverflowButtons.map((button): OverflowMenuItemProps => ({
-                        id: button.id,
-                        label: button.overflowIcon ? (
-                          <div className="grid grid-cols-[20px_1fr] gap-[6px] items-center">
-                            {button.overflowIcon}
-                            {button.label}
-                          </div>
-                        ) : button.label,
-                        ...(button.url
-                          ? { href: button.url, target: button.target }
-                          : { onAction: button.onClick }
-                        ),
-                      }))}
-                      trigger="More details"
-                    />
-                  </>
+                {hasOverflow && (
+                  <OverflowMenu
+                    ariaLabel="More discussion options"
+                    buttonClassName="border border-[#B5C3EC] px-3 py-2.5 h-9 text-[13px] font-medium whitespace-nowrap"
+                    items={desktopOverflowButtons.map((button): OverflowMenuItemProps => ({
+                      id: button.id,
+                      label: button.overflowIcon ? (
+                        <div className="grid grid-cols-[20px_1fr] gap-[6px] items-center">
+                          {button.overflowIcon}
+                          {button.label}
+                        </div>
+                      ) : button.label,
+                      ...(button.url
+                        ? { href: button.url, target: button.target }
+                        : { onAction: button.onClick }
+                      ),
+                    }))}
+                    trigger="More details"
+                  />
                 )}
                 <div className="w-px h-6 bg-[#B5C3EC] ml-1" />
               </div>
