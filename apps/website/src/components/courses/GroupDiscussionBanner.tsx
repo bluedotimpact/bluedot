@@ -97,8 +97,10 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     ? buildGroupSlackChannelUrl(groupDiscussion.slackChannelId)
     : '';
 
+  const isFacilitator = userRole === 'facilitator';
+
   const copyHostKeyIfFacilitator = async () => {
-    if (userRole === 'facilitator' && hostKeyForFacilitators) {
+    if (isFacilitator && hostKeyForFacilitators) {
       try {
         await navigator.clipboard.writeText(hostKeyForFacilitators);
         setHostKeyCopied(true);
@@ -134,7 +136,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       ),
       variant: 'secondary',
       onClick: copyHostKeyIfFacilitator,
-      isVisible: discussionIsSoonOrLive && userRole === 'facilitator' && !!hostKeyForFacilitators,
+      isVisible: discussionIsSoonOrLive && isFacilitator && !!hostKeyForFacilitators,
     },
     {
       id: 'discussion-doc',
@@ -142,7 +144,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       variant: 'secondary',
       url: discussionDocLink,
       target: '_blank',
-      isVisible: discussionIsSoonOrLive || userRole === 'facilitator',
+      isVisible: discussionIsSoonOrLive || isFacilitator,
       overflowIcon: <DocumentIcon className="mx-auto" />,
     },
     {
@@ -170,7 +172,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
         setFacilitatorSwitchModalOpen(true);
         setFacilitatorSwitchModalType('Change facilitator');
       },
-      isVisible: userRole === 'facilitator',
+      isVisible: isFacilitator,
       overflowIcon: <SwitchUserIcon className="mx-auto" />,
     },
     {
@@ -178,11 +180,11 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       label: "Can't make it?",
       variant: 'ghost',
       onClick: () => {
-        if (userRole === 'participant') {
-          setGroupSwitchModalOpen(true);
-        } else {
+        if (isFacilitator) {
           setFacilitatorSwitchModalOpen(true);
           setFacilitatorSwitchModalType('Update discussion time');
+        } else {
+          setGroupSwitchModalOpen(true);
         }
       },
       isVisible: true,
