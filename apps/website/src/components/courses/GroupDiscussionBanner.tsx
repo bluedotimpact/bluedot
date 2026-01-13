@@ -19,6 +19,7 @@ import { trpc } from '../../utils/trpc';
 import { SlackIcon } from '../icons/SlackIcon';
 import { DocumentIcon } from '../icons/DocumentIcon';
 import { SwitchUserIcon } from '../icons/SwitchUserIcon';
+import { ClockIcon } from '../icons/ClockIcon';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 
 const BUTTON_STYLES = {
@@ -157,6 +158,17 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       overflowIcon: <SlackIcon className="mx-auto" />,
     },
     // Upcoming discussion buttons
+    {
+      id: 'update-discussion-time',
+      label: 'Update discussion time',
+      variant: 'secondary',
+      onClick: () => {
+        setFacilitatorSwitchModalOpen(true);
+        setFacilitatorSwitchModalType('Update discussion time');
+      },
+      isVisible: isFacilitator,
+      overflowIcon: <ClockIcon className="mx-auto" size={20} />,
+    },
     {
       id: 'change-facilitator',
       label: 'Change facilitator',
