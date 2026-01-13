@@ -1,12 +1,7 @@
-import React, {
-  useState, useMemo, useEffect,
-} from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import type { GroupDiscussion, Unit } from '@bluedot/db';
 import {
-  CTALinkOrButton,
-  useCurrentTimeMs,
-  OverflowMenu,
-  type OverflowMenuItemProps,
+  CTALinkOrButton, useCurrentTimeMs, OverflowMenu, type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import { skipToken } from '@tanstack/react-query';
 import { IoAdd } from 'react-icons/io5';
@@ -24,8 +19,14 @@ import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 
 const BUTTON_STYLES = {
   primary: { variant: 'primary' as const, className: 'bg-bluedot-normal' },
-  secondary: { variant: 'outline-black' as const, className: 'bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter' },
-  ghost: { variant: 'outline-black' as const, className: 'bg-transparent border-none text-bluedot-normal hover:bg-bluedot-lighter' },
+  secondary: {
+    variant: 'outline-black' as const,
+    className: 'bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter',
+  },
+  ghost: {
+    variant: 'outline-black' as const,
+    className: 'bg-transparent border-none text-bluedot-normal hover:bg-bluedot-lighter',
+  },
 };
 
 export type ButtonOrMenuItem = {
@@ -223,60 +224,62 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
         </div>
 
         {/* Button container */}
-        {isOpen && (() => {
-          const directButtonIds = ['join-now', 'host-key', 'discussion-doc', 'cant-make-it'];
-          const directButtons = visibleButtons.filter((b) => directButtonIds.includes(b.id));
-          const overflowButtons = visibleButtons.filter((b) => !directButtonIds.includes(b.id));
-          const hasOverflow = overflowButtons.length > 0;
+        {isOpen
+          && (() => {
+            const directButtonIds = ['join-now', 'host-key', 'discussion-doc', 'cant-make-it'];
+            const directButtons = visibleButtons.filter((b) => directButtonIds.includes(b.id));
+            const overflowButtons = visibleButtons.filter((b) => !directButtonIds.includes(b.id));
+            const hasOverflow = overflowButtons.length > 0;
 
-          return (
-            <div className="flex flex-col sm:flex-row gap-2">
-              {directButtons.map((button) => {
-                // Convert ghost to secondary for consistent styling
-                const variant = button.variant === 'ghost' ? 'secondary' : button.variant;
-                const style = BUTTON_STYLES[variant];
+            return (
+              <div className="flex flex-col gap-2 sm:flex-row">
+                {directButtons.map((button) => {
+                  // Convert ghost to secondary for consistent styling
+                  const variant = button.variant === 'ghost' ? 'secondary' : button.variant;
+                  const style = BUTTON_STYLES[variant];
 
-                return (
-                  <CTALinkOrButton
-                    key={button.id}
-                    variant={style.variant}
-                    size="small"
-                    url={button.url}
-                    onClick={button.onClick}
-                    target={button.target}
-                    className={clsx(style.className, 'flex-1 gap-[6px] w-full sm:flex-initial sm:w-auto')}
-                  >
-                    {button.label}
-                  </CTALinkOrButton>
-                );
-              })}
+                  return (
+                    <CTALinkOrButton
+                      key={button.id}
+                      variant={style.variant}
+                      size="small"
+                      url={button.url}
+                      onClick={button.onClick}
+                      target={button.target}
+                      className={clsx(style.className, 'w-full flex-1 gap-[6px] sm:w-auto sm:flex-initial')}
+                    >
+                      {button.label}
+                    </CTALinkOrButton>
+                  );
+                })}
 
-              {hasOverflow && (
-                <>
-                  <div className="hidden sm:block flex-1" />
-                  <OverflowMenu
-                    ariaLabel="More discussion options"
-                    buttonClassName="flex-1 sm:flex-initial border border-[#B5C3EC] w-full sm:w-auto px-3 py-2.5 h-9 text-[13px] font-medium"
-                    items={overflowButtons.map((button): OverflowMenuItemProps => ({
-                      id: button.id,
-                      label: button.overflowIcon ? (
-                        <div className="grid grid-cols-[20px_1fr] gap-[6px] items-center">
-                          {button.overflowIcon}
-                          {button.label}
-                        </div>
-                      ) : button.label,
-                      ...(button.url
-                        ? { href: button.url, target: button.target }
-                        : { onAction: button.onClick }
-                      ),
-                    }))}
-                    trigger="More details"
-                  />
-                </>
-              )}
-            </div>
-          );
-        })()}
+                {hasOverflow && (
+                  <>
+                    <div className="hidden flex-1 sm:block" />
+                    <OverflowMenu
+                      ariaLabel="More discussion options"
+                      buttonClassName="flex-1 sm:flex-initial border border-[#B5C3EC] w-full sm:w-auto px-3 py-2.5 h-9 text-[13px] font-medium whitespace-nowrap"
+                      items={overflowButtons.map(
+                        (button): OverflowMenuItemProps => ({
+                          id: button.id,
+                          label: button.overflowIcon ? (
+                            <div className="grid grid-cols-[20px_1fr] items-center gap-[6px]">
+                              {button.overflowIcon}
+                              {button.label}
+                            </div>
+                          ) : (
+                            button.label
+                          ),
+                          ...(button.url ? { href: button.url, target: button.target } : { onAction: button.onClick }),
+                        }),
+                      )}
+                      trigger="More details"
+                    />
+                  </>
+                )}
+              </div>
+            );
+          })()}
       </div>
 
       {groupSwitchModalOpen && (
