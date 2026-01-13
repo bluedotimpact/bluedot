@@ -191,7 +191,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   // Buttons should be in a slightly different order on mobile.
   // Put these ids first, preserve the existing order after that.
   const mobileButtonPrecedence = ['join-now', 'cant-make-it'];
-  // Participants see all buttons directly on desktop (no overflow menu)
+  // Participants don't have overflow menu
   // Facilitators see join-now, host-key, discussion-doc directly; rest in overflow
   const desktopDirectIds = isFacilitator
     ? ['join-now', 'host-key', 'discussion-doc']
