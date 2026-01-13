@@ -303,27 +303,23 @@ export const courseRoundsRouter = router({
       const course = await db.getFirst(courseTable, { sortBy: 'slug', filter: { slug: courseSlug } });
       if (!course) return null;
 
-      const deadlineThreshold = new Date(Date.now() - 12 * 60 * 60 * 1000);
       const upcomingRounds = await db.pg
         .select({ applicationDeadline: applicationsRoundTable.pg.applicationDeadline })
         .from(applicationsRoundTable.pg)
         .where(
           and(
             eq(applicationsRoundTable.pg.courseId, course.id),
-            or(
-              sql`${applicationsRoundTable.pg.applicationDeadline} IS NULL`,
-              sql`${applicationsRoundTable.pg.applicationDeadline}::timestamp >= ${deadlineThreshold.toISOString()}::timestamp`,
-            ),
+            sql`${applicationsRoundTable.pg.applicationDeadline} IS NOT NULL`,
+            sql`${applicationsRoundTable.pg.applicationDeadline}::timestamp > NOW()`,
           ),
         )
-        .orderBy(sql`${applicationsRoundTable.pg.firstDiscussionDate} ASC NULLS LAST`)
+        .orderBy(sql`${applicationsRoundTable.pg.applicationDeadline} ASC`)
         .limit(1);
 
       if (!upcomingRounds.length) return null;
 
-      const deadline = upcomingRounds[0]?.applicationDeadline ?? null;
-      const formatDeadline = (isoDate: string | null) => {
-        if (!isoDate) return null;
+      const deadline = upcomingRounds[0]!.applicationDeadline!;
+      const formatDeadline = (isoDate: string) => {
         const date = new Date(isoDate);
         return `${date.getUTCDate()} ${date.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' })}`;
       };

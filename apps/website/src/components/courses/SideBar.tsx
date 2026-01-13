@@ -164,7 +164,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
 };
 
 export type ApplyCTAProps = {
-  applicationDeadline: string | null;
+  applicationDeadline: string;
   applicationUrl: string;
   hasApplied: boolean;
 };
@@ -179,7 +179,7 @@ const ApplyCTA = ({ applicationDeadline, applicationUrl, hasApplied }: ApplyCTAP
       target="_blank"
       className="px-3 py-1.5 text-[14px]"
     >
-      {applicationDeadline ? `Apply by ${applicationDeadline}` : 'Apply now'}
+      {`Apply by ${applicationDeadline}`}
     </CTALinkOrButton>
   );
 };

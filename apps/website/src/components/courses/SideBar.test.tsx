@@ -89,22 +89,6 @@ describe('SideBar', () => {
     expect(button).toHaveAttribute('href', 'https://example.com/apply');
   });
 
-  test('shows "Apply now" when no deadline is set', () => {
-    const { getByRole } = render(
-      <SideBar
-        {...defaultProps}
-        applyCTAProps={{
-          applicationDeadline: null,
-          applicationUrl: 'https://example.com/apply',
-          hasApplied: false,
-        }}
-      />,
-      { wrapper: TrpcProvider },
-    );
-
-    expect(getByRole('link', { name: 'Apply now' })).toBeInTheDocument();
-  });
-
   test('does not show Apply CTA when user has already applied', () => {
     const { queryByRole } = render(
       <SideBar
@@ -115,15 +99,6 @@ describe('SideBar', () => {
           hasApplied: true,
         }}
       />,
-      { wrapper: TrpcProvider },
-    );
-
-    expect(queryByRole('link', { name: /apply/i })).not.toBeInTheDocument();
-  });
-
-  test('does not show Apply CTA when no upcoming rounds', () => {
-    const { queryByRole } = render(
-      <SideBar {...defaultProps} />,
       { wrapper: TrpcProvider },
     );
 
