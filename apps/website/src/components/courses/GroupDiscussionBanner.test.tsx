@@ -237,7 +237,7 @@ describe('GroupDiscussionBanner', () => {
   });
 
   describe('User Role Specific Behavior', () => {
-    test('facilitator clicking "Can\'t make it?" opens facilitator switch modal', async () => {
+    test('facilitator can access "Change facilitator" from overflow menu', async () => {
       render(
         <GroupDiscussionBanner
           unit={mockUnit}
@@ -252,8 +252,13 @@ describe('GroupDiscussionBanner', () => {
       const expandButton = await screen.findByRole('button', { name: 'Expand upcoming discussion banner' });
       fireEvent.click(expandButton);
 
-      const cantMakeItButtons = screen.getAllByText("Can't make it?");
-      fireEvent.click(cantMakeItButtons[0]!);
+      // Open overflow menu
+      const overflowButton = screen.getAllByRole('button', { name: 'More discussion options' })[0];
+      fireEvent.click(overflowButton!);
+
+      // Click "Change facilitator" option
+      const changeFacilitatorOption = await screen.findByText('Change facilitator');
+      fireEvent.click(changeFacilitatorOption);
 
       expect(screen.getByTestId('facilitator-switch-modal')).toBeInTheDocument();
     });
