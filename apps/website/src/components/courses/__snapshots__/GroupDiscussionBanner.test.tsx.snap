@@ -137,8 +137,8 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
           tabindex="0"
           type="button"
         >
-          Message group
-        </a>
+          Facilitator options
+        </button>
         <div
           class="ml-1 h-6 w-px bg-[#B5C3EC]"
         />
@@ -213,7 +213,20 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
         class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter w-full flex-1 gap-[6px]"
         type="button"
       >
-        Can't make it?
+        <svg
+          fill="currentColor"
+          height="16"
+          stroke="currentColor"
+          stroke-width="0"
+          viewBox="0 0 448 512"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M208 0L332.1 0c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9L448 336c0 26.5-21.5 48-48 48l-192 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48zM48 128l80 0 0 64-64 0 0 256 192 0 0-32 64 0 0 48c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 176c0-26.5 21.5-48 48-48z"
+          />
+        </svg>
+        Host key: 123456
       </button>
       <button
         aria-expanded="false"
@@ -458,35 +471,6 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
       class="flex items-center gap-3 text-size-xs"
     >
       <div
-        class="px-3 py-1 flex items-center justify-center border-[#C9D4F5] bg-white border rounded"
-      >
-        <svg
-          class="text-bluedot-normal"
-          fill="none"
-          height="20"
-          viewBox="0 0 14 14"
-          width="20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g>
-            <path
-              d="M13.4166 4.08341L9.33331 7.00008L13.4166 9.91675V4.08341Z"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1.25"
-            />
-            <path
-              d="M8.16665 2.91675H1.74998C1.10565 2.91675 0.583313 3.43908 0.583313 4.08341V9.91675C0.583313 10.5611 1.10565 11.0834 1.74998 11.0834H8.16665C8.81098 11.0834 9.33331 10.5611 9.33331 9.91675V4.08341C9.33331 3.43908 8.81098 2.91675 8.16665 2.91675Z"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1.25"
-            />
-          </g>
-        </svg>
-      </div>
-      <div
         class="flex gap-[6px] min-w-0 flex-initial"
       >
         <span
@@ -507,65 +491,9 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
         </button>
       </div>
       <div
-        class="hidden @[700px]:flex gap-2 flex-1 items-center ml-2"
+        class="hidden @[900px]:flex ml-2 flex-1 items-center gap-2"
         id="discussion-banner-desktop-container"
       >
-        <a
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--primary link-on-dark bg-bluedot-normal flex items-center gap-[6px]"
-          href="https://zoom.us/j/123456789"
-          rel="noopener noreferrer"
-          tabindex="0"
-          target="_blank"
-        >
-          <svg
-            fill="none"
-            height="20"
-            viewBox="0 0 14 14"
-            width="20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g>
-              <path
-                d="M13.4166 4.08341L9.33331 7.00008L13.4166 9.91675V4.08341Z"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.25"
-              />
-              <path
-                d="M8.16665 2.91675H1.74998C1.10565 2.91675 0.583313 3.43908 0.583313 4.08341V9.91675C0.583313 10.5611 1.10565 11.0834 1.74998 11.0834H8.16665C8.81098 11.0834 9.33331 10.5611 9.33331 9.91675V4.08341C9.33331 3.43908 8.81098 2.91675 8.16665 2.91675Z"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.25"
-              />
-            </g>
-          </svg>
-          <div
-            class="translate-y-[0.5px]"
-          >
-            Join now
-          </div>
-        </a>
-        <button
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex items-center gap-[6px]"
-          type="button"
-        >
-          <svg
-            fill="currentColor"
-            height="16"
-            stroke="currentColor"
-            stroke-width="0"
-            viewBox="0 0 448 512"
-            width="16"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M208 0L332.1 0c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9L448 336c0 26.5-21.5 48-48 48l-192 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48zM48 128l80 0 0 64-64 0 0 256 192 0 0-32 64 0 0 48c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 176c0-26.5 21.5-48 48-48z"
-            />
-          </svg>
-          Host key: 123456
-        </button>
         <a
           class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex items-center gap-[6px]"
           href="https://docs.google.com/document/d/abc123"
@@ -575,14 +503,19 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
         >
           Open discussion doc
         </a>
-        <a
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center ml-auto"
-          href="/settings/courses"
+        <button
+          aria-expanded="false"
+          aria-haspopup="true"
+          aria-label="More discussion options"
+          class="flex items-center justify-center p-2 rounded-md border border-bluedot-normal cursor-pointer ml-auto border-none bg-transparent text-bluedot-normal hover:bg-bluedot-lighter px-3 py-2.5 h-9 text-[13px] font-medium whitespace-nowrap"
+          data-rac=""
+          data-react-aria-pressable="true"
+          id="react-aria-:r1n:"
           tabindex="0"
           type="button"
         >
-          See details
-        </a>
+          Facilitator options
+        </button>
         <div
           class="ml-1 h-6 w-px bg-[#B5C3EC]"
         />
@@ -613,31 +546,37 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
       </button>
     </div>
     <div
-      class="flex @[700px]:hidden gap-2 items-start"
+      class="flex flex-col sm:flex-row @[900px]:hidden gap-2"
       id="discussion-banner-mobile-container"
     >
-      <button
-        class="cta-button justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex flex-1 gap-[6px] items-center whitespace-nowrap ml-auto"
-        type="button"
-      >
-        Can't make it?
-      </button>
       <a
-        class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--primary link-on-dark bg-bluedot-normal w-full flex-1 gap-[6px]"
-        href="https://zoom.us/j/123456789"
+        class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter w-full flex-1 gap-[6px]"
+        href="https://docs.google.com/document/d/abc123"
         rel="noopener noreferrer"
         tabindex="0"
         target="_blank"
       >
         Open discussion doc
       </a>
-      <a
-        class="cta-button justify-center transition-all duration-200 w-fit cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex flex-1 gap-[6px] items-center whitespace-nowrap ml-auto"
-        href="/settings/courses"
-        tabindex="0"
+      <button
+        class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter w-full flex-1 gap-[6px]"
+        type="button"
       >
-        See details
-      </a>
+        Update discussion time
+      </button>
+      <button
+        aria-expanded="false"
+        aria-haspopup="true"
+        aria-label="More discussion options"
+        class="flex items-center justify-center p-2 rounded-md text-bluedot-normal hover:bg-bluedot-lighter cursor-pointer flex-1 border border-[#B5C3EC] w-full px-3 py-2.5 h-9 text-[13px] font-medium"
+        data-rac=""
+        data-react-aria-pressable="true"
+        id="react-aria-:r1r:"
+        tabindex="0"
+        type="button"
+      >
+        Facilitator options
+      </button>
     </div>
   </div>
 </div>
