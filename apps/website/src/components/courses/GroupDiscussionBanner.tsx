@@ -188,17 +188,8 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       isVisible: !isFacilitator,
     },
   ];
-  // Buttons should be in a slightly different order on mobile.
-  // Put these ids first, preserve the existing order after that.
-  const mobileButtonPrecedence = ['join-now', 'cant-make-it'];
 
   const visibleButtons = buttons.filter((button) => button.isVisible);
-
-  // Collapse to mobile layout earlier if there are a lot of buttons
-  // squashing the text. Use `visibleButtons.length > 2` as a rule of
-  // thumb because exactly measuring the available space adds complexity.
-  const desktopShowContainerQuery = visibleButtons.length > 2 ? '@[900px]:flex' : '@[700px]:flex';
-  const desktopHideContainerQuery = visibleButtons.length > 2 ? '@[900px]:hidden' : '@[700px]:hidden';
 
   return (
     <>
@@ -221,30 +212,6 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
             </button>
           </div>
 
-          {/* Desktop button container */}
-          {isOpen && (
-            <div id="discussion-banner-desktop-container" className={`hidden ${desktopShowContainerQuery} gap-2 flex-1 items-center ml-2`}>
-              {visibleButtons.map((button, index) => {
-                const style = BUTTON_STYLES[button.variant];
-                const isLastButton = index === visibleButtons.length - 1;
-                return (
-                  <CTALinkOrButton
-                    key={button.id}
-                    variant={style.variant}
-                    size="small"
-                    url={button.url}
-                    onClick={button.onClick}
-                    target={button.target}
-                    className={clsx(style.className, 'flex gap-[6px] items-center', isLastButton && 'ml-auto')}
-                  >
-                    {button.label}
-                  </CTALinkOrButton>
-                );
-              })}
-              <div className="w-px h-6 bg-[#B5C3EC] ml-1" />
-            </div>
-          )}
-
           <button
             type="button"
             aria-label={isOpen ? 'Collapse upcoming discussion banner' : 'Expand upcoming discussion banner'}
@@ -255,33 +222,19 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           </button>
         </div>
 
-        {/* Mobile button container */}
+        {/* Button container */}
         {isOpen && (() => {
-          const MAX_DIRECT_BUTTONS = 2;
-          const sortedForMobile = [...visibleButtons].sort((a, b) => {
-            const aIndex = mobileButtonPrecedence.indexOf(a.id);
-            const bIndex = mobileButtonPrecedence.indexOf(b.id);
-
-            // If both are in precedence list, sort by their position
-            if (aIndex !== -1 && bIndex !== -1) {
-              return aIndex - bIndex;
-            }
-            // If one is in precedence list and not the other, put it first
-            if (aIndex !== -1) return -1;
-            if (bIndex !== -1) return 1;
-            // Otherwise preserve the original order
-            return 0;
-          });
-          const directButtons = sortedForMobile.slice(0, MAX_DIRECT_BUTTONS);
-          const overflowButtons = sortedForMobile.slice(MAX_DIRECT_BUTTONS);
+          const directButtonIds = ['join-now', 'host-key', 'discussion-doc', 'cant-make-it'];
+          const directButtons = visibleButtons.filter((b) => directButtonIds.includes(b.id));
+          const overflowButtons = visibleButtons.filter((b) => !directButtonIds.includes(b.id));
           const hasOverflow = overflowButtons.length > 0;
 
           return (
-            <div id="discussion-banner-mobile-container" className={`flex flex-col sm:flex-row ${desktopHideContainerQuery} gap-2 `}>
+            <div className="flex flex-col sm:flex-row gap-2">
               {directButtons.map((button) => {
-                // On mobile, convert ghost to secondary
-                const mobileVariant = button.variant === 'ghost' ? 'secondary' : button.variant;
-                const style = BUTTON_STYLES[mobileVariant];
+                // Convert ghost to secondary for consistent styling
+                const variant = button.variant === 'ghost' ? 'secondary' : button.variant;
+                const style = BUTTON_STYLES[variant];
 
                 return (
                   <CTALinkOrButton
@@ -291,7 +244,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                     url={button.url}
                     onClick={button.onClick}
                     target={button.target}
-                    className={clsx(style.className, 'flex-1 gap-[6px] w-full')}
+                    className={clsx(style.className, 'flex-1 gap-[6px] w-full sm:flex-initial sm:w-auto')}
                   >
                     {button.label}
                   </CTALinkOrButton>
@@ -299,24 +252,27 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
               })}
 
               {hasOverflow && (
-                <OverflowMenu
-                  ariaLabel="More discussion options"
-                  buttonClassName="flex-1 border border-[#B5C3EC] w-full px-3 py-2.5 h-9 text-[13px] font-medium"
-                  items={overflowButtons.map((button): OverflowMenuItemProps => ({
-                    id: button.id,
-                    label: button.overflowIcon ? (
-                      <div className="grid grid-cols-[20px_1fr] gap-[6px] items-center">
-                        {button.overflowIcon}
-                        {button.label}
-                      </div>
-                    ) : button.label,
-                    ...(button.url
-                      ? { href: button.url, target: button.target }
-                      : { onAction: button.onClick }
-                    ),
-                  }))}
-                  trigger="More details"
-                />
+                <>
+                  <div className="hidden sm:block flex-1" />
+                  <OverflowMenu
+                    ariaLabel="More discussion options"
+                    buttonClassName="flex-1 sm:flex-initial border border-[#B5C3EC] w-full sm:w-auto px-3 py-2.5 h-9 text-[13px] font-medium"
+                    items={overflowButtons.map((button): OverflowMenuItemProps => ({
+                      id: button.id,
+                      label: button.overflowIcon ? (
+                        <div className="grid grid-cols-[20px_1fr] gap-[6px] items-center">
+                          {button.overflowIcon}
+                          {button.label}
+                        </div>
+                      ) : button.label,
+                      ...(button.url
+                        ? { href: button.url, target: button.target }
+                        : { onAction: button.onClick }
+                      ),
+                    }))}
+                    trigger="More details"
+                  />
+                </>
               )}
             </div>
           );
