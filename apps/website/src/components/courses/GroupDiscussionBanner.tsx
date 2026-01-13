@@ -1,5 +1,7 @@
 import type { GroupDiscussion, Unit } from '@bluedot/db';
-import { CTALinkOrButton, OverflowMenu, useCurrentTimeMs, type OverflowMenuItemProps } from '@bluedot/ui';
+import {
+  CTALinkOrButton, OverflowMenu, useCurrentTimeMs, type OverflowMenuItemProps,
+} from '@bluedot/ui';
 import { skipToken } from '@tanstack/react-query';
 import clsx from 'clsx';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -60,8 +62,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [facilitatorSwitchModalOpen, setFacilitatorSwitchModalOpen] = useState(false);
-  const [facilitatorSwitchModalType, setFacilitatorSwitchModalType] =
-    useState<FacilitatorModalType>('Update discussion time');
+  const [facilitatorSwitchModalType, setFacilitatorSwitchModalType] = useState<FacilitatorModalType>('Update discussion time');
   const currentTimeMs = useCurrentTimeMs();
   const [hostKeyCopied, setHostKeyCopied] = useState(false);
 
@@ -86,7 +87,10 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     : `Unit ${groupDiscussion.unitNumber || ''}`; // Fallback to unitNumber if unit not found
 
   // Recalculate time strings when currentTime changes
-  const startTimeDisplayRelative = useMemo(() => formatDateTimeRelative({ dateTimeMs: groupDiscussion.startDateTime * 1000, currentTimeMs }), [groupDiscussion.startDateTime, currentTimeMs]);
+  const startTimeDisplayRelative = useMemo(
+    () => formatDateTimeRelative({ dateTimeMs: groupDiscussion.startDateTime * 1000, currentTimeMs }),
+    [groupDiscussion.startDateTime, currentTimeMs],
+  );
 
   const discussionTimeState = getDiscussionTimeState({ discussion: groupDiscussion, currentTimeMs });
   const discussionIsSoonOrLive = discussionTimeState === 'live' || discussionTimeState === 'soon';
@@ -227,8 +231,8 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           </div>
 
           {/* Desktop button container */}
-          {isOpen &&
-            (() => {
+          {isOpen
+            && (() => {
               const desktopDirectButtons = visibleButtons.filter((b) => desktopDirectIds.includes(b.id));
               const desktopOverflowButtons = visibleButtons.filter((b) => !desktopDirectIds.includes(b.id));
               const hasOverflow = desktopOverflowButtons.length > 0;
@@ -241,9 +245,8 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                   {desktopDirectButtons.map((button) => {
                     const style = BUTTON_STYLES[button.variant];
                     // Right-align "Can't make it?" (or last direct button if there's no overflow)
-                    const isRightAligned =
-                      button.id === 'cant-make-it' ||
-                      (!hasOverflow && button === desktopDirectButtons[desktopDirectButtons.length - 1]);
+                    const isRightAligned = button.id === 'cant-make-it'
+                      || (!hasOverflow && button === desktopDirectButtons[desktopDirectButtons.length - 1]);
                     return (
                       <CTALinkOrButton
                         key={button.id}
@@ -302,8 +305,8 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
         </div>
 
         {/* Mobile button container */}
-        {isOpen &&
-          (() => {
+        {isOpen
+          && (() => {
             const MAX_DIRECT_BUTTONS = 2;
             const sortedForMobile = [...visibleButtons].sort((a, b) => {
               const aIndex = mobileButtonPrecedence.indexOf(a.id);
