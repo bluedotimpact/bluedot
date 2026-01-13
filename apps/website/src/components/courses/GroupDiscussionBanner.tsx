@@ -268,6 +268,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                     />
                   </>
                 )}
+                <div className="w-px h-6 bg-[#B5C3EC] ml-1" />
               </div>
             );
           })()}
