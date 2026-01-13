@@ -199,7 +199,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   // Facilitators see join-now, host-key, discussion-doc directly; rest in overflow
   const desktopDirectIds = isFacilitator
     ? ['join-now', 'host-key', 'discussion-doc']
-    : ['join-now', 'host-key', 'discussion-doc', 'cant-make-it', 'message-group'];
+    : ['join-now', 'discussion-doc', 'message-group', 'cant-make-it'];
 
   const visibleButtons = buttons.filter((button) => button.isVisible);
 
