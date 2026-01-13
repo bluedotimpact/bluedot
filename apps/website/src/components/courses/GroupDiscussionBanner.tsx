@@ -264,7 +264,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                   {hasOverflow && (
                     <OverflowMenu
                       ariaLabel="More discussion options"
-                      buttonClassName="border border-[#B5C3EC] px-3 py-2.5 h-9 text-[13px] font-medium whitespace-nowrap"
+                      buttonClassName="ml-auto border border-[#B5C3EC] px-3 py-2.5 h-9 text-[13px] font-medium whitespace-nowrap"
                       items={desktopOverflowButtons.map(
                         (button): OverflowMenuItemProps => ({
                           id: button.id,
@@ -279,7 +279,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                           ...(button.url ? { href: button.url, target: button.target } : { onAction: button.onClick }),
                         }),
                       )}
-                      trigger="More details"
+                      trigger={isFacilitator ? 'Facilitator options' : 'More options'}
                     />
                   )}
                   <div className="ml-1 h-6 w-px bg-[#B5C3EC]" />
@@ -369,7 +369,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                         ...(button.url ? { href: button.url, target: button.target } : { onAction: button.onClick }),
                       }),
                     )}
-                    trigger="More details"
+                    trigger={isFacilitator ? 'Facilitator options' : 'More options'}
                   />
                 )}
               </div>
