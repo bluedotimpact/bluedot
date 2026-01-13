@@ -136,6 +136,12 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
           Message group
         </a>
         <button
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center"
+          type="button"
+        >
+          Change facilitator
+        </button>
+        <button
           class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border border-[rgba(19,19,46,0.3)] font-medium bg-transparent border-none text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center ml-auto"
           type="button"
         >
@@ -527,6 +533,12 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
         >
           See details
         </a>
+        <button
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center"
+          type="button"
+        >
+          Change facilitator
+        </button>
         <button
           class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border border-[rgba(19,19,46,0.3)] font-medium bg-transparent border-none text-bluedot-normal hover:bg-bluedot-lighter flex gap-[6px] items-center ml-auto"
           type="button"
