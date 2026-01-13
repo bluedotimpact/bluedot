@@ -170,3 +170,74 @@ export const WithPartTimeOnly: Story = {
     },
   },
 };
+
+const defaultMswHandlers = {
+  msw: {
+    handlers: [
+      trpcStorybookMsw.courseRounds.getRoundsForCourse.query(() => ({
+        intense: mockIntensiveRounds,
+        partTime: mockPartTimeRounds,
+      })),
+    ],
+  },
+};
+
+export const AgiStrategyColors: Story = {
+  args: {
+    title: 'Course information',
+    applicationUrl: 'https://example.com/apply',
+    details: baseDetails,
+    scheduleCtaText: 'Apply now',
+    courseSlug: 'agi-strategy',
+    accentColor: '#9177dc',
+  },
+  parameters: defaultMswHandlers,
+};
+
+export const BiosecurityColors: Story = {
+  args: {
+    title: 'Course information',
+    applicationUrl: 'https://example.com/apply',
+    details: baseDetails,
+    scheduleCtaText: 'Apply now',
+    courseSlug: 'biosecurity',
+    accentColor: '#3da462',
+  },
+  parameters: defaultMswHandlers,
+};
+
+export const FutureOfAiColors: Story = {
+  args: {
+    title: 'Course information',
+    applicationUrl: 'https://example.com/apply',
+    details: baseDetails,
+    scheduleCtaText: 'Apply now',
+    courseSlug: 'future-of-ai',
+    accentColor: '#8c8146',
+  },
+  parameters: defaultMswHandlers,
+};
+
+export const AiGovernanceColors: Story = {
+  args: {
+    title: 'Course information',
+    applicationUrl: 'https://example.com/apply',
+    details: baseDetails,
+    scheduleCtaText: 'Apply now',
+    courseSlug: 'ai-governance',
+    accentColor: '#4092d6',
+  },
+  parameters: defaultMswHandlers,
+};
+
+export const TechnicalAiSafetyColors: Story = {
+  args: {
+    title: 'Course information',
+    applicationUrl: 'https://example.com/apply',
+    details: baseDetails,
+    scheduleCtaText: 'Apply now',
+    courseSlug: 'technical-ai-safety',
+    accentColor: '#a060bb',
+  },
+  parameters: defaultMswHandlers,
+};

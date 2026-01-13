@@ -65,7 +65,7 @@ const mockProps = {
 };
 
 describe('CourseInformationSection', () => {
-  it('renders correctly', () => {
+  it('renders correctly with default colors', () => {
     const { container } = render(<CourseInformationSection {...mockProps} />, { wrapper: TrpcProvider });
     expect(container.firstChild).toMatchSnapshot();
   });

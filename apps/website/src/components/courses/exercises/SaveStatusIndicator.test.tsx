@@ -8,7 +8,7 @@ import {
 import SaveStatusIndicator from './SaveStatusIndicator';
 
 describe('SaveStatusIndicator', () => {
-  test('renders nothing when status is idle', () => {
+  test('renders empty bar when status is idle', () => {
     const { container } = render(
       <SaveStatusIndicator
         status="idle"
@@ -16,10 +16,12 @@ describe('SaveStatusIndicator', () => {
       />,
     );
 
-    expect(container.firstChild).toBeNull();
+    const statusElement = container.querySelector('#test-status');
+    expect(statusElement).toBeTruthy();
+    expect(statusElement?.textContent).toBe('');
   });
 
-  test('renders nothing for typing status', () => {
+  test('renders empty bar for typing status', () => {
     const { container } = render(
       <SaveStatusIndicator
         status="typing"
@@ -27,8 +29,9 @@ describe('SaveStatusIndicator', () => {
       />,
     );
 
-    // Typing status no longer shows anything
-    expect(container.querySelector('#test-status')).toBeNull();
+    const statusElement = container.querySelector('#test-status');
+    expect(statusElement).toBeTruthy();
+    expect(statusElement?.textContent).toBe('');
   });
 
   test('renders saving status with spinner when saving', () => {

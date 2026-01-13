@@ -70,7 +70,8 @@ describe('FreeTextResponse', () => {
     });
 
     expect(container).toMatchSnapshot();
-    expect(container.querySelector('#save-status-message')).toBeFalsy();
+    // Save status bar always renders to prevent layout shift, but content is empty when idle
+    expect(container.querySelector('#save-status-message')?.textContent).toBe('');
   });
 
   test('renders with saved exercise response', async () => {
@@ -115,9 +116,9 @@ describe('FreeTextResponse', () => {
       await user.click(editor);
       await user.type(editor, 'This is my answer');
 
-      // Should not show any status message immediately while typing
+      // Status bar always renders to prevent layout shift, but content is empty while typing
       const statusElement = container.querySelector('#save-status-message');
-      expect(statusElement).toBeNull();
+      expect(statusElement?.textContent).toBe('');
     });
 
     test('triggers auto-save when user clicks outside after typing', async () => {

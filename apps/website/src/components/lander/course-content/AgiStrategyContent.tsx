@@ -22,6 +22,8 @@ const AGI_STRATEGY_COLORS = {
   gradient: 'linear-gradient(to right, rgba(10, 8, 36, 0.9) 0%, rgba(10, 8, 36, 0.4) 5%, rgba(10, 8, 36, 0.15) 15%, rgba(10, 8, 36, 0.05) 30%, transparent 45%), radial-gradient(115% 175% at 95% 135%, rgba(255, 194, 195, 0.65) 0%, rgba(255, 194, 195, 0.50) 25%, rgba(53, 42, 106, 0.65) 60%, rgba(10, 8, 36, 0.60) 100%), #181D3F',
   accent: '#BCA9FF',
   iconBackground: '#2C3F81',
+  bright: '#f3e8ff',
+  full: '#9177dc',
 };
 
 export const createAgiStrategyContent = (
@@ -82,6 +84,7 @@ export const createAgiStrategyContent = (
 
   courseBenefits: {
     title: 'How this course will benefit you',
+    iconBackgroundColor: AGI_STRATEGY_COLORS.bright,
     benefits: [
       {
         icon: PiRocketLaunch,
@@ -106,6 +109,7 @@ export const createAgiStrategyContent = (
     applicationUrl: applicationUrlWithUtm,
     scheduleCtaText: 'Apply now',
     courseSlug,
+    accentColor: AGI_STRATEGY_COLORS.full,
     details: [
       {
         icon: PiClockClockwise,
@@ -139,6 +143,8 @@ export const createAgiStrategyContent = (
   },
 
   quotes: {
+    cardBackgroundColor: AGI_STRATEGY_COLORS.bright,
+    accentColor: AGI_STRATEGY_COLORS.full,
     quotes: [
       {
         quote: '"We should not underestimate the real threats coming from AI [while] we have a narrowing window of opportunity to guide this technology responsibly."',
