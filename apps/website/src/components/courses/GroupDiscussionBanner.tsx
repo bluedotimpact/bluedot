@@ -1,35 +1,31 @@
+import React, {
+  useState, useMemo, useEffect,
+} from 'react';
 import type { GroupDiscussion, Unit } from '@bluedot/db';
 import {
   CTALinkOrButton,
-  OverflowMenu,
   useCurrentTimeMs,
+  OverflowMenu,
   type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import { skipToken } from '@tanstack/react-query';
-import clsx from 'clsx';
-import React, { useEffect, useMemo, useState } from 'react';
-import { FaCopy } from 'react-icons/fa6';
 import { IoAdd } from 'react-icons/io5';
-import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
-import { buildGroupSlackChannelUrl, formatDateTimeRelative } from '../../lib/utils';
-import { trpc } from '../../utils/trpc';
-import { ClockIcon } from '../icons/ClockIcon';
-import { DocumentIcon } from '../icons/DocumentIcon';
-import { SlackIcon } from '../icons/SlackIcon';
-import { SwitchUserIcon } from '../icons/SwitchUserIcon';
+import { FaCopy } from 'react-icons/fa6';
+import clsx from 'clsx';
 import FacilitatorSwitchModal, { FacilitatorModalType } from './FacilitatorSwitchModal';
 import GroupSwitchModal from './GroupSwitchModal';
+import { buildGroupSlackChannelUrl, formatDateTimeRelative } from '../../lib/utils';
+import { trpc } from '../../utils/trpc';
+import { SlackIcon } from '../icons/SlackIcon';
+import { DocumentIcon } from '../icons/DocumentIcon';
+import { SwitchUserIcon } from '../icons/SwitchUserIcon';
+import { ClockIcon } from '../icons/ClockIcon';
+import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 
 const BUTTON_STYLES = {
   primary: { variant: 'primary' as const, className: 'bg-bluedot-normal' },
-  secondary: {
-    variant: 'outline-black' as const,
-    className: 'bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter',
-  },
-  ghost: {
-    variant: 'outline-black' as const,
-    className: 'bg-transparent border-none text-bluedot-normal hover:bg-bluedot-lighter',
-  },
+  secondary: { variant: 'outline-black' as const, className: 'bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter' },
+  ghost: { variant: 'outline-black' as const, className: 'bg-transparent border-none text-bluedot-normal hover:bg-bluedot-lighter' },
 };
 
 export type ButtonOrMenuItem = {
@@ -192,8 +188,18 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       isVisible: !isFacilitator,
     },
   ];
+  // Buttons should be in a slightly different order on mobile.
+  // Put these ids first, preserve the existing order after that.
+  const mobileButtonPrecedence = ['join-now', 'cant-make-it'];
+  const desktopDirectIds = ['join-now', 'host-key', 'discussion-doc'];
 
   const visibleButtons = buttons.filter((button) => button.isVisible);
+
+  // Collapse to mobile layout earlier if there are a lot of buttons
+  // squashing the text. Use `visibleButtons.length > 2` as a rule of
+  // thumb because exactly measuring the available space adds complexity.
+  const desktopShowContainerQuery = visibleButtons.length > 2 ? '@[900px]:flex' : '@[700px]:flex';
+  const desktopHideContainerQuery = visibleButtons.length > 2 ? '@[900px]:hidden' : '@[700px]:hidden';
 
   return (
     <>
@@ -216,6 +222,56 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
             </button>
           </div>
 
+          {/* Desktop button container */}
+          {isOpen && (() => {
+            const desktopDirectButtons = visibleButtons.filter((b) => desktopDirectIds.includes(b.id));
+            const desktopOverflowButtons = visibleButtons.filter((b) => !desktopDirectIds.includes(b.id));
+
+            return (
+              <div id="discussion-banner-desktop-container" className={`hidden ${desktopShowContainerQuery} gap-2 flex-1 items-center ml-2`}>
+                {desktopDirectButtons.map((button) => {
+                  const style = BUTTON_STYLES[button.variant === 'ghost' ? 'secondary' : button.variant];
+                  return (
+                    <CTALinkOrButton
+                      key={button.id}
+                      variant={style.variant}
+                      size="small"
+                      url={button.url}
+                      onClick={button.onClick}
+                      target={button.target}
+                      className={clsx(style.className, 'flex gap-[6px] items-center')}
+                    >
+                      {button.label}
+                    </CTALinkOrButton>
+                  );
+                })}
+                {desktopOverflowButtons.length > 0 && (
+                  <>
+                    <div className="flex-1" />
+                    <OverflowMenu
+                      ariaLabel="More discussion options"
+                      buttonClassName="border border-[#B5C3EC] px-3 py-2.5 h-9 text-[13px] font-medium whitespace-nowrap"
+                      items={desktopOverflowButtons.map((button): OverflowMenuItemProps => ({
+                        id: button.id,
+                        label: button.overflowIcon ? (
+                          <div className="grid grid-cols-[20px_1fr] gap-[6px] items-center">
+                            {button.overflowIcon}
+                            {button.label}
+                          </div>
+                        ) : button.label,
+                        ...(button.url
+                          ? { href: button.url, target: button.target }
+                          : { onAction: button.onClick }
+                        ),
+                      }))}
+                      trigger="More details"
+                    />
+                  </>
+                )}
+              </div>
+            );
+          })()}
+
           <button
             type="button"
             aria-label={isOpen ? 'Collapse upcoming discussion banner' : 'Expand upcoming discussion banner'}
@@ -226,63 +282,72 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           </button>
         </div>
 
-        {/* Button container */}
-        {isOpen
-          && (() => {
-            const directButtonIds = ['join-now', 'host-key', 'discussion-doc', 'cant-make-it'];
-            const directButtons = visibleButtons.filter((b) => directButtonIds.includes(b.id));
-            const overflowButtons = visibleButtons.filter((b) => !directButtonIds.includes(b.id));
-            const hasOverflow = overflowButtons.length > 0;
+        {/* Mobile button container */}
+        {isOpen && (() => {
+          const MAX_DIRECT_BUTTONS = 2;
+          const sortedForMobile = [...visibleButtons].sort((a, b) => {
+            const aIndex = mobileButtonPrecedence.indexOf(a.id);
+            const bIndex = mobileButtonPrecedence.indexOf(b.id);
 
-            return (
-              <div className="flex flex-col gap-2 sm:flex-row">
-                {directButtons.map((button) => {
-                  // Convert ghost to secondary for consistent styling
-                  const variant = button.variant === 'ghost' ? 'secondary' : button.variant;
-                  const style = BUTTON_STYLES[variant];
+            // If both are in precedence list, sort by their position
+            if (aIndex !== -1 && bIndex !== -1) {
+              return aIndex - bIndex;
+            }
+            // If one is in precedence list and not the other, put it first
+            if (aIndex !== -1) return -1;
+            if (bIndex !== -1) return 1;
+            // Otherwise preserve the original order
+            return 0;
+          });
+          const directButtons = sortedForMobile.slice(0, MAX_DIRECT_BUTTONS);
+          const overflowButtons = sortedForMobile.slice(MAX_DIRECT_BUTTONS);
+          const hasOverflow = overflowButtons.length > 0;
 
-                  return (
-                    <CTALinkOrButton
-                      key={button.id}
-                      variant={style.variant}
-                      size="small"
-                      url={button.url}
-                      onClick={button.onClick}
-                      target={button.target}
-                      className={clsx(style.className, 'w-full flex-1 gap-[6px] sm:w-auto sm:flex-initial')}
-                    >
-                      {button.label}
-                    </CTALinkOrButton>
-                  );
-                })}
+          return (
+            <div id="discussion-banner-mobile-container" className={`flex flex-col sm:flex-row ${desktopHideContainerQuery} gap-2 `}>
+              {directButtons.map((button) => {
+                // On mobile, convert ghost to secondary
+                const mobileVariant = button.variant === 'ghost' ? 'secondary' : button.variant;
+                const style = BUTTON_STYLES[mobileVariant];
 
-                {hasOverflow && (
-                  <>
-                    <div className="hidden flex-1 sm:block" />
-                    <OverflowMenu
-                      ariaLabel="More discussion options"
-                      buttonClassName="flex-1 sm:flex-initial border border-[#B5C3EC] w-full sm:w-auto px-3 py-2.5 h-9 text-[13px] font-medium whitespace-nowrap"
-                      items={overflowButtons.map(
-                        (button): OverflowMenuItemProps => ({
-                          id: button.id,
-                          label: button.overflowIcon ? (
-                            <div className="grid grid-cols-[20px_1fr] items-center gap-[6px]">
-                              {button.overflowIcon}
-                              {button.label}
-                            </div>
-                          ) : (
-                            button.label
-                          ),
-                          ...(button.url ? { href: button.url, target: button.target } : { onAction: button.onClick }),
-                        }),
-                      )}
-                      trigger="More details"
-                    />
-                  </>
-                )}
-              </div>
-            );
-          })()}
+                return (
+                  <CTALinkOrButton
+                    key={button.id}
+                    variant={style.variant}
+                    size="small"
+                    url={button.url}
+                    onClick={button.onClick}
+                    target={button.target}
+                    className={clsx(style.className, 'flex-1 gap-[6px] w-full')}
+                  >
+                    {button.label}
+                  </CTALinkOrButton>
+                );
+              })}
+
+              {hasOverflow && (
+                <OverflowMenu
+                  ariaLabel="More discussion options"
+                  buttonClassName="flex-1 border border-[#B5C3EC] w-full px-3 py-2.5 h-9 text-[13px] font-medium"
+                  items={overflowButtons.map((button): OverflowMenuItemProps => ({
+                    id: button.id,
+                    label: button.overflowIcon ? (
+                      <div className="grid grid-cols-[20px_1fr] gap-[6px] items-center">
+                        {button.overflowIcon}
+                        {button.label}
+                      </div>
+                    ) : button.label,
+                    ...(button.url
+                      ? { href: button.url, target: button.target }
+                      : { onAction: button.onClick }
+                    ),
+                  }))}
+                  trigger="More details"
+                />
+              )}
+            </div>
+          );
+        })()}
       </div>
 
       {groupSwitchModalOpen && (
