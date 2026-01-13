@@ -259,7 +259,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
 
         {/* Mobile button container */}
         {isOpen && (() => {
-          const MAX_DIRECT_BUTTONS = 3;
+          const MAX_DIRECT_BUTTONS = 2;
           const sortedForMobile = [...visibleButtons].sort((a, b) => {
             const aIndex = mobileButtonPrecedence.indexOf(a.id);
             const bIndex = mobileButtonPrecedence.indexOf(b.id);
