@@ -21,6 +21,7 @@ import {
   type UnitResource,
 } from '@bluedot/db';
 import { skipToken } from '@tanstack/react-query';
+import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 import ActionPlanCard from './ActionPlanCard';
 import CertificateLinkCard from './CertificateLinkCard';
 import Congratulations from './Congratulations';
@@ -48,6 +49,7 @@ type UnitLayoutProps = {
   chunkIndex: number;
   setChunkIndex: (index: number) => void;
   courseSlug: string;
+  allUnitChunks: Record<string, BasicChunk[]>;
 };
 
 type MobileHeaderProps = {
@@ -138,6 +140,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   chunkIndex,
   setChunkIndex,
   courseSlug,
+  allUnitChunks,
 }) => {
   const router = useRouter();
   const auth = useAuthStore((s) => s.auth);
@@ -306,6 +309,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           chunks={chunks}
           currentChunkIndex={chunkIndex}
           onChunkSelect={handleChunkSelect}
+          allUnitChunks={allUnitChunks}
         />
       )}
 
@@ -491,6 +495,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         currentChunkIndex={chunkIndex}
         onChunkSelect={handleMobileChunkSelect}
         onUnitSelect={handleMobileUnitSelect}
+        allUnitChunks={allUnitChunks}
       />
     </div>
   );
