@@ -10,9 +10,12 @@ import {
 } from '../../lib/utils';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import GroupSwitchModal, { type SwitchType } from '../courses/GroupSwitchModal';
-import { SlackIcon } from '../icons/SlackIcon';
+import FacilitatorSwitchModal, { type FacilitatorModalType } from '../courses/FacilitatorSwitchModal';
+import { SwitchUserIcon } from '../icons/SwitchUserIcon';
 import type { ButtonOrMenuItem } from '../courses/GroupDiscussionBanner';
 import { DocumentIcon } from '../icons/DocumentIcon';
+import { ClockIcon } from '../icons/ClockIcon';
+import { SlackIcon } from '../icons/SlackIcon';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 
 const BUTTON_STYLES = {
@@ -27,7 +30,8 @@ type CourseDetailsRowProps = {
   isPast?: boolean;
   course: Course;
   isFacilitator: boolean;
-  handleOpenGroupSwitchModal: (params: { discussion: GroupDiscussion; switchType: SwitchType }) => void;
+  onOpenGroupSwitchModal: (discussion: GroupDiscussion, switchType: SwitchType) => void;
+  onOpenFacilitatorModal: (discussion: GroupDiscussion, modalType: FacilitatorModalType) => void;
 };
 
 const CourseDetailsRow = ({
@@ -36,7 +40,8 @@ const CourseDetailsRow = ({
   isPast = false,
   course,
   isFacilitator,
-  handleOpenGroupSwitchModal,
+  onOpenGroupSwitchModal,
+  onOpenFacilitatorModal,
 }: CourseDetailsRowProps) => {
   const currentTimeMs = useCurrentTimeMs();
 
@@ -71,9 +76,26 @@ const CourseDetailsRow = ({
       id: 'cant-make-it',
       label: "Can't make it?",
       variant: 'secondary',
-      onClick: () => handleOpenGroupSwitchModal({ discussion, switchType: 'Switch group for one unit' }),
+      onClick: () => onOpenGroupSwitchModal(discussion, 'Switch group for one unit'),
       isVisible: !isFacilitator && !isPast,
       ariaLabel: `Switch group for Unit ${discussion.unitNumber}`,
+    },
+    {
+      id: 'cant-make-it-facilitator',
+      label: 'Update discussion time',
+      variant: 'secondary',
+      onClick: () => onOpenFacilitatorModal(discussion, 'Update discussion time'),
+      isVisible: isFacilitator && !isPast,
+      ariaLabel: `Update discussion for Unit ${discussion.unitNumber}`,
+      overflowIcon: <ClockIcon className="mx-auto" size={20} />,
+    },
+    {
+      id: 'change-facilitator',
+      label: 'Change facilitator',
+      variant: 'secondary',
+      onClick: () => onOpenFacilitatorModal(discussion, 'Change facilitator'),
+      isVisible: isFacilitator && !isPast,
+      overflowIcon: <SwitchUserIcon className="mx-auto" size={20} />,
     },
     // Inside overflow menu
     {
@@ -98,7 +120,7 @@ const CourseDetailsRow = ({
       id: 'switch-group-permanently',
       label: 'Switch group permanently',
       variant: 'secondary',
-      onClick: () => handleOpenGroupSwitchModal({ discussion, switchType: 'Switch group permanently' }),
+      onClick: () => onOpenGroupSwitchModal(discussion, 'Switch group permanently'),
       isVisible: !isFacilitator && !isPast,
       overflowIcon: <FaArrowRightArrowLeft className="mx-auto size-[14px]" />,
     },
@@ -121,7 +143,7 @@ const CourseDetailsRow = ({
             <div className="text-size-sm font-medium text-gray-900 truncate">
               {discussion.unitRecord
                 ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
-                : `Unit ${discussion.unitNumber || ''}`}
+                : `Unit ${discussion.unitFallback || ''}`}
             </div>
             {!isPast && isNext && (
               <div className="truncate text-size-xs text-bluedot-normal font-medium">
@@ -191,6 +213,7 @@ type CourseDetailsProps = {
   courseRegistration: CourseRegistration;
   attendedDiscussions: GroupDiscussion[];
   upcomingDiscussions: GroupDiscussion[];
+  expectedDiscussions?: GroupDiscussion[];
   isLoading: boolean;
   isLast?: boolean;
 };
@@ -200,27 +223,33 @@ const CourseDetails = ({
   courseRegistration,
   attendedDiscussions,
   upcomingDiscussions,
+  expectedDiscussions,
   isLoading,
   isLast = false,
 }: CourseDetailsProps) => {
   const showUpcomingTab = courseRegistration.roundStatus === 'Active' || upcomingDiscussions.length > 0;
 
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
-  const [initialUnitNumber, setInitialUnitNumber] = useState<string | undefined>(undefined);
+  const [facilitatorSwitchModalOpen, setFacilitatorSwitchModalOpen] = useState(false);
   const [selectedSwitchType, setSelectedSwitchType] = useState<SwitchType>('Switch group for one unit');
+  const [selectedFacilitatorModalType, setSelectedFacilitatorModalType] = useState<FacilitatorModalType>('Update discussion time');
   const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>(showUpcomingTab ? 'upcoming' : 'attended');
   const [showAllUpcoming, setShowAllUpcoming] = useState(false);
   const [showAllAttended, setShowAllAttended] = useState(false);
+  const [selectedDiscussion, setSelectedDiscussion] = useState<GroupDiscussion | null>(null);
 
   const isFacilitator = courseRegistration.role === 'Facilitator';
 
-  const handleOpenGroupSwitchModal = ({ discussion, switchType }: { discussion?: GroupDiscussion; switchType: SwitchType }) => {
-    const unitNumber = switchType === 'Switch group for one unit' && discussion?.unitRecord
-      ? discussion?.unitRecord.unitNumber.toString()
-      : undefined;
-    setInitialUnitNumber(unitNumber);
+  const handleOpenGroupSwitch = (discussion: GroupDiscussion, switchType: SwitchType) => {
+    setSelectedDiscussion(discussion);
     setSelectedSwitchType(switchType);
     setGroupSwitchModalOpen(true);
+  };
+
+  const handleOpenFacilitatorModal = (discussion: GroupDiscussion, modalType: FacilitatorModalType) => {
+    setSelectedDiscussion(discussion);
+    setSelectedFacilitatorModalType(modalType);
+    setFacilitatorSwitchModalOpen(true);
   };
 
   return (
@@ -277,7 +306,8 @@ const CourseDetails = ({
                             isPast={false}
                             course={course}
                             isFacilitator={isFacilitator}
-                            handleOpenGroupSwitchModal={handleOpenGroupSwitchModal}
+                            onOpenGroupSwitchModal={handleOpenGroupSwitch}
+                            onOpenFacilitatorModal={handleOpenFacilitatorModal}
                           />
                         ))}
 
@@ -313,7 +343,8 @@ const CourseDetails = ({
                             isPast
                             course={course}
                             isFacilitator={isFacilitator}
-                            handleOpenGroupSwitchModal={handleOpenGroupSwitchModal}
+                            onOpenGroupSwitchModal={handleOpenGroupSwitch}
+                            onOpenFacilitatorModal={handleOpenFacilitatorModal}
                           />
                         ))}
 
@@ -343,11 +374,25 @@ const CourseDetails = ({
         <GroupSwitchModal
           handleClose={() => {
             setGroupSwitchModalOpen(false);
-            setInitialUnitNumber(undefined);
+            setSelectedDiscussion(null);
           }}
-          initialUnitNumber={initialUnitNumber}
+          initialUnitNumber={selectedSwitchType === 'Switch group for one unit' && selectedDiscussion?.unitRecord
+            ? selectedDiscussion?.unitRecord.unitNumber.toString()
+            : undefined}
           initialSwitchType={selectedSwitchType}
           courseSlug={course.slug}
+        />
+      )}
+      {facilitatorSwitchModalOpen && course.slug && (
+        <FacilitatorSwitchModal
+          handleClose={() => {
+            setFacilitatorSwitchModalOpen(false);
+            setSelectedDiscussion(null);
+          }}
+          courseSlug={course.slug}
+          initialDiscussion={selectedDiscussion}
+          allDiscussions={expectedDiscussions}
+          initialModalType={selectedFacilitatorModalType}
         />
       )}
     </>

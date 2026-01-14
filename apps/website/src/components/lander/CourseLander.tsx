@@ -11,6 +11,7 @@ import QuoteSection, { QuoteSectionProps } from './components/QuoteSection';
 import CourseInformationSection, { CourseInformationSectionProps } from './components/CourseInformationSection';
 import FAQSection, { FAQSectionProps } from './components/FAQSection';
 import LandingBanner, { LandingBannerProps } from './components/LandingBanner';
+import PathwaysSection, { PathwaysSectionProps } from './components/PathwaysSection';
 
 export type CourseLanderMeta = {
   title: string;
@@ -23,6 +24,7 @@ export type CourseLanderContent = {
   whoIsThisFor: WhoIsThisForSectionProps;
   courseBenefits?: CourseBenefitsSectionProps;
   courseInformation: CourseInformationSectionProps;
+  pathways?: PathwaysSectionProps;
   quotes?: QuoteSectionProps;
   communityMembers?: CommunityMember[];
   communityMembersTitle?: string;
@@ -94,6 +96,13 @@ const CourseLander = ({
       <div className="border-t-hairline border-color-divider" />
 
       <CourseInformationSection {...content.courseInformation} />
+
+      {content.pathways && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <PathwaysSection {...content.pathways} />
+        </>
+      )}
 
       {content.quotes && (
         <QuoteSection {...content.quotes} />

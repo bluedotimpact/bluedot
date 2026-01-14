@@ -4,7 +4,7 @@ import {
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import CourseLander from './CourseLander';
-import { createAgiStrategyContent, AGI_STRATEGY_APPLICATION_URL } from './course-content/AgiStrategyContent';
+import { createIncubatorWeekContent, INCUBATOR_WEEK_APPLICATION_URL } from './course-content/IncubatorWeekContent';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 
 // Mock Next.js Head component
@@ -15,9 +15,9 @@ vi.mock('next/head', () => ({
 // Mock Next.js router
 vi.mock('next/router', () => ({
   useRouter: () => ({
-    pathname: '/courses/agi-strategy',
+    pathname: '/courses/incubator-week',
     query: {},
-    asPath: '/courses/agi-strategy',
+    asPath: '/courses/incubator-week',
   }),
 }));
 
@@ -57,14 +57,14 @@ vi.mock('./CommunityCarousel', () => ({
   CommunityMember: {},
 }));
 
-describe('AgiStrategyLander', () => {
+describe('IncubatorWeekLander', () => {
   it('renders the complete page correctly (snapshot)', () => {
     const { container } = render(
       <CourseLander
-        courseSlug="agi-strategy"
-        baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL}
-        createContentFor={createAgiStrategyContent}
-        courseOgImage="https://bluedot.org/images/courses/link-preview/agi-strategy.png"
+        courseSlug="incubator-week"
+        baseApplicationUrl={INCUBATOR_WEEK_APPLICATION_URL}
+        createContentFor={createIncubatorWeekContent}
+        courseOgImage="https://bluedot.org/images/courses/link-preview/incubator-week.png"
       />,
       { wrapper: TrpcProvider },
     );
@@ -74,18 +74,21 @@ describe('AgiStrategyLander', () => {
   it('renders HeroSection with correct props', () => {
     render(
       <CourseLander
-        courseSlug="agi-strategy"
-        baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL}
-        createContentFor={createAgiStrategyContent}
+        courseSlug="incubator-week"
+        baseApplicationUrl={INCUBATOR_WEEK_APPLICATION_URL}
+        createContentFor={createIncubatorWeekContent}
       />,
       { wrapper: TrpcProvider },
     );
 
     // Check title - appears in HeroSection title
-    expect(screen.getAllByText('AGI Strategy').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Incubator Week').length).toBeGreaterThan(0);
 
     // Check description includes the key content
-    expect(screen.getAllByText(/Stop orbiting. Launch./).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Training isn't enough/).length).toBeGreaterThan(0);
+
+    // Check hiatus notice
+    expect(screen.getAllByText(/Currently on hiatus/).length).toBeGreaterThan(0);
 
     // Check that at least one "Apply now" CTA exists
     expect(screen.getAllByRole('link', { name: /Apply now/i }).length).toBeGreaterThan(0);
@@ -94,57 +97,42 @@ describe('AgiStrategyLander', () => {
   it('renders Graduate section', () => {
     render(
       <CourseLander
-        courseSlug="agi-strategy"
-        baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL}
-        createContentFor={createAgiStrategyContent}
+        courseSlug="incubator-week"
+        baseApplicationUrl={INCUBATOR_WEEK_APPLICATION_URL}
+        createContentFor={createIncubatorWeekContent}
       />,
       { wrapper: TrpcProvider },
     );
     expect(screen.getByTestId('graduate-section')).toBeInTheDocument();
   });
 
-  it('renders community members section', () => {
+  it('renders Incubator Week banner with CTA', () => {
     render(
       <CourseLander
-        courseSlug="agi-strategy"
-        baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL}
-        createContentFor={createAgiStrategyContent}
-      />,
-      { wrapper: TrpcProvider },
-    );
-
-    const communityMembersSection = screen.getByTestId('community-members-section');
-    expect(communityMembersSection).toBeInTheDocument();
-  });
-
-  it('renders AGI Strategy banner with CTA', () => {
-    render(
-      <CourseLander
-        courseSlug="agi-strategy"
-        baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL}
-        createContentFor={createAgiStrategyContent}
+        courseSlug="incubator-week"
+        baseApplicationUrl={INCUBATOR_WEEK_APPLICATION_URL}
+        createContentFor={createIncubatorWeekContent}
       />,
       { wrapper: TrpcProvider },
     );
 
     // Check that the banner section exists and contains the expected text
-    expect(screen.getByText('Start building towards a good future today')).toBeInTheDocument();
+    expect(screen.getByText('Ready to build something that matters?')).toBeInTheDocument();
   });
 
   it('has correct meta tags in Head', () => {
     const { container } = render(
       <CourseLander
-        courseSlug="agi-strategy"
-        baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL}
-        createContentFor={createAgiStrategyContent}
+        courseSlug="incubator-week"
+        baseApplicationUrl={INCUBATOR_WEEK_APPLICATION_URL}
+        createContentFor={createIncubatorWeekContent}
       />,
       { wrapper: TrpcProvider },
     );
 
     // Since Head is mocked, we can at least verify the component renders
-    // In a real test environment with Next.js testing utils, we could check actual meta tags
     const titleElement = container.querySelector('title');
     expect(titleElement).toBeTruthy();
-    expect(titleElement?.textContent).toBe('AGI Strategy Course | BlueDot Impact');
+    expect(titleElement?.textContent).toBe('Incubator Week | BlueDot Impact');
   });
 });

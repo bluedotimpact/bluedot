@@ -81,7 +81,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
         </div>
       )}
 
-      <div className={cn('container-lined bg-white p-8 flex flex-col gap-6 pb-6', className)}>
+      <div className={cn('container-lined bg-white p-8 flex flex-col gap-6', className)}>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <p className="bluedot-h4 not-prose">{title}</p>
@@ -90,7 +90,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
         </div>
 
         {/* Editor + Complete button wrapper */}
-        <div className={cn('flex flex-col gap-6')}>
+        <div className={cn('flex flex-col gap-2')}>
           <RichTextAutoSaveEditor
             value={answer}
             onChange={setAnswer}
@@ -115,8 +115,6 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
           {/* "Complete" button */}
           {showCompleteButton && (
             <div>
-              <div className="w-full h-0 opacity-20 border-[0.5px] lg:border-none lg:mb-0 border-[#13132E] mb-4" />
-
               {!isCompleted ? (
                 <button
                   type="button"

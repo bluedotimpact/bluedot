@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CourseBenefitsSection > renders correctly 1`] = `
+exports[`CourseBenefitsSection > renders correctly with default colors 1`] = `
 <section
   class="w-full bg-white"
 >
@@ -19,7 +19,8 @@ exports[`CourseBenefitsSection > renders correctly 1`] = `
         class="flex flex-col gap-6"
       >
         <div
-          class="size-14 bg-[#ECF0FF] rounded-lg flex items-center justify-center flex-shrink-0"
+          class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
+          style="background-color: #ECF0FF;"
         >
           <svg
             class="text-black"
@@ -55,7 +56,8 @@ exports[`CourseBenefitsSection > renders correctly 1`] = `
         class="flex flex-col gap-6"
       >
         <div
-          class="size-14 bg-[#ECF0FF] rounded-lg flex items-center justify-center flex-shrink-0"
+          class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
+          style="background-color: #ECF0FF;"
         >
           <svg
             class="text-black"
@@ -91,7 +93,8 @@ exports[`CourseBenefitsSection > renders correctly 1`] = `
         class="flex flex-col gap-6"
       >
         <div
-          class="size-14 bg-[#ECF0FF] rounded-lg flex items-center justify-center flex-shrink-0"
+          class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
+          style="background-color: #ECF0FF;"
         >
           <svg
             class="text-black"

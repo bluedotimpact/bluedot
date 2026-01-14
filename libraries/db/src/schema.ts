@@ -1137,6 +1137,14 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       pgColumn: text(),
       airtableId: 'fld9Y4WfeafUNMxMH',
     },
+    /**
+     * Formula field that returns the round name.
+     * Example: "AGI Strategy (2025 Aug W35) - Intensive"
+     */
+    roundName: {
+      pgColumn: text(),
+      airtableId: 'fldQymBa7milTYP9q',
+    },
   },
 });
 

@@ -6,7 +6,7 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
     class="relative list-none"
   >
     <div
-      class="container-lined bg-white p-8 flex flex-col gap-6 pb-6"
+      class="container-lined bg-white p-8 flex flex-col gap-6"
     >
       <div
         class="flex flex-col gap-4"
@@ -29,7 +29,7 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
         </div>
       </div>
       <div
-        class="flex flex-col gap-6"
+        class="flex flex-col gap-2"
       >
         <div
           class="flex flex-col relative"
@@ -152,7 +152,7 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
       />
     </div>
     <div
-      class="container-lined bg-white p-8 flex flex-col gap-6 pb-6"
+      class="container-lined bg-white p-8 flex flex-col gap-6"
     >
       <div
         class="flex flex-col gap-4"
@@ -175,7 +175,7 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
         </div>
       </div>
       <div
-        class="flex flex-col gap-6"
+        class="flex flex-col gap-2"
       >
         <div
           class="flex flex-col relative"
@@ -254,19 +254,16 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
           <div
             aria-atomic="true"
             aria-live="polite"
-            class="-mt-[10px] pt-[10px] relative z-0 rounded-b-[10px] transition-all duration-200 bg-[#F4F7FD] border-[0.5px] border-[rgba(34,68,187,0.1)] border-t-0"
+            class="-mt-[10px] pt-[10px] relative z-0 rounded-b-[10px] transition-opacity duration-200 border-[0.5px] border-t-0 opacity-0"
             id="save-status-message"
             role="status"
           >
             <div
-              class="flex items-center gap-[5px] w-full h-7.5 px-3 text-size-xxs font-medium text-bluedot-normal"
+              class="flex items-center gap-[5px] w-full h-6 px-3 text-size-xxs font-medium text-bluedot-normal"
             />
           </div>
         </div>
         <div>
-          <div
-            class="w-full h-0 opacity-20 border-[0.5px] lg:border-none lg:mb-0 border-[#13132E] mb-4"
-          />
           <button
             aria-label="Mark exercise as complete"
             class="flex flex-row justify-center items-center px-2.5 py-1.5 gap-2 h-[30px] rounded-md border-none font-medium text-[13px] leading-[140%] tracking-[-0.005em] transition-all duration-200 bg-bluedot-normal text-white opacity-60 cursor-not-allowed"
@@ -297,7 +294,7 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
       />
     </div>
     <div
-      class="container-lined bg-white p-8 flex flex-col gap-6 pb-6"
+      class="container-lined bg-white p-8 flex flex-col gap-6"
     >
       <div
         class="flex flex-col gap-4"
@@ -320,7 +317,7 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
         </div>
       </div>
       <div
-        class="flex flex-col gap-6"
+        class="flex flex-col gap-2"
       >
         <div
           class="flex flex-col relative"
@@ -394,19 +391,16 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
           <div
             aria-atomic="true"
             aria-live="polite"
-            class="-mt-[10px] pt-[10px] relative z-0 rounded-b-[10px] transition-all duration-200 bg-[#F4F7FD] border-[0.5px] border-[rgba(34,68,187,0.1)] border-t-0"
+            class="-mt-[10px] pt-[10px] relative z-0 rounded-b-[10px] transition-opacity duration-200 border-[0.5px] border-t-0 opacity-0"
             id="save-status-message"
             role="status"
           >
             <div
-              class="flex items-center gap-[5px] w-full h-7.5 px-3 text-size-xxs font-medium text-bluedot-normal"
+              class="flex items-center gap-[5px] w-full h-6 px-3 text-size-xxs font-medium text-bluedot-normal"
             />
           </div>
         </div>
         <div>
-          <div
-            class="w-full h-0 opacity-20 border-[0.5px] lg:border-none lg:mb-0 border-[#13132E] mb-4"
-          />
           <button
             aria-label="Mark exercise as complete"
             class="flex flex-row justify-center items-center px-2.5 py-1.5 gap-2 h-[30px] rounded-md border-none font-medium text-[13px] leading-[140%] tracking-[-0.005em] transition-all duration-200 bg-bluedot-normal text-white cursor-pointer"

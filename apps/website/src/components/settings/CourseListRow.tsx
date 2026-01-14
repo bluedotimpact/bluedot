@@ -267,6 +267,7 @@ const CourseListRow = ({
           isLast={isLast}
           attendedDiscussions={attendedDiscussions}
           upcomingDiscussions={upcomingDiscussions}
+          expectedDiscussions={expectedDiscussions}
           isLoading={isLoading}
         />
       )}
