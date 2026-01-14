@@ -97,8 +97,9 @@ export const certificatesRouter = router({
       // Check if all exercises have been completed
       const incompleteExercises = allExercises
         .filter((exercise) => {
-          const response = exerciseResponses.find((resp) => resp.exerciseId === exercise.id);
-          return !response || !response.completed;
+          // Workaround for duplicate exercise responses
+          const hasCompletedResponse = exerciseResponses.some((resp) => resp.exerciseId === exercise.id && resp.completed);
+          return !hasCompletedResponse;
         })
         .sort((a, b) => Number(a.unitNumber || Infinity) - Number(b.unitNumber || Infinity));
 
