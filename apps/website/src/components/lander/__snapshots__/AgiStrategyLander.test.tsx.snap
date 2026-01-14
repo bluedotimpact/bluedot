@@ -951,7 +951,7 @@ In 30 hours, you'll understand the landscape, pick a direction, and actually sta
               class="group flex flex-col gap-4 p-6 rounded-xl bg-white border border-[rgba(19,19,46,0.08)] hover:border-[rgba(19,19,46,0.12)] hover:shadow-md transition-all duration-200"
             >
               <div
-                class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
+                class="size-12 rounded-lg flex items-center justify-center flex-shrink-0"
                 style="background-color: hsla(284, 46%, 30%, 1);"
               >
                 <svg
@@ -999,7 +999,7 @@ In 30 hours, you'll understand the landscape, pick a direction, and actually sta
               class="group flex flex-col gap-4 p-6 rounded-xl bg-white border border-[rgba(19,19,46,0.08)] hover:border-[rgba(19,19,46,0.12)] hover:shadow-md transition-all duration-200"
             >
               <div
-                class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
+                class="size-12 rounded-lg flex items-center justify-center flex-shrink-0"
                 style="background-color: #1F588A;"
               >
                 <svg
@@ -1047,7 +1047,7 @@ In 30 hours, you'll understand the landscape, pick a direction, and actually sta
               class="group flex flex-col gap-4 p-6 rounded-xl bg-white border border-[rgba(19,19,46,0.08)] hover:border-[rgba(19,19,46,0.12)] hover:shadow-md transition-all duration-200"
             >
               <div
-                class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
+                class="size-12 rounded-lg flex items-center justify-center flex-shrink-0"
                 style="background-color: #316761;"
               >
                 <svg
@@ -1095,7 +1095,7 @@ In 30 hours, you'll understand the landscape, pick a direction, and actually sta
               class="group flex flex-col gap-4 p-6 rounded-xl bg-white border border-[rgba(19,19,46,0.08)] hover:border-[rgba(19,19,46,0.12)] hover:shadow-md transition-all duration-200"
             >
               <div
-                class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
+                class="size-12 rounded-lg flex items-center justify-center flex-shrink-0"
                 style="background-color: #2C3F81;"
               >
                 <svg
