@@ -1,10 +1,10 @@
 import { dropoutTable } from '@bluedot/db';
 import z from 'zod';
 import db from '../../lib/api/db';
-import { publicProcedure, router } from '../trpc';
+import { protectedProcedure, router } from '../trpc';
 
 export const dropoutRouter = router({
-  dropoutOrDeferral: publicProcedure
+  dropoutOrDeferral: protectedProcedure
     .input(
       z.object({
         applicantId: z.array(z.string().min(1)).min(1),
