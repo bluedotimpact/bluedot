@@ -89,7 +89,7 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, handleClose })
             value={reason}
             onChange={(e) => setReason(e.target.value)}
             placeholder="Share your reason for leaving..."
-            rows={4}
+            rows={3}
             className="w-full"
           />
         </div>
