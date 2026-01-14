@@ -66,6 +66,7 @@ export type {
   User,
   ResourceCompletion,
   FacilitatorSwitching,
+  Dropout,
 } from './schema';
 
 export { getPgAirtableFromIds, PgAirtableTable } from './lib/db-core';
