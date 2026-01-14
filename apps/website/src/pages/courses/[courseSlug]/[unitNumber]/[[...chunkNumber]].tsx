@@ -18,10 +18,20 @@ type CourseUnitChunkPageProps = UnitWithChunks & {
   courseSlug: string;
   unitNumber: string;
   courseOgImage: string;
+  allUnitChunks: Record<string, BasicChunk[]>;
+};
+
+// Basic chunk info for sidebar display (no resources/exercises)
+export type BasicChunk = {
+  id: string;
+  chunkTitle: string;
+  chunkOrder: string;
+  estimatedTime: number | null;
+  chunkResources: string[] | null;
 };
 
 const CourseUnitChunkPage = ({
-  units, unit, chunks, courseSlug, unitNumber, courseOgImage,
+  units, unit, chunks, courseSlug, unitNumber, courseOgImage, allUnitChunks,
 }: CourseUnitChunkPageProps) => {
   const router = useRouter();
   const {
@@ -133,6 +143,7 @@ const CourseUnitChunkPage = ({
         chunkIndex={chunkIndex}
         setChunkIndex={handleSetChunkIndex}
         courseSlug={courseSlug}
+        allUnitChunks={allUnitChunks}
       />
     </>
   );
@@ -186,13 +197,35 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
     throw new Error('NOT_FOUND');
   }
 
-  const allChunks = await db.scan(chunkTable, { unitId: unit.id });
-  const chunks = allChunks
-    .filter((chunk) => chunk.status === 'Active')
+  // Fetch active chunks for all units in this course
+  const unitIds = units.map((u) => u.id);
+  const chunkPromises = unitIds.map((unitId) => db.scan(chunkTable, { unitId, status: 'Active' }));
+  const chunkResults = await Promise.all(chunkPromises);
+  const activeChunksForCourse = chunkResults.flat();
+
+  // Group chunks by unit ID and extract only the fields needed for sidebar
+  const allUnitChunks: Record<string, BasicChunk[]> = {};
+  for (const u of units) {
+    const unitChunks = activeChunksForCourse
+      .filter((c) => c.unitId === u.id)
+      .sort((a, b) => Number(a.chunkOrder) - Number(b.chunkOrder))
+      .map((c) => ({
+        id: c.id,
+        chunkTitle: c.chunkTitle,
+        chunkOrder: c.chunkOrder,
+        estimatedTime: c.estimatedTime,
+        chunkResources: c.chunkResources,
+      }));
+    allUnitChunks[u.id] = unitChunks;
+  }
+
+  // Get chunks for current unit (with full resources/exercises)
+  const currentUnitChunks = activeChunksForCourse
+    .filter((chunk) => chunk.unitId === unit.id)
     .sort((a, b) => Number(a.chunkOrder) - Number(b.chunkOrder));
 
-  // Resolve chunk resources and exercises with proper ordering
-  const chunksWithContent = await Promise.all(chunks.map(async (chunk) => {
+  // Resolve chunk resources and exercises with proper ordering (only for current unit)
+  const chunksWithContent = await Promise.all(currentUnitChunks.map(async (chunk) => {
     let resources: UnitResource[] = [];
     let exercises: Exercise[] = [];
 
@@ -235,6 +268,7 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
     units,
     unit,
     chunks: chunksWithContent,
+    allUnitChunks,
   };
 }
 
