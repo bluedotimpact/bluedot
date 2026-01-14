@@ -31,6 +31,7 @@ export {
   userTable,
   resourceCompletionTable,
   facilitatorDiscussionSwitchingTable,
+  dropoutTable,
 } from './schema';
 
 // Type exports
