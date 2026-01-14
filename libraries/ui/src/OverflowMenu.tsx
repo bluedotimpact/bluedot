@@ -24,6 +24,8 @@ export type OverflowMenuProps = {
   items: OverflowMenuItemProps[];
   buttonClassName?: string;
   ariaLabel?: string;
+  /** If not provided, defaults to vertical ellipsis icon */
+  trigger?: ReactNode;
 };
 
 type MenuContentProps = {
@@ -93,13 +95,14 @@ export const OverflowMenu: React.FC<OverflowMenuProps> = ({
   items,
   buttonClassName,
   ariaLabel = 'More options',
+  trigger,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <MenuTrigger isOpen={isOpen} onOpenChange={setIsOpen}>
       <Button className={cn(DEFAULT_BUTTON_CLASS, buttonClassName)} aria-label={ariaLabel}>
-        <HiDotsVertical className="size-5" />
+        {trigger ?? <HiDotsVertical className="size-5" />}
       </Button>
       <MenuContent items={items} isOpen={isOpen} setIsOpen={setIsOpen} />
     </MenuTrigger>

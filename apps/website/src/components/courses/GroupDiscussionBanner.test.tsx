@@ -90,8 +90,10 @@ describe('GroupDiscussionBanner', () => {
       expect(desktopButtons.getByRole('link', { name: 'Open discussion doc' })).toBeInTheDocument();
       expect(desktopButtons.getByRole('link', { name: 'Message group' })).toBeInTheDocument();
       expect(desktopButtons.getByRole('button', { name: "Can't make it?" })).toBeInTheDocument();
+      // Participants have no overflow menu on desktop
+      expect(desktopButtons.queryByRole('button', { name: 'More discussion options' })).not.toBeInTheDocument();
 
-      // Check mobile button container
+      // Check mobile button container - shows join-now, cant-make-it directly; rest in overflow
       const mobileContainer = container.querySelector('#discussion-banner-mobile-container') as HTMLElement;
       expect(mobileContainer).toBeInTheDocument();
       const mobileButtons = within(mobileContainer);
@@ -116,16 +118,22 @@ describe('GroupDiscussionBanner', () => {
       const expandButton = await screen.findByRole('button', { name: 'Expand upcoming discussion banner' });
       fireEvent.click(expandButton);
 
-      // Desktop should have host key button and "Can't make it?" for facilitator switching
+      // Desktop should have join-now, host-key, and discussion-doc directly; rest in overflow
       const desktopContainer = container.querySelector('#discussion-banner-desktop-container') as HTMLElement;
       const desktopButtons = within(desktopContainer);
-      expect(desktopButtons.getByRole('button', { name: 'Host key: 123456' })).toBeInTheDocument();
-      expect(desktopButtons.getByRole('button', { name: "Can't make it?" })).toBeInTheDocument();
+      expect(desktopButtons.getByRole('link', { name: /Join now/ })).toBeInTheDocument();
+      expect(desktopButtons.getByRole('button', { name: /Host key: 123456/ })).toBeInTheDocument();
+      expect(desktopButtons.getByRole('link', { name: 'Open discussion doc' })).toBeInTheDocument();
+      // Facilitators have overflow menu with additional options
+      expect(desktopButtons.getByRole('button', { name: 'More discussion options' })).toBeInTheDocument();
+      // Facilitators don't see "Can't make it?"
+      expect(screen.queryByRole('button', { name: "Can't make it?" })).not.toBeInTheDocument();
 
-      // Mobile has host key in overflow menu, so just check "Can't make it?" is visible
+      // Mobile has join-now, host-key directly; rest in overflow
       const mobileContainer = container.querySelector('#discussion-banner-mobile-container') as HTMLElement;
       const mobileButtons = within(mobileContainer);
-      expect(mobileButtons.getByRole('button', { name: "Can't make it?" })).toBeInTheDocument();
+      expect(mobileButtons.getByRole('link', { name: /Join now/ })).toBeInTheDocument();
+      expect(mobileButtons.getByRole('button', { name: /Host key: 123456/ })).toBeInTheDocument();
 
       expect(container).toMatchSnapshot();
     });
@@ -237,7 +245,7 @@ describe('GroupDiscussionBanner', () => {
   });
 
   describe('User Role Specific Behavior', () => {
-    test('facilitator clicking "Can\'t make it?" opens facilitator switch modal', async () => {
+    test('facilitator can access "Change facilitator" from overflow menu', async () => {
       render(
         <GroupDiscussionBanner
           unit={mockUnit}
@@ -252,8 +260,13 @@ describe('GroupDiscussionBanner', () => {
       const expandButton = await screen.findByRole('button', { name: 'Expand upcoming discussion banner' });
       fireEvent.click(expandButton);
 
-      const cantMakeItButtons = screen.getAllByText("Can't make it?");
-      fireEvent.click(cantMakeItButtons[0]!);
+      // Open overflow menu
+      const overflowButton = screen.getAllByRole('button', { name: 'More discussion options' })[0];
+      fireEvent.click(overflowButton!);
+
+      // Click "Change facilitator" option
+      const changeFacilitatorOption = await screen.findByText('Change facilitator');
+      fireEvent.click(changeFacilitatorOption);
 
       expect(screen.getByTestId('facilitator-switch-modal')).toBeInTheDocument();
     });
