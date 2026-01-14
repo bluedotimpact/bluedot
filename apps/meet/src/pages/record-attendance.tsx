@@ -66,8 +66,8 @@ const RecordAttendancePage: React.FC<{ groupDiscussionId: string, participantId:
           'Not sure, but I attended',
         ].map((reason) => (
           <CTALinkOrButton
+            key={reason}
             variant="secondary"
-            url="test"
             onClick={() => recordAttendance({ reason })}
           >
             {reason}
