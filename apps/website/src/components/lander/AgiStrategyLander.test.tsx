@@ -85,7 +85,7 @@ describe('AgiStrategyLander', () => {
     expect(screen.getAllByText('AGI Strategy').length).toBeGreaterThan(0);
 
     // Check description includes the key content
-    expect(screen.getAllByText(/Start building the defences that protect humanity/).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Stop orbiting. Launch./).length).toBeGreaterThan(0);
 
     // Check that at least one "Apply now" CTA exists
     expect(screen.getAllByRole('link', { name: /Apply now/i }).length).toBeGreaterThan(0);
