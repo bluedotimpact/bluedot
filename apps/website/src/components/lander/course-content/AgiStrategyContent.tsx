@@ -42,7 +42,7 @@ export const createAgiStrategyContent = (
     accentColor: AGI_STRATEGY_COLORS.accent,
     categoryLabel: 'COHORT-BASED COURSE',
     title: 'AGI Strategy',
-    description: "Stop orbiting. Launch.\n\nIn 30 hours, you'll understand the landscape well enough to pick a direction - technical research, governance, operations, or building something new - and actually start moving.",
+    description: "Stop orbiting. Launch.\n\nIn 30 hours, you'll understand the landscape, pick a direction, and actually start moving.",
     primaryCta: {
       text: 'Apply now',
       url: applicationUrlWithUtm,
