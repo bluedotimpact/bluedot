@@ -1,5 +1,4 @@
 import { H2, P } from '@bluedot/ui';
-import { ReactNode } from 'react';
 import { IconType } from 'react-icons';
 import Link from 'next/link';
 
@@ -48,7 +47,7 @@ const PathwaysSection = ({ title, intro, pathways }: PathwaysSectionProps) => {
                   className="group flex flex-col gap-4 p-6 rounded-xl bg-white border border-[rgba(19,19,46,0.08)] hover:border-[rgba(19,19,46,0.12)] hover:shadow-md transition-all duration-200"
                 >
                   <div
-                    className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
+                    className="size-12 rounded-lg flex items-center justify-center flex-shrink-0"
                     style={{ backgroundColor: pathway.accentColor }}
                   >
                     <IconComponent className="text-white" size={24} />

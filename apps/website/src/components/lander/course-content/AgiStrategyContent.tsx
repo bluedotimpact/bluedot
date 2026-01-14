@@ -358,7 +358,7 @@ export const createAgiStrategyContent = (
       {
         id: 'formats',
         question: "What's the difference between intensive and part-time?",
-        answer: "Same content, different pace. Intensive is 5 days at ~5 hours/day - for people who can clear a week and want to move fast. Part-time is 5 weeks at ~5 hours/week - for people building this around other commitments. Both get you to the same place.",
+        answer: 'Same content, different pace. Intensive is 5 days at ~5 hours/day - for people who can clear a week and want to move fast. Part-time is 5 weeks at ~5 hours/week - for people building this around other commitments. Both get you to the same place.',
       },
       {
         id: 'direction',
