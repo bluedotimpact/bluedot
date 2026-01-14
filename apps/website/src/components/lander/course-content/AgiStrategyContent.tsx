@@ -1,14 +1,16 @@
 import {
   PiBriefcase,
   PiCompass,
-  PiFlask,
   PiClockClockwise,
   PiChats,
   PiHandHeart,
   PiCalendarDots,
   PiRocketLaunch,
   PiUsersThree,
-  PiHandCoins,
+  PiLightbulb,
+  PiCpu,
+  PiBank,
+  PiShieldCheck,
 } from 'react-icons/pi';
 import { CourseLanderContent } from '../CourseLander';
 
@@ -32,7 +34,7 @@ export const createAgiStrategyContent = (
 ): CourseLanderContent => ({
   meta: {
     title: 'AGI Strategy Course | BlueDot Impact',
-    description: 'Develop strategic thinking skills for AGI governance and long-term AI strategy. Join our intensive course for strategists shaping the future of artificial general intelligence.',
+    description: 'The launchpad for AI safety work. In 30 hours, understand the landscape, pick a direction, and start moving.',
   },
 
   hero: {
@@ -40,7 +42,7 @@ export const createAgiStrategyContent = (
     accentColor: AGI_STRATEGY_COLORS.accent,
     categoryLabel: 'COHORT-BASED COURSE',
     title: 'AGI Strategy',
-    description: 'Start building the defences that protect humanity: Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours.',
+    description: "Stop orbiting. Launch.\n\nIn 30 hours, you'll understand the landscape, pick a direction, and actually start moving.",
     primaryCta: {
       text: 'Apply now',
       url: applicationUrlWithUtm,
@@ -59,24 +61,24 @@ export const createAgiStrategyContent = (
     title: 'Who this course is for',
     targetAudiences: [
       {
+        icon: PiRocketLaunch,
+        boldText: 'For people who are done reading about AI risk',
+        description: 'and ready to actually work on it.',
+      },
+      {
         icon: PiBriefcase,
-        boldText: 'For entrepreneurs and operators',
-        description: 'who want to build solutions that protect humanity.',
+        boldText: 'For domain experts - in policy, security, operations, engineering -',
+        description: 'who want to point their skills at the most important problem of our time.',
       },
       {
         icon: PiCompass,
-        boldText: 'For leaders',
-        description: 'who want to steer AI\'s trajectory towards beneficial outcomes for humanity.',
-      },
-      {
-        icon: PiFlask,
-        boldText: 'For researchers',
-        description: 'who want to take big bets on the most impactful research ideas.',
+        boldText: 'For those planning to go deep on technical safety or governance,',
+        description: 'and want the strategic context first.',
       },
     ],
     bottomCta: {
       boldText: "Don't fit these perfectly? Apply anyway.",
-      text: 'Some of our most impactful participants have included teachers, policymakers, engineers, and community leaders. We bet on drive and ambition, not CVs.',
+      text: 'Some of our most impactful participants have included teachers, lawyers, engineers, and community leaders. We bet on drive and ambition, not CVs.',
       buttonText: 'Apply now',
       buttonUrl: applicationUrlWithUtm,
     },
@@ -88,18 +90,18 @@ export const createAgiStrategyContent = (
     benefits: [
       {
         icon: PiRocketLaunch,
-        title: 'Take action in less than 30 hours',
-        description: "You don't need another degree. This AGI Strategy course replaces years of self-study with three frameworks: incentive mapping to understand the AGI race, kill chains to analyse AI threats, and defence-in-depth to design interventions that counter them. You'll finish with a fundable plan.",
+        title: 'A launchpad, not a lecture',
+        description: "This is not a course you \"complete.\" It's the starting point for whatever you do next. You'll leave knowing which problems matter most, which paths make sense for your background, and what to do next.",
+      },
+      {
+        icon: PiLightbulb,
+        title: 'Frameworks that cut through the noise',
+        description: "Three mental models that replace months of scattered reading: incentive mapping to understand the race to AGI, kill chains to analyze threats, and defense-in-depth to design interventions. You'll leave able to hold your own in conversations with people already in the field.",
       },
       {
         icon: PiUsersThree,
-        title: 'Join a network of builders',
-        description: "This course isn't for everyone. We're building a community of people who are energised to take ambitious actions to make AI go well, including starting new companies, policy entrepreneurship, and high-impact research bets. Completing this course will give you access to this community.",
-      },
-      {
-        icon: PiHandCoins,
-        title: 'Get funded to accelerate your impact',
-        description: "If your final course proposal is strong, you'll receive $10-50k to kickstart your transition into impactful work, and you'll be invited to co-work with us in London for 1-2 weeks. We'll do whatever it takes to accelerate your journey.",
+        title: 'A community of people who ship',
+        description: "We have 7,000+ alumni at Anthropic, DeepMind, UK AISI, and dozens of organizations making sure humanity safely navigates transformative AI. You'll meet people already doing the work - and who'll open doors and pressure-test your thinking.",
       },
     ],
   },
@@ -138,6 +140,43 @@ export const createAgiStrategyContent = (
         description: null,
         isSchedule: true,
         scheduleDescription: 'Check above for upcoming rounds and application deadlines.',
+      },
+    ],
+  },
+
+  pathways: {
+    title: 'What happens after',
+    intro: 'The AGI Strategy Course is where you get oriented. What comes next depends on you.',
+    pathways: [
+      {
+        icon: PiCpu,
+        title: 'Technical AI Safety',
+        description: 'Interpretability, evals, alignment research. For people ready to work on the technical problems.',
+        accentColor: 'hsla(284, 46%, 30%, 1)', // TAS iconBackground
+        linkUrl: '/courses/technical-ai-safety',
+        linkText: 'Explore the course',
+      },
+      {
+        icon: PiBank,
+        title: 'AI Governance',
+        description: 'Policy, institutions, international coordination. For people shaping how we govern these systems.',
+        accentColor: '#1F588A', // AI Gov iconBackground
+        linkUrl: '/courses/ai-governance',
+        linkText: 'Explore the course',
+      },
+      {
+        icon: PiShieldCheck,
+        title: 'Biosecurity',
+        description: 'Pandemic preparedness, early warning systems, policy. For people building defences against bio risks.',
+        accentColor: '#316761', // Biosecurity iconBackground
+        linkUrl: '/courses/biosecurity',
+        linkText: 'Explore the course',
+      },
+      {
+        icon: PiRocketLaunch,
+        title: 'Make a bigger leap',
+        description: 'Pivot directly into high-impact work, or start building something new. We can help.',
+        accentColor: AGI_STRATEGY_COLORS.iconBackground,
       },
     ],
   },
@@ -307,22 +346,49 @@ export const createAgiStrategyContent = (
     title: 'Frequently Asked Questions',
     items: [
       {
+        id: 'background',
+        question: 'What background do I need?',
+        answer: "We don't care about your CV. We care about what you'll do next. We've had participants from policy, engineering, law, medicine, operations, and academia - what they shared was drive and a bias toward action.",
+      },
+      {
+        id: 'beginners',
+        question: 'Is this course for beginners?',
+        answer: "It's for people who are new to working on AI safety, not new to taking things seriously. If you've been reading and thinking and are ready to stop orbiting, this is where you start.",
+      },
+      {
+        id: 'formats',
+        question: "What's the difference between intensive and part-time?",
+        answer: 'Same content, different pace. Intensive is 5 days at ~5 hours/day - for people who can clear a week and want to move fast. Part-time is 5 weeks at ~5 hours/week - for people building this around other commitments. Both get you to the same place.',
+      },
+      {
+        id: 'direction',
+        question: "What if I don't know which direction I want to go?",
+        answer: "That's what the course is for. You'll leave knowing which problems matter most to you and which path fits your skills - technical research, governance, biosecurity, or building something new. Figuring it out is the work.",
+      },
+      {
         id: 'funding',
-        question: 'Can I just apply for funding?',
-        answer: 'Funding is only available for graduates of the course.',
+        question: 'Is there funding available?',
+        answer: (
+          <>
+            Yes, for people who are building.
+            <br /><br />
+            <span className="font-semibold">Rapid Small Grants ($50–$1,500):</span> For participants who need compute, conference travel, research access, or tools. Apply in under 15 minutes, hear back within 5 days.
+            <br /><br />
+            <span className="font-semibold">Incubator Grants ($10–50K):</span> For participants who come out ready to launch something. Selective, awarded through our incubator programme - not a direct application.
+            <br /><br />
+            We're not here to fund curiosity. But if you're building something ambitious that matters, we will back you.
+          </>
+        ),
+      },
+      {
+        id: 'free',
+        question: 'Is it really free?',
+        answer: 'Yes.',
       },
       {
         id: 'bluedot',
         question: 'Who is BlueDot Impact?',
-        answer: (
-          <>
-            We're a London-based startup. Since 2022, we've trained 5,000 people, with ~1,000 now working on making AI go well.
-            <br /><br />
-            Our courses are the main entry point into the AI safety field.
-            <br /><br />
-            We're an intense 4-person team. We've raised $35M in total, including $25M in 2025.
-          </>
-        ),
+        answer: "BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run courses, help people land jobs, organise events all over the world, and accelerate entrepreneurs to start new companies. We've trained 7,000+ people since 2022. Our alumni are now at Anthropic, DeepMind, UK AISI, and have started new organisations working on safely navigating the transition to AGI.",
       },
     ],
   },

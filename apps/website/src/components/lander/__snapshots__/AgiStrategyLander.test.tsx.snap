@@ -9,7 +9,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       AGI Strategy Course | BlueDot Impact
     </title>
     <meta
-      content="Develop strategic thinking skills for AGI governance and long-term AI strategy. Join our intensive course for strategists shaping the future of artificial general intelligence."
+      content="The launchpad for AI safety work. In 30 hours, understand the landscape, pick a direction, and start moving."
       name="description"
     />
     <meta
@@ -17,7 +17,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       property="og:title"
     />
     <meta
-      content="Develop strategic thinking skills for AGI governance and long-term AI strategy. Join our intensive course for strategists shaping the future of artificial general intelligence."
+      content="The launchpad for AI safety work. In 30 hours, understand the landscape, pick a direction, and start moving."
       property="og:description"
     />
     <meta
@@ -57,7 +57,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       name="twitter:title"
     />
     <meta
-      content="Develop strategic thinking skills for AGI governance and long-term AI strategy. Join our intensive course for strategists shaping the future of artificial general intelligence."
+      content="The launchpad for AI safety work. In 30 hours, understand the landscape, pick a direction, and start moving."
       name="twitter:description"
     />
     <meta
@@ -391,7 +391,9 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               <p
                 class="text-[16px] min-[680px]:text-[18px] leading-[1.6] opacity-80 text-white whitespace-pre-line"
               >
-                Start building the defences that protect humanity: Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours.
+                Stop orbiting. Launch.
+
+In 30 hours, you'll understand the landscape, pick a direction, and actually start moving.
               </p>
             </div>
             <div
@@ -442,7 +444,9 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 <p
                   class="bluedot-p not-prose text-size-md leading-[1.6] opacity-80 text-white whitespace-pre-line"
                 >
-                  Start building the defences that protect humanity: Envision a good future. Map the threats from AI. Design effective interventions. Get funded to start shipping. All in 30 hours.
+                  Stop orbiting. Launch.
+
+In 30 hours, you'll understand the landscape, pick a direction, and actually start moving.
                 </p>
               </div>
               <div
@@ -523,6 +527,42 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
+                  d="M223.85,47.12a16,16,0,0,0-15-15c-12.58-.75-44.73.4-71.41,27.07L132.69,64H74.36A15.91,15.91,0,0,0,63,68.68L28.7,103a16,16,0,0,0,9.07,27.16l38.47,5.37,44.21,44.21,5.37,38.49a15.94,15.94,0,0,0,10.78,12.92,16.11,16.11,0,0,0,5.1.83A15.91,15.91,0,0,0,153,227.3L187.32,193A15.91,15.91,0,0,0,192,181.64V123.31l4.77-4.77C223.45,91.86,224.6,59.71,223.85,47.12ZM74.36,80h42.33L77.16,119.52,40,114.34Zm74.41-9.45a76.65,76.65,0,0,1,59.11-22.47,76.46,76.46,0,0,1-22.42,59.16L128,164.68,91.32,128ZM176,181.64,141.67,216l-5.19-37.17L176,139.31Zm-74.16,9.5C97.34,201,82.29,224,40,224a8,8,0,0,1-8-8c0-42.29,23-57.34,32.86-61.85a8,8,0,0,1,6.64,14.56c-6.43,2.93-20.62,12.36-23.12,38.91,26.55-2.5,36-16.69,38.91-23.12a8,8,0,1,1,14.56,6.64Z"
+                />
+              </svg>
+            </div>
+            <p
+              class="bluedot-p not-prose text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-[#13132E]"
+            >
+              <span
+                class="font-semibold"
+              >
+                For people who are done reading about AI risk
+              </span>
+              <span>
+                 
+                and ready to actually work on it.
+              </span>
+            </p>
+          </div>
+          <div
+            class="flex flex-col items-center min-[680px]:items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:min-h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
+          >
+            <div
+              class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 "
+              style="background-color: #2C3F81;"
+            >
+              <svg
+                class="text-white"
+                fill="currentColor"
+                height="28"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 256 256"
+                width="28"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
                   d="M216,56H176V48a24,24,0,0,0-24-24H104A24,24,0,0,0,80,48v8H40A16,16,0,0,0,24,72V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V72A16,16,0,0,0,216,56ZM96,48a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96ZM216,72v41.61A184,184,0,0,1,128,136a184.07,184.07,0,0,1-88-22.38V72Zm0,128H40V131.64A200.19,200.19,0,0,0,128,152a200.25,200.25,0,0,0,88-20.37V200ZM104,112a8,8,0,0,1,8-8h32a8,8,0,0,1,0,16H112A8,8,0,0,1,104,112Z"
                 />
               </svg>
@@ -533,11 +573,11 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               <span
                 class="font-semibold"
               >
-                For entrepreneurs and operators
+                For domain experts - in policy, security, operations, engineering -
               </span>
               <span>
                  
-                who want to build solutions that protect humanity.
+                who want to point their skills at the most important problem of our time.
               </span>
             </p>
           </div>
@@ -569,47 +609,11 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               <span
                 class="font-semibold"
               >
-                For leaders
+                For those planning to go deep on technical safety or governance,
               </span>
               <span>
                  
-                who want to steer AI's trajectory towards beneficial outcomes for humanity.
-              </span>
-            </p>
-          </div>
-          <div
-            class="flex flex-col items-center min-[680px]:items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:min-h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
-          >
-            <div
-              class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 "
-              style="background-color: #2C3F81;"
-            >
-              <svg
-                class="text-white"
-                fill="currentColor"
-                height="28"
-                stroke="currentColor"
-                stroke-width="0"
-                viewBox="0 0 256 256"
-                width="28"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M221.69,199.77,160,96.92V40h8a8,8,0,0,0,0-16H88a8,8,0,0,0,0,16h8V96.92L34.31,199.77A16,16,0,0,0,48,224H208a16,16,0,0,0,13.72-24.23ZM110.86,103.25A7.93,7.93,0,0,0,112,99.14V40h32V99.14a7.93,7.93,0,0,0,1.14,4.11L183.36,167c-12,2.37-29.07,1.37-51.75-10.11-15.91-8.05-31.05-12.32-45.22-12.81ZM48,208l28.54-47.58c14.25-1.74,30.31,1.85,47.82,10.72,19,9.61,35,12.88,48,12.88a69.89,69.89,0,0,0,19.55-2.7L208,208Z"
-                />
-              </svg>
-            </div>
-            <p
-              class="bluedot-p not-prose text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-[#13132E]"
-            >
-              <span
-                class="font-semibold"
-              >
-                For researchers
-              </span>
-              <span>
-                 
-                who want to take big bets on the most impactful research ideas.
+                and want the strategic context first.
               </span>
             </p>
           </div>
@@ -627,7 +631,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             </span>
             <span>
                
-              Some of our most impactful participants have included teachers, policymakers, engineers, and community leaders. We bet on drive and ambition, not CVs.
+              Some of our most impactful participants have included teachers, lawyers, engineers, and community leaders. We bet on drive and ambition, not CVs.
             </span>
           </p>
           <a
@@ -685,12 +689,49 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               <h3
                 class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
               >
-                Take action in less than 30 hours
+                A launchpad, not a lecture
               </h3>
               <p
                 class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
               >
-                You don't need another degree. This AGI Strategy course replaces years of self-study with three frameworks: incentive mapping to understand the AGI race, kill chains to analyse AI threats, and defence-in-depth to design interventions that counter them. You'll finish with a fundable plan.
+                This is not a course you "complete." It's the starting point for whatever you do next. You'll leave knowing which problems matter most, which paths make sense for your background, and what to do next.
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
+              style="background-color: #f3e8ff;"
+            >
+              <svg
+                class="text-black"
+                fill="currentColor"
+                height="28"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 256 256"
+                width="28"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M176,232a8,8,0,0,1-8,8H88a8,8,0,0,1,0-16h80A8,8,0,0,1,176,232Zm40-128a87.55,87.55,0,0,1-33.64,69.21A16.24,16.24,0,0,0,176,186v6a16,16,0,0,1-16,16H96a16,16,0,0,1-16-16v-6a16,16,0,0,0-6.23-12.66A87.59,87.59,0,0,1,40,104.49C39.74,56.83,78.26,17.14,125.88,16A88,88,0,0,1,216,104Zm-16,0a72,72,0,0,0-73.74-72c-39,.92-70.47,33.39-70.26,72.39a71.65,71.65,0,0,0,27.64,56.3A32,32,0,0,1,96,186v6h64v-6a32.15,32.15,0,0,1,12.47-25.35A71.65,71.65,0,0,0,200,104Zm-16.11-9.34a57.6,57.6,0,0,0-46.56-46.55,8,8,0,0,0-2.66,15.78c16.57,2.79,30.63,16.85,33.44,33.45A8,8,0,0,0,176,104a9,9,0,0,0,1.35-.11A8,8,0,0,0,183.89,94.66Z"
+                />
+              </svg>
+            </div>
+            <div
+              class="space-y-2"
+            >
+              <h3
+                class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
+              >
+                Frameworks that cut through the noise
+              </h3>
+              <p
+                class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
+              >
+                Three mental models that replace months of scattered reading: incentive mapping to understand the race to AGI, kill chains to analyze threats, and defense-in-depth to design interventions. You'll leave able to hold your own in conversations with people already in the field.
               </p>
             </div>
           </div>
@@ -722,49 +763,12 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               <h3
                 class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
               >
-                Join a network of builders
+                A community of people who ship
               </h3>
               <p
                 class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
               >
-                This course isn't for everyone. We're building a community of people who are energised to take ambitious actions to make AI go well, including starting new companies, policy entrepreneurship, and high-impact research bets. Completing this course will give you access to this community.
-              </p>
-            </div>
-          </div>
-          <div
-            class="flex flex-col gap-6"
-          >
-            <div
-              class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
-              style="background-color: #f3e8ff;"
-            >
-              <svg
-                class="text-black"
-                fill="currentColor"
-                height="28"
-                stroke="currentColor"
-                stroke-width="0"
-                viewBox="0 0 256 256"
-                width="28"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M230.33,141.06a24.43,24.43,0,0,0-21.24-4.23l-41.84,9.62A28,28,0,0,0,140,112H89.94a31.82,31.82,0,0,0-22.63,9.37L44.69,144H16A16,16,0,0,0,0,160v40a16,16,0,0,0,16,16H120a7.93,7.93,0,0,0,1.94-.24l64-16a6.94,6.94,0,0,0,1.19-.4L226,182.82l.44-.2a24.6,24.6,0,0,0,3.93-41.56ZM16,160H40v40H16Zm203.43,8.21-38,16.18L119,200H56V155.31l22.63-22.62A15.86,15.86,0,0,1,89.94,128H140a12,12,0,0,1,0,24H112a8,8,0,0,0,0,16h32a8.32,8.32,0,0,0,1.79-.2l67-15.41.31-.08a8.6,8.6,0,0,1,6.3,15.9ZM164,96a36,36,0,0,0,5.9-.48,36,36,0,1,0,28.22-47A36,36,0,1,0,164,96Zm60-12a20,20,0,1,1-20-20A20,20,0,0,1,224,84ZM164,40a20,20,0,0,1,19.25,14.61,36,36,0,0,0-15,24.93A20.42,20.42,0,0,1,164,80a20,20,0,0,1,0-40Z"
-                />
-              </svg>
-            </div>
-            <div
-              class="space-y-2"
-            >
-              <h3
-                class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
-              >
-                Get funded to accelerate your impact
-              </h3>
-              <p
-                class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
-              >
-                If your final course proposal is strong, you'll receive $10-50k to kickstart your transition into impactful work, and you'll be invited to co-work with us in London for 1-2 weeks. We'll do whatever it takes to accelerate your journey.
+                We have 7,000+ alumni at Anthropic, DeepMind, UK AISI, and dozens of organizations making sure humanity safely navigates transformative AI. You'll meet people already doing the work - and who'll open doors and pressure-test your thinking.
               </p>
             </div>
           </div>
@@ -912,6 +916,216 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     />
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div
+      class="border-t-hairline border-color-divider"
+    />
+    <section
+      class="w-full bg-[#FAFAFA]"
+    >
+      <div
+        class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24"
+      >
+        <div
+          class="max-w-[960px] mx-auto"
+        >
+          <h2
+            class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-6 tracking-[-0.01em]"
+          >
+            What happens after
+          </h2>
+          <p
+            class="bluedot-p not-prose text-size-md leading-[1.6] text-[#13132E]/80 text-center mb-12 max-w-[600px] mx-auto"
+          >
+            The AGI Strategy Course is where you get oriented. What comes next depends on you.
+          </p>
+          <div
+            class="grid grid-cols-1 min-[680px]:grid-cols-2 gap-4 min-[680px]:gap-6"
+          >
+            <div
+              class="group flex flex-col gap-4 p-6 rounded-xl bg-white border border-[rgba(19,19,46,0.08)] hover:border-[rgba(19,19,46,0.12)] hover:shadow-md transition-all duration-200"
+            >
+              <div
+                class="size-12 rounded-lg flex items-center justify-center flex-shrink-0"
+                style="background-color: hsla(284, 46%, 30%, 1);"
+              >
+                <svg
+                  class="text-white"
+                  fill="currentColor"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 256 256"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M152,96H104a8,8,0,0,0-8,8v48a8,8,0,0,0,8,8h48a8,8,0,0,0,8-8V104A8,8,0,0,0,152,96Zm-8,48H112V112h32Zm88,0H216V112h16a8,8,0,0,0,0-16H216V56a16,16,0,0,0-16-16H160V24a8,8,0,0,0-16,0V40H112V24a8,8,0,0,0-16,0V40H56A16,16,0,0,0,40,56V96H24a8,8,0,0,0,0,16H40v32H24a8,8,0,0,0,0,16H40v40a16,16,0,0,0,16,16H96v16a8,8,0,0,0,16,0V216h32v16a8,8,0,0,0,16,0V216h40a16,16,0,0,0,16-16V160h16a8,8,0,0,0,0-16Zm-32,56H56V56H200v95.87s0,.09,0,.13,0,.09,0,.13V200Z"
+                  />
+                </svg>
+              </div>
+              <div
+                class="flex flex-col gap-2"
+              >
+                <h3
+                  class="text-[18px] font-semibold leading-tight text-[#13132E]"
+                >
+                  Technical AI Safety
+                </h3>
+                <p
+                  class="bluedot-p not-prose text-[15px] leading-[1.6] text-[#13132E]/70"
+                >
+                  Interpretability, evals, alignment research. For people ready to work on the technical problems.
+                </p>
+                <a
+                  class="text-[15px] font-medium text-bluedot-normal hover:underline mt-1 inline-flex items-center gap-1 group-hover:gap-2 transition-all"
+                  href="/courses/technical-ai-safety"
+                >
+                  Explore the course
+                  <span
+                    class="transition-transform group-hover:translate-x-0.5"
+                  >
+                    →
+                  </span>
+                </a>
+              </div>
+            </div>
+            <div
+              class="group flex flex-col gap-4 p-6 rounded-xl bg-white border border-[rgba(19,19,46,0.08)] hover:border-[rgba(19,19,46,0.12)] hover:shadow-md transition-all duration-200"
+            >
+              <div
+                class="size-12 rounded-lg flex items-center justify-center flex-shrink-0"
+                style="background-color: #1F588A;"
+              >
+                <svg
+                  class="text-white"
+                  fill="currentColor"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 256 256"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M24,104H48v64H32a8,8,0,0,0,0,16H224a8,8,0,0,0,0-16H208V104h24a8,8,0,0,0,4.19-14.81l-104-64a8,8,0,0,0-8.38,0l-104,64A8,8,0,0,0,24,104Zm40,0H96v64H64Zm80,0v64H112V104Zm48,64H160V104h32ZM128,41.39,203.74,88H52.26ZM248,208a8,8,0,0,1-8,8H16a8,8,0,0,1,0-16H240A8,8,0,0,1,248,208Z"
+                  />
+                </svg>
+              </div>
+              <div
+                class="flex flex-col gap-2"
+              >
+                <h3
+                  class="text-[18px] font-semibold leading-tight text-[#13132E]"
+                >
+                  AI Governance
+                </h3>
+                <p
+                  class="bluedot-p not-prose text-[15px] leading-[1.6] text-[#13132E]/70"
+                >
+                  Policy, institutions, international coordination. For people shaping how we govern these systems.
+                </p>
+                <a
+                  class="text-[15px] font-medium text-bluedot-normal hover:underline mt-1 inline-flex items-center gap-1 group-hover:gap-2 transition-all"
+                  href="/courses/ai-governance"
+                >
+                  Explore the course
+                  <span
+                    class="transition-transform group-hover:translate-x-0.5"
+                  >
+                    →
+                  </span>
+                </a>
+              </div>
+            </div>
+            <div
+              class="group flex flex-col gap-4 p-6 rounded-xl bg-white border border-[rgba(19,19,46,0.08)] hover:border-[rgba(19,19,46,0.12)] hover:shadow-md transition-all duration-200"
+            >
+              <div
+                class="size-12 rounded-lg flex items-center justify-center flex-shrink-0"
+                style="background-color: #316761;"
+              >
+                <svg
+                  class="text-white"
+                  fill="currentColor"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 256 256"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm0,72c0,37.07-13.66,67.16-40.6,89.42A129.3,129.3,0,0,1,128,223.62a128.25,128.25,0,0,1-38.92-21.81C61.82,179.51,48,149.3,48,112l0-56,160,0ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"
+                  />
+                </svg>
+              </div>
+              <div
+                class="flex flex-col gap-2"
+              >
+                <h3
+                  class="text-[18px] font-semibold leading-tight text-[#13132E]"
+                >
+                  Biosecurity
+                </h3>
+                <p
+                  class="bluedot-p not-prose text-[15px] leading-[1.6] text-[#13132E]/70"
+                >
+                  Pandemic preparedness, early warning systems, policy. For people building defences against bio risks.
+                </p>
+                <a
+                  class="text-[15px] font-medium text-bluedot-normal hover:underline mt-1 inline-flex items-center gap-1 group-hover:gap-2 transition-all"
+                  href="/courses/biosecurity"
+                >
+                  Explore the course
+                  <span
+                    class="transition-transform group-hover:translate-x-0.5"
+                  >
+                    →
+                  </span>
+                </a>
+              </div>
+            </div>
+            <div
+              class="group flex flex-col gap-4 p-6 rounded-xl bg-white border border-[rgba(19,19,46,0.08)] hover:border-[rgba(19,19,46,0.12)] hover:shadow-md transition-all duration-200"
+            >
+              <div
+                class="size-12 rounded-lg flex items-center justify-center flex-shrink-0"
+                style="background-color: #2C3F81;"
+              >
+                <svg
+                  class="text-white"
+                  fill="currentColor"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 256 256"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M223.85,47.12a16,16,0,0,0-15-15c-12.58-.75-44.73.4-71.41,27.07L132.69,64H74.36A15.91,15.91,0,0,0,63,68.68L28.7,103a16,16,0,0,0,9.07,27.16l38.47,5.37,44.21,44.21,5.37,38.49a15.94,15.94,0,0,0,10.78,12.92,16.11,16.11,0,0,0,5.1.83A15.91,15.91,0,0,0,153,227.3L187.32,193A15.91,15.91,0,0,0,192,181.64V123.31l4.77-4.77C223.45,91.86,224.6,59.71,223.85,47.12ZM74.36,80h42.33L77.16,119.52,40,114.34Zm74.41-9.45a76.65,76.65,0,0,1,59.11-22.47,76.46,76.46,0,0,1-22.42,59.16L128,164.68,91.32,128ZM176,181.64,141.67,216l-5.19-37.17L176,139.31Zm-74.16,9.5C97.34,201,82.29,224,40,224a8,8,0,0,1-8-8c0-42.29,23-57.34,32.86-61.85a8,8,0,0,1,6.64,14.56c-6.43,2.93-20.62,12.36-23.12,38.91,26.55-2.5,36-16.69,38.91-23.12a8,8,0,1,1,14.56,6.64Z"
+                  />
+                </svg>
+              </div>
+              <div
+                class="flex flex-col gap-2"
+              >
+                <h3
+                  class="text-[18px] font-semibold leading-tight text-[#13132E]"
+                >
+                  Make a bigger leap
+                </h3>
+                <p
+                  class="bluedot-p not-prose text-[15px] leading-[1.6] text-[#13132E]/70"
+                >
+                  Pivot directly into high-impact work, or start building something new. We can help.
+                </p>
               </div>
             </div>
           </div>
@@ -1742,6 +1956,198 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
             >
               <button
+                aria-controls="faq-answer-background"
+                aria-expanded="false"
+                class="w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease py-6 hover:bg-gray-50"
+                type="button"
+              >
+                <span
+                  class="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow"
+                >
+                  What background do I need?
+                </span>
+                <svg
+                  class="flex-shrink-0 transition-transform duration-300 ease "
+                  fill="none"
+                  height="17"
+                  viewBox="0 0 16 17"
+                  width="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0 8.5H16M8 0.5L8 16.5"
+                    stroke="#001133"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+              <div
+                class="grid transition-[grid-template-rows] duration-300 ease grid-rows-[0fr]"
+                id="faq-answer-background"
+              >
+                <div
+                  class="overflow-hidden"
+                >
+                  <div
+                    class="px-8 pb-6"
+                  >
+                    <div
+                      class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
+                    >
+                      We don't care about your CV. We care about what you'll do next. We've had participants from policy, engineering, law, medicine, operations, and academia - what they shared was drive and a bias toward action.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
+            >
+              <button
+                aria-controls="faq-answer-beginners"
+                aria-expanded="false"
+                class="w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease py-6 hover:bg-gray-50"
+                type="button"
+              >
+                <span
+                  class="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow"
+                >
+                  Is this course for beginners?
+                </span>
+                <svg
+                  class="flex-shrink-0 transition-transform duration-300 ease "
+                  fill="none"
+                  height="17"
+                  viewBox="0 0 16 17"
+                  width="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0 8.5H16M8 0.5L8 16.5"
+                    stroke="#001133"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+              <div
+                class="grid transition-[grid-template-rows] duration-300 ease grid-rows-[0fr]"
+                id="faq-answer-beginners"
+              >
+                <div
+                  class="overflow-hidden"
+                >
+                  <div
+                    class="px-8 pb-6"
+                  >
+                    <div
+                      class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
+                    >
+                      It's for people who are new to working on AI safety, not new to taking things seriously. If you've been reading and thinking and are ready to stop orbiting, this is where you start.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
+            >
+              <button
+                aria-controls="faq-answer-formats"
+                aria-expanded="false"
+                class="w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease py-6 hover:bg-gray-50"
+                type="button"
+              >
+                <span
+                  class="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow"
+                >
+                  What's the difference between intensive and part-time?
+                </span>
+                <svg
+                  class="flex-shrink-0 transition-transform duration-300 ease "
+                  fill="none"
+                  height="17"
+                  viewBox="0 0 16 17"
+                  width="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0 8.5H16M8 0.5L8 16.5"
+                    stroke="#001133"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+              <div
+                class="grid transition-[grid-template-rows] duration-300 ease grid-rows-[0fr]"
+                id="faq-answer-formats"
+              >
+                <div
+                  class="overflow-hidden"
+                >
+                  <div
+                    class="px-8 pb-6"
+                  >
+                    <div
+                      class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
+                    >
+                      Same content, different pace. Intensive is 5 days at ~5 hours/day - for people who can clear a week and want to move fast. Part-time is 5 weeks at ~5 hours/week - for people building this around other commitments. Both get you to the same place.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
+            >
+              <button
+                aria-controls="faq-answer-direction"
+                aria-expanded="false"
+                class="w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease py-6 hover:bg-gray-50"
+                type="button"
+              >
+                <span
+                  class="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow"
+                >
+                  What if I don't know which direction I want to go?
+                </span>
+                <svg
+                  class="flex-shrink-0 transition-transform duration-300 ease "
+                  fill="none"
+                  height="17"
+                  viewBox="0 0 16 17"
+                  width="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0 8.5H16M8 0.5L8 16.5"
+                    stroke="#001133"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+              <div
+                class="grid transition-[grid-template-rows] duration-300 ease grid-rows-[0fr]"
+                id="faq-answer-direction"
+              >
+                <div
+                  class="overflow-hidden"
+                >
+                  <div
+                    class="px-8 pb-6"
+                  >
+                    <div
+                      class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
+                    >
+                      That's what the course is for. You'll leave knowing which problems matter most to you and which path fits your skills - technical research, governance, biosecurity, or building something new. Figuring it out is the work.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
+            >
+              <button
                 aria-controls="faq-answer-funding"
                 aria-expanded="false"
                 class="w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease py-6 hover:bg-gray-50"
@@ -1750,7 +2156,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 <span
                   class="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow"
                 >
-                  Can I just apply for funding?
+                  Is there funding available?
                 </span>
                 <svg
                   class="flex-shrink-0 transition-transform duration-300 ease "
@@ -1780,7 +2186,74 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     <div
                       class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
                     >
-                      Funding is only available for graduates of the course.
+                      Yes, for people who are building.
+                      <br />
+                      <br />
+                      <span
+                        class="font-semibold"
+                      >
+                        Rapid Small Grants ($50–$1,500):
+                      </span>
+                       For participants who need compute, conference travel, research access, or tools. Apply in under 15 minutes, hear back within 5 days.
+                      <br />
+                      <br />
+                      <span
+                        class="font-semibold"
+                      >
+                        Incubator Grants ($10–50K):
+                      </span>
+                       For participants who come out ready to launch something. Selective, awarded through our incubator programme - not a direct application.
+                      <br />
+                      <br />
+                      We're not here to fund curiosity. But if you're building something ambitious that matters, we will back you.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
+            >
+              <button
+                aria-controls="faq-answer-free"
+                aria-expanded="false"
+                class="w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease py-6 hover:bg-gray-50"
+                type="button"
+              >
+                <span
+                  class="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow"
+                >
+                  Is it really free?
+                </span>
+                <svg
+                  class="flex-shrink-0 transition-transform duration-300 ease "
+                  fill="none"
+                  height="17"
+                  viewBox="0 0 16 17"
+                  width="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0 8.5H16M8 0.5L8 16.5"
+                    stroke="#001133"
+                    stroke-width="2"
+                  />
+                </svg>
+              </button>
+              <div
+                class="grid transition-[grid-template-rows] duration-300 ease grid-rows-[0fr]"
+                id="faq-answer-free"
+              >
+                <div
+                  class="overflow-hidden"
+                >
+                  <div
+                    class="px-8 pb-6"
+                  >
+                    <div
+                      class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
+                    >
+                      Yes.
                     </div>
                   </div>
                 </div>
@@ -1828,13 +2301,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     <div
                       class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
                     >
-                      We're a London-based startup. Since 2022, we've trained 5,000 people, with ~1,000 now working on making AI go well.
-                      <br />
-                      <br />
-                      Our courses are the main entry point into the AI safety field.
-                      <br />
-                      <br />
-                      We're an intense 4-person team. We've raised $35M in total, including $25M in 2025.
+                      BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run courses, help people land jobs, organise events all over the world, and accelerate entrepreneurs to start new companies. We've trained 7,000+ people since 2022. Our alumni are now at Anthropic, DeepMind, UK AISI, and have started new organisations working on safely navigating the transition to AGI.
                     </div>
                   </div>
                 </div>
