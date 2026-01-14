@@ -8,7 +8,7 @@ export const dropoutRouter = router({
     .input(
       z.object({
         applicantId: z.array(z.string().min(1)).min(1),
-        reason: z.string().min(1),
+        reason: z.string(),
         isDeferral: z.boolean(),
       }),
     )
