@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { ProgressDots, useAuthStore } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 // eslint-disable-next-line import/no-cycle
@@ -43,6 +43,10 @@ const Exercise: React.FC<ExerciseProps> = ({
     },
   });
 
+  // Prevent concurrent saves to avoid race condition creating duplicate records
+  // Concurrent saves can happen e.g. when a blur and click event both trigger saves
+  const isSavingRef = useRef(false);
+
   // Optimistically update `isCompleted` using mutation variables.
   // Note: generally use onMutate/onSettled if doing optimistic updates of whole
   // objects, this is just a simple workaround for this one field.
@@ -51,12 +55,18 @@ const Exercise: React.FC<ExerciseProps> = ({
     : (responseData?.completed ?? false);
 
   const handleExerciseSubmit = async (exerciseResponse: string, completed?: boolean) => {
-    // Use mutateAsync to ensure the mutation completes and cache updates before UI re-renders with the new response
-    await saveResponseMutation.mutateAsync({
-      exerciseId,
-      response: exerciseResponse,
-      completed, // undefined means "don't change", backend preserves existing value
-    });
+    if (isSavingRef.current) return;
+    isSavingRef.current = true;
+
+    try {
+      await saveResponseMutation.mutateAsync({
+        exerciseId,
+        response: exerciseResponse,
+        completed, // undefined means "don't change", backend preserves existing value
+      });
+    } finally {
+      isSavingRef.current = false;
+    }
   };
 
   if (exerciseLoading || exerciseResponseLoading) {
