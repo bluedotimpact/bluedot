@@ -17,6 +17,7 @@ import { DocumentIcon } from '../icons/DocumentIcon';
 import { ClockIcon } from '../icons/ClockIcon';
 import { SlackIcon } from '../icons/SlackIcon';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
+import DropoutModal from '../courses/DropoutModal';
 
 const BUTTON_STYLES = {
   primary: { variant: 'primary' as const, className: 'w-auto bg-bluedot-normal' },
@@ -32,6 +33,7 @@ type CourseDetailsRowProps = {
   isFacilitator: boolean;
   onOpenGroupSwitchModal: (discussion: GroupDiscussion, switchType: SwitchType) => void;
   onOpenFacilitatorModal: (discussion: GroupDiscussion, modalType: FacilitatorModalType) => void;
+  onOpenDropoutModal: () => void;
 };
 
 const CourseDetailsRow = ({
@@ -42,6 +44,7 @@ const CourseDetailsRow = ({
   isFacilitator,
   onOpenGroupSwitchModal,
   onOpenFacilitatorModal,
+  onOpenDropoutModal,
 }: CourseDetailsRowProps) => {
   const currentTimeMs = useCurrentTimeMs();
 
@@ -123,6 +126,14 @@ const CourseDetailsRow = ({
       onClick: () => onOpenGroupSwitchModal(discussion, 'Switch group permanently'),
       isVisible: !isFacilitator && !isPast,
       overflowIcon: <FaArrowRightArrowLeft className="mx-auto size-[14px]" />,
+    },
+    {
+      id: 'dropout-or-deferral',
+      label: 'Request dropout or deferral',
+      variant: 'secondary',
+      isVisible: !isFacilitator && !isPast,
+      onClick: onOpenDropoutModal,
+      overflowIcon: <FaArrowRightArrowLeft />,
     },
   ];
   const visibleButtons = buttons.filter((button) => button.isVisible);
@@ -231,6 +242,7 @@ const CourseDetails = ({
 
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [facilitatorSwitchModalOpen, setFacilitatorSwitchModalOpen] = useState(false);
+  const [dropoutModalOpen, setDropoutModalOpen] = useState(false);
   const [selectedSwitchType, setSelectedSwitchType] = useState<SwitchType>('Switch group for one unit');
   const [selectedFacilitatorModalType, setSelectedFacilitatorModalType] = useState<FacilitatorModalType>('Update discussion time');
   const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>(showUpcomingTab ? 'upcoming' : 'attended');
@@ -308,6 +320,7 @@ const CourseDetails = ({
                             isFacilitator={isFacilitator}
                             onOpenGroupSwitchModal={handleOpenGroupSwitch}
                             onOpenFacilitatorModal={handleOpenFacilitatorModal}
+                            onOpenDropoutModal={() => setDropoutModalOpen(true)}
                           />
                         ))}
 
@@ -345,6 +358,7 @@ const CourseDetails = ({
                             isFacilitator={isFacilitator}
                             onOpenGroupSwitchModal={handleOpenGroupSwitch}
                             onOpenFacilitatorModal={handleOpenFacilitatorModal}
+                            onOpenDropoutModal={() => setDropoutModalOpen(true)}
                           />
                         ))}
 
@@ -393,6 +407,12 @@ const CourseDetails = ({
           initialDiscussion={selectedDiscussion}
           allDiscussions={expectedDiscussions}
           initialModalType={selectedFacilitatorModalType}
+        />
+      )}
+      {dropoutModalOpen && (
+        <DropoutModal
+          applicantId={courseRegistration.id}
+          handleClose={() => setDropoutModalOpen(false)}
         />
       )}
     </>
