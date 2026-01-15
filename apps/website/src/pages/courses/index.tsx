@@ -539,8 +539,7 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
           </p>
           <Link
             href={`${course.path}/1/1`}
-            className="mt-3 text-[15px] leading-[1.6] font-medium cursor-pointer"
-            style={{ color: accentColor }}
+            className="mt-3 text-[15px] leading-[1.6] font-medium cursor-pointer text-bluedot-normal"
           >
             Start learning
           </Link>
@@ -562,7 +561,7 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
           </div>
         </div>
 
-        <div className="ml-auto flex items-center text-[15px] leading-[1.6] font-medium" style={{ color: accentColor }}>
+        <div className="ml-auto flex items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal">
           <span className="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1">
             Start learning
           </span>
@@ -656,8 +655,7 @@ const CourseRoundItem = ({ round, course }: CourseRoundItemProps) => {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Apply now (opens in a new tab)"
-            className="mt-3 text-[15px] leading-[1.6] font-medium cursor-pointer"
-            style={{ color: accentColor }}
+            className="mt-3 text-[15px] leading-[1.6] font-medium cursor-pointer text-bluedot-normal"
           >
             Apply now
           </a>
@@ -682,7 +680,7 @@ const CourseRoundItem = ({ round, course }: CourseRoundItemProps) => {
           </div>
         </div>
 
-        <div className="ml-auto flex items-center text-[15px] leading-[1.6] font-medium" style={{ color: accentColor }}>
+        <div className="ml-auto flex items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal">
           <span className="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1">
             Apply now
           </span>
