@@ -33,7 +33,7 @@ export const createTechnicalAiSafetyProjectContent = (
   courseSlug: string,
 ): CourseLanderContent => ({
   meta: {
-    title: 'Technical AI Safety Project | BlueDot Impact',
+    title: 'Technical AI Safety Project Sprint | BlueDot Impact',
     description: 'Make a technical contribution to AI safety in 30 hours.',
   },
 
@@ -41,7 +41,7 @@ export const createTechnicalAiSafetyProjectContent = (
     gradient: TASP_COLORS.gradient,
     accentColor: TASP_COLORS.accent,
     categoryLabel: 'PROJECT-BASED COURSE',
-    title: 'Technical AI Safety Project',
+    title: 'Technical AI Safety Project Sprint',
     description: 'Work with an AI safety expert to make a contribution to AI safety research or engineering. All in 30 hours.',
     primaryCta: {
       text: 'Apply now',
