@@ -1236,6 +1236,25 @@ export const resourceCompletionTable = pgAirtable('resource_completion', {
   },
 });
 
+export const dropoutTable = pgAirtable('dropout', {
+  baseId: APPLICATIONS_BASE_ID,
+  tableId: 'tblmxqYXX1RaDvunu',
+  columns: {
+    applicantId: {
+      pgColumn: text().array(),
+      airtableId: 'fldPd4tLm0m3EsuQc',
+    },
+    reason: {
+      pgColumn: text(),
+      airtableId: 'fld46PnSM2D9naqtK',
+    },
+    isDeferral: {
+      pgColumn: boolean(),
+      airtableId: 'fldzYMTGkTd91Chyu',
+    },
+  },
+});
+
 // Type exports for all tables
 export type Meta = InferSelectModel<typeof metaTable>;
 export type SyncMetadata = InferSelectModel<typeof syncMetadataTable>;
@@ -1267,3 +1286,4 @@ export type CourseRegistration = InferSelectModel<typeof courseRegistrationTable
 export type User = InferSelectModel<typeof userTable.pg>;
 export type ResourceCompletion = InferSelectModel<typeof resourceCompletionTable.pg>;
 export type FacilitatorSwitching = InferSelectModel<typeof facilitatorDiscussionSwitchingTable.pg>;
+export type Dropout = InferSelectModel<typeof dropoutTable.pg>;
