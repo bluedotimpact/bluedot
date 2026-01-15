@@ -14,6 +14,20 @@ import { CourseLanderContent } from '../CourseLander';
 
 export const TECHNICAL_AI_SAFETY_PROJECT_APPLICATION_URL = 'https://web.miniextensions.com/2lQmY04m6DdfeGbIYgsG';
 
+// Custom color theme for Technical AI Safety Project - slightly more blue-purple than the main TAS course
+const TASP_COLORS = {
+  /* Gradient layers:
+     1. Left-side darkness - horizontal gradient to darken left edge for text readability
+     2. Bottom-right warm glow - blue-purple tones (differentiated from main TAS course)
+     3. Base color - deep blue-purple */
+  gradient: 'linear-gradient(to right, rgba(15, 10, 30, 0.6) 0%, rgba(15, 10, 30, 0.4) 20%, rgba(15, 10, 30, 0.2) 40%, transparent 55%), radial-gradient(130% 160% at 100% 108.81%, rgba(200, 180, 255, 0.40) 0%, rgba(100, 85, 160, 0.40) 52.4%, rgba(35, 20, 60, 0.40) 100%), #2A1854',
+  accent: '#C8B3FF', // Lighter purple-blue accent
+  iconBackground: '#4A3B7A', // Slightly bluer purple for icons
+  bright: '#f0e6ff', // Light purple for benefit icons
+  mid: '#9B7FD1', // Mid-tone purple-blue
+  full: '#8A6BBB', // Full purple-blue for course info
+};
+
 export const createTechnicalAiSafetyProjectContent = (
   applicationUrlWithUtm: string,
   courseSlug: string,
@@ -24,6 +38,8 @@ export const createTechnicalAiSafetyProjectContent = (
   },
 
   hero: {
+    gradient: TASP_COLORS.gradient,
+    accentColor: TASP_COLORS.accent,
     categoryLabel: 'TECHNICAL AI SAFETY PROJECT',
     title: 'Make a technical contribution to AI safety in 30 hours',
     description: 'Work with an AI safety expert to make a contribution to AI safety research or engineering. All in 30 hours.',
@@ -35,11 +51,13 @@ export const createTechnicalAiSafetyProjectContent = (
       text: 'Browse curriculum',
       url: `/courses/${courseSlug}/1/1`,
     },
-    imageSrc: '/images/lander/technical-ai-safety/hero-banner-split.webp',
+    imageSrc: '/images/lander/technical-ai-safety/hero-graphic.png',
     imageAlt: 'Technical AI Safety Project visualisation',
+    imageAspectRatio: '1408/1122',
   },
 
   whoIsThisFor: {
+    iconBackgroundColor: TASP_COLORS.iconBackground,
     title: 'Who this course is for',
     targetAudiences: [
       {
@@ -68,6 +86,7 @@ export const createTechnicalAiSafetyProjectContent = (
 
   courseBenefits: {
     title: 'How this course will benefit you',
+    iconBackgroundColor: TASP_COLORS.bright,
     benefits: [
       {
         icon: PiRocketLaunch,
@@ -98,6 +117,7 @@ export const createTechnicalAiSafetyProjectContent = (
     applicationUrl: applicationUrlWithUtm,
     scheduleCtaText: 'Apply now',
     courseSlug,
+    accentColor: TASP_COLORS.full,
     details: [
       {
         icon: PiClockClockwise,
