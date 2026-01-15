@@ -40,8 +40,8 @@ export const createTechnicalAiSafetyProjectContent = (
   hero: {
     gradient: TASP_COLORS.gradient,
     accentColor: TASP_COLORS.accent,
-    categoryLabel: 'TECHNICAL AI SAFETY PROJECT',
-    title: 'Make a technical contribution to AI safety in 30 hours',
+    categoryLabel: 'PROJECT-BASED COURSE',
+    title: 'Technical AI Safety Project',
     description: 'Work with an AI safety expert to make a contribution to AI safety research or engineering. All in 30 hours.',
     primaryCta: {
       text: 'Apply now',
