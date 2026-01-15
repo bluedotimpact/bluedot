@@ -443,7 +443,7 @@ export class PgAirtableDb {
         const deletedResult = Array.isArray(deletedResults) ? deletedResults[0] : undefined;
 
         if (!deletedResult) {
-          throw new Error('Unknown error: Delete failed to return result');
+          return undefined as unknown as BasePgTableType<TTableName, TColumnsMap>['$inferSelect'];
         }
 
         return deletedResult;
