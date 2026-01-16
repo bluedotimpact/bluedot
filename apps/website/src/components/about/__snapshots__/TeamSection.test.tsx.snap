@@ -237,7 +237,7 @@ exports[`TeamSection > renders as expected 1`] = `
                       <img
                         alt="Aniket Chakravorty - AI Strategy Specialist"
                         class="team-section__card-image size-[300px] object-cover"
-                        src="/images/team/aniketchakravorty.jpg"
+                        src="/images/team/aniket.png"
                       />
                     </a>
                   </div>
