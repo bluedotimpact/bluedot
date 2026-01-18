@@ -160,6 +160,7 @@ export const courseRoundsRouter = router({
           id: courseTable.pg.id,
           title: courseTable.pg.title,
           slug: courseTable.pg.slug,
+          applyUrl: courseTable.pg.applyUrl,
         })
         .from(courseTable.pg)
         .where(eq(courseTable.pg.status, 'Active'));
@@ -245,6 +246,7 @@ export const courseRoundsRouter = router({
             courseId: round.courseId,
             courseTitle: course.title,
             courseSlug: course.slug,
+            applyUrl: course.applyUrl,
             intensity: round.intensity,
             applicationDeadline: round.applicationDeadline
               ? formatDate(round.applicationDeadline)

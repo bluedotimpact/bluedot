@@ -4,8 +4,11 @@ import {
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import CourseLander from './CourseLander';
-import { createAgiStrategyContent, AGI_STRATEGY_APPLICATION_URL } from './course-content/AgiStrategyContent';
+import { createAgiStrategyContent } from './course-content/AgiStrategyContent';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
+
+// Test URL - in production this comes from the database
+const TEST_APPLICATION_URL = 'https://web.miniextensions.com/test';
 
 // Mock Next.js Head component
 vi.mock('next/head', () => ({
@@ -62,7 +65,7 @@ describe('AgiStrategyLander', () => {
     const { container } = render(
       <CourseLander
         courseSlug="agi-strategy"
-        baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL}
+        baseApplicationUrl={TEST_APPLICATION_URL}
         createContentFor={createAgiStrategyContent}
         courseOgImage="https://bluedot.org/images/courses/link-preview/agi-strategy.png"
         soonestDeadline={null}
@@ -76,7 +79,7 @@ describe('AgiStrategyLander', () => {
     render(
       <CourseLander
         courseSlug="agi-strategy"
-        baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL}
+        baseApplicationUrl={TEST_APPLICATION_URL}
         createContentFor={createAgiStrategyContent}
         soonestDeadline={null}
       />,
@@ -97,7 +100,7 @@ describe('AgiStrategyLander', () => {
     render(
       <CourseLander
         courseSlug="agi-strategy"
-        baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL}
+        baseApplicationUrl={TEST_APPLICATION_URL}
         createContentFor={createAgiStrategyContent}
         soonestDeadline={null}
       />,
@@ -110,7 +113,7 @@ describe('AgiStrategyLander', () => {
     render(
       <CourseLander
         courseSlug="agi-strategy"
-        baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL}
+        baseApplicationUrl={TEST_APPLICATION_URL}
         createContentFor={createAgiStrategyContent}
         soonestDeadline={null}
       />,
@@ -125,7 +128,7 @@ describe('AgiStrategyLander', () => {
     render(
       <CourseLander
         courseSlug="agi-strategy"
-        baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL}
+        baseApplicationUrl={TEST_APPLICATION_URL}
         createContentFor={createAgiStrategyContent}
         soonestDeadline={null}
       />,
@@ -140,7 +143,7 @@ describe('AgiStrategyLander', () => {
     const { container } = render(
       <CourseLander
         courseSlug="agi-strategy"
-        baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL}
+        baseApplicationUrl={TEST_APPLICATION_URL}
         createContentFor={createAgiStrategyContent}
         soonestDeadline={null}
       />,

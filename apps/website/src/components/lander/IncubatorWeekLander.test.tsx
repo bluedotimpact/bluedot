@@ -4,8 +4,11 @@ import {
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import CourseLander from './CourseLander';
-import { createIncubatorWeekContent, INCUBATOR_WEEK_APPLICATION_URL } from './course-content/IncubatorWeekContent';
+import { createIncubatorWeekContent } from './course-content/IncubatorWeekContent';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
+
+// Test URL - in production this comes from the database
+const TEST_APPLICATION_URL = 'https://web.miniextensions.com/test';
 
 // Mock Next.js Head component
 vi.mock('next/head', () => ({
@@ -62,7 +65,7 @@ describe('IncubatorWeekLander', () => {
     const { container } = render(
       <CourseLander
         courseSlug="incubator-week"
-        baseApplicationUrl={INCUBATOR_WEEK_APPLICATION_URL}
+        baseApplicationUrl={TEST_APPLICATION_URL}
         createContentFor={createIncubatorWeekContent}
         courseOgImage="https://bluedot.org/images/courses/link-preview/incubator-week.png"
         soonestDeadline={null}
@@ -76,7 +79,7 @@ describe('IncubatorWeekLander', () => {
     render(
       <CourseLander
         courseSlug="incubator-week"
-        baseApplicationUrl={INCUBATOR_WEEK_APPLICATION_URL}
+        baseApplicationUrl={TEST_APPLICATION_URL}
         createContentFor={createIncubatorWeekContent}
         soonestDeadline={null}
       />,
@@ -100,7 +103,7 @@ describe('IncubatorWeekLander', () => {
     render(
       <CourseLander
         courseSlug="incubator-week"
-        baseApplicationUrl={INCUBATOR_WEEK_APPLICATION_URL}
+        baseApplicationUrl={TEST_APPLICATION_URL}
         createContentFor={createIncubatorWeekContent}
         soonestDeadline={null}
       />,
@@ -113,7 +116,7 @@ describe('IncubatorWeekLander', () => {
     render(
       <CourseLander
         courseSlug="incubator-week"
-        baseApplicationUrl={INCUBATOR_WEEK_APPLICATION_URL}
+        baseApplicationUrl={TEST_APPLICATION_URL}
         createContentFor={createIncubatorWeekContent}
         soonestDeadline={null}
       />,
@@ -128,7 +131,7 @@ describe('IncubatorWeekLander', () => {
     const { container } = render(
       <CourseLander
         courseSlug="incubator-week"
-        baseApplicationUrl={INCUBATOR_WEEK_APPLICATION_URL}
+        baseApplicationUrl={TEST_APPLICATION_URL}
         createContentFor={createIncubatorWeekContent}
         soonestDeadline={null}
       />,
