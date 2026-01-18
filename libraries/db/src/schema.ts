@@ -831,7 +831,7 @@ export const testimonialTable = pgAirtable('testimonial', {
       pgColumn: text(),
       airtableId: 'fldlchhyYHzKx1q4K',
     },
-    courseSlugs: {
+    displayOnCourseSlugs: {
       pgColumn: text().array(),
       airtableId: 'fld64ErNzQB8UFLso',
     },
