@@ -15,13 +15,13 @@ import { ROUTES } from '../../../lib/routes';
 import MarkdownExtendedRenderer from '../../../components/courses/MarkdownExtendedRenderer';
 import AiSafetyOpsLander from '../../../components/lander/AiSafetyOpsLander';
 import CourseLander from '../../../components/lander/CourseLander';
-import { createAgiStrategyContent, AGI_STRATEGY_APPLICATION_URL } from '../../../components/lander/course-content/AgiStrategyContent';
-import { createBioSecurityContent, BIOSECURITY_APPLICATION_URL } from '../../../components/lander/course-content/BioSecurityContent';
-import { createTechnicalAiSafetyContent, TECHNICAL_AI_SAFETY_APPLICATION_URL } from '../../../components/lander/course-content/TechnicalAiSafetyContent';
-import { createAiGovernanceContent, AI_GOVERNANCE_APPLICATION_URL } from '../../../components/lander/course-content/AiGovernanceContent';
+import { createAgiStrategyContent } from '../../../components/lander/course-content/AgiStrategyContent';
+import { createBioSecurityContent } from '../../../components/lander/course-content/BioSecurityContent';
+import { createTechnicalAiSafetyContent } from '../../../components/lander/course-content/TechnicalAiSafetyContent';
+import { createAiGovernanceContent } from '../../../components/lander/course-content/AiGovernanceContent';
 import { createFutureOfAiContent, FUTURE_OF_AI_START_URL } from '../../../components/lander/course-content/FutureOfAiContent';
-import { createTechnicalAiSafetyProjectContent, TECHNICAL_AI_SAFETY_PROJECT_APPLICATION_URL } from '../../../components/lander/course-content/TechnicalAiSafetyProjectContent';
-import { createIncubatorWeekContent, INCUBATOR_WEEK_APPLICATION_URL } from '../../../components/lander/course-content/IncubatorWeekContent';
+import { createTechnicalAiSafetyProjectContent } from '../../../components/lander/course-content/TechnicalAiSafetyProjectContent';
+import { createIncubatorWeekContent } from '../../../components/lander/course-content/IncubatorWeekContent';
 import GraduateSection from '../../../components/lander/components/GraduateSection';
 import { CourseUnitsSection } from '../../../components/courses/CourseUnitsSection';
 import { getCourseData, type CourseAndUnits } from '../../../server/routers/courses';
@@ -43,8 +43,11 @@ const CoursePage = ({ courseSlug, courseData, courseOgImage }: CoursePageProps) 
 
 // Helper function to render the appropriate course page based on slug
 const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: CoursePageProps) => {
-  // Custom lander cases
+  const course = courseData.course;
+  const baseApplicationUrl = course?.applyUrl || '';
+
   if (slug === 'future-of-ai') {
+    // Future of AI is self-paced, so use the start URL instead of an apply URL
     return (
       <CourseLander
         courseSlug={slug}
@@ -63,7 +66,7 @@ const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: Cours
     return (
       <CourseLander
         courseSlug={slug}
-        baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL}
+        baseApplicationUrl={baseApplicationUrl}
         createContentFor={createAgiStrategyContent}
         courseOgImage={courseOgImage}
       />
@@ -74,7 +77,7 @@ const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: Cours
     return (
       <CourseLander
         courseSlug={slug}
-        baseApplicationUrl={BIOSECURITY_APPLICATION_URL}
+        baseApplicationUrl={baseApplicationUrl}
         createContentFor={createBioSecurityContent}
         courseOgImage={courseOgImage}
       />
@@ -85,7 +88,7 @@ const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: Cours
     return (
       <CourseLander
         courseSlug={slug}
-        baseApplicationUrl={TECHNICAL_AI_SAFETY_APPLICATION_URL}
+        baseApplicationUrl={baseApplicationUrl}
         createContentFor={createTechnicalAiSafetyContent}
         courseOgImage={courseOgImage}
       />
@@ -96,7 +99,7 @@ const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: Cours
     return (
       <CourseLander
         courseSlug={slug}
-        baseApplicationUrl={AI_GOVERNANCE_APPLICATION_URL}
+        baseApplicationUrl={baseApplicationUrl}
         createContentFor={createAiGovernanceContent}
         courseOgImage={courseOgImage}
       />
@@ -107,7 +110,7 @@ const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: Cours
     return (
       <CourseLander
         courseSlug={slug}
-        baseApplicationUrl={TECHNICAL_AI_SAFETY_PROJECT_APPLICATION_URL}
+        baseApplicationUrl={baseApplicationUrl}
         createContentFor={createTechnicalAiSafetyProjectContent}
         courseOgImage={courseOgImage}
       />
@@ -118,7 +121,7 @@ const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: Cours
     return (
       <CourseLander
         courseSlug={slug}
-        baseApplicationUrl={INCUBATOR_WEEK_APPLICATION_URL}
+        baseApplicationUrl={baseApplicationUrl}
         createContentFor={createIncubatorWeekContent}
         courseOgImage={courseOgImage}
       />
