@@ -106,7 +106,7 @@ export const createMockCourseRegistration = (overrides: Partial<CourseRegistrati
   lastVisitedChunkIndex: null,
   lastVisitedUnitNumber: null,
   role: 'Participant',
-  roundName: "sample round name",
+  roundName: 'sample round name',
   roundStatus: 'Active',
   source: null,
   userId: 'user-1',
