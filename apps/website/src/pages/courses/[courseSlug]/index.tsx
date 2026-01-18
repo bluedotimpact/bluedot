@@ -43,7 +43,7 @@ const CoursePage = ({ courseSlug, courseData, courseOgImage }: CoursePageProps) 
 
 // Helper function to render the appropriate course page based on slug
 const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: CoursePageProps) => {
-  const course = courseData.course;
+  const { course } = courseData;
   const baseApplicationUrl = course?.applyUrl || '';
 
   if (slug === 'future-of-ai') {

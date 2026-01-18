@@ -5,6 +5,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { UpcomingRounds } from './UpcomingRounds';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
+import { trpc } from '../../utils/trpc';
 
 vi.mock('../../utils/trpc', () => ({
   trpc: {
@@ -15,8 +16,6 @@ vi.mock('../../utils/trpc', () => ({
     },
   },
 }));
-
-import { trpc } from '../../utils/trpc';
 
 describe('UpcomingRounds', () => {
   it('uses applyUrl from round data to construct application links', () => {
