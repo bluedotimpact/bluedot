@@ -12,8 +12,6 @@ import {
 } from 'react-icons/pi';
 import { CourseLanderContent } from '../CourseLander';
 
-export const TECHNICAL_AI_SAFETY_PROJECT_APPLICATION_URL = 'https://web.miniextensions.com/2lQmY04m6DdfeGbIYgsG';
-
 // Custom color theme for Technical AI Safety Project - slightly more blue-purple than the main TAS course
 const TASP_COLORS = {
   /* Gradient layers:
