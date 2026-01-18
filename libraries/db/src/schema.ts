@@ -807,6 +807,45 @@ export const projectTable = pgAirtable('project', {
   },
 });
 
+export const testimonialTable = pgAirtable('testimonial', {
+  baseId: WEB_CONTENT_BASE_ID,
+  tableId: 'tblrA0ZIg4t2t6sh5',
+  columns: {
+    name: {
+      pgColumn: text(),
+      airtableId: 'fld8QirNnmWrOxK28',
+    },
+    headshotAttachmentUrls: {
+      pgColumn: text().array(),
+      airtableId: 'fldRtvMPQ4T79vqC1',
+    },
+    jobTitle: {
+      pgColumn: text(),
+      airtableId: 'fldO9gXGV0zA7Z0fh',
+    },
+    bluedotEngagement: {
+      pgColumn: text(),
+      airtableId: 'fld7XhBxpg4TQ1Gra',
+    },
+    profileUrl: {
+      pgColumn: text(),
+      airtableId: 'fldlchhyYHzKx1q4K',
+    },
+    displayOnCourseSlugs: {
+      pgColumn: text().array(),
+      airtableId: 'fld64ErNzQB8UFLso',
+    },
+    isPrioritised: {
+      pgColumn: boolean(),
+      airtableId: 'fldissRE8oeE1chZC',
+    },
+    testimonialText: {
+      pgColumn: text(),
+      airtableId: 'fldSBm8bIIR5JAaeo',
+    },
+  },
+});
+
 export const chunkTable = pgAirtable('chunk', {
   baseId: COURSE_BUILDER_BASE_ID,
   tableId: 'tblNeBgFeQ5Qmebfc',
@@ -1281,6 +1320,7 @@ export type MeetCourse = InferSelectModel<typeof meetCourseTable.pg>;
 export type Blog = InferSelectModel<typeof blogTable.pg>;
 export type JobPosting = InferSelectModel<typeof jobPostingTable.pg>;
 export type Project = InferSelectModel<typeof projectTable.pg>;
+export type Testimonial = InferSelectModel<typeof testimonialTable.pg>;
 export type Chunk = InferSelectModel<typeof chunkTable.pg>;
 export type Unit = InferSelectModel<typeof unitTable.pg>;
 export type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
