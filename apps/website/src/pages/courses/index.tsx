@@ -9,9 +9,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { Nav } from '../../components/Nav/Nav';
 import type { AppRouter } from '../../server/routers/_app';
 import { trpc } from '../../utils/trpc';
-import { AGI_STRATEGY_APPLICATION_URL } from '../../components/lander/course-content/AgiStrategyContent';
-import { BIOSECURITY_APPLICATION_URL } from '../../components/lander/course-content/BioSecurityContent';
-import { TECHNICAL_AI_SAFETY_APPLICATION_URL } from '../../components/lander/course-content/TechnicalAiSafetyContent';
 import NewsletterBanner from '../../components/homepage/NewsletterBanner';
 import { CourseIcon } from '../../components/courses/CourseIcon';
 import { COURSE_CONFIG } from '../../lib/constants';
@@ -31,12 +28,6 @@ const COURSE_DESCRIPTIONS: Record<string, string> = {
   'technical-ai-safety': 'For technical talent who want to drive AI safety research and policy professionals building governance solutions.',
   biosecurity: 'For people who want to build a pandemic-proof world. Learn how we can defend against AI-enabled bioattacks.',
   'technical-ai-safety-project': 'For those who want to make a technical contribution to AI safety research or engineering.',
-};
-
-const COURSE_APPLICATION_URLS: Record<string, string> = {
-  'agi-strategy': AGI_STRATEGY_APPLICATION_URL,
-  biosecurity: BIOSECURITY_APPLICATION_URL,
-  'technical-ai-safety': TECHNICAL_AI_SAFETY_APPLICATION_URL,
 };
 
 /* FoAI course has no cohort rounds - just open access content */
@@ -625,8 +616,7 @@ const CourseRoundItem = ({ round, course }: CourseRoundItemProps) => {
   const { latestUtmParams } = useLatestUtmParams();
   const accentColor = getCourseAccentColor(course.slug);
 
-  // Use the miniextensions URL from course content, falling back to detailsUrl or course path
-  const baseApplicationUrl = COURSE_APPLICATION_URLS[course.slug] || course.detailsUrl || course.path;
+  const baseApplicationUrl = course.applyUrl || '';
 
   // Add UTM source prefill if available
   const applicationUrlWithUtm = latestUtmParams.utm_source

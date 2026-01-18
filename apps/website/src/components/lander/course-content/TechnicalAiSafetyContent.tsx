@@ -12,8 +12,6 @@ import {
 } from 'react-icons/pi';
 import { CourseLanderContent } from '../CourseLander';
 
-export const TECHNICAL_AI_SAFETY_APPLICATION_URL = 'https://web.miniextensions.com/9YX1i46qewCv5m17v8rl';
-
 const TAS_COLORS = {
   /* Gradient layers:
      1. Left-side darkness - horizontal gradient to darken left edge for text readability

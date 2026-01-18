@@ -28,6 +28,8 @@ const getFacilitator = async (courseSlug: string, facilitatorEmail: string) => {
     filter: {
       email: facilitatorEmail,
       courseId: course.id,
+      roundStatus: 'Active',
+      decision: 'Accept',
     },
   });
   if (!courseRegistration) {
