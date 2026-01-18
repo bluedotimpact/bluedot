@@ -138,6 +138,10 @@ export const courseTable = pgAirtable('course', {
       pgColumn: text(),
       airtableId: 'fldaEypOAkLCFfYBQ',
     },
+    applyUrl: {
+      pgColumn: text(),
+      airtableId: 'fldAtb3GHlRNpYzwC',
+    },
   },
 });
 
