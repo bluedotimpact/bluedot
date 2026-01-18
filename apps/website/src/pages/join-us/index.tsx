@@ -5,8 +5,8 @@ import {
   ProgressDots,
   Section,
 } from '@bluedot/ui';
-import { Nav } from '../../components/Nav/Nav';
 import Head from 'next/head';
+import { Nav } from '../../components/Nav/Nav';
 import CultureSection from '../../components/join-us/CultureSection';
 import JobsListSection from '../../components/join-us/JobsListSection';
 import ValuesSection from '../../components/join-us/ValuesSection';
