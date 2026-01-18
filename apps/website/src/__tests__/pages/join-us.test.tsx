@@ -24,7 +24,10 @@ beforeEach(() => {
 
 describe('JoinUsPage', () => {
   test('should render correctly', async () => {
-    server.use(trpcMsw.jobs.getAll.query(() => []));
+    server.use(
+      trpcMsw.jobs.getAll.query(() => []),
+      trpcMsw.courses.getAll.query(() => []),
+    );
     const { container } = render(<JoinUsPage />, { wrapper: TrpcProvider });
 
     // Wait for loading to finish - check that ProgressDots are gone

@@ -97,60 +97,6 @@ exports[`JoinUsPage > should render correctly 1`] = `
                           <div
                             class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                           >
-                            <a
-                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
-                              href="/courses/agi-strategy"
-                              tabindex="0"
-                            >
-                              AGI Strategy
-                            </a>
-                            <a
-                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
-                              href="/courses/ai-governance"
-                              tabindex="0"
-                            >
-                              AI Governance
-                              <span
-                                class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit !text-bluedot-normal bg-[#E5EDFE] rounded-sm uppercase ml-2 !p-1"
-                                role="status"
-                              >
-                                New
-                              </span>
-                            </a>
-                            <a
-                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
-                              href="/courses/technical-ai-safety-project"
-                              tabindex="0"
-                            >
-                              Technical AI Safety Project
-                              <span
-                                class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit !text-bluedot-normal bg-[#E5EDFE] rounded-sm uppercase ml-2 !p-1"
-                                role="status"
-                              >
-                                New
-                              </span>
-                            </a>
-                            <a
-                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
-                              href="/courses/biosecurity"
-                              tabindex="0"
-                            >
-                              Biosecurity
-                            </a>
-                            <a
-                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
-                              href="/courses/future-of-ai"
-                              tabindex="0"
-                            >
-                              Future of AI
-                            </a>
-                            <a
-                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
-                              href="/courses/technical-ai-safety"
-                              tabindex="0"
-                            >
-                              Technical AI Safety
-                            </a>
                             <div
                               class="border-t border-gray-200 my-2"
                             />
@@ -266,60 +212,6 @@ exports[`JoinUsPage > should render correctly 1`] = `
                     <div
                       class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                     >
-                      <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
-                        href="/courses/agi-strategy"
-                        tabindex="0"
-                      >
-                        AGI Strategy
-                      </a>
-                      <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
-                        href="/courses/ai-governance"
-                        tabindex="0"
-                      >
-                        AI Governance
-                        <span
-                          class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit !text-bluedot-normal bg-[#E5EDFE] rounded-sm uppercase ml-2 !p-1"
-                          role="status"
-                        >
-                          New
-                        </span>
-                      </a>
-                      <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
-                        href="/courses/technical-ai-safety-project"
-                        tabindex="0"
-                      >
-                        Technical AI Safety Project
-                        <span
-                          class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit !text-bluedot-normal bg-[#E5EDFE] rounded-sm uppercase ml-2 !p-1"
-                          role="status"
-                        >
-                          New
-                        </span>
-                      </a>
-                      <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
-                        href="/courses/biosecurity"
-                        tabindex="0"
-                      >
-                        Biosecurity
-                      </a>
-                      <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
-                        href="/courses/future-of-ai"
-                        tabindex="0"
-                      >
-                        Future of AI
-                      </a>
-                      <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
-                        href="/courses/technical-ai-safety"
-                        tabindex="0"
-                      >
-                        Technical AI Safety
-                      </a>
                       <div
                         class="border-t border-gray-200 my-2"
                       />

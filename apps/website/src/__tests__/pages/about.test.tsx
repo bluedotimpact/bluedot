@@ -5,6 +5,7 @@ import {
 import { useRouter } from 'next/router';
 import AboutPage from '../../pages/about';
 import { TrpcProvider } from '../trpcProvider';
+import { server, trpcMsw } from '../trpcMswSetup';
 
 vi.mock('next/router', () => ({
   useRouter: vi.fn(),
@@ -22,6 +23,7 @@ beforeEach(() => {
 
 describe('AboutPage', () => {
   test('should render correctly', () => {
+    server.use(trpcMsw.courses.getAll.query(() => []));
     const { container } = render(<AboutPage />, { wrapper: TrpcProvider });
     expect(container).toMatchSnapshot();
   });
