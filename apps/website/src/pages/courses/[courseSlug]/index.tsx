@@ -21,6 +21,7 @@ import { createTechnicalAiSafetyContent } from '../../../components/lander/cours
 import { createAiGovernanceContent } from '../../../components/lander/course-content/AiGovernanceContent';
 import { createFutureOfAiContent, FUTURE_OF_AI_START_URL } from '../../../components/lander/course-content/FutureOfAiContent';
 import { createTechnicalAiSafetyProjectContent } from '../../../components/lander/course-content/TechnicalAiSafetyProjectContent';
+import { getCourseRoundsData, getSoonestDeadline } from '../../../server/routers/course-rounds';
 import { createIncubatorWeekContent } from '../../../components/lander/course-content/IncubatorWeekContent';
 import GraduateSection from '../../../components/lander/components/GraduateSection';
 import { CourseUnitsSection } from '../../../components/courses/CourseUnitsSection';
@@ -30,19 +31,26 @@ import { fileExists } from '../../../utils/fileExists';
 type CoursePageProps = {
   courseSlug: string;
   courseData: CourseAndUnits;
-  courseOgImage?: string | null
+  courseOgImage?: string | null;
+  soonestDeadline: string | null;
 };
 
-const CoursePage = ({ courseSlug, courseData, courseOgImage }: CoursePageProps) => {
+const CoursePage = ({
+  courseSlug, courseData, courseOgImage, soonestDeadline,
+}: CoursePageProps) => {
   return (
     <div>
-      {renderCoursePage({ courseSlug, courseData, courseOgImage })}
+      {renderCoursePage({
+        courseSlug, courseData, courseOgImage, soonestDeadline,
+      })}
     </div>
   );
 };
 
 // Helper function to render the appropriate course page based on slug
-const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: CoursePageProps) => {
+const renderCoursePage = ({
+  courseSlug: slug, courseData, courseOgImage, soonestDeadline,
+}: CoursePageProps) => {
   const { course } = courseData;
   const baseApplicationUrl = course?.applyUrl || '';
 
@@ -54,6 +62,7 @@ const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: Cours
         baseApplicationUrl={FUTURE_OF_AI_START_URL}
         createContentFor={createFutureOfAiContent}
         courseOgImage={courseOgImage}
+        soonestDeadline={soonestDeadline}
       />
     );
   }
@@ -69,6 +78,7 @@ const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: Cours
         baseApplicationUrl={baseApplicationUrl}
         createContentFor={createAgiStrategyContent}
         courseOgImage={courseOgImage}
+        soonestDeadline={soonestDeadline}
       />
     );
   }
@@ -80,6 +90,7 @@ const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: Cours
         baseApplicationUrl={baseApplicationUrl}
         createContentFor={createBioSecurityContent}
         courseOgImage={courseOgImage}
+        soonestDeadline={soonestDeadline}
       />
     );
   }
@@ -91,6 +102,7 @@ const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: Cours
         baseApplicationUrl={baseApplicationUrl}
         createContentFor={createTechnicalAiSafetyContent}
         courseOgImage={courseOgImage}
+        soonestDeadline={soonestDeadline}
       />
     );
   }
@@ -102,6 +114,7 @@ const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: Cours
         baseApplicationUrl={baseApplicationUrl}
         createContentFor={createAiGovernanceContent}
         courseOgImage={courseOgImage}
+        soonestDeadline={soonestDeadline}
       />
     );
   }
@@ -113,6 +126,7 @@ const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: Cours
         baseApplicationUrl={baseApplicationUrl}
         createContentFor={createTechnicalAiSafetyProjectContent}
         courseOgImage={courseOgImage}
+        soonestDeadline={soonestDeadline}
       />
     );
   }
@@ -124,6 +138,7 @@ const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: Cours
         baseApplicationUrl={baseApplicationUrl}
         createContentFor={createIncubatorWeekContent}
         courseOgImage={courseOgImage}
+        soonestDeadline={soonestDeadline}
       />
     );
   }
@@ -208,6 +223,9 @@ export const getStaticProps: GetStaticProps<CoursePageProps> = async ({ params }
   try {
     const courseData = await getCourseData(courseSlug);
 
+    const rounds = await getCourseRoundsData(courseSlug);
+    const soonestDeadline = getSoonestDeadline(rounds);
+
     let courseOgImage: string | null = null;
     if (await fileExists(path.join(process.cwd(), 'public', 'images', 'courses', 'link-preview', `${courseSlug}.png`))) {
       courseOgImage = `${process.env.NEXT_PUBLIC_SITE_URL}/images/courses/link-preview/${courseSlug}.png`;
@@ -218,6 +236,7 @@ export const getStaticProps: GetStaticProps<CoursePageProps> = async ({ params }
         courseSlug,
         courseData,
         courseOgImage,
+        soonestDeadline,
       },
       revalidate: 300,
     };

@@ -68,6 +68,7 @@ describe('AgiStrategyLander', () => {
         baseApplicationUrl={TEST_APPLICATION_URL}
         createContentFor={createAgiStrategyContent}
         courseOgImage="https://bluedot.org/images/courses/link-preview/agi-strategy.png"
+        soonestDeadline={null}
       />,
       { wrapper: TrpcProvider },
     );
@@ -80,6 +81,7 @@ describe('AgiStrategyLander', () => {
         courseSlug="agi-strategy"
         baseApplicationUrl={TEST_APPLICATION_URL}
         createContentFor={createAgiStrategyContent}
+        soonestDeadline={null}
       />,
       { wrapper: TrpcProvider },
     );
@@ -100,6 +102,7 @@ describe('AgiStrategyLander', () => {
         courseSlug="agi-strategy"
         baseApplicationUrl={TEST_APPLICATION_URL}
         createContentFor={createAgiStrategyContent}
+        soonestDeadline={null}
       />,
       { wrapper: TrpcProvider },
     );
@@ -112,6 +115,7 @@ describe('AgiStrategyLander', () => {
         courseSlug="agi-strategy"
         baseApplicationUrl={TEST_APPLICATION_URL}
         createContentFor={createAgiStrategyContent}
+        soonestDeadline={null}
       />,
       { wrapper: TrpcProvider },
     );
@@ -126,6 +130,7 @@ describe('AgiStrategyLander', () => {
         courseSlug="agi-strategy"
         baseApplicationUrl={TEST_APPLICATION_URL}
         createContentFor={createAgiStrategyContent}
+        soonestDeadline={null}
       />,
       { wrapper: TrpcProvider },
     );
@@ -140,6 +145,7 @@ describe('AgiStrategyLander', () => {
         courseSlug="agi-strategy"
         baseApplicationUrl={TEST_APPLICATION_URL}
         createContentFor={createAgiStrategyContent}
+        soonestDeadline={null}
       />,
       { wrapper: TrpcProvider },
     );
