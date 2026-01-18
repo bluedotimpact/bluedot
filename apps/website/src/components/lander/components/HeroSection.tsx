@@ -1,11 +1,17 @@
 import { CTALinkOrButton, H1, P } from '@bluedot/ui';
 
+type CtaProps = {
+  /** Overridden with "Apply by [deadline]" in CourseLander when a deadline exists */
+  text: string;
+  url: string;
+};
+
 export type HeroSectionProps = {
   categoryLabel?: string;
   categoryLabelColor?: string;
   title: string;
   description: string;
-  primaryCta: { text: string; url: string };
+  primaryCta: CtaProps;
   secondaryCta?: { text: string; url: string };
   imageSrc: string;
   imageAlt: string;

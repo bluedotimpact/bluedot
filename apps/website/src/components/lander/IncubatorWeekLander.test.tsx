@@ -65,6 +65,7 @@ describe('IncubatorWeekLander', () => {
         baseApplicationUrl={INCUBATOR_WEEK_APPLICATION_URL}
         createContentFor={createIncubatorWeekContent}
         courseOgImage="https://bluedot.org/images/courses/link-preview/incubator-week.png"
+        soonestDeadline={null}
       />,
       { wrapper: TrpcProvider },
     );
@@ -77,6 +78,7 @@ describe('IncubatorWeekLander', () => {
         courseSlug="incubator-week"
         baseApplicationUrl={INCUBATOR_WEEK_APPLICATION_URL}
         createContentFor={createIncubatorWeekContent}
+        soonestDeadline={null}
       />,
       { wrapper: TrpcProvider },
     );
@@ -100,6 +102,7 @@ describe('IncubatorWeekLander', () => {
         courseSlug="incubator-week"
         baseApplicationUrl={INCUBATOR_WEEK_APPLICATION_URL}
         createContentFor={createIncubatorWeekContent}
+        soonestDeadline={null}
       />,
       { wrapper: TrpcProvider },
     );
@@ -112,6 +115,7 @@ describe('IncubatorWeekLander', () => {
         courseSlug="incubator-week"
         baseApplicationUrl={INCUBATOR_WEEK_APPLICATION_URL}
         createContentFor={createIncubatorWeekContent}
+        soonestDeadline={null}
       />,
       { wrapper: TrpcProvider },
     );
@@ -126,6 +130,7 @@ describe('IncubatorWeekLander', () => {
         courseSlug="incubator-week"
         baseApplicationUrl={INCUBATOR_WEEK_APPLICATION_URL}
         createContentFor={createIncubatorWeekContent}
+        soonestDeadline={null}
       />,
       { wrapper: TrpcProvider },
     );
