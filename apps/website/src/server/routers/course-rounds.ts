@@ -1,9 +1,10 @@
 import { z } from 'zod';
 import {
-  applicationsRoundTable, courseTable, eq, and, or, sql,
+  applicationsRoundTable, courseTable, courseRegistrationTable, eq, and, or, sql,
 } from '@bluedot/db';
 import { publicProcedure, router } from '../trpc';
 import db from '../../lib/api/db';
+import type { ApplyCTAProps } from '../../components/courses/SideBar';
 
 /**
  * Fetches course rounds data by course slug.
@@ -289,5 +290,46 @@ export const courseRoundsRouter = router({
       };
 
       return grouped;
+    }),
+
+  getApplyCTAProps: publicProcedure
+    .input(z.object({ courseSlug: z.string() }))
+    .query(async ({ ctx, input }): Promise<ApplyCTAProps | null> => {
+      const { courseSlug } = input;
+
+      // Get course with applyUrl from database
+      const course = await db.pg
+        .select({ id: courseTable.pg.id, applyUrl: courseTable.pg.applyUrl })
+        .from(courseTable.pg)
+        .where(eq(courseTable.pg.slug, courseSlug))
+        .limit(1);
+
+      if (!course.length || !course[0]?.applyUrl) return null;
+
+      const { id: courseId, applyUrl: applicationUrl } = course[0];
+
+      // Use shared functions for getting deadline
+      const rounds = await getCourseRoundsData(courseSlug);
+      const applicationDeadline = getSoonestDeadline(rounds);
+      if (!applicationDeadline) return null;
+
+      // Check if user has already applied (requires auth context)
+      let hasApplied = false;
+      if (ctx.auth?.email) {
+        const result = await db.pg.execute<{ exists: boolean }>(sql`
+          SELECT EXISTS (
+            SELECT 1 FROM ${courseRegistrationTable.pg}
+            WHERE ${courseRegistrationTable.pg.email} = ${ctx.auth.email}
+            AND ${courseRegistrationTable.pg.courseId} = ${courseId}
+          )
+        `);
+        hasApplied = result.rows[0]?.exists ?? false;
+      }
+
+      return {
+        applicationDeadline,
+        applicationUrl,
+        hasApplied,
+      };
     }),
 });
