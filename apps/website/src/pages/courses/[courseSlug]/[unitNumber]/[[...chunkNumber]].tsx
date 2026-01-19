@@ -135,7 +135,7 @@ const CourseUnitChunkPage = ({
         chunkIndex={chunkIndex}
         setChunkIndex={handleSetChunkIndex}
         courseSlug={courseSlug}
-        applyCTAProps={applyCTAProps}
+        applyCTAProps={applyCTAProps ?? undefined}
       />
     </>
   );
