@@ -32,7 +32,12 @@ const CoursesContent = () => {
   const completedCourses = enrolledCourses
     .filter(({ courseRegistration }) => isCompleted(courseRegistration) && courseRegistration.role !== 'Facilitator')
     // No-cert courses first (to nudge user to complete), then by completion date descending
-    .sort((a, b) => (b.courseRegistration.certificateCreatedAt ?? Infinity) - (a.courseRegistration.certificateCreatedAt ?? Infinity));
+    .sort((a, b) => {
+      const aTime = a.courseRegistration.certificateCreatedAt ?? Infinity;
+      const bTime = b.courseRegistration.certificateCreatedAt ?? Infinity;
+      if (aTime === bTime) return 0;
+      return bTime - aTime;
+    });
 
   // Facilitated: past courses for facilitators
   const facilitatedCourses = enrolledCourses
@@ -108,6 +113,7 @@ const CourseList = ({ courses, startExpanded = false }: {
           <button
             type="button"
             onClick={() => setShowAll(!showAll)}
+            aria-expanded={showAll}
             className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
           >
             {showAll ? 'Show less' : `See all (${courses.length}) courses`}

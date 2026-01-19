@@ -458,7 +458,6 @@ describe('CourseDetails: Facilitator view', () => {
     );
 
     await waitFor(() => {
-      // Tab should show count for pay calculation
       expect(screen.getByRole('button', { name: 'Facilitated discussions' })).toBeInTheDocument();
     });
   });
