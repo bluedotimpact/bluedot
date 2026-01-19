@@ -242,28 +242,29 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource, re
               href={addQueryParam(resource.resourceLink, 'utm_source', 'bluedot-impact')}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2"
+              className="flex items-start gap-2"
               aria-label={`${resource.resourceName} (opens in new tab)`}
             >
-              <FaviconImage url={resource.resourceLink} displaySize={16} />
+              <FaviconImage url={resource.resourceLink} displaySize={16} className="mt-[3px]" />
               <span className="leading-[140%] font-semibold tracking-[-0.005em] text-inherit no-underline transition-colors hover:text-bluedot-normal hover:underline">
                 {resource.resourceName}
+                {/* External link icon - inline so it flows with text on wrap */}
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                  stroke="#13132E"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="inline-block align-middle ml-2"
+                >
+                  <path d="M9.14286 2.28613H13.7143M13.7143 2.28613V6.85756M13.7143 2.28613L8 8.00042M5.71422 3.42871H4.28564C3.18108 3.42871 2.28564 4.32414 2.28564 5.42871V11.7144C2.28564 12.819 3.18108 13.7144 4.28565 13.7144H10.5714C11.6759 13.7144 12.5714 12.819 12.5714 11.7144V10.2859" />
+                </svg>
               </span>
-              {/* External link icon */}
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-                stroke="#13132E"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M9.14286 2.28613H13.7143M13.7143 2.28613V6.85756M13.7143 2.28613L8 8.00042M5.71422 3.42871H4.28564C3.18108 3.42871 2.28564 4.32414 2.28564 5.42871V11.7144C2.28564 12.819 3.18108 13.7144 4.28565 13.7144H10.5714C11.6759 13.7144 12.5714 12.819 12.5714 11.7144V10.2859" />
-              </svg>
             </a>
           ) : (
             resource.resourceName
