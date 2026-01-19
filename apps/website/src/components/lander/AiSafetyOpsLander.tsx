@@ -16,6 +16,8 @@ import {
 import { FaCalendarAlt, FaUserFriends, FaLaptop } from 'react-icons/fa';
 import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
 import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
+import { trpc } from '../../utils/trpc';
+import { toQuote } from '../../server/routers/testimonials';
 
 const AiSafetyOpsBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
   return (
@@ -33,7 +35,7 @@ const customTitle = 'Are you an operations specialist who wants to make the futu
 
 const applicationUrl = 'https://forms.bluedot.org/1W29W7atNVeEF3RTkfCX';
 
-const testimonials1: Testimonial[] = [
+const FALLBACK_TESTIMONIALS: Testimonial[] = [
   {
     quote: 'Starting to upskill in this field was daunting! The course provided a wonderfully structured curriculum and knowledgable facilitators. Having completed this course, I feel much more confident in my ability and prospects to find my area of most impact in AI safety in the near future!',
     name: 'Sabrina Shih: AI Policy Manager, Responsible AI Institute',
@@ -52,11 +54,8 @@ const testimonials1: Testimonial[] = [
     role: 'AI Governance Course Graduate',
     imageSrc: '/images/graduates/mishka.webp',
   },
-];
-
-const testimonials2 = [
   {
-    quote: 'Entering the course from a non-technical background, I wasn’t sure what to expect or if I would be able to keep up with the material. It turned out to be the perfect level of challenging yet achievable for me. I learned so much from the readings, insightful conversations and activities during the sessions in particular. I always felt supported and welcome to contribute, and the diversity of knowledge in that virtual room helped all of us to learn and consider new perspectives. I thoroughly enjoyed the course and it became something I really looked forward to every Friday!',
+    quote: "Entering the course from a non-technical background, I wasn't sure what to expect or if I would be able to keep up with the material. It turned out to be the perfect level of challenging yet achievable for me. I learned so much from the readings, insightful conversations and activities during the sessions in particular. I always felt supported and welcome to contribute, and the diversity of knowledge in that virtual room helped all of us to learn and consider new perspectives. I thoroughly enjoyed the course and it became something I really looked forward to every Friday!",
     name: 'Belle Yeung',
     role: 'Head of AI Governance, Arcadia Impact',
     imageSrc: '/images/graduates/belle.webp',
@@ -75,7 +74,21 @@ const testimonials2 = [
   },
 ];
 
+const MIN_TESTIMONIALS_COUNT = 3;
+
 const AiSafetyOpsLander = () => {
+  // Fetch testimonials from database (shows testimonials from "other courses")
+  const { data: dbTestimonials, isLoading } = trpc.testimonials.getCommunityMembers.useQuery();
+
+  const hasEnoughTestimonials = !isLoading && dbTestimonials && dbTestimonials.length >= MIN_TESTIMONIALS_COUNT;
+  const allTestimonials = hasEnoughTestimonials
+    ? dbTestimonials.map(toQuote)
+    : FALLBACK_TESTIMONIALS;
+
+  // Split for desktop display
+  const midPoint = Math.ceil(allTestimonials.length / 2);
+  const testimonials1 = allTestimonials.slice(0, midPoint);
+  const testimonials2 = allTestimonials.slice(midPoint);
   return (
     <>
       <Head>
@@ -207,7 +220,7 @@ Got questions or feedback? We’d love to hear from you - email [adam@bluedot.or
       <Section className="mt-8">
         {/* Testimonials mobile */}
         <div className="xl:hidden">
-          <TestimonialSubSection testimonials={[...testimonials1, ...testimonials2]} title="What people say about our other courses" />
+          <TestimonialSubSection testimonials={allTestimonials} title="What people say about our other courses" />
         </div>
 
         {/* Testimonials desktop */}

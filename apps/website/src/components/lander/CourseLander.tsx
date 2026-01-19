@@ -12,6 +12,10 @@ import CourseInformationSection, { CourseInformationSectionProps } from './compo
 import FAQSection, { FAQSectionProps } from './components/FAQSection';
 import LandingBanner, { LandingBannerProps } from './components/LandingBanner';
 import PathwaysSection, { PathwaysSectionProps } from './components/PathwaysSection';
+import { trpc } from '../../utils/trpc';
+import { toCommunityMember } from '../../server/routers/testimonials';
+
+const MIN_TESTIMONIALS_COUNT = 4;
 
 export type CourseLanderMeta = {
   title: string;
@@ -50,6 +54,15 @@ const CourseLander = ({
     : baseApplicationUrl;
 
   const content = createContentFor(applicationUrlWithUtm, courseSlug);
+
+  const { data: dbTestimonials, isLoading } = trpc.testimonials.getCommunityMembersByCourseSlug.useQuery(
+    { courseSlug },
+  );
+
+  const hasEnoughTestimonials = !isLoading && dbTestimonials && dbTestimonials.length >= MIN_TESTIMONIALS_COUNT;
+  const communityMembers = hasEnoughTestimonials
+    ? dbTestimonials.map(toCommunityMember)
+    : content.communityMembers;
 
   return (
     <div className="bg-white">
@@ -108,11 +121,11 @@ const CourseLander = ({
         <QuoteSection {...content.quotes} />
       )}
 
-      {content.communityMembers && (
+      {communityMembers && (
         <>
           <div className="border-t-hairline border-color-divider" />
           <CommunityCarousel
-            members={content.communityMembers}
+            members={communityMembers}
             title={content.communityMembersTitle}
             variant="lander"
           />
