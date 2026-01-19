@@ -77,7 +77,6 @@ const FALLBACK_TESTIMONIALS: Testimonial[] = [
 const MIN_TESTIMONIALS_COUNT = 3;
 
 const AiSafetyOpsLander = () => {
-  // Fetch testimonials from database (shows testimonials from "other courses")
   const { data: dbTestimonials, isLoading } = trpc.testimonials.getCommunityMembers.useQuery();
 
   const hasEnoughTestimonials = !isLoading && dbTestimonials && dbTestimonials.length >= MIN_TESTIMONIALS_COUNT;

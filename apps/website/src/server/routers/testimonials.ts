@@ -6,9 +6,11 @@ import { publicProcedure, router } from '../trpc';
 import type { CommunityMember } from '../../components/lander/CommunityCarousel';
 
 export function sortTestimonials(items: Testimonial[]): Testimonial[] {
-  return items.sort((a, b) => {
-    if (a.isPrioritised !== b.isPrioritised) {
-      return b.isPrioritised ? 1 : -1;
+  return [...items].sort((a, b) => {
+    const aPriority = !!a.isPrioritised;
+    const bPriority = !!b.isPrioritised;
+    if (aPriority !== bPriority) {
+      return bPriority ? 1 : -1;
     }
     return (a.name || '').localeCompare(b.name || '');
   });
@@ -34,20 +36,19 @@ export function toCommunityMember(t: Testimonial): CommunityMember {
 }
 
 export const testimonialsRouter = router({
-  // For CommunityMember usage on homepage - doesn't require testimonialText
   getCommunityMembers: publicProcedure.query(async () => {
     const all = await db.scan(testimonialTable);
-    const filtered = all.filter((t) => t.name && t.headshotAttachmentUrls?.[0]);
+    const filtered = all.filter((t) => t.name && t.headshotAttachmentUrls?.[0] && t.testimonialText);
     return sortTestimonials(filtered);
   }),
 
-  // For CommunityMember usage on course pages - filtered by courseSlug
   getCommunityMembersByCourseSlug: publicProcedure
     .input(z.object({ courseSlug: z.string() }))
     .query(async ({ input }) => {
       const all = await db.scan(testimonialTable);
       const filtered = all.filter((t) => t.name
         && t.headshotAttachmentUrls?.[0]
+        && t.testimonialText
         && t.displayOnCourseSlugs?.includes(input.courseSlug));
       return sortTestimonials(filtered);
     }),
