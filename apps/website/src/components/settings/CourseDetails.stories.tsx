@@ -89,6 +89,7 @@ const meta: Meta<typeof CourseDetails> = {
     course: mockCourse,
     attendedDiscussions: [mockDiscussions['discussion-3']!],
     upcomingDiscussions: [mockDiscussions['discussion-1']!, mockDiscussions['discussion-2']!],
+    facilitatedDiscussions: [],
     isLoading: false,
   },
 };
@@ -105,11 +106,13 @@ export const Default: Story = {
 export const Facilitator: Story = {
   args: {
     courseRegistration: { ...mockCourseRegistration, role: 'Facilitator' },
+    attendedDiscussions: [],
+    facilitatedDiscussions: [mockDiscussions['discussion-3']!],
   },
   parameters: {
     docs: {
       description: {
-        story: 'Facilitators do not see the "Switch group" button for discussions.',
+        story: 'Facilitators see "Facilitated discussions" tab instead of "Attended discussions".',
       },
     },
   },

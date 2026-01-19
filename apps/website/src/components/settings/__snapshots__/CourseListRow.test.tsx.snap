@@ -2,10 +2,12 @@
 
 exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
 <div>
-  <div>
+  <div
+    class="border-b border-charcoal-light last:border-b-0"
+  >
     <div
       aria-expanded="false"
-      class="border-x border-t border-charcoal-light transition-colors duration-200 group cursor-pointer hover:bg-white"
+      class="transition-colors duration-200 group cursor-pointer hover:bg-white"
       role="button"
       tabindex="0"
     >
@@ -168,10 +170,12 @@ exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
 
 exports[`CourseListRow > renders in-progress course correctly (snapshot) 1`] = `
 <div>
-  <div>
+  <div
+    class="border-b border-charcoal-light last:border-b-0"
+  >
     <div
       aria-expanded="false"
-      class="border-x border-t border-charcoal-light transition-colors duration-200 group cursor-pointer hover:bg-white"
+      class="transition-colors duration-200 group cursor-pointer hover:bg-white"
       role="button"
       tabindex="0"
     >

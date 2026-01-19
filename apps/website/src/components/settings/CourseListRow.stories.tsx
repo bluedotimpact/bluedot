@@ -16,10 +16,6 @@ const meta: Meta<typeof CourseListRow> = {
   parameters: {
     layout: 'padded',
   },
-  args: {
-    isFirst: true,
-    isLast: false,
-  },
 };
 
 export default meta;
@@ -106,8 +102,6 @@ export const Completed: Story = {
   args: {
     course: mockCourse,
     courseRegistration: mockCompletedRegistration,
-    isFirst: false,
-    isLast: true,
   },
   parameters: {
     msw: {
@@ -128,48 +122,6 @@ export const Facilitator: Story = {
   },
 };
 
-export const FirstInList: Story = {
-  args: {
-    course: mockCourse,
-    courseRegistration: mockInProgressRegistration,
-    isFirst: true,
-    isLast: false,
-  },
-  parameters: {
-    msw: {
-      handlers: createMswHandlers(mockMeetPerson),
-    },
-  },
-};
-
-export const LastInList: Story = {
-  args: {
-    course: mockCourse,
-    courseRegistration: mockInProgressRegistration,
-    isFirst: false,
-    isLast: true,
-  },
-  parameters: {
-    msw: {
-      handlers: createMswHandlers(mockMeetPerson),
-    },
-  },
-};
-
-export const OnlyItemInList: Story = {
-  args: {
-    course: mockCourse,
-    courseRegistration: mockInProgressRegistration,
-    isFirst: true,
-    isLast: true,
-  },
-  parameters: {
-    msw: {
-      handlers: createMswHandlers(mockMeetPerson),
-    },
-  },
-};
-
 export const LongTitle: Story = {
   args: {
     course: {
@@ -178,8 +130,6 @@ export const LongTitle: Story = {
         'Advanced Machine Learning and Deep Neural Networks: A Comprehensive Introduction to Modern AI Techniques and Applications',
     },
     courseRegistration: mockInProgressRegistration,
-    isFirst: true,
-    isLast: true,
   },
   parameters: {
     msw: {
@@ -216,8 +166,6 @@ export const MissingActionPlan: Story = {
   args: {
     course: mockAgiStrategyCourse,
     courseRegistration: mockPastNoCertRegistration,
-    isFirst: true,
-    isLast: true,
   },
   parameters: {
     msw: {
@@ -240,8 +188,6 @@ export const LowAttendance: Story = {
   args: {
     course: mockCourse,
     courseRegistration: mockPastNoCertRegistration,
-    isFirst: true,
-    isLast: true,
   },
   parameters: {
     msw: {

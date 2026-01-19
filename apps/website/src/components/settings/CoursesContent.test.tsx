@@ -104,7 +104,7 @@ describe('CoursesContent', () => {
     });
   });
 
-  it('hides completed courses for facilitators', async () => {
+  it('shows facilitator courses in correct sections (active in In Progress, past in Facilitated)', async () => {
     const courses = [
       createMockCourse({ id: 'course-1', title: 'Currently facilitating' }),
       createMockCourse({ id: 'course-2', title: 'Facilitated in past' }),
@@ -125,13 +125,18 @@ describe('CoursesContent', () => {
     render(<CoursesContent />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
+      // Active facilitator course in In Progress
+      expect(screen.getByText('In Progress (1)')).toBeInTheDocument();
       const inProgressSection = screen.getByLabelText('In Progress courses');
-      const inProgressTitles = inProgressSection.querySelectorAll('[data-testid="course-row"]');
+      expect(inProgressSection).toHaveTextContent('Currently facilitating');
 
-      expect(inProgressTitles[0]).toHaveTextContent('Currently facilitating');
+      // Past facilitator course in Facilitated section
+      expect(screen.getByText('Facilitated (1)')).toBeInTheDocument();
+      const facilitatedSection = screen.getByLabelText('Facilitated courses');
+      expect(facilitatedSection).toHaveTextContent('Facilitated in past');
 
-      const completedSection = screen.queryAllByLabelText('Completed courses');
-      expect(completedSection).toHaveLength(0);
+      // No Completed section (that's for participants)
+      expect(screen.queryByLabelText('Completed courses')).not.toBeInTheDocument();
     });
   });
 });
