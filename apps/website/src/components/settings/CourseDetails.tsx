@@ -4,7 +4,7 @@ import {
   cn,
 } from '@bluedot/ui';
 import { useState } from 'react';
-import { FaArrowRightArrowLeft } from 'react-icons/fa6';
+import { FaArrowRightArrowLeft, FaRightToBracket } from 'react-icons/fa6';
 import {
   buildGroupSlackChannelUrl, formatDateMonthAndDay, formatDateTimeRelative, formatTime12HourClock,
 } from '../../lib/utils';
@@ -133,7 +133,7 @@ const CourseDetailsRow = ({
       variant: 'secondary',
       isVisible: !isFacilitator && !isPast,
       onClick: onOpenDropoutModal,
-      overflowIcon: <FaArrowRightArrowLeft />,
+      overflowIcon: <FaRightToBracket className="mx-auto size-[14px]" />,
     },
   ];
   const visibleButtons = buttons.filter((button) => button.isVisible);
