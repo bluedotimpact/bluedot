@@ -495,6 +495,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         currentChunkIndex={chunkIndex}
         onChunkSelect={handleMobileChunkSelect}
         onUnitSelect={handleMobileUnitSelect}
+        applyCTAProps={applyCTAProps}
       />
     </div>
   );

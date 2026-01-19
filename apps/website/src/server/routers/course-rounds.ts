@@ -4,7 +4,6 @@ import {
 } from '@bluedot/db';
 import { publicProcedure, router } from '../trpc';
 import db from '../../lib/api/db';
-import { COURSE_CONFIG } from '../../lib/constants';
 import type { ApplyCTAProps } from '../../components/courses/SideBar';
 
 /**
@@ -297,47 +296,38 @@ export const courseRoundsRouter = router({
     .input(z.object({ courseSlug: z.string() }))
     .query(async ({ ctx, input }): Promise<ApplyCTAProps | null> => {
       const { courseSlug } = input;
-      const applicationUrl = COURSE_CONFIG[courseSlug as keyof typeof COURSE_CONFIG]?.applicationUrl;
-      if (!applicationUrl) return null;
 
-      const course = await db.getFirst(courseTable, { sortBy: 'slug', filter: { slug: courseSlug } });
-      if (!course) return null;
-
-      const upcomingRounds = await db.pg
-        .select({ applicationDeadline: applicationsRoundTable.pg.applicationDeadline })
-        .from(applicationsRoundTable.pg)
-        .where(
-          and(
-            eq(applicationsRoundTable.pg.courseId, course.id),
-            sql`${applicationsRoundTable.pg.applicationDeadline} IS NOT NULL`,
-            sql`${applicationsRoundTable.pg.applicationDeadline}::timestamp > NOW()`,
-          ),
-        )
-        .orderBy(sql`${applicationsRoundTable.pg.applicationDeadline} ASC`)
+      // Get course with applyUrl from database
+      const course = await db.pg
+        .select({ id: courseTable.pg.id, applyUrl: courseTable.pg.applyUrl })
+        .from(courseTable.pg)
+        .where(eq(courseTable.pg.slug, courseSlug))
         .limit(1);
 
-      if (!upcomingRounds.length) return null;
+      if (!course.length || !course[0]?.applyUrl) return null;
 
-      const deadline = upcomingRounds[0]!.applicationDeadline!;
-      const formatDeadline = (isoDate: string) => {
-        const date = new Date(isoDate);
-        return `${date.getUTCDate()} ${date.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' })}`;
-      };
+      const { id: courseId, applyUrl: applicationUrl } = course[0];
 
+      // Use shared functions for getting deadline
+      const rounds = await getCourseRoundsData(courseSlug);
+      const applicationDeadline = getSoonestDeadline(rounds);
+      if (!applicationDeadline) return null;
+
+      // Check if user has already applied (requires auth context)
       let hasApplied = false;
       if (ctx.auth?.email) {
         const result = await db.pg.execute<{ exists: boolean }>(sql`
           SELECT EXISTS (
             SELECT 1 FROM ${courseRegistrationTable.pg}
             WHERE ${courseRegistrationTable.pg.email} = ${ctx.auth.email}
-            AND ${courseRegistrationTable.pg.courseId} = ${course.id}
+            AND ${courseRegistrationTable.pg.courseId} = ${courseId}
           )
         `);
         hasApplied = result.rows[0]?.exists ?? false;
       }
 
       return {
-        applicationDeadline: formatDeadline(deadline),
+        applicationDeadline,
         applicationUrl,
         hasApplied,
       };
