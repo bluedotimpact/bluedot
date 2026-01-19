@@ -2,21 +2,10 @@ import { CTALinkOrButton } from '@bluedot/ui';
 import type { inferRouterOutputs } from '@trpc/server';
 import { trpc } from '../../utils/trpc';
 import type { AppRouter } from '../../server/routers/_app';
-import { AGI_STRATEGY_APPLICATION_URL } from '../lander/course-content/AgiStrategyContent';
-import { BIOSECURITY_APPLICATION_URL } from '../lander/course-content/BioSecurityContent';
-import { TECHNICAL_AI_SAFETY_APPLICATION_URL } from '../lander/course-content/TechnicalAiSafetyContent';
-import { AI_GOVERNANCE_APPLICATION_URL } from '../lander/course-content/AiGovernanceContent';
 
 type RouterOutput = inferRouterOutputs<AppRouter>;
 type AllRounds = RouterOutput['courseRounds']['getAllUpcomingRounds'];
 type Round = AllRounds['intense'][number];
-
-const COURSE_APPLICATION_URLS: Record<string, string> = {
-  'agi-strategy': AGI_STRATEGY_APPLICATION_URL,
-  biosecurity: BIOSECURITY_APPLICATION_URL,
-  'technical-ai-safety': TECHNICAL_AI_SAFETY_APPLICATION_URL,
-  governance: AI_GOVERNANCE_APPLICATION_URL,
-};
 
 export const UpcomingRounds = () => {
   const { data: allRounds, isLoading } = trpc.courseRounds.getAllUpcomingRounds.useQuery();
@@ -116,9 +105,9 @@ type RoundItemProps = {
 };
 
 const RoundItem = ({ round }: RoundItemProps) => {
-  const applicationUrl = COURSE_APPLICATION_URLS[round.courseSlug] || '';
-  const separator = applicationUrl.includes('?') ? '&' : '?';
-  const applyUrl = `${applicationUrl}${separator}prefill_%5B%3E%5D%20Round=${round.id}`;
+  const baseApplicationUrl = round.applyUrl || '';
+  const separator = baseApplicationUrl.includes('?') ? '&' : '?';
+  const applyUrl = baseApplicationUrl ? `${baseApplicationUrl}${separator}prefill_%5B%3E%5D%20Round=${round.id}` : '';
 
   const dateContent = (
     <div>

@@ -41,11 +41,12 @@ type CourseLanderProps = {
   courseSlug: string;
   baseApplicationUrl: string;
   createContentFor: (applicationUrlWithUtm: string, courseSlug: string) => CourseLanderContent;
-  courseOgImage?: string | null
+  courseOgImage?: string | null;
+  soonestDeadline: string | null;
 };
 
 const CourseLander = ({
-  courseSlug, baseApplicationUrl, createContentFor, courseOgImage,
+  courseSlug, baseApplicationUrl, createContentFor, courseOgImage, soonestDeadline,
 }: CourseLanderProps) => {
   const { latestUtmParams } = useLatestUtmParams();
 
@@ -63,6 +64,18 @@ const CourseLander = ({
   const communityMembers = hasEnoughTestimonials
     ? dbTestimonials.map(toCommunityMember)
     : content.communityMembers;
+
+  const ctaText = soonestDeadline
+    ? `Apply by ${soonestDeadline}`
+    : content.hero.primaryCta.text;
+
+  const heroProps = {
+    ...content.hero,
+    primaryCta: {
+      ...content.hero.primaryCta,
+      text: ctaText,
+    },
+  };
 
   return (
     <div className="bg-white">
@@ -88,8 +101,8 @@ const CourseLander = ({
         <meta name="twitter:image" content={courseOgImage || 'https://bluedot.org/images/logo/link-preview-fallback.png'} />
       </Head>
 
-      <Nav variant={content.hero.gradient ? 'transparent' : 'default'} />
-      <HeroSection {...content.hero} />
+      <Nav variant={heroProps.gradient ? 'transparent' : 'default'} />
+      <HeroSection {...heroProps} />
 
       <div className="border-t-hairline border-color-divider" />
 
