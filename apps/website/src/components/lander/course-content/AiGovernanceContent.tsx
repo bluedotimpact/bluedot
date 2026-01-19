@@ -9,8 +9,6 @@ import {
 } from 'react-icons/pi';
 import { CourseLanderContent } from '../CourseLander';
 
-export const AI_GOVERNANCE_APPLICATION_URL = 'https://web.miniextensions.com/BSUqN3WHmeL9MbzAj2P6';
-
 const COURSE_COLORS = {
   gradient: `
     linear-gradient(270deg, rgba(5, 24, 67, 0.00) -3.82%, rgba(5, 24, 67, 0.50) 98.44%),

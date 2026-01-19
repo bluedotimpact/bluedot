@@ -172,11 +172,11 @@ exports[`HistorySection > renders desktop as expected 1`] = `
             <p
               class="bluedot-p not-prose history-section__event-details mr-12"
             >
-              Launching multiple courses weekly and expanding a world-class team to 
+              Courses every week. Announced 
               <strong>
-                scale our global impact
+                US expansion
               </strong>
-              .
+              , establishing an SF office to work more closely with entrepreneurs, AI companies and the AI safety ecosystem.
             </p>
           </div>
         </div>
@@ -328,11 +328,11 @@ exports[`HistorySection > renders mobile as expected 1`] = `
             <p
               class="bluedot-p not-prose history-section__event-details"
             >
-              Launching multiple courses weekly and expanding a world-class team to 
+              Courses every week. Announced 
               <strong>
-                scale our global impact
+                US expansion
               </strong>
-              .
+              , establishing an SF office to work more closely with entrepreneurs, AI companies and the AI safety ecosystem.
             </p>
           </div>
         </div>

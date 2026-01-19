@@ -17,6 +17,10 @@ vi.mock('./GroupSwitchModal', () => ({
   default: () => <div data-testid="group-switch-modal">Group Switch Modal</div>,
 }));
 
+vi.mock('./FacilitatorSwitchModal', () => ({
+  default: () => <div data-testid="facilitator-switch-modal">Facilitator Switch Modal</div>,
+}));
+
 Object.defineProperty(navigator, 'clipboard', {
   value: {
     writeText: vi.fn(),
@@ -86,8 +90,10 @@ describe('GroupDiscussionBanner', () => {
       expect(desktopButtons.getByRole('link', { name: 'Open discussion doc' })).toBeInTheDocument();
       expect(desktopButtons.getByRole('link', { name: 'Message group' })).toBeInTheDocument();
       expect(desktopButtons.getByRole('button', { name: "Can't make it?" })).toBeInTheDocument();
+      // Participants have no overflow menu on desktop
+      expect(desktopButtons.queryByRole('button', { name: 'More discussion options' })).not.toBeInTheDocument();
 
-      // Check mobile button container
+      // Check mobile button container - shows join-now, cant-make-it directly; rest in overflow
       const mobileContainer = container.querySelector('#discussion-banner-mobile-container') as HTMLElement;
       expect(mobileContainer).toBeInTheDocument();
       const mobileButtons = within(mobileContainer);
@@ -112,16 +118,22 @@ describe('GroupDiscussionBanner', () => {
       const expandButton = await screen.findByRole('button', { name: 'Expand upcoming discussion banner' });
       fireEvent.click(expandButton);
 
-      // Desktop and mobile should both have host key button
+      // Desktop should have join-now, host-key, and discussion-doc directly; rest in overflow
       const desktopContainer = container.querySelector('#discussion-banner-desktop-container') as HTMLElement;
       const desktopButtons = within(desktopContainer);
-      expect(desktopButtons.getByRole('button', { name: 'Host key: 123456' })).toBeInTheDocument();
+      expect(desktopButtons.getByRole('link', { name: /Join now/ })).toBeInTheDocument();
+      expect(desktopButtons.getByRole('button', { name: /Host key: 123456/ })).toBeInTheDocument();
+      expect(desktopButtons.getByRole('link', { name: 'Open discussion doc' })).toBeInTheDocument();
+      // Facilitators have overflow menu with additional options
+      expect(desktopButtons.getByRole('button', { name: 'More discussion options' })).toBeInTheDocument();
+      // Facilitators don't see "Can't make it?"
+      expect(screen.queryByRole('button', { name: "Can't make it?" })).not.toBeInTheDocument();
+
+      // Mobile has join-now, host-key directly; rest in overflow
       const mobileContainer = container.querySelector('#discussion-banner-mobile-container') as HTMLElement;
       const mobileButtons = within(mobileContainer);
-      expect(mobileButtons.getByRole('button', { name: 'Host key: 123456' })).toBeInTheDocument();
-
-      // Group switch button shouldn't appear anywhere
-      expect(screen.queryByRole('button', { name: "Can't make it?" })).not.toBeInTheDocument();
+      expect(mobileButtons.getByRole('link', { name: /Join now/ })).toBeInTheDocument();
+      expect(mobileButtons.getByRole('button', { name: /Host key: 123456/ })).toBeInTheDocument();
 
       expect(container).toMatchSnapshot();
     });
@@ -233,7 +245,7 @@ describe('GroupDiscussionBanner', () => {
   });
 
   describe('User Role Specific Behavior', () => {
-    test('facilitator does not see "Can\'t make it?" button', async () => {
+    test('facilitator can access "Change facilitator" from overflow menu', async () => {
       render(
         <GroupDiscussionBanner
           unit={mockUnit}
@@ -245,8 +257,18 @@ describe('GroupDiscussionBanner', () => {
         { wrapper: TrpcProvider },
       );
 
-      await screen.findByRole('button', { name: 'Expand upcoming discussion banner' });
-      expect(screen.queryByText("Can't make it?")).not.toBeInTheDocument();
+      const expandButton = await screen.findByRole('button', { name: 'Expand upcoming discussion banner' });
+      fireEvent.click(expandButton);
+
+      // Open overflow menu
+      const overflowButton = screen.getAllByRole('button', { name: 'More discussion options' })[0];
+      fireEvent.click(overflowButton!);
+
+      // Click "Change facilitator" option
+      const changeFacilitatorOption = await screen.findByText('Change facilitator');
+      fireEvent.click(changeFacilitatorOption);
+
+      expect(screen.getByTestId('facilitator-switch-modal')).toBeInTheDocument();
     });
 
     test('facilitator sees discussion doc button even when discussion is not starting soon', async () => {

@@ -20,7 +20,12 @@ module.exports = withDefaultBlueDotNextConfig({
       },
       {
         source: '/mentor',
-        destination: '/join-us/mentor',
+        destination: '/join-us/coach',
+        permanent: true,
+      },
+      {
+        source: '/join-us/mentor',
+        destination: '/join-us/coach',
         permanent: true,
       },
       {

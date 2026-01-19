@@ -138,6 +138,10 @@ export const courseTable = pgAirtable('course', {
       pgColumn: text(),
       airtableId: 'fldaEypOAkLCFfYBQ',
     },
+    applyUrl: {
+      pgColumn: text(),
+      airtableId: 'fldAtb3GHlRNpYzwC',
+    },
   },
 });
 
@@ -803,6 +807,45 @@ export const projectTable = pgAirtable('project', {
   },
 });
 
+export const testimonialTable = pgAirtable('testimonial', {
+  baseId: WEB_CONTENT_BASE_ID,
+  tableId: 'tblrA0ZIg4t2t6sh5',
+  columns: {
+    name: {
+      pgColumn: text(),
+      airtableId: 'fld8QirNnmWrOxK28',
+    },
+    headshotAttachmentUrls: {
+      pgColumn: text().array(),
+      airtableId: 'fldRtvMPQ4T79vqC1',
+    },
+    jobTitle: {
+      pgColumn: text(),
+      airtableId: 'fldO9gXGV0zA7Z0fh',
+    },
+    bluedotEngagement: {
+      pgColumn: text(),
+      airtableId: 'fld7XhBxpg4TQ1Gra',
+    },
+    profileUrl: {
+      pgColumn: text(),
+      airtableId: 'fldlchhyYHzKx1q4K',
+    },
+    displayOnCourseSlugs: {
+      pgColumn: text().array(),
+      airtableId: 'fld64ErNzQB8UFLso',
+    },
+    isPrioritised: {
+      pgColumn: boolean(),
+      airtableId: 'fldissRE8oeE1chZC',
+    },
+    testimonialText: {
+      pgColumn: text(),
+      airtableId: 'fldSBm8bIIR5JAaeo',
+    },
+  },
+});
+
 export const chunkTable = pgAirtable('chunk', {
   baseId: COURSE_BUILDER_BASE_ID,
   tableId: 'tblNeBgFeQ5Qmebfc',
@@ -1236,6 +1279,25 @@ export const resourceCompletionTable = pgAirtable('resource_completion', {
   },
 });
 
+export const dropoutTable = pgAirtable('dropout', {
+  baseId: APPLICATIONS_BASE_ID,
+  tableId: 'tblmxqYXX1RaDvunu',
+  columns: {
+    applicantId: {
+      pgColumn: text().array(),
+      airtableId: 'fldPd4tLm0m3EsuQc',
+    },
+    reason: {
+      pgColumn: text(),
+      airtableId: 'fld46PnSM2D9naqtK',
+    },
+    isDeferral: {
+      pgColumn: boolean(),
+      airtableId: 'fldzYMTGkTd91Chyu',
+    },
+  },
+});
+
 // Type exports for all tables
 export type Meta = InferSelectModel<typeof metaTable>;
 export type SyncMetadata = InferSelectModel<typeof syncMetadataTable>;
@@ -1258,6 +1320,7 @@ export type MeetCourse = InferSelectModel<typeof meetCourseTable.pg>;
 export type Blog = InferSelectModel<typeof blogTable.pg>;
 export type JobPosting = InferSelectModel<typeof jobPostingTable.pg>;
 export type Project = InferSelectModel<typeof projectTable.pg>;
+export type Testimonial = InferSelectModel<typeof testimonialTable.pg>;
 export type Chunk = InferSelectModel<typeof chunkTable.pg>;
 export type Unit = InferSelectModel<typeof unitTable.pg>;
 export type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;
@@ -1267,3 +1330,4 @@ export type CourseRegistration = InferSelectModel<typeof courseRegistrationTable
 export type User = InferSelectModel<typeof userTable.pg>;
 export type ResourceCompletion = InferSelectModel<typeof resourceCompletionTable.pg>;
 export type FacilitatorSwitching = InferSelectModel<typeof facilitatorDiscussionSwitchingTable.pg>;
+export type Dropout = InferSelectModel<typeof dropoutTable.pg>;

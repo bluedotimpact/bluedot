@@ -214,6 +214,94 @@ exports[`TeamSection > renders as expected 1`] = `
                 </div>
               </div>
             </div>
+            <div
+              class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
+              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+              style="scroll-margin-left: -0px;"
+            >
+              <div
+                class="team-section__card"
+              >
+                <div
+                  class="card flex items-start flex-col transition-transform duration-200"
+                >
+                  <div
+                    class="card__image-container w-full"
+                  >
+                    <a
+                      class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
+                      href="https://www.linkedin.com/in/aniket-chakravorty-724458256/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <img
+                        alt="Aniket Chakravorty - AI Strategy Specialist"
+                        class="team-section__card-image size-[300px] object-cover"
+                        src="/images/team/aniket.png"
+                      />
+                    </a>
+                  </div>
+                  <div
+                    class="card__content w-full p-4"
+                  >
+                    <h3
+                      class="card__title font-bold text-size-lg mb-1"
+                    >
+                      Aniket Chakravorty
+                    </h3>
+                    <p
+                      class="card__subtitle text-gray-600"
+                    >
+                      AI Strategy Specialist
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
+              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+              style="scroll-margin-left: -0px;"
+            >
+              <div
+                class="team-section__card"
+              >
+                <div
+                  class="card flex items-start flex-col transition-transform duration-200"
+                >
+                  <div
+                    class="card__image-container w-full"
+                  >
+                    <a
+                      class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
+                      href="https://www.linkedin.com/in/samuel-dower/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <img
+                        alt="Sam Dower - Technical AI Safety Specialist"
+                        class="team-section__card-image size-[300px] object-cover"
+                        src="/images/team/samdower.png"
+                      />
+                    </a>
+                  </div>
+                  <div
+                    class="card__content w-full p-4"
+                  >
+                    <h3
+                      class="card__title font-bold text-size-lg mb-1"
+                    >
+                      Sam Dower
+                    </h3>
+                    <p
+                      class="card__subtitle text-gray-600"
+                    >
+                      Technical AI Safety Specialist
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div
@@ -247,7 +335,7 @@ exports[`TeamSection > renders as expected 1`] = `
             />
             <div
               class="slide-list__progress-track absolute h-full bg-bluedot-normal"
-              style="width: 25%;"
+              style="width: 16.666666666666664%;"
             />
           </div>
           <button

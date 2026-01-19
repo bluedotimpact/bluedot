@@ -15,7 +15,11 @@ export const Header: React.FC<HeaderProps> = ({ announcementBanner }) => {
   const router = useRouter();
   // Pages that render their own Nav: homepage, /courses index, and course lander pages
   const isCourseLander = router.pathname === '/courses/[courseSlug]';
-  const pageRendersOwnNav = router.pathname === '/' || router.pathname === '/courses' || isCourseLander;
+  const pageRendersOwnNav = router.pathname === '/'
+    || router.pathname === '/courses'
+    || router.pathname === '/about'
+    || router.pathname === '/join-us'
+    || isCourseLander;
 
   if (pageRendersOwnNav) {
     return announcementBanner ?? null;
