@@ -291,7 +291,7 @@ const CourseDetails = ({
             {isLoading ? (
               <ProgressDots className="py-8" />
             ) : (
-              <div className="min-h-[200px]">
+              <div>
                 {activeTab === 'upcoming' && (
                   // Show only expected discussions where end datetime hasn't passed
                   upcomingDiscussions.length > 0 ? (
