@@ -21,6 +21,14 @@ const CoursesContent = () => {
   // Combine courses and enrollments
   const enrolledCourses = (courseRegistrations || [])
     .filter((reg) => reg.roundStatus === 'Active' || reg.roundStatus === 'Past' || reg.certificateCreatedAt)
+    // Exclude dropped out courses and deferred courses that are past
+    .filter((reg) => {
+      // Dropped out means that we have a reference dropout record that is not a deferral
+      const isDroppedOut = reg.dropoutId?.length && !reg.deferredId?.length;
+      // Deferred courses that are past are no longer relevant
+      const isDeferredAndPast = reg.deferredId?.length && isCompleted(reg);
+      return !isDroppedOut && !isDeferredAndPast;
+    })
     .map((courseRegistration) => {
       const course = courses?.find((c) => c.id === courseRegistration.courseId);
       return course ? [{ course, courseRegistration }] : [];
