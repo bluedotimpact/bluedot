@@ -197,13 +197,13 @@ describe('CoursesContent', () => {
     });
   });
 
-  it('hides deferred courses that are past (no longer relevant)', async () => {
+  it('shows deferred courses in In Progress even when they are past', async () => {
     const courses = [
       createMockCourse({ id: 'course-1', title: 'Deferred Past Course' }),
     ];
 
     const registrations = [
-      // Deferred course with Past status - should not appear at all
+      // Deferred course with Past status - should appear in In Progress
       createMockCourseRegistration({
         id: 'reg-1',
         courseId: 'course-1',
@@ -220,9 +220,12 @@ describe('CoursesContent', () => {
     render(<CoursesContent />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      // Should show empty state since deferred+past courses shouldn't appear
-      expect(screen.getByText("You haven't started any courses yet")).toBeInTheDocument();
-      expect(screen.queryByText('Deferred Past Course')).not.toBeInTheDocument();
+      // Should show in In Progress section
+      expect(screen.getByText('In Progress (1)')).toBeInTheDocument();
+      expect(screen.getByText('Deferred Past Course')).toBeInTheDocument();
+
+      // Should NOT show in Completed section
+      expect(screen.queryByText(/^Completed/)).not.toBeInTheDocument();
     });
   });
 });

@@ -21,13 +21,11 @@ const CoursesContent = () => {
   // Combine courses and enrollments
   const enrolledCourses = (courseRegistrations || [])
     .filter((reg) => reg.roundStatus === 'Active' || reg.roundStatus === 'Past' || reg.certificateCreatedAt)
-    // Exclude dropped out courses and deferred courses that are past
+    // Exclude dropped out courses (not deferrals)
     .filter((reg) => {
       // Dropped out means that we have a reference dropout record that is not a deferral
       const isDroppedOut = reg.dropoutId?.length && !reg.deferredId?.length;
-      // Deferred courses that are past are no longer relevant
-      const isDeferredAndPast = reg.deferredId?.length && isCompleted(reg);
-      return !isDroppedOut && !isDeferredAndPast;
+      return !isDroppedOut;
     })
     .map((courseRegistration) => {
       const course = courses?.find((c) => c.id === courseRegistration.courseId);
@@ -36,9 +34,9 @@ const CoursesContent = () => {
     .flat();
 
   // Group courses by status
-  // Completed: past courses for participants (non-facilitators)
+  // Completed: past courses for participants (non-facilitators), excluding deferred courses
   const completedCourses = enrolledCourses
-    .filter(({ courseRegistration }) => isCompleted(courseRegistration) && courseRegistration.role !== 'Facilitator')
+    .filter(({ courseRegistration }) => isCompleted(courseRegistration) && courseRegistration.role !== 'Facilitator' && !courseRegistration.deferredId?.length)
     // No-cert courses first (to nudge user to complete), then by completion date descending
     .sort((a, b) => {
       const aTime = a.courseRegistration.certificateCreatedAt ?? Infinity;
@@ -47,12 +45,12 @@ const CoursesContent = () => {
       return bTime - aTime;
     });
 
-  // Facilitated: past courses for facilitators
+  // Facilitated: past courses for facilitators, excluding deferred courses
   const facilitatedCourses = enrolledCourses
-    .filter(({ courseRegistration }) => isCompleted(courseRegistration) && courseRegistration.role === 'Facilitator');
+    .filter(({ courseRegistration }) => isCompleted(courseRegistration) && courseRegistration.role === 'Facilitator' && !courseRegistration.deferredId?.length);
 
-  // In-progress: Active courses (both participants and facilitators)
-  const inProgressCourses = enrolledCourses.filter(({ courseRegistration }) => !isCompleted(courseRegistration));
+  // In-progress: Active courses + deferred courses (regardless of status)
+  const inProgressCourses = enrolledCourses.filter(({ courseRegistration }) => !isCompleted(courseRegistration) || courseRegistration.deferredId?.length);
 
   const loading = courseRegistrationsLoading || coursesLoading;
   const error = courseRegistrationsError || coursesError;
