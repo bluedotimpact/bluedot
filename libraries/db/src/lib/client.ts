@@ -381,7 +381,9 @@ export class PgAirtableDb {
   ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect']> {
     const fullData = await this.airtableClient.insert(table.airtable, data);
 
+    // `ensureReplicated` only returns undefined for idempotent deletes; upserts always return a result
     const pgResult = await this.ensureReplicated({ table, id: fullData.id, fullData });
+    if (!pgResult) throw new Error('Unexpected: `ensureReplicated` returned no result after insert');
 
     return pgResult;
   }
@@ -396,7 +398,9 @@ export class PgAirtableDb {
   ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect']> {
     const fullData = await this.airtableClient.update(table.airtable, data);
 
+    // `ensureReplicated` only returns undefined for idempotent deletes; upserts always return a result
     const pgResult = await this.ensureReplicated({ table, id: fullData.id, fullData });
+    if (!pgResult) throw new Error('Unexpected: `ensureReplicated` returned no result after update');
 
     return pgResult;
   }
@@ -408,7 +412,7 @@ export class PgAirtableDb {
   async remove<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>>(
     table: PgAirtableTable<TTableName, TColumnsMap>,
     id: string,
-  ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect']> {
+  ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect'] | undefined> {
     const { id: resultId } = await this.airtableClient.remove(table.airtable, id);
 
     const pgResult = await this.ensureReplicated({ table, id: resultId, isDelete: true });
@@ -436,14 +440,14 @@ export class PgAirtableDb {
       /** Must be passed explicitly for a record to be deleted. */
       isDelete?: boolean;
     },
-  ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect']> {
+  ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect'] | undefined> {
     return this.pgUnrestricted.transaction(async (tx) => {
       if (isDelete) {
         const deletedResults = await tx.delete(table.pg).where(eq(table.pg.id, id)).returning();
         const deletedResult = Array.isArray(deletedResults) ? deletedResults[0] : undefined;
 
         if (!deletedResult) {
-          throw new Error('Unknown error: Delete failed to return result');
+          return undefined;
         }
 
         return deletedResult;

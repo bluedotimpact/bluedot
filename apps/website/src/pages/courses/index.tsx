@@ -9,11 +9,13 @@ import { useEffect, useMemo, useState } from 'react';
 import { Nav } from '../../components/Nav/Nav';
 import type { AppRouter } from '../../server/routers/_app';
 import { trpc } from '../../utils/trpc';
-import { AGI_STRATEGY_APPLICATION_URL } from '../../components/lander/course-content/AgiStrategyContent';
-import { BIOSECURITY_APPLICATION_URL } from '../../components/lander/course-content/BioSecurityContent';
-import { TECHNICAL_AI_SAFETY_APPLICATION_URL } from '../../components/lander/course-content/TechnicalAiSafetyContent';
 import NewsletterBanner from '../../components/homepage/NewsletterBanner';
 import { CourseIcon } from '../../components/courses/CourseIcon';
+import { COURSE_CONFIG } from '../../lib/constants';
+
+const getCourseAccentColor = (courseSlug: string): string => {
+  return COURSE_CONFIG[courseSlug]?.accentColor || '#1144cc';
+};
 
 type Course = inferRouterOutputs<AppRouter>['courses']['getAll'][number];
 type CourseRounds = inferRouterOutputs<AppRouter>['courseRounds']['getRoundsForCourse'];
@@ -26,12 +28,6 @@ const COURSE_DESCRIPTIONS: Record<string, string> = {
   'technical-ai-safety': 'For technical talent who want to drive AI safety research and policy professionals building governance solutions.',
   biosecurity: 'For people who want to build a pandemic-proof world. Learn how we can defend against AI-enabled bioattacks.',
   'technical-ai-safety-project': 'For those who want to make a technical contribution to AI safety research or engineering.',
-};
-
-const COURSE_APPLICATION_URLS: Record<string, string> = {
-  'agi-strategy': AGI_STRATEGY_APPLICATION_URL,
-  biosecurity: BIOSECURITY_APPLICATION_URL,
-  'technical-ai-safety': TECHNICAL_AI_SAFETY_APPLICATION_URL,
 };
 
 /* FoAI course has no cohort rounds - just open access content */
@@ -520,11 +516,13 @@ type SelfPacedSectionProps = {
 };
 
 const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
+  const accentColor = getCourseAccentColor(course.slug);
+
   return (
     <>
       {/* Mobile Layout */}
       <div className="flex min-[680px]:hidden">
-        <div className="bg-[#1144cc] w-1 flex-shrink-0 rounded-sm" />
+        <div className="w-1 flex-shrink-0 rounded-sm" style={{ backgroundColor: accentColor }} />
         <div className="flex flex-col pl-5">
           <p className="text-[15px] leading-[1.6] font-semibold text-[#13132e]">Self-paced learning</p>
           <p className="text-[15px] leading-[1.6] font-normal text-[#13132e] opacity-50">
@@ -532,7 +530,7 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
           </p>
           <Link
             href={`${course.path}/1/1`}
-            className="mt-3 text-[#1144cc] text-[15px] leading-[1.6] font-medium cursor-pointer"
+            className="mt-3 text-[15px] leading-[1.6] font-medium cursor-pointer text-bluedot-normal"
           >
             Start learning
           </Link>
@@ -545,7 +543,7 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
         className="group hidden min-[680px]:flex flex-row items-center justify-between min-h-12 cursor-pointer"
       >
         <div className="flex items-stretch h-full">
-          <div className="bg-[#1144cc] w-1 flex-shrink-0 rounded-sm opacity-30 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" />
+          <div className="w-1 flex-shrink-0 rounded-sm opacity-30 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" style={{ backgroundColor: accentColor }} />
           <div className="flex flex-col justify-center pl-5">
             <span className="text-[15px] leading-none font-semibold text-[#13132e]">Self-paced learning</span>
             <span className="text-[15px] leading-none font-normal text-[#13132e] opacity-50 mt-1">
@@ -554,7 +552,7 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
           </div>
         </div>
 
-        <div className="text-[#1144cc] ml-auto flex items-center text-[15px] leading-[1.6] font-medium">
+        <div className="ml-auto flex items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal">
           <span className="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1">
             Start learning
           </span>
@@ -616,9 +614,9 @@ type CourseRoundItemProps = {
 
 const CourseRoundItem = ({ round, course }: CourseRoundItemProps) => {
   const { latestUtmParams } = useLatestUtmParams();
+  const accentColor = getCourseAccentColor(course.slug);
 
-  // Use the miniextensions URL from course content, falling back to detailsUrl or course path
-  const baseApplicationUrl = COURSE_APPLICATION_URLS[course.slug] || course.detailsUrl || course.path;
+  const baseApplicationUrl = course.applyUrl || '';
 
   // Add UTM source prefill if available
   const applicationUrlWithUtm = latestUtmParams.utm_source
@@ -636,7 +634,7 @@ const CourseRoundItem = ({ round, course }: CourseRoundItemProps) => {
     <>
       {/* Mobile Layout */}
       <div className="flex min-[680px]:hidden">
-        <div className="bg-[#1144cc] w-1 flex-shrink-0 rounded-sm" />
+        <div className="w-1 flex-shrink-0 rounded-sm" style={{ backgroundColor: accentColor }} />
         <div className="flex flex-col pl-5">
           <p className="text-[15px] leading-[1.6] font-semibold text-[#13132e]">{formattedDateRange}</p>
           <p className="text-[15px] leading-[1.6] font-normal text-[#13132e] opacity-50">
@@ -647,7 +645,7 @@ const CourseRoundItem = ({ round, course }: CourseRoundItemProps) => {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Apply now (opens in a new tab)"
-            className="mt-3 text-[#1144cc] text-[15px] leading-[1.6] font-medium cursor-pointer"
+            className="mt-3 text-[15px] leading-[1.6] font-medium cursor-pointer text-bluedot-normal"
           >
             Apply now
           </a>
@@ -663,7 +661,7 @@ const CourseRoundItem = ({ round, course }: CourseRoundItemProps) => {
         className="group hidden min-[680px]:flex flex-row items-center justify-between min-h-12 cursor-pointer"
       >
         <div className="flex items-stretch h-full">
-          <div className="bg-[#1144cc] w-1 flex-shrink-0 rounded-sm opacity-30 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" />
+          <div className="w-1 flex-shrink-0 rounded-sm opacity-30 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" style={{ backgroundColor: accentColor }} />
           <div className="flex flex-col justify-center pl-5">
             <p className="text-[15px] leading-none font-semibold text-[#13132e]">{formattedDateRange}</p>
             <p className="text-[15px] leading-none font-normal text-[#13132e] opacity-50 mt-1">
@@ -672,7 +670,7 @@ const CourseRoundItem = ({ round, course }: CourseRoundItemProps) => {
           </div>
         </div>
 
-        <div className="text-[#1144cc] ml-auto flex items-center text-[15px] leading-[1.6] font-medium">
+        <div className="ml-auto flex items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal">
           <span className="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1">
             Apply now
           </span>

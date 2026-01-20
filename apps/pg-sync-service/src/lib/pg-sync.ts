@@ -321,7 +321,7 @@ async function processSingleUpdate(update: AirtableAction): Promise<boolean> {
 
     return true;
   } catch (err) {
-    logger.error('Failed to process update:', `${update.baseId}/${update.tableId}/${update.recordId}`, err);
+    logger.error(`Failed to process update at ${update.baseId}/${update.tableId}/${update.recordId}:`, err);
     // Don't alert, retry logic handles final failure alerts
     return false;
   }

@@ -17,13 +17,11 @@ import { FOAI_COURSE_SLUG } from '../../lib/constants';
 type CourseListRowProps = {
   course: Course;
   courseRegistration: CourseRegistration;
-  isFirst: boolean;
-  isLast: boolean;
   startExpanded?: boolean;
 };
 
 const CourseListRow = ({
-  course, courseRegistration, isFirst = false, isLast = false, startExpanded = false,
+  course, courseRegistration, startExpanded = false,
 }: CourseListRowProps) => {
   const [isExpanded, setIsExpanded] = useState(startExpanded);
   const currentTimeMs = useCurrentTimeMs();
@@ -35,15 +33,15 @@ const CourseListRow = ({
 
   // Only fetch expected discussions for the list row
   // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
-  const isFacilitator = courseRegistration.role === 'Facilitator';
+  const isFacilitatorRole = courseRegistration.role === 'Facilitator';
 
   // Edge case: The user has been accepted but has no group assigned
   const isNotInGroup = meetPerson
-    && (isFacilitator
+    && (isFacilitatorRole
       ? !meetPerson.expectedDiscussionsFacilitator || meetPerson.expectedDiscussionsFacilitator.length === 0
       : !meetPerson.groupsAsParticipant || meetPerson.groupsAsParticipant.length === 0);
 
-  const expectedDiscussionIds = isFacilitator
+  const expectedDiscussionIds = isFacilitatorRole
     ? meetPerson?.expectedDiscussionsFacilitator || []
     : meetPerson?.expectedDiscussionsParticipant || [];
 
@@ -60,9 +58,13 @@ const CourseListRow = ({
     (a, b) => a.startDateTime - b.startDateTime,
   );
 
-  const attendedDiscussions = [...(attendedResults?.discussions ?? [])].sort(
+  const allAttendedDiscussions = [...(attendedResults?.discussions ?? [])].sort(
     (a, b) => a.startDateTime - b.startDateTime,
   );
+
+  const facilitatorDiscussionIds = new Set(meetPerson?.expectedDiscussionsFacilitator ?? []);
+  const facilitatedDiscussions = allAttendedDiscussions.filter((d) => facilitatorDiscussionIds.has(d.id));
+  const attendedDiscussions = allAttendedDiscussions.filter((d) => !facilitatorDiscussionIds.has(d.id));
 
   const isLoading = isMeetPersonLoading || isLoadingDiscussions || isLoadingAttendees;
 
@@ -86,6 +88,7 @@ const CourseListRow = ({
     currentTimeMs,
     isExpanded,
     isLoading,
+    isFacilitatorRole,
   });
 
   const subtitle = getSubtitle({
@@ -95,13 +98,14 @@ const CourseListRow = ({
     nextDiscussion,
     isLoading,
     isNotInGroup,
+    isFacilitatorRole,
   });
 
   // Determine if we need to show eligibility tooltip for facilitated courses
   let reasonNotEligibleForCert: string | null = null;
   const isFacilitatedCourse = course.slug !== FOAI_COURSE_SLUG;
 
-  if (!courseRegistration.certificateCreatedAt && isFacilitatedCourse
+  if (!isFacilitatorRole && !courseRegistration.certificateCreatedAt && isFacilitatedCourse
     && meetPerson?.uniqueDiscussionAttendance != null && meetPerson?.numUnits != null
   ) {
     const hasSubmittedActionPlan = (meetPerson?.projectSubmission?.length ?? 0) > 0;
@@ -114,13 +118,10 @@ const CourseListRow = ({
   }
 
   return (
-    <div>
+    <div className="border-b border-charcoal-light last:border-b-0">
       <div
         className={cn(
-          'border-x border-t border-charcoal-light transition-colors duration-200 group cursor-pointer',
-          isLast && !isExpanded && 'border-b',
-          isFirst && 'rounded-t-xl',
-          isLast && !isExpanded && 'rounded-b-xl',
+          'transition-colors duration-200 group cursor-pointer',
           isExpanded ? 'bg-white' : 'hover:bg-white',
         )}
         onClick={() => setIsExpanded(!isExpanded)}
@@ -264,10 +265,9 @@ const CourseListRow = ({
         <CourseDetails
           course={course}
           courseRegistration={courseRegistration}
-          isLast={isLast}
           attendedDiscussions={attendedDiscussions}
           upcomingDiscussions={upcomingDiscussions}
-          expectedDiscussions={expectedDiscussions}
+          facilitatedDiscussions={facilitatedDiscussions}
           isLoading={isLoading}
         />
       )}
@@ -302,6 +302,7 @@ const getCtaButtons = ({
   currentTimeMs,
   isExpanded,
   isLoading,
+  isFacilitatorRole,
 }: {
   course: Course;
   courseRegistration: CourseRegistration;
@@ -310,6 +311,7 @@ const getCtaButtons = ({
   currentTimeMs: number;
   isExpanded: boolean;
   isLoading: boolean;
+  isFacilitatorRole: boolean;
 }): ReactNode[] => {
   const feedbackFormUrl = meetPerson?.courseFeedbackForm;
   const hasSubmittedFeedback = (meetPerson?.courseFeedback?.length ?? 0) > 0;
@@ -318,7 +320,8 @@ const getCtaButtons = ({
   const requiresActionPlan = course.slug !== FOAI_COURSE_SLUG;
 
   // Certificate exists but feedback not yet submitted: show locked certificate button linking to feedback form
-  if (courseRegistration.certificateCreatedAt && !hasSubmittedFeedback && feedbackFormUrl) {
+  // (Facilitators don't get certificates, so skip this for them)
+  if (!isFacilitatorRole && courseRegistration.certificateCreatedAt && !hasSubmittedFeedback && feedbackFormUrl) {
     return [(
       <CTALinkOrButton
         key="locked-cert"
@@ -403,7 +406,7 @@ const getCtaButtons = ({
     }
 
     // Action plan button (only for courses that require it)
-    if (requiresActionPlan) {
+    if (requiresActionPlan && !isFacilitatorRole) {
       if (hasSubmittedActionPlan) {
         // Action plan submitted - show filled checkmark button (non-interactive)
         buttons.push(
@@ -450,6 +453,7 @@ const getSubtitle = ({
   nextDiscussion,
   isLoading,
   isNotInGroup,
+  isFacilitatorRole,
 }: {
   courseRegistration: CourseRegistration;
   meetPerson: MeetPerson | null | undefined;
@@ -457,7 +461,20 @@ const getSubtitle = ({
   nextDiscussion: GroupDiscussion | undefined;
   isLoading: boolean;
   isNotInGroup: boolean | null | undefined;
+  isFacilitatorRole: boolean;
 }): ReactNode => {
+  if (isFacilitatorRole && courseRegistration.roundName) {
+    return (
+      <span className="min-w-0 text-pretty">
+        {courseRegistration.roundName}
+        {' '}
+        <span className="inline-flex items-center justify-center size-3.5 bg-gray-500 rounded-full align-text-bottom ml-0.5">
+          <FaCheck className="size-1.5 text-white" />
+        </span>
+      </span>
+    );
+  }
+
   if (courseRegistration.certificateCreatedAt) {
     return (
       <>

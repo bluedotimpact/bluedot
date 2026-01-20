@@ -9,7 +9,7 @@ const HistorySection = () => {
         <HistoryEvent year="2022"><strong>Launched our first AI Safety course</strong> with 400+ participants, <strong>founded BlueDot Impact</strong>, and established our <strong>London headquarters</strong>.</HistoryEvent>
         <HistoryEvent year="2023">Delivered a new course every four months, <strong>training 800+ people in AI Alignment, Governance, and Biosecurity</strong>.</HistoryEvent>
         <HistoryEvent year="2024">Accelerated to monthly courses, <strong>reaching 3,500+ participants worldwide</strong>. Over <strong>400</strong> of our course graduates now work in AI Safety.</HistoryEvent>
-        <HistoryEvent year="2025" now>Launching multiple courses weekly and expanding a world-class team to <strong>scale our global impact</strong>.</HistoryEvent>
+        <HistoryEvent year="2025" now>Courses every week. Announced <strong>US expansion</strong>, establishing an SF office to work more closely with entrepreneurs, AI companies and the AI safety ecosystem.</HistoryEvent>
       </div>
     </Section>
   );

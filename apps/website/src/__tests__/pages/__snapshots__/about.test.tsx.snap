@@ -3,53 +3,326 @@
 exports[`AboutPage > should render correctly 1`] = `
 <div>
   <div>
-    <div
-      class="hero-section bg-bluedot-darker flex flex-row justify-center items-center w-full px-spacing-x"
+    <section
+      class="relative w-full min-h-[317px] min-[680px]:min-h-[366px]"
     >
-      <div
-        class="hero-section__content max-w-[920px] py-12"
+      <nav
+        class="nav sticky top-0 z-50 w-full transition-all duration-300 bg-white border-b border-color-divider"
       >
         <div
-          class="hero-section__mini-title text-color-text-on-dark text-center uppercase tracking-wider text-sm font-semibold mb-4"
+          class="nav__container section-base"
         >
-          About us
-        </div>
-        <h1
-          class="hero-section__title text-color-text-on-dark text-center bluedot-h1"
-        >
-          Our mission is to build the workforce needed to safely navigate AGI.
-        </h1>
-        <div
-          class="flex justify-center mt-8"
-        >
-          <a
-            class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
-            href="/join-us"
-            tabindex="0"
+          <div
+            class="nav__bar w-full flex justify-between items-center min-h-(--nav-height-mobile) min-[1024px]:min-h-(--nav-height-desktop)"
           >
-            Join us
-            <span
-              class="cta-button__chevron ml-3"
+            <div
+              class="flex items-center"
             >
-              <svg
-                class="cta-button__chevron-icon size-2"
-                fill="currentColor"
-                height="1em"
-                stroke="currentColor"
-                stroke-width="0"
-                viewBox="0 0 320 512"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
+              <div
+                class="mobile-nav-links lg:hidden"
               >
-                <path
-                  d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                <button
+                  class="icon-button size-[32px] flex items-center justify-center hover:cursor-pointer mobile-nav-links__btn"
+                  type="button"
+                >
+                  <svg
+                    fill="none"
+                    height="48"
+                    viewBox="0 0 48 48"
+                    width="48"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16 18H32"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-width="2"
+                    />
+                    <path
+                      d="M16 24H32"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-width="2"
+                    />
+                    <path
+                      d="M16 30H32"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-width="2"
+                    />
+                  </svg>
+                </button>
+                <div
+                  class="mobile-nav-links__drawer absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                >
+                  <div
+                    class="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 lg:hidden"
+                    role="presentation"
+                  >
+                    <div
+                      class="nav-links flex gap-9 [&>*]:w-fit mobile-nav-links__nav-links flex-col"
+                    >
+                      <div
+                        class="nav-dropdown"
+                      >
+                        <button
+                          aria-controls="courses-dropdown"
+                          aria-expanded="false"
+                          class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                          type="button"
+                        >
+                          Courses
+                          <svg
+                            class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                            fill="none"
+                            height="1em"
+                            stroke="currentColor"
+                            stroke-width="0"
+                            viewBox="0 0 24 24"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
+                              fill="currentColor"
+                            />
+                          </svg>
+                        </button>
+                        <div
+                          aria-label="Courses menu"
+                          class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                          id="courses-dropdown"
+                          role="region"
+                        >
+                          <div
+                            class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                          >
+                            <div
+                              class="progress-dots my-6 flex items-center justify-center space-x-2 py-2"
+                            >
+                              <span
+                                class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                                style="animation-delay: 0ms;"
+                              />
+                              <span
+                                class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                                style="animation-delay: 150ms;"
+                              />
+                              <span
+                                class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                                style="animation-delay: 300ms;"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <a
+                        aria-label="Events (opens in new tab)"
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                        href="https://lu.ma/bluedotevents?utm_source=website&utm_campaign=nav"
+                        rel="noopener noreferrer"
+                        tabindex="0"
+                        target="_blank"
+                      >
+                        Events
+                      </a>
+                      <a
+                        aria-label="Blog (opens in new tab)"
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                        href="https://blog.bluedot.org"
+                        rel="noopener noreferrer"
+                        tabindex="0"
+                        target="_blank"
+                      >
+                        Blog
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                        href="/about"
+                        tabindex="0"
+                      >
+                        About
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                        href="/join-us"
+                        tabindex="0"
+                      >
+                        Jobs
+                      </a>
+                    </div>
+                    <div
+                      class="mobile-nav-cta flex flex-col gap-4 pt-6 mt-6 border-t border-color-divider"
+                    >
+                      <a
+                        class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--primary link-on-dark mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-bluedot-normal hover:bg-[#1a3599] text-white hover:text-white"
+                        href="/login?register=true&redirect_to=%2Fabout"
+                        tabindex="0"
+                      >
+                        Start for free
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a
+                class="bluedot-a not-prose logo shrink-0 w-[151px] min-[681px]:w-[200px] no-underline"
+                href="/"
+                tabindex="0"
+              >
+                <img
+                  alt="BlueDot Impact Logo"
+                  class="logo__img h-5 min-[681px]:h-6 mr-auto transition-all duration-300"
+                  src="/images/logo/BlueDot_Impact_Logo.svg"
                 />
-              </svg>
-            </span>
-          </a>
+              </a>
+            </div>
+            <div
+              class="flex items-center gap-12"
+            >
+              <div
+                class="nav-links flex gap-9 [&>*]:w-fit hidden lg:flex"
+              >
+                <div
+                  class="nav-dropdown"
+                >
+                  <button
+                    aria-controls="courses-dropdown"
+                    aria-expanded="false"
+                    class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                    type="button"
+                  >
+                    Courses
+                    <svg
+                      class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                      fill="none"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    aria-label="Courses menu"
+                    class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                    id="courses-dropdown"
+                    role="region"
+                  >
+                    <div
+                      class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                    >
+                      <div
+                        class="progress-dots my-6 flex items-center justify-center space-x-2 py-2"
+                      >
+                        <span
+                          class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                          style="animation-delay: 0ms;"
+                        />
+                        <span
+                          class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                          style="animation-delay: 150ms;"
+                        />
+                        <span
+                          class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                          style="animation-delay: 300ms;"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <a
+                  aria-label="Events (opens in new tab)"
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                  href="https://lu.ma/bluedotevents?utm_source=website&utm_campaign=nav"
+                  rel="noopener noreferrer"
+                  tabindex="0"
+                  target="_blank"
+                >
+                  Events
+                </a>
+                <a
+                  aria-label="Blog (opens in new tab)"
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                  href="https://blog.bluedot.org"
+                  rel="noopener noreferrer"
+                  tabindex="0"
+                  target="_blank"
+                >
+                  Blog
+                </a>
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                  href="/about"
+                  tabindex="0"
+                >
+                  About
+                </a>
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                  href="/join-us"
+                  tabindex="0"
+                >
+                  Jobs
+                </a>
+              </div>
+              <div
+                class="nav-cta flex flex-row items-center gap-4"
+              >
+                <a
+                  class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--secondary bg-transparent nav-cta__secondary-cta flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center border border-color-divider text-color-text hover:text-color-text hover:bg-gray-50"
+                  href="/login?redirect_to=%2Fabout"
+                  tabindex="0"
+                >
+                  Sign in
+                </a>
+                <a
+                  class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--primary link-on-dark nav-cta__primary-cta hidden min-[680px]:flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-bluedot-normal hover:bg-[#1a3599] text-white hover:text-white"
+                  href="/login?register=true&redirect_to=%2Fabout"
+                  tabindex="0"
+                >
+                  Start for free
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <img
+        alt=""
+        class="absolute inset-0 size-full object-cover -scale-x-100"
+        fetchpriority="high"
+        src="/images/homepage/hero.webp"
+      />
+      <div
+        class="relative z-10 flex flex-col justify-end h-full min-h-[317px] min-[680px]:min-h-[366px] pb-12 pt-20 min-[680px]:pb-16 min-[680px]:pt-20"
+      >
+        <div
+          class="w-full mx-auto max-w-max-width px-spacing-x"
+        >
+          <div
+            class="flex flex-col gap-6 max-w-[780px]"
+          >
+            <h1
+              class="bluedot-h1 not-prose text-[32px] min-[680px]:text-[40px] min-[1024px]:text-[48px] leading-tight font-medium tracking-[-1px] text-white"
+            >
+              About us
+            </h1>
+            <p
+              class="text-size-sm min-[680px]:text-[18px] min-[1024px]:text-[20px] leading-[1.55] tracking-[-0.1px] text-white"
+            >
+              Our mission is to build the workforce needed to safely navigate AGI.
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
     <div
       class="breadcrumbs bg-color-canvas border-b border-color-divider w-full py-space-between"
     >
@@ -582,11 +855,11 @@ exports[`AboutPage > should render correctly 1`] = `
               <p
                 class="bluedot-p not-prose history-section__event-details mr-12"
               >
-                Launching multiple courses weekly and expanding a world-class team to 
+                Courses every week. Announced 
                 <strong>
-                  scale our global impact
+                  US expansion
                 </strong>
-                .
+                , establishing an SF office to work more closely with entrepreneurs, AI companies and the AI safety ecosystem.
               </p>
             </div>
           </div>
@@ -828,7 +1101,7 @@ exports[`AboutPage > should render correctly 1`] = `
                         <img
                           alt="Aniket Chakravorty - AI Strategy Specialist"
                           class="team-section__card-image size-[300px] object-cover"
-                          src="/images/team/aniketchakravorty.jpg"
+                          src="/images/team/aniket.png"
                         />
                       </a>
                     </div>

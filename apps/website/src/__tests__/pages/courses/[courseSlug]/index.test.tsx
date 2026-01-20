@@ -42,6 +42,7 @@ describe('CoursePage SSR/SEO', () => {
         courseSlug="ai-safety-fundamentals"
         courseData={{ course: mockCourse, units: mockUnits }}
         courseOgImage={`https://bluedot.org/images/courses/link-preview/${mockCourse.slug}.png`}
+        soonestDeadline={null}
       />,
     );
 
@@ -72,6 +73,7 @@ describe('CoursePage SSR/SEO', () => {
       <CoursePage
         courseSlug="ai-safety-fundamentals"
         courseData={{ course: mockCourse, units: mockUnits }}
+        soonestDeadline={null}
       />,
     );
 

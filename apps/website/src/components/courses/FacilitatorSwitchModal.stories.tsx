@@ -79,16 +79,18 @@ const mockFacilitators = [
   { value: 'facilitator-3', label: 'Carol Williams' },
 ];
 
-export const WithPassedDiscussions: Story = {
+export const Default: Story = {
   args: {
     handleClose: () => {},
     courseSlug: 'fish-test-course',
     initialDiscussion: null,
-    allDiscussions: mockDiscussions,
   },
   parameters: {
     msw: {
       handlers: [
+        trpcStorybookMsw.facilitators.discussionsAvailable.query(async () => {
+          return mockDiscussions;
+        }),
         trpcStorybookMsw.facilitators.updateDiscussion.mutation(async () => {
           return null;
         }),
@@ -108,12 +110,14 @@ export const ChangeFacilitatorView: Story = {
     handleClose: () => {},
     courseSlug: 'fish-test-course',
     initialDiscussion: mockDiscussions[1] ?? null,
-    allDiscussions: mockDiscussions,
     initialModalType: 'Change facilitator',
   },
   parameters: {
     msw: {
       handlers: [
+        trpcStorybookMsw.facilitators.discussionsAvailable.query(async () => {
+          return mockDiscussions;
+        }),
         trpcStorybookMsw.facilitators.updateDiscussion.mutation(async () => {
           return null;
         }),

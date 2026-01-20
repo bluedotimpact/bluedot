@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import { FaChevronRight } from 'react-icons/fa6';
-import { Modal } from '@bluedot/ui';
+import { CTALinkOrButton, Modal } from '@bluedot/ui';
 import { unitTable, chunkTable, InferSelectModel } from '@bluedot/db';
 import { CourseIcon } from './CourseIcon';
+import type { ApplyCTAProps } from './SideBar';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 type Chunk = InferSelectModel<typeof chunkTable.pg>;
@@ -19,6 +20,7 @@ type MobileCourseModalProps = {
   currentChunkIndex: number;
   onChunkSelect: (index: number) => void;
   onUnitSelect?: (unitPath: string) => void;
+  applyCTAProps?: ApplyCTAProps;
 };
 
 const ChunkIcon: React.FC<{ isActive?: boolean }> = ({ isActive }) => {
@@ -49,6 +51,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
   currentChunkIndex,
   onChunkSelect,
   onUnitSelect,
+  applyCTAProps,
 }) => {
   const [isCurrentUnitExpanded, setIsCurrentUnitExpanded] = useState(true);
 
@@ -77,18 +80,30 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
     setIsOpen(false);
   };
 
+  const showApplyCTA = applyCTAProps && !applyCTAProps.hasApplied;
+
   return (
     <Modal
       isOpen={isOpen}
       setIsOpen={setIsOpen}
       title={(
-        <div className="flex items-center gap-4 pb-1">
-          <CourseIcon courseSlug={courseSlug} />
-          <div className="flex flex-1 min-w-0">
+        <div className="flex flex-wrap items-center justify-between gap-4 pb-1 w-full">
+          <div className="flex items-center gap-4">
+            <CourseIcon courseSlug={courseSlug} />
             <h3 className="text-[20px] leading-[40px] font-semibold text-[#13132E]">
               {courseTitle}
             </h3>
           </div>
+          {showApplyCTA && (
+            <CTALinkOrButton
+              url={applyCTAProps.applicationUrl}
+              variant="outline-black"
+              target="_blank"
+              className="px-3 py-1.5 text-[14px]"
+            >
+              {`Apply by ${applyCTAProps.applicationDeadline}`}
+            </CTALinkOrButton>
+          )}
         </div>
       )}
       bottomDrawerOnMobile

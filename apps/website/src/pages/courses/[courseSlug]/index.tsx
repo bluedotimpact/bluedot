@@ -15,13 +15,14 @@ import { ROUTES } from '../../../lib/routes';
 import MarkdownExtendedRenderer from '../../../components/courses/MarkdownExtendedRenderer';
 import AiSafetyOpsLander from '../../../components/lander/AiSafetyOpsLander';
 import CourseLander from '../../../components/lander/CourseLander';
-import { createAgiStrategyContent, AGI_STRATEGY_APPLICATION_URL } from '../../../components/lander/course-content/AgiStrategyContent';
-import { createBioSecurityContent, BIOSECURITY_APPLICATION_URL } from '../../../components/lander/course-content/BioSecurityContent';
-import { createTechnicalAiSafetyContent, TECHNICAL_AI_SAFETY_APPLICATION_URL } from '../../../components/lander/course-content/TechnicalAiSafetyContent';
-import { createAiGovernanceContent, AI_GOVERNANCE_APPLICATION_URL } from '../../../components/lander/course-content/AiGovernanceContent';
+import { createAgiStrategyContent } from '../../../components/lander/course-content/AgiStrategyContent';
+import { createBioSecurityContent } from '../../../components/lander/course-content/BioSecurityContent';
+import { createTechnicalAiSafetyContent } from '../../../components/lander/course-content/TechnicalAiSafetyContent';
+import { createAiGovernanceContent } from '../../../components/lander/course-content/AiGovernanceContent';
 import { createFutureOfAiContent, FUTURE_OF_AI_START_URL } from '../../../components/lander/course-content/FutureOfAiContent';
-import { createTechnicalAiSafetyProjectContent, TECHNICAL_AI_SAFETY_PROJECT_APPLICATION_URL } from '../../../components/lander/course-content/TechnicalAiSafetyProjectContent';
-import { createIncubatorWeekContent, INCUBATOR_WEEK_APPLICATION_URL } from '../../../components/lander/course-content/IncubatorWeekContent';
+import { createTechnicalAiSafetyProjectContent } from '../../../components/lander/course-content/TechnicalAiSafetyProjectContent';
+import { getCourseRoundsData, getSoonestDeadline } from '../../../server/routers/course-rounds';
+import { createIncubatorWeekContent } from '../../../components/lander/course-content/IncubatorWeekContent';
 import GraduateSection from '../../../components/lander/components/GraduateSection';
 import { CourseUnitsSection } from '../../../components/courses/CourseUnitsSection';
 import { getCourseData, type CourseAndUnits } from '../../../server/routers/courses';
@@ -30,27 +31,38 @@ import { fileExists } from '../../../utils/fileExists';
 type CoursePageProps = {
   courseSlug: string;
   courseData: CourseAndUnits;
-  courseOgImage?: string | null
+  courseOgImage?: string | null;
+  soonestDeadline: string | null;
 };
 
-const CoursePage = ({ courseSlug, courseData, courseOgImage }: CoursePageProps) => {
+const CoursePage = ({
+  courseSlug, courseData, courseOgImage, soonestDeadline,
+}: CoursePageProps) => {
   return (
     <div>
-      {renderCoursePage({ courseSlug, courseData, courseOgImage })}
+      {renderCoursePage({
+        courseSlug, courseData, courseOgImage, soonestDeadline,
+      })}
     </div>
   );
 };
 
 // Helper function to render the appropriate course page based on slug
-const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: CoursePageProps) => {
-  // Custom lander cases
+const renderCoursePage = ({
+  courseSlug: slug, courseData, courseOgImage, soonestDeadline,
+}: CoursePageProps) => {
+  const { course } = courseData;
+  const baseApplicationUrl = course?.applyUrl || '';
+
   if (slug === 'future-of-ai') {
+    // Future of AI is self-paced, so use the start URL instead of an apply URL
     return (
       <CourseLander
         courseSlug={slug}
         baseApplicationUrl={FUTURE_OF_AI_START_URL}
         createContentFor={createFutureOfAiContent}
         courseOgImage={courseOgImage}
+        soonestDeadline={soonestDeadline}
       />
     );
   }
@@ -63,9 +75,10 @@ const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: Cours
     return (
       <CourseLander
         courseSlug={slug}
-        baseApplicationUrl={AGI_STRATEGY_APPLICATION_URL}
+        baseApplicationUrl={baseApplicationUrl}
         createContentFor={createAgiStrategyContent}
         courseOgImage={courseOgImage}
+        soonestDeadline={soonestDeadline}
       />
     );
   }
@@ -74,9 +87,10 @@ const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: Cours
     return (
       <CourseLander
         courseSlug={slug}
-        baseApplicationUrl={BIOSECURITY_APPLICATION_URL}
+        baseApplicationUrl={baseApplicationUrl}
         createContentFor={createBioSecurityContent}
         courseOgImage={courseOgImage}
+        soonestDeadline={soonestDeadline}
       />
     );
   }
@@ -85,9 +99,10 @@ const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: Cours
     return (
       <CourseLander
         courseSlug={slug}
-        baseApplicationUrl={TECHNICAL_AI_SAFETY_APPLICATION_URL}
+        baseApplicationUrl={baseApplicationUrl}
         createContentFor={createTechnicalAiSafetyContent}
         courseOgImage={courseOgImage}
+        soonestDeadline={soonestDeadline}
       />
     );
   }
@@ -96,9 +111,10 @@ const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: Cours
     return (
       <CourseLander
         courseSlug={slug}
-        baseApplicationUrl={AI_GOVERNANCE_APPLICATION_URL}
+        baseApplicationUrl={baseApplicationUrl}
         createContentFor={createAiGovernanceContent}
         courseOgImage={courseOgImage}
+        soonestDeadline={soonestDeadline}
       />
     );
   }
@@ -107,9 +123,10 @@ const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: Cours
     return (
       <CourseLander
         courseSlug={slug}
-        baseApplicationUrl={TECHNICAL_AI_SAFETY_PROJECT_APPLICATION_URL}
+        baseApplicationUrl={baseApplicationUrl}
         createContentFor={createTechnicalAiSafetyProjectContent}
         courseOgImage={courseOgImage}
+        soonestDeadline={soonestDeadline}
       />
     );
   }
@@ -118,9 +135,10 @@ const renderCoursePage = ({ courseSlug: slug, courseData, courseOgImage }: Cours
     return (
       <CourseLander
         courseSlug={slug}
-        baseApplicationUrl={INCUBATOR_WEEK_APPLICATION_URL}
+        baseApplicationUrl={baseApplicationUrl}
         createContentFor={createIncubatorWeekContent}
         courseOgImage={courseOgImage}
+        soonestDeadline={soonestDeadline}
       />
     );
   }
@@ -205,6 +223,9 @@ export const getStaticProps: GetStaticProps<CoursePageProps> = async ({ params }
   try {
     const courseData = await getCourseData(courseSlug);
 
+    const rounds = await getCourseRoundsData(courseSlug);
+    const soonestDeadline = getSoonestDeadline(rounds);
+
     let courseOgImage: string | null = null;
     if (await fileExists(path.join(process.cwd(), 'public', 'images', 'courses', 'link-preview', `${courseSlug}.png`))) {
       courseOgImage = `${process.env.NEXT_PUBLIC_SITE_URL}/images/courses/link-preview/${courseSlug}.png`;
@@ -215,6 +236,7 @@ export const getStaticProps: GetStaticProps<CoursePageProps> = async ({ params }
         courseSlug,
         courseData,
         courseOgImage,
+        soonestDeadline,
       },
       revalidate: 300,
     };

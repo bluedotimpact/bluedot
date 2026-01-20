@@ -12,8 +12,6 @@ import {
 } from 'react-icons/pi';
 import { CourseLanderContent } from '../CourseLander';
 
-export const INCUBATOR_WEEK_APPLICATION_URL = 'https://web.miniextensions.com/9UQbEOQ10oTYrqpIOwVS';
-
 const INCUBATOR_WEEK_COLORS = {
   /* Gradient layers:
      1. Left-side darkness - horizontal gradient to darken left edge for text readability
