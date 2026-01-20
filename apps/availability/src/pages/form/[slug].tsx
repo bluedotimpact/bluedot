@@ -23,7 +23,8 @@ type FormFieldData = {
 const Form: React.FC<{
   title: string;
   minLength: number;
-}> = ({ title, minLength }) => {
+  roundId?: string;
+}> = ({ title, minLength, roundId }) => {
   const { query: { slug } } = useRouter();
 
   const {
@@ -45,6 +46,7 @@ const Form: React.FC<{
           availability: wa.format(intervals),
           timezone: data.timezone,
           comments: data.comment,
+          ...(roundId && { roundId }),
         } satisfies SubmitRequest,
         {
           params: { slug },
@@ -173,6 +175,7 @@ const getDefaultFormValues = (searchParams: URLSearchParams): FormFieldData => {
 const FormWrapper: React.FC = () => {
   const { query: { slug } } = useRouter();
   const searchParams = typeof window === 'undefined' ? new URLSearchParams() : new URL(document.location.href).searchParams;
+  const roundId = searchParams.get('roundId') ?? undefined;
   const formMethods = useForm<FormFieldData>({
     defaultValues: getDefaultFormValues(searchParams),
   });
@@ -209,6 +212,7 @@ const FormWrapper: React.FC = () => {
       <Form
         title={info.data.title}
         minLength={info.data.minimumLength}
+        roundId={roundId}
       />
     </FormProvider>
   );
