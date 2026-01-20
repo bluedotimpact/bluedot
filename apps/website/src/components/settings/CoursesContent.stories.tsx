@@ -58,12 +58,22 @@ const mockRegistrationActiveWithCert = createMockCourseRegistration({
   certificateCreatedAt: 1672531200,
 });
 
-const mockRegistrationFacilitated = createMockCourseRegistration({
-  id: 'reg-4',
+const mockRegistrationDroppedOut = createMockCourseRegistration({
+  id: 'reg-dropped',
+  courseId: 'course-1',
+  roundStatus: 'Active',
+  certificateCreatedAt: null,
+  dropoutId: ['dropout-1'], // Has dropoutId but no deferredId = dropped out
+  deferredId: null,
+});
+
+const mockRegistrationDeferred = createMockCourseRegistration({
+  id: 'reg-deferred',
   courseId: 'course-2',
-  roundStatus: 'Past',
-  role: 'Facilitator',
-  roundName: 'AGI Strategy (2025 Aug W35) - Intensive',
+  roundStatus: 'Active',
+  certificateCreatedAt: null,
+  dropoutId: ['dropout-2'], // Has both dropoutId and deferredId = deferred
+  deferredId: ['deferred-1'],
 });
 
 const mockMeetPerson = createMockMeetPerson({
@@ -192,11 +202,38 @@ export const ErrorState: Story = {
   },
 };
 
-export const WithFacilitated: Story = {
+export const WithDroppedOutCourse: Story = {
   parameters: {
     msw: {
       handlers: createHandlers({
-        registrations: [mockRegistrationInProgress, mockRegistrationCompleted, mockRegistrationFacilitated],
+        registrations: [mockRegistrationDroppedOut],
+        courses: [mockCourse1],
+      }),
+    },
+  },
+};
+
+export const WithDeferredCourse: Story = {
+  parameters: {
+    msw: {
+      handlers: createHandlers({
+        registrations: [mockRegistrationDeferred],
+        courses: [mockCourse2],
+      }),
+    },
+  },
+};
+
+export const MixedWithDropoutAndDeferred: Story = {
+  parameters: {
+    msw: {
+      handlers: createHandlers({
+        registrations: [
+          mockRegistrationInProgress, // Normal in-progress course
+          mockRegistrationDroppedOut, // Should be filtered out
+          mockRegistrationDeferred, // Should appear (deferred)
+          mockRegistrationCompleted, // Normal completed course
+        ],
         courses: [mockCourse1, mockCourse2],
       }),
     },
