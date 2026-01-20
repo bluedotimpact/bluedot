@@ -51,7 +51,7 @@ export default makeApiRoute({
     Email: body.email,
     'Time availability in UTC': body.availability,
     Timezone: body.timezone,
-    ...(body.roundId && { roundId: body.roundId }),
+    ...(body.roundId && { 'Round ID': body.roundId }),
   });
 
   if (webhookResponse.status !== 200) {
