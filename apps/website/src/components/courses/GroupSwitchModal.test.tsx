@@ -109,7 +109,6 @@ const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
         groupName: 'Morning Group A',
         userIsParticipant: true, // This is the current discussion
         spotsLeftIfKnown: 0,
-        isTooLateToSwitchTo: false,
       },
       {
         discussion: createMockGroupDiscussion({
@@ -120,7 +119,6 @@ const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
         groupName: 'Evening Group B',
         userIsParticipant: false, // Available to switch to
         spotsLeftIfKnown: 2,
-        isTooLateToSwitchTo: false, // Not started yet, so available
       },
     ],
   },
@@ -425,30 +423,19 @@ describe('GroupSwitchModal', () => {
       });
     });
 
-    test('Full discussions, started discussions, and units with no upcoming discussions are disabled', async () => {
+    test('Full discussions and units with no upcoming discussions are disabled', async () => {
       // Create mock data with disabled options
       const currentDiscussion = mockAvailableGroupsAndDiscussions.discussionsAvailable[1]![0]!;
       const mockAvailableGroupsAndDiscussionsWithDisabled: DiscussionsAvailable = {
         groupsAvailable: [
           { ...mockAvailableGroupsAndDiscussions.groupsAvailable[0]!, group: { ...mockAvailableGroupsAndDiscussions.groupsAvailable[0]!.group, groupName: 'Current Group' } },
           { ...mockAvailableGroupsAndDiscussions.groupsAvailable[1]!, group: { ...mockAvailableGroupsAndDiscussions.groupsAvailable[1]!.group, groupName: 'Full Group', id: 'group-full' }, spotsLeftIfKnown: 0 },
-          { ...mockAvailableGroupsAndDiscussions.groupsAvailable[1]!, group: { ...mockAvailableGroupsAndDiscussions.groupsAvailable[1]!.group, groupName: 'Already Started Group', id: 'group-started' }, isTooLateToSwitchTo: true },
         ],
         discussionsAvailable: {
           1: [
             { ...currentDiscussion, discussion: { ...currentDiscussion.discussion, id: 'discussion-current', group: 'group-1' }, groupName: 'Current Group' },
             {
               ...currentDiscussion, discussion: { ...currentDiscussion.discussion, id: 'discussion-full', group: 'group-full' }, groupName: 'Full Group', userIsParticipant: false, spotsLeftIfKnown: 0,
-            },
-            {
-              ...currentDiscussion,
-              discussion: {
-                ...currentDiscussion.discussion, id: 'discussion-started', group: 'group-started', startDateTime: Math.floor((Date.now() - 2 * 60 * 60 * 1000) / 1000),
-              },
-              groupName: 'Already Started Group',
-              userIsParticipant: false,
-              spotsLeftIfKnown: 2,
-              isTooLateToSwitchTo: true,
             },
           ],
           2: [], // Unit 2 has no upcoming discussions
@@ -473,23 +460,12 @@ describe('GroupSwitchModal', () => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
       });
 
-      // Verify disabled discussions are shown
+      // Verify full discussion is shown
       expect(screen.getByText('Full Group')).toBeInTheDocument();
-      expect(screen.getByText('Already Started Group')).toBeInTheDocument();
-
-      // Find disabled options: they don't have role="button" because they're disabled
-      const fullGroupOption = screen.getByText('Full Group').closest('div.rounded-lg');
-      const startedGroupOption = screen.getByText('Already Started Group').closest('div.rounded-lg');
-
-      // Verify they have (at least some) disabled styling
-      expect(fullGroupOption).toHaveClass('opacity-50');
-      expect(startedGroupOption).toHaveClass('opacity-50');
 
       // Verify "No spots left" message appears for full groups
       const noSpotsMessages = screen.getAllByText('No spots left');
       expect(noSpotsMessages.length).toBeGreaterThan(0);
-      // Verify "This discussion has passed" message appears for started discussions
-      expect(screen.getByText('This discussion has passed')).toBeInTheDocument();
 
       // Open unit selector to check if Unit 2 is disabled
       const unitButton = screen.getByRole('button', { name: /Select unit/i });
