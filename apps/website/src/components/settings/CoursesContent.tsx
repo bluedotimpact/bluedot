@@ -49,7 +49,7 @@ const CoursesContent = () => {
   const facilitatedCourses = enrolledCourses
     .filter(({ courseRegistration }) => isCompleted(courseRegistration) && courseRegistration.role === 'Facilitator' && !courseRegistration.deferredId?.length);
 
-  // In-progress: Active courses
+  // In-progress: Active courses (both participants and facilitators)
   const inProgressCourses = enrolledCourses.filter(({ courseRegistration }) => !isCompleted(courseRegistration));
 
   const loading = courseRegistrationsLoading || coursesLoading;
