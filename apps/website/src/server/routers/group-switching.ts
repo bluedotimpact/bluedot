@@ -20,7 +20,6 @@ type DiscussionsByUnit = Record<string, {
   spotsLeftIfKnown: number | null;
   userIsParticipant: boolean;
   groupName: string;
-  isTooLateToSwitchTo: boolean;
 }[]>;
 
 export function calculateGroupAvailability({
