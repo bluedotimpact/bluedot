@@ -7,7 +7,7 @@ export const dropoutRouter = router({
   dropoutOrDeferral: protectedProcedure
     .input(
       z.object({
-        applicantId: z.array(z.string().min(1)).min(1),
+        applicantId: z.string().min(1),
         reason: z.string(),
         isDeferral: z.boolean(),
       }),
@@ -16,7 +16,7 @@ export const dropoutRouter = router({
       const { applicantId, reason, isDeferral } = input;
 
       return db.insert(dropoutTable, {
-        applicantId,
+        applicantId: [applicantId],
         reason,
         isDeferral,
       });

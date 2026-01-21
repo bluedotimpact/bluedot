@@ -31,7 +31,7 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, handleClose })
     if (!dropoutType) return;
 
     dropoutMutation.mutate({
-      applicantId: [applicantId],
+      applicantId,
       reason: reason.trim(),
       isDeferral,
     });

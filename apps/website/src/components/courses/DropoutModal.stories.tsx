@@ -24,7 +24,7 @@ export const Default: Story = {
       handlers: [
         trpcStorybookMsw.dropout.dropoutOrDeferral.mutation(async ({ input }) => ({
           id: 'new-dropout-id',
-          applicantId: input.applicantId,
+          applicantId: [input.applicantId],
           reason: input.reason,
           isDeferral: input.isDeferral,
         })),
