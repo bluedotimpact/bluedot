@@ -76,33 +76,31 @@ export function calculateGroupAvailability({
     const timeState = getDiscussionTimeState({ discussion, currentTimeMs });
     const isTooLateToSwitchTo = timeState === 'live' || timeState === 'ended';
 
-    discussionsByUnit[unitKey].push({
-      discussion,
-      spotsLeftIfKnown,
-      userIsParticipant,
-      groupName,
-      isTooLateToSwitchTo,
-    });
+    if (!isTooLateToSwitchTo || userIsParticipant) {
+      discussionsByUnit[unitKey].push({
+        discussion,
+        spotsLeftIfKnown,
+        userIsParticipant,
+        groupName,
+      });
 
-    // Update group data
-    const groupId = discussion.group;
-
-    if (!groupData[groupId]) {
+      // Update group data
+      const groupId = discussion.group;
+      if (!groupData[groupId]) {
       // First time seeing this group
-      groupData[groupId] = {
-        group,
-        spotsLeftIfKnown: isTooLateToSwitchTo ? null : spotsLeftIfKnown,
-        userIsParticipant: group.participants.includes(participantId),
-        isTooLateToSwitchTo,
-      };
-    } else {
-      // Update existing group data
-      const existing = groupData[groupId];
+        groupData[groupId] = {
+          group,
+          spotsLeftIfKnown: isTooLateToSwitchTo ? null : spotsLeftIfKnown,
+          userIsParticipant: group.participants.includes(participantId),
+          isTooLateToSwitchTo,
+        };
+      } else {
+        // Update existing group data
+        const existing = groupData[groupId];
 
-      // It's too late to switch into the group if it's too late to switch into *all* of the discussions
-      existing.isTooLateToSwitchTo = existing.isTooLateToSwitchTo && isTooLateToSwitchTo;
+        // It's too late to switch into the group if it's too late to switch into *all* of the discussions
+        existing.isTooLateToSwitchTo = existing.isTooLateToSwitchTo && isTooLateToSwitchTo;
 
-      if (!isTooLateToSwitchTo) {
         // Update spotsLeftIfKnown
         if (existing.spotsLeftIfKnown !== null && spotsLeftIfKnown !== null) {
           existing.spotsLeftIfKnown = Math.min(existing.spotsLeftIfKnown, spotsLeftIfKnown);
