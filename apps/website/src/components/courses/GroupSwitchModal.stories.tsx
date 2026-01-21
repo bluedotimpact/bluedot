@@ -75,7 +75,6 @@ const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
         groupName: 'Morning Group A',
         userIsParticipant: true,
         spotsLeftIfKnown: 0,
-        isTooLateToSwitchTo: false,
       },
       {
         discussion: createMockGroupDiscussion({
@@ -84,7 +83,6 @@ const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
         groupName: 'Evening Group B',
         userIsParticipant: false,
         spotsLeftIfKnown: 2,
-        isTooLateToSwitchTo: false,
       },
     ],
     2: [
@@ -95,7 +93,6 @@ const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
         groupName: 'Weekend Group C',
         userIsParticipant: false,
         spotsLeftIfKnown: 1,
-        isTooLateToSwitchTo: false,
       },
     ],
   },
