@@ -72,7 +72,7 @@ describe('calculateGroupAvailability', () => {
     expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.userIsParticipant).toBe(false);
   });
 
-  it('should detect when discussions have started', () => {
+  it('should filter out discussions that have started', () => {
     const groups = [createMockGroup()];
     const discussions = [createMockGroupDiscussion({ startDateTime: pastTimeSeconds })];
 
@@ -83,7 +83,8 @@ describe('calculateGroupAvailability', () => {
       participantId: mockParticipantId,
     });
 
-    expect(result.groupsAvailable[0]?.isTooLateToSwitchTo).toBe(true);
+    // Groups with only past discussions are not included in groupsAvailable
+    expect(result.groupsAvailable).toHaveLength(0);
     expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]).toHaveLength(0);
   });
 
@@ -130,7 +131,7 @@ describe('calculateGroupAvailability', () => {
     expect(result.groupsAvailable[0]?.spotsLeftIfKnown).toBe(3); // 5 max - 2 participants from future discussion
   });
 
-  it('should handle groups with all discussions started', () => {
+  it('should exclude groups where all discussions have started', () => {
     const groups = [createMockGroup()];
     const discussions = [
       createMockGroupDiscussion({
@@ -150,8 +151,8 @@ describe('calculateGroupAvailability', () => {
       participantId: mockParticipantId,
     });
 
-    expect(result.groupsAvailable[0]?.isTooLateToSwitchTo).toBe(true);
-    expect(result.groupsAvailable[0]?.spotsLeftIfKnown).toBeNull(); // No spots available when all started
+    // Groups with only past discussions are not included in groupsAvailable
+    expect(result.groupsAvailable).toHaveLength(0);
   });
 
   it('should skip discussions without unit numbers', () => {
