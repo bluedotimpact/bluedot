@@ -511,7 +511,7 @@ You need to make two PRs:
   b. Move it to `deprecatedColumns` in `libraries/db/src/schema.ts`. This will stop the application code from SELECT-ing it, but it won't be dropped from the database
   c. Merge this, *and* deploy to production
 2. PR 2:
-  a. Delete the column fully from `libraries/db/src/schema.ts`. This will cause it to be dropped from the database as soon as the PR is _merged_ (not when it is release to production)
+  a. Delete the column fully from `libraries/db/src/schema.ts`. This will cause it to be dropped from the database as soon as the PR is *merged* (not when it is released to production)
   b. Ensure PR 1 is deployed to production (merged to master + release created) before merging this. If you're feeling generous also wait for other developers to pull in PR 1 first
 
 **Adding a column**:
@@ -519,7 +519,7 @@ You need to make two PRs:
 You need to make two PRs:
 1. PR 1:
   a. Add the column in `libraries/db/src/schema.ts`
-  c. Merge this (no need to deploy to production)
+  b. Merge this (no need to deploy to production)
 2. PR 2:
   a. Start using the column in code
 
