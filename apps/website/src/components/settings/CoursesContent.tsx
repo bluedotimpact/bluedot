@@ -45,9 +45,9 @@ const CoursesContent = () => {
       return bTime - aTime;
     });
 
-  // Facilitated: past courses for facilitators, excluding deferred courses
+  // Facilitated: past courses for facilitators (facilitators cannot defer)
   const facilitatedCourses = enrolledCourses
-    .filter(({ courseRegistration }) => isCompleted(courseRegistration) && courseRegistration.role === 'Facilitator' && !courseRegistration.deferredId?.length);
+    .filter(({ courseRegistration }) => isCompleted(courseRegistration) && courseRegistration.role === 'Facilitator');
 
   // In-progress: Active courses (both participants and facilitators)
   const inProgressCourses = enrolledCourses.filter(({ courseRegistration }) => !isCompleted(courseRegistration));
