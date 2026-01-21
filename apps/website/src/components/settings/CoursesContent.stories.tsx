@@ -66,6 +66,22 @@ const mockRegistrationFacilitated = createMockCourseRegistration({
   roundName: 'AGI Strategy (2025 Aug W35) - Intensive',
 });
 
+const mockRegistrationDroppedOut = createMockCourseRegistration({
+  id: 'reg-dropped',
+  courseId: 'course-1',
+  roundStatus: 'Active',
+  certificateCreatedAt: null,
+  dropoutId: ['dropout-1'], // Has dropoutId but no deferredId = dropped out
+});
+
+const mockRegistrationDeferred = createMockCourseRegistration({
+  id: 'reg-deferred',
+  courseId: 'course-2',
+  roundStatus: 'Active',
+  certificateCreatedAt: null,
+  deferredId: ['deferred-1'], // Has deferredId but no dropoutId = deferred
+});
+
 const mockMeetPerson = createMockMeetPerson({
   id: 'meet-person-1',
   expectedDiscussionsParticipant: ['discussion-1'],
@@ -197,6 +213,44 @@ export const WithFacilitated: Story = {
     msw: {
       handlers: createHandlers({
         registrations: [mockRegistrationInProgress, mockRegistrationCompleted, mockRegistrationFacilitated],
+        courses: [mockCourse1, mockCourse2],
+      }),
+    },
+  },
+};
+
+export const WithDroppedOutCourse: Story = {
+  parameters: {
+    msw: {
+      handlers: createHandlers({
+        registrations: [mockRegistrationDroppedOut],
+        courses: [mockCourse1],
+      }),
+    },
+  },
+};
+
+export const WithDeferredCourse: Story = {
+  parameters: {
+    msw: {
+      handlers: createHandlers({
+        registrations: [mockRegistrationDeferred],
+        courses: [mockCourse2],
+      }),
+    },
+  },
+};
+
+export const MixedWithDropoutAndDeferred: Story = {
+  parameters: {
+    msw: {
+      handlers: createHandlers({
+        registrations: [
+          mockRegistrationInProgress, // Normal in-progress course
+          mockRegistrationDroppedOut, // Should be filtered out
+          mockRegistrationDeferred, // Should appear (deferred)
+          mockRegistrationCompleted, // Normal completed course
+        ],
         courses: [mockCourse1, mockCourse2],
       }),
     },

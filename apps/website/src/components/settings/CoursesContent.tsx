@@ -21,6 +21,12 @@ const CoursesContent = () => {
   // Combine courses and enrollments
   const enrolledCourses = (courseRegistrations || [])
     .filter((reg) => reg.roundStatus === 'Active' || reg.roundStatus === 'Past' || reg.certificateCreatedAt)
+    // Exclude dropped out courses (not deferrals)
+    .filter((reg) => {
+      // Dropped out means that we have a reference dropout record that is not a deferral
+      const isDroppedOut = reg.dropoutId?.length && !reg.deferredId?.length;
+      return !isDroppedOut;
+    })
     .map((courseRegistration) => {
       const course = courses?.find((c) => c.id === courseRegistration.courseId);
       return course ? [{ course, courseRegistration }] : [];
@@ -28,9 +34,9 @@ const CoursesContent = () => {
     .flat();
 
   // Group courses by status
-  // Completed: past courses for participants (non-facilitators)
+  // Completed: past courses for participants (non-facilitators), excluding deferred courses
   const completedCourses = enrolledCourses
-    .filter(({ courseRegistration }) => isCompleted(courseRegistration) && courseRegistration.role !== 'Facilitator')
+    .filter(({ courseRegistration }) => isCompleted(courseRegistration) && courseRegistration.role !== 'Facilitator' && !courseRegistration.deferredId?.length)
     // No-cert courses first (to nudge user to complete), then by completion date descending
     .sort((a, b) => {
       const aTime = a.courseRegistration.certificateCreatedAt ?? Infinity;
@@ -39,7 +45,7 @@ const CoursesContent = () => {
       return bTime - aTime;
     });
 
-  // Facilitated: past courses for facilitators
+  // Facilitated: past courses for facilitators (facilitators cannot defer)
   const facilitatedCourses = enrolledCourses
     .filter(({ courseRegistration }) => isCompleted(courseRegistration) && courseRegistration.role === 'Facilitator');
 

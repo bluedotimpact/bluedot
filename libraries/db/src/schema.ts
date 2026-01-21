@@ -1192,6 +1192,15 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       pgColumn: text(),
       airtableId: 'fldYaHSLqnvBXyjur',
     },
+    // Join to 'dropout' table if the user has dropped out or deferred from a course
+    dropoutId: {
+      pgColumn: text().array(),
+      airtableId: 'fldaEk9K3m25Hs4Ga',
+    },
+    deferredId: {
+      pgColumn: text().array(),
+      airtableId: 'fldc7bNIkEyrMsQ4w',
+    },
   },
 });
 
