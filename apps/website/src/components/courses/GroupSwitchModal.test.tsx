@@ -41,6 +41,12 @@ const mockUser = {
   email: 'test@bluedot.org',
   name: 'Test User',
   lastSeenAt: new Date().toISOString(),
+  autoNumberId: null,
+  createdAt: null,
+  utmSource: null,
+  utmCampaign: null,
+  utmContent: null,
+  isAdmin: null,
 };
 
 const mockUnit1 = createMockUnit({
@@ -139,7 +145,7 @@ describe('GroupSwitchModal', () => {
       trpcMsw.groupSwitching.discussionsAvailable.query(() => mockAvailableGroupsAndDiscussions),
       trpcMsw.groupSwitching.switchGroup.mutation(({ input }) => {
         mockSubmitGroupSwitch(input);
-        return undefined;
+        return null;
       }),
     );
   });
@@ -650,7 +656,7 @@ describe('GroupSwitchModal', () => {
           if (callCount === 1) {
             throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Network error' });
           }
-          return undefined;
+          return null;
         }),
       );
 
@@ -869,12 +875,13 @@ describe('GroupSwitchModal', () => {
   });
 
   describe('buildAvailabilityFormUrl', () => {
-    test('builds URL with email and utm_source only when no course registration', () => {
+    test('builds URL with email, utm_source and roundId', () => {
       const url = buildAvailabilityFormUrl({
         email: 'test@example.com',
         utmSource: 'test-source',
+        roundId: 'rec123',
       });
-      expect(url).toBe('https://availability.bluedot.org/form/bluedot-course?email=test%40example.com&utm_source=test-source');
+      expect(url).toBe('https://availability.bluedot.org/form/bluedot-course?email=test%40example.com&utm_source=test-source&roundId=rec123');
     });
 
     test('builds URL with prefill parameters when course registration has availability', () => {
@@ -886,15 +893,26 @@ describe('GroupSwitchModal', () => {
           availabilityTimezone: 'UTC+01:00',
           availabilityComments: 'I prefer morning sessions',
         },
+        roundId: 'rec123',
       });
 
       const parsed = new URL(url);
       expect(parsed.origin + parsed.pathname).toBe('https://availability.bluedot.org/form/bluedot-course');
       expect(parsed.searchParams.get('email')).toBe('test@example.com');
       expect(parsed.searchParams.get('utm_source')).toBe('bluedot-group-switch-modal');
+      expect(parsed.searchParams.get('roundId')).toBe('rec123');
       expect(parsed.searchParams.get('prefill_intervals')).toBe('M16:00 M18:00, W20:00 R08:00');
       expect(parsed.searchParams.get('prefill_timezone')).toBe('UTC+01:00');
       expect(parsed.searchParams.get('prefill_comment')).toBe('I prefer morning sessions');
+    });
+
+    test('handles empty roundId gracefully', () => {
+      const url = buildAvailabilityFormUrl({
+        email: 'test@example.com',
+        utmSource: 'test-source',
+        roundId: '',
+      });
+      expect(url).toBe('https://availability.bluedot.org/form/bluedot-course?email=test%40example.com&utm_source=test-source&roundId=');
     });
   });
 

@@ -1188,6 +1188,10 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       pgColumn: text(),
       airtableId: 'fldQymBa7milTYP9q',
     },
+    roundId: {
+      pgColumn: text(),
+      airtableId: 'fldYaHSLqnvBXyjur',
+    },
     // Join to 'dropout' table if the user has dropped out or deferred from a course
     dropoutId: {
       pgColumn: text().array(),

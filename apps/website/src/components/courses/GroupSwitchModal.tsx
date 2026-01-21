@@ -332,7 +332,21 @@ export default function GroupSwitchModal({
       title: 'Update availability (required)',
       subtitle: user ? (
         <>
-          To help us assign you to a group which best suits you, <a href={buildAvailabilityFormUrl({ email: user.email, utmSource: 'bluedot-group-switch-modal', courseRegistration })} target="_blank" rel="noopener noreferrer" className="text-bluedot-normal underline">please update your availability</a>.
+          To help us assign you to a group which best suits you, {' '}
+          <a
+            href={buildAvailabilityFormUrl({
+              email: user.email,
+              utmSource: 'bluedot-group-switch-modal',
+              courseRegistration,
+              roundId: courseRegistration?.roundId || '',
+            })}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-bluedot-normal underline"
+          >
+            please update your availability
+          </a>
+          .
         </>
       ) : undefined,
       control: (
@@ -463,6 +477,7 @@ export const buildAvailabilityFormUrl = ({
   email,
   utmSource,
   courseRegistration,
+  roundId,
 }: {
   email: string;
   utmSource: string;
@@ -471,10 +486,12 @@ export const buildAvailabilityFormUrl = ({
     availabilityTimezone?: string | null;
     availabilityComments?: string | null;
   } | null;
+  roundId: string;
 }): string => {
   const params = new URLSearchParams();
   params.set('email', email);
   params.set('utm_source', utmSource);
+  params.set('roundId', roundId);
 
   const { availabilityIntervalsUTC, availabilityTimezone, availabilityComments } = courseRegistration ?? {};
 

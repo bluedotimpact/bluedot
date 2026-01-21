@@ -10,7 +10,8 @@ export type SubmitRequest = {
   email: string,
   availability: string
   timezone: string,
-  comments: string
+  comments: string,
+  roundId?: string,
 };
 
 const isValidAvailabilityExpression = (availability: string) => {
@@ -29,6 +30,7 @@ export default makeApiRoute({
     availability: z.string(),
     timezone: z.string(),
     comments: z.string(),
+    roundId: z.string().optional(),
   }),
   responseBody: z.object({
     type: z.literal('success'),
@@ -49,6 +51,7 @@ export default makeApiRoute({
     Email: body.email,
     'Time availability in UTC': body.availability,
     Timezone: body.timezone,
+    ...(body.roundId && { 'Round ID': body.roundId }),
   });
 
   if (webhookResponse.status !== 200) {
