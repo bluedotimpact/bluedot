@@ -9,7 +9,7 @@ export const dropoutRouter = router({
     .input(
       z.object({
         applicantId: z.string().min(1),
-        reason: z.string(),
+        reason: z.string().optional(),
         isDeferral: z.boolean(),
       }),
     )
@@ -28,7 +28,7 @@ export const dropoutRouter = router({
 
       return db.insert(dropoutTable, {
         applicantId: [applicantId],
-        reason,
+        reason: reason ?? null,
         isDeferral,
       });
     }),
