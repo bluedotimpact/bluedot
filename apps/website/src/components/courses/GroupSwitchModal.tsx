@@ -81,7 +81,7 @@ export default function GroupSwitchModal({
 
   const unitOptions = courseData?.units.map((u) => {
     const unitDiscussions = availableGroupsAndDiscussions?.discussionsAvailable?.[u.unitNumber];
-    const hasAvailableDiscussions = unitDiscussions?.some((d) => !d.isTooLateToSwitchTo);
+    const hasAvailableDiscussions = unitDiscussions?.length;
 
     return {
       value: u.unitNumber.toString(),
