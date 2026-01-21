@@ -118,7 +118,10 @@ const CourseLander = ({
       )}
 
       {content.quotes && (
-        <QuoteSection {...content.quotes} />
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <QuoteSection {...content.quotes} />
+        </>
       )}
 
       {content.communityMembers && (
