@@ -503,22 +503,25 @@ In `@bluedot/db`:
 
 **Migration Best Practices**:
 
-For **high-traffic routes** (homepage, AI course paths):
-- **Removing columns**:
-  1. Remove dependencies on columns first
-  2. Deploy
-  3. Then delete from `@bluedot/db`
-  
-- **Adding columns**:
-  1. Add to `@bluedot/db`
-  2. Deploy
-  3. Wait for sync (especially for large tables)
-  4. Then add dependencies
+**Removing a column**:
 
-For **low-traffic routes** (e.g., profile page):
-- Can be less careful
-- 2-3 minute outage is acceptable
-- May not need the careful staging above
+You need to make two PRs:
+1. PR 1:
+  a. Remove any usage of the column
+  b. Move it to `deprecatedColumns` in `libraries/db/src/schema.ts`. This will stop the application code from SELECT-ing it, but it won't be dropped from the database
+  c. Merge this, *and* deploy to production
+2. PR 2:
+  a. Delete the column fully from `libraries/db/src/schema.ts`. This will cause it to be dropped from the database as soon as the PR is _merged_ (not when it is release to production)
+  b. Ensure PR 1 is deployed to production (merged to master + release created) before merging this. If you're feeling generous also wait for other developers to pull in PR 1 first
+
+**Adding a column**:
+
+You need to make two PRs:
+1. PR 1:
+  a. Add the column in `libraries/db/src/schema.ts`
+  c. Merge this (no need to deploy to production)
+2. PR 2:
+  a. Start using the column in code
 
 **Note**: Since Airtable is source of truth, PostgreSQL issues aren't catastrophic, but we should still avoid breaking prod data.
 
