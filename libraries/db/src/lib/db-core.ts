@@ -34,6 +34,7 @@ export class PgAirtableTable<
     this.tableName = name;
     this.columnsConfig = config.columns;
 
+    // Initialise Postgres
     const drizzleTableColsBuilder: Record<string, AllowedPgColumn> = {
       id: text('id').primaryKey(),
     };
