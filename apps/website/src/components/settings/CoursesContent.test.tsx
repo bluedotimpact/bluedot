@@ -104,7 +104,7 @@ describe('CoursesContent', () => {
     });
   });
 
-  it('shows facilitator courses in correct sections (active in In Progress, past in Facilitated)', async () => {
+  it('hides completed courses for facilitators', async () => {
     const courses = [
       createMockCourse({ id: 'course-1', title: 'Currently facilitating' }),
       createMockCourse({ id: 'course-2', title: 'Facilitated in past' }),
@@ -125,18 +125,13 @@ describe('CoursesContent', () => {
     render(<CoursesContent />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      // Active facilitator course in In Progress
-      expect(screen.getByText('In Progress (1)')).toBeInTheDocument();
       const inProgressSection = screen.getByLabelText('In Progress courses');
-      expect(inProgressSection).toHaveTextContent('Currently facilitating');
+      const inProgressTitles = inProgressSection.querySelectorAll('[data-testid="course-row"]');
 
-      // Past facilitator course in Facilitated section
-      expect(screen.getByText('Facilitated (1)')).toBeInTheDocument();
-      const facilitatedSection = screen.getByLabelText('Facilitated courses');
-      expect(facilitatedSection).toHaveTextContent('Facilitated in past');
+      expect(inProgressTitles[0]).toHaveTextContent('Currently facilitating');
 
-      // No Completed section (that's for participants)
-      expect(screen.queryByLabelText('Completed courses')).not.toBeInTheDocument();
+      const completedSection = screen.queryAllByLabelText('Completed courses');
+      expect(completedSection).toHaveLength(0);
     });
   });
 
@@ -197,18 +192,18 @@ describe('CoursesContent', () => {
     });
   });
 
-  it('shows deferred courses in In Progress even when they are past', async () => {
+  it('does not show deferred courses when they have past status', async () => {
     const courses = [
       createMockCourse({ id: 'course-1', title: 'Deferred Past Course' }),
     ];
 
     const registrations = [
-      // Deferred course with Past status - should appear in In Progress
+      // Deferred course with Past status - should not be shown at all
       createMockCourseRegistration({
         id: 'reg-1',
         courseId: 'course-1',
         roundStatus: 'Past',
-        certificateCreatedAt: null,
+        certificateCreatedAt: 1672531200,
         dropoutId: ['dropout-1'],
         deferredId: ['deferred-1'],
       }),
@@ -220,12 +215,9 @@ describe('CoursesContent', () => {
     render(<CoursesContent />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      // Should show in In Progress section
-      expect(screen.getByText('In Progress (1)')).toBeInTheDocument();
-      expect(screen.getByText('Deferred Past Course')).toBeInTheDocument();
-
-      // Should NOT show in Completed section
-      expect(screen.queryByText(/^Completed/)).not.toBeInTheDocument();
+      // Should show empty state since deferred past courses are not shown
+      expect(screen.getByText("You haven't started any courses yet")).toBeInTheDocument();
+      expect(screen.queryByText('Deferred Past Course')).not.toBeInTheDocument();
     });
   });
 });

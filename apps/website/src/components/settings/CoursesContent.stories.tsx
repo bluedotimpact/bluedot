@@ -70,7 +70,7 @@ const mockRegistrationDroppedOut = createMockCourseRegistration({
 const mockRegistrationDeferred = createMockCourseRegistration({
   id: 'reg-deferred',
   courseId: 'course-2',
-  roundStatus: 'Past',
+  roundStatus: 'Active',
   certificateCreatedAt: null,
   dropoutId: ['dropout-2'], // Has both dropoutId and deferredId = deferred
   deferredId: ['deferred-1'],
