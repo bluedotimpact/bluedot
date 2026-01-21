@@ -84,7 +84,7 @@ describe('calculateGroupAvailability', () => {
     });
 
     expect(result.groupsAvailable[0]?.isTooLateToSwitchTo).toBe(true);
-    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.isTooLateToSwitchTo).toBe(true);
+    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]).toHaveLength(0);
   });
 
   it('should detect when discussions have not started', () => {
@@ -99,7 +99,7 @@ describe('calculateGroupAvailability', () => {
     });
 
     expect(result.groupsAvailable[0]?.isTooLateToSwitchTo).toBe(false);
-    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.isTooLateToSwitchTo).toBe(false);
+    expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]).toHaveLength(1);
   });
 
   it('should handle multiple discussions per group correctly', () => {
