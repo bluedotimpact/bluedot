@@ -4,7 +4,7 @@ import {
   cn,
 } from '@bluedot/ui';
 import { useState } from 'react';
-import { FaArrowRightArrowLeft } from 'react-icons/fa6';
+import { FaArrowRightArrowLeft, FaRightToBracket } from 'react-icons/fa6';
 import {
   buildGroupSlackChannelUrl, formatDateMonthAndDay, formatDateTimeRelative, formatTime12HourClock,
 } from '../../lib/utils';
@@ -17,6 +17,7 @@ import { DocumentIcon } from '../icons/DocumentIcon';
 import { ClockIcon } from '../icons/ClockIcon';
 import { SlackIcon } from '../icons/SlackIcon';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
+import DropoutModal from '../courses/DropoutModal';
 
 const BUTTON_STYLES = {
   primary: { variant: 'primary' as const, className: 'w-auto bg-bluedot-normal' },
@@ -32,6 +33,7 @@ type CourseDetailsRowProps = {
   isFacilitator: boolean;
   onOpenGroupSwitchModal: (discussion: GroupDiscussion, switchType: SwitchType) => void;
   onOpenFacilitatorModal: (discussion: GroupDiscussion, modalType: FacilitatorModalType) => void;
+  onOpenDropoutModal: () => void;
 };
 
 const DiscussionListRow = ({
@@ -42,6 +44,7 @@ const DiscussionListRow = ({
   isFacilitator,
   onOpenGroupSwitchModal,
   onOpenFacilitatorModal,
+  onOpenDropoutModal,
 }: CourseDetailsRowProps) => {
   const currentTimeMs = useCurrentTimeMs();
 
@@ -123,6 +126,14 @@ const DiscussionListRow = ({
       onClick: () => onOpenGroupSwitchModal(discussion, 'Switch group permanently'),
       isVisible: !isFacilitator && !isPast,
       overflowIcon: <FaArrowRightArrowLeft className="mx-auto size-[14px]" />,
+    },
+    {
+      id: 'dropout-or-deferral',
+      label: 'Request dropout or deferral',
+      variant: 'secondary',
+      isVisible: !isFacilitator && !isPast,
+      onClick: onOpenDropoutModal,
+      overflowIcon: <FaRightToBracket className="mx-auto size-[14px]" />,
     },
   ];
   const visibleButtons = buttons.filter((button) => button.isVisible);
@@ -214,6 +225,7 @@ type DiscussionListProps = {
   isFacilitator: boolean;
   onOpenGroupSwitchModal: (discussion: GroupDiscussion, switchType: SwitchType) => void;
   onOpenFacilitatorModal: (discussion: GroupDiscussion, modalType: FacilitatorModalType) => void;
+  onOpenDropoutModal: () => void;
   isPast: boolean;
   emptyMessage: string;
 };
@@ -224,6 +236,7 @@ const DiscussionList = ({
   isFacilitator,
   onOpenGroupSwitchModal,
   onOpenFacilitatorModal,
+  onOpenDropoutModal,
   isPast,
   emptyMessage,
 }: DiscussionListProps) => {
@@ -245,6 +258,7 @@ const DiscussionList = ({
           isFacilitator={isFacilitator}
           onOpenGroupSwitchModal={onOpenGroupSwitchModal}
           onOpenFacilitatorModal={onOpenFacilitatorModal}
+          onOpenDropoutModal={onOpenDropoutModal}
         />
       ))}
       {discussions.length > 3 && (
@@ -291,6 +305,7 @@ const CourseDetails = ({
 
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [facilitatorSwitchModalOpen, setFacilitatorSwitchModalOpen] = useState(false);
+  const [dropoutModalOpen, setDropoutModalOpen] = useState(false);
   const [selectedSwitchType, setSelectedSwitchType] = useState<SwitchType>('Switch group for one unit');
   const [selectedFacilitatorModalType, setSelectedFacilitatorModalType] = useState<FacilitatorModalType>('Update discussion time');
   const [activeTab, setActiveTab] = useState<'upcoming' | 'attended' | 'facilitated'>(getInitialTab());
@@ -308,6 +323,10 @@ const CourseDetails = ({
     setSelectedDiscussion(discussion);
     setSelectedFacilitatorModalType(modalType);
     setFacilitatorSwitchModalOpen(true);
+  };
+
+  const handleOpenDropoutModal = () => {
+    setDropoutModalOpen(true);
   };
 
   return (
@@ -372,6 +391,7 @@ const CourseDetails = ({
                     isFacilitator={isFacilitatorRole}
                     onOpenGroupSwitchModal={handleOpenGroupSwitch}
                     onOpenFacilitatorModal={handleOpenFacilitatorModal}
+                    onOpenDropoutModal={handleOpenDropoutModal}
                     isPast={false}
                     emptyMessage="No upcoming discussions"
                   />
@@ -383,6 +403,7 @@ const CourseDetails = ({
                     isFacilitator={isFacilitatorRole}
                     onOpenGroupSwitchModal={handleOpenGroupSwitch}
                     onOpenFacilitatorModal={handleOpenFacilitatorModal}
+                    onOpenDropoutModal={handleOpenDropoutModal}
                     isPast
                     emptyMessage="No attended discussions yet"
                   />
@@ -394,6 +415,7 @@ const CourseDetails = ({
                     isFacilitator={isFacilitatorRole}
                     onOpenGroupSwitchModal={handleOpenGroupSwitch}
                     onOpenFacilitatorModal={handleOpenFacilitatorModal}
+                    onOpenDropoutModal={handleOpenDropoutModal}
                     isPast
                     emptyMessage="No facilitated discussions yet"
                   />
@@ -425,6 +447,12 @@ const CourseDetails = ({
           courseSlug={course.slug}
           initialDiscussion={selectedDiscussion}
           initialModalType={selectedFacilitatorModalType}
+        />
+      )}
+      {dropoutModalOpen && (
+        <DropoutModal
+          applicantId={courseRegistration.id}
+          handleClose={() => setDropoutModalOpen(false)}
         />
       )}
     </>
