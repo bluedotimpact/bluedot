@@ -58,6 +58,14 @@ const mockRegistrationActiveWithCert = createMockCourseRegistration({
   certificateCreatedAt: 1672531200,
 });
 
+const mockRegistrationFacilitated = createMockCourseRegistration({
+  id: 'reg-4',
+  courseId: 'course-2',
+  roundStatus: 'Past',
+  role: 'Facilitator',
+  roundName: 'AGI Strategy (2025 Aug W35) - Intensive',
+});
+
 const mockRegistrationDroppedOut = createMockCourseRegistration({
   id: 'reg-dropped',
   courseId: 'course-1',
@@ -198,6 +206,17 @@ export const ErrorState: Story = {
   parameters: {
     msw: {
       handlers: createHandlers({ error: true }),
+    },
+  },
+};
+
+export const WithFacilitated: Story = {
+  parameters: {
+    msw: {
+      handlers: createHandlers({
+        registrations: [mockRegistrationInProgress, mockRegistrationCompleted, mockRegistrationFacilitated],
+        courses: [mockCourse1, mockCourse2],
+      }),
     },
   },
 };
