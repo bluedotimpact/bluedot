@@ -133,7 +133,9 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, handleClose })
       desktopHeaderClassName="border-b border-charcoal-light py-4"
     >
       <div className="w-full md:w-[600px]">
-        <form className="flex flex-col gap-8">{renderContent()}</form>
+        <form className="flex flex-col gap-8" onSubmit={(e) => e.preventDefault()}>
+          {renderContent()}
+        </form>
       </div>
     </Modal>
   );
