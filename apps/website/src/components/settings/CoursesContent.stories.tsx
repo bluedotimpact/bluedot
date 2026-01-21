@@ -72,7 +72,6 @@ const mockRegistrationDroppedOut = createMockCourseRegistration({
   roundStatus: 'Active',
   certificateCreatedAt: null,
   dropoutId: ['dropout-1'], // Has dropoutId but no deferredId = dropped out
-  deferredId: null,
 });
 
 const mockRegistrationDeferred = createMockCourseRegistration({
@@ -80,8 +79,7 @@ const mockRegistrationDeferred = createMockCourseRegistration({
   courseId: 'course-2',
   roundStatus: 'Active',
   certificateCreatedAt: null,
-  dropoutId: ['dropout-2'], // Has both dropoutId and deferredId = deferred
-  deferredId: ['deferred-1'],
+  deferredId: ['deferred-1'], // Has deferredId but no dropoutId = deferred
 });
 
 const mockMeetPerson = createMockMeetPerson({

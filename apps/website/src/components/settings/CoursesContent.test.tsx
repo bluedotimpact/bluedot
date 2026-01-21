@@ -154,8 +154,6 @@ describe('CoursesContent', () => {
         courseId: 'course-1',
         roundStatus: 'Active',
         certificateCreatedAt: null,
-        dropoutId: null,
-        deferredId: null,
       }),
       // Dropped out course (has dropoutId but no deferredId) - should be filtered out
       createMockCourseRegistration({
@@ -164,15 +162,13 @@ describe('CoursesContent', () => {
         roundStatus: 'Active',
         certificateCreatedAt: null,
         dropoutId: ['dropout-1'],
-        deferredId: null,
       }),
-      // Deferred course (has both dropoutId and deferredId) - should appear
+      // Deferred course (has deferredId but no dropoutId) - should appear
       createMockCourseRegistration({
         id: 'reg-3',
         courseId: 'course-3',
         roundStatus: 'Active',
         certificateCreatedAt: null,
-        dropoutId: ['dropout-2'],
         deferredId: ['deferred-1'],
       }),
     ];
@@ -209,7 +205,6 @@ describe('CoursesContent', () => {
         courseId: 'course-1',
         roundStatus: 'Past',
         certificateCreatedAt: 1672531200,
-        dropoutId: ['dropout-1'],
         deferredId: ['deferred-1'],
       }),
     ];
