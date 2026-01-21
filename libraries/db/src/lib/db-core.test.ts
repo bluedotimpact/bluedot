@@ -23,4 +23,13 @@ describe('PgAirtableTable', () => {
     });
     expect(table.pgWithDeprecatedColumns).toBeDefined();
   });
+
+  test('throws if column appears in both columns and deprecatedColumns', () => {
+    expect(() => new PgAirtableTable('test', {
+      baseId: 'base',
+      tableId: 'table',
+      columns: { duplicateCol: { pgColumn: text(), airtableId: 'fld1' } },
+      deprecatedColumns: { duplicateCol: { pgColumn: text(), airtableId: 'fld2', deprecated: true } },
+    })).toThrow(/appears in both columns and deprecatedColumns/);
+  });
 });

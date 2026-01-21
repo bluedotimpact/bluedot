@@ -57,6 +57,13 @@ export class PgAirtableTable<
             + 'Deprecated columns cannot use .notNull() because they won\'t receive Airtable sync updates.',
           );
         }
+
+        if (columnName in config.columns) {
+          throw new Error(
+            `Column "${columnName}" in table "${name}" appears in both columns and deprecatedColumns. `
+            + 'A column should only be in one or the other.',
+          );
+        }
       }
 
       const combinedColsBuilder: Record<string, AllowedPgColumn> = {
