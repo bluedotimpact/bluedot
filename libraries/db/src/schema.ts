@@ -757,6 +757,10 @@ export const jobPostingTable = pgAirtable('job_posting', {
       pgColumn: numeric({ mode: 'number' }).notNull(),
       airtableId: 'fldI1yVd0G5eCvWiy',
     },
+    category: {
+      pgColumn: text(),
+      airtableId: 'fldSJh6VeETvtPuDD',
+    },
   },
 });
 
