@@ -6,7 +6,7 @@ import GroupSwitchModal from './GroupSwitchModal';
 import type { DiscussionsAvailable } from '../../server/routers/group-switching';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 import {
-  createMockCourse, createMockGroup, createMockGroupDiscussion, createMockUnit,
+  createMockCourse, createMockCourseRegistration, createMockGroup, createMockGroupDiscussion, createMockUnit,
 } from '../../__tests__/testUtils';
 
 const unit1 = createMockUnit({
@@ -32,6 +32,23 @@ const mockCourseData: { course: Course, units: Unit[] } = {
     unit3,
   ],
 };
+
+const mockUser = {
+  id: 'user-1',
+  email: 'test@bluedot.org',
+  name: 'Test User',
+  lastSeenAt: new Date().toISOString(),
+  autoNumberId: null,
+  createdAt: null,
+  utmSource: null,
+  utmCampaign: null,
+  utmContent: null,
+  isAdmin: null,
+};
+
+const mockCourseRegistration = createMockCourseRegistration({
+  roundId: 'round-1',
+});
 
 const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
   groupsAvailable: [
@@ -109,6 +126,14 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const commonHandlers = [
+  trpcStorybookMsw.users.getUser.query(() => mockUser),
+  trpcStorybookMsw.courses.getBySlug.query(() => mockCourseData),
+  trpcStorybookMsw.courseRegistrations.getByCourseId.query(() => mockCourseRegistration),
+  trpcStorybookMsw.groupSwitching.discussionsAvailable.query(() => mockAvailableGroupsAndDiscussions),
+  trpcStorybookMsw.groupSwitching.switchGroup.mutation(() => null),
+];
+
 export const Default: Story = {
   args: {
     handleClose: () => {},
@@ -117,17 +142,7 @@ export const Default: Story = {
   },
   parameters: {
     msw: {
-      handlers: [
-        trpcStorybookMsw.courses.getBySlug.query(async () => {
-          return mockCourseData;
-        }),
-        trpcStorybookMsw.groupSwitching.discussionsAvailable.query(async () => {
-          return mockAvailableGroupsAndDiscussions;
-        }),
-        trpcStorybookMsw.groupSwitching.switchGroup.mutation(() => {
-          return null;
-        }),
-      ],
+      handlers: commonHandlers,
     },
   },
 };
@@ -140,17 +155,7 @@ export const AlternativeUnit: Story = {
   },
   parameters: {
     msw: {
-      handlers: [
-        trpcStorybookMsw.courses.getBySlug.query(async () => {
-          return mockCourseData;
-        }),
-        trpcStorybookMsw.groupSwitching.discussionsAvailable.query(async () => {
-          return mockAvailableGroupsAndDiscussions;
-        }),
-        trpcStorybookMsw.groupSwitching.switchGroup.mutation(() => {
-          return null;
-        }),
-      ],
+      handlers: commonHandlers,
     },
   },
 };
@@ -163,14 +168,7 @@ export const NoAvailableGroups: Story = {
   },
   parameters: {
     msw: {
-      handlers: [
-        trpcStorybookMsw.courses.getBySlug.query(async () => {
-          return mockCourseData;
-        }),
-        trpcStorybookMsw.groupSwitching.discussionsAvailable.query(() => {
-          return mockAvailableGroupsAndDiscussions;
-        }),
-      ],
+      handlers: commonHandlers,
     },
   },
 };
@@ -184,18 +182,24 @@ export const Loading: Story = {
   parameters: {
     msw: {
       handlers: [
+        trpcStorybookMsw.users.getUser.query(async () => {
+          await delay(2000);
+          return mockUser;
+        }),
         trpcStorybookMsw.courses.getBySlug.query(async () => {
           // You may need to reload the page to force this delay and see the loading state.
           await delay(2000);
           return mockCourseData;
         }),
+        trpcStorybookMsw.courseRegistrations.getByCourseId.query(async () => {
+          await delay(2000);
+          return mockCourseRegistration;
+        }),
         trpcStorybookMsw.groupSwitching.discussionsAvailable.query(async () => {
           await delay(2000);
           return mockAvailableGroupsAndDiscussions;
         }),
-        trpcStorybookMsw.groupSwitching.switchGroup.mutation(() => {
-          return null;
-        }),
+        trpcStorybookMsw.groupSwitching.switchGroup.mutation(() => null),
       ],
     },
   },
