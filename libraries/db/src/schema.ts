@@ -827,10 +827,6 @@ export const testimonialTable = pgAirtable('testimonial', {
       pgColumn: text(),
       airtableId: 'fldO9gXGV0zA7Z0fh',
     },
-    bluedotEngagement: {
-      pgColumn: text(),
-      airtableId: 'fld7XhBxpg4TQ1Gra',
-    },
     profileUrl: {
       pgColumn: text(),
       airtableId: 'fldlchhyYHzKx1q4K',
