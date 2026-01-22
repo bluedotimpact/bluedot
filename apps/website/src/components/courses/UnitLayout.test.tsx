@@ -79,6 +79,7 @@ describe('UnitLayout', () => {
         chunkIndex={0}
         setChunkIndex={vi.fn()}
         courseSlug="test-course"
+        applyCTAProps={undefined}
       />,
       { wrapper: TrpcProvider },
     );
@@ -101,6 +102,7 @@ describe('UnitLayout', () => {
         chunkIndex={0}
         setChunkIndex={vi.fn()}
         courseSlug="test-course"
+        applyCTAProps={undefined}
       />,
       { wrapper: TrpcProvider },
     );
@@ -123,6 +125,7 @@ describe('UnitLayout', () => {
         chunkIndex={0}
         setChunkIndex={vi.fn()}
         courseSlug="test-course"
+        applyCTAProps={undefined}
       />,
       { wrapper: TrpcProvider },
     );
@@ -168,6 +171,7 @@ describe('UnitLayout', () => {
         chunkIndex={CHUNKS.length - 1}
         setChunkIndex={vi.fn()}
         courseSlug="test-course"
+        applyCTAProps={undefined}
       />,
       { wrapper: TrpcProvider },
     );
@@ -192,6 +196,7 @@ describe('UnitLayout', () => {
         chunkIndex={0}
         setChunkIndex={vi.fn()}
         courseSlug="test-course"
+        applyCTAProps={undefined}
       />,
       { wrapper: TrpcProvider },
     );
@@ -217,6 +222,7 @@ describe('UnitLayout', () => {
         chunkIndex={0}
         setChunkIndex={vi.fn()}
         courseSlug="test-course"
+        applyCTAProps={undefined}
       />,
       { wrapper: TrpcProvider },
     );
@@ -252,6 +258,7 @@ describe('UnitLayout', () => {
         chunkIndex={1}
         setChunkIndex={mockSetChunkIndex}
         courseSlug="test-course"
+        applyCTAProps={undefined}
       />,
       { wrapper: TrpcProvider },
     );

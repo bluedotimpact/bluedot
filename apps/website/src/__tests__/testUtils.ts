@@ -64,6 +64,7 @@ const MOCK_RESOURCE_ID = 'resource-id';
 const MOCK_RESOURCE_COMPLETION_ID = 'resource-completion-id';
 
 export const createMockCourse = (overrides: Partial<Course> = {}): Course => ({
+  applyUrl: null,
   averageRating: 4.5,
   certificationBadgeImage: 'badge.png',
   certificationDescription: 'Certificate description',
@@ -89,11 +90,16 @@ export const createMockCourse = (overrides: Partial<Course> = {}): Course => ({
 
 export const createMockCourseRegistration = (overrides: Partial<CourseRegistration> = {}): CourseRegistration => ({
   autoNumberId: 1,
+  availabilityComments: null,
+  availabilityIntervalsUTC: null,
+  availabilityTimezone: null,
   certificateCreatedAt: null,
   certificateId: null,
   courseApplicationsBaseId: 'base123',
   courseId: MOCK_COURSE_ID,
   decision: 'Accept',
+  dropoutId: null,
+  deferredId: null,
   email: 'user@example.com',
   firstName: 'Test',
   fullName: 'Test User',
@@ -102,6 +108,7 @@ export const createMockCourseRegistration = (overrides: Partial<CourseRegistrati
   lastVisitedChunkIndex: null,
   lastVisitedUnitNumber: null,
   role: 'Participant',
+  roundName: 'sample round name',
   roundStatus: 'Active',
   source: null,
   userId: 'user-1',

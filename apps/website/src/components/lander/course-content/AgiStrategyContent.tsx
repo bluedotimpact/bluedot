@@ -14,8 +14,6 @@ import {
 } from 'react-icons/pi';
 import { CourseLanderContent } from '../CourseLander';
 
-export const AGI_STRATEGY_APPLICATION_URL = 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX';
-
 const AGI_STRATEGY_COLORS = {
   /* Gradient layers:
      1. Left-side darkness - horizontal gradient to darken left edge for text readability

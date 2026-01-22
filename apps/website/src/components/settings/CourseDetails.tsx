@@ -4,7 +4,7 @@ import {
   cn,
 } from '@bluedot/ui';
 import { useState } from 'react';
-import { FaArrowRightArrowLeft } from 'react-icons/fa6';
+import { FaArrowRightArrowLeft, FaRightToBracket } from 'react-icons/fa6';
 import {
   buildGroupSlackChannelUrl, formatDateMonthAndDay, formatDateTimeRelative, formatTime12HourClock,
 } from '../../lib/utils';
@@ -17,6 +17,7 @@ import { DocumentIcon } from '../icons/DocumentIcon';
 import { ClockIcon } from '../icons/ClockIcon';
 import { SlackIcon } from '../icons/SlackIcon';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
+import DropoutModal from '../courses/DropoutModal';
 
 const BUTTON_STYLES = {
   primary: { variant: 'primary' as const, className: 'w-auto bg-bluedot-normal' },
@@ -32,9 +33,10 @@ type CourseDetailsRowProps = {
   isFacilitator: boolean;
   onOpenGroupSwitchModal: (discussion: GroupDiscussion, switchType: SwitchType) => void;
   onOpenFacilitatorModal: (discussion: GroupDiscussion, modalType: FacilitatorModalType) => void;
+  onOpenDropoutModal: () => void;
 };
 
-const CourseDetailsRow = ({
+const DiscussionListRow = ({
   discussion,
   isNext = false,
   isPast = false,
@@ -42,6 +44,7 @@ const CourseDetailsRow = ({
   isFacilitator,
   onOpenGroupSwitchModal,
   onOpenFacilitatorModal,
+  onOpenDropoutModal,
 }: CourseDetailsRowProps) => {
   const currentTimeMs = useCurrentTimeMs();
 
@@ -123,6 +126,14 @@ const CourseDetailsRow = ({
       onClick: () => onOpenGroupSwitchModal(discussion, 'Switch group permanently'),
       isVisible: !isFacilitator && !isPast,
       overflowIcon: <FaArrowRightArrowLeft className="mx-auto size-[14px]" />,
+    },
+    {
+      id: 'dropout-or-deferral',
+      label: 'Request dropout or deferral',
+      variant: 'secondary',
+      isVisible: !isFacilitator && !isPast,
+      onClick: onOpenDropoutModal,
+      overflowIcon: <FaRightToBracket className="mx-auto size-[14px]" />,
     },
   ];
   const visibleButtons = buttons.filter((button) => button.isVisible);
@@ -208,14 +219,70 @@ const CourseDetailsRow = ({
   );
 };
 
+type DiscussionListProps = {
+  discussions: GroupDiscussion[];
+  course: Course;
+  isFacilitator: boolean;
+  onOpenGroupSwitchModal: (discussion: GroupDiscussion, switchType: SwitchType) => void;
+  onOpenFacilitatorModal: (discussion: GroupDiscussion, modalType: FacilitatorModalType) => void;
+  onOpenDropoutModal: () => void;
+  isPast: boolean;
+  emptyMessage: string;
+};
+
+const DiscussionList = ({
+  discussions,
+  course,
+  isFacilitator,
+  onOpenGroupSwitchModal,
+  onOpenFacilitatorModal,
+  onOpenDropoutModal,
+  isPast,
+  emptyMessage,
+}: DiscussionListProps) => {
+  const [showAll, setShowAll] = useState(false);
+
+  if (discussions.length === 0) {
+    return <p className="text-size-sm text-gray-500 py-4">{emptyMessage}</p>;
+  }
+
+  return (
+    <div>
+      {(showAll ? discussions : discussions.slice(0, 3)).map((discussion, index) => (
+        <DiscussionListRow
+          key={discussion.id}
+          discussion={discussion}
+          isNext={!isPast && index === 0}
+          isPast={isPast}
+          course={course}
+          isFacilitator={isFacilitator}
+          onOpenGroupSwitchModal={onOpenGroupSwitchModal}
+          onOpenFacilitatorModal={onOpenFacilitatorModal}
+          onOpenDropoutModal={onOpenDropoutModal}
+        />
+      ))}
+      {discussions.length > 3 && (
+        <div className="pt-4 text-center">
+          <button
+            type="button"
+            onClick={() => setShowAll(!showAll)}
+            className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
+          >
+            {showAll ? 'Show less' : `See all (${discussions.length}) discussions`}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
 type CourseDetailsProps = {
   course: Course;
   courseRegistration: CourseRegistration;
   attendedDiscussions: GroupDiscussion[];
   upcomingDiscussions: GroupDiscussion[];
-  expectedDiscussions?: GroupDiscussion[];
+  facilitatedDiscussions: GroupDiscussion[];
   isLoading: boolean;
-  isLast?: boolean;
 };
 
 const CourseDetails = ({
@@ -223,22 +290,28 @@ const CourseDetails = ({
   courseRegistration,
   attendedDiscussions,
   upcomingDiscussions,
-  expectedDiscussions,
+  facilitatedDiscussions,
   isLoading,
-  isLast = false,
 }: CourseDetailsProps) => {
   const showUpcomingTab = courseRegistration.roundStatus === 'Active' || upcomingDiscussions.length > 0;
+  const showFacilitatedTab = facilitatedDiscussions.length > 0;
+  const showAttendedTab = !(showFacilitatedTab && attendedDiscussions.length === 0);
+
+  const getInitialTab = (): 'upcoming' | 'attended' | 'facilitated' => {
+    if (showUpcomingTab) return 'upcoming';
+    if (showFacilitatedTab) return 'facilitated';
+    return 'attended';
+  };
 
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [facilitatorSwitchModalOpen, setFacilitatorSwitchModalOpen] = useState(false);
+  const [dropoutModalOpen, setDropoutModalOpen] = useState(false);
   const [selectedSwitchType, setSelectedSwitchType] = useState<SwitchType>('Switch group for one unit');
   const [selectedFacilitatorModalType, setSelectedFacilitatorModalType] = useState<FacilitatorModalType>('Update discussion time');
-  const [activeTab, setActiveTab] = useState<'upcoming' | 'attended'>(showUpcomingTab ? 'upcoming' : 'attended');
-  const [showAllUpcoming, setShowAllUpcoming] = useState(false);
-  const [showAllAttended, setShowAllAttended] = useState(false);
+  const [activeTab, setActiveTab] = useState<'upcoming' | 'attended' | 'facilitated'>(getInitialTab());
   const [selectedDiscussion, setSelectedDiscussion] = useState<GroupDiscussion | null>(null);
 
-  const isFacilitator = courseRegistration.role === 'Facilitator';
+  const isFacilitatorRole = courseRegistration.role === 'Facilitator';
 
   const handleOpenGroupSwitch = (discussion: GroupDiscussion, switchType: SwitchType) => {
     setSelectedDiscussion(discussion);
@@ -252,9 +325,13 @@ const CourseDetails = ({
     setFacilitatorSwitchModalOpen(true);
   };
 
+  const handleOpenDropoutModal = () => {
+    setDropoutModalOpen(true);
+  };
+
   return (
     <>
-      <div className={`bg-white border-x border-charcoal-light ${isLast ? 'border-b rounded-b-xl' : ''}`} role="region" aria-label={`Expanded details for ${course.title}`}>
+      <div className="bg-white" role="region" aria-label={`Expanded details for ${course.title}`}>
         <div>
           {/* Section header with tabs */}
           <div className="flex border-b border-charcoal-light">
@@ -272,17 +349,32 @@ const CourseDetails = ({
                   Upcoming discussions
                 </button>
               )}
-              <button
-                type="button"
-                onClick={() => setActiveTab('attended')}
-                className={`relative py-2 px-1 text-size-xs font-medium transition-colors ${
-                  activeTab === 'attended'
-                    ? 'text-bluedot-normal border-b-2 border-bluedot-normal'
-                    : 'text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                Attended discussions
-              </button>
+              {showAttendedTab && (
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('attended')}
+                  className={`relative py-2 px-1 text-size-xs font-medium transition-colors ${
+                    activeTab === 'attended'
+                      ? 'text-bluedot-normal border-b-2 border-bluedot-normal'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  Attended discussions
+                </button>
+              )}
+              {showFacilitatedTab && (
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('facilitated')}
+                  className={`relative py-2 px-1 text-size-xs font-medium transition-colors ${
+                    activeTab === 'facilitated'
+                      ? 'text-bluedot-normal border-b-2 border-bluedot-normal'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  Facilitated discussions
+                </button>
+              )}
             </div>
           </div>
 
@@ -291,79 +383,42 @@ const CourseDetails = ({
             {isLoading ? (
               <ProgressDots className="py-8" />
             ) : (
-              <div className="min-h-[200px]">
+              <div>
                 {activeTab === 'upcoming' && (
-                  // Show only expected discussions where end datetime hasn't passed
-                  upcomingDiscussions.length > 0 ? (
-                    <div>
-                      {/* Show first 3 or all based on showAllUpcoming state */}
-                      {(showAllUpcoming ? upcomingDiscussions : upcomingDiscussions.slice(0, 3))
-                        .map((discussion, index) => (
-                          <CourseDetailsRow
-                            key={discussion.id}
-                            discussion={discussion}
-                            isNext={index === 0}
-                            isPast={false}
-                            course={course}
-                            isFacilitator={isFacilitator}
-                            onOpenGroupSwitchModal={handleOpenGroupSwitch}
-                            onOpenFacilitatorModal={handleOpenFacilitatorModal}
-                          />
-                        ))}
-
-                      {/* "See all"/"Show less" button when more than 3 upcoming discussions */}
-                      {upcomingDiscussions.length > 3 && (
-                        <div className="pt-4 text-center">
-                          <button
-                            type="button"
-                            onClick={() => setShowAllUpcoming(!showAllUpcoming)}
-                            className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
-                          >
-                            {showAllUpcoming
-                              ? 'Show less'
-                              : `See all (${upcomingDiscussions.length}) discussions`}
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <p className="text-size-sm text-gray-500 py-4">No upcoming discussions</p>
-                  )
+                  <DiscussionList
+                    discussions={upcomingDiscussions}
+                    course={course}
+                    isFacilitator={isFacilitatorRole}
+                    onOpenGroupSwitchModal={handleOpenGroupSwitch}
+                    onOpenFacilitatorModal={handleOpenFacilitatorModal}
+                    onOpenDropoutModal={handleOpenDropoutModal}
+                    isPast={false}
+                    emptyMessage="No upcoming discussions"
+                  />
                 )}
                 {activeTab === 'attended' && (
-                  // Show all attended discussions without any filtering
-                  attendedDiscussions.length > 0 ? (
-                    <div>
-                      {/* Show first 3 or all based on showAllAttended state */}
-                      {(showAllAttended ? attendedDiscussions : attendedDiscussions.slice(0, 3))
-                        .map((discussion) => (
-                          <CourseDetailsRow
-                            key={discussion.id}
-                            discussion={discussion}
-                            isPast
-                            course={course}
-                            isFacilitator={isFacilitator}
-                            onOpenGroupSwitchModal={handleOpenGroupSwitch}
-                            onOpenFacilitatorModal={handleOpenFacilitatorModal}
-                          />
-                        ))}
-
-                      {/* "See all"/"Show less" button when more than 3 attended discussions */}
-                      {attendedDiscussions.length > 3 && (
-                        <div className="pt-4 text-center">
-                          <button
-                            type="button"
-                            onClick={() => setShowAllAttended(!showAllAttended)}
-                            className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
-                          >
-                            {showAllAttended ? 'Show less' : `See all (${attendedDiscussions.length}) discussions`}
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <p className="text-size-sm text-gray-500 py-4">No attended discussions yet</p>
-                  )
+                  <DiscussionList
+                    discussions={attendedDiscussions}
+                    course={course}
+                    isFacilitator={isFacilitatorRole}
+                    onOpenGroupSwitchModal={handleOpenGroupSwitch}
+                    onOpenFacilitatorModal={handleOpenFacilitatorModal}
+                    onOpenDropoutModal={handleOpenDropoutModal}
+                    isPast
+                    emptyMessage="No attended discussions yet"
+                  />
+                )}
+                {activeTab === 'facilitated' && (
+                  <DiscussionList
+                    discussions={facilitatedDiscussions}
+                    course={course}
+                    isFacilitator={isFacilitatorRole}
+                    onOpenGroupSwitchModal={handleOpenGroupSwitch}
+                    onOpenFacilitatorModal={handleOpenFacilitatorModal}
+                    onOpenDropoutModal={handleOpenDropoutModal}
+                    isPast
+                    emptyMessage="No facilitated discussions yet"
+                  />
                 )}
               </div>
             )}
@@ -391,8 +446,13 @@ const CourseDetails = ({
           }}
           courseSlug={course.slug}
           initialDiscussion={selectedDiscussion}
-          allDiscussions={expectedDiscussions}
           initialModalType={selectedFacilitatorModalType}
+        />
+      )}
+      {dropoutModalOpen && (
+        <DropoutModal
+          applicantId={courseRegistration.id}
+          handleClose={() => setDropoutModalOpen(false)}
         />
       )}
     </>

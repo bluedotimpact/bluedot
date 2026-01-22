@@ -7,6 +7,7 @@ type Round = {
   courseId: string;
   courseTitle: string;
   courseSlug: string;
+  applyUrl: string | null;
   intensity: string;
   applicationDeadline: string;
   applicationDeadlineRaw: string;
@@ -21,6 +22,7 @@ const mockIntensiveRounds: Round[] = [
     courseId: 'course-1',
     courseTitle: 'AI Safety Fundamentals: Technical Alignment',
     courseSlug: 'technical-ai-safety',
+    applyUrl: 'https://web.miniextensions.com/test-tas',
     intensity: 'intensive',
     applicationDeadline: '15 Jan',
     applicationDeadlineRaw: '2025-01-15',
@@ -33,6 +35,7 @@ const mockIntensiveRounds: Round[] = [
     courseId: 'course-2',
     courseTitle: 'AI Safety Fundamentals: AI Governance',
     courseSlug: 'governance',
+    applyUrl: 'https://web.miniextensions.com/test-gov',
     intensity: 'intensive',
     applicationDeadline: '22 Jan',
     applicationDeadlineRaw: '2025-01-22',
@@ -45,6 +48,7 @@ const mockIntensiveRounds: Round[] = [
     courseId: 'course-3',
     courseTitle: 'AGI Safety Fundamentals',
     courseSlug: 'agi-strategy',
+    applyUrl: 'https://web.miniextensions.com/test-agi',
     intensity: 'intensive',
     applicationDeadline: '01 Feb',
     applicationDeadlineRaw: '2025-02-01',
@@ -60,6 +64,7 @@ const mockPartTimeRounds: Round[] = [
     courseId: 'course-1',
     courseTitle: 'AI Safety Fundamentals: Technical Alignment',
     courseSlug: 'technical-ai-safety',
+    applyUrl: 'https://web.miniextensions.com/test-tas',
     intensity: 'part-time',
     applicationDeadline: '15 Jan',
     applicationDeadlineRaw: '2025-01-15',
@@ -72,6 +77,7 @@ const mockPartTimeRounds: Round[] = [
     courseId: 'course-2',
     courseTitle: 'AI Safety Fundamentals: AI Governance',
     courseSlug: 'governance',
+    applyUrl: 'https://web.miniextensions.com/test-gov',
     intensity: 'part-time',
     applicationDeadline: '22 Jan',
     applicationDeadlineRaw: '2025-01-22',
@@ -84,6 +90,7 @@ const mockPartTimeRounds: Round[] = [
     courseId: 'course-4',
     courseTitle: 'Biosecurity Fundamentals',
     courseSlug: 'biosecurity',
+    applyUrl: 'https://web.miniextensions.com/test-bio',
     intensity: 'part-time',
     applicationDeadline: '05 Feb',
     applicationDeadlineRaw: '2025-02-05',

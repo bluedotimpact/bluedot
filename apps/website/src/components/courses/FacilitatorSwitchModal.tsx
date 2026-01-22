@@ -10,9 +10,7 @@ import {
   useCurrentTimeMs,
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
-import { skipToken } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import { trpc } from '../../utils/trpc';
 import { CheckIcon } from '../icons/CheckIcon';
 import { ClockIcon } from '../icons/ClockIcon';
@@ -52,7 +50,6 @@ type FacilitatorSwitchModalProps = {
   courseSlug: string;
   /** Only `id` and `group` needed from initialDiscussion */
   initialDiscussion: { id: string; group: string } | null;
-  allDiscussions?: GroupDiscussion[];
   initialModalType?: FacilitatorModalType;
 };
 
@@ -60,7 +57,6 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   handleClose,
   courseSlug,
   initialDiscussion,
-  allDiscussions,
   initialModalType = 'Update discussion time',
 }) => {
   const [modalType, setModalType] = useState<FacilitatorModalType>(initialModalType);
@@ -95,19 +91,12 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     { enabled: modalType === 'Change facilitator' },
   );
 
-  // Only fetch data if `allDiscussions` is not provided
-  const shouldFetch = allDiscussions === undefined;
   const {
-    data: fetchedDiscussions,
+    data: discussions = [],
     isLoading,
     isError,
     error,
-  } = trpc.facilitators.discussionsAvailable.useQuery(
-    shouldFetch ? { courseSlug } : skipToken,
-  );
-
-  // Use either passed `allDiscussions` or fetched data
-  const discussions = allDiscussions ?? fetchedDiscussions ?? [];
+  } = trpc.facilitators.discussionsAvailable.useQuery({ courseSlug });
   const { groupOptions, discussionOptionsByGroup } = buildOptions(discussions, currentTimeMs);
 
   const discussionOptions = discussionOptionsByGroup[selectedGroupId || ''] ?? [];
@@ -189,7 +178,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   };
 
   const renderContent = () => {
-    if (shouldFetch && isLoading) {
+    if (isLoading) {
       return (
         <>
           <InformationBanner modalType={modalType} />
@@ -198,7 +187,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
       );
     }
 
-    if (shouldFetch && isError) {
+    if (isError) {
       return <ErrorView error={error} />;
     }
 

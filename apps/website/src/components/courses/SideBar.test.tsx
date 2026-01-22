@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import {
   describe,
   expect,
@@ -46,24 +47,61 @@ const CHUNKS = [
 ];
 
 describe('SideBar', () => {
-  test('renders default as expected', () => {
-    const chunksWithContent: ChunkWithContent[] = CHUNKS.map((chunk) => ({
-      ...chunk,
-      resources: [],
-      exercises: [],
-    }));
+  const chunksWithContent: ChunkWithContent[] = CHUNKS.map((chunk) => ({
+    ...chunk,
+    resources: [],
+    exercises: [],
+  }));
 
+  const defaultProps = {
+    courseTitle: 'What the fish [Test Course]',
+    courseSlug: 'test-course',
+    units: COURSE_UNITS,
+    currentUnitNumber: 1,
+    chunks: chunksWithContent,
+    currentChunkIndex: 0,
+    onChunkSelect: vi.fn(),
+  };
+
+  test('renders default as expected', () => {
     const { container } = render(
-      <SideBar
-        courseTitle="What the fish [Test Course]"
-        units={COURSE_UNITS}
-        currentUnitNumber={1}
-        chunks={chunksWithContent}
-        currentChunkIndex={0}
-        onChunkSelect={vi.fn()}
-      />,
+      <SideBar {...defaultProps} />,
       { wrapper: TrpcProvider },
     );
     expect(container).toMatchSnapshot();
+  });
+
+  test('shows Apply CTA with deadline when upcoming round exists', () => {
+    const { getByRole } = render(
+      <SideBar
+        {...defaultProps}
+        applyCTAProps={{
+          applicationDeadline: '31 Jan',
+          applicationUrl: 'https://example.com/apply',
+          hasApplied: false,
+        }}
+      />,
+      { wrapper: TrpcProvider },
+    );
+
+    const button = getByRole('link', { name: 'Apply by 31 Jan' });
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveAttribute('href', 'https://example.com/apply');
+  });
+
+  test('does not show Apply CTA when user has already applied', () => {
+    const { queryByRole } = render(
+      <SideBar
+        {...defaultProps}
+        applyCTAProps={{
+          applicationDeadline: '31 Jan',
+          applicationUrl: 'https://example.com/apply',
+          hasApplied: true,
+        }}
+      />,
+      { wrapper: TrpcProvider },
+    );
+
+    expect(queryByRole('link', { name: /apply/i })).not.toBeInTheDocument();
   });
 });

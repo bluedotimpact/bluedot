@@ -27,7 +27,7 @@ const teamMembers = [
     linkedInUrl: 'https://linkedin.com/in/josh-landes12',
   },
   {
-    imageSrc: '/images/team/aniketchakravorty.jpg',
+    imageSrc: '/images/team/aniket.png',
     name: 'Aniket Chakravorty',
     role: 'AI Strategy Specialist',
     linkedInUrl: 'https://www.linkedin.com/in/aniket-chakravorty-724458256/',

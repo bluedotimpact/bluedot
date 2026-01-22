@@ -30,7 +30,7 @@ import KeyboardNavMenu from './KeyboardNavMenu';
 import { MobileCourseModal } from './MobileCourseModal';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import { ResourceDisplay } from './ResourceDisplay';
-import SideBar from './SideBar';
+import SideBar, { type ApplyCTAProps } from './SideBar';
 import { ROUTES } from '../../lib/routes';
 import { trpc } from '../../utils/trpc';
 import { CourseIcon } from './CourseIcon';
@@ -50,6 +50,8 @@ type UnitLayoutProps = {
   setChunkIndex: (index: number) => void;
   courseSlug: string;
   allUnitChunks: Record<string, BasicChunk[]>;
+  // Optional
+  applyCTAProps?: ApplyCTAProps;
 };
 
 type MobileHeaderProps = {
@@ -141,6 +143,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   setChunkIndex,
   courseSlug,
   allUnitChunks,
+  applyCTAProps,
 }) => {
   const router = useRouter();
   const auth = useAuthStore((s) => s.auth);
@@ -310,6 +313,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           currentChunkIndex={chunkIndex}
           onChunkSelect={handleChunkSelect}
           allUnitChunks={allUnitChunks}
+          applyCTAProps={applyCTAProps}
         />
       )}
 
@@ -496,6 +500,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         onChunkSelect={handleMobileChunkSelect}
         onUnitSelect={handleMobileUnitSelect}
         allUnitChunks={allUnitChunks}
+        applyCTAProps={applyCTAProps}
       />
     </div>
   );

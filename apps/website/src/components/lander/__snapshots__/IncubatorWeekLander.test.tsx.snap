@@ -206,7 +206,7 @@ exports[`IncubatorWeekLander > renders the complete page correctly (snapshot) 1`
                       href="/join-us"
                       tabindex="0"
                     >
-                      Jobs
+                      Join us
                     </a>
                   </div>
                   <div
@@ -327,7 +327,7 @@ exports[`IncubatorWeekLander > renders the complete page correctly (snapshot) 1`
                 href="/join-us"
                 tabindex="0"
               >
-                Jobs
+                Join us
               </a>
             </div>
             <div
@@ -401,7 +401,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
             >
               <a
                 class="cta-button flex items-center justify-center duration-200 whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none h-[50px] px-5 py-3 text-[16px] font-medium rounded-md cursor-pointer transition-all text-[#13132e] w-full min-[680px]:w-auto hover:brightness-90"
-                href="https://web.miniextensions.com/9UQbEOQ10oTYrqpIOwVS"
+                href="https://web.miniextensions.com/test"
                 style="background-color: #FF8C8C;"
                 tabindex="0"
               >
@@ -454,7 +454,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
               >
                 <a
                   class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none h-[50px] px-5 py-2.5 text-[16px] font-medium rounded-md cursor-pointer transition-all text-[#13132e] hover:brightness-90"
-                  href="https://web.miniextensions.com/9UQbEOQ10oTYrqpIOwVS"
+                  href="https://web.miniextensions.com/test"
                   style="background-color: #FF8C8C;"
                   tabindex="0"
                 >
@@ -636,7 +636,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
           </p>
           <a
             class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm cta-button--outline-black bg-transparent border border-[rgba(19,19,46,0.3)] text-black hover:bg-gray-50 font-medium"
-            href="https://web.miniextensions.com/9UQbEOQ10oTYrqpIOwVS"
+            href="https://web.miniextensions.com/test"
             tabindex="0"
           >
             Apply now
@@ -1276,7 +1276,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
             </h3>
             <a
               class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none [--ghost-gray:#13132E] hover:text-(--ghost-gray) text-[16px] font-medium leading-[24px] px-5 py-3 h-12 bg-white text-[#13132E] rounded-md hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
-              href="https://web.miniextensions.com/9UQbEOQ10oTYrqpIOwVS"
+              href="https://web.miniextensions.com/test"
               tabindex="0"
             >
               Apply now

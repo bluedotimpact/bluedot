@@ -101,7 +101,7 @@ export const NavLinks: React.FC<{
         href={ROUTES.joinUs.url}
         className={getLinkClasses(isCurrentPath(ROUTES.joinUs.url))}
       >
-        Jobs
+        Join us
       </A>
     </div>
   );

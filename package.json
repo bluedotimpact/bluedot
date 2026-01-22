@@ -23,5 +23,8 @@
   "workspaces": [
     "apps/*",
     "libraries/*"
-  ]
+  ],
+  "dependencies": {
+    "lightningcss": "^1.30.2"
+  }
 }

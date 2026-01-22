@@ -52,6 +52,7 @@ describe('CourseDetails', () => {
         courseRegistration={mockCourseRegistration}
         upcomingDiscussions={[]}
         attendedDiscussions={[]}
+        facilitatedDiscussions={[]}
         isLoading={false}
       />,
     );
@@ -107,6 +108,7 @@ describe('CourseDetails: Participant view', () => {
         courseRegistration={mockCourseRegistration}
         upcomingDiscussions={upcomingDiscussions}
         attendedDiscussions={[]}
+        facilitatedDiscussions={[]}
         isLoading={false}
       />,
     );
@@ -148,6 +150,7 @@ describe('CourseDetails: Participant view', () => {
         courseRegistration={mockCourseRegistration}
         upcomingDiscussions={upcomingDiscussions}
         attendedDiscussions={[]}
+        facilitatedDiscussions={[]}
         isLoading={false}
       />,
     );
@@ -192,6 +195,7 @@ describe('CourseDetails: Participant view', () => {
         courseRegistration={mockCourseRegistration}
         upcomingDiscussions={upcomingDiscussions}
         attendedDiscussions={[]}
+        facilitatedDiscussions={[]}
         isLoading={false}
       />,
     );
@@ -239,6 +243,7 @@ describe('CourseDetails: Participant view', () => {
         courseRegistration={mockCourseRegistration}
         upcomingDiscussions={upcomingDiscussions}
         attendedDiscussions={[]}
+        facilitatedDiscussions={[]}
         isLoading={false}
       />,
     );
@@ -299,6 +304,7 @@ describe('CourseDetails: Participant view', () => {
         courseRegistration={mockCourseRegistration}
         upcomingDiscussions={upcomingDiscussions}
         attendedDiscussions={[]}
+        facilitatedDiscussions={[]}
         isLoading={false}
       />,
     );
@@ -366,6 +372,7 @@ describe('CourseDetails: Participant view', () => {
         courseRegistration={mockCourseRegistration}
         upcomingDiscussions={upcomingDiscussions}
         attendedDiscussions={[]}
+        facilitatedDiscussions={[]}
         isLoading={false}
       />,
     );
@@ -430,6 +437,7 @@ describe('CourseDetails: Facilitator view', () => {
         courseRegistration={mockCourseRegistration}
         upcomingDiscussions={upcomingDiscussions}
         attendedDiscussions={[]}
+        facilitatedDiscussions={[]}
         isLoading={false}
       />,
     );
@@ -459,5 +467,32 @@ describe('CourseDetails: Facilitator view', () => {
 
     // THEN: "Switch group permanently" should NOT appear for facilitators
     expect(screen.queryByRole('menuitem', { name: 'Switch group permanently' })).not.toBeInTheDocument();
+  });
+
+  it('shows Facilitated discussions tab with count when facilitatedDiscussions has items', async () => {
+    const currentTimeMs = Date.now();
+    const facilitatedDiscussions = [{
+      ...createMockGroupDiscussion({
+        startDateTime: Math.floor(currentTimeMs / 1000) - 7 * 24 * 60 * 60,
+        endDateTime: Math.floor(currentTimeMs / 1000) - 7 * 24 * 60 * 60 + 60 * 60,
+      }),
+      unitRecord: createMockUnit({ unitNumber: '1', title: 'Unit One' }),
+      groupDetails: createMockGroup(),
+    }];
+
+    render(
+      <CourseDetails
+        course={mockCourse}
+        courseRegistration={createMockCourseRegistration({ courseId: 'course-1', role: 'Facilitator', roundStatus: 'Past' })}
+        upcomingDiscussions={[]}
+        attendedDiscussions={[]}
+        facilitatedDiscussions={facilitatedDiscussions}
+        isLoading={false}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: 'Facilitated discussions' })).toBeInTheDocument();
+    });
   });
 });

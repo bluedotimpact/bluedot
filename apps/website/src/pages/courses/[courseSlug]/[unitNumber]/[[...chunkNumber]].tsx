@@ -85,6 +85,8 @@ const CourseUnitChunkPage = ({
   const { latestUtmParams } = useLatestUtmParams();
   const { mutate: createCourseRegistrationMutation } = trpc.courseRegistrations.ensureExists.useMutation();
 
+  const { data: applyCTAProps } = trpc.courseRounds.getApplyCTAProps.useQuery({ courseSlug });
+
   useEffect(() => {
     // FoAI course only: If we're logged in, ensures a course registration is recorded
     const shouldRecordCourseRegistration = auth && (unit.courseId === FOAI_COURSE_ID);
@@ -144,6 +146,7 @@ const CourseUnitChunkPage = ({
         setChunkIndex={handleSetChunkIndex}
         courseSlug={courseSlug}
         allUnitChunks={allUnitChunks}
+        applyCTAProps={applyCTAProps ?? undefined}
       />
     </>
   );
