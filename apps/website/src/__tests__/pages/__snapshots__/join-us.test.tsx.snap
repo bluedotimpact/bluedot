@@ -142,7 +142,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                         href="/join-us"
                         tabindex="0"
                       >
-                        Jobs
+                        Join us
                       </a>
                     </div>
                     <div
@@ -257,7 +257,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                   href="/join-us"
                   tabindex="0"
                 >
-                  Jobs
+                  Join us
                 </a>
               </div>
               <div
