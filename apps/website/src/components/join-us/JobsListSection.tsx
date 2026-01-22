@@ -8,7 +8,6 @@ type JobsListSectionProps = inferRouterOutputs<AppRouter>['jobs']['getAll'];
 const JobsListSection = ({ jobs }: { jobs: JobsListSectionProps }) => {
   // Split jobs into regular and contractor positions
   // job.category is a single string value from Airtable
-  console.log(jobs.map((job) => job.category));
   const regularJobs = jobs.filter((job) => job.category !== 'Contractor');
   const contractorJobs = jobs.filter((job) => job.category === 'Contractor');
 
