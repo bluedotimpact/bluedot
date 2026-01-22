@@ -217,7 +217,7 @@ export default function GroupSwitchModal({
         id: g.group.id,
         groupName: g.group.groupName ?? 'Group [Unknown]',
         dateTime: g.group.startTimeUtc,
-        isDisabled: g.spotsLeftIfKnown === 0 || g.isTooLateToSwitchTo,
+        isDisabled: g.spotsLeftIfKnown === 0,
         isSelected,
         isRecurringTime: true,
         description: getGroupSwitchDescription({

@@ -85,7 +85,6 @@ const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
       }),
       userIsParticipant: true,
       spotsLeftIfKnown: 0,
-      isTooLateToSwitchTo: false,
     },
     {
       group: createMockGroup({
@@ -95,7 +94,6 @@ const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
       }),
       userIsParticipant: false,
       spotsLeftIfKnown: 3,
-      isTooLateToSwitchTo: false,
     },
   ],
   discussionsAvailable: {

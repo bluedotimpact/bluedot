@@ -99,7 +99,7 @@ describe('calculateGroupAvailability', () => {
       participantId: mockParticipantId,
     });
 
-    expect(result.groupsAvailable[0]?.isTooLateToSwitchTo).toBe(false);
+    expect(result.groupsAvailable[0]).toBeDefined();
     expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]).toHaveLength(1);
   });
 
@@ -125,8 +125,6 @@ describe('calculateGroupAvailability', () => {
       participantId: mockParticipantId,
     });
 
-    // Group should show isTooLateToSwitchTo as false (mixed)
-    expect(result.groupsAvailable[0]?.isTooLateToSwitchTo).toBe(false);
     // Group spotsLeftIfKnown should be the minimum of available spots from non-started discussions
     expect(result.groupsAvailable[0]?.spotsLeftIfKnown).toBe(3); // 5 max - 2 participants from future discussion
   });
