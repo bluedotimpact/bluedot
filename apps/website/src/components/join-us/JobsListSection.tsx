@@ -6,21 +6,40 @@ import type { AppRouter } from '../../server/routers/_app';
 type JobsListSectionProps = inferRouterOutputs<AppRouter>['jobs']['getAll'];
 
 const JobsListSection = ({ jobs }: { jobs: JobsListSectionProps }) => {
+  // Split jobs into regular and contractor positions
+  // job.category is a single string value from Airtable
+  const regularJobs = jobs.filter((job) => job.category !== 'Contractor');
+  const contractorJobs = jobs.filter((job) => job.category === 'Contractor');
+
   return (
-    <Section title="Careers at BlueDot Impact">
-      <div id="open-roles-anchor" className="invisible relative bottom-48" />
-      {jobs.length === 0 ? (
-        <P>We're not currently running any open hiring rounds at the moment.</P>
-      ) : (
-        <ul className="list-none flex flex-col gap-8">
-          {jobs.map((job) => (
-            <li key={job.id}>
-              <JobListItem job={job} />
-            </li>
-          ))}
-        </ul>
+    <>
+      <Section title="Careers at BlueDot Impact">
+        <div id="open-roles-anchor" className="invisible relative bottom-48" />
+        {regularJobs.length === 0 ? (
+          <P>We're not currently running any open hiring rounds at the moment.</P>
+        ) : (
+          <ul className="list-none flex flex-col gap-8">
+            {regularJobs.map((job) => (
+              <li key={job.id}>
+                <JobListItem job={job} />
+              </li>
+            ))}
+          </ul>
+        )}
+      </Section>
+
+      {contractorJobs.length > 0 && (
+        <Section title="Support our mission">
+          <ul className="list-none flex flex-col gap-8">
+            {contractorJobs.map((job) => (
+              <li key={job.id}>
+                <JobListItem job={job} />
+              </li>
+            ))}
+          </ul>
+        </Section>
       )}
-    </Section>
+    </>
   );
 };
 

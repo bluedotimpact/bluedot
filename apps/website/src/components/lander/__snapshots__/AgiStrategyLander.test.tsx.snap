@@ -206,7 +206,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       href="/join-us"
                       tabindex="0"
                     >
-                      Jobs
+                      Join us
                     </a>
                   </div>
                   <div
@@ -327,7 +327,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 href="/join-us"
                 tabindex="0"
               >
-                Jobs
+                Join us
               </a>
             </div>
             <div

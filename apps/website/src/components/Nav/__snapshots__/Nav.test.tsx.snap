@@ -158,7 +158,7 @@ exports[`Nav > renders with courses 1`] = `
                     href="/join-us"
                     tabindex="0"
                   >
-                    Jobs
+                    Join us
                   </a>
                 </div>
                 <div
@@ -293,7 +293,7 @@ exports[`Nav > renders with courses 1`] = `
               href="/join-us"
               tabindex="0"
             >
-              Jobs
+              Join us
             </a>
           </div>
           <div
