@@ -3,12 +3,11 @@ import {
   A, CTALinkOrButton, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
 import clsx from 'clsx';
-import React from 'react';
+import React, { useState } from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
 import { trpc } from '../../utils/trpc';
-import { filterResourcesByType } from './ResourceDisplay';
-import type { ChunkWithContent } from './UnitLayout';
 import { CourseIcon } from './CourseIcon';
+import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 
@@ -27,9 +26,10 @@ type SideBarProps = {
 type SideBarCollapsibleProps = {
   unit: Unit;
   isCurrentUnit: boolean;
-  chunks: ChunkWithContent[];
+  chunks: BasicChunk[];
   currentChunkIndex: number;
   onChunkSelect: (index: number) => void;
+  courseSlug: string;
 };
 
 // Radio button style icon for chunk selection
@@ -56,6 +56,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   chunks,
   currentChunkIndex,
   onChunkSelect,
+  courseSlug,
 }) => {
   const auth = useAuthStore((s) => s.auth);
   const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
