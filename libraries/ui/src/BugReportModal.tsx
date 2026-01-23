@@ -73,7 +73,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
 
           <div className="flex flex-col items-center gap-4">
             {showTextarea && (
-              <CTALinkOrButton onClick={handleSubmit} className="w-full">
+              <CTALinkOrButton type="submit" className="w-full">
                 Submit
               </CTALinkOrButton>
             )}
