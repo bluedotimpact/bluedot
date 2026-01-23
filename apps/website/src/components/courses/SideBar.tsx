@@ -77,16 +77,20 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
     enabled: isExpanded && (coreResourceIds?.length ?? 0) > 0 && Boolean(auth),
   });
 
-  // For each chunk we need to know (1) how many core resources there are and (2) how many have been completed
+  const coreResourceIdSet = new Set(coreResourceIds ?? []);
+
+  // (3) Compute completion data per chunk
   const groupedResourceCompletionData = chunks.map((chunk) => {
-    const coreChunkResources = filterResourcesByType(chunk.resources, 'Core');
-    const coreResourceIds = new Set(coreChunkResources.map((resource) => resource.id));
-    const completedCoreResources = resourceCompletions?.filter((completion) => completion.isCompleted && completion.unitResourceId && coreResourceIds.has(completion.unitResourceId)) || [];
+    const chunkResourceIds = chunk.chunkResources ?? [];
+    const coreChunkResourceIds = chunkResourceIds.filter((id) => coreResourceIdSet.has(id));
+    const completedCount = resourceCompletions?.filter(
+      (c) => c.isCompleted && c.unitResourceId && coreChunkResourceIds.includes(c.unitResourceId),
+    ).length ?? 0;
 
     return {
-      chunkCoreResources: coreChunkResources,
-      completedCoreResources,
-      allResourcesCompleted: completedCoreResources.length === coreChunkResources.length && coreChunkResources.length > 0,
+      coreResourceCount: coreChunkResourceIds.length,
+      completedCount,
+      allResourcesCompleted: completedCount === coreChunkResourceIds.length && coreChunkResourceIds.length > 0,
     };
   });
 
