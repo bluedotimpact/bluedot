@@ -131,44 +131,30 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
                 <div className="border-t-hairline border-[rgba(42,45,52,0.2)] mx-2 mb-2" />
               )}
 
-              {/* Current unit - shows as non-clickable with expand/collapse toggle */}
-              {isCurrent ? (
-                <div className="w-full flex items-center px-2 py-4 gap-2">
-                  <p className="font-semibold text-size-sm leading-[150%] flex-1 text-[#13132E]">
-                    {unit.unitNumber}. {unit.title}
-                  </p>
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsCurrentUnitExpanded((prev) => !prev);
-                    }}
-                    className="p-2 -m-2 rounded-lg hover:bg-blue-100 hover:text-blue-600 transition-all duration-200 group focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
-                    aria-label={isExpanded ? 'Collapse unit' : 'Expand unit'}
-                    aria-expanded={isExpanded}
-                    aria-controls={`unit-${unit.id}-chunks`}
-                  >
-                    <FaChevronRight
-                      className={clsx(
-                        'size-3 transition-all duration-200 group-hover:scale-110',
-                        isExpanded && 'rotate-90',
-                      )}
-                    />
-                  </button>
-                </div>
-              ) : (
-                // Other units - clickable to navigate to that unit
+              {/* Unit header - always shows expand/collapse toggle */}
+              <div className="w-full flex items-center px-2 py-4 gap-2">
+                <p className="font-semibold text-size-sm leading-[150%] flex-1 text-[#13132E]">
+                  {unit.unitNumber}. {unit.title}
+                </p>
                 <button
                   type="button"
-                  onClick={() => handleUnitHeaderClick(unit)}
-                  className="w-full flex items-center px-2 py-4 gap-2 text-left hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleUnitExpansion(unit.id);
+                  }}
+                  className="p-2 -m-2 rounded-lg hover:bg-blue-100 hover:text-blue-600 transition-all duration-200 group focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                  aria-label={isExpanded ? 'Collapse unit' : 'Expand unit'}
+                  aria-expanded={isExpanded}
+                  aria-controls={`unit-${unit.id}-chunks`}
                 >
-                  <p className="font-semibold text-size-sm leading-[150%] flex-1 text-[#13132E]">
-                    {unit.unitNumber}. {unit.title}
-                  </p>
-                  <FaChevronRight className="size-3 text-[#13132E]" />
+                  <FaChevronRight
+                    className={clsx(
+                      'size-3 transition-all duration-200 group-hover:scale-110',
+                      isExpanded && 'rotate-90',
+                    )}
+                  />
                 </button>
-              )}
+              </div>
 
               {/* Chunk Listing (for any expanded unit) */}
               {isExpanded && (
