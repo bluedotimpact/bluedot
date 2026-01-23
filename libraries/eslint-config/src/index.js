@@ -88,6 +88,13 @@ const rules = {
 
   // React hooks rules
   'react-hooks/set-state-in-effect': ['off'],
+
+  // Allow all button types (airbnb disallows reset by default)
+  'react/button-has-type': ['error', {
+    button: true,
+    submit: true,
+    reset: true,
+  }],
 };
 
 /** @type {import("eslint").Linter.RulesRecord} */
