@@ -79,7 +79,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
 
   const handleChunkClick = (unit: Unit, index: number) => {
     if (isCurrentUnit(unit)) {
-      // For current unit, use onChunkSelect
+      // For current unit, use onChunkSelect to update chunk index state without a page reload
       onChunkSelect(index);
     } else if (onUnitSelect) {
       // For other units, navigate to that chunk
@@ -122,7 +122,6 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
         {units.map((unit, unitIndex) => {
           const isCurrent = isCurrentUnit(unit);
           const isExpanded = expandedUnitIds.has(unit.id);
-          // Use unified unitChunks for all units
           const unitChunkList = unitChunks[unit.id] ?? [];
 
           return (
