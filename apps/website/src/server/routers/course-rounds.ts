@@ -43,7 +43,7 @@ export async function getCourseRoundsData(courseSlug: string) {
 
   const formatDate = (isoDate: string) => {
     const date = new Date(isoDate);
-    const day = String(date.getUTCDate()).padStart(2, '0');
+    const day = String(date.getUTCDate());
     const month = date.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
     return `${day} ${month}`;
   };
@@ -73,8 +73,8 @@ export async function getCourseRoundsData(courseSlug: string) {
       return null;
     }
 
-    const firstDay = String(first.getUTCDate()).padStart(2, '0');
-    const lastDay = String(computedLast.getUTCDate()).padStart(2, '0');
+    const firstDay = String(first.getUTCDate());
+    const lastDay = String(computedLast.getUTCDate());
     const firstMonth = first.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
     const lastMonth = computedLast.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
 
@@ -189,7 +189,7 @@ export const courseRoundsRouter = router({
       // Format a single date to "day month" format in UTC
       const formatDate = (isoDate: string) => {
         const date = new Date(isoDate);
-        const day = String(date.getUTCDate()).padStart(2, '0');
+        const day = String(date.getUTCDate());
         const month = date.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
         return `${day} ${month}`;
       };
@@ -224,8 +224,8 @@ export const courseRoundsRouter = router({
           return null;
         }
 
-        const firstDay = String(first.getUTCDate()).padStart(2, '0');
-        const lastDay = String(computedLast.getUTCDate()).padStart(2, '0');
+        const firstDay = String(first.getUTCDate());
+        const lastDay = String(computedLast.getUTCDate());
         const firstMonth = first.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
         const lastMonth = computedLast.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
 
