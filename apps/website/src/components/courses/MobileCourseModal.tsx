@@ -53,7 +53,11 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
   unitChunks,
   applyCTAProps,
 }) => {
-  const [isCurrentUnitExpanded, setIsCurrentUnitExpanded] = useState(true);
+  // Track which units are expanded (current unit starts expanded)
+  const [expandedUnitIds, setExpandedUnitIds] = useState<Set<string>>(() => {
+    const currentUnit = units.find((u) => Number(u.unitNumber) === currentUnitNumber);
+    return currentUnit ? new Set([currentUnit.id]) : new Set();
+  });
 
   const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
 
@@ -61,18 +65,16 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
     return !!unit.unitNumber && currentUnitNumber === Number(unit.unitNumber);
   };
 
-  const handleUnitHeaderClick = (unit: Unit) => {
-    if (isCurrentUnit(unit)) {
-      // Current unit: toggle expansion state to show/hide chunks
-      setIsCurrentUnitExpanded((prev) => !prev);
-    } else {
-      // Different unit: navigate to first chunk and close modal
-      if (onUnitSelect) {
-        const unitPath = `${unit.coursePath}/${unit.unitNumber}`;
-        onUnitSelect(unitPath);
+  const toggleUnitExpansion = (unitId: string) => {
+    setExpandedUnitIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(unitId)) {
+        next.delete(unitId);
+      } else {
+        next.add(unitId);
       }
-      setIsOpen(false);
-    }
+      return next;
+    });
   };
 
   const handleChunkClick = (unit: Unit, index: number) => {
@@ -119,7 +121,8 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
         {/* Unit Listing */}
         {units.map((unit, unitIndex) => {
           const isCurrent = isCurrentUnit(unit);
-          const isExpanded = isCurrent && isCurrentUnitExpanded;
+          const isExpanded = expandedUnitIds.has(unit.id);
+          // Use unified unitChunks for all units
           const unitChunkList = unitChunks[unit.id] ?? [];
 
           return (
@@ -167,8 +170,8 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
                 </button>
               )}
 
-              {/* Chunk Listing (only for current unit when expanded) */}
-              {isCurrent && isExpanded && (
+              {/* Chunk Listing (for any expanded unit) */}
+              {isExpanded && (
                 <div id={`unit-${unit.id}-chunks`} className="flex flex-col gap-1 pb-4">
                   {unitChunkList.map((chunk, index) => {
                     const isActive = isCurrent && currentChunkIndex === index;
