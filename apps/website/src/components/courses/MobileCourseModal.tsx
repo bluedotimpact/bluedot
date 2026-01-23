@@ -75,8 +75,15 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
     }
   };
 
-  const handleChunkClick = (index: number) => {
-    onChunkSelect(index);
+  const handleChunkClick = (unit: Unit, index: number) => {
+    if (isCurrentUnit(unit)) {
+      // For current unit, use onChunkSelect
+      onChunkSelect(index);
+    } else if (onUnitSelect) {
+      // For other units, navigate to that chunk
+      const chunkPath = `/courses/${courseSlug}/${unit.unitNumber}/${index + 1}`;
+      onUnitSelect(chunkPath);
+    }
     setIsOpen(false);
   };
 
@@ -113,7 +120,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
         {units.map((unit, unitIndex) => {
           const isCurrent = isCurrentUnit(unit);
           const isExpanded = isCurrent && isCurrentUnitExpanded;
-          const unitChunks = isCurrent ? chunks : []; // Only show chunks for current unit
+          const unitChunkList = unitChunks[unit.id] ?? [];
 
           return (
             <div key={unit.id} className="relative">
@@ -163,13 +170,13 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
               {/* Chunk Listing (only for current unit when expanded) */}
               {isCurrent && isExpanded && (
                 <div id={`unit-${unit.id}-chunks`} className="flex flex-col gap-1 pb-4">
-                  {unitChunks.map((chunk, index) => {
-                    const isActive = currentChunkIndex === index;
+                  {unitChunkList.map((chunk, index) => {
+                    const isActive = isCurrent && currentChunkIndex === index;
                     return (
                       <button
                         type="button"
                         key={chunk.id}
-                        onClick={() => handleChunkClick(index)}
+                        onClick={() => handleChunkClick(unit, index)}
                         className={clsx(
                           'flex items-center px-2 py-4 gap-3 text-left transition-colors rounded-lg',
                           isActive ? 'bg-[rgba(42,45,52,0.05)]' : 'hover:bg-[rgba(42,45,52,0.05)]',
