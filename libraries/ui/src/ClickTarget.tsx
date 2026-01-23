@@ -62,7 +62,8 @@ export const ClickTarget = ({
       onClick={handleInteraction}
       disabled={disabled}
       aria-label={ariaLabel}
-      type={type}
+      // eslint-disable-next-line no-nested-ternary -- required by react/button-has-type
+      type={type === 'submit' ? 'submit' : type === 'reset' ? 'reset' : 'button'}
     >
       {children}
     </button>
