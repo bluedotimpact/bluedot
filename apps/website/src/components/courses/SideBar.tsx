@@ -97,22 +97,27 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   const isLoading = coreResourcesLoading || completionsLoading;
 
   return (
-    isCurrentUnit ? (
-      <div className="relative">
-        <div className="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]" />
-        <details
-          open={isCurrentUnit}
-          className="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden"
-        >
-          <summary className="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors">
-            <p className="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-[#13132E] flex-1">
-              {unit.unitNumber}. {unit.title}
-            </p>
-            <FaChevronRight className="size-[14px] transition-transform group-open:rotate-90 text-[#13132E]" />
-          </summary>
-          <div className="flex flex-col items-start px-0 pb-[16px] gap-[4px]">
-            {chunks.map((chunk, index) => {
-              const isActive = currentChunkIndex === index;
+    <div className="relative">
+      <div className="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]" />
+      <details
+        open={isExpanded}
+        onToggle={(e) => setIsExpanded((e.target as HTMLDetailsElement).open)}
+        className="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden"
+      >
+        <summary className="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors">
+          <p className="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-[#13132E] flex-1">
+            {unit.unitNumber}. {unit.title}
+          </p>
+          <FaChevronRight className="size-[14px] transition-transform group-open:rotate-90 text-[#13132E]" />
+        </summary>
+        <div className="flex flex-col items-start px-0 pb-[16px] gap-[4px]">
+          {chunks.map((chunk, index) => {
+            const isActive = isCurrentUnit && currentChunkIndex === index;
+            const chunkUrl = `/courses/${courseSlug}/${unit.unitNumber}/${index + 1}`;
+
+            // For current unit, use button with onChunkSelect
+            // For non-current unit, use link to navigate
+            if (isCurrentUnit) {
               return (
                 <button
                   type="button"
@@ -125,9 +130,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                 >
                   <ChunkIcon isActive={isActive} />
                   <div className="flex flex-col items-start p-0 flex-1">
-                    {/* Chunk content wrapper with proper spacing */}
                     <div className="flex flex-col items-start gap-[6px]">
-                      {/* Chunk Title */}
                       <p className="font-normal text-[14px] leading-[150%] text-[#13132E]">
                         {chunk.chunkTitle}
                       </p>
@@ -141,12 +144,12 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                           isLoading ? (
                             <ProgressDots className="my-0.5 ml-2" />
                           ) : (
-                            groupedResourceCompletionData[index] && groupedResourceCompletionData[index].chunkCoreResources.length > 0 && (
+                            groupedResourceCompletionData[index] && groupedResourceCompletionData[index].coreResourceCount > 0 && (
                               <>
                                 {/* Dot is outside of span so strikethrough doesn't extend to dot and look overly long */}
                                 ⋅
                                 <span className={clsx(groupedResourceCompletionData[index].allResourcesCompleted && 'line-through')}>
-                                  {groupedResourceCompletionData[index].completedCoreResources.length} of {groupedResourceCompletionData[index].chunkCoreResources.length} completed
+                                  {groupedResourceCompletionData[index].completedCount} of {groupedResourceCompletionData[index].coreResourceCount} completed
                                 </span>
                               </>
                             )
@@ -157,23 +160,53 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                   </div>
                 </button>
               );
-            })}
-          </div>
-        </details>
-      </div>
-    ) : (
-      <div className="relative">
-        <div className="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]" />
-        <A href={unit.path} className="block mx-[24px] px-[24px] md:px-[12px] py-[15px] no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors">
-          <div className="flex flex-row items-center gap-[8px]">
-            <p className="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-[#13132E] flex-1">
-              {unit.unitNumber}. {unit.title}
-            </p>
-            <FaChevronRight className="size-[14px] text-[#13132E]" />
-          </div>
-        </A>
-      </div>
-    )
+            }
+
+            // Non-current unit: render as link
+            return (
+              <A
+                key={chunk.id}
+                href={chunkUrl}
+                className={clsx(
+                  'flex flex-row items-center p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] text-left transition-colors no-underline',
+                  'hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px]',
+                )}
+              >
+                <ChunkIcon isActive={false} />
+                <div className="flex flex-col items-start p-0 flex-1">
+                  <div className="flex flex-col items-start gap-[6px]">
+                    <p className="font-normal text-[14px] leading-[150%] text-[#13132E]">
+                      {chunk.chunkTitle}
+                    </p>
+                  </div>
+                  {chunk.estimatedTime && (
+                    <div className="flex gap-1 text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#13132E] opacity-60 mt-[8px]">
+                      <span>
+                        {formatTime(chunk.estimatedTime)}
+                      </span>
+                      {auth && (
+                        isLoading ? (
+                          <ProgressDots className="my-0.5 ml-2" />
+                        ) : (
+                          groupedResourceCompletionData[index] && groupedResourceCompletionData[index].coreResourceCount > 0 && (
+                            <>
+                              ⋅
+                              <span className={clsx(groupedResourceCompletionData[index].allResourcesCompleted && 'line-through')}>
+                                {groupedResourceCompletionData[index].completedCount} of {groupedResourceCompletionData[index].coreResourceCount} completed
+                              </span>
+                            </>
+                          )
+                        )
+                      )}
+                    </div>
+                  )}
+                </div>
+              </A>
+            );
+          })}
+        </div>
+      </details>
+    </div>
   );
 };
 
