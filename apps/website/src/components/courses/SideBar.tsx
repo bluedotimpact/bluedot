@@ -94,6 +94,8 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
     };
   });
 
+  const isLoading = coreResourcesLoading || completionsLoading;
+
   return (
     isCurrentUnit ? (
       <div className="relative">
@@ -136,7 +138,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                           {formatTime(chunk.estimatedTime)}
                         </span>
                         {auth && (
-                          resourceCompletionsLoading ? (
+                          isLoading ? (
                             <ProgressDots className="my-0.5 ml-2" />
                           ) : (
                             groupedResourceCompletionData[index] && groupedResourceCompletionData[index].chunkCoreResources.length > 0 && (
