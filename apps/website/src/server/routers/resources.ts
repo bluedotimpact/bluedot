@@ -8,7 +8,7 @@ import { protectedProcedure, publicProcedure, router } from '../trpc';
 
 export const resourcesRouter = router({
   getCoreResourceIds: publicProcedure
-    .input(z.object({ resourceIds: z.array(z.string().min(1)) }))
+    .input(z.object({ resourceIds: z.array(z.string().min(1).max(100)) }))
     .query(async ({ input }) => {
       if (input.resourceIds.length === 0) {
         return [];
