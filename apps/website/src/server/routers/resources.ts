@@ -1,12 +1,29 @@
 import {
-  and, desc, eq, inArray, resourceCompletionTable,
+  and, desc, eq, inArray, resourceCompletionTable, unitResourceTable,
 } from '@bluedot/db';
 import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
 import { z } from 'zod';
 import db from '../../lib/api/db';
-import { protectedProcedure, router } from '../trpc';
+import { protectedProcedure, publicProcedure, router } from '../trpc';
 
 export const resourcesRouter = router({
+  getResourcesByIds: publicProcedure
+    .input(z.object({ resourceIds: z.array(z.string().min(1)) }))
+    .query(async ({ input }) => {
+      if (input.resourceIds.length === 0) {
+        return [];
+      }
+      const resources = await db.pg
+        .select({
+          id: unitResourceTable.pg.id,
+          coreFurtherMaybe: unitResourceTable.pg.coreFurtherMaybe,
+        })
+        .from(unitResourceTable.pg)
+        .where(inArray(unitResourceTable.pg.id, input.resourceIds));
+
+      return resources;
+    }),
+
   getResourceCompletions: protectedProcedure
     .input(z.object({ unitResourceIds: z.array(z.string().min(1)) }))
     .query(async ({ input, ctx }) => {
