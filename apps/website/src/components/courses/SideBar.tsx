@@ -59,14 +59,22 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   courseSlug,
 }) => {
   const auth = useAuthStore((s) => s.auth);
+  const [isExpanded, setIsExpanded] = useState(isCurrentUnit);
   const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
 
-  const coreResources = chunks.flatMap((chunk) => filterResourcesByType(chunk.resources, 'Core'));
+  const allResourceIds = chunks.flatMap((c) => c.chunkResources ?? []);
 
-  const { data: resourceCompletions, isLoading: resourceCompletionsLoading } = trpc.resources.getResourceCompletions.useQuery({
-    unitResourceIds: coreResources.map((resource) => resource.id),
+  // (1) Lazy-load core resource IDs
+  const { data: coreResourceIds, isLoading: coreResourcesLoading } = trpc.resources.getCoreResourceIds.useQuery(
+    { resourceIds: allResourceIds },
+    { enabled: isExpanded && allResourceIds.length > 0 },
+  );
+
+  // (2) and core resource completions
+  const { data: resourceCompletions, isLoading: completionsLoading } = trpc.resources.getResourceCompletions.useQuery({
+    unitResourceIds: coreResourceIds ?? [],
   }, {
-    enabled: isCurrentUnit && coreResources.length > 0 && Boolean(auth),
+    enabled: isExpanded && (coreResourceIds?.length ?? 0) > 0 && Boolean(auth),
   });
 
   // For each chunk we need to know (1) how many core resources there are and (2) how many have been completed
