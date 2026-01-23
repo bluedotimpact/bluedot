@@ -231,7 +231,7 @@ const QuoteSection = ({ quotes, cardBackgroundColor, accentColor }: QuoteSection
 
   return (
     <section
-      className="relative w-full py-6 px-5 sm:px-5 min-[680px]:pt-8 min-[680px]:pb-16 min-[680px]:px-8 lg:p-12 xl:pb-24 overflow-x-hidden"
+      className="relative w-full py-12 px-5 sm:px-5 min-[680px]:py-16 min-[680px]:px-8 lg:py-12 xl:py-24 overflow-x-hidden"
       style={{ backgroundColor: DEFAULT_COLORS.background }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

@@ -28,7 +28,7 @@ export type PathwaysSectionProps = {
 
 const PathwaysSection = ({ title, intro, pathways }: PathwaysSectionProps) => {
   return (
-    <section className="w-full bg-[#FAFAFA]">
+    <section className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24">
         <div className="max-w-[960px] mx-auto">
           <H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-6 tracking-[-0.01em]">
