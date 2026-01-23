@@ -21,7 +21,7 @@ type CourseUnitChunkPageProps = UnitWithChunks & {
   allUnitChunks: Record<string, BasicChunk[]>;
 };
 
-// Basic chunk info for sidebar display (no resources/exercises)
+/** Chunk info only used for display (no resources/exercises) */
 export type BasicChunk = {
   id: string;
   chunkTitle: string;
