@@ -7,21 +7,23 @@ import db from '../../lib/api/db';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 
 export const resourcesRouter = router({
-  getResourcesByIds: publicProcedure
+  getCoreResourceIds: publicProcedure
     .input(z.object({ resourceIds: z.array(z.string().min(1)) }))
     .query(async ({ input }) => {
       if (input.resourceIds.length === 0) {
         return [];
       }
       const resources = await db.pg
-        .select({
-          id: unitResourceTable.pg.id,
-          coreFurtherMaybe: unitResourceTable.pg.coreFurtherMaybe,
-        })
+        .select({ id: unitResourceTable.pg.id })
         .from(unitResourceTable.pg)
-        .where(inArray(unitResourceTable.pg.id, input.resourceIds));
+        .where(
+          and(
+            inArray(unitResourceTable.pg.id, input.resourceIds),
+            eq(unitResourceTable.pg.coreFurtherMaybe, 'Core'),
+          ),
+        );
 
-      return resources;
+      return resources.map((r) => r.id);
     }),
 
   getResourceCompletions: protectedProcedure
