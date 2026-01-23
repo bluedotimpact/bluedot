@@ -13,15 +13,13 @@ import { CourseIcon } from './CourseIcon';
 type Unit = InferSelectModel<typeof unitTable.pg>;
 
 type SideBarProps = {
-  // Required
   courseTitle: string;
   courseSlug: string;
   units: Unit[];
   currentUnitNumber: number;
-  chunks: ChunkWithContent[];
   currentChunkIndex: number;
   onChunkSelect: (index: number) => void;
-  // Optional
+  unitChunks: Record<string, BasicChunk[]>;
   applyCTAProps?: ApplyCTAProps;
   className?: string;
 };
@@ -191,10 +189,10 @@ const SideBar: React.FC<SideBarProps> = ({
   className,
   units,
   currentUnitNumber,
-  chunks,
   currentChunkIndex,
   onChunkSelect,
   applyCTAProps,
+  unitChunks,
 }) => {
   const isCurrentUnit = (unit: Unit): boolean => {
     return !!unit.unitNumber && currentUnitNumber === Number(unit.unitNumber);
@@ -226,9 +224,10 @@ const SideBar: React.FC<SideBarProps> = ({
             key={unit.id}
             unit={unit}
             isCurrentUnit={isCurrentUnit(unit)}
-            chunks={isCurrentUnit(unit) ? chunks : []}
+            chunks={unitChunks[unit.id] ?? []}
             currentChunkIndex={currentChunkIndex}
             onChunkSelect={onChunkSelect}
+            courseSlug={courseSlug}
           />
         ))}
       </div>

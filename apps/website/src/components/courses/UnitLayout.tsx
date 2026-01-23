@@ -309,10 +309,9 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           className="hidden md:block md:fixed md:overflow-y-auto md:max-h-[calc(100vh-57px)]" // Adjust for Nav height only
           units={units}
           currentUnitNumber={parseInt(unitNumber)}
-          chunks={chunks}
           currentChunkIndex={chunkIndex}
           onChunkSelect={handleChunkSelect}
-          allUnitChunks={allUnitChunks}
+          unitChunks={allUnitChunks}
           applyCTAProps={applyCTAProps}
         />
       )}
@@ -495,11 +494,10 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         courseSlug={courseSlug}
         units={units}
         currentUnitNumber={parseInt(unitNumber)}
-        chunks={chunks}
         currentChunkIndex={chunkIndex}
         onChunkSelect={handleMobileChunkSelect}
         onUnitSelect={handleMobileUnitSelect}
-        allUnitChunks={allUnitChunks}
+        unitChunks={allUnitChunks}
         applyCTAProps={applyCTAProps}
       />
     </div>
