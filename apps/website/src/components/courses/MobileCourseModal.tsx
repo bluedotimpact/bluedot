@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import { FaChevronRight } from 'react-icons/fa6';
 import { CTALinkOrButton, Modal } from '@bluedot/ui';
-import { unitTable, chunkTable, InferSelectModel } from '@bluedot/db';
+import { unitTable, InferSelectModel } from '@bluedot/db';
 import { CourseIcon } from './CourseIcon';
 import type { ApplyCTAProps } from './SideBar';
+import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
-type Chunk = InferSelectModel<typeof chunkTable.pg>;
 
 type MobileCourseModalProps = {
   isOpen: boolean;
@@ -16,10 +16,10 @@ type MobileCourseModalProps = {
   courseSlug: string;
   units: Unit[];
   currentUnitNumber: number;
-  chunks: Chunk[];
   currentChunkIndex: number;
   onChunkSelect: (index: number) => void;
   onUnitSelect?: (unitPath: string) => void;
+  unitChunks: Record<string, BasicChunk[]>;
   applyCTAProps?: ApplyCTAProps;
 };
 
@@ -47,10 +47,10 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
   courseSlug,
   units,
   currentUnitNumber,
-  chunks,
   currentChunkIndex,
   onChunkSelect,
   onUnitSelect,
+  unitChunks,
   applyCTAProps,
 }) => {
   const [isCurrentUnitExpanded, setIsCurrentUnitExpanded] = useState(true);
