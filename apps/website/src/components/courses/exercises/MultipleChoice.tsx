@@ -153,7 +153,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
           <CTALinkOrButton
             className="!bg-bluedot-normal"
             variant="primary"
-            onClick={handleSubmit(onSubmit)}
+            type="submit"
             disabled={isSubmitting || !currentAnswer}
           >
             {getSubmitButtonText()}
