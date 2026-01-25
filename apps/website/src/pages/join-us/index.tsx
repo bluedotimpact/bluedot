@@ -18,7 +18,7 @@ const CURRENT_ROUTE = ROUTES.joinUs;
 const JoinUsHero = () => {
   return (
     <section className="relative w-full min-h-[317px] min-[680px]:min-h-[366px]">
-      <Nav />
+      <Nav variant="transparent" />
       <img
         src="/images/homepage/hero.webp"
         alt=""
