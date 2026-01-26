@@ -6,8 +6,11 @@ import HomepageBlogSection from '../components/homepage/HomepageBlogSection';
 import CommunityCarousel from '../components/lander/CommunityCarousel';
 import EventsSection from '../components/homepage/EventsSection';
 import NewsletterBanner from '../components/homepage/NewsletterBanner';
+import { trpc } from '../utils/trpc';
+import { toCommunityMember } from '../server/routers/testimonials';
 
-const COMMUNITY_MEMBERS = [
+// TODO: Remove once more testimonials are added to Airtable
+const FALLBACK_COMMUNITY_MEMBERS = [
   {
     name: 'Neel Nanda',
     jobTitle: 'Mech Interp Lead at Google DeepMind',
@@ -52,7 +55,17 @@ const COMMUNITY_MEMBERS = [
   },
 ];
 
+const MIN_TESTIMONIALS_COUNT = 4;
+
 const HomePage = () => {
+  const { data: dbTestimonials, isLoading } = trpc.testimonials.getCommunityMembers.useQuery();
+
+  // TODO: Remove fallback once we have enough testimonials in Airtable (at least 4)
+  const hasEnoughTestimonials = !isLoading && dbTestimonials && dbTestimonials.length >= MIN_TESTIMONIALS_COUNT;
+  const communityMembers = hasEnoughTestimonials
+    ? dbTestimonials.map(toCommunityMember)
+    : FALLBACK_COMMUNITY_MEMBERS;
+
   return (
     <div className="bg-white">
       <Head>
@@ -98,7 +111,7 @@ const HomePage = () => {
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
       <CommunityCarousel
-        members={COMMUNITY_MEMBERS}
+        members={communityMembers}
         subtitle="Learn more about the incredible work our community is doing."
         variant="homepage"
       />
