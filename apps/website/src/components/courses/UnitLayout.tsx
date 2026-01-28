@@ -31,6 +31,7 @@ import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import { ResourceDisplay } from './ResourceDisplay';
 import SideBar, { type ApplyCTAProps } from './SideBar';
 import { ROUTES } from '../../lib/routes';
+import { buildCourseUnitUrl } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 import { CourseIcon } from './CourseIcon';
 
@@ -184,7 +185,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
     if ((isFirstChunk || chunks.length === 0) && prevUnit) {
       // Navigate to last chunk of previous unit
       const lastChunkNumber = prevUnit.chunks?.length ?? 1;
-      router.push(`/courses/${courseSlug}/${prevUnit.unitNumber}/${lastChunkNumber}`);
+      router.push(buildCourseUnitUrl({ courseSlug, unitNumber: prevUnit.unitNumber, chunkNumber: lastChunkNumber }));
       setNavigationAnnouncement(`Navigated to previous unit: ${prevUnit.title}`);
     } else if (!isFirstChunk) {
       // Navigate to previous chunk
@@ -195,7 +196,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   const handleNextClick = useCallback(() => {
     if ((isLastChunk || chunks.length === 0) && nextUnit) {
       // Navigate to first chunk of next unit
-      router.push(`/courses/${courseSlug}/${nextUnit.unitNumber}/1`);
+      router.push(buildCourseUnitUrl({ courseSlug, unitNumber: nextUnit.unitNumber }));
       setNavigationAnnouncement(`Navigated to next unit: ${nextUnit.title}`);
     } else if (!isLastChunk) {
       // Navigate to next chunk
@@ -393,22 +394,6 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               groupDiscussion={groupDiscussionWithZoomInfo.groupDiscussion}
               userRole={groupDiscussionWithZoomInfo.userRole}
               hostKeyForFacilitators={groupDiscussionWithZoomInfo.hostKeyForFacilitators}
-              // If the discussion has a courseBuilderUnitRecordId that matches current unit, stay here
-              onClickPrepare={() => {
-                if (groupDiscussionWithZoomInfo.groupDiscussion!.courseBuilderUnitRecordId === unit.id) {
-                  handleChunkSelect(0);
-                } else if (groupDiscussionWithZoomInfo.groupDiscussion!.unitNumber) {
-                  // Otherwise, try to navigate to the discussion's unit number
-                  const discussionUnit = units.find((u) => u.unitNumber === groupDiscussionWithZoomInfo.groupDiscussion!.unitNumber?.toString());
-                  if (discussionUnit) {
-                    router.push(discussionUnit.path);
-                  } else {
-                    handleChunkSelect(0); // fallback to current unit
-                  }
-                } else {
-                  handleChunkSelect(0); // fallback to current unit
-                }
-              }}
             />
           </div>
         )}

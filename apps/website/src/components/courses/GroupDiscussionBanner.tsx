@@ -8,7 +8,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { FaCopy } from 'react-icons/fa6';
 import { IoAdd } from 'react-icons/io5';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
-import { buildGroupSlackChannelUrl, formatDateTimeRelative } from '../../lib/utils';
+import { buildCourseUnitUrl, buildGroupSlackChannelUrl, formatDateTimeRelative } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 import { ClockIcon } from '../icons/ClockIcon';
 import { DocumentIcon } from '../icons/DocumentIcon';
@@ -49,7 +49,6 @@ type GroupDiscussionBannerProps = {
   groupDiscussion: GroupDiscussion;
   userRole?: 'participant' | 'facilitator';
   hostKeyForFacilitators?: string;
-  onClickPrepare: () => void;
 };
 
 const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
@@ -57,7 +56,6 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   groupDiscussion,
   userRole,
   hostKeyForFacilitators,
-  onClickPrepare,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
@@ -82,9 +80,14 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       : skipToken,
   );
 
+  // Falls back to current unit while the discussionUnit query is loading or if it fails
+  const resolvedUnit = discussionUnit || unit;
+
   const unitTitle = discussionUnit
     ? `Unit ${discussionUnit.unitNumber}: ${discussionUnit.title}`
     : `Unit ${groupDiscussion.unitFallback || ''}`; // Fallback to unitFallback if unit not found
+
+  const prepareLink = buildCourseUnitUrl({ courseSlug: unit.courseSlug, unitNumber: resolvedUnit.unitNumber });
 
   // Recalculate time strings when currentTime changes
   const startTimeDisplayRelative = useMemo(
@@ -221,13 +224,12 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
               {discussionIsLive ? 'Discussion is live' : `Discussion ${startTimeDisplayRelative}`}
             </span>
             <span className="text-bluedot-normal whitespace-nowrap">•</span>
-            <button
-              type="button"
-              onClick={onClickPrepare}
+            <a
+              href={prepareLink}
               className="text-bluedot-normal underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
             >
               {unitTitle}
-            </button>
+            </a>
           </div>
 
           {/* Desktop button container */}
@@ -382,7 +384,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       {groupSwitchModalOpen && (
         <GroupSwitchModal
           handleClose={() => setGroupSwitchModalOpen(false)}
-          initialUnitNumber={(discussionUnit || unit).unitNumber.toString()}
+          initialUnitNumber={resolvedUnit.unitNumber.toString()}
           courseSlug={unit.courseSlug}
         />
       )}

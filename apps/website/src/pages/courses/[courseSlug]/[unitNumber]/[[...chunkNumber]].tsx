@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import path from 'path';
 import UnitLayout from '../../../../components/courses/UnitLayout';
+import { buildCourseUnitUrl } from '../../../../lib/utils';
 import db from '../../../../lib/api/db';
 import { removeInactiveChunkIdsFromUnits } from '../../../../lib/api/utils';
 import { trpc } from '../../../../utils/trpc';
@@ -36,7 +37,7 @@ const CourseUnitChunkPage = ({
       const oldChunkIndex = parseInt(legacyChunkParam, 10);
       if (!Number.isNaN(oldChunkIndex) && oldChunkIndex >= 0) {
         const newChunkNumber = oldChunkIndex + 1;
-        router.replace(`/courses/${courseSlug}/${unitNumber}/${newChunkNumber}`);
+        router.replace(buildCourseUnitUrl({ courseSlug, unitNumber, chunkNumber: newChunkNumber }));
       }
     }
   }, [courseSlug, unitNumber, legacyChunkParam, router]);
@@ -44,7 +45,7 @@ const CourseUnitChunkPage = ({
   // Redirect /course/course-name/1 -> /course/course-name/1/1 (to the first chunk)
   useEffect(() => {
     if (!Array.isArray(chunkNumber)) {
-      router.replace(`/courses/${courseSlug}/${unitNumber}/1`);
+      router.replace(buildCourseUnitUrl({ courseSlug, unitNumber }));
     }
   }, [courseSlug, unitNumber, chunkNumber, router]);
 
@@ -87,12 +88,12 @@ const CourseUnitChunkPage = ({
 
   useEffect(() => {
     if (chunks && (chunkIndex < 0 || chunkIndex >= chunks.length)) {
-      router.replace(`/courses/${courseSlug}/${unitNumber}/1`);
+      router.replace(buildCourseUnitUrl({ courseSlug, unitNumber }));
     }
   }, [chunkIndex, courseSlug, unitNumber, router, chunks]);
 
   const handleSetChunkIndex = (newIndex: number) => {
-    router.push(`/courses/${courseSlug}/${unitNumber}/${newIndex + 1}`);
+    router.push(buildCourseUnitUrl({ courseSlug, unitNumber, chunkNumber: newIndex + 1 }));
   };
 
   if (chunkIndex < 0 || chunkIndex >= chunks.length) {

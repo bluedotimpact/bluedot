@@ -42,8 +42,6 @@ const mockGroupDiscussion = createMockGroupDiscussion({
   slackChannelId: 'C1234567890',
 });
 
-const mockOnClickPrepare = vi.fn();
-
 describe('GroupDiscussionBanner', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -70,15 +68,14 @@ describe('GroupDiscussionBanner', () => {
           unit={mockUnit}
           groupDiscussion={mockGroupDiscussion}
           userRole="participant"
-          onClickPrepare={mockOnClickPrepare}
         />,
         { wrapper: TrpcProvider },
       );
 
       expect(screen.getByText(/Discussion (in|is live)/)).toBeInTheDocument();
       // Wait for component to fetch data (loading to finish)
-      const unitButton = await screen.findByRole('button', { name: /Unit 1: Introduction to AI Safety/ });
-      expect(unitButton).toBeInTheDocument();
+      const unitLink = await screen.findByRole('link', { name: /Unit 1: Introduction to AI Safety/ });
+      expect(unitLink).toBeInTheDocument();
       const expandButton = screen.getByRole('button', { name: 'Expand upcoming discussion banner' });
       fireEvent.click(expandButton);
 
@@ -110,7 +107,6 @@ describe('GroupDiscussionBanner', () => {
           groupDiscussion={mockGroupDiscussion}
           userRole="facilitator"
           hostKeyForFacilitators="123456"
-          onClickPrepare={mockOnClickPrepare}
         />,
         { wrapper: TrpcProvider },
       );
@@ -146,7 +142,6 @@ describe('GroupDiscussionBanner', () => {
           unit={mockUnit}
           groupDiscussion={mockGroupDiscussion}
           userRole="participant"
-          onClickPrepare={mockOnClickPrepare}
         />,
         { wrapper: TrpcProvider },
       );
@@ -166,7 +161,6 @@ describe('GroupDiscussionBanner', () => {
           groupDiscussion={mockGroupDiscussion}
           userRole="facilitator"
           hostKeyForFacilitators="123456"
-          onClickPrepare={mockOnClickPrepare}
         />,
         { wrapper: TrpcProvider },
       );
@@ -181,7 +175,7 @@ describe('GroupDiscussionBanner', () => {
       expect(navigator.clipboard.writeText).toHaveBeenCalledWith('123456');
     });
 
-    test('clicking unit title button calls onClickPrepare', async () => {
+    test('unit title is a link with correct href', async () => {
       const futureDiscussion = {
         ...mockGroupDiscussion,
         startDateTime: BASE_TIME + 7200, // 2 hours from base time
@@ -193,15 +187,12 @@ describe('GroupDiscussionBanner', () => {
           unit={mockUnit}
           groupDiscussion={futureDiscussion}
           userRole="participant"
-          onClickPrepare={mockOnClickPrepare}
         />,
         { wrapper: TrpcProvider },
       );
 
-      const unitButton = await screen.findByRole('button', { name: /Unit 1: Introduction to AI Safety/ });
-      fireEvent.click(unitButton);
-
-      expect(mockOnClickPrepare).toHaveBeenCalled();
+      const unitLink = await screen.findByRole('link', { name: /Unit 1: Introduction to AI Safety/ });
+      expect(unitLink).toHaveAttribute('href', `/courses/${mockUnit.courseSlug}/${mockUnit.unitNumber}/1`);
     });
 
     test('clicking "Can\'t make it?" opens group switch modal', async () => {
@@ -210,7 +201,6 @@ describe('GroupDiscussionBanner', () => {
           unit={mockUnit}
           groupDiscussion={mockGroupDiscussion}
           userRole="participant"
-          onClickPrepare={mockOnClickPrepare}
         />,
         { wrapper: TrpcProvider },
       );
@@ -231,7 +221,6 @@ describe('GroupDiscussionBanner', () => {
           unit={mockUnit}
           groupDiscussion={mockGroupDiscussion}
           userRole="participant"
-          onClickPrepare={mockOnClickPrepare}
         />,
         { wrapper: TrpcProvider },
       );
@@ -252,7 +241,6 @@ describe('GroupDiscussionBanner', () => {
           groupDiscussion={mockGroupDiscussion}
           userRole="facilitator"
           hostKeyForFacilitators="123456"
-          onClickPrepare={mockOnClickPrepare}
         />,
         { wrapper: TrpcProvider },
       );
@@ -284,7 +272,6 @@ describe('GroupDiscussionBanner', () => {
           groupDiscussion={futureDiscussion}
           userRole="facilitator"
           hostKeyForFacilitators="123456"
-          onClickPrepare={mockOnClickPrepare}
         />,
         { wrapper: TrpcProvider },
       );
@@ -314,7 +301,6 @@ describe('GroupDiscussionBanner', () => {
           unit={mockUnit}
           groupDiscussion={mockGroupDiscussion}
           userRole="participant"
-          onClickPrepare={mockOnClickPrepare}
         />,
         { wrapper: TrpcProvider },
       );
@@ -334,7 +320,6 @@ describe('GroupDiscussionBanner', () => {
           unit={mockUnit}
           groupDiscussion={discussionWithoutUnit}
           userRole="participant"
-          onClickPrepare={mockOnClickPrepare}
         />,
         { wrapper: TrpcProvider },
       );
@@ -355,7 +340,6 @@ describe('GroupDiscussionBanner', () => {
           unit={mockUnit}
           groupDiscussion={mockGroupDiscussion}
           userRole="participant"
-          onClickPrepare={mockOnClickPrepare}
         />,
         { wrapper: TrpcProvider },
       );

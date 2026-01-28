@@ -115,4 +115,6 @@ export const formatDateTimeRelative = ({
   return buildRelativeTimeString(absMinutes, absHours, absCalendarDays, ' ago');
 };
 
+export const buildCourseUnitUrl = ({ courseSlug, unitNumber, chunkNumber = 1 }: { courseSlug: string, unitNumber: string | number, chunkNumber?: number }) => `/courses/${courseSlug}/${unitNumber}/${chunkNumber}`;
+
 export const getActionPlanUrl = (meetPersonId: string) => `https://web.miniextensions.com/7WZKkZiusMiAO1RMznFv?prefill_Participant=${meetPersonId}`;
