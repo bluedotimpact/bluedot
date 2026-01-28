@@ -20,7 +20,6 @@ type DiscussionsByUnit = Record<string, {
   spotsLeftIfKnown: number | null;
   userIsParticipant: boolean;
   groupName: string;
-  isTooLateToSwitchTo: boolean;
 }[]>;
 
 export function calculateGroupAvailability({
@@ -45,7 +44,6 @@ export function calculateGroupAvailability({
     group: Group;
     spotsLeftIfKnown: number | null;
     userIsParticipant: boolean;
-    isTooLateToSwitchTo: boolean;
   }> = {};
 
   const currentTimeMs = Date.now();
@@ -77,34 +75,26 @@ export function calculateGroupAvailability({
     const timeState = getDiscussionTimeState({ discussion, currentTimeMs });
     const isTooLateToSwitchTo = timeState === 'live' || timeState === 'ended';
 
-    discussionsByUnit[unitKey].push({
-      discussion,
-      spotsLeftIfKnown,
-      userIsParticipant,
-      groupName,
-      isTooLateToSwitchTo,
-    });
+    if (!isTooLateToSwitchTo || userIsParticipant) {
+      discussionsByUnit[unitKey].push({
+        discussion,
+        spotsLeftIfKnown,
+        userIsParticipant,
+        groupName,
+      });
 
-    // Update group data
-    const groupId = discussion.group;
-
-    if (!groupData[groupId]) {
-      // First time seeing this group
-      groupData[groupId] = {
-        group,
-        spotsLeftIfKnown: isTooLateToSwitchTo ? null : spotsLeftIfKnown,
-        userIsParticipant: group.participants.includes(participantId),
-        isTooLateToSwitchTo,
-      };
-    } else {
-      // Update existing group data
-      const existing = groupData[groupId];
-
-      // It's too late to switch into the group if it's too late to switch into *all* of the discussions
-      existing.isTooLateToSwitchTo = existing.isTooLateToSwitchTo && isTooLateToSwitchTo;
-
-      if (!isTooLateToSwitchTo) {
-        // Update spotsLeftIfKnown
+      // Update group data
+      const groupId = discussion.group;
+      if (!groupData[groupId]) {
+        // First time seeing this group
+        groupData[groupId] = {
+          group,
+          spotsLeftIfKnown,
+          userIsParticipant: group.participants.includes(participantId),
+        };
+      } else {
+        // Update existing group data - take minimum spots across all discussions
+        const existing = groupData[groupId];
         if (existing.spotsLeftIfKnown !== null && spotsLeftIfKnown !== null) {
           existing.spotsLeftIfKnown = Math.min(existing.spotsLeftIfKnown, spotsLeftIfKnown);
         } else if (spotsLeftIfKnown !== null) {
