@@ -8,6 +8,7 @@ import { FaChevronRight } from 'react-icons/fa6';
 import { trpc } from '../../utils/trpc';
 import { CourseIcon } from './CourseIcon';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
+import { ChunkIcon } from '../icons/ChunkIcon';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 
@@ -30,24 +31,6 @@ type SideBarCollapsibleProps = {
   currentChunkIndex: number;
   onChunkSelect: (index: number) => void;
   courseSlug: string;
-};
-
-// Radio button style icon for chunk selection
-const ChunkIcon: React.FC<{ isActive?: boolean }> = ({ isActive }) => {
-  if (isActive) {
-    return (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z" stroke="#13132E" strokeWidth="2" />
-        <circle cx="12" cy="12" r="5" fill="#13132E" />
-      </svg>
-    );
-  }
-
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z" stroke="rgba(106,111,122,0.3)" strokeWidth="2" />
-    </svg>
-  );
 };
 
 const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
