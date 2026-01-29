@@ -89,7 +89,13 @@ async function pushSchemaWithTimeout(pgTables: Record<string, PgAirtableTable['p
 async function runDrizzlePush(): Promise<boolean> {
   const pgTables = Object.fromEntries(Object.entries(schema)
     .filter(([, value]) => isTable(value) || 'pg' in value)
-    .map(([name, value]) => ([name, (value instanceof PgAirtableTable ? value.pg : value) as unknown as PgAirtableTable['pg']])));
+    .map(([name, value]) => {
+      if (value instanceof PgAirtableTable) {
+        // Use pgWithDeprecatedColumns when available to prevent Drizzle from dropping deprecated columns
+        return [name, (value.pgWithDeprecatedColumns ?? value.pg) as unknown as PgAirtableTable['pg']];
+      }
+      return [name, value as unknown as PgAirtableTable['pg']];
+    }));
   logger.info(`[schema-sync] Running schema push with tables: ${Object.keys(pgTables).join(', ')}`);
 
   // Step 1: Clean up removed columns first to prevent migration hangs
