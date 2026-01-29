@@ -68,7 +68,6 @@ const CHUNKS = [
   },
 ];
 
-// Create allUnitChunks from COURSE_UNITS - each unit gets the CHUNKS mapped to BasicChunk format
 const ALL_UNIT_CHUNKS: Record<string, { id: string; chunkTitle: string; chunkOrder: string; estimatedTime: number | null; chunkResources: string[] | null }[]> = {};
 COURSE_UNITS.forEach((unit) => {
   ALL_UNIT_CHUNKS[unit.id] = CHUNKS.map((chunk) => ({
