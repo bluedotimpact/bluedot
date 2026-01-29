@@ -27,7 +27,7 @@ export const resourcesRouter = router({
     }),
 
   getResourceCompletions: protectedProcedure
-    .input(z.object({ unitResourceIds: z.array(z.string().min(1)) }))
+    .input(z.object({ unitResourceIds: z.array(z.string().min(1).max(100)) }))
     .query(async ({ input, ctx }) => {
       const resourceCompletions = await db.pg
         .select()
