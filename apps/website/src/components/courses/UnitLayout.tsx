@@ -21,6 +21,7 @@ import {
   type UnitResource,
 } from '@bluedot/db';
 import { skipToken } from '@tanstack/react-query';
+import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 import ActionPlanCard from './ActionPlanCard';
 import CertificateLinkCard from './CertificateLinkCard';
 import Congratulations from './Congratulations';
@@ -48,6 +49,7 @@ type UnitLayoutProps = {
   chunkIndex: number;
   setChunkIndex: (index: number) => void;
   courseSlug: string;
+  allUnitChunks: Record<string, BasicChunk[]>;
   // Optional
   applyCTAProps?: ApplyCTAProps;
 };
@@ -140,6 +142,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   chunkIndex,
   setChunkIndex,
   courseSlug,
+  allUnitChunks,
   applyCTAProps,
 }) => {
   const router = useRouter();
@@ -306,9 +309,9 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           className="hidden md:block md:fixed md:overflow-y-auto md:max-h-[calc(100vh-57px)]" // Adjust for Nav height only
           units={units}
           currentUnitNumber={parseInt(unitNumber)}
-          chunks={chunks}
           currentChunkIndex={chunkIndex}
           onChunkSelect={handleChunkSelect}
+          unitChunks={allUnitChunks}
           applyCTAProps={applyCTAProps}
         />
       )}
@@ -491,10 +494,10 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         courseSlug={courseSlug}
         units={units}
         currentUnitNumber={parseInt(unitNumber)}
-        chunks={chunks}
         currentChunkIndex={chunkIndex}
         onChunkSelect={handleMobileChunkSelect}
         onUnitSelect={handleMobileUnitSelect}
+        unitChunks={allUnitChunks}
         applyCTAProps={applyCTAProps}
       />
     </div>
