@@ -127,6 +127,7 @@ export const exercisesRouter = router({
         return {
           groups: groups.map((g) => ({ id: g.id, name: g.groupName || 'Unnamed group' })),
           selectedGroupId: selectedGroup.id,
+          totalParticipants: participantIds.length,
           responses: {} as Record<string, Array<{ name: string, response: string }>>,
         };
       }
@@ -141,6 +142,7 @@ export const exercisesRouter = router({
         return {
           groups: groups.map((g) => ({ id: g.id, name: g.groupName || 'Unnamed group' })),
           selectedGroupId: selectedGroup.id,
+          totalParticipants: participantIds.length,
           responses: {} as Record<string, Array<{ name: string, response: string }>>,
         };
       }
@@ -174,6 +176,7 @@ export const exercisesRouter = router({
       return {
         groups: groups.map((g) => ({ id: g.id, name: g.groupName || 'Unnamed group' })),
         selectedGroupId: selectedGroup.id,
+        totalParticipants: participantIds.length,
         responses,
       };
     }),

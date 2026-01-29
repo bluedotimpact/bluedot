@@ -121,41 +121,30 @@ const Exercise: React.FC<ExerciseProps> = ({
   const groupResponses = groupData?.responses[exerciseId] || [];
   const showFacilitatorView = isFacilitator && !showMyResponse;
 
-  // Facilitator header bar with toggle and optional group selector
+  // Header bar rendered above the card: "Exercise" label + toggle
   const facilitatorHeader = isFacilitator ? (
-    <div className="flex items-center justify-between mb-2">
-      <div className="flex items-center gap-3">
-        <span className="text-[13px] font-semibold text-[#6B7280] uppercase tracking-wide">Exercise</span>
-        {groupData.groups.length > 1 && (
-          <select
-            value={selectedGroupId || groupData.selectedGroupId}
-            onChange={(e) => setSelectedGroupId(e.target.value)}
-            className="text-[13px] border border-[#D1D5DB] rounded-md px-2 py-1 bg-white text-[#374151]"
-          >
-            {groupData.groups.map((g) => (
-              <option key={g.id} value={g.id}>{g.name}</option>
-            ))}
-          </select>
-        )}
-      </div>
+    <div className="flex items-center justify-between">
+      <span className="text-[14px] font-bold text-[#111827]">Exercise</span>
       <ToggleSwitch
         checked={showMyResponse}
         onChange={setShowMyResponse}
         label="Show my response"
       />
     </div>
-  ) : null;
+  ) : undefined;
 
   if (showFacilitatorView) {
     return (
-      <>
-        {facilitatorHeader}
-        <GroupResponses
-          title={exerciseData.title || ''}
-          description={exerciseData.description || ''}
-          responses={groupResponses}
-        />
-      </>
+      <GroupResponses
+        title={exerciseData.title || ''}
+        description={exerciseData.description || ''}
+        responses={groupResponses}
+        totalParticipants={groupData.totalParticipants}
+        groups={groupData.groups}
+        selectedGroupId={selectedGroupId || groupData.selectedGroupId}
+        onGroupChange={setSelectedGroupId}
+        headerControls={facilitatorHeader}
+      />
     );
   }
 
@@ -163,7 +152,11 @@ const Exercise: React.FC<ExerciseProps> = ({
     case 'Free text':
       return (
         <>
-          {facilitatorHeader}
+          {facilitatorHeader && (
+            <div className="mb-2">
+              {facilitatorHeader}
+            </div>
+          )}
           <FreeTextResponse
             className={exerciseClassNames}
             {...exerciseData}
@@ -179,7 +172,11 @@ const Exercise: React.FC<ExerciseProps> = ({
     case 'Multiple choice':
       return (
         <>
-          {facilitatorHeader}
+          {facilitatorHeader && (
+            <div className="mb-2">
+              {facilitatorHeader}
+            </div>
+          )}
           <MultipleChoice
             className={exerciseClassNames}
             {...exerciseData}
