@@ -14,6 +14,8 @@ Fixes #
 - [ ] Considered having snapshot tests and/or happy path functional tests
 - [ ] Considered adding Storybook stories
 
+<!-- If adding/removing db schema, see DEVELOPMENT_HANDBOOK.md for the two-PR migration process -->
+
 <!-- You might also want to check the tests locally with `npm run test`, although CI will check this for you -->
 
 ## Screenshot
