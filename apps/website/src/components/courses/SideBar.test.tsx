@@ -9,7 +9,7 @@ import {
 import { createMockChunk, createMockUnit } from '../../__tests__/testUtils';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import SideBar from './SideBar';
-import type { ChunkWithContent } from './UnitLayout';
+import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 
 const COURSE_UNITS = [
   createMockUnit({
@@ -46,19 +46,25 @@ const CHUNKS = [
   }),
 ];
 
-describe('SideBar', () => {
-  const chunksWithContent: ChunkWithContent[] = CHUNKS.map((chunk) => ({
-    ...chunk,
-    resources: [],
-    exercises: [],
+// Create allUnitChunks from COURSE_UNITS - each unit gets the CHUNKS mapped to BasicChunk format
+const ALL_UNIT_CHUNKS: Record<string, BasicChunk[]> = {};
+COURSE_UNITS.forEach((unit) => {
+  ALL_UNIT_CHUNKS[unit.id] = CHUNKS.map((chunk) => ({
+    id: chunk.id,
+    chunkTitle: chunk.chunkTitle,
+    chunkOrder: chunk.chunkOrder,
+    estimatedTime: chunk.estimatedTime,
+    chunkResources: chunk.chunkResources,
   }));
+});
 
+describe('SideBar', () => {
   const defaultProps = {
+    unitChunks: ALL_UNIT_CHUNKS,
     courseTitle: 'What the fish [Test Course]',
     courseSlug: 'test-course',
     units: COURSE_UNITS,
     currentUnitNumber: 1,
-    chunks: chunksWithContent,
     currentChunkIndex: 0,
     onChunkSelect: vi.fn(),
   };

@@ -4,9 +4,29 @@ import {
 } from 'vitest';
 import { useRouter } from 'next/router';
 import type { NextRouter } from 'next/router';
-import CourseUnitPage from '../../../../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
+import CourseUnitPage, { type BasicChunk } from '../../../../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 import { createMockChunk, createMockUnit, renderWithHead } from '../../../../testUtils';
 import { TrpcProvider } from '../../../../trpcProvider';
+
+// Helper to create allUnitChunks from units and their chunks
+const createAllUnitChunks = (
+  units: ReturnType<typeof createMockUnit>[],
+  chunks: ReturnType<typeof createMockChunk>[],
+): Record<string, BasicChunk[]> => {
+  const allUnitChunks: Record<string, BasicChunk[]> = {};
+  units.forEach((unit) => {
+    allUnitChunks[unit.id] = chunks
+      .filter((c) => c.unitId === unit.id)
+      .map((chunk) => ({
+        id: chunk.id,
+        chunkTitle: chunk.chunkTitle,
+        chunkOrder: chunk.chunkOrder,
+        estimatedTime: chunk.estimatedTime,
+        chunkResources: chunk.chunkResources,
+      }));
+  });
+  return allUnitChunks;
+};
 
 // Mock next/router
 vi.mock('next/router', () => ({
@@ -50,11 +70,14 @@ describe('CourseUnitPage', () => {
       createMockUnit({ unitNumber: '3', title: 'Unit 3', content: 'Third unit content' }),
     ];
 
+    const mockChunk = createMockChunk({ unitId: mockUnits[0]!.id });
     const mockChunksWithContent = [{
-      ...createMockChunk({ unitId: mockUnits[0]!.id }),
+      ...mockChunk,
       exercises: [],
       resources: [],
     }];
+
+    const allUnitChunks = createAllUnitChunks(mockUnits, [mockChunk]);
 
     // Mock the group discussion API call (returns null for no discussion)
     mockUseAxios.mockReturnValue([{
@@ -70,6 +93,7 @@ describe('CourseUnitPage', () => {
         courseSlug="test-course"
         unitNumber="0"
         courseOgImage="https://bluedot.org/images/logo/link-preview-fallback.png"
+        allUnitChunks={allUnitChunks}
       />,
       { wrapper: TrpcProvider },
     );
@@ -90,11 +114,14 @@ describe('CourseUnitPage', () => {
       createMockUnit({ unitNumber: '3', title: 'Unit 3', content: 'Third unit content' }),
     ];
 
+    const mockChunk = createMockChunk({ unitId: mockUnits[3]!.id });
     const mockChunksWithContent = [{
-      ...createMockChunk({ unitId: mockUnits[3]!.id }),
+      ...mockChunk,
       exercises: [],
       resources: [],
     }];
+
+    const allUnitChunks = createAllUnitChunks(mockUnits, [mockChunk]);
 
     // Mock the group discussion API call (returns null for no discussion)
     mockUseAxios.mockReturnValue([{
@@ -110,6 +137,7 @@ describe('CourseUnitPage', () => {
         courseSlug="test-course"
         unitNumber="3"
         courseOgImage="https://bluedot.org/images/logo/link-preview-fallback.png"
+        allUnitChunks={allUnitChunks}
       />,
       { wrapper: TrpcProvider },
     );
@@ -130,11 +158,14 @@ describe('CourseUnitPage', () => {
       createMockUnit({ unitNumber: '4', title: 'Unit 4', content: 'Fourth unit content' }),
     ];
 
+    const mockChunk = createMockChunk({ unitId: mockUnits[2]!.id });
     const mockChunksWithContent = [{
-      ...createMockChunk({ unitId: mockUnits[2]!.id }),
+      ...mockChunk,
       exercises: [],
       resources: [],
     }];
+
+    const allUnitChunks = createAllUnitChunks(mockUnits, [mockChunk]);
 
     // Mock the group discussion API call (returns null for no discussion)
     mockUseAxios.mockReturnValue([{
@@ -150,6 +181,7 @@ describe('CourseUnitPage', () => {
         courseSlug="test-course"
         unitNumber="3"
         courseOgImage="https://bluedot.org/images/logo/link-preview-fallback.png"
+        allUnitChunks={allUnitChunks}
       />,
       { wrapper: TrpcProvider },
     );
@@ -169,11 +201,14 @@ describe('CourseUnitPage', () => {
       createMockUnit({ unitNumber: '4', title: 'Unit 4', content: 'Fourth unit content' }),
     ];
 
+    const mockChunk = createMockChunk({ unitId: mockUnits[1]!.id });
     const mockChunksWithContent = [{
-      ...createMockChunk({ unitId: mockUnits[1]!.id }),
+      ...mockChunk,
       exercises: [],
       resources: [],
     }];
+
+    const allUnitChunks = createAllUnitChunks(mockUnits, [mockChunk]);
 
     // Mock the group discussion API call (returns null for no discussion)
     mockUseAxios.mockReturnValue([{
@@ -189,6 +224,7 @@ describe('CourseUnitPage', () => {
         courseSlug="test-course"
         unitNumber="3"
         courseOgImage="https://bluedot.org/images/logo/link-preview-fallback.png"
+        allUnitChunks={allUnitChunks}
       />,
       { wrapper: TrpcProvider },
     );
@@ -210,11 +246,14 @@ describe('CourseUnitPage', () => {
       createMockUnit({ unitNumber: '3', title: 'Unit 3', content: 'Third unit content' }),
     ];
 
+    const mockChunk = createMockChunk({ unitId: mockUnits[2]!.id, metaDescription: 'Test chunk meta description' });
     const mockChunksWithContent = [{
-      ...createMockChunk({ unitId: mockUnits[2]!.id, metaDescription: 'Test chunk meta description' }),
+      ...mockChunk,
       exercises: [],
       resources: [],
     }];
+
+    const allUnitChunks = createAllUnitChunks(mockUnits, [mockChunk]);
 
     mockUseAxios.mockReturnValue([{
       data: null,
@@ -230,6 +269,7 @@ describe('CourseUnitPage', () => {
           courseSlug="test-course"
           unitNumber="3"
           courseOgImage="https://bluedot.org/images/logo/link-preview-fallback.png"
+          allUnitChunks={allUnitChunks}
         />
       </TrpcProvider>,
     );
