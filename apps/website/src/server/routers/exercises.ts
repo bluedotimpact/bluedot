@@ -61,8 +61,6 @@ export const exercisesRouter = router({
     .input(z.object({
       courseSlug: z.string().min(1),
       groupId: z.string().min(1).optional(),
-      // Dev flag: show all groups in the round, not just the facilitator's own
-      allGroups: z.boolean().optional(),
     }))
     .query(async ({ input, ctx }) => {
       // 1. Find course
@@ -89,25 +87,16 @@ export const exercisesRouter = router({
       });
       if (!meetPerson || meetPerson.role !== 'Facilitator') return null;
 
-      // 4. Find groups
-      let groupIds: string[];
+      // 4. Find groups this person facilitates
+      const facilitatorDiscussionIds = meetPerson.expectedDiscussionsFacilitator || [];
+      if (facilitatorDiscussionIds.length === 0) return null;
 
-      if (input.allGroups && meetPerson.round) {
-        // Dev mode: get all groups in this round
-        const allRoundGroups = await db.scan(groupTable, { round: meetPerson.round });
-        groupIds = allRoundGroups.map((g) => g.id);
-      } else {
-        // Normal mode: only groups this person facilitates
-        const facilitatorDiscussionIds = meetPerson.expectedDiscussionsFacilitator || [];
-        if (facilitatorDiscussionIds.length === 0) return null;
+      const groupDiscussions = await db.pg
+        .select({ group: groupDiscussionTable.pg.group })
+        .from(groupDiscussionTable.pg)
+        .where(inArray(groupDiscussionTable.pg.id, facilitatorDiscussionIds));
 
-        const groupDiscussions = await db.pg
-          .select({ group: groupDiscussionTable.pg.group })
-          .from(groupDiscussionTable.pg)
-          .where(inArray(groupDiscussionTable.pg.id, facilitatorDiscussionIds));
-
-        groupIds = [...new Set(groupDiscussions.map((d) => d.group))];
-      }
+      const groupIds = [...new Set(groupDiscussions.map((d) => d.group))];
 
       if (groupIds.length === 0) return null;
 
@@ -128,7 +117,7 @@ export const exercisesRouter = router({
           groups: groups.map((g) => ({ id: g.id, name: g.groupName || 'Unnamed group' })),
           selectedGroupId: selectedGroup.id,
           totalParticipants: participantIds.length,
-          responses: {} as Record<string, Array<{ name: string, response: string }>>,
+          responses: {} as Record<string, { name: string, response: string }[]>,
         };
       }
 
@@ -143,7 +132,7 @@ export const exercisesRouter = router({
           groups: groups.map((g) => ({ id: g.id, name: g.groupName || 'Unnamed group' })),
           selectedGroupId: selectedGroup.id,
           totalParticipants: participantIds.length,
-          responses: {} as Record<string, Array<{ name: string, response: string }>>,
+          responses: {} as Record<string, { name: string, response: string }[]>,
         };
       }
 
@@ -162,7 +151,7 @@ export const exercisesRouter = router({
         );
 
       // 9. Group by exerciseId
-      const responses: Record<string, Array<{ name: string, response: string }>> = {};
+      const responses: Record<string, { name: string, response: string }[]> = {};
       for (const er of exerciseResponses) {
         if (!responses[er.exerciseId]) {
           responses[er.exerciseId] = [];
