@@ -1,11 +1,16 @@
 import React, { useRef, useState } from 'react';
-import { cn, ProgressDots, useAuthStore } from '@bluedot/ui';
+import {
+  cn, ProgressDots, ToggleSwitch, useAuthStore,
+} from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { useRouter } from 'next/router';
-// eslint-disable-next-line import/no-cycle
 import FreeTextResponse from './FreeTextResponse';
 import MultipleChoice from './MultipleChoice';
+// eslint-disable-next-line import/no-cycle
 import GroupResponses from './GroupResponses';
+// eslint-disable-next-line import/no-cycle
+import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
+import { CheckmarkIcon } from '../../icons/CheckmarkIcon';
 import { trpc } from '../../../utils/trpc';
 
 type ExerciseProps = {
@@ -13,38 +18,9 @@ type ExerciseProps = {
   exerciseId: string;
 };
 
-const ToggleSwitch: React.FC<{
-  checked: boolean;
-  onChange: (checked: boolean) => void;
-  label: string;
-}> = ({ checked, onChange, label }) => (
-  <label className="flex items-center gap-2 cursor-pointer select-none">
-    <span className="text-[13px] text-[#6B7280]">{label}</span>
-    <button
-      type="button"
-      role="switch"
-      aria-checked={checked}
-      onClick={() => onChange(!checked)}
-      className={cn(
-        'relative inline-flex h-5 w-9 items-center rounded-full transition-colors duration-200',
-        checked ? 'bg-bluedot-normal' : 'bg-[#D1D5DB]',
-      )}
-    >
-      <span
-        className={cn(
-          'inline-block h-3.5 w-3.5 rounded-full bg-white transition-transform duration-200',
-          checked ? 'translate-x-[18px]' : 'translate-x-[3px]',
-        )}
-      />
-    </button>
-  </label>
-);
-
 const Exercise: React.FC<ExerciseProps> = ({
   exerciseId,
 }) => {
-  const exerciseClassNames = 'exercise';
-
   const auth = useAuthStore((s) => s.auth);
   const utils = trpc.useUtils();
   const router = useRouter();
@@ -53,6 +29,7 @@ const Exercise: React.FC<ExerciseProps> = ({
 
   const [showMyResponse, setShowMyResponse] = useState(false);
   const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(undefined);
+  const [checkboxHovered, setCheckboxHovered] = useState(false);
 
   const {
     data: exerciseData,
@@ -121,74 +98,106 @@ const Exercise: React.FC<ExerciseProps> = ({
   const groupResponses = groupData?.responses[exerciseId] || [];
   const showFacilitatorView = isFacilitator && !showMyResponse;
 
-  // Header bar rendered above the card: "Exercise" label + toggle
   const facilitatorHeader = isFacilitator ? (
-    <div className="flex items-center justify-between">
-      <span className="text-[14px] font-bold text-[#111827]">Exercise</span>
-      <ToggleSwitch
-        checked={showMyResponse}
-        onChange={setShowMyResponse}
-        label="Show my response"
-      />
+    <div className="flex justify-end">
+      <div className="flex items-center gap-2 cursor-pointer select-none">
+        <span className="text-[13px] text-[#6B7280]">Show my response</span>
+        <ToggleSwitch
+          checked={showMyResponse}
+          onChange={setShowMyResponse}
+          aria-label="Show my response"
+        />
+      </div>
     </div>
   ) : undefined;
 
   if (showFacilitatorView) {
     return (
-      <GroupResponses
-        title={exerciseData.title || ''}
-        description={exerciseData.description || ''}
-        responses={groupResponses}
-        totalParticipants={groupData.totalParticipants}
-        groups={groupData.groups}
-        selectedGroupId={selectedGroupId || groupData.selectedGroupId}
-        onGroupChange={setSelectedGroupId}
-        headerControls={facilitatorHeader}
-      />
+      <div className="flex flex-col gap-2">
+        {facilitatorHeader}
+        <div className="container-lined bg-white flex flex-col gap-6">
+          <div className="flex flex-col gap-2 px-8 pt-8">
+            <p className="bluedot-h4 not-prose">{exerciseData.title || ''}</p>
+            <MarkdownExtendedRenderer>{exerciseData.description || ''}</MarkdownExtendedRenderer>
+          </div>
+          <GroupResponses
+            responses={groupResponses}
+            totalParticipants={groupData.totalParticipants}
+            groups={groupData.groups}
+            selectedGroupId={selectedGroupId || groupData.selectedGroupId}
+            onGroupChange={setSelectedGroupId}
+          />
+        </div>
+      </div>
     );
   }
 
   switch (exerciseData.type) {
-    case 'Free text':
+    case 'Free text': {
+      const hasResponse = !!(responseData?.response?.trim());
+      const checkboxDisabled = !isCompleted && !hasResponse;
       return (
-        <>
-          {facilitatorHeader && (
-            <div className="mb-2">
-              {facilitatorHeader}
+        <div className="flex flex-col gap-2">
+          {facilitatorHeader}
+          <div className="relative">
+            {/* Desktop "complete" checkbox */}
+            {!!auth && (
+              <div className="absolute hidden lg:block -left-[calc(24px+clamp(12px,3vw,24px))] top-6 z-[1]">
+                <button
+                  type="button"
+                  onClick={() => handleExerciseSubmit(responseData?.response || '', !isCompleted)}
+                  disabled={checkboxDisabled}
+                  onMouseEnter={() => setCheckboxHovered(true)}
+                  onMouseLeave={() => setCheckboxHovered(false)}
+                  aria-label={`Mark as ${isCompleted ? 'incomplete' : 'complete'}`}
+                  className={cn(
+                    'size-6 rounded-full flex items-center justify-center p-0 transition-all duration-300 box-border',
+                    checkboxDisabled ? 'cursor-not-allowed' : 'cursor-pointer',
+                    isCompleted && 'bg-bluedot-normal border-none',
+                    !isCompleted && checkboxHovered && !checkboxDisabled && 'bg-[rgba(42,45,52,0.05)] border border-[rgba(42,45,52,0.6)]',
+                    !isCompleted && !(checkboxHovered && !checkboxDisabled) && 'bg-[#FCFBF9] border border-[rgba(19,19,46,0.2)]',
+                  )}
+                >
+                  {(isCompleted || (checkboxHovered && !checkboxDisabled)) && (
+                    <CheckmarkIcon variant={isCompleted ? 'completed' : 'hover'} />
+                  )}
+                </button>
+              </div>
+            )}
+            <div className="container-lined bg-white p-8 flex flex-col gap-6">
+              <div className="flex flex-col gap-2">
+                <p className="bluedot-h4 not-prose">{exerciseData.title || ''}</p>
+                <MarkdownExtendedRenderer>{exerciseData.description || ''}</MarkdownExtendedRenderer>
+              </div>
+              <FreeTextResponse
+                exerciseResponse={responseData?.response}
+                isCompleted={isCompleted}
+                isLoggedIn={!!auth}
+                onExerciseSubmit={handleExerciseSubmit}
+              />
             </div>
-          )}
-          <FreeTextResponse
-            className={exerciseClassNames}
-            {...exerciseData}
-            description={exerciseData.description || ''}
-            title={exerciseData.title || ''}
-            exerciseResponse={responseData?.response}
-            isCompleted={isCompleted}
-            isLoggedIn={!!auth}
-            onExerciseSubmit={handleExerciseSubmit}
-          />
-        </>
+          </div>
+        </div>
       );
+    }
     case 'Multiple choice':
       return (
-        <>
-          {facilitatorHeader && (
-            <div className="mb-2">
-              {facilitatorHeader}
+        <div className="flex flex-col gap-2">
+          {facilitatorHeader}
+          <div className="container-lined bg-white p-8 flex flex-col gap-6">
+            <div className="flex flex-col gap-2">
+              <p className="bluedot-h4 not-prose">{exerciseData.title || ''}</p>
+              <MarkdownExtendedRenderer>{exerciseData.description || ''}</MarkdownExtendedRenderer>
             </div>
-          )}
-          <MultipleChoice
-            className={exerciseClassNames}
-            {...exerciseData}
-            answer={exerciseData.answer || ''}
-            title={exerciseData.title || ''}
-            description={exerciseData.description || ''}
-            options={exerciseData.options || ''}
-            exerciseResponse={responseData?.response}
-            isLoggedIn={!!auth}
-            onExerciseSubmit={handleExerciseSubmit}
-          />
-        </>
+            <MultipleChoice
+              answer={exerciseData.answer || ''}
+              options={exerciseData.options || ''}
+              exerciseResponse={responseData?.response}
+              isLoggedIn={!!auth}
+              onExerciseSubmit={handleExerciseSubmit}
+            />
+          </div>
+        </div>
       );
     default:
       return <ErrorView error={new Error(`Unknown exercise type: '${exerciseData.type}'`)} />;
