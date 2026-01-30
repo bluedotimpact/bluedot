@@ -34,8 +34,7 @@ const GroupResponses: React.FC<GroupResponsesProps> = ({
 
         {groups && groups.length > 1 && (
           <div className="flex flex-col gap-2">
-            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-            <label className="text-[14px] font-semibold text-[#111827]">Select your group:</label>
+            <span className="text-[14px] font-semibold text-[#111827]">Select your group:</span>
             <Select
               options={groups.map((g) => ({ value: g.id, label: g.name }))}
               value={selectedGroupId}

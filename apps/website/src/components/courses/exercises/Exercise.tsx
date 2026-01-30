@@ -25,7 +25,6 @@ const Exercise: React.FC<ExerciseProps> = ({
   const utils = trpc.useUtils();
   const router = useRouter();
   const courseSlug = typeof router.query.courseSlug === 'string' ? router.query.courseSlug : undefined;
-  const devAllGroups = router.query.devAllGroups === 'true';
 
   const [showMyResponse, setShowMyResponse] = useState(false);
   const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(undefined);
@@ -51,18 +50,25 @@ const Exercise: React.FC<ExerciseProps> = ({
   const {
     data: groupData,
   } = trpc.exercises.getGroupExerciseResponses.useQuery(
-    { courseSlug: courseSlug!, groupId: selectedGroupId, allGroups: devAllGroups || undefined },
+    { courseSlug: courseSlug!, groupId: selectedGroupId },
     { enabled: !!auth && !!courseSlug },
   );
 
   const saveResponseMutation = trpc.exercises.saveExerciseResponse.useMutation({
     onSuccess: async () => {
+      // Await this invalidation to ensure mutation is kept in loading state until data is refetched.
+      // Without this we get a UI flash where the mutation is complete but the new response data hasn't yet loaded.
       await utils.exercises.getExerciseResponse.invalidate({ exerciseId });
     },
   });
 
+  // Prevent concurrent saves to avoid race condition creating duplicate records
+  // Concurrent saves can happen e.g. when a blur and click event both trigger saves
   const isSavingRef = useRef(false);
 
+  // Optimistically update `isCompleted` using mutation variables.
+  // Note: generally use onMutate/onSettled if doing optimistic updates of whole
+  // objects, this is just a simple workaround for this one field.
   const isCompleted = (!saveResponseMutation.isError && saveResponseMutation.variables?.completed !== undefined)
     ? saveResponseMutation.variables.completed
     : (responseData?.completed ?? false);
@@ -75,7 +81,7 @@ const Exercise: React.FC<ExerciseProps> = ({
       await saveResponseMutation.mutateAsync({
         exerciseId,
         response: exerciseResponse,
-        completed,
+        completed, // undefined means "don't change", backend preserves existing value
       });
     } finally {
       isSavingRef.current = false;
@@ -154,9 +160,6 @@ const Exercise: React.FC<ExerciseProps> = ({
     }
   };
 
-  // For the facilitator view, the card omits its own padding so GroupResponses can control it
-  const isGroupView = showFacilitatorView;
-
   return (
     <div className="flex flex-col gap-2">
       {facilitatorHeader}
@@ -184,8 +187,8 @@ const Exercise: React.FC<ExerciseProps> = ({
             </button>
           </div>
         )}
-        <div className={cn('container-lined bg-white flex flex-col gap-6', !isGroupView && 'p-8')}>
-          <div className={cn('flex flex-col gap-2', isGroupView && 'px-8 pt-8')}>
+        <div className={cn('container-lined bg-white flex flex-col gap-6', !showFacilitatorView && 'p-8')}>
+          <div className={cn('flex flex-col gap-2', showFacilitatorView && 'px-8 pt-8')}>
             <p className="bluedot-h4 not-prose">{exerciseData.title || ''}</p>
             <MarkdownExtendedRenderer>{exerciseData.description || ''}</MarkdownExtendedRenderer>
           </div>
