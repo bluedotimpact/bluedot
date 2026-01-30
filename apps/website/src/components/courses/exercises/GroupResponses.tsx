@@ -71,7 +71,8 @@ const ResponseBlock: React.FC<{
   name: string;
   response: string;
 }> = ({ name, response }) => {
-  const [expanded, setExpanded] = useState(false);
+  const canTruncate = response.length > 640;
+  const [expanded, setExpanded] = useState(!canTruncate);
 
   return (
     <div className="flex flex-col gap-2 [&+&]:border-t [&+&]:border-[#E5E7EB] [&+&]:pt-4 [&+&]:mt-4">

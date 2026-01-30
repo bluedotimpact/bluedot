@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { ToggleSwitch } from '@bluedot/ui';
-import GroupResponses, { type GroupResponsesProps } from './GroupResponses';
+import GroupResponses from './GroupResponses';
 
 const meta: Meta<typeof GroupResponses> = {
   title: 'Exercises/GroupResponses',
@@ -25,99 +23,36 @@ const longResponse = 'A better future means access to meaningful work and strong
 
 const shortResponse = 'I think the most important thing is reducing the barriers to cooperation across borders. Many of our biggest challenges are global, but our institutions are still largely national.';
 
-const EXAMPLE_TITLE = '1. What does a better future for yourself look like?';
-const EXAMPLE_DESCRIPTION = 'In this exercise, describe your ideal future. Think about how society has been transformed by the past few centuries. In many ways, perhaps most, it\'s been for the better.';
-
-/** Wrapper that simulates Exercise rendering: header + card + title/desc + GroupResponses */
-const ExerciseWrapper: React.FC<GroupResponsesProps & { title?: string; description?: string }> = ({
-  title = EXAMPLE_TITLE,
-  description = EXAMPLE_DESCRIPTION,
-  ...groupResponsesProps
-}) => {
-  const [showMyResponse, setShowMyResponse] = useState(false);
-
-  const header = (
-    <div className="flex justify-end">
-      <div className="flex items-center gap-2 cursor-pointer select-none">
-        <span className="text-[13px] text-[#6B7280]">Show my response</span>
-        <ToggleSwitch checked={showMyResponse} onChange={setShowMyResponse} aria-label="Show my response" />
-      </div>
-    </div>
-  );
-
-  if (showMyResponse) {
-    return (
-      <div className="flex flex-col gap-2">
-        {header}
-        <div className="container-lined bg-white p-8 flex flex-col gap-4">
-          <p className="bluedot-h4 not-prose">{title}</p>
-          <p className="text-[14px] text-[#6B7280] italic">Your response would appear here.</p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex flex-col gap-2">
-      {header}
-      <div className="container-lined bg-white flex flex-col gap-6">
-        <div className="flex flex-col gap-2 px-8 pt-8">
-          <p className="bluedot-h4 not-prose">{title}</p>
-          <p className="text-[14px] text-[#374151]">{description}</p>
-        </div>
-        <GroupResponses {...groupResponsesProps} />
-      </div>
-    </div>
-  );
-};
-
 export const Default: Story = {
-  render: () => (
-    <ExerciseWrapper
-      totalParticipants={5}
-      responses={[
-        { name: 'Alice Thompson', response: longResponse },
-        { name: 'Ben Rivera', response: shortResponse },
-        { name: 'Priya Sharma', response: 'I want a future where scientific research is better funded and more accessible. Open-access publishing and international collaboration could accelerate progress on climate, health, and energy.' },
-      ]}
-    />
-  ),
+  args: {
+    totalParticipants: 5,
+    responses: [
+      { name: 'Alice Thompson', response: longResponse },
+      { name: 'Ben Rivera', response: shortResponse },
+      { name: 'Priya Sharma', response: 'I want a future where scientific research is better funded and more accessible. Open-access publishing and international collaboration could accelerate progress on climate, health, and energy.' },
+    ],
+  },
 };
 
 export const WithGroupDropdown: Story = {
-  render: () => (
-    <ExerciseWrapper
-      totalParticipants={4}
-      groups={[
-        { id: '1', name: 'Group 01 - Alice Thompson' },
-        { id: '2', name: 'Group 02 - Carlos Mendez' },
-        { id: '3', name: 'Group 03 - Fatima Al-Rashid' },
-      ]}
-      selectedGroupId="2"
-      responses={[
-        { name: 'Alice Thompson', response: longResponse },
-        { name: 'Ben Rivera', response: shortResponse },
-      ]}
-    />
-  ),
-};
-
-export const SingleResponse: Story = {
-  render: () => (
-    <ExerciseWrapper
-      totalParticipants={3}
-      responses={[
-        { name: 'Alice Thompson', response: shortResponse },
-      ]}
-    />
-  ),
+  args: {
+    totalParticipants: 4,
+    groups: [
+      { id: '1', name: 'Group 01 - Alice Thompson' },
+      { id: '2', name: 'Group 02 - Carlos Mendez' },
+      { id: '3', name: 'Group 03 - Fatima Al-Rashid' },
+    ],
+    selectedGroupId: '2',
+    responses: [
+      { name: 'Alice Thompson', response: longResponse },
+      { name: 'Ben Rivera', response: shortResponse },
+    ],
+  },
 };
 
 export const EmptyResponses: Story = {
-  render: () => (
-    <ExerciseWrapper
-      totalParticipants={4}
-      responses={[]}
-    />
-  ),
+  args: {
+    totalParticipants: 4,
+    responses: [],
+  },
 };
