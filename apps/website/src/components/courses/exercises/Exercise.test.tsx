@@ -87,7 +87,7 @@ describe('Exercise', () => {
     render(<Exercise exerciseId="ex1" />, { wrapper: TrpcProvider });
 
     // Facilitator view shows toggle and participant responses
-    expect(await screen.findByText('Show my response')).toBeInTheDocument();
+    expect(await screen.findByText("Show my group's responses")).toBeInTheDocument();
     expect(screen.getByText('Alice')).toBeInTheDocument();
     expect(screen.getByText('1 Response')).toBeInTheDocument();
     expect(screen.getByText('1 Pending')).toBeInTheDocument();

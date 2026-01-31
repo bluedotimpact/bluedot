@@ -76,8 +76,7 @@ const ResponseBlock: React.FC<{
       <div className="border-l-2 border-bluedot-lighter pl-4 ml-3">
         <div className="relative">
           <div
-            // TODO what does leading-[160%] achieve here?
-            className="leading-[160%]"
+            className="leading-relaxed"
             style={!expanded ? {
               display: '-webkit-box',
               WebkitLineClamp: TRUNCATION_LINES,
