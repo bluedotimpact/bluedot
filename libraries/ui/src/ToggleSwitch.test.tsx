@@ -1,4 +1,6 @@
-import { describe, test, expect, vi } from 'vitest';
+import {
+  describe, test, expect, vi,
+} from 'vitest';
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { ToggleSwitch } from './ToggleSwitch';
