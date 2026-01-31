@@ -61,18 +61,8 @@ const HomePage = () => {
 
   // TODO: Remove fallback once we have enough testimonials in Airtable (at least 4)
   const hasEnoughTestimonials = !isLoading && dbTestimonials && dbTestimonials.length >= MIN_TESTIMONIALS_COUNT;
-  // TODO: Remove Array.isArray check once database schema is synced to use text instead of text[]
   const communityMembers = hasEnoughTestimonials
-    ? dbTestimonials.map((t): CommunityMember => {
-      const headshot = t.headshotAttachmentUrls;
-      return {
-        name: t.name!,
-        jobTitle: t.jobTitle ?? '',
-        course: '',
-        imageSrc: Array.isArray(headshot) ? headshot[0]! : headshot?.split(' ')[0] ?? '',
-        url: t.profileUrl ?? undefined,
-      };
-    })
+    ? dbTestimonials.map((t): CommunityMember => ({ ...t, course: '' }))
     : FALLBACK_COMMUNITY_MEMBERS;
 
   return (
