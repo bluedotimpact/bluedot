@@ -2,9 +2,9 @@ import { render, screen, waitFor } from '@testing-library/react';
 import {
   describe, expect, test, beforeEach, vi,
 } from 'vitest';
-import { server, trpcMsw } from '../__tests__/trpcMswSetup';
-import { TrpcProvider } from '../__tests__/trpcProvider';
-import HomePage from './index';
+import { server, trpcMsw } from '../trpcMswSetup';
+import { TrpcProvider } from '../trpcProvider';
+import HomePage from '../../pages/index';
 
 vi.mock('next/router', () => ({
   useRouter: () => ({
