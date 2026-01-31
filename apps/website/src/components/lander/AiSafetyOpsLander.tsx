@@ -17,7 +17,6 @@ import { FaCalendarAlt, FaUserFriends, FaLaptop } from 'react-icons/fa';
 import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
 import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
 import { trpc } from '../../utils/trpc';
-import { toQuote } from '../../server/routers/testimonials';
 
 const AiSafetyOpsBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
   return (
@@ -80,8 +79,17 @@ const AiSafetyOpsLander = () => {
   const { data: dbTestimonials, isLoading } = trpc.testimonials.getCommunityMembers.useQuery();
 
   const hasEnoughTestimonials = !isLoading && dbTestimonials && dbTestimonials.length >= MIN_TESTIMONIALS_COUNT;
+  // TODO: Remove Array.isArray check once database schema is synced to use text instead of text[]
   const allTestimonials = hasEnoughTestimonials
-    ? dbTestimonials.map(toQuote)
+    ? dbTestimonials.map((t): Testimonial => {
+      const headshot = t.headshotAttachmentUrls;
+      return {
+        quote: t.testimonialText!,
+        name: t.name!,
+        imageSrc: Array.isArray(headshot) ? headshot[0]! : headshot?.split(' ')[0] ?? '',
+        role: t.jobTitle ?? undefined,
+      };
+    })
     : FALLBACK_TESTIMONIALS;
 
   // Split for desktop display
