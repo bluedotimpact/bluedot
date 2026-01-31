@@ -13,7 +13,6 @@ import FAQSection, { FAQSectionProps } from './components/FAQSection';
 import LandingBanner, { LandingBannerProps } from './components/LandingBanner';
 import PathwaysSection, { PathwaysSectionProps } from './components/PathwaysSection';
 import { trpc } from '../../utils/trpc';
-import { toCommunityMember } from '../../server/routers/testimonials';
 
 const MIN_TESTIMONIALS_COUNT = 4;
 
@@ -61,8 +60,18 @@ const CourseLander = ({
   );
 
   const hasEnoughTestimonials = !isLoading && dbTestimonials && dbTestimonials.length >= MIN_TESTIMONIALS_COUNT;
+  // TODO: Remove Array.isArray check once database schema is synced to use text instead of text[]
   const communityMembers = hasEnoughTestimonials
-    ? dbTestimonials.map(toCommunityMember)
+    ? dbTestimonials.map((t): CommunityMember => {
+      const headshot = t.headshotAttachmentUrls;
+      return {
+        name: t.name!,
+        jobTitle: t.jobTitle ?? '',
+        course: '',
+        imageSrc: Array.isArray(headshot) ? headshot[0]! : headshot?.split(' ')[0] ?? '',
+        url: t.profileUrl ?? undefined,
+      };
+    })
     : content.communityMembers;
 
   const ctaText = soonestDeadline

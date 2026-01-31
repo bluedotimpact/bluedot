@@ -3,11 +3,10 @@ import CourseSection from '../components/homepage/CourseSection';
 import StorySection from '../components/homepage/StorySection';
 import HomeHeroContent from '../components/homepage/HomeHeroContent';
 import HomepageBlogSection from '../components/homepage/HomepageBlogSection';
-import CommunityCarousel from '../components/lander/CommunityCarousel';
+import CommunityCarousel, { CommunityMember } from '../components/lander/CommunityCarousel';
 import EventsSection from '../components/homepage/EventsSection';
 import NewsletterBanner from '../components/homepage/NewsletterBanner';
 import { trpc } from '../utils/trpc';
-import { toCommunityMember } from '../server/routers/testimonials';
 
 // TODO: Remove once more testimonials are added to Airtable
 const FALLBACK_COMMUNITY_MEMBERS = [
@@ -62,8 +61,18 @@ const HomePage = () => {
 
   // TODO: Remove fallback once we have enough testimonials in Airtable (at least 4)
   const hasEnoughTestimonials = !isLoading && dbTestimonials && dbTestimonials.length >= MIN_TESTIMONIALS_COUNT;
+  // TODO: Remove Array.isArray check once database schema is synced to use text instead of text[]
   const communityMembers = hasEnoughTestimonials
-    ? dbTestimonials.map(toCommunityMember)
+    ? dbTestimonials.map((t): CommunityMember => {
+      const headshot = t.headshotAttachmentUrls;
+      return {
+        name: t.name!,
+        jobTitle: t.jobTitle ?? '',
+        course: '',
+        imageSrc: Array.isArray(headshot) ? headshot[0]! : headshot?.split(' ')[0] ?? '',
+        url: t.profileUrl ?? undefined,
+      };
+    })
     : FALLBACK_COMMUNITY_MEMBERS;
 
   return (

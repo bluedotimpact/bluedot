@@ -3,7 +3,6 @@ import type { Quote } from '@bluedot/ui';
 import { z } from 'zod';
 import db from '../../lib/api/db';
 import { publicProcedure, router } from '../trpc';
-import type { CommunityMember } from '../../components/lander/CommunityCarousel';
 
 export function sortTestimonials(items: Testimonial[]): Testimonial[] {
   return [...items].sort((a, b) => {
@@ -17,28 +16,22 @@ export function sortTestimonials(items: Testimonial[]): Testimonial[] {
 }
 
 export function toQuote(t: Testimonial): Quote {
+  // TODO: Remove Array.isArray check once database schema is synced to use text instead of text[]
+  const headshot = t.headshotAttachmentUrls;
+  const imageSrc = Array.isArray(headshot) ? headshot[0] : headshot?.split(' ')[0] ?? '';
+
   return {
     quote: t.testimonialText!,
     name: t.name!,
-    imageSrc: t.headshotAttachmentUrls![0]!,
+    imageSrc,
     role: t.jobTitle ?? undefined,
-  };
-}
-
-export function toCommunityMember(t: Testimonial): CommunityMember {
-  return {
-    name: t.name!,
-    jobTitle: t.jobTitle ?? '',
-    course: t.bluedotEngagement ?? '',
-    imageSrc: t.headshotAttachmentUrls![0]!,
-    url: t.profileUrl ?? undefined,
   };
 }
 
 export const testimonialsRouter = router({
   getCommunityMembers: publicProcedure.query(async () => {
     const all = await db.scan(testimonialTable);
-    const filtered = all.filter((t) => t.name && t.headshotAttachmentUrls?.[0] && t.testimonialText);
+    const filtered = all.filter((t) => t.name && t.headshotAttachmentUrls && t.testimonialText);
     return sortTestimonials(filtered);
   }),
 
@@ -47,7 +40,7 @@ export const testimonialsRouter = router({
     .query(async ({ input }) => {
       const all = await db.scan(testimonialTable);
       const filtered = all.filter((t) => t.name
-        && t.headshotAttachmentUrls?.[0]
+        && t.headshotAttachmentUrls
         && t.testimonialText
         && t.displayOnCourseSlugs?.includes(input.courseSlug));
       return sortTestimonials(filtered);
