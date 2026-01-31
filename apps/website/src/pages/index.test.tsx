@@ -2,7 +2,6 @@ import { render, screen, waitFor } from '@testing-library/react';
 import {
   describe, expect, test, beforeEach, vi,
 } from 'vitest';
-import type { Testimonial } from '@bluedot/db';
 import { server, trpcMsw } from '../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../__tests__/trpcProvider';
 import HomePage from './index';
@@ -14,18 +13,6 @@ vi.mock('next/router', () => ({
   }),
 }));
 
-const createTestimonial = (overrides: Partial<Testimonial>): Testimonial => ({
-  id: 'test-id',
-  name: 'Test Name',
-  testimonialText: 'Test quote',
-  headshotAttachmentUrls: 'https://example.com/photo.jpg',
-  jobTitle: 'Test Role',
-  profileUrl: 'https://example.com/profile',
-  displayOnCourseSlugs: [],
-  isPrioritised: false,
-  ...overrides,
-});
-
 describe('HomePage testimonials', () => {
   beforeEach(() => {
     server.use(trpcMsw.courses.getAll.query(() => []));
@@ -35,25 +22,20 @@ describe('HomePage testimonials', () => {
     server.use(trpcMsw.blogs.getSubstack.query(() => []));
   });
 
-  test('shows fallback community members when fewer than 4 testimonials', async () => {
+  test('shows database testimonials', async () => {
     server.use(trpcMsw.testimonials.getCommunityMembers.query(() => [
-      createTestimonial({ name: 'DB Person 1' }),
-      createTestimonial({ name: 'DB Person 2' }),
-    ]));
-
-    render(<HomePage />, { wrapper: TrpcProvider });
-
-    await waitFor(() => {
-      expect(screen.getAllByText('Neel Nanda').length).toBeGreaterThan(0);
-    });
-  });
-
-  test('shows database testimonials when 4 or more exist', async () => {
-    server.use(trpcMsw.testimonials.getCommunityMembers.query(() => [
-      createTestimonial({ name: 'DB Person 1', isPrioritised: true }),
-      createTestimonial({ name: 'DB Person 2' }),
-      createTestimonial({ name: 'DB Person 3' }),
-      createTestimonial({ name: 'DB Person 4' }),
+      {
+        name: 'DB Person 1', jobTitle: 'Job 1', imageSrc: 'https://example.com/1.jpg', url: 'https://example.com/1', quote: 'Quote 1',
+      },
+      {
+        name: 'DB Person 2', jobTitle: 'Job 2', imageSrc: 'https://example.com/2.jpg', url: 'https://example.com/2', quote: 'Quote 2',
+      },
+      {
+        name: 'DB Person 3', jobTitle: 'Job 3', imageSrc: 'https://example.com/3.jpg', url: 'https://example.com/3', quote: 'Quote 3',
+      },
+      {
+        name: 'DB Person 4', jobTitle: 'Job 4', imageSrc: 'https://example.com/4.jpg', url: 'https://example.com/4', quote: 'Quote 4',
+      },
     ]));
 
     render(<HomePage />, { wrapper: TrpcProvider });
@@ -61,7 +43,5 @@ describe('HomePage testimonials', () => {
     await waitFor(() => {
       expect(screen.getAllByText('DB Person 1').length).toBeGreaterThan(0);
     });
-
-    expect(screen.queryAllByText('Neel Nanda')).toHaveLength(0);
   });
 });

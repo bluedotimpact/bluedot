@@ -8,62 +8,10 @@ import EventsSection from '../components/homepage/EventsSection';
 import NewsletterBanner from '../components/homepage/NewsletterBanner';
 import { trpc } from '../utils/trpc';
 
-// TODO: Remove once more testimonials are added to Airtable
-const FALLBACK_COMMUNITY_MEMBERS = [
-  {
-    name: 'Neel Nanda',
-    jobTitle: 'Mech Interp Lead at Google DeepMind',
-    course: 'Former participant and facilitator',
-    imageSrc: '/images/graduates/neel.webp',
-    url: 'https://www.neelnanda.io/about',
-  },
-  {
-    name: 'Catherine Fist',
-    jobTitle: 'Head of Delivery at UK AISI',
-    course: 'AI Governance Course Graduate',
-    imageSrc: '/images/graduates/catherine.webp',
-    url: 'https://www.linkedin.com/in/catherine-fist/',
-  },
-  {
-    name: 'Adam Jones',
-    jobTitle: 'Member of Technical Staff at Anthropic',
-    course: 'Former AI safety lead at BlueDot',
-    imageSrc: '/images/graduates/adam.webp',
-    url: 'https://adamjones.me/',
-  },
-  {
-    name: 'Marius Hobbhahn',
-    jobTitle: 'CEO at Apollo Research',
-    course: 'AI Alignment Course Graduate',
-    imageSrc: '/images/graduates/marius.webp',
-    url: 'https://www.mariushobbhahn.com/aboutme/',
-  },
-  {
-    name: 'Chiara Gerosa',
-    jobTitle: 'Executive Director at Talos',
-    course: 'AI Governance Course Facilitator',
-    imageSrc: '/images/graduates/chiara.webp',
-    url: 'https://www.linkedin.com/in/chiaragerosa/',
-  },
-  {
-    name: 'Richard Ngo',
-    jobTitle: 'Former OpenAI and DeepMind',
-    course: 'AI Alignment Course Designer',
-    imageSrc: '/images/graduates/richard.webp',
-    url: 'https://www.richardcngo.com/',
-  },
-];
-
-const MIN_TESTIMONIALS_COUNT = 4;
-
 const HomePage = () => {
-  const { data: dbTestimonials, isLoading } = trpc.testimonials.getCommunityMembers.useQuery();
+  const { data: dbTestimonials } = trpc.testimonials.getCommunityMembers.useQuery();
 
-  // TODO: Remove fallback once we have enough testimonials in Airtable (at least 4)
-  const hasEnoughTestimonials = !isLoading && dbTestimonials && dbTestimonials.length >= MIN_TESTIMONIALS_COUNT;
-  const communityMembers = hasEnoughTestimonials
-    ? dbTestimonials.map((t): CommunityMember => ({ ...t, course: '' }))
-    : FALLBACK_COMMUNITY_MEMBERS;
+  const communityMembers = dbTestimonials?.map((t): CommunityMember => ({ ...t, course: '' })) ?? [];
 
   return (
     <div className="bg-white">

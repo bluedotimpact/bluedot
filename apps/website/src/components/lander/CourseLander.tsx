@@ -14,8 +14,6 @@ import LandingBanner, { LandingBannerProps } from './components/LandingBanner';
 import PathwaysSection, { PathwaysSectionProps } from './components/PathwaysSection';
 import { trpc } from '../../utils/trpc';
 
-const MIN_TESTIMONIALS_COUNT = 4;
-
 export type CourseLanderMeta = {
   title: string;
   description: string;
@@ -55,14 +53,11 @@ const CourseLander = ({
 
   const content = createContentFor(applicationUrlWithUtm, courseSlug);
 
-  const { data: dbTestimonials, isLoading } = trpc.testimonials.getCommunityMembersByCourseSlug.useQuery(
+  const { data: dbTestimonials } = trpc.testimonials.getCommunityMembersByCourseSlug.useQuery(
     { courseSlug },
   );
 
-  const hasEnoughTestimonials = !isLoading && dbTestimonials && dbTestimonials.length >= MIN_TESTIMONIALS_COUNT;
-  const communityMembers = hasEnoughTestimonials
-    ? dbTestimonials.map((t): CommunityMember => ({ ...t, course: '' }))
-    : content.communityMembers;
+  const communityMembers = dbTestimonials?.map((t): CommunityMember => ({ ...t, course: '' }));
 
   const ctaText = soonestDeadline
     ? `Apply by ${soonestDeadline}`

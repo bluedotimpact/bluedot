@@ -1,11 +1,12 @@
 import {
-  describe, it, expect, vi,
+  describe, it, expect, vi, beforeEach,
 } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import CourseLander from './CourseLander';
 import { createAgiStrategyContent } from './course-content/AgiStrategyContent';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
+import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 
 // Test URL - in production this comes from the database
 const TEST_APPLICATION_URL = 'https://web.miniextensions.com/test';
@@ -61,6 +62,23 @@ vi.mock('./CommunityCarousel', () => ({
 }));
 
 describe('AgiStrategyLander', () => {
+  beforeEach(() => {
+    server.use(trpcMsw.testimonials.getCommunityMembersByCourseSlug.query(() => [
+      {
+        name: 'Test Person 1', jobTitle: 'Job 1', imageSrc: 'https://example.com/1.jpg', url: 'https://example.com/1', quote: 'Quote 1',
+      },
+      {
+        name: 'Test Person 2', jobTitle: 'Job 2', imageSrc: 'https://example.com/2.jpg', url: 'https://example.com/2', quote: 'Quote 2',
+      },
+      {
+        name: 'Test Person 3', jobTitle: 'Job 3', imageSrc: 'https://example.com/3.jpg', url: 'https://example.com/3', quote: 'Quote 3',
+      },
+      {
+        name: 'Test Person 4', jobTitle: 'Job 4', imageSrc: 'https://example.com/4.jpg', url: 'https://example.com/4', quote: 'Quote 4',
+      },
+    ]));
+  });
+
   it('renders the complete page correctly (snapshot)', () => {
     const { container } = render(
       <CourseLander
@@ -109,7 +127,7 @@ describe('AgiStrategyLander', () => {
     expect(screen.getByTestId('graduate-section')).toBeInTheDocument();
   });
 
-  it('renders community members section', () => {
+  it('renders community members section', async () => {
     render(
       <CourseLander
         courseSlug="agi-strategy"
@@ -120,8 +138,10 @@ describe('AgiStrategyLander', () => {
       { wrapper: TrpcProvider },
     );
 
-    const communityMembersSection = screen.getByTestId('community-members-section');
-    expect(communityMembersSection).toBeInTheDocument();
+    await waitFor(() => {
+      const communityMembersSection = screen.getByTestId('community-members-section');
+      expect(communityMembersSection).toBeInTheDocument();
+    });
   });
 
   it('renders AGI Strategy banner with CTA', () => {

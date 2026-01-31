@@ -35,14 +35,14 @@ function transformTestimonial(t: Testimonial): TransformedTestimonial {
     jobTitle: t.jobTitle ?? '',
     imageSrc: getFirstHeadshotUrl(t.headshotAttachmentUrls),
     url: t.profileUrl ?? undefined,
-    quote: t.testimonialText!,
+    quote: t.testimonialText ?? '',
   };
 }
 
 export const testimonialsRouter = router({
   getCommunityMembers: publicProcedure.query(async () => {
     const all = await db.scan(testimonialTable);
-    const filtered = all.filter((t) => t.name && t.headshotAttachmentUrls && t.testimonialText);
+    const filtered = all.filter((t) => t.name && t.headshotAttachmentUrls);
     return sortTestimonials(filtered).map(transformTestimonial);
   }),
 
@@ -52,7 +52,6 @@ export const testimonialsRouter = router({
       const all = await db.scan(testimonialTable);
       const filtered = all.filter((t) => t.name
         && t.headshotAttachmentUrls
-        && t.testimonialText
         && t.displayOnCourseSlugs?.includes(input.courseSlug));
       return sortTestimonials(filtered).map(transformTestimonial);
     }),
