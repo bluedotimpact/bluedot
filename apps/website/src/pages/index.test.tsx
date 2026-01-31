@@ -64,5 +64,4 @@ describe('HomePage testimonials', () => {
 
     expect(screen.queryAllByText('Neel Nanda')).toHaveLength(0);
   });
-
 });
