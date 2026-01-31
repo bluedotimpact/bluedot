@@ -1,28 +1,33 @@
 import React, { useState } from 'react';
 import { Select } from '@bluedot/ui';
-import { PersonIcon } from '@bluedot/ui/src/icons/PersonIcon';
+import { FaUser } from 'react-icons/fa6';
 // TODO remove this import cycle
 // eslint-disable-next-line import/no-cycle
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
+import { trpc } from '../../../utils/trpc';
 
 const TRUNCATION_LINES = 8;
 
 export type GroupResponsesProps = {
-  responses: { name: string, response: string }[];
-  totalParticipants: number;
-  groups?: { id: string, name: string }[];
-  selectedGroupId?: string;
-  // TODO don't allow this to be undefined
-  onGroupChange?: (groupId: string) => void;
+  courseSlug: string;
+  exerciseId: string;
 };
 
 const GroupResponses: React.FC<GroupResponsesProps> = ({
-  responses,
-  totalParticipants,
-  groups,
-  selectedGroupId,
-  onGroupChange,
+  courseSlug,
+  exerciseId,
 }) => {
+  const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(undefined);
+
+  const { data: facilitatorGroupResponses } = trpc.exercises.getGroupExerciseResponses.useQuery(
+    { courseSlug, groupId: selectedGroupId },
+    { enabled: !!courseSlug },
+  );
+
+  if (!facilitatorGroupResponses) return null;
+
+  const responses = facilitatorGroupResponses.responses[exerciseId] || [];
+  const { groups, totalParticipants } = facilitatorGroupResponses;
   const pendingCount = totalParticipants - responses.length;
 
   return (
@@ -32,8 +37,8 @@ const GroupResponses: React.FC<GroupResponsesProps> = ({
           <span className="text-size-xs font-semibold text-[#13132E]">Select your group:</span>
           <Select
             options={groups.map((g) => ({ value: g.id, label: g.name }))}
-            value={selectedGroupId}
-            onChange={(value) => onGroupChange?.(value)}
+            value={selectedGroupId || facilitatorGroupResponses.selectedGroupId}
+            onChange={setSelectedGroupId}
             ariaLabel="Select your group"
           />
         </div>
@@ -68,8 +73,7 @@ const ResponseBlock: React.FC<{
     <div className="flex flex-col gap-2 py-4 first:pt-0 last:pb-0">
       <div className="flex items-center gap-2">
         <div className="size-6 rounded-full bg-bluedot-lighter flex items-center justify-center flex-shrink-0">
-          {/* TODO check if there is a a better icon for this, e.g. the one that is used in place of the login button */}
-          <PersonIcon size={14} className="text-bluedot-normal" />
+          <FaUser className="size-3 text-bluedot-normal" />
         </div>
         <span className="font-semibold text-size-xs text-[#13132E]">{name}</span>
       </div>
@@ -87,19 +91,17 @@ const ResponseBlock: React.FC<{
             <MarkdownExtendedRenderer>{response}</MarkdownExtendedRenderer>
           </div>
           {!expanded && (
-            // TODO Make the #F9FBFF implicit based on the wrapper
             <div className="absolute bottom-0 inset-x-0 h-12 bg-gradient-to-t from-[#F9FBFF] to-transparent pointer-events-none" />
           )}
         </div>
       </div>
-      {!expanded && (
-        // TODO support show less
+      {canTruncate && (
         <button
           type="button"
-          onClick={() => setExpanded(true)}
+          onClick={() => setExpanded(!expanded)}
           className="text-size-xs text-bluedot-normal font-medium mt-2 cursor-pointer hover:underline block ml-3 pl-4"
         >
-          Show more
+          {expanded ? 'Show less' : 'Show more'}
         </button>
       )}
     </div>

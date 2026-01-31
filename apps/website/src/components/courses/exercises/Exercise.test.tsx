@@ -92,4 +92,32 @@ describe('Exercise', () => {
     expect(screen.getByText('1 Response')).toBeInTheDocument();
     expect(screen.getByText('1 Pending')).toBeInTheDocument();
   });
+
+  test('completion checkbox is enabled when exercise has a saved response', async () => {
+    server.use(
+      trpcMsw.exercises.getExerciseResponse.query(() => ({
+        response: 'Some text the user wrote',
+        completed: false,
+      })),
+    );
+
+    render(<Exercise exerciseId="ex1" />, { wrapper: TrpcProvider });
+
+    const checkbox = await screen.findByRole('button', { name: 'Mark as complete' });
+    expect(checkbox).not.toBeDisabled();
+  });
+
+  test('completion checkbox is disabled when exercise has no response', async () => {
+    server.use(
+      trpcMsw.exercises.getExerciseResponse.query(() => ({
+        response: '',
+        completed: false,
+      })),
+    );
+
+    render(<Exercise exerciseId="ex1" />, { wrapper: TrpcProvider });
+
+    const checkbox = await screen.findByRole('button', { name: 'Mark as complete' });
+    expect(checkbox).toBeDisabled();
+  });
 });
