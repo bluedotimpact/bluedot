@@ -144,15 +144,17 @@ export const exercisesRouter = router({
           exerciseId: exerciseResponseTable.pg.exerciseId,
           email: exerciseResponseTable.pg.email,
           response: exerciseResponseTable.pg.response,
+          completed: exerciseResponseTable.pg.completed,
         })
         .from(exerciseResponseTable.pg)
         .where(
           inArray(exerciseResponseTable.pg.email, participantEmails),
         );
 
-      // 9. Group by exerciseId
+      // 9. Group by exerciseId (only include completed responses)
       const responses: Record<string, { name: string, response: string }[]> = {};
       for (const er of exerciseResponses) {
+        if (!er.completed) continue;
         if (!responses[er.exerciseId]) {
           responses[er.exerciseId] = [];
         }

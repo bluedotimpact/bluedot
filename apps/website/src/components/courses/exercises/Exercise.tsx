@@ -6,6 +6,7 @@ import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { useRouter } from 'next/router';
 import FreeTextResponse from './FreeTextResponse';
 import MultipleChoice from './MultipleChoice';
+// TODO fix these import cycles
 // eslint-disable-next-line import/no-cycle
 import GroupResponses from './GroupResponses';
 // eslint-disable-next-line import/no-cycle
@@ -26,8 +27,11 @@ const Exercise: React.FC<ExerciseProps> = ({
   const router = useRouter();
   const courseSlug = typeof router.query.courseSlug === 'string' ? router.query.courseSlug : undefined;
 
+  // TODO give this a more exactly correct name, and flip it to something like showGroupResponsesIfFacilitator
   const [showMyResponse, setShowMyResponse] = useState(false);
+  // TODO IMO this should be pushed into the child, fine to do data fetching in that component
   const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(undefined);
+  // TODO checkboxHovered is overcomplicated IMO, couldn't this just be a CSS selector? Fine if we technically reduce functionality
   const [checkboxHovered, setCheckboxHovered] = useState(false);
 
   const {
@@ -48,7 +52,7 @@ const Exercise: React.FC<ExerciseProps> = ({
 
   // Fetch group responses (tRPC deduplicates this across all Exercise instances on the page)
   const {
-    data: groupData,
+    data: facilitatorGroupResponses,
   } = trpc.exercises.getGroupExerciseResponses.useQuery(
     { courseSlug: courseSlug!, groupId: selectedGroupId },
     { enabled: !!auth && !!courseSlug },
@@ -100,22 +104,8 @@ const Exercise: React.FC<ExerciseProps> = ({
     return <ErrorView error={new Error('Exercise not found')} />;
   }
 
-  const isFacilitator = !!groupData;
-  const groupResponses = groupData?.responses[exerciseId] || [];
-  const showFacilitatorView = isFacilitator && !showMyResponse;
-
-  const facilitatorHeader = isFacilitator ? (
-    <div className="flex justify-end">
-      <div className="flex items-center gap-2">
-        <span className="text-[13px] font-medium text-[#13132E]">Show my response</span>
-        <ToggleSwitch
-          checked={showMyResponse}
-          onChange={setShowMyResponse}
-          aria-label="Show my response"
-        />
-      </div>
-    </div>
-  ) : undefined;
+  const groupResponses = facilitatorGroupResponses?.responses[exerciseId] || [];
+  const showFacilitatorView = !!facilitatorGroupResponses && !showMyResponse;
 
   // Free text completion checkbox (positioned outside the card)
   const hasResponse = !!(responseData?.response?.trim());
@@ -127,9 +117,9 @@ const Exercise: React.FC<ExerciseProps> = ({
       return (
         <GroupResponses
           responses={groupResponses}
-          totalParticipants={groupData.totalParticipants}
-          groups={groupData.groups}
-          selectedGroupId={selectedGroupId || groupData.selectedGroupId}
+          totalParticipants={facilitatorGroupResponses.totalParticipants}
+          groups={facilitatorGroupResponses.groups}
+          selectedGroupId={selectedGroupId || facilitatorGroupResponses.selectedGroupId}
           onGroupChange={setSelectedGroupId}
         />
       );
@@ -161,8 +151,19 @@ const Exercise: React.FC<ExerciseProps> = ({
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      {facilitatorHeader}
+    <div className="flex flex-col gap-4">
+      {facilitatorGroupResponses && (
+        <div className="flex justify-end">
+          <div className="flex items-center gap-2">
+            <span className="text-[13px] font-medium text-[#13132E]">Show my response</span>
+            <ToggleSwitch
+              checked={showMyResponse}
+              onChange={setShowMyResponse}
+              aria-label="Show my response"
+            />
+          </div>
+        </div>
+      )}
       <div className="relative">
         {showCheckbox && (
           <div className="absolute hidden lg:block -left-[calc(24px+clamp(12px,3vw,24px))] top-6 z-[1]">
@@ -187,7 +188,8 @@ const Exercise: React.FC<ExerciseProps> = ({
             </button>
           </div>
         )}
-        <div className={cn('container-lined bg-white flex flex-col gap-6', !showFacilitatorView && 'p-8')}>
+        {/* TODO try to remove these `showFacilitatorView` checks */}
+        <div className={cn('container-lined bg-white flex flex-col gap-5', !showFacilitatorView && 'p-8')}>
           <div className={cn('flex flex-col gap-2', showFacilitatorView && 'px-8 pt-8')}>
             <p className="bluedot-h4 not-prose">{exerciseData.title || ''}</p>
             <MarkdownExtendedRenderer>{exerciseData.description || ''}</MarkdownExtendedRenderer>
