@@ -21,6 +21,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   isLoggedIn,
   onExerciseSubmit,
 }) => {
+  // TODO just confirm that no functionality has changed here apart from simplifying and moving up to parent
   const router = useRouter();
   const [answer, setAnswer] = useState<string>(exerciseResponse || '');
 
