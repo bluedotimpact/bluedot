@@ -8,16 +8,16 @@ import Link from 'next/link';
 import { H2, P } from '@bluedot/ui';
 import clsx from 'clsx';
 
-export type CommunityMember = {
+export type TestimonialMember = {
   name: string;
   jobTitle: string;
-  course: string;
+  quote?: string;
   imageSrc: string;
   url?: string;
 };
 
-export type CommunityCarouselProps = {
-  members: CommunityMember[];
+export type TestimonialCarouselProps = {
+  testimonials: TestimonialMember[];
   title?: string;
   subtitle?: string;
   variant?: 'homepage' | 'lander';
@@ -27,12 +27,12 @@ const CARD_CONFIG = {
   AUTO_SCROLL_INTERVAL: 3000,
 } as const;
 
-const CommunityCarousel = ({
-  members,
+const TestimonialCarousel = ({
+  testimonials,
   title,
   subtitle,
   variant = 'homepage',
-}: CommunityCarouselProps) => {
+}: TestimonialCarouselProps) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const autoScrollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -40,11 +40,11 @@ const CommunityCarousel = ({
   const prefersReducedMotionRef = useRef(false);
 
   const createInfiniteScrollData = () => {
-    if (members.length === 0) return [];
-    return [...members, ...members, ...members];
+    if (testimonials.length === 0) return [];
+    return [...testimonials, ...testimonials, ...testimonials];
   };
 
-  const infiniteMembers = createInfiniteScrollData();
+  const infiniteTestimonials = createInfiniteScrollData();
 
   const getCardWidth = useCallback(() => {
     if (typeof window === 'undefined') return 320;
@@ -141,23 +141,23 @@ const CommunityCarousel = ({
   }, []);
 
   useEffect(() => {
-    if (scrollContainerRef.current && members.length > 0) {
+    if (scrollContainerRef.current && testimonials.length > 0) {
       const cardWidth = getCardWidth();
       const gap = getCardGap();
       const scrollUnit = cardWidth + gap;
-      const sectionWidth = members.length * scrollUnit;
+      const sectionWidth = testimonials.length * scrollUnit;
       scrollContainerRef.current.scrollLeft = sectionWidth;
     }
-  }, [members.length, getCardWidth, getCardGap]);
+  }, [testimonials.length, getCardWidth, getCardGap]);
 
   const handleScroll = useCallback(() => {
     const container = scrollContainerRef.current;
-    if (container && !isResettingRef.current && members.length > 0) {
+    if (container && !isResettingRef.current && testimonials.length > 0) {
       const { scrollLeft } = container;
       const cardWidth = getCardWidth();
       const gap = getCardGap();
       const scrollUnit = cardWidth + gap;
-      const sectionWidth = members.length * scrollUnit;
+      const sectionWidth = testimonials.length * scrollUnit;
 
       if (scrollLeft >= sectionWidth * 2) {
         isResettingRef.current = true;
@@ -169,7 +169,7 @@ const CommunityCarousel = ({
         isResettingRef.current = false;
       }
     }
-  }, [members.length, getCardWidth, getCardGap]);
+  }, [testimonials.length, getCardWidth, getCardGap]);
 
   const scroll = useCallback((direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -259,7 +259,7 @@ const CommunityCarousel = ({
         {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
         <div
           ref={scrollContainerRef}
-          className="flex flex-nowrap overflow-x-auto scrollbar-none px-5 min-[680px]:px-8 lg:px-12 xl:pl-[max(64px,calc(50vw-640px))] xl:pr-16 2xl:pl-[max(80px,calc(50vw-640px))] 2xl:pr-20 gap-[20px] min-[680px]:gap-[24px] min-[1280px]:gap-[32px]"
+          className="grid grid-flow-col auto-rows-fr overflow-x-auto scrollbar-none px-5 min-[680px]:px-8 lg:px-12 xl:pl-[max(64px,calc(50vw-640px))] xl:pr-16 2xl:pl-[max(80px,calc(50vw-640px))] 2xl:pr-20 gap-[20px] min-[680px]:gap-[24px] min-[1280px]:gap-[32px]"
           style={{
             scrollSnapType: 'none',
             scrollBehavior: 'auto',
@@ -273,15 +273,15 @@ const CommunityCarousel = ({
           // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
           tabIndex={0}
           role="region"
-          aria-label="Community members carousel"
+          aria-label="Testimonials carousel"
           aria-describedby="community-carousel-description"
         >
-          {infiniteMembers.map((member, index) => {
-            const sectionNumber = Math.floor(index / members.length);
-            const uniqueKey = `${member.name}-${index}-${sectionNumber}`;
+          {infiniteTestimonials.map((testimonial, index) => {
+            const sectionNumber = Math.floor(index / testimonials.length);
+            const uniqueKey = `${testimonial.name}-${index}-${sectionNumber}`;
             return (
-              <div key={uniqueKey}>
-                <CommunityMemberCard member={member} />
+              <div key={uniqueKey} className="h-full">
+                <TestimonialMemberCard testimonial={testimonial} />
               </div>
             );
           })}
@@ -305,47 +305,57 @@ const CommunityCarousel = ({
   );
 };
 
-const CommunityMemberCard = ({ member }: { member: CommunityMember }) => {
+const TestimonialMemberCard = ({ testimonial }: { testimonial: TestimonialMember }) => {
+  const hasQuote = testimonial.quote && testimonial.quote.trim();
+
   const cardContent = (
     <>
       {/* Image Section */}
       <div className="flex-shrink-0 w-full h-[296px] min-[680px]:h-[320px]">
         <img
-          src={member.imageSrc}
-          alt={`Profile of ${member.name}`}
+          src={testimonial.imageSrc}
+          alt={`Profile of ${testimonial.name}`}
           className="size-full object-cover"
         />
       </div>
 
-      {/* Content Section */}
-      <div className="flex flex-col items-start justify-between p-6 gap-4 min-h-[157px]">
-        {/* Name and Job Title Container */}
-        <div className="flex flex-col items-start gap-1 w-full">
-          {/* Name */}
-          <P className="text-[18px] font-semibold leading-[125%] text-[#13132E] text-left w-full">
-            {member.name}
-          </P>
+      {/* Content Section - flex-1 to fill available space */}
+      <div className="flex flex-1 flex-col p-6">
+        {/* Inner flex container with gap-8 (32px) matching Figma */}
+        <div className="flex flex-1 flex-col gap-8">
+          {/* Quote uses flex-1 to grow and push name to bottom */}
+          {hasQuote ? (
+            <P className="flex-1 text-[16px] font-normal leading-[160%] text-[#13132E] text-left w-full">
+              {testimonial.quote}
+            </P>
+          ) : (
+            /* Spacer when no quote - pushes name/jobTitle to bottom */
+            <div className="flex-1" />
+          )}
 
-          {/* Job Title */}
-          <P className="text-[14px] font-medium leading-[160%] text-[#13132E] text-left w-full self-stretch">
-            {member.jobTitle}
-          </P>
+          {/* Name and Job Title Container - shrink-0 stays at bottom */}
+          <div className="flex flex-col items-start gap-1 shrink-0 w-full">
+            {/* Name */}
+            <P className="text-[16px] font-semibold leading-[125%] text-[#13132E] text-left w-full">
+              {testimonial.name}
+            </P>
+
+            {/* Job Title */}
+            <P className="text-[14px] font-normal leading-[160%] text-[#13132E] text-left w-full opacity-60">
+              {testimonial.jobTitle}
+            </P>
+          </div>
         </div>
-
-        {/* Course */}
-        <P className="text-[14px] font-normal leading-[160%] text-[#13132E] text-left w-full opacity-60">
-          {member.course}
-        </P>
       </div>
     </>
   );
 
-  const cardClasses = 'flex flex-col flex-shrink-0 bg-white border border-[rgba(19,19,46,0.1)] rounded-xl overflow-hidden w-[276px] min-[680px]:w-[288px] min-[1280px]:w-[320px] h-auto';
+  const cardClasses = 'flex flex-col flex-shrink-0 h-full bg-white border border-[rgba(19,19,46,0.1)] rounded-xl overflow-hidden w-[276px] min-[680px]:w-[288px] min-[1280px]:w-[320px]';
 
-  if (member.url) {
+  if (testimonial.url) {
     return (
       <Link
-        href={member.url}
+        href={testimonial.url}
         target="_blank"
         rel="noopener noreferrer"
         className={`${cardClasses} cursor-pointer`}
@@ -396,4 +406,4 @@ const NavigationButton = ({
   </button>
 );
 
-export default CommunityCarousel;
+export default TestimonialCarousel;

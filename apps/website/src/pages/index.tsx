@@ -3,7 +3,7 @@ import CourseSection from '../components/homepage/CourseSection';
 import StorySection from '../components/homepage/StorySection';
 import HomeHeroContent from '../components/homepage/HomeHeroContent';
 import HomepageBlogSection from '../components/homepage/HomepageBlogSection';
-import CommunityCarousel, { CommunityMember } from '../components/lander/CommunityCarousel';
+import TestimonialCarousel, { TestimonialMember } from '../components/lander/TestimonialCarousel';
 import EventsSection from '../components/homepage/EventsSection';
 import NewsletterBanner from '../components/homepage/NewsletterBanner';
 import { trpc } from '../utils/trpc';
@@ -11,7 +11,7 @@ import { trpc } from '../utils/trpc';
 const HomePage = () => {
   const { data: dbTestimonials } = trpc.testimonials.getCommunityMembers.useQuery();
 
-  const communityMembers = dbTestimonials?.map((t): CommunityMember => ({ ...t, course: '' })) ?? [];
+  const testimonials = dbTestimonials?.map((t): TestimonialMember => ({ ...t })) ?? [];
 
   return (
     <div className="bg-white">
@@ -57,8 +57,8 @@ const HomePage = () => {
       <HomepageBlogSection maxItems={3} />
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
-      <CommunityCarousel
-        members={communityMembers}
+      <TestimonialCarousel
+        testimonials={testimonials}
         subtitle="Learn more about the incredible work our community is doing."
         variant="homepage"
       />
