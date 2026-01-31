@@ -27,8 +27,7 @@ const Exercise: React.FC<ExerciseProps> = ({
   const router = useRouter();
   const courseSlug = typeof router.query.courseSlug === 'string' ? router.query.courseSlug : undefined;
 
-  // TODO give this a more exactly correct name, and flip it to something like showGroupResponsesIfFacilitator
-  const [showMyResponse, setShowMyResponse] = useState(false);
+  const [showGroupResponsesIfFacilitator, setShowGroupResponsesIfFacilitator] = useState(true);
   // TODO IMO this should be pushed into the child, fine to do data fetching in that component
   const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(undefined);
   // TODO checkboxHovered is overcomplicated IMO, couldn't this just be a CSS selector? Fine if we technically reduce functionality
@@ -105,15 +104,15 @@ const Exercise: React.FC<ExerciseProps> = ({
   }
 
   const groupResponses = facilitatorGroupResponses?.responses[exerciseId] || [];
-  const showFacilitatorView = !!facilitatorGroupResponses && !showMyResponse;
+  const showGroupResponses = !!facilitatorGroupResponses && showGroupResponsesIfFacilitator;
 
   // Free text completion checkbox (positioned outside the card)
   const hasResponse = !!(responseData?.response?.trim());
   const checkboxDisabled = !isCompleted && !hasResponse;
-  const showCheckbox = !!auth && exerciseData.type === 'Free text' && !showFacilitatorView;
+  const showCheckbox = !!auth && exerciseData.type === 'Free text' && !showGroupResponses;
 
   const renderContent = () => {
-    if (showFacilitatorView) {
+    if (showGroupResponses) {
       return (
         <GroupResponses
           responses={groupResponses}
@@ -155,11 +154,11 @@ const Exercise: React.FC<ExerciseProps> = ({
       {facilitatorGroupResponses && (
         <div className="flex justify-end">
           <div className="flex items-center gap-2">
-            <span className="text-[13px] font-medium text-[#13132E]">Show my response</span>
+            <span className="text-[13px] font-medium text-[#13132E]">Show my group's responses</span>
             <ToggleSwitch
-              checked={showMyResponse}
-              onChange={setShowMyResponse}
-              aria-label="Show my response"
+              checked={showGroupResponsesIfFacilitator}
+              onChange={setShowGroupResponsesIfFacilitator}
+              aria-label="Show my group's responses"
             />
           </div>
         </div>
@@ -188,9 +187,10 @@ const Exercise: React.FC<ExerciseProps> = ({
             </button>
           </div>
         )}
-        {/* TODO try to remove these `showFacilitatorView` checks */}
-        <div className={cn('container-lined bg-white flex flex-col gap-5', !showFacilitatorView && 'p-8')}>
-          <div className={cn('flex flex-col gap-2', showFacilitatorView && 'px-8 pt-8')}>
+        {/* Conditional padding: GroupResponses needs edge-to-edge for its blue background.
+            This would be resolved by moving facilitator data fetching into GroupResponses. */}
+        <div className={cn('container-lined bg-white flex flex-col gap-5', !showGroupResponses && 'p-8')}>
+          <div className={cn('flex flex-col gap-2', showGroupResponses && 'px-8 pt-8')}>
             <p className="bluedot-h4 not-prose">{exerciseData.title || ''}</p>
             <MarkdownExtendedRenderer>{exerciseData.description || ''}</MarkdownExtendedRenderer>
           </div>

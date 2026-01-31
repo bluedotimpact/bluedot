@@ -28,7 +28,6 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   onExerciseSubmit,
   options,
 }) => {
-  // TODO check nothing has changed here functionality wise except removing the banner and moving things up to the parent
   const router = useRouter();
   /**
    * Options are stored as a string with newlines
