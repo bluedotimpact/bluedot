@@ -824,7 +824,7 @@ export const testimonialTable = pgAirtable('testimonial', {
     },
     headshotAttachmentUrls: {
       pgColumn: text().array(),
-      airtableId: 'fldRtvMPQ4T79vqC1',
+      airtableId: 'flddgVxCSMALkqyUl',
     },
     jobTitle: {
       pgColumn: text(),
