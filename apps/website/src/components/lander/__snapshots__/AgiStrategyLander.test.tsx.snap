@@ -1135,17 +1135,6 @@ In 30 hours, you'll understand the landscape, pick a direction, and actually sta
     <div
       class="border-t-hairline border-color-divider"
     />
-    <div
-      data-testid="community-members-section"
-    >
-      <span>
-        Members: 
-        6
-      </span>
-    </div>
-    <div
-      class="border-t-hairline border-color-divider"
-    />
     <section
       aria-atomic="true"
       aria-label="Quote carousel"

@@ -16,6 +16,7 @@ import {
 import { FaCalendarAlt, FaUserFriends, FaLaptop } from 'react-icons/fa';
 import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
 import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
+import { trpc } from '../../utils/trpc';
 
 const AiSafetyOpsBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
   return (
@@ -33,49 +34,15 @@ const customTitle = 'Are you an operations specialist who wants to make the futu
 
 const applicationUrl = 'https://forms.bluedot.org/1W29W7atNVeEF3RTkfCX';
 
-const testimonials1: Testimonial[] = [
-  {
-    quote: 'Starting to upskill in this field was daunting! The course provided a wonderfully structured curriculum and knowledgable facilitators. Having completed this course, I feel much more confident in my ability and prospects to find my area of most impact in AI safety in the near future!',
-    name: 'Sabrina Shih: AI Policy Manager, Responsible AI Institute',
-    role: 'AI Alignment Course Graduate',
-    imageSrc: '/images/graduates/sabrina.webp',
-  },
-  {
-    quote: "BlueDot's course allowed me to bridge the gap between my previous career as an economist to now working in the UK Government AI Directorate.",
-    name: 'Matthew Bradbury: Senior AI Risk Analyst, UK Government',
-    role: 'AI Governance Course Graduate',
-    imageSrc: '/images/graduates/matthew.webp',
-  },
-  {
-    quote: 'Coming from a public sector responsible AI background and having designed several educational programmes myself, I found the BlueDot course truly humbling and impressive pedagogically. This course is suitable for anyone motivated to work on AI Safety and contribute to the wider discourse in one of the most important topics of our time',
-    name: 'Mishka Nemes: Responsible AI & Skills Advisor, Alan Turing Institute',
-    role: 'AI Governance Course Graduate',
-    imageSrc: '/images/graduates/mishka.webp',
-  },
-];
-
-const testimonials2 = [
-  {
-    quote: 'Entering the course from a non-technical background, I wasn’t sure what to expect or if I would be able to keep up with the material. It turned out to be the perfect level of challenging yet achievable for me. I learned so much from the readings, insightful conversations and activities during the sessions in particular. I always felt supported and welcome to contribute, and the diversity of knowledge in that virtual room helped all of us to learn and consider new perspectives. I thoroughly enjoyed the course and it became something I really looked forward to every Friday!',
-    name: 'Belle Yeung',
-    role: 'Head of AI Governance, Arcadia Impact',
-    imageSrc: '/images/graduates/belle.webp',
-  },
-  {
-    quote: 'The course was a game-changer for me. It allowed me not only to gain invaluable knowledge but also to connect with like-minded individuals, engaging in thought-provoking discussions that expanded my understanding. This course played a crucial role in supporting my successful application to the MATS Program, where I\'m now working on AI safety research. It\'s also a testament to the course\'s quality that one of my course group members is now at MATS with me!',
-    name: 'Constantin Weisser',
-    role: 'Founding Engineer, Haize Labs',
-    imageSrc: '/images/graduates/constantin.webp',
-  },
-  {
-    quote: 'This course is the perfect starting point for anyone interested in AI Safety. The team excels at curating relevant resources, and the curriculum is always accessible for future reference. The community is very active, providing support, interesting research directions, and collaboration opportunities. I left feeling much more confident in my AI Safety and Ethics career, with a strong community of like-minded professionals. I highly recommend this course to anyone looking to make an impact in AI Safety!',
-    name: 'Su Cizem',
-    role: 'AI Governance Analyst, CeSIA',
-    imageSrc: '/images/graduates/su.webp',
-  },
-];
-
 const AiSafetyOpsLander = () => {
+  const { data: dbTestimonials } = trpc.testimonials.getCommunityMembers.useQuery();
+
+  const allTestimonials = dbTestimonials?.map((t): Testimonial => ({ ...t, role: t.jobTitle })) ?? [];
+
+  // Split for desktop display
+  const midPoint = Math.ceil(allTestimonials.length / 2);
+  const testimonials1 = allTestimonials.slice(0, midPoint);
+  const testimonials2 = allTestimonials.slice(midPoint);
   return (
     <>
       <Head>
@@ -207,7 +174,7 @@ Got questions or feedback? We’d love to hear from you - email [adam@bluedot.or
       <Section className="mt-8">
         {/* Testimonials mobile */}
         <div className="xl:hidden">
-          <TestimonialSubSection testimonials={[...testimonials1, ...testimonials2]} title="What people say about our other courses" />
+          <TestimonialSubSection testimonials={allTestimonials} title="What people say about our other courses" />
         </div>
 
         {/* Testimonials desktop */}

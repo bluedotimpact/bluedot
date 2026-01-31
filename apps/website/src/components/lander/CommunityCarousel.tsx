@@ -13,7 +13,7 @@ export type CommunityMember = {
   jobTitle: string;
   course: string;
   imageSrc: string;
-  url: string;
+  url?: string;
 };
 
 export type CommunityCarouselProps = {
@@ -305,44 +305,62 @@ const CommunityCarousel = ({
   );
 };
 
-const CommunityMemberCard = ({ member }: { member: CommunityMember }) => (
-  <Link
-    href={member.url}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="flex flex-col flex-shrink-0 bg-white border border-[rgba(19,19,46,0.1)] rounded-xl overflow-hidden cursor-pointer w-[276px] min-[680px]:w-[288px] min-[1280px]:w-[320px] h-auto"
-  >
-    {/* Image Section */}
-    <div className="flex-shrink-0 w-full h-[296px] min-[680px]:h-[320px]">
-      <img
-        src={member.imageSrc}
-        alt={`Profile of ${member.name}`}
-        className="size-full object-cover"
-      />
-    </div>
-
-    {/* Content Section */}
-    <div className="flex flex-col items-start justify-between p-6 gap-4 min-h-[157px]">
-      {/* Name and Job Title Container */}
-      <div className="flex flex-col items-start gap-1 w-full">
-        {/* Name */}
-        <P className="text-[18px] font-semibold leading-[125%] text-[#13132E] text-left w-full">
-          {member.name}
-        </P>
-
-        {/* Job Title */}
-        <P className="text-[14px] font-medium leading-[160%] text-[#13132E] text-left w-full self-stretch">
-          {member.jobTitle}
-        </P>
+const CommunityMemberCard = ({ member }: { member: CommunityMember }) => {
+  const cardContent = (
+    <>
+      {/* Image Section */}
+      <div className="flex-shrink-0 w-full h-[296px] min-[680px]:h-[320px]">
+        <img
+          src={member.imageSrc}
+          alt={`Profile of ${member.name}`}
+          className="size-full object-cover"
+        />
       </div>
 
-      {/* Course */}
-      <P className="text-[14px] font-normal leading-[160%] text-[#13132E] text-left w-full opacity-60">
-        {member.course}
-      </P>
+      {/* Content Section */}
+      <div className="flex flex-col items-start justify-between p-6 gap-4 min-h-[157px]">
+        {/* Name and Job Title Container */}
+        <div className="flex flex-col items-start gap-1 w-full">
+          {/* Name */}
+          <P className="text-[18px] font-semibold leading-[125%] text-[#13132E] text-left w-full">
+            {member.name}
+          </P>
+
+          {/* Job Title */}
+          <P className="text-[14px] font-medium leading-[160%] text-[#13132E] text-left w-full self-stretch">
+            {member.jobTitle}
+          </P>
+        </div>
+
+        {/* Course */}
+        <P className="text-[14px] font-normal leading-[160%] text-[#13132E] text-left w-full opacity-60">
+          {member.course}
+        </P>
+      </div>
+    </>
+  );
+
+  const cardClasses = 'flex flex-col flex-shrink-0 bg-white border border-[rgba(19,19,46,0.1)] rounded-xl overflow-hidden w-[276px] min-[680px]:w-[288px] min-[1280px]:w-[320px] h-auto';
+
+  if (member.url) {
+    return (
+      <Link
+        href={member.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`${cardClasses} cursor-pointer`}
+      >
+        {cardContent}
+      </Link>
+    );
+  }
+
+  return (
+    <div className={cardClasses}>
+      {cardContent}
     </div>
-  </Link>
-);
+  );
+};
 
 const NavigationButton = ({
   direction,

@@ -12,6 +12,7 @@ import CourseInformationSection, { CourseInformationSectionProps } from './compo
 import FAQSection, { FAQSectionProps } from './components/FAQSection';
 import LandingBanner, { LandingBannerProps } from './components/LandingBanner';
 import PathwaysSection, { PathwaysSectionProps } from './components/PathwaysSection';
+import { trpc } from '../../utils/trpc';
 
 export type CourseLanderMeta = {
   title: string;
@@ -51,6 +52,12 @@ const CourseLander = ({
     : baseApplicationUrl;
 
   const content = createContentFor(applicationUrlWithUtm, courseSlug);
+
+  const { data: dbTestimonials } = trpc.testimonials.getCommunityMembersByCourseSlug.useQuery(
+    { courseSlug },
+  );
+
+  const communityMembers = dbTestimonials?.map((t): CommunityMember => ({ ...t, course: '' }));
 
   const ctaText = soonestDeadline
     ? `Apply by ${soonestDeadline}`
@@ -117,11 +124,11 @@ const CourseLander = ({
         </>
       )}
 
-      {content.communityMembers && (
+      {communityMembers && (
         <>
           <div className="border-t-hairline border-color-divider" />
           <CommunityCarousel
-            members={content.communityMembers}
+            members={communityMembers}
             title={content.communityMembersTitle}
             variant="lander"
           />
