@@ -1,4 +1,4 @@
-import { CTALinkOrButton, Input, P } from '@bluedot/ui';
+import { CTALinkOrButton, Input } from '@bluedot/ui';
 import clsx from 'clsx';
 import React, { useCallback, useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
@@ -6,18 +6,13 @@ import { useRouter } from 'next/router';
 import { FaUndo } from 'react-icons/fa';
 import { formatStringToArray } from '../../../lib/utils';
 import { getLoginUrl } from '../../../utils/getLoginUrl';
-// eslint-disable-next-line import/no-cycle
-import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
 
 type MultipleChoiceProps = {
   // Required
   answer: string;
-  description: string;
   onExerciseSubmit: (savedExerciseResponse: string, completed?: boolean) => Promise<void>;
   options: string;
-  title: string;
   // Optional
-  className?: string;
   exerciseResponse?: string;
   isLoggedIn?: boolean;
 };
@@ -28,13 +23,10 @@ type FormData = {
 
 const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   answer,
-  className,
-  description,
   exerciseResponse,
   isLoggedIn,
   onExerciseSubmit,
   options,
-  title,
 }) => {
   const router = useRouter();
   /**
@@ -111,70 +103,55 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   };
 
   return (
-    <div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        // Need to add z-indexing so that when we shift the 'Correct! Quiz completed' text upwards using negative margin
-        // it sits _behind_ the form card
-        className={clsx('container-lined relative z-10 flex flex-col gap-6 bg-white p-8', className)}
-      >
-        <div className="flex flex-col gap-2">
-          <p className="bluedot-h4 not-prose">{title}</p>
-          <MarkdownExtendedRenderer>{description}</MarkdownExtendedRenderer>
-        </div>
-        <div className="flex flex-col gap-2">
-          {formattedOptions.map((option) => {
-            return (
-              <Input
-                key={option}
-                {...register('answer')}
-                labelClassName={clsx('flex items-center gap-2 p-4 rounded-lg border-2', getOptionClasses(option))}
-                inputClassName="flex-shrink-0"
-                type="radio"
-                value={option}
-                onChange={() => handleOptionSelect(option)}
-                disabled={!isLoggedIn || Boolean(isCorrect)}
-              />
-            );
-          })}
-        </div>
-        {!isLoggedIn && (
-          <CTALinkOrButton
-            className="!bg-bluedot-normal !whitespace-normal"
-            variant="primary"
-            url={getLoginUrl(router.asPath, true)}
-            withChevron
-          >
-            Create a free account to check your answer
-          </CTALinkOrButton>
-        )}
-        {/* Submit button */}
-        {isLoggedIn && !isCorrect && !isIncorrect && (
-          <CTALinkOrButton
-            className="!bg-bluedot-normal"
-            variant="primary"
-            type="submit"
-            disabled={isSubmitting || !currentAnswer}
-          >
-            {getSubmitButtonText()}
-          </CTALinkOrButton>
-        )}
-        {/* Try again button */}
-        {isLoggedIn && isIncorrect && (
-          <CTALinkOrButton onClick={handleTryAgain} variant="black">
-            <span className="flex items-center gap-2">
-              Try again
-              <FaUndo aria-hidden="true" />
-            </span>
-          </CTALinkOrButton>
-        )}
-      </form>
-      {isCorrect && (
-        <P className="relative z-0 -mt-2 w-full rounded-lg bg-[#F0F5FD] px-6 pt-4 pb-2 text-bluedot-normal">
-          Correct! Quiz completed. 🎉
-        </P>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-6"
+    >
+      <div className="flex flex-col gap-2">
+        {formattedOptions.map((option) => {
+          return (
+            <Input
+              key={option}
+              {...register('answer')}
+              labelClassName={clsx('flex items-center gap-2 p-4 rounded-lg border-2', getOptionClasses(option))}
+              inputClassName="flex-shrink-0"
+              type="radio"
+              value={option}
+              onChange={() => handleOptionSelect(option)}
+              disabled={!isLoggedIn || Boolean(isCorrect)}
+            />
+          );
+        })}
+      </div>
+      {!isLoggedIn && (
+        <CTALinkOrButton
+          className="!bg-bluedot-normal !whitespace-normal"
+          variant="primary"
+          url={getLoginUrl(router.asPath, true)}
+          withChevron
+        >
+          Create a free account to check your answer
+        </CTALinkOrButton>
       )}
-    </div>
+      {isLoggedIn && !isCorrect && !isIncorrect && (
+        <CTALinkOrButton
+          className="!bg-bluedot-normal"
+          variant="primary"
+          type="submit"
+          disabled={isSubmitting || !currentAnswer}
+        >
+          {getSubmitButtonText()}
+        </CTALinkOrButton>
+      )}
+      {isLoggedIn && isIncorrect && (
+        <CTALinkOrButton onClick={handleTryAgain} variant="black">
+          <span className="flex items-center gap-2">
+            Try again
+            <FaUndo aria-hidden="true" />
+          </span>
+        </CTALinkOrButton>
+      )}
+    </form>
   );
 };
 
