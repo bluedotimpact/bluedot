@@ -130,10 +130,6 @@ const CourseLander = ({
         </>
       )}
 
-      {content.quotes && (
-        <QuoteSection {...content.quotes} />
-      )}
-
       {communityMembers && (
         <>
           <div className="border-t-hairline border-color-divider" />
@@ -142,6 +138,13 @@ const CourseLander = ({
             title={content.communityMembersTitle}
             variant="lander"
           />
+        </>
+      )}
+
+      {content.quotes && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <QuoteSection {...content.quotes} />
         </>
       )}
 

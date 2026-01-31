@@ -147,7 +147,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                       href="/join-us"
                       tabindex="0"
                     >
-                      Jobs
+                      Join us
                     </a>
                   </div>
                   <div
@@ -268,7 +268,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                 href="/join-us"
                 tabindex="0"
               >
-                Jobs
+                Join us
               </a>
             </div>
             <div

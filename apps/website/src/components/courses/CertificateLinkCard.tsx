@@ -69,7 +69,7 @@ const regularCourseConfig: CertificateConfig = {
     },
     requestCertificate: {
       title: 'Your Certificate',
-      subtitle: "If you've engaged in >80% of discussions and submitted your action plan, you'll receive a certificate.",
+      subtitle: 'To be eligible for a certificate, you need to submit your action plan/project and miss no more than 1 discussion.',
       buttonLabel: 'Request Certificate',
     },
     notEligible: {
@@ -352,7 +352,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
       return (
         <Card
           title="Your Certificate"
-          subtitle="If you've engaged in >80% of discussions, you'll receive a certificate."
+          subtitle="To be eligible for a certificate, you need to submit your action plan/project and miss no more than 1 discussion."
           className="container-lined p-8 bg-white"
         />
       );

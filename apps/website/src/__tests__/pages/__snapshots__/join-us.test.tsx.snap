@@ -7,7 +7,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
       class="relative w-full min-h-[317px] min-[680px]:min-h-[366px]"
     >
       <nav
-        class="nav sticky top-0 z-50 w-full transition-all duration-300 bg-white border-b border-color-divider"
+        class="nav absolute top-0 inset-x-0 z-50 w-full transition-all duration-300 bg-transparent border-b border-white/15"
       >
         <div
           class="nav__container section-base"
@@ -22,7 +22,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                 class="mobile-nav-links lg:hidden"
               >
                 <button
-                  class="icon-button size-[32px] flex items-center justify-center hover:cursor-pointer mobile-nav-links__btn"
+                  class="icon-button size-[32px] flex items-center justify-center hover:cursor-pointer mobile-nav-links__btn text-white [&_svg]:text-white"
                   type="button"
                 >
                   <svg
@@ -68,7 +68,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                         <button
                           aria-controls="courses-dropdown"
                           aria-expanded="false"
-                          class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                          class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                           type="button"
                         >
                           Courses
@@ -112,7 +112,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                       </div>
                       <a
                         aria-label="Events (opens in new tab)"
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                         href="https://lu.ma/bluedotevents?utm_source=website&utm_campaign=nav"
                         rel="noopener noreferrer"
                         tabindex="0"
@@ -122,7 +122,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                       </a>
                       <a
                         aria-label="Blog (opens in new tab)"
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                         href="https://blog.bluedot.org"
                         rel="noopener noreferrer"
                         tabindex="0"
@@ -131,18 +131,18 @@ exports[`JoinUsPage > should render correctly 1`] = `
                         Blog
                       </a>
                       <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                         href="/about"
                         tabindex="0"
                       >
                         About
                       </a>
                       <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                         href="/join-us"
                         tabindex="0"
                       >
-                        Jobs
+                        Join us
                       </a>
                     </div>
                     <div
@@ -167,7 +167,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                 <img
                   alt="BlueDot Impact Logo"
                   class="logo__img h-5 min-[681px]:h-6 mr-auto transition-all duration-300"
-                  src="/images/logo/BlueDot_Impact_Logo.svg"
+                  src="/images/logo/BlueDot_Impact_Logo_White.svg"
                 />
               </a>
             </div>
@@ -183,7 +183,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                   <button
                     aria-controls="courses-dropdown"
                     aria-expanded="false"
-                    class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                    class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                     type="button"
                   >
                     Courses
@@ -227,7 +227,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                 </div>
                 <a
                   aria-label="Events (opens in new tab)"
-                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                   href="https://lu.ma/bluedotevents?utm_source=website&utm_campaign=nav"
                   rel="noopener noreferrer"
                   tabindex="0"
@@ -237,7 +237,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                 </a>
                 <a
                   aria-label="Blog (opens in new tab)"
-                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                   href="https://blog.bluedot.org"
                   rel="noopener noreferrer"
                   tabindex="0"
@@ -246,32 +246,32 @@ exports[`JoinUsPage > should render correctly 1`] = `
                   Blog
                 </a>
                 <a
-                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                   href="/about"
                   tabindex="0"
                 >
                   About
                 </a>
                 <a
-                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-color-text hover:text-color-text"
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                   href="/join-us"
                   tabindex="0"
                 >
-                  Jobs
+                  Join us
                 </a>
               </div>
               <div
                 class="nav-cta flex flex-row items-center gap-4"
               >
                 <a
-                  class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--secondary bg-transparent nav-cta__secondary-cta flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center border border-color-divider text-color-text hover:text-color-text hover:bg-gray-50"
+                  class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--secondary nav-cta__secondary-cta flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-white/15 border border-white/20 text-white hover:text-white hover:bg-white/20 backdrop-blur-sm"
                   href="/login?redirect_to=%2Fjoin-us"
                   tabindex="0"
                 >
                   Sign in
                 </a>
                 <a
-                  class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--primary link-on-dark nav-cta__primary-cta hidden min-[680px]:flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-bluedot-normal hover:bg-[#1a3599] text-white hover:text-white"
+                  class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--primary link-on-dark nav-cta__primary-cta hidden min-[680px]:flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-white hover:bg-white/90 text-[#02034B] hover:text-[#02034B]"
                   href="/login?register=true&redirect_to=%2Fjoin-us"
                   tabindex="0"
                 >

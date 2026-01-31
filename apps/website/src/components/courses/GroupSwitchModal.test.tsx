@@ -41,6 +41,12 @@ const mockUser = {
   email: 'test@bluedot.org',
   name: 'Test User',
   lastSeenAt: new Date().toISOString(),
+  autoNumberId: null,
+  createdAt: null,
+  utmSource: null,
+  utmCampaign: null,
+  utmContent: null,
+  isAdmin: null,
 };
 
 const mockUnit1 = createMockUnit({
@@ -79,7 +85,6 @@ const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
       }),
       userIsParticipant: true,
       spotsLeftIfKnown: 0,
-      isTooLateToSwitchTo: false,
     },
     {
       group: createMockGroup({
@@ -89,7 +94,6 @@ const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
       }),
       userIsParticipant: false,
       spotsLeftIfKnown: 3,
-      isTooLateToSwitchTo: false,
     },
   ],
   discussionsAvailable: {
@@ -103,7 +107,6 @@ const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
         groupName: 'Morning Group A',
         userIsParticipant: true, // This is the current discussion
         spotsLeftIfKnown: 0,
-        isTooLateToSwitchTo: false,
       },
       {
         discussion: createMockGroupDiscussion({
@@ -114,7 +117,6 @@ const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
         groupName: 'Evening Group B',
         userIsParticipant: false, // Available to switch to
         spotsLeftIfKnown: 2,
-        isTooLateToSwitchTo: false, // Not started yet, so available
       },
     ],
   },
@@ -139,7 +141,7 @@ describe('GroupSwitchModal', () => {
       trpcMsw.groupSwitching.discussionsAvailable.query(() => mockAvailableGroupsAndDiscussions),
       trpcMsw.groupSwitching.switchGroup.mutation(({ input }) => {
         mockSubmitGroupSwitch(input);
-        return undefined;
+        return null;
       }),
     );
   });
@@ -419,30 +421,19 @@ describe('GroupSwitchModal', () => {
       });
     });
 
-    test('Full discussions, started discussions, and units with no upcoming discussions are disabled', async () => {
+    test('Full discussions and units with no upcoming discussions are disabled', async () => {
       // Create mock data with disabled options
       const currentDiscussion = mockAvailableGroupsAndDiscussions.discussionsAvailable[1]![0]!;
       const mockAvailableGroupsAndDiscussionsWithDisabled: DiscussionsAvailable = {
         groupsAvailable: [
           { ...mockAvailableGroupsAndDiscussions.groupsAvailable[0]!, group: { ...mockAvailableGroupsAndDiscussions.groupsAvailable[0]!.group, groupName: 'Current Group' } },
           { ...mockAvailableGroupsAndDiscussions.groupsAvailable[1]!, group: { ...mockAvailableGroupsAndDiscussions.groupsAvailable[1]!.group, groupName: 'Full Group', id: 'group-full' }, spotsLeftIfKnown: 0 },
-          { ...mockAvailableGroupsAndDiscussions.groupsAvailable[1]!, group: { ...mockAvailableGroupsAndDiscussions.groupsAvailable[1]!.group, groupName: 'Already Started Group', id: 'group-started' }, isTooLateToSwitchTo: true },
         ],
         discussionsAvailable: {
           1: [
             { ...currentDiscussion, discussion: { ...currentDiscussion.discussion, id: 'discussion-current', group: 'group-1' }, groupName: 'Current Group' },
             {
               ...currentDiscussion, discussion: { ...currentDiscussion.discussion, id: 'discussion-full', group: 'group-full' }, groupName: 'Full Group', userIsParticipant: false, spotsLeftIfKnown: 0,
-            },
-            {
-              ...currentDiscussion,
-              discussion: {
-                ...currentDiscussion.discussion, id: 'discussion-started', group: 'group-started', startDateTime: Math.floor((Date.now() - 2 * 60 * 60 * 1000) / 1000),
-              },
-              groupName: 'Already Started Group',
-              userIsParticipant: false,
-              spotsLeftIfKnown: 2,
-              isTooLateToSwitchTo: true,
             },
           ],
           2: [], // Unit 2 has no upcoming discussions
@@ -467,23 +458,12 @@ describe('GroupSwitchModal', () => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
       });
 
-      // Verify disabled discussions are shown
+      // Verify full discussion is shown
       expect(screen.getByText('Full Group')).toBeInTheDocument();
-      expect(screen.getByText('Already Started Group')).toBeInTheDocument();
-
-      // Find disabled options: they don't have role="button" because they're disabled
-      const fullGroupOption = screen.getByText('Full Group').closest('div.rounded-lg');
-      const startedGroupOption = screen.getByText('Already Started Group').closest('div.rounded-lg');
-
-      // Verify they have (at least some) disabled styling
-      expect(fullGroupOption).toHaveClass('opacity-50');
-      expect(startedGroupOption).toHaveClass('opacity-50');
 
       // Verify "No spots left" message appears for full groups
       const noSpotsMessages = screen.getAllByText('No spots left');
       expect(noSpotsMessages.length).toBeGreaterThan(0);
-      // Verify "This discussion has passed" message appears for started discussions
-      expect(screen.getByText('This discussion has passed')).toBeInTheDocument();
 
       // Open unit selector to check if Unit 2 is disabled
       const unitButton = screen.getByRole('button', { name: /Select unit/i });
@@ -650,7 +630,7 @@ describe('GroupSwitchModal', () => {
           if (callCount === 1) {
             throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Network error' });
           }
-          return undefined;
+          return null;
         }),
       );
 
@@ -869,12 +849,13 @@ describe('GroupSwitchModal', () => {
   });
 
   describe('buildAvailabilityFormUrl', () => {
-    test('builds URL with email and utm_source only when no course registration', () => {
+    test('builds URL with email, utm_source and roundId', () => {
       const url = buildAvailabilityFormUrl({
         email: 'test@example.com',
         utmSource: 'test-source',
+        roundId: 'rec123',
       });
-      expect(url).toBe('https://availability.bluedot.org/form/bluedot-course?email=test%40example.com&utm_source=test-source');
+      expect(url).toBe('https://availability.bluedot.org/form/bluedot-course?email=test%40example.com&utm_source=test-source&roundId=rec123');
     });
 
     test('builds URL with prefill parameters when course registration has availability', () => {
@@ -886,15 +867,26 @@ describe('GroupSwitchModal', () => {
           availabilityTimezone: 'UTC+01:00',
           availabilityComments: 'I prefer morning sessions',
         },
+        roundId: 'rec123',
       });
 
       const parsed = new URL(url);
       expect(parsed.origin + parsed.pathname).toBe('https://availability.bluedot.org/form/bluedot-course');
       expect(parsed.searchParams.get('email')).toBe('test@example.com');
       expect(parsed.searchParams.get('utm_source')).toBe('bluedot-group-switch-modal');
+      expect(parsed.searchParams.get('roundId')).toBe('rec123');
       expect(parsed.searchParams.get('prefill_intervals')).toBe('M16:00 M18:00, W20:00 R08:00');
       expect(parsed.searchParams.get('prefill_timezone')).toBe('UTC+01:00');
       expect(parsed.searchParams.get('prefill_comment')).toBe('I prefer morning sessions');
+    });
+
+    test('handles empty roundId gracefully', () => {
+      const url = buildAvailabilityFormUrl({
+        email: 'test@example.com',
+        utmSource: 'test-source',
+        roundId: '',
+      });
+      expect(url).toBe('https://availability.bluedot.org/form/bluedot-course?email=test%40example.com&utm_source=test-source&roundId=');
     });
   });
 

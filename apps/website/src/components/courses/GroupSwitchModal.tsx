@@ -81,7 +81,7 @@ export default function GroupSwitchModal({
 
   const unitOptions = courseData?.units.map((u) => {
     const unitDiscussions = availableGroupsAndDiscussions?.discussionsAvailable?.[u.unitNumber];
-    const hasAvailableDiscussions = unitDiscussions?.some((d) => !d.isTooLateToSwitchTo);
+    const hasAvailableDiscussions = unitDiscussions?.length;
 
     return {
       value: u.unitNumber.toString(),
@@ -217,7 +217,7 @@ export default function GroupSwitchModal({
         id: g.group.id,
         groupName: g.group.groupName ?? 'Group [Unknown]',
         dateTime: g.group.startTimeUtc,
-        isDisabled: g.spotsLeftIfKnown === 0 || g.isTooLateToSwitchTo,
+        isDisabled: g.spotsLeftIfKnown === 0,
         isSelected,
         isRecurringTime: true,
         description: getGroupSwitchDescription({
@@ -241,14 +241,13 @@ export default function GroupSwitchModal({
         id: d.discussion.id,
         groupName: d.groupName,
         dateTime: d.discussion.startDateTime,
-        isDisabled: d.spotsLeftIfKnown === 0 || d.isTooLateToSwitchTo,
+        isDisabled: d.spotsLeftIfKnown === 0,
         isSelected,
         description: getGroupSwitchDescription({
           isSelected,
           isTemporarySwitch: true,
           selectedUnitNumber,
           spotsLeftIfKnown: d.spotsLeftIfKnown,
-          isTooLateToSwitchTo: d.isTooLateToSwitchTo,
         }),
         onSelect: () => setSelectedDiscussionId(d.discussion.id),
         onConfirm: handleSubmit,
@@ -332,7 +331,21 @@ export default function GroupSwitchModal({
       title: 'Update availability (required)',
       subtitle: user ? (
         <>
-          To help us assign you to a group which best suits you, <a href={buildAvailabilityFormUrl({ email: user.email, utmSource: 'bluedot-group-switch-modal', courseRegistration })} target="_blank" rel="noopener noreferrer" className="text-bluedot-normal underline">please update your availability</a>.
+          To help us assign you to a group which best suits you, {' '}
+          <a
+            href={buildAvailabilityFormUrl({
+              email: user.email,
+              utmSource: 'bluedot-group-switch-modal',
+              courseRegistration,
+              roundId: courseRegistration?.roundId || '',
+            })}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-bluedot-normal underline"
+          >
+            please update your availability
+          </a>
+          .
         </>
       ) : undefined,
       control: (
@@ -463,6 +476,7 @@ export const buildAvailabilityFormUrl = ({
   email,
   utmSource,
   courseRegistration,
+  roundId,
 }: {
   email: string;
   utmSource: string;
@@ -471,10 +485,12 @@ export const buildAvailabilityFormUrl = ({
     availabilityTimezone?: string | null;
     availabilityComments?: string | null;
   } | null;
+  roundId: string;
 }): string => {
   const params = new URLSearchParams();
   params.set('email', email);
   params.set('utm_source', utmSource);
+  params.set('roundId', roundId);
 
   const { availabilityIntervalsUTC, availabilityTimezone, availabilityComments } = courseRegistration ?? {};
 
@@ -535,14 +551,12 @@ const getGroupSwitchDescription = ({
   isTemporarySwitch,
   selectedUnitNumber,
   spotsLeftIfKnown,
-  isTooLateToSwitchTo = false,
 }: {
   userIsParticipant?: boolean;
   isSelected: boolean;
   isTemporarySwitch: boolean;
   selectedUnitNumber?: string;
   spotsLeftIfKnown: number | null;
-  isTooLateToSwitchTo?: boolean;
 }): React.ReactNode => {
   if (isTemporarySwitch) {
     if (userIsParticipant) {
@@ -564,10 +578,6 @@ const getGroupSwitchDescription = ({
     if (isSelected) {
       return <span className="text-bluedot-normal">You are switching into this group for all upcoming units</span>;
     }
-  }
-
-  if (isTemporarySwitch && isTooLateToSwitchTo) {
-    return <span>This discussion has passed</span>;
   }
 
   // Default: N spots left

@@ -28,19 +28,19 @@ const mockPartTimeRounds = [
   {
     id: 'round-parttime-1',
     intensity: 'part-time',
-    applicationDeadline: '01 Mar',
+    applicationDeadline: '1 Mar',
     applicationDeadlineRaw: '2025-03-01',
     firstDiscussionDateRaw: '2025-03-10',
-    dateRange: '10 Mar - 04 May',
+    dateRange: '10 Mar - 4 May',
     numberOfUnits: 8,
   },
   {
     id: 'round-parttime-2',
     intensity: 'part-time',
-    applicationDeadline: '01 Jun',
+    applicationDeadline: '1 Jun',
     applicationDeadlineRaw: '2025-06-01',
     firstDiscussionDateRaw: '2025-06-10',
-    dateRange: '10 Jun - 04 Aug',
+    dateRange: '10 Jun - 4 Aug',
     numberOfUnits: 8,
   },
 ];

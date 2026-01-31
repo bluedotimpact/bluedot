@@ -206,7 +206,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       href="/join-us"
                       tabindex="0"
                     >
-                      Jobs
+                      Join us
                     </a>
                   </div>
                   <div
@@ -327,7 +327,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 href="/join-us"
                 tabindex="0"
               >
-                Jobs
+                Join us
               </a>
             </div>
             <div
@@ -926,7 +926,7 @@ In 30 hours, you'll understand the landscape, pick a direction, and actually sta
       class="border-t-hairline border-color-divider"
     />
     <section
-      class="w-full bg-[#FAFAFA]"
+      class="w-full bg-white"
     >
       <div
         class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24"
@@ -1132,11 +1132,25 @@ In 30 hours, you'll understand the landscape, pick a direction, and actually sta
         </div>
       </div>
     </section>
+    <div
+      class="border-t-hairline border-color-divider"
+    />
+    <div
+      data-testid="community-members-section"
+    >
+      <span>
+        Members: 
+        6
+      </span>
+    </div>
+    <div
+      class="border-t-hairline border-color-divider"
+    />
     <section
       aria-atomic="true"
       aria-label="Quote carousel"
       aria-live="polite"
-      class="relative w-full py-6 px-5 sm:px-5 min-[680px]:pt-8 min-[680px]:pb-16 min-[680px]:px-8 lg:p-12 xl:pb-24 overflow-x-hidden"
+      class="relative w-full py-12 px-5 sm:px-5 min-[680px]:py-16 min-[680px]:px-8 lg:py-12 xl:py-24 overflow-x-hidden"
       style="background-color: #FFFFFF;"
     >
       <div
@@ -1377,17 +1391,6 @@ In 30 hours, you'll understand the landscape, pick a direction, and actually sta
         </div>
       </div>
     </section>
-    <div
-      class="border-t-hairline border-color-divider"
-    />
-    <div
-      data-testid="community-members-section"
-    >
-      <span>
-        Members: 
-        6
-      </span>
-    </div>
     <div
       class="border-t-hairline border-color-divider"
     />

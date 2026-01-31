@@ -20,6 +20,8 @@ export class PgAirtableTable<
 > {
   public readonly pg: BasePgTableType<TTableName, TColumnsMap>;
 
+  public readonly pgWithDeprecatedColumns?: PgAirtableTable['pg'];
+
   public readonly airtable: Table<AirtableItemFromColumnsMap<TColumnsMap>>;
 
   public readonly airtableFieldMap: ReadonlyMap<string, string>;
@@ -44,6 +46,40 @@ export class PgAirtableTable<
     const finalPgColumns: ExtractPgColumns<TColumnsMap> = drizzleTableColsBuilder as ExtractPgColumns<TColumnsMap>;
 
     this.pg = pgTable(name, finalPgColumns) as typeof this.pg;
+    // Initialise pgWithDeprecatedColumns if there are deprecated columns
+    if (config.deprecatedColumns && Object.keys(config.deprecatedColumns).length > 0) {
+      // Deprecated columns will stop being synced, validate they are nullable so we can handle this
+      for (const [columnName, columnConfig] of Object.entries(config.deprecatedColumns)) {
+        // @ts-expect-error accessing internal config
+        if (columnConfig.pgColumn?.config?.notNull === true) {
+          throw new Error(
+            `Deprecated column "${columnName}" in table "${name}" must be nullable. `
+            + 'Deprecated columns cannot use .notNull() because they won\'t receive Airtable sync updates.',
+          );
+        }
+
+        if (columnName in config.columns) {
+          throw new Error(
+            `Column "${columnName}" in table "${name}" appears in both columns and deprecatedColumns. `
+            + 'A column should only be in one or the other.',
+          );
+        }
+      }
+
+      const combinedColsBuilder: Record<string, AllowedPgColumn> = {
+        id: text('id').primaryKey(),
+      };
+
+      for (const [columnName, columnConfig] of Object.entries(config.columns)) {
+        combinedColsBuilder[columnName] = columnConfig.pgColumn;
+      }
+
+      for (const [columnName, columnConfig] of Object.entries(config.deprecatedColumns)) {
+        combinedColsBuilder[columnName] = columnConfig.pgColumn;
+      }
+
+      this.pgWithDeprecatedColumns = pgTable(name, combinedColsBuilder) as unknown as typeof this.pgWithDeprecatedColumns;
+    }
 
     // Initialise Airtable
     const fieldMap = new Map<string, string>();

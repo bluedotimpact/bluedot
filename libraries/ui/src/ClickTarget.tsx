@@ -10,6 +10,7 @@ export type ClickTargetProps = React.PropsWithChildren<{
   rel?: string;
   disabled?: boolean;
   'aria-label'?: string;
+  type?: 'button' | 'submit' | 'reset';
 }>;
 
 export const ClickTarget = ({
@@ -22,6 +23,7 @@ export const ClickTarget = ({
   target,
   rel,
   'aria-label': ariaLabel,
+  type = 'button',
 }: ClickTargetProps) => {
   const safeRel = target === '_blank'
     ? Array.from(new Set(['noopener', 'noreferrer', ...(rel?.split(/\s+/).filter(Boolean) ?? [])])).join(' ')
@@ -60,7 +62,8 @@ export const ClickTarget = ({
       onClick={handleInteraction}
       disabled={disabled}
       aria-label={ariaLabel}
-      type="button"
+      // eslint-disable-next-line no-nested-ternary -- required by react/button-has-type
+      type={type === 'submit' ? 'submit' : type === 'reset' ? 'reset' : 'button'}
     >
       {children}
     </button>

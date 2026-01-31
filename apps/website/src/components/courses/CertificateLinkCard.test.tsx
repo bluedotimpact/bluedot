@@ -247,7 +247,7 @@ describe('CertificateLinkCard', () => {
       // (certificates are issued via backend after 80% attendance)
       await waitFor(() => {
         expect(screen.getByText('Your Certificate')).toBeInTheDocument();
-        expect(screen.getByText("If you've engaged in >80% of discussions, you'll receive a certificate.")).toBeInTheDocument();
+        expect(screen.getByText('To be eligible for a certificate, you need to submit your action plan/project and miss no more than 1 discussion.')).toBeInTheDocument();
       });
 
       // Should NOT show Request Certificate button
@@ -288,7 +288,7 @@ describe('CertificateLinkCard', () => {
 
       await waitFor(() => {
         expect(screen.getByText('Your Certificate')).toBeInTheDocument();
-        expect(screen.getByText("If you've engaged in >80% of discussions, you'll receive a certificate.")).toBeInTheDocument();
+        expect(screen.getByText('To be eligible for a certificate, you need to submit your action plan/project and miss no more than 1 discussion.')).toBeInTheDocument();
       });
 
       // Should NOT show Request Certificate button

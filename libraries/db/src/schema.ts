@@ -90,10 +90,6 @@ export const courseTable = pgAirtable('course', {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fld77qMwZ1de2owvx',
     },
-    image: {
-      pgColumn: text(),
-      airtableId: 'fldh90A6x8HwQSkMy',
-    },
     slug: {
       pgColumn: text().notNull(),
       airtableId: 'fldHWXKaVuHJAaMbP',
@@ -141,6 +137,13 @@ export const courseTable = pgAirtable('course', {
     applyUrl: {
       pgColumn: text(),
       airtableId: 'fldAtb3GHlRNpYzwC',
+    },
+  },
+  deprecatedColumns: {
+    image: {
+      pgColumn: text(),
+      airtableId: 'fldh90A6x8HwQSkMy',
+      deprecated: true,
     },
   },
 });
@@ -757,6 +760,10 @@ export const jobPostingTable = pgAirtable('job_posting', {
       pgColumn: numeric({ mode: 'number' }).notNull(),
       airtableId: 'fldI1yVd0G5eCvWiy',
     },
+    category: {
+      pgColumn: text(),
+      airtableId: 'fldSJh6VeETvtPuDD',
+    },
   },
 });
 
@@ -817,15 +824,11 @@ export const testimonialTable = pgAirtable('testimonial', {
     },
     headshotAttachmentUrls: {
       pgColumn: text().array(),
-      airtableId: 'fldRtvMPQ4T79vqC1',
+      airtableId: 'flddgVxCSMALkqyUl',
     },
     jobTitle: {
       pgColumn: text(),
       airtableId: 'fldO9gXGV0zA7Z0fh',
-    },
-    bluedotEngagement: {
-      pgColumn: text(),
-      airtableId: 'fld7XhBxpg4TQ1Gra',
     },
     profileUrl: {
       pgColumn: text(),
@@ -1187,6 +1190,19 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
     roundName: {
       pgColumn: text(),
       airtableId: 'fldQymBa7milTYP9q',
+    },
+    roundId: {
+      pgColumn: text(),
+      airtableId: 'fldYaHSLqnvBXyjur',
+    },
+    // Join to 'dropout' table if the user has dropped out or deferred from a course
+    dropoutId: {
+      pgColumn: text().array(),
+      airtableId: 'fldaEk9K3m25Hs4Ga',
+    },
+    deferredId: {
+      pgColumn: text().array(),
+      airtableId: 'fldc7bNIkEyrMsQ4w',
     },
   },
 });

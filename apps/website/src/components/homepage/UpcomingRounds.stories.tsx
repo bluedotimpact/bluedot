@@ -27,7 +27,7 @@ const mockIntensiveRounds: Round[] = [
     applicationDeadline: '15 Jan',
     applicationDeadlineRaw: '2025-01-15',
     firstDiscussionDateRaw: '2025-02-01',
-    dateRange: '01 Feb – 14 Feb',
+    dateRange: '1 Feb – 14 Feb',
     numberOfUnits: 14,
   },
   {
@@ -50,10 +50,10 @@ const mockIntensiveRounds: Round[] = [
     courseSlug: 'agi-strategy',
     applyUrl: 'https://web.miniextensions.com/test-agi',
     intensity: 'intensive',
-    applicationDeadline: '01 Feb',
+    applicationDeadline: '1 Feb',
     applicationDeadlineRaw: '2025-02-01',
     firstDiscussionDateRaw: '2025-02-20',
-    dateRange: '20 Feb – 05 Mar',
+    dateRange: '20 Feb – 5 Mar',
     numberOfUnits: 14,
   },
 ];
@@ -69,7 +69,7 @@ const mockPartTimeRounds: Round[] = [
     applicationDeadline: '15 Jan',
     applicationDeadlineRaw: '2025-01-15',
     firstDiscussionDateRaw: '2025-02-01',
-    dateRange: '01 Feb – 28 Mar',
+    dateRange: '1 Feb – 28 Mar',
     numberOfUnits: 8,
   },
   {
@@ -82,7 +82,7 @@ const mockPartTimeRounds: Round[] = [
     applicationDeadline: '22 Jan',
     applicationDeadlineRaw: '2025-01-22',
     firstDiscussionDateRaw: '2025-02-10',
-    dateRange: '10 Feb – 06 Apr',
+    dateRange: '10 Feb – 6 Apr',
     numberOfUnits: 8,
   },
   {
@@ -92,7 +92,7 @@ const mockPartTimeRounds: Round[] = [
     courseSlug: 'biosecurity',
     applyUrl: 'https://web.miniextensions.com/test-bio',
     intensity: 'part-time',
-    applicationDeadline: '05 Feb',
+    applicationDeadline: '5 Feb',
     applicationDeadlineRaw: '2025-02-05',
     firstDiscussionDateRaw: '2025-02-25',
     dateRange: '25 Feb – 21 Apr',

@@ -68,6 +68,17 @@ const CHUNKS = [
   },
 ];
 
+const ALL_UNIT_CHUNKS: Record<string, { id: string; chunkTitle: string; chunkOrder: string; estimatedTime: number | null; chunkResources: string[] | null }[]> = {};
+COURSE_UNITS.forEach((unit) => {
+  ALL_UNIT_CHUNKS[unit.id] = CHUNKS.map((chunk) => ({
+    id: chunk.id,
+    chunkTitle: chunk.chunkTitle,
+    chunkOrder: chunk.chunkOrder,
+    estimatedTime: chunk.estimatedTime,
+    chunkResources: chunk.chunkResources,
+  }));
+});
+
 describe('UnitLayout', () => {
   test('renders first unit as expected', async () => {
     const { container } = render(
@@ -79,6 +90,8 @@ describe('UnitLayout', () => {
         chunkIndex={0}
         setChunkIndex={vi.fn()}
         courseSlug="test-course"
+        applyCTAProps={undefined}
+        allUnitChunks={ALL_UNIT_CHUNKS}
       />,
       { wrapper: TrpcProvider },
     );
@@ -101,6 +114,8 @@ describe('UnitLayout', () => {
         chunkIndex={0}
         setChunkIndex={vi.fn()}
         courseSlug="test-course"
+        applyCTAProps={undefined}
+        allUnitChunks={ALL_UNIT_CHUNKS}
       />,
       { wrapper: TrpcProvider },
     );
@@ -123,6 +138,8 @@ describe('UnitLayout', () => {
         chunkIndex={0}
         setChunkIndex={vi.fn()}
         courseSlug="test-course"
+        applyCTAProps={undefined}
+        allUnitChunks={ALL_UNIT_CHUNKS}
       />,
       { wrapper: TrpcProvider },
     );
@@ -168,6 +185,8 @@ describe('UnitLayout', () => {
         chunkIndex={CHUNKS.length - 1}
         setChunkIndex={vi.fn()}
         courseSlug="test-course"
+        applyCTAProps={undefined}
+        allUnitChunks={ALL_UNIT_CHUNKS}
       />,
       { wrapper: TrpcProvider },
     );
@@ -192,6 +211,8 @@ describe('UnitLayout', () => {
         chunkIndex={0}
         setChunkIndex={vi.fn()}
         courseSlug="test-course"
+        applyCTAProps={undefined}
+        allUnitChunks={ALL_UNIT_CHUNKS}
       />,
       { wrapper: TrpcProvider },
     );
@@ -217,6 +238,8 @@ describe('UnitLayout', () => {
         chunkIndex={0}
         setChunkIndex={vi.fn()}
         courseSlug="test-course"
+        applyCTAProps={undefined}
+        allUnitChunks={ALL_UNIT_CHUNKS}
       />,
       { wrapper: TrpcProvider },
     );
@@ -252,6 +275,8 @@ describe('UnitLayout', () => {
         chunkIndex={1}
         setChunkIndex={mockSetChunkIndex}
         courseSlug="test-course"
+        applyCTAProps={undefined}
+        allUnitChunks={ALL_UNIT_CHUNKS}
       />,
       { wrapper: TrpcProvider },
     );
