@@ -42,7 +42,7 @@ function transformTestimonial(t: Testimonial): TransformedTestimonial {
 export const testimonialsRouter = router({
   getCommunityMembers: publicProcedure.query(async () => {
     const all = await db.scan(testimonialTable);
-    const filtered = all.filter((t) => t.name && t.headshotAttachmentUrls);
+    const filtered = all.filter((t) => t.name && getFirstHeadshotUrl(t.headshotAttachmentUrls));
     return sortTestimonials(filtered).map(transformTestimonial);
   }),
 
@@ -51,7 +51,7 @@ export const testimonialsRouter = router({
     .query(async ({ input }) => {
       const all = await db.scan(testimonialTable);
       const filtered = all.filter((t) => t.name
-        && t.headshotAttachmentUrls
+        && getFirstHeadshotUrl(t.headshotAttachmentUrls)
         && t.displayOnCourseSlugs?.includes(input.courseSlug));
       return sortTestimonials(filtered).map(transformTestimonial);
     }),
