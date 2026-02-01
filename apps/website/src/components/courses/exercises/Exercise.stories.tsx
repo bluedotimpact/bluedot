@@ -15,6 +15,9 @@ const freeTextExercise = {
   courseIdWrite: 'course-1',
   courseIdRead: 'course-1',
   unitId: 'unit-1',
+  status: null,
+  unitNumber: null,
+  exerciseNumber: null,
 };
 
 const multipleChoiceExercise = {
@@ -27,6 +30,9 @@ const multipleChoiceExercise = {
   courseIdWrite: 'course-1',
   courseIdRead: 'course-1',
   unitId: 'unit-1',
+  status: null,
+  unitNumber: null,
+  exerciseNumber: null,
 };
 
 const savedResponse = {
@@ -35,6 +41,7 @@ const savedResponse = {
   exerciseId: EXERCISE_ID,
   response: 'I believe a better future involves more equitable access to education and healthcare globally.',
   completed: false,
+  autoNumberId: null,
 };
 
 const longResponse = 'A better future means access to meaningful work and stronger local institutions. I\'d love to see more investment in public infrastructure — not just roads and transit, but libraries, community centres, and green spaces that bring people together. I think technology can help here, but only if we\'re intentional about how we deploy it. Too often we optimise for efficiency at the expense of human connection. I\'d also like to see education systems that teach critical thinking and adaptability rather than rote memorisation. The pace of change is accelerating, and we need people who can navigate uncertainty with confidence. Ultimately, I think a better future is one where people have more agency over their own lives — more time, more autonomy, and more opportunities to contribute to something larger than themselves.';
