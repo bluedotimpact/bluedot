@@ -5,11 +5,21 @@ import { publicProcedure, router } from '../trpc';
 
 function sortTestimonials(items: Testimonial[]): Testimonial[] {
   return [...items].sort((a, b) => {
+    // 1. Prioritised items first
     const aPriority = !!a.isPrioritised;
     const bPriority = !!b.isPrioritised;
     if (aPriority !== bPriority) {
       return bPriority ? 1 : -1;
     }
+
+    // 2. Items with quotes before those without
+    const aHasQuote = !!(a.testimonialText && a.testimonialText.trim());
+    const bHasQuote = !!(b.testimonialText && b.testimonialText.trim());
+    if (aHasQuote !== bHasQuote) {
+      return bHasQuote ? 1 : -1;
+    }
+
+    // 3. Alphabetical by name
     return (a.name || '').localeCompare(b.name || '');
   });
 }
@@ -42,7 +52,9 @@ function transformTestimonial(t: Testimonial): TransformedTestimonial {
 export const testimonialsRouter = router({
   getCommunityMembers: publicProcedure.query(async () => {
     const all = await db.scan(testimonialTable);
-    const filtered = all.filter((t) => t.name && getFirstHeadshotUrl(t.headshotAttachmentUrls));
+    const filtered = all.filter((t) => t.name
+      && getFirstHeadshotUrl(t.headshotAttachmentUrls)
+      && t.testimonialText?.trim());
     return sortTestimonials(filtered).map(transformTestimonial);
   }),
 
@@ -52,6 +64,7 @@ export const testimonialsRouter = router({
       const all = await db.scan(testimonialTable);
       const filtered = all.filter((t) => t.name
         && getFirstHeadshotUrl(t.headshotAttachmentUrls)
+        && t.testimonialText?.trim()
         && t.displayOnCourseSlugs?.includes(input.courseSlug));
       return sortTestimonials(filtered).map(transformTestimonial);
     }),

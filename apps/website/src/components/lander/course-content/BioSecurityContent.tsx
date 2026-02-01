@@ -180,73 +180,7 @@ export const createBioSecurityContent = (
     ],
   },
 
-  communityMembersTitle: 'Meet our alumni working on biosecurity',
-
-  communityMembers: [
-    {
-      name: 'Dr Michael Friedman',
-      jobTitle: 'Asia Center for Health Security',
-      course: 'Course Facilitator',
-      imageSrc: '/images/graduates/michael-friedman.webp',
-      url: 'https://asia-chs.org/team/visiting-associate-prof-michael-friedman/',
-    },
-    {
-      name: 'Janvi Ahuja',
-      jobTitle: 'Pandemic Sciences Institute, Oxford',
-      course: 'Course Designer',
-      imageSrc: '/images/graduates/janvi-ahuja.webp',
-      url: 'https://www.janvi.xyz/',
-    },
-    {
-      name: 'Rachel Hovde',
-      jobTitle: 'Policy Director, Americans for Responsible Innovation',
-      course: 'Course Graduate',
-      imageSrc: '/images/graduates/rachel-hovde.webp',
-      url: 'https://www.linkedin.com/in/rachel-hovde-52b1b146/',
-    },
-    {
-      name: 'Peter Babigumira Ahabwe',
-      jobTitle: 'Epidemic Intelligence Analyst, Ugandan Ministry of Health',
-      course: 'Course Facilitator',
-      imageSrc: '/images/graduates/peter-ahabwe.webp',
-      url: 'https://www.linkedin.com/in/babigumira09/',
-    },
-    {
-      name: 'Scott Olesen',
-      jobTitle: 'Center for Forecasting & Outbreak Analytics, US CDC',
-      course: 'Course Graduate',
-      imageSrc: '/images/graduates/scott-olesen.webp',
-      url: 'https://www.linkedin.com/in/scott-olesen/',
-    },
-    {
-      name: 'Felix Moronta',
-      jobTitle: 'International Centre for Genetic Engineering and Biotechnology',
-      course: 'Course Facilitator',
-      imageSrc: '/images/graduates/felix-moronta.webp',
-      url: 'https://www.linkedin.com/in/morontafelix/',
-    },
-    {
-      name: 'Natalie Kiilu',
-      jobTitle: 'Oxford Biosecurity Group',
-      course: 'Course Participant',
-      imageSrc: '/images/graduates/natalie-kiilu.webp',
-      url: 'https://www.linkedin.com/in/natalie-kiilu-6a4a94169/',
-    },
-    {
-      name: 'Sarah Koeller',
-      jobTitle: 'Center for Forecasting & Outbreak Analytics, US CDC',
-      course: 'Course Graduate',
-      imageSrc: '/images/graduates/sarah-koeller.webp',
-      url: 'https://www.linkedin.com/in/sarah-koeller/',
-    },
-    {
-      name: 'Raffael Luca Schumann',
-      jobTitle: 'Jason Chin Lab, Cambridge',
-      course: 'Course Graduate',
-      imageSrc: '/images/graduates/raffael-luca-schumann.webp',
-      url: 'https://www.linkedin.com/in/raffael-luca-schumann-139760194/',
-    },
-  ],
+  testimonialsTitle: 'Meet our alumni working on biosecurity',
 
   faq: {
     title: 'Frequently Asked Questions',

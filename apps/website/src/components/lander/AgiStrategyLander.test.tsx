@@ -41,24 +41,14 @@ vi.mock('./components/GraduateSection', () => ({
   default: () => <div data-testid="graduate-section">Graduate Section</div>,
 }));
 
-vi.mock('./components/TestimonialSubSection', () => ({
-  default: ({ testimonials, title }: { testimonials?: unknown[]; title: string }) => (
-    <div data-testid="testimonial-section">
-      <h2>{title}</h2>
+vi.mock('./TestimonialCarousel', () => ({
+  default: ({ testimonials, title }: { testimonials?: unknown[]; title?: string }) => (
+    <div data-testid="community-members-section">
+      {title && <h2>{title}</h2>}
       {testimonials?.length && <span>Testimonials: {testimonials.length}</span>}
     </div>
   ),
-  Testimonial: {},
-}));
-
-vi.mock('./CommunityCarousel', () => ({
-  default: ({ members, title }: { members?: unknown[]; title?: string }) => (
-    <div data-testid="community-members-section">
-      {title && <h2>{title}</h2>}
-      {members?.length && <span>Members: {members.length}</span>}
-    </div>
-  ),
-  CommunityMember: {},
+  TestimonialMember: {},
 }));
 
 describe('AgiStrategyLander', () => {

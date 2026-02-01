@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { addQueryParam, useLatestUtmParams } from '@bluedot/ui';
 import { Nav } from '../Nav/Nav';
-import CommunityCarousel, { CommunityMember } from './CommunityCarousel';
+import TestimonialCarousel, { TestimonialMember } from './TestimonialCarousel';
 import GraduateSection from './components/GraduateSection';
 import PartnerSection, { PartnerSectionProps } from './components/PartnerSection';
 import CourseBenefitsSection, { CourseBenefitsSectionProps } from './components/CourseBenefitsSection';
@@ -27,8 +27,8 @@ export type CourseLanderContent = {
   courseInformation: CourseInformationSectionProps;
   pathways?: PathwaysSectionProps;
   quotes?: QuoteSectionProps;
-  communityMembers?: CommunityMember[];
-  communityMembersTitle?: string;
+  testimonials?: TestimonialMember[];
+  testimonialsTitle?: string;
   partners?: PartnerSectionProps;
   faq?: FAQSectionProps;
   banner: LandingBannerProps;
@@ -57,7 +57,7 @@ const CourseLander = ({
     { courseSlug },
   );
 
-  const communityMembers = dbTestimonials?.map((t): CommunityMember => ({ ...t, course: '' }));
+  const testimonials = dbTestimonials?.map((t): TestimonialMember => ({ ...t }));
 
   const ctaText = soonestDeadline
     ? `Apply by ${soonestDeadline}`
@@ -124,12 +124,12 @@ const CourseLander = ({
         </>
       )}
 
-      {communityMembers && (
+      {testimonials && (
         <>
           <div className="border-t-hairline border-color-divider" />
-          <CommunityCarousel
-            members={communityMembers}
-            title={content.communityMembersTitle}
+          <TestimonialCarousel
+            testimonials={testimonials}
+            title={content.testimonialsTitle}
             variant="lander"
           />
         </>
