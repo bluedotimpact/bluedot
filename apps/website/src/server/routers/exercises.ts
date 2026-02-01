@@ -139,6 +139,7 @@ export const exercisesRouter = router({
       // 8. Get all exercise responses for these participants
       const emailToName = new Map(participants.map((p) => [p.email, p.name || 'Anonymous']));
 
+      // TODO need to use getFirst here
       const exerciseResponses = await db.pg
         .select({
           exerciseId: exerciseResponseTable.pg.exerciseId,
@@ -148,12 +149,14 @@ export const exercisesRouter = router({
         })
         .from(exerciseResponseTable.pg)
         .where(
+          // TODO ideally filter more at this step
           inArray(exerciseResponseTable.pg.email, participantEmails),
         );
 
       // 9. Group by exerciseId (only include completed responses)
       const responses: Record<string, { name: string, response: string }[]> = {};
       for (const er of exerciseResponses) {
+        // TODO fix lint, no continue in loop (though IMO we should disable that)
         if (!er.completed) continue;
         if (!responses[er.exerciseId]) {
           responses[er.exerciseId] = [];
