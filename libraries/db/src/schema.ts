@@ -331,7 +331,7 @@ export const groupTable = pgAirtable('group', {
     },
     /** FK to meetPerson table */
     facilitator: {
-      pgColumn: text().array().notNull(),
+      pgColumn: text().array(),
       airtableId: 'fld7P1XI03ToIqthj',
     },
   },
