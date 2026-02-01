@@ -6,10 +6,8 @@ import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { useRouter } from 'next/router';
 import FreeTextResponse from './FreeTextResponse';
 import MultipleChoice from './MultipleChoice';
-// TODO fix these import cycles
 // eslint-disable-next-line import/no-cycle
 import GroupResponses from './GroupResponses';
-// eslint-disable-next-line import/no-cycle
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
 import { CheckmarkIcon } from '../../icons/CheckmarkIcon';
 import { trpc } from '../../../utils/trpc';
