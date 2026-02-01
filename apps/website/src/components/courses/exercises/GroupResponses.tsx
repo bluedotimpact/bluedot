@@ -27,7 +27,7 @@ const GroupResponses: React.FC<GroupResponsesProps> = ({
   if (!selectedGroup) return null;
 
   const { responses, totalParticipants } = selectedGroup;
-  const pendingCount = totalParticipants - responses.length;
+  const pendingCount = Math.max(0, totalParticipants - responses.length);
 
   return (
     <div className="bg-[#F9FBFF] px-8 pt-6 pb-8 rounded-b-lg flex flex-col gap-6">
@@ -49,9 +49,10 @@ const GroupResponses: React.FC<GroupResponsesProps> = ({
       </p>
 
       <div className="flex flex-col divide-y divide-gray-200">
-        {responses.map((r) => (
+        {responses.map((r, i) => (
           <ResponseBlock
-            key={r.name}
+            // eslint-disable-next-line react/no-array-index-key -- no stable unique id, names can collide
+            key={`${r.name}-${i}`}
             name={r.name}
             response={r.response}
           />

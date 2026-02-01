@@ -112,7 +112,7 @@ const Exercise: React.FC<ExerciseProps> = ({
     if (showGroupResponses) {
       return (
         <GroupResponses
-          groups={facilitatorGroupResponses!.groups}
+          groups={facilitatorGroupResponses?.groups ?? []}
         />
       );
     }
