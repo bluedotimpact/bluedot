@@ -41,6 +41,7 @@ const savedResponse = {
   exerciseId: EXERCISE_ID,
   response: 'I believe a better future involves more equitable access to education and healthcare globally.',
   completed: false,
+  completedAt: null,
   autoNumberId: null,
 };
 
