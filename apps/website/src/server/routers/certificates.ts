@@ -98,7 +98,7 @@ export const certificatesRouter = router({
       const incompleteExercises = allExercises
         .filter((exercise) => {
           // Workaround for duplicate exercise responses
-          const hasCompletedResponse = exerciseResponses.some((resp) => resp.exerciseId === exercise.id && resp.completed);
+          const hasCompletedResponse = exerciseResponses.some((resp) => resp.exerciseId === exercise.id && resp.completedAt != null);
           return !hasCompletedResponse;
         })
         .sort((a, b) => Number(a.unitNumber || Infinity) - Number(b.unitNumber || Infinity));

@@ -52,7 +52,7 @@ const Exercise: React.FC<ExerciseProps> = ({
   // objects, this is just a simple workaround for this one field.
   const isCompleted = (!saveResponseMutation.isError && saveResponseMutation.variables?.completed !== undefined)
     ? saveResponseMutation.variables.completed
-    : (responseData?.completed ?? false);
+    : (responseData?.completedAt != null);
 
   const handleExerciseSubmit = async (exerciseResponse: string, completed?: boolean) => {
     if (isSavingRef.current) return;

@@ -27,6 +27,13 @@ export const exercisesRouter = router({
       completed: z.boolean().optional(),
     }))
     .mutation(async ({ input, ctx }) => {
+      let completedAt: string | null | undefined;
+      if (input.completed === true) {
+        completedAt = new Date().toISOString();
+      } else if (input.completed === false) {
+        completedAt = null;
+      } // else undefined = "don't change"
+
       const exerciseResponse = await db.getFirst(exerciseResponseTable, {
         filter: { exerciseId: input.exerciseId, email: ctx.auth.email },
       });
@@ -36,7 +43,7 @@ export const exercisesRouter = router({
           id: exerciseResponse.id,
           exerciseId: input.exerciseId,
           response: input.response,
-          completed: input.completed ?? exerciseResponse.completed,
+          completedAt: completedAt ?? exerciseResponse.completedAt,
         });
       }
 
@@ -44,7 +51,7 @@ export const exercisesRouter = router({
         email: ctx.auth.email,
         exerciseId: input.exerciseId,
         response: input.response,
-        completed: input.completed ?? false,
+        completedAt: completedAt ?? null,
       });
     }),
 });
