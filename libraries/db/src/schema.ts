@@ -204,6 +204,10 @@ export const exerciseResponseTable = pgAirtable('exercise_response', {
       pgColumn: boolean().notNull(),
       airtableId: 'fldz8rocQd7Ws9s2q',
     },
+    completedAt: {
+      pgColumn: text(),
+      airtableId: 'fldmmwUvlAy3Ju2or',
+    },
     autoNumberId: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldjhCZEuocd5eYsb',
