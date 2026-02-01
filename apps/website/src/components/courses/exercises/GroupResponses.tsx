@@ -4,40 +4,39 @@ import { FaUser } from 'react-icons/fa6';
 // TODO remove this import cycle
 // eslint-disable-next-line import/no-cycle
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
-import { trpc } from '../../../utils/trpc';
 
 const TRUNCATION_LINES = 8;
 
+export type GroupData = {
+  id: string;
+  name: string;
+  totalParticipants: number;
+  responses: { name: string, response: string }[];
+};
+
 export type GroupResponsesProps = {
-  courseSlug: string;
-  exerciseId: string;
+  groups: GroupData[];
 };
 
 const GroupResponses: React.FC<GroupResponsesProps> = ({
-  courseSlug,
-  exerciseId,
+  groups,
 }) => {
   const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(undefined);
 
-  const { data: facilitatorGroupResponses } = trpc.exercises.getGroupExerciseResponses.useQuery(
-    { courseSlug, groupId: selectedGroupId },
-    { enabled: !!courseSlug },
-  );
+  const selectedGroup = (selectedGroupId && groups.find((g) => g.id === selectedGroupId)) || groups[0];
+  if (!selectedGroup) return null;
 
-  if (!facilitatorGroupResponses) return null;
-
-  const responses = facilitatorGroupResponses.responses[exerciseId] || [];
-  const { groups, totalParticipants } = facilitatorGroupResponses;
+  const { responses, totalParticipants } = selectedGroup;
   const pendingCount = totalParticipants - responses.length;
 
   return (
     <div className="bg-[#F9FBFF] px-8 pt-6 pb-8 rounded-b-lg flex flex-col gap-6">
-      {groups && groups.length > 1 && (
+      {groups.length > 1 && (
         <div className="flex flex-col gap-2">
           <span className="text-size-xs font-semibold text-[#13132E]">Select your group:</span>
           <Select
             options={groups.map((g) => ({ value: g.id, label: g.name }))}
-            value={selectedGroupId || facilitatorGroupResponses.selectedGroupId}
+            value={selectedGroup.id}
             onChange={setSelectedGroupId}
             ariaLabel="Select your group"
           />

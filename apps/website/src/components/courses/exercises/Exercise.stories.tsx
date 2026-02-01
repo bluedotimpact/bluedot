@@ -43,18 +43,20 @@ const shortResponse = 'I think the most important thing is reducing the barriers
 
 const groupResponsesData = {
   groups: [
-    { id: '1', name: 'Group 01 - Alice Thompson' },
-    { id: '2', name: 'Group 02 - Carlos Mendez' },
+    {
+      id: '1',
+      name: 'Group 01 - Alice Thompson',
+      totalParticipants: 5,
+      responses: [
+        { name: 'Alice Thompson', response: longResponse },
+        { name: 'Ben Rivera', response: shortResponse },
+        { name: 'Priya Sharma', response: 'I want a future where scientific research is better funded and more accessible.' },
+      ],
+    },
+    {
+      id: '2', name: 'Group 02 - Carlos Mendez', totalParticipants: 4, responses: [],
+    },
   ],
-  selectedGroupId: '1',
-  totalParticipants: 5,
-  responses: {
-    [EXERCISE_ID]: [
-      { name: 'Alice Thompson', response: longResponse },
-      { name: 'Ben Rivera', response: shortResponse },
-      { name: 'Priya Sharma', response: 'I want a future where scientific research is better funded and more accessible.' },
-    ],
-  },
 };
 
 const defaultHandlers = [

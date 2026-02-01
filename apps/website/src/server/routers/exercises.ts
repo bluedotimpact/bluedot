@@ -1,10 +1,12 @@
 import { z } from 'zod';
 import {
+  and,
+  arrayContains,
   courseRegistrationTable,
   courseTable,
+  eq,
   exerciseTable,
   exerciseResponseTable,
-  groupDiscussionTable,
   groupTable,
   inArray,
   meetPersonTable,
@@ -60,7 +62,7 @@ export const exercisesRouter = router({
   getGroupExerciseResponses: protectedProcedure
     .input(z.object({
       courseSlug: z.string().min(1),
-      groupId: z.string().min(1).optional(),
+      exerciseId: z.string().min(1),
     }))
     .query(async ({ input, ctx }) => {
       // 1. Find course
@@ -88,90 +90,65 @@ export const exercisesRouter = router({
       if (!meetPerson || meetPerson.role !== 'Facilitator') return null;
 
       // 4. Find groups this person facilitates
-      const facilitatorDiscussionIds = meetPerson.expectedDiscussionsFacilitator || [];
-      if (facilitatorDiscussionIds.length === 0) return null;
-
-      const groupDiscussions = await db.pg
-        .select({ group: groupDiscussionTable.pg.group })
-        .from(groupDiscussionTable.pg)
-        .where(inArray(groupDiscussionTable.pg.id, facilitatorDiscussionIds));
-
-      const groupIds = [...new Set(groupDiscussions.map((d) => d.group))];
-
-      if (groupIds.length === 0) return null;
-
       const groups = await db.pg
         .select({ id: groupTable.pg.id, groupName: groupTable.pg.groupName, participants: groupTable.pg.participants })
         .from(groupTable.pg)
-        .where(inArray(groupTable.pg.id, groupIds));
+        .where(arrayContains(groupTable.pg.facilitator, [meetPerson.id]));
 
       if (groups.length === 0) return null;
 
-      // 6. Select group (use provided groupId or default to first)
-      const selectedGroup = (input.groupId && groups.find((g) => g.id === input.groupId)) || groups[0]!;
-
-      // 7. Get participant details
-      const participantIds = selectedGroup.participants || [];
-      if (participantIds.length === 0) {
-        return {
-          groups: groups.map((g) => ({ id: g.id, name: g.groupName || 'Unnamed group' })),
-          selectedGroupId: selectedGroup.id,
-          totalParticipants: participantIds.length,
-          responses: {} as Record<string, { name: string, response: string }[]>,
-        };
-      }
+      // 5. Get all participant IDs across all groups
+      const allParticipantIds = [...new Set(groups.flatMap((g) => g.participants || []))];
+      if (allParticipantIds.length === 0) return null;
 
       const participants = await db.pg
         .select({ id: meetPersonTable.pg.id, name: meetPersonTable.pg.name, email: meetPersonTable.pg.email })
         .from(meetPersonTable.pg)
-        .where(inArray(meetPersonTable.pg.id, participantIds));
+        .where(inArray(meetPersonTable.pg.id, allParticipantIds));
 
-      const participantEmails = participants.map((p) => p.email).filter(Boolean) as string[];
-      if (participantEmails.length === 0) {
-        return {
-          groups: groups.map((g) => ({ id: g.id, name: g.groupName || 'Unnamed group' })),
-          selectedGroupId: selectedGroup.id,
-          totalParticipants: participantIds.length,
-          responses: {} as Record<string, { name: string, response: string }[]>,
-        };
-      }
+      const participantById = new Map(participants.map((p) => [p.id, p]));
 
-      // 8. Get all exercise responses for these participants
-      const emailToName = new Map(participants.map((p) => [p.email, p.name || 'Anonymous']));
+      // 6. Get completed responses for this exercise from all participants
+      const allEmails = participants.map((p) => p.email).filter(Boolean) as string[];
+      if (allEmails.length === 0) return null;
 
-      // TODO need to use getFirst here
       const exerciseResponses = await db.pg
         .select({
-          exerciseId: exerciseResponseTable.pg.exerciseId,
           email: exerciseResponseTable.pg.email,
           response: exerciseResponseTable.pg.response,
-          completed: exerciseResponseTable.pg.completed,
         })
         .from(exerciseResponseTable.pg)
-        .where(
-          // TODO ideally filter more at this step
-          inArray(exerciseResponseTable.pg.email, participantEmails),
-        );
+        .where(and(
+          eq(exerciseResponseTable.pg.exerciseId, input.exerciseId),
+          inArray(exerciseResponseTable.pg.email, allEmails),
+          eq(exerciseResponseTable.pg.completed, true),
+        ));
 
-      // 9. Group by exerciseId (only include completed responses)
-      const responses: Record<string, { name: string, response: string }[]> = {};
-      for (const er of exerciseResponses) {
-        // TODO fix lint, no continue in loop (though IMO we should disable that)
-        if (!er.completed) continue;
-        if (!responses[er.exerciseId]) {
-          responses[er.exerciseId] = [];
+      const responseByEmail = new Map(exerciseResponses.map((r) => [r.email, r.response]));
+
+      // 7. Build per-group response data
+      const groupData = groups.map((g) => {
+        const groupParticipantIds = g.participants || [];
+        const responses: { name: string, response: string }[] = [];
+        for (const pid of groupParticipantIds) {
+          const p = participantById.get(pid);
+          if (!p?.email) {
+            // eslint-disable-next-line no-continue
+            continue;
+          }
+          const response = responseByEmail.get(p.email);
+          if (response !== undefined) {
+            responses.push({ name: p.name || 'Anonymous', response });
+          }
         }
-        responses[er.exerciseId]!.push({
-          name: emailToName.get(er.email) || 'Anonymous',
-          response: er.response,
-        });
-      }
+        return {
+          id: g.id,
+          name: g.groupName || 'Unnamed group',
+          totalParticipants: groupParticipantIds.length,
+          responses,
+        };
+      });
 
-      return {
-        groups: groups.map((g) => ({ id: g.id, name: g.groupName || 'Unnamed group' })),
-        selectedGroupId: selectedGroup.id,
-        totalParticipants: participantIds.length,
-        responses,
-      };
+      return { groups: groupData };
     }),
 });

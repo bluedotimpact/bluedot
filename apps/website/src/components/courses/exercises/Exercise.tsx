@@ -47,11 +47,11 @@ const Exercise: React.FC<ExerciseProps> = ({
     { enabled: !!auth },
   );
 
-  // Fetch group responses (tRPC deduplicates this across all Exercise instances on the page)
+  // Fetch group responses for this exercise (returns null for non-facilitators)
   const {
     data: facilitatorGroupResponses,
   } = trpc.exercises.getGroupExerciseResponses.useQuery(
-    { courseSlug: courseSlug! },
+    { courseSlug: courseSlug!, exerciseId },
     { enabled: !!auth && !!courseSlug },
   );
 
@@ -112,8 +112,7 @@ const Exercise: React.FC<ExerciseProps> = ({
     if (showGroupResponses) {
       return (
         <GroupResponses
-          courseSlug={courseSlug!}
-          exerciseId={exerciseId}
+          groups={facilitatorGroupResponses!.groups}
         />
       );
     }
