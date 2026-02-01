@@ -329,6 +329,11 @@ export const groupTable = pgAirtable('group', {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldim9d4xwSmw0QeI',
     },
+    /** FK to meetPerson table */
+    facilitator: {
+      pgColumn: text().array().notNull(),
+      airtableId: 'fld7P1XI03ToIqthj',
+    },
   },
 });
 
