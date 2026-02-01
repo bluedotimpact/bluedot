@@ -51,7 +51,7 @@ const Exercise: React.FC<ExerciseProps> = ({
   const {
     data: facilitatorGroupResponses,
   } = trpc.exercises.getGroupExerciseResponses.useQuery(
-    { courseSlug: courseSlug!, exerciseId },
+    { courseSlug: courseSlug ?? '', exerciseId },
     { enabled: !!auth && !!courseSlug },
   );
 
