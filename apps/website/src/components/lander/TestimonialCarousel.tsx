@@ -11,7 +11,7 @@ import clsx from 'clsx';
 export type TestimonialMember = {
   name: string;
   jobTitle: string;
-  quote?: string;
+  quote: string;
   imageSrc: string;
   url?: string;
 };
