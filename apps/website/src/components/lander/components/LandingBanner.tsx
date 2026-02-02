@@ -1,7 +1,7 @@
 import { CTALinkOrButton, H3 } from '@bluedot/ui';
 
 export type LandingBannerProps = {
-  title: string;
+  title: React.ReactNode;
   ctaText: string;
   ctaUrl: string;
   imageSrc: string;

@@ -16,25 +16,27 @@ export type FAQItem = {
  * Props for the FAQSection component
  */
 export type FAQSectionProps = {
+  /** Optional ID for anchor links */
+  id?: string;
   /** Section heading displayed at the top */
   title: string;
   /** Array of FAQ items to display */
   items: FAQItem[];
 };
 
-const FAQSection = ({ title, items }: FAQSectionProps) => {
+const FAQSection = ({ id, title, items }: FAQSectionProps) => {
   const [openQuestions, setOpenQuestions] = useState<string[]>([]);
 
-  const handleToggle = (id: string) => {
+  const handleToggle = (questionId: string) => {
     setOpenQuestions((prev) => {
-      return prev.includes(id)
-        ? prev.filter((questionId) => questionId !== id) // Remove if already open
-        : [...prev, id]; // Add if not open
+      return prev.includes(questionId)
+        ? prev.filter((qId) => qId !== questionId) // Remove if already open
+        : [...prev, questionId]; // Add if not open
     });
   };
 
   return (
-    <section className="w-full bg-white">
+    <section id={id} className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:pt-16 min-[680px]:pb-12 min-[1024px]:py-16 min-[1280px]:py-24">
         <div className="max-w-[928px] mx-auto flex flex-col gap-12 md:gap-16">
           <h2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-[#13132E] text-center">

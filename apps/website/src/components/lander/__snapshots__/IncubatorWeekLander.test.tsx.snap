@@ -780,6 +780,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
     />
     <section
       class="w-full bg-white"
+      id="structure"
     >
       <div
         class="max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-12 min-[1280px]:px-44 xl:px-40 py-12 min-[680px]:py-16 min-[1280px]:py-24 xl:py-24 flex flex-col items-center gap-12 md:gap-16"
@@ -935,6 +936,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
     />
     <section
       class="w-full bg-white"
+      id="faq"
     >
       <div
         class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:pt-16 min-[680px]:pb-12 min-[1024px]:py-16 min-[1280px]:py-24"
