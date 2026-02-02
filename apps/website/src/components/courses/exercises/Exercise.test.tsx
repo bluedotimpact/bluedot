@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import {
   afterEach, beforeEach, describe, expect, test, vi,
 } from 'vitest';
@@ -116,5 +117,45 @@ describe('Exercise', () => {
 
     const checkbox = await screen.findByRole('button', { name: 'Mark as complete' });
     expect(checkbox).toBeDisabled();
+  });
+
+  test('completion checkbox submits current editor draft, not stale server value', async () => {
+    const user = userEvent.setup();
+    let savedResponse: string | undefined;
+
+    server.use(
+      trpcMsw.exercises.getExerciseResponse.query(() => ({
+        response: 'Old saved text',
+        completed: false,
+      })),
+      trpcMsw.exercises.saveExerciseResponse.mutation(({ input }) => {
+        savedResponse = input.response;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return {} as any;
+      }),
+    );
+
+    const { container } = render(<Exercise exerciseId="ex1" />, { wrapper: TrpcProvider });
+
+    // Wait for editor to render with old saved text
+    const checkbox = await screen.findByRole('button', { name: 'Mark as complete' });
+
+    // Type new text into the ProseMirror editor (appends to existing content)
+    const editor = await waitFor(() => {
+      const el = container.querySelector('.ProseMirror') as HTMLElement;
+      expect(el).toBeTruthy();
+      return el;
+    });
+    await user.click(editor);
+    await user.type(editor, ' plus new draft');
+
+    // Click the completion checkbox — should submit the current draft, not the stale server value
+    await user.click(checkbox);
+
+    await waitFor(() => {
+      expect(savedResponse).toBeDefined();
+      expect(savedResponse).toContain('new draft');
+      expect(savedResponse).not.toBe('Old saved text');
+    });
   });
 });

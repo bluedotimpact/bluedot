@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import {
   cn, ProgressDots, ToggleSwitch, useAuthStore,
 } from '@bluedot/ui';
@@ -28,6 +28,11 @@ const Exercise: React.FC<ExerciseProps> = ({
   const [showGroupResponsesIfFacilitator, setShowGroupResponsesIfFacilitator] = useState(true);
   const [checkboxHovered, setCheckboxHovered] = useState(false);
   const [editorHasText, setEditorHasText] = useState(false);
+  const editorTextRef = useRef<string>('');
+  const handleEditorTextChange = useCallback((text: string) => {
+    editorTextRef.current = text;
+    setEditorHasText(text.trim().length > 0);
+  }, []);
 
   const {
     data: exerciseData,
@@ -123,7 +128,7 @@ const Exercise: React.FC<ExerciseProps> = ({
             isCompleted={isCompleted}
             isLoggedIn={!!auth}
             onExerciseSubmit={handleExerciseSubmit}
-            onHasTextChange={setEditorHasText}
+            onTextChange={handleEditorTextChange}
           />
         );
       case 'Multiple choice':
@@ -160,7 +165,7 @@ const Exercise: React.FC<ExerciseProps> = ({
           <div className="absolute hidden lg:block -left-[calc(24px+clamp(12px,3vw,24px))] top-6 z-[1]">
             <button
               type="button"
-              onClick={() => handleExerciseSubmit(responseData?.response || '', !isCompleted)}
+              onClick={() => handleExerciseSubmit(editorTextRef.current, !isCompleted)}
               disabled={checkboxDisabled}
               onMouseEnter={() => setCheckboxHovered(true)}
               onMouseLeave={() => setCheckboxHovered(false)}

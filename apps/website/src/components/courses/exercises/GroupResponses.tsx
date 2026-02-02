@@ -66,7 +66,7 @@ const ResponseBlock: React.FC<{
   name: string;
   response: string;
 }> = ({ name, response }) => {
-  const canTruncate = response.length > 640;
+  const canTruncate = response.length > 640 || response.split('\n').length > TRUNCATION_LINES;
   const [expanded, setExpanded] = useState(!canTruncate);
 
   return (

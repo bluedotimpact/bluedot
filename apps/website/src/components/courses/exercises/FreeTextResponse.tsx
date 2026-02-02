@@ -13,7 +13,7 @@ export type FreeTextResponseProps = {
   exerciseResponse?: string;
   isCompleted?: boolean;
   isLoggedIn?: boolean;
-  onHasTextChange?: (hasText: boolean) => void;
+  onTextChange?: (text: string) => void;
 };
 
 const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
@@ -21,7 +21,7 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   isCompleted = false,
   isLoggedIn,
   onExerciseSubmit,
-  onHasTextChange,
+  onTextChange,
 }) => {
   const router = useRouter();
   const [answer, setAnswer] = useState<string>(exerciseResponse || '');
@@ -34,8 +34,8 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   const isDisabled = !isCompleted && !hasText;
 
   useEffect(() => {
-    onHasTextChange?.(hasText);
-  }, [hasText, onHasTextChange]);
+    onTextChange?.(answer);
+  }, [answer, onTextChange]);
   const showCompleteButton = isLoggedIn;
 
   const handleSave = useCallback(async (value: string) => {
