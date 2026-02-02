@@ -3,6 +3,7 @@ import {
   CTALinkOrButton, OverflowMenu, useCurrentTimeMs, type OverflowMenuItemProps,
 } from '@bluedot/ui';
 import { skipToken } from '@tanstack/react-query';
+import Link from 'next/link';
 import clsx from 'clsx';
 import React, { useEffect, useMemo, useState } from 'react';
 import { FaCopy } from 'react-icons/fa6';
@@ -224,12 +225,12 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
               {discussionIsLive ? 'Discussion is live' : `Discussion ${startTimeDisplayRelative}`}
             </span>
             <span className="text-bluedot-normal whitespace-nowrap">•</span>
-            <a
+            <Link
               href={prepareLink}
               className="text-bluedot-normal underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
             >
               {unitTitle}
-            </a>
+            </Link>
           </div>
 
           {/* Desktop button container */}
