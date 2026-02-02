@@ -1,7 +1,5 @@
 import Head from 'next/head';
 
-// TODO: remove - temporary trigger for build cache testing
-const _CACHE_TEST = true;
 import CourseSection from '../components/homepage/CourseSection';
 import StorySection from '../components/homepage/StorySection';
 import HomeHeroContent from '../components/homepage/HomeHeroContent';
@@ -10,6 +8,9 @@ import TestimonialCarousel, { TestimonialMember } from '../components/lander/Tes
 import EventsSection from '../components/homepage/EventsSection';
 import NewsletterBanner from '../components/homepage/NewsletterBanner';
 import { trpc } from '../utils/trpc';
+
+// eslint-disable-next-line no-underscore-dangle, @typescript-eslint/no-unused-vars
+const _CACHE_TEST = true;
 
 const HomePage = () => {
   const { data: dbTestimonials } = trpc.testimonials.getCommunityMembers.useQuery();
