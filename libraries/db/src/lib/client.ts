@@ -1,5 +1,5 @@
 import {
-  eq, and, or, gt, lt, gte, lte, ne, SQL, desc, asc,
+  eq, and, or, gt, lt, gte, lte, ne, sql, SQL, desc, asc,
 } from 'drizzle-orm';
 import { PgInsertValue, PgUpdateSetSource, PgColumn } from 'drizzle-orm/pg-core';
 import { drizzle } from 'drizzle-orm/node-postgres';
@@ -302,6 +302,13 @@ export class PgAirtableDb {
     filter: Filter<Record<string, unknown>>,
   ): SQL {
     if ('AND' in filter && Array.isArray(filter.AND)) {
+      if (filter.AND.length === 0) {
+        // Mathematically this should be TRUE (empty conjunction), but we return FALSE
+        // defensively to avoid accidentally returning rows the caller doesn't have
+        // permission to see. If a live code path needs empty AND to match everything,
+        // change this to TRUE.
+        return sql`FALSE`;
+      }
       const conditions = filter.AND.map((f: Filter<Record<string, unknown>>) => this.buildWhereClause(table, f));
       const result = and(...conditions);
       if (!result) {
@@ -311,6 +318,9 @@ export class PgAirtableDb {
     }
 
     if ('OR' in filter && Array.isArray(filter.OR)) {
+      if (filter.OR.length === 0) {
+        return sql`FALSE`;
+      }
       const conditions = filter.OR.map((f: Filter<Record<string, unknown>>) => this.buildWhereClause(table, f));
       const result = or(...conditions);
       if (!result) {
