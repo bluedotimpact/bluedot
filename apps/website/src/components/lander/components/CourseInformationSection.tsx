@@ -20,6 +20,8 @@ export type CourseDetail = {
 };
 
 export type CourseInformationSectionProps = {
+  /** Optional ID for anchor links */
+  id?: string;
   /** Section heading displayed at the top */
   title: string;
   /** Application URL (should include UTM parameters if applicable) */
@@ -35,6 +37,7 @@ export type CourseInformationSectionProps = {
 };
 
 const CourseInformationSection = ({
+  id,
   title,
   applicationUrl,
   details,
@@ -43,7 +46,7 @@ const CourseInformationSection = ({
   accentColor,
 }: CourseInformationSectionProps) => {
   return (
-    <section className="w-full bg-white">
+    <section id={id} className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-12 min-[1280px]:px-44 xl:px-40 py-12 min-[680px]:py-16 min-[1280px]:py-24 xl:py-24 flex flex-col items-center gap-12 md:gap-16">
         {/* Section Title */}
         <H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]">

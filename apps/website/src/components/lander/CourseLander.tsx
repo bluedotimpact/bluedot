@@ -12,6 +12,13 @@ import CourseInformationSection, { CourseInformationSectionProps } from './compo
 import FAQSection, { FAQSectionProps } from './components/FAQSection';
 import LandingBanner, { LandingBannerProps } from './components/LandingBanner';
 import PathwaysSection, { PathwaysSectionProps } from './components/PathwaysSection';
+import AlumniLogosSection, { AlumniLogosSectionProps } from './components/AlumniLogosSection';
+import PersonasSection, { PersonasSectionProps } from './components/PersonasSection';
+import CourseOutcomesSection, { CourseOutcomesSectionProps } from './components/CourseOutcomesSection';
+import PrerequisitesSection, { PrerequisitesSectionProps } from './components/PrerequisitesSection';
+import CaseStudiesSection, { CaseStudiesSectionProps } from './components/CaseStudiesSection';
+import AlumniStoryCarousel, { AlumniStoryCarouselProps } from './components/AlumniStoryCarousel';
+import SectionNav, { SectionNavItem } from './components/SectionNav';
 import { trpc } from '../../utils/trpc';
 
 export type CourseLanderMeta = {
@@ -22,9 +29,24 @@ export type CourseLanderMeta = {
 export type CourseLanderContent = {
   meta: CourseLanderMeta;
   hero: HeroSectionProps;
-  whoIsThisFor: WhoIsThisForSectionProps;
+  /** Section navigation items - if provided, shows a sticky nav */
+  sectionNav?: SectionNavItem[];
+  /** Alumni logos section - if provided, replaces GraduateSection */
+  alumniLogos?: AlumniLogosSectionProps;
+  /** Standard "Who is this for" section with icon cards */
+  whoIsThisFor?: WhoIsThisForSectionProps;
+  /** Detailed personas section - alternative to whoIsThisFor for longer-form content */
+  personas?: PersonasSectionProps;
   courseBenefits?: CourseBenefitsSectionProps;
-  courseInformation: CourseInformationSectionProps;
+  /** Course outcomes section - alternative to courseBenefits for text-focused content */
+  courseOutcomes?: CourseOutcomesSectionProps;
+  /** Prerequisites section */
+  prerequisites?: PrerequisitesSectionProps;
+  courseInformation?: CourseInformationSectionProps;
+  /** Case studies / alumni stories section */
+  caseStudies?: CaseStudiesSectionProps;
+  /** Alumni story carousel - carousel with full story text */
+  alumniStories?: AlumniStoryCarouselProps;
   pathways?: PathwaysSectionProps;
   quotes?: QuoteSectionProps;
   testimonials?: TestimonialMember[];
@@ -96,15 +118,39 @@ const CourseLander = ({
       </Head>
 
       <Nav variant={heroProps.gradient ? 'transparent' : 'default'} />
+      {content.sectionNav && <SectionNav sections={content.sectionNav} applyUrl={heroProps.primaryCta?.url} />}
       <HeroSection {...heroProps} />
 
       <div className="border-t-hairline border-color-divider" />
 
-      <GraduateSection />
+      {/* Alumni logos section OR default graduate section */}
+      {content.alumniLogos ? (
+        <AlumniLogosSection {...content.alumniLogos} />
+      ) : (
+        <GraduateSection />
+      )}
 
       <div className="border-t-hairline border-color-divider" />
 
-      <WhoIsThisForSection {...content.whoIsThisFor} />
+      {/* Personas section OR standard "Who is this for" section */}
+      {content.personas && <PersonasSection id="personas" {...content.personas} />}
+      {!content.personas && content.whoIsThisFor && <WhoIsThisForSection {...content.whoIsThisFor} />}
+
+      {/* Course outcomes OR course benefits section */}
+      {content.courseOutcomes && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <CourseOutcomesSection id="outcomes" {...content.courseOutcomes} />
+        </>
+      )}
+
+      {/* Pathways - what happens after (placed right after outcomes for unified "what you're joining" feel) */}
+      {content.pathways && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <PathwaysSection id="pathways" {...content.pathways} />
+        </>
+      )}
 
       {content.courseBenefits && (
         <>
@@ -113,14 +159,34 @@ const CourseLander = ({
         </>
       )}
 
-      <div className="border-t-hairline border-color-divider" />
-
-      <CourseInformationSection {...content.courseInformation} />
-
-      {content.pathways && (
+      {/* Prerequisites section */}
+      {content.prerequisites && (
         <>
           <div className="border-t-hairline border-color-divider" />
-          <PathwaysSection {...content.pathways} />
+          <PrerequisitesSection id="prerequisites" {...content.prerequisites} />
+        </>
+      )}
+
+      {/* Alumni story carousel */}
+      {content.alumniStories && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <AlumniStoryCarousel {...content.alumniStories} />
+        </>
+      )}
+
+      {/* Case studies section */}
+      {content.caseStudies && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <CaseStudiesSection {...content.caseStudies} />
+        </>
+      )}
+
+      {content.courseInformation && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <CourseInformationSection id="structure" {...content.courseInformation} />
         </>
       )}
 
@@ -152,7 +218,7 @@ const CourseLander = ({
       {content.faq && (
         <>
           <div className="border-t-hairline border-color-divider" />
-          <FAQSection {...content.faq} />
+          <FAQSection id="faq" {...content.faq} />
         </>
       )}
 

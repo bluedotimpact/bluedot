@@ -649,6 +649,217 @@ In 30 hours, you'll understand the landscape, pick a direction, and actually sta
     />
     <section
       class="w-full bg-white"
+      id="pathways"
+    >
+      <div
+        class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24"
+      >
+        <div
+          class="max-w-[1100px] mx-auto"
+        >
+          <h2
+            class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center tracking-[-0.01em] mb-4"
+          >
+            What happens after
+          </h2>
+          <p
+            class="bluedot-p not-prose text-[16px] min-[680px]:text-[17px] leading-[1.6] text-[#13132E]/70 text-center mb-12 md:mb-16 max-w-[600px] mx-auto"
+          >
+            The AGI Strategy Course is where you get oriented. What comes next depends on you.
+          </p>
+          <div
+            class="grid grid-cols-1 min-[680px]:grid-cols-2 gap-6 lg:gap-8"
+          >
+            <div
+              class="group flex flex-col gap-4 p-6 rounded-xl bg-white border border-[rgba(19,19,46,0.08)] hover:border-[rgba(19,19,46,0.15)] hover:shadow-sm transition-all duration-200"
+            >
+              <div
+                class="size-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-105"
+                style="background-color: hsla(284, 46%, 30%, 1);"
+              >
+                <svg
+                  class="text-white"
+                  fill="currentColor"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 256 256"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M152,96H104a8,8,0,0,0-8,8v48a8,8,0,0,0,8,8h48a8,8,0,0,0,8-8V104A8,8,0,0,0,152,96Zm-8,48H112V112h32Zm88,0H216V112h16a8,8,0,0,0,0-16H216V56a16,16,0,0,0-16-16H160V24a8,8,0,0,0-16,0V40H112V24a8,8,0,0,0-16,0V40H56A16,16,0,0,0,40,56V96H24a8,8,0,0,0,0,16H40v32H24a8,8,0,0,0,0,16H40v40a16,16,0,0,0,16,16H96v16a8,8,0,0,0,16,0V216h32v16a8,8,0,0,0,16,0V216h40a16,16,0,0,0,16-16V160h16a8,8,0,0,0,0-16Zm-32,56H56V56H200v95.87s0,.09,0,.13,0,.09,0,.13V200Z"
+                  />
+                </svg>
+              </div>
+              <div
+                class="flex flex-col gap-2"
+              >
+                <h3
+                  class="text-[17px] min-[680px]:text-[18px] font-semibold leading-[130%] text-[#13132E]"
+                >
+                  Technical AI Safety
+                </h3>
+                <p
+                  class="bluedot-p not-prose text-[15px] leading-[1.65] text-[#13132E]/70"
+                >
+                  Interpretability, evals, alignment research. For people ready to work on the technical problems.
+                </p>
+                <a
+                  class="text-[15px] font-medium text-bluedot-normal hover:underline mt-1 inline-flex items-center gap-1 group-hover:gap-2 transition-all"
+                  href="/courses/technical-ai-safety"
+                >
+                  Explore the course
+                  <span
+                    class="transition-transform group-hover:translate-x-0.5"
+                  >
+                    →
+                  </span>
+                </a>
+              </div>
+            </div>
+            <div
+              class="group flex flex-col gap-4 p-6 rounded-xl bg-white border border-[rgba(19,19,46,0.08)] hover:border-[rgba(19,19,46,0.15)] hover:shadow-sm transition-all duration-200"
+            >
+              <div
+                class="size-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-105"
+                style="background-color: #1F588A;"
+              >
+                <svg
+                  class="text-white"
+                  fill="currentColor"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 256 256"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M24,104H48v64H32a8,8,0,0,0,0,16H224a8,8,0,0,0,0-16H208V104h24a8,8,0,0,0,4.19-14.81l-104-64a8,8,0,0,0-8.38,0l-104,64A8,8,0,0,0,24,104Zm40,0H96v64H64Zm80,0v64H112V104Zm48,64H160V104h32ZM128,41.39,203.74,88H52.26ZM248,208a8,8,0,0,1-8,8H16a8,8,0,0,1,0-16H240A8,8,0,0,1,248,208Z"
+                  />
+                </svg>
+              </div>
+              <div
+                class="flex flex-col gap-2"
+              >
+                <h3
+                  class="text-[17px] min-[680px]:text-[18px] font-semibold leading-[130%] text-[#13132E]"
+                >
+                  AI Governance
+                </h3>
+                <p
+                  class="bluedot-p not-prose text-[15px] leading-[1.65] text-[#13132E]/70"
+                >
+                  Policy, institutions, international coordination. For people shaping how we govern these systems.
+                </p>
+                <a
+                  class="text-[15px] font-medium text-bluedot-normal hover:underline mt-1 inline-flex items-center gap-1 group-hover:gap-2 transition-all"
+                  href="/courses/ai-governance"
+                >
+                  Explore the course
+                  <span
+                    class="transition-transform group-hover:translate-x-0.5"
+                  >
+                    →
+                  </span>
+                </a>
+              </div>
+            </div>
+            <div
+              class="group flex flex-col gap-4 p-6 rounded-xl bg-white border border-[rgba(19,19,46,0.08)] hover:border-[rgba(19,19,46,0.15)] hover:shadow-sm transition-all duration-200"
+            >
+              <div
+                class="size-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-105"
+                style="background-color: #316761;"
+              >
+                <svg
+                  class="text-white"
+                  fill="currentColor"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 256 256"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm0,72c0,37.07-13.66,67.16-40.6,89.42A129.3,129.3,0,0,1,128,223.62a128.25,128.25,0,0,1-38.92-21.81C61.82,179.51,48,149.3,48,112l0-56,160,0ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"
+                  />
+                </svg>
+              </div>
+              <div
+                class="flex flex-col gap-2"
+              >
+                <h3
+                  class="text-[17px] min-[680px]:text-[18px] font-semibold leading-[130%] text-[#13132E]"
+                >
+                  Biosecurity
+                </h3>
+                <p
+                  class="bluedot-p not-prose text-[15px] leading-[1.65] text-[#13132E]/70"
+                >
+                  Pandemic preparedness, early warning systems, policy. For people building defences against bio risks.
+                </p>
+                <a
+                  class="text-[15px] font-medium text-bluedot-normal hover:underline mt-1 inline-flex items-center gap-1 group-hover:gap-2 transition-all"
+                  href="/courses/biosecurity"
+                >
+                  Explore the course
+                  <span
+                    class="transition-transform group-hover:translate-x-0.5"
+                  >
+                    →
+                  </span>
+                </a>
+              </div>
+            </div>
+            <div
+              class="group flex flex-col gap-4 p-6 rounded-xl bg-white border border-[rgba(19,19,46,0.08)] hover:border-[rgba(19,19,46,0.15)] hover:shadow-sm transition-all duration-200"
+            >
+              <div
+                class="size-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-105"
+                style="background-color: #2C3F81;"
+              >
+                <svg
+                  class="text-white"
+                  fill="currentColor"
+                  height="24"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 256 256"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M223.85,47.12a16,16,0,0,0-15-15c-12.58-.75-44.73.4-71.41,27.07L132.69,64H74.36A15.91,15.91,0,0,0,63,68.68L28.7,103a16,16,0,0,0,9.07,27.16l38.47,5.37,44.21,44.21,5.37,38.49a15.94,15.94,0,0,0,10.78,12.92,16.11,16.11,0,0,0,5.1.83A15.91,15.91,0,0,0,153,227.3L187.32,193A15.91,15.91,0,0,0,192,181.64V123.31l4.77-4.77C223.45,91.86,224.6,59.71,223.85,47.12ZM74.36,80h42.33L77.16,119.52,40,114.34Zm74.41-9.45a76.65,76.65,0,0,1,59.11-22.47,76.46,76.46,0,0,1-22.42,59.16L128,164.68,91.32,128ZM176,181.64,141.67,216l-5.19-37.17L176,139.31Zm-74.16,9.5C97.34,201,82.29,224,40,224a8,8,0,0,1-8-8c0-42.29,23-57.34,32.86-61.85a8,8,0,0,1,6.64,14.56c-6.43,2.93-20.62,12.36-23.12,38.91,26.55-2.5,36-16.69,38.91-23.12a8,8,0,1,1,14.56,6.64Z"
+                  />
+                </svg>
+              </div>
+              <div
+                class="flex flex-col gap-2"
+              >
+                <h3
+                  class="text-[17px] min-[680px]:text-[18px] font-semibold leading-[130%] text-[#13132E]"
+                >
+                  Make a bigger leap
+                </h3>
+                <p
+                  class="bluedot-p not-prose text-[15px] leading-[1.65] text-[#13132E]/70"
+                >
+                  Pivot directly into high-impact work, or start building something new. We can help.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div
+      class="border-t-hairline border-color-divider"
+    />
+    <section
+      class="w-full bg-white"
     >
       <div
         class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 md:px-spacing-x min-[1280px]:py-24 xl:py-24"
@@ -780,6 +991,7 @@ In 30 hours, you'll understand the landscape, pick a direction, and actually sta
     />
     <section
       class="w-full bg-white"
+      id="structure"
     >
       <div
         class="max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-12 min-[1280px]:px-44 xl:px-40 py-12 min-[680px]:py-16 min-[1280px]:py-24 xl:py-24 flex flex-col items-center gap-12 md:gap-16"
@@ -916,216 +1128,6 @@ In 30 hours, you'll understand the landscape, pick a direction, and actually sta
                     />
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <div
-      class="border-t-hairline border-color-divider"
-    />
-    <section
-      class="w-full bg-white"
-    >
-      <div
-        class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24"
-      >
-        <div
-          class="max-w-[960px] mx-auto"
-        >
-          <h2
-            class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-6 tracking-[-0.01em]"
-          >
-            What happens after
-          </h2>
-          <p
-            class="bluedot-p not-prose text-size-md leading-[1.6] text-[#13132E]/80 text-center mb-12 max-w-[600px] mx-auto"
-          >
-            The AGI Strategy Course is where you get oriented. What comes next depends on you.
-          </p>
-          <div
-            class="grid grid-cols-1 min-[680px]:grid-cols-2 gap-4 min-[680px]:gap-6"
-          >
-            <div
-              class="group flex flex-col gap-4 p-6 rounded-xl bg-white border border-[rgba(19,19,46,0.08)] hover:border-[rgba(19,19,46,0.12)] hover:shadow-md transition-all duration-200"
-            >
-              <div
-                class="size-12 rounded-lg flex items-center justify-center flex-shrink-0"
-                style="background-color: hsla(284, 46%, 30%, 1);"
-              >
-                <svg
-                  class="text-white"
-                  fill="currentColor"
-                  height="24"
-                  stroke="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 256 256"
-                  width="24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M152,96H104a8,8,0,0,0-8,8v48a8,8,0,0,0,8,8h48a8,8,0,0,0,8-8V104A8,8,0,0,0,152,96Zm-8,48H112V112h32Zm88,0H216V112h16a8,8,0,0,0,0-16H216V56a16,16,0,0,0-16-16H160V24a8,8,0,0,0-16,0V40H112V24a8,8,0,0,0-16,0V40H56A16,16,0,0,0,40,56V96H24a8,8,0,0,0,0,16H40v32H24a8,8,0,0,0,0,16H40v40a16,16,0,0,0,16,16H96v16a8,8,0,0,0,16,0V216h32v16a8,8,0,0,0,16,0V216h40a16,16,0,0,0,16-16V160h16a8,8,0,0,0,0-16Zm-32,56H56V56H200v95.87s0,.09,0,.13,0,.09,0,.13V200Z"
-                  />
-                </svg>
-              </div>
-              <div
-                class="flex flex-col gap-2"
-              >
-                <h3
-                  class="text-[18px] font-semibold leading-tight text-[#13132E]"
-                >
-                  Technical AI Safety
-                </h3>
-                <p
-                  class="bluedot-p not-prose text-[15px] leading-[1.6] text-[#13132E]/70"
-                >
-                  Interpretability, evals, alignment research. For people ready to work on the technical problems.
-                </p>
-                <a
-                  class="text-[15px] font-medium text-bluedot-normal hover:underline mt-1 inline-flex items-center gap-1 group-hover:gap-2 transition-all"
-                  href="/courses/technical-ai-safety"
-                >
-                  Explore the course
-                  <span
-                    class="transition-transform group-hover:translate-x-0.5"
-                  >
-                    →
-                  </span>
-                </a>
-              </div>
-            </div>
-            <div
-              class="group flex flex-col gap-4 p-6 rounded-xl bg-white border border-[rgba(19,19,46,0.08)] hover:border-[rgba(19,19,46,0.12)] hover:shadow-md transition-all duration-200"
-            >
-              <div
-                class="size-12 rounded-lg flex items-center justify-center flex-shrink-0"
-                style="background-color: #1F588A;"
-              >
-                <svg
-                  class="text-white"
-                  fill="currentColor"
-                  height="24"
-                  stroke="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 256 256"
-                  width="24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M24,104H48v64H32a8,8,0,0,0,0,16H224a8,8,0,0,0,0-16H208V104h24a8,8,0,0,0,4.19-14.81l-104-64a8,8,0,0,0-8.38,0l-104,64A8,8,0,0,0,24,104Zm40,0H96v64H64Zm80,0v64H112V104Zm48,64H160V104h32ZM128,41.39,203.74,88H52.26ZM248,208a8,8,0,0,1-8,8H16a8,8,0,0,1,0-16H240A8,8,0,0,1,248,208Z"
-                  />
-                </svg>
-              </div>
-              <div
-                class="flex flex-col gap-2"
-              >
-                <h3
-                  class="text-[18px] font-semibold leading-tight text-[#13132E]"
-                >
-                  AI Governance
-                </h3>
-                <p
-                  class="bluedot-p not-prose text-[15px] leading-[1.6] text-[#13132E]/70"
-                >
-                  Policy, institutions, international coordination. For people shaping how we govern these systems.
-                </p>
-                <a
-                  class="text-[15px] font-medium text-bluedot-normal hover:underline mt-1 inline-flex items-center gap-1 group-hover:gap-2 transition-all"
-                  href="/courses/ai-governance"
-                >
-                  Explore the course
-                  <span
-                    class="transition-transform group-hover:translate-x-0.5"
-                  >
-                    →
-                  </span>
-                </a>
-              </div>
-            </div>
-            <div
-              class="group flex flex-col gap-4 p-6 rounded-xl bg-white border border-[rgba(19,19,46,0.08)] hover:border-[rgba(19,19,46,0.12)] hover:shadow-md transition-all duration-200"
-            >
-              <div
-                class="size-12 rounded-lg flex items-center justify-center flex-shrink-0"
-                style="background-color: #316761;"
-              >
-                <svg
-                  class="text-white"
-                  fill="currentColor"
-                  height="24"
-                  stroke="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 256 256"
-                  width="24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm0,72c0,37.07-13.66,67.16-40.6,89.42A129.3,129.3,0,0,1,128,223.62a128.25,128.25,0,0,1-38.92-21.81C61.82,179.51,48,149.3,48,112l0-56,160,0ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"
-                  />
-                </svg>
-              </div>
-              <div
-                class="flex flex-col gap-2"
-              >
-                <h3
-                  class="text-[18px] font-semibold leading-tight text-[#13132E]"
-                >
-                  Biosecurity
-                </h3>
-                <p
-                  class="bluedot-p not-prose text-[15px] leading-[1.6] text-[#13132E]/70"
-                >
-                  Pandemic preparedness, early warning systems, policy. For people building defences against bio risks.
-                </p>
-                <a
-                  class="text-[15px] font-medium text-bluedot-normal hover:underline mt-1 inline-flex items-center gap-1 group-hover:gap-2 transition-all"
-                  href="/courses/biosecurity"
-                >
-                  Explore the course
-                  <span
-                    class="transition-transform group-hover:translate-x-0.5"
-                  >
-                    →
-                  </span>
-                </a>
-              </div>
-            </div>
-            <div
-              class="group flex flex-col gap-4 p-6 rounded-xl bg-white border border-[rgba(19,19,46,0.08)] hover:border-[rgba(19,19,46,0.12)] hover:shadow-md transition-all duration-200"
-            >
-              <div
-                class="size-12 rounded-lg flex items-center justify-center flex-shrink-0"
-                style="background-color: #2C3F81;"
-              >
-                <svg
-                  class="text-white"
-                  fill="currentColor"
-                  height="24"
-                  stroke="currentColor"
-                  stroke-width="0"
-                  viewBox="0 0 256 256"
-                  width="24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M223.85,47.12a16,16,0,0,0-15-15c-12.58-.75-44.73.4-71.41,27.07L132.69,64H74.36A15.91,15.91,0,0,0,63,68.68L28.7,103a16,16,0,0,0,9.07,27.16l38.47,5.37,44.21,44.21,5.37,38.49a15.94,15.94,0,0,0,10.78,12.92,16.11,16.11,0,0,0,5.1.83A15.91,15.91,0,0,0,153,227.3L187.32,193A15.91,15.91,0,0,0,192,181.64V123.31l4.77-4.77C223.45,91.86,224.6,59.71,223.85,47.12ZM74.36,80h42.33L77.16,119.52,40,114.34Zm74.41-9.45a76.65,76.65,0,0,1,59.11-22.47,76.46,76.46,0,0,1-22.42,59.16L128,164.68,91.32,128ZM176,181.64,141.67,216l-5.19-37.17L176,139.31Zm-74.16,9.5C97.34,201,82.29,224,40,224a8,8,0,0,1-8-8c0-42.29,23-57.34,32.86-61.85a8,8,0,0,1,6.64,14.56c-6.43,2.93-20.62,12.36-23.12,38.91,26.55-2.5,36-16.69,38.91-23.12a8,8,0,1,1,14.56,6.64Z"
-                  />
-                </svg>
-              </div>
-              <div
-                class="flex flex-col gap-2"
-              >
-                <h3
-                  class="text-[18px] font-semibold leading-tight text-[#13132E]"
-                >
-                  Make a bigger leap
-                </h3>
-                <p
-                  class="bluedot-p not-prose text-[15px] leading-[1.6] text-[#13132E]/70"
-                >
-                  Pivot directly into high-impact work, or start building something new. We can help.
-                </p>
               </div>
             </div>
           </div>
@@ -1929,6 +1931,7 @@ In 30 hours, you'll understand the landscape, pick a direction, and actually sta
     />
     <section
       class="w-full bg-white"
+      id="faq"
     >
       <div
         class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:pt-16 min-[680px]:pb-12 min-[1024px]:py-16 min-[1280px]:py-24"
