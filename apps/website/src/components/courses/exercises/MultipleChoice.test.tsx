@@ -25,9 +25,6 @@ const mockOptions = "The community's preference for low-tech fishing traditions\
 const incorrectAnswer = 'Rising consumer demand for fish with more Omega-3s\n';
 
 const mockArgs = {
-  title: 'Understanding LLMs',
-  description:
-    "Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?",
   options: mockOptions,
   answer: "The community's preference for low-tech fishing traditions\n",
   onExerciseSubmit: () => Promise.resolve(),
@@ -35,12 +32,7 @@ const mockArgs = {
 
 describe('MultipleChoice', () => {
   test('renders default as expected', async () => {
-    const { container, getByText, getAllByRole } = render(<MultipleChoice {...mockArgs} />);
-
-    // Wait for MarkdownExtendedRenderer to complete async rendering
-    await waitFor(() => {
-      expect(getByText(mockArgs.description)).toBeInTheDocument();
-    });
+    const { container, getAllByRole } = render(<MultipleChoice {...mockArgs} />);
 
     expect(container).toMatchSnapshot();
 
@@ -54,12 +46,7 @@ describe('MultipleChoice', () => {
   });
 
   test('renders logged in as expected', async () => {
-    const { container, getByText, getAllByRole } = render(<MultipleChoice {...mockArgs} isLoggedIn />);
-
-    // Wait for MarkdownExtendedRenderer to complete async rendering
-    await waitFor(() => {
-      expect(getByText(mockArgs.description)).toBeInTheDocument();
-    });
+    const { container, getAllByRole } = render(<MultipleChoice {...mockArgs} isLoggedIn />);
 
     expect(container).toMatchSnapshot();
 
@@ -109,19 +96,13 @@ describe('MultipleChoice', () => {
   });
 
   test('updates styles for correct option', async () => {
-    const { getAllByRole, getByDisplayValue, getByText } = render(
+    const { getAllByRole, getByDisplayValue } = render(
       <MultipleChoice {...mockArgs} exerciseResponse={mockArgs.answer} isLoggedIn />,
     );
-
-    // Wait for MarkdownExtendedRenderer to complete async rendering
-    await waitFor(() => {
-      expect(getByText(mockArgs.description)).toBeInTheDocument();
-    });
 
     const correctRadio = getByDisplayValue(mockArgs.answer.trim());
     expect(correctRadio).toBeChecked();
     expect(correctRadio).toMatchSnapshot();
-    expect(getByText('Correct! Quiz completed. 🎉')).toBeInTheDocument();
 
     const radioInputs = getAllByRole('radio');
     radioInputs.forEach((input) => {
@@ -131,14 +112,9 @@ describe('MultipleChoice', () => {
   });
 
   test('updates styles for incorrect option', async () => {
-    const { getByDisplayValue, getByRole, getByText } = render(
+    const { getByDisplayValue, getByRole } = render(
       <MultipleChoice {...mockArgs} exerciseResponse={incorrectAnswer} isLoggedIn />,
     );
-
-    // Wait for MarkdownExtendedRenderer to complete async rendering
-    await waitFor(() => {
-      expect(getByText(mockArgs.description)).toBeInTheDocument();
-    });
 
     const incorrectRadio = getByDisplayValue(incorrectAnswer.trim());
     expect(incorrectRadio).toBeChecked();

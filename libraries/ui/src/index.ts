@@ -79,6 +79,9 @@ export type { TextareaProps } from './Textarea';
 export { TimePicker } from './TimePicker';
 export type { TimePickerProps } from './TimePicker';
 
+export { ToggleSwitch } from './ToggleSwitch';
+export type { ToggleSwitchProps } from './ToggleSwitch';
+
 export { Tooltip } from './Tooltip';
 export type { TooltipProps } from './Tooltip';
 

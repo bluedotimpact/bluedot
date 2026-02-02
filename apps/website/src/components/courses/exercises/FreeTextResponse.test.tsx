@@ -38,9 +38,6 @@ afterEach(() => {
 });
 
 const mockArgs = {
-  title: 'Understanding LLMs',
-  description: 'Why is a language model\'s ability to predict \'the next word\' capable of producing complex behaviors like solving maths problems?',
-  exerciseId: 'rec1234567890',
   onExerciseSubmit: vi.fn(),
 };
 
@@ -50,9 +47,8 @@ describe('FreeTextResponse', () => {
       <FreeTextResponse {...mockArgs} />,
     );
 
-    // Wait for MarkdownExtendedRenderer to complete async rendering
     await waitFor(() => {
-      expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
+      expect(container.querySelector('.ProseMirror')).toBeTruthy();
     });
 
     expect(container).toMatchSnapshot();
@@ -64,9 +60,8 @@ describe('FreeTextResponse', () => {
       <FreeTextResponse {...mockArgs} isLoggedIn />,
     );
 
-    // Wait for MarkdownExtendedRenderer to complete async rendering
     await waitFor(() => {
-      expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
+      expect(container.querySelector('.ProseMirror')).toBeTruthy();
     });
 
     expect(container).toMatchSnapshot();
@@ -78,11 +73,6 @@ describe('FreeTextResponse', () => {
     const { container } = render(
       <FreeTextResponse {...mockArgs} exerciseResponse="This is my saved answer." isLoggedIn />,
     );
-
-    // Wait for MarkdownExtendedRenderer to complete async rendering
-    await waitFor(() => {
-      expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
-    });
 
     // Wait for TipTap editor to render
     await waitFor(() => {
@@ -468,12 +458,12 @@ describe('FreeTextResponse', () => {
       );
 
       await waitFor(() => {
-        const desktopButton = container.querySelector('button[aria-label="Mark as complete"]');
+        const desktopButton = container.querySelector('button[aria-label="Mark exercise as complete"]');
         expect(desktopButton?.hasAttribute('disabled')).toBe(false);
       });
 
       // Click complete and verify handler called correctly
-      const completeButton = container.querySelector('button[aria-label="Mark as complete"]') as HTMLElement;
+      const completeButton = container.querySelector('button[aria-label="Mark exercise as complete"]') as HTMLElement;
       await user.click(completeButton);
 
       expect(mockOnExerciseSubmit).toHaveBeenCalledWith('Some answer', true);
@@ -492,7 +482,7 @@ describe('FreeTextResponse', () => {
       });
 
       // Should show "Mark as incomplete" button and "Completed" text
-      const incompleteButton = container.querySelector('button[aria-label="Mark as incomplete"]');
+      const incompleteButton = container.querySelector('button[aria-label="Mark exercise as incomplete"]');
       expect(incompleteButton).toBeTruthy();
       expect(container.textContent).toContain('Completed');
 

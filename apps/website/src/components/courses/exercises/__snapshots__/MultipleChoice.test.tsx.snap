@@ -2,219 +2,183 @@
 
 exports[`MultipleChoice > renders default as expected 1`] = `
 <div>
-  <div>
-    <form
-      class="container-lined relative z-10 flex flex-col gap-6 bg-white p-8"
+  <form
+    class="flex flex-col gap-6"
+  >
+    <div
+      class="flex flex-col gap-2"
     >
-      <div
-        class="flex flex-col gap-2"
+      <label
+        class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent text-gray-400"
       >
-        <p
-          class="bluedot-h4 not-prose"
-        >
-          Understanding LLMs
-        </p>
-        <div
-          class="markdown-extended-renderer prose prose-p:text-[16px] prose-li:text-[16px] prose-p:leading-[160%] prose-li:leading-[160%] prose-p:tracking-[-0.002em] prose-li:tracking-[-0.002em] prose-p:font-normal prose-li:font-normal prose-p:font-sans prose-li:font-sans prose-strong:font-sans prose-strong:font-semibold prose-strong:text-[16px] prose-strong:leading-[160%] prose-strong:tracking-[-0.002em] prose-a:font-normal prose-a:underline max-w-none"
-        >
-          <p>
-            Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?
-          </p>
-        </div>
-      </div>
-      <div
-        class="flex flex-col gap-2"
-      >
-        <label
-          class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent text-gray-400"
-        >
-          <input
-            class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
-            disabled=""
-            name="answer"
-            type="radio"
-            value="The community's preference for low-tech fishing traditions"
-          />
-          <span
-            class="input__label"
-          >
-            The community's preference for low-tech fishing traditions
-          </span>
-        </label>
-        <label
-          class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent text-gray-400"
-        >
-          <input
-            class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
-            disabled=""
-            name="answer"
-            type="radio"
-            value="Rising consumer demand for fish with more Omega-3s"
-          />
-          <span
-            class="input__label"
-          >
-            Rising consumer demand for fish with more Omega-3s
-          </span>
-        </label>
-        <label
-          class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent text-gray-400"
-        >
-          <input
-            class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
-            disabled=""
-            name="answer"
-            type="radio"
-            value="Environmental regulations and declining cod stocks"
-          />
-          <span
-            class="input__label"
-          >
-            Environmental regulations and declining cod stocks
-          </span>
-        </label>
-        <label
-          class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent text-gray-400"
-        >
-          <input
-            class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
-            disabled=""
-            name="answer"
-            type="radio"
-            value="A cultural shift toward vegetarianism in the region"
-          />
-          <span
-            class="input__label"
-          >
-            A cultural shift toward vegetarianism in the region
-          </span>
-        </label>
-      </div>
-      <a
-        class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark !bg-bluedot-normal !whitespace-normal"
-        href="/login?register=true&redirect_to=%2Ftest-path"
-        tabindex="0"
-      >
-        Create a free account to check your answer
+        <input
+          class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
+          disabled=""
+          name="answer"
+          type="radio"
+          value="The community's preference for low-tech fishing traditions"
+        />
         <span
-          class="cta-button__chevron ml-3"
+          class="input__label"
         >
-          <svg
-            class="cta-button__chevron-icon size-2"
-            fill="currentColor"
-            height="1em"
-            stroke="currentColor"
-            stroke-width="0"
-            viewBox="0 0 320 512"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-            />
-          </svg>
+          The community's preference for low-tech fishing traditions
         </span>
-      </a>
-    </form>
-  </div>
+      </label>
+      <label
+        class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent text-gray-400"
+      >
+        <input
+          class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
+          disabled=""
+          name="answer"
+          type="radio"
+          value="Rising consumer demand for fish with more Omega-3s"
+        />
+        <span
+          class="input__label"
+        >
+          Rising consumer demand for fish with more Omega-3s
+        </span>
+      </label>
+      <label
+        class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent text-gray-400"
+      >
+        <input
+          class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
+          disabled=""
+          name="answer"
+          type="radio"
+          value="Environmental regulations and declining cod stocks"
+        />
+        <span
+          class="input__label"
+        >
+          Environmental regulations and declining cod stocks
+        </span>
+      </label>
+      <label
+        class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent text-gray-400"
+      >
+        <input
+          class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
+          disabled=""
+          name="answer"
+          type="radio"
+          value="A cultural shift toward vegetarianism in the region"
+        />
+        <span
+          class="input__label"
+        >
+          A cultural shift toward vegetarianism in the region
+        </span>
+      </label>
+    </div>
+    <a
+      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark !bg-bluedot-normal !whitespace-normal"
+      href="/login?register=true&redirect_to=%2Ftest-path"
+      tabindex="0"
+    >
+      Create a free account to check your answer
+      <span
+        class="cta-button__chevron ml-3"
+      >
+        <svg
+          class="cta-button__chevron-icon size-2"
+          fill="currentColor"
+          height="1em"
+          stroke="currentColor"
+          stroke-width="0"
+          viewBox="0 0 320 512"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+          />
+        </svg>
+      </span>
+    </a>
+  </form>
 </div>
 `;
 
 exports[`MultipleChoice > renders logged in as expected 1`] = `
 <div>
-  <div>
-    <form
-      class="container-lined relative z-10 flex flex-col gap-6 bg-white p-8"
+  <form
+    class="flex flex-col gap-6"
+  >
+    <div
+      class="flex flex-col gap-2"
     >
-      <div
-        class="flex flex-col gap-2"
+      <label
+        class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent hover:bg-[#F0F5FD]"
       >
-        <p
-          class="bluedot-h4 not-prose"
+        <input
+          class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
+          name="answer"
+          type="radio"
+          value="The community's preference for low-tech fishing traditions"
+        />
+        <span
+          class="input__label"
         >
-          Understanding LLMs
-        </p>
-        <div
-          class="markdown-extended-renderer prose prose-p:text-[16px] prose-li:text-[16px] prose-p:leading-[160%] prose-li:leading-[160%] prose-p:tracking-[-0.002em] prose-li:tracking-[-0.002em] prose-p:font-normal prose-li:font-normal prose-p:font-sans prose-li:font-sans prose-strong:font-sans prose-strong:font-semibold prose-strong:text-[16px] prose-strong:leading-[160%] prose-strong:tracking-[-0.002em] prose-a:font-normal prose-a:underline max-w-none"
-        >
-          <p>
-            Why is a language model's ability to predict 'the next word' capable of producing complex behaviors like solving maths problems?
-          </p>
-        </div>
-      </div>
-      <div
-        class="flex flex-col gap-2"
+          The community's preference for low-tech fishing traditions
+        </span>
+      </label>
+      <label
+        class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent hover:bg-[#F0F5FD]"
       >
-        <label
-          class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent hover:bg-[#F0F5FD]"
+        <input
+          class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
+          name="answer"
+          type="radio"
+          value="Rising consumer demand for fish with more Omega-3s"
+        />
+        <span
+          class="input__label"
         >
-          <input
-            class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
-            name="answer"
-            type="radio"
-            value="The community's preference for low-tech fishing traditions"
-          />
-          <span
-            class="input__label"
-          >
-            The community's preference for low-tech fishing traditions
-          </span>
-        </label>
-        <label
-          class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent hover:bg-[#F0F5FD]"
-        >
-          <input
-            class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
-            name="answer"
-            type="radio"
-            value="Rising consumer demand for fish with more Omega-3s"
-          />
-          <span
-            class="input__label"
-          >
-            Rising consumer demand for fish with more Omega-3s
-          </span>
-        </label>
-        <label
-          class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent hover:bg-[#F0F5FD]"
-        >
-          <input
-            class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
-            name="answer"
-            type="radio"
-            value="Environmental regulations and declining cod stocks"
-          />
-          <span
-            class="input__label"
-          >
-            Environmental regulations and declining cod stocks
-          </span>
-        </label>
-        <label
-          class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent hover:bg-[#F0F5FD]"
-        >
-          <input
-            class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
-            name="answer"
-            type="radio"
-            value="A cultural shift toward vegetarianism in the region"
-          />
-          <span
-            class="input__label"
-          >
-            A cultural shift toward vegetarianism in the region
-          </span>
-        </label>
-      </div>
-      <button
-        class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark !bg-bluedot-normal"
-        disabled=""
-        type="submit"
+          Rising consumer demand for fish with more Omega-3s
+        </span>
+      </label>
+      <label
+        class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent hover:bg-[#F0F5FD]"
       >
-        Select an option
-      </button>
-    </form>
-  </div>
+        <input
+          class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
+          name="answer"
+          type="radio"
+          value="Environmental regulations and declining cod stocks"
+        />
+        <span
+          class="input__label"
+        >
+          Environmental regulations and declining cod stocks
+        </span>
+      </label>
+      <label
+        class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed items-center flex items-center gap-2 p-4 rounded-lg border-2 bg-[#2A2D340A] border-transparent hover:bg-[#F0F5FD]"
+      >
+        <input
+          class="input--radio size-6 accent-bluedot-normal cursor-pointer disabled:cursor-not-allowed flex-shrink-0"
+          name="answer"
+          type="radio"
+          value="A cultural shift toward vegetarianism in the region"
+        />
+        <span
+          class="input__label"
+        >
+          A cultural shift toward vegetarianism in the region
+        </span>
+      </label>
+    </div>
+    <button
+      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark !bg-bluedot-normal"
+      disabled=""
+      type="submit"
+    >
+      Select an option
+    </button>
+  </form>
 </div>
 `;
 

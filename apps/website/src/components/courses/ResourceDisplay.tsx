@@ -127,14 +127,14 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
           >
             Exercises
           </h4>
-          <ul className="resource-display__exercises flex flex-col gap-6" aria-labelledby={exercisesHeadingId}>
+          <div className="resource-display__exercises flex flex-col gap-6" aria-labelledby={exercisesHeadingId}>
             {exercises.map((exercise) => (
               <Exercise
                 key={exercise.id}
                 exerciseId={exercise.id}
               />
             ))}
-          </ul>
+          </div>
         </section>
       )}
 
