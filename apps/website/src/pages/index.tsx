@@ -1,4 +1,7 @@
 import Head from 'next/head';
+
+// TODO: remove - temporary trigger for build cache testing
+const _CACHE_TEST = true;
 import CourseSection from '../components/homepage/CourseSection';
 import StorySection from '../components/homepage/StorySection';
 import HomeHeroContent from '../components/homepage/HomeHeroContent';
