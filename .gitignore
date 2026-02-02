@@ -42,3 +42,5 @@ core
 *.pem
 .vscode/launch.json
 .cursorrules
+CLAUDE.md
+.claude/
