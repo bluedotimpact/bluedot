@@ -26,6 +26,14 @@ jobs:
       - name: Install NPM dependencies
         run: npm ci --audit false --fund false
         
+      - name: Cache turbo build
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
+
       - name: Get affected apps
         id: get_affected_apps
         env:
@@ -36,18 +44,18 @@ jobs:
           TURBO_FILTER=$(npm run turbo_filter --silent --workspace @bluedot/affected-packages)
           echo "turbo_filter=$TURBO_FILTER" >> $GITHUB_OUTPUT
           
-      - name: Test affected apps
-        run: npx turbo test ${{ steps.get_affected_apps.outputs.turbo_filter }}
-        
-      - name: Lint affected apps
-        run: npx turbo lint ${{ steps.get_affected_apps.outputs.turbo_filter }}
-
       - name: Set production secrets
         run: |
           sed -i 's/^AIRTABLE_PERSONAL_ACCESS_TOKEN=$/AIRTABLE_PERSONAL_ACCESS_TOKEN=${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}/' apps/website/.env.local
-        
+
       - name: Build affected apps
         run: npx turbo build ${{ steps.get_affected_apps.outputs.turbo_filter }}
+
+      - name: Test affected apps
+        run: npx turbo test ${{ steps.get_affected_apps.outputs.turbo_filter }}
+
+      - name: Lint affected apps
+        run: npx turbo lint ${{ steps.get_affected_apps.outputs.turbo_filter }}
 
       - name: Get affected deployable apps
         id: get_affected_deployable_apps
