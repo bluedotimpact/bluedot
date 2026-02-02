@@ -93,7 +93,7 @@ export const certificatesRouter = router({
       }
 
       // Check if all exercises for this course have been completed
-      const allExercises = await db.scan(exerciseTable, { courseIdWrite: courseId, status: 'Active' });
+      const allExercises = await db.scan(exerciseTable, { courseId, status: 'Active' });
 
       if (allExercises.length === 0) {
         throw new TRPCError({ code: 'BAD_REQUEST', message: 'No exercises found for this course' });
