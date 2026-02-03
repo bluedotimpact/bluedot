@@ -27,11 +27,14 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v4
         with:
-          path: node_modules
+          path: |
+            node_modules
+            apps/*/node_modules
+            libraries/*/node_modules
           key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
 
       - name: Install NPM dependencies
-        run: npm ci --audit false --fund false
+        run: npm install --audit false --fund false
 
       - name: Get affected apps
         id: get_affected_apps
