@@ -329,9 +329,12 @@ export const getServerSideProps: GetServerSideProps<CertificatePageProps> = asyn
       .filter((r) => r.firstDiscussionDateRaw && new Date(r.firstDiscussionDateRaw) > now)
       .sort((a, b) => new Date(a.firstDiscussionDateRaw!).getTime() - new Date(b.firstDiscussionDateRaw!).getTime())[0];
 
-    const nextCohortText = soonestRound?.firstDiscussionDateRaw
-      ? `Next Cohort starts ${formatCohortDate(soonestRound.firstDiscussionDateRaw)}`
-      : null;
+    let nextCohortText: string | null = null;
+    if (certificate.courseSlug === 'future-of-ai') {
+      nextCohortText = 'Start Immediately';
+    } else if (soonestRound?.firstDiscussionDateRaw) {
+      nextCohortText = `Next Cohort starts ${formatCohortDate(soonestRound.firstDiscussionDateRaw)}`;
+    }
 
     res.setHeader(
       'Cache-Control',
