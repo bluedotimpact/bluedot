@@ -1051,6 +1051,10 @@ export const exerciseTable = pgAirtable('exercise', {
       pgColumn: text(),
       airtableId: 'fldFcZVVo8Wg4GSmA',
     },
+    courseId: {
+      pgColumn: text(),
+      airtableId: 'fldxcJ5gCihs3iRyE',
+    },
     courseIdWrite: {
       pgColumn: text().notNull(),
       airtableId: 'fldxcJ5gCihs3iRyE',

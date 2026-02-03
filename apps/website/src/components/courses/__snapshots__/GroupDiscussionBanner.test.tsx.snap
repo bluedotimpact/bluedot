@@ -50,12 +50,12 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
         >
           •
         </span>
-        <button
+        <a
           class="text-bluedot-normal underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
-          type="button"
+          href="/courses/test-course/1/1"
         >
           Unit 1: Introduction to AI Safety
-        </button>
+        </a>
       </div>
       <div
         class="hidden @[900px]:flex ml-2 flex-1 items-center gap-2"
@@ -296,12 +296,12 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
         >
           •
         </span>
-        <button
+        <a
           class="text-bluedot-normal underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
-          type="button"
+          href="/courses/test-course/1/1"
         >
           Unit 1: Introduction to AI Safety
-        </button>
+        </a>
       </div>
       <div
         class="hidden @[900px]:flex ml-2 flex-1 items-center gap-2"
@@ -483,12 +483,12 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
         >
           •
         </span>
-        <button
+        <a
           class="text-bluedot-normal underline underline-offset-2 cursor-pointer truncate min-w-0 hover:opacity-80"
-          type="button"
+          href="/courses/test-course/1/1"
         >
           Unit 1: Introduction to AI Safety
-        </button>
+        </a>
       </div>
       <div
         class="hidden @[900px]:flex ml-2 flex-1 items-center gap-2"

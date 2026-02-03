@@ -19,10 +19,6 @@ const meta = {
   args: {
     unit: mockUnit,
     groupDiscussion: mockGroupDiscussion,
-    onClickPrepare: () => {
-      // eslint-disable-next-line no-alert
-      alert('[Debug action for storybook] onClickPrepare called');
-    },
   },
   argTypes: {
     userRole: {

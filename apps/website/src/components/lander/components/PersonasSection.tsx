@@ -15,6 +15,7 @@ export type PersonasSectionProps = {
   title?: string;
   personas: Persona[];
   accentColor?: string;
+  defaultExpandedIndex?: number;
   cta?: {
     text: string;
     url: string;
@@ -26,9 +27,10 @@ const PersonasSection = ({
   title = 'Who this course is for',
   personas,
   accentColor = '#1F588A',
+  defaultExpandedIndex = 0,
   cta,
 }: PersonasSectionProps) => {
-  const [expandedIndex, setExpandedIndex] = useState<number>(0);
+  const [expandedIndex, setExpandedIndex] = useState<number>(defaultExpandedIndex);
 
   const handleToggle = (index: number) => {
     setExpandedIndex(expandedIndex === index ? -1 : index);

@@ -1011,7 +1011,7 @@ exports[`AboutPage > should render correctly 1`] = `
                         target="_blank"
                       >
                         <img
-                          alt="Li-Lian Ang - Product"
+                          alt="Li-Lian Ang - Product & Placements"
                           class="team-section__card-image size-[300px] object-cover"
                           src="/images/team/lilian.jpg"
                         />
@@ -1028,7 +1028,7 @@ exports[`AboutPage > should render correctly 1`] = `
                       <p
                         class="card__subtitle text-gray-600"
                       >
-                        Product
+                        Product & Placements
                       </p>
                     </div>
                   </div>
@@ -1055,7 +1055,7 @@ exports[`AboutPage > should render correctly 1`] = `
                         target="_blank"
                       >
                         <img
-                          alt="Josh Landes - Community"
+                          alt="Josh Landes - Special Projects"
                           class="team-section__card-image size-[300px] object-cover"
                           src="/images/team/josh_v2.webp"
                         />
@@ -1072,7 +1072,7 @@ exports[`AboutPage > should render correctly 1`] = `
                       <p
                         class="card__subtitle text-gray-600"
                       >
-                        Community
+                        Special Projects
                       </p>
                     </div>
                   </div>
@@ -1166,6 +1166,50 @@ exports[`AboutPage > should render correctly 1`] = `
                   </div>
                 </div>
               </div>
+              <div
+                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
+                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+                style="scroll-margin-left: -0px;"
+              >
+                <div
+                  class="team-section__card"
+                >
+                  <div
+                    class="card flex items-start flex-col transition-transform duration-200"
+                  >
+                    <div
+                      class="card__image-container w-full"
+                    >
+                      <a
+                        class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
+                        href="https://www.linkedin.com/in/weinbaumjonah/"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        <img
+                          alt="Jonah Weinbaum - def/acc"
+                          class="team-section__card-image size-[300px] object-cover"
+                          src="/images/team/jonahweinbaum.jpg"
+                        />
+                      </a>
+                    </div>
+                    <div
+                      class="card__content w-full p-4"
+                    >
+                      <h3
+                        class="card__title font-bold text-size-lg mb-1"
+                      >
+                        Jonah Weinbaum
+                      </h3>
+                      <p
+                        class="card__subtitle text-gray-600"
+                      >
+                        def/acc
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div
@@ -1199,7 +1243,7 @@ exports[`AboutPage > should render correctly 1`] = `
               />
               <div
                 class="slide-list__progress-track absolute h-full bg-bluedot-normal"
-                style="width: 16.666666666666664%;"
+                style="width: 14.285714285714285%;"
               />
             </div>
             <button
