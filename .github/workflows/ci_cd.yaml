@@ -43,15 +43,15 @@ jobs:
         run: |
           TURBO_FILTER=$(npm run turbo_filter --silent --workspace @bluedot/affected-packages)
           echo "turbo_filter=$TURBO_FILTER" >> $GITHUB_OUTPUT
-          
+
       - name: Typecheck affected apps
         run: npx turbo typecheck ${{ steps.get_affected_apps.outputs.turbo_filter }}
 
-      - name: Test affected apps
-        run: npx turbo test ${{ steps.get_affected_apps.outputs.turbo_filter }}
-
       - name: Lint affected apps
         run: npx turbo lint ${{ steps.get_affected_apps.outputs.turbo_filter }}
+
+      - name: Test affected apps
+        run: npx turbo test ${{ steps.get_affected_apps.outputs.turbo_filter }}
 
       - name: Get affected deployable apps
         id: get_affected_deployable_apps
