@@ -9,6 +9,9 @@ import EventsSection from '../components/homepage/EventsSection';
 import NewsletterBanner from '../components/homepage/NewsletterBanner';
 import { trpc } from '../utils/trpc';
 
+// eslint-disable-next-line no-underscore-dangle, @typescript-eslint/no-unused-vars
+const _CACHE_TEST = true;
+
 const HomePage = () => {
   const { data: dbTestimonials } = trpc.testimonials.getCommunityMembers.useQuery();
 
