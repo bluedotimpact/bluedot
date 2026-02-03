@@ -5,6 +5,7 @@
   "scripts": {
     "start": "storybook dev -p 6006",
     "start:docker": "docker-scripts start",
+
     "build": "storybook build --output-dir dist",
     "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
     "lint:fix": "npm run lint -- --fix",

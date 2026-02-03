@@ -6,6 +6,7 @@
     "postinstall": "shx cp -n .env.local.template .env.local",
     "start": "next dev -p 8000",
     "start:docker": "docker-scripts start",
+    "typecheck": "tsc --noEmit",
     "build": "next build",
     "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
     "lint:fix": "npm run lint -- --fix",

@@ -5,6 +5,7 @@
     "scripts": {
         "start": "tsup --watch --onSuccess \"npm run kanel && NODE_ENV=development node dist/index.js\"",
         "start:docker": "docker-scripts start",
+
         "build": "tsc && tsup && mkdir -p dist_tools && cp ../../package-lock.json dist_tools",
         "deploy:cd": "echo \"warn: app is deprecated, not deploying\"",
         "kanel": "tsup tools/kanel.ts --outDir dist_tools --external kanel --external kanel-kysely && NODE_ENV=development node dist_tools/kanel.js",

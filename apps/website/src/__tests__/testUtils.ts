@@ -74,7 +74,7 @@ export const createMockCourse = (overrides: Partial<Course> = {}): Course => ({
   durationDescription: '4 weeks',
   durationHours: 40,
   id: MOCK_COURSE_ID,
-  image: '/images/courses/default.webp',
+
   isFeatured: false,
   isNew: false,
   level: 'Beginner',
@@ -163,6 +163,7 @@ export const createMockGroup = (overrides: Partial<Group> = {}): Group => ({
   round: 'round-1',
   startTimeUtc: Math.floor(Date.now() / 1000), // Unix timestamp in seconds
   whoCanSwitchIntoThisGroup: [],
+  facilitator: null,
   ...overrides,
 });
 

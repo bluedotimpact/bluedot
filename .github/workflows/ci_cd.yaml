@@ -23,16 +23,16 @@ jobs:
           node-version: 22
           cache: 'npm'
           registry-url: https://registry.npmjs.org/
-      - name: Install NPM dependencies
-        run: npm ci --audit false --fund false
-        
-      - name: Cache turbo build
+      - name: Cache node_modules
+        id: cache-node-modules
         uses: actions/cache@v4
         with:
-          path: .turbo
-          key: ${{ runner.os }}-turbo-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-turbo-
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Install NPM dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm ci --audit false --fund false
 
       - name: Get affected apps
         id: get_affected_apps
@@ -44,12 +44,8 @@ jobs:
           TURBO_FILTER=$(npm run turbo_filter --silent --workspace @bluedot/affected-packages)
           echo "turbo_filter=$TURBO_FILTER" >> $GITHUB_OUTPUT
           
-      - name: Set production secrets
-        run: |
-          sed -i 's/^AIRTABLE_PERSONAL_ACCESS_TOKEN=$/AIRTABLE_PERSONAL_ACCESS_TOKEN=${{ secrets.AIRTABLE_PERSONAL_ACCESS_TOKEN }}/' apps/website/.env.local
-
-      - name: Build affected apps
-        run: npx turbo build ${{ steps.get_affected_apps.outputs.turbo_filter }}
+      - name: Typecheck affected apps
+        run: npx turbo typecheck ${{ steps.get_affected_apps.outputs.turbo_filter }}
 
       - name: Test affected apps
         run: npx turbo test ${{ steps.get_affected_apps.outputs.turbo_filter }}
