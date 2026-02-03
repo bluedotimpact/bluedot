@@ -18,6 +18,7 @@ const mockUser = {
   utmCampaign: null,
   utmContent: null,
   autoNumberId: null,
+  isAdmin: null,
 };
 
 // Test helper function for selecting elements
