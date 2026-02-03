@@ -31,7 +31,6 @@ jobs:
           key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
 
       - name: Install NPM dependencies
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm ci --audit false --fund false
 
       - name: Get affected apps
