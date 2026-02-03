@@ -14,13 +14,10 @@
     "deploy:cd": "docker-scripts deploy"
   },
   "dependencies": {
-    "@bluedot/backend-contract": "*",
     "@bluedot/db": "*",
     "@bluedot/ui": "*",
     "@bluedot/utils": "*",
     "@tanstack/react-query": "^5.29.0",
-    "@ts-rest/core": "^3.41.1",
-    "@ts-rest/react-query": "^3.41.1",
     "axios": "^1.6.8",
     "axios-hooks": "^5.0.2",
     "http-errors": "^2.0.0",
