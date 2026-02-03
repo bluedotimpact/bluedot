@@ -1,19 +1,34 @@
 import { courseRegistrationTable, courseTable } from '@bluedot/db';
 import {
+  Breadcrumbs,
+  type BluedotRoute,
   CTALinkOrButton,
+  ClickTarget,
   Footer,
   H1,
   P,
   Section,
-  ShareButton,
+  useAuthStore,
 } from '@bluedot/ui';
+import clsx from 'clsx';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import path from 'path';
-import { FaCircleCheck } from 'react-icons/fa6';
+import Confetti from 'react-confetti';
+import { FaLinkedin, FaXTwitter } from 'react-icons/fa6';
+import { Nav } from '../components/Nav/Nav';
+import { trpc } from '../utils/trpc';
 import db from '../lib/api/db';
 import { ROUTES } from '../lib/routes';
+import { getCourseRoundsData } from '../server/routers/course-rounds';
 import { fileExists } from '../utils/fileExists';
+import { CertificateCard } from '../components/certificate/CertificateCard';
+import { CertificateCTA } from '../components/certificate/CertificateCTA';
+import { FOAI_COLORS } from '../components/lander/course-content/FutureOfAiContent';
+import { AGI_STRATEGY_COLORS } from '../components/lander/course-content/AgiStrategyContent';
+import { TAS_COLORS } from '../components/lander/course-content/TechnicalAiSafetyContent';
+import { AI_GOVERNANCE_COLORS } from '../components/lander/course-content/AiGovernanceContent';
+import { BIOSECURITY_COLORS } from '../components/lander/course-content/BioSecurityContent';
 
 type Certificate = {
   certificateId: string;
@@ -45,16 +60,90 @@ async function getCertificateData(certificateId: string) {
 type CertificatePageProps = {
   certificate: Certificate | null;
   certificateId: string | null;
-  certificationBadgeFilename: string;
   linkPreviewFilename: string;
+  nextCohortText: string | null;
+};
+
+const DEFAULT_CTA_COLORS = {
+  gradient: 'linear-gradient(to right, rgba(26, 26, 46, 0.6) 0%, transparent 60%), #1a1a2e',
+  accent: '#94a3b8',
+};
+
+const COURSE_COLOR_MAP: Record<string, { gradient: string; accent: string }> = {
+  'future-of-ai': FOAI_COLORS,
+  'agi-strategy': AGI_STRATEGY_COLORS,
+  'technical-ai-safety': TAS_COLORS,
+  'ai-governance': AI_GOVERNANCE_COLORS,
+  biosecurity: BIOSECURITY_COLORS,
+};
+
+const getCourseCtaColors = (courseSlug: string): { gradient: string; accent: string } => {
+  return COURSE_COLOR_MAP[courseSlug] || DEFAULT_CTA_COLORS;
+};
+
+const getOrdinalSuffix = (day: number): string => {
+  if (day > 3 && day < 21) return 'th';
+  switch (day % 10) {
+    case 1: return 'st';
+    case 2: return 'nd';
+    case 3: return 'rd';
+    default: return 'th';
+  }
+};
+
+const formatCohortDate = (dateStr: string): string => {
+  const date = new Date(dateStr);
+  const month = date.toLocaleDateString('en-US', { month: 'long', timeZone: 'UTC' });
+  const day = date.getUTCDate();
+  const ordinal = getOrdinalSuffix(day);
+  return `${month} ${day}${ordinal}`;
+};
+
+const ShareButtons: React.FC<{ shareUrl: string; shareText: string }> = ({ shareUrl, shareText }) => {
+  const linkedInUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
+  const xUrl = `https://x.com/intent/post?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
+
+  const baseButtonClasses = 'h-10 px-4 py-[7px] rounded-[5px] flex items-center justify-center gap-2 font-medium text-[13px] leading-[22px] transition-opacity hover:opacity-90';
+
+  return (
+    <div className="flex flex-col sm:flex-row gap-2 justify-center">
+      <ClickTarget
+        url={linkedInUrl}
+        target="_blank"
+        className={clsx(baseButtonClasses, 'bg-[#1144cc] text-white w-full sm:w-auto')}
+        aria-label="Share on LinkedIn"
+      >
+        <FaLinkedin size={16} />
+        <span>Share on LinkedIn</span>
+      </ClickTarget>
+
+      <ClickTarget
+        url={xUrl}
+        target="_blank"
+        className={clsx(baseButtonClasses, 'bg-[rgba(19,19,46,0.05)] text-[#13132e] w-full sm:w-auto')}
+        aria-label="Share on X"
+      >
+        <FaXTwitter size={16} />
+        <span>Share on X</span>
+      </ClickTarget>
+    </div>
+  );
 };
 
 const CertificatePage = ({
-  certificate, certificateId, certificationBadgeFilename, linkPreviewFilename,
+  certificate, certificateId, linkPreviewFilename, nextCohortText,
 }: CertificatePageProps) => {
+  const auth = useAuthStore((s) => s.auth);
+  const { data: ownershipData } = trpc.certificates.verifyOwnership.useQuery(
+    { certificateId: certificateId! },
+    { enabled: !!auth && !!certificateId },
+  );
+  const isOwner = ownershipData?.isOwner ?? false;
+
   if (!certificateId) {
     return (
       <main className="bluedot-base flex flex-col">
+        <Nav />
         <Section className="flex-1">
           <div className="flex flex-col gap-4 mt-4">
             <H1>Missing certificate id</H1>
@@ -73,6 +162,7 @@ const CertificatePage = ({
   if (!certificate) {
     return (
       <main className="bluedot-base flex flex-col">
+        <Nav />
         <Section className="flex-1">
           <div className="flex flex-col gap-4 mt-4">
             <H1>Certificate not found</H1>
@@ -88,19 +178,36 @@ const CertificatePage = ({
     );
   }
 
-  // Build URLs from filenames determined server-side
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bluedot.org';
-  const badgeRelativeUrl = `/images/certificates/${certificationBadgeFilename}`;
   const linkPreviewAbsoluteUrl = `${siteUrl}/images/certificates/link-preview/${linkPreviewFilename}`;
+  const shareUrl = `${siteUrl}/certification?id=${certificate.certificateId}`;
+  const shareText = `I've completed ${certificate.courseName} with BlueDot Impact!`;
+  const courseColors = getCourseCtaColors(certificate.courseSlug);
+
+  const certificateRoute: BluedotRoute = {
+    title: `${certificate.courseName} Certificate`,
+    url: `/certification?id=${certificateId}`,
+    parentPages: [
+      { title: 'Home', url: '/' },
+      { title: 'Settings', url: '/settings' },
+      { title: 'My Courses', url: '/settings/courses' },
+    ],
+  };
+
+  const issuedDate = new Date(certificate.certificateCreatedAt * 1000).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
 
   return (
     <main className="bluedot-base flex flex-col">
+      <Nav />
       <Head>
         <title>{`${certificate.recipientName} has completed ${certificate.courseName} | BlueDot Impact`}</title>
         <meta name="description" content={certificate.certificationDescription || `Certificate of completion for ${certificate.courseName}`} />
         <meta name="robots" content="noindex" />
 
-        {/* Open Graph meta tags */}
         <meta property="og:title" content={`${certificate.recipientName} has completed the ${certificate.courseName} course`} />
         <meta property="og:description" content={certificate.certificationDescription || `Certificate of completion for ${certificate.courseName}`} />
         <meta property="og:site_name" content="BlueDot Impact" />
@@ -112,51 +219,74 @@ const CertificatePage = ({
         <meta property="og:image:type" content="image/png" />
         <meta property="og:image:alt" content={`${certificate.courseName} certification badge`} />
 
-        {/* Twitter Card meta tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={`${certificate.recipientName} has completed the ${certificate.courseName} course`} />
         <meta name="twitter:description" content={certificate.certificationDescription || `Certificate of completion for ${certificate.courseName}`} />
         <meta name="twitter:image" content={linkPreviewAbsoluteUrl} />
       </Head>
 
-      <Section className="flex-1 pt-12">
-        <div className="p-8 border-2 border-color-divider">
-          <div className="flex flex-col justify-between md:flex-row md:items-center gap-4">
-            <div className="flex flex-col gap-2">
-              <div className="flex gap-2">
-                <FaCircleCheck className="size-5 text-bluedot-normal" />
-                <P className="font-bold">Verified</P>
-              </div>
-              <P className="text-gray-700">This certificate was issued to <span className="font-bold">{certificate.recipientName}</span> on {new Date(certificate.certificateCreatedAt * 1000).toLocaleDateString()}</P>
+      {isOwner && (
+        <div className="hidden md:block">
+          <Breadcrumbs
+            route={certificateRoute}
+            className="text-[13px] leading-[1.4] tracking-[-0.065px]"
+          />
+        </div>
+      )}
+
+      {isOwner && (
+        <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[850px] h-[600px] overflow-hidden pointer-events-none z-50">
+          <Confetti
+            width={850}
+            height={600}
+            numberOfPieces={200}
+            recycle={false}
+            colors={['#3B82F6', '#60A5FA', '#93C5FD', '#1D4ED8', '#DBEAFE']}
+          />
+        </div>
+      )}
+
+      <div
+        className={clsx(
+          'flex-1 flex flex-col items-center px-5 md:px-0 pt-12 md:pt-20',
+          isOwner ? 'pb-12 md:pb-24' : 'pb-0 md:pb-24',
+        )}
+      >
+        <CertificateCard
+          courseName={certificate.courseName}
+          courseSlug={certificate.courseSlug}
+          recipientName={certificate.recipientName}
+          description={certificate.certificationDescription}
+          issuedDate={issuedDate}
+          certificateId={certificate.certificateId}
+        />
+
+        <div
+          className={clsx(
+            'md:max-w-[800px]',
+            isOwner ? 'w-full mt-12 md:mt-20' : 'w-[calc(100%+40px)] md:w-full mt-12 md:mt-20 -mx-5 md:mx-0',
+          )}
+        >
+          {isOwner ? (
+            <div className="flex flex-col items-center gap-6">
+              <ShareButtons shareUrl={shareUrl} shareText={shareText} />
+              <p className="text-size-md leading-[26px] tracking-[-0.3125px] text-[#62748E] text-center">
+                Celebrate your achievement by sharing it with your professional network & friends.
+              </p>
             </div>
-            <ShareButton text={`I was just awarded my certificate for BlueDot Impact's ${certificate.courseName} course!`} url={`${siteUrl}/certification?id=${certificateId}`}>Share your achievement</ShareButton>
-          </div>
-        </div>
-
-        <div className="flex flex-col sm:flex-row gap-8 my-12">
-          <div className="max-w-sm mx-auto sm:w-1/3">
-            <img
-              src={badgeRelativeUrl}
-              alt={`${certificate.courseName} certification badge`}
-              onError={(e) => {
-                e.currentTarget.src = '/images/certificates/certificate-fallback-image.png';
-              }}
+          ) : (
+            <CertificateCTA
+              courseName={certificate.courseName}
+              courseSlug={certificate.courseSlug}
+              courseUrl={certificate.courseDetailsUrl}
+              nextCohortDate={nextCohortText || undefined}
+              gradient={courseColors.gradient}
+              accentColor={courseColors.accent}
             />
-          </div>
-
-          <div className="sm:w-2/3 space-y-4">
-            <P><span className="text-bluedot-normal font-semibold">BlueDot Impact</span> confirms that</P>
-            <P className="text-4xl font-serif font-bold">{certificate.recipientName}</P>
-            <P className="text-gray-700">has successfully completed the</P>
-            <P className="text-4xl mb-12 font-serif font-bold">{certificate.courseName} Course</P>
-
-            <P>{certificate.certificationDescription}</P>
-
-            <CTALinkOrButton url={certificate.courseDetailsUrl} variant="secondary">Learn more</CTALinkOrButton>
-          </div>
+          )}
         </div>
+      </div>
 
-      </Section>
       <Footer logo="/images/logo/BlueDot_Impact_Logo_White.svg" />
     </main>
   );
@@ -170,8 +300,8 @@ export const getServerSideProps: GetServerSideProps<CertificatePageProps> = asyn
       props: {
         certificate: null,
         certificateId: null,
-        certificationBadgeFilename: 'certificate-fallback-image.png',
         linkPreviewFilename: 'link-preview-fallback.png',
+        nextCohortText: null,
       },
     };
   }
@@ -179,19 +309,6 @@ export const getServerSideProps: GetServerSideProps<CertificatePageProps> = asyn
   try {
     const certificate = await getCertificateData(certificateId);
 
-    // Check if course-specific badge exists, otherwise use fallback
-    const badgePath = path.join(
-      process.cwd(),
-      'public',
-      'images',
-      'certificates',
-      `${certificate.courseSlug}.png`,
-    );
-    const certificationBadgeFilename = (await fileExists(badgePath))
-      ? `${certificate.courseSlug}.png`
-      : 'certificate-fallback-image.png';
-
-    // Check if course-specific link preview exists, otherwise use fallback
     const linkPreviewFsPath = path.join(
       process.cwd(),
       'public',
@@ -204,8 +321,18 @@ export const getServerSideProps: GetServerSideProps<CertificatePageProps> = asyn
       ? `${certificate.courseSlug}.png`
       : 'link-preview-fallback.png';
 
-    // Equivalent to `revalidate: 300` in getStaticProps. That can't be used here because we are
-    // using query params rather than path params.
+    // Fetch cohort data to display next cohort start date
+    const rounds = await getCourseRoundsData(certificate.courseSlug);
+    const allRounds = [...(rounds?.intense || []), ...(rounds?.partTime || [])];
+    const now = new Date();
+    const soonestRound = allRounds
+      .filter((r) => r.firstDiscussionDateRaw && new Date(r.firstDiscussionDateRaw) > now)
+      .sort((a, b) => new Date(a.firstDiscussionDateRaw!).getTime() - new Date(b.firstDiscussionDateRaw!).getTime())[0];
+
+    const nextCohortText = soonestRound?.firstDiscussionDateRaw
+      ? `Next Cohort starts ${formatCohortDate(soonestRound.firstDiscussionDateRaw)}`
+      : null;
+
     res.setHeader(
       'Cache-Control',
       'public, max-age=300, stale-while-revalidate=86400',
@@ -215,20 +342,19 @@ export const getServerSideProps: GetServerSideProps<CertificatePageProps> = asyn
       props: {
         certificate,
         certificateId,
-        certificationBadgeFilename,
         linkPreviewFilename,
+        nextCohortText,
       },
     };
   } catch (error) {
-    // Certificate not found or error fetching
     // eslint-disable-next-line no-console
     console.error('Error fetching certificate:', certificateId, error);
     return {
       props: {
         certificate: null,
         certificateId,
-        certificationBadgeFilename: 'certificate-fallback-image.png',
         linkPreviewFilename: 'link-preview-fallback.png',
+        nextCohortText: null,
       },
     };
   }

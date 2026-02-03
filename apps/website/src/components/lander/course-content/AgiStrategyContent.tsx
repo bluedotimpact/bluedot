@@ -14,7 +14,7 @@ import {
 } from 'react-icons/pi';
 import { CourseLanderContent } from '../CourseLander';
 
-const AGI_STRATEGY_COLORS = {
+export const AGI_STRATEGY_COLORS = {
   /* Gradient layers:
      1. Left-side darkness - horizontal gradient to darken left edge for text readability
      2. Main colorful gradient - pink→purple→dark blue from bottom-right

@@ -1,8 +1,12 @@
 import {
   describe, expect, test, beforeEach, vi,
 } from 'vitest';
+import { useAuthStore } from '@bluedot/ui';
+import { useRouter } from 'next/router';
 import CertificatePage from '../../pages/certification';
 import { renderWithHead } from '../testUtils';
+import { TrpcProvider } from '../trpcProvider';
+import { server, trpcMsw } from '../trpcMswSetup';
 
 // Mock <Head>, which doesn't work in tests. See docstring of
 // `renderWithHead` for more details.
@@ -20,6 +24,18 @@ vi.mock('next/head', () => ({
   },
 }));
 
+vi.mock('next/router', () => ({
+  useRouter: vi.fn(),
+}));
+
+vi.mock('@bluedot/ui', async () => {
+  const actual = await vi.importActual('@bluedot/ui');
+  return {
+    ...actual,
+    useAuthStore: vi.fn(),
+  };
+});
+
 const mockCertificate = {
   certificateId: 'cert123',
   certificateCreatedAt: 1609459200,
@@ -34,16 +50,26 @@ describe('CertificatePage SSR/SEO', () => {
   beforeEach(() => {
     // Required for `renderWithHead`
     document.head.innerHTML = '';
+    vi.mocked(useAuthStore).mockReturnValue(null);
+    vi.mocked(useRouter).mockReturnValue({
+      pathname: '/certification',
+      asPath: '/certification',
+    } as ReturnType<typeof useRouter>);
+    server.use(
+      trpcMsw.certificates.verifyOwnership.query(() => ({ isOwner: false })),
+    );
   });
 
   test('renders SEO meta tags during SSR without API calls', () => {
     renderWithHead(
-      <CertificatePage
-        certificate={mockCertificate}
-        certificateId="cert123"
-        certificationBadgeFilename="badge-image.png"
-        linkPreviewFilename="link-preview-image.png"
-      />,
+      <TrpcProvider>
+        <CertificatePage
+          certificate={mockCertificate}
+          certificateId="cert123"
+          linkPreviewFilename="link-preview-image.png"
+          nextCohortText={null}
+        />
+      </TrpcProvider>,
     );
 
     expect(document.title).toBe('Jane Smith has completed AI Safety Fundamentals | BlueDot Impact');

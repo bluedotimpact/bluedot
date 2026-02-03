@@ -6,6 +6,7 @@ type CourseConfigItem = {
   iconBackground: string;
   accentColor: string;
   badge?: string;
+  landerFolder?: string;
 };
 
 /* Course config information that doesn't yet live in Airtable */
@@ -14,6 +15,7 @@ export const COURSE_CONFIG: Record<string, CourseConfigItem> = {
     icon: '/images/courses/future-of-ai-icon.svg',
     iconBackground: '#64663E',
     accentColor: '#8c8146',
+    landerFolder: 'foai',
   },
   'ai-governance': {
     icon: '/images/courses/ai-governance-icon.svg',

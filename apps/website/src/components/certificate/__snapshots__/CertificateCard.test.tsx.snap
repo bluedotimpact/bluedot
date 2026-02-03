@@ -1,0 +1,130 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CertificateCard > Rendering > renders correctly with valid props 1`] = `
+<div>
+  <div
+    class="w-full max-w-[800px] bg-white rounded-lg border border-slate-200 overflow-hidden shadow-[0_8px_60px_rgba(0,0,0,0.06)]"
+  >
+    <div
+      class="relative"
+    >
+      <div
+        class="relative flex justify-center pt-12"
+      >
+        <div
+          class="w-[252px] h-[200px] md:w-[300px] md:h-[238px]"
+        >
+          <img
+            alt="Test Course Certificate Badge"
+            class="size-full object-contain"
+            data-nimg="1"
+            decoding="async"
+            height="238"
+            src="/_next/image?url=%2Fimages%2Fcertificates%2Fcertificate-fallback-image.png&w=640&q=75"
+            srcset="/_next/image?url=%2Fimages%2Fcertificates%2Fcertificate-fallback-image.png&w=384&q=75 1x, /_next/image?url=%2Fimages%2Fcertificates%2Fcertificate-fallback-image.png&w=640&q=75 2x"
+            style="color: transparent;"
+            width="300"
+          />
+        </div>
+      </div>
+      <div
+        class="relative flex flex-col items-center px-5 md:px-16 pb-0"
+      >
+        <p
+          class="mt-16 text-size-xs md:text-size-sm font-medium uppercase tracking-[0.02em] leading-[1.6] text-[#62748E] text-center"
+        >
+          Professional certification
+        </p>
+        <h1
+          class="mt-1 text-[40px] md:text-[56px] font-semibold leading-tight tracking-[-0.5px] text-[#13132E] text-center font-display"
+          style="font-feature-settings: 'ss04' 1;"
+        >
+          Test Course
+        </h1>
+        <div
+          class="mt-12"
+        >
+          <p
+            class="text-size-sm font-medium uppercase tracking-[0.02em] leading-[1.6] text-[#62748E] text-center"
+          >
+            Awarded to
+          </p>
+          <p
+            class="mt-1 text-2xl font-semibold leading-tight text-[#13132E] text-center font-display"
+          >
+            John Doe
+          </p>
+        </div>
+        <div
+          class="mt-12 max-w-[313px] md:max-w-[672px]"
+        >
+          <p
+            class="text-[15px] md:text-base leading-[1.6] md:leading-[26px] tracking-[-0.3125px] text-[#62748E] text-center [&_strong]:font-semibold [&_strong]:text-[#13132E]"
+            style="font-feature-settings: 'ss04' 1;"
+          >
+            Successfully completed the 
+            <strong>
+              Test Course
+            </strong>
+             program.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      class="mt-16 mx-5 md:mx-16 border-t border-slate-200 pt-[25px] pb-6"
+    >
+      <div
+        class="flex justify-between items-end"
+      >
+        <div
+          class="w-[156px] md:w-[240px]"
+        >
+          <p
+            class="text-size-xs font-medium uppercase tracking-[0.02em] leading-[1.6] text-[#62748E]"
+          >
+            Issued
+          </p>
+          <p
+            class="mt-1 text-[15px] md:text-base font-medium leading-[26px] tracking-[-0.3125px] text-[#13132E]"
+            style="font-feature-settings: 'ss04' 1;"
+          >
+            January 15, 2025
+          </p>
+        </div>
+        <div
+          class="hidden md:block"
+        >
+          <img
+            alt="BlueDot Impact"
+            class="object-contain"
+            data-nimg="1"
+            decoding="async"
+            height="32"
+            loading="lazy"
+            src="/_next/image?url=%2Fimages%2Fcertificates%2Fbluedot-impact-logo.png&w=384&q=75"
+            srcset="/_next/image?url=%2Fimages%2Fcertificates%2Fbluedot-impact-logo.png&w=256&q=75 1x, /_next/image?url=%2Fimages%2Fcertificates%2Fbluedot-impact-logo.png&w=384&q=75 2x"
+            style="color: transparent;"
+            width="152"
+          />
+        </div>
+        <div
+          class="w-[156px] md:w-[240px] text-right"
+        >
+          <p
+            class="text-size-xs font-medium uppercase tracking-[0.02em] leading-[1.6] text-[#62748E]"
+          >
+            Certificate ID
+          </p>
+          <p
+            class="mt-1 text-[15px] md:text-base font-medium leading-[26px] tracking-[-0.3125px] text-[#13132E]"
+            style="font-feature-settings: 'ss04' 1;"
+          >
+            cert-123-abc
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
