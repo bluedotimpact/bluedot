@@ -71,20 +71,21 @@ export const createAiGovernanceContent = (
   personas: {
     title: 'Who this course is for',
     accentColor: COURSE_COLORS.iconBackground,
+    defaultExpandedIndex: -1,
     personas: [
       {
         icon: PiCode,
         title: 'Technical people considering governance',
         summary: 'You get the tech. Now you want to know if policy is where you should point it.',
         description: "You understand the technology - how the systems work, what scaling means, where the risks come from. You've founded a startup, or you're a TPM at a major lab. You're now considering whether to point those skills at policy. You can translate between technical and policy worlds, but you don't know how governance actually works or what the jobs look like.",
-        valueProposition: 'People like you have made this move. Engineers from Google, PMs from Anthropic, founders who sold their companies - now at AISI, NIST, GovAI - making sure we safely navigate AGI. Your cohort will include others making the same bet. Many become collaborators or co-workers for years.',
+        valueProposition: "People like you have made this move. Engineers from Google, PMs from Anthropic, founders who sold their companies - now at AISI, NIST, GovAI - making sure we safely navigate AGI. Your cohort will include others making the same bet. Many become collaborators or co-workers for years. You'll develop the political judgment to match your technical judgment - and know which roles actually have leverage.",
       },
       {
         icon: PiRocketLaunch,
         title: 'High-potential people early in their careers',
         summary: "You have options. You're not the type to drift into a default path.",
         description: "You're at a top university or recently graduated. You've engaged seriously with AI - through our AGI Strategy course, a university group, or your own deep reading. You're considering fellowships, law school, maybe a PhD. You know AI governance matters and want to do something - you just don't know what the jobs are yet.",
-        valueProposition: "You'll join a cohort of others at the same stage - high-potential, high-optionality, figuring out how to make AI go well. Many stay in touch for years - start projects together, join fellowships. You won't be figuring this out alone.",
+        valueProposition: "You'll join a cohort of others at the same stage - high-potential, high-optionality, figuring out how to make AI go well. Many stay in touch for years - start projects together, join fellowships. You won't be figuring this out alone. Alumni from this track have gone on to Horizon, GovAI, AISI, and lab policy teams - many deciding their path during the course.",
       },
       {
         icon: PiScales,
@@ -223,6 +224,11 @@ export const createAiGovernanceContent = (
   faq: {
     title: 'FAQ',
     items: [
+      {
+        id: 'what-is-ai-governance',
+        question: 'What do we mean by AI Governance?',
+        answer: "Not corporate AI ethics committees or responsible AI checklists. We mean the governance of frontier AI and AGI - the policy, coordination, and institutional decisions that will shape whether advanced AI goes well.\n\nAI governance - in the view of this course - is the practice of shaping how AI is built and deployed through policy, institutions, norms, and relationships. It requires both analytical judgment (what interventions would actually work?) and political judgment (what's achievable, and how do you help make it happen?). This still-young field has many disagreements over goals and methods - which makes it even more important to evaluate proposals rigorously and build the influence to move the ones you believe in. That's where our course starts.",
+      },
       {
         id: 'technical-background',
         question: 'Do I need a technical background?',
