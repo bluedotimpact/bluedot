@@ -17,13 +17,13 @@ const teamMembers = [
   {
     imageSrc: '/images/team/lilian.jpg',
     name: 'Li-Lian Ang',
-    role: 'Product',
+    role: 'Product & Placements',
     linkedInUrl: 'https://linkedin.com/in/anglilian',
   },
   {
     imageSrc: '/images/team/josh_v2.webp',
     name: 'Josh Landes',
-    role: 'Community',
+    role: 'Special Projects',
     linkedInUrl: 'https://linkedin.com/in/josh-landes12',
   },
   {
@@ -37,6 +37,12 @@ const teamMembers = [
     name: 'Sam Dower',
     role: 'Technical AI Safety Specialist',
     linkedInUrl: 'https://www.linkedin.com/in/samuel-dower/',
+  },
+  {
+    imageSrc: '/images/team/jonahweinbaum.jpg',
+    name: 'Jonah Weinbaum',
+    role: 'def/acc',
+    linkedInUrl: 'https://www.linkedin.com/in/weinbaumjonah/',
   },
 ];
 
