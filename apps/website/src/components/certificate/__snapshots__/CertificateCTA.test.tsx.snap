@@ -1,0 +1,63 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CertificateCTA > renders correctly with valid props 1`] = `
+<div>
+  <div
+    class="relative flex w-full md:max-w-[800px] min-h-[596px] md:min-h-[360px] rounded-none md:rounded-[10px] overflow-hidden"
+    style="--cta-accent: #ff9900; background: linear-gradient(90deg, #1a2b3c 0%, #2a3b4c 100%);"
+  >
+    <div
+      class="relative flex flex-col md:flex-row flex-1"
+    >
+      <div
+        class="pt-8 px-6 md:p-10 w-full md:w-[450px] flex flex-col gap-[21px] md:gap-6"
+      >
+        <p
+          class="text-size-xs font-medium leading-[1.6] tracking-[0.24px] uppercase text-[var(--cta-accent)]"
+        >
+          NEXT COHORT
+        </p>
+        <div
+          class="flex flex-col gap-8"
+        >
+          <div
+            class="flex flex-col gap-3"
+          >
+            <h2
+              class="text-[36px] font-medium leading-tight tracking-[-0.25px] text-white font-display"
+              style="font-feature-settings: 'ss04' 1;"
+            >
+              Your certificate
+              <br />
+              awaits. Enroll today.
+            </h2>
+            <p
+              class="text-size-xs font-normal leading-[1.6] text-white md:text-white/80"
+            >
+              Join thousands of professionals building expertise in 
+              ai governance
+              .
+            </p>
+          </div>
+          <a
+            class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--primary link-on-dark h-9 px-4 py-[7px] rounded-[5px] font-medium text-[#13132E] w-fit bg-[var(--cta-accent)]"
+            href="https://bluedot.org/courses/ai-governance"
+            tabindex="0"
+          >
+            Start for free
+          </a>
+        </div>
+      </div>
+      <div
+        class="flex-1 flex items-end justify-center md:items-center md:justify-end overflow-hidden"
+      >
+        <img
+          alt=""
+          class="w-full max-w-[338px] md:w-[360px] h-auto object-contain"
+          src="/images/lander/ai-governance/hero-graphic.png"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -11,7 +11,7 @@ import { CourseLanderContent } from '../CourseLander';
 
 export const FUTURE_OF_AI_START_URL = '/courses/future-of-ai/1/1';
 
-const FOAI_COLORS = {
+export const FOAI_COLORS = {
   /* Gradient layers:
      1. Left-side darkness - horizontal gradient to darken left edge
      2. Top-right subtle glow - very faint greenish highlight

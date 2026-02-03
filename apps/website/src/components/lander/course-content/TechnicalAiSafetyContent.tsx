@@ -12,7 +12,7 @@ import {
 } from 'react-icons/pi';
 import { CourseLanderContent } from '../CourseLander';
 
-const TAS_COLORS = {
+export const TAS_COLORS = {
   /* Gradient layers:
      1. Left-side darkness - horizontal gradient to darken left edge for text readability
      2. Bottom-right warm glow - peach → purple → dark purple (from Figma)

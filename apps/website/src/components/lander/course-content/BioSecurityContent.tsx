@@ -12,7 +12,7 @@ import {
 } from 'react-icons/pi';
 import { CourseLanderContent } from '../CourseLander';
 
-const BIOSECURITY_COLORS = {
+export const BIOSECURITY_COLORS = {
   gradient: 'linear-gradient(135deg, #012A07 10%, rgba(1, 42, 7, 0.00) 90%), radial-gradient(110.09% 127.37% at 112.15% 117.08%, rgba(220, 238, 171, 0.45) 0%, rgba(86, 140, 94, 0.45) 50%, rgba(1, 42, 7, 0.45) 100%), radial-gradient(97.29% 122.23% at 85.59% 126.89%, rgba(222, 149, 47, 0.35) 0%, rgba(157, 205, 98, 0.35) 52.4%, rgba(28, 175, 141, 0.35) 100%), #012A07',
   accent: '#ABEEB5',
   categoryLabel: '#81DBAF',

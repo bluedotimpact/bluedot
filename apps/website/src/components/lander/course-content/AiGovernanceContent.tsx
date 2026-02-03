@@ -18,7 +18,7 @@ import {
 } from 'react-icons/pi';
 import { CourseLanderContent } from '../CourseLander';
 
-const COURSE_COLORS = {
+export const AI_GOVERNANCE_COLORS = {
   gradient: `
     linear-gradient(270deg, rgba(5, 24, 67, 0.00) -3.82%, rgba(5, 24, 67, 0.50) 98.44%),
     radial-gradient(96.03% 113.39% at 98.65% 96.93%, rgba(175, 196, 151, 0.40) 0%, rgba(21, 148, 194, 0.40) 44.58%, rgba(5, 24, 67, 0.40) 100%),
@@ -61,8 +61,8 @@ export const createAiGovernanceContent = (
     },
     imageSrc: '/images/lander/ai-governance/hero-graphic.png',
     imageAlt: 'AI Governance visualization',
-    gradient: COURSE_COLORS.gradient,
-    accentColor: COURSE_COLORS.accent,
+    gradient: AI_GOVERNANCE_COLORS.gradient,
+    accentColor: AI_GOVERNANCE_COLORS.accent,
     imageAspectRatio: '1408/1122',
   },
 
@@ -70,7 +70,7 @@ export const createAiGovernanceContent = (
 
   personas: {
     title: 'Who this course is for',
-    accentColor: COURSE_COLORS.iconBackground,
+    accentColor: AI_GOVERNANCE_COLORS.iconBackground,
     defaultExpandedIndex: -1,
     personas: [
       {
@@ -99,7 +99,7 @@ export const createAiGovernanceContent = (
 
   courseOutcomes: {
     title: 'What you\'ll be part of',
-    accentColor: COURSE_COLORS.iconBackground,
+    accentColor: AI_GOVERNANCE_COLORS.iconBackground,
     outcomes: [
       {
         icon: PiMapTrifold,
@@ -134,7 +134,7 @@ export const createAiGovernanceContent = (
     applicationUrl: applicationUrlWithUtm,
     scheduleCtaText: 'Join the next cohort',
     courseSlug,
-    accentColor: COURSE_COLORS.full,
+    accentColor: AI_GOVERNANCE_COLORS.full,
     details: [
       {
         icon: PiGraduationCap,
@@ -198,25 +198,25 @@ export const createAiGovernanceContent = (
         icon: PiBank,
         title: 'Government roles',
         description: "AISI, NIST, OSTP, congressional staff, state-level policy. We'll help you understand what exists and connect you to people who can help.",
-        accentColor: COURSE_COLORS.iconBackground,
+        accentColor: AI_GOVERNANCE_COLORS.iconBackground,
       },
       {
         icon: PiGraduationCap,
         title: 'Fellowships',
         description: 'Horizon, GovAI, IAPS, TechCongress. This course will prepare you to be competitive.',
-        accentColor: COURSE_COLORS.iconBackground,
+        accentColor: AI_GOVERNANCE_COLORS.iconBackground,
       },
       {
         icon: PiHandshake,
         title: 'Policy organizations',
         description: 'Think tanks, advocacy orgs, AI company policy teams. Many people find their calling - and highest impact - here.',
-        accentColor: COURSE_COLORS.iconBackground,
+        accentColor: AI_GOVERNANCE_COLORS.iconBackground,
       },
       {
         icon: PiBriefcase,
         title: 'Specializing where you are',
         description: 'For policy professionals, the goal might not be about moving orgs but becoming the AI lead in your current context.',
-        accentColor: COURSE_COLORS.iconBackground,
+        accentColor: AI_GOVERNANCE_COLORS.iconBackground,
       },
     ],
   },
