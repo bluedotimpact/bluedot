@@ -38,6 +38,7 @@ const freeTextExercise = {
   status: null,
   unitNumber: null,
   unitId: 'unit-1',
+  courseId: null,
   courseIdWrite: 'course-write-1',
   courseIdRead: 'course-read-1',
   exerciseNumber: null,
