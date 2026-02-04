@@ -1,16 +1,14 @@
-import { InferSelectModel, unitTable } from '@bluedot/db';
+import type { Unit } from '@bluedot/db';
 import {
   A, CTALinkOrButton, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
-import { trpc } from '../../utils/trpc';
 import { CourseIcon } from './CourseIcon';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 import { ChunkIcon } from '../icons/ChunkIcon';
-
-type Unit = InferSelectModel<typeof unitTable.pg>;
+import { useChunkProgress } from '../../lib/hooks/useChunkProgress';
 
 type SideBarProps = {
   courseTitle: string;
@@ -45,65 +43,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   const [isExpanded, setIsExpanded] = useState(isCurrentUnit);
   const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
 
-  const allResourceIds = chunks.flatMap((c) => c.chunkResources ?? []);
-  const allExerciseIds = chunks.flatMap((c) => c.chunkExercises ?? []);
-
-  // (1) Lazy-load core resource IDs
-  const { data: coreResourceIds, isLoading: coreResourcesLoading } = trpc.resources.getCoreResourceIds.useQuery(
-    { resourceIds: allResourceIds },
-    { enabled: isExpanded && allResourceIds.length > 0 },
-  );
-
-  // (2) Lazy-load active exercise IDs
-  const { data: activeExerciseIds, isLoading: activeExercisesLoading } = trpc.exercises.getActiveExerciseIds.useQuery(
-    { exerciseIds: allExerciseIds },
-    { enabled: isExpanded && allExerciseIds.length > 0 },
-  );
-
-  // (3) Core resource completions
-  const { data: resourceCompletions, isLoading: resourceCompletionsLoading } = trpc.resources.getResourceCompletions.useQuery({
-    unitResourceIds: coreResourceIds ?? [],
-  }, {
-    enabled: isExpanded && (coreResourceIds?.length ?? 0) > 0 && Boolean(auth),
-  });
-
-  // (4) Active exercise completions
-  const { data: exerciseCompletions, isLoading: exerciseCompletionsLoading } = trpc.exercises.getExerciseCompletions.useQuery(
-    { exerciseIds: activeExerciseIds ?? [] },
-    { enabled: isExpanded && (activeExerciseIds?.length ?? 0) > 0 && Boolean(auth) },
-  );
-
-  const coreResourceIdSet = new Set(coreResourceIds ?? []);
-  const activeExerciseIdSet = new Set(activeExerciseIds ?? []);
-
-  // (5) Compute completion data per chunk (resources + exercises)
-  const groupedCompletionData = chunks.map((chunk) => {
-    // Resource completion
-    const chunkResourceIds = chunk.chunkResources ?? [];
-    const coreChunkResourceIds = chunkResourceIds.filter((id) => coreResourceIdSet.has(id));
-    const resourceCompletedCount = resourceCompletions?.filter(
-      (c) => c.isCompleted && c.unitResourceId && coreChunkResourceIds.includes(c.unitResourceId),
-    ).length ?? 0;
-
-    // Exercise completion (only active exercises count)
-    const chunkExerciseIds = chunk.chunkExercises ?? [];
-    const activeChunkExerciseIds = chunkExerciseIds.filter((id) => activeExerciseIdSet.has(id));
-    const exerciseCompletedCount = exerciseCompletions?.filter(
-      (c) => c.completed && activeChunkExerciseIds.includes(c.exerciseId),
-    ).length ?? 0;
-
-    // Combined totals
-    const totalCount = coreChunkResourceIds.length + activeChunkExerciseIds.length;
-    const completedCount = resourceCompletedCount + exerciseCompletedCount;
-
-    return {
-      totalCount,
-      completedCount,
-      allCompleted: completedCount === totalCount && totalCount > 0,
-    };
-  });
-
-  const isLoading = coreResourcesLoading || activeExercisesLoading || resourceCompletionsLoading || exerciseCompletionsLoading;
+  const { chunkProgress, isLoading } = useChunkProgress(chunks, isExpanded);
 
   return (
     <div className="relative">
@@ -153,12 +93,12 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                           isLoading ? (
                             <ProgressDots className="my-0.5 ml-2" />
                           ) : (
-                            groupedCompletionData[index] && groupedCompletionData[index].totalCount > 0 && (
+                            chunkProgress[index] && chunkProgress[index].totalCount > 0 && (
                               <>
                                 {/* Dot is outside of span so strikethrough doesn't extend to dot and look overly long */}
                                 ⋅
-                                <span className={clsx(groupedCompletionData[index].allCompleted && 'line-through')}>
-                                  {groupedCompletionData[index].completedCount} of {groupedCompletionData[index].totalCount} completed
+                                <span className={clsx(chunkProgress[index].allCompleted && 'line-through')}>
+                                  {chunkProgress[index].completedCount} of {chunkProgress[index].totalCount} completed
                                 </span>
                               </>
                             )
@@ -197,11 +137,11 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                         isLoading ? (
                           <ProgressDots className="my-0.5 ml-2" />
                         ) : (
-                          groupedCompletionData[index] && groupedCompletionData[index].totalCount > 0 && (
+                          chunkProgress[index] && chunkProgress[index].totalCount > 0 && (
                             <>
                               ⋅
-                              <span className={clsx(groupedCompletionData[index].allCompleted && 'line-through')}>
-                                {groupedCompletionData[index].completedCount} of {groupedCompletionData[index].totalCount} completed
+                              <span className={clsx(chunkProgress[index].allCompleted && 'line-through')}>
+                                {chunkProgress[index].completedCount} of {chunkProgress[index].totalCount} completed
                               </span>
                             </>
                           )

@@ -4,14 +4,12 @@ import { FaChevronRight } from 'react-icons/fa6';
 import {
   CTALinkOrButton, Modal, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
-import { unitTable, InferSelectModel } from '@bluedot/db';
+import type { Unit } from '@bluedot/db';
 import { CourseIcon } from './CourseIcon';
 import type { ApplyCTAProps } from './SideBar';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 import { ChunkIcon } from '../icons/ChunkIcon';
-import { trpc } from '../../utils/trpc';
-
-type Unit = InferSelectModel<typeof unitTable.pg>;
+import { useChunkProgress } from '../../lib/hooks/useChunkProgress';
 
 type MobileUnitSectionProps = {
   unit: Unit;
@@ -37,62 +35,7 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
   const auth = useAuthStore((s) => s.auth);
   const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
 
-  const allResourceIds = chunks.flatMap((c) => c.chunkResources ?? []);
-  const allExerciseIds = chunks.flatMap((c) => c.chunkExercises ?? []);
-
-  // Lazy-load core resource IDs
-  const { data: coreResourceIds, isLoading: coreResourcesLoading } = trpc.resources.getCoreResourceIds.useQuery(
-    { resourceIds: allResourceIds },
-    { enabled: isExpanded && allResourceIds.length > 0 },
-  );
-
-  // Lazy-load active exercise IDs
-  const { data: activeExerciseIds, isLoading: activeExercisesLoading } = trpc.exercises.getActiveExerciseIds.useQuery(
-    { exerciseIds: allExerciseIds },
-    { enabled: isExpanded && allExerciseIds.length > 0 },
-  );
-
-  // Core resource completions
-  const { data: resourceCompletions, isLoading: resourceCompletionsLoading } = trpc.resources.getResourceCompletions.useQuery({
-    unitResourceIds: coreResourceIds ?? [],
-  }, {
-    enabled: isExpanded && (coreResourceIds?.length ?? 0) > 0 && Boolean(auth),
-  });
-
-  // Active exercise completions
-  const { data: exerciseCompletions, isLoading: exerciseCompletionsLoading } = trpc.exercises.getExerciseCompletions.useQuery(
-    { exerciseIds: activeExerciseIds ?? [] },
-    { enabled: isExpanded && (activeExerciseIds?.length ?? 0) > 0 && Boolean(auth) },
-  );
-
-  const coreResourceIdSet = new Set(coreResourceIds ?? []);
-  const activeExerciseIdSet = new Set(activeExerciseIds ?? []);
-
-  // Compute completion data per chunk (resources + exercises)
-  const groupedCompletionData = chunks.map((chunk) => {
-    const chunkResourceIds = chunk.chunkResources ?? [];
-    const coreChunkResourceIds = chunkResourceIds.filter((id) => coreResourceIdSet.has(id));
-    const resourceCompletedCount = resourceCompletions?.filter(
-      (c) => c.isCompleted && c.unitResourceId && coreChunkResourceIds.includes(c.unitResourceId),
-    ).length ?? 0;
-
-    const chunkExerciseIds = chunk.chunkExercises ?? [];
-    const activeChunkExerciseIds = chunkExerciseIds.filter((id) => activeExerciseIdSet.has(id));
-    const exerciseCompletedCount = exerciseCompletions?.filter(
-      (c) => c.completed && activeChunkExerciseIds.includes(c.exerciseId),
-    ).length ?? 0;
-
-    const totalCount = coreChunkResourceIds.length + activeChunkExerciseIds.length;
-    const completedCount = resourceCompletedCount + exerciseCompletedCount;
-
-    return {
-      totalCount,
-      completedCount,
-      allCompleted: completedCount === totalCount && totalCount > 0,
-    };
-  });
-
-  const isLoading = coreResourcesLoading || activeExercisesLoading || resourceCompletionsLoading || exerciseCompletionsLoading;
+  const { chunkProgress, isLoading } = useChunkProgress(chunks, isExpanded);
 
   return (
     <div className="relative">
@@ -150,11 +93,11 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
                         isLoading ? (
                           <ProgressDots className="my-0.5 ml-2" />
                         ) : (
-                          groupedCompletionData[index] && groupedCompletionData[index].totalCount > 0 && (
+                          chunkProgress[index] && chunkProgress[index].totalCount > 0 && (
                             <>
                               ⋅
-                              <span className={clsx(groupedCompletionData[index].allCompleted && 'line-through')}>
-                                {groupedCompletionData[index].completedCount} of {groupedCompletionData[index].totalCount} completed
+                              <span className={clsx(chunkProgress[index].allCompleted && 'line-through')}>
+                                {chunkProgress[index].completedCount} of {chunkProgress[index].totalCount} completed
                               </span>
                             </>
                           )

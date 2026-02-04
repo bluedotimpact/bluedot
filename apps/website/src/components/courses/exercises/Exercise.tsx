@@ -4,6 +4,9 @@ import {
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { useRouter } from 'next/router';
+import { useQueryClient } from '@tanstack/react-query';
+import { getQueryKey } from '@trpc/react-query';
+import type { inferRouterOutputs } from '@trpc/server';
 import FreeTextResponse from './FreeTextResponse';
 import MultipleChoice from './MultipleChoice';
 // eslint-disable-next-line import/no-cycle
@@ -11,6 +14,7 @@ import GroupResponses from './GroupResponses';
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
 import { CheckmarkIcon } from '../../icons/CheckmarkIcon';
 import { trpc } from '../../../utils/trpc';
+import type { AppRouter } from '../../../server/routers/_app';
 
 type ExerciseProps = {
   // Required
@@ -24,6 +28,9 @@ const Exercise: React.FC<ExerciseProps> = ({
   const utils = trpc.useUtils();
   const router = useRouter();
   const courseSlug = typeof router.query.courseSlug === 'string' ? router.query.courseSlug : undefined;
+
+  const queryClient = useQueryClient();
+  const exerciseCompletionsQueryKey = getQueryKey(trpc.exercises.getExerciseCompletions, undefined, 'query');
 
   const [showGroupResponsesIfFacilitator, setShowGroupResponsesIfFacilitator] = useState(true);
   const [checkboxHovered, setCheckboxHovered] = useState(false);
@@ -67,6 +74,46 @@ const Exercise: React.FC<ExerciseProps> = ({
     onSettled: () => {
       // Invalidate completions so sidebar progress updates (matches resources pattern)
       utils.exercises.getExerciseCompletions.invalidate();
+    },
+    onMutate: async (newData) => {
+      // Optimistically update `getExerciseCompletions` so that the Sidebar immediately updates
+      await utils.exercises.getExerciseCompletions.cancel();
+
+      const previousQueriesData = queryClient.getQueriesData({ queryKey: exerciseCompletionsQueryKey });
+
+      queryClient.setQueriesData(
+        { queryKey: exerciseCompletionsQueryKey },
+        (oldData: inferRouterOutputs<AppRouter>['exercises']['getExerciseCompletions']) => {
+          if (!oldData) return [];
+
+          const newArray = [...oldData];
+          const existingItem = oldData.find((item) => item.exerciseId === exerciseId);
+
+          if (existingItem) {
+            // Update existing item
+            const existingIndex = oldData.indexOf(existingItem);
+            newArray[existingIndex] = {
+              ...existingItem,
+              completed: newData.completed ?? existingItem.completed,
+            };
+          } else if (newData.completed) {
+            // Add new item if marking as completed
+            newArray.push({
+              exerciseId,
+              completed: true,
+            });
+          }
+          return newArray;
+        },
+      );
+
+      return { previousQueriesData };
+    },
+    onError: (_err, _variables, mutationResult) => {
+      // Rollback on error
+      mutationResult?.previousQueriesData.forEach(([queryKey, data]) => {
+        queryClient.setQueryData(queryKey, data);
+      });
     },
   });
 

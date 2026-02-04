@@ -1,12 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import type { InferSelectModel } from '@bluedot/db';
-import { unitTable } from '@bluedot/db';
+import type { Unit } from '@bluedot/db';
 import { loggedInStory, loggedOutStory } from '@bluedot/ui/src/utils/storybook';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 import SideBar from './SideBar';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
-
-type Unit = InferSelectModel<typeof unitTable.pg>;
 
 const mockUnits = [
   {
