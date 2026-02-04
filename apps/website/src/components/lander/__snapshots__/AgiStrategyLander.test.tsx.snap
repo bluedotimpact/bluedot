@@ -9,7 +9,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       AGI Strategy Course | BlueDot Impact
     </title>
     <meta
-      content="The launchpad for AI safety work. In 30 hours, understand the landscape, pick a direction, and start moving."
+      content="The launchpad for AI safety work. In 25 hours, understand the landscape, pick a direction, and start moving."
       name="description"
     />
     <meta
@@ -17,7 +17,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       property="og:title"
     />
     <meta
-      content="The launchpad for AI safety work. In 30 hours, understand the landscape, pick a direction, and start moving."
+      content="The launchpad for AI safety work. In 25 hours, understand the landscape, pick a direction, and start moving."
       property="og:description"
     />
     <meta
@@ -57,7 +57,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       name="twitter:title"
     />
     <meta
-      content="The launchpad for AI safety work. In 30 hours, understand the landscape, pick a direction, and start moving."
+      content="The launchpad for AI safety work. In 25 hours, understand the landscape, pick a direction, and start moving."
       name="twitter:description"
     />
     <meta
@@ -391,9 +391,9 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               <p
                 class="text-[16px] min-[680px]:text-[18px] leading-[1.6] opacity-80 text-white whitespace-pre-line"
               >
-                Stop orbiting. Launch.
+                Optimistic and concerned about AI's trajectory? Want to do something about it? Start here.
 
-In 30 hours, you'll understand the landscape, pick a direction, and actually start moving.
+25 hours to understand the strategic landscape, find your entry point, and get moving.
               </p>
             </div>
             <div
@@ -444,9 +444,9 @@ In 30 hours, you'll understand the landscape, pick a direction, and actually sta
                 <p
                   class="bluedot-p not-prose text-size-md leading-[1.6] opacity-80 text-white whitespace-pre-line"
                 >
-                  Stop orbiting. Launch.
+                  Optimistic and concerned about AI's trajectory? Want to do something about it? Start here.
 
-In 30 hours, you'll understand the landscape, pick a direction, and actually start moving.
+25 hours to understand the strategic landscape, find your entry point, and get moving.
                 </p>
               </div>
               <div
