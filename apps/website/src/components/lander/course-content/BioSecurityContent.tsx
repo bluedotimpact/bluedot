@@ -36,7 +36,7 @@ export const createBioSecurityContent = (
     categoryLabelColor: BIOSECURITY_COLORS.categoryLabel,
     categoryLabel: 'COHORT-BASED COURSE',
     title: 'Biosecurity',
-    description: 'Start building towards a pandemic-proof world: Understand current efforts to prevent, detect and respond to pandemic threats. Identify where you can contribute. Get funded to start building. All in 30 hours.',
+    description: 'Start building towards a pandemic-proof world.\n\nUnderstand efforts to prevent, detect and respond to pandemic threats. Identify where you can contribute. All in 30 hours.',
     primaryCta: {
       text: 'Apply now',
       url: applicationUrlWithUtm,
