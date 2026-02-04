@@ -1055,14 +1055,6 @@ export const exerciseTable = pgAirtable('exercise', {
       pgColumn: text(),
       airtableId: 'fldxcJ5gCihs3iRyE',
     },
-    courseIdWrite: {
-      pgColumn: text().notNull(),
-      airtableId: 'fldxcJ5gCihs3iRyE',
-    },
-    courseIdRead: {
-      pgColumn: text().notNull(),
-      airtableId: 'fldc9oyPwJSkeMiAW',
-    },
     exerciseNumber: {
       pgColumn: text(),
       airtableId: 'fldOoKVFSrToAicfT',
@@ -1094,6 +1086,18 @@ export const exerciseTable = pgAirtable('exercise', {
     status: {
       pgColumn: text(),
       airtableId: 'flda5e542i9w1nBzv',
+    },
+  },
+  deprecatedColumns: {
+    courseIdWrite: {
+      pgColumn: text(),
+      airtableId: 'fldxcJ5gCihs3iRyE',
+      deprecated: true,
+    },
+    courseIdRead: {
+      pgColumn: text(),
+      airtableId: 'fldc9oyPwJSkeMiAW',
+      deprecated: true,
     },
   },
 });
