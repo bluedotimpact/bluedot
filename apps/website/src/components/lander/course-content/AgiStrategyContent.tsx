@@ -32,7 +32,7 @@ export const createAgiStrategyContent = (
 ): CourseLanderContent => ({
   meta: {
     title: 'AGI Strategy Course | BlueDot Impact',
-    description: 'The launchpad for AI safety work. In 30 hours, understand the landscape, pick a direction, and start moving.',
+    description: 'The launchpad for AI safety work. In 25 hours, understand the landscape, pick a direction, and start moving.',
   },
 
   hero: {
@@ -40,7 +40,7 @@ export const createAgiStrategyContent = (
     accentColor: AGI_STRATEGY_COLORS.accent,
     categoryLabel: 'COHORT-BASED COURSE',
     title: 'AGI Strategy',
-    description: "If you care about AI's trajectory and want to do something about it, start here.\n\n30 hours to understand the strategic landscape, find your entry point, and get moving.",
+    description: "Optimistic and concerned about AI's trajectory? Want to do something about it? Start here.\n\n25 hours to understand the strategic landscape, find your entry point, and get moving.",
     primaryCta: {
       text: 'Apply now',
       url: applicationUrlWithUtm,
