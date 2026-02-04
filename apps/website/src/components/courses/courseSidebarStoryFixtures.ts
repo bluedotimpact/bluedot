@@ -1,6 +1,3 @@
-/**
- * Shared fixtures for SideBar and MobileCourseModal stories.
- */
 import type { Unit } from '@bluedot/db';
 import type { RequestHandler } from 'msw';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';

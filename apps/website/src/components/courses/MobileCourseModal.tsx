@@ -11,110 +11,6 @@ import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[
 import { ChunkIcon } from '../icons/ChunkIcon';
 import { useChunkProgress } from '../../lib/hooks/useChunkProgress';
 
-type MobileUnitSectionProps = {
-  unit: Unit;
-  unitIndex: number;
-  chunks: BasicChunk[];
-  isExpanded: boolean;
-  isCurrent: boolean;
-  currentChunkIndex: number;
-  onToggle: () => void;
-  onChunkClick: (index: number) => void;
-};
-
-const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
-  unit,
-  unitIndex,
-  chunks,
-  isExpanded,
-  isCurrent,
-  currentChunkIndex,
-  onToggle,
-  onChunkClick,
-}) => {
-  const auth = useAuthStore((s) => s.auth);
-  const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
-
-  const { chunkProgress, isLoading } = useChunkProgress(chunks, isExpanded);
-
-  return (
-    <div className="relative">
-      {unitIndex > 0 && (
-        <div className="border-t-hairline border-[rgba(42,45,52,0.2)] mx-2 mb-2" />
-      )}
-
-      {/* Unit header - clickable to expand/collapse */}
-      <button
-        type="button"
-        onClick={onToggle}
-        className="w-full flex items-center px-2 py-4 gap-2 rounded-lg hover:bg-[rgba(42,45,52,0.05)] transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
-        aria-expanded={isExpanded}
-        aria-controls={`unit-${unit.id}-chunks`}
-      >
-        <p className="font-semibold text-size-sm leading-[150%] flex-1 text-left text-[#13132E]">
-          {unit.unitNumber}. {unit.title}
-        </p>
-        <FaChevronRight
-          className={clsx(
-            'size-3 transition-transform duration-200',
-            isExpanded && 'rotate-90',
-          )}
-        />
-      </button>
-
-      {/* Chunk Listing (for any expanded unit) */}
-      {isExpanded && (
-        <div id={`unit-${unit.id}-chunks`} className="flex flex-col gap-1 pb-4">
-          {chunks.map((chunk, index) => {
-            const isActive = isCurrent && currentChunkIndex === index;
-            return (
-              <button
-                type="button"
-                key={chunk.id}
-                onClick={() => onChunkClick(index)}
-                className={clsx(
-                  'flex items-center px-2 py-4 gap-3 text-left transition-colors rounded-lg',
-                  isActive ? 'bg-[rgba(42,45,52,0.05)]' : 'hover:bg-[rgba(42,45,52,0.05)]',
-                )}
-              >
-                <ChunkIcon isActive={isActive} />
-                <div className="flex flex-col flex-1 min-h-[44px] justify-center">
-                  <div className="flex flex-col gap-[6px]">
-                    <p className="font-normal text-[14px] leading-[150%] text-[#13132E]">
-                      {chunk.chunkTitle}
-                    </p>
-                  </div>
-                  {chunk.estimatedTime != null && (
-                    <div className="flex gap-1 text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#13132E] opacity-60 mt-2">
-                      <span>
-                        {formatTime(chunk.estimatedTime)}
-                      </span>
-                      {auth && (
-                        isLoading ? (
-                          <ProgressDots className="my-0.5 ml-2" />
-                        ) : (
-                          chunkProgress[index] && chunkProgress[index].totalCount > 0 && (
-                            <>
-                              ⋅
-                              <span className={clsx(chunkProgress[index].allCompleted && 'line-through')}>
-                                {chunkProgress[index].completedCount} of {chunkProgress[index].totalCount} completed
-                              </span>
-                            </>
-                          )
-                        )
-                      )}
-                    </div>
-                  )}
-                </div>
-              </button>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
-};
-
 type MobileCourseModalProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
@@ -221,5 +117,109 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
         ))}
       </div>
     </Modal>
+  );
+};
+
+type MobileUnitSectionProps = {
+  unit: Unit;
+  unitIndex: number;
+  chunks: BasicChunk[];
+  isExpanded: boolean;
+  isCurrent: boolean;
+  currentChunkIndex: number;
+  onToggle: () => void;
+  onChunkClick: (index: number) => void;
+};
+
+const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
+  unit,
+  unitIndex,
+  chunks,
+  isExpanded,
+  isCurrent,
+  currentChunkIndex,
+  onToggle,
+  onChunkClick,
+}) => {
+  const auth = useAuthStore((s) => s.auth);
+  const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
+
+  const { chunkProgress, isLoading } = useChunkProgress(chunks, isExpanded);
+
+  return (
+    <div className="relative">
+      {unitIndex > 0 && (
+        <div className="border-t-hairline border-[rgba(42,45,52,0.2)] mx-2 mb-2" />
+      )}
+
+      {/* Unit header - clickable to expand/collapse */}
+      <button
+        type="button"
+        onClick={onToggle}
+        className="w-full flex items-center px-2 py-4 gap-2 rounded-lg hover:bg-[rgba(42,45,52,0.05)] transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+        aria-expanded={isExpanded}
+        aria-controls={`unit-${unit.id}-chunks`}
+      >
+        <p className="font-semibold text-size-sm leading-[150%] flex-1 text-left text-[#13132E]">
+          {unit.unitNumber}. {unit.title}
+        </p>
+        <FaChevronRight
+          className={clsx(
+            'size-3 transition-transform duration-200',
+            isExpanded && 'rotate-90',
+          )}
+        />
+      </button>
+
+      {/* Chunk Listing (for any expanded unit) */}
+      {isExpanded && (
+        <div id={`unit-${unit.id}-chunks`} className="flex flex-col gap-1 pb-4">
+          {chunks.map((chunk, index) => {
+            const isActive = isCurrent && currentChunkIndex === index;
+            return (
+              <button
+                type="button"
+                key={chunk.id}
+                onClick={() => onChunkClick(index)}
+                className={clsx(
+                  'flex items-center px-2 py-4 gap-3 text-left transition-colors rounded-lg',
+                  isActive ? 'bg-[rgba(42,45,52,0.05)]' : 'hover:bg-[rgba(42,45,52,0.05)]',
+                )}
+              >
+                <ChunkIcon isActive={isActive} />
+                <div className="flex flex-col flex-1 min-h-[44px] justify-center">
+                  <div className="flex flex-col gap-[6px]">
+                    <p className="font-normal text-[14px] leading-[150%] text-[#13132E]">
+                      {chunk.chunkTitle}
+                    </p>
+                  </div>
+                  {chunk.estimatedTime != null && (
+                    <div className="flex gap-1 text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#13132E] opacity-60 mt-2">
+                      <span>
+                        {formatTime(chunk.estimatedTime)}
+                      </span>
+                      {auth && (
+                        isLoading ? (
+                          <ProgressDots className="my-0.5 ml-2" />
+                        ) : (
+                          chunkProgress[index] && chunkProgress[index].totalCount > 0 && (
+                            <>
+                              ⋅
+                              <span className={clsx(chunkProgress[index].allCompleted && 'line-through')}>
+                                {chunkProgress[index].completedCount} of {chunkProgress[index].totalCount} completed
+                              </span>
+                            </>
+                          )
+                        )
+                      )}
+                    </div>
+                  )}
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
   );
 };
