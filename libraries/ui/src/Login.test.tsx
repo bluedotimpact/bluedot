@@ -212,12 +212,15 @@ describe('LoginOauthCallbackPage', () => {
     const { getByText } = render(<LoginOauthCallbackPage loginPreset={mockLoginPreset} />);
 
     await waitFor(() => {
-      expect(getByText('Bad login response: No user returned')).toBeInTheDocument();
+      expect(OidcClient).toHaveBeenCalledTimes(1);
     });
 
     expect(mockProcessSigninResponse).toHaveBeenCalledTimes(1);
     expect(mockSetAuth).not.toHaveBeenCalled();
     expect(mockPush).not.toHaveBeenCalled();
+    await waitFor(() => {
+      expect(getByText('Bad login response: No user returned')).toBeInTheDocument();
+    });
   });
 
   test('should throw error if user.expires_at is missing', async () => {
@@ -228,12 +231,15 @@ describe('LoginOauthCallbackPage', () => {
     const { getByText } = render(<LoginOauthCallbackPage loginPreset={mockLoginPreset} />);
 
     await waitFor(() => {
-      expect(getByText('Bad login response: user.expires_at is missing or not a number')).toBeInTheDocument();
+      expect(OidcClient).toHaveBeenCalledTimes(1);
     });
 
     expect(mockProcessSigninResponse).toHaveBeenCalledTimes(1);
     expect(mockSetAuth).not.toHaveBeenCalled();
     expect(mockPush).not.toHaveBeenCalled();
+    await waitFor(() => {
+      expect(getByText('Bad login response: user.expires_at is missing or not a number')).toBeInTheDocument();
+    });
   });
 
   test('should throw error if user.id_token is missing', async () => {
@@ -243,12 +249,15 @@ describe('LoginOauthCallbackPage', () => {
     const { getByText } = render(<LoginOauthCallbackPage loginPreset={mockLoginPreset} />);
 
     await waitFor(() => {
-      expect(getByText('Bad login response: user.id_token is missing or not a string')).toBeInTheDocument();
+      expect(OidcClient).toHaveBeenCalledTimes(1);
     });
 
     expect(mockProcessSigninResponse).toHaveBeenCalledTimes(1);
     expect(mockSetAuth).not.toHaveBeenCalled();
     expect(mockPush).not.toHaveBeenCalled();
+    await waitFor(() => {
+      expect(getByText('Bad login response: user.id_token is missing or not a string')).toBeInTheDocument();
+    });
   });
 
   test('should throw error if user.profile.email is missing', async () => {
@@ -258,12 +267,15 @@ describe('LoginOauthCallbackPage', () => {
     const { getByText } = render(<LoginOauthCallbackPage loginPreset={mockLoginPreset} />);
 
     await waitFor(() => {
-      expect(getByText('Bad login response: user.profile.email is missing or not a string')).toBeInTheDocument();
+      expect(OidcClient).toHaveBeenCalledTimes(1);
     });
 
     expect(mockProcessSigninResponse).toHaveBeenCalledTimes(1);
     expect(mockSetAuth).not.toHaveBeenCalled();
     expect(mockPush).not.toHaveBeenCalled();
+    await waitFor(() => {
+      expect(getByText('Bad login response: user.profile.email is missing or not a string')).toBeInTheDocument();
+    });
   });
 
   test('should redirect to "/" when userState.redirectTo is missing', async () => {
