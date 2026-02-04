@@ -18,6 +18,7 @@ jobs:
         with:
           fetch-depth: 10  # Fetch more history to be likely to find a successful commit when identifying affected apps
       - name: Use Node.js
+        id: setup-node
         uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -31,7 +32,7 @@ jobs:
             node_modules
             apps/*/node_modules
             libraries/*/node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
 
       - name: Install NPM dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
