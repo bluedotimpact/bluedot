@@ -46,6 +46,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
 
   const allResourceIds = chunks.flatMap((c) => c.chunkResources ?? []);
+  const allExerciseIds = chunks.flatMap((c) => c.chunkExercises ?? []);
 
   // (1) Lazy-load core resource IDs
   const { data: coreResourceIds, isLoading: coreResourcesLoading } = trpc.resources.getCoreResourceIds.useQuery(
@@ -53,31 +54,48 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
     { enabled: isExpanded && allResourceIds.length > 0 },
   );
 
-  // (2) and core resource completions
-  const { data: resourceCompletions, isLoading: completionsLoading } = trpc.resources.getResourceCompletions.useQuery({
+  // (2) Core resource completions
+  const { data: resourceCompletions, isLoading: resourceCompletionsLoading } = trpc.resources.getResourceCompletions.useQuery({
     unitResourceIds: coreResourceIds ?? [],
   }, {
     enabled: isExpanded && (coreResourceIds?.length ?? 0) > 0 && Boolean(auth),
   });
 
+  // (3) Exercise completions
+  const { data: exerciseCompletions, isLoading: exerciseCompletionsLoading } = trpc.exercises.getExerciseCompletions.useQuery(
+    { exerciseIds: allExerciseIds },
+    { enabled: isExpanded && allExerciseIds.length > 0 && Boolean(auth) },
+  );
+
   const coreResourceIdSet = new Set(coreResourceIds ?? []);
 
-  // (3) Compute completion data per chunk
-  const groupedResourceCompletionData = chunks.map((chunk) => {
+  // (4) Compute completion data per chunk (resources + exercises)
+  const groupedCompletionData = chunks.map((chunk) => {
+    // Resource completion
     const chunkResourceIds = chunk.chunkResources ?? [];
     const coreChunkResourceIds = chunkResourceIds.filter((id) => coreResourceIdSet.has(id));
-    const completedCount = resourceCompletions?.filter(
+    const resourceCompletedCount = resourceCompletions?.filter(
       (c) => c.isCompleted && c.unitResourceId && coreChunkResourceIds.includes(c.unitResourceId),
     ).length ?? 0;
 
+    // Exercise completion (simpler - all exercises count)
+    const chunkExerciseIds = chunk.chunkExercises ?? [];
+    const exerciseCompletedCount = exerciseCompletions?.filter(
+      (c) => c.completed && chunkExerciseIds.includes(c.exerciseId),
+    ).length ?? 0;
+
+    // Combined totals
+    const totalCount = coreChunkResourceIds.length + chunkExerciseIds.length;
+    const completedCount = resourceCompletedCount + exerciseCompletedCount;
+
     return {
-      coreResourceCount: coreChunkResourceIds.length,
+      totalCount,
       completedCount,
-      allResourcesCompleted: completedCount === coreChunkResourceIds.length && coreChunkResourceIds.length > 0,
+      allCompleted: completedCount === totalCount && totalCount > 0,
     };
   });
 
-  const isLoading = coreResourcesLoading || completionsLoading;
+  const isLoading = coreResourcesLoading || resourceCompletionsLoading || exerciseCompletionsLoading;
 
   return (
     <div className="relative">
@@ -127,12 +145,12 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                           isLoading ? (
                             <ProgressDots className="my-0.5 ml-2" />
                           ) : (
-                            groupedResourceCompletionData[index] && groupedResourceCompletionData[index].coreResourceCount > 0 && (
+                            groupedCompletionData[index] && groupedCompletionData[index].totalCount > 0 && (
                               <>
                                 {/* Dot is outside of span so strikethrough doesn't extend to dot and look overly long */}
                                 ⋅
-                                <span className={clsx(groupedResourceCompletionData[index].allResourcesCompleted && 'line-through')}>
-                                  {groupedResourceCompletionData[index].completedCount} of {groupedResourceCompletionData[index].coreResourceCount} completed
+                                <span className={clsx(groupedCompletionData[index].allCompleted && 'line-through')}>
+                                  {groupedCompletionData[index].completedCount} of {groupedCompletionData[index].totalCount} completed
                                 </span>
                               </>
                             )
@@ -171,11 +189,11 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                         isLoading ? (
                           <ProgressDots className="my-0.5 ml-2" />
                         ) : (
-                          groupedResourceCompletionData[index] && groupedResourceCompletionData[index].coreResourceCount > 0 && (
+                          groupedCompletionData[index] && groupedCompletionData[index].totalCount > 0 && (
                             <>
                               ⋅
-                              <span className={clsx(groupedResourceCompletionData[index].allResourcesCompleted && 'line-through')}>
-                                {groupedResourceCompletionData[index].completedCount} of {groupedResourceCompletionData[index].coreResourceCount} completed
+                              <span className={clsx(groupedCompletionData[index].allCompleted && 'line-through')}>
+                                {groupedCompletionData[index].completedCount} of {groupedCompletionData[index].totalCount} completed
                               </span>
                             </>
                           )
