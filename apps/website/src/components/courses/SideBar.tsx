@@ -54,22 +54,29 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
     { enabled: isExpanded && allResourceIds.length > 0 },
   );
 
-  // (2) Core resource completions
+  // (2) Lazy-load active exercise IDs
+  const { data: activeExerciseIds, isLoading: activeExercisesLoading } = trpc.exercises.getActiveExerciseIds.useQuery(
+    { exerciseIds: allExerciseIds },
+    { enabled: isExpanded && allExerciseIds.length > 0 },
+  );
+
+  // (3) Core resource completions
   const { data: resourceCompletions, isLoading: resourceCompletionsLoading } = trpc.resources.getResourceCompletions.useQuery({
     unitResourceIds: coreResourceIds ?? [],
   }, {
     enabled: isExpanded && (coreResourceIds?.length ?? 0) > 0 && Boolean(auth),
   });
 
-  // (3) Exercise completions
+  // (4) Active exercise completions
   const { data: exerciseCompletions, isLoading: exerciseCompletionsLoading } = trpc.exercises.getExerciseCompletions.useQuery(
-    { exerciseIds: allExerciseIds },
-    { enabled: isExpanded && allExerciseIds.length > 0 && Boolean(auth) },
+    { exerciseIds: activeExerciseIds ?? [] },
+    { enabled: isExpanded && (activeExerciseIds?.length ?? 0) > 0 && Boolean(auth) },
   );
 
   const coreResourceIdSet = new Set(coreResourceIds ?? []);
+  const activeExerciseIdSet = new Set(activeExerciseIds ?? []);
 
-  // (4) Compute completion data per chunk (resources + exercises)
+  // (5) Compute completion data per chunk (resources + exercises)
   const groupedCompletionData = chunks.map((chunk) => {
     // Resource completion
     const chunkResourceIds = chunk.chunkResources ?? [];
@@ -78,14 +85,15 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
       (c) => c.isCompleted && c.unitResourceId && coreChunkResourceIds.includes(c.unitResourceId),
     ).length ?? 0;
 
-    // Exercise completion (simpler - all exercises count)
+    // Exercise completion (only active exercises count)
     const chunkExerciseIds = chunk.chunkExercises ?? [];
+    const activeChunkExerciseIds = chunkExerciseIds.filter((id) => activeExerciseIdSet.has(id));
     const exerciseCompletedCount = exerciseCompletions?.filter(
-      (c) => c.completed && chunkExerciseIds.includes(c.exerciseId),
+      (c) => c.completed && activeChunkExerciseIds.includes(c.exerciseId),
     ).length ?? 0;
 
     // Combined totals
-    const totalCount = coreChunkResourceIds.length + chunkExerciseIds.length;
+    const totalCount = coreChunkResourceIds.length + activeChunkExerciseIds.length;
     const completedCount = resourceCompletedCount + exerciseCompletedCount;
 
     return {
@@ -95,7 +103,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
     };
   });
 
-  const isLoading = coreResourcesLoading || resourceCompletionsLoading || exerciseCompletionsLoading;
+  const isLoading = coreResourcesLoading || activeExercisesLoading || resourceCompletionsLoading || exerciseCompletionsLoading;
 
   return (
     <div className="relative">

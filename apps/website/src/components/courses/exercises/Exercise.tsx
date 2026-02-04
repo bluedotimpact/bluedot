@@ -64,6 +64,10 @@ const Exercise: React.FC<ExerciseProps> = ({
       // Without this we get a UI flash where the mutation is complete but the new response data hasn't yet loaded.
       await utils.exercises.getExerciseResponse.invalidate({ exerciseId });
     },
+    onSettled: () => {
+      // Invalidate completions so sidebar progress updates (matches resources pattern)
+      utils.exercises.getExerciseCompletions.invalidate();
+    },
   });
 
   // Prevent concurrent saves to avoid race condition creating duplicate records

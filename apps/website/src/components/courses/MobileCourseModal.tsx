@@ -46,6 +46,12 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
     { enabled: isExpanded && allResourceIds.length > 0 },
   );
 
+  // Lazy-load active exercise IDs
+  const { data: activeExerciseIds, isLoading: activeExercisesLoading } = trpc.exercises.getActiveExerciseIds.useQuery(
+    { exerciseIds: allExerciseIds },
+    { enabled: isExpanded && allExerciseIds.length > 0 },
+  );
+
   // Core resource completions
   const { data: resourceCompletions, isLoading: resourceCompletionsLoading } = trpc.resources.getResourceCompletions.useQuery({
     unitResourceIds: coreResourceIds ?? [],
@@ -53,13 +59,14 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
     enabled: isExpanded && (coreResourceIds?.length ?? 0) > 0 && Boolean(auth),
   });
 
-  // Exercise completions
+  // Active exercise completions
   const { data: exerciseCompletions, isLoading: exerciseCompletionsLoading } = trpc.exercises.getExerciseCompletions.useQuery(
-    { exerciseIds: allExerciseIds },
-    { enabled: isExpanded && allExerciseIds.length > 0 && Boolean(auth) },
+    { exerciseIds: activeExerciseIds ?? [] },
+    { enabled: isExpanded && (activeExerciseIds?.length ?? 0) > 0 && Boolean(auth) },
   );
 
   const coreResourceIdSet = new Set(coreResourceIds ?? []);
+  const activeExerciseIdSet = new Set(activeExerciseIds ?? []);
 
   // Compute completion data per chunk (resources + exercises)
   const groupedCompletionData = chunks.map((chunk) => {
@@ -70,11 +77,12 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
     ).length ?? 0;
 
     const chunkExerciseIds = chunk.chunkExercises ?? [];
+    const activeChunkExerciseIds = chunkExerciseIds.filter((id) => activeExerciseIdSet.has(id));
     const exerciseCompletedCount = exerciseCompletions?.filter(
-      (c) => c.completed && chunkExerciseIds.includes(c.exerciseId),
+      (c) => c.completed && activeChunkExerciseIds.includes(c.exerciseId),
     ).length ?? 0;
 
-    const totalCount = coreChunkResourceIds.length + chunkExerciseIds.length;
+    const totalCount = coreChunkResourceIds.length + activeChunkExerciseIds.length;
     const completedCount = resourceCompletedCount + exerciseCompletedCount;
 
     return {
@@ -84,7 +92,7 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
     };
   });
 
-  const isLoading = coreResourcesLoading || resourceCompletionsLoading || exerciseCompletionsLoading;
+  const isLoading = coreResourcesLoading || activeExercisesLoading || resourceCompletionsLoading || exerciseCompletionsLoading;
 
   return (
     <div className="relative">
