@@ -66,14 +66,11 @@ const Exercise: React.FC<ExerciseProps> = ({
   );
 
   const saveResponseMutation = trpc.exercises.saveExerciseResponse.useMutation({
-    onSuccess: async () => {
-      // Await this invalidation to ensure mutation is kept in loading state until data is refetched.
-      // Without this we get a UI flash where the mutation is complete but the new response data hasn't yet loaded.
-      await utils.exercises.getExerciseResponse.invalidate({ exerciseId });
-    },
     onSettled: () => {
-      // Invalidate completions so sidebar progress updates (matches resources pattern)
       utils.exercises.getExerciseCompletions.invalidate();
+    },
+    onSuccess: async () => {
+      await utils.exercises.getExerciseResponse.invalidate({ exerciseId });
     },
     onMutate: async (newData) => {
       // Optimistically update `getExerciseCompletions` so that the Sidebar immediately updates
@@ -90,14 +87,12 @@ const Exercise: React.FC<ExerciseProps> = ({
           const existingItem = oldData.find((item) => item.exerciseId === exerciseId);
 
           if (existingItem) {
-            // Update existing item
             const existingIndex = oldData.indexOf(existingItem);
             newArray[existingIndex] = {
               ...existingItem,
               completed: newData.completed ?? existingItem.completed,
             };
           } else if (newData.completed) {
-            // Add new item if marking as completed
             newArray.push({
               exerciseId,
               completed: true,
@@ -110,7 +105,6 @@ const Exercise: React.FC<ExerciseProps> = ({
       return { previousQueriesData };
     },
     onError: (_err, _variables, mutationResult) => {
-      // Rollback on error
       mutationResult?.previousQueriesData.forEach(([queryKey, data]) => {
         queryClient.setQueryData(queryKey, data);
       });

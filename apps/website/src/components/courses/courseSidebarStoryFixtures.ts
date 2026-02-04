@@ -2,6 +2,7 @@
  * Shared fixtures for SideBar and MobileCourseModal stories.
  */
 import type { Unit } from '@bluedot/db';
+import type { RequestHandler } from 'msw';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 
@@ -71,7 +72,7 @@ export const mockChunks: Record<string, BasicChunk[]> = {
 export const allResourceIds = ['res-1', 'res-2', 'res-3', 'res-4', 'res-5', 'res-6', 'res-7', 'res-8'];
 export const allExerciseIds = ['ex-1', 'ex-2', 'ex-3', 'ex-4'];
 
-export const defaultProgressHandlers = [
+export const defaultProgressHandlers: RequestHandler[] = [
   trpcStorybookMsw.resources.getCoreResourceIds.query(() => allResourceIds),
   trpcStorybookMsw.exercises.getActiveExerciseIds.query(() => allExerciseIds),
   trpcStorybookMsw.resources.getResourceCompletions.query(() => []),
@@ -89,7 +90,7 @@ export const makeResourceCompletion = (id: string, unitResourceId: string, autoN
   autoNumberId,
 });
 
-export const someProgressHandlers = [
+export const someProgressHandlers: RequestHandler[] = [
   trpcStorybookMsw.resources.getCoreResourceIds.query(() => allResourceIds),
   trpcStorybookMsw.exercises.getActiveExerciseIds.query(() => allExerciseIds),
   trpcStorybookMsw.resources.getResourceCompletions.query(() => [
@@ -101,7 +102,7 @@ export const someProgressHandlers = [
   ]),
 ];
 
-export const allCompletedHandlers = [
+export const allCompletedHandlers: RequestHandler[] = [
   trpcStorybookMsw.resources.getCoreResourceIds.query(() => allResourceIds),
   trpcStorybookMsw.exercises.getActiveExerciseIds.query(() => allExerciseIds),
   trpcStorybookMsw.resources.getResourceCompletions.query(() => [

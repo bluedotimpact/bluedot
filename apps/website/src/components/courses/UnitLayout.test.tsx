@@ -68,7 +68,7 @@ const CHUNKS = [
   },
 ];
 
-const ALL_UNIT_CHUNKS: Record<string, { id: string; chunkTitle: string; chunkOrder: string; estimatedTime: number | null; chunkResources: string[] | null }[]> = {};
+const ALL_UNIT_CHUNKS: Record<string, { id: string; chunkTitle: string; chunkOrder: string; estimatedTime: number | null; chunkResources: string[] | null; chunkExercises: string[] | null }[]> = {};
 COURSE_UNITS.forEach((unit) => {
   ALL_UNIT_CHUNKS[unit.id] = CHUNKS.map((chunk) => ({
     id: chunk.id,
@@ -76,6 +76,7 @@ COURSE_UNITS.forEach((unit) => {
     chunkOrder: chunk.chunkOrder,
     estimatedTime: chunk.estimatedTime,
     chunkResources: chunk.chunkResources,
+    chunkExercises: chunk.chunkExercises,
   }));
 });
 

@@ -55,6 +55,7 @@ COURSE_UNITS.forEach((unit) => {
     chunkOrder: chunk.chunkOrder,
     estimatedTime: chunk.estimatedTime,
     chunkResources: chunk.chunkResources,
+    chunkExercises: chunk.chunkExercises,
   }));
 });
 
