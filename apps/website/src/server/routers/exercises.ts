@@ -21,24 +21,6 @@ export const exercisesRouter = router({
       return db.get(exerciseTable, { id: input.exerciseId });
     }),
 
-  getActiveExerciseIds: publicProcedure
-    .input(z.object({ exerciseIds: z.array(z.string().min(1)).max(100) }))
-    .query(async ({ input }) => {
-      if (input.exerciseIds.length === 0) return [];
-
-      const exercises = await db.pg
-        .select({ id: exerciseTable.pg.id })
-        .from(exerciseTable.pg)
-        .where(
-          and(
-            inArray(exerciseTable.pg.id, input.exerciseIds),
-            eq(exerciseTable.pg.status, 'Active'),
-          ),
-        );
-
-      return exercises.map((e) => e.id);
-    }),
-
   getExerciseResponse: protectedProcedure
     .input(z.object({ exerciseId: z.string().min(1) }))
     .query(async ({ input, ctx }) => {
