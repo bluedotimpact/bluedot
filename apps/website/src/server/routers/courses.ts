@@ -242,30 +242,25 @@ export const coursesRouter = router({
         ctx.auth.email,
       );
 
-      const completedResourceIds = new Set(resourceCompletions.map((c) => c.unitResourceId));
-      const completedExerciseIds = new Set(exerciseCompletions.map((e) => e.exerciseId));
-
-      const courseTotalCount = coreResourceIds.length + activeExerciseIds.length;
-      const courseCompletedCount = completedResourceIds.size + completedExerciseIds.size;
-      const percentage = courseTotalCount > 0 ? Math.round((courseCompletedCount / courseTotalCount) * 100) : 0;
+      // Build Sets for faster lookup
+      const coreResourceIdSet = new Set(coreResourceIds);
+      const activeExerciseIdSet = new Set(activeExerciseIds);
+      const completedResourceIdSet = new Set(resourceCompletions.map((c) => c.unitResourceId));
+      const completedExerciseIdSet = new Set(exerciseCompletions.map((e) => e.exerciseId));
 
       const chunkProgressByUnitId: Record<string, ChunkProgress[]> = {};
 
       for (const unit of units) {
         const unitChunks = allChunks.filter((c) => c.unitId === unit.id);
         chunkProgressByUnitId[unit.id] = unitChunks.map((chunk) => {
-          const chunkResourceIds = chunk.chunkResources?.filter((id) => coreResourceIds.includes(id)) ?? [];
-          const chunkExerciseIds = chunk.chunkExercises?.filter((id) => activeExerciseIds.includes(id)) ?? [];
+          const chunkResourceIds = chunk.chunkResources?.filter((id) => coreResourceIdSet.has(id)) ?? [];
+          const chunkExerciseIds = chunk.chunkExercises?.filter((id) => activeExerciseIdSet.has(id)) ?? [];
 
-          const chunkCompletedResources = resourceCompletions.filter(
-            (c) => c.unitResourceId && chunkResourceIds.includes(c.unitResourceId),
-          ).length;
-          const chunkCompletedExercises = exerciseCompletions.filter(
-            (e) => chunkExerciseIds.includes(e.exerciseId),
-          ).length;
+          const chunkCompletedResources = chunkResourceIds.filter((id) => completedResourceIdSet.has(id));
+          const chunkCompletedExercises = chunkExerciseIds.filter((id) => completedExerciseIdSet.has(id));
 
           const totalCount = chunkResourceIds.length + chunkExerciseIds.length;
-          const completedCount = chunkCompletedResources + chunkCompletedExercises;
+          const completedCount = chunkCompletedResources.length + chunkCompletedExercises.length;
 
           return {
             totalCount,
@@ -274,6 +269,10 @@ export const coursesRouter = router({
           };
         });
       }
+
+      const courseTotalCount = coreResourceIds.length + activeExerciseIds.length;
+      const courseCompletedCount = completedResourceIdSet.size + completedExerciseIdSet.size;
+      const percentage = courseTotalCount > 0 ? Math.round((courseCompletedCount / courseTotalCount) * 100) : 0;
 
       return {
         courseProgress: {
