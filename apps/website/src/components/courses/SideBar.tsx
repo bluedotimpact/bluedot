@@ -1,16 +1,14 @@
-import { InferSelectModel, unitTable } from '@bluedot/db';
+import type { Unit } from '@bluedot/db';
 import {
   A, CTALinkOrButton, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
-import { trpc } from '../../utils/trpc';
 import { CourseIcon } from './CourseIcon';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 import { ChunkIcon } from '../icons/ChunkIcon';
-
-type Unit = InferSelectModel<typeof unitTable.pg>;
+import { useChunkProgress } from '../../lib/hooks/useChunkProgress';
 
 type SideBarProps = {
   courseTitle: string;
@@ -45,39 +43,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   const [isExpanded, setIsExpanded] = useState(isCurrentUnit);
   const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
 
-  const allResourceIds = chunks.flatMap((c) => c.chunkResources ?? []);
-
-  // (1) Lazy-load core resource IDs
-  const { data: coreResourceIds, isLoading: coreResourcesLoading } = trpc.resources.getCoreResourceIds.useQuery(
-    { resourceIds: allResourceIds },
-    { enabled: isExpanded && allResourceIds.length > 0 },
-  );
-
-  // (2) and core resource completions
-  const { data: resourceCompletions, isLoading: completionsLoading } = trpc.resources.getResourceCompletions.useQuery({
-    unitResourceIds: coreResourceIds ?? [],
-  }, {
-    enabled: isExpanded && (coreResourceIds?.length ?? 0) > 0 && Boolean(auth),
-  });
-
-  const coreResourceIdSet = new Set(coreResourceIds ?? []);
-
-  // (3) Compute completion data per chunk
-  const groupedResourceCompletionData = chunks.map((chunk) => {
-    const chunkResourceIds = chunk.chunkResources ?? [];
-    const coreChunkResourceIds = chunkResourceIds.filter((id) => coreResourceIdSet.has(id));
-    const completedCount = resourceCompletions?.filter(
-      (c) => c.isCompleted && c.unitResourceId && coreChunkResourceIds.includes(c.unitResourceId),
-    ).length ?? 0;
-
-    return {
-      coreResourceCount: coreChunkResourceIds.length,
-      completedCount,
-      allResourcesCompleted: completedCount === coreChunkResourceIds.length && coreChunkResourceIds.length > 0,
-    };
-  });
-
-  const isLoading = coreResourcesLoading || completionsLoading;
+  const { chunkProgress, isLoading } = useChunkProgress(chunks, isExpanded);
 
   return (
     <div className="relative">
@@ -127,12 +93,12 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                           isLoading ? (
                             <ProgressDots className="my-0.5 ml-2" />
                           ) : (
-                            groupedResourceCompletionData[index] && groupedResourceCompletionData[index].coreResourceCount > 0 && (
+                            chunkProgress[index] && chunkProgress[index].totalCount > 0 && (
                               <>
                                 {/* Dot is outside of span so strikethrough doesn't extend to dot and look overly long */}
                                 ⋅
-                                <span className={clsx(groupedResourceCompletionData[index].allResourcesCompleted && 'line-through')}>
-                                  {groupedResourceCompletionData[index].completedCount} of {groupedResourceCompletionData[index].coreResourceCount} completed
+                                <span className={clsx(chunkProgress[index].allCompleted && 'line-through')}>
+                                  {chunkProgress[index].completedCount} of {chunkProgress[index].totalCount} completed
                                 </span>
                               </>
                             )
@@ -171,11 +137,11 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                         isLoading ? (
                           <ProgressDots className="my-0.5 ml-2" />
                         ) : (
-                          groupedResourceCompletionData[index] && groupedResourceCompletionData[index].coreResourceCount > 0 && (
+                          chunkProgress[index] && chunkProgress[index].totalCount > 0 && (
                             <>
                               ⋅
-                              <span className={clsx(groupedResourceCompletionData[index].allResourcesCompleted && 'line-through')}>
-                                {groupedResourceCompletionData[index].completedCount} of {groupedResourceCompletionData[index].coreResourceCount} completed
+                              <span className={clsx(chunkProgress[index].allCompleted && 'line-through')}>
+                                {chunkProgress[index].completedCount} of {chunkProgress[index].totalCount} completed
                               </span>
                             </>
                           )

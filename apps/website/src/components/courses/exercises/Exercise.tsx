@@ -4,6 +4,9 @@ import {
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { useRouter } from 'next/router';
+import { useQueryClient } from '@tanstack/react-query';
+import { getQueryKey } from '@trpc/react-query';
+import type { inferRouterOutputs } from '@trpc/server';
 import FreeTextResponse from './FreeTextResponse';
 import MultipleChoice from './MultipleChoice';
 // eslint-disable-next-line import/no-cycle
@@ -11,6 +14,7 @@ import GroupResponses from './GroupResponses';
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
 import { CheckmarkIcon } from '../../icons/CheckmarkIcon';
 import { trpc } from '../../../utils/trpc';
+import type { AppRouter } from '../../../server/routers/_app';
 
 type ExerciseProps = {
   // Required
@@ -24,6 +28,9 @@ const Exercise: React.FC<ExerciseProps> = ({
   const utils = trpc.useUtils();
   const router = useRouter();
   const courseSlug = typeof router.query.courseSlug === 'string' ? router.query.courseSlug : undefined;
+
+  const queryClient = useQueryClient();
+  const exerciseCompletionsQueryKey = getQueryKey(trpc.exercises.getExerciseCompletions, undefined, 'query');
 
   const [showGroupResponsesIfFacilitator, setShowGroupResponsesIfFacilitator] = useState(true);
   const [checkboxHovered, setCheckboxHovered] = useState(false);
@@ -59,10 +66,48 @@ const Exercise: React.FC<ExerciseProps> = ({
   );
 
   const saveResponseMutation = trpc.exercises.saveExerciseResponse.useMutation({
+    onSettled: () => {
+      utils.exercises.getExerciseCompletions.invalidate();
+    },
     onSuccess: async () => {
-      // Await this invalidation to ensure mutation is kept in loading state until data is refetched.
-      // Without this we get a UI flash where the mutation is complete but the new response data hasn't yet loaded.
       await utils.exercises.getExerciseResponse.invalidate({ exerciseId });
+    },
+    onMutate: async (newData) => {
+      // Optimistically update `getExerciseCompletions` so that the Sidebar immediately updates
+      await utils.exercises.getExerciseCompletions.cancel();
+
+      const previousQueriesData = queryClient.getQueriesData({ queryKey: exerciseCompletionsQueryKey });
+
+      queryClient.setQueriesData(
+        { queryKey: exerciseCompletionsQueryKey },
+        (oldData: inferRouterOutputs<AppRouter>['exercises']['getExerciseCompletions']) => {
+          if (!oldData) return [];
+
+          const newArray = [...oldData];
+          const existingItem = oldData.find((item) => item.exerciseId === exerciseId);
+
+          if (existingItem) {
+            const existingIndex = oldData.indexOf(existingItem);
+            newArray[existingIndex] = {
+              ...existingItem,
+              completed: newData.completed ?? existingItem.completed,
+            };
+          } else if (newData.completed) {
+            newArray.push({
+              exerciseId,
+              completed: true,
+            });
+          }
+          return newArray;
+        },
+      );
+
+      return { previousQueriesData };
+    },
+    onError: (_err, _variables, mutationResult) => {
+      mutationResult?.previousQueriesData.forEach(([queryKey, data]) => {
+        queryClient.setQueryData(queryKey, data);
+      });
     },
   });
 

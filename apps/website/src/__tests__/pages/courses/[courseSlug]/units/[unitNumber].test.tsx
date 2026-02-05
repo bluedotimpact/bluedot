@@ -23,6 +23,7 @@ const createAllUnitChunks = (
         chunkOrder: chunk.chunkOrder,
         estimatedTime: chunk.estimatedTime,
         chunkResources: chunk.chunkResources,
+        chunkExercises: chunk.chunkExercises,
       }));
   });
   return allUnitChunks;
