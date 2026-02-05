@@ -206,7 +206,7 @@ const SideBar: React.FC<SideBarProps> = ({
       {/* Header */}
       <div className="p-6 flex flex-col gap-5">
         <div className="flex flex-row items-center gap-[16px]">
-          <CourseIcon courseSlug={courseSlug} size="large" />
+          <CourseIcon courseSlug={courseSlug} size="xlarge" />
           <div className="flex flex-1 min-w-0">
             <h2 className="font-semibold text-[26px] leading-[44px] text-[#13132E]">{courseTitle}</h2>
           </div>
