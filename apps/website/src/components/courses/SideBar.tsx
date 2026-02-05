@@ -6,9 +6,9 @@ import type { inferRouterOutputs } from '@trpc/server';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
-import type { ChunkProgress } from '../../lib/hooks/useChunkProgress';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 import type { AppRouter } from '../../server/routers/_app';
+import type { ChunkProgress } from '../../server/routers/courses';
 import { ChunkIcon } from '../icons/ChunkIcon';
 import { CourseIcon } from './CourseIcon';
 

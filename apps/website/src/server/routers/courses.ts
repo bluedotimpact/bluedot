@@ -16,9 +16,13 @@ import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { removeInactiveChunkIdsFromUnits } from '../../lib/api/utils';
-import type { ChunkProgress } from '../../lib/hooks/useChunkProgress';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 
+export type ChunkProgress = {
+  totalCount: number;
+  completedCount: number;
+  allCompleted: boolean;
+};
 export type CourseAndUnits = inferRouterOutputs<typeof coursesRouter>['getBySlug'];
 export type CurriculumMetadata = inferRouterOutputs<typeof coursesRouter>['getCurriculumMetadata'];
 
