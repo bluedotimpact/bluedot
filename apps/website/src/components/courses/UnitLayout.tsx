@@ -10,6 +10,7 @@ import {
   Section,
   useAuthStore,
 } from '@bluedot/ui';
+import type { inferRouterOutputs } from '@trpc/server';
 import {
   FaBars, FaChevronRight, FaChevronDown,
 } from 'react-icons/fa6';
@@ -34,6 +35,7 @@ import { ROUTES } from '../../lib/routes';
 import { buildCourseUnitUrl } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 import { CourseIcon } from './CourseIcon';
+import type { AppRouter } from '../../server/routers/_app';
 
 export type ChunkWithContent = Chunk & {
   resources: UnitResource[];
@@ -65,6 +67,7 @@ type MobileHeaderProps = {
   isLastChunk: boolean;
   onCourseMenuClick: () => void;
   courseSlug: string;
+  courseProgressData?: inferRouterOutputs<AppRouter>['courses']['getCourseProgress'];
 };
 
 const MobileHeader: React.FC<MobileHeaderProps> = ({
@@ -78,6 +81,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
   onNextClick,
   onCourseMenuClick,
   courseSlug,
+  courseProgressData,
 }) => {
   return (
     <div className={clsx('mobile-unit-header bg-color-canvas border-b border-color-divider w-full h-[76px] flex items-center px-3', className)}>
