@@ -125,6 +125,26 @@ const calculateChunkProgress = (
   };
 };
 
+const getCoreResourceAndActiveExerciseIds = async (chunks: Chunk[]) => {
+  const allResourceIds = chunks.flatMap((c) => c.chunkResources ?? []);
+  const allExerciseIds = chunks.flatMap((c) => c.chunkExercises ?? []);
+
+  const coreResources = await db.pg
+    .select({ id: unitResourceTable.pg.id })
+    .from(unitResourceTable.pg)
+    .where(
+      and(eq(unitResourceTable.pg.coreFurtherMaybe, 'Core'), inArray(unitResourceTable.pg.id, allResourceIds)),
+    );
+  const coreResourceIds = coreResources.map((r) => r.id);
+
+  const activeExercises = await db.pg
+    .select({ id: exerciseTable.pg.id })
+    .from(exerciseTable.pg)
+    .where(and(eq(exerciseTable.pg.status, 'Active'), inArray(exerciseTable.pg.id, allExerciseIds)));
+  const activeExerciseIds = activeExercises.map((e) => e.id);
+
+  return { coreResourceIds, activeExerciseIds };
+};
 
 export const coursesRouter = router({
   getUnit: publicProcedure
@@ -244,22 +264,7 @@ export const coursesRouter = router({
         .from(chunkTable.pg)
         .where(and(eq(chunkTable.pg.status, 'Active'), inArray(chunkTable.pg.unitId, unitIds)));
 
-      const allResourceIds = allChunks.flatMap((c) => c.chunkResources ?? []);
-      const allExerciseIds = allChunks.flatMap((c) => c.chunkExercises ?? []);
-
-      const coreResources = await db.pg
-        .select({ id: unitResourceTable.pg.id })
-        .from(unitResourceTable.pg)
-        .where(
-          and(eq(unitResourceTable.pg.coreFurtherMaybe, 'Core'), inArray(unitResourceTable.pg.id, allResourceIds)),
-        );
-      const coreResourceIds = coreResources.map((r) => r.id);
-
-      const activeExercises = await db.pg
-        .select({ id: exerciseTable.pg.id })
-        .from(exerciseTable.pg)
-        .where(and(eq(exerciseTable.pg.status, 'Active'), inArray(exerciseTable.pg.id, allExerciseIds)));
-      const activeExerciseIds = activeExercises.map((e) => e.id);
+      const { coreResourceIds, activeExerciseIds } = await getCoreResourceAndActiveExerciseIds(allChunks);
 
       const { resourceCompletions, exerciseCompletions } = await getUserCompletions(
         coreResourceIds,
