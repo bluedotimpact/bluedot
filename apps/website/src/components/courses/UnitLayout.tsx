@@ -20,7 +20,6 @@ import {
   type Exercise,
   type UnitResource,
 } from '@bluedot/db';
-import { skipToken } from '@tanstack/react-query';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 import ActionPlanCard from './ActionPlanCard';
 import CertificateLinkCard from './CertificateLinkCard';
@@ -154,8 +153,8 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   const unitArrIndex = units.findIndex((u) => u.id === unit.id);
 
   const { data: groupDiscussionWithZoomInfo, error: groupDiscussionError } = trpc.groupDiscussions.getByCourseSlug.useQuery(
-    auth
-      ? { courseSlug } : skipToken,
+    { courseSlug },
+    { enabled: Boolean(auth) },
   );
 
   const isFirstChunk = chunkIndex === 0;
