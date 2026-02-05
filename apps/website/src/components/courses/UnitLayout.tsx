@@ -170,7 +170,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
     { enabled: Boolean(auth) },
   );
 
-  const { data: courseProgressData, isLoading: courseProgressLoading } = trpc.courses.getCourseProgress.useQuery(
+  const { data: courseProgressData } = trpc.courses.getCourseProgress.useQuery(
     { courseSlug },
     { enabled: Boolean(auth) },
   );
