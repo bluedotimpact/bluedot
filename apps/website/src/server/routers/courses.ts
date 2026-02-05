@@ -10,13 +10,14 @@ import {
   resourceCompletionTable,
   unitResourceTable,
   unitTable,
+  type Chunk,
 } from '@bluedot/db';
 import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { removeInactiveChunkIdsFromUnits } from '../../lib/api/utils';
-import { protectedProcedure, publicProcedure, router } from '../trpc';
 import type { ChunkProgress } from '../../lib/hooks/useChunkProgress';
+import { protectedProcedure, publicProcedure, router } from '../trpc';
 
 export type CourseAndUnits = inferRouterOutputs<typeof coursesRouter>['getBySlug'];
 export type CurriculumMetadata = inferRouterOutputs<typeof coursesRouter>['getCurriculumMetadata'];
@@ -100,6 +101,30 @@ const getUserCompletions = async (coreResourceIds: string[], activeExerciseIds: 
 
   return { resourceCompletions, exerciseCompletions };
 };
+
+const calculateChunkProgress = (
+  chunk: Chunk,
+  coreResourceIds: Set<string>,
+  activeExerciseIds: Set<string>,
+  completedResourceIds: Set<string>,
+  completedExerciseIds: Set<string>,
+) => {
+  const chunkResourceIds = chunk.chunkResources?.filter((id) => coreResourceIds.has(id)) ?? [];
+  const chunkExerciseIds = chunk.chunkExercises?.filter((id) => activeExerciseIds.has(id)) ?? [];
+
+  const chunkCompletedResources = chunkResourceIds.filter((id) => completedResourceIds.has(id));
+  const chunkCompletedExercises = chunkExerciseIds.filter((id) => completedExerciseIds.has(id));
+
+  const totalCount = chunkResourceIds.length + chunkExerciseIds.length;
+  const completedCount = chunkCompletedResources.length + chunkCompletedExercises.length;
+
+  return {
+    totalCount,
+    completedCount,
+    allCompleted: totalCount > 0 && completedCount === totalCount,
+  };
+};
+
 
 export const coursesRouter = router({
   getUnit: publicProcedure
@@ -253,20 +278,13 @@ export const coursesRouter = router({
       for (const unit of units) {
         const unitChunks = allChunks.filter((c) => c.unitId === unit.id);
         chunkProgressByUnitId[unit.id] = unitChunks.map((chunk) => {
-          const chunkResourceIds = chunk.chunkResources?.filter((id) => coreResourceIdSet.has(id)) ?? [];
-          const chunkExerciseIds = chunk.chunkExercises?.filter((id) => activeExerciseIdSet.has(id)) ?? [];
-
-          const chunkCompletedResources = chunkResourceIds.filter((id) => completedResourceIdSet.has(id));
-          const chunkCompletedExercises = chunkExerciseIds.filter((id) => completedExerciseIdSet.has(id));
-
-          const totalCount = chunkResourceIds.length + chunkExerciseIds.length;
-          const completedCount = chunkCompletedResources.length + chunkCompletedExercises.length;
-
-          return {
-            totalCount,
-            completedCount,
-            allCompleted: totalCount > 0 && completedCount === totalCount,
-          };
+          return calculateChunkProgress(
+            chunk,
+            coreResourceIdSet,
+            activeExerciseIdSet,
+            completedResourceIdSet,
+            completedExerciseIdSet,
+          );
         });
       }
 
