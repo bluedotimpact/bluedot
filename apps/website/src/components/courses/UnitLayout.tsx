@@ -503,6 +503,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         onUnitSelect={handleMobileUnitSelect}
         unitChunks={allUnitChunks}
         applyCTAProps={applyCTAProps}
+        courseProgressData={courseProgressData}
       />
     </div>
   );
