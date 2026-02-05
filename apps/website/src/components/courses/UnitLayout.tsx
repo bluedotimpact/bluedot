@@ -157,6 +157,11 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
     { enabled: Boolean(auth) },
   );
 
+  const { data: courseProgressData, isLoading: courseProgressLoading } = trpc.courses.getCourseProgress.useQuery(
+    { courseSlug },
+    { enabled: Boolean(auth) },
+  );
+
   const isFirstChunk = chunkIndex === 0;
   const isLastChunk = chunkIndex === chunks.length - 1;
   const chunk = chunks[chunkIndex];
