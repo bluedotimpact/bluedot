@@ -133,6 +133,15 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
             </svg>
           </button>
         </div>
+        {courseProgressData && courseProgressData.courseProgress.totalCount > 0 && (
+          <div className="absolute bottom-0 inset-x-0 h-1">
+            <div
+              className="h-full bg-bluedot-normal"
+              style={{ width: `${courseProgressData.courseProgress.percentage}%` }}
+              aria-label={`Course ${courseProgressData.courseProgress.percentage}% complete`}
+            />
+          </div>
+        )}
       </nav>
     </div>
   );
@@ -308,6 +317,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         isLastChunk={isLastChunk}
         onCourseMenuClick={() => setIsMobileCourseMenuOpen(true)}
         courseSlug={courseSlug}
+        courseProgressData={courseProgressData}
       />
 
       {/* Sidebar - positioned fixed and separate from main layout flow */}
