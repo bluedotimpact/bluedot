@@ -2,13 +2,11 @@ import type { Unit } from '@bluedot/db';
 import {
   CTALinkOrButton, Modal,
 } from '@bluedot/ui';
-import type { inferRouterOutputs } from '@trpc/server';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
-import type { AppRouter } from '../../server/routers/_app';
-import type { ChunkProgress } from '../../server/routers/courses';
+import type { ChunkProgress, CourseProgress } from '../../server/routers/courses';
 import { ChunkIcon } from '../icons/ChunkIcon';
 import { CourseIcon } from './CourseIcon';
 import type { ApplyCTAProps } from './SideBar';
@@ -25,7 +23,7 @@ type MobileCourseModalProps = {
   onUnitSelect?: (unitPath: string) => void;
   unitChunks: Record<string, BasicChunk[]>;
   applyCTAProps?: ApplyCTAProps;
-  courseProgressData?: inferRouterOutputs<AppRouter>['courses']['getCourseProgress'];
+  courseProgressData?: CourseProgress;
 };
 
 export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({

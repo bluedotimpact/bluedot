@@ -1,6 +1,3 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import clsx from 'clsx';
-import { useRouter } from 'next/router';
 import {
   A,
   CTALinkOrButton,
@@ -10,9 +7,13 @@ import {
   Section,
   useAuthStore,
 } from '@bluedot/ui';
-import type { inferRouterOutputs } from '@trpc/server';
+import clsx from 'clsx';
+import { useRouter } from 'next/router';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
-  FaBars, FaChevronRight, FaChevronDown,
+  FaBars,
+  FaChevronDown,
+  FaChevronRight,
 } from 'react-icons/fa6';
 
 import {
@@ -21,21 +22,21 @@ import {
   type Exercise,
   type UnitResource,
 } from '@bluedot/db';
+import { ROUTES } from '../../lib/routes';
+import { buildCourseUnitUrl } from '../../lib/utils';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
+import type { CourseProgress } from '../../server/routers/courses';
+import { trpc } from '../../utils/trpc';
 import ActionPlanCard from './ActionPlanCard';
 import CertificateLinkCard from './CertificateLinkCard';
 import Congratulations from './Congratulations';
+import { CourseIcon } from './CourseIcon';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
 import KeyboardNavMenu from './KeyboardNavMenu';
-import { MobileCourseModal } from './MobileCourseModal';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
+import { MobileCourseModal } from './MobileCourseModal';
 import { ResourceDisplay } from './ResourceDisplay';
 import SideBar, { type ApplyCTAProps } from './SideBar';
-import { ROUTES } from '../../lib/routes';
-import { buildCourseUnitUrl } from '../../lib/utils';
-import { trpc } from '../../utils/trpc';
-import { CourseIcon } from './CourseIcon';
-import type { AppRouter } from '../../server/routers/_app';
 
 export type ChunkWithContent = Chunk & {
   resources: UnitResource[];
@@ -67,7 +68,7 @@ type MobileHeaderProps = {
   isLastChunk: boolean;
   onCourseMenuClick: () => void;
   courseSlug: string;
-  courseProgressData?: inferRouterOutputs<AppRouter>['courses']['getCourseProgress'];
+  courseProgressData?: CourseProgress;
 };
 
 const MobileHeader: React.FC<MobileHeaderProps> = ({

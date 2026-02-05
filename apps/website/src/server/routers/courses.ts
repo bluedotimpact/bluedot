@@ -25,6 +25,7 @@ export type ChunkProgress = {
 };
 export type CourseAndUnits = inferRouterOutputs<typeof coursesRouter>['getBySlug'];
 export type CurriculumMetadata = inferRouterOutputs<typeof coursesRouter>['getCurriculumMetadata'];
+export type CourseProgress = inferRouterOutputs<typeof coursesRouter>['getCourseProgress'];
 
 /**
  * Fetches course data and its associated units by course slug.

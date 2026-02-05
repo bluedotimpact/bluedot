@@ -2,13 +2,11 @@ import type { Unit } from '@bluedot/db';
 import {
   A, CTALinkOrButton, P,
 } from '@bluedot/ui';
-import type { inferRouterOutputs } from '@trpc/server';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
-import type { AppRouter } from '../../server/routers/_app';
-import type { ChunkProgress } from '../../server/routers/courses';
+import type { ChunkProgress, CourseProgress } from '../../server/routers/courses';
 import { ChunkIcon } from '../icons/ChunkIcon';
 import { CourseIcon } from './CourseIcon';
 
@@ -22,7 +20,7 @@ type SideBarProps = {
   unitChunks: Record<string, BasicChunk[]>;
   applyCTAProps?: ApplyCTAProps;
   className?: string;
-  courseProgressData?: inferRouterOutputs<AppRouter>['courses']['getCourseProgress'];
+  courseProgressData?: CourseProgress;
 };
 
 type SideBarCollapsibleProps = {
