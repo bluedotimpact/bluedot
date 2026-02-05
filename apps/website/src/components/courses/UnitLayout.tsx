@@ -332,6 +332,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           onChunkSelect={handleChunkSelect}
           unitChunks={allUnitChunks}
           applyCTAProps={applyCTAProps}
+          courseProgressData={courseProgressData}
         />
       )}
 

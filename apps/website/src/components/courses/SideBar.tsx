@@ -1,16 +1,16 @@
 import type { Unit } from '@bluedot/db';
 import {
-  A, CTALinkOrButton, ProgressDots, useAuthStore,
+  A, CTALinkOrButton, P, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
 import type { inferRouterOutputs } from '@trpc/server';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
-import { CourseIcon } from './CourseIcon';
+import { useChunkProgress } from '../../lib/hooks/useChunkProgress';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 import type { AppRouter } from '../../server/routers/_app';
 import { ChunkIcon } from '../icons/ChunkIcon';
-import { useChunkProgress } from '../../lib/hooks/useChunkProgress';
+import { CourseIcon } from './CourseIcon';
 
 type SideBarProps = {
   courseTitle: string;
@@ -212,7 +212,15 @@ const SideBar: React.FC<SideBarProps> = ({
         <div className="flex flex-row items-center gap-[16px]">
           <CourseIcon courseSlug={courseSlug} size="xlarge" />
           <div className="flex flex-1 min-w-0">
-            <h2 className="font-semibold text-[26px] leading-[44px] text-[#13132E]">{courseTitle}</h2>
+            <div className="flex flex-col">
+              <h2 className="font-semibold text-[26px] leading-[44px] text-[#13132E]">{courseTitle}</h2>
+              {courseProgressData && courseProgressData.courseProgress.totalCount > 0 && (
+              // TODO: I think that sidebar is only shown on desktop, so we don't need mobile responsiveness
+              <div className="hidden md:block">
+                <P className="opacity-60">{courseProgressData.courseProgress.percentage}% completed</P>
+              </div>
+              )}
+            </div>
           </div>
         </div>
         {applyCTAProps && <ApplyCTA {...applyCTAProps} />}
