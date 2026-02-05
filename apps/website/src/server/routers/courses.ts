@@ -57,6 +57,7 @@ const getUserCompletions = async (coreResourceIds: string[], activeExerciseIds: 
         and(
           eq(resourceCompletionTable.pg.email, email),
           inArray(resourceCompletionTable.pg.unitResourceId, coreResourceIds),
+          eq(resourceCompletionTable.pg.isCompleted, true), // Only fetch completed resources
         ),
       )
       .orderBy(desc(resourceCompletionTable.pg.autoNumberId)),
@@ -68,7 +69,11 @@ const getUserCompletions = async (coreResourceIds: string[], activeExerciseIds: 
       })
       .from(exerciseResponseTable.pg)
       .where(
-        and(eq(exerciseResponseTable.pg.email, email), inArray(exerciseResponseTable.pg.exerciseId, activeExerciseIds)),
+        and(
+          eq(exerciseResponseTable.pg.email, email),
+          inArray(exerciseResponseTable.pg.exerciseId, activeExerciseIds),
+          eq(exerciseResponseTable.pg.completed, true), // Only fetch completed exercises
+        ),
       )
       .orderBy(desc(exerciseResponseTable.pg.autoNumberId)),
   ]);
@@ -237,11 +242,10 @@ export const coursesRouter = router({
         ctx.auth.email,
       );
 
-      const completedResourceIds = new Set(resourceCompletions.filter((c) => c.isCompleted).map((c) => c.unitResourceId));
-      const completedExerciseIds = new Set(exerciseCompletions.filter((e) => e.completed).map((e) => e.exerciseId));
+      const completedResourceIds = new Set(resourceCompletions.map((c) => c.unitResourceId));
+      const completedExerciseIds = new Set(exerciseCompletions.map((e) => e.exerciseId));
 
       const courseTotalCount = coreResourceIds.length + activeExerciseIds.length;
-      // TODO: should we just only fetch where `completed === 'true'`?
       const courseCompletedCount = completedResourceIds.size + completedExerciseIds.size;
       const percentage = courseTotalCount > 0 ? Math.round((courseCompletedCount / courseTotalCount) * 100) : 0;
 
@@ -254,10 +258,10 @@ export const coursesRouter = router({
           const chunkExerciseIds = chunk.chunkExercises?.filter((id) => activeExerciseIds.includes(id)) ?? [];
 
           const chunkCompletedResources = resourceCompletions.filter(
-            (c) => c.isCompleted && c.unitResourceId && chunkResourceIds.includes(c.unitResourceId),
+            (c) => c.unitResourceId && chunkResourceIds.includes(c.unitResourceId),
           ).length;
           const chunkCompletedExercises = exerciseCompletions.filter(
-            (e) => e.completed && chunkExerciseIds.includes(e.exerciseId),
+            (e) => chunkExerciseIds.includes(e.exerciseId),
           ).length;
 
           const totalCount = chunkResourceIds.length + chunkExerciseIds.length;
