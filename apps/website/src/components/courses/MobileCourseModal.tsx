@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
-import clsx from 'clsx';
-import { FaChevronRight } from 'react-icons/fa6';
-import {
-  CTALinkOrButton, Modal, ProgressDots, useAuthStore,
-} from '@bluedot/ui';
 import type { Unit } from '@bluedot/db';
+import {
+  CTALinkOrButton, Modal, useAuthStore,
+} from '@bluedot/ui';
+import type { inferRouterOutputs } from '@trpc/server';
+import clsx from 'clsx';
+import React, { useState } from 'react';
+import { FaChevronRight } from 'react-icons/fa6';
+import type { ChunkProgress } from '../../lib/hooks/useChunkProgress';
+import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
+import type { AppRouter } from '../../server/routers/_app';
+import { ChunkIcon } from '../icons/ChunkIcon';
 import { CourseIcon } from './CourseIcon';
 import type { ApplyCTAProps } from './SideBar';
-import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
-import { ChunkIcon } from '../icons/ChunkIcon';
-import { useChunkProgress } from '../../lib/hooks/useChunkProgress';
 
 type MobileCourseModalProps = {
   isOpen: boolean;
