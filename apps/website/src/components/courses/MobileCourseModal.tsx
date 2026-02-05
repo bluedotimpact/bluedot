@@ -1,6 +1,6 @@
 import type { Unit } from '@bluedot/db';
 import {
-  CTALinkOrButton, Modal, useAuthStore,
+  CTALinkOrButton, Modal,
 } from '@bluedot/ui';
 import type { inferRouterOutputs } from '@trpc/server';
 import clsx from 'clsx';
@@ -148,7 +148,6 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
   onChunkClick,
   chunkProgress,
 }) => {
-  const auth = useAuthStore((s) => s.auth);
   const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
 
   return (
@@ -203,7 +202,7 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
                       <span>
                         {formatTime(chunk.estimatedTime)}
                       </span>
-                      {auth && chunkProgress[index] && chunkProgress[index].totalCount > 0 && (
+                      {chunkProgress[index] && chunkProgress[index].totalCount > 0 && (
                         <>
                           ⋅
                           <span className={clsx(chunkProgress[index].allCompleted && 'line-through')}>

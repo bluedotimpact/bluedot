@@ -1,6 +1,6 @@
 import type { Unit } from '@bluedot/db';
 import {
-  A, CTALinkOrButton, P, useAuthStore,
+  A, CTALinkOrButton, P,
 } from '@bluedot/ui';
 import type { inferRouterOutputs } from '@trpc/server';
 import clsx from 'clsx';
@@ -44,7 +44,6 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   courseSlug,
   chunkProgress,
 }) => {
-  const auth = useAuthStore((s) => s.auth);
   const [isExpanded, setIsExpanded] = useState(isCurrentUnit);
   const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
 
@@ -92,7 +91,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                         <span>
                           {formatTime(chunk.estimatedTime)}
                         </span>
-                        {auth && chunkProgress[index] && chunkProgress[index].totalCount > 0 && (
+                        {chunkProgress[index] && chunkProgress[index].totalCount > 0 && (
                           <>
                             {/* Dot is outside of span so strikethrough doesn't extend to dot and look overly long */}
                             ⋅
@@ -130,8 +129,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                       <span>
                         {formatTime(chunk.estimatedTime)}
                       </span>
-                      {/* TODO: do we need `auth` check? `chunkProgress` defined by protected procedure? */}
-                      {auth && chunkProgress[index] && chunkProgress[index].totalCount > 0 && (
+                      {chunkProgress[index] && chunkProgress[index].totalCount > 0 && (
                         <>
                           ⋅
                           <span className={clsx(chunkProgress[index].allCompleted && 'line-through')}>
