@@ -275,7 +275,9 @@ export const coursesRouter = router({
       // Build Sets for faster lookup
       const coreResourceIdSet = new Set(coreResourceIds);
       const activeExerciseIdSet = new Set(activeExerciseIds);
-      const completedResourceIdSet = new Set(resourceCompletions.map((c) => c.unitResourceId));
+      const completedResourceIdSet = new Set(
+        resourceCompletions.map((c) => c.unitResourceId).filter((id): id is string => id != null),
+      );
       const completedExerciseIdSet = new Set(exerciseCompletions.map((e) => e.exerciseId));
 
       const chunkProgressByUnitId: Record<string, ChunkProgress[]> = {};
