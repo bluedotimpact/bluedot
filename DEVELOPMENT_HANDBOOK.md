@@ -619,6 +619,10 @@ All components in `libraries/ui` follow Bluedot branding. **Always reuse these c
 - **Infrastructure as Code**: Pulumi (`apps/infra`)
 - **Observability**: OpenTelemetry, Grafana
 
+### Clearing the CI cache
+
+If CI is behaving strangely (e.g. tests pass locally but fail in CI, or you're seeing errors about missing dependencies), try clearing the CI cache: go to [Actions → Clear CI/CD Cache → Run workflow](https://github.com/bluedotimpact/bluedot/actions/workflows/clear_cache.yaml).
+
 ### Deployment Processes
 
 #### Website

@@ -30,6 +30,7 @@ const mockJob: JobPosting = {
   applicationUrl: 'https://example.com/apply',
   publishedAt: 1609459200,
   publicationStatus: 'Published',
+  category: null,
 };
 
 describe('JobPostingPage SSR/SEO', () => {

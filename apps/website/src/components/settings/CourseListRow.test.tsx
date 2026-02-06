@@ -31,7 +31,6 @@ describe('CourseListRow', () => {
     title: 'Introduction to AI Safety',
     description: 'Learn the fundamentals of AI safety and alignment.',
     durationDescription: '8 weeks',
-    image: '/course-image.jpg',
     path: '/courses/ai-safety',
     slug: 'ai-safety',
     level: 'Beginner',
