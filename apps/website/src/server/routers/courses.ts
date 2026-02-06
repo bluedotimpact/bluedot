@@ -285,13 +285,13 @@ export const coursesRouter = router({
       );
       const completedExerciseIdSet = new Set(exerciseCompletions.map((e) => e.exerciseId));
 
-      const chunkProgressByUnitId: Record<string, ChunkProgress[]> = {};
+      const chunkProgressByUnitNumber: Record<string, ChunkProgress[]> = {};
 
       for (const unit of units) {
         const unitChunks = allChunks
           .filter((c) => c.unitId === unit.id)
           .sort((a, b) => Number(a.chunkOrder) - Number(b.chunkOrder));
-        chunkProgressByUnitId[unit.id] = unitChunks.map((chunk) => {
+        chunkProgressByUnitNumber[unit.unitNumber] = unitChunks.map((chunk) => {
           return calculateChunkProgress(
             chunk,
             coreResourceIdSet,
@@ -312,7 +312,7 @@ export const coursesRouter = router({
           completedCount: courseCompletedCount,
           percentage,
         },
-        chunkProgressByUnitId,
+        chunkProgressByUnitNumber,
       };
     }),
 });

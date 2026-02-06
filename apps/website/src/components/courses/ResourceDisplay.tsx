@@ -55,9 +55,8 @@ type ResourceDisplayProps = {
   unitDescription?: string;
   className?: string;
   unitTitle?: string;
-  unitNumber?: number;
+  unitNumber?: string;
   courseSlug?: string;
-  unitId?: string;
   chunkIndex?: number;
 };
 
@@ -69,7 +68,6 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
   unitTitle,
   unitNumber,
   courseSlug,
-  unitId,
   chunkIndex,
 }) => {
   const auth = useAuthStore((s) => s.auth);
@@ -119,7 +117,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
                 resourceCompletion={resourceCompletionMap.get(resource.id)}
                 aria-label={unitContext ? `${resource.resourceName} - ${unitContext}` : resource.resourceName}
                 courseSlug={courseSlug}
-                unitId={unitId}
+                unitNumber={unitNumber}
                 chunkIndex={chunkIndex}
               />
             ))}
@@ -141,7 +139,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
               <Exercise
                 key={exercise.id}
                 exerciseId={exercise.id}
-                unitId={unitId}
+                unitNumber={unitNumber}
                 chunkIndex={chunkIndex}
               />
             ))}

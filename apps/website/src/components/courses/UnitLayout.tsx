@@ -448,12 +448,11 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               resources={chunk.resources || []}
               exercises={chunk.exercises || []}
               unitTitle={unit.title}
-              unitNumber={parseInt(unitNumber)}
+              unitNumber={unitNumber}
               className={clsx(
                 (chunk?.chunkContent || unit.content) ? 'mt-8 md:mt-6' : 'mt-4',
               )}
               courseSlug={courseSlug}
-              unitId={unit.id}
               chunkIndex={chunkIndex}
             />
           ) : null}

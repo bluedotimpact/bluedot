@@ -7,7 +7,7 @@ type CourseProgressData = inferRouterOutputs<AppRouter>['courses']['getCoursePro
 export async function optimisticallyUpdateCourseProgress(
   utils: ReturnType<typeof trpc.useUtils>,
   courseSlug: string | undefined,
-  unitId: string | undefined,
+  unitNumber: string | undefined,
   chunkIndex: number | undefined,
   delta: 1 | -1,
 ) {
@@ -28,12 +28,12 @@ export async function optimisticallyUpdateCourseProgress(
         completedCount: newCompleted,
         percentage: Math.round((newCompleted / prev.courseProgress.totalCount) * 100),
       },
-      chunkProgressByUnitId: {
-        ...prev.chunkProgressByUnitId,
-        ...(unitId != null && chunkIndex != null
+      chunkProgressByUnitNumber: {
+        ...prev.chunkProgressByUnitNumber,
+        ...(unitNumber != null && chunkIndex != null
           ? {
-            [unitId]:
-                  prev.chunkProgressByUnitId[unitId]?.map((chunkProgress, i) => (i === chunkIndex
+            [unitNumber]:
+                  prev.chunkProgressByUnitNumber[unitNumber]?.map((chunkProgress, i) => (i === chunkIndex
                     ? {
                       ...chunkProgress,
                       completedCount: chunkProgress.completedCount + delta,

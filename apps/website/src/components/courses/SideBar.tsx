@@ -222,7 +222,7 @@ const SideBar: React.FC<SideBarProps> = ({
             currentChunkIndex={currentChunkIndex}
             onChunkSelect={onChunkSelect}
             courseSlug={courseSlug}
-            chunkProgress={courseProgressData?.chunkProgressByUnitId[unit.id] ?? []}
+            chunkProgress={courseProgressData?.chunkProgressByUnitNumber[unit.unitNumber] ?? []}
           />
         ))}
       </div>

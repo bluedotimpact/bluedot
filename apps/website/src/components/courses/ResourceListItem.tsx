@@ -85,12 +85,12 @@ type ResourceListItemProps = {
   resource: UnitResource;
   resourceCompletion?: ResourceCompletion;
   courseSlug?: string;
-  unitId?: string;
+  unitNumber?: string;
   chunkIndex?: number;
 };
 
 export const ResourceListItem: React.FC<ResourceListItemProps> = ({
-  resource, resourceCompletion, courseSlug, unitId, chunkIndex,
+  resource, resourceCompletion, courseSlug, unitNumber, chunkIndex,
 }) => {
   const router = useRouter();
   const auth = useAuthStore((s) => s.auth);
@@ -149,7 +149,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
       );
 
       // Optimistically update overall course progress
-      const previousCourseProgress = newData.isCompleted !== undefined ? await optimisticallyUpdateCourseProgress(utils, courseSlug, unitId, chunkIndex, newData.isCompleted ? 1 : -1) : undefined;
+      const previousCourseProgress = newData.isCompleted !== undefined ? await optimisticallyUpdateCourseProgress(utils, courseSlug, unitNumber, chunkIndex, newData.isCompleted ? 1 : -1) : undefined;
 
       return { previousQueriesData, previousCourseProgress };
     },

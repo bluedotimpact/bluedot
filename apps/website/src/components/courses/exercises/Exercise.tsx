@@ -15,12 +15,12 @@ import { optimisticallyUpdateCourseProgress, rollbackCourseProgress } from '../.
 
 type ExerciseProps = {
   exerciseId: string;
-  unitId?: string;
+  unitNumber?: string;
   chunkIndex?: number;
 };
 
 const Exercise: React.FC<ExerciseProps> = ({
-  exerciseId, unitId, chunkIndex,
+  exerciseId, unitNumber, chunkIndex,
 }) => {
   const auth = useAuthStore((s) => s.auth);
   const utils = trpc.useUtils();
@@ -68,7 +68,7 @@ const Exercise: React.FC<ExerciseProps> = ({
       await utils.exercises.getExerciseResponse.invalidate({ exerciseId });
     },
     onMutate: async (newData) => {
-      const previousCourseProgress = newData.completed !== undefined ? await optimisticallyUpdateCourseProgress(utils, courseSlug, unitId, chunkIndex, newData.completed ? 1 : -1) : undefined;
+      const previousCourseProgress = newData.completed !== undefined ? await optimisticallyUpdateCourseProgress(utils, courseSlug, unitNumber, chunkIndex, newData.completed ? 1 : -1) : undefined;
       return { previousCourseProgress };
     },
     onError: (_err, _variables, mutationResult) => {

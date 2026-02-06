@@ -75,12 +75,12 @@ export const defaultProgressHandlers: RequestHandler[] = [
       completedCount: 0,
       percentage: 0,
     },
-    chunkProgressByUnitId: {
-      'unit-1': [
+    chunkProgressByUnitNumber: {
+      1: [
         { totalCount: 4, completedCount: 0, allCompleted: false }, // chunk-1
         { totalCount: 3, completedCount: 0, allCompleted: false }, // chunk-2
       ],
-      'unit-2': [
+      2: [
         { totalCount: 3, completedCount: 0, allCompleted: false }, // chunk-3
         { totalCount: 1, completedCount: 0, allCompleted: false }, // chunk-4
       ],
@@ -95,12 +95,12 @@ export const someProgressHandlers: RequestHandler[] = [
       completedCount: 3,
       percentage: 25,
     },
-    chunkProgressByUnitId: {
-      'unit-1': [
+    chunkProgressByUnitNumber: {
+      1: [
         { totalCount: 4, completedCount: 3, allCompleted: false }, // chunk-1: res-1, res-2, ex-1 completed
         { totalCount: 3, completedCount: 0, allCompleted: false }, // chunk-2
       ],
-      'unit-2': [
+      2: [
         { totalCount: 3, completedCount: 0, allCompleted: false }, // chunk-3
         { totalCount: 1, completedCount: 0, allCompleted: false }, // chunk-4
       ],
@@ -115,12 +115,12 @@ export const allCompletedHandlers: RequestHandler[] = [
       completedCount: totalCount,
       percentage: 100,
     },
-    chunkProgressByUnitId: {
-      'unit-1': [
+    chunkProgressByUnitNumber: {
+      1: [
         { totalCount: 4, completedCount: 4, allCompleted: true }, // chunk-1
         { totalCount: 3, completedCount: 3, allCompleted: true }, // chunk-2
       ],
-      'unit-2': [
+      2: [
         { totalCount: 3, completedCount: 3, allCompleted: true }, // chunk-3
         { totalCount: 1, completedCount: 1, allCompleted: true }, // chunk-4
       ],
