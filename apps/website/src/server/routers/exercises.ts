@@ -31,31 +31,6 @@ export const exercisesRouter = router({
       return exerciseResponse;
     }),
 
-  getExerciseCompletions: protectedProcedure
-    .input(z.object({ exerciseIds: z.array(z.string().min(1)).max(100) }))
-    .query(async ({ input, ctx }) => {
-      if (input.exerciseIds.length === 0) return [];
-
-      const responses = await db.pg
-        .select({
-          exerciseId: exerciseResponseTable.pg.exerciseId,
-          completed: exerciseResponseTable.pg.completed,
-        })
-        .from(exerciseResponseTable.pg)
-        .where(and(
-          inArray(exerciseResponseTable.pg.exerciseId, input.exerciseIds),
-          eq(exerciseResponseTable.pg.email, ctx.auth.email),
-        ));
-
-      // Deduplicate by exerciseId (same pattern as resources)
-      const seen = new Set<string>();
-      return responses.filter((r) => {
-        if (seen.has(r.exerciseId)) return false;
-        seen.add(r.exerciseId);
-        return true;
-      });
-    }),
-
   saveExerciseResponse: protectedProcedure
     .input(z.object({
       exerciseId: z.string().min(1),
