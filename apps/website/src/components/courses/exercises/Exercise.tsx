@@ -4,9 +4,6 @@ import {
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { useRouter } from 'next/router';
-import { useQueryClient } from '@tanstack/react-query';
-import { getQueryKey } from '@trpc/react-query';
-import type { inferRouterOutputs } from '@trpc/server';
 import FreeTextResponse from './FreeTextResponse';
 import MultipleChoice from './MultipleChoice';
 // eslint-disable-next-line import/no-cycle
@@ -14,7 +11,7 @@ import GroupResponses from './GroupResponses';
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
 import { CheckmarkIcon } from '../../icons/CheckmarkIcon';
 import { trpc } from '../../../utils/trpc';
-import type { AppRouter } from '../../../server/routers/_app';
+import { optimisticallyUpdateCourseProgress, rollbackCourseProgress } from '../../../utils/optimisticCourseProgress';
 
 type ExerciseProps = {
   exerciseId: string;
@@ -29,9 +26,6 @@ const Exercise: React.FC<ExerciseProps> = ({
   const utils = trpc.useUtils();
   const router = useRouter();
   const courseSlug = typeof router.query.courseSlug === 'string' ? router.query.courseSlug : undefined;
-
-  const queryClient = useQueryClient();
-  const exerciseCompletionsQueryKey = getQueryKey(trpc.exercises.getExerciseCompletions, undefined, 'query');
 
   const [showGroupResponsesIfFacilitator, setShowGroupResponsesIfFacilitator] = useState(true);
   const [checkboxHovered, setCheckboxHovered] = useState(false);
@@ -68,47 +62,17 @@ const Exercise: React.FC<ExerciseProps> = ({
 
   const saveResponseMutation = trpc.exercises.saveExerciseResponse.useMutation({
     onSettled: () => {
-      utils.exercises.getExerciseCompletions.invalidate();
+      utils.courses.getCourseProgress.invalidate({ courseSlug });
     },
     onSuccess: async () => {
       await utils.exercises.getExerciseResponse.invalidate({ exerciseId });
     },
     onMutate: async (newData) => {
-      // Optimistically update `getExerciseCompletions` so that the Sidebar immediately updates
-      await utils.exercises.getExerciseCompletions.cancel();
-
-      const previousQueriesData = queryClient.getQueriesData({ queryKey: exerciseCompletionsQueryKey });
-
-      queryClient.setQueriesData(
-        { queryKey: exerciseCompletionsQueryKey },
-        (oldData: inferRouterOutputs<AppRouter>['exercises']['getExerciseCompletions']) => {
-          if (!oldData) return [];
-
-          const newArray = [...oldData];
-          const existingItem = oldData.find((item) => item.exerciseId === exerciseId);
-
-          if (existingItem) {
-            const existingIndex = oldData.indexOf(existingItem);
-            newArray[existingIndex] = {
-              ...existingItem,
-              completed: newData.completed ?? existingItem.completed,
-            };
-          } else if (newData.completed) {
-            newArray.push({
-              exerciseId,
-              completed: true,
-            });
-          }
-          return newArray;
-        },
-      );
-
-      return { previousQueriesData };
+      const previousCourseProgress = newData.completed !== undefined ? await optimisticallyUpdateCourseProgress(utils, courseSlug, unitId, chunkIndex, newData.completed ? 1 : -1) : undefined;
+      return { previousCourseProgress };
     },
     onError: (_err, _variables, mutationResult) => {
-      mutationResult?.previousQueriesData.forEach(([queryKey, data]) => {
-        queryClient.setQueryData(queryKey, data);
-      });
+      rollbackCourseProgress(utils, courseSlug, mutationResult?.previousCourseProgress);
     },
   });
 
