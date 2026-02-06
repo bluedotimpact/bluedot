@@ -17,12 +17,13 @@ import { trpc } from '../../../utils/trpc';
 import type { AppRouter } from '../../../server/routers/_app';
 
 type ExerciseProps = {
-  // Required
   exerciseId: string;
+  unitId?: string;
+  chunkIndex?: number;
 };
 
 const Exercise: React.FC<ExerciseProps> = ({
-  exerciseId,
+  exerciseId, unitId, chunkIndex,
 }) => {
   const auth = useAuthStore((s) => s.auth);
   const utils = trpc.useUtils();
