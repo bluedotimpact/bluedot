@@ -452,6 +452,9 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               className={clsx(
                 (chunk?.chunkContent || unit.content) ? 'mt-8 md:mt-6' : 'mt-4',
               )}
+              courseSlug={courseSlug}
+              unitId={unit.id}
+              chunkIndex={chunkIndex}
             />
           ) : null}
 
