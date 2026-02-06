@@ -15,17 +15,17 @@ import { optimisticallyUpdateCourseProgress, rollbackCourseProgress } from '../.
 
 type ExerciseProps = {
   exerciseId: string;
+  courseSlug?: string;
   unitNumber?: string;
   chunkIndex?: number;
 };
 
 const Exercise: React.FC<ExerciseProps> = ({
-  exerciseId, unitNumber, chunkIndex,
+  exerciseId, courseSlug, unitNumber, chunkIndex,
 }) => {
   const auth = useAuthStore((s) => s.auth);
   const utils = trpc.useUtils();
   const router = useRouter();
-  const courseSlug = typeof router.query.courseSlug === 'string' ? router.query.courseSlug : undefined;
 
   const [showGroupResponsesIfFacilitator, setShowGroupResponsesIfFacilitator] = useState(true);
   const [checkboxHovered, setCheckboxHovered] = useState(false);

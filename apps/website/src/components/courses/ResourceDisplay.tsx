@@ -139,6 +139,7 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
               <Exercise
                 key={exercise.id}
                 exerciseId={exercise.id}
+                courseSlug={courseSlug}
                 unitNumber={unitNumber}
                 chunkIndex={chunkIndex}
               />
