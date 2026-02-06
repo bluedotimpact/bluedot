@@ -200,10 +200,6 @@ export const exerciseResponseTable = pgAirtable('exercise_response', {
       pgColumn: text().notNull(),
       airtableId: 'fld7Qa3JDnRNwCTlH',
     },
-    completed: {
-      pgColumn: boolean().notNull(),
-      airtableId: 'fldz8rocQd7Ws9s2q',
-    },
     completedAt: {
       pgColumn: text(),
       airtableId: 'fldmmwUvlAy3Ju2or',
@@ -211,6 +207,13 @@ export const exerciseResponseTable = pgAirtable('exercise_response', {
     autoNumberId: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldjhCZEuocd5eYsb',
+    },
+  },
+  deprecatedColumns: {
+    completed: {
+      pgColumn: boolean(),
+      airtableId: 'fldz8rocQd7Ws9s2q',
+      deprecated: true,
     },
   },
 });
