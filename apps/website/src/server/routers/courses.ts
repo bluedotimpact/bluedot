@@ -288,7 +288,9 @@ export const coursesRouter = router({
       const chunkProgressByUnitId: Record<string, ChunkProgress[]> = {};
 
       for (const unit of units) {
-        const unitChunks = allChunks.filter((c) => c.unitId === unit.id);
+        const unitChunks = allChunks
+          .filter((c) => c.unitId === unit.id)
+          .sort((a, b) => Number(a.chunkOrder) - Number(b.chunkOrder));
         chunkProgressByUnitId[unit.id] = unitChunks.map((chunk) => {
           return calculateChunkProgress(
             chunk,
