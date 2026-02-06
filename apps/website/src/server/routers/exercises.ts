@@ -1,18 +1,19 @@
-import { z } from 'zod';
 import {
   and,
   arrayContains,
   courseRegistrationTable,
   courseTable,
   eq,
-  exerciseTable,
   exerciseResponseTable,
+  exerciseTable,
   groupTable,
   inArray,
+  isNotNull,
   meetPersonTable,
 } from '@bluedot/db';
+import { z } from 'zod';
 import db from '../../lib/api/db';
-import { publicProcedure, protectedProcedure, router } from '../trpc';
+import { protectedProcedure, publicProcedure, router } from '../trpc';
 
 export const exercisesRouter = router({
   getExercise: publicProcedure
@@ -128,7 +129,7 @@ export const exercisesRouter = router({
         .where(and(
           eq(exerciseResponseTable.pg.exerciseId, input.exerciseId),
           inArray(exerciseResponseTable.pg.email, allEmails),
-          eq(exerciseResponseTable.pg.completed, true),
+          isNotNull(exerciseResponseTable.pg.completedAt),
         ));
 
       const responseByEmail = new Map(exerciseResponses.map((r) => [r.email, r.response]));
