@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import clsx from 'clsx';
-import { FaChevronRight } from 'react-icons/fa6';
-import {
-  CTALinkOrButton, Modal, ProgressDots, useAuthStore,
-} from '@bluedot/ui';
 import type { Unit } from '@bluedot/db';
+import {
+  CTALinkOrButton, Modal,
+} from '@bluedot/ui';
+import clsx from 'clsx';
+import React, { useState } from 'react';
+import { FaChevronRight } from 'react-icons/fa6';
+import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
+import type { ChunkProgress, CourseProgress } from '../../server/routers/courses';
+import { ChunkIcon } from '../icons/ChunkIcon';
 import { CourseIcon } from './CourseIcon';
 import type { ApplyCTAProps } from './SideBar';
-import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
-import { ChunkIcon } from '../icons/ChunkIcon';
-import { useChunkProgress } from '../../lib/hooks/useChunkProgress';
 
 type MobileCourseModalProps = {
   isOpen: boolean;
@@ -23,6 +23,7 @@ type MobileCourseModalProps = {
   onUnitSelect?: (unitPath: string) => void;
   unitChunks: Record<string, BasicChunk[]>;
   applyCTAProps?: ApplyCTAProps;
+  courseProgressData?: CourseProgress;
 };
 
 export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
@@ -37,6 +38,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
   onUnitSelect,
   unitChunks,
   applyCTAProps,
+  courseProgressData,
 }) => {
   // Track which units are expanded (current unit starts expanded)
   const [expandedUnitIds, setExpandedUnitIds] = useState<Set<string>>(() => {
@@ -113,6 +115,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
             currentChunkIndex={currentChunkIndex}
             onToggle={() => toggleUnitExpansion(unit.id)}
             onChunkClick={(index) => handleChunkClick(unit, index)}
+            chunkProgress={courseProgressData?.chunkProgressByUnitNumber[unit.unitNumber] ?? []}
           />
         ))}
       </div>
@@ -129,6 +132,7 @@ type MobileUnitSectionProps = {
   currentChunkIndex: number;
   onToggle: () => void;
   onChunkClick: (index: number) => void;
+  chunkProgress: ChunkProgress[];
 };
 
 const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
@@ -140,11 +144,9 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
   currentChunkIndex,
   onToggle,
   onChunkClick,
+  chunkProgress,
 }) => {
-  const auth = useAuthStore((s) => s.auth);
   const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
-
-  const { chunkProgress, isLoading } = useChunkProgress(chunks, isExpanded);
 
   return (
     <div className="relative">
@@ -198,19 +200,13 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
                       <span>
                         {formatTime(chunk.estimatedTime)}
                       </span>
-                      {auth && (
-                        isLoading ? (
-                          <ProgressDots className="my-0.5 ml-2" />
-                        ) : (
-                          chunkProgress[index] && chunkProgress[index].totalCount > 0 && (
-                            <>
-                              ⋅
-                              <span className={clsx(chunkProgress[index].allCompleted && 'line-through')}>
-                                {chunkProgress[index].completedCount} of {chunkProgress[index].totalCount} completed
-                              </span>
-                            </>
-                          )
-                        )
+                      {chunkProgress[index] && chunkProgress[index].totalCount > 0 && (
+                        <>
+                          ⋅
+                          <span className={clsx(chunkProgress[index].allCompleted && 'line-through')}>
+                            {chunkProgress[index].completedCount} of {chunkProgress[index].totalCount} completed
+                          </span>
+                        </>
                       )}
                     </div>
                   )}

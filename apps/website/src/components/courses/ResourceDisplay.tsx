@@ -55,7 +55,9 @@ type ResourceDisplayProps = {
   unitDescription?: string;
   className?: string;
   unitTitle?: string;
-  unitNumber?: number;
+  unitNumber?: string;
+  courseSlug?: string;
+  chunkIndex?: number;
 };
 
 export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
@@ -65,6 +67,8 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
   className = '',
   unitTitle,
   unitNumber,
+  courseSlug,
+  chunkIndex,
 }) => {
   const auth = useAuthStore((s) => s.auth);
   const { data: resourceCompletions, isLoading: resourceCompletionsLoading, error: resourceCompletionsError } = trpc.resources.getResourceCompletions.useQuery({ unitResourceIds: resources.map((r) => r.id) }, { enabled: resources.length > 0 && Boolean(auth) });
@@ -112,6 +116,9 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
                 resource={resource}
                 resourceCompletion={resourceCompletionMap.get(resource.id)}
                 aria-label={unitContext ? `${resource.resourceName} - ${unitContext}` : resource.resourceName}
+                courseSlug={courseSlug}
+                unitNumber={unitNumber}
+                chunkIndex={chunkIndex}
               />
             ))}
           </ul>
@@ -132,6 +139,9 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
               <Exercise
                 key={exercise.id}
                 exerciseId={exercise.id}
+                courseSlug={courseSlug}
+                unitNumber={unitNumber}
+                chunkIndex={chunkIndex}
               />
             ))}
           </div>
