@@ -10,6 +10,7 @@ import {
   groupTable,
   inArray,
   meetPersonTable,
+  isNotNull,
 } from '@bluedot/db';
 import db from '../../lib/api/db';
 import { publicProcedure, protectedProcedure, router } from '../trpc';
@@ -57,7 +58,7 @@ export const exercisesRouter = router({
       const responses = await db.pg
         .select({
           exerciseId: exerciseResponseTable.pg.exerciseId,
-          completed: exerciseResponseTable.pg.completed,
+          completedAt: exerciseResponseTable.pg.completedAt,
         })
         .from(exerciseResponseTable.pg)
         .where(and(
@@ -171,7 +172,7 @@ export const exercisesRouter = router({
         .where(and(
           eq(exerciseResponseTable.pg.exerciseId, input.exerciseId),
           inArray(exerciseResponseTable.pg.email, allEmails),
-          eq(exerciseResponseTable.pg.completed, true),
+          isNotNull(exerciseResponseTable.pg.completedAt),
         ));
 
       const responseByEmail = new Map(exerciseResponses.map((r) => [r.email, r.response]));
