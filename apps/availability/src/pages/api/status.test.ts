@@ -1,6 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 import { NextApiRequest, NextApiResponse } from 'next';
-import type { Request, Response } from 'express';
 import { createMocks } from 'node-mocks-http';
 import { describe, expect, test } from 'vitest';
 import handle from './status';

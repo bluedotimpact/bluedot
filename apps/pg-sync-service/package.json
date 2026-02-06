@@ -6,6 +6,7 @@
         "root": "dotenv -e .env.local -- npm run --prefix ../../",
         "start": "tsup --watch & dotenv -e .env.local --fallback .env -- nodemon --watch dist --ext js dist/index.js",
         "start:docker": "docker-scripts start",
+        "typecheck": "tsc --noEmit",
         "build": "tsc && tsup && mkdir -p dist_tools && cp ../../package-lock.json dist_tools",
         "test": "vitest --run",
         "test:watch": "vitest",

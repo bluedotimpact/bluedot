@@ -14,6 +14,7 @@ const mockCmsJobs = [
     applicationUrl: 'https://example.com/apply/software-engineer',
     publicationStatus: 'Published' as const,
     publishedAt: Date.now() / 1000,
+    category: null,
   },
   {
     id: '2',
@@ -23,6 +24,7 @@ const mockCmsJobs = [
     applicationUrl: 'https://example.com/apply/product-manager',
     publicationStatus: 'Published' as const,
     publishedAt: Date.now() / 1000,
+    category: null,
   },
 ];
 

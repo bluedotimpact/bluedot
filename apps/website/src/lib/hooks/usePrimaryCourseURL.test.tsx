@@ -24,7 +24,8 @@ describe('usePrimaryCourseURL', () => {
     server.use(trpcMsw.courses.getAll.query(() => []));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => []));
     // Default: user is logged in (so registrations query is enabled)
-    vi.mocked(useAuthStore).mockImplementation((selector) => selector({ auth: mockAuth }));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    vi.mocked(useAuthStore).mockImplementation((selector) => selector({ auth: mockAuth } as any));
   });
 
   it('returns lander URL when course not found', async () => {
