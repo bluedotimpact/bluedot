@@ -1,9 +1,0 @@
-{
-  "compilerOptions": {
-    // See https://github.com/microsoft/TypeScript/issues/29172
-    "outDir": "./dist",
-    "noEmit": true
-  },
-  "extends": "@bluedot/typescript-config/base.json",
-  "include": ["src"]
-}
