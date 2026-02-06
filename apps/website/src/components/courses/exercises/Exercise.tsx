@@ -3,7 +3,6 @@ import {
   cn, ProgressDots, ToggleSwitch, useAuthStore,
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
-import { useRouter } from 'next/router';
 import FreeTextResponse from './FreeTextResponse';
 import MultipleChoice from './MultipleChoice';
 // eslint-disable-next-line import/no-cycle
@@ -25,7 +24,6 @@ const Exercise: React.FC<ExerciseProps> = ({
 }) => {
   const auth = useAuthStore((s) => s.auth);
   const utils = trpc.useUtils();
-  const router = useRouter();
 
   const [showGroupResponsesIfFacilitator, setShowGroupResponsesIfFacilitator] = useState(true);
   const [checkboxHovered, setCheckboxHovered] = useState(false);
