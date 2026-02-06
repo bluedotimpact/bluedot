@@ -7,6 +7,7 @@ import {
   exerciseResponseTable,
   exerciseTable,
   inArray,
+  isNotNull,
   resourceCompletionTable,
   unitResourceTable,
   unitTable,
@@ -71,14 +72,14 @@ const getUserCompletions = async (coreResourceIds: string[], activeExerciseIds: 
     db.pg
       .select({
         exerciseId: exerciseResponseTable.pg.exerciseId,
-        completed: exerciseResponseTable.pg.completed,
+        completedAt: exerciseResponseTable.pg.completedAt,
       })
       .from(exerciseResponseTable.pg)
       .where(
         and(
           eq(exerciseResponseTable.pg.email, email),
           inArray(exerciseResponseTable.pg.exerciseId, activeExerciseIds),
-          eq(exerciseResponseTable.pg.completed, true), // Only fetch completed exercises
+          isNotNull(exerciseResponseTable.pg.completedAt), // Only fetch completed exercises
         ),
       )
       .orderBy(desc(exerciseResponseTable.pg.autoNumberId)),
