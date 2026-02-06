@@ -59,7 +59,7 @@ export function useChunkProgress(chunks: BasicChunk[], isExpanded: boolean) {
     const chunkExerciseIds = chunk.chunkExercises ?? [];
     const activeChunkExerciseIds = chunkExerciseIds.filter((id) => activeExerciseIdSet.has(id));
     const exerciseCompletedCount = exerciseCompletions?.filter(
-      (c) => c.completed && activeChunkExerciseIds.includes(c.exerciseId),
+      (c) => c.completedAt && activeChunkExerciseIds.includes(c.exerciseId),
     ).length ?? 0;
 
     // Combined totals

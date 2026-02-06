@@ -88,14 +88,20 @@ const Exercise: React.FC<ExerciseProps> = ({
 
           if (existingItem) {
             const existingIndex = oldData.indexOf(existingItem);
+            let { completedAt } = existingItem;
+            if (newData.completed === true) {
+              completedAt = new Date().toISOString();
+            } else if (newData.completed === false) {
+              completedAt = null;
+            }
             newArray[existingIndex] = {
               ...existingItem,
-              completed: newData.completed ?? existingItem.completed,
+              completedAt,
             };
           } else if (newData.completed) {
             newArray.push({
               exerciseId,
-              completed: true,
+              completedAt: new Date().toISOString(),
             });
           }
           return newArray;
