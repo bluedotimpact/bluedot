@@ -28,8 +28,6 @@ export type BasicChunk = {
   chunkTitle: string;
   chunkOrder: string;
   estimatedTime: number | null;
-  chunkResources: string[] | null;
-  chunkExercises: string[] | null;
 };
 
 const CourseUnitChunkPage = ({
@@ -215,8 +213,6 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
         chunkTitle: c.chunkTitle,
         chunkOrder: c.chunkOrder,
         estimatedTime: c.estimatedTime,
-        chunkResources: c.chunkResources,
-        chunkExercises: c.chunkExercises,
       }));
     allUnitChunks[u.id] = unitChunks;
   }
