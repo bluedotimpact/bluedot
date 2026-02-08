@@ -26,7 +26,7 @@ export async function optimisticallyUpdateCourseProgress(
       courseProgress: {
         ...prev.courseProgress,
         completedCount: newCompleted,
-        percentage: prev.courseProgress.totalCount > 0  ? Math.round((newCompleted / prev.courseProgress.totalCount) * 100) : 0,
+        percentage: prev.courseProgress.totalCount > 0 ? Math.round((newCompleted / prev.courseProgress.totalCount) * 100) : 0,
       },
       chunkProgressByUnitNumber: {
         ...prev.chunkProgressByUnitNumber,
