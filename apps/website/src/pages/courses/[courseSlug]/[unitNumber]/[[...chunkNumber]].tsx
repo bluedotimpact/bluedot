@@ -1,5 +1,5 @@
 import {
-  chunkTable, type Exercise, exerciseTable, type UnitResource, unitResourceTable, unitTable,
+  chunkTable, type Exercise, exerciseTable, type UnitResource, unitResourceTable,
 } from '@bluedot/db';
 import { ProgressDots, useAuthStore, useLatestUtmParams } from '@bluedot/ui';
 import { GetServerSideProps } from 'next';
@@ -10,9 +10,9 @@ import path from 'path';
 import UnitLayout from '../../../../components/courses/UnitLayout';
 import { buildCourseUnitUrl } from '../../../../lib/utils';
 import db from '../../../../lib/api/db';
-import { removeInactiveChunkIdsFromUnits } from '../../../../lib/api/utils';
 import { trpc } from '../../../../utils/trpc';
 import { FOAI_COURSE_ID } from '../../../../lib/constants';
+import { getCourseData } from '../../../../server/routers/courses';
 import { fileExists } from '../../../../utils/fileExists';
 
 type CourseUnitChunkPageProps = UnitWithChunks & {
@@ -191,11 +191,7 @@ export const getServerSideProps: GetServerSideProps<CourseUnitChunkPageProps> = 
 
 type UnitWithChunks = Awaited<ReturnType<typeof getUnitWithChunks>>;
 async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
-  const allUnitsWithAllChunks = await db.scan(unitTable, { courseSlug, unitStatus: 'Active' });
-  const allUnits = await removeInactiveChunkIdsFromUnits({ units: allUnitsWithAllChunks, db });
-
-  // Sort units numerically since database text sorting might not handle numbers correctly
-  const units = allUnits.sort((a, b) => Number(a.unitNumber) - Number(b.unitNumber));
+  const { units } = await getCourseData(courseSlug);
 
   const unit = units.find((u) => Number(u.unitNumber) === Number(unitNumber));
   if (!unit) {
