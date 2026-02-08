@@ -5,15 +5,15 @@ import { ProgressDots, useAuthStore, useLatestUtmParams } from '@bluedot/ui';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import path from 'path';
+import { useEffect } from 'react';
 import UnitLayout from '../../../../components/courses/UnitLayout';
-import { buildCourseUnitUrl } from '../../../../lib/utils';
 import db from '../../../../lib/api/db';
-import { trpc } from '../../../../utils/trpc';
 import { FOAI_COURSE_ID } from '../../../../lib/constants';
+import { buildCourseUnitUrl } from '../../../../lib/utils';
 import { getCourseData } from '../../../../server/routers/courses';
 import { fileExists } from '../../../../utils/fileExists';
+import { trpc } from '../../../../utils/trpc';
 
 type CourseUnitChunkPageProps = UnitWithChunks & {
   courseSlug: string;
