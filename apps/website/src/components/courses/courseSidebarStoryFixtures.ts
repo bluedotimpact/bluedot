@@ -1,6 +1,7 @@
 import type { Unit } from '@bluedot/db';
 import type { RequestHandler } from 'msw';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
+import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 
 export const mockUnits: Unit[] = [
   {
@@ -24,6 +25,37 @@ export const mockUnits: Unit[] = [
     unitStatus: 'Active',
   },
 ] as Unit[];
+
+export const mockChunks: Record<string, BasicChunk[]> = {
+  'unit-1': [
+    {
+      id: 'chunk-1',
+      chunkTitle: 'Getting Started',
+      chunkOrder: '1',
+      estimatedTime: 45,
+    },
+    {
+      id: 'chunk-2',
+      chunkTitle: 'Core Concepts',
+      chunkOrder: '2',
+      estimatedTime: 75,
+    },
+  ],
+  'unit-2': [
+    {
+      id: 'chunk-3',
+      chunkTitle: 'Alignment Techniques',
+      chunkOrder: '1',
+      estimatedTime: 90,
+    },
+    {
+      id: 'chunk-4',
+      chunkTitle: 'Case Studies',
+      chunkOrder: '2',
+      estimatedTime: 90,
+    },
+  ],
+};
 
 // Mock progress data for stories
 const totalCount = 12; // 8 resources + 4 exercises
