@@ -200,10 +200,7 @@ const SideBar: React.FC<SideBarProps> = ({
             <div className="flex flex-col">
               <h2 className="font-semibold text-[26px] leading-[44px] text-[#13132E]">{courseTitle}</h2>
               {courseProgressData && courseProgressData.courseProgress.totalCount > 0 && (
-              // TODO: I think that sidebar is only shown on desktop, so we don't need mobile responsiveness
-              <div className="hidden md:block">
                 <P className="opacity-60">{courseProgressData.courseProgress.percentage}% completed</P>
-              </div>
               )}
             </div>
           </div>
