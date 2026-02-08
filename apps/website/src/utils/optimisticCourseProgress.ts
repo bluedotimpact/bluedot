@@ -18,7 +18,8 @@ export async function optimisticallyUpdateCourseProgress(
 
   if (!prev) return undefined;
 
-  const newCompleted = prev.courseProgress.completedCount + delta;
+  const newCompleted = clamp(prev.courseProgress.completedCount + delta, 0, prev.courseProgress.totalCount);
+
   utils.courses.getCourseProgress.setData(
     { courseSlug },
     {
@@ -36,7 +37,7 @@ export async function optimisticallyUpdateCourseProgress(
                   prev.chunkProgressByUnitNumber[unitNumber]?.map((chunkProgress, i) => (i === chunkIndex
                     ? {
                       ...chunkProgress,
-                      completedCount: chunkProgress.completedCount + delta,
+                      completedCount: clamp(chunkProgress.completedCount + delta, 0, chunkProgress.totalCount),
                       allCompleted: chunkProgress.completedCount + delta >= chunkProgress.totalCount,
                     }
                     : chunkProgress)) ?? [],
@@ -56,4 +57,8 @@ export function rollbackCourseProgress(
   if (courseSlug && previousData) {
     utils.courses.getCourseProgress.setData({ courseSlug }, previousData);
   }
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(Math.max(value, min), max);
 }
