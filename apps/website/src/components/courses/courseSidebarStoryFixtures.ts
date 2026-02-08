@@ -74,7 +74,7 @@ export const defaultProgressHandlers: RequestHandler[] = [
       ],
       2: [
         { totalCount: 3, completedCount: 0, allCompleted: false }, // chunk-3
-        { totalCount: 1, completedCount: 0, allCompleted: false }, // chunk-4
+        { totalCount: 2, completedCount: 0, allCompleted: false }, // chunk-4
       ],
     },
   })),
@@ -94,7 +94,7 @@ export const someProgressHandlers: RequestHandler[] = [
       ],
       2: [
         { totalCount: 3, completedCount: 0, allCompleted: false }, // chunk-3
-        { totalCount: 1, completedCount: 0, allCompleted: false }, // chunk-4
+        { totalCount: 2, completedCount: 0, allCompleted: false }, // chunk-4
       ],
     },
   })),
@@ -114,7 +114,7 @@ export const allCompletedHandlers: RequestHandler[] = [
       ],
       2: [
         { totalCount: 3, completedCount: 3, allCompleted: true }, // chunk-3
-        { totalCount: 1, completedCount: 1, allCompleted: true }, // chunk-4
+        { totalCount: 2, completedCount: 1, allCompleted: true }, // chunk-4
       ],
     },
   })),
