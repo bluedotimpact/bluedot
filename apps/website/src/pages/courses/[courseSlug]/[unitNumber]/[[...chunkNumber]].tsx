@@ -1,5 +1,6 @@
 import {
-  chunkTable, type Exercise, exerciseTable, type UnitResource, unitResourceTable,
+  and,
+  chunkTable, eq, type Exercise, exerciseTable, inArray, type UnitResource, unitResourceTable,
 } from '@bluedot/db';
 import { ProgressDots, useAuthStore, useLatestUtmParams } from '@bluedot/ui';
 import { GetServerSideProps } from 'next';
@@ -198,9 +199,13 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
 
   // Fetch active chunks for all units in this course
   const unitIds = units.map((u) => u.id);
-  const chunkPromises = unitIds.map((unitId) => db.scan(chunkTable, { unitId, status: 'Active' }));
-  const chunkResults = await Promise.all(chunkPromises);
-  const activeChunksForCourse = chunkResults.flat();
+  const activeChunksForCourse = await db.pg
+    .select()
+    .from(chunkTable.pg)
+    .where(and(
+      eq(chunkTable.pg.status, 'Active'),
+      inArray(chunkTable.pg.unitId, unitIds),
+    ));
 
   // Group chunks by unit ID and extract only the fields needed for sidebar
   const allUnitChunks: Record<string, BasicChunk[]> = {};
