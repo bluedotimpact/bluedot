@@ -114,7 +114,7 @@ export const allCompletedHandlers: RequestHandler[] = [
       ],
       2: [
         { totalCount: 3, completedCount: 3, allCompleted: true }, // chunk-3
-        { totalCount: 2, completedCount: 1, allCompleted: true }, // chunk-4
+        { totalCount: 2, completedCount: 2, allCompleted: true }, // chunk-4
       ],
     },
   })),
