@@ -1,14 +1,14 @@
 import type { Unit } from '@bluedot/db';
 import {
-  A, CTALinkOrButton, ProgressDots, useAuthStore,
+  A, CTALinkOrButton, P,
 } from '@bluedot/ui';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
-import { CourseIcon } from './CourseIcon';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
+import type { ChunkProgress, CourseProgress } from '../../server/routers/courses';
 import { ChunkIcon } from '../icons/ChunkIcon';
-import { useChunkProgress } from '../../lib/hooks/useChunkProgress';
+import { CourseIcon } from './CourseIcon';
 
 type SideBarProps = {
   courseTitle: string;
@@ -20,6 +20,7 @@ type SideBarProps = {
   unitChunks: Record<string, BasicChunk[]>;
   applyCTAProps?: ApplyCTAProps;
   className?: string;
+  courseProgressData?: CourseProgress;
 };
 
 type SideBarCollapsibleProps = {
@@ -29,6 +30,7 @@ type SideBarCollapsibleProps = {
   currentChunkIndex: number;
   onChunkSelect: (index: number) => void;
   courseSlug: string;
+  chunkProgress: ChunkProgress[];
 };
 
 const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
@@ -38,12 +40,10 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   currentChunkIndex,
   onChunkSelect,
   courseSlug,
+  chunkProgress,
 }) => {
-  const auth = useAuthStore((s) => s.auth);
   const [isExpanded, setIsExpanded] = useState(isCurrentUnit);
   const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
-
-  const { chunkProgress, isLoading } = useChunkProgress(chunks, isExpanded);
 
   return (
     <div className="relative">
@@ -89,20 +89,14 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                         <span>
                           {formatTime(chunk.estimatedTime)}
                         </span>
-                        {auth && (
-                          isLoading ? (
-                            <ProgressDots className="my-0.5 ml-2" />
-                          ) : (
-                            chunkProgress[index] && chunkProgress[index].totalCount > 0 && (
-                              <>
-                                {/* Dot is outside of span so strikethrough doesn't extend to dot and look overly long */}
-                                ⋅
-                                <span className={clsx(chunkProgress[index].allCompleted && 'line-through')}>
-                                  {chunkProgress[index].completedCount} of {chunkProgress[index].totalCount} completed
-                                </span>
-                              </>
-                            )
-                          )
+                        {chunkProgress[index] && chunkProgress[index].totalCount > 0 && (
+                          <>
+                            {/* Dot is outside of span so strikethrough doesn't extend to dot and look overly long */}
+                            ⋅
+                            <span className={clsx(chunkProgress[index].allCompleted && 'line-through')}>
+                              {chunkProgress[index].completedCount} of {chunkProgress[index].totalCount} completed
+                            </span>
+                          </>
                         )}
                       </div>
                     )}
@@ -133,19 +127,13 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                       <span>
                         {formatTime(chunk.estimatedTime)}
                       </span>
-                      {auth && (
-                        isLoading ? (
-                          <ProgressDots className="my-0.5 ml-2" />
-                        ) : (
-                          chunkProgress[index] && chunkProgress[index].totalCount > 0 && (
-                            <>
-                              ⋅
-                              <span className={clsx(chunkProgress[index].allCompleted && 'line-through')}>
-                                {chunkProgress[index].completedCount} of {chunkProgress[index].totalCount} completed
-                              </span>
-                            </>
-                          )
-                        )
+                      {chunkProgress[index] && chunkProgress[index].totalCount > 0 && (
+                        <>
+                          ⋅
+                          <span className={clsx(chunkProgress[index].allCompleted && 'line-through')}>
+                            {chunkProgress[index].completedCount} of {chunkProgress[index].totalCount} completed
+                          </span>
+                        </>
                       )}
                     </div>
                   )}
@@ -183,6 +171,7 @@ const ApplyCTA = ({ applicationDeadline, applicationUrl, hasApplied }: ApplyCTAP
 const SideBar: React.FC<SideBarProps> = ({
   courseTitle,
   courseSlug,
+  courseProgressData,
   className,
   units,
   currentUnitNumber,
@@ -206,9 +195,14 @@ const SideBar: React.FC<SideBarProps> = ({
       {/* Header */}
       <div className="p-6 flex flex-col gap-5">
         <div className="flex flex-row items-center gap-[16px]">
-          <CourseIcon courseSlug={courseSlug} size="large" />
+          <CourseIcon courseSlug={courseSlug} size="xlarge" />
           <div className="flex flex-1 min-w-0">
-            <h2 className="font-semibold text-[26px] leading-[44px] text-[#13132E]">{courseTitle}</h2>
+            <div className="flex flex-col">
+              <h2 className="font-semibold text-[26px] leading-[44px] text-[#13132E]">{courseTitle}</h2>
+              {courseProgressData && courseProgressData.courseProgress.totalCount > 0 && (
+                <P className="opacity-60">{courseProgressData.courseProgress.percentage}% completed</P>
+              )}
+            </div>
           </div>
         </div>
         {applyCTAProps && <ApplyCTA {...applyCTAProps} />}
@@ -225,6 +219,7 @@ const SideBar: React.FC<SideBarProps> = ({
             currentChunkIndex={currentChunkIndex}
             onChunkSelect={onChunkSelect}
             courseSlug={courseSlug}
+            chunkProgress={courseProgressData?.chunkProgressByUnitNumber[unit.unitNumber] ?? []}
           />
         ))}
       </div>

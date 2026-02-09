@@ -59,7 +59,7 @@ afterEach(() => {
 
 describe('Exercise', () => {
   test('renders free text exercise with title and description', async () => {
-    render(<Exercise exerciseId="ex1" />, { wrapper: TrpcProvider });
+    render(<Exercise exerciseId="ex1" courseSlug="test-course" unitNumber="1" chunkIndex={0} />, { wrapper: TrpcProvider });
 
     expect(await screen.findByText('Reflection')).toBeInTheDocument();
     expect(screen.getByText('Write your thoughts.')).toBeInTheDocument();
@@ -75,7 +75,7 @@ describe('Exercise', () => {
       })),
     );
 
-    render(<Exercise exerciseId="ex1" />, { wrapper: TrpcProvider });
+    render(<Exercise exerciseId="ex1" courseSlug="test-course" unitNumber="1" chunkIndex={0} />, { wrapper: TrpcProvider });
 
     expect(await screen.findByText('Reflection')).toBeInTheDocument();
   });
@@ -89,7 +89,7 @@ describe('Exercise', () => {
       })),
     );
 
-    render(<Exercise exerciseId="ex1" />, { wrapper: TrpcProvider });
+    render(<Exercise exerciseId="ex1" courseSlug="test-course" unitNumber="1" chunkIndex={0} />, { wrapper: TrpcProvider });
 
     // Facilitator view shows toggle and participant responses
     expect(await screen.findByText("Show my group's responses")).toBeInTheDocument();
@@ -111,7 +111,7 @@ describe('Exercise', () => {
       })),
     );
 
-    render(<Exercise exerciseId="ex1" />, { wrapper: TrpcProvider });
+    render(<Exercise exerciseId="ex1" courseSlug="test-course" unitNumber="1" chunkIndex={0} />, { wrapper: TrpcProvider });
 
     const checkbox = await screen.findByRole('button', { name: 'Mark as complete' });
     expect(checkbox).not.toBeDisabled();
@@ -130,7 +130,7 @@ describe('Exercise', () => {
       })),
     );
 
-    render(<Exercise exerciseId="ex1" />, { wrapper: TrpcProvider });
+    render(<Exercise exerciseId="ex1" courseSlug="test-course" unitNumber="1" chunkIndex={0} />, { wrapper: TrpcProvider });
 
     const checkbox = await screen.findByRole('button', { name: 'Mark as complete' });
     expect(checkbox).toBeDisabled();
@@ -157,7 +157,7 @@ describe('Exercise', () => {
       }),
     );
 
-    const { container } = render(<Exercise exerciseId="ex1" />, { wrapper: TrpcProvider });
+    const { container } = render(<Exercise exerciseId="ex1" courseSlug="test-course" unitNumber="1" chunkIndex={0} />, { wrapper: TrpcProvider });
 
     // Wait for editor to render with old saved text
     const checkbox = await screen.findByRole('button', { name: 'Mark as complete' });

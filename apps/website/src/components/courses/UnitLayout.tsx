@@ -1,6 +1,3 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import clsx from 'clsx';
-import { useRouter } from 'next/router';
 import {
   A,
   CTALinkOrButton,
@@ -10,8 +7,13 @@ import {
   Section,
   useAuthStore,
 } from '@bluedot/ui';
+import clsx from 'clsx';
+import { useRouter } from 'next/router';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
-  FaBars, FaChevronRight, FaChevronDown,
+  FaBars,
+  FaChevronDown,
+  FaChevronRight,
 } from 'react-icons/fa6';
 
 import {
@@ -20,21 +22,21 @@ import {
   type Exercise,
   type UnitResource,
 } from '@bluedot/db';
-import { skipToken } from '@tanstack/react-query';
+import { ROUTES } from '../../lib/routes';
+import { buildCourseUnitUrl } from '../../lib/utils';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
+import type { CourseProgress } from '../../server/routers/courses';
+import { trpc } from '../../utils/trpc';
 import ActionPlanCard from './ActionPlanCard';
 import CertificateLinkCard from './CertificateLinkCard';
 import Congratulations from './Congratulations';
+import { CourseIcon } from './CourseIcon';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
 import KeyboardNavMenu from './KeyboardNavMenu';
-import { MobileCourseModal } from './MobileCourseModal';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
+import { MobileCourseModal } from './MobileCourseModal';
 import { ResourceDisplay } from './ResourceDisplay';
 import SideBar, { type ApplyCTAProps } from './SideBar';
-import { ROUTES } from '../../lib/routes';
-import { buildCourseUnitUrl } from '../../lib/utils';
-import { trpc } from '../../utils/trpc';
-import { CourseIcon } from './CourseIcon';
 
 export type ChunkWithContent = Chunk & {
   resources: UnitResource[];
@@ -66,6 +68,7 @@ type MobileHeaderProps = {
   isLastChunk: boolean;
   onCourseMenuClick: () => void;
   courseSlug: string;
+  courseProgressData?: CourseProgress;
 };
 
 const MobileHeader: React.FC<MobileHeaderProps> = ({
@@ -79,6 +82,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
   onNextClick,
   onCourseMenuClick,
   courseSlug,
+  courseProgressData,
 }) => {
   return (
     <div className={clsx('mobile-unit-header bg-color-canvas border-b border-color-divider w-full h-[76px] flex items-center px-3', className)}>
@@ -130,6 +134,15 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
             </svg>
           </button>
         </div>
+        {courseProgressData && courseProgressData.courseProgress.totalCount > 0 && (
+          <div className="absolute bottom-0 inset-x-0 h-1">
+            <div
+              className="h-full bg-bluedot-normal"
+              style={{ width: `${courseProgressData.courseProgress.percentage}%` }}
+              aria-label={`Course ${courseProgressData.courseProgress.percentage}% complete`}
+            />
+          </div>
+        )}
       </nav>
     </div>
   );
@@ -154,8 +167,13 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   const unitArrIndex = units.findIndex((u) => u.id === unit.id);
 
   const { data: groupDiscussionWithZoomInfo, error: groupDiscussionError } = trpc.groupDiscussions.getByCourseSlug.useQuery(
-    auth
-      ? { courseSlug } : skipToken,
+    { courseSlug },
+    { enabled: Boolean(auth) },
+  );
+
+  const { data: courseProgressData } = trpc.courses.getCourseProgress.useQuery(
+    { courseSlug },
+    { enabled: Boolean(auth) },
   );
 
   const isFirstChunk = chunkIndex === 0;
@@ -300,6 +318,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         isLastChunk={isLastChunk}
         onCourseMenuClick={() => setIsMobileCourseMenuOpen(true)}
         courseSlug={courseSlug}
+        courseProgressData={courseProgressData}
       />
 
       {/* Sidebar - positioned fixed and separate from main layout flow */}
@@ -314,6 +333,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           onChunkSelect={handleChunkSelect}
           unitChunks={allUnitChunks}
           applyCTAProps={applyCTAProps}
+          courseProgressData={courseProgressData}
         />
       )}
 
@@ -428,10 +448,12 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               resources={chunk.resources || []}
               exercises={chunk.exercises || []}
               unitTitle={unit.title}
-              unitNumber={parseInt(unitNumber)}
+              unitNumber={unitNumber}
               className={clsx(
                 (chunk?.chunkContent || unit.content) ? 'mt-8 md:mt-6' : 'mt-4',
               )}
+              courseSlug={courseSlug}
+              chunkIndex={chunkIndex}
             />
           ) : null}
 
@@ -484,6 +506,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         onUnitSelect={handleMobileUnitSelect}
         unitChunks={allUnitChunks}
         applyCTAProps={applyCTAProps}
+        courseProgressData={courseProgressData}
       />
     </div>
   );

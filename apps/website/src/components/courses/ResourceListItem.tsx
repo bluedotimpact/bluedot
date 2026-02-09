@@ -27,6 +27,7 @@ import { ThumbIcon } from '../icons/ThumbIcon';
 import { CheckmarkIcon } from '../icons/CheckmarkIcon';
 import { UndoIcon } from '../icons/UndoIcon';
 import type { AppRouter } from '../../server/routers/_app';
+import { optimisticallyUpdateCourseProgress, rollbackCourseProgress } from '../../utils/optimisticCourseProgress';
 
 // Feedback section component used by both desktop and mobile
 type FeedbackSectionProps = {
@@ -83,9 +84,14 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({ resourceFeedback, onF
 type ResourceListItemProps = {
   resource: UnitResource;
   resourceCompletion?: ResourceCompletion;
+  courseSlug?: string;
+  unitNumber?: string;
+  chunkIndex?: number;
 };
 
-export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource, resourceCompletion }) => {
+export const ResourceListItem: React.FC<ResourceListItemProps> = ({
+  resource, resourceCompletion, courseSlug, unitNumber, chunkIndex,
+}) => {
   const router = useRouter();
   const auth = useAuthStore((s) => s.auth);
   const utils = trpc.useUtils();
@@ -99,6 +105,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource, re
   const saveCompletionMutation = trpc.resources.saveResourceCompletion.useMutation({
     onSettled: () => {
       utils.resources.getResourceCompletions.invalidate();
+      utils.courses.getCourseProgress.invalidate();
     },
     onMutate: async (newData) => {
       // Optimistically update `getResourceCompletions` so that the Sidebar immediately updates
@@ -141,12 +148,17 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({ resource, re
         },
       );
 
-      return { previousQueriesData };
+      // Optimistically update overall course progress
+      const isCompletionChange = newData.isCompleted !== undefined && newData.isCompleted !== (resourceCompletion?.isCompleted ?? false);
+      const previousCourseProgress = isCompletionChange ? await optimisticallyUpdateCourseProgress(utils, courseSlug, unitNumber, chunkIndex, newData.isCompleted ? 1 : -1) : undefined;
+
+      return { previousQueriesData, previousCourseProgress };
     },
     onError: (_err, _variables, mutationResult) => {
       mutationResult?.previousQueriesData.forEach(([queryKey, data]) => {
         queryClient.setQueryData(queryKey, data);
       });
+      rollbackCourseProgress(utils, courseSlug, mutationResult?.previousCourseProgress);
     },
   });
 

@@ -22,8 +22,6 @@ const createAllUnitChunks = (
         chunkTitle: chunk.chunkTitle,
         chunkOrder: chunk.chunkOrder,
         estimatedTime: chunk.estimatedTime,
-        chunkResources: chunk.chunkResources,
-        chunkExercises: chunk.chunkExercises,
       }));
   });
   return allUnitChunks;

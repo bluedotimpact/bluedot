@@ -1,43 +1,25 @@
-import { z } from 'zod';
 import {
   and,
   arrayContains,
   courseRegistrationTable,
   courseTable,
   eq,
-  exerciseTable,
   exerciseResponseTable,
+  exerciseTable,
   groupTable,
   inArray,
-  meetPersonTable,
   isNotNull,
+  meetPersonTable,
 } from '@bluedot/db';
+import { z } from 'zod';
 import db from '../../lib/api/db';
-import { publicProcedure, protectedProcedure, router } from '../trpc';
+import { protectedProcedure, publicProcedure, router } from '../trpc';
 
 export const exercisesRouter = router({
   getExercise: publicProcedure
     .input(z.object({ exerciseId: z.string().min(1) }))
     .query(async ({ input }) => {
       return db.get(exerciseTable, { id: input.exerciseId });
-    }),
-
-  getActiveExerciseIds: publicProcedure
-    .input(z.object({ exerciseIds: z.array(z.string().min(1)).max(100) }))
-    .query(async ({ input }) => {
-      if (input.exerciseIds.length === 0) return [];
-
-      const exercises = await db.pg
-        .select({ id: exerciseTable.pg.id })
-        .from(exerciseTable.pg)
-        .where(
-          and(
-            inArray(exerciseTable.pg.id, input.exerciseIds),
-            eq(exerciseTable.pg.status, 'Active'),
-          ),
-        );
-
-      return exercises.map((e) => e.id);
     }),
 
   getExerciseResponse: protectedProcedure
@@ -48,31 +30,6 @@ export const exercisesRouter = router({
       });
 
       return exerciseResponse;
-    }),
-
-  getExerciseCompletions: protectedProcedure
-    .input(z.object({ exerciseIds: z.array(z.string().min(1)).max(100) }))
-    .query(async ({ input, ctx }) => {
-      if (input.exerciseIds.length === 0) return [];
-
-      const responses = await db.pg
-        .select({
-          exerciseId: exerciseResponseTable.pg.exerciseId,
-          completedAt: exerciseResponseTable.pg.completedAt,
-        })
-        .from(exerciseResponseTable.pg)
-        .where(and(
-          inArray(exerciseResponseTable.pg.exerciseId, input.exerciseIds),
-          eq(exerciseResponseTable.pg.email, ctx.auth.email),
-        ));
-
-      // Deduplicate by exerciseId (same pattern as resources)
-      const seen = new Set<string>();
-      return responses.filter((r) => {
-        if (seen.has(r.exerciseId)) return false;
-        seen.add(r.exerciseId);
-        return true;
-      });
     }),
 
   saveExerciseResponse: protectedProcedure

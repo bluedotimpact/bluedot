@@ -1,19 +1,20 @@
 import {
-  chunkTable, type Exercise, exerciseTable, type UnitResource, unitResourceTable, unitTable,
+  and,
+  chunkTable, eq, type Exercise, exerciseTable, inArray, type UnitResource, unitResourceTable,
 } from '@bluedot/db';
 import { ProgressDots, useAuthStore, useLatestUtmParams } from '@bluedot/ui';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import path from 'path';
+import { useEffect } from 'react';
 import UnitLayout from '../../../../components/courses/UnitLayout';
-import { buildCourseUnitUrl } from '../../../../lib/utils';
 import db from '../../../../lib/api/db';
-import { removeInactiveChunkIdsFromUnits } from '../../../../lib/api/utils';
-import { trpc } from '../../../../utils/trpc';
 import { FOAI_COURSE_ID } from '../../../../lib/constants';
+import { buildCourseUnitUrl } from '../../../../lib/utils';
+import { getCourseData } from '../../../../server/routers/courses';
 import { fileExists } from '../../../../utils/fileExists';
+import { trpc } from '../../../../utils/trpc';
 
 type CourseUnitChunkPageProps = UnitWithChunks & {
   courseSlug: string;
@@ -28,8 +29,6 @@ export type BasicChunk = {
   chunkTitle: string;
   chunkOrder: string;
   estimatedTime: number | null;
-  chunkResources: string[] | null;
-  chunkExercises: string[] | null;
 };
 
 const CourseUnitChunkPage = ({
@@ -191,11 +190,7 @@ export const getServerSideProps: GetServerSideProps<CourseUnitChunkPageProps> = 
 
 type UnitWithChunks = Awaited<ReturnType<typeof getUnitWithChunks>>;
 async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
-  const allUnitsWithAllChunks = await db.scan(unitTable, { courseSlug, unitStatus: 'Active' });
-  const allUnits = await removeInactiveChunkIdsFromUnits({ units: allUnitsWithAllChunks, db });
-
-  // Sort units numerically since database text sorting might not handle numbers correctly
-  const units = allUnits.sort((a, b) => Number(a.unitNumber) - Number(b.unitNumber));
+  const { units } = await getCourseData(courseSlug);
 
   const unit = units.find((u) => Number(u.unitNumber) === Number(unitNumber));
   if (!unit) {
@@ -204,9 +199,13 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
 
   // Fetch active chunks for all units in this course
   const unitIds = units.map((u) => u.id);
-  const chunkPromises = unitIds.map((unitId) => db.scan(chunkTable, { unitId, status: 'Active' }));
-  const chunkResults = await Promise.all(chunkPromises);
-  const activeChunksForCourse = chunkResults.flat();
+  const activeChunksForCourse = await db.pg
+    .select()
+    .from(chunkTable.pg)
+    .where(and(
+      eq(chunkTable.pg.status, 'Active'),
+      inArray(chunkTable.pg.unitId, unitIds),
+    ));
 
   // Group chunks by unit ID and extract only the fields needed for sidebar
   const allUnitChunks: Record<string, BasicChunk[]> = {};
@@ -219,8 +218,6 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
         chunkTitle: c.chunkTitle,
         chunkOrder: c.chunkOrder,
         estimatedTime: c.estimatedTime,
-        chunkResources: c.chunkResources,
-        chunkExercises: c.chunkExercises,
       }));
     allUnitChunks[u.id] = unitChunks;
   }

@@ -33,16 +33,12 @@ export const mockChunks: Record<string, BasicChunk[]> = {
       chunkTitle: 'Getting Started',
       chunkOrder: '1',
       estimatedTime: 45,
-      chunkResources: ['res-1', 'res-2', 'res-3'],
-      chunkExercises: ['ex-1'],
     },
     {
       id: 'chunk-2',
       chunkTitle: 'Core Concepts',
       chunkOrder: '2',
       estimatedTime: 75,
-      chunkResources: ['res-4', 'res-5'],
-      chunkExercises: ['ex-2', 'ex-3'],
     },
   ],
   'unit-2': [
@@ -51,63 +47,75 @@ export const mockChunks: Record<string, BasicChunk[]> = {
       chunkTitle: 'Alignment Techniques',
       chunkOrder: '1',
       estimatedTime: 90,
-      chunkResources: ['res-6', 'res-7'],
-      chunkExercises: ['ex-4'],
     },
     {
       id: 'chunk-4',
       chunkTitle: 'Case Studies',
       chunkOrder: '2',
       estimatedTime: 90,
-      chunkResources: ['res-8'],
-      chunkExercises: null,
     },
   ],
 };
 
-// All resources are "Core" and all exercises are "Active" for simplicity
-export const allResourceIds = ['res-1', 'res-2', 'res-3', 'res-4', 'res-5', 'res-6', 'res-7', 'res-8'];
-export const allExerciseIds = ['ex-1', 'ex-2', 'ex-3', 'ex-4'];
+// Mock progress data for stories
+const totalCount = 12; // 8 resources + 4 exercises
 
 export const defaultProgressHandlers: RequestHandler[] = [
-  trpcStorybookMsw.resources.getCoreResourceIds.query(() => allResourceIds),
-  trpcStorybookMsw.exercises.getActiveExerciseIds.query(() => allExerciseIds),
-  trpcStorybookMsw.resources.getResourceCompletions.query(() => []),
-  trpcStorybookMsw.exercises.getExerciseCompletions.query(() => []),
+  trpcStorybookMsw.courses.getCourseProgress.query(() => ({
+    courseProgress: {
+      totalCount,
+      completedCount: 0,
+      percentage: 0,
+    },
+    chunkProgressByUnitNumber: {
+      1: [
+        { totalCount: 4, completedCount: 0, allCompleted: false }, // chunk-1
+        { totalCount: 3, completedCount: 0, allCompleted: false }, // chunk-2
+      ],
+      2: [
+        { totalCount: 3, completedCount: 0, allCompleted: false }, // chunk-3
+        { totalCount: 2, completedCount: 0, allCompleted: false }, // chunk-4
+      ],
+    },
+  })),
 ];
 
-export const makeResourceCompletion = (id: string, unitResourceId: string, autoNumberId: number) => ({
-  id,
-  unitResourceId,
-  email: 'test@example.com',
-  isCompleted: true,
-  rating: null,
-  feedback: null,
-  resourceFeedback: 0 as const,
-  autoNumberId,
-});
-
 export const someProgressHandlers: RequestHandler[] = [
-  trpcStorybookMsw.resources.getCoreResourceIds.query(() => allResourceIds),
-  trpcStorybookMsw.exercises.getActiveExerciseIds.query(() => allExerciseIds),
-  trpcStorybookMsw.resources.getResourceCompletions.query(() => [
-    makeResourceCompletion('rc-1', 'res-1', 1),
-    makeResourceCompletion('rc-2', 'res-2', 2),
-  ]),
-  trpcStorybookMsw.exercises.getExerciseCompletions.query(() => [
-    { exerciseId: 'ex-1', completedAt: new Date().toISOString() },
-  ]),
+  trpcStorybookMsw.courses.getCourseProgress.query(() => ({
+    courseProgress: {
+      totalCount,
+      completedCount: 3,
+      percentage: 25,
+    },
+    chunkProgressByUnitNumber: {
+      1: [
+        { totalCount: 4, completedCount: 3, allCompleted: false }, // chunk-1: res-1, res-2, ex-1 completed
+        { totalCount: 3, completedCount: 0, allCompleted: false }, // chunk-2
+      ],
+      2: [
+        { totalCount: 3, completedCount: 0, allCompleted: false }, // chunk-3
+        { totalCount: 2, completedCount: 0, allCompleted: false }, // chunk-4
+      ],
+    },
+  })),
 ];
 
 export const allCompletedHandlers: RequestHandler[] = [
-  trpcStorybookMsw.resources.getCoreResourceIds.query(() => allResourceIds),
-  trpcStorybookMsw.exercises.getActiveExerciseIds.query(() => allExerciseIds),
-  trpcStorybookMsw.resources.getResourceCompletions.query(() => [
-    makeResourceCompletion('rc-1', 'res-1', 1),
-    makeResourceCompletion('rc-2', 'res-2', 2),
-    makeResourceCompletion('rc-3', 'res-3', 3),
-  ]),
-  trpcStorybookMsw.exercises.getExerciseCompletions.query(() => [
-    { exerciseId: 'ex-1', completedAt: new Date().toISOString() },
-  ]),
+  trpcStorybookMsw.courses.getCourseProgress.query(() => ({
+    courseProgress: {
+      totalCount,
+      completedCount: totalCount,
+      percentage: 100,
+    },
+    chunkProgressByUnitNumber: {
+      1: [
+        { totalCount: 4, completedCount: 4, allCompleted: true }, // chunk-1
+        { totalCount: 3, completedCount: 3, allCompleted: true }, // chunk-2
+      ],
+      2: [
+        { totalCount: 3, completedCount: 3, allCompleted: true }, // chunk-3
+        { totalCount: 2, completedCount: 2, allCompleted: true }, // chunk-4
+      ],
+    },
+  })),
 ];
