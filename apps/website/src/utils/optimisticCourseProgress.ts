@@ -34,13 +34,16 @@ export async function optimisticallyUpdateCourseProgress(
         ...(unitNumber != null && chunkIndex != null
           ? {
             [unitNumber]:
-                  prev.chunkProgressByUnitNumber[unitNumber]?.map((chunkProgress, i) => (i === chunkIndex
-                    ? {
+                  prev.chunkProgressByUnitNumber[unitNumber]?.map((chunkProgress, i) => {
+                    if (i !== chunkIndex) return chunkProgress;
+                    const newChunkCompleted = clamp(chunkProgress.completedCount + delta, 0, chunkProgress.totalCount);
+
+                    return {
                       ...chunkProgress,
-                      completedCount: clamp(chunkProgress.completedCount + delta, 0, chunkProgress.totalCount),
-                      allCompleted: chunkProgress.completedCount + delta >= chunkProgress.totalCount,
-                    }
-                    : chunkProgress)) ?? [],
+                      completedCount: newChunkCompleted,
+                      allCompleted: newChunkCompleted === chunkProgress.totalCount && chunkProgress.totalCount > 0,
+                    };
+                  }) ?? [],
           }
           : {}),
       },
