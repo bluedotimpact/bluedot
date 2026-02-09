@@ -74,16 +74,16 @@ const CoursesContent = () => {
   return (
     <div aria-label="Courses list">
       <div className="space-y-8">
-        {upcomingCourses.length > 0 && (
-          <section aria-label="Upcoming courses" className="lg:mt-2">
-            <P className="font-semibold mb-4">Upcoming ({upcomingCourses.length})</P>
-            <CourseList courses={upcomingCourses} roundStartDates={roundStartDates} />
-          </section>
-        )}
         {inProgressCourses.length > 0 && (
           <section aria-label="In Progress courses" className="lg:mt-2">
             <P className="font-semibold mb-4">In Progress ({inProgressCourses.length})</P>
             <CourseList courses={inProgressCourses} startExpanded />
+          </section>
+        )}
+        {upcomingCourses.length > 0 && (
+          <section aria-label="Upcoming courses" className="lg:mt-2">
+            <P className="font-semibold mb-4">Upcoming ({upcomingCourses.length})</P>
+            <CourseList courses={upcomingCourses} roundStartDates={roundStartDates} />
           </section>
         )}
         {completedCourses.length > 0 && (
