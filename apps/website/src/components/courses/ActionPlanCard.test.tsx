@@ -89,7 +89,7 @@ describe('ActionPlanCard', () => {
       });
 
       // Verify button and URL
-      const submitButton = screen.getByRole('link', { name: 'Submit your action plan' });
+      const submitButton = screen.getByRole('link', { name: 'Submit here' });
       expect(submitButton.getAttribute('href')).toBe(
         'https://web.miniextensions.com/7WZKkZiusMiAO1RMznFv?prefill_Participant=recABC123',
       );
@@ -119,7 +119,7 @@ describe('ActionPlanCard', () => {
       });
 
       // Verify button shows submitted state
-      const submitButton = screen.getByRole('link', { name: 'Action plan submitted' });
+      const submitButton = screen.getByRole('link', { name: 'Submitted!' });
       expect(submitButton.getAttribute('href')).toBe(
         'https://web.miniextensions.com/7WZKkZiusMiAO1RMznFv?prefill_Participant=recABC123',
       );

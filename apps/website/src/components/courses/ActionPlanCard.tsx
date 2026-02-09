@@ -98,7 +98,7 @@ const ActionPlanCardAuthed: React.FC<ActionPlanCardProps> = ({ courseId }) => {
         target="_blank"
         disabled={hasSubmittedActionPlan ?? false}
       >
-        {hasSubmittedActionPlan ? 'Action plan submitted' : 'Submit your action plan'}
+        {hasSubmittedActionPlan ? 'Submitted!' : 'Submit here'}
       </CTALinkOrButton>
     </Card>
   );
