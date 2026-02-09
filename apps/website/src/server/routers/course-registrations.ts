@@ -1,5 +1,6 @@
 import {
   applicationsCourseTable, applicationsRoundTable, courseRegistrationTable, inArray,
+  eq, and, or, ne, isNull,
 } from '@bluedot/db';
 import z from 'zod';
 import { TRPCError } from '@trpc/server';
@@ -22,8 +23,17 @@ export const courseRegistrationsRouter = router({
     }),
 
   getAll: protectedProcedure.query(async ({ ctx }) => {
-    const all = await db.scan(courseRegistrationTable, { email: ctx.auth.email });
-    return all.filter((reg) => reg.decision !== 'Withdrawn');
+    return db.pg.select()
+      .from(courseRegistrationTable.pg)
+      .where(
+        and(
+          eq(courseRegistrationTable.pg.email, ctx.auth.email),
+          or(
+            ne(courseRegistrationTable.pg.decision, 'Withdrawn'),
+            isNull(courseRegistrationTable.pg.decision),
+          ),
+        ),
+      );
   }),
 
   getRoundStartDates: protectedProcedure

@@ -324,18 +324,6 @@ export const UpcomingRejected: Story = {
   },
 };
 
-export const UpcomingWithAvailability: Story = {
-  parameters: {
-    msw: {
-      handlers: createHandlers({
-        registrations: [mockRegistrationFutureAccepted],
-        courses: [mockCourse1],
-        roundStartDates: { 'round-future-1': '2026-02-09' },
-      }),
-    },
-  },
-};
-
 export const MixedUpcomingAndInProgress: Story = {
   parameters: {
     msw: {

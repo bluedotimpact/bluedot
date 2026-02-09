@@ -1,5 +1,5 @@
 import {
-  useState, useEffect, ReactNode, KeyboardEvent,
+  useState, useEffect, ReactNode,
 } from 'react';
 import {
   CTALinkOrButton, addQueryParam, useCurrentTimeMs, cn, Tooltip,
@@ -30,8 +30,10 @@ const CourseListRow = ({
   const currentTimeMs = useCurrentTimeMs();
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
 
+  const isFuture = courseRegistration.roundStatus === 'Future';
+
   const { data: meetPerson, isLoading: isMeetPersonLoading } = trpc.meetPerson.getByCourseRegistrationId.useQuery(
-    { courseRegistrationId: courseRegistration.id },
+    isFuture ? skipToken : { courseRegistrationId: courseRegistration.id },
   );
 
   // Only fetch expected discussions for the list row
@@ -105,8 +107,6 @@ const CourseListRow = ({
     roundStartDate,
   });
 
-  const isFuture = courseRegistration.roundStatus === 'Future';
-
   // Determine if we need to show eligibility tooltip for facilitated courses
   let reasonNotEligibleForCert: string | null = null;
   const isFacilitatedCourse = course.slug !== FOAI_COURSE_SLUG;
@@ -134,18 +134,16 @@ const CourseListRow = ({
           canExpand && 'cursor-pointer',
           canExpand && (isExpanded ? 'bg-white' : 'hover:bg-white'),
         )}
-        {...(canExpand ? {
-          onClick: toggleExpand,
-          onKeyDown: (e: KeyboardEvent) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              toggleExpand();
-            }
-          },
-          role: 'button',
-          tabIndex: 0,
-          'aria-expanded': isExpanded,
-        } : {})}
+        onClick={toggleExpand}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggleExpand();
+          }
+        }}
+        role="button"
+        tabIndex={0}
+        aria-expanded={canExpand ? isExpanded : undefined}
       >
         <div className="p-4 sm:px-8 sm:py-6">
           {/* Mobile layout */}
@@ -161,7 +159,7 @@ const CourseListRow = ({
                       <Tooltip content={reasonNotEligibleForCert} ariaLabel="Show certificate eligibility information" />
                     </span>
                   )}
-                  {isFuture && (
+                  {isFuture && courseRegistration.decision === null && (
                     <span className="ml-0.5 inline-flex items-center align-middle">
                       <Tooltip content="We typically finalise all application decisions and group discussion times 1 week before the start of the course." ariaLabel="Show application timeline information" />
                     </span>
@@ -230,7 +228,7 @@ const CourseListRow = ({
                     <Tooltip content={reasonNotEligibleForCert} ariaLabel="Show certificate eligibility information" />
                   </span>
                 )}
-                {isFuture && (
+                {isFuture && courseRegistration.decision === null && (
                   <span className="ml-0.5 inline-flex items-center align-middle">
                     <Tooltip content="We typically finalise all application decisions and group discussion times 1 week before the start of the course." ariaLabel="Show application timeline information" />
                   </span>
