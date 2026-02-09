@@ -1,4 +1,6 @@
-import { useState, useEffect, ReactNode } from 'react';
+import {
+  useState, useEffect, ReactNode, KeyboardEvent,
+} from 'react';
 import {
   CTALinkOrButton, addQueryParam, useCurrentTimeMs, cn, Tooltip,
 } from '@bluedot/ui';
@@ -7,7 +9,7 @@ import { Course, CourseRegistration, MeetPerson } from '@bluedot/db';
 import { skipToken } from '@tanstack/react-query';
 import CourseDetails from './CourseDetails';
 import { ROUTES } from '../../lib/routes';
-import GroupSwitchModal from '../courses/GroupSwitchModal';
+import GroupSwitchModal, { buildAvailabilityFormUrl } from '../courses/GroupSwitchModal';
 import { trpc } from '../../utils/trpc';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
@@ -18,10 +20,11 @@ type CourseListRowProps = {
   course: Course;
   courseRegistration: CourseRegistration;
   startExpanded?: boolean;
+  roundStartDate?: string | null;
 };
 
 const CourseListRow = ({
-  course, courseRegistration, startExpanded = false,
+  course, courseRegistration, startExpanded = false, roundStartDate,
 }: CourseListRowProps) => {
   const [isExpanded, setIsExpanded] = useState(startExpanded);
   const currentTimeMs = useCurrentTimeMs();
@@ -99,7 +102,10 @@ const CourseListRow = ({
     isLoading,
     isNotInGroup,
     isFacilitatorRole,
+    roundStartDate,
   });
+
+  const isFuture = courseRegistration.roundStatus === 'Future';
 
   // Determine if we need to show eligibility tooltip for facilitated courses
   let reasonNotEligibleForCert: string | null = null;
@@ -117,23 +123,29 @@ const CourseListRow = ({
     }
   }
 
+  const canExpand = !isFuture;
+  const toggleExpand = () => { if (canExpand) setIsExpanded(!isExpanded); };
+
   return (
     <div className="border-b border-charcoal-light last:border-b-0">
       <div
         className={cn(
-          'transition-colors duration-200 group cursor-pointer',
-          isExpanded ? 'bg-white' : 'hover:bg-white',
+          'transition-colors duration-200 group',
+          canExpand && 'cursor-pointer',
+          canExpand && (isExpanded ? 'bg-white' : 'hover:bg-white'),
         )}
-        onClick={() => setIsExpanded(!isExpanded)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            setIsExpanded(!isExpanded);
-          }
-        }}
-        role="button"
-        tabIndex={0}
-        aria-expanded={isExpanded}
+        {...(canExpand ? {
+          onClick: toggleExpand,
+          onKeyDown: (e: KeyboardEvent) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              toggleExpand();
+            }
+          },
+          role: 'button',
+          tabIndex: 0,
+          'aria-expanded': isExpanded,
+        } : {})}
       >
         <div className="p-4 sm:px-8 sm:py-6">
           {/* Mobile layout */}
@@ -149,6 +161,11 @@ const CourseListRow = ({
                       <Tooltip content={reasonNotEligibleForCert} ariaLabel="Show certificate eligibility information" />
                     </span>
                   )}
+                  {isFuture && (
+                    <span className="ml-0.5 inline-flex items-center align-middle">
+                      <Tooltip content="We typically finalise all application decisions and group discussion times 1 week before the start of the course." ariaLabel="Show application timeline information" />
+                    </span>
+                  )}
                 </h3>
                 {subtitle && (
                   <p className="flex items-center gap-1.5 mt-1.5 text-size-xs font-medium text-gray-500 leading-4">
@@ -158,33 +175,35 @@ const CourseListRow = ({
               </div>
 
               {/* Expand/collapse button */}
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsExpanded(!isExpanded);
-                }}
-                className="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150 flex-shrink-0"
-                aria-label={isExpanded ? `Collapse ${course.title} details` : `Expand ${course.title} details`}
-                aria-expanded={isExpanded}
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}
+              {canExpand && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleExpand();
+                  }}
+                  className="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150 flex-shrink-0"
+                  aria-label={isExpanded ? `Collapse ${course.title} details` : `Expand ${course.title} details`}
+                  aria-expanded={isExpanded}
                 >
-                  <path
-                    d="M7.5 5L12.5 10L7.5 15"
-                    stroke="#1F2937"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}
+                  >
+                    <path
+                      d="M7.5 5L12.5 10L7.5 15"
+                      stroke="#1F2937"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+              )}
             </div>
 
             {/* Bottom row: Action buttons */}
@@ -211,6 +230,11 @@ const CourseListRow = ({
                     <Tooltip content={reasonNotEligibleForCert} ariaLabel="Show certificate eligibility information" />
                   </span>
                 )}
+                {isFuture && (
+                  <span className="ml-0.5 inline-flex items-center align-middle">
+                    <Tooltip content="We typically finalise all application decisions and group discussion times 1 week before the start of the course." ariaLabel="Show application timeline information" />
+                  </span>
+                )}
               </h3>
               {subtitle && (
                 <p className="flex items-center gap-1.5 mt-0.5 text-size-xs font-medium text-gray-500 leading-4">
@@ -229,39 +253,41 @@ const CourseListRow = ({
               {ctaButtons.length > 0 && ctaButtons}
 
               {/* Expand/collapse button */}
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsExpanded(!isExpanded);
-                }}
-                className="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150"
-                aria-label={isExpanded ? `Collapse ${course.title} details` : `Expand ${course.title} details`}
-                aria-expanded={isExpanded}
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}
+              {canExpand && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleExpand();
+                  }}
+                  className="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150"
+                  aria-label={isExpanded ? `Collapse ${course.title} details` : `Expand ${course.title} details`}
+                  aria-expanded={isExpanded}
                 >
-                  <path
-                    d="M7.5 5L12.5 10L7.5 15"
-                    stroke="#1F2937"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}
+                  >
+                    <path
+                      d="M7.5 5L12.5 10L7.5 15"
+                      stroke="#1F2937"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      {isExpanded && (
+      {canExpand && isExpanded && (
         <CourseDetails
           course={course}
           courseRegistration={courseRegistration}
@@ -313,6 +339,49 @@ const getCtaButtons = ({
   isLoading: boolean;
   isFacilitatorRole: boolean;
 }): ReactNode[] => {
+  // Future courses: show availability + curriculum buttons
+  if (courseRegistration.roundStatus === 'Future') {
+    const buttons: ReactNode[] = [];
+
+    if (courseRegistration.decision !== 'Reject') {
+      const hasAvailability = !!courseRegistration.availabilityIntervalsUTC;
+      const availabilityUrl = buildAvailabilityFormUrl({
+        email: courseRegistration.email,
+        utmSource: 'bluedot-settings-upcoming',
+        courseRegistration,
+        roundId: courseRegistration.roundId ?? '',
+      });
+      buttons.push(
+        <CTALinkOrButton
+          key="availability"
+          variant="primary"
+          size="small"
+          url={availabilityUrl}
+          target="_blank"
+          className="w-full sm:w-auto bg-bluedot-normal"
+        >
+          {hasAvailability ? 'Edit your availability' : 'Submit your availability'}
+        </CTALinkOrButton>,
+      );
+    }
+
+    if (course.slug) {
+      buttons.push(
+        <CTALinkOrButton
+          key="curriculum"
+          variant="outline-black"
+          size="small"
+          url={`/courses/${course.slug}/1/1`}
+          className="w-full sm:w-auto border-bluedot-darker"
+        >
+          View curriculum
+        </CTALinkOrButton>,
+      );
+    }
+
+    return buttons;
+  }
+
   const feedbackFormUrl = meetPerson?.courseFeedbackForm;
   const hasSubmittedFeedback = (meetPerson?.courseFeedback?.length ?? 0) > 0;
   const hasSubmittedActionPlan = (meetPerson?.projectSubmission?.length ?? 0) > 0;
@@ -454,6 +523,7 @@ const getSubtitle = ({
   isLoading,
   isNotInGroup,
   isFacilitatorRole,
+  roundStartDate,
 }: {
   courseRegistration: CourseRegistration;
   meetPerson: MeetPerson | null | undefined;
@@ -462,7 +532,39 @@ const getSubtitle = ({
   isLoading: boolean;
   isNotInGroup: boolean | null | undefined;
   isFacilitatorRole: boolean;
+  roundStartDate?: string | null;
 }): ReactNode => {
+  if (courseRegistration.roundStatus === 'Future') {
+    let statusText: string;
+    switch (courseRegistration.decision) {
+      case 'Accept':
+        statusText = 'Application accepted!';
+        break;
+      case 'Reject':
+        statusText = 'Application rejected';
+        break;
+      default:
+        statusText = 'Application in review';
+        break;
+    }
+
+    const formattedDate = roundStartDate
+      ? new Date(roundStartDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+      : null;
+
+    return (
+      <>
+        <span className="text-bluedot-normal font-medium">{statusText}</span>
+        {formattedDate && (
+          <>
+            <span>·</span>
+            <span>Course starts {formattedDate}</span>
+          </>
+        )}
+      </>
+    );
+  }
+
   if (isFacilitatorRole && courseRegistration.roundName) {
     return (
       <span className="min-w-0 text-pretty">

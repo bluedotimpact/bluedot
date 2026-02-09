@@ -500,4 +500,98 @@ describe('CourseListRow', () => {
     // Should NOT show action plan button for facilitators
     expect(screen.queryByRole('link', { name: 'Submit action plan' })).not.toBeInTheDocument();
   });
+
+  it('shows application status text for Future course with pending decision', async () => {
+    const futureRegistration = {
+      ...mockCourseRegistration,
+      roundStatus: 'Future',
+      decision: null,
+      certificateCreatedAt: null,
+      certificateId: null,
+    };
+
+    render(
+      <CourseListRow
+        course={mockCourse}
+        courseRegistration={futureRegistration}
+        roundStartDate="2026-02-09"
+      />,
+      { wrapper: TrpcProvider },
+    );
+
+    const statusTexts = await screen.findAllByText('Application in review');
+    expect(statusTexts.length).toBeGreaterThan(0);
+
+    const dateTexts = await screen.findAllByText(/Course starts Feb 9/);
+    expect(dateTexts.length).toBeGreaterThan(0);
+  });
+
+  it('shows availability button for non-rejected Future course', async () => {
+    const futureRegistration = {
+      ...mockCourseRegistration,
+      roundStatus: 'Future',
+      decision: 'Accept',
+      certificateCreatedAt: null,
+      certificateId: null,
+    };
+
+    render(
+      <CourseListRow
+        course={mockCourse}
+        courseRegistration={futureRegistration}
+      />,
+      { wrapper: TrpcProvider },
+    );
+
+    const availabilityButtons = await screen.findAllByRole('link', { name: 'Submit your availability' });
+    expect(availabilityButtons.length).toBeGreaterThan(0);
+    expect(availabilityButtons[0]).toHaveAttribute('href', expect.stringContaining('availability.bluedot.org'));
+  });
+
+  it('hides availability button for rejected Future course', async () => {
+    const futureRegistration = {
+      ...mockCourseRegistration,
+      roundStatus: 'Future',
+      decision: 'Reject',
+      certificateCreatedAt: null,
+      certificateId: null,
+    };
+
+    render(
+      <CourseListRow
+        course={mockCourse}
+        courseRegistration={futureRegistration}
+      />,
+      { wrapper: TrpcProvider },
+    );
+
+    // Should show rejected status
+    const statusTexts = await screen.findAllByText('Application rejected');
+    expect(statusTexts.length).toBeGreaterThan(0);
+
+    // Should NOT show availability button
+    expect(screen.queryByRole('link', { name: /availability/ })).not.toBeInTheDocument();
+  });
+
+  it('shows View curriculum button for all Future courses', async () => {
+    const futureRegistration = {
+      ...mockCourseRegistration,
+      roundStatus: 'Future',
+      decision: 'Reject',
+      certificateCreatedAt: null,
+      certificateId: null,
+    };
+
+    render(
+      <CourseListRow
+        course={mockCourse}
+        courseRegistration={futureRegistration}
+      />,
+      { wrapper: TrpcProvider },
+    );
+
+    const curriculumButtons = await screen.findAllByRole('link', { name: 'View curriculum' });
+    expect(curriculumButtons.length).toBeGreaterThan(0);
+    expect(curriculumButtons[0]).toHaveAttribute('href', '/courses/ai-safety/1/1');
+  });
 });

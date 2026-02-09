@@ -10,15 +10,20 @@ import { createMockCourseRegistration, createMockCourse } from '../../__tests__/
 
 type MockCourseListRowProps = {
   course: { title: string };
-  courseRegistration: { certificateCreatedAt: number | null };
+  courseRegistration: { certificateCreatedAt: number | null; roundStatus: string | null };
 };
 
 // Mock CourseListRow to simplify testing
+const getStatusLabel = (reg: MockCourseListRowProps['courseRegistration']) => {
+  if (reg.roundStatus === 'Future') return 'Upcoming';
+  return reg.certificateCreatedAt ? 'Completed' : 'In Progress';
+};
+
 vi.mock('./CourseListRow', () => ({
   default: ({ course, courseRegistration }: MockCourseListRowProps) => (
     <div data-testid="course-row">
       <span>{course.title}</span>
-      <span>{courseRegistration.certificateCreatedAt ? 'Completed' : 'In Progress'}</span>
+      <span>{getStatusLabel(courseRegistration)}</span>
     </div>
   ),
 }));
@@ -47,6 +52,7 @@ describe('CoursesContent', () => {
 
     server.use(trpcMsw.courses.getAll.query(() => courses));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
+    server.use(trpcMsw.courseRegistrations.getRoundStartDates.query(() => ({})));
 
     render(<CoursesContent />, { wrapper: TrpcProvider });
 
@@ -61,6 +67,7 @@ describe('CoursesContent', () => {
   it('displays empty state when no courses enrolled', async () => {
     server.use(trpcMsw.courses.getAll.query(() => []));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => []));
+    server.use(trpcMsw.courseRegistrations.getRoundStartDates.query(() => ({})));
 
     render(<CoursesContent />, { wrapper: TrpcProvider });
 
@@ -91,6 +98,7 @@ describe('CoursesContent', () => {
 
     server.use(trpcMsw.courses.getAll.query(() => courses));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
+    server.use(trpcMsw.courseRegistrations.getRoundStartDates.query(() => ({})));
 
     render(<CoursesContent />, { wrapper: TrpcProvider });
 
@@ -121,6 +129,7 @@ describe('CoursesContent', () => {
 
     server.use(trpcMsw.courses.getAll.query(() => courses));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
+    server.use(trpcMsw.courseRegistrations.getRoundStartDates.query(() => ({})));
 
     render(<CoursesContent />, { wrapper: TrpcProvider });
 
@@ -175,6 +184,7 @@ describe('CoursesContent', () => {
 
     server.use(trpcMsw.courses.getAll.query(() => courses));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
+    server.use(trpcMsw.courseRegistrations.getRoundStartDates.query(() => ({})));
 
     render(<CoursesContent />, { wrapper: TrpcProvider });
 
@@ -211,6 +221,7 @@ describe('CoursesContent', () => {
 
     server.use(trpcMsw.courses.getAll.query(() => courses));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
+    server.use(trpcMsw.courseRegistrations.getRoundStartDates.query(() => ({})));
 
     render(<CoursesContent />, { wrapper: TrpcProvider });
 
@@ -218,6 +229,140 @@ describe('CoursesContent', () => {
       // Should show empty state since deferred past courses are not shown
       expect(screen.getByText("You haven't started any courses yet")).toBeInTheDocument();
       expect(screen.queryByText('Deferred Past Course')).not.toBeInTheDocument();
+    });
+  });
+
+  it('shows Future courses in Upcoming section', async () => {
+    const courses = [
+      createMockCourse({ id: 'course-1', title: 'Future Course' }),
+    ];
+
+    const registrations = [
+      createMockCourseRegistration({
+        id: 'reg-1',
+        courseId: 'course-1',
+        roundStatus: 'Future',
+        certificateCreatedAt: null,
+        decision: null,
+      }),
+    ];
+
+    server.use(trpcMsw.courses.getAll.query(() => courses));
+    server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
+    server.use(trpcMsw.courseRegistrations.getRoundStartDates.query(() => ({})));
+
+    render(<CoursesContent />, { wrapper: TrpcProvider });
+
+    await waitFor(() => {
+      expect(screen.getByText('Upcoming (1)')).toBeInTheDocument();
+      const upcomingSection = screen.getByLabelText('Upcoming courses');
+      expect(upcomingSection).toHaveTextContent('Future Course');
+      expect(screen.queryByText(/In Progress/)).not.toBeInTheDocument();
+      expect(screen.queryByText(/Completed/)).not.toBeInTheDocument();
+    });
+  });
+
+  it('shows rejected Future courses in Upcoming section', async () => {
+    const courses = [
+      createMockCourse({ id: 'course-1', title: 'Rejected Future Course' }),
+    ];
+
+    const registrations = [
+      createMockCourseRegistration({
+        id: 'reg-1',
+        courseId: 'course-1',
+        roundStatus: 'Future',
+        certificateCreatedAt: null,
+        decision: 'Reject',
+      }),
+    ];
+
+    server.use(trpcMsw.courses.getAll.query(() => courses));
+    server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
+    server.use(trpcMsw.courseRegistrations.getRoundStartDates.query(() => ({})));
+
+    render(<CoursesContent />, { wrapper: TrpcProvider });
+
+    await waitFor(() => {
+      expect(screen.getByText('Upcoming (1)')).toBeInTheDocument();
+      expect(screen.getByText('Rejected Future Course')).toBeInTheDocument();
+    });
+  });
+
+  it('hides Upcoming section when no Future courses', async () => {
+    const courses = [
+      createMockCourse({ id: 'course-1', title: 'Active Course' }),
+    ];
+
+    const registrations = [
+      createMockCourseRegistration({
+        id: 'reg-1',
+        courseId: 'course-1',
+        roundStatus: 'Active',
+        certificateCreatedAt: null,
+      }),
+    ];
+
+    server.use(trpcMsw.courses.getAll.query(() => courses));
+    server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
+    server.use(trpcMsw.courseRegistrations.getRoundStartDates.query(() => ({})));
+
+    render(<CoursesContent />, { wrapper: TrpcProvider });
+
+    await waitFor(() => {
+      expect(screen.queryByText(/Upcoming/)).not.toBeInTheDocument();
+      expect(screen.getByText('In Progress (1)')).toBeInTheDocument();
+    });
+  });
+
+  it('Future courses don\'t appear in In Progress or Completed', async () => {
+    const courses = [
+      createMockCourse({ id: 'course-1', title: 'Active Course' }),
+      createMockCourse({ id: 'course-2', title: 'Past Course' }),
+      createMockCourse({ id: 'course-3', title: 'Future Course' }),
+    ];
+
+    const registrations = [
+      createMockCourseRegistration({
+        id: 'reg-1',
+        courseId: 'course-1',
+        roundStatus: 'Active',
+        certificateCreatedAt: null,
+      }),
+      createMockCourseRegistration({
+        id: 'reg-2',
+        courseId: 'course-2',
+        roundStatus: 'Past',
+        certificateCreatedAt: 1700000000,
+      }),
+      createMockCourseRegistration({
+        id: 'reg-3',
+        courseId: 'course-3',
+        roundStatus: 'Future',
+        certificateCreatedAt: null,
+        decision: null,
+      }),
+    ];
+
+    server.use(trpcMsw.courses.getAll.query(() => courses));
+    server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
+    server.use(trpcMsw.courseRegistrations.getRoundStartDates.query(() => ({})));
+
+    render(<CoursesContent />, { wrapper: TrpcProvider });
+
+    await waitFor(() => {
+      expect(screen.getByText('Upcoming (1)')).toBeInTheDocument();
+      expect(screen.getByText('In Progress (1)')).toBeInTheDocument();
+      expect(screen.getByText('Completed (1)')).toBeInTheDocument();
+
+      const upcomingSection = screen.getByLabelText('Upcoming courses');
+      expect(upcomingSection).toHaveTextContent('Future Course');
+
+      const inProgressSection = screen.getByLabelText('In Progress courses');
+      expect(inProgressSection).not.toHaveTextContent('Future Course');
+
+      const completedSection = screen.getByLabelText('Completed courses');
+      expect(completedSection).not.toHaveTextContent('Future Course');
     });
   });
 });

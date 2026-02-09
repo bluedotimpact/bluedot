@@ -82,6 +82,34 @@ const mockRegistrationDeferred = createMockCourseRegistration({
   deferredId: ['deferred-1'], // Has deferredId but no dropoutId = deferred
 });
 
+const mockRegistrationFuturePending = createMockCourseRegistration({
+  id: 'reg-future-pending',
+  courseId: 'course-1',
+  roundStatus: 'Future',
+  decision: null,
+  roundId: 'round-future-1',
+  certificateCreatedAt: null,
+});
+
+const mockRegistrationFutureAccepted = createMockCourseRegistration({
+  id: 'reg-future-accepted',
+  courseId: 'course-1',
+  roundStatus: 'Future',
+  decision: 'Accept',
+  roundId: 'round-future-1',
+  certificateCreatedAt: null,
+  availabilityIntervalsUTC: 'M09:00 M17:00',
+});
+
+const mockRegistrationFutureRejected = createMockCourseRegistration({
+  id: 'reg-future-rejected',
+  courseId: 'course-2',
+  roundStatus: 'Future',
+  decision: 'Reject',
+  roundId: 'round-future-2',
+  certificateCreatedAt: null,
+});
+
 const mockMeetPerson = createMockMeetPerson({
   id: 'meet-person-1',
   expectedDiscussionsParticipant: ['discussion-1'],
@@ -116,12 +144,14 @@ const createHandlers = ({
   courses = [],
   meetPerson = mockMeetPerson,
   discussions = [mockDiscussion],
+  roundStartDates = {},
   error = false,
 }: {
   registrations?: CourseRegistration[];
   courses?: Course[];
   meetPerson?: MeetPerson | null;
   discussions?: GroupDiscussion[];
+  roundStartDates?: Record<string, string | null>;
   error?: boolean;
 } = {}) => {
   if (error) {
@@ -142,6 +172,7 @@ const createHandlers = ({
     trpcStorybookMsw.groupDiscussions.getByDiscussionIds.query(() => ({
       discussions,
     })),
+    trpcStorybookMsw.courseRegistrations.getRoundStartDates.query(() => roundStartDates),
   ];
 };
 
@@ -252,6 +283,66 @@ export const MixedWithDropoutAndDeferred: Story = {
           mockRegistrationCompleted, // Normal completed course
         ],
         courses: [mockCourse1, mockCourse2],
+      }),
+    },
+  },
+};
+
+export const UpcomingInReview: Story = {
+  parameters: {
+    msw: {
+      handlers: createHandlers({
+        registrations: [mockRegistrationFuturePending],
+        courses: [mockCourse1],
+        roundStartDates: { 'round-future-1': '2026-02-09' },
+      }),
+    },
+  },
+};
+
+export const UpcomingAccepted: Story = {
+  parameters: {
+    msw: {
+      handlers: createHandlers({
+        registrations: [mockRegistrationFutureAccepted],
+        courses: [mockCourse1],
+        roundStartDates: { 'round-future-1': '2026-02-09' },
+      }),
+    },
+  },
+};
+
+export const UpcomingRejected: Story = {
+  parameters: {
+    msw: {
+      handlers: createHandlers({
+        registrations: [mockRegistrationFutureRejected],
+        courses: [mockCourse2],
+        roundStartDates: { 'round-future-2': '2026-03-15' },
+      }),
+    },
+  },
+};
+
+export const UpcomingWithAvailability: Story = {
+  parameters: {
+    msw: {
+      handlers: createHandlers({
+        registrations: [mockRegistrationFutureAccepted],
+        courses: [mockCourse1],
+        roundStartDates: { 'round-future-1': '2026-02-09' },
+      }),
+    },
+  },
+};
+
+export const MixedUpcomingAndInProgress: Story = {
+  parameters: {
+    msw: {
+      handlers: createHandlers({
+        registrations: [mockRegistrationFuturePending, mockRegistrationInProgress, mockRegistrationCompleted],
+        courses: [mockCourse1, mockCourse2],
+        roundStartDates: { 'round-future-1': '2026-02-09' },
       }),
     },
   },

@@ -16,11 +16,11 @@ const CoursesContent = () => {
 
   const { data: courses, isLoading: coursesLoading, error: coursesError } = trpc.courses.getAll.useQuery();
 
-  const isCompleted = (reg: CourseRegistration) => reg.roundStatus !== 'Active';
+  const isCompleted = (reg: CourseRegistration) => reg.roundStatus !== 'Active' && reg.roundStatus !== 'Future';
 
   // Combine courses and enrollments
   const enrolledCourses = (courseRegistrations || [])
-    .filter((reg) => reg.roundStatus === 'Active' || reg.roundStatus === 'Past' || reg.certificateCreatedAt)
+    .filter((reg) => reg.roundStatus === 'Active' || reg.roundStatus === 'Past' || reg.roundStatus === 'Future' || reg.certificateCreatedAt)
     // Exclude dropped out courses (not deferrals)
     .filter((reg) => {
       // Dropped out means that we have a reference dropout record that is not a deferral
@@ -34,6 +34,17 @@ const CoursesContent = () => {
     .flat();
 
   // Group courses by status
+  // Upcoming: Future courses (pending, accepted, or rejected applications)
+  const upcomingCourses = enrolledCourses
+    .filter(({ courseRegistration }) => courseRegistration.roundStatus === 'Future');
+
+  // Fetch round start dates for upcoming courses
+  const upcomingRoundIds = [...new Set(upcomingCourses.map(({ courseRegistration }) => courseRegistration.roundId).filter(Boolean))] as string[];
+  const { data: roundStartDates } = trpc.courseRegistrations.getRoundStartDates.useQuery(
+    { roundIds: upcomingRoundIds },
+    { enabled: upcomingRoundIds.length > 0 },
+  );
+
   // Completed: past courses for participants (non-facilitators), excluding deferred courses
   const completedCourses = enrolledCourses
     .filter(({ courseRegistration }) => isCompleted(courseRegistration) && courseRegistration.role !== 'Facilitator' && !courseRegistration.deferredId?.length)
@@ -50,7 +61,7 @@ const CoursesContent = () => {
     .filter(({ courseRegistration }) => isCompleted(courseRegistration) && courseRegistration.role === 'Facilitator');
 
   // In-progress: Active courses (both participants and facilitators)
-  const inProgressCourses = enrolledCourses.filter(({ courseRegistration }) => !isCompleted(courseRegistration));
+  const inProgressCourses = enrolledCourses.filter(({ courseRegistration }) => courseRegistration.roundStatus === 'Active');
 
   const loading = courseRegistrationsLoading || coursesLoading;
   const error = courseRegistrationsError || coursesError;
@@ -58,11 +69,17 @@ const CoursesContent = () => {
   if (loading) return <ProgressDots />;
   if (error) return <ErrorSection error={error} />;
 
-  const totalEnrolledCourses = inProgressCourses.length + completedCourses.length + facilitatedCourses.length;
+  const totalEnrolledCourses = upcomingCourses.length + inProgressCourses.length + completedCourses.length + facilitatedCourses.length;
 
   return (
     <div aria-label="Courses list">
       <div className="space-y-8">
+        {upcomingCourses.length > 0 && (
+          <section aria-label="Upcoming courses" className="lg:mt-2">
+            <P className="font-semibold mb-4">Upcoming ({upcomingCourses.length})</P>
+            <CourseList courses={upcomingCourses} roundStartDates={roundStartDates} />
+          </section>
+        )}
         {inProgressCourses.length > 0 && (
           <section aria-label="In Progress courses" className="lg:mt-2">
             <P className="font-semibold mb-4">In Progress ({inProgressCourses.length})</P>
@@ -93,9 +110,10 @@ const CoursesContent = () => {
   );
 };
 
-const CourseList = ({ courses, startExpanded = false }: {
+const CourseList = ({ courses, startExpanded = false, roundStartDates }: {
   courses: { course: Course; courseRegistration: CourseRegistration }[];
   startExpanded?: boolean;
+  roundStartDates?: Record<string, string | null>;
 }) => {
   const SEE_ALL_THRESHOLD = 3;
 
@@ -111,6 +129,7 @@ const CourseList = ({ courses, startExpanded = false }: {
             course={course}
             courseRegistration={courseRegistration}
             startExpanded={startExpanded}
+            roundStartDate={courseRegistration.roundId ? roundStartDates?.[courseRegistration.roundId] : undefined}
           />
         ))}
       </div>

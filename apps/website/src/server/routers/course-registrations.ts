@@ -1,4 +1,6 @@
-import { applicationsCourseTable, courseRegistrationTable } from '@bluedot/db';
+import {
+  applicationsCourseTable, applicationsRoundTable, courseRegistrationTable, inArray,
+} from '@bluedot/db';
 import z from 'zod';
 import { TRPCError } from '@trpc/server';
 import db from '../../lib/api/db';
@@ -20,11 +22,22 @@ export const courseRegistrationsRouter = router({
     }),
 
   getAll: protectedProcedure.query(async ({ ctx }) => {
-    return db.scan(courseRegistrationTable, {
-      email: ctx.auth.email,
-      decision: 'Accept',
-    });
+    const all = await db.scan(courseRegistrationTable, { email: ctx.auth.email });
+    return all.filter((reg) => reg.decision !== 'Withdrawn');
   }),
+
+  getRoundStartDates: protectedProcedure
+    .input(z.object({ roundIds: z.array(z.string()) }))
+    .query(async ({ input }) => {
+      if (!input.roundIds.length) return {} as Record<string, string | null>;
+      const rounds = await db.pg.select({
+        id: applicationsRoundTable.pg.id,
+        firstDiscussionDate: applicationsRoundTable.pg.firstDiscussionDate,
+      })
+        .from(applicationsRoundTable.pg)
+        .where(inArray(applicationsRoundTable.pg.id, input.roundIds));
+      return Object.fromEntries(rounds.map((r) => [r.id, r.firstDiscussionDate])) as Record<string, string | null>;
+    }),
 
   ensureExists: protectedProcedure
     .input(z.object({ courseId: z.string(), source: z.string().trim().max(255).optional() }))
