@@ -124,7 +124,10 @@ const CourseListRow = ({
   }
 
   const canExpand = !isFuture;
-  const toggleExpand = () => { if (canExpand) setIsExpanded(!isExpanded); };
+  const toggleExpand = () => {
+    if (!canExpand) return;
+    setIsExpanded(!isExpanded);
+  };
 
   return (
     <div className="border-b border-charcoal-light last:border-b-0">
