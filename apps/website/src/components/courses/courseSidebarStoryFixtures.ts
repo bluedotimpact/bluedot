@@ -95,7 +95,7 @@ export const someProgressHandlers: RequestHandler[] = [
     makeResourceCompletion('rc-2', 'res-2', 2),
   ]),
   trpcStorybookMsw.exercises.getExerciseCompletions.query(() => [
-    { exerciseId: 'ex-1', completed: true },
+    { exerciseId: 'ex-1', completedAt: new Date().toISOString() },
   ]),
 ];
 
@@ -108,6 +108,6 @@ export const allCompletedHandlers: RequestHandler[] = [
     makeResourceCompletion('rc-3', 'res-3', 3),
   ]),
   trpcStorybookMsw.exercises.getExerciseCompletions.query(() => [
-    { exerciseId: 'ex-1', completed: true },
+    { exerciseId: 'ex-1', completedAt: new Date().toISOString() },
   ]),
 ];
