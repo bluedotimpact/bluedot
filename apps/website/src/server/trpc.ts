@@ -120,7 +120,7 @@ const overrideUndefinedResponse = t.middleware(async (opts) => {
   const result = await opts.next();
   if (result.ok && result.data === undefined) {
     result.data = null;
-    slackAlert(env, [`tRPC procedure at path "${opts.path}" returned undefined response. Converted to null.`]);
+    slackAlert(env, [`tRPC procedure at path "${opts.path}" returned undefined response. Converted to null.`], { batchKey: 'trpc-undefined-responses' });
   }
 
   return result;
