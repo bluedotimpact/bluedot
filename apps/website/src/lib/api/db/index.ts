@@ -10,6 +10,6 @@ export default new PgAirtableDb({
     await slackAlert(env, [
       `Airtable validation warning encountered, attempting to proceed by setting the affected fields to undefined. Warning message: ${err.message}`,
       ...(err.stack ? [`Stack:\n\`\`\`${err.stack}\`\`\``] : []),
-    ]);
+    ], { batchKey: 'airtable-validation' });
   },
 });
