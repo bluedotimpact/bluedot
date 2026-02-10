@@ -6,8 +6,8 @@ import {
   CTALinkOrButton, ErrorSection, Input, H1, P, ProgressDots, Section, Textarea,
 } from '@bluedot/ui';
 import * as wa from 'weekly-availabilities';
-import { SubmitRequest } from '../api/public/submit';
-import { GetFormResponse } from '../api/public/get-form';
+import { type SubmitRequest } from '../api/public/submit';
+import { type GetFormResponse } from '../api/public/get-form';
 import { TimeOffsetSelector } from '../../components/TimeOffsetSelector';
 import { TimeAvailabilityInput } from '../../components/TimeAvailabilityInput';
 import { formatOffsetFromMinutesToString, parseOffsetFromStringToMinutes } from '../../lib/offset';
@@ -60,6 +60,7 @@ const Form: React.FC<{
     } catch (e) {
       setError(e);
     }
+
     setSubmitting(false);
   };
 
@@ -119,7 +120,7 @@ const Form: React.FC<{
               <P className={`text-size-xs text-red-500 mb-2 ${formState.isDirty ? 'font-bold' : ''}`}>
                 {!isValidEmail() && <>* Input a valid email.<br /></>}
                 {!longEnoughInterval()
-                  && <>* Fill out at least one interval of length at least {minLength} minutes.</>}
+                && <>* Fill out at least one interval of length at least {minLength} minutes.</>}
 
               </P>
               <CTALinkOrButton
@@ -138,8 +139,8 @@ const Form: React.FC<{
 
 type FormInfo =
   | { type: 'loading' }
-  | { type: 'error', error: string }
-  | { type: 'data', data: GetFormResponse };
+  | { type: 'error'; error: string }
+  | { type: 'data'; data: GetFormResponse };
 
 const getDefaultFormValues = (searchParams: URLSearchParams): FormFieldData => {
   const email = searchParams.get('email') ?? '';
@@ -190,7 +191,7 @@ const FormWrapper: React.FC = () => {
 
     axios.get<GetFormResponse>('/api/public/get-form', { params: { slug } })
       .then((res) => setInfo({ type: 'data', data: res.data }))
-      .catch((res) => setInfo({ type: 'error', error: String(res) }));
+      .catch((res: unknown) => setInfo({ type: 'error', error: String(res) }));
   }, [slug]);
 
   if (!info || info.type === 'loading') {

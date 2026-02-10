@@ -2,12 +2,12 @@ import {
   useEffect, useRef, useState, useMemo,
 } from 'react';
 import {
-  FieldPath, FieldValues, UseControllerProps,
+  type FieldPath, type FieldValues, type UseControllerProps,
   useController,
 } from 'react-hook-form';
 import { CTALinkOrButton } from '@bluedot/ui';
 import clsx from 'clsx';
-import * as wa from 'weekly-availabilities';
+import type * as wa from 'weekly-availabilities';
 import { snapToRect } from '../lib/util';
 
 type Coord = { day: number; minute: number };
@@ -18,7 +18,7 @@ export const MINUTES_IN_UNIT = 30;
 const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
 // utils
-const normalizeBlock = ({ anchor, cursor }: { anchor: Coord; cursor: Coord; }): { min: Coord, max: Coord } => {
+const normalizeBlock = ({ anchor, cursor }: { anchor: Coord; cursor: Coord }): { min: Coord; max: Coord } => {
   return {
     min: { day: Math.min(anchor.day, cursor.day), minute: Math.min(anchor.minute, cursor.minute) },
     max: { day: Math.max(anchor.day, cursor.day), minute: Math.max(anchor.minute, cursor.minute) },
@@ -36,7 +36,7 @@ const isWithin = (
 
 type TimeAvailabilityMap = Record<wa.WeeklyTime, boolean>;
 
-const TimeAvailabilityGrid: React.FC<{ show24: boolean, value: TimeAvailabilityMap, onChange: (v: TimeAvailabilityMap) => void }> = ({ show24, value, onChange }) => {
+const TimeAvailabilityGrid: React.FC<{ show24: boolean; value: TimeAvailabilityMap; onChange: (v: TimeAvailabilityMap) => void }> = ({ show24, value, onChange }) => {
   const startUnit = show24 ? 0 : (8 * 60) / MINUTES_IN_UNIT;
   const endUnit = show24
     ? (24 * 60) / MINUTES_IN_UNIT
@@ -52,7 +52,6 @@ const TimeAvailabilityGrid: React.FC<{ show24: boolean, value: TimeAvailabilityM
         cellCoords.push({ day: d, minute: i * MINUTES_IN_UNIT });
         // WH note: I spent a few minutes trying to refactor to remove this, but gave up
         // because I found it hard to follow the code. Try again at your own risk.
-        // eslint-disable-next-line react-hooks/immutability
         cellRefs.push(null);
       }
     }
@@ -60,7 +59,10 @@ const TimeAvailabilityGrid: React.FC<{ show24: boolean, value: TimeAvailabilityM
 
   const timeToLabel = (time: number) => {
     const minutes = time * MINUTES_IN_UNIT;
-    if (minutes < 0 || minutes > 1440) throw new Error(`Invalid time: ${time} (${minutes} mins)`);
+    if (minutes < 0 || minutes > 1440) {
+      throw new Error(`Invalid time: ${time} (${minutes} mins)`);
+    }
+
     const hours = Math.floor(minutes / 60);
     const minutesRemaining = minutes - hours * 60;
     return `${hours.toString().padStart(2, '0')}:${minutesRemaining.toString().padStart(2, '0')}`;
@@ -84,13 +86,18 @@ const TimeAvailabilityGrid: React.FC<{ show24: boolean, value: TimeAvailabilityM
 
   useEffect(() => {
     const movePointerListener = (e: PointerEvent) => {
-      if (!dragState.dragging || !mainGrid.current) return;
+      if (!dragState.dragging || !mainGrid.current) {
+        return;
+      }
 
       const mousepos = { x: e.clientX, y: e.clientY };
       const { x, y } = snapToRect(mainGrid.current.getBoundingClientRect(), mousepos);
 
       const cell = cellRefs.find((c) => {
-        if (!c?.ref) return false;
+        if (!c?.ref) {
+          return false;
+        }
+
         const {
           top, bottom, left, right,
         } = c.ref.getBoundingClientRect();
@@ -102,10 +109,14 @@ const TimeAvailabilityGrid: React.FC<{ show24: boolean, value: TimeAvailabilityM
         setDragState((prev) => ({ ...prev, cursor: cell.coord }));
       }
     };
+
     document.addEventListener('pointermove', movePointerListener);
 
     const pointerUpListener = () => {
-      if (!dragState.dragging || !dragState.anchor || !dragState.cursor) return;
+      if (!dragState.dragging || !dragState.anchor || !dragState.cursor) {
+        return;
+      }
+
       const { min, max } = normalizeBlock({
         anchor: dragState.anchor,
         cursor: dragState.cursor,
@@ -119,9 +130,11 @@ const TimeAvailabilityGrid: React.FC<{ show24: boolean, value: TimeAvailabilityM
           valueCopy[serializeCoord({ day, minute })] = targetVal;
         }
       }
+
       onChange(valueCopy);
       setDragState({ dragging: false });
     };
+
     document.addEventListener('pointerup', pointerUpListener);
 
     return () => {
@@ -135,7 +148,6 @@ const TimeAvailabilityGrid: React.FC<{ show24: boolean, value: TimeAvailabilityM
       <div className="flex">
         <div className="w-12" />
         <div className="grid grid-cols-7 w-full text-center">
-          {/* eslint-disable-next-line react/no-array-index-key */}
           {days.map((day, index) => <div key={index}>{day.slice(0, 1)}</div>)}
         </div>
       </div>
@@ -173,9 +185,11 @@ const TimeAvailabilityGrid: React.FC<{ show24: boolean, value: TimeAvailabilityM
               return (
 
                 <div
-                  // eslint-disable-next-line react/no-array-index-key
+
                   key={i}
-                  ref={(ref) => { cellRefs[i] = { ref, coord }; }}
+                  ref={(ref) => {
+                    cellRefs[i] = { ref, coord };
+                  }}
                   className={clsx(`relative h-4 border-gray-800 border-r border-b ${borderStyle}`, isBlocked && 'bg-green-400')}
                   onPointerDown={(e) => {
                     e.preventDefault();
@@ -195,13 +209,13 @@ const TimeAvailabilityGrid: React.FC<{ show24: boolean, value: TimeAvailabilityM
 };
 
 export type TimeAvailabilityInputProps<TFieldValues extends FieldValues, TName extends FieldPath<TFieldValues>> = {
-  className?: string,
+  className?: string;
 } & UseControllerProps<TFieldValues, TName> & Required<Pick<UseControllerProps<TFieldValues, TName>, 'control'>>;
 
 export const TimeAvailabilityInput = <
-TFieldValues extends FieldValues = FieldValues,
-TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({ className, ...props }: TimeAvailabilityInputProps<TFieldValues, TName>) => {
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>({ className: _className, ...props }: TimeAvailabilityInputProps<TFieldValues, TName>) => { // eslint-disable-line @typescript-eslint/no-unused-vars
   const { field } = useController(props);
   const [show24, setShow24] = useState(false);
 

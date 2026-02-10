@@ -7,18 +7,18 @@ import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
 
 export type SubmitRequest = {
-  email: string,
-  availability: string
-  timezone: string,
-  comments: string,
-  roundId?: string,
+  email: string;
+  availability: string;
+  timezone: string;
+  comments: string;
+  roundId?: string;
 };
 
 const isValidAvailabilityExpression = (availability: string) => {
   try {
     parseIntervals(availability);
     return true;
-  } catch (err) {
+  } catch {
     return false;
   }
 };
