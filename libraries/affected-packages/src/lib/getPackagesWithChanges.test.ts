@@ -9,7 +9,7 @@ const TEST_HEAD_COMMIT = 'f10960d0278ca14690b77080e6480ccbbb8e1f69';
 const TEST_SUCCESSFUL_COMMIT = 'bc821876d613d0a95f76cee94c4b708fdb3e39f3';
 
 vi.mock('./execAsync', async (importOriginal) => {
-  const { execAsync: realExecAsync } = (await importOriginal() as { execAsync: typeof execAsync });
+  const { execAsync: realExecAsync } = (await importOriginal());
 
   return {
     execAsync: vi.fn().mockImplementation(async (command) => {
