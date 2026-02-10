@@ -53,7 +53,7 @@ export const slackAlert = async (
   const flushIntervalMs = options?.flushIntervalMs ?? DEFAULT_FLUSH_INTERVAL_MS;
 
   if (options?.batchKey) {
-    addToBatch(options.batchKey, env, messages, level, flushIntervalMs);
+    addToBatch(getBatcherKey(options.batchKey, env, level), env, messages, level, flushIntervalMs);
     return;
   }
 
@@ -67,6 +67,10 @@ export const slackAlert = async (
     // eslint-disable-next-line no-console
     console.error('Error sending Slack alert:', error);
   }
+};
+
+const getBatcherKey = (batchKey: string, env: SlackAlertEnv, level: 'error' | 'info') => {
+  return `${batchKey}-${env.APP_NAME}-${level}`;
 };
 
 const addToBatch = (
