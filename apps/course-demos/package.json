@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@bluedot/docker-scripts": "*",
-    "@bluedot/eslint-config-v9": "*",
+    "@bluedot/eslint-config": "*",
     "@bluedot/typescript-config": "*",
     "@tailwindcss/postcss": "^4.0.6",
     "@testing-library/react": "^15.0.2",

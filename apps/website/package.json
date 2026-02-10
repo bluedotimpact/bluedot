@@ -73,7 +73,7 @@
     "zustand": "^5.0.4"
   },
   "devDependencies": {
-    "@bluedot/eslint-config-v9": "*",
+    "@bluedot/eslint-config": "*",
     "@bluedot/typescript-config": "*",
     "@storybook/react": "^8.5.2",
     "@tailwindcss/postcss": "^4.0.6",
