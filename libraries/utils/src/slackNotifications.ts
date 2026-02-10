@@ -26,6 +26,7 @@ type BatcherState = {
   flushTimer: NodeJS.Timeout | null;
   env: SlackAlertEnv;
   level: 'error' | 'info';
+  createdAt?: number;
 };
 
 export const DEFAULT_FLUSH_INTERVAL_MS = 60000;
@@ -117,7 +118,10 @@ const addToBatch = (
     });
   }
 
-  scheduleFlush(batchKey, flushIntervalMs);
+  scheduleFlush(batchKey, flushIntervalMs).catch((error) => {
+    // eslint-disable-next-line no-console
+    console.error('Error scheduling flush:', error);
+  });
 };
 
 const getMessageSignature = (message: string) => {
@@ -135,9 +139,37 @@ const extractAirtableIds = (message: string) => {
   return { tableId, fieldId, recordIds };
 };
 
-const scheduleFlush = (batchKey: string, flushIntervalMs: number) => {
+const flushAndCleanupBatcher = async (batchKey: string, batcher: BatcherState) => {
+  try {
+    await flushBatcher(batcher);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Error flushing batched Slack alerts:', error);
+  } finally {
+    // eslint-disable-next-line no-param-reassign
+    batcher.batches.clear();
+    // eslint-disable-next-line no-param-reassign
+    batcher.flushTimer = null;
+    batchers.delete(batchKey);
+  }
+};
+
+const scheduleFlush = async (batchKey: string, flushIntervalMs: number) => {
   const batcher = batchers.get(batchKey);
   if (!batcher) return;
+
+  // Hard upper bound: flush at most 5× the interval after the first message
+  // This prevents never flushing if messages keep coming in at a high rate, while still allowing for bursts of messages to be batched together
+  const maxDelayMs = flushIntervalMs * 5;
+  const batcherCreatedAt = batcher.createdAt ?? Date.now();
+  if (!batcher.createdAt) batcher.createdAt = batcherCreatedAt;
+  const elapsed = Date.now() - batcherCreatedAt;
+  const effectiveDelay = Math.min(flushIntervalMs, maxDelayMs - elapsed);
+  if (effectiveDelay <= 0) {
+    // Force flush immediately if we've exceeded the max delay
+    await flushAndCleanupBatcher(batchKey, batcher);
+    return;
+  }
 
   // Clear existing timer to implement rolling window
   if (batcher.flushTimer) {
@@ -145,16 +177,7 @@ const scheduleFlush = (batchKey: string, flushIntervalMs: number) => {
   }
 
   batcher.flushTimer = setTimeout(async () => {
-    try {
-      await flushBatcher(batcher);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Error flushing batched Slack alerts:', error);
-    } finally {
-      batcher.batches.clear();
-      batcher.flushTimer = null;
-      batchers.delete(batchKey);
-    }
+    await flushAndCleanupBatcher(batchKey, batcher);
   }, flushIntervalMs);
 };
 
