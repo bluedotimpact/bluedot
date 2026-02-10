@@ -5,7 +5,6 @@ import env from '../../lib/api/env';
 // In-memory cache for Luma API responses - reduces API calls, improves response time, and handles intermittent API failures
 const CACHE_TTL_MS = 60_000; // 1 minute
 const FAILURE_THRESHOLD = 3; // Alert after N consecutive failures
-const SLACK_ALERT_COOLDOWN_MS = 60_000; // Max 1 alert per minute
 const EXCLUDED_EVENT_TITLE_SUFFIXES = ['paper reading club', 'paper reading group'];
 
 type LumaEvent = {
@@ -37,7 +36,6 @@ export type Event = ReturnType<typeof transformEvent>;
 let cachedEvents: Event[] | null = null;
 let cacheTimestamp: number | null = null;
 let consecutiveFailures = 0;
-let lastSlackAlert: number | null = null;
 let isRefreshing = false;
 let refreshPromise: Promise<Event[]> | null = null;
 
@@ -129,7 +127,8 @@ async function refreshCache(): Promise<Event[]> {
       console.error('Failed to fetch Luma events:', error);
 
       if (consecutiveFailures >= FAILURE_THRESHOLD) {
-        await sendSlackAlertIfNeeded(error);
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        await slackAlert(env, [`[LUMA] Failed to fetch events from Luma API ${consecutiveFailures} times: ${errorMessage}`], { batchKey: 'luma-api-errors' });
       }
 
       return cachedEvents || [];
@@ -140,20 +139,4 @@ async function refreshCache(): Promise<Event[]> {
   })();
 
   return refreshPromise;
-}
-
-async function sendSlackAlertIfNeeded(error: unknown): Promise<void> {
-  const now = Date.now();
-
-  // Rate limit: only send if last alert was > 1 minute ago
-  if (lastSlackAlert && (now - lastSlackAlert < SLACK_ALERT_COOLDOWN_MS)) {
-    return;
-  }
-
-  const errorMessage = error instanceof Error ? error.message : String(error);
-  await slackAlert(env, [
-    `[LUMA] Failed to fetch events from Luma API ${consecutiveFailures} times: ${errorMessage}`,
-  ], { batchKey: 'luma-api-errors' });
-
-  lastSlackAlert = now;
 }
