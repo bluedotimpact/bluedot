@@ -162,7 +162,7 @@ const CourseListRow = ({
                       <Tooltip content={reasonNotEligibleForCert} ariaLabel="Show certificate eligibility information" />
                     </span>
                   )}
-                  {isFuture && courseRegistration.decision === null && (
+                  {isFuture && courseRegistration.decision !== 'Reject' && (
                     <span className="ml-0.5 inline-flex items-center align-middle">
                       <Tooltip content="We typically finalise all application decisions and group discussion times 1 week before the start of the course." ariaLabel="Show application timeline information" />
                     </span>
@@ -231,7 +231,7 @@ const CourseListRow = ({
                     <Tooltip content={reasonNotEligibleForCert} ariaLabel="Show certificate eligibility information" />
                   </span>
                 )}
-                {isFuture && courseRegistration.decision === null && (
+                {isFuture && courseRegistration.decision !== 'Reject' && (
                   <span className="ml-0.5 inline-flex items-center align-middle">
                     <Tooltip content="We typically finalise all application decisions and group discussion times 1 week before the start of the course." ariaLabel="Show application timeline information" />
                   </span>
