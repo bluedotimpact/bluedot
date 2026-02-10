@@ -345,10 +345,7 @@ describe('slackNotifications', () => {
 
       await slackAlert(mockEnv, ['Test message']);
 
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        'Error sending Slack alert:',
-        expect.any(Error),
-      );
+      expect(consoleErrorSpy).toHaveBeenCalledWith('Error sending Slack alert:', expect.any(Error));
 
       consoleErrorSpy.mockRestore();
     });
@@ -362,10 +359,7 @@ describe('slackNotifications', () => {
 
       await vi.advanceTimersByTimeAsync(DEFAULT_FLUSH_INTERVAL_MS);
 
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        'Error sending batched Slack alert:',
-        expect.any(Error),
-      );
+      expect(consoleErrorSpy).toHaveBeenCalledWith('Error sending batched Slack alert:', expect.any(Error));
 
       consoleErrorSpy.mockRestore();
     });

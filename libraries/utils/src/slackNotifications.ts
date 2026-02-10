@@ -102,7 +102,9 @@ const addToBatch = (
   if (existing) {
     existing.occurrences += 1;
     existing.lastSeen = Date.now();
-    recordIds.forEach((id) => { existing.affectedRecords.add(id); });
+    recordIds.forEach((id) => {
+      existing.affectedRecords.add(id);
+    });
   } else {
     batcher.batches.set(signature, {
       signature,
@@ -173,8 +175,8 @@ const flushBatcher = async (batcher: BatcherState) => {
 
       messages.push(
         `${mainMessage}${tableInfo}${fieldInfo}\n\n`
-        + `⚠️ This error occurred ${batch.occurrences} times affecting ${batch.affectedRecords.size} record(s):\n`
-        + `${recordList}${moreRecords}`,
+          + `⚠️ This error occurred ${batch.occurrences} times affecting ${batch.affectedRecords.size} record(s):\n`
+          + `${recordList}${moreRecords}`,
       );
     } else {
       messages.push(mainMessage!);
