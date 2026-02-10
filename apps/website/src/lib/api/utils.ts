@@ -22,19 +22,15 @@ export async function removeInactiveChunkIdsFromUnits({
   db: PgAirtableDb;
 }): Promise<Unit[]> {
   const allChunkIds = units.map((unit) => unit.chunks ?? []).flat();
-  const allActiveChunkIds = new Set(
-    (
-      await db.pg
-        .select({ id: chunkTable.pg.id })
-        .from(chunkTable.pg)
-        .where(
-          and(
-            eq(chunkTable.pg.status, 'Active'),
-            inArray(chunkTable.pg.id, allChunkIds),
-          ),
-        )
-    ).map((chunk) => chunk.id),
-  );
+  const allActiveChunkIds = new Set((
+    await db.pg
+      .select({ id: chunkTable.pg.id })
+      .from(chunkTable.pg)
+      .where(and(
+        eq(chunkTable.pg.status, 'Active'),
+        inArray(chunkTable.pg.id, allChunkIds),
+      ))
+  ).map((chunk) => chunk.id));
   return units.map((unit) => ({
     ...unit,
     chunks: unit.chunks?.filter((c) => allActiveChunkIds.has(c)) ?? [],

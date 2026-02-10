@@ -19,9 +19,7 @@ export async function verifyKeycloakPassword(
 ): Promise<boolean> {
   // Validate environment variables
   if (!env.KEYCLOAK_CLIENT_ID || !env.KEYCLOAK_CLIENT_SECRET) {
-    throw createHttpError.ServiceUnavailable(
-      'Authentication service not configured. Please contact support.',
-    );
+    throw createHttpError.ServiceUnavailable('Authentication service not configured. Please contact support.');
   }
 
   try {
@@ -42,15 +40,13 @@ export async function verifyKeycloakPassword(
     if (axios.isAxiosError(error) && error.response?.status === 401) {
       return false;
     }
+
     // Provide more context for other errors
     if (axios.isAxiosError(error)) {
-      throw createHttpError.ServiceUnavailable(
-        'Authentication service is currently unavailable. Please try again later.',
-      );
+      throw createHttpError.ServiceUnavailable('Authentication service is currently unavailable. Please try again later.');
     }
-    throw createHttpError.InternalServerError(
-      'An unexpected error occurred during authentication.',
-    );
+
+    throw createHttpError.InternalServerError('An unexpected error occurred during authentication.');
   }
 }
 
@@ -60,9 +56,7 @@ export async function updateKeycloakPassword(
 ): Promise<void> {
   // Validate environment variables
   if (!env.KEYCLOAK_CLIENT_ID || !env.KEYCLOAK_CLIENT_SECRET) {
-    throw createHttpError.ServiceUnavailable(
-      'Authentication service not configured. Please contact support.',
-    );
+    throw createHttpError.ServiceUnavailable('Authentication service not configured. Please contact support.');
   }
 
   try {
@@ -95,15 +89,13 @@ export async function updateKeycloakPassword(
         throw createHttpError.BadRequest(errorMessage);
       }
     }
+
     // Provide more context for other errors
     if (axios.isAxiosError(error)) {
-      throw createHttpError.ServiceUnavailable(
-        'Authentication service is currently unavailable. Please try again later.',
-      );
+      throw createHttpError.ServiceUnavailable('Authentication service is currently unavailable. Please try again later.');
     }
-    throw createHttpError.InternalServerError(
-      'An unexpected error occurred while updating password.',
-    );
+
+    throw createHttpError.InternalServerError('An unexpected error occurred while updating password.');
   }
 }
 
@@ -125,7 +117,7 @@ async function getAdminToken(): Promise<string> {
       { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
     );
 
-    const { access_token: accessToken, expires_in: expiresIn } = response.data;
+    const { access_token: accessToken, expires_in: expiresIn } = response.data as { access_token: string; expires_in: number };
 
     // Cache the token with expiration time
     // expires_in is already in seconds
@@ -145,10 +137,9 @@ async function getAdminToken(): Promise<string> {
     }
 
     if (axios.isAxiosError(error)) {
-      throw createHttpError.ServiceUnavailable(
-        'Authentication service is currently unavailable. Please try again later.',
-      );
+      throw createHttpError.ServiceUnavailable('Authentication service is currently unavailable. Please try again later.');
     }
+
     throw error;
   }
 }

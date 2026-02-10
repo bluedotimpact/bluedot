@@ -10,7 +10,7 @@ import {
   PiCode,
   PiChalkboardTeacherLight,
 } from 'react-icons/pi';
-import { CourseLanderContent } from '../CourseLander';
+import { type CourseLanderContent } from '../CourseLander';
 
 export const TAS_COLORS = {
   /* Gradient layers:
@@ -75,7 +75,7 @@ export const createTechnicalAiSafetyContent = (
 
     ],
     bottomCta: {
-      boldText: "Don't fit these perfectly? Apply anyway.",
+      boldText: 'Don\'t fit these perfectly? Apply anyway.',
       text: 'Some of our most impactful participants have included teachers, policymakers, engineers, and community leaders. We bet on drive and ambition, not CVs.',
       buttonText: 'Apply now',
       buttonUrl: applicationUrlWithUtm,
@@ -89,17 +89,17 @@ export const createTechnicalAiSafetyContent = (
       {
         icon: PiRocketLaunch,
         title: 'Take action in less than 30 hours',
-        description: "Skip months of scattered reading. This Technical AI Safety course gives you a structured overview of key safety techniques. Understand what works, what fails, and where the gaps are. You'll finish with a plan for contributing.",
+        description: 'Skip months of scattered reading. This Technical AI Safety course gives you a structured overview of key safety techniques. Understand what works, what fails, and where the gaps are. You\'ll finish with a plan for contributing.',
       },
       {
         icon: PiUsersThree,
         title: 'Join a network of builders',
-        description: "This course isn't for everyone. We're building a community of people who are energised to take ambitious actions to make AI go well, including starting new companies, policy entrepreneurship, and high-impact research bets. Completing this course will give you access to this community.",
+        description: 'This course isn\'t for everyone. We\'re building a community of people who are energised to take ambitious actions to make AI go well, including starting new companies, policy entrepreneurship, and high-impact research bets. Completing this course will give you access to this community.',
       },
       {
         icon: PiChalkboardTeacherLight,
         title: 'Learn with experts',
-        description: "Every discussion is facilitated by an AI safety expert who can answer your technical questions, challenge your assumptions, and connect concepts to real work happening. They'll help connect you to concrete pathways for contribution.",
+        description: 'Every discussion is facilitated by an AI safety expert who can answer your technical questions, challenge your assumptions, and connect concepts to real work happening. They\'ll help connect you to concrete pathways for contribution.',
       },
     ],
   },

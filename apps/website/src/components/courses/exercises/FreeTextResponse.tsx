@@ -1,5 +1,6 @@
 import { cn, CTALinkOrButton } from '@bluedot/ui';
-import React, {
+import type React from 'react';
+import {
   useCallback, useEffect,
   useState,
 } from 'react';

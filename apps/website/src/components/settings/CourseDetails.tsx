@@ -1,4 +1,4 @@
-import { Course, CourseRegistration } from '@bluedot/db';
+import { type Course, type CourseRegistration } from '@bluedot/db';
 import { ProgressDots } from '@bluedot/ui';
 import { useState } from 'react';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';

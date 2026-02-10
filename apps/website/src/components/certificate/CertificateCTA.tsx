@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { CTALinkOrButton } from '@bluedot/ui';
 import { COURSE_CONFIG } from '../../lib/constants';
 
@@ -12,7 +12,7 @@ type CertificateCTAProps = {
 };
 
 const DEFAULT_ICON_PATH = '/images/certificates/icons/default.svg';
-const DISPLAY_FONT_STYLE = { fontFeatureSettings: "'ss04' 1" };
+const DISPLAY_FONT_STYLE = { fontFeatureSettings: '\'ss04\' 1' };
 
 export const CertificateCTA: React.FC<CertificateCTAProps> = ({
   courseName,

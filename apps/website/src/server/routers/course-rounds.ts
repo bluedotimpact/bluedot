@@ -32,15 +32,13 @@ export async function getCourseRoundsData(courseSlug: string) {
   const filteredRounds = await db.pg
     .select()
     .from(applicationsRoundTable.pg)
-    .where(
-      and(
-        eq(applicationsRoundTable.pg.courseId, courseId),
-        or(
-          sql`${applicationsRoundTable.pg.applicationDeadline} IS NULL`,
-          sql`${applicationsRoundTable.pg.applicationDeadline}::timestamp >= ${deadlineThreshold.toISOString()}::timestamp`,
-        ),
+    .where(and(
+      eq(applicationsRoundTable.pg.courseId, courseId),
+      or(
+        sql`${applicationsRoundTable.pg.applicationDeadline} IS NULL`,
+        sql`${applicationsRoundTable.pg.applicationDeadline}::timestamp >= ${deadlineThreshold.toISOString()}::timestamp`,
       ),
-    );
+    ));
 
   // Format date range based on firstDiscussionDate and numberOfUnits.
   // numberOfUnits = number of days (intensive) or weeks (part-time).
@@ -51,7 +49,9 @@ export async function getCourseRoundsData(courseSlug: string) {
     numberOfUnits: number | null,
     intensity: string | null,
   ) => {
-    if (!firstDate) return null;
+    if (!firstDate) {
+      return null;
+    }
 
     const first = new Date(firstDate);
     let computedLast: Date | null = null;
@@ -92,9 +92,17 @@ export async function getCourseRoundsData(courseSlug: string) {
 
   // Sort by start date (earliest first), then by duration (shorter first)
   enrichedRounds.sort((a, b) => {
-    if (!a.firstDiscussionDateRaw && !b.firstDiscussionDateRaw) return 0;
-    if (!a.firstDiscussionDateRaw) return 1;
-    if (!b.firstDiscussionDateRaw) return -1;
+    if (!a.firstDiscussionDateRaw && !b.firstDiscussionDateRaw) {
+      return 0;
+    }
+
+    if (!a.firstDiscussionDateRaw) {
+      return 1;
+    }
+
+    if (!b.firstDiscussionDateRaw) {
+      return -1;
+    }
 
     const aStartDate = new Date(a.firstDiscussionDateRaw).getTime();
     const bStartDate = new Date(b.firstDiscussionDateRaw).getTime();
@@ -121,11 +129,11 @@ export type CourseRoundsData = Awaited<ReturnType<typeof getCourseRoundsData>>;
 export function getSoonestDeadline(rounds: CourseRoundsData): string | null {
   const allRounds = [...rounds.intense, ...rounds.partTime];
 
-  const roundsWithDeadlines = allRounds.filter(
-    (r): r is typeof r & { applicationDeadlineRaw: string } => r.applicationDeadlineRaw !== null,
-  );
+  const roundsWithDeadlines = allRounds.filter((r): r is typeof r & { applicationDeadlineRaw: string } => r.applicationDeadlineRaw !== null);
 
-  if (roundsWithDeadlines.length === 0) return null;
+  if (roundsWithDeadlines.length === 0) {
+    return null;
+  }
 
   const soonestRound = roundsWithDeadlines.reduce((soonest, current) => {
     const soonestDate = new Date(soonest.applicationDeadlineRaw);
@@ -138,11 +146,9 @@ export function getSoonestDeadline(rounds: CourseRoundsData): string | null {
 
 export const courseRoundsRouter = router({
   getRoundsForCourse: publicProcedure
-    .input(
-      z.object({
-        courseSlug: z.string(),
-      }),
-    )
+    .input(z.object({
+      courseSlug: z.string(),
+    }))
     .query(async ({ input }) => {
       return getCourseRoundsData(input.courseSlug);
     }),
@@ -161,9 +167,7 @@ export const courseRoundsRouter = router({
         .where(eq(courseTable.pg.status, 'Active'));
 
       // Filter out self-paced courses (slug = 'future-of-ai')
-      const courses = allCourses.filter(
-        (course) => course.slug !== 'future-of-ai',
-      );
+      const courses = allCourses.filter((course) => course.slug !== 'future-of-ai');
 
       // Only show rounds where deadline hasn't passed everywhere in the world
       const now = new Date();
@@ -173,12 +177,10 @@ export const courseRoundsRouter = router({
       const allRounds = await db.pg
         .select()
         .from(applicationsRoundTable.pg)
-        .where(
-          or(
-            sql`${applicationsRoundTable.pg.applicationDeadline} IS NULL`,
-            sql`${applicationsRoundTable.pg.applicationDeadline}::timestamp >= ${deadlineThreshold.toISOString()}::timestamp`,
-          ),
-        );
+        .where(or(
+          sql`${applicationsRoundTable.pg.applicationDeadline} IS NULL`,
+          sql`${applicationsRoundTable.pg.applicationDeadline}::timestamp >= ${deadlineThreshold.toISOString()}::timestamp`,
+        ));
 
       // Format date range with en-dash
       const formatDateRange = (
@@ -187,7 +189,9 @@ export const courseRoundsRouter = router({
         numberOfUnits: number | null,
         intensity: string | null,
       ) => {
-        if (!firstDate) return null;
+        if (!firstDate) {
+          return null;
+        }
 
         const first = new Date(firstDate);
 
@@ -224,9 +228,14 @@ export const courseRoundsRouter = router({
       // Enrich rounds with course info and formatting
       const enrichedRounds = allRounds
         .map((round) => {
-          if (!round.courseId) return null;
+          if (!round.courseId) {
+            return null;
+          }
+
           const course = courseMap.get(round.courseId);
-          if (!course) return null;
+          if (!course) {
+            return null;
+          }
 
           return {
             id: round.id,
@@ -253,9 +262,17 @@ export const courseRoundsRouter = router({
 
       // Sort by start date (earliest first), then by duration (shorter first)
       enrichedRounds.sort((a, b) => {
-        if (!a.firstDiscussionDateRaw && !b.firstDiscussionDateRaw) return 0;
-        if (!a.firstDiscussionDateRaw) return 1;
-        if (!b.firstDiscussionDateRaw) return -1;
+        if (!a.firstDiscussionDateRaw && !b.firstDiscussionDateRaw) {
+          return 0;
+        }
+
+        if (!a.firstDiscussionDateRaw) {
+          return 1;
+        }
+
+        if (!b.firstDiscussionDateRaw) {
+          return -1;
+        }
 
         const aStartDate = new Date(a.firstDiscussionDateRaw).getTime();
         const bStartDate = new Date(b.firstDiscussionDateRaw).getTime();
@@ -290,14 +307,18 @@ export const courseRoundsRouter = router({
         .where(eq(courseTable.pg.slug, courseSlug))
         .limit(1);
 
-      if (!course.length || !course[0]?.applyUrl) return null;
+      if (!course.length || !course[0]?.applyUrl) {
+        return null;
+      }
 
       const { id: courseId, applyUrl: applicationUrl } = course[0];
 
       // Use shared functions for getting deadline
       const rounds = await getCourseRoundsData(courseSlug);
       const applicationDeadline = getSoonestDeadline(rounds);
-      if (!applicationDeadline) return null;
+      if (!applicationDeadline) {
+        return null;
+      }
 
       // Check if user has already applied (requires auth context)
       let hasApplied = false;

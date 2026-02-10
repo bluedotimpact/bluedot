@@ -1,5 +1,5 @@
 import { NavLinks } from './_NavLinks';
-import { ExpandedSectionsState } from './utils';
+import { type ExpandedSectionsState } from './utils';
 
 export const DesktopNavLinks: React.FC<{
   expandedSections: ExpandedSectionsState;

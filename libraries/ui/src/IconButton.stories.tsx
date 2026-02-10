@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
-import { IconButton, HamburgerIcon, HamburgerButtonProps } from './IconButton';
+import { IconButton, HamburgerIcon, type HamburgerButtonProps } from './IconButton';
 
 const IconButtonWrapper: React.FC<Omit<HamburgerButtonProps, 'open' | 'setOpen'>> = (props) => {
   const [open, setOpen] = React.useState(false);

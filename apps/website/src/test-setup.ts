@@ -8,9 +8,9 @@ process.env.TZ = 'UTC';
 // Mock localStorage for msw CookieStore (required before msw modules are loaded)
 const localStorageMock = {
   getItem: () => null,
-  setItem: () => {},
-  removeItem: () => {},
-  clear: () => {},
+  setItem() {},
+  removeItem() {},
+  clear() {},
   length: 0,
   key: () => null,
 };

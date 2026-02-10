@@ -1,6 +1,6 @@
 import {
   HeroSection,
-  BluedotRoute,
+  type BluedotRoute,
   Breadcrumbs,
   HeroH2,
 } from '@bluedot/ui';

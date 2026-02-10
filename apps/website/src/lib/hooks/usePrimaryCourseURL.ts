@@ -29,6 +29,7 @@ export const usePrimaryCourseURL = () => {
     if (isInProgress) {
       return `/courses/${courseSlug}/1/1`;
     }
+
     return `/courses/${courseSlug}`;
   }, [coursesData, registrations]);
 

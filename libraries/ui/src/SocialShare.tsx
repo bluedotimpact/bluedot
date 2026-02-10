@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import {
   FaEnvelope,
   FaGithub,
@@ -34,7 +34,9 @@ export const SocialShare: React.FC<SocialShareProps> = ({
   facebookLink,
 }) => {
   const constructShareUrl = (campaign?: string) => {
-    if (variant === 'contact') return '';
+    if (variant === 'contact') {
+      return '';
+    }
 
     const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
     const fullPath = path || (typeof window !== 'undefined' ? window.location.pathname : '');

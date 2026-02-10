@@ -1,5 +1,5 @@
 import { Section, SlideList, UnitCard } from '@bluedot/ui';
-import { unitTable, InferSelectModel } from '@bluedot/db';
+import { type unitTable, type InferSelectModel } from '@bluedot/db';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 

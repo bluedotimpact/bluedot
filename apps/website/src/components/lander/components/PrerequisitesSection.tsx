@@ -1,8 +1,8 @@
 import {
   H2, H3, P, CTALinkOrButton,
 } from '@bluedot/ui';
-import { ReactNode } from 'react';
-import { IconType } from 'react-icons';
+import { type ReactNode } from 'react';
+import { type IconType } from 'react-icons';
 
 export type Prerequisite = {
   icon?: IconType;

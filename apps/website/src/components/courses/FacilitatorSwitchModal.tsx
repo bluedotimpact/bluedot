@@ -147,7 +147,9 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   const facilitatorChangeSubmitDisabled = !selectedGroupId || !selectedDiscussionId || !selectedNewFacilitatorId || changeFacilitatorMutation.isPending;
 
   const handleFacilitatorChangeSubmit = () => {
-    if (!selectedGroupId || !selectedDiscussionId || !selectedNewFacilitatorId) return;
+    if (!selectedGroupId || !selectedDiscussionId || !selectedNewFacilitatorId) {
+      return;
+    }
 
     changeFacilitatorMutation.mutate({
       courseSlug,

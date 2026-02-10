@@ -73,7 +73,7 @@
     "zustand": "^5.0.4"
   },
   "devDependencies": {
-    "@bluedot/eslint-config": "*",
+    "@bluedot/eslint-config-v9": "*",
     "@bluedot/typescript-config": "*",
     "@storybook/react": "^8.5.2",
     "@tailwindcss/postcss": "^4.0.6",
@@ -85,7 +85,7 @@
     "@types/react-dom": "^18.0.7",
     "@vitejs/plugin-react": "^4.2.1",
     "dotenv": "^16.4.5",
-    "eslint": "^8.57.0",
+    "eslint": "^9.39.2",
     "happy-dom": "^18.0.1",
     "msw-trpc": "^2.0.1",
     "node-mocks-http": "^1.14.1",

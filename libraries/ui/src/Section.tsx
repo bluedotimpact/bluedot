@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import clsx from 'clsx';
 
 type BaseProps = {
@@ -15,7 +15,9 @@ export type SectionProps = React.PropsWithChildren<BaseProps>;
 export const SectionHeading: React.FC<BaseProps> = ({
   title, titleLevel = 'h2', subtitle, subtitleLevel = 'p', className,
 }) => {
-  if (!title && !subtitle) return null;
+  if (!title && !subtitle) {
+    return null;
+  }
 
   const HeadingTag = titleLevel;
   const SubtitleTag = subtitleLevel;

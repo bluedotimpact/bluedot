@@ -40,10 +40,17 @@ const HeroSection = ({
   const effectiveCategoryLabelColor = categoryLabelColor || accentColor;
 
   const getLayoutType = () => {
-    if (useConstrainedImageLayout) return 'constrained';
-    if (hasGradient) return 'gradient';
+    if (useConstrainedImageLayout) {
+      return 'constrained';
+    }
+
+    if (hasGradient) {
+      return 'gradient';
+    }
+
     return 'light';
   };
+
   const layoutType = getLayoutType();
 
   return (

@@ -21,7 +21,7 @@ export const Default: Story = {
   args: {
     title: 'Is this collapsible?',
     children: [
-      <p>Yes, it is!</p>,
+      <p key="answer">Yes, it is!</p>,
     ],
   },
 };

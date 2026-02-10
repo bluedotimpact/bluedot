@@ -1,6 +1,6 @@
 import {
   beforeEach,
-  describe, expect, Mock, test,
+  describe, expect, type Mock, test,
   vi,
 } from 'vitest';
 import {

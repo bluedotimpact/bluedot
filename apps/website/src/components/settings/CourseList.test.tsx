@@ -384,9 +384,7 @@ describe('CourseList', () => {
       courseFeedback: [], // No feedback submitted
     };
 
-    server.use(
-      trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPersonNoFeedback),
-    );
+    server.use(trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPersonNoFeedback));
 
     render(
       <CourseList courses={[{ course: mockCourse, courseRegistration: completedRegistration }]} />,
@@ -416,9 +414,7 @@ describe('CourseList', () => {
       courseFeedback: ['feedback-record-1'], // Feedback submitted
     };
 
-    server.use(
-      trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPersonWithFeedback),
-    );
+    server.use(trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPersonWithFeedback));
 
     render(
       <CourseList courses={[{ course: mockCourse, courseRegistration: completedRegistration }]} />,
@@ -446,9 +442,7 @@ describe('CourseList', () => {
       projectSubmission: null,
     };
 
-    server.use(
-      trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPersonFacilitator),
-    );
+    server.use(trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPersonFacilitator));
 
     render(
       <CourseList courses={[{ course: { ...mockCourse, slug: 'agi-strategy' }, courseRegistration: facilitatorRegistration }]} />,

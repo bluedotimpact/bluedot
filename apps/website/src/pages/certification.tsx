@@ -11,7 +11,7 @@ import {
   useAuthStore,
 } from '@bluedot/ui';
 import clsx from 'clsx';
-import { GetServerSideProps } from 'next';
+import { type GetServerSideProps } from 'next';
 import Head from 'next/head';
 import path from 'path';
 import Confetti from 'react-confetti';
@@ -82,7 +82,10 @@ const getCourseCtaColors = (courseSlug: string): { gradient: string; accent: str
 };
 
 const getOrdinalSuffix = (day: number): string => {
-  if (day > 3 && day < 21) return 'th';
+  if (day > 3 && day < 21) {
+    return 'th';
+  }
+
   switch (day % 10) {
     case 1: return 'st';
     case 2: return 'nd';

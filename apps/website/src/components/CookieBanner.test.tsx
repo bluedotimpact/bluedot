@@ -2,7 +2,7 @@ import {
   beforeEach,
   describe,
   expect,
-  MockedFunction,
+  type MockedFunction,
   test,
   vi,
 } from 'vitest';
@@ -33,7 +33,7 @@ describe('CookieBanner', () => {
   // Mock functions for the store
   let mockAccept: MockedFunction<() => void>;
   let mockReject: MockedFunction<() => void>;
-  let mockState: { isConsented: boolean | undefined, accept: () => void, reject: () => void };
+  let mockState: { isConsented: boolean | undefined; accept: () => void; reject: () => void };
 
   beforeEach(() => {
     mockState = useConsentStore.getState();

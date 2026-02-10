@@ -25,21 +25,22 @@ export const courseRegistrationsRouter = router({
   getAll: protectedProcedure.query(async ({ ctx }) => {
     return db.pg.select()
       .from(courseRegistrationTable.pg)
-      .where(
-        and(
-          eq(courseRegistrationTable.pg.email, ctx.auth.email),
-          or(
-            ne(courseRegistrationTable.pg.decision, 'Withdrawn'),
-            isNull(courseRegistrationTable.pg.decision),
-          ),
+      .where(and(
+        eq(courseRegistrationTable.pg.email, ctx.auth.email),
+        or(
+          ne(courseRegistrationTable.pg.decision, 'Withdrawn'),
+          isNull(courseRegistrationTable.pg.decision),
         ),
-      );
+      ));
   }),
 
   getRoundStartDates: protectedProcedure
     .input(z.object({ roundIds: z.array(z.string()) }))
     .query(async ({ input }) => {
-      if (!input.roundIds.length) return {} as Record<string, string | null>;
+      if (!input.roundIds.length) {
+        return {} as Record<string, string | null>;
+      }
+
       const rounds = await db.pg.select({
         id: applicationsRoundTable.pg.id,
         firstDiscussionDate: applicationsRoundTable.pg.firstDiscussionDate,
@@ -63,7 +64,9 @@ export const courseRegistrationsRouter = router({
       });
 
       // If the course registration already exists, return it
-      if (courseRegistration) return courseRegistration;
+      if (courseRegistration) {
+        return courseRegistration;
+      }
 
       if (courseId === FOAI_COURSE_ID) {
         const applicationsCourse = await db.getFirst(applicationsCourseTable, {

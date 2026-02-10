@@ -3,7 +3,7 @@ import {
   useState,
   useEffect,
   useCallback,
-  ReactNode,
+  type ReactNode,
 } from 'react';
 import Link from 'next/link';
 import { H2, P } from '@bluedot/ui';
@@ -39,30 +39,54 @@ const AlumniStoryCarousel = ({
   const prefersReducedMotionRef = useRef(false);
 
   const createInfiniteScrollData = () => {
-    if (stories.length === 0) return [];
+    if (stories.length === 0) {
+      return [];
+    }
+
     return [...stories, ...stories, ...stories];
   };
 
   const infiniteStories = createInfiniteScrollData();
 
   const getCardWidth = useCallback(() => {
-    if (typeof window === 'undefined') return 400;
+    if (typeof window === 'undefined') {
+      return 400;
+    }
+
     const width = window.innerWidth;
-    if (width >= 1280) return 420;
-    if (width >= 680) return 380;
+    if (width >= 1280) {
+      return 420;
+    }
+
+    if (width >= 680) {
+      return 380;
+    }
+
     return 320;
   }, []);
 
   const getCardGap = useCallback(() => {
-    if (typeof window === 'undefined') return 24;
+    if (typeof window === 'undefined') {
+      return 24;
+    }
+
     const width = window.innerWidth;
-    if (width >= 1024) return 32;
-    if (width >= 680) return 24;
+    if (width >= 1024) {
+      return 32;
+    }
+
+    if (width >= 680) {
+      return 24;
+    }
+
     return 20;
   }, []);
 
   const startAutoScroll = useCallback(() => {
-    if (prefersReducedMotionRef.current) return;
+    if (prefersReducedMotionRef.current) {
+      return;
+    }
+
     if (autoScrollIntervalRef.current) {
       clearInterval(autoScrollIntervalRef.current);
     }
@@ -96,13 +120,17 @@ const AlumniStoryCarousel = ({
     } else {
       stopAutoScroll();
     }
+
     return () => {
       stopAutoScroll();
     };
   }, [isHovered, startAutoScroll, stopAutoScroll]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return undefined;
+    if (typeof window === 'undefined') {
+      return undefined;
+    }
+
     const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
     const applyPreference = (matches: boolean) => {
       prefersReducedMotionRef.current = matches;
@@ -227,7 +255,7 @@ const AlumniStoryCarousel = ({
 
       {/* Carousel Container */}
       <div className="relative -mx-5 min-[680px]:-mx-8 lg:-mx-12 xl:-mx-16 2xl:-mx-20">
-        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
+        { }
         <div
           ref={scrollContainerRef}
           className="flex flex-nowrap overflow-x-auto scrollbar-none px-5 min-[680px]:px-8 lg:px-12 xl:pl-[max(64px,calc(50vw-640px))] xl:pr-16 2xl:pl-[max(80px,calc(50vw-640px))] 2xl:pr-20 gap-[20px] min-[680px]:gap-[24px] min-[1280px]:gap-[32px]"
@@ -241,7 +269,7 @@ const AlumniStoryCarousel = ({
           onFocus={handleFocus}
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
-          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+
           tabIndex={0}
           role="region"
           aria-label="Alumni stories carousel"

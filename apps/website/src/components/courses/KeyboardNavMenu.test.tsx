@@ -40,9 +40,7 @@ describe('KeyboardNavMenu', () => {
     const user = userEvent.setup();
     const customTitle = 'Editor Shortcuts';
     const customShortcuts = [{ action: 'Save', keys: ['Ctrl', 'S'] }];
-    const { getByText, getByRole } = render(
-      <KeyboardNavMenu popoverTitle={customTitle} shortcuts={customShortcuts} />,
-    );
+    const { getByText, getByRole } = render(<KeyboardNavMenu popoverTitle={customTitle} shortcuts={customShortcuts} />);
 
     const button = getByRole('button', { name: 'Keyboard shortcuts' });
     await user.click(button);

@@ -3,7 +3,7 @@ import CourseSection from '../components/homepage/CourseSection';
 import StorySection from '../components/homepage/StorySection';
 import HomeHeroContent from '../components/homepage/HomeHeroContent';
 import HomepageBlogSection from '../components/homepage/HomepageBlogSection';
-import TestimonialCarousel, { TestimonialMember } from '../components/lander/TestimonialCarousel';
+import TestimonialCarousel, { type TestimonialMember } from '../components/lander/TestimonialCarousel';
 import EventsSection from '../components/homepage/EventsSection';
 import NewsletterBanner from '../components/homepage/NewsletterBanner';
 import { trpc } from '../utils/trpc';
@@ -20,7 +20,7 @@ const HomePage = () => {
         <meta name="description" content="Learn for free about AI safety and how to ensure humanity safely navigates the transition to transformative AI. Join 4,000+ professionals building careers at organizations like Anthropic, OpenAI, and the UK’s AI Safety Institute." />
         <script
           type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
+
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',

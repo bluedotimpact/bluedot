@@ -14,7 +14,7 @@ const meta = {
       {
         id: 'edit',
         label: 'Edit',
-        onAction: () => {
+        onAction() {
           // eslint-disable-next-line no-alert
           alert('Edit clicked');
         },
@@ -22,7 +22,7 @@ const meta = {
       {
         id: 'duplicate',
         label: 'Duplicate',
-        onAction: () => {
+        onAction() {
           // eslint-disable-next-line no-alert
           alert('Duplicate clicked');
         },
@@ -30,7 +30,7 @@ const meta = {
       {
         id: 'delete',
         label: 'Delete',
-        onAction: () => {
+        onAction() {
           // eslint-disable-next-line no-alert
           alert('Delete clicked');
         },

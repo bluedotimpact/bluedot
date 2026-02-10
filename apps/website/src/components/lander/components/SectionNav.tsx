@@ -56,7 +56,9 @@ const SectionNav = ({ sections, applyUrl }: SectionNavProps) => {
     }
   };
 
-  if (!isVisible) return null;
+  if (!isVisible) {
+    return null;
+  }
 
   return (
     <nav
@@ -75,9 +77,9 @@ const SectionNav = ({ sections, applyUrl }: SectionNavProps) => {
                   px-3 min-[680px]:px-4 py-1.5 rounded-full text-[13px] min-[680px]:text-[14px] font-medium
                   whitespace-nowrap transition-all duration-200
                   ${activeSection === section.id
-                  ? 'bg-[#13132E] text-white'
-                  : 'text-[#13132E]/60 hover:text-[#13132E] hover:bg-[#13132E]/5'
-                  }
+                ? 'bg-[#13132E] text-white'
+                : 'text-[#13132E]/60 hover:text-[#13132E] hover:bg-[#13132E]/5'
+              }
                 `}
               >
                 {section.label}

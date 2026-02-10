@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import PartnerSection, { Partner } from './PartnerSection';
+import PartnerSection, { type Partner } from './PartnerSection';
 
 const meta = {
   title: 'website/CourseLander/PartnerSection',

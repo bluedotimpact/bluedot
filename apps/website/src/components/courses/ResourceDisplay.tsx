@@ -1,5 +1,5 @@
-import React from 'react';
-import { unitResourceTable, exerciseTable, InferSelectModel } from '@bluedot/db';
+import type React from 'react';
+import { type unitResourceTable, type exerciseTable, type InferSelectModel } from '@bluedot/db';
 import { Collapsible, ProgressDots, useAuthStore } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { ResourceListItem } from './ResourceListItem';

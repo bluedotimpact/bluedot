@@ -1,5 +1,5 @@
 import { cn } from '@bluedot/ui';
-import React from 'react';
+import type React from 'react';
 
 export const DocumentIcon: React.FC<{ size?: number; className?: string }> = ({ size = 12, className }) => (
   <svg

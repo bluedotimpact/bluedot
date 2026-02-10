@@ -63,11 +63,9 @@ describe('PasswordSection - User Journeys', () => {
   });
 
   test('User sees error when current password is wrong', async () => {
-    server.use(
-      trpcMsw.users.changePassword.mutation(() => {
-        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Incorrect password' });
-      }),
-    );
+    server.use(trpcMsw.users.changePassword.mutation(() => {
+      throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Incorrect password' });
+    }));
 
     render(<PasswordSection />, { wrapper: TrpcProvider });
 
@@ -243,14 +241,12 @@ describe('PasswordSection - User Journeys', () => {
   });
 
   test('User sees system error messages when backend has configuration issues', async () => {
-    server.use(
-      trpcMsw.users.changePassword.mutation(() => {
-        throw new TRPCError({
-          code: 'INTERNAL_SERVER_ERROR',
-          message: 'Authentication service not configured. Please contact support.',
-        });
-      }),
-    );
+    server.use(trpcMsw.users.changePassword.mutation(() => {
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: 'Authentication service not configured. Please contact support.',
+      });
+    }));
 
     render(<PasswordSection />, { wrapper: TrpcProvider });
 
@@ -263,23 +259,19 @@ describe('PasswordSection - User Journeys', () => {
 
     // User sees the configuration error message
     const errorMessage = await screen.findByRole('alert');
-    expect(errorMessage).toHaveTextContent(
-      'Failed to update password: Authentication service not configured. Please contact support.',
-    );
+    expect(errorMessage).toHaveTextContent('Failed to update password: Authentication service not configured. Please contact support.');
 
     // Modal stays open
     expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 
   test('User sees generic error message for unexpected backend errors', async () => {
-    server.use(
-      trpcMsw.users.changePassword.mutation(() => {
-        throw new TRPCError({
-          code: 'INTERNAL_SERVER_ERROR',
-          message: 'An unexpected error occurred during authentication.',
-        });
-      }),
-    );
+    server.use(trpcMsw.users.changePassword.mutation(() => {
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: 'An unexpected error occurred during authentication.',
+      });
+    }));
 
     render(<PasswordSection />, { wrapper: TrpcProvider });
 
@@ -292,23 +284,19 @@ describe('PasswordSection - User Journeys', () => {
 
     // User sees the error message
     const errorMessage = await screen.findByRole('alert');
-    expect(errorMessage).toHaveTextContent(
-      'Failed to update password: An unexpected error occurred during authentication.',
-    );
+    expect(errorMessage).toHaveTextContent('Failed to update password: An unexpected error occurred during authentication.');
 
     // Modal stays open
     expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 
   test('User sees fallback error message when backend error has no details', async () => {
-    server.use(
-      trpcMsw.users.changePassword.mutation(() => {
-        throw new TRPCError({
-          code: 'INTERNAL_SERVER_ERROR',
-          message: '',
-        });
-      }),
-    );
+    server.use(trpcMsw.users.changePassword.mutation(() => {
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: '',
+      });
+    }));
 
     render(<PasswordSection />, { wrapper: TrpcProvider });
 

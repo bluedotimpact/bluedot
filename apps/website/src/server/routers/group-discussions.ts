@@ -114,12 +114,10 @@ export const groupDiscussionsRouter = router({
 
       const groupDiscussions = await db.pg.select()
         .from(groupDiscussionTable.pg)
-        .where(
-          and(
-            eq(groupDiscussionTable.pg.round, roundId),
-            sql`(${groupDiscussionTable.pg.participantsExpected} @> ARRAY[${participant.id}] OR ${groupDiscussionTable.pg.facilitators} @> ARRAY[${participant.id}])`,
-          ),
-        )
+        .where(and(
+          eq(groupDiscussionTable.pg.round, roundId),
+          sql`(${groupDiscussionTable.pg.participantsExpected} @> ARRAY[${participant.id}] OR ${groupDiscussionTable.pg.facilitators} @> ARRAY[${participant.id}])`,
+        ))
         .orderBy(groupDiscussionTable.pg.startDateTime);
 
       // Get the first discussion that hasn't ended (already ordered by start time)
@@ -136,7 +134,7 @@ export const groupDiscussionsRouter = router({
           try {
             const zoomAccount = await db.get(zoomAccountTable, { id: groupDiscussion.zoomAccount });
             hostKeyForFacilitators = zoomAccount.hostKey || undefined;
-          } catch (error) {
+          } catch {
             hostKeyForFacilitators = undefined;
           }
         }

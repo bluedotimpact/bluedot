@@ -5,7 +5,7 @@ import HeroSection from './HeroSection';
 
 describe('HeroSection', () => {
   const defaultProps = {
-    title: "AGI Strategy – Learn how to navigate humanity's most critical decade",
+    title: 'AGI Strategy – Learn how to navigate humanity\'s most critical decade',
     description: 'Artificial General Intelligence is moving from research to reality. Understand the race, the risks, and the strategic decisions that will shape economies, security, and our collective future.',
     primaryCta: {
       text: 'Apply now',

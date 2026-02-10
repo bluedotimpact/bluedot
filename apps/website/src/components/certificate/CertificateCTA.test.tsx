@@ -22,17 +22,13 @@ describe('CertificateCTA', () => {
   test('displays the course name in the description text', () => {
     render(<CertificateCTA {...defaultProps} />);
 
-    expect(
-      screen.getByText(/Join thousands of professionals building expertise in ai governance/i),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Join thousands of professionals building expertise in ai governance/i)).toBeInTheDocument();
   });
 
   test('displays course name lowercased in description', () => {
     render(<CertificateCTA {...defaultProps} courseName="Technical AI Safety" />);
 
-    expect(
-      screen.getByText(/building expertise in technical ai safety/i),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/building expertise in technical ai safety/i)).toBeInTheDocument();
   });
 
   test('links to the correct course URL', () => {

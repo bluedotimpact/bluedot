@@ -10,7 +10,7 @@ import {
   PiBriefcase,
   PiPath,
 } from 'react-icons/pi';
-import { CourseLanderContent } from '../CourseLander';
+import { type CourseLanderContent } from '../CourseLander';
 
 const INCUBATOR_WEEK_COLORS = {
   /* Gradient layers:
@@ -59,7 +59,7 @@ export const createIncubatorWeekContent = (
       {
         icon: PiBriefcase,
         boldText: 'For technical founders',
-        description: "who've identified a gap in AI safety infrastructure and want to fill it.",
+        description: 'who\'ve identified a gap in AI safety infrastructure and want to fill it.',
       },
       {
         icon: PiFlask,
@@ -69,7 +69,7 @@ export const createIncubatorWeekContent = (
       {
         icon: PiCompass,
         boldText: 'For operators',
-        description: "who've seen how AI deployment actually works and know what's missing.",
+        description: 'who\'ve seen how AI deployment actually works and know what\'s missing.',
       },
     ],
     bottomCta: {
@@ -81,23 +81,23 @@ export const createIncubatorWeekContent = (
   },
 
   courseBenefits: {
-    title: "What you'll get",
+    title: 'What you\'ll get',
     iconBackgroundColor: INCUBATOR_WEEK_COLORS.bright,
     benefits: [
       {
         icon: PiRocketLaunch,
         title: 'From problem to pitch in 5 days',
-        description: "Monday: develop threat models and identify top experts. Tuesday-Wednesday: build and iterate on interventions, call experts, attend our community social. Thursday: create your pitch. Friday: pitch to us for funding. You'll make more progress in a week than most make in months.",
+        description: 'Monday: develop threat models and identify top experts. Tuesday-Wednesday: build and iterate on interventions, call experts, attend our community social. Thursday: create your pitch. Friday: pitch to us for funding. You\'ll make more progress in a week than most make in months.',
       },
       {
         icon: PiHandshake,
         title: 'Work alongside the best',
-        description: "You'll work from our office at LISA alongside Apollo Research, Workshop Labs, and other leading AI safety organizations. We bring in founders, funders, and experts throughout the week to accelerate your work.",
+        description: 'You\'ll work from our office at LISA alongside Apollo Research, Workshop Labs, and other leading AI safety organizations. We bring in founders, funders, and experts throughout the week to accelerate your work.',
       },
       {
         icon: PiCurrencyDollar,
         title: 'Get backed to build',
-        description: "Strong pitches receive initial grants of £50k+ to work on your project full-time. Our first batch backed Exona — they've since raised more, work from our co-working space, and are already hiring. We're putting our money where our mouth is.",
+        description: 'Strong pitches receive initial grants of £50k+ to work on your project full-time. Our first batch backed Exona — they\'ve since raised more, work from our co-working space, and are already hiring. We\'re putting our money where our mouth is.',
       },
     ],
   },
@@ -127,12 +127,12 @@ export const createIncubatorWeekContent = (
       {
         icon: PiMapPin,
         label: 'Location',
-        description: "In-person in London, working from LISA alongside Apollo Research and other leading organizations. We'll fly you in and cover all expenses.",
+        description: 'In-person in London, working from LISA alongside Apollo Research and other leading organizations. We\'ll fly you in and cover all expenses.',
       },
       {
         icon: PiTarget,
         label: 'Focus areas',
-        description: "AI safety, biosecurity, cybersecurity, and other catastrophic risk reduction. For now we're focused on for-profit companies.",
+        description: 'AI safety, biosecurity, cybersecurity, and other catastrophic risk reduction. For now we\'re focused on for-profit companies.',
       },
       {
         icon: PiCalendarDots,
@@ -153,17 +153,17 @@ export const createIncubatorWeekContent = (
       {
         id: 'solo-or-team',
         question: 'Can I apply solo or do I need a co-founder?',
-        answer: "Both work. Solo founders are welcome — though we've learned that co-founder matching is hard, so coming with a partner (friend, classmate, existing co-founder) is a plus. We'll help facilitate connections during the week.",
+        answer: 'Both work. Solo founders are welcome — though we\'ve learned that co-founder matching is hard, so coming with a partner (friend, classmate, existing co-founder) is a plus. We\'ll help facilitate connections during the week.',
       },
       {
         id: 'expenses',
         question: 'What expenses are covered?',
-        answer: "Everything. We'll fly you to London, provide accommodation, and cover all meals during the week. You just need to show up ready to build.",
+        answer: 'Everything. We\'ll fly you to London, provide accommodation, and cover all meals during the week. You just need to show up ready to build.',
       },
       {
         id: 'tracks',
         question: 'What tracks do you support?',
-        answer: "For now we're focused on for-profit companies. We're keen to explore other areas as well, especially policy entrepreneurship.",
+        answer: 'For now we\'re focused on for-profit companies. We\'re keen to explore other areas as well, especially policy entrepreneurship.',
       },
       {
         id: 'funding',

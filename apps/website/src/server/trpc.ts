@@ -47,8 +47,11 @@ const openTelemetryMiddleware = t.middleware(async (opts) => {
   const { type, path, ctx } = opts;
 
   let method = 'UNKNOWN';
-  if (type === 'query') method = 'GET';
-  else if (type === 'mutation') method = 'POST';
+  if (type === 'query') {
+    method = 'GET';
+  } else if (type === 'mutation') {
+    method = 'POST';
+  }
 
   const userAgent = ctx.userAgent ?? 'unknown';
 
@@ -133,6 +136,7 @@ export const protectedProcedure = publicProcedure.use(({ ctx, next }) => {
   if (!ctx.auth) {
     throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Authentication required' });
   }
+
   return next({ ctx });
 });
 
@@ -141,5 +145,6 @@ export const adminProcedure = protectedProcedure.use(async ({ ctx, next }) => {
   if (!hasAdminAccess) {
     throw new TRPCError({ code: 'FORBIDDEN', message: 'Unauthorized' });
   }
+
   return next({ ctx });
 });

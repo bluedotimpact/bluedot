@@ -23,7 +23,7 @@ const mockUser = {
 
 // Test helper function for selecting elements
 const getNameInput = (container: HTMLElement): HTMLInputElement => {
-  const input = container.querySelector('input[aria-label="Profile name"]') as HTMLInputElement;
+  const input = container.querySelector<HTMLInputElement>('input[aria-label="Profile name"]')!;
   expect(input).toBeInTheDocument();
   return input;
 };
@@ -141,11 +141,9 @@ describe('ProfileNameEditor', () => {
 
   test('should handle API errors gracefully', async () => {
     // Test session expired error (401)
-    server.use(
-      trpcMsw.users.updateName.mutation(() => {
-        throw new TRPCError({ code: 'UNAUTHORIZED' });
-      }),
-    );
+    server.use(trpcMsw.users.updateName.mutation(() => {
+      throw new TRPCError({ code: 'UNAUTHORIZED' });
+    }));
 
     const { container } = render(
       <ProfileNameEditor initialName="John Doe" />,
@@ -171,11 +169,9 @@ describe('ProfileNameEditor', () => {
     });
 
     // Test generic error
-    server.use(
-      trpcMsw.users.updateName.mutation(() => {
-        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
-      }),
-    );
+    server.use(trpcMsw.users.updateName.mutation(() => {
+      throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
+    }));
 
     fireEvent.change(input, { target: { value: 'Jane Smith' } });
     const saveButton2 = getNameSaveButton(container);

@@ -8,7 +8,7 @@ import {
   useLatestUtmParams,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import { GetStaticProps, GetStaticPaths } from 'next';
+import { type GetStaticProps, type GetStaticPaths } from 'next';
 import path from 'path';
 
 import { ROUTES } from '../../../lib/routes';
@@ -149,7 +149,7 @@ const renderCoursePage = ({
 
 const registerInterestUrl = 'https://web.miniextensions.com/aGd0mXnpcN1gfqlnYNZc';
 
-const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseAndUnits, courseOgImage?: string | null }) => {
+const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseAndUnits; courseOgImage?: string | null }) => {
   const { latestUtmParams } = useLatestUtmParams();
   const registerInterestUrlWithUtm = latestUtmParams.utm_source ? addQueryParam(registerInterestUrl, 'prefill_Source', latestUtmParams.utm_source) : registerInterestUrl;
 
@@ -240,7 +240,7 @@ export const getStaticProps: GetStaticProps<CoursePageProps> = async ({ params }
       },
       revalidate: 300,
     };
-  } catch (error) {
+  } catch {
     // Error fetching course data (likely not found)
     return {
       notFound: true,

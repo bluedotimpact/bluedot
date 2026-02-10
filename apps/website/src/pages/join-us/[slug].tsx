@@ -4,13 +4,13 @@ import {
   HeroH2,
   Section,
   Breadcrumbs,
-  BluedotRoute,
+  type BluedotRoute,
   HeroCTAContainer,
   CTALinkOrButton,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import { GetStaticProps, GetStaticPaths } from 'next';
-import { JobPosting, jobPostingTable } from '@bluedot/db';
+import { type GetStaticProps, type GetStaticPaths } from 'next';
+import { type JobPosting, jobPostingTable } from '@bluedot/db';
 import path from 'path';
 import { ROUTES } from '../../lib/routes';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
@@ -47,7 +47,7 @@ const JobPostingPage = ({ slug, job, jobOgImage }: JobPostingPageProps) => {
         <meta key="og:image:alt" property="og:image:alt" content="BlueDot Impact logo" />
         <script
           type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
+
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
@@ -137,7 +137,7 @@ export const getStaticProps: GetStaticProps<JobPostingPageProps> = async ({ para
       },
       revalidate: 300,
     };
-  } catch (error) {
+  } catch {
     // Error fetching job data (likely not found)
     return {
       notFound: true,

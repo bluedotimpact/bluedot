@@ -30,12 +30,10 @@ describe('Card', () => {
   });
 
   test('renders with custom className', () => {
-    const { container } = render(
-      <Card
-        {...defaultProps}
-        className="custom-class"
-      />,
-    );
+    const { container } = render(<Card
+      {...defaultProps}
+      className="custom-class"
+    />);
     const cardElement = container.querySelector('.custom-class');
     expect(cardElement).not.toBeNull();
   });
@@ -47,9 +45,7 @@ describe('Card', () => {
   });
 
   test('includes footer when given', () => {
-    const { container } = render(
-      <Card {...defaultProps}>A footer of some kind</Card>,
-    );
+    const { container } = render(<Card {...defaultProps}>A footer of some kind</Card>);
     const ctaMetadataElement = container.querySelector('.card__footer');
     expect(ctaMetadataElement).not.toBeNull();
   });

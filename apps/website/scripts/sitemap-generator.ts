@@ -26,8 +26,14 @@ const getLastModified = (filePath: string): string => {
 };
 
 const getRouteFilePath = (url: string): string => {
-  if (url === '/') return 'src/pages/index.tsx';
-  if (fs.existsSync(`src/pages${url}/index.tsx`)) return `src/pages${url}/index.tsx`;
+  if (url === '/') {
+    return 'src/pages/index.tsx';
+  }
+
+  if (fs.existsSync(`src/pages${url}/index.tsx`)) {
+    return `src/pages${url}/index.tsx`;
+  }
+
   return `src/pages${url}.tsx`;
 };
 

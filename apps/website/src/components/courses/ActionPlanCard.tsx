@@ -1,7 +1,7 @@
 import {
   Card, CTALinkOrButton, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
-import React from 'react';
+import type React from 'react';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { trpc } from '../../utils/trpc';
 import { FOAI_COURSE_ID } from '../../lib/constants';

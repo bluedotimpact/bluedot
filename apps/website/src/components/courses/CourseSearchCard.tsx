@@ -1,17 +1,17 @@
-import React from 'react';
+import type React from 'react';
 import clsx from 'clsx';
 import { ClickTarget, H3, P } from '@bluedot/ui';
 import { FaStar } from 'react-icons/fa6';
 
 export type CourseSearchCardProps = React.PropsWithChildren<{
   // Required
-  title: string,
-  url: string,
+  title: string;
+  url: string;
   // Optional
-  className?: string,
-  description?: string,
+  className?: string;
+  description?: string;
   averageRating?: number | null;
-  imageSrc?: string,
+  imageSrc?: string;
 }>;
 
 const displayAverageRating = (rating?: number | null) => (rating ? rating.toFixed(1) : '');

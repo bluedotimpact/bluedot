@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { cn } from '../utils';
 
 export const CloseIcon: React.FC<{ size?: number; className?: string }> = ({ size = 24, className }) => (

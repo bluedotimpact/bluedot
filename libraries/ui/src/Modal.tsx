@@ -1,6 +1,5 @@
-import React, {
-  ReactNode,
-} from 'react';
+import { type ReactNode } from 'react';
+import type React from 'react';
 import {
   Dialog,
   Modal as AriaModal,

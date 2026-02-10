@@ -13,12 +13,10 @@ export const resourcesRouter = router({
       const resourceCompletions = await db.pg
         .select()
         .from(resourceCompletionTable.pg)
-        .where(
-          and(
-            inArray(resourceCompletionTable.pg.unitResourceId, input.unitResourceIds),
-            eq(resourceCompletionTable.pg.email, ctx.auth.email),
-          ),
-        )
+        .where(and(
+          inArray(resourceCompletionTable.pg.unitResourceId, input.unitResourceIds),
+          eq(resourceCompletionTable.pg.email, ctx.auth.email),
+        ))
         .orderBy(desc(resourceCompletionTable.pg.autoNumberId));
 
       // Deduplicate by unitResourceId, keeping only the first occurrence.
@@ -30,9 +28,11 @@ export const resourcesRouter = router({
         if (!completion.unitResourceId) {
           return false;
         }
+
         if (seenIds.has(completion.unitResourceId)) {
           return false;
         }
+
         seenIds.add(completion.unitResourceId);
         return true;
       });
@@ -41,21 +41,19 @@ export const resourcesRouter = router({
     }),
 
   saveResourceCompletion: protectedProcedure
-    .input(
-      z.object({
-        unitResourceId: z.string().min(1),
-        rating: z.number().nullable().optional(),
-        isCompleted: z.boolean().optional(),
-        feedback: z.string().optional(),
-        resourceFeedback: z
-          .union([
-            z.literal(RESOURCE_FEEDBACK.DISLIKE),
-            z.literal(RESOURCE_FEEDBACK.NO_RESPONSE),
-            z.literal(RESOURCE_FEEDBACK.LIKE),
-          ])
-          .optional(),
-      }),
-    )
+    .input(z.object({
+      unitResourceId: z.string().min(1),
+      rating: z.number().nullable().optional(),
+      isCompleted: z.boolean().optional(),
+      feedback: z.string().optional(),
+      resourceFeedback: z
+        .union([
+          z.literal(RESOURCE_FEEDBACK.DISLIKE),
+          z.literal(RESOURCE_FEEDBACK.NO_RESPONSE),
+          z.literal(RESOURCE_FEEDBACK.LIKE),
+        ])
+        .optional(),
+    }))
     .mutation(async ({ input, ctx }) => {
       const resourceCompletion = await db.getFirst(resourceCompletionTable, {
         filter: {

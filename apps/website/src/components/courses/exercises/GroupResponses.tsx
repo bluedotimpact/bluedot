@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import { Select } from '@bluedot/ui';
 import { FaUser } from 'react-icons/fa6';
 // TODO remove this import cycle
-// eslint-disable-next-line import/no-cycle
+
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
 
 const TRUNCATION_LINES = 8;
@@ -11,7 +12,7 @@ export type GroupData = {
   id: string;
   name: string;
   totalParticipants: number;
-  responses: { name: string, response: string }[];
+  responses: { name: string; response: string }[];
 };
 
 export type GroupResponsesProps = {
@@ -24,7 +25,9 @@ const GroupResponses: React.FC<GroupResponsesProps> = ({
   const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(undefined);
 
   const selectedGroup = (selectedGroupId && groups.find((g) => g.id === selectedGroupId)) || groups[0];
-  if (!selectedGroup) return null;
+  if (!selectedGroup) {
+    return null;
+  }
 
   const { responses, totalParticipants } = selectedGroup;
   const pendingCount = Math.max(0, totalParticipants - responses.length);
@@ -51,7 +54,7 @@ const GroupResponses: React.FC<GroupResponsesProps> = ({
       <div className="flex flex-col divide-y divide-gray-200">
         {responses.map((r, i) => (
           <ResponseBlock
-            // eslint-disable-next-line react/no-array-index-key -- no stable unique id, names can collide
+
             key={`${r.name}-${i}`}
             name={r.name}
             response={r.response}

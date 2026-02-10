@@ -62,12 +62,10 @@ export const facilitatorSwitchingRouter = router({
           name: meetPersonTable.pg.name,
         })
         .from(meetPersonTable.pg)
-        .where(
-          and(
-            eq(meetPersonTable.pg.round, currentFacilitator.round),
-            eq(meetPersonTable.pg.role, 'Facilitator'),
-          ),
-        );
+        .where(and(
+          eq(meetPersonTable.pg.round, currentFacilitator.round),
+          eq(meetPersonTable.pg.role, 'Facilitator'),
+        ));
 
       // Return as options for Select, excluding the current facilitator
       return facilitators
@@ -79,26 +77,18 @@ export const facilitatorSwitchingRouter = router({
     }),
 
   discussionsAvailable: protectedProcedure
-    .input(
-      z.object({
-        courseSlug: z.string(),
-      }),
-    )
+    .input(z.object({
+      courseSlug: z.string(),
+    }))
     .query(async ({ input: { courseSlug }, ctx }) => {
       const facilitator = await getFacilitator(courseSlug, ctx.auth.email);
 
       const groupDiscussions = await db.pg
         .select()
         .from(groupDiscussionTable.pg)
-        .where(
-          and(
-            inArray(groupDiscussionTable.pg.id, facilitator.expectedDiscussionsFacilitator || []),
-          ),
-        );
+        .where(and(inArray(groupDiscussionTable.pg.id, facilitator.expectedDiscussionsFacilitator || [])));
 
-      const groups = await db.pg.select().from(groupTable.pg).where(
-        inArray(groupTable.pg.id, groupDiscussions.map((discussion) => discussion.group)),
-      );
+      const groups = await db.pg.select().from(groupTable.pg).where(inArray(groupTable.pg.id, groupDiscussions.map((discussion) => discussion.group)));
 
       const unitIds = [...new Set(groupDiscussions.map((d) => d.courseBuilderUnitRecordId).filter(Boolean))] as string[];
       const units = unitIds.length > 0
@@ -121,15 +111,13 @@ export const facilitatorSwitchingRouter = router({
     }),
 
   updateDiscussion: protectedProcedure
-    .input(
-      z.object({
-        courseSlug: z.string(),
-        // When provided, we will update only a single discussion's date/time. Otherwise all future discussions are updated.
-        discussionId: z.string().optional(),
-        groupId: z.string(),
-        requestedDateTimeInSeconds: z.number(), // Unix timestamp in seconds
-      }),
-    )
+    .input(z.object({
+      courseSlug: z.string(),
+      // When provided, we will update only a single discussion's date/time. Otherwise all future discussions are updated.
+      discussionId: z.string().optional(),
+      groupId: z.string(),
+      requestedDateTimeInSeconds: z.number(), // Unix timestamp in seconds
+    }))
     .mutation(async ({ input, ctx }) => {
       const {
         courseSlug, discussionId, groupId, requestedDateTimeInSeconds,
@@ -152,6 +140,7 @@ export const facilitatorSwitchingRouter = router({
         if (!allowedDiscussions.includes(discussionId)) {
           throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitator is not allowed to manage this discussion' });
         }
+
         const discussion = await db.getFirst(groupDiscussionTable, { filter: { id: discussionId } });
         if (!discussion || discussion.group !== groupId) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'Discussion does not belong to the specified group' });
@@ -163,12 +152,10 @@ export const facilitatorSwitchingRouter = router({
         const groupDiscussions = await db.pg
           .select({ id: groupDiscussionTable.pg.id })
           .from(groupDiscussionTable.pg)
-          .where(
-            and(
-              eq(groupDiscussionTable.pg.group, groupId),
-              inArray(groupDiscussionTable.pg.id, allowedDiscussions),
-            ),
-          );
+          .where(and(
+            eq(groupDiscussionTable.pg.group, groupId),
+            inArray(groupDiscussionTable.pg.id, allowedDiscussions),
+          ));
 
         if (groupDiscussions.length === 0) {
           throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitator is not allowed to manage any discussions in this group' });
@@ -188,14 +175,12 @@ export const facilitatorSwitchingRouter = router({
     }),
 
   requestFacilitatorChange: protectedProcedure
-    .input(
-      z.object({
-        courseSlug: z.string(),
-        discussionId: z.string(),
-        groupId: z.string(),
-        newFacilitatorId: z.string(),
-      }),
-    )
+    .input(z.object({
+      courseSlug: z.string(),
+      discussionId: z.string(),
+      groupId: z.string(),
+      newFacilitatorId: z.string(),
+    }))
     .mutation(async ({ input, ctx }) => {
       const {
         courseSlug, discussionId, groupId, newFacilitatorId,
@@ -222,9 +207,11 @@ export const facilitatorSwitchingRouter = router({
       if (!newFacilitator) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'New facilitator not found' });
       }
+
       if (newFacilitator.round !== facilitator.round) {
         throw new TRPCError({ code: 'BAD_REQUEST', message: 'New facilitator must be in the same round' });
       }
+
       if (newFacilitator.role !== 'Facilitator') {
         throw new TRPCError({ code: 'BAD_REQUEST', message: 'Selected person is not a facilitator' });
       }

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import QuoteSection, { QuoteWithUrl } from './QuoteSection';
+import QuoteSection, { type QuoteWithUrl } from './QuoteSection';
 
 const meta = {
   title: 'website/CourseLander/QuoteSection',

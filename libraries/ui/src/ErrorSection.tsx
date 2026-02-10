@@ -1,7 +1,7 @@
 import { ErrorView } from './ErrorView';
 
 export type ErrorSectionProps = {
-  error: unknown,
+  error: unknown;
 };
 
 export const ErrorSection: React.FC<ErrorSectionProps> = ({ error }) => {

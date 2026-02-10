@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import { NavLinks } from './_NavLinks';
 import {
   DRAWER_CLASSES,
-  ExpandedSectionsState,
+  type ExpandedSectionsState,
   MOBILE_NAV_CLASS,
 } from './utils';
 import { getLoginUrl } from '../../utils/getLoginUrl';
@@ -27,7 +27,7 @@ export const MobileNavLinks: React.FC<{
 }) => {
   const router = useRouter();
   const joinUrl = getLoginUrl(router.asPath, true);
-  const mobileNavRef = useClickOutside<HTMLDivElement>(
+  const mobileNavRef = useClickOutside(
     () => updateExpandedSections({ mobileNav: false }),
     expandedSections.mobileNav,
     `.${MOBILE_NAV_CLASS}`,

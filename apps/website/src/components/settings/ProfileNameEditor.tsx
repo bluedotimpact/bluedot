@@ -20,15 +20,15 @@ const ProfileNameEditor = ({ initialName, onSave }: ProfileNameEditorProps) => {
   const trimmedName = tempName.trim();
 
   const updateNameMutation = trpc.users.updateName.useMutation({
-    onMutate: () => {
+    onMutate() {
       setNameError('');
     },
-    onSuccess: (result) => {
+    onSuccess(result) {
       setCurrentSavedName(result.name);
       setTempName(result.name);
       onSave?.();
     },
-    onError: (error) => {
+    onError(error) {
       if (error.data?.code === 'UNAUTHORIZED') {
         setNameError('Session expired. Please refresh the page and try again.');
       } else if (error.data?.code === 'BAD_REQUEST') {
@@ -83,8 +83,13 @@ const ProfileNameEditor = ({ initialName, onSave }: ProfileNameEditorProps) => {
             onChange={(e) => setTempName(e.target.value)}
             onFocus={handleFocus}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') handleSave();
-              if (e.key === 'Escape') handleCancel();
+              if (e.key === 'Enter') {
+                handleSave();
+              }
+
+              if (e.key === 'Escape') {
+                handleCancel();
+              }
             }}
             placeholder="Enter your name"
             aria-label="Profile name"

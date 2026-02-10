@@ -25,8 +25,14 @@ const formatDuration = (minutes: number): string => {
   const hours = Math.floor(minutes / 60);
   const mins = minutes % 60;
 
-  if (hours === 0) return `${mins} min`;
-  if (mins === 0) return `${hours} hr`;
+  if (hours === 0) {
+    return `${mins} min`;
+  }
+
+  if (mins === 0) {
+    return `${hours} hr`;
+  }
+
   return `${hours} hr ${mins} min`;
 };
 
@@ -66,7 +72,9 @@ const UnitMetadataDisplay = ({
     return null;
   }
 
-  if (!duration && exerciseCount === 0) return null;
+  if (!duration && exerciseCount === 0) {
+    return null;
+  }
 
   return (
     <div className="flex items-center gap-1">
@@ -129,6 +137,7 @@ const CurriculumUnit = ({
     if (!isOpen && onExpand) {
       onExpand();
     }
+
     setIsOpen(!isOpen);
   };
 
@@ -202,7 +211,10 @@ const CourseCurriculumSection = ({
   );
 
   const metadataMap = useMemo(() => {
-    if (!metadata) return new Map<string, UnitMetadata>();
+    if (!metadata) {
+      return new Map<string, UnitMetadata>();
+    }
+
     return new Map(metadata.map((m) => [m.unitId, { duration: m.duration, exerciseCount: m.exerciseCount }]));
   }, [metadata]);
 

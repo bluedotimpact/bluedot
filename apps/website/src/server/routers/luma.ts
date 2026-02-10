@@ -54,6 +54,7 @@ export const lumaRouter = router({
       if (!isRefreshing) {
         refreshCache();
       }
+
       return cachedEvents;
     }
 
@@ -61,6 +62,7 @@ export const lumaRouter = router({
     if (refreshPromise) {
       return refreshPromise;
     }
+
     return refreshCache();
   }),
 });

@@ -71,7 +71,7 @@ const SyncDashboard = () => {
           <div className="text-red-700 space-y-4">
             <p>
               {auth
-                ? "You don't have permission to access the admin dashboard."
+                ? 'You don\'t have permission to access the admin dashboard.'
                 : 'You need to log in to access the admin dashboard.'}
             </p>
 
@@ -204,13 +204,18 @@ const SyncDashboard = () => {
                       if (req.completedAt && req.startedAt) {
                         return `${Math.round((new Date(req.completedAt).getTime() - new Date(req.startedAt).getTime()) / 60000)} min`;
                       }
+
                       if (req.status === 'running') {
-                        if (!req.startedAt) return 'Starting...';
+                        if (!req.startedAt) {
+                          return 'Starting...';
+                        }
+
                         const startTime = new Date(req.startedAt).getTime();
                         const now = new Date().getTime();
                         const minutesRunning = Math.round((now - startTime) / 60000);
                         return `${minutesRunning} min`;
                       }
+
                       return 'Waiting';
                     })()}
                   </td>

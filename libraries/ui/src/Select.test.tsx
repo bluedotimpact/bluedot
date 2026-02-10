@@ -20,14 +20,12 @@ const mockOptions = [
 
 describe('Select', () => {
   test('renders with selected value', () => {
-    const { container } = render(
-      <Select
-        options={mockOptions}
-        value="option1"
-        onChange={() => {}}
-        ariaLabel="Test select"
-      />,
-    );
+    const { container } = render(<Select
+      options={mockOptions}
+      value="option1"
+      onChange={() => {}}
+      ariaLabel="Test select"
+    />);
 
     expect(screen.getByRole('button')).toHaveTextContent('Option 1');
 
@@ -36,14 +34,12 @@ describe('Select', () => {
 
   test('calls onChange when an option is selected', () => {
     const handleChange = vi.fn();
-    render(
-      <Select
-        options={mockOptions}
-        value="option1"
-        onChange={handleChange}
-        ariaLabel="Test select"
-      />,
-    );
+    render(<Select
+      options={mockOptions}
+      value="option1"
+      onChange={handleChange}
+      ariaLabel="Test select"
+    />);
 
     fireEvent.click(screen.getByRole('button'));
     fireEvent.click(screen.getByRole('option', { name: 'Option 2' }));
@@ -56,13 +52,11 @@ describe('Select', () => {
       { value: 'option1', label: 'Option 1' },
       { value: 'option2', label: 'Option 2', disabled: true },
     ];
-    const { container } = render(
-      <Select
-        options={optionsWithDisabled}
-        onChange={() => {}}
-        ariaLabel="Test select"
-      />,
-    );
+    const { container } = render(<Select
+      options={optionsWithDisabled}
+      onChange={() => {}}
+      ariaLabel="Test select"
+    />);
 
     fireEvent.click(screen.getByRole('button'));
 

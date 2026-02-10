@@ -1,4 +1,4 @@
-import { NextPageContext } from 'next';
+import { type NextPageContext } from 'next';
 import Head from 'next/head';
 import { ErrorSection, Section } from '@bluedot/ui';
 

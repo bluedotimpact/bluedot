@@ -1,6 +1,6 @@
-import React from 'react';
+import type React from 'react';
 import {
-  A, BluedotRoute, ClickTarget, H2, P,
+  A, type BluedotRoute, ClickTarget, H2, P,
 } from '@bluedot/ui';
 import clsx from 'clsx';
 
@@ -65,9 +65,9 @@ const SettingsNavigation = ({ activeTab }: { activeTab: SettingsTab }) => {
                 className={`
                   w-auto lg:w-full h-11 px-4 py-3 rounded-lg transition-colors flex items-center
                   ${isActive
-                  ? 'bg-[rgba(0,85,255,0.08)] text-bluedot-darker font-semibold'
-                  : 'text-bluedot-darker hover:bg-[rgba(0,85,255,0.04)]'
-                  }
+              ? 'bg-[rgba(0,85,255,0.08)] text-bluedot-darker font-semibold'
+              : 'text-bluedot-darker hover:bg-[rgba(0,85,255,0.04)]'
+            }
                 `}
                 aria-current={isActive ? 'page' : undefined}
                 aria-label={`${item.label} settings`}

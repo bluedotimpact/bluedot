@@ -39,7 +39,7 @@ const verifyActiveQuote = (container: HTMLElement, expectedQuote: typeof mockQuo
   const activeImageContainer = container.querySelector('.quote-carousel__image-container--active');
 
   const activeQuote = activeQuoteContainer?.querySelector('.quote-carousel__quote');
-  const activeImage = activeImageContainer?.querySelector('.quote-carousel__image') as HTMLImageElement;
+  const activeImage = activeImageContainer?.querySelector<HTMLImageElement>('.quote-carousel__image');
   const activeAuthor = activeImageContainer?.querySelector('.quote-carousel__author-name');
   const activeRole = activeImageContainer?.querySelector('.quote-carousel__author-role');
 
@@ -70,7 +70,10 @@ describe('QuoteCarousel', () => {
 
     const buttons = screen.getAllByRole('button');
     const secondButton = buttons[1];
-    if (!secondButton) throw new Error('Button not found');
+    if (!secondButton) {
+      throw new Error('Button not found');
+    }
+
     fireEvent.click(secondButton);
 
     verifyActiveQuote(container, mockQuotes[1]!);
@@ -96,7 +99,10 @@ describe('QuoteCarousel', () => {
 
     const buttons = screen.getAllByRole('button');
     const secondButton = buttons[1];
-    if (!secondButton) throw new Error('Button not found');
+    if (!secondButton) {
+      throw new Error('Button not found');
+    }
+
     fireEvent.click(secondButton);
 
     // Advance time by autorotate timing

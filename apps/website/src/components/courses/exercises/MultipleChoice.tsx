@@ -80,8 +80,14 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   };
 
   const getSubmitButtonText = () => {
-    if (isSubmitting) return 'Checking...';
-    if (currentAnswer) return 'Check answer';
+    if (isSubmitting) {
+      return 'Checking...';
+    }
+
+    if (currentAnswer) {
+      return 'Check answer';
+    }
+
     return 'Select an option'; // No quiz options have been selected yet
   };
 
@@ -95,8 +101,14 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
       // If there is a submitted answer, or the user is not logged in, dim unselected option text and don't allow hover effects.
       return `bg-[#2A2D340A] border-transparent ${isCorrect || isIncorrect || !isLoggedIn ? 'text-gray-400' : 'hover:bg-[#F0F5FD]'}`;
     }
-    if (isCorrect) return 'bg-[#18B71B1A] border-[#18B71B]';
-    if (isIncorrect) return 'bg-[#DC00001A] border-[#DC0000]';
+
+    if (isCorrect) {
+      return 'bg-[#18B71B1A] border-[#18B71B]';
+    }
+
+    if (isIncorrect) {
+      return 'bg-[#DC00001A] border-[#DC0000]';
+    }
 
     // Default style for selected option (when no answer has been submitted yet)
     return 'bg-[#F0F5FD] border-bluedot-normal';

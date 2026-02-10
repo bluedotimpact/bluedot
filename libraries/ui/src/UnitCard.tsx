@@ -1,18 +1,18 @@
-import React from 'react';
+import type React from 'react';
 import clsx from 'clsx';
 import { Tag } from './Tag';
 import { ClickTarget } from './ClickTarget';
 
 export type UnitCardProps = {
   // Required
-  title: string,
-  unitNumber: string,
-  url: string,
+  title: string;
+  unitNumber: string;
+  url: string;
   // Optional
-  className?: string,
-  description?: string,
-  duration?: number,
-  isCurrentUnit?: boolean,
+  className?: string;
+  description?: string;
+  duration?: number;
+  isCurrentUnit?: boolean;
 };
 
 export const UnitCard: React.FC<UnitCardProps> = ({

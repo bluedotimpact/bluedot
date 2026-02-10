@@ -1,5 +1,6 @@
 import clsx from 'clsx';
-import React, { useState, useEffect } from 'react';
+import type React from 'react';
+import { useState, useEffect } from 'react';
 import { useAuthStore } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 
@@ -7,7 +8,7 @@ import { NavLogo } from './_NavLogo';
 import { NavCta } from './_NavCta';
 import { MobileNavLinks } from './_MobileNavLinks';
 import { DesktopNavLinks } from './_DesktopNavLinks';
-import { ExpandedSectionsState } from './utils';
+import { type ExpandedSectionsState } from './utils';
 
 type NavProps = {
   variant?: 'default' | 'transparent';
@@ -58,6 +59,7 @@ export const Nav: React.FC<NavProps> = ({ variant: variantProp }) => {
         'border-b border-white/15',
       );
     }
+
     return clsx(
       'nav sticky top-0 z-50 w-full transition-all duration-300',
       'bg-white',

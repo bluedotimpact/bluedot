@@ -71,6 +71,7 @@ export const usersRouter = router({
           ...(input?.initialUtmContent && { utmContent: input.initialUtmContent }),
         });
       }
+
       return {
         isNewUser: !existingUser,
       };

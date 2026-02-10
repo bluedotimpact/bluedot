@@ -1,30 +1,30 @@
 import { useEffect, useRef, useState } from 'react';
-import { OidcClient, OidcClientSettings } from 'oidc-client-ts';
+import { OidcClient, type OidcClientSettings } from 'oidc-client-ts';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import { createPublicKey, createVerify, JsonWebKey } from 'crypto';
+import { createPublicKey, createVerify, type JsonWebKey } from 'crypto';
 import { Navigate } from './Navigate';
-import { Auth, useAuthStore } from './utils/auth';
+import { type Auth, useAuthStore } from './utils/auth';
 import { ErrorSection } from './ErrorSection';
 import { getQueryParam } from './utils/getQueryParam';
 import { ProgressDots } from './ProgressDots';
 import { useLatestUtmParams } from './hooks/useLatestUtmParams';
 
 export type LoginPageProps = {
-  loginPreset: LoginPreset
+  loginPreset: LoginPreset;
 };
 
 export type LoginOauthCallbackPageProps = LoginPageProps & {
-  onLoginComplete?: (auth: Auth, redirectTo: string) => Promise<void>
+  onLoginComplete?: (auth: Auth, redirectTo: string) => Promise<void>;
 };
 
 const verifyJwt = async (
   token: string,
-  verifyConfig: { aud: string, iss: string, jwksUrl: string },
+  verifyConfig: { aud: string; iss: string; jwksUrl: string },
 ): Promise<{
-  iss: string, aud: string, exp: number,
-  sub: string, email: string, email_verified: boolean,
-  [key: string]: unknown
+  iss: string; aud: string; exp: number;
+  sub: string; email: string; email_verified: boolean;
+  [key: string]: unknown;
 }> => {
   // Split the JWT into its parts
   const [headerB64, payloadB64, signatureB64] = token.split('.');
@@ -58,6 +58,7 @@ const verifyJwt = async (
   if (!key) {
     throw new Error('Public key not found');
   }
+
   const publicKey = createPublicKey({
     key: {
       kty: key.kty,
@@ -92,9 +93,9 @@ const verifyJwt = async (
 };
 
 export type LoginPreset = {
-  oidcSettings: OidcClientSettings,
-  verifyAndDecodeToken: (token: string) => Promise<{ sub: string, email: string }>
-  getRegistrationUrl?: (authUrl: string) => string
+  oidcSettings: OidcClientSettings;
+  verifyAndDecodeToken: (token: string) => Promise<{ sub: string; email: string }>;
+  getRegistrationUrl?: (authUrl: string) => string;
 };
 
 export const loginPresets = {
@@ -106,14 +107,14 @@ export const loginPresets = {
       redirect_uri: `${typeof window === 'undefined' ? '' : window.location.origin}/login/oauth-callback`,
       scope: 'openid email offline_access',
     },
-    verifyAndDecodeToken: async (token: string) => {
+    async verifyAndDecodeToken(token: string) {
       return verifyJwt(token, {
         aud: 'bluedot-web-apps',
         iss: 'https://login.bluedot.org/realms/customers',
         jwksUrl: 'https://login.bluedot.org/realms/customers/protocol/openid-connect/certs',
       });
     },
-    getRegistrationUrl: (authUrl: string) => {
+    getRegistrationUrl(authUrl: string) {
       const url = new URL(authUrl);
       url.pathname = url.pathname.replace('auth', 'registrations');
       return url.toString();
@@ -135,7 +136,7 @@ export const loginPresets = {
       redirect_uri: `${typeof window === 'undefined' ? '' : window.location.origin}/login/oauth-callback`,
       extraQueryParams: { hd: 'bluedot.org' },
     },
-    verifyAndDecodeToken: async (token: string) => {
+    async verifyAndDecodeToken(token: string) {
       const payload = await verifyJwt(token, {
         // eslint-disable-next-line no-useless-concat
         aud: '558012313311-ndfttio1u55baojf' + 'odrhiju4nvkakmqj.apps.googleusercontent.com',
@@ -143,11 +144,11 @@ export const loginPresets = {
         jwksUrl: 'https://www.googleapis.com/oauth2/v3/certs',
       });
 
-      if (payload.hd !== 'bluedot.org' || payload.email_verified !== true) {
+      if (payload.hd !== 'bluedot.org' || !payload.email_verified) {
         throw new Error('Not a verified bluedot.org account');
       }
 
-      return payload as typeof payload & { hd: 'bluedot.org', email_verified: true };
+      return payload as typeof payload & { hd: 'bluedot.org'; email_verified: true };
     },
   },
 } satisfies Record<string, LoginPreset>;
@@ -230,12 +231,15 @@ export const LoginOauthCallbackPage: React.FC<LoginOauthCallbackPageProps> = ({ 
         if (!user) {
           throw new Error('Bad login response: No user returned');
         }
+
         if (typeof user.expires_at !== 'number') {
           throw new Error('Bad login response: user.expires_at is missing or not a number');
         }
+
         if (typeof user.id_token !== 'string') {
           throw new Error('Bad login response: user.id_token is missing or not a string');
         }
+
         if (typeof user.profile.email !== 'string') {
           throw new Error('Bad login response: user.profile.email is missing or not a string');
         }

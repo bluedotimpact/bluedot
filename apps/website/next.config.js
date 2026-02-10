@@ -58,5 +58,6 @@ module.exports = withDefaultBlueDotNextConfig({
           value: 'GET, OPTIONS',
         },
       ],
-    }],
+    },
+  ],
 });

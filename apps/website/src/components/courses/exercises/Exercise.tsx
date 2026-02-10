@@ -1,11 +1,12 @@
-import React, { useCallback, useRef, useState } from 'react';
+import type React from 'react';
+import { useCallback, useRef, useState } from 'react';
 import {
   cn, ProgressDots, ToggleSwitch, useAuthStore,
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import FreeTextResponse from './FreeTextResponse';
 import MultipleChoice from './MultipleChoice';
-// eslint-disable-next-line import/no-cycle
+
 import GroupResponses from './GroupResponses';
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
 import { CheckmarkIcon } from '../../icons/CheckmarkIcon';
@@ -59,17 +60,17 @@ const Exercise: React.FC<ExerciseProps> = ({
   );
 
   const saveResponseMutation = trpc.exercises.saveExerciseResponse.useMutation({
-    onSettled: () => {
+    onSettled() {
       utils.courses.getCourseProgress.invalidate({ courseSlug });
     },
-    onSuccess: async () => {
+    async onSuccess() {
       await utils.exercises.getExerciseResponse.invalidate({ exerciseId });
     },
-    onMutate: async (newData) => {
+    async onMutate(newData) {
       const previousCourseProgress = newData.completed !== undefined ? await optimisticallyUpdateCourseProgress(utils, courseSlug, unitNumber, chunkIndex, newData.completed ? 1 : -1) : undefined;
       return { previousCourseProgress };
     },
-    onError: (_err, _variables, mutationResult) => {
+    onError(_err, _variables, mutationResult) {
       rollbackCourseProgress(utils, courseSlug, mutationResult?.previousCourseProgress);
     },
   });
@@ -86,7 +87,10 @@ const Exercise: React.FC<ExerciseProps> = ({
     : (responseData?.completedAt != null);
 
   const handleExerciseSubmit = async (exerciseResponse: string, completed?: boolean) => {
-    if (isSavingRef.current) return;
+    if (isSavingRef.current) {
+      return;
+    }
+
     isSavingRef.current = true;
 
     try {

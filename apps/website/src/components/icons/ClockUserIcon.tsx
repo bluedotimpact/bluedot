@@ -1,5 +1,5 @@
 import { cn } from '@bluedot/ui';
-import React from 'react';
+import type React from 'react';
 
 export const ClockUserIcon: React.FC<{ size?: number; className?: string }> = ({ size = 24, className }) => (
   <svg

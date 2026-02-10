@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { sendGAEvent } from '@next/third-parties/google';
 
 // Base tracking configuration type
@@ -19,9 +19,7 @@ export const withClickTracking = <P extends object>(
   defaultConfig: TrackingConfig = { eventName: 'click', eventParams: {} },
 ) => {
   // Return wrapped component that accepts both original props and tracking props
-  const ClickTrackingComponent = (
-    props: P & TrackingProps,
-  ) => {
+  const ClickTrackingComponent = (props: P & TrackingProps) => {
     const {
       trackingEventName,
       trackingEventParams,
@@ -41,8 +39,8 @@ export const withClickTracking = <P extends object>(
       sendGAEvent('event', eventConfig.eventName, eventConfig.eventParams);
     };
 
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     return <span onClick={handleClick}><WrappedComponent {...componentProps as P} /></span>;
   };
+
   return ClickTrackingComponent;
 };

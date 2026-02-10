@@ -40,7 +40,7 @@ And even other components!
 
 <Embed url="https://www.youtube.com/embed/dQw4w9WgXcQ" />`,
   },
-  render: (args) => <MarkdownExtendedRenderer>{`<Callout title="${args.title}" className="${args.className ?? ''}">\n${args.children}\n</Callout>`}</MarkdownExtendedRenderer>,
+  render: (args) => <MarkdownExtendedRenderer>{`<Callout title="${args.title}" className="${args.className ?? ''}">\n${args.children as string}\n</Callout>`}</MarkdownExtendedRenderer>,
 };
 
 export const CustomStylesCallout: Story = {

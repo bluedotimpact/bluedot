@@ -40,12 +40,10 @@ describe('withClickTracking', () => {
       eventParams: { category: 'test' },
     });
 
-    const { container } = render(
-      <WrappedComponent
-        trackingEventName="button_click"
-        trackingEventParams={{ action: 'submit' }}
-      />,
-    );
+    const { container } = render(<WrappedComponent
+      trackingEventName="button_click"
+      trackingEventParams={{ action: 'submit' }}
+    />);
 
     fireEvent.click(container.firstChild as HTMLElement);
 

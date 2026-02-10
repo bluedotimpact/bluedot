@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import {
-  beforeEach, describe, expect, Mock, test, vi,
+  beforeEach, describe, expect, type Mock, test, vi,
 } from 'vitest';
 import { useRouter } from 'next/router';
 import AboutPage from '../../pages/about';

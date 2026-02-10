@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React from 'react';
+import type React from 'react';
 
 type EmbedProps = {
   url: string;
@@ -21,7 +21,7 @@ const Embed: React.FC<EmbedProps> = ({
     let audioUrl = url;
 
     // Extract song ID from various Suno URL formats
-    const songIdMatch = url.match(/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/i);
+    const songIdMatch = /([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/i.exec(url);
     if (songIdMatch) {
       const songId = songIdMatch[1];
       // Corrected the URL string interpolation
@@ -72,7 +72,7 @@ const Embed: React.FC<EmbedProps> = ({
     isImage ? (
       <img src={url} alt="" className={clsx('embed rounded-lg', className)} />
     ) : (
-      // eslint-disable-next-line jsx-a11y/iframe-has-title
+
       <iframe
         src={isYouTube ? `${url.replace('https://www.youtube.com/', 'https://www.youtube-nocookie.com/')}${url.includes('?') ? '&rel=0' : '?rel=0'}` : url}
         // Width and height should be overriden in css

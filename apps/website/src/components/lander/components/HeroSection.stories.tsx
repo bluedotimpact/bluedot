@@ -60,7 +60,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     categoryLabel: 'AGI STRATEGY',
-    title: "AGI Strategy – Learn how to navigate humanity's most critical decade",
+    title: 'AGI Strategy – Learn how to navigate humanity\'s most critical decade',
     description: 'Artificial General Intelligence is moving from research to reality. Understand the race, the risks, and the strategic decisions that will shape economies, security, and our collective future.',
     primaryCta: {
       text: 'Apply now',
@@ -79,7 +79,7 @@ export const FutureOfAI: Story = {
   args: {
     categoryLabel: 'SELF-PACED COURSE',
     title: 'The Future of AI',
-    description: "An introduction to what AI can do today, where it's going over the next decade, and how you can start contributing to a better future.",
+    description: 'An introduction to what AI can do today, where it\'s going over the next decade, and how you can start contributing to a better future.',
     primaryCta: {
       text: 'Start the free course',
       url: '/courses/future-of-ai/1/1',

@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 
 export const SlackIcon: React.FC<{ size?: number; className?: string }> = ({ size = 20, className }) => (
   <svg

@@ -1,7 +1,7 @@
 import { userTable } from '@bluedot/db';
 import { loginPresets } from '@bluedot/ui';
 import { logger } from '@bluedot/ui/src/api';
-import * as trpcNext from '@trpc/server/adapters/next';
+import type * as trpcNext from '@trpc/server/adapters/next';
 import db from '../lib/api/db';
 import { checkAdminAccess } from './trpc';
 
@@ -10,7 +10,7 @@ export const createContext = async ({ req }: trpcNext.CreateNextContextOptions) 
   const userAgent = req.headers['user-agent'];
 
   // Only attempt to verify if we have a valid Bearer token format
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+  if (!authHeader?.startsWith('Bearer ')) {
     return { auth: null, impersonation: null, userAgent };
   }
 

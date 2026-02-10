@@ -1,4 +1,4 @@
-import { AxiosError } from 'axios';
+import { type AxiosError } from 'axios';
 
 export const formatStringToArray = (
   input: string | null | undefined,
@@ -22,6 +22,7 @@ export const parseZodValidationError = (err: AxiosError<{ error?: string }>, def
       if (Array.isArray(validationErrors) && validationErrors.length > 0) {
         return validationErrors[0].message || defaultErrorMessage;
       }
+
       return defaultErrorMessage;
     } catch {
       return defaultErrorMessage;
@@ -88,6 +89,7 @@ export const formatDateTimeRelative = ({
     if (calendarDays >= 1) {
       return `${pluralizeTimeUnit(calendarDays, 'day')}${suffix}`;
     }
+
     if (hours >= 1) {
       const remainingMinutes = minutes % 60;
       const hourPart = pluralizeTimeUnit(hours, 'hour');
@@ -95,6 +97,7 @@ export const formatDateTimeRelative = ({
         ? `${hourPart} ${pluralizeTimeUnit(remainingMinutes, 'minute')}${suffix}`
         : `${hourPart}${suffix}`;
     }
+
     return `${pluralizeTimeUnit(minutes, 'minute')}${suffix}`;
   };
 
@@ -117,12 +120,14 @@ export const formatDateTimeRelative = ({
   if (timeDiffMs >= 0 && timeDiffMs < 60000) {
     return 'now';
   }
+
   if (timeDiffMs > 0) {
     return `in ${buildRelativeTimeString(absMinutes, absHours, absCalendarDays, '')}`;
   }
+
   return buildRelativeTimeString(absMinutes, absHours, absCalendarDays, ' ago');
 };
 
-export const buildCourseUnitUrl = ({ courseSlug, unitNumber, chunkNumber = 1 }: { courseSlug: string, unitNumber: string | number, chunkNumber?: number }) => `/courses/${courseSlug}/${unitNumber}/${chunkNumber}`;
+export const buildCourseUnitUrl = ({ courseSlug, unitNumber, chunkNumber = 1 }: { courseSlug: string; unitNumber: string | number; chunkNumber?: number }) => `/courses/${courseSlug}/${unitNumber}/${chunkNumber}`;
 
 export const getActionPlanUrl = (meetPersonId: string) => `https://web.miniextensions.com/7WZKkZiusMiAO1RMznFv?prefill_Participant=${meetPersonId}`;

@@ -35,7 +35,7 @@ const meta = {
   },
   args: {
     isOpen: true,
-    onClose: () => {},
+    onClose() {},
   },
 } satisfies Meta<typeof UserSearchModal>;
 
@@ -50,7 +50,9 @@ export const Default: Story = {
         trpcStorybookMsw.admin.searchUsers.query(({ input }) => {
           const query = input.searchTerm?.toLowerCase() || '';
 
-          if (!query) return mockUsers;
+          if (!query) {
+            return mockUsers;
+          }
 
           return mockUsers.filter((user) => user.name?.toLowerCase().includes(query));
         }),

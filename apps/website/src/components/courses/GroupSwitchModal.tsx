@@ -1,4 +1,5 @@
-import React, {
+import type React from 'react';
+import {
   useState, useMemo, useEffect,
 } from 'react';
 import {
@@ -68,7 +69,7 @@ export default function GroupSwitchModal({
   );
 
   const submitGroupSwitchMutation = trpc.groupSwitching.switchGroup.useMutation({
-    onSuccess: () => {
+    onSuccess() {
       setShowSuccess(true);
     },
   });
@@ -113,6 +114,7 @@ export default function GroupSwitchModal({
         userIsParticipant: true,
       };
     }
+
     if (!isTemporarySwitch && oldGroup) {
       // For permanent switch, show recurring discussion time
       return {
@@ -150,7 +152,9 @@ export default function GroupSwitchModal({
   }, [selectedUnitNumber]);
 
   const handleSubmit = () => {
-    if (isSubmitDisabled) return;
+    if (isSubmitDisabled) {
+      return;
+    }
 
     const oldGroupId = !isTemporarySwitch ? oldGroup?.group.id : undefined;
     const newGroupId = !isTemporarySwitch && !isManualRequest ? selectedGroupId : undefined;
@@ -187,8 +191,13 @@ export default function GroupSwitchModal({
       );
     }
 
-    if (isManualRequest && showSuccess) return <div className={modalTitleClassName}>We are working on your request</div>;
-    if (showSuccess) return <div className={modalTitleClassName}>Success</div>;
+    if (isManualRequest && showSuccess) {
+      return <div className={modalTitleClassName}>We are working on your request</div>;
+    }
+
+    if (showSuccess) {
+      return <div className={modalTitleClassName}>Success</div>;
+    }
 
     return (
       <Select
@@ -295,7 +304,7 @@ export default function GroupSwitchModal({
     {
       id: 'reason',
       isVisible: true,
-      title: "Tell us why you're making this change",
+      title: 'Tell us why you\'re making this change',
       subtitle: 'Participants who stick with their group usually have a better experience on the course.',
       control: (
         <textarea
@@ -497,6 +506,7 @@ export const buildAvailabilityFormUrl = ({
   if (availabilityIntervalsUTC) {
     params.set('prefill_intervals', availabilityIntervalsUTC);
   }
+
   if (availabilityTimezone) {
     params.set('prefill_timezone', availabilityTimezone);
   }
@@ -585,9 +595,11 @@ const getGroupSwitchDescription = ({
   if (!hasAnySpotsLeft) {
     return <><UserIcon className="-translate-y-px" /><span>No spots left</span></>;
   }
+
   if (spotsLeftIfKnown === null) {
     return <><UserIcon className="-translate-y-px" /><span>Spots available</span></>;
   }
+
   return <><UserIcon className="-translate-y-px" /><span>{spotsLeftIfKnown} spot{spotsLeftIfKnown === 1 ? '' : 's'} left</span></>;
 };
 
@@ -620,12 +632,18 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
   canSubmit,
 }) => {
   const displayDate = useMemo(() => {
-    if (!dateTime) return null;
+    if (!dateTime) {
+      return null;
+    }
+
     return isRecurringTime ? formatDateDayOfWeek(dateTime) : formatDateMonthAndDay(dateTime);
   }, [dateTime, isRecurringTime]);
 
   const displayTime = useMemo(() => {
-    if (!dateTime) return null;
+    if (!dateTime) {
+      return null;
+    }
+
     return formatTime12HourClock(dateTime);
   }, [dateTime]);
 
@@ -639,12 +657,13 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
       )}
       {...(!isDisabled && !userIsParticipant && {
         onClick: onSelect,
-        onKeyDown: (e: React.KeyboardEvent) => {
+        onKeyDown(e: React.KeyboardEvent) {
           if (e.key === 'Enter' || e.key === ' ') {
             const target = e.target as HTMLElement;
             if (target?.tagName === 'BUTTON') {
               return;
             }
+
             e.preventDefault(); // Stop page from scrolling on space
             onSelect?.();
           }

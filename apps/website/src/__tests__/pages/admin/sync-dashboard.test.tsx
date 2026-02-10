@@ -39,18 +39,16 @@ describe('SyncDashboard - Main User Journeys', () => {
   });
 
   test('denies access to unauthorized users', async () => {
-    server.use(
-      trpcMsw.admin.syncHistory.query(() => {
-        throw new TRPCError({ code: 'FORBIDDEN', message: 'Forbidden' });
-      }),
-    );
+    server.use(trpcMsw.admin.syncHistory.query(() => {
+      throw new TRPCError({ code: 'FORBIDDEN', message: 'Forbidden' });
+    }));
 
     render(<SyncDashboard />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
       expect(screen.getByRole('heading', { name: 'Access Denied' })).toBeInTheDocument();
     });
-    expect(screen.getByText("You don't have permission to access the admin dashboard.")).toBeInTheDocument();
+    expect(screen.getByText('You don\'t have permission to access the admin dashboard.')).toBeInTheDocument();
   });
 
   test('shows login required message when user is logged out', async () => {
@@ -58,11 +56,9 @@ describe('SyncDashboard - Main User Journeys', () => {
     // @ts-expect-error - Mocking only the subset of properties needed for test
     mockedUseAuthStore.mockImplementation((selector) => selector({ auth: null }));
 
-    server.use(
-      trpcMsw.admin.syncHistory.query(() => {
-        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthorized' });
-      }),
-    );
+    server.use(trpcMsw.admin.syncHistory.query(() => {
+      throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthorized' });
+    }));
 
     render(<SyncDashboard />, { wrapper: TrpcProvider });
 
@@ -134,9 +130,7 @@ describe('SyncDashboard - Main User Journeys', () => {
       },
     ];
 
-    server.use(
-      trpcMsw.admin.syncHistory.query(() => requests),
-    );
+    server.use(trpcMsw.admin.syncHistory.query(() => requests));
 
     render(<SyncDashboard />, { wrapper: TrpcProvider });
 

@@ -3,7 +3,8 @@ import {
   CTALinkOrButton, Modal,
 } from '@bluedot/ui';
 import clsx from 'clsx';
-import React, { useEffect, useRef, useState } from 'react';
+import type React from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 import type { ChunkProgress, CourseProgress } from '../../server/routers/courses';
@@ -58,6 +59,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
       } else {
         next.add(unitId);
       }
+
       return next;
     });
   };
@@ -71,6 +73,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
       const chunkPath = `/courses/${courseSlug}/${unit.unitNumber}/${index + 1}`;
       onUnitSelect(chunkPath);
     }
+
     setIsOpen(false);
   };
 

@@ -47,6 +47,7 @@ export const ProjectsListView = ({ title, projects, maxItems }: ProjectsListView
       if (!acc[course]) {
         acc[course] = [];
       }
+
       acc[course].push(project);
       return acc;
     }, {});

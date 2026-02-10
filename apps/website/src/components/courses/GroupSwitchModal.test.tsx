@@ -331,14 +331,12 @@ describe('GroupSwitchModal', () => {
     });
 
     test('back button in manual request mode returns to group selection', async () => {
-      render(
-        <TrpcProvider>
-          <GroupSwitchModal
-            handleClose={() => {}}
-            courseSlug="ai-safety"
-          />
-        </TrpcProvider>,
-      );
+      render(<TrpcProvider>
+        <GroupSwitchModal
+          handleClose={() => {}}
+          courseSlug="ai-safety"
+        />
+      </TrpcProvider>);
 
       await waitFor(() => {
         expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
@@ -505,9 +503,7 @@ describe('GroupSwitchModal', () => {
         discussionsAvailable: { 1: [] },
       };
 
-      server.use(
-        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockAvailableGroupsAndDiscussionsEmpty),
-      );
+      server.use(trpcMsw.groupSwitching.discussionsAvailable.query(() => mockAvailableGroupsAndDiscussionsEmpty));
 
       render(
         <GroupSwitchModal
@@ -624,15 +620,14 @@ describe('GroupSwitchModal', () => {
   describe('Error handling', () => {
     test('API error during submission', async () => {
       let callCount = 0;
-      server.use(
-        trpcMsw.groupSwitching.switchGroup.mutation(() => {
-          callCount += 1;
-          if (callCount === 1) {
-            throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Network error' });
-          }
-          return null;
-        }),
-      );
+      server.use(trpcMsw.groupSwitching.switchGroup.mutation(() => {
+        callCount += 1;
+        if (callCount === 1) {
+          throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Network error' });
+        }
+
+        return null;
+      }));
 
       render(
         <GroupSwitchModal
@@ -713,9 +708,7 @@ describe('GroupSwitchModal', () => {
         return selector(state);
       });
 
-      server.use(
-        trpcMsw.groupSwitching.discussionsAvailable.query(() => mockAvailableGroupsAndDiscussionsNoGroup),
-      );
+      server.use(trpcMsw.groupSwitching.discussionsAvailable.query(() => mockAvailableGroupsAndDiscussionsNoGroup));
     });
 
     test('Modal does not show current group section when participant has no group', async () => {

@@ -1,5 +1,6 @@
 import { GoogleTagManager as NextGoogleTagManager } from '@next/third-parties/google';
-import React, { useEffect, useRef } from 'react';
+import type React from 'react';
+import { useEffect, useRef } from 'react';
 import { useConsentStore } from './consent';
 
 export const GoogleTagManager: React.FC = () => {

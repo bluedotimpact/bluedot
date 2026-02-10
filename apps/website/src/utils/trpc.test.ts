@@ -2,7 +2,7 @@ import {
   describe, it, expect, vi, beforeEach, afterEach,
 } from 'vitest';
 import { OidcClient } from 'oidc-client-ts';
-import { Auth, useAuthStore } from '@bluedot/ui';
+import { type Auth, useAuthStore } from '@bluedot/ui';
 import { getHeadersWithValidToken } from './trpc';
 import { createMockOidcResponse } from '../__tests__/testUtils';
 
@@ -26,7 +26,10 @@ const createAuth = (overrides?: Partial<Auth>): Auth => ({
 
 const setupMockOidcClient = (success = true, response?: Record<string, unknown>) => {
   const mockUseRefreshToken = vi.fn().mockImplementation(() => {
-    if (!success) throw new Error('Refresh failed');
+    if (!success) {
+      throw new Error('Refresh failed');
+    }
+
     return response || createMockOidcResponse();
   });
 

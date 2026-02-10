@@ -15,10 +15,22 @@ import { useAnnouncementBannerStore } from '../stores/announcementBanner';
  */
 export const getAnnouncementBannerKey = (children: React.ReactNode) => {
   const textFromNode = (node: React.ReactNode): string => {
-    if (node == null || typeof node === 'boolean') return '';
-    if (typeof node === 'string' || typeof node === 'number') return String(node);
-    if (Array.isArray(node)) return node.map(textFromNode).join(' ');
-    if (React.isValidElement(node)) return textFromNode(node.props?.children);
+    if (node == null || typeof node === 'boolean') {
+      return '';
+    }
+
+    if (typeof node === 'string' || typeof node === 'number') {
+      return String(node);
+    }
+
+    if (Array.isArray(node)) {
+      return node.map(textFromNode).join(' ');
+    }
+
+    if (React.isValidElement(node)) {
+      return textFromNode(node.props?.children);
+    }
+
     return '';
   };
 

@@ -14,16 +14,16 @@ const mockPersonas = [
   {
     icon: PiRocketLaunch,
     title: 'High-potential people early in their careers',
-    summary: "You have options. You're not the type to drift into a default path.",
-    description: "You're at a top university or recently graduated.",
-    valueProposition: "You'll join a cohort of others at the same stage.",
+    summary: 'You have options. You\'re not the type to drift into a default path.',
+    description: 'You\'re at a top university or recently graduated.',
+    valueProposition: 'You\'ll join a cohort of others at the same stage.',
   },
   {
     icon: PiScales,
     title: 'Policy professionals adding AI expertise',
     summary: 'You know how policy works. AI is eating your field.',
     description: 'You already work in government, a think tank, or policy.',
-    valueProposition: "You'll become the person your org turns to on AI.",
+    valueProposition: 'You\'ll become the person your org turns to on AI.',
   },
 ];
 
@@ -39,9 +39,7 @@ describe('PersonasSection', () => {
   });
 
   it('renders custom title when provided', () => {
-    const { getByText } = render(
-      <PersonasSection personas={mockPersonas} title="Custom Title" />,
-    );
+    const { getByText } = render(<PersonasSection personas={mockPersonas} title="Custom Title" />);
     expect(getByText('Custom Title')).toBeDefined();
   });
 
@@ -65,9 +63,7 @@ describe('PersonasSection', () => {
   });
 
   it('starts with all personas collapsed when defaultExpandedIndex is -1', () => {
-    const { getByText } = render(
-      <PersonasSection personas={mockPersonas} defaultExpandedIndex={-1} />,
-    );
+    const { getByText } = render(<PersonasSection personas={mockPersonas} defaultExpandedIndex={-1} />);
 
     // All buttons should have aria-expanded="false"
     mockPersonas.forEach((persona) => {
@@ -77,9 +73,7 @@ describe('PersonasSection', () => {
   });
 
   it('expands specified persona when defaultExpandedIndex is set', () => {
-    const { getByText } = render(
-      <PersonasSection personas={mockPersonas} defaultExpandedIndex={1} />,
-    );
+    const { getByText } = render(<PersonasSection personas={mockPersonas} defaultExpandedIndex={1} />);
 
     // Second persona should be expanded
     const secondPersonaButton = getByText(mockPersonas[1]!.title).closest('button');
@@ -126,9 +120,7 @@ describe('PersonasSection', () => {
 
   it('renders CTA button when provided', () => {
     const cta = { text: 'Apply now', url: 'https://example.com/apply' };
-    const { getByRole } = render(
-      <PersonasSection personas={mockPersonas} cta={cta} />,
-    );
+    const { getByRole } = render(<PersonasSection personas={mockPersonas} cta={cta} />);
 
     const ctaButton = getByRole('link', { name: 'Apply now' });
     expect(ctaButton).toBeDefined();
@@ -144,6 +136,6 @@ describe('PersonasSection', () => {
     const { getByText } = render(<PersonasSection personas={mockPersonas} />);
 
     // First persona is expanded, so summary should be visible
-    expect(getByText(mockPersonas[0]!.summary!)).toBeDefined();
+    expect(getByText(mockPersonas[0]!.summary)).toBeDefined();
   });
 });

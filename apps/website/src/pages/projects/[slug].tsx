@@ -1,7 +1,7 @@
 import {
   A,
   Breadcrumbs,
-  BluedotRoute,
+  type BluedotRoute,
   CTALinkOrButton,
   HeroH1,
   HeroH2,
@@ -9,8 +9,8 @@ import {
   Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import { GetStaticProps, GetStaticPaths } from 'next';
-import { Project, projectTable } from '@bluedot/db';
+import { type GetStaticProps, type GetStaticPaths } from 'next';
+import { type Project, projectTable } from '@bluedot/db';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import { ROUTES } from '../../lib/routes';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
@@ -90,7 +90,7 @@ export const getStaticProps: GetStaticProps<ProjectPostPageProps> = async ({ par
       },
       revalidate: 300,
     };
-  } catch (error) {
+  } catch {
     // Error fetching project data (likely not found)
     return {
       notFound: true,

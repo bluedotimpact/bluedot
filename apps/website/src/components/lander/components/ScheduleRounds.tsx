@@ -20,9 +20,7 @@ export const ScheduleRounds = ({
   fallbackContent,
   accentColor,
 }: ScheduleRoundsProps) => {
-  const { data: rounds, isLoading } = trpc.courseRounds.getRoundsForCourse.useQuery(
-    { courseSlug },
-  );
+  const { data: rounds, isLoading } = trpc.courseRounds.getRoundsForCourse.useQuery({ courseSlug });
 
   const hasIntenseRounds = !!(rounds?.intense && rounds.intense.length > 0);
   const hasPartTimeRounds = !!(rounds?.partTime && rounds.partTime.length > 0);
