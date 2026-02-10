@@ -156,7 +156,6 @@ const flushAndCleanupBatcher = async (batchKey: string, batcher: BatcherState) =
     // eslint-disable-next-line no-console
     console.error('Error flushing batched Slack alerts:', error);
   } finally {
-    // eslint-disable-next-line no-param-reassign
     batcher.batches.clear();
     // eslint-disable-next-line no-param-reassign
     batcher.flushTimer = null;
