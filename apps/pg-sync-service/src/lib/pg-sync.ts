@@ -81,7 +81,7 @@ export async function initializeWebhooks(): Promise<void> {
   } catch (error) {
     const initError = `[initializeWebhooks] Critical webhook initialization failure: ${error instanceof Error ? error.message : String(error)}`;
     logger.error(initError);
-    slackAlert(env, [initError], { immediate: true });
+    slackAlert(env, [initError]);
     throw error;
   }
 }
@@ -370,7 +370,7 @@ export async function processUpdateQueue(processor: UpdateProcessor = processSin
       } else {
         const finalFailure = `[processUpdateQueue] Update failed after ${MAX_RETRIES} attempts, giving up: ${update.baseId}/${update.tableId}/${update.recordId}`;
         logger.error(finalFailure);
-        slackAlert(env, [finalFailure], { immediate: true });
+        slackAlert(env, [finalFailure]);
         retryCountMap.delete(retryKey);
       }
     }

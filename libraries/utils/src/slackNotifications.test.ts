@@ -33,7 +33,7 @@ describe('slackNotifications', () => {
         json: async () => ({ ok: true, ts: '1.0' }),
       });
 
-      await slackAlert(mockEnv, ['Test message'], { immediate: true });
+      await slackAlert(mockEnv, ['Test message']);
 
       expect(fetchMock).toHaveBeenCalledTimes(1);
       expect(fetchMock).toHaveBeenCalledWith(
@@ -64,11 +64,7 @@ describe('slackNotifications', () => {
           json: async () => ({ ok: true, ts: '1.1' }),
         });
 
-      await slackAlert(
-        mockEnv,
-        ['Main message', 'Reply message'],
-        { immediate: true },
-      );
+      await slackAlert(mockEnv, ['Main message', 'Reply message']);
 
       expect(fetchMock).toHaveBeenCalledTimes(2);
 
@@ -105,7 +101,7 @@ describe('slackNotifications', () => {
         json: async () => ({ ok: true, ts: '1.0' }),
       });
 
-      await slackAlert(mockEnv, ['Info message'], { level: 'info', immediate: true });
+      await slackAlert(mockEnv, ['Info message'], { level: 'info' });
 
       expect(fetchMock).toHaveBeenCalledWith(
         SLACK_API_URL,
@@ -307,7 +303,7 @@ describe('slackNotifications', () => {
 
       fetchMock.mockRejectedValueOnce(new Error('Network error'));
 
-      await slackAlert(mockEnv, ['Test message'], { immediate: true });
+      await slackAlert(mockEnv, ['Test message']);
 
       expect(consoleErrorSpy).toHaveBeenCalledWith(
         'Error sending Slack alert:',
@@ -335,7 +331,7 @@ describe('slackNotifications', () => {
     });
 
     test('should handle empty messages array', async () => {
-      await slackAlert(mockEnv, [], { immediate: true });
+      await slackAlert(mockEnv, []);
       expect(fetchMock).not.toHaveBeenCalled();
     });
   });

@@ -154,7 +154,7 @@ export const makeMakeApiRoute = <AuthResult extends BaseAuthResult>({ env, verif
         slackAlert(env, [
           `Error: Failed request on route ${req.method} ${req.url}: ${err instanceof Error ? err.message : String(err)}`,
           ...(err instanceof Error ? [`Stack:\n\`\`\`${err.stack}\`\`\``] : []),
-        ], { immediate: true });
+        ]);
 
         res.status(statusCode).json({
           error: 'Internal Server Error',

@@ -32,7 +32,7 @@ export default trpcNext.createNextApiHandler({
       `Error: Failed request on route ${path}, type ${type}: ${error.message}`,
       // Stack is sent as response to Slack thread
       `Stack:\n\`\`\`${error.stack}\`\`\``,
-    ], { immediate: true }).catch((slackError) => {
+    ]).catch((slackError) => {
       logger.error('Failed to send Slack alert:', slackError);
     });
   },

@@ -7,7 +7,6 @@ type SlackAlertEnv = {
 
 type SlackAlertOptions = {
   level?: 'error' | 'info';
-  immediate?: boolean;
   batchKey?: string;
   flushIntervalMs?: number;
 };
@@ -39,8 +38,7 @@ const batchers = new Map<string, BatcherState>();
  * - If multiple messages are provided, the first is sent as a new message, and the rest are sent as replies in a thread
  *
  * @param options.level - Alert level: 'error' (default) or 'info'. Determines which Slack channel the message is sent to.
- * @param options.immediate - Set to true to bypass batching and send immediately
- * @param options.batchKey - Unique key for this batch group (default: 'default')
+ * @param options.batchKey - Unique key for this batch group, if set causes messages to be batched together instead of sent immediately. Messages with the same batchKey will be grouped together.
  * @param options.flushIntervalMs - Time window for batching in ms (default: 60000)
  */
 export const slackAlert = async (
@@ -51,24 +49,23 @@ export const slackAlert = async (
   if (messages.length === 0) return;
 
   const level = options?.level ?? 'error';
-  const batchKey = options?.batchKey ?? 'default';
   const flushIntervalMs = options?.flushIntervalMs ?? 60000;
 
-  if (options?.immediate) {
-    try {
-      const res = await sendSingleSlackMessage(env, messages[0]!, level);
-      for (let i = 1; i < messages.length; i += 1) {
-        // eslint-disable-next-line no-await-in-loop
-        await sendSingleSlackMessage(env, messages[i]!, level, res.ts);
-      }
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Error sending Slack alert:', error);
-    }
+  if (options?.batchKey) {
+    addToBatch(options.batchKey, env, messages, level, flushIntervalMs);
     return;
   }
 
-  addToBatch(batchKey, env, messages, level, flushIntervalMs);
+  try {
+    const res = await sendSingleSlackMessage(env, messages[0]!, level);
+    for (let i = 1; i < messages.length; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      await sendSingleSlackMessage(env, messages[i]!, level, res.ts);
+    }
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Error sending Slack alert:', error);
+  }
 };
 
 const addToBatch = (

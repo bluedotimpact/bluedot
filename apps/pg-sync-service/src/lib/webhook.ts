@@ -112,12 +112,12 @@ export class AirtableWebhook {
         };
 
         logger.error(`[WEBHOOK] ${webhookListError}: ${JSON.stringify(errorDetails)}`);
-        slackAlert(env, [`[WEBHOOK] ${webhookListError}: ${formatForSlack(errorDetails)}`], { immediate: true });
+        slackAlert(env, [`[WEBHOOK] ${webhookListError}: ${formatForSlack(errorDetails)}`]);
         throw error;
       } else {
         const e = new Error(`${webhookListError}. Check your Airtable PAT has webhook:manage permissions.`, { cause: error });
         logger.error(e);
-        slackAlert(env, [`[WEBHOOK] ${e.message}`], { immediate: true });
+        slackAlert(env, [`[WEBHOOK] ${e.message}`]);
         throw e;
       }
     });
@@ -164,7 +164,7 @@ export class AirtableWebhook {
 
       if (invalidFieldIds.length > 0) {
         logger.warn(`[WEBHOOK] Removed ${invalidFieldIds.length} invalid field IDs before webhook creation for base ${this.baseId}: ${invalidFieldIds.join(', ')}`);
-        await slackAlert(env, [`[WEBHOOK] Removed ${invalidFieldIds.length} invalid field IDs from base ${this.baseId}: ${invalidFieldIds.join(', ')}. These fields may have been deleted in Airtable.`], { immediate: true });
+        await slackAlert(env, [`[WEBHOOK] Removed ${invalidFieldIds.length} invalid field IDs from base ${this.baseId}: ${invalidFieldIds.join(', ')}. These fields may have been deleted in Airtable.`]);
         this.fieldIds = validatedFieldIds;
       }
 
@@ -207,7 +207,7 @@ export class AirtableWebhook {
         if (payload.error === true) {
           const errorPayload = `[WEBHOOK] Error payload detected: code=${payload.code} for base ${this.baseId}`;
           logger.error(errorPayload);
-          slackAlert(env, [errorPayload], { immediate: true });
+          slackAlert(env, [errorPayload]);
 
           if (payload.code === 'INVALID_HOOK') {
             // Webhook is invalid due to deleted fields - need to recreate it
@@ -344,7 +344,7 @@ export class AirtableWebhook {
             };
 
             logger.error(`[WEBHOOK] ${webhookCreationError} ${JSON.stringify(errorDetails)}`);
-            slackAlert(env, [`[WEBHOOK] ${webhookCreationError} ${formatForSlack(errorDetails)}`], { immediate: true });
+            slackAlert(env, [`[WEBHOOK] ${webhookCreationError} ${formatForSlack(errorDetails)}`]);
             throw error;
           } else {
             throw new Error(webhookCreationError, { cause: error });
@@ -454,7 +454,7 @@ export class AirtableWebhook {
         await this.axiosInstance.delete(`/bases/${this.baseId}/webhooks/${this.webhookId}`);
         const deleteMessage = `[WEBHOOK] Deleted invalid webhook ${this.webhookId} for base ${this.baseId}`;
         logger.info(deleteMessage);
-        slackAlert(env, [deleteMessage], { immediate: true });
+        slackAlert(env, [deleteMessage]);
       } catch (error) {
         logger.warn(`[WEBHOOK] Failed to delete invalid webhook ${this.webhookId}:`, error);
       }
