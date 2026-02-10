@@ -34,12 +34,13 @@ const batchers = new Map<string, BatcherState>();
 /**
  * Sends Slack message(s) to our prod/dev channels
  * - By default, messages are sent immediately
- * - To enable batching, provide a batchKey - messages will be grouped by signature (same error type/table/field) and sent after a 60s window
+ * - To enable batching, provide a batchKey - messages will be grouped by signature (same error type/table/field)
+ * - Batching uses a rolling window: messages are sent N ms after the last message (not from the first)
  * - If multiple messages are provided, the first is sent as a new message, and the rest are sent as replies in a thread
  *
  * @param options.level - Alert level: 'error' (default) or 'info'. Determines which Slack channel the message is sent to.
  * @param options.batchKey - If provided, enables batching with this key as the batch group identifier
- * @param options.flushIntervalMs - Time window for batching in ms (default: 60000, only used when batchKey is provided)
+ * @param options.flushIntervalMs - Time window for batching in ms (default: 60000, only used when batchKey is provided). Uses a rolling window - each new message resets the timer.
  */
 export const slackAlert = async (
   env: SlackAlertEnv,
@@ -130,7 +131,12 @@ const extractAirtableIds = (message: string) => {
 
 const scheduleFlush = (batchKey: string, flushIntervalMs: number) => {
   const batcher = batchers.get(batchKey);
-  if (!batcher || batcher.flushTimer) return;
+  if (!batcher) return;
+
+  // Clear existing timer to implement rolling window
+  if (batcher.flushTimer) {
+    clearTimeout(batcher.flushTimer);
+  }
 
   batcher.flushTimer = setTimeout(async () => {
     try {
