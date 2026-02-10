@@ -484,7 +484,7 @@ export class PgAirtableDb {
       const result = Array.isArray(rows) ? rows[0] : undefined;
 
       if (!result) {
-        throw new Error('Unexpected error: Nothing returned from upset operation');
+        throw new Error('Unexpected error: Nothing returned from upsert operation');
       }
 
       return result;

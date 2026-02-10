@@ -20,6 +20,10 @@ const ContentViewer: React.FC<{ savedDemoOutput: SavedDemoOutput; courseLink: st
           />
         );
       }
+
+      default: {
+        throw new Error(`Unrecognised demo type: ${String(type)}`);
+      }
     }
   } catch (error: unknown) {
     // eslint-disable-next-line no-console
