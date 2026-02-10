@@ -153,6 +153,7 @@ const scheduleFlush = (batchKey: string, flushIntervalMs: number) => {
     } finally {
       batcher.batches.clear();
       batcher.flushTimer = null;
+      batchers.delete(batchKey);
     }
   }, flushIntervalMs);
 };
