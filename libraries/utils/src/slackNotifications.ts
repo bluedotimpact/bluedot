@@ -58,7 +58,7 @@ export const slackAlert = async (
 
   try {
     const res = await sendSingleSlackMessage(env, messages[0]!, level);
-    for (let i = 1; i < messages.length; i += 1) {
+    for (let i = 1; i < messages.length; i++) {
       // eslint-disable-next-line no-await-in-loop
       await sendSingleSlackMessage(env, messages[i]!, level, res.ts);
     }
