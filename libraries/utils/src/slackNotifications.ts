@@ -97,7 +97,7 @@ const addToBatch = (
   if (existing) {
     existing.occurrences += 1;
     existing.lastSeen = Date.now();
-    recordIds.forEach((id) => existing.affectedRecords.add(id));
+    recordIds.forEach((id) => { existing.affectedRecords.add(id); });
   } else {
     batcher.batches.set(signature, {
       signature,
