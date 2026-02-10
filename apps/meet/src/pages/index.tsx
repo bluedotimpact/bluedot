@@ -30,6 +30,9 @@ const Home: React.FC = () => {
       return <SelectPersonView page={{ ...page, groupId }} setPage={setPage} />;
     case 'appJoin':
       return <AppJoinView page={page} />;
+    default: {
+      throw new Error(`Unknown page: ${String(pageName satisfies never)}`);
+    }
   }
 };
 

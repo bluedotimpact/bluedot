@@ -72,7 +72,7 @@ export class AirtableWebhook {
 
   private nextPayloadCursor: number | null = null;
 
-  private readonly axiosInstance: AxiosInstance;
+  private axiosInstance: AxiosInstance;
 
   private constructor(private readonly baseId: string, private fieldIds: string[], private readonly rateLimiter: RateLimiter) {
     this.axiosInstance = axios.create({
@@ -525,7 +525,6 @@ const getAirtableFeedbackMessage = (statusCode: number | undefined): string => {
       return 'Internal server error - a problem occurred on Airtable\'s side, try again later';
     case 503:
       return 'Service unavailable - Airtable is temporarily unavailable, try again later';
-    case undefined:
     default:
       return 'Unknown error';
   }

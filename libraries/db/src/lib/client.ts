@@ -113,7 +113,7 @@ export class PgAirtableDb {
   /** @deprecated Old name. Use .remove() instead */
   public airtableDelete = this.remove.bind(this);
 
-  private readonly pgUnrestricted: ReturnType<typeof drizzle>;
+  private pgUnrestricted: ReturnType<typeof drizzle>;
 
   constructor({
     pgConnString,
@@ -173,6 +173,7 @@ export class PgAirtableDb {
     table: PgAirtableTable<TTableName, TColumnsMap>,
     filter?: Filter<BasePgTableType<TTableName, TColumnsMap>['$inferSelect']>,
   ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect'][]> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const baseQuery = this.pgUnrestricted.select().from(table.pg as any);
 
     if (filter) {
@@ -228,6 +229,7 @@ export class PgAirtableDb {
 
     // Build query with sorting
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const baseQuery = this.pgUnrestricted.select().from(table.pg as any);
 
     // Apply sorting
@@ -239,6 +241,7 @@ export class PgAirtableDb {
 
     // Build the final query with all clauses
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let query: any = baseQuery;
 
     if (filter) {

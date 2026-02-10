@@ -18,6 +18,7 @@ type NonNullToString<T> =
 export type ToTsTypeString<T> =
   null extends T ? `${NonNullToString<T>} | null` : NonNullToString<T>;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type TsTypeString = NonNullToString<any> | ToTsTypeString<any>;
 // END vendored
 

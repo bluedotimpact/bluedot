@@ -147,7 +147,10 @@ export async function performFullSync(
   const tableFieldMap: Record<string, string[]> = {};
   for (const { baseId, tableId, fieldId } of tableFieldMappings) {
     const key = `${baseId}::${tableId}`;
-    tableFieldMap[key] ||= [];
+    if (!tableFieldMap[key]) {
+      tableFieldMap[key] = [];
+    }
+
     tableFieldMap[key].push(fieldId);
   }
 

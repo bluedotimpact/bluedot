@@ -41,7 +41,7 @@ export default makeApiRoute({
       const bDate = b.publishedAt || 0;
       return bDate - aDate; // Descending order (most recent first)
     })
-    .map(({ body: _, ...rest }) => rest); // eslint-disable-line @typescript-eslint/no-unused-vars
+    .map(({ body, ...rest }) => rest);
 
   return {
     type: 'success' as const,

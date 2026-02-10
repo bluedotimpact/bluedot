@@ -54,7 +54,6 @@ export default makeApiRoute({
       };
     }
 
-    case undefined:
     default: {
       throw new createHttpError.MethodNotAllowed();
     }

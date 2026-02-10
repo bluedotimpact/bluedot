@@ -18,7 +18,7 @@ export type SyncMetadata = {
 };
 
 class SyncManager {
-  private readonly syncThresholdHours: number;
+  private syncThresholdHours: number;
 
   constructor(syncThresholdHours: number = DEFAULT_SYNC_THRESHOLD_HOURS) {
     this.syncThresholdHours = syncThresholdHours;

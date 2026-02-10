@@ -36,7 +36,6 @@ export default makeApiRoute({
       return room;
     }
 
-    case undefined:
     default: {
       throw new createHttpError.MethodNotAllowed();
     }

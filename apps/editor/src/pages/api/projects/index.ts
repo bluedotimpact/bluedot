@@ -22,7 +22,7 @@ export default makeApiRoute({
   // Sort by title ascending and remove the body field from each project to make the response lighter
   const projectSummaries = allProjects
     .sort((a, b) => (a.title || '').localeCompare(b.title || ''))
-    .map(({ body: _, ...rest }) => rest); // eslint-disable-line @typescript-eslint/no-unused-vars
+    .map(({ body, ...rest }) => rest);
 
   return {
     type: 'success' as const,

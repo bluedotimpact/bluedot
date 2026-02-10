@@ -86,6 +86,8 @@ export default [
       '@typescript-eslint/no-empty-function': 'off',
       '@typescript-eslint/no-confusing-void-expression': 'off',
       '@typescript-eslint/no-dynamic-delete': 'off',
+      '@typescript-eslint/switch-exhaustiveness-check': 'off',
+      '@typescript-eslint/prefer-readonly': 'off',
       '@typescript-eslint/no-use-before-define': 'off',
       'new-cap': 'off',
       'no-eq-null': 'off',
@@ -103,6 +105,8 @@ export default [
       'max-params': 'off',
       'no-negated-condition': 'off',
       curly: ['error', 'multi-line', 'consistent'],
+      'no-param-reassign': 'error',
+      'logical-assignment-operators': 'off',
       'no-implicit-coercion': 'off',
       'no-console': 'warn',
       'prefer-template': 'error',
@@ -231,10 +235,12 @@ export default [
       '@typescript-eslint/no-unsafe-type-assertion': 'off',
       '@typescript-eslint/promise-function-async': 'off',
 
+      '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unused-vars': ['error', {
         argsIgnorePattern: '^_',
         varsIgnorePattern: '^_',
         caughtErrorsIgnorePattern: '^_',
+        ignoreRestSiblings: true,
       }],
       '@typescript-eslint/array-type': ['error', { default: 'array' }],
       '@typescript-eslint/naming-convention': [
