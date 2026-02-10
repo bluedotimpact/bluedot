@@ -5,28 +5,187 @@ type SlackAlertEnv = {
   INFO_SLACK_CHANNEL_ID: string;
 };
 
+type MessageBatch = {
+  signature: string;
+  occurrences: number;
+  messages: string[];
+  tableId: string | null;
+  fieldId: string | null;
+  affectedRecords: Set<string>;
+  lastSeen: number;
+};
+
+type BatcherState = {
+  batches: Map<string, MessageBatch>;
+  flushTimer: NodeJS.Timeout | null;
+  env: SlackAlertEnv;
+  level: 'error' | 'info';
+};
+
+const batchers = new Map<string, BatcherState>();
+
 /**
  * Sends Slack message(s) to our prod/dev channels
+ * - By default, messages are batched to group similar alerts and reduce spam
+ * - Batched messages are grouped by signature (same error type/table/field)
+ * - Messages are sent after a 60s window or when manually flushed
  * - If multiple messages are provided, the first is sent as a new message, and the rest are sent as replies in a thread
  * - By default, messages are sent to the alerts channel
  * - If level is 'info', messages are sent to the info channel
+ *
+ * @param options.immediate - Set to true to bypass batching and send immediately
+ * @param options.batchKey - Unique key for this batch group (default: 'default')
+ * @param options.flushIntervalMs - Time window for batching in ms (default: 60000)
  */
 export const slackAlert = async (
   env: SlackAlertEnv,
   messages: string[],
   level: 'error' | 'info' = 'error',
+  options?: {
+    immediate?: boolean;
+    batchKey?: string;
+    flushIntervalMs?: number;
+  },
 ): Promise<void> => {
   if (messages.length === 0) return;
 
-  try {
-    const res = await sendSingleSlackMessage(env, messages[0]!, level);
-    for (let i = 1; i < messages.length; i++) {
-      // eslint-disable-next-line no-await-in-loop
-      await sendSingleSlackMessage(env, messages[i]!, level, res.ts);
+  if (options?.immediate) {
+    try {
+      const res = await sendSingleSlackMessage(env, messages[0]!, level);
+      for (let i = 1; i < messages.length; i += 1) {
+        // eslint-disable-next-line no-await-in-loop
+        await sendSingleSlackMessage(env, messages[i]!, level, res.ts);
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error sending Slack alert:', error);
     }
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('Error sending Slack alert:', error);
+    return;
+  }
+
+  const batchKey = options?.batchKey ?? 'default';
+  const flushIntervalMs = options?.flushIntervalMs ?? 60000;
+
+  addToBatch(batchKey, env, messages, level, flushIntervalMs);
+};
+
+const addToBatch = (
+  batchKey: string,
+  env: SlackAlertEnv,
+  messages: string[],
+  level: 'error' | 'info',
+  flushIntervalMs: number,
+) => {
+  const [mainMessage] = messages;
+  if (!mainMessage) return;
+
+  const { tableId, fieldId, recordIds } = extractAirtableIds(mainMessage);
+  const signature = getMessageSignature(mainMessage);
+
+  let batcher = batchers.get(batchKey);
+
+  if (!batcher) {
+    batcher = {
+      batches: new Map(),
+      flushTimer: null,
+      env,
+      level,
+    };
+    batchers.set(batchKey, batcher);
+  }
+
+  const existing = batcher.batches.get(signature);
+  if (existing) {
+    existing.occurrences += 1;
+    existing.lastSeen = Date.now();
+    recordIds.forEach((id) => existing.affectedRecords.add(id));
+  } else {
+    batcher.batches.set(signature, {
+      signature,
+      occurrences: 1,
+      messages,
+      tableId,
+      fieldId,
+      affectedRecords: new Set(recordIds),
+      lastSeen: Date.now(),
+    });
+  }
+
+  scheduleFlush(batchKey, flushIntervalMs);
+};
+
+const getMessageSignature = (message: string) => {
+  // Match Airtable IDs (tbl/fld/rec + 10+ alphanumeric chars)
+  return message
+    .replace(/\btbl[A-Za-z0-9]{10,}/g, 'tbl***')
+    .replace(/\bfld[A-Za-z0-9]{10,}/g, 'fld***')
+    .replace(/\brec[A-Za-z0-9]{10,}/g, 'rec***');
+};
+
+const extractAirtableIds = (message: string) => {
+  const tableId = message.match(/\btbl[A-Za-z0-9]{10,}/)?.[0] ?? null;
+  const fieldId = message.match(/\bfld[A-Za-z0-9]{10,}/)?.[0] ?? null;
+  const recordIds = message.match(/\brec[A-Za-z0-9]{10,}/g) ?? [];
+  return { tableId, fieldId, recordIds };
+};
+
+const scheduleFlush = (batchKey: string, flushIntervalMs: number) => {
+  const batcher = batchers.get(batchKey);
+  if (!batcher || batcher.flushTimer) return;
+
+  batcher.flushTimer = setTimeout(async () => {
+    try {
+      await flushBatcher(batcher);
+      batcher.batches.clear();
+      batcher.flushTimer = null;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error flushing batched Slack alerts:', error);
+    }
+  }, flushIntervalMs);
+};
+
+const flushBatcher = async (batcher: BatcherState) => {
+  if (batcher.batches.size === 0) return;
+
+  const batchesToSend = Array.from(batcher.batches.values());
+
+  for (const batch of batchesToSend) {
+    const [mainMessage, ...replies] = batch.messages;
+    const messages: string[] = [];
+
+    // Build main message
+    if (batch.occurrences > 1) {
+      const tableInfo = batch.tableId ? ` (Table: ${batch.tableId})` : '';
+      const fieldInfo = batch.fieldId ? ` (Field: ${batch.fieldId})` : '';
+      const recordList = Array.from(batch.affectedRecords).slice(0, 10).join(', ');
+      const moreRecords = batch.affectedRecords.size > 10 ? ` and ${batch.affectedRecords.size - 10} more` : '';
+
+      messages.push(
+        `${mainMessage}${tableInfo}${fieldInfo}\n\n`
+        + `⚠️ This error occurred ${batch.occurrences} times affecting ${batch.affectedRecords.size} record(s):\n`
+        + `${recordList}${moreRecords}`,
+      );
+    } else {
+      messages.push(mainMessage!);
+    }
+
+    // Add replies: first reply only for batched, all replies for single occurrence
+    const repliesToSend = batch.occurrences > 1 ? replies.slice(0, 1) : replies;
+    messages.push(...repliesToSend);
+
+    // Send the batched message immediately (bypass batching for the flush)
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      const res = await sendSingleSlackMessage(batcher.env, messages[0]!, batcher.level);
+      for (let i = 1; i < messages.length; i++) {
+        // eslint-disable-next-line no-await-in-loop
+        await sendSingleSlackMessage(batcher.env, messages[i]!, batcher.level, res.ts);
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error sending batched Slack alert:', error);
+    }
   }
 };
 
@@ -54,7 +213,7 @@ const sendSingleSlackMessage = async (
 
   const data = await response.json();
   if (!response.ok || !data.ok) {
-    throw new Error(`Error from Slack API: ${data.error || response.statusText}`);
+    throw new Error(`Error from Slack API: ${data.error ?? response.statusText}`);
   }
 
   return { ts: data.ts };
