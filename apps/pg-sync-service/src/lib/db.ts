@@ -26,7 +26,7 @@ export const db = new PgAirtableDb({
     await slackAlert(env, [
       message,
       ...(err.stack ? [`Stack:\n\`\`\`${err.stack}\`\`\``] : []),
-    ]);
+    ], { batchKey: 'airtable-validation' });
 
     if (lastAllowedRequest) {
       await slackAlert(env, [
