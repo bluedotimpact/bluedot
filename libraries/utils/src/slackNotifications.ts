@@ -135,11 +135,12 @@ const scheduleFlush = (batchKey: string, flushIntervalMs: number) => {
   batcher.flushTimer = setTimeout(async () => {
     try {
       await flushBatcher(batcher);
-      batcher.batches.clear();
-      batcher.flushTimer = null;
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Error flushing batched Slack alerts:', error);
+    } finally {
+      batcher.batches.clear();
+      batcher.flushTimer = null;
     }
   }, flushIntervalMs);
 };
