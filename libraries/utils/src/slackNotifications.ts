@@ -28,6 +28,7 @@ type BatcherState = {
   level: 'error' | 'info';
 };
 
+export const DEFAULT_FLUSH_INTERVAL_MS = 60000;
 const batchers = new Map<string, BatcherState>();
 
 /**
@@ -48,7 +49,7 @@ export const slackAlert = async (
   if (messages.length === 0) return;
 
   const level = options?.level ?? 'error';
-  const flushIntervalMs = options?.flushIntervalMs ?? 60000;
+  const flushIntervalMs = options?.flushIntervalMs ?? DEFAULT_FLUSH_INTERVAL_MS;
 
   if (options?.batchKey) {
     addToBatch(options.batchKey, env, messages, level, flushIntervalMs);
