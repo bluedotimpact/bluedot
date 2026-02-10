@@ -31,7 +31,7 @@ export const db = new PgAirtableDb({
     if (lastAllowedRequest) {
       await slackAlert(env, [
         'Rate limit hit for Airtable validation warnings. Any new warnings will be logged but not sent to Slack until the rate limit expires.',
-      ]);
+      ], { immediate: true });
     }
   },
 });
