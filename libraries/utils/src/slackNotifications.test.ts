@@ -1,5 +1,10 @@
 import {
-  describe, test, expect, vi, beforeEach, afterEach,
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  test,
+  vi,
 } from 'vitest';
 import { DEFAULT_FLUSH_INTERVAL_MS, slackAlert } from './slackNotifications';
 
