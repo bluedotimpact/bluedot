@@ -84,7 +84,9 @@ const addToBatch = (
   flushIntervalMs: number,
 ) => {
   const [mainMessage] = messages;
-  if (!mainMessage) return;
+  if (!mainMessage) {
+    return;
+  }
 
   const { tableId, fieldId, recordIds } = extractAirtableIds(mainMessage);
   const signature = getMessageSignature(mainMessage);
@@ -120,7 +122,7 @@ const addToBatch = (
     });
   }
 
-  scheduleFlush(batchKey, flushIntervalMs).catch((error) => {
+  scheduleFlush(batchKey, flushIntervalMs).catch((error: unknown) => {
     // eslint-disable-next-line no-console
     console.error('Error scheduling flush:', error);
   });
@@ -135,8 +137,8 @@ const getMessageSignature = (message: string) => {
 };
 
 const extractAirtableIds = (message: string) => {
-  const tableId = message.match(/\btbl[A-Za-z0-9]{10,}/)?.[0] ?? null;
-  const fieldId = message.match(/\bfld[A-Za-z0-9]{10,}/)?.[0] ?? null;
+  const tableId = (/\btbl[A-Za-z0-9]{10,}/.exec(message))?.[0] ?? null;
+  const fieldId = (/\bfld[A-Za-z0-9]{10,}/.exec(message))?.[0] ?? null;
   const recordIds = message.match(/\brec[A-Za-z0-9]{10,}/g) ?? [];
   return { tableId, fieldId, recordIds };
 };
@@ -159,7 +161,7 @@ const flushAndCleanupBatcher = async (batchKey: string, batcher: BatcherState) =
     console.error('Error flushing batched Slack alerts:', error);
   } finally {
     batcher.batches.clear();
-    // eslint-disable-next-line no-param-reassign
+
     batcher.flushTimer = null;
     batchers.delete(batchKey);
   }
@@ -167,8 +169,13 @@ const flushAndCleanupBatcher = async (batchKey: string, batcher: BatcherState) =
 
 const scheduleFlush = async (batchKey: string, flushIntervalMs: number) => {
   const batcher = batchers.get(batchKey);
-  if (!batcher) return;
-  if (!batcher.createdAt) batcher.createdAt = Date.now();
+  if (!batcher) {
+    return;
+  }
+
+  if (!batcher.createdAt) {
+    batcher.createdAt = Date.now();
+  }
 
   if (shouldForceFlush(batcher, flushIntervalMs)) {
     await flushAndCleanupBatcher(batchKey, batcher);
@@ -186,7 +193,9 @@ const scheduleFlush = async (batchKey: string, flushIntervalMs: number) => {
 };
 
 const flushBatcher = async (batcher: BatcherState) => {
-  if (batcher.batches.size === 0) return;
+  if (batcher.batches.size === 0) {
+    return;
+  }
 
   const batchesToSend = Array.from(batcher.batches.values());
 
@@ -201,11 +210,9 @@ const flushBatcher = async (batcher: BatcherState) => {
       const recordList = Array.from(batch.affectedRecords).slice(0, 10).join(', ');
       const moreRecords = batch.affectedRecords.size > 10 ? ` and ${batch.affectedRecords.size - 10} more` : '';
 
-      messages.push(
-        `${mainMessage}${tableInfo}${fieldInfo}\n\n`
-          + `⚠️ This error occurred ${batch.occurrences} times affecting ${batch.affectedRecords.size} record(s):\n`
-          + `${recordList}${moreRecords}`,
-      );
+      messages.push(`${mainMessage}${tableInfo}${fieldInfo}\n\n`
+        + `⚠️ This error occurred ${batch.occurrences} times affecting ${batch.affectedRecords.size} record(s):\n`
+        + `${recordList}${moreRecords}`);
     } else {
       messages.push(mainMessage!);
     }
