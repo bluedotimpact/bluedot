@@ -32,14 +32,13 @@ const batchers = new Map<string, BatcherState>();
 
 /**
  * Sends Slack message(s) to our prod/dev channels
- * - By default, messages are batched to group similar alerts and reduce spam
- * - Batched messages are grouped by signature (same error type/table/field)
- * - Messages are sent after a 60s window or when manually flushed
+ * - By default, messages are sent immediately
+ * - To enable batching, provide a batchKey - messages will be grouped by signature (same error type/table/field) and sent after a 60s window
  * - If multiple messages are provided, the first is sent as a new message, and the rest are sent as replies in a thread
  *
  * @param options.level - Alert level: 'error' (default) or 'info'. Determines which Slack channel the message is sent to.
- * @param options.batchKey - Unique key for this batch group, if set causes messages to be batched together instead of sent immediately. Messages with the same batchKey will be grouped together.
- * @param options.flushIntervalMs - Time window for batching in ms (default: 60000)
+ * @param options.batchKey - If provided, enables batching with this key as the batch group identifier
+ * @param options.flushIntervalMs - Time window for batching in ms (default: 60000, only used when batchKey is provided)
  */
 export const slackAlert = async (
   env: SlackAlertEnv,
