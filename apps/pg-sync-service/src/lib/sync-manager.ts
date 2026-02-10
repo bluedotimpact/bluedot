@@ -18,7 +18,7 @@ export type SyncMetadata = {
 };
 
 class SyncManager {
-  private syncThresholdHours: number;
+  private readonly syncThresholdHours: number;
 
   constructor(syncThresholdHours: number = DEFAULT_SYNC_THRESHOLD_HOURS) {
     this.syncThresholdHours = syncThresholdHours;
@@ -49,14 +49,15 @@ class SyncManager {
 
       const lastSyncAt = metadata.lastIncrementalSyncAt || metadata.lastFullSyncAt;
       if (lastSyncAt < thresholdTime) {
-        logger.info(`[SyncManager] Last sync was ${lastSyncAt}, older than threshold (${this.syncThresholdHours}h), initial sync needed`);
+        logger.info(`[SyncManager] Last sync was ${lastSyncAt.toISOString()}, older than threshold (${this.syncThresholdHours}h), initial sync needed`);
         if (metadata.syncInProgress) {
           logger.warn('[SyncManager] Sync is in progress but updatedAt is not recent, this may indicate a stuck sync. Will try to restart initial sync.');
         }
+
         return true;
       }
 
-      logger.info(`[SyncManager] Last sync was recent (${lastSyncAt}), no initial sync needed`);
+      logger.info(`[SyncManager] Last sync was recent (${lastSyncAt.toISOString()}), no initial sync needed`);
       return false;
     } catch (error) {
       logger.error('[SyncManager] Error checking sync metadata:', error);

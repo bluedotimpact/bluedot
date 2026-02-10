@@ -5,7 +5,7 @@ import {
   withAuth,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
-import { GetProjectsResponse } from '../api/projects';
+import { type GetProjectsResponse } from '../api/projects';
 
 const ProjectsPage = withAuth(({ auth }) => {
   const [{ data, loading, error }] = useAxios<GetProjectsResponse>({

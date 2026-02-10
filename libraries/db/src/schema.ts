@@ -2,7 +2,7 @@ import {
   pgTable, text, boolean, numeric, timestamp,
   serial,
 } from 'drizzle-orm/pg-core';
-import { InferSelectModel } from 'drizzle-orm';
+import { type InferSelectModel } from 'drizzle-orm';
 
 import { pgAirtable } from './lib/db-core';
 

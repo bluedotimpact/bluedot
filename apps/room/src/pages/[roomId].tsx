@@ -6,13 +6,13 @@ import {
 import useAxios from 'axios-hooks';
 import axios from 'axios';
 import { FaPlus, FaLink } from 'react-icons/fa6';
-import { Room } from '../lib/types';
+import { type Room } from '../lib/types';
 import { isRoomHealthy, RoomHealthIndicator } from '../components/RoomHealthIndicator';
 
 const POLL_INTERVAL = 5000; // 5 seconds
 
 const RoomControlPage = withAuth(({ auth }) => {
-  const { roomId } = useRouter().query;
+  const roomId = useRouter().query.roomId as string;
   const [{ data: room, loading, error }, poll] = useAxios<Room>({
     method: 'get',
     url: `/api/user/rooms/${roomId}`,
@@ -70,7 +70,7 @@ const RoomControlPage = withAuth(({ auth }) => {
   const meetingUrl = (() => {
     // If it's a Google meet code, return it
     // ex: 'wpf-drsq-yoc'
-    const googleMeetCodeMatch = meetingInputValue.match(/^([a-z]{3})-?([a-z]{4})-?([a-z]{3})$/);
+    const googleMeetCodeMatch = /^([a-z]{3})-?([a-z]{4})-?([a-z]{3})$/.exec(meetingInputValue);
     if (googleMeetCodeMatch) {
       return `https://meet.google.com/${googleMeetCodeMatch[1]}-${googleMeetCodeMatch[2]}-${googleMeetCodeMatch[3]}`;
     }

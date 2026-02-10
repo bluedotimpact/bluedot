@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
     "module": "es2022",
-    "moduleResolution": "node"
+    "moduleResolution": "bundler"
   }
 }

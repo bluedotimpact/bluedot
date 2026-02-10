@@ -8,18 +8,18 @@ import env from '../../../lib/api/env';
 import { parseZoomLink } from '../../../lib/zoomLinkParser';
 
 export type MeetingJwtRequest = {
-  groupDiscussionId: string,
-  participantId?: string,
+  groupDiscussionId: string;
+  participantId?: string;
 };
 
 export type MeetingJwtResponse = {
-  type: 'success',
-  meetingSdkJwt: string,
-  meetingNumber: string,
-  meetingPassword: string,
+  type: 'success';
+  meetingSdkJwt: string;
+  meetingNumber: string;
+  meetingPassword: string;
 } | {
-  type: 'error',
-  message: string,
+  type: 'error';
+  message: string;
 };
 
 const ZOOM_ROLE = {

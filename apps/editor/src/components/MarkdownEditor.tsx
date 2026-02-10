@@ -1,5 +1,5 @@
-import { useEditor, EditorContent, Editor } from '@tiptap/react';
-import React from 'react';
+import { useEditor, EditorContent, type Editor } from '@tiptap/react';
+import type React from 'react';
 import {
   Bold,
   Code,
@@ -22,9 +22,9 @@ import {
   History,
   Gapcursor,
   Dropcursor,
-  UploaderData,
+  type UploaderData,
 } from '@syfxlin/tiptap-starter-kit';
-import { Markdown, MarkdownNodeSpec } from 'tiptap-markdown';
+import { Markdown, type MarkdownNodeSpec } from 'tiptap-markdown';
 import {
   FaBold,
   FaItalic,
@@ -153,7 +153,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange, upl
         addStorage() {
           return {
             markdown: {
-              serialize: (state, node) => {
+              serialize(state, node) {
                 state.renderList(node, '    ', () => `${node.attrs.bullet || '*'} `);
               },
             } as MarkdownNodeSpec,
@@ -164,8 +164,8 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange, upl
         addStorage() {
           return {
             markdown: {
-              serialize: (state, node) => {
-                const start = node.attrs.order || 1;
+              serialize(state, node) {
+                const start = (node.attrs.order as number) || 1;
                 state.renderList(node, '    ', (i) => {
                   const nStr = String(start + i);
                   return `${nStr}. `;
@@ -180,7 +180,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange, upl
         addStorage() {
           return {
             markdown: {
-              serialize: (state, node) => {
+              serialize(state, node) {
                 state.write(`<Embed url="${node.attrs.src}" />`);
               },
             } as MarkdownNodeSpec,
@@ -188,7 +188,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange, upl
         },
       }),
       Uploader.configure({
-        upload: async (files) => {
+        async upload(files) {
           if (!uploadFile) {
             throw new Error('File uploading not supported');
           }
@@ -210,6 +210,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange, upl
               reader.readAsArrayBuffer(file);
             });
           };
+
           return Promise.all(items.map((item) => upload(item)));
         },
       }),
@@ -224,7 +225,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange, upl
       /<Embed\s+url="([^"]+)"\s*\/>/g,
       (match, url) => `![](${url})`,
     ),
-    onUpdate: () => {
+    onUpdate() {
       const markdownOutput = editor?.storage.markdown.getMarkdown();
       onChange?.(markdownOutput);
     },

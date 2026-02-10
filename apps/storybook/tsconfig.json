@@ -3,6 +3,7 @@
   "include": [
     "next-env.d.ts",
     "src/**/*",
+    ".storybook/**/*",
   ],
   "exclude": ["node_modules"]
 }

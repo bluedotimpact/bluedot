@@ -1,13 +1,13 @@
 import { z } from 'zod';
-import { personTable, InferSelectModel } from '@bluedot/db';
+import { personTable, type InferSelectModel } from '@bluedot/db';
 import db from '../../../lib/api/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 
 type Person = InferSelectModel<typeof personTable.pg>;
 
 export type GetPeopleResponse = {
-  type: 'success',
-  persons: Person[],
+  type: 'success';
+  persons: Person[];
 };
 
 export default makeApiRoute({

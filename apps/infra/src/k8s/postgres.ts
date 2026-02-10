@@ -1,6 +1,6 @@
 import * as k8s from '@pulumi/kubernetes';
-import { Input } from '@pulumi/pulumi';
-import { core } from '@pulumi/kubernetes/types/input';
+import { type Input } from '@pulumi/pulumi';
+import { type core } from '@pulumi/kubernetes/types/input';
 import { provider } from './provider';
 
 export const cloudNativePg = new k8s.helm.v3.Release('cloud-native-pg', {
@@ -58,17 +58,17 @@ export const airtableSyncPg = new k8s.apiextensions.CustomResource('airtable-syn
 
 export type PgConnectionDetails = {
   /** @example 'some-pg-rw' */
-  host: Input<string>,
+  host: Input<string>;
   /** @example 'app' */
-  database: Input<string>,
+  database: Input<string>;
   /** @example 'app' */
-  username: Input<string>,
+  username: Input<string>;
   /** @example 'abc123' */
-  password: core.v1.EnvVarSource,
+  password: core.v1.EnvVarSource;
   /** @example 'postgresql://app:abc123@some-pg-rw.default:5432/app' */
-  uri: core.v1.EnvVarSource,
+  uri: core.v1.EnvVarSource;
   /** @example 'jdbc:postgresql://some-pg-rw.default:5432/app?password=abc123&user=app' */
-  jdbcUri: core.v1.EnvVarSource,
+  jdbcUri: core.v1.EnvVarSource;
 };
 
 export const getConnectionDetails = (resource: k8s.apiextensions.CustomResource): PgConnectionDetails => {

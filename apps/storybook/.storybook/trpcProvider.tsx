@@ -1,4 +1,6 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { httpLink } from '@trpc/client';
 import { useState } from 'react';
 import { trpc } from './trpcAlias';
@@ -13,16 +15,14 @@ import { trpc } from './trpcAlias';
  * MSW will intercept the HTTP requests based on handlers in your stories.
  */
 export const TrpcProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            retry: false, // Disable retries for faster feedback
-          },
+  const [queryClient] = useState(() =>
+    new QueryClient({
+      defaultOptions: {
+        queries: {
+          retry: false, // Disable retries for faster feedback
         },
-      }),
-  );
+      },
+    }));
 
   const [trpcClient] = useState(() =>
     trpc.createClient({
@@ -31,8 +31,7 @@ export const TrpcProvider: React.FC<{ children: React.ReactNode }> = ({ children
           url: 'http://localhost:8000/api/trpc',
         }),
       ],
-    }),
-  );
+    }));
 
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>

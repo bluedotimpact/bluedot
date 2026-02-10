@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { RoomStatus } from '../lib/types';
+import { type RoomStatus } from '../lib/types';
 
 // Have received a heartbeat in the last 15 seconds
 export const isRoomHealthy = (status: RoomStatus): boolean => (Date.now() / 1000) - status.lastHeartbeatAt < 15;

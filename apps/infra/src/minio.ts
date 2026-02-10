@@ -17,7 +17,7 @@ const minioProvider = new minio.Provider('minio-provider', {
  *            These come from https://github.com/aminueza/terraform-provider-minio/blob/9d7b914cce7c5a0412b160450ce23646b2ee7f39/minio/resource_minio_s3_bucket.go#L269-L273
  * @returns An object containing the bucket, user, and other resources
  */
-function createMinioBuckets(bucketConfigs: { name: string, acl: 'private' | 'public-read' }[]) {
+function createMinioBuckets(bucketConfigs: { name: string; acl: 'private' | 'public-read' }[]) {
   if (bucketConfigs.length === 0) {
     throw new Error('At least one bucket must be created');
   }

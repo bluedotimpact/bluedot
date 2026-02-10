@@ -2,11 +2,11 @@ import { useCallback, useEffect, useState } from 'react';
 import {
   CTALinkOrButton, H1, A,
 } from '@bluedot/ui';
-import { PageState } from '../lib/client/pageState';
+import { type PageState } from '../lib/client/pageState';
 import { Page } from './Page';
 
 export type AppJoinViewProps = {
-  page: PageState & { name: 'appJoin' },
+  page: PageState & { name: 'appJoin' };
 };
 
 const AppJoinView: React.FC<AppJoinViewProps> = ({
@@ -28,7 +28,7 @@ const AppJoinView: React.FC<AppJoinViewProps> = ({
     const timer = setTimeout(() => {
       setSecondsToOpen((s) => s - 1);
     }, 1000);
-    // eslint-disable-next-line consistent-return
+
     return () => clearTimeout(timer);
   }, [joinDirect, secondsToOpen]);
 

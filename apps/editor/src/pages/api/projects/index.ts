@@ -1,13 +1,13 @@
 import { z } from 'zod';
-import { projectTable, InferSelectModel } from '@bluedot/db';
+import { projectTable, type InferSelectModel } from '@bluedot/db';
 import db from '../../../lib/api/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 
 type Project = InferSelectModel<typeof projectTable.pg>;
 
 export type GetProjectsResponse = {
-  type: 'success',
-  projects: Omit<Project, 'body'>[],
+  type: 'success';
+  projects: Omit<Project, 'body'>[];
 };
 
 export default makeApiRoute({
@@ -22,7 +22,7 @@ export default makeApiRoute({
   // Sort by title ascending and remove the body field from each project to make the response lighter
   const projectSummaries = allProjects
     .sort((a, b) => (a.title || '').localeCompare(b.title || ''))
-    .map(({ body, ...rest }) => rest);
+    .map(({ body: _, ...rest }) => rest); // eslint-disable-line @typescript-eslint/no-unused-vars
 
   return {
     type: 'success' as const,

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import {
   H2, H3, P, A, CTALinkOrButton, ProgressDots, ClickTarget,
 } from '@bluedot/ui';
 import { useCompletion } from '@ai-sdk/react';
 import { CodeRenderer } from '../components/CodeRenderer';
-import { SavedDemoOutput } from './api/saved-output/[savedDemoOutputId]';
+import { type SavedDemoOutput } from './api/saved-output/[savedDemoOutputId]';
 import { ShareSavedDemoButton } from '../components/ShareSavedDemoButton';
 
 const DemoPage: React.FC = () => {
@@ -21,7 +22,11 @@ const DemoPage: React.FC = () => {
     if (submittedUserPrompt !== userPrompt) {
       setUserPrompt(submittedUserPrompt);
     }
-    if (!submittedUserPrompt.trim()) return;
+
+    if (!submittedUserPrompt.trim()) {
+      return;
+    }
+
     setView('display');
     await complete(submittedUserPrompt);
   };
@@ -81,16 +86,16 @@ const DemoPage: React.FC = () => {
         </div>
 
         {error && (
-        <>
-          <H2 className="text-red-500">Something went wrong</H2>
-          <P>
-            Sorry, we couldn't generate your app. Error: {error?.message ?? 'Unknown'}
-          </P>
-          <P>
-            Errors sometime happen when too many people are taking our course at once. You can try again later, or try <A href="https://web.lmarena.ai/">WebDev Arena</A> to see a similar demo.
-          </P>
-          <CTALinkOrButton onClick={() => handleSubmit()}>Try again</CTALinkOrButton>
-        </>
+          <>
+            <H2 className="text-red-500">Something went wrong</H2>
+            <P>
+              Sorry, we couldn't generate your app. Error: {error?.message ?? 'Unknown'}
+            </P>
+            <P>
+              Errors sometime happen when too many people are taking our course at once. You can try again later, or try <A href="https://web.lmarena.ai/">WebDev Arena</A> to see a similar demo.
+            </P>
+            <CTALinkOrButton onClick={() => handleSubmit()}>Try again</CTALinkOrButton>
+          </>
         )}
       </main>
     );
@@ -116,7 +121,10 @@ const DemoPage: React.FC = () => {
           <CodeRenderer code={generatedCode} height="calc(100vh - 90px)" />
           <div className="flex gap-2 w-fit relative bottom-16 mt-1 -mb-12">
             <ShareSavedDemoButton type="generate-react-component" data={JSON.stringify({ prompt: userPrompt, code: generatedCode })} text={`I just created an app with AI - using the prompt "${userPrompt}". You can check it out at this link:`} />
-            <CTALinkOrButton variant="secondary" onClick={() => { setView('prompt'); setUserPrompt(''); }} withBackChevron>Start over</CTALinkOrButton>
+            <CTALinkOrButton variant="secondary" onClick={() => {
+              setView('prompt');
+              setUserPrompt('');
+            }} withBackChevron>Start over</CTALinkOrButton>
           </div>
         </div>
       </main>
@@ -127,7 +135,7 @@ const DemoPage: React.FC = () => {
   return null;
 };
 
-export const GenerateReactComponentSavedDemoOutputViewer = ({ savedDemoOutput, courseLink }: { savedDemoOutput: SavedDemoOutput, courseLink: string }) => {
+export const GenerateReactComponentSavedDemoOutputViewer = ({ savedDemoOutput, courseLink }: { savedDemoOutput: SavedDemoOutput; courseLink: string }) => {
   const { prompt, code } = JSON.parse(savedDemoOutput.data);
 
   return (

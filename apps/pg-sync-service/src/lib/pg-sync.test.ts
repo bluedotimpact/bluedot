@@ -119,8 +119,14 @@ describe('deduplicateActions', () => {
       fieldIds: obj.fieldIds ? [...obj.fieldIds].sort() : undefined,
     }))
       .sort((a, b) => {
-        if (a.baseId !== b.baseId) return a.baseId.localeCompare(b.baseId);
-        if (a.tableId !== b.tableId) return a.tableId.localeCompare(b.tableId);
+        if (a.baseId !== b.baseId) {
+          return a.baseId.localeCompare(b.baseId);
+        }
+
+        if (a.tableId !== b.tableId) {
+          return a.tableId.localeCompare(b.tableId);
+        }
+
         return a.recordId.localeCompare(b.recordId);
       });
 
@@ -240,6 +246,7 @@ describe('pg-sync priority queue', () => {
       if (key === 'fail1') {
         return false;
       }
+
       return true;
     };
 

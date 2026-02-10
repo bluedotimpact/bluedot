@@ -50,7 +50,7 @@ async function cleanupRemovedColumns(pgTables: Record<string, PgAirtableTable['p
         // eslint-disable-next-line no-await-in-loop
         await db.pg.execute(sql`ALTER TABLE ${sql.identifier(tableName)} DROP COLUMN IF EXISTS ${sql.identifier(columnName)}`);
       }
-    } catch (error) {
+    } catch {
       // Probably a new table that doesn't exist yet
     }
   }
@@ -63,9 +63,7 @@ async function cleanupRemovedColumns(pgTables: Record<string, PgAirtableTable['p
 async function pushSchemaWithTimeout(pgTables: Record<string, PgAirtableTable['pg']>): Promise<boolean> {
   const timeoutPromise = new Promise<never>((_, reject) => {
     setTimeout(() => {
-      reject(new Error(
-        'Schema push migration hung after 120 seconds. This is likely because you have made a change that breaks drizzle\'s pushSchema function. Also see https://github.com/drizzle-team/drizzle-orm/issues/4651.',
-      ));
+      reject(new Error('Schema push migration hung after 120 seconds. This is likely because you have made a change that breaks drizzle\'s pushSchema function. Also see https://github.com/drizzle-team/drizzle-orm/issues/4651.'));
     }, 120_000);
   });
 
@@ -76,6 +74,7 @@ async function pushSchemaWithTimeout(pgTables: Record<string, PgAirtableTable['p
       logger.info(`[schema-sync] Schema pushed with ${result.statementsToExecute.length} statements`);
       return true;
     }
+
     return false;
   })();
 
@@ -94,6 +93,7 @@ async function runDrizzlePush(): Promise<boolean> {
         // Use pgWithDeprecatedColumns when available to prevent Drizzle from dropping deprecated columns
         return [name, (value.pgWithDeprecatedColumns ?? value.pg) as unknown as PgAirtableTable['pg']];
       }
+
       return [name, value as unknown as PgAirtableTable['pg']];
     }));
   logger.info(`[schema-sync] Running schema push with tables: ${Object.keys(pgTables).join(', ')}`);

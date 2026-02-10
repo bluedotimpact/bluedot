@@ -1,11 +1,11 @@
 import {
-  Auth, CTALinkOrButton,
+  type Auth, CTALinkOrButton,
   ProgressDots,
 } from '@bluedot/ui';
 import axios from 'axios';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
-import { PresignedPostResponse } from '../pages/api/presigned-upload';
+import { type PresignedPostResponse } from '../pages/api/presigned-upload';
 
 const MarkdownEditor = dynamic(() => import('./MarkdownEditor'), { ssr: false, loading: () => <ProgressDots /> });
 

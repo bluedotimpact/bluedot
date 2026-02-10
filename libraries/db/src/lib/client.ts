@@ -1,14 +1,14 @@
 import {
-  eq, and, or, gt, lt, gte, lte, ne, sql, SQL, desc, asc,
+  eq, and, or, gt, lt, gte, lte, ne, sql, type SQL, desc, asc,
 } from 'drizzle-orm';
-import { PgInsertValue, PgUpdateSetSource, PgColumn } from 'drizzle-orm/pg-core';
+import { type PgInsertValue, type PgUpdateSetSource, type PgColumn } from 'drizzle-orm/pg-core';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import {
-  AirtableTs, AirtableTsError, AirtableTsOptions,
+  AirtableTs, AirtableTsError, type AirtableTsOptions,
 } from 'airtable-ts';
 import { ErrorType } from 'airtable-ts/dist/AirtableTsError';
-import { PgAirtableTable } from './db-core';
-import { AirtableItemFromColumnsMap, BasePgTableType, PgAirtableColumnInput } from './typeUtils';
+import { type PgAirtableTable } from './db-core';
+import { type AirtableItemFromColumnsMap, type BasePgTableType, type PgAirtableColumnInput } from './typeUtils';
 import env from './env';
 
 /**
@@ -60,13 +60,13 @@ export type GetFirstOptionsWithoutAutoId<TTableName extends string, TColumnsMap 
  */
 export type FilterOperation<T> = {
   [K in keyof T]?:
-  | T[K]
-  | { '>': T[K] }
-  | { '<': T[K] }
-  | { '>=': T[K] }
-  | { '<=': T[K] }
-  | { '=': T[K] }
-  | { '!=': T[K] };
+    | T[K]
+    | { '>': T[K] }
+    | { '<': T[K] }
+    | { '>=': T[K] }
+    | { '<=': T[K] }
+    | { '=': T[K] }
+    | { '!=': T[K] };
 };
 
 export type Filter<T> = FilterOperation<T> | {
@@ -98,8 +98,6 @@ type RestrictedPgDatabase = Omit<ReturnType<typeof drizzle>, 'insert' | 'update'
 };
 
 export class PgAirtableDb {
-  private pgUnrestricted: ReturnType<typeof drizzle>;
-
   /** @deprecated Usually, don't use this. Use the primary methods on PgAirtableDb instead */
   public pg: RestrictedPgDatabase;
 
@@ -114,6 +112,8 @@ export class PgAirtableDb {
 
   /** @deprecated Old name. Use .remove() instead */
   public airtableDelete = this.remove.bind(this);
+
+  private readonly pgUnrestricted: ReturnType<typeof drizzle>;
 
   constructor({
     pgConnString,
@@ -173,7 +173,6 @@ export class PgAirtableDb {
     table: PgAirtableTable<TTableName, TColumnsMap>,
     filter?: Filter<BasePgTableType<TTableName, TColumnsMap>['$inferSelect']>,
   ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect'][]> {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const baseQuery = this.pgUnrestricted.select().from(table.pg as any);
 
     if (filter) {
@@ -223,14 +222,12 @@ export class PgAirtableDb {
 
     if (!sortConfig) {
       const availableFields = Object.keys(table.pg).join(', ');
-      throw new Error(
-        'Table does not have autoNumberId for default sorting. '
-        + `Please specify a sortBy field. Available fields: ${availableFields}\n`,
-      );
+      throw new Error('Table does not have autoNumberId for default sorting. '
+        + `Please specify a sortBy field. Available fields: ${availableFields}\n`);
     }
 
     // Build query with sorting
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     const baseQuery = this.pgUnrestricted.select().from(table.pg as any);
 
     // Apply sorting
@@ -241,7 +238,7 @@ export class PgAirtableDb {
     }
 
     // Build the final query with all clauses
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     let query: any = baseQuery;
 
     if (filter) {
@@ -257,6 +254,112 @@ export class PgAirtableDb {
     const results = await query as BasePgTableType<TTableName, TColumnsMap>['$inferSelect'][];
 
     return results.length > 0 ? results[0]! : null;
+  }
+
+  /**
+   * Insert `data` into airtable and replicate synchronously to postgres (changes are readable immediately
+   * after awaiting this).
+   */
+  async insert<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>>(
+    table: PgAirtableTable<TTableName, TColumnsMap>,
+    data: Partial<Omit<AirtableItemFromColumnsMap<TColumnsMap>, 'id'>>,
+  ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect']> {
+    const fullData = await this.airtableClient.insert(table.airtable, data);
+
+    // `ensureReplicated` only returns undefined for idempotent deletes; upserts always return a result
+    const pgResult = await this.ensureReplicated({ table, id: fullData.id, fullData });
+    if (!pgResult) {
+      throw new Error('Unexpected: `ensureReplicated` returned no result after insert');
+    }
+
+    return pgResult;
+  }
+
+  /**
+   * Update the given record in airtable and replicate synchronously to postgres (changes are
+   * readable immediately after awaiting this).
+   */
+  async update<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>>(
+    table: PgAirtableTable<TTableName, TColumnsMap>,
+    data: Partial<AirtableItemFromColumnsMap<TColumnsMap>> & { id: string },
+  ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect']> {
+    const fullData = await this.airtableClient.update(table.airtable, data);
+
+    // `ensureReplicated` only returns undefined for idempotent deletes; upserts always return a result
+    const pgResult = await this.ensureReplicated({ table, id: fullData.id, fullData });
+    if (!pgResult) {
+      throw new Error('Unexpected: `ensureReplicated` returned no result after update');
+    }
+
+    return pgResult;
+  }
+
+  /**
+   * Delete the given record in airtable and replicate synchronously to postgres (changes are
+   * readable immediately after awaiting this).
+   */
+  async remove<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>>(
+    table: PgAirtableTable<TTableName, TColumnsMap>,
+    id: string,
+  ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect'] | undefined> {
+    const { id: resultId } = await this.airtableClient.remove(table.airtable, id);
+
+    const pgResult = await this.ensureReplicated({ table, id: resultId, isDelete: true });
+
+    return pgResult;
+  }
+
+  /**
+   * Ensures that a record from Airtable is replicated in the PostgreSQL database.
+   * @param params.table - The PgAirtableTable instance defining the table schema and mappings
+   * @param params.id - The Airtable record ID to replicate or delete
+   * @param params.fullData - Optional Airtable record data. If provided, prevents an extra
+   *   round trip to Airtable to fetch the data. Ignored when isDelete is true.
+   * @param params.isDelete - Whether this is a delete operation. Defaults to false.
+   *   Must be explicitly set to true for records to be deleted.
+   */
+  async ensureReplicated<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>>({
+    table, id, fullData, isDelete = false,
+  }: {
+    table: PgAirtableTable<TTableName, TColumnsMap>;
+    id: string;
+    /** Optional, if given prevents an extra round trip to airtable */
+    fullData?: AirtableItemFromColumnsMap<TColumnsMap>;
+    /** Must be passed explicitly for a record to be deleted. */
+    isDelete?: boolean;
+  }): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect'] | undefined> {
+    return this.pgUnrestricted.transaction(async (tx) => {
+      if (isDelete) {
+        const deletedResults = await tx.delete(table.pg).where(eq(table.pg.id, id)).returning();
+        const deletedResult = Array.isArray(deletedResults) ? deletedResults[0] : undefined;
+
+        if (!deletedResult) {
+          return undefined;
+        }
+
+        return deletedResult;
+      }
+
+      const data = fullData ?? await this.airtableClient.get(table.airtable, id);
+
+      if (!data) {
+        throw new Error('No data found for upsert operation');
+      }
+
+      // TODO For updates, check if there are changes with SELECT first to avoid acquiring a lock
+      const rows = await tx.insert(table.pg).values(data as PgInsertValue<typeof table.pg>).onConflictDoUpdate({
+        target: table.pg.id,
+        set: data as PgUpdateSetSource<typeof table.pg>,
+      }).returning();
+
+      const result = Array.isArray(rows) ? rows[0] : undefined;
+
+      if (!result) {
+        throw new Error('Unexpected error: Nothing returned from upset operation');
+      }
+
+      return result;
+    });
   }
 
   /**
@@ -279,6 +382,7 @@ export class PgAirtableDb {
           direction: field === 'autoNumberId' ? 'desc' : 'asc',
         };
       }
+
       return {
         field: sortBy.field,
         direction: sortBy.direction ?? (sortBy.field === 'autoNumberId' ? 'desc' : 'asc'),
@@ -309,11 +413,13 @@ export class PgAirtableDb {
         // change this to TRUE.
         return sql`FALSE`;
       }
+
       const conditions = filter.AND.map((f: Filter<Record<string, unknown>>) => this.buildWhereClause(table, f));
       const result = and(...conditions);
       if (!result) {
         throw new Error('Failed to build AND condition');
       }
+
       return result;
     }
 
@@ -321,11 +427,13 @@ export class PgAirtableDb {
       if (filter.OR.length === 0) {
         return sql`FALSE`;
       }
+
       const conditions = filter.OR.map((f: Filter<Record<string, unknown>>) => this.buildWhereClause(table, f));
       const result = or(...conditions);
       if (!result) {
         throw new Error('Failed to build OR condition');
       }
+
       return result;
     }
 
@@ -378,110 +486,7 @@ export class PgAirtableDb {
     if (!result) {
       throw new Error('Failed to build WHERE condition');
     }
+
     return result;
-  }
-
-  /**
-   * Insert `data` into airtable and replicate synchronously to postgres (changes are readable immediately
-   * after awaiting this).
-   */
-  async insert<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>>(
-    table: PgAirtableTable<TTableName, TColumnsMap>,
-    data: Partial<Omit<AirtableItemFromColumnsMap<TColumnsMap>, 'id'>>,
-  ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect']> {
-    const fullData = await this.airtableClient.insert(table.airtable, data);
-
-    // `ensureReplicated` only returns undefined for idempotent deletes; upserts always return a result
-    const pgResult = await this.ensureReplicated({ table, id: fullData.id, fullData });
-    if (!pgResult) throw new Error('Unexpected: `ensureReplicated` returned no result after insert');
-
-    return pgResult;
-  }
-
-  /**
-   * Update the given record in airtable and replicate synchronously to postgres (changes are
-   * readable immediately after awaiting this).
-   */
-  async update<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>>(
-    table: PgAirtableTable<TTableName, TColumnsMap>,
-    data: Partial<AirtableItemFromColumnsMap<TColumnsMap>> & { id: string },
-  ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect']> {
-    const fullData = await this.airtableClient.update(table.airtable, data);
-
-    // `ensureReplicated` only returns undefined for idempotent deletes; upserts always return a result
-    const pgResult = await this.ensureReplicated({ table, id: fullData.id, fullData });
-    if (!pgResult) throw new Error('Unexpected: `ensureReplicated` returned no result after update');
-
-    return pgResult;
-  }
-
-  /**
-   * Delete the given record in airtable and replicate synchronously to postgres (changes are
-   * readable immediately after awaiting this).
-   */
-  async remove<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>>(
-    table: PgAirtableTable<TTableName, TColumnsMap>,
-    id: string,
-  ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect'] | undefined> {
-    const { id: resultId } = await this.airtableClient.remove(table.airtable, id);
-
-    const pgResult = await this.ensureReplicated({ table, id: resultId, isDelete: true });
-
-    return pgResult;
-  }
-
-  /**
-   * Ensures that a record from Airtable is replicated in the PostgreSQL database.
-   * @param params.table - The PgAirtableTable instance defining the table schema and mappings
-   * @param params.id - The Airtable record ID to replicate or delete
-   * @param params.fullData - Optional Airtable record data. If provided, prevents an extra
-   *   round trip to Airtable to fetch the data. Ignored when isDelete is true.
-   * @param params.isDelete - Whether this is a delete operation. Defaults to false.
-   *   Must be explicitly set to true for records to be deleted.
-   */
-  async ensureReplicated<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>>(
-    {
-      table, id, fullData, isDelete = false,
-    }: {
-      table: PgAirtableTable<TTableName, TColumnsMap>;
-      id: string;
-      /** Optional, if given prevents an extra round trip to airtable */
-      fullData?: AirtableItemFromColumnsMap<TColumnsMap>;
-      /** Must be passed explicitly for a record to be deleted. */
-      isDelete?: boolean;
-    },
-  ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect'] | undefined> {
-    return this.pgUnrestricted.transaction(async (tx) => {
-      if (isDelete) {
-        const deletedResults = await tx.delete(table.pg).where(eq(table.pg.id, id)).returning();
-        const deletedResult = Array.isArray(deletedResults) ? deletedResults[0] : undefined;
-
-        if (!deletedResult) {
-          return undefined;
-        }
-
-        return deletedResult;
-      }
-
-      const data = fullData ?? await this.airtableClient.get(table.airtable, id);
-
-      if (!data) {
-        throw new Error('No data found for upsert operation');
-      }
-
-      // TODO For updates, check if there are changes with SELECT first to avoid acquiring a lock
-      const rows = await tx.insert(table.pg).values(data as PgInsertValue<typeof table.pg>).onConflictDoUpdate({
-        target: table.pg.id,
-        set: data as PgUpdateSetSource<typeof table.pg>,
-      }).returning();
-
-      const result = Array.isArray(rows) ? rows[0] : undefined;
-
-      if (!result) {
-        throw new Error('Unexpected error: Nothing returned from upset operation');
-      }
-
-      return result;
-    });
   }
 }

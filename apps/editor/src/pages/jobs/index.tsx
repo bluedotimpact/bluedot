@@ -5,7 +5,7 @@ import {
   withAuth,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
-import { GetJobsResponse } from '../api/jobs';
+import { type GetJobsResponse } from '../api/jobs';
 
 const JobsPage = withAuth(({ auth }) => {
   const [{ data, loading, error }] = useAxios<GetJobsResponse>({

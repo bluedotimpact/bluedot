@@ -24,6 +24,7 @@ export const validateEnv = <R extends string, O extends string>({
       unset.push(envVar);
       return;
     }
+
     (env as Record<R, string>)[envVar] = value;
   });
 

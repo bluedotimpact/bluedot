@@ -1,13 +1,13 @@
-import React from 'react';
+import type React from 'react';
 import { useRouter } from 'next/router';
 import {
   H2, P, A, ProgressDots, asError,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
-import { SavedDemoOutput } from '../api/saved-output/[savedDemoOutputId]';
+import { type SavedDemoOutput } from '../api/saved-output/[savedDemoOutputId]';
 import { GenerateReactComponentSavedDemoOutputViewer } from '../generate-react-component';
 
-const ContentViewer: React.FC<{ savedDemoOutput: SavedDemoOutput, courseLink: string }> = ({ savedDemoOutput, courseLink }) => {
+const ContentViewer: React.FC<{ savedDemoOutput: SavedDemoOutput; courseLink: string }> = ({ savedDemoOutput, courseLink }) => {
   const { type } = savedDemoOutput;
 
   try {
@@ -19,9 +19,6 @@ const ContentViewer: React.FC<{ savedDemoOutput: SavedDemoOutput, courseLink: st
             courseLink={courseLink}
           />
         );
-      }
-      default: {
-        throw new Error(`Unrecognised demo type: ${type}`);
       }
     }
   } catch (error: unknown) {

@@ -1,5 +1,5 @@
 import {
-  FastifyPluginAsync, FastifyReply, FastifyRequest, RouteHandler,
+  type FastifyPluginAsync, type FastifyReply, type FastifyRequest, type RouteHandler,
 } from 'fastify';
 import fp from 'fastify-plugin';
 import { logger } from '@bluedot/ui/src/api';
@@ -44,10 +44,9 @@ const mainErrorHandler = async (
 };
 
 // TODO: remove this after fixing https://github.com/fastify/fastify/issues/5220
-// eslint-disable-next-line func-names
+
 export const withErrorHandling: (innerHandler: RouteHandler) => RouteHandler = (innerHandler) => async function (request, reply) {
   try {
-    // eslint-disable-next-line @typescript-eslint/return-await
     return await innerHandler.bind(this)(request, reply);
   } catch (error) {
     mainErrorHandler(error, request, reply);

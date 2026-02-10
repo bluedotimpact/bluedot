@@ -5,16 +5,16 @@ import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
 
 export type RecordAttendanceRequest = {
-  groupDiscussionId: string,
-  participantId: string,
-  reason?: string,
+  groupDiscussionId: string;
+  participantId: string;
+  reason?: string;
 };
 
 export type RecordAttendanceResponse = {
-  type: 'success',
+  type: 'success';
 } | {
-  type: 'error',
-  message: string,
+  type: 'error';
+  message: string;
 };
 
 export default makeApiRoute({
@@ -31,6 +31,7 @@ export default makeApiRoute({
   if (!body.groupDiscussionId) {
     throw new createHttpError.BadRequest('Missing group discussion id.');
   }
+
   if (!body.participantId) {
     throw new createHttpError.BadRequest('Missing participant id.');
   }

@@ -1,7 +1,7 @@
-import { ColumnBuilderRuntimeConfig } from 'drizzle-orm';
-import { BuildColumns } from 'drizzle-orm/column-builder';
+import { type ColumnBuilderRuntimeConfig } from 'drizzle-orm';
+import { type BuildColumns } from 'drizzle-orm/column-builder';
 import {
-  type numeric, boolean as pgBoolean, PgTableWithColumns, text,
+  type numeric, type boolean as pgBoolean, type PgTableWithColumns, type text,
 } from 'drizzle-orm/pg-core';
 
 // BEGIN vendored from airtable-ts/src/mapping/typeUtils.ts
@@ -18,7 +18,6 @@ type NonNullToString<T> =
 export type ToTsTypeString<T> =
   null extends T ? `${NonNullToString<T>} | null` : NonNullToString<T>;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type TsTypeString = NonNullToString<any> | ToTsTypeString<any>;
 // END vendored
 

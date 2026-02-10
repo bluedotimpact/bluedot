@@ -1,13 +1,13 @@
 import { z } from 'zod';
-import { blogTable, InferSelectModel } from '@bluedot/db';
+import { blogTable, type InferSelectModel } from '@bluedot/db';
 import db from '../../../lib/api/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 
 type Blog = InferSelectModel<typeof blogTable.pg>;
 
 export type GetBlogsResponse = {
-  type: 'success',
-  blogs: Omit<Blog, 'body'>[],
+  type: 'success';
+  blogs: Omit<Blog, 'body'>[];
 };
 
 export default makeApiRoute({
@@ -22,7 +22,7 @@ export default makeApiRoute({
   // Sort by publishedAt descending and remove the body field from each blog to make the response lighter
   const blogSummaries = allBlogs
     .sort((a, b) => (b.publishedAt || 0) - (a.publishedAt || 0))
-    .map(({ body, ...rest }) => rest);
+    .map(({ body: _, ...rest }) => rest); // eslint-disable-line @typescript-eslint/no-unused-vars
 
   return {
     type: 'success' as const,

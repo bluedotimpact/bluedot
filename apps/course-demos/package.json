@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@bluedot/docker-scripts": "*",
-    "@bluedot/eslint-config": "*",
+    "@bluedot/eslint-config-v9": "*",
     "@bluedot/typescript-config": "*",
     "@tailwindcss/postcss": "^4.0.6",
     "@testing-library/react": "^15.0.2",
@@ -46,7 +46,7 @@
     "@types/react-dom": "^18.0.7",
     "@vitejs/plugin-react": "^4.2.1",
     "dotenv": "^16.4.5",
-    "eslint": "^8.57.0",
+    "eslint": "^9.39.2",
     "happy-dom": "^18.0.1",
     "node-mocks-http": "^1.14.1",
     "postcss": "^8.4.38",

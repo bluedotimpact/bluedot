@@ -1,9 +1,9 @@
 import {
-  eq, and, getPgAirtableFromIds, inArray, metaTable, PgAirtableTable,
+  eq, and, getPgAirtableFromIds, inArray, metaTable, type PgAirtableTable,
 } from '@bluedot/db';
 import { logger } from '@bluedot/ui/src/api';
 import { db } from './db';
-import { AirtableAction } from './webhook';
+import { type AirtableAction } from './webhook';
 
 /**
  * Fetches ALL records from an Airtable table with retry logic
@@ -128,14 +128,12 @@ export async function performFullSync(
       pgTable: metaTable.pgTable,
     })
     .from(metaTable)
-    .where(
-      limitToTables
-        ? and(
-          eq(metaTable.enabled, true),
-          inArray(metaTable.pgTable, limitToTables),
-        )
-        : eq(metaTable.enabled, true),
-    );
+    .where(limitToTables
+      ? and(
+        eq(metaTable.enabled, true),
+        inArray(metaTable.pgTable, limitToTables),
+      )
+      : eq(metaTable.enabled, true));
 
   if (limitToTables) {
     const foundPgNames = new Set(tableFieldMappings.map((r) => r.pgTable));
@@ -149,9 +147,7 @@ export async function performFullSync(
   const tableFieldMap: Record<string, string[]> = {};
   for (const { baseId, tableId, fieldId } of tableFieldMappings) {
     const key = `${baseId}::${tableId}`;
-    if (!tableFieldMap[key]) {
-      tableFieldMap[key] = [];
-    }
+    tableFieldMap[key] ||= [];
     tableFieldMap[key].push(fieldId);
   }
 
@@ -172,7 +168,7 @@ export async function performFullSync(
 
     if (!baseId || !tableId || !fieldIds) {
       logger.warn(`Invalid table key: ${tableKey}, skipping`);
-      // eslint-disable-next-line no-continue -- Early continue is cleaner than nested if blocks
+
       continue;
     }
 
@@ -181,7 +177,7 @@ export async function performFullSync(
     const pgAirtable = getPgAirtableFromIds({ baseId, tableId });
     if (!pgAirtable) {
       logger.warn(`No pgAirtable config found for ${tableId}, skipping`);
-      // eslint-disable-next-line no-continue -- Early continue is cleaner than nested if blocks
+
       continue;
     }
 

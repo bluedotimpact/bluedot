@@ -48,7 +48,9 @@ export const slackAlert = async (
   messages: string[],
   options?: SlackAlertOptions,
 ): Promise<void> => {
-  if (messages.length === 0) return;
+  if (messages.length === 0) {
+    return;
+  }
 
   const level = options?.level ?? 'error';
   const flushIntervalMs = options?.flushIntervalMs ?? DEFAULT_FLUSH_INTERVAL_MS;
