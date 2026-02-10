@@ -1,7 +1,7 @@
 import {
   describe, test, expect, vi, beforeEach, afterEach,
 } from 'vitest';
-import { slackAlert } from './slackNotifications';
+import { DEFAULT_FLUSH_INTERVAL_MS, slackAlert } from './slackNotifications';
 
 const mockEnv = {
   APP_NAME: 'test-app',
@@ -123,9 +123,9 @@ describe('slackNotifications', () => {
       const message3 = 'Failed to map field unitNumber (fldL42M2hgchJYIdD) from Airtable for table exercise (tbla7lc2MtSSbWVvS) and record rec3060zKybkbm9UH';
 
       // Add messages to batch
-      slackAlert(mockEnv, [message1], { batchKey: 'test', flushIntervalMs: 60000 });
-      slackAlert(mockEnv, [message2], { batchKey: 'test', flushIntervalMs: 60000 });
-      slackAlert(mockEnv, [message3], { batchKey: 'test', flushIntervalMs: 60000 });
+      slackAlert(mockEnv, [message1], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
+      slackAlert(mockEnv, [message2], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
+      slackAlert(mockEnv, [message3], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
 
       // No messages sent yet
       expect(fetchMock).not.toHaveBeenCalled();
@@ -137,7 +137,7 @@ describe('slackNotifications', () => {
       });
 
       // Advance timers to trigger flush
-      await vi.advanceTimersByTimeAsync(60000);
+      await vi.advanceTimersByTimeAsync(DEFAULT_FLUSH_INTERVAL_MS);
 
       // Should send one batched message
       expect(fetchMock).toHaveBeenCalledTimes(1);
@@ -155,14 +155,14 @@ describe('slackNotifications', () => {
     test('should send single occurrence without batching summary', async () => {
       const message = 'Failed to map field unitNumber (fldL42M2hgchJYIdD) from Airtable for table exercise (tbla7lc2MtSSbWVvS) and record rec3BGObwkLPSskvb';
 
-      slackAlert(mockEnv, [message], { batchKey: 'test', flushIntervalMs: 60000 });
+      slackAlert(mockEnv, [message], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
 
       fetchMock.mockResolvedValueOnce({
         ok: true,
         json: async () => ({ ok: true, ts: '1.0' }),
       });
 
-      await vi.advanceTimersByTimeAsync(60000);
+      await vi.advanceTimersByTimeAsync(DEFAULT_FLUSH_INTERVAL_MS);
 
       expect(fetchMock).toHaveBeenCalledTimes(1);
 
@@ -175,8 +175,8 @@ describe('slackNotifications', () => {
       const message1 = ['Main error message rec1AbCdEfGhIjKl', 'Stack trace here'];
       const message2 = ['Main error message rec2MnOpQrStUvWx', 'Different stack trace'];
 
-      slackAlert(mockEnv, message1, { batchKey: 'test', flushIntervalMs: 60000 });
-      slackAlert(mockEnv, message2, { batchKey: 'test', flushIntervalMs: 60000 });
+      slackAlert(mockEnv, message1, { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
+      slackAlert(mockEnv, message2, { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
 
       fetchMock
         .mockResolvedValueOnce({
@@ -188,7 +188,7 @@ describe('slackNotifications', () => {
           json: async () => ({ ok: true, ts: '1.1' }),
         });
 
-      await vi.advanceTimersByTimeAsync(60000);
+      await vi.advanceTimersByTimeAsync(DEFAULT_FLUSH_INTERVAL_MS);
 
       // Should send main message and first reply
       expect(fetchMock).toHaveBeenCalledTimes(2);
@@ -205,7 +205,7 @@ describe('slackNotifications', () => {
     test('should preserve all replies for single occurrence', async () => {
       const messages = ['Main error', 'Reply 1', 'Reply 2'];
 
-      slackAlert(mockEnv, messages, { batchKey: 'test', flushIntervalMs: 60000 });
+      slackAlert(mockEnv, messages, { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
 
       fetchMock
         .mockResolvedValueOnce({
@@ -221,7 +221,7 @@ describe('slackNotifications', () => {
           json: async () => ({ ok: true, ts: '1.2' }),
         });
 
-      await vi.advanceTimersByTimeAsync(60000);
+      await vi.advanceTimersByTimeAsync(DEFAULT_FLUSH_INTERVAL_MS);
 
       expect(fetchMock).toHaveBeenCalledTimes(3);
 
@@ -240,16 +240,16 @@ describe('slackNotifications', () => {
       const message2 = 'Error rec1AbCdEfGhIjKl'; // Same record
       const message3 = 'Error rec2MnOpQrStUvWx';
 
-      slackAlert(mockEnv, [message1], { batchKey: 'test', flushIntervalMs: 60000 });
-      slackAlert(mockEnv, [message2], { batchKey: 'test', flushIntervalMs: 60000 });
-      slackAlert(mockEnv, [message3], { batchKey: 'test', flushIntervalMs: 60000 });
+      slackAlert(mockEnv, [message1], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
+      slackAlert(mockEnv, [message2], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
+      slackAlert(mockEnv, [message3], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
 
       fetchMock.mockResolvedValueOnce({
         ok: true,
         json: async () => ({ ok: true, ts: '1.0' }),
       });
 
-      await vi.advanceTimersByTimeAsync(60000);
+      await vi.advanceTimersByTimeAsync(DEFAULT_FLUSH_INTERVAL_MS);
 
       const callBody = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
       expect(callBody.text).toContain('affecting 2 record(s)'); // Only unique records
@@ -261,7 +261,7 @@ describe('slackNotifications', () => {
       const recordIds = Array.from({ length: 15 }, (_, i) => `rec${i}AbCdEfGhIjKl`);
 
       for (const recordId of recordIds) {
-        slackAlert(mockEnv, [`Error ${recordId}`], { batchKey: 'test', flushIntervalMs: 60000 });
+        slackAlert(mockEnv, [`Error ${recordId}`], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
       }
 
       fetchMock.mockResolvedValueOnce({
@@ -269,7 +269,7 @@ describe('slackNotifications', () => {
         json: async () => ({ ok: true, ts: '1.0' }),
       });
 
-      await vi.advanceTimersByTimeAsync(60000);
+      await vi.advanceTimersByTimeAsync(DEFAULT_FLUSH_INTERVAL_MS);
 
       const callBody = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
       expect(callBody.text).toContain('affecting 15 record(s)');
@@ -277,8 +277,8 @@ describe('slackNotifications', () => {
     });
 
     test('should use separate batch keys', async () => {
-      slackAlert(mockEnv, ['Batch 1 message'], { batchKey: 'batch1', flushIntervalMs: 60000 });
-      slackAlert(mockEnv, ['Batch 2 message'], { batchKey: 'batch2', flushIntervalMs: 60000 });
+      slackAlert(mockEnv, ['Batch 1 message'], { batchKey: 'batch1', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
+      slackAlert(mockEnv, ['Batch 2 message'], { batchKey: 'batch2', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
 
       fetchMock
         .mockResolvedValueOnce({
@@ -290,7 +290,7 @@ describe('slackNotifications', () => {
           json: async () => ({ ok: true, ts: '1.1' }),
         });
 
-      await vi.advanceTimersByTimeAsync(60000);
+      await vi.advanceTimersByTimeAsync(DEFAULT_FLUSH_INTERVAL_MS);
 
       // Should send two separate messages
       expect(fetchMock).toHaveBeenCalledTimes(2);
@@ -316,11 +316,11 @@ describe('slackNotifications', () => {
     test('should log error when fetch fails in batch mode', async () => {
       const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
-      slackAlert(mockEnv, ['Test message'], { batchKey: 'test', flushIntervalMs: 60000 });
+      slackAlert(mockEnv, ['Test message'], { batchKey: 'test', flushIntervalMs: DEFAULT_FLUSH_INTERVAL_MS });
 
       fetchMock.mockRejectedValueOnce(new Error('Network error'));
 
-      await vi.advanceTimersByTimeAsync(60000);
+      await vi.advanceTimersByTimeAsync(DEFAULT_FLUSH_INTERVAL_MS);
 
       expect(consoleErrorSpy).toHaveBeenCalledWith(
         'Error sending batched Slack alert:',
