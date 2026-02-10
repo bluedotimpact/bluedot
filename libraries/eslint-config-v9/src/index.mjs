@@ -88,6 +88,8 @@ export default [
       '@typescript-eslint/no-dynamic-delete': 'off',
       '@typescript-eslint/switch-exhaustiveness-check': 'off',
       '@typescript-eslint/prefer-readonly': 'off',
+      '@typescript-eslint/member-ordering': 'off',
+      '@typescript-eslint/parameter-properties': 'off',
       '@typescript-eslint/no-use-before-define': 'off',
       'new-cap': 'off',
       'no-eq-null': 'off',
