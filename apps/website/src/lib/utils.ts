@@ -45,6 +45,14 @@ export const formatTime12HourClock = (dateTimeSeconds: number): string => {
   });
 };
 
+/** Format an ISO date string as 'day month' in UTC. Example: '9 Feb' */
+export const formatMonthAndDay = (isoDate: string): string => {
+  const date = new Date(isoDate);
+  const day = String(date.getUTCDate());
+  const month = date.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
+  return `${day} ${month}`;
+};
+
 /** Example: 'Jun 19' */
 export const formatDateMonthAndDay = (dateTimeSeconds: number): string => {
   const date = new Date(dateTimeSeconds * 1000);

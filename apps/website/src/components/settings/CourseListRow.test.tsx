@@ -522,7 +522,7 @@ describe('CourseListRow', () => {
     const statusTexts = await screen.findAllByText('Application in review');
     expect(statusTexts.length).toBeGreaterThan(0);
 
-    const dateTexts = await screen.findAllByText(/Course starts Feb 9/);
+    const dateTexts = await screen.findAllByText(/Course starts 9 Feb/);
     expect(dateTexts.length).toBeGreaterThan(0);
   });
 

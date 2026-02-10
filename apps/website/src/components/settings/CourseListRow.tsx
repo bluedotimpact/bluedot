@@ -13,7 +13,7 @@ import GroupSwitchModal, { buildAvailabilityFormUrl } from '../courses/GroupSwit
 import { trpc } from '../../utils/trpc';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
-import { getActionPlanUrl } from '../../lib/utils';
+import { getActionPlanUrl, formatMonthAndDay } from '../../lib/utils';
 import { FOAI_COURSE_SLUG } from '../../lib/constants';
 
 type CourseListRowProps = {
@@ -549,9 +549,7 @@ const getSubtitle = ({
         break;
     }
 
-    const formattedDate = roundStartDate
-      ? new Date(roundStartDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-      : null;
+    const formattedDate = roundStartDate ? formatMonthAndDay(roundStartDate) : null;
 
     return (
       <>
