@@ -401,7 +401,6 @@ const CourseCarousel = ({
   return (
     <div className="flex lg:hidden flex-col">
       <div className="w-screen -mx-5 overflow-hidden">
-        { }
         <div
           ref={scrollContainerRef}
           className="flex gap-5 md:gap-6 lg:gap-8 pl-5 overflow-x-auto scrollbar-none"

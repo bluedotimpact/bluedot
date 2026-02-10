@@ -255,7 +255,6 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
   return (
     <div className="flex flex-col relative">
       <div className="relative w-full z-[1]">
-        { }
         <div className={editorContainerClasses} onClick={handleContainerClick}>
           <EditorContent
             editor={editor}
