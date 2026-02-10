@@ -153,7 +153,7 @@ async function sendSlackAlertIfNeeded(error: unknown): Promise<void> {
   const errorMessage = error instanceof Error ? error.message : String(error);
   await slackAlert(env, [
     `[LUMA] Failed to fetch events from Luma API ${consecutiveFailures} times: ${errorMessage}`,
-  ]);
+  ], { batchKey: 'luma-api-errors' });
 
   lastSlackAlert = now;
 }
