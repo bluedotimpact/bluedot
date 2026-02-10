@@ -303,6 +303,38 @@ describe('slackNotifications', () => {
       // Should send two separate messages
       expect(fetchMock).toHaveBeenCalledTimes(2);
     });
+
+    test('should reschedule flush timer on new messages (rolling window)', async () => {
+      const message = 'Error message rec1AbCdEfGhIjKl';
+      const flushInterval = 1000;
+
+      // First message at time 0 - timer scheduled for 1000ms
+      slackAlert(mockEnv, [message], { batchKey: 'test', flushIntervalMs: flushInterval });
+
+      // Advance to 800ms
+      await vi.advanceTimersByTimeAsync(800);
+      expect(fetchMock).not.toHaveBeenCalled();
+
+      // Second message at 800ms - timer should reschedule to 1800ms (800 + 1000)
+      slackAlert(mockEnv, [message], { batchKey: 'test', flushIntervalMs: flushInterval });
+
+      // Advance to 1000ms total (original flush time) - should NOT flush
+      await vi.advanceTimersByTimeAsync(200);
+      expect(fetchMock).not.toHaveBeenCalled();
+
+      // Mock the flush
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ ok: true, ts: '1.0' }),
+      });
+
+      // Advance to 1800ms total (rescheduled flush time) - should flush
+      await vi.advanceTimersByTimeAsync(800);
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+
+      const callBody = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
+      expect(callBody.text).toContain('This error occurred 2 times');
+    });
   });
 
   describe('error handling', () => {
