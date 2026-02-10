@@ -5,6 +5,13 @@ type SlackAlertEnv = {
   INFO_SLACK_CHANNEL_ID: string;
 };
 
+type SlackAlertOptions = {
+  level?: 'error' | 'info';
+  immediate?: boolean;
+  batchKey?: string;
+  flushIntervalMs?: number;
+};
+
 type MessageBatch = {
   signature: string;
   occurrences: number;
@@ -30,9 +37,8 @@ const batchers = new Map<string, BatcherState>();
  * - Batched messages are grouped by signature (same error type/table/field)
  * - Messages are sent after a 60s window or when manually flushed
  * - If multiple messages are provided, the first is sent as a new message, and the rest are sent as replies in a thread
- * - By default, messages are sent to the alerts channel
- * - If level is 'info', messages are sent to the info channel
  *
+ * @param options.level - Alert level: 'error' (default) or 'info'. Determines which Slack channel the message is sent to.
  * @param options.immediate - Set to true to bypass batching and send immediately
  * @param options.batchKey - Unique key for this batch group (default: 'default')
  * @param options.flushIntervalMs - Time window for batching in ms (default: 60000)
@@ -40,14 +46,13 @@ const batchers = new Map<string, BatcherState>();
 export const slackAlert = async (
   env: SlackAlertEnv,
   messages: string[],
-  level: 'error' | 'info' = 'error',
-  options?: {
-    immediate?: boolean;
-    batchKey?: string;
-    flushIntervalMs?: number;
-  },
+  options?: SlackAlertOptions,
 ): Promise<void> => {
   if (messages.length === 0) return;
+
+  const level = options?.level ?? 'error';
+  const batchKey = options?.batchKey ?? 'default';
+  const flushIntervalMs = options?.flushIntervalMs ?? 60000;
 
   if (options?.immediate) {
     try {
@@ -62,9 +67,6 @@ export const slackAlert = async (
     }
     return;
   }
-
-  const batchKey = options?.batchKey ?? 'default';
-  const flushIntervalMs = options?.flushIntervalMs ?? 60000;
 
   addToBatch(batchKey, env, messages, level, flushIntervalMs);
 };
