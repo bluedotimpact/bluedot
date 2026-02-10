@@ -139,6 +139,16 @@ const extractAirtableIds = (message: string) => {
   return { tableId, fieldId, recordIds };
 };
 
+const shouldForceFlush = (batcher: BatcherState, flushIntervalMs: number) => {
+  // Hard upper bound: flush at most 5× the interval after the first message
+  // This prevents never flushing if messages keep coming in at a high rate, while still allowing for bursts of messages to be batched together
+  const maxDelayMs = flushIntervalMs * 5;
+  const batcherCreatedAt = batcher.createdAt ?? Date.now();
+  const elapsed = Date.now() - batcherCreatedAt;
+  const effectiveDelay = Math.min(flushIntervalMs, maxDelayMs - elapsed);
+  return effectiveDelay <= 0;
+};
+
 const flushAndCleanupBatcher = async (batchKey: string, batcher: BatcherState) => {
   try {
     await flushBatcher(batcher);
@@ -157,16 +167,9 @@ const flushAndCleanupBatcher = async (batchKey: string, batcher: BatcherState) =
 const scheduleFlush = async (batchKey: string, flushIntervalMs: number) => {
   const batcher = batchers.get(batchKey);
   if (!batcher) return;
+  if (!batcher.createdAt) batcher.createdAt = Date.now();
 
-  // Hard upper bound: flush at most 5× the interval after the first message
-  // This prevents never flushing if messages keep coming in at a high rate, while still allowing for bursts of messages to be batched together
-  const maxDelayMs = flushIntervalMs * 5;
-  const batcherCreatedAt = batcher.createdAt ?? Date.now();
-  if (!batcher.createdAt) batcher.createdAt = batcherCreatedAt;
-  const elapsed = Date.now() - batcherCreatedAt;
-  const effectiveDelay = Math.min(flushIntervalMs, maxDelayMs - elapsed);
-  if (effectiveDelay <= 0) {
-    // Force flush immediately if we've exceeded the max delay
+  if (shouldForceFlush(batcher, flushIntervalMs)) {
     await flushAndCleanupBatcher(batchKey, batcher);
     return;
   }
