@@ -42,7 +42,6 @@ export async function getCourseRoundsData(courseSlug: string) {
       ),
     );
 
-
   // Format date range based on firstDiscussionDate and numberOfUnits.
   // numberOfUnits = number of days (intensive) or weeks (part-time).
   // Falls back to lastDiscussionDate when units are missing.
