@@ -335,6 +335,40 @@ describe('slackNotifications', () => {
       const callBody = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
       expect(callBody.text).toContain('This error occurred 2 times');
     });
+
+    test('should force flush immediately when max delay (5× interval) is exceeded', async () => {
+      const message = 'Error message rec1AbCdEfGhIjKl';
+      const flushIntervalMs = 1000;
+
+      // First message at time 0
+      slackAlert(mockEnv, [message], { batchKey: 'test', flushIntervalMs });
+
+      // Keep resetting the timer by sending messages just before it flushes
+      // This simulates a high-traffic scenario where the rolling window keeps getting reset
+      for (let i = 0; i < 5; i++) {
+        // eslint-disable-next-line no-await-in-loop
+        await vi.advanceTimersByTimeAsync(flushIntervalMs - 100);
+        slackAlert(mockEnv, [message], { batchKey: 'test', flushIntervalMs });
+      }
+
+      // Total elapsed: 900ms * 5 = 4500ms (still under 5000ms max delay)
+      expect(fetchMock).not.toHaveBeenCalled();
+
+      // Advance past the max delay threshold
+      await vi.advanceTimersByTimeAsync(600); // Total: 5100ms
+
+      fetchMock.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ ok: true, ts: '1.0' }),
+      });
+
+      // Should flush immediately without needing to advance timers
+      await slackAlert(mockEnv, [message], { batchKey: 'test', flushIntervalMs });
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+
+      const callBody = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
+      expect(callBody.text).toContain('This error occurred 7 times'); // 1 + 5 + 1 = 7 messages
+    });
   });
 
   describe('error handling', () => {
