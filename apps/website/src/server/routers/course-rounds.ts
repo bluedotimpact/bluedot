@@ -4,6 +4,7 @@ import {
 } from '@bluedot/db';
 import { publicProcedure, router } from '../trpc';
 import db from '../../lib/api/db';
+import { formatMonthAndDay } from '../../lib/utils';
 import type { ApplyCTAProps } from '../../components/courses/SideBar';
 
 /**
@@ -41,13 +42,6 @@ export async function getCourseRoundsData(courseSlug: string) {
       ),
     );
 
-  const formatDate = (isoDate: string) => {
-    const date = new Date(isoDate);
-    const day = String(date.getUTCDate());
-    const month = date.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
-    return `${day} ${month}`;
-  };
-
   // Format date range based on firstDiscussionDate and numberOfUnits.
   // numberOfUnits = number of days (intensive) or weeks (part-time).
   // Falls back to lastDiscussionDate when units are missing.
@@ -84,7 +78,7 @@ export async function getCourseRoundsData(courseSlug: string) {
   const enrichedRounds = filteredRounds.map((round) => ({
     id: round.id,
     intensity: round.intensity,
-    applicationDeadline: round.applicationDeadline ? formatDate(round.applicationDeadline) : 'TBD',
+    applicationDeadline: round.applicationDeadline ? formatMonthAndDay(round.applicationDeadline) : 'TBD',
     applicationDeadlineRaw: round.applicationDeadline,
     firstDiscussionDateRaw: round.firstDiscussionDate,
     dateRange: formatDateRange(
@@ -186,14 +180,6 @@ export const courseRoundsRouter = router({
           ),
         );
 
-      // Format a single date to "day month" format in UTC
-      const formatDate = (isoDate: string) => {
-        const date = new Date(isoDate);
-        const day = String(date.getUTCDate());
-        const month = date.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
-        return `${day} ${month}`;
-      };
-
       // Format date range with en-dash
       const formatDateRange = (
         firstDate: string | null,
@@ -250,7 +236,7 @@ export const courseRoundsRouter = router({
             applyUrl: course.applyUrl,
             intensity: round.intensity,
             applicationDeadline: round.applicationDeadline
-              ? formatDate(round.applicationDeadline)
+              ? formatMonthAndDay(round.applicationDeadline)
               : 'TBD',
             applicationDeadlineRaw: round.applicationDeadline,
             firstDiscussionDateRaw: round.firstDiscussionDate,

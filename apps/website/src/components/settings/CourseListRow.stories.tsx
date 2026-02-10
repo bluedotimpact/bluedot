@@ -204,3 +204,64 @@ export const LowAttendance: Story = {
     },
   },
 };
+
+const mockFutureInReviewRegistration = createMockCourseRegistration({
+  roundStatus: 'Future',
+  decision: null,
+  roundId: 'round-future-1',
+  certificateCreatedAt: null,
+});
+
+const mockFutureAcceptedRegistration = createMockCourseRegistration({
+  roundStatus: 'Future',
+  decision: 'Accept',
+  roundId: 'round-future-1',
+  certificateCreatedAt: null,
+  availabilityIntervalsUTC: 'M09:00 M17:00',
+});
+
+const mockFutureRejectedRegistration = createMockCourseRegistration({
+  roundStatus: 'Future',
+  decision: 'Reject',
+  roundId: 'round-future-1',
+  certificateCreatedAt: null,
+});
+
+export const UpcomingInReview: Story = {
+  args: {
+    course: mockCourse,
+    courseRegistration: mockFutureInReviewRegistration,
+    roundStartDate: '2026-02-09',
+  },
+  parameters: {
+    msw: {
+      handlers: createMswHandlers(null),
+    },
+  },
+};
+
+export const UpcomingAccepted: Story = {
+  args: {
+    course: mockCourse,
+    courseRegistration: mockFutureAcceptedRegistration,
+    roundStartDate: '2026-02-09',
+  },
+  parameters: {
+    msw: {
+      handlers: createMswHandlers(null),
+    },
+  },
+};
+
+export const UpcomingRejected: Story = {
+  args: {
+    course: mockCourse,
+    courseRegistration: mockFutureRejectedRegistration,
+    roundStartDate: '2026-02-09',
+  },
+  parameters: {
+    msw: {
+      handlers: createMswHandlers(null),
+    },
+  },
+};
