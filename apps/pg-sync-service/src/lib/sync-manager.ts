@@ -115,7 +115,7 @@ class SyncManager {
         .where(eq(syncMetadataTable.id, 'singleton'));
 
       logger.info('[SyncManager] Marked sync as started');
-      slackAlert(env, ['⌛ PG sync starting...'], { level: 'info' });
+      slackAlert(env, ['⌛ PG sync starting...'], { level: 'info', immediate: true });
     } catch (error) {
       logger.error('[SyncManager] Error marking sync as started:', error);
       throw error;
@@ -140,7 +140,7 @@ class SyncManager {
         .where(eq(syncMetadataTable.id, 'singleton'));
 
       logger.info('[SyncManager] Marked sync as completed successfully');
-      slackAlert(env, ['✅ PG sync completed successfully'], { level: 'info' });
+      slackAlert(env, ['✅ PG sync completed successfully'], { level: 'info', immediate: true });
     } catch (error) {
       logger.error('[SyncManager] Error marking sync as completed:', error);
       throw error;
@@ -162,7 +162,7 @@ class SyncManager {
         .where(eq(syncMetadataTable.id, 'singleton'));
 
       logger.error(`[SyncManager] Marked sync as failed: ${error}`);
-      slackAlert(env, [`[SyncManager] Sync failed: ${error}`]);
+      slackAlert(env, [`[SyncManager] Sync failed: ${error}`], { immediate: true });
     } catch (updateError) {
       logger.error('[SyncManager] Error marking sync as failed:', updateError);
       throw updateError;
