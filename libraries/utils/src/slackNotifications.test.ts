@@ -19,14 +19,17 @@ const SLACK_API_URL = 'https://slack.com/api/chat.postMessage';
 
 describe('slackNotifications', () => {
   let fetchMock: ReturnType<typeof vi.fn>;
+  let originalFetch: typeof global.fetch;
 
   beforeEach(() => {
     vi.useFakeTimers();
+    originalFetch = global.fetch;
     fetchMock = vi.fn();
     global.fetch = fetchMock;
   });
 
   afterEach(() => {
+    global.fetch = originalFetch;
     vi.clearAllTimers();
     vi.restoreAllMocks();
   });
