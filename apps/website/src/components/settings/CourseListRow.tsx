@@ -8,6 +8,7 @@ import { FaCheck, FaLock } from 'react-icons/fa6';
 import { Course, CourseRegistration, MeetPerson } from '@bluedot/db';
 import { skipToken } from '@tanstack/react-query';
 import CourseDetails from './CourseDetails';
+import { ChevronRightIcon } from '../icons/ChevronRightIcon';
 import { ROUTES } from '../../lib/routes';
 import GroupSwitchModal, { buildAvailabilityFormUrl } from '../courses/GroupSwitchModal';
 import { trpc } from '../../utils/trpc';
@@ -129,6 +130,14 @@ const CourseListRow = ({
     setIsExpanded(!isExpanded);
   };
 
+  const chevron = <ChevronRightIcon className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`} />;
+  const expandButtonLabel = isExpanded ? `Collapse ${course.title} details` : `Expand ${course.title} details`;
+  const onExpandClick = (e: React.MouseEvent) => { e.stopPropagation(); toggleExpand(); };
+  const stopPropagation = {
+    onClick: (e: React.MouseEvent) => e.stopPropagation(),
+    onKeyDown: (e: React.KeyboardEvent) => e.stopPropagation(),
+  };
+
   return (
     <div className="border-b border-charcoal-light last:border-b-0">
       <div
@@ -149,82 +158,9 @@ const CourseListRow = ({
         aria-expanded={canExpand ? isExpanded : undefined}
       >
         <div className="p-4 sm:px-8 sm:py-6">
-          {/* Mobile layout */}
-          <div className="flex flex-col gap-4 sm:hidden">
-            {/* Top row: Title and Expand button */}
-            <div className="flex items-start gap-3">
-              {/* Content */}
-              <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-size-md text-black text-pretty">
-                  {course.title}{' '}
-                  {reasonNotEligibleForCert && (
-                    <span className="ml-0.5 inline-flex items-center align-middle">
-                      <Tooltip content={reasonNotEligibleForCert} ariaLabel="Show certificate eligibility information" />
-                    </span>
-                  )}
-                  {isFuture && courseRegistration.decision !== 'Reject' && (
-                    <span className="ml-0.5 inline-flex items-center align-middle">
-                      <Tooltip content="We typically finalise all application decisions and group discussion times 1 week before the start of the course." ariaLabel="Show application timeline information" />
-                    </span>
-                  )}
-                </h3>
-                {subtitle && (
-                  <p className="flex items-center gap-1.5 mt-1.5 text-size-xs font-medium text-gray-500 leading-4">
-                    {subtitle}
-                  </p>
-                )}
-              </div>
-
-              {/* Expand/collapse button */}
-              {canExpand && (
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleExpand();
-                  }}
-                  className="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150 flex-shrink-0"
-                  aria-label={isExpanded ? `Collapse ${course.title} details` : `Expand ${course.title} details`}
-                  aria-expanded={isExpanded}
-                >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}
-                  >
-                    <path
-                      d="M7.5 5L12.5 10L7.5 15"
-                      stroke="#1F2937"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </button>
-              )}
-            </div>
-
-            {/* Bottom row: Action buttons */}
-            {!isExpanded && ctaButtons.length > 0 && (
-              <div
-                className="flex gap-2"
-                onClick={(e) => e.stopPropagation()}
-                onKeyDown={(e) => e.stopPropagation()}
-                role="presentation"
-              >
-                {ctaButtons}
-              </div>
-            )}
-          </div>
-
-          {/* Desktop layout - original design */}
-          <div className="hidden sm:flex items-center gap-4">
-            {/* Content */}
+          <div className="flex items-start sm:items-center gap-3 sm:gap-4">
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-size-base text-gray-900 leading-normal">
+              <h3 className="font-semibold text-size-md sm:text-size-base text-black sm:text-gray-900 text-pretty sm:leading-normal">
                 {course.title}{' '}
                 {reasonNotEligibleForCert && (
                   <span className="ml-0.5 inline-flex items-center align-middle">
@@ -238,53 +174,33 @@ const CourseListRow = ({
                 )}
               </h3>
               {subtitle && (
-                <p className="flex items-center gap-1.5 mt-0.5 text-size-xs font-medium text-gray-500 leading-4">
+                <p className="flex items-center gap-1.5 mt-1.5 sm:mt-0.5 text-size-xs font-medium text-gray-500 leading-4">
                   {subtitle}
                 </p>
               )}
             </div>
-
-            {/* Actions */}
-            <div
-              className="flex items-center gap-2 flex-shrink-0"
-              onClick={(e) => e.stopPropagation()}
-              onKeyDown={(e) => e.stopPropagation()}
-              role="presentation"
-            >
+            {/* Mobile chevron */}
+            {canExpand && (
+              <button type="button" onClick={onExpandClick} className="sm:hidden size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150 flex-shrink-0" aria-label={expandButtonLabel} aria-expanded={isExpanded}>
+                {chevron}
+              </button>
+            )}
+            {/* Desktop actions + chevron */}
+            <div className="hidden sm:flex items-center gap-2 flex-shrink-0" {...stopPropagation} role="presentation">
               {ctaButtons.length > 0 && ctaButtons}
-
-              {/* Expand/collapse button */}
               {canExpand && (
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleExpand();
-                  }}
-                  className="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150"
-                  aria-label={isExpanded ? `Collapse ${course.title} details` : `Expand ${course.title} details`}
-                  aria-expanded={isExpanded}
-                >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}
-                  >
-                    <path
-                      d="M7.5 5L12.5 10L7.5 15"
-                      stroke="#1F2937"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                <button type="button" onClick={onExpandClick} className="size-9 flex items-center justify-center hover:bg-gray-100 rounded-md transition-all duration-150" aria-label={expandButtonLabel} aria-expanded={isExpanded}>
+                  {chevron}
                 </button>
               )}
             </div>
           </div>
+          {/* Mobile CTA buttons */}
+          {!isExpanded && ctaButtons.length > 0 && (
+            <div className="flex gap-2 mt-4 sm:hidden" {...stopPropagation} role="presentation">
+              {ctaButtons}
+            </div>
+          )}
         </div>
       </div>
 
