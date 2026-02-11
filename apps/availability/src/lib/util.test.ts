@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import * as wa from 'weekly-availabilities';
+import type * as wa from 'weekly-availabilities';
 import {
   weeklyTimeAvToIntervals,
   intervalsToWeeklyTimeAv,
