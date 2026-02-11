@@ -30,7 +30,7 @@ export const routesPlugin: FastifyPluginAsync = fp(async (instance) => {
   const s = initServer();
 
   const router = s.router(localContract, {
-    async hello() {
+    hello: async () => {
       return {
         status: 200,
         body: { message: 'Hello, world!' },
@@ -40,7 +40,7 @@ export const routesPlugin: FastifyPluginAsync = fp(async (instance) => {
 
   s.registerRouter(localContract, router, instance, {
     responseValidation: true,
-    requestValidationErrorHandler(error) {
+    requestValidationErrorHandler: (error) => {
       const messages = [error.body, error.pathParams, error.headers].flatMap((zodError) => zodError?.issues.map((i) => `[${i.path.join('.')}] ${i.message}`) ?? []);
       throw new createHttpError.BadRequest(`Request validation failed: ${messages.join(', ')}`);
     },

@@ -32,7 +32,7 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
     );
   }
 
-  if (error || !data) {
+  if (error ?? !data) {
     return (
       <Page>
         <ErrorSection error={error ?? new Error('Missing data from API')} />

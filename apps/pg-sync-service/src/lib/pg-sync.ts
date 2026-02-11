@@ -61,9 +61,7 @@ export async function initializeWebhooks(): Promise<void> {
     // Group field IDs by base ID
     const fieldsByBase: Record<string, string[]> = {};
     for (const { baseId, fieldId } of baseFieldMappings) {
-      if (!fieldsByBase[baseId]) {
-        fieldsByBase[baseId] = [];
-      }
+      fieldsByBase[baseId] ??= [];
 
       fieldsByBase[baseId].push(fieldId);
     }
@@ -113,7 +111,7 @@ export function deduplicateActions(updates: AirtableAction[]): AirtableAction[] 
       }
 
       // OR of isDelete
-      prev.isDelete = Boolean(prev.isDelete || update.isDelete);
+      prev.isDelete = Boolean(prev.isDelete || update.isDelete); // eslint-disable-line @typescript-eslint/prefer-nullish-coalescing -- intentional logical OR
     }
   }
 
@@ -127,9 +125,7 @@ function groupUpdatesByTable(updates: AirtableAction[]): Record<string, Airtable
   const grouped: Record<string, AirtableAction[]> = {};
   for (const update of updates) {
     const tableKey = `${update.baseId}::${update.tableId}`;
-    if (!grouped[tableKey]) {
-      grouped[tableKey] = [];
-    }
+    grouped[tableKey] ??= [];
 
     grouped[tableKey].push(update);
   }
@@ -346,7 +342,7 @@ export async function processUpdateQueue(processor: UpdateProcessor = processSin
       retryCountMap.delete(retryKey);
     } else {
       const retryKey = getRetryKey(update);
-      const currentRetries = retryCountMap.get(retryKey) || 0;
+      const currentRetries = retryCountMap.get(retryKey) ?? 0;
 
       if (currentRetries + 1 < MAX_RETRIES) {
         retryCountMap.set(retryKey, currentRetries + 1);

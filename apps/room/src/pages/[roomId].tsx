@@ -46,9 +46,9 @@ const RoomControlPage = withAuth(({ auth }) => {
     );
   }
 
-  if (error || !room) {
+  if (error ?? !room) {
     return (
-      <ErrorSection error={error || new Error('Missing room data')} />
+      <ErrorSection error={error ?? new Error('Missing room data')} />
     );
   }
 

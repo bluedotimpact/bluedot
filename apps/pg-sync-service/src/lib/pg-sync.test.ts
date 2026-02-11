@@ -239,7 +239,7 @@ describe('pg-sync priority queue', () => {
 
     const testProcessor = async (update: AirtableAction): Promise<boolean> => {
       const key = update.recordId;
-      attempts[key] = (attempts[key] || 0) + 1;
+      attempts[key] = (attempts[key] ?? 0) + 1;
       processOrder.push(`${key}-attempt${attempts[key]}`);
 
       // fail1 always fails, success1 always succeeds

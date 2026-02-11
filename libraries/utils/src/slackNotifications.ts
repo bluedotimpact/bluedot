@@ -173,9 +173,7 @@ const scheduleFlush = async (batchKey: string, flushIntervalMs: number) => {
     return;
   }
 
-  if (!batcher.createdAt) {
-    batcher.createdAt = Date.now();
-  }
+  batcher.createdAt ??= Date.now();
 
   if (shouldForceFlush(batcher, flushIntervalMs)) {
     await flushAndCleanupBatcher(batchKey, batcher);

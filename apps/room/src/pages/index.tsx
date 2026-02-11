@@ -48,9 +48,9 @@ const DashboardPage = withAuth(({ auth }) => {
     );
   }
 
-  if (error || !rooms) {
+  if (error ?? !rooms) {
     return (
-      <ErrorSection error={error || new Error('Failed to load rooms')} />
+      <ErrorSection error={error ?? new Error('Failed to load rooms')} />
     );
   }
 

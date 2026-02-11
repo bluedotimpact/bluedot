@@ -47,7 +47,7 @@ class SyncManager {
       const thresholdTime = new Date();
       thresholdTime.setHours(thresholdTime.getHours() - this.syncThresholdHours);
 
-      const lastSyncAt = metadata.lastIncrementalSyncAt || metadata.lastFullSyncAt;
+      const lastSyncAt = metadata.lastIncrementalSyncAt ?? metadata.lastFullSyncAt;
       if (lastSyncAt < thresholdTime) {
         logger.info(`[SyncManager] Last sync was ${lastSyncAt.toISOString()}, older than threshold (${this.syncThresholdHours}h), initial sync needed`);
         if (metadata.syncInProgress) {

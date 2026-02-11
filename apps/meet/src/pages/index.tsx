@@ -31,7 +31,7 @@ const Home: React.FC = () => {
     case 'appJoin':
       return <AppJoinView page={page} />;
     default: {
-      throw new Error(`Unknown page: ${String(pageName satisfies never)}`);
+      throw new Error(`Unknown page: ${String(pageName)}`);
     }
   }
 };

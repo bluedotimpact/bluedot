@@ -20,8 +20,8 @@ const JobsPage = withAuth(({ auth }) => {
     return <ProgressDots />;
   }
 
-  if (error || !data) {
-    return <ErrorSection error={error || new Error('Missing data')} />;
+  if (error ?? !data) {
+    return <ErrorSection error={error ?? new Error('Missing data')} />;
   }
 
   if (data.jobs.length === 0) {

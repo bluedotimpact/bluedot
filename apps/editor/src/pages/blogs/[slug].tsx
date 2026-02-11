@@ -42,8 +42,8 @@ const BlogPostPage = withAuth(({ auth }) => {
     return <ProgressDots />;
   }
 
-  if (error || !data) {
-    return <ErrorSection error={error || new Error('Missing data')} />;
+  if (error ?? !data) {
+    return <ErrorSection error={error ?? new Error('Missing data')} />;
   }
 
   return (

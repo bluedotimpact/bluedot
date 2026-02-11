@@ -34,7 +34,7 @@ const config: StorybookConfig = {
   // Prevent indexing our storybook on search engines
   managerHead: (head) => `${head}<meta name="robots" content="noindex" />`,
 
-  async webpackFinal(config) {
+  webpackFinal: async (config) => {
     // Replace the production tRPC client with Storybook-specific one
     // This ensures components using trpc hooks get the right instance
     if (config.resolve) {

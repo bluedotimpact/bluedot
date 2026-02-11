@@ -153,8 +153,8 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange, upl
         addStorage() {
           return {
             markdown: {
-              serialize(state, node) {
-                state.renderList(node, '    ', () => `${node.attrs.bullet || '*'} `);
+              serialize: (state, node) => {
+                state.renderList(node, '    ', () => `${node.attrs.bullet ?? '*'} `);
               },
             } as MarkdownNodeSpec,
           };
@@ -164,7 +164,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange, upl
         addStorage() {
           return {
             markdown: {
-              serialize(state, node) {
+              serialize: (state, node) => {
                 const start = (node.attrs.order as number) || 1;
                 state.renderList(node, '    ', (i) => {
                   const nStr = String(start + i);
@@ -180,7 +180,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange, upl
         addStorage() {
           return {
             markdown: {
-              serialize(state, node) {
+              serialize: (state, node) => {
                 state.write(`<Embed url="${node.attrs.src}" />`);
               },
             } as MarkdownNodeSpec,
@@ -188,7 +188,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange, upl
         },
       }),
       Uploader.configure({
-        async upload(files) {
+        upload: async (files) => {
           if (!uploadFile) {
             throw new Error('File uploading not supported');
           }
@@ -225,7 +225,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange, upl
       /<Embed\s+url="([^"]+)"\s*\/>/g,
       (match, url) => `![](${url})`,
     ),
-    onUpdate() {
+    onUpdate: () => {
       const markdownOutput = editor?.storage.markdown.getMarkdown();
       onChange?.(markdownOutput);
     },

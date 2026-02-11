@@ -10,7 +10,7 @@ const alertRateLimiter = new RateLimiter(30, 30_000);
 export const db = new PgAirtableDb({
   pgConnString: env.PG_URL,
   airtableApiKey: env.AIRTABLE_PERSONAL_ACCESS_TOKEN,
-  async onWarning(warning: unknown) {
+  onWarning: async (warning: unknown) => {
     const err = warning instanceof Error ? warning : new Error(String(warning));
     const message = `Airtable validation warning encountered, attempting to proceed by setting the affected fields to undefined. Warning message: ${err.message}`;
 

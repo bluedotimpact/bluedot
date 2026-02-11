@@ -99,6 +99,7 @@ export default [
       radix: 'off',
       'no-use-before-define': 'off',
       'arrow-body-style': 'off',
+      'object-shorthand': 'off',
       'max-len': 'off',
       'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
       'capitalized-comments': 'off',
