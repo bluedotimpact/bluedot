@@ -212,7 +212,7 @@ export class PgAirtableDb {
       ? [options?: GetFirstOptionsWithAutoId<TTableName, TColumnsMap>]
       : [options: GetFirstOptionsWithoutAutoId<TTableName, TColumnsMap>]
   ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect'] | null> {
-    const options = args[0] || {};
+    const options = args[0] ?? {};
     const {
       filter,
       sortBy,

@@ -43,7 +43,7 @@ const DemoPage: React.FC = () => {
     '💪 Workout routine builder',
   ];
 
-  if (view === 'prompt' || error || (!loading && !generatedCode)) {
+  if (view === 'prompt' || Boolean(error) || (!loading && !generatedCode)) {
     return (
       <main className="mx-auto px-4">
         <div className="mb-4">

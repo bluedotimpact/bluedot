@@ -27,7 +27,7 @@ export default makeApiRoute({
     ethnicGroup: person.ethnicGroup,
     careerPlans: person.careerPlans,
     biography: person.biography,
-    appliedToOpportunities: person.appliedToOpportunities || [],
+    appliedToOpportunities: person.appliedToOpportunities ?? [],
     isProfilePublic: person.isProfilePublic || false,
   }));
 });
