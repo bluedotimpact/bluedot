@@ -1082,16 +1082,17 @@ export const exerciseTable = pgAirtable('exercise', {
       pgColumn: text().notNull(),
       airtableId: 'fld2KJRxb50MbtrJc',
     },
-    unitNumber: {
-      pgColumn: text(),
-      airtableId: 'fldL42M2hgchJYIdD',
-    },
     status: {
       pgColumn: text(),
       airtableId: 'flda5e542i9w1nBzv',
     },
   },
   deprecatedColumns: {
+    unitNumber: {
+      pgColumn: text(),
+      airtableId: 'fldL42M2hgchJYIdD',
+      deprecated: true,
+    },
     courseIdWrite: {
       pgColumn: text(),
       airtableId: 'fldxcJ5gCihs3iRyE',

@@ -109,15 +109,11 @@ export const certificatesRouter = router({
           const hasCompletedResponse = exerciseResponses.some((resp) => resp.exerciseId === exercise.id && resp.completedAt != null);
           return !hasCompletedResponse;
         })
-        .sort((a, b) => Number(a.unitNumber || Infinity) - Number(b.unitNumber || Infinity));
+        .sort((a, b) => Number(a.exerciseNumber || Infinity) - Number(b.exerciseNumber || Infinity));
 
       if (incompleteExercises.length > 0) {
         const exerciseList = incompleteExercises
           .map((e) => {
-            // Handle missing unit numbers gracefully
-            if (e.unitNumber) {
-              return `- Unit ${e.unitNumber}: ${e.title}`;
-            }
             return `- ${e.title}`;
           })
           .join('\n');
