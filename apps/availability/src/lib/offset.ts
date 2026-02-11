@@ -40,13 +40,9 @@ export const offsets = [
 ];
 
 export function parseOffsetFromStringToMinutes(offset: string): number {
-  if (offset === 'UTC00:00') {
-    return 0;
-  }
+  if (offset === 'UTC00:00') return 0;
 
-  if (!/UTC(\+|-)\d\d:\d\d/.test(offset)) {
-    throw new Error(`Unsupported timezone: ${offset}`);
-  }
+  if (!/UTC(\+|-)\d\d:\d\d/.test(offset)) throw new Error(`Unsupported timezone: ${offset}`);
 
   const sign = offset[3] === '-' ? 1 : -1;
   const minutes = (parseInt(offset[4]!) * 10 + parseInt(offset[5]!)) * 60 + (parseInt(offset[7]!) * 10 + parseInt(offset[8]!));

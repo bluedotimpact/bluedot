@@ -14,30 +14,8 @@ import importPlugin from 'eslint-plugin-import';
 import customPlugin from '@bluedot/eslint-plugin-custom';
 
 // Process xo-typescript configs:
-const removedRules = [
-  '@typescript-eslint/naming-convention',
-  '@typescript-eslint/consistent-type-assertions',
-  '@typescript-eslint/no-restricted-types',
-  '@typescript-eslint/prefer-nullish-coalescing',
-  '@typescript-eslint/no-unsafe-argument',
-  '@typescript-eslint/no-unsafe-assignment',
-  '@typescript-eslint/no-unsafe-call',
-  '@typescript-eslint/no-unsafe-declaration-merging',
-  '@typescript-eslint/no-unsafe-enum-comparison',
-  '@typescript-eslint/no-unsafe-function-type',
-  '@typescript-eslint/no-unsafe-member-access',
-  '@typescript-eslint/no-unsafe-return',
-  '@typescript-eslint/no-unsafe-type-assertion',
-  '@typescript-eslint/promise-function-async',
-];
-
 const processedXoConfig = xoConfig.map((c) => {
-  const rules = { ...c.rules };
-  for (const rule of removedRules) {
-    delete rules[rule];
-  }
-
-  const result = { ...c, rules };
+  const result = { ...c };
 
   if (c.plugins?.['@typescript-eslint']) {
     result.files = ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts'];
@@ -124,6 +102,7 @@ export default [
       'no-warning-comments': 'off',
       'max-params': 'off',
       'no-negated-condition': 'off',
+      curly: ['error', 'multi-line', 'consistent'],
       'no-implicit-coercion': 'off',
       'no-console': 'warn',
       'prefer-template': 'error',
@@ -238,8 +217,25 @@ export default [
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts'],
     rules: {
+      // Turn off opinionated XO/TS rules that don't match existing conventions
       '@typescript-eslint/ban-ts-comment': 'off',
-      '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/no-restricted-types': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-declaration-merging': 'off',
+      '@typescript-eslint/no-unsafe-enum-comparison': 'off',
+      '@typescript-eslint/no-unsafe-function-type': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-unsafe-type-assertion': 'off',
+      '@typescript-eslint/promise-function-async': 'off',
+
+      '@typescript-eslint/no-unused-vars': ['error', {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
+      }],
       '@typescript-eslint/array-type': ['error', { default: 'array' }],
       '@typescript-eslint/naming-convention': [
         'error',
@@ -259,7 +255,10 @@ export default [
           leadingUnderscore: 'allow',
         },
       ],
-      '@typescript-eslint/consistent-type-assertions': ['error'],
+      '@typescript-eslint/consistent-type-assertions': ['error', {
+        assertionStyle: 'as',
+        objectLiteralTypeAssertions: 'allow',
+      }],
     },
   },
 

@@ -59,10 +59,7 @@ const TimeAvailabilityGrid: React.FC<{ show24: boolean; value: TimeAvailabilityM
 
   const timeToLabel = (time: number) => {
     const minutes = time * MINUTES_IN_UNIT;
-    if (minutes < 0 || minutes > 1440) {
-      throw new Error(`Invalid time: ${time} (${minutes} mins)`);
-    }
-
+    if (minutes < 0 || minutes > 1440) throw new Error(`Invalid time: ${time} (${minutes} mins)`);
     const hours = Math.floor(minutes / 60);
     const minutesRemaining = minutes - hours * 60;
     return `${hours.toString().padStart(2, '0')}:${minutesRemaining.toString().padStart(2, '0')}`;
@@ -86,18 +83,13 @@ const TimeAvailabilityGrid: React.FC<{ show24: boolean; value: TimeAvailabilityM
 
   useEffect(() => {
     const movePointerListener = (e: PointerEvent) => {
-      if (!dragState.dragging || !mainGrid.current) {
-        return;
-      }
+      if (!dragState.dragging || !mainGrid.current) return;
 
       const mousepos = { x: e.clientX, y: e.clientY };
       const { x, y } = snapToRect(mainGrid.current.getBoundingClientRect(), mousepos);
 
       const cell = cellRefs.find((c) => {
-        if (!c?.ref) {
-          return false;
-        }
-
+        if (!c?.ref) return false;
         const {
           top, bottom, left, right,
         } = c.ref.getBoundingClientRect();
@@ -113,9 +105,7 @@ const TimeAvailabilityGrid: React.FC<{ show24: boolean; value: TimeAvailabilityM
     document.addEventListener('pointermove', movePointerListener);
 
     const pointerUpListener = () => {
-      if (!dragState.dragging || !dragState.anchor || !dragState.cursor) {
-        return;
-      }
+      if (!dragState.dragging || !dragState.anchor || !dragState.cursor) return;
 
       const { min, max } = normalizeBlock({
         anchor: dragState.anchor,
@@ -215,7 +205,7 @@ export type TimeAvailabilityInputProps<TFieldValues extends FieldValues, TName e
 export const TimeAvailabilityInput = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({ className: _className, ...props }: TimeAvailabilityInputProps<TFieldValues, TName>) => { // eslint-disable-line @typescript-eslint/no-unused-vars
+>({ className: _className, ...props }: TimeAvailabilityInputProps<TFieldValues, TName>) => {
   const { field } = useController(props);
   const [show24, setShow24] = useState(false);
 
