@@ -1,3 +1,4 @@
+/* global module */
 /**
  * @param {import('next').NextConfig & { headers: Header[] }} [config]
  * @returns {import('next').NextConfig}
@@ -16,7 +17,7 @@ const withDefaultBlueDotNextConfig = async (config) => ({
   ...config,
 
   transpilePackages: ['@bluedot/ui', ...(config?.transpilePackages ?? [])],
-  headers: async () => {
+  async headers() {
     return [{
       source: '/:path*',
       headers: [
@@ -46,7 +47,7 @@ const withDefaultBlueDotNextConfig = async (config) => ({
     },
     ...(config?.headers ?? [])];
   },
-  webpack: (webpackConfig, context, ...args) => {
+  webpack(webpackConfig, context, ...args) {
     // Exclude packages from webpack bundling
 
     // Only used server side. Trying to import it client-side results in an error
@@ -55,7 +56,7 @@ const withDefaultBlueDotNextConfig = async (config) => ({
     }
 
     // https://github.com/open-telemetry/opentelemetry-js/issues/4173
-    // eslint-disable-next-line no-param-reassign
+
     webpackConfig.ignoreWarnings = webpackConfig.ignoreWarnings ?? [];
     webpackConfig.ignoreWarnings.push({ module: /opentelemetry/, message: /the request of a dependency is an expression/ });
 

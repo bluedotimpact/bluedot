@@ -13,12 +13,12 @@ const mockProps = {
     {
       id: 'agi-strategy',
       question: 'Do I need to take the AGI strategy course first?',
-      answer: "It's not required, but strongly recommended.",
+      answer: 'It\'s not required, but strongly recommended.',
     },
     {
       id: 'bluedot',
       question: 'Who is BlueDot Impact?',
-      answer: "We're a London-based startup focused on AI safety education.",
+      answer: 'We\'re a London-based startup focused on AI safety education.',
     },
   ],
 };

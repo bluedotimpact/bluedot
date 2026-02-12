@@ -15,7 +15,7 @@ const HistorySection = () => {
   );
 };
 
-const HistoryEvent = ({ year, now, children }: { year: string, now?: boolean, children: React.ReactNode }) => {
+const HistoryEvent = ({ year, now, children }: { year: string; now?: boolean; children: React.ReactNode }) => {
   return (
     <div className="history-section__event flex-1">
       {isMobile ? (

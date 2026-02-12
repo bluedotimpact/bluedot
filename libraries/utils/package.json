@@ -11,7 +11,7 @@
     "test:watch": "vitest"
   },
   "devDependencies": {
-    "@bluedot/eslint-config-v9": "*",
+    "@bluedot/eslint-config": "*",
     "@bluedot/typescript-config": "*",
     "@types/node": "^22.15.21",
     "@vitejs/plugin-react": "^4.3.4",

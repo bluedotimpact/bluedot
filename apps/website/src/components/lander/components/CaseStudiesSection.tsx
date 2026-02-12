@@ -1,5 +1,5 @@
 import { H2, P } from '@bluedot/ui';
-import { ReactNode } from 'react';
+import { type ReactNode } from 'react';
 
 export type CaseStudy = {
   name: string;

@@ -37,13 +37,21 @@ const HeroSection = ({
   const hasGradient = !!gradient;
   // Centered layout with constrained image sizing (for pixel-perfect Figma matching)
   const useConstrainedImageLayout = hasGradient && !!imageAspectRatio;
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const effectiveCategoryLabelColor = categoryLabelColor || accentColor;
 
   const getLayoutType = () => {
-    if (useConstrainedImageLayout) return 'constrained';
-    if (hasGradient) return 'gradient';
+    if (useConstrainedImageLayout) {
+      return 'constrained';
+    }
+
+    if (hasGradient) {
+      return 'gradient';
+    }
+
     return 'light';
   };
+
   const layoutType = getLayoutType();
 
   return (

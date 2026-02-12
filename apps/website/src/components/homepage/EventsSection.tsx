@@ -140,6 +140,7 @@ export const buildTimeDeltaString = (event: Event, locale?: string) => {
       timeZoneName: 'short',
       timeZone,
     }).formatToParts(endDate);
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     const timezone = timezoneParts.find((part) => part.type === 'timeZoneName')?.value || '';
 
     return `${timeStart} - ${timeEndWeekday} (${timeEndDate}) ${timezone}`;
@@ -192,22 +193,37 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
   const prefersReducedMotionRef = useRef(false);
 
   const createInfiniteScrollData = () => {
-    if (photos.length === 0) return [];
+    if (photos.length === 0) {
+      return [];
+    }
+
     return [...photos, ...photos, ...photos];
   };
 
   const infinitePhotos = createInfiniteScrollData();
 
   const getPhotoGap = useCallback(() => {
-    if (typeof window === 'undefined') return 32;
+    if (typeof window === 'undefined') {
+      return 32;
+    }
+
     const width = window.innerWidth;
-    if (width >= 1024) return 32;
-    if (width >= 680) return 24;
+    if (width >= 1024) {
+      return 32;
+    }
+
+    if (width >= 680) {
+      return 24;
+    }
+
     return 20;
   }, []);
 
   const startAutoScroll = useCallback(() => {
-    if (prefersReducedMotionRef.current) return;
+    if (prefersReducedMotionRef.current) {
+      return;
+    }
+
     if (autoScrollIntervalRef.current) {
       clearInterval(autoScrollIntervalRef.current);
     }
@@ -238,13 +254,17 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
     } else {
       stopAutoScroll();
     }
+
     return () => {
       stopAutoScroll();
     };
   }, [isHovered, startAutoScroll, stopAutoScroll]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return undefined;
+    if (typeof window === 'undefined') {
+      return undefined;
+    }
+
     const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
     const applyPreference = (matches: boolean) => {
       prefersReducedMotionRef.current = matches;
@@ -321,7 +341,7 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
         onMouseLeave={handleMouseLeave}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+
         tabIndex={0}
         role="region"
         aria-label="Event photos carousel"
@@ -355,7 +375,9 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
 
 /** Sorts events with featured URLs first, preserving the order specified in featuredUrls */
 const sortEventsWithFeaturedUrls = (events: Event[], featuredUrls: string[]): Event[] => {
-  if (featuredUrls.length === 0) return events;
+  if (featuredUrls.length === 0) {
+    return events;
+  }
 
   const normalizedFeaturedUrls = featuredUrls.map(normalizeUrl);
   const featuredEvents: Event[] = [];
@@ -372,9 +394,7 @@ const sortEventsWithFeaturedUrls = (events: Event[], featuredUrls: string[]): Ev
 
   // Featured events first (in the order they appear in featuredUrls),
   // then remaining events in their original chronological order
-  const sortedFeatured = featuredEvents.sort(
-    (a, b) => normalizedFeaturedUrls.indexOf(normalizeUrl(a.url)) - normalizedFeaturedUrls.indexOf(normalizeUrl(b.url)),
-  );
+  const sortedFeatured = featuredEvents.sort((a, b) => normalizedFeaturedUrls.indexOf(normalizeUrl(a.url)) - normalizedFeaturedUrls.indexOf(normalizeUrl(b.url)));
 
   return [...sortedFeatured, ...regularEvents];
 };
@@ -385,6 +405,7 @@ type EventsSectionProps = {
 
 const EventsSection = ({ featuredUrls = FEATURED_EVENT_URLS }: EventsSectionProps) => {
   const { data: events, isLoading } = trpc.luma.getUpcomingEvents.useQuery();
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const sortedEvents = sortEventsWithFeaturedUrls(events || [], featuredUrls);
   const displayEvents = sortedEvents.slice(0, 4);
 
@@ -399,7 +420,7 @@ const EventsSection = ({ featuredUrls = FEATURED_EVENT_URLS }: EventsSectionProp
           <h2
             id="events-section-heading"
             className="text-[28px] min-[680px]:text-[36px] min-[1024px]:text-[40px] min-[1280px]:text-[48px] font-medium leading-[125%] text-[#13132E] tracking-[-1px] max-w-[666px]"
-            style={{ fontFeatureSettings: "'ss04' on" }}
+            style={{ fontFeatureSettings: '\'ss04\' on' }}
           >
             Join an event near you
           </h2>

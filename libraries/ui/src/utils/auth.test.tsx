@@ -3,8 +3,8 @@ import {
 } from 'vitest';
 import { OidcClient } from 'oidc-client-ts';
 import { render } from '@testing-library/react';
-import * as React from 'react';
-import { Auth, useAuthStore, withAuth } from './auth';
+import type * as React from 'react';
+import { type Auth, useAuthStore, withAuth } from './auth';
 import { createMockOidcResponse } from './testUtils';
 
 // Mock Next.js router
@@ -45,7 +45,11 @@ const createAuth = (overrides?: Partial<Auth>): Auth => ({
 // Helper to setup mocked OIDC client
 const setupMockOidcClient = (success = true, response?: Record<string, unknown>) => {
   const mockUseRefreshToken = vi.fn().mockImplementation(() => {
-    if (!success) throw new Error('Refresh failed');
+    if (!success) {
+      throw new Error('Refresh failed');
+    }
+
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     return response || createMockOidcResponse();
   });
 
@@ -177,6 +181,7 @@ describe('auth', () => {
         if (attemptCount < 3) {
           throw new Error('Refresh failed temporarily');
         }
+
         // Succeed on third attempt
         return createMockOidcResponse({
           id_token: 'new-access-token',
@@ -363,7 +368,7 @@ describe('auth', () => {
   });
 
   describe('protected routes', () => {
-    const ProtectedPage: React.FC<{ auth: Auth, setAuth: (s: Auth | null) => void }> = () => <div>Protected Content</div>;
+    const ProtectedPage: React.FC<{ auth: Auth; setAuth: (s: Auth | null) => void }> = () => <div>Protected Content</div>;
 
     test('should show protected content when logged in', () => {
       const auth = createAuth();

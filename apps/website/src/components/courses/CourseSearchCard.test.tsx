@@ -9,21 +9,17 @@ describe('CourseSearchCard', () => {
   };
 
   test('renders default as expected', () => {
-    const { container } = render(
-      <CourseSearchCard {...defaultProps} />,
-    );
+    const { container } = render(<CourseSearchCard {...defaultProps} />);
     expect(container).toMatchSnapshot();
   });
 
   test('renders with optional args', () => {
-    const { container } = render(
-      <CourseSearchCard
-        {...defaultProps}
-        description="A short description of the course"
-        averageRating={4.6534563}
-        imageSrc="/courses/what-the-fish/image.png"
-      />,
-    );
+    const { container } = render(<CourseSearchCard
+      {...defaultProps}
+      description="A short description of the course"
+      averageRating={4.6534563}
+      imageSrc="/courses/what-the-fish/image.png"
+    />);
     expect(container).toMatchSnapshot();
   });
 });

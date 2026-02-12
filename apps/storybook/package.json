@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@bluedot/docker-scripts": "*",
-    "@bluedot/eslint-config-v9": "*",
+    "@bluedot/eslint-config": "*",
     "@bluedot/typescript-config": "*",
     "@storybook/addon-designs": "^8.2.1",
     "@storybook/addon-essentials": "^8.6.12",

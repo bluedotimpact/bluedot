@@ -1,5 +1,5 @@
 import { CTALinkOrButton, H2, P } from '@bluedot/ui';
-import { IconType } from 'react-icons';
+import { type IconType } from 'react-icons';
 
 export type TargetAudience = {
   icon: IconType;

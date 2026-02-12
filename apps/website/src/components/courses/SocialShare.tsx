@@ -1,5 +1,5 @@
 import { SocialShare as UISocialShare } from '@bluedot/ui';
-import React from 'react';
+import type React from 'react';
 
 type SocialShareProps = {
   coursePath: string;

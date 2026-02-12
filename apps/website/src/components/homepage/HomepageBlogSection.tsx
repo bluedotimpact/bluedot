@@ -25,7 +25,7 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
           <div className="flex justify-between items-center mb-12 min-[680px]:mb-16 min-[1024px]:mb-20 min-[1280px]:mb-16">
             <h2
               className="bluedot-h2 not-prose text-[28px] min-[680px]:text-4xl min-[1024px]:text-[40px] min-[1280px]:text-5xl leading-[125%] tracking-[-1px] font-medium text-[#13132E] text-center min-[680px]:text-left w-full min-[680px]:w-auto"
-              style={{ fontFeatureSettings: "'ss02' on" }}
+              style={{ fontFeatureSettings: '\'ss02\' on' }}
             >
               What we&apos;re thinking
             </h2>
@@ -43,7 +43,7 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
         <div className="flex flex-col min-[680px]:flex-row justify-between items-center gap-4 mb-12 min-[680px]:mb-16 min-[1024px]:mb-20 min-[1280px]:mb-16">
           <h2
             className="bluedot-h2 not-prose text-[28px] min-[680px]:text-4xl min-[1024px]:text-[40px] min-[1280px]:text-5xl leading-[125%] tracking-[-1px] font-medium text-[#13132E] text-center min-[680px]:text-left w-full min-[680px]:w-auto"
-            style={{ fontFeatureSettings: "'ss02' on" }}
+            style={{ fontFeatureSettings: '\'ss02\' on' }}
           >
             What we&apos;re thinking
           </h2>
@@ -87,6 +87,7 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
     </section>
   );
 };
+
 export default HomepageBlogSection;
 
 type BlogCardProps = {
@@ -94,7 +95,10 @@ type BlogCardProps = {
 };
 
 const getOrdinalSuffix = (day: number): string => {
-  if (day >= 11 && day <= 13) return 'TH';
+  if (day >= 11 && day <= 13) {
+    return 'TH';
+  }
+
   switch (day % 10) {
     case 1: return 'ST';
     case 2: return 'ND';
@@ -116,6 +120,7 @@ const BlogCard = ({ blog }: BlogCardProps) => {
     formattedDate = `${month} ${day}${ordinal}, ${year}`;
   }
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const authorName = blog.author?.toUpperCase() || 'UNKNOWN AUTHOR';
 
   return (

@@ -1,4 +1,4 @@
-import bluedot from '@bluedot/eslint-config-v9';
+import bluedot from '@bluedot/eslint-config';
 
 /** @type {import('typescript-eslint').ConfigArray} */
 export default [

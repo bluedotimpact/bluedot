@@ -3,7 +3,7 @@ import {
   chunkTable, eq, type Exercise, exerciseTable, inArray, type UnitResource, unitResourceTable,
 } from '@bluedot/db';
 import { ProgressDots, useAuthStore, useLatestUtmParams } from '@bluedot/ui';
-import { GetServerSideProps } from 'next';
+import { type GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import path from 'path';
@@ -112,6 +112,7 @@ const CourseUnitChunkPage = ({
 
   const chunk = chunks[chunkIndex];
   const title = `${unit.courseTitle}: Unit ${unitNumber}${chunk?.chunkTitle ? ` | ${chunk.chunkTitle}` : ''}`;
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const metaDescription = chunk?.metaDescription || unit.title;
 
   return (
@@ -159,6 +160,7 @@ export const getServerSideProps: GetServerSideProps<CourseUnitChunkPageProps> = 
   if (typeof courseSlug !== 'string') {
     throw new Error('Invalid course slug');
   }
+
   if (typeof unitNumber !== 'string') {
     throw new Error('Invalid unit number');
   }
@@ -184,6 +186,7 @@ export const getServerSideProps: GetServerSideProps<CourseUnitChunkPageProps> = 
     if (error instanceof Error && error.message === 'NOT_FOUND') {
       return { notFound: true };
     }
+
     throw error;
   }
 };

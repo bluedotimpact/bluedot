@@ -1,4 +1,5 @@
-import React, {
+import type React from 'react';
+import {
   useCallback, useEffect, useState, useRef,
 } from 'react';
 import { cn } from '@bluedot/ui';
@@ -75,20 +76,28 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
     content: value,
     editable: !disabled,
     immediatelyRender: false,
-    onUpdate: ({ editor: updatedEditor }) => {
+    onUpdate({ editor: updatedEditor }) {
       const markdown = updatedEditor.storage.markdown.getMarkdown();
       onChange(markdown);
     },
-    onFocus: () => {
-      if (!disabled) setIsFocussed(true);
+    onFocus() {
+      if (!disabled) {
+        setIsFocussed(true);
+      }
     },
-    onBlur: () => {
-      if (disabled) return;
+    onBlur() {
+      if (disabled) {
+        return;
+      }
 
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const currentContent = editor?.storage.markdown.getMarkdown() || '';
       if (currentContent !== lastSavedValue) {
         // Cancel inactivity timer on blur save
-        if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
+        if (inactivityTimerRef.current) {
+          clearTimeout(inactivityTimerRef.current);
+        }
+
         saveValue(currentContent);
       }
     },
@@ -96,16 +105,22 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
 
   // Sync from external value (e.g., when exercise changes)
   useEffect(() => {
-    if (!editor) return;
+    if (!editor) {
+      return;
+    }
 
     // Don't sync while user is actively editing - let them type without interference
-    if (isFocussed) return;
+    if (isFocussed) {
+      return;
+    }
 
     const currentContent = editor.storage.markdown.getMarkdown();
 
     // If external value equals what we last saved, ignore
     // (this is just save confirmation coming back)
-    if (value === lastSavedContent.current) return;
+    if (value === lastSavedContent.current) {
+      return;
+    }
 
     // If value is genuinely different, sync it
     if (value !== currentContent) {
@@ -118,7 +133,9 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
   useEffect(() => {
     return () => {
       [inactivityTimerRef, statusTimerRef].forEach((ref) => {
-        if (ref.current) clearTimeout(ref.current);
+        if (ref.current) {
+          clearTimeout(ref.current);
+        }
       });
     };
   }, []);
@@ -138,11 +155,14 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
       setSaveStatus('saved');
 
       // Clear previous status timer and set new one
-      if (statusTimerRef.current) clearTimeout(statusTimerRef.current);
+      if (statusTimerRef.current) {
+        clearTimeout(statusTimerRef.current);
+      }
+
       statusTimerRef.current = window.setTimeout(() => {
         setSaveStatus('idle');
       }, 3000);
-    } catch (error) {
+    } catch {
       setSaveStatus('error');
     } finally {
       isSavingRef.current = false;
@@ -165,7 +185,9 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
 
   // Periodic save timer - runs independently at specified interval
   useEffect(() => {
-    if (!isFocussed || disabled || PERIODIC_SAVE_INTERVAL_IN_MS <= 0) return undefined;
+    if (!isFocussed || disabled || PERIODIC_SAVE_INTERVAL_IN_MS <= 0) {
+      return undefined;
+    }
 
     const runPeriodicSave = () => {
       const currentSaveValue = saveValueRef.current;
@@ -185,10 +207,14 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
 
   // Inactivity auto-save timer
   useEffect(() => {
-    if (!isFocussed || !isEditing || disabled || AUTOSAVE_DELAY_IN_MS <= 0) return undefined;
+    if (!isFocussed || !isEditing || disabled || AUTOSAVE_DELAY_IN_MS <= 0) {
+      return undefined;
+    }
 
     // Clear and reset the inactivity timer
-    if (inactivityTimerRef.current) clearTimeout(inactivityTimerRef.current);
+    if (inactivityTimerRef.current) {
+      clearTimeout(inactivityTimerRef.current);
+    }
 
     inactivityTimerRef.current = window.setTimeout(() => {
       saveValue(value);
@@ -230,7 +256,6 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
   return (
     <div className="flex flex-col relative">
       <div className="relative w-full z-[1]">
-        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- Click-to-focus is UX convenience; keyboard input handled by EditorContent inside */}
         <div className={editorContainerClasses} onClick={handleContainerClick}>
           <EditorContent
             editor={editor}

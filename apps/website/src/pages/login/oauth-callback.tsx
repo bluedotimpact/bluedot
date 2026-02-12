@@ -45,11 +45,25 @@ export default () => {
             // Set initial UTM params in PostHog for new
             // users. These should never change once set.
             const initialUtmParams: Record<string, string> = {};
-            if (initialUtmSource) initialUtmParams.$initial_utm_source = initialUtmSource;
-            if (initialUtmCampaign) initialUtmParams.$initial_utm_campaign = initialUtmCampaign;
-            if (initialUtmContent) initialUtmParams.$initial_utm_content = initialUtmContent;
-            if (initialUtmMedium) initialUtmParams.$initial_utm_medium = initialUtmMedium;
-            if (initialUtmTerm) initialUtmParams.$initial_utm_term = initialUtmTerm;
+            if (initialUtmSource) {
+              initialUtmParams.$initial_utm_source = initialUtmSource;
+            }
+
+            if (initialUtmCampaign) {
+              initialUtmParams.$initial_utm_campaign = initialUtmCampaign;
+            }
+
+            if (initialUtmContent) {
+              initialUtmParams.$initial_utm_content = initialUtmContent;
+            }
+
+            if (initialUtmMedium) {
+              initialUtmParams.$initial_utm_medium = initialUtmMedium;
+            }
+
+            if (initialUtmTerm) {
+              initialUtmParams.$initial_utm_term = initialUtmTerm;
+            }
 
             if (Object.keys(initialUtmParams).length > 0) {
               posthog.capture('$set', { $set: initialUtmParams });

@@ -357,8 +357,12 @@ describe('EventsSection featured events', () => {
   const getDesktopEventTitles = (container: HTMLElement): string[] => {
     // Desktop layout uses flex, find the container with "hidden min-[1280px]:flex"
     const desktopContainer = container.querySelector('.hidden.min-\\[1280px\\]\\:flex');
-    if (!desktopContainer) return [];
+    if (!desktopContainer) {
+      return [];
+    }
+
     const headings = desktopContainer.querySelectorAll('h3');
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     return Array.from(headings).map((h) => h.textContent || '');
   };
 

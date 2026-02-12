@@ -66,13 +66,11 @@ describe('SlideList', () => {
   });
 
   it('renders correctly', () => {
-    const { container } = render(
-      <SlideList>
-        <div>Slide 1</div>
-        <div>Slide 2</div>
-        <div>Slide 3</div>
-      </SlideList>,
-    );
+    const { container } = render(<SlideList>
+      <div>Slide 1</div>
+      <div>Slide 2</div>
+      <div>Slide 3</div>
+    </SlideList>);
 
     expect(container).toMatchSnapshot();
     expect(screen.queryAllByLabelText(/(Previous|Next) slide/)).toHaveLength(2);
@@ -81,13 +79,11 @@ describe('SlideList', () => {
   it('hides the next/previous buttons on mobile', () => {
     vi.spyOn(deviceDetect, 'isMobile', 'get').mockReturnValue(true);
 
-    render(
-      <SlideList>
-        <div>Slide 1</div>
-        <div>Slide 2</div>
-        <div>Slide 3</div>
-      </SlideList>,
-    );
+    render(<SlideList>
+      <div>Slide 1</div>
+      <div>Slide 2</div>
+      <div>Slide 3</div>
+    </SlideList>);
     expect(screen.queryAllByLabelText(/(Previous|Next) slide/)).toHaveLength(0);
   });
 
@@ -97,13 +93,11 @@ describe('SlideList', () => {
     const minWidth = 200;
     const maxRows = 1;
 
-    render(
-      <SlideList maxItemsPerSlide={3} maxRows={maxRows} minItemWidth={minWidth}>
-        <div>Slide 1</div>
-        <div>Slide 2</div>
-        <div>Slide 3</div>
-      </SlideList>,
-    );
+    render(<SlideList maxItemsPerSlide={3} maxRows={maxRows} minItemWidth={minWidth}>
+      <div>Slide 1</div>
+      <div>Slide 2</div>
+      <div>Slide 3</div>
+    </SlideList>);
 
     await observerInitialized;
     expect(resizeCallbackRef.current).not.toBeNull();
@@ -131,13 +125,11 @@ describe('SlideList', () => {
     const minWidth = 200;
     const maxRows = 2;
 
-    render(
-      <SlideList maxItemsPerSlide={3} maxRows={maxRows} minItemWidth={minWidth}>
-        <div>Slide 1</div>
-        <div>Slide 2</div>
-        <div>Slide 3</div>
-      </SlideList>,
-    );
+    render(<SlideList maxItemsPerSlide={3} maxRows={maxRows} minItemWidth={minWidth}>
+      <div>Slide 1</div>
+      <div>Slide 2</div>
+      <div>Slide 3</div>
+    </SlideList>);
 
     await observerInitialized;
     expect(resizeCallbackRef.current).not.toBeNull();
@@ -164,13 +156,11 @@ describe('SlideList', () => {
     const minWidth = 200;
     const maxRows = 1;
 
-    const { container } = render(
-      <SlideList maxItemsPerSlide={3} maxRows={maxRows} minItemWidth={minWidth}>
-        <div>Slide 1</div>
-        <div>Slide 2</div>
-        <div>Slide 3</div>
-      </SlideList>,
-    );
+    const { container } = render(<SlideList maxItemsPerSlide={3} maxRows={maxRows} minItemWidth={minWidth}>
+      <div>Slide 1</div>
+      <div>Slide 2</div>
+      <div>Slide 3</div>
+    </SlideList>);
 
     await observerInitialized;
     expect(resizeCallbackRef.current).not.toBeNull();

@@ -33,9 +33,7 @@ describe('ActionPlanCard', () => {
 
     test('shows loading state while fetching data', () => {
       // Never resolves to simulate loading
-      server.use(
-        trpcMsw.courseRegistrations.getByCourseId.query(() => new Promise(() => {})),
-      );
+      server.use(trpcMsw.courseRegistrations.getByCourseId.query(() => new Promise(() => {})));
 
       render(<ActionPlanCard courseId={FACILITATED_COURSE_ID} />, { wrapper: TrpcProvider });
 
@@ -45,11 +43,9 @@ describe('ActionPlanCard', () => {
     });
 
     test('shows error state when query fails', async () => {
-      server.use(
-        trpcMsw.courseRegistrations.getByCourseId.query(() => {
-          throw new Error('Failed to fetch');
-        }),
-      );
+      server.use(trpcMsw.courseRegistrations.getByCourseId.query(() => {
+        throw new Error('Failed to fetch');
+      }));
 
       render(<ActionPlanCard courseId={FACILITATED_COURSE_ID} />, { wrapper: TrpcProvider });
 
@@ -90,9 +86,7 @@ describe('ActionPlanCard', () => {
 
       // Verify button and URL
       const submitButton = screen.getByRole('link', { name: 'Submit here' });
-      expect(submitButton.getAttribute('href')).toBe(
-        'https://web.miniextensions.com/7WZKkZiusMiAO1RMznFv?prefill_Participant=recABC123',
-      );
+      expect(submitButton.getAttribute('href')).toBe('https://web.miniextensions.com/7WZKkZiusMiAO1RMznFv?prefill_Participant=recABC123');
       expect(submitButton.getAttribute('target')).toBe('_blank');
     });
 
@@ -120,9 +114,7 @@ describe('ActionPlanCard', () => {
 
       // Verify button shows submitted state
       const submitButton = screen.getByRole('link', { name: 'Submitted!' });
-      expect(submitButton.getAttribute('href')).toBe(
-        'https://web.miniextensions.com/7WZKkZiusMiAO1RMznFv?prefill_Participant=recABC123',
-      );
+      expect(submitButton.getAttribute('href')).toBe('https://web.miniextensions.com/7WZKkZiusMiAO1RMznFv?prefill_Participant=recABC123');
       // The button should have disabled styling classes
       expect(submitButton).toHaveClass('disabled:opacity-50', 'disabled:pointer-events-none');
     });

@@ -1,6 +1,6 @@
-import { useState, ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { CTALinkOrButton, H2, P } from '@bluedot/ui';
-import { IconType } from 'react-icons';
+import { type IconType } from 'react-icons';
 
 export type Persona = {
   icon: IconType;

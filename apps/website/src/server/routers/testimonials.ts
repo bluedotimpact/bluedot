@@ -13,21 +13,28 @@ function sortTestimonials(items: Testimonial[]): Testimonial[] {
     }
 
     // 2. Items with quotes before those without
-    const aHasQuote = !!(a.testimonialText && a.testimonialText.trim());
-    const bHasQuote = !!(b.testimonialText && b.testimonialText.trim());
+    const aHasQuote = !!a.testimonialText?.trim();
+    const bHasQuote = !!b.testimonialText?.trim();
     if (aHasQuote !== bHasQuote) {
       return bHasQuote ? 1 : -1;
     }
 
     // 3. Alphabetical by name
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     return (a.name || '').localeCompare(b.name || '');
   });
 }
 
 // TODO: Remove Array.isArray check once database schema is synced to use text instead of text[]
 function getFirstHeadshotUrl(headshotAttachmentUrls: string | string[] | null): string {
-  if (!headshotAttachmentUrls) return '';
-  if (Array.isArray(headshotAttachmentUrls)) return headshotAttachmentUrls[0] ?? '';
+  if (!headshotAttachmentUrls) {
+    return '';
+  }
+
+  if (Array.isArray(headshotAttachmentUrls)) {
+    return headshotAttachmentUrls[0] ?? '';
+  }
+
   return headshotAttachmentUrls.split(' ')[0] ?? '';
 }
 

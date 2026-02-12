@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { BottomDrawerModal } from './BottomDrawerModal';
 import { CTALinkOrButton } from './CTALinkOrButton';

@@ -28,13 +28,11 @@ const defaultProps = {
 
 describe('RichTextAutoSaveEditor', () => {
   test('renders editor with correct structure', async () => {
-    const { container } = render(
-      <RichTextAutoSaveEditor
-        {...defaultProps}
-        height="short"
-        className="custom-class"
-      />,
-    );
+    const { container } = render(<RichTextAutoSaveEditor
+      {...defaultProps}
+      height="short"
+      className="custom-class"
+    />);
 
     await waitFor(() => {
       expect(container.querySelector('.ProseMirror')).toBeTruthy();
@@ -49,12 +47,10 @@ describe('RichTextAutoSaveEditor', () => {
   });
 
   test('loads and displays existing content', async () => {
-    const { container } = render(
-      <RichTextAutoSaveEditor
-        {...defaultProps}
-        value="This is existing content from a saved response"
-      />,
-    );
+    const { container } = render(<RichTextAutoSaveEditor
+      {...defaultProps}
+      value="This is existing content from a saved response"
+    />);
 
     await waitFor(() => {
       const editor = container.querySelector('.ProseMirror');
@@ -63,18 +59,16 @@ describe('RichTextAutoSaveEditor', () => {
   });
 
   test('disabled state makes editor non-editable and hides save indicator', async () => {
-    const { container } = render(
-      <RichTextAutoSaveEditor
-        {...defaultProps}
-        disabled
-      />,
-    );
+    const { container } = render(<RichTextAutoSaveEditor
+      {...defaultProps}
+      disabled
+    />);
 
     await waitFor(() => {
       expect(container.querySelector('.ProseMirror')).toBeTruthy();
     });
 
-    const editor = container.querySelector('.ProseMirror') as HTMLElement;
+    const editor = container.querySelector('.ProseMirror')!;
     expect(editor.getAttribute('contenteditable')).toBe('false');
 
     // No save status indicator when disabled

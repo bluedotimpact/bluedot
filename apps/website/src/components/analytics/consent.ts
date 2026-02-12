@@ -2,15 +2,15 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 export const useConsentStore = create<{
-  isConsented: boolean | undefined,
-  accept:() => void,
-  reject: () => void
+  isConsented: boolean | undefined;
+  accept: () => void;
+  reject: () => void;
 }>()(persist((set) => ({
   isConsented: undefined,
-  accept: () => {
+  accept() {
     set({ isConsented: true });
   },
-  reject: () => {
+  reject() {
     set({ isConsented: false });
   },
 }), {

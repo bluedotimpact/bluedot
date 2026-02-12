@@ -14,14 +14,12 @@ describe('Section', () => {
     expect(container).toMatchSnapshot();
   });
   test('renders with all optional props', () => {
-    const { container, getByText } = render(
-      <Section
-        title="This is the title"
-        subtitle="This is the subtitle"
-      >
-        <p>This is the yield</p>
-      </Section>,
-    );
+    const { container, getByText } = render(<Section
+      title="This is the title"
+      subtitle="This is the subtitle"
+    >
+      <p>This is the yield</p>
+    </Section>);
 
     expect(container).toMatchSnapshot();
 

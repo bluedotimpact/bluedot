@@ -14,6 +14,7 @@ import { CourseIcon } from '../../components/courses/CourseIcon';
 import { COURSE_CONFIG } from '../../lib/constants';
 
 const getCourseAccentColor = (courseSlug: string): string => {
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   return COURSE_CONFIG[courseSlug]?.accentColor || '#1144cc';
 };
 
@@ -38,7 +39,10 @@ const useSortedCourses = () => {
   const { data: courses, isLoading: coursesLoading, error } = trpc.courses.getAll.useQuery();
 
   const displayedCourses = useMemo(() => {
-    if (!courses) return [];
+    if (!courses) {
+      return [];
+    }
+
     return courses.filter((course) => course.displayOnCourseHubIndex);
   }, [courses]);
 
@@ -86,15 +90,22 @@ const useSortedCourses = () => {
 
   // Sort courses: self-paced first, then by earliest start date
   const sortedCourses = useMemo(() => {
-    if (!allRoundsLoaded) return displayedCourses;
+    if (!allRoundsLoaded) {
+      return displayedCourses;
+    }
 
     return [...displayedCourses].sort((a, b) => {
       const aIsSelfPaced = isSelfPacedCourse(a);
       const bIsSelfPaced = isSelfPacedCourse(b);
 
       // Self-paced courses come first
-      if (aIsSelfPaced && !bIsSelfPaced) return -1;
-      if (!aIsSelfPaced && bIsSelfPaced) return 1;
+      if (aIsSelfPaced && !bIsSelfPaced) {
+        return -1;
+      }
+
+      if (!aIsSelfPaced && bIsSelfPaced) {
+        return 1;
+      }
 
       // Both self-paced: sort alphabetically
       if (aIsSelfPaced && bIsSelfPaced) {
@@ -108,9 +119,17 @@ const useSortedCourses = () => {
       const bStartDate = bData?.earliestStartDate;
 
       // Courses with no upcoming rounds go to the end
-      if (!aStartDate && !bStartDate) return a.title.localeCompare(b.title);
-      if (!aStartDate) return 1;
-      if (!bStartDate) return -1;
+      if (!aStartDate && !bStartDate) {
+        return a.title.localeCompare(b.title);
+      }
+
+      if (!aStartDate) {
+        return 1;
+      }
+
+      if (!bStartDate) {
+        return -1;
+      }
 
       const aStartTime = new Date(aStartDate).getTime();
       const bStartTime = new Date(bStartDate).getTime();
@@ -147,7 +166,7 @@ const CoursesPage = () => {
         {displayedCourses.length > 0 && (
           <script
             type="application/ld+json"
-            // eslint-disable-next-line react/no-danger
+
             dangerouslySetInnerHTML={{
               __html: JSON.stringify({
                 '@context': 'https://schema.org',
@@ -273,7 +292,9 @@ const useActiveSection = (sectionIds: string[]): string | null => {
   const [activeSection, setActiveSection] = useState<string | null>(null);
 
   useEffect(() => {
-    if (sectionIds.length === 0) return undefined;
+    if (sectionIds.length === 0) {
+      return undefined;
+    }
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -294,7 +315,9 @@ const useActiveSection = (sectionIds: string[]): string | null => {
 
     sectionIds.forEach((id) => {
       const element = document.getElementById(id);
-      if (element) observer.observe(element);
+      if (element) {
+        observer.observe(element);
+      }
     });
 
     return () => observer.disconnect();
@@ -400,13 +423,12 @@ type CourseCardProps = {
 };
 
 const CourseCard = ({ course }: CourseCardProps) => {
-  const { data: rounds, isLoading: roundsLoading } = trpc.courseRounds.getRoundsForCourse.useQuery(
-    { courseSlug: course.slug },
-  );
+  const { data: rounds, isLoading: roundsLoading } = trpc.courseRounds.getRoundsForCourse.useQuery({ courseSlug: course.slug });
 
   const isSelfPaced = isSelfPacedCourse(course);
   const hasIntense = rounds?.intense && rounds.intense.length > 0;
   const hasPartTime = rounds?.partTime && rounds.partTime.length > 0;
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const showRounds = hasIntense || hasPartTime;
 
   return (
@@ -414,6 +436,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
       <CourseHeader course={course} />
 
       <p className="mt-6 text-[18px] leading-[1.6] font-normal text-[#13132e] opacity-80">
+        {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
         {COURSE_DESCRIPTIONS[course.slug] || course.shortDescription}
       </p>
 
@@ -616,6 +639,7 @@ const CourseRoundItem = ({ round, course }: CourseRoundItemProps) => {
   const { latestUtmParams } = useLatestUtmParams();
   const accentColor = getCourseAccentColor(course.slug);
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const baseApplicationUrl = course.applyUrl || '';
 
   // Add UTM source prefill if available

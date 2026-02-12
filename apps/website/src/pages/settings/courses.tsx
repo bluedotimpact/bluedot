@@ -1,7 +1,7 @@
 import {
   CTALinkOrButton, ErrorSection, P, ProgressDots,
 } from '@bluedot/ui';
-import { CourseRegistration } from '@bluedot/db';
+import type { CourseRegistration } from '@bluedot/db';
 import Head from 'next/head';
 import { ROUTES } from '../../lib/routes';
 import SettingsLayout from '../../components/settings/SettingsLayout';
@@ -43,6 +43,7 @@ const CoursesContent = () => {
   const isCompleted = (reg: CourseRegistration) => reg.roundStatus !== 'Active' && reg.roundStatus !== 'Future';
 
   // Combine courses and enrollments
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const enrolledCourses = (courseRegistrations || [])
     .filter((reg) => reg.roundStatus === 'Active' || reg.roundStatus === 'Past' || reg.roundStatus === 'Future' || reg.certificateCreatedAt)
     // Exclude dropped out courses (not deferrals)
@@ -88,6 +89,7 @@ const CoursesContent = () => {
   const inProgressCourses = enrolledCourses.filter(({ courseRegistration }) => courseRegistration.roundStatus === 'Active');
 
   const loading = courseRegistrationsLoading || coursesLoading;
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const error = courseRegistrationsError || coursesError;
 
   if (loading) return <ProgressDots />;

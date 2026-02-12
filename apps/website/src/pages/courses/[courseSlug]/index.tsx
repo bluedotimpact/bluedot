@@ -8,7 +8,7 @@ import {
   useLatestUtmParams,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import { GetStaticProps, GetStaticPaths } from 'next';
+import { type GetStaticProps, type GetStaticPaths } from 'next';
 import path from 'path';
 
 import { ROUTES } from '../../../lib/routes';
@@ -52,6 +52,7 @@ const renderCoursePage = ({
   courseSlug: slug, courseData, courseOgImage, soonestDeadline,
 }: CoursePageProps) => {
   const { course } = courseData;
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const baseApplicationUrl = course?.applyUrl || '';
 
   if (slug === 'future-of-ai') {
@@ -149,7 +150,7 @@ const renderCoursePage = ({
 
 const registerInterestUrl = 'https://web.miniextensions.com/aGd0mXnpcN1gfqlnYNZc';
 
-const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseAndUnits, courseOgImage?: string | null }) => {
+const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseAndUnits; courseOgImage?: string | null }) => {
   const { latestUtmParams } = useLatestUtmParams();
   const registerInterestUrlWithUtm = latestUtmParams.utm_source ? addQueryParam(registerInterestUrl, 'prefill_Source', latestUtmParams.utm_source) : registerInterestUrl;
 
@@ -165,6 +166,7 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
             <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
             <meta key="og:type" property="og:type" content="website" />
             <meta key="og:url" property="og:url" content={`https://bluedot.org/courses/${encodeURIComponent(courseData.course.slug)}`} />
+            {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
             <meta key="og:image" property="og:image" content={courseOgImage || 'https://bluedot.org/images/logo/link-preview-fallback.png'} />
             <meta key="og:image:width" property="og:image:width" content="1200" />
             <meta key="og:image:height" property="og:image:height" content="630" />
@@ -240,7 +242,7 @@ export const getStaticProps: GetStaticProps<CoursePageProps> = async ({ params }
       },
       revalidate: 300,
     };
-  } catch (error) {
+  } catch {
     // Error fetching course data (likely not found)
     return {
       notFound: true,

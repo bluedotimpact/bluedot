@@ -1,6 +1,7 @@
 import type { GetServerSideProps } from 'next';
 import { getAllPublishedBlogs } from '../../server/routers/blogs';
 
+// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 const BASE_URL = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bluedot.org'}/blog`;
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {

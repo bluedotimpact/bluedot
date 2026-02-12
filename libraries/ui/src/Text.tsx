@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { ClickTarget, ClickTargetProps } from './ClickTarget';
+import { ClickTarget, type ClickTargetProps } from './ClickTarget';
 
 export type TextProps = React.PropsWithChildren<{
   className?: string;

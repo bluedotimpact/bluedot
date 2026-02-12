@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React from 'react';
+import type React from 'react';
 import {
   FaXTwitter, FaYoutube, FaLinkedin,
 } from 'react-icons/fa6';

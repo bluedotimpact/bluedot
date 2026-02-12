@@ -9,17 +9,17 @@ const mockProps = {
     {
       icon: PiRocketLaunch,
       title: 'Take action in less than 30 hours',
-      description: "You don't need another degree. This AGI Strategy course replaces years of self-study with three frameworks.",
+      description: 'You don\'t need another degree. This AGI Strategy course replaces years of self-study with three frameworks.',
     },
     {
       icon: PiUsersThree,
       title: 'Join a network of builders',
-      description: "This course isn't for everyone. We're building a community of people who are energised to take ambitious actions.",
+      description: 'This course isn\'t for everyone. We\'re building a community of people who are energised to take ambitious actions.',
     },
     {
       icon: PiHandCoins,
       title: 'Get funded to accelerate your impact',
-      description: "If your final course proposal is strong, you'll receive $10-50k to kickstart your transition into impactful work.",
+      description: 'If your final course proposal is strong, you\'ll receive $10-50k to kickstart your transition into impactful work.',
     },
   ],
 };
@@ -54,9 +54,7 @@ describe('CourseBenefitsSection', () => {
 
   it('applies custom icon background color to icon containers', () => {
     const customBgColor = '#e5faea';
-    const { container } = render(
-      <CourseBenefitsSection {...mockProps} iconBackgroundColor={customBgColor} />,
-    );
+    const { container } = render(<CourseBenefitsSection {...mockProps} iconBackgroundColor={customBgColor} />);
     const iconContainers = container.querySelectorAll(`[style*="background-color: ${customBgColor}"]`);
     expect(iconContainers.length).toBe(mockProps.benefits.length);
   });

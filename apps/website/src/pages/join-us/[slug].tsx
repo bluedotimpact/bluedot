@@ -4,13 +4,13 @@ import {
   HeroH2,
   Section,
   Breadcrumbs,
-  BluedotRoute,
+  type BluedotRoute,
   HeroCTAContainer,
   CTALinkOrButton,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import { GetStaticProps, GetStaticPaths } from 'next';
-import { JobPosting, jobPostingTable } from '@bluedot/db';
+import { type GetStaticProps, type GetStaticPaths } from 'next';
+import { type JobPosting, jobPostingTable } from '@bluedot/db';
 import path from 'path';
 import { ROUTES } from '../../lib/routes';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
@@ -40,6 +40,7 @@ const JobPostingPage = ({ slug, job, jobOgImage }: JobPostingPageProps) => {
         <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
         <meta key="og:type" property="og:type" content="website" />
         <meta key="og:url" property="og:url" content={`https://bluedot.org/join-us/${encodeURIComponent(slug)}`} />
+        {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
         <meta key="og:image" property="og:image" content={jobOgImage || 'https://bluedot.org/images/logo/link-preview-fallback.png'} />
         <meta key="og:image:width" property="og:image:width" content="1200" />
         <meta key="og:image:height" property="og:image:height" content="630" />
@@ -47,7 +48,7 @@ const JobPostingPage = ({ slug, job, jobOgImage }: JobPostingPageProps) => {
         <meta key="og:image:alt" property="og:image:alt" content="BlueDot Impact logo" />
         <script
           type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
+
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
@@ -137,7 +138,7 @@ export const getStaticProps: GetStaticProps<JobPostingPageProps> = async ({ para
       },
       revalidate: 300,
     };
-  } catch (error) {
+  } catch {
     // Error fetching job data (likely not found)
     return {
       notFound: true,

@@ -76,6 +76,7 @@ export const Select = ({
           onPress={() => setIsOpen(true)}
         >
           <span className="text-[#13132E] flex-1 min-w-0">
+            {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
             {selectedOption?.label || value || placeholder}
           </span>
           <FaChevronDown

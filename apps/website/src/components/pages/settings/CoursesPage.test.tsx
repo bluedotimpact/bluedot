@@ -85,7 +85,7 @@ describe('CoursesPage', () => {
     render(<CoursesSettingsPage />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      expect(screen.getByText("You haven't started any courses yet")).toBeInTheDocument();
+      expect(screen.getByText('You haven\'t started any courses yet')).toBeInTheDocument();
       expect(screen.getByRole('link', { name: 'Join a course' })).toBeInTheDocument();
     });
   });
@@ -236,7 +236,7 @@ describe('CoursesPage', () => {
 
     await waitFor(() => {
       // Should show empty state since deferred past courses are not shown
-      expect(screen.getByText("You haven't started any courses yet")).toBeInTheDocument();
+      expect(screen.getByText('You haven\'t started any courses yet')).toBeInTheDocument();
       expect(screen.queryByText('Deferred Past Course')).not.toBeInTheDocument();
     });
   });

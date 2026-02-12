@@ -25,8 +25,14 @@ const formatDuration = (minutes: number): string => {
   const hours = Math.floor(minutes / 60);
   const mins = minutes % 60;
 
-  if (hours === 0) return `${mins} min`;
-  if (mins === 0) return `${hours} hr`;
+  if (hours === 0) {
+    return `${mins} min`;
+  }
+
+  if (mins === 0) {
+    return `${hours} hr`;
+  }
+
   return `${hours} hr ${mins} min`;
 };
 
@@ -66,7 +72,9 @@ const UnitMetadataDisplay = ({
     return null;
   }
 
-  if (!duration && exerciseCount === 0) return null;
+  if (!duration && exerciseCount === 0) {
+    return null;
+  }
 
   return (
     <div className="flex items-center gap-1">
@@ -117,18 +125,21 @@ const CurriculumUnit = ({
     .map((word) => word.toUpperCase())
     .join(' ');
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const rawTitle = unit.courseUnit || unit.title || `Unit ${unit.unitNumber}`;
 
   // Strip redundant course prefix: "AGI Strategy - Unit 1: Intro" → "Unit 1: Intro"
   const coursePattern = courseName.split(' ').join('[\\s-]');
   const regex = new RegExp(`^${coursePattern}\\s*-\\s*`, 'i');
   const unitTitle = rawTitle.replace(regex, '').trim();
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const description = unit.menuText || unit.description;
 
   const handleToggle = () => {
     if (!isOpen && onExpand) {
       onExpand();
     }
+
     setIsOpen(!isOpen);
   };
 
@@ -168,6 +179,7 @@ const CurriculumUnit = ({
                 {description}
               </div>
             )}
+            {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
             {(metadataLoading || metadata || metadataError) && (
               <UnitMetadataDisplay
                 duration={metadata?.duration ?? null}
@@ -202,7 +214,10 @@ const CourseCurriculumSection = ({
   );
 
   const metadataMap = useMemo(() => {
-    if (!metadata) return new Map<string, UnitMetadata>();
+    if (!metadata) {
+      return new Map<string, UnitMetadata>();
+    }
+
     return new Map(metadata.map((m) => [m.unitId, { duration: m.duration, exerciseCount: m.exerciseCount }]));
   }, [metadata]);
 

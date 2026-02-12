@@ -3,7 +3,8 @@ import {
   A, CTALinkOrButton, P,
 } from '@bluedot/ui';
 import clsx from 'clsx';
-import React, { useEffect, useRef, useState } from 'react';
+import type React from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 import type { ChunkProgress, CourseProgress } from '../../server/routers/courses';
@@ -162,7 +163,9 @@ export type ApplyCTAProps = {
 };
 
 const ApplyCTA = ({ applicationDeadline, applicationUrl, hasApplied }: ApplyCTAProps) => {
-  if (hasApplied) return null;
+  if (hasApplied) {
+    return null;
+  }
 
   return (
     <CTALinkOrButton

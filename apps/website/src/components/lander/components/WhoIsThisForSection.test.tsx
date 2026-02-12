@@ -22,7 +22,7 @@ const mockTargetAudiences = [
 ];
 
 const mockBottomCta = {
-  boldText: "Don't fit these perfectly? Apply anyway.",
+  boldText: 'Don\'t fit these perfectly? Apply anyway.',
   text: 'Some of our most impactful participants have included teachers, policymakers, engineers, and community leaders. We bet on drive and ambition, not CVs.',
   buttonText: 'Apply now',
   buttonUrl: 'https://example.com/apply',
@@ -58,11 +58,9 @@ describe('WhoIsThisForSection', () => {
   });
 
   it('renders bottom CTA section when provided', () => {
-    const { getByText, getByRole } = render(
-      <WhoIsThisForSection targetAudiences={mockTargetAudiences} bottomCta={mockBottomCta} />,
-    );
+    const { getByText, getByRole } = render(<WhoIsThisForSection targetAudiences={mockTargetAudiences} bottomCta={mockBottomCta} />);
 
-    expect(getByText("Don't fit these perfectly? Apply anyway.")).toBeDefined();
+    expect(getByText('Don\'t fit these perfectly? Apply anyway.')).toBeDefined();
     expect(getByText(/We bet on drive and ambition, not CVs./)).toBeDefined();
 
     const applyButton = getByRole('link', { name: 'Apply now' });
@@ -73,6 +71,6 @@ describe('WhoIsThisForSection', () => {
   it('does not render bottom CTA section when not provided', () => {
     const { queryByText } = render(<WhoIsThisForSection targetAudiences={mockTargetAudiences} />);
 
-    expect(queryByText("Don't fit these perfectly? Apply anyway.")).toBeNull();
+    expect(queryByText('Don\'t fit these perfectly? Apply anyway.')).toBeNull();
   });
 });

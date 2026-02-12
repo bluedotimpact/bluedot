@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Modal } from './Modal';
 import { CTALinkOrButton } from './CTALinkOrButton';
@@ -52,7 +53,7 @@ export const Default: Story = {
 };
 
 export const LongContent: Story = {
-  render: () => {
+  render() {
     const LongContentDemo = () => {
       const [isOpen, setIsOpen] = useState(false);
 
@@ -76,7 +77,7 @@ export const LongContent: Story = {
 };
 
 export const WithFormContent: Story = {
-  render: () => {
+  render() {
     const WithFormContentDemo = () => {
       const [isOpen, setIsOpen] = useState(false);
 
@@ -131,7 +132,7 @@ export const CustomTitle: Story = {
 };
 
 export const BottomDrawerOnMobile: Story = {
-  render: () => {
+  render() {
     const BottomDrawerOnMobileDemo = () => {
       const [isOpen, setIsOpen] = useState(false);
 

@@ -24,7 +24,7 @@ const unit3 = createMockUnit({
   unitNumber: '3',
 });
 
-const mockCourseData: { course: Course, units: Unit[] } = {
+const mockCourseData: { course: Course; units: Unit[] } = {
   course: createMockCourse(),
   units: [
     unit1,
@@ -133,7 +133,7 @@ const commonHandlers = [
 
 export const Default: Story = {
   args: {
-    handleClose: () => {},
+    handleClose() {},
     initialUnitNumber: unit1.unitNumber,
     courseSlug: 'ai-safety',
   },
@@ -146,7 +146,7 @@ export const Default: Story = {
 
 export const AlternativeUnit: Story = {
   args: {
-    handleClose: () => {},
+    handleClose() {},
     initialUnitNumber: unit2.unitNumber,
     courseSlug: 'ai-safety',
   },
@@ -159,7 +159,7 @@ export const AlternativeUnit: Story = {
 
 export const NoAvailableGroups: Story = {
   args: {
-    handleClose: () => {},
+    handleClose() {},
     initialUnitNumber: unit3.unitNumber,
     courseSlug: 'ai-safety',
   },
@@ -172,7 +172,7 @@ export const NoAvailableGroups: Story = {
 
 export const Loading: Story = {
   args: {
-    handleClose: () => {},
+    handleClose() {},
     initialUnitNumber: unit1.unitNumber,
     courseSlug: 'ai-safety',
   },

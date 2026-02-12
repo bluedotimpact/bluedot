@@ -1,11 +1,11 @@
 import {
-  useState, useEffect, ReactNode,
+  useState, useEffect, type ReactNode,
 } from 'react';
 import {
   CTALinkOrButton, addQueryParam, useCurrentTimeMs, cn, Tooltip,
 } from '@bluedot/ui';
 import { FaCheck, FaLock } from 'react-icons/fa6';
-import { Course, CourseRegistration, MeetPerson } from '@bluedot/db';
+import { type Course, type CourseRegistration, type MeetPerson } from '@bluedot/db';
 import { skipToken } from '@tanstack/react-query';
 import CourseDetails from './CourseDetails';
 import { ChevronRightIcon } from '../icons/ChevronRightIcon';
@@ -74,9 +74,7 @@ const CourseListRow = ({
 
   const isFuture = courseRegistration.roundStatus === 'Future';
 
-  const { data: meetPerson, isLoading: isMeetPersonLoading } = trpc.meetPerson.getByCourseRegistrationId.useQuery(
-    isFuture ? skipToken : { courseRegistrationId: courseRegistration.id },
-  );
+  const { data: meetPerson, isLoading: isMeetPersonLoading } = trpc.meetPerson.getByCourseRegistrationId.useQuery(isFuture ? skipToken : { courseRegistrationId: courseRegistration.id });
 
   // Only fetch expected discussions for the list row
   // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
@@ -89,25 +87,20 @@ const CourseListRow = ({
       : !meetPerson.groupsAsParticipant || meetPerson.groupsAsParticipant.length === 0);
 
   const expectedDiscussionIds = isFacilitatorRole
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     ? meetPerson?.expectedDiscussionsFacilitator || []
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     : meetPerson?.expectedDiscussionsParticipant || [];
 
-  const { data: expectedResults, isLoading: isLoadingDiscussions } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
-    expectedDiscussionIds.length > 0 ? { discussionIds: expectedDiscussionIds } : skipToken,
-  );
+  const { data: expectedResults, isLoading: isLoadingDiscussions } = trpc.groupDiscussions.getByDiscussionIds.useQuery(expectedDiscussionIds.length > 0 ? { discussionIds: expectedDiscussionIds } : skipToken);
 
-  const { data: attendedResults, isLoading: isLoadingAttendees } = trpc.groupDiscussions.getByDiscussionIds.useQuery(
-    (meetPerson?.attendedDiscussions || []).length > 0 ? { discussionIds: meetPerson?.attendedDiscussions || [] } : skipToken,
-  );
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  const { data: attendedResults, isLoading: isLoadingAttendees } = trpc.groupDiscussions.getByDiscussionIds.useQuery((meetPerson?.attendedDiscussions || []).length > 0 ? { discussionIds: meetPerson?.attendedDiscussions || [] } : skipToken);
 
   // Sort discussions by startDateTime
-  const expectedDiscussions = [...(expectedResults?.discussions ?? [])].sort(
-    (a, b) => a.startDateTime - b.startDateTime,
-  );
+  const expectedDiscussions = [...(expectedResults?.discussions ?? [])].sort((a, b) => a.startDateTime - b.startDateTime);
 
-  const allAttendedDiscussions = [...(attendedResults?.discussions ?? [])].sort(
-    (a, b) => a.startDateTime - b.startDateTime,
-  );
+  const allAttendedDiscussions = [...(attendedResults?.discussions ?? [])].sort((a, b) => a.startDateTime - b.startDateTime);
 
   const facilitatorDiscussionIds = new Set(meetPerson?.expectedDiscussionsFacilitator ?? []);
   const facilitatedDiscussions = allAttendedDiscussions.filter((d) => facilitatorDiscussionIds.has(d.id));
@@ -122,9 +115,7 @@ const CourseListRow = ({
   }, [isNotInGroup]);
 
   // Get the next upcoming discussion from expectedDiscussions
-  const upcomingDiscussions = expectedDiscussions.filter(
-    (discussion) => getDiscussionTimeState({ discussion, currentTimeMs }) !== 'ended',
-  );
+  const upcomingDiscussions = expectedDiscussions.filter((discussion) => getDiscussionTimeState({ discussion, currentTimeMs }) !== 'ended');
   const nextDiscussion = upcomingDiscussions[0];
 
   const ctaButtons = getCtaButtons({
@@ -167,13 +158,20 @@ const CourseListRow = ({
 
   const canExpand = !isFuture;
   const toggleExpand = () => {
-    if (!canExpand) return;
+    if (!canExpand) {
+      return;
+    }
+
     setIsExpanded(!isExpanded);
   };
 
   const chevron = <ChevronRightIcon className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`} />;
   const expandButtonLabel = isExpanded ? `Collapse ${course.title} details` : `Expand ${course.title} details`;
-  const onExpandClick = (e: React.MouseEvent) => { e.stopPropagation(); toggleExpand(); };
+  const onExpandClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleExpand();
+  };
+
   const stopPropagation = {
     onClick: (e: React.MouseEvent) => e.stopPropagation(),
     onKeyDown: (e: React.KeyboardEvent) => e.stopPropagation(),
@@ -307,32 +305,28 @@ const getCtaButtons = ({
         courseRegistration,
         roundId: courseRegistration.roundId ?? '',
       });
-      buttons.push(
-        <CTALinkOrButton
-          key="availability"
-          variant="primary"
-          size="small"
-          url={availabilityUrl}
-          target="_blank"
-          className="w-full sm:w-auto bg-bluedot-normal"
-        >
-          {hasAvailability ? 'Edit your availability' : 'Submit your availability'}
-        </CTALinkOrButton>,
-      );
+      buttons.push(<CTALinkOrButton
+        key="availability"
+        variant="primary"
+        size="small"
+        url={availabilityUrl}
+        target="_blank"
+        className="w-full sm:w-auto bg-bluedot-normal"
+      >
+        {hasAvailability ? 'Edit your availability' : 'Submit your availability'}
+      </CTALinkOrButton>);
     }
 
     if (course.slug) {
-      buttons.push(
-        <CTALinkOrButton
-          key="curriculum"
-          variant="outline-black"
-          size="small"
-          url={`/courses/${course.slug}/1/1`}
-          className="w-full sm:w-auto border-bluedot-darker"
-        >
-          View curriculum
-        </CTALinkOrButton>,
-      );
+      buttons.push(<CTALinkOrButton
+        key="curriculum"
+        variant="outline-black"
+        size="small"
+        url={`/courses/${course.slug}/1/1`}
+        className="w-full sm:w-auto border-bluedot-darker"
+      >
+        View curriculum
+      </CTALinkOrButton>);
     }
 
     return buttons;
@@ -381,7 +375,9 @@ const getCtaButtons = ({
     )];
   }
 
-  if (isLoading) return [];
+  if (isLoading) {
+    return [];
+  }
 
   // Join or prepare link for next discussion: Hide if expanded because the button is repeated below
   if (courseRegistration.roundStatus === 'Active' && !isExpanded && nextDiscussion) {
@@ -391,10 +387,12 @@ const getCtaButtons = ({
     const buttonText = isNextDiscussionSoonOrLive ? 'Join Discussion' : 'Prepare for discussion';
     let buttonUrl = '#';
     if (isNextDiscussionSoonOrLive) {
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       buttonUrl = nextDiscussion.zoomLink || '#';
     } else if (course.slug && nextDiscussion.unitNumber !== null) {
       buttonUrl = `/courses/${course.slug}/${nextDiscussion.unitNumber}`;
     }
+
     const disabled = !nextDiscussion.zoomLink && isNextDiscussionSoonOrLive;
 
     return [(
@@ -416,52 +414,46 @@ const getCtaButtons = ({
     const buttons: ReactNode[] = [];
 
     if (feedbackFormUrl && !hasSubmittedFeedback) {
-      buttons.push(
-        <CTALinkOrButton
-          key="feedback"
-          variant="outline-black"
-          size="small"
-          url={feedbackFormUrl}
-          target="_blank"
-          className="w-full sm:w-auto border-bluedot-darker"
-        >
-          Share feedback
-        </CTALinkOrButton>,
-      );
+      buttons.push(<CTALinkOrButton
+        key="feedback"
+        variant="outline-black"
+        size="small"
+        url={feedbackFormUrl}
+        target="_blank"
+        className="w-full sm:w-auto border-bluedot-darker"
+      >
+        Share feedback
+      </CTALinkOrButton>);
     }
 
     // Action plan button (only for courses that require it)
     if (requiresActionPlan && !isFacilitatorRole) {
       if (hasSubmittedActionPlan) {
         // Action plan submitted - show filled checkmark button (non-interactive)
-        buttons.push(
-          <CTALinkOrButton
-            key="action-plan"
-            variant="black"
-            size="small"
-            disabled
-            className="w-full sm:w-auto disabled:opacity-80 gap-1.5"
-          >
-            <span>Action plan submitted</span>
-            <span className="inline-flex -translate-y-px items-center justify-center size-3.5 bg-white rounded-full">
-              <FaCheck className="size-1.5 text-bluedot-darker" />
-            </span>
-          </CTALinkOrButton>,
-        );
+        buttons.push(<CTALinkOrButton
+          key="action-plan"
+          variant="black"
+          size="small"
+          disabled
+          className="w-full sm:w-auto disabled:opacity-80 gap-1.5"
+        >
+          <span>Action plan submitted</span>
+          <span className="inline-flex -translate-y-px items-center justify-center size-3.5 bg-white rounded-full">
+            <FaCheck className="size-1.5 text-bluedot-darker" />
+          </span>
+        </CTALinkOrButton>);
       } else if (meetPerson) {
         // Action plan NOT submitted - show submit button
-        buttons.push(
-          <CTALinkOrButton
-            key="action-plan"
-            variant="black"
-            size="small"
-            url={getActionPlanUrl(meetPerson.id)}
-            target="_blank"
-            className="w-full sm:w-auto"
-          >
-            Submit action plan
-          </CTALinkOrButton>,
-        );
+        buttons.push(<CTALinkOrButton
+          key="action-plan"
+          variant="black"
+          size="small"
+          url={getActionPlanUrl(meetPerson.id)}
+          target="_blank"
+          className="w-full sm:w-auto"
+        >
+          Submit action plan
+        </CTALinkOrButton>);
       }
     }
 
@@ -547,9 +539,12 @@ const getSubtitle = ({
   }
 
   if (nextDiscussion) {
-    if (isLoading) return null;
+    if (isLoading) {
+      return null;
+    }
 
     const maxUnitNumber = getMaxUnitNumber(expectedDiscussions);
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     const groupName = nextDiscussion.groupDetails?.groupName || 'Unknown group';
 
     if (nextDiscussion.unitNumber !== null && maxUnitNumber !== null) {
@@ -562,7 +557,9 @@ const getSubtitle = ({
 
   // Completed course without certificate - show attendance count
   if (courseRegistration.roundStatus === 'Past') {
-    if (isLoading) return null;
+    if (isLoading) {
+      return null;
+    }
 
     const attended = meetPerson?.uniqueDiscussionAttendance ?? 0;
     const total = meetPerson?.numUnits ?? 0;
@@ -572,5 +569,6 @@ const getSubtitle = ({
   if (isNotInGroup) {
     return 'We\'re assigning you to a group, you\'ll receive an email from us within the next few days';
   }
+
   return null;
 };

@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, waitFor } from '@testing-library/react';
 import {
-  beforeEach, describe, expect, Mock, test, vi,
+  beforeEach, describe, expect, type Mock, test, vi,
 } from 'vitest';
 import { useRouter } from 'next/router';
 import JoinUsPage from '../../pages/join-us';

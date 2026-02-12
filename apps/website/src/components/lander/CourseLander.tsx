@@ -1,24 +1,24 @@
 import Head from 'next/head';
 import { addQueryParam, useLatestUtmParams } from '@bluedot/ui';
 import { Nav } from '../Nav/Nav';
-import TestimonialCarousel, { TestimonialMember } from './TestimonialCarousel';
+import TestimonialCarousel, { type TestimonialMember } from './TestimonialCarousel';
 import GraduateSection from './components/GraduateSection';
-import PartnerSection, { PartnerSectionProps } from './components/PartnerSection';
-import CourseBenefitsSection, { CourseBenefitsSectionProps } from './components/CourseBenefitsSection';
-import WhoIsThisForSection, { WhoIsThisForSectionProps } from './components/WhoIsThisForSection';
-import HeroSection, { HeroSectionProps } from './components/HeroSection';
-import QuoteSection, { QuoteSectionProps } from './components/QuoteSection';
-import CourseInformationSection, { CourseInformationSectionProps } from './components/CourseInformationSection';
-import FAQSection, { FAQSectionProps } from './components/FAQSection';
-import LandingBanner, { LandingBannerProps } from './components/LandingBanner';
-import PathwaysSection, { PathwaysSectionProps } from './components/PathwaysSection';
-import AlumniLogosSection, { AlumniLogosSectionProps } from './components/AlumniLogosSection';
-import PersonasSection, { PersonasSectionProps } from './components/PersonasSection';
-import CourseOutcomesSection, { CourseOutcomesSectionProps } from './components/CourseOutcomesSection';
-import PrerequisitesSection, { PrerequisitesSectionProps } from './components/PrerequisitesSection';
-import CaseStudiesSection, { CaseStudiesSectionProps } from './components/CaseStudiesSection';
-import AlumniStoryCarousel, { AlumniStoryCarouselProps } from './components/AlumniStoryCarousel';
-import SectionNav, { SectionNavItem } from './components/SectionNav';
+import PartnerSection, { type PartnerSectionProps } from './components/PartnerSection';
+import CourseBenefitsSection, { type CourseBenefitsSectionProps } from './components/CourseBenefitsSection';
+import WhoIsThisForSection, { type WhoIsThisForSectionProps } from './components/WhoIsThisForSection';
+import HeroSection, { type HeroSectionProps } from './components/HeroSection';
+import QuoteSection, { type QuoteSectionProps } from './components/QuoteSection';
+import CourseInformationSection, { type CourseInformationSectionProps } from './components/CourseInformationSection';
+import FAQSection, { type FAQSectionProps } from './components/FAQSection';
+import LandingBanner, { type LandingBannerProps } from './components/LandingBanner';
+import PathwaysSection, { type PathwaysSectionProps } from './components/PathwaysSection';
+import AlumniLogosSection, { type AlumniLogosSectionProps } from './components/AlumniLogosSection';
+import PersonasSection, { type PersonasSectionProps } from './components/PersonasSection';
+import CourseOutcomesSection, { type CourseOutcomesSectionProps } from './components/CourseOutcomesSection';
+import PrerequisitesSection, { type PrerequisitesSectionProps } from './components/PrerequisitesSection';
+import CaseStudiesSection, { type CaseStudiesSectionProps } from './components/CaseStudiesSection';
+import AlumniStoryCarousel, { type AlumniStoryCarouselProps } from './components/AlumniStoryCarousel';
+import SectionNav, { type SectionNavItem } from './components/SectionNav';
 import { trpc } from '../../utils/trpc';
 
 export type CourseLanderMeta = {
@@ -75,9 +75,7 @@ const CourseLander = ({
 
   const content = createContentFor(applicationUrlWithUtm, courseSlug);
 
-  const { data: dbTestimonials } = trpc.testimonials.getCommunityMembersByCourseSlug.useQuery(
-    { courseSlug },
-  );
+  const { data: dbTestimonials } = trpc.testimonials.getCommunityMembersByCourseSlug.useQuery({ courseSlug });
 
   const testimonials = dbTestimonials?.map((t): TestimonialMember => ({ ...t }));
 
@@ -102,6 +100,7 @@ const CourseLander = ({
         {/* Open Graph meta tags */}
         <meta property="og:title" content={content.meta.title} />
         <meta property="og:description" content={content.meta.description} />
+        {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
         <meta property="og:image" content={courseOgImage || 'https://bluedot.org/images/logo/link-preview-fallback.png'} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
@@ -114,6 +113,7 @@ const CourseLander = ({
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={content.meta.title} />
         <meta name="twitter:description" content={content.meta.description} />
+        {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
         <meta name="twitter:image" content={courseOgImage || 'https://bluedot.org/images/logo/link-preview-fallback.png'} />
       </Head>
 

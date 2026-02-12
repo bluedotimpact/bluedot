@@ -9,13 +9,11 @@ describe('Tag', () => {
   });
 
   test('renders with optional args', () => {
-    const { container } = render(
-      <Tag
-        className="custom-class"
-      >
-        Custom tag
-      </Tag>,
-    );
+    const { container } = render(<Tag
+      className="custom-class"
+    >
+      Custom tag
+    </Tag>);
     const tagEl = container.querySelector('.custom-class');
     expect(tagEl).toMatchSnapshot();
   });

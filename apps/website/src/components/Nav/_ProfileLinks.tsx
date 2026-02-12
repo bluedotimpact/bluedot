@@ -4,7 +4,7 @@ import { FaCircleUser } from 'react-icons/fa6';
 import { A, BugReportModal, IconButton } from '@bluedot/ui';
 
 import {
-  ExpandedSectionsState, DRAWER_CLASSES, DRAWER_Z_PROFILE, PROFILE_DROPDOWN_CLASS,
+  type ExpandedSectionsState, DRAWER_CLASSES, DRAWER_Z_PROFILE, PROFILE_DROPDOWN_CLASS,
 } from './utils';
 import { ROUTES } from '../../lib/routes';
 import { UserSearchModal } from '../admin/UserSearchModal';
@@ -23,7 +23,7 @@ export const ProfileLinks: React.FC<{
   const [isBugReportModalOpen, setIsBugReportModalOpen] = useState(false);
   const [isImpersonateModalOpen, setIsImpersonateModalOpen] = useState(false);
   const { data: isAdmin } = trpc.admin.isAdmin.useQuery();
-  const profileRef = useClickOutside<HTMLDivElement>(
+  const profileRef = useClickOutside(
     () => updateExpandedSections({ profile: false }),
     expandedSections.profile,
     `.${PROFILE_DROPDOWN_CLASS}`,
@@ -76,9 +76,7 @@ export const ProfileLinks: React.FC<{
           </A>
           <A
             href={typeof window !== 'undefined'
-              ? `${ROUTES.logout.url}?redirect_to=${encodeURIComponent(
-                window.location.pathname + window.location.search + window.location.hash,
-              )}`
+              ? `${ROUTES.logout.url}?redirect_to=${encodeURIComponent(window.location.pathname + window.location.search + window.location.hash)}`
               : ROUTES.logout.url}
             className={getNavLinkClasses()}
             onClick={onToggleProfile}

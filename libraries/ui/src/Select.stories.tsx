@@ -58,6 +58,7 @@ const ControlledSelect = () => {
         placeholder="Select a time slot"
       />
       <p className="text-size-sm text-gray-500">
+        {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
         Selected: {value || 'None'}
       </p>
     </div>

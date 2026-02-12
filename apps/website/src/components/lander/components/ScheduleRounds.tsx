@@ -20,9 +20,7 @@ export const ScheduleRounds = ({
   fallbackContent,
   accentColor,
 }: ScheduleRoundsProps) => {
-  const { data: rounds, isLoading } = trpc.courseRounds.getRoundsForCourse.useQuery(
-    { courseSlug },
-  );
+  const { data: rounds, isLoading } = trpc.courseRounds.getRoundsForCourse.useQuery({ courseSlug });
 
   const hasIntenseRounds = !!(rounds?.intense && rounds.intense.length > 0);
   const hasPartTimeRounds = !!(rounds?.partTime && rounds.partTime.length > 0);
@@ -160,6 +158,7 @@ const RoundItem = ({ round, applicationUrl, accentColor }: RoundItemProps) => {
         <div className="flex items-stretch gap-3">
           <div
             className="w-1 flex-shrink-0 rounded-sm"
+            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             style={{ backgroundColor: accentColor || 'var(--bluedot-normal)' }}
           />
           <div className="flex flex-col gap-3">
@@ -171,6 +170,7 @@ const RoundItem = ({ round, applicationUrl, accentColor }: RoundItemProps) => {
               rel="noopener noreferrer"
               aria-label="Apply now (opens in a new tab)"
               className="text-[15px] leading-[1.6] font-medium"
+              // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
               style={{ color: accentColor || 'var(--bluedot-normal)' }}
             >
               Apply now
@@ -190,6 +190,7 @@ const RoundItem = ({ round, applicationUrl, accentColor }: RoundItemProps) => {
         <div className="flex items-stretch gap-4">
           <div
             className="w-1 flex-shrink-0 rounded-sm opacity-30 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             style={{ backgroundColor: accentColor || 'var(--bluedot-normal)' }}
           />
           <div className="flex flex-col">{dateContent}</div>
@@ -197,6 +198,7 @@ const RoundItem = ({ round, applicationUrl, accentColor }: RoundItemProps) => {
 
         <div
           className="ml-auto flex items-center text-[15px] leading-[1.6] font-medium"
+          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
           style={{ color: accentColor || 'var(--bluedot-normal)' }}
         >
           <span className="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1">

@@ -3,7 +3,7 @@ import { RESOURCE_FEEDBACK, type ResourceCompletion } from '@bluedot/db/src/sche
 import { useAuthStore } from '@bluedot/ui';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
+import type React from 'react';
 import {
   beforeEach, describe, expect, it, vi, type Mock,
 } from 'vitest';
@@ -254,15 +254,13 @@ describe('ResourceListItem - Optimistic Updates', () => {
       resolveMutation = resolve;
     });
 
-    server.use(
-      trpcMsw.resources.saveResourceCompletion.mutation(async () => {
-        const result = await mutationPendingPromise;
-        return {
-          ...result,
-          feedback: result.feedback?.trimEnd(),
-        };
-      }),
-    );
+    server.use(trpcMsw.resources.saveResourceCompletion.mutation(async () => {
+      const result = await mutationPendingPromise;
+      return {
+        ...result,
+        feedback: result.feedback?.trimEnd(),
+      };
+    }));
 
     render(<ResourceListItem resource={mockResource} resourceCompletion={mockResourceCompletion} />, { wrapper: TrpcProvider });
 
@@ -292,15 +290,13 @@ describe('ResourceListItem - Optimistic Updates', () => {
       resolveMutation = resolve;
     });
 
-    server.use(
-      trpcMsw.resources.saveResourceCompletion.mutation(async () => {
-        const result = await mutationPendingPromise;
-        return {
-          ...result,
-          feedback: result.feedback?.trimEnd(),
-        };
-      }),
-    );
+    server.use(trpcMsw.resources.saveResourceCompletion.mutation(async () => {
+      const result = await mutationPendingPromise;
+      return {
+        ...result,
+        feedback: result.feedback?.trimEnd(),
+      };
+    }));
 
     render(<ResourceListItem resource={mockResource} resourceCompletion={completedMock} />, { wrapper: TrpcProvider });
 
@@ -309,7 +305,10 @@ describe('ResourceListItem - Optimistic Updates', () => {
 
     // `getAll` since there are two buttons - one for mobile and one for desktop
     const likeButton = screen.getAllByLabelText('Like this resource')[0];
-    if (!likeButton) throw new Error('Like button not found');
+    if (!likeButton) {
+      throw new Error('Like button not found');
+    }
+
     await user.click(likeButton);
 
     await waitFor(() => {
@@ -331,16 +330,14 @@ describe('ResourceListItem - Optimistic Updates', () => {
       rejectMutation = reject;
     });
 
-    server.use(
-      trpcMsw.resources.saveResourceCompletion.mutation(async () => {
-        await mutationPendingPromise; // This line will throw when we call rejectMutation()
-        const result = { ...mockResourceCompletion, isCompleted: true };
-        return {
-          ...result,
-          feedback: result.feedback?.trimEnd(),
-        }; // Unreachable
-      }),
-    );
+    server.use(trpcMsw.resources.saveResourceCompletion.mutation(async () => {
+      await mutationPendingPromise; // This line will throw when we call rejectMutation()
+      const result = { ...mockResourceCompletion, isCompleted: true };
+      return {
+        ...result,
+        feedback: result.feedback?.trimEnd(),
+      }; // Unreachable
+    }));
 
     render(<ResourceListItem resource={mockResource} resourceCompletion={mockResourceCompletion} />, { wrapper: TrpcProvider });
 

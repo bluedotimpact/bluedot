@@ -1,4 +1,4 @@
-import { render, RenderResult } from '@testing-library/react';
+import { render, type RenderResult } from '@testing-library/react';
 import type {
   Chunk,
   Course,
@@ -127,9 +127,11 @@ export const createMockUnit = (overrides: Partial<Unit> = {}): Unit => ({
   courseUnit: null,
   description: 'Unit description',
   duration: 30,
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   id: `unit-${overrides.unitNumber || 1}`,
   learningOutcomes: null,
   menuText: null,
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   path: `/courses/test-course/${overrides.unitNumber || '1'}`,
   title: 'Unit title',
   unitNumber: '1',
@@ -171,16 +173,19 @@ export const createMockGroupDiscussion = (overrides: Partial<GroupDiscussion> = 
   activityDoc: null,
   attendees: [],
   autoNumberId: 1,
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   courseBuilderUnitRecordId: `unit-${overrides.unitNumber || 1}`,
   courseSite: null,
   endDateTime: Math.floor(Date.now() / 1000) + 2 * 60 * 60, // 2 hours from now (seconds)
   facilitators: [],
   group: MOCK_GROUP_ID,
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   id: `discussion-${overrides.unitNumber || 1}`,
   participantsExpected: [],
   round: null,
   slackChannelId: null,
   startDateTime: Math.floor(Date.now() / 1000) + 60 * 60, // 1 hour from now (seconds)
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   unit: `unit-${overrides.unitNumber || 1}`,
   unitFallback: `${overrides.unitNumber ?? 1}: Test Unit`,
   unitNumber: 1,

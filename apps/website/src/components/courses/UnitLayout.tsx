@@ -9,7 +9,8 @@ import {
 } from '@bluedot/ui';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useState } from 'react';
+import type React from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   FaBars,
   FaChevronDown,
@@ -17,7 +18,7 @@ import {
 } from 'react-icons/fa6';
 
 import {
-  Unit,
+  type Unit,
   type Chunk,
   type Exercise,
   type UnitResource,
@@ -188,6 +189,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     // Announce navigation for screen readers
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     const chunkTitle = chunks[index]?.chunkTitle || 'content';
     setNavigationAnnouncement(`Navigated to ${chunkTitle}`);
   }, [setChunkIndex, chunks]);
@@ -265,6 +267,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           router.push(targetUnit.path);
           setNavigationAnnouncement(`Navigated to Unit ${targetUnitNumber}: ${targetUnit.title}`);
         }
+
         return;
       }
 
@@ -436,8 +439,10 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             )}
           </div>
           {/* chunk content → unit content if no chunks - Only render if there's actual content */}
+          {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
           {(chunk?.chunkContent || unit.content) && (
             <MarkdownExtendedRenderer className="mt-8 md:mt-6">
+              {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
               {chunk?.chunkContent || unit.content || ''}
             </MarkdownExtendedRenderer>
           )}
@@ -449,9 +454,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               exercises={chunk.exercises || []}
               unitTitle={unit.title}
               unitNumber={unitNumber}
-              className={clsx(
-                (chunk?.chunkContent || unit.content) ? 'mt-8 md:mt-6' : 'mt-4',
-              )}
+              className={clsx((chunk?.chunkContent || unit.content) ? 'mt-8 md:mt-6' : 'mt-4')}
               courseSlug={courseSlug}
               chunkIndex={chunkIndex}
             />

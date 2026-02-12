@@ -3,7 +3,7 @@ import {
   HeroH1,
   Section,
   Breadcrumbs,
-  BluedotRoute,
+  type BluedotRoute,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { ROUTES } from '../lib/routes';

@@ -14,11 +14,11 @@ import {
   HeroSection,
 } from '@bluedot/ui/src/HeroSection';
 import { FaCalendarAlt, FaUserFriends, FaLaptop } from 'react-icons/fa';
-import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
+import TestimonialSubSection, { type Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
 import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
 import { trpc } from '../../utils/trpc';
 
-const AiSafetyOpsBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
+const AiSafetyOpsBanner = ({ title, ctaUrl }: { title: string; ctaUrl: string }) => {
   return (
     <div className="ai-safety-ops-lander__banner relative flex flex-col md:flex-row gap-6 items-center justify-center w-full p-12 text-center bg-bluedot-lighter">
       <H3 className="ai-safety-ops-lander__banner-title">{title}</H3>

@@ -6,7 +6,7 @@ import { getLoginUrl } from '../../utils/getLoginUrl';
 
 import { ProfileLinks } from './_ProfileLinks';
 import { ROUTES } from '../../lib/routes';
-import { ExpandedSectionsState } from './utils';
+import { type ExpandedSectionsState } from './utils';
 
 export const NavCta: React.FC<{
   // Required

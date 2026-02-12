@@ -29,14 +29,12 @@ const trpcClient = trpcTest.createClient({
  * ```
  */
 export const TrpcProvider = ({ children }: { children: React.ReactNode }) => {
-  const [queryClient] = useState(
-    () => new QueryClient({
-      defaultOptions: {
-        queries: { retry: false },
-        mutations: { retry: false },
-      },
-    }),
-  );
+  const [queryClient] = useState(() => new QueryClient({
+    defaultOptions: {
+      queries: { retry: false },
+      mutations: { retry: false },
+    },
+  }));
 
   return (
     <trpcTest.Provider client={trpcClient} queryClient={queryClient}>

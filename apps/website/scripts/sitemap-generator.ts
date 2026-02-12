@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { ROUTES } from '../src/lib/routes';
 
+// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://bluedot.org';
 const INCLUDED_ROUTES = [
   ROUTES.home,
@@ -26,8 +27,14 @@ const getLastModified = (filePath: string): string => {
 };
 
 const getRouteFilePath = (url: string): string => {
-  if (url === '/') return 'src/pages/index.tsx';
-  if (fs.existsSync(`src/pages${url}/index.tsx`)) return `src/pages${url}/index.tsx`;
+  if (url === '/') {
+    return 'src/pages/index.tsx';
+  }
+
+  if (fs.existsSync(`src/pages${url}/index.tsx`)) {
+    return `src/pages${url}/index.tsx`;
+  }
+
   return `src/pages${url}.tsx`;
 };
 

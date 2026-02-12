@@ -66,6 +66,6 @@ describe('JobsListSection', () => {
 
   test('renders empty state when no jobs are provided', () => {
     const { container } = render(<JobsListSection jobs={[]} />);
-    expect(container.textContent).toContain("We're not currently running any open hiring rounds at the moment.");
+    expect(container.textContent).toContain('We\'re not currently running any open hiring rounds at the moment.');
   });
 });

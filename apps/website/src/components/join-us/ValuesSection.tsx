@@ -28,7 +28,7 @@ const ValuesSection = () => {
       {isMobile ? (
         <div className="values-section__values--mobile flex flex-col gap-4">
           {values.map((value) => (
-            <div className="values-card flex flex-row gap-4">
+            <div key={value.title} className="values-card flex flex-row gap-4">
               <img
                 className="values-card__image object-cover rounded-lg size-[102px]"
                 src={value.mobileImageSrc}

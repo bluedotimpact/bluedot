@@ -39,11 +39,9 @@ describe('AnnouncementBanner', () => {
   });
 
   test('renders CTA button when ctaUrl is provided', () => {
-    render(
-      <AnnouncementBanner ctaUrl="https://example.com">
-        Test Announcement
-      </AnnouncementBanner>,
-    );
+    render(<AnnouncementBanner ctaUrl="https://example.com">
+      Test Announcement
+    </AnnouncementBanner>);
 
     const cta = document.querySelector('.announcement-banner__cta');
     expect(cta).toBeDefined();
@@ -56,11 +54,9 @@ describe('AnnouncementBanner', () => {
   });
 
   test('renders CTA button with custom text', () => {
-    render(
-      <AnnouncementBanner ctaUrl="https://example.com" ctaText="Click Here">
-        Test Announcement
-      </AnnouncementBanner>,
-    );
+    render(<AnnouncementBanner ctaUrl="https://example.com" ctaText="Click Here">
+      Test Announcement
+    </AnnouncementBanner>);
 
     const ctaLink = screen.getByRole('link');
     expect(ctaLink.textContent).toBe('Click Here');
@@ -69,11 +65,9 @@ describe('AnnouncementBanner', () => {
   test('does not render when current date is before hideUntil date', () => {
     const futureDate = new Date(Date.now() + 86400);
 
-    const { container } = render(
-      <AnnouncementBanner hideUntil={futureDate}>
-        Test Announcement
-      </AnnouncementBanner>,
-    );
+    const { container } = render(<AnnouncementBanner hideUntil={futureDate}>
+      Test Announcement
+    </AnnouncementBanner>);
 
     // Banner should not be rendered
     const banner = container.querySelector('.announcement-banner');
@@ -83,11 +77,9 @@ describe('AnnouncementBanner', () => {
   test('renders when current date is after hideUntil date', () => {
     const pastDate = new Date(Date.now() - 86400);
 
-    render(
-      <AnnouncementBanner hideUntil={pastDate}>
-        Test Announcement
-      </AnnouncementBanner>,
-    );
+    render(<AnnouncementBanner hideUntil={pastDate}>
+      Test Announcement
+    </AnnouncementBanner>);
 
     // Banner should be rendered
     const banner = document.querySelector('.announcement-banner');
@@ -97,11 +89,9 @@ describe('AnnouncementBanner', () => {
   test('does not render when current date is after hideAfter date', () => {
     const pastDate = new Date(Date.now() - 86400);
 
-    const { container } = render(
-      <AnnouncementBanner hideAfter={pastDate}>
-        Test Announcement
-      </AnnouncementBanner>,
-    );
+    const { container } = render(<AnnouncementBanner hideAfter={pastDate}>
+      Test Announcement
+    </AnnouncementBanner>);
 
     // Banner should not be rendered
     const banner = container.querySelector('.announcement-banner');
@@ -111,11 +101,9 @@ describe('AnnouncementBanner', () => {
   test('renders when current date is before hideAfter date', () => {
     const futureDate = new Date(Date.now() + 86400);
 
-    render(
-      <AnnouncementBanner hideAfter={futureDate}>
-        Test Announcement
-      </AnnouncementBanner>,
-    );
+    render(<AnnouncementBanner hideAfter={futureDate}>
+      Test Announcement
+    </AnnouncementBanner>);
 
     // Banner should be rendered
     const banner = document.querySelector('.announcement-banner');
@@ -129,11 +117,9 @@ describe('AnnouncementBanner', () => {
     // Set up dismissed banner state
     useAnnouncementBannerStore.setState({ dismissedBanners: { [bannerKey]: true } });
 
-    const { container } = render(
-      <AnnouncementBanner>
-        {textContent}
-      </AnnouncementBanner>,
-    );
+    const { container } = render(<AnnouncementBanner>
+      {textContent}
+    </AnnouncementBanner>);
 
     // Banner should not be rendered
     const banner = container.querySelector('.announcement-banner');
@@ -142,11 +128,9 @@ describe('AnnouncementBanner', () => {
 
   test('renders when banner has not been dismissed', () => {
     // Initial state has no dismissed banners (set in beforeEach)
-    render(
-      <AnnouncementBanner>
-        Test Announcement
-      </AnnouncementBanner>,
-    );
+    render(<AnnouncementBanner>
+      Test Announcement
+    </AnnouncementBanner>);
 
     // Banner should be rendered
     const banner = document.querySelector('.announcement-banner');
@@ -157,11 +141,9 @@ describe('AnnouncementBanner', () => {
     const textContent = 'Test Announcement';
     const bannerKey = getAnnouncementBannerKey(textContent);
 
-    render(
-      <AnnouncementBanner>
-        {textContent}
-      </AnnouncementBanner>,
-    );
+    render(<AnnouncementBanner>
+      {textContent}
+    </AnnouncementBanner>);
 
     // Banner is initially shown
     const banner = document.querySelector('.announcement-banner');

@@ -2,7 +2,7 @@ import {
   describe, test, expect, vi, beforeEach,
 } from 'vitest';
 import { z } from 'zod';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { type NextApiRequest, type NextApiResponse } from 'next';
 import createHttpError from 'http-errors';
 import { makeMakeApiRoute } from './makeMakeApiRoute';
 
@@ -42,6 +42,7 @@ const createMockRes = (): NextApiResponse => {
       if (callCounts.status > 1) {
         throw new Error('status() may only be called once, but it was called more than once');
       }
+
       return res;
     }),
     json: vi.fn().mockImplementation(() => {
@@ -49,12 +50,15 @@ const createMockRes = (): NextApiResponse => {
       if (callCounts.json > 1) {
         throw new Error('json() may only be called once, but it was called more than once');
       }
+
       if (callCounts.end > 1) {
         throw new Error('only one of json() and end() may be called, but both were called');
       }
+
       if (callCounts.status !== 1) {
         throw new Error('json() must be called after status(), but status() had not been called');
       }
+
       return res;
     }),
     end: vi.fn().mockImplementation(() => {
@@ -62,12 +66,15 @@ const createMockRes = (): NextApiResponse => {
       if (callCounts.end > 1) {
         throw new Error('end() may only be called once, but it was called more than once');
       }
+
       if (callCounts.json > 1) {
         throw new Error('only one of json() and end() may be called, but both were called');
       }
+
       if (callCounts.status !== 1) {
         throw new Error('end() must be called after status(), but status() had not been called');
       }
+
       return res;
     }),
   };
@@ -230,7 +237,9 @@ describe('makeMakeApiRoute', () => {
       const handler = makeApiRoute(
         { requireAuth: false },
         // @ts-expect-error
-        async () => { return { success: true }; },
+        async () => {
+          return { success: true };
+        },
       );
 
       const req = createMockReq();

@@ -1,8 +1,8 @@
-import React from 'react';
+import type React from 'react';
 import clsx from 'clsx';
 
 export type HeroMiniTitleProps = React.PropsWithChildren<{
-  className?: string,
+  className?: string;
 }>;
 
 export const HeroMiniTitle: React.FC<HeroMiniTitleProps> = ({
@@ -35,7 +35,7 @@ export const HeroH2: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = ({
 };
 
 export type HeroCTAContainerProps = React.PropsWithChildren<{
-  className?: string,
+  className?: string;
 }>;
 
 export const HeroCTAContainer: React.FC<HeroCTAContainerProps> = ({
@@ -50,7 +50,7 @@ export const HeroCTAContainer: React.FC<HeroCTAContainerProps> = ({
 };
 
 export type HeroSectionProps = React.PropsWithChildren<{
-  className?: string,
+  className?: string;
 }>;
 
 export const HeroSection: React.FC<HeroSectionProps> = ({

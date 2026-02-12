@@ -10,7 +10,7 @@ import {
   PiChalkboardTeacherLight,
   PiGraduationCap,
 } from 'react-icons/pi';
-import { CourseLanderContent } from '../CourseLander';
+import { type CourseLanderContent } from '../CourseLander';
 
 // Custom color theme for Technical AI Safety Project - slightly more blue-purple than the main TAS course
 const TASP_COLORS = {
@@ -75,7 +75,7 @@ export const createTechnicalAiSafetyProjectContent = (
       },
     ],
     bottomCta: {
-      boldText: "Don't fit these perfectly? Apply anyway.",
+      boldText: 'Don\'t fit these perfectly? Apply anyway.',
       text: 'Some of our most impactful participants have included teachers, policymakers, engineers, and community leaders. We bet on drive and ambition, not CVs.',
       buttonText: 'Apply now',
       buttonUrl: applicationUrlWithUtm,
@@ -100,7 +100,7 @@ export const createTechnicalAiSafetyProjectContent = (
       {
         icon: PiUsersThree,
         title: 'Find collaborators and opportunities',
-        description: "We'll feature the best projects on our website and socials. Past graduates have found co-founders, collaborators, roles, and funding through their projects. Your write-up becomes a public signal of your skills.",
+        description: 'We\'ll feature the best projects on our website and socials. Past graduates have found co-founders, collaborators, roles, and funding through their projects. Your write-up becomes a public signal of your skills.',
       },
       {
         icon: PiChalkboardTeacherLight,

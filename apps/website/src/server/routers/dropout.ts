@@ -6,13 +6,11 @@ import { protectedProcedure, router } from '../trpc';
 
 export const dropoutRouter = router({
   dropoutOrDeferral: protectedProcedure
-    .input(
-      z.object({
-        applicantId: z.string().min(1),
-        reason: z.string().optional(),
-        isDeferral: z.boolean(),
-      }),
-    )
+    .input(z.object({
+      applicantId: z.string().min(1),
+      reason: z.string().optional(),
+      isDeferral: z.boolean(),
+    }))
     .mutation(async ({ ctx, input }) => {
       const { applicantId, reason, isDeferral } = input;
 

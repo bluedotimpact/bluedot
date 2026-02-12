@@ -32,7 +32,7 @@
     },
     "devDependencies": {
         "@bluedot/docker-scripts": "*",
-        "@bluedot/eslint-config-v9": "*",
+        "@bluedot/eslint-config": "*",
         "@bluedot/typescript-config": "*",
         "@types/http-errors": "^2.0.4",
         "@types/node": "^22.13.2",

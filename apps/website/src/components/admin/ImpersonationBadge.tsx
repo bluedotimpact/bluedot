@@ -13,7 +13,9 @@ export const ImpersonationBadge = () => {
 
   const { data: user } = trpc.users.getUser.useQuery(undefined, { enabled: !!userId });
 
-  if (!userId || !user) return null;
+  if (!userId || !user) {
+    return null;
+  }
 
   // Mask the user's email. The admin viewing the page is allowed to see the email, this is just
   // a practical safeguard to reduce the risk of exposing the email in e.g. screen recordings
@@ -25,7 +27,10 @@ export const ImpersonationBadge = () => {
         <span className="truncate">Impersonating: {maskedEmail}</span>
         <button
           type="button"
-          onClick={() => { sessionStorage.removeItem(IMPERSONATION_STORAGE_KEY); window.location.reload(); }}
+          onClick={() => {
+            sessionStorage.removeItem(IMPERSONATION_STORAGE_KEY);
+            window.location.reload();
+          }}
           className="p-0.5 hover:bg-yellow-500 rounded"
           aria-label="Stop impersonating"
         >
@@ -43,7 +48,9 @@ const maskEmail = (email: string): string => {
   try {
     const [local, domain] = email.split('@');
 
-    if (!local || !domain || local.length === 0 || domain.length === 0) return '***';
+    if (!local || !domain || local.length === 0 || domain.length === 0) {
+      return '***';
+    }
 
     const masked = local.length <= 4 ? '*'.repeat(local.length) : `${local.slice(0, 2)}${'*'.repeat(local.length - 4)}${local.slice(-2)}`;
     return `${masked}@${domain}`;

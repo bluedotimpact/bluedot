@@ -9,6 +9,7 @@ const TEST_HEAD_COMMIT = 'f10960d0278ca14690b77080e6480ccbbb8e1f69';
 const TEST_SUCCESSFUL_COMMIT = 'bc821876d613d0a95f76cee94c4b708fdb3e39f3';
 
 vi.mock('./execAsync', async (importOriginal) => {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion -- importOriginal() returns unknown, assertion is needed
   const { execAsync: realExecAsync } = (await importOriginal() as { execAsync: typeof execAsync });
 
   return {

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import type React from 'react';
+import { useState, useEffect } from 'react';
 import clsx from 'clsx';
 
 export type Quote = {
@@ -26,12 +27,16 @@ export const QuoteCarousel: React.FC<QuoteCarouselProps> = ({
   const autorotateTiming = 7000;
 
   useEffect(() => {
-    if (!autorotate) return undefined;
+    if (!autorotate) {
+      return undefined;
+    }
+
     const interval = setInterval(() => {
       setActive((prevActive) => {
         if (prevActive + 1 === quotes.length) {
           return 0;
         }
+
         return prevActive + 1;
       });
     }, autorotateTiming);

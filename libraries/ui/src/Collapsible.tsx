@@ -1,12 +1,12 @@
 import clsx from 'clsx';
-import React from 'react';
+import type React from 'react';
 
 export type CollapsibleProps = React.PropsWithChildren<{
   // Required
-  title: string,
+  title: string;
   // Optional
-  className?: string,
-  summaryClassName?: string,
+  className?: string;
+  summaryClassName?: string;
   children?: React.ReactNode;
 }>;
 

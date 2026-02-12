@@ -7,7 +7,7 @@ import {
   PiLightbulb,
   PiUsers,
 } from 'react-icons/pi';
-import { CourseLanderContent } from '../CourseLander';
+import { type CourseLanderContent } from '../CourseLander';
 
 export const FUTURE_OF_AI_START_URL = '/courses/future-of-ai/1/1';
 

@@ -11,12 +11,16 @@ export async function optimisticallyUpdateCourseProgress(
   chunkIndex: number | undefined,
   delta: 1 | -1,
 ) {
-  if (!courseSlug) return undefined;
+  if (!courseSlug) {
+    return undefined;
+  }
 
   await utils.courses.getCourseProgress.cancel({ courseSlug });
   const prev = utils.courses.getCourseProgress.getData({ courseSlug });
 
-  if (!prev) return undefined;
+  if (!prev) {
+    return undefined;
+  }
 
   const newCompleted = clamp(prev.courseProgress.completedCount + delta, 0, prev.courseProgress.totalCount);
 
@@ -35,7 +39,10 @@ export async function optimisticallyUpdateCourseProgress(
           ? {
             [unitNumber]:
                   prev.chunkProgressByUnitNumber[unitNumber]?.map((chunkProgress, i) => {
-                    if (i !== chunkIndex) return chunkProgress;
+                    if (i !== chunkIndex) {
+                      return chunkProgress;
+                    }
+
                     const newChunkCompleted = clamp(chunkProgress.completedCount + delta, 0, chunkProgress.totalCount);
 
                     return {

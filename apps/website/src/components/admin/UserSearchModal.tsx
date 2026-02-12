@@ -67,6 +67,7 @@ export const UserSearchModal = ({
             >
               <div className="flex items-center justify-between gap-4">
                 <div className="min-w-0">
+                  {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
                   <div className="font-medium truncate">{user.name || '(No name)'}</div>
                   <div className="text-size-sm text-gray-500 truncate">{user.email}</div>
                 </div>

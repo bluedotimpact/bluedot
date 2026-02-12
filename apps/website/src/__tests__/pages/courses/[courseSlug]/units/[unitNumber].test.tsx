@@ -38,7 +38,7 @@ vi.mock('next/router', () => ({
 // `renderWithHead` for more details.
 vi.mock('next/head', () => ({
   __esModule: true,
-  default: ({ children }: { children: React.ReactNode }) => {
+  default({ children }: { children: React.ReactNode }) {
     if (children) {
       return (
         <head-proxy data-testid="head-proxy">
@@ -46,6 +46,7 @@ vi.mock('next/head', () => ({
         </head-proxy>
       );
     }
+
     return null;
   },
 }));
@@ -259,19 +260,17 @@ describe('CourseUnitPage', () => {
       loading: false,
     }]);
 
-    renderWithHead(
-      <TrpcProvider>
-        <CourseUnitPage
-          units={mockUnits}
-          unit={mockUnits[2]!}
-          chunks={mockChunksWithContent}
-          courseSlug="test-course"
-          unitNumber="3"
-          courseOgImage="https://bluedot.org/images/logo/link-preview-fallback.png"
-          allUnitChunks={allUnitChunks}
-        />
-      </TrpcProvider>,
-    );
+    renderWithHead(<TrpcProvider>
+      <CourseUnitPage
+        units={mockUnits}
+        unit={mockUnits[2]!}
+        chunks={mockChunksWithContent}
+        courseSlug="test-course"
+        unitNumber="3"
+        courseOgImage="https://bluedot.org/images/logo/link-preview-fallback.png"
+        allUnitChunks={allUnitChunks}
+      />
+    </TrpcProvider>);
 
     expect(document.title).toBe('Test Course: Unit 3 | Test Chunk');
 

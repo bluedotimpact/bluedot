@@ -1,5 +1,5 @@
-import React from 'react';
-import { unitResourceTable, exerciseTable, InferSelectModel } from '@bluedot/db';
+import type React from 'react';
+import { type unitResourceTable, type exerciseTable, type InferSelectModel } from '@bluedot/db';
 import { Collapsible, ProgressDots, useAuthStore } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { ResourceListItem } from './ResourceListItem';
@@ -88,7 +88,9 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
 
   // Generate unique IDs for ARIA labeling
   const unitContext = unitTitle && unitNumber ? `Unit ${unitNumber}: ${unitTitle}` : '';
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const resourcesHeadingId = `resources-heading-${unitNumber || 'default'}`;
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const exercisesHeadingId = `exercises-heading-${unitNumber || 'default'}`;
 
   return (

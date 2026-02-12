@@ -42,6 +42,6 @@ export const Default: Story = {
 
 export const SingleQuote: Story = {
   args: {
-    quotes: [defaultQuotes[0] as Quote],
+    quotes: [defaultQuotes[0]!],
   },
 };

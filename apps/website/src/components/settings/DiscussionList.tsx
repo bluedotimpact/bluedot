@@ -1,4 +1,4 @@
-import { Course } from '@bluedot/db';
+import type { Course } from '@bluedot/db';
 import {
   CTALinkOrButton, OverflowMenu, type OverflowMenuItemProps,
   useCurrentTimeMs, cn,
@@ -111,9 +111,11 @@ const DiscussionListRow = ({
   const discussionIsSoonOrLive = discussionTimeState === 'live' || discussionTimeState === 'soon';
   const discussionIsLive = discussionTimeState === 'live';
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const discussionMeetLink = discussion.zoomLink || '';
   const discussionPrepareLink = course.slug && discussion.unitNumber !== null ? `/courses/${course.slug}/${discussion.unitNumber}` : '';
   const slackChannelLink = discussion.slackChannelId ? buildGroupSlackChannelUrl(discussion.slackChannelId) : '';
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const discussionDocLink = discussion.activityDoc || '';
 
   const buttons: ButtonOrMenuItem[] = [
@@ -136,7 +138,7 @@ const DiscussionListRow = ({
     // Secondary CTA
     {
       id: 'cant-make-it',
-      label: "Can't make it?",
+      label: 'Can\'t make it?',
       variant: 'secondary',
       onClick: () => onOpenGroupSwitchModal(discussion, 'Switch group for one unit'),
       isVisible: !isFacilitator && !isPast,
@@ -197,8 +199,8 @@ const DiscussionListRow = ({
   ];
   const visibleButtons = buttons.filter((button) => button.isVisible);
 
-  const primaryButton = visibleButtons.filter((button) => button.variant === 'primary')[0];
-  const cantMakeItButton = visibleButtons.filter((button) => button.id === 'cant-make-it')[0];
+  const primaryButton = visibleButtons.find((button) => button.variant === 'primary');
+  const cantMakeItButton = visibleButtons.find((button) => button.id === 'cant-make-it');
   const overflowButtons = visibleButtons.filter((button) => button.id !== primaryButton?.id && button.id !== cantMakeItButton?.id);
 
   return (
@@ -213,6 +215,7 @@ const DiscussionListRow = ({
             <div className="text-size-sm font-medium text-gray-900 truncate">
               {discussion.unitRecord
                 ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
+                // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                 : `Unit ${discussion.unitFallback || ''}`}
             </div>
             {!isPast && isNext && (

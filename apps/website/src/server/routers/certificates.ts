@@ -109,6 +109,7 @@ export const certificatesRouter = router({
           const hasCompletedResponse = exerciseResponses.some((resp) => resp.exerciseId === exercise.id && resp.completedAt != null);
           return !hasCompletedResponse;
         })
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         .sort((a, b) => Number(a.exerciseNumber || Infinity) - Number(b.exerciseNumber || Infinity));
 
       if (incompleteExercises.length > 0) {

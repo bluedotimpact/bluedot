@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import StarRating from './StarRating';
 
 const StarRatingWrapper: React.FC = () => {

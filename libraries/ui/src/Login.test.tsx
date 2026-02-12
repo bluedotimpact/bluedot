@@ -174,12 +174,10 @@ describe('LoginOauthCallbackPage', () => {
     const mockSigninResponse = createMockOidcResponse({ userState: { redirectTo: CUSTOM_REDIRECT_PATH } });
     mockProcessSigninResponse.mockResolvedValue(mockSigninResponse);
 
-    render(
-      <LoginOauthCallbackPage
-        loginPreset={mockLoginPreset}
-        onLoginComplete={mockOnLoginComplete}
-      />,
-    );
+    render(<LoginOauthCallbackPage
+      loginPreset={mockLoginPreset}
+      onLoginComplete={mockOnLoginComplete}
+    />);
 
     const expectedAuthObject = {
       expiresAt: mockSigninResponse.expires_at * 1000,

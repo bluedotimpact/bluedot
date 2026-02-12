@@ -3,7 +3,7 @@ import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useRouter } from 'next/router';
 import {
-  beforeEach, describe, expect, Mock, test, vi,
+  beforeEach, describe, expect, type Mock, test, vi,
 } from 'vitest';
 import MultipleChoice from './MultipleChoice';
 
@@ -21,12 +21,12 @@ beforeEach(() => {
   (useRouter as Mock).mockReturnValue(mockRouter);
 });
 
-const mockOptions = "The community's preference for low-tech fishing traditions\nRising consumer demand for fish with more Omega-3s\nEnvironmental regulations and declining cod stocks\nA cultural shift toward vegetarianism in the region\n";
+const mockOptions = 'The community\'s preference for low-tech fishing traditions\nRising consumer demand for fish with more Omega-3s\nEnvironmental regulations and declining cod stocks\nA cultural shift toward vegetarianism in the region\n';
 const incorrectAnswer = 'Rising consumer demand for fish with more Omega-3s\n';
 
 const mockArgs = {
   options: mockOptions,
-  answer: "The community's preference for low-tech fishing traditions\n",
+  answer: 'The community\'s preference for low-tech fishing traditions\n',
   onExerciseSubmit: () => Promise.resolve(),
 };
 
@@ -70,7 +70,10 @@ describe('MultipleChoice', () => {
     const { getAllByRole, getByRole } = render(<MultipleChoice {...mockArgs} isLoggedIn />);
 
     const radioInputs = getAllByRole('radio');
-    if (!radioInputs[0]) throw new Error('No radio inputs found');
+    if (!radioInputs[0]) {
+      throw new Error('No radio inputs found');
+    }
+
     await user.click(radioInputs[0]);
 
     const submitButton = getByRole('button', { name: /check answer/i });
@@ -83,7 +86,9 @@ describe('MultipleChoice', () => {
     // Select the first option
     const radioInputs = getAllByRole('radio');
     const firstOption = radioInputs[0];
-    if (!firstOption) throw new Error('No radio input found');
+    if (!firstOption) {
+      throw new Error('No radio input found');
+    }
 
     await user.click(firstOption);
 
@@ -96,9 +101,7 @@ describe('MultipleChoice', () => {
   });
 
   test('updates styles for correct option', async () => {
-    const { getAllByRole, getByDisplayValue } = render(
-      <MultipleChoice {...mockArgs} exerciseResponse={mockArgs.answer} isLoggedIn />,
-    );
+    const { getAllByRole, getByDisplayValue } = render(<MultipleChoice {...mockArgs} exerciseResponse={mockArgs.answer} isLoggedIn />);
 
     const correctRadio = getByDisplayValue(mockArgs.answer.trim());
     expect(correctRadio).toBeChecked();
@@ -112,9 +115,7 @@ describe('MultipleChoice', () => {
   });
 
   test('updates styles for incorrect option', async () => {
-    const { getByDisplayValue, getByRole } = render(
-      <MultipleChoice {...mockArgs} exerciseResponse={incorrectAnswer} isLoggedIn />,
-    );
+    const { getByDisplayValue, getByRole } = render(<MultipleChoice {...mockArgs} exerciseResponse={incorrectAnswer} isLoggedIn />);
 
     const incorrectRadio = getByDisplayValue(incorrectAnswer.trim());
     expect(incorrectRadio).toBeChecked();
@@ -128,9 +129,7 @@ describe('MultipleChoice', () => {
   test('resets form when try again is clicked', async () => {
     const user = userEvent.setup();
 
-    const { getByRole, getAllByRole } = render(
-      <MultipleChoice {...mockArgs} exerciseResponse={incorrectAnswer} isLoggedIn />,
-    );
+    const { getByRole, getAllByRole } = render(<MultipleChoice {...mockArgs} exerciseResponse={incorrectAnswer} isLoggedIn />);
 
     const tryAgainButton = getByRole('button', { name: /try again/i });
     await user.click(tryAgainButton);
@@ -147,18 +146,17 @@ describe('MultipleChoice', () => {
   test('shows "Checking..." when form is being submitted', async () => {
     const user = userEvent.setup();
     let resolveSubmit: () => void;
-    const mockOnExerciseSubmit = vi.fn(
-      () => new Promise<void>((resolve) => {
-        resolveSubmit = resolve;
-      }),
-    );
+    const mockOnExerciseSubmit = vi.fn(() => new Promise<void>((resolve) => {
+      resolveSubmit = resolve;
+    }));
 
-    const { getAllByRole, getByRole } = render(
-      <MultipleChoice {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
-    );
+    const { getAllByRole, getByRole } = render(<MultipleChoice {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />);
 
     const radioInputs = getAllByRole('radio');
-    if (!radioInputs[0]) throw new Error('No radio inputs found');
+    if (!radioInputs[0]) {
+      throw new Error('No radio inputs found');
+    }
+
     await user.click(radioInputs[0]);
 
     const submitButton = getByRole('button', { name: /check answer/i });

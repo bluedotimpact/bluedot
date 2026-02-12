@@ -45,16 +45,14 @@ describe('CourseDetails', () => {
   });
 
   it('displays expanded course details region', async () => {
-    render(
-      <CourseDetails
-        course={mockCourse}
-        courseRegistration={mockCourseRegistration}
-        upcomingDiscussions={[]}
-        attendedDiscussions={[]}
-        facilitatedDiscussions={[]}
-        isLoading={false}
-      />,
-    );
+    render(<CourseDetails
+      course={mockCourse}
+      courseRegistration={mockCourseRegistration}
+      upcomingDiscussions={[]}
+      attendedDiscussions={[]}
+      facilitatedDiscussions={[]}
+      isLoading={false}
+    />);
 
     // Check for the expanded region
     await waitFor(() => {
@@ -101,16 +99,14 @@ describe('CourseDetails: Participant view', () => {
       },
     ];
 
-    render(
-      <CourseDetails
-        course={mockCourse}
-        courseRegistration={mockCourseRegistration}
-        upcomingDiscussions={upcomingDiscussions}
-        attendedDiscussions={[]}
-        facilitatedDiscussions={[]}
-        isLoading={false}
-      />,
-    );
+    render(<CourseDetails
+      course={mockCourse}
+      courseRegistration={mockCourseRegistration}
+      upcomingDiscussions={upcomingDiscussions}
+      attendedDiscussions={[]}
+      facilitatedDiscussions={[]}
+      isLoading={false}
+    />);
 
     // THEN: The unit title is displayed using the fallback field
     await waitFor(() => {
@@ -143,16 +139,14 @@ describe('CourseDetails: Participant view', () => {
       },
     ];
 
-    render(
-      <CourseDetails
-        course={mockCourse}
-        courseRegistration={mockCourseRegistration}
-        upcomingDiscussions={upcomingDiscussions}
-        attendedDiscussions={[]}
-        facilitatedDiscussions={[]}
-        isLoading={false}
-      />,
-    );
+    render(<CourseDetails
+      course={mockCourse}
+      courseRegistration={mockCourseRegistration}
+      upcomingDiscussions={upcomingDiscussions}
+      attendedDiscussions={[]}
+      facilitatedDiscussions={[]}
+      isLoading={false}
+    />);
 
     // THEN: The "Prepare for discussion" button is rendered for the first discussion
     await waitFor(() => {
@@ -188,16 +182,14 @@ describe('CourseDetails: Participant view', () => {
       },
     ];
 
-    render(
-      <CourseDetails
-        course={mockCourse}
-        courseRegistration={mockCourseRegistration}
-        upcomingDiscussions={upcomingDiscussions}
-        attendedDiscussions={[]}
-        facilitatedDiscussions={[]}
-        isLoading={false}
-      />,
-    );
+    render(<CourseDetails
+      course={mockCourse}
+      courseRegistration={mockCourseRegistration}
+      upcomingDiscussions={upcomingDiscussions}
+      attendedDiscussions={[]}
+      facilitatedDiscussions={[]}
+      isLoading={false}
+    />);
 
     // THEN: The "Join now" button is rendered for the first discussion
     await waitFor(() => {
@@ -236,16 +228,14 @@ describe('CourseDetails: Participant view', () => {
       },
     ];
 
-    render(
-      <CourseDetails
-        course={mockCourse}
-        courseRegistration={mockCourseRegistration}
-        upcomingDiscussions={upcomingDiscussions}
-        attendedDiscussions={[]}
-        facilitatedDiscussions={[]}
-        isLoading={false}
-      />,
-    );
+    render(<CourseDetails
+      course={mockCourse}
+      courseRegistration={mockCourseRegistration}
+      upcomingDiscussions={upcomingDiscussions}
+      attendedDiscussions={[]}
+      facilitatedDiscussions={[]}
+      isLoading={false}
+    />);
 
     // THEN: Clicking "Can't make it?" on the first discussion opens modal with Unit 5
     await waitFor(() => {
@@ -297,16 +287,14 @@ describe('CourseDetails: Participant view', () => {
       },
     ];
 
-    render(
-      <CourseDetails
-        course={mockCourse}
-        courseRegistration={mockCourseRegistration}
-        upcomingDiscussions={upcomingDiscussions}
-        attendedDiscussions={[]}
-        facilitatedDiscussions={[]}
-        isLoading={false}
-      />,
-    );
+    render(<CourseDetails
+      course={mockCourse}
+      courseRegistration={mockCourseRegistration}
+      upcomingDiscussions={upcomingDiscussions}
+      attendedDiscussions={[]}
+      facilitatedDiscussions={[]}
+      isLoading={false}
+    />);
 
     // THEN: The overflow menu button exists
     await waitFor(() => {
@@ -365,16 +353,14 @@ describe('CourseDetails: Participant view', () => {
       },
     ];
 
-    render(
-      <CourseDetails
-        course={mockCourse}
-        courseRegistration={mockCourseRegistration}
-        upcomingDiscussions={upcomingDiscussions}
-        attendedDiscussions={[]}
-        facilitatedDiscussions={[]}
-        isLoading={false}
-      />,
-    );
+    render(<CourseDetails
+      course={mockCourse}
+      courseRegistration={mockCourseRegistration}
+      upcomingDiscussions={upcomingDiscussions}
+      attendedDiscussions={[]}
+      facilitatedDiscussions={[]}
+      isLoading={false}
+    />);
 
     // THEN: The NOW and LIVE indicators should be visible
     await waitFor(() => {
@@ -430,16 +416,14 @@ describe('CourseDetails: Facilitator view', () => {
       },
     ];
 
-    render(
-      <CourseDetails
-        course={mockCourse}
-        courseRegistration={mockCourseRegistration}
-        upcomingDiscussions={upcomingDiscussions}
-        attendedDiscussions={[]}
-        facilitatedDiscussions={[]}
-        isLoading={false}
-      />,
-    );
+    render(<CourseDetails
+      course={mockCourse}
+      courseRegistration={mockCourseRegistration}
+      upcomingDiscussions={upcomingDiscussions}
+      attendedDiscussions={[]}
+      facilitatedDiscussions={[]}
+      isLoading={false}
+    />);
 
     // THEN: The "Can't make it?" button should NOT appear for facilitators
     await waitFor(() => {
@@ -447,7 +431,7 @@ describe('CourseDetails: Facilitator view', () => {
     });
 
     expect(screen.queryByRole('button', { name: /Switch group for Unit/ })).not.toBeInTheDocument();
-    expect(screen.queryByText("Can't make it?")).not.toBeInTheDocument();
+    expect(screen.queryByText('Can\'t make it?')).not.toBeInTheDocument();
 
     // THEN: The overflow menu should exist and work
     const overflowButton = screen.getByRole('button', { name: 'More actions' });
@@ -479,16 +463,14 @@ describe('CourseDetails: Facilitator view', () => {
       groupDetails: createMockGroup(),
     }];
 
-    render(
-      <CourseDetails
-        course={mockCourse}
-        courseRegistration={createMockCourseRegistration({ courseId: 'course-1', role: 'Facilitator', roundStatus: 'Past' })}
-        upcomingDiscussions={[]}
-        attendedDiscussions={[]}
-        facilitatedDiscussions={facilitatedDiscussions}
-        isLoading={false}
-      />,
-    );
+    render(<CourseDetails
+      course={mockCourse}
+      courseRegistration={createMockCourseRegistration({ courseId: 'course-1', role: 'Facilitator', roundStatus: 'Past' })}
+      upcomingDiscussions={[]}
+      attendedDiscussions={[]}
+      facilitatedDiscussions={facilitatedDiscussions}
+      isLoading={false}
+    />);
 
     await waitFor(() => {
       expect(screen.getByRole('button', { name: 'Facilitated discussions' })).toBeInTheDocument();

@@ -1,7 +1,7 @@
 import {
   describe, expect, test, beforeEach, vi,
 } from 'vitest';
-import { JobPosting } from '@bluedot/db';
+import { type JobPosting } from '@bluedot/db';
 import JobPostingPage from '../../../pages/join-us/[slug]';
 import { renderWithHead } from '../../testUtils';
 
@@ -9,7 +9,7 @@ import { renderWithHead } from '../../testUtils';
 // `renderWithHead` for more details.
 vi.mock('next/head', () => ({
   __esModule: true,
-  default: ({ children }: { children: React.ReactNode }) => {
+  default({ children }: { children: React.ReactNode }) {
     if (children) {
       return (
         <head-proxy data-testid="head-proxy">
@@ -17,6 +17,7 @@ vi.mock('next/head', () => ({
         </head-proxy>
       );
     }
+
     return null;
   },
 }));
@@ -40,13 +41,11 @@ describe('JobPostingPage SSR/SEO', () => {
   });
 
   test('renders SEO meta tags during SSR without API calls', () => {
-    renderWithHead(
-      <JobPostingPage
-        slug="ai-safety-researcher"
-        job={mockJob}
-        jobOgImage={`https://bluedot.org/images/jobs/link-preview/${mockJob.slug}.png`}
-      />,
-    );
+    renderWithHead(<JobPostingPage
+      slug="ai-safety-researcher"
+      job={mockJob}
+      jobOgImage={`https://bluedot.org/images/jobs/link-preview/${mockJob.slug}.png`}
+    />);
 
     expect(document.title).toBe('AI Safety Researcher | BlueDot Impact');
 
@@ -81,12 +80,10 @@ describe('JobPostingPage SSR/SEO', () => {
   });
 
   test('uses fallback logo image when no `jobOgImage` provided', () => {
-    renderWithHead(
-      <JobPostingPage
-        slug="ai-safety-researcher"
-        job={mockJob}
-      />,
-    );
+    renderWithHead(<JobPostingPage
+      slug="ai-safety-researcher"
+      job={mockJob}
+    />);
 
     const ogImage = document.querySelector('meta[property="og:image"]');
     expect(ogImage?.getAttribute('content')).toBe('https://bluedot.org/images/logo/link-preview-fallback.png');

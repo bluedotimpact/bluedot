@@ -1,4 +1,4 @@
-import { GroupDiscussion } from '@bluedot/db';
+import { type GroupDiscussion } from '@bluedot/db';
 
 const ONE_HOUR_MS = 3_600_000;
 

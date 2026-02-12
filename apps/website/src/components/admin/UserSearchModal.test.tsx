@@ -13,9 +13,15 @@ describe('UserSearchModal', () => {
     const store: Record<string, string> = {};
     return {
       getItem: vi.fn((key: string) => store[key] ?? null),
-      setItem: vi.fn((key: string, value: string) => { store[key] = value; }),
-      removeItem: vi.fn((key: string) => { delete store[key]; }),
-      clear: vi.fn(() => { Object.keys(store).forEach((key) => delete store[key]); }),
+      setItem: vi.fn((key: string, value: string) => {
+        store[key] = value;
+      }),
+      removeItem: vi.fn((key: string) => {
+        delete store[key];
+      }),
+      clear: vi.fn(() => {
+        Object.keys(store).forEach((key) => delete store[key]);
+      }),
       key: vi.fn(),
       length: 0,
       store,
@@ -59,14 +65,13 @@ describe('UserSearchModal', () => {
       },
     ];
 
-    server.use(
-      trpcMsw.admin.searchUsers.query(({ input }) => {
-        if (input.searchTerm === 'john') {
-          return [mockUsers[0]!];
-        }
-        return mockUsers;
-      }),
-    );
+    server.use(trpcMsw.admin.searchUsers.query(({ input }) => {
+      if (input.searchTerm === 'john') {
+        return [mockUsers[0]!];
+      }
+
+      return mockUsers;
+    }));
 
     render(<UserSearchModal isOpen onClose={mockOnClose} />, { wrapper: TrpcProvider });
 
@@ -98,9 +103,7 @@ describe('UserSearchModal', () => {
       },
     ];
 
-    server.use(
-      trpcMsw.admin.searchUsers.query(() => mockUsers),
-    );
+    server.use(trpcMsw.admin.searchUsers.query(() => mockUsers));
 
     render(<UserSearchModal isOpen onClose={mockOnClose} />, { wrapper: TrpcProvider });
 

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { BluedotRoute, Breadcrumbs } from './Breadcrumbs';
+import { type BluedotRoute, Breadcrumbs } from './Breadcrumbs';
 
 const meta = {
   title: 'ui/Breadcrumbs',

@@ -109,11 +109,9 @@ describe('PostHog UTM tracking: End-to-end tests of key points where UTM params 
       push: mockPush,
     });
 
-    const { unmount } = render(
-      <LatestUtmParamsProvider>
-        <LoginRedirectPage loginPreset={loginPresets.keycloak} />
-      </LatestUtmParamsProvider>,
-    );
+    const { unmount } = render(<LatestUtmParamsProvider>
+      <LoginRedirectPage loginPreset={loginPresets.keycloak} />
+    </LatestUtmParamsProvider>);
 
     // Wait for the OIDC signin request and capture the redirectTo
     await waitFor(() => {
@@ -157,11 +155,9 @@ describe('PostHog UTM tracking: End-to-end tests of key points where UTM params 
       push: mockPush,
     });
 
-    const { rerender } = render(
-      <LatestUtmParamsProvider>
-        <div>Landing page</div>
-      </LatestUtmParamsProvider>,
-    );
+    const { rerender } = render(<LatestUtmParamsProvider>
+      <div>Landing page</div>
+    </LatestUtmParamsProvider>);
 
     // Wait for UTM params to be captured
     await waitFor(() => {
@@ -191,11 +187,9 @@ describe('PostHog UTM tracking: End-to-end tests of key points where UTM params 
     });
 
     // Rerender with LoginRedirectPage: UTM params should be preserved from previous page
-    rerender(
-      <LatestUtmParamsProvider>
-        <LoginRedirectPage loginPreset={loginPresets.keycloak} />
-      </LatestUtmParamsProvider>,
-    );
+    rerender(<LatestUtmParamsProvider>
+      <LoginRedirectPage loginPreset={loginPresets.keycloak} />
+    </LatestUtmParamsProvider>);
 
     await waitFor(() => {
       expect(mockCreateSigninRequest).toHaveBeenCalled();

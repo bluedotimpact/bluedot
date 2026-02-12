@@ -2,7 +2,7 @@ import {
   addQueryParam,
   Card, CTALinkOrButton, ProgressDots, useAuthStore, useCurrentTimeMs,
 } from '@bluedot/ui';
-import React from 'react';
+import type React from 'react';
 import { FaAward } from 'react-icons/fa6';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { useRouter } from 'next/router';
@@ -74,7 +74,7 @@ const regularCourseConfig: CertificateConfig = {
     },
     notEligible: {
       title: 'Your Certificate',
-      subtitle: "This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate.",
+      subtitle: 'This course doesn\'t currently issue certificates to independent learners. Join a facilitated version to get a certificate.',
     },
   },
 };
@@ -84,7 +84,7 @@ const foaiCourseConfig: CertificateConfig = {
   showCommunity: true,
   texts: {
     notLoggedIn: {
-      header: "Download your certificate, show you're taking AI seriously",
+      header: 'Download your certificate, show you\'re taking AI seriously',
       description: 'Complete all exercises to unlock your certificate, then share your accomplishment on social media.',
       buttonLabel: 'Download Certificate',
     },
@@ -100,13 +100,13 @@ const foaiCourseConfig: CertificateConfig = {
       viewButtonLabel: 'View Certificate',
     },
     requestCertificate: {
-      header: "Download your certificate, show you're taking AI seriously",
+      header: 'Download your certificate, show you\'re taking AI seriously',
       description: 'Complete all exercises to unlock your certificate, then share your accomplishment on social media.',
       buttonLabel: 'Download Certificate',
     },
     notEligible: {
       title: 'Your Certificate',
-      subtitle: "This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate.",
+      subtitle: 'This course doesn\'t currently issue certificates to independent learners. Join a facilitated version to get a certificate.',
     },
   },
 };
@@ -188,7 +188,9 @@ const CertificateLinkCard: React.FC<CertificateLinkCardProps> = ({
     if (config.useCard) {
       return (
         <Card
+          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
           title={notLoggedIn.title || ''}
+          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
           subtitle={notLoggedIn.subtitle || ''}
           className="container-lined p-8 bg-white"
         >
@@ -221,12 +223,13 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
     isLoading: meetPersonLoading,
     error: meetPersonError,
   } = trpc.meetPerson.getByCourseRegistrationId.useQuery(
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     { courseRegistrationId: courseRegistration?.id || '' },
     { enabled: !!courseRegistration?.id },
   );
 
   const requestCertificateMutation = trpc.certificates.request.useMutation({
-    onSuccess: async () => {
+    async onSuccess() {
       await refetch();
       // This is super ugly but saves us querying the db for the course slug until we want to generalize this to other courses
       if (typeof window !== 'undefined' && window.dataLayer && courseId === FOAI_COURSE_ID) {
@@ -242,9 +245,11 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
     requestCertificateMutation.mutate({ courseId });
   };
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   if (error || requestCertificateMutation.isError) {
     const errorContent = (
       <div className="flex flex-col gap-4">
+        {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
         <ErrorView error={error || requestCertificateMutation.error} />
         <CTALinkOrButton
           variant="primary"
@@ -294,9 +299,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
   }
 
   if (courseRegistration?.certificateId) {
-    const formattedCertificateDate = new Date(
-      courseRegistration?.certificateCreatedAt ? courseRegistration.certificateCreatedAt * 1000 : currentTimeMs,
-    ).toLocaleDateString(undefined, { dateStyle: 'long' });
+    const formattedCertificateDate = new Date(courseRegistration?.certificateCreatedAt ? courseRegistration.certificateCreatedAt * 1000 : currentTimeMs).toLocaleDateString(undefined, { dateStyle: 'long' });
     const { hasCertificate } = config.texts;
 
     // For FoAI, use Card even though useCard is false, as per the existing behavior

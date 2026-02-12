@@ -49,24 +49,20 @@ describe('QuoteSection', () => {
 
   it('applies custom card background color to quote card', () => {
     const customBgColor = '#e5faea';
-    const { container } = render(
-      <QuoteSection
-        {...mockProps}
-        cardBackgroundColor={customBgColor}
-      />,
-    );
+    const { container } = render(<QuoteSection
+      {...mockProps}
+      cardBackgroundColor={customBgColor}
+    />);
     const quoteCard = container.querySelector(`[style*="background-color: ${customBgColor}"]`);
     expect(quoteCard).toBeInTheDocument();
   });
 
   it('applies custom accent color to active navigation indicator', () => {
     const customAccentColor = '#3da462';
-    const { container } = render(
-      <QuoteSection
-        {...mockProps}
-        accentColor={customAccentColor}
-      />,
-    );
+    const { container } = render(<QuoteSection
+      {...mockProps}
+      accentColor={customAccentColor}
+    />);
     const activeIndicator = container.querySelector(`[style*="background-color: ${customAccentColor}"]`);
     expect(activeIndicator).toBeInTheDocument();
   });
