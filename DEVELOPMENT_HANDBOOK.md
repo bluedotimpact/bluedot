@@ -623,6 +623,10 @@ All components in `libraries/ui` follow Bluedot branding. **Always reuse these c
 
 If CI is behaving strangely (e.g. tests pass locally but fail in CI, or you're seeing errors about missing dependencies), try clearing the CI cache: go to [Actions → Clear CI/CD Cache → Run workflow](https://github.com/bluedotimpact/bluedot/actions/workflows/clear_cache.yaml).
 
+### Force deploying the website
+
+Production deploys normally require CI/CD to have passed on the tagged commit. To bypass this in an emergency, go to [Actions → website_deploy_production → Run workflow](https://github.com/bluedotimpact/bluedot/actions/workflows/website_deploy_production.yaml), select the tag to deploy, and tick "Skip CI/CD check".
+
 ### Deployment Processes
 
 #### Website

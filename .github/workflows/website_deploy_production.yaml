@@ -4,11 +4,31 @@ on:
   push:
     tags:
       - website/v*
+  workflow_dispatch:
+    inputs:
+      skip_ci_check:
+        description: 'Skip CI/CD check (force deploy)'
+        type: boolean
+        default: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
+      - name: Verify CI/CD has passed
+        if: ${{ !inputs.skip_ci_check }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: { workflow_runs: [run] } } = await github.rest.actions.listWorkflowRuns({
+              owner: context.repo.owner, repo: context.repo.repo,
+              workflow_id: 'ci_cd.yaml', head_sha: context.sha,
+            });
+            if (!run || run.status !== 'completed' || run.conclusion !== 'success') {
+              core.setFailed(`CI/CD has not passed for ${context.sha} (status: ${run?.status ?? 'not found'}, conclusion: ${run?.conclusion ?? 'N/A'})`);
+            }
+
       - name: Install turbo
         id: install_turbo
         run: |
