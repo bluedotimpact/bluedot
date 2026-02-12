@@ -21,7 +21,7 @@ exports[`CourseListRow > renders completed course correctly (snapshot) 1`] = `
             class="flex-1 min-w-0"
           >
             <h3
-              class="font-semibold text-size-md sm:text-size-base text-black sm:text-gray-900 text-pretty sm:leading-normal"
+              class="font-semibold text-size-md sm:text-size-sm text-black sm:text-gray-900 text-pretty sm:leading-normal"
             >
               Introduction to AI Safety
                
@@ -148,7 +148,7 @@ exports[`CourseListRow > renders in-progress course correctly (snapshot) 1`] = `
             class="flex-1 min-w-0"
           >
             <h3
-              class="font-semibold text-size-md sm:text-size-base text-black sm:text-gray-900 text-pretty sm:leading-normal"
+              class="font-semibold text-size-md sm:text-size-sm text-black sm:text-gray-900 text-pretty sm:leading-normal"
             >
               Introduction to AI Safety
                
