@@ -86,6 +86,7 @@ export const facilitatorSwitchingRouter = router({
       const groupDiscussions = await db.pg
         .select()
         .from(groupDiscussionTable.pg)
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         .where(and(inArray(groupDiscussionTable.pg.id, facilitator.expectedDiscussionsFacilitator || [])));
 
       const groups = await db.pg.select().from(groupTable.pg).where(inArray(groupTable.pg.id, groupDiscussions.map((discussion) => discussion.group)));
@@ -129,6 +130,7 @@ export const facilitatorSwitchingRouter = router({
       }
 
       const facilitator = await getFacilitator(courseSlug, ctx.auth.email);
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const allowedDiscussions = facilitator.expectedDiscussionsFacilitator || [];
 
       if (allowedDiscussions.length === 0) {
@@ -163,6 +165,7 @@ export const facilitatorSwitchingRouter = router({
       }
 
       await db.insert(facilitatorDiscussionSwitchingTable, {
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         discussion: discussionId || null,
         facilitator: facilitator.id,
         group: groupId,
@@ -187,6 +190,7 @@ export const facilitatorSwitchingRouter = router({
       } = input;
 
       const facilitator = await getFacilitator(courseSlug, ctx.auth.email);
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const allowedDiscussions = facilitator.expectedDiscussionsFacilitator || [];
 
       if (allowedDiscussions.length === 0 || !allowedDiscussions.includes(discussionId)) {

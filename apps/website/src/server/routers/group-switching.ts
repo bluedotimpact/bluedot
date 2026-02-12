@@ -68,10 +68,12 @@ export function calculateGroupAvailability({
       : null;
 
     const userIsParticipant = discussion.participantsExpected.includes(participantId);
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     const groupName = group.groupName || 'Group [Unknown]';
 
     // Add to discussions by unit
     const unitKey = discussion.unitNumber.toString();
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     if (!discussionsByUnit[unitKey]) {
       discussionsByUnit[unitKey] = [];
     }

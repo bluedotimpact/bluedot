@@ -105,6 +105,7 @@ type RoundItemProps = {
 };
 
 const RoundItem = ({ round }: RoundItemProps) => {
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const baseApplicationUrl = round.applyUrl || '';
   const separator = baseApplicationUrl.includes('?') ? '&' : '?';
   const applyUrl = baseApplicationUrl ? `${baseApplicationUrl}${separator}prefill_%5B%3E%5D%20Round=${round.id}` : '';

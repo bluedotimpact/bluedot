@@ -90,6 +90,7 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
         return;
       }
 
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const currentContent = editor?.storage.markdown.getMarkdown() || '';
       if (currentContent !== lastSavedValue) {
         // Cancel inactivity timer on blur save

@@ -132,6 +132,7 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
   return (
     <div
       className="w-full rounded-xl overflow-hidden"
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       style={{ backgroundColor: cardBackgroundColor || DEFAULT_COLORS.cardBg }}
     >
       {cardContent}
@@ -309,6 +310,7 @@ const QuoteSection = ({ quotes, cardBackgroundColor, accentColor }: QuoteSection
                 <div
                   className="w-full min-[680px]:w-24 h-1.5 rounded transition-all duration-300"
                   style={{
+                    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                     backgroundColor: index === activeIndex ? (accentColor || DEFAULT_COLORS.accent) : DEFAULT_COLORS.text,
                     opacity: index === activeIndex ? 1 : 0.15,
                   }}

@@ -99,6 +99,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
 
     if (!selected) {
       // If there is a submitted answer, or the user is not logged in, dim unselected option text and don't allow hover effects.
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       return `bg-[#2A2D340A] border-transparent ${isCorrect || isIncorrect || !isLoggedIn ? 'text-gray-400' : 'hover:bg-[#F0F5FD]'}`;
     }
 

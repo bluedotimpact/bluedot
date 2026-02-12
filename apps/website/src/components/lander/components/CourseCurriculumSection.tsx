@@ -125,12 +125,14 @@ const CurriculumUnit = ({
     .map((word) => word.toUpperCase())
     .join(' ');
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const rawTitle = unit.courseUnit || unit.title || `Unit ${unit.unitNumber}`;
 
   // Strip redundant course prefix: "AGI Strategy - Unit 1: Intro" → "Unit 1: Intro"
   const coursePattern = courseName.split(' ').join('[\\s-]');
   const regex = new RegExp(`^${coursePattern}\\s*-\\s*`, 'i');
   const unitTitle = rawTitle.replace(regex, '').trim();
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const description = unit.menuText || unit.description;
 
   const handleToggle = () => {
@@ -177,6 +179,7 @@ const CurriculumUnit = ({
                 {description}
               </div>
             )}
+            {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
             {(metadataLoading || metadata || metadataError) && (
               <UnitMetadataDisplay
                 duration={metadata?.duration ?? null}

@@ -25,9 +25,11 @@ const FreeTextResponse: React.FC<FreeTextResponseProps> = ({
   onTextChange,
 }) => {
   const router = useRouter();
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const [answer, setAnswer] = useState<string>(exerciseResponse || '');
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     setAnswer(exerciseResponse || '');
   }, [exerciseResponse]);
 

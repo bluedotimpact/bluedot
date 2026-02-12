@@ -14,6 +14,7 @@ import { CourseIcon } from '../../components/courses/CourseIcon';
 import { COURSE_CONFIG } from '../../lib/constants';
 
 const getCourseAccentColor = (courseSlug: string): string => {
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   return COURSE_CONFIG[courseSlug]?.accentColor || '#1144cc';
 };
 
@@ -427,6 +428,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
   const isSelfPaced = isSelfPacedCourse(course);
   const hasIntense = rounds?.intense && rounds.intense.length > 0;
   const hasPartTime = rounds?.partTime && rounds.partTime.length > 0;
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const showRounds = hasIntense || hasPartTime;
 
   return (
@@ -434,6 +436,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
       <CourseHeader course={course} />
 
       <p className="mt-6 text-[18px] leading-[1.6] font-normal text-[#13132e] opacity-80">
+        {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
         {COURSE_DESCRIPTIONS[course.slug] || course.shortDescription}
       </p>
 
@@ -636,6 +639,7 @@ const CourseRoundItem = ({ round, course }: CourseRoundItemProps) => {
   const { latestUtmParams } = useLatestUtmParams();
   const accentColor = getCourseAccentColor(course.slug);
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const baseApplicationUrl = course.applyUrl || '';
 
   // Add UTM source prefill if available

@@ -30,6 +30,7 @@ const setupMockOidcClient = (success = true, response?: Record<string, unknown>)
       throw new Error('Refresh failed');
     }
 
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     return response || createMockOidcResponse();
   });
 

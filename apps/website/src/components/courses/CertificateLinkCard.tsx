@@ -188,7 +188,9 @@ const CertificateLinkCard: React.FC<CertificateLinkCardProps> = ({
     if (config.useCard) {
       return (
         <Card
+          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
           title={notLoggedIn.title || ''}
+          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
           subtitle={notLoggedIn.subtitle || ''}
           className="container-lined p-8 bg-white"
         >
@@ -221,6 +223,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
     isLoading: meetPersonLoading,
     error: meetPersonError,
   } = trpc.meetPerson.getByCourseRegistrationId.useQuery(
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     { courseRegistrationId: courseRegistration?.id || '' },
     { enabled: !!courseRegistration?.id },
   );
@@ -242,9 +245,11 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
     requestCertificateMutation.mutate({ courseId });
   };
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   if (error || requestCertificateMutation.isError) {
     const errorContent = (
       <div className="flex flex-col gap-4">
+        {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
         <ErrorView error={error || requestCertificateMutation.error} />
         <CTALinkOrButton
           variant="primary"

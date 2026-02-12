@@ -144,6 +144,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby={titleIsString ? 'mobile-modal-title' : undefined}
+                // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                 aria-label={!titleIsString ? (ariaLabel || 'Dialog') : undefined}
                 tabIndex={-1}
                 drag="y"

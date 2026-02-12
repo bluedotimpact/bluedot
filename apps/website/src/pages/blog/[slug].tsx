@@ -85,6 +85,7 @@ const BlogPostPage = ({ slug, blog }: BlogPostPageProps) => {
       <HeroSection>
         <HeroMiniTitle>Blog</HeroMiniTitle>
         <HeroH1>{blog.title}</HeroH1>
+        {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
         <HeroH2><A href={blog.authorUrl || '#'} className="text-white">{blog.authorName || 'Unknown Author'}</A> • {formattedDate}</HeroH2>
       </HeroSection>
       <Breadcrumbs route={currentRoute} />

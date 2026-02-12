@@ -87,11 +87,14 @@ const CourseListRow = ({
       : !meetPerson.groupsAsParticipant || meetPerson.groupsAsParticipant.length === 0);
 
   const expectedDiscussionIds = isFacilitatorRole
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     ? meetPerson?.expectedDiscussionsFacilitator || []
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     : meetPerson?.expectedDiscussionsParticipant || [];
 
   const { data: expectedResults, isLoading: isLoadingDiscussions } = trpc.groupDiscussions.getByDiscussionIds.useQuery(expectedDiscussionIds.length > 0 ? { discussionIds: expectedDiscussionIds } : skipToken);
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const { data: attendedResults, isLoading: isLoadingAttendees } = trpc.groupDiscussions.getByDiscussionIds.useQuery((meetPerson?.attendedDiscussions || []).length > 0 ? { discussionIds: meetPerson?.attendedDiscussions || [] } : skipToken);
 
   // Sort discussions by startDateTime
@@ -384,6 +387,7 @@ const getCtaButtons = ({
     const buttonText = isNextDiscussionSoonOrLive ? 'Join Discussion' : 'Prepare for discussion';
     let buttonUrl = '#';
     if (isNextDiscussionSoonOrLive) {
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       buttonUrl = nextDiscussion.zoomLink || '#';
     } else if (course.slug && nextDiscussion.unitNumber !== null) {
       buttonUrl = `/courses/${course.slug}/${nextDiscussion.unitNumber}`;
@@ -540,6 +544,7 @@ const getSubtitle = ({
     }
 
     const maxUnitNumber = getMaxUnitNumber(expectedDiscussions);
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     const groupName = nextDiscussion.groupDetails?.groupName || 'Unknown group';
 
     if (nextDiscussion.unitNumber !== null && maxUnitNumber !== null) {

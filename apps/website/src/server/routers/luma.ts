@@ -23,6 +23,7 @@ function transformEvent(api_id: string, event: LumaEvent) {
     id: api_id,
     startAt: event.start_at,
     endAt: event.end_at,
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     location: event.geo_address_json?.city?.toUpperCase() || 'ONLINE',
     timezone: event.timezone,
     title: event.name,
@@ -133,6 +134,7 @@ async function refreshCache(): Promise<Event[]> {
         await slackAlert(env, [`[LUMA] Failed to fetch events from Luma API ${consecutiveFailures} times: ${errorMessage}`], { batchKey: 'luma-api-errors' });
       }
 
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       return cachedEvents || [];
     } finally {
       isRefreshing = false;

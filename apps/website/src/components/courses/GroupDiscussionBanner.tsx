@@ -83,10 +83,12 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     : skipToken);
 
   // Falls back to current unit while the discussionUnit query is loading or if it fails
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const resolvedUnit = discussionUnit || unit;
 
   const unitTitle = discussionUnit
     ? `Unit ${discussionUnit.unitNumber}: ${discussionUnit.title}`
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     : `Unit ${groupDiscussion.unitFallback || ''}`; // Fallback to unitFallback if unit not found
 
   const prepareLink = buildCourseUnitUrl({ courseSlug: unit.courseSlug, unitNumber: resolvedUnit.unitNumber });
@@ -101,7 +103,9 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
   const discussionIsSoonOrLive = discussionTimeState === 'live' || discussionTimeState === 'soon';
   const discussionIsLive = discussionTimeState === 'live';
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const discussionMeetLink = groupDiscussion.zoomLink || '';
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const discussionDocLink = groupDiscussion.activityDoc || '';
   const slackChannelLink = groupDiscussion.slackChannelId
     ? buildGroupSlackChannelUrl(groupDiscussion.slackChannelId)

@@ -160,7 +160,9 @@ export const loginPresets = {
  * - email: Email address to prefill in the login/registration form
  */
 export const LoginRedirectPage: React.FC<LoginPageProps> = ({ loginPreset }) => {
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const redirectTo = (typeof window !== 'undefined' && getQueryParam(window.location.href, 'redirect_to')) || '/';
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const prefilledEmail = typeof window !== 'undefined' ? getQueryParam(window.location.href, 'email') || undefined : undefined;
   const auth = useAuthStore((s) => s.auth);
   const { appendLatestUtmParamsToUrl, isLoading: isUtmParamsLoading } = useLatestUtmParams();
@@ -254,6 +256,7 @@ export const LoginOauthCallbackPage: React.FC<LoginOauthCallbackPageProps> = ({ 
 
         setAuth(auth);
 
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         const redirectTo = (user.userState as { redirectTo?: string }).redirectTo || '/';
 
         if (onLoginComplete) {

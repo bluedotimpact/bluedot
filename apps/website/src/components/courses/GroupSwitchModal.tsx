@@ -346,6 +346,7 @@ export default function GroupSwitchModal({
               email: user.email,
               utmSource: 'bluedot-group-switch-modal',
               courseRegistration,
+              // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
               roundId: courseRegistration?.roundId || '',
             })}
             target="_blank"
@@ -477,6 +478,7 @@ const getGMTOffsetWithCity = () => {
   const offsetHours = Math.abs(offsetMinutes) / 60;
   const offsetSign = offsetMinutes <= 0 ? '+' : '-';
   const offsetFormatted = `${offsetSign}${Math.floor(offsetHours).toString().padStart(2, '0')}:${(Math.abs(offsetMinutes) % 60).toString().padStart(2, '0')}`;
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const cityName = timezone.split('/').pop()?.replace(/_/g, ' ') || timezone;
   return `(GMT ${offsetFormatted}) ${cityName}`;
 };
@@ -697,6 +699,7 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
                 e.stopPropagation(); // Avoid triggering parent onClick
                 onConfirm?.();
               }}
+              // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
               disabled={isDisabled || !canSubmit || isSubmitting}
               aria-label={`Confirm selection of ${groupName}`}
               className="h-fit my-auto"

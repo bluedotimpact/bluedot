@@ -40,6 +40,7 @@ const JobPostingPage = ({ slug, job, jobOgImage }: JobPostingPageProps) => {
         <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
         <meta key="og:type" property="og:type" content="website" />
         <meta key="og:url" property="og:url" content={`https://bluedot.org/join-us/${encodeURIComponent(slug)}`} />
+        {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
         <meta key="og:image" property="og:image" content={jobOgImage || 'https://bluedot.org/images/logo/link-preview-fallback.png'} />
         <meta key="og:image:width" property="og:image:width" content="1200" />
         <meta key="og:image:height" property="og:image:height" content="630" />

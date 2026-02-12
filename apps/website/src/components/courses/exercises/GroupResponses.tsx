@@ -24,6 +24,7 @@ const GroupResponses: React.FC<GroupResponsesProps> = ({
 }) => {
   const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(undefined);
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const selectedGroup = (selectedGroupId && groups.find((g) => g.id === selectedGroupId)) || groups[0];
   if (!selectedGroup) {
     return null;

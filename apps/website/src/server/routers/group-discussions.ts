@@ -58,6 +58,7 @@ export const groupDiscussionsRouter = router({
 
       const discussionsWithDetails = discussions.map((discussion) => {
         const group = groupMap.get(discussion.group);
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         const unit = (discussion.courseBuilderUnitRecordId && unitMap.get(discussion.courseBuilderUnitRecordId)) || null;
 
         if (!group) {

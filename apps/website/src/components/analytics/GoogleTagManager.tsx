@@ -25,6 +25,7 @@ const GoogleTagManagerConsentListener: React.FC = () => {
   const hasInited = useRef(false);
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(['consent', hasInited.current ? 'update' : 'default', {
       ad_user_data: consentValue,

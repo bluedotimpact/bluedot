@@ -85,6 +85,7 @@ export async function updateKeycloakPassword(
 
       if (error.response?.status === 400) {
         // Password policy violation
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         const errorMessage = error.response?.data?.error || 'Password does not meet requirements';
         throw createHttpError.BadRequest(errorMessage);
       }

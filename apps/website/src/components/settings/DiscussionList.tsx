@@ -111,9 +111,11 @@ const DiscussionListRow = ({
   const discussionIsSoonOrLive = discussionTimeState === 'live' || discussionTimeState === 'soon';
   const discussionIsLive = discussionTimeState === 'live';
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const discussionMeetLink = discussion.zoomLink || '';
   const discussionPrepareLink = course.slug && discussion.unitNumber !== null ? `/courses/${course.slug}/${discussion.unitNumber}` : '';
   const slackChannelLink = discussion.slackChannelId ? buildGroupSlackChannelUrl(discussion.slackChannelId) : '';
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const discussionDocLink = discussion.activityDoc || '';
 
   const buttons: ButtonOrMenuItem[] = [
@@ -213,6 +215,7 @@ const DiscussionListRow = ({
             <div className="text-size-sm font-medium text-gray-900 truncate">
               {discussion.unitRecord
                 ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
+                // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                 : `Unit ${discussion.unitFallback || ''}`}
             </div>
             {!isPast && isNext && (

@@ -43,10 +43,15 @@ export const getSubstackBlogPosts = async () => {
     const feed = await parser.parseURL('https://blog.bluedot.org/feed');
 
     const posts = feed.items.map((item) => ({
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       title: item.title || '',
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       link: item.link || '',
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       pubDate: item.pubDate || item.isoDate || '',
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       author: item.creator || item.author || '',
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       contentSnippet: item.contentSnippet || '',
     }));
 

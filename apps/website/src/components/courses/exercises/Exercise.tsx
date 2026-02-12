@@ -108,7 +108,9 @@ const Exercise: React.FC<ExerciseProps> = ({
     return <ProgressDots />;
   }
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   if (exerciseError || exerciseResponseError) {
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     return <ErrorView error={exerciseError || exerciseResponseError} />;
   }
 
@@ -146,7 +148,9 @@ const Exercise: React.FC<ExerciseProps> = ({
       case 'Multiple choice':
         return (
           <MultipleChoice
+            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             answer={exerciseData.answer || ''}
+            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             options={exerciseData.options || ''}
             exerciseResponse={responseData?.response}
             isLoggedIn={!!auth}
@@ -199,7 +203,9 @@ const Exercise: React.FC<ExerciseProps> = ({
         {/* Conditional padding: GroupResponses needs edge-to-edge for its blue background */}
         <div className={cn('container-lined bg-white flex flex-col gap-5', !showGroupResponses && 'p-8')}>
           <div className={cn('flex flex-col gap-2', showGroupResponses && 'px-8 pt-8')}>
+            {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
             <p className="bluedot-h4 not-prose">{exerciseData.title || ''}</p>
+            {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
             <MarkdownExtendedRenderer>{exerciseData.description || ''}</MarkdownExtendedRenderer>
           </div>
           {renderContent()}

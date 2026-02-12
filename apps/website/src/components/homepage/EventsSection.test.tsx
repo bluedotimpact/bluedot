@@ -362,6 +362,7 @@ describe('EventsSection featured events', () => {
     }
 
     const headings = desktopContainer.querySelectorAll('h3');
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     return Array.from(headings).map((h) => h.textContent || '');
   };
 

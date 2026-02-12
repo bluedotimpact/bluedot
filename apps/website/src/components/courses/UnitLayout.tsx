@@ -189,6 +189,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     // Announce navigation for screen readers
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     const chunkTitle = chunks[index]?.chunkTitle || 'content';
     setNavigationAnnouncement(`Navigated to ${chunkTitle}`);
   }, [setChunkIndex, chunks]);
@@ -438,8 +439,10 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             )}
           </div>
           {/* chunk content → unit content if no chunks - Only render if there's actual content */}
+          {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
           {(chunk?.chunkContent || unit.content) && (
             <MarkdownExtendedRenderer className="mt-8 md:mt-6">
+              {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
               {chunk?.chunkContent || unit.content || ''}
             </MarkdownExtendedRenderer>
           )}

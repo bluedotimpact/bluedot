@@ -58,7 +58,9 @@ export const makeMakeApiRoute = <AuthResult extends BaseAuthResult>({ env, verif
   res,
 ) => {
   // Extract method and path for instrumentation
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const method = req.method || 'UNKNOWN';
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const path = req.url || 'UNKNOWN';
   const userAgent = req.headers['user-agent'] ?? 'unknown';
 

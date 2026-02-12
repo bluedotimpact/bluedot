@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { ROUTES } from '../src/lib/routes';
 
+// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://bluedot.org';
 const INCLUDED_ROUTES = [
   ROUTES.home,

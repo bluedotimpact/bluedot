@@ -507,6 +507,7 @@ const CourseCardRedesigned = ({
 }) => {
   const { getPrimaryCourseURL } = usePrimaryCourseURL();
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const iconSrc = course.icon || '/images/logo/BlueDot_Impact_Icon_White.svg';
 
   return (
@@ -607,6 +608,7 @@ const CourseSection = () => {
   }
 
   // Component determines featured course logic internally
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const featuredCourse = courses.find((course) => course.isFeatured) || courses[0]!;
   const otherCourses = courses
     .filter((course) => course.slug !== featuredCourse.slug)

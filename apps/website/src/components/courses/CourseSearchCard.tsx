@@ -36,6 +36,7 @@ export const CourseSearchCard: React.FC<CourseSearchCardProps> = ({
       )}
     >
       <div className="h-[200px] w-full mb-4">
+        {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
         <img className="size-full object-cover rounded-lg" src={imageSrc || defaultImageSrc} alt={title} />
       </div>
       <div className="flex flex-col flex-1">

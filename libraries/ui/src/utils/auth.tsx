@@ -59,6 +59,7 @@ const oidcRefreshWithRetries = async (auth: Auth): Promise<Auth> => {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   throw lastError || new Error('Refresh failed after all retry attempts');
 };
 

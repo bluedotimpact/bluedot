@@ -88,7 +88,9 @@ export const ResourceDisplay: React.FC<ResourceDisplayProps> = ({
 
   // Generate unique IDs for ARIA labeling
   const unitContext = unitTitle && unitNumber ? `Unit ${unitNumber}: ${unitTitle}` : '';
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const resourcesHeadingId = `resources-heading-${unitNumber || 'default'}`;
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const exercisesHeadingId = `exercises-heading-${unitNumber || 'default'}`;
 
   return (

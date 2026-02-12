@@ -164,6 +164,7 @@ export const exercisesRouter = router({
 
         return {
           id: g.id,
+          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
           name: g.groupName || 'Unnamed group',
           totalParticipants: groupParticipantIds.length,
           responses,

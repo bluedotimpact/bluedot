@@ -48,6 +48,7 @@ export const FaviconImage: React.FC<FaviconImageProps> = ({
   return (
     <img
       src={faviconUrl}
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       alt={alt || `${domain} favicon`}
       aria-hidden={alt === undefined || alt === ''}
       width={displaySize} // Display dimensions (e.g., 16x16)

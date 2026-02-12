@@ -38,6 +38,7 @@ export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef((
             )}
             type="checkbox"
           />
+          {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
           <span className="input__label">{props.label || props.value}</span>
         </label>
       );
@@ -59,6 +60,7 @@ export const Input: React.ForwardRefExoticComponent<InputProps> = forwardRef((
             )}
             type="radio"
           />
+          {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
           <span className="input__label">{props.label || props.value}</span>
         </label>
       );

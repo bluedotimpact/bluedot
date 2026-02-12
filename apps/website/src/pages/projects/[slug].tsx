@@ -44,6 +44,7 @@ const ProjectPostPage = ({ slug, project }: ProjectPostPageProps) => {
       <HeroSection>
         <HeroMiniTitle>{project.course} Project</HeroMiniTitle>
         <HeroH1>{project.title}</HeroH1>
+        {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
         <HeroH2><A href={project.authorUrl || '#'} className="text-white">{project.authorName}</A>{project.tag?.length ? ` • ${project.tag.join(' • ')}` : ''} • {formattedDate}</HeroH2>
       </HeroSection>
       <Breadcrumbs route={currentRoute} />

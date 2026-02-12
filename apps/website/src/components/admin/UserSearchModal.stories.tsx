@@ -48,6 +48,7 @@ export const Default: Story = {
     msw: {
       handlers: [
         trpcStorybookMsw.admin.searchUsers.query(({ input }) => {
+          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
           const query = input.searchTerm?.toLowerCase() || '';
 
           if (!query) {

@@ -20,6 +20,7 @@ function sortTestimonials(items: Testimonial[]): Testimonial[] {
     }
 
     // 3. Alphabetical by name
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     return (a.name || '').localeCompare(b.name || '');
   });
 }

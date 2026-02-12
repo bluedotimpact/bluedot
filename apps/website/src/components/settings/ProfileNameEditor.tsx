@@ -51,6 +51,7 @@ const ProfileNameEditor = ({ initialName, onSave }: ProfileNameEditorProps) => {
     const validationResult = updateNameSchema.safeParse({ name: trimmedName });
     if (!validationResult.success) {
       const firstError = validationResult.error.issues[0];
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       setNameError(firstError?.message || 'Failed to update name. Please try again.');
       return;
     }

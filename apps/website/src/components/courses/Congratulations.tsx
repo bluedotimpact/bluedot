@@ -25,6 +25,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
     return <FoAICongratulations className={className} />;
   }
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const socialShareText = text || `🎉 I just completed the ${courseTitle} course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out:`;
 
   return (

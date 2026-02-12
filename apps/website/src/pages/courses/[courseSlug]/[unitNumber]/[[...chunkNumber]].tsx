@@ -112,6 +112,7 @@ const CourseUnitChunkPage = ({
 
   const chunk = chunks[chunkIndex];
   const title = `${unit.courseTitle}: Unit ${unitNumber}${chunk?.chunkTitle ? ` | ${chunk.chunkTitle}` : ''}`;
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const metaDescription = chunk?.metaDescription || unit.title;
 
   return (

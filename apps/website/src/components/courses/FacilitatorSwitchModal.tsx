@@ -99,6 +99,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   } = trpc.facilitators.discussionsAvailable.useQuery({ courseSlug });
   const { groupOptions, discussionOptionsByGroup } = buildOptions(discussions, currentTimeMs);
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const discussionOptions = discussionOptionsByGroup[selectedGroupId || ''] ?? [];
   const selectedDiscussion = discussionOptions.find((d) => d.value === selectedDiscussionId);
   const selectedDiscussionDateTime = selectedDiscussion ? new Date(selectedDiscussion.startDateTime * 1000) : undefined;
@@ -449,10 +450,12 @@ const buildOptions = (discussions: DiscussionInput[], currentTimeMs: number) => 
       seenGroups.add(groupId);
       groupOptions.push({
         value: groupId,
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         label: discussion.groupDetails?.groupName || 'Group [Unknown]',
       });
     }
 
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     if (!discussionOptionsByGroup[groupId]) {
       discussionOptionsByGroup[groupId] = [];
     }

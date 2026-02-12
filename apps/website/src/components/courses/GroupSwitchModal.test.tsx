@@ -371,6 +371,7 @@ describe('GroupSwitchModal', () => {
       const mockAvailableGroupsAndDiscussionsWithUnit2: DiscussionsAvailable = {
         ...mockAvailableGroupsAndDiscussions,
         discussionsAvailable: {
+          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
           1: mockAvailableGroupsAndDiscussions.discussionsAvailable[1] || [],
           2: [
             {

@@ -39,6 +39,7 @@ export const SocialShare: React.FC<SocialShareProps> = ({
     }
 
     const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     const fullPath = path || (typeof window !== 'undefined' ? window.location.pathname : '');
     let url = `${baseUrl}${fullPath}`;
 
@@ -52,10 +53,15 @@ export const SocialShare: React.FC<SocialShareProps> = ({
   const getShareUrl = (platform: string): string => {
     if (variant === 'contact') {
       switch (platform) {
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         case 'email': return emailLink || '';
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         case 'github': return githubOrgLink || '';
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         case 'twitter': return twitterLink || '';
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         case 'linkedin': return linkedinLink || '';
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         case 'facebook': return facebookLink || '';
         default: return '';
       }

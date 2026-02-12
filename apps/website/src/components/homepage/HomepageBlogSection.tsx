@@ -120,6 +120,7 @@ const BlogCard = ({ blog }: BlogCardProps) => {
     formattedDate = `${month} ${day}${ordinal}, ${year}`;
   }
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const authorName = blog.author?.toUpperCase() || 'UNKNOWN AUTHOR';
 
   return (

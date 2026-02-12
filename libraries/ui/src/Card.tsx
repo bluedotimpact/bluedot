@@ -45,7 +45,9 @@ export const Card: React.FC<CardProps> = ({
     className,
   );
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const showCTA = ctaText || (!isEntireCardClickable && ctaUrl);
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const showBottomSection = !!(showCTA || children);
 
   return (

@@ -20,6 +20,7 @@ export const parseZodValidationError = (err: AxiosError<{ error?: string }>, def
       const jsonPart = errorString.replace('Invalid request body: ', '');
       const validationErrors = JSON.parse(jsonPart);
       if (Array.isArray(validationErrors) && validationErrors.length > 0) {
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         return validationErrors[0].message || defaultErrorMessage;
       }
 

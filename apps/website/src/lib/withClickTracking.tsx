@@ -28,6 +28,7 @@ export const withClickTracking = <P extends object>(
 
     // Merge default config with props passed to the component
     const eventConfig = {
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       eventName: trackingEventName || defaultConfig.eventName,
       eventParams: {
         ...defaultConfig.eventParams,

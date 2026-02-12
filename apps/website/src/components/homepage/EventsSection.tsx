@@ -140,6 +140,7 @@ export const buildTimeDeltaString = (event: Event, locale?: string) => {
       timeZoneName: 'short',
       timeZone,
     }).formatToParts(endDate);
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     const timezone = timezoneParts.find((part) => part.type === 'timeZoneName')?.value || '';
 
     return `${timeStart} - ${timeEndWeekday} (${timeEndDate}) ${timezone}`;
@@ -404,6 +405,7 @@ type EventsSectionProps = {
 
 const EventsSection = ({ featuredUrls = FEATURED_EVENT_URLS }: EventsSectionProps) => {
   const { data: events, isLoading } = trpc.luma.getUpcomingEvents.useQuery();
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const sortedEvents = sortEventsWithFeaturedUrls(events || [], featuredUrls);
   const displayEvents = sortedEvents.slice(0, 4);
 

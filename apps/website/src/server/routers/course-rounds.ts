@@ -86,6 +86,7 @@ export async function getCourseRoundsData(courseSlug: string) {
       round.lastDiscussionDate,
       round.numberOfUnits,
       round.intensity,
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     ) || 'TBD',
     numberOfUnits: round.numberOfUnits,
   }));
@@ -254,6 +255,7 @@ export const courseRoundsRouter = router({
               round.lastDiscussionDate,
               round.numberOfUnits,
               round.intensity,
+            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             ) || 'TBD',
             numberOfUnits: round.numberOfUnits,
           };

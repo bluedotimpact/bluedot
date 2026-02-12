@@ -302,14 +302,17 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
           )}
 
           {/* Author and time metadata */}
+          {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
           {(resource.authors || resource.year || resource.timeFocusOnMins || resource.syncedAudioUrl) && (
             <div className="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2">
               <P className="text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em]">
                 {resource.authors && <span>{resource.authors}</span>}
+                {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
                 {resource.authors && (resource.year || resource.timeFocusOnMins) && <span> · </span>}
                 {resource.year && <span>{resource.year}</span>}
                 {resource.year && resource.timeFocusOnMins && <span> · </span>}
                 {resource.timeFocusOnMins && <span>{resource.timeFocusOnMins} min</span>}
+                {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
                 {resource.syncedAudioUrl && (resource.timeFocusOnMins || resource.year || resource.authors) && <span> ·</span>}
               </P>
 

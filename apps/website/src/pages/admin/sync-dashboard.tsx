@@ -129,6 +129,7 @@ const SyncDashboard = () => {
   }
 
   // Check if sync is currently running
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const hasSyncRunning = (syncData || []).some((r) => r.status === 'running');
 
   return (
