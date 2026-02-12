@@ -17,6 +17,47 @@ import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 import { getActionPlanUrl, formatMonthAndDay } from '../../lib/utils';
 import { FOAI_COURSE_SLUG } from '../../lib/constants';
 
+const CourseList = ({ courses, startExpanded = false, roundStartDates }: {
+  courses: { course: Course; courseRegistration: CourseRegistration }[];
+  startExpanded?: boolean;
+  roundStartDates?: Record<string, string | null>;
+}) => {
+  const SEE_ALL_THRESHOLD = 3;
+
+  const [showAll, setShowAll] = useState(false);
+  const displayed = showAll ? courses : courses.slice(0, SEE_ALL_THRESHOLD);
+
+  return (
+    <>
+      <div className="border border-charcoal-light rounded-xl overflow-hidden">
+        {displayed.map(({ course, courseRegistration }) => (
+          <CourseListRow
+            key={courseRegistration.id}
+            course={course}
+            courseRegistration={courseRegistration}
+            startExpanded={startExpanded}
+            roundStartDate={courseRegistration.roundId ? roundStartDates?.[courseRegistration.roundId] : undefined}
+          />
+        ))}
+      </div>
+      {courses.length > SEE_ALL_THRESHOLD && (
+        <div className="pt-4 text-center">
+          <button
+            type="button"
+            onClick={() => setShowAll(!showAll)}
+            aria-expanded={showAll}
+            className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
+          >
+            {showAll ? 'Show less' : `See all (${courses.length}) courses`}
+          </button>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default CourseList;
+
 type CourseListRowProps = {
   course: Course;
   courseRegistration: CourseRegistration;
@@ -226,8 +267,6 @@ const CourseListRow = ({
     </div>
   );
 };
-
-export default CourseListRow;
 
 function getMaxUnitNumber(discussions: GroupDiscussion[]): number | null {
   const unitNumbers = discussions

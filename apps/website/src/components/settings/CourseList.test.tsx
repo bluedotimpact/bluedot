@@ -10,7 +10,7 @@ import {
   vi,
 } from 'vitest';
 import { createMockCourse, createMockCourseRegistration, createMockMeetPerson } from '../../__tests__/testUtils';
-import CourseListRow from './CourseListRow';
+import CourseList from './CourseList';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 
@@ -25,7 +25,7 @@ vi.mock('./CourseDetails', () => ({
   ),
 }));
 
-describe('CourseListRow', () => {
+describe('CourseList', () => {
   const mockCourse = createMockCourse({
     id: 'course-1',
     title: 'Introduction to AI Safety',
@@ -67,10 +67,7 @@ describe('CourseListRow', () => {
     };
 
     const { container } = render(
-      <CourseListRow
-        course={mockCourse}
-        courseRegistration={inProgressRegistration}
-      />,
+      <CourseList courses={[{ course: mockCourse, courseRegistration: inProgressRegistration }]} />,
       { wrapper: TrpcProvider },
     );
     expect(container).toMatchSnapshot();
@@ -85,10 +82,7 @@ describe('CourseListRow', () => {
     };
 
     const { container } = render(
-      <CourseListRow
-        course={mockCourse}
-        courseRegistration={completedRegistration}
-      />,
+      <CourseList courses={[{ course: mockCourse, courseRegistration: completedRegistration }]} />,
       { wrapper: TrpcProvider },
     );
     expect(container).toMatchSnapshot();
@@ -96,11 +90,7 @@ describe('CourseListRow', () => {
 
   it('starts expanded when startExpanded prop is true', () => {
     render(
-      <CourseListRow
-        course={mockCourse}
-        courseRegistration={mockCourseRegistration}
-        startExpanded
-      />,
+      <CourseList courses={[{ course: mockCourse, courseRegistration: mockCourseRegistration }]} startExpanded />,
       { wrapper: TrpcProvider },
     );
 
@@ -115,10 +105,7 @@ describe('CourseListRow', () => {
 
   it('starts collapsed when startExpanded prop is false (default)', () => {
     render(
-      <CourseListRow
-        course={mockCourse}
-        courseRegistration={mockCourseRegistration}
-      />,
+      <CourseList courses={[{ course: mockCourse, courseRegistration: mockCourseRegistration }]} />,
       { wrapper: TrpcProvider },
     );
 
@@ -140,10 +127,7 @@ describe('CourseListRow', () => {
     };
 
     render(
-      <CourseListRow
-        course={mockCourse}
-        courseRegistration={completedRegistration}
-      />,
+      <CourseList courses={[{ course: mockCourse, courseRegistration: completedRegistration }]} />,
       { wrapper: TrpcProvider },
     );
 
@@ -156,11 +140,7 @@ describe('CourseListRow', () => {
   it('collapses and expands course details', async () => {
     const user = userEvent.setup();
     render(
-      <CourseListRow
-        course={mockCourse}
-        courseRegistration={mockCourseRegistration}
-        startExpanded
-      />,
+      <CourseList courses={[{ course: mockCourse, courseRegistration: mockCourseRegistration }]} startExpanded />,
       { wrapper: TrpcProvider },
     );
 
@@ -235,10 +215,7 @@ describe('CourseListRow', () => {
     );
 
     render(
-      <CourseListRow
-        course={mockCourse}
-        courseRegistration={pastNoCertRegistration}
-      />,
+      <CourseList courses={[{ course: mockCourse, courseRegistration: pastNoCertRegistration }]} />,
       { wrapper: TrpcProvider },
     );
 
@@ -303,10 +280,7 @@ describe('CourseListRow', () => {
     );
 
     render(
-      <CourseListRow
-        course={facilitatedCourse}
-        courseRegistration={pastNoCertRegistration}
-      />,
+      <CourseList courses={[{ course: facilitatedCourse, courseRegistration: pastNoCertRegistration }]} />,
       { wrapper: TrpcProvider },
     );
 
@@ -376,10 +350,7 @@ describe('CourseListRow', () => {
     );
 
     render(
-      <CourseListRow
-        course={facilitatedCourse}
-        courseRegistration={pastNoCertRegistration}
-      />,
+      <CourseList courses={[{ course: facilitatedCourse, courseRegistration: pastNoCertRegistration }]} />,
       { wrapper: TrpcProvider },
     );
 
@@ -418,10 +389,7 @@ describe('CourseListRow', () => {
     );
 
     render(
-      <CourseListRow
-        course={mockCourse}
-        courseRegistration={completedRegistration}
-      />,
+      <CourseList courses={[{ course: mockCourse, courseRegistration: completedRegistration }]} />,
       { wrapper: TrpcProvider },
     );
 
@@ -453,10 +421,7 @@ describe('CourseListRow', () => {
     );
 
     render(
-      <CourseListRow
-        course={mockCourse}
-        courseRegistration={completedRegistration}
-      />,
+      <CourseList courses={[{ course: mockCourse, courseRegistration: completedRegistration }]} />,
       { wrapper: TrpcProvider },
     );
 
@@ -486,10 +451,7 @@ describe('CourseListRow', () => {
     );
 
     render(
-      <CourseListRow
-        course={{ ...mockCourse, slug: 'agi-strategy' }}
-        courseRegistration={facilitatorRegistration}
-      />,
+      <CourseList courses={[{ course: { ...mockCourse, slug: 'agi-strategy' }, courseRegistration: facilitatorRegistration }]} />,
       { wrapper: TrpcProvider },
     );
 
@@ -511,11 +473,7 @@ describe('CourseListRow', () => {
     };
 
     render(
-      <CourseListRow
-        course={mockCourse}
-        courseRegistration={futureRegistration}
-        roundStartDate="2026-02-09"
-      />,
+      <CourseList courses={[{ course: mockCourse, courseRegistration: futureRegistration }]} roundStartDates={{ 'round-1': '2026-02-09' }} />,
       { wrapper: TrpcProvider },
     );
 
@@ -536,10 +494,7 @@ describe('CourseListRow', () => {
     };
 
     render(
-      <CourseListRow
-        course={mockCourse}
-        courseRegistration={futureRegistration}
-      />,
+      <CourseList courses={[{ course: mockCourse, courseRegistration: futureRegistration }]} />,
       { wrapper: TrpcProvider },
     );
 
@@ -558,10 +513,7 @@ describe('CourseListRow', () => {
     };
 
     render(
-      <CourseListRow
-        course={mockCourse}
-        courseRegistration={futureRegistration}
-      />,
+      <CourseList courses={[{ course: mockCourse, courseRegistration: futureRegistration }]} />,
       { wrapper: TrpcProvider },
     );
 
@@ -583,10 +535,7 @@ describe('CourseListRow', () => {
     };
 
     render(
-      <CourseListRow
-        course={mockCourse}
-        courseRegistration={futureRegistration}
-      />,
+      <CourseList courses={[{ course: mockCourse, courseRegistration: futureRegistration }]} />,
       { wrapper: TrpcProvider },
     );
 

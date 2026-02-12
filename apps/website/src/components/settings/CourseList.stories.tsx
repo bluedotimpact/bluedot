@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { MeetPerson } from '@bluedot/db';
-import CourseListRow from './CourseListRow';
+import CourseList from './CourseList';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 import {
@@ -10,9 +10,9 @@ import {
   createMockGroupDiscussion,
 } from '../../__tests__/testUtils';
 
-const meta: Meta<typeof CourseListRow> = {
-  title: 'Settings/CourseListRow',
-  component: CourseListRow,
+const meta: Meta<typeof CourseList> = {
+  title: 'Settings/CourseList',
+  component: CourseList,
   parameters: {
     layout: 'padded',
   },
@@ -88,8 +88,7 @@ const createMswHandlers = (meetPerson: MeetPerson | null) => [
 
 export const InProgress: Story = {
   args: {
-    course: mockCourse,
-    courseRegistration: mockInProgressRegistration,
+    courses: [{ course: mockCourse, courseRegistration: mockInProgressRegistration }],
   },
   parameters: {
     msw: {
@@ -100,8 +99,7 @@ export const InProgress: Story = {
 
 export const Completed: Story = {
   args: {
-    course: mockCourse,
-    courseRegistration: mockCompletedRegistration,
+    courses: [{ course: mockCourse, courseRegistration: mockCompletedRegistration }],
   },
   parameters: {
     msw: {
@@ -112,8 +110,7 @@ export const Completed: Story = {
 
 export const Facilitator: Story = {
   args: {
-    course: mockCourse,
-    courseRegistration: mockFacilitatorRegistration,
+    courses: [{ course: mockCourse, courseRegistration: mockFacilitatorRegistration }],
   },
   parameters: {
     msw: {
@@ -124,12 +121,14 @@ export const Facilitator: Story = {
 
 export const LongTitle: Story = {
   args: {
-    course: {
-      ...mockCourse,
-      title:
-        'Advanced Machine Learning and Deep Neural Networks: A Comprehensive Introduction to Modern AI Techniques and Applications',
-    },
-    courseRegistration: mockInProgressRegistration,
+    courses: [{
+      course: {
+        ...mockCourse,
+        title:
+          'Advanced Machine Learning and Deep Neural Networks: A Comprehensive Introduction to Modern AI Techniques and Applications',
+      },
+      courseRegistration: mockInProgressRegistration,
+    }],
   },
   parameters: {
     msw: {
@@ -164,8 +163,7 @@ const pastDiscussions = Array.from({ length: 5 }, (_, i) => ({
 
 export const MissingActionPlan: Story = {
   args: {
-    course: mockAgiStrategyCourse,
-    courseRegistration: mockPastNoCertRegistration,
+    courses: [{ course: mockAgiStrategyCourse, courseRegistration: mockPastNoCertRegistration }],
   },
   parameters: {
     msw: {
@@ -186,8 +184,7 @@ export const MissingActionPlan: Story = {
 
 export const LowAttendance: Story = {
   args: {
-    course: mockCourse,
-    courseRegistration: mockPastNoCertRegistration,
+    courses: [{ course: mockCourse, courseRegistration: mockPastNoCertRegistration }],
   },
   parameters: {
     msw: {
@@ -229,9 +226,8 @@ const mockFutureRejectedRegistration = createMockCourseRegistration({
 
 export const UpcomingInReview: Story = {
   args: {
-    course: mockCourse,
-    courseRegistration: mockFutureInReviewRegistration,
-    roundStartDate: '2026-02-09',
+    courses: [{ course: mockCourse, courseRegistration: mockFutureInReviewRegistration }],
+    roundStartDates: { 'round-future-1': '2026-02-09' },
   },
   parameters: {
     msw: {
@@ -242,9 +238,8 @@ export const UpcomingInReview: Story = {
 
 export const UpcomingAccepted: Story = {
   args: {
-    course: mockCourse,
-    courseRegistration: mockFutureAcceptedRegistration,
-    roundStartDate: '2026-02-09',
+    courses: [{ course: mockCourse, courseRegistration: mockFutureAcceptedRegistration }],
+    roundStartDates: { 'round-future-1': '2026-02-09' },
   },
   parameters: {
     msw: {
@@ -255,9 +250,8 @@ export const UpcomingAccepted: Story = {
 
 export const UpcomingRejected: Story = {
   args: {
-    course: mockCourse,
-    courseRegistration: mockFutureRejectedRegistration,
-    roundStartDate: '2026-02-09',
+    courses: [{ course: mockCourse, courseRegistration: mockFutureRejectedRegistration }],
+    roundStartDates: { 'round-future-1': '2026-02-09' },
   },
   parameters: {
     msw: {
