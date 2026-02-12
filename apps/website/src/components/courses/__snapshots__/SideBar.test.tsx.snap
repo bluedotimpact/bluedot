@@ -58,7 +58,7 @@ exports[`SideBar > renders default as expected 1`] = `
           class="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]"
         />
         <details
-          class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden"
+          class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden scroll-mb-5"
           open=""
         >
           <summary
@@ -136,7 +136,7 @@ exports[`SideBar > renders default as expected 1`] = `
           class="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]"
         />
         <details
-          class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden"
+          class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden scroll-mb-5"
         >
           <summary
             class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
@@ -208,7 +208,7 @@ exports[`SideBar > renders default as expected 1`] = `
           class="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]"
         />
         <details
-          class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden"
+          class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden scroll-mb-5"
         >
           <summary
             class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
@@ -280,7 +280,7 @@ exports[`SideBar > renders default as expected 1`] = `
           class="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]"
         />
         <details
-          class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden"
+          class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden scroll-mb-5"
         >
           <summary
             class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
@@ -352,7 +352,7 @@ exports[`SideBar > renders default as expected 1`] = `
           class="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]"
         />
         <details
-          class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden"
+          class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden scroll-mb-5"
         >
           <summary
             class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
