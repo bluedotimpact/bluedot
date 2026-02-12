@@ -160,7 +160,7 @@ const CourseListRow = ({
         <div className="p-4 sm:px-8 sm:py-6">
           <div className="flex items-start sm:items-center gap-3 sm:gap-4">
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-size-md sm:text-size-base text-black sm:text-gray-900 text-pretty sm:leading-normal">
+              <h3 className="font-semibold text-size-md sm:text-size-sm text-black sm:text-gray-900 text-pretty sm:leading-normal">
                 {course.title}{' '}
                 {reasonNotEligibleForCert && (
                   <span className="ml-0.5 inline-flex items-center align-middle">
