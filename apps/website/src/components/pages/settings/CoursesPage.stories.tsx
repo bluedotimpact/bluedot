@@ -4,18 +4,18 @@ import type {
   CourseRegistration,
   MeetPerson,
 } from '@bluedot/db';
-import type { GroupDiscussion } from '../../server/routers/group-discussions';
-import CoursesSettingsPage from '../../pages/settings/courses';
-import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
+import type { GroupDiscussion } from '../../../server/routers/group-discussions';
+import CoursesSettingsPage from '../../../pages/settings/courses';
+import { trpcStorybookMsw } from '../../../__tests__/trpcMswSetup.browser';
 import {
   createMockCourse,
   createMockCourseRegistration,
   createMockMeetPerson,
   createMockGroupDiscussion,
-} from '../../__tests__/testUtils';
+} from '../../../__tests__/testUtils';
 
 const meta: Meta<typeof CoursesSettingsPage> = {
-  title: 'Settings/CoursesContent',
+  title: 'Settings/CoursesPage',
   component: CoursesSettingsPage,
   parameters: {
     layout: 'padded',
@@ -154,7 +154,18 @@ const createHandlers = ({
   roundStartDates?: Record<string, string | null>;
   error?: boolean;
 } = {}) => {
-  const userHandler = trpcStorybookMsw.users.getUser.query(() => ({ id: 'user-1', email: 'test@example.com' }));
+  const userHandler = trpcStorybookMsw.users.getUser.query(() => ({
+    id: 'user-1',
+    email: 'test@example.com',
+    name: 'Test User',
+    createdAt: null,
+    lastSeenAt: null,
+    autoNumberId: null,
+    utmSource: null,
+    utmCampaign: null,
+    utmContent: null,
+    isAdmin: null,
+  }));
 
   if (error) {
     return [

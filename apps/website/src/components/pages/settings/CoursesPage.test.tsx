@@ -3,16 +3,16 @@ import {
 } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import CoursesSettingsPage from '../../pages/settings/courses';
-import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
-import { TrpcProvider } from '../../__tests__/trpcProvider';
-import { createMockCourseRegistration, createMockCourse } from '../../__tests__/testUtils';
+import CoursesSettingsPage from '../../../pages/settings/courses';
+import { server, trpcMsw } from '../../../__tests__/trpcMswSetup';
+import { TrpcProvider } from '../../../__tests__/trpcProvider';
+import { createMockCourseRegistration, createMockCourse } from '../../../__tests__/testUtils';
 
 type MockCourseListProps = {
   courses: { course: { title: string } }[];
 };
 
-vi.mock('./CourseList', () => ({
+vi.mock('../../settings/CourseList', () => ({
   default: ({ courses }: MockCourseListProps) => (
     <div>
       {courses.map(({ course }) => (
@@ -24,15 +24,26 @@ vi.mock('./CourseList', () => ({
   ),
 }));
 
-vi.mock('./SettingsLayout', () => ({
+vi.mock('../../settings/SettingsLayout', () => ({
   default: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }));
 
-describe('CoursesContent', () => {
+describe('CoursesPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     server.use(
-      trpcMsw.users.getUser.query(() => ({ id: 'user-1', email: 'test@example.com' })),
+      trpcMsw.users.getUser.query(() => ({
+        id: 'user-1',
+        email: 'test@example.com',
+        name: 'Test User',
+        createdAt: null,
+        lastSeenAt: null,
+        autoNumberId: null,
+        utmSource: null,
+        utmCampaign: null,
+        utmContent: null,
+        isAdmin: null,
+      })),
       trpcMsw.courseRegistrations.getRoundStartDates.query(() => ({})),
     );
   });
