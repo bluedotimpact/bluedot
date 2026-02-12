@@ -1,7 +1,7 @@
 import {
   CTALinkOrButton, ErrorSection, P, ProgressDots,
 } from '@bluedot/ui';
-import { CourseRegistration } from '@bluedot/db';
+import type { CourseRegistration } from '@bluedot/db';
 import Head from 'next/head';
 import { ROUTES } from '../../lib/routes';
 import SettingsLayout from '../../components/settings/SettingsLayout';

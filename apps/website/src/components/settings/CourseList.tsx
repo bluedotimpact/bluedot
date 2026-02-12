@@ -164,7 +164,11 @@ const CourseListRow = ({
 
   const chevron = <ChevronRightIcon className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`} />;
   const expandButtonLabel = isExpanded ? `Collapse ${course.title} details` : `Expand ${course.title} details`;
-  const onExpandClick = (e: React.MouseEvent) => { e.stopPropagation(); toggleExpand(); };
+  const onExpandClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleExpand();
+  };
+
   const stopPropagation = {
     onClick: (e: React.MouseEvent) => e.stopPropagation(),
     onKeyDown: (e: React.KeyboardEvent) => e.stopPropagation(),

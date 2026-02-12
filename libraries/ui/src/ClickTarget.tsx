@@ -64,6 +64,7 @@ export const ClickTarget = ({
       disabled={disabled}
       aria-label={ariaLabel}
 
+      // eslint-disable-next-line no-nested-ternary
       type={type === 'submit' ? 'submit' : type === 'reset' ? 'reset' : 'button'}
     >
       {children}

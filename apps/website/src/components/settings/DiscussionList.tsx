@@ -1,4 +1,4 @@
-import { Course } from '@bluedot/db';
+import type { Course } from '@bluedot/db';
 import {
   CTALinkOrButton, OverflowMenu, type OverflowMenuItemProps,
   useCurrentTimeMs, cn,
@@ -136,7 +136,7 @@ const DiscussionListRow = ({
     // Secondary CTA
     {
       id: 'cant-make-it',
-      label: "Can't make it?",
+      label: 'Can\'t make it?',
       variant: 'secondary',
       onClick: () => onOpenGroupSwitchModal(discussion, 'Switch group for one unit'),
       isVisible: !isFacilitator && !isPast,
@@ -197,8 +197,8 @@ const DiscussionListRow = ({
   ];
   const visibleButtons = buttons.filter((button) => button.isVisible);
 
-  const primaryButton = visibleButtons.filter((button) => button.variant === 'primary')[0];
-  const cantMakeItButton = visibleButtons.filter((button) => button.id === 'cant-make-it')[0];
+  const primaryButton = visibleButtons.find((button) => button.variant === 'primary');
+  const cantMakeItButton = visibleButtons.find((button) => button.id === 'cant-make-it');
   const overflowButtons = visibleButtons.filter((button) => button.id !== primaryButton?.id && button.id !== cantMakeItButton?.id);
 
   return (
