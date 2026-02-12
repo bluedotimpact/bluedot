@@ -3,27 +3,38 @@ import {
 } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import CoursesContent from './CoursesContent';
+import CoursesSettingsPage from '../../pages/settings/courses';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import { createMockCourseRegistration, createMockCourse } from '../../__tests__/testUtils';
 
-type MockCourseListRowProps = {
-  course: { title: string };
+type MockCourseListProps = {
+  courses: { course: { title: string } }[];
 };
 
-vi.mock('./CourseListRow', () => ({
-  default: ({ course }: MockCourseListRowProps) => (
-    <div data-testid="course-row">
-      <span>{course.title}</span>
+vi.mock('./CourseList', () => ({
+  default: ({ courses }: MockCourseListProps) => (
+    <div>
+      {courses.map(({ course }) => (
+        <div key={course.title} data-testid="course-row">
+          <span>{course.title}</span>
+        </div>
+      ))}
     </div>
   ),
+}));
+
+vi.mock('./SettingsLayout', () => ({
+  default: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }));
 
 describe('CoursesContent', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    server.use(trpcMsw.courseRegistrations.getRoundStartDates.query(() => ({})));
+    server.use(
+      trpcMsw.users.getUser.query(() => ({ id: 'user-1', email: 'test@example.com' })),
+      trpcMsw.courseRegistrations.getRoundStartDates.query(() => ({})),
+    );
   });
 
   it('shows "Past" courses in Completed section, everything else in In Progress', async () => {
@@ -46,7 +57,7 @@ describe('CoursesContent', () => {
     server.use(trpcMsw.courses.getAll.query(() => courses));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
 
-    render(<CoursesContent />, { wrapper: TrpcProvider });
+    render(<CoursesSettingsPage />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
       expect(screen.getByText('In Progress (1)')).toBeInTheDocument();
@@ -60,7 +71,7 @@ describe('CoursesContent', () => {
     server.use(trpcMsw.courses.getAll.query(() => []));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => []));
 
-    render(<CoursesContent />, { wrapper: TrpcProvider });
+    render(<CoursesSettingsPage />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
       expect(screen.getByText("You haven't started any courses yet")).toBeInTheDocument();
@@ -90,7 +101,7 @@ describe('CoursesContent', () => {
     server.use(trpcMsw.courses.getAll.query(() => courses));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
 
-    render(<CoursesContent />, { wrapper: TrpcProvider });
+    render(<CoursesSettingsPage />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
       const completedSection = screen.getByLabelText('Completed courses');
@@ -120,7 +131,7 @@ describe('CoursesContent', () => {
     server.use(trpcMsw.courses.getAll.query(() => courses));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
 
-    render(<CoursesContent />, { wrapper: TrpcProvider });
+    render(<CoursesSettingsPage />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
       // Active facilitator course in In Progress
@@ -174,7 +185,7 @@ describe('CoursesContent', () => {
     server.use(trpcMsw.courses.getAll.query(() => courses));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
 
-    render(<CoursesContent />, { wrapper: TrpcProvider });
+    render(<CoursesSettingsPage />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
       // Should show 2 courses in In Progress section (normal + deferred)
@@ -210,7 +221,7 @@ describe('CoursesContent', () => {
     server.use(trpcMsw.courses.getAll.query(() => courses));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
 
-    render(<CoursesContent />, { wrapper: TrpcProvider });
+    render(<CoursesSettingsPage />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
       // Should show empty state since deferred past courses are not shown
@@ -251,7 +262,7 @@ describe('CoursesContent', () => {
     server.use(trpcMsw.courses.getAll.query(() => courses));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
 
-    render(<CoursesContent />, { wrapper: TrpcProvider });
+    render(<CoursesSettingsPage />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
       expect(screen.getByText('Upcoming (1)')).toBeInTheDocument();
@@ -286,7 +297,7 @@ describe('CoursesContent', () => {
     server.use(trpcMsw.courses.getAll.query(() => courses));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
 
-    render(<CoursesContent />, { wrapper: TrpcProvider });
+    render(<CoursesSettingsPage />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
       expect(screen.queryByText(/Upcoming/)).not.toBeInTheDocument();

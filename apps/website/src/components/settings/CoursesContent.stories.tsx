@@ -5,7 +5,7 @@ import type {
   MeetPerson,
 } from '@bluedot/db';
 import type { GroupDiscussion } from '../../server/routers/group-discussions';
-import CoursesContent from './CoursesContent';
+import CoursesSettingsPage from '../../pages/settings/courses';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 import {
   createMockCourse,
@@ -14,9 +14,9 @@ import {
   createMockGroupDiscussion,
 } from '../../__tests__/testUtils';
 
-const meta: Meta<typeof CoursesContent> = {
+const meta: Meta<typeof CoursesSettingsPage> = {
   title: 'Settings/CoursesContent',
-  component: CoursesContent,
+  component: CoursesSettingsPage,
   parameters: {
     layout: 'padded',
   },
@@ -154,8 +154,11 @@ const createHandlers = ({
   roundStartDates?: Record<string, string | null>;
   error?: boolean;
 } = {}) => {
+  const userHandler = trpcStorybookMsw.users.getUser.query(() => ({ id: 'user-1', email: 'test@example.com' }));
+
   if (error) {
     return [
+      userHandler,
       trpcStorybookMsw.courseRegistrations.getAll.query(() => {
         throw new Error('Failed to fetch');
       }),
@@ -166,6 +169,7 @@ const createHandlers = ({
   }
 
   return [
+    userHandler,
     trpcStorybookMsw.courseRegistrations.getAll.query(() => registrations),
     trpcStorybookMsw.courses.getAll.query(() => courses),
     trpcStorybookMsw.meetPerson.getByCourseRegistrationId.query(() => meetPerson),
