@@ -3,7 +3,7 @@ import {
   A, CTALinkOrButton, P,
 } from '@bluedot/ui';
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 import type { ChunkProgress, CourseProgress } from '../../server/routers/courses';
@@ -43,15 +43,28 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   chunkProgress,
 }) => {
   const [isExpanded, setIsExpanded] = useState(isCurrentUnit);
+  const detailsRef = useRef<HTMLDetailsElement>(null);
+  const isInitialRender = useRef(true);
   const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
+
+  useEffect(() => {
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+      return;
+    }
+    if (isExpanded && detailsRef.current) {
+      detailsRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, [isExpanded]);
 
   return (
     <div className="relative">
       <div className="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]" />
       <details
+        ref={detailsRef}
         open={isExpanded}
         onToggle={(e) => setIsExpanded((e.target as HTMLDetailsElement).open)}
-        className="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden"
+        className="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden scroll-mb-5"
       >
         <summary className="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors">
           <p className="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-[#13132E] flex-1">
