@@ -48,9 +48,11 @@ const DashboardPage = withAuth(({ auth }) => {
     );
   }
 
-  if (error ?? !rooms) {
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  if (error || !rooms) {
     return (
-      <ErrorSection error={error ?? new Error('Failed to load rooms')} />
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      <ErrorSection error={error || new Error('Failed to load rooms')} />
     );
   }
 

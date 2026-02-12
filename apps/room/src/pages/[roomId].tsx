@@ -46,9 +46,11 @@ const RoomControlPage = withAuth(({ auth }) => {
     );
   }
 
-  if (error ?? !room) {
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  if (error || !room) {
     return (
-      <ErrorSection error={error ?? new Error('Missing room data')} />
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      <ErrorSection error={error || new Error('Missing room data')} />
     );
   }
 

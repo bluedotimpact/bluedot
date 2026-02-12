@@ -32,10 +32,12 @@ const SelectPersonView: React.FC<SelectPersonViewProps> = ({ page: { groupId }, 
     );
   }
 
-  if (error ?? !data) {
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  if (error || !data) {
     return (
       <Page>
-        <ErrorSection error={error ?? new Error('Missing data from API')} />
+        {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
+        <ErrorSection error={error || new Error('Missing data from API')} />
       </Page>
     );
   }

@@ -86,7 +86,8 @@ export class AirtableWebhook {
 
   public static async getOrCreate(baseId: string, fieldIds: string[], rateLimiter: RateLimiter): Promise<AirtableWebhook> {
     const cleanupEnabled = env.PROD_ONLY_WEBHOOK_DELETION === 'TRUE';
-    logger.info(`[WEBHOOK] PROD_ONLY_WEBHOOK_DELETION=${env.PROD_ONLY_WEBHOOK_DELETION ?? 'undefined'} (cleanup ${cleanupEnabled ? 'ENABLED' : 'DISABLED'})`);
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+    logger.info(`[WEBHOOK] PROD_ONLY_WEBHOOK_DELETION=${env.PROD_ONLY_WEBHOOK_DELETION || 'undefined'} (cleanup ${cleanupEnabled ? 'ENABLED' : 'DISABLED'})`);
     logger.info(`[WEBHOOK] Creating/retrieving webhook for base ${baseId} with ${fieldIds.length} field filters`);
     const webhook = new AirtableWebhook(baseId, fieldIds, rateLimiter);
     await webhook.ensureInitialized();
@@ -252,7 +253,8 @@ export class AirtableWebhook {
           // Handle updated records
           if (changedRecordsById && typeof changedRecordsById === 'object') {
             for (const [recordId, recordChanges] of Object.entries(changedRecordsById)) { // eslint-disable-line max-depth
-              const changedFields = recordChanges.current.cellValuesByFieldId ?? {};
+              // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+              const changedFields = recordChanges.current.cellValuesByFieldId || {};
               const fieldIds = Object.keys(changedFields);
 
               allUpdates.push({

@@ -20,8 +20,10 @@ const JobsPage = withAuth(({ auth }) => {
     return <ProgressDots />;
   }
 
-  if (error ?? !data) {
-    return <ErrorSection error={error ?? new Error('Missing data')} />;
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  if (error || !data) {
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+    return <ErrorSection error={error || new Error('Missing data')} />;
   }
 
   if (data.jobs.length === 0) {

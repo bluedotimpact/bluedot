@@ -212,7 +212,8 @@ export class PgAirtableDb {
       ? [options?: GetFirstOptionsWithAutoId<TTableName, TColumnsMap>]
       : [options: GetFirstOptionsWithoutAutoId<TTableName, TColumnsMap>]
   ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect'] | null> {
-    const options = args[0] ?? {};
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+    const options = args[0] || {};
     const {
       filter,
       sortBy,

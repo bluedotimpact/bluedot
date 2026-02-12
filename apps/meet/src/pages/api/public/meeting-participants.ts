@@ -100,7 +100,7 @@ export default makeApiRoute({
     participants: [
       ...facilitators.map((facilitator) => ({ id: facilitator.id, name: facilitator.name, role: 'host' as const })),
       ...participants.map((participant) => ({ id: participant.id, name: participant.name, role: 'participant' as const })),
-
+    // eslint-disable-next-line no-nested-ternary
     ].sort((a, b) => ((a.name < b.name) ? -1 : (a.name > b.name) ? 1 : 0)),
     meetingNumber,
     meetingPassword,

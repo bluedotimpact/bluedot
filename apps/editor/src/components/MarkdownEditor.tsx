@@ -154,7 +154,8 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange, upl
           return {
             markdown: {
               serialize: (state, node) => {
-                state.renderList(node, '    ', () => `${node.attrs.bullet ?? '*'} `);
+                // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+                state.renderList(node, '    ', () => `${node.attrs.bullet || '*'} `);
               },
             } as MarkdownNodeSpec,
           };

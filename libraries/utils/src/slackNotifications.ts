@@ -173,7 +173,8 @@ const scheduleFlush = async (batchKey: string, flushIntervalMs: number) => {
     return;
   }
 
-  batcher.createdAt ??= Date.now();
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  if (!batcher.createdAt) batcher.createdAt = Date.now();
 
   if (shouldForceFlush(batcher, flushIntervalMs)) {
     await flushAndCleanupBatcher(batchKey, batcher);

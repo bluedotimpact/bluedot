@@ -108,6 +108,7 @@ export default [
       'max-params': 'off',
       'no-negated-condition': 'off',
       curly: ['error', 'multi-line', 'consistent'],
+      'no-nested-ternary': 'error',
       'no-param-reassign': 'error',
       'logical-assignment-operators': 'off',
       'no-implicit-coercion': 'off',
@@ -145,7 +146,7 @@ export default [
         ],
         optionalDependencies: false,
       }],
-      'import/no-cycle': 'off',
+      'import/no-cycle': 'error',
 
       // Valuable new XO rules: disabled for migration, would be nice to enable later
       '@typescript-eslint/no-deprecated': 'off',

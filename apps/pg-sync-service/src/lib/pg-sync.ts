@@ -61,7 +61,10 @@ export async function initializeWebhooks(): Promise<void> {
     // Group field IDs by base ID
     const fieldsByBase: Record<string, string[]> = {};
     for (const { baseId, fieldId } of baseFieldMappings) {
-      fieldsByBase[baseId] ??= [];
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      if (!fieldsByBase[baseId]) {
+        fieldsByBase[baseId] = [];
+      }
 
       fieldsByBase[baseId].push(fieldId);
     }
@@ -125,7 +128,8 @@ function groupUpdatesByTable(updates: AirtableAction[]): Record<string, Airtable
   const grouped: Record<string, AirtableAction[]> = {};
   for (const update of updates) {
     const tableKey = `${update.baseId}::${update.tableId}`;
-    grouped[tableKey] ??= [];
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+    if (!grouped[tableKey]) grouped[tableKey] = [];
 
     grouped[tableKey].push(update);
   }
@@ -342,7 +346,8 @@ export async function processUpdateQueue(processor: UpdateProcessor = processSin
       retryCountMap.delete(retryKey);
     } else {
       const retryKey = getRetryKey(update);
-      const currentRetries = retryCountMap.get(retryKey) ?? 0;
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      const currentRetries = retryCountMap.get(retryKey) || 0;
 
       if (currentRetries + 1 < MAX_RETRIES) {
         retryCountMap.set(retryKey, currentRetries + 1);

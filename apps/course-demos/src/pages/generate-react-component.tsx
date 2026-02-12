@@ -43,7 +43,8 @@ const DemoPage: React.FC = () => {
     '💪 Workout routine builder',
   ];
 
-  if (view === 'prompt' || Boolean(error) || (!loading && !generatedCode)) {
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  if (view === 'prompt' || error || (!loading && !generatedCode)) {
     return (
       <main className="mx-auto px-4">
         <div className="mb-4">
@@ -89,7 +90,7 @@ const DemoPage: React.FC = () => {
           <>
             <H2 className="text-red-500">Something went wrong</H2>
             <P>
-              Sorry, we couldn't generate your app. Error: {error?.message ?? 'Unknown'}
+              Sorry, we couldn't generate your app. Error: {error?.message || 'Unknown'}
             </P>
             <P>
               Errors sometime happen when too many people are taking our course at once. You can try again later, or try <A href="https://web.lmarena.ai/">WebDev Arena</A> to see a similar demo.
