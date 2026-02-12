@@ -114,11 +114,6 @@ export const certificatesRouter = router({
       if (incompleteExercises.length > 0) {
         const exerciseList = incompleteExercises
           .map((e) => {
-            // Handle missing unit numbers gracefully
-            if (e.unitNumber) {
-              return `- Unit ${e.unitNumber}: ${e.title}`;
-            }
-
             return `- ${e.title}`;
           })
           .join('\n');
