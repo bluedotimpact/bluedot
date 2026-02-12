@@ -72,6 +72,7 @@ const DiscussionList = ({
             type="button"
             onClick={() => setShowAll(!showAll)}
             className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
+            aria-expanded={showAll}
           >
             {showAll ? 'Show less' : `See all (${discussions.length}) discussions`}
           </button>
