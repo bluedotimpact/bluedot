@@ -44,14 +44,9 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(isCurrentUnit);
   const detailsRef = useRef<HTMLDetailsElement>(null);
-  const isInitialRender = useRef(true);
   const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
 
   useEffect(() => {
-    if (isInitialRender.current) {
-      isInitialRender.current = false;
-      return;
-    }
     if (isExpanded && detailsRef.current) {
       detailsRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }

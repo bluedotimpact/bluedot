@@ -147,14 +147,9 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
   chunkProgress,
 }) => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const isInitialRender = useRef(true);
   const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
 
   useEffect(() => {
-    if (isInitialRender.current) {
-      isInitialRender.current = false;
-      return;
-    }
     if (isExpanded && sectionRef.current) {
       sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
