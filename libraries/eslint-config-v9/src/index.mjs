@@ -86,6 +86,10 @@ export default [
       '@typescript-eslint/no-empty-function': 'off',
       '@typescript-eslint/no-confusing-void-expression': 'off',
       '@typescript-eslint/no-dynamic-delete': 'off',
+      '@typescript-eslint/switch-exhaustiveness-check': 'off',
+      '@typescript-eslint/prefer-readonly': 'off',
+      '@typescript-eslint/member-ordering': 'off',
+      '@typescript-eslint/parameter-properties': 'off',
       '@typescript-eslint/no-use-before-define': 'off',
       'new-cap': 'off',
       'no-eq-null': 'off',
@@ -95,6 +99,7 @@ export default [
       radix: 'off',
       'no-use-before-define': 'off',
       'arrow-body-style': 'off',
+      'object-shorthand': 'off',
       'max-len': 'off',
       'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
       'capitalized-comments': 'off',
@@ -103,6 +108,9 @@ export default [
       'max-params': 'off',
       'no-negated-condition': 'off',
       curly: ['error', 'multi-line', 'consistent'],
+      'no-nested-ternary': 'error',
+      'no-param-reassign': 'error',
+      'logical-assignment-operators': 'off',
       'no-implicit-coercion': 'off',
       'no-console': 'warn',
       'prefer-template': 'error',
@@ -138,7 +146,7 @@ export default [
         ],
         optionalDependencies: false,
       }],
-      'import/no-cycle': 'off',
+      'import/no-cycle': 'error',
 
       // Valuable new XO rules: disabled for migration, would be nice to enable later
       '@typescript-eslint/no-deprecated': 'off',
@@ -231,10 +239,12 @@ export default [
       '@typescript-eslint/no-unsafe-type-assertion': 'off',
       '@typescript-eslint/promise-function-async': 'off',
 
+      '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unused-vars': ['error', {
         argsIgnorePattern: '^_',
         varsIgnorePattern: '^_',
         caughtErrorsIgnorePattern: '^_',
+        ignoreRestSiblings: true,
       }],
       '@typescript-eslint/array-type': ['error', { default: 'array' }],
       '@typescript-eslint/naming-convention': [

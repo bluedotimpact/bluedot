@@ -2,10 +2,10 @@ import {
   eq, inArray, and, getPgAirtableFromIds, metaTable,
 } from '@bluedot/db';
 import { logger } from '@bluedot/ui/src/api';
-import { AirtableItemFromColumnsMap, PgAirtableColumnInput } from '@bluedot/db/src/lib/typeUtils';
+import { type AirtableItemFromColumnsMap, type PgAirtableColumnInput } from '@bluedot/db/src/lib/typeUtils';
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import { db } from './db';
-import { AirtableAction, AirtableWebhook } from './webhook';
+import { type AirtableAction, AirtableWebhook } from './webhook';
 import { RateLimiter } from './rate-limiter';
 import { syncManager } from './sync-manager';
 import { fetchAllRecordsFromAirtable } from './scan';
@@ -61,9 +61,11 @@ export async function initializeWebhooks(): Promise<void> {
     // Group field IDs by base ID
     const fieldsByBase: Record<string, string[]> = {};
     for (const { baseId, fieldId } of baseFieldMappings) {
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       if (!fieldsByBase[baseId]) {
         fieldsByBase[baseId] = [];
       }
+
       fieldsByBase[baseId].push(fieldId);
     }
 
@@ -110,8 +112,9 @@ export function deduplicateActions(updates: AirtableAction[]): AirtableAction[] 
           prev.fieldIds = Array.from(set);
         }
       }
+
       // OR of isDelete
-      prev.isDelete = Boolean(prev.isDelete || update.isDelete);
+      prev.isDelete = Boolean(prev.isDelete || update.isDelete); // eslint-disable-line @typescript-eslint/prefer-nullish-coalescing -- intentional logical OR
     }
   }
 
@@ -121,15 +124,16 @@ export function deduplicateActions(updates: AirtableAction[]): AirtableAction[] 
 /**
  * Groups webhook updates by which table they belong to
  */
-function groupUpdatesByTable(
-  updates: AirtableAction[],
-): Record<string, AirtableAction[]> {
+function groupUpdatesByTable(updates: AirtableAction[]): Record<string, AirtableAction[]> {
   const grouped: Record<string, AirtableAction[]> = {};
   for (const update of updates) {
     const tableKey = `${update.baseId}::${update.tableId}`;
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     if (!grouped[tableKey]) grouped[tableKey] = [];
+
     grouped[tableKey].push(update);
   }
+
   return grouped;
 }
 
@@ -138,9 +142,7 @@ function groupUpdatesByTable(
  * instead of making individual API calls for each record (which are rate-limited).
  * This attaches the full record data so processing is fast.
  */
-async function attachRecordDataViaTableFetch(
-  webhookUpdates: AirtableAction[],
-): Promise<AirtableAction[]> {
+async function attachRecordDataViaTableFetch(webhookUpdates: AirtableAction[]): Promise<AirtableAction[]> {
   if (webhookUpdates.length === 0) {
     return webhookUpdates;
   }
@@ -155,9 +157,7 @@ async function attachRecordDataViaTableFetch(
   // Check if this table is configured for sync before attempting bulk fetch
   const pgAirtable = getPgAirtableFromIds({ baseId, tableId });
   if (!pgAirtable) {
-    logger.info(
-      `[attachRecordDataViaTableFetch] Table ${baseId}/${tableId} not configured for sync, skipping bulk fetch`,
-    );
+    logger.info(`[attachRecordDataViaTableFetch] Table ${baseId}/${tableId} not configured for sync, skipping bulk fetch`);
     return webhookUpdates;
   }
 
@@ -165,21 +165,15 @@ async function attachRecordDataViaTableFetch(
   const nonDeletes = webhookUpdates.filter((u) => !u.isDelete);
 
   if (nonDeletes.length === 0) {
-    logger.info(
-      `[attachRecordDataViaTableFetch] All ${deletes.length} updates are deletes for ${baseId}/${tableId}, skipping table fetch`,
-    );
+    logger.info(`[attachRecordDataViaTableFetch] All ${deletes.length} updates are deletes for ${baseId}/${tableId}, skipping table fetch`);
     return deletes;
   }
 
-  logger.info(
-    `[attachRecordDataViaTableFetch] Processing ${nonDeletes.length} creates/updates and ${deletes.length} deletes for ${baseId}/${tableId}`,
-  );
+  logger.info(`[attachRecordDataViaTableFetch] Processing ${nonDeletes.length} creates/updates and ${deletes.length} deletes for ${baseId}/${tableId}`);
 
   try {
     const allRecords = await fetchAllRecordsFromAirtable(baseId, tableId);
-    logger.info(
-      `[attachRecordDataViaTableFetch] Fetched ${allRecords.length} records from ${baseId}/${tableId}`,
-    );
+    logger.info(`[attachRecordDataViaTableFetch] Fetched ${allRecords.length} records from ${baseId}/${tableId}`);
 
     const recordsById = new Map(allRecords.map((r) => [r.id, r]));
 
@@ -198,16 +192,12 @@ async function attachRecordDataViaTableFetch(
         });
       } else {
         missingCount += 1;
-        logger.warn(
-          `[attachRecordDataViaTableFetch] Record ${update.recordId} not found in table fetch for ${baseId}/${tableId}`,
-        );
+        logger.warn(`[attachRecordDataViaTableFetch] Record ${update.recordId} not found in table fetch for ${baseId}/${tableId}`);
       }
     }
 
     if (missingCount > 0) {
-      logger.warn(
-        `[attachRecordDataViaTableFetch] ${missingCount} of ${nonDeletes.length} records were missing from table fetch for ${baseId}/${tableId}`,
-      );
+      logger.warn(`[attachRecordDataViaTableFetch] ${missingCount} of ${nonDeletes.length} records were missing from table fetch for ${baseId}/${tableId}`);
     }
 
     return [...deletes, ...actionsWithData];
@@ -233,8 +223,9 @@ export async function pollForUpdates(): Promise<void> {
       const updates = await webhook.popActions();
       const dedupedUpdates = deduplicateActions(updates);
 
-      // eslint-disable-next-line no-continue
-      if (dedupedUpdates.length === 0) continue;
+      if (dedupedUpdates.length === 0) {
+        continue;
+      }
 
       // Group by table to detect large batches
       const updatesByTable = groupUpdatesByTable(dedupedUpdates);
@@ -242,19 +233,13 @@ export async function pollForUpdates(): Promise<void> {
       // Process each table's updates
       for (const [tableKey, tableUpdates] of Object.entries(updatesByTable)) {
         if (tableUpdates.length >= BULK_FETCH_THRESHOLD) {
-          logger.info(
-            `[pollForUpdates] Large batch detected: ${tableUpdates.length} updates for ${tableKey}, using bulk fetch optimization`,
-          );
+          logger.info(`[pollForUpdates] Large batch detected: ${tableUpdates.length} updates for ${tableKey}, using bulk fetch optimization`);
           // eslint-disable-next-line no-await-in-loop
           const updatesWithData = await attachRecordDataViaTableFetch(tableUpdates);
-          logger.info(
-            `[pollForUpdates] Bulk fetch completed: queued ${updatesWithData.length} actions for ${tableKey}`,
-          );
+          logger.info(`[pollForUpdates] Bulk fetch completed: queued ${updatesWithData.length} actions for ${tableKey}`);
           addToQueue(updatesWithData, 'high');
         } else {
-          logger.info(
-            `[pollForUpdates] Normal batch: ${tableUpdates.length} updates for ${tableKey}`,
-          );
+          logger.info(`[pollForUpdates] Normal batch: ${tableUpdates.length} updates for ${tableKey}`);
           addToQueue(tableUpdates, 'high');
         }
       }
@@ -275,18 +260,16 @@ async function processSingleUpdate(update: AirtableAction): Promise<boolean> {
     const metaResult = await db.pg
       .select()
       .from(metaTable)
-      .where(
-        and(
-          eq(metaTable.airtableBaseId, update.baseId),
-          eq(metaTable.airtableTableId, update.tableId),
-          // Only filter by fieldIds if they exist and are non-empty
-          // Created records have no fieldIds, so we skip the filter to allow them through
-          // If fieldIds is undefined/empty, we just check if the table is tracked at all
-          ...(!update.isDelete && update.fieldIds && update.fieldIds.length > 0
-            ? [inArray(metaTable.airtableFieldId, update.fieldIds)]
-            : []),
-        ),
-      ).limit(1);
+      .where(and(
+        eq(metaTable.airtableBaseId, update.baseId),
+        eq(metaTable.airtableTableId, update.tableId),
+        // Only filter by fieldIds if they exist and are non-empty
+        // Created records have no fieldIds, so we skip the filter to allow them through
+        // If fieldIds is undefined/empty, we just check if the table is tracked at all
+        ...(!update.isDelete && update.fieldIds && update.fieldIds.length > 0
+          ? [inArray(metaTable.airtableFieldId, update.fieldIds)]
+          : []),
+      )).limit(1);
 
     if (metaResult.length === 0) {
       return true;
@@ -351,7 +334,9 @@ export async function processUpdateQueue(processor: UpdateProcessor = processSin
       update = lowPriorityQueue.shift()!;
     }
 
-    if (!update) break;
+    if (!update) {
+      break;
+    }
 
     // eslint-disable-next-line no-await-in-loop -- Sequential processing is intentional for rate limiting
     const success = await processor(update);
@@ -361,6 +346,7 @@ export async function processUpdateQueue(processor: UpdateProcessor = processSin
       retryCountMap.delete(retryKey);
     } else {
       const retryKey = getRetryKey(update);
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const currentRetries = retryCountMap.get(retryKey) || 0;
 
       if (currentRetries + 1 < MAX_RETRIES) {

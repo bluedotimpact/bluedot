@@ -1,8 +1,8 @@
-import axios, { AxiosInstance, isAxiosError } from 'axios';
+import axios, { type AxiosInstance, isAxiosError } from 'axios';
 import { logger } from '@bluedot/ui/src/api';
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import env from '../env';
-import { RateLimiter } from './rate-limiter';
+import { type RateLimiter } from './rate-limiter';
 
 type AirtableWebhookDescription = {
   id: string;
@@ -36,7 +36,7 @@ type AirtableEventPayload = {
     }>;
     destroyedRecordIds?: string[];
     destroyedFieldIds?: string[];
-  }>,
+  }>;
   payloadFormat?: string;
   error?: boolean;
   code?: string;
@@ -86,6 +86,7 @@ export class AirtableWebhook {
 
   public static async getOrCreate(baseId: string, fieldIds: string[], rateLimiter: RateLimiter): Promise<AirtableWebhook> {
     const cleanupEnabled = env.PROD_ONLY_WEBHOOK_DELETION === 'TRUE';
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     logger.info(`[WEBHOOK] PROD_ONLY_WEBHOOK_DELETION=${env.PROD_ONLY_WEBHOOK_DELETION || 'undefined'} (cleanup ${cleanupEnabled ? 'ENABLED' : 'DISABLED'})`);
     logger.info(`[WEBHOOK] Creating/retrieving webhook for base ${baseId} with ${fieldIds.length} field filters`);
     const webhook = new AirtableWebhook(baseId, fieldIds, rateLimiter);
@@ -94,13 +95,13 @@ export class AirtableWebhook {
   }
 
   private async ensureInitialized(): Promise<void> {
-    if (this.webhookId && this.nextPayloadCursor) return;
+    if (this.webhookId && this.nextPayloadCursor) {
+      return;
+    }
 
     // 1. Get all webhooks for this base
     await this.rateLimiter.acquire();
-    const response = await this.axiosInstance.get<ListWebhooksApiResponse>(
-      `/bases/${this.baseId}/webhooks`,
-    ).catch(async (error) => {
+    const response = await this.axiosInstance.get<ListWebhooksApiResponse>(`/bases/${this.baseId}/webhooks`).catch(async (error: unknown) => {
       const webhookListError = `Failed to list webhooks for base ${this.baseId}`;
       if (isAxiosError(error)) {
         const errorDetails = {
@@ -151,7 +152,7 @@ export class AirtableWebhook {
 
       // Check if the last payload was an INVALID_HOOK error
       const lastPayloadError = await this.getLastPayloadIfError();
-      if (lastPayloadError && lastPayloadError.code === 'INVALID_HOOK') {
+      if (lastPayloadError?.code === 'INVALID_HOOK') {
         logger.error('[WEBHOOK] Last payload was INVALID_HOOK error, recreating webhook...');
         const deletedFields = this.extractDeletedFieldsFromPayload(lastPayloadError);
         await this.recreateWebhookWithoutDeletedFields(deletedFields);
@@ -218,7 +219,7 @@ export class AirtableWebhook {
             // Log other error types but don't crash - just skip the payload
             logger.warn(`[WEBHOOK] Unhandled error type '${payload.code}', skipping payload...`);
           }
-          // eslint-disable-next-line no-continue
+
           continue; // Skip processing this error payload
         }
 
@@ -226,7 +227,6 @@ export class AirtableWebhook {
 
         // Only process payloads with table changes (non-error payloads)
         if (!changedTablesById || typeof changedTablesById !== 'object') {
-          // eslint-disable-next-line no-continue
           continue;
         }
 
@@ -240,7 +240,7 @@ export class AirtableWebhook {
 
           // Handle created records
           if (createdRecordsById && typeof createdRecordsById === 'object') {
-            for (const recordId of Object.keys(createdRecordsById)) {
+            for (const recordId of Object.keys(createdRecordsById)) { // eslint-disable-line max-depth
               allUpdates.push({
                 baseId: this.baseId,
                 tableId,
@@ -252,7 +252,8 @@ export class AirtableWebhook {
 
           // Handle updated records
           if (changedRecordsById && typeof changedRecordsById === 'object') {
-            for (const [recordId, recordChanges] of Object.entries(changedRecordsById)) {
+            for (const [recordId, recordChanges] of Object.entries(changedRecordsById)) { // eslint-disable-line max-depth
+              // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
               const changedFields = recordChanges.current.cellValuesByFieldId || {};
               const fieldIds = Object.keys(changedFields);
 
@@ -268,7 +269,7 @@ export class AirtableWebhook {
 
           // Handle deleted records
           if (Array.isArray(destroyedRecordIds)) {
-            for (const recordId of destroyedRecordIds) {
+            for (const recordId of destroyedRecordIds) { // eslint-disable-line max-depth
               allUpdates.push({
                 baseId: this.baseId,
                 tableId,
@@ -350,6 +351,7 @@ export class AirtableWebhook {
             throw new Error(webhookCreationError, { cause: error });
           }
         }
+
         logger.warn(`[WEBHOOK] Webhook creation attempt ${attempt} failed for base ${this.baseId}, retrying in ${attempt} seconds...`);
         // eslint-disable-next-line no-await-in-loop, no-promise-executor-return
         await new Promise((resolve) => setTimeout(resolve, 1000 * attempt)); // Exponential backoff
@@ -405,11 +407,14 @@ export class AirtableWebhook {
         }
       }
     }
+
     return deletedFields;
   }
 
   private async getLastPayloadIfError(): Promise<AirtableEventPayload | null> {
-    if (!this.webhookId || !this.nextPayloadCursor) return null;
+    if (!this.webhookId || !this.nextPayloadCursor) {
+      return null;
+    }
 
     try {
       // Check the LAST consumed payload (cursor - 1) for errors
@@ -428,7 +433,7 @@ export class AirtableWebhook {
 
       const { payloads } = response.data;
       const firstPayload = payloads[0];
-      if (payloads.length > 0 && firstPayload && firstPayload.error === true) {
+      if (payloads.length > 0 && firstPayload?.error === true) {
         logger.warn(`[WEBHOOK] Found error payload at cursor ${checkCursor}: code=${firstPayload.code}`);
         return firstPayload;
       }
@@ -479,9 +484,7 @@ export class AirtableWebhook {
 
     try {
       await this.rateLimiter.acquire();
-      const response = await this.axiosInstance.get<ListWebhooksApiResponse>(
-        `/bases/${this.baseId}/webhooks`,
-      );
+      const response = await this.axiosInstance.get<ListWebhooksApiResponse>(`/bases/${this.baseId}/webhooks`);
       const { webhooks } = response.data;
 
       logger.warn(`[WEBHOOK] PROD cleanup mode: Found ${webhooks.length} existing webhooks for base ${this.baseId}, deleting ALL to make room...`);
@@ -540,7 +543,8 @@ const formatForSlack = (obj: Record<string, unknown>): string => {
       if (Array.isArray(value)) {
         return `${key}: [${value.join(', ')}]`;
       }
-      return `${key}: ${value}`;
+
+      return `${key}: ${String(value)}`;
     })
     .join('\n');
 };

@@ -5,7 +5,7 @@ import {
   withAuth,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
-import { GetJobsResponse } from '../api/jobs';
+import { type GetJobsResponse } from '../api/jobs';
 
 const JobsPage = withAuth(({ auth }) => {
   const [{ data, loading, error }] = useAxios<GetJobsResponse>({
@@ -20,7 +20,9 @@ const JobsPage = withAuth(({ auth }) => {
     return <ProgressDots />;
   }
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   if (error || !data) {
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     return <ErrorSection error={error || new Error('Missing data')} />;
   }
 

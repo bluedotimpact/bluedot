@@ -1,4 +1,4 @@
-import { core } from '@pulumi/kubernetes/types/input';
+import { type core } from '@pulumi/kubernetes/types/input';
 import { envVarSources } from './secrets';
 import { getConnectionDetails, keycloakPg, airtableSyncPg } from './postgres';
 import { minioPvc } from './pvc';
@@ -310,7 +310,7 @@ type ServiceDefinition = {
    *
    * @example my-cool-app
    * */
-  name: string,
+  name: string;
 
   /**
    * Kubernetes pod specification, which generally describes what container(s) you want and configures them e.g. with environment variables. @see https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#PodSpec
@@ -326,7 +326,7 @@ type ServiceDefinition = {
    *   }],
    * }
    * */
-  spec: core.v1.PodSpec,
+  spec: core.v1.PodSpec;
 
   /**
    * What hostnames you want to your application on.
@@ -334,7 +334,7 @@ type ServiceDefinition = {
    *
    * @example ['my-cool-app.k8s.bluedot.org']
    * */
-  hosts?: string[],
+  hosts?: string[];
 
   /**
    * The port the container serves requests on.
@@ -342,5 +342,5 @@ type ServiceDefinition = {
    *
    * @default 8080
    * */
-  targetPort?: number,
+  targetPort?: number;
 };

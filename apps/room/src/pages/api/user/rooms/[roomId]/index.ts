@@ -9,9 +9,10 @@ export default makeApiRoute({
   requestBody: z.optional(z.object({ currentUrl: z.string(), lastUpdatedAt: z.number() })),
   responseBody: RoomSchema,
 }, async (body, { raw }) => {
-  const room = rooms.find((r) => r.id === raw.req.query.roomId);
+  const roomId = raw.req.query.roomId as string;
+  const room = rooms.find((r) => r.id === roomId);
   if (!room) {
-    throw new createHttpError.NotFound(`Room with id ${raw.req.query.roomId} not found`);
+    throw new createHttpError.NotFound(`Room with id ${roomId} not found`);
   }
 
   switch (raw.req.method) {
@@ -25,9 +26,11 @@ export default makeApiRoute({
       if (!body) {
         throw new createHttpError.BadRequest('Expected PUT request to include status payload');
       }
+
       if (body.lastUpdatedAt < room.status.lastUpdatedAt) {
         throw new createHttpError.Conflict('Expected lastUpdatedAt to be newer than lastUpdatedAt');
       }
+
       room.status.currentUrl = body.currentUrl;
       room.status.lastUpdatedAt = body.lastUpdatedAt;
       return room;

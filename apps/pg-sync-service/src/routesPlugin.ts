@@ -1,6 +1,6 @@
 import { initServer } from '@ts-rest/fastify';
 import { initContract } from '@ts-rest/core';
-import { FastifyPluginAsync } from 'fastify';
+import { type FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
 import createHttpError from 'http-errors';
 import { z } from 'zod';

@@ -27,6 +27,7 @@ export default makeApiRoute({
     ethnicGroup: person.ethnicGroup,
     careerPlans: person.careerPlans,
     biography: person.biography,
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     appliedToOpportunities: person.appliedToOpportunities || [],
     isProfilePublic: person.isProfilePublic || false,
   }));

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { text, numeric, boolean } from 'drizzle-orm/pg-core';
 import { describe, expect, test } from 'vitest';
-import { DrizzleColumnToTsType, AirtableItemFromColumnsMap, drizzleColumnToTsTypeString } from './typeUtils';
+import { type DrizzleColumnToTsType, type AirtableItemFromColumnsMap, drizzleColumnToTsTypeString } from './typeUtils';
 
 // Test DrizzleColumnToTsType for basic types
 type TextColumn = ReturnType<typeof text>;

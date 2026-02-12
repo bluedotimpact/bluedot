@@ -20,10 +20,10 @@
     "@pulumi/pulumi": "^3.95.0"
   },
   "devDependencies": {
-    "@bluedot/eslint-config": "*",
+    "@bluedot/eslint-config-v9": "*",
     "@bluedot/typescript-config": "*",
     "@types/node": "^22.13.2",
-    "eslint": "^8.57.0",
+    "eslint": "^9.39.2",
     "typescript": "^5.8.3"
   }
 }

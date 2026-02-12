@@ -8,7 +8,7 @@ import Head from 'next/head';
 import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import { GetProjectResponse } from '../api/projects/[slug]';
+import { type GetProjectResponse } from '../api/projects/[slug]';
 import { BodyEditor } from '../../components/BodyEditor';
 
 const ProjectPostPage = withAuth(({ auth }) => {
@@ -42,7 +42,9 @@ const ProjectPostPage = withAuth(({ auth }) => {
     return <ProgressDots />;
   }
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   if (error || !data) {
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     return <ErrorSection error={error || new Error('Missing data')} />;
   }
 

@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import type React from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   SandpackCodeEditor, SandpackLayout, SandpackPreview, SandpackProvider,
 } from '@codesandbox/sandpack-react';
@@ -49,31 +50,31 @@ export default function App() {
   return (
     <>
       {view !== 'load_preview'
-    && (
-    <SandpackProvider
-      template="react"
-      files={files}
-      options={{
-        externalResources: ['https://cdn.tailwindcss.com'],
-      }}
-    >
-      <SandpackLayout>
-        {view === 'preview' && <SandpackPreview showOpenInCodeSandbox={false} style={{ height }} />}
-        {view === 'code' && (
-          <div ref={editorContainerRef} style={{ width: '100%', height: '100%' }}>
-            <SandpackCodeEditor showRunButton={false} style={{ height }} />
-          </div>
-        )}
-      </SandpackLayout>
-    </SandpackProvider>
-    )}
+      && (
+        <SandpackProvider
+          template="react"
+          files={files}
+          options={{
+            externalResources: ['https://cdn.tailwindcss.com'],
+          }}
+        >
+          <SandpackLayout>
+            {view === 'preview' && <SandpackPreview showOpenInCodeSandbox={false} style={{ height }} />}
+            {view === 'code' && (
+              <div ref={editorContainerRef} style={{ width: '100%', height: '100%' }}>
+                <SandpackCodeEditor showRunButton={false} style={{ height }} />
+              </div>
+            )}
+          </SandpackLayout>
+        </SandpackProvider>
+      )}
       {view === 'load_preview' && <div style={{ height, margin: '0 1px' }} />}
       {!hidePreview && (
-      <nav className="justify-end items-center flex gap-2">
-        <P className="!my-0">Show:</P>
-        <CTALinkOrButton variant={view === 'code' ? 'primary' : 'secondary'} onClick={() => setView('code')}>Code</CTALinkOrButton>
-        <CTALinkOrButton variant={view === 'preview' ? 'primary' : 'secondary'} onClick={() => setView('load_preview')}>Preview</CTALinkOrButton>
-      </nav>
+        <nav className="justify-end items-center flex gap-2">
+          <P className="!my-0">Show:</P>
+          <CTALinkOrButton variant={view === 'code' ? 'primary' : 'secondary'} onClick={() => setView('code')}>Code</CTALinkOrButton>
+          <CTALinkOrButton variant={view === 'preview' ? 'primary' : 'secondary'} onClick={() => setView('load_preview')}>Preview</CTALinkOrButton>
+        </nav>
       )}
     </>
   );

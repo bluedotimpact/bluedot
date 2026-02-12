@@ -141,6 +141,7 @@ export async function completeAllRunningRequests(): Promise<number> {
       logger.info('[admin-dashboard] No running admin dashboard requests to complete');
       return 0;
     }
+
     await db.pg.update(syncRequestsTable)
       .set({
         status: 'completed',

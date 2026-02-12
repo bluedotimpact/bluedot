@@ -1,4 +1,4 @@
-import { Room } from '../types';
+import { type Room } from '../types';
 
 // Simple, but good enough, in-memory "database"
 export const rooms: Room[] = [

@@ -10,7 +10,9 @@ import { completeAllRunningRequests, includeQueuedRequestsInCurrentSync } from '
 
 const getInitialSyncTableNames = (args: string[]) => {
   const startIdx = args.indexOf('--initial-sync-tables');
-  if (startIdx === -1) return [];
+  if (startIdx === -1) {
+    return [];
+  }
 
   const tableArgs: string[] = [];
   for (let i = startIdx + 1; i < args.length; i++) {
@@ -38,7 +40,7 @@ const start = async () => {
 
     const initialSyncTableNames = hasInitialSyncTablesFlag ? getInitialSyncTableNames(process.argv) : undefined;
 
-    if (initialSyncTableNames && initialSyncTableNames.length === 0) {
+    if (initialSyncTableNames?.length === 0) {
       throw new Error('Flag --initial-sync-tables requires at least one table name. Example: --initial-sync-tables course person user');
     }
 

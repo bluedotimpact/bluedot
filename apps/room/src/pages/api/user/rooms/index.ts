@@ -8,6 +8,9 @@ export default makeApiRoute({
   requireAuth: true,
   responseBody: z.array(RoomSchema),
 }, async (body, { raw }) => {
-  if (raw.req.method !== 'GET') throw new createHttpError.MethodNotAllowed();
+  if (raw.req.method !== 'GET') {
+    throw new createHttpError.MethodNotAllowed();
+  }
+
   return rooms;
 });
