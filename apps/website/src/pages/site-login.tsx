@@ -8,7 +8,11 @@ const SiteLoginPage = () => {
   const [loading, setLoading] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const router = useRouter();
-  const returnTo = (router.query.returnTo as string) ?? '/';
+  const rawReturnTo = (router.query.returnTo as string) ?? '/';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? '';
+  const isSafeRelativePath = rawReturnTo.startsWith('/') && !rawReturnTo.startsWith('//');
+  const isSameSiteAbsoluteUrl = siteUrl && rawReturnTo.startsWith(siteUrl);
+  const returnTo = isSafeRelativePath || isSameSiteAbsoluteUrl ? rawReturnTo : '/';
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
@@ -16,20 +20,25 @@ const SiteLoginPage = () => {
       setLoading(true);
       setError('');
 
-      const formData = new FormData(e.currentTarget);
-      const password = formData.get('password');
+      try {
+        const formData = new FormData(e.currentTarget);
+        const password = formData.get('password');
 
-      const res = await fetch('/api/site-login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
-      });
+        const res = await fetch('/api/site-login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password }),
+        });
 
-      if (res.ok) {
-        router.push(returnTo);
-      } else {
-        const data = await res.json();
-        setError(data.error ?? 'Incorrect password');
+        if (res.ok) {
+          router.push(returnTo);
+        } else {
+          const data = await res.json();
+          setError(data.error ?? 'Incorrect password');
+          setLoading(false);
+        }
+      } catch {
+        setError('Something went wrong. Please try again.');
         setLoading(false);
       }
     },
