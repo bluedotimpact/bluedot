@@ -6,7 +6,6 @@ const MAX_ATTEMPTS = 10;
 const WINDOW_MS = 60 * 1000; // 1 minute
 
 const attemptsByIp = new Map<string, { count: number; resetAt: number }>();
-const c  = 1;
 
 function getClientIp(req: NextApiRequest): string {
   const forwarded = req.headers['x-forwarded-for'];
