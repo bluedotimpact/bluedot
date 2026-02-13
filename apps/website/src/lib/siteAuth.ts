@@ -14,9 +14,10 @@ export const checkPassword = (password: string) => {
 const hashPassword = async (password: string) => {
   const data = new TextEncoder().encode(password);
   const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashBytes = new Uint8Array(hashBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
 
-  return Buffer.from(hashBytes).toString('base64');
+  // Convert to hex string (avoids btoa which is restricted by lint, and Buffer which is unavailable in Edge Runtime)
+  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
 };
 
 let cachedToken: string | null = null;

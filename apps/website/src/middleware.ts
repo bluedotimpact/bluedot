@@ -30,6 +30,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!_next/).*)',
+    '/((?!_next/|favicon\\.ico|favicon\\.svg|apple-touch-icon\\.png|robots\\.txt|images/|fonts/|animations/).*)',
   ],
 };
