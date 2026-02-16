@@ -14,7 +14,7 @@ exports[`Congratulations > renders FoAI course with special component 1`] = `
         Congratulations on completing the Future of AI course!
       </p>
       <p
-        class="congratulations__description bluedot-p"
+        class="bluedot-p not-prose congratulations__description"
       >
         Want to connect with others taking AI safety seriously? 
         <span

@@ -264,7 +264,7 @@ exports[`ValuesSection > renders mobile as expected 1`] = `
               Own the mission
             </p>
             <p
-              class="values-card__subtitle bluedot-p"
+              class="bluedot-p not-prose values-card__subtitle"
             >
               We prioritize mission success above all, take responsibility for outcomes, and commit extraordinary effort to achieve extraordinary goals.
             </p>
@@ -287,7 +287,7 @@ exports[`ValuesSection > renders mobile as expected 1`] = `
               Find the fastest, best way to do everything
             </p>
             <p
-              class="values-card__subtitle bluedot-p"
+              class="bluedot-p not-prose values-card__subtitle"
             >
               We're high agency: constantly growing our skills, finding creative solutions, and making the impossible possible.
             </p>
@@ -310,7 +310,7 @@ exports[`ValuesSection > renders mobile as expected 1`] = `
               Say the uncomfortable truth
             </p>
             <p
-              class="values-card__subtitle bluedot-p"
+              class="bluedot-p not-prose values-card__subtitle"
             >
               We speak essential truths with kindness: giving feedback, challenging ideas, and supporting each other's growth.
             </p>
