@@ -54,7 +54,8 @@ const useSortedCourses = () => {
 
     return courses
       .filter((course) => course.displayOnCourseHubIndex)
-      .filter((course) => course.slug !== 'future-of-ai');
+      // https://github.com/bluedotimpact/bluedot/issues/2061 - we no longer want to show FoAI course on course hub index
+      .filter((course) => !isSelfPacedCourse(course));
   }, [courses]);
 
   // Prefetch all course rounds to enable sorting
