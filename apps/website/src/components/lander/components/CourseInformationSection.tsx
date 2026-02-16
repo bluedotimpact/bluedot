@@ -113,7 +113,7 @@ const CourseInformationSection = ({
 
                 {/* Divider */}
                 {index < details.length - 1 && (
-                  <div className="w-full h-px bg-[#13132E] opacity-10 my-6" />
+                  <div className="w-full h-px bg-bluedot-navy/10 my-6" />
                 )}
               </div>
             ))}

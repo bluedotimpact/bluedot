@@ -326,7 +326,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
           {auth && (
             <div className="lg:hidden">
               {/* Separator line */}
-              <div className="w-full h-0 opacity-20 border-[0.5px] border-[#13132E] my-4" />
+              <div className="w-full h-0 border-[0.5px] border-bluedot-navy/20 my-4" />
 
               {/* Bottom action bar */}
               <div className="flex flex-col gap-3">

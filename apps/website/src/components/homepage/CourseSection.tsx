@@ -112,13 +112,13 @@ const ValuePropsSection = () => (
       title="Build a career in AI safety, fast"
       description="25% of our graduates land impactful roles within six months of completing a course."
     />
-    <div className="h-px min-[680px]:h-auto min-[680px]:w-px bg-[#13132E] opacity-20 min-[680px]:mx-8" />
+    <div className="h-px min-[680px]:h-auto min-[680px]:w-px bg-bluedot-navy/20 min-[680px]:mx-8" />
     <ValueProp
       iconType="network"
       title="Get recognised in the industry"
       description="Hiring managers at all the major AI companies and governments recruit from our community."
     />
-    <div className="h-px min-[680px]:h-auto min-[680px]:w-px bg-[#13132E] opacity-20 min-[680px]:mx-8" />
+    <div className="h-px min-[680px]:h-auto min-[680px]:w-px bg-bluedot-navy/20 min-[680px]:mx-8" />
     <ValueProp
       iconType="expert"
       title="Join a growing global community"
