@@ -19,9 +19,9 @@ import { validateEnv } from '@bluedot/utils';
 
 const command = process.argv[2];
 
-function run(cmd: string) {
+function run(cmd: string, extraEnv?: Record<string, string>) {
   console.log(`$ ${cmd}`);
-  execSync(cmd, { stdio: 'inherit' });
+  execSync(cmd, { stdio: 'inherit', env: { ...process.env, ...extraEnv } });
 }
 
 // ── build ──────────────────────────────────────────────────────────────
@@ -29,7 +29,7 @@ function run(cmd: string) {
 function build() {
   const { RENDER_EXTERNAL_URL } = validateEnv({ required: ['RENDER_EXTERNAL_URL'] });
 
-  run(`NEXT_PUBLIC_SITE_URL=${RENDER_EXTERNAL_URL} npm run build`);
+  run('npm run build', { NEXT_PUBLIC_SITE_URL: RENDER_EXTERNAL_URL });
   run('cp -r public/. dist/standalone/apps/website/public/');
   run('cp -r dist/static dist/standalone/apps/website/dist/static');
 }
@@ -39,7 +39,7 @@ function build() {
 function start() {
   const { RENDER_EXTERNAL_URL } = validateEnv({ required: ['RENDER_EXTERNAL_URL'] });
 
-  run(`NEXT_PUBLIC_SITE_URL=${RENDER_EXTERNAL_URL} node dist/standalone/apps/website/server.js`);
+  run('node dist/standalone/apps/website/server.js', { NEXT_PUBLIC_SITE_URL: RENDER_EXTERNAL_URL });
 }
 
 // ── pre-deploy (keycloak redirect registration) ────────────────────────
@@ -119,13 +119,14 @@ async function preDeploy() {
   const clientsResponse = await keycloakFetch(`/admin/realms/${KEYCLOAK_REALM}/clients?clientId=${TARGET_CLIENT_ID}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
-  const clients = await clientsResponse.json() as { id: string; redirectUris: string[] }[];
+  const clients = await clientsResponse.json() as Record<string, unknown>[];
   if (clients.length === 0) {
     throw new Error(`Client '${TARGET_CLIENT_ID}' not found`);
   }
 
   const client = clients[0]!;
-  let uris = [...client.redirectUris];
+  const existingUris = client.redirectUris as string[];
+  let uris = [...existingUris];
 
   // Add new redirect URI
   if (!uris.includes(redirectUri)) {
@@ -136,7 +137,7 @@ async function preDeploy() {
   }
 
   // Clean up URIs for closed PRs
-  for (const uri of client.redirectUris) {
+  for (const uri of existingUris) {
     if (PERMANENT_URIS.has(uri)) {
       continue;
     }
@@ -155,7 +156,7 @@ async function preDeploy() {
   }
 
   // Update if changed
-  if (uris.length === client.redirectUris.length && uris.every((u) => client.redirectUris.includes(u))) {
+  if (uris.length === existingUris.length && uris.every((u) => existingUris.includes(u))) {
     console.log('No changes needed');
 
     return;
@@ -163,18 +164,18 @@ async function preDeploy() {
 
   // Safety check: never remove permanent URIs
   for (const permanent of PERMANENT_URIS) {
-    if (!uris.includes(permanent) && client.redirectUris.includes(permanent)) {
+    if (!uris.includes(permanent) && existingUris.includes(permanent)) {
       throw new Error(`Bug: would have removed permanent URI ${permanent}`);
     }
   }
 
-  await keycloakFetch(`/admin/realms/${KEYCLOAK_REALM}/clients/${client.id}`, {
+  await keycloakFetch(`/admin/realms/${KEYCLOAK_REALM}/clients/${client.id as string}`, {
     method: 'PUT',
     headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ redirectUris: uris }),
+    body: JSON.stringify({ ...client, redirectUris: uris }),
   });
 
-  console.log(`Updated redirect URIs (${client.redirectUris.length} -> ${uris.length})`);
+  console.log(`Updated redirect URIs (${existingUris.length} -> ${uris.length})`);
 }
 
 // ── main ───────────────────────────────────────────────────────────────
