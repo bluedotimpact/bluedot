@@ -230,18 +230,17 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
   const chunkResourceIds = currentUnitChunks.flatMap((chunk) => chunk.chunkResources || []);
   const chunkExerciseIds = currentUnitChunks.flatMap((chunk) => chunk.chunkExercises || []);
 
-  const allResourcesForUnit =
+  const [allResourcesForUnit, allExercisesForUnit] = await Promise.all([
     chunkResourceIds.length > 0
-      ? await db.pg.select().from(unitResourceTable.pg).where(inArray(unitResourceTable.pg.id, chunkResourceIds))
-      : [];
-
-  const allExercisesForUnit =
+      ? db.pg.select().from(unitResourceTable.pg).where(inArray(unitResourceTable.pg.id, chunkResourceIds))
+      : [],
     chunkExerciseIds.length > 0
-      ? await db.pg
-          .select()
-          .from(exerciseTable.pg)
-          .where(and(eq(exerciseTable.pg.status, 'Active'), inArray(exerciseTable.pg.id, chunkExerciseIds)))
-      : [];
+      ? db.pg
+        .select()
+        .from(exerciseTable.pg)
+        .where(and(eq(exerciseTable.pg.status, 'Active'), inArray(exerciseTable.pg.id, chunkExerciseIds)))
+      : [],
+  ]);
 
   const resourceById = new Map(allResourcesForUnit.map((resource) => [resource.id, resource]));
   const exerciseById = new Map(allExercisesForUnit.map((exercise) => [exercise.id, exercise]));
