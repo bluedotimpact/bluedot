@@ -115,7 +115,7 @@ const ShareButtons: React.FC<{ shareUrl: string; shareText: string }> = ({ share
       <ClickTarget
         url={linkedInUrl}
         target="_blank"
-        className={clsx(baseButtonClasses, 'bg-[#1144cc] text-white w-full sm:w-auto')}
+        className={clsx(baseButtonClasses, 'bg-bluedot-normal text-white w-full sm:w-auto')}
         aria-label="Share on LinkedIn"
       >
         <FaLinkedin size={16} />

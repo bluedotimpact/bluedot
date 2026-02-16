@@ -54,7 +54,7 @@ export const CourseIcon: React.FC<CourseIconProps> = ({
   const courseConfig = COURSE_CONFIG[courseSlug];
   const iconSrc = courseConfig?.icon;
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  const iconBackground = courseConfig?.iconBackground || '#1144cc';
+  const iconBackground = courseConfig?.iconBackground || 'var(--bluedot-normal)';
   const badge = courseConfig?.badge;
   const config = SIZE_CONFIG[size];
 
