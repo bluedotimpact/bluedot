@@ -85,7 +85,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                       </p>
                     </div>
                     {chunk.estimatedTime && (
-                      <div className="flex gap-1 text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#13132E] opacity-60 mt-[8px]">
+                      <div className="flex gap-1 text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-bluedot-navy/60 mt-[8px]">
                         <span>
                           {formatTime(chunk.estimatedTime)}
                         </span>
@@ -123,7 +123,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                     </p>
                   </div>
                   {chunk.estimatedTime && (
-                    <div className="flex gap-1 text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#13132E] opacity-60 mt-[8px]">
+                    <div className="flex gap-1 text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-bluedot-navy/60 mt-[8px]">
                       <span>
                         {formatTime(chunk.estimatedTime)}
                       </span>
