@@ -413,7 +413,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
     <article className="flex flex-col">
       <CourseHeader course={course} />
 
-      <p className="mt-6 text-[18px] leading-[1.6] font-normal text-[#13132e] opacity-80">
+      <p className="mt-6 text-[18px] leading-[1.6] font-normal text-bluedot-navy/80">
         {COURSE_DESCRIPTIONS[course.slug] || course.shortDescription}
       </p>
 
@@ -449,7 +449,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
         {/* No Upcoming Rounds */}
         {!roundsLoading && !isSelfPaced && !showRounds && (
           <div className="flex items-center min-h-[48px] border-l-4 border-[rgba(19,19,46,0.2)] pl-5">
-            <p className="text-[15px] leading-[1.6] font-normal text-[#13132e] opacity-50">
+            <p className="text-[15px] leading-[1.6] font-normal text-bluedot-navy/50">
               No upcoming rounds.{' '}
               <Link href={course.path} className="text-[#1144cc] font-medium hover:underline cursor-pointer">
                 Learn more about this course
@@ -524,8 +524,8 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
       <div className="flex min-[680px]:hidden">
         <div className="w-1 flex-shrink-0 rounded-sm" style={{ backgroundColor: accentColor }} />
         <div className="flex flex-col pl-5">
-          <p className="text-[15px] leading-[1.6] font-semibold text-[#13132e]">Self-paced learning</p>
-          <p className="text-[15px] leading-[1.6] font-normal text-[#13132e] opacity-50">
+          <p className="text-[15px] leading-[1.6] font-semibold text-bluedot-navy">Self-paced learning</p>
+          <p className="text-[15px] leading-[1.6] font-normal text-bluedot-navy/50">
             Open access · {course.durationHours ? `${course.durationHours} hours` : course.durationDescription}
           </p>
           <Link
@@ -545,8 +545,8 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
         <div className="flex items-stretch h-full">
           <div className="w-1 flex-shrink-0 rounded-sm opacity-30 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" style={{ backgroundColor: accentColor }} />
           <div className="flex flex-col justify-center pl-5">
-            <span className="text-[15px] leading-none font-semibold text-[#13132e]">Self-paced learning</span>
-            <span className="text-[15px] leading-none font-normal text-[#13132e] opacity-50 mt-1">
+            <span className="text-[15px] leading-none font-semibold text-bluedot-navy">Self-paced learning</span>
+            <span className="text-[15px] leading-none font-normal text-bluedot-navy/50 mt-1">
               Open access · {course.durationHours ? `${course.durationHours} hours` : course.durationDescription}
             </span>
           </div>
@@ -636,8 +636,8 @@ const CourseRoundItem = ({ round, course }: CourseRoundItemProps) => {
       <div className="flex min-[680px]:hidden">
         <div className="w-1 flex-shrink-0 rounded-sm" style={{ backgroundColor: accentColor }} />
         <div className="flex flex-col pl-5">
-          <p className="text-[15px] leading-[1.6] font-semibold text-[#13132e]">{formattedDateRange}</p>
-          <p className="text-[15px] leading-[1.6] font-normal text-[#13132e] opacity-50">
+          <p className="text-[15px] leading-[1.6] font-semibold text-bluedot-navy">{formattedDateRange}</p>
+          <p className="text-[15px] leading-[1.6] font-normal text-bluedot-navy/50">
             Application closes {round.applicationDeadline}
           </p>
           <a
@@ -663,8 +663,8 @@ const CourseRoundItem = ({ round, course }: CourseRoundItemProps) => {
         <div className="flex items-stretch h-full">
           <div className="w-1 flex-shrink-0 rounded-sm opacity-30 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" style={{ backgroundColor: accentColor }} />
           <div className="flex flex-col justify-center pl-5">
-            <p className="text-[15px] leading-none font-semibold text-[#13132e]">{formattedDateRange}</p>
-            <p className="text-[15px] leading-none font-normal text-[#13132e] opacity-50 mt-1">
+            <p className="text-[15px] leading-none font-semibold text-bluedot-navy">{formattedDateRange}</p>
+            <p className="text-[15px] leading-none font-normal text-bluedot-navy/50 mt-1">
               Application closes {round.applicationDeadline}
             </p>
           </div>

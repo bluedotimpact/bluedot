@@ -176,7 +176,7 @@ const EventCard = ({ event }: { event: Event }) => {
             {event.title}
           </h3>
         </a>
-        <p className="text-[16px] font-normal leading-[1.55] tracking-[-0.032px] text-[#13132e] opacity-70">
+        <p className="text-[16px] font-normal leading-[1.55] tracking-[-0.032px] text-bluedot-navy/70">
           {timeString}
         </p>
       </div>
@@ -398,7 +398,7 @@ const EventsSection = ({ featuredUrls = FEATURED_EVENT_URLS }: EventsSectionProp
         <div className="flex flex-col items-center text-center gap-8 min-[680px]:gap-12 min-[1024px]:gap-12 min-[1280px]:gap-12 mb-12 min-[680px]:mb-12 min-[1024px]:mb-12 min-[1280px]:mb-16">
           <h2
             id="events-section-heading"
-            className="text-[28px] min-[680px]:text-[36px] min-[1024px]:text-[40px] min-[1280px]:text-[48px] font-medium leading-[125%] text-[#13132E] tracking-[-1px] max-w-[666px]"
+            className="text-[28px] min-[680px]:text-[36px] min-[1024px]:text-[40px] min-[1280px]:text-[48px] font-medium leading-[125%] text-bluedot-navy tracking-[-1px] max-w-[666px]"
             style={{ fontFeatureSettings: "'ss04' on" }}
           >
             Join an event near you
@@ -453,7 +453,7 @@ const EventsSection = ({ featuredUrls = FEATURED_EVENT_URLS }: EventsSectionProp
           )}
 
           {!isLoading && displayEvents.length === 0 && (
-            <p className="text-[16px] font-normal leading-[1.55] tracking-[-0.032px] text-[#13132e] opacity-70">
+            <p className="text-[16px] font-normal leading-[1.55] tracking-[-0.032px] text-bluedot-navy/70">
               No upcoming events at the moment. Check back soon!
             </p>
           )}

@@ -104,7 +104,7 @@ const CourseInformationSection = ({
 
                     {/* Description */}
                     <div className="flex-1 min-w-0">
-                      <P className="text-[15px] leading-[160%] text-[#13132E] opacity-80 font-normal">
+                      <P className="text-[15px] leading-[160%] text-bluedot-navy/80 font-normal">
                         {detail.description}
                       </P>
                     </div>

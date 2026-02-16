@@ -53,7 +53,7 @@ const PartnerCard = ({
 
       {/* Description Area */}
       <div className={isDesktop ? 'flex-1' : 'h-[130px]'}>
-        <p className="text-[#13132E] text-size-sm leading-[160%] opacity-80">
+        <p className="text-bluedot-navy/80 text-size-sm leading-[160%]">
           {description}
         </p>
       </div>

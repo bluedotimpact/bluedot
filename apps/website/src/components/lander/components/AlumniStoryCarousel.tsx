@@ -205,7 +205,7 @@ const AlumniStoryCarousel = ({
               {title}
             </H2>
             {subtitle && (
-              <P className="text-[16px] min-[680px]:text-[18px] font-normal leading-[160%] text-[#13132E] opacity-60 italic">
+              <P className="text-[16px] min-[680px]:text-[18px] font-normal leading-[160%] text-bluedot-navy/60 italic">
                 {subtitle}
               </P>
             )}

@@ -146,8 +146,8 @@ const RoundItem = ({ round, applicationUrl, accentColor }: RoundItemProps) => {
 
   const dateContent = (
     <div>
-      {round.dateRange && <p className="text-[15px] leading-[1.6] font-semibold text-[#13132E]">{round.dateRange}</p>}
-      <p className="text-[15px] leading-[1.6] text-[#13132E] opacity-50">
+      {round.dateRange && <p className="text-[15px] leading-[1.6] font-semibold text-bluedot-navy">{round.dateRange}</p>}
+      <p className="text-[15px] leading-[1.6] text-bluedot-navy/50">
         Application closes {round.applicationDeadline}
       </p>
     </div>

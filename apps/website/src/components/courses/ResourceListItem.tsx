@@ -394,7 +394,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
               aria-label="Resource feedback section"
             >
               <div className="flex items-center gap-3 px-2">
-                <P className="font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-[#13132E] opacity-60">
+                <P className="font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-bluedot-navy/60">
                   Was this resource useful?
                 </P>
                 <FeedbackSection

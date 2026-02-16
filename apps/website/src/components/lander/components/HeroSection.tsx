@@ -244,7 +244,7 @@ const HeroSection = ({
                     {title}
                   </H1>
 
-                  <P className="text-size-sm sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed opacity-80 text-[#13132E] whitespace-pre-line">
+                  <P className="text-size-sm sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed text-bluedot-navy/80 whitespace-pre-line">
                     {description}
                   </P>
                 </div>

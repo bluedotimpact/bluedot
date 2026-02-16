@@ -114,7 +114,7 @@ const RoundItem = ({ round }: RoundItemProps) => {
       <p className="text-[15px] leading-[1.6] font-semibold text-bluedot-navy">
         {round.courseTitle} · {round.dateRange}
       </p>
-      <p className="text-[15px] leading-[1.6] text-[#13132E] opacity-50">
+      <p className="text-[15px] leading-[1.6] text-bluedot-navy/50">
         Application closes {round.applicationDeadline}
       </p>
     </div>

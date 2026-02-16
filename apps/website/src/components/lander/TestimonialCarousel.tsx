@@ -228,7 +228,7 @@ const TestimonialCarousel = ({
               </H2>
             )}
             {subtitle && (
-              <P className="text-[16px] min-[680px]:text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80 max-w-full">
+              <P className="text-[16px] min-[680px]:text-[18px] font-normal leading-[160%] text-bluedot-navy/80 max-w-full">
                 {subtitle}
               </P>
             )}

@@ -198,15 +198,15 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             <CheckIcon className="text-bluedot-normal" />
           </div>
           <div className="flex max-w-[512px] flex-col items-center gap-4">
-            <P className="text-center text-[#13132E] opacity-80">
+            <P className="text-center text-bluedot-navy/80">
               We've updated your group's {isSingleUnitChange ? 'discussion' : 'discussions'}.
             </P>
-            <P className="text-center text-[#13132E] opacity-80">
+            <P className="text-center text-bluedot-navy/80">
               As a reminder, <span className="font-bold">we have not notified your participants</span>, so please make
               sure you communicate this with them. You should see the changes reflected in the calendar event and Course
               Hub.
             </P>
-            <P className="text-center text-[#13132E] opacity-80">Please allow up to 10 minutes to see the changes.</P>
+            <P className="text-center text-bluedot-navy/80">Please allow up to 10 minutes to see the changes.</P>
           </div>
           <CTALinkOrButton className="bg-bluedot-normal w-full" onClick={handleClose}>
             Close
@@ -222,11 +222,11 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
             <CheckIcon className="text-bluedot-normal" />
           </div>
           <div className="flex max-w-[512px] flex-col items-center gap-4">
-            <P className="text-center text-[#13132E] opacity-80">
+            <P className="text-center text-bluedot-navy/80">
               You won't be facilitating the group discussion for {selectedDiscussion?.label} for the group{' '}
               {groupOptions.find((g) => g.value === selectedGroupId)?.label}.
             </P>
-            <P className="text-center text-[#13132E] opacity-80">
+            <P className="text-center text-bluedot-navy/80">
               You should see the changes reflected in the calendar event and Course Hub. Please allow up to 10 minutes
               to see the changes.
             </P>
