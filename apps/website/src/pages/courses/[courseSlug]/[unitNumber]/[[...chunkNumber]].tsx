@@ -246,7 +246,7 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
   const resourceById = new Map(allResourcesForUnit.map((resource) => [resource.id, resource]));
   const exerciseById = new Map(allExercisesForUnit.map((exercise) => [exercise.id, exercise]));
 
-  const chunksWithContent = currentUnitChunks.map(async (chunk) => {
+  const chunksWithContent = currentUnitChunks.map((chunk) => {
     // Use pre-fetched resources/exercises for the current unit to avoid N+1 queries, filter out any that might be missing, and sort by readingOrder/exerciseNumber
     const resources = (chunk.chunkResources || [])
       .map((resourceId) => resourceById.get(resourceId))
