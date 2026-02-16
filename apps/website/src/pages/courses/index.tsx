@@ -34,6 +34,15 @@ const COURSE_DESCRIPTIONS: Record<string, string> = {
 /* FoAI course has no cohort rounds - just open access content */
 const isSelfPacedCourse = (course: Course): boolean => course.slug === 'future-of-ai';
 
+/* Fixed order for displaying courses */
+const COURSE_DISPLAY_ORDER = [
+  'agi-strategy',
+  'ai-governance',
+  'biosecurity',
+  'technical-ai-safety',
+  'technical-ai-safety-project',
+];
+
 /* Custom hook to fetch and sort courses with their round data */
 const useSortedCourses = () => {
   const { data: courses, isLoading: coursesLoading, error } = trpc.courses.getAll.useQuery();
@@ -46,111 +55,35 @@ const useSortedCourses = () => {
     return courses.filter((course) => course.displayOnCourseHubIndex);
   }, [courses]);
 
-  // Prefetch all course rounds to enable sorting
-  const roundsQueries = trpc.useQueries((t) => displayedCourses.map((course) => t.courseRounds.getRoundsForCourse({ courseSlug: course.slug })));
-
-  const allRoundsLoaded = roundsQueries.every((q) => !q.isLoading);
-  const isLoading = coursesLoading || !allRoundsLoaded;
-
-  // Build a map of course slug to their sorting data
-  const courseRoundsMap = useMemo(() => {
-    const map = new Map<string, {
-      earliestStartDate: string | null;
-      shortestDuration: number | null;
-      rounds: CourseRounds;
-    }>();
-
-    displayedCourses.forEach((course, index) => {
-      const roundsData = roundsQueries[index]?.data;
-      if (roundsData) {
-        const allRounds = [...(roundsData.intense || []), ...(roundsData.partTime || [])];
-
-        // Get earliest start date across all rounds
-        const startDates = allRounds
-          .map((r) => r.firstDiscussionDateRaw)
-          .filter((d): d is string => !!d);
-
-        const earliestStartDate = startDates.length > 0
-          ? startDates.reduce((a, b) => (new Date(a) < new Date(b) ? a : b))
-          : null;
-
-        // Get shortest duration for tiebreaker (from the round with earliest start)
-        let shortestDuration: number | null = null;
-        if (earliestStartDate) {
-          const earliestRound = allRounds.find((r) => r.firstDiscussionDateRaw === earliestStartDate);
-          shortestDuration = earliestRound?.numberOfUnits ?? null;
-        }
-
-        map.set(course.slug, { earliestStartDate, shortestDuration, rounds: roundsData });
-      }
-    });
-
-    return map;
-  }, [displayedCourses, roundsQueries]);
-
-  // Sort courses: self-paced first, then by earliest start date
+  // Sort courses by fixed display order
   const sortedCourses = useMemo(() => {
-    if (!allRoundsLoaded) {
-      return displayedCourses;
-    }
-
     return [...displayedCourses].sort((a, b) => {
-      const aIsSelfPaced = isSelfPacedCourse(a);
-      const bIsSelfPaced = isSelfPacedCourse(b);
+      const aIndex = COURSE_DISPLAY_ORDER.indexOf(a.slug);
+      const bIndex = COURSE_DISPLAY_ORDER.indexOf(b.slug);
 
-      // Self-paced courses come first
-      if (aIsSelfPaced && !bIsSelfPaced) {
+      // If both are in the order list, sort by their position
+      if (aIndex !== -1 && bIndex !== -1) {
+        return aIndex - bIndex;
+      }
+
+      // If only one is in the order list, it comes first
+      if (aIndex !== -1) {
         return -1;
       }
 
-      if (!aIsSelfPaced && bIsSelfPaced) {
+      if (bIndex !== -1) {
         return 1;
       }
 
-      // Both self-paced: sort alphabetically
-      if (aIsSelfPaced && bIsSelfPaced) {
-        return a.title.localeCompare(b.title);
-      }
-
-      // Cohort-based: sort by earliest upcoming start date
-      const aData = courseRoundsMap.get(a.slug);
-      const bData = courseRoundsMap.get(b.slug);
-      const aStartDate = aData?.earliestStartDate;
-      const bStartDate = bData?.earliestStartDate;
-
-      // Courses with no upcoming rounds go to the end
-      if (!aStartDate && !bStartDate) {
-        return a.title.localeCompare(b.title);
-      }
-
-      if (!aStartDate) {
-        return 1;
-      }
-
-      if (!bStartDate) {
-        return -1;
-      }
-
-      const aStartTime = new Date(aStartDate).getTime();
-      const bStartTime = new Date(bStartDate).getTime();
-
-      // Same start date: shorter duration first
-      if (aStartTime === bStartTime) {
-        const aDuration = aData?.shortestDuration ?? Infinity;
-        const bDuration = bData?.shortestDuration ?? Infinity;
-        return aDuration - bDuration;
-      }
-
-      // Earlier start date first
-      return aStartTime - bStartTime;
+      // If neither is in the order list, sort alphabetically
+      return a.title.localeCompare(b.title);
     });
-  }, [displayedCourses, courseRoundsMap, allRoundsLoaded]);
+  }, [displayedCourses]);
 
   return {
     courses: sortedCourses,
-    isLoading,
+    isLoading: coursesLoading,
     error,
-    courseRoundsMap,
   };
 };
 
@@ -538,6 +471,8 @@ type SelfPacedSectionProps = {
   course: Course;
 };
 
+/** TODO: this is dead code, we can remove it.
+ * In https://github.com/bluedotimpact/bluedot/pull/2062 we stopped FoAI course being shown. */
 const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
   const accentColor = getCourseAccentColor(course.slug);
 
