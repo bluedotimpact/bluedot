@@ -255,7 +255,7 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
   const resourceById = new Map(currentChunkResources.map((resource) => [resource.id, resource]));
  const exerciseById = new Map(currentChunkExercises.map((exercise) => [exercise.id, exercise]));
 
-  const chunksWithContent = await Promise.all(currentUnitChunks.map(async (chunk) => {
+  const chunksWithContent = currentUnitChunks.map(async (chunk) => {
     // Use pre-fetched resources/exercises for the current unit to avoid N+1 queries, filter out any that might be missing, and sort by readingOrder/exerciseNumber
     const resources = (chunk.chunkResources || [])
       .map((resourceId) => resourceById.get(resourceId))
@@ -280,7 +280,7 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
       resources,
       exercises,
     };
-  }));
+  });
 
   return {
     units,
