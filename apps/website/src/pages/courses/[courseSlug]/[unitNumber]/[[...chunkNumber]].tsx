@@ -227,8 +227,8 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
     .filter((chunk) => chunk.unitId === unit.id)
     .sort((a, b) => Number(a.chunkOrder) - Number(b.chunkOrder));
 
-  const chunkResourceIds = currentUnitChunks.flatMap((chunk) => chunk.chunkResources || []);
-  const chunkExerciseIds = currentUnitChunks.flatMap((chunk) => chunk.chunkExercises || []);
+  const chunkResourceIds = currentUnitChunks.flatMap((chunk) => chunk.chunkResources ?? []);
+  const chunkExerciseIds = currentUnitChunks.flatMap((chunk) => chunk.chunkExercises ?? []);
 
   const [allResourcesForUnit, allExercisesForUnit] = await Promise.all([
     chunkResourceIds.length > 0
@@ -247,7 +247,7 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
 
   const chunksWithContent = currentUnitChunks.map((chunk) => {
     // Use pre-fetched resources/exercises for the current unit to avoid N+1 queries, filter out any that might be missing, and sort by readingOrder/exerciseNumber
-    const resources = (chunk.chunkResources || [])
+    const resources = (chunk.chunkResources ?? [])
       .map((resourceId) => resourceById.get(resourceId))
       .filter((r): r is UnitResource => r !== undefined)
       .sort((a, b) => {
@@ -256,7 +256,7 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
         return orderA - orderB;
       });
 
-    const exercises = (chunk.chunkExercises || [])
+    const exercises = (chunk.chunkExercises ?? [])
       .map((exerciseId) => exerciseById.get(exerciseId))
       .filter((e): e is Exercise => e !== undefined)
       .sort((a, b) => {
