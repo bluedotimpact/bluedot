@@ -256,8 +256,8 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
         <div className="absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]">
           <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g opacity="0.6" clipPath="url(#clip0_auto_save)">
-              <path d="M11.875 7L7.5 11.375" stroke="#13132E" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M11 2.1875L2.6875 10.5" stroke="#13132E" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M11.875 7L7.5 11.375" stroke="var(--bluedot-navy)" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M11 2.1875L2.6875 10.5" stroke="var(--bluedot-navy)" strokeLinecap="round" strokeLinejoin="round" />
             </g>
             <defs>
               <clipPath id="clip0_auto_save">

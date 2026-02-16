@@ -24,7 +24,7 @@ export type QuoteSectionProps = {
 const DEFAULT_COLORS = {
   background: '#FFFFFF',
   cardBg: '#ECF0FF',
-  text: '#13132E',
+  text: 'var(--bluedot-navy)',
   accent: 'var(--bluedot-normal)',
 };
 

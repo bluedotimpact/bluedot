@@ -73,7 +73,7 @@ const PersonasSection = ({
                   </div>
                   <span
                     className="text-[18px] min-[680px]:text-[20px] font-semibold leading-[130%] flex-grow text-left"
-                    style={{ color: isExpanded ? 'white' : '#13132E' }}
+                    style={{ color: isExpanded ? 'white' : 'var(--bluedot-navy)' }}
                   >
                     {persona.title}
                   </span>
@@ -87,7 +87,7 @@ const PersonasSection = ({
                   >
                     <path
                       d="M0 8.5H16M8 0.5L8 16.5"
-                      stroke={isExpanded ? 'white' : '#13132E'}
+                      stroke={isExpanded ? 'white' : 'var(--bluedot-navy)'}
                       strokeWidth="2"
                     />
                   </svg>
