@@ -8,12 +8,12 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
     class="max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-12 min-[1280px]:px-44 xl:px-40 py-12 min-[680px]:py-16 min-[1280px]:py-24 xl:py-24 flex flex-col items-center gap-12 md:gap-16"
   >
     <h2
-      class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]"
+      class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]"
     >
       Course information
     </h2>
     <div
-      class="w-[calc(100vw-40px)] min-[680px]:w-[calc(100vw-64px)] lg:w-[928px] xl:w-[1120px] bg-white border border-[rgba(19,19,46,0.1)] rounded-xl py-8 flex flex-col items-center gap-6"
+      class="w-[calc(100vw-40px)] min-[680px]:w-[calc(100vw-64px)] lg:w-[928px] xl:w-[1120px] bg-white border border-bluedot-navy/10 rounded-xl py-8 flex flex-col items-center gap-6"
     >
       <div
         class="flex flex-col w-full"
@@ -26,7 +26,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
             >
               <p
-                class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-[#13132E]"
+                class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
               >
                 Options
               </p>
@@ -35,7 +35,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="flex-1 min-w-0"
             >
               <p
-                class="bluedot-p not-prose text-[15px] leading-[160%] text-[#13132E] opacity-80 font-normal"
+                class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
               >
                 <span
                   class="font-semibold"
@@ -54,7 +54,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
             </div>
           </div>
           <div
-            class="w-full h-px bg-[#13132E] opacity-10 my-6"
+            class="w-full h-px bg-bluedot-navy/10 my-6"
           />
         </div>
         <div>
@@ -65,7 +65,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
             >
               <p
-                class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-[#13132E]"
+                class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
               >
                 Commitment
               </p>
@@ -74,7 +74,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="flex-1 min-w-0"
             >
               <p
-                class="bluedot-p not-prose text-[15px] leading-[160%] text-[#13132E] opacity-80 font-normal"
+                class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
               >
                 Each day or week, you will:
                 <br />
@@ -94,7 +94,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
             </div>
           </div>
           <div
-            class="w-full h-px bg-[#13132E] opacity-10 my-6"
+            class="w-full h-px bg-bluedot-navy/10 my-6"
           />
         </div>
         <div>
@@ -105,7 +105,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
             >
               <p
-                class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-[#13132E]"
+                class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
               >
                 Facilitator
               </p>
@@ -114,14 +114,14 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="flex-1 min-w-0"
             >
               <p
-                class="bluedot-p not-prose text-[15px] leading-[160%] text-[#13132E] opacity-80 font-normal"
+                class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
               >
                 All discussions will be facilitated by an AI safety expert.
               </p>
             </div>
           </div>
           <div
-            class="w-full h-px bg-[#13132E] opacity-10 my-6"
+            class="w-full h-px bg-bluedot-navy/10 my-6"
           />
         </div>
         <div>
@@ -132,7 +132,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
             >
               <p
-                class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-[#13132E]"
+                class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
               >
                 Price
               </p>
@@ -141,14 +141,14 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="flex-1 min-w-0"
             >
               <p
-                class="bluedot-p not-prose text-[15px] leading-[160%] text-[#13132E] opacity-80 font-normal"
+                class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
               >
                 This course is freely available and operates on a "pay-what-you-want" model.
               </p>
             </div>
           </div>
           <div
-            class="w-full h-px bg-[#13132E] opacity-10 my-6"
+            class="w-full h-px bg-bluedot-navy/10 my-6"
           />
         </div>
         <div>
@@ -159,7 +159,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="min-[680px]:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
             >
               <p
-                class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-[#13132E]"
+                class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
               >
                 Schedule
               </p>

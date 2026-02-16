@@ -13,7 +13,7 @@ exports[`StorySection > renders default as expected 1`] = `
       >
         <img
           alt="BlueDot team members at an event"
-          class="size-full rounded-[12px] border border-[rgba(19,19,46,0.1)] object-cover object-center"
+          class="size-full rounded-[12px] border border-bluedot-navy/10 object-cover object-center"
           src="/images/homepage/large-photo.webp"
         />
       </div>

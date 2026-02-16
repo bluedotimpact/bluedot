@@ -8,7 +8,7 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
     class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24 xl:py-24"
   >
     <h2
-      class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-12 md:mb-16 tracking-[-0.01em]"
+      class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy text-center mb-12 md:mb-16 tracking-[-0.01em]"
     >
       Who this course is for
     </h2>
@@ -16,7 +16,7 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
       class="grid grid-cols-1 min-[680px]:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
     >
       <div
-        class="flex flex-col items-center min-[680px]:items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:min-h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
+        class="flex flex-col items-center min-[680px]:items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-bluedot-navy/10 rounded-xl p-8 min-[680px]:min-h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
       >
         <div
           class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-normal"
@@ -37,7 +37,7 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
           </svg>
         </div>
         <p
-          class="bluedot-p not-prose text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-[#13132E]"
+          class="bluedot-p not-prose text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-bluedot-navy"
         >
           <span
             class="font-semibold"
@@ -51,7 +51,7 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
         </p>
       </div>
       <div
-        class="flex flex-col items-center min-[680px]:items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:min-h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
+        class="flex flex-col items-center min-[680px]:items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-bluedot-navy/10 rounded-xl p-8 min-[680px]:min-h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
       >
         <div
           class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-normal"
@@ -72,7 +72,7 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
           </svg>
         </div>
         <p
-          class="bluedot-p not-prose text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-[#13132E]"
+          class="bluedot-p not-prose text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-bluedot-navy"
         >
           <span
             class="font-semibold"
@@ -86,7 +86,7 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
         </p>
       </div>
       <div
-        class="flex flex-col items-center min-[680px]:items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:min-h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
+        class="flex flex-col items-center min-[680px]:items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-bluedot-navy/10 rounded-xl p-8 min-[680px]:min-h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
       >
         <div
           class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-normal"
@@ -107,7 +107,7 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
           </svg>
         </div>
         <p
-          class="bluedot-p not-prose text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-[#13132E]"
+          class="bluedot-p not-prose text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-bluedot-navy"
         >
           <span
             class="font-semibold"

@@ -8,7 +8,7 @@ exports[`PartnerSection > renders correctly 1`] = `
     class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:py-16 min-[1280px]:py-24"
   >
     <h2
-      class="text-[28px] min-[680px]:text-[32px] min-[1280px]:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-[#13132E] text-center mb-12 md:mb-16 max-w-[734px] mx-auto"
+      class="text-[28px] min-[680px]:text-[32px] min-[1280px]:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy text-center mb-12 md:mb-16 max-w-[734px] mx-auto"
     >
       Co-created with our network of leading AI industry partners
     </h2>
@@ -40,7 +40,7 @@ exports[`PartnerSection > renders correctly 1`] = `
               class="h-[130px]"
             >
               <p
-                class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
+                class="text-bluedot-navy/80 text-size-sm leading-[160%]"
               >
                 We collaborate with EF to host AI safety hackathons.
               </p>
@@ -68,7 +68,7 @@ exports[`PartnerSection > renders correctly 1`] = `
               class="h-[130px]"
             >
               <p
-                class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
+                class="text-bluedot-navy/80 text-size-sm leading-[160%]"
               >
                 We collaborate with IFP to get impactful projects off the ground.
               </p>
@@ -96,7 +96,7 @@ exports[`PartnerSection > renders correctly 1`] = `
               class="h-[130px]"
             >
               <p
-                class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
+                class="text-bluedot-navy/80 text-size-sm leading-[160%]"
               >
                 We fast-track entrepreneurs into their 5050 AI cohorts.
               </p>
@@ -130,7 +130,7 @@ exports[`PartnerSection > renders correctly 1`] = `
               class="h-[130px]"
             >
               <p
-                class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
+                class="text-bluedot-navy/80 text-size-sm leading-[160%]"
               >
                 We collaborate with EF to host AI safety hackathons.
               </p>
@@ -159,7 +159,7 @@ exports[`PartnerSection > renders correctly 1`] = `
               class="h-[130px]"
             >
               <p
-                class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
+                class="text-bluedot-navy/80 text-size-sm leading-[160%]"
               >
                 We collaborate with IFP to get impactful projects off the ground.
               </p>
@@ -188,7 +188,7 @@ exports[`PartnerSection > renders correctly 1`] = `
               class="h-[130px]"
             >
               <p
-                class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
+                class="text-bluedot-navy/80 text-size-sm leading-[160%]"
               >
                 We fast-track entrepreneurs into their 5050 AI cohorts.
               </p>
@@ -222,7 +222,7 @@ exports[`PartnerSection > renders correctly 1`] = `
           class="flex-1"
         >
           <p
-            class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
+            class="text-bluedot-navy/80 text-size-sm leading-[160%]"
           >
             A London-based startup incubation programme. We collaborate with EF to host AI safety hackathons.
           </p>
@@ -247,7 +247,7 @@ exports[`PartnerSection > renders correctly 1`] = `
           class="flex-1"
         >
           <p
-            class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
+            class="text-bluedot-navy/80 text-size-sm leading-[160%]"
           >
             IFP is a science and innovation think tank. We collaborate with IFP to get impactful projects off the ground.
           </p>
@@ -272,7 +272,7 @@ exports[`PartnerSection > renders correctly 1`] = `
           class="flex-1"
         >
           <p
-            class="text-[#13132E] text-size-sm leading-[160%] opacity-80"
+            class="text-bluedot-navy/80 text-size-sm leading-[160%]"
           >
             A pre-seed and seed VC firm. We fast-track our most promising entrepreneurs into their 5050 AI cohorts.
           </p>
