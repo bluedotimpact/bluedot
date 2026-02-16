@@ -1,3 +1,4 @@
+import { P } from '@bluedot/ui';
 import { useState } from 'react';
 
 /**
@@ -87,9 +88,9 @@ const FAQSection = ({ id, title, items }: FAQSectionProps) => {
                   >
                     <div className="overflow-hidden">
                       <div className="px-8 pb-6">
-                        <div className="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80">
+                        <P className="text-[18px] text-bluedot-navy/80">
                           {item.answer}
-                        </div>
+                        </P>
                       </div>
                     </div>
                   </div>
