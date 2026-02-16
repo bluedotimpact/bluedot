@@ -55,96 +55,35 @@ const useSortedCourses = () => {
     return courses.filter((course) => course.displayOnCourseHubIndex);
   }, [courses]);
 
-  // Sort courses to enable sorting
-  const roundsQueries = trpc.useQueries((t) => displayedCourses.map((course) => t.courseRounds.getRoundsForCourse({ courseSlug: course.slug })));
-
-  const allRoundsLoaded = roundsQueries.every((q) => !q.isLoading);
-  const isLoading = coursesLoading || !allRoundsLoaded;
-
-  // Build a map of course slug to their sorting data
-  const courseRoundsMap = useMemo(() => {
-    const map = new Map<string, {
-      earliestStartDate: string | null;
-      shortestDuration: number | null;
-      rounds: CourseRounds;
-    }>();
-
-    displayedCourses.forEach((course, index) => {
-      const roundsData = roundsQueries[index]?.data;
-      if (roundsData) {
-        const allRounds = [...(roundsData.intense || []), ...(roundsData.partTime || [])];
-
-        // Get earliest start date across all rounds
-        const startDates = allRounds
-          .map((r) => r.firstDiscussionDateRaw)
-          .filter((d): d is string => !!d);
-
-        const earliestStartDate = startDates.length > 0
-          ? startDates.reduce((a, b) => (new Date(a) < new Date(b) ? a : b))
-          : null;
-
-        // Get shortest duration for tiebreaker (from the round with earliest start)
-        let shortestDuration: number | null = null;
-        if (earliestStartDate) {
-          const earliestRound = allRounds.find((r) => r.firstDiscussionDateRaw === earliestStartDate);
-          shortestDuration = earliestRound?.numberOfUnits ?? null;
-        }
-
-        map.set(course.slug, { earliestStartDate, shortestDuration, rounds: roundsData });
-      }
-    });
-
-    return map;
-  }, [displayedCourses, roundsQueries]);
-
-  // Sort courses: self-paced first, then by earliest start date
+  // Sort courses by fixed display order
   const sortedCourses = useMemo(() => {
-    if (!allRoundsLoaded) return displayedCourses;
-
     return [...displayedCourses].sort((a, b) => {
-      const aIsSelfPaced = isSelfPacedCourse(a);
-      const bIsSelfPaced = isSelfPacedCourse(b);
+      const aIndex = COURSE_DISPLAY_ORDER.indexOf(a.slug);
+      const bIndex = COURSE_DISPLAY_ORDER.indexOf(b.slug);
 
-      // Self-paced courses come first
-      if (aIsSelfPaced && !bIsSelfPaced) return -1;
-      if (!aIsSelfPaced && bIsSelfPaced) return 1;
-
-      // Both self-paced: sort alphabetically
-      if (aIsSelfPaced && bIsSelfPaced) {
-        return a.title.localeCompare(b.title);
+      // If both are in the order list, sort by their position
+      if (aIndex !== -1 && bIndex !== -1) {
+        return aIndex - bIndex;
       }
 
-      // Cohort-based: sort by earliest upcoming start date
-      const aData = courseRoundsMap.get(a.slug);
-      const bData = courseRoundsMap.get(b.slug);
-      const aStartDate = aData?.earliestStartDate;
-      const bStartDate = bData?.earliestStartDate;
-
-      // Courses with no upcoming rounds go to the end
-      if (!aStartDate && !bStartDate) return a.title.localeCompare(b.title);
-      if (!aStartDate) return 1;
-      if (!bStartDate) return -1;
-
-      const aStartTime = new Date(aStartDate).getTime();
-      const bStartTime = new Date(bStartDate).getTime();
-
-      // Same start date: shorter duration first
-      if (aStartTime === bStartTime) {
-        const aDuration = aData?.shortestDuration ?? Infinity;
-        const bDuration = bData?.shortestDuration ?? Infinity;
-        return aDuration - bDuration;
+      // If only one is in the order list, it comes first
+      if (aIndex !== -1) {
+        return -1;
       }
 
-      // Earlier start date first
-      return aStartTime - bStartTime;
+      if (bIndex !== -1) {
+        return 1;
+      }
+
+      // If neither is in the order list, sort alphabetically
+      return a.title.localeCompare(b.title);
     });
-  }, [displayedCourses, courseRoundsMap, allRoundsLoaded]);
+  }, [displayedCourses]);
 
   return {
     courses: sortedCourses,
-    isLoading,
+    isLoading: coursesLoading,
     error,
-    courseRoundsMap,
   };
 };
 
@@ -286,7 +225,9 @@ const useActiveSection = (sectionIds: string[]): string | null => {
   const [activeSection, setActiveSection] = useState<string | null>(null);
 
   useEffect(() => {
-    if (sectionIds.length === 0) return undefined;
+    if (sectionIds.length === 0) {
+      return undefined;
+    }
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -307,7 +248,9 @@ const useActiveSection = (sectionIds: string[]): string | null => {
 
     sectionIds.forEach((id) => {
       const element = document.getElementById(id);
-      if (element) observer.observe(element);
+      if (element) {
+        observer.observe(element);
+      }
     });
 
     return () => observer.disconnect();
@@ -418,13 +361,15 @@ const CourseCard = ({ course }: CourseCardProps) => {
   const isSelfPaced = isSelfPacedCourse(course);
   const hasIntense = rounds?.intense && rounds.intense.length > 0;
   const hasPartTime = rounds?.partTime && rounds.partTime.length > 0;
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const showRounds = hasIntense || hasPartTime;
 
   return (
     <article className="flex flex-col">
       <CourseHeader course={course} />
 
-      <p className="mt-6 text-[18px] leading-[1.6] font-normal text-bluedot-navy/80">
+      <p className="mt-6 text-[18px] leading-[1.6] font-normal text-bluedot-navy opacity-80">
+        {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
         {COURSE_DESCRIPTIONS[course.slug] || course.shortDescription}
       </p>
 
@@ -460,7 +405,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
         {/* No Upcoming Rounds */}
         {!roundsLoading && !isSelfPaced && !showRounds && (
           <div className="flex items-center min-h-[48px] border-l-4 border-bluedot-navy/20 pl-5">
-            <p className="text-[15px] leading-[1.6] font-normal text-bluedot-navy/50">
+            <p className="text-[15px] leading-[1.6] font-normal text-bluedot-navy opacity-50">
               No upcoming rounds.{' '}
               <Link href={course.path} className="text-[#1144cc] font-medium hover:underline cursor-pointer">
                 Learn more about this course
@@ -526,6 +471,8 @@ type SelfPacedSectionProps = {
   course: Course;
 };
 
+/** TODO: this is dead code, we can remove it.
+ * In https://github.com/bluedotimpact/bluedot/pull/2062 we stopped FoAI course being shown. */
 const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
   const accentColor = getCourseAccentColor(course.slug);
 
@@ -536,7 +483,7 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
         <div className="w-1 flex-shrink-0 rounded-sm" style={{ backgroundColor: accentColor }} />
         <div className="flex flex-col pl-5">
           <p className="text-[15px] leading-[1.6] font-semibold text-bluedot-navy">Self-paced learning</p>
-          <p className="text-[15px] leading-[1.6] font-normal text-bluedot-navy/50">
+          <p className="text-[15px] leading-[1.6] font-normal text-bluedot-navy opacity-50">
             Open access · {course.durationHours ? `${course.durationHours} hours` : course.durationDescription}
           </p>
           <Link
@@ -557,7 +504,7 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
           <div className="w-1 flex-shrink-0 rounded-sm opacity-30 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" style={{ backgroundColor: accentColor }} />
           <div className="flex flex-col justify-center pl-5">
             <span className="text-[15px] leading-none font-semibold text-bluedot-navy">Self-paced learning</span>
-            <span className="text-[15px] leading-none font-normal text-bluedot-navy/50 mt-1">
+            <span className="text-[15px] leading-none font-normal text-bluedot-navy opacity-50 mt-1">
               Open access · {course.durationHours ? `${course.durationHours} hours` : course.durationDescription}
             </span>
           </div>
@@ -627,6 +574,7 @@ const CourseRoundItem = ({ round, course }: CourseRoundItemProps) => {
   const { latestUtmParams } = useLatestUtmParams();
   const accentColor = getCourseAccentColor(course.slug);
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const baseApplicationUrl = course.applyUrl || '';
 
   // Add UTM source prefill if available
@@ -648,7 +596,7 @@ const CourseRoundItem = ({ round, course }: CourseRoundItemProps) => {
         <div className="w-1 flex-shrink-0 rounded-sm" style={{ backgroundColor: accentColor }} />
         <div className="flex flex-col pl-5">
           <p className="text-[15px] leading-[1.6] font-semibold text-bluedot-navy">{formattedDateRange}</p>
-          <p className="text-[15px] leading-[1.6] font-normal text-bluedot-navy/50">
+          <p className="text-[15px] leading-[1.6] font-normal text-bluedot-navy opacity-50">
             Application closes {round.applicationDeadline}
           </p>
           <a
@@ -675,7 +623,7 @@ const CourseRoundItem = ({ round, course }: CourseRoundItemProps) => {
           <div className="w-1 flex-shrink-0 rounded-sm opacity-30 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" style={{ backgroundColor: accentColor }} />
           <div className="flex flex-col justify-center pl-5">
             <p className="text-[15px] leading-none font-semibold text-bluedot-navy">{formattedDateRange}</p>
-            <p className="text-[15px] leading-none font-normal text-bluedot-navy/50 mt-1">
+            <p className="text-[15px] leading-none font-normal text-bluedot-navy opacity-50 mt-1">
               Application closes {round.applicationDeadline}
             </p>
           </div>
