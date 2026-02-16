@@ -72,7 +72,7 @@ const UnitMetadataDisplay = ({
     <div className="flex items-center gap-1">
       {duration != null && (
         <>
-          <CgTime className="size-[18px] text-[#13132E] opacity-60" />
+          <CgTime className="size-[18px] text-bluedot-navy/60" />
           <span className="text-[13px] font-medium leading-[1.4] tracking-[-0.065px] text-bluedot-navy/60">
             {formatDuration(duration)}
           </span>
