@@ -618,6 +618,7 @@ All components in `libraries/ui` follow Bluedot branding. **Always reuse these c
 - **Platform**: Kubernetes with nginx on Vultr
 - **Infrastructure as Code**: Pulumi (`apps/infra`)
 - **Observability**: OpenTelemetry, Grafana
+- **Preview environments**: Render
 
 ### Clearing the CI cache
 
@@ -626,6 +627,20 @@ If CI is behaving strangely (e.g. tests pass locally but fail in CI, or you're s
 ### Force deploying the website
 
 Production deploys normally require CI/CD to have passed on the tagged commit. To bypass this in an emergency, go to [Actions → website_deploy_production → Run workflow](https://github.com/bluedotimpact/bluedot/actions/workflows/website_deploy_production.yaml), select the tag to deploy, and tick "Skip CI/CD check".
+
+### Preview deployments
+
+Render automatically deploys a preview site for each open PR, this is the only thing we use it for (the production site is deployed by Kubernetes on our own cluster).
+
+To enable this in the Render dashboard, preview deployments need to be turned on for PRs against master, and these three steps need to be set in the project settings:
+- **Build:** `cd apps/website && npm install && npm run render-preview -- build`
+- **Pre-deploy:** `cd apps/website && npm run render-preview -- pre-deploy`
+- **Start:** `cd apps/website && npm run render-preview -- start`
+
+Required environment variables in Render (in addition to what is generally required):
+- `KEYCLOAK_PREVIEW_CLIENT_ID` — service-account client ID with permission to manage redirect URIs
+- `KEYCLOAK_PREVIEW_CLIENT_SECRET` — corresponding client secret
+- `SITE_ACCESS_PASSWORD` — password gate for preview sites
 
 ### Deployment Processes
 

@@ -1,20 +1,48 @@
 /* eslint-disable no-console */
 
 /**
- * Registers the current Render preview URL as an allowed redirect URI
- * in KeyCloak for the website client, and cleans up URIs for closed PRs.
- * Intended to run as a Render pre-deploy command.
+ * Script for creating Render preview deployments.
+ *
+ * Usage:
+ *   npm run render-preview -- build
+ *   npm run render-preview -- pre-deploy
+ *   npm run render-preview -- start
+ *
+ * Render dashboard commands:
+ *   Build:      cd apps/website && npm install && npm run render-preview -- build
+ *   Pre-deploy: cd apps/website && npm run render-preview -- pre-deploy
+ *   Start:      cd apps/website && npm run render-preview -- start
  */
 
+import { execSync } from 'child_process';
 import { validateEnv } from '@bluedot/utils';
 
-const env = validateEnv({
-  required: [
-    'RENDER_EXTERNAL_URL',
-    'KEYCLOAK_PREVIEW_CLIENT_ID',
-    'KEYCLOAK_PREVIEW_CLIENT_SECRET',
-  ],
-});
+const command = process.argv[2];
+
+function run(cmd: string) {
+  console.log(`$ ${cmd}`);
+  execSync(cmd, { stdio: 'inherit' });
+}
+
+// ── build ──────────────────────────────────────────────────────────────
+
+function build() {
+  const { RENDER_EXTERNAL_URL } = validateEnv({ required: ['RENDER_EXTERNAL_URL'] });
+
+  run(`NEXT_PUBLIC_SITE_URL=${RENDER_EXTERNAL_URL} npm run build`);
+  run('cp -r public/. dist/standalone/apps/website/public/');
+  run('cp -r dist/static dist/standalone/apps/website/dist/static');
+}
+
+// ── start ──────────────────────────────────────────────────────────────
+
+function start() {
+  const { RENDER_EXTERNAL_URL } = validateEnv({ required: ['RENDER_EXTERNAL_URL'] });
+
+  run(`NEXT_PUBLIC_SITE_URL=${RENDER_EXTERNAL_URL} node dist/standalone/apps/website/server.js`);
+}
+
+// ── pre-deploy (keycloak redirect registration) ────────────────────────
 
 const KEYCLOAK_BASE_URL = 'https://login.bluedot.org';
 const KEYCLOAK_REALM = 'customers';
@@ -43,13 +71,13 @@ async function isPrOpen(prNumber: number): Promise<boolean> {
     headers: { Accept: 'application/vnd.github.v3+json' },
   });
   if (response.status === 404) {
-    return false; // PR doesn't exist
+    return false;
   }
 
   if (!response.ok) {
     console.warn(`Failed to check PR #${prNumber}: ${response.status}, keeping URI`);
 
-    return true; // keep URI if we can't check
+    return true;
   }
 
   const pr = await response.json() as { state: string };
@@ -63,7 +91,15 @@ function extractPrNumber(uri: string): number | null {
   return match ? Number(match[1]) : null;
 }
 
-async function main() {
+async function preDeploy() {
+  const env = validateEnv({
+    required: [
+      'RENDER_EXTERNAL_URL',
+      'KEYCLOAK_PREVIEW_CLIENT_ID',
+      'KEYCLOAK_PREVIEW_CLIENT_SECRET',
+    ],
+  });
+
   const redirectUri = `${env.RENDER_EXTERNAL_URL}/*`;
   console.log(`Registering redirect URI: ${redirectUri}`);
 
@@ -141,7 +177,27 @@ async function main() {
   console.log(`Updated redirect URIs (${client.redirectUris.length} -> ${uris.length})`);
 }
 
+// ── main ───────────────────────────────────────────────────────────────
+
+async function main() {
+  switch (command) {
+    case 'build':
+      build();
+      break;
+    case 'pre-deploy':
+      await preDeploy();
+      break;
+    case 'start':
+      start();
+      break;
+    default:
+      console.error(`Unknown command: ${command}`);
+      console.error('Usage: npm run render-preview -- <build|pre-deploy|start>');
+      process.exit(1);
+  }
+}
+
 main().catch((error: unknown) => {
-  console.error('Failed to register KeyCloak redirect URI:', error);
+  console.error('render-preview failed:', error);
   process.exit(1);
 });

@@ -16,7 +16,8 @@
     "test:watch": "vitest",
     "deploy:cd": "npm run deploy:multistage:staging",
     "deploy:multistage:production": "docker-scripts multistage-deploy-production",
-    "deploy:multistage:staging": "docker-scripts multistage-deploy-staging"
+    "deploy:multistage:staging": "docker-scripts multistage-deploy-staging",
+    "render-preview": "tsx scripts/render-preview.ts"
   },
   "dependencies": {
     "@bluedot/db": "*",
