@@ -1,4 +1,6 @@
-import { Card, P, Section, SlideList } from '@bluedot/ui';
+import {
+  Card, P, Section, SlideList,
+} from '@bluedot/ui';
 import { isMobile } from 'react-device-detect';
 
 const values = [
