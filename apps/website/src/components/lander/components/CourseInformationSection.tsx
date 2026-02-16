@@ -77,9 +77,9 @@ const CourseInformationSection = ({
                         accentColor={accentColor}
                         fallbackContent={(
                           <div className="flex flex-col gap-4">
-                            <div className="text-[15px] leading-[160%] text-[#13132E] opacity-80 font-normal">
+                            <P className="text-[15px] leading-[160%] text-bluedot-navy/80 font-normal">
                               {detail.scheduleDescription}
-                            </div>
+                            </P>
                             <div className="flex justify-start">
                               <CTALinkOrButton
                                 url={applicationUrl}
