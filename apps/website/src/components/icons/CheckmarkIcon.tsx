@@ -1,5 +1,5 @@
 import { cn } from '@bluedot/ui';
-import React from 'react';
+import type React from 'react';
 
 type CheckmarkIconProps = {
   className?: string;

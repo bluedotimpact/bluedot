@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import { Modal } from './Modal';
 import { CTALinkOrButton } from './CTALinkOrButton';
 import { ErrorView } from './ErrorView';
@@ -6,7 +7,7 @@ import { SocialShare } from './SocialShare';
 import { A } from './Text';
 
 export type BugReportModalProps = {
-  onSubmit?: (message: string) => void;
+  onSubmit?: (message: string) => void | Promise<void>;
   isOpen?: boolean;
   setIsOpen?: (isOpen: boolean) => void;
   // Social media links
@@ -62,12 +63,12 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
               .
             </p>
             {showTextarea && (
-            <textarea
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className="w-full h-32 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Your message"
-            />
+              <textarea
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                className="w-full h-32 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Your message"
+              />
             )}
           </div>
 

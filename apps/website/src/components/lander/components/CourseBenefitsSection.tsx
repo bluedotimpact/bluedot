@@ -1,6 +1,6 @@
 import { H2, H3, P } from '@bluedot/ui';
-import { IconType } from 'react-icons';
-import { ReactNode } from 'react';
+import { type IconType } from 'react-icons';
+import { type ReactNode } from 'react';
 
 export type BenefitCard = {
   icon: IconType;

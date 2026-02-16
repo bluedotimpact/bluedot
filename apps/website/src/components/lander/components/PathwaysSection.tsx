@@ -1,5 +1,5 @@
 import { H2, P } from '@bluedot/ui';
-import { IconType } from 'react-icons';
+import { type IconType } from 'react-icons';
 import Link from 'next/link';
 
 export type Pathway = {

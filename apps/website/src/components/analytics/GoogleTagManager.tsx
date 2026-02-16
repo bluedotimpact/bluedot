@@ -1,5 +1,6 @@
 import { GoogleTagManager as NextGoogleTagManager } from '@next/third-parties/google';
-import React, { useEffect, useRef } from 'react';
+import type React from 'react';
+import { useEffect, useRef } from 'react';
 import { useConsentStore } from './consent';
 
 export const GoogleTagManager: React.FC = () => {
@@ -24,6 +25,7 @@ const GoogleTagManagerConsentListener: React.FC = () => {
   const hasInited = useRef(false);
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(['consent', hasInited.current ? 'update' : 'default', {
       ad_user_data: consentValue,

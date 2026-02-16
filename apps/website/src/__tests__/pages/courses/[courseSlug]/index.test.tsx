@@ -8,7 +8,7 @@ import { createMockCourse, createMockUnit, renderWithHead } from '../../../testU
 // `renderWithHead` for more details.
 vi.mock('next/head', () => ({
   __esModule: true,
-  default: ({ children }: { children: React.ReactNode }) => {
+  default({ children }: { children: React.ReactNode }) {
     if (children) {
       return (
         <head-proxy data-testid="head-proxy">
@@ -16,6 +16,7 @@ vi.mock('next/head', () => ({
         </head-proxy>
       );
     }
+
     return null;
   },
 }));
@@ -37,14 +38,12 @@ describe('CoursePage SSR/SEO', () => {
   });
 
   test('renders SEO meta tags during SSR without API calls', () => {
-    renderWithHead(
-      <CoursePage
-        courseSlug="ai-safety-fundamentals"
-        courseData={{ course: mockCourse, units: mockUnits }}
-        courseOgImage={`https://bluedot.org/images/courses/link-preview/${mockCourse.slug}.png`}
-        soonestDeadline={null}
-      />,
-    );
+    renderWithHead(<CoursePage
+      courseSlug="ai-safety-fundamentals"
+      courseData={{ course: mockCourse, units: mockUnits }}
+      courseOgImage={`https://bluedot.org/images/courses/link-preview/${mockCourse.slug}.png`}
+      soonestDeadline={null}
+    />);
 
     expect(document.title).toBe('AI Safety Fundamentals | BlueDot Impact');
 
@@ -69,13 +68,11 @@ describe('CoursePage SSR/SEO', () => {
   });
 
   test('uses fallback logo image when no `courseOgImage` provided', () => {
-    renderWithHead(
-      <CoursePage
-        courseSlug="ai-safety-fundamentals"
-        courseData={{ course: mockCourse, units: mockUnits }}
-        soonestDeadline={null}
-      />,
-    );
+    renderWithHead(<CoursePage
+      courseSlug="ai-safety-fundamentals"
+      courseData={{ course: mockCourse, units: mockUnits }}
+      soonestDeadline={null}
+    />);
 
     const ogImage = document.querySelector('meta[property="og:image"]');
     expect(ogImage?.getAttribute('content')).toBe('https://bluedot.org/images/logo/link-preview-fallback.png');

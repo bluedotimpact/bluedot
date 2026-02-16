@@ -1,7 +1,7 @@
 import {
   Card, CTALinkOrButton, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
-import React from 'react';
+import type React from 'react';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { trpc } from '../../utils/trpc';
 import { FOAI_COURSE_ID } from '../../lib/constants';
@@ -33,6 +33,7 @@ const ActionPlanCardAuthed: React.FC<ActionPlanCardProps> = ({ courseId }) => {
     isLoading: meetPersonLoading,
     error: meetPersonError,
   } = trpc.meetPerson.getByCourseRegistrationId.useQuery(
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     { courseRegistrationId: courseRegistration?.id || '' },
     { enabled: !!courseRegistration?.id },
   );
@@ -52,12 +53,14 @@ const ActionPlanCardAuthed: React.FC<ActionPlanCardProps> = ({ courseId }) => {
   }
 
   // Handle error state
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   if (courseRegistrationError || meetPersonError) {
     return (
       <Card
         title="Your Certificate"
         className="container-lined p-8 bg-white"
       >
+        {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
         <ErrorView error={courseRegistrationError || meetPersonError} />
       </Card>
     );

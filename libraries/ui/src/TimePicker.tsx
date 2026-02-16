@@ -26,7 +26,9 @@ export const TimePicker = ({
 
   // Convert Time object to Date object in onChange
   const handleChange = (newValue: Time | null) => {
-    if (!onTimeChange) return;
+    if (!onTimeChange) {
+      return;
+    }
 
     if (newValue) {
       const date = timeValue ? new Date(timeValue) : new Date();

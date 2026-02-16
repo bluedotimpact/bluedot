@@ -12,7 +12,7 @@ import { server, trpcMsw } from '../trpcMswSetup';
 // `renderWithHead` for more details.
 vi.mock('next/head', () => ({
   __esModule: true,
-  default: ({ children }: { children: React.ReactNode }) => {
+  default({ children }: { children: React.ReactNode }) {
     if (children) {
       return (
         <head-proxy data-testid="head-proxy">
@@ -20,6 +20,7 @@ vi.mock('next/head', () => ({
         </head-proxy>
       );
     }
+
     return null;
   },
 }));
@@ -55,22 +56,18 @@ describe('CertificatePage SSR/SEO', () => {
       pathname: '/certification',
       asPath: '/certification',
     } as ReturnType<typeof useRouter>);
-    server.use(
-      trpcMsw.certificates.verifyOwnership.query(() => ({ isOwner: false })),
-    );
+    server.use(trpcMsw.certificates.verifyOwnership.query(() => ({ isOwner: false })));
   });
 
   test('renders SEO meta tags during SSR without API calls', () => {
-    renderWithHead(
-      <TrpcProvider>
-        <CertificatePage
-          certificate={mockCertificate}
-          certificateId="cert123"
-          linkPreviewFilename="link-preview-image.png"
-          nextCohortText={null}
-        />
-      </TrpcProvider>,
-    );
+    renderWithHead(<TrpcProvider>
+      <CertificatePage
+        certificate={mockCertificate}
+        certificateId="cert123"
+        linkPreviewFilename="link-preview-image.png"
+        nextCohortText={null}
+      />
+    </TrpcProvider>);
 
     expect(document.title).toBe('Jane Smith has completed AI Safety Fundamentals | BlueDot Impact');
 

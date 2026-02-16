@@ -1,7 +1,7 @@
 import {
   describe, expect, test, beforeEach, vi,
 } from 'vitest';
-import { Blog } from '@bluedot/db';
+import { type Blog } from '@bluedot/db';
 import BlogPostPage from '../../../pages/blog/[slug]';
 import { renderWithHead } from '../../testUtils';
 
@@ -9,7 +9,7 @@ import { renderWithHead } from '../../testUtils';
 // `renderWithHead` for more details.
 vi.mock('next/head', () => ({
   __esModule: true,
-  default: ({ children }: { children: React.ReactNode }) => {
+  default({ children }: { children: React.ReactNode }) {
     if (children) {
       return (
         <head-proxy data-testid="head-proxy">
@@ -17,6 +17,7 @@ vi.mock('next/head', () => ({
         </head-proxy>
       );
     }
+
     return null;
   },
 }));
@@ -40,12 +41,10 @@ describe('BlogPostPage SSR/SEO', () => {
   });
 
   test('renders SEO meta tags during SSR without API calls', () => {
-    renderWithHead(
-      <BlogPostPage
-        slug="my-amazing-blog-post"
-        blog={mockBlog}
-      />,
-    );
+    renderWithHead(<BlogPostPage
+      slug="my-amazing-blog-post"
+      blog={mockBlog}
+    />);
 
     expect(document.title).toBe('My Amazing Blog Post | BlueDot Impact');
 

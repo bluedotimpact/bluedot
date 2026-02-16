@@ -8,25 +8,25 @@ import db from '../../../lib/api/db';
 import { parseZoomLink } from '../../../lib/zoomLinkParser';
 
 export type MeetingParticipantsRequest = {
-  groupId: string,
+  groupId: string;
 };
 
 export type MeetingParticipantsResponse = {
-  type: 'success',
-  groupDiscussionId: string,
+  type: 'success';
+  groupDiscussionId: string;
   participants: {
-    id: string,
-    name: string,
-    role: 'host' | 'participant',
-  }[],
-  meetingNumber: string,
-  meetingPassword: string,
-  meetingHostKey: string,
+    id: string;
+    name: string;
+    role: 'host' | 'participant';
+  }[];
+  meetingNumber: string;
+  meetingPassword: string;
+  meetingHostKey: string;
   /* unix time in seconds */
-  meetingStartTime: number,
+  meetingStartTime: number;
   /* unix time in seconds */
-  meetingEndTime: number,
-  activityDoc?: string,
+  meetingEndTime: number;
+  activityDoc?: string;
 };
 
 export default makeApiRoute({
@@ -60,7 +60,7 @@ export default makeApiRoute({
     .filter((groupDiscussion) => !!groupDiscussion.startDateTime && !!groupDiscussion.endDateTime)
     .map((groupDiscussion) => ({
       groupDiscussion,
-      distance: Math.abs((Date.now() / 1000) - (groupDiscussion.startDateTime!)),
+      distance: Math.abs((Date.now() / 1000) - (groupDiscussion.startDateTime)),
     }));
 
   if (groupDiscussionsWithDistance.length === 0) {
@@ -105,8 +105,8 @@ export default makeApiRoute({
     meetingNumber,
     meetingPassword,
     meetingHostKey,
-    meetingStartTime: groupDiscussion.startDateTime!,
-    meetingEndTime: groupDiscussion.endDateTime!,
+    meetingStartTime: groupDiscussion.startDateTime,
+    meetingEndTime: groupDiscussion.endDateTime,
     activityDoc: groupDiscussion.activityDoc ?? undefined,
   };
 });

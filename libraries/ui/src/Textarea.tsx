@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { forwardRef } from 'react';
 
 export type TextareaProps = {
-  className?: string
+  className?: string;
 }
 & React.DetailedHTMLProps<React.TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement>
 & React.RefAttributes<HTMLTextAreaElement>;

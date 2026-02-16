@@ -1,5 +1,5 @@
 import * as k8s from '@pulumi/kubernetes';
-import { core } from '@pulumi/kubernetes/types/input';
+import { type core } from '@pulumi/kubernetes/types/input';
 import { provider } from './provider';
 import { config } from '../config';
 
@@ -31,7 +31,6 @@ export const envVarSources = toK8s.reduce((obj, key) => {
     },
   }, { provider });
 
-  // eslint-disable-next-line no-param-reassign
   obj[key] = { secretKeyRef: { name: resource.metadata.name, key: 'value' } };
   return obj;
 }, {} as Record<typeof toK8s[number], core.v1.EnvVarSource>);

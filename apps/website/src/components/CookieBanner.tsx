@@ -1,16 +1,18 @@
-import React from 'react';
+import type React from 'react';
 import clsx from 'clsx';
 import { A, CTALinkOrButton } from '@bluedot/ui';
 import { useConsentStore } from './analytics/consent';
 
 export type CookieBannerProps = {
   // Optional
-  className?: string
+  className?: string;
 };
 
 export const CookieBanner: React.FC<CookieBannerProps> = ({ className }) => {
   const isConsented = useConsentStore((s) => s.isConsented);
-  if (isConsented !== undefined) return null;
+  if (isConsented !== undefined) {
+    return null;
+  }
 
   const rootClassName = clsx(
     'cookie-banner container-dialog fixed bottom-6 right-0 mx-4 sm:mx-6 flex flex-col gap-5 p-6 bg-cream-normal w-fit max-w-[420px] z-100',

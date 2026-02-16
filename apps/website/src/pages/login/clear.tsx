@@ -52,9 +52,7 @@ const LogoutPage: React.FC = () => {
 
   return (
     <Navigate
-      url={`https://login.bluedot.org/realms/customers/protocol/openid-connect/logout?id_token_hint=${encodeURIComponent(
-        auth.token,
-      )}&post_logout_redirect_uri=${encodeURIComponent(postLogoutRedirectUri)}`}
+      url={`https://login.bluedot.org/realms/customers/protocol/openid-connect/logout?id_token_hint=${encodeURIComponent(auth.token)}&post_logout_redirect_uri=${encodeURIComponent(postLogoutRedirectUri)}`}
     />
   );
 };

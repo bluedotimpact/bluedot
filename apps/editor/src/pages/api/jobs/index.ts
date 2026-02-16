@@ -1,13 +1,13 @@
 import { z } from 'zod';
-import { jobPostingTable, InferSelectModel } from '@bluedot/db';
+import { jobPostingTable, type InferSelectModel } from '@bluedot/db';
 import db from '../../../lib/api/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 
 type JobPosting = InferSelectModel<typeof jobPostingTable.pg>;
 
 export type GetJobsResponse = {
-  type: 'success',
-  jobs: Omit<JobPosting, 'body'>[],
+  type: 'success';
+  jobs: Omit<JobPosting, 'body'>[];
 };
 
 export default makeApiRoute({
@@ -28,8 +28,13 @@ export default makeApiRoute({
       const aIsPublished = a.publicationStatus === 'Published';
       const bIsPublished = b.publicationStatus === 'Published';
 
-      if (aIsPublished && !bIsPublished) return -1;
-      if (!aIsPublished && bIsPublished) return 1;
+      if (aIsPublished && !bIsPublished) {
+        return -1;
+      }
+
+      if (!aIsPublished && bIsPublished) {
+        return 1;
+      }
 
       // If both have the same publication status, sort by publishedAt date (most recent first)
       const aDate = a.publishedAt || 0;

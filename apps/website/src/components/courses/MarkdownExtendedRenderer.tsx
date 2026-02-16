@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { evaluate } from '@mdx-js/mdx';
-import { MDXContent } from 'mdx/types';
+import { type MDXContent } from 'mdx/types';
 import clsx from 'clsx';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { visit } from 'unist-util-visit';
@@ -12,7 +12,7 @@ import remarkBreaks from 'remark-breaks';
 import Greeting from './Greeting';
 import Embed from './Embed';
 import Callout from './Callout';
-// eslint-disable-next-line import/no-cycle
+
 import Exercise from './exercises/Exercise';
 
 /**
@@ -29,10 +29,10 @@ const remarkUnescapeMdxAttributes: Plugin = () => {
       node.attributes.forEach((attr) => {
         if (
           attr.type === 'mdxJsxAttribute'
-            && typeof attr.value === 'string'
+          && typeof attr.value === 'string'
         ) {
           // Unescape common markdown characters in attribute values
-          // eslint-disable-next-line no-param-reassign
+
           attr.value = attr.value.replace(
             /\\([_*[\]()#+\-.!`~])/g,
             '$1',
@@ -93,12 +93,10 @@ const preprocessAirtableContent = (content: string): string => {
   );
 
   // Get MDX component names from getSupportedComponents (excluding lowercase 'a' link override)
-  const supportedComponents = Object.keys(getSupportedComponents()).filter(
-    (name) => {
-      const firstChar = name[0];
-      return firstChar !== undefined && firstChar === firstChar.toUpperCase();
-    },
-  );
+  const supportedComponents = Object.keys(getSupportedComponents()).filter((name) => {
+    const firstChar = name[0];
+    return firstChar === firstChar?.toUpperCase();
+  });
 
   // Create regex pattern to match component names
   // Need to match both opening and closing tags: <Embed> and </Embed>
@@ -125,9 +123,9 @@ const jsxsWithKey = (type: React.ElementType, props: Record<string, unknown> & {
   if (children && Array.isArray(children)) {
     const keyedChildren = children.map((child, index) => {
       if (React.isValidElement(child) && !child.key) {
-        // eslint-disable-next-line react/no-array-index-key
         return React.cloneElement(child as React.ReactElement, { key: index });
       }
+
       return child;
     });
     return React.createElement(type, restProps, ...keyedChildren);
@@ -156,7 +154,7 @@ const MarkdownExtendedRenderer: React.FC<MarkdownRendererProps> = ({ children, c
   }, [children, setComponent]);
 
   // Return null if there's no content to avoid rendering empty containers
-  if (!children || !children.trim()) {
+  if (!children?.trim()) {
     return null;
   }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import {
   FaCheck, FaClock, FaAward, FaBookOpen, FaShare,
   FaCubesStacked,
@@ -11,7 +11,7 @@ import {
   P,
   useCurrentTimeMs,
 } from '@bluedot/ui';
-import { courseRegistrationTable, courseTable } from '@bluedot/db';
+import { type courseRegistrationTable, type courseTable } from '@bluedot/db';
 import { ROUTES } from '../../lib/routes';
 import SocialShare from '../courses/SocialShare';
 import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
@@ -24,9 +24,7 @@ type SettingsCourseCardProps = {
 const SettingsCourseCard: React.FC<SettingsCourseCardProps> = ({ course, courseRegistration }) => {
   const currentTimeMs = useCurrentTimeMs();
   const isCompleted = !!courseRegistration.certificateId;
-  const formattedCompletionDate = new Date(
-    courseRegistration.certificateCreatedAt ? courseRegistration.certificateCreatedAt * 1000 : currentTimeMs,
-  ).toLocaleDateString(undefined, { dateStyle: 'long' });
+  const formattedCompletionDate = new Date(courseRegistration.certificateCreatedAt ? courseRegistration.certificateCreatedAt * 1000 : currentTimeMs).toLocaleDateString(undefined, { dateStyle: 'long' });
 
   return (
     <div
@@ -73,24 +71,24 @@ const SettingsCourseCard: React.FC<SettingsCourseCardProps> = ({ course, courseR
             </div>
 
             {isCompleted && (
-            <div className="flex flex-col gap-2" role="navigation" aria-label="Course completion actions">
-              <ClickTarget
-                url={addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId!)}
-                className="flex items-center text-bluedot-normal hover:text-bluedot-dark"
-                aria-label="View your certificate for this completed course"
-              >
-                <FaAward size={18} className="mr-2" aria-hidden="true" />
-                View your certificate
-              </ClickTarget>
-              <ClickTarget
-                url={course.path}
-                className="flex items-center text-bluedot-normal hover:text-bluedot-dark"
-                aria-label="Browse course materials for this completed course"
-              >
-                <FaBookOpen size={18} className="mr-2" aria-hidden="true" />
-                Browse course materials
-              </ClickTarget>
-            </div>
+              <div className="flex flex-col gap-2" role="navigation" aria-label="Course completion actions">
+                <ClickTarget
+                  url={addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId!)}
+                  className="flex items-center text-bluedot-normal hover:text-bluedot-dark"
+                  aria-label="View your certificate for this completed course"
+                >
+                  <FaAward size={18} className="mr-2" aria-hidden="true" />
+                  View your certificate
+                </ClickTarget>
+                <ClickTarget
+                  url={course.path}
+                  className="flex items-center text-bluedot-normal hover:text-bluedot-dark"
+                  aria-label="Browse course materials for this completed course"
+                >
+                  <FaBookOpen size={18} className="mr-2" aria-hidden="true" />
+                  Browse course materials
+                </ClickTarget>
+              </div>
             )}
           </div>
 
@@ -119,16 +117,16 @@ const SettingsCourseCard: React.FC<SettingsCourseCardProps> = ({ course, courseR
 
       {/* Continue learning button */}
       {!isCompleted && (
-      <div className="bg-stone-50 p-6">
-        <CTALinkOrButton
-          url={course.path}
-          variant="primary"
-          className="w-full"
-          aria-label={`Continue learning ${course.title}`}
-        >
-          Continue learning
-        </CTALinkOrButton>
-      </div>
+        <div className="bg-stone-50 p-6">
+          <CTALinkOrButton
+            url={course.path}
+            variant="primary"
+            className="w-full"
+            aria-label={`Continue learning ${course.title}`}
+          >
+            Continue learning
+          </CTALinkOrButton>
+        </div>
       )}
     </div>
   );

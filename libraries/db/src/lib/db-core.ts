@@ -1,4 +1,4 @@
-import { Table } from 'airtable-ts';
+import { type Table } from 'airtable-ts';
 import {
   pgTable,
   text,
@@ -7,11 +7,11 @@ import {
   drizzleColumnToTsTypeString,
   type TsTypeString,
   type AllowedPgColumn,
-  PgAirtableColumnInput,
-  BasePgTableType,
-  AirtableItemFromColumnsMap,
-  PgAirtableConfig,
-  ExtractPgColumns,
+  type PgAirtableColumnInput,
+  type BasePgTableType,
+  type AirtableItemFromColumnsMap,
+  type PgAirtableConfig,
+  type ExtractPgColumns,
 } from './typeUtils';
 
 export class PgAirtableTable<
@@ -51,18 +51,14 @@ export class PgAirtableTable<
       // Deprecated columns will stop being synced, validate they are nullable so we can handle this
       for (const [columnName, columnConfig] of Object.entries(config.deprecatedColumns)) {
         // @ts-expect-error accessing internal config
-        if (columnConfig.pgColumn?.config?.notNull === true) {
-          throw new Error(
-            `Deprecated column "${columnName}" in table "${name}" must be nullable. `
-            + 'Deprecated columns cannot use .notNull() because they won\'t receive Airtable sync updates.',
-          );
+        if (columnConfig.pgColumn?.config?.notNull) {
+          throw new Error(`Deprecated column "${columnName}" in table "${name}" must be nullable. `
+            + 'Deprecated columns cannot use .notNull() because they won\'t receive Airtable sync updates.');
         }
 
         if (columnName in config.columns) {
-          throw new Error(
-            `Column "${columnName}" in table "${name}" appears in both columns and deprecatedColumns. `
-            + 'A column should only be in one or the other.',
-          );
+          throw new Error(`Column "${columnName}" in table "${name}" appears in both columns and deprecatedColumns. `
+            + 'A column should only be in one or the other.');
         }
       }
 
@@ -128,19 +124,18 @@ function registerPgAirtableTable({
   if (pgAirtableTableRegistry[key]) {
     throw new Error(`Duplicate table key: ${key}`);
   }
+
   pgAirtableTableRegistry[key] = table;
 }
 
-export function getPgAirtableFromIds(
-  { baseId, tableId }: { baseId: string; tableId: string; },
-): PgAirtableTable<string, Record<string, PgAirtableColumnInput>> | undefined {
+export function getPgAirtableFromIds({ baseId, tableId }: { baseId: string; tableId: string }): PgAirtableTable | undefined {
   const key = makePgAirtableKey(baseId, tableId);
   return pgAirtableTableRegistry[key];
 }
 
 export function pgAirtable<
-    TTableName extends string,
-    TColumnsMap extends Record<string, PgAirtableColumnInput>,
+  TTableName extends string,
+  TColumnsMap extends Record<string, PgAirtableColumnInput>,
 >(
   name: TTableName,
   config: PgAirtableConfig<TColumnsMap>,

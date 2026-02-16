@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import Image from 'next/image';
 import { COURSE_CONFIG } from '../../lib/constants';
 
@@ -12,7 +12,7 @@ type CertificateCardProps = {
 };
 
 const DEFAULT_BADGE_PATH = '/images/certificates/certificate-fallback-image.png';
-const DISPLAY_FONT_STYLE = { fontFeatureSettings: "'ss04' 1" };
+const DISPLAY_FONT_STYLE = { fontFeatureSettings: '\'ss04\' 1' };
 
 const generatePatternPositions = () => {
   const positions: { x: number; y: number }[] = [];
@@ -31,6 +31,7 @@ const generatePatternPositions = () => {
       });
     }
   }
+
   return positions;
 };
 
@@ -135,7 +136,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
             <p
               className="text-[15px] md:text-base leading-[1.6] md:leading-[26px] tracking-[-0.3125px] text-[#62748E] text-center [&_strong]:font-semibold [&_strong]:text-bluedot-navy"
               style={DISPLAY_FONT_STYLE}
-              // eslint-disable-next-line react/no-danger -- description content is authored by employees in Airtable
+
               dangerouslySetInnerHTML={{ __html: description }}
             />
           </div>

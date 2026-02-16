@@ -12,7 +12,7 @@ import {
  * Prevents barrel file import errors when importing RESOURCE_FEEDBACK from @bluedot/db
  */
 import {
-  RESOURCE_FEEDBACK, ResourceFeedbackValue, type ResourceCompletion, type UnitResource,
+  RESOURCE_FEEDBACK, type ResourceFeedbackValue, type ResourceCompletion, type UnitResource,
 } from '@bluedot/db/src/schema';
 import { useQueryClient } from '@tanstack/react-query';
 import { getQueryKey } from '@trpc/react-query';
@@ -103,11 +103,11 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
   const resourceCompletionsQueryKey = getQueryKey(trpc.resources.getResourceCompletions, undefined, 'query');
 
   const saveCompletionMutation = trpc.resources.saveResourceCompletion.useMutation({
-    onSettled: () => {
+    onSettled() {
       utils.resources.getResourceCompletions.invalidate();
       utils.courses.getCourseProgress.invalidate();
     },
-    onMutate: async (newData) => {
+    async onMutate(newData) {
       // Optimistically update `getResourceCompletions` so that the Sidebar immediately updates
       await utils.resources.getResourceCompletions.cancel();
 
@@ -116,7 +116,9 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
       queryClient.setQueriesData(
         { queryKey: resourceCompletionsQueryKey },
         (oldData: inferRouterOutputs<AppRouter>['resources']['getResourceCompletions']) => {
-          if (!oldData) return [];
+          if (!oldData) {
+            return [];
+          }
 
           // Create a shallow copy for safe mutation
           const newArray = [...oldData];
@@ -144,6 +146,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
               isCompleted: updatedFields.isCompleted ?? false,
             });
           }
+
           return newArray;
         },
       );
@@ -154,7 +157,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
 
       return { previousQueriesData, previousCourseProgress };
     },
-    onError: (_err, _variables, mutationResult) => {
+    onError(_err, _variables, mutationResult) {
       mutationResult?.previousQueriesData.forEach(([queryKey, data]) => {
         queryClient.setQueryData(queryKey, data);
       });
@@ -174,7 +177,10 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
   // Sync feedback state with server data (skip if it's just our own save coming back)
   useEffect(() => {
     const serverFeedback = resourceCompletion?.feedback ?? '';
-    if (serverFeedback === lastSavedFeedback.current) return;
+    if (serverFeedback === lastSavedFeedback.current) {
+      return;
+    }
+
     setFeedback(serverFeedback);
     lastSavedFeedback.current = serverFeedback;
   }, [resourceCompletion?.feedback]);
@@ -184,7 +190,9 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
     updatedResourceFeedback?: ResourceFeedbackValue,
     updatedTextFeedback?: string,
   ) => {
-    if (!auth) return Promise.resolve();
+    if (!auth) {
+      return Promise.resolve();
+    }
 
     return saveCompletionMutation.mutateAsync({
       unitResourceId: resource.id,
@@ -232,6 +240,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
                   if (isCompleted) {
                     return 'bg-bluedot-normal border-none';
                   }
+
                   if (isHovered) {
                     return 'bg-[rgba(42,45,52,0.05)] border border-[rgba(42,45,52,0.6)]';
                   }
@@ -292,14 +301,17 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
           )}
 
           {/* Author and time metadata */}
+          {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
           {(resource.authors || resource.year || resource.timeFocusOnMins || resource.syncedAudioUrl) && (
             <div className="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2">
               <P className="text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em]">
                 {resource.authors && <span>{resource.authors}</span>}
+                {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
                 {resource.authors && (resource.year || resource.timeFocusOnMins) && <span> · </span>}
                 {resource.year && <span>{resource.year}</span>}
                 {resource.year && resource.timeFocusOnMins && <span> · </span>}
                 {resource.timeFocusOnMins && <span>{resource.timeFocusOnMins} min</span>}
+                {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
                 {resource.syncedAudioUrl && (resource.timeFocusOnMins || resource.year || resource.authors) && <span> ·</span>}
               </P>
 

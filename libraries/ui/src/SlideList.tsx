@@ -31,7 +31,9 @@ export const SlideList: React.FC<SlideListProps> = ({
       }
     };
 
-    if (!slidesRef.current) return cleanup;
+    if (!slidesRef.current) {
+      return cleanup;
+    }
 
     if (measuredContainerWidth === null && slidesRef.current) {
       setMeasuredContainerWidth(slidesRef.current.getBoundingClientRect().width);
@@ -57,7 +59,9 @@ export const SlideList: React.FC<SlideListProps> = ({
   useEffect(() => {
     function handleScroll() {
       const container = slidesRef.current;
-      if (!container) return;
+      if (!container) {
+        return;
+      }
 
       const { scrollLeft, scrollWidth, clientWidth } = container;
       const maxScrollLeft = scrollWidth - clientWidth;
@@ -65,6 +69,7 @@ export const SlideList: React.FC<SlideListProps> = ({
         setScrollPercent(0);
         return;
       }
+
       const percent = (scrollLeft / maxScrollLeft) * 100;
       setScrollPercent(percent);
     }
@@ -74,7 +79,9 @@ export const SlideList: React.FC<SlideListProps> = ({
     };
 
     const container = slidesRef.current;
-    if (!container) return cleanup;
+    if (!container) {
+      return cleanup;
+    }
 
     container.addEventListener('scroll', handleScroll);
     return cleanup;
@@ -82,7 +89,9 @@ export const SlideList: React.FC<SlideListProps> = ({
 
   const scrollTo = useCallback((direction: 'next' | 'previous') => {
     const container = slidesRef.current;
-    if (!container) return;
+    if (!container) {
+      return;
+    }
 
     const { scrollLeft } = container;
     const childArray = Array.from(container.children) as HTMLDivElement[];

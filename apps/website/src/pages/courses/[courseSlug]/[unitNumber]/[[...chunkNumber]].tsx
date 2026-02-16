@@ -3,7 +3,7 @@ import {
   chunkTable, eq, type Exercise, exerciseTable, inArray, type UnitResource, unitResourceTable,
 } from '@bluedot/db';
 import { ProgressDots, useAuthStore, useLatestUtmParams } from '@bluedot/ui';
-import { GetServerSideProps } from 'next';
+import { type GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import path from 'path';
@@ -112,6 +112,7 @@ const CourseUnitChunkPage = ({
 
   const chunk = chunks[chunkIndex];
   const title = `${unit.courseTitle}: Unit ${unitNumber}${chunk?.chunkTitle ? ` | ${chunk.chunkTitle}` : ''}`;
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const metaDescription = chunk?.metaDescription || unit.title;
 
   return (
@@ -159,6 +160,7 @@ export const getServerSideProps: GetServerSideProps<CourseUnitChunkPageProps> = 
   if (typeof courseSlug !== 'string') {
     throw new Error('Invalid course slug');
   }
+
   if (typeof unitNumber !== 'string') {
     throw new Error('Invalid unit number');
   }
@@ -184,6 +186,7 @@ export const getServerSideProps: GetServerSideProps<CourseUnitChunkPageProps> = 
     if (error instanceof Error && error.message === 'NOT_FOUND') {
       return { notFound: true };
     }
+
     throw error;
   }
 };
@@ -202,10 +205,7 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
   const activeChunksForCourse = await db.pg
     .select()
     .from(chunkTable.pg)
-    .where(and(
-      eq(chunkTable.pg.status, 'Active'),
-      inArray(chunkTable.pg.unitId, unitIds),
-    ));
+    .where(and(eq(chunkTable.pg.status, 'Active'), inArray(chunkTable.pg.unitId, unitIds)));
 
   // Group chunks by unit ID and extract only the fields needed for sidebar
   const allUnitChunks: Record<string, BasicChunk[]> = {};
@@ -227,45 +227,50 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
     .filter((chunk) => chunk.unitId === unit.id)
     .sort((a, b) => Number(a.chunkOrder) - Number(b.chunkOrder));
 
-  // Resolve chunk resources and exercises with proper ordering (only for current unit)
-  const chunksWithContent = await Promise.all(currentUnitChunks.map(async (chunk) => {
-    let resources: UnitResource[] = [];
-    let exercises: Exercise[] = [];
+  const chunkResourceIds = currentUnitChunks.flatMap((chunk) => chunk.chunkResources ?? []);
+  const chunkExerciseIds = currentUnitChunks.flatMap((chunk) => chunk.chunkExercises ?? []);
 
-    // Fetch chunk resources, sort by readingOrder
-    if (chunk.chunkResources && chunk.chunkResources.length > 0) {
-      const resourcePromises = chunk.chunkResources.map((resourceId) => db.get(unitResourceTable, { id: resourceId }).catch(() => null));
-      const resolvedResources = await Promise.all(resourcePromises);
-      resources = resolvedResources
-        .filter((r): r is UnitResource => r !== null)
-        .sort((a, b) => {
-          const orderA = Number(a.readingOrder) || Infinity;
-          const orderB = Number(b.readingOrder) || Infinity;
-          return orderA - orderB;
-        });
-    }
+  const [allResourcesForUnit, allExercisesForUnit] = await Promise.all([
+    chunkResourceIds.length > 0
+      ? db.pg.select().from(unitResourceTable.pg).where(inArray(unitResourceTable.pg.id, chunkResourceIds))
+      : [],
+    chunkExerciseIds.length > 0
+      ? db.pg
+        .select()
+        .from(exerciseTable.pg)
+        .where(and(eq(exerciseTable.pg.status, 'Active'), inArray(exerciseTable.pg.id, chunkExerciseIds)))
+      : [],
+  ]);
 
-    // Fetch chunk exercises
-    if (chunk.chunkExercises && chunk.chunkExercises.length > 0) {
-      const exercisePromises = chunk.chunkExercises.map((exerciseId) => db.get(exerciseTable, { id: exerciseId }).catch(() => null));
-      const resolvedExercises = await Promise.all(exercisePromises);
+  const resourceById = new Map(allResourcesForUnit.map((resource) => [resource.id, resource]));
+  const exerciseById = new Map(allExercisesForUnit.map((exercise) => [exercise.id, exercise]));
 
-      // Filter for exercises that exist and are active, sort by exerciseNumber
-      exercises = resolvedExercises
-        .filter((e): e is Exercise => e !== null && e.status === 'Active')
-        .sort((a, b) => {
-          const numA = Number(a.exerciseNumber) || Infinity;
-          const numB = Number(b.exerciseNumber) || Infinity;
-          return numA - numB;
-        });
-    }
+  const chunksWithContent = currentUnitChunks.map((chunk) => {
+    // Use pre-fetched resources/exercises for the current unit to avoid N+1 queries, filter out any that might be missing, and sort by readingOrder/exerciseNumber
+    const resources = (chunk.chunkResources ?? [])
+      .map((resourceId) => resourceById.get(resourceId))
+      .filter((r): r is UnitResource => r !== undefined)
+      .sort((a, b) => {
+        const orderA = Number(a.readingOrder) || Infinity;
+        const orderB = Number(b.readingOrder) || Infinity;
+        return orderA - orderB;
+      });
+
+    const exercises = (chunk.chunkExercises ?? [])
+      .map((exerciseId) => exerciseById.get(exerciseId))
+      .filter((e): e is Exercise => e !== undefined)
+      .sort((a, b) => {
+        const numA = Number(a.exerciseNumber) || Infinity;
+        const numB = Number(b.exerciseNumber) || Infinity;
+        return numA - numB;
+      });
 
     return {
       ...chunk,
       resources,
       exercises,
     };
-  }));
+  });
 
   return {
     units,

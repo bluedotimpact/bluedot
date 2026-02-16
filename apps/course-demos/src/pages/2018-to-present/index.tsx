@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import { ClickTarget, H3 } from '@bluedot/ui';
 import prompts from './responses.json';
 import MarkdownRenderer from '../../components/MarkdownRenderer';
@@ -6,8 +7,8 @@ import MarkdownRenderer from '../../components/MarkdownRenderer';
 type Response = {
   model: string;
   text: string;
-  correct?: boolean,
-  correctness_reason?: string,
+  correct?: boolean;
+  correctness_reason?: string;
 };
 
 type Prompt = {
@@ -41,7 +42,7 @@ const AIModelResponse: React.FC<{
         </div>
         <span className="text-size-lg font-medium">{model.name}</span>
         {response.correct !== undefined && (
-          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+
           <span tabIndex={response.correctness_reason ? 0 : undefined} className={`px-2 py-0.5 text-xs font-medium rounded-full ${response.correct ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'} group ${response.correctness_reason ? 'underline decoration-dotted cursor-help' : ''}`}>
             {response.correct ? 'Correct' : 'Incorrect'}
             {response.correctness_reason && (
@@ -95,7 +96,7 @@ const DemoPage: React.FC = () => {
         <div className="flex flex-wrap gap-2">
           {prompts.map((prompt, index) => (
             <ClickTarget
-              // eslint-disable-next-line react/no-array-index-key -- stable as prompts array is constant
+
               key={index}
               onClick={() => setSelectedPromptIndex(index)}
               className={`text-sm border rounded p-2 hover:bg-stone-100 cursor-pointer ${index === selectedPromptIndex ? 'bg-stone-200' : ''}`}

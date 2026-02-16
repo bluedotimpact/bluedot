@@ -12,7 +12,7 @@ import {
   PiBank,
   PiShieldCheck,
 } from 'react-icons/pi';
-import { CourseLanderContent } from '../CourseLander';
+import { type CourseLanderContent } from '../CourseLander';
 
 export const AGI_STRATEGY_COLORS = {
   /* Gradient layers:
@@ -40,7 +40,7 @@ export const createAgiStrategyContent = (
     accentColor: AGI_STRATEGY_COLORS.accent,
     categoryLabel: 'COHORT-BASED COURSE',
     title: 'AGI Strategy',
-    description: "Optimistic and concerned about AI's trajectory? Want to do something about it? Start here.\n\n25 hours to understand the strategic landscape, find your entry point, and get moving.",
+    description: 'Optimistic and concerned about AI\'s trajectory? Want to do something about it? Start here.\n\n25 hours to understand the strategic landscape, find your entry point, and get moving.',
     primaryCta: {
       text: 'Apply now',
       url: applicationUrlWithUtm,
@@ -75,7 +75,7 @@ export const createAgiStrategyContent = (
       },
     ],
     bottomCta: {
-      boldText: "Don't fit these perfectly? Apply anyway.",
+      boldText: 'Don\'t fit these perfectly? Apply anyway.',
       text: 'Some of our most impactful participants have included teachers, lawyers, engineers, and community leaders. We bet on drive and ambition, not CVs.',
       buttonText: 'Apply now',
       buttonUrl: applicationUrlWithUtm,
@@ -89,17 +89,17 @@ export const createAgiStrategyContent = (
       {
         icon: PiRocketLaunch,
         title: 'A launchpad, not a lecture',
-        description: "This is not a course you \"complete.\" It's the starting point for whatever you do next. You'll leave knowing which problems matter most, which paths make sense for your background, and what to do next.",
+        description: 'This is not a course you "complete." It\'s the starting point for whatever you do next. You\'ll leave knowing which problems matter most, which paths make sense for your background, and what to do next.',
       },
       {
         icon: PiLightbulb,
         title: 'Frameworks that cut through the noise',
-        description: "Three mental models that replace months of scattered reading: incentive mapping to understand the race to AGI, kill chains to analyze threats, and defense-in-depth to design interventions. You'll leave able to hold your own in conversations with people already in the field.",
+        description: 'Three mental models that replace months of scattered reading: incentive mapping to understand the race to AGI, kill chains to analyze threats, and defense-in-depth to design interventions. You\'ll leave able to hold your own in conversations with people already in the field.',
       },
       {
         icon: PiUsersThree,
         title: 'A community of people who ship',
-        description: "We have 7,000+ alumni at Anthropic, DeepMind, UK AISI, and dozens of organizations making sure humanity safely navigates transformative AI. You'll meet people already doing the work - and who'll open doors and pressure-test your thinking.",
+        description: 'We have 7,000+ alumni at Anthropic, DeepMind, UK AISI, and dozens of organizations making sure humanity safely navigates transformative AI. You\'ll meet people already doing the work - and who\'ll open doors and pressure-test your thinking.',
       },
     ],
   },
@@ -214,109 +214,28 @@ export const createAgiStrategyContent = (
     ],
   },
 
-  partners: {
-    title: 'Co-created with our network of leading AI industry partners',
-    partners: [
-      {
-        name: 'Entrepreneur First',
-        url: 'https://www.joinef.com/',
-        logo: '/images/agi-strategy/ef.svg',
-        descriptionShort: (
-          <>
-            We collaborate with EF to host AI safety and def/acc <a href="https://luma.com/AI-security-hackathon" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">hackathons</a>.
-          </>
-        ),
-        descriptionFull: (
-          <>
-            A London-based startup incubation programme. We collaborate with EF to host AI safety and def/acc <a href="https://luma.com/AI-security-hackathon" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">hackathons</a>. See <a href="https://luma.com/bluedotevents" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">here</a> for future events.
-          </>
-        ),
-      },
-      {
-        name: 'Institute for Progress',
-        url: 'https://ifp.org/',
-        logo: '/images/agi-strategy/ifp.svg',
-        descriptionShort: (
-          <>
-            We collaborate with IFP to get impactful projects from their <a href="https://ifp.org/the-launch-sequence/" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">Launch Sequence</a> off the ground.
-          </>
-        ),
-        descriptionFull: (
-          <>
-            IFP is a science and innovation think tank. We collaborate with IFP to get impactful projects from their <a href="https://ifp.org/the-launch-sequence/" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">Launch Sequence</a> off the ground.
-          </>
-        ),
-      },
-      {
-        name: '50 Years',
-        url: 'https://www.fiftyyears.com/',
-        logo: '/images/agi-strategy/fifty-years.svg',
-        descriptionShort: (
-          <>
-            We fast-track our most promising entrepreneurs into their <a href="https://www.fiftyyears.com/5050/ai" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">5050 AI cohorts</a>, focused on building an aligned AI future.
-          </>
-        ),
-        descriptionFull: (
-          <>
-            A pre-seed and seed VC firm. We fast-track our most promising entrepreneurs into their <a href="https://www.fiftyyears.com/5050/ai" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70 transition-opacity">5050 AI cohorts</a>, focused on building an aligned AI future.
-          </>
-        ),
-      },
-      {
-        name: 'Seldon Lab',
-        url: 'https://seldonlab.com/',
-        logo: '/images/agi-strategy/seldon-lab.svg',
-        descriptionShort: (
-          <>
-            We help our most entrepreneurial community members get ready to join future Seldon batches.
-          </>
-        ),
-        descriptionFull: (
-          <>
-            Seldon offers guidance and investments in the next generation of AGI security startups. We help our most entrepreneurial community members get ready to join future Seldon batches.
-          </>
-        ),
-      },
-      {
-        name: 'Halcyon Futures',
-        url: 'https://halcyonfutures.org/',
-        logo: '/images/agi-strategy/halcyon-futures.svg',
-        descriptionShort: (
-          <>
-            We introduce our most promising leaders to Halcyon.
-          </>
-        ),
-        descriptionFull: (
-          <>
-            Halcyon identifies leaders from business, policy, and academia, and helps them take on new ambitious projects. We introduce our most promising leaders to Halcyon.
-          </>
-        ),
-      },
-    ],
-  },
-
   faq: {
     title: 'Frequently Asked Questions',
     items: [
       {
         id: 'background',
         question: 'What background do I need?',
-        answer: "We don't care about your CV. We care about what you'll do next. We've had participants from policy, engineering, law, medicine, operations, and academia - what they shared was drive and a bias toward action.",
+        answer: 'We don\'t care about your CV. We care about what you\'ll do next. We\'ve had participants from policy, engineering, law, medicine, operations, and academia - what they shared was drive and a bias toward action.',
       },
       {
         id: 'beginners',
         question: 'Is this course for beginners?',
-        answer: "It's for people who are new to working on AI safety, not new to taking things seriously. If you've been reading and thinking and are ready to stop orbiting, this is where you start.",
+        answer: 'It\'s for people who are new to working on AI safety, not new to taking things seriously. If you\'ve been reading and thinking and are ready to stop orbiting, this is where you start.',
       },
       {
         id: 'formats',
-        question: "What's the difference between intensive and part-time?",
+        question: 'What\'s the difference between intensive and part-time?',
         answer: 'Same content, different pace. Intensive is 5 days at ~5 hours/day - for people who can clear a week and want to move fast. Part-time is 5 weeks at ~5 hours/week - for people building this around other commitments. Both get you to the same place.',
       },
       {
         id: 'direction',
-        question: "What if I don't know which direction I want to go?",
-        answer: "That's what the course is for. You'll leave knowing which problems matter most to you and which path fits your skills - technical research, governance, biosecurity, or building something new. Figuring it out is the work.",
+        question: 'What if I don\'t know which direction I want to go?',
+        answer: 'That\'s what the course is for. You\'ll leave knowing which problems matter most to you and which path fits your skills - technical research, governance, biosecurity, or building something new. Figuring it out is the work.',
       },
       {
         id: 'funding',
@@ -341,7 +260,7 @@ export const createAgiStrategyContent = (
       {
         id: 'bluedot',
         question: 'Who is BlueDot Impact?',
-        answer: "BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run courses, help people land jobs, organise events all over the world, and accelerate entrepreneurs to start new companies. We've trained 7,000+ people since 2022. Our alumni are now at Anthropic, DeepMind, UK AISI, and have started new organisations working on safely navigating the transition to AGI.",
+        answer: 'BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run courses, help people land jobs, organise events all over the world, and accelerate entrepreneurs to start new companies. We\'ve trained 7,000+ people since 2022. Our alumni are now at Anthropic, DeepMind, UK AISI, and have started new organisations working on safely navigating the transition to AGI.',
       },
     ],
   },

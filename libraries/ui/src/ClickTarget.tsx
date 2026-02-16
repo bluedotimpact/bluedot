@@ -1,12 +1,12 @@
-import React from 'react';
+import type React from 'react';
 import NextLink from 'next/link';
 
 export type ClickTargetProps = React.PropsWithChildren<{
   className?: string;
   style?: React.CSSProperties;
   onClick?: ((e: React.BaseSyntheticEvent) => void);
-  url?: string,
-  target?: React.HTMLAttributeAnchorTarget,
+  url?: string;
+  target?: React.HTMLAttributeAnchorTarget;
   rel?: string;
   disabled?: boolean;
   'aria-label'?: string;
@@ -34,6 +34,7 @@ export const ClickTarget = ({
       e.preventDefault();
       return;
     }
+
     onClick?.(e);
   };
 
@@ -62,7 +63,8 @@ export const ClickTarget = ({
       onClick={handleInteraction}
       disabled={disabled}
       aria-label={ariaLabel}
-      // eslint-disable-next-line no-nested-ternary -- required by react/button-has-type
+
+      // eslint-disable-next-line no-nested-ternary
       type={type === 'submit' ? 'submit' : type === 'reset' ? 'reset' : 'button'}
     >
       {children}

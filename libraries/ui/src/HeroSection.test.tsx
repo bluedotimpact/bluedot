@@ -12,34 +12,28 @@ describe('HeroSection', () => {
   });
 
   test('renders with titles', () => {
-    const { container } = render(
-      <HeroSection>
-        <HeroH1>This is the title</HeroH1>
-        <HeroH2>This is the subtitle</HeroH2>
-      </HeroSection>,
-    );
+    const { container } = render(<HeroSection>
+      <HeroH1>This is the title</HeroH1>
+      <HeroH2>This is the subtitle</HeroH2>
+    </HeroSection>);
     expect(container).toMatchSnapshot();
   });
 
   test('renders with buttons', () => {
-    const { container } = render(
-      <HeroSection>
-        <HeroH1>This is the title</HeroH1>
-        <HeroH2>This is the subtitle</HeroH2>
-        <HeroCTAContainer>
-          <CTALinkOrButton url="https://example.com">Do a thing</CTALinkOrButton>
-        </HeroCTAContainer>
-      </HeroSection>,
-    );
+    const { container } = render(<HeroSection>
+      <HeroH1>This is the title</HeroH1>
+      <HeroH2>This is the subtitle</HeroH2>
+      <HeroCTAContainer>
+        <CTALinkOrButton url="https://example.com">Do a thing</CTALinkOrButton>
+      </HeroCTAContainer>
+    </HeroSection>);
     expect(container).toMatchSnapshot();
   });
 
   test('renders with optional yield', () => {
-    const { container } = render(
-      <HeroSection>
-        <p>This is the yield</p>
-      </HeroSection>,
-    );
+    const { container } = render(<HeroSection>
+      <p>This is the yield</p>
+    </HeroSection>);
     expect(container).toMatchSnapshot();
   });
 });

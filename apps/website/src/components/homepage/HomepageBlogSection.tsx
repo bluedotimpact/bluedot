@@ -87,6 +87,7 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
     </section>
   );
 };
+
 export default HomepageBlogSection;
 
 type BlogCardProps = {
@@ -94,7 +95,10 @@ type BlogCardProps = {
 };
 
 const getOrdinalSuffix = (day: number): string => {
-  if (day >= 11 && day <= 13) return 'TH';
+  if (day >= 11 && day <= 13) {
+    return 'TH';
+  }
+
   switch (day % 10) {
     case 1: return 'ST';
     case 2: return 'ND';
@@ -116,6 +120,7 @@ const BlogCard = ({ blog }: BlogCardProps) => {
     formattedDate = `${month} ${day}${ordinal}, ${year}`;
   }
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const authorName = blog.author?.toUpperCase() || 'UNKNOWN AUTHOR';
 
   return (

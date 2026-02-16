@@ -21,7 +21,9 @@ vi.mock('../MarkdownExtendedRenderer', () => ({
 // Mock useAuthStore — default: logged in
 const mockAuth = { email: 'test@example.com', token: 'tok' };
 vi.mock('@bluedot/ui', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@bluedot/ui')>();
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+  type BluedotUi = typeof import('@bluedot/ui');
+  const actual = await importOriginal<BluedotUi>();
   return {
     ...actual,
     useAuthStore: (selector: (s: { auth: typeof mockAuth | null }) => unknown) => selector({ auth: mockAuth }),
@@ -66,14 +68,12 @@ describe('Exercise', () => {
   });
 
   test('renders multiple choice exercise', async () => {
-    server.use(
-      trpcMsw.exercises.getExercise.query(() => ({
-        ...freeTextExercise,
-        type: 'Multiple choice' as const,
-        options: 'A\nB\nC',
-        answer: 'B',
-      })),
-    );
+    server.use(trpcMsw.exercises.getExercise.query(() => ({
+      ...freeTextExercise,
+      type: 'Multiple choice' as const,
+      options: 'A\nB\nC',
+      answer: 'B',
+    })));
 
     render(<Exercise exerciseId="ex1" courseSlug="test-course" unitNumber="1" chunkIndex={0} />, { wrapper: TrpcProvider });
 
@@ -81,35 +81,31 @@ describe('Exercise', () => {
   });
 
   test('shows facilitator view when group data is returned', async () => {
-    server.use(
-      trpcMsw.exercises.getGroupExerciseResponses.query(() => ({
-        groups: [{
-          id: 'g1', name: 'Group 1', totalParticipants: 2, responses: [{ name: 'Alice', response: 'My answer' }],
-        }],
-      })),
-    );
+    server.use(trpcMsw.exercises.getGroupExerciseResponses.query(() => ({
+      groups: [{
+        id: 'g1', name: 'Group 1', totalParticipants: 2, responses: [{ name: 'Alice', response: 'My answer' }],
+      }],
+    })));
 
     render(<Exercise exerciseId="ex1" courseSlug="test-course" unitNumber="1" chunkIndex={0} />, { wrapper: TrpcProvider });
 
     // Facilitator view shows toggle and participant responses
-    expect(await screen.findByText("Show my group's responses")).toBeInTheDocument();
+    expect(await screen.findByText('Show my group\'s responses')).toBeInTheDocument();
     expect(screen.getByText('Alice')).toBeInTheDocument();
     expect(screen.getByText('1 Response')).toBeInTheDocument();
     expect(screen.getByText('1 Pending')).toBeInTheDocument();
   });
 
   test('completion checkbox is enabled when exercise has a saved response', async () => {
-    server.use(
-      trpcMsw.exercises.getExerciseResponse.query(() => ({
-        id: 'resp-1',
-        email: 'test@example.com',
-        autoNumberId: null,
-        completedAt: null,
-        exerciseId: 'ex1',
-        response: 'Some text the user wrote',
-        completed: false,
-      })),
-    );
+    server.use(trpcMsw.exercises.getExerciseResponse.query(() => ({
+      id: 'resp-1',
+      email: 'test@example.com',
+      autoNumberId: null,
+      completedAt: null,
+      exerciseId: 'ex1',
+      response: 'Some text the user wrote',
+      completed: false,
+    })));
 
     render(<Exercise exerciseId="ex1" courseSlug="test-course" unitNumber="1" chunkIndex={0} />, { wrapper: TrpcProvider });
 
@@ -118,17 +114,15 @@ describe('Exercise', () => {
   });
 
   test('completion checkbox is disabled when exercise has no response', async () => {
-    server.use(
-      trpcMsw.exercises.getExerciseResponse.query(() => ({
-        id: 'resp-2',
-        email: 'test@example.com',
-        autoNumberId: null,
-        completedAt: null,
-        exerciseId: 'ex1',
-        response: '',
-        completed: false,
-      })),
-    );
+    server.use(trpcMsw.exercises.getExerciseResponse.query(() => ({
+      id: 'resp-2',
+      email: 'test@example.com',
+      autoNumberId: null,
+      completedAt: null,
+      exerciseId: 'ex1',
+      response: '',
+      completed: false,
+    })));
 
     render(<Exercise exerciseId="ex1" courseSlug="test-course" unitNumber="1" chunkIndex={0} />, { wrapper: TrpcProvider });
 
@@ -164,7 +158,7 @@ describe('Exercise', () => {
 
     // Type new text into the ProseMirror editor (appends to existing content)
     const editor = await waitFor(() => {
-      const el = container.querySelector('.ProseMirror') as HTMLElement;
+      const el = container.querySelector('.ProseMirror')!;
       expect(el).toBeTruthy();
       return el;
     });

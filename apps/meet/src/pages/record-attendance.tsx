@@ -5,7 +5,7 @@ import {
   CTALinkOrButton, ErrorSection, Input, H1,
 } from '@bluedot/ui';
 import { Page } from '../components/Page';
-import { RecordAttendanceRequest, RecordAttendanceResponse } from './api/public/record-attendance';
+import { type RecordAttendanceRequest, type RecordAttendanceResponse } from './api/public/record-attendance';
 
 const RecordAttendance: React.FC = () => {
   const searchParams = useSearchParams();
@@ -25,7 +25,7 @@ const RecordAttendance: React.FC = () => {
   return <RecordAttendancePage groupDiscussionId={groupDiscussionId} participantId={participantId} />;
 };
 
-const RecordAttendancePage: React.FC<{ groupDiscussionId: string, participantId: string }> = ({ groupDiscussionId, participantId }) => {
+const RecordAttendancePage: React.FC<{ groupDiscussionId: string; participantId: string }> = ({ groupDiscussionId, participantId }) => {
   const [{ data, loading }, _recordAttendance] = useAxios<RecordAttendanceResponse, RecordAttendanceRequest>({
     method: 'post',
     url: '/api/public/record-attendance',

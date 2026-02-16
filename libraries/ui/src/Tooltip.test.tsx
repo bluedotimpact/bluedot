@@ -5,11 +5,9 @@ import { Tooltip } from './Tooltip';
 
 describe('Tooltip', () => {
   test('opens on click and matches snapshot', () => {
-    const { container } = render(
-      <Tooltip content="This is a helpful tooltip">
-        <span>Tooltip trigger</span>
-      </Tooltip>,
-    );
+    const { container } = render(<Tooltip content="This is a helpful tooltip">
+      <span>Tooltip trigger</span>
+    </Tooltip>);
 
     const button = screen.getByRole('button');
     fireEvent.click(button);

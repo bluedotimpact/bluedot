@@ -1,13 +1,13 @@
-import React from 'react';
+import type React from 'react';
 import { useRouter } from 'next/router';
 import {
   H2, P, A, ProgressDots, asError,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
-import { SavedDemoOutput } from '../api/saved-output/[savedDemoOutputId]';
+import { type SavedDemoOutput } from '../api/saved-output/[savedDemoOutputId]';
 import { GenerateReactComponentSavedDemoOutputViewer } from '../generate-react-component';
 
-const ContentViewer: React.FC<{ savedDemoOutput: SavedDemoOutput, courseLink: string }> = ({ savedDemoOutput, courseLink }) => {
+const ContentViewer: React.FC<{ savedDemoOutput: SavedDemoOutput; courseLink: string }> = ({ savedDemoOutput, courseLink }) => {
   const { type } = savedDemoOutput;
 
   try {
@@ -20,8 +20,9 @@ const ContentViewer: React.FC<{ savedDemoOutput: SavedDemoOutput, courseLink: st
           />
         );
       }
+
       default: {
-        throw new Error(`Unrecognised demo type: ${type}`);
+        throw new Error(`Unrecognised demo type: ${String(type)}`);
       }
     }
   } catch (error: unknown) {
@@ -60,12 +61,14 @@ const SharePage: React.FC = () => {
     );
   }
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   if (error || !savedDemoOutput) {
     return (
       <main className="mx-auto px-4 py-8">
         <H2 className="text-red-500">Couldn't find your demo</H2>
         <P>This can sometimes happen if the link is invalid or the content has been deleted.</P>
         <P>Using the demos yourself is often more fun anyway - you can find them all in our free <A href={courseLink}>Future of AI Course</A>.</P>
+        {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
         <P>Details: {error?.message || 'Failed to load shared content'}</P>
       </main>
     );

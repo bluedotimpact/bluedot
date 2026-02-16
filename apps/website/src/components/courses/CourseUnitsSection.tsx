@@ -1,5 +1,5 @@
 import { Section, SlideList, UnitCard } from '@bluedot/ui';
-import { unitTable, InferSelectModel } from '@bluedot/db';
+import { type unitTable, type InferSelectModel } from '@bluedot/db';
 
 type Unit = InferSelectModel<typeof unitTable.pg>;
 
@@ -18,6 +18,7 @@ export const CourseUnitsSection = ({ units }: { units: Unit[] }) => {
               <UnitCard
                 key={unit.id}
                 className="course-units-section__unit h-full"
+                // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                 description={unit.menuText || undefined}
                 title={unit.title}
                 unitNumber={unit.unitNumber}

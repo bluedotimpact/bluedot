@@ -40,7 +40,7 @@ export const Link: Story = {
   parameters: {
     design: {
       type: 'figma',
-      url: "https://www.figma.com/design/s4dNR4ELGKPbja6GkHLVJy/Website-Laura's-Working-File?node-id=7760-3365&",
+      url: 'https://www.figma.com/design/s4dNR4ELGKPbja6GkHLVJy/Website-Laura\'s-Working-File?node-id=7760-3365&',
     },
   },
 };

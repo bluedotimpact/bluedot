@@ -1,7 +1,7 @@
-import { ColumnBuilderRuntimeConfig } from 'drizzle-orm';
-import { BuildColumns } from 'drizzle-orm/column-builder';
+import { type ColumnBuilderRuntimeConfig } from 'drizzle-orm';
+import { type BuildColumns } from 'drizzle-orm/column-builder';
 import {
-  type numeric, boolean as pgBoolean, PgTableWithColumns, text,
+  type numeric, type boolean as pgBoolean, type PgTableWithColumns, type text,
 } from 'drizzle-orm/pg-core';
 
 // BEGIN vendored from airtable-ts/src/mapping/typeUtils.ts

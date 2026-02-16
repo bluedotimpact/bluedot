@@ -1,4 +1,7 @@
-import { applicationsCourseTable, courseRegistrationTable } from '@bluedot/db';
+import {
+  applicationsCourseTable, applicationsRoundTable, courseRegistrationTable, inArray,
+  eq, and, or, ne, isNull,
+} from '@bluedot/db';
 import z from 'zod';
 import { TRPCError } from '@trpc/server';
 import db from '../../lib/api/db';
@@ -20,11 +23,32 @@ export const courseRegistrationsRouter = router({
     }),
 
   getAll: protectedProcedure.query(async ({ ctx }) => {
-    return db.scan(courseRegistrationTable, {
-      email: ctx.auth.email,
-      decision: 'Accept',
-    });
+    return db.pg.select()
+      .from(courseRegistrationTable.pg)
+      .where(and(
+        eq(courseRegistrationTable.pg.email, ctx.auth.email),
+        or(
+          ne(courseRegistrationTable.pg.decision, 'Withdrawn'),
+          isNull(courseRegistrationTable.pg.decision),
+        ),
+      ));
   }),
+
+  getRoundStartDates: protectedProcedure
+    .input(z.object({ roundIds: z.array(z.string()) }))
+    .query(async ({ input }) => {
+      if (!input.roundIds.length) {
+        return {} as Record<string, string | null>;
+      }
+
+      const rounds = await db.pg.select({
+        id: applicationsRoundTable.pg.id,
+        firstDiscussionDate: applicationsRoundTable.pg.firstDiscussionDate,
+      })
+        .from(applicationsRoundTable.pg)
+        .where(inArray(applicationsRoundTable.pg.id, input.roundIds));
+      return Object.fromEntries(rounds.map((r) => [r.id, r.firstDiscussionDate])) as Record<string, string | null>;
+    }),
 
   ensureExists: protectedProcedure
     .input(z.object({ courseId: z.string(), source: z.string().trim().max(255).optional() }))
@@ -40,7 +64,9 @@ export const courseRegistrationsRouter = router({
       });
 
       // If the course registration already exists, return it
-      if (courseRegistration) return courseRegistration;
+      if (courseRegistration) {
+        return courseRegistration;
+      }
 
       if (courseId === FOAI_COURSE_ID) {
         const applicationsCourse = await db.getFirst(applicationsCourseTable, {

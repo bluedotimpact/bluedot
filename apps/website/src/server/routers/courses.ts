@@ -60,13 +60,11 @@ const getUserCompletions = async (coreResourceIds: string[], activeExerciseIds: 
     db.pg
       .select()
       .from(resourceCompletionTable.pg)
-      .where(
-        and(
-          eq(resourceCompletionTable.pg.email, email),
-          inArray(resourceCompletionTable.pg.unitResourceId, coreResourceIds),
-          eq(resourceCompletionTable.pg.isCompleted, true), // Only fetch completed resources
-        ),
-      )
+      .where(and(
+        eq(resourceCompletionTable.pg.email, email),
+        inArray(resourceCompletionTable.pg.unitResourceId, coreResourceIds),
+        eq(resourceCompletionTable.pg.isCompleted, true), // Only fetch completed resources
+      ))
       .orderBy(desc(resourceCompletionTable.pg.autoNumberId)),
 
     db.pg
@@ -75,13 +73,11 @@ const getUserCompletions = async (coreResourceIds: string[], activeExerciseIds: 
         completedAt: exerciseResponseTable.pg.completedAt,
       })
       .from(exerciseResponseTable.pg)
-      .where(
-        and(
-          eq(exerciseResponseTable.pg.email, email),
-          inArray(exerciseResponseTable.pg.exerciseId, activeExerciseIds),
-          isNotNull(exerciseResponseTable.pg.completedAt), // Only fetch completed exercises
-        ),
-      )
+      .where(and(
+        eq(exerciseResponseTable.pg.email, email),
+        inArray(exerciseResponseTable.pg.exerciseId, activeExerciseIds),
+        isNotNull(exerciseResponseTable.pg.completedAt), // Only fetch completed exercises
+      ))
       .orderBy(desc(exerciseResponseTable.pg.autoNumberId)),
   ]);
 
@@ -91,8 +87,14 @@ const getUserCompletions = async (coreResourceIds: string[], activeExerciseIds: 
   // Airtable, so we handle it here.
   const seenResourceIds = new Set<string>();
   const resourceCompletions = rawResourceCompletions.filter((completion) => {
-    if (!completion.unitResourceId) return false;
-    if (seenResourceIds.has(completion.unitResourceId)) return false;
+    if (!completion.unitResourceId) {
+      return false;
+    }
+
+    if (seenResourceIds.has(completion.unitResourceId)) {
+      return false;
+    }
+
     seenResourceIds.add(completion.unitResourceId);
     return true;
   });
@@ -100,7 +102,10 @@ const getUserCompletions = async (coreResourceIds: string[], activeExerciseIds: 
   // Deduplicate exercises
   const seenExerciseIds = new Set<string>();
   const exerciseCompletions = rawExerciseCompletions.filter((response) => {
-    if (seenExerciseIds.has(response.exerciseId)) return false;
+    if (seenExerciseIds.has(response.exerciseId)) {
+      return false;
+    }
+
     seenExerciseIds.add(response.exerciseId);
     return true;
   });
@@ -138,9 +143,7 @@ const getCoreResourceAndActiveExerciseIds = async (chunks: Chunk[]) => {
   const coreResources = await db.pg
     .select({ id: unitResourceTable.pg.id })
     .from(unitResourceTable.pg)
-    .where(
-      and(eq(unitResourceTable.pg.coreFurtherMaybe, 'Core'), inArray(unitResourceTable.pg.id, allResourceIds)),
-    );
+    .where(and(eq(unitResourceTable.pg.coreFurtherMaybe, 'Core'), inArray(unitResourceTable.pg.id, allResourceIds)));
   const coreResourceIds = coreResources.map((r) => r.id);
 
   const activeExercises = await db.pg
@@ -154,12 +157,10 @@ const getCoreResourceAndActiveExerciseIds = async (chunks: Chunk[]) => {
 
 export const coursesRouter = router({
   getUnit: publicProcedure
-    .input(
-      z.object({
-        courseSlug: z.string().trim().min(1, 'courseSlug is required'),
-        unitId: z.string().trim().min(1, 'unitId is required'),
-      }),
-    )
+    .input(z.object({
+      courseSlug: z.string().trim().min(1, 'courseSlug is required'),
+      unitId: z.string().trim().min(1, 'unitId is required'),
+    }))
     .query(async ({ input }) => {
       const { courseSlug, unitId } = input;
 
@@ -179,11 +180,9 @@ export const coursesRouter = router({
     }),
 
   getBySlug: publicProcedure
-    .input(
-      z.object({
-        courseSlug: z.string(),
-      }),
-    )
+    .input(z.object({
+      courseSlug: z.string(),
+    }))
     .query(async ({ input: { courseSlug } }) => {
       return getCourseData(courseSlug);
     }),
@@ -194,11 +193,9 @@ export const coursesRouter = router({
     }),
 
   getCurriculumMetadata: publicProcedure
-    .input(
-      z.object({
-        courseSlug: z.string(),
-      }),
-    )
+    .input(z.object({
+      courseSlug: z.string(),
+    }))
     .query(async ({ input: { courseSlug } }) => {
       const course = await db.get(courseTable, { slug: courseSlug });
       if (!course) {
@@ -208,53 +205,49 @@ export const coursesRouter = router({
       const allUnits = await db.scan(unitTable, { courseSlug, unitStatus: 'Active' });
 
       // Fetch chunks by unitId (matching course page behavior) instead of using unit.chunks array
-      const unitMetadata = await Promise.all(
-        allUnits.map(async (unit) => {
-          const chunks = await db.scan(chunkTable, { unitId: unit.id, status: 'Active' });
+      const unitMetadata = await Promise.all(allUnits.map(async (unit) => {
+        const chunks = await db.scan(chunkTable, { unitId: unit.id, status: 'Active' });
 
-          // Calculate duration:
-          // - Skip chunks with "Optional" in title (not required)
-          // - For "Option N:" chunks, take max (they're alternatives)
-          // - Sum the rest
-          const optionPattern = /option\s+\d+/i;
-          const optionalPattern = /optional/i;
+        // Calculate duration:
+        // - Skip chunks with "Optional" in title (not required)
+        // - For "Option N:" chunks, take max (they're alternatives)
+        // - Sum the rest
+        const optionPattern = /option\s+\d+/i;
+        const optionalPattern = /optional/i;
 
-          const requiredChunks = chunks.filter((c) => !optionalPattern.test(c.chunkTitle));
-          const optionChunks = requiredChunks.filter((c) => optionPattern.test(c.chunkTitle));
-          const regularChunks = requiredChunks.filter((c) => !optionPattern.test(c.chunkTitle));
+        const requiredChunks = chunks.filter((c) => !optionalPattern.test(c.chunkTitle));
+        const optionChunks = requiredChunks.filter((c) => optionPattern.test(c.chunkTitle));
+        const regularChunks = requiredChunks.filter((c) => !optionPattern.test(c.chunkTitle));
 
-          const optionMaxTime = optionChunks.length > 0
-            ? Math.max(...optionChunks.map((c) => c.estimatedTime ?? 0))
-            : 0;
-          const regularTime = regularChunks.reduce((sum, c) => sum + (c.estimatedTime ?? 0), 0);
-          const totalDuration = regularTime + optionMaxTime;
+        const optionMaxTime = optionChunks.length > 0
+          ? Math.max(...optionChunks.map((c) => c.estimatedTime ?? 0))
+          : 0;
+        const regularTime = regularChunks.reduce((sum, c) => sum + (c.estimatedTime ?? 0), 0);
+        const totalDuration = regularTime + optionMaxTime;
 
-          // Get all exercise IDs from active chunks
-          const allExerciseIds = chunks.flatMap((c) => c.chunkExercises ?? []);
+        // Get all exercise IDs from active chunks
+        const allExerciseIds = chunks.flatMap((c) => c.chunkExercises ?? []);
 
-          // Count only active exercises
-          let exerciseCount = 0;
-          if (allExerciseIds.length > 0) {
-            const activeExercises = await db.pg
-              .select({ id: exerciseTable.pg.id })
-              .from(exerciseTable.pg)
-              .where(
-                and(
-                  eq(exerciseTable.pg.status, 'Active'),
-                  inArray(exerciseTable.pg.id, allExerciseIds),
-                ),
-              );
-            exerciseCount = activeExercises.length;
-          }
+        // Count only active exercises
+        let exerciseCount = 0;
+        if (allExerciseIds.length > 0) {
+          const activeExercises = await db.pg
+            .select({ id: exerciseTable.pg.id })
+            .from(exerciseTable.pg)
+            .where(and(
+              eq(exerciseTable.pg.status, 'Active'),
+              inArray(exerciseTable.pg.id, allExerciseIds),
+            ));
+          exerciseCount = activeExercises.length;
+        }
 
-          return {
-            unitId: unit.id,
-            unitNumber: unit.unitNumber,
-            duration: totalDuration > 0 ? totalDuration : null,
-            exerciseCount,
-          };
-        }),
-      );
+        return {
+          unitId: unit.id,
+          unitNumber: unit.unitNumber,
+          duration: totalDuration > 0 ? totalDuration : null,
+          exerciseCount,
+        };
+      }));
 
       return unitMetadata.sort((a, b) => Number(a.unitNumber) - Number(b.unitNumber));
     }),
@@ -281,9 +274,7 @@ export const coursesRouter = router({
       // Build Sets for faster lookup
       const coreResourceIdSet = new Set(coreResourceIds);
       const activeExerciseIdSet = new Set(activeExerciseIds);
-      const completedResourceIdSet = new Set(
-        resourceCompletions.map((c) => c.unitResourceId).filter((id): id is string => id != null),
-      );
+      const completedResourceIdSet = new Set(resourceCompletions.map((c) => c.unitResourceId).filter((id): id is string => id != null));
       const completedExerciseIdSet = new Set(exerciseCompletions.map((e) => e.exerciseId));
 
       const chunkProgressByUnitNumber: Record<string, ChunkProgress[]> = {};

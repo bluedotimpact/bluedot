@@ -127,6 +127,7 @@ export const Default: Story = {
           if (input.courseSlug === 'future-of-ai') {
             return { intense: [], partTime: [] };
           }
+
           return {
             intense: mockIntensiveRounds,
             partTime: mockPartTimeRounds,

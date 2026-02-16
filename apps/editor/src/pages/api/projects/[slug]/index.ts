@@ -1,14 +1,14 @@
 import { z } from 'zod';
 import createHttpError from 'http-errors';
-import { projectTable, InferSelectModel } from '@bluedot/db';
+import { projectTable, type InferSelectModel } from '@bluedot/db';
 import db from '../../../../lib/api/db';
 import { makeApiRoute } from '../../../../lib/api/makeApiRoute';
 
 type Project = InferSelectModel<typeof projectTable.pg>;
 
 export type GetProjectResponse = {
-  type: 'success',
-  project: Project,
+  type: 'success';
+  project: Project;
 };
 
 export default makeApiRoute({
@@ -35,10 +35,12 @@ export default makeApiRoute({
         project,
       };
     }
+
     case 'PUT': {
       if (!body) {
         throw new createHttpError.BadRequest('Expected PUT request to include body');
       }
+
       await db.update(projectTable, {
         id: project.id,
         body: body.body,
@@ -51,6 +53,7 @@ export default makeApiRoute({
         },
       };
     }
+
     default: {
       throw new createHttpError.MethodNotAllowed();
     }

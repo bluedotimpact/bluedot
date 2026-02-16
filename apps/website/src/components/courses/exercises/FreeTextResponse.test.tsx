@@ -7,7 +7,7 @@ import {
   beforeEach,
   describe,
   expect,
-  Mock,
+  type Mock,
   test,
   vi,
 } from 'vitest';
@@ -43,9 +43,7 @@ const mockArgs = {
 
 describe('FreeTextResponse', () => {
   test('renders default as expected', async () => {
-    const { container } = render(
-      <FreeTextResponse {...mockArgs} />,
-    );
+    const { container } = render(<FreeTextResponse {...mockArgs} />);
 
     await waitFor(() => {
       expect(container.querySelector('.ProseMirror')).toBeTruthy();
@@ -56,9 +54,7 @@ describe('FreeTextResponse', () => {
   });
 
   test('renders logged in as expected', async () => {
-    const { container } = render(
-      <FreeTextResponse {...mockArgs} isLoggedIn />,
-    );
+    const { container } = render(<FreeTextResponse {...mockArgs} isLoggedIn />);
 
     await waitFor(() => {
       expect(container.querySelector('.ProseMirror')).toBeTruthy();
@@ -70,9 +66,7 @@ describe('FreeTextResponse', () => {
   });
 
   test('renders with saved exercise response', async () => {
-    const { container } = render(
-      <FreeTextResponse {...mockArgs} exerciseResponse="This is my saved answer." isLoggedIn />,
-    );
+    const { container } = render(<FreeTextResponse {...mockArgs} exerciseResponse="This is my saved answer." isLoggedIn />);
 
     // Wait for TipTap editor to render
     await waitFor(() => {
@@ -92,15 +86,13 @@ describe('FreeTextResponse', () => {
     test('does not show status immediately while typing (20-second auto-save delay)', async () => {
       const user = userEvent.setup();
 
-      const { container } = render(
-        <FreeTextResponse {...mockArgs} isLoggedIn />,
-      );
+      const { container } = render(<FreeTextResponse {...mockArgs} isLoggedIn />);
 
       await waitFor(() => {
         expect(container.querySelector('.ProseMirror')).toBeTruthy();
       });
 
-      const editor = container.querySelector('.ProseMirror') as HTMLElement;
+      const editor = container.querySelector('.ProseMirror')!;
 
       // Type in the editor using userEvent
       await user.click(editor);
@@ -114,15 +106,13 @@ describe('FreeTextResponse', () => {
     test('triggers auto-save when user clicks outside after typing', async () => {
       const user = userEvent.setup();
       const mockOnExerciseSubmit = vi.fn().mockResolvedValue({});
-      const { container } = render(
-        <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
-      );
+      const { container } = render(<FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />);
 
       await waitFor(() => {
         expect(container.querySelector('.ProseMirror')).toBeTruthy();
       });
 
-      const editor = container.querySelector('.ProseMirror') as HTMLElement;
+      const editor = container.querySelector('.ProseMirror')!;
 
       // Type in the editor using userEvent
       await user.click(editor);
@@ -144,15 +134,13 @@ describe('FreeTextResponse', () => {
 
     test('does not auto-save when user is not logged in', async () => {
       const mockOnExerciseSubmit = vi.fn();
-      const { container } = render(
-        <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn={false} />,
-      );
+      const { container } = render(<FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn={false} />);
 
       await waitFor(() => {
         expect(container.querySelector('.ProseMirror')).toBeTruthy();
       });
 
-      const editor = container.querySelector('.ProseMirror') as HTMLElement;
+      const editor = container.querySelector('.ProseMirror')!;
 
       // Attempt to type (editor should be disabled)
       fireEvent.input(editor, { target: { innerHTML: '<p>This is my answer</p>' } });
@@ -161,7 +149,9 @@ describe('FreeTextResponse', () => {
       fireEvent.blur(editor);
 
       // Wait a bit
-      await new Promise((resolve) => { setTimeout(resolve, 100); });
+      await new Promise((resolve) => {
+        setTimeout(resolve, 100);
+      });
 
       // Should not call onExerciseSubmit
       expect(mockOnExerciseSubmit).not.toHaveBeenCalled();
@@ -172,26 +162,26 @@ describe('FreeTextResponse', () => {
 
     test('does not auto-save when content has not changed', async () => {
       const mockOnExerciseSubmit = vi.fn();
-      const { container } = render(
-        <FreeTextResponse
-          {...mockArgs}
-          onExerciseSubmit={mockOnExerciseSubmit}
-          exerciseResponse="Existing answer"
-          isLoggedIn
-        />,
-      );
+      const { container } = render(<FreeTextResponse
+        {...mockArgs}
+        onExerciseSubmit={mockOnExerciseSubmit}
+        exerciseResponse="Existing answer"
+        isLoggedIn
+      />);
 
       await waitFor(() => {
         expect(container.querySelector('.ProseMirror')).toBeTruthy();
       });
 
-      const editor = container.querySelector('.ProseMirror') as HTMLElement;
+      const editor = container.querySelector('.ProseMirror')!;
 
       // Trigger blur without changing content
       fireEvent.blur(editor);
 
       // Wait a bit
-      await new Promise((resolve) => { setTimeout(resolve, 100); });
+      await new Promise((resolve) => {
+        setTimeout(resolve, 100);
+      });
 
       // Should not call onExerciseSubmit
       expect(mockOnExerciseSubmit).not.toHaveBeenCalled();
@@ -200,15 +190,13 @@ describe('FreeTextResponse', () => {
     test('shows error status when save fails', async () => {
       const user = userEvent.setup();
       const mockOnExerciseSubmit = vi.fn().mockRejectedValue(new Error('Save failed'));
-      const { container } = render(
-        <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
-      );
+      const { container } = render(<FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />);
 
       await waitFor(() => {
         expect(container.querySelector('.ProseMirror')).toBeTruthy();
       });
 
-      const editor = container.querySelector('.ProseMirror') as HTMLElement;
+      const editor = container.querySelector('.ProseMirror')!;
 
       // Type in the editor using userEvent
       await user.click(editor);
@@ -219,7 +207,7 @@ describe('FreeTextResponse', () => {
 
       // Wait for error status to appear (may skip Saving... if too fast)
       await waitFor(() => {
-        expect(getByText(container, "Couldn't save answer.")).toBeTruthy();
+        expect(getByText(container, 'Couldn\'t save answer.')).toBeTruthy();
         expect(getByRole(container, 'button', { name: /retry/i })).toBeTruthy();
       }, { timeout: 3000 });
     });
@@ -230,15 +218,13 @@ describe('FreeTextResponse', () => {
         .mockRejectedValueOnce(new Error('Save failed'))
         .mockResolvedValueOnce({});
 
-      const { container } = render(
-        <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
-      );
+      const { container } = render(<FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />);
 
       await waitFor(() => {
         expect(container.querySelector('.ProseMirror')).toBeTruthy();
       });
 
-      const editor = container.querySelector('.ProseMirror') as HTMLElement;
+      const editor = container.querySelector('.ProseMirror')!;
 
       // Type in the editor using userEvent
       await user.click(editor);
@@ -249,7 +235,7 @@ describe('FreeTextResponse', () => {
 
       // Wait for error status to appear
       await waitFor(() => {
-        expect(getByText(container, "Couldn't save answer.")).toBeTruthy();
+        expect(getByText(container, 'Couldn\'t save answer.')).toBeTruthy();
       }, { timeout: 3000 });
 
       // Click retry button
@@ -268,15 +254,13 @@ describe('FreeTextResponse', () => {
     test('success status shows after save completes', async () => {
       const user = userEvent.setup();
       const mockOnExerciseSubmit = vi.fn().mockResolvedValue({});
-      const { container } = render(
-        <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
-      );
+      const { container } = render(<FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />);
 
       await waitFor(() => {
         expect(container.querySelector('.ProseMirror')).toBeTruthy();
       });
 
-      const editor = container.querySelector('.ProseMirror') as HTMLElement;
+      const editor = container.querySelector('.ProseMirror')!;
 
       // Type in the editor using userEvent
       await user.click(editor);
@@ -301,15 +285,13 @@ describe('FreeTextResponse', () => {
       const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
 
       const mockOnExerciseSubmit = vi.fn().mockResolvedValue({});
-      const { container } = render(
-        <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
-      );
+      const { container } = render(<FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />);
 
       await vi.waitFor(() => {
         expect(container.querySelector('.ProseMirror')).toBeTruthy();
       });
 
-      const editor = container.querySelector('.ProseMirror') as HTMLElement;
+      const editor = container.querySelector('.ProseMirror')!;
 
       // Type in the editor using userEvent with fake timers
       await user.click(editor);
@@ -335,14 +317,12 @@ describe('FreeTextResponse', () => {
       vi.useFakeTimers();
 
       const mockOnExerciseSubmit = vi.fn().mockResolvedValue({});
-      render(
-        <FreeTextResponse
-          {...mockArgs}
-          onExerciseSubmit={mockOnExerciseSubmit}
-          exerciseResponse="Already saved answer"
-          isLoggedIn
-        />,
-      );
+      render(<FreeTextResponse
+        {...mockArgs}
+        onExerciseSubmit={mockOnExerciseSubmit}
+        exerciseResponse="Already saved answer"
+        isLoggedIn
+      />);
 
       // Don't change anything - the value matches the saved response
 
@@ -360,9 +340,7 @@ describe('FreeTextResponse', () => {
       vi.useFakeTimers();
 
       const mockOnExerciseSubmit = vi.fn().mockResolvedValue({});
-      render(
-        <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
-      );
+      render(<FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />);
 
       // Do not make any changes or focus
 
@@ -379,9 +357,7 @@ describe('FreeTextResponse', () => {
       vi.useFakeTimers();
 
       const mockOnExerciseSubmit = vi.fn().mockResolvedValue({});
-      render(
-        <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
-      );
+      render(<FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />);
 
       // Do not make any changes or focus
 
@@ -395,9 +371,7 @@ describe('FreeTextResponse', () => {
     });
 
     test('editor has proper accessibility attributes', async () => {
-      const { container } = render(
-        <FreeTextResponse {...mockArgs} isLoggedIn />,
-      );
+      const { container } = render(<FreeTextResponse {...mockArgs} isLoggedIn />);
 
       await waitFor(() => {
         const editorContent = container.querySelector('[aria-label="Rich text input area"]');
@@ -407,28 +381,24 @@ describe('FreeTextResponse', () => {
     });
 
     test('editor is disabled when not logged in', async () => {
-      const { container } = render(
-        <FreeTextResponse {...mockArgs} isLoggedIn={false} />,
-      );
+      const { container } = render(<FreeTextResponse {...mockArgs} isLoggedIn={false} />);
 
       await waitFor(() => {
         expect(container.querySelector('.ProseMirror')).toBeTruthy();
       });
 
-      const editor = container.querySelector('.ProseMirror') as HTMLElement;
+      const editor = container.querySelector('.ProseMirror')!;
       expect(editor.getAttribute('contenteditable')).toBe('false');
     });
 
     test('editor is enabled when logged in', async () => {
-      const { container } = render(
-        <FreeTextResponse {...mockArgs} isLoggedIn />,
-      );
+      const { container } = render(<FreeTextResponse {...mockArgs} isLoggedIn />);
 
       await waitFor(() => {
         expect(container.querySelector('.ProseMirror')).toBeTruthy();
       });
 
-      const editor = container.querySelector('.ProseMirror') as HTMLElement;
+      const editor = container.querySelector('.ProseMirror')!;
       expect(editor.getAttribute('contenteditable')).toBe('true');
     });
   });
@@ -439,9 +409,7 @@ describe('FreeTextResponse', () => {
       const mockOnExerciseSubmit = vi.fn().mockResolvedValue({});
 
       // First render without text - buttons should be disabled
-      const { container, rerender } = render(
-        <FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
-      );
+      const { container, rerender } = render(<FreeTextResponse {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />);
 
       await waitFor(() => {
         expect(container.querySelector('.ProseMirror')).toBeTruthy();
@@ -453,9 +421,7 @@ describe('FreeTextResponse', () => {
       });
 
       // Re-render with text - buttons should be enabled
-      rerender(
-        <FreeTextResponse {...mockArgs} exerciseResponse="Some answer" onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
-      );
+      rerender(<FreeTextResponse {...mockArgs} exerciseResponse="Some answer" onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />);
 
       await waitFor(() => {
         const desktopButton = container.querySelector('button[aria-label="Mark exercise as complete"]');
@@ -463,7 +429,7 @@ describe('FreeTextResponse', () => {
       });
 
       // Click complete and verify handler called correctly
-      const completeButton = container.querySelector('button[aria-label="Mark exercise as complete"]') as HTMLElement;
+      const completeButton = container.querySelector('button[aria-label="Mark exercise as complete"]')!;
       await user.click(completeButton);
 
       expect(mockOnExerciseSubmit).toHaveBeenCalledWith('Some answer', true);
@@ -473,9 +439,7 @@ describe('FreeTextResponse', () => {
       const user = userEvent.setup();
       const mockOnExerciseSubmit = vi.fn().mockResolvedValue({});
 
-      const { container } = render(
-        <FreeTextResponse {...mockArgs} exerciseResponse="Some answer" isCompleted onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
-      );
+      const { container } = render(<FreeTextResponse {...mockArgs} exerciseResponse="Some answer" isCompleted onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />);
 
       await waitFor(() => {
         expect(container.querySelector('.ProseMirror')).toBeTruthy();
@@ -492,9 +456,7 @@ describe('FreeTextResponse', () => {
     });
 
     test('completion UI hidden when logged out', async () => {
-      const { container } = render(
-        <FreeTextResponse {...mockArgs} exerciseResponse="Some answer" />,
-      );
+      const { container } = render(<FreeTextResponse {...mockArgs} exerciseResponse="Some answer" />);
 
       await waitFor(() => {
         expect(container.querySelector('.ProseMirror')).toBeTruthy();

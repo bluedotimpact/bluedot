@@ -27,14 +27,12 @@ describe('BugReportModal', () => {
     const mockSetIsOpen = vi.fn();
     const testMessage = 'Test bug report';
 
-    render(
-      <BugReportModal
-        showTextarea
-        onSubmit={mockOnSubmit}
-        isOpen
-        setIsOpen={mockSetIsOpen}
-      />,
-    );
+    render(<BugReportModal
+      showTextarea
+      onSubmit={mockOnSubmit}
+      isOpen
+      setIsOpen={mockSetIsOpen}
+    />);
 
     const textarea = screen.getByPlaceholderText('Your message');
     fireEvent.change(textarea, { target: { value: testMessage } });
@@ -51,13 +49,11 @@ describe('BugReportModal', () => {
     const mockOnSubmit = vi.fn().mockRejectedValue(testError);
     const testMessage = 'Test bug report';
 
-    render(
-      <BugReportModal
-        showTextarea
-        onSubmit={mockOnSubmit}
-        isOpen
-      />,
-    );
+    render(<BugReportModal
+      showTextarea
+      onSubmit={mockOnSubmit}
+      isOpen
+    />);
 
     const textarea = screen.getByPlaceholderText('Your message');
     fireEvent.change(textarea, { target: { value: testMessage } });

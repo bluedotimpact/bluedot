@@ -189,7 +189,7 @@ const CourseCarouselButton = ({
 const CourseCarousel = ({
   courses,
 }: {
-  courses: Course[]
+  courses: Course[];
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const autoScrollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -198,7 +198,10 @@ const CourseCarousel = ({
   const [isHovered, setIsHovered] = useState(false);
 
   const createInfiniteScrollData = () => {
-    if (courses.length === 0) return [];
+    if (courses.length === 0) {
+      return [];
+    }
+
     return [...courses, ...courses, ...courses];
   };
 
@@ -206,22 +209,37 @@ const CourseCarousel = ({
 
   // Card width + gap
   const getCardWidth = useCallback(() => {
-    if (typeof window === 'undefined') return 276;
+    if (typeof window === 'undefined') {
+      return 276;
+    }
+
     // 768px is TW md breakpoint
     return window.innerWidth >= 768 ? 400 : 276;
   }, []);
 
   const getGap = useCallback(() => {
-    if (typeof window === 'undefined') return 20;
+    if (typeof window === 'undefined') {
+      return 20;
+    }
+
     const width = window.innerWidth;
-    if (width >= 1024) return 32;
-    if (width >= 768) return 24;
+    if (width >= 1024) {
+      return 32;
+    }
+
+    if (width >= 768) {
+      return 24;
+    }
+
     return 20;
   }, []);
 
   // Auto-scroll functionality
   const startAutoScroll = useCallback(() => {
-    if (prefersReducedMotionRef.current) return;
+    if (prefersReducedMotionRef.current) {
+      return;
+    }
+
     if (autoScrollIntervalRef.current) {
       clearInterval(autoScrollIntervalRef.current);
     }
@@ -256,6 +274,7 @@ const CourseCarousel = ({
     } else {
       stopAutoScroll();
     }
+
     return () => {
       stopAutoScroll();
     };
@@ -263,7 +282,10 @@ const CourseCarousel = ({
 
   // Handle prefers-reduced-motion
   useEffect(() => {
-    if (typeof window === 'undefined') return undefined;
+    if (typeof window === 'undefined') {
+      return undefined;
+    }
+
     const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
     const applyPreference = (matches: boolean) => {
       prefersReducedMotionRef.current = matches;
@@ -300,6 +322,7 @@ const CourseCarousel = ({
 
       return () => cancelAnimationFrame(rafId);
     }
+
     return undefined;
   }, [courses.length, getCardWidth, getGap]);
 
@@ -378,7 +401,6 @@ const CourseCarousel = ({
   return (
     <div className="flex lg:hidden flex-col">
       <div className="w-screen -mx-5 overflow-hidden">
-        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
         <div
           ref={scrollContainerRef}
           className="flex gap-5 md:gap-6 lg:gap-8 pl-5 overflow-x-auto scrollbar-none"
@@ -394,7 +416,7 @@ const CourseCarousel = ({
           onKeyDown={handleKeyDown}
           onTouchStart={() => setIsHovered(true)}
           onTouchEnd={() => setIsHovered(false)}
-          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+
           tabIndex={0}
           role="region"
           aria-label="Courses carousel"
@@ -485,6 +507,7 @@ const CourseCardRedesigned = ({
 }) => {
   const { getPrimaryCourseURL } = usePrimaryCourseURL();
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const iconSrc = course.icon || '/images/logo/BlueDot_Impact_Icon_White.svg';
 
   return (
@@ -585,6 +608,7 @@ const CourseSection = () => {
   }
 
   // Component determines featured course logic internally
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const featuredCourse = courses.find((course) => course.isFeatured) || courses[0]!;
   const otherCourses = courses
     .filter((course) => course.slug !== featuredCourse.slug)

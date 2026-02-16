@@ -105,6 +105,7 @@ type RoundItemProps = {
 };
 
 const RoundItem = ({ round }: RoundItemProps) => {
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const baseApplicationUrl = round.applyUrl || '';
   const separator = baseApplicationUrl.includes('?') ? '&' : '?';
   const applyUrl = baseApplicationUrl ? `${baseApplicationUrl}${separator}prefill_%5B%3E%5D%20Round=${round.id}` : '';
@@ -169,13 +170,17 @@ const RoundItem = ({ round }: RoundItemProps) => {
 };
 
 function selectDiverseRounds(rounds: Round[]): Round[] {
-  if (rounds.length === 0) return [];
+  if (rounds.length === 0) {
+    return [];
+  }
 
   const selectedRounds: Round[] = [];
   const seenCourses = new Set<string>();
 
   for (const round of rounds) {
-    if (selectedRounds.length >= 3) break;
+    if (selectedRounds.length >= 3) {
+      break;
+    }
 
     const { courseId } = round;
     if (!seenCourses.has(courseId)) {
@@ -186,7 +191,10 @@ function selectDiverseRounds(rounds: Round[]): Round[] {
 
   if (selectedRounds.length < 3) {
     for (const round of rounds) {
-      if (selectedRounds.length >= 3) break;
+      if (selectedRounds.length >= 3) {
+        break;
+      }
+
       if (!selectedRounds.find((r) => r.id === round.id)) {
         selectedRounds.push(round);
       }

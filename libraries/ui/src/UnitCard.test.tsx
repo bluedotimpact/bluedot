@@ -11,20 +11,16 @@ describe('UnitCard', () => {
   };
 
   test('renders default as expected', () => {
-    const { container } = render(
-      <UnitCard {...defaultProps} />,
-    );
+    const { container } = render(<UnitCard {...defaultProps} />);
     expect(container).toMatchSnapshot();
   });
 
   test('renders with optional args', () => {
-    const { container } = render(
-      <UnitCard
-        {...defaultProps}
-        duration={10}
-        isCurrentUnit
-      />,
-    );
+    const { container } = render(<UnitCard
+      {...defaultProps}
+      duration={10}
+      isCurrentUnit
+    />);
     expect(container).toMatchSnapshot();
   });
 });

@@ -122,7 +122,9 @@ const ChangePasswordModal = ({
   };
 
   const handleSubmit = async () => {
-    if (!validateForm()) return;
+    if (!validateForm()) {
+      return;
+    }
 
     setIsLoading(true);
     setErrors({ current: '', new: '', confirm: '' });
@@ -130,12 +132,12 @@ const ChangePasswordModal = ({
     changePasswordMutation.mutate(
       { currentPassword, newPassword },
       {
-        onSuccess: () => {
+        onSuccess() {
           // Close modal immediately and trigger success callback
           setIsOpen(false);
           onSuccess(); // This will show success message in account settings
         },
-        onError: (err) => {
+        onError(err) {
           if (err instanceof TRPCClientError) {
             if (err.data?.code === 'UNAUTHORIZED') {
               setErrors({ ...errors, current: 'Incorrect password' });
@@ -154,7 +156,7 @@ const ChangePasswordModal = ({
             setErrors({ ...errors, current: 'Network error occurred. Please check your connection and try again.' });
           }
         },
-        onSettled: () => {
+        onSettled() {
           setIsLoading(false);
         },
       },
@@ -178,7 +180,9 @@ const ChangePasswordModal = ({
             value={currentPassword}
             onChange={(e) => {
               setCurrentPassword(e.target.value);
-              if (errors.current) setErrors({ ...errors, current: '' });
+              if (errors.current) {
+                setErrors({ ...errors, current: '' });
+              }
             }}
             onKeyDown={handleKeyDown}
             placeholder="Enter current password"
@@ -208,7 +212,9 @@ const ChangePasswordModal = ({
             value={newPassword}
             onChange={(e) => {
               setNewPassword(e.target.value);
-              if (errors.new) setErrors({ ...errors, new: '' });
+              if (errors.new) {
+                setErrors({ ...errors, new: '' });
+              }
             }}
             onKeyDown={handleKeyDown}
             placeholder="Enter new password"
@@ -246,7 +252,9 @@ const ChangePasswordModal = ({
             value={confirmPassword}
             onChange={(e) => {
               setConfirmPassword(e.target.value);
-              if (errors.confirm) setErrors({ ...errors, confirm: '' });
+              if (errors.confirm) {
+                setErrors({ ...errors, confirm: '' });
+              }
             }}
             onKeyDown={handleKeyDown}
             placeholder="Confirm new password"

@@ -12,9 +12,15 @@ describe('ImpersonationBadge', () => {
     const store: Record<string, string> = {};
     return {
       getItem: vi.fn((key: string) => store[key] ?? null),
-      setItem: vi.fn((key: string, value: string) => { store[key] = value; }),
-      removeItem: vi.fn((key: string) => { delete store[key]; }),
-      clear: vi.fn(() => { Object.keys(store).forEach((key) => delete store[key]); }),
+      setItem: vi.fn((key: string, value: string) => {
+        store[key] = value;
+      }),
+      removeItem: vi.fn((key: string) => {
+        delete store[key];
+      }),
+      clear: vi.fn(() => {
+        Object.keys(store).forEach((key) => delete store[key]);
+      }),
       key: vi.fn(),
       length: 0,
       store,
@@ -36,20 +42,18 @@ describe('ImpersonationBadge', () => {
   test('displays masked email when impersonating', async () => {
     mockSessionStorage.store.bluedot_impersonating = 'rec123abc';
 
-    server.use(
-      trpcMsw.users.getUser.query(() => ({
-        id: 'rec123abc',
-        email: 'testuser@example.com',
-        name: 'Test User',
-        createdAt: '2024-01-01',
-        lastSeenAt: '2024-01-01',
-        autoNumberId: 1,
-        utmSource: null,
-        utmCampaign: null,
-        utmContent: null,
-        isAdmin: null,
-      })),
-    );
+    server.use(trpcMsw.users.getUser.query(() => ({
+      id: 'rec123abc',
+      email: 'testuser@example.com',
+      name: 'Test User',
+      createdAt: '2024-01-01',
+      lastSeenAt: '2024-01-01',
+      autoNumberId: 1,
+      utmSource: null,
+      utmCampaign: null,
+      utmContent: null,
+      isAdmin: null,
+    })));
 
     const { container } = render(<ImpersonationBadge />, { wrapper: TrpcProvider });
 
@@ -69,20 +73,18 @@ describe('ImpersonationBadge', () => {
 
     mockSessionStorage.store.bluedot_impersonating = 'rec123abc';
 
-    server.use(
-      trpcMsw.users.getUser.query(() => ({
-        id: 'rec123abc',
-        email: 'testuser@example.com',
-        name: 'Test User',
-        createdAt: '2024-01-01',
-        lastSeenAt: '2024-01-01',
-        autoNumberId: 1,
-        utmSource: null,
-        utmCampaign: null,
-        utmContent: null,
-        isAdmin: null,
-      })),
-    );
+    server.use(trpcMsw.users.getUser.query(() => ({
+      id: 'rec123abc',
+      email: 'testuser@example.com',
+      name: 'Test User',
+      createdAt: '2024-01-01',
+      lastSeenAt: '2024-01-01',
+      autoNumberId: 1,
+      utmSource: null,
+      utmCampaign: null,
+      utmContent: null,
+      isAdmin: null,
+    })));
 
     render(<ImpersonationBadge />, { wrapper: TrpcProvider });
 

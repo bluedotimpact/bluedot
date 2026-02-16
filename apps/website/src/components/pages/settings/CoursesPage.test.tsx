@@ -3,29 +3,49 @@ import {
 } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import CoursesContent from './CoursesContent';
-import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
-import { TrpcProvider } from '../../__tests__/trpcProvider';
-import { createMockCourseRegistration, createMockCourse } from '../../__tests__/testUtils';
+import CoursesSettingsPage from '../../../pages/settings/courses';
+import { server, trpcMsw } from '../../../__tests__/trpcMswSetup';
+import { TrpcProvider } from '../../../__tests__/trpcProvider';
+import { createMockCourseRegistration, createMockCourse } from '../../../__tests__/testUtils';
 
-type MockCourseListRowProps = {
-  course: { title: string };
-  courseRegistration: { certificateCreatedAt: number | null };
+type MockCourseListProps = {
+  courses: { course: { title: string } }[];
 };
 
-// Mock CourseListRow to simplify testing
-vi.mock('./CourseListRow', () => ({
-  default: ({ course, courseRegistration }: MockCourseListRowProps) => (
-    <div data-testid="course-row">
-      <span>{course.title}</span>
-      <span>{courseRegistration.certificateCreatedAt ? 'Completed' : 'In Progress'}</span>
+vi.mock('../../settings/CourseList', () => ({
+  default: ({ courses }: MockCourseListProps) => (
+    <div>
+      {courses.map(({ course }) => (
+        <div key={course.title} data-testid="course-row">
+          <span>{course.title}</span>
+        </div>
+      ))}
     </div>
   ),
 }));
 
-describe('CoursesContent', () => {
+vi.mock('../../settings/SettingsLayout', () => ({
+  default: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+}));
+
+describe('CoursesPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    server.use(
+      trpcMsw.users.getUser.query(() => ({
+        id: 'user-1',
+        email: 'test@example.com',
+        name: 'Test User',
+        createdAt: null,
+        lastSeenAt: null,
+        autoNumberId: null,
+        utmSource: null,
+        utmCampaign: null,
+        utmContent: null,
+        isAdmin: null,
+      })),
+      trpcMsw.courseRegistrations.getRoundStartDates.query(() => ({})),
+    );
   });
 
   it('shows "Past" courses in Completed section, everything else in In Progress', async () => {
@@ -48,7 +68,7 @@ describe('CoursesContent', () => {
     server.use(trpcMsw.courses.getAll.query(() => courses));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
 
-    render(<CoursesContent />, { wrapper: TrpcProvider });
+    render(<CoursesSettingsPage />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
       expect(screen.getByText('In Progress (1)')).toBeInTheDocument();
@@ -62,10 +82,10 @@ describe('CoursesContent', () => {
     server.use(trpcMsw.courses.getAll.query(() => []));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => []));
 
-    render(<CoursesContent />, { wrapper: TrpcProvider });
+    render(<CoursesSettingsPage />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      expect(screen.getByText("You haven't started any courses yet")).toBeInTheDocument();
+      expect(screen.getByText('You haven\'t started any courses yet')).toBeInTheDocument();
       expect(screen.getByRole('link', { name: 'Join a course' })).toBeInTheDocument();
     });
   });
@@ -92,7 +112,7 @@ describe('CoursesContent', () => {
     server.use(trpcMsw.courses.getAll.query(() => courses));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
 
-    render(<CoursesContent />, { wrapper: TrpcProvider });
+    render(<CoursesSettingsPage />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
       const completedSection = screen.getByLabelText('Completed courses');
@@ -122,7 +142,7 @@ describe('CoursesContent', () => {
     server.use(trpcMsw.courses.getAll.query(() => courses));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
 
-    render(<CoursesContent />, { wrapper: TrpcProvider });
+    render(<CoursesSettingsPage />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
       // Active facilitator course in In Progress
@@ -176,7 +196,7 @@ describe('CoursesContent', () => {
     server.use(trpcMsw.courses.getAll.query(() => courses));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
 
-    render(<CoursesContent />, { wrapper: TrpcProvider });
+    render(<CoursesSettingsPage />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
       // Should show 2 courses in In Progress section (normal + deferred)
@@ -212,12 +232,87 @@ describe('CoursesContent', () => {
     server.use(trpcMsw.courses.getAll.query(() => courses));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
 
-    render(<CoursesContent />, { wrapper: TrpcProvider });
+    render(<CoursesSettingsPage />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
       // Should show empty state since deferred past courses are not shown
-      expect(screen.getByText("You haven't started any courses yet")).toBeInTheDocument();
+      expect(screen.getByText('You haven\'t started any courses yet')).toBeInTheDocument();
       expect(screen.queryByText('Deferred Past Course')).not.toBeInTheDocument();
+    });
+  });
+
+  it('shows Future courses in Upcoming section, separate from In Progress and Completed', async () => {
+    const courses = [
+      createMockCourse({ id: 'course-1', title: 'Active Course' }),
+      createMockCourse({ id: 'course-2', title: 'Past Course' }),
+      createMockCourse({ id: 'course-3', title: 'Future Course' }),
+    ];
+
+    const registrations = [
+      createMockCourseRegistration({
+        id: 'reg-1',
+        courseId: 'course-1',
+        roundStatus: 'Active',
+        certificateCreatedAt: null,
+      }),
+      createMockCourseRegistration({
+        id: 'reg-2',
+        courseId: 'course-2',
+        roundStatus: 'Past',
+        certificateCreatedAt: 1700000000,
+      }),
+      createMockCourseRegistration({
+        id: 'reg-3',
+        courseId: 'course-3',
+        roundStatus: 'Future',
+        certificateCreatedAt: null,
+        decision: null,
+      }),
+    ];
+
+    server.use(trpcMsw.courses.getAll.query(() => courses));
+    server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
+
+    render(<CoursesSettingsPage />, { wrapper: TrpcProvider });
+
+    await waitFor(() => {
+      expect(screen.getByText('Upcoming (1)')).toBeInTheDocument();
+      expect(screen.getByText('In Progress (1)')).toBeInTheDocument();
+      expect(screen.getByText('Completed (1)')).toBeInTheDocument();
+
+      const upcomingSection = screen.getByLabelText('Upcoming courses');
+      expect(upcomingSection).toHaveTextContent('Future Course');
+
+      const inProgressSection = screen.getByLabelText('In Progress courses');
+      expect(inProgressSection).not.toHaveTextContent('Future Course');
+
+      const completedSection = screen.getByLabelText('Completed courses');
+      expect(completedSection).not.toHaveTextContent('Future Course');
+    });
+  });
+
+  it('hides Upcoming section when no Future courses', async () => {
+    const courses = [
+      createMockCourse({ id: 'course-1', title: 'Active Course' }),
+    ];
+
+    const registrations = [
+      createMockCourseRegistration({
+        id: 'reg-1',
+        courseId: 'course-1',
+        roundStatus: 'Active',
+        certificateCreatedAt: null,
+      }),
+    ];
+
+    server.use(trpcMsw.courses.getAll.query(() => courses));
+    server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
+
+    render(<CoursesSettingsPage />, { wrapper: TrpcProvider });
+
+    await waitFor(() => {
+      expect(screen.queryByText(/Upcoming/)).not.toBeInTheDocument();
+      expect(screen.getByText('In Progress (1)')).toBeInTheDocument();
     });
   });
 });

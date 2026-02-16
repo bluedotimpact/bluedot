@@ -3,7 +3,8 @@ import {
   CTALinkOrButton, Modal,
 } from '@bluedot/ui';
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import type React from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 import type { ChunkProgress, CourseProgress } from '../../server/routers/courses';
@@ -58,6 +59,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
       } else {
         next.add(unitId);
       }
+
       return next;
     });
   };
@@ -71,6 +73,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
       const chunkPath = `/courses/${courseSlug}/${unit.unitNumber}/${index + 1}`;
       onUnitSelect(chunkPath);
     }
+
     setIsOpen(false);
   };
 
@@ -146,10 +149,17 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
   onChunkClick,
   chunkProgress,
 }) => {
+  const sectionRef = useRef<HTMLDivElement>(null);
   const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
 
+  useEffect(() => {
+    if (isExpanded && sectionRef.current) {
+      sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, [isExpanded]);
+
   return (
-    <div className="relative">
+    <div ref={sectionRef} className="relative scroll-mb-5">
       {unitIndex > 0 && (
         <div className="border-t-hairline border-[rgba(42,45,52,0.2)] mx-2 mb-2" />
       )}

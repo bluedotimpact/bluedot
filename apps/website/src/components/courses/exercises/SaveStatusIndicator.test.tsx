@@ -9,12 +9,10 @@ import SaveStatusIndicator from './SaveStatusIndicator';
 
 describe('SaveStatusIndicator', () => {
   test('renders empty bar when status is idle', () => {
-    const { container } = render(
-      <SaveStatusIndicator
-        status="idle"
-        id="test-status"
-      />,
-    );
+    const { container } = render(<SaveStatusIndicator
+      status="idle"
+      id="test-status"
+    />);
 
     const statusElement = container.querySelector('#test-status');
     expect(statusElement).toBeTruthy();
@@ -22,12 +20,10 @@ describe('SaveStatusIndicator', () => {
   });
 
   test('renders empty bar for typing status', () => {
-    const { container } = render(
-      <SaveStatusIndicator
-        status="typing"
-        id="test-status"
-      />,
-    );
+    const { container } = render(<SaveStatusIndicator
+      status="typing"
+      id="test-status"
+    />);
 
     const statusElement = container.querySelector('#test-status');
     expect(statusElement).toBeTruthy();
@@ -35,24 +31,20 @@ describe('SaveStatusIndicator', () => {
   });
 
   test('renders saving status with spinner when saving', () => {
-    const { container, getByText } = render(
-      <SaveStatusIndicator
-        status="saving"
-        id="test-status"
-      />,
-    );
+    const { container, getByText } = render(<SaveStatusIndicator
+      status="saving"
+      id="test-status"
+    />);
 
     expect(getByText('Saving...')).toBeTruthy();
     expect(container.querySelector('.animate-spin')).toBeTruthy();
   });
 
   test('renders saved status with checkmark when saved', () => {
-    const { container, getByText } = render(
-      <SaveStatusIndicator
-        status="saved"
-        id="test-status"
-      />,
-    );
+    const { container, getByText } = render(<SaveStatusIndicator
+      status="saved"
+      id="test-status"
+    />);
 
     expect(getByText('Answer saved')).toBeTruthy();
     // Check for custom checkmark SVG
@@ -61,15 +53,13 @@ describe('SaveStatusIndicator', () => {
 
   test('renders error status with retry button when error', () => {
     const mockRetry = vi.fn();
-    const { getByText, getByRole } = render(
-      <SaveStatusIndicator
-        status="error"
-        id="test-status"
-        onRetry={mockRetry}
-      />,
-    );
+    const { getByText, getByRole } = render(<SaveStatusIndicator
+      status="error"
+      id="test-status"
+      onRetry={mockRetry}
+    />);
 
-    expect(getByText("Couldn't save answer.")).toBeTruthy();
+    expect(getByText('Couldn\'t save answer.')).toBeTruthy();
     const retryButton = getByRole('button', { name: /retry/i });
     expect(retryButton).toBeTruthy();
 
@@ -79,12 +69,10 @@ describe('SaveStatusIndicator', () => {
   });
 
   test('has proper accessibility attributes', () => {
-    const { container } = render(
-      <SaveStatusIndicator
-        status="saving"
-        id="accessibility-test"
-      />,
-    );
+    const { container } = render(<SaveStatusIndicator
+      status="saving"
+      id="accessibility-test"
+    />);
 
     const statusElement = container.querySelector('#accessibility-test');
     expect(statusElement).toBeTruthy();

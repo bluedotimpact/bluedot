@@ -56,7 +56,9 @@ const SectionNav = ({ sections, applyUrl }: SectionNavProps) => {
     }
   };
 
-  if (!isVisible) return null;
+  if (!isVisible) {
+    return null;
+  }
 
   return (
     <nav

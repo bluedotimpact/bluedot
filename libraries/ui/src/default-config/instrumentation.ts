@@ -13,12 +13,11 @@ export const registerDefaultInstrumentation = async (env: { APP_NAME: string }) 
 
   // Create a custom Winston instrumentation
   const winstonInstrumentation = new WinstonInstrumentation({
-    logHook: (span, record) => {
+    logHook(span, record) {
       const { attributes } = (span as unknown as { attributes?: Record<string, string> });
 
       const attributesToAdd = ['http.method', 'http.url', 'user.email'];
       for (const attribute of attributesToAdd) {
-        // eslint-disable-next-line no-param-reassign
         record[attribute] = attributes?.[attribute];
       }
     },

@@ -15,7 +15,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: () => {
+  render() {
     const ControlledDemo = () => {
       const [time, setTime] = useState<Date | undefined>(undefined);
 
@@ -26,6 +26,7 @@ export const Default: Story = {
         </div>
       );
     };
+
     return <ControlledDemo />;
   },
 };

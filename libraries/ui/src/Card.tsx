@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import clsx from 'clsx';
 import { CTALinkOrButton } from './CTALinkOrButton';
 import { Tag } from './Tag';
@@ -45,7 +45,9 @@ export const Card: React.FC<CardProps> = ({
     className,
   );
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const showCTA = ctaText || (!isEntireCardClickable && ctaUrl);
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const showBottomSection = !!(showCTA || children);
 
   return (

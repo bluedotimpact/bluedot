@@ -78,7 +78,9 @@ export const exercisesRouter = router({
         filter: { slug: input.courseSlug },
         sortBy: 'slug',
       });
-      if (!course) return null;
+      if (!course) {
+        return null;
+      }
 
       // 2. Find caller's registration
       const courseRegistration = await db.getFirst(courseRegistrationTable, {
@@ -89,13 +91,17 @@ export const exercisesRouter = router({
           decision: 'Accept',
         },
       });
-      if (!courseRegistration) return null;
+      if (!courseRegistration) {
+        return null;
+      }
 
       // 3. Find meetPerson record and verify facilitator role
       const meetPerson = await db.getFirst(meetPersonTable, {
         filter: { applicationsBaseRecordId: courseRegistration.id },
       });
-      if (!meetPerson || meetPerson.role !== 'Facilitator') return null;
+      if (!meetPerson || meetPerson.role !== 'Facilitator') {
+        return null;
+      }
 
       // 4. Find groups this person facilitates
       const groups = await db.pg
@@ -103,11 +109,15 @@ export const exercisesRouter = router({
         .from(groupTable.pg)
         .where(arrayContains(groupTable.pg.facilitator, [meetPerson.id]));
 
-      if (groups.length === 0) return null;
+      if (groups.length === 0) {
+        return null;
+      }
 
       // 5. Get all participant IDs across all groups
       const allParticipantIds = [...new Set(groups.flatMap((g) => g.participants || []))];
-      if (allParticipantIds.length === 0) return null;
+      if (allParticipantIds.length === 0) {
+        return null;
+      }
 
       const participants = await db.pg
         .select({ id: meetPersonTable.pg.id, name: meetPersonTable.pg.name, email: meetPersonTable.pg.email })
@@ -118,7 +128,9 @@ export const exercisesRouter = router({
 
       // 6. Get completed responses for this exercise from all participants
       const allEmails = participants.map((p) => p.email).filter(Boolean) as string[];
-      if (allEmails.length === 0) return null;
+      if (allEmails.length === 0) {
+        return null;
+      }
 
       const exerciseResponses = await db.pg
         .select({
@@ -137,20 +149,22 @@ export const exercisesRouter = router({
       // 7. Build per-group response data
       const groupData = groups.map((g) => {
         const groupParticipantIds = g.participants || [];
-        const responses: { name: string, response: string }[] = [];
+        const responses: { name: string; response: string }[] = [];
         for (const pid of groupParticipantIds) {
           const p = participantById.get(pid);
           if (!p?.email) {
-            // eslint-disable-next-line no-continue
             continue;
           }
+
           const response = responseByEmail.get(p.email);
           if (response !== undefined) {
             responses.push({ name: p.name || 'Anonymous', response });
           }
         }
+
         return {
           id: g.id,
+          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
           name: g.groupName || 'Unnamed group',
           totalParticipants: groupParticipantIds.length,
           responses,

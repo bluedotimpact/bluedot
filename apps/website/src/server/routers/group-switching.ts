@@ -50,12 +50,16 @@ export function calculateGroupAvailability({
 
   for (const discussion of groupDiscussions) {
     // Skip discussions without unit numbers
-    // eslint-disable-next-line no-continue
-    if (discussion.unitNumber == null) continue;
+
+    if (discussion.unitNumber == null) {
+      continue;
+    }
 
     const group = groupsById[discussion.group];
-    // eslint-disable-next-line no-continue
-    if (!group) continue;
+
+    if (!group) {
+      continue;
+    }
 
     // Calculate spots left for this discussion
     const otherParticipants = discussion.participantsExpected.filter((id) => id !== participantId);
@@ -64,10 +68,12 @@ export function calculateGroupAvailability({
       : null;
 
     const userIsParticipant = discussion.participantsExpected.includes(participantId);
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     const groupName = group.groupName || 'Group [Unknown]';
 
     // Add to discussions by unit
     const unitKey = discussion.unitNumber.toString();
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     if (!discussionsByUnit[unitKey]) {
       discussionsByUnit[unitKey] = [];
     }
@@ -180,6 +186,7 @@ export const groupSwitchingRouter = router({
 
         return allGroups.filter((group) => allowedGroupIds.has(group.id));
       };
+
       const allowedGroups = await getGroupsAllowedToSwitchInto();
 
       if (allowedGroups.filter((g) => !g.participants.includes(participant.id)).length === 0) {
@@ -210,18 +217,16 @@ export const groupSwitchingRouter = router({
     }),
 
   switchGroup: protectedProcedure
-    .input(
-      z.object({
-        switchType: z.enum(['Switch group for one unit', 'Switch group permanently']),
-        notesFromParticipant: z.string().optional(),
-        oldGroupId: z.string().optional(),
-        newGroupId: z.string().optional(),
-        oldDiscussionId: z.string().optional(),
-        newDiscussionId: z.string().optional(),
-        isManualRequest: z.boolean(),
-        courseSlug: z.string(),
-      }),
-    )
+    .input(z.object({
+      switchType: z.enum(['Switch group for one unit', 'Switch group permanently']),
+      notesFromParticipant: z.string().optional(),
+      oldGroupId: z.string().optional(),
+      newGroupId: z.string().optional(),
+      oldDiscussionId: z.string().optional(),
+      newDiscussionId: z.string().optional(),
+      isManualRequest: z.boolean(),
+      courseSlug: z.string(),
+    }))
     .mutation(async ({ ctx, input }) => {
       const {
         switchType,
@@ -242,12 +247,14 @@ export const groupSwitchingRouter = router({
           message: 'oldDiscussionId is required when switching for one unit',
         });
       }
+
       if (isTemporarySwitch && !isManualRequest && !inputNewDiscussionId) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
           message: 'newDiscussionId is required when switching for one unit, unless requesting a manual switch',
         });
       }
+
       if (!isTemporarySwitch && !isManualRequest && !inputNewGroupId) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
@@ -297,12 +304,15 @@ export const groupSwitchingRouter = router({
         if (oldDiscussion.facilitators.includes(participantId) || newDiscussion?.facilitators.includes(participantId)) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'Facilitators cannot switch groups by this method' });
         }
+
         if (!oldDiscussion.participantsExpected.includes(participantId)) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'User not found in old discussion' });
         }
+
         if (newDiscussion?.participantsExpected.includes(participantId)) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'User is already expected to attend new discussion' });
         }
+
         if (newDiscussion && oldDiscussion.unit !== newDiscussion.unit) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'Old and new discussion must be on the same course unit' });
         }
@@ -326,29 +336,31 @@ export const groupSwitchingRouter = router({
           db.pg
             .select()
             .from(groupDiscussionTable.pg)
-            .where(
-              and(
-                arrayContains(groupDiscussionTable.pg.facilitators, [participantId]),
-                inArray(
-                  groupDiscussionTable.pg.group,
-                  [inputOldGroupId, inputNewGroupId].filter((v): v is string => v !== null),
-                ),
+            .where(and(
+              arrayContains(groupDiscussionTable.pg.facilitators, [participantId]),
+              inArray(
+                groupDiscussionTable.pg.group,
+                [inputOldGroupId, inputNewGroupId].filter((v): v is string => v !== null),
               ),
-            ),
+            )),
         ]);
 
         if (discussionsFacilitatedByParticipant.length) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'Facilitators cannot switch groups by this method' });
         }
+
         if (oldGroup && !oldGroup.participants.includes(participantId)) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'User is not a member of old group' });
         }
+
         if (newGroup?.participants.includes(participantId)) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'User is already a member of new group' });
         }
+
         if (oldGroup && oldGroup.round !== participant.round) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'Old group does not match the course round the user is registered for' });
         }
+
         if (newGroup && newGroup.round !== participant.round) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'New group does not match the course round the user is registered for' });
         }

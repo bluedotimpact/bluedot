@@ -1,7 +1,7 @@
 import {
   useState, useEffect, useRef, useCallback,
 } from 'react';
-import { Quote } from '@bluedot/ui';
+import { type Quote } from '@bluedot/ui';
 import { useAboveBreakpoint } from '@bluedot/ui/src/hooks/useBreakpoint';
 
 export type QuoteWithUrl = Quote & {
@@ -46,9 +46,12 @@ const getFontSizeForQuote = (quote: string): string => {
 
   if (length > FONT_SIZE_THRESHOLDS.EXTRA_LONG) {
     return FONT_SIZE_CLASSES.EXTRA_LONG;
-  } if (length > FONT_SIZE_THRESHOLDS.LONG) {
+  }
+
+  if (length > FONT_SIZE_THRESHOLDS.LONG) {
     return FONT_SIZE_CLASSES.LONG;
   }
+
   return FONT_SIZE_CLASSES.DEFAULT;
 };
 
@@ -129,6 +132,7 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
   return (
     <div
       className="w-full rounded-xl overflow-hidden"
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       style={{ backgroundColor: cardBackgroundColor || DEFAULT_COLORS.cardBg }}
     >
       {cardContent}
@@ -209,7 +213,10 @@ const QuoteSection = ({ quotes, cardBackgroundColor, accentColor }: QuoteSection
   };
 
   const handleTouchEnd = () => {
-    if (touchStartX.current === null || touchEndX.current === null) return;
+    if (touchStartX.current === null || touchEndX.current === null) {
+      return;
+    }
+
     const distance = touchStartX.current - touchEndX.current;
     const isLeftSwipe = distance > minSwipeDistance;
     const isRightSwipe = distance < -minSwipeDistance;
@@ -219,6 +226,7 @@ const QuoteSection = ({ quotes, cardBackgroundColor, accentColor }: QuoteSection
     } else if (isRightSwipe) {
       handlePrevious();
     }
+
     touchStartX.current = null;
     touchEndX.current = null;
   };
@@ -302,6 +310,7 @@ const QuoteSection = ({ quotes, cardBackgroundColor, accentColor }: QuoteSection
                 <div
                   className="w-full min-[680px]:w-24 h-1.5 rounded transition-all duration-300"
                   style={{
+                    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                     backgroundColor: index === activeIndex ? (accentColor || DEFAULT_COLORS.accent) : DEFAULT_COLORS.text,
                     opacity: index === activeIndex ? 1 : 0.15,
                   }}

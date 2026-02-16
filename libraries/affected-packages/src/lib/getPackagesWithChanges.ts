@@ -8,9 +8,7 @@ const getChangedFilesSinceLastSuccessfulCommit = async (): Promise<string[]> => 
   const workflowName = process.env.GITHUB_WORKFLOW_NAME ?? 'ci_cd';
   const workflowId = await execAsync(`gh api repos/${repo}/actions/workflows --jq '.workflows[] | select(.name == "${workflowName}") | .id'`);
 
-  const successfulCommitShas = (await execAsync(
-    `gh api repos/${repo}/actions/workflows/${workflowId}/runs?status=success --jq '.workflow_runs[] | .head_sha'`,
-  )).split('\n');
+  const successfulCommitShas = (await execAsync(`gh api repos/${repo}/actions/workflows/${workflowId}/runs?status=success --jq '.workflow_runs[] | .head_sha'`)).split('\n');
 
   const headSha = await execAsync('git rev-parse HEAD');
   const successfulParentCommits = [...new Set(await getSuccessfulParentCommits(headSha, successfulCommitShas))];
@@ -29,6 +27,7 @@ const getChangedFilesSinceLastSuccessfulCommit = async (): Promise<string[]> => 
       .map(async (pathSha) => (await execAsync(`git diff-tree --no-commit-id --name-only -r ${pathSha}`))
         .split('\n').filter(Boolean)),
     // get uncommited changes, including unstaged
+    // eslint-disable-next-line @typescript-eslint/await-thenable -- the await resolves execAsync before the array is passed to Promise.all
     (await execAsync('git status --porcelain --untracked-files')).split('\n').map((f) => f.slice(3)).filter(Boolean),
   ])).flat())];
 
@@ -46,7 +45,7 @@ const getSuccessfulParentCommits = async (
   commitSha: string,
   successfulCommitShas: string[],
   maxDepth = 100,
-): Promise<{ commitSha: string, path: string[] }[]> => {
+): Promise<{ commitSha: string; path: string[] }[]> => {
   if (maxDepth <= 0) {
     return [];
   }
@@ -114,6 +113,7 @@ const findInternalDepsOfPackage = (
     if (!npmPackage) {
       return [];
     }
+
     return [npmPackage, ...findInternalDepsOfPackage(npmPackage, internalNpmPackages)];
   }).flat();
 };
@@ -135,9 +135,11 @@ export const getPackagesWithChanges = async (): Promise<PackageInfo[]> => {
       .map(([, files]) => (files as string[]).length)
       .reduce((a, b) => a + b, 0);
 
+    /* eslint-disable @typescript-eslint/restrict-template-expressions -- glob is always a string from fileGlobs */
     console.error(`${p.name}: ${totalFilesChanged} file(s) changed from globs:\n${
       filesChangedAffectingPackage.map(([glob, files]) => `- ${glob}${(files as string[]).length > 0 ? '\n' : ''}${(files as string[]).map((f) => `  - ${f}`).join('\n')}`).join('\n')
     }\n`);
+    /* eslint-enable @typescript-eslint/restrict-template-expressions */
 
     return totalFilesChanged > 0;
   });

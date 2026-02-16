@@ -1,13 +1,13 @@
 import { z } from 'zod';
-import { projectTable, InferSelectModel } from '@bluedot/db';
+import { projectTable, type InferSelectModel } from '@bluedot/db';
 import db from '../../../lib/api/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 
 type Project = InferSelectModel<typeof projectTable.pg>;
 
 export type GetProjectsResponse = {
-  type: 'success',
-  projects: Omit<Project, 'body'>[],
+  type: 'success';
+  projects: Omit<Project, 'body'>[];
 };
 
 export default makeApiRoute({

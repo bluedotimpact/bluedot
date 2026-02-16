@@ -1,6 +1,6 @@
-import React from 'react';
+import type React from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
-import { ClickTarget, ClickTargetProps } from './ClickTarget';
+import { ClickTarget, type ClickTargetProps } from './ClickTarget';
 import { cn } from './utils';
 
 export type CTALinkOrButtonProps = {
@@ -50,15 +50,15 @@ export const CTALinkOrButton: React.FC<CTALinkOrButtonProps> = ({
       {...rest}
     >
       {withBackChevron && (
-      <span className="cta-button__chevron mr-3">
-        <FaChevronLeft className="cta-button__chevron-icon size-2" />
-      </span>
+        <span className="cta-button__chevron mr-3">
+          <FaChevronLeft className="cta-button__chevron-icon size-2" />
+        </span>
       )}
       {children}
       {withChevron && (
-      <span className="cta-button__chevron ml-3">
-        <FaChevronRight className="cta-button__chevron-icon size-2" />
-      </span>
+        <span className="cta-button__chevron ml-3">
+          <FaChevronRight className="cta-button__chevron-icon size-2" />
+        </span>
       )}
     </ClickTarget>
   );

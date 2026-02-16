@@ -5,7 +5,7 @@ import {
   withAuth,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
-import { GetProjectsResponse } from '../api/projects';
+import { type GetProjectsResponse } from '../api/projects';
 
 const ProjectsPage = withAuth(({ auth }) => {
   const [{ data, loading, error }] = useAxios<GetProjectsResponse>({
@@ -20,7 +20,9 @@ const ProjectsPage = withAuth(({ auth }) => {
     return <ProgressDots />;
   }
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   if (error || !data) {
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     return <ErrorSection error={error || new Error('Missing data')} />;
   }
 

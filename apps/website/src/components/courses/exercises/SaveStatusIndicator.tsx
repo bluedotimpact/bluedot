@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { RiLoader4Line } from 'react-icons/ri';
 import { cn } from '@bluedot/ui';
 import { UndoIcon } from '../../icons/UndoIcon';

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import React from 'react';
-import { IdTokenClaims, OidcClient, OidcClientSettings } from 'oidc-client-ts';
+import type React from 'react';
+import { type IdTokenClaims, OidcClient, type OidcClientSettings } from 'oidc-client-ts';
 import posthog from 'posthog-js';
 import { Navigate } from '../Navigate';
 
@@ -15,6 +15,7 @@ const oidcRefreshWithRetries = async (auth: Auth): Promise<Auth> => {
   if (!auth.refreshToken) {
     throw new Error('oidcRefresh: Missing refresh token');
   }
+
   if (!auth.oidcSettings) {
     throw new Error('oidcRefresh: Missing OIDC configuration');
   }
@@ -51,41 +52,52 @@ const oidcRefreshWithRetries = async (auth: Auth): Promise<Auth> => {
         // Exponential backoff: 1s, 2s
         const backoffMs = 1000 * (2 ** attempt);
         // eslint-disable-next-line no-await-in-loop
-        await new Promise<void>((resolve) => { setTimeout(resolve, backoffMs); });
+        await new Promise<void>((resolve) => {
+          setTimeout(resolve, backoffMs);
+        });
       }
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   throw lastError || new Error('Refresh failed after all retry attempts');
 };
 
 export type Auth = {
-  token: string,
+  token: string;
   /** ms unix timestamp */
-  expiresAt: number,
-  refreshToken?: string,
-  oidcSettings?: OidcClientSettings,
-  email: string,
+  expiresAt: number;
+  refreshToken?: string;
+  oidcSettings?: OidcClientSettings;
+  email: string;
 };
 
 export const useAuthStore = create<{
-  auth: Auth | null,
-  setAuth:(auth: Auth | null) => void,
-  refresh: () => Promise<void>,
-  internal_clearTimer: NodeJS.Timeout | null,
-  internal_refreshTimer: NodeJS.Timeout | null,
-  internal_visibilityHandler: (() => void) | null,
-  internal_refreshPromise: Promise<void> | null,
+  auth: Auth | null;
+  setAuth: (auth: Auth | null) => void;
+  refresh: () => Promise<void>;
+  internal_clearTimer: NodeJS.Timeout | null;
+  internal_refreshTimer: NodeJS.Timeout | null;
+  internal_visibilityHandler: (() => void) | null;
+  internal_refreshPromise: Promise<void> | null;
 }>()(persist((set, get) => ({
   auth: null,
-  setAuth: (auth) => {
+  setAuth(auth) {
     // Clear existing timers
     const existingTimer = get().internal_clearTimer;
     const existingRefreshTimer = get().internal_refreshTimer;
     const existingVisibilityHandler = get().internal_visibilityHandler;
-    if (existingTimer) clearTimeout(existingTimer);
-    if (existingRefreshTimer) clearTimeout(existingRefreshTimer);
-    if (existingVisibilityHandler) document.removeEventListener('visibilitychange', existingVisibilityHandler);
+    if (existingTimer) {
+      clearTimeout(existingTimer);
+    }
+
+    if (existingRefreshTimer) {
+      clearTimeout(existingRefreshTimer);
+    }
+
+    if (existingVisibilityHandler) {
+      document.removeEventListener('visibilitychange', existingVisibilityHandler);
+    }
 
     if (!auth) {
       set({
@@ -142,7 +154,7 @@ export const useAuthStore = create<{
       internal_visibilityHandler: visibilityHandler,
     });
   },
-  refresh: async () => {
+  async refresh() {
     // Wait for any in-progress refresh to complete (with 5-second timeout)
     const existingPromise = get().internal_refreshPromise;
     if (existingPromise) {
@@ -202,7 +214,7 @@ export const useAuthStore = create<{
   },
 }));
 
-export const withAuth = (Component: React.FC<{ auth: Auth, setAuth: (s: Auth | null) => void }>, loginRoute = '/login'): React.FC => {
+export const withAuth = (Component: React.FC<{ auth: Auth; setAuth: (s: Auth | null) => void }>, loginRoute = '/login'): React.FC => {
   return () => {
     const auth = useAuthStore((s) => s.auth);
     const setAuth = useAuthStore((s) => s.setAuth);

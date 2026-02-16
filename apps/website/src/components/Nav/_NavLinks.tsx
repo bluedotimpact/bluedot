@@ -9,12 +9,15 @@ import { usePrimaryCourseURL } from '../../lib/hooks/usePrimaryCourseURL';
 import { useClickOutside } from '../../lib/hooks/useClickOutside';
 import {
   DRAWER_CLASSES,
-  ExpandedSectionsState,
+  type ExpandedSectionsState,
   NAV_DROPDOWN_CLASS,
 } from './utils';
 
 const isCurrentPath = (url: string): boolean => {
-  if (typeof window === 'undefined') return false;
+  if (typeof window === 'undefined') {
+    return false;
+  }
+
   const currentPath = window.location.pathname;
   return url === currentPath || (url !== '/' && currentPath.startsWith(url));
 };
@@ -130,7 +133,7 @@ const NavDropdown: React.FC<{
   className,
   loading,
 }) => {
-  const dropdownRef = useClickOutside<HTMLDivElement>(
+  const dropdownRef = useClickOutside(
     onClose,
     isExpanded,
     `.${NAV_DROPDOWN_CLASS}`,
@@ -142,9 +145,11 @@ const NavDropdown: React.FC<{
     if (expandedSections.mobileNav) {
       return 'text-color-text hover:text-color-text';
     }
+
     if (onColoredBackground) {
       return 'text-white hover:text-white nav-link-animation-dark';
     }
+
     return 'text-color-text hover:text-color-text';
   };
 
@@ -153,6 +158,7 @@ const NavDropdown: React.FC<{
       // Desktop dropdowns: always white background
       return DRAWER_CLASSES(isExpanded);
     }
+
     // Mobile dropdowns: apply collapse/expand classes
     return clsx(
       'transition-all duration-300 ease-in-out',
@@ -225,7 +231,20 @@ const NavDropdown: React.FC<{
                         New
                       </Tag>
                     )}
+                    {link.title === 'AGI Strategy' && (
+                      <Tag variant="secondary" className="uppercase ml-2 !p-1">
+                        Start Here
+                      </Tag>
+                    )}
                   </A>
+                  {/* Add divider after AGI Strategy */}
+                  {link.title === 'AGI Strategy' && (
+                    <div className="border-t border-gray-200 my-2" />
+                  )}
+                  {/* Add divider after Technical AI Safety */}
+                  {link.title === 'Technical AI Safety' && (
+                    <div className="border-t border-gray-200 my-2" />
+                  )}
                 </React.Fragment>
               );
             })

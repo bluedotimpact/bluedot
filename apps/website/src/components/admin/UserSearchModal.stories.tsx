@@ -35,7 +35,7 @@ const meta = {
   },
   args: {
     isOpen: true,
-    onClose: () => {},
+    onClose() {},
   },
 } satisfies Meta<typeof UserSearchModal>;
 
@@ -48,9 +48,12 @@ export const Default: Story = {
     msw: {
       handlers: [
         trpcStorybookMsw.admin.searchUsers.query(({ input }) => {
+          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
           const query = input.searchTerm?.toLowerCase() || '';
 
-          if (!query) return mockUsers;
+          if (!query) {
+            return mockUsers;
+          }
 
           return mockUsers.filter((user) => user.name?.toLowerCase().includes(query));
         }),

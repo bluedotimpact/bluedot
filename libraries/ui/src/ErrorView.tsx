@@ -5,7 +5,7 @@ import { contactUsUrl } from './constants';
 import { A } from './Text';
 
 export type ErrorViewProps = {
-  error: unknown,
+  error: unknown;
 };
 
 const truncate = (str: string, n: number) => (str.length > n ? `${str.slice(0, n)}...` : str);
@@ -24,10 +24,10 @@ export const ErrorView: React.FC<ErrorViewProps> = ({ error: input }) => {
         <div className="flex flex-col gap-4 overflow-x-auto [&_pre]:max-w-0">
           <ErrorDetails error={error} />
           {typeof window !== 'undefined' && (
-          <div>
-            <p className="font-bold">Page URL</p>
-            <pre>{window.location.href}</pre>
-          </div>
+            <div>
+              <p className="font-bold">Page URL</p>
+              <pre>{window.location.href}</pre>
+            </div>
           )}
           <div>
             <p className="font-bold">Timestamp</p>
@@ -40,8 +40,8 @@ export const ErrorView: React.FC<ErrorViewProps> = ({ error: input }) => {
 };
 
 type ErrorDetailsProps = {
-  error: Error,
-  prefix?: string,
+  error: Error;
+  prefix?: string;
 };
 
 const ErrorDetails: React.FC<ErrorDetailsProps> = ({ error, prefix = '' }) => {
@@ -58,20 +58,20 @@ const ErrorDetails: React.FC<ErrorDetailsProps> = ({ error, prefix = '' }) => {
         <pre>{error.stack}</pre>
       </div>
       {isAxiosError(error) && error.response && (
-      <>
-        <div>
-          <p className="font-bold">{prefixSpace}Status</p>
-          <pre>{error.response.status} {error.response.statusText}</pre>
-        </div>
-        <div>
-          <p className="font-bold">{prefixSpace}Request URL</p>
-          <pre>{error.response.config.method} {error.response.config.url}</pre>
-        </div>
-        <div>
-          <p className="font-bold">{prefixSpace}Response data</p>
-          <pre>{JSON.stringify(error.response.data, null, 2)}</pre>
-        </div>
-      </>
+        <>
+          <div>
+            <p className="font-bold">{prefixSpace}Status</p>
+            <pre>{error.response.status} {error.response.statusText}</pre>
+          </div>
+          <div>
+            <p className="font-bold">{prefixSpace}Request URL</p>
+            <pre>{error.response.config.method} {error.response.config.url}</pre>
+          </div>
+          <div>
+            <p className="font-bold">{prefixSpace}Response data</p>
+            <pre>{JSON.stringify(error.response.data, null, 2)}</pre>
+          </div>
+        </>
       )}
       {error.cause !== undefined && <ErrorDetails error={asError(error.cause)} prefix={`${prefixSpace}Cause`} />}
     </>

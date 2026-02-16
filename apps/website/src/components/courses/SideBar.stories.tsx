@@ -31,7 +31,7 @@ const meta: Meta<typeof SideBar> = {
     units: mockUnits,
     currentUnitNumber: 1,
     currentChunkIndex: 0,
-    onChunkSelect: () => {},
+    onChunkSelect() {},
     unitChunks: mockChunks,
   },
   ...loggedOutStory(),

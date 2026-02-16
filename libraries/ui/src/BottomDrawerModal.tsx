@@ -1,4 +1,5 @@
-import React, {
+import type React from 'react';
+import {
   useState, useEffect, useRef,
 } from 'react';
 import {
@@ -27,7 +28,7 @@ export type BottomDrawerModalProps = Omit<ModalProps, 'bottomDrawerOnMobile'> & 
    * - 'fit-content': Open the minimum amount to display the `children`
    * - 'fit-screen': Open enough to fill most of the screen, independent of the dimensions of `children`
    */
-  initialSize: 'fit-content' | 'fit-screen'
+  initialSize: 'fit-content' | 'fit-screen';
 };
 
 export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
@@ -59,7 +60,9 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
   // Reset on modal state changes
   const prevIsOpen = useRef<boolean | null>(null);
   useEffect(() => {
-    if (prevIsOpen.current === isOpen) return;
+    if (prevIsOpen.current === isOpen) {
+      return;
+    }
 
     if (isOpen) {
       setIsClosing(false);
@@ -141,6 +144,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby={titleIsString ? 'mobile-modal-title' : undefined}
+                // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                 aria-label={!titleIsString ? (ariaLabel || 'Dialog') : undefined}
                 tabIndex={-1}
                 drag="y"
@@ -157,7 +161,9 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                 onDragEnd={(e, info) => {
                   setIsDragging(false);
 
-                  if (isClosing) return;
+                  if (isClosing) {
+                    return;
+                  }
 
                   const velocity = info.velocity.y;
                   const currentY = y.get();

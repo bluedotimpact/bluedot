@@ -4,9 +4,9 @@ import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 import db from '../../../lib/api/db';
 
 export type GetFormResponse = {
-  type: 'success',
-  title: string,
-  minimumLength: number,
+  type: 'success';
+  title: string;
+  minimumLength: number;
 };
 
 export default makeApiRoute({

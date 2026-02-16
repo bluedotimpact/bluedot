@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React from 'react';
+import type React from 'react';
 import { CloseIcon } from './icons/CloseIcon';
 
 export const HamburgerIcon: React.FC<{ className?: string }> = ({ className }) => (
@@ -11,10 +11,10 @@ export const HamburgerIcon: React.FC<{ className?: string }> = ({ className }) =
 );
 
 export type IconButtonProps = {
-  open: boolean,
-  setOpen: (open: boolean) => void,
-  Icon: React.ReactNode,
-  className?: string,
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  Icon: React.ReactNode;
+  className?: string;
 };
 
 export const IconButton: React.FC<IconButtonProps> = ({

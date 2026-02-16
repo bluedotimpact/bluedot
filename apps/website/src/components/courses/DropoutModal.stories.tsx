@@ -16,7 +16,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    handleClose: () => {},
+    handleClose() {},
     applicantId: 'rec123456789',
   },
   parameters: {
@@ -35,7 +35,7 @@ export const Default: Story = {
 
 export const Error: Story = {
   args: {
-    handleClose: () => {},
+    handleClose() {},
     applicantId: 'rec123456789',
   },
   parameters: {

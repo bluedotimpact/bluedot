@@ -27,6 +27,7 @@ export const ProjectListItem = ({ project }: { project: CmsProject }) => {
       isEntireCardClickable={!isMobile}
       subtitle={`${project.authorName}${tags.length > 0 ? ` • ${tags.join(' • ')}` : ''}`}
       title={project.title}
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       imageSrc={project.coverImageSrc || undefined}
     />
   );
@@ -44,9 +45,11 @@ export const ProjectsListView = ({ title, projects, maxItems }: ProjectsListView
   const groupedSortedProjects = React.useMemo(() => {
     const groups = projects.reduce<Record<string, CmsProject[]>>((acc, project) => {
       const course = project.course || 'Uncategorized';
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       if (!acc[course]) {
         acc[course] = [];
       }
+
       acc[course].push(project);
       return acc;
     }, {});
@@ -110,6 +113,7 @@ const ProjectsListSection = ({ maxItems }: ProjectsListSectionProps) => {
     );
   }
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   return <ProjectsListView title={title} projects={projects || []} maxItems={maxItems} />;
 };
 

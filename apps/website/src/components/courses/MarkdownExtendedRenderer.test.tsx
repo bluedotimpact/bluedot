@@ -11,21 +11,17 @@ describe('MarkdownExtendedRenderer', () => {
 
   test('renders nothing when children is empty string', () => {
     const emptyString = '';
-    const { container } = render(
-      <MarkdownExtendedRenderer>
-        {emptyString}
-      </MarkdownExtendedRenderer>,
-    );
+    const { container } = render(<MarkdownExtendedRenderer>
+      {emptyString}
+    </MarkdownExtendedRenderer>);
     const element = container.querySelector('.markdown-extended-renderer');
     expect(element).toBeNull();
   });
 
   test('renders basic markdown content', async () => {
-    const { container } = render(
-      <MarkdownExtendedRenderer>
-        {'# Hello\n\nThis is some text with _italic content_'}
-      </MarkdownExtendedRenderer>,
-    );
+    const { container } = render(<MarkdownExtendedRenderer>
+      {'# Hello\n\nThis is some text with _italic content_'}
+    </MarkdownExtendedRenderer>);
 
     // Wait for the useEffect to run
     await waitFor(() => {
@@ -38,11 +34,9 @@ describe('MarkdownExtendedRenderer', () => {
   });
 
   test('renders content with Greeting component', async () => {
-    const { container } = render(
-      <MarkdownExtendedRenderer>
-        {'<Greeting>World</Greeting>'}
-      </MarkdownExtendedRenderer>,
-    );
+    const { container } = render(<MarkdownExtendedRenderer>
+      {'<Greeting>World</Greeting>'}
+    </MarkdownExtendedRenderer>);
 
     // Wait for the useEffect to run
     await waitFor(() => {
@@ -54,11 +48,9 @@ describe('MarkdownExtendedRenderer', () => {
 
   describe('escaping logic', () => {
     test('unescapes markdown characters in component attributes', async () => {
-      const { container } = render(
-        <MarkdownExtendedRenderer>
-          {'<Callout title="Characters \\_ \\* \\[ \\] \\( \\) \\# \\+ \\- \\. \\! \\` \\~ are unescaped">Content</Callout>'}
-        </MarkdownExtendedRenderer>,
-      );
+      const { container } = render(<MarkdownExtendedRenderer>
+        {'<Callout title="Characters \\_ \\* \\[ \\] \\( \\) \\# \\+ \\- \\. \\! \\` \\~ are unescaped">Content</Callout>'}
+      </MarkdownExtendedRenderer>);
 
       // Wait for the useEffect to run
       await waitFor(() => {
@@ -70,11 +62,9 @@ describe('MarkdownExtendedRenderer', () => {
     });
 
     test('preserves escaped characters in regular markdown text', async () => {
-      const { container } = render(
-        <MarkdownExtendedRenderer>
-          {'Regular markdown with \\_escaped\\_ characters'}
-        </MarkdownExtendedRenderer>,
-      );
+      const { container } = render(<MarkdownExtendedRenderer>
+        {'Regular markdown with \\_escaped\\_ characters'}
+      </MarkdownExtendedRenderer>);
 
       // Wait for the useEffect to run
       await waitFor(() => {
@@ -88,11 +78,9 @@ describe('MarkdownExtendedRenderer', () => {
     });
 
     test('handles multiple escaped characters in component attributes', async () => {
-      const { container } = render(
-        <MarkdownExtendedRenderer>
-          {'<Callout title="Multiple \\*escaped\\* \\[characters\\] with \\(different\\) \\`symbols\\`">Content</Callout>'}
-        </MarkdownExtendedRenderer>,
-      );
+      const { container } = render(<MarkdownExtendedRenderer>
+        {'<Callout title="Multiple \\*escaped\\* \\[characters\\] with \\(different\\) \\`symbols\\`">Content</Callout>'}
+      </MarkdownExtendedRenderer>);
 
       // Wait for the useEffect to run
       await waitFor(() => {
@@ -105,11 +93,9 @@ describe('MarkdownExtendedRenderer', () => {
     });
 
     test('handles double backslashes in component attributes to render actual backslashes', async () => {
-      const { container } = render(
-        <MarkdownExtendedRenderer>
-          {'<Callout title="The backslash symbol (\\\\) is used to escape">Content</Callout>'}
-        </MarkdownExtendedRenderer>,
-      );
+      const { container } = render(<MarkdownExtendedRenderer>
+        {'<Callout title="The backslash symbol (\\\\) is used to escape">Content</Callout>'}
+      </MarkdownExtendedRenderer>);
 
       // Wait for the useEffect to run
       await waitFor(() => {
@@ -124,11 +110,9 @@ describe('MarkdownExtendedRenderer', () => {
 
   describe('markdown rendering fixes', () => {
     test('preprocesses content: escapes < characters, converts autolinks, preserves MDX components', async () => {
-      const { container } = render(
-        <MarkdownExtendedRenderer>
-          {'Used by <2000 users.\n\nVisit <https://example.com> for info.\n\n<Greeting>World</Greeting>'}
-        </MarkdownExtendedRenderer>,
-      );
+      const { container } = render(<MarkdownExtendedRenderer>
+        {'Used by <2000 users.\n\nVisit <https://example.com> for info.\n\n<Greeting>World</Greeting>'}
+      </MarkdownExtendedRenderer>);
 
       await waitFor(() => {
         expect(container.querySelector('p')).toBeTruthy();
@@ -150,11 +134,9 @@ describe('MarkdownExtendedRenderer', () => {
     });
 
     test('remark-breaks plugin: single newlines create line breaks', async () => {
-      const { container } = render(
-        <MarkdownExtendedRenderer>
-          {'First line\nSecond line\nThird line'}
-        </MarkdownExtendedRenderer>,
-      );
+      const { container } = render(<MarkdownExtendedRenderer>
+        {'First line\nSecond line\nThird line'}
+      </MarkdownExtendedRenderer>);
 
       await waitFor(() => {
         expect(container.querySelector('p')).toBeTruthy();

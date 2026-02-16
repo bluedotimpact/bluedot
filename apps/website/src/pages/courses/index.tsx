@@ -14,6 +14,7 @@ import { CourseIcon } from '../../components/courses/CourseIcon';
 import { COURSE_CONFIG } from '../../lib/constants';
 
 const getCourseAccentColor = (courseSlug: string): string => {
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   return COURSE_CONFIG[courseSlug]?.accentColor || '#1144cc';
 };
 
@@ -33,16 +34,28 @@ const COURSE_DESCRIPTIONS: Record<string, string> = {
 /* FoAI course has no cohort rounds - just open access content */
 const isSelfPacedCourse = (course: Course): boolean => course.slug === 'future-of-ai';
 
+/* Fixed order for displaying courses */
+const COURSE_DISPLAY_ORDER = [
+  'agi-strategy',
+  'ai-governance',
+  'biosecurity',
+  'technical-ai-safety',
+  'technical-ai-safety-project',
+];
+
 /* Custom hook to fetch and sort courses with their round data */
 const useSortedCourses = () => {
   const { data: courses, isLoading: coursesLoading, error } = trpc.courses.getAll.useQuery();
 
   const displayedCourses = useMemo(() => {
-    if (!courses) return [];
+    if (!courses) {
+      return [];
+    }
+
     return courses.filter((course) => course.displayOnCourseHubIndex);
   }, [courses]);
 
-  // Prefetch all course rounds to enable sorting
+  // Sort courses to enable sorting
   const roundsQueries = trpc.useQueries((t) => displayedCourses.map((course) => t.courseRounds.getRoundsForCourse({ courseSlug: course.slug })));
 
   const allRoundsLoaded = roundsQueries.every((q) => !q.isLoading);
@@ -210,7 +223,7 @@ const CoursesPage = () => {
             <BreadcrumbMenu courses={displayedCourses} />
 
             {/* Horizontal divider - only visible on stacked layout (below 1280px) */}
-            <div className="min-[1280px]:hidden mt-16 pt-16 border-t border-bluedot-navy/10" />
+            <div className="min-[1280px]:hidden mt-16 pt-16 border-t border-[rgba(19,19,46,0.1)]" />
 
             {/* Course Cards Section */}
             <div className="flex-1 max-w-[780px] min-[1280px]:max-w-none">
@@ -386,7 +399,7 @@ const CoursesList = ({ courses }: CoursesListProps) => {
         <div key={course.id} id={`course-${course.slug}`}>
           <CourseCard course={course} />
           {index < courses.length - 1 && (
-            <div className="my-12 min-[1024px]:my-16 min-[1280px]:my-20 border-t border-bluedot-navy/10" />
+            <div className="my-12 min-[1024px]:my-16 min-[1280px]:my-20 border-t border-[rgba(19,19,46,0.1)]" />
           )}
         </div>
       ))}
@@ -448,8 +461,8 @@ const CourseCard = ({ course }: CourseCardProps) => {
 
         {/* No Upcoming Rounds */}
         {!roundsLoading && !isSelfPaced && !showRounds && (
-          <div className="flex items-center min-h-[48px] border-l-4 border-bluedot-navy/20 pl-5">
-            <p className="text-[15px] leading-[1.6] font-normal text-bluedot-navy/50">
+          <div className="flex items-center min-h-[48px] border-l-4 border-[rgba(19,19,46,0.2)] pl-5">
+            <p className="text-[15px] leading-[1.6] font-normal text-[#13132e] opacity-50">
               No upcoming rounds.{' '}
               <Link href={course.path} className="text-[#1144cc] font-medium hover:underline cursor-pointer">
                 Learn more about this course
@@ -481,10 +494,10 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
           href={course.path}
           className="group flex items-center gap-2 cursor-pointer"
         >
-          <h2 className="text-[24px] leading-[1.4] font-semibold tracking-[-0.5px] text-bluedot-navy">
+          <h2 className="text-[24px] leading-[1.4] font-semibold tracking-[-0.5px] text-[#13132e]">
             {course.title}
           </h2>
-          <span className="text-[24px] leading-[1.4] text-bluedot-navy transition-opacity opacity-0 group-hover:opacity-100">
+          <span className="text-[24px] leading-[1.4] text-[#13132e] transition-opacity opacity-0 group-hover:opacity-100">
             →
           </span>
         </Link>
@@ -498,10 +511,10 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
           href={course.path}
           className="group flex items-center gap-2 pt-[15px] cursor-pointer"
         >
-          <h2 className="text-[24px] leading-[1.4] font-semibold tracking-[-0.5px] text-bluedot-navy">
+          <h2 className="text-[24px] leading-[1.4] font-semibold tracking-[-0.5px] text-[#13132e]">
             {course.title}
           </h2>
-          <span className="text-[24px] leading-[1.4] text-bluedot-navy transition-opacity opacity-0 group-hover:opacity-100">
+          <span className="text-[24px] leading-[1.4] text-[#13132e] transition-opacity opacity-0 group-hover:opacity-100">
             →
           </span>
         </Link>
@@ -524,8 +537,8 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
       <div className="flex min-[680px]:hidden">
         <div className="w-1 flex-shrink-0 rounded-sm" style={{ backgroundColor: accentColor }} />
         <div className="flex flex-col pl-5">
-          <p className="text-[15px] leading-[1.6] font-semibold text-bluedot-navy">Self-paced learning</p>
-          <p className="text-[15px] leading-[1.6] font-normal text-bluedot-navy/50">
+          <p className="text-[15px] leading-[1.6] font-semibold text-[#13132e]">Self-paced learning</p>
+          <p className="text-[15px] leading-[1.6] font-normal text-[#13132e] opacity-50">
             Open access · {course.durationHours ? `${course.durationHours} hours` : course.durationDescription}
           </p>
           <Link
@@ -545,8 +558,8 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
         <div className="flex items-stretch h-full">
           <div className="w-1 flex-shrink-0 rounded-sm opacity-30 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" style={{ backgroundColor: accentColor }} />
           <div className="flex flex-col justify-center pl-5">
-            <span className="text-[15px] leading-none font-semibold text-bluedot-navy">Self-paced learning</span>
-            <span className="text-[15px] leading-none font-normal text-bluedot-navy/50 mt-1">
+            <span className="text-[15px] leading-none font-semibold text-[#13132e]">Self-paced learning</span>
+            <span className="text-[15px] leading-none font-normal text-[#13132e] opacity-50 mt-1">
               Open access · {course.durationHours ? `${course.durationHours} hours` : course.durationDescription}
             </span>
           </div>
@@ -587,7 +600,7 @@ const FormatSection = ({ type, rounds, course }: FormatSectionProps) => {
 
   return (
     <div className="flex flex-col">
-      <div className="text-[15px] leading-tight text-bluedot-navy mb-6">
+      <div className="text-[15px] leading-tight text-[#13132e] mb-6">
         <span className="font-semibold uppercase tracking-[0.45px]">{label}</span>
         <span className="ml-1 font-normal opacity-80">{description}</span>
       </div>
@@ -597,7 +610,7 @@ const FormatSection = ({ type, rounds, course }: FormatSectionProps) => {
           <li key={round.id}>
             <CourseRoundItem round={round} course={course} />
             {index < displayedRounds.length - 1 && (
-              <div className="my-4 border-t border-bluedot-navy/10" />
+              <div className="my-4 border-t border-[rgba(19,19,46,0.1)]" />
             )}
           </li>
         ))}
@@ -636,8 +649,8 @@ const CourseRoundItem = ({ round, course }: CourseRoundItemProps) => {
       <div className="flex min-[680px]:hidden">
         <div className="w-1 flex-shrink-0 rounded-sm" style={{ backgroundColor: accentColor }} />
         <div className="flex flex-col pl-5">
-          <p className="text-[15px] leading-[1.6] font-semibold text-bluedot-navy">{formattedDateRange}</p>
-          <p className="text-[15px] leading-[1.6] font-normal text-bluedot-navy/50">
+          <p className="text-[15px] leading-[1.6] font-semibold text-[#13132e]">{formattedDateRange}</p>
+          <p className="text-[15px] leading-[1.6] font-normal text-[#13132e] opacity-50">
             Application closes {round.applicationDeadline}
           </p>
           <a
@@ -663,8 +676,8 @@ const CourseRoundItem = ({ round, course }: CourseRoundItemProps) => {
         <div className="flex items-stretch h-full">
           <div className="w-1 flex-shrink-0 rounded-sm opacity-30 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" style={{ backgroundColor: accentColor }} />
           <div className="flex flex-col justify-center pl-5">
-            <p className="text-[15px] leading-none font-semibold text-bluedot-navy">{formattedDateRange}</p>
-            <p className="text-[15px] leading-none font-normal text-bluedot-navy/50 mt-1">
+            <p className="text-[15px] leading-none font-semibold text-[#13132e]">{formattedDateRange}</p>
+            <p className="text-[15px] leading-none font-normal text-[#13132e] opacity-50 mt-1">
               Application closes {round.applicationDeadline}
             </p>
           </div>

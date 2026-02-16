@@ -111,16 +111,14 @@ describe('processTableForInitialSync', () => {
     const scanError = new Error('Scan failed');
     vi.mocked(dbModule.db.airtableClient.scan).mockRejectedValue(scanError);
 
-    await expect(
-      processTableForInitialSync(
-        'testBase',
-        'testTable',
-        ['field1'],
-        // @ts-expect-error
-        mockPgAirtable,
-        mockAddToQueue,
-      ),
-    ).rejects.toThrow('Failed to fetch records after 3 retries');
+    await expect(processTableForInitialSync(
+      'testBase',
+      'testTable',
+      ['field1'],
+      // @ts-expect-error
+      mockPgAirtable,
+      mockAddToQueue,
+    )).rejects.toThrow('Failed to fetch records after 3 retries');
 
     expect(mockAddToQueue).not.toHaveBeenCalled();
   });

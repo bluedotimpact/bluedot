@@ -12,6 +12,7 @@ export const getAllPublishedBlogs = async () => {
       if (a.isFeatured !== b.isFeatured) {
         return b.isFeatured ? 1 : -1;
       }
+
       return (b.publishedAt || 0) - (a.publishedAt || 0);
     })
     .map(({ body, ...rest }) => rest);
@@ -42,10 +43,15 @@ export const getSubstackBlogPosts = async () => {
     const feed = await parser.parseURL('https://blog.bluedot.org/feed');
 
     const posts = feed.items.map((item) => ({
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       title: item.title || '',
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       link: item.link || '',
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       pubDate: item.pubDate || item.isoDate || '',
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       author: item.creator || item.author || '',
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       contentSnippet: item.contentSnippet || '',
     }));
 

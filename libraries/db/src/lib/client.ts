@@ -1,14 +1,14 @@
 import {
-  eq, and, or, gt, lt, gte, lte, ne, sql, SQL, desc, asc,
+  eq, and, or, gt, lt, gte, lte, ne, sql, type SQL, desc, asc,
 } from 'drizzle-orm';
-import { PgInsertValue, PgUpdateSetSource, PgColumn } from 'drizzle-orm/pg-core';
+import { type PgInsertValue, type PgUpdateSetSource, type PgColumn } from 'drizzle-orm/pg-core';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import {
-  AirtableTs, AirtableTsError, AirtableTsOptions,
+  AirtableTs, AirtableTsError, type AirtableTsOptions,
 } from 'airtable-ts';
 import { ErrorType } from 'airtable-ts/dist/AirtableTsError';
-import { PgAirtableTable } from './db-core';
-import { AirtableItemFromColumnsMap, BasePgTableType, PgAirtableColumnInput } from './typeUtils';
+import { type PgAirtableTable } from './db-core';
+import { type AirtableItemFromColumnsMap, type BasePgTableType, type PgAirtableColumnInput } from './typeUtils';
 import env from './env';
 
 /**
@@ -60,13 +60,13 @@ export type GetFirstOptionsWithoutAutoId<TTableName extends string, TColumnsMap 
  */
 export type FilterOperation<T> = {
   [K in keyof T]?:
-  | T[K]
-  | { '>': T[K] }
-  | { '<': T[K] }
-  | { '>=': T[K] }
-  | { '<=': T[K] }
-  | { '=': T[K] }
-  | { '!=': T[K] };
+    | T[K]
+    | { '>': T[K] }
+    | { '<': T[K] }
+    | { '>=': T[K] }
+    | { '<=': T[K] }
+    | { '=': T[K] }
+    | { '!=': T[K] };
 };
 
 export type Filter<T> = FilterOperation<T> | {
@@ -212,6 +212,7 @@ export class PgAirtableDb {
       ? [options?: GetFirstOptionsWithAutoId<TTableName, TColumnsMap>]
       : [options: GetFirstOptionsWithoutAutoId<TTableName, TColumnsMap>]
   ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect'] | null> {
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     const options = args[0] || {};
     const {
       filter,
@@ -223,10 +224,8 @@ export class PgAirtableDb {
 
     if (!sortConfig) {
       const availableFields = Object.keys(table.pg).join(', ');
-      throw new Error(
-        'Table does not have autoNumberId for default sorting. '
-        + `Please specify a sortBy field. Available fields: ${availableFields}\n`,
-      );
+      throw new Error('Table does not have autoNumberId for default sorting. '
+        + `Please specify a sortBy field. Available fields: ${availableFields}\n`);
     }
 
     // Build query with sorting
@@ -279,6 +278,7 @@ export class PgAirtableDb {
           direction: field === 'autoNumberId' ? 'desc' : 'asc',
         };
       }
+
       return {
         field: sortBy.field,
         direction: sortBy.direction ?? (sortBy.field === 'autoNumberId' ? 'desc' : 'asc'),
@@ -309,11 +309,13 @@ export class PgAirtableDb {
         // change this to TRUE.
         return sql`FALSE`;
       }
+
       const conditions = filter.AND.map((f: Filter<Record<string, unknown>>) => this.buildWhereClause(table, f));
       const result = and(...conditions);
       if (!result) {
         throw new Error('Failed to build AND condition');
       }
+
       return result;
     }
 
@@ -321,11 +323,13 @@ export class PgAirtableDb {
       if (filter.OR.length === 0) {
         return sql`FALSE`;
       }
+
       const conditions = filter.OR.map((f: Filter<Record<string, unknown>>) => this.buildWhereClause(table, f));
       const result = or(...conditions);
       if (!result) {
         throw new Error('Failed to build OR condition');
       }
+
       return result;
     }
 
@@ -378,6 +382,7 @@ export class PgAirtableDb {
     if (!result) {
       throw new Error('Failed to build WHERE condition');
     }
+
     return result;
   }
 
@@ -393,7 +398,9 @@ export class PgAirtableDb {
 
     // `ensureReplicated` only returns undefined for idempotent deletes; upserts always return a result
     const pgResult = await this.ensureReplicated({ table, id: fullData.id, fullData });
-    if (!pgResult) throw new Error('Unexpected: `ensureReplicated` returned no result after insert');
+    if (!pgResult) {
+      throw new Error('Unexpected: `ensureReplicated` returned no result after insert');
+    }
 
     return pgResult;
   }
@@ -410,7 +417,9 @@ export class PgAirtableDb {
 
     // `ensureReplicated` only returns undefined for idempotent deletes; upserts always return a result
     const pgResult = await this.ensureReplicated({ table, id: fullData.id, fullData });
-    if (!pgResult) throw new Error('Unexpected: `ensureReplicated` returned no result after update');
+    if (!pgResult) {
+      throw new Error('Unexpected: `ensureReplicated` returned no result after update');
+    }
 
     return pgResult;
   }
@@ -439,18 +448,16 @@ export class PgAirtableDb {
    * @param params.isDelete - Whether this is a delete operation. Defaults to false.
    *   Must be explicitly set to true for records to be deleted.
    */
-  async ensureReplicated<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>>(
-    {
-      table, id, fullData, isDelete = false,
-    }: {
-      table: PgAirtableTable<TTableName, TColumnsMap>;
-      id: string;
-      /** Optional, if given prevents an extra round trip to airtable */
-      fullData?: AirtableItemFromColumnsMap<TColumnsMap>;
-      /** Must be passed explicitly for a record to be deleted. */
-      isDelete?: boolean;
-    },
-  ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect'] | undefined> {
+  async ensureReplicated<TTableName extends string, TColumnsMap extends Record<string, PgAirtableColumnInput>>({
+    table, id, fullData, isDelete = false,
+  }: {
+    table: PgAirtableTable<TTableName, TColumnsMap>;
+    id: string;
+    /** Optional, if given prevents an extra round trip to airtable */
+    fullData?: AirtableItemFromColumnsMap<TColumnsMap>;
+    /** Must be passed explicitly for a record to be deleted. */
+    isDelete?: boolean;
+  }): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect'] | undefined> {
     return this.pgUnrestricted.transaction(async (tx) => {
       if (isDelete) {
         const deletedResults = await tx.delete(table.pg).where(eq(table.pg.id, id)).returning();
@@ -478,7 +485,7 @@ export class PgAirtableDb {
       const result = Array.isArray(rows) ? rows[0] : undefined;
 
       if (!result) {
-        throw new Error('Unexpected error: Nothing returned from upset operation');
+        throw new Error('Unexpected error: Nothing returned from upsert operation');
       }
 
       return result;

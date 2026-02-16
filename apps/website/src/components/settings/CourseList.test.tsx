@@ -10,7 +10,7 @@ import {
   vi,
 } from 'vitest';
 import { createMockCourse, createMockCourseRegistration, createMockMeetPerson } from '../../__tests__/testUtils';
-import CourseListRow from './CourseListRow';
+import CourseList from './CourseList';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 
@@ -25,7 +25,7 @@ vi.mock('./CourseDetails', () => ({
   ),
 }));
 
-describe('CourseListRow', () => {
+describe('CourseList', () => {
   const mockCourse = createMockCourse({
     id: 'course-1',
     title: 'Introduction to AI Safety',
@@ -67,10 +67,7 @@ describe('CourseListRow', () => {
     };
 
     const { container } = render(
-      <CourseListRow
-        course={mockCourse}
-        courseRegistration={inProgressRegistration}
-      />,
+      <CourseList courses={[{ course: mockCourse, courseRegistration: inProgressRegistration }]} />,
       { wrapper: TrpcProvider },
     );
     expect(container).toMatchSnapshot();
@@ -85,10 +82,7 @@ describe('CourseListRow', () => {
     };
 
     const { container } = render(
-      <CourseListRow
-        course={mockCourse}
-        courseRegistration={completedRegistration}
-      />,
+      <CourseList courses={[{ course: mockCourse, courseRegistration: completedRegistration }]} />,
       { wrapper: TrpcProvider },
     );
     expect(container).toMatchSnapshot();
@@ -96,11 +90,7 @@ describe('CourseListRow', () => {
 
   it('starts expanded when startExpanded prop is true', () => {
     render(
-      <CourseListRow
-        course={mockCourse}
-        courseRegistration={mockCourseRegistration}
-        startExpanded
-      />,
+      <CourseList courses={[{ course: mockCourse, courseRegistration: mockCourseRegistration }]} startExpanded />,
       { wrapper: TrpcProvider },
     );
 
@@ -115,10 +105,7 @@ describe('CourseListRow', () => {
 
   it('starts collapsed when startExpanded prop is false (default)', () => {
     render(
-      <CourseListRow
-        course={mockCourse}
-        courseRegistration={mockCourseRegistration}
-      />,
+      <CourseList courses={[{ course: mockCourse, courseRegistration: mockCourseRegistration }]} />,
       { wrapper: TrpcProvider },
     );
 
@@ -140,10 +127,7 @@ describe('CourseListRow', () => {
     };
 
     render(
-      <CourseListRow
-        course={mockCourse}
-        courseRegistration={completedRegistration}
-      />,
+      <CourseList courses={[{ course: mockCourse, courseRegistration: completedRegistration }]} />,
       { wrapper: TrpcProvider },
     );
 
@@ -156,11 +140,7 @@ describe('CourseListRow', () => {
   it('collapses and expands course details', async () => {
     const user = userEvent.setup();
     render(
-      <CourseListRow
-        course={mockCourse}
-        courseRegistration={mockCourseRegistration}
-        startExpanded
-      />,
+      <CourseList courses={[{ course: mockCourse, courseRegistration: mockCourseRegistration }]} startExpanded />,
       { wrapper: TrpcProvider },
     );
 
@@ -235,10 +215,7 @@ describe('CourseListRow', () => {
     );
 
     render(
-      <CourseListRow
-        course={mockCourse}
-        courseRegistration={pastNoCertRegistration}
-      />,
+      <CourseList courses={[{ course: mockCourse, courseRegistration: pastNoCertRegistration }]} />,
       { wrapper: TrpcProvider },
     );
 
@@ -303,10 +280,7 @@ describe('CourseListRow', () => {
     );
 
     render(
-      <CourseListRow
-        course={facilitatedCourse}
-        courseRegistration={pastNoCertRegistration}
-      />,
+      <CourseList courses={[{ course: facilitatedCourse, courseRegistration: pastNoCertRegistration }]} />,
       { wrapper: TrpcProvider },
     );
 
@@ -376,10 +350,7 @@ describe('CourseListRow', () => {
     );
 
     render(
-      <CourseListRow
-        course={facilitatedCourse}
-        courseRegistration={pastNoCertRegistration}
-      />,
+      <CourseList courses={[{ course: facilitatedCourse, courseRegistration: pastNoCertRegistration }]} />,
       { wrapper: TrpcProvider },
     );
 
@@ -413,15 +384,10 @@ describe('CourseListRow', () => {
       courseFeedback: [], // No feedback submitted
     };
 
-    server.use(
-      trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPersonNoFeedback),
-    );
+    server.use(trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPersonNoFeedback));
 
     render(
-      <CourseListRow
-        course={mockCourse}
-        courseRegistration={completedRegistration}
-      />,
+      <CourseList courses={[{ course: mockCourse, courseRegistration: completedRegistration }]} />,
       { wrapper: TrpcProvider },
     );
 
@@ -448,15 +414,10 @@ describe('CourseListRow', () => {
       courseFeedback: ['feedback-record-1'], // Feedback submitted
     };
 
-    server.use(
-      trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPersonWithFeedback),
-    );
+    server.use(trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPersonWithFeedback));
 
     render(
-      <CourseListRow
-        course={mockCourse}
-        courseRegistration={completedRegistration}
-      />,
+      <CourseList courses={[{ course: mockCourse, courseRegistration: completedRegistration }]} />,
       { wrapper: TrpcProvider },
     );
 
@@ -481,15 +442,10 @@ describe('CourseListRow', () => {
       projectSubmission: null,
     };
 
-    server.use(
-      trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPersonFacilitator),
-    );
+    server.use(trpcMsw.meetPerson.getByCourseRegistrationId.query(() => meetPersonFacilitator));
 
     render(
-      <CourseListRow
-        course={{ ...mockCourse, slug: 'agi-strategy' }}
-        courseRegistration={facilitatorRegistration}
-      />,
+      <CourseList courses={[{ course: { ...mockCourse, slug: 'agi-strategy' }, courseRegistration: facilitatorRegistration }]} />,
       { wrapper: TrpcProvider },
     );
 
@@ -499,5 +455,86 @@ describe('CourseListRow', () => {
 
     // Should NOT show action plan button for facilitators
     expect(screen.queryByRole('link', { name: 'Submit action plan' })).not.toBeInTheDocument();
+  });
+
+  it('shows application status text for Future course with pending decision', async () => {
+    const futureRegistration = {
+      ...mockCourseRegistration,
+      roundStatus: 'Future',
+      decision: null,
+      certificateCreatedAt: null,
+      certificateId: null,
+    };
+
+    render(
+      <CourseList courses={[{ course: mockCourse, courseRegistration: futureRegistration }]} roundStartDates={{ 'round-1': '2026-02-09' }} />,
+      { wrapper: TrpcProvider },
+    );
+
+    const statusTexts = await screen.findAllByText('Application in review');
+    expect(statusTexts.length).toBeGreaterThan(0);
+
+    const dateTexts = await screen.findAllByText(/Course starts 9 Feb/);
+    expect(dateTexts.length).toBeGreaterThan(0);
+  });
+
+  it('shows availability button for non-rejected Future course', async () => {
+    const futureRegistration = {
+      ...mockCourseRegistration,
+      roundStatus: 'Future',
+      decision: 'Accept',
+      certificateCreatedAt: null,
+      certificateId: null,
+    };
+
+    render(
+      <CourseList courses={[{ course: mockCourse, courseRegistration: futureRegistration }]} />,
+      { wrapper: TrpcProvider },
+    );
+
+    const availabilityButtons = await screen.findAllByRole('link', { name: 'Submit your availability' });
+    expect(availabilityButtons.length).toBeGreaterThan(0);
+    expect(availabilityButtons[0]).toHaveAttribute('href', expect.stringContaining('availability.bluedot.org'));
+  });
+
+  it('hides availability button for rejected Future course', async () => {
+    const futureRegistration = {
+      ...mockCourseRegistration,
+      roundStatus: 'Future',
+      decision: 'Reject',
+      certificateCreatedAt: null,
+      certificateId: null,
+    };
+
+    render(
+      <CourseList courses={[{ course: mockCourse, courseRegistration: futureRegistration }]} />,
+      { wrapper: TrpcProvider },
+    );
+
+    // Should show rejected status
+    const statusTexts = await screen.findAllByText('Application rejected');
+    expect(statusTexts.length).toBeGreaterThan(0);
+
+    // Should NOT show availability button
+    expect(screen.queryByRole('link', { name: /availability/ })).not.toBeInTheDocument();
+  });
+
+  it('shows View curriculum button for all Future courses', async () => {
+    const futureRegistration = {
+      ...mockCourseRegistration,
+      roundStatus: 'Future',
+      decision: 'Reject',
+      certificateCreatedAt: null,
+      certificateId: null,
+    };
+
+    render(
+      <CourseList courses={[{ course: mockCourse, courseRegistration: futureRegistration }]} />,
+      { wrapper: TrpcProvider },
+    );
+
+    const curriculumButtons = await screen.findAllByRole('link', { name: 'View curriculum' });
+    expect(curriculumButtons.length).toBeGreaterThan(0);
+    expect(curriculumButtons[0]).toHaveAttribute('href', '/courses/ai-safety/1/1');
   });
 });

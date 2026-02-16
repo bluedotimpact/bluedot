@@ -49,12 +49,8 @@ describe('CertificateLinkCard', () => {
       render(<CertificateLinkCard courseId={FOAI_COURSE_ID} />, { wrapper: TrpcProvider });
 
       // Verify FoAI-specific content
-      expect(screen.getByText("Download your certificate, show you're taking AI seriously")).toBeInTheDocument();
-      expect(
-        screen.getByText(
-          'Complete all exercises to unlock your certificate, then share your accomplishment on social media.',
-        ),
-      ).toBeInTheDocument();
+      expect(screen.getByText('Download your certificate, show you\'re taking AI seriously')).toBeInTheDocument();
+      expect(screen.getByText('Complete all exercises to unlock your certificate, then share your accomplishment on social media.')).toBeInTheDocument();
       expect(screen.getByText('Download Certificate')).toBeInTheDocument();
     });
   });
@@ -114,7 +110,7 @@ describe('CertificateLinkCard', () => {
       // Certificates for non-FOAI courses are only available via facilitated cohorts
       await waitFor(() => {
         expect(screen.getByText('Your Certificate')).toBeInTheDocument();
-        expect(screen.getByText("This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate.")).toBeInTheDocument();
+        expect(screen.getByText('This course doesn\'t currently issue certificates to independent learners. Join a facilitated version to get a certificate.')).toBeInTheDocument();
       });
 
       // Should NOT show Request Certificate button
@@ -139,7 +135,7 @@ describe('CertificateLinkCard', () => {
       // This is safer than showing Request Certificate which would fail on backend anyway
       await waitFor(() => {
         expect(screen.getByText('Your Certificate')).toBeInTheDocument();
-        expect(screen.getByText("This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate.")).toBeInTheDocument();
+        expect(screen.getByText('This course doesn\'t currently issue certificates to independent learners. Join a facilitated version to get a certificate.')).toBeInTheDocument();
       });
 
       // Should NOT show Request Certificate button
@@ -169,12 +165,8 @@ describe('CertificateLinkCard', () => {
       expect(downloadButton).toBeInTheDocument();
 
       // Verify FoAI-specific content is shown
-      expect(screen.getByText("Download your certificate, show you're taking AI seriously")).toBeInTheDocument();
-      expect(
-        screen.getByText(
-          'Complete all exercises to unlock your certificate, then share your accomplishment on social media.',
-        ),
-      ).toBeInTheDocument();
+      expect(screen.getByText('Download your certificate, show you\'re taking AI seriously')).toBeInTheDocument();
+      expect(screen.getByText('Complete all exercises to unlock your certificate, then share your accomplishment on social media.')).toBeInTheDocument();
 
       // Verify community section DOES appear for FoAI course
       expect(screen.getByText('Join the Community')).toBeInTheDocument();

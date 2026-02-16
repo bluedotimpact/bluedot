@@ -80,22 +80,22 @@ describe('GroupDiscussionBanner', () => {
       fireEvent.click(expandButton);
 
       // Check desktop button container
-      const desktopContainer = container.querySelector('#discussion-banner-desktop-container') as HTMLElement;
+      const desktopContainer = container.querySelector<HTMLElement>('#discussion-banner-desktop-container')!;
       expect(desktopContainer).toBeInTheDocument();
       const desktopButtons = within(desktopContainer);
       expect(desktopButtons.getByRole('link', { name: /Join now/ })).toBeInTheDocument();
       expect(desktopButtons.getByRole('link', { name: 'Open discussion doc' })).toBeInTheDocument();
       expect(desktopButtons.getByRole('link', { name: 'Message group' })).toBeInTheDocument();
-      expect(desktopButtons.getByRole('button', { name: "Can't make it?" })).toBeInTheDocument();
+      expect(desktopButtons.getByRole('button', { name: 'Can\'t make it?' })).toBeInTheDocument();
       // Participants have no overflow menu on desktop
       expect(desktopButtons.queryByRole('button', { name: 'More discussion options' })).not.toBeInTheDocument();
 
       // Check mobile button container - shows join-now, cant-make-it directly; rest in overflow
-      const mobileContainer = container.querySelector('#discussion-banner-mobile-container') as HTMLElement;
+      const mobileContainer = container.querySelector<HTMLElement>('#discussion-banner-mobile-container')!;
       expect(mobileContainer).toBeInTheDocument();
       const mobileButtons = within(mobileContainer);
       expect(mobileButtons.getByRole('link', { name: /Join now/ })).toBeInTheDocument();
-      expect(mobileButtons.getByRole('button', { name: "Can't make it?" })).toBeInTheDocument();
+      expect(mobileButtons.getByRole('button', { name: 'Can\'t make it?' })).toBeInTheDocument();
 
       expect(container).toMatchSnapshot();
     });
@@ -115,7 +115,7 @@ describe('GroupDiscussionBanner', () => {
       fireEvent.click(expandButton);
 
       // Desktop should have join-now, host-key, and discussion-doc directly; rest in overflow
-      const desktopContainer = container.querySelector('#discussion-banner-desktop-container') as HTMLElement;
+      const desktopContainer = container.querySelector<HTMLElement>('#discussion-banner-desktop-container')!;
       const desktopButtons = within(desktopContainer);
       expect(desktopButtons.getByRole('link', { name: /Join now/ })).toBeInTheDocument();
       expect(desktopButtons.getByRole('button', { name: /Host key: 123456/ })).toBeInTheDocument();
@@ -123,10 +123,10 @@ describe('GroupDiscussionBanner', () => {
       // Facilitators have overflow menu with additional options
       expect(desktopButtons.getByRole('button', { name: 'More discussion options' })).toBeInTheDocument();
       // Facilitators don't see "Can't make it?"
-      expect(screen.queryByRole('button', { name: "Can't make it?" })).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: 'Can\'t make it?' })).not.toBeInTheDocument();
 
       // Mobile has join-now, host-key directly; rest in overflow
-      const mobileContainer = container.querySelector('#discussion-banner-mobile-container') as HTMLElement;
+      const mobileContainer = container.querySelector<HTMLElement>('#discussion-banner-mobile-container')!;
       const mobileButtons = within(mobileContainer);
       expect(mobileButtons.getByRole('link', { name: /Join now/ })).toBeInTheDocument();
       expect(mobileButtons.getByRole('button', { name: /Host key: 123456/ })).toBeInTheDocument();
@@ -208,7 +208,7 @@ describe('GroupDiscussionBanner', () => {
       const expandButton = await screen.findByRole('button', { name: 'Expand upcoming discussion banner' });
       fireEvent.click(expandButton);
 
-      const cantMakeItButtons = screen.getAllByText("Can't make it?");
+      const cantMakeItButtons = screen.getAllByText('Can\'t make it?');
       const cantMakeItButton = cantMakeItButtons[0]; // Get first instance (desktop or mobile)
       fireEvent.click(cantMakeItButton!);
 
@@ -280,7 +280,7 @@ describe('GroupDiscussionBanner', () => {
       fireEvent.click(expandButton);
 
       // Facilitator-specific: Discussion doc button should be visible even when not starting soon
-      const desktopContainer = container.querySelector('#discussion-banner-desktop-container') as HTMLElement;
+      const desktopContainer = container.querySelector<HTMLElement>('#discussion-banner-desktop-container')!;
       const desktopButtons = within(desktopContainer);
       expect(desktopButtons.getByRole('link', { name: 'Open discussion doc' })).toBeInTheDocument();
 
@@ -290,11 +290,9 @@ describe('GroupDiscussionBanner', () => {
 
   describe('Edge Cases', () => {
     test('handles unit fetch loading state', () => {
-      server.use(
-        trpcMsw.courses.getUnit.query(() => {
-          return new Promise(() => {}); // Never resolves to simulate loading
-        }),
-      );
+      server.use(trpcMsw.courses.getUnit.query(() => {
+        return new Promise(() => {}); // Never resolves to simulate loading
+      }));
 
       render(
         <GroupDiscussionBanner
@@ -329,11 +327,9 @@ describe('GroupDiscussionBanner', () => {
     });
 
     test('handles unit fetch error state', async () => {
-      server.use(
-        trpcMsw.courses.getUnit.query(() => {
-          throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Server error' });
-        }),
-      );
+      server.use(trpcMsw.courses.getUnit.query(() => {
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Server error' });
+      }));
 
       render(
         <GroupDiscussionBanner

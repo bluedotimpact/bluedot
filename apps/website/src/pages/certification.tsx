@@ -11,7 +11,7 @@ import {
   useAuthStore,
 } from '@bluedot/ui';
 import clsx from 'clsx';
-import { GetServerSideProps } from 'next';
+import { type GetServerSideProps } from 'next';
 import Head from 'next/head';
 import path from 'path';
 import Confetti from 'react-confetti';
@@ -51,6 +51,7 @@ async function getCertificateData(certificateId: string) {
     courseName: course.title,
     courseSlug: course.slug,
     courseDetailsUrl: course.detailsUrl,
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     certificationDescription: course.certificationDescription || '',
   };
 
@@ -78,11 +79,15 @@ const COURSE_COLOR_MAP: Record<string, { gradient: string; accent: string }> = {
 };
 
 const getCourseCtaColors = (courseSlug: string): { gradient: string; accent: string } => {
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   return COURSE_COLOR_MAP[courseSlug] || DEFAULT_CTA_COLORS;
 };
 
 const getOrdinalSuffix = (day: number): string => {
-  if (day > 3 && day < 21) return 'th';
+  if (day > 3 && day < 21) {
+    return 'th';
+  }
+
   switch (day % 10) {
     case 1: return 'st';
     case 2: return 'nd';
@@ -178,6 +183,7 @@ const CertificatePage = ({
     );
   }
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bluedot.org';
   const linkPreviewAbsoluteUrl = `${siteUrl}/images/certificates/link-preview/${linkPreviewFilename}`;
   const shareUrl = `${siteUrl}/certification?id=${certificate.certificateId}`;
@@ -279,6 +285,7 @@ const CertificatePage = ({
               courseName={certificate.courseName}
               courseSlug={certificate.courseSlug}
               courseUrl={certificate.courseDetailsUrl}
+              // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
               nextCohortDate={nextCohortText || undefined}
               gradient={courseColors.gradient}
               accentColor={courseColors.accent}
@@ -293,6 +300,7 @@ const CertificatePage = ({
 };
 
 export const getServerSideProps: GetServerSideProps<CertificatePageProps> = async ({ query, res }) => {
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const certificateId = (query.id || query.r) as string | undefined;
 
   if (!certificateId) {

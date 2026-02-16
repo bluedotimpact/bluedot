@@ -1,4 +1,4 @@
-import { NextPageContext } from 'next';
+import { type NextPageContext } from 'next';
 import Head from 'next/head';
 import { ErrorSection, Section } from '@bluedot/ui';
 
@@ -8,6 +8,7 @@ type ErrorProps = {
 };
 
 const ErrorPage = ({ statusCode, message }: ErrorProps) => {
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const errorMessage = message || `A ${statusCode} error occurred`;
 
   return (
@@ -23,6 +24,7 @@ const ErrorPage = ({ statusCode, message }: ErrorProps) => {
 };
 
 ErrorPage.getInitialProps = ({ res, err }: NextPageContext) => {
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const statusCode = res?.statusCode || err?.statusCode || 500;
   const message = err?.message;
 

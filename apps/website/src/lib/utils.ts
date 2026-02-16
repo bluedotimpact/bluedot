@@ -1,4 +1,4 @@
-import { AxiosError } from 'axios';
+import { type AxiosError } from 'axios';
 
 export const formatStringToArray = (
   input: string | null | undefined,
@@ -20,8 +20,10 @@ export const parseZodValidationError = (err: AxiosError<{ error?: string }>, def
       const jsonPart = errorString.replace('Invalid request body: ', '');
       const validationErrors = JSON.parse(jsonPart);
       if (Array.isArray(validationErrors) && validationErrors.length > 0) {
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         return validationErrors[0].message || defaultErrorMessage;
       }
+
       return defaultErrorMessage;
     } catch {
       return defaultErrorMessage;
@@ -43,6 +45,14 @@ export const formatTime12HourClock = (dateTimeSeconds: number): string => {
     minute: '2-digit',
     hour12: true,
   });
+};
+
+/** Format an ISO date string as 'day month' in UTC. Example: '9 Feb' */
+export const formatMonthAndDay = (isoDate: string): string => {
+  const date = new Date(isoDate);
+  const day = String(date.getUTCDate());
+  const month = date.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
+  return `${day} ${month}`;
 };
 
 /** Example: 'Jun 19' */
@@ -80,6 +90,7 @@ export const formatDateTimeRelative = ({
     if (calendarDays >= 1) {
       return `${pluralizeTimeUnit(calendarDays, 'day')}${suffix}`;
     }
+
     if (hours >= 1) {
       const remainingMinutes = minutes % 60;
       const hourPart = pluralizeTimeUnit(hours, 'hour');
@@ -87,6 +98,7 @@ export const formatDateTimeRelative = ({
         ? `${hourPart} ${pluralizeTimeUnit(remainingMinutes, 'minute')}${suffix}`
         : `${hourPart}${suffix}`;
     }
+
     return `${pluralizeTimeUnit(minutes, 'minute')}${suffix}`;
   };
 
@@ -109,12 +121,14 @@ export const formatDateTimeRelative = ({
   if (timeDiffMs >= 0 && timeDiffMs < 60000) {
     return 'now';
   }
+
   if (timeDiffMs > 0) {
     return `in ${buildRelativeTimeString(absMinutes, absHours, absCalendarDays, '')}`;
   }
+
   return buildRelativeTimeString(absMinutes, absHours, absCalendarDays, ' ago');
 };
 
-export const buildCourseUnitUrl = ({ courseSlug, unitNumber, chunkNumber = 1 }: { courseSlug: string, unitNumber: string | number, chunkNumber?: number }) => `/courses/${courseSlug}/${unitNumber}/${chunkNumber}`;
+export const buildCourseUnitUrl = ({ courseSlug, unitNumber, chunkNumber = 1 }: { courseSlug: string; unitNumber: string | number; chunkNumber?: number }) => `/courses/${courseSlug}/${unitNumber}/${chunkNumber}`;
 
 export const getActionPlanUrl = (meetPersonId: string) => `https://web.miniextensions.com/7WZKkZiusMiAO1RMznFv?prefill_Participant=${meetPersonId}`;

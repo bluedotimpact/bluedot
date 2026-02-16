@@ -1,5 +1,5 @@
-import { useEditor, EditorContent, Editor } from '@tiptap/react';
-import React from 'react';
+import { useEditor, EditorContent, type Editor } from '@tiptap/react';
+import type React from 'react';
 import {
   Bold,
   Code,
@@ -22,9 +22,9 @@ import {
   History,
   Gapcursor,
   Dropcursor,
-  UploaderData,
+  type UploaderData,
 } from '@syfxlin/tiptap-starter-kit';
-import { Markdown, MarkdownNodeSpec } from 'tiptap-markdown';
+import { Markdown, type MarkdownNodeSpec } from 'tiptap-markdown';
 import {
   FaBold,
   FaItalic,
@@ -154,6 +154,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange, upl
           return {
             markdown: {
               serialize: (state, node) => {
+                // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                 state.renderList(node, '    ', () => `${node.attrs.bullet || '*'} `);
               },
             } as MarkdownNodeSpec,
@@ -165,7 +166,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange, upl
           return {
             markdown: {
               serialize: (state, node) => {
-                const start = node.attrs.order || 1;
+                const start = (node.attrs.order as number) || 1;
                 state.renderList(node, '    ', (i) => {
                   const nStr = String(start + i);
                   return `${nStr}. `;
@@ -210,6 +211,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ children, onChange, upl
               reader.readAsArrayBuffer(file);
             });
           };
+
           return Promise.all(items.map((item) => upload(item)));
         },
       }),

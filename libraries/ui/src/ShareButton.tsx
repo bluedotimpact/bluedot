@@ -1,4 +1,6 @@
-import React, { useState, ReactNode } from 'react';
+import { type ReactNode } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import {
   FaFacebook, FaXTwitter, FaLinkedin, FaCheck, FaCopy,
 } from 'react-icons/fa6';
@@ -82,7 +84,9 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
   };
 
   const shareToSocial = (platform: string) => {
-    if (!shareUrl) return;
+    if (!shareUrl) {
+      return;
+    }
 
     let shareLink = '';
     switch (platform) {

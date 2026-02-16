@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { renderHook } from '@testing-library/react';
 import { useRouter } from 'next/router';
 import {
@@ -161,8 +161,6 @@ describe('useLatestUtmParams', () => {
     const testUrl = 'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX';
     const urlWithParams = result.current.appendLatestUtmParamsToUrl(testUrl);
 
-    expect(urlWithParams).toBe(
-      'https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX?utm_source=probably-good&utm_campaign=agi-strategy-launch',
-    );
+    expect(urlWithParams).toBe('https://web.miniextensions.com/9Kuya4AzFGWgayC3gQaX?utm_source=probably-good&utm_campaign=agi-strategy-launch');
   });
 });

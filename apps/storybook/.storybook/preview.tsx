@@ -1,8 +1,8 @@
-import '../../website/src/globals.css'
-import './globals.css'
+import '../../website/src/globals.css';
+import './globals.css';
 
-import React from 'react';
 import type { Preview, StoryFn } from '@storybook/react';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { initialize, mswLoader } from 'msw-storybook-addon';
 import { TrpcProvider } from './trpcProvider';
 

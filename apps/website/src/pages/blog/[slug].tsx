@@ -1,7 +1,7 @@
 import {
   A,
   Breadcrumbs,
-  BluedotRoute,
+  type BluedotRoute,
   CTALinkOrButton,
   HeroH1,
   HeroH2,
@@ -9,8 +9,8 @@ import {
   Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import { GetStaticProps, GetStaticPaths } from 'next';
-import { Blog, blogTable } from '@bluedot/db';
+import { type GetStaticProps, type GetStaticPaths } from 'next';
+import { type Blog, blogTable } from '@bluedot/db';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import { ROUTES } from '../../lib/routes';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
@@ -53,7 +53,7 @@ const BlogPostPage = ({ slug, blog }: BlogPostPageProps) => {
         <meta key="og:image:alt" property="og:image:alt" content="BlueDot Impact logo" />
         <script
           type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
+
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
@@ -85,6 +85,7 @@ const BlogPostPage = ({ slug, blog }: BlogPostPageProps) => {
       <HeroSection>
         <HeroMiniTitle>Blog</HeroMiniTitle>
         <HeroH1>{blog.title}</HeroH1>
+        {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
         <HeroH2><A href={blog.authorUrl || '#'} className="text-white">{blog.authorName || 'Unknown Author'}</A> • {formattedDate}</HeroH2>
       </HeroSection>
       <Breadcrumbs route={currentRoute} />
@@ -130,7 +131,7 @@ export const getStaticProps: GetStaticProps<BlogPostPageProps> = async ({ params
       },
       revalidate: 300,
     };
-  } catch (error) {
+  } catch {
     // Error fetching blog data (likely not found)
     return {
       notFound: true,

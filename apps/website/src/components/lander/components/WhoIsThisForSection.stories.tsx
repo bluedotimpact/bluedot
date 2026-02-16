@@ -47,7 +47,7 @@ export const Default: Story = {
       {
         icon: PiCompass,
         boldText: 'For leaders',
-        description: "who want to steer AI's trajectory towards beneficial outcomes for humanity.",
+        description: 'who want to steer AI\'s trajectory towards beneficial outcomes for humanity.',
       },
       {
         icon: PiFlask,
@@ -56,7 +56,7 @@ export const Default: Story = {
       },
     ],
     bottomCta: {
-      boldText: "Don't fit these perfectly? Apply anyway.",
+      boldText: 'Don\'t fit these perfectly? Apply anyway.',
       text: 'Some of our most impactful participants have included teachers, policymakers, engineers, and community leaders. We bet on drive and ambition, not CVs.',
       buttonText: 'Apply now',
       buttonUrl: 'https://example.com/apply',
@@ -76,7 +76,7 @@ export const WithoutBottomCta: Story = {
       {
         icon: PiCompass,
         boldText: 'For leaders',
-        description: "who want to steer AI's trajectory towards beneficial outcomes for humanity.",
+        description: 'who want to steer AI\'s trajectory towards beneficial outcomes for humanity.',
       },
       {
         icon: PiFlask,

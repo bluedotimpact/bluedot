@@ -1,5 +1,6 @@
 import { maybePlural } from '@bluedot/ui';
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 
 const Star: React.FC<{ filled: boolean }> = ({ filled }) => (
   <svg viewBox="0 0 39 37" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -35,7 +36,9 @@ const StarRating: React.FC<StarRatingProps> = ({ rating, onChange }) => {
 
   const getHoverText = (starNumber: number) => {
     const text = TOOLTIP_TEXTS[starNumber - 1];
-    if (!text) return null;
+    if (!text) {
+      return null;
+    }
 
     return (
       <div className="flex flex-col">

@@ -10,9 +10,7 @@ export default makeApiRoute({
     personId: z.string(),
     newFirstName: z.string(),
   }),
-}, async (
-  body,
-) => {
+}, async (body) => {
   if (!body.newFirstName) {
     throw new createHttpError.BadRequest('Name must not be blank');
   }

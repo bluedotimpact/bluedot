@@ -1,8 +1,8 @@
 import {
   CTALinkOrButton, H2, H3, P,
 } from '@bluedot/ui';
-import { ReactNode } from 'react';
-import { IconType } from 'react-icons';
+import { type ReactNode } from 'react';
+import { type IconType } from 'react-icons';
 
 export type CourseOutcome = {
   icon: IconType;
@@ -23,7 +23,7 @@ export type CourseOutcomesSectionProps = {
 
 const CourseOutcomesSection = ({
   id,
-  title = "What you'll get",
+  title = 'What you\'ll get',
   outcomes,
   accentColor = '#1F588A',
   cta,

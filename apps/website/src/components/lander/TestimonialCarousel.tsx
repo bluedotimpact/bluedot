@@ -40,30 +40,54 @@ const TestimonialCarousel = ({
   const prefersReducedMotionRef = useRef(false);
 
   const createInfiniteScrollData = () => {
-    if (testimonials.length === 0) return [];
+    if (testimonials.length === 0) {
+      return [];
+    }
+
     return [...testimonials, ...testimonials, ...testimonials];
   };
 
   const infiniteTestimonials = createInfiniteScrollData();
 
   const getCardWidth = useCallback(() => {
-    if (typeof window === 'undefined') return 320;
+    if (typeof window === 'undefined') {
+      return 320;
+    }
+
     const width = window.innerWidth;
-    if (width >= 1280) return 320;
-    if (width >= 680) return 288;
+    if (width >= 1280) {
+      return 320;
+    }
+
+    if (width >= 680) {
+      return 288;
+    }
+
     return 276;
   }, []);
 
   const getCardGap = useCallback(() => {
-    if (typeof window === 'undefined') return 32;
+    if (typeof window === 'undefined') {
+      return 32;
+    }
+
     const width = window.innerWidth;
-    if (width >= 1024) return 32;
-    if (width >= 680) return 24;
+    if (width >= 1024) {
+      return 32;
+    }
+
+    if (width >= 680) {
+      return 24;
+    }
+
     return 20;
   }, []);
 
   const startAutoScroll = useCallback(() => {
-    if (prefersReducedMotionRef.current) return;
+    if (prefersReducedMotionRef.current) {
+      return;
+    }
+
     if (autoScrollIntervalRef.current) {
       clearInterval(autoScrollIntervalRef.current);
     }
@@ -97,13 +121,17 @@ const TestimonialCarousel = ({
     } else {
       stopAutoScroll();
     }
+
     return () => {
       stopAutoScroll();
     };
   }, [isHovered, startAutoScroll, stopAutoScroll]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return undefined;
+    if (typeof window === 'undefined') {
+      return undefined;
+    }
+
     const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
     const applyPreference = (matches: boolean) => {
       prefersReducedMotionRef.current = matches;
@@ -218,8 +246,9 @@ const TestimonialCarousel = ({
                   headerSizeClasses,
                   'font-medium leading-[125%] text-bluedot-navy tracking-[-1px]',
                 )}
-                style={{ fontFeatureSettings: "'ss04' on" }}
+                style={{ fontFeatureSettings: '\'ss04\' on' }}
               >
+                {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
                 {title || defaultTitle}
               </h2>
             ) : (
@@ -256,7 +285,6 @@ const TestimonialCarousel = ({
           This carousel uses infinite scrolling and auto-advances every few seconds. Hover to pause auto-scrolling. Use arrow keys to navigate when focused. Navigation buttons allow manual control.
         </div>
 
-        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
         <div
           ref={scrollContainerRef}
           className="grid grid-flow-col auto-rows-fr overflow-x-auto scrollbar-none px-5 min-[680px]:px-8 lg:px-12 xl:pl-[max(64px,calc(50vw-640px))] xl:pr-16 2xl:pl-[max(80px,calc(50vw-640px))] 2xl:pr-20 gap-[20px] min-[680px]:gap-[24px] min-[1280px]:gap-[32px]"
@@ -270,7 +298,7 @@ const TestimonialCarousel = ({
           onFocus={handleFocus}
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
-          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+
           tabIndex={0}
           role="region"
           aria-label="Testimonials carousel"
@@ -306,7 +334,7 @@ const TestimonialCarousel = ({
 };
 
 const TestimonialMemberCard = ({ testimonial }: { testimonial: TestimonialMember }) => {
-  const hasQuote = testimonial.quote && testimonial.quote.trim();
+  const hasQuote = testimonial.quote?.trim();
 
   const cardContent = (
     <>

@@ -6,7 +6,7 @@ import {
   beforeEach,
   afterEach,
 } from 'vitest';
-import { AxiosError, AxiosResponse } from 'axios';
+import { type AxiosError, type AxiosResponse } from 'axios';
 import {
   parseZodValidationError,
   formatTime12HourClock,

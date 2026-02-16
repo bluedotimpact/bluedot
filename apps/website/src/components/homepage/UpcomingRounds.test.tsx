@@ -52,6 +52,7 @@ describe('UpcomingRounds', () => {
 
     const firstLink = applyLinks[0];
     expect(firstLink).toHaveAttribute('href');
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     const href = firstLink?.getAttribute('href') || '';
 
     expect(href).toContain(mockApplyUrl);

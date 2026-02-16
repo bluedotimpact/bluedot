@@ -23,7 +23,7 @@
     "@bluedot/eslint-config": "*",
     "@bluedot/typescript-config": "*",
     "@types/node": "^22.13.2",
-    "eslint": "^8.57.0",
+    "eslint": "^9.39.2",
     "typescript": "^5.8.3"
   }
 }

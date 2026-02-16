@@ -28,8 +28,11 @@ describe('CourseSection', () => {
     const { container } = render(<CourseSection />, { wrapper: TrpcProvider });
 
     // Click the featured course card using BEM class selector
-    const featuredCard = container.querySelector('.course-card--featured') as HTMLElement;
-    if (!featuredCard) throw new Error('Featured course card not found');
+    const featuredCard = container.querySelector('.course-card--featured')!;
+    if (!featuredCard) {
+      throw new Error('Featured course card not found');
+    }
+
     fireEvent.click(featuredCard);
 
     // Verify GA event was sent with correct parameters
@@ -40,7 +43,10 @@ describe('CourseSection', () => {
 
     // Click another course card (first regular course card)
     const regularCards = container.querySelectorAll('.course-card--regular');
-    if (!regularCards.length) throw new Error('Regular course cards not found');
+    if (!regularCards.length) {
+      throw new Error('Regular course cards not found');
+    }
+
     fireEvent.click(regularCards[0] as HTMLElement);
 
     // Verify GA event was sent with correct parameters

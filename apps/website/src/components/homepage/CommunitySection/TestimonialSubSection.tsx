@@ -1,10 +1,10 @@
-import { Quote, SectionHeading, SlideList } from '@bluedot/ui';
+import { type Quote, SectionHeading, SlideList } from '@bluedot/ui';
 
 export type Testimonial = Quote;
 
 type TestimonialSubSectionProps = {
-  testimonials: Testimonial[],
-  title?: string,
+  testimonials: Testimonial[];
+  title?: string;
 };
 const TestimonialSection = ({
   testimonials,

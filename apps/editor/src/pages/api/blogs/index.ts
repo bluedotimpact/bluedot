@@ -1,13 +1,13 @@
 import { z } from 'zod';
-import { blogTable, InferSelectModel } from '@bluedot/db';
+import { blogTable, type InferSelectModel } from '@bluedot/db';
 import db from '../../../lib/api/db';
 import { makeApiRoute } from '../../../lib/api/makeApiRoute';
 
 type Blog = InferSelectModel<typeof blogTable.pg>;
 
 export type GetBlogsResponse = {
-  type: 'success',
-  blogs: Omit<Blog, 'body'>[],
+  type: 'success';
+  blogs: Omit<Blog, 'body'>[];
 };
 
 export default makeApiRoute({

@@ -22,11 +22,11 @@ import {
   FaLightbulb,
 } from 'react-icons/fa6';
 import { useEffect } from 'react';
-import TestimonialSubSection, { Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
+import TestimonialSubSection, { type Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
 import GraduateSection from './components/GraduateSection';
 import type { CourseAndUnits } from '../../server/routers/courses';
 
-const FutureOfAiBanner = ({ title, ctaUrl }: { title: string, ctaUrl: string }) => {
+const FutureOfAiBanner = ({ title, ctaUrl }: { title: string; ctaUrl: string }) => {
   return (
     <div className="future-of-ai-lander__banner relative flex flex-col md:flex-row gap-6 items-center justify-center w-full p-12 text-center bg-bluedot-lighter">
       <H3 className="future-of-ai-lander__banner-title">{title}</H3>

@@ -3,7 +3,7 @@ import {
   ErrorSection, H1, H2, P, A, withAuth, CTALinkOrButton, Card, ProgressDots,
 } from '@bluedot/ui';
 import useAxios from 'axios-hooks';
-import { personTable } from '@bluedot/db';
+import { type personTable } from '@bluedot/db';
 
 // Airtable base and table IDs for direct links
 const PERSON_TABLE_BASE_ID = 'appRcVrzrkGoSrfR4';

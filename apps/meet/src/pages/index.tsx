@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { ErrorSection } from '@bluedot/ui';
 import { Page } from '../components/Page';
 import SelectPersonView from '../components/SelectPersonView';
-import { PageState } from '../lib/client/pageState';
+import { type PageState } from '../lib/client/pageState';
 import AppJoinView from '../components/AppJoinView';
 
 const Home: React.FC = () => {
@@ -31,7 +31,7 @@ const Home: React.FC = () => {
     case 'appJoin':
       return <AppJoinView page={page} />;
     default: {
-      throw new Error(`Unknown page: ${pageName satisfies never}`);
+      throw new Error(`Unknown page: ${String(pageName)}`);
     }
   }
 };

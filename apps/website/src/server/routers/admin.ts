@@ -15,6 +15,7 @@ export const adminRouter = router({
   searchUsers: adminProcedure
     .input(z.object({ searchTerm: z.string().max(200).optional() }))
     .query(async ({ input }) => {
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const trimmedSearchTerm = (input.searchTerm || '').trim();
 
       let whereClause;

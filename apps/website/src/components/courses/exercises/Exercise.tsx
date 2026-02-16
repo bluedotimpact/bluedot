@@ -1,11 +1,12 @@
-import React, { useCallback, useRef, useState } from 'react';
+import type React from 'react';
+import { useCallback, useRef, useState } from 'react';
 import {
   cn, ProgressDots, ToggleSwitch, useAuthStore,
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import FreeTextResponse from './FreeTextResponse';
 import MultipleChoice from './MultipleChoice';
-// eslint-disable-next-line import/no-cycle
+
 import GroupResponses from './GroupResponses';
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
 import { CheckmarkIcon } from '../../icons/CheckmarkIcon';
@@ -59,17 +60,17 @@ const Exercise: React.FC<ExerciseProps> = ({
   );
 
   const saveResponseMutation = trpc.exercises.saveExerciseResponse.useMutation({
-    onSettled: () => {
+    onSettled() {
       utils.courses.getCourseProgress.invalidate({ courseSlug });
     },
-    onSuccess: async () => {
+    async onSuccess() {
       await utils.exercises.getExerciseResponse.invalidate({ exerciseId });
     },
-    onMutate: async (newData) => {
+    async onMutate(newData) {
       const previousCourseProgress = newData.completed !== undefined ? await optimisticallyUpdateCourseProgress(utils, courseSlug, unitNumber, chunkIndex, newData.completed ? 1 : -1) : undefined;
       return { previousCourseProgress };
     },
-    onError: (_err, _variables, mutationResult) => {
+    onError(_err, _variables, mutationResult) {
       rollbackCourseProgress(utils, courseSlug, mutationResult?.previousCourseProgress);
     },
   });
@@ -86,7 +87,10 @@ const Exercise: React.FC<ExerciseProps> = ({
     : (responseData?.completedAt != null);
 
   const handleExerciseSubmit = async (exerciseResponse: string, completed?: boolean) => {
-    if (isSavingRef.current) return;
+    if (isSavingRef.current) {
+      return;
+    }
+
     isSavingRef.current = true;
 
     try {
@@ -104,7 +108,9 @@ const Exercise: React.FC<ExerciseProps> = ({
     return <ProgressDots />;
   }
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   if (exerciseError || exerciseResponseError) {
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     return <ErrorView error={exerciseError || exerciseResponseError} />;
   }
 
@@ -142,7 +148,9 @@ const Exercise: React.FC<ExerciseProps> = ({
       case 'Multiple choice':
         return (
           <MultipleChoice
+            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             answer={exerciseData.answer || ''}
+            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             options={exerciseData.options || ''}
             exerciseResponse={responseData?.response}
             isLoggedIn={!!auth}
@@ -195,7 +203,9 @@ const Exercise: React.FC<ExerciseProps> = ({
         {/* Conditional padding: GroupResponses needs edge-to-edge for its blue background */}
         <div className={cn('container-lined bg-white flex flex-col gap-5', !showGroupResponses && 'p-8')}>
           <div className={cn('flex flex-col gap-2', showGroupResponses && 'px-8 pt-8')}>
+            {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
             <p className="bluedot-h4 not-prose">{exerciseData.title || ''}</p>
+            {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
             <MarkdownExtendedRenderer>{exerciseData.description || ''}</MarkdownExtendedRenderer>
           </div>
           {renderContent()}

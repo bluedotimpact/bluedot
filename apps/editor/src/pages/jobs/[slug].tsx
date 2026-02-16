@@ -8,7 +8,7 @@ import Head from 'next/head';
 import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import { GetJobResponse } from '../api/jobs/[slug]';
+import { type GetJobResponse } from '../api/jobs/[slug]';
 import { BodyEditor } from '../../components/BodyEditor';
 
 const JobPostPage = withAuth(({ auth }) => {
@@ -42,7 +42,9 @@ const JobPostPage = withAuth(({ auth }) => {
     return <ProgressDots />;
   }
 
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   if (error || !data) {
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     return <ErrorSection error={error || new Error('Missing data')} />;
   }
 

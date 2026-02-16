@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { cn } from '../utils';
 
 export const InfoCircleIcon: React.FC<{ size?: number; className?: string }> = ({ size = 16, className }) => (
