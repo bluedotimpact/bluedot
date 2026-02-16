@@ -230,7 +230,30 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
     .filter((chunk) => chunk.unitId === unit.id)
     .sort((a, b) => Number(a.chunkOrder) - Number(b.chunkOrder));
 
-  // Resolve chunk resources and exercises with proper ordering (only for current unit)
+  const chunkResourceIds = currentUnitChunks.flatMap((chunk) => chunk.chunkResources || []);
+  const chunkExerciseIds = currentUnitChunks.flatMap((chunk) => chunk.chunkExercises || []);
+
+  let currentChunkResources: UnitResource[] = [];
+  if (chunkResourceIds.length > 0) {
+    currentChunkResources = await db.pg
+      .select()
+      .from(unitResourceTable.pg)
+      .where(inArray(unitResourceTable.pg.id, chunkResourceIds));
+  }
+
+  let currentChunkExercises: Exercise[] = [];
+ if (chunkExerciseIds.length > 0) {
+   currentChunkExercises = await db.pg
+     .select()
+     .from(exerciseTable.pg)
+     .where(and(
+       eq(exerciseTable.pg.status, 'Active'),
+       inArray(exerciseTable.pg.id, chunkExerciseIds),
+     ));
+ }
+
+  const resourceById = new Map(currentChunkResources.map((resource) => [resource.id, resource]));
+ const exerciseById = new Map(currentChunkExercises.map((exercise) => [exercise.id, exercise]));
   const chunksWithContent = await Promise.all(currentUnitChunks.map(async (chunk) => {
     let resources: UnitResource[] = [];
     let exercises: Exercise[] = [];
