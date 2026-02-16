@@ -19,6 +19,7 @@
     --color-bluedot-dark: var(--bluedot-dark);
     --color-bluedot-darker: var(--bluedot-darker);
     --color-bluedot-black: var(--bluedot-black);
+    --color-bluedot-navy: var(--bluedot-navy);
 
     --color-charcoal-light: var(--bluedot-charcoal-light);
     --color-charcoal-normal: var(--bluedot-charcoal-normal);
@@ -213,7 +214,8 @@
     --bluedot-dark: #002199;
     --bluedot-darker: #00114D;
     --bluedot-black: #1E1E1E;
-  
+    --bluedot-navy: #13132E;
+
     --bluedot-charcoal-light: #CCCCCC;
     --bluedot-charcoal-normal: #1E1E1E;
   
