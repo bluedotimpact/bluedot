@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useRouter } from 'next/router';
 import {
@@ -143,15 +143,15 @@ describe('MultipleChoice', () => {
     expect(submitButton).toBeDisabled();
   });
 
-  test('shows "Checking..." when form is being submitted', async () => {
+  test('shows correct result immediately after submitting correct answer', async () => {
     const user = userEvent.setup();
-    let resolveSubmit: () => void;
-    const mockOnExerciseSubmit = vi.fn(() => new Promise<void>((resolve) => {
-      resolveSubmit = resolve;
-    }));
+    const mockOnExerciseSubmit = vi.fn();
 
-    const { getAllByRole, getByRole } = render(<MultipleChoice {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />);
+    const { getAllByRole, queryByRole } = render(
+      <MultipleChoice {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
+    );
 
+    // Select the correct answer (first option)
     const radioInputs = getAllByRole('radio');
     if (!radioInputs[0]) {
       throw new Error('No radio inputs found');
@@ -159,17 +159,20 @@ describe('MultipleChoice', () => {
 
     await user.click(radioInputs[0]);
 
-    const submitButton = getByRole('button', { name: /check answer/i });
-    const submitPromiseCall = user.click(submitButton);
+    // Submit the form
+    const submitButton = queryByRole('button', { name: /check answer/i });
+    if (!submitButton) throw new Error('Submit button not found');
+    await user.click(submitButton);
 
-    await waitFor(() => {
-      expect(getByRole('button', { name: /checking/i })).toBeInTheDocument();
+    // onExerciseSubmit should be called with the answer and correct=true
+    expect(mockOnExerciseSubmit).toHaveBeenCalledWith(mockArgs.answer.trim(), true);
+
+    // All inputs should be disabled immediately (correct answer disables them)
+    radioInputs.forEach((input) => {
+      expect(input).toBeDisabled();
     });
 
-    expect(mockOnExerciseSubmit).toBeCalled();
-
-    // Resolve the promise to complete the test
-    resolveSubmit!();
-    await submitPromiseCall;
+    // Submit button should be gone (replaced by nothing for correct answers)
+    expect(queryByRole('button', { name: /check answer/i })).not.toBeInTheDocument();
   });
 });

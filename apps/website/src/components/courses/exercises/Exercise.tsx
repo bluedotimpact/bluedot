@@ -62,15 +62,37 @@ const Exercise: React.FC<ExerciseProps> = ({
   const saveResponseMutation = trpc.exercises.saveExerciseResponse.useMutation({
     onSettled() {
       utils.courses.getCourseProgress.invalidate({ courseSlug });
-    },
-    async onSuccess() {
-      await utils.exercises.getExerciseResponse.invalidate({ exerciseId });
+      utils.exercises.getExerciseResponse.invalidate({ exerciseId });
     },
     async onMutate(newData) {
+      await utils.exercises.getExerciseResponse.cancel({ exerciseId });
+      const previousResponse = utils.exercises.getExerciseResponse.getData({ exerciseId });
+
+      let newCompletedAt: string | null;
+      if (newData.completed === true) {
+        newCompletedAt = new Date().toISOString();
+      } else if (newData.completed === false) {
+        newCompletedAt = null;
+      } else {
+        newCompletedAt = previousResponse?.completedAt ?? null;
+      }
+
+      utils.exercises.getExerciseResponse.setData({ exerciseId }, {
+        id: previousResponse?.id ?? 'optimistic',
+        email: previousResponse?.email ?? auth?.email ?? '',
+        exerciseId,
+        response: newData.response,
+        completedAt: newCompletedAt,
+        autoNumberId: previousResponse?.autoNumberId ?? null,
+      });
+
       const previousCourseProgress = newData.completed !== undefined ? await optimisticallyUpdateCourseProgress(utils, courseSlug, unitNumber, chunkIndex, newData.completed ? 1 : -1) : undefined;
-      return { previousCourseProgress };
+      return { previousResponse, previousCourseProgress };
     },
     onError(_err, _variables, mutationResult) {
+      if (mutationResult?.previousResponse !== undefined) {
+        utils.exercises.getExerciseResponse.setData({ exerciseId }, mutationResult.previousResponse);
+      }
       rollbackCourseProgress(utils, courseSlug, mutationResult?.previousCourseProgress);
     },
   });
@@ -79,12 +101,7 @@ const Exercise: React.FC<ExerciseProps> = ({
   // Concurrent saves can happen e.g. when a blur and click event both trigger saves
   const isSavingRef = useRef(false);
 
-  // Optimistically update `isCompleted` using mutation variables.
-  // Note: generally use onMutate/onSettled if doing optimistic updates of whole
-  // objects, this is just a simple workaround for this one field.
-  const isCompleted = (!saveResponseMutation.isError && saveResponseMutation.variables?.completed !== undefined)
-    ? saveResponseMutation.variables.completed
-    : (responseData?.completedAt != null);
+  const isCompleted = responseData?.completedAt != null;
 
   const handleExerciseSubmit = async (exerciseResponse: string, completed?: boolean) => {
     if (isSavingRef.current) {

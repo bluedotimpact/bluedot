@@ -42,7 +42,6 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     register,
     handleSubmit,
     setValue,
-    formState: { isSubmitting },
     control,
   } = useForm<FormData>({
     defaultValues: {
@@ -64,9 +63,9 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   }, [formattedExerciseResponse, setValue]);
 
   const onSubmit = useCallback(
-    async (data: FormData) => {
+    (data: FormData) => {
       const isAnswerCorrect = data.answer === formattedAnswer;
-      await onExerciseSubmit(data.answer, isAnswerCorrect);
+      onExerciseSubmit(data.answer, isAnswerCorrect);
       setIsEditing(false);
     },
     [onExerciseSubmit, formattedAnswer],
@@ -80,19 +79,12 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   };
 
   const getSubmitButtonText = () => {
-    if (isSubmitting) {
-      return 'Checking...';
-    }
-
-    if (currentAnswer) {
-      return 'Check answer';
-    }
-
+    if (currentAnswer) return 'Check answer';
     return 'Select an option'; // No quiz options have been selected yet
   };
 
-  const isCorrect = !isEditing && formattedExerciseResponse && formattedExerciseResponse === formattedAnswer;
-  const isIncorrect = !isEditing && formattedExerciseResponse && formattedExerciseResponse !== formattedAnswer;
+  const isCorrect = !isEditing && currentAnswer && currentAnswer === formattedAnswer;
+  const isIncorrect = !isEditing && currentAnswer && currentAnswer !== formattedAnswer;
 
   const getOptionClasses = (option: string) => {
     const selected = currentAnswer === option;
@@ -151,7 +143,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
           className="!bg-bluedot-normal"
           variant="primary"
           type="submit"
-          disabled={isSubmitting || !currentAnswer}
+          disabled={!currentAnswer}
         >
           {getSubmitButtonText()}
         </CTALinkOrButton>
