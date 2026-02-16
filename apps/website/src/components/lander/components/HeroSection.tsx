@@ -93,7 +93,7 @@ const HeroSection = ({
                 <CTALinkOrButton
                   url={primaryCta.url}
                   variant="unstyled"
-                  className="h-[50px] px-5 py-3 text-[16px] font-medium rounded-md cursor-pointer transition-all text-[#13132e] w-full min-[680px]:w-auto hover:brightness-90"
+                  className="h-[50px] px-5 py-3 text-[16px] font-medium rounded-md cursor-pointer transition-all text-bluedot-navy w-full min-[680px]:w-auto hover:brightness-90"
                   style={accentColor ? { backgroundColor: accentColor } : undefined}
                 >
                   {primaryCta.text}
@@ -138,7 +138,7 @@ const HeroSection = ({
                   <CTALinkOrButton
                     url={primaryCta.url}
                     variant="unstyled"
-                    className="h-[50px] px-5 py-2.5 text-[16px] font-medium rounded-md cursor-pointer transition-all text-[#13132e] hover:brightness-90"
+                    className="h-[50px] px-5 py-2.5 text-[16px] font-medium rounded-md cursor-pointer transition-all text-bluedot-navy hover:brightness-90"
                     style={accentColor ? { backgroundColor: accentColor } : undefined}
                   >
                     {primaryCta.text}
@@ -202,7 +202,7 @@ const HeroSection = ({
                   <CTALinkOrButton
                     url={primaryCta.url}
                     size="small"
-                    className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md cursor-pointer transition-colors text-[#13132e] hover:brightness-90"
+                    className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md cursor-pointer transition-colors text-bluedot-navy hover:brightness-90"
                     style={accentColor ? { backgroundColor: accentColor } : undefined}
                   >
                     {primaryCta.text}
@@ -248,11 +248,11 @@ const HeroSection = ({
                     </p>
                   )}
 
-                  <H1 className="text-[32px] sm:text-[40px] sm:leading-tight lg:text-[40px] xl:text-5xl leading-tight font-semibold tracking-[-0.5px] text-[#13132E]">
+                  <H1 className="text-[32px] sm:text-[40px] sm:leading-tight lg:text-[40px] xl:text-5xl leading-tight font-semibold tracking-[-0.5px] text-bluedot-navy">
                     {title}
                   </H1>
 
-                  <P className="text-size-sm sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed opacity-80 text-[#13132E] whitespace-pre-line">
+                  <P className="text-size-sm sm:text-lg sm:leading-[1.6] lg:text-lg leading-relaxed text-bluedot-navy/80 whitespace-pre-line">
                     {description}
                   </P>
                 </div>
@@ -271,7 +271,7 @@ const HeroSection = ({
                     <CTALinkOrButton
                       url={secondaryCta.url}
                       size="small"
-                      className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-colors border border-[rgba(19,19,46,0.3)] text-[#13132E] hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E]"
+                      className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-colors border border-bluedot-navy/30 text-bluedot-navy hover:border-bluedot-navy/50 hover:bg-bluedot-navy/5 hover:text-bluedot-navy"
                     >
                       {secondaryCta.text}
                     </CTALinkOrButton>

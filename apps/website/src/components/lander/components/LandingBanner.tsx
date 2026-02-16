@@ -25,7 +25,7 @@ const LandingBanner = ({
     <section className="w-full bg-white pb-12 min-[680px]:pb-16 min-[1024px]:pb-16 min-[1280px]:pb-24">
       <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x">
         <div
-          className="relative w-full h-[382px] min-[680px]:h-[360px] mx-auto overflow-hidden rounded-xl bg-[#13132E] bg-cover bg-center xl:max-w-[1118px]"
+          className="relative w-full h-[382px] min-[680px]:h-[360px] mx-auto overflow-hidden rounded-xl bg-bluedot-navy bg-cover bg-center xl:max-w-[1118px]"
           style={{ backgroundImage: `url('${imageSrc}')` }}
           role="img"
           aria-label={imageAlt}
@@ -44,7 +44,7 @@ const LandingBanner = ({
 
             <CTALinkOrButton
               variant="ghost"
-              className="text-[16px] font-medium leading-[24px] px-5 py-3 h-12 bg-white text-[#13132E] rounded-md hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
+              className="text-[16px] font-medium leading-[24px] px-5 py-3 h-12 bg-white text-bluedot-navy rounded-md hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
               url={ctaUrl}
             >
               {ctaText}

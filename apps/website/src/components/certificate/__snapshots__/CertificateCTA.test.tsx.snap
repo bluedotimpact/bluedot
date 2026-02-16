@@ -40,7 +40,7 @@ exports[`CertificateCTA > renders correctly with valid props 1`] = `
             </p>
           </div>
           <a
-            class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--primary link-on-dark h-9 px-4 py-[7px] rounded-[5px] font-medium text-[#13132E] w-fit bg-[var(--cta-accent)]"
+            class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--primary link-on-dark h-9 px-4 py-[7px] rounded-[5px] font-medium text-bluedot-navy w-fit bg-[var(--cta-accent)]"
             href="https://bluedot.org/courses/ai-governance"
             tabindex="0"
           >

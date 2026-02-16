@@ -43,15 +43,15 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({ resourceFeedback, onF
     const isActive = feedbackValue === resourceFeedback;
     const isLikeButton = feedbackValue === RESOURCE_FEEDBACK.LIKE;
 
-    const activeBackground = isLikeButton ? 'bg-[rgba(0,55,255,0.06)]' : 'bg-[rgba(19,19,46,0.1)]';
-    const hoverBackground = 'hover:bg-[rgba(19,19,46,0.08)]';
+    const activeBackground = isLikeButton ? 'bg-[rgba(0,55,255,0.06)]' : 'bg-bluedot-navy/10';
+    const hoverBackground = 'hover:bg-bluedot-navy/8';
 
     const baseClasses = 'flex flex-row justify-center items-center px-2 py-1.5 h-[30px] rounded-md border-none transition-all duration-200 font-medium text-[13px] leading-[140%] tracking-[-0.005em] cursor-pointer';
     const buttonGapClass = variant === 'mobile' ? 'gap-2' : 'gap-1.5';
     const opacityClass = isActive ? 'opacity-100' : 'opacity-60';
     const bgClass = isActive ? activeBackground : 'bg-transparent';
 
-    let textColorClass = 'text-[#13132E]';
+    let textColorClass = 'text-bluedot-navy';
     if (isActive && isLikeButton) {
       textColorClass = 'text-[#2244bb]';
     }
@@ -245,7 +245,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
                     return 'bg-[rgba(42,45,52,0.05)] border border-[rgba(42,45,52,0.6)]';
                   }
 
-                  return 'bg-[#FCFBF9] border border-[rgba(19,19,46,0.2)]';
+                  return 'bg-[#FCFBF9] border border-bluedot-navy/20';
                 })()
               }`}
             >
@@ -278,7 +278,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   aria-hidden="true"
-                  stroke="#13132E"
+                  stroke="var(--bluedot-navy)"
                   strokeWidth="1.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -339,7 +339,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
           {auth && (
             <div className="lg:hidden">
               {/* Separator line */}
-              <div className="w-full h-0 opacity-20 border-[0.5px] border-[#13132E] my-4" />
+              <div className="w-full h-0 border-[0.5px] border-bluedot-navy/20 my-4" />
 
               {/* Bottom action bar */}
               <div className="flex flex-col gap-3">
@@ -402,12 +402,12 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
         {auth && isCompleted && (
           <div className="hidden lg:block">
             <div
-              className={`hidden lg:flex flex-col transition-all duration-200 pt-[23px] px-4 gap-2 w-full bg-[rgba(19,19,46,0.05)] border-[0.5px] border-[rgba(19,19,46,0.15)] rounded-b-[10px] -mt-4 relative z-0 ${resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || feedback ? 'pb-4' : 'pb-[9px]'}`}
+              className={`hidden lg:flex flex-col transition-all duration-200 pt-[23px] px-4 gap-2 w-full bg-bluedot-navy/5 border-[0.5px] border-bluedot-navy/15 rounded-b-[10px] -mt-4 relative z-0 ${resourceFeedback !== RESOURCE_FEEDBACK.NO_RESPONSE || feedback ? 'pb-4' : 'pb-[9px]'}`}
               role="region"
               aria-label="Resource feedback section"
             >
               <div className="flex items-center gap-3 px-2">
-                <P className="font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-[#13132E] opacity-60">
+                <P className="font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-bluedot-navy/60">
                   Was this resource useful?
                 </P>
                 <FeedbackSection

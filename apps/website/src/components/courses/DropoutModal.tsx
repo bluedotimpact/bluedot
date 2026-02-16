@@ -47,7 +47,7 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, handleClose })
             <CheckIcon className="text-bluedot-normal" />
           </div>
           <div className="flex max-w-[512px] flex-col items-center gap-4">
-            <P className="text-center text-[#13132E] opacity-80">
+            <P className="text-center text-bluedot-navy/80">
               {isDeferral
                 ? 'Your deferral request has been submitted. We\'ll be in touch about joining a future cohort.'
                 : 'Your dropout request has been submitted. We\'re sorry to see you go. You should receive a confirmation email soon.'}

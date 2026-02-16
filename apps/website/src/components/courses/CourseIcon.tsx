@@ -74,7 +74,7 @@ export const CourseIcon: React.FC<CourseIconProps> = ({
           <span
             className={clsx(
               config.badge,
-              'absolute -top-0.5 -right-0.5 bg-white rounded-full flex items-center justify-center font-bold text-[#13132e] ring-1 ring-black/5',
+              'absolute -top-0.5 -right-0.5 bg-white rounded-full flex items-center justify-center font-bold text-bluedot-navy ring-1 ring-black/5',
             )}
           >
             {badge}

@@ -63,10 +63,10 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
         className="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden scroll-mb-5"
       >
         <summary className="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors">
-          <p className="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-[#13132E] flex-1">
+          <p className="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1">
             {unit.unitNumber}. {unit.title}
           </p>
-          <FaChevronRight className="size-[14px] transition-transform group-open:rotate-90 text-[#13132E]" />
+          <FaChevronRight className="size-[14px] transition-transform group-open:rotate-90 text-bluedot-navy" />
         </summary>
         <div className="flex flex-col items-start px-0 pb-[16px] gap-[4px]">
           {chunks.map((chunk, index) => {
@@ -89,12 +89,12 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                   <ChunkIcon isActive={isActive} />
                   <div className="flex flex-col items-start p-0 flex-1">
                     <div className="flex flex-col items-start gap-[6px]">
-                      <p className="font-normal text-[14px] leading-[150%] text-[#13132E]">
+                      <p className="font-normal text-[14px] leading-[150%] text-bluedot-navy">
                         {chunk.chunkTitle}
                       </p>
                     </div>
                     {chunk.estimatedTime && (
-                      <div className="flex gap-1 text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#13132E] opacity-60 mt-[8px]">
+                      <div className="flex gap-1 text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-bluedot-navy/60 mt-[8px]">
                         <span>
                           {formatTime(chunk.estimatedTime)}
                         </span>
@@ -127,12 +127,12 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                 <ChunkIcon isActive={false} />
                 <div className="flex flex-col items-start p-0 flex-1">
                   <div className="flex flex-col items-start gap-[6px]">
-                    <p className="font-normal text-[14px] leading-[150%] text-[#13132E]">
+                    <p className="font-normal text-[14px] leading-[150%] text-bluedot-navy">
                       {chunk.chunkTitle}
                     </p>
                   </div>
                   {chunk.estimatedTime && (
-                    <div className="flex gap-1 text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#13132E] opacity-60 mt-[8px]">
+                    <div className="flex gap-1 text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-bluedot-navy/60 mt-[8px]">
                       <span>
                         {formatTime(chunk.estimatedTime)}
                       </span>
@@ -209,7 +209,7 @@ const SideBar: React.FC<SideBarProps> = ({
           <CourseIcon courseSlug={courseSlug} size="xlarge" />
           <div className="flex flex-1 min-w-0">
             <div className="flex flex-col">
-              <h2 className="font-semibold text-[26px] leading-[44px] text-[#13132E]">{courseTitle}</h2>
+              <h2 className="font-semibold text-[26px] leading-[44px] text-bluedot-navy">{courseTitle}</h2>
               {courseProgressData && courseProgressData.courseProgress.totalCount > 0 && (
                 <P className="opacity-60">{courseProgressData.courseProgress.percentage}% completed</P>
               )}

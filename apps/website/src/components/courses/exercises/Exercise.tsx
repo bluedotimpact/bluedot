@@ -167,7 +167,7 @@ const Exercise: React.FC<ExerciseProps> = ({
       {facilitatorGroupResponses && (
         <div className="flex justify-end">
           <div className="flex items-center gap-2">
-            <span className="text-[13px] font-medium text-[#13132E]">Show my group's responses</span>
+            <span className="text-[13px] font-medium text-bluedot-navy">Show my group's responses</span>
             <ToggleSwitch
               checked={showGroupResponsesIfFacilitator}
               onChange={setShowGroupResponsesIfFacilitator}
@@ -191,7 +191,7 @@ const Exercise: React.FC<ExerciseProps> = ({
                 checkboxDisabled ? 'cursor-not-allowed' : 'cursor-pointer',
                 isCompleted && 'bg-bluedot-normal border-none',
                 !isCompleted && checkboxHovered && !checkboxDisabled && 'bg-[rgba(42,45,52,0.05)] border border-[rgba(42,45,52,0.6)]',
-                !isCompleted && !(checkboxHovered && !checkboxDisabled) && 'bg-[#FCFBF9] border border-[rgba(19,19,46,0.2)]',
+                !isCompleted && !(checkboxHovered && !checkboxDisabled) && 'bg-[#FCFBF9] border border-bluedot-navy/20',
               )}
             >
               {(isCompleted || (checkboxHovered && !checkboxDisabled)) && (

@@ -400,7 +400,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
               class="flex flex-col min-[680px]:flex-row gap-3 w-full min-[680px]:w-auto min-[680px]:justify-center"
             >
               <a
-                class="cta-button flex items-center justify-center duration-200 whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none h-[50px] px-5 py-3 text-[16px] font-medium rounded-md cursor-pointer transition-all text-[#13132e] w-full min-[680px]:w-auto hover:brightness-90"
+                class="cta-button flex items-center justify-center duration-200 whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none h-[50px] px-5 py-3 text-[16px] font-medium rounded-md cursor-pointer transition-all text-bluedot-navy w-full min-[680px]:w-auto hover:brightness-90"
                 href="https://web.miniextensions.com/test"
                 style="background-color: #FF8C8C;"
                 tabindex="0"
@@ -453,7 +453,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                 class="flex gap-3"
               >
                 <a
-                  class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none h-[50px] px-5 py-2.5 text-[16px] font-medium rounded-md cursor-pointer transition-all text-[#13132e] hover:brightness-90"
+                  class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none h-[50px] px-5 py-2.5 text-[16px] font-medium rounded-md cursor-pointer transition-all text-bluedot-navy hover:brightness-90"
                   href="https://web.miniextensions.com/test"
                   style="background-color: #FF8C8C;"
                   tabindex="0"
@@ -502,7 +502,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
         class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24 xl:py-24"
       >
         <h2
-          class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-12 md:mb-16 tracking-[-0.01em]"
+          class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy text-center mb-12 md:mb-16 tracking-[-0.01em]"
         >
           Who this is for
         </h2>
@@ -510,7 +510,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
           class="grid grid-cols-1 min-[680px]:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
         >
           <div
-            class="flex flex-col items-center min-[680px]:items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:min-h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
+            class="flex flex-col items-center min-[680px]:items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-bluedot-navy/10 rounded-xl p-8 min-[680px]:min-h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
           >
             <div
               class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 "
@@ -532,7 +532,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
               </svg>
             </div>
             <p
-              class="bluedot-p not-prose text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-[#13132E]"
+              class="bluedot-p not-prose text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-bluedot-navy"
             >
               <span
                 class="font-semibold"
@@ -546,7 +546,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
             </p>
           </div>
           <div
-            class="flex flex-col items-center min-[680px]:items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:min-h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
+            class="flex flex-col items-center min-[680px]:items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-bluedot-navy/10 rounded-xl p-8 min-[680px]:min-h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
           >
             <div
               class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 "
@@ -568,7 +568,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
               </svg>
             </div>
             <p
-              class="bluedot-p not-prose text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-[#13132E]"
+              class="bluedot-p not-prose text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-bluedot-navy"
             >
               <span
                 class="font-semibold"
@@ -582,7 +582,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
             </p>
           </div>
           <div
-            class="flex flex-col items-center min-[680px]:items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-[rgba(19,19,46,0.1)] rounded-xl p-8 min-[680px]:min-h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
+            class="flex flex-col items-center min-[680px]:items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-bluedot-navy/10 rounded-xl p-8 min-[680px]:min-h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
           >
             <div
               class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 "
@@ -604,7 +604,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
               </svg>
             </div>
             <p
-              class="bluedot-p not-prose text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-[#13132E]"
+              class="bluedot-p not-prose text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-bluedot-navy"
             >
               <span
                 class="font-semibold"
@@ -622,7 +622,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
           class="w-full max-w-[924px] mx-auto flex flex-col items-center gap-6 mt-12 md:mt-16"
         >
           <p
-            class="bluedot-p not-prose text-size-sm text-[#13132E]/80 text-center"
+            class="bluedot-p not-prose text-size-sm text-bluedot-navy/80 text-center"
           >
             <span
               class="font-semibold"
@@ -635,7 +635,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
             </span>
           </p>
           <a
-            class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm cta-button--outline-black bg-transparent border border-[rgba(19,19,46,0.3)] text-black hover:bg-gray-50 font-medium"
+            class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm cta-button--outline-black bg-transparent border border-bluedot-navy/30 text-black hover:bg-gray-50 font-medium"
             href="https://web.miniextensions.com/test"
             tabindex="0"
           >
@@ -654,7 +654,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
         class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 md:px-spacing-x min-[1280px]:py-24 xl:py-24"
       >
         <h2
-          class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-16 tracking-[-0.01em]"
+          class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy text-center mb-16 tracking-[-0.01em]"
         >
           What you'll get
         </h2>
@@ -687,12 +687,12 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
               class="space-y-2"
             >
               <h3
-                class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
+                class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-bluedot-navy"
               >
                 From problem to pitch in 5 days
               </h3>
               <p
-                class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] text-bluedot-navy/80"
               >
                 Monday: develop threat models and identify top experts. Tuesday-Wednesday: build and iterate on interventions, call experts, attend our community social. Thursday: create your pitch. Friday: pitch to us for funding. You'll make more progress in a week than most make in months.
               </p>
@@ -724,12 +724,12 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
               class="space-y-2"
             >
               <h3
-                class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
+                class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-bluedot-navy"
               >
                 Work alongside the best
               </h3>
               <p
-                class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] text-bluedot-navy/80"
               >
                 You'll work from our office at LISA alongside Apollo Research, Workshop Labs, and other leading AI safety organizations. We bring in founders, funders, and experts throughout the week to accelerate your work.
               </p>
@@ -761,12 +761,12 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
               class="space-y-2"
             >
               <h3
-                class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
+                class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-bluedot-navy"
               >
                 Get backed to build
               </h3>
               <p
-                class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] text-bluedot-navy/80"
               >
                 Strong pitches receive initial grants of £50k+ to work on your project full-time. Our first batch backed Exona — they've since raised more, work from our co-working space, and are already hiring. We're putting our money where our mouth is.
               </p>
@@ -786,12 +786,12 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
         class="max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-12 min-[1280px]:px-44 xl:px-40 py-12 min-[680px]:py-16 min-[1280px]:py-24 xl:py-24 flex flex-col items-center gap-12 md:gap-16"
       >
         <h2
-          class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]"
+          class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]"
         >
           Program information
         </h2>
         <div
-          class="w-[calc(100vw-40px)] min-[680px]:w-[calc(100vw-64px)] lg:w-[928px] xl:w-[1120px] bg-white border border-[rgba(19,19,46,0.1)] rounded-xl py-8 flex flex-col items-center gap-6"
+          class="w-[calc(100vw-40px)] min-[680px]:w-[calc(100vw-64px)] lg:w-[928px] xl:w-[1120px] bg-white border border-bluedot-navy/10 rounded-xl py-8 flex flex-col items-center gap-6"
         >
           <div
             class="flex flex-col w-full"
@@ -804,7 +804,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                   class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
                 >
                   <p
-                    class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-[#13132E]"
+                    class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
                   >
                     The week
                   </p>
@@ -813,7 +813,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                   class="flex-1 min-w-0"
                 >
                   <p
-                    class="bluedot-p not-prose text-[15px] leading-[160%] text-[#13132E] opacity-80 font-normal"
+                    class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
                   >
                     <span
                       class="font-semibold"
@@ -846,7 +846,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                 </div>
               </div>
               <div
-                class="w-full h-px bg-[#13132E] opacity-10 my-6"
+                class="w-full h-px bg-bluedot-navy/10 my-6"
               />
             </div>
             <div>
@@ -857,7 +857,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                   class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
                 >
                   <p
-                    class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-[#13132E]"
+                    class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
                   >
                     Location
                   </p>
@@ -866,14 +866,14 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                   class="flex-1 min-w-0"
                 >
                   <p
-                    class="bluedot-p not-prose text-[15px] leading-[160%] text-[#13132E] opacity-80 font-normal"
+                    class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
                   >
                     In-person in London, working from LISA alongside Apollo Research and other leading organizations. We'll fly you in and cover all expenses.
                   </p>
                 </div>
               </div>
               <div
-                class="w-full h-px bg-[#13132E] opacity-10 my-6"
+                class="w-full h-px bg-bluedot-navy/10 my-6"
               />
             </div>
             <div>
@@ -884,7 +884,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                   class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
                 >
                   <p
-                    class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-[#13132E]"
+                    class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
                   >
                     Focus areas
                   </p>
@@ -893,14 +893,14 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                   class="flex-1 min-w-0"
                 >
                   <p
-                    class="bluedot-p not-prose text-[15px] leading-[160%] text-[#13132E] opacity-80 font-normal"
+                    class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
                   >
                     AI safety, biosecurity, cybersecurity, and other catastrophic risk reduction. For now we're focused on for-profit companies.
                   </p>
                 </div>
               </div>
               <div
-                class="w-full h-px bg-[#13132E] opacity-10 my-6"
+                class="w-full h-px bg-bluedot-navy/10 my-6"
               />
             </div>
             <div>
@@ -911,7 +911,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                   class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
                 >
                   <p
-                    class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-[#13132E]"
+                    class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
                   >
                     Schedule
                   </p>
@@ -920,7 +920,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                   class="flex-1 min-w-0"
                 >
                   <p
-                    class="bluedot-p not-prose text-[15px] leading-[160%] text-[#13132E] opacity-80 font-normal"
+                    class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
                   >
                     Currently on hiatus. Fill out our application to join the waitlist for future cohorts.
                   </p>
@@ -945,7 +945,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
           class="max-w-[928px] mx-auto flex flex-col gap-12 md:gap-16"
         >
           <h2
-            class="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-[#13132E] text-center"
+            class="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy text-center"
           >
             Frequently Asked Questions
           </h2>
@@ -953,7 +953,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
             class="flex flex-col gap-6"
           >
             <div
-              class="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
+              class="border border-bluedot-navy/10 bg-white rounded-xl overflow-hidden"
             >
               <button
                 aria-controls="faq-answer-how-to-join"
@@ -962,7 +962,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                 type="button"
               >
                 <span
-                  class="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow"
+                  class="text-[18px] font-semibold leading-[125%] text-bluedot-navy flex-grow"
                 >
                   How do I join Incubator Week?
                 </span>
@@ -991,17 +991,17 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                   <div
                     class="px-8 pb-6"
                   >
-                    <div
-                      class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
+                    <p
+                      class="bluedot-p not-prose text-[18px] text-bluedot-navy/80"
                     >
                       The AGI Strategy Course and Technical AI Safety Course are our primary feeders. We filter the best participants through problem statement quality, then interview before inviting to Incubator Week.
-                    </div>
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
             <div
-              class="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
+              class="border border-bluedot-navy/10 bg-white rounded-xl overflow-hidden"
             >
               <button
                 aria-controls="faq-answer-solo-or-team"
@@ -1010,7 +1010,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                 type="button"
               >
                 <span
-                  class="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow"
+                  class="text-[18px] font-semibold leading-[125%] text-bluedot-navy flex-grow"
                 >
                   Can I apply solo or do I need a co-founder?
                 </span>
@@ -1039,17 +1039,17 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                   <div
                     class="px-8 pb-6"
                   >
-                    <div
-                      class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
+                    <p
+                      class="bluedot-p not-prose text-[18px] text-bluedot-navy/80"
                     >
                       Both work. Solo founders are welcome — though we've learned that co-founder matching is hard, so coming with a partner (friend, classmate, existing co-founder) is a plus. We'll help facilitate connections during the week.
-                    </div>
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
             <div
-              class="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
+              class="border border-bluedot-navy/10 bg-white rounded-xl overflow-hidden"
             >
               <button
                 aria-controls="faq-answer-expenses"
@@ -1058,7 +1058,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                 type="button"
               >
                 <span
-                  class="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow"
+                  class="text-[18px] font-semibold leading-[125%] text-bluedot-navy flex-grow"
                 >
                   What expenses are covered?
                 </span>
@@ -1087,17 +1087,17 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                   <div
                     class="px-8 pb-6"
                   >
-                    <div
-                      class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
+                    <p
+                      class="bluedot-p not-prose text-[18px] text-bluedot-navy/80"
                     >
                       Everything. We'll fly you to London, provide accommodation, and cover all meals during the week. You just need to show up ready to build.
-                    </div>
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
             <div
-              class="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
+              class="border border-bluedot-navy/10 bg-white rounded-xl overflow-hidden"
             >
               <button
                 aria-controls="faq-answer-tracks"
@@ -1106,7 +1106,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                 type="button"
               >
                 <span
-                  class="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow"
+                  class="text-[18px] font-semibold leading-[125%] text-bluedot-navy flex-grow"
                 >
                   What tracks do you support?
                 </span>
@@ -1135,17 +1135,17 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                   <div
                     class="px-8 pb-6"
                   >
-                    <div
-                      class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
+                    <p
+                      class="bluedot-p not-prose text-[18px] text-bluedot-navy/80"
                     >
                       For now we're focused on for-profit companies. We're keen to explore other areas as well, especially policy entrepreneurship.
-                    </div>
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
             <div
-              class="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
+              class="border border-bluedot-navy/10 bg-white rounded-xl overflow-hidden"
             >
               <button
                 aria-controls="faq-answer-funding"
@@ -1154,7 +1154,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                 type="button"
               >
                 <span
-                  class="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow"
+                  class="text-[18px] font-semibold leading-[125%] text-bluedot-navy flex-grow"
                 >
                   How does the funding work?
                 </span>
@@ -1183,17 +1183,17 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                   <div
                     class="px-8 pb-6"
                   >
-                    <div
-                      class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
+                    <p
+                      class="bluedot-p not-prose text-[18px] text-bluedot-navy/80"
                     >
                       Strong pitches on Friday receive initial grants of £50k+ to work on your project full-time. This is designed to help you build momentum in the months after Incubator Week.
-                    </div>
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
             <div
-              class="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
+              class="border border-bluedot-navy/10 bg-white rounded-xl overflow-hidden"
             >
               <button
                 aria-controls="faq-answer-bluedot"
@@ -1202,7 +1202,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                 type="button"
               >
                 <span
-                  class="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow"
+                  class="text-[18px] font-semibold leading-[125%] text-bluedot-navy flex-grow"
                 >
                   Who is BlueDot Impact?
                 </span>
@@ -1231,14 +1231,14 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                   <div
                     class="px-8 pb-6"
                   >
-                    <div
-                      class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
+                    <p
+                      class="bluedot-p not-prose text-[18px] text-bluedot-navy/80"
                     >
                       We're a London-based nonprofit. Since 2022, we've trained over 6,000 people. Our courses are the main entry point into the AI safety field, with alumni now working at OpenAI, Anthropic, DeepMind, the UK AI Safety Institute, and many more.
                       <br />
                       <br />
                       Incubator Week is our program for the most entrepreneurial participants — the ones ready to build the organizations the world needs.
-                    </div>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -1255,7 +1255,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
       >
         <div
           aria-label="Incubator Week banner"
-          class="relative w-full h-[382px] min-[680px]:h-[360px] mx-auto overflow-hidden rounded-xl bg-[#13132E] bg-cover bg-center xl:max-w-[1118px]"
+          class="relative w-full h-[382px] min-[680px]:h-[360px] mx-auto overflow-hidden rounded-xl bg-bluedot-navy bg-cover bg-center xl:max-w-[1118px]"
           role="img"
           style="background-image: url("/images/lander/agi-strategy/hero-banner-split.webp");"
         >
@@ -1277,7 +1277,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
               Ready to build something that matters?
             </h3>
             <a
-              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none [--ghost-gray:#13132E] hover:text-(--ghost-gray) text-[16px] font-medium leading-[24px] px-5 py-3 h-12 bg-white text-[#13132E] rounded-md hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none hover:text-bluedot-navy text-[16px] font-medium leading-[24px] px-5 py-3 h-12 bg-white text-bluedot-navy rounded-md hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
               href="https://web.miniextensions.com/test"
               tabindex="0"
             >

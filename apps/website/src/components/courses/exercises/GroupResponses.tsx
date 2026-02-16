@@ -37,7 +37,7 @@ const GroupResponses: React.FC<GroupResponsesProps> = ({
     <div className="bg-[#F9FBFF] px-8 pt-6 pb-8 rounded-b-lg flex flex-col gap-6">
       {groups.length > 1 && (
         <div className="flex flex-col gap-2">
-          <span className="text-size-xs font-semibold text-[#13132E]">Select your group:</span>
+          <span className="text-size-xs font-semibold text-bluedot-navy">Select your group:</span>
           <Select
             options={groups.map((g) => ({ value: g.id, label: g.name }))}
             value={selectedGroup.id}
@@ -46,7 +46,7 @@ const GroupResponses: React.FC<GroupResponsesProps> = ({
           />
         </div>
       )}
-      <p className="text-size-xs font-semibold text-[#13132E]">
+      <p className="text-size-xs font-semibold text-bluedot-navy">
         <span>{responses.length} {responses.length === 1 ? 'Response' : 'Responses'}</span>
         {' · '}
         <span>{pendingCount} Pending</span>
@@ -79,7 +79,7 @@ const ResponseBlock: React.FC<{
         <div className="size-6 rounded-full bg-bluedot-lighter flex items-center justify-center flex-shrink-0">
           <FaUser className="size-3 text-bluedot-normal" />
         </div>
-        <span className="font-semibold text-size-xs text-[#13132E]">{name}</span>
+        <span className="font-semibold text-size-xs text-bluedot-navy">{name}</span>
       </div>
       <div className="border-l-2 border-bluedot-lighter pl-4 ml-3">
         <div className="relative">

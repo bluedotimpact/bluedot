@@ -12,11 +12,11 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
         class="relative w-full z-[1]"
       >
         <div
-          class="resize-y overflow-auto relative box-border w-full bg-white rounded-[6px] z-[1] p-4 border-[0.5px] border-[rgba(19,19,46,0.25)] focus-within:border-[1.25px] focus-within:border-[#1641D9] focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 [&::-webkit-resizer]:hidden cursor-not-allowed opacity-60 min-h-[140px]"
+          class="resize-y overflow-auto relative box-border w-full bg-white rounded-[6px] z-[1] p-4 border-[0.5px] border-bluedot-navy/25 focus-within:border-[1.25px] focus-within:border-[#1641D9] focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 [&::-webkit-resizer]:hidden cursor-not-allowed opacity-60 min-h-[140px]"
         >
           <div
             aria-label="Rich text input area"
-            class="outline-none max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:font-normal [&_.ProseMirror]:text-[14px] [&_.ProseMirror]:leading-[160%] [&_.ProseMirror]:tracking-[-0.002em] [&_.ProseMirror]:text-[#13132E] [&_.ProseMirror_p]:m-0 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1 [&_.ProseMirror_li]:my-0.5 [&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-[#999] [&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left [&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:h-0"
+            class="outline-none max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:font-normal [&_.ProseMirror]:text-[14px] [&_.ProseMirror]:leading-[160%] [&_.ProseMirror]:tracking-[-0.002em] [&_.ProseMirror]:text-bluedot-navy [&_.ProseMirror_p]:m-0 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1 [&_.ProseMirror_li]:my-0.5 [&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-[#999] [&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left [&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:h-0"
           >
             <div
               class="tiptap ProseMirror"
@@ -48,13 +48,13 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
             >
               <path
                 d="M11.875 7L7.5 11.375"
-                stroke="#13132E"
+                stroke="var(--bluedot-navy)"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
               <path
                 d="M11 2.1875L2.6875 10.5"
-                stroke="#13132E"
+                stroke="var(--bluedot-navy)"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
@@ -120,12 +120,12 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
         class="relative w-full z-[1]"
       >
         <div
-          class="resize-y overflow-auto relative cursor-text box-border w-full bg-white rounded-[6px] z-[1] p-4 border-[0.5px] border-[rgba(19,19,46,0.25)] focus-within:border-[1.25px] focus-within:border-[#1641D9] focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 [&::-webkit-resizer]:hidden min-h-[140px]"
+          class="resize-y overflow-auto relative cursor-text box-border w-full bg-white rounded-[6px] z-[1] p-4 border-[0.5px] border-bluedot-navy/25 focus-within:border-[1.25px] focus-within:border-[#1641D9] focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 [&::-webkit-resizer]:hidden min-h-[140px]"
         >
           <div
             aria-describedby="save-status-message"
             aria-label="Rich text input area"
-            class="outline-none max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:font-normal [&_.ProseMirror]:text-[14px] [&_.ProseMirror]:leading-[160%] [&_.ProseMirror]:tracking-[-0.002em] [&_.ProseMirror]:text-[#13132E] [&_.ProseMirror_p]:m-0 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1 [&_.ProseMirror_li]:my-0.5 [&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-[#999] [&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left [&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:h-0"
+            class="outline-none max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:font-normal [&_.ProseMirror]:text-[14px] [&_.ProseMirror]:leading-[160%] [&_.ProseMirror]:tracking-[-0.002em] [&_.ProseMirror]:text-bluedot-navy [&_.ProseMirror_p]:m-0 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1 [&_.ProseMirror_li]:my-0.5 [&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-[#999] [&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left [&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:h-0"
           >
             <div
               class="tiptap ProseMirror"
@@ -161,13 +161,13 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
             >
               <path
                 d="M11.875 7L7.5 11.375"
-                stroke="#13132E"
+                stroke="var(--bluedot-navy)"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
               <path
                 d="M11 2.1875L2.6875 10.5"
-                stroke="#13132E"
+                stroke="var(--bluedot-navy)"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
@@ -225,12 +225,12 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
         class="relative w-full z-[1]"
       >
         <div
-          class="resize-y overflow-auto relative cursor-text box-border w-full bg-white rounded-[6px] z-[1] p-4 border-[0.5px] border-[rgba(19,19,46,0.25)] focus-within:border-[1.25px] focus-within:border-[#1641D9] focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 [&::-webkit-resizer]:hidden min-h-[140px]"
+          class="resize-y overflow-auto relative cursor-text box-border w-full bg-white rounded-[6px] z-[1] p-4 border-[0.5px] border-bluedot-navy/25 focus-within:border-[1.25px] focus-within:border-[#1641D9] focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 [&::-webkit-resizer]:hidden min-h-[140px]"
         >
           <div
             aria-describedby="save-status-message"
             aria-label="Rich text input area"
-            class="outline-none max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:font-normal [&_.ProseMirror]:text-[14px] [&_.ProseMirror]:leading-[160%] [&_.ProseMirror]:tracking-[-0.002em] [&_.ProseMirror]:text-[#13132E] [&_.ProseMirror_p]:m-0 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1 [&_.ProseMirror_li]:my-0.5 [&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-[#999] [&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left [&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:h-0"
+            class="outline-none max-w-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:font-normal [&_.ProseMirror]:text-[14px] [&_.ProseMirror]:leading-[160%] [&_.ProseMirror]:tracking-[-0.002em] [&_.ProseMirror]:text-bluedot-navy [&_.ProseMirror_p]:m-0 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1 [&_.ProseMirror_li]:my-0.5 [&_.ProseMirror_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.ProseMirror_p.is-editor-empty:first-child::before]:text-[#999] [&_.ProseMirror_p.is-editor-empty:first-child::before]:float-left [&_.ProseMirror_p.is-editor-empty:first-child::before]:pointer-events-none [&_.ProseMirror_p.is-editor-empty:first-child::before]:h-0"
           >
             <div
               class="tiptap ProseMirror"
@@ -261,13 +261,13 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
             >
               <path
                 d="M11.875 7L7.5 11.375"
-                stroke="#13132E"
+                stroke="var(--bluedot-navy)"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
               <path
                 d="M11 2.1875L2.6875 10.5"
-                stroke="#13132E"
+                stroke="var(--bluedot-navy)"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />

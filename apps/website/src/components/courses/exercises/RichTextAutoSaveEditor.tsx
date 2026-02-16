@@ -244,7 +244,7 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
   const editorContainerClasses = cn(
     'resize-y overflow-auto relative cursor-text',
     'box-border w-full bg-white rounded-[6px] z-[1] p-4',
-    'border-[0.5px] border-[rgba(19,19,46,0.25)]',
+    'border-[0.5px] border-bluedot-navy/25',
     'focus-within:border-[1.25px] focus-within:border-[#1641D9] focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)]',
     'transition-all duration-200',
     '[&::-webkit-resizer]:hidden',
@@ -262,7 +262,7 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
             className={cn(
               'outline-none max-w-none',
               '[&_.ProseMirror]:outline-none',
-              '[&_.ProseMirror]:font-normal [&_.ProseMirror]:text-[14px] [&_.ProseMirror]:leading-[160%] [&_.ProseMirror]:tracking-[-0.002em] [&_.ProseMirror]:text-[#13132E]',
+              '[&_.ProseMirror]:font-normal [&_.ProseMirror]:text-[14px] [&_.ProseMirror]:leading-[160%] [&_.ProseMirror]:tracking-[-0.002em] [&_.ProseMirror]:text-bluedot-navy',
               '[&_.ProseMirror_p]:m-0',
               '[&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1',
               '[&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1',
@@ -281,8 +281,8 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
         <div className="absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]">
           <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g opacity="0.6" clipPath="url(#clip0_auto_save)">
-              <path d="M11.875 7L7.5 11.375" stroke="#13132E" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M11 2.1875L2.6875 10.5" stroke="#13132E" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M11.875 7L7.5 11.375" stroke="var(--bluedot-navy)" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M11 2.1875L2.6875 10.5" stroke="var(--bluedot-navy)" strokeLinecap="round" strokeLinejoin="round" />
             </g>
             <defs>
               <clipPath id="clip0_auto_save">

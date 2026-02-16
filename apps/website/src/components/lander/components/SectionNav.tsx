@@ -62,7 +62,7 @@ const SectionNav = ({ sections, applyUrl }: SectionNavProps) => {
 
   return (
     <nav
-      className="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-sm border-b border-[#13132E]/5 transition-all duration-300"
+      className="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-sm border-b border-bluedot-navy/5 transition-all duration-300"
       style={{ opacity: isVisible ? 1 : 0 }}
     >
       <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-spacing-x">
@@ -77,8 +77,8 @@ const SectionNav = ({ sections, applyUrl }: SectionNavProps) => {
                   px-3 min-[680px]:px-4 py-1.5 rounded-full text-[13px] min-[680px]:text-[14px] font-medium
                   whitespace-nowrap transition-all duration-200
                   ${activeSection === section.id
-                ? 'bg-[#13132E] text-white'
-                : 'text-[#13132E]/60 hover:text-[#13132E] hover:bg-[#13132E]/5'
+                ? 'bg-bluedot-navy text-white'
+                : 'text-bluedot-navy/60 hover:text-bluedot-navy hover:bg-bluedot-navy/5'
               }
                 `}
               >

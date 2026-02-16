@@ -39,7 +39,7 @@ export const UpcomingRounds = () => {
     <section className="bg-white pt-[16px] pb-[48px] px-5 min-[680px]:pt-0 min-[680px]:pb-[64px] min-[680px]:px-8 min-[1024px]:pb-[80px] lg:px-12 min-[1280px]:pb-[96px] min-[1440px]:pt-[24px] min-[1920px]:pt-0 xl:px-16 2xl:px-20">
       <div className="flex flex-col items-center gap-6 max-w-screen-xl mx-auto">
         {/* Section Title */}
-        <h2 className="text-[24px] leading-[140%] tracking-[-0.5px] font-[450] text-[#13132E] text-center">
+        <h2 className="text-[24px] leading-[140%] tracking-[-0.5px] font-[450] text-bluedot-navy text-center">
           Upcoming rounds
         </h2>
 
@@ -63,7 +63,7 @@ export const UpcomingRounds = () => {
         {/* CTA Button */}
         <CTALinkOrButton
           url="/courses"
-          className="mt-[24px] px-4 bg-[rgba(19,19,46,0.1)] text-[#13132e] hover:text-[#13132e] text-[15px] font-[450] tracking-[-0.3px] rounded-md hover:bg-[rgba(19,19,46,0.15)]"
+          className="mt-[24px] px-4 bg-bluedot-navy/10 text-bluedot-navy hover:text-bluedot-navy text-[15px] font-[450] tracking-[-0.3px] rounded-md hover:bg-bluedot-navy/15"
         >
           See all rounds
         </CTALinkOrButton>
@@ -80,7 +80,7 @@ type RoundGroupProps = {
 const RoundGroup = ({ label, rounds }: RoundGroupProps) => {
   return (
     <div className="flex flex-col gap-6">
-      <h3 className="text-[15px] font-semibold uppercase tracking-[0.45px] leading-tight text-[#13132E] text-center min-[680px]:text-left">
+      <h3 className="text-[15px] font-semibold uppercase tracking-[0.45px] leading-tight text-bluedot-navy text-center min-[680px]:text-left">
         {label}
       </h3>
 
@@ -90,7 +90,7 @@ const RoundGroup = ({ label, rounds }: RoundGroupProps) => {
             <RoundItem round={round} />
             {index < rounds.length - 1 && (
               <div className="relative mt-5">
-                <div className="absolute inset-x-0 h-px bg-[rgba(19,19,46,0.1)]" />
+                <div className="absolute inset-x-0 h-px bg-bluedot-navy/10" />
               </div>
             )}
           </li>
@@ -112,10 +112,10 @@ const RoundItem = ({ round }: RoundItemProps) => {
 
   const dateContent = (
     <div>
-      <p className="text-[15px] leading-[1.6] font-semibold text-[#13132E]">
+      <p className="text-[15px] leading-[1.6] font-semibold text-bluedot-navy">
         {round.courseTitle} · {round.dateRange}
       </p>
-      <p className="text-[15px] leading-[1.6] text-[#13132E] opacity-50">
+      <p className="text-[15px] leading-[1.6] text-bluedot-navy/50">
         Application closes {round.applicationDeadline}
       </p>
     </div>

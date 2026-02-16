@@ -77,7 +77,7 @@ const DateBadge = ({ month, day }: { month: string; day: string }) => {
   return (
     <div className="relative size-16 min-[1024px]:size-20 bg-white rounded-lg min-[1024px]:rounded-lg shadow-[0px_1.6px_4.8px_1.6px_rgba(0,0,0,0.05),0px_0.8px_1.6px_0px_rgba(0,0,0,0.15)] min-[1024px]:shadow-[0px_2px_6px_2px_rgba(0,0,0,0.05),0px_1px_2px_0px_rgba(0,0,0,0.15)] overflow-hidden flex flex-col">
       {/* Month Label */}
-      <div className="relative flex items-center justify-center py-[4.8px] min-[1024px]:py-1.5 border-b border-[rgba(19,19,46,0.1)] bg-gradient-to-r from-blue-600 to-blue-500">
+      <div className="relative flex items-center justify-center py-[4.8px] min-[1024px]:py-1.5 border-b border-bluedot-navy/10 bg-gradient-to-r from-blue-600 to-blue-500">
         <span className="text-[11.2px] min-[1024px]:text-[14px] font-semibold uppercase tracking-[0.4px] min-[1024px]:tracking-[0.5px] text-white leading-[11.2px] min-[1024px]:leading-[14px]">
           {month}
         </span>
@@ -85,7 +85,7 @@ const DateBadge = ({ month, day }: { month: string; day: string }) => {
 
       {/* Day Number */}
       <div className="relative flex items-center justify-center h-[43.2px] min-[1024px]:h-[54px]">
-        <span className="text-[32px] min-[1024px]:text-[40px] font-normal text-[#13132e] tracking-[-0.8px] min-[1024px]:tracking-[-1px] leading-tight">
+        <span className="text-[32px] min-[1024px]:text-[40px] font-normal text-bluedot-navy tracking-[-0.8px] min-[1024px]:tracking-[-1px] leading-tight">
           {day}
         </span>
       </div>
@@ -159,7 +159,7 @@ const EventCard = ({ event }: { event: Event }) => {
   const timeString = buildTimeDeltaString(event);
 
   return (
-    <div className="flex flex-col gap-8 min-[680px]:gap-7 min-[1024px]:gap-8 min-[1280px]:gap-12 min-h-[216px] min-[680px]:min-h-[208px] min-[1024px]:min-h-[232px] min-[1280px]:min-h-[248px] pl-6 border-l border-[rgba(19,19,46,0.15)] w-[232px] min-[680px]:w-auto flex-shrink-0 min-[680px]:flex-shrink min-[680px]:flex-grow min-[680px]:basis-0">
+    <div className="flex flex-col gap-8 min-[680px]:gap-7 min-[1024px]:gap-8 min-[1280px]:gap-12 min-h-[216px] min-[680px]:min-h-[208px] min-[1024px]:min-h-[232px] min-[1280px]:min-h-[248px] pl-6 border-l border-bluedot-navy/15 w-[232px] min-[680px]:w-auto flex-shrink-0 min-[680px]:flex-shrink min-[680px]:flex-grow min-[680px]:basis-0">
       <DateBadge month={month} day={day} />
 
       <div className="flex flex-col gap-3">
@@ -170,14 +170,14 @@ const EventCard = ({ event }: { event: Event }) => {
           href={event.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[20px] min-[680px]:text-[24px] font-normal leading-[1.3] tracking-[-0.4px] min-[680px]:tracking-[-0.18px] text-[#13132e] hover:text-[#271dcd] transition-colors"
+          className="text-[20px] min-[680px]:text-[24px] font-normal leading-[1.3] tracking-[-0.4px] min-[680px]:tracking-[-0.18px] text-bluedot-navy hover:text-[#271dcd] transition-colors"
           aria-label={`${event.title} (opens in new tab)`}
         >
           <h3>
             {event.title}
           </h3>
         </a>
-        <p className="text-[16px] font-normal leading-[1.55] tracking-[-0.032px] text-[#13132e] opacity-70">
+        <p className="text-[16px] font-normal leading-[1.55] tracking-[-0.032px] text-bluedot-navy/70">
           {timeString}
         </p>
       </div>
@@ -362,7 +362,7 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
               <img
                 src={photo.src}
                 alt={photo.alt}
-                className="h-[240px] min-[680px]:h-[300px] min-[1024px]:h-[385px] rounded-xl min-[1024px]:rounded-xl border border-[rgba(19,19,46,0.1)] object-cover object-center"
+                className="h-[240px] min-[680px]:h-[300px] min-[1024px]:h-[385px] rounded-xl min-[1024px]:rounded-xl border border-bluedot-navy/10 object-cover object-center"
                 style={{ width: `${photo.width}px` }}
               />
             </a>
@@ -419,7 +419,7 @@ const EventsSection = ({ featuredUrls = FEATURED_EVENT_URLS }: EventsSectionProp
         <div className="flex flex-col items-center text-center gap-8 min-[680px]:gap-12 min-[1024px]:gap-12 min-[1280px]:gap-12 mb-12 min-[680px]:mb-12 min-[1024px]:mb-12 min-[1280px]:mb-16">
           <h2
             id="events-section-heading"
-            className="text-[28px] min-[680px]:text-[36px] min-[1024px]:text-[40px] min-[1280px]:text-[48px] font-medium leading-[125%] text-[#13132E] tracking-[-1px] max-w-[666px]"
+            className="text-[28px] min-[680px]:text-[36px] min-[1024px]:text-[40px] min-[1280px]:text-[48px] font-medium leading-[125%] text-bluedot-navy tracking-[-1px] max-w-[666px]"
             style={{ fontFeatureSettings: '\'ss04\' on' }}
           >
             Join an event near you
@@ -474,7 +474,7 @@ const EventsSection = ({ featuredUrls = FEATURED_EVENT_URLS }: EventsSectionProp
           )}
 
           {!isLoading && displayEvents.length === 0 && (
-            <p className="text-[16px] font-normal leading-[1.55] tracking-[-0.032px] text-[#13132e] opacity-70">
+            <p className="text-[16px] font-normal leading-[1.55] tracking-[-0.032px] text-bluedot-navy/70">
               No upcoming events at the moment. Check back soon!
             </p>
           )}

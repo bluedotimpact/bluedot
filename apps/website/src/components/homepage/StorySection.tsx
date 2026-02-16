@@ -10,7 +10,7 @@ const StorySection = () => {
           <img
             src="/images/homepage/large-photo.webp"
             alt="BlueDot team members at an event"
-            className="size-full rounded-[12px] border border-[rgba(19,19,46,0.1)] object-cover object-center"
+            className="size-full rounded-[12px] border border-bluedot-navy/10 object-cover object-center"
           />
         </div>
 

@@ -31,7 +31,7 @@ exports[`Select > applies disabled styling to disabled options 1`] = `
       type="button"
     >
       <span
-        class="text-[#13132E] flex-1 min-w-0"
+        class="text-bluedot-navy flex-1 min-w-0"
       >
         Select an option
       </span>
@@ -103,7 +103,7 @@ exports[`Select > renders with selected value 1`] = `
       type="button"
     >
       <span
-        class="text-[#13132E] flex-1 min-w-0"
+        class="text-bluedot-navy flex-1 min-w-0"
       >
         Option 1
       </span>

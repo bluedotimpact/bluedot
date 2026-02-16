@@ -98,8 +98,8 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
           <CourseIcon courseSlug={courseSlug} size="small" />
           <div className="mobile-unit-header__course-title-container flex flex-col justify-center text-left flex-1 min-w-0">
             <div className="mobile-unit-header__course-title-row flex items-center gap-1">
-              <p className="mobile-unit-header__course-title text-[17px] font-semibold leading-[120%] tracking-[-0.5%] text-[#13132E] truncate">{unit.courseTitle}</p>
-              <FaChevronDown className="size-3 text-[#13132E] flex-shrink-0" />
+              <p className="mobile-unit-header__course-title text-[17px] font-semibold leading-[120%] tracking-[-0.5%] text-bluedot-navy truncate">{unit.courseTitle}</p>
+              <FaChevronDown className="size-3 text-bluedot-navy flex-shrink-0" />
             </div>
           </div>
         </button>
@@ -342,7 +342,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
 
       {/* Breadcrumbs bar - positioned sticky and full width */}
       <div className={clsx(
-        'unit__breadcrumbs-wrapper hidden md:block md:sticky md:top-(--nav-height-mobile) lg:top-(--nav-height-desktop) z-10 border-b-[0.5px] border-[rgba(19,19,46,0.2)] h-[48px] bg-color-canvas',
+        'unit__breadcrumbs-wrapper hidden md:block md:sticky md:top-(--nav-height-mobile) lg:top-(--nav-height-desktop) z-10 border-b-[0.5px] border-bluedot-navy/20 h-[48px] bg-color-canvas',
         isSidebarHidden ? 'md:ml-0' : 'md:ml-[360px]',
       )}
       >
@@ -352,7 +352,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             <button
               type="button"
               onClick={() => setIsSidebarHidden(!isSidebarHidden)}
-              className="flex items-center gap-[8px] text-[13px] font-medium text-[#13132E] hover:opacity-80 transition-opacity cursor-pointer"
+              className="flex items-center gap-[8px] text-[13px] font-medium text-bluedot-navy hover:opacity-80 transition-opacity cursor-pointer"
               aria-label={isSidebarHidden ? 'Show sidebar' : 'Hide sidebar'}
 
             >
@@ -366,19 +366,19 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           <nav className="flex items-center gap-[8px] flex-1 min-h-[18px] min-w-0">
             <A
               href={ROUTES.courses.url}
-              className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-[#13132E] transition-colors no-underline"
+              className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-bluedot-navy transition-colors no-underline"
             >
               Courses
             </A>
             <FaChevronRight className="size-[14px] text-[#6A6F7A] flex-shrink-0 opacity-50" />
             <A
               href={unit.coursePath}
-              className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-[#13132E] transition-colors no-underline truncate"
+              className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-bluedot-navy transition-colors no-underline truncate"
             >
               {unit.courseTitle}
             </A>
             <FaChevronRight className="size-[14px] text-[#6A6F7A] flex-shrink-0 opacity-50" />
-            <span className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#13132E] truncate" title={`${unitNumber}. ${unit.title}`}>
+            <span className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy truncate" title={`${unitNumber}. ${unit.title}`}>
               {unitNumber}. {unit.title}
             </span>
           </nav>
@@ -387,7 +387,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           <div className="flex items-center gap-[20px] min-h-[18px]">
             <button
               type="button"
-              className="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#13132E] hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              className="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               disabled={isFirstChunk && !prevUnit}
               onClick={handlePrevClick}
               aria-label="Previous"
@@ -397,7 +397,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             </button>
             <button
               type="button"
-              className="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#13132E] hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              className="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               disabled={isLastChunk && !nextUnit}
               onClick={handleNextClick}
               aria-label="Next"
@@ -435,7 +435,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           <div className="unit__title-container">
             <P className="unit__course-title font-semibold text-[13px] leading-[140%] tracking-[0.04em] uppercase text-bluedot-normal mb-2">Unit {unit.unitNumber}: {unit.title}</P>
             {chunk?.chunkTitle && (
-              <H1 className="unit__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-[#13132E]">{chunk.chunkTitle}</H1>
+              <H1 className="unit__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-bluedot-navy">{chunk.chunkTitle}</H1>
             )}
           </div>
           {/* chunk content → unit content if no chunks - Only render if there's actual content */}

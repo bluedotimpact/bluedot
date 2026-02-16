@@ -8,7 +8,7 @@ exports[`CourseBenefitsSection > renders correctly with default colors 1`] = `
     class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 md:px-spacing-x min-[1280px]:py-24 xl:py-24"
   >
     <h2
-      class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-16 tracking-[-0.01em]"
+      class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy text-center mb-16 tracking-[-0.01em]"
     >
       How this course will benefit you
     </h2>
@@ -41,12 +41,12 @@ exports[`CourseBenefitsSection > renders correctly with default colors 1`] = `
           class="space-y-2"
         >
           <h3
-            class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
+            class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-bluedot-navy"
           >
             Take action in less than 30 hours
           </h3>
           <p
-            class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
+            class="bluedot-p not-prose text-size-sm leading-[1.6] text-bluedot-navy/80"
           >
             You don't need another degree. This AGI Strategy course replaces years of self-study with three frameworks.
           </p>
@@ -78,12 +78,12 @@ exports[`CourseBenefitsSection > renders correctly with default colors 1`] = `
           class="space-y-2"
         >
           <h3
-            class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
+            class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-bluedot-navy"
           >
             Join a network of builders
           </h3>
           <p
-            class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
+            class="bluedot-p not-prose text-size-sm leading-[1.6] text-bluedot-navy/80"
           >
             This course isn't for everyone. We're building a community of people who are energised to take ambitious actions.
           </p>
@@ -115,12 +115,12 @@ exports[`CourseBenefitsSection > renders correctly with default colors 1`] = `
           class="space-y-2"
         >
           <h3
-            class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-[#13132E]"
+            class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-bluedot-navy"
           >
             Get funded to accelerate your impact
           </h3>
           <p
-            class="bluedot-p not-prose text-size-sm leading-[1.6] text-[#13132E] opacity-80"
+            class="bluedot-p not-prose text-size-sm leading-[1.6] text-bluedot-navy/80"
           >
             If your final course proposal is strong, you'll receive $10-50k to kickstart your transition into impactful work.
           </p>

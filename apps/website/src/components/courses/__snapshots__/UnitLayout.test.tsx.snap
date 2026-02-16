@@ -49,12 +49,12 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="mobile-unit-header__course-title-row flex items-center gap-1"
             >
               <p
-                class="mobile-unit-header__course-title text-[17px] font-semibold leading-[120%] tracking-[-0.5%] text-[#13132E] truncate"
+                class="mobile-unit-header__course-title text-[17px] font-semibold leading-[120%] tracking-[-0.5%] text-bluedot-navy truncate"
               >
                 What the fish [Test Course]
               </p>
               <svg
-                class="size-3 text-[#13132E] flex-shrink-0"
+                class="size-3 text-bluedot-navy flex-shrink-0"
                 fill="currentColor"
                 height="1em"
                 stroke="currentColor"
@@ -152,7 +152,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="flex flex-col"
             >
               <h2
-                class="font-semibold text-[26px] leading-[44px] text-[#13132E]"
+                class="font-semibold text-[26px] leading-[44px] text-bluedot-navy"
               >
                 What the fish [Test Course]
               </h2>
@@ -177,14 +177,14 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
             >
               <p
-                class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-[#13132E] flex-1"
+                class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
               >
                 1
                 . 
                 Basic Principles of Fish
               </p>
               <svg
-                class="size-[14px] transition-transform group-open:rotate-90 text-[#13132E]"
+                class="size-[14px] transition-transform group-open:rotate-90 text-bluedot-navy"
                 fill="currentColor"
                 height="1em"
                 stroke="currentColor"
@@ -214,13 +214,13 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 >
                   <path
                     d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z"
-                    stroke="#13132E"
+                    stroke="var(--bluedot-navy)"
                     stroke-width="2"
                   />
                   <circle
                     cx="12"
                     cy="12"
-                    fill="#13132E"
+                    fill="var(--bluedot-navy)"
                     r="5"
                   />
                 </svg>
@@ -231,7 +231,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     class="flex flex-col items-start gap-[6px]"
                   >
                     <p
-                      class="font-normal text-[14px] leading-[150%] text-[#13132E]"
+                      class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
                     >
                       What can AI do today?
                     </p>
@@ -262,7 +262,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     class="flex flex-col items-start gap-[6px]"
                   >
                     <p
-                      class="font-normal text-[14px] leading-[150%] text-[#13132E]"
+                      class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
                     >
                       What can AI do today?
                     </p>
@@ -285,14 +285,14 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
             >
               <p
-                class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-[#13132E] flex-1"
+                class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
               >
                 2
                 . 
                 What Fish Are People Catching, and Why?
               </p>
               <svg
-                class="size-[14px] transition-transform group-open:rotate-90 text-[#13132E]"
+                class="size-[14px] transition-transform group-open:rotate-90 text-bluedot-navy"
                 fill="currentColor"
                 height="1em"
                 stroke="currentColor"
@@ -334,7 +334,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     class="flex flex-col items-start gap-[6px]"
                   >
                     <p
-                      class="font-normal text-[14px] leading-[150%] text-[#13132E]"
+                      class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
                     >
                       What can AI do today?
                     </p>
@@ -366,7 +366,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     class="flex flex-col items-start gap-[6px]"
                   >
                     <p
-                      class="font-normal text-[14px] leading-[150%] text-[#13132E]"
+                      class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
                     >
                       What can AI do today?
                     </p>
@@ -389,14 +389,14 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
             >
               <p
-                class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-[#13132E] flex-1"
+                class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
               >
                 3
                 . 
                 The Promise of Fish
               </p>
               <svg
-                class="size-[14px] transition-transform group-open:rotate-90 text-[#13132E]"
+                class="size-[14px] transition-transform group-open:rotate-90 text-bluedot-navy"
                 fill="currentColor"
                 height="1em"
                 stroke="currentColor"
@@ -438,7 +438,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     class="flex flex-col items-start gap-[6px]"
                   >
                     <p
-                      class="font-normal text-[14px] leading-[150%] text-[#13132E]"
+                      class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
                     >
                       What can AI do today?
                     </p>
@@ -470,7 +470,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     class="flex flex-col items-start gap-[6px]"
                   >
                     <p
-                      class="font-normal text-[14px] leading-[150%] text-[#13132E]"
+                      class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
                     >
                       What can AI do today?
                     </p>
@@ -493,14 +493,14 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
             >
               <p
-                class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-[#13132E] flex-1"
+                class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
               >
                 4
                 . 
                 The Risks of Fish
               </p>
               <svg
-                class="size-[14px] transition-transform group-open:rotate-90 text-[#13132E]"
+                class="size-[14px] transition-transform group-open:rotate-90 text-bluedot-navy"
                 fill="currentColor"
                 height="1em"
                 stroke="currentColor"
@@ -542,7 +542,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     class="flex flex-col items-start gap-[6px]"
                   >
                     <p
-                      class="font-normal text-[14px] leading-[150%] text-[#13132E]"
+                      class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
                     >
                       What can AI do today?
                     </p>
@@ -574,7 +574,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     class="flex flex-col items-start gap-[6px]"
                   >
                     <p
-                      class="font-normal text-[14px] leading-[150%] text-[#13132E]"
+                      class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
                     >
                       What can AI do today?
                     </p>
@@ -597,14 +597,14 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
             >
               <p
-                class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-[#13132E] flex-1"
+                class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
               >
                 5
                 . 
                 Contributing to Fish Safety
               </p>
               <svg
-                class="size-[14px] transition-transform group-open:rotate-90 text-[#13132E]"
+                class="size-[14px] transition-transform group-open:rotate-90 text-bluedot-navy"
                 fill="currentColor"
                 height="1em"
                 stroke="currentColor"
@@ -646,7 +646,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     class="flex flex-col items-start gap-[6px]"
                   >
                     <p
-                      class="font-normal text-[14px] leading-[150%] text-[#13132E]"
+                      class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
                     >
                       What can AI do today?
                     </p>
@@ -678,7 +678,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     class="flex flex-col items-start gap-[6px]"
                   >
                     <p
-                      class="font-normal text-[14px] leading-[150%] text-[#13132E]"
+                      class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
                     >
                       What can AI do today?
                     </p>
@@ -691,7 +691,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
       </div>
     </div>
     <div
-      class="unit__breadcrumbs-wrapper hidden md:block md:sticky md:top-(--nav-height-mobile) lg:top-(--nav-height-desktop) z-10 border-b-[0.5px] border-[rgba(19,19,46,0.2)] h-[48px] bg-color-canvas md:ml-[360px]"
+      class="unit__breadcrumbs-wrapper hidden md:block md:sticky md:top-(--nav-height-mobile) lg:top-(--nav-height-desktop) z-10 border-b-[0.5px] border-bluedot-navy/20 h-[48px] bg-color-canvas md:ml-[360px]"
     >
       <div
         class="flex flex-row justify-between items-center size-full px-6 gap-2"
@@ -701,7 +701,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
         >
           <button
             aria-label="Hide sidebar"
-            class="flex items-center gap-[8px] text-[13px] font-medium text-[#13132E] hover:opacity-80 transition-opacity cursor-pointer"
+            class="flex items-center gap-[8px] text-[13px] font-medium text-bluedot-navy hover:opacity-80 transition-opacity cursor-pointer"
             type="button"
           >
             <svg
@@ -732,7 +732,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           class="flex items-center gap-[8px] flex-1 min-h-[18px] min-w-0"
         >
           <a
-            class="bluedot-a not-prose text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-[#13132E] transition-colors no-underline"
+            class="bluedot-a not-prose text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-bluedot-navy transition-colors no-underline"
             href="/courses"
             tabindex="0"
           >
@@ -753,7 +753,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             />
           </svg>
           <a
-            class="bluedot-a not-prose text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-[#13132E] transition-colors no-underline truncate"
+            class="bluedot-a not-prose text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-bluedot-navy transition-colors no-underline truncate"
             href="/courses/test-course"
             tabindex="0"
           >
@@ -774,7 +774,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             />
           </svg>
           <span
-            class="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#13132E] truncate"
+            class="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy truncate"
             title="1. Basic Principles of Fish"
           >
             1
@@ -787,7 +787,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
         >
           <button
             aria-label="Previous"
-            class="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#13132E] hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            class="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             disabled=""
             title="Navigate to previous section (use ← arrow key)"
             type="button"
@@ -796,7 +796,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           </button>
           <button
             aria-label="Next"
-            class="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#13132E] hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            class="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             title="Navigate to next section (use → arrow key)"
             type="button"
           >
@@ -829,7 +829,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               Basic Principles of Fish
             </p>
             <h1
-              class="bluedot-h1 not-prose unit__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-[#13132E]"
+              class="bluedot-h1 not-prose unit__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-bluedot-navy"
             >
               What can AI do today?
             </h1>

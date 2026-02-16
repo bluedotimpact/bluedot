@@ -87,7 +87,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
         <div className="flex flex-wrap items-center justify-between gap-4 pb-1 w-full">
           <div className="flex items-center gap-4">
             <CourseIcon courseSlug={courseSlug} />
-            <h3 className="text-[20px] leading-[40px] font-semibold text-[#13132E]">
+            <h3 className="text-[20px] leading-[40px] font-semibold text-bluedot-navy">
               {courseTitle}
             </h3>
           </div>
@@ -172,7 +172,7 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
         aria-expanded={isExpanded}
         aria-controls={`unit-${unit.id}-chunks`}
       >
-        <p className="font-semibold text-size-sm leading-[150%] flex-1 text-left text-[#13132E]">
+        <p className="font-semibold text-size-sm leading-[150%] flex-1 text-left text-bluedot-navy">
           {unit.unitNumber}. {unit.title}
         </p>
         <FaChevronRight
@@ -201,12 +201,12 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
                 <ChunkIcon isActive={isActive} />
                 <div className="flex flex-col flex-1 min-h-[44px] justify-center">
                   <div className="flex flex-col gap-[6px]">
-                    <p className="font-normal text-[14px] leading-[150%] text-[#13132E]">
+                    <p className="font-normal text-[14px] leading-[150%] text-bluedot-navy">
                       {chunk.chunkTitle}
                     </p>
                   </div>
                   {chunk.estimatedTime != null && (
-                    <div className="flex gap-1 text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-[#13132E] opacity-60 mt-2">
+                    <div className="flex gap-1 text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-bluedot-navy/60 mt-2">
                       <span>
                         {formatTime(chunk.estimatedTime)}
                       </span>

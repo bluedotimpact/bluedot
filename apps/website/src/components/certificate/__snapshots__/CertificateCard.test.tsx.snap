@@ -36,7 +36,7 @@ exports[`CertificateCard > Rendering > renders correctly with valid props 1`] = 
           Professional certification
         </p>
         <h1
-          class="mt-1 text-[40px] md:text-[56px] font-semibold leading-tight tracking-[-0.5px] text-[#13132E] text-center font-display"
+          class="mt-1 text-[40px] md:text-[56px] font-semibold leading-tight tracking-[-0.5px] text-bluedot-navy text-center font-display"
           style="font-feature-settings: 'ss04' 1;"
         >
           Test Course
@@ -50,7 +50,7 @@ exports[`CertificateCard > Rendering > renders correctly with valid props 1`] = 
             Awarded to
           </p>
           <p
-            class="mt-1 text-2xl font-semibold leading-tight text-[#13132E] text-center font-display"
+            class="mt-1 text-2xl font-semibold leading-tight text-bluedot-navy text-center font-display"
           >
             John Doe
           </p>
@@ -59,7 +59,7 @@ exports[`CertificateCard > Rendering > renders correctly with valid props 1`] = 
           class="mt-12 max-w-[313px] md:max-w-[672px]"
         >
           <p
-            class="text-[15px] md:text-base leading-[1.6] md:leading-[26px] tracking-[-0.3125px] text-[#62748E] text-center [&_strong]:font-semibold [&_strong]:text-[#13132E]"
+            class="text-[15px] md:text-base leading-[1.6] md:leading-[26px] tracking-[-0.3125px] text-[#62748E] text-center [&_strong]:font-semibold [&_strong]:text-bluedot-navy"
             style="font-feature-settings: 'ss04' 1;"
           >
             Successfully completed the 
@@ -86,7 +86,7 @@ exports[`CertificateCard > Rendering > renders correctly with valid props 1`] = 
             Issued
           </p>
           <p
-            class="mt-1 text-[15px] md:text-base font-medium leading-[26px] tracking-[-0.3125px] text-[#13132E]"
+            class="mt-1 text-[15px] md:text-base font-medium leading-[26px] tracking-[-0.3125px] text-bluedot-navy"
             style="font-feature-settings: 'ss04' 1;"
           >
             January 15, 2025
@@ -117,7 +117,7 @@ exports[`CertificateCard > Rendering > renders correctly with valid props 1`] = 
             Certificate ID
           </p>
           <p
-            class="mt-1 text-[15px] md:text-base font-medium leading-[26px] tracking-[-0.3125px] text-[#13132E]"
+            class="mt-1 text-[15px] md:text-base font-medium leading-[26px] tracking-[-0.3125px] text-bluedot-navy"
             style="font-feature-settings: 'ss04' 1;"
           >
             cert-123-abc

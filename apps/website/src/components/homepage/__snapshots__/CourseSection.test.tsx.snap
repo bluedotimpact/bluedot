@@ -36,10 +36,10 @@ exports[`CourseSection > renders as expected 1`] = `
             class="flex flex-col gap-6 min-[680px]:basis-0 min-[680px]:grow"
           >
             <div
-              class="size-16 rounded-full bg-[rgba(19,19,46,0.08)] flex items-center justify-center"
+              class="size-16 rounded-full bg-bluedot-navy/8 flex items-center justify-center"
             >
               <svg
-                class="size-8 text-[#13132E]"
+                class="size-8 text-bluedot-navy"
                 fill="currentColor"
                 height="1em"
                 stroke="currentColor"
@@ -69,16 +69,16 @@ exports[`CourseSection > renders as expected 1`] = `
             </div>
           </div>
           <div
-            class="h-px min-[680px]:h-auto min-[680px]:w-px bg-[#13132E] opacity-20 min-[680px]:mx-8"
+            class="h-px min-[680px]:h-auto min-[680px]:w-px bg-bluedot-navy/20 min-[680px]:mx-8"
           />
           <div
             class="flex flex-col gap-6 min-[680px]:basis-0 min-[680px]:grow"
           >
             <div
-              class="size-16 rounded-full bg-[rgba(19,19,46,0.08)] flex items-center justify-center"
+              class="size-16 rounded-full bg-bluedot-navy/8 flex items-center justify-center"
             >
               <svg
-                class="size-8 text-[#13132E]"
+                class="size-8 text-bluedot-navy"
                 fill="currentColor"
                 height="1em"
                 stroke="currentColor"
@@ -108,16 +108,16 @@ exports[`CourseSection > renders as expected 1`] = `
             </div>
           </div>
           <div
-            class="h-px min-[680px]:h-auto min-[680px]:w-px bg-[#13132E] opacity-20 min-[680px]:mx-8"
+            class="h-px min-[680px]:h-auto min-[680px]:w-px bg-bluedot-navy/20 min-[680px]:mx-8"
           />
           <div
             class="flex flex-col gap-6 min-[680px]:basis-0 min-[680px]:grow"
           >
             <div
-              class="size-16 rounded-full bg-[rgba(19,19,46,0.08)] flex items-center justify-center"
+              class="size-16 rounded-full bg-bluedot-navy/8 flex items-center justify-center"
             >
               <svg
-                class="size-8 text-[#13132E]"
+                class="size-8 text-bluedot-navy"
                 fill="currentColor"
                 height="1em"
                 stroke="currentColor"
@@ -155,7 +155,7 @@ exports[`CourseSection > renders as expected 1`] = `
           >
             <span>
               <a
-                class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--featured"
+                class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--featured"
                 href="/courses/future-of-ai"
               >
                 <div
@@ -231,7 +231,7 @@ exports[`CourseSection > renders as expected 1`] = `
             </span>
             <span>
               <a
-                class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--regular"
+                class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular"
                 href="/courses/agi-strategy"
               >
                 <div
@@ -311,7 +311,7 @@ exports[`CourseSection > renders as expected 1`] = `
           >
             <span>
               <a
-                class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--regular"
+                class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular"
                 href="/courses/biosecurity"
               >
                 <div
@@ -387,7 +387,7 @@ exports[`CourseSection > renders as expected 1`] = `
             </span>
             <span>
               <a
-                class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--regular"
+                class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular"
                 href="/courses/technical-ai-safety"
               >
                 <div
@@ -463,7 +463,7 @@ exports[`CourseSection > renders as expected 1`] = `
             </span>
             <span>
               <a
-                class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--regular"
+                class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular"
                 href="/courses/governance"
               >
                 <div
@@ -554,7 +554,7 @@ exports[`CourseSection > renders as expected 1`] = `
             >
               <span>
                 <a
-                  class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--featured flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--featured flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/future-of-ai"
                 >
                   <div
@@ -630,7 +630,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/agi-strategy"
                 >
                   <div
@@ -706,7 +706,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/biosecurity"
                 >
                   <div
@@ -782,7 +782,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/technical-ai-safety"
                 >
                   <div
@@ -858,7 +858,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/governance"
                 >
                   <div
@@ -934,7 +934,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--featured flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--featured flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/future-of-ai"
                 >
                   <div
@@ -1010,7 +1010,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/agi-strategy"
                 >
                   <div
@@ -1086,7 +1086,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/biosecurity"
                 >
                   <div
@@ -1162,7 +1162,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/technical-ai-safety"
                 >
                   <div
@@ -1238,7 +1238,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/governance"
                 >
                   <div
@@ -1314,7 +1314,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--featured flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--featured flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/future-of-ai"
                 >
                   <div
@@ -1390,7 +1390,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/agi-strategy"
                 >
                   <div
@@ -1466,7 +1466,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/biosecurity"
                 >
                   <div
@@ -1542,7 +1542,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/technical-ai-safety"
                 >
                   <div
@@ -1618,7 +1618,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/governance"
                 >
                   <div
@@ -1699,11 +1699,11 @@ exports[`CourseSection > renders as expected 1`] = `
           >
             <button
               aria-label="Scroll left"
-              class="size-[44px] rounded-full flex items-center justify-center bg-[rgba(19,19,46,0.08)] transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer"
+              class="size-[44px] rounded-full flex items-center justify-center bg-bluedot-navy/8 transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-bluedot-navy/15 cursor-pointer"
               type="button"
             >
               <span
-                class="text-[#13132E] text-[22.4px] font-medium select-none"
+                class="text-bluedot-navy text-[22.4px] font-medium select-none"
                 style="transform: scaleX(-1);"
               >
                 →
@@ -1711,11 +1711,11 @@ exports[`CourseSection > renders as expected 1`] = `
             </button>
             <button
               aria-label="Scroll right"
-              class="size-[44px] rounded-full flex items-center justify-center bg-[rgba(19,19,46,0.08)] transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer"
+              class="size-[44px] rounded-full flex items-center justify-center bg-bluedot-navy/8 transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-bluedot-navy/15 cursor-pointer"
               type="button"
             >
               <span
-                class="text-[#13132E] text-[22.4px] font-medium select-none"
+                class="text-bluedot-navy text-[22.4px] font-medium select-none"
                 style="transform: none;"
               >
                 →

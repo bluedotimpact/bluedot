@@ -10,8 +10,8 @@ type ChunkIconProps = {
 
 export const ChunkIcon: React.FC<ChunkIconProps> = ({
   isActive,
-  fill = '#13132E',
-  activeStroke = '#13132E',
+  fill = 'var(--bluedot-navy)',
+  activeStroke = 'var(--bluedot-navy)',
   inactiveStroke = 'rgba(106,111,122,0.3)',
   size = 24,
 }) => {

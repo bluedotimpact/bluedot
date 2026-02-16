@@ -35,7 +35,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                 >
                   <blockquote
                     class="text-[20px] min-[680px]:text-[24px] lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
-                    style="color: #13132E;"
+                    style="color: var(--bluedot-navy);"
                   >
                     "AI could surpass almost all humans at almost everything shortly after 2027."
                   </blockquote>
@@ -59,13 +59,13 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                     >
                       <div
                         class="text-[18px] leading-tight font-semibold"
-                        style="color: #13132E;"
+                        style="color: var(--bluedot-navy);"
                       >
                         Dario Amodei
                       </div>
                       <div
                         class="text-[16px] leading-[1.6] opacity-80 text-center lg:text-left lg:px-0"
-                        style="color: #13132E;"
+                        style="color: var(--bluedot-navy);"
                       >
                         CEO, Anthropic
                       </div>
@@ -114,7 +114,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                 >
                   <blockquote
                     class="text-[20px] min-[680px]:text-[24px] lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
-                    style="color: #13132E;"
+                    style="color: var(--bluedot-navy);"
                   >
                     "AI could surpass almost all humans at almost everything shortly after 2027."
                   </blockquote>
@@ -138,13 +138,13 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                     >
                       <div
                         class="text-[18px] leading-tight font-semibold"
-                        style="color: #13132E;"
+                        style="color: var(--bluedot-navy);"
                       >
                         Dario Amodei
                       </div>
                       <div
                         class="text-[16px] leading-[1.6] opacity-80 text-center lg:text-left lg:px-0"
-                        style="color: #13132E;"
+                        style="color: var(--bluedot-navy);"
                       >
                         CEO, Anthropic
                       </div>
@@ -178,11 +178,11 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
     >
       <button
         aria-label="Previous quote"
-        class="size-12 rounded-full flex items-center justify-center bg-[rgba(19,19,46,0.08)] transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+        class="size-12 rounded-full flex items-center justify-center bg-bluedot-navy/8 transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-bluedot-navy/15 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
         type="button"
       >
         <span
-          class="text-[#13132E] text-[22.4px] font-medium select-none"
+          class="text-bluedot-navy text-[22.4px] font-medium select-none"
           style="transform: scaleX(-1);"
         >
           →
@@ -208,17 +208,17 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
         >
           <div
             class="w-full min-[680px]:w-24 h-1.5 rounded transition-all duration-300"
-            style="background-color: #13132E; opacity: 0.15;"
+            style="background-color: var(--bluedot-navy); opacity: 0.15;"
           />
         </button>
       </div>
       <button
         aria-label="Next quote"
-        class="size-12 rounded-full flex items-center justify-center bg-[rgba(19,19,46,0.08)] transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+        class="size-12 rounded-full flex items-center justify-center bg-bluedot-navy/8 transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-bluedot-navy/15 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
         type="button"
       >
         <span
-          class="text-[#13132E] text-[22.4px] font-medium select-none"
+          class="text-bluedot-navy text-[22.4px] font-medium select-none"
         >
           →
         </span>

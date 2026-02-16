@@ -104,7 +104,7 @@ const RoundGroup = ({
   const displayedRounds = rounds.slice(0, 3);
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col min-[680px]:flex-row min-[680px]:items-end gap-1 text-[15px] text-[#13132E]">
+      <div className="flex flex-col min-[680px]:flex-row min-[680px]:items-end gap-1 text-[15px] text-bluedot-navy">
         <span className="font-semibold uppercase tracking-[0.45px] leading-tight">
           <span className="min-[680px]:hidden">{labelShort}</span>
           <span className="hidden min-[680px]:inline min-[1024px]:hidden min-[1440px]:inline">{labelShort}</span>
@@ -122,7 +122,7 @@ const RoundGroup = ({
             <RoundItem round={round} applicationUrl={applicationUrl} accentColor={accentColor} />
             {index < displayedRounds.length - 1 && (
               <div className="relative mt-5">
-                <div className="absolute inset-x-0 h-px bg-[rgba(19,19,46,0.1)]" />
+                <div className="absolute inset-x-0 h-px bg-bluedot-navy/10" />
               </div>
             )}
           </li>
@@ -144,8 +144,8 @@ const RoundItem = ({ round, applicationUrl, accentColor }: RoundItemProps) => {
 
   const dateContent = (
     <div>
-      {round.dateRange && <p className="text-[15px] leading-[1.6] font-semibold text-[#13132E]">{round.dateRange}</p>}
-      <p className="text-[15px] leading-[1.6] text-[#13132E] opacity-50">
+      {round.dateRange && <p className="text-[15px] leading-[1.6] font-semibold text-bluedot-navy">{round.dateRange}</p>}
+      <p className="text-[15px] leading-[1.6] text-bluedot-navy/50">
         Application closes {round.applicationDeadline}
       </p>
     </div>

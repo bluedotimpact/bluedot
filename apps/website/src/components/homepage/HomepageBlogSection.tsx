@@ -24,7 +24,7 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
         <div className="relative z-10 max-w-screen-xl mx-auto">
           <div className="flex justify-between items-center mb-12 min-[680px]:mb-16 min-[1024px]:mb-20 min-[1280px]:mb-16">
             <h2
-              className="bluedot-h2 not-prose text-[28px] min-[680px]:text-4xl min-[1024px]:text-[40px] min-[1280px]:text-5xl leading-[125%] tracking-[-1px] font-medium text-[#13132E] text-center min-[680px]:text-left w-full min-[680px]:w-auto"
+              className="bluedot-h2 not-prose text-[28px] min-[680px]:text-4xl min-[1024px]:text-[40px] min-[1280px]:text-5xl leading-[125%] tracking-[-1px] font-medium text-bluedot-navy text-center min-[680px]:text-left w-full min-[680px]:w-auto"
               style={{ fontFeatureSettings: '\'ss02\' on' }}
             >
               What we&apos;re thinking
@@ -42,7 +42,7 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
         {/* Header Section */}
         <div className="flex flex-col min-[680px]:flex-row justify-between items-center gap-4 mb-12 min-[680px]:mb-16 min-[1024px]:mb-20 min-[1280px]:mb-16">
           <h2
-            className="bluedot-h2 not-prose text-[28px] min-[680px]:text-4xl min-[1024px]:text-[40px] min-[1280px]:text-5xl leading-[125%] tracking-[-1px] font-medium text-[#13132E] text-center min-[680px]:text-left w-full min-[680px]:w-auto"
+            className="bluedot-h2 not-prose text-[28px] min-[680px]:text-4xl min-[1024px]:text-[40px] min-[1280px]:text-5xl leading-[125%] tracking-[-1px] font-medium text-bluedot-navy text-center min-[680px]:text-left w-full min-[680px]:w-auto"
             style={{ fontFeatureSettings: '\'ss02\' on' }}
           >
             What we&apos;re thinking
@@ -125,16 +125,16 @@ const BlogCard = ({ blog }: BlogCardProps) => {
 
   return (
     <Link href={url} target="_blank" rel="noopener noreferrer" className="flex flex-col gap-6 min-[680px]:gap-4 min-[1024px]:gap-6 rounded-xl group">
-      <h3 className="text-[20px] min-[680px]:text-2xl leading-[1.3] tracking-[-0.4px] min-[680px]:tracking-[-0.18px] min-[1920px]:tracking-[-0.48px] text-[#13132e] font-normal group-hover:opacity-70 transition-opacity">
+      <h3 className="text-[20px] min-[680px]:text-2xl leading-[1.3] tracking-[-0.4px] min-[680px]:tracking-[-0.18px] min-[1920px]:tracking-[-0.48px] text-bluedot-navy font-normal group-hover:opacity-70 transition-opacity">
         {blog.title || 'Untitled'}
       </h3>
 
       <div className="flex items-center gap-3 flex-wrap">
-        <span className="text-size-xs leading-[12px] tracking-[0.75px] uppercase text-[rgba(19,19,46,0.8)] whitespace-nowrap">
+        <span className="text-size-xs leading-[12px] tracking-[0.75px] uppercase text-bluedot-navy/80 whitespace-nowrap">
           {formattedDate}
         </span>
-        <div className="size-1.5 rounded-full bg-[#13132e] shrink-0" />
-        <span className="text-size-xs leading-[12px] tracking-[0.75px] uppercase text-[rgba(19,19,46,0.8)] whitespace-nowrap">
+        <div className="size-1.5 rounded-full bg-bluedot-navy shrink-0" />
+        <span className="text-size-xs leading-[12px] tracking-[0.75px] uppercase text-bluedot-navy/80 whitespace-nowrap">
           {authorName}
         </span>
       </div>

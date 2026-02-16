@@ -11,7 +11,7 @@ exports[`FAQSection > renders correctly 1`] = `
       class="max-w-[928px] mx-auto flex flex-col gap-12 md:gap-16"
     >
       <h2
-        class="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-[#13132E] text-center"
+        class="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy text-center"
       >
         Frequently Asked Questions
       </h2>
@@ -19,7 +19,7 @@ exports[`FAQSection > renders correctly 1`] = `
         class="flex flex-col gap-6"
       >
         <div
-          class="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
+          class="border border-bluedot-navy/10 bg-white rounded-xl overflow-hidden"
         >
           <button
             aria-controls="faq-answer-technical"
@@ -28,7 +28,7 @@ exports[`FAQSection > renders correctly 1`] = `
             type="button"
           >
             <span
-              class="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow"
+              class="text-[18px] font-semibold leading-[125%] text-bluedot-navy flex-grow"
             >
               How much technical background do I need?
             </span>
@@ -57,17 +57,17 @@ exports[`FAQSection > renders correctly 1`] = `
               <div
                 class="px-8 pb-6"
               >
-                <div
-                  class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
+                <p
+                  class="bluedot-p not-prose text-[18px] text-bluedot-navy/80"
                 >
                   You should understand the basics of how LLMs are trained.
-                </div>
+                </p>
               </div>
             </div>
           </div>
         </div>
         <div
-          class="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
+          class="border border-bluedot-navy/10 bg-white rounded-xl overflow-hidden"
         >
           <button
             aria-controls="faq-answer-agi-strategy"
@@ -76,7 +76,7 @@ exports[`FAQSection > renders correctly 1`] = `
             type="button"
           >
             <span
-              class="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow"
+              class="text-[18px] font-semibold leading-[125%] text-bluedot-navy flex-grow"
             >
               Do I need to take the AGI strategy course first?
             </span>
@@ -105,17 +105,17 @@ exports[`FAQSection > renders correctly 1`] = `
               <div
                 class="px-8 pb-6"
               >
-                <div
-                  class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
+                <p
+                  class="bluedot-p not-prose text-[18px] text-bluedot-navy/80"
                 >
                   It's not required, but strongly recommended.
-                </div>
+                </p>
               </div>
             </div>
           </div>
         </div>
         <div
-          class="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
+          class="border border-bluedot-navy/10 bg-white rounded-xl overflow-hidden"
         >
           <button
             aria-controls="faq-answer-bluedot"
@@ -124,7 +124,7 @@ exports[`FAQSection > renders correctly 1`] = `
             type="button"
           >
             <span
-              class="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow"
+              class="text-[18px] font-semibold leading-[125%] text-bluedot-navy flex-grow"
             >
               Who is BlueDot Impact?
             </span>
@@ -153,11 +153,11 @@ exports[`FAQSection > renders correctly 1`] = `
               <div
                 class="px-8 pb-6"
               >
-                <div
-                  class="text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80"
+                <p
+                  class="bluedot-p not-prose text-[18px] text-bluedot-navy/80"
                 >
                   We're a London-based startup focused on AI safety education.
-                </div>
+                </p>
               </div>
             </div>
           </div>

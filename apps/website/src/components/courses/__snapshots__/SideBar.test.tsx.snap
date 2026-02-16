@@ -40,7 +40,7 @@ exports[`SideBar > renders default as expected 1`] = `
             class="flex flex-col"
           >
             <h2
-              class="font-semibold text-[26px] leading-[44px] text-[#13132E]"
+              class="font-semibold text-[26px] leading-[44px] text-bluedot-navy"
             >
               What the fish [Test Course]
             </h2>
@@ -65,14 +65,14 @@ exports[`SideBar > renders default as expected 1`] = `
             class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
           >
             <p
-              class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-[#13132E] flex-1"
+              class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
             >
               1
               . 
               Basic Principles of Fish
             </p>
             <svg
-              class="size-[14px] transition-transform group-open:rotate-90 text-[#13132E]"
+              class="size-[14px] transition-transform group-open:rotate-90 text-bluedot-navy"
               fill="currentColor"
               height="1em"
               stroke="currentColor"
@@ -102,13 +102,13 @@ exports[`SideBar > renders default as expected 1`] = `
               >
                 <path
                   d="M12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1Z"
-                  stroke="#13132E"
+                  stroke="var(--bluedot-navy)"
                   stroke-width="2"
                 />
                 <circle
                   cx="12"
                   cy="12"
-                  fill="#13132E"
+                  fill="var(--bluedot-navy)"
                   r="5"
                 />
               </svg>
@@ -119,7 +119,7 @@ exports[`SideBar > renders default as expected 1`] = `
                   class="flex flex-col items-start gap-[6px]"
                 >
                   <p
-                    class="font-normal text-[14px] leading-[150%] text-[#13132E]"
+                    class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
                   >
                     What can AI do today?
                   </p>
@@ -142,14 +142,14 @@ exports[`SideBar > renders default as expected 1`] = `
             class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
           >
             <p
-              class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-[#13132E] flex-1"
+              class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
             >
               2
               . 
               What Fish Are People Catching, and Why?
             </p>
             <svg
-              class="size-[14px] transition-transform group-open:rotate-90 text-[#13132E]"
+              class="size-[14px] transition-transform group-open:rotate-90 text-bluedot-navy"
               fill="currentColor"
               height="1em"
               stroke="currentColor"
@@ -191,7 +191,7 @@ exports[`SideBar > renders default as expected 1`] = `
                   class="flex flex-col items-start gap-[6px]"
                 >
                   <p
-                    class="font-normal text-[14px] leading-[150%] text-[#13132E]"
+                    class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
                   >
                     What can AI do today?
                   </p>
@@ -214,14 +214,14 @@ exports[`SideBar > renders default as expected 1`] = `
             class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
           >
             <p
-              class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-[#13132E] flex-1"
+              class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
             >
               3
               . 
               The Promise of Fish
             </p>
             <svg
-              class="size-[14px] transition-transform group-open:rotate-90 text-[#13132E]"
+              class="size-[14px] transition-transform group-open:rotate-90 text-bluedot-navy"
               fill="currentColor"
               height="1em"
               stroke="currentColor"
@@ -263,7 +263,7 @@ exports[`SideBar > renders default as expected 1`] = `
                   class="flex flex-col items-start gap-[6px]"
                 >
                   <p
-                    class="font-normal text-[14px] leading-[150%] text-[#13132E]"
+                    class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
                   >
                     What can AI do today?
                   </p>
@@ -286,14 +286,14 @@ exports[`SideBar > renders default as expected 1`] = `
             class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
           >
             <p
-              class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-[#13132E] flex-1"
+              class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
             >
               4
               . 
               The Risks of Fish
             </p>
             <svg
-              class="size-[14px] transition-transform group-open:rotate-90 text-[#13132E]"
+              class="size-[14px] transition-transform group-open:rotate-90 text-bluedot-navy"
               fill="currentColor"
               height="1em"
               stroke="currentColor"
@@ -335,7 +335,7 @@ exports[`SideBar > renders default as expected 1`] = `
                   class="flex flex-col items-start gap-[6px]"
                 >
                   <p
-                    class="font-normal text-[14px] leading-[150%] text-[#13132E]"
+                    class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
                   >
                     What can AI do today?
                   </p>
@@ -358,14 +358,14 @@ exports[`SideBar > renders default as expected 1`] = `
             class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
           >
             <p
-              class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-[#13132E] flex-1"
+              class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
             >
               5
               . 
               Contributing to Fish Safety
             </p>
             <svg
-              class="size-[14px] transition-transform group-open:rotate-90 text-[#13132E]"
+              class="size-[14px] transition-transform group-open:rotate-90 text-bluedot-navy"
               fill="currentColor"
               height="1em"
               stroke="currentColor"
@@ -407,7 +407,7 @@ exports[`SideBar > renders default as expected 1`] = `
                   class="flex flex-col items-start gap-[6px]"
                 >
                   <p
-                    class="font-normal text-[14px] leading-[150%] text-[#13132E]"
+                    class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
                   >
                     What can AI do today?
                   </p>

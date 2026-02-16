@@ -244,7 +244,7 @@ const TestimonialCarousel = ({
               <h2
                 className={clsx(
                   headerSizeClasses,
-                  'font-medium leading-[125%] text-[#13132E] tracking-[-1px]',
+                  'font-medium leading-[125%] text-bluedot-navy tracking-[-1px]',
                 )}
                 style={{ fontFeatureSettings: '\'ss04\' on' }}
               >
@@ -252,13 +252,13 @@ const TestimonialCarousel = ({
                 {title || defaultTitle}
               </h2>
             ) : (
-              <H2 className={clsx(headerSizeClasses, 'font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]')}>
+              <H2 className={clsx(headerSizeClasses, 'font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]')}>
                 {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
                 {title || defaultTitle}
               </H2>
             )}
             {subtitle && (
-              <P className="text-[16px] min-[680px]:text-[18px] font-normal leading-[160%] text-[#13132E] opacity-80 max-w-full">
+              <P className="text-[16px] min-[680px]:text-[18px] font-normal leading-[160%] text-bluedot-navy/80 max-w-full">
                 {subtitle}
               </P>
             )}
@@ -354,7 +354,7 @@ const TestimonialMemberCard = ({ testimonial }: { testimonial: TestimonialMember
         <div className="flex flex-1 flex-col gap-8">
           {/* Quote uses flex-1 to grow and push name to bottom */}
           {hasQuote ? (
-            <P className="flex-1 text-[16px] font-normal leading-[160%] text-[#13132E] text-left w-full">
+            <P className="flex-1 text-[16px] font-normal leading-[160%] text-bluedot-navy text-left w-full">
               {testimonial.quote}
             </P>
           ) : (
@@ -365,12 +365,12 @@ const TestimonialMemberCard = ({ testimonial }: { testimonial: TestimonialMember
           {/* Name and Job Title Container - shrink-0 stays at bottom */}
           <div className="flex flex-col items-start gap-1 shrink-0 w-full">
             {/* Name */}
-            <P className="text-[16px] font-semibold leading-[125%] text-[#13132E] text-left w-full">
+            <P className="text-[16px] font-semibold leading-[125%] text-bluedot-navy text-left w-full">
               {testimonial.name}
             </P>
 
             {/* Job Title */}
-            <P className="text-[14px] font-normal leading-[160%] text-[#13132E] text-left w-full opacity-60">
+            <P className="text-[14px] font-normal leading-[160%] text-bluedot-navy/60 text-left w-full">
               {testimonial.jobTitle}
             </P>
           </div>
@@ -379,7 +379,7 @@ const TestimonialMemberCard = ({ testimonial }: { testimonial: TestimonialMember
     </>
   );
 
-  const cardClasses = 'flex flex-col flex-shrink-0 h-full bg-white border border-[rgba(19,19,46,0.1)] rounded-xl overflow-hidden w-[276px] min-[680px]:w-[288px] min-[1280px]:w-[320px]';
+  const cardClasses = 'flex flex-col flex-shrink-0 h-full bg-white border border-bluedot-navy/10 rounded-xl overflow-hidden w-[276px] min-[680px]:w-[288px] min-[1280px]:w-[320px]';
 
   if (testimonial.url) {
     return (
@@ -416,16 +416,16 @@ const NavigationButton = ({
     disabled={disabled}
     className={clsx(
       'size-[44px] rounded-full flex items-center justify-center',
-      'bg-[rgba(19,19,46,0.08)]',
+      'bg-bluedot-navy/8',
       'transition-all duration-200',
       disabled
         ? 'opacity-50 cursor-not-allowed'
-        : 'opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer',
+        : 'opacity-80 hover:opacity-100 hover:bg-bluedot-navy/15 cursor-pointer',
     )}
     aria-label={`Scroll ${direction}`}
   >
     <span
-      className="text-[#13132E] text-[22.4px] font-medium select-none"
+      className="text-bluedot-navy text-[22.4px] font-medium select-none"
       style={{
         transform: direction === 'left' ? 'scaleX(-1)' : 'none',
       }}

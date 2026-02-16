@@ -75,7 +75,7 @@ export const Select = ({
           className="w-full gap-3 flex justify-between p-4 items-center cursor-pointer text-left transition-all"
           onPress={() => setIsOpen(true)}
         >
-          <span className="text-[#13132E] flex-1 min-w-0">
+          <span className="text-bluedot-navy flex-1 min-w-0">
             {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
             {selectedOption?.label || value || placeholder}
           </span>
