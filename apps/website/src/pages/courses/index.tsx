@@ -52,7 +52,7 @@ const useSortedCourses = () => {
       return [];
     }
 
-    return courses .filter((course) => course.displayOnCourseHubIndex);
+    return courses.filter((course) => course.displayOnCourseHubIndex);
   }, [courses]);
 
   // Sort courses by fixed display order
