@@ -205,10 +205,7 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
   const activeChunksForCourse = await db.pg
     .select()
     .from(chunkTable.pg)
-    .where(and(
-      eq(chunkTable.pg.status, 'Active'),
-      inArray(chunkTable.pg.unitId, unitIds),
-    ));
+    .where(and(eq(chunkTable.pg.status, 'Active'), inArray(chunkTable.pg.unitId, unitIds)));
 
   // Group chunks by unit ID and extract only the fields needed for sidebar
   const allUnitChunks: Record<string, BasicChunk[]> = {};
@@ -242,18 +239,15 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
   }
 
   let currentChunkExercises: Exercise[] = [];
- if (chunkExerciseIds.length > 0) {
-   currentChunkExercises = await db.pg
-     .select()
-     .from(exerciseTable.pg)
-     .where(and(
-       eq(exerciseTable.pg.status, 'Active'),
-       inArray(exerciseTable.pg.id, chunkExerciseIds),
-     ));
- }
+  if (chunkExerciseIds.length > 0) {
+    currentChunkExercises = await db.pg
+      .select()
+      .from(exerciseTable.pg)
+      .where(and(eq(exerciseTable.pg.status, 'Active'), inArray(exerciseTable.pg.id, chunkExerciseIds)));
+  }
 
   const resourceById = new Map(currentChunkResources.map((resource) => [resource.id, resource]));
- const exerciseById = new Map(currentChunkExercises.map((exercise) => [exercise.id, exercise]));
+  const exerciseById = new Map(currentChunkExercises.map((exercise) => [exercise.id, exercise]));
 
   const chunksWithContent = currentUnitChunks.map(async (chunk) => {
     // Use pre-fetched resources/exercises for the current unit to avoid N+1 queries, filter out any that might be missing, and sort by readingOrder/exerciseNumber
