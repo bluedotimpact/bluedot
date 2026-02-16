@@ -25,7 +25,7 @@ const mockCourses = [
     slug: 'future-of-ai',
     title: 'The Future of AI',
     path: '/courses/future-of-ai',
-    displayOnCourseHubIndex: true,
+    displayOnCourseHubIndex: false,
   }),
   createMockCourse({
     id: 'course-gov',
@@ -94,7 +94,9 @@ describe('CoursesPage', () => {
       // Check for course titles in the course cards (h2 elements), not nav links
       const courseTitles = container.querySelectorAll('article h2');
       const titleTexts = Array.from(courseTitles).map((h2) => h2.textContent);
-      expect(titleTexts).toContain('The Future of AI');
+
+      // Filters out courses with `displayOnCourseHubIndex: false`
+      expect(titleTexts).not.toContain('The Future of AI');
       expect(titleTexts).toContain('AI Governance');
     });
   });
