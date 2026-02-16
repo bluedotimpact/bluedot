@@ -369,7 +369,7 @@ const TestimonialMemberCard = ({ testimonial }: { testimonial: TestimonialMember
             </P>
 
             {/* Job Title */}
-            <P className="text-[14px] font-normal leading-[160%] text-bluedot-navy text-left w-full opacity-60">
+            <P className="text-[14px] font-normal leading-[160%] text-bluedot-navy/60 text-left w-full">
               {testimonial.jobTitle}
             </P>
           </div>
