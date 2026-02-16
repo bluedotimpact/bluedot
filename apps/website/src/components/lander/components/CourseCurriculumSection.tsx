@@ -164,9 +164,9 @@ const CurriculumUnit = ({
         <div className="overflow-hidden">
           <div className="flex flex-col gap-3 pb-[18px] pl-[36px] pr-3 max-[679px]:pl-6">
             {description && (
-              <div className="text-[16px] font-normal leading-[160%] text-[#13132E] opacity-80 whitespace-pre-line">
+              <P className="text-bluedot-navy/80 whitespace-pre-line">
                 {description}
-              </div>
+              </P>
             )}
             {(metadataLoading || metadata || metadataError) && (
               <UnitMetadataDisplay
