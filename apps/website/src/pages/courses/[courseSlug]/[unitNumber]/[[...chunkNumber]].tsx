@@ -254,37 +254,26 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
 
   const resourceById = new Map(currentChunkResources.map((resource) => [resource.id, resource]));
  const exerciseById = new Map(currentChunkExercises.map((exercise) => [exercise.id, exercise]));
+
   const chunksWithContent = await Promise.all(currentUnitChunks.map(async (chunk) => {
-    let resources: UnitResource[] = [];
-    let exercises: Exercise[] = [];
+    // Use pre-fetched resources/exercises for the current unit to avoid N+1 queries, filter out any that might be missing, and sort by readingOrder/exerciseNumber
+    const resources = (chunk.chunkResources || [])
+      .map((resourceId) => resourceById.get(resourceId))
+      .filter((r): r is UnitResource => r !== undefined)
+      .sort((a, b) => {
+        const orderA = Number(a.readingOrder) || Infinity;
+        const orderB = Number(b.readingOrder) || Infinity;
+        return orderA - orderB;
+      });
 
-    // Fetch chunk resources, sort by readingOrder
-    if (chunk.chunkResources && chunk.chunkResources.length > 0) {
-      const resourcePromises = chunk.chunkResources.map((resourceId) => db.get(unitResourceTable, { id: resourceId }).catch(() => null));
-      const resolvedResources = await Promise.all(resourcePromises);
-      resources = resolvedResources
-        .filter((r): r is UnitResource => r !== null)
-        .sort((a, b) => {
-          const orderA = Number(a.readingOrder) || Infinity;
-          const orderB = Number(b.readingOrder) || Infinity;
-          return orderA - orderB;
-        });
-    }
-
-    // Fetch chunk exercises
-    if (chunk.chunkExercises && chunk.chunkExercises.length > 0) {
-      const exercisePromises = chunk.chunkExercises.map((exerciseId) => db.get(exerciseTable, { id: exerciseId }).catch(() => null));
-      const resolvedExercises = await Promise.all(exercisePromises);
-
-      // Filter for exercises that exist and are active, sort by exerciseNumber
-      exercises = resolvedExercises
-        .filter((e): e is Exercise => e !== null && e.status === 'Active')
-        .sort((a, b) => {
-          const numA = Number(a.exerciseNumber) || Infinity;
-          const numB = Number(b.exerciseNumber) || Infinity;
-          return numA - numB;
-        });
-    }
+    const exercises = (chunk.chunkExercises || [])
+      .map((exerciseId) => exerciseById.get(exerciseId))
+      .filter((e): e is Exercise => e !== undefined)
+      .sort((a, b) => {
+        const numA = Number(a.exerciseNumber) || Infinity;
+        const numB = Number(b.exerciseNumber) || Infinity;
+        return numA - numB;
+      });
 
     return {
       ...chunk,
