@@ -52,7 +52,9 @@ const useSortedCourses = () => {
       return [];
     }
 
-    return courses.filter((course) => course.displayOnCourseHubIndex);
+    return courses
+      .filter((course) => course.displayOnCourseHubIndex)
+      .filter((course) => course.slug !== 'future-of-ai');
   }, [courses]);
 
   // Prefetch all course rounds to enable sorting
