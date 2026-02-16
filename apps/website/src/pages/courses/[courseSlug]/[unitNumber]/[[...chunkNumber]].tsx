@@ -230,24 +230,24 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
   const chunkResourceIds = currentUnitChunks.flatMap((chunk) => chunk.chunkResources || []);
   const chunkExerciseIds = currentUnitChunks.flatMap((chunk) => chunk.chunkExercises || []);
 
-  let currentChunkResources: UnitResource[] = [];
+  let allResourcesForUnit: UnitResource[] = [];
   if (chunkResourceIds.length > 0) {
-    currentChunkResources = await db.pg
+    allResourcesForUnit = await db.pg
       .select()
       .from(unitResourceTable.pg)
       .where(inArray(unitResourceTable.pg.id, chunkResourceIds));
   }
 
-  let currentChunkExercises: Exercise[] = [];
+  let allExercisesForUnit: Exercise[] = [];
   if (chunkExerciseIds.length > 0) {
-    currentChunkExercises = await db.pg
+    allExercisesForUnit = await db.pg
       .select()
       .from(exerciseTable.pg)
       .where(and(eq(exerciseTable.pg.status, 'Active'), inArray(exerciseTable.pg.id, chunkExerciseIds)));
   }
 
-  const resourceById = new Map(currentChunkResources.map((resource) => [resource.id, resource]));
-  const exerciseById = new Map(currentChunkExercises.map((exercise) => [exercise.id, exercise]));
+  const resourceById = new Map(allResourcesForUnit.map((resource) => [resource.id, resource]));
+  const exerciseById = new Map(allExercisesForUnit.map((exercise) => [exercise.id, exercise]));
 
   const chunksWithContent = currentUnitChunks.map(async (chunk) => {
     // Use pre-fetched resources/exercises for the current unit to avoid N+1 queries, filter out any that might be missing, and sort by readingOrder/exerciseNumber
