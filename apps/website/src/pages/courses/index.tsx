@@ -55,26 +55,6 @@ const useSortedCourses = () => {
     return courses .filter((course) => course.displayOnCourseHubIndex);
   }, [courses]);
 
-  // Prefetch all course rounds to enable sorting
-  const roundsQueries = trpc.useQueries((t) => displayedCourses.map((course) => t.courseRounds.getRoundsForCourse({ courseSlug: course.slug })));
-
-  const allRoundsLoaded = roundsQueries.every((q) => !q.isLoading);
-  const isLoading = coursesLoading || !allRoundsLoaded;
-
-  // Build a map of course slug to their rounds data
-  const courseRoundsMap = useMemo(() => {
-    const map = new Map<string, CourseRounds>();
-
-    displayedCourses.forEach((course, index) => {
-      const roundsData = roundsQueries[index]?.data;
-      if (roundsData) {
-        map.set(course.slug, roundsData);
-      }
-    });
-
-    return map;
-  }, [displayedCourses, roundsQueries]);
-
   // Sort courses by fixed display order
   const sortedCourses = useMemo(() => {
     return [...displayedCourses].sort((a, b) => {
@@ -102,9 +82,8 @@ const useSortedCourses = () => {
 
   return {
     courses: sortedCourses,
-    isLoading,
+    isLoading: coursesLoading,
     error,
-    courseRoundsMap,
   };
 };
 
