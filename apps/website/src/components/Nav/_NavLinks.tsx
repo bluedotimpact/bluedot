@@ -231,6 +231,11 @@ const NavDropdown: React.FC<{
                         New
                       </Tag>
                     )}
+                    {link.title === 'AGI Strategy' && (
+                      <Tag variant="secondary" className="uppercase ml-2 !p-1">
+                        Start Here
+                      </Tag>
+                    )}
                   </A>
                 </React.Fragment>
               );
