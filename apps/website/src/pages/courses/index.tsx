@@ -471,6 +471,8 @@ type SelfPacedSectionProps = {
   course: Course;
 };
 
+/** TODO: this is dead code, we can remove it.
+ * In https://github.com/bluedotimpact/bluedot/pull/2062 we stopped FoAI course being shown. */
 const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
   const accentColor = getCourseAccentColor(course.slug);
 
