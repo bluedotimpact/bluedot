@@ -50,7 +50,7 @@ const PersonasSection = ({
             return (
               <div
                 key={persona.title}
-                className="bg-white rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden"
+                className="bg-white rounded-xl border border-bluedot-navy/10 overflow-hidden"
               >
                 {/* Header - always visible, clickable */}
                 <button

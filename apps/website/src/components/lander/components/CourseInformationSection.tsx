@@ -54,7 +54,7 @@ const CourseInformationSection = ({
         </H2>
 
         {/* White Card Container - Scales with viewport then fixed width on larger screens */}
-        <div className="w-[calc(100vw-40px)] min-[680px]:w-[calc(100vw-64px)] lg:w-[928px] xl:w-[1120px] bg-white border border-[rgba(19,19,46,0.1)] rounded-xl py-8 flex flex-col items-center gap-6">
+        <div className="w-[calc(100vw-40px)] min-[680px]:w-[calc(100vw-64px)] lg:w-[928px] xl:w-[1120px] bg-white border border-bluedot-navy/10 rounded-xl py-8 flex flex-col items-center gap-6">
           {/* Course Details List */}
           <div className="flex flex-col w-full">
             {details.map((detail, index) => (

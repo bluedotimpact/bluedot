@@ -125,11 +125,11 @@ const BlogCard = ({ blog }: BlogCardProps) => {
       </h3>
 
       <div className="flex items-center gap-3 flex-wrap">
-        <span className="text-size-xs leading-[12px] tracking-[0.75px] uppercase text-[rgba(19,19,46,0.8)] whitespace-nowrap">
+        <span className="text-size-xs leading-[12px] tracking-[0.75px] uppercase text-bluedot-navy/80 whitespace-nowrap">
           {formattedDate}
         </span>
         <div className="size-1.5 rounded-full bg-bluedot-navy shrink-0" />
-        <span className="text-size-xs leading-[12px] tracking-[0.75px] uppercase text-[rgba(19,19,46,0.8)] whitespace-nowrap">
+        <span className="text-size-xs leading-[12px] tracking-[0.75px] uppercase text-bluedot-navy/80 whitespace-nowrap">
           {authorName}
         </span>
       </div>

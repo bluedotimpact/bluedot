@@ -183,7 +183,7 @@ const Exercise: React.FC<ExerciseProps> = ({
                 checkboxDisabled ? 'cursor-not-allowed' : 'cursor-pointer',
                 isCompleted && 'bg-bluedot-normal border-none',
                 !isCompleted && checkboxHovered && !checkboxDisabled && 'bg-[rgba(42,45,52,0.05)] border border-[rgba(42,45,52,0.6)]',
-                !isCompleted && !(checkboxHovered && !checkboxDisabled) && 'bg-[#FCFBF9] border border-[rgba(19,19,46,0.2)]',
+                !isCompleted && !(checkboxHovered && !checkboxDisabled) && 'bg-[#FCFBF9] border border-bluedot-navy/20',
               )}
             >
               {(isCompleted || (checkboxHovered && !checkboxDisabled)) && (

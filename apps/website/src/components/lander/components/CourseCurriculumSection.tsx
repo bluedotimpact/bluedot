@@ -133,7 +133,7 @@ const CurriculumUnit = ({
   };
 
   return (
-    <div className="w-full [&:not(:first-child)]:border-t-[0.5px] [&:not(:first-child)]:border-[rgba(19,19,46,0.2)] bg-white">
+    <div className="w-full [&:not(:first-child)]:border-t-[0.5px] [&:not(:first-child)]:border-bluedot-navy/20 bg-white">
       <button
         type="button"
         onClick={handleToggle}

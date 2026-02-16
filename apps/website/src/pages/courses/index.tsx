@@ -210,7 +210,7 @@ const CoursesPage = () => {
             <BreadcrumbMenu courses={displayedCourses} />
 
             {/* Horizontal divider - only visible on stacked layout (below 1280px) */}
-            <div className="min-[1280px]:hidden mt-16 pt-16 border-t border-[rgba(19,19,46,0.1)]" />
+            <div className="min-[1280px]:hidden mt-16 pt-16 border-t border-bluedot-navy/10" />
 
             {/* Course Cards Section */}
             <div className="flex-1 max-w-[780px] min-[1280px]:max-w-none">
@@ -386,7 +386,7 @@ const CoursesList = ({ courses }: CoursesListProps) => {
         <div key={course.id} id={`course-${course.slug}`}>
           <CourseCard course={course} />
           {index < courses.length - 1 && (
-            <div className="my-12 min-[1024px]:my-16 min-[1280px]:my-20 border-t border-[rgba(19,19,46,0.1)]" />
+            <div className="my-12 min-[1024px]:my-16 min-[1280px]:my-20 border-t border-bluedot-navy/10" />
           )}
         </div>
       ))}
@@ -448,7 +448,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
 
         {/* No Upcoming Rounds */}
         {!roundsLoading && !isSelfPaced && !showRounds && (
-          <div className="flex items-center min-h-[48px] border-l-4 border-[rgba(19,19,46,0.2)] pl-5">
+          <div className="flex items-center min-h-[48px] border-l-4 border-bluedot-navy/20 pl-5">
             <p className="text-[15px] leading-[1.6] font-normal text-bluedot-navy/50">
               No upcoming rounds.{' '}
               <Link href={course.path} className="text-[#1144cc] font-medium hover:underline cursor-pointer">
@@ -597,7 +597,7 @@ const FormatSection = ({ type, rounds, course }: FormatSectionProps) => {
           <li key={round.id}>
             <CourseRoundItem round={round} course={course} />
             {index < displayedRounds.length - 1 && (
-              <div className="my-4 border-t border-[rgba(19,19,46,0.1)]" />
+              <div className="my-4 border-t border-bluedot-navy/10" />
             )}
           </li>
         ))}

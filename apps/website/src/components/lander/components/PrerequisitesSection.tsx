@@ -43,7 +43,7 @@ const PrerequisitesSection = ({
               return (
                 <div
                   key={prereq.title}
-                  className="group flex flex-col gap-4 p-6 rounded-xl bg-white border border-[rgba(19,19,46,0.08)] hover:border-[rgba(19,19,46,0.15)] hover:shadow-sm transition-all duration-200"
+                  className="group flex flex-col gap-4 p-6 rounded-xl bg-white border border-bluedot-navy/8 hover:border-bluedot-navy/15 hover:shadow-sm transition-all duration-200"
                 >
                   {IconComponent && (
                     <div

@@ -139,7 +139,7 @@ const ValueProp = ({ iconType, title, description }: { iconType: string; title: 
 
   return (
     <div className="flex flex-col gap-6 min-[680px]:basis-0 min-[680px]:grow">
-      <div className="size-16 rounded-full bg-[rgba(19,19,46,0.08)] flex items-center justify-center">
+      <div className="size-16 rounded-full bg-bluedot-navy/8 flex items-center justify-center">
         <IconComponent className="size-8 text-bluedot-navy" />
       </div>
       <div className="flex flex-col gap-2">
@@ -166,11 +166,11 @@ const CourseCarouselButton = ({
     disabled={disabled}
     className={clsx(
       'size-[44px] rounded-full flex items-center justify-center',
-      'bg-[rgba(19,19,46,0.08)]',
+      'bg-bluedot-navy/8',
       'transition-all duration-200',
       disabled
         ? 'opacity-50 cursor-not-allowed'
-        : 'opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer',
+        : 'opacity-80 hover:opacity-100 hover:bg-bluedot-navy/15 cursor-pointer',
     )}
     aria-label={`Scroll ${direction}`}
   >
@@ -491,7 +491,7 @@ const CourseCardRedesigned = ({
     <a
       href={getPrimaryCourseURL(course.slug)}
       className={clsx(
-        'relative rounded-xl border border-[rgba(19,19,46,0.1)] overflow-hidden group cursor-pointer block',
+        'relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block',
         isFirstCard ? 'course-card--featured' : 'course-card--regular',
         className,
       )}

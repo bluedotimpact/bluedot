@@ -350,7 +350,7 @@ const TestimonialMemberCard = ({ testimonial }: { testimonial: TestimonialMember
     </>
   );
 
-  const cardClasses = 'flex flex-col flex-shrink-0 h-full bg-white border border-[rgba(19,19,46,0.1)] rounded-xl overflow-hidden w-[276px] min-[680px]:w-[288px] min-[1280px]:w-[320px]';
+  const cardClasses = 'flex flex-col flex-shrink-0 h-full bg-white border border-bluedot-navy/10 rounded-xl overflow-hidden w-[276px] min-[680px]:w-[288px] min-[1280px]:w-[320px]';
 
   if (testimonial.url) {
     return (
@@ -387,11 +387,11 @@ const NavigationButton = ({
     disabled={disabled}
     className={clsx(
       'size-[44px] rounded-full flex items-center justify-center',
-      'bg-[rgba(19,19,46,0.08)]',
+      'bg-bluedot-navy/8',
       'transition-all duration-200',
       disabled
         ? 'opacity-50 cursor-not-allowed'
-        : 'opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer',
+        : 'opacity-80 hover:opacity-100 hover:bg-bluedot-navy/15 cursor-pointer',
     )}
     aria-label={`Scroll ${direction}`}
   >

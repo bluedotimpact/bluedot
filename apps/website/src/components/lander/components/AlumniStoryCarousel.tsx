@@ -273,12 +273,12 @@ const AlumniStoryCarousel = ({
   );
 };
 
-const cardClassName = 'flex flex-col flex-shrink-0 bg-white border border-[rgba(19,19,46,0.1)] rounded-2xl overflow-hidden w-[320px] min-[680px]:w-[380px] min-[1280px]:w-[420px] hover:border-[rgba(19,19,46,0.2)] hover:shadow-lg transition-all duration-200';
+const cardClassName = 'flex flex-col flex-shrink-0 bg-white border border-bluedot-navy/10 rounded-2xl overflow-hidden w-[320px] min-[680px]:w-[380px] min-[1280px]:w-[420px] hover:border-bluedot-navy/20 hover:shadow-lg transition-all duration-200';
 
 const AlumniStoryCardContent = ({ story }: { story: AlumniStory }) => (
   <>
     {/* Top section with image and info */}
-    <div className="flex items-start gap-4 p-5 min-[680px]:p-6 border-b border-[rgba(19,19,46,0.06)]">
+    <div className="flex items-start gap-4 p-5 min-[680px]:p-6 border-b border-bluedot-navy/6">
       <img
         src={story.imageSrc}
         alt={story.name}
@@ -336,9 +336,9 @@ const NavigationButton = ({
     onClick={onClick}
     className={clsx(
       'size-[44px] rounded-full flex items-center justify-center',
-      'bg-[rgba(19,19,46,0.08)]',
+      'bg-bluedot-navy/8',
       'transition-all duration-200',
-      'opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer',
+      'opacity-80 hover:opacity-100 hover:bg-bluedot-navy/15 cursor-pointer',
     )}
     aria-label={`Scroll ${direction}`}
   >

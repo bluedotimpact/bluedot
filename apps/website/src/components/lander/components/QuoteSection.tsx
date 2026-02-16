@@ -275,7 +275,7 @@ const QuoteSection = ({ quotes, cardBackgroundColor, accentColor }: QuoteSection
             <button
               type="button"
               onClick={handlePrevious}
-              className="size-12 rounded-full flex items-center justify-center bg-[rgba(19,19,46,0.08)] transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+              className="size-12 rounded-full flex items-center justify-center bg-bluedot-navy/8 transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-bluedot-navy/15 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
               aria-label="Previous quote"
             >
               <span
@@ -314,7 +314,7 @@ const QuoteSection = ({ quotes, cardBackgroundColor, accentColor }: QuoteSection
             <button
               type="button"
               onClick={handleNext}
-              className="size-12 rounded-full flex items-center justify-center bg-[rgba(19,19,46,0.08)] transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-[rgba(19,19,46,0.15)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+              className="size-12 rounded-full flex items-center justify-center bg-bluedot-navy/8 transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-bluedot-navy/15 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
               aria-label="Next quote"
             >
               <span

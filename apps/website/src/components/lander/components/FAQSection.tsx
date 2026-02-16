@@ -51,7 +51,7 @@ const FAQSection = ({ id, title, items }: FAQSectionProps) => {
               return (
                 <div
                   key={item.id}
-                  className="border border-[rgba(19,19,46,0.1)] bg-white rounded-xl overflow-hidden"
+                  className="border border-bluedot-navy/10 bg-white rounded-xl overflow-hidden"
                 >
                   <button
                     type="button"

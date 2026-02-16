@@ -171,7 +171,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                 <div className="h-full flex flex-col rounded-t-[24px] overflow-hidden">
                   {/* Header Section with Drag Handle */}
                   <div className={clsx(
-                    'flex flex-col bg-[#FCFAF7] border-b-hairline border-[rgba(19,19,46,0.2)] rounded-t-[24px] transition-shadow duration-300',
+                    'flex flex-col bg-[#FCFAF7] border-b-hairline border-bluedot-navy/20 rounded-t-[24px] transition-shadow duration-300',
                     isFullyExpanded && 'shadow-[0_4px_12px_rgba(0,0,0,0.08)]',
                   )}
                   >
@@ -180,7 +180,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                       className="flex justify-center pt-1 pb-4 cursor-grab active:cursor-grabbing touch-none"
                       onPointerDown={(e) => dragControls.start(e)}
                     >
-                      <div className="w-[30px] h-1 bg-[rgba(19,19,46,0.3)] rounded-[3px]" />
+                      <div className="w-[30px] h-1 bg-bluedot-navy/30 rounded-[3px]" />
                     </div>
 
                     {title && (

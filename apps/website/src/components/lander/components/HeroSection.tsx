@@ -263,7 +263,7 @@ const HeroSection = ({
                     <CTALinkOrButton
                       url={secondaryCta.url}
                       size="small"
-                      className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-colors border border-[rgba(19,19,46,0.3)] text-[#13132E] hover:border-[rgba(19,19,46,0.5)] hover:bg-[rgba(19,19,46,0.05)] hover:text-[#13132E]"
+                      className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-colors border border-bluedot-navy/30 text-bluedot-navy hover:border-bluedot-navy/50 hover:bg-bluedot-navy/5 hover:text-bluedot-navy"
                     >
                       {secondaryCta.text}
                     </CTALinkOrButton>

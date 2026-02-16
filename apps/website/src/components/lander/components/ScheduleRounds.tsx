@@ -124,7 +124,7 @@ const RoundGroup = ({
             <RoundItem round={round} applicationUrl={applicationUrl} accentColor={accentColor} />
             {index < displayedRounds.length - 1 && (
               <div className="relative mt-5">
-                <div className="absolute inset-x-0 h-px bg-[rgba(19,19,46,0.1)]" />
+                <div className="absolute inset-x-0 h-px bg-bluedot-navy/10" />
               </div>
             )}
           </li>
