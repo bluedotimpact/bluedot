@@ -145,7 +145,7 @@ describe('MultipleChoice', () => {
 
   test('shows correct result immediately after submitting correct answer', async () => {
     const user = userEvent.setup();
-    const mockOnExerciseSubmit = vi.fn();
+    const mockOnExerciseSubmit = vi.fn().mockResolvedValue(undefined);
 
     const { getAllByRole, queryByRole } = render(<MultipleChoice {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />);
 

@@ -59,13 +59,18 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   useEffect(() => {
     if (formattedExerciseResponse) {
       setValue('answer', formattedExerciseResponse);
+    } else if (!isEditing) {
+      setValue('answer', '');
+      setIsEditing(true);
     }
+    // Only re-run when the server response changes, not on isEditing transitions
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formattedExerciseResponse, setValue]);
 
   const onSubmit = useCallback(
     (data: FormData) => {
       const isAnswerCorrect = data.answer === formattedAnswer;
-      onExerciseSubmit(data.answer, isAnswerCorrect);
+      void onExerciseSubmit(data.answer, isAnswerCorrect);
       setIsEditing(false);
     },
     [onExerciseSubmit, formattedAnswer],

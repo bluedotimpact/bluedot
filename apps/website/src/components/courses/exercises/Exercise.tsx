@@ -90,8 +90,8 @@ const Exercise: React.FC<ExerciseProps> = ({
       return { previousResponse, previousCourseProgress };
     },
     onError(_err, _variables, mutationResult) {
-      if (mutationResult?.previousResponse !== undefined) {
-        utils.exercises.getExerciseResponse.setData({ exerciseId }, mutationResult.previousResponse);
+      if (mutationResult) {
+        utils.exercises.getExerciseResponse.setData({ exerciseId }, mutationResult.previousResponse ?? undefined);
       }
 
       rollbackCourseProgress(utils, courseSlug, mutationResult?.previousCourseProgress);
@@ -117,6 +117,8 @@ const Exercise: React.FC<ExerciseProps> = ({
         response: exerciseResponse,
         completed, // undefined means "don't change", backend preserves existing value
       });
+    } catch {
+      // Rollback handled by onError
     } finally {
       isSavingRef.current = false;
     }
