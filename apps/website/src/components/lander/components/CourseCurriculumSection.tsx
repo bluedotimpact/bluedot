@@ -143,12 +143,12 @@ const CurriculumUnit = ({
         aria-expanded={isOpen}
         aria-controls={`curriculum-unit-${unit.id}`}
       >
-        <h3 className="text-[16px] md:text-[18px] font-semibold leading-[125%] text-[#13132E] flex-1 text-left">
+        <h3 className="text-[16px] md:text-[18px] font-semibold leading-[125%] text-bluedot-navy flex-1 text-left">
           {unitTitle}
         </h3>
         <div className="size-5 flex items-center justify-center">
           <CgChevronDown
-            className={`size-4 md:size-5 text-[#13132E] transition-transform duration-300 ease ${
+            className={`size-4 md:size-5 text-bluedot-navy transition-transform duration-300 ease ${
               isOpen ? '' : '-rotate-90'
             }`}
           />
