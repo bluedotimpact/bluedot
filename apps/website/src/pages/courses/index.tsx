@@ -15,7 +15,7 @@ import { COURSE_CONFIG } from '../../lib/constants';
 
 const getCourseAccentColor = (courseSlug: string): string => {
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  return COURSE_CONFIG[courseSlug]?.accentColor || '#1144cc';
+  return COURSE_CONFIG[courseSlug]?.accentColor || 'var(--bluedot-normal)';
 };
 
 type Course = inferRouterOutputs<AppRouter>['courses']['getAll'][number];
@@ -287,7 +287,7 @@ const BreadcrumbMenu = ({ courses }: BreadcrumbMenuProps) => {
 
   return (
     <nav className="w-[252px] flex-shrink-0 min-[1280px]:sticky min-[1280px]:top-24 min-[1280px]:self-start">
-      <h2 className="text-[12px] leading-[14px] font-semibold text-[#1144cc] uppercase tracking-[0.5px] mb-[30px]">
+      <h2 className="text-[12px] leading-[14px] font-semibold text-bluedot-normal uppercase tracking-[0.5px] mb-[30px]">
         Courses
       </h2>
 
@@ -304,14 +304,14 @@ const BreadcrumbMenu = ({ courses }: BreadcrumbMenuProps) => {
                 className={clsx(
                   'group flex items-center gap-3 h-11 pl-5 border-l-4 transition-colors cursor-pointer w-full text-left',
                   isActive
-                    ? 'border-[#1144cc]'
-                    : 'border-[rgba(21,21,21,0.15)] hover:border-[#1144cc]',
+                    ? 'border-bluedot-normal'
+                    : 'border-[rgba(21,21,21,0.15)] hover:border-bluedot-normal',
                 )}
               >
                 <span
                   className={clsx(
                     'text-[16px] leading-[24px] font-normal',
-                    isActive ? 'text-[#1144cc]' : 'text-[#151d42]',
+                    isActive ? 'text-bluedot-normal' : 'text-[#151d42]',
                   )}
                 >
                   {course.title}
@@ -407,7 +407,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
           <div className="flex items-center min-h-[48px] border-l-4 border-bluedot-navy/20 pl-5">
             <p className="text-[15px] leading-[1.6] font-normal text-bluedot-navy opacity-50">
               No upcoming rounds.{' '}
-              <Link href={course.path} className="text-[#1144cc] font-medium hover:underline cursor-pointer">
+              <Link href={course.path} className="text-bluedot-normal font-medium hover:underline cursor-pointer">
                 Learn more about this course
               </Link>
             </p>

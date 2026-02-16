@@ -53,7 +53,7 @@ const FallbackContent = (
     <div className="flex justify-start">
       <CTALinkOrButton
         url="https://example.com/apply"
-        className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-[16px] font-medium bg-[#1144CC] text-white rounded-md hover:bg-[#1a3399] cursor-pointer transition-colors"
+        className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-[16px] font-medium bg-bluedot-normal text-white rounded-md hover:bg-[#1a3399] cursor-pointer transition-colors"
       >
         Apply now
       </CTALinkOrButton>
