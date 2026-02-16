@@ -147,9 +147,7 @@ describe('MultipleChoice', () => {
     const user = userEvent.setup();
     const mockOnExerciseSubmit = vi.fn();
 
-    const { getAllByRole, queryByRole } = render(
-      <MultipleChoice {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />,
-    );
+    const { getAllByRole, queryByRole } = render(<MultipleChoice {...mockArgs} onExerciseSubmit={mockOnExerciseSubmit} isLoggedIn />);
 
     // Select the correct answer (first option)
     const radioInputs = getAllByRole('radio');

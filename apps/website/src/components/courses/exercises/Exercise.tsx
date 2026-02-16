@@ -93,6 +93,7 @@ const Exercise: React.FC<ExerciseProps> = ({
       if (mutationResult?.previousResponse !== undefined) {
         utils.exercises.getExerciseResponse.setData({ exerciseId }, mutationResult.previousResponse);
       }
+
       rollbackCourseProgress(utils, courseSlug, mutationResult?.previousCourseProgress);
     },
   });
