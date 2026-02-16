@@ -420,7 +420,7 @@ const EventsSection = ({ featuredUrls = FEATURED_EVENT_URLS }: EventsSectionProp
           <h2
             id="events-section-heading"
             className="text-[28px] min-[680px]:text-[36px] min-[1024px]:text-[40px] min-[1280px]:text-[48px] font-medium leading-[125%] text-bluedot-navy tracking-[-1px] max-w-[666px]"
-            style={{ fontFeatureSettings: "'ss04' on" }}
+            style={{ fontFeatureSettings: '\'ss04\' on' }}
           >
             Join an event near you
           </h2>

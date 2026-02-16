@@ -244,6 +244,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
                   if (isHovered) {
                     return 'bg-[rgba(42,45,52,0.05)] border border-[rgba(42,45,52,0.6)]';
                   }
+
                   return 'bg-[#FCFBF9] border border-bluedot-navy/20';
                 })()
               }`}

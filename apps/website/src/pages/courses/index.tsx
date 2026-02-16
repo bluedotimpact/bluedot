@@ -160,7 +160,7 @@ const CoursesPage = () => {
         {displayedCourses.length > 0 && (
           <script
             type="application/ld+json"
-            // eslint-disable-next-line react/no-danger
+
             dangerouslySetInnerHTML={{
               __html: JSON.stringify({
                 '@context': 'https://schema.org',
@@ -413,9 +413,7 @@ type CourseCardProps = {
 };
 
 const CourseCard = ({ course }: CourseCardProps) => {
-  const { data: rounds, isLoading: roundsLoading } = trpc.courseRounds.getRoundsForCourse.useQuery(
-    { courseSlug: course.slug },
-  );
+  const { data: rounds, isLoading: roundsLoading } = trpc.courseRounds.getRoundsForCourse.useQuery({ courseSlug: course.slug });
 
   const isSelfPaced = isSelfPacedCourse(course);
   const hasIntense = rounds?.intense && rounds.intense.length > 0;

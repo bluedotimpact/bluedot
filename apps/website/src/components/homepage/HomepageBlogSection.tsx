@@ -25,7 +25,7 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
           <div className="flex justify-between items-center mb-12 min-[680px]:mb-16 min-[1024px]:mb-20 min-[1280px]:mb-16">
             <h2
               className="bluedot-h2 not-prose text-[28px] min-[680px]:text-4xl min-[1024px]:text-[40px] min-[1280px]:text-5xl leading-[125%] tracking-[-1px] font-medium text-bluedot-navy text-center min-[680px]:text-left w-full min-[680px]:w-auto"
-              style={{ fontFeatureSettings: "'ss02' on" }}
+              style={{ fontFeatureSettings: '\'ss02\' on' }}
             >
               What we&apos;re thinking
             </h2>
@@ -43,7 +43,7 @@ const HomepageBlogSection = ({ maxItems }: HomepageBlogSectionProps) => {
         <div className="flex flex-col min-[680px]:flex-row justify-between items-center gap-4 mb-12 min-[680px]:mb-16 min-[1024px]:mb-20 min-[1280px]:mb-16">
           <h2
             className="bluedot-h2 not-prose text-[28px] min-[680px]:text-4xl min-[1024px]:text-[40px] min-[1280px]:text-5xl leading-[125%] tracking-[-1px] font-medium text-bluedot-navy text-center min-[680px]:text-left w-full min-[680px]:w-auto"
-            style={{ fontFeatureSettings: "'ss02' on" }}
+            style={{ fontFeatureSettings: '\'ss02\' on' }}
           >
             What we&apos;re thinking
           </h2>

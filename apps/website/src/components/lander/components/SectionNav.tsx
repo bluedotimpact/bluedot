@@ -77,9 +77,9 @@ const SectionNav = ({ sections, applyUrl }: SectionNavProps) => {
                   px-3 min-[680px]:px-4 py-1.5 rounded-full text-[13px] min-[680px]:text-[14px] font-medium
                   whitespace-nowrap transition-all duration-200
                   ${activeSection === section.id
-                  ? 'bg-bluedot-navy text-white'
-                  : 'text-bluedot-navy/60 hover:text-bluedot-navy hover:bg-bluedot-navy/5'
-                  }
+                ? 'bg-bluedot-navy text-white'
+                : 'text-bluedot-navy/60 hover:text-bluedot-navy hover:bg-bluedot-navy/5'
+              }
                 `}
               >
                 {section.label}
