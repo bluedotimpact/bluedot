@@ -13,6 +13,7 @@ export default validateEnv({
   ],
   optional: [
     'CERTIFICATE_CREATION_TOKEN',
+    'KEYCLOAK_PREVIEW_AUTH_TOKEN',
     'LUMA_API_KEY',
     'SITE_ACCESS_PASSWORD',
   ],

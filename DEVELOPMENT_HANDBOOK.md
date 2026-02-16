@@ -638,10 +638,11 @@ To enable this in the Render dashboard, preview deployments need to be turned on
 - **Start:** `cd apps/website && npm run render-preview -- start`
 
 Required environment variables in Render (in addition to what is generally required):
-- `KEYCLOAK_PREVIEW_CLIENT_ID` — service-account client ID with permission to manage redirect URIs
-- `KEYCLOAK_PREVIEW_CLIENT_SECRET` — corresponding client secret
+- `KEYCLOAK_PREVIEW_AUTH_TOKEN` — shared secret for authenticating with the production endpoint that registers redirect URIs
 - `SITE_ACCESS_PASSWORD` — password gate for preview sites
   - Note: This is in 1password under "Preview env login (bluedot.org)". Unfortunately it can't prefill because the subdomain on preview environments is always different.
+
+The production website also needs `KEYCLOAK_PREVIEW_AUTH_TOKEN` (same shared secret as above). The existing `KEYCLOAK_CLIENT_ID` service account must have the `manage-clients` role to update redirect URIs.
 
 ### Deployment Processes
 

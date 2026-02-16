@@ -4,6 +4,17 @@ import env from './env';
 
 // Keycloak configuration
 const KEYCLOAK_BASE_URL = 'https://login.bluedot.org';
+const KEYCLOAK_REALM = 'customers';
+const TARGET_CLIENT_ID = 'bluedot-web-apps';
+const GITHUB_REPO = 'bluedotimpact/bluedot';
+
+const PERMANENT_URIS = new Set([
+  'https://frontend-example.k8s.bluedot.org/*',
+  'https://app-template.k8s.bluedot.org/*',
+  'https://website-staging.k8s.bluedot.org/*',
+  'https://bluedot.org/*',
+  'http://localhost:8000/*',
+]);
 
 let adminTokenCache: {
   token: string;
@@ -143,4 +154,84 @@ async function getAdminToken(): Promise<string> {
 
     throw error;
   }
+}
+
+// ── Preview redirect URI management ──────────────────────────────────
+
+function extractPrNumber(uri: string): number | null {
+  const match = (/-pr-(\d+)/).exec(uri);
+  return match ? Number(match[1]) : null;
+}
+
+/** Returns true on error to avoid accidentally removing active URIs. */
+async function isPrOpen(prNumber: number): Promise<boolean> {
+  try {
+    const response = await axios.get(`https://api.github.com/repos/${GITHUB_REPO}/pulls/${prNumber}`, {
+      headers: { Accept: 'application/vnd.github.v3+json' },
+      validateStatus: (status) => status < 500,
+    });
+
+    if (response.status === 404) {
+      return false;
+    }
+
+    if (response.status !== 200) {
+      return true;
+    }
+
+    return (response.data as { state: string }).state === 'open';
+  } catch {
+    return true;
+  }
+}
+
+export async function registerPreviewRedirectUri(redirectUri: string): Promise<{ added: boolean; cleaned: number }> {
+  const token = await getAdminToken();
+
+  // Get current client config
+  const clientsResponse = await axios.get(
+    `${KEYCLOAK_BASE_URL}/admin/realms/${KEYCLOAK_REALM}/clients?clientId=${TARGET_CLIENT_ID}`,
+    { headers: { Authorization: `Bearer ${token}` } },
+  );
+
+  const clients = clientsResponse.data as Record<string, unknown>[];
+  if (clients.length === 0) {
+    throw createHttpError.InternalServerError(`Client '${TARGET_CLIENT_ID}' not found`);
+  }
+
+  const client = clients[0]!;
+  const existingUris = client.redirectUris as string[];
+  let uris = [...existingUris];
+
+  const added = !uris.includes(redirectUri);
+  if (added) {
+    uris.push(redirectUri);
+  }
+
+  // Clean up URIs for closed PRs
+  const previewUris = existingUris.filter((uri) => !PERMANENT_URIS.has(uri) && extractPrNumber(uri) !== null);
+  const openStatuses = await Promise.all(previewUris.map((uri) => isPrOpen(extractPrNumber(uri)!)));
+  const staleUris = new Set(previewUris.filter((_, i) => !openStatuses[i]));
+  uris = uris.filter((uri) => !staleUris.has(uri));
+  const cleaned = staleUris.size;
+
+  if (uris.length === existingUris.length && uris.every((u) => existingUris.includes(u))) {
+    return { added, cleaned };
+  }
+
+  // Safety check: never remove permanent URIs
+  for (const permanent of PERMANENT_URIS) {
+    if (!uris.includes(permanent) && existingUris.includes(permanent)) {
+      throw createHttpError.InternalServerError(`Bug: would have removed permanent URI ${permanent}`);
+    }
+  }
+
+  // Update client with full representation
+  await axios.put(
+    `${KEYCLOAK_BASE_URL}/admin/realms/${KEYCLOAK_REALM}/clients/${client.id as string}`,
+    { ...client, redirectUris: uris },
+    { headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } },
+  );
+
+  return { added, cleaned };
 }
