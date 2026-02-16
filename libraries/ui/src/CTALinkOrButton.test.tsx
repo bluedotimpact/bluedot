@@ -65,7 +65,7 @@ describe('CTALinkOrButton', () => {
     const button = screen.getByRole('button');
     expect(button).toBeTruthy();
     expect(button.className).includes('cta-button--outline-black');
-    expect(button.className).includes('border-[rgba(19,19,46,0.3)]');
+    expect(button.className).includes('border-bluedot-navy/30');
     expect(button.className).includes('text-black');
   });
 
@@ -73,10 +73,9 @@ describe('CTALinkOrButton', () => {
     render(<CTALinkOrButton variant="ghost">Click me</CTALinkOrButton>);
     const button = screen.getByRole('button');
     expect(button).toBeTruthy();
-    expect(button.className).includes('[--ghost-gray:#13132E]');
-    expect(button.className).includes('text-(--ghost-gray)/60');
-    expect(button.className).includes('hover:text-(--ghost-gray)');
-    expect(button.className).includes('hover:bg-(--ghost-gray)/10');
+    expect(button.className).includes('text-bluedot-navy/60');
+    expect(button.className).includes('hover:text-bluedot-navy');
+    expect(button.className).includes('hover:bg-bluedot-navy/10');
   });
 
   test('renders with medium size by default', () => {
@@ -108,7 +107,7 @@ describe('CTALinkOrButton', () => {
   test('renders small ghost variant', () => {
     render(<CTALinkOrButton size="small" variant="ghost">Click me</CTALinkOrButton>);
     const button = screen.getByRole('button');
-    expect(button.className).includes('[--ghost-gray:#13132E]');
+    expect(button.className).includes('text-bluedot-navy/60');
     expect(button.className).includes('h-9');
   });
 });
