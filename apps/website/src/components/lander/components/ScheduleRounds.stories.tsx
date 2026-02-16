@@ -47,9 +47,9 @@ const mockPartTimeRounds = [
 
 const FallbackContent = (
   <div className="flex flex-col gap-4">
-    <div className="text-[15px] leading-[160%] text-[#13132E] opacity-80 font-normal">
+    <p className="text-[15px] leading-[160%] text-bluedot-navy/80 font-normal">
       Check above for upcoming rounds and application deadlines.
-    </div>
+    </p>
     <div className="flex justify-start">
       <CTALinkOrButton
         url="https://example.com/apply"
