@@ -1,6 +1,6 @@
 import type React from 'react';
 import clsx from 'clsx';
-import { A, CTALinkOrButton } from '@bluedot/ui';
+import { A, CTALinkOrButton, P } from '@bluedot/ui';
 import { useConsentStore } from './analytics/consent';
 
 export type CookieBannerProps = {
@@ -21,10 +21,10 @@ export const CookieBanner: React.FC<CookieBannerProps> = ({ className }) => {
 
   return (
     <div className={rootClassName}>
-      <p className="cookie-banner__text text-pretty bluedot-p">
+      <P className="cookie-banner__text text-pretty">
         Analytics cookies help us improve our website and measure ad performance.{' '}
         <A href="https://bluedot.org/privacy-policy">Privacy Policy</A>.
-      </p>
+      </P>
       <div className="cookie-banner__buttons flex flex-wrap gap-space-between justify-center">
         <CTALinkOrButton
           className="cookie-banner__button--accept"

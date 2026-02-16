@@ -6,7 +6,7 @@ exports[`CookieBanner > renders as expected 1`] = `
     class="cookie-banner container-dialog fixed bottom-6 right-0 mx-4 sm:mx-6 flex flex-col gap-5 p-6 bg-cream-normal w-fit max-w-[420px] z-100"
   >
     <p
-      class="cookie-banner__text text-pretty bluedot-p"
+      class="bluedot-p not-prose cookie-banner__text text-pretty"
     >
       Analytics cookies help us improve our website and measure ad performance.
        

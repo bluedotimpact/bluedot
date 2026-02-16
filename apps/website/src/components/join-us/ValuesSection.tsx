@@ -1,4 +1,6 @@
-import { Card, Section, SlideList } from '@bluedot/ui';
+import {
+  Card, P, Section, SlideList,
+} from '@bluedot/ui';
 import { isMobile } from 'react-device-detect';
 
 const values = [
@@ -36,7 +38,7 @@ const ValuesSection = () => {
               />
               <div className="values-card__content">
                 <p className="values-card__title bluedot-h4 mb-2">{value.title}</p>
-                {value.subtitle && (<p className="values-card__subtitle bluedot-p">{value.subtitle}</p>)}
+                {value.subtitle && (<P className="values-card__subtitle">{value.subtitle}</P>)}
               </div>
             </div>
           ))}

@@ -1,6 +1,6 @@
 import {
   addQueryParam,
-  Card, CTALinkOrButton, ProgressDots, useAuthStore, useCurrentTimeMs,
+  Card, CTALinkOrButton, P, ProgressDots, useAuthStore, useCurrentTimeMs,
 } from '@bluedot/ui';
 import type React from 'react';
 import { FaAward } from 'react-icons/fa6';
@@ -156,7 +156,7 @@ const CertificateLinkCard: React.FC<CertificateLinkCardProps> = ({
               <p className="bluedot-h4 mb-2 text-center">{notLoggedIn.header}</p>
             )}
             {notLoggedIn.description && (
-              <p className="bluedot-p">{notLoggedIn.description}</p>
+              <P>{notLoggedIn.description}</P>
             )}
           </div>
         )}
@@ -382,7 +382,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
             <p className="bluedot-h4 mb-2 text-center">{requestCertConfig.header}</p>
           )}
           {requestCertConfig.description && (
-            <p className="bluedot-p">{requestCertConfig.description}</p>
+            <P>{requestCertConfig.description}</P>
           )}
         </div>
       )}

@@ -1,6 +1,6 @@
 import type React from 'react';
 import clsx from 'clsx';
-import { CTALinkOrButton } from '@bluedot/ui';
+import { CTALinkOrButton, P } from '@bluedot/ui';
 
 type FoAICongratulationsProps = {
   className?: string;
@@ -13,9 +13,9 @@ const FoAICongratulations: React.FC<FoAICongratulationsProps> = ({ className }) 
         <p className="congratulations__title bluedot-h4 mb-2 text-center">
           Congratulations on completing the Future of AI course!
         </p>
-        <p className="congratulations__description bluedot-p">
+        <P className="congratulations__description">
           Want to connect with others taking AI safety seriously? <span className="font-semibold">Join 3,000+ FoAI course graduates</span> turning knowledge into action.
-        </p>
+        </P>
       </div>
       <div className="mt-4 flex justify-start">
         <CTALinkOrButton
