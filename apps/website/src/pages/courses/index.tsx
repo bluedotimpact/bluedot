@@ -481,10 +481,10 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
           href={course.path}
           className="group flex items-center gap-2 cursor-pointer"
         >
-          <h2 className="text-[24px] leading-[1.4] font-semibold tracking-[-0.5px] text-[#13132e]">
+          <h2 className="text-[24px] leading-[1.4] font-semibold tracking-[-0.5px] text-bluedot-navy">
             {course.title}
           </h2>
-          <span className="text-[24px] leading-[1.4] text-[#13132e] transition-opacity opacity-0 group-hover:opacity-100">
+          <span className="text-[24px] leading-[1.4] text-bluedot-navy transition-opacity opacity-0 group-hover:opacity-100">
             →
           </span>
         </Link>
@@ -498,10 +498,10 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
           href={course.path}
           className="group flex items-center gap-2 pt-[15px] cursor-pointer"
         >
-          <h2 className="text-[24px] leading-[1.4] font-semibold tracking-[-0.5px] text-[#13132e]">
+          <h2 className="text-[24px] leading-[1.4] font-semibold tracking-[-0.5px] text-bluedot-navy">
             {course.title}
           </h2>
-          <span className="text-[24px] leading-[1.4] text-[#13132e] transition-opacity opacity-0 group-hover:opacity-100">
+          <span className="text-[24px] leading-[1.4] text-bluedot-navy transition-opacity opacity-0 group-hover:opacity-100">
             →
           </span>
         </Link>
@@ -587,7 +587,7 @@ const FormatSection = ({ type, rounds, course }: FormatSectionProps) => {
 
   return (
     <div className="flex flex-col">
-      <div className="text-[15px] leading-tight text-[#13132e] mb-6">
+      <div className="text-[15px] leading-tight text-bluedot-navy mb-6">
         <span className="font-semibold uppercase tracking-[0.45px]">{label}</span>
         <span className="ml-1 font-normal opacity-80">{description}</span>
       </div>

@@ -49,7 +49,7 @@ const CourseInformationSection = ({
     <section id={id} className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-12 min-[1280px]:px-44 xl:px-40 py-12 min-[680px]:py-16 min-[1280px]:py-24 xl:py-24 flex flex-col items-center gap-12 md:gap-16">
         {/* Section Title */}
-        <H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]">
+        <H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
           {title}
         </H2>
 
@@ -64,7 +64,7 @@ const CourseInformationSection = ({
                   <div className="flex flex-col min-[680px]:flex-row px-5 min-[680px]:px-8 py-0 gap-6 min-[680px]:gap-6 md:gap-8 items-start w-full">
                     {/* Schedule Label (left column, no icon) */}
                     <div className="min-[680px]:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0">
-                      <P className="text-[16px] font-semibold leading-[125%] text-[#13132E]">
+                      <P className="text-[16px] font-semibold leading-[125%] text-bluedot-navy">
                         {detail.label}
                       </P>
                     </div>
@@ -97,7 +97,7 @@ const CourseInformationSection = ({
                   <div className="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8">
                     {/* Label */}
                     <div className="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0">
-                      <P className="text-[16px] font-semibold leading-[125%] text-[#13132E]">
+                      <P className="text-[16px] font-semibold leading-[125%] text-bluedot-navy">
                         {detail.label}
                       </P>
                     </div>

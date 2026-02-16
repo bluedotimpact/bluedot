@@ -39,7 +39,7 @@ const FAQSection = ({ id, title, items }: FAQSectionProps) => {
     <section id={id} className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:pt-16 min-[680px]:pb-12 min-[1024px]:py-16 min-[1280px]:py-24">
         <div className="max-w-[928px] mx-auto flex flex-col gap-12 md:gap-16">
-          <h2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-[#13132E] text-center">
+          <h2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy text-center">
             {title}
           </h2>
 
@@ -61,7 +61,7 @@ const FAQSection = ({ id, title, items }: FAQSectionProps) => {
                     aria-expanded={isOpen}
                     aria-controls={`faq-answer-${item.id}`}
                   >
-                    <span className="text-[18px] font-semibold leading-[125%] text-[#13132E] flex-grow">
+                    <span className="text-[18px] font-semibold leading-[125%] text-bluedot-navy flex-grow">
                       {item.question}
                     </span>
                     <svg

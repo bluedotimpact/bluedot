@@ -21,8 +21,8 @@ import DropoutModal from '../courses/DropoutModal';
 
 const BUTTON_STYLES = {
   primary: { variant: 'primary' as const, className: 'w-auto bg-bluedot-normal' },
-  secondary: { variant: 'outline-black' as const, className: 'w-auto bg-[#13132E0D] hover:bg-[#13132E1C] text-[#13132E] border-none' },
-  ghost: { variant: 'outline-black' as const, className: 'w-auto bg-[#13132E0D] hover:bg-[#13132E1C] text-[#13132E] border-none' },
+  secondary: { variant: 'outline-black' as const, className: 'w-auto bg-[#13132E0D] hover:bg-[#13132E1C] text-bluedot-navy border-none' },
+  ghost: { variant: 'outline-black' as const, className: 'w-auto bg-[#13132E0D] hover:bg-[#13132E1C] text-bluedot-navy border-none' },
 };
 
 type CourseDetailsRowProps = {

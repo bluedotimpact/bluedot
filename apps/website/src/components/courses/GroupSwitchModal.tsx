@@ -356,7 +356,7 @@ export default function GroupSwitchModal({
             onChange={(e) => setHasUpdatedAvailability(e.target.checked)}
             className="size-4 rounded border-gray-300 text-bluedot-normal focus:ring-bluedot-normal cursor-pointer"
           />
-          <span className="text-size-sm text-[#13132E]">I have updated my availability</span>
+          <span className="text-size-sm text-bluedot-navy">I have updated my availability</span>
         </label>
       ),
     },
@@ -386,7 +386,7 @@ export default function GroupSwitchModal({
             {visibleFormSections.map((section, index) => (
               <div key={section.id} className="flex flex-col gap-3">
                 <div className="flex flex-col gap-2">
-                  <span className="text-size-sm font-medium text-[#13132E]">{index + 1}. {section.title}</span>
+                  <span className="text-size-sm font-medium text-bluedot-navy">{index + 1}. {section.title}</span>
                   {section.subtitle && (
                     <p className="text-size-xs text-[#666C80]">{section.subtitle}</p>
                   )}
@@ -410,7 +410,7 @@ export default function GroupSwitchModal({
           <div className="border-t border-color-divider pt-8 mt-8 mb-2">
             <div className="flex flex-col gap-3">
               <div className="flex flex-col gap-2">
-                <h3 className="text-size-sm font-medium text-[#13132E]">Don't see a group that works?</h3>
+                <h3 className="text-size-sm font-medium text-bluedot-navy">Don't see a group that works?</h3>
                 <p className="text-size-xs text-[#666C80]">
                   You can request a manual switch to join a group that's full or a group that is not
                   listed above, and we'll do our best to accommodate you.
@@ -418,7 +418,7 @@ export default function GroupSwitchModal({
               </div>
               <CTALinkOrButton
                 variant="secondary"
-                className="border-[#13132E] text-[#13132E] hover:bg-blue-50"
+                className="border-bluedot-navy text-bluedot-navy hover:bg-blue-50"
                 onClick={() => setIsManualRequest(true)}
                 aria-label="Request manual group switch"
               >

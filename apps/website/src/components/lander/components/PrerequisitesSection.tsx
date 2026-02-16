@@ -33,7 +33,7 @@ const PrerequisitesSection = ({
   return (
     <section id={id} className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24">
-        <H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-12 md:mb-16 tracking-[-0.01em]">
+        <H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy text-center mb-12 md:mb-16 tracking-[-0.01em]">
           {title}
         </H2>
         <div className="max-w-[1100px] mx-auto">
@@ -57,10 +57,10 @@ const PrerequisitesSection = ({
                     </div>
                   )}
                   <div className="space-y-2">
-                    <H3 className="text-[17px] min-[680px]:text-[18px] font-semibold leading-[130%] text-[#13132E]">
+                    <H3 className="text-[17px] min-[680px]:text-[18px] font-semibold leading-[130%] text-bluedot-navy">
                       {prereq.title}
                     </H3>
-                    <P className="text-[15px] leading-[1.65] text-[#13132E]/70">
+                    <P className="text-[15px] leading-[1.65] text-bluedot-navy/70">
                       {prereq.description}
                     </P>
                   </div>

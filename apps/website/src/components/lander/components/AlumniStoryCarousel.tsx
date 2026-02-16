@@ -201,7 +201,7 @@ const AlumniStoryCarousel = ({
       <div className="mx-auto max-w-screen-xl mb-8 min-[680px]:mb-12 min-[1024px]:mb-16">
         <div className="flex flex-col items-center text-center min-[680px]:flex-row min-[680px]:items-end min-[680px]:justify-between min-[680px]:text-left gap-6 min-[680px]:gap-16">
           <div className="flex flex-col gap-4">
-            <H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]">
+            <H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
               {title}
             </H2>
             {subtitle && (
@@ -285,10 +285,10 @@ const AlumniStoryCardContent = ({ story }: { story: AlumniStory }) => (
         className="size-16 min-[680px]:size-20 rounded-full object-cover flex-shrink-0"
       />
       <div className="flex flex-col gap-1 min-w-0 pt-1">
-        <P className="text-[17px] min-[680px]:text-[18px] font-semibold leading-[130%] text-[#13132E] truncate">
+        <P className="text-[17px] min-[680px]:text-[18px] font-semibold leading-[130%] text-bluedot-navy truncate">
           {story.name}
         </P>
-        <P className="text-[14px] min-[680px]:text-[15px] leading-[150%] text-[#13132E]/70">
+        <P className="text-[14px] min-[680px]:text-[15px] leading-[150%] text-bluedot-navy/70">
           {story.role}
         </P>
       </div>
@@ -296,7 +296,7 @@ const AlumniStoryCardContent = ({ story }: { story: AlumniStory }) => (
 
     {/* Story content */}
     <div className="p-5 min-[680px]:p-6 flex-grow">
-      <P className="text-[15px] min-[680px]:text-[16px] leading-[1.7] text-[#13132E]/80">
+      <P className="text-[15px] min-[680px]:text-[16px] leading-[1.7] text-bluedot-navy/80">
         {story.story}
       </P>
     </div>
@@ -343,7 +343,7 @@ const NavigationButton = ({
     aria-label={`Scroll ${direction}`}
   >
     <span
-      className="text-[#13132E] text-[22.4px] font-medium select-none"
+      className="text-bluedot-navy text-[22.4px] font-medium select-none"
       style={{
         transform: direction === 'left' ? 'scaleX(-1)' : 'none',
       }}

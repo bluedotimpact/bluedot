@@ -35,11 +35,11 @@ const PathwaysSection = ({
     <section id={id} className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24">
         <div className="max-w-[1100px] mx-auto">
-          <H2 className={`text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center tracking-[-0.01em] ${intro ? 'mb-4' : 'mb-12 md:mb-16'}`}>
+          <H2 className={`text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy text-center tracking-[-0.01em] ${intro ? 'mb-4' : 'mb-12 md:mb-16'}`}>
             {title}
           </H2>
           {intro && (
-            <P className="text-[16px] min-[680px]:text-[17px] leading-[1.6] text-[#13132E]/70 text-center mb-12 md:mb-16 max-w-[600px] mx-auto">
+            <P className="text-[16px] min-[680px]:text-[17px] leading-[1.6] text-bluedot-navy/70 text-center mb-12 md:mb-16 max-w-[600px] mx-auto">
               {intro}
             </P>
           )}
@@ -59,10 +59,10 @@ const PathwaysSection = ({
                     <IconComponent className="text-white" size={24} />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h3 className="text-[17px] min-[680px]:text-[18px] font-semibold leading-[130%] text-[#13132E]">
+                    <h3 className="text-[17px] min-[680px]:text-[18px] font-semibold leading-[130%] text-bluedot-navy">
                       {pathway.title}
                     </h3>
-                    <P className="text-[15px] leading-[1.65] text-[#13132E]/70">
+                    <P className="text-[15px] leading-[1.65] text-bluedot-navy/70">
                       {pathway.description}
                     </P>
                     {pathway.linkUrl && pathway.linkText && (

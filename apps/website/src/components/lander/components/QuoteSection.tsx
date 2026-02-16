@@ -279,7 +279,7 @@ const QuoteSection = ({ quotes, cardBackgroundColor, accentColor }: QuoteSection
               aria-label="Previous quote"
             >
               <span
-                className="text-[#13132E] text-[22.4px] font-medium select-none"
+                className="text-bluedot-navy text-[22.4px] font-medium select-none"
                 style={{
                   transform: 'scaleX(-1)',
                 }}
@@ -318,7 +318,7 @@ const QuoteSection = ({ quotes, cardBackgroundColor, accentColor }: QuoteSection
               aria-label="Next quote"
             >
               <span
-                className="text-[#13132E] text-[22.4px] font-medium select-none"
+                className="text-bluedot-navy text-[22.4px] font-medium select-none"
               >
                 →
               </span>

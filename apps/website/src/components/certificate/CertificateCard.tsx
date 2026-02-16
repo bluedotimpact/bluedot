@@ -66,7 +66,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
                   style={{
                     left: pos.x,
                     top: pos.y,
-                    backgroundColor: '#13132E',
+                    backgroundColor: 'var(--bluedot-navy)',
                     WebkitMaskImage: `url(${iconPath})`,
                     maskImage: `url(${iconPath})`,
                     WebkitMaskSize: 'contain',
@@ -116,7 +116,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
           </p>
 
           <h1
-            className="mt-1 text-[40px] md:text-[56px] font-semibold leading-tight tracking-[-0.5px] text-[#13132E] text-center font-display"
+            className="mt-1 text-[40px] md:text-[56px] font-semibold leading-tight tracking-[-0.5px] text-bluedot-navy text-center font-display"
             style={DISPLAY_FONT_STYLE}
           >
             {courseName}
@@ -126,14 +126,14 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
             <p className="text-size-sm font-medium uppercase tracking-[0.02em] leading-[1.6] text-[#62748E] text-center">
               Awarded to
             </p>
-            <p className="mt-1 text-2xl font-semibold leading-tight text-[#13132E] text-center font-display">
+            <p className="mt-1 text-2xl font-semibold leading-tight text-bluedot-navy text-center font-display">
               {recipientName}
             </p>
           </div>
 
           <div className="mt-12 max-w-[313px] md:max-w-[672px]">
             <p
-              className="text-[15px] md:text-base leading-[1.6] md:leading-[26px] tracking-[-0.3125px] text-[#62748E] text-center [&_strong]:font-semibold [&_strong]:text-[#13132E]"
+              className="text-[15px] md:text-base leading-[1.6] md:leading-[26px] tracking-[-0.3125px] text-[#62748E] text-center [&_strong]:font-semibold [&_strong]:text-bluedot-navy"
               style={DISPLAY_FONT_STYLE}
               // eslint-disable-next-line react/no-danger -- description content is authored by employees in Airtable
               dangerouslySetInnerHTML={{ __html: description }}
@@ -149,7 +149,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
               Issued
             </p>
             <p
-              className="mt-1 text-[15px] md:text-base font-medium leading-[26px] tracking-[-0.3125px] text-[#13132E]"
+              className="mt-1 text-[15px] md:text-base font-medium leading-[26px] tracking-[-0.3125px] text-bluedot-navy"
               style={DISPLAY_FONT_STYLE}
             >
               {issuedDate}
@@ -171,7 +171,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
               Certificate ID
             </p>
             <p
-              className="mt-1 text-[15px] md:text-base font-medium leading-[26px] tracking-[-0.3125px] text-[#13132E]"
+              className="mt-1 text-[15px] md:text-base font-medium leading-[26px] tracking-[-0.3125px] text-bluedot-navy"
               style={DISPLAY_FONT_STYLE}
             >
               {certificateId}

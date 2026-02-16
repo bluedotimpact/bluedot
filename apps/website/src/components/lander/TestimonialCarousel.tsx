@@ -216,14 +216,14 @@ const TestimonialCarousel = ({
               <h2
                 className={clsx(
                   headerSizeClasses,
-                  'font-medium leading-[125%] text-[#13132E] tracking-[-1px]',
+                  'font-medium leading-[125%] text-bluedot-navy tracking-[-1px]',
                 )}
                 style={{ fontFeatureSettings: "'ss04' on" }}
               >
                 {title || defaultTitle}
               </h2>
             ) : (
-              <H2 className={clsx(headerSizeClasses, 'font-semibold leading-[125%] text-[#13132E] tracking-[-0.01em]')}>
+              <H2 className={clsx(headerSizeClasses, 'font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]')}>
                 {title || defaultTitle}
               </H2>
             )}
@@ -325,7 +325,7 @@ const TestimonialMemberCard = ({ testimonial }: { testimonial: TestimonialMember
         <div className="flex flex-1 flex-col gap-8">
           {/* Quote uses flex-1 to grow and push name to bottom */}
           {hasQuote ? (
-            <P className="flex-1 text-[16px] font-normal leading-[160%] text-[#13132E] text-left w-full">
+            <P className="flex-1 text-[16px] font-normal leading-[160%] text-bluedot-navy text-left w-full">
               {testimonial.quote}
             </P>
           ) : (
@@ -336,12 +336,12 @@ const TestimonialMemberCard = ({ testimonial }: { testimonial: TestimonialMember
           {/* Name and Job Title Container - shrink-0 stays at bottom */}
           <div className="flex flex-col items-start gap-1 shrink-0 w-full">
             {/* Name */}
-            <P className="text-[16px] font-semibold leading-[125%] text-[#13132E] text-left w-full">
+            <P className="text-[16px] font-semibold leading-[125%] text-bluedot-navy text-left w-full">
               {testimonial.name}
             </P>
 
             {/* Job Title */}
-            <P className="text-[14px] font-normal leading-[160%] text-[#13132E] text-left w-full opacity-60">
+            <P className="text-[14px] font-normal leading-[160%] text-bluedot-navy text-left w-full opacity-60">
               {testimonial.jobTitle}
             </P>
           </div>
@@ -396,7 +396,7 @@ const NavigationButton = ({
     aria-label={`Scroll ${direction}`}
   >
     <span
-      className="text-[#13132E] text-[22.4px] font-medium select-none"
+      className="text-bluedot-navy text-[22.4px] font-medium select-none"
       style={{
         transform: direction === 'left' ? 'scaleX(-1)' : 'none',
       }}

@@ -120,7 +120,7 @@ const ShareButtons: React.FC<{ shareUrl: string; shareText: string }> = ({ share
       <ClickTarget
         url={xUrl}
         target="_blank"
-        className={clsx(baseButtonClasses, 'bg-[rgba(19,19,46,0.05)] text-[#13132e] w-full sm:w-auto')}
+        className={clsx(baseButtonClasses, 'bg-[rgba(19,19,46,0.05)] text-bluedot-navy w-full sm:w-auto')}
         aria-label="Share on X"
       >
         <FaXTwitter size={16} />

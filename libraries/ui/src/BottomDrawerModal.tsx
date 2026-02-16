@@ -186,7 +186,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                     {title && (
                       <div className="flex items-center justify-between px-5 pb-4">
                         {titleIsString ? (
-                          <h2 id="mobile-modal-title" className="text-size-lg font-semibold text-[#13132E]">
+                          <h2 id="mobile-modal-title" className="text-size-lg font-semibold text-bluedot-navy">
                             {title}
                           </h2>
                         ) : title}

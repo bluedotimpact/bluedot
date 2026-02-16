@@ -24,7 +24,7 @@ const CTA_VARIANT_STYLES = {
   secondary: 'cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter',
   black: 'cta-button--black bg-bluedot-darker link-on-dark hover:bg-bluedot-darkest',
   'outline-black': 'cta-button--outline-black bg-transparent border border-[rgba(19,19,46,0.3)] text-black hover:bg-gray-50 font-medium',
-  ghost: '[--ghost-gray:#13132E] text-(--ghost-gray)/60 hover:text-(--ghost-gray) hover:bg-(--ghost-gray)/10',
+  ghost: 'text-bluedot-navy/60 hover:text-bluedot-navy hover:bg-bluedot-navy/10',
   unstyled: '', // No color/hover styles - fully controlled by className/style props
 } as const;
 

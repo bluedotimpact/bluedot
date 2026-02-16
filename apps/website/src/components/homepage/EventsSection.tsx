@@ -85,7 +85,7 @@ const DateBadge = ({ month, day }: { month: string; day: string }) => {
 
       {/* Day Number */}
       <div className="relative flex items-center justify-center h-[43.2px] min-[1024px]:h-[54px]">
-        <span className="text-[32px] min-[1024px]:text-[40px] font-normal text-[#13132e] tracking-[-0.8px] min-[1024px]:tracking-[-1px] leading-tight">
+        <span className="text-[32px] min-[1024px]:text-[40px] font-normal text-bluedot-navy tracking-[-0.8px] min-[1024px]:tracking-[-1px] leading-tight">
           {day}
         </span>
       </div>
@@ -169,7 +169,7 @@ const EventCard = ({ event }: { event: Event }) => {
           href={event.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[20px] min-[680px]:text-[24px] font-normal leading-[1.3] tracking-[-0.4px] min-[680px]:tracking-[-0.18px] text-[#13132e] hover:text-[#271dcd] transition-colors"
+          className="text-[20px] min-[680px]:text-[24px] font-normal leading-[1.3] tracking-[-0.4px] min-[680px]:tracking-[-0.18px] text-bluedot-navy hover:text-[#271dcd] transition-colors"
           aria-label={`${event.title} (opens in new tab)`}
         >
           <h3>

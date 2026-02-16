@@ -45,7 +45,7 @@ const ListenToArticleButton: React.FC<ListenToArticleButtonProps> = ({ audioUrl,
       </svg>
 
       {/* Text */}
-      <span className="text-[13px] font-medium leading-[140%] tracking-[-0.005em] text-[#6A6F7A] group-hover:text-[#13132E] transition-colors duration-200">
+      <span className="text-[13px] font-medium leading-[140%] tracking-[-0.005em] text-[#6A6F7A] group-hover:text-bluedot-navy transition-colors duration-200">
         Listen to article
       </span>
     </button>

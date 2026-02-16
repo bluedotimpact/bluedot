@@ -39,7 +39,7 @@ const PersonasSection = ({
   return (
     <section id={id} className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24">
-        <H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-[#13132E] text-center mb-12 md:mb-16 tracking-[-0.01em]">
+        <H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy text-center mb-12 md:mb-16 tracking-[-0.01em]">
           {title}
         </H2>
         <div className="max-w-[800px] mx-auto flex flex-col gap-4">
@@ -103,22 +103,22 @@ const PersonasSection = ({
                     <div className="p-6 min-[680px]:p-8 flex flex-col gap-4">
                       {/* Summary */}
                       {persona.summary && (
-                        <P className="text-[17px] min-[680px]:text-[18px] leading-normal text-[#13132E] font-semibold">
+                        <P className="text-[17px] min-[680px]:text-[18px] leading-normal text-bluedot-navy font-semibold">
                           {persona.summary}
                         </P>
                       )}
 
                       {/* Description */}
-                      <P className="text-[15px] min-[680px]:text-[16px] leading-[1.7] text-[#13132E]/70">
+                      <P className="text-[15px] min-[680px]:text-[16px] leading-[1.7] text-bluedot-navy/70">
                         {persona.description}
                       </P>
 
                       {/* What this looks like */}
-                      <div className="pt-4 border-t border-[#13132E]/10">
-                        <p className="text-[11px] min-[680px]:text-[12px] font-semibold uppercase tracking-[0.08em] text-[#13132E]/40 mb-2">
+                      <div className="pt-4 border-t border-bluedot-navy/10">
+                        <p className="text-[11px] min-[680px]:text-[12px] font-semibold uppercase tracking-[0.08em] text-bluedot-navy/40 mb-2">
                           What this looks like
                         </p>
-                        <P className="text-[15px] min-[680px]:text-[16px] leading-[1.6] text-[#13132E]/80">
+                        <P className="text-[15px] min-[680px]:text-[16px] leading-[1.6] text-bluedot-navy/80">
                           {persona.valueProposition}
                         </P>
                       </div>

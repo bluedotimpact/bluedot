@@ -148,7 +148,7 @@ export const createAiGovernanceContent = (
             <span className="font-medium">High agency</span> - bias toward action, not just learning
             <br />
             <br />
-            <span className="text-[#13132E]/60">We're selective. If you're here to add a credential, this isn't for you.</span>
+            <span className="text-bluedot-navy/60">We're selective. If you're here to add a credential, this isn't for you.</span>
           </>
         ),
       },

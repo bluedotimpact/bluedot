@@ -106,7 +106,7 @@ const NewsletterBanner = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
               required
-              className="w-full h-11 px-4 bg-white rounded-md text-size-sm leading-[18.2px] tracking-[0.42px] text-[#13132e] placeholder:text-[#13132e] placeholder:opacity-60 border border-[rgba(0,0,0,0.1)] focus:outline-none focus:border-transparent focus:border-[3px] transition-all"
+              className="w-full h-11 px-4 bg-white rounded-md text-size-sm leading-[18.2px] tracking-[0.42px] text-bluedot-navy placeholder:text-bluedot-navy placeholder:opacity-60 border border-[rgba(0,0,0,0.1)] focus:outline-none focus:border-transparent focus:border-[3px] transition-all"
               style={{
                 // Gradient border on focus - Tailwind doesn't support gradient borders with double background layers
                 backgroundOrigin: 'padding-box, border-box',

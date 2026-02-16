@@ -43,7 +43,7 @@ const getStatusConfig = (savedText: string): Record<SaveStatus, {
           type="button"
           onClick={onRetry}
           style={{
-            color: '#13132E',
+            color: 'var(--bluedot-navy)',
             fontWeight: 500,
             background: 'none',
             border: 'none',
@@ -56,7 +56,7 @@ const getStatusConfig = (savedText: string): Record<SaveStatus, {
           }}
         >
           Retry
-          <UndoIcon className="text-[#13132E] ml-0.5" />
+          <UndoIcon className="text-bluedot-navy ml-0.5" />
         </button>
       </span>
     ),

@@ -85,7 +85,7 @@ const HeroSection = ({
                 <CTALinkOrButton
                   url={primaryCta.url}
                   variant="unstyled"
-                  className="h-[50px] px-5 py-3 text-[16px] font-medium rounded-md cursor-pointer transition-all text-[#13132e] w-full min-[680px]:w-auto hover:brightness-90"
+                  className="h-[50px] px-5 py-3 text-[16px] font-medium rounded-md cursor-pointer transition-all text-bluedot-navy w-full min-[680px]:w-auto hover:brightness-90"
                   style={accentColor ? { backgroundColor: accentColor } : undefined}
                 >
                   {primaryCta.text}
@@ -130,7 +130,7 @@ const HeroSection = ({
                   <CTALinkOrButton
                     url={primaryCta.url}
                     variant="unstyled"
-                    className="h-[50px] px-5 py-2.5 text-[16px] font-medium rounded-md cursor-pointer transition-all text-[#13132e] hover:brightness-90"
+                    className="h-[50px] px-5 py-2.5 text-[16px] font-medium rounded-md cursor-pointer transition-all text-bluedot-navy hover:brightness-90"
                     style={accentColor ? { backgroundColor: accentColor } : undefined}
                   >
                     {primaryCta.text}
@@ -194,7 +194,7 @@ const HeroSection = ({
                   <CTALinkOrButton
                     url={primaryCta.url}
                     size="small"
-                    className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md cursor-pointer transition-colors text-[#13132e] hover:brightness-90"
+                    className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md cursor-pointer transition-colors text-bluedot-navy hover:brightness-90"
                     style={accentColor ? { backgroundColor: accentColor } : undefined}
                   >
                     {primaryCta.text}
@@ -240,7 +240,7 @@ const HeroSection = ({
                     </p>
                   )}
 
-                  <H1 className="text-[32px] sm:text-[40px] sm:leading-tight lg:text-[40px] xl:text-5xl leading-tight font-semibold tracking-[-0.5px] text-[#13132E]">
+                  <H1 className="text-[32px] sm:text-[40px] sm:leading-tight lg:text-[40px] xl:text-5xl leading-tight font-semibold tracking-[-0.5px] text-bluedot-navy">
                     {title}
                   </H1>
 

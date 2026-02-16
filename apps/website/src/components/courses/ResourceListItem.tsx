@@ -51,7 +51,7 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({ resourceFeedback, onF
     const opacityClass = isActive ? 'opacity-100' : 'opacity-60';
     const bgClass = isActive ? activeBackground : 'bg-transparent';
 
-    let textColorClass = 'text-[#13132E]';
+    let textColorClass = 'text-bluedot-navy';
     if (isActive && isLikeButton) {
       textColorClass = 'text-[#2244bb]';
     }

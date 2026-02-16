@@ -140,7 +140,7 @@ const ValueProp = ({ iconType, title, description }: { iconType: string; title: 
   return (
     <div className="flex flex-col gap-6 min-[680px]:basis-0 min-[680px]:grow">
       <div className="size-16 rounded-full bg-[rgba(19,19,46,0.08)] flex items-center justify-center">
-        <IconComponent className="size-8 text-[#13132E]" />
+        <IconComponent className="size-8 text-bluedot-navy" />
       </div>
       <div className="flex flex-col gap-2">
         <H4 className="text-size-md font-medium">{title}</H4>
@@ -175,7 +175,7 @@ const CourseCarouselButton = ({
     aria-label={`Scroll ${direction}`}
   >
     <span
-      className="text-[#13132E] text-[22.4px] font-medium select-none"
+      className="text-bluedot-navy text-[22.4px] font-medium select-none"
       style={{
         transform: direction === 'left' ? 'scaleX(-1)' : 'none',
       }}
