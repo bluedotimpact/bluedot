@@ -23,33 +23,28 @@ const getFacilitator = async (roundId: string, facilitatorEmail: string) => {
 };
 
 export const facilitatorSwitchingRouter = router({
-  getFacilitatorsForRound: protectedProcedure
-    .input(z.object({ roundId: z.string() }))
-    .query(async ({ input, ctx }) => {
-      const { roundId } = input;
+  getFacilitatorsForRound: protectedProcedure.input(z.object({ roundId: z.string() })).query(async ({ input, ctx }) => {
+    const { roundId } = input;
 
-      const currentFacilitator = await getFacilitator(roundId, ctx.auth.email);
+    const currentFacilitator = await getFacilitator(roundId, ctx.auth.email);
 
-      // Get all meetPersons in the same round who are facilitators
-      const facilitators = await db.pg
-        .select({
-          id: meetPersonTable.pg.id,
-          name: meetPersonTable.pg.name,
-        })
-        .from(meetPersonTable.pg)
-        .where(and(
-          eq(meetPersonTable.pg.round, roundId),
-          eq(meetPersonTable.pg.role, 'Facilitator'),
-        ));
+    // Get all meetPersons in the same round who are facilitators
+    const facilitators = await db.pg
+      .select({
+        id: meetPersonTable.pg.id,
+        name: meetPersonTable.pg.name,
+      })
+      .from(meetPersonTable.pg)
+      .where(and(eq(meetPersonTable.pg.round, roundId), eq(meetPersonTable.pg.role, 'Facilitator')));
 
-      // Return as options for Select, excluding the current facilitator
-      return facilitators
-        .filter((f) => f.id !== currentFacilitator.id)
-        .map((f) => ({
-          value: f.id,
-          label: f.name,
-        }));
-    }),
+    // Return as options for Select, excluding the current facilitator
+    return facilitators
+      .filter((f) => f.id !== currentFacilitator.id)
+      .map((f) => ({
+        value: f.id,
+        label: f.name,
+      }));
+  }),
 
   discussionsAvailable: protectedProcedure
     .input(z.object({
@@ -64,14 +59,23 @@ export const facilitatorSwitchingRouter = router({
         // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         .where(and(inArray(groupDiscussionTable.pg.id, facilitator.expectedDiscussionsFacilitator || [])));
 
-      const groups = await db.pg.select().from(groupTable.pg).where(inArray(groupTable.pg.id, groupDiscussions.map((discussion) => discussion.group)));
+      const groups = await db.pg
+        .select()
+        .from(groupTable.pg)
+        .where(inArray(
+          groupTable.pg.id,
+          groupDiscussions.map((discussion) => discussion.group),
+        ));
 
-      const unitIds = [...new Set(groupDiscussions.map((d) => d.courseBuilderUnitRecordId).filter(Boolean))] as string[];
-      const units = unitIds.length > 0
-        ? await db.scan(unitTable, {
-          OR: unitIds.map((id) => ({ id, unitStatus: 'Active' as const })),
-        })
-        : [];
+      const unitIds = [
+        ...new Set(groupDiscussions.map((d) => d.courseBuilderUnitRecordId).filter(Boolean)),
+      ] as string[];
+      const units
+        = unitIds.length > 0
+          ? await db.scan(unitTable, {
+            OR: unitIds.map((id) => ({ id, unitStatus: 'Active' as const })),
+          })
+          : [];
 
       const groupMap = new Map(groups.map((g) => [g.id, g]));
       const unitMap = new Map(units.map((u) => [u.id, u]));
@@ -95,9 +99,7 @@ export const facilitatorSwitchingRouter = router({
       requestedDateTimeInSeconds: z.number(), // Unix timestamp in seconds
     }))
     .mutation(async ({ input, ctx }) => {
-      const {
-        roundId, discussionId, groupId, requestedDateTimeInSeconds,
-      } = input;
+      const { roundId, discussionId, groupId, requestedDateTimeInSeconds } = input;
 
       const nowInSeconds = Math.floor(Date.now() / 1000);
       if (requestedDateTimeInSeconds <= nowInSeconds) {
@@ -129,13 +131,13 @@ export const facilitatorSwitchingRouter = router({
         const groupDiscussions = await db.pg
           .select({ id: groupDiscussionTable.pg.id })
           .from(groupDiscussionTable.pg)
-          .where(and(
-            eq(groupDiscussionTable.pg.group, groupId),
-            inArray(groupDiscussionTable.pg.id, allowedDiscussions),
-          ));
+          .where(and(eq(groupDiscussionTable.pg.group, groupId), inArray(groupDiscussionTable.pg.id, allowedDiscussions)));
 
         if (groupDiscussions.length === 0) {
-          throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitator is not allowed to manage any discussions in this group' });
+          throw new TRPCError({
+            code: 'FORBIDDEN',
+            message: 'Facilitator is not allowed to manage any discussions in this group',
+          });
         }
       }
 
@@ -160,9 +162,7 @@ export const facilitatorSwitchingRouter = router({
       newFacilitatorId: z.string(),
     }))
     .mutation(async ({ input, ctx }) => {
-      const {
-        roundId, discussionId, groupId, newFacilitatorId,
-      } = input;
+      const { roundId, discussionId, groupId, newFacilitatorId } = input;
 
       const facilitator = await getFacilitator(roundId, ctx.auth.email);
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
@@ -179,7 +179,10 @@ export const facilitatorSwitchingRouter = router({
 
       const nowInSeconds = Math.floor(Date.now() / 1000);
       if (discussion.startDateTime <= nowInSeconds) {
-        throw new TRPCError({ code: 'BAD_REQUEST', message: 'Cannot change facilitator for a discussion that has already started' });
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Cannot change facilitator for a discussion that has already started',
+        });
       }
 
       const newFacilitator = await db.getFirst(meetPersonTable, { filter: { id: newFacilitatorId } });
