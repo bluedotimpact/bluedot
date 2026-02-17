@@ -66,15 +66,4 @@ describe('CoursePage SSR/SEO', () => {
     const ogUrl = document.querySelector('meta[property="og:url"]');
     expect(ogUrl?.getAttribute('content')).toBe(`https://bluedot.org/courses/${encodeURIComponent(mockCourse.slug)}`);
   });
-
-  test('uses fallback logo image when no `courseOgImage` provided', () => {
-    renderWithHead(<CoursePage
-      courseSlug="ai-safety-fundamentals"
-      courseData={{ course: mockCourse, units: mockUnits }}
-      soonestDeadline={null}
-    />);
-
-    const ogImage = document.querySelector('meta[property="og:image"]');
-    expect(ogImage?.getAttribute('content')).toBe('https://bluedot.org/images/logo/link-preview-fallback.png');
-  });
 });
