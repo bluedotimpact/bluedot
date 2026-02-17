@@ -31,7 +31,7 @@ import { fileExists } from '../../../utils/fileExists';
 type CoursePageProps = {
   courseSlug: string;
   courseData: CourseAndUnits;
-  courseOgImage?: string | null;
+  courseOgImage: string;
   soonestDeadline: string | null;
 };
 
@@ -150,7 +150,7 @@ const renderCoursePage = ({
 
 const registerInterestUrl = 'https://web.miniextensions.com/aGd0mXnpcN1gfqlnYNZc';
 
-const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseAndUnits; courseOgImage?: string | null }) => {
+const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseAndUnits; courseOgImage: string }) => {
   const { latestUtmParams } = useLatestUtmParams();
   const registerInterestUrlWithUtm = latestUtmParams.utm_source ? addQueryParam(registerInterestUrl, 'prefill_Source', latestUtmParams.utm_source) : registerInterestUrl;
 
@@ -166,8 +166,7 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
             <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
             <meta key="og:type" property="og:type" content="website" />
             <meta key="og:url" property="og:url" content={`https://bluedot.org/courses/${encodeURIComponent(courseData.course.slug)}`} />
-            {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
-            <meta key="og:image" property="og:image" content={courseOgImage || 'https://bluedot.org/images/logo/link-preview-fallback.png'} />
+            <meta key="og:image" property="og:image" content={courseOgImage} />
             <meta key="og:image:width" property="og:image:width" content="1200" />
             <meta key="og:image:height" property="og:image:height" content="630" />
             <meta key="og:image:type" property="og:image:type" content="image/png" />
@@ -228,7 +227,7 @@ export const getStaticProps: GetStaticProps<CoursePageProps> = async ({ params }
     const rounds = await getCourseRoundsData(courseSlug);
     const soonestDeadline = getSoonestDeadline(rounds);
 
-    let courseOgImage: string | null = null;
+    let courseOgImage = 'https://bluedot.org/images/logo/link-preview-fallback.png';
     if (await fileExists(path.join(process.cwd(), 'public', 'images', 'courses', 'link-preview', `${courseSlug}.png`))) {
       courseOgImage = `${process.env.NEXT_PUBLIC_SITE_URL}/images/courses/link-preview/${courseSlug}.png`;
     }

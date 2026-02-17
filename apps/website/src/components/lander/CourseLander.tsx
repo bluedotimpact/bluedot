@@ -60,7 +60,7 @@ type CourseLanderProps = {
   courseSlug: string;
   baseApplicationUrl: string;
   createContentFor: (applicationUrlWithUtm: string, courseSlug: string) => CourseLanderContent;
-  courseOgImage?: string | null;
+  courseOgImage: string;
   soonestDeadline: string | null;
 };
 
@@ -100,8 +100,7 @@ const CourseLander = ({
         {/* Open Graph meta tags */}
         <meta property="og:title" content={content.meta.title} />
         <meta property="og:description" content={content.meta.description} />
-        {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
-        <meta property="og:image" content={courseOgImage || 'https://bluedot.org/images/logo/link-preview-fallback.png'} />
+        <meta property="og:image" content={courseOgImage} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content={content.meta.title} />
@@ -113,8 +112,7 @@ const CourseLander = ({
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={content.meta.title} />
         <meta name="twitter:description" content={content.meta.description} />
-        {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
-        <meta name="twitter:image" content={courseOgImage || 'https://bluedot.org/images/logo/link-preview-fallback.png'} />
+        <meta name="twitter:image" content={courseOgImage} />
       </Head>
 
       <Nav variant={heroProps.gradient ? 'transparent' : 'default'} />
