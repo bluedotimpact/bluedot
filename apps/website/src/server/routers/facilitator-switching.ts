@@ -24,14 +24,11 @@ const getFacilitator = async (roundId: string, facilitatorEmail: string) => {
 
 export const facilitatorSwitchingRouter = router({
   getFacilitatorsForRound: protectedProcedure
-    .input(z.object({ courseSlug: z.string() }))
+    .input(z.object({ roundId: z.string() }))
     .query(async ({ input, ctx }) => {
-      const { courseSlug } = input;
+      const { roundId } = input;
 
-      const currentFacilitator = await getFacilitator(courseSlug, ctx.auth.email);
-      if (!currentFacilitator.round) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'Facilitator is not assigned to a round' });
-      }
+      const currentFacilitator = await getFacilitator(roundId, ctx.auth.email);
 
       // Get all meetPersons in the same round who are facilitators
       const facilitators = await db.pg
@@ -41,7 +38,7 @@ export const facilitatorSwitchingRouter = router({
         })
         .from(meetPersonTable.pg)
         .where(and(
-          eq(meetPersonTable.pg.round, currentFacilitator.round),
+          eq(meetPersonTable.pg.round, roundId),
           eq(meetPersonTable.pg.role, 'Facilitator'),
         ));
 
@@ -56,10 +53,10 @@ export const facilitatorSwitchingRouter = router({
 
   discussionsAvailable: protectedProcedure
     .input(z.object({
-      courseSlug: z.string(),
+      roundId: z.string(),
     }))
-    .query(async ({ input: { courseSlug }, ctx }) => {
-      const facilitator = await getFacilitator(courseSlug, ctx.auth.email);
+    .query(async ({ input: { roundId }, ctx }) => {
+      const facilitator = await getFacilitator(roundId, ctx.auth.email);
 
       const groupDiscussions = await db.pg
         .select()
@@ -72,7 +69,7 @@ export const facilitatorSwitchingRouter = router({
       const unitIds = [...new Set(groupDiscussions.map((d) => d.courseBuilderUnitRecordId).filter(Boolean))] as string[];
       const units = unitIds.length > 0
         ? await db.scan(unitTable, {
-          OR: unitIds.map((id) => ({ id, courseSlug, unitStatus: 'Active' as const })),
+          OR: unitIds.map((id) => ({ id, unitStatus: 'Active' as const })),
         })
         : [];
 
@@ -91,7 +88,7 @@ export const facilitatorSwitchingRouter = router({
 
   updateDiscussion: protectedProcedure
     .input(z.object({
-      courseSlug: z.string(),
+      roundId: z.string(),
       // When provided, we will update only a single discussion's date/time. Otherwise all future discussions are updated.
       discussionId: z.string().optional(),
       groupId: z.string(),
@@ -99,7 +96,7 @@ export const facilitatorSwitchingRouter = router({
     }))
     .mutation(async ({ input, ctx }) => {
       const {
-        courseSlug, discussionId, groupId, requestedDateTimeInSeconds,
+        roundId, discussionId, groupId, requestedDateTimeInSeconds,
       } = input;
 
       const nowInSeconds = Math.floor(Date.now() / 1000);
@@ -107,7 +104,7 @@ export const facilitatorSwitchingRouter = router({
         throw new TRPCError({ code: 'BAD_REQUEST', message: 'Requested time must be in the future' });
       }
 
-      const facilitator = await getFacilitator(courseSlug, ctx.auth.email);
+      const facilitator = await getFacilitator(roundId, ctx.auth.email);
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const allowedDiscussions = facilitator.expectedDiscussionsFacilitator || [];
 
@@ -157,17 +154,17 @@ export const facilitatorSwitchingRouter = router({
 
   requestFacilitatorChange: protectedProcedure
     .input(z.object({
-      courseSlug: z.string(),
+      roundId: z.string(),
       discussionId: z.string(),
       groupId: z.string(),
       newFacilitatorId: z.string(),
     }))
     .mutation(async ({ input, ctx }) => {
       const {
-        courseSlug, discussionId, groupId, newFacilitatorId,
+        roundId, discussionId, groupId, newFacilitatorId,
       } = input;
 
-      const facilitator = await getFacilitator(courseSlug, ctx.auth.email);
+      const facilitator = await getFacilitator(roundId, ctx.auth.email);
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const allowedDiscussions = facilitator.expectedDiscussionsFacilitator || [];
 
