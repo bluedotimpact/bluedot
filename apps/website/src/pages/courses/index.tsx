@@ -12,6 +12,7 @@ import { trpc } from '../../utils/trpc';
 import NewsletterBanner from '../../components/homepage/NewsletterBanner';
 import { CourseIcon } from '../../components/courses/CourseIcon';
 import { COURSE_CONFIG } from '../../lib/constants';
+import { appendPosthogSessionIdPrefill } from '../../lib/appendPosthogSessionIdPrefill';
 
 const getCourseAccentColor = (courseSlug: string): string => {
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
@@ -578,9 +579,9 @@ const CourseRoundItem = ({ round, course }: CourseRoundItemProps) => {
   const baseApplicationUrl = course.applyUrl || '';
 
   // Add UTM source prefill if available
-  const applicationUrlWithUtm = latestUtmParams.utm_source
+  const applicationUrlWithUtm = appendPosthogSessionIdPrefill(latestUtmParams.utm_source
     ? addQueryParam(baseApplicationUrl, 'prefill_Source', latestUtmParams.utm_source)
-    : baseApplicationUrl;
+    : baseApplicationUrl);
 
   // Add round prefill - manually construct to use %20 encoding (miniextensions requires this format)
   const separator = applicationUrlWithUtm.includes('?') ? '&' : '?';

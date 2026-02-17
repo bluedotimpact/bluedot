@@ -12,6 +12,7 @@ import { type GetStaticProps, type GetStaticPaths } from 'next';
 import path from 'path';
 
 import { ROUTES } from '../../../lib/routes';
+import { appendPosthogSessionIdPrefill } from '../../../lib/appendPosthogSessionIdPrefill';
 import MarkdownExtendedRenderer from '../../../components/courses/MarkdownExtendedRenderer';
 import AiSafetyOpsLander from '../../../components/lander/AiSafetyOpsLander';
 import CourseLander from '../../../components/lander/CourseLander';
@@ -152,7 +153,7 @@ const registerInterestUrl = 'https://web.miniextensions.com/aGd0mXnpcN1gfqlnYNZc
 
 const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseAndUnits; courseOgImage: string }) => {
   const { latestUtmParams } = useLatestUtmParams();
-  const registerInterestUrlWithUtm = latestUtmParams.utm_source ? addQueryParam(registerInterestUrl, 'prefill_Source', latestUtmParams.utm_source) : registerInterestUrl;
+  const registerInterestUrlWithUtm = appendPosthogSessionIdPrefill(latestUtmParams.utm_source ? addQueryParam(registerInterestUrl, 'prefill_Source', latestUtmParams.utm_source) : registerInterestUrl);
 
   return (
     <div>
