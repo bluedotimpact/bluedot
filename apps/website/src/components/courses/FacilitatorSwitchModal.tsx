@@ -47,7 +47,7 @@ type SwitchType = (typeof SWITCH_OPTIONS)[number]['value'];
 
 type FacilitatorSwitchModalProps = {
   handleClose: () => void;
-  courseSlug: string;
+  roundId: string;
   /** Only `id` and `group` needed from initialDiscussion */
   initialDiscussion: { id: string; group: string } | null;
   initialModalType?: FacilitatorModalType;
@@ -55,7 +55,7 @@ type FacilitatorSwitchModalProps = {
 
 const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
   handleClose,
-  courseSlug,
+  roundId,
   initialDiscussion,
   initialModalType = 'Update discussion time',
 }) => {
@@ -87,7 +87,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 
   // Fetch facilitators when in "Change facilitator" mode
   const facilitatorsQuery = trpc.facilitators.getFacilitatorsForRound.useQuery(
-    { courseSlug },
+    { roundId },
     { enabled: modalType === 'Change facilitator' },
   );
 
@@ -96,7 +96,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     isLoading,
     isError,
     error,
-  } = trpc.facilitators.discussionsAvailable.useQuery({ courseSlug });
+  } = trpc.facilitators.discussionsAvailable.useQuery({ roundId });
   const { groupOptions, discussionOptionsByGroup } = buildOptions(discussions, currentTimeMs);
 
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
@@ -136,7 +136,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     newDateTime.setHours(timeToUse.getHours(), timeToUse.getMinutes(), 0, 0);
 
     updateDiscussionTimeMutation.mutate({
-      courseSlug,
+      roundId,
       discussionId,
       groupId: selectedGroupId,
       // `getTime()` converts to UTC milliseconds, we convert to seconds
@@ -153,7 +153,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
     }
 
     changeFacilitatorMutation.mutate({
-      courseSlug,
+      roundId,
       discussionId: selectedDiscussionId,
       groupId: selectedGroupId,
       newFacilitatorId: selectedNewFacilitatorId,
