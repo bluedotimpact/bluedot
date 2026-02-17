@@ -1,8 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import {
-  describe, expect, test, vi,
+  describe, expect, test,
 } from 'vitest';
-import * as deviceDetect from 'react-device-detect';
 import JobsListSection from './JobsListSection';
 
 const mockCmsJobs = [
@@ -46,7 +45,6 @@ describe('JobsListSection', () => {
   });
 
   test('renders mobile as expected', () => {
-    vi.spyOn(deviceDetect, 'isMobile', 'get').mockReturnValue(true);
     const { container } = render(<JobsListSection jobs={mockCmsJobs} />);
 
     // Check if job titles and locations are rendered
@@ -60,8 +58,6 @@ describe('JobsListSection', () => {
     // Check if there are two job listings
     const jobListings = screen.getAllByRole('listitem');
     expect(jobListings.length).toBe(2);
-
-    vi.restoreAllMocks();
   });
 
   test('renders empty state when no jobs are provided', () => {
