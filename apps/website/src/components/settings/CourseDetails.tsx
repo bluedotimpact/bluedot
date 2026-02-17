@@ -169,13 +169,13 @@ const CourseDetails = ({
           courseSlug={course.slug}
         />
       )}
-      {facilitatorSwitchModalOpen && course.slug && (
+      {facilitatorSwitchModalOpen && selectedDiscussion?.groupDetails?.round && (
         <FacilitatorSwitchModal
           handleClose={() => {
             setFacilitatorSwitchModalOpen(false);
             setSelectedDiscussion(null);
           }}
-          courseSlug={course.slug}
+          roundId={selectedDiscussion.groupDetails.round}
           initialDiscussion={selectedDiscussion}
           initialModalType={selectedFacilitatorModalType}
         />
