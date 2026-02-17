@@ -49,11 +49,9 @@ export const facilitatorSwitchingRouter = router({
   }),
 
   discussionsAvailable: protectedProcedure
-    .input(
-      z.object({
-        roundId: z.string(),
-      }),
-    )
+    .input(z.object({
+      roundId: z.string(),
+    }))
     .query(async ({ input: { roundId }, ctx }) => {
       const facilitator = await getFacilitator(roundId, ctx.auth.email);
 
@@ -66,21 +64,19 @@ export const facilitatorSwitchingRouter = router({
       const groups = await db.pg
         .select()
         .from(groupTable.pg)
-        .where(
-          inArray(
-            groupTable.pg.id,
-            groupDiscussions.map((discussion) => discussion.group),
-          ),
-        );
+        .where(inArray(
+          groupTable.pg.id,
+          groupDiscussions.map((discussion) => discussion.group),
+        ));
 
       const unitIds = [
         ...new Set(groupDiscussions.map((d) => d.courseBuilderUnitRecordId).filter(Boolean)),
       ] as string[];
-      const units =
-        unitIds.length > 0
+      const units
+        = unitIds.length > 0
           ? await db.scan(unitTable, {
-              OR: unitIds.map((id) => ({ id, unitStatus: 'Active' as const })),
-            })
+            OR: unitIds.map((id) => ({ id, unitStatus: 'Active' as const })),
+          })
           : [];
 
       const groupMap = new Map(groups.map((g) => [g.id, g]));
@@ -97,15 +93,13 @@ export const facilitatorSwitchingRouter = router({
     }),
 
   updateDiscussion: protectedProcedure
-    .input(
-      z.object({
-        roundId: z.string(),
-        // When provided, we will update only a single discussion's date/time. Otherwise all future discussions are updated.
-        discussionId: z.string().optional(),
-        groupId: z.string(),
-        requestedDateTimeInSeconds: z.number(), // Unix timestamp in seconds
-      }),
-    )
+    .input(z.object({
+      roundId: z.string(),
+      // When provided, we will update only a single discussion's date/time. Otherwise all future discussions are updated.
+      discussionId: z.string().optional(),
+      groupId: z.string(),
+      requestedDateTimeInSeconds: z.number(), // Unix timestamp in seconds
+    }))
     .mutation(async ({ input, ctx }) => {
       const { roundId, discussionId, groupId, requestedDateTimeInSeconds } = input;
 
@@ -139,9 +133,7 @@ export const facilitatorSwitchingRouter = router({
         const groupDiscussions = await db.pg
           .select({ id: groupDiscussionTable.pg.id })
           .from(groupDiscussionTable.pg)
-          .where(
-            and(eq(groupDiscussionTable.pg.group, groupId), inArray(groupDiscussionTable.pg.id, allowedDiscussions)),
-          );
+          .where(and(eq(groupDiscussionTable.pg.group, groupId), inArray(groupDiscussionTable.pg.id, allowedDiscussions)));
 
         if (groupDiscussions.length === 0) {
           throw new TRPCError({
@@ -165,14 +157,12 @@ export const facilitatorSwitchingRouter = router({
     }),
 
   requestFacilitatorChange: protectedProcedure
-    .input(
-      z.object({
-        roundId: z.string(),
-        discussionId: z.string(),
-        groupId: z.string(),
-        newFacilitatorId: z.string(),
-      }),
-    )
+    .input(z.object({
+      roundId: z.string(),
+      discussionId: z.string(),
+      groupId: z.string(),
+      newFacilitatorId: z.string(),
+    }))
     .mutation(async ({ input, ctx }) => {
       const { roundId, discussionId, groupId, newFacilitatorId } = input;
 
