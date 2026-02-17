@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { addQueryParam, useLatestUtmParams } from '@bluedot/ui';
+import { appendPosthogSessionIdPrefill } from '../../lib/appendPosthogSessionIdPrefill';
 import { Nav } from '../Nav/Nav';
 import TestimonialCarousel, { type TestimonialMember } from './TestimonialCarousel';
 import GraduateSection from './components/GraduateSection';
@@ -69,9 +70,9 @@ const CourseLander = ({
 }: CourseLanderProps) => {
   const { latestUtmParams } = useLatestUtmParams();
 
-  const applicationUrlWithUtm = latestUtmParams.utm_source
+  const applicationUrlWithUtm = appendPosthogSessionIdPrefill(latestUtmParams.utm_source
     ? addQueryParam(baseApplicationUrl, 'prefill_Source', latestUtmParams.utm_source)
-    : baseApplicationUrl;
+    : baseApplicationUrl);
 
   const content = createContentFor(applicationUrlWithUtm, courseSlug);
 
