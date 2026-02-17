@@ -1,7 +1,5 @@
 import {
   and,
-  courseRegistrationTable,
-  courseTable,
   eq,
   facilitatorDiscussionSwitchingTable,
   groupDiscussionTable,
@@ -15,30 +13,10 @@ import z from 'zod';
 import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
 
-const getFacilitator = async (courseSlug: string, facilitatorEmail: string) => {
-  const course = await db.getFirst(courseTable, {
-    filter: { slug: courseSlug },
-    sortBy: 'slug',
-  });
-  if (!course) {
-    throw new TRPCError({ code: 'NOT_FOUND', message: `No course with slug ${courseSlug} found` });
-  }
-
-  const courseRegistration = await db.getFirst(courseRegistrationTable, {
-    filter: {
-      email: facilitatorEmail,
-      courseId: course.id,
-      roundStatus: 'Active',
-      decision: 'Accept',
-    },
-  });
-  if (!courseRegistration) {
-    throw new TRPCError({ code: 'NOT_FOUND', message: 'No course registration found' });
-  }
-
-  const facilitator = await db.getFirst(meetPersonTable, { filter: { applicationsBaseRecordId: courseRegistration.id } });
+const getFacilitator = async (roundId: string, facilitatorEmail: string) => {
+  const facilitator = await db.getFirst(meetPersonTable, { filter: { round: roundId, email: facilitatorEmail } });
   if (!facilitator) {
-    throw new TRPCError({ code: 'NOT_FOUND', message: 'No facilitator found for this course registration' });
+    throw new TRPCError({ code: 'NOT_FOUND', message: 'No facilitator found for this round' });
   }
 
   return facilitator;
