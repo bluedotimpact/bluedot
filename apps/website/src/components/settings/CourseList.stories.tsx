@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { MeetPerson } from '@bluedot/db';
 import CourseList from './CourseList';
-import type { GroupDiscussion } from '../../server/routers/group-discussions';
+import type { GroupDiscussionWithGroupAndUnit } from '../../server/routers/group-discussions';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 import {
   createMockCourse,
@@ -54,7 +54,7 @@ const mockFacilitatorMeetPerson = createMockMeetPerson({
 const now = Math.floor(Date.now() / 1000);
 const hour = 60 * 60;
 
-const mockDiscussion: GroupDiscussion = {
+const mockDiscussion: GroupDiscussionWithGroupAndUnit = {
   ...createMockGroupDiscussion({
     facilitators: ['facilitator-1'],
     participantsExpected: ['participant-1'],
@@ -63,7 +63,7 @@ const mockDiscussion: GroupDiscussion = {
     group: 'group-1',
     zoomLink: 'https://zoom.us/j/123',
   }),
-  unitRecord: { unitNumber: '1', title: 'Introduction' } as GroupDiscussion['unitRecord'],
+  unitRecord: { unitNumber: '1', title: 'Introduction' } as GroupDiscussionWithGroupAndUnit['unitRecord'],
   groupDetails: {
     id: 'group-1',
     round: 'Round 1',
@@ -73,7 +73,7 @@ const mockDiscussion: GroupDiscussion = {
     participants: ['participant-1'],
     whoCanSwitchIntoThisGroup: ['participant-1'],
     startTimeUtc: now,
-  } as GroupDiscussion['groupDetails'],
+  } as GroupDiscussionWithGroupAndUnit['groupDetails'],
 };
 
 // MSW handlers for tRPC calls
@@ -157,7 +157,7 @@ const pastDiscussions = Array.from({ length: 5 }, (_, i) => ({
     endDateTime: now - (9 - i) * hour,
   }),
   unitNumber: i + 1,
-  unitRecord: { unitNumber: String(i + 1), title: `Unit ${i + 1}` } as GroupDiscussion['unitRecord'],
+  unitRecord: { unitNumber: String(i + 1), title: `Unit ${i + 1}` } as GroupDiscussionWithGroupAndUnit['unitRecord'],
   groupDetails: mockDiscussion.groupDetails,
 }));
 

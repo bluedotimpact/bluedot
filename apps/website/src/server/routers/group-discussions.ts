@@ -14,7 +14,7 @@ import db from '../../lib/api/db';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 
-export type GroupDiscussion = inferRouterOutputs<
+export type GroupDiscussionWithGroupAndUnit = inferRouterOutputs<
   typeof groupDiscussionsRouter
 >['getByDiscussionIds']['discussions'][number];
 

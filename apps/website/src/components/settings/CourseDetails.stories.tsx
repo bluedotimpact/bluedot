@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { createMockCourse, createMockCourseRegistration } from '../../__tests__/testUtils';
-import type { GroupDiscussion } from '../../server/routers/group-discussions';
+import type { GroupDiscussionWithGroupAndUnit } from '../../server/routers/group-discussions';
 import CourseDetails from './CourseDetails';
 
 const courseId = 'course-1';
@@ -10,7 +10,7 @@ const mockCourseRegistration = createMockCourseRegistration({ courseId });
 const now = Math.floor(Date.now() / 1000);
 const hour = 60 * 60;
 
-const mockDiscussions: Record<string, GroupDiscussion> = {
+const mockDiscussions: Record<string, GroupDiscussionWithGroupAndUnit> = {
   'discussion-1': {
     id: 'discussion-1',
     facilitators: ['facilitator-1'],
@@ -30,8 +30,8 @@ const mockDiscussions: Record<string, GroupDiscussion> = {
     round: null,
     courseBuilderUnitRecordId: 'unit-1',
     autoNumberId: null,
-    unitRecord: { unitNumber: '1', title: 'Introduction to AI Safety' } as GroupDiscussion['unitRecord'],
-    groupDetails: { groupName: 'Group A' } as GroupDiscussion['groupDetails'],
+    unitRecord: { unitNumber: '1', title: 'Introduction to AI Safety' } as GroupDiscussionWithGroupAndUnit['unitRecord'],
+    groupDetails: { groupName: 'Group A' } as GroupDiscussionWithGroupAndUnit['groupDetails'],
   },
   'discussion-2': {
     id: 'discussion-2',
@@ -52,8 +52,8 @@ const mockDiscussions: Record<string, GroupDiscussion> = {
     round: null,
     courseBuilderUnitRecordId: 'unit-2',
     autoNumberId: null,
-    unitRecord: { unitNumber: '2', title: 'AI Alignment' } as GroupDiscussion['unitRecord'],
-    groupDetails: { groupName: 'Group A' } as GroupDiscussion['groupDetails'],
+    unitRecord: { unitNumber: '2', title: 'AI Alignment' } as GroupDiscussionWithGroupAndUnit['unitRecord'],
+    groupDetails: { groupName: 'Group A' } as GroupDiscussionWithGroupAndUnit['groupDetails'],
   },
   'discussion-3': {
     id: 'discussion-3',
@@ -74,8 +74,8 @@ const mockDiscussions: Record<string, GroupDiscussion> = {
     round: null,
     courseBuilderUnitRecordId: 'unit-0',
     autoNumberId: null,
-    unitRecord: { unitNumber: '0', title: 'Kickoff' } as GroupDiscussion['unitRecord'],
-    groupDetails: { groupName: 'Group A' } as GroupDiscussion['groupDetails'],
+    unitRecord: { unitNumber: '0', title: 'Kickoff' } as GroupDiscussionWithGroupAndUnit['unitRecord'],
+    groupDetails: { groupName: 'Group A' } as GroupDiscussionWithGroupAndUnit['groupDetails'],
   },
 };
 
