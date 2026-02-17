@@ -78,11 +78,11 @@ const HARDCODED_COURSES: Course[] = [
   },
   {
     slug: 'governance',
-    title: 'AI Governance',
+    title: 'Frontier AI Governance',
     shortDescription: 'Learn about the policy landscape, regulatory tools, and institutional reforms needed to navigate the transition to transformative AI.',
     durationDescription: '25h',
     cadence: 'Cohort-based',
-    additionalTag: 'Coming Feb 2026',
+    additionalTag: 'Every month',
     isFeatured: false,
     icon: '/images/courses/ai-governance-icon.svg',
     gradient: COURSE_GRADIENTS.governance,
@@ -551,7 +551,7 @@ const CourseCardRedesigned = ({
         {/* Text content at bottom */}
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-4">
-            <H3 className="text-[24px] font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200">
+            <H3 className={clsx('font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200', course.slug === 'governance' ? 'text-[23px]' : 'text-[24px]')}>
               {course.title}
               {/* Hover arrow for all cards */}
               <span className="inline-block ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">

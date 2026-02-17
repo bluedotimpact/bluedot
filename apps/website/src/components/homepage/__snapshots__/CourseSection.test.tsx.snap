@@ -191,7 +191,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="flex flex-col gap-4"
                     >
                       <h3
-                        class="bluedot-h3 not-prose text-[24px] font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200"
+                        class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
                       >
                         The Future of AI
                         <span
@@ -267,7 +267,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="flex flex-col gap-4"
                     >
                       <h3
-                        class="bluedot-h3 not-prose text-[24px] font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200"
+                        class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
                       >
                         AGI Strategy
                         <span
@@ -347,7 +347,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="flex flex-col gap-4"
                     >
                       <h3
-                        class="bluedot-h3 not-prose text-[24px] font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200"
+                        class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
                       >
                         Biosecurity
                         <span
@@ -423,7 +423,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="flex flex-col gap-4"
                     >
                       <h3
-                        class="bluedot-h3 not-prose text-[24px] font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200"
+                        class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
                       >
                         Technical AI Safety
                         <span
@@ -486,7 +486,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="size-16 md:size-20 xl:size-24"
                     >
                       <img
-                        alt="AI Governance icon"
+                        alt="Frontier AI Governance icon"
                         class="block size-full"
                         src="/images/courses/ai-governance-icon.svg"
                       />
@@ -499,9 +499,9 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="flex flex-col gap-4"
                     >
                       <h3
-                        class="bluedot-h3 not-prose text-[24px] font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200"
+                        class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[23px]"
                       >
-                        AI Governance
+                        Frontier AI Governance
                         <span
                           class="inline-block ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                         >
@@ -530,7 +530,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       <span
                         class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                       >
-                        Coming Feb 2026
+                        Every month
                       </span>
                     </div>
                   </div>
@@ -590,7 +590,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose text-[24px] font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
                         >
                           The Future of AI
                           <span
@@ -666,7 +666,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose text-[24px] font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
                         >
                           AGI Strategy
                           <span
@@ -742,7 +742,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose text-[24px] font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
                         >
                           Biosecurity
                           <span
@@ -818,7 +818,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose text-[24px] font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
                         >
                           Technical AI Safety
                           <span
@@ -881,7 +881,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="size-16 md:size-20 xl:size-24"
                       >
                         <img
-                          alt="AI Governance icon"
+                          alt="Frontier AI Governance icon"
                           class="block size-full"
                           src="/images/courses/ai-governance-icon.svg"
                         />
@@ -894,9 +894,9 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose text-[24px] font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[23px]"
                         >
-                          AI Governance
+                          Frontier AI Governance
                           <span
                             class="inline-block ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                           >
@@ -925,7 +925,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          Coming Feb 2026
+                          Every month
                         </span>
                       </div>
                     </div>
@@ -970,7 +970,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose text-[24px] font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
                         >
                           The Future of AI
                           <span
@@ -1046,7 +1046,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose text-[24px] font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
                         >
                           AGI Strategy
                           <span
@@ -1122,7 +1122,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose text-[24px] font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
                         >
                           Biosecurity
                           <span
@@ -1198,7 +1198,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose text-[24px] font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
                         >
                           Technical AI Safety
                           <span
@@ -1261,7 +1261,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="size-16 md:size-20 xl:size-24"
                       >
                         <img
-                          alt="AI Governance icon"
+                          alt="Frontier AI Governance icon"
                           class="block size-full"
                           src="/images/courses/ai-governance-icon.svg"
                         />
@@ -1274,9 +1274,9 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose text-[24px] font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[23px]"
                         >
-                          AI Governance
+                          Frontier AI Governance
                           <span
                             class="inline-block ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                           >
@@ -1305,7 +1305,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          Coming Feb 2026
+                          Every month
                         </span>
                       </div>
                     </div>
@@ -1350,7 +1350,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose text-[24px] font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
                         >
                           The Future of AI
                           <span
@@ -1426,7 +1426,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose text-[24px] font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
                         >
                           AGI Strategy
                           <span
@@ -1502,7 +1502,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose text-[24px] font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
                         >
                           Biosecurity
                           <span
@@ -1578,7 +1578,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose text-[24px] font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
                         >
                           Technical AI Safety
                           <span
@@ -1641,7 +1641,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="size-16 md:size-20 xl:size-24"
                       >
                         <img
-                          alt="AI Governance icon"
+                          alt="Frontier AI Governance icon"
                           class="block size-full"
                           src="/images/courses/ai-governance-icon.svg"
                         />
@@ -1654,9 +1654,9 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose text-[24px] font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[23px]"
                         >
-                          AI Governance
+                          Frontier AI Governance
                           <span
                             class="inline-block ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                           >
@@ -1685,7 +1685,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          Coming Feb 2026
+                          Every month
                         </span>
                       </div>
                     </div>
