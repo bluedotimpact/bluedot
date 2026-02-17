@@ -14,7 +14,9 @@ import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
 
 const getFacilitator = async (roundId: string, facilitatorEmail: string) => {
-  const facilitator = await db.getFirst(meetPersonTable, { filter: { round: roundId, email: facilitatorEmail } });
+  const facilitator = await db.getFirst(meetPersonTable, {
+    filter: { round: roundId, email: facilitatorEmail, role: 'Facilitator' },
+  });
   if (!facilitator) {
     throw new TRPCError({ code: 'NOT_FOUND', message: 'No facilitator found for this round' });
   }
