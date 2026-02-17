@@ -35,7 +35,7 @@ export const createAiGovernanceContent = (
   courseSlug: string,
 ): CourseLanderContent => ({
   meta: {
-    title: 'AI Governance Course | BlueDot Impact',
+    title: 'Frontier AI Governance Course | BlueDot Impact',
     description: 'A 25-hour course for people ready to stop watching and start shaping how AI is governed. Learn the governance landscape, major proposals, and build your path into AI policy.',
   },
 
@@ -49,7 +49,7 @@ export const createAiGovernanceContent = (
 
   hero: {
     categoryLabel: 'COHORT-BASED COURSE',
-    title: 'AI Governance',
+    title: 'Frontier AI Governance',
     description: 'Governments are making decisions about AI. They don\'t have enough people who get it. You could be one of them.',
     primaryCta: {
       text: 'Join the next cohort',
@@ -60,7 +60,7 @@ export const createAiGovernanceContent = (
       url: `/courses/${courseSlug}/1/1`,
     },
     imageSrc: '/images/lander/ai-governance/hero-graphic.png',
-    imageAlt: 'AI Governance visualization',
+    imageAlt: 'Frontier AI Governance visualization',
     gradient: AI_GOVERNANCE_COLORS.gradient,
     accentColor: AI_GOVERNANCE_COLORS.accent,
     imageAspectRatio: '1408/1122',
@@ -226,7 +226,7 @@ export const createAiGovernanceContent = (
     items: [
       {
         id: 'what-is-ai-governance',
-        question: 'What do we mean by AI Governance?',
+        question: 'What do we mean by Frontier AI Governance?',
         answer: 'Not corporate AI ethics committees or responsible AI checklists. We mean the governance of frontier AI and AGI - the policy, coordination, and institutional decisions that will shape whether advanced AI goes well.\n\nAI governance - in the view of this course - is the practice of shaping how AI is built and deployed through policy, institutions, norms, and relationships. It requires both analytical judgment (what interventions would actually work?) and political judgment (what\'s achievable, and how do you help make it happen?). This still-young field has many disagreements over goals and methods - which makes it even more important to evaluate proposals rigorously and build the influence to move the ones you believe in. That\'s where our course starts.',
       },
       {
@@ -267,7 +267,7 @@ export const createAiGovernanceContent = (
     ctaText: 'Join the next cohort',
     ctaUrl: applicationUrlWithUtm,
     imageSrc: '/images/lander/ai-governance/hero-banner-split.webp',
-    imageAlt: 'AI Governance banner',
+    imageAlt: 'Frontier AI Governance banner',
     iconSrc: '/images/agi-strategy/bluedot-icon.svg',
     iconAlt: 'BlueDot',
     noiseImageSrc: '/images/agi-strategy/noise.webp',
