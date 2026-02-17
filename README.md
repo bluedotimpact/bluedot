@@ -56,7 +56,7 @@ We welcome contributions! To help improve BlueDot Impact's software:
 
 In-progress work is tracked in the [BlueDot design/engineering kanban](https://github.com/orgs/bluedotimpact/projects/6).
 
-If you run into any difficulties, raise an issue or [contact us](https://bluedot.org/contact/).
+If you run into any difficulties, raise an issue or [contact us](mailto:team@bluedot.org).
 
 <details>
 <summary>What if I want to use BlueDot Impact's software myself?</summary>
