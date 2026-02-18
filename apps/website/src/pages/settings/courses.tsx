@@ -46,6 +46,9 @@ const CoursesContent = () => {
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const enrolledCourses = (courseRegistrations || [])
     .filter((reg) => reg.roundStatus === 'Active' || reg.roundStatus === 'Past' || reg.roundStatus === 'Future' || reg.certificateCreatedAt)
+    // Only show rejected applications while the round is still upcoming (so users can see their status);
+    // hide them once the round is active or past
+    .filter((reg) => reg.decision !== 'Reject' || reg.roundStatus === 'Future')
     // Exclude dropped out courses (not deferrals)
     .filter((reg) => {
       // Dropped out means that we have a reference dropout record that is not a deferral
