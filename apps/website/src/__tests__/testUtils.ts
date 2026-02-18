@@ -169,42 +169,30 @@ export const createMockGroup = (overrides: Partial<Group> = {}): Group => ({
   ...overrides,
 });
 
-export const createMockGroupDiscussion = (
-  { groupDetails, unitRecord, ...discussionOverrides }:
-  Partial<GroupDiscussion> & { groupDetails?: Partial<Group>; unitRecord?: Partial<Unit> | null } = {},
-) => {
-  const base: GroupDiscussion = {
-    activityDoc: null,
-    attendees: [],
-    autoNumberId: 1,
-    courseBuilderUnitRecordId: `unit-${discussionOverrides.unitNumber ?? 1}`,
-    courseSite: null,
-    endDateTime: Math.floor(Date.now() / 1000) + 2 * 60 * 60, // 2 hours from now (seconds)
-    facilitators: [],
-    group: MOCK_GROUP_ID,
-    id: `discussion-${discussionOverrides.unitNumber ?? 1}`,
-    participantsExpected: [],
-    round: null,
-    slackChannelId: null,
-    startDateTime: Math.floor(Date.now() / 1000) + 60 * 60, // 1 hour from now (seconds)
-    unit: `unit-${discussionOverrides.unitNumber ?? 1}`,
-    unitFallback: `${discussionOverrides.unitNumber ?? 1}: Test Unit`,
-    unitNumber: 1,
-    zoomAccount: null,
-    zoomLink: null,
-    ...discussionOverrides,
-  };
-
-  return {
-    ...base,
-    groupDetails: createMockGroup({ id: base.group, ...groupDetails }),
-    unitRecord: unitRecord === null ? null : createMockUnit({
-      id: base.courseBuilderUnitRecordId ?? undefined,
-      unitNumber: String(base.unitNumber ?? 1),
-      ...unitRecord,
-    }),
-  };
-};
+export const createMockGroupDiscussion = (overrides: Partial<GroupDiscussion> = {}): GroupDiscussion => ({
+  activityDoc: null,
+  attendees: [],
+  autoNumberId: 1,
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  courseBuilderUnitRecordId: `unit-${overrides.unitNumber || 1}`,
+  courseSite: null,
+  endDateTime: Math.floor(Date.now() / 1000) + 2 * 60 * 60, // 2 hours from now (seconds)
+  facilitators: [],
+  group: MOCK_GROUP_ID,
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  id: `discussion-${overrides.unitNumber || 1}`,
+  participantsExpected: [],
+  round: null,
+  slackChannelId: null,
+  startDateTime: Math.floor(Date.now() / 1000) + 60 * 60, // 1 hour from now (seconds)
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  unit: `unit-${overrides.unitNumber || 1}`,
+  unitFallback: `${overrides.unitNumber ?? 1}: Test Unit`,
+  unitNumber: 1,
+  zoomAccount: null,
+  zoomLink: null,
+  ...overrides,
+});
 
 export const createMockMeetPerson = (overrides: Partial<MeetPerson> = {}): MeetPerson => ({
   id: MOCK_MEET_PERSON_ID,

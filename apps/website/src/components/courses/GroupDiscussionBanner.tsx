@@ -1,7 +1,8 @@
-import type { Unit } from '@bluedot/db';
+import type { GroupDiscussion, Unit } from '@bluedot/db';
 import {
   CTALinkOrButton, OverflowMenu, useCurrentTimeMs, type OverflowMenuItemProps,
 } from '@bluedot/ui';
+import { skipToken } from '@tanstack/react-query';
 import Link from 'next/link';
 import clsx from 'clsx';
 import type React from 'react';
@@ -10,7 +11,7 @@ import { FaCopy } from 'react-icons/fa6';
 import { IoAdd } from 'react-icons/io5';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 import { buildCourseUnitUrl, buildGroupSlackChannelUrl, formatDateTimeRelative } from '../../lib/utils';
-import type { GroupDiscussionWithGroupAndUnit } from '../../server/routers/group-discussions';
+import { trpc } from '../../utils/trpc';
 import { ClockIcon } from '../icons/ClockIcon';
 import { DocumentIcon } from '../icons/DocumentIcon';
 import { SlackIcon } from '../icons/SlackIcon';
@@ -47,7 +48,7 @@ export type ButtonOrMenuItem = {
 
 type GroupDiscussionBannerProps = {
   unit: Unit;
-  groupDiscussion: GroupDiscussionWithGroupAndUnit;
+  groupDiscussion: GroupDiscussion;
   userRole?: 'participant' | 'facilitator';
   hostKeyForFacilitators?: string;
 };
@@ -77,14 +78,20 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     return () => clearTimeout(timeoutId);
   }, [hostKeyCopied]);
 
-  const { unitRecord } = groupDiscussion;
+  const { data: discussionUnit } = trpc.courses.getUnit.useQuery(groupDiscussion.courseBuilderUnitRecordId
+    ? { courseSlug: unit.courseSlug, unitId: groupDiscussion.courseBuilderUnitRecordId }
+    : skipToken);
 
-  const unitTitle = unitRecord
-    ? `Unit ${unitRecord.unitNumber}: ${unitRecord.title}`
+  // Falls back to current unit while the discussionUnit query is loading or if it fails
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  const resolvedUnit = discussionUnit || unit;
+
+  const unitTitle = discussionUnit
+    ? `Unit ${discussionUnit.unitNumber}: ${discussionUnit.title}`
     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     : `Unit ${groupDiscussion.unitFallback || ''}`; // Fallback to unitFallback if unit not found
 
-  const prepareLink = buildCourseUnitUrl({ courseSlug: unit.courseSlug, unitNumber: unitRecord?.unitNumber ?? unit.unitNumber });
+  const prepareLink = buildCourseUnitUrl({ courseSlug: unit.courseSlug, unitNumber: resolvedUnit.unitNumber });
 
   // Recalculate time strings when currentTime changes
   const startTimeDisplayRelative = useMemo(
@@ -386,7 +393,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       {groupSwitchModalOpen && (
         <GroupSwitchModal
           handleClose={() => setGroupSwitchModalOpen(false)}
-          initialUnitNumber={(unitRecord?.unitNumber ?? unit.unitNumber).toString()}
+          initialUnitNumber={resolvedUnit.unitNumber.toString()}
           courseSlug={unit.courseSlug}
         />
       )}
