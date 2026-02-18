@@ -101,12 +101,22 @@ export const facilitatorSwitchingRouter = router({
       const groupMap = new Map(groups.map((g) => [g.id, g]));
       const unitMap = new Map(units.map((u) => [u.id, u]));
 
-      // Return enriched discussions in the same shape as GroupDiscussion from group-discussions router
-      const enrichedDiscussions = groupDiscussions.map((discussion) => ({
-        ...discussion,
-        groupDetails: groupMap.get(discussion.group) ?? null,
-        unitRecord: unitMap.get(discussion.courseBuilderUnitRecordId ?? '') ?? null,
-      }));
+      // Return enriched discussions in the same shape as GroupDiscussionWithGroupAndUnit
+      const enrichedDiscussions = groupDiscussions.map((discussion) => {
+        const group = groupMap.get(discussion.group);
+        if (!group) {
+          throw new TRPCError({
+            code: 'NOT_FOUND',
+            message: `Related group not found for discussion ${discussion.id}`,
+          });
+        }
+
+        return {
+          ...discussion,
+          groupDetails: group,
+          unitRecord: unitMap.get(discussion.courseBuilderUnitRecordId ?? '') ?? null,
+        };
+      });
 
       return enrichedDiscussions;
     }),
