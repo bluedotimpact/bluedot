@@ -1,4 +1,4 @@
-export const WEBSITE_VERSION = '0.1.1';
+export const WEBSITE_VERSION = '0.1.2';
 
 export const FOAI_COURSE_ID = 'rec0Zgize0c4liMl5';
 export const FOAI_COURSE_SLUG = 'future-of-ai';

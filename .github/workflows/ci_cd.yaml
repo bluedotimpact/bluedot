@@ -8,7 +8,7 @@ on:
 
 jobs:
   ci:
-    runs-on: ubuntu-22.04-4core
+    runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
       - name: Checkout ${{ github.sha }}
