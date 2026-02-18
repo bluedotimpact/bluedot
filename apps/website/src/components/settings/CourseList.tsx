@@ -206,7 +206,7 @@ const CourseListRow = ({
                     <Tooltip content={reasonNotEligibleForCert} ariaLabel="Show certificate eligibility information" />
                   </span>
                 )}
-                {isFuture && (
+                {isFuture && courseRegistration.decision !== 'Reject' && (
                   <span className="ml-0.5 inline-flex items-center align-middle">
                     <Tooltip content="We typically finalise all application decisions and group discussion times 1 week before the start of the course." ariaLabel="Show application timeline information" />
                   </span>
@@ -297,23 +297,25 @@ const getCtaButtons = ({
   if (courseRegistration.roundStatus === 'Future') {
     const buttons: ReactNode[] = [];
 
-    const hasAvailability = !!courseRegistration.availabilityIntervalsUTC;
-    const availabilityUrl = buildAvailabilityFormUrl({
-      email: courseRegistration.email,
-      utmSource: 'bluedot-settings-upcoming',
-      courseRegistration,
-      roundId: courseRegistration.roundId ?? '',
-    });
-    buttons.push(<CTALinkOrButton
-      key="availability"
-      variant="primary"
-      size="small"
-      url={availabilityUrl}
-      target="_blank"
-      className="w-full sm:w-auto bg-bluedot-normal"
-    >
-      {hasAvailability ? 'Edit your availability' : 'Submit your availability'}
-    </CTALinkOrButton>);
+    if (courseRegistration.decision !== 'Reject') {
+      const hasAvailability = !!courseRegistration.availabilityIntervalsUTC;
+      const availabilityUrl = buildAvailabilityFormUrl({
+        email: courseRegistration.email,
+        utmSource: 'bluedot-settings-upcoming',
+        courseRegistration,
+        roundId: courseRegistration.roundId ?? '',
+      });
+      buttons.push(<CTALinkOrButton
+        key="availability"
+        variant="primary"
+        size="small"
+        url={availabilityUrl}
+        target="_blank"
+        className="w-full sm:w-auto bg-bluedot-normal"
+      >
+        {hasAvailability ? 'Edit your availability' : 'Submit your availability'}
+      </CTALinkOrButton>);
+    }
 
     if (course.slug) {
       buttons.push(<CTALinkOrButton
@@ -481,9 +483,18 @@ const getSubtitle = ({
   roundStartDate?: string | null;
 }): ReactNode => {
   if (courseRegistration.roundStatus === 'Future') {
-    const statusText = courseRegistration.decision === 'Accept'
-      ? 'Application accepted!'
-      : 'Application in review';
+    let statusText: string;
+    switch (courseRegistration.decision) {
+      case 'Accept':
+        statusText = 'Application accepted!';
+        break;
+      case 'Reject':
+        statusText = 'Application rejected';
+        break;
+      default:
+        statusText = 'Application in review';
+        break;
+    }
 
     const formattedDate = roundStartDate ? formatMonthAndDay(roundStartDate) : null;
 
