@@ -124,27 +124,55 @@ export const groupDiscussionsRouter = router({
       // Get the first discussion that hasn't ended (already ordered by start time)
       const groupDiscussion = groupDiscussions.find((d) => getDiscussionTimeState({ discussion: d, currentTimeMs }) !== 'ended') ?? null;
 
+      if (!groupDiscussion) {
+        return {
+          groupDiscussion: null,
+          userRole: undefined,
+          hostKeyForFacilitators: undefined,
+        };
+      }
+
+      const [group, unitRecord] = await Promise.all([
+        db.getFirst(groupTable, { filter: {id: groupDiscussion.group }}),
+        groupDiscussion.courseBuilderUnitRecordId
+          ? db.getFirst(unitTable, { filter: {id: groupDiscussion.courseBuilderUnitRecordId }})
+          : Promise.resolve([]),
+      ]);
+
+
+      if (!group) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: `Related group not found for discussion ${groupDiscussion.id}`,
+        });
+      }
+
       // Determine user role and get host key if facilitator
       let userRole: 'participant' | 'facilitator' | undefined;
       let hostKeyForFacilitators: string | undefined;
 
-      if (groupDiscussion?.facilitators.includes(participant.id)) {
+      if (groupDiscussion.facilitators.includes(participant.id)) {
         userRole = 'facilitator';
 
         if (groupDiscussion.zoomAccount) {
           try {
             const zoomAccount = await db.get(zoomAccountTable, { id: groupDiscussion.zoomAccount });
+            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             hostKeyForFacilitators = zoomAccount.hostKey || undefined;
           } catch {
             hostKeyForFacilitators = undefined;
           }
         }
-      } else if (groupDiscussion?.participantsExpected.includes(participant.id)) {
+      } else if (groupDiscussion.participantsExpected.includes(participant.id)) {
         userRole = 'participant';
       }
 
       return {
-        groupDiscussion,
+        groupDiscussion: {
+          ...groupDiscussion,
+          groupDetails: group,
+          unitRecord,
+        },
         userRole,
         hostKeyForFacilitators,
       };
