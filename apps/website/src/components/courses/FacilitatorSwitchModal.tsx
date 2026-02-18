@@ -364,7 +364,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           )}
           <Select
             ariaLabel="New facilitator"
-            options={facilitatorsQuery.data ?? []}
+            options={[...(facilitatorsQuery.data ?? [])].sort((a, b) => a.label.localeCompare(b.label))}
             value={selectedNewFacilitatorId}
             onChange={(value) => setSelectedNewFacilitatorId(value)}
             placeholder={facilitatorsQuery.isLoading ? 'Loading facilitators...' : 'Choose a facilitator'}
