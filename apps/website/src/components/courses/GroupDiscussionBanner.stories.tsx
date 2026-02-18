@@ -7,6 +7,7 @@ const mockUnit = createMockUnit();
 const mockGroupDiscussion = createMockGroupDiscussion({
   startDateTime: Math.floor(Date.now() / 1000) + 1800, // 30 minutes from now
   endDateTime: Math.floor(Date.now() / 1000) + 5400, // 90 minutes from now
+  unitRecord: mockUnit,
 });
 
 const meta = {
