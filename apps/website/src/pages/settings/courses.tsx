@@ -62,7 +62,7 @@ const CoursesContent = () => {
     .flat();
 
   // Group courses by status
-  // Upcoming: Future courses (pending or accepted applications)
+  // Upcoming: Future courses (pending, accepted, or rejected applications)
   const upcomingCourses = enrolledCourses
     .filter(({ courseRegistration }) => courseRegistration.roundStatus === 'Future');
 
