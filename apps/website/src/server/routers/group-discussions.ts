@@ -133,10 +133,10 @@ export const groupDiscussionsRouter = router({
       }
 
       const [group, unitRecord] = await Promise.all([
-        db.getFirst(groupTable, { filter: {id: groupDiscussion.group }}),
+        db.getFirst(groupTable, { filter: { id: groupDiscussion.group } }),
         groupDiscussion.courseBuilderUnitRecordId
-          ? db.getFirst(unitTable, { filter: {id: groupDiscussion.courseBuilderUnitRecordId }})
-          : [],
+          ? db.getFirst(unitTable, { filter: { id: groupDiscussion.courseBuilderUnitRecordId } })
+          : null,
       ]);
 
 
