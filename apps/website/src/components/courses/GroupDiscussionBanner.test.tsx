@@ -40,6 +40,7 @@ const mockGroupDiscussion = createMockGroupDiscussion({
   zoomLink: 'https://zoom.us/j/123456789',
   activityDoc: 'https://docs.google.com/document/d/abc123',
   slackChannelId: 'C1234567890',
+  round: 'mock-round-id',
 });
 
 describe('GroupDiscussionBanner', () => {

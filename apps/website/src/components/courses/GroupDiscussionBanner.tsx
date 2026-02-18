@@ -398,10 +398,10 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
         />
       )}
 
-      {facilitatorSwitchModalOpen && (
+      {facilitatorSwitchModalOpen && groupDiscussion.round && (
         <FacilitatorSwitchModal
           handleClose={() => setFacilitatorSwitchModalOpen(false)}
-          courseSlug={unit.courseSlug}
+          roundId={groupDiscussion.round}
           initialDiscussion={groupDiscussion}
           initialModalType={facilitatorSwitchModalType}
         />

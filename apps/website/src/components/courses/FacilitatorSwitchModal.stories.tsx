@@ -82,7 +82,7 @@ const mockFacilitators = [
 export const Default: Story = {
   args: {
     handleClose() {},
-    courseSlug: 'fish-test-course',
+    roundId: 'mock-round-id',
     initialDiscussion: null,
   },
   parameters: {
@@ -108,7 +108,7 @@ export const Default: Story = {
 export const ChangeFacilitatorView: Story = {
   args: {
     handleClose() {},
-    courseSlug: 'fish-test-course',
+    roundId: 'mock-round-id',
     initialDiscussion: mockDiscussions[1] ?? null,
     initialModalType: 'Change facilitator',
   },
@@ -135,7 +135,7 @@ export const ChangeFacilitatorView: Story = {
 export const WithFetchedDiscussions: Story = {
   args: {
     handleClose() {},
-    courseSlug: 'fish-test-course',
+    roundId: 'mock-round-id',
     initialDiscussion: { id: 'discussion-2', group: 'group-1' },
   },
   parameters: {
@@ -155,7 +155,7 @@ export const WithFetchedDiscussions: Story = {
 export const Loading: Story = {
   args: {
     handleClose() {},
-    courseSlug: 'fish-test-course',
+    roundId: 'mock-round-id',
     initialDiscussion: null,
   },
   parameters: {
@@ -174,7 +174,7 @@ export const Loading: Story = {
 export const Error: Story = {
   args: {
     handleClose() {},
-    courseSlug: 'fish-test-course',
+    roundId: 'mock-round-id',
     initialDiscussion: null,
   },
   parameters: {
