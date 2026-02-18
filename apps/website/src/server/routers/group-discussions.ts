@@ -136,7 +136,7 @@ export const groupDiscussionsRouter = router({
         db.getFirst(groupTable, { filter: {id: groupDiscussion.group }}),
         groupDiscussion.courseBuilderUnitRecordId
           ? db.getFirst(unitTable, { filter: {id: groupDiscussion.courseBuilderUnitRecordId }})
-          : Promise.resolve([]),
+          : [],
       ]);
 
 
