@@ -4,7 +4,7 @@ import type {
   CourseRegistration,
   MeetPerson,
 } from '@bluedot/db';
-import type { GroupDiscussion } from '../../../server/routers/group-discussions';
+import type { GroupDiscussionWithGroupAndUnit } from '../../../server/routers/group-discussions';
 import CoursesSettingsPage from '../../../pages/settings/courses';
 import { trpcStorybookMsw } from '../../../__tests__/trpcMswSetup.browser';
 import {
@@ -119,14 +119,14 @@ const mockMeetPerson = createMockMeetPerson({
 
 const now = Math.floor(Date.now() / 1000);
 const hour = 60 * 60;
-const mockDiscussion: GroupDiscussion = {
+const mockDiscussion: GroupDiscussionWithGroupAndUnit = {
   ...createMockGroupDiscussion({
     id: 'discussion-1',
     startDateTime: now + hour, // Starts in 1 hour
     endDateTime: now + 2 * hour, // Ends in 2 hours
     unitNumber: 1,
   }),
-  unitRecord: { unitNumber: '1', title: 'Introduction' } as GroupDiscussion['unitRecord'],
+  unitRecord: { unitNumber: '1', title: 'Introduction' } as GroupDiscussionWithGroupAndUnit['unitRecord'],
   groupDetails: {
     id: 'group-1',
     round: 'Round 1',
@@ -136,7 +136,7 @@ const mockDiscussion: GroupDiscussion = {
     participants: ['participant-1'],
     whoCanSwitchIntoThisGroup: ['participant-1'],
     startTimeUtc: now,
-  } as GroupDiscussion['groupDetails'],
+  } as GroupDiscussionWithGroupAndUnit['groupDetails'],
 };
 
 const createHandlers = ({
@@ -150,7 +150,7 @@ const createHandlers = ({
   registrations?: CourseRegistration[];
   courses?: Course[];
   meetPerson?: MeetPerson | null;
-  discussions?: GroupDiscussion[];
+  discussions?: GroupDiscussionWithGroupAndUnit[];
   roundStartDates?: Record<string, string | null>;
   error?: boolean;
 } = {}) => {

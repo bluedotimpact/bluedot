@@ -12,7 +12,7 @@ import { ChevronRightIcon } from '../icons/ChevronRightIcon';
 import { ROUTES } from '../../lib/routes';
 import GroupSwitchModal, { buildAvailabilityFormUrl } from '../courses/GroupSwitchModal';
 import { trpc } from '../../utils/trpc';
-import type { GroupDiscussion } from '../../server/routers/group-discussions';
+import type { GroupDiscussionWithGroupAndUnit } from '../../server/routers/group-discussions';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 import { getActionPlanUrl, formatMonthAndDay } from '../../lib/utils';
 import { FOAI_COURSE_SLUG } from '../../lib/constants';
@@ -266,7 +266,7 @@ const CourseListRow = ({
   );
 };
 
-function getMaxUnitNumber(discussions: GroupDiscussion[]): number | null {
+function getMaxUnitNumber(discussions: GroupDiscussionWithGroupAndUnit[]): number | null {
   const unitNumbers = discussions
     .map((d) => d.unitNumber)
     .filter((n): n is number => n !== null);
@@ -287,7 +287,7 @@ const getCtaButtons = ({
   course: Course;
   courseRegistration: CourseRegistration;
   meetPerson: MeetPerson | null | undefined;
-  nextDiscussion: GroupDiscussion | undefined;
+  nextDiscussion: GroupDiscussionWithGroupAndUnit | undefined;
   currentTimeMs: number;
   isExpanded: boolean;
   isLoading: boolean;
@@ -475,8 +475,8 @@ const getSubtitle = ({
 }: {
   courseRegistration: CourseRegistration;
   meetPerson: MeetPerson | null | undefined;
-  expectedDiscussions: GroupDiscussion[];
-  nextDiscussion: GroupDiscussion | undefined;
+  expectedDiscussions: GroupDiscussionWithGroupAndUnit[];
+  nextDiscussion: GroupDiscussionWithGroupAndUnit | undefined;
   isLoading: boolean;
   isNotInGroup: boolean | null | undefined;
   isFacilitatorRole: boolean;

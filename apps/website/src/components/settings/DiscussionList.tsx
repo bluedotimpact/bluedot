@@ -8,7 +8,7 @@ import { FaArrowRightArrowLeft, FaRightToBracket } from 'react-icons/fa6';
 import {
   buildGroupSlackChannelUrl, formatDateMonthAndDay, formatDateTimeRelative, formatTime12HourClock,
 } from '../../lib/utils';
-import type { GroupDiscussion } from '../../server/routers/group-discussions';
+import type { GroupDiscussionWithGroupAndUnit } from '../../server/routers/group-discussions';
 import type { SwitchType } from '../courses/GroupSwitchModal';
 import type { FacilitatorModalType } from '../courses/FacilitatorSwitchModal';
 import { SwitchUserIcon } from '../icons/SwitchUserIcon';
@@ -25,11 +25,11 @@ const BUTTON_STYLES = {
 };
 
 export type DiscussionListProps = {
-  discussions: GroupDiscussion[];
+  discussions: GroupDiscussionWithGroupAndUnit[];
   course: Course;
   isFacilitator: boolean;
-  onOpenGroupSwitchModal: (discussion: GroupDiscussion, switchType: SwitchType) => void;
-  onOpenFacilitatorModal: (discussion: GroupDiscussion, modalType: FacilitatorModalType) => void;
+  onOpenGroupSwitchModal: (discussion: GroupDiscussionWithGroupAndUnit, switchType: SwitchType) => void;
+  onOpenFacilitatorModal: (discussion: GroupDiscussionWithGroupAndUnit, modalType: FacilitatorModalType) => void;
   onOpenDropoutModal: () => void;
   isPast: boolean;
   emptyMessage: string;
@@ -85,13 +85,13 @@ const DiscussionList = ({
 export default DiscussionList;
 
 type DiscussionListRowProps = {
-  discussion: GroupDiscussion;
+  discussion: GroupDiscussionWithGroupAndUnit;
   isNext?: boolean;
   isPast?: boolean;
   course: Course;
   isFacilitator: boolean;
-  onOpenGroupSwitchModal: (discussion: GroupDiscussion, switchType: SwitchType) => void;
-  onOpenFacilitatorModal: (discussion: GroupDiscussion, modalType: FacilitatorModalType) => void;
+  onOpenGroupSwitchModal: (discussion: GroupDiscussionWithGroupAndUnit, switchType: SwitchType) => void;
+  onOpenFacilitatorModal: (discussion: GroupDiscussionWithGroupAndUnit, modalType: FacilitatorModalType) => void;
   onOpenDropoutModal: () => void;
 };
 

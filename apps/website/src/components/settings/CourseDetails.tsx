@@ -1,7 +1,7 @@
 import { type Course, type CourseRegistration } from '@bluedot/db';
 import { ProgressDots } from '@bluedot/ui';
 import { useState } from 'react';
-import type { GroupDiscussion } from '../../server/routers/group-discussions';
+import type { GroupDiscussionWithGroupAndUnit } from '../../server/routers/group-discussions';
 import GroupSwitchModal, { type SwitchType } from '../courses/GroupSwitchModal';
 import FacilitatorSwitchModal, { type FacilitatorModalType } from '../courses/FacilitatorSwitchModal';
 import DropoutModal from '../courses/DropoutModal';
@@ -10,9 +10,9 @@ import DiscussionList from './DiscussionList';
 type CourseDetailsProps = {
   course: Course;
   courseRegistration: CourseRegistration;
-  attendedDiscussions: GroupDiscussion[];
-  upcomingDiscussions: GroupDiscussion[];
-  facilitatedDiscussions: GroupDiscussion[];
+  attendedDiscussions: GroupDiscussionWithGroupAndUnit[];
+  upcomingDiscussions: GroupDiscussionWithGroupAndUnit[];
+  facilitatedDiscussions: GroupDiscussionWithGroupAndUnit[];
   isLoading: boolean;
 };
 
@@ -40,17 +40,17 @@ const CourseDetails = ({
   const [selectedSwitchType, setSelectedSwitchType] = useState<SwitchType>('Switch group for one unit');
   const [selectedFacilitatorModalType, setSelectedFacilitatorModalType] = useState<FacilitatorModalType>('Update discussion time');
   const [activeTab, setActiveTab] = useState<'upcoming' | 'attended' | 'facilitated'>(getInitialTab());
-  const [selectedDiscussion, setSelectedDiscussion] = useState<GroupDiscussion | null>(null);
+  const [selectedDiscussion, setSelectedDiscussion] = useState<GroupDiscussionWithGroupAndUnit | null>(null);
 
   const isFacilitatorRole = courseRegistration.role === 'Facilitator';
 
-  const handleOpenGroupSwitch = (discussion: GroupDiscussion, switchType: SwitchType) => {
+  const handleOpenGroupSwitch = (discussion: GroupDiscussionWithGroupAndUnit, switchType: SwitchType) => {
     setSelectedDiscussion(discussion);
     setSelectedSwitchType(switchType);
     setGroupSwitchModalOpen(true);
   };
 
-  const handleOpenFacilitatorModal = (discussion: GroupDiscussion, modalType: FacilitatorModalType) => {
+  const handleOpenFacilitatorModal = (discussion: GroupDiscussionWithGroupAndUnit, modalType: FacilitatorModalType) => {
     setSelectedDiscussion(discussion);
     setSelectedFacilitatorModalType(modalType);
     setFacilitatorSwitchModalOpen(true);

@@ -16,6 +16,7 @@ import { CheckIcon } from '../icons/CheckIcon';
 import { ClockIcon } from '../icons/ClockIcon';
 import { InfoIcon } from '../icons/InfoIcon';
 import { SwitchUserIcon } from '../icons/SwitchUserIcon';
+import type { GroupDiscussionWithGroupAndUnit } from '../../server/routers/group-discussions';
 
 const MODAL_TYPE_OPTIONS = [
   {
@@ -430,15 +431,7 @@ const InformationBanner = ({ modalType }: { modalType: FacilitatorModalType }) =
 type GroupOption = { value: string; label: string; disabled?: boolean };
 type DiscussionOption = GroupOption & { startDateTime: number };
 
-type DiscussionInput = {
-  id: string;
-  group: string;
-  startDateTime: number;
-  groupDetails?: { groupName: string | null } | null;
-  unitRecord?: { unitNumber: string; title: string } | null;
-};
-
-const buildOptions = (discussions: DiscussionInput[], currentTimeMs: number) => {
+const buildOptions = (discussions: GroupDiscussionWithGroupAndUnit[], currentTimeMs: number) => {
   const groupOptions: GroupOption[] = [];
   const discussionOptionsByGroup: Record<string, DiscussionOption[]> = {};
   const seenGroups = new Set<string>();
