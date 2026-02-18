@@ -28,10 +28,7 @@ export const courseRegistrationsRouter = router({
       .where(and(
         eq(courseRegistrationTable.pg.email, ctx.auth.email),
         or(
-          and(
-            ne(courseRegistrationTable.pg.decision, 'Withdrawn'),
-            ne(courseRegistrationTable.pg.decision, 'Reject'),
-          ),
+          ne(courseRegistrationTable.pg.decision, 'Withdrawn'),
           isNull(courseRegistrationTable.pg.decision),
         ),
       ));
