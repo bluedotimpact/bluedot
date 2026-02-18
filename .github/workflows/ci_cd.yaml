@@ -56,7 +56,18 @@ jobs:
         run: npx turbo lint ${{ steps.get_affected_apps.outputs.turbo_filter }}
 
       - name: Test affected apps
-        run: npx turbo test ${{ steps.get_affected_apps.outputs.turbo_filter }}
+        run: |
+          # Monitor CPU/process stats in background
+          (while true; do
+            cpu=$(top -bn1 | grep '%Cpu' | awk '{printf "%.0f%%", 100-$8}')
+            node_procs=$(ps aux | grep -c '[n]ode' || true)
+            vitest_procs=$(ps aux | grep -c '[v]itest' || true)
+            echo "$(date +%H:%M:%S) cpu=$cpu node_procs=$node_procs vitest_procs=$vitest_procs"
+            sleep 2
+          done) &
+          MONITOR_PID=$!
+          npx turbo test ${{ steps.get_affected_apps.outputs.turbo_filter }}
+          kill $MONITOR_PID 2>/dev/null || true
 
       - name: Get affected deployable apps
         id: get_affected_deployable_apps
