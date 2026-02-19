@@ -55,7 +55,7 @@ export const exercisesRouter = router({
           id: exerciseResponse.id,
           exerciseId: input.exerciseId,
           response: input.response,
-          completedAt: completedAt ?? exerciseResponse.completedAt,
+          completedAt: completedAt !== undefined ? completedAt : exerciseResponse.completedAt,
         });
       }
 
