@@ -32,3 +32,9 @@ config:
     secure: v1:/LmEHmIJhdM2YpOA:NF9rrScCurxLl+Q7KsHLDGaL5gQG0Cq/MXiSHQp7EFq48csaa9Ub3iQGE1hkw9ni
   infra:lumaApiKey:
     secure: v1:Vm3B5jcIwUAYhL0b:+Q0iFfwl5wMPDpRDoRDOYY64MD+h0E6nL8NaQoA+iKiHC2JDH0CnGhZHwNtZBUie
+  infra:keycloakPreviewClientId:
+    secure: v1:hcqSNAheSUDmMLwk:hkwQSktiU77JPvsxS7MoNSZwbscxfS2kIx0wUoEejNpnECX5YoQ=
+  infra:keycloakPreviewClientSecret:
+    secure: v1:jlrPAFIbbEzzaqOp:DnElwJ78V35tl8EDWtp7Z9hxBDhRqnYQ52REtrAv4S4W6VOUhBNNkU2r+ARMbs51
+  infra:keycloakPreviewAuthToken:
+    secure: v1:TnUqGgAxZqp/Y2WZ:FpCyw7kUIjFpmniL29mY/YUA1EcBSDP1TWhUv5P0KM+KXpbbiGWBiE35abWWufeB1RmsajPzxHCgLWVE2O4Ge8ultjKMGLT9y0fPU5/RNbU=
