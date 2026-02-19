@@ -223,7 +223,7 @@ export async function registerPreviewRedirectUri(redirectUri: string): Promise<{
   }
 
   // Clean up URIs for closed PRs
-  const previewUris = existingUris.filter((uri) => !PERMANENT_URIS.has(uri) && extractPrNumber(uri) !== null);
+  const previewUris = existingUris.filter((uri) => uri !== redirectUri && !PERMANENT_URIS.has(uri) && extractPrNumber(uri) !== null);
   const openStatuses = await Promise.all(previewUris.map((uri) => isPrOpen(extractPrNumber(uri)!)));
   const staleUris = new Set(previewUris.filter((_, i) => !openStatuses[i]));
   uris = uris.filter((uri) => !staleUris.has(uri));
