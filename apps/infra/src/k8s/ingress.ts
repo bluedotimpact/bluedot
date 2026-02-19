@@ -25,9 +25,19 @@ export const ingressNginx = new k8s.helm.v3.Release('ingress-nginx', {
         // https://cert-manager.io/docs/releases/release-notes/release-notes-1.18/#acme-http01-challenge-paths-now-use-pathtype-exact-in-ingress-routes
         // https://github.com/kubernetes/ingress-nginx/issues/11176
         'strict-validate-path-type': false,
+
+        // Enable PROXY protocol so ingress-nginx can read the real client IP
+        // from the Vultr Load Balancer (which otherwise NATs the connection)
+        'use-proxy-protocol': 'true',
       },
       ingressClassResource: {
         default: 'true',
+      },
+      service: {
+        annotations: {
+          // Tell the Vultr Load Balancer to send PROXY protocol headers
+          'service.beta.kubernetes.io/vultr-loadbalancer-proxy-protocol': 'true',
+        },
       },
     },
     // This enables public connections to the airtable-sync-pg database
