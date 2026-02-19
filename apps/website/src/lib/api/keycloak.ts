@@ -4,9 +4,7 @@ import env from './env';
 
 // Keycloak configuration
 const KEYCLOAK_BASE_URL = 'https://login.bluedot.org';
-const KEYCLOAK_REALM = 'customers';
-const TARGET_CLIENT_ID = 'bluedot-web-apps';
-const GITHUB_REPO = 'bluedotimpact/bluedot';
+const PUBLIC_LOGIN_CLIENT_ID = 'bluedot-web-apps';
 
 const PERMANENT_URIS = new Set([
   'https://frontend-example.k8s.bluedot.org/*',
@@ -156,17 +154,20 @@ async function getAdminToken(): Promise<string> {
   }
 }
 
-// ── Preview redirect URI management ──────────────────────────────────
+// Preview redirect URI management: support adding preview environments to the list of
+// allowed redirects and clean up old preview environments for PRs that are now closed
 
 function extractPrNumber(uri: string): number | null {
   const match = (/-pr-(\d+)/).exec(uri);
   return match ? Number(match[1]) : null;
 }
 
-/** Returns true on error to avoid accidentally removing active URIs. */
+/**
+ * Returns true on error to avoid accidentally removing active URIs.
+ */
 async function isPrOpen(prNumber: number): Promise<boolean> {
   try {
-    const response = await axios.get(`https://api.github.com/repos/${GITHUB_REPO}/pulls/${prNumber}`, {
+    const response = await axios.get(`https://api.github.com/repos/bluedotimpact/bluedot/pulls/${prNumber}`, {
       headers: { Accept: 'application/vnd.github.v3+json' },
       validateStatus: (status) => status < 500,
     });
@@ -190,13 +191,13 @@ export async function registerPreviewRedirectUri(redirectUri: string): Promise<{
 
   // Get current client config
   const clientsResponse = await axios.get(
-    `${KEYCLOAK_BASE_URL}/admin/realms/${KEYCLOAK_REALM}/clients?clientId=${TARGET_CLIENT_ID}`,
+    `${KEYCLOAK_BASE_URL}/admin/realms/customers/clients?clientId=${PUBLIC_LOGIN_CLIENT_ID}`,
     { headers: { Authorization: `Bearer ${token}` } },
   );
 
   const clients = clientsResponse.data as Record<string, unknown>[];
   if (clients.length === 0) {
-    throw createHttpError.InternalServerError(`Client '${TARGET_CLIENT_ID}' not found`);
+    throw createHttpError.InternalServerError(`Client '${PUBLIC_LOGIN_CLIENT_ID}' not found`);
   }
 
   const client = clients[0]!;
@@ -228,7 +229,7 @@ export async function registerPreviewRedirectUri(redirectUri: string): Promise<{
 
   // Update client with full representation
   await axios.put(
-    `${KEYCLOAK_BASE_URL}/admin/realms/${KEYCLOAK_REALM}/clients/${client.id as string}`,
+    `${KEYCLOAK_BASE_URL}/admin/realms/customers/clients/${client.id as string}`,
     { ...client, redirectUris: uris },
     { headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } },
   );
