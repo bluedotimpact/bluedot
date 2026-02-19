@@ -5,6 +5,15 @@ import {
 import { registerPreviewRedirectUri } from './keycloak';
 
 vi.mock('axios');
+vi.mock('./env', () => ({
+  default: {
+    KEYCLOAK_CLIENT_ID: 'fake',
+    KEYCLOAK_CLIENT_SECRET: 'fake',
+    KEYCLOAK_PREVIEW_CLIENT_ID: 'preview-client',
+    KEYCLOAK_PREVIEW_CLIENT_SECRET: 'preview-secret',
+  },
+}));
+
 const mockedAxios = vi.mocked(axios, { deep: true });
 
 const FAKE_TOKEN_RESPONSE = {
@@ -18,21 +27,18 @@ const makeClient = (redirectUris: string[]) => ({
 });
 
 function setupMocks(existingUris: string[], prStates: Record<number, 'open' | 'closed' | 'not-found'> = {}) {
-  // getAdminToken
+  // token request
   mockedAxios.post.mockResolvedValueOnce(FAKE_TOKEN_RESPONSE);
 
   // get clients
   mockedAxios.get.mockResolvedValueOnce({ data: [makeClient(existingUris)] });
 
-  // isPrOpen calls (in order of iteration over existingUris)
+  // isPrOpen calls
   for (const uri of existingUris) {
     const match = (/-pr-(\d+)/).exec(uri);
     if (!match) continue;
-    const prNum = Number(match[1]);
-    // Skip permanent URIs (they won't trigger a GitHub check)
-    if (['https://bluedot.org/*', 'http://localhost:8000/*'].includes(uri)) continue;
 
-    const state = prStates[prNum];
+    const state = prStates[Number(match[1])];
     if (state === 'not-found') {
       mockedAxios.get.mockResolvedValueOnce({ status: 404 });
     } else if (state === 'closed') {

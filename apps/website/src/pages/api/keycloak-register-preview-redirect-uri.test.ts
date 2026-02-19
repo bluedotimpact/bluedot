@@ -13,6 +13,8 @@ vi.mock('../../lib/api/env', () => ({
     KEYCLOAK_PREVIEW_AUTH_TOKEN: 'test-secret-token',
     KEYCLOAK_CLIENT_ID: 'fake',
     KEYCLOAK_CLIENT_SECRET: 'fake',
+    KEYCLOAK_PREVIEW_CLIENT_ID: 'preview-client',
+    KEYCLOAK_PREVIEW_CLIENT_SECRET: 'preview-secret',
   },
 }));
 

@@ -187,7 +187,20 @@ async function isPrOpen(prNumber: number): Promise<boolean> {
 }
 
 export async function registerPreviewRedirectUri(redirectUri: string): Promise<{ added: boolean; cleaned: number }> {
-  const token = await getAdminToken();
+  if (!env.KEYCLOAK_PREVIEW_CLIENT_ID || !env.KEYCLOAK_PREVIEW_CLIENT_SECRET) {
+    throw createHttpError.InternalServerError('KEYCLOAK_PREVIEW_CLIENT_ID and KEYCLOAK_PREVIEW_CLIENT_SECRET must be set');
+  }
+
+  const tokenResponse = await axios.post(
+    `${KEYCLOAK_BASE_URL}/realms/customers/protocol/openid-connect/token`,
+    new URLSearchParams({
+      grant_type: 'client_credentials',
+      client_id: env.KEYCLOAK_PREVIEW_CLIENT_ID,
+      client_secret: env.KEYCLOAK_PREVIEW_CLIENT_SECRET,
+    }),
+    { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
+  );
+  const token = (tokenResponse.data as { access_token: string }).access_token;
 
   // Get current client config
   const clientsResponse = await axios.get(

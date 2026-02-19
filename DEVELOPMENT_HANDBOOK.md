@@ -642,7 +642,10 @@ Required environment variables in Render (in addition to what is generally requi
 - `SITE_ACCESS_PASSWORD` — password gate for preview sites
   - Note: This is in 1password under "Preview env login (bluedot.org)". Unfortunately it can't prefill because the subdomain on preview environments is always different.
 
-The production website also needs `KEYCLOAK_PREVIEW_AUTH_TOKEN` (same shared secret as above). The existing `KEYCLOAK_CLIENT_ID` service account must have the `manage-clients` role to update redirect URIs.
+The production website also needs:
+- `KEYCLOAK_PREVIEW_AUTH_TOKEN` (same shared secret as above)
+- `KEYCLOAK_PREVIEW_CLIENT_ID` — service-account client ID with `manage-clients` role (NOT set on Render preview environments)
+- `KEYCLOAK_PREVIEW_CLIENT_SECRET` — corresponding client secret
 
 ### Deployment Processes
 
