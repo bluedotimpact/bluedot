@@ -454,6 +454,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               exercises={chunk.exercises || []}
               unitTitle={unit.title ?? undefined}
               unitNumber={unitNumber}
+              // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
               className={clsx((chunk?.chunkContent || unit.content) ? 'mt-8 md:mt-6' : 'mt-4')}
               courseSlug={courseSlug}
               chunkIndex={chunkIndex}

@@ -13,6 +13,7 @@ export const getAllPublishedBlogs = async () => {
         return b.isFeatured ? 1 : -1;
       }
 
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       return (b.publishedAt || 0) - (a.publishedAt || 0);
     })
     .map(({ body, ...rest }) => rest);

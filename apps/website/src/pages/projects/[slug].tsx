@@ -23,6 +23,7 @@ type ProjectPostPageProps = {
 
 const ProjectPostPage = ({ slug, project }: ProjectPostPageProps) => {
   const currentRoute: BluedotRoute = {
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     title: project.title || 'Project',
     url: `${ROUTES.projects.url}/${slug}`,
     parentPages: [...(ROUTES.projects.parentPages ?? []), ROUTES.projects],

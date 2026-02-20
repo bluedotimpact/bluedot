@@ -10,7 +10,7 @@ import {
 
 export const adminRouter = router({
   isAdmin: protectedProcedure.query(async ({ ctx }) => {
-    return checkAdminAccess(ctx.auth.email!);
+    return checkAdminAccess(ctx.auth.email);
   }),
   searchUsers: adminProcedure
     .input(z.object({ searchTerm: z.string().max(200).optional() }))
@@ -71,7 +71,7 @@ export const adminRouter = router({
     const syncRequestResult = await db.pg
       .insert(syncRequestsTable)
       .values({
-        requestedBy: ctx.auth.email!,
+        requestedBy: ctx.auth.email,
         status: 'queued',
       })
       .returning();

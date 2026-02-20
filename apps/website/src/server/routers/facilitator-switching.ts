@@ -28,7 +28,7 @@ export const facilitatorSwitchingRouter = router({
   getFacilitatorsForRound: protectedProcedure.input(z.object({ roundId: z.string() })).query(async ({ input, ctx }) => {
     const { roundId } = input;
 
-    const currentFacilitator = await getFacilitator(roundId, ctx.auth.email!);
+    const currentFacilitator = await getFacilitator(roundId, ctx.auth.email);
 
     // Get all meetPersons in the same round who are facilitators
     const facilitators = await db.pg
@@ -53,7 +53,7 @@ export const facilitatorSwitchingRouter = router({
       roundId: z.string(),
     }))
     .query(async ({ input: { roundId }, ctx }) => {
-      const facilitator = await getFacilitator(roundId, ctx.auth.email!);
+      const facilitator = await getFacilitator(roundId, ctx.auth.email);
 
       const groupDiscussions = await db.pg
         .select()
@@ -118,7 +118,7 @@ export const facilitatorSwitchingRouter = router({
         throw new TRPCError({ code: 'BAD_REQUEST', message: 'Requested time must be in the future' });
       }
 
-      const facilitator = await getFacilitator(roundId, ctx.auth.email!);
+      const facilitator = await getFacilitator(roundId, ctx.auth.email);
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const allowedDiscussions = facilitator.expectedDiscussionsFacilitator || [];
 
@@ -176,7 +176,7 @@ export const facilitatorSwitchingRouter = router({
     .mutation(async ({ input, ctx }) => {
       const { roundId, discussionId, groupId, newFacilitatorId } = input;
 
-      const facilitator = await getFacilitator(roundId, ctx.auth.email!);
+      const facilitator = await getFacilitator(roundId, ctx.auth.email);
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const allowedDiscussions = facilitator.expectedDiscussionsFacilitator || [];
 

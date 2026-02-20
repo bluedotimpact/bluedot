@@ -44,6 +44,7 @@ export default makeApiRoute({
   const groupDiscussion = await db.get(groupDiscussionTable, { id: body.groupDiscussionId });
 
   if (body.participantId) {
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     const currentAttendees = groupDiscussion.attendees || [];
     if (!currentAttendees.includes(body.participantId)) {
       await db.update(groupDiscussionTable, {
@@ -63,6 +64,7 @@ export default makeApiRoute({
 
   const issuedAt = Math.round(Date.now() / 1000);
   const expiresAt = issuedAt + 3600 * 4;
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const facilitators = groupDiscussion.facilitators || [];
   const oPayload = {
     sdkKey: env.NEXT_PUBLIC_ZOOM_CLIENT_ID,
