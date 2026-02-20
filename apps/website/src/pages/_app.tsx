@@ -27,18 +27,15 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   const { courses, loading } = useCourses();
 
   const getAnnouncementBanner = () => {
-    return (
-      <>
-        <AnnouncementBanner hideAfter={new Date('2026-02-21T18:00:00+00:00')}>
-          <b>We're currently experiencing technical difficulties due to an outage in our database provider (Airtable).</b> Some features (e.g. saving exercises) may not work.
+    if (fromSite) {
+      return (
+        <AnnouncementBanner ctaText="Learn more" ctaUrl="/blog/course-website-consolidation">
+          <b>Welcome from {fromSite === 'aisf' ? 'AI Safety Fundamentals' : 'Biosecurity Fundamentals'}!</b> We've consolidated our course sites in the BlueDot Impact platform to provide a more consistent and higher-quality experience.
         </AnnouncementBanner>
-        {fromSite && (
-          <AnnouncementBanner ctaText="Learn more" ctaUrl="/blog/course-website-consolidation">
-            <b>Welcome from {fromSite === 'aisf' ? 'AI Safety Fundamentals' : 'Biosecurity Fundamentals'}!</b> We've consolidated our course sites in the BlueDot Impact platform to provide a more consistent and higher-quality experience.
-          </AnnouncementBanner>
-        )}
-      </>
-    );
+      );
+    }
+
+    return undefined;
   };
 
   return (
