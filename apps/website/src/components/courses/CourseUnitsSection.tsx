@@ -13,7 +13,7 @@ export const CourseUnitsSection = ({ units }: { units: Unit[] }) => {
           minItemWidth={300}
           className="course-units-section__units"
         >
-          {units.sort((a, b) => Number(a.unitNumber ?? Infinity) - Number(b.unitNumber ?? Infinity)).map((unit) => (
+          {units.sort((a, b) => Number(a.unitNumber || Infinity) - Number(b.unitNumber || Infinity)).map((unit) => (
             <div key={unit.id} className="max-w-[350px] h-full">
               <UnitCard
                 key={unit.id}

@@ -134,7 +134,7 @@ export const groupDiscussionsRouter = router({
         if (groupDiscussion?.zoomAccount) {
           try {
             const zoomAccount = await db.get(zoomAccountTable, { id: groupDiscussion.zoomAccount });
-            hostKeyForFacilitators = zoomAccount.hostKey ?? undefined;
+            hostKeyForFacilitators = zoomAccount.hostKey || undefined;
           } catch {
             hostKeyForFacilitators = undefined;
           }

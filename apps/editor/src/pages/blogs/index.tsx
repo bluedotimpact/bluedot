@@ -41,7 +41,7 @@ const BlogsPage = withAuth(({ auth }) => {
           isEntireCardClickable
           isFullWidth
           subtitle={`${blog.authorName} • ${blog.publicationStatus} • ${new Date((blog.publishedAt ?? 0) * 1000).toLocaleDateString()}`}
-          title={blog.title ?? 'Untitled'}
+          title={blog.title || 'Untitled'}
         />
       ))}
     </div>

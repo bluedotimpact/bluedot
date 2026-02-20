@@ -37,8 +37,8 @@ export default makeApiRoute({
       }
 
       // If both have the same publication status, sort by publishedAt date (most recent first)
-      const aDate = a.publishedAt ?? 0;
-      const bDate = b.publishedAt ?? 0;
+      const aDate = a.publishedAt || 0;
+      const bDate = b.publishedAt || 0;
       return bDate - aDate; // Descending order (most recent first)
     })
     .map(({ body, ...rest }) => rest);

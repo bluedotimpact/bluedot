@@ -268,7 +268,7 @@ export const coursesRouter = router({
       const { resourceCompletions, exerciseCompletions } = await getUserCompletions(
         coreResourceIds,
         activeExerciseIds,
-        ctx.auth.email,
+        ctx.auth.email!,
       );
 
       // Build Sets for faster lookup
