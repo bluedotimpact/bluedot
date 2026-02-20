@@ -223,15 +223,15 @@ export const formConfigurationTable = pgAirtable('form_configuration', {
   tableId: 'tblvsaRl69XV8azGZ',
   columns: {
     slug: {
-      pgColumn: text().notNull(),
+      pgColumn: text(),
       airtableId: 'fldrw0oSjFSMezFJ2',
     },
     title: {
-      pgColumn: text().notNull(),
+      pgColumn: text(),
       airtableId: 'fldHiGrJmyBvSdGUm',
     },
     webhook: {
-      pgColumn: text().notNull(),
+      pgColumn: text(),
       airtableId: 'fldoGERxuxQ17adXI',
     },
     minimumLength: {
@@ -432,11 +432,11 @@ export const groupSwitchingTable = pgAirtable('group_switching', {
       airtableId: 'fldMb4VAcZUtgX8bw',
     },
     requestStatus: {
-      pgColumn: text().notNull(),
+      pgColumn: text(),
       airtableId: 'flddokGe6ZjpmXXgu',
     },
     switchType: {
-      pgColumn: text().notNull(),
+      pgColumn: text(),
       airtableId: 'fldmQas5lXJw7cIvS',
     },
     notesFromParticipant: {
@@ -452,11 +452,11 @@ export const groupSwitchingTable = pgAirtable('group_switching', {
       airtableId: 'fldl3oYgHUrigqv1s',
     },
     newDiscussion: {
-      pgColumn: text().array().notNull(),
+      pgColumn: text().array(),
       airtableId: 'fldJBqQyf7b0zR6v0',
     },
     oldDiscussion: {
-      pgColumn: text().array().notNull(),
+      pgColumn: text().array(),
       airtableId: 'fldqHnismQINb0lsw',
     },
     unit: {
@@ -480,7 +480,7 @@ export const courseRunnerBucketTable = pgAirtable('course_runner_bucket', {
   tableId: 'tbl7Pevw79fDA7EmX',
   columns: {
     groups: {
-      pgColumn: text().array().notNull(),
+      pgColumn: text().array(),
       airtableId: 'flduxhuBAiLVdfolQ',
     },
     round: {

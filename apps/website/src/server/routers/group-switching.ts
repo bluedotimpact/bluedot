@@ -178,7 +178,7 @@ export const groupSwitchingRouter = router({
             .where(inArray(courseRunnerBucketTable.pg.id, participant.buckets));
 
           bucketsOfAllowedGroups.forEach((bucket) => {
-            bucket.groups.forEach((groupId) => {
+            (bucket.groups ?? []).forEach((groupId) => {
               allowedGroupIds.add(groupId);
             });
           });
