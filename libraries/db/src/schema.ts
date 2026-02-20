@@ -154,7 +154,7 @@ export const unitFeedbackTable = pgAirtable('unit_feedback', {
   tableId: 'tblBwjMjul1c6l7ea',
   columns: {
     unitId: {
-      pgColumn: text().notNull(),
+      pgColumn: text(),
       airtableId: 'fldYqvWII6kuxCCmH',
     },
     overallRating: {
@@ -162,11 +162,11 @@ export const unitFeedbackTable = pgAirtable('unit_feedback', {
       airtableId: 'fld3B8HUudN5NxPIU',
     },
     anythingElse: {
-      pgColumn: text().notNull(),
+      pgColumn: text(),
       airtableId: 'fldYdcPZPdJAqn06w',
     },
     userEmail: {
-      pgColumn: text().notNull(),
+      pgColumn: text(),
       airtableId: 'fld9JsHJXjud5Bhle',
     },
     createdAt: {
@@ -648,7 +648,7 @@ export const meetCourseTable = pgAirtable('meet_course', {
   tableId: 'tblO0sgD3ioedaqDw',
   columns: {
     courseSite: {
-      pgColumn: text().notNull(),
+      pgColumn: text(),
       airtableId: 'fldzJ2h89blzv6MSb',
     },
   },
