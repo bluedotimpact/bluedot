@@ -43,6 +43,17 @@ export type PgAirtableColumnInput = {
   airtableId: string;
 };
 
+/**
+ * Mapped type that rejects columns with .notNull(). Used as a constraint on the
+ * pgAirtable function to prevent notNull columns at the type level.
+ * Airtable cannot guarantee non-null values, so all pgAirtable columns must be nullable.
+ */
+export type RejectNotNullColumns<T extends Record<string, PgAirtableColumnInput>> = {
+  [K in keyof T]: T[K]['pgColumn'] extends { _: { notNull: true } }
+    ? Omit<T[K], 'pgColumn'> & { pgColumn: never }
+    : T[K]
+};
+
 export type DeprecatedPgAirtableColumnInput = {
   pgColumn: AllowedPgColumn;
   airtableId: string;

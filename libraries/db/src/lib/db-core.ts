@@ -8,6 +8,7 @@ import {
   type TsTypeString,
   type AllowedPgColumn,
   type PgAirtableColumnInput,
+  type RejectNotNullColumns,
   type BasePgTableType,
   type AirtableItemFromColumnsMap,
   type PgAirtableConfig,
@@ -138,7 +139,7 @@ export function pgAirtable<
   TColumnsMap extends Record<string, PgAirtableColumnInput>,
 >(
   name: TTableName,
-  config: PgAirtableConfig<TColumnsMap>,
+  config: PgAirtableConfig<TColumnsMap> & { columns: RejectNotNullColumns<TColumnsMap> },
 ): PgAirtableTable<TTableName, TColumnsMap> {
   const result = new PgAirtableTable(name, config);
 
