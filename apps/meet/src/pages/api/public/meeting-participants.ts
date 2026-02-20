@@ -83,8 +83,8 @@ export default makeApiRoute({
   const zoomAccount = await db.get(zoomAccountTable, { id: groupDiscussion.zoomAccount });
 
   // Get facilitators and participants
-  const facilitatorIds = groupDiscussion.facilitators || [];
-  const participantIds = groupDiscussion.participantsExpected || [];
+  const facilitatorIds = groupDiscussion.facilitators ?? [];
+  const participantIds = groupDiscussion.participantsExpected ?? [];
 
   // Get all people and filter by IDs
   const allPeople = await db.scan(meetPersonTable);

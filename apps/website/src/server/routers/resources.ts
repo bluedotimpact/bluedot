@@ -15,7 +15,7 @@ export const resourcesRouter = router({
         .from(resourceCompletionTable.pg)
         .where(and(
           inArray(resourceCompletionTable.pg.unitResourceId, input.unitResourceIds),
-          eq(resourceCompletionTable.pg.email, ctx.auth.email!),
+          eq(resourceCompletionTable.pg.email, ctx.auth.email),
         ))
         .orderBy(desc(resourceCompletionTable.pg.autoNumberId));
 

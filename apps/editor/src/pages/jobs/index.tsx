@@ -41,7 +41,7 @@ const JobsPage = withAuth(({ auth }) => {
           isEntireCardClickable
           isFullWidth
           subtitle={`${job.subtitle} • ${job.publicationStatus}`}
-          title={job.title || 'Untitled'}
+          title={job.title ?? 'Untitled'}
         />
       ))}
     </div>

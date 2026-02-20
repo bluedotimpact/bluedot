@@ -253,8 +253,8 @@ const CourseCurriculumSection = ({
         <div>
           {[...data.units]
             .sort((a, b) => {
-              const aNum = parseInt(a.unitNumber || '0', 10);
-              const bNum = parseInt(b.unitNumber || '0', 10);
+              const aNum = parseInt(a.unitNumber ?? '0', 10);
+              const bNum = parseInt(b.unitNumber ?? '0', 10);
               return aNum - bNum;
             })
             .map((unit) => (

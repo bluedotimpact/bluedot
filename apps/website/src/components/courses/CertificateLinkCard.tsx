@@ -316,7 +316,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
                 <FaAward size={24} className="text-bluedot-normal" />
               </div>
               <div className="min-w-0">
-                <p className="font-semibold text-bluedot-black">Earned by {courseRegistration.fullName || courseRegistration.email}</p>
+                <p className="font-semibold text-bluedot-black">Earned by {courseRegistration.fullName ?? courseRegistration.email}</p>
                 <p className="text-bluedot-darker">Issued on {formattedCertificateDate}</p>
               </div>
             </div>

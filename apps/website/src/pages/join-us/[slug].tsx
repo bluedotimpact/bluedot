@@ -25,7 +25,7 @@ type JobPostingPageProps = {
 
 const JobPostingPage = ({ slug, job, jobOgImage }: JobPostingPageProps) => {
   const currentRoute: BluedotRoute = {
-    title: job.title || 'Job Posting',
+    title: job.title ?? 'Job Posting',
     url: `${ROUTES.joinUs.url}/${slug}`,
     parentPages: [...(ROUTES.joinUs.parentPages ?? []), ROUTES.joinUs],
   };
