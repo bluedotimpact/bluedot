@@ -34,9 +34,9 @@ const JobPostingPage = ({ slug, job, jobOgImage }: JobPostingPageProps) => {
     <div>
       <Head>
         <title>{`${job.title} | BlueDot Impact`}</title>
-        <meta name="description" content={job.subtitle} />
-        <meta key="og:title" property="og:title" content={job.title} />
-        <meta key="og:description" property="og:description" content={job.subtitle} />
+        <meta name="description" content={job.subtitle ?? undefined} />
+        <meta key="og:title" property="og:title" content={job.title ?? undefined} />
+        <meta key="og:description" property="og:description" content={job.subtitle ?? undefined} />
         <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
         <meta key="og:type" property="og:type" content="website" />
         <meta key="og:url" property="og:url" content={`https://bluedot.org/join-us/${encodeURIComponent(slug)}`} />
@@ -90,7 +90,7 @@ const JobPostingPage = ({ slug, job, jobOgImage }: JobPostingPageProps) => {
       <Breadcrumbs route={currentRoute} />
       <Section className="max-w-3xl">
         <MarkdownExtendedRenderer>
-          {job.body}
+          {job.body ?? undefined}
         </MarkdownExtendedRenderer>
         {job.applicationUrl && (
           <div className="my-8">

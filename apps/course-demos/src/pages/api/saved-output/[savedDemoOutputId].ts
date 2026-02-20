@@ -24,6 +24,6 @@ export default makeApiRoute({
 
   return {
     type: record.type as SavedDemoOutput['type'],
-    data: record.data,
+    data: record.data ?? '',
   };
 });

@@ -157,7 +157,7 @@ export const exercisesRouter = router({
           }
 
           const response = responseByEmail.get(p.email);
-          if (response !== undefined) {
+          if (response != null) {
             responses.push({ name: p.name || 'Anonymous', response });
           }
         }

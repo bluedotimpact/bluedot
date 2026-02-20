@@ -72,8 +72,8 @@ const ALL_UNIT_CHUNKS: Record<string, { id: string; chunkTitle: string; chunkOrd
 COURSE_UNITS.forEach((unit) => {
   ALL_UNIT_CHUNKS[unit.id] = CHUNKS.map((chunk) => ({
     id: chunk.id,
-    chunkTitle: chunk.chunkTitle,
-    chunkOrder: chunk.chunkOrder,
+    chunkTitle: chunk.chunkTitle ?? '',
+    chunkOrder: chunk.chunkOrder ?? '',
     estimatedTime: chunk.estimatedTime,
     chunkResources: chunk.chunkResources,
     chunkExercises: chunk.chunkExercises,

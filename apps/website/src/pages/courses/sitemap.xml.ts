@@ -10,7 +10,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const urls = courses
     .map((course) => {
       return `  <url>
-    <loc>${BASE_URL}/${encodeURIComponent(course.slug)}</loc>
+    <loc>${BASE_URL}/${encodeURIComponent(course.slug ?? '')}</loc>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>`;

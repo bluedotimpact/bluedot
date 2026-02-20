@@ -109,7 +109,7 @@ export const ChangeFacilitatorView: Story = {
   args: {
     handleClose() {},
     roundId: 'mock-round-id',
-    initialDiscussion: mockDiscussions[1] ?? null,
+    initialDiscussion: mockDiscussions[1] ? { id: mockDiscussions[1].id, group: mockDiscussions[1].group ?? '' } : null,
     initialModalType: 'Change facilitator',
   },
   parameters: {

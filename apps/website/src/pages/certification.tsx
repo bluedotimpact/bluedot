@@ -42,15 +42,15 @@ type Certificate = {
 
 async function getCertificateData(certificateId: string) {
   const courseRegistration = await db.get(courseRegistrationTable, { certificateId });
-  const course = await db.get(courseTable, { id: courseRegistration.courseId });
+  const course = await db.get(courseTable, { id: courseRegistration.courseId! });
 
   const certificate: Certificate = {
     certificateId,
     certificateCreatedAt: courseRegistration.certificateCreatedAt ?? Date.now() / 1000,
-    recipientName: courseRegistration.fullName,
-    courseName: course.title,
-    courseSlug: course.slug,
-    courseDetailsUrl: course.detailsUrl,
+    recipientName: courseRegistration.fullName ?? '',
+    courseName: course.title ?? '',
+    courseSlug: course.slug ?? '',
+    courseDetailsUrl: course.detailsUrl ?? '',
     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     certificationDescription: course.certificationDescription || '',
   };

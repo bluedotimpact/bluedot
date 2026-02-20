@@ -141,7 +141,7 @@ export const protectedProcedure = publicProcedure.use(({ ctx, next }) => {
 });
 
 export const adminProcedure = protectedProcedure.use(async ({ ctx, next }) => {
-  const hasAdminAccess = await checkAdminAccess(ctx.auth.email);
+  const hasAdminAccess = await checkAdminAccess(ctx.auth.email!);
   if (!hasAdminAccess) {
     throw new TRPCError({ code: 'FORBIDDEN', message: 'Unauthorized' });
   }

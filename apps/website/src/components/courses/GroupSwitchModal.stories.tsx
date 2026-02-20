@@ -134,7 +134,7 @@ const commonHandlers = [
 export const Default: Story = {
   args: {
     handleClose() {},
-    initialUnitNumber: unit1.unitNumber,
+    initialUnitNumber: unit1.unitNumber ?? undefined,
     courseSlug: 'ai-safety',
   },
   parameters: {
@@ -147,7 +147,7 @@ export const Default: Story = {
 export const AlternativeUnit: Story = {
   args: {
     handleClose() {},
-    initialUnitNumber: unit2.unitNumber,
+    initialUnitNumber: unit2.unitNumber ?? undefined,
     courseSlug: 'ai-safety',
   },
   parameters: {
@@ -160,7 +160,7 @@ export const AlternativeUnit: Story = {
 export const NoAvailableGroups: Story = {
   args: {
     handleClose() {},
-    initialUnitNumber: unit3.unitNumber,
+    initialUnitNumber: unit3.unitNumber ?? undefined,
     courseSlug: 'ai-safety',
   },
   parameters: {
@@ -173,7 +173,7 @@ export const NoAvailableGroups: Story = {
 export const Loading: Story = {
   args: {
     handleClose() {},
-    initialUnitNumber: unit1.unitNumber,
+    initialUnitNumber: unit1.unitNumber ?? undefined,
     courseSlug: 'ai-safety',
   },
   parameters: {

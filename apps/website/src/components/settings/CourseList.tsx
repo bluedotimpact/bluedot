@@ -98,9 +98,9 @@ const CourseListRow = ({
   const { data: attendedResults, isLoading: isLoadingAttendees } = trpc.groupDiscussions.getByDiscussionIds.useQuery((meetPerson?.attendedDiscussions || []).length > 0 ? { discussionIds: meetPerson?.attendedDiscussions || [] } : skipToken);
 
   // Sort discussions by startDateTime
-  const expectedDiscussions = [...(expectedResults?.discussions ?? [])].sort((a, b) => a.startDateTime - b.startDateTime);
+  const expectedDiscussions = [...(expectedResults?.discussions ?? [])].sort((a, b) => (a.startDateTime ?? 0) - (b.startDateTime ?? 0));
 
-  const allAttendedDiscussions = [...(attendedResults?.discussions ?? [])].sort((a, b) => a.startDateTime - b.startDateTime);
+  const allAttendedDiscussions = [...(attendedResults?.discussions ?? [])].sort((a, b) => (a.startDateTime ?? 0) - (b.startDateTime ?? 0));
 
   const facilitatorDiscussionIds = new Set(meetPerson?.expectedDiscussionsFacilitator ?? []);
   const facilitatedDiscussions = allAttendedDiscussions.filter((d) => facilitatorDiscussionIds.has(d.id));
@@ -300,7 +300,7 @@ const getCtaButtons = ({
     if (courseRegistration.decision !== 'Reject') {
       const hasAvailability = !!courseRegistration.availabilityIntervalsUTC;
       const availabilityUrl = buildAvailabilityFormUrl({
-        email: courseRegistration.email,
+        email: courseRegistration.email ?? '',
         utmSource: 'bluedot-settings-upcoming',
         courseRegistration,
         roundId: courseRegistration.roundId ?? '',
@@ -360,7 +360,7 @@ const getCtaButtons = ({
   if (courseRegistration.certificateCreatedAt) {
     const certificateUrl = courseRegistration.certificateId
       ? addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)
-      : course.path;
+      : course.path ?? '';
 
     return [(
       <CTALinkOrButton
@@ -389,7 +389,7 @@ const getCtaButtons = ({
     if (isNextDiscussionSoonOrLive) {
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       buttonUrl = nextDiscussion.zoomLink || '#';
-    } else if (course.slug && nextDiscussion.unitNumber !== null) {
+    } else if (course.slug && nextDiscussion.unitNumber != null) {
       buttonUrl = `/courses/${course.slug}/${nextDiscussion.unitNumber}`;
     }
 

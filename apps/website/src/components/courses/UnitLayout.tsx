@@ -208,7 +208,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
     if ((isFirstChunk || chunks.length === 0) && prevUnit) {
       // Navigate to last chunk of previous unit
       const lastChunkNumber = prevUnit.chunks?.length ?? 1;
-      router.push(buildCourseUnitUrl({ courseSlug, unitNumber: prevUnit.unitNumber, chunkNumber: lastChunkNumber }));
+      router.push(buildCourseUnitUrl({ courseSlug, unitNumber: prevUnit.unitNumber ?? '', chunkNumber: lastChunkNumber }));
       setNavigationAnnouncement(`Navigated to previous unit: ${prevUnit.title}`);
     } else if (!isFirstChunk) {
       // Navigate to previous chunk
@@ -219,7 +219,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   const handleNextClick = useCallback(() => {
     if ((isLastChunk || chunks.length === 0) && nextUnit) {
       // Navigate to first chunk of next unit
-      router.push(buildCourseUnitUrl({ courseSlug, unitNumber: nextUnit.unitNumber }));
+      router.push(buildCourseUnitUrl({ courseSlug, unitNumber: nextUnit.unitNumber ?? '' }));
       setNavigationAnnouncement(`Navigated to next unit: ${nextUnit.title}`);
     } else if (!isLastChunk) {
       // Navigate to next chunk
@@ -264,7 +264,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         const targetUnit = units.find((u) => Number(u.unitNumber) === targetUnitNumber);
         if (targetUnit) {
           event.preventDefault();
-          router.push(targetUnit.path);
+          router.push(targetUnit.path ?? '');
           setNavigationAnnouncement(`Navigated to Unit ${targetUnitNumber}: ${targetUnit.title}`);
         }
 
@@ -327,7 +327,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       {/* Sidebar - positioned fixed and separate from main layout flow */}
       {!isSidebarHidden && (
         <SideBar
-          courseTitle={unit.courseTitle}
+          courseTitle={unit.courseTitle ?? ''}
           courseSlug={courseSlug}
           className="hidden md:block md:fixed md:overflow-y-auto md:max-h-[calc(100vh-57px)]" // Adjust for Nav height only
           units={units}
@@ -372,7 +372,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             </A>
             <FaChevronRight className="size-[14px] text-[#6A6F7A] flex-shrink-0 opacity-50" />
             <A
-              href={unit.coursePath}
+              href={unit.coursePath ?? undefined}
               className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-bluedot-navy transition-colors no-underline truncate"
             >
               {unit.courseTitle}
@@ -452,7 +452,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             <ResourceDisplay
               resources={chunk.resources || []}
               exercises={chunk.exercises || []}
-              unitTitle={unit.title}
+              unitTitle={unit.title ?? undefined}
               unitNumber={unitNumber}
               className={clsx((chunk?.chunkContent || unit.content) ? 'mt-8 md:mt-6' : 'mt-4')}
               courseSlug={courseSlug}
@@ -463,16 +463,16 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           {(!nextUnit && isLastChunk) ? (
             <>
               <Congratulations
-                courseTitle={unit.courseTitle}
-                coursePath={unit.coursePath}
-                courseId={unit.courseId}
+                courseTitle={unit.courseTitle ?? ''}
+                coursePath={unit.coursePath ?? ''}
+                courseId={unit.courseId ?? undefined}
                 className="mt-8 md:mt-6"
               />
               <div className="mt-8 md:mt-6">
-                <ActionPlanCard courseId={unit.courseId} />
+                <ActionPlanCard courseId={unit.courseId ?? ''} />
               </div>
               <div className="mt-4">
-                <CertificateLinkCard courseId={unit.courseId} />
+                <CertificateLinkCard courseId={unit.courseId ?? ''} />
               </div>
             </>
           ) : (
@@ -500,7 +500,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       <MobileCourseModal
         isOpen={isMobileCourseMenuOpen}
         setIsOpen={setIsMobileCourseMenuOpen}
-        courseTitle={unit.courseTitle}
+        courseTitle={unit.courseTitle ?? ''}
         courseSlug={courseSlug}
         units={units}
         currentUnitNumber={parseInt(unitNumber)}

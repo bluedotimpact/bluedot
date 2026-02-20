@@ -54,7 +54,7 @@ const ProjectPostPage = withAuth(({ auth }) => {
         <title>{`${data.project.title} | BlueDot Editor`}</title>
       </Head>
       <BodyEditor auth={auth} onSave={saveProject}>
-        {data.project.body}
+        {data.project.body ?? undefined}
       </BodyEditor>
       <P><A href={`https://airtable.com/app63L1YChHfS6RJF/pagkPlWBx7S9LDhBJ?QaMci=${data.project.id}`}>Return to Airtable</A></P>
     </>

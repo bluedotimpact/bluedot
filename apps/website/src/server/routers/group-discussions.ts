@@ -40,7 +40,7 @@ export const groupDiscussionsRouter = router({
         });
       }
 
-      const groupIds = [...new Set(discussions.map((d) => d.group))];
+      const groupIds = [...new Set(discussions.map((d) => d.group).filter((id): id is string => id != null))];
       const unitIds = [...new Set(discussions.map((d) => d.courseBuilderUnitRecordId).filter((id): id is string => !!id))];
 
       const [groups, units] = await Promise.all([
@@ -57,7 +57,7 @@ export const groupDiscussionsRouter = router({
       const unitMap = new Map(units.map((u) => [u.id, u]));
 
       const discussionsWithDetails = discussions.map((discussion) => {
-        const group = groupMap.get(discussion.group);
+        const group = groupMap.get(discussion.group ?? '');
         // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         const unit = (discussion.courseBuilderUnitRecordId && unitMap.get(discussion.courseBuilderUnitRecordId)) || null;
 
@@ -128,10 +128,10 @@ export const groupDiscussionsRouter = router({
       let userRole: 'participant' | 'facilitator' | undefined;
       let hostKeyForFacilitators: string | undefined;
 
-      if (groupDiscussion?.facilitators.includes(participant.id)) {
+      if ((groupDiscussion?.facilitators ?? []).includes(participant.id)) {
         userRole = 'facilitator';
 
-        if (groupDiscussion.zoomAccount) {
+        if (groupDiscussion?.zoomAccount) {
           try {
             const zoomAccount = await db.get(zoomAccountTable, { id: groupDiscussion.zoomAccount });
             hostKeyForFacilitators = zoomAccount.hostKey || undefined;
@@ -139,7 +139,7 @@ export const groupDiscussionsRouter = router({
             hostKeyForFacilitators = undefined;
           }
         }
-      } else if (groupDiscussion?.participantsExpected.includes(participant.id)) {
+      } else if ((groupDiscussion?.participantsExpected ?? []).includes(participant.id)) {
         userRole = 'participant';
       }
 

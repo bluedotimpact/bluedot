@@ -38,8 +38,8 @@ export const NavLinks: React.FC<{
 
   const navCourses = loading ? [] : [
     ...(courses || []).map((course) => ({
-      title: course.title,
-      url: getPrimaryCourseURL(course.slug),
+      title: course.title ?? '',
+      url: getPrimaryCourseURL(course.slug ?? ''),
       isNew: course.isNew || false,
     })),
     { title: 'See upcoming rounds', url: ROUTES.courses.url },

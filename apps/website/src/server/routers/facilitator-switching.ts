@@ -28,7 +28,7 @@ export const facilitatorSwitchingRouter = router({
   getFacilitatorsForRound: protectedProcedure.input(z.object({ roundId: z.string() })).query(async ({ input, ctx }) => {
     const { roundId } = input;
 
-    const currentFacilitator = await getFacilitator(roundId, ctx.auth.email);
+    const currentFacilitator = await getFacilitator(roundId, ctx.auth.email!);
 
     // Get all meetPersons in the same round who are facilitators
     const facilitators = await db.pg
@@ -53,7 +53,7 @@ export const facilitatorSwitchingRouter = router({
       roundId: z.string(),
     }))
     .query(async ({ input: { roundId }, ctx }) => {
-      const facilitator = await getFacilitator(roundId, ctx.auth.email);
+      const facilitator = await getFacilitator(roundId, ctx.auth.email!);
 
       const groupDiscussions = await db.pg
         .select()
@@ -66,7 +66,7 @@ export const facilitatorSwitchingRouter = router({
         .from(groupTable.pg)
         .where(inArray(
           groupTable.pg.id,
-          groupDiscussions.map((discussion) => discussion.group),
+          groupDiscussions.map((discussion) => discussion.group).filter((id): id is string => id != null),
         ));
 
       const unitIds = [
@@ -84,7 +84,7 @@ export const facilitatorSwitchingRouter = router({
 
       // Return enriched discussions in the same shape as GroupDiscussionWithGroupAndUnit
       const enrichedDiscussions = groupDiscussions.map((discussion) => {
-        const group = groupMap.get(discussion.group);
+        const group = groupMap.get(discussion.group ?? '');
         if (!group) {
           throw new TRPCError({
             code: 'NOT_FOUND',
@@ -118,7 +118,7 @@ export const facilitatorSwitchingRouter = router({
         throw new TRPCError({ code: 'BAD_REQUEST', message: 'Requested time must be in the future' });
       }
 
-      const facilitator = await getFacilitator(roundId, ctx.auth.email);
+      const facilitator = await getFacilitator(roundId, ctx.auth.email!);
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const allowedDiscussions = facilitator.expectedDiscussionsFacilitator || [];
 
@@ -176,7 +176,7 @@ export const facilitatorSwitchingRouter = router({
     .mutation(async ({ input, ctx }) => {
       const { roundId, discussionId, groupId, newFacilitatorId } = input;
 
-      const facilitator = await getFacilitator(roundId, ctx.auth.email);
+      const facilitator = await getFacilitator(roundId, ctx.auth.email!);
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const allowedDiscussions = facilitator.expectedDiscussionsFacilitator || [];
 
@@ -190,7 +190,7 @@ export const facilitatorSwitchingRouter = router({
       }
 
       const nowInSeconds = Math.floor(Date.now() / 1000);
-      if (discussion.startDateTime <= nowInSeconds) {
+      if ((discussion.startDateTime ?? 0) <= nowInSeconds) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
           message: 'Cannot change facilitator for a discussion that has already started',
