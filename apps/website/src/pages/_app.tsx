@@ -29,8 +29,8 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   const getAnnouncementBanner = () => {
     return (
       <>
-        <AnnouncementBanner hideAfter={new Date('2025-02-21T18:00:00+00:00')}>
-          <b>We're currently experiencing technical difficulties.</b> Some features (e.g. saving exercise answers, completing exercises) may not work. We're working on resolving this and will update you shortly.
+        <AnnouncementBanner hideAfter={new Date('2026-02-21T18:00:00+00:00')}>
+          <b>We're currently experiencing technical difficulties due to an outage in our database provider (Airtable).</b> Some features (e.g. saving exercises) may not work.
         </AnnouncementBanner>
         {fromSite && (
           <AnnouncementBanner ctaText="Learn more" ctaUrl="/blog/course-website-consolidation">
