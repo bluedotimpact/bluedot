@@ -285,15 +285,15 @@ export const sharedDemoOutputTable = pgAirtable('shared_demo_output', {
   tableId: 'tbl9WE3N4B0OjocEB',
   columns: {
     type: {
-      pgColumn: text().notNull(),
+      pgColumn: text(),
       airtableId: 'fldpAHTnZOJc8wbFV',
     },
     data: {
-      pgColumn: text().notNull(),
+      pgColumn: text(),
       airtableId: 'fldsh10gNDXfkosfJ',
     },
     createdAt: {
-      pgColumn: numeric({ mode: 'number' }).notNull(),
+      pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldNfaTMCepyRY3Nj',
     },
   },
@@ -1111,7 +1111,7 @@ export const applicationsCourseTable = pgAirtable('applications_course', {
   tableId: 'tblc3Yvrco2AZEBlx',
   columns: {
     courseBuilderId: {
-      pgColumn: text().notNull(),
+      pgColumn: text(),
       airtableId: 'fld9QUbMmJF2vtRCK',
     },
   },
