@@ -2,7 +2,6 @@ import React, {
   useState, useEffect, useRef, useCallback,
 } from 'react';
 import clsx from 'clsx';
-import { isMobile } from 'react-device-detect';
 
 export type SlideListProps = {
   className?: string;
@@ -173,8 +172,8 @@ export const SlideList: React.FC<SlideListProps> = ({
         </div>
       </div>
 
-      {!allChildrenFit && !isMobile && (
-        <div className="flex justify-between items-center gap-space-between">
+      {!allChildrenFit && (
+        <div className="hidden md:flex justify-between items-center gap-space-between">
           <SlideListBtn
             onClick={() => scrollTo('previous')}
             disabled={scrollPercent === 0}

@@ -3,7 +3,6 @@ import '@testing-library/jest-dom';
 import {
   afterEach, beforeAll, describe, expect, it, vi,
 } from 'vitest';
-import * as deviceDetect from 'react-device-detect';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { act } from 'react';
 
@@ -74,17 +73,6 @@ describe('SlideList', () => {
 
     expect(container).toMatchSnapshot();
     expect(screen.queryAllByLabelText(/(Previous|Next) slide/)).toHaveLength(2);
-  });
-
-  it('hides the next/previous buttons on mobile', () => {
-    vi.spyOn(deviceDetect, 'isMobile', 'get').mockReturnValue(true);
-
-    render(<SlideList>
-      <div>Slide 1</div>
-      <div>Slide 2</div>
-      <div>Slide 3</div>
-    </SlideList>);
-    expect(screen.queryAllByLabelText(/(Previous|Next) slide/)).toHaveLength(0);
   });
 
   it('hides next/previous buttons if container is wide enough to fit all items on one row', async () => {

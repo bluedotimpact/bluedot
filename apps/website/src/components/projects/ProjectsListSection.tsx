@@ -3,7 +3,6 @@ import {
 } from '@bluedot/ui';
 import type { inferRouterOutputs } from '@trpc/server';
 import React from 'react';
-import { isMobile } from 'react-device-detect';
 import { ROUTES } from '../../lib/routes';
 import type { AppRouter } from '../../server/routers/_app';
 import { trpc } from '../../utils/trpc';
@@ -24,7 +23,7 @@ export const ProjectListItem = ({ project }: { project: CmsProject }) => {
       className="container-lined hover:container-elevated p-8"
       ctaText="Read more"
       ctaUrl={url}
-      isEntireCardClickable={!isMobile}
+      isEntireCardClickable
       subtitle={`${project.authorName}${tags.length > 0 ? ` • ${tags.join(' • ')}` : ''}`}
       title={project.title}
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
