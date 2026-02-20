@@ -59,7 +59,7 @@ export const certificatesRouter = router({
     .input(z.object({ certificateId: z.string() }))
     .query(async ({ ctx, input: { certificateId } }) => {
       const registration = await db.get(courseRegistrationTable, { certificateId });
-      const isOwner = (registration?.email ?? '').toLowerCase() === (ctx.auth.email ?? '').toLowerCase();
+      const isOwner = (registration?.email ?? '').toLowerCase() === ctx.auth.email.toLowerCase();
       return { isOwner };
     }),
 
