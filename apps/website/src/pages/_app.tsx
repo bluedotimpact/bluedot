@@ -76,7 +76,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
           </Head>
           {'rawLayout' in Component && Component.rawLayout
             ? (
-              <ErrorBoundary key={router.pathname}>
+              <ErrorBoundary key={router.asPath}>
                 <Component {...pageProps} />
               </ErrorBoundary>
             )
@@ -84,7 +84,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
               <>
                 <Header announcementBanner={getAnnouncementBanner()} />
                 <main className="bluedot-base">
-                  <ErrorBoundary key={router.pathname}>
+                  <ErrorBoundary key={router.asPath}>
                     <Component {...pageProps} />
                   </ErrorBoundary>
                 </main>
