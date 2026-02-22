@@ -240,17 +240,15 @@ const CertificatePage = ({
         </div>
       )}
 
-      {isOwner && (
-        <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[850px] h-[600px] overflow-hidden pointer-events-none z-50">
-          <Confetti
-            width={850}
-            height={600}
-            numberOfPieces={200}
-            recycle={false}
-            colors={['#3B82F6', '#60A5FA', '#93C5FD', '#1D4ED8', '#DBEAFE']}
-          />
-        </div>
-      )}
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[850px] h-[600px] overflow-hidden pointer-events-none z-50">
+        <Confetti
+          width={850}
+          height={600}
+          numberOfPieces={200}
+          recycle={false}
+          colors={['#3B82F6', '#60A5FA', '#93C5FD', '#1D4ED8', '#DBEAFE']}
+        />
+      </div>
 
       <div
         className={clsx(

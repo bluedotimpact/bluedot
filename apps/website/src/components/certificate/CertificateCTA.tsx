@@ -59,7 +59,7 @@ export const CertificateCTA: React.FC<CertificateCTAProps> = ({
 
             <CTALinkOrButton
               url={courseUrl}
-              className="h-9 px-4 py-[7px] rounded-[5px] text-size-xs font-medium text-bluedot-navy w-fit bg-[var(--cta-accent)]"
+              className="h-9 px-4 py-[7px] rounded-[5px] text-size-xs font-medium text-bluedot-navy w-fit bg-[var(--cta-accent)] hover:bg-[color-mix(in_srgb,var(--cta-accent),black_10%)] transition-colors"
             >
               Start for free
             </CTALinkOrButton>
