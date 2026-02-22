@@ -37,8 +37,8 @@ describe('CourseSection', () => {
 
     // Verify GA event was sent with correct parameters
     expect(sendGAEvent).toHaveBeenCalledWith('event', 'course_card_click', {
-      course_title: 'The Future of AI',
-      course_url: '/courses/future-of-ai',
+      course_title: 'AGI Strategy',
+      course_url: '/courses/agi-strategy',
     });
 
     // Click another course card (first regular course card)
@@ -51,8 +51,8 @@ describe('CourseSection', () => {
 
     // Verify GA event was sent with correct parameters
     expect(sendGAEvent).toHaveBeenCalledWith('event', 'course_card_click', {
-      course_title: 'AGI Strategy',
-      course_url: '/courses/agi-strategy',
+      course_title: 'Biosecurity',
+      course_url: '/courses/biosecurity',
     });
   });
 });
