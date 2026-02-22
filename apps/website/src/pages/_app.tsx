@@ -1,5 +1,6 @@
 import '../globals.css';
 import '../lib/axios'; // Configure axios-hooks
+import { useEffect } from 'react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { Footer, LatestUtmParamsProvider } from '@bluedot/ui';
@@ -14,6 +15,8 @@ import { ImpersonationBadge } from '../components/admin/ImpersonationBadge';
 import { useCourses } from '../lib/hooks/useCourses';
 import { inter } from '../lib/fonts';
 import { trpc } from '../utils/trpc';
+import { reportClientError } from '../lib/reportClientError';
+import { ErrorBoundary } from '../components/ErrorBoundary';
 
 const AnnouncementBanner = dynamic(() => import('../components/AnnouncementBanner'), { ssr: false });
 // Dynamic import prevents SSR execution - required because Customer.io package has circular dependencies
@@ -25,6 +28,27 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   const fromSite = ['aisf', 'bsf'].includes(fromSiteParam) ? fromSiteParam as 'aisf' | 'bsf' : null;
   const hideFooter = 'hideFooter' in Component;
   const { courses, loading } = useCourses();
+
+  useEffect(() => {
+    const handleError = (event: ErrorEvent) => {
+      reportClientError(
+        { message: event.message, stack: typeof event.error?.stack === 'string' ? event.error.stack : undefined },
+        'window.onerror',
+      );
+    };
+    const handleRejection = (event: PromiseRejectionEvent) => {
+      const error = event.reason instanceof Error
+        ? event.reason
+        : { message: String(event.reason) };
+      reportClientError(error, 'unhandledrejection');
+    };
+    window.addEventListener('error', handleError);
+    window.addEventListener('unhandledrejection', handleRejection);
+    return () => {
+      window.removeEventListener('error', handleError);
+      window.removeEventListener('unhandledrejection', handleRejection);
+    };
+  }, []);
 
   const getAnnouncementBanner = () => {
     if (fromSite) {
@@ -49,12 +73,18 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
             <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
           </Head>
           {'rawLayout' in Component && Component.rawLayout
-            ? <Component {...pageProps} />
+            ? (
+              <ErrorBoundary key={router.pathname}>
+                <Component {...pageProps} />
+              </ErrorBoundary>
+            )
             : (
               <>
                 <Header announcementBanner={getAnnouncementBanner()} />
                 <main className="bluedot-base">
-                  <Component {...pageProps} />
+                  <ErrorBoundary key={router.pathname}>
+                    <Component {...pageProps} />
+                  </ErrorBoundary>
                 </main>
                 {!hideFooter && (
                   <Footer

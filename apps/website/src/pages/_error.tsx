@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
 import { type NextPageContext } from 'next';
 import Head from 'next/head';
 import { ErrorSection, Section } from '@bluedot/ui';
+import { reportClientError } from '../lib/reportClientError';
 
 type ErrorProps = {
   statusCode: number;
@@ -10,6 +12,11 @@ type ErrorProps = {
 const ErrorPage = ({ statusCode, message }: ErrorProps) => {
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const errorMessage = message || `A ${statusCode} error occurred`;
+
+  useEffect(() => {
+    // data-fetching errors during client-side navigation bypass ErrorBoundary and window listeners.
+    reportClientError({ message: errorMessage }, 'error-page');
+  }, [errorMessage]);
 
   return (
     <>
