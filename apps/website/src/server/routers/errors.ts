@@ -11,7 +11,7 @@ const ClientErrorInput = z.object({
   componentStack: z.string().max(5000).optional(),
   pageUrl: z.string().max(2000),
   userAgent: z.string().max(500),
-  timestamp: z.string(),
+  timestamp: z.string().max(100),
   source: z.enum(['window.onerror', 'unhandledrejection', 'errorboundary', 'error-page']),
 });
 
