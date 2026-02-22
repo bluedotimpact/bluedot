@@ -15,8 +15,11 @@ const ErrorPage = ({ statusCode, message }: ErrorProps) => {
 
   useEffect(() => {
     // data-fetching errors during client-side navigation bypass ErrorBoundary and window listeners.
-    reportClientError({ message: errorMessage }, 'error-page');
-  }, [errorMessage]);
+    // only report 5xx. 404s are user errors, not bugs.
+    if (statusCode >= 500) {
+      reportClientError({ message: errorMessage }, 'error-page');
+    }
+  }, [statusCode, errorMessage]);
 
   return (
     <>
