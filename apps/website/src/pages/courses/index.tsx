@@ -23,7 +23,6 @@ type Course = inferRouterOutputs<AppRouter>['courses']['getAll'][number];
 type CourseRounds = inferRouterOutputs<AppRouter>['courseRounds']['getRoundsForCourse'];
 type Round = CourseRounds['intense'][number];
 
-
 /* FoAI course has no cohort rounds - just open access content */
 const isSelfPacedCourse = (course: Course): boolean => course.slug === 'future-of-ai';
 

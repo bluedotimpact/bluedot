@@ -18,7 +18,7 @@ const mockCourses = [
     id: 'course-agi',
     slug: 'agi-strategy',
     title: 'AGI Strategy',
-    shortDescription: "A deep dive into the incentives driving the AI companies, what's at stake, and the strategies for ensuring AI benefits humanity. You'll finish with your own action plan.",
+    shortDescription: 'A deep dive into the incentives driving the AI companies, what\'s at stake, and the strategies for ensuring AI benefits humanity. You\'ll finish with your own action plan.',
     durationHours: 25,
     isFeatured: true,
   }),
