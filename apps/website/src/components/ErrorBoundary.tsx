@@ -5,6 +5,8 @@ import { reportClientError } from '../lib/reportClientError';
 type Props = { children: React.ReactNode };
 type State = { error: Error | null };
 
+// class component is required. react has no hook-based error boundary api.
+// componentDidCatch only exists on class components.
 export class ErrorBoundary extends React.Component<Props, State> {
   state: State = { error: null };
 
