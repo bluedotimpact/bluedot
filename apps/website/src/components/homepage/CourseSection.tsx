@@ -24,7 +24,6 @@ type Course = {
 
 // Course-specific gradient backgrounds (matching lander color identities)
 const COURSE_GRADIENTS = {
-  'future-of-ai': 'linear-gradient(to right, rgba(30, 30, 20, 0.6) 0%, rgba(30, 30, 20, 0.4) 25%, rgba(30, 30, 20, 0.2) 45%, transparent 60%), radial-gradient(ellipse 200% 180% at 105% 105%, rgba(150, 207, 156, 0.35) 0%, rgba(163, 179, 110, 0.35) 28.6%, rgba(176, 152, 64, 0.35) 57.2%, rgba(147, 120, 64, 0.35) 67.9%, rgba(118, 88, 64, 0.35) 78.6%, rgba(89, 56, 63, 0.35) 89.3%, rgba(60, 24, 63, 0.35) 100%), #29281D',
   'agi-strategy': 'linear-gradient(to right, rgba(10, 8, 36, 0.9) 0%, rgba(10, 8, 36, 0.4) 5%, rgba(10, 8, 36, 0.15) 15%, rgba(10, 8, 36, 0.05) 30%, transparent 45%), radial-gradient(115% 175% at 95% 135%, rgba(255, 194, 195, 0.65) 0%, rgba(255, 194, 195, 0.50) 25%, rgba(53, 42, 106, 0.65) 60%, rgba(10, 8, 36, 0.60) 100%), #181D3F',
   biosecurity: 'linear-gradient(135deg, #012A07 10%, rgba(1, 42, 7, 0.00) 90%), radial-gradient(110.09% 127.37% at 112.15% 117.08%, rgba(220, 238, 171, 0.45) 0%, rgba(86, 140, 94, 0.45) 50%, rgba(1, 42, 7, 0.45) 100%), radial-gradient(97.29% 122.23% at 85.59% 126.89%, rgba(222, 149, 47, 0.35) 0%, rgba(157, 205, 98, 0.35) 52.4%, rgba(28, 175, 141, 0.35) 100%), #012A07',
   'technical-ai-safety': 'linear-gradient(to right, rgba(20, 8, 25, 0.6) 0%, rgba(20, 8, 25, 0.4) 20%, rgba(20, 8, 25, 0.2) 40%, transparent 55%), radial-gradient(130% 160% at 100% 108.81%, rgba(255, 202, 171, 0.40) 0%, rgba(126, 85, 144, 0.40) 52.4%, rgba(46, 16, 54, 0.40) 100%), #2E1036',
@@ -34,23 +33,13 @@ const COURSE_GRADIENTS = {
 // Hardcoded course data
 const HARDCODED_COURSES: Course[] = [
   {
-    slug: 'future-of-ai',
-    title: 'The Future of AI',
-    shortDescription: 'An introduction to what AI can do today, where it\'s going over the next decade, and how you can start contributing to a better future.',
-    durationDescription: '2h',
-    cadence: 'Self-paced',
-    isFeatured: true,
-    icon: '/images/courses/future-of-ai-icon.svg',
-    gradient: COURSE_GRADIENTS['future-of-ai'],
-  },
-  {
     slug: 'agi-strategy',
     title: 'AGI Strategy',
     shortDescription: 'A deep dive into the incentives driving the AI companies, what\'s at stake, and the strategies for ensuring AI benefits humanity. You\'ll finish with your own action plan.',
     durationDescription: '25h',
     cadence: 'Cohort-based',
     additionalTag: 'Every month',
-    isFeatured: false,
+    isFeatured: true,
     icon: '/images/courses/agi-strategy-icon.svg',
     gradient: COURSE_GRADIENTS['agi-strategy'],
   },
@@ -464,37 +453,52 @@ const CourseCardsGrid = ({
 }: {
   featuredCourse: Course;
   otherCourses: Course[];
-}) => {
-  const allCoursesForGrid = [featuredCourse, ...otherCourses.slice(0, 4)];
+}) => (
+  <div className="hidden lg:flex flex-col items-center gap-8 w-full max-w-screen-xl mx-auto">
+    {/* "Start here" heading */}
+    <P className="text-[14px] font-medium uppercase tracking-[1.5px] text-bluedot-navy/60">
+      Start here
+    </P>
 
-  const renderCard = (course: Course, index: number) => (
-    <CourseCardRedesignedWithTracking
-      key={course.slug}
-      trackingEventParams={{
-        course_title: course.title,
-        course_url: `/courses/${course.slug}`, // Always use lander rather than getPrimaryCourseURL(course.slug) to simplify analytics
-      }}
-      course={course}
-      isFirstCard={index === 0}
-    />
-  );
-
-  return (
-    <div className="hidden lg:flex flex-col gap-8 w-full max-w-screen-xl mx-auto">
-      {/* Top Row - 2 equal cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {allCoursesForGrid.slice(0, 2).map((course, i) => renderCard(course, i))}
-      </div>
-
-      {/* Bottom Row - 3 equal cards */}
-      {allCoursesForGrid.length > 2 && (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {allCoursesForGrid.slice(2, 5).map((course, i) => renderCard(course, i + 2))}
-        </div>
-      )}
+    {/* Featured AGI Strategy card - centered, ~50% width */}
+    <div className="w-full max-w-[50%]">
+      <CourseCardRedesignedWithTracking
+        trackingEventParams={{
+          course_title: featuredCourse.title,
+          course_url: `/courses/${featuredCourse.slug}`,
+        }}
+        course={featuredCourse}
+        isFirstCard
+      />
     </div>
-  );
-};
+
+    {/* Downward arrow separator */}
+    <div className="flex flex-col items-center gap-4 py-2">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M12 4L12 20M12 20L6 14M12 20L18 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-bluedot-navy/40" />
+      </svg>
+    </div>
+
+    {/* "Deep-dives" heading */}
+    <P className="text-[14px] font-medium uppercase tracking-[1.5px] text-bluedot-navy/60">
+      Deep-dives
+    </P>
+
+    {/* 3 deep-dive cards in a row */}
+    <div className="grid grid-cols-3 gap-8 w-full">
+      {otherCourses.slice(0, 3).map((course) => (
+        <CourseCardRedesignedWithTracking
+          key={course.slug}
+          trackingEventParams={{
+            course_title: course.title,
+            course_url: `/courses/${course.slug}`,
+          }}
+          course={course}
+        />
+      ))}
+    </div>
+  </div>
+);
 
 const CourseCardRedesigned = ({
   course,
