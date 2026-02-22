@@ -19,7 +19,7 @@ const mockCourses = [
     slug: 'agi-strategy',
     title: 'AGI Strategy',
     shortDescription: "A deep dive into the incentives driving the AI companies, what's at stake, and the strategies for ensuring AI benefits humanity. You'll finish with your own action plan.",
-    durationDescription: '25h',
+    durationHours: 25,
     isFeatured: true,
   }),
   createMockCourse({
@@ -27,7 +27,7 @@ const mockCourses = [
     slug: 'biosecurity',
     title: 'Biosecurity',
     shortDescription: 'For people who want to build a pandemic-proof world. Learn how we can defend against AI-enabled bioattacks.',
-    durationDescription: '30h',
+    durationHours: 30,
     isFeatured: false,
   }),
   createMockCourse({
@@ -35,15 +35,15 @@ const mockCourses = [
     slug: 'technical-ai-safety',
     title: 'Technical AI Safety',
     shortDescription: 'For technical talent who want to drive AI safety research and policy professionals building governance solutions.',
-    durationDescription: '30h',
+    durationHours: 30,
     isFeatured: false,
   }),
   createMockCourse({
     id: 'course-gov',
-    slug: 'governance',
+    slug: 'ai-governance',
     title: 'Frontier AI Governance',
     shortDescription: 'Learn about the policy landscape, regulatory tools, and institutional reforms needed to navigate the transition to transformative AI.',
-    durationDescription: '25h',
+    durationHours: 25,
     isFeatured: false,
   }),
 ];

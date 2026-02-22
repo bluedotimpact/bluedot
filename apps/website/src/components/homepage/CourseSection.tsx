@@ -14,7 +14,7 @@ type Course = {
   slug: string;
   title: string;
   shortDescription: string;
-  durationDescription?: string;
+  durationHours?: number | null;
   cadence?: string;
   additionalTag?: string;
   isFeatured?: boolean;
@@ -43,7 +43,7 @@ const COURSE_VISUAL_CONFIG: Record<string, { gradient: string; icon: string; cad
     cadence: 'Cohort-based',
     additionalTag: 'Every month',
   },
-  governance: {
+  'ai-governance': {
     gradient: 'linear-gradient(270deg, rgba(5, 24, 67, 0.00) -3.82%, rgba(5, 24, 67, 0.50) 98.44%), radial-gradient(96.03% 113.39% at 98.65% 96.93%, rgba(175, 196, 151, 0.40) 0%, rgba(21, 148, 194, 0.40) 44.58%, rgba(5, 24, 67, 0.40) 100%), #051843',
     icon: '/images/courses/ai-governance-icon.svg',
     cadence: 'Cohort-based',
@@ -531,7 +531,7 @@ const CourseCardRedesigned = ({
         {/* Text content at bottom */}
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-4">
-            <H3 className={clsx('font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200', course.slug === 'governance' ? 'text-[23px]' : 'text-[24px]')}>
+            <H3 className={clsx('font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200', course.slug === 'ai-governance' ? 'text-[23px]' : 'text-[24px]')}>
               {course.title}
               {/* Hover arrow for all cards */}
               <span className="inline-block ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -556,7 +556,7 @@ const CourseCardRedesignedWithTracking = withClickTracking(CourseCardRedesigned,
 
 const CourseTags = ({ course }: { course: Course }) => {
   const regularTags = [
-    course.durationDescription,
+    course.durationHours != null ? `${course.durationHours}H` : undefined,
     course.cadence,
     course.additionalTag,
   ].filter(Boolean);
@@ -596,7 +596,7 @@ const CourseSection = () => {
           slug: dbCourse.slug,
           title: dbCourse.title,
           shortDescription: dbCourse.shortDescription,
-          durationDescription: dbCourse.durationDescription,
+          durationHours: dbCourse.durationHours,
           isFeatured: dbCourse.isFeatured,
           cadence: config.cadence,
           additionalTag: config.additionalTag,
