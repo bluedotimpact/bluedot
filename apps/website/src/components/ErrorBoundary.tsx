@@ -33,6 +33,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
         </Section>
       );
     }
+
     return this.props.children;
   }
 }

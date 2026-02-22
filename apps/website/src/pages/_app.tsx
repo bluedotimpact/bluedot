@@ -36,12 +36,14 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
         'window.onerror',
       );
     };
+
     const handleRejection = (event: PromiseRejectionEvent) => {
       const error = event.reason instanceof Error
         ? event.reason
         : { message: String(event.reason) };
       reportClientError(error, 'unhandledrejection');
     };
+
     window.addEventListener('error', handleError);
     window.addEventListener('unhandledrejection', handleRejection);
     return () => {
