@@ -238,7 +238,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
               >
                 Your contact email (optional)
               </label>
-              <p className="text-size-xs text-bluedot-navy/60">
+              <p className="text-[13px] text-bluedot-navy/60">
                 Leave your email if you're happy for us to contact you with follow-ups.
               </p>
               <input
