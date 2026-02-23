@@ -15,6 +15,7 @@ describe('BugReportModal', () => {
   it('renders correctly when open', () => {
     render(<BugReportModal isOpen />);
     expect(screen.getByText('Submit feedback')).toBeInTheDocument();
+    expect(screen.getByLabelText('Description')).toBeInTheDocument();
   });
 
   it('does not render when closed', () => {
@@ -22,58 +23,114 @@ describe('BugReportModal', () => {
     expect(screen.queryByText('Submit feedback')).not.toBeInTheDocument();
   });
 
-  it('handles message submission successfully', async () => {
-    const mockOnSubmit = vi.fn();
-    const mockSetIsOpen = vi.fn();
-    const testMessage = 'Test bug report';
+  it('shows success state after submission', async () => {
+    const mockOnSubmit = vi.fn().mockResolvedValue(undefined);
+    render(<BugReportModal isOpen onSubmit={mockOnSubmit} />);
 
-    render(<BugReportModal
-      showTextarea
-      onSubmit={mockOnSubmit}
-      isOpen
-      setIsOpen={mockSetIsOpen}
-    />);
-
-    const textarea = screen.getByPlaceholderText('Your message');
-    fireEvent.change(textarea, { target: { value: testMessage } });
+    fireEvent.change(screen.getByLabelText('Description'), {
+      target: { value: 'Something is broken' },
+    });
     fireEvent.click(screen.getByText('Submit'));
 
     await waitFor(() => {
-      expect(mockOnSubmit).toHaveBeenCalledWith(testMessage);
-      expect(mockSetIsOpen).toHaveBeenCalledWith(false);
+      expect(mockOnSubmit).toHaveBeenCalledWith({
+        description: 'Something is broken',
+        email: undefined,
+        attachments: [],
+      });
+      expect(screen.getByText('Thank you')).toBeInTheDocument();
+      expect(screen.getByText(/Your feedback has been sent/)).toBeInTheDocument();
     });
   });
 
-  it('displays error view when submission fails', async () => {
-    const testError = new Error('Failed to submit bug report');
+  it('includes email in submission data', async () => {
+    const mockOnSubmit = vi.fn().mockResolvedValue(undefined);
+    render(<BugReportModal isOpen onSubmit={mockOnSubmit} />);
+
+    fireEvent.change(screen.getByLabelText('Description'), {
+      target: { value: 'Feedback' },
+    });
+    fireEvent.change(screen.getByPlaceholderText('Email'), {
+      target: { value: 'user@example.com' },
+    });
+    fireEvent.click(screen.getByText('Submit'));
+
+    await waitFor(() => {
+      expect(mockOnSubmit).toHaveBeenCalledWith(
+        expect.objectContaining({ email: 'user@example.com' }),
+      );
+    });
+  });
+
+  it('displays error when submission fails', async () => {
+    const testError = new Error('Network error');
     const mockOnSubmit = vi.fn().mockRejectedValue(testError);
-    const testMessage = 'Test bug report';
 
-    render(<BugReportModal
-      showTextarea
-      onSubmit={mockOnSubmit}
-      isOpen
-    />);
-
-    const textarea = screen.getByPlaceholderText('Your message');
-    fireEvent.change(textarea, { target: { value: testMessage } });
+    render(<BugReportModal isOpen onSubmit={mockOnSubmit} />);
+    fireEvent.change(screen.getByLabelText('Description'), {
+      target: { value: 'Test' },
+    });
     fireEvent.click(screen.getByText('Submit'));
 
     await waitFor(() => {
-      expect(screen.getByText(testError.message)).toBeInTheDocument();
-      expect(textarea).toHaveValue(testMessage);
+      expect(screen.getByText('Network error')).toBeInTheDocument();
+      expect(screen.getByLabelText('Description')).toBeInTheDocument();
     });
   });
 
-  it('renders social media links with default values', () => {
+  it('captures dropped files as attachments', async () => {
     render(<BugReportModal isOpen />);
-    const links = screen.getAllByRole('link');
-    expect(links).toHaveLength(5);
 
-    expect(links[0]).toHaveAttribute('href', 'https://github.com/bluedotimpact/bluedot/issues/new?template=bug.yaml');
-    expect(links[1]).toHaveAttribute('href', 'mailto:team@bluedot.org');
-    expect(links[2]).toHaveAttribute('href', 'https://github.com/bluedotimpact');
-    expect(links[3]).toHaveAttribute('href', 'https://x.com/BlueDotImpact');
-    expect(links[4]).toHaveAttribute('href', 'https://www.linkedin.com/company/bluedotimpact/');
+    const file = new File(['screenshot'], 'screen.png', { type: 'image/png' });
+    const dropTarget = screen.getByLabelText('Description').closest('div')!;
+
+    fireEvent.drop(dropTarget, {
+      dataTransfer: { files: [file] },
+    });
+
+    await waitFor(() => {
+      expect(screen.getByAltText('screen.png')).toBeInTheDocument();
+    });
+  });
+
+  it('captures pasted files as attachments', async () => {
+    render(<BugReportModal isOpen />);
+
+    const file = new File(['image'], 'pasted.png', { type: 'image/png' });
+    const textarea = screen.getByLabelText('Description');
+
+    fireEvent.paste(textarea, {
+      clipboardData: { files: [file] },
+    });
+
+    await waitFor(() => {
+      expect(screen.getByAltText('pasted.png')).toBeInTheDocument();
+    });
+  });
+
+  it('removes an attachment when the remove button is clicked', async () => {
+    render(<BugReportModal isOpen />);
+
+    const file = new File(['image'], 'removeme.png', { type: 'image/png' });
+    const dropTarget = screen.getByLabelText('Description').closest('div')!;
+
+    fireEvent.drop(dropTarget, {
+      dataTransfer: { files: [file] },
+    });
+
+    await waitFor(() => {
+      expect(screen.getByAltText('removeme.png')).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByLabelText('Remove removeme.png'));
+
+    await waitFor(() => {
+      expect(screen.queryByAltText('removeme.png')).not.toBeInTheDocument();
+    });
+  });
+
+  it('disables Submit when Description is empty', () => {
+    render(<BugReportModal isOpen />);
+    expect(screen.getByText('Submit').closest('button')).toBeDisabled();
   });
 });
