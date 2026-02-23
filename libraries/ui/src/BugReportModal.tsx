@@ -158,7 +158,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       onPaste={handlePaste}
-                      className="w-full min-h-[120px] bg-transparent resize-y focus:outline-none"
+                      className="w-full min-h-[120px] bg-transparent resize-none focus:outline-none"
                       placeholder="What feedback would you like to share?"
                       required
                     />
