@@ -345,7 +345,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
               href="/join-us"
               tabindex="0"
             >
-              Join us
+              Work with us
             </a>
           </li>
         </ol>
