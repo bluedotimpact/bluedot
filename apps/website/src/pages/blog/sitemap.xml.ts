@@ -9,8 +9,8 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const blogs = await getAllPublishedBlogs();
   const urls = blogs.map((blog) => {
     return `  <url>
-    <loc>${BASE_URL}/${encodeURIComponent(blog.slug)}</loc>
-    <lastmod>${new Date(blog.publishedAt * 1000).toISOString()}</lastmod>
+    <loc>${BASE_URL}/${encodeURIComponent(blog.slug ?? '')}</loc>
+    <lastmod>${new Date((blog.publishedAt ?? 0) * 1000).toISOString()}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>`;

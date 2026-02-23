@@ -597,7 +597,7 @@ const CourseSection = () => {
           title: dbCourse.title,
           shortDescription: dbCourse.shortDescription,
           durationHours: dbCourse.durationHours,
-          isFeatured: dbCourse.isFeatured,
+          isFeatured: dbCourse.isFeatured ?? undefined,
           cadence: config.cadence,
           additionalTag: config.additionalTag,
           icon: config.icon,

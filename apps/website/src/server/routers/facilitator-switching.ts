@@ -44,7 +44,7 @@ export const facilitatorSwitchingRouter = router({
       .filter((f) => f.id !== currentFacilitator.id)
       .map((f) => ({
         value: f.id,
-        label: f.name,
+        label: f.name ?? '',
       }));
   }),
 
