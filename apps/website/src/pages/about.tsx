@@ -9,6 +9,7 @@ import BeliefsSection from '../components/about/BeliefsSection';
 import ValuesSection from '../components/about/ValuesSection';
 import HistorySection from '../components/about/HistorySection';
 import TeamSection from '../components/about/TeamSection';
+import JoinUsCta from '../components/about/JoinUsCta';
 import { ROUTES } from '../lib/routes';
 
 const CURRENT_ROUTE = ROUTES.about;
@@ -53,6 +54,7 @@ const AboutPage = () => {
       <ValuesSection />
       <HistorySection />
       <TeamSection />
+      <JoinUsCta />
     </div>
   );
 };

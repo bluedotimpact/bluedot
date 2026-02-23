@@ -3,42 +3,33 @@
 exports[`JoinUsCta > renders default as expected 1`] = `
 <div>
   <div
-    class="join-us-cta w-full max-w-max-width mx-auto lg:px-spacing-x my-spacing-y overflow-hidden"
+    class="join-us-cta w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y mb-16 flex justify-center"
   >
-    <div
-      class="join-us-cta__container w-full lg:container-lined flex flex-col justify-center items-center py-20 bg-[radial-gradient(ellipse_at_30%,_#fff_0,_#6687ff_100%)]"
+    <a
+      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark join-us-cta__cta-button"
+      href="/join-us"
+      tabindex="0"
     >
-      <h3
-        class="bluedot-h3 not-prose join-us-cta__title max-w-[890px] text-center mb-8"
+      Join our team
+      <span
+        class="cta-button__chevron ml-3"
       >
-        Join us in our mission to ensure humanity safely navigates the transition to transformative AI.
-      </h3>
-      <a
-        class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark join-us-cta__cta-button"
-        href="/join-us"
-        tabindex="0"
-      >
-        View our careers
-        <span
-          class="cta-button__chevron ml-3"
+        <svg
+          class="cta-button__chevron-icon size-2"
+          fill="currentColor"
+          height="1em"
+          stroke="currentColor"
+          stroke-width="0"
+          viewBox="0 0 320 512"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <svg
-            class="cta-button__chevron-icon size-2"
-            fill="currentColor"
-            height="1em"
-            stroke="currentColor"
-            stroke-width="0"
-            viewBox="0 0 320 512"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-            />
-          </svg>
-        </span>
-      </a>
-    </div>
+          <path
+            d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+          />
+        </svg>
+      </span>
+    </a>
   </div>
 </div>
 `;
