@@ -22,11 +22,11 @@ export const teamMembersRouter = router({
       });
 
       return all
-        .filter((m) => m.name && getFirstImageUrl(m.imageAttachmentUrls))
+        .filter((m) => m.name && getFirstImageUrl(m.imagePublicUrls))
         .map((m) => ({
           name: m.name,
           jobTitle: m.jobTitle,
-          imageUrl: getFirstImageUrl(m.imageAttachmentUrls),
+          imageUrl: getFirstImageUrl(m.imagePublicUrls),
           url: m.url ?? undefined,
         }))
         .sort((a, b) => a.name.localeCompare(b.name));
