@@ -118,11 +118,11 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({ onSubmit, isOpen
           <form onSubmit={handleSubmit} className="flex flex-col gap-8">
             {error && <ErrorView error={error} />}
 
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-1.5">
               <p className="text-bluedot-navy text-[13px] leading-[1.5]">
                 We’re here to help! Whether it’s a bug or an idea on how to improve your experience, we’re all ears.
               </p>
-              <label htmlFor="bug-description" className="text-size-sm text-bluedot-navy mt-2.5 font-medium">
+              <label htmlFor="bug-description" className="text-[13px] font-[600] leading-[22px] text-bluedot-navy mt-2.5">
                 Description
               </label>
 
@@ -214,8 +214,8 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({ onSubmit, isOpen
               </div>
             </div>
 
-            <div className="flex flex-col gap-3">
-              <label htmlFor="bug-email" className="text-size-sm text-bluedot-navy font-medium">
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="bug-email" className="text-[13px] font-[600] leading-[22px] text-bluedot-navy">
                 Your contact email (optional)
               </label>
               <p className="text-bluedot-navy/60 text-[13px]">
