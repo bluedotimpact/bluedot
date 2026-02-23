@@ -43,6 +43,7 @@ export default function GroupSwitchModal({
   const [isManualRequest, setIsManualRequest] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [hasUpdatedAvailability, setHasUpdatedAvailability] = useState(false);
+  const [showAllOptions, setShowAllOptions] = useState(false);
 
   const isTemporarySwitch = switchType === 'Switch group for one unit';
 
@@ -145,10 +146,12 @@ export default function GroupSwitchModal({
   useEffect(() => {
     setSelectedDiscussionId('');
     setSelectedGroupId('');
+    setShowAllOptions(false);
   }, [switchType]);
 
   useEffect(() => {
     setSelectedDiscussionId('');
+    setShowAllOptions(false);
   }, [selectedUnitNumber]);
 
   const handleSubmit = () => {
@@ -268,6 +271,10 @@ export default function GroupSwitchModal({
   const groupSwitchOptions = sortGroupSwitchOptions(isTemporarySwitch ? discussionOptions : groupOptions);
   const selectedOption = groupSwitchOptions.find((op) => op.isSelected);
 
+  const INITIAL_OPTIONS_SHOWN = 3;
+  const hasMoreOptions = groupSwitchOptions.length > INITIAL_OPTIONS_SHOWN;
+  const visibleOptions = showAllOptions ? groupSwitchOptions : groupSwitchOptions.slice(0, INITIAL_OPTIONS_SHOWN);
+
   const alternativeCount = groupSwitchOptions.filter((op) => !op.isDisabled).length;
   const alternativeCountMessage = isTemporarySwitch
     ? `There ${alternativeCount === 1 ? 'is' : 'are'} ${alternativeCount} alternative time slot${alternativeCount === 1 ? '' : 's'} available for this discussion`
@@ -327,9 +334,18 @@ export default function GroupSwitchModal({
           <p className="text-size-xs mt-1 text-[#666C80]">{alternativeCountMessage}</p>
           <p className="text-size-xs text-[#666C80]">Times are in your time zone: {getGMTOffsetWithCity()}</p>
           <div className="flex flex-col gap-2 mt-2">
-            {groupSwitchOptions.map((option) => (
+            {visibleOptions.map((option) => (
               <GroupSwitchOption key={option.id} {...option} />
             ))}
+            {hasMoreOptions && !showAllOptions && (
+              <button
+                type="button"
+                onClick={() => setShowAllOptions(true)}
+                className="text-size-sm text-bluedot-normal hover:underline cursor-pointer text-left mt-2 -mb-2 mx-auto"
+              >
+                See all ({groupSwitchOptions.length - INITIAL_OPTIONS_SHOWN}) {isTemporarySwitch ? 'discussions' : 'groups'}
+              </button>
+            )}
           </div>
         </div>
       ),
