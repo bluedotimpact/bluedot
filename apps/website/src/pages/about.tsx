@@ -44,7 +44,7 @@ const AboutPage = () => {
     <div>
       <Head>
         <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
-        <meta name="description" content="Building the workforce that protects humanity. BlueDot Impact trains people in AI safety, governance and biosecurity." />
+        <meta name="description" content="Building the workforce that protects humanity. BlueDot Impact trains people in AI safety, governance, and biosecurity." />
       </Head>
       <AboutHero />
       <Breadcrumbs route={CURRENT_ROUTE} />

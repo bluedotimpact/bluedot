@@ -8,7 +8,7 @@ import {
 import Head from 'next/head';
 import { Nav } from '../../components/Nav/Nav';
 import JobsListSection from '../../components/join-us/JobsListSection';
-import WhyUsSection from '../../components/join-us/WhyNowSection';
+import WhyUsSection from '../../components/join-us/WhyUsSection';
 import { ROUTES } from '../../lib/routes';
 import { trpc } from '../../utils/trpc';
 

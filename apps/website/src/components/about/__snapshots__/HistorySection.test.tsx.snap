@@ -22,7 +22,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
       class="section__body"
     >
       <div
-        class="history-section__container flex flex-col sm:flex-row sm:gap-2 gap-8"
+        class="history-section__container flex flex-col lg:flex-row lg:gap-2 gap-8"
       >
         <div
           class="history-section__event flex-1"
