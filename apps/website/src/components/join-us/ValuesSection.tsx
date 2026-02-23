@@ -26,27 +26,27 @@ const values = [
 const ValuesSection = () => {
   return (
     <Section title="Our values" className="values-section">
-      <div className="values-section__values--mobile flex flex-col gap-4 md:hidden">
+      <div className="flex flex-col gap-4 md:hidden">
         {values.map((value) => (
-          <div key={value.title} className="values-card flex flex-row gap-4">
+          <div key={value.title} className="flex flex-row gap-4">
             <img
-              className="values-card__image object-cover rounded-lg size-[102px]"
+              className="object-cover rounded-lg size-[102px]"
               src={value.mobileImageSrc}
               alt={`${value.title}`}
             />
-            <div className="values-card__content">
-              <p className="values-card__title bluedot-h4 mb-2">{value.title}</p>
-              {value.subtitle && (<P className="values-card__subtitle">{value.subtitle}</P>)}
+            <div>
+              <p className="bluedot-h4 mb-2">{value.title}</p>
+              {value.subtitle && (<P>{value.subtitle}</P>)}
             </div>
           </div>
         ))}
       </div>
       <SlideList
         maxItemsPerSlide={3}
-        className="values-section__values--desktop hidden md:flex"
+        className="hidden md:flex"
       >
         {values.map((value) => (
-          <Card key={value.title} imageSrc={value.desktopImageSrc} {...value} className="values-section__value" />
+          <Card key={value.title} imageSrc={value.desktopImageSrc} {...value} />
         ))}
       </SlideList>
     </Section>

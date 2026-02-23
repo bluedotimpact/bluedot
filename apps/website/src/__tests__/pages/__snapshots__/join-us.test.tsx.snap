@@ -479,72 +479,66 @@ exports[`JoinUsPage > should render correctly 1`] = `
         class="section__body"
       >
         <div
-          class="values-section__values--mobile flex flex-col gap-4 md:hidden"
+          class="flex flex-col gap-4 md:hidden"
         >
           <div
-            class="values-card flex flex-row gap-4"
+            class="flex flex-row gap-4"
           >
             <img
               alt="Own the mission"
-              class="values-card__image object-cover rounded-lg size-[102px]"
+              class="object-cover rounded-lg size-[102px]"
               src="/images/values/mission_mobile.gif"
             />
-            <div
-              class="values-card__content"
-            >
+            <div>
               <p
-                class="values-card__title bluedot-h4 mb-2"
+                class="bluedot-h4 mb-2"
               >
                 Own the mission
               </p>
               <p
-                class="bluedot-p not-prose values-card__subtitle"
+                class="bluedot-p not-prose"
               >
                 We prioritize mission success above all, take responsibility for outcomes, and commit extraordinary effort to achieve extraordinary goals.
               </p>
             </div>
           </div>
           <div
-            class="values-card flex flex-row gap-4"
+            class="flex flex-row gap-4"
           >
             <img
               alt="Find the fastest, best way to do everything"
-              class="values-card__image object-cover rounded-lg size-[102px]"
+              class="object-cover rounded-lg size-[102px]"
               src="/images/values/fast_mobile.gif"
             />
-            <div
-              class="values-card__content"
-            >
+            <div>
               <p
-                class="values-card__title bluedot-h4 mb-2"
+                class="bluedot-h4 mb-2"
               >
                 Find the fastest, best way to do everything
               </p>
               <p
-                class="bluedot-p not-prose values-card__subtitle"
+                class="bluedot-p not-prose"
               >
                 We're high agency: constantly growing our skills, finding creative solutions, and making the impossible possible.
               </p>
             </div>
           </div>
           <div
-            class="values-card flex flex-row gap-4"
+            class="flex flex-row gap-4"
           >
             <img
               alt="Say the uncomfortable truth"
-              class="values-card__image object-cover rounded-lg size-[102px]"
+              class="object-cover rounded-lg size-[102px]"
               src="/images/values/speak_mobile.gif"
             />
-            <div
-              class="values-card__content"
-            >
+            <div>
               <p
-                class="values-card__title bluedot-h4 mb-2"
+                class="bluedot-h4 mb-2"
               >
                 Say the uncomfortable truth
               </p>
               <p
-                class="bluedot-p not-prose values-card__subtitle"
+                class="bluedot-p not-prose"
               >
                 We speak essential truths with kindness: giving feedback, challenging ideas, and supporting each other's growth.
               </p>
@@ -552,7 +546,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
           </div>
         </div>
         <div
-          class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0 values-section__values--desktop hidden md:flex"
+          class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0 hidden md:flex"
         >
           <div
             class="slide-list__gradient-wrapper relative flex-1"
@@ -574,7 +568,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                 style="scroll-margin-left: -0px;"
               >
                 <div
-                  class="card flex items-start transition-transform duration-200 flex-col values-section__value"
+                  class="card flex items-start transition-transform duration-200 flex-col"
                 >
                   <div
                     class="card__image-container w-full mb-4"
@@ -615,7 +609,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                 style="scroll-margin-left: -0px;"
               >
                 <div
-                  class="card flex items-start transition-transform duration-200 flex-col values-section__value"
+                  class="card flex items-start transition-transform duration-200 flex-col"
                 >
                   <div
                     class="card__image-container w-full mb-4"
@@ -656,7 +650,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                 style="scroll-margin-left: -0px;"
               >
                 <div
-                  class="card flex items-start transition-transform duration-200 flex-col values-section__value"
+                  class="card flex items-start transition-transform duration-200 flex-col"
                 >
                   <div
                     class="card__image-container w-full mb-4"
