@@ -23,7 +23,10 @@ beforeEach(() => {
 
 describe('AboutPage', () => {
   test('should render correctly', () => {
-    server.use(trpcMsw.courses.getAll.query(() => []));
+    server.use(
+      trpcMsw.courses.getAll.query(() => []),
+      trpcMsw.teamMembers.getAll.query(() => []),
+    );
     const { container } = render(<AboutPage />, { wrapper: TrpcProvider });
     expect(container).toMatchSnapshot();
   });
