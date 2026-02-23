@@ -9,6 +9,7 @@ import { Modal } from './Modal';
 import { CTALinkOrButton } from './CTALinkOrButton';
 import { ErrorView } from './ErrorView';
 import { cn } from './utils';
+import { P } from './Text';
 
 export type FeedbackData = {
   description: string;
@@ -126,9 +127,10 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
             {error && <ErrorView error={error} />}
 
             <div className="flex flex-col gap-3">
+              <P className='text-[13px] leading-[1.5] text-bluedot-navy'>We’re here to help! Whether it’s a bug or an idea on how to improve your experience, we’re all ears.</P>
               <label
                 htmlFor="bug-description"
-                className="text-size-sm font-medium text-bluedot-navy"
+                className="text-size-sm font-medium text-bluedot-navy mt-2.5"
               >
                 Description
               </label>
