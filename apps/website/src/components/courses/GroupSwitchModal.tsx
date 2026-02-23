@@ -343,7 +343,7 @@ export default function GroupSwitchModal({
                 onClick={() => setShowAllOptions(true)}
                 className="text-size-sm text-bluedot-normal hover:underline cursor-pointer text-left mt-2 -mb-2 mx-auto"
               >
-                See all ({groupSwitchOptions.length - INITIAL_OPTIONS_SHOWN}) {isTemporarySwitch ? 'discussions' : 'groups'}
+                See all {isTemporarySwitch ? 'discussions' : 'groups'}
               </button>
             )}
           </div>
