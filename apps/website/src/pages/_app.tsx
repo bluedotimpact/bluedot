@@ -38,6 +38,13 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
     return undefined;
   };
 
+  // TODO: Remove this hardcoded banner (for testing #2102)
+  const testBanner = (
+    <AnnouncementBanner hideAfter={new Date('2026-03-01T00:00:00+00:00')}>
+      <b>We&apos;re currently experiencing technical difficulties due to an outage in our database provider (Airtable).</b> Some features (e.g. saving exercises) may not work.
+    </AnnouncementBanner>
+  );
+
   return (
     <LatestUtmParamsProvider>
       <PostHogProvider>
@@ -52,7 +59,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
             ? <Component {...pageProps} />
             : (
               <>
-                <Header announcementBanner={getAnnouncementBanner()} />
+                <Header announcementBanner={testBanner ?? getAnnouncementBanner()} />
                 <main className="bluedot-base">
                   <Component {...pageProps} />
                 </main>
