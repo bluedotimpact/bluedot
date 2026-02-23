@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import clsx from 'clsx';
 import { FaCircleUser } from 'react-icons/fa6';
-import { A, BugReportModal, IconButton } from '@bluedot/ui';
+import { A, IconButton } from '@bluedot/ui';
 
 import {
   type ExpandedSectionsState, DRAWER_CLASSES, DRAWER_Z_PROFILE, PROFILE_DROPDOWN_CLASS,
@@ -20,7 +20,6 @@ export const ProfileLinks: React.FC<{
   updateExpandedSections,
   onColoredBackground = false,
 }) => {
-  const [isBugReportModalOpen, setIsBugReportModalOpen] = useState(false);
   const [isImpersonateModalOpen, setIsImpersonateModalOpen] = useState(false);
   const { data: isAdmin } = trpc.admin.isAdmin.useQuery();
   const profileRef = useClickOutside(
@@ -99,7 +98,6 @@ export const ProfileLinks: React.FC<{
           )}
         </div>
       </div>
-      <BugReportModal isOpen={isBugReportModalOpen} setIsOpen={setIsBugReportModalOpen} />
       {isImpersonateModalOpen && <UserSearchModal isOpen={isImpersonateModalOpen} onClose={() => setIsImpersonateModalOpen(false)} />}
     </div>
   );
