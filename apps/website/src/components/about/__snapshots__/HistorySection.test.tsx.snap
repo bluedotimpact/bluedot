@@ -28,22 +28,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
           class="history-section__event flex-1"
         >
           <div
-            class="history-section__event-container--mobile w-full flex flex-row gap-12 p-8 lg:hidden
-        container-lined"
-          >
-            <strong
-              class="history-section__year"
-            >
-              2021
-            </strong>
-            <p
-              class="bluedot-p not-prose history-section__event-details"
-            >
-              Started as reading groups at the University of Cambridge.
-            </p>
-          </div>
-          <div
-            class="history-section__event-container--desktop hidden lg:flex flex-col gap-space-between"
+            class="history-section__event-container--desktop flex flex-col gap-space-between"
           >
             <div
               class="history-section__year-container w-full flex gap-2"
@@ -68,22 +53,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
           class="history-section__event flex-1"
         >
           <div
-            class="history-section__event-container--mobile w-full flex flex-row gap-12 p-8 lg:hidden
-        container-lined"
-          >
-            <strong
-              class="history-section__year"
-            >
-              2022
-            </strong>
-            <p
-              class="bluedot-p not-prose history-section__event-details"
-            >
-              Founded BlueDot Impact. Launched our first AI safety course with 400 participants.
-            </p>
-          </div>
-          <div
-            class="history-section__event-container--desktop hidden lg:flex flex-col gap-space-between"
+            class="history-section__event-container--desktop flex flex-col gap-space-between"
           >
             <div
               class="history-section__year-container w-full flex gap-2"
@@ -108,22 +78,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
           class="history-section__event flex-1"
         >
           <div
-            class="history-section__event-container--mobile w-full flex flex-row gap-12 p-8 lg:hidden
-        container-lined"
-          >
-            <strong
-              class="history-section__year"
-            >
-              2023
-            </strong>
-            <p
-              class="bluedot-p not-prose history-section__event-details"
-            >
-              Expanded to AI governance and biosecurity. Trained 900. Moved to London.
-            </p>
-          </div>
-          <div
-            class="history-section__event-container--desktop hidden lg:flex flex-col gap-space-between"
+            class="history-section__event-container--desktop flex flex-col gap-space-between"
           >
             <div
               class="history-section__year-container w-full flex gap-2"
@@ -148,22 +103,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
           class="history-section__event flex-1"
         >
           <div
-            class="history-section__event-container--mobile w-full flex flex-row gap-12 p-8 lg:hidden
-        container-lined"
-          >
-            <strong
-              class="history-section__year"
-            >
-              2024
-            </strong>
-            <p
-              class="bluedot-p not-prose history-section__event-details"
-            >
-              Trained 3,500. Raised $5M.
-            </p>
-          </div>
-          <div
-            class="history-section__event-container--desktop hidden lg:flex flex-col gap-space-between"
+            class="history-section__event-container--desktop flex flex-col gap-space-between"
           >
             <div
               class="history-section__year-container w-full flex gap-2"
@@ -188,22 +128,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
           class="history-section__event flex-1"
         >
           <div
-            class="history-section__event-container--mobile w-full flex flex-row gap-12 p-8 lg:hidden
-        border bg-bluedot-lighter border-bluedot-light rounded-xl"
-          >
-            <strong
-              class="history-section__year"
-            >
-              2025
-            </strong>
-            <p
-              class="bluedot-p not-prose history-section__event-details"
-            >
-              Launched monthly courses. Raised $25M. Announced SF expansion.
-            </p>
-          </div>
-          <div
-            class="history-section__event-container--desktop hidden lg:flex flex-col gap-space-between"
+            class="history-section__event-container--desktop flex flex-col gap-space-between"
           >
             <div
               class="history-section__year-container w-full flex gap-2"

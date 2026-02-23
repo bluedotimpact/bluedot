@@ -8,24 +8,16 @@ const HistorySection = () => {
         <HistoryEvent year="2022">Founded BlueDot Impact. Launched our first AI safety course with 400 participants.</HistoryEvent>
         <HistoryEvent year="2023">Expanded to AI governance and biosecurity. Trained 900. Moved to London.</HistoryEvent>
         <HistoryEvent year="2024">Trained 3,500. Raised $5M.</HistoryEvent>
-        <HistoryEvent year="2025" now>Launched monthly courses. Raised $25M. Announced SF expansion.</HistoryEvent>
+        <HistoryEvent year="2025">Launched monthly courses. Raised $25M. Announced SF expansion.</HistoryEvent>
       </div>
     </Section>
   );
 };
 
-const HistoryEvent = ({ year, now, children }: { year: string; now?: boolean; children: React.ReactNode }) => {
+const HistoryEvent = ({ year, children }: { year: string; children: React.ReactNode }) => {
   return (
     <div className="history-section__event flex-1">
-      <div className={
-        `history-section__event-container--mobile w-full flex flex-row gap-12 p-8 lg:hidden
-        ${now ? 'border bg-bluedot-lighter border-bluedot-light rounded-xl' : 'container-lined'}`
-      }
-      >
-        <strong className="history-section__year">{year}</strong>
-        <P className="history-section__event-details">{children}</P>
-      </div>
-      <div className="history-section__event-container--desktop hidden lg:flex flex-col gap-space-between">
+      <div className="history-section__event-container--desktop flex flex-col gap-space-between">
         <div className="history-section__year-container w-full flex gap-2">
           <P className="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min">{year}</P>
           <div className="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0" />
