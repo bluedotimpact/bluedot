@@ -19,7 +19,7 @@ export const ImpersonationBadge = () => {
 
   // Mask the user's email. The admin viewing the page is allowed to see the email, this is just
   // a practical safeguard to reduce the risk of exposing the email in e.g. screen recordings
-  const maskedEmail = maskEmail(user.email);
+  const maskedEmail = maskEmail(user.email ?? '');
 
   return (
     <div className="fixed z-50 bottom-4 px-4 max-w-[100vw]">

@@ -55,19 +55,19 @@ export function calculateGroupAvailability({
       continue;
     }
 
-    const group = groupsById[discussion.group];
+    const group = discussion.group ? groupsById[discussion.group] : undefined;
 
     if (!group) {
       continue;
     }
 
     // Calculate spots left for this discussion
-    const otherParticipants = discussion.participantsExpected.filter((id) => id !== participantId);
+    const otherParticipants = (discussion.participantsExpected ?? []).filter((id) => id !== participantId);
     const spotsLeftIfKnown = typeof maxParticipants === 'number'
       ? Math.max(0, maxParticipants - otherParticipants.length)
       : null;
 
-    const userIsParticipant = discussion.participantsExpected.includes(participantId);
+    const userIsParticipant = (discussion.participantsExpected ?? []).includes(participantId);
     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     const groupName = group.groupName || 'Group [Unknown]';
 
@@ -90,7 +90,7 @@ export function calculateGroupAvailability({
       });
 
       // Update group data
-      const groupId = discussion.group;
+      const groupId = discussion.group ?? '';
       if (!groupData[groupId]) {
         // First time seeing this group
         groupData[groupId] = {
@@ -301,15 +301,15 @@ export const groupSwitchingRouter = router({
           !isManualRequest ? db.get(groupDiscussionTable, { id: inputNewDiscussionId }) : null,
         ]);
 
-        if (oldDiscussion.facilitators.includes(participantId) || newDiscussion?.facilitators.includes(participantId)) {
+        if ((oldDiscussion.facilitators ?? []).includes(participantId) || (newDiscussion?.facilitators ?? []).includes(participantId)) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'Facilitators cannot switch groups by this method' });
         }
 
-        if (!oldDiscussion.participantsExpected.includes(participantId)) {
+        if (!(oldDiscussion.participantsExpected ?? []).includes(participantId)) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'User not found in old discussion' });
         }
 
-        if (newDiscussion?.participantsExpected.includes(participantId)) {
+        if ((newDiscussion?.participantsExpected ?? []).includes(participantId)) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'User is already expected to attend new discussion' });
         }
 
@@ -318,7 +318,7 @@ export const groupSwitchingRouter = router({
         }
 
         if (newDiscussion && !isManualRequest && typeof maxParticipants === 'number') {
-          const spotsLeftIfKnown = Math.max(0, maxParticipants - newDiscussion.participantsExpected.length);
+          const spotsLeftIfKnown = Math.max(0, maxParticipants - (newDiscussion.participantsExpected ?? []).length);
           if (spotsLeftIfKnown === 0) {
             throw new TRPCError({ code: 'BAD_REQUEST', message: 'Selected discussion has no spots remaining' });
           }
@@ -370,7 +370,7 @@ export const groupSwitchingRouter = router({
           // This matches the logic in available.ts
           const groupDiscussions = await db.scan(groupDiscussionTable, { group: newGroup.id });
           const spotsLeftIfKnownValues = groupDiscussions
-            .map((d) => Math.max(0, maxParticipants - d.participantsExpected.filter((pId) => pId !== participantId).length))
+            .map((d) => Math.max(0, maxParticipants - (d.participantsExpected ?? []).filter((pId) => pId !== participantId).length))
             .filter((v) => typeof v === 'number');
 
           const spotsLeftIfKnown = spotsLeftIfKnownValues.length ? Math.min(...spotsLeftIfKnownValues) : null;

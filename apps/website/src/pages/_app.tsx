@@ -130,8 +130,8 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
                 {!hideFooter && (
                   <Footer
                     courses={courses.map((course) => ({
-                      path: course.path,
-                      title: course.title,
+                      path: course.path ?? '',
+                      title: course.title ?? '',
                     }))}
                     loading={loading}
                     logo="/images/logo/BlueDot_Impact_Logo_White.svg"

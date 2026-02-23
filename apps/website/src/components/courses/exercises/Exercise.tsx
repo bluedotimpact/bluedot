@@ -158,7 +158,7 @@ const Exercise: React.FC<ExerciseProps> = ({
       case 'Free text':
         return (
           <FreeTextResponse
-            exerciseResponse={responseData?.response}
+            exerciseResponse={responseData?.response ?? undefined}
             isCompleted={isCompleted}
             isLoggedIn={!!auth}
             onExerciseSubmit={handleExerciseSubmit}
@@ -172,7 +172,7 @@ const Exercise: React.FC<ExerciseProps> = ({
             answer={exerciseData.answer || ''}
             // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             options={exerciseData.options || ''}
-            exerciseResponse={responseData?.response}
+            exerciseResponse={responseData?.response ?? undefined}
             isLoggedIn={!!auth}
             onExerciseSubmit={handleExerciseSubmit}
           />

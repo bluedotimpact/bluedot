@@ -68,6 +68,7 @@ describe('JobPostingPage SSR/SEO', () => {
     const ogUrl = document.querySelector('meta[property="og:url"]');
     expect(ogUrl?.getAttribute('content')).toBe(`https://bluedot.org/join-us/${encodeURIComponent(mockJob.slug!)}`);
 
+
     const jsonLdScript = document.querySelector('script[type="application/ld+json"]');
     expect(jsonLdScript).toBeTruthy();
 

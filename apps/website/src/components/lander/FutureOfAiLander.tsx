@@ -132,15 +132,15 @@ const FutureOfAiLander = ({
       <Head>
         <title>{courseData.course.title} | BlueDot Impact</title>
         <meta name="description" content={customDescription} />
-        <meta property="og:title" content={courseData.course.title} />
+        <meta property="og:title" content={courseData.course.title ?? undefined} />
         <meta property="og:description" content={customDescription} />
         <meta property="og:image" content={`https://bluedot.org/images/courses/link-preview/${courseData.course.slug}.png`} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content={courseData.course.title} />
+        <meta property="og:image:alt" content={courseData.course.title ?? undefined} />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="BlueDot Impact" />
-        <meta property="og:url" content={`https://bluedot.org/courses/${encodeURIComponent(courseData.course.slug)}`} />
+        <meta property="og:url" content={`https://bluedot.org/courses/${encodeURIComponent(courseData.course.slug ?? '')}`} />
       </Head>
 
       {/* Hero section */}
@@ -243,7 +243,7 @@ const FutureOfAiLander = ({
               <div className={`future-of-ai-lander__feature-content flex flex-col gap-2 items-start max-w-[300px] ${index % 2 === 0 ? 'md:order-2' : 'md:order-1'}`}>
                 <H3>{feature.title}</H3>
                 <p>{feature.description}</p>
-                <CTALinkOrButton className="future-of-ai-lander__feature-cta mt-4" url={courseData.units?.[0]?.path} withChevron>
+                <CTALinkOrButton className="future-of-ai-lander__feature-cta mt-4" url={courseData.units?.[0]?.path ?? undefined} withChevron>
                   {feature.ctaText}
                 </CTALinkOrButton>
               </div>

@@ -65,9 +65,9 @@ const SettingsCourseCard: React.FC<SettingsCourseCardProps> = ({ course, courseR
             )}
 
             {/* Course metadata */}
-            <div className="flex gap-2 items-center text-gray-500" aria-label={`Course contains ${course.units.length} ${course.units.length === 1 ? 'unit' : 'units'}`}>
+            <div className="flex gap-2 items-center text-gray-500" aria-label={`Course contains ${(course.units ?? []).length} ${(course.units ?? []).length === 1 ? 'unit' : 'units'}`}>
               <FaCubesStacked size={16} aria-hidden="true" />
-              <span>{course.units.length} {course.units.length === 1 ? 'unit' : 'units'}</span>
+              <span>{(course.units ?? []).length} {(course.units ?? []).length === 1 ? 'unit' : 'units'}</span>
             </div>
 
             {isCompleted && (
@@ -81,7 +81,7 @@ const SettingsCourseCard: React.FC<SettingsCourseCardProps> = ({ course, courseR
                   View your certificate
                 </ClickTarget>
                 <ClickTarget
-                  url={course.path}
+                  url={course.path ?? undefined}
                   className="flex items-center text-bluedot-normal hover:text-bluedot-dark"
                   aria-label="Browse course materials for this completed course"
                 >
@@ -107,7 +107,7 @@ const SettingsCourseCard: React.FC<SettingsCourseCardProps> = ({ course, courseR
               Share your achievement
             </P>
             <SocialShare
-              coursePath={course.path}
+              coursePath={course.path ?? ''}
               text={`🎉 I just completed the ${course.title} course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out and sign up with my link below:`}
               aria-label="Social media sharing options"
             />
@@ -119,7 +119,7 @@ const SettingsCourseCard: React.FC<SettingsCourseCardProps> = ({ course, courseR
       {!isCompleted && (
         <div className="bg-stone-50 p-6">
           <CTALinkOrButton
-            url={course.path}
+            url={course.path ?? undefined}
             variant="primary"
             className="w-full"
             aria-label={`Continue learning ${course.title}`}

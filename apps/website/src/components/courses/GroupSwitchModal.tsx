@@ -79,15 +79,16 @@ export default function GroupSwitchModal({
   const isLoading = isCourseLoading || isDiscussionsLoading;
 
   const groups = availableGroupsAndDiscussions?.groupsAvailable ?? [];
-  const discussions = availableGroupsAndDiscussions?.discussionsAvailable?.[selectedUnitNumber] ?? [];
+  const discussions = (selectedUnitNumber ? availableGroupsAndDiscussions?.discussionsAvailable?.[selectedUnitNumber] : undefined) ?? [];
 
   const unitOptions = courseData?.units.map((u) => {
-    const unitDiscussions = availableGroupsAndDiscussions?.discussionsAvailable?.[u.unitNumber];
+    const unitNum = u.unitNumber ?? '';
+    const unitDiscussions = unitNum ? availableGroupsAndDiscussions?.discussionsAvailable?.[unitNum] : undefined;
     const hasAvailableDiscussions = unitDiscussions?.length;
 
     return {
-      value: u.unitNumber.toString(),
-      label: `Unit ${u.unitNumber}: ${u.title}${!hasAvailableDiscussions ? ' (no upcoming discussions)' : ''}`,
+      value: unitNum.toString(),
+      label: `Unit ${unitNum}: ${u.title}${!hasAvailableDiscussions ? ' (no upcoming discussions)' : ''}`,
       disabled: !isManualRequest && !hasAvailableDiscussions,
     };
   }) ?? [];
@@ -359,7 +360,7 @@ export default function GroupSwitchModal({
           To help us assign you to a group which best suits you, {' '}
           <a
             href={buildAvailabilityFormUrl({
-              email: user.email,
+              email: user.email ?? '',
               utmSource: 'bluedot-group-switch-modal',
               courseRegistration,
               // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing

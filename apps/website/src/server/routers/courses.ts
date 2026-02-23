@@ -102,7 +102,7 @@ const getUserCompletions = async (coreResourceIds: string[], activeExerciseIds: 
   // Deduplicate exercises
   const seenExerciseIds = new Set<string>();
   const exerciseCompletions = rawExerciseCompletions.filter((response) => {
-    if (seenExerciseIds.has(response.exerciseId)) {
+    if (!response.exerciseId || seenExerciseIds.has(response.exerciseId)) {
       return false;
     }
 
@@ -215,9 +215,9 @@ export const coursesRouter = router({
         const optionPattern = /option\s+\d+/i;
         const optionalPattern = /optional/i;
 
-        const requiredChunks = chunks.filter((c) => !optionalPattern.test(c.chunkTitle));
-        const optionChunks = requiredChunks.filter((c) => optionPattern.test(c.chunkTitle));
-        const regularChunks = requiredChunks.filter((c) => !optionPattern.test(c.chunkTitle));
+        const requiredChunks = chunks.filter((c) => !optionalPattern.test(c.chunkTitle ?? ''));
+        const optionChunks = requiredChunks.filter((c) => optionPattern.test(c.chunkTitle ?? ''));
+        const regularChunks = requiredChunks.filter((c) => !optionPattern.test(c.chunkTitle ?? ''));
 
         const optionMaxTime = optionChunks.length > 0
           ? Math.max(...optionChunks.map((c) => c.estimatedTime ?? 0))
@@ -275,7 +275,7 @@ export const coursesRouter = router({
       const coreResourceIdSet = new Set(coreResourceIds);
       const activeExerciseIdSet = new Set(activeExerciseIds);
       const completedResourceIdSet = new Set(resourceCompletions.map((c) => c.unitResourceId).filter((id): id is string => id != null));
-      const completedExerciseIdSet = new Set(exerciseCompletions.map((e) => e.exerciseId));
+      const completedExerciseIdSet = new Set(exerciseCompletions.map((e) => e.exerciseId).filter((id): id is string => id != null));
 
       const chunkProgressByUnitNumber: Record<string, ChunkProgress[]> = {};
 
@@ -283,7 +283,7 @@ export const coursesRouter = router({
         const unitChunks = allChunks
           .filter((c) => c.unitId === unit.id)
           .sort((a, b) => Number(a.chunkOrder) - Number(b.chunkOrder));
-        chunkProgressByUnitNumber[unit.unitNumber] = unitChunks.map((chunk) => {
+        chunkProgressByUnitNumber[unit.unitNumber ?? ''] = unitChunks.map((chunk) => {
           return calculateChunkProgress(
             chunk,
             coreResourceIdSet,

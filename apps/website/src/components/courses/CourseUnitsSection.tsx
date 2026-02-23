@@ -13,6 +13,7 @@ export const CourseUnitsSection = ({ units }: { units: Unit[] }) => {
           minItemWidth={300}
           className="course-units-section__units"
         >
+          {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
           {units.sort((a, b) => Number(a.unitNumber || Infinity) - Number(b.unitNumber || Infinity)).map((unit) => (
             <div key={unit.id} className="max-w-[350px] h-full">
               <UnitCard
@@ -20,9 +21,9 @@ export const CourseUnitsSection = ({ units }: { units: Unit[] }) => {
                 className="course-units-section__unit h-full"
                 // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                 description={unit.menuText || undefined}
-                title={unit.title}
-                unitNumber={unit.unitNumber}
-                url={unit.path}
+                title={unit.title ?? ''}
+                unitNumber={unit.unitNumber ?? ''}
+                url={unit.path ?? ''}
               />
             </div>
           ))}

@@ -19,8 +19,8 @@ const createAllUnitChunks = (
       .filter((c) => c.unitId === unit.id)
       .map((chunk) => ({
         id: chunk.id,
-        chunkTitle: chunk.chunkTitle,
-        chunkOrder: chunk.chunkOrder,
+        chunkTitle: chunk.chunkTitle ?? '',
+        chunkOrder: chunk.chunkOrder ?? '',
         estimatedTime: chunk.estimatedTime,
       }));
   });

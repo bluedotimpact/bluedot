@@ -234,7 +234,7 @@ const SideBar: React.FC<SideBarProps> = ({
             currentChunkIndex={currentChunkIndex}
             onChunkSelect={onChunkSelect}
             courseSlug={courseSlug}
-            chunkProgress={courseProgressData?.chunkProgressByUnitNumber[unit.unitNumber] ?? []}
+            chunkProgress={(unit.unitNumber != null ? courseProgressData?.chunkProgressByUnitNumber[unit.unitNumber] : undefined) ?? []}
           />
         ))}
       </div>

@@ -60,7 +60,7 @@ export default makeApiRoute({
     .filter((groupDiscussion) => !!groupDiscussion.startDateTime && !!groupDiscussion.endDateTime)
     .map((groupDiscussion) => ({
       groupDiscussion,
-      distance: Math.abs((Date.now() / 1000) - (groupDiscussion.startDateTime)),
+      distance: Math.abs((Date.now() / 1000) - (groupDiscussion.startDateTime!)),
     }));
 
   if (groupDiscussionsWithDistance.length === 0) {
@@ -83,7 +83,9 @@ export default makeApiRoute({
   const zoomAccount = await db.get(zoomAccountTable, { id: groupDiscussion.zoomAccount });
 
   // Get facilitators and participants
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const facilitatorIds = groupDiscussion.facilitators || [];
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const participantIds = groupDiscussion.participantsExpected || [];
 
   // Get all people and filter by IDs
@@ -91,7 +93,7 @@ export default makeApiRoute({
   const facilitators = allPeople.filter((person) => facilitatorIds.includes(person.id));
   const participants = allPeople.filter((person) => participantIds.includes(person.id));
 
-  const { meetingNumber, meetingPassword } = parseZoomLink(zoomAccount.meetingLink);
+  const { meetingNumber, meetingPassword } = parseZoomLink(zoomAccount.meetingLink ?? '');
   const meetingHostKey = zoomAccount.hostKey ?? '';
 
   return {
@@ -104,8 +106,8 @@ export default makeApiRoute({
     meetingNumber,
     meetingPassword,
     meetingHostKey,
-    meetingStartTime: groupDiscussion.startDateTime,
-    meetingEndTime: groupDiscussion.endDateTime,
+    meetingStartTime: groupDiscussion.startDateTime ?? 0,
+    meetingEndTime: groupDiscussion.endDateTime ?? 0,
     activityDoc: groupDiscussion.activityDoc ?? undefined,
   };
 });

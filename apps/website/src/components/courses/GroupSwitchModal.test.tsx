@@ -151,7 +151,7 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          initialUnitNumber={mockUnit1.unitNumber}
+          initialUnitNumber={mockUnit1.unitNumber ?? undefined}
           courseSlug="ai-safety"
         />,
         { wrapper: TrpcProvider },
@@ -212,7 +212,7 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          initialUnitNumber={mockUnit1.unitNumber}
+          initialUnitNumber={mockUnit1.unitNumber ?? undefined}
           courseSlug="ai-safety"
         />,
         { wrapper: TrpcProvider },
@@ -280,7 +280,7 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          initialUnitNumber={mockUnit1.unitNumber}
+          initialUnitNumber={mockUnit1.unitNumber ?? undefined}
           courseSlug="ai-safety"
         />,
         { wrapper: TrpcProvider },
@@ -394,7 +394,7 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          initialUnitNumber={mockUnit2.unitNumber}
+          initialUnitNumber={mockUnit2.unitNumber ?? undefined}
           courseSlug="ai-safety"
         />,
         { wrapper: TrpcProvider },
@@ -448,7 +448,7 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          initialUnitNumber={mockUnit1.unitNumber}
+          initialUnitNumber={mockUnit1.unitNumber ?? undefined}
           courseSlug="ai-safety"
         />,
         { wrapper: TrpcProvider },
@@ -509,7 +509,7 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          initialUnitNumber={mockUnit1.unitNumber}
+          initialUnitNumber={mockUnit1.unitNumber ?? undefined}
           courseSlug="ai-safety"
         />,
         { wrapper: TrpcProvider },
@@ -561,7 +561,7 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          initialUnitNumber={mockUnit1.unitNumber}
+          initialUnitNumber={mockUnit1.unitNumber ?? undefined}
           courseSlug="ai-safety"
         />,
         { wrapper: TrpcProvider },
@@ -633,7 +633,7 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          initialUnitNumber={mockUnit1.unitNumber}
+          initialUnitNumber={mockUnit1.unitNumber ?? undefined}
           courseSlug="ai-safety"
         />,
         { wrapper: TrpcProvider },
@@ -716,7 +716,7 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          initialUnitNumber={mockUnit1.unitNumber}
+          initialUnitNumber={mockUnit1.unitNumber ?? undefined}
           initialSwitchType="Switch group permanently"
           courseSlug="ai-safety"
         />,
@@ -742,7 +742,7 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          initialUnitNumber={mockUnit1.unitNumber}
+          initialUnitNumber={mockUnit1.unitNumber ?? undefined}
           initialSwitchType="Switch group permanently"
           courseSlug="ai-safety"
         />,
@@ -789,7 +789,7 @@ describe('GroupSwitchModal', () => {
       render(
         <GroupSwitchModal
           handleClose={() => {}}
-          initialUnitNumber={mockUnit1.unitNumber}
+          initialUnitNumber={mockUnit1.unitNumber ?? undefined}
           initialSwitchType="Switch group permanently"
           courseSlug="ai-safety"
         />,
@@ -887,7 +887,7 @@ describe('GroupSwitchModal', () => {
       server.use(trpcMsw.groupSwitching.discussionsAvailable.query(() => mockManyGroups));
 
       render(
-        <GroupSwitchModal handleClose={() => {}} initialUnitNumber={mockUnit1.unitNumber} courseSlug="ai-safety" />,
+        <GroupSwitchModal handleClose={() => {}} initialUnitNumber={mockUnit1.unitNumber ?? undefined} courseSlug="ai-safety" />,
         { wrapper: TrpcProvider },
       );
 

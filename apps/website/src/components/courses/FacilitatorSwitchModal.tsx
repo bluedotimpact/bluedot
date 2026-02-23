@@ -437,7 +437,7 @@ const buildOptions = (discussions: GroupDiscussionWithGroupAndUnit[], currentTim
   const seenGroups = new Set<string>();
 
   for (const discussion of discussions) {
-    const groupId = discussion.group;
+    const groupId = discussion.group ?? '';
 
     if (!seenGroups.has(groupId)) {
       seenGroups.add(groupId);
@@ -458,8 +458,8 @@ const buildOptions = (discussions: GroupDiscussionWithGroupAndUnit[], currentTim
       label: discussion.unitRecord
         ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
         : 'Unknown Unit',
-      disabled: discussion.startDateTime * 1000 <= currentTimeMs,
-      startDateTime: discussion.startDateTime,
+      disabled: (discussion.startDateTime ?? 0) * 1000 <= currentTimeMs,
+      startDateTime: discussion.startDateTime ?? 0,
     });
   }
 

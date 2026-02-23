@@ -113,7 +113,7 @@ const DiscussionListRow = ({
 
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const discussionMeetLink = discussion.zoomLink || '';
-  const discussionPrepareLink = course.slug && discussion.unitNumber !== null ? `/courses/${course.slug}/${discussion.unitNumber}` : '';
+  const discussionPrepareLink = course.slug && discussion.unitNumber != null ? `/courses/${course.slug}/${discussion.unitNumber}` : '';
   const slackChannelLink = discussion.slackChannelId ? buildGroupSlackChannelUrl(discussion.slackChannelId) : '';
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const discussionDocLink = discussion.activityDoc || '';
@@ -208,7 +208,7 @@ const DiscussionListRow = ({
       <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
         {/* Left side: Date/time and discussion details */}
         <div className="flex items-center gap-4 min-w-0">
-          <TimeWidget isLive={discussionIsLive} dateTimeSeconds={discussion.startDateTime} />
+          <TimeWidget isLive={discussionIsLive} dateTimeSeconds={discussion.startDateTime ?? 0} />
 
           {/* Discussion details */}
           <div className="flex flex-col gap-1.5 min-w-0">
@@ -220,7 +220,7 @@ const DiscussionListRow = ({
             </div>
             {!isPast && isNext && (
               <div className="truncate text-size-xs text-bluedot-normal font-medium">
-                {`Starts ${formatDateTimeRelative({ dateTimeMs: discussion.startDateTime * 1000, currentTimeMs })}`}
+                {`Starts ${formatDateTimeRelative({ dateTimeMs: (discussion.startDateTime ?? 0) * 1000, currentTimeMs })}`}
               </div>
             )}
           </div>
