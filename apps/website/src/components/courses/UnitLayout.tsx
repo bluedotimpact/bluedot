@@ -324,9 +324,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         courseProgressData={courseProgressData}
       />
 
-      {/* Layout: flex row on desktop (sidebar + content), plain block on mobile */}
       <div className="md:flex">
-        {/* Sidebar - hidden on mobile, sticky on desktop */}
         {!isSidebarHidden && (
           <SideBar
             courseTitle={unit.courseTitle}
@@ -342,9 +340,8 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           />
         )}
 
-        {/* Right column: breadcrumbs + content (flex-1 on desktop, full width on mobile) */}
         <div className="md:flex-1 md:min-w-0">
-          {/* Breadcrumbs bar - desktop only, sticky */}
+          {/* Breadcrumbs bar */}
           <div className="unit__breadcrumbs-wrapper hidden md:block md:sticky md:top-(--nav-height-mobile) lg:top-(--nav-height-desktop) z-10 border-b-[0.5px] border-bluedot-navy/20 h-[48px] bg-color-canvas">
             <div className="flex flex-row justify-between items-center size-full px-6 gap-2">
               {/* Left section: Hide/Show Toggle */}
