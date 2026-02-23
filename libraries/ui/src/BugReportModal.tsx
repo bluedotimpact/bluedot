@@ -161,7 +161,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       onPaste={handlePaste}
-                      className="w-full min-h-[120px] bg-transparent resize-none focus:outline-none"
+                      className="w-full min-h-[120px] bg-transparent resize-none focus:outline-none text-[13px] placeholder:text-[13px]"
                       placeholder="What feedback would you like to share?"
                       required
                     />
@@ -246,7 +246,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="border border-color-divider rounded-lg px-3 py-2 bg-white"
+                className="border border-color-divider rounded-lg px-3 py-2 bg-white text-[13px] placeholder:text-[13px]"
                 placeholder="Email"
               />
             </div>
