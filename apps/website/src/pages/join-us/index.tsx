@@ -7,6 +7,7 @@ import {
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { Nav } from '../../components/Nav/Nav';
+import AboutCta from '../../components/join-us/AboutCta';
 import JobsListSection from '../../components/join-us/JobsListSection';
 import WhyUsSection from '../../components/join-us/WhyUsSection';
 import { ROUTES } from '../../lib/routes';
@@ -62,6 +63,7 @@ const JoinUsPage = () => {
       )}
       {cmsError && <ErrorSection error={cmsError} />}
       {cmsData && <JobsListSection jobs={cmsData} />}
+      <AboutCta />
     </div>
   );
 };
