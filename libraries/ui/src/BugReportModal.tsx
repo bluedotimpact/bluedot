@@ -138,7 +138,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                   'flex flex-col gap-3 p-3 rounded-lg border transition-colors',
                   isDragging
                     ? 'border-dashed border-bluedot-normal bg-bluedot-normal/[8%]'
-                    : 'border-color-divider bg-white focus-within:border-bluedot-normal focus-within:border-[1.25px] focus-within:shadow-[0px_0px_10px_0px_rgba(34,68,187,0.3)]',
+                    : 'border-color-divider bg-white focus-within:border-bluedot-normal',
                 )}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
@@ -246,7 +246,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="border border-color-divider rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-bluedot-normal"
+                className="border border-color-divider rounded-lg px-3 py-2 bg-white"
                 placeholder="Email"
               />
             </div>
