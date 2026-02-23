@@ -1,15 +1,19 @@
 import type React from 'react';
 import {
-  useState, useEffect, useRef,
+  useEffect, useRef,
+  useState,
 } from 'react';
 import {
-  FaCheck, FaPaperclip, FaImage, FaXmark,
+  FaCheck,
+  FaImage,
+  FaPaperclip,
+  FaXmark,
 } from 'react-icons/fa6';
-import { Modal } from './Modal';
 import { CTALinkOrButton } from './CTALinkOrButton';
 import { ErrorView } from './ErrorView';
-import { cn } from './utils';
+import { Modal } from './Modal';
 import { P } from './Text';
+import { cn } from './utils';
 
 export type FeedbackData = {
   description: string;
