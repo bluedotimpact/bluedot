@@ -7,9 +7,8 @@ import {
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { Nav } from '../../components/Nav/Nav';
-import CultureSection from '../../components/join-us/CultureSection';
 import JobsListSection from '../../components/join-us/JobsListSection';
-import ValuesSection from '../../components/join-us/ValuesSection';
+import WhyUsSection from '../../components/join-us/WhyNowSection';
 import { ROUTES } from '../../lib/routes';
 import { trpc } from '../../utils/trpc';
 
@@ -29,10 +28,10 @@ const JoinUsHero = () => {
         <div className="w-full mx-auto max-w-max-width px-spacing-x">
           <div className="flex flex-col gap-6 max-w-[780px]">
             <H1 className="text-[32px] min-[680px]:text-[40px] min-[1024px]:text-[48px] leading-tight font-medium tracking-[-1px] text-white">
-              Join us
+              Work with us
             </H1>
             <p className="text-size-sm min-[680px]:text-[18px] min-[1024px]:text-[20px] leading-[1.55] tracking-[-0.1px] text-white">
-              Join us in our mission to ensure humanity safely navigates the transition to transformative AI.
+              AI safety needs thousands more people. We need the team that gets them there.
             </p>
           </div>
         </div>
@@ -50,20 +49,19 @@ const JoinUsPage = () => {
         <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
         <meta
           name="description"
-          content="Join us in our mission to ensure humanity safely navigates the transition to transformative AI."
+          content="AI safety needs thousands more people. We need the team that gets them there."
         />
       </Head>
       <JoinUsHero />
       <Breadcrumbs route={CURRENT_ROUTE} />
+      <WhyUsSection />
       {cmsLoading && (
-        <Section title="Careers at BlueDot Impact">
+        <Section title="Open roles">
           <ProgressDots />
         </Section>
       )}
       {cmsError && <ErrorSection error={cmsError} />}
       {cmsData && <JobsListSection jobs={cmsData} />}
-      <CultureSection />
-      <ValuesSection />
     </div>
   );
 };

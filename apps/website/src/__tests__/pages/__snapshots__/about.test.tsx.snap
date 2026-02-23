@@ -317,7 +317,7 @@ exports[`AboutPage > should render correctly 1`] = `
             <p
               class="text-size-sm min-[680px]:text-[18px] min-[1024px]:text-[20px] leading-[1.55] tracking-[-0.1px] text-white"
             >
-              Our mission is to build the workforce needed to safely navigate AGI.
+              Building the workforce that protects humanity
             </p>
           </div>
         </div>
@@ -375,7 +375,7 @@ exports[`AboutPage > should render correctly 1`] = `
           <h2
             class="section-heading__title relative ml-[-0.08em] bluedot-h2"
           >
-            Our story
+            Who we are
           </h2>
         </div>
       </div>
@@ -383,46 +383,28 @@ exports[`AboutPage > should render correctly 1`] = `
         class="section__body"
       >
         <div
-          class="intro-section__container flex lg:flex-row flex-col gap-space-between"
+          class="intro-section__text-container flex flex-col gap-5"
         >
-          <div
-            class="intro-section__text-container flex flex-col gap-5"
+          <p
+            class="bluedot-p not-prose"
           >
-            <p
-              class="bluedot-p not-prose"
-            >
-              In 2021, we and others around us wanted to learn about emerging technologies and how they might reshape the world – but nobody knew where to start. It was hard to find what to read, people to discuss it with, and ways to direct our careers to making a difference. The field of AI was moving so fast, and most of the key literature was in blog posts and arXiv pre-prints, rather than textbooks and peer-reviewed journals. Traditional education institutions were struggling to keep up.
-            </p>
-            <p
-              class="bluedot-p not-prose"
-            >
-              What started as small study groups at the University of Cambridge has grown into something much bigger: courses designed with some of the world's leading experts that have helped thousands of people understand and work on these challenges.
-            </p>
-            <p
-              class="bluedot-p not-prose"
-            >
-              As technology continues to advance rapidly, we're constantly adapting what we do. We work closely with leading organisations to understand what skills they need, quickly build new courses, and help talented people find roles where they can make a real difference.
-            </p>
-            <span
-              class="intro-section__signature"
-            >
-              <p
-                class="bluedot-p not-prose"
-              >
-                Dewi and Will,
-              </p>
-              <p
-                class="bluedot-p not-prose"
-              >
-                BlueDot Impact Co-Founders
-              </p>
-            </span>
-          </div>
-          <img
-            alt="BlueDot Impact team"
-            class="intro-section__image max-w-[570px] w-full h-auto max-h-[400px] object-cover rounded-md mt-6 sm:mt-0 shrink-0"
-            src="/images/culture/About-Us_v1.webp"
-          />
+            In 2021, a handful of us at Cambridge wanted to work on AI safety, but couldn't find where to start. Important ideas and arguments were scattered across the internet. There were no courses, no career paths, and few people to talk to. So we started running reading groups.
+          </p>
+          <p
+            class="bluedot-p not-prose"
+          >
+            Those reading groups evolved into the BlueDot courses. We've trained over 7,000 people in AI safety, governance and biosecurity, and hundreds of our graduates now work at Anthropic, DeepMind, and UK AISI.
+          </p>
+          <p
+            class="bluedot-p not-prose"
+          >
+            But training alone isn't enough. We give out grants to support career transitions, and we help exceptional people land impactful roles or start new organisations. Our goal isn't just to educate people, it's to get them working on the most important problems.
+          </p>
+          <p
+            class="bluedot-p not-prose"
+          >
+            The gap between how fast AI is advancing and how fast the safety and security workforce is growing is the most dangerous mismatch of our time. We're a small team based in San Francisco and London working as fast as we can to close it.
+          </p>
         </div>
       </div>
     </section>
@@ -438,7 +420,7 @@ exports[`AboutPage > should render correctly 1`] = `
           <h2
             class="section-heading__title relative ml-[-0.08em] bluedot-h2"
           >
-            Our core beliefs
+            Core beliefs
           </h2>
         </div>
       </div>
@@ -446,241 +428,104 @@ exports[`AboutPage > should render correctly 1`] = `
         class="section__body"
       >
         <div
-          class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0 beliefs-section__beliefs"
+          class="flex flex-col gap-6"
         >
-          <div
-            class="slide-list__gradient-wrapper relative flex-1"
-          >
-            <div
-              class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
+          <div>
+            <h3
+              class="bluedot-h4 mb-2"
             >
-              <div
-                class="slide-list__gradient-left absolute inset-y-0 w-8 from-cream-normal to-transparent opacity-50 right-0 bg-linear-to-l"
-              />
-            </div>
-            <div
-              class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-y-spacing-y md:gap-x-space-between scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory"
-              style="scroll-padding-inline: 0px;"
+              AGI could arrive soon, and society is dangerously unprepared
+            </h3>
+            <p
+              class="bluedot-p not-prose"
             >
-              <div
-                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-                style="scroll-margin-left: -0px;"
-              >
-                <div
-                  class="card flex items-start transition-transform duration-200 flex-col beliefs-section__belief"
-                >
-                  <div
-                    class="card__image-container w-full mb-4"
-                  >
-                    <img
-                      alt="AGI could arrive soon, and society is dangerously unprepared"
-                      class="card__image max-w-full max-h-full object-cover rounded-lg "
-                      src="/images/beliefs/agi.png"
-                    />
-                  </div>
-                  <div
-                    class="card__content flex gap-6 w-full flex-1 flex-col"
-                  >
-                    <div
-                      class="card__text"
-                    >
-                      <div
-                        class="flex flex-row gap-4 items-center mb-2"
-                      >
-                        <p
-                          class="card__title bluedot-h4"
-                        >
-                          AGI could arrive soon, and society is dangerously unprepared
-                        </p>
-                      </div>
-                      <p
-                        class="card__subtitle bluedot-p "
-                      >
-                        Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-                style="scroll-margin-left: -0px;"
-              >
-                <div
-                  class="card flex items-start transition-transform duration-200 flex-col beliefs-section__belief"
-                >
-                  <div
-                    class="card__image-container w-full mb-4"
-                  >
-                    <img
-                      alt="What we do now matters"
-                      class="card__image max-w-full max-h-full object-cover rounded-lg "
-                      src="/images/beliefs/matters.png"
-                    />
-                  </div>
-                  <div
-                    class="card__content flex gap-6 w-full flex-1 flex-col"
-                  >
-                    <div
-                      class="card__text"
-                    >
-                      <div
-                        class="flex flex-row gap-4 items-center mb-2"
-                      >
-                        <p
-                          class="card__title bluedot-h4"
-                        >
-                          What we do now matters
-                        </p>
-                      </div>
-                      <p
-                        class="card__subtitle bluedot-p "
-                      >
-                        The future of AI isn't set in stone. Our choices today will determine whether this technology helps or harms humanity.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-                style="scroll-margin-left: -0px;"
-              >
-                <div
-                  class="card flex items-start transition-transform duration-200 flex-col beliefs-section__belief"
-                >
-                  <div
-                    class="card__image-container w-full mb-4"
-                  >
-                    <img
-                      alt="People at key moments rewrite history"
-                      class="card__image max-w-full max-h-full object-cover rounded-lg "
-                      src="/images/beliefs/key.png"
-                    />
-                  </div>
-                  <div
-                    class="card__content flex gap-6 w-full flex-1 flex-col"
-                  >
-                    <div
-                      class="card__text"
-                    >
-                      <div
-                        class="flex flex-row gap-4 items-center mb-2"
-                      >
-                        <p
-                          class="card__title bluedot-h4"
-                        >
-                          People at key moments rewrite history
-                        </p>
-                      </div>
-                      <p
-                        class="card__subtitle bluedot-p "
-                      >
-                        Throughout history, people in key positions have steered powerful technologies toward better outcomes. By training and mobilising exceptional people, we can guide AI toward a safe and beneficial future.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-                style="scroll-margin-left: -0px;"
-              >
-                <div
-                  class="card flex items-start transition-transform duration-200 flex-col beliefs-section__belief"
-                >
-                  <div
-                    class="card__image-container w-full mb-4"
-                  >
-                    <img
-                      alt="We need urgency, wisdom and optimism"
-                      class="card__image max-w-full max-h-full object-cover rounded-lg "
-                      src="/images/beliefs/urgency.png"
-                    />
-                  </div>
-                  <div
-                    class="card__content flex gap-6 w-full flex-1 flex-col"
-                  >
-                    <div
-                      class="card__text"
-                    >
-                      <div
-                        class="flex flex-row gap-4 items-center mb-2"
-                      >
-                        <p
-                          class="card__title bluedot-h4"
-                        >
-                          We need urgency, wisdom and optimism
-                        </p>
-                      </div>
-                      <p
-                        class="card__subtitle bluedot-p "
-                      >
-                        The stakes are vast and time is short, but panic and fatalism do more harm than good. We need rapid, coordinated action informed by evidence and guided by hope.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+              Human-level AI is likely years away, not decades. AI companies are moving at a blistering pace, while the institutions meant to govern it are moving at a fraction of the speed required.
+            </p>
           </div>
-          <div
-            class="flex justify-between items-center gap-space-between"
+          <div>
+            <h3
+              class="bluedot-h4 mb-2"
+            >
+              People at key moments rewrite history
+            </h3>
+            <p
+              class="bluedot-p not-prose"
+            >
+              The future of AI isn't set in stone. Throughout history, a small number of people in the right positions at the right time have steered powerful technologies toward better outcomes. We find and prepare those people.
+            </p>
+          </div>
+          <div>
+            <h3
+              class="bluedot-h4 mb-2"
+            >
+              We need urgency and wisdom
+            </h3>
+            <p
+              class="bluedot-p not-prose"
+            >
+              The stakes are vast and time is short, but panic and fatalism lead to bad decisions. We need thoughtful and rapid action.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section
+      class="section section-body values-section"
+    >
+      <div
+        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+      >
+        <div
+          class="section-heading__content flex-1 flex flex-col gap-2"
+        >
+          <h2
+            class="section-heading__title relative ml-[-0.08em] bluedot-h2"
           >
-            <button
-              aria-label="Previous slide"
-              class="slide-list__nav-button p-3 border rounded-lg transition-colors m-[3px] mt-0 border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
-              disabled=""
-              type="button"
+            Values
+          </h2>
+        </div>
+      </div>
+      <div
+        class="section__body"
+      >
+        <div
+          class="flex flex-col gap-6"
+        >
+          <div>
+            <h3
+              class="bluedot-h4 mb-2"
             >
-              <svg
-                class="slide-list__nav-icon size-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M15 19l-7-7 7-7"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                />
-              </svg>
-            </button>
-            <div
-              class="slide-list__progress w-full relative h-1"
+              Own the mission
+            </h3>
+            <p
+              class="bluedot-p not-prose"
             >
-              <div
-                class="slide-list__progress-track absolute h-px top-px w-full bg-color-divider"
-              />
-              <div
-                class="slide-list__progress-track absolute h-full bg-bluedot-normal"
-                style="width: 25%;"
-              />
-            </div>
-            <button
-              aria-label="Next slide"
-              class="slide-list__nav-button p-3 border rounded-lg transition-colors m-[3px] mt-0 border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
-              type="button"
+              We all take responsibility for achieving our mission, not just getting tasks done. If something important needs doing and it's not anyone's job, it's your job.
+            </p>
+          </div>
+          <div>
+            <h3
+              class="bluedot-h4 mb-2"
             >
-              <svg
-                class="slide-list__nav-icon size-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M9 5l7 7-7 7"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                />
-              </svg>
-            </button>
+              Think hard and move fast
+            </h3>
+            <p
+              class="bluedot-p not-prose"
+            >
+              We think carefully about what matters most, then we pursue it with urgency. Speed in the wrong direction is wasted effort.
+            </p>
+          </div>
+          <div>
+            <h3
+              class="bluedot-h4 mb-2"
+            >
+              Say the uncomfortable truth
+            </h3>
+            <p
+              class="bluedot-p not-prose"
+            >
+              We give feedback directly and receive it generously. The mission is too important for politeness to get in the way of honesty.
+            </p>
           </div>
         </div>
       </div>
@@ -728,11 +573,7 @@ exports[`AboutPage > should render correctly 1`] = `
               <p
                 class="bluedot-p not-prose history-section__event-details mr-12"
               >
-                Before BlueDot, we 
-                <strong>
-                  began as a University of Cambridge student group
-                </strong>
-                , hosting discussions on transformative emerging technologies.
+                Started as reading groups at the University of Cambridge.
               </p>
             </div>
           </div>
@@ -757,18 +598,7 @@ exports[`AboutPage > should render correctly 1`] = `
               <p
                 class="bluedot-p not-prose history-section__event-details mr-12"
               >
-                <strong>
-                  Launched our first AI Safety course
-                </strong>
-                 with 400+ participants, 
-                <strong>
-                  founded BlueDot Impact
-                </strong>
-                , and established our 
-                <strong>
-                  London headquarters
-                </strong>
-                .
+                Founded BlueDot Impact. Launched our first AI safety course with 400 participants.
               </p>
             </div>
           </div>
@@ -793,11 +623,7 @@ exports[`AboutPage > should render correctly 1`] = `
               <p
                 class="bluedot-p not-prose history-section__event-details mr-12"
               >
-                Delivered a new course every four months, 
-                <strong>
-                  training 800+ people in AI Alignment, Governance, and Biosecurity
-                </strong>
-                .
+                Expanded to AI governance and biosecurity. Trained 900. Moved to London.
               </p>
             </div>
           </div>
@@ -822,15 +648,7 @@ exports[`AboutPage > should render correctly 1`] = `
               <p
                 class="bluedot-p not-prose history-section__event-details mr-12"
               >
-                Accelerated to monthly courses, 
-                <strong>
-                  reaching 3,500+ participants worldwide
-                </strong>
-                . Over 
-                <strong>
-                  400
-                </strong>
-                 of our course graduates now work in AI Safety.
+                Trained 3,500. Raised $5M.
               </p>
             </div>
           </div>
@@ -855,11 +673,7 @@ exports[`AboutPage > should render correctly 1`] = `
               <p
                 class="bluedot-p not-prose history-section__event-details mr-12"
               >
-                Courses every week. Announced 
-                <strong>
-                  US expansion
-                </strong>
-                , establishing an SF office to work more closely with entrepreneurs, AI companies and the AI safety ecosystem.
+                Launched monthly courses. Raised $25M. Announced SF expansion.
               </p>
             </div>
           </div>
@@ -923,7 +737,7 @@ exports[`AboutPage > should render correctly 1`] = `
                         target="_blank"
                       >
                         <img
-                          alt="Dewi Erwan - Co-founder & CEO"
+                          alt="Dewi Erwan - CEO"
                           class="team-section__card-image size-[300px] object-cover"
                           src="/images/team/dewi.jpg"
                         />
@@ -940,7 +754,51 @@ exports[`AboutPage > should render correctly 1`] = `
                       <p
                         class="card__subtitle text-gray-600"
                       >
-                        Co-founder & CEO
+                        CEO
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
+                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+                style="scroll-margin-left: -0px;"
+              >
+                <div
+                  class="team-section__card"
+                >
+                  <div
+                    class="card flex items-start flex-col transition-transform duration-200"
+                  >
+                    <div
+                      class="card__image-container w-full"
+                    >
+                      <a
+                        class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
+                        href="https://linkedin.com/in/anglilian"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        <img
+                          alt="Li-Lian - Head of Placements"
+                          class="team-section__card-image size-[300px] object-cover"
+                          src="/images/team/lilian.jpg"
+                        />
+                      </a>
+                    </div>
+                    <div
+                      class="card__content w-full p-4"
+                    >
+                      <h3
+                        class="card__title font-bold text-size-lg mb-1"
+                      >
+                        Li-Lian
+                      </h3>
+                      <p
+                        class="card__subtitle text-gray-600"
+                      >
+                        Head of Placements
                       </p>
                     </div>
                   </div>
@@ -1006,56 +864,12 @@ exports[`AboutPage > should render correctly 1`] = `
                     >
                       <a
                         class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
-                        href="https://linkedin.com/in/anglilian"
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                        <img
-                          alt="Li-Lian Ang - Product & Placements"
-                          class="team-section__card-image size-[300px] object-cover"
-                          src="/images/team/lilian.jpg"
-                        />
-                      </a>
-                    </div>
-                    <div
-                      class="card__content w-full p-4"
-                    >
-                      <h3
-                        class="card__title font-bold text-size-lg mb-1"
-                      >
-                        Li-Lian Ang
-                      </h3>
-                      <p
-                        class="card__subtitle text-gray-600"
-                      >
-                        Product & Placements
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-                style="scroll-margin-left: -0px;"
-              >
-                <div
-                  class="team-section__card"
-                >
-                  <div
-                    class="card flex items-start flex-col transition-transform duration-200"
-                  >
-                    <div
-                      class="card__image-container w-full"
-                    >
-                      <a
-                        class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
                         href="https://linkedin.com/in/josh-landes12"
                         rel="noopener noreferrer"
                         target="_blank"
                       >
                         <img
-                          alt="Josh Landes - Special Projects"
+                          alt="Joshua - AI Governance Specialist"
                           class="team-section__card-image size-[300px] object-cover"
                           src="/images/team/josh_v2.webp"
                         />
@@ -1067,56 +881,12 @@ exports[`AboutPage > should render correctly 1`] = `
                       <h3
                         class="card__title font-bold text-size-lg mb-1"
                       >
-                        Josh Landes
+                        Joshua
                       </h3>
                       <p
                         class="card__subtitle text-gray-600"
                       >
-                        Special Projects
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-                style="scroll-margin-left: -0px;"
-              >
-                <div
-                  class="team-section__card"
-                >
-                  <div
-                    class="card flex items-start flex-col transition-transform duration-200"
-                  >
-                    <div
-                      class="card__image-container w-full"
-                    >
-                      <a
-                        class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
-                        href="https://www.linkedin.com/in/aniket-chakravorty-724458256/"
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                        <img
-                          alt="Aniket Chakravorty - AI Strategy Specialist"
-                          class="team-section__card-image size-[300px] object-cover"
-                          src="/images/team/aniket.png"
-                        />
-                      </a>
-                    </div>
-                    <div
-                      class="card__content w-full p-4"
-                    >
-                      <h3
-                        class="card__title font-bold text-size-lg mb-1"
-                      >
-                        Aniket Chakravorty
-                      </h3>
-                      <p
-                        class="card__subtitle text-gray-600"
-                      >
-                        AI Strategy Specialist
+                        AI Governance Specialist
                       </p>
                     </div>
                   </div>
@@ -1182,12 +952,56 @@ exports[`AboutPage > should render correctly 1`] = `
                     >
                       <a
                         class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
+                        href="https://www.linkedin.com/in/aniket-chakravorty-724458256/"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        <img
+                          alt="Aniket Chakravorty - AGI Strategy Specialist"
+                          class="team-section__card-image size-[300px] object-cover"
+                          src="/images/team/aniket.png"
+                        />
+                      </a>
+                    </div>
+                    <div
+                      class="card__content w-full p-4"
+                    >
+                      <h3
+                        class="card__title font-bold text-size-lg mb-1"
+                      >
+                        Aniket Chakravorty
+                      </h3>
+                      <p
+                        class="card__subtitle text-gray-600"
+                      >
+                        AGI Strategy Specialist
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
+                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+                style="scroll-margin-left: -0px;"
+              >
+                <div
+                  class="team-section__card"
+                >
+                  <div
+                    class="card flex items-start flex-col transition-transform duration-200"
+                  >
+                    <div
+                      class="card__image-container w-full"
+                    >
+                      <a
+                        class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
                         href="https://www.linkedin.com/in/weinbaumjonah/"
                         rel="noopener noreferrer"
                         target="_blank"
                       >
                         <img
-                          alt="Jonah Weinbaum - def/acc"
+                          alt="Jonah Weinbaum - Special Projects"
                           class="team-section__card-image size-[300px] object-cover"
                           src="/images/team/jonahweinbaum.jpg"
                         />
@@ -1204,7 +1018,7 @@ exports[`AboutPage > should render correctly 1`] = `
                       <p
                         class="card__subtitle text-gray-600"
                       >
-                        def/acc
+                        Special Projects
                       </p>
                     </div>
                   </div>
@@ -1267,95 +1081,6 @@ exports[`AboutPage > should render correctly 1`] = `
             </button>
           </div>
         </div>
-      </div>
-    </section>
-    <div
-      class="join-us-cta w-full max-w-max-width mx-auto lg:px-spacing-x my-spacing-y overflow-hidden"
-    >
-      <div
-        class="join-us-cta__container w-full lg:container-lined flex flex-col justify-center items-center py-20 bg-[radial-gradient(ellipse_at_30%,_#fff_0,_#6687ff_100%)]"
-      >
-        <h3
-          class="bluedot-h3 not-prose join-us-cta__title max-w-[890px] text-center mb-8"
-        >
-          Join us in our mission to ensure humanity safely navigates the transition to transformative AI.
-        </h3>
-        <a
-          class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark join-us-cta__cta-button"
-          href="/join-us"
-          tabindex="0"
-        >
-          View our careers
-          <span
-            class="cta-button__chevron ml-3"
-          >
-            <svg
-              class="cta-button__chevron-icon size-2"
-              fill="currentColor"
-              height="1em"
-              stroke="currentColor"
-              stroke-width="0"
-              viewBox="0 0 320 512"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-              />
-            </svg>
-          </span>
-        </a>
-      </div>
-    </div>
-    <section
-      class="section section-body"
-    >
-      <div
-        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
-      >
-        <div
-          class="section-heading__content flex-1 flex flex-col gap-2"
-        >
-          <h2
-            class="section-heading__title relative ml-[-0.08em] bluedot-h2"
-          >
-            Contact us
-          </h2>
-        </div>
-      </div>
-      <div
-        class="section__body"
-      >
-        <p
-          class="bluedot-p not-prose"
-        >
-          We love hearing from people, and are keen for people to reach out to us with any questions or feedback!
-        </p>
-        <a
-          class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter mt-5"
-          href="mailto:team@bluedot.org"
-          tabindex="0"
-        >
-          Contact us
-          <span
-            class="cta-button__chevron ml-3"
-          >
-            <svg
-              class="cta-button__chevron-icon size-2"
-              fill="currentColor"
-              height="1em"
-              stroke="currentColor"
-              stroke-width="0"
-              viewBox="0 0 320 512"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-              />
-            </svg>
-          </span>
-        </a>
       </div>
     </section>
   </div>

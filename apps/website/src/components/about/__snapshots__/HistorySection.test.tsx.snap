@@ -45,11 +45,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
             <p
               class="bluedot-p not-prose history-section__event-details mr-12"
             >
-              Before BlueDot, we 
-              <strong>
-                began as a University of Cambridge student group
-              </strong>
-              , hosting discussions on transformative emerging technologies.
+              Started as reading groups at the University of Cambridge.
             </p>
           </div>
         </div>
@@ -74,18 +70,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
             <p
               class="bluedot-p not-prose history-section__event-details mr-12"
             >
-              <strong>
-                Launched our first AI Safety course
-              </strong>
-               with 400+ participants, 
-              <strong>
-                founded BlueDot Impact
-              </strong>
-              , and established our 
-              <strong>
-                London headquarters
-              </strong>
-              .
+              Founded BlueDot Impact. Launched our first AI safety course with 400 participants.
             </p>
           </div>
         </div>
@@ -110,11 +95,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
             <p
               class="bluedot-p not-prose history-section__event-details mr-12"
             >
-              Delivered a new course every four months, 
-              <strong>
-                training 800+ people in AI Alignment, Governance, and Biosecurity
-              </strong>
-              .
+              Expanded to AI governance and biosecurity. Trained 900. Moved to London.
             </p>
           </div>
         </div>
@@ -139,15 +120,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
             <p
               class="bluedot-p not-prose history-section__event-details mr-12"
             >
-              Accelerated to monthly courses, 
-              <strong>
-                reaching 3,500+ participants worldwide
-              </strong>
-              . Over 
-              <strong>
-                400
-              </strong>
-               of our course graduates now work in AI Safety.
+              Trained 3,500. Raised $5M.
             </p>
           </div>
         </div>
@@ -172,11 +145,7 @@ exports[`HistorySection > renders desktop as expected 1`] = `
             <p
               class="bluedot-p not-prose history-section__event-details mr-12"
             >
-              Courses every week. Announced 
-              <strong>
-                US expansion
-              </strong>
-              , establishing an SF office to work more closely with entrepreneurs, AI companies and the AI safety ecosystem.
+              Launched monthly courses. Raised $25M. Announced SF expansion.
             </p>
           </div>
         </div>
@@ -225,11 +194,7 @@ exports[`HistorySection > renders mobile as expected 1`] = `
             <p
               class="bluedot-p not-prose history-section__event-details"
             >
-              Before BlueDot, we 
-              <strong>
-                began as a University of Cambridge student group
-              </strong>
-              , hosting discussions on transformative emerging technologies.
+              Started as reading groups at the University of Cambridge.
             </p>
           </div>
         </div>
@@ -248,18 +213,7 @@ exports[`HistorySection > renders mobile as expected 1`] = `
             <p
               class="bluedot-p not-prose history-section__event-details"
             >
-              <strong>
-                Launched our first AI Safety course
-              </strong>
-               with 400+ participants, 
-              <strong>
-                founded BlueDot Impact
-              </strong>
-              , and established our 
-              <strong>
-                London headquarters
-              </strong>
-              .
+              Founded BlueDot Impact. Launched our first AI safety course with 400 participants.
             </p>
           </div>
         </div>
@@ -278,11 +232,7 @@ exports[`HistorySection > renders mobile as expected 1`] = `
             <p
               class="bluedot-p not-prose history-section__event-details"
             >
-              Delivered a new course every four months, 
-              <strong>
-                training 800+ people in AI Alignment, Governance, and Biosecurity
-              </strong>
-              .
+              Expanded to AI governance and biosecurity. Trained 900. Moved to London.
             </p>
           </div>
         </div>
@@ -301,15 +251,7 @@ exports[`HistorySection > renders mobile as expected 1`] = `
             <p
               class="bluedot-p not-prose history-section__event-details"
             >
-              Accelerated to monthly courses, 
-              <strong>
-                reaching 3,500+ participants worldwide
-              </strong>
-              . Over 
-              <strong>
-                400
-              </strong>
-               of our course graduates now work in AI Safety.
+              Trained 3,500. Raised $5M.
             </p>
           </div>
         </div>
@@ -328,11 +270,7 @@ exports[`HistorySection > renders mobile as expected 1`] = `
             <p
               class="bluedot-p not-prose history-section__event-details"
             >
-              Courses every week. Announced 
-              <strong>
-                US expansion
-              </strong>
-              , establishing an SF office to work more closely with entrepreneurs, AI companies and the AI safety ecosystem.
+              Launched monthly courses. Raised $25M. Announced SF expansion.
             </p>
           </div>
         </div>
