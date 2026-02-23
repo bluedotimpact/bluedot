@@ -32,6 +32,7 @@ export {
   resourceCompletionTable,
   facilitatorDiscussionSwitchingTable,
   dropoutTable,
+  teamMemberTable,
   testimonialTable,
 } from './schema';
 
@@ -69,6 +70,7 @@ export type {
   ResourceCompletion,
   FacilitatorSwitching,
   Dropout,
+  TeamMember,
   Testimonial,
 } from './schema';
 

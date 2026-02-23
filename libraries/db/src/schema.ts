@@ -1316,6 +1316,18 @@ export const resourceCompletionTable = pgAirtable('resource_completion', {
   },
 });
 
+export const teamMemberTable = pgAirtable('team_member', {
+  baseId: WEB_CONTENT_BASE_ID,
+  tableId: 'tblt4A2LhdyhAcBk9',
+  columns: {
+    name: { pgColumn: text().notNull(), airtableId: 'fldjY13g0tuTPJmB3' },
+    jobTitle: { pgColumn: text().notNull(), airtableId: 'fldlJy9D63sCry5Yg' },
+    imageAttachmentUrls: { pgColumn: text(), airtableId: 'fldOo7XlA4hA1glaL' },
+    url: { pgColumn: text(), airtableId: 'fld3ChLLOQHQGDK18' },
+    status: { pgColumn: text(), airtableId: 'fld5nsgLdaDUoMC2N' },
+  },
+});
+
 export const dropoutTable = pgAirtable('dropout', {
   baseId: APPLICATIONS_BASE_ID,
   tableId: 'tblmxqYXX1RaDvunu',
@@ -1368,3 +1380,4 @@ export type User = InferSelectModel<typeof userTable.pg>;
 export type ResourceCompletion = InferSelectModel<typeof resourceCompletionTable.pg>;
 export type FacilitatorSwitching = InferSelectModel<typeof facilitatorDiscussionSwitchingTable.pg>;
 export type Dropout = InferSelectModel<typeof dropoutTable.pg>;
+export type TeamMember = InferSelectModel<typeof teamMemberTable.pg>;
