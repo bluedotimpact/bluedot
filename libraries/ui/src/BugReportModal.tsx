@@ -1,14 +1,6 @@
 import type React from 'react';
-import {
-  useEffect, useRef,
-  useState,
-} from 'react';
-import {
-  FaCheck,
-  FaImage,
-  FaPaperclip,
-  FaXmark,
-} from 'react-icons/fa6';
+import { useEffect, useRef, useState } from 'react';
+import { FaCheck, FaImage, FaPaperclip, FaXmark } from 'react-icons/fa6';
 import { CTALinkOrButton } from './CTALinkOrButton';
 import { ErrorView } from './ErrorView';
 import { Modal } from './Modal';
@@ -27,11 +19,7 @@ export type BugReportModalProps = {
   setIsOpen?: (isOpen: boolean) => void;
 };
 
-export const BugReportModal: React.FC<BugReportModalProps> = ({
-  onSubmit,
-  isOpen = false,
-  setIsOpen = () => {},
-}) => {
+export const BugReportModal: React.FC<BugReportModalProps> = ({ onSubmit, isOpen = false, setIsOpen = () => {} }) => {
   const [description, setDescription] = useState('');
   const [email, setEmail] = useState('');
   const [attachments, setAttachments] = useState<File[]>([]);
@@ -98,7 +86,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
     <Modal
       isOpen={isOpen}
       setIsOpen={setIsOpen}
-      title={<span className="text-[22px] font-semibold mx-auto">{showSuccess ? 'Thank you' : 'Submit feedback'}</span>}
+      title={<span className="mx-auto text-[22px] font-semibold">{showSuccess ? 'Thank you' : 'Submit feedback'}</span>}
       ariaLabel={showSuccess ? 'Thank you' : 'Submit feedback'}
       bottomDrawerOnMobile
       desktopHeaderClassName="border-b border-charcoal-light py-4"
@@ -109,11 +97,11 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
             <div className="bg-bluedot-normal/10 flex rounded-full p-4">
               <FaCheck className="text-bluedot-normal size-8" />
             </div>
-            <p className="text-size-sm text-center max-w-[500px] text-bluedot-navy/60">
+            <p className="text-size-sm text-bluedot-navy/60 max-w-[500px] text-center">
               Your feedback has been sent! We'll be in touch if you've left your email and we have follow-up questions.
             </p>
             <CTALinkOrButton
-              className="w-full mt-4"
+              className="mt-4 w-full"
               onClick={() => {
                 setIsOpen(false);
                 setTimeout(() => {
@@ -132,29 +120,28 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
             {error && <ErrorView error={error} />}
 
             <div className="flex flex-col gap-3">
-              <P className='text-[13px] leading-[1.5] text-bluedot-navy'>We’re here to help! Whether it’s a bug or an idea on how to improve your experience, we’re all ears.</P>
-              <label
-                htmlFor="bug-description"
-                className="text-size-sm font-medium text-bluedot-navy mt-2.5"
-              >
+              <P className="text-bluedot-navy text-[13px] leading-[1.5]">
+                We’re here to help! Whether it’s a bug or an idea on how to improve your experience, we’re all ears.
+              </P>
+              <label htmlFor="bug-description" className="text-size-sm text-bluedot-navy mt-2.5 font-medium">
                 Description
               </label>
 
               <div
                 className={cn(
-                  'flex flex-col gap-3 p-3 rounded-lg border transition-colors',
+                  'flex flex-col gap-3 rounded-lg border p-3 transition-colors',
                   isDragging
-                    ? 'border-dashed border-bluedot-normal bg-bluedot-normal/[8%]'
-                    : 'border-color-divider bg-white focus-within:border-bluedot-normal',
+                    ? 'border-bluedot-normal bg-bluedot-normal/[8%] border-dashed'
+                    : 'border-color-divider focus-within:border-bluedot-normal bg-white',
                 )}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
               >
                 {isDragging ? (
-                  <div className="flex flex-col items-center justify-center gap-3 min-h-[140px]">
-                    <FaImage className="size-8 text-bluedot-normal" />
-                    <span className="text-size-sm text-center text-bluedot-normal opacity-80">
+                  <div className="flex min-h-[140px] flex-col items-center justify-center gap-3">
+                    <FaImage className="text-bluedot-normal size-8" />
+                    <span className="text-size-sm text-bluedot-normal text-center opacity-80">
                       Drop any file(s) here to add them
                     </span>
                   </div>
@@ -165,38 +152,31 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       onPaste={handlePaste}
-                      className="w-full min-h-[120px] bg-transparent resize-none focus:outline-none text-[13px] placeholder:text-[13px]"
+                      className="min-h-[120px] w-full resize-none bg-transparent text-[13px] placeholder:text-[13px] focus:outline-none"
                       placeholder="What feedback would you like to share?"
                       required
                     />
 
                     {attachments.length > 0 && (
-                      <div className="flex gap-2 flex-wrap">
+                      <div className="flex flex-wrap gap-2">
                         {attachments.map((file, idx) => {
                           const isImage = file.type.startsWith('image/');
                           const objectUrl = isImage ? URL.createObjectURL(file) : null;
                           return (
-                            <div
-                              key={`${file.name}-${idx}`}
-                              className="relative shrink-0"
-                            >
+                            <div key={`${file.name}-${idx}`} className="relative shrink-0">
                               {isImage && objectUrl ? (
-                                <div className="size-12 rounded-[4px] border border-bluedot-navy/20 overflow-hidden">
-                                  <img
-                                    src={objectUrl}
-                                    alt={file.name}
-                                    className="size-full object-cover"
-                                  />
+                                <div className="border-bluedot-navy/20 size-12 overflow-hidden rounded-[4px] border">
+                                  <img src={objectUrl} alt={file.name} className="size-full object-cover" />
                                 </div>
                               ) : (
-                                <div className="h-12 px-2 flex items-center rounded-[4px] border border-color-divider bg-gray-50 text-size-xs text-bluedot-navy max-w-[120px] truncate">
+                                <div className="border-color-divider text-size-xs text-bluedot-navy flex h-12 max-w-[120px] items-center truncate rounded-[4px] border bg-gray-50 px-2">
                                   {file.name}
                                 </div>
                               )}
                               <button
                                 type="button"
                                 onClick={() => setAttachments((prev) => prev.filter((_, i) => i !== idx))}
-                                className="absolute -top-1 -right-1 size-3 rounded-full bg-bluedot-navy flex items-center justify-center"
+                                className="bg-bluedot-navy absolute -top-1 -right-1 flex size-3 items-center justify-center rounded-full"
                                 aria-label={`Remove ${file.name}`}
                               >
                                 <FaXmark className="size-2 text-white" />
@@ -224,7 +204,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                       <button
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
-                        className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-gray-100 text-bluedot-navy/60 text-[12px]"
+                        className="text-bluedot-navy/60 flex items-center gap-2 rounded-lg px-2 py-1.5 text-[12px] hover:bg-gray-100"
                       >
                         <FaPaperclip className="size-3.5 shrink-0" />
                         <span>Add, drag, or paste attachments here</span>
@@ -236,13 +216,10 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
             </div>
 
             <div className="flex flex-col gap-3">
-              <label
-                htmlFor="bug-email"
-                className="text-size-sm font-medium text-bluedot-navy"
-              >
+              <label htmlFor="bug-email" className="text-size-sm text-bluedot-navy font-medium">
                 Your contact email (optional)
               </label>
-              <p className="text-[13px] text-bluedot-navy/60">
+              <p className="text-bluedot-navy/60 text-[13px]">
                 Leave your email if you're happy for us to contact you with follow-ups.
               </p>
               <input
@@ -250,16 +227,12 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="border border-color-divider rounded-lg px-3 py-2 bg-white text-[13px] placeholder:text-[13px]"
+                className="border-color-divider rounded-lg border bg-white px-3 py-2 text-[13px] placeholder:text-[13px]"
                 placeholder="Email"
               />
             </div>
 
-            <CTALinkOrButton
-              type="submit"
-              className="w-full"
-              disabled={isSubmitting || !description.trim()}
-            >
+            <CTALinkOrButton type="submit" className="w-full" disabled={isSubmitting || !description.trim()}>
               {isSubmitting ? 'Submitting...' : 'Submit'}
             </CTALinkOrButton>
           </form>
