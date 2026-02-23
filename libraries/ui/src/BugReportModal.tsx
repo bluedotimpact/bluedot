@@ -93,10 +93,10 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({ onSubmit, isOpen
       <div className="w-full md:w-[560px]">
         {showSuccess ? (
           <div className="flex flex-col items-center gap-8">
-            <div className="bg-bluedot-normal/10 flex rounded-full p-4">
+            <div className="bg-bluedot-normal/10 flex rounded-full p-4 mt-2">
               <FaCheck className="text-bluedot-normal size-8" />
             </div>
-            <p className="text-size-sm text-bluedot-navy/60 max-w-[500px] text-center">
+            <p className="text-[13px] leading-[1.5] text-bluedot-navy/60 max-w-[500px] text-center">
               Your feedback has been sent! We'll be in touch if you've left your email and we have follow-up questions.
             </p>
             <CTALinkOrButton
