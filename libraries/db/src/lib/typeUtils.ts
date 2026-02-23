@@ -43,9 +43,7 @@ export type PgAirtableColumnInput = {
   airtableId: string;
 };
 
-export type DeprecatedPgAirtableColumnInput = {
-  pgColumn: AllowedPgColumn;
-  airtableId: string;
+export type DeprecatedPgAirtableColumnInput = PgAirtableColumnInput & {
   // Doesn't do anything. Required so if you land in a random place in schema.ts you know whether you're looking at deprecated or active columns.
   deprecated: true;
 };
@@ -62,11 +60,12 @@ type RejectNotNull<T extends Record<string, PgAirtableColumnInput>> = {
 
 export type PgAirtableConfig<
   TColumns extends Record<string, PgAirtableColumnInput>,
+  TDeprecatedColumns extends Record<string, DeprecatedPgAirtableColumnInput> = Record<string, DeprecatedPgAirtableColumnInput>,
 > = {
   baseId: string;
   tableId: string;
   columns: RejectNotNull<TColumns>;
-  deprecatedColumns?: Record<string, DeprecatedPgAirtableColumnInput>;
+  deprecatedColumns?: RejectNotNull<TDeprecatedColumns>;
 };
 
 export type ExtractPgColumns<T extends Record<string, PgAirtableColumnInput>> = {
