@@ -550,7 +550,7 @@ exports[`AboutPage > should render correctly 1`] = `
         class="section__body"
       >
         <div
-          class="history-section__container flex flex-col lg:flex-row lg:gap-2 gap-8"
+          class="history-section__container flex flex-col sm:flex-row sm:gap-2 gap-8"
         >
           <div
             class="history-section__event flex-1"
@@ -567,11 +567,7 @@ exports[`AboutPage > should render correctly 1`] = `
               <p
                 class="bluedot-p not-prose history-section__event-details"
               >
-                Before BlueDot, we 
-                <strong>
-                  began as a University of Cambridge student group
-                </strong>
-                , hosting discussions on transformative emerging technologies.
+                Started as reading groups at the University of Cambridge.
               </p>
             </div>
             <div
@@ -611,18 +607,7 @@ exports[`AboutPage > should render correctly 1`] = `
               <p
                 class="bluedot-p not-prose history-section__event-details"
               >
-                <strong>
-                  Launched our first AI Safety course
-                </strong>
-                 with 400+ participants, 
-                <strong>
-                  founded BlueDot Impact
-                </strong>
-                , and established our 
-                <strong>
-                  London headquarters
-                </strong>
-                .
+                Founded BlueDot Impact. Launched our first AI safety course with 400 participants.
               </p>
             </div>
             <div
@@ -662,11 +647,7 @@ exports[`AboutPage > should render correctly 1`] = `
               <p
                 class="bluedot-p not-prose history-section__event-details"
               >
-                Delivered a new course every four months, 
-                <strong>
-                  training 800+ people in AI Alignment, Governance, and Biosecurity
-                </strong>
-                .
+                Expanded to AI governance and biosecurity. Trained 900. Moved to London.
               </p>
             </div>
             <div
@@ -706,15 +687,7 @@ exports[`AboutPage > should render correctly 1`] = `
               <p
                 class="bluedot-p not-prose history-section__event-details"
               >
-                Accelerated to monthly courses, 
-                <strong>
-                  reaching 3,500+ participants worldwide
-                </strong>
-                . Over 
-                <strong>
-                  400
-                </strong>
-                 of our course graduates now work in AI Safety.
+                Trained 3,500. Raised $5M.
               </p>
             </div>
             <div
@@ -754,11 +727,7 @@ exports[`AboutPage > should render correctly 1`] = `
               <p
                 class="bluedot-p not-prose history-section__event-details"
               >
-                Courses every week. Announced 
-                <strong>
-                  US expansion
-                </strong>
-                , establishing an SF office to work more closely with entrepreneurs, AI companies and the AI safety ecosystem.
+                Launched monthly courses. Raised $25M. Announced SF expansion.
               </p>
             </div>
             <div
