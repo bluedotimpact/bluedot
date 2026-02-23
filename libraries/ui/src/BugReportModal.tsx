@@ -122,7 +122,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({ onSubmit, isOpen
               <p className="text-bluedot-navy text-[13px] leading-[1.5]">
                 We’re here to help! Whether it’s a bug or an idea on how to improve your experience, we’re all ears.
               </p>
-              <label htmlFor="bug-description" className="text-[13px] font-[600] leading-[22px] text-bluedot-navy mt-2.5">
+              <label htmlFor="bug-description" className="text-[13px] font-semibold leading-5.5 text-bluedot-navy mt-2.5">
                 Description
               </label>
 
@@ -215,7 +215,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({ onSubmit, isOpen
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="bug-email" className="text-[13px] font-[600] leading-[22px] text-bluedot-navy">
+              <label htmlFor="bug-email" className="text-[13px] font-semibold leading-5.5 text-bluedot-navy">
                 Your contact email (optional)
               </label>
               <p className="text-bluedot-navy/60 text-[13px]">
