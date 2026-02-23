@@ -1,10 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import { BugReportModal } from './BugReportModal';
+import { BugReportModal, type BugReportModalProps } from './BugReportModal';
 import { CTALinkOrButton } from './CTALinkOrButton';
 
-// Wrapper component to handle the modal state
-const BugReportModalDemo: React.FC<{ showTextarea?: boolean }> = ({ showTextarea }) => {
+const BugReportModalDemo: React.FC<Pick<BugReportModalProps, 'onSubmit'>> = ({ onSubmit }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
@@ -12,9 +11,9 @@ const BugReportModalDemo: React.FC<{ showTextarea?: boolean }> = ({ showTextarea
         Submit Feedback
       </CTALinkOrButton>
       <BugReportModal
-        showTextarea={showTextarea}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
+        onSubmit={onSubmit}
       />
     </div>
   );
@@ -33,13 +32,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {
-    showTextarea: false,
-  },
+  args: {},
 };
 
-export const WithTextarea: Story = {
+export const SuccessState: Story = {
   args: {
-    showTextarea: true,
+    onSubmit: async () => {},
   },
 };
