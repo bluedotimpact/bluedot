@@ -1,97 +1,266 @@
 import type React from 'react';
-import { useState } from 'react';
+import {
+  useState, useEffect, useRef,
+} from 'react';
+import {
+  FaCheck, FaPaperclip, FaImage, FaXmark,
+} from 'react-icons/fa6';
 import { Modal } from './Modal';
 import { CTALinkOrButton } from './CTALinkOrButton';
 import { ErrorView } from './ErrorView';
-import { SocialShare } from './SocialShare';
-import { A } from './Text';
+import { cn } from './utils';
+
+export type FeedbackData = {
+  description: string;
+  email?: string;
+  attachments: File[];
+};
 
 export type BugReportModalProps = {
-  onSubmit?: (message: string) => void | Promise<void>;
+  onSubmit?: (data: FeedbackData) => Promise<void>;
   isOpen?: boolean;
   setIsOpen?: (isOpen: boolean) => void;
-  // Social media links
-  showTextarea?: boolean;
-  emailLink?: string;
-  githubOrgLink?: string;
-  githubLink?: string;
-  twitterLink?: string;
-  linkedinLink?: string;
 };
 
 export const BugReportModal: React.FC<BugReportModalProps> = ({
-  onSubmit = () => {},
+  onSubmit,
   isOpen = false,
   setIsOpen = () => {},
-  showTextarea = false,
-  emailLink = 'mailto:team@bluedot.org',
-  githubOrgLink = 'https://github.com/bluedotimpact',
-  githubLink = 'https://github.com/bluedotimpact/bluedot/issues/new?template=bug.yaml',
-  twitterLink = 'https://x.com/BlueDotImpact',
-  linkedinLink = 'https://www.linkedin.com/company/bluedotimpact/',
 }) => {
-  const [message, setMessage] = useState('');
+  const [description, setDescription] = useState('');
+  const [email, setEmail] = useState('');
+  const [attachments, setAttachments] = useState<File[]>([]);
+  const [isDragging, setIsDragging] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = async (e: React.BaseSyntheticEvent) => {
+  useEffect(() => {
+    if (isOpen) {
+      setDescription('');
+      setEmail('');
+      setAttachments([]);
+      setIsDragging(false);
+      setIsSubmitting(false);
+      setError(null);
+      setShowSuccess(false);
+    }
+  }, [isOpen]);
+
+  const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+      setIsDragging(false);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const files = Array.from(e.dataTransfer.files);
+    if (files.length > 0) {
+      setAttachments((prev) => [...prev, ...files]);
+    }
+  };
+
+  const handlePaste = (e: React.ClipboardEvent) => {
+    const files = Array.from(e.clipboardData.files);
+    if (files.length > 0) {
+      setAttachments((prev) => [...prev, ...files]);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setError(null);
     try {
-      await onSubmit(message);
-      setMessage('');
-      setIsOpen(false);
+      await onSubmit?.({ description, email: email.trim() || undefined, attachments });
+      setShowSuccess(true);
     } catch (err) {
       setError(err as Error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    isOpen && (
-      <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Submit feedback">
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6 max-w-2xl mx-auto">
-          {error && <ErrorView error={error} />}
-          <div>
-            <p className="text-gray-600 mb-2">
-              Found a bug that is pestering you or have an idea on how to make the experience better?
-              Great, we'd love to hear from you! Bonus points if you can submit your feedback as an issue in {' '}
-              <A
-                href={githubLink}
-                target="_blank"
-                className="text-blue-600 hover:underline"
-              >
-                GitHub
-              </A>
-              .
+    <Modal
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      title={showSuccess ? 'Thank you' : 'Submit feedback'}
+      bottomDrawerOnMobile
+      desktopHeaderClassName="border-b border-charcoal-light py-4"
+    >
+      <div className="w-full pt-6 md:w-[600px]">
+        {showSuccess ? (
+          <div className="flex flex-col items-center gap-8">
+            <div className="bg-bluedot-normal/10 flex rounded-full p-4">
+              <FaCheck className="text-bluedot-normal size-8" />
+            </div>
+            <p className="text-size-sm text-center max-w-[500px] text-bluedot-navy/60">
+              Your feedback has been sent! We'll be in touch if you've left your email and we have follow-up questions.
             </p>
-            {showTextarea && (
-              <textarea
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                className="w-full h-32 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Your message"
-              />
-            )}
+            <CTALinkOrButton
+              className="w-full mt-4"
+              onClick={() => {
+                setIsOpen(false);
+                setTimeout(() => {
+                  setShowSuccess(false);
+                  setDescription('');
+                  setEmail('');
+                  setAttachments([]);
+                }, 200);
+              }}
+            >
+              Close
+            </CTALinkOrButton>
           </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="flex flex-col gap-8">
+            {error && <ErrorView error={error} />}
 
-          <div className="flex flex-col items-center gap-4">
-            {showTextarea && (
-              <CTALinkOrButton type="submit" className="w-full">
-                Submit
-              </CTALinkOrButton>
-            )}
+            <div className="flex flex-col gap-3">
+              <label
+                htmlFor="bug-description"
+                className="text-size-sm font-medium text-bluedot-navy"
+              >
+                Description
+              </label>
 
-            <div className="text-center">
-              <p className="text-gray-500 mb-3">Reach us via these channels</p>
-              <SocialShare
-                variant="contact"
-                emailLink={emailLink}
-                githubOrgLink={githubOrgLink}
-                twitterLink={twitterLink}
-                linkedinLink={linkedinLink}
+              <div
+                className={cn(
+                  'flex flex-col gap-3 p-3 rounded-lg border transition-colors',
+                  isDragging
+                    ? 'border-dashed border-bluedot-normal bg-bluedot-normal/[8%]'
+                    : 'border-color-divider bg-white focus-within:border-bluedot-normal focus-within:border-[1.25px] focus-within:shadow-[0px_0px_10px_0px_rgba(34,68,187,0.3)]',
+                )}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+              >
+                {isDragging ? (
+                  <div className="flex flex-col items-center justify-center gap-3 min-h-[140px]">
+                    <FaImage className="size-8 text-bluedot-normal" />
+                    <span className="text-size-sm text-center text-bluedot-normal opacity-80">
+                      Drop any file(s) here to add them
+                    </span>
+                  </div>
+                ) : (
+                  <>
+                    <textarea
+                      id="bug-description"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      onPaste={handlePaste}
+                      className="w-full min-h-[120px] bg-transparent resize-y focus:outline-none"
+                      placeholder="What feedback would you like to share?"
+                      required
+                    />
+
+                    {attachments.length > 0 && (
+                      <div className="flex gap-2 flex-wrap">
+                        {attachments.map((file, idx) => {
+                          const isImage = file.type.startsWith('image/');
+                          const objectUrl = isImage ? URL.createObjectURL(file) : null;
+                          return (
+                            <div
+                              key={`${file.name}-${idx}`}
+                              className="relative shrink-0"
+                            >
+                              {isImage && objectUrl ? (
+                                <div className="size-12 rounded-[4px] border border-bluedot-navy/20 overflow-hidden">
+                                  <img
+                                    src={objectUrl}
+                                    alt={file.name}
+                                    className="size-full object-cover"
+                                  />
+                                </div>
+                              ) : (
+                                <div className="h-12 px-2 flex items-center rounded-[4px] border border-color-divider bg-gray-50 text-size-xs text-bluedot-navy max-w-[120px] truncate">
+                                  {file.name}
+                                </div>
+                              )}
+                              <button
+                                type="button"
+                                onClick={() => setAttachments((prev) => prev.filter((_, i) => i !== idx))}
+                                className="absolute -top-1 -right-1 size-3 rounded-full bg-bluedot-navy flex items-center justify-center"
+                                aria-label={`Remove ${file.name}`}
+                              >
+                                <FaXmark className="size-2 text-white" />
+                              </button>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+
+                    <div className="flex items-center gap-2">
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        multiple
+                        className="hidden"
+                        onChange={(e) => {
+                          const files = Array.from(e.target.files ?? []);
+                          if (files.length > 0) {
+                            setAttachments((prev) => [...prev, ...files]);
+                          }
+                          e.target.value = '';
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="flex items-center justify-center size-8 rounded-lg bg-gray-100 shrink-0"
+                        aria-label="Add attachment"
+                      >
+                        <FaPaperclip className="size-3.5 text-bluedot-navy/60" />
+                      </button>
+                      <span className="text-size-xs text-bluedot-navy/60">
+                        Add, drag, or paste attachments here
+                      </span>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <label
+                htmlFor="bug-email"
+                className="text-size-sm font-medium text-bluedot-navy"
+              >
+                Your contact email (optional)
+              </label>
+              <p className="text-size-xs text-bluedot-navy/60">
+                Leave your email if you're happy for us to contact you with follow-ups.
+              </p>
+              <input
+                id="bug-email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="border border-color-divider rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-bluedot-normal"
+                placeholder="Email"
               />
             </div>
-          </div>
-        </form>
-      </Modal>
-    )
+
+            <CTALinkOrButton
+              type="submit"
+              className="w-full"
+              disabled={isSubmitting || !description.trim()}
+            >
+              {isSubmitting ? 'Submitting...' : 'Submit'}
+            </CTALinkOrButton>
+          </form>
+        )}
+      </div>
+    </Modal>
   );
 };
