@@ -200,7 +200,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                       </div>
                     )}
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center">
                       <input
                         ref={fileInputRef}
                         type="file"
@@ -217,14 +217,11 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                       <button
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
-                        className="flex items-center justify-center size-8 rounded-lg bg-gray-100 shrink-0"
-                        aria-label="Add attachment"
+                        className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-gray-100 text-bluedot-navy/60"
                       >
-                        <FaPaperclip className="size-3.5 text-bluedot-navy/60" />
+                        <FaPaperclip className="size-3.5 shrink-0" />
+                        <span className="text-size-xs">Add, drag, or paste attachments here</span>
                       </button>
-                      <span className="text-size-xs text-bluedot-navy/60">
-                        Add, drag, or paste attachments here
-                      </span>
                     </div>
                   </>
                 )}
