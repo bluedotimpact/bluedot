@@ -14,7 +14,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
         <h2
           class="section-heading__title relative ml-[-0.08em] bluedot-h2"
         >
-          Our core beliefs
+          Core beliefs
         </h2>
       </div>
     </div>
@@ -22,241 +22,43 @@ exports[`BeliefsSection > renders default as expected 1`] = `
       class="section__body"
     >
       <div
-        class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0 beliefs-section__beliefs"
+        class="flex flex-col gap-6"
       >
-        <div
-          class="slide-list__gradient-wrapper relative flex-1"
-        >
-          <div
-            class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
+        <div>
+          <h3
+            class="bluedot-h4 mb-2"
           >
-            <div
-              class="slide-list__gradient-left absolute inset-y-0 w-8 from-cream-normal to-transparent opacity-50 right-0 bg-linear-to-l"
-            />
-          </div>
-          <div
-            class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-y-spacing-y md:gap-x-space-between scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory"
-            style="scroll-padding-inline: 0px;"
+            AGI could arrive soon, and society is dangerously unprepared
+          </h3>
+          <p
+            class="bluedot-p not-prose"
           >
-            <div
-              class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-              style="scroll-margin-left: -0px;"
-            >
-              <div
-                class="card flex items-start transition-transform duration-200 flex-col beliefs-section__belief"
-              >
-                <div
-                  class="card__image-container w-full mb-4"
-                >
-                  <img
-                    alt="AGI could arrive soon, and society is dangerously unprepared"
-                    class="card__image max-w-full max-h-full object-cover rounded-lg "
-                    src="/images/beliefs/agi.png"
-                  />
-                </div>
-                <div
-                  class="card__content flex gap-6 w-full flex-1 flex-col"
-                >
-                  <div
-                    class="card__text"
-                  >
-                    <div
-                      class="flex flex-row gap-4 items-center mb-2"
-                    >
-                      <p
-                        class="card__title bluedot-h4"
-                      >
-                        AGI could arrive soon, and society is dangerously unprepared
-                      </p>
-                    </div>
-                    <p
-                      class="card__subtitle bluedot-p "
-                    >
-                      Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-              style="scroll-margin-left: -0px;"
-            >
-              <div
-                class="card flex items-start transition-transform duration-200 flex-col beliefs-section__belief"
-              >
-                <div
-                  class="card__image-container w-full mb-4"
-                >
-                  <img
-                    alt="What we do now matters"
-                    class="card__image max-w-full max-h-full object-cover rounded-lg "
-                    src="/images/beliefs/matters.png"
-                  />
-                </div>
-                <div
-                  class="card__content flex gap-6 w-full flex-1 flex-col"
-                >
-                  <div
-                    class="card__text"
-                  >
-                    <div
-                      class="flex flex-row gap-4 items-center mb-2"
-                    >
-                      <p
-                        class="card__title bluedot-h4"
-                      >
-                        What we do now matters
-                      </p>
-                    </div>
-                    <p
-                      class="card__subtitle bluedot-p "
-                    >
-                      The future of AI isn't set in stone. Our choices today will determine whether this technology helps or harms humanity.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-              style="scroll-margin-left: -0px;"
-            >
-              <div
-                class="card flex items-start transition-transform duration-200 flex-col beliefs-section__belief"
-              >
-                <div
-                  class="card__image-container w-full mb-4"
-                >
-                  <img
-                    alt="People at key moments rewrite history"
-                    class="card__image max-w-full max-h-full object-cover rounded-lg "
-                    src="/images/beliefs/key.png"
-                  />
-                </div>
-                <div
-                  class="card__content flex gap-6 w-full flex-1 flex-col"
-                >
-                  <div
-                    class="card__text"
-                  >
-                    <div
-                      class="flex flex-row gap-4 items-center mb-2"
-                    >
-                      <p
-                        class="card__title bluedot-h4"
-                      >
-                        People at key moments rewrite history
-                      </p>
-                    </div>
-                    <p
-                      class="card__subtitle bluedot-p "
-                    >
-                      Throughout history, people in key positions have steered powerful technologies toward better outcomes. By training and mobilising exceptional people, we can guide AI toward a safe and beneficial future.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-              style="scroll-margin-left: -0px;"
-            >
-              <div
-                class="card flex items-start transition-transform duration-200 flex-col beliefs-section__belief"
-              >
-                <div
-                  class="card__image-container w-full mb-4"
-                >
-                  <img
-                    alt="We need urgency, wisdom and optimism"
-                    class="card__image max-w-full max-h-full object-cover rounded-lg "
-                    src="/images/beliefs/urgency.png"
-                  />
-                </div>
-                <div
-                  class="card__content flex gap-6 w-full flex-1 flex-col"
-                >
-                  <div
-                    class="card__text"
-                  >
-                    <div
-                      class="flex flex-row gap-4 items-center mb-2"
-                    >
-                      <p
-                        class="card__title bluedot-h4"
-                      >
-                        We need urgency, wisdom and optimism
-                      </p>
-                    </div>
-                    <p
-                      class="card__subtitle bluedot-p "
-                    >
-                      The stakes are vast and time is short, but panic and fatalism do more harm than good. We need rapid, coordinated action informed by evidence and guided by hope.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            Human-level AI is likely years away, not decades. AI companies are moving at a blistering pace, while the institutions meant to govern it are moving at a fraction of the speed required.
+          </p>
         </div>
-        <div
-          class="hidden md:flex justify-between items-center gap-space-between"
-        >
-          <button
-            aria-label="Previous slide"
-            class="slide-list__nav-button p-3 border rounded-lg transition-colors m-[3px] mt-0 border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
-            disabled=""
-            type="button"
+        <div>
+          <h3
+            class="bluedot-h4 mb-2"
           >
-            <svg
-              class="slide-list__nav-icon size-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M15 19l-7-7 7-7"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-              />
-            </svg>
-          </button>
-          <div
-            class="slide-list__progress w-full relative h-1"
+            People at key moments rewrite history
+          </h3>
+          <p
+            class="bluedot-p not-prose"
           >
-            <div
-              class="slide-list__progress-track absolute h-px top-px w-full bg-color-divider"
-            />
-            <div
-              class="slide-list__progress-track absolute h-full bg-bluedot-normal"
-              style="width: 25%;"
-            />
-          </div>
-          <button
-            aria-label="Next slide"
-            class="slide-list__nav-button p-3 border rounded-lg transition-colors m-[3px] mt-0 border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
-            type="button"
+            The future of AI isn't set in stone. Throughout history, a small number of people in the right positions at the right time have steered powerful technologies toward better outcomes. We find and prepare those people.
+          </p>
+        </div>
+        <div>
+          <h3
+            class="bluedot-h4 mb-2"
           >
-            <svg
-              class="slide-list__nav-icon size-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M9 5l7 7-7 7"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-              />
-            </svg>
-          </button>
+            We need urgency and wisdom
+          </h3>
+          <p
+            class="bluedot-p not-prose"
+          >
+            The stakes are vast and time is short, but panic and fatalism lead to bad decisions. We need thoughtful and rapid action.
+          </p>
         </div>
       </div>
     </div>

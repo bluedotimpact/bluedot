@@ -8,12 +8,14 @@ type JobsListSectionProps = inferRouterOutputs<AppRouter>['jobs']['getAll'];
 const JobsListSection = ({ jobs }: { jobs: JobsListSectionProps }) => {
   // Split jobs into regular and contractor positions
   // job.category is a single string value from Airtable
-  const regularJobs = jobs.filter((job) => job.category !== 'Contractor');
+  const regularJobs = jobs
+    .filter((job) => job.category !== 'Contractor')
+    .sort((a, b) => (a.slug === 'talent' ? 1 : 0) - (b.slug === 'talent' ? 1 : 0));
   const contractorJobs = jobs.filter((job) => job.category === 'Contractor');
 
   return (
     <>
-      <Section title="Careers at BlueDot Impact">
+      <Section title="Open roles">
         <div id="open-roles-anchor" className="invisible relative bottom-48" />
         {regularJobs.length === 0 ? (
           <P>We're not currently running any open hiring rounds at the moment.</P>

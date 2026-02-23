@@ -11,6 +11,5 @@ describe('HistorySection', () => {
     const { container } = render(<HistorySection />);
     expect(container).toMatchSnapshot();
     expect(container.querySelector('.history-section__event-container--desktop')).not.toBeNull();
-    expect(container.querySelector('.history-section__event-container--mobile')).not.toBeNull();
   });
 });

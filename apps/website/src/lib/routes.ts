@@ -28,7 +28,7 @@ const privacyPolicy: BluedotRoute = {
 };
 
 const joinUs: BluedotRoute = {
-  title: 'Join us',
+  title: 'Work with us',
   url: '/join-us',
   parentPages: [home],
 };

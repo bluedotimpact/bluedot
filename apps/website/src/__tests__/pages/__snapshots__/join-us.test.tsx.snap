@@ -300,12 +300,12 @@ exports[`JoinUsPage > should render correctly 1`] = `
             <h1
               class="bluedot-h1 not-prose text-[32px] min-[680px]:text-[40px] min-[1024px]:text-[48px] leading-tight font-medium tracking-[-1px] text-white"
             >
-              Join us
+              Work with us
             </h1>
             <p
               class="text-size-sm min-[680px]:text-[18px] min-[1024px]:text-[20px] leading-[1.55] tracking-[-0.1px] text-white"
             >
-              Join us in our mission to ensure humanity safely navigates the transition to transformative AI.
+              AI safety needs thousands more people. We need the team that gets them there.
             </p>
           </div>
         </div>
@@ -345,7 +345,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
               href="/join-us"
               tabindex="0"
             >
-              Join us
+              Work with us
             </a>
           </li>
         </ol>
@@ -363,7 +363,47 @@ exports[`JoinUsPage > should render correctly 1`] = `
           <h2
             class="section-heading__title relative ml-[-0.08em] bluedot-h2"
           >
-            Careers at BlueDot Impact
+            Why us
+          </h2>
+        </div>
+      </div>
+      <div
+        class="section__body"
+      >
+        <div
+          class="flex flex-col gap-5"
+        >
+          <p
+            class="bluedot-p not-prose"
+          >
+            We're 7 people. We just raised $25M. We're expanding from London to San Francisco in 2026 and scaling to 20 team members. If you join now, you'll shape how the organisation works, what we build, and who we become.
+          </p>
+          <p
+            class="bluedot-p not-prose"
+          >
+            On any given day you might be shipping a new course, redesigning a placements pipeline, or figuring out how to reach ten times more people. We delete bureaucracy: our expense policy is "act in BlueDot's best interest." We're a non-profit, but our salaries are benchmarked on SF tech salaries.
+          </p>
+          <p
+            class="bluedot-p not-prose"
+          >
+            If this sounds exciting rather than exhausting, you'll fit right in.
+          </p>
+        </div>
+      </div>
+    </section>
+    <section
+      class="section section-body"
+    >
+      <div
+        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+      >
+        <div
+          class="section-heading__content flex-1 flex flex-col gap-2"
+        >
+          <h2
+            class="section-heading__title relative ml-[-0.08em] bluedot-h2"
+          >
+            Open roles
           </h2>
         </div>
       </div>
@@ -379,369 +419,6 @@ exports[`JoinUsPage > should render correctly 1`] = `
         >
           We're not currently running any open hiring rounds at the moment.
         </p>
-      </div>
-    </section>
-    <section
-      class="section section-body culture-section"
-    >
-      <div
-        class="section__body"
-      >
-        <div
-          class="culture-section__container flex lg:flex-row flex-col gap-space-between"
-        >
-          <div
-            class="culture-section__text-container flex flex-col gap-5 max-w-[436px]"
-          >
-            <div
-              class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
-            >
-              <div
-                class="section-heading__content flex-1 flex flex-col gap-2"
-              >
-                <h2
-                  class="section-heading__title relative ml-[-0.08em] bluedot-h2"
-                >
-                  Our culture
-                </h2>
-              </div>
-            </div>
-            <p
-              class="bluedot-p not-prose"
-            >
-              At BlueDot Impact, our culture is defined by high agency, rapid experimentation, and direct feedback. We move fast and iterate quickly because AI capabilities are advancing rapidly and our work is time-sensitive.
-            </p>
-            <p
-              class="bluedot-p not-prose"
-            >
-              But speed doesn't mean sacrificing support – we invest heavily in each other's growth and wellbeing, creating an environment where ambitious, mission-driven people can do their best work.
-            </p>
-            <p
-              class="bluedot-p not-prose"
-            >
-              We seek exceptional people who combine a sense of urgency with the empathy to help others thrive, whether that's fellow team members or the thousands of professionals in our global community.
-            </p>
-          </div>
-          <div
-            class="culture-section__image-grid grid mt-6 grid-cols-2 gap-x-2 gap-y-4 sm:mt-0 sm:grid-cols-3 sm:gap-4"
-          >
-            <img
-              alt="BlueDot Impact team"
-              class="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm"
-              src="/images/culture/culture_dewi_v1.webp"
-            />
-            <img
-              alt="BlueDot Impact team"
-              class="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm"
-              src="/images/culture/culture_talking_v2.webp"
-            />
-            <img
-              alt="BlueDot Impact team"
-              class="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm"
-              src="/images/culture/culture_cap_v1.webp"
-            />
-            <img
-              alt="BlueDot Impact team"
-              class="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm"
-              src="/images/culture/culture_will_v1.webp"
-            />
-            <img
-              alt="BlueDot Impact team"
-              class="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm"
-              src="/images/culture/culture_josh_v1.webp"
-            />
-            <img
-              alt="BlueDot Impact team"
-              class="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm"
-              src="/images/culture/culture_keyboard_v1.webp"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
-    <section
-      class="section section-body values-section"
-    >
-      <div
-        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
-      >
-        <div
-          class="section-heading__content flex-1 flex flex-col gap-2"
-        >
-          <h2
-            class="section-heading__title relative ml-[-0.08em] bluedot-h2"
-          >
-            Our values
-          </h2>
-        </div>
-      </div>
-      <div
-        class="section__body"
-      >
-        <div
-          class="flex flex-col gap-4 md:hidden"
-        >
-          <div
-            class="flex flex-row gap-4"
-          >
-            <img
-              alt="Own the mission"
-              class="object-cover rounded-lg size-[102px]"
-              src="/images/values/mission_mobile.gif"
-            />
-            <div>
-              <p
-                class="bluedot-h4 mb-2"
-              >
-                Own the mission
-              </p>
-              <p
-                class="bluedot-p not-prose"
-              >
-                We prioritize mission success above all, take responsibility for outcomes, and commit extraordinary effort to achieve extraordinary goals.
-              </p>
-            </div>
-          </div>
-          <div
-            class="flex flex-row gap-4"
-          >
-            <img
-              alt="Find the fastest, best way to do everything"
-              class="object-cover rounded-lg size-[102px]"
-              src="/images/values/fast_mobile.gif"
-            />
-            <div>
-              <p
-                class="bluedot-h4 mb-2"
-              >
-                Find the fastest, best way to do everything
-              </p>
-              <p
-                class="bluedot-p not-prose"
-              >
-                We're high agency: constantly growing our skills, finding creative solutions, and making the impossible possible.
-              </p>
-            </div>
-          </div>
-          <div
-            class="flex flex-row gap-4"
-          >
-            <img
-              alt="Say the uncomfortable truth"
-              class="object-cover rounded-lg size-[102px]"
-              src="/images/values/speak_mobile.gif"
-            />
-            <div>
-              <p
-                class="bluedot-h4 mb-2"
-              >
-                Say the uncomfortable truth
-              </p>
-              <p
-                class="bluedot-p not-prose"
-              >
-                We speak essential truths with kindness: giving feedback, challenging ideas, and supporting each other's growth.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div
-          class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0 hidden md:flex"
-        >
-          <div
-            class="slide-list__gradient-wrapper relative flex-1"
-          >
-            <div
-              class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
-            >
-              <div
-                class="slide-list__gradient-left absolute inset-y-0 w-8 from-cream-normal to-transparent opacity-50 right-0 bg-linear-to-l"
-              />
-            </div>
-            <div
-              class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-y-spacing-y md:gap-x-space-between scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory"
-              style="scroll-padding-inline: 0px;"
-            >
-              <div
-                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-                style="scroll-margin-left: -0px;"
-              >
-                <div
-                  class="card flex items-start transition-transform duration-200 flex-col w-[350px]"
-                >
-                  <div
-                    class="card__image-container w-full mb-4"
-                  >
-                    <img
-                      alt="Own the mission"
-                      class="card__image max-w-full max-h-full object-cover rounded-lg "
-                      src="/images/values/mission.gif"
-                    />
-                  </div>
-                  <div
-                    class="card__content flex gap-6 w-full flex-1 flex-col"
-                  >
-                    <div
-                      class="card__text"
-                    >
-                      <div
-                        class="flex flex-row gap-4 items-center mb-2"
-                      >
-                        <p
-                          class="card__title bluedot-h4"
-                        >
-                          Own the mission
-                        </p>
-                      </div>
-                      <p
-                        class="card__subtitle bluedot-p "
-                      >
-                        We prioritize mission success above all, take responsibility for outcomes, and commit extraordinary effort to achieve extraordinary goals.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-                style="scroll-margin-left: -0px;"
-              >
-                <div
-                  class="card flex items-start transition-transform duration-200 flex-col w-[350px]"
-                >
-                  <div
-                    class="card__image-container w-full mb-4"
-                  >
-                    <img
-                      alt="Find the fastest, best way to do everything"
-                      class="card__image max-w-full max-h-full object-cover rounded-lg "
-                      src="/images/values/fast.gif"
-                    />
-                  </div>
-                  <div
-                    class="card__content flex gap-6 w-full flex-1 flex-col"
-                  >
-                    <div
-                      class="card__text"
-                    >
-                      <div
-                        class="flex flex-row gap-4 items-center mb-2"
-                      >
-                        <p
-                          class="card__title bluedot-h4"
-                        >
-                          Find the fastest, best way to do everything
-                        </p>
-                      </div>
-                      <p
-                        class="card__subtitle bluedot-p "
-                      >
-                        We're high agency: constantly growing our skills, finding creative solutions, and making the impossible possible.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-                data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-                style="scroll-margin-left: -0px;"
-              >
-                <div
-                  class="card flex items-start transition-transform duration-200 flex-col w-[350px]"
-                >
-                  <div
-                    class="card__image-container w-full mb-4"
-                  >
-                    <img
-                      alt="Say the uncomfortable truth"
-                      class="card__image max-w-full max-h-full object-cover rounded-lg "
-                      src="/images/values/speak.gif"
-                    />
-                  </div>
-                  <div
-                    class="card__content flex gap-6 w-full flex-1 flex-col"
-                  >
-                    <div
-                      class="card__text"
-                    >
-                      <div
-                        class="flex flex-row gap-4 items-center mb-2"
-                      >
-                        <p
-                          class="card__title bluedot-h4"
-                        >
-                          Say the uncomfortable truth
-                        </p>
-                      </div>
-                      <p
-                        class="card__subtitle bluedot-p "
-                      >
-                        We speak essential truths with kindness: giving feedback, challenging ideas, and supporting each other's growth.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="hidden md:flex justify-between items-center gap-space-between"
-          >
-            <button
-              aria-label="Previous slide"
-              class="slide-list__nav-button p-3 border rounded-lg transition-colors m-[3px] mt-0 border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
-              disabled=""
-              type="button"
-            >
-              <svg
-                class="slide-list__nav-icon size-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M15 19l-7-7 7-7"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                />
-              </svg>
-            </button>
-            <div
-              class="slide-list__progress w-full relative h-1"
-            >
-              <div
-                class="slide-list__progress-track absolute h-px top-px w-full bg-color-divider"
-              />
-              <div
-                class="slide-list__progress-track absolute h-full bg-bluedot-normal"
-                style="width: 33.33333333333333%;"
-              />
-            </div>
-            <button
-              aria-label="Next slide"
-              class="slide-list__nav-button p-3 border rounded-lg transition-colors m-[3px] mt-0 border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
-              type="button"
-            >
-              <svg
-                class="slide-list__nav-icon size-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M9 5l7 7-7 7"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
       </div>
     </section>
   </div>
