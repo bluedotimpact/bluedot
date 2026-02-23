@@ -3,80 +3,42 @@
 exports[`CultureSection > renders default as expected 1`] = `
 <div>
   <section
-    class="section section-body culture-section"
+    class="section section-body"
   >
+    <div
+      class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+    >
+      <div
+        class="section-heading__content flex-1 flex flex-col gap-2"
+      >
+        <h2
+          class="section-heading__title relative ml-[-0.08em] bluedot-h2"
+        >
+          How we work
+        </h2>
+      </div>
+    </div>
     <div
       class="section__body"
     >
       <div
-        class="culture-section__container flex lg:flex-row flex-col gap-space-between"
+        class="flex flex-col gap-5"
       >
-        <div
-          class="culture-section__text-container flex flex-col gap-5 max-w-[436px]"
+        <p
+          class="bluedot-p not-prose"
         >
-          <div
-            class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
-          >
-            <div
-              class="section-heading__content flex-1 flex flex-col gap-2"
-            >
-              <h2
-                class="section-heading__title relative ml-[-0.08em] bluedot-h2"
-              >
-                Our culture
-              </h2>
-            </div>
-          </div>
-          <p
-            class="bluedot-p not-prose"
-          >
-            At BlueDot Impact, our culture is defined by high agency, rapid experimentation, and direct feedback. We move fast and iterate quickly because AI capabilities are advancing rapidly and our work is time-sensitive.
-          </p>
-          <p
-            class="bluedot-p not-prose"
-          >
-            But speed doesn't mean sacrificing support – we invest heavily in each other's growth and wellbeing, creating an environment where ambitious, mission-driven people can do their best work.
-          </p>
-          <p
-            class="bluedot-p not-prose"
-          >
-            We seek exceptional people who combine a sense of urgency with the empathy to help others thrive, whether that's fellow team members or the thousands of professionals in our global community.
-          </p>
-        </div>
-        <div
-          class="culture-section__image-grid grid mt-6 grid-cols-2 gap-x-2 gap-y-4 sm:mt-0 sm:grid-cols-3 sm:gap-4"
+          On any given day you might be shipping a new course, redesigning a placements pipeline, or figuring out how to reach ten times more people.
+        </p>
+        <p
+          class="bluedot-p not-prose"
         >
-          <img
-            alt="BlueDot Impact team"
-            class="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm"
-            src="/images/culture/culture_dewi_v1.webp"
-          />
-          <img
-            alt="BlueDot Impact team"
-            class="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm"
-            src="/images/culture/culture_talking_v2.webp"
-          />
-          <img
-            alt="BlueDot Impact team"
-            class="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm"
-            src="/images/culture/culture_cap_v1.webp"
-          />
-          <img
-            alt="BlueDot Impact team"
-            class="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm"
-            src="/images/culture/culture_will_v1.webp"
-          />
-          <img
-            alt="BlueDot Impact team"
-            class="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm"
-            src="/images/culture/culture_josh_v1.webp"
-          />
-          <img
-            alt="BlueDot Impact team"
-            class="culture-section__image w-full h-[clamp(100px,_13.5vw,_178px)] object-cover rounded-sm"
-            src="/images/culture/culture_keyboard_v1.webp"
-          />
-        </div>
+          We delete bureaucracy: our expense policy is "act in BlueDot's best interest."
+        </p>
+        <p
+          class="bluedot-p not-prose"
+        >
+          If this sounds exciting rather than exhausting, you'll fit right in.
+        </p>
       </div>
     </div>
   </section>

@@ -5,8 +5,14 @@ const teamMembers = [
   {
     imageSrc: '/images/team/dewi.jpg',
     name: 'Dewi Erwan',
-    role: 'Co-founder & CEO',
+    role: 'CEO',
     linkedInUrl: 'https://www.linkedin.com/in/dewierwan/',
+  },
+  {
+    imageSrc: '/images/team/lilian.jpg',
+    name: 'Li-Lian',
+    role: 'Head of Placements',
+    linkedInUrl: 'https://linkedin.com/in/anglilian',
   },
   {
     imageSrc: '/images/team/will.jpg',
@@ -15,22 +21,10 @@ const teamMembers = [
     linkedInUrl: 'https://linkedin.com/in/will-saunter',
   },
   {
-    imageSrc: '/images/team/lilian.jpg',
-    name: 'Li-Lian Ang',
-    role: 'Product & Placements',
-    linkedInUrl: 'https://linkedin.com/in/anglilian',
-  },
-  {
     imageSrc: '/images/team/josh_v2.webp',
-    name: 'Josh Landes',
-    role: 'Special Projects',
+    name: 'Joshua',
+    role: 'AI Governance Specialist',
     linkedInUrl: 'https://linkedin.com/in/josh-landes12',
-  },
-  {
-    imageSrc: '/images/team/aniket.png',
-    name: 'Aniket Chakravorty',
-    role: 'AI Strategy Specialist',
-    linkedInUrl: 'https://www.linkedin.com/in/aniket-chakravorty-724458256/',
   },
   {
     imageSrc: '/images/team/samdower.png',
@@ -39,9 +33,15 @@ const teamMembers = [
     linkedInUrl: 'https://www.linkedin.com/in/samuel-dower/',
   },
   {
+    imageSrc: '/images/team/aniket.png',
+    name: 'Aniket Chakravorty',
+    role: 'AGI Strategy Specialist',
+    linkedInUrl: 'https://www.linkedin.com/in/aniket-chakravorty-724458256/',
+  },
+  {
     imageSrc: '/images/team/jonahweinbaum.jpg',
     name: 'Jonah Weinbaum',
-    role: 'def/acc',
+    role: 'Special Projects',
     linkedInUrl: 'https://www.linkedin.com/in/weinbaumjonah/',
   },
 ];

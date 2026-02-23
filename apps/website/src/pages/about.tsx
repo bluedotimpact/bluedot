@@ -1,17 +1,14 @@
 import {
   Breadcrumbs,
-  CTALinkOrButton,
   H1,
-  P,
-  Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { Nav } from '../components/Nav/Nav';
 import IntroSection from '../components/about/IntroSection';
 import HistorySection from '../components/about/HistorySection';
 import TeamSection from '../components/about/TeamSection';
-import JoinUsCta from '../components/about/JoinUsCta';
 import BeliefsSection from '../components/about/BeliefsSection';
+import ValuesSection from '../components/about/ValuesSection';
 import { ROUTES } from '../lib/routes';
 
 const CURRENT_ROUTE = ROUTES.about;
@@ -33,7 +30,7 @@ const AboutHero = () => {
               About us
             </H1>
             <p className="text-size-sm min-[680px]:text-[18px] min-[1024px]:text-[20px] leading-[1.55] tracking-[-0.1px] text-white">
-              Our mission is to build the workforce needed to safely navigate AGI.
+              Building the workforce that protects humanity
             </p>
           </div>
         </div>
@@ -47,19 +44,15 @@ const AboutPage = () => {
     <div>
       <Head>
         <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
-        <meta name="description" content="Our mission is to build the workforce needed to safely navigate AGI." />
+        <meta name="description" content="Building the workforce that protects humanity. BlueDot Impact trains people in AI safety, governance and biosecurity." />
       </Head>
       <AboutHero />
       <Breadcrumbs route={CURRENT_ROUTE} />
       <IntroSection />
       <BeliefsSection />
+      <ValuesSection />
       <HistorySection />
       <TeamSection />
-      <JoinUsCta />
-      <Section title="Contact us">
-        <P>We love hearing from people, and are keen for people to reach out to us with any questions or feedback!</P>
-        <CTALinkOrButton url={ROUTES.contact.url} variant="secondary" withChevron className="mt-5">Contact us</CTALinkOrButton>
-      </Section>
     </div>
   );
 };

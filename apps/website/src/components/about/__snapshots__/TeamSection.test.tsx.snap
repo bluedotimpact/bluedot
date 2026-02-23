@@ -59,7 +59,7 @@ exports[`TeamSection > renders as expected 1`] = `
                       target="_blank"
                     >
                       <img
-                        alt="Dewi Erwan - Co-founder & CEO"
+                        alt="Dewi Erwan - CEO"
                         class="team-section__card-image size-[300px] object-cover"
                         src="/images/team/dewi.jpg"
                       />
@@ -76,7 +76,51 @@ exports[`TeamSection > renders as expected 1`] = `
                     <p
                       class="card__subtitle text-gray-600"
                     >
-                      Co-founder & CEO
+                      CEO
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
+              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+              style="scroll-margin-left: -0px;"
+            >
+              <div
+                class="team-section__card"
+              >
+                <div
+                  class="card flex items-start flex-col transition-transform duration-200"
+                >
+                  <div
+                    class="card__image-container w-full"
+                  >
+                    <a
+                      class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
+                      href="https://linkedin.com/in/anglilian"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <img
+                        alt="Li-Lian - Head of Placements"
+                        class="team-section__card-image size-[300px] object-cover"
+                        src="/images/team/lilian.jpg"
+                      />
+                    </a>
+                  </div>
+                  <div
+                    class="card__content w-full p-4"
+                  >
+                    <h3
+                      class="card__title font-bold text-size-lg mb-1"
+                    >
+                      Li-Lian
+                    </h3>
+                    <p
+                      class="card__subtitle text-gray-600"
+                    >
+                      Head of Placements
                     </p>
                   </div>
                 </div>
@@ -142,56 +186,12 @@ exports[`TeamSection > renders as expected 1`] = `
                   >
                     <a
                       class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
-                      href="https://linkedin.com/in/anglilian"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      <img
-                        alt="Li-Lian Ang - Product & Placements"
-                        class="team-section__card-image size-[300px] object-cover"
-                        src="/images/team/lilian.jpg"
-                      />
-                    </a>
-                  </div>
-                  <div
-                    class="card__content w-full p-4"
-                  >
-                    <h3
-                      class="card__title font-bold text-size-lg mb-1"
-                    >
-                      Li-Lian Ang
-                    </h3>
-                    <p
-                      class="card__subtitle text-gray-600"
-                    >
-                      Product & Placements
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-              style="scroll-margin-left: -0px;"
-            >
-              <div
-                class="team-section__card"
-              >
-                <div
-                  class="card flex items-start flex-col transition-transform duration-200"
-                >
-                  <div
-                    class="card__image-container w-full"
-                  >
-                    <a
-                      class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
                       href="https://linkedin.com/in/josh-landes12"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
                       <img
-                        alt="Josh Landes - Special Projects"
+                        alt="Joshua - AI Governance Specialist"
                         class="team-section__card-image size-[300px] object-cover"
                         src="/images/team/josh_v2.webp"
                       />
@@ -203,56 +203,12 @@ exports[`TeamSection > renders as expected 1`] = `
                     <h3
                       class="card__title font-bold text-size-lg mb-1"
                     >
-                      Josh Landes
+                      Joshua
                     </h3>
                     <p
                       class="card__subtitle text-gray-600"
                     >
-                      Special Projects
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-              style="scroll-margin-left: -0px;"
-            >
-              <div
-                class="team-section__card"
-              >
-                <div
-                  class="card flex items-start flex-col transition-transform duration-200"
-                >
-                  <div
-                    class="card__image-container w-full"
-                  >
-                    <a
-                      class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
-                      href="https://www.linkedin.com/in/aniket-chakravorty-724458256/"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      <img
-                        alt="Aniket Chakravorty - AI Strategy Specialist"
-                        class="team-section__card-image size-[300px] object-cover"
-                        src="/images/team/aniket.png"
-                      />
-                    </a>
-                  </div>
-                  <div
-                    class="card__content w-full p-4"
-                  >
-                    <h3
-                      class="card__title font-bold text-size-lg mb-1"
-                    >
-                      Aniket Chakravorty
-                    </h3>
-                    <p
-                      class="card__subtitle text-gray-600"
-                    >
-                      AI Strategy Specialist
+                      AI Governance Specialist
                     </p>
                   </div>
                 </div>
@@ -318,12 +274,56 @@ exports[`TeamSection > renders as expected 1`] = `
                   >
                     <a
                       class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
+                      href="https://www.linkedin.com/in/aniket-chakravorty-724458256/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <img
+                        alt="Aniket Chakravorty - AGI Strategy Specialist"
+                        class="team-section__card-image size-[300px] object-cover"
+                        src="/images/team/aniket.png"
+                      />
+                    </a>
+                  </div>
+                  <div
+                    class="card__content w-full p-4"
+                  >
+                    <h3
+                      class="card__title font-bold text-size-lg mb-1"
+                    >
+                      Aniket Chakravorty
+                    </h3>
+                    <p
+                      class="card__subtitle text-gray-600"
+                    >
+                      AGI Strategy Specialist
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
+              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+              style="scroll-margin-left: -0px;"
+            >
+              <div
+                class="team-section__card"
+              >
+                <div
+                  class="card flex items-start flex-col transition-transform duration-200"
+                >
+                  <div
+                    class="card__image-container w-full"
+                  >
+                    <a
+                      class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
                       href="https://www.linkedin.com/in/weinbaumjonah/"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
                       <img
-                        alt="Jonah Weinbaum - def/acc"
+                        alt="Jonah Weinbaum - Special Projects"
                         class="team-section__card-image size-[300px] object-cover"
                         src="/images/team/jonahweinbaum.jpg"
                       />
@@ -340,7 +340,7 @@ exports[`TeamSection > renders as expected 1`] = `
                     <p
                       class="card__subtitle text-gray-600"
                     >
-                      def/acc
+                      Special Projects
                     </p>
                   </div>
                 </div>

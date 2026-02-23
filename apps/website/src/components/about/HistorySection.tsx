@@ -4,12 +4,12 @@ import { P, Section } from '@bluedot/ui';
 const HistorySection = () => {
   return (
     <Section className="history-section" title="Our history">
-      <div className="history-section__container flex flex-col sm:flex-row sm:gap-2 gap-8">
-        <HistoryEvent year="2021">Before BlueDot, we <strong>began as a University of Cambridge student group</strong>, hosting discussions on transformative emerging technologies.</HistoryEvent>
-        <HistoryEvent year="2022"><strong>Launched our first AI Safety course</strong> with 400+ participants, <strong>founded BlueDot Impact</strong>, and established our <strong>London headquarters</strong>.</HistoryEvent>
-        <HistoryEvent year="2023">Delivered a new course every four months, <strong>training 800+ people in AI Alignment, Governance, and Biosecurity</strong>.</HistoryEvent>
-        <HistoryEvent year="2024">Accelerated to monthly courses, <strong>reaching 3,500+ participants worldwide</strong>. Over <strong>400</strong> of our course graduates now work in AI Safety.</HistoryEvent>
-        <HistoryEvent year="2025" now>Courses every week. Announced <strong>US expansion</strong>, establishing an SF office to work more closely with entrepreneurs, AI companies and the AI safety ecosystem.</HistoryEvent>
+      <div className="history-section__container flex flex-col md:flex-row md:gap-2 gap-8">
+        <HistoryEvent year="2021">Started as reading groups at the University of Cambridge.</HistoryEvent>
+        <HistoryEvent year="2022">Founded BlueDot Impact. Launched our first AI safety course with 400 participants.</HistoryEvent>
+        <HistoryEvent year="2023">Expanded to AI governance and biosecurity. Trained 900. Moved to London.</HistoryEvent>
+        <HistoryEvent year="2024">Trained 3,500. Raised $5M.</HistoryEvent>
+        <HistoryEvent year="2025" now>Launched monthly courses. Raised $25M. Announced SF expansion.</HistoryEvent>
       </div>
     </Section>
   );
