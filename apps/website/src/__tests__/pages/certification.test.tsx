@@ -29,6 +29,11 @@ vi.mock('next/router', () => ({
   useRouter: vi.fn(),
 }));
 
+vi.mock('react-confetti', () => ({
+  __esModule: true,
+  default: () => null,
+}));
+
 vi.mock('@bluedot/ui', async () => {
   const actual = await vi.importActual('@bluedot/ui');
   return {

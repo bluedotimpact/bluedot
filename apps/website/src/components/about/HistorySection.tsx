@@ -1,4 +1,3 @@
-import { isMobile } from 'react-device-detect';
 import { P, Section } from '@bluedot/ui';
 
 const HistorySection = () => {
@@ -18,24 +17,21 @@ const HistorySection = () => {
 const HistoryEvent = ({ year, now, children }: { year: string; now?: boolean; children: React.ReactNode }) => {
   return (
     <div className="history-section__event flex-1">
-      {isMobile ? (
-        <div className={
-          `history-section__event-container--mobile w-full flex flex-row gap-12 p-8
-          ${now ? 'border bg-bluedot-lighter border-bluedot-light rounded-xl' : 'container-lined'}`
-        }
-        >
-          <strong className="history-section__year">{year}</strong>
-          <P className="history-section__event-details">{children}</P>
+      <div className={
+        `history-section__event-container--mobile w-full flex flex-row gap-12 p-8 lg:hidden
+        ${now ? 'border bg-bluedot-lighter border-bluedot-light rounded-xl' : 'container-lined'}`
+      }
+      >
+        <strong className="history-section__year">{year}</strong>
+        <P className="history-section__event-details">{children}</P>
+      </div>
+      <div className="history-section__event-container--desktop hidden lg:flex flex-col gap-space-between">
+        <div className="history-section__year-container w-full flex gap-2">
+          <P className="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min">{year}</P>
+          <div className="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0" />
         </div>
-      ) : (
-        <div className="history-section__event-container--desktop flex flex-col gap-space-between">
-          <div className="history-section__year-container w-full flex gap-2">
-            <P className="history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min">{year}</P>
-            <div className="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0" />
-          </div>
-          <P className="history-section__event-details mr-12">{children}</P>
-        </div>
-      )}
+        <P className="history-section__event-details mr-12">{children}</P>
+      </div>
     </div>
   );
 };

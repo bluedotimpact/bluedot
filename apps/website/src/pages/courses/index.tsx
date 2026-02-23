@@ -23,15 +23,6 @@ type Course = inferRouterOutputs<AppRouter>['courses']['getAll'][number];
 type CourseRounds = inferRouterOutputs<AppRouter>['courseRounds']['getRoundsForCourse'];
 type Round = CourseRounds['intense'][number];
 
-const COURSE_DESCRIPTIONS: Record<string, string> = {
-  'future-of-ai': 'An introduction to what AI can do today, where it\'s going over the next decade, and how you can start contributing to a better future.',
-  'ai-governance': 'Learn about the policy landscape, regulatory tools, and institutional reforms needed to navigate the transition to transformative AI.',
-  'agi-strategy': 'A deep dive into the incentives driving the AI companies, what\'s at stake, and the strategies for ensuring AI benefits humanity. You\'ll finish with your own action plan.',
-  'technical-ai-safety': 'For technical talent who want to drive AI safety research and policy professionals building governance solutions.',
-  biosecurity: 'For people who want to build a pandemic-proof world. Learn how we can defend against AI-enabled bioattacks.',
-  'technical-ai-safety-project': 'For those who want to make a technical contribution to AI safety research or engineering.',
-};
-
 /* FoAI course has no cohort rounds - just open access content */
 const isSelfPacedCourse = (course: Course): boolean => course.slug === 'future-of-ai';
 
@@ -370,8 +361,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
       <CourseHeader course={course} />
 
       <p className="mt-6 text-[18px] leading-[1.6] font-normal text-bluedot-navy opacity-80">
-        {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
-        {COURSE_DESCRIPTIONS[course.slug] || course.shortDescription}
+        {course.shortDescription}
       </p>
 
       {/* Format Sections */}

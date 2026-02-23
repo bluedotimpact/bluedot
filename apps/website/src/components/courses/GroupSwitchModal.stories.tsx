@@ -112,6 +112,57 @@ const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
   },
 };
 
+const manyGroupNames = [
+  'Monday 9am ET',
+  'Monday 2pm ET',
+  'Monday 7pm ET',
+  'Tuesday 10am ET',
+  'Tuesday 3pm ET',
+  'Tuesday 8pm ET',
+  'Wednesday 9am ET',
+  'Wednesday 1pm ET',
+  'Wednesday 6pm ET',
+  'Thursday 11am ET',
+];
+
+const mockManyGroupsData: DiscussionsAvailable = {
+  groupsAvailable: [
+    {
+      group: createMockGroup({ id: 'group-current', groupName: 'Monday 9am ET', startTimeUtc: Math.floor(new Date('2024-01-01T14:00:00Z').getTime() / 1000) }),
+      userIsParticipant: true,
+      spotsLeftIfKnown: 0,
+    },
+    ...manyGroupNames.slice(1).map((name, i) => ({
+      group: createMockGroup({
+        id: `group-${i + 2}`,
+        groupName: name,
+        startTimeUtc: Math.floor(new Date('2024-01-01T14:00:00Z').getTime() / 1000) + (i + 1) * 3600 * 5,
+      }),
+      userIsParticipant: false,
+      spotsLeftIfKnown: i === 5 ? 0 : i + 1,
+    })),
+  ],
+  discussionsAvailable: {
+    1: [
+      {
+        discussion: createMockGroupDiscussion({ id: 'disc-current', startDateTime: Math.floor((Date.now() + 2 * 60 * 60 * 1000) / 1000) }),
+        groupName: 'Monday 9am ET',
+        userIsParticipant: true,
+        spotsLeftIfKnown: 0,
+      },
+      ...manyGroupNames.slice(1).map((name, i) => ({
+        discussion: createMockGroupDiscussion({
+          id: `disc-${i + 2}`,
+          startDateTime: Math.floor((Date.now() + (i + 1) * 12 * 60 * 60 * 1000) / 1000),
+        }),
+        groupName: name,
+        userIsParticipant: false,
+        spotsLeftIfKnown: i === 5 ? 0 : i + 1,
+      })),
+    ],
+  },
+};
+
 const meta = {
   title: 'website/courses/GroupSwitchModal',
   component: GroupSwitchModal,
@@ -166,6 +217,25 @@ export const NoAvailableGroups: Story = {
   parameters: {
     msw: {
       handlers: commonHandlers,
+    },
+  },
+};
+
+export const ManyGroups: Story = {
+  args: {
+    handleClose() {},
+    initialUnitNumber: unit1.unitNumber,
+    courseSlug: 'ai-safety',
+  },
+  parameters: {
+    msw: {
+      handlers: [
+        trpcStorybookMsw.users.getUser.query(() => mockUser),
+        trpcStorybookMsw.courses.getBySlug.query(() => mockCourseData),
+        trpcStorybookMsw.courseRegistrations.getByCourseId.query(() => mockCourseRegistration),
+        trpcStorybookMsw.groupSwitching.discussionsAvailable.query(() => mockManyGroupsData),
+        trpcStorybookMsw.groupSwitching.switchGroup.mutation(() => null),
+      ],
     },
   },
 };

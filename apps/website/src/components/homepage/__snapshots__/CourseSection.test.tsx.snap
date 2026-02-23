@@ -148,90 +148,19 @@ exports[`CourseSection > renders as expected 1`] = `
           </div>
         </div>
         <div
-          class="hidden lg:flex flex-col gap-8 w-full max-w-screen-xl mx-auto"
+          class="hidden lg:flex flex-col items-center gap-8 w-full max-w-screen-xl mx-auto"
         >
+          <p
+            class="bluedot-p not-prose text-[14px] font-medium uppercase tracking-[1.5px] text-bluedot-navy/60"
+          >
+            Start here
+          </p>
           <div
-            class="grid grid-cols-1 lg:grid-cols-2 gap-8"
+            class="w-full max-w-[50%]"
           >
             <span>
               <a
                 class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--featured"
-                href="/courses/future-of-ai"
-              >
-                <div
-                  class="absolute inset-0 pointer-events-none"
-                />
-                <div
-                  class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
-                  style="background-image: url("/images/agi-strategy/noise.webp"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
-                />
-                <div
-                  class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
-                />
-                <div
-                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
-                >
-                  <div
-                    class="flex-grow"
-                  >
-                    <div
-                      class="size-16 md:size-20 xl:size-24"
-                    >
-                      <img
-                        alt="The Future of AI icon"
-                        class="block size-full"
-                        src="/images/courses/future-of-ai-icon.svg"
-                      />
-                    </div>
-                  </div>
-                  <div
-                    class="flex flex-col gap-6"
-                  >
-                    <div
-                      class="flex flex-col gap-4"
-                    >
-                      <h3
-                        class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
-                      >
-                        The Future of AI
-                        <span
-                          class="inline-block ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                        >
-                          →
-                        </span>
-                      </h3>
-                      <p
-                        class="bluedot-p not-prose text-[16px] leading-[1.55] tracking-[-0.002em] text-white"
-                      >
-                        An introduction to what AI can do today, where it's going over the next decade, and how you can start contributing to a better future.
-                      </p>
-                    </div>
-                    <div
-                      class="flex flex-wrap gap-2"
-                    >
-                      <span
-                        class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
-                      >
-                        2h
-                      </span>
-                      <span
-                        class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
-                      >
-                        Self-paced
-                      </span>
-                      <span
-                        class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white text-[#001140]"
-                      >
-                        Start here
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </span>
-            <span>
-              <a
-                class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular"
                 href="/courses/agi-strategy"
               >
                 <div
@@ -288,7 +217,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       <span
                         class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                       >
-                        25h
+                        25H
                       </span>
                       <span
                         class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -300,6 +229,11 @@ exports[`CourseSection > renders as expected 1`] = `
                       >
                         Every month
                       </span>
+                      <span
+                        class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white text-[#001140]"
+                      >
+                        Start here
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -307,7 +241,33 @@ exports[`CourseSection > renders as expected 1`] = `
             </span>
           </div>
           <div
-            class="grid grid-cols-1 lg:grid-cols-3 gap-8"
+            class="flex flex-col items-center gap-4 py-2"
+          >
+            <svg
+              aria-hidden="true"
+              fill="none"
+              height="24"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                class="text-bluedot-navy/40"
+                d="M12 4L12 20M12 20L6 14M12 20L18 14"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </div>
+          <p
+            class="bluedot-p not-prose text-[14px] font-medium uppercase tracking-[1.5px] text-bluedot-navy/60"
+          >
+            Deep-dives
+          </p>
+          <div
+            class="grid grid-cols-3 gap-8 w-full"
           >
             <span>
               <a
@@ -368,7 +328,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       <span
                         class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                       >
-                        30h
+                        30H
                       </span>
                       <span
                         class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -444,7 +404,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       <span
                         class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                       >
-                        30h
+                        30H
                       </span>
                       <span
                         class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -464,7 +424,7 @@ exports[`CourseSection > renders as expected 1`] = `
             <span>
               <a
                 class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular"
-                href="/courses/governance"
+                href="/courses/ai-governance"
               >
                 <div
                   class="absolute inset-0 pointer-events-none"
@@ -520,7 +480,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       <span
                         class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                       >
-                        25h
+                        25H
                       </span>
                       <span
                         class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -555,82 +515,6 @@ exports[`CourseSection > renders as expected 1`] = `
               <span>
                 <a
                   class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--featured flex-shrink-0 w-[276px] md:w-[400px]"
-                  href="/courses/future-of-ai"
-                >
-                  <div
-                    class="absolute inset-0 pointer-events-none"
-                  />
-                  <div
-                    class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
-                    style="background-image: url("/images/agi-strategy/noise.webp"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
-                  />
-                  <div
-                    class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
-                  />
-                  <div
-                    class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
-                  >
-                    <div
-                      class="flex-grow"
-                    >
-                      <div
-                        class="size-16 md:size-20 xl:size-24"
-                      >
-                        <img
-                          alt="The Future of AI icon"
-                          class="block size-full"
-                          src="/images/courses/future-of-ai-icon.svg"
-                        />
-                      </div>
-                    </div>
-                    <div
-                      class="flex flex-col gap-6"
-                    >
-                      <div
-                        class="flex flex-col gap-4"
-                      >
-                        <h3
-                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
-                        >
-                          The Future of AI
-                          <span
-                            class="inline-block ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                          >
-                            →
-                          </span>
-                        </h3>
-                        <p
-                          class="bluedot-p not-prose text-[16px] leading-[1.55] tracking-[-0.002em] text-white"
-                        >
-                          An introduction to what AI can do today, where it's going over the next decade, and how you can start contributing to a better future.
-                        </p>
-                      </div>
-                      <div
-                        class="flex flex-wrap gap-2"
-                      >
-                        <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
-                        >
-                          2h
-                        </span>
-                        <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
-                        >
-                          Self-paced
-                        </span>
-                        <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white text-[#001140]"
-                        >
-                          Start here
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </span>
-              <span>
-                <a
-                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/agi-strategy"
                 >
                   <div
@@ -687,7 +571,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          25h
+                          25H
                         </span>
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -698,6 +582,11 @@ exports[`CourseSection > renders as expected 1`] = `
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Every month
+                        </span>
+                        <span
+                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white text-[#001140]"
+                        >
+                          Start here
                         </span>
                       </div>
                     </div>
@@ -763,7 +652,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          30h
+                          30H
                         </span>
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -839,7 +728,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          30h
+                          30H
                         </span>
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -859,7 +748,7 @@ exports[`CourseSection > renders as expected 1`] = `
               <span>
                 <a
                   class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
-                  href="/courses/governance"
+                  href="/courses/ai-governance"
                 >
                   <div
                     class="absolute inset-0 pointer-events-none"
@@ -915,7 +804,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          25h
+                          25H
                         </span>
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -935,82 +824,6 @@ exports[`CourseSection > renders as expected 1`] = `
               <span>
                 <a
                   class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--featured flex-shrink-0 w-[276px] md:w-[400px]"
-                  href="/courses/future-of-ai"
-                >
-                  <div
-                    class="absolute inset-0 pointer-events-none"
-                  />
-                  <div
-                    class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
-                    style="background-image: url("/images/agi-strategy/noise.webp"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
-                  />
-                  <div
-                    class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
-                  />
-                  <div
-                    class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
-                  >
-                    <div
-                      class="flex-grow"
-                    >
-                      <div
-                        class="size-16 md:size-20 xl:size-24"
-                      >
-                        <img
-                          alt="The Future of AI icon"
-                          class="block size-full"
-                          src="/images/courses/future-of-ai-icon.svg"
-                        />
-                      </div>
-                    </div>
-                    <div
-                      class="flex flex-col gap-6"
-                    >
-                      <div
-                        class="flex flex-col gap-4"
-                      >
-                        <h3
-                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
-                        >
-                          The Future of AI
-                          <span
-                            class="inline-block ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                          >
-                            →
-                          </span>
-                        </h3>
-                        <p
-                          class="bluedot-p not-prose text-[16px] leading-[1.55] tracking-[-0.002em] text-white"
-                        >
-                          An introduction to what AI can do today, where it's going over the next decade, and how you can start contributing to a better future.
-                        </p>
-                      </div>
-                      <div
-                        class="flex flex-wrap gap-2"
-                      >
-                        <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
-                        >
-                          2h
-                        </span>
-                        <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
-                        >
-                          Self-paced
-                        </span>
-                        <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white text-[#001140]"
-                        >
-                          Start here
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </span>
-              <span>
-                <a
-                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/agi-strategy"
                 >
                   <div
@@ -1067,7 +880,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          25h
+                          25H
                         </span>
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -1078,6 +891,11 @@ exports[`CourseSection > renders as expected 1`] = `
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Every month
+                        </span>
+                        <span
+                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white text-[#001140]"
+                        >
+                          Start here
                         </span>
                       </div>
                     </div>
@@ -1143,7 +961,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          30h
+                          30H
                         </span>
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -1219,7 +1037,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          30h
+                          30H
                         </span>
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -1239,7 +1057,7 @@ exports[`CourseSection > renders as expected 1`] = `
               <span>
                 <a
                   class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
-                  href="/courses/governance"
+                  href="/courses/ai-governance"
                 >
                   <div
                     class="absolute inset-0 pointer-events-none"
@@ -1295,7 +1113,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          25h
+                          25H
                         </span>
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -1315,82 +1133,6 @@ exports[`CourseSection > renders as expected 1`] = `
               <span>
                 <a
                   class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--featured flex-shrink-0 w-[276px] md:w-[400px]"
-                  href="/courses/future-of-ai"
-                >
-                  <div
-                    class="absolute inset-0 pointer-events-none"
-                  />
-                  <div
-                    class="absolute inset-0 mix-blend-soft-light opacity-30 pointer-events-none"
-                    style="background-image: url("/images/agi-strategy/noise.webp"); background-repeat: repeat; background-size: 464.64px 736.56px; background-position: left top;"
-                  />
-                  <div
-                    class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
-                  />
-                  <div
-                    class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
-                  >
-                    <div
-                      class="flex-grow"
-                    >
-                      <div
-                        class="size-16 md:size-20 xl:size-24"
-                      >
-                        <img
-                          alt="The Future of AI icon"
-                          class="block size-full"
-                          src="/images/courses/future-of-ai-icon.svg"
-                        />
-                      </div>
-                    </div>
-                    <div
-                      class="flex flex-col gap-6"
-                    >
-                      <div
-                        class="flex flex-col gap-4"
-                      >
-                        <h3
-                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
-                        >
-                          The Future of AI
-                          <span
-                            class="inline-block ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                          >
-                            →
-                          </span>
-                        </h3>
-                        <p
-                          class="bluedot-p not-prose text-[16px] leading-[1.55] tracking-[-0.002em] text-white"
-                        >
-                          An introduction to what AI can do today, where it's going over the next decade, and how you can start contributing to a better future.
-                        </p>
-                      </div>
-                      <div
-                        class="flex flex-wrap gap-2"
-                      >
-                        <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
-                        >
-                          2h
-                        </span>
-                        <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
-                        >
-                          Self-paced
-                        </span>
-                        <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white text-[#001140]"
-                        >
-                          Start here
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </span>
-              <span>
-                <a
-                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/agi-strategy"
                 >
                   <div
@@ -1447,7 +1189,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          25h
+                          25H
                         </span>
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -1458,6 +1200,11 @@ exports[`CourseSection > renders as expected 1`] = `
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Every month
+                        </span>
+                        <span
+                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white text-[#001140]"
+                        >
+                          Start here
                         </span>
                       </div>
                     </div>
@@ -1523,7 +1270,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          30h
+                          30H
                         </span>
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -1599,7 +1346,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          30h
+                          30H
                         </span>
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -1619,7 +1366,7 @@ exports[`CourseSection > renders as expected 1`] = `
               <span>
                 <a
                   class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
-                  href="/courses/governance"
+                  href="/courses/ai-governance"
                 >
                   <div
                     class="absolute inset-0 pointer-events-none"
@@ -1675,7 +1422,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          25h
+                          25H
                         </span>
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"

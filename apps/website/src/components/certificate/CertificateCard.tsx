@@ -132,7 +132,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
             </p>
           </div>
 
-          <div className="mt-12 max-w-[313px] md:max-w-[672px]">
+          <div className="mt-12 md:max-w-[672px]">
             <p
               className="text-[15px] md:text-base leading-[1.6] md:leading-[26px] tracking-[-0.3125px] text-[#62748E] text-center [&_strong]:font-semibold [&_strong]:text-bluedot-navy"
               style={DISPLAY_FONT_STYLE}
