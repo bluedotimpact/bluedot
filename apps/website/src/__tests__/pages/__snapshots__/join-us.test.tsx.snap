@@ -568,7 +568,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                 style="scroll-margin-left: -0px;"
               >
                 <div
-                  class="card flex items-start transition-transform duration-200 flex-col"
+                  class="card flex items-start transition-transform duration-200 flex-col w-[350px]"
                 >
                   <div
                     class="card__image-container w-full mb-4"
@@ -609,7 +609,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                 style="scroll-margin-left: -0px;"
               >
                 <div
-                  class="card flex items-start transition-transform duration-200 flex-col"
+                  class="card flex items-start transition-transform duration-200 flex-col w-[350px]"
                 >
                   <div
                     class="card__image-container w-full mb-4"
@@ -650,7 +650,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                 style="scroll-margin-left: -0px;"
               >
                 <div
-                  class="card flex items-start transition-transform duration-200 flex-col"
+                  class="card flex items-start transition-transform duration-200 flex-col w-[350px]"
                 >
                   <div
                     class="card__image-container w-full mb-4"

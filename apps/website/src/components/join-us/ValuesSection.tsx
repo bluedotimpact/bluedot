@@ -46,7 +46,7 @@ const ValuesSection = () => {
         className="hidden md:flex"
       >
         {values.map((value) => (
-          <Card key={value.title} imageSrc={value.desktopImageSrc} {...value} />
+          <Card key={value.title} imageSrc={value.desktopImageSrc} {...value} className="w-[350px]" />
         ))}
       </SlideList>
     </Section>
