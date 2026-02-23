@@ -6,6 +6,8 @@ export function reportClientError(
   error: { message: string; stack?: string; componentStack?: string },
   source: 'window.onerror' | 'unhandledrejection' | 'errorboundary' | 'error-page',
 ) {
+  if (typeof window === 'undefined') return;
+
   // same error from the same tab is reported once per page load.
   const key = `${source}:${error.message}`;
   if (reported.has(key)) return;

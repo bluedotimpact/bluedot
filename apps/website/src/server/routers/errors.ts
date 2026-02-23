@@ -32,7 +32,7 @@ export const errorsRouter = router({
       ].filter((x): x is string => x !== null).join('\n');
 
       // fire and forget. returning null, not undefined, avoids triggering overrideUndefinedResponse.
-      slackAlert(env, [mainMessage, details], { batchKey: 'client-error' }).catch(() => {});
+      slackAlert(env, [mainMessage, details], { batchKey: 'client-error' });
       return null;
     }),
 });
