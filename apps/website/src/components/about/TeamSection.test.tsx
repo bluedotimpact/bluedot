@@ -1,4 +1,5 @@
-import { render } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { render, waitFor } from '@testing-library/react';
 import {
   describe,
   expect,
@@ -9,7 +10,7 @@ import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import TeamSection from './TeamSection';
 
 describe('TeamSection', () => {
-  test('renders as expected', () => {
+  test('renders as expected', async () => {
     server.use(trpcMsw.teamMembers.getAll.query(() => [
       {
         name: 'Test Person',
@@ -19,6 +20,11 @@ describe('TeamSection', () => {
       },
     ]));
     const { container } = render(<TeamSection />, { wrapper: TrpcProvider });
+
+    await waitFor(() => {
+      expect(container.querySelector('.slide-list')).toBeInTheDocument();
+    }, { timeout: 5000 });
+
     expect(container).toMatchSnapshot();
   });
 });

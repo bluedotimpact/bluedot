@@ -1,0 +1,84 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TeamSection > renders as expected 1`] = `
+<div>
+  <section
+    class="section section-body team-section !border-b-0"
+  >
+    <div
+      class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+    >
+      <div
+        class="section-heading__content flex-1 flex flex-col gap-2"
+      >
+        <h2
+          class="section-heading__title relative ml-[-0.08em] bluedot-h2"
+        >
+          Our team
+        </h2>
+      </div>
+    </div>
+    <div
+      class="section__body"
+    >
+      <div
+        class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0 team-section__team"
+      >
+        <div
+          class="slide-list__gradient-wrapper relative flex-1"
+        >
+          <div
+            class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-y-spacing-y md:gap-x-space-between scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory flex-wrap"
+            style="scroll-padding-inline: 0px;"
+          >
+            <div
+              class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
+              data-width="calc((100% - var(--space-between) * 0) * 1)"
+              style="scroll-margin-left: -0px;"
+            >
+              <div
+                class="team-section__card"
+              >
+                <div
+                  class="card flex items-start flex-col transition-transform duration-200"
+                >
+                  <div
+                    class="card__image-container w-full"
+                  >
+                    <a
+                      class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
+                      href="https://linkedin.com/in/test"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      <img
+                        alt="Test Person - CEO"
+                        class="team-section__card-image size-[300px] object-cover"
+                        src="https://example.com/photo.jpg"
+                      />
+                    </a>
+                  </div>
+                  <div
+                    class="card__content w-full p-4"
+                  >
+                    <h3
+                      class="card__title font-bold text-size-lg mb-1"
+                    >
+                      Test Person
+                    </h3>
+                    <p
+                      class="card__subtitle text-gray-600"
+                    >
+                      CEO
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+`;
