@@ -97,7 +97,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
       bottomDrawerOnMobile
       desktopHeaderClassName="border-b border-charcoal-light py-4"
     >
-      <div className="w-full pt-6 md:w-[600px]">
+      <div className="w-full md:w-[560px]">
         {showSuccess ? (
           <div className="flex flex-col items-center gap-8">
             <div className="bg-bluedot-normal/10 flex rounded-full p-4">
