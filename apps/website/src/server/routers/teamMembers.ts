@@ -28,6 +28,7 @@ export const teamMembersRouter = router({
           jobTitle: m.jobTitle,
           imageUrl: getFirstImageUrl(m.imageAttachmentUrls),
           url: m.url ?? undefined,
-        }));
+        }))
+        .sort((a, b) => a.name.localeCompare(b.name));
     }),
 });
