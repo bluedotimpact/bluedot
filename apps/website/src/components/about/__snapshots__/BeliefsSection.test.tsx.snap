@@ -205,7 +205,7 @@ exports[`BeliefsSection > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="flex justify-between items-center gap-space-between"
+          class="hidden md:flex justify-between items-center gap-space-between"
         >
           <button
             aria-label="Previous slide"

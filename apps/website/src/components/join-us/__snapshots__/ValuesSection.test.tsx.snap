@@ -22,7 +22,74 @@ exports[`ValuesSection > renders default as expected 1`] = `
       class="section__body"
     >
       <div
-        class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0 values-section__values--desktop"
+        class="flex flex-col gap-4 md:hidden"
+      >
+        <div
+          class="flex flex-row gap-4"
+        >
+          <img
+            alt="Own the mission"
+            class="object-cover rounded-lg size-[102px]"
+            src="/images/values/mission_mobile.gif"
+          />
+          <div>
+            <p
+              class="bluedot-h4 mb-2"
+            >
+              Own the mission
+            </p>
+            <p
+              class="bluedot-p not-prose"
+            >
+              We prioritize mission success above all, take responsibility for outcomes, and commit extraordinary effort to achieve extraordinary goals.
+            </p>
+          </div>
+        </div>
+        <div
+          class="flex flex-row gap-4"
+        >
+          <img
+            alt="Find the fastest, best way to do everything"
+            class="object-cover rounded-lg size-[102px]"
+            src="/images/values/fast_mobile.gif"
+          />
+          <div>
+            <p
+              class="bluedot-h4 mb-2"
+            >
+              Find the fastest, best way to do everything
+            </p>
+            <p
+              class="bluedot-p not-prose"
+            >
+              We're high agency: constantly growing our skills, finding creative solutions, and making the impossible possible.
+            </p>
+          </div>
+        </div>
+        <div
+          class="flex flex-row gap-4"
+        >
+          <img
+            alt="Say the uncomfortable truth"
+            class="object-cover rounded-lg size-[102px]"
+            src="/images/values/speak_mobile.gif"
+          />
+          <div>
+            <p
+              class="bluedot-h4 mb-2"
+            >
+              Say the uncomfortable truth
+            </p>
+            <p
+              class="bluedot-p not-prose"
+            >
+              We speak essential truths with kindness: giving feedback, challenging ideas, and supporting each other's growth.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0 hidden md:flex"
       >
         <div
           class="slide-list__gradient-wrapper relative flex-1"
@@ -44,7 +111,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
               style="scroll-margin-left: -0px;"
             >
               <div
-                class="card flex items-start transition-transform duration-200 flex-col values-section__value w-[350px]"
+                class="card flex items-start transition-transform duration-200 flex-col w-[350px]"
               >
                 <div
                   class="card__image-container w-full mb-4"
@@ -85,7 +152,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
               style="scroll-margin-left: -0px;"
             >
               <div
-                class="card flex items-start transition-transform duration-200 flex-col values-section__value w-[350px]"
+                class="card flex items-start transition-transform duration-200 flex-col w-[350px]"
               >
                 <div
                   class="card__image-container w-full mb-4"
@@ -126,7 +193,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
               style="scroll-margin-left: -0px;"
             >
               <div
-                class="card flex items-start transition-transform duration-200 flex-col values-section__value w-[350px]"
+                class="card flex items-start transition-transform duration-200 flex-col w-[350px]"
               >
                 <div
                   class="card__image-container w-full mb-4"
@@ -164,7 +231,7 @@ exports[`ValuesSection > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="flex justify-between items-center gap-space-between"
+          class="hidden md:flex justify-between items-center gap-space-between"
         >
           <button
             aria-label="Previous slide"
@@ -216,105 +283,6 @@ exports[`ValuesSection > renders default as expected 1`] = `
               />
             </svg>
           </button>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
-`;
-
-exports[`ValuesSection > renders mobile as expected 1`] = `
-<div>
-  <section
-    class="section section-body values-section"
-  >
-    <div
-      class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
-    >
-      <div
-        class="section-heading__content flex-1 flex flex-col gap-2"
-      >
-        <h2
-          class="section-heading__title relative ml-[-0.08em] bluedot-h2"
-        >
-          Our values
-        </h2>
-      </div>
-    </div>
-    <div
-      class="section__body"
-    >
-      <div
-        class="values-section__values--mobile flex flex-col gap-4"
-      >
-        <div
-          class="values-card flex flex-row gap-4"
-        >
-          <img
-            alt="Own the mission"
-            class="values-card__image object-cover rounded-lg size-[102px]"
-            src="/images/values/mission_mobile.gif"
-          />
-          <div
-            class="values-card__content"
-          >
-            <p
-              class="values-card__title bluedot-h4 mb-2"
-            >
-              Own the mission
-            </p>
-            <p
-              class="bluedot-p not-prose values-card__subtitle"
-            >
-              We prioritize mission success above all, take responsibility for outcomes, and commit extraordinary effort to achieve extraordinary goals.
-            </p>
-          </div>
-        </div>
-        <div
-          class="values-card flex flex-row gap-4"
-        >
-          <img
-            alt="Find the fastest, best way to do everything"
-            class="values-card__image object-cover rounded-lg size-[102px]"
-            src="/images/values/fast_mobile.gif"
-          />
-          <div
-            class="values-card__content"
-          >
-            <p
-              class="values-card__title bluedot-h4 mb-2"
-            >
-              Find the fastest, best way to do everything
-            </p>
-            <p
-              class="bluedot-p not-prose values-card__subtitle"
-            >
-              We're high agency: constantly growing our skills, finding creative solutions, and making the impossible possible.
-            </p>
-          </div>
-        </div>
-        <div
-          class="values-card flex flex-row gap-4"
-        >
-          <img
-            alt="Say the uncomfortable truth"
-            class="values-card__image object-cover rounded-lg size-[102px]"
-            src="/images/values/speak_mobile.gif"
-          />
-          <div
-            class="values-card__content"
-          >
-            <p
-              class="values-card__title bluedot-h4 mb-2"
-            >
-              Say the uncomfortable truth
-            </p>
-            <p
-              class="bluedot-p not-prose values-card__subtitle"
-            >
-              We speak essential truths with kindness: giving feedback, challenging ideas, and supporting each other's growth.
-            </p>
-          </div>
         </div>
       </div>
     </div>
