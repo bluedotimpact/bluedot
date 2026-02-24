@@ -7,7 +7,6 @@ declare global {
         opened: () => boolean;
         open: () => void;
         close: () => void;
-        toggle: () => void;
       };
     };
     birdieSettings: {
