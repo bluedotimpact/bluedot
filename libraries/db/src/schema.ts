@@ -1348,6 +1348,33 @@ export const dropoutTable = pgAirtable('dropout', {
   },
 });
 
+export const bugReportsTable = pgAirtable('bug_reports', {
+  baseId: WEB_CONTENT_BASE_ID,
+  tableId: 'tblbwt3oGJfwHmIAc',
+  columns: {
+    description: {
+      pgColumn: text(),
+      airtableId: 'fldim1KqWIMql3SOe',
+    },
+    attachments: {
+      pgColumn: text().array(),
+      airtableId: 'fldwb2IJjBIpE4fJi'
+    },
+    recordingURL: {
+      pgColumn: text(),
+      airtableId: 'fldSd9pPXP44Sho8G'
+    },
+    email: {
+      pgColumn: text(),
+      airtableId: 'fldxRuw7bssFXUDzv'
+    },
+    createdAt: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldkUleb2Z7Jb92fu',
+    },
+  },
+});
+
 // Type exports for all tables
 export type Meta = InferSelectModel<typeof metaTable>;
 export type SyncMetadata = InferSelectModel<typeof syncMetadataTable>;
@@ -1382,3 +1409,4 @@ export type ResourceCompletion = InferSelectModel<typeof resourceCompletionTable
 export type FacilitatorSwitching = InferSelectModel<typeof facilitatorDiscussionSwitchingTable.pg>;
 export type Dropout = InferSelectModel<typeof dropoutTable.pg>;
 export type TeamMember = InferSelectModel<typeof teamMemberTable.pg>;
+export type BugReport = InferSelectModel<typeof bugReportsTable.pg>;
