@@ -152,7 +152,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
       );
 
       // Optimistically update overall course progress
-      const isCompletionChange = !!newData.isCompleted !== !!resourceCompletion?.isCompleted;
+      const isCompletionChange = newData.isCompleted !== undefined && newData.isCompleted !== (resourceCompletion?.isCompleted ?? false);
       const previousCourseProgress = isCompletionChange ? await optimisticallyUpdateCourseProgress(utils, courseSlug, unitNumber, chunkIndex, newData.isCompleted ? 1 : -1) : undefined;
 
       return { previousQueriesData, previousCourseProgress };
