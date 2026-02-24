@@ -98,7 +98,9 @@ export const Footer: React.FC<FooterProps> = ({
 
   const handleRecordScreen = () => {
     setIsBugReportOpen(false);
-    onRecordScreen?.();
+    // Use `setTimeout` to ensure the bug modal has closed before opening the Birdie widget (also a modal), preventing
+    // potential UI and focus conflicts.
+    setTimeout(() => onRecordScreen?.()); 
   };
 
   useEffect(() => {
