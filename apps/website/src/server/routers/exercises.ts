@@ -114,7 +114,7 @@ export const exercisesRouter = router({
       }
 
       // 5. Get all participant IDs across all groups
-      const allParticipantIds = [...new Set(groups.flatMap((g) => g.participants || []))];
+      const allParticipantIds = [...new Set(groups.flatMap((g) => g.participants ?? []))];
       if (allParticipantIds.length === 0) {
         return null;
       }
@@ -148,7 +148,7 @@ export const exercisesRouter = router({
 
       // 7. Build per-group response data
       const groupData = groups.map((g) => {
-        const groupParticipantIds = g.participants || [];
+        const groupParticipantIds = g.participants ?? [];
         const responses: { name: string; response: string }[] = [];
         for (const pid of groupParticipantIds) {
           const p = participantById.get(pid);
@@ -158,6 +158,7 @@ export const exercisesRouter = router({
 
           const response = responseByEmail.get(p.email);
           if (response !== undefined) {
+            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             responses.push({ name: p.name || 'Anonymous', response });
           }
         }
