@@ -1,4 +1,7 @@
+import { bugReportsTable } from '@bluedot/db';
 import z from 'zod';
+import db from '../../lib/api/db';
+import env from '../../lib/api/env';
 import { publicProcedure, router } from '../trpc';
 
 export const feedbackRouter = router({
@@ -20,7 +23,42 @@ export const feedbackRouter = router({
       }),
     )
     .mutation(async ({ input }) => {
-      // TODO: (1) insert everything except attachments into airtable, (2) upload attachments using airtable API
+      // 1. Store bug report in the database, sending everything except attachments to Airtable
+      const record = await db.insert(bugReportsTable, {
+        description: input.description,
+        email: input.email ?? null,
+        recordingUrl: input.recordingUrl ?? null,
+        createdAt: Date.now(),
+      });
+
+      // 2. Upload attachments via Airtable content API
+      await Promise.all(
+        (input.attachments ?? []).map(async (attachment) => {
+          const response = await fetch(
+            `https://content.airtable.com/v0/${bugReportsTable.airtable.baseId}/${record.id}/${bugReportsTable.airtableFieldMap.get('attachments')}/uploadAttachment`,
+            {
+              method: 'POST',
+              headers: {
+                Authorization: `Bearer ${env.AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                name: attachment.filename,
+                type: attachment.mimeType,
+                data: attachment.base64,
+              }),
+            },
+          );
+          if (!response.ok) {
+            console.error('Failed to upload attachment to Airtable', {
+              status: response.status,
+              statusText: response.statusText,
+              body: attachment.filename,
+            });
+          }
+        }),
+      );
+
       return null;
     }),
 });
