@@ -154,12 +154,10 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
               className="mt-4 w-full"
               onClick={() => {
                 setIsOpen(false);
-                setTimeout(() => {
-                  setShowSuccess(false);
-                  setDescription('');
-                  setEmail('');
-                  setAttachments([]);
-                }, 200);
+                setShowSuccess(false);
+                setDescription('');
+                setEmail('');
+                setAttachments([]);
               }}
             >
               Close
