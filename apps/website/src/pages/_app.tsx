@@ -16,6 +16,7 @@ import { useCourses } from '../lib/hooks/useCourses';
 import { inter } from '../lib/fonts';
 import { trpc } from '../utils/trpc';
 import type { FeedbackData } from '@bluedot/ui/src/BugReportModal';
+import { toBase64 } from '../utils/toBase64';
 
 const AnnouncementBanner = dynamic(() => import('../components/AnnouncementBanner'), { ssr: false });
 // Dynamic import prevents SSR execution - required because Customer.io package has circular dependencies
@@ -50,7 +51,18 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   }, []);
 
   const handleBugReportSubmit = async (data: FeedbackData) => {
-    // TODO: call `submitBugMutation`
+    submitBugMutation.mutate({
+      description: data.description,
+      email: data.email,
+      recordingUrl: data.recordingUrl,
+      attachments: await Promise.all(
+        data.attachments?.map(async (file) => ({
+          base64: await toBase64(file),
+          filename: file.name,
+          mimeType: file.type,
+        })) ?? [],
+      ),
+    })
   };
 
   const getAnnouncementBanner = () => {
