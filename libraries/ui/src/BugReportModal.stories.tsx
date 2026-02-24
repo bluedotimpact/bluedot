@@ -45,7 +45,13 @@ export const SuccessState: Story = {
   },
 };
 
-export const WithVideoRecoring: Story = {
+export const WithVideoRecordingReady: Story = {
+  args: {
+    onRecordScreen: () => { },
+  },
+};
+
+export const WithVideoRecording: Story = {
   args: {
     onRecordScreen: () => { },
     recordingUrl: 'https://app.birdie.so/recording/example',
