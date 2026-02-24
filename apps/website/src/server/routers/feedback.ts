@@ -28,7 +28,7 @@ export const feedbackRouter = router({
         description: input.description,
         email: input.email ?? null,
         recordingUrl: input.recordingUrl ?? null,
-        createdAt: Date.now(),
+        createdAt: Math.floor(Date.now() / 1000),
       });
 
       // 2. Upload attachments via Airtable content API
