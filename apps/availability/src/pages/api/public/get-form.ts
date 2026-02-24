@@ -21,7 +21,6 @@ export default makeApiRoute({
 
   return {
     type: 'success' as const,
-    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     title: targetRecord.title || 'Unnamed form', // Title for the page
     minimumLength: targetRecord.minimumLength ?? 90, // Min required time for form validation
   };

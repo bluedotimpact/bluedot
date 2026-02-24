@@ -29,7 +29,6 @@ export default makeApiRoute({
     biography: person.biography ?? '',
     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     appliedToOpportunities: person.appliedToOpportunities || [],
-    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     isProfilePublic: person.isProfilePublic || false,
   }));
 });

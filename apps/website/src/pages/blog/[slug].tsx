@@ -23,7 +23,6 @@ type BlogPostPageProps = {
 
 const BlogPostPage = ({ slug, blog }: BlogPostPageProps) => {
   const currentRoute: BluedotRoute = {
-    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     title: blog.title || 'Blog Post',
     url: `${ROUTES.blog.url}/${slug}`,
     parentPages: [...(ROUTES.blog.parentPages ?? []), ROUTES.blog],

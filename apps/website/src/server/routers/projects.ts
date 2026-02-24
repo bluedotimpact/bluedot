@@ -7,7 +7,6 @@ export const getAllPublishedProjects = async () => {
 
   // Sort by publishedAt descending and remove the body field from each project to make the response lighter
   return allProjects
-    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     .sort((a, b) => (b.publishedAt || 0) - (a.publishedAt || 0))
     .map(({ body, ...rest }) => rest);
 };

@@ -134,7 +134,6 @@ export const groupDiscussionsRouter = router({
         if (groupDiscussion.zoomAccount) {
           try {
             const zoomAccount = await db.get(zoomAccountTable, { id: groupDiscussion.zoomAccount });
-            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             hostKeyForFacilitators = zoomAccount.hostKey || undefined;
           } catch {
             hostKeyForFacilitators = undefined;

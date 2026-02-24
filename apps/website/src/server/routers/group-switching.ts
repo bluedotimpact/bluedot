@@ -96,7 +96,6 @@ export function calculateGroupAvailability({
         groupData[groupId] = {
           group,
           spotsLeftIfKnown,
-          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
           userIsParticipant: (group.participants || []).includes(participantId),
         };
       } else {
@@ -167,7 +166,6 @@ export const groupSwitchingRouter = router({
        */
       const getGroupsAllowedToSwitchInto = async () => {
         const allGroups = await db.scan(groupTable, { round: roundId });
-        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         const participantGroupIds = allGroups.filter((g) => (g.participants || []).includes(participant.id)).map((g) => g.id);
 
         // Explicitly allow groups the user is already in
@@ -180,7 +178,6 @@ export const groupSwitchingRouter = router({
             .where(inArray(courseRunnerBucketTable.pg.id, participant.buckets));
 
           bucketsOfAllowedGroups.forEach((bucket) => {
-            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             (bucket.groups || []).forEach((groupId) => {
               allowedGroupIds.add(groupId);
             });
@@ -192,7 +189,6 @@ export const groupSwitchingRouter = router({
 
       const allowedGroups = await getGroupsAllowedToSwitchInto();
 
-      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       if (allowedGroups.filter((g) => !(g.participants || []).includes(participant.id)).length === 0) {
         // eslint-disable-next-line no-console
         console.warn(`[Group switching] Warning for course registration ${participant.id} (Course runner base id): No groups allowed to switch into. This is likely due to "Who can switch into this group" field on the user's group not being set correctly.`);
@@ -353,7 +349,6 @@ export const groupSwitchingRouter = router({
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'Facilitators cannot switch groups by this method' });
         }
 
-        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         if (oldGroup && !(oldGroup.participants || []).includes(participantId)) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'User is not a member of old group' });
         }

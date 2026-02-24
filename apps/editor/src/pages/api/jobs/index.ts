@@ -37,9 +37,7 @@ export default makeApiRoute({
       }
 
       // If both have the same publication status, sort by publishedAt date (most recent first)
-      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const aDate = a.publishedAt || 0;
-      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const bDate = b.publishedAt || 0;
       return bDate - aDate; // Descending order (most recent first)
     })

@@ -100,7 +100,6 @@ export default makeApiRoute({
     participants: [
       ...facilitators.map((facilitator) => ({ id: facilitator.id, name: facilitator.name ?? '', role: 'host' as const })),
       ...participants.map((participant) => ({ id: participant.id, name: participant.name ?? '', role: 'participant' as const })),
-    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     ].sort((a, b) => (a.name || '').localeCompare(b.name || '')),
     meetingNumber,
     meetingPassword,
