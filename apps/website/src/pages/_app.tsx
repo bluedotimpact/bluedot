@@ -27,6 +27,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   const hideFooter = 'hideFooter' in Component;
   const { courses, loading } = useCourses();
 
+  // Used by Birdie feedback widget to store the URL of the recording for the current bug report, if one exists
   const [recordingUrl, setRecordingUrl] = useState<string | undefined>();
 
   useEffect(() => {
