@@ -41,6 +41,7 @@ const ProjectsPage = withAuth(({ auth }) => {
           isEntireCardClickable
           isFullWidth
           subtitle={`${project.course}${(project.tag ?? []).length > 0 ? ` • ${(project.tag ?? []).join(', ')}` : ''} • ${project.authorName} • ${project.publicationStatus}`}
+          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
           title={project.title || 'Untitled'}
         />
       ))}

@@ -41,6 +41,7 @@ const BlogsPage = withAuth(({ auth }) => {
           isEntireCardClickable
           isFullWidth
           subtitle={`${blog.authorName} • ${blog.publicationStatus}${blog.publishedAt ? ` • ${new Date(blog.publishedAt * 1000).toLocaleDateString()}` : ''}`}
+          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
           title={blog.title || 'Untitled'}
         />
       ))}

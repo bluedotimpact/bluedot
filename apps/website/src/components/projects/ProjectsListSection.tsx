@@ -16,7 +16,7 @@ export type ProjectsListSectionProps = {
 // Component for rendering a single project item
 export const ProjectListItem = ({ project }: { project: CmsProject }) => {
   const url = `/projects/${project.slug}`;
-  const tags = project.tag || [];
+  const tags = project.tag ?? [];
 
   return (
     <Card
@@ -43,6 +43,7 @@ export const ProjectsListView = ({ title, projects, maxItems }: ProjectsListView
   // Group projects by course
   const groupedSortedProjects = React.useMemo(() => {
     const groups = projects.reduce<Record<string, CmsProject[]>>((acc, project) => {
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const course = project.course || 'Uncategorized';
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       if (!acc[course]) {
@@ -58,8 +59,8 @@ export const ProjectsListView = ({ title, projects, maxItems }: ProjectsListView
 
     // Sort groups by the latest publishedAt date of any project in the group
     groupsArray.sort((a, b) => {
-      const aLatest = Math.max(...a[1].map((p) => p.publishedAt || Infinity));
-      const bLatest = Math.max(...b[1].map((p) => p.publishedAt || Infinity));
+      const aLatest = Math.max(...a[1].map((p) => p.publishedAt ?? Infinity));
+      const bLatest = Math.max(...b[1].map((p) => p.publishedAt ?? Infinity));
       return bLatest - aLatest; // Sort newest first
     });
 
