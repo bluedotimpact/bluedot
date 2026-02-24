@@ -23,6 +23,32 @@ export type BugReportModalProps = {
   recordingUrl?: string;
 };
 
+const FileAttachmentItem = ({ file, onRemove }: { file: File; onRemove: () => void }) => {
+  const isImage = file.type.startsWith('image/');
+  const objectUrl = isImage ? URL.createObjectURL(file) : null;
+  return (
+    <div className="relative shrink-0">
+      {isImage && objectUrl ? (
+        <div className="border-bluedot-navy/20 size-12 overflow-hidden rounded-[4px] border">
+          <img src={objectUrl} alt={file.name} className="size-full object-cover" />
+        </div>
+      ) : (
+        <div className="border-color-divider text-size-xs text-bluedot-navy flex h-12 max-w-[120px] items-center truncate rounded-[4px] border bg-gray-50 px-2">
+          {file.name}
+        </div>
+      )}
+      <button
+        type="button"
+        onClick={onRemove}
+        className="bg-bluedot-navy absolute -top-1 -right-1 flex size-3 items-center justify-center rounded-full"
+        aria-label={`Remove ${file.name}`}
+      >
+        <FaXmark className="size-2 text-white" />
+      </button>
+    </div>
+  );
+};
+
 export const BugReportModal: React.FC<BugReportModalProps> = ({
   onSubmit,
   isOpen = false,
@@ -173,31 +199,13 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
 
                     {attachments.length > 0 && (
                       <div className="flex flex-wrap gap-2">
-                        {attachments.map((file, idx) => {
-                          const isImage = file.type.startsWith('image/');
-                          const objectUrl = isImage ? URL.createObjectURL(file) : null;
-                          return (
-                            <div key={`${file.name}-${idx}`} className="relative shrink-0">
-                              {isImage && objectUrl ? (
-                                <div className="border-bluedot-navy/20 size-12 overflow-hidden rounded-[4px] border">
-                                  <img src={objectUrl} alt={file.name} className="size-full object-cover" />
-                                </div>
-                              ) : (
-                                <div className="border-color-divider text-size-xs text-bluedot-navy flex h-12 max-w-[120px] items-center truncate rounded-[4px] border bg-gray-50 px-2">
-                                  {file.name}
-                                </div>
-                              )}
-                              <button
-                                type="button"
-                                onClick={() => setAttachments((prev) => prev.filter((_, i) => i !== idx))}
-                                className="bg-bluedot-navy absolute -top-1 -right-1 flex size-3 items-center justify-center rounded-full"
-                                aria-label={`Remove ${file.name}`}
-                              >
-                                <FaXmark className="size-2 text-white" />
-                              </button>
-                            </div>
-                          );
-                        })}
+                        {attachments.map((file, idx) => (
+                          <FileAttachmentItem
+                            key={`${file.name}-${idx}`}
+                            file={file}
+                            onRemove={() => setAttachments((prev) => prev.filter((_, i) => i !== idx))}
+                          />
+                        ))}
                       </div>
                     )}
 
