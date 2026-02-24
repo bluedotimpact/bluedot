@@ -1,6 +1,8 @@
 export {};
 
 declare global {
+  // `interface` is required here for declaration merging with the global Window type
+  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface Window {
     birdie?: {
       widget: {
