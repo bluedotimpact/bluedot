@@ -14,6 +14,9 @@ export type FooterProps = React.PropsWithChildren<{
   logo?: string;
   courses?: { path: string; title: string }[];
   loading?: boolean;
+  onRecordScreen?: () => void;
+  recordingUrl?: string;
+  onBugReportModalClose?: () => void;
 }>;
 
 type FooterLinkItem =
@@ -84,8 +87,14 @@ const FooterSocial: React.FC<FooterSocialProps> = ({ className }) => (
 
 export const Footer: React.FC<FooterProps> = ({
   className, logo, courses = [], loading,
+  onRecordScreen, recordingUrl, onBugReportModalClose,
 }) => {
   const [isBugReportOpen, setIsBugReportOpen] = useState(false);
+
+  const handleSetBugReportOpen = (v: boolean) => {
+    setIsBugReportOpen(v);
+    if (!v) onBugReportModalClose?.();
+  };
 
   const bluedotLinks: FooterLinkItem[] = [
     { url: '/about', label: 'About us' },
@@ -205,7 +214,9 @@ export const Footer: React.FC<FooterProps> = ({
       )}
       <BugReportModal
         isOpen={isBugReportOpen}
-        setIsOpen={setIsBugReportOpen}
+        setIsOpen={handleSetBugReportOpen}
+        onRecordScreen={onRecordScreen}
+        recordingUrl={recordingUrl}
       />
     </footer>
   );

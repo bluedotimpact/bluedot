@@ -84,6 +84,9 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
                     }))}
                     loading={loading}
                     logo="/images/logo/BlueDot_Impact_Logo_White.svg"
+                    onRecordScreen={() => window.birdie?.widget.open()}
+                    recordingUrl={recordingUrl}
+                    onBugReportModalClose={() => setRecordingUrl(undefined)}
                   />
                 )}
               </>
