@@ -50,7 +50,7 @@ const ProjectPostPage = ({ slug, project }: ProjectPostPageProps) => {
       <Breadcrumbs route={currentRoute} />
       <Section className="max-w-3xl">
         <MarkdownExtendedRenderer>
-          {project.body}
+          {project.body ?? undefined}
         </MarkdownExtendedRenderer>
         <div className="my-8 border-t border-color-divider pt-8">
           <CTALinkOrButton url={ROUTES.projects.url} variant="secondary" withBackChevron>

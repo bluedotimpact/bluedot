@@ -24,8 +24,8 @@ export const ProjectListItem = ({ project }: { project: CmsProject }) => {
       ctaText="Read more"
       ctaUrl={url}
       isEntireCardClickable
-      subtitle={`${project.authorName}${tags.length > 0 ? ` • ${tags.join(' • ')}` : ''}`}
-      title={project.title}
+      subtitle={`${project.authorName ?? ''}${tags.length > 0 ? ` • ${tags.join(' • ')}` : ''}`}
+      title={project.title ?? ''}
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       imageSrc={project.coverImageSrc || undefined}
     />

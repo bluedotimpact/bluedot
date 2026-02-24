@@ -55,8 +55,8 @@ const JobListItem = ({ job }: { job: JobsListSectionProps[number] }) => {
       ctaUrl={url}
       isEntireCardClickable
       isFullWidth
-      subtitle={job.subtitle}
-      title={job.title}
+      subtitle={job.subtitle ?? undefined}
+      title={job.title ?? ''}
     />
   );
 };

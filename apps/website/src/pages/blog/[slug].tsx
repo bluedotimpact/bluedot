@@ -41,9 +41,9 @@ const BlogPostPage = ({ slug, blog }: BlogPostPageProps) => {
       <Head>
         <title>{`${blog.title} | BlueDot Impact`}</title>
         <meta name="description" content={`${blog.title} - Blog post by ${blog.authorName}`} />
-        <meta key="og:title" property="og:title" content={blog.title} />
+        <meta key="og:title" property="og:title" content={blog.title ?? undefined} />
         <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
-        <meta key="og:description" property="og:description" content={blog.title} />
+        <meta key="og:description" property="og:description" content={blog.title ?? undefined} />
         <meta key="og:type" property="og:type" content="article" />
         <meta key="og:url" property="og:url" content={`https://bluedot.org/blog/${encodeURIComponent(slug)}`} />
         <meta key="og:image" property="og:image" content="https://bluedot.org/images/logo/link-preview-fallback.png" />

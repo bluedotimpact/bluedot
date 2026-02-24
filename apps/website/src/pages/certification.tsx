@@ -48,10 +48,10 @@ async function getCertificateData(certificateId: string) {
   const certificate: Certificate = {
     certificateId,
     certificateCreatedAt: courseRegistration.certificateCreatedAt ?? Date.now() / 1000,
-    recipientName: courseRegistration.fullName,
+    recipientName: courseRegistration.fullName ?? '',
     courseName: course.title,
     courseSlug: course.slug,
-    courseDetailsUrl: course.detailsUrl,
+    courseDetailsUrl: course.detailsUrl ?? '',
     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     certificationDescription: course.certificationDescription || '',
   };
