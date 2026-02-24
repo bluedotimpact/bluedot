@@ -1360,7 +1360,7 @@ export const bugReportsTable = pgAirtable('bug_reports', {
       pgColumn: text().array(),
       airtableId: 'fldwb2IJjBIpE4fJi'
     },
-    recordingURL: {
+    recordingUrl: {
       pgColumn: text(),
       airtableId: 'fldSd9pPXP44Sho8G'
     },
