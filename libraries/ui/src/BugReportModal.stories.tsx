@@ -3,7 +3,9 @@ import { useState } from 'react';
 import { BugReportModal, type BugReportModalProps } from './BugReportModal';
 import { CTALinkOrButton } from './CTALinkOrButton';
 
-const BugReportModalDemo: React.FC<Pick<BugReportModalProps, 'onSubmit'>> = ({ onSubmit }) => {
+const BugReportModalDemo: React.FC<Pick<BugReportModalProps, 'onSubmit' | 'onRecordScreen' | 'recordingUrl'>> = ({
+  onSubmit, onRecordScreen, recordingUrl,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
@@ -14,6 +16,8 @@ const BugReportModalDemo: React.FC<Pick<BugReportModalProps, 'onSubmit'>> = ({ o
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         onSubmit={onSubmit}
+        onRecordScreen={onRecordScreen}
+        recordingUrl={recordingUrl}
       />
     </div>
   );
@@ -37,6 +41,13 @@ export const Default: Story = {
 
 export const SuccessState: Story = {
   args: {
-    onSubmit: async () => {},
+    onSubmit: async () => { },
+  },
+};
+
+export const WithVideoRecoring: Story = {
+  args: {
+    onRecordScreen: () => { },
+    recordingUrl: 'https://app.birdie.so/recording/example',
   },
 };
