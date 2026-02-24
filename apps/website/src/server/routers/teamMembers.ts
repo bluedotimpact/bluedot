@@ -29,6 +29,7 @@ export const teamMembersRouter = router({
           imageUrl: getFirstImageUrl(m.imagePublicUrls),
           url: m.url ?? undefined,
         }))
-        .sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''));
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+        .sort((a, b) => (a.name || '').localeCompare(b.name || ''));
     }),
 });

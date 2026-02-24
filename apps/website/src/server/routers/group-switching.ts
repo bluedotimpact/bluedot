@@ -96,7 +96,8 @@ export function calculateGroupAvailability({
         groupData[groupId] = {
           group,
           spotsLeftIfKnown,
-          userIsParticipant: (group.participants ?? []).includes(participantId),
+          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+          userIsParticipant: (group.participants || []).includes(participantId),
         };
       } else {
         // Update existing group data - take minimum spots across all discussions
@@ -166,7 +167,8 @@ export const groupSwitchingRouter = router({
        */
       const getGroupsAllowedToSwitchInto = async () => {
         const allGroups = await db.scan(groupTable, { round: roundId });
-        const participantGroupIds = allGroups.filter((g) => (g.participants ?? []).includes(participant.id)).map((g) => g.id);
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+        const participantGroupIds = allGroups.filter((g) => (g.participants || []).includes(participant.id)).map((g) => g.id);
 
         // Explicitly allow groups the user is already in
         const allowedGroupIds = new Set<string>(participantGroupIds);
@@ -178,7 +180,8 @@ export const groupSwitchingRouter = router({
             .where(inArray(courseRunnerBucketTable.pg.id, participant.buckets));
 
           bucketsOfAllowedGroups.forEach((bucket) => {
-            (bucket.groups ?? []).forEach((groupId) => {
+            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+            (bucket.groups || []).forEach((groupId) => {
               allowedGroupIds.add(groupId);
             });
           });
@@ -189,7 +192,8 @@ export const groupSwitchingRouter = router({
 
       const allowedGroups = await getGroupsAllowedToSwitchInto();
 
-      if (allowedGroups.filter((g) => !(g.participants ?? []).includes(participant.id)).length === 0) {
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      if (allowedGroups.filter((g) => !(g.participants || []).includes(participant.id)).length === 0) {
         // eslint-disable-next-line no-console
         console.warn(`[Group switching] Warning for course registration ${participant.id} (Course runner base id): No groups allowed to switch into. This is likely due to "Who can switch into this group" field on the user's group not being set correctly.`);
       }
@@ -349,11 +353,13 @@ export const groupSwitchingRouter = router({
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'Facilitators cannot switch groups by this method' });
         }
 
-        if (oldGroup && !(oldGroup.participants ?? []).includes(participantId)) {
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+        if (oldGroup && !(oldGroup.participants || []).includes(participantId)) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'User is not a member of old group' });
         }
 
-        if ((newGroup?.participants ?? []).includes(participantId)) {
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+        if ((newGroup?.participants || []).includes(participantId)) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'User is already a member of new group' });
         }
 

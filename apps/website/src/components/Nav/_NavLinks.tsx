@@ -40,7 +40,8 @@ export const NavLinks: React.FC<{
     ...(courses || []).map((course) => ({
       title: course.title,
       url: getPrimaryCourseURL(course.slug),
-      isNew: course.isNew ?? false,
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      isNew: course.isNew || false,
     })),
     { title: 'See upcoming rounds', url: ROUTES.courses.url },
   ];

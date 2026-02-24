@@ -21,7 +21,8 @@ export default makeApiRoute({
 
   // Sort by title ascending and remove the body field from each project to make the response lighter
   const projectSummaries = allProjects
-    .sort((a, b) => (a.title ?? '').localeCompare(b.title ?? ''))
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+    .sort((a, b) => (a.title || '').localeCompare(b.title || ''))
     .map(({ body, ...rest }) => rest);
 
   return {

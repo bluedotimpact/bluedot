@@ -66,8 +66,8 @@ const BlogListItem = ({ blog }: { blog: inferRouterOutputs<AppRouter>['blogs']['
       ctaUrl={url}
       isEntireCardClickable
       isFullWidth
-      subtitle={`${blog.authorName ?? 'Unknown author'} • ${formattedDate}`}
-      title={blog.title ?? 'Untitled'}
+      subtitle={`${blog.authorName || 'Unknown author'} • ${formattedDate}`}
+      title={blog.title || 'Untitled'}
       subtitleBadge={blog.isFeatured ? 'FEATURED' : undefined}
     />
   );
