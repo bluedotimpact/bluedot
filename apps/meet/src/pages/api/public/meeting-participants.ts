@@ -98,9 +98,9 @@ export default makeApiRoute({
     type: 'success' as const,
     groupDiscussionId: groupDiscussion.id,
     participants: [
-      ...facilitators.map((facilitator) => ({ id: facilitator.id, name: facilitator.name, role: 'host' as const })),
-      ...participants.map((participant) => ({ id: participant.id, name: participant.name, role: 'participant' as const })),
-    ].sort((a, b) => (a.name ?? '').localeCompare(b.name ?? '')),
+      ...facilitators.map((facilitator) => ({ id: facilitator.id, name: facilitator.name ?? '', role: 'host' as const })),
+      ...participants.map((participant) => ({ id: participant.id, name: participant.name ?? '', role: 'participant' as const })),
+    ].sort((a, b) => a.name.localeCompare(b.name)),
     meetingNumber,
     meetingPassword,
     meetingHostKey,
