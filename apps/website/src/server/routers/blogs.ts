@@ -9,7 +9,7 @@ export const getAllPublishedBlogs = async () => {
   // Sort by publishedAt descending and remove the body field from each blog to make the response lighter
   return publishedBlogs
     .sort((a, b) => {
-      if (a.isFeatured !== b.isFeatured) {
+      if (!!a.isFeatured !== !!b.isFeatured) {
         return b.isFeatured ? 1 : -1;
       }
 
