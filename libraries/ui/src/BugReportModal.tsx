@@ -30,9 +30,6 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({ onSubmit, isOpen
 
   useEffect(() => {
     if (isOpen) {
-      setDescription('');
-      setEmail('');
-      setAttachments([]);
       setIsDragging(false);
       setIsSubmitting(false);
       setError(null);
