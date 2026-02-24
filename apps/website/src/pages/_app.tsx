@@ -15,6 +15,7 @@ import { ImpersonationBadge } from '../components/admin/ImpersonationBadge';
 import { useCourses } from '../lib/hooks/useCourses';
 import { inter } from '../lib/fonts';
 import { trpc } from '../utils/trpc';
+import type { FeedbackData } from '@bluedot/ui/src/BugReportModal';
 
 const AnnouncementBanner = dynamic(() => import('../components/AnnouncementBanner'), { ssr: false });
 // Dynamic import prevents SSR execution - required because Customer.io package has circular dependencies
@@ -26,6 +27,8 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   const fromSite = ['aisf', 'bsf'].includes(fromSiteParam) ? fromSiteParam as 'aisf' | 'bsf' : null;
   const hideFooter = 'hideFooter' in Component;
   const { courses, loading } = useCourses();
+
+  const submitBugMutation = trpc.feedback.submitBugReport.useMutation();
 
   // Used by Birdie feedback widget to store the URL of the recording for the current bug report, if one exists
   const [recordingUrl, setRecordingUrl] = useState<string | undefined>();
@@ -45,6 +48,10 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
     script.src = `https://app.birdie.so/widget/${window.birdieSettings.app_id}`;
     document.body.appendChild(script);
   }, []);
+
+  const handleBugReportSubmit = async (data: FeedbackData) => {
+    // TODO: call `submitBugMutation`
+  };
 
   const getAnnouncementBanner = () => {
     if (fromSite) {
@@ -87,6 +94,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
                     onRecordScreen={() => window.birdie?.widget.open()}
                     recordingUrl={recordingUrl}
                     onBugReportModalClose={() => setRecordingUrl(undefined)}
+                    onBugReportSubmit={handleBugReportSubmit}
                   />
                 )}
               </>
