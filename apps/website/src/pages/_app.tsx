@@ -2,8 +2,8 @@ import '../globals.css';
 import '../lib/axios'; // Configure axios-hooks
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import Script from 'next/script';
 import { Footer, LatestUtmParamsProvider } from '@bluedot/ui';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import { GoogleTagManager } from '../components/analytics/GoogleTagManager';
@@ -26,6 +26,24 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   const fromSite = ['aisf', 'bsf'].includes(fromSiteParam) ? fromSiteParam as 'aisf' | 'bsf' : null;
   const hideFooter = 'hideFooter' in Component;
   const { courses, loading } = useCourses();
+
+  const [recordingUrl, setRecordingUrl] = useState<string | undefined>();
+
+  useEffect(() => {
+    if (window.innerWidth <= 768) return; // birdie doesn't work on mobile
+    if (window.birdie) return; //  prevent fetching on every new page if already exists
+
+    window.birdieSettings = {
+      app_id: '4adrhn9g',
+      onRecordingPosted: (url) => setRecordingUrl(url),
+    };
+
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.src = `https://app.birdie.so/widget/${window.birdieSettings.app_id}`;
+    document.body.appendChild(script);
+  }, []);
 
   const getAnnouncementBanner = () => {
     if (fromSite) {
@@ -74,7 +92,6 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
           <CustomerioAnalytics />
           <CircleWidget />
           <ImpersonationBadge />
-          <Script id="birdie-sdk" strategy="lazyOnload">{`window.birdieSettings={app_id:'4adrhn9g'};(function(){window.addEventListener("load",function(){var t=document.createElement("script");t.type="text/javascript";t.async=true;t.src="https://app.birdie.so/widget/"+window.birdieSettings.app_id;document.body.appendChild(t);});})();`}</Script>
         </div>
       </PostHogProvider>
     </LatestUtmParamsProvider>
