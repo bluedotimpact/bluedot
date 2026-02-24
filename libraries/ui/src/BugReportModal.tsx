@@ -1,6 +1,6 @@
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { FaCheck, FaImage, FaPaperclip, FaXmark } from 'react-icons/fa6';
+import { FaCheck, FaImage, FaPaperclip, FaVideo, FaXmark } from 'react-icons/fa6';
 import { CTALinkOrButton } from './CTALinkOrButton';
 import { ErrorView } from './ErrorView';
 import { Modal } from './Modal';
@@ -10,15 +10,24 @@ export type FeedbackData = {
   description: string;
   email?: string;
   attachments: File[];
+  recordingUrl?: string;
 };
 
 export type BugReportModalProps = {
   onSubmit?: (data: FeedbackData) => Promise<void>;
   isOpen?: boolean;
   setIsOpen?: (isOpen: boolean) => void;
+  onRecordScreen?: () => void;
+  recordingUrl?: string;
 };
 
-export const BugReportModal: React.FC<BugReportModalProps> = ({ onSubmit, isOpen = false, setIsOpen = () => {} }) => {
+export const BugReportModal: React.FC<BugReportModalProps> = ({
+  onSubmit,
+  isOpen = false,
+  setIsOpen = () => {},
+  onRecordScreen,
+  recordingUrl,
+}) => {
   const [description, setDescription] = useState('');
   const [email, setEmail] = useState('');
   const [attachments, setAttachments] = useState<File[]>([]);
@@ -69,7 +78,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({ onSubmit, isOpen
     setIsSubmitting(true);
     setError(null);
     try {
-      await onSubmit?.({ description, email: email.trim() || undefined, attachments });
+      await onSubmit?.({ description, email: email.trim() || undefined, attachments, recordingUrl });
       setShowSuccess(true);
     } catch (err) {
       setError(err as Error);
@@ -210,6 +219,29 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({ onSubmit, isOpen
                 )}
               </div>
             </div>
+
+            {onRecordScreen && (
+              <div className="hidden md:flex flex-col gap-3">
+                <p className="text-[13px] font-semibold text-bluedot-navy">
+                  Could you show us with a video?
+                </p>
+                {recordingUrl ? (
+                  <div className="flex items-center gap-2.5 rounded-[5px] bg-[#0EAC53] text-white px-3 py-2 self-start">
+                    <FaCheck className="size-3.5 shrink-0" />
+                    <span className="text-[13px]">Recording saved</span>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={onRecordScreen}
+                    className="flex items-center gap-[10px] h-9 px-3 rounded-[5px] bg-bluedot-normal text-white text-[13px] font-medium self-start"
+                  >
+                    <FaVideo className="size-4 shrink-0" />
+                    Record my screen
+                  </button>
+                )}
+              </div>
+            )}
 
             <div className="flex flex-col gap-1.5">
               <label htmlFor="bug-email" className="text-[13px] font-semibold leading-5.5 text-bluedot-navy">
