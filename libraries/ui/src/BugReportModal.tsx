@@ -35,7 +35,12 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [recordingUrlInput, setRecordingUrlInput] = useState(recordingUrl ?? '');
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setRecordingUrlInput(recordingUrl ?? '');
+  }, [recordingUrl]);
 
   useEffect(() => {
     if (isOpen) {
@@ -78,7 +83,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
     setIsSubmitting(true);
     setError(null);
     try {
-      await onSubmit?.({ description, email: email.trim() || undefined, attachments, recordingUrl });
+      await onSubmit?.({ description, email: email.trim() || undefined, attachments, recordingUrl: recordingUrlInput.trim() || undefined });
       setShowSuccess(true);
     } catch (err) {
       setError(err as Error);
@@ -226,9 +231,28 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                   Could you show us with a video?
                 </p>
                 {recordingUrl ? (
-                  <div className="flex items-center gap-2.5 rounded-[5px] bg-[#0EAC53] text-white px-3 py-2 self-start">
-                    <FaCheck className="size-3.5 shrink-0" />
-                    <span className="text-[13px]">Recording saved</span>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-center gap-2.5">
+                      <div className="flex items-center gap-2.5 rounded-[5px] bg-[#0EAC53] text-white px-3 py-2">
+                        <FaCheck className="size-3.5 shrink-0" />
+                        <span className="text-[13px]">Recording saved</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={onRecordScreen}
+                        className="flex items-center gap-[10px] h-9 px-3 rounded-[5px] border border-bluedot-normal text-bluedot-normal text-[13px] font-medium cursor-pointer"
+                      >
+                        <FaVideo className="size-4 shrink-0" />
+                        Re-record
+                      </button>
+                    </div>
+                    <input
+                      type="url"
+                      value={recordingUrlInput}
+                      onChange={(e) => setRecordingUrlInput(e.target.value)}
+                      className="border-color-divider rounded-lg border bg-white px-3 py-2 text-[13px] text-bluedot-navy/60 placeholder:text-[13px]"
+                      aria-label="Recording URL"
+                    />
                   </div>
                 ) : (
                   <button
