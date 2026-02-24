@@ -66,7 +66,7 @@ describe('JobPostingPage SSR/SEO', () => {
     expect(ogImage?.getAttribute('content')).toBe(`https://bluedot.org/images/jobs/link-preview/${mockJob.slug}.png`);
 
     const ogUrl = document.querySelector('meta[property="og:url"]');
-    expect(ogUrl?.getAttribute('content')).toBe(`https://bluedot.org/join-us/${encodeURIComponent(mockJob.slug!)}`);
+    expect(ogUrl?.getAttribute('content')).toBe(`https://bluedot.org/join-us/${encodeURIComponent(mockJob.slug)}`);
 
     const jsonLdScript = document.querySelector('script[type="application/ld+json"]');
     expect(jsonLdScript).toBeTruthy();
