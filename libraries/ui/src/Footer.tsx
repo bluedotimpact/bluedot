@@ -2,12 +2,13 @@ import clsx from 'clsx';
 import type React from 'react';
 import { useEffect, useState } from 'react';
 import {
-  FaXTwitter, FaYoutube, FaLinkedin,
+  FaLinkedin,
+  FaXTwitter, FaYoutube,
 } from 'react-icons/fa6';
-import { A } from './Text';
+import { BugReportModal, type FeedbackData } from './BugReportModal';
 import { ClickTarget } from './ClickTarget';
 import { ProgressDots } from './ProgressDots';
-import { BugReportModal } from './BugReportModal';
+import { A } from './Text';
 
 export type FooterProps = React.PropsWithChildren<{
   className?: string;
@@ -17,6 +18,7 @@ export type FooterProps = React.PropsWithChildren<{
   onRecordScreen?: () => void;
   recordingUrl?: string;
   onBugReportModalClose?: () => void;
+  onBugReportSubmit?: (data: FeedbackData) => Promise<void>;
 }>;
 
 type FooterLinkItem =
@@ -86,7 +88,7 @@ const FooterSocial: React.FC<FooterSocialProps> = ({ className }) => (
 
 export const Footer: React.FC<FooterProps> = ({
   className, logo, courses = [], loading,
-  onRecordScreen, recordingUrl, onBugReportModalClose,
+  onRecordScreen, recordingUrl, onBugReportModalClose, onBugReportSubmit
 }) => {
   const [isBugReportOpen, setIsBugReportOpen] = useState(false);
 
@@ -229,6 +231,7 @@ export const Footer: React.FC<FooterProps> = ({
         setIsOpen={handleSetBugReportOpen}
         onRecordScreen={onRecordScreen ? handleRecordScreen : undefined}
         recordingUrl={recordingUrl}
+        onSubmit={onBugReportSubmit}
       />
     </footer>
   );
