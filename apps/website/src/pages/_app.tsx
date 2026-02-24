@@ -2,6 +2,7 @@ import '../globals.css';
 import '../lib/axios'; // Configure axios-hooks
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import Script from 'next/script';
 import { Footer, LatestUtmParamsProvider } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
@@ -73,6 +74,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
           <CustomerioAnalytics />
           <CircleWidget />
           <ImpersonationBadge />
+          <Script id="birdie-sdk" strategy="lazyOnload">{`window.birdieSettings={app_id:'4adrhn9g'};(function(){window.addEventListener("load",function(){var t=document.createElement("script");t.type="text/javascript";t.async=true;t.src="https://app.birdie.so/widget/"+window.birdieSettings.app_id;document.body.appendChild(t);});})();`}</Script>
         </div>
       </PostHogProvider>
     </LatestUtmParamsProvider>
