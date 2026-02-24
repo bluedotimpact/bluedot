@@ -234,7 +234,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                   <button
                     type="button"
                     onClick={onRecordScreen}
-                    className="flex items-center gap-[10px] h-9 px-3 rounded-[5px] bg-bluedot-normal text-white text-[13px] font-medium self-start"
+                    className="flex items-center gap-[10px] h-9 px-3 rounded-[5px] bg-bluedot-normal text-white text-[13px] font-medium self-start cursor-pointer"
                   >
                     <FaVideo className="size-4 shrink-0" />
                     Record my screen
