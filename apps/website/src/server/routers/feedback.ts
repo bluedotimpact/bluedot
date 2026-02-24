@@ -43,9 +43,9 @@ export const feedbackRouter = router({
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify({
-                name: attachment.filename,
-                type: attachment.mimeType,
-                data: attachment.base64,
+                filename: attachment.filename,
+                file: attachment.base64,
+                contentType: attachment.mimeType,
               }),
             },
           );
