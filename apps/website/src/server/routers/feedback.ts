@@ -13,7 +13,7 @@ export const feedbackRouter = router({
       mimeType: z.string(),
     })).optional(),
   }))
-  .query(async () => {
+  .mutation(async ({input}) => {
     // TODO: (1) insert everything except attachments into airtable, (2) upload attachments using airtable API
     return null;
   }),
