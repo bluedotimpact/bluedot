@@ -59,8 +59,8 @@ export const ProjectsListView = ({ title, projects, maxItems }: ProjectsListView
 
     // Sort groups by the latest publishedAt date of any project in the group
     groupsArray.sort((a, b) => {
-      const aLatest = Math.max(...a[1].map((p) => p.publishedAt ?? Infinity));
-      const bLatest = Math.max(...b[1].map((p) => p.publishedAt ?? Infinity));
+      const aLatest = Math.max(...a[1].map((p) => p.publishedAt ?? -Infinity));
+      const bLatest = Math.max(...b[1].map((p) => p.publishedAt ?? -Infinity));
       return bLatest - aLatest; // Sort newest first
     });
 
