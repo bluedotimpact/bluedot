@@ -12,7 +12,7 @@ export const jobsRouter = router({
       // Sort jobs alphabetically by title and remove the body field
       // TODO: just fetch these fields from the DB in the first place
       return allJobs
-        .sort((a, b) => (a.title || '').localeCompare(b.title || ''))
+        .sort((a, b) => (a.title ?? '').localeCompare(b.title ?? ''))
         .map(({ body, ...rest }) => rest);
     }),
 });
