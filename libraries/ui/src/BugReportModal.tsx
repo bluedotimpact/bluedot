@@ -1,6 +1,8 @@
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { FaCheck, FaImage, FaPaperclip, FaVideo, FaXmark } from 'react-icons/fa6';
+import {
+  FaCheck, FaImage, FaPaperclip, FaVideo, FaXmark,
+} from 'react-icons/fa6';
 import { CTALinkOrButton } from './CTALinkOrButton';
 import { ErrorView } from './ErrorView';
 import { Modal } from './Modal';
@@ -83,7 +85,9 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
     setIsSubmitting(true);
     setError(null);
     try {
-      await onSubmit?.({ description, email: email.trim() || undefined, attachments, recordingUrl: recordingUrlInput.trim() || undefined });
+      await onSubmit?.({
+        description, email: email.trim() || undefined, attachments, recordingUrl: recordingUrlInput.trim() || undefined,
+      });
       setShowSuccess(true);
     } catch (err) {
       setError(err as Error);
@@ -208,6 +212,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                           if (files.length > 0) {
                             setAttachments((prev) => [...prev, ...files]);
                           }
+
                           e.target.value = '';
                         }}
                       />

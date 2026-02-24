@@ -56,9 +56,7 @@ describe('BugReportModal', () => {
     fireEvent.click(screen.getByText('Submit'));
 
     await waitFor(() => {
-      expect(mockOnSubmit).toHaveBeenCalledWith(
-        expect.objectContaining({ email: 'user@example.com' }),
-      );
+      expect(mockOnSubmit).toHaveBeenCalledWith(expect.objectContaining({ email: 'user@example.com' }));
     });
   });
 
@@ -150,13 +148,11 @@ describe('BugReportModal', () => {
 
   it('shows recorded state with Re-record button and editable URL, and calls onRecordScreen on re-record', () => {
     const mockOnRecordScreen = vi.fn();
-    render(
-      <BugReportModal
-        isOpen
-        onRecordScreen={mockOnRecordScreen}
-        recordingUrl="https://app.birdie.so/recording/abc123"
-      />,
-    );
+    render(<BugReportModal
+      isOpen
+      onRecordScreen={mockOnRecordScreen}
+      recordingUrl="https://app.birdie.so/recording/abc123"
+    />);
     expect(screen.getByText('Recording saved')).toBeInTheDocument();
     expect(screen.queryByText('Record my screen')).not.toBeInTheDocument();
     expect(screen.getByText('Re-record')).toBeInTheDocument();
@@ -167,14 +163,12 @@ describe('BugReportModal', () => {
 
   it('includes recordingUrl in submission data', async () => {
     const mockOnSubmit = vi.fn().mockResolvedValue(undefined);
-    render(
-      <BugReportModal
-        isOpen
-        onSubmit={mockOnSubmit}
-        onRecordScreen={() => {}}
-        recordingUrl="https://app.birdie.so/recording/abc123"
-      />,
-    );
+    render(<BugReportModal
+      isOpen
+      onSubmit={mockOnSubmit}
+      onRecordScreen={() => {}}
+      recordingUrl="https://app.birdie.so/recording/abc123"
+    />);
 
     fireEvent.change(screen.getByLabelText('Description'), {
       target: { value: 'Bug report with video' },
@@ -182,24 +176,20 @@ describe('BugReportModal', () => {
     fireEvent.click(screen.getByText('Submit'));
 
     await waitFor(() => {
-      expect(mockOnSubmit).toHaveBeenCalledWith(
-        expect.objectContaining({
-          recordingUrl: 'https://app.birdie.so/recording/abc123',
-        }),
-      );
+      expect(mockOnSubmit).toHaveBeenCalledWith(expect.objectContaining({
+        recordingUrl: 'https://app.birdie.so/recording/abc123',
+      }));
     });
   });
 
   it('submits the edited recording URL when user changes it', async () => {
     const mockOnSubmit = vi.fn().mockResolvedValue(undefined);
-    render(
-      <BugReportModal
-        isOpen
-        onSubmit={mockOnSubmit}
-        onRecordScreen={() => {}}
-        recordingUrl="https://app.birdie.so/recording/abc123"
-      />,
-    );
+    render(<BugReportModal
+      isOpen
+      onSubmit={mockOnSubmit}
+      onRecordScreen={() => {}}
+      recordingUrl="https://app.birdie.so/recording/abc123"
+    />);
 
     fireEvent.change(screen.getByLabelText('Recording URL'), {
       target: { value: 'https://app.birdie.so/recording/corrected' },
@@ -210,11 +200,9 @@ describe('BugReportModal', () => {
     fireEvent.click(screen.getByText('Submit'));
 
     await waitFor(() => {
-      expect(mockOnSubmit).toHaveBeenCalledWith(
-        expect.objectContaining({
-          recordingUrl: 'https://app.birdie.so/recording/corrected',
-        }),
-      );
+      expect(mockOnSubmit).toHaveBeenCalledWith(expect.objectContaining({
+        recordingUrl: 'https://app.birdie.so/recording/corrected',
+      }));
     });
   });
 });

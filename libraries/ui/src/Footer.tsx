@@ -60,8 +60,7 @@ const FooterLinksSection: React.FC<FooterSectionProps> = ({ title, links, classN
                 {link.label}
               </A>
             </li>
-          ),
-        )}
+          ))}
       </ul>
     )}
   </div>
@@ -100,7 +99,7 @@ export const Footer: React.FC<FooterProps> = ({
     setIsBugReportOpen(false);
     // Use `setTimeout` to ensure the bug modal has closed before opening the Birdie widget (also a modal), preventing
     // potential UI and focus conflicts.
-    setTimeout(() => onRecordScreen?.()); 
+    setTimeout(() => onRecordScreen?.());
   };
 
   useEffect(() => {
