@@ -80,6 +80,8 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
 
   useEffect(() => {
     if (isOpen) {
+      // Don't reset description, email, and attachments on open.
+      // When screen recording using Birdie, the user will close the modal, record their screen, then reopen the modal to submit, so we want to preserve their inputs.
       setIsDragging(false);
       setIsSubmitting(false);
       setError(null);
