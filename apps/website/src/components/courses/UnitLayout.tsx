@@ -324,178 +324,172 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         courseProgressData={courseProgressData}
       />
 
-      {/* Sidebar - positioned fixed and separate from main layout flow */}
-      {!isSidebarHidden && (
-        <SideBar
-          courseTitle={unit.courseTitle}
-          courseSlug={courseSlug}
-          className="hidden md:block md:fixed md:overflow-y-auto md:max-h-[calc(100vh-57px)]" // Adjust for Nav height only
-          units={units}
-          currentUnitNumber={parseInt(unitNumber)}
-          currentChunkIndex={chunkIndex}
-          onChunkSelect={handleChunkSelect}
-          unitChunks={allUnitChunks}
-          applyCTAProps={applyCTAProps}
-          courseProgressData={courseProgressData}
-        />
-      )}
-
-      {/* Breadcrumbs bar - positioned sticky and full width */}
-      <div className={clsx(
-        'unit__breadcrumbs-wrapper hidden md:block md:sticky md:top-(--nav-height-mobile) lg:top-(--nav-height-desktop) z-10 border-b-[0.5px] border-bluedot-navy/20 h-[48px] bg-color-canvas',
-        isSidebarHidden ? 'md:ml-0' : 'md:ml-[360px]',
-      )}
-      >
-        <div className="flex flex-row justify-between items-center size-full px-6 gap-2">
-          {/* Left section: Hide/Show Toggle */}
-          <div className="flex items-center gap-[8px]">
-            <button
-              type="button"
-              onClick={() => setIsSidebarHidden(!isSidebarHidden)}
-              className="flex items-center gap-[8px] text-[13px] font-medium text-bluedot-navy hover:opacity-80 transition-opacity cursor-pointer"
-              aria-label={isSidebarHidden ? 'Show sidebar' : 'Hide sidebar'}
-
-            >
-              <FaBars className="size-[16px]" />
-              <span className="tracking-[-0.005em]">{isSidebarHidden ? 'Show' : 'Hide'}</span>
-            </button>
-            <span className="w-px h-[18px] bg-[#6A6F7A] opacity-50" />
-          </div>
-
-          {/* Breadcrumbs - left aligned after hide */}
-          <nav className="flex items-center gap-[8px] flex-1 min-h-[18px] min-w-0">
-            <A
-              href={ROUTES.courses.url}
-              className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-bluedot-navy transition-colors no-underline"
-            >
-              Courses
-            </A>
-            <FaChevronRight className="size-[14px] text-[#6A6F7A] flex-shrink-0 opacity-50" />
-            <A
-              href={unit.coursePath}
-              className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-bluedot-navy transition-colors no-underline truncate"
-            >
-              {unit.courseTitle}
-            </A>
-            <FaChevronRight className="size-[14px] text-[#6A6F7A] flex-shrink-0 opacity-50" />
-            <span className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy truncate" title={`${unitNumber}. ${unit.title}`}>
-              {unitNumber}. {unit.title}
-            </span>
-          </nav>
-
-          {/* Right section: Navigation */}
-          <div className="flex items-center gap-[20px] min-h-[18px]">
-            <button
-              type="button"
-              className="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-              disabled={isFirstChunk && !prevUnit}
-              onClick={handlePrevClick}
-              aria-label="Previous"
-              title="Navigate to previous section (use ← arrow key)"
-            >
-              ← Prev
-            </button>
-            <button
-              type="button"
-              className="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-              disabled={isLastChunk && !nextUnit}
-              onClick={handleNextClick}
-              aria-label="Next"
-              title="Navigate to next section (use → arrow key)"
-            >
-              Next →
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className={clsx('block md:top-16 bg-color-canvas', isSidebarHidden ? 'md:ml-0' : 'md:ml-[360px]')}>
-        {/* Group discussion banner - positioned below breadcrumbs */}
-        {groupDiscussionError && (
-          <ErrorSection error={groupDiscussionError} />
+      <div className="md:flex">
+        {!isSidebarHidden && (
+          <SideBar
+            courseTitle={unit.courseTitle}
+            courseSlug={courseSlug}
+            className="hidden md:block md:sticky md:top-(--nav-height-mobile) lg:top-(--nav-height-desktop) md:overflow-y-auto md:max-h-[calc(100vh-var(--nav-height-mobile))] lg:max-h-[calc(100vh-var(--nav-height-desktop))] md:self-start md:shrink-0"
+            units={units}
+            currentUnitNumber={parseInt(unitNumber)}
+            currentChunkIndex={chunkIndex}
+            onChunkSelect={handleChunkSelect}
+            unitChunks={allUnitChunks}
+            applyCTAProps={applyCTAProps}
+            courseProgressData={courseProgressData}
+          />
         )}
-        {groupDiscussionWithZoomInfo?.groupDiscussion && (
-          <div className="mb-8 md:mb-6">
-            <GroupDiscussionBanner
-              unit={unit}
-              groupDiscussion={groupDiscussionWithZoomInfo.groupDiscussion}
-              userRole={groupDiscussionWithZoomInfo.userRole}
-              hostKeyForFacilitators={groupDiscussionWithZoomInfo.hostKeyForFacilitators}
-            />
-          </div>
-        )}
-      </div>
 
-      {/* Main content section */}
-      <Section className="unit__main !border-none !pt-0 !mt-0">
-        <div className={clsx(
-          'unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto px-5 sm:px-spacing-x pt-6 md:pt-8',
-          !isSidebarHidden && 'md:ml-[360px]',
-        )}
-        >
-          <div className="unit__title-container">
-            <P className="unit__course-title font-semibold text-[13px] leading-[140%] tracking-[0.04em] uppercase text-bluedot-normal mb-2">Unit {unit.unitNumber}: {unit.title}</P>
-            {chunk?.chunkTitle && (
-              <H1 className="unit__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-bluedot-navy">{chunk.chunkTitle}</H1>
+        <div className="md:flex-1 md:min-w-0">
+          {/* Breadcrumbs bar */}
+          <div className="unit__breadcrumbs-wrapper hidden md:block md:sticky md:top-(--nav-height-mobile) lg:top-(--nav-height-desktop) z-10 border-b-[0.5px] border-bluedot-navy/20 h-[48px] bg-color-canvas">
+            <div className="flex flex-row justify-between items-center size-full px-6 gap-2">
+              {/* Left section: Hide/Show Toggle */}
+              <div className="flex items-center gap-[8px]">
+                <button
+                  type="button"
+                  onClick={() => setIsSidebarHidden(!isSidebarHidden)}
+                  className="flex items-center gap-[8px] text-[13px] font-medium text-bluedot-navy hover:opacity-80 transition-opacity cursor-pointer"
+                  aria-label={isSidebarHidden ? 'Show sidebar' : 'Hide sidebar'}
+                >
+                  <FaBars className="size-[16px]" />
+                  <span className="tracking-[-0.005em]">{isSidebarHidden ? 'Show' : 'Hide'}</span>
+                </button>
+                <span className="w-px h-[18px] bg-[#6A6F7A] opacity-50" />
+              </div>
+
+              {/* Breadcrumbs - left aligned after hide */}
+              <nav className="flex items-center gap-[8px] flex-1 min-h-[18px] min-w-0">
+                <A
+                  href={ROUTES.courses.url}
+                  className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-bluedot-navy transition-colors no-underline"
+                >
+                  Courses
+                </A>
+                <FaChevronRight className="size-[14px] text-[#6A6F7A] flex-shrink-0 opacity-50" />
+                <A
+                  href={unit.coursePath}
+                  className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-bluedot-navy transition-colors no-underline truncate"
+                >
+                  {unit.courseTitle}
+                </A>
+                <FaChevronRight className="size-[14px] text-[#6A6F7A] flex-shrink-0 opacity-50" />
+                <span className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy truncate" title={`${unitNumber}. ${unit.title}`}>
+                  {unitNumber}. {unit.title}
+                </span>
+              </nav>
+
+              {/* Right section: Navigation */}
+              <div className="flex items-center gap-[20px] min-h-[18px]">
+                <button
+                  type="button"
+                  className="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                  disabled={isFirstChunk && !prevUnit}
+                  onClick={handlePrevClick}
+                  aria-label="Previous"
+                  title="Navigate to previous section (use ← arrow key)"
+                >
+                  ← Prev
+                </button>
+                <button
+                  type="button"
+                  className="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                  disabled={isLastChunk && !nextUnit}
+                  onClick={handleNextClick}
+                  aria-label="Next"
+                  title="Navigate to next section (use → arrow key)"
+                >
+                  Next →
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="bg-color-canvas">
+            {/* Group discussion banner - positioned below breadcrumbs */}
+            {groupDiscussionError && (
+              <ErrorSection error={groupDiscussionError} />
+            )}
+            {groupDiscussionWithZoomInfo?.groupDiscussion && (
+              <div className="mb-8 md:mb-6">
+                <GroupDiscussionBanner
+                  unit={unit}
+                  groupDiscussion={groupDiscussionWithZoomInfo.groupDiscussion}
+                  userRole={groupDiscussionWithZoomInfo.userRole}
+                  hostKeyForFacilitators={groupDiscussionWithZoomInfo.hostKeyForFacilitators}
+                />
+              </div>
             )}
           </div>
-          {/* chunk content → unit content if no chunks - Only render if there's actual content */}
-          {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
-          {(chunk?.chunkContent || unit.content) && (
-            <MarkdownExtendedRenderer className="mt-8 md:mt-6">
+
+          {/* Main content section */}
+          <Section className="unit__main !border-none !pt-0 !mt-0 md:!max-w-none md:!mx-0 md:!px-0">
+            <div className="unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto px-5 sm:px-spacing-x pt-6 md:pt-8">
+              <div className="unit__title-container">
+                <P className="unit__course-title font-semibold text-[13px] leading-[140%] tracking-[0.04em] uppercase text-bluedot-normal mb-2">Unit {unit.unitNumber}: {unit.title}</P>
+                {chunk?.chunkTitle && (
+                  <H1 className="unit__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-bluedot-navy">{chunk.chunkTitle}</H1>
+                )}
+              </div>
+              {/* chunk content → unit content if no chunks - Only render if there's actual content */}
               {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
-              {chunk?.chunkContent || unit.content || ''}
-            </MarkdownExtendedRenderer>
-          )}
+              {(chunk?.chunkContent || unit.content) && (
+                <MarkdownExtendedRenderer className="mt-8 md:mt-6">
+                  {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
+                  {chunk?.chunkContent || unit.content || ''}
+                </MarkdownExtendedRenderer>
+              )}
 
-          {/* Chunk resources and exercises - Show if there are any resources or exercises */}
-          {chunk && (chunk.resources?.length || chunk.exercises?.length) ? (
-            <ResourceDisplay
-              resources={chunk.resources || []}
-              exercises={chunk.exercises || []}
-              unitTitle={unit.title}
-              unitNumber={unitNumber}
-              className={clsx((chunk?.chunkContent || unit.content) ? 'mt-8 md:mt-6' : 'mt-4')}
-              courseSlug={courseSlug}
-              chunkIndex={chunkIndex}
-            />
-          ) : null}
+              {/* Chunk resources and exercises - Show if there are any resources or exercises */}
+              {chunk && (chunk.resources?.length || chunk.exercises?.length) ? (
+                <ResourceDisplay
+                  resources={chunk.resources || []}
+                  exercises={chunk.exercises || []}
+                  unitTitle={unit.title}
+                  unitNumber={unitNumber}
+                  className={clsx((chunk?.chunkContent || unit.content) ? 'mt-8 md:mt-6' : 'mt-4')}
+                  courseSlug={courseSlug}
+                  chunkIndex={chunkIndex}
+                />
+              ) : null}
 
-          {(!nextUnit && isLastChunk) ? (
-            <>
-              <Congratulations
-                courseTitle={unit.courseTitle}
-                coursePath={unit.coursePath}
-                courseId={unit.courseId}
-                className="mt-8 md:mt-6"
-              />
-              <div className="mt-8 md:mt-6">
-                <ActionPlanCard courseId={unit.courseId} />
+              {(!nextUnit && isLastChunk) ? (
+                <>
+                  <Congratulations
+                    courseTitle={unit.courseTitle}
+                    coursePath={unit.coursePath}
+                    courseId={unit.courseId}
+                    className="mt-8 md:mt-6"
+                  />
+                  <div className="mt-8 md:mt-6">
+                    <ActionPlanCard courseId={unit.courseId} />
+                  </div>
+                  <div className="mt-4">
+                    <CertificateLinkCard courseId={unit.courseId} />
+                  </div>
+                </>
+              ) : (
+                // Margin-bottom is added to accommodate the Circle widget on mobile screens
+                <div className="unit__cta-container flex flex-row justify-center mt-6 mx-1 mb-14 sm:mb-0">
+                  <CTALinkOrButton
+                    className="unit__cta-link [&]:bg-bluedot-normal [&]:hover:bg-[color-mix(in_oklab,var(--bluedot-normal),black_20%)] hover:text-white"
+                    onClick={handleNextClick}
+                    variant="primary"
+                    withChevron
+                  >
+                    {isLastChunk ? 'Complete unit and continue' : 'Continue'}
+                  </CTALinkOrButton>
+                </div>
+              )}
+
+              {/* Bottom-most section, underneath 'continue' button */}
+              <div className="hidden md:block">
+                <hr className="mt-12 mb-4" />
+                <KeyboardNavMenu />
               </div>
-              <div className="mt-4">
-                <CertificateLinkCard courseId={unit.courseId} />
-              </div>
-            </>
-          ) : (
-            // Margin-bottom is added to accommodate the Circle widget on mobile screens
-            <div className="unit__cta-container flex flex-row justify-center mt-6 mx-1 mb-14 sm:mb-0">
-              <CTALinkOrButton
-                className="unit__cta-link [&]:bg-bluedot-normal [&]:hover:bg-[color-mix(in_oklab,var(--bluedot-normal),black_20%)] hover:text-white"
-                onClick={handleNextClick}
-                variant="primary"
-                withChevron
-              >
-                {isLastChunk ? 'Complete unit and continue' : 'Continue'}
-              </CTALinkOrButton>
             </div>
-          )}
-
-          {/* Bottom-most section, underneath 'continue' button */}
-          <div className="hidden md:block">
-            <hr className="mt-12 mb-4" />
-            <KeyboardNavMenu />
-          </div>
+          </Section>
         </div>
-      </Section>
+      </div>
 
       <MobileCourseModal
         isOpen={isMobileCourseMenuOpen}

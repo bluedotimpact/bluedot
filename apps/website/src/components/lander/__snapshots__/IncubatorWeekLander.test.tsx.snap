@@ -3,7 +3,7 @@
 exports[`IncubatorWeekLander > renders the complete page correctly (snapshot) 1`] = `
 <div>
   <div
-    class="bg-white"
+    class="relative bg-white"
   >
     <title>
       Incubator Week | BlueDot Impact

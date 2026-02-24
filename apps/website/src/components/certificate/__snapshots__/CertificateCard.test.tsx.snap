@@ -56,7 +56,7 @@ exports[`CertificateCard > Rendering > renders correctly with valid props 1`] = 
           </p>
         </div>
         <div
-          class="mt-12 max-w-[313px] md:max-w-[672px]"
+          class="mt-12 md:max-w-[672px]"
         >
           <p
             class="text-[15px] md:text-base leading-[1.6] md:leading-[26px] tracking-[-0.3125px] text-[#62748E] text-center [&_strong]:font-semibold [&_strong]:text-bluedot-navy"

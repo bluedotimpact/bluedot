@@ -12,6 +12,7 @@ import {
 } from '@bluedot/ui';
 import clsx from 'clsx';
 import { type GetServerSideProps } from 'next';
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import path from 'path';
 import Confetti from 'react-confetti';
@@ -144,6 +145,8 @@ const CertificatePage = ({
     { enabled: !!auth && !!certificateId },
   );
   const isOwner = ownershipData?.isOwner ?? false;
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => setIsMounted(true), []);
 
   if (!certificateId) {
     return (
@@ -240,7 +243,7 @@ const CertificatePage = ({
         </div>
       )}
 
-      {isOwner && (
+      {isMounted && (
         <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[850px] h-[600px] overflow-hidden pointer-events-none z-50">
           <Confetti
             width={850}

@@ -1316,6 +1316,19 @@ export const resourceCompletionTable = pgAirtable('resource_completion', {
   },
 });
 
+export const teamMemberTable = pgAirtable('team_member', {
+  baseId: WEB_CONTENT_BASE_ID,
+  tableId: 'tblt4A2LhdyhAcBk9',
+  columns: {
+    name: { pgColumn: text().notNull(), airtableId: 'fldjY13g0tuTPJmB3' },
+    jobTitle: { pgColumn: text().notNull(), airtableId: 'fldlJy9D63sCry5Yg' },
+    imageAttachmentUrls: { pgColumn: text(), airtableId: 'fldOo7XlA4hA1glaL' },
+    imagePublicUrls: { pgColumn: text(), airtableId: 'fldmN54i5qJObcwuN' },
+    url: { pgColumn: text(), airtableId: 'fld3ChLLOQHQGDK18' },
+    status: { pgColumn: text(), airtableId: 'fld5nsgLdaDUoMC2N' },
+  },
+});
+
 export const dropoutTable = pgAirtable('dropout', {
   baseId: APPLICATIONS_BASE_ID,
   tableId: 'tblmxqYXX1RaDvunu',
@@ -1331,6 +1344,33 @@ export const dropoutTable = pgAirtable('dropout', {
     isDeferral: {
       pgColumn: boolean(),
       airtableId: 'fldzYMTGkTd91Chyu',
+    },
+  },
+});
+
+export const bugReportsTable = pgAirtable('bug_reports', {
+  baseId: WEB_CONTENT_BASE_ID,
+  tableId: 'tblbwt3oGJfwHmIAc',
+  columns: {
+    description: {
+      pgColumn: text(),
+      airtableId: 'fldim1KqWIMql3SOe',
+    },
+    attachments: {
+      pgColumn: text().array(),
+      airtableId: 'fldwb2IJjBIpE4fJi',
+    },
+    recordingUrl: {
+      pgColumn: text(),
+      airtableId: 'fldSd9pPXP44Sho8G',
+    },
+    email: {
+      pgColumn: text(),
+      airtableId: 'fldxRuw7bssFXUDzv',
+    },
+    createdAt: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldkUleb2Z7Jb92fu',
     },
   },
 });
@@ -1368,3 +1408,5 @@ export type User = InferSelectModel<typeof userTable.pg>;
 export type ResourceCompletion = InferSelectModel<typeof resourceCompletionTable.pg>;
 export type FacilitatorSwitching = InferSelectModel<typeof facilitatorDiscussionSwitchingTable.pg>;
 export type Dropout = InferSelectModel<typeof dropoutTable.pg>;
+export type TeamMember = InferSelectModel<typeof teamMemberTable.pg>;
+export type BugReport = InferSelectModel<typeof bugReportsTable.pg>;

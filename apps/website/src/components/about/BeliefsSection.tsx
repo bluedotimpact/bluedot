@@ -1,40 +1,31 @@
-import { Card, Section } from '@bluedot/ui';
-import { SlideList } from '@bluedot/ui/src/SlideList';
+import { P, Section } from '@bluedot/ui';
 
 const beliefs = [
   {
-    imageSrc: '/images/beliefs/agi.png',
     title: 'AGI could arrive soon, and society is dangerously unprepared',
-    subtitle: 'Human-level AI will likely be built within years, not decades. Our technical, political, and social systems are not prepared to handle it safely.',
+    description: 'Human-level AI is likely years away, not decades. AI companies are moving at a blistering pace, while the institutions meant to govern it are moving at a fraction of the speed required.',
   },
   {
-    imageSrc: '/images/beliefs/matters.png',
-    title: 'What we do now matters',
-    subtitle: 'The future of AI isn\'t set in stone. Our choices today will determine whether this technology helps or harms humanity.',
-  },
-  {
-    imageSrc: '/images/beliefs/key.png',
     title: 'People at key moments rewrite history',
-    subtitle: 'Throughout history, people in key positions have steered powerful technologies toward better outcomes. By training and mobilising exceptional people, we can guide AI toward a safe and beneficial future.',
+    description: 'The future of AI isn\'t set in stone. Throughout history, a small number of people in the right positions at the right time have steered powerful technologies toward better outcomes. We find and prepare those people.',
   },
   {
-    imageSrc: '/images/beliefs/urgency.png',
-    title: 'We need urgency, wisdom and optimism',
-    subtitle: 'The stakes are vast and time is short, but panic and fatalism do more harm than good. We need rapid, coordinated action informed by evidence and guided by hope.',
+    title: 'We need urgency and wisdom',
+    description: 'The stakes are vast and time is short, but panic and fatalism lead to bad decisions. We need thoughtful and rapid action.',
   },
 ] as const;
 
 const BeliefsSection = () => {
   return (
-    <Section title="Our core beliefs" className="beliefs-section">
-      <SlideList
-        maxItemsPerSlide={4}
-        className="beliefs-section__beliefs"
-      >
+    <Section title="Core beliefs" className="beliefs-section">
+      <div className="flex flex-col gap-6">
         {beliefs.map((belief) => (
-          <Card key={belief.title} {...belief} className="beliefs-section__belief" />
+          <div key={belief.title}>
+            <h3 className="bluedot-h4 mb-2">{belief.title}</h3>
+            <P>{belief.description}</P>
+          </div>
         ))}
-      </SlideList>
+      </div>
     </Section>
   );
 };

@@ -159,7 +159,7 @@ export const createTechnicalAiSafetyProjectContent = (
         answer: (
           <>
             You should be comfortable coding—either through professional experience or a few fully completed projects. Our mentorship focuses on scoping and refining your project ideas, not teaching you to code.
-
+            <br /><br />
             If you're not comfortable coding, you could instead work on a written project, like a blog post reflecting on a past BlueDot course or exploring different ways you could contribute to AI safety.
           </>
         ),
@@ -169,7 +169,25 @@ export const createTechnicalAiSafetyProjectContent = (
         question: 'Do I need to take the Technical AI Safety course first?',
         answer: (
           <>
-            We designed this course as a follow-up to the Technical AI Safety course. We will be prioritising graduates from the course, but we'll also consider applicants who can demonstrate equivalent knowledge of technical AI safety concepts.
+            We designed this course as a follow-up to the <a href="https://bluedot.org/courses/technical-ai-safety" target="_blank" rel="noopener noreferrer" className="underline">Technical AI Safety course</a>. We will be prioritising graduates from the course, but we'll also consider applicants who can demonstrate equivalent knowledge of technical AI safety concepts.
+          </>
+        ),
+      },
+      {
+        id: 'funding',
+        question: 'Do you provide funding for compute?',
+        answer: (
+          <>
+            Yes. Once you're accepted onto the sprint, you can apply for a <a href="https://blog.bluedot.org/p/rapid-grants-for-bluedot-projects" target="_blank" rel="noopener noreferrer" className="underline">rapid small grant</a> if you need compute or other resources for your project.
+          </>
+        ),
+      },
+      {
+        id: 'project-submission',
+        question: 'What happens after I submit my project?',
+        answer: (
+          <>
+            You'll get feedback on your project from an AI safety expert. We'll feature the best projects on <a href="https://bluedot.org/projects/" target="_blank" rel="noopener noreferrer" className="underline">our website</a> and share it with hiring managers from relevant AI safety orgs.
           </>
         ),
       },
@@ -182,7 +200,7 @@ export const createTechnicalAiSafetyProjectContent = (
             <br /><br />
             Our courses are the main entry point into the AI safety field.
             <br /><br />
-            We're an intense 4-person team. We've raised $35M in total, including $25M in 2025.
+            We're an intense 7-person team. We've raised $35M in total, including $25M in 2025.
           </>
         ),
       },
