@@ -25,7 +25,15 @@ export type BugReportModalProps = {
 
 const FileAttachmentItem = ({ file, onRemove }: { file: File; onRemove: () => void }) => {
   const isImage = file.type.startsWith('image/');
-  const objectUrl = isImage ? URL.createObjectURL(file) : null;
+  const [objectUrl, setObjectUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!isImage) return;
+    const url = URL.createObjectURL(file);
+    setObjectUrl(url);
+
+    return () => URL.revokeObjectURL(url);
+  }, [file, isImage]);
   return (
     <div className="relative shrink-0">
       {isImage && objectUrl ? (
