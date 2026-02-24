@@ -1358,15 +1358,15 @@ export const bugReportsTable = pgAirtable('bug_reports', {
     },
     attachments: {
       pgColumn: text().array(),
-      airtableId: 'fldwb2IJjBIpE4fJi'
+      airtableId: 'fldwb2IJjBIpE4fJi',
     },
     recordingUrl: {
       pgColumn: text(),
-      airtableId: 'fldSd9pPXP44Sho8G'
+      airtableId: 'fldSd9pPXP44Sho8G',
     },
     email: {
       pgColumn: text(),
-      airtableId: 'fldxRuw7bssFXUDzv'
+      airtableId: 'fldxRuw7bssFXUDzv',
     },
     createdAt: {
       pgColumn: numeric({ mode: 'number' }),

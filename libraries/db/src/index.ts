@@ -73,7 +73,7 @@ export type {
   Dropout,
   TeamMember,
   Testimonial,
-  BugReport
+  BugReport,
 } from './schema';
 
 export { getPgAirtableFromIds, PgAirtableTable } from './lib/db-core';
