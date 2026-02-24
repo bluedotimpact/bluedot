@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import type React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   FaXTwitter, FaYoutube, FaLinkedin,
 } from 'react-icons/fa6';
@@ -95,6 +95,17 @@ export const Footer: React.FC<FooterProps> = ({
     setIsBugReportOpen(v);
     if (!v) onBugReportModalClose?.();
   };
+
+  const handleRecordScreen = () => {
+    setIsBugReportOpen(false);
+    onRecordScreen?.();
+  };
+
+  useEffect(() => {
+    if (recordingUrl) {
+      setIsBugReportOpen(true);
+    }
+  }, [recordingUrl]);
 
   const bluedotLinks: FooterLinkItem[] = [
     { url: '/about', label: 'About us' },
@@ -215,7 +226,7 @@ export const Footer: React.FC<FooterProps> = ({
       <BugReportModal
         isOpen={isBugReportOpen}
         setIsOpen={handleSetBugReportOpen}
-        onRecordScreen={onRecordScreen}
+        onRecordScreen={onRecordScreen ? handleRecordScreen : undefined}
         recordingUrl={recordingUrl}
       />
     </footer>
