@@ -53,7 +53,7 @@ export const feedbackRouter = router({
             console.error('Failed to upload attachment to Airtable', {
               status: response.status,
               statusText: response.statusText,
-              body: attachment.filename,
+              body: await response.text(),
             });
           }
         }),
