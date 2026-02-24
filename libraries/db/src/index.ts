@@ -34,6 +34,7 @@ export {
   dropoutTable,
   teamMemberTable,
   testimonialTable,
+  bugReportsTable,
 } from './schema';
 
 // Type exports
@@ -72,6 +73,7 @@ export type {
   Dropout,
   TeamMember,
   Testimonial,
+  BugReport,
 } from './schema';
 
 export { getPgAirtableFromIds, PgAirtableTable } from './lib/db-core';
