@@ -1,8 +1,5 @@
 // Global test setup file
 // This file is run before all tests in apps/website
-import { beforeAll } from 'vitest';
-import { pushTestSchema, type PgDatabase } from '@bluedot/db';
-import db from './lib/api/db';
 
 // Fix timezone as UTC
 // eslint-disable-next-line turbo/no-undeclared-env-vars
@@ -18,8 +15,3 @@ const localStorageMock = {
   key: () => null,
 };
 Object.defineProperty(globalThis, 'localStorage', { value: localStorageMock, writable: true });
-
-// Push all table schemas to the in-memory PGlite database
-beforeAll(async () => {
-  await pushTestSchema(db.pg as PgDatabase);
-});

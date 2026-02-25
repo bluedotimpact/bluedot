@@ -5,7 +5,7 @@ import { RateLimiter } from './rate-limiter';
 
 const isTest = process.env.VITEST === 'true';
 const testPgClient = isTest ? createTestPgClient() : undefined;
-const testAirtableClient = isTest ? createTestAirtableClient() : undefined;
+const testAirtableClient = testPgClient ? createTestAirtableClient(testPgClient) : undefined;
 
 // Rate limiting: During a full sync there is the potential to generate thousands of redundant warnings
 // if there is a mismatch between the schema and Airtable. Drop these above a low rate limit.
