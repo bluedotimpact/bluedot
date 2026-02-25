@@ -36,16 +36,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {},
-};
-
-export const SuccessState: Story = {
-  args: {
-    onSubmit: async () => { },
-  },
-};
-
-export const WithVideoRecordingReady: Story = {
   args: {
     onRecordScreen: () => { },
   },
