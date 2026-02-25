@@ -248,7 +248,10 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                           <FileAttachmentItem
                             key={`${file.name}-${idx}`}
                             file={file}
-                            onRemove={() => setAttachments((prev) => prev.filter((_, i) => i !== idx))}
+                            onRemove={() => {
+                              setAttachments((prev) => prev.filter((_, i) => i !== idx));
+                              setAttachmentError(null);
+                            }}
                           />
                         ))}
                       </div>
