@@ -4,11 +4,15 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { unstable_localLink } from '@trpc/client';
 import { createTRPCReact } from '@trpc/react-query';
 import { useState } from 'react';
-import { pushTestSchema, resetTestDb } from '@bluedot/db';
+import { pushTestSchema, resetTestDb, type TestPgAirtableDb } from '@bluedot/db';
 import type { AppRouter } from '../server/routers/_app';
 import type { Context } from '../server/context';
 import { appRouter } from '../server/routers/_app';
 import db from '../lib/api/db';
+
+// ── Test DB with widened insert type (accepts optional id) ──────────
+
+export const testDb = db as unknown as TestPgAirtableDb;
 
 // ── Shared auth context ──────────────────────────────────────────────
 

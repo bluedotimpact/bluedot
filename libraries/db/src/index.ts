@@ -1,6 +1,7 @@
 export { PgAirtableDb } from './lib/client';
 export type { PgDatabase } from './lib/client';
 export { createTestDb, createTestPgClient, createTestAirtableClient, pushTestSchema, resetTestDb } from './lib/test-db';
+export type { TestPgAirtableDb } from './lib/test-db';
 
 export {
   metaTable,
