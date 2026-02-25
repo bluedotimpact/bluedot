@@ -60,7 +60,7 @@ export const createTechnicalAiSafetyContent = (
       {
         icon: PiFlask,
         boldText: 'For ML researchers',
-        description: 'who want to take big bets on the most impactful research ideas.',
+        description: 'who want to work on impactful research ideas.',
       },
       {
         icon: PiCode,
