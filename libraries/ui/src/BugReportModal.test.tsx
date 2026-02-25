@@ -15,6 +15,7 @@ describe('BugReportModal', () => {
   it('renders correctly when open', () => {
     render(<BugReportModal isOpen />);
     expect(screen.getByText('Submit feedback')).toBeInTheDocument();
+    expect(screen.getByLabelText('Description')).toBeInTheDocument();
   });
 
   it('does not render when closed', () => {
@@ -22,58 +23,236 @@ describe('BugReportModal', () => {
     expect(screen.queryByText('Submit feedback')).not.toBeInTheDocument();
   });
 
-  it('handles message submission successfully', async () => {
-    const mockOnSubmit = vi.fn();
-    const mockSetIsOpen = vi.fn();
-    const testMessage = 'Test bug report';
+  it('shows success state after submission', async () => {
+    const mockOnSubmit = vi.fn().mockResolvedValue(undefined);
+    render(<BugReportModal isOpen onSubmit={mockOnSubmit} />);
 
-    render(<BugReportModal
-      showTextarea
-      onSubmit={mockOnSubmit}
-      isOpen
-      setIsOpen={mockSetIsOpen}
-    />);
-
-    const textarea = screen.getByPlaceholderText('Your message');
-    fireEvent.change(textarea, { target: { value: testMessage } });
+    fireEvent.change(screen.getByLabelText('Description'), {
+      target: { value: 'Something is broken' },
+    });
     fireEvent.click(screen.getByText('Submit'));
 
     await waitFor(() => {
-      expect(mockOnSubmit).toHaveBeenCalledWith(testMessage);
-      expect(mockSetIsOpen).toHaveBeenCalledWith(false);
+      expect(mockOnSubmit).toHaveBeenCalledWith({
+        description: 'Something is broken',
+        email: undefined,
+        attachments: [],
+      });
+      expect(screen.getByText('Thank you')).toBeInTheDocument();
+      expect(screen.getByText(/Your feedback has been sent/)).toBeInTheDocument();
     });
   });
 
-  it('displays error view when submission fails', async () => {
-    const testError = new Error('Failed to submit bug report');
+  it('includes email in submission data', async () => {
+    const mockOnSubmit = vi.fn().mockResolvedValue(undefined);
+    render(<BugReportModal isOpen onSubmit={mockOnSubmit} />);
+
+    fireEvent.change(screen.getByLabelText('Description'), {
+      target: { value: 'Feedback' },
+    });
+    fireEvent.change(screen.getByPlaceholderText('Email'), {
+      target: { value: 'user@example.com' },
+    });
+    fireEvent.click(screen.getByText('Submit'));
+
+    await waitFor(() => {
+      expect(mockOnSubmit).toHaveBeenCalledWith(expect.objectContaining({ email: 'user@example.com' }));
+    });
+  });
+
+  it('displays error when submission fails', async () => {
+    const testError = new Error('Network error');
     const mockOnSubmit = vi.fn().mockRejectedValue(testError);
-    const testMessage = 'Test bug report';
 
-    render(<BugReportModal
-      showTextarea
-      onSubmit={mockOnSubmit}
-      isOpen
-    />);
-
-    const textarea = screen.getByPlaceholderText('Your message');
-    fireEvent.change(textarea, { target: { value: testMessage } });
+    render(<BugReportModal isOpen onSubmit={mockOnSubmit} />);
+    fireEvent.change(screen.getByLabelText('Description'), {
+      target: { value: 'Test' },
+    });
     fireEvent.click(screen.getByText('Submit'));
 
     await waitFor(() => {
-      expect(screen.getByText(testError.message)).toBeInTheDocument();
-      expect(textarea).toHaveValue(testMessage);
+      expect(screen.getByText('Network error')).toBeInTheDocument();
+      expect(screen.getByLabelText('Description')).toBeInTheDocument();
     });
   });
 
-  it('renders social media links with default values', () => {
+  it('captures dropped files as attachments', async () => {
     render(<BugReportModal isOpen />);
-    const links = screen.getAllByRole('link');
-    expect(links).toHaveLength(5);
 
-    expect(links[0]).toHaveAttribute('href', 'https://github.com/bluedotimpact/bluedot/issues/new?template=bug.yaml');
-    expect(links[1]).toHaveAttribute('href', 'mailto:team@bluedot.org');
-    expect(links[2]).toHaveAttribute('href', 'https://github.com/bluedotimpact');
-    expect(links[3]).toHaveAttribute('href', 'https://x.com/BlueDotImpact');
-    expect(links[4]).toHaveAttribute('href', 'https://www.linkedin.com/company/bluedotimpact/');
+    const file = new File(['screenshot'], 'screen.png', { type: 'image/png' });
+    const dropTarget = screen.getByLabelText('Description').closest('div')!;
+
+    fireEvent.drop(dropTarget, {
+      dataTransfer: { files: [file] },
+    });
+
+    await waitFor(() => {
+      expect(screen.getByAltText('screen.png')).toBeInTheDocument();
+    });
+  });
+
+  it('captures pasted files as attachments', async () => {
+    render(<BugReportModal isOpen />);
+
+    const file = new File(['image'], 'pasted.png', { type: 'image/png' });
+    const textarea = screen.getByLabelText('Description');
+
+    fireEvent.paste(textarea, {
+      clipboardData: { files: [file] },
+    });
+
+    await waitFor(() => {
+      expect(screen.getByAltText('pasted.png')).toBeInTheDocument();
+    });
+  });
+
+  it('removes an attachment when the remove button is clicked', async () => {
+    render(<BugReportModal isOpen />);
+
+    const file = new File(['image'], 'removeme.png', { type: 'image/png' });
+    const dropTarget = screen.getByLabelText('Description').closest('div')!;
+
+    fireEvent.drop(dropTarget, {
+      dataTransfer: { files: [file] },
+    });
+
+    await waitFor(() => {
+      expect(screen.getByAltText('removeme.png')).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByLabelText('Remove removeme.png'));
+
+    await waitFor(() => {
+      expect(screen.queryByAltText('removeme.png')).not.toBeInTheDocument();
+    });
+  });
+
+  describe('attachment validation', () => {
+    const makeFile = (name: string, sizeBytes: number) => {
+      const file = new File(['x'], name, { type: 'text/plain' });
+      Object.defineProperty(file, 'size', { value: sizeBytes, configurable: true });
+      return file;
+    };
+
+    const dropFiles = (files: File[]) => {
+      fireEvent.drop(screen.getByLabelText('Description').closest('div')!, { dataTransfer: { files } });
+    };
+
+    it('shows an error and does not add files that exceed the size limit', async () => {
+      render(<BugReportModal isOpen />);
+      dropFiles([makeFile('valid.txt', 1024), makeFile('large.txt', 11 * 1024 * 1024)]);
+
+      await waitFor(() => {
+        expect(screen.getByText('valid.txt')).toBeInTheDocument();
+        expect(screen.queryByText('large.txt')).not.toBeInTheDocument();
+        expect(screen.getByRole('alert')).toHaveTextContent('Files must be under 10 MB each. 1 file was not added.');
+      });
+    });
+
+    it('shows an error and does not add files beyond the attachment limit', async () => {
+      render(<BugReportModal isOpen />);
+      dropFiles(Array.from({ length: 5 }, (_, i) => makeFile(`file${i}.txt`, 1024)));
+      await waitFor(() => expect(screen.getByText('file4.txt')).toBeInTheDocument());
+
+      dropFiles([makeFile('overflow.txt', 1024)]);
+
+      await waitFor(() => {
+        expect(screen.queryByText('overflow.txt')).not.toBeInTheDocument();
+        expect(screen.getByRole('alert')).toHaveTextContent('You can attach a maximum of 5 files.');
+      });
+    });
+
+    it('shows a combined error when files are both oversized and exceed the slot limit', async () => {
+      render(<BugReportModal isOpen />);
+      // Fill 4 of 5 slots, leaving 1 remaining
+      dropFiles(Array.from({ length: 4 }, (_, i) => makeFile(`file${i}.txt`, 1024)));
+      await waitFor(() => expect(screen.getByText('file3.txt')).toBeInTheDocument());
+
+      // 2 valid files exceed the 1 remaining slot, plus 1 oversized
+      dropFiles([makeFile('fits.txt', 1024), makeFile('extra.txt', 1024), makeFile('large.txt', 11 * 1024 * 1024)]);
+
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toHaveTextContent('Some files were not added');
+      });
+    });
+  });
+
+  it('disables Submit when Description is empty', () => {
+    render(<BugReportModal isOpen />);
+    expect(screen.getByText('Submit').closest('button')).toBeDisabled();
+  });
+
+  it('does not render video section when onRecordScreen is not provided', () => {
+    render(<BugReportModal isOpen />);
+    expect(screen.queryByText('Could you show us with a video?')).not.toBeInTheDocument();
+  });
+
+  it('shows unrecorded video state and calls onRecordScreen', () => {
+    const mockOnRecordScreen = vi.fn();
+    render(<BugReportModal isOpen onRecordScreen={mockOnRecordScreen} />);
+    expect(screen.getByText('Could you show us with a video?')).toBeInTheDocument();
+    expect(screen.getByText('Record my screen')).toBeInTheDocument();
+    fireEvent.click(screen.getByText('Record my screen'));
+    expect(mockOnRecordScreen).toHaveBeenCalledOnce();
+  });
+
+  it('shows recorded state with Re-record button and editable URL, and calls onRecordScreen on re-record', () => {
+    const mockOnRecordScreen = vi.fn();
+    render(<BugReportModal
+      isOpen
+      onRecordScreen={mockOnRecordScreen}
+      recordingUrl="https://app.birdie.so/recording/abc123"
+    />);
+    expect(screen.getByText('Recording saved')).toBeInTheDocument();
+    expect(screen.queryByText('Record my screen')).not.toBeInTheDocument();
+    expect(screen.getByText('Re-record')).toBeInTheDocument();
+    expect(screen.getByLabelText('Recording URL')).toHaveValue('https://app.birdie.so/recording/abc123');
+    fireEvent.click(screen.getByText('Re-record'));
+    expect(mockOnRecordScreen).toHaveBeenCalledOnce();
+  });
+
+  it('includes recordingUrl in submission data', async () => {
+    const mockOnSubmit = vi.fn().mockResolvedValue(undefined);
+    render(<BugReportModal
+      isOpen
+      onSubmit={mockOnSubmit}
+      onRecordScreen={() => {}}
+      recordingUrl="https://app.birdie.so/recording/abc123"
+    />);
+
+    fireEvent.change(screen.getByLabelText('Description'), {
+      target: { value: 'Bug report with video' },
+    });
+    fireEvent.click(screen.getByText('Submit'));
+
+    await waitFor(() => {
+      expect(mockOnSubmit).toHaveBeenCalledWith(expect.objectContaining({
+        recordingUrl: 'https://app.birdie.so/recording/abc123',
+      }));
+    });
+  });
+
+  it('submits the edited recording URL when user changes it', async () => {
+    const mockOnSubmit = vi.fn().mockResolvedValue(undefined);
+    render(<BugReportModal
+      isOpen
+      onSubmit={mockOnSubmit}
+      onRecordScreen={() => {}}
+      recordingUrl="https://app.birdie.so/recording/abc123"
+    />);
+
+    fireEvent.change(screen.getByLabelText('Recording URL'), {
+      target: { value: 'https://app.birdie.so/recording/corrected' },
+    });
+    fireEvent.change(screen.getByLabelText('Description'), {
+      target: { value: 'Bug report with corrected video' },
+    });
+    fireEvent.click(screen.getByText('Submit'));
+
+    await waitFor(() => {
+      expect(mockOnSubmit).toHaveBeenCalledWith(expect.objectContaining({
+        recordingUrl: 'https://app.birdie.so/recording/corrected',
+      }));
+    });
   });
 });

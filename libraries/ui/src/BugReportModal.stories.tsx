@@ -1,10 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import { BugReportModal } from './BugReportModal';
+import { BugReportModal, type BugReportModalProps } from './BugReportModal';
 import { CTALinkOrButton } from './CTALinkOrButton';
 
-// Wrapper component to handle the modal state
-const BugReportModalDemo: React.FC<{ showTextarea?: boolean }> = ({ showTextarea }) => {
+const BugReportModalDemo: React.FC<Pick<BugReportModalProps, 'onSubmit' | 'onRecordScreen' | 'recordingUrl'>> = ({
+  onSubmit, onRecordScreen, recordingUrl,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
@@ -12,9 +13,11 @@ const BugReportModalDemo: React.FC<{ showTextarea?: boolean }> = ({ showTextarea
         Submit Feedback
       </CTALinkOrButton>
       <BugReportModal
-        showTextarea={showTextarea}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
+        onSubmit={onSubmit}
+        onRecordScreen={onRecordScreen}
+        recordingUrl={recordingUrl}
       />
     </div>
   );
@@ -34,12 +37,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    showTextarea: false,
+    onRecordScreen: () => { },
   },
 };
 
-export const WithTextarea: Story = {
+export const WithVideoRecording: Story = {
   args: {
-    showTextarea: true,
+    onRecordScreen: () => { },
+    recordingUrl: 'https://app.birdie.so/recording/example',
   },
 };
