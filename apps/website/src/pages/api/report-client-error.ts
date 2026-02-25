@@ -3,6 +3,10 @@ import { z } from 'zod';
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import env from '../../lib/api/env';
 
+function escapeSlack(text: string): string {
+  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 const ClientErrorInput = z.object({
   message: z.string().max(1000),
   stack: z.string().max(5000).optional(),
@@ -24,13 +28,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const input = parsed.data;
-  const mainMessage = `Client error (${input.source}): ${input.message}`;
+  const message = escapeSlack(input.message);
+  const pageUrl = escapeSlack(input.pageUrl);
+  const userAgent = escapeSlack(input.userAgent);
+  const timestamp = escapeSlack(input.timestamp);
+  const stack = input.stack ? escapeSlack(input.stack) : undefined;
+  const componentStack = input.componentStack ? escapeSlack(input.componentStack) : undefined;
+
+  const mainMessage = `Client error (${input.source}): ${message}`;
   const details = [
-    `Page: ${input.pageUrl}`,
-    `UA: ${input.userAgent}`,
-    `Time: ${input.timestamp}`,
-    input.stack ? `Stack:\n\`\`\`${input.stack}\`\`\`` : null,
-    input.componentStack ? `Component stack:\n\`\`\`${input.componentStack}\`\`\`` : null,
+    `Page: ${pageUrl}`,
+    `UA: ${userAgent}`,
+    `Time: ${timestamp}`,
+    stack ? `Stack:\n\`\`\`${stack}\`\`\`` : null,
+    componentStack ? `Component stack:\n\`\`\`${componentStack}\`\`\`` : null,
   ].filter((x): x is string => x !== null).join('\n');
 
   slackAlert(env, [mainMessage, details], { batchKey: 'client-error' });
