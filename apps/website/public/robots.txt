@@ -2,7 +2,7 @@
 # Last updated: 2026-02-22
 
 # Allow all crawlers
-# BlueDot Impact is an educational nonprofit with a mission of building a AI safety workforce
+# BlueDot Impact is an educational nonprofit with a mission of building an AI safety workforce
 User-agent: *
 Allow: /
 
