@@ -11,7 +11,7 @@ declare global {
         close: () => void;
       };
     };
-    birdieSettings: {
+    birdieSettings?: {
       app_id: string;
       contact_name?: string | null;
       contact_email?: string | null;
