@@ -50,8 +50,8 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
     document.body.appendChild(script);
 
     return () => {
-      document.body.removeChild(script);
-    }
+      if (script) document.body.removeChild(script);
+    };
   }, []);
 
   const handleBugReportSubmit = async (data: FeedbackData) => {
