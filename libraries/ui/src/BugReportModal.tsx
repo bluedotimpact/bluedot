@@ -82,13 +82,27 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
   useEffect(() => {
     if (isOpen) {
       // Don't reset description, email, and attachments on open.
-      // When screen recording using Birdie, the user will close the modal, record their screen, then reopen the modal to submit, so we want to preserve their inputs.
+      // When screen recording using Birdie, the user will close the modal, record their screen, then reopen the modal
+      // to submit, so we want to preserve their inputs.
+      // After a successful submission we reset the form with `resetForm` below.
       setIsDragging(false);
       setIsSubmitting(false);
       setError(null);
       setShowSuccess(false);
     }
   }, [isOpen]);
+
+  const resetForm = () => {
+    setDescription('');
+    setEmail('');
+    setAttachments([]);
+    setRecordingUrlInput('');
+  }
+
+  const handleModalOpenChange = (open: boolean) => {
+    if (!open && showSuccess) resetForm();
+    setIsOpen(open);
+  };
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -136,7 +150,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
   return (
     <Modal
       isOpen={isOpen}
-      setIsOpen={setIsOpen}
+      setIsOpen={handleModalOpenChange}
       title={<span className="mx-auto text-[22px] font-semibold">{showSuccess ? 'Thank you' : 'Submit feedback'}</span>}
       ariaLabel={showSuccess ? 'Thank you' : 'Submit feedback'}
       bottomDrawerOnMobile
@@ -153,13 +167,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
             </p>
             <CTALinkOrButton
               className="mt-4 w-full"
-              onClick={() => {
-                setIsOpen(false);
-                setShowSuccess(false);
-                setDescription('');
-                setEmail('');
-                setAttachments([]);
-              }}
+              onClick={() => handleModalOpenChange(false)}
             >
               Close
             </CTALinkOrButton>
