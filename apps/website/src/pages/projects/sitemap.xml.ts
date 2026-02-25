@@ -9,8 +9,8 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const projects = await getAllPublishedProjects();
   const urls = projects.map((project) => {
     return `  <url>
-    <loc>${BASE_URL}/${encodeURIComponent(project.slug)}</loc>
-    <lastmod>${new Date(project.publishedAt * 1000).toISOString()}</lastmod>
+    <loc>${BASE_URL}/${encodeURIComponent(project.slug ?? '')}</loc>
+    <lastmod>${new Date((project.publishedAt ?? 0) * 1000).toISOString()}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>`;

@@ -217,7 +217,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       <span
                         class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                       >
-                        25h
+                        25H
                       </span>
                       <span
                         class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -328,7 +328,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       <span
                         class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                       >
-                        30h
+                        30H
                       </span>
                       <span
                         class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -404,7 +404,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       <span
                         class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                       >
-                        30h
+                        30H
                       </span>
                       <span
                         class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -424,7 +424,7 @@ exports[`CourseSection > renders as expected 1`] = `
             <span>
               <a
                 class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular"
-                href="/courses/governance"
+                href="/courses/ai-governance"
               >
                 <div
                   class="absolute inset-0 pointer-events-none"
@@ -480,7 +480,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       <span
                         class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                       >
-                        25h
+                        25H
                       </span>
                       <span
                         class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -571,7 +571,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          25h
+                          25H
                         </span>
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -652,7 +652,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          30h
+                          30H
                         </span>
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -728,7 +728,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          30h
+                          30H
                         </span>
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -748,7 +748,7 @@ exports[`CourseSection > renders as expected 1`] = `
               <span>
                 <a
                   class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
-                  href="/courses/governance"
+                  href="/courses/ai-governance"
                 >
                   <div
                     class="absolute inset-0 pointer-events-none"
@@ -804,7 +804,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          25h
+                          25H
                         </span>
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -880,7 +880,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          25h
+                          25H
                         </span>
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -961,7 +961,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          30h
+                          30H
                         </span>
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -1037,7 +1037,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          30h
+                          30H
                         </span>
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -1057,7 +1057,7 @@ exports[`CourseSection > renders as expected 1`] = `
               <span>
                 <a
                   class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
-                  href="/courses/governance"
+                  href="/courses/ai-governance"
                 >
                   <div
                     class="absolute inset-0 pointer-events-none"
@@ -1113,7 +1113,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          25h
+                          25H
                         </span>
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -1189,7 +1189,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          25h
+                          25H
                         </span>
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -1270,7 +1270,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          30h
+                          30H
                         </span>
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -1346,7 +1346,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          30h
+                          30H
                         </span>
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
@@ -1366,7 +1366,7 @@ exports[`CourseSection > renders as expected 1`] = `
               <span>
                 <a
                   class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
-                  href="/courses/governance"
+                  href="/courses/ai-governance"
                 >
                   <div
                     class="absolute inset-0 pointer-events-none"
@@ -1422,7 +1422,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
-                          25h
+                          25H
                         </span>
                         <span
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"

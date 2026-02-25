@@ -32,7 +32,9 @@ export {
   resourceCompletionTable,
   facilitatorDiscussionSwitchingTable,
   dropoutTable,
+  teamMemberTable,
   testimonialTable,
+  bugReportsTable,
 } from './schema';
 
 // Type exports
@@ -69,7 +71,9 @@ export type {
   ResourceCompletion,
   FacilitatorSwitching,
   Dropout,
+  TeamMember,
   Testimonial,
+  BugReport,
 } from './schema';
 
 export { getPgAirtableFromIds, PgAirtableTable } from './lib/db-core';

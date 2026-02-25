@@ -15,6 +15,7 @@ import { lumaRouter } from './luma';
 import { meetPersonRouter } from './meet-person';
 import { projectsRouter } from './projects';
 import { resourcesRouter } from './resources';
+import { teamMembersRouter } from './teamMembers';
 import { testimonialsRouter } from './testimonials';
 import { usersRouter } from './users';
 
@@ -35,6 +36,7 @@ export const appRouter = router({
   meetPerson: meetPersonRouter,
   projects: projectsRouter,
   resources: resourcesRouter,
+  teamMembers: teamMembersRouter,
   testimonials: testimonialsRouter,
   users: usersRouter,
 });

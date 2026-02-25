@@ -48,6 +48,10 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
 
   useEffect(() => {
+    setIsExpanded(isCurrentUnit);
+  }, [isCurrentUnit]);
+
+  useEffect(() => {
     if (isExpanded && detailsRef.current) {
       detailsRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }

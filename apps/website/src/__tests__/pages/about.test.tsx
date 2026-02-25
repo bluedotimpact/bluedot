@@ -1,4 +1,5 @@
-import { render } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { render, waitFor } from '@testing-library/react';
 import {
   beforeEach, describe, expect, type Mock, test, vi,
 } from 'vitest';
@@ -22,9 +23,17 @@ beforeEach(() => {
 });
 
 describe('AboutPage', () => {
-  test('should render correctly', () => {
-    server.use(trpcMsw.courses.getAll.query(() => []));
+  test('should render correctly', async () => {
+    server.use(
+      trpcMsw.courses.getAll.query(() => []),
+      trpcMsw.teamMembers.getAll.query(() => []),
+    );
     const { container } = render(<AboutPage />, { wrapper: TrpcProvider });
+
+    await waitFor(() => {
+      expect(container.querySelector('.team-section .slide-list')).toBeInTheDocument();
+    }, { timeout: 5000 });
+
     expect(container).toMatchSnapshot();
   });
 });

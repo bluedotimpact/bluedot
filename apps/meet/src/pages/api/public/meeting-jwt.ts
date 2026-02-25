@@ -44,7 +44,7 @@ export default makeApiRoute({
   const groupDiscussion = await db.get(groupDiscussionTable, { id: body.groupDiscussionId });
 
   if (body.participantId) {
-    const currentAttendees = groupDiscussion.attendees || [];
+    const currentAttendees = groupDiscussion.attendees ?? [];
     if (!currentAttendees.includes(body.participantId)) {
       await db.update(groupDiscussionTable, {
         id: body.groupDiscussionId,

@@ -93,7 +93,7 @@ const CourseLander = ({
   };
 
   return (
-    <div className="bg-white">
+    <div className="relative bg-white">
       <Head>
         <title>{content.meta.title}</title>
         <meta name="description" content={content.meta.description} />

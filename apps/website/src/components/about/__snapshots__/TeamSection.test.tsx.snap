@@ -28,19 +28,12 @@ exports[`TeamSection > renders as expected 1`] = `
           class="slide-list__gradient-wrapper relative flex-1"
         >
           <div
-            class="slide-list__gradient-overlay absolute inset-0 pointer-events-none z-10 flex"
-          >
-            <div
-              class="slide-list__gradient-left absolute inset-y-0 w-8 from-cream-normal to-transparent opacity-50 right-0 bg-linear-to-l"
-            />
-          </div>
-          <div
-            class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-y-spacing-y md:gap-x-space-between scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory"
+            class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-y-spacing-y md:gap-x-space-between scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory flex-wrap"
             style="scroll-padding-inline: 0px;"
           >
             <div
               class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
+              data-width="calc((100% - var(--space-between) * 0) * 1)"
               style="scroll-margin-left: -0px;"
             >
               <div
@@ -54,14 +47,14 @@ exports[`TeamSection > renders as expected 1`] = `
                   >
                     <a
                       class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
-                      href="https://www.linkedin.com/in/dewierwan/"
+                      href="https://linkedin.com/in/test"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
                       <img
-                        alt="Dewi Erwan - Co-founder & CEO"
+                        alt="Test Person - CEO"
                         class="team-section__card-image size-[300px] object-cover"
-                        src="/images/team/dewi.jpg"
+                        src="https://example.com/photo.jpg"
                       />
                     </a>
                   </div>
@@ -71,336 +64,18 @@ exports[`TeamSection > renders as expected 1`] = `
                     <h3
                       class="card__title font-bold text-size-lg mb-1"
                     >
-                      Dewi Erwan
+                      Test Person
                     </h3>
                     <p
                       class="card__subtitle text-gray-600"
                     >
-                      Co-founder & CEO
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-              style="scroll-margin-left: -0px;"
-            >
-              <div
-                class="team-section__card"
-              >
-                <div
-                  class="card flex items-start flex-col transition-transform duration-200"
-                >
-                  <div
-                    class="card__image-container w-full"
-                  >
-                    <a
-                      class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
-                      href="https://linkedin.com/in/will-saunter"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      <img
-                        alt="Will Saunter - Co-founder"
-                        class="team-section__card-image size-[300px] object-cover"
-                        src="/images/team/will.jpg"
-                      />
-                    </a>
-                  </div>
-                  <div
-                    class="card__content w-full p-4"
-                  >
-                    <h3
-                      class="card__title font-bold text-size-lg mb-1"
-                    >
-                      Will Saunter
-                    </h3>
-                    <p
-                      class="card__subtitle text-gray-600"
-                    >
-                      Co-founder
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-              style="scroll-margin-left: -0px;"
-            >
-              <div
-                class="team-section__card"
-              >
-                <div
-                  class="card flex items-start flex-col transition-transform duration-200"
-                >
-                  <div
-                    class="card__image-container w-full"
-                  >
-                    <a
-                      class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
-                      href="https://linkedin.com/in/anglilian"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      <img
-                        alt="Li-Lian Ang - Product & Placements"
-                        class="team-section__card-image size-[300px] object-cover"
-                        src="/images/team/lilian.jpg"
-                      />
-                    </a>
-                  </div>
-                  <div
-                    class="card__content w-full p-4"
-                  >
-                    <h3
-                      class="card__title font-bold text-size-lg mb-1"
-                    >
-                      Li-Lian Ang
-                    </h3>
-                    <p
-                      class="card__subtitle text-gray-600"
-                    >
-                      Product & Placements
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-              style="scroll-margin-left: -0px;"
-            >
-              <div
-                class="team-section__card"
-              >
-                <div
-                  class="card flex items-start flex-col transition-transform duration-200"
-                >
-                  <div
-                    class="card__image-container w-full"
-                  >
-                    <a
-                      class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
-                      href="https://linkedin.com/in/josh-landes12"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      <img
-                        alt="Josh Landes - Special Projects"
-                        class="team-section__card-image size-[300px] object-cover"
-                        src="/images/team/josh_v2.webp"
-                      />
-                    </a>
-                  </div>
-                  <div
-                    class="card__content w-full p-4"
-                  >
-                    <h3
-                      class="card__title font-bold text-size-lg mb-1"
-                    >
-                      Josh Landes
-                    </h3>
-                    <p
-                      class="card__subtitle text-gray-600"
-                    >
-                      Special Projects
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-              style="scroll-margin-left: -0px;"
-            >
-              <div
-                class="team-section__card"
-              >
-                <div
-                  class="card flex items-start flex-col transition-transform duration-200"
-                >
-                  <div
-                    class="card__image-container w-full"
-                  >
-                    <a
-                      class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
-                      href="https://www.linkedin.com/in/aniket-chakravorty-724458256/"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      <img
-                        alt="Aniket Chakravorty - AI Strategy Specialist"
-                        class="team-section__card-image size-[300px] object-cover"
-                        src="/images/team/aniket.png"
-                      />
-                    </a>
-                  </div>
-                  <div
-                    class="card__content w-full p-4"
-                  >
-                    <h3
-                      class="card__title font-bold text-size-lg mb-1"
-                    >
-                      Aniket Chakravorty
-                    </h3>
-                    <p
-                      class="card__subtitle text-gray-600"
-                    >
-                      AI Strategy Specialist
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-              style="scroll-margin-left: -0px;"
-            >
-              <div
-                class="team-section__card"
-              >
-                <div
-                  class="card flex items-start flex-col transition-transform duration-200"
-                >
-                  <div
-                    class="card__image-container w-full"
-                  >
-                    <a
-                      class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
-                      href="https://www.linkedin.com/in/samuel-dower/"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      <img
-                        alt="Sam Dower - Technical AI Safety Specialist"
-                        class="team-section__card-image size-[300px] object-cover"
-                        src="/images/team/samdower.png"
-                      />
-                    </a>
-                  </div>
-                  <div
-                    class="card__content w-full p-4"
-                  >
-                    <h3
-                      class="card__title font-bold text-size-lg mb-1"
-                    >
-                      Sam Dower
-                    </h3>
-                    <p
-                      class="card__subtitle text-gray-600"
-                    >
-                      Technical AI Safety Specialist
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="slide-list__slide shrink-0 snap-start pl-spacing-x md:pl-0 last:pr-spacing-x md:last:pr-0"
-              data-width="calc((100% - var(--space-between) * 0) * (1 - 0.15))"
-              style="scroll-margin-left: -0px;"
-            >
-              <div
-                class="team-section__card"
-              >
-                <div
-                  class="card flex items-start flex-col transition-transform duration-200"
-                >
-                  <div
-                    class="card__image-container w-full"
-                  >
-                    <a
-                      class="block cursor-pointer hover:opacity-90 transition-opacity duration-200"
-                      href="https://www.linkedin.com/in/weinbaumjonah/"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      <img
-                        alt="Jonah Weinbaum - def/acc"
-                        class="team-section__card-image size-[300px] object-cover"
-                        src="/images/team/jonahweinbaum.jpg"
-                      />
-                    </a>
-                  </div>
-                  <div
-                    class="card__content w-full p-4"
-                  >
-                    <h3
-                      class="card__title font-bold text-size-lg mb-1"
-                    >
-                      Jonah Weinbaum
-                    </h3>
-                    <p
-                      class="card__subtitle text-gray-600"
-                    >
-                      def/acc
+                      CEO
                     </p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div
-          class="flex justify-between items-center gap-space-between"
-        >
-          <button
-            aria-label="Previous slide"
-            class="slide-list__nav-button p-3 border rounded-lg transition-colors m-[3px] mt-0 border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
-            disabled=""
-            type="button"
-          >
-            <svg
-              class="slide-list__nav-icon size-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M15 19l-7-7 7-7"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-              />
-            </svg>
-          </button>
-          <div
-            class="slide-list__progress w-full relative h-1"
-          >
-            <div
-              class="slide-list__progress-track absolute h-px top-px w-full bg-color-divider"
-            />
-            <div
-              class="slide-list__progress-track absolute h-full bg-bluedot-normal"
-              style="width: 14.285714285714285%;"
-            />
-          </div>
-          <button
-            aria-label="Next slide"
-            class="slide-list__nav-button p-3 border rounded-lg transition-colors m-[3px] mt-0 border-charcoal-light text-black hover:bg-gray-50 hover:cursor-pointer active:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
-            type="button"
-          >
-            <svg
-              class="slide-list__nav-icon size-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M9 5l7 7-7 7"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-              />
-            </svg>
-          </button>
         </div>
       </div>
     </div>

@@ -2,18 +2,12 @@ import { P, Section } from '@bluedot/ui';
 
 const IntroSection = () => {
   return (
-    <Section className="intro-section" title="Our story">
-      <div className="intro-section__container flex lg:flex-row flex-col gap-space-between">
-        <div className="intro-section__text-container flex flex-col gap-5">
-          <P>In 2021, we and others around us wanted to learn about emerging technologies and how they might reshape the world – but nobody knew where to start. It was hard to find what to read, people to discuss it with, and ways to direct our careers to making a difference. The field of AI was moving so fast, and most of the key literature was in blog posts and arXiv pre-prints, rather than textbooks and peer-reviewed journals. Traditional education institutions were struggling to keep up.</P>
-          <P>What started as small study groups at the University of Cambridge has grown into something much bigger: courses designed with some of the world's leading experts that have helped thousands of people understand and work on these challenges.</P>
-          <P>As technology continues to advance rapidly, we're constantly adapting what we do. We work closely with leading organisations to understand what skills they need, quickly build new courses, and help talented people find roles where they can make a real difference.</P>
-          <span className="intro-section__signature">
-            <P>Dewi and Will,</P>
-            <P>BlueDot Impact Co-Founders</P>
-          </span>
-        </div>
-        <img className="intro-section__image max-w-[570px] w-full h-auto max-h-[400px] object-cover rounded-md mt-6 sm:mt-0 shrink-0" src="/images/culture/About-Us_v1.webp" alt="BlueDot Impact team" />
+    <Section className="intro-section" title="Who we are">
+      <div className="intro-section__text-container flex flex-col gap-5">
+        <P>In 2021, a handful of us at Cambridge wanted to work on AI safety, but couldn&apos;t find where to start. Important ideas and arguments were scattered across the internet. There were no courses, no career paths, and few people to talk to. So we started running reading groups.</P>
+        <P>Those reading groups evolved into the BlueDot courses. We&apos;ve trained over 7,000 people in AI safety, governance and biosecurity, and hundreds of our graduates now work at Anthropic, DeepMind, and UK AISI.</P>
+        <P>But training alone isn&apos;t enough. We give out grants to support career transitions, and we help exceptional people land impactful roles or start new organisations. Our goal isn&apos;t just to educate people, it&apos;s to get them working on the most important problems.</P>
+        <P>The gap between how fast AI is advancing and how fast the safety and security workforce is growing is the most dangerous mismatch of our time. We&apos;re a small team based in San Francisco and London working as fast as we can to close it.</P>
       </div>
     </Section>
   );

@@ -842,6 +842,76 @@ describe('GroupSwitchModal', () => {
     });
   });
 
+  describe('Collapsible options list', () => {
+    const manyGroupNames = [
+      'Group Alpha', 'Group Beta', 'Group Gamma', 'Group Delta', 'Group Epsilon',
+    ];
+
+    const mockManyGroups: DiscussionsAvailable = {
+      groupsAvailable: [
+        {
+          group: createMockGroup({ id: 'group-current', groupName: 'Current Group', participants: ['participant-1'] }),
+          userIsParticipant: true,
+          spotsLeftIfKnown: 0,
+        },
+        ...manyGroupNames.map((name, i) => ({
+          group: createMockGroup({ id: `group-${i + 2}`, groupName: name, participants: [] }),
+          userIsParticipant: false,
+          spotsLeftIfKnown: 3,
+        })),
+      ],
+      discussionsAvailable: {
+        1: [
+          {
+            discussion: createMockGroupDiscussion({ id: 'disc-current', group: 'group-current', participantsExpected: ['participant-1'] }),
+            groupName: 'Current Group',
+            userIsParticipant: true,
+            spotsLeftIfKnown: 0,
+          },
+          ...manyGroupNames.map((name, i) => ({
+            discussion: createMockGroupDiscussion({
+              id: `disc-${i + 2}`,
+              group: `group-${i + 2}`,
+              startDateTime: Math.floor((Date.now() + (i + 1) * 12 * 60 * 60 * 1000) / 1000),
+              participantsExpected: [] as string[],
+            }),
+            groupName: name,
+            userIsParticipant: false,
+            spotsLeftIfKnown: 3,
+          })),
+        ],
+      },
+    };
+
+    test('shows first 3 options collapsed, then expands on click', async () => {
+      server.use(trpcMsw.groupSwitching.discussionsAvailable.query(() => mockManyGroups));
+
+      render(
+        <GroupSwitchModal handleClose={() => {}} initialUnitNumber={mockUnit1.unitNumber} courseSlug="ai-safety" />,
+        { wrapper: TrpcProvider },
+      );
+
+      await waitFor(() => {
+        expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
+      });
+
+      // First 3 visible, 4th and 5th hidden
+      expect(screen.getByText('Group Alpha')).toBeInTheDocument();
+      expect(screen.getByText('Group Gamma')).toBeInTheDocument();
+      expect(screen.queryByText('Group Delta')).not.toBeInTheDocument();
+      expect(screen.queryByText('Group Epsilon')).not.toBeInTheDocument();
+
+      // Click "See all" to expand
+      const seeAllButton = screen.getByRole('button', { name: /See all/i });
+      fireEvent.click(seeAllButton);
+
+      // All now visible, button gone
+      expect(screen.getByText('Group Delta')).toBeInTheDocument();
+      expect(screen.getByText('Group Epsilon')).toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /See all/i })).not.toBeInTheDocument();
+    });
+  });
+
   describe('buildAvailabilityFormUrl', () => {
     test('builds URL with email, utm_source and roundId', () => {
       const url = buildAvailabilityFormUrl({

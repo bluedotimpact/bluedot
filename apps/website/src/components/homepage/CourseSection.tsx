@@ -1,19 +1,20 @@
 import {
-  H1, H3, H4, P, Section,
+  H1, H3, H4, P, ProgressDots, Section,
 } from '@bluedot/ui';
 import clsx from 'clsx';
 import {
-  useEffect, useRef, useCallback, useState,
+  useEffect, useRef, useCallback, useState, useMemo,
 } from 'react';
 import { PiShieldStarLight, PiShootingStarLight, PiUsersThreeLight } from 'react-icons/pi';
 import { usePrimaryCourseURL } from '../../lib/hooks/usePrimaryCourseURL';
 import { withClickTracking } from '../../lib/withClickTracking';
+import { trpc } from '../../utils/trpc';
 
 type Course = {
   slug: string;
   title: string;
   shortDescription: string;
-  durationDescription?: string;
+  durationHours?: number | null;
   cadence?: string;
   additionalTag?: string;
   isFeatured?: boolean;
@@ -22,61 +23,36 @@ type Course = {
   gradient?: string;
 };
 
-// Course-specific gradient backgrounds (matching lander color identities)
-const COURSE_GRADIENTS = {
-  'agi-strategy': 'linear-gradient(to right, rgba(10, 8, 36, 0.9) 0%, rgba(10, 8, 36, 0.4) 5%, rgba(10, 8, 36, 0.15) 15%, rgba(10, 8, 36, 0.05) 30%, transparent 45%), radial-gradient(115% 175% at 95% 135%, rgba(255, 194, 195, 0.65) 0%, rgba(255, 194, 195, 0.50) 25%, rgba(53, 42, 106, 0.65) 60%, rgba(10, 8, 36, 0.60) 100%), #181D3F',
-  biosecurity: 'linear-gradient(135deg, #012A07 10%, rgba(1, 42, 7, 0.00) 90%), radial-gradient(110.09% 127.37% at 112.15% 117.08%, rgba(220, 238, 171, 0.45) 0%, rgba(86, 140, 94, 0.45) 50%, rgba(1, 42, 7, 0.45) 100%), radial-gradient(97.29% 122.23% at 85.59% 126.89%, rgba(222, 149, 47, 0.35) 0%, rgba(157, 205, 98, 0.35) 52.4%, rgba(28, 175, 141, 0.35) 100%), #012A07',
-  'technical-ai-safety': 'linear-gradient(to right, rgba(20, 8, 25, 0.6) 0%, rgba(20, 8, 25, 0.4) 20%, rgba(20, 8, 25, 0.2) 40%, transparent 55%), radial-gradient(130% 160% at 100% 108.81%, rgba(255, 202, 171, 0.40) 0%, rgba(126, 85, 144, 0.40) 52.4%, rgba(46, 16, 54, 0.40) 100%), #2E1036',
-  governance: 'linear-gradient(270deg, rgba(5, 24, 67, 0.00) -3.82%, rgba(5, 24, 67, 0.50) 98.44%), radial-gradient(96.03% 113.39% at 98.65% 96.93%, rgba(175, 196, 151, 0.40) 0%, rgba(21, 148, 194, 0.40) 44.58%, rgba(5, 24, 67, 0.40) 100%), #051843',
+// Visual config per course (gradients, icons, tag labels) — keyed by slug
+const COURSE_VISUAL_CONFIG: Record<string, { gradient: string; icon: string; cadence: string; additionalTag: string }> = {
+  'agi-strategy': {
+    gradient: 'linear-gradient(to right, rgba(10, 8, 36, 0.9) 0%, rgba(10, 8, 36, 0.4) 5%, rgba(10, 8, 36, 0.15) 15%, rgba(10, 8, 36, 0.05) 30%, transparent 45%), radial-gradient(115% 175% at 95% 135%, rgba(255, 194, 195, 0.65) 0%, rgba(255, 194, 195, 0.50) 25%, rgba(53, 42, 106, 0.65) 60%, rgba(10, 8, 36, 0.60) 100%), #181D3F',
+    icon: '/images/courses/agi-strategy-icon.svg',
+    cadence: 'Cohort-based',
+    additionalTag: 'Every month',
+  },
+  biosecurity: {
+    gradient: 'linear-gradient(135deg, #012A07 10%, rgba(1, 42, 7, 0.00) 90%), radial-gradient(110.09% 127.37% at 112.15% 117.08%, rgba(220, 238, 171, 0.45) 0%, rgba(86, 140, 94, 0.45) 50%, rgba(1, 42, 7, 0.45) 100%), radial-gradient(97.29% 122.23% at 85.59% 126.89%, rgba(222, 149, 47, 0.35) 0%, rgba(157, 205, 98, 0.35) 52.4%, rgba(28, 175, 141, 0.35) 100%), #012A07',
+    icon: '/images/courses/biosecurity-icon.svg',
+    cadence: 'Cohort-based',
+    additionalTag: 'Every month',
+  },
+  'technical-ai-safety': {
+    gradient: 'linear-gradient(to right, rgba(20, 8, 25, 0.6) 0%, rgba(20, 8, 25, 0.4) 20%, rgba(20, 8, 25, 0.2) 40%, transparent 55%), radial-gradient(130% 160% at 100% 108.81%, rgba(255, 202, 171, 0.40) 0%, rgba(126, 85, 144, 0.40) 52.4%, rgba(46, 16, 54, 0.40) 100%), #2E1036',
+    icon: '/images/courses/technical-ai-safety-icon.svg',
+    cadence: 'Cohort-based',
+    additionalTag: 'Every month',
+  },
+  'ai-governance': {
+    gradient: 'linear-gradient(270deg, rgba(5, 24, 67, 0.00) -3.82%, rgba(5, 24, 67, 0.50) 98.44%), radial-gradient(96.03% 113.39% at 98.65% 96.93%, rgba(175, 196, 151, 0.40) 0%, rgba(21, 148, 194, 0.40) 44.58%, rgba(5, 24, 67, 0.40) 100%), #051843',
+    icon: '/images/courses/ai-governance-icon.svg',
+    cadence: 'Cohort-based',
+    additionalTag: 'Every month',
+  },
 };
 
-// Hardcoded course data
-const HARDCODED_COURSES: Course[] = [
-  {
-    slug: 'agi-strategy',
-    title: 'AGI Strategy',
-    shortDescription: 'A deep dive into the incentives driving the AI companies, what\'s at stake, and the strategies for ensuring AI benefits humanity. You\'ll finish with your own action plan.',
-    durationDescription: '25h',
-    cadence: 'Cohort-based',
-    additionalTag: 'Every month',
-    isFeatured: true,
-    icon: '/images/courses/agi-strategy-icon.svg',
-    gradient: COURSE_GRADIENTS['agi-strategy'],
-  },
-  {
-    slug: 'biosecurity',
-    title: 'Biosecurity',
-    shortDescription: 'For people who want to build a pandemic-proof world. Learn how we can defend against AI-enabled bioattacks.',
-    durationDescription: '30h',
-    cadence: 'Cohort-based',
-    additionalTag: 'Every month',
-    isFeatured: false,
-    icon: '/images/courses/biosecurity-icon.svg',
-    gradient: COURSE_GRADIENTS.biosecurity,
-  },
-  {
-    slug: 'technical-ai-safety',
-    title: 'Technical AI Safety',
-    shortDescription: 'For technical talent who want to drive AI safety research and policy professionals building governance solutions.',
-    durationDescription: '30h',
-    cadence: 'Cohort-based',
-    additionalTag: 'Every month',
-    isFeatured: false,
-    icon: '/images/courses/technical-ai-safety-icon.svg',
-    gradient: COURSE_GRADIENTS['technical-ai-safety'],
-  },
-  {
-    slug: 'governance',
-    title: 'Frontier AI Governance',
-    shortDescription: 'Learn about the policy landscape, regulatory tools, and institutional reforms needed to navigate the transition to transformative AI.',
-    durationDescription: '25h',
-    cadence: 'Cohort-based',
-    additionalTag: 'Every month',
-    isFeatured: false,
-    icon: '/images/courses/ai-governance-icon.svg',
-    gradient: COURSE_GRADIENTS.governance,
-  },
-];
+// Only show courses that have visual config
+const HOMEPAGE_COURSE_SLUGS = Object.keys(COURSE_VISUAL_CONFIG);
 
 /* Header Section */
 const HeaderSection = () => (
@@ -555,7 +531,7 @@ const CourseCardRedesigned = ({
         {/* Text content at bottom */}
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-4">
-            <H3 className={clsx('font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200', course.slug === 'governance' ? 'text-[23px]' : 'text-[24px]')}>
+            <H3 className={clsx('font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200', course.slug === 'ai-governance' ? 'text-[23px]' : 'text-[24px]')}>
               {course.title}
               {/* Hover arrow for all cards */}
               <span className="inline-block ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -580,7 +556,7 @@ const CourseCardRedesignedWithTracking = withClickTracking(CourseCardRedesigned,
 
 const CourseTags = ({ course }: { course: Course }) => {
   const regularTags = [
-    course.durationDescription,
+    course.durationHours != null ? `${course.durationHours}H` : undefined,
     course.cadence,
     course.additionalTag,
   ].filter(Boolean);
@@ -605,7 +581,34 @@ const CourseTags = ({ course }: { course: Course }) => {
 };
 
 const CourseSection = () => {
-  const courses = HARDCODED_COURSES;
+  const { data: dbCourses, isLoading } = trpc.courses.getAll.useQuery();
+
+  const courses = useMemo((): Course[] => {
+    if (!dbCourses) return [];
+
+    return HOMEPAGE_COURSE_SLUGS
+      .flatMap((slug): Course[] => {
+        const dbCourse = dbCourses.find((c) => c.slug === slug);
+        const config = COURSE_VISUAL_CONFIG[slug]!;
+        if (!dbCourse) return [];
+
+        return [{
+          slug: dbCourse.slug,
+          title: dbCourse.title,
+          shortDescription: dbCourse.shortDescription,
+          durationHours: dbCourse.durationHours,
+          isFeatured: !!dbCourse.isFeatured,
+          cadence: config.cadence,
+          additionalTag: config.additionalTag,
+          icon: config.icon,
+          gradient: config.gradient,
+        }];
+      });
+  }, [dbCourses]);
+
+  if (isLoading) {
+    return <ProgressDots />;
+  }
 
   if (courses.length === 0) {
     return null;

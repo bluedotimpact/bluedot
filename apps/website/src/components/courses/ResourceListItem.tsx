@@ -320,7 +320,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
               {resource.syncedAudioUrl && (
                 <ListenToArticleButton
                   audioUrl={resource.syncedAudioUrl}
-                  resourceTitle={resource.resourceName}
+                  resourceTitle={resource.resourceName ?? ''}
                 />
               )}
             </div>
