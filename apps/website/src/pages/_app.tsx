@@ -55,14 +55,12 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
       description: data.description,
       email: data.email,
       recordingUrl: data.recordingUrl,
-      attachments: await Promise.all(
-        data.attachments?.map(async (file) => ({
-          base64: await toBase64(file),
-          filename: file.name,
-          mimeType: file.type,
-        })) ?? [],
-      ),
-    })
+      attachments: await Promise.all(data.attachments?.map(async (file) => ({
+        base64: await toBase64(file),
+        filename: file.name,
+        mimeType: file.type,
+      })) ?? []),
+    });
   };
 
   const getAnnouncementBanner = () => {

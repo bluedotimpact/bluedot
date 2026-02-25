@@ -88,7 +88,7 @@ const FooterSocial: React.FC<FooterSocialProps> = ({ className }) => (
 
 export const Footer: React.FC<FooterProps> = ({
   className, logo, courses = [], loading,
-  onRecordScreen, recordingUrl, onBugReportModalClose, onBugReportSubmit
+  onRecordScreen, recordingUrl, onBugReportModalClose, onBugReportSubmit,
 }) => {
   const [isBugReportOpen, setIsBugReportOpen] = useState(false);
 
