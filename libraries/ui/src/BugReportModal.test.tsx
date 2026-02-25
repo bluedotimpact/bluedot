@@ -127,6 +127,56 @@ describe('BugReportModal', () => {
     });
   });
 
+  describe('attachment validation', () => {
+    const makeFile = (name: string, sizeBytes: number) => {
+      const file = new File(['x'], name, { type: 'text/plain' });
+      Object.defineProperty(file, 'size', { value: sizeBytes, configurable: true });
+      return file;
+    };
+
+    const dropFiles = (files: File[]) => {
+      fireEvent.drop(screen.getByLabelText('Description').closest('div')!, { dataTransfer: { files } });
+    };
+
+    it('shows an error and does not add files that exceed the size limit', async () => {
+      render(<BugReportModal isOpen />);
+      dropFiles([makeFile('valid.txt', 1024), makeFile('large.txt', 11 * 1024 * 1024)]);
+
+      await waitFor(() => {
+        expect(screen.getByText('valid.txt')).toBeInTheDocument();
+        expect(screen.queryByText('large.txt')).not.toBeInTheDocument();
+        expect(screen.getByRole('alert')).toHaveTextContent('Files must be under 10 MB each. 1 file was not added.');
+      });
+    });
+
+    it('shows an error and does not add files beyond the attachment limit', async () => {
+      render(<BugReportModal isOpen />);
+      dropFiles(Array.from({ length: 5 }, (_, i) => makeFile(`file${i}.txt`, 1024)));
+      await waitFor(() => expect(screen.getByText('file4.txt')).toBeInTheDocument());
+
+      dropFiles([makeFile('overflow.txt', 1024)]);
+
+      await waitFor(() => {
+        expect(screen.queryByText('overflow.txt')).not.toBeInTheDocument();
+        expect(screen.getByRole('alert')).toHaveTextContent('You can attach a maximum of 5 files.');
+      });
+    });
+
+    it('shows a combined error when files are both oversized and exceed the slot limit', async () => {
+      render(<BugReportModal isOpen />);
+      // Fill 4 of 5 slots, leaving 1 remaining
+      dropFiles(Array.from({ length: 4 }, (_, i) => makeFile(`file${i}.txt`, 1024)));
+      await waitFor(() => expect(screen.getByText('file3.txt')).toBeInTheDocument());
+
+      // 2 valid files exceed the 1 remaining slot, plus 1 oversized
+      dropFiles([makeFile('fits.txt', 1024), makeFile('extra.txt', 1024), makeFile('large.txt', 11 * 1024 * 1024)]);
+
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toHaveTextContent('Some files were not added');
+      });
+    });
+  });
+
   it('disables Submit when Description is empty', () => {
     render(<BugReportModal isOpen />);
     expect(screen.getByText('Submit').closest('button')).toBeDisabled();
