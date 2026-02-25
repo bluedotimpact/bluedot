@@ -16,6 +16,9 @@ export type FeedbackData = {
   recordingUrl?: string;
 };
 
+const MAX_ATTACHMENTS = 5;
+const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024;
+
 export type BugReportModalProps = {
   onSubmit?: (data: FeedbackData) => Promise<void>;
   isOpen?: boolean;
@@ -68,6 +71,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
   const [description, setDescription] = useState('');
   const [email, setEmail] = useState('');
   const [attachments, setAttachments] = useState<File[]>([]);
+  const [attachmentError, setAttachmentError] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -88,6 +92,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
       setIsDragging(false);
       setIsSubmitting(false);
       setError(null);
+      setAttachmentError(null);
       setShowSuccess(false);
     }
   }, [isOpen]);
@@ -96,7 +101,30 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
     setDescription('');
     setEmail('');
     setAttachments([]);
+    setAttachmentError(null);
     setRecordingUrlInput('');
+  };
+
+  const addFiles = (newFiles: File[]) => {
+    const oversized = newFiles.filter((f) => f.size > MAX_FILE_SIZE_BYTES);
+    const validFiles = newFiles.filter((f) => f.size <= MAX_FILE_SIZE_BYTES);
+    const slotsRemaining = MAX_ATTACHMENTS - attachments.length;
+    const filesToAdd = validFiles.slice(0, slotsRemaining);
+    const tooMany = validFiles.length > slotsRemaining;
+
+    if (oversized.length > 0 && tooMany) {
+      setAttachmentError(`Some files were not added: files must be under 10 MB each, and you can attach a maximum of ${MAX_ATTACHMENTS} files.`);
+    } else if (oversized.length > 0) {
+      setAttachmentError(`Files must be under 10 MB each. ${oversized.length === 1 ? '1 file was' : `${oversized.length} files were`} not added.`);
+    } else if (tooMany) {
+      setAttachmentError(`You can attach a maximum of ${MAX_ATTACHMENTS} files.`);
+    } else {
+      setAttachmentError(null);
+    }
+
+    if (filesToAdd.length > 0) {
+      setAttachments((prev) => [...prev, ...filesToAdd]);
+    }
   };
 
   const handleModalOpenChange = (open: boolean) => {
@@ -120,14 +148,14 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
     setIsDragging(false);
     const files = Array.from(e.dataTransfer.files);
     if (files.length > 0) {
-      setAttachments((prev) => [...prev, ...files]);
+      addFiles(files);
     }
   };
 
   const handlePaste = (e: React.ClipboardEvent) => {
     const files = Array.from(e.clipboardData.files);
     if (files.length > 0) {
-      setAttachments((prev) => [...prev, ...files]);
+      addFiles(files);
     }
   };
 
@@ -235,7 +263,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                         onChange={(e) => {
                           const files = Array.from(e.target.files ?? []);
                           if (files.length > 0) {
-                            setAttachments((prev) => [...prev, ...files]);
+                            addFiles(files);
                           }
 
                           e.target.value = '';
@@ -253,6 +281,11 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                   </>
                 )}
               </div>
+              {attachmentError && (
+                <p className="text-red-600 text-size-sm mt-1" role="alert" aria-live="polite">
+                  {attachmentError}
+                </p>
+              )}
             </div>
 
             {onRecordScreen && (

@@ -13,7 +13,7 @@ export const feedbackRouter = router({
       recordingUrl: z.string().url().optional(),
       attachments: z
         .array(z.object({
-          base64: z.string().max(10 * 1024 * 1024), // 10MB max size per file
+          base64: z.string().max(Math.ceil(10 * 1024 * 1024 * (4 / 3))), // 10MB max file size; base64-encoded is ~4/3 larger
           filename: z.string().max(255),
           mimeType: z.string().max(100),
         }))
