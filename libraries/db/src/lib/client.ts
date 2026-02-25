@@ -75,30 +75,32 @@ export type Filter<T> = FilterOperation<T> | {
   OR: Filter<T>[];
 };
 
+export type PgDatabase = ReturnType<typeof drizzle>;
+
 /**
  * Postgres client which is identical to the standard client in terms of functionality, but
  * with deprecated write functions to warn developers not to use them directly.
  */
-type RestrictedPgDatabase = Omit<ReturnType<typeof drizzle>, 'insert' | 'update' | 'delete'> & {
+type RestrictedPgDatabase = Omit<PgDatabase, 'insert' | 'update' | 'delete'> & {
   /**
    * @deprecated Use `db.insert`, which will write to Airtable and mirror the result to Postgres.
    * Using this raw `db.pg.insert` function will only write to Postgres.
    */
-  insert: ReturnType<typeof drizzle>['insert'];
+  insert: PgDatabase['insert'];
   /**
    * @deprecated Use `db.update` instead, which will write to Airtable and mirror the result to Postgres.
    * Using this raw `db.pg.update` function will only write to Postgres.
    */
-  update: ReturnType<typeof drizzle>['update'];
+  update: PgDatabase['update'];
   /**
    * @deprecated Use `remove`, which will write to Airtable and mirror the result to Postgres.
    * Using this raw `db.pg.delete` function will only write to Postgres.
    */
-  delete: ReturnType<typeof drizzle>['delete'];
+  delete: PgDatabase['delete'];
 };
 
 export class PgAirtableDb {
-  private pgUnrestricted: ReturnType<typeof drizzle>;
+  private pgUnrestricted: PgDatabase;
 
   /** @deprecated Usually, don't use this. Use the primary methods on PgAirtableDb instead */
   public pg: RestrictedPgDatabase;
@@ -115,25 +117,30 @@ export class PgAirtableDb {
   /** @deprecated Old name. Use .remove() instead */
   public airtableDelete = this.remove.bind(this);
 
-  constructor({
-    pgConnString,
-    airtableApiKey,
-    onWarning,
-  }: {
+  constructor(options: {
     pgConnString: string;
     airtableApiKey: string;
     onWarning?: AirtableTsOptions['onWarning'];
+  } | {
+    pgClient: PgDatabase;
+    airtableClient: AirtableTs;
   }) {
+    if ('pgClient' in options) {
+      this.airtableClient = options.airtableClient;
+      this.pgUnrestricted = options.pgClient;
+      this.pg = this.pgUnrestricted as RestrictedPgDatabase;
+      return;
+    }
+
     // In production, try to proceed on validation errors
     const readValidation = env.NODE_ENV === 'production' ? 'warning' : 'error';
 
     this.airtableClient = new AirtableTs({
-      apiKey: airtableApiKey,
+      apiKey: options.airtableApiKey,
       readValidation,
-      onWarning,
+      onWarning: options.onWarning,
     });
-
-    this.pgUnrestricted = drizzle(pgConnString);
+    this.pgUnrestricted = drizzle(options.pgConnString);
     this.pg = this.pgUnrestricted as RestrictedPgDatabase;
   }
 
