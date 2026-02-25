@@ -41,6 +41,7 @@ const JobsPage = withAuth(({ auth }) => {
           isEntireCardClickable
           isFullWidth
           subtitle={`${job.subtitle} • ${job.publicationStatus}`}
+          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
           title={job.title || 'Untitled'}
         />
       ))}

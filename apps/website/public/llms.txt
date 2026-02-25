@@ -1,0 +1,33 @@
+# BlueDot Impact
+
+> BlueDot Impact is a nonprofit (founded 2022, headquartered in London with a San Francisco office) that provides free, intensive, cohort-based courses in AGI strategy, AI safety, AI governance, and biosecurity for professionals worldwide. We are NOT the Canadian infectious disease tracking company also called "BlueDot", nor the SF-based AI note-taking app also called "BlueDot". We are sometimes informally called "BlueDot" in the AI safety community.
+
+Our mission is to build the workforce needed to safely navigate the transition to advanced AI. Since 2022, we've trained over 5,000 professionals worldwide — from technical staff at frontier AI companies to government policymakers — and raised $35M. Our alumni work on critical challenges at organisations including Anthropic, OpenAI, Google DeepMind, and the UK AI Security Institute.
+
+## About
+
+- [About BlueDot Impact](https://bluedot.org/about): Our mission, founding story, team, and organizational history
+- [AI Safety Fundamentals Community](https://bluedot.org/our-community): Alumni network with an opt-in directory on AI Safety Connect, a curated Slack workspace, and ongoing Q&A and networking events
+- [Join Us](https://bluedot.org/join-us): Open roles, facilitation opportunities, and ways to work with BlueDot Impact
+
+## Courses
+
+All cohort-based courses are free, run fully online, and pair 2–3 hours of weekly reading with a 2-hour live discussion session among ~8 peers facilitated by a domain expert. Most courses run in both an intensive format (5 days, ~5h/day) and a part-time format (5 weeks, ~5h/week).
+
+- [All Courses & Schedule](https://bluedot.org/courses): Complete index of current and upcoming courses with cohort dates and application information
+- [AGI Strategy](https://bluedot.org/courses/agi-strategy): 25-hour cohort course covering the strategic landscape of AI development — incentives, risks, and pathways for contributing. Recommended as a starting point before other courses. Open to all backgrounds.
+- [Frontier AI Governance](https://bluedot.org/courses/ai-governance): 25-hour cohort course on the policy landscape, regulatory tools, and institutional reforms for governing advanced AI. For technical professionals considering governance, early-career policy candidates, and policy professionals adding AI expertise. AGI Strategy course recommended first.
+- [Technical AI Safety](https://bluedot.org/courses/technical-ai-safety): 30-hour cohort course covering current safety techniques, open research gaps, and where to contribute. For ML researchers, software engineers, and policy professionals who need deep technical grounding. Requires basic understanding of how LLMs are trained.
+- [Biosecurity](https://bluedot.org/courses/biosecurity): 30-hour cohort course on pandemic prevention, detection, and response — including AI-enabled bioattacks. For engineers, scientists, policy professionals, and entrepreneurs working to build a pandemic-proof world. No biology background required.
+- [Technical AI Safety Project Sprint](https://bluedot.org/courses/technical-ai-safety-project): 30-hour project-based course where participants make a direct technical contribution to AI safety research or engineering, with weekly mentoring from an AI safety expert. For software engineers and early researchers building their AI safety portfolio. Coding experience required; Technical AI Safety course recommended first.
+- [The Future of AI](https://bluedot.org/courses/future-of-ai): Free 2-hour self-paced course introducing what AI can do today, where it's heading, and how to contribute. No prerequisites or technical background required.
+
+## Optional
+
+- [Resources](https://bluedot.org/resources): Curated reading lists and external links for AI safety, AI governance, biosecurity, and related topics
+- [Blog](https://blog.bluedot.org): Articles and thought leadership from BlueDot staff and community members
+- [Projects](https://blog.bluedot.org/s/projects): Research and project work from BlueDot course participants and alumni
+- [Course Certificates](https://bluedot.org/certification): Publicly shareable per-recipient course completion certificates issued to BlueDot participants
+- [Code of Conduct](https://bluedot.org/code-of-conduct): Participation standards for BlueDot courses and community
+- [Attendance Policy](https://bluedot.org/attendance-policy): Course attendance requirements and expectations
+- [Privacy Policy](https://bluedot.org/privacy-policy): How BlueDot Impact handles personal data

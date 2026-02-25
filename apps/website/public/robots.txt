@@ -1,0 +1,22 @@
+# robots.txt for https://bluedot.org
+# Last updated: 2026-02-22
+
+# Allow all crawlers
+# BlueDot Impact is an educational nonprofit with a mission of building an AI safety workforce
+User-agent: *
+Allow: /
+
+# Authenticated user routes — no public SEO value, content is behind login
+Disallow: /profile
+Disallow: /settings/
+
+# Admin routes
+Disallow: /admin/
+
+# API routes — machine-to-machine endpoints, not indexable content
+Disallow: /api/
+
+# Next.js internals
+Disallow: /_next/
+
+Sitemap: https://bluedot.org/sitemap.xml

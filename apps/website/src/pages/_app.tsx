@@ -1,6 +1,6 @@
 import '../globals.css';
 import '../lib/axios'; // Configure axios-hooks
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { Footer, LatestUtmParamsProvider } from '@bluedot/ui';
@@ -17,6 +17,8 @@ import { inter } from '../lib/fonts';
 import { trpc } from '../utils/trpc';
 import { reportClientError } from '../lib/reportClientError';
 import { ErrorBoundary } from '../components/ErrorBoundary';
+import type { FeedbackData } from '@bluedot/ui/src/BugReportModal';
+import { toBase64 } from '../utils/toBase64';
 
 const AnnouncementBanner = dynamic(() => import('../components/AnnouncementBanner'), { ssr: false });
 // Dynamic import prevents SSR execution - required because Customer.io package has circular dependencies
@@ -51,6 +53,43 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
       window.removeEventListener('unhandledrejection', handleRejection);
     };
   }, []);
+
+  const submitBugMutation = trpc.feedback.submitBugReport.useMutation();
+
+  const [recordingUrl, setRecordingUrl] = useState<string | undefined>();
+
+  useEffect(() => {
+    if (window.innerWidth <= 768) return;
+    if (window.birdie) return;
+
+    window.birdieSettings = {
+      app_id: '4adrhn9g',
+      onRecordingPosted: (url) => setRecordingUrl(url),
+    };
+
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.src = `https://app.birdie.so/widget/${window.birdieSettings.app_id}`;
+    document.body.appendChild(script);
+
+    return () => {
+      if (script) document.body.removeChild(script);
+    };
+  }, []);
+
+  const handleBugReportSubmit = async (data: FeedbackData) => {
+    await submitBugMutation.mutateAsync({
+      description: data.description,
+      email: data.email,
+      recordingUrl: data.recordingUrl,
+      attachments: await Promise.all(data.attachments?.map(async (file) => ({
+        base64: await toBase64(file),
+        filename: file.name,
+        mimeType: file.type,
+      })) ?? []),
+    });
+  };
 
   const getAnnouncementBanner = () => {
     if (fromSite) {
@@ -96,6 +135,10 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
                     }))}
                     loading={loading}
                     logo="/images/logo/BlueDot_Impact_Logo_White.svg"
+                    onRecordScreen={() => window.birdie?.widget.open()}
+                    recordingUrl={recordingUrl}
+                    onBugReportModalClose={() => setRecordingUrl(undefined)}
+                    onBugReportSubmit={handleBugReportSubmit}
                   />
                 )}
               </>

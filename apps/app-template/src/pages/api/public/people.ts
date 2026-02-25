@@ -21,14 +21,13 @@ export default makeApiRoute({
 
   return allPeople.map((person) => ({
     id: person.id,
-    email: person.email,
-    firstName: person.firstName,
-    lastName: person.lastName,
-    ethnicGroup: person.ethnicGroup,
-    careerPlans: person.careerPlans,
-    biography: person.biography,
-    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-    appliedToOpportunities: person.appliedToOpportunities || [],
-    isProfilePublic: person.isProfilePublic || false,
+    email: person.email ?? '',
+    firstName: person.firstName ?? '',
+    lastName: person.lastName ?? '',
+    ethnicGroup: person.ethnicGroup ?? '',
+    careerPlans: person.careerPlans ?? '',
+    biography: person.biography ?? '',
+    appliedToOpportunities: person.appliedToOpportunities ?? [],
+    isProfilePublic: person.isProfilePublic ?? false,
   }));
 });

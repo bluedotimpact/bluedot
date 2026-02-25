@@ -29,6 +29,6 @@ export const teamMembersRouter = router({
           imageUrl: getFirstImageUrl(m.imagePublicUrls),
           url: m.url ?? undefined,
         }))
-        .sort((a, b) => a.name.localeCompare(b.name));
+        .sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''));
     }),
 });

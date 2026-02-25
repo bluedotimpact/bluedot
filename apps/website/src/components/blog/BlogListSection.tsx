@@ -66,7 +66,9 @@ const BlogListItem = ({ blog }: { blog: inferRouterOutputs<AppRouter>['blogs']['
       ctaUrl={url}
       isEntireCardClickable
       isFullWidth
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       subtitle={`${blog.authorName || 'Unknown author'} • ${formattedDate}`}
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       title={blog.title || 'Untitled'}
       subtitleBadge={blog.isFeatured ? 'FEATURED' : undefined}
     />

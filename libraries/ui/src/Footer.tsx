@@ -1,23 +1,33 @@
 import clsx from 'clsx';
 import type React from 'react';
+import { useEffect, useState } from 'react';
 import {
-  FaXTwitter, FaYoutube, FaLinkedin,
+  FaLinkedin,
+  FaXTwitter, FaYoutube,
 } from 'react-icons/fa6';
-import { A } from './Text';
+import { BugReportModal, type FeedbackData } from './BugReportModal';
 import { ClickTarget } from './ClickTarget';
 import { ProgressDots } from './ProgressDots';
+import { A } from './Text';
 
 export type FooterProps = React.PropsWithChildren<{
-  // Optional props (including children from PropsWithChildren)
   className?: string;
   logo?: string;
   courses?: { path: string; title: string }[];
   loading?: boolean;
+  onRecordScreen?: () => void;
+  recordingUrl?: string;
+  onBugReportModalClose?: () => void;
+  onBugReportSubmit?: (data: FeedbackData) => Promise<void>;
 }>;
+
+type FooterLinkItem =
+  | { url: string; label: string; target?: string; onClick?: never }
+  | { onClick: () => void; label: string; url?: never; target?: never };
 
 type FooterSectionProps = {
   title?: string;
-  links?: { url: string; label: string; target?: string }[];
+  links?: FooterLinkItem[];
   className?: string;
 };
 
@@ -30,18 +40,29 @@ const FooterLinksSection: React.FC<FooterSectionProps> = ({ title, links, classN
     )}
     {links && (
       <ul className="flex flex-col gap-[15px] list-none p-0">
-        {links.map((link) => (
-          <li key={link.url}>
-            <A
-              href={link.url}
-              target={link.target}
-              rel={link.target === '_blank' ? 'noopener noreferrer' : undefined}
-              className="text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-            >
-              {link.label}
-            </A>
-          </li>
-        ))}
+        {links.map((link) =>
+          link.onClick ? (
+            <li key={link.label}>
+              <button
+                type="button"
+                onClick={link.onClick}
+                className="text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white font-normal bg-transparent border-none p-0 cursor-pointer"
+              >
+                {link.label}
+              </button>
+            </li>
+          ) : (
+            <li key={link.url}>
+              <A
+                href={link.url}
+                target={link.target}
+                rel={link.target === '_blank' ? 'noopener noreferrer' : undefined}
+                className="text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+              >
+                {link.label}
+              </A>
+            </li>
+          ))}
       </ul>
     )}
   </div>
@@ -67,21 +88,43 @@ const FooterSocial: React.FC<FooterSocialProps> = ({ className }) => (
 
 export const Footer: React.FC<FooterProps> = ({
   className, logo, courses = [], loading,
+  onRecordScreen, recordingUrl, onBugReportModalClose, onBugReportSubmit,
 }) => {
-  const bluedotLinks = [
+  const [isBugReportOpen, setIsBugReportOpen] = useState(false);
+
+  const handleSetBugReportOpen = (v: boolean) => {
+    setIsBugReportOpen(v);
+    if (!v) onBugReportModalClose?.();
+  };
+
+  const handleRecordScreen = () => {
+    setIsBugReportOpen(false);
+    // Use `setTimeout` to ensure the bug modal has closed before opening the Birdie widget (also a modal), preventing
+    // potential UI and focus conflicts.
+    setTimeout(() => onRecordScreen?.());
+  };
+
+  useEffect(() => {
+    if (recordingUrl) {
+      setIsBugReportOpen(true);
+    }
+  }, [recordingUrl]);
+
+  const bluedotLinks: FooterLinkItem[] = [
     { url: '/about', label: 'About us' },
     { url: 'https://donate.stripe.com/5kA3fpgjpdJv6o89AA', label: 'Support us' },
     { url: '/join-us', label: 'Join us' },
     { url: 'mailto:team@bluedot.org', label: 'Contact us' },
   ];
 
-  const resourceLinks = [
+  const resourceLinks: FooterLinkItem[] = [
     { url: 'https://blog.bluedot.org', label: 'Blog', target: '_blank' },
     { url: 'https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer', label: 'Events', target: '_blank' },
     { url: '/privacy-policy', label: 'Privacy Policy' },
+    { onClick: () => setIsBugReportOpen(true), label: 'Report a bug' },
   ];
 
-  const exploreLinks = courses.map((course) => ({ url: course.path, label: course.title }));
+  const exploreLinks: FooterLinkItem[] = courses.map((course) => ({ url: course.path, label: course.title }));
 
   return (
     <footer className={clsx('w-full bg-[#02051E]', className)}>
@@ -183,6 +226,13 @@ export const Footer: React.FC<FooterProps> = ({
           </div>
         </div>
       )}
+      <BugReportModal
+        isOpen={isBugReportOpen}
+        setIsOpen={handleSetBugReportOpen}
+        onRecordScreen={onRecordScreen ? handleRecordScreen : undefined}
+        recordingUrl={recordingUrl}
+        onSubmit={onBugReportSubmit}
+      />
     </footer>
   );
 };

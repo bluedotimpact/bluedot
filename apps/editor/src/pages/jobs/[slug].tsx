@@ -54,7 +54,7 @@ const JobPostPage = withAuth(({ auth }) => {
         <title>{`${data.job.title} | BlueDot Editor`}</title>
       </Head>
       <BodyEditor auth={auth} onSave={saveJob}>
-        {data.job.body}
+        {data.job.body ?? undefined}
       </BodyEditor>
       <P><A href={`https://airtable.com/app63L1YChHfS6RJF/pagJUhKs6oHyiFhQd?QaMci=${data.job.id}`}>Return to Airtable</A></P>
     </>

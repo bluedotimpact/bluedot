@@ -23,6 +23,7 @@ type ProjectPostPageProps = {
 
 const ProjectPostPage = ({ slug, project }: ProjectPostPageProps) => {
   const currentRoute: BluedotRoute = {
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     title: project.title || 'Project',
     url: `${ROUTES.projects.url}/${slug}`,
     parentPages: [...(ROUTES.projects.parentPages ?? []), ROUTES.projects],
@@ -50,7 +51,7 @@ const ProjectPostPage = ({ slug, project }: ProjectPostPageProps) => {
       <Breadcrumbs route={currentRoute} />
       <Section className="max-w-3xl">
         <MarkdownExtendedRenderer>
-          {project.body}
+          {project.body ?? undefined}
         </MarkdownExtendedRenderer>
         <div className="my-8 border-t border-color-divider pt-8">
           <CTALinkOrButton url={ROUTES.projects.url} variant="secondary" withBackChevron>
