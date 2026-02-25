@@ -126,7 +126,7 @@ export const groupSwitchingRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: 'No participant record found for user in this course round' });
       }
 
-      const courseRound = await db.get(roundTable, { id: roundId });
+      const courseRound = await db.getFirst(roundTable, { filter: { id: roundId }, sortBy: 'id' });
       if (!courseRound) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'No course round found' });
       }
@@ -259,15 +259,21 @@ export const groupSwitchingRouter = router({
       let oldDiscussionId: string | null = null;
       let newDiscussionId: string | null = null;
 
-      const round = await db.get(roundTable, { id: roundId });
+      const round = await db.getFirst(roundTable, { filter: { id: roundId }, sortBy: 'id' });
+      if (!round) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'No course round found' });
+      }
       const maxParticipants = round.maxParticipantsPerGroup;
 
       if (isTemporarySwitch) {
-        // Error will be thrown here if oldDiscussion is not found
         const [oldDiscussion, newDiscussion] = await Promise.all([
-          db.get(groupDiscussionTable, { id: inputOldDiscussionId }),
-          !isManualRequest ? db.get(groupDiscussionTable, { id: inputNewDiscussionId }) : null,
+          db.getFirst(groupDiscussionTable, { filter: { id: inputOldDiscussionId } }),
+          !isManualRequest ? db.getFirst(groupDiscussionTable, { filter: { id: inputNewDiscussionId } }) : null,
         ]);
+
+        if (!oldDiscussion) {
+          throw new TRPCError({ code: 'NOT_FOUND', message: 'Old discussion not found' });
+        }
 
         if (oldDiscussion.facilitators.includes(participantId) || newDiscussion?.facilitators.includes(participantId)) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'Facilitators cannot switch groups by this method' });
@@ -301,10 +307,9 @@ export const groupSwitchingRouter = router({
         oldDiscussionId = inputOldDiscussionId!;
         newDiscussionId = inputNewDiscussionId ?? null;
       } else {
-        // Error will be thrown here if oldGroup is not found
         const [oldGroup, newGroup, discussionsFacilitatedByParticipant] = await Promise.all([
-          inputOldGroupId ? db.get(groupTable, { id: inputOldGroupId }) : null,
-          !isManualRequest ? db.get(groupTable, { id: inputNewGroupId }) : null,
+          inputOldGroupId ? db.getFirst(groupTable, { filter: { id: inputOldGroupId } }) : null,
+          !isManualRequest ? db.getFirst(groupTable, { filter: { id: inputNewGroupId } }) : null,
           db.pg
             .select()
             .from(groupDiscussionTable.pg)

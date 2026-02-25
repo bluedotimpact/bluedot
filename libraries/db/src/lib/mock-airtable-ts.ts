@@ -72,7 +72,8 @@ export class MockAirtableTs extends AirtableTs {
 
   override async insert<T extends Item>(table: Table<T>, data: Partial<Omit<T, 'id'>>): Promise<T> {
     const pgTable = this.getPgTable(table.tableId);
-    const id = generateRecordId();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const id = (data as any).id ?? generateRecordId();
     try {
       const rows = await this.pgClient
         .insert(pgTable)
