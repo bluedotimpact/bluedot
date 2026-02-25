@@ -4,7 +4,7 @@ import env from '../env';
 
 const isTest = process.env.VITEST === 'true';
 const testPgClient = isTest ? createTestPgClient() : undefined;
-const testAirtableClient = isTest ? createTestAirtableClient() : undefined;
+const testAirtableClient = testPgClient ? createTestAirtableClient(testPgClient) : undefined;
 
 export default new PgAirtableDb(
   testPgClient

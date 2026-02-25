@@ -102,7 +102,6 @@ type RestrictedPgDatabase = Omit<PgDatabase, 'insert' | 'update' | 'delete'> & {
 export class PgAirtableDb {
   private pgUnrestricted: PgDatabase;
 
-  /** @deprecated Usually, don't use this. Use the primary methods on PgAirtableDb instead */
   public pg: RestrictedPgDatabase;
 
   /** @deprecated Never use this, unless you know what you're doing. Use the primary methods on PgAirtableDb instead */

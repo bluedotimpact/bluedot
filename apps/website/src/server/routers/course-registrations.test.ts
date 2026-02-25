@@ -1,25 +1,12 @@
 import { describe, expect, test } from 'vitest';
 import { courseRegistrationTable } from '@bluedot/db';
 import db from '../../lib/api/db';
-import { appRouter } from './_app';
-import type { Context } from '../context';
+import { setupDbTests, createCaller } from '../../__tests__/dbTestUtils';
 
-const mockContext: Context = {
-  auth: {
-    email: 'test@example.com',
-    sub: 'test-sub',
-    iss: 'test-issuer',
-    aud: 'test-audience',
-    exp: Math.floor(Date.now() / 1000) + 3600,
-    email_verified: true,
-  },
-  impersonation: null,
-  userAgent: 'test-agent',
-};
+setupDbTests();
 
 describe('courseRegistrations router', () => {
   test('getAll returns course registrations from the database', async () => {
-    // Insert test data directly into PGlite
     await db.pg.insert(courseRegistrationTable.pg).values([
       {
         id: 'rec001',
@@ -41,7 +28,7 @@ describe('courseRegistrations router', () => {
       },
     ]);
 
-    const caller = appRouter.createCaller(mockContext);
+    const caller = createCaller();
     const results = await caller.courseRegistrations.getAll();
 
     // Should only return non-withdrawn registrations for test@example.com
