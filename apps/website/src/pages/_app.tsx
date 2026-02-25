@@ -48,6 +48,10 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
     script.async = true;
     script.src = `https://app.birdie.so/widget/${window.birdieSettings.app_id}`;
     document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    }
   }, []);
 
   const handleBugReportSubmit = async (data: FeedbackData) => {
