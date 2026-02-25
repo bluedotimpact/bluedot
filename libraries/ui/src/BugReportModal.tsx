@@ -7,6 +7,7 @@ import { CTALinkOrButton } from './CTALinkOrButton';
 import { ErrorView } from './ErrorView';
 import { Modal } from './Modal';
 import { cn } from './utils';
+import { ProgressDots } from './ProgressDots';
 
 export type FeedbackData = {
   description: string;
@@ -306,7 +307,14 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
             </div>
 
             <CTALinkOrButton type="submit" className="w-full" disabled={isSubmitting || !description.trim()}>
-              {isSubmitting ? 'Submitting...' : 'Submit'}
+                {isSubmitting ? (
+                <span className='flex items-center gap-2'>
+                  Submitting
+                  <ProgressDots className="my-0" dotClassName="bg-white" />
+                </span>
+                ) : (
+                'Submit'
+                )}
             </CTALinkOrButton>
           </form>
         )}
