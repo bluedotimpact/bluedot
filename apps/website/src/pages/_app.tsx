@@ -55,7 +55,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   }, []);
 
   const handleBugReportSubmit = async (data: FeedbackData) => {
-    submitBugMutation.mutate({
+    await submitBugMutation.mutateAsync({
       description: data.description,
       email: data.email,
       recordingUrl: data.recordingUrl,
