@@ -1,4 +1,5 @@
 import { bugReportsTable } from '@bluedot/db';
+import { slackAlert } from '@bluedot/utils';
 import z from 'zod';
 import db from '../../lib/api/db';
 import env from '../../lib/api/env';
@@ -30,28 +31,33 @@ export const feedbackRouter = router({
 
       // 2. Upload attachments via Airtable content API
       await Promise.all((input.attachments ?? []).map(async (attachment) => {
-        const response = await fetch(
-          `https://content.airtable.com/v0/${bugReportsTable.airtable.baseId}/${record.id}/${bugReportsTable.airtableFieldMap.get('attachments')}/uploadAttachment`,
-          {
-            method: 'POST',
-            headers: {
-              Authorization: `Bearer ${env.AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
-              'Content-Type': 'application/json',
+        try {
+          const response = await fetch(
+            `https://content.airtable.com/v0/${bugReportsTable.airtable.baseId}/${record.id}/${bugReportsTable.airtableFieldMap.get('attachments')}/uploadAttachment`,
+            {
+              method: 'POST',
+              headers: {
+                Authorization: `Bearer ${env.AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                filename: attachment.filename,
+                file: attachment.base64,
+                contentType: attachment.mimeType,
+              }),
             },
-            body: JSON.stringify({
-              filename: attachment.filename,
-              file: attachment.base64,
-              contentType: attachment.mimeType,
-            }),
-          },
-        );
-        if (!response.ok) {
+          );
+          if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Failed to upload attachment to Airtable: ${response.status} ${response.statusText} - ${errorText}`);
+          }
+        } catch (error) {
           // eslint-disable-next-line no-console
-          console.error('Failed to upload attachment to Airtable', {
-            status: response.status,
-            statusText: response.statusText,
-            body: await response.text(),
-          });
+          console.error('Error uploading attachment to Airtable', { error });
+          slackAlert(env, [
+            'Error uploading attachment to Airtable',
+            `Error: ${error instanceof Error ? error.message : String(error)}`,
+          ]);
         }
       }));
 
