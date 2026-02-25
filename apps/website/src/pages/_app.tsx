@@ -1,9 +1,9 @@
 import '../globals.css';
 import '../lib/axios'; // Configure axios-hooks
+import { useEffect, useState } from 'react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { Footer, LatestUtmParamsProvider } from '@bluedot/ui';
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import { GoogleTagManager } from '../components/analytics/GoogleTagManager';
@@ -15,6 +15,8 @@ import { ImpersonationBadge } from '../components/admin/ImpersonationBadge';
 import { useCourses } from '../lib/hooks/useCourses';
 import { inter } from '../lib/fonts';
 import { trpc } from '../utils/trpc';
+import { reportClientError } from '../lib/reportClientError';
+import { ErrorBoundary } from '../components/ErrorBoundary';
 import type { FeedbackData } from '@bluedot/ui/src/BugReportModal';
 import { toBase64 } from '../utils/toBase64';
 
@@ -29,14 +31,36 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   const hideFooter = 'hideFooter' in Component;
   const { courses, loading } = useCourses();
 
+  useEffect(() => {
+    const handleError = (event: ErrorEvent) => {
+      reportClientError(
+        { message: event.message, stack: typeof event.error?.stack === 'string' ? event.error.stack : undefined },
+        'window.onerror',
+      );
+    };
+
+    const handleRejection = (event: PromiseRejectionEvent) => {
+      const error = event.reason instanceof Error
+        ? event.reason
+        : { message: String(event.reason) };
+      reportClientError(error, 'unhandledrejection');
+    };
+
+    window.addEventListener('error', handleError);
+    window.addEventListener('unhandledrejection', handleRejection);
+    return () => {
+      window.removeEventListener('error', handleError);
+      window.removeEventListener('unhandledrejection', handleRejection);
+    };
+  }, []);
+
   const submitBugMutation = trpc.feedback.submitBugReport.useMutation();
 
-  // Used by Birdie feedback widget to store the URL of the recording for the current bug report, if one exists
   const [recordingUrl, setRecordingUrl] = useState<string | undefined>();
 
   useEffect(() => {
-    if (window.innerWidth <= 768) return; // birdie doesn't work on mobile
-    if (window.birdie) return; //  prevent fetching on every new page if already exists
+    if (window.innerWidth <= 768) return;
+    if (window.birdie) return;
 
     window.birdieSettings = {
       app_id: '4adrhn9g',
@@ -90,12 +114,18 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
             <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
           </Head>
           {'rawLayout' in Component && Component.rawLayout
-            ? <Component {...pageProps} />
+            ? (
+              <ErrorBoundary key={router.asPath}>
+                <Component {...pageProps} />
+              </ErrorBoundary>
+            )
             : (
               <>
                 <Header announcementBanner={getAnnouncementBanner()} />
                 <main className="bluedot-base">
-                  <Component {...pageProps} />
+                  <ErrorBoundary key={router.asPath}>
+                    <Component {...pageProps} />
+                  </ErrorBoundary>
                 </main>
                 {!hideFooter && (
                   <Footer
