@@ -319,7 +319,7 @@ const farPastTimeSecs = pastTimeSecs - 60 * 60;
 
 /**
  * Seeds the minimum data chain for group switching:
- * course → registration → meetPerson → round → bucket → groups → discussions
+ * course -> registration -> meetPerson -> round -> bucket -> groups -> discussions
  */
 async function seedCourseWithGroups() {
   await testDb.insert(courseTable, {
@@ -634,6 +634,15 @@ describe('groupSwitching.switchGroup', () => {
     });
   });
 
+  test('requires newGroupId for permanent switch (non-manual)', async () => {
+    await expect(caller.groupSwitching.switchGroup({
+      switchType: 'Switch group permanently',
+      oldGroupId: 'group-a',
+      isManualRequest: false,
+      courseSlug: 'test-course',
+    })).rejects.toThrow('newGroupId is required');
+  });
+
   test('creates a manual switch request (no new group required)', async () => {
     await seedCourseWithGroups();
 
@@ -655,7 +664,7 @@ describe('groupSwitching.switchGroup', () => {
     });
   });
 
-  test('rejects if user is not in the old group', async () => {
+  test('rejects permanent switch if user is not in the old group', async () => {
     await seedCourseWithGroups();
 
     // group-b doesn't contain participant-1
@@ -668,7 +677,7 @@ describe('groupSwitching.switchGroup', () => {
     })).rejects.toThrow('User is not a member of old group');
   });
 
-  test('rejects if user is already in the new group', async () => {
+  test('rejects permanent switch if user is already in the new group', async () => {
     await seedCourseWithGroups();
 
     // Try switching to group-a where participant already is
@@ -681,7 +690,7 @@ describe('groupSwitching.switchGroup', () => {
     })).rejects.toThrow('User is already a member of new group');
   });
 
-  test('rejects if new group is full', async () => {
+  test('rejects permanent switch if new group is full', async () => {
     await seedCourseWithGroups();
 
     // Set max to 1 and group-b already has 1 participant
@@ -699,7 +708,7 @@ describe('groupSwitching.switchGroup', () => {
     })).rejects.toThrow('no spots remaining');
   });
 
-  test('rejects if facilitator tries to switch', async () => {
+  test('rejects permanent switch if facilitator tries to switch', async () => {
     await seedCourseWithGroups();
 
     // Make participant a facilitator on a discussion in group-a
@@ -755,16 +764,7 @@ describe('groupSwitching.switchGroup', () => {
     })).rejects.toThrow('oldDiscussionId is required');
   });
 
-  test('requires newGroupId for permanent switch (non-manual)', async () => {
-    await expect(caller.groupSwitching.switchGroup({
-      switchType: 'Switch group permanently',
-      oldGroupId: 'group-a',
-      isManualRequest: false,
-      courseSlug: 'test-course',
-    })).rejects.toThrow('newGroupId is required');
-  });
-
-  test('rejects if user is not in the old discussion (temporary switch)', async () => {
+  test('rejects temporary switch if user is not in the old discussion', async () => {
     await seedCourseWithGroups();
 
     // disc-b1 has participantsExpected: ['other-participant-2'], not our participant
@@ -777,7 +777,7 @@ describe('groupSwitching.switchGroup', () => {
     })).rejects.toThrow('User not found in old discussion');
   });
 
-  test('rejects if user is already in new discussion (temporary switch)', async () => {
+  test('rejects temporary switch if user is already in new discussion', async () => {
     await seedCourseWithGroups();
 
     // disc-a1 already has our participant
@@ -831,7 +831,7 @@ describe('groupSwitching.switchGroup', () => {
     });
   });
 
-  test('rejects facilitator on temporary switch', async () => {
+  test('rejects temporary switch if a facilitator tries to switch', async () => {
     await seedCourseWithGroups();
 
     // Make participant a facilitator on disc-a1
