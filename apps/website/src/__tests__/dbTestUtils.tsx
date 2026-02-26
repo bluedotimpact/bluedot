@@ -12,7 +12,13 @@ import db from '../lib/api/db';
 // Test DB with widened insert type (accepts optional id)
 export const testDb = db as unknown as TestPgAirtableDb;
 
-export const testAuthContext: Context = {
+export const testAuthContextLoggedOut: Context = {
+  auth: null,
+  impersonation: null,
+  userAgent: 'test-agent',
+};
+
+export const testAuthContextLoggedIn: Context = {
   auth: {
     email: 'test@example.com',
     sub: 'test-sub',
@@ -36,12 +42,12 @@ export function setupDbTests() {
 }
 
 // Server-side caller, for router tests that don't render components
-export const createCaller = (ctx: Context = testAuthContext) => appRouter.createCaller(ctx);
+export const createCaller = (ctx: Context = testAuthContextLoggedOut) => appRouter.createCaller(ctx);
 
 // React provider, for front-end tests that render components *and* call tRPC routes which hit the database
 
 const trpcTest = createTRPCReact<AppRouter>();
-export const createTrpcDbProvider = (ctx: Context = testAuthContext) => {
+export const createTrpcDbProvider = (ctx: Context = testAuthContextLoggedOut) => {
   const trpcClient = trpcTest.createClient({
     links: [
       // Alternative to httpLink to support running in tests without setting up a full HTTP round trip.
@@ -71,6 +77,3 @@ export const createTrpcDbProvider = (ctx: Context = testAuthContext) => {
     );
   };
 };
-
-export const TrpcDbProvider = createTrpcDbProvider();
-

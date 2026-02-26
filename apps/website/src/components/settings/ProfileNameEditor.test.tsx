@@ -8,7 +8,7 @@ import { userTable } from '@bluedot/db';
 import db from '../../lib/api/db';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
-import { setupDbTests, TrpcDbProvider } from '../../__tests__/dbTestUtils';
+import { createTrpcDbProvider, setupDbTests, testAuthContextLoggedIn } from '../../__tests__/dbTestUtils';
 import ProfileNameEditor from './ProfileNameEditor';
 
 setupDbTests();
@@ -226,7 +226,7 @@ describe('ProfileNameEditor', () => {
   });
 });
 
-describe('ProfileNameEditor (real DB)', () => {
+describe('ProfileNameEditor (with DB)', () => {
   test('saves name change to the database', async () => {
     await db.insert(userTable, {
       email: 'test@example.com',
@@ -235,7 +235,7 @@ describe('ProfileNameEditor (real DB)', () => {
 
     const { container } = render(
       <ProfileNameEditor initialName="John Doe" />,
-      { wrapper: TrpcDbProvider },
+      { wrapper: createTrpcDbProvider(testAuthContextLoggedIn) },
     );
 
     const input = container.querySelector<HTMLInputElement>('input[aria-label="Profile name"]')!;
@@ -261,7 +261,7 @@ describe('ProfileNameEditor (real DB)', () => {
   test('shows error when user does not exist in DB', async () => {
     const { container } = render(
       <ProfileNameEditor initialName="Ghost User" />,
-      { wrapper: TrpcDbProvider },
+      { wrapper: createTrpcDbProvider(testAuthContextLoggedIn) },
     );
 
     const input = container.querySelector<HTMLInputElement>('input[aria-label="Profile name"]')!;

@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'vitest';
-import { setupDbTests, createCaller, testAuthContext } from '../../__tests__/dbTestUtils';
+import { setupDbTests, createCaller, testAuthContextLoggedIn } from '../../__tests__/dbTestUtils';
 
 setupDbTests();
 
-const caller = createCaller();
+const caller = createCaller(testAuthContextLoggedIn);
 
 describe('exercises.saveExerciseResponse', () => {
   test('creates a new response when none exists', async () => {
@@ -98,9 +98,9 @@ describe('exercises.getExerciseResponse', () => {
     });
 
     const otherCaller = createCaller({
-      ...testAuthContext,
+      ...testAuthContextLoggedIn,
       auth: {
-        ...testAuthContext.auth!,
+        ...testAuthContextLoggedIn.auth!,
         email: 'other@example.com',
       },
     });

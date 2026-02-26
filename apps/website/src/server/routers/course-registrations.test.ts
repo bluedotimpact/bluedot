@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { courseRegistrationTable } from '@bluedot/db';
-import { setupDbTests, createCaller, testDb } from '../../__tests__/dbTestUtils';
+import { setupDbTests, createCaller, testDb, testAuthContextLoggedIn } from '../../__tests__/dbTestUtils';
 
 setupDbTests();
 
@@ -25,7 +25,7 @@ describe('courseRegistrations router', () => {
       decision: 'Accept',
     });
 
-    const caller = createCaller();
+    const caller = createCaller(testAuthContextLoggedIn);
     const results = await caller.courseRegistrations.getAll();
 
     // Should only return non-withdrawn registrations for test@example.com
