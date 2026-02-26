@@ -282,6 +282,7 @@ export const groupSwitchingRouter = router({
       if (!participant) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'No participant found for this course registration' });
       }
+
       const { id: participantId, round: roundId } = participant;
 
       if (!roundId) {
@@ -298,6 +299,7 @@ export const groupSwitchingRouter = router({
       if (!round) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'No course round found' });
       }
+
       const maxParticipants = round.maxParticipantsPerGroup;
 
       if (isTemporarySwitch) {

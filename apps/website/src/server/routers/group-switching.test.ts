@@ -13,7 +13,9 @@ import {
   describe, expect, it, test,
 } from 'vitest';
 import { createMockGroup, createMockGroupDiscussion } from '../../__tests__/testUtils';
-import { setupTestDb, createCaller, testAuthContextLoggedIn, testDb } from '../../__tests__/dbTestUtils';
+import {
+  setupTestDb, createCaller, testAuthContextLoggedIn, testDb,
+} from '../../__tests__/dbTestUtils';
 import { calculateGroupAvailability } from './group-switching';
 
 setupTestDb();

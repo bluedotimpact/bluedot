@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { beforeAll, beforeEach } from 'vitest';
 import { resetTestDb } from '@bluedot/db';
 import { ensureSchemaUpToDate } from './lib/schema-sync';
