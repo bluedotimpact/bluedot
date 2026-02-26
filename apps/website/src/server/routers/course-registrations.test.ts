@@ -1,8 +1,8 @@
 import { describe, expect, test } from 'vitest';
 import { courseRegistrationTable } from '@bluedot/db';
-import { setupDbTests, createCaller, testDb, testAuthContextLoggedIn } from '../../__tests__/dbTestUtils';
+import { setupTestDb, createCaller, testDb, testAuthContextLoggedIn } from '../../__tests__/dbTestUtils';
 
-setupDbTests();
+setupTestDb();
 
 describe('courseRegistrations router', () => {
   test('getAll returns course registrations from the database', async () => {

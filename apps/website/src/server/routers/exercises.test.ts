@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
-import { setupDbTests, createCaller, testAuthContextLoggedIn } from '../../__tests__/dbTestUtils';
+import { setupTestDb, createCaller, testAuthContextLoggedIn } from '../../__tests__/dbTestUtils';
 
-setupDbTests();
+setupTestDb();
 
 const caller = createCaller(testAuthContextLoggedIn);
 

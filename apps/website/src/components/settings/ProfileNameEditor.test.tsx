@@ -8,10 +8,10 @@ import { userTable } from '@bluedot/db';
 import db from '../../lib/api/db';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
-import { createTrpcDbProvider, setupDbTests, testAuthContextLoggedIn } from '../../__tests__/dbTestUtils';
+import { createTrpcDbProvider, setupTestDb, testAuthContextLoggedIn } from '../../__tests__/dbTestUtils';
 import ProfileNameEditor from './ProfileNameEditor';
 
-setupDbTests();
+setupTestDb();
 
 const mockUser = {
   id: 'test-user-id',

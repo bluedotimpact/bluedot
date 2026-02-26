@@ -31,7 +31,10 @@ export const testAuthContextLoggedIn: Context = {
   userAgent: 'test-agent',
 };
 
-export function setupDbTests() {
+/**
+ * Call this once per test file that needs to access the database.
+ */
+export function setupTestDb() {
   beforeAll(async () => {
     await pushTestSchema(db);
   });
@@ -45,7 +48,6 @@ export function setupDbTests() {
 export const createCaller = (ctx: Context = testAuthContextLoggedOut) => appRouter.createCaller(ctx);
 
 // React provider, for front-end tests that render components *and* call tRPC routes which hit the database
-
 const trpcTest = createTRPCReact<AppRouter>();
 export const createTrpcDbProvider = (ctx: Context = testAuthContextLoggedOut) => {
   const trpcClient = trpcTest.createClient({
