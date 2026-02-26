@@ -301,14 +301,11 @@ export const groupSwitchingRouter = router({
       const maxParticipants = round.maxParticipantsPerGroup;
 
       if (isTemporarySwitch) {
+        // Error will be thrown here if oldDiscussion is not found
         const [oldDiscussion, newDiscussion] = await Promise.all([
-          db.getFirst(groupDiscussionTable, { filter: { id: inputOldDiscussionId } }),
-          !isManualRequest ? db.getFirst(groupDiscussionTable, { filter: { id: inputNewDiscussionId } }) : null,
+          db.get(groupDiscussionTable, { id: inputOldDiscussionId }),
+          !isManualRequest ? db.get(groupDiscussionTable, { id: inputNewDiscussionId }) : null,
         ]);
-
-        if (!oldDiscussion) {
-          throw new TRPCError({ code: 'NOT_FOUND', message: 'Old discussion not found' });
-        }
 
         if (oldDiscussion.facilitators.includes(participantId) || newDiscussion?.facilitators.includes(participantId)) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'Facilitators cannot switch groups by this method' });
@@ -340,8 +337,8 @@ export const groupSwitchingRouter = router({
       } else {
         // Error will be thrown here if oldGroup is not found
         const [oldGroup, newGroup, discussionsFacilitatedByParticipant] = await Promise.all([
-          inputOldGroupId ? db.get(groupTable, inputOldGroupId) : null,
-          !isManualRequest ? db.get(groupTable, inputNewGroupId!) : null,
+          inputOldGroupId ? db.get(groupTable, { id: inputOldGroupId }) : null,
+          !isManualRequest ? db.get(groupTable, { id: inputNewGroupId! }) : null,
           db.pg
             .select()
             .from(groupDiscussionTable.pg)
