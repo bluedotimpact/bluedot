@@ -26,6 +26,7 @@
         "fastify-plugin": "^4.5.1",
         "happy-dom": "18.0.1",
         "http-errors": "^2.0.0",
+        "drizzle-kit": "^0.31.9",
         "node-cron": "^4.0.7",
         "zod": "^3.22.4"
     },
@@ -34,7 +35,6 @@
         "@bluedot/eslint-config": "*",
         "@bluedot/typescript-config": "*",
         "@electric-sql/pglite": "^0.3.15",
-        "drizzle-kit": "^0.31.9",
         "@types/http-errors": "^2.0.4",
         "@types/node": "^22.13.2",
         "@types/node-cron": "^3.0.11",

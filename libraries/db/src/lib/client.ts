@@ -3,7 +3,7 @@ import {
 } from 'drizzle-orm';
 import { type PgInsertValue, type PgUpdateSetSource, type PgColumn } from 'drizzle-orm/pg-core';
 import { drizzle } from 'drizzle-orm/node-postgres';
-import { drizzle as pgLiteDrizzle } from 'drizzle-orm/pglite';
+import { type drizzle as pgLiteDrizzle } from 'drizzle-orm/pglite';
 import {
   AirtableTs, AirtableTsError, type AirtableTsOptions,
 } from 'airtable-ts';

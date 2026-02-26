@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { setupDbTests, createCaller, defaultContext } from '../../__tests__/dbTestUtils';
+import { setupDbTests, createCaller, testAuthContext } from '../../__tests__/dbTestUtils';
 
 setupDbTests();
 
@@ -98,9 +98,9 @@ describe('exercises.getExerciseResponse', () => {
     });
 
     const otherCaller = createCaller({
-      ...defaultContext,
+      ...testAuthContext,
       auth: {
-        ...defaultContext.auth!,
+        ...testAuthContext.auth!,
         email: 'other@example.com',
       },
     });

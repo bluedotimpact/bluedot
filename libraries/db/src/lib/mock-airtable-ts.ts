@@ -43,11 +43,10 @@ export class MockAirtableTs extends AirtableTs {
   private getPgTable(tableId: string): any {
     const pgTable = this.tableRegistry.get(tableId);
     if (!pgTable) {
-      throw new Error(
-        `MockAirtableTs: No PG table registered for Airtable tableId "${tableId}". `
-        + 'Ensure the table is defined as a PgAirtableTable in @bluedot/db schema.',
-      );
+      throw new Error(`MockAirtableTs: No PG table registered for Airtable tableId "${tableId}". `
+        + 'Ensure the table is defined as a PgAirtableTable in @bluedot/db schema.');
     }
+
     return pgTable;
   }
 
@@ -58,6 +57,7 @@ export class MockAirtableTs extends AirtableTs {
       if (results.length === 0) {
         throw new Error(`Record "${id}" not found`);
       }
+
       return results[0] as T;
     } catch (error) {
       const original = error instanceof Error ? error.message : String(error);
@@ -84,10 +84,8 @@ export class MockAirtableTs extends AirtableTs {
       return rows[0] as T;
     } catch (error) {
       const original = error instanceof Error ? error.message : String(error);
-      throw new Error(
-        `MockAirtableTs.insert() failed: ${original}. `
-        + 'Check that the data passed to db.insert() includes all required (NOT NULL) fields.',
-      );
+      throw new Error(`MockAirtableTs.insert() failed: ${original}. `
+        + 'Check that the data passed to db.insert() includes all required (NOT NULL) fields.');
     }
   }
 
@@ -104,13 +102,12 @@ export class MockAirtableTs extends AirtableTs {
       if (rows.length === 0) {
         throw new Error(`Record "${id}" not found for update`);
       }
+
       return rows[0] as T;
     } catch (error) {
       const original = error instanceof Error ? error.message : String(error);
-      throw new Error(
-        `MockAirtableTs.update() failed for id "${data.id}": ${original}. `
-        + 'Check that the record exists and the update data is valid.',
-      );
+      throw new Error(`MockAirtableTs.update() failed for id "${data.id}": ${original}. `
+        + 'Check that the record exists and the update data is valid.');
     }
   }
 

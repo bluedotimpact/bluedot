@@ -2,7 +2,7 @@ import { PgAirtableDb, createTestDbClients } from '@bluedot/db';
 import { slackAlert } from '@bluedot/utils';
 import env from '../env';
 
-const isTest = process.env.VITEST === 'true';
+const isTest = env.VITEST === 'true';
 
 export default new PgAirtableDb({
   pgConnString: env.PG_URL,
