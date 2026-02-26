@@ -15,7 +15,7 @@ import * as schema from '../schema';
  */
 export function createTestPgClient(): PgDatabase {
   const client = new PGlite();
-  return drizzle(client) as unknown as PgDatabase;
+  return drizzle(client);
 }
 
 /**
