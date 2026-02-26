@@ -11,19 +11,16 @@ function generateRecordId(): string {
 }
 
 /**
- * Test mock of AirtableTs backed by the same PGlite database.
+ * Test mock of AirtableTs.
  *
- * insert/update write to PG and return full records (including defaults).
- * This means ensureReplicated receives complete data, avoiding NOT NULL issues
- * that would occur with a stateless mock returning only partial fields.
- *
- * The double-write (mock writes to PG, then ensureReplicated upserts the same data)
- * is harmless — the upsert is idempotent.
+ * This mocks Airtable by using the pg database as the Airtable backend.
+ * As a result, insert/update writes once to pg in this mock, and then
+ * again in the ensureReplicated function. This is harmless (idempotent),
+ * but may be unexpected when you run into it.
  */
 export class MockAirtableTs extends AirtableTs {
   private pgClient: PgDatabase;
 
-  // Maps Airtable tableId → drizzle PG table
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private tableRegistry: Map<string, any>;
 

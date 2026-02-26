@@ -13,7 +13,7 @@ import {
   describe, expect, it, test,
 } from 'vitest';
 import { createMockGroup, createMockGroupDiscussion } from '../../__tests__/testUtils';
-import { setupDbTests, createCaller, testDb } from '../../__tests__/dbTestUtils';
+import { setupDbTests, createCaller, testAuthContextLoggedIn, testDb } from '../../__tests__/dbTestUtils';
 import { calculateGroupAvailability } from './group-switching';
 import { ONE_DAY_SECONDS } from '../../lib/constants';
 
@@ -398,10 +398,10 @@ async function seedCourseWithGroups() {
 }
 
 describe('groupSwitching.discussionsAvailable', () => {
+  const caller = createCaller(testAuthContextLoggedIn);
+
   test('returns available groups and discussions for the participant', async () => {
     await seedCourseWithGroups();
-
-    const caller = createCaller();
     const result = await caller.groupSwitching.discussionsAvailable({ courseSlug: 'test-course' });
 
     expect(result.groupsAvailable).toHaveLength(2);
@@ -427,7 +427,6 @@ describe('groupSwitching.discussionsAvailable', () => {
   });
 
   test('throws NOT_FOUND for non-existent course', async () => {
-    const caller = createCaller();
     await expect(caller.groupSwitching.discussionsAvailable({ courseSlug: 'nonexistent' }))
       .rejects.toThrow('No course with slug nonexistent found');
   });
@@ -442,7 +441,6 @@ describe('groupSwitching.discussionsAvailable', () => {
       units: [],
     });
 
-    const caller = createCaller();
     await expect(caller.groupSwitching.discussionsAvailable({ courseSlug: 'test-course' }))
       .rejects.toThrow('No course registration found');
   });
@@ -461,7 +459,6 @@ describe('groupSwitching.discussionsAvailable', () => {
       participantsExpected: ['participant-1'],
     });
 
-    const caller = createCaller();
     const result = await caller.groupSwitching.discussionsAvailable({ courseSlug: 'test-course' });
 
     // Unit 2 should only show the past discussion if user is participant
@@ -492,7 +489,6 @@ describe('groupSwitching.discussionsAvailable', () => {
       participantsExpected: ['someone-else'],
     });
 
-    const caller = createCaller();
     const result = await caller.groupSwitching.discussionsAvailable({ courseSlug: 'test-course' });
 
     // Should still only see 2 groups (A and B), not group C
@@ -567,7 +563,6 @@ describe('groupSwitching.discussionsAvailable', () => {
       participantsExpected: ['someone-else'],
     });
 
-    const caller = createCaller();
     const result = await caller.groupSwitching.discussionsAvailable({ courseSlug: 'test-course' });
 
     // Without buckets, only the group the participant is already in should show
@@ -584,7 +579,6 @@ describe('groupSwitching.discussionsAvailable', () => {
       maxParticipantsPerGroup: null,
     });
 
-    const caller = createCaller();
     const result = await caller.groupSwitching.discussionsAvailable({ courseSlug: 'test-course' });
 
     expect(result.groupsAvailable[0]!.spotsLeftIfKnown).toBeNull();
@@ -592,10 +586,10 @@ describe('groupSwitching.discussionsAvailable', () => {
 });
 
 describe('groupSwitching.switchGroup', () => {
+  const caller = createCaller(testAuthContextLoggedIn);
+
   test('creates a permanent group switch request', async () => {
     await seedCourseWithGroups();
-
-    const caller = createCaller();
     const result = await caller.groupSwitching.switchGroup({
       switchType: 'Switch group permanently',
       oldGroupId: 'group-a',
@@ -621,7 +615,6 @@ describe('groupSwitching.switchGroup', () => {
   test('creates a temporary (one unit) switch request', async () => {
     await seedCourseWithGroups();
 
-    const caller = createCaller();
     await caller.groupSwitching.switchGroup({
       switchType: 'Switch group for one unit',
       oldDiscussionId: 'disc-a1',
@@ -644,7 +637,6 @@ describe('groupSwitching.switchGroup', () => {
   test('creates a manual switch request (no new group required)', async () => {
     await seedCourseWithGroups();
 
-    const caller = createCaller();
     await caller.groupSwitching.switchGroup({
       switchType: 'Switch group permanently',
       oldGroupId: 'group-a',
@@ -667,7 +659,6 @@ describe('groupSwitching.switchGroup', () => {
     await seedCourseWithGroups();
 
     // group-b doesn't contain participant-1
-    const caller = createCaller();
     await expect(caller.groupSwitching.switchGroup({
       switchType: 'Switch group permanently',
       oldGroupId: 'group-b',
@@ -681,7 +672,6 @@ describe('groupSwitching.switchGroup', () => {
     await seedCourseWithGroups();
 
     // Try switching to group-a where participant already is
-    const caller = createCaller();
     await expect(caller.groupSwitching.switchGroup({
       switchType: 'Switch group permanently',
       oldGroupId: 'group-a',
@@ -700,7 +690,6 @@ describe('groupSwitching.switchGroup', () => {
       maxParticipantsPerGroup: 1,
     });
 
-    const caller = createCaller();
     await expect(caller.groupSwitching.switchGroup({
       switchType: 'Switch group permanently',
       oldGroupId: 'group-a',
@@ -724,7 +713,6 @@ describe('groupSwitching.switchGroup', () => {
       participantsExpected: ['participant-1'],
     });
 
-    const caller = createCaller();
     await expect(caller.groupSwitching.switchGroup({
       switchType: 'Switch group permanently',
       oldGroupId: 'group-a',
@@ -749,7 +737,6 @@ describe('groupSwitching.switchGroup', () => {
       participantsExpected: [],
     });
 
-    const caller = createCaller();
     await expect(caller.groupSwitching.switchGroup({
       switchType: 'Switch group for one unit',
       oldDiscussionId: 'disc-a1',
@@ -760,7 +747,6 @@ describe('groupSwitching.switchGroup', () => {
   });
 
   test('requires oldDiscussionId for temporary switch', async () => {
-    const caller = createCaller();
     await expect(caller.groupSwitching.switchGroup({
       switchType: 'Switch group for one unit',
       newDiscussionId: 'disc-b1',
@@ -770,7 +756,6 @@ describe('groupSwitching.switchGroup', () => {
   });
 
   test('requires newGroupId for permanent switch (non-manual)', async () => {
-    const caller = createCaller();
     await expect(caller.groupSwitching.switchGroup({
       switchType: 'Switch group permanently',
       oldGroupId: 'group-a',
@@ -783,7 +768,6 @@ describe('groupSwitching.switchGroup', () => {
     await seedCourseWithGroups();
 
     // disc-b1 has participantsExpected: ['other-participant-2'], not our participant
-    const caller = createCaller();
     await expect(caller.groupSwitching.switchGroup({
       switchType: 'Switch group for one unit',
       oldDiscussionId: 'disc-b1',
@@ -797,7 +781,6 @@ describe('groupSwitching.switchGroup', () => {
     await seedCourseWithGroups();
 
     // disc-a1 already has our participant
-    const caller = createCaller();
     await expect(caller.groupSwitching.switchGroup({
       switchType: 'Switch group for one unit',
       oldDiscussionId: 'disc-a1',
@@ -816,7 +799,6 @@ describe('groupSwitching.switchGroup', () => {
     });
 
     // disc-b1 has 1 participant and max is 1
-    const caller = createCaller();
     await expect(caller.groupSwitching.switchGroup({
       switchType: 'Switch group for one unit',
       oldDiscussionId: 'disc-a1',
@@ -829,7 +811,6 @@ describe('groupSwitching.switchGroup', () => {
   test('creates a manual temporary switch request (no newDiscussionId required)', async () => {
     await seedCourseWithGroups();
 
-    const caller = createCaller();
     await caller.groupSwitching.switchGroup({
       switchType: 'Switch group for one unit',
       oldDiscussionId: 'disc-a1',
@@ -859,7 +840,6 @@ describe('groupSwitching.switchGroup', () => {
       facilitators: ['participant-1'],
     });
 
-    const caller = createCaller();
     await expect(caller.groupSwitching.switchGroup({
       switchType: 'Switch group for one unit',
       oldDiscussionId: 'disc-a1',
