@@ -10,8 +10,8 @@ import * as schema from '../schema';
 
 /**
  * Creates an in-memory PGlite-backed drizzle client for testing.
- * Synchronous — the client is ready for use but has no tables yet.
- * Call pushTestSchema() to create the tables.
+ * The client is ready for use but has no tables yet.
+ * Call pushTestSchema() to create the tables, this can be done per-test-file.
  */
 export function createTestPgClient(): PgDatabase {
   const client = new PGlite();
@@ -25,6 +25,12 @@ export function createTestPgClient(): PgDatabase {
  */
 export function createTestAirtableClient(pgClient: PgDatabase): MockAirtableTs {
   return new MockAirtableTs(pgClient);
+}
+
+export function createTestDbClients() {
+  const pgClient = createTestPgClient()
+  const airtableClient = createTestAirtableClient(pgClient)
+  return { pgClient, airtableClient }
 }
 
 function collectPgTables() {
