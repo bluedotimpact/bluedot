@@ -3,6 +3,7 @@ import {
 } from 'drizzle-orm';
 import { type PgInsertValue, type PgUpdateSetSource, type PgColumn } from 'drizzle-orm/pg-core';
 import { drizzle } from 'drizzle-orm/node-postgres';
+import { drizzle as pgLiteDrizzle } from 'drizzle-orm/pglite';
 import {
   AirtableTs, AirtableTsError, type AirtableTsOptions,
 } from 'airtable-ts';
@@ -75,7 +76,7 @@ export type Filter<T> = FilterOperation<T> | {
   OR: Filter<T>[];
 };
 
-export type PgDatabase = ReturnType<typeof drizzle>;
+export type PgDatabase = ReturnType<typeof drizzle> | ReturnType<typeof pgLiteDrizzle>;
 
 /**
  * Postgres client which is identical to the standard client in terms of functionality, but
@@ -116,30 +117,29 @@ export class PgAirtableDb {
   /** @deprecated Old name. Use .remove() instead */
   public airtableDelete = this.remove.bind(this);
 
-  constructor(options: {
+  constructor({
+    pgConnString,
+    airtableApiKey,
+    onWarning,
+    pgClient,
+    airtableClient,
+  }: {
     pgConnString: string;
     airtableApiKey: string;
     onWarning?: AirtableTsOptions['onWarning'];
-  } | {
-    pgClient: PgDatabase;
-    airtableClient: AirtableTs;
+    pgClient?: PgDatabase;
+    airtableClient?: AirtableTs;
   }) {
-    if ('pgClient' in options) {
-      this.airtableClient = options.airtableClient;
-      this.pgUnrestricted = options.pgClient;
-      this.pg = this.pgUnrestricted as RestrictedPgDatabase;
-      return;
-    }
-
     // In production, try to proceed on validation errors
     const readValidation = env.NODE_ENV === 'production' ? 'warning' : 'error';
 
-    this.airtableClient = new AirtableTs({
-      apiKey: options.airtableApiKey,
+    this.airtableClient = airtableClient ?? new AirtableTs({
+      apiKey: airtableApiKey,
       readValidation,
-      onWarning: options.onWarning,
+      onWarning,
     });
-    this.pgUnrestricted = drizzle(options.pgConnString);
+
+    this.pgUnrestricted = pgClient ?? drizzle(pgConnString);
     this.pg = this.pgUnrestricted as RestrictedPgDatabase;
   }
 
