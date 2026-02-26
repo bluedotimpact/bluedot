@@ -4,8 +4,8 @@ import {
   isTable,
   getTableColumns,
 } from '@bluedot/db';
-import { pushSchema } from 'drizzle-kit/api';
 import * as schema from '@bluedot/db/src/schema';
+import { pushSchema } from 'drizzle-kit/api';
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import { db } from './db';
 import env from '../env';
