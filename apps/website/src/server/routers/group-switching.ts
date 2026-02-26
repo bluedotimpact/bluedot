@@ -250,7 +250,6 @@ export const groupSwitchingRouter = router({
           message: 'No participant record found for user in this course round',
         });
       }
-
       const { id: participantId } = participant;
 
       let unitId: string | null = null;
@@ -263,6 +262,7 @@ export const groupSwitchingRouter = router({
       if (!round) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'No course round found' });
       }
+
       const maxParticipants = round.maxParticipantsPerGroup;
 
       if (isTemporarySwitch) {
