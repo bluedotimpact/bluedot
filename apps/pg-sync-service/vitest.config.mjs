@@ -2,6 +2,6 @@ import { withDefaultBlueDotVitestConfig } from '@bluedot/utils/src/default-confi
 
 export default withDefaultBlueDotVitestConfig({
   test: {
-    setupFiles: ['./vitest.setup.ts'],
+    setupFiles: ['./src/test-setup.ts'],
   },
 });

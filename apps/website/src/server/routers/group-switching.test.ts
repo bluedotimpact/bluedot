@@ -9,7 +9,9 @@ import {
   courseRunnerBucketTable,
   groupSwitchingTable,
 } from '@bluedot/db';
-import { describe, expect, it, test } from 'vitest';
+import {
+  describe, expect, it, test,
+} from 'vitest';
 import { createMockGroup, createMockGroupDiscussion } from '../../__tests__/testUtils';
 import { setupDbTests, createCaller, testDb } from '../../__tests__/dbTestUtils';
 import { calculateGroupAvailability } from './group-switching';

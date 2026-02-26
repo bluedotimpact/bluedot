@@ -12,6 +12,7 @@ const env = validateEnv({
   optional: [
     'PORT',
     'PROD_ONLY_WEBHOOK_DELETION',
+    'VITEST',
   ],
 });
 

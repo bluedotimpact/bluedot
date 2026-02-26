@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { beforeAll, beforeEach } from 'vitest';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { unstable_localLink } from '@trpc/client';
@@ -10,13 +9,10 @@ import type { Context } from '../server/context';
 import { appRouter } from '../server/routers/_app';
 import db from '../lib/api/db';
 
-// ── Test DB with widened insert type (accepts optional id) ──────────
-
+// Test DB with widened insert type (accepts optional id)
 export const testDb = db as unknown as TestPgAirtableDb;
 
-// ── Shared auth context ──────────────────────────────────────────────
-
-export const defaultContext: Context = {
+export const testAuthContext: Context = {
   auth: {
     email: 'test@example.com',
     sub: 'test-sub',
@@ -29,8 +25,6 @@ export const defaultContext: Context = {
   userAgent: 'test-agent',
 };
 
-// ── DB lifecycle (call at top of any test file that uses the DB) ─────
-
 export function setupDbTests() {
   beforeAll(async () => {
     await pushTestSchema(db);
@@ -41,17 +35,18 @@ export function setupDbTests() {
   });
 }
 
-// ── Server-side caller (for router tests) ────────────────────────────
+// Server-side caller, for router tests that don't render components
+export const createCaller = (ctx: Context = testAuthContext) => appRouter.createCaller(ctx);
 
-export const createCaller = (ctx: Context = defaultContext) => appRouter.createCaller(ctx);
-
-// ── React provider (for UI integration tests) ────────────────────────
+// React provider, for front-end tests that render components *and* call tRPC routes which hit the database
 
 const trpcTest = createTRPCReact<AppRouter>();
-
-export const createTrpcDbProvider = (ctx: Context = defaultContext) => {
+export const createTrpcDbProvider = (ctx: Context = testAuthContext) => {
   const trpcClient = trpcTest.createClient({
     links: [
+      // Alternative to httpLink to support running in tests without setting up a full HTTP round trip.
+      // This does JSON serialisation and deserialization but has other discrepancies from the HTTP version (e.g. no headers are sent).
+      // If this causes tests to be unrealistic, it is possible to set up a dummy HTTP server during tests. It's just more boilerplate
       unstable_localLink({
         router: appRouter,
         createContext: async () => ctx,

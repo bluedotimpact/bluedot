@@ -7,7 +7,7 @@ import { RateLimiter } from './rate-limiter';
 // if there is a mismatch between the schema and Airtable. Drop these above a low rate limit.
 const alertRateLimiter = new RateLimiter(30, 30_000);
 
-const isTest = process.env.VITEST === 'true';
+const isTest = env.VITEST === 'true';
 
 export const db = new PgAirtableDb({
   pgConnString: env.PG_URL,
