@@ -47,10 +47,6 @@ function collectPgTables() {
     }));
 }
 
-/**
- * Pushes all table schemas from @bluedot/db to the given PGlite-backed database.
- * Must be awaited before running queries against the database.
- */
 export async function pushTestSchema(db: PgAirtableDb): Promise<void> {
   const pgTables = collectPgTables();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -59,9 +55,8 @@ export async function pushTestSchema(db: PgAirtableDb): Promise<void> {
 }
 
 /**
- * Truncates all tables in the test database.
- * Designed to be called in a global beforeEach so test authors don't need to
- * think about cleanup.
+ * Truncates all tables in the test database. Designed to be called in a global beforeEach
+ * so the database is isolated per-test
  */
 export async function resetTestDb(db: PgAirtableDb): Promise<void> {
   const tableNames = Object.values(collectPgTables())
