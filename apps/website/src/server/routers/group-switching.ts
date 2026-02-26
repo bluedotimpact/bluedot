@@ -338,9 +338,10 @@ export const groupSwitchingRouter = router({
         oldDiscussionId = inputOldDiscussionId!;
         newDiscussionId = inputNewDiscussionId ?? null;
       } else {
+        // Error will be thrown here if oldGroup is not found
         const [oldGroup, newGroup, discussionsFacilitatedByParticipant] = await Promise.all([
-          inputOldGroupId ? db.getFirst(groupTable, { filter: { id: inputOldGroupId } }) : null,
-          !isManualRequest ? db.getFirst(groupTable, { filter: { id: inputNewGroupId } }) : null,
+          inputOldGroupId ? db.get(groupTable, inputOldGroupId) : null,
+          !isManualRequest ? db.get(groupTable, inputNewGroupId!) : null,
           db.pg
             .select()
             .from(groupDiscussionTable.pg)
