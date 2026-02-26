@@ -1,6 +1,6 @@
 export { PgAirtableDb } from './lib/client';
 export type { PgDatabase } from './lib/client';
-export { createTestDb, createTestPgClient, createTestAirtableClient, pushTestSchema, resetTestDb } from './lib/test-db';
+export { createTestPgClient, createTestAirtableClient, pushTestSchema, resetTestDb } from './lib/test-db';
 export type { TestPgAirtableDb } from './lib/test-db';
 
 export {
@@ -85,5 +85,3 @@ export { AirtableTsError, ErrorType } from 'airtable-ts/dist/AirtableTsError';
 
 // TODO: restrict what's exported
 export * from 'drizzle-orm';
-
-export { pushSchema } from 'drizzle-kit/api';

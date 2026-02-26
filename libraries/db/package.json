@@ -13,7 +13,6 @@
     "dependencies": {
         "@bluedot/utils": "*",
         "airtable-ts": "^1.7.0",
-        "drizzle-kit": "^0.31.9",
         "drizzle-orm": "^0.45.1",
         "happy-dom": "18.0.1",
         "pg": "^8.15.6"
@@ -23,6 +22,7 @@
         "@bluedot/typescript-config": "*",
         "@electric-sql/pglite": "^0.3.15",
         "@types/node": "^22.15.21",
+        "drizzle-kit": "^0.31.9",
         "eslint": "^9.39.2",
         "ts-node": "^10.9.1",
         "typescript": "^5.8.3",

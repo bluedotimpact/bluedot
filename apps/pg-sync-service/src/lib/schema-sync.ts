@@ -3,8 +3,8 @@ import {
   getTableName, metaTable, sql, PgAirtableTable,
   isTable,
   getTableColumns,
-  pushSchema,
 } from '@bluedot/db';
+import { pushSchema } from 'drizzle-kit/api';
 import * as schema from '@bluedot/db/src/schema';
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import { db } from './db';
@@ -68,7 +68,8 @@ async function pushSchemaWithTimeout(pgTables: Record<string, PgAirtableTable['p
   });
 
   const migrationPromise = (async (): Promise<boolean> => {
-    const result = await pushSchema(pgTables, db.pg);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result = await pushSchema(pgTables, db.pg as any);
     await result.apply();
     if (result.statementsToExecute.length > 0) {
       logger.info(`[schema-sync] Schema pushed with ${result.statementsToExecute.length} statements`);
