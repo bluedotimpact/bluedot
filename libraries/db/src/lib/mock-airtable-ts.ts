@@ -62,10 +62,8 @@ export class MockAirtableTs extends AirtableTs {
     }
   }
 
-  override async scan<T extends Item>(table: Table<T>, _params?: ScanParams): Promise<T[]> {
-    const pgTable = this.getPgTable(table.tableId);
-    const results = await this.pgClient.select().from(pgTable);
-    return results as T[];
+  override async scan<T extends Item>(_table: Table<T>, _params?: ScanParams): Promise<T[]> {
+    throw new Error('MockAirtableTs does not support scan(). PgAirtableDb.scan() reads from Postgres directly, so this method should not be called.');
   }
 
   override async insert<T extends Item>(table: Table<T>, data: Partial<Omit<T, 'id'>>): Promise<T> {
