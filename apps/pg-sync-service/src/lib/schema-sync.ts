@@ -39,7 +39,7 @@ async function cleanupRemovedColumns(pgTables: Record<string, PgAirtableTable['p
         AND table_schema = 'public'
       `);
 
-      const actualColNames = new Set(actualColumns.rows.map((row: Record<string, unknown>) => row.column_name as string));
+      const actualColNames = new Set<string>(actualColumns.rows.map((row: { column_name: string }) => row.column_name));
 
       // Find columns that exist in DB but not in schema
       const columnsToRemove = [...actualColNames].filter((col) => !expectedCols.has(col));
