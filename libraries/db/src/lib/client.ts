@@ -3,7 +3,9 @@ import {
 } from 'drizzle-orm';
 import { type PgInsertValue, type PgUpdateSetSource, type PgColumn } from 'drizzle-orm/pg-core';
 import { drizzle } from 'drizzle-orm/node-postgres';
-import { type drizzle as pgLiteDrizzle } from 'drizzle-orm/pglite';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { PGlite } from '@electric-sql/pglite';
+import { drizzle as pgLiteDrizzle } from 'drizzle-orm/pglite';
 import {
   AirtableTs, AirtableTsError, type AirtableTsOptions,
 } from 'airtable-ts';
@@ -100,8 +102,14 @@ type RestrictedPgDatabase = Omit<PgDatabase, 'insert' | 'update' | 'delete'> & {
   delete: PgDatabase['delete'];
 };
 
+function generateTestRecordId(): string {
+  return `rec${Math.random().toString(36).slice(2, 16).padEnd(14, 'a')}`;
+}
+
 export class PgAirtableDb {
   private pgUnrestricted: PgDatabase;
+
+  private isTest: boolean;
 
   public pg: RestrictedPgDatabase;
 
@@ -121,25 +129,33 @@ export class PgAirtableDb {
     pgConnString,
     airtableApiKey,
     onWarning,
-    pgClient,
-    airtableClient,
+    isTest = false,
   }: {
     pgConnString: string;
     airtableApiKey: string;
     onWarning?: AirtableTsOptions['onWarning'];
-    pgClient?: PgDatabase;
-    airtableClient?: AirtableTs;
+    isTest?: boolean;
   }) {
+    this.isTest = isTest;
+
+    if (isTest) {
+      this.pgUnrestricted = pgLiteDrizzle(new PGlite());
+      this.airtableClient = new AirtableTs({ apiKey: 'test-api-key-not-used' });
+      this.pg = this.pgUnrestricted as RestrictedPgDatabase;
+
+      return;
+    }
+
     // In production, try to proceed on validation errors
     const readValidation = env.NODE_ENV === 'production' ? 'warning' : 'error';
 
-    this.airtableClient = airtableClient ?? new AirtableTs({
+    this.airtableClient = new AirtableTs({
       apiKey: airtableApiKey,
       readValidation,
       onWarning,
     });
 
-    this.pgUnrestricted = pgClient ?? drizzle(pgConnString);
+    this.pgUnrestricted = drizzle(pgConnString);
     this.pg = this.pgUnrestricted as RestrictedPgDatabase;
   }
 
@@ -400,7 +416,15 @@ export class PgAirtableDb {
     table: PgAirtableTable<TTableName, TColumnsMap>,
     data: Partial<Omit<AirtableItemFromColumnsMap<TColumnsMap>, 'id'>>,
   ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect']> {
-    const fullData = await this.airtableClient.insert(table.airtable, data);
+    let fullData: AirtableItemFromColumnsMap<TColumnsMap>;
+    if (this.isTest) {
+      // isTest => skip airtable, but replicate what it would return
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const id = (data as any).id ?? generateTestRecordId();
+      fullData = { ...data, id } as AirtableItemFromColumnsMap<TColumnsMap>;
+    } else {
+      fullData = await this.airtableClient.insert(table.airtable, data);
+    }
 
     // `ensureReplicated` only returns undefined for idempotent deletes; upserts always return a result
     const pgResult = await this.ensureReplicated({ table, id: fullData.id, fullData });
@@ -419,7 +443,20 @@ export class PgAirtableDb {
     table: PgAirtableTable<TTableName, TColumnsMap>,
     data: Partial<AirtableItemFromColumnsMap<TColumnsMap>> & { id: string },
   ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect']> {
-    const fullData = await this.airtableClient.update(table.airtable, data);
+    let fullData: AirtableItemFromColumnsMap<TColumnsMap>;
+    if (this.isTest) {
+      // isTest => skip airtable, but replicate what it would return
+
+      // ensureReplicated uses INSERT ... ON CONFLICT UPDATE, which requires all NOT NULL
+      // columns even when the row exists. Merge with the existing row to provide them.
+      // TODO: remove this workaround once support for NOT NULL is removed in general (https://github.com/bluedotimpact/bluedot/issues/2081)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const existing = await this.pgUnrestricted.select().from(table.pg as any).where(eq(table.pg.id, data.id));
+      const existingRow = Array.isArray(existing) ? existing[0] : undefined;
+      fullData = { ...existingRow, ...data } as AirtableItemFromColumnsMap<TColumnsMap>;
+    } else {
+      fullData = await this.airtableClient.update(table.airtable, data);
+    }
 
     // `ensureReplicated` only returns undefined for idempotent deletes; upserts always return a result
     const pgResult = await this.ensureReplicated({ table, id: fullData.id, fullData });
@@ -438,11 +475,12 @@ export class PgAirtableDb {
     table: PgAirtableTable<TTableName, TColumnsMap>,
     id: string,
   ): Promise<BasePgTableType<TTableName, TColumnsMap>['$inferSelect'] | undefined> {
-    const { id: resultId } = await this.airtableClient.remove(table.airtable, id);
+    if (!this.isTest) {
+      // isTest => skip airtable, but replicate what it would return (in this case nothing)
+      await this.airtableClient.remove(table.airtable, id);
+    }
 
-    const pgResult = await this.ensureReplicated({ table, id: resultId, isDelete: true });
-
-    return pgResult;
+    return this.ensureReplicated({ table, id, isDelete: true });
   }
 
   /**

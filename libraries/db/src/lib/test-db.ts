@@ -1,39 +1,12 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { PGlite } from '@electric-sql/pglite';
-import { drizzle } from 'drizzle-orm/pglite';
 import {
   type Table, getTableName, isTable, sql,
 } from 'drizzle-orm';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { pushSchema } from 'drizzle-kit/api';
-import { type PgAirtableDb, type PgDatabase } from './client';
-import { MockAirtableTs } from './mock-airtable-ts';
+import { type PgAirtableDb } from './client';
 import { PgAirtableTable } from './db-core';
 import type { PgAirtableColumnInput, AirtableItemFromColumnsMap, BasePgTableType } from './typeUtils';
 import * as schema from '../schema';
-
-/**
- * Creates an in-memory PGlite-backed drizzle client for testing.
- * The client is ready for use but has no tables yet.
- * Call pushTestSchema() to create the tables, this can be done per-test-file.
- */
-export function createTestPgClient(): PgDatabase {
-  const client = new PGlite();
-  return drizzle(client);
-}
-
-/**
- * Creates a test AirtableTs client backed by the same PGlite database.
- */
-export function createTestAirtableClient(pgClient: PgDatabase): MockAirtableTs {
-  return new MockAirtableTs(pgClient);
-}
-
-export function createTestDbClients() {
-  const pgClient = createTestPgClient();
-  const airtableClient = createTestAirtableClient(pgClient);
-  return { pgClient, airtableClient };
-}
 
 function collectPgTables() {
   return Object.fromEntries(Object.entries(schema)
