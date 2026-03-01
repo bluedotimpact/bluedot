@@ -157,7 +157,7 @@ export const exercisesRouter = router({
           }
 
           const response = responseByEmail.get(p.email);
-          if (response !== undefined) {
+          if (response !== null && response !== undefined) {
             // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             responses.push({ name: p.name || 'Anonymous', response });
           }
