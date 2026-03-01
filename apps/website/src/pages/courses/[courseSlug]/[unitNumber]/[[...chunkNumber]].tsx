@@ -26,8 +26,8 @@ type CourseUnitChunkPageProps = UnitWithChunks & {
 /** Chunk info only used for display (no resources/exercises) */
 export type BasicChunk = {
   id: string;
-  chunkTitle: string;
-  chunkOrder: string;
+  chunkTitle: string | null;
+  chunkOrder: string | null;
   estimatedTime: number | null;
 };
 

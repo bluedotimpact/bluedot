@@ -59,12 +59,11 @@ export default makeApiRoute({
 
   const zoomAccount = await db.get(zoomAccountTable, { id: groupDiscussion.zoomAccount });
 
-  const { meetingNumber, meetingPassword } = parseZoomLink(zoomAccount.meetingLink ?? '');
+  const { meetingNumber, meetingPassword } = parseZoomLink(zoomAccount.meetingLink);
 
   const issuedAt = Math.round(Date.now() / 1000);
   const expiresAt = issuedAt + 3600 * 4;
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  const facilitators = groupDiscussion.facilitators || [];
+  const facilitators = groupDiscussion.facilitators ?? [];
   const oPayload = {
     sdkKey: env.NEXT_PUBLIC_ZOOM_CLIENT_ID,
     mn: meetingNumber,

@@ -13,7 +13,7 @@ type MultipleChoiceProps = {
   onExerciseSubmit: (savedExerciseResponse: string, completed?: boolean) => Promise<void>;
   options: string;
   // Optional
-  exerciseResponse?: string;
+  exerciseResponse?: string | null;
   isLoggedIn?: boolean;
 };
 
@@ -35,7 +35,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
    */
   const formattedOptions = formatStringToArray(options, '\n');
   const formattedAnswer = answer.trim();
-  const formattedExerciseResponse = exerciseResponse?.trim();
+  const formattedExerciseResponse = exerciseResponse?.trim() ?? '';
 
   const [isEditing, setIsEditing] = React.useState<boolean>(false);
   const {

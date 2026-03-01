@@ -83,17 +83,15 @@ export default makeApiRoute({
   const zoomAccount = await db.get(zoomAccountTable, { id: groupDiscussion.zoomAccount });
 
   // Get facilitators and participants
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  const facilitatorIds = groupDiscussion.facilitators || [];
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  const participantIds = groupDiscussion.participantsExpected || [];
+  const facilitatorIds = groupDiscussion.facilitators ?? [];
+  const participantIds = groupDiscussion.participantsExpected ?? [];
 
   // Get all people and filter by IDs
   const allPeople = await db.scan(meetPersonTable);
   const facilitators = allPeople.filter((person) => facilitatorIds.includes(person.id));
   const participants = allPeople.filter((person) => participantIds.includes(person.id));
 
-  const { meetingNumber, meetingPassword } = parseZoomLink(zoomAccount.meetingLink ?? '');
+  const { meetingNumber, meetingPassword } = parseZoomLink(zoomAccount.meetingLink);
   const meetingHostKey = zoomAccount.hostKey ?? '';
 
   return {

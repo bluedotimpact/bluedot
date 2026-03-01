@@ -49,8 +49,7 @@ type SwitchType = (typeof SWITCH_OPTIONS)[number]['value'];
 type FacilitatorSwitchModalProps = {
   handleClose: () => void;
   roundId: string;
-  /** Only `id` and `group` needed from initialDiscussion */
-  initialDiscussion: { id: string; group: string } | null;
+  initialDiscussion: Pick<GroupDiscussionWithGroupAndUnit, 'id' | 'group'> | null;
   initialModalType?: FacilitatorModalType;
 };
 
@@ -64,7 +63,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
 
   // Update discussion time state
   const [switchType, setSwitchType] = useState<SwitchType | undefined>('Change for one unit');
-  const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(initialDiscussion?.group);
+  const [selectedGroupId, setSelectedGroupId] = useState<string | undefined>(initialDiscussion?.group ?? undefined);
   const [selectedDiscussionId, setSelectedDiscussionId] = useState<string | undefined>(initialDiscussion?.id);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<Date | undefined>(undefined);
@@ -437,7 +436,9 @@ const buildOptions = (discussions: GroupDiscussionWithGroupAndUnit[], currentTim
   const seenGroups = new Set<string>();
 
   for (const discussion of discussions) {
-    const groupId = discussion.group ?? '';
+    const groupId = discussion.group;
+
+    if (!groupId) continue;
 
     if (!seenGroups.has(groupId)) {
       seenGroups.add(groupId);
