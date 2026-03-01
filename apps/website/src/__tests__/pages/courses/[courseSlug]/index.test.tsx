@@ -64,6 +64,6 @@ describe('CoursePage SSR/SEO', () => {
     expect(ogImage?.getAttribute('content')).toBe(`https://bluedot.org/images/courses/link-preview/${mockCourse.slug}.png`);
 
     const ogUrl = document.querySelector('meta[property="og:url"]');
-    expect(ogUrl?.getAttribute('content')).toBe(`https://bluedot.org/courses/${encodeURIComponent(mockCourse.slug)}`);
+    expect(ogUrl?.getAttribute('content')).toBe(`https://bluedot.org/courses/${encodeURIComponent(mockCourse.slug!)}`);
   });
 });

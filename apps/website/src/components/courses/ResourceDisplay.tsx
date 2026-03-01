@@ -54,7 +54,7 @@ type ResourceDisplayProps = {
   exercises?: ExerciseType[];
   unitDescription?: string;
   className?: string;
-  unitTitle?: string;
+  unitTitle?: string | null;
   unitNumber?: string;
   courseSlug?: string;
   chunkIndex?: number;

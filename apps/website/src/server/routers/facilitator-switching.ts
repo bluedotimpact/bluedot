@@ -66,7 +66,7 @@ export const facilitatorSwitchingRouter = router({
         .from(groupTable.pg)
         .where(inArray(
           groupTable.pg.id,
-          groupDiscussions.map((discussion) => discussion.group),
+          groupDiscussions.map((discussion) => discussion.group).filter((id): id is string => id != null),
         ));
 
       const unitIds = [
@@ -84,7 +84,7 @@ export const facilitatorSwitchingRouter = router({
 
       // Return enriched discussions in the same shape as GroupDiscussionWithGroupAndUnit
       const enrichedDiscussions = groupDiscussions.map((discussion) => {
-        const group = groupMap.get(discussion.group);
+        const group = groupMap.get(discussion.group ?? '');
         if (!group) {
           throw new TRPCError({
             code: 'NOT_FOUND',
@@ -190,7 +190,7 @@ export const facilitatorSwitchingRouter = router({
       }
 
       const nowInSeconds = Math.floor(Date.now() / 1000);
-      if (discussion.startDateTime <= nowInSeconds) {
+      if ((discussion.startDateTime ?? 0) <= nowInSeconds) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
           message: 'Cannot change facilitator for a discussion that has already started',

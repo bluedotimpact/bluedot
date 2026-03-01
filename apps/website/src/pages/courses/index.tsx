@@ -50,8 +50,8 @@ const useSortedCourses = () => {
   // Sort courses by fixed display order
   const sortedCourses = useMemo(() => {
     return [...displayedCourses].sort((a, b) => {
-      const aIndex = COURSE_DISPLAY_ORDER.indexOf(a.slug);
-      const bIndex = COURSE_DISPLAY_ORDER.indexOf(b.slug);
+      const aIndex = COURSE_DISPLAY_ORDER.indexOf(a.slug ?? '');
+      const bIndex = COURSE_DISPLAY_ORDER.indexOf(b.slug ?? '');
 
       // If both are in the order list, sort by their position
       if (aIndex !== -1 && bIndex !== -1) {
@@ -68,7 +68,7 @@ const useSortedCourses = () => {
       }
 
       // If neither is in the order list, sort alphabetically
-      return a.title.localeCompare(b.title);
+      return (a.title ?? '').localeCompare(b.title ?? '');
     });
   }, [displayedCourses]);
 
@@ -258,7 +258,7 @@ type BreadcrumbMenuProps = {
 
 const BreadcrumbMenu = ({ courses }: BreadcrumbMenuProps) => {
   const sectionIds = useMemo(
-    () => courses.map((course) => `course-${course.slug}`),
+    () => courses.map((course) => `course-${course.slug ?? ''}`),
     [courses],
   );
 
@@ -292,7 +292,7 @@ const BreadcrumbMenu = ({ courses }: BreadcrumbMenuProps) => {
             <li key={course.slug}>
               <button
                 type="button"
-                onClick={() => scrollToSection(course.slug)}
+                onClick={() => scrollToSection(course.slug ?? '')}
                 className={clsx(
                   'group flex items-center gap-3 h-11 pl-5 border-l-4 transition-colors cursor-pointer w-full text-left',
                   isActive
@@ -348,7 +348,7 @@ type CourseCardProps = {
 };
 
 const CourseCard = ({ course }: CourseCardProps) => {
-  const { data: rounds, isLoading: roundsLoading } = trpc.courseRounds.getRoundsForCourse.useQuery({ courseSlug: course.slug });
+  const { data: rounds, isLoading: roundsLoading } = trpc.courseRounds.getRoundsForCourse.useQuery({ courseSlug: course.slug ?? '' });
 
   const isSelfPaced = isSelfPacedCourse(course);
   const hasIntense = rounds?.intense && rounds.intense.length > 0;
@@ -398,7 +398,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
           <div className="flex items-center min-h-[48px] border-l-4 border-bluedot-navy/20 pl-5">
             <p className="text-[15px] leading-[1.6] font-normal text-bluedot-navy opacity-50">
               No upcoming rounds.{' '}
-              <Link href={course.path} className="text-bluedot-normal font-medium hover:underline cursor-pointer">
+              <Link href={course.path ?? ''} className="text-bluedot-normal font-medium hover:underline cursor-pointer">
                 Learn more about this course
               </Link>
             </p>
@@ -421,11 +421,11 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
       <div className="flex flex-col min-[680px]:hidden">
         {/* Course Icon */}
         <div className="mb-6" aria-hidden="true">
-          <CourseIcon courseSlug={course.slug} size="xlarge" className="rounded-[12px]" />
+          <CourseIcon courseSlug={course.slug ?? ''} size="xlarge" className="rounded-[12px]" />
         </div>
 
         <Link
-          href={course.path}
+          href={course.path ?? ''}
           className="group flex items-center gap-2 cursor-pointer"
         >
           <h2 className="text-[24px] leading-[1.4] font-semibold tracking-[-0.5px] text-bluedot-navy">
@@ -439,10 +439,10 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
 
       {/* Desktop Layout */}
       <div className="hidden min-[680px]:flex items-start gap-6">
-        <CourseIcon courseSlug={course.slug} size="xlarge" className="rounded-[12px]" />
+        <CourseIcon courseSlug={course.slug ?? ''} size="xlarge" className="rounded-[12px]" />
 
         <Link
-          href={course.path}
+          href={course.path ?? ''}
           className="group flex items-center gap-2 pt-[15px] cursor-pointer"
         >
           <h2 className="text-[24px] leading-[1.4] font-semibold tracking-[-0.5px] text-bluedot-navy">
@@ -465,7 +465,7 @@ type SelfPacedSectionProps = {
 /** TODO: this is dead code, we can remove it.
  * In https://github.com/bluedotimpact/bluedot/pull/2062 we stopped FoAI course being shown. */
 const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
-  const accentColor = getCourseAccentColor(course.slug);
+  const accentColor = getCourseAccentColor(course.slug ?? '');
 
   return (
     <>
@@ -478,7 +478,7 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
             Open access · {course.durationHours ? `${course.durationHours} hours` : course.durationDescription}
           </p>
           <Link
-            href={`${course.path}/1/1`}
+            href={`${course.path ?? ''}/1/1`}
             className="mt-3 text-[15px] leading-[1.6] font-medium cursor-pointer text-bluedot-normal"
           >
             Start learning
@@ -488,7 +488,7 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
 
       {/* Desktop Layout */}
       <Link
-        href={`${course.path}/1/1`}
+        href={`${course.path ?? ''}/1/1`}
         className="group hidden min-[680px]:flex flex-row items-center justify-between min-h-12 cursor-pointer"
       >
         <div className="flex items-stretch h-full">
@@ -563,7 +563,7 @@ type CourseRoundItemProps = {
 
 const CourseRoundItem = ({ round, course }: CourseRoundItemProps) => {
   const { latestUtmParams } = useLatestUtmParams();
-  const accentColor = getCourseAccentColor(course.slug);
+  const accentColor = getCourseAccentColor(course.slug ?? '');
 
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const baseApplicationUrl = course.applyUrl || '';

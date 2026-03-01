@@ -593,9 +593,9 @@ const CourseSection = () => {
         if (!dbCourse) return [];
 
         return [{
-          slug: dbCourse.slug,
-          title: dbCourse.title,
-          shortDescription: dbCourse.shortDescription,
+          slug: dbCourse.slug ?? '',
+          title: dbCourse.title ?? '',
+          shortDescription: dbCourse.shortDescription ?? '',
           durationHours: dbCourse.durationHours,
           isFeatured: !!dbCourse.isFeatured,
           cadence: config.cadence,

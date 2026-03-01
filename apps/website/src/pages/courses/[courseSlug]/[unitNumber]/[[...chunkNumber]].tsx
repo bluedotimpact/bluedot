@@ -26,8 +26,8 @@ type CourseUnitChunkPageProps = UnitWithChunks & {
 /** Chunk info only used for display (no resources/exercises) */
 export type BasicChunk = {
   id: string;
-  chunkTitle: string;
-  chunkOrder: string;
+  chunkTitle: string | null;
+  chunkOrder: string | null;
   estimatedTime: number | null;
 };
 
@@ -92,7 +92,7 @@ const CourseUnitChunkPage = ({
     // FoAI course only: If we're logged in, ensures a course registration is recorded
     const shouldRecordCourseRegistration = auth && (unit.courseId === FOAI_COURSE_ID);
     if (shouldRecordCourseRegistration) {
-      createCourseRegistrationMutation({ courseId: unit.courseId, source: latestUtmParams.utm_source });
+      createCourseRegistrationMutation({ courseId: unit.courseId!, source: latestUtmParams.utm_source });
     }
   }, [auth, unit.courseId, latestUtmParams.utm_source, createCourseRegistrationMutation]);
 
@@ -113,17 +113,17 @@ const CourseUnitChunkPage = ({
   const chunk = chunks[chunkIndex];
   const title = `${unit.courseTitle}: Unit ${unitNumber}${chunk?.chunkTitle ? ` | ${chunk.chunkTitle}` : ''}`;
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  const metaDescription = chunk?.metaDescription || unit.title;
+  const metaDescription = (chunk?.metaDescription || unit.title) ?? undefined;
 
   return (
     <>
       <Head>
         <title>{title}</title>
-        <meta name="description" content={metaDescription} />
+        <meta name="description" content={metaDescription ?? undefined} />
 
         {/* Open Graph meta tags */}
         <meta key="og:title" property="og:title" content={title} />
-        <meta key="og:description" property="og:description" content={metaDescription} />
+        <meta key="og:description" property="og:description" content={metaDescription ?? undefined} />
         <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
         <meta key="og:type" property="og:type" content="website" />
         <meta key="og:url" property="og:url" content={`https://bluedot.org/courses/${encodeURIComponent(courseSlug)}/${unitNumber}/${chunkIndex + 1}`} />
@@ -136,7 +136,7 @@ const CourseUnitChunkPage = ({
         {/* Twitter Card meta tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
-        <meta name="twitter:description" content={metaDescription} />
+        <meta name="twitter:description" content={metaDescription ?? undefined} />
         <meta name="twitter:image" content={courseOgImage} />
       </Head>
       <UnitLayout
@@ -215,8 +215,8 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
       .sort((a, b) => Number(a.chunkOrder) - Number(b.chunkOrder))
       .map((c) => ({
         id: c.id,
-        chunkTitle: c.chunkTitle,
-        chunkOrder: c.chunkOrder,
+        chunkTitle: c.chunkTitle ?? '',
+        chunkOrder: c.chunkOrder ?? '',
         estimatedTime: c.estimatedTime,
       }));
     allUnitChunks[u.id] = unitChunks;
