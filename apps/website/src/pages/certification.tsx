@@ -43,7 +43,12 @@ type Certificate = {
 
 async function getCertificateData(certificateId: string) {
   const courseRegistration = await db.get(courseRegistrationTable, { certificateId });
-  const course = await db.get(courseTable, { id: courseRegistration.courseId! });
+
+  if (!courseRegistration.courseId) {
+    throw new Error('courseRegistration has no courseId');
+  }
+
+  const course = await db.get(courseTable, { id: courseRegistration.courseId });
 
   const certificate: Certificate = {
     certificateId,

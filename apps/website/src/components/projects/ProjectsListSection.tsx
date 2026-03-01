@@ -45,7 +45,10 @@ export const ProjectsListView = ({ title, projects, maxItems }: ProjectsListView
     const groups = projects.reduce<Record<string, CmsProject[]>>((acc, project) => {
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const course = project.course || 'Uncategorized';
-      acc[course] ??= [];
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      if (!acc[course]) {
+        acc[course] = [];
+      }
 
       acc[course].push(project);
       return acc;

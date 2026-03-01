@@ -162,8 +162,8 @@ const CourseDetails = ({
             setGroupSwitchModalOpen(false);
             setSelectedDiscussion(null);
           }}
-          initialUnitNumber={selectedSwitchType === 'Switch group for one unit' && selectedDiscussion?.unitRecord
-            ? (selectedDiscussion?.unitRecord.unitNumber ?? '').toString()
+          initialUnitNumber={selectedSwitchType === 'Switch group for one unit' && typeof selectedDiscussion?.unitRecord?.unitNumber === 'string'
+            ? selectedDiscussion.unitRecord.unitNumber.toString()
             : undefined}
           initialSwitchType={selectedSwitchType}
           courseSlug={course.slug}
@@ -176,7 +176,7 @@ const CourseDetails = ({
             setSelectedDiscussion(null);
           }}
           roundId={selectedDiscussion.groupDetails.round}
-          initialDiscussion={{ id: selectedDiscussion.id, group: selectedDiscussion.group ?? '' }}
+          initialDiscussion={selectedDiscussion}
           initialModalType={selectedFacilitatorModalType}
         />
       )}

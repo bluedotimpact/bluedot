@@ -262,9 +262,9 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       if (/^[1-9]$/.test(event.key)) {
         const targetUnitNumber = parseInt(event.key, 10);
         const targetUnit = units.find((u) => Number(u.unitNumber) === targetUnitNumber);
-        if (targetUnit) {
+        if (targetUnit?.path) {
           event.preventDefault();
-          router.push(targetUnit.path ?? '');
+          router.push(targetUnit.path);
           setNavigationAnnouncement(`Navigated to Unit ${targetUnitNumber}: ${targetUnit.title}`);
         }
 
@@ -444,8 +444,9 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 <ResourceDisplay
                   resources={chunk.resources || []}
                   exercises={chunk.exercises || []}
-                  unitTitle={unit.title ?? undefined}
+                  unitTitle={unit.title}
                   unitNumber={unitNumber}
+                  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                   className={clsx((chunk?.chunkContent || unit.content) ? 'mt-8 md:mt-6' : 'mt-4')}
                   courseSlug={courseSlug}
                   chunkIndex={chunkIndex}

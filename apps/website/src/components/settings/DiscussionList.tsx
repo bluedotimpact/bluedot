@@ -6,7 +6,7 @@ import {
 import { useState } from 'react';
 import { FaArrowRightArrowLeft, FaRightToBracket } from 'react-icons/fa6';
 import {
-  buildGroupSlackChannelUrl, formatDateMonthAndDay, formatDateTimeRelative, formatTime12HourClock,
+  buildCourseUnitUrl, buildGroupSlackChannelUrl, formatDateMonthAndDay, formatDateTimeRelative, formatTime12HourClock,
 } from '../../lib/utils';
 import type { GroupDiscussionWithGroupAndUnit } from '../../server/routers/group-discussions';
 import type { SwitchType } from '../courses/GroupSwitchModal';
@@ -111,9 +111,8 @@ const DiscussionListRow = ({
   const discussionIsSoonOrLive = discussionTimeState === 'live' || discussionTimeState === 'soon';
   const discussionIsLive = discussionTimeState === 'live';
 
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  const discussionMeetLink = discussion.zoomLink || '';
-  const discussionPrepareLink = course.slug && discussion.unitNumber != null ? `/courses/${course.slug}/${discussion.unitNumber}` : '';
+  const discussionMeetLink = discussion.zoomLink ?? '';
+  const discussionPrepareLink = course.slug && discussion.unitNumber != null ? buildCourseUnitUrl({ courseSlug: course.slug, unitNumber: discussion.unitNumber }) : '';
   const slackChannelLink = discussion.slackChannelId ? buildGroupSlackChannelUrl(discussion.slackChannelId) : '';
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const discussionDocLink = discussion.activityDoc || '';

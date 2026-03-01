@@ -389,7 +389,7 @@ const getCtaButtons = ({
     if (isNextDiscussionSoonOrLive) {
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       buttonUrl = nextDiscussion.zoomLink || '#';
-    } else if (course.slug && nextDiscussion.unitNumber != null) {
+    } else if (course.slug && nextDiscussion.unitNumber !== null) {
       buttonUrl = `/courses/${course.slug}/${nextDiscussion.unitNumber}`;
     }
 

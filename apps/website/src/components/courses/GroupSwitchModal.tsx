@@ -15,7 +15,7 @@ import { trpc } from '../../utils/trpc';
 
 export type GroupSwitchModalProps = {
   handleClose: () => void;
-  initialUnitNumber?: string;
+  initialUnitNumber?: string | null;
   initialSwitchType?: SwitchType;
   courseSlug: string;
 };
@@ -32,11 +32,11 @@ type FormSection = {
 export default function GroupSwitchModal({
   handleClose,
   courseSlug,
-  initialUnitNumber = '1',
-  initialSwitchType = 'Switch group for one unit',
+  initialUnitNumber,
+  initialSwitchType,
 }: GroupSwitchModalProps) {
-  const [switchType, setSwitchType] = useState<SwitchType>(initialSwitchType);
-  const [selectedUnitNumber, setSelectedUnitNumber] = useState(initialUnitNumber);
+  const [switchType, setSwitchType] = useState<SwitchType>(initialSwitchType ?? 'Switch group for one unit');
+  const [selectedUnitNumber, setSelectedUnitNumber] = useState(initialUnitNumber ?? '1');
   const [reason, setReason] = useState('');
   const [selectedGroupId, setSelectedGroupId] = useState('');
   const [selectedDiscussionId, setSelectedDiscussionId] = useState('');
@@ -79,16 +79,16 @@ export default function GroupSwitchModal({
   const isLoading = isCourseLoading || isDiscussionsLoading;
 
   const groups = availableGroupsAndDiscussions?.groupsAvailable ?? [];
-  const discussions = (selectedUnitNumber ? availableGroupsAndDiscussions?.discussionsAvailable?.[selectedUnitNumber] : undefined) ?? [];
+  const discussions = availableGroupsAndDiscussions?.discussionsAvailable?.[selectedUnitNumber] ?? [];
 
-  const unitOptions = courseData?.units.map((u) => {
-    const unitNum = u.unitNumber ?? '';
-    const unitDiscussions = unitNum ? availableGroupsAndDiscussions?.discussionsAvailable?.[unitNum] : undefined;
+  const unitOptions = courseData?.units.filter((u) => u.unitNumber !== null).map((u) => {
+    const localUnitNumber = u.unitNumber!; // Asserted not-null in filter
+    const unitDiscussions = availableGroupsAndDiscussions?.discussionsAvailable?.[localUnitNumber];
     const hasAvailableDiscussions = unitDiscussions?.length;
 
     return {
-      value: unitNum.toString(),
-      label: `Unit ${unitNum}: ${u.title}${!hasAvailableDiscussions ? ' (no upcoming discussions)' : ''}`,
+      value: localUnitNumber.toString(),
+      label: `Unit ${localUnitNumber}: ${u.title}${!hasAvailableDiscussions ? ' (no upcoming discussions)' : ''}`,
       disabled: !isManualRequest && !hasAvailableDiscussions,
     };
   }) ?? [];
@@ -363,8 +363,7 @@ export default function GroupSwitchModal({
               email: user.email ?? '',
               utmSource: 'bluedot-group-switch-modal',
               courseRegistration,
-              // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-              roundId: courseRegistration?.roundId || '',
+              roundId: courseRegistration?.roundId ?? '',
             })}
             target="_blank"
             rel="noopener noreferrer"

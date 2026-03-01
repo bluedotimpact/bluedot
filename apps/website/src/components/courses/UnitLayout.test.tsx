@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import UnitLayout from './UnitLayout';
 import { createMockChunk, createMockUnit } from '../../__tests__/testUtils';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
+import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 
 // Mock next/router
 vi.mock('next/router', () => ({
@@ -68,12 +69,12 @@ const CHUNKS = [
   },
 ];
 
-const ALL_UNIT_CHUNKS: Record<string, { id: string; chunkTitle: string; chunkOrder: string; estimatedTime: number | null; chunkResources: string[] | null; chunkExercises: string[] | null }[]> = {};
+const ALL_UNIT_CHUNKS: Record<string, BasicChunk[]> = {};
 COURSE_UNITS.forEach((unit) => {
   ALL_UNIT_CHUNKS[unit.id] = CHUNKS.map((chunk) => ({
     id: chunk.id,
-    chunkTitle: chunk.chunkTitle ?? '',
-    chunkOrder: chunk.chunkOrder ?? '',
+    chunkTitle: chunk.chunkTitle,
+    chunkOrder: chunk.chunkOrder,
     estimatedTime: chunk.estimatedTime,
     chunkResources: chunk.chunkResources,
     chunkExercises: chunk.chunkExercises,
