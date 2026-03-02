@@ -24,7 +24,6 @@ type Story = StoryObj<typeof meta>;
 const mockCourse = createMockCourse({
   title: 'Introduction to AI Safety',
   slug: 'intro-ai-safety',
-  path: '/courses/intro-ai-safety',
 });
 
 // Mock course registration for in-progress course
@@ -141,7 +140,6 @@ export const LongTitle: Story = {
 const mockAgiStrategyCourse = createMockCourse({
   title: 'AGI Strategy',
   slug: 'agi-strategy',
-  path: '/courses/agi-strategy',
 });
 
 const mockPastNoCertRegistration = createMockCourseRegistration({

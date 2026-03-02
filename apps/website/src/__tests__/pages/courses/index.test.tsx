@@ -24,14 +24,12 @@ const mockCourses = [
     id: 'course-foai',
     slug: 'future-of-ai',
     title: 'The Future of AI',
-    path: '/courses/future-of-ai',
     displayOnCourseHubIndex: false,
   }),
   createMockCourse({
     id: 'course-gov',
     slug: 'ai-governance',
     title: 'AI Governance',
-    path: '/courses/ai-governance',
     displayOnCourseHubIndex: true,
   }),
 ];
