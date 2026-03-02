@@ -177,7 +177,7 @@ const DiscussionListRow = ({
       variant: 'secondary',
       url: discussionDocLink,
       target: '_blank',
-      isVisible: !isPast && (discussionIsSoonOrLive || isFacilitator),
+      isVisible: !isPast && Boolean(discussionDocLink),
       overflowIcon: <DocumentIcon className="mx-auto" />,
     },
     {
