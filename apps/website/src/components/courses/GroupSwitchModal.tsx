@@ -18,6 +18,7 @@ export type GroupSwitchModalProps = {
   initialUnitNumber?: string;
   initialSwitchType?: SwitchType;
   courseSlug: string;
+  roundId: string;
 };
 
 type FormSection = {
@@ -32,6 +33,7 @@ type FormSection = {
 export default function GroupSwitchModal({
   handleClose,
   courseSlug,
+  roundId,
   initialUnitNumber = '1',
   initialSwitchType = 'Switch group for one unit',
 }: GroupSwitchModalProps) {
@@ -52,7 +54,7 @@ export default function GroupSwitchModal({
   const { data: courseData, isLoading: isCourseLoading, error: courseError } = trpc.courses.getBySlug.useQuery({ courseSlug });
 
   const { data: availableGroupsAndDiscussions, isLoading: isDiscussionsLoading, error: discussionsError } = trpc.groupSwitching.discussionsAvailable.useQuery(
-    { courseSlug },
+    { roundId },
     {
       // Disable once `showSuccess` is true, to avoid `selectedOption` (which displays on the success screen) being overwritten
       enabled: !showSuccess,
@@ -172,7 +174,7 @@ export default function GroupSwitchModal({
       newGroupId,
       oldDiscussionId,
       newDiscussionId,
-      courseSlug,
+      roundId,
     });
   };
 
