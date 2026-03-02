@@ -241,9 +241,14 @@ export const groupSwitchingRouter = router({
         });
       }
 
-      const participant = await db.getFirst(meetPersonTable, { filter: { round: roundId, email: ctx.auth.email, role: 'Participant' } });
+      const participant = await db.getFirst(meetPersonTable, {
+        filter: { round: roundId, email: ctx.auth.email, role: 'Participant' },
+      });
       if (!participant) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'No participant record found for user in this course round' });
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'No participant record found for user in this course round',
+        });
       }
 
       const { id: participantId } = participant;
