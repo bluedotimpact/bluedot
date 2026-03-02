@@ -281,6 +281,10 @@ export const groupSwitchingRouter = router({
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'User is already expected to attend new discussion' });
         }
 
+        if (newDiscussion && newDiscussion.round !== roundId) {
+          throw new TRPCError({ code: 'BAD_REQUEST', message: 'New discussion does not belong to the current course round' });
+        }
+
         if (newDiscussion && oldDiscussion.unit !== newDiscussion.unit) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'Old and new discussion must be on the same course unit' });
         }
