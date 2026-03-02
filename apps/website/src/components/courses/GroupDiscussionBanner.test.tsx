@@ -216,17 +216,11 @@ describe('GroupDiscussionBanner', () => {
       expect(screen.getByTestId('group-switch-modal')).toBeInTheDocument();
     });
 
-    test('open discussion doc button appears whenever activityDoc is set, regardless of time state', async () => {
-      const farFutureDiscussion = {
-        ...mockGroupDiscussion,
-        startDateTime: BASE_TIME + 7200, // 2 hours from base time (not 'soon')
-        endDateTime: BASE_TIME + 10800,
-      };
-
+    test('open discussion doc button appears when discussion is starting soon', async () => {
       render(
         <GroupDiscussionBanner
           unit={mockUnit}
-          groupDiscussion={farFutureDiscussion}
+          groupDiscussion={mockGroupDiscussion}
           userRole="participant"
         />,
         { wrapper: TrpcProvider },
@@ -264,6 +258,30 @@ describe('GroupDiscussionBanner', () => {
       fireEvent.click(changeFacilitatorOption);
 
       expect(screen.getByTestId('facilitator-switch-modal')).toBeInTheDocument();
+    });
+
+    test('facilitator sees discussion doc button even when discussion is not starting soon', async () => {
+      const futureDiscussion = {
+        ...mockGroupDiscussion,
+        startDateTime: BASE_TIME + 7200, // 2 hours from base time (not 'soon')
+        endDateTime: BASE_TIME + 10800,
+      };
+
+      const { container } = render(
+        <GroupDiscussionBanner
+          unit={mockUnit}
+          groupDiscussion={futureDiscussion}
+          userRole="facilitator"
+          hostKeyForFacilitators="123456"
+        />,
+        { wrapper: TrpcProvider },
+      );
+
+      const expandButton = await screen.findByRole('button', { name: 'Expand upcoming discussion banner' });
+      fireEvent.click(expandButton);
+
+      const desktopContainer = container.querySelector<HTMLElement>('#discussion-banner-desktop-container')!;
+      expect(within(desktopContainer).getByRole('link', { name: 'Open discussion doc' })).toBeInTheDocument();
     });
 
     test('discussion doc button is hidden when activityDoc is null', async () => {
