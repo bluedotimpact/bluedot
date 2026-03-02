@@ -78,7 +78,6 @@ export const createMockCourse = (overrides: Partial<Course> = {}): Course => ({
   isFeatured: false,
   isNew: false,
   level: 'Beginner',
-  path: '/courses/course-slug',
   publicLastUpdated: null,
   shortDescription: 'Short description',
   slug: 'course-slug',
