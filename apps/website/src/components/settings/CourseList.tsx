@@ -255,11 +255,12 @@ const CourseListRow = ({
       )}
 
       {/* Group switching modal for participants without a group */}
-      {groupSwitchModalOpen && course.slug && (
+      {groupSwitchModalOpen && meetPerson?.round && (
         <GroupSwitchModal
           handleClose={() => setGroupSwitchModalOpen(false)}
           initialSwitchType="Switch group permanently"
           courseSlug={course.slug}
+          roundId={meetPerson.round}
         />
       )}
     </div>
