@@ -216,11 +216,17 @@ describe('GroupDiscussionBanner', () => {
       expect(screen.getByTestId('group-switch-modal')).toBeInTheDocument();
     });
 
-    test('open discussion doc button appears when discussion starts soon', async () => {
+    test('open discussion doc button appears whenever activityDoc is set, regardless of time state', async () => {
+      const farFutureDiscussion = {
+        ...mockGroupDiscussion,
+        startDateTime: BASE_TIME + 7200, // 2 hours from base time (not 'soon')
+        endDateTime: BASE_TIME + 10800,
+      };
+
       render(
         <GroupDiscussionBanner
           unit={mockUnit}
-          groupDiscussion={mockGroupDiscussion}
+          groupDiscussion={farFutureDiscussion}
           userRole="participant"
         />,
         { wrapper: TrpcProvider },
@@ -260,19 +266,17 @@ describe('GroupDiscussionBanner', () => {
       expect(screen.getByTestId('facilitator-switch-modal')).toBeInTheDocument();
     });
 
-    test('facilitator sees discussion doc button even when discussion is not starting soon', async () => {
-      const futureDiscussion = {
+    test('discussion doc button is hidden when activityDoc is null', async () => {
+      const discussionWithoutDoc = {
         ...mockGroupDiscussion,
-        startDateTime: BASE_TIME + 7200, // 2 hours from base time
-        endDateTime: BASE_TIME + 10800, // 3 hours from base time
+        activityDoc: null,
       };
 
-      const { container } = render(
+      render(
         <GroupDiscussionBanner
           unit={mockUnit}
-          groupDiscussion={futureDiscussion}
-          userRole="facilitator"
-          hostKeyForFacilitators="123456"
+          groupDiscussion={discussionWithoutDoc}
+          userRole="participant"
         />,
         { wrapper: TrpcProvider },
       );
@@ -280,12 +284,7 @@ describe('GroupDiscussionBanner', () => {
       const expandButton = await screen.findByRole('button', { name: 'Expand upcoming discussion banner' });
       fireEvent.click(expandButton);
 
-      // Facilitator-specific: Discussion doc button should be visible even when not starting soon
-      const desktopContainer = container.querySelector<HTMLElement>('#discussion-banner-desktop-container')!;
-      const desktopButtons = within(desktopContainer);
-      expect(desktopButtons.getByRole('link', { name: 'Open discussion doc' })).toBeInTheDocument();
-
-      expect(container).toMatchSnapshot();
+      expect(screen.queryByText('Open discussion doc')).not.toBeInTheDocument();
     });
   });
 
