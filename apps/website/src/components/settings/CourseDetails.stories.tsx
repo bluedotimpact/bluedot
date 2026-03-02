@@ -25,7 +25,7 @@ const mockDiscussions: Record<string, GroupDiscussionWithGroupAndUnit> = {
     unit: null,
     unitFallback: '1: Introduction to AI Safety',
     zoomLink: 'https://zoom.us/j/123',
-    activityDoc: null,
+    activityDoc: 'https://docs.google.com/document/d/discussion-1-doc',
     slackChannelId: null,
     round: null,
     courseBuilderUnitRecordId: 'unit-1',
