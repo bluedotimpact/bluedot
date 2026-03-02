@@ -78,7 +78,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     return () => clearTimeout(timeoutId);
   }, [hostKeyCopied]);
 
-  const { data: discussionUnit } = trpc.courses.getUnit.useQuery(groupDiscussion.courseBuilderUnitRecordId
+  const { data: discussionUnit } = trpc.courses.getUnit.useQuery(groupDiscussion.courseBuilderUnitRecordId && unit.courseSlug
     ? { courseSlug: unit.courseSlug, unitId: groupDiscussion.courseBuilderUnitRecordId }
     : skipToken);
 
@@ -91,11 +91,11 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     : `Unit ${groupDiscussion.unitFallback || ''}`; // Fallback to unitFallback if unit not found
 
-  const prepareLink = buildCourseUnitUrl({ courseSlug: unit.courseSlug, unitNumber: resolvedUnit.unitNumber });
+  const prepareLink = buildCourseUnitUrl({ courseSlug: unit.courseSlug ?? '', unitNumber: resolvedUnit.unitNumber ?? '' });
 
   // Recalculate time strings when currentTime changes
   const startTimeDisplayRelative = useMemo(
-    () => formatDateTimeRelative({ dateTimeMs: groupDiscussion.startDateTime * 1000, currentTimeMs }),
+    () => formatDateTimeRelative({ dateTimeMs: (groupDiscussion.startDateTime ?? 0) * 1000, currentTimeMs }),
     [groupDiscussion.startDateTime, currentTimeMs],
   );
 
@@ -393,8 +393,8 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       {groupSwitchModalOpen && (
         <GroupSwitchModal
           handleClose={() => setGroupSwitchModalOpen(false)}
-          initialUnitNumber={resolvedUnit.unitNumber.toString()}
-          courseSlug={unit.courseSlug}
+          initialUnitNumber={(resolvedUnit.unitNumber ?? '').toString()}
+          courseSlug={unit.courseSlug ?? ''}
         />
       )}
 
@@ -402,7 +402,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
         <FacilitatorSwitchModal
           handleClose={() => setFacilitatorSwitchModalOpen(false)}
           roundId={groupDiscussion.round}
-          initialDiscussion={groupDiscussion}
+          initialDiscussion={{ id: groupDiscussion.id, group: groupDiscussion.group ?? '' }}
           initialModalType={facilitatorSwitchModalType}
         />
       )}

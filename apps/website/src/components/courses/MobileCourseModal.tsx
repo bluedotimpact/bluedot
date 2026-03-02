@@ -118,7 +118,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
             currentChunkIndex={currentChunkIndex}
             onToggle={() => toggleUnitExpansion(unit.id)}
             onChunkClick={(index) => handleChunkClick(unit, index)}
-            chunkProgress={courseProgressData?.chunkProgressByUnitNumber[unit.unitNumber] ?? []}
+            chunkProgress={(unit.unitNumber != null ? courseProgressData?.chunkProgressByUnitNumber[unit.unitNumber] : undefined) ?? []}
           />
         ))}
       </div>

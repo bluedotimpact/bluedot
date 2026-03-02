@@ -161,12 +161,12 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
         <>
           <Head>
             <title>{`${courseData.course.title} | BlueDot Impact`}</title>
-            <meta name="description" content={courseData.course.description} />
-            <meta key="og:title" property="og:title" content={courseData.course.title} />
-            <meta key="og:description" property="og:description" content={courseData.course.shortDescription} />
+            <meta name="description" content={courseData.course.description ?? undefined} />
+            <meta key="og:title" property="og:title" content={courseData.course.title ?? undefined} />
+            <meta key="og:description" property="og:description" content={courseData.course.shortDescription ?? undefined} />
             <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
             <meta key="og:type" property="og:type" content="website" />
-            <meta key="og:url" property="og:url" content={`https://bluedot.org/courses/${encodeURIComponent(courseData.course.slug)}`} />
+            <meta key="og:url" property="og:url" content={`https://bluedot.org/courses/${encodeURIComponent(courseData.course.slug ?? '')}`} />
             <meta key="og:image" property="og:image" content={courseOgImage} />
             <meta key="og:image:width" property="og:image:width" content="1200" />
             <meta key="og:image:height" property="og:image:height" content="630" />
@@ -175,7 +175,7 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
           </Head>
           <HeroSection>
             <HeroH1>{courseData.course.title}</HeroH1>
-            <MarkdownExtendedRenderer className="invert my-8">{courseData.course.description}</MarkdownExtendedRenderer>
+            <MarkdownExtendedRenderer className="invert my-8">{courseData.course.description ?? undefined}</MarkdownExtendedRenderer>
             <div className="flex flex-row gap-4 justify-center items-center">
               {courseData.units?.[0]?.path && (
                 <HeroCTAContainer>
@@ -190,8 +190,8 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
           <Breadcrumbs
             className="course-serp__breadcrumbs"
             route={{
-              title: courseData.course.title,
-              url: courseData.course.path,
+              title: courseData.course.title ?? '',
+              url: courseData.course.path ?? '',
               parentPages: [ROUTES.home, ROUTES.courses],
             }}
           />

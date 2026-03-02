@@ -40,7 +40,7 @@ const AccountSettingsPage = () => {
             <div className="p-8">
               {/* Profile Name Editor */}
               <ProfileNameEditor
-                initialName={user.name}
+                initialName={user.name ?? ''}
                 onSave={() => utils.users.getUser.invalidate()}
               />
 
@@ -73,7 +73,7 @@ const AccountSettingsPage = () => {
                 This name will be used across our platform and in your course interactions.
               </P>
               <ProfileNameEditor
-                initialName={user.name}
+                initialName={user.name ?? ''}
                 onSave={() => {
                   setShowWelcomeModal(false);
                   utils.users.getUser.invalidate();

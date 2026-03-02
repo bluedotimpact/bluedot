@@ -24,8 +24,8 @@ const ProfileNameEditor = ({ initialName, onSave }: ProfileNameEditorProps) => {
       setNameError('');
     },
     onSuccess(result) {
-      setCurrentSavedName(result.name);
-      setTempName(result.name);
+      setCurrentSavedName(result.name ?? '');
+      setTempName(result.name ?? '');
       onSave?.();
     },
     onError(error) {

@@ -152,7 +152,7 @@ describe('CourseDetails: Participant view', () => {
     await waitFor(() => {
       const prepareButton = screen.getByRole('link', { name: 'Prepare for discussion' });
       expect(prepareButton).toBeInTheDocument();
-      expect(prepareButton).toHaveAttribute('href', '/courses/ai-safety/3');
+      expect(prepareButton).toHaveAttribute('href', '/courses/ai-safety/3/1');
     });
   });
 

@@ -253,7 +253,9 @@ const CourseCurriculumSection = ({
         <div>
           {[...data.units]
             .sort((a, b) => {
+              // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
               const aNum = parseInt(a.unitNumber || '0', 10);
+              // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
               const bNum = parseInt(b.unitNumber || '0', 10);
               return aNum - bNum;
             })

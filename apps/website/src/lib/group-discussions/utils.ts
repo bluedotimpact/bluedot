@@ -16,8 +16,8 @@ export function getDiscussionTimeState({
   discussion: Pick<GroupDiscussion, 'startDateTime' | 'endDateTime'>;
   currentTimeMs: number;
 }) {
-  const startMs = discussion.startDateTime * 1000;
-  const endMs = discussion.endDateTime * 1000;
+  const startMs = (discussion.startDateTime ?? 0) * 1000;
+  const endMs = (discussion.endDateTime ?? 0) * 1000;
 
   if (currentTimeMs > endMs) {
     return 'ended';

@@ -63,7 +63,7 @@ export default makeApiRoute({
 
   const issuedAt = Math.round(Date.now() / 1000);
   const expiresAt = issuedAt + 3600 * 4;
-  const facilitators = groupDiscussion.facilitators || [];
+  const facilitators = groupDiscussion.facilitators ?? [];
   const oPayload = {
     sdkKey: env.NEXT_PUBLIC_ZOOM_CLIENT_ID,
     mn: meetingNumber,

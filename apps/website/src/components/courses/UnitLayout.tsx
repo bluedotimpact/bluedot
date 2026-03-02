@@ -98,7 +98,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
           <CourseIcon courseSlug={courseSlug} size="small" />
           <div className="mobile-unit-header__course-title-container flex flex-col justify-center text-left flex-1 min-w-0">
             <div className="mobile-unit-header__course-title-row flex items-center gap-1">
-              <p className="mobile-unit-header__course-title text-[17px] font-semibold leading-[120%] tracking-[-0.5%] text-bluedot-navy truncate">{unit.courseTitle}</p>
+              <p className="mobile-unit-header__course-title text-[17px] font-semibold leading-[120%] tracking-[-0.5%] text-bluedot-navy truncate">{unit.courseTitle ?? ''}</p>
               <FaChevronDown className="size-3 text-bluedot-navy flex-shrink-0" />
             </div>
           </div>
@@ -208,7 +208,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
     if ((isFirstChunk || chunks.length === 0) && prevUnit) {
       // Navigate to last chunk of previous unit
       const lastChunkNumber = prevUnit.chunks?.length ?? 1;
-      router.push(buildCourseUnitUrl({ courseSlug, unitNumber: prevUnit.unitNumber, chunkNumber: lastChunkNumber }));
+      router.push(buildCourseUnitUrl({ courseSlug, unitNumber: prevUnit.unitNumber ?? '', chunkNumber: lastChunkNumber }));
       setNavigationAnnouncement(`Navigated to previous unit: ${prevUnit.title}`);
     } else if (!isFirstChunk) {
       // Navigate to previous chunk
@@ -219,7 +219,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   const handleNextClick = useCallback(() => {
     if ((isLastChunk || chunks.length === 0) && nextUnit) {
       // Navigate to first chunk of next unit
-      router.push(buildCourseUnitUrl({ courseSlug, unitNumber: nextUnit.unitNumber }));
+      router.push(buildCourseUnitUrl({ courseSlug, unitNumber: nextUnit.unitNumber ?? '' }));
       setNavigationAnnouncement(`Navigated to next unit: ${nextUnit.title}`);
     } else if (!isLastChunk) {
       // Navigate to next chunk
@@ -262,7 +262,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       if (/^[1-9]$/.test(event.key)) {
         const targetUnitNumber = parseInt(event.key, 10);
         const targetUnit = units.find((u) => Number(u.unitNumber) === targetUnitNumber);
-        if (targetUnit) {
+        if (targetUnit?.path) {
           event.preventDefault();
           router.push(targetUnit.path);
           setNavigationAnnouncement(`Navigated to Unit ${targetUnitNumber}: ${targetUnit.title}`);
@@ -327,7 +327,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       <div className="md:flex">
         {!isSidebarHidden && (
           <SideBar
-            courseTitle={unit.courseTitle}
+            courseTitle={unit.courseTitle ?? ''}
             courseSlug={courseSlug}
             className="hidden md:block md:sticky md:top-(--nav-height-mobile) lg:top-(--nav-height-desktop) md:overflow-y-auto md:max-h-[calc(100vh-var(--nav-height-mobile))] lg:max-h-[calc(100vh-var(--nav-height-desktop))] md:self-start md:shrink-0"
             units={units}
@@ -368,10 +368,10 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 </A>
                 <FaChevronRight className="size-[14px] text-[#6A6F7A] flex-shrink-0 opacity-50" />
                 <A
-                  href={unit.coursePath}
+                  href={unit.coursePath ?? undefined}
                   className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-bluedot-navy transition-colors no-underline truncate"
                 >
-                  {unit.courseTitle}
+                  {unit.courseTitle ?? ''}
                 </A>
                 <FaChevronRight className="size-[14px] text-[#6A6F7A] flex-shrink-0 opacity-50" />
                 <span className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy truncate" title={`${unitNumber}. ${unit.title}`}>
@@ -446,6 +446,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                   exercises={chunk.exercises || []}
                   unitTitle={unit.title}
                   unitNumber={unitNumber}
+                  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                   className={clsx((chunk?.chunkContent || unit.content) ? 'mt-8 md:mt-6' : 'mt-4')}
                   courseSlug={courseSlug}
                   chunkIndex={chunkIndex}
@@ -455,16 +456,16 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               {(!nextUnit && isLastChunk) ? (
                 <>
                   <Congratulations
-                    courseTitle={unit.courseTitle}
-                    coursePath={unit.coursePath}
-                    courseId={unit.courseId}
+                    courseTitle={unit.courseTitle ?? ''}
+                    coursePath={unit.coursePath ?? ''}
+                    courseId={unit.courseId ?? undefined}
                     className="mt-8 md:mt-6"
                   />
                   <div className="mt-8 md:mt-6">
-                    <ActionPlanCard courseId={unit.courseId} />
+                    <ActionPlanCard courseId={unit.courseId ?? ''} />
                   </div>
                   <div className="mt-4">
-                    <CertificateLinkCard courseId={unit.courseId} />
+                    <CertificateLinkCard courseId={unit.courseId ?? ''} />
                   </div>
                 </>
               ) : (
@@ -494,7 +495,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       <MobileCourseModal
         isOpen={isMobileCourseMenuOpen}
         setIsOpen={setIsMobileCourseMenuOpen}
-        courseTitle={unit.courseTitle}
+        courseTitle={unit.courseTitle ?? ''}
         courseSlug={courseSlug}
         units={units}
         currentUnitNumber={parseInt(unitNumber)}

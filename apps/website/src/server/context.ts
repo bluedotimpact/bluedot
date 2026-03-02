@@ -30,8 +30,8 @@ export const createContext = async ({ req }: trpcNext.CreateNextContextOptions) 
       if (targetUser) {
         logger.info(`Admin ${auth.email} impersonating user ${targetUser.email}`);
         return {
-          auth: { ...auth, email: targetUser.email },
-          impersonation: { adminEmail: auth.email, targetEmail: targetUser.email },
+          auth: { ...auth, email: targetUser.email! },
+          impersonation: { adminEmail: auth.email, targetEmail: targetUser.email! },
           userAgent,
         };
       }
