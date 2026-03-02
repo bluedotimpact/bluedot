@@ -6,7 +6,7 @@ import {
   groupSwitchingTable,
   groupTable, inArray, meetPersonTable, roundTable,
   type Group,
-  type GroupDiscussion
+  type GroupDiscussion,
 } from '@bluedot/db';
 import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import z from 'zod';
@@ -245,6 +245,7 @@ export const groupSwitchingRouter = router({
       if (!participant) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'No participant record found for user in this course round' });
       }
+
       const { id: participantId } = participant;
 
       let unitId: string | null = null;
