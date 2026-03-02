@@ -216,7 +216,7 @@ describe('GroupDiscussionBanner', () => {
       expect(screen.getByTestId('group-switch-modal')).toBeInTheDocument();
     });
 
-    test('open discussion doc button appears when discussion is starting soon', async () => {
+    test('open discussion doc button appears when discussion starts soon', async () => {
       render(
         <GroupDiscussionBanner
           unit={mockUnit}
@@ -229,7 +229,7 @@ describe('GroupDiscussionBanner', () => {
       const expandButton = await screen.findByRole('button', { name: 'Expand upcoming discussion banner' });
       fireEvent.click(expandButton);
 
-      const docButton = screen.getAllByText('Open discussion doc')[0]!;
+      const docButton = screen.getByText('Open discussion doc');
       expect(docButton.closest('a')).toHaveAttribute('href', 'https://docs.google.com/document/d/abc123');
     });
   });
@@ -263,8 +263,8 @@ describe('GroupDiscussionBanner', () => {
     test('facilitator sees discussion doc button even when discussion is not starting soon', async () => {
       const futureDiscussion = {
         ...mockGroupDiscussion,
-        startDateTime: BASE_TIME + 7200, // 2 hours from base time (not 'soon')
-        endDateTime: BASE_TIME + 10800,
+        startDateTime: BASE_TIME + 7200, // 2 hours from base time
+        endDateTime: BASE_TIME + 10800, // 3 hours from base time
       };
 
       const { container } = render(
@@ -280,8 +280,12 @@ describe('GroupDiscussionBanner', () => {
       const expandButton = await screen.findByRole('button', { name: 'Expand upcoming discussion banner' });
       fireEvent.click(expandButton);
 
+      // Facilitator-specific: Discussion doc button should be visible even when not starting soon
       const desktopContainer = container.querySelector<HTMLElement>('#discussion-banner-desktop-container')!;
-      expect(within(desktopContainer).getByRole('link', { name: 'Open discussion doc' })).toBeInTheDocument();
+      const desktopButtons = within(desktopContainer);
+      expect(desktopButtons.getByRole('link', { name: 'Open discussion doc' })).toBeInTheDocument();
+
+      expect(container).toMatchSnapshot();
     });
 
     test('discussion doc button is hidden when activityDoc is null', async () => {
