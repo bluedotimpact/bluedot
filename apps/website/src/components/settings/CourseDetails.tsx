@@ -156,7 +156,7 @@ const CourseDetails = ({
           </div>
         </div>
       </div>
-      {groupSwitchModalOpen && course.slug && (
+      {groupSwitchModalOpen && selectedDiscussion?.groupDetails?.round && (
         <GroupSwitchModal
           handleClose={() => {
             setGroupSwitchModalOpen(false);
@@ -167,6 +167,7 @@ const CourseDetails = ({
             : undefined}
           initialSwitchType={selectedSwitchType}
           courseSlug={course.slug}
+          roundId={selectedDiscussion.groupDetails.round}
         />
       )}
       {facilitatorSwitchModalOpen && selectedDiscussion?.groupDetails?.round && (
