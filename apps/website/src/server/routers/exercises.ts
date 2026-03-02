@@ -11,6 +11,7 @@ import {
   isNotNull,
   meetPersonTable,
 } from '@bluedot/db';
+import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
@@ -79,7 +80,7 @@ export const exercisesRouter = router({
         sortBy: 'slug',
       });
       if (!course) {
-        return null;
+        throw new TRPCError({ code: 'NOT_FOUND', message: `Course not found for slug: ${input.courseSlug}` });
       }
 
       // 2. Find caller's registration
@@ -92,7 +93,7 @@ export const exercisesRouter = router({
         },
       });
       if (!courseRegistration) {
-        return null;
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'No active registration found for this course' });
       }
 
       // 3. Find meetPerson record and verify facilitator role
@@ -100,7 +101,7 @@ export const exercisesRouter = router({
         filter: { applicationsBaseRecordId: courseRegistration.id },
       });
       if (!meetPerson || meetPerson.role !== 'Facilitator') {
-        return null;
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'User is not a facilitator for this course' });
       }
 
       // 4. Find groups this person facilitates
@@ -110,7 +111,7 @@ export const exercisesRouter = router({
         .where(arrayContains(groupTable.pg.facilitator, [meetPerson.id]));
 
       if (groups.length === 0) {
-        return null;
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'No groups found for this facilitator' });
       }
 
       // 5. Get all participant IDs across all groups
