@@ -95,7 +95,7 @@ export const groupDiscussionsRouter = router({
       });
 
       if (!courseRegistration) {
-        return null;
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Course registration not found' });
       }
 
       const participant = await db.getFirst(meetPersonTable, {
@@ -103,12 +103,12 @@ export const groupDiscussionsRouter = router({
       });
 
       if (!participant) {
-        return null;
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Participant not found' });
       }
 
       const roundId = participant.round;
       if (!roundId) {
-        return null;
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Round not found for participant' });
       }
 
       const currentTimeMs = Date.now();
