@@ -101,7 +101,9 @@ export const exercisesRouter = router({
         filter: { applicationsBaseRecordId: courseRegistration.id },
       });
       if (!meetPerson || meetPerson.role !== 'Facilitator') {
-        throw new TRPCError({ code: 'FORBIDDEN', message: 'User is not a facilitator for this course' });
+        // Return null rather than throwing — no groups/responses is a valid empty state, and throwing would trigger
+        // retries unnecessarily.
+        return null;
       }
 
       // 4. Find groups this person facilitates
