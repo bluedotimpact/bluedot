@@ -69,7 +69,7 @@ const mockDiscussions: Record<string, GroupDiscussionWithGroupAndUnit> = {
     unit: null,
     unitFallback: '0: Kickoff',
     zoomLink: 'https://zoom.us/j/789',
-    activityDoc:  'https://docs.google.com/document/d/discussion-3-doc',
+    activityDoc: 'https://docs.google.com/document/d/discussion-3-doc',
     slackChannelId: null,
     round: null,
     courseBuilderUnitRecordId: 'unit-0',
