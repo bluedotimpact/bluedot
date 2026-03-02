@@ -390,11 +390,12 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
         })()}
       </div>
 
-      {groupSwitchModalOpen && (
+      {groupSwitchModalOpen && groupDiscussion.round && (
         <GroupSwitchModal
           handleClose={() => setGroupSwitchModalOpen(false)}
           initialUnitNumber={resolvedUnit.unitNumber.toString()}
           courseSlug={unit.courseSlug}
+          roundId={groupDiscussion.round}
         />
       )}
 
