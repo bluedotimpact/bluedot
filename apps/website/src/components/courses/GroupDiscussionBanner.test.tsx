@@ -235,7 +235,7 @@ describe('GroupDiscussionBanner', () => {
       const expandButton = await screen.findByRole('button', { name: 'Expand upcoming discussion banner' });
       fireEvent.click(expandButton);
 
-      const docButton = screen.getByText('Open discussion doc');
+      const docButton = screen.getAllByText('Open discussion doc')[0]!;
       expect(docButton.closest('a')).toHaveAttribute('href', 'https://docs.google.com/document/d/abc123');
     });
   });
