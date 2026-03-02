@@ -1,8 +1,11 @@
 import {
   and,
-  courseRegistrationTable, courseTable,
+  courseRegistrationTable,
+  courseTable,
   eq,
-  groupDiscussionTable, groupTable, meetPersonTable,
+  groupDiscussionTable,
+  groupTable,
+  meetPersonTable,
   sql,
   unitTable,
   zoomAccountTable,
@@ -11,8 +14,8 @@ import { logger } from '@bluedot/ui/src/api';
 import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
-import { protectedProcedure, publicProcedure, router } from '../trpc';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
+import { protectedProcedure, publicProcedure, router } from '../trpc';
 
 export type GroupDiscussionWithGroupAndUnit = inferRouterOutputs<
   typeof groupDiscussionsRouter
@@ -95,7 +98,7 @@ export const groupDiscussionsRouter = router({
       });
 
       if (!courseRegistration) {
-        return null;
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Course registration not found' });
       }
 
       const participant = await db.getFirst(meetPersonTable, {
@@ -103,17 +106,18 @@ export const groupDiscussionsRouter = router({
       });
 
       if (!participant) {
-        return null;
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Participant not found' });
       }
 
       const roundId = participant.round;
       if (!roundId) {
-        return null;
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Round not found for participant' });
       }
 
       const currentTimeMs = Date.now();
 
-      const groupDiscussions = await db.pg.select()
+      const groupDiscussions = await db.pg
+        .select()
         .from(groupDiscussionTable.pg)
         .where(and(
           eq(groupDiscussionTable.pg.round, roundId),
@@ -150,5 +154,4 @@ export const groupDiscussionsRouter = router({
         hostKeyForFacilitators,
       };
     }),
-
 });
