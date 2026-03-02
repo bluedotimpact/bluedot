@@ -153,6 +153,7 @@ describe('GroupSwitchModal', () => {
           handleClose={() => {}}
           initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
+          roundId="round-1"
         />,
         { wrapper: TrpcProvider },
       );
@@ -214,6 +215,7 @@ describe('GroupSwitchModal', () => {
           handleClose={() => {}}
           initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
+          roundId="round-1"
         />,
         { wrapper: TrpcProvider },
       );
@@ -282,6 +284,7 @@ describe('GroupSwitchModal', () => {
           handleClose={() => {}}
           initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
+          roundId="round-1"
         />,
         { wrapper: TrpcProvider },
       );
@@ -335,6 +338,7 @@ describe('GroupSwitchModal', () => {
         <GroupSwitchModal
           handleClose={() => {}}
           courseSlug="ai-safety"
+          roundId="round-1"
         />
       </TrpcProvider>);
 
@@ -396,6 +400,7 @@ describe('GroupSwitchModal', () => {
           handleClose={() => {}}
           initialUnitNumber={mockUnit2.unitNumber}
           courseSlug="ai-safety"
+          roundId="round-1"
         />,
         { wrapper: TrpcProvider },
       );
@@ -450,6 +455,7 @@ describe('GroupSwitchModal', () => {
           handleClose={() => {}}
           initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
+          roundId="round-1"
         />,
         { wrapper: TrpcProvider },
       );
@@ -511,6 +517,7 @@ describe('GroupSwitchModal', () => {
           handleClose={() => {}}
           initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
+          roundId="round-1"
         />,
         { wrapper: TrpcProvider },
       );
@@ -563,6 +570,7 @@ describe('GroupSwitchModal', () => {
           handleClose={() => {}}
           initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
+          roundId="round-1"
         />,
         { wrapper: TrpcProvider },
       );
@@ -635,6 +643,7 @@ describe('GroupSwitchModal', () => {
           handleClose={() => {}}
           initialUnitNumber={mockUnit1.unitNumber}
           courseSlug="ai-safety"
+          roundId="round-1"
         />,
         { wrapper: TrpcProvider },
       );
@@ -719,6 +728,7 @@ describe('GroupSwitchModal', () => {
           initialUnitNumber={mockUnit1.unitNumber}
           initialSwitchType="Switch group permanently"
           courseSlug="ai-safety"
+          roundId="round-1"
         />,
         { wrapper: TrpcProvider },
       );
@@ -745,6 +755,7 @@ describe('GroupSwitchModal', () => {
           initialUnitNumber={mockUnit1.unitNumber}
           initialSwitchType="Switch group permanently"
           courseSlug="ai-safety"
+          roundId="round-1"
         />,
         { wrapper: TrpcProvider },
       );
@@ -792,6 +803,7 @@ describe('GroupSwitchModal', () => {
           initialUnitNumber={mockUnit1.unitNumber}
           initialSwitchType="Switch group permanently"
           courseSlug="ai-safety"
+          roundId="round-1"
         />,
         { wrapper: TrpcProvider },
       );
@@ -887,7 +899,7 @@ describe('GroupSwitchModal', () => {
       server.use(trpcMsw.groupSwitching.discussionsAvailable.query(() => mockManyGroups));
 
       render(
-        <GroupSwitchModal handleClose={() => {}} initialUnitNumber={mockUnit1.unitNumber} courseSlug="ai-safety" />,
+        <GroupSwitchModal handleClose={() => {}} initialUnitNumber={mockUnit1.unitNumber} courseSlug="ai-safety" roundId="round-1" />,
         { wrapper: TrpcProvider },
       );
 
