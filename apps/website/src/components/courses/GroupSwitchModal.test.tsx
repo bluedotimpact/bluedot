@@ -200,7 +200,7 @@ describe('GroupSwitchModal', () => {
           newGroupId: undefined,
           oldDiscussionId: 'discussion-1',
           newDiscussionId: 'discussion-2',
-          courseSlug: 'ai-safety',
+          roundId: 'round-1',
         });
       });
 
@@ -269,7 +269,7 @@ describe('GroupSwitchModal', () => {
           newGroupId: 'group-2',
           oldDiscussionId: undefined,
           newDiscussionId: undefined,
-          courseSlug: 'ai-safety',
+          roundId: 'round-1',
         });
       });
 
@@ -323,7 +323,7 @@ describe('GroupSwitchModal', () => {
           newGroupId: undefined,
           oldDiscussionId: 'discussion-1',
           newDiscussionId: undefined,
-          courseSlug: 'ai-safety',
+          roundId: 'round-1',
         });
       });
 
@@ -559,7 +559,7 @@ describe('GroupSwitchModal', () => {
           newGroupId: undefined,
           oldDiscussionId: undefined, // No discussions available
           newDiscussionId: undefined,
-          courseSlug: 'ai-safety',
+          roundId: 'round-1',
         });
       });
     });
@@ -787,7 +787,7 @@ describe('GroupSwitchModal', () => {
           newGroupId: 'group-2',
           oldDiscussionId: undefined,
           newDiscussionId: undefined,
-          courseSlug: 'ai-safety',
+          roundId: 'round-1',
         });
       });
 
@@ -844,7 +844,7 @@ describe('GroupSwitchModal', () => {
           newGroupId: undefined,
           oldDiscussionId: undefined,
           newDiscussionId: undefined,
-          courseSlug: 'ai-safety',
+          roundId: 'round-1',
         });
       });
 
