@@ -264,6 +264,18 @@ export const groupSwitchingRouter = router({
           !isManualRequest ? db.get(groupDiscussionTable, { id: inputNewDiscussionId }) : null,
         ]);
 
+        const [oldDiscussionGroup, newDiscussionGroup] = await Promise.all([
+          db.get(groupTable, { id: oldDiscussion.group }),
+          newDiscussion ? db.get(groupTable, { id: newDiscussion.group }) : null,
+        ]);
+
+        if (oldDiscussionGroup.round !== roundId || (newDiscussionGroup && newDiscussionGroup.round !== roundId)) {
+          throw new TRPCError({
+            code: 'BAD_REQUEST',
+            message: 'Discussion does not belong to the selected course round',
+          });
+        }
+
         if (oldDiscussion.facilitators.includes(participantId) || newDiscussion?.facilitators.includes(participantId)) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'Facilitators cannot switch groups by this method' });
         }
