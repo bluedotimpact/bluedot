@@ -158,7 +158,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       variant: 'secondary',
       url: discussionDocLink,
       target: '_blank',
-      isVisible: Boolean(discussionDocLink),
+      isVisible: (discussionIsSoonOrLive || isFacilitator) && Boolean(discussionDocLink),
       overflowIcon: <DocumentIcon className="mx-auto" />,
     },
     {
