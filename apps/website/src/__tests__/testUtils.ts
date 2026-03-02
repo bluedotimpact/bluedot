@@ -182,7 +182,7 @@ export const createMockGroupDiscussion = (overrides: Partial<GroupDiscussion> = 
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   id: `discussion-${overrides.unitNumber || 1}`,
   participantsExpected: [],
-  round: null,
+  round: 'round-1',
   slackChannelId: null,
   startDateTime: Math.floor(Date.now() / 1000) + 60 * 60, // 1 hour from now (seconds)
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
