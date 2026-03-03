@@ -1,7 +1,8 @@
 import {
   and,
   arrayContains,
-  courseRegistrationTable, courseRunnerBucketTable, courseTable, groupDiscussionTable,
+  courseRunnerBucketTable,
+  groupDiscussionTable,
   groupSwitchingTable,
   groupTable, inArray, meetPersonTable, roundTable,
   type Group,
@@ -10,8 +11,8 @@ import {
 import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
-import { protectedProcedure, router } from '../trpc';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
+import { protectedProcedure, router } from '../trpc';
 
 export type DiscussionsAvailable = inferRouterOutputs<typeof groupSwitchingRouter>['discussionsAvailable'];
 
@@ -118,33 +119,11 @@ export function calculateGroupAvailability({
 
 export const groupSwitchingRouter = router({
   discussionsAvailable: protectedProcedure
-    .input(z.object({ courseSlug: z.string() }))
-    .query(async ({ ctx, input: { courseSlug } }) => {
-      const course = await db.get(courseTable, { slug: courseSlug });
-      if (!course) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: `No course with slug ${courseSlug} found` });
-      }
-
-      const courseRegistration = await db.getFirst(courseRegistrationTable, {
-        filter: {
-          email: ctx.auth.email,
-          decision: 'Accept',
-          courseId: course.id,
-        },
-      });
-
-      if (!courseRegistration) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'No course registration found' });
-      }
-
-      const participant = await db.get(meetPersonTable, { applicationsBaseRecordId: courseRegistration.id });
+    .input(z.object({ roundId: z.string() }))
+    .query(async ({ ctx, input: { roundId } }) => {
+      const participant = await db.getFirst(meetPersonTable, { filter: { round: roundId, email: ctx.auth.email, role: 'Participant' } });
       if (!participant) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'No participant found for this course registration' });
-      }
-
-      const roundId = participant.round;
-      if (!roundId) {
-        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Participant does not have a round ID' });
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'No participant record found for user in this course round' });
       }
 
       const courseRound = await db.get(roundTable, { id: roundId });
@@ -225,7 +204,7 @@ export const groupSwitchingRouter = router({
       oldDiscussionId: z.string().optional(),
       newDiscussionId: z.string().optional(),
       isManualRequest: z.boolean(),
-      courseSlug: z.string(),
+      roundId: z.string(),
     }))
     .mutation(async ({ ctx, input }) => {
       const {
@@ -236,7 +215,7 @@ export const groupSwitchingRouter = router({
         newDiscussionId: inputNewDiscussionId,
         notesFromParticipant,
         isManualRequest,
-        courseSlug,
+        roundId,
       } = input;
 
       const isTemporarySwitch = switchType === 'Switch group for one unit';
@@ -262,28 +241,17 @@ export const groupSwitchingRouter = router({
         });
       }
 
-      const course = await db.get(courseTable, { slug: courseSlug });
-      if (!course) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: `No course with slug ${courseSlug} found` });
-      }
-
-      const courseRegistration = await db.getFirst(courseRegistrationTable, {
-        filter: {
-          email: ctx.auth.email,
-          decision: 'Accept',
-          courseId: course.id,
-        },
+      const participant = await db.getFirst(meetPersonTable, {
+        filter: { round: roundId, email: ctx.auth.email, role: 'Participant' },
       });
-      if (!courseRegistration) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'No course registration found' });
+      if (!participant) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'No participant record found for user in this course round',
+        });
       }
 
-      const participant = await db.get(meetPersonTable, { applicationsBaseRecordId: courseRegistration.id });
-      const { id: participantId, round: roundId } = participant;
-
-      if (!roundId) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'No course round found' });
-      }
+      const { id: participantId } = participant;
 
       let unitId: string | null = null;
       let oldGroupId: string | null = null;
@@ -311,6 +279,10 @@ export const groupSwitchingRouter = router({
 
         if (newDiscussion?.participantsExpected.includes(participantId)) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'User is already expected to attend new discussion' });
+        }
+
+        if (newDiscussion && newDiscussion.round !== roundId) {
+          throw new TRPCError({ code: 'BAD_REQUEST', message: 'New discussion does not belong to the current course round' });
         }
 
         if (newDiscussion && oldDiscussion.unit !== newDiscussion.unit) {

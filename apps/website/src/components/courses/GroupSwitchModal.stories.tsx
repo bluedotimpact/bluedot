@@ -187,6 +187,7 @@ export const Default: Story = {
     handleClose() {},
     initialUnitNumber: unit1.unitNumber,
     courseSlug: 'ai-safety',
+    roundId: 'round-1',
   },
   parameters: {
     msw: {
@@ -200,6 +201,7 @@ export const AlternativeUnit: Story = {
     handleClose() {},
     initialUnitNumber: unit2.unitNumber,
     courseSlug: 'ai-safety',
+    roundId: 'round-1',
   },
   parameters: {
     msw: {
@@ -213,6 +215,7 @@ export const NoAvailableGroups: Story = {
     handleClose() {},
     initialUnitNumber: unit3.unitNumber,
     courseSlug: 'ai-safety',
+    roundId: 'round-1',
   },
   parameters: {
     msw: {
@@ -226,6 +229,7 @@ export const ManyGroups: Story = {
     handleClose() {},
     initialUnitNumber: unit1.unitNumber,
     courseSlug: 'ai-safety',
+    roundId: 'round-1',
   },
   parameters: {
     msw: {
@@ -245,6 +249,7 @@ export const Loading: Story = {
     handleClose() {},
     initialUnitNumber: unit1.unitNumber,
     courseSlug: 'ai-safety',
+    roundId: 'round-1',
   },
   parameters: {
     msw: {

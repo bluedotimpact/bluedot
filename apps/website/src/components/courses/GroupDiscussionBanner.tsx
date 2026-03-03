@@ -198,7 +198,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
       label: 'Can\'t make it?',
       variant: 'ghost',
       onClick: () => setGroupSwitchModalOpen(true),
-      isVisible: !isFacilitator,
+      isVisible: !isFacilitator && Boolean(groupDiscussion.round), // Only show if the user has a group to switch from (indicated by round)
     },
   ];
   // Buttons should be in a slightly different order on mobile.
@@ -390,11 +390,12 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
         })()}
       </div>
 
-      {groupSwitchModalOpen && (
+      {groupSwitchModalOpen && groupDiscussion.round && (
         <GroupSwitchModal
           handleClose={() => setGroupSwitchModalOpen(false)}
           initialUnitNumber={resolvedUnit.unitNumber.toString()}
           courseSlug={unit.courseSlug}
+          roundId={groupDiscussion.round}
         />
       )}
 
