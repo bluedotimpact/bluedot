@@ -360,7 +360,7 @@ const getCtaButtons = ({
   if (courseRegistration.certificateCreatedAt) {
     const certificateUrl = courseRegistration.certificateId
       ? addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)
-      : course.path;
+      : `/courses/${course.slug}`;
 
     return [(
       <CTALinkOrButton

@@ -81,7 +81,7 @@ const SettingsCourseCard: React.FC<SettingsCourseCardProps> = ({ course, courseR
                   View your certificate
                 </ClickTarget>
                 <ClickTarget
-                  url={course.path}
+                  url={`/courses/${course.slug}`}
                   className="flex items-center text-bluedot-normal hover:text-bluedot-dark"
                   aria-label="Browse course materials for this completed course"
                 >
@@ -107,7 +107,7 @@ const SettingsCourseCard: React.FC<SettingsCourseCardProps> = ({ course, courseR
               Share your achievement
             </P>
             <SocialShare
-              coursePath={course.path}
+              coursePath={`/courses/${course.slug}`}
               text={`🎉 I just completed the ${course.title} course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out and sign up with my link below:`}
               aria-label="Social media sharing options"
             />
@@ -119,7 +119,7 @@ const SettingsCourseCard: React.FC<SettingsCourseCardProps> = ({ course, courseR
       {!isCompleted && (
         <div className="bg-stone-50 p-6">
           <CTALinkOrButton
-            url={course.path}
+            url={`/courses/${course.slug}`}
             variant="primary"
             className="w-full"
             aria-label={`Continue learning ${course.title}`}

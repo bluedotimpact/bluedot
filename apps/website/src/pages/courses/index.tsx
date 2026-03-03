@@ -109,7 +109,7 @@ const CoursesPage = () => {
                       name: 'BlueDot Impact',
                       sameAs: 'https://bluedot.org',
                     },
-                    url: `https://bluedot.org${course.path}`,
+                    url: `https://bluedot.org/courses/${course.slug}`,
                     offers: [{
                       '@type': 'Offer',
                       category: 'Free',
@@ -398,7 +398,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
           <div className="flex items-center min-h-[48px] border-l-4 border-bluedot-navy/20 pl-5">
             <p className="text-[15px] leading-[1.6] font-normal text-bluedot-navy opacity-50">
               No upcoming rounds.{' '}
-              <Link href={course.path} className="text-bluedot-normal font-medium hover:underline cursor-pointer">
+              <Link href={`/courses/${course.slug}`} className="text-bluedot-normal font-medium hover:underline cursor-pointer">
                 Learn more about this course
               </Link>
             </p>
@@ -425,7 +425,7 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
         </div>
 
         <Link
-          href={course.path}
+          href={`/courses/${course.slug}`}
           className="group flex items-center gap-2 cursor-pointer"
         >
           <h2 className="text-[24px] leading-[1.4] font-semibold tracking-[-0.5px] text-bluedot-navy">
@@ -442,7 +442,7 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
         <CourseIcon courseSlug={course.slug} size="xlarge" className="rounded-[12px]" />
 
         <Link
-          href={course.path}
+          href={`/courses/${course.slug}`}
           className="group flex items-center gap-2 pt-[15px] cursor-pointer"
         >
           <h2 className="text-[24px] leading-[1.4] font-semibold tracking-[-0.5px] text-bluedot-navy">
@@ -478,7 +478,7 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
             Open access · {course.durationHours ? `${course.durationHours} hours` : course.durationDescription}
           </p>
           <Link
-            href={`${course.path}/1/1`}
+            href={`/courses/${course.slug}/1/1`}
             className="mt-3 text-[15px] leading-[1.6] font-medium cursor-pointer text-bluedot-normal"
           >
             Start learning
@@ -488,7 +488,7 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
 
       {/* Desktop Layout */}
       <Link
-        href={`${course.path}/1/1`}
+        href={`/courses/${course.slug}/1/1`}
         className="group hidden min-[680px]:flex flex-row items-center justify-between min-h-12 cursor-pointer"
       >
         <div className="flex items-stretch h-full">

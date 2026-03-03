@@ -191,7 +191,7 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
             className="course-serp__breadcrumbs"
             route={{
               title: courseData.course.title,
-              url: courseData.course.path,
+              url: `/courses/${courseData.course.slug}`,
               parentPages: [ROUTES.home, ROUTES.courses],
             }}
           />

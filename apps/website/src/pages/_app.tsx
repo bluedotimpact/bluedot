@@ -130,7 +130,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
                 {!hideFooter && (
                   <Footer
                     courses={courses.map((course) => ({
-                      path: course.path,
+                      path: `/courses/${course.slug}`,
                       title: course.title,
                     }))}
                     loading={loading}
