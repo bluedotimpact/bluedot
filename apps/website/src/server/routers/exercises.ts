@@ -113,7 +113,7 @@ export const exercisesRouter = router({
         .where(arrayContains(groupTable.pg.facilitator, [meetPerson.id]));
 
       if (groups.length === 0) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'No groups found for this facilitator' });
+        return null;
       }
 
       // 5. Get all participant IDs across all groups
