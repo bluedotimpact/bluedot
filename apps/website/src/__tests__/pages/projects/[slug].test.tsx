@@ -43,7 +43,6 @@ describe('ProjectPostPage SSR/SEO', () => {
 
   test('renders SEO meta tags during SSR without API calls', () => {
     renderWithHead(<ProjectPostPage
-      slug="ai-alignment-research"
       project={mockProject}
     />);
 

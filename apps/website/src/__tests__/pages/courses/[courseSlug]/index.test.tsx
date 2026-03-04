@@ -39,7 +39,6 @@ describe('CoursePage SSR/SEO', () => {
 
   test('renders SEO meta tags during SSR without API calls', () => {
     renderWithHead(<CoursePage
-      courseSlug="ai-safety-fundamentals"
       courseData={{ course: mockCourse, units: mockUnits }}
       courseOgImage={`https://bluedot.org/images/courses/link-preview/${mockCourse.slug}.png`}
       soonestDeadline={null}

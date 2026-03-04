@@ -42,7 +42,6 @@ describe('JobPostingPage SSR/SEO', () => {
 
   test('renders SEO meta tags during SSR without API calls', () => {
     renderWithHead(<JobPostingPage
-      slug="ai-safety-researcher"
       job={mockJob}
       jobOgImage={`https://bluedot.org/images/jobs/link-preview/${mockJob.slug}.png`}
     />);

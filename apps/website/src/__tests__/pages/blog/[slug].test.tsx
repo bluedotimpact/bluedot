@@ -42,7 +42,6 @@ describe('BlogPostPage SSR/SEO', () => {
 
   test('renders SEO meta tags during SSR without API calls', () => {
     renderWithHead(<BlogPostPage
-      slug="my-amazing-blog-post"
       blog={mockBlog}
     />);
 
