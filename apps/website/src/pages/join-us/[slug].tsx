@@ -13,6 +13,7 @@ import { type GetStaticProps, type GetStaticPaths } from 'next';
 import { type JobPosting, jobPostingTable } from '@bluedot/db';
 import path from 'path';
 import { ROUTES } from '../../lib/routes';
+import { ONE_MINUTE_SECONDS } from '../../lib/constants';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
 import db from '../../lib/api/db';
 import { fileExists } from '../../utils/fileExists';
@@ -136,13 +137,13 @@ export const getStaticProps: GetStaticProps<JobPostingPageProps> = async ({ para
         job,
         jobOgImage,
       },
-      revalidate: 300,
+      revalidate: 5 * ONE_MINUTE_SECONDS,
     };
   } catch {
     // Error fetching job data (likely not found)
     return {
       notFound: true,
-      revalidate: 60, // Cache 404s for only 1 minute instead of 1 year
+      revalidate: ONE_MINUTE_SECONDS, // Cache 404s for only 1 minute instead of 1 year
     };
   }
 };

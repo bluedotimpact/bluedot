@@ -1,9 +1,10 @@
 import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import { publicProcedure, router } from '../trpc';
 import env from '../../lib/api/env';
+import { ONE_MINUTE_MS } from '../../lib/constants';
 
 // In-memory cache for Luma API responses - reduces API calls, improves response time, and handles intermittent API failures
-const CACHE_TTL_MS = 60_000; // 1 minute
+const CACHE_TTL_MS = ONE_MINUTE_MS;
 const FAILURE_THRESHOLD = 3; // Alert after N consecutive failures
 const EXCLUDED_EVENT_TITLE_SUFFIXES = ['paper reading club', 'paper reading group'];
 

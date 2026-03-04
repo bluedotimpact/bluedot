@@ -7,6 +7,7 @@ import {
 } from 'vitest';
 import { useAnnouncementBannerStore } from '../stores/announcementBanner';
 import { AnnouncementBanner, getAnnouncementBannerKey } from './AnnouncementBanner';
+import { ONE_DAY_MS } from '../lib/constants';
 
 describe('AnnouncementBanner', () => {
   beforeEach(() => {
@@ -63,7 +64,7 @@ describe('AnnouncementBanner', () => {
   });
 
   test('does not render when current date is before hideUntil date', () => {
-    const futureDate = new Date(Date.now() + 86400);
+    const futureDate = new Date(Date.now() + ONE_DAY_MS);
 
     const { container } = render(<AnnouncementBanner hideUntil={futureDate}>
       Test Announcement
@@ -75,7 +76,7 @@ describe('AnnouncementBanner', () => {
   });
 
   test('renders when current date is after hideUntil date', () => {
-    const pastDate = new Date(Date.now() - 86400);
+    const pastDate = new Date(Date.now() - ONE_DAY_MS);
 
     render(<AnnouncementBanner hideUntil={pastDate}>
       Test Announcement
@@ -87,7 +88,7 @@ describe('AnnouncementBanner', () => {
   });
 
   test('does not render when current date is after hideAfter date', () => {
-    const pastDate = new Date(Date.now() - 86400);
+    const pastDate = new Date(Date.now() - ONE_DAY_MS);
 
     const { container } = render(<AnnouncementBanner hideAfter={pastDate}>
       Test Announcement
@@ -99,7 +100,7 @@ describe('AnnouncementBanner', () => {
   });
 
   test('renders when current date is before hideAfter date', () => {
-    const futureDate = new Date(Date.now() + 86400);
+    const futureDate = new Date(Date.now() + ONE_DAY_MS);
 
     render(<AnnouncementBanner hideAfter={futureDate}>
       Test Announcement

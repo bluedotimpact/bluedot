@@ -1,9 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { SITE_AUTH_COOKIE, checkPassword, getAuthToken } from '../../lib/siteAuth';
+import { ONE_MINUTE_MS, ONE_YEAR_SECONDS } from '../../lib/constants';
 
-const COOKIE_MAX_AGE = 365 * 24 * 60 * 60; // 1 year
+const COOKIE_MAX_AGE = ONE_YEAR_SECONDS;
 const MAX_ATTEMPTS = 10;
-const WINDOW_MS = 60 * 1000; // 1 minute
+const WINDOW_MS = ONE_MINUTE_MS;
 
 const attemptsByIp = new Map<string, { count: number; resetAt: number }>();
 

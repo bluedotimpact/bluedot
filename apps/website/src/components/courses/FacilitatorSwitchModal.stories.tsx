@@ -3,6 +3,7 @@ import { TRPCError } from '@trpc/server';
 import { createMockGroup, createMockGroupDiscussion, createMockUnit } from '../../__tests__/testUtils';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 import FacilitatorSwitchModal from './FacilitatorSwitchModal';
+import { ONE_DAY_SECONDS, ONE_HOUR_SECONDS, ONE_MINUTE_SECONDS } from '../../lib/constants';
 
 const meta = {
   title: 'website/courses/FacilitatorSwitchModal',
@@ -24,8 +25,8 @@ const mockDiscussions = [
     ...createMockGroupDiscussion({
       id: 'discussion-1',
       group: 'group-1',
-      startDateTime: Math.floor(Date.now() / 1000) - 3600, // 1 hour ago
-      endDateTime: Math.floor(Date.now() / 1000) - 1800, // .5 hours ago
+      startDateTime: Math.floor(Date.now() / 1000) - ONE_HOUR_SECONDS, // ended
+      endDateTime: Math.floor(Date.now() / 1000) - 30 * ONE_MINUTE_SECONDS,
     }),
     groupDetails: mockGroup1,
     unitRecord: createMockUnit({ unitNumber: '1', title: 'Introduction' }),
@@ -34,8 +35,8 @@ const mockDiscussions = [
     ...createMockGroupDiscussion({
       id: 'discussion-2',
       group: 'group-1',
-      startDateTime: Math.floor(Date.now() / 1000) + 3600, // 1 hour from now
-      endDateTime: Math.floor(Date.now() / 1000) + 5400, // 1.5 hours from now
+      startDateTime: Math.floor(Date.now() / 1000) + ONE_HOUR_SECONDS,
+      endDateTime: Math.floor(Date.now() / 1000) + 1.5 * ONE_HOUR_SECONDS,
     }),
     groupDetails: mockGroup1,
     unitRecord: createMockUnit({ unitNumber: '2', title: 'Advanced Topics' }),
@@ -44,8 +45,8 @@ const mockDiscussions = [
     ...createMockGroupDiscussion({
       id: 'discussion-3',
       group: 'group-1',
-      startDateTime: Math.floor(Date.now() / 1000) + 5400, // 1.5 hours from now
-      endDateTime: Math.floor(Date.now() / 1000) + 7200, // 2 hours from now
+      startDateTime: Math.floor(Date.now() / 1000) + 1.5 * ONE_HOUR_SECONDS,
+      endDateTime: Math.floor(Date.now() / 1000) + 2 * ONE_HOUR_SECONDS,
     }),
     groupDetails: mockGroup1,
     unitRecord: createMockUnit({ unitNumber: '3', title: 'Conclusion' }),
@@ -55,8 +56,8 @@ const mockDiscussions = [
     ...createMockGroupDiscussion({
       id: 'discussion-4',
       group: 'group-2',
-      startDateTime: Math.floor(Date.now() / 1000) + 7200, // 2 hours from now
-      endDateTime: Math.floor(Date.now() / 1000) + 9000, // 2.5 hours from now
+      startDateTime: Math.floor(Date.now() / 1000) + 2 * ONE_HOUR_SECONDS,
+      endDateTime: Math.floor(Date.now() / 1000) + 2.5 * ONE_HOUR_SECONDS,
     }),
     groupDetails: mockGroup2,
     unitRecord: createMockUnit({ unitNumber: '1', title: 'Introduction' }),
@@ -65,8 +66,8 @@ const mockDiscussions = [
     ...createMockGroupDiscussion({
       id: 'discussion-5',
       group: 'group-2',
-      startDateTime: Math.floor(Date.now() / 1000) + 86400, // 1 day from now
-      endDateTime: Math.floor(Date.now() / 1000) + 88200, // 1 day + .5 hours from now
+      startDateTime: Math.floor(Date.now() / 1000) + ONE_DAY_SECONDS,
+      endDateTime: Math.floor(Date.now() / 1000) + ONE_DAY_SECONDS + 30 * ONE_MINUTE_SECONDS,
     }),
     groupDetails: mockGroup2,
     unitRecord: createMockUnit({ unitNumber: '2', title: 'Advanced Topics' }),

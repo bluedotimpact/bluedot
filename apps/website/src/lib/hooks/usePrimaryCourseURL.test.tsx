@@ -7,6 +7,7 @@ import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import { createMockCourse, createMockCourseRegistration } from '../../__tests__/testUtils';
 import { usePrimaryCourseURL } from './usePrimaryCourseURL';
+import { ONE_HOUR_MS } from '../constants';
 
 vi.mock('@bluedot/ui', async () => {
   const actual = await vi.importActual('@bluedot/ui');
@@ -16,7 +17,7 @@ vi.mock('@bluedot/ui', async () => {
   };
 });
 
-const mockAuth = { token: 'test-token', email: 'test@bluedot.org', expiresAt: Date.now() + 3600000 };
+const mockAuth = { token: 'test-token', email: 'test@bluedot.org', expiresAt: Date.now() + ONE_HOUR_MS };
 
 describe('usePrimaryCourseURL', () => {
   beforeEach(() => {

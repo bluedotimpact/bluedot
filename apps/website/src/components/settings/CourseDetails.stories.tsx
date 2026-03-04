@@ -2,13 +2,13 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { createMockCourse, createMockCourseRegistration } from '../../__tests__/testUtils';
 import type { GroupDiscussionWithGroupAndUnit } from '../../server/routers/group-discussions';
 import CourseDetails from './CourseDetails';
+import { ONE_HOUR_SECONDS, ONE_MINUTE_SECONDS } from '../../lib/constants';
 
 const courseId = 'course-1';
 const mockCourse = createMockCourse({ id: courseId });
 const mockCourseRegistration = createMockCourseRegistration({ courseId });
 
 const now = Math.floor(Date.now() / 1000);
-const hour = 60 * 60;
 
 const mockDiscussions: Record<string, GroupDiscussionWithGroupAndUnit> = {
   'discussion-1': {
@@ -16,8 +16,8 @@ const mockDiscussions: Record<string, GroupDiscussionWithGroupAndUnit> = {
     facilitators: ['facilitator-1'],
     participantsExpected: ['participant-1'],
     attendees: [],
-    startDateTime: now + 2 * hour,
-    endDateTime: now + 3 * hour,
+    startDateTime: now + 2 * ONE_HOUR_SECONDS,
+    endDateTime: now + 3 * ONE_HOUR_SECONDS,
     group: 'group-1',
     zoomAccount: null,
     courseSite: null,
@@ -38,8 +38,8 @@ const mockDiscussions: Record<string, GroupDiscussionWithGroupAndUnit> = {
     facilitators: ['facilitator-1'],
     participantsExpected: ['participant-1'],
     attendees: [],
-    startDateTime: now + 7 * 24 * hour,
-    endDateTime: now + 7 * 24 * hour + hour,
+    startDateTime: now + 7 * 24 * ONE_HOUR_SECONDS,
+    endDateTime: now + 7 * 24 * ONE_HOUR_SECONDS + ONE_HOUR_SECONDS,
     group: 'group-1',
     zoomAccount: null,
     courseSite: null,
@@ -60,8 +60,8 @@ const mockDiscussions: Record<string, GroupDiscussionWithGroupAndUnit> = {
     facilitators: ['facilitator-1'],
     participantsExpected: ['participant-1'],
     attendees: ['participant-1'],
-    startDateTime: now - 7 * 24 * hour,
-    endDateTime: now - 7 * 24 * hour + hour,
+    startDateTime: now - 7 * 24 * ONE_HOUR_SECONDS,
+    endDateTime: now - 7 * 24 * ONE_HOUR_SECONDS + ONE_HOUR_SECONDS,
     group: 'group-1',
     zoomAccount: null,
     courseSite: null,
@@ -124,8 +124,8 @@ export const LiveDiscussion: Story = {
     upcomingDiscussions: [
       {
         ...mockDiscussions['discussion-1']!,
-        startDateTime: now - 15 * 60, // Started 15 minutes ago
-        endDateTime: now + 45 * 60, // Ends in 45 minutes
+        startDateTime: now - 15 * ONE_MINUTE_SECONDS, // Started 15 minutes ago
+        endDateTime: now + 45 * ONE_MINUTE_SECONDS, // Ends in 45 minutes
         activityDoc: 'https://docs.google.com/document/d/abc123',
         slackChannelId: 'C1234567890',
       },

@@ -2,11 +2,12 @@ import { type Group } from '@bluedot/db';
 import { describe, expect, it } from 'vitest';
 import { createMockGroup, createMockGroupDiscussion } from '../../__tests__/testUtils';
 import { calculateGroupAvailability } from './group-switching';
+import { ONE_DAY_SECONDS } from '../../lib/constants';
 
 describe('calculateGroupAvailability', () => {
   const now = Math.floor(Date.now() / 1000);
-  const futureTimeSeconds = now + 24 * 60 * 60; // 24 hours from now, in seconds
-  const pastTimeSeconds = now - 24 * 60 * 60; // 24 hours ago, in seconds
+  const futureTimeSeconds = now + ONE_DAY_SECONDS;
+  const pastTimeSeconds = now - ONE_DAY_SECONDS;
 
   const mockParticipantId = 'participant-123';
 

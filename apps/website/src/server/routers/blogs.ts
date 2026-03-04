@@ -2,6 +2,7 @@ import { blogTable } from '@bluedot/db';
 import Parser from 'rss-parser';
 import db from '../../lib/api/db';
 import { publicProcedure, router } from '../trpc';
+import { ONE_MINUTE_MS } from '../../lib/constants';
 
 export const getAllPublishedBlogs = async () => {
   const publishedBlogs = await db.scan(blogTable, { publicationStatus: 'Published' });
@@ -30,7 +31,7 @@ let rssCache: {
   timestamp: number;
 } | null = null;
 
-const RSS_CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+const RSS_CACHE_DURATION = 5 * ONE_MINUTE_MS;
 
 export const getSubstackBlogPosts = async () => {
   // Check if cache is valid

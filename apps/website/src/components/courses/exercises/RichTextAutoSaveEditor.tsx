@@ -16,6 +16,7 @@ import History from '@tiptap/extension-history';
 import { Markdown } from 'tiptap-markdown';
 import Placeholder from '@tiptap/extension-placeholder';
 import SaveStatusIndicator from './SaveStatusIndicator';
+import { ONE_MINUTE_MS, ONE_SECOND_MS } from '../../../lib/constants';
 
 type SaveStatus = 'idle' | 'typing' | 'saving' | 'saved' | 'error';
 
@@ -34,8 +35,8 @@ const EDITOR_HEIGHT_STYLES = {
   normal: 'min-h-[140px]',
 } as const;
 
-const AUTOSAVE_DELAY_IN_MS = 20000; // 20 seconds
-const PERIODIC_SAVE_INTERVAL_IN_MS = 180000; // 3 minutes
+const AUTOSAVE_DELAY_IN_MS = 20 * ONE_SECOND_MS;
+const PERIODIC_SAVE_INTERVAL_IN_MS = 3 * ONE_MINUTE_MS;
 
 const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
   value,
@@ -161,7 +162,7 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
 
       statusTimerRef.current = window.setTimeout(() => {
         setSaveStatus('idle');
-      }, 3000);
+      }, 3 * ONE_SECOND_MS);
     } catch {
       setSaveStatus('error');
     } finally {
