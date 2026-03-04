@@ -30,19 +30,18 @@ import { getCourseData, type CourseAndUnits } from '../../../server/routers/cour
 import { fileExists } from '../../../utils/fileExists';
 
 type CoursePageProps = {
-  courseSlug: string;
   courseData: CourseAndUnits;
   courseOgImage: string;
   soonestDeadline: string | null;
 };
 
 const CoursePage = ({
-  courseSlug, courseData, courseOgImage, soonestDeadline,
+  courseData, courseOgImage, soonestDeadline,
 }: CoursePageProps) => {
   return (
     <div>
       {renderCoursePage({
-        courseSlug, courseData, courseOgImage, soonestDeadline,
+        courseData, courseOgImage, soonestDeadline,
       })}
     </div>
   );
@@ -50,17 +49,17 @@ const CoursePage = ({
 
 // Helper function to render the appropriate course page based on slug
 const renderCoursePage = ({
-  courseSlug: slug, courseData, courseOgImage, soonestDeadline,
+  courseData, courseOgImage, soonestDeadline,
 }: CoursePageProps) => {
   const { course } = courseData;
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const baseApplicationUrl = course?.applyUrl || '';
 
-  if (slug === 'future-of-ai') {
+  if (course.slug === 'future-of-ai') {
     // Future of AI is self-paced, so use the start URL instead of an apply URL
     return (
       <CourseLander
-        courseSlug={slug}
+        courseSlug={course.slug}
         baseApplicationUrl={FUTURE_OF_AI_START_URL}
         createContentFor={createFutureOfAiContent}
         courseOgImage={courseOgImage}
@@ -69,14 +68,14 @@ const renderCoursePage = ({
     );
   }
 
-  if (slug === 'ops') {
+  if (course.slug === 'ops') {
     return <AiSafetyOpsLander />;
   }
 
-  if (slug === 'agi-strategy') {
+  if (course.slug === 'agi-strategy') {
     return (
       <CourseLander
-        courseSlug={slug}
+        courseSlug={course.slug}
         baseApplicationUrl={baseApplicationUrl}
         createContentFor={createAgiStrategyContent}
         courseOgImage={courseOgImage}
@@ -85,10 +84,10 @@ const renderCoursePage = ({
     );
   }
 
-  if (slug === 'biosecurity') {
+  if (course.slug === 'biosecurity') {
     return (
       <CourseLander
-        courseSlug={slug}
+        courseSlug={course.slug}
         baseApplicationUrl={baseApplicationUrl}
         createContentFor={createBioSecurityContent}
         courseOgImage={courseOgImage}
@@ -97,10 +96,10 @@ const renderCoursePage = ({
     );
   }
 
-  if (slug === 'technical-ai-safety') {
+  if (course.slug === 'technical-ai-safety') {
     return (
       <CourseLander
-        courseSlug={slug}
+        courseSlug={course.slug}
         baseApplicationUrl={baseApplicationUrl}
         createContentFor={createTechnicalAiSafetyContent}
         courseOgImage={courseOgImage}
@@ -109,10 +108,10 @@ const renderCoursePage = ({
     );
   }
 
-  if (slug === 'ai-governance') {
+  if (course.slug === 'ai-governance') {
     return (
       <CourseLander
-        courseSlug={slug}
+        courseSlug={course.slug}
         baseApplicationUrl={baseApplicationUrl}
         createContentFor={createAiGovernanceContent}
         courseOgImage={courseOgImage}
@@ -121,10 +120,10 @@ const renderCoursePage = ({
     );
   }
 
-  if (slug === 'technical-ai-safety-project') {
+  if (course.slug === 'technical-ai-safety-project') {
     return (
       <CourseLander
-        courseSlug={slug}
+        courseSlug={course.slug}
         baseApplicationUrl={baseApplicationUrl}
         createContentFor={createTechnicalAiSafetyProjectContent}
         courseOgImage={courseOgImage}
@@ -133,10 +132,10 @@ const renderCoursePage = ({
     );
   }
 
-  if (slug === 'incubator-week') {
+  if (course.slug === 'incubator-week') {
     return (
       <CourseLander
-        courseSlug={slug}
+        courseSlug={course.slug}
         baseApplicationUrl={baseApplicationUrl}
         createContentFor={createIncubatorWeekContent}
         courseOgImage={courseOgImage}
@@ -235,7 +234,6 @@ export const getStaticProps: GetStaticProps<CoursePageProps> = async ({ params }
 
     return {
       props: {
-        courseSlug,
         courseData,
         courseOgImage,
         soonestDeadline,

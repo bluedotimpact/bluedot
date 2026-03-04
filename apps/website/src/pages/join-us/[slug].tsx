@@ -18,16 +18,15 @@ import db from '../../lib/api/db';
 import { fileExists } from '../../utils/fileExists';
 
 type JobPostingPageProps = {
-  slug: string;
   job: JobPosting;
   jobOgImage: string;
 };
 
-const JobPostingPage = ({ slug, job, jobOgImage }: JobPostingPageProps) => {
+const JobPostingPage = ({ job, jobOgImage }: JobPostingPageProps) => {
   const currentRoute: BluedotRoute = {
     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     title: job.title || 'Job Posting',
-    url: `${ROUTES.joinUs.url}/${slug}`,
+    url: `${ROUTES.joinUs.url}/${job.slug}`,
     parentPages: [...(ROUTES.joinUs.parentPages ?? []), ROUTES.joinUs],
   };
 
@@ -40,7 +39,7 @@ const JobPostingPage = ({ slug, job, jobOgImage }: JobPostingPageProps) => {
         <meta key="og:description" property="og:description" content={job.subtitle ?? undefined} />
         <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
         <meta key="og:type" property="og:type" content="website" />
-        <meta key="og:url" property="og:url" content={`https://bluedot.org/join-us/${encodeURIComponent(slug)}`} />
+        <meta key="og:url" property="og:url" content={`https://bluedot.org/join-us/${encodeURIComponent(job.slug ?? '')}`} />
         <meta key="og:image" property="og:image" content={jobOgImage} />
         <meta key="og:image:width" property="og:image:width" content="1200" />
         <meta key="og:image:height" property="og:image:height" content="630" />
@@ -73,7 +72,7 @@ const JobPostingPage = ({ slug, job, jobOgImage }: JobPostingPageProps) => {
               identifier: job.id,
               mainEntityOfPage: {
                 '@type': 'WebPage',
-                '@id': `${ROUTES.joinUs.url}/${slug}`,
+                '@id': `${ROUTES.joinUs.url}/${job.slug}`,
               },
             }),
           }}
@@ -132,7 +131,6 @@ export const getStaticProps: GetStaticProps<JobPostingPageProps> = async ({ para
 
     return {
       props: {
-        slug,
         job,
         jobOgImage,
       },

@@ -17,15 +17,14 @@ import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedR
 import db from '../../lib/api/db';
 
 type ProjectPostPageProps = {
-  slug: string;
   project: Project;
 };
 
-const ProjectPostPage = ({ slug, project }: ProjectPostPageProps) => {
+const ProjectPostPage = ({ project }: ProjectPostPageProps) => {
   const currentRoute: BluedotRoute = {
     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     title: project.title || 'Project',
-    url: `${ROUTES.projects.url}/${slug}`,
+    url: `${ROUTES.projects.url}/${project.slug}`,
     parentPages: [...(ROUTES.projects.parentPages ?? []), ROUTES.projects],
   };
 
@@ -87,7 +86,6 @@ export const getStaticProps: GetStaticProps<ProjectPostPageProps> = async ({ par
 
     return {
       props: {
-        slug,
         project,
       },
       revalidate: 300,

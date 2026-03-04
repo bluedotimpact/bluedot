@@ -17,15 +17,14 @@ import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedR
 import db from '../../lib/api/db';
 
 type BlogPostPageProps = {
-  slug: string;
   blog: Blog;
 };
 
-const BlogPostPage = ({ slug, blog }: BlogPostPageProps) => {
+const BlogPostPage = ({ blog }: BlogPostPageProps) => {
   const currentRoute: BluedotRoute = {
     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     title: blog.title || 'Blog Post',
-    url: `${ROUTES.blog.url}/${slug}`,
+    url: `${ROUTES.blog.url}/${blog.slug}`,
     parentPages: [...(ROUTES.blog.parentPages ?? []), ROUTES.blog],
   };
 
@@ -46,7 +45,7 @@ const BlogPostPage = ({ slug, blog }: BlogPostPageProps) => {
         <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
         <meta key="og:description" property="og:description" content={blog.title ?? undefined} />
         <meta key="og:type" property="og:type" content="article" />
-        <meta key="og:url" property="og:url" content={`https://bluedot.org/blog/${encodeURIComponent(slug)}`} />
+        <meta key="og:url" property="og:url" content={`https://bluedot.org/blog/${encodeURIComponent(blog.slug ?? '')}`} />
         <meta key="og:image" property="og:image" content="https://bluedot.org/images/logo/link-preview-fallback.png" />
         <meta key="og:image:width" property="og:image:width" content="1200" />
         <meta key="og:image:height" property="og:image:height" content="630" />
@@ -71,7 +70,7 @@ const BlogPostPage = ({ slug, blog }: BlogPostPageProps) => {
               } : {}),
               mainEntityOfPage: {
                 '@type': 'WebPage',
-                '@id': `${ROUTES.blog.url}/${slug}`,
+                '@id': `${ROUTES.blog.url}/${blog.slug}`,
               },
               description: blog.title,
               publisher: {
@@ -127,7 +126,6 @@ export const getStaticProps: GetStaticProps<BlogPostPageProps> = async ({ params
 
     return {
       props: {
-        slug,
         blog,
       },
       revalidate: 300,
