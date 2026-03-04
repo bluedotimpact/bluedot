@@ -43,6 +43,11 @@ module.exports = withDefaultBlueDotNextConfig({
         destination: '/join-us/facilitate',
         permanent: true,
       },
+      {
+        source: '/petr',
+        destination: '/?utm_source=petr&utm_medium=youtube&utm_campaign=petr',
+        permanent: false,
+      },
     ];
   },
   headers: [
