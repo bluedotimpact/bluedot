@@ -162,7 +162,7 @@ const QuoteSection = ({ quotes, cardBackgroundColor, accentColor }: QuoteSection
         intervalRef.current = null;
       }
     };
-  }, [activeIndex, isPaused, quotes.length]);
+  }, [activeIndex, autorotateTiming, isPaused, quotes.length]);
 
   const handleIndicatorClick = (index: number) => {
     if (index !== activeIndex) {
