@@ -12,6 +12,7 @@ import { type GetStaticProps, type GetStaticPaths } from 'next';
 import path from 'path';
 
 import { ROUTES } from '../../../lib/routes';
+import { ONE_MINUTE_SECONDS } from '../../../lib/constants';
 import { appendPosthogSessionIdPrefill } from '../../../lib/appendPosthogSessionIdPrefill';
 import MarkdownExtendedRenderer from '../../../components/courses/MarkdownExtendedRenderer';
 import AiSafetyOpsLander from '../../../components/lander/AiSafetyOpsLander';
@@ -218,7 +219,7 @@ export const getStaticProps: GetStaticProps<CoursePageProps> = async ({ params }
   if (!courseSlug) {
     return {
       notFound: true,
-      revalidate: 60, // Cache 404s for only 1 minute instead of 1 year
+      revalidate: ONE_MINUTE_SECONDS, // Cache 404s for only 1 minute instead of 1 year
     };
   }
 
@@ -240,13 +241,13 @@ export const getStaticProps: GetStaticProps<CoursePageProps> = async ({ params }
         courseOgImage,
         soonestDeadline,
       },
-      revalidate: 300,
+      revalidate: 5 * ONE_MINUTE_SECONDS,
     };
   } catch {
     // Error fetching course data (likely not found)
     return {
       notFound: true,
-      revalidate: 60, // Cache 404s for only 1 minute instead of 1 year
+      revalidate: ONE_MINUTE_SECONDS, // Cache 404s for only 1 minute instead of 1 year
     };
   }
 };

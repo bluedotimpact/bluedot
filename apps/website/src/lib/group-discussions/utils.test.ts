@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { getDiscussionTimeState } from './utils';
+import { ONE_HOUR_SECONDS } from '../constants';
 
 const BASE_TIME_MS = new Date('2024-09-25T10:00:00.000Z').getTime();
 const BASE_TIME_SECONDS = BASE_TIME_MS / 1000;
-const ONE_HOUR_SECONDS = 3600;
 
 describe('getDiscussionTimeState', () => {
   it('returns "ended" when current time is after end time', () => {

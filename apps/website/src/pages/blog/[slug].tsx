@@ -13,6 +13,7 @@ import { type GetStaticProps, type GetStaticPaths } from 'next';
 import { type Blog, blogTable } from '@bluedot/db';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import { ROUTES } from '../../lib/routes';
+import { ONE_MINUTE_SECONDS } from '../../lib/constants';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
 import db from '../../lib/api/db';
 
@@ -130,13 +131,13 @@ export const getStaticProps: GetStaticProps<BlogPostPageProps> = async ({ params
         slug,
         blog,
       },
-      revalidate: 300,
+      revalidate: 5 * ONE_MINUTE_SECONDS,
     };
   } catch {
     // Error fetching blog data (likely not found)
     return {
       notFound: true,
-      revalidate: 60, // Cache 404s for only 1 minute instead of 1 year
+      revalidate: ONE_MINUTE_SECONDS, // Cache 404s for only 1 minute instead of 1 year
     };
   }
 };

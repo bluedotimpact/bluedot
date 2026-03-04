@@ -3,6 +3,7 @@ import {
 } from 'react';
 import { type Quote } from '@bluedot/ui';
 import { useAboveBreakpoint } from '@bluedot/ui/src/hooks/useBreakpoint';
+import { ONE_SECOND_MS } from '../../../lib/constants';
 
 export type QuoteWithUrl = Quote & {
   /** Source URL for the quote */
@@ -144,7 +145,7 @@ const QuoteSection = ({ quotes, cardBackgroundColor, accentColor }: QuoteSection
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const autorotateTiming = 11000; // Design constant
+  const autorotateTiming = 11 * ONE_SECOND_MS; // Design constant
   const isDesktop = useAboveBreakpoint(680); // 680px is the design breakpoint specified
 
   // Single effect that handles all timer logic

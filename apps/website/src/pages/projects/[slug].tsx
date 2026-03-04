@@ -13,6 +13,7 @@ import { type GetStaticProps, type GetStaticPaths } from 'next';
 import { type Project, projectTable } from '@bluedot/db';
 import { HeroMiniTitle } from '@bluedot/ui/src/HeroSection';
 import { ROUTES } from '../../lib/routes';
+import { ONE_MINUTE_SECONDS } from '../../lib/constants';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
 import db from '../../lib/api/db';
 
@@ -78,7 +79,7 @@ export const getStaticProps: GetStaticProps<ProjectPostPageProps> = async ({ par
   if (!slug) {
     return {
       notFound: true,
-      revalidate: 60, // Cache 404s for only 1 minute instead of 1 year
+      revalidate: ONE_MINUTE_SECONDS, // Cache 404s for only 1 minute instead of 1 year
     };
   }
 
@@ -90,13 +91,13 @@ export const getStaticProps: GetStaticProps<ProjectPostPageProps> = async ({ par
         slug,
         project,
       },
-      revalidate: 300,
+      revalidate: 5 * ONE_MINUTE_SECONDS,
     };
   } catch {
     // Error fetching project data (likely not found)
     return {
       notFound: true,
-      revalidate: 60, // Cache 404s for only 1 minute instead of 1 year
+      revalidate: ONE_MINUTE_SECONDS, // Cache 404s for only 1 minute instead of 1 year
     };
   }
 };
