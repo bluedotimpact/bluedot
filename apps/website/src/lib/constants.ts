@@ -10,7 +10,6 @@ export const ONE_HOUR_SECONDS = 60 * ONE_MINUTE_SECONDS;
 export const ONE_DAY_SECONDS = 24 * ONE_HOUR_SECONDS;
 export const ONE_YEAR_SECONDS = 365 * ONE_DAY_SECONDS;
 
-
 export const FOAI_COURSE_ID = 'rec0Zgize0c4liMl5';
 export const FOAI_COURSE_SLUG = 'future-of-ai';
 
