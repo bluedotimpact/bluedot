@@ -95,7 +95,7 @@ export const FacilitatorNotStartingSoon: Story = {
     groupDiscussion: {
       ...mockGroupDiscussion,
       startDateTime: Math.floor(Date.now() / 1000) + 2 * ONE_HOUR_SECONDS,
-      endDateTime: Math.floor(Date.now() / 1000) + 3 * ONE_HOUR_SECONDS
+      endDateTime: Math.floor(Date.now() / 1000) + 3 * ONE_HOUR_SECONDS,
     },
   },
 };
