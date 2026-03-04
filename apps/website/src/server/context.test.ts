@@ -5,6 +5,7 @@ import { loginPresets } from '@bluedot/ui';
 import { createContext } from './context';
 import { checkAdminAccess } from './trpc';
 import db from '../lib/api/db';
+import { ONE_HOUR_SECONDS } from '../lib/constants';
 
 vi.mock('@bluedot/ui', async () => {
   const actual = await vi.importActual('@bluedot/ui');
@@ -33,7 +34,7 @@ const mockAuth = {
   sub: 'user-sub-123',
   iss: 'https://auth.example.com',
   aud: 'client-id',
-  exp: Date.now() / 1000 + 3600,
+  exp: Date.now() / 1000 + ONE_HOUR_SECONDS,
   email_verified: true,
 };
 

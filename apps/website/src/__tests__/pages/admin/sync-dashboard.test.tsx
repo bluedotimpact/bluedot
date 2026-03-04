@@ -12,6 +12,7 @@ import type { SyncStatus } from '@bluedot/db';
 import { server, trpcMsw } from '../../trpcMswSetup';
 import { TrpcProvider } from '../../trpcProvider';
 import SyncDashboard from '../../../pages/admin/sync-dashboard';
+import { ONE_HOUR_MS } from '../../../lib/constants';
 
 // Mock dependencies
 vi.mock('@bluedot/ui', () => ({
@@ -28,7 +29,7 @@ vi.mock('react-icons/ri', () => ({
 }));
 
 describe('SyncDashboard - Main User Journeys', () => {
-  const mockAuth = { token: 'test-token', email: 'test@bluedot.org', expiresAt: Date.now() + 3600000 };
+  const mockAuth = { token: 'test-token', email: 'test@bluedot.org', expiresAt: Date.now() + ONE_HOUR_MS };
 
   beforeEach(() => {
     vi.clearAllMocks();

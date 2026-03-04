@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import HomepageBlogSection from './HomepageBlogSection';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
+import { ONE_DAY_SECONDS } from '../../lib/constants';
 
 type BlogPost = {
   id: string;
@@ -20,7 +21,7 @@ const mockBlogs: BlogPost[] = [
     slug: 'why-ai-safety-matters',
     authorName: 'Sarah Chen',
     authorUrl: 'https://example.com/sarah',
-    publishedAt: Math.floor(Date.now() / 1000) - 7 * 24 * 60 * 60,
+    publishedAt: Math.floor(Date.now() / 1000) - 7 * ONE_DAY_SECONDS,
     publicationStatus: 'Published',
     isFeatured: true,
   },
@@ -30,7 +31,7 @@ const mockBlogs: BlogPost[] = [
     slug: 'career-ai-governance-guide',
     authorName: 'Michael Roberts',
     authorUrl: 'https://example.com/michael',
-    publishedAt: Math.floor(Date.now() / 1000) - 14 * 24 * 60 * 60,
+    publishedAt: Math.floor(Date.now() / 1000) - 14 * ONE_DAY_SECONDS,
     publicationStatus: 'Published',
     isFeatured: false,
   },
@@ -40,7 +41,7 @@ const mockBlogs: BlogPost[] = [
     slug: 'lessons-latest-cohort',
     authorName: 'Emily Watson',
     authorUrl: null,
-    publishedAt: Math.floor(Date.now() / 1000) - 21 * 24 * 60 * 60,
+    publishedAt: Math.floor(Date.now() / 1000) - 21 * ONE_DAY_SECONDS,
     publicationStatus: 'Published',
     isFeatured: false,
   },

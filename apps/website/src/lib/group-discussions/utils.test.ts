@@ -1,23 +1,23 @@
 import { describe, expect, it } from 'vitest';
 import { getDiscussionTimeState } from './utils';
-import { ONE_HOUR_SECONDS } from '../constants';
+import { ONE_HOUR_SECONDS, ONE_MINUTE_SECONDS } from '../constants';
 
 const BASE_TIME_MS = new Date('2024-09-25T10:00:00.000Z').getTime();
 const BASE_TIME_SECONDS = BASE_TIME_MS / 1000;
 
 describe('getDiscussionTimeState', () => {
   it('returns "ended" when current time is after end time', () => {
-    const discussion = { startDateTime: BASE_TIME_SECONDS - 3600, endDateTime: BASE_TIME_SECONDS - 1800 };
+    const discussion = { startDateTime: BASE_TIME_SECONDS - ONE_HOUR_SECONDS, endDateTime: BASE_TIME_SECONDS - 30 * ONE_MINUTE_SECONDS };
     expect(getDiscussionTimeState({ discussion, currentTimeMs: BASE_TIME_MS })).toBe('ended');
   });
 
   it('returns "live" when current time is between start and end time', () => {
-    const discussion = { startDateTime: BASE_TIME_SECONDS - 1800, endDateTime: BASE_TIME_SECONDS + 1800 };
+    const discussion = { startDateTime: BASE_TIME_SECONDS - 30 * ONE_MINUTE_SECONDS, endDateTime: BASE_TIME_SECONDS + 30 * ONE_MINUTE_SECONDS };
     expect(getDiscussionTimeState({ discussion, currentTimeMs: BASE_TIME_MS })).toBe('live');
   });
 
   it('returns "soon" when discussion starts within 1 hour', () => {
-    const discussion = { startDateTime: BASE_TIME_SECONDS + 1800, endDateTime: BASE_TIME_SECONDS + 5400 };
+    const discussion = { startDateTime: BASE_TIME_SECONDS + 30 * ONE_MINUTE_SECONDS, endDateTime: BASE_TIME_SECONDS + 90 * ONE_MINUTE_SECONDS };
     expect(getDiscussionTimeState({ discussion, currentTimeMs: BASE_TIME_MS })).toBe('soon');
   });
 

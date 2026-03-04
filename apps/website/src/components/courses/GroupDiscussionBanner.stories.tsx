@@ -1,12 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
 import { createMockGroupDiscussion, createMockUnit } from '../../__tests__/testUtils';
+import { ONE_HOUR_SECONDS, ONE_MINUTE_SECONDS } from '../../lib/constants';
 
 const mockUnit = createMockUnit();
 
 const mockGroupDiscussion = createMockGroupDiscussion({
-  startDateTime: Math.floor(Date.now() / 1000) + 1800, // 30 minutes from now
-  endDateTime: Math.floor(Date.now() / 1000) + 5400, // 90 minutes from now
+  startDateTime: Math.floor(Date.now() / 1000) + 30 * ONE_MINUTE_SECONDS,
+  endDateTime: Math.floor(Date.now() / 1000) + 90 * ONE_MINUTE_SECONDS,
 });
 
 const meta = {
@@ -40,8 +41,8 @@ export const ParticipantLive: Story = {
     userRole: 'participant',
     groupDiscussion: {
       ...mockGroupDiscussion,
-      startDateTime: Math.floor(Date.now() / 1000) - 600, // Started 10 minutes ago (LIVE)
-      endDateTime: Math.floor(Date.now() / 1000) + 2700, // Ends in 45 minutes
+      startDateTime: Math.floor(Date.now() / 1000) - 10 * ONE_MINUTE_SECONDS, // LIVE
+      endDateTime: Math.floor(Date.now() / 1000) + 45 * ONE_MINUTE_SECONDS,
     },
   },
 };
@@ -59,8 +60,8 @@ export const ParticipantNotStartingSoon: Story = {
     userRole: 'participant',
     groupDiscussion: {
       ...mockGroupDiscussion,
-      startDateTime: Math.floor(Date.now() / 1000) + 7200, // 2 hours from now
-      endDateTime: Math.floor(Date.now() / 1000) + 10800, // 3 hours from now
+      startDateTime: Math.floor(Date.now() / 1000) + 2 * ONE_HOUR_SECONDS,
+      endDateTime: Math.floor(Date.now() / 1000) + 3 * ONE_HOUR_SECONDS,
     },
   },
 };
@@ -72,8 +73,8 @@ export const FacilitatorLive: Story = {
     hostKeyForFacilitators: '123456',
     groupDiscussion: {
       ...mockGroupDiscussion,
-      startDateTime: Math.floor(Date.now() / 1000) - 600, // Started 10 minutes ago (LIVE)
-      endDateTime: Math.floor(Date.now() / 1000) + 2700, // Ends in 45 minutes
+      startDateTime: Math.floor(Date.now() / 1000) - 10 * ONE_MINUTE_SECONDS, // LIVE
+      endDateTime: Math.floor(Date.now() / 1000) + 45 * ONE_MINUTE_SECONDS,
     },
   },
 };
@@ -93,8 +94,8 @@ export const FacilitatorNotStartingSoon: Story = {
     hostKeyForFacilitators: '123456',
     groupDiscussion: {
       ...mockGroupDiscussion,
-      startDateTime: Math.floor(Date.now() / 1000) + 7200, // 2 hours from now
-      endDateTime: Math.floor(Date.now() / 1000) + 10800, // 3 hours from now
+      startDateTime: Math.floor(Date.now() / 1000) + 2 * ONE_HOUR_SECONDS,
+      endDateTime: Math.floor(Date.now() / 1000) + 3 * ONE_HOUR_SECONDS
     },
   },
 };

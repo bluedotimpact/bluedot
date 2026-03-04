@@ -6,6 +6,7 @@ import type {
 } from '@bluedot/db';
 import type { GroupDiscussionWithGroupAndUnit } from '../../../server/routers/group-discussions';
 import CoursesSettingsPage from '../../../pages/settings/courses';
+import { ONE_HOUR_SECONDS } from '../../../lib/constants';
 import { trpcStorybookMsw } from '../../../__tests__/trpcMswSetup.browser';
 import {
   createMockCourse,
@@ -118,12 +119,11 @@ const mockMeetPerson = createMockMeetPerson({
 });
 
 const now = Math.floor(Date.now() / 1000);
-const hour = 60 * 60;
 const mockDiscussion: GroupDiscussionWithGroupAndUnit = {
   ...createMockGroupDiscussion({
     id: 'discussion-1',
-    startDateTime: now + hour, // Starts in 1 hour
-    endDateTime: now + 2 * hour, // Ends in 2 hours
+    startDateTime: now + ONE_HOUR_SECONDS, // Starts in 1 hour
+    endDateTime: now + 2 * ONE_HOUR_SECONDS, // Ends in 2 hours
     unitNumber: 1,
   }),
   unitRecord: { unitNumber: '1', title: 'Introduction' } as GroupDiscussionWithGroupAndUnit['unitRecord'],
