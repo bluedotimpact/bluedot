@@ -22,6 +22,29 @@ function verifyToken(customerId: string, token: string): boolean {
   }
 }
 
+async function getSegmentMemberCioIds(segmentId: number, headers: Record<string, string>): Promise<string[]> {
+  const cioIds: string[] = [];
+  let cursor = '';
+
+  do {
+    const url = new URL(`${CIO_API_BASE}/segments/${segmentId}/membership`);
+    if (cursor) url.searchParams.set('next', cursor);
+
+    // eslint-disable-next-line no-await-in-loop
+    const res = await fetch(url.toString(), { headers });
+    if (!res.ok) {
+      throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to fetch segment membership' });
+    }
+
+    // eslint-disable-next-line no-await-in-loop
+    const data = await res.json() as { identifiers: { cio_id: string }[]; next: string };
+    cioIds.push(...(data.identifiers ?? []).map((c) => c.cio_id));
+    cursor = data.next ?? '';
+  } while (cursor);
+
+  return cioIds;
+}
+
 // Shape returned by GET /v1/customers/{id}/subscription_preferences
 type CioTopic = {
   id: number;
@@ -53,22 +76,18 @@ export const subscriptionPreferencesRouter = router({
       // Fetch preferences and segment membership in parallel.
       // The preferences endpoint returns all topics with name, description and subscribed status,
       // so no separate subscription_topics call is needed.
-      // Segment endpoint: GET /v1/segments/{id}/membership returns identifiers[].cio_id
-      const [prefsRes, segmentRes] = await Promise.all([
+      const [prefsRes, segmentMemberIds] = await Promise.all([
         fetch(`${CIO_API_BASE}/customers/${input.cid}/subscription_preferences`, { headers }),
-        fetch(`${CIO_API_BASE}/segments/${HIRING_SEGMENT_ID}/membership`, { headers }),
+        getSegmentMemberCioIds(HIRING_SEGMENT_ID, headers),
       ]);
 
       if (!prefsRes.ok) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'Contact not found' });
       }
 
-      const [prefsData, segmentData] = await Promise.all([
-        prefsRes.json() as Promise<{ customer: { topics: CioTopic[] } }>,
-        segmentRes.json() as Promise<{ identifiers: { cio_id: string }[] }>,
-      ]);
+      const prefsData = await prefsRes.json() as { customer: { topics: CioTopic[] } };
 
-      const isHiringManager = (segmentData.identifiers ?? []).some((c) => c.cio_id === input.cid);
+      const isHiringManager = segmentMemberIds.includes(input.cid);
 
       const allTopics: SubscriptionTopic[] = prefsData.customer.topics;
 

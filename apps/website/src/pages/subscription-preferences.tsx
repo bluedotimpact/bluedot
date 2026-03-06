@@ -70,13 +70,13 @@ type PreferencesFormProps = {
 const PreferencesForm = ({
   cid, token, topics, highlightTopicId,
 }: PreferencesFormProps) => {
-  const [subscribed, setSubscribed] = useState<Record<number, boolean>>(
-    Object.fromEntries(topics.map((t) => [t.id, t.subscribed])),
-  );
+  const [subscribed, setSubscribed] = useState<Record<number, boolean>>(Object.fromEntries(topics.map((t) => [t.id, t.subscribed])));
   const [saved, setSaved] = useState(false);
 
   const saveMutation = trpc.subscriptionPreferences.savePreferences.useMutation({
-    onSuccess() { setSaved(true); },
+    onSuccess() {
+      setSaved(true);
+    },
   });
 
   const handleToggle = (topicId: number, value: boolean) => {
@@ -85,9 +85,7 @@ const PreferencesForm = ({
   };
 
   const handleSave = () => {
-    const preferences = Object.fromEntries(
-      topics.map((t) => [`topic_${t.id}`, subscribed[t.id] ?? t.subscribed]),
-    );
+    const preferences = Object.fromEntries(topics.map((t) => [`topic_${t.id}`, subscribed[t.id] ?? t.subscribed]));
     saveMutation.mutate({ cid, token, preferences });
   };
 
@@ -109,7 +107,7 @@ const PreferencesForm = ({
             <div>
               <p className="font-semibold text-black leading-snug">{topic.name}</p>
               {topic.description && (
-                <p className="text-gray-500 text-sm mt-0.5">{topic.description}</p>
+                <p className="text-gray-500 text-size-sm mt-0.5">{topic.description}</p>
               )}
             </div>
           </label>
@@ -124,9 +122,9 @@ const PreferencesForm = ({
         >
           {saveMutation.isPending ? 'Saving...' : 'Save preferences'}
         </CTALinkOrButton>
-        {saved && <p className="text-green-600 text-sm">Saved!</p>}
+        {saved && <p className="text-green-600 text-size-sm">Saved!</p>}
         {saveMutation.error && (
-          <p className="text-red-600 text-sm">Failed to save. Please try again.</p>
+          <p className="text-red-600 text-size-sm">Failed to save. Please try again.</p>
         )}
       </div>
     </div>
