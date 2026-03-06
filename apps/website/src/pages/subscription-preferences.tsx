@@ -1,0 +1,136 @@
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import {
+  CTALinkOrButton, ErrorSection, ProgressDots,
+} from '@bluedot/ui';
+import { ROUTES } from '../lib/routes';
+import { trpc } from '../utils/trpc';
+import type { SubscriptionTopic } from '../server/routers/subscription-preferences';
+
+const CURRENT_ROUTE = ROUTES.subscriptionPreferences;
+
+const SubscriptionPreferencesPage = () => {
+  const router = useRouter();
+  const cid = typeof router.query.cid === 'string' ? router.query.cid : '';
+  const token = typeof router.query.token === 'string' ? router.query.token : '';
+
+  const highlightTopicId = typeof router.query.topicId === 'string' ? Number(router.query.topicId) : null;
+
+  const { data, isLoading, error } = trpc.subscriptionPreferences.getPreferences.useQuery(
+    { cid, token },
+    { enabled: !!cid && !!token, retry: false },
+  );
+
+  if (!router.isReady || isLoading) return <ProgressDots className="py-16" />;
+  if (!cid || !token) return <GenericError />;
+  if (error) return <GenericError />;
+  if (!data) return null;
+
+  const sortedTopics = highlightTopicId
+    ? [...data.topics].sort((a, b) => {
+      if (a.id === highlightTopicId) return -1;
+      if (b.id === highlightTopicId) return 1;
+      return 0;
+    })
+    : data.topics;
+
+  return (
+    <div className="min-h-screen bg-white">
+      <Head>
+        <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
+      </Head>
+      <div className="mx-auto px-4 py-12 max-w-lg">
+        <img src="/images/logo/BlueDot_Impact_Logo.svg" alt="BlueDot Impact" className="h-8 mb-8" />
+        <h2 className="text-2xl font-semibold text-black mb-2">Email Preferences</h2>
+        <p className="text-gray-500 mb-8">Choose which emails you&apos;d like to receive from BlueDot Impact.</p>
+        <PreferencesForm cid={cid} token={token} topics={sortedTopics} highlightTopicId={highlightTopicId} />
+      </div>
+    </div>
+  );
+};
+
+// Bypasses the site header, footer, and bluedot-base wrapper from _app.tsx
+SubscriptionPreferencesPage.rawLayout = true;
+
+// Intentionally vague — don't reveal whether the link or contact is the issue
+const GenericError = () => (
+  <div className="mx-auto px-4 py-12 max-w-lg">
+    <ErrorSection error={new Error('This link is invalid or has expired. Please use the link from your email.')} />
+  </div>
+);
+
+type PreferencesFormProps = {
+  cid: string;
+  token: string;
+  topics: SubscriptionTopic[];
+  highlightTopicId: number | null;
+};
+
+const PreferencesForm = ({
+  cid, token, topics, highlightTopicId,
+}: PreferencesFormProps) => {
+  const [subscribed, setSubscribed] = useState<Record<number, boolean>>(
+    Object.fromEntries(topics.map((t) => [t.id, t.subscribed])),
+  );
+  const [saved, setSaved] = useState(false);
+
+  const saveMutation = trpc.subscriptionPreferences.savePreferences.useMutation({
+    onSuccess() { setSaved(true); },
+  });
+
+  const handleToggle = (topicId: number, value: boolean) => {
+    setSaved(false);
+    setSubscribed((prev) => ({ ...prev, [topicId]: value }));
+  };
+
+  const handleSave = () => {
+    const preferences = Object.fromEntries(
+      topics.map((t) => [`topic_${t.id}`, subscribed[t.id] ?? t.subscribed]),
+    );
+    saveMutation.mutate({ cid, token, preferences });
+  };
+
+  return (
+    <div className="space-y-5">
+      {topics.map((topic) => {
+        const isHighlighted = topic.id === highlightTopicId;
+        return (
+          <label
+            key={topic.id}
+            className={`flex items-start gap-3 cursor-pointer rounded-lg p-3 -mx-3 ${isHighlighted ? 'border border-bluedot-light' : ''}`}
+          >
+            <input
+              type="checkbox"
+              className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-gray-300 accent-bluedot-normal"
+              checked={subscribed[topic.id] ?? topic.subscribed}
+              onChange={(e) => handleToggle(topic.id, e.target.checked)}
+            />
+            <div>
+              <p className="font-semibold text-black leading-snug">{topic.name}</p>
+              {topic.description && (
+                <p className="text-gray-500 text-sm mt-0.5">{topic.description}</p>
+              )}
+            </div>
+          </label>
+        );
+      })}
+
+      <div className="pt-4 flex items-center gap-4">
+        <CTALinkOrButton
+          variant="primary"
+          onClick={handleSave}
+          disabled={saveMutation.isPending}
+        >
+          {saveMutation.isPending ? 'Saving...' : 'Save preferences'}
+        </CTALinkOrButton>
+        {saved && <p className="text-green-600 text-sm">Saved!</p>}
+        {saveMutation.error && (
+          <p className="text-red-600 text-sm">Failed to save. Please try again.</p>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default SubscriptionPreferencesPage;
