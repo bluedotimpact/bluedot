@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { useRouter } from 'next/router';
+import { type GetServerSideProps } from 'next';
 import { useState } from 'react';
 import {
   CTALinkOrButton, ErrorSection, ProgressDots,
@@ -10,20 +10,19 @@ import type { SubscriptionTopic } from '../server/routers/subscription-preferenc
 
 const CURRENT_ROUTE = ROUTES.subscriptionPreferences;
 
-const SubscriptionPreferencesPage = () => {
-  const router = useRouter();
-  const cid = typeof router.query.cid === 'string' ? router.query.cid : '';
-  const token = typeof router.query.token === 'string' ? router.query.token : '';
+type SubscriptionPreferencesPageProps = {
+  cid: string;
+  token: string;
+  topicId: number | null;
+};
 
-  const highlightTopicId = typeof router.query.topicId === 'string' ? Number(router.query.topicId) : null;
-
+const SubscriptionPreferencesPage = ({ cid, token, topicId: highlightTopicId }: SubscriptionPreferencesPageProps) => {
   const { data, isLoading, error } = trpc.subscriptionPreferences.getPreferences.useQuery(
     { cid, token },
     { enabled: !!cid && !!token, retry: false },
   );
 
-  if (!router.isReady || isLoading) return <ProgressDots className="py-16" />;
-  if (!cid || !token) return <GenericError />;
+  if (isLoading) return <ProgressDots className="py-16" />;
   if (error) return <GenericError />;
   if (!data) return null;
 
@@ -129,6 +128,21 @@ const PreferencesForm = ({
       </div>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps<SubscriptionPreferencesPageProps> = async ({ query }) => {
+  const cid = typeof query.cid === 'string' ? query.cid : null;
+  const token = typeof query.token === 'string' ? query.token : null;
+
+  if (!cid || !token) {
+    return { notFound: true };
+  }
+
+  const topicId = typeof query.topicId === 'string' ? Number(query.topicId) : null;
+
+  return {
+    props: { cid, token, topicId },
+  };
 };
 
 export default SubscriptionPreferencesPage;
