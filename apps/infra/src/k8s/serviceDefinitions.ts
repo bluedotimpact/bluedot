@@ -61,10 +61,6 @@ export const services: ServiceDefinition[] = [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
           { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
-<<<<<<< josh/2140-cleanup
-=======
-          { name: 'INFO_SLACK_CHANNEL_ID', value: INFO_SLACK_CHANNEL_ID },
->>>>>>> master
           { name: 'CLIENT_ERRORS_SLACK_CHANNEL_ID', value: CLIENT_ERRORS_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
           { name: 'KEYCLOAK_CLIENT_ID', valueFrom: envVarSources.keycloakClientId },
@@ -90,10 +86,6 @@ export const services: ServiceDefinition[] = [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
           { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
-<<<<<<< josh/2140-cleanup
-=======
-          { name: 'INFO_SLACK_CHANNEL_ID', value: INFO_SLACK_CHANNEL_ID },
->>>>>>> master
           { name: 'CLIENT_ERRORS_SLACK_CHANNEL_ID', value: CLIENT_ERRORS_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
           { name: 'KEYCLOAK_CLIENT_ID', valueFrom: envVarSources.keycloakClientId },
