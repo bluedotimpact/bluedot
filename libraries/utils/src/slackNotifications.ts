@@ -2,11 +2,10 @@ type SlackAlertEnv = {
   APP_NAME: string;
   ALERTS_SLACK_BOT_TOKEN: string;
   ALERTS_SLACK_CHANNEL_ID: string;
-  INFO_SLACK_CHANNEL_ID: string;
 };
 
 type SlackAlertOptions = {
-  level?: 'error' | 'info';
+  channelId?: string;
   batchKey?: string;
   flushIntervalMs?: number;
 };
@@ -25,7 +24,7 @@ type BatcherState = {
   batches: Map<string, MessageBatch>;
   flushTimer: NodeJS.Timeout | null;
   env: SlackAlertEnv;
-  level: 'error' | 'info';
+  channelId: string | undefined;
   createdAt?: number;
 };
 
@@ -34,12 +33,13 @@ const batchers = new Map<string, BatcherState>();
 
 /**
  * Sends Slack message(s) to our prod/dev channels
- * - By default, messages are sent immediately
+ * - By default, messages are sent immediately to ALERTS_SLACK_CHANNEL_ID
+ * - To send to a different channel, provide a channelId
  * - To enable batching, provide a batchKey - messages will be grouped by signature (same error type/table/field)
  * - Batching uses a rolling window: messages are sent N ms after the last message (not from the first)
  * - If multiple messages are provided, the first is sent as a new message, and the rest are sent as replies in a thread
  *
- * @param options.level - Alert level: 'error' (default) or 'info'. Determines which Slack channel the message is sent to.
+ * @param options.channelId - If provided, sends to this channel instead of ALERTS_SLACK_CHANNEL_ID
  * @param options.batchKey - If provided, enables batching with this key as the batch group identifier
  * @param options.flushIntervalMs - Time window for batching in ms (default: 60000, only used when batchKey is provided). Uses a rolling window - each new message resets the timer.
  */
@@ -52,19 +52,18 @@ export const slackAlert = async (
     return;
   }
 
-  const level = options?.level ?? 'error';
   const flushIntervalMs = options?.flushIntervalMs ?? DEFAULT_FLUSH_INTERVAL_MS;
 
   if (options?.batchKey) {
-    addToBatch(getBatcherKey(options.batchKey, env, level), env, messages, level, flushIntervalMs);
+    addToBatch(getBatcherKey(options.batchKey, env, options.channelId), env, messages, options.channelId, flushIntervalMs);
     return;
   }
 
   try {
-    const res = await sendSingleSlackMessage(env, messages[0]!, level);
+    const res = await sendSingleSlackMessage(env, messages[0]!, options?.channelId);
     for (let i = 1; i < messages.length; i++) {
       // eslint-disable-next-line no-await-in-loop
-      await sendSingleSlackMessage(env, messages[i]!, level, res.ts);
+      await sendSingleSlackMessage(env, messages[i]!, options?.channelId, res.ts);
     }
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -72,15 +71,15 @@ export const slackAlert = async (
   }
 };
 
-const getBatcherKey = (batchKey: string, env: SlackAlertEnv, level: 'error' | 'info') => {
-  return `${batchKey}-${env.APP_NAME}-${level}`;
+const getBatcherKey = (batchKey: string, env: SlackAlertEnv, channelId: string | undefined) => {
+  return `${batchKey}-${env.APP_NAME}-${channelId ?? 'default'}`;
 };
 
 const addToBatch = (
   batchKey: string,
   env: SlackAlertEnv,
   messages: string[],
-  level: 'error' | 'info',
+  channelId: string | undefined,
   flushIntervalMs: number,
 ) => {
   const [mainMessage] = messages;
@@ -98,7 +97,7 @@ const addToBatch = (
       batches: new Map(),
       flushTimer: null,
       env,
-      level,
+      channelId,
     };
     batchers.set(batchKey, batcher);
   }
@@ -223,10 +222,10 @@ const flushBatcher = async (batcher: BatcherState) => {
     // Send the batched message immediately (bypass batching for the flush)
     try {
       // eslint-disable-next-line no-await-in-loop
-      const res = await sendSingleSlackMessage(batcher.env, messages[0]!, batcher.level);
+      const res = await sendSingleSlackMessage(batcher.env, messages[0]!, batcher.channelId);
       for (let i = 1; i < messages.length; i++) {
         // eslint-disable-next-line no-await-in-loop
-        await sendSingleSlackMessage(batcher.env, messages[i]!, batcher.level, res.ts);
+        await sendSingleSlackMessage(batcher.env, messages[i]!, batcher.channelId, res.ts);
       }
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -238,11 +237,10 @@ const flushBatcher = async (batcher: BatcherState) => {
 const sendSingleSlackMessage = async (
   env: SlackAlertEnv,
   message: string,
-  level: 'error' | 'info' = 'error',
+  channelId?: string,
   threadTs?: string,
 ): Promise<{ ts: string }> => {
-  // By default we send to the alerts channel if no explicit channel is provided
-  const channel = level === 'error' ? env.ALERTS_SLACK_CHANNEL_ID : env.INFO_SLACK_CHANNEL_ID;
+  const channel = channelId ?? env.ALERTS_SLACK_CHANNEL_ID;
 
   const response = await fetch('https://slack.com/api/chat.postMessage', {
     method: 'POST',
