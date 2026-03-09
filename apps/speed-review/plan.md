@@ -25,16 +25,17 @@ The `makeApiRoute` + Keycloak `verifyAndDecodeToken` plumbing is already wired u
 
 Authentication (any Keycloak account) is not enough — access must be limited to team members with `isAdmin: true` in the DB. After verifying the JWT, each handler should confirm the caller is an admin before returning data.
 
-The cleanest approach is a thin helper in `src/lib/api/requireAdmin.ts`:
+The pattern used in `apps/website/src/server/trpc.ts` is `checkAdminAccess`, which queries `userTable` (not `personTable`):
 
 ```ts
+// src/lib/api/requireAdmin.ts
 import createHttpError from 'http-errors';
 import db from './db';
-import { personTable } from '@bluedot/db';
+import { userTable } from '@bluedot/db';
 
 export const requireAdmin = async (email: string) => {
-  const person = await db.findOne(personTable, { email });
-  if (!person?.isAdmin) {
+  const user = await db.getFirst(userTable, { filter: { email } });
+  if (!user?.isAdmin) {
     throw new createHttpError.Forbidden('Admin access required');
   }
 };
@@ -49,13 +50,22 @@ Then in each handler:
 });
 ```
 
-This mirrors the pattern used in `apps/website/src/server/trpc.ts` (`adminProcedure`).
-
 **Note:** The app currently has no DB dependency. You will need to add `@bluedot/db` to `package.json` dependencies and create `src/lib/api/db.ts` mirroring the pattern from other apps (e.g. `app-template`).
 
 ### 3. Guard the frontend against unauthenticated access
 
-The login redirect should happen before the browser renders any applicant data. Add an auth guard in `src/pages/_app.tsx` using the existing `useAuth` hook (or equivalent from `@bluedot/ui`) to redirect to `/login` if there is no valid token. This is a UX improvement only — security is enforced server-side by step 1.
+Use the `withAuth` HOC from `@bluedot/ui` to wrap the main page component. This redirects unauthenticated users to `/login` before rendering any applicant data. This is a UX improvement only — security is enforced server-side by steps 1 & 2.
+
+```ts
+// src/pages/index.tsx
+import { withAuth } from '@bluedot/ui';
+
+const SpeedReviewPage = ({ auth }) => { ... };
+
+export default withAuth(SpeedReviewPage);
+```
+
+Note the website pattern does **not** check admin status on the frontend — it relies on the backend returning 403 and showing an error state. The `withAuth` HOC only gates on being logged in at all, which avoids a DB round-trip on every page load just to show a redirect.
 
 ### 4. Verify no secrets are exposed client-side
 
