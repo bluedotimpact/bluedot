@@ -18,5 +18,8 @@ export default validateEnv({
     'KEYCLOAK_PREVIEW_CLIENT_SECRET',
     'LUMA_API_KEY',
     'SITE_ACCESS_PASSWORD',
+    'CIO_APP_API_KEY',
+    'CIO_TRACK_API_KEY',
+    'CIO_HMAC_SECRET',
   ],
 });
