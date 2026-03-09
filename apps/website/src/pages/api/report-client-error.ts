@@ -44,6 +44,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     componentStack ? `Component stack:\n\`\`\`${componentStack}\`\`\`` : null,
   ].filter((x): x is string => x !== null).join('\n');
 
-  slackAlert(env, [mainMessage, details], { batchKey: 'client-error' });
+  slackAlert(env, [mainMessage, details], { batchKey: 'client-error', channelId: env.CLIENT_ERRORS_SLACK_CHANNEL_ID });
   return res.status(200).json({ ok: true });
 }
