@@ -24,7 +24,7 @@ type BatcherState = {
   batches: Map<string, MessageBatch>;
   flushTimer: NodeJS.Timeout | null;
   env: SlackAlertEnv;
-  channelId: string | undefined;
+  channelId?: string;
   createdAt?: number;
 };
 
