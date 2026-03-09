@@ -12,7 +12,6 @@ const mockEnv = {
   APP_NAME: 'test-app',
   ALERTS_SLACK_BOT_TOKEN: 'test-token',
   ALERTS_SLACK_CHANNEL_ID: 'test-channel',
-  INFO_SLACK_CHANNEL_ID: 'test-info-channel',
 };
 
 const SLACK_API_URL = 'https://slack.com/api/chat.postMessage';
@@ -103,19 +102,19 @@ describe('slackNotifications', () => {
       );
     });
 
-    test('should use info channel when level is info', async () => {
+    test('should use provided channelId instead of default', async () => {
       fetchMock.mockResolvedValueOnce({
         ok: true,
         json: async () => ({ ok: true, ts: '1.0' }),
       });
 
-      await slackAlert(mockEnv, ['Info message'], { level: 'info' });
+      await slackAlert(mockEnv, ['Info message'], { channelId: 'custom-channel' });
 
       expect(fetchMock).toHaveBeenCalledWith(
         SLACK_API_URL,
         expect.objectContaining({
           body: JSON.stringify({
-            channel: 'test-info-channel',
+            channel: 'custom-channel',
             text: 'test-app: Info message',
             thread_ts: undefined,
           }),
