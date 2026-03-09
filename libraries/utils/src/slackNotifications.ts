@@ -24,7 +24,7 @@ type BatcherState = {
   batches: Map<string, MessageBatch>;
   flushTimer: NodeJS.Timeout | null;
   env: SlackAlertEnv;
-  channelId?: string;
+  channelId: string;
   createdAt?: number;
 };
 
@@ -52,18 +52,19 @@ export const slackAlert = async (
     return;
   }
 
+  const channelId = options?.channelId ?? env.ALERTS_SLACK_CHANNEL_ID;
   const flushIntervalMs = options?.flushIntervalMs ?? DEFAULT_FLUSH_INTERVAL_MS;
 
   if (options?.batchKey) {
-    addToBatch(getBatcherKey(options.batchKey, env, options.channelId), env, messages, options.channelId, flushIntervalMs);
+    addToBatch(getBatcherKey(options.batchKey, env, channelId), env, messages, channelId, flushIntervalMs);
     return;
   }
 
   try {
-    const res = await sendSingleSlackMessage(env, messages[0]!, options?.channelId);
+    const res = await sendSingleSlackMessage(env, messages[0]!, channelId);
     for (let i = 1; i < messages.length; i++) {
       // eslint-disable-next-line no-await-in-loop
-      await sendSingleSlackMessage(env, messages[i]!, options?.channelId, res.ts);
+      await sendSingleSlackMessage(env, messages[i]!, channelId, res.ts);
     }
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -71,15 +72,15 @@ export const slackAlert = async (
   }
 };
 
-const getBatcherKey = (batchKey: string, env: SlackAlertEnv, channelId: string | undefined) => {
-  return `${batchKey}-${env.APP_NAME}-${channelId ?? 'default'}`;
+const getBatcherKey = (batchKey: string, env: SlackAlertEnv, channelId: string) => {
+  return `${batchKey}-${env.APP_NAME}-${channelId}`;
 };
 
 const addToBatch = (
   batchKey: string,
   env: SlackAlertEnv,
   messages: string[],
-  channelId: string | undefined,
+  channelId: string,
   flushIntervalMs: number,
 ) => {
   const [mainMessage] = messages;
@@ -237,11 +238,9 @@ const flushBatcher = async (batcher: BatcherState) => {
 const sendSingleSlackMessage = async (
   env: SlackAlertEnv,
   message: string,
-  channelId?: string,
+  channelId: string,
   threadTs?: string,
 ): Promise<{ ts: string }> => {
-  const channel = channelId ?? env.ALERTS_SLACK_CHANNEL_ID;
-
   const response = await fetch('https://slack.com/api/chat.postMessage', {
     method: 'POST',
     headers: {
@@ -249,7 +248,7 @@ const sendSingleSlackMessage = async (
       Authorization: `Bearer ${env.ALERTS_SLACK_BOT_TOKEN}`,
     },
     body: JSON.stringify({
-      channel,
+      channel: channelId,
       text: `${env.APP_NAME}: ${message}`,
       thread_ts: threadTs,
     }),
