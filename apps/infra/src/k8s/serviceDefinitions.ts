@@ -4,7 +4,7 @@ import { getConnectionDetails, keycloakPg, airtableSyncPg } from './postgres';
 import { minioPvc } from './pvc';
 import { websiteAssetsBucket } from '../minio';
 
-const ALERTS_SLACK_CHANNEL_ID = 'C04SAGM4FN1'; // #updates_tech-prod
+const ALERTS_SLACK_CHANNEL_ID = 'C04SAGM4FN1'; // #update_tech-prod
 const INFO_SLACK_CHANNEL_ID = 'C04SFUECECU'; // #updates_tech-dev
 const CLIENT_ERRORS_SLACK_CHANNEL_ID = 'C0AL75QQ0SC'; // #update_client-errors
 
