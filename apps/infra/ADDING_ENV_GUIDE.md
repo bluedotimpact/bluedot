@@ -26,6 +26,8 @@ Two types of environment variables:
 
 ### Workflow Overview
 
+**Adding a variable:**
+
 ```
 PR #1 (Infra)
   Add secret to Pulumi + configure Kubernetes
@@ -38,6 +40,20 @@ PR #2 (Code)
   Merge → service deploys + pods restart automatically
   Feature goes live
 ```
+
+**Removing a variable** (reverse order!):
+
+```
+PR #1 (Code)
+  Remove from validateEnv + remove usage from code
+  Merge → service deploys, pod no longer expects the variable
+        ↓
+PR #2 (Infra)
+  Remove from serviceDefinitions.ts (+ secrets.ts/Pulumi if secret)
+  Merge → infra deploys
+```
+
+If you remove from infra first, pods will crash on restart because the code still expects the variable.
 
 ---
 
