@@ -117,7 +117,10 @@ export const NoAvailableGroups: Story = {
   parameters: {
     msw: {
       handlers: [
-        trpcStorybookMsw.groupSwitching.discussionsAvailable.query(() => ({ groupsAvailable: [], discussionsAvailable: {} })),
+        trpcStorybookMsw.groupSwitching.discussionsAvailable.query(() => ({
+          groupsAvailable: [],
+          discussionsAvailable: {},
+        })),
         trpcStorybookMsw.groupSwitching.switchGroup.mutation(() => null),
       ],
     },

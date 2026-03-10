@@ -1,6 +1,4 @@
-import {
-  cn, CTALinkOrButton, ErrorSection, Modal, ProgressDots,
-} from '@bluedot/ui';
+import { cn, CTALinkOrButton, ErrorSection, Modal, ProgressDots } from '@bluedot/ui';
 import type React from 'react';
 import { useMemo, useState } from 'react';
 import { formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
@@ -24,10 +22,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
     data: availableGroups,
     isLoading,
     error,
-  } = trpc.groupSwitching.discussionsAvailable.useQuery(
-    { roundId },
-    { enabled: !joinedGroup },
-  );
+  } = trpc.groupSwitching.discussionsAvailable.useQuery({ roundId }, { enabled: !joinedGroup });
 
   // TODO: Replace with a dedicated rejoin mutation
   const rejoinMutation = trpc.groupSwitching.switchGroup.useMutation({
@@ -61,7 +56,11 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
     <Modal
       isOpen
       setIsOpen={(open: boolean) => !open && handleClose()}
-      title={<div className="text-size-md mx-auto py-3 font-semibold">{rejoinMutation.isSuccess ? 'Success' : 'Rejoin a group'}</div>}
+      title={
+        <div className="text-size-md mx-auto py-3 font-semibold">
+          {rejoinMutation.isSuccess ? 'Success' : 'Rejoin a group'}
+        </div>
+      }
       bottomDrawerOnMobile
       desktopHeaderClassName="border-b border-charcoal-light pt-3 pb-2 mb-0"
       ariaLabel="Rejoin a group"
@@ -99,27 +98,33 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
           <div className="flex flex-col items-center gap-8">
             <div className="flex flex-col items-center gap-4">
               <div className="flex items-center gap-4">
-                <div className="border border-gray-200 rounded-md px-3 py-[7px] text-center shrink-0">
+                <div className="shrink-0 rounded-md border border-gray-200 px-3 py-[7px] text-center">
                   {joinedGroup.group.startTimeUtc && (
                     <>
-                      <div className="font-semibold text-size-sm whitespace-nowrap">{formatDateMonthAndDay(joinedGroup.group.startTimeUtc)}</div>
-                      <div className="text-size-xs whitespace-nowrap text-bluedot-normal font-medium">{formatTime12HourClock(joinedGroup.group.startTimeUtc)}</div>
+                      <div className="text-size-sm font-semibold whitespace-nowrap">
+                        {formatDateMonthAndDay(joinedGroup.group.startTimeUtc)}
+                      </div>
+                      <div className="text-size-xs text-bluedot-normal font-medium whitespace-nowrap">
+                        {formatTime12HourClock(joinedGroup.group.startTimeUtc)}
+                      </div>
                     </>
                   )}
                 </div>
                 <div>
-                  <div className="font-semibold text-size-sm mb-[2px]">{joinedGroup.group.groupName ?? 'Group [Unknown]'}</div>
-                  <div className="flex items-center gap-1 text-size-xs text-bluedot-normal">
+                  <div className="text-size-sm mb-[2px] font-semibold">
+                    {joinedGroup.group.groupName ?? 'Group [Unknown]'}
+                  </div>
+                  <div className="text-size-xs text-bluedot-normal flex items-center gap-1">
                     <span>You joined this group</span>
                     <CheckIcon className="size-3" />
                   </div>
                 </div>
               </div>
-              <p className="text-size-xs text-center max-w-[320px] text-bluedot-navy/70">
+              <p className="text-size-xs text-bluedot-navy/70 max-w-[320px] text-center">
                 You <strong>will receive a calendar invite shortly</strong> and be added to the group's Slack channel.
               </p>
             </div>
-            <div className="border-t border-color-divider pt-6 w-full">
+            <div className="border-color-divider w-full border-t pt-6">
               <CTALinkOrButton className="w-full" onClick={handleClose}>
                 Close
               </CTALinkOrButton>
@@ -158,29 +163,24 @@ const RejoinGroupOption: React.FC<RejoinGroupOptionProps> = ({
     return formatTime12HourClock(dateTime);
   }, [dateTime]);
 
-  const spotsLabel
-    = spotsLeftIfKnown === null ? 'Spots available' : `${spotsLeftIfKnown} spot${spotsLeftIfKnown === 1 ? '' : 's'} left`;
+  const spotsLabel  =
+    spotsLeftIfKnown === null ? 'Spots available' : `${spotsLeftIfKnown} spot${spotsLeftIfKnown === 1 ? '' : 's'} left`;
 
   return (
-    <div
-      className={cn(
-        'rounded-lg p-3 border bg-white border-gray-200',
-        isDisabled && 'opacity-50',
-      )}
-    >
-      <div className="grid gap-4 grid-cols-[80px_1fr] items-center">
-        <div className="text-center self-center border-r border-gray-200">
+    <div className={cn('rounded-lg border border-gray-200 bg-white p-3', isDisabled && 'opacity-50')}>
+      <div className="grid grid-cols-[80px_1fr] items-center gap-4">
+        <div className="self-center border-r border-gray-200 text-center">
           {displayDate && displayTime && (
             <>
-              <div className="font-medium whitespace-nowrap mb-[3px] mt-px">{displayDate}</div>
+              <div className="mt-px mb-[3px] font-medium whitespace-nowrap">{displayDate}</div>
               <div className="text-size-xs whitespace-nowrap text-gray-500">{displayTime}</div>
             </>
           )}
         </div>
-        <div className="flex gap-4 justify-between">
+        <div className="flex justify-between gap-4">
           <div>
-            <div className="font-semibold mb-[4px]">{groupName}</div>
-            <div className="flex items-center gap-[6px] text-size-xs text-gray-500">
+            <div className="mb-[4px] font-semibold">{groupName}</div>
+            <div className="text-size-xs flex items-center gap-[6px] text-gray-500">
               <UserIcon className="-translate-y-px" />
               <span>{spotsLabel}</span>
             </div>
@@ -189,7 +189,7 @@ const RejoinGroupOption: React.FC<RejoinGroupOptionProps> = ({
             onClick={onJoin}
             disabled={isDisabled ?? isSubmitting}
             aria-label={`Join ${groupName}`}
-            className="h-fit my-auto"
+            className="my-auto h-fit"
           >
             {isSubmitting ? '...' : 'Join'}
           </CTALinkOrButton>
