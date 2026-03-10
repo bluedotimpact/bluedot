@@ -152,7 +152,7 @@ export const groupDiscussionsRouter = router({
         groupDiscussion,
         userRole,
         hostKeyForFacilitators,
-        isInactive: Boolean(participant.hasSentInactiveEmail),
+        isInactive: Boolean(participant.hasSentInactiveEmail) && !courseRegistration.dropoutId,
         applicantId: courseRegistration.id,
       };
     }),
