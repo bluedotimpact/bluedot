@@ -3,7 +3,7 @@ import {
 } from '@bluedot/ui';
 import type React from 'react';
 import { useMemo, useState } from 'react';
-import { formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
+import { formatDateMonthAndDay, formatTime12HourClock, getGMTOffsetWithCity } from '../../lib/utils';
 import type { DiscussionsAvailable } from '../../server/routers/group-switching';
 import { trpc } from '../../utils/trpc';
 import { CheckIcon } from '../icons/CheckIcon';
@@ -41,17 +41,6 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
       newGroupId: entry.group.id,
       roundId,
     });
-  };
-
-  const getGMTOffsetWithCity = () => {
-    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const now = new Date();
-    const offsetMinutes = now.getTimezoneOffset();
-    const offsetHours = Math.abs(offsetMinutes) / 60;
-    const offsetSign = offsetMinutes <= 0 ? '+' : '-';
-    const offsetFormatted = `${offsetSign}${Math.floor(offsetHours).toString().padStart(2, '0')}:${(Math.abs(offsetMinutes) % 60).toString().padStart(2, '0')}`;
-    const cityName = timezone.split('/').pop()?.replace(/_/g, ' ') ?? timezone;
-    return `(GMT ${offsetFormatted}) ${cityName}`;
   };
 
   return (
