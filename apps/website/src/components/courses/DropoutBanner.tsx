@@ -13,7 +13,7 @@ const DropoutBanner: React.FC<DropoutBannerProps> = ({
 
   return (
     <>
-      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 px-4 py-3 bg-[#FFF7ED] border-b border-[#FDBA74]">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 px-4 py-3 bg-[#FFF7ED]">
         <div className="flex items-start gap-3 flex-1 min-w-0">
           {/* <WarningIcon className="shrink-0 mt-0.5" /> */}
           <p className="text-[13px] leading-[1.5] text-[#9A3412]">
