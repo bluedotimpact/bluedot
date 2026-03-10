@@ -16,8 +16,8 @@ const DropoutBanner: React.FC<DropoutBannerProps> = ({ applicantId }) => {
         <div className="flex min-w-0 flex-1 items-start gap-3">
           <MoonStarsIcon className="shrink-0" stroke="#CC6B11" />
           <p className="text-[13px] leading-[1.5] font-medium text-[#CC6B11]">
-            Due to inactivity you were pulled out of upcoming discussions. If you wish to continue{' '}
-            <strong>please rejoin a group</strong>
+            We've removed you from upcoming discussions due to inactivity.
+            <strong> Please rejoin a group.</strong>
           </p>
         </div>
         <div className="flex w-full shrink-0 gap-2 sm:w-auto">
