@@ -153,6 +153,7 @@ export const groupDiscussionsRouter = router({
         userRole,
         hostKeyForFacilitators,
         isInactive: Boolean(participant.hasSentInactiveEmail),
+        applicantId: courseRegistration.id,
       };
     }),
 });
