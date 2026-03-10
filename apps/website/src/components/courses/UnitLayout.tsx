@@ -32,6 +32,7 @@ import ActionPlanCard from './ActionPlanCard';
 import CertificateLinkCard from './CertificateLinkCard';
 import Congratulations from './Congratulations';
 import { CourseIcon } from './CourseIcon';
+import DropoutBanner from './DropoutBanner';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
 import KeyboardNavMenu from './KeyboardNavMenu';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
@@ -417,6 +418,11 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                   userRole={groupDiscussionWithZoomInfo.userRole}
                   hostKeyForFacilitators={groupDiscussionWithZoomInfo.hostKeyForFacilitators}
                 />
+              </div>
+            )}
+            {groupDiscussionWithZoomInfo?.isInactive && (
+              <div className="mb-8 md:mb-6">
+                <DropoutBanner applicantId={groupDiscussionWithZoomInfo.applicantId} />
               </div>
             )}
           </div>
