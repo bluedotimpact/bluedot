@@ -24,5 +24,14 @@ reviews:
     base_branches:
       - "master"
       - "main"
+  pre_merge_checks:
+    custom_checks:
+      - name: "Two-PR env var workflow"
+        instructions: |
+          Check whether this PR modifies both:
+          (a) infrastructure env var files: `apps/infra/src/k8s/serviceDefinitions.ts` or `apps/infra/src/k8s/secrets.ts`, AND
+          (b) service env validation files: `apps/website/src/lib/api/env.ts` or `apps/pg-sync-service/src/env.ts`.
+          If both sides are changed in the same PR, fail this check. Env var changes must be split into two PRs: the infra PR first (to provision secrets and restart pods), then a separate code PR. See `apps/infra/ADDING_ENV_GUIDE.md` for the full workflow.
+        mode: "warning"
 chat:
   auto_reply: true
