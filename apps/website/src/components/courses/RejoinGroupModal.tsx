@@ -115,11 +115,10 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
                 You <strong>will receive a calendar invite shortly</strong> and be added to the group's Slack channel.
               </p>
             </div>
-            <div className="border-color-divider w-full border-t pt-6">
-              <CTALinkOrButton className="w-full" onClick={handleClose}>
-                Close
-              </CTALinkOrButton>
-            </div>
+
+            <CTALinkOrButton className="w-full" onClick={handleClose}>
+              Close
+            </CTALinkOrButton>
           </div>
         )}
       </div>
