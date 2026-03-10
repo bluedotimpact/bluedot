@@ -2,9 +2,11 @@ import {
   cn, CTALinkOrButton, ErrorSection, Modal, ProgressDots,
 } from '@bluedot/ui';
 import type React from 'react';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
+import type { DiscussionsAvailable } from '../../server/routers/group-switching';
 import { trpc } from '../../utils/trpc';
+import { CheckIcon } from '../icons/CheckIcon';
 import { UserIcon } from '../icons/UserIcon';
 
 export type RejoinGroupModalProps = {
@@ -12,13 +14,20 @@ export type RejoinGroupModalProps = {
   roundId: string;
 };
 
+type GroupEntry = DiscussionsAvailable['groupsAvailable'][number];
+
 // eslint-disable-next-line react/function-component-definition
 export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupModalProps) {
+  const [joinedGroup, setJoinedGroup] = useState<GroupEntry | null>(null);
+
   const {
     data: availableGroups,
     isLoading,
     error,
-  } = trpc.groupSwitching.discussionsAvailable.useQuery({ roundId }, { refetchInterval: 30_000 });
+  } = trpc.groupSwitching.discussionsAvailable.useQuery(
+    { roundId },
+    { enabled: !joinedGroup },
+  );
 
   // TODO: Replace with a dedicated rejoin mutation
   const rejoinMutation = trpc.groupSwitching.switchGroup.useMutation({
@@ -27,11 +36,12 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
 
   const groups = availableGroups?.groupsAvailable?.filter((g) => !g.userIsParticipant) ?? [];
 
-  const handleJoin = (groupId: string) => {
+  const handleJoin = (entry: GroupEntry) => {
+    setJoinedGroup(entry);
     rejoinMutation.mutate({
       switchType: 'Switch group permanently',
       isManualRequest: false,
-      newGroupId: groupId,
+      newGroupId: entry.group.id,
       roundId,
     });
   };
@@ -51,7 +61,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
     <Modal
       isOpen
       setIsOpen={(open: boolean) => !open && handleClose()}
-      title={<div className="text-size-md mx-auto py-3 font-semibold">Rejoin a group</div>}
+      title={<div className="text-size-md mx-auto py-3 font-semibold">{rejoinMutation.isSuccess ? 'Success' : 'Rejoin a group'}</div>}
       bottomDrawerOnMobile
       desktopHeaderClassName="border-b border-charcoal-light pt-3 pb-2 mb-0"
       ariaLabel="Rejoin a group"
@@ -79,21 +89,41 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
                   spotsLeftIfKnown={g.spotsLeftIfKnown}
                   isDisabled={g.spotsLeftIfKnown === 0}
                   isSubmitting={rejoinMutation.isPending}
-                  onJoin={() => handleJoin(g.group.id)}
+                  onJoin={() => handleJoin(g)}
                 />
               ))}
             </div>
           </div>
         )}
-        {rejoinMutation.isSuccess && (
-          <div className="flex flex-col items-center gap-4">
-            <p className="text-size-sm max-w-[500px] text-center text-[#666C80]">
-              You have rejoined a group. You <strong>will receive the calendar invites shortly</strong> and be added to
-              the group's Slack channel.
-            </p>
-            <CTALinkOrButton className="mt-4 w-full" onClick={handleClose}>
-              Close
-            </CTALinkOrButton>
+        {rejoinMutation.isSuccess && joinedGroup && (
+          <div className="flex flex-col items-center gap-8">
+            <div className="flex flex-col items-center gap-4">
+              <div className="flex items-center gap-4">
+                <div className="border border-gray-200 rounded-md px-3 py-[7px] text-center shrink-0">
+                  {joinedGroup.group.startTimeUtc && (
+                    <>
+                      <div className="font-semibold text-size-sm whitespace-nowrap">{formatDateMonthAndDay(joinedGroup.group.startTimeUtc)}</div>
+                      <div className="text-size-xs whitespace-nowrap text-bluedot-normal font-medium">{formatTime12HourClock(joinedGroup.group.startTimeUtc)}</div>
+                    </>
+                  )}
+                </div>
+                <div>
+                  <div className="font-semibold text-size-sm mb-[2px]">{joinedGroup.group.groupName ?? 'Group [Unknown]'}</div>
+                  <div className="flex items-center gap-1 text-size-xs text-bluedot-normal">
+                    <span>You joined this group</span>
+                    <CheckIcon className="size-3" />
+                  </div>
+                </div>
+              </div>
+              <p className="text-size-xs text-center max-w-[320px] text-bluedot-navy/70">
+                You <strong>will receive a calendar invite shortly</strong> and be added to the group's Slack channel.
+              </p>
+            </div>
+            <div className="border-t border-color-divider pt-6 w-full">
+              <CTALinkOrButton className="w-full" onClick={handleClose}>
+                Close
+              </CTALinkOrButton>
+            </div>
           </div>
         )}
       </div>
