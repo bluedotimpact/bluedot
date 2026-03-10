@@ -24,7 +24,7 @@ const DropoutBanner: React.FC<DropoutBannerProps> = ({ applicantId }) => {
             variant="primary"
             size="small"
             // onClick={() => setRejoinModalOpen(true)}
-            className="flex-1 bg-[#EA580C] hover:bg-[#C2410C] sm:flex-initial"
+            className="flex-1 bg-[#CC6B11] sm:flex-initial"
           >
             Rejoin a group
           </CTALinkOrButton>
@@ -32,7 +32,7 @@ const DropoutBanner: React.FC<DropoutBannerProps> = ({ applicantId }) => {
             variant="outline-black"
             size="small"
             onClick={() => setDropoutModalOpen(true)}
-            className="flex-1 border-[#EA580C] text-[#EA580C] hover:bg-[#FFF7ED] sm:flex-initial"
+            className="flex-1 bg-[#CC6B1114] text-[#CC6B11] border-none hover:bg-[#FFF7ED] sm:flex-initial"
           >
             Drop out of course
           </CTALinkOrButton>
