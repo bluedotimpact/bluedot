@@ -81,7 +81,6 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, handleClose })
             Your feedback (positive and negative) helps improve our courses. Please share any details about your
             decision with us.
           </P>
-          P
           <P>
             If you defer we'll reconsider your application when the course runs again; we'll contact you closer to the
             time.
