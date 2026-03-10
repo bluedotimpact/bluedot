@@ -152,6 +152,7 @@ export const groupDiscussionsRouter = router({
         groupDiscussion,
         userRole,
         hostKeyForFacilitators,
+        isInactive: Boolean(participant.hasSentInactiveEmail),
       };
     }),
 });
