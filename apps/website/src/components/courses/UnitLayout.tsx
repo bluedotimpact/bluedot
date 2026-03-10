@@ -8,7 +8,6 @@ import {
   Section,
   useAuthStore,
 } from '@bluedot/ui';
-import type { FeedbackData } from '@bluedot/ui/src/BugReportModal';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import type React from 'react';
@@ -27,7 +26,7 @@ import {
 } from '@bluedot/db';
 import { ROUTES } from '../../lib/routes';
 import { buildCourseUnitUrl } from '../../lib/utils';
-import { toBase64 } from '../../utils/toBase64';
+import { useSubmitBugReport } from '../../hooks/useSubmitBugReport';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 import type { CourseProgress } from '../../server/routers/courses';
 import { trpc } from '../../utils/trpc';
@@ -169,20 +168,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   const [isSidebarHidden, setIsSidebarHidden] = useState(false);
   const [isMobileCourseMenuOpen, setIsMobileCourseMenuOpen] = useState(false);
   const [isBugReportOpen, setIsBugReportOpen] = useState(false);
-  const submitBugMutation = trpc.feedback.submitBugReport.useMutation();
-
-  const handleBugReportSubmit = async (data: FeedbackData) => {
-    await submitBugMutation.mutateAsync({
-      description: data.description,
-      email: data.email,
-      recordingUrl: data.recordingUrl,
-      attachments: await Promise.all(data.attachments?.map(async (file) => ({
-        base64: await toBase64(file),
-        filename: file.name,
-        mimeType: file.type,
-      })) ?? []),
-    });
-  };
+  const handleBugReportSubmit = useSubmitBugReport();
   const unitArrIndex = units.findIndex((u) => u.id === unit.id);
 
   const { data: groupDiscussionWithZoomInfo, error: groupDiscussionError } = trpc.groupDiscussions.getByCourseSlug.useQuery(
