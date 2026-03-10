@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import clsx from 'clsx';
 import { FaCircleUser } from 'react-icons/fa6';
-import { A, IconButton } from '@bluedot/ui';
+import { A, BugReportModal, IconButton } from '@bluedot/ui';
+import type { FeedbackData } from '@bluedot/ui/src/BugReportModal';
 
 import {
   type ExpandedSectionsState, DRAWER_CLASSES, DRAWER_Z_PROFILE, PROFILE_DROPDOWN_CLASS,
@@ -10,6 +11,7 @@ import { ROUTES } from '../../lib/routes';
 import { UserSearchModal } from '../admin/UserSearchModal';
 import { trpc } from '../../utils/trpc';
 import { useClickOutside } from '../../lib/hooks/useClickOutside';
+import { toBase64 } from '../../utils/toBase64';
 
 export const ProfileLinks: React.FC<{
   expandedSections: ExpandedSectionsState;
@@ -21,7 +23,22 @@ export const ProfileLinks: React.FC<{
   onColoredBackground = false,
 }) => {
   const [isImpersonateModalOpen, setIsImpersonateModalOpen] = useState(false);
+  const [isBugReportOpen, setIsBugReportOpen] = useState(false);
   const { data: isAdmin } = trpc.admin.isAdmin.useQuery();
+  const submitBugMutation = trpc.feedback.submitBugReport.useMutation();
+
+  const handleBugReportSubmit = async (data: FeedbackData) => {
+    await submitBugMutation.mutateAsync({
+      description: data.description,
+      email: data.email,
+      recordingUrl: data.recordingUrl,
+      attachments: await Promise.all(data.attachments?.map(async (file) => ({
+        base64: await toBase64(file),
+        filename: file.name,
+        mimeType: file.type,
+      })) ?? []),
+    });
+  };
   const profileRef = useClickOutside(
     () => updateExpandedSections({ profile: false }),
     expandedSections.profile,
@@ -81,24 +98,33 @@ export const ProfileLinks: React.FC<{
             onClick={onToggleProfile}
           >Log out
           </A>
+          <div className="border-t border-gray-200 my-2" />
           {isAdmin && (
-            <>
-              <div className="border-t border-gray-200 my-2" />
-              <button
-                type="button"
-                onClick={() => {
-                  setIsImpersonateModalOpen(true);
-                  updateExpandedSections({ profile: false });
-                }}
-                className={clsx('bluedot-a', getNavLinkClasses())}
-              >
-                Impersonate a user
-              </button>
-            </>
+            <button
+              type="button"
+              onClick={() => {
+                setIsImpersonateModalOpen(true);
+                updateExpandedSections({ profile: false });
+              }}
+              className={clsx('bluedot-a', getNavLinkClasses())}
+            >
+              Impersonate a user
+            </button>
           )}
+          <button
+            type="button"
+            onClick={() => {
+              setIsBugReportOpen(true);
+              updateExpandedSections({ profile: false });
+            }}
+            className={clsx('bluedot-a', getNavLinkClasses())}
+          >
+            Report a bug
+          </button>
         </div>
       </div>
       {isImpersonateModalOpen && <UserSearchModal isOpen={isImpersonateModalOpen} onClose={() => setIsImpersonateModalOpen(false)} />}
+      <BugReportModal isOpen={isBugReportOpen} setIsOpen={setIsBugReportOpen} onSubmit={handleBugReportSubmit} />
     </div>
   );
 };

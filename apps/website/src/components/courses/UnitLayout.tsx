@@ -1,5 +1,6 @@
 import {
   A,
+  BugReportModal,
   CTALinkOrButton,
   ErrorSection,
   H1,
@@ -7,6 +8,7 @@ import {
   Section,
   useAuthStore,
 } from '@bluedot/ui';
+import type { FeedbackData } from '@bluedot/ui/src/BugReportModal';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import type React from 'react';
@@ -25,6 +27,7 @@ import {
 } from '@bluedot/db';
 import { ROUTES } from '../../lib/routes';
 import { buildCourseUnitUrl } from '../../lib/utils';
+import { toBase64 } from '../../utils/toBase64';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 import type { CourseProgress } from '../../server/routers/courses';
 import { trpc } from '../../utils/trpc';
@@ -165,6 +168,21 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   const [navigationAnnouncement, setNavigationAnnouncement] = useState('');
   const [isSidebarHidden, setIsSidebarHidden] = useState(false);
   const [isMobileCourseMenuOpen, setIsMobileCourseMenuOpen] = useState(false);
+  const [isBugReportOpen, setIsBugReportOpen] = useState(false);
+  const submitBugMutation = trpc.feedback.submitBugReport.useMutation();
+
+  const handleBugReportSubmit = async (data: FeedbackData) => {
+    await submitBugMutation.mutateAsync({
+      description: data.description,
+      email: data.email,
+      recordingUrl: data.recordingUrl,
+      attachments: await Promise.all(data.attachments?.map(async (file) => ({
+        base64: await toBase64(file),
+        filename: file.name,
+        mimeType: file.type,
+      })) ?? []),
+    });
+  };
   const unitArrIndex = units.findIndex((u) => u.id === unit.id);
 
   const { data: groupDiscussionWithZoomInfo, error: groupDiscussionError } = trpc.groupDiscussions.getByCourseSlug.useQuery(
@@ -484,12 +502,23 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               {/* Bottom-most section, underneath 'continue' button */}
               <div className="hidden md:block">
                 <hr className="mt-12 mb-4" />
-                <KeyboardNavMenu />
+                <div className="flex items-center gap-1">
+                  <KeyboardNavMenu />
+                  <button
+                    type="button"
+                    onClick={() => setIsBugReportOpen(true)}
+                    className="flex cursor-pointer items-center gap-1.5 rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-700"
+                  >
+                    Report a bug
+                  </button>
+                </div>
               </div>
             </div>
           </Section>
         </div>
       </div>
+
+      <BugReportModal isOpen={isBugReportOpen} setIsOpen={setIsBugReportOpen} onSubmit={handleBugReportSubmit} />
 
       <MobileCourseModal
         isOpen={isMobileCourseMenuOpen}
