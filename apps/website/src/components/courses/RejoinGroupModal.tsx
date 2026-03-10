@@ -1,4 +1,6 @@
-import { cn, CTALinkOrButton, ErrorSection, Modal, ProgressDots } from '@bluedot/ui';
+import {
+  cn, CTALinkOrButton, ErrorSection, Modal, ProgressDots,
+} from '@bluedot/ui';
 import type React from 'react';
 import { useMemo, useState } from 'react';
 import { formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
@@ -163,8 +165,8 @@ const RejoinGroupOption: React.FC<RejoinGroupOptionProps> = ({
     return formatTime12HourClock(dateTime);
   }, [dateTime]);
 
-  const spotsLabel  =
-    spotsLeftIfKnown === null ? 'Spots available' : `${spotsLeftIfKnown} spot${spotsLeftIfKnown === 1 ? '' : 's'} left`;
+  const spotsLabel
+    = spotsLeftIfKnown === null ? 'Spots available' : `${spotsLeftIfKnown} spot${spotsLeftIfKnown === 1 ? '' : 's'} left`;
 
   return (
     <div className={cn('rounded-lg border border-gray-200 bg-white p-3', isDisabled && 'opacity-50')}>
