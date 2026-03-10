@@ -132,17 +132,26 @@ const RejoinGroupOption: React.FC<RejoinGroupOptionProps> = ({
     = spotsLeftIfKnown === null ? 'Spots available' : `${spotsLeftIfKnown} spot${spotsLeftIfKnown === 1 ? '' : 's'} left`;
 
   return (
-    <div className={cn('rounded-lg border border-gray-200 bg-white pr-3', isDisabled && 'opacity-50')}>
-      <div className="flex w-full items-center">
-        <div className="flex w-[74px] shrink-0 flex-col items-center justify-center self-stretch border-r border-gray-200 px-3 py-1">
-          {displayDate && <div className="text-size-sm font-semibold whitespace-nowrap">{displayDate}</div>}
-          {displayTime && <div className="text-size-xs whitespace-nowrap text-gray-500">{displayTime}</div>}
+    <div
+      className={cn(
+        'rounded-lg p-3 border bg-white border-gray-200',
+        isDisabled && 'opacity-50',
+      )}
+    >
+      <div className="grid gap-4 grid-cols-[80px_1fr] items-center">
+        <div className="text-center self-center border-r border-gray-200">
+          {displayDate && displayTime && (
+            <>
+              <div className="font-medium whitespace-nowrap mb-[3px] mt-px">{displayDate}</div>
+              <div className="text-size-xs whitespace-nowrap text-gray-500">{displayTime}</div>
+            </>
+          )}
         </div>
-        <div className="flex min-w-0 flex-1 items-center gap-4 py-3 pl-4">
-          <div className="flex min-w-0 flex-1 flex-col gap-[2px]">
-            <div className="text-size-sm font-semibold">{groupName}</div>
-            <div className="text-size-xs flex items-center gap-1 text-gray-500">
-              <UserIcon className="-translate-y-px opacity-70" />
+        <div className="flex gap-4 justify-between">
+          <div>
+            <div className="font-semibold mb-[4px]">{groupName}</div>
+            <div className="flex items-center gap-[6px] text-size-xs text-gray-500">
+              <UserIcon className="-translate-y-px" />
               <span>{spotsLabel}</span>
             </div>
           </div>
@@ -150,7 +159,7 @@ const RejoinGroupOption: React.FC<RejoinGroupOptionProps> = ({
             onClick={onJoin}
             disabled={isDisabled ?? isSubmitting}
             aria-label={`Join ${groupName}`}
-            className="h-[36px] shrink-0"
+            className="h-fit my-auto"
           >
             {isSubmitting ? '...' : 'Join'}
           </CTALinkOrButton>
