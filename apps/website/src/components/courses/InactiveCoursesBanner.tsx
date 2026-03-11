@@ -7,16 +7,15 @@ import RejoinGroupModal from './RejoinGroupModal';
 
 type InactiveCoursesBannerProps = {
   courseSlug?: string;
-  roundId: string | null;
 };
 
-export const InactiveCoursesBanner = ({ courseSlug, roundId }: InactiveCoursesBannerProps) => {
+export const InactiveCoursesBanner = ({ courseSlug }: InactiveCoursesBannerProps) => {
   const { data: inactiveCourseRegistrations } = trpc.meetPerson.getInactiveCourseRegistrations.useQuery({ courseSlug });
 
   return (
     <>
       {(inactiveCourseRegistrations ?? []).map((courseRegistration) => (
-        <InactiveCourseBanner key={courseRegistration.courseRegistrationId} applicantId={courseRegistration.courseRegistrationId} roundId={roundId} />
+        <InactiveCourseBanner key={courseRegistration.courseRegistrationId} applicantId={courseRegistration.courseRegistrationId} roundId={courseRegistration.roundId} />
       ))}
     </>
   );
