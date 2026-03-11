@@ -3,7 +3,7 @@ import { createMockGroup } from '../../__tests__/testUtils';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 import { ONE_HOUR_SECONDS } from '../../lib/constants';
 import type { DiscussionsAvailable } from '../../server/routers/group-switching';
-import InactiveCoursesBanner from './InactiveCoursesBanner';
+import InactiveCourseBanners from './InactiveCourseBanners';
 
 const mockAvailableGroups: DiscussionsAvailable = {
   groupsAvailable: [
@@ -31,12 +31,12 @@ const mockAvailableGroups: DiscussionsAvailable = {
 
 const meta = {
   title: 'website/courses/InactiveCoursesBanner',
-  component: InactiveCoursesBanner,
+  component: InactiveCourseBanners,
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',
   },
-} satisfies Meta<typeof InactiveCoursesBanner>;
+} satisfies Meta<typeof InactiveCourseBanners>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

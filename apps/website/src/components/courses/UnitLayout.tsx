@@ -33,7 +33,7 @@ import CertificateLinkCard from './CertificateLinkCard';
 import Congratulations from './Congratulations';
 import { CourseIcon } from './CourseIcon';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
-import InactiveCoursesBanner from './InactiveCoursesBanner';
+import InactiveCourseBanners from './InactiveCourseBanners';
 import KeyboardNavMenu from './KeyboardNavMenu';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import { MobileCourseModal } from './MobileCourseModal';
@@ -420,7 +420,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 />
               </div>
             )}
-            <InactiveCoursesBanner courseSlug={courseSlug} />
+            <InactiveCourseBanners courseSlug={courseSlug} />
           </div>
 
           {/* Main content section */}

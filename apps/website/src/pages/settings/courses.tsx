@@ -3,7 +3,7 @@ import {
   CTALinkOrButton, ErrorSection, P, ProgressDots,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import InactiveCoursesBanner from '../../components/courses/InactiveCoursesBanner';
+import InactiveCourseBanners from '../../components/courses/InactiveCourseBanners';
 import CourseList from '../../components/settings/CourseList';
 import SettingsLayout from '../../components/settings/SettingsLayout';
 import { ROUTES } from '../../lib/routes';
@@ -22,7 +22,7 @@ const CoursesSettingsPage = () => {
       {userLoading && <ProgressDots />}
       {userError && <ErrorSection error={userError} />}
       {user && (
-        <SettingsLayout activeTab="courses" route={CURRENT_ROUTE} afterBreadcrumbs={<InactiveCoursesBanner />}>
+        <SettingsLayout activeTab="courses" route={CURRENT_ROUTE} afterBreadcrumbs={<InactiveCourseBanners />}>
           <CoursesContent />
         </SettingsLayout>
       )}

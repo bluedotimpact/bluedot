@@ -5,12 +5,12 @@ import { MoonStarsIcon } from '../icons/MoonStarsIcon';
 import DropoutModal from './DropoutModal';
 import RejoinGroupModal from './RejoinGroupModal';
 
-type InactiveCoursesBannerProps = {
+type InactiveCourseBannersProps = {
   courseSlug?: string;
 };
 
 // eslint-disable-next-line react/function-component-definition
-export default function InactiveCoursesBanner({ courseSlug }: InactiveCoursesBannerProps) {
+export default function InactiveCourseBanners({ courseSlug }: InactiveCourseBannersProps) {
   const { data: inactiveCourseRegistrations } = trpc.meetPerson.getInactiveCourseRegistrations.useQuery({ courseSlug });
 
   return (
