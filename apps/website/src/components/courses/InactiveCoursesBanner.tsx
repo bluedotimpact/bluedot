@@ -14,17 +14,17 @@ export const InactiveCoursesBanner = ({ courseSlug }: InactiveCoursesBannerProps
   return (
     <>
       {(inactiveCourseRegistrations ?? []).map((courseRegistration) => (
-        <DropoutBanner key={courseRegistration.courseRegistrationId} applicantId={courseRegistration.courseRegistrationId} />
+        <InactiveCourseBanner key={courseRegistration.courseRegistrationId} applicantId={courseRegistration.courseRegistrationId} />
       ))}
     </>
   );
 };
 
-type DropoutBannerProps = {
+type InactiveCourseBannerProps = {
   applicantId: string;
 };
 
-const DropoutBanner = ({ applicantId }: DropoutBannerProps) => {
+const InactiveCourseBanner = ({ applicantId }: InactiveCourseBannerProps) => {
   const [dropoutModalOpen, setDropoutModalOpen] = useState(false);
 
   return (
