@@ -26,9 +26,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
     error,
   } = trpc.groupSwitching.discussionsAvailable.useQuery({ roundId }, { enabled: !joinedGroup });
 
-  const rejoinMutation = trpc.groupSwitching.switchGroup.useMutation({
-    onSuccess() {},
-  });
+  const rejoinMutation = trpc.groupSwitching.switchGroup.useMutation();
 
   const groups = availableGroups?.groupsAvailable?.filter((g) => !g.userIsParticipant) ?? [];
 
