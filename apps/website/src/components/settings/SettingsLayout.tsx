@@ -10,13 +10,15 @@ type SettingsLayoutProps = {
   activeTab: SettingsTab;
   children: React.ReactNode;
   route: BluedotRoute;
+  afterBreadcrumbs?: React.ReactNode;
 };
 
-const SettingsLayout = ({ activeTab, children, route }: SettingsLayoutProps) => {
+const SettingsLayout = ({ activeTab, children, route, afterBreadcrumbs }: SettingsLayoutProps) => {
   return (
     <>
       {/* Breadcrumbs */}
       <SettingsBreadcrumbs route={route} />
+      {afterBreadcrumbs && <div className="mt-4">{afterBreadcrumbs}</div>}
 
       <div className="container mx-auto px-4 py-6">
         {/* Mobile and Tablet layout - horizontal navigation */}
