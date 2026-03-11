@@ -19,7 +19,7 @@ export const Inactive: Story = {
     msw: {
       handlers: [
         trpcStorybookMsw.meetPerson.getInactiveCourseRegistrations.query(() => [
-          { courseRegistrationId: 'rec123456789', courseSlug: 'agi-safety-fundamentals' },
+          { courseRegistrationId: 'rec123456789', courseSlug: 'agi-safety-fundamentals', roundId: 'round-1' },
         ]),
       ],
     },
