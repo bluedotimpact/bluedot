@@ -33,7 +33,7 @@ import CertificateLinkCard from './CertificateLinkCard';
 import Congratulations from './Congratulations';
 import { CourseIcon } from './CourseIcon';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
-import { InactiveCoursesBanner } from './InactiveCoursesBanner';
+import InactiveCoursesBanner from './InactiveCoursesBanner';
 import KeyboardNavMenu from './KeyboardNavMenu';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import { MobileCourseModal } from './MobileCourseModal';

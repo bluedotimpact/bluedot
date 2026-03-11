@@ -9,7 +9,8 @@ type InactiveCoursesBannerProps = {
   courseSlug?: string;
 };
 
-export const InactiveCoursesBanner = ({ courseSlug }: InactiveCoursesBannerProps) => {
+// eslint-disable-next-line react/function-component-definition
+export default function InactiveCoursesBanner({ courseSlug }: InactiveCoursesBannerProps) {
   const { data: inactiveCourseRegistrations } = trpc.meetPerson.getInactiveCourseRegistrations.useQuery({ courseSlug });
 
   return (
@@ -19,7 +20,7 @@ export const InactiveCoursesBanner = ({ courseSlug }: InactiveCoursesBannerProps
       ))}
     </>
   );
-};
+}
 
 type InactiveCourseBannerProps = {
   applicantId: string;

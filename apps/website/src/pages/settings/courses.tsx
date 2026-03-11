@@ -3,7 +3,7 @@ import {
   CTALinkOrButton, ErrorSection, P, ProgressDots,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import { InactiveCoursesBanner } from '../../components/courses/InactiveCoursesBanner';
+import InactiveCoursesBanner from '../../components/courses/InactiveCoursesBanner';
 import CourseList from '../../components/settings/CourseList';
 import SettingsLayout from '../../components/settings/SettingsLayout';
 import { ROUTES } from '../../lib/routes';
