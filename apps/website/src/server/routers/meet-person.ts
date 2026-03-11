@@ -32,7 +32,8 @@ export const meetPersonRouter = router({
     }),
 
   getInactiveCourseRegistrations: protectedProcedure
-    .query(async ({ ctx }) => {
+    .input(z.object({ courseSlug: z.string().optional() }))
+    .query(async ({ ctx, input }) => {
       const results = await db.pg
         .select({
           courseRegistrationId: courseRegistrationTable.pg.id,
@@ -49,6 +50,7 @@ export const meetPersonRouter = router({
           eq(sql`cardinality(${courseRegistrationTable.pg.dropoutId})`, 0),
           eq(sql`cardinality(${courseRegistrationTable.pg.deferredId})`, 0),
           eq(meetPersonTable.pg.hasSentInactiveEmail, true),
+          ...(input.courseSlug ? [eq(courseTable.pg.slug, input.courseSlug)] : []),
         ));
       return results;
     }),
