@@ -18,7 +18,7 @@ const SettingsLayout = ({ activeTab, children, route, afterBreadcrumbs }: Settin
     <>
       {/* Breadcrumbs */}
       <SettingsBreadcrumbs route={route} />
-      {afterBreadcrumbs && <div className="mt-4">{afterBreadcrumbs}</div>}
+      {afterBreadcrumbs}
 
       <div className="container mx-auto px-4 py-6">
         {/* Mobile and Tablet layout - horizontal navigation */}
