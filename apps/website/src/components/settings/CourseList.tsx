@@ -250,7 +250,6 @@ const CourseListRow = ({
           attendedDiscussions={attendedDiscussions}
           upcomingDiscussions={upcomingDiscussions}
           facilitatedDiscussions={facilitatedDiscussions}
-          meetPerson={meetPerson}
           isLoading={isLoading}
         />
       )}

@@ -1,11 +1,10 @@
-import { type Course, type CourseRegistration, type MeetPerson } from '@bluedot/db';
+import { type Course, type CourseRegistration } from '@bluedot/db';
 import { ProgressDots } from '@bluedot/ui';
 import { useState } from 'react';
 import type { GroupDiscussionWithGroupAndUnit } from '../../server/routers/group-discussions';
 import GroupSwitchModal, { type SwitchType } from '../courses/GroupSwitchModal';
 import FacilitatorSwitchModal, { type FacilitatorModalType } from '../courses/FacilitatorSwitchModal';
 import DropoutModal from '../courses/DropoutModal';
-import DropoutBanner from '../courses/DropoutBanner';
 import DiscussionList from './DiscussionList';
 
 type CourseDetailsProps = {
@@ -14,7 +13,6 @@ type CourseDetailsProps = {
   attendedDiscussions: GroupDiscussionWithGroupAndUnit[];
   upcomingDiscussions: GroupDiscussionWithGroupAndUnit[];
   facilitatedDiscussions: GroupDiscussionWithGroupAndUnit[];
-  meetPerson?: MeetPerson | null;
   isLoading: boolean;
 };
 
@@ -24,13 +22,11 @@ const CourseDetails = ({
   attendedDiscussions,
   upcomingDiscussions,
   facilitatedDiscussions,
-  meetPerson,
   isLoading,
 }: CourseDetailsProps) => {
   const showUpcomingTab = courseRegistration.roundStatus === 'Active' || upcomingDiscussions.length > 0;
   const showFacilitatedTab = facilitatedDiscussions.length > 0;
   const showAttendedTab = !(showFacilitatedTab && attendedDiscussions.length === 0);
-  const showDropoutBanner = Boolean(meetPerson?.hasSentInactiveEmail) && !courseRegistration.dropoutId;
 
   const getInitialTab = (): 'upcoming' | 'attended' | 'facilitated' => {
     if (showUpcomingTab) return 'upcoming';
@@ -68,9 +64,6 @@ const CourseDetails = ({
     <>
       <div className="bg-white" role="region" aria-label={`Expanded details for ${course.title}`}>
         <div>
-          {showDropoutBanner && (
-            <DropoutBanner applicantId={courseRegistration.id} />
-          )}
           {/* Section header with tabs */}
           <div className="flex border-b border-charcoal-light">
             <div className="flex px-4 sm:px-8 gap-8">
