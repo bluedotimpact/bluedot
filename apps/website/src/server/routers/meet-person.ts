@@ -1,4 +1,6 @@
-import { courseRegistrationTable, meetPersonTable } from '@bluedot/db';
+import {
+  and, courseRegistrationTable, courseTable, eq, meetPersonTable, sql,
+} from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
@@ -27,5 +29,27 @@ export const meetPersonRouter = router({
           applicationsBaseRecordId: courseRegistration.id,
         },
       });
+    }),
+
+  getInactiveCourseRegistrations: protectedProcedure
+    .query(async ({ ctx }) => {
+      const results = await db.pg
+        .select({
+          courseRegistrationId: courseRegistrationTable.pg.id,
+          courseSlug: courseTable.pg.slug,
+        })
+        .from(courseRegistrationTable.pg)
+        .innerJoin(meetPersonTable.pg, eq(meetPersonTable.pg.applicationsBaseRecordId, courseRegistrationTable.pg.id))
+        .innerJoin(courseTable.pg, eq(courseTable.pg.id, courseRegistrationTable.pg.courseId))
+        .where(and(
+          eq(courseRegistrationTable.pg.email, ctx.auth.email),
+          eq(courseRegistrationTable.pg.decision, 'Accept'),
+          eq(courseRegistrationTable.pg.roundStatus, 'Active'),
+          // Check for empty arrays = no dropout or deferral records
+          eq(sql`cardinality(${courseRegistrationTable.pg.dropoutId})`, 0),
+          eq(sql`cardinality(${courseRegistrationTable.pg.deferredId})`, 0),
+          eq(meetPersonTable.pg.hasSentInactiveEmail, true),
+        ));
+      return results;
     }),
 });
