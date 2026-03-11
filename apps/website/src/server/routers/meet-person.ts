@@ -38,6 +38,7 @@ export const meetPersonRouter = router({
         .select({
           courseRegistrationId: courseRegistrationTable.pg.id,
           courseSlug: courseTable.pg.slug,
+          roundId: meetPersonTable.pg.round,
         })
         .from(courseRegistrationTable.pg)
         .innerJoin(meetPersonTable.pg, eq(meetPersonTable.pg.applicationsBaseRecordId, courseRegistrationTable.pg.id))
