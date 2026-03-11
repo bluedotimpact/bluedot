@@ -3,18 +3,20 @@ import { useState } from 'react';
 import { trpc } from '../../utils/trpc';
 import { MoonStarsIcon } from '../icons/MoonStarsIcon';
 import DropoutModal from './DropoutModal';
+import RejoinGroupModal from './RejoinGroupModal';
 
 type InactiveCoursesBannerProps = {
   courseSlug?: string;
+  roundId: string | null;
 };
 
-export const InactiveCoursesBanner = ({ courseSlug }: InactiveCoursesBannerProps) => {
+export const InactiveCoursesBanner = ({ courseSlug, roundId }: InactiveCoursesBannerProps) => {
   const { data: inactiveCourseRegistrations } = trpc.meetPerson.getInactiveCourseRegistrations.useQuery({ courseSlug });
 
   return (
     <>
       {(inactiveCourseRegistrations ?? []).map((courseRegistration) => (
-        <InactiveCourseBanner key={courseRegistration.courseRegistrationId} applicantId={courseRegistration.courseRegistrationId} />
+        <InactiveCourseBanner key={courseRegistration.courseRegistrationId} applicantId={courseRegistration.courseRegistrationId} roundId={roundId} />
       ))}
     </>
   );
@@ -22,10 +24,12 @@ export const InactiveCoursesBanner = ({ courseSlug }: InactiveCoursesBannerProps
 
 type InactiveCourseBannerProps = {
   applicantId: string;
+  roundId: string | null;
 };
 
-const InactiveCourseBanner = ({ applicantId }: InactiveCourseBannerProps) => {
+const InactiveCourseBanner = ({ applicantId, roundId }: InactiveCourseBannerProps) => {
   const [dropoutModalOpen, setDropoutModalOpen] = useState(false);
+  const [rejoinModalOpen, setRejoinModalOpen] = useState(false);
 
   return (
     <>
@@ -41,7 +45,7 @@ const InactiveCourseBanner = ({ applicantId }: InactiveCourseBannerProps) => {
           <CTALinkOrButton
             variant="primary"
             size="small"
-            // onClick={() => setRejoinModalOpen(true)}
+            onClick={() => setRejoinModalOpen(true)}
             className="flex-1 bg-[#CC6B11] hover:bg-[color-mix(in_oklab,#CC6B11,black_3%)] hover:text-white sm:flex-initial"
           >
             Rejoin a group
@@ -57,7 +61,7 @@ const InactiveCourseBanner = ({ applicantId }: InactiveCourseBannerProps) => {
         </div>
       </div>
 
-      {/* TODO: rejoin modal */}
+      {rejoinModalOpen && roundId && <RejoinGroupModal roundId={roundId} handleClose={() => setRejoinModalOpen(false)} />}
 
       {dropoutModalOpen && <DropoutModal applicantId={applicantId} handleClose={() => setDropoutModalOpen(false)} />}
     </>
