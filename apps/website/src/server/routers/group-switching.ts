@@ -250,6 +250,7 @@ export const groupSwitchingRouter = router({
           message: 'No participant record found for user in this course round',
         });
       }
+
       const { id: participantId } = participant;
 
       let unitId: string | null = null;

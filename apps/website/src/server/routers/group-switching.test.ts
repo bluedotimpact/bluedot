@@ -330,7 +330,6 @@ async function seedCourseWithGroups() {
     title: 'Test Course',
     description: 'A test course',
     shortDescription: 'Test',
-    path: '/courses/test-course',
     units: ['unit-1', 'unit-2'],
   });
 
@@ -350,6 +349,7 @@ async function seedCourseWithGroups() {
 
   await testDb.insert(meetPersonTable, {
     id: 'participant-1',
+    email: 'test@example.com',
     applicationsBaseRecordId: 'reg-1',
     round: 'round-1',
     role: 'Participant',
@@ -379,6 +379,7 @@ async function seedCourseWithGroups() {
   await testDb.insert(groupDiscussionTable, {
     id: 'disc-a1',
     group: 'group-a',
+    round: 'round-1',
     unitNumber: 1,
     unit: 'unit-1',
     startDateTime: futureTimeSecs,
@@ -390,6 +391,7 @@ async function seedCourseWithGroups() {
   await testDb.insert(groupDiscussionTable, {
     id: 'disc-b1',
     group: 'group-b',
+    round: 'round-1',
     unitNumber: 1,
     unit: 'unit-1',
     startDateTime: futureTimeSecs,
@@ -404,7 +406,7 @@ describe('groupSwitching.discussionsAvailable', () => {
 
   test('returns available groups and discussions for the participant', async () => {
     await seedCourseWithGroups();
-    const result = await caller.groupSwitching.discussionsAvailable({ courseSlug: 'test-course' });
+    const result = await caller.groupSwitching.discussionsAvailable({ roundId: 'round-1' });
 
     expect(result.groupsAvailable).toHaveLength(2);
 
@@ -428,23 +430,9 @@ describe('groupSwitching.discussionsAvailable', () => {
     expect(myDisc!.groupName).toBe('Group A');
   });
 
-  test('throws NOT_FOUND for non-existent course', async () => {
-    await expect(caller.groupSwitching.discussionsAvailable({ courseSlug: 'nonexistent' }))
-      .rejects.toThrow('No course with slug nonexistent found');
-  });
-
-  test('throws NOT_FOUND when user has no registration', async () => {
-    await testDb.insert(courseTable, {
-      slug: 'test-course',
-      title: 'Test',
-      description: 'Test',
-      shortDescription: 'Test',
-      path: '/test',
-      units: [],
-    });
-
-    await expect(caller.groupSwitching.discussionsAvailable({ courseSlug: 'test-course' }))
-      .rejects.toThrow('No course registration found');
+  test('throws NOT_FOUND when no participant found for round', async () => {
+    await expect(caller.groupSwitching.discussionsAvailable({ roundId: 'nonexistent-round' }))
+      .rejects.toThrow('No participant record found');
   });
 
   test('excludes past discussions from availability', async () => {
@@ -453,6 +441,7 @@ describe('groupSwitching.discussionsAvailable', () => {
     // Add a past discussion to group A for unit 2
     await testDb.insert(groupDiscussionTable, {
       group: 'group-a',
+      round: 'round-1',
       unitNumber: 2,
       unit: 'unit-2',
       startDateTime: farPastTimeSecs,
@@ -461,7 +450,7 @@ describe('groupSwitching.discussionsAvailable', () => {
       participantsExpected: ['participant-1'],
     });
 
-    const result = await caller.groupSwitching.discussionsAvailable({ courseSlug: 'test-course' });
+    const result = await caller.groupSwitching.discussionsAvailable({ roundId: 'round-1' });
 
     // Unit 2 should only show the past discussion if user is participant
     // (calculateGroupAvailability keeps past discussions where userIsParticipant)
@@ -483,6 +472,7 @@ describe('groupSwitching.discussionsAvailable', () => {
 
     await testDb.insert(groupDiscussionTable, {
       group: 'group-c',
+      round: 'round-1',
       unitNumber: 1,
       unit: 'unit-1',
       startDateTime: futureTimeSecs,
@@ -491,7 +481,7 @@ describe('groupSwitching.discussionsAvailable', () => {
       participantsExpected: ['someone-else'],
     });
 
-    const result = await caller.groupSwitching.discussionsAvailable({ courseSlug: 'test-course' });
+    const result = await caller.groupSwitching.discussionsAvailable({ roundId: 'round-1' });
 
     // Should still only see 2 groups (A and B), not group C
     expect(result.groupsAvailable).toHaveLength(2);
@@ -505,7 +495,6 @@ describe('groupSwitching.discussionsAvailable', () => {
       title: 'Test',
       description: 'Test',
       shortDescription: 'Test',
-      path: '/test',
       units: [],
     });
 
@@ -525,6 +514,7 @@ describe('groupSwitching.discussionsAvailable', () => {
 
     await testDb.insert(meetPersonTable, {
       id: 'participant-1',
+      email: 'test@example.com',
       applicationsBaseRecordId: 'reg-1',
       round: 'round-1',
       role: 'Participant',
@@ -547,6 +537,7 @@ describe('groupSwitching.discussionsAvailable', () => {
 
     await testDb.insert(groupDiscussionTable, {
       group: 'my-group',
+      round: 'round-1',
       unitNumber: 1,
       unit: 'unit-1',
       startDateTime: futureTimeSecs,
@@ -557,6 +548,7 @@ describe('groupSwitching.discussionsAvailable', () => {
 
     await testDb.insert(groupDiscussionTable, {
       group: 'other-group',
+      round: 'round-1',
       unitNumber: 1,
       unit: 'unit-1',
       startDateTime: futureTimeSecs,
@@ -565,7 +557,7 @@ describe('groupSwitching.discussionsAvailable', () => {
       participantsExpected: ['someone-else'],
     });
 
-    const result = await caller.groupSwitching.discussionsAvailable({ courseSlug: 'test-course' });
+    const result = await caller.groupSwitching.discussionsAvailable({ roundId: 'round-1' });
 
     // Without buckets, only the group the participant is already in should show
     expect(result.groupsAvailable).toHaveLength(1);
@@ -581,7 +573,7 @@ describe('groupSwitching.discussionsAvailable', () => {
       maxParticipantsPerGroup: null,
     });
 
-    const result = await caller.groupSwitching.discussionsAvailable({ courseSlug: 'test-course' });
+    const result = await caller.groupSwitching.discussionsAvailable({ roundId: 'round-1' });
 
     expect(result.groupsAvailable[0]!.spotsLeftIfKnown).toBeNull();
   });
@@ -597,7 +589,7 @@ describe('groupSwitching.switchGroup', () => {
       oldGroupId: 'group-a',
       newGroupId: 'group-b',
       isManualRequest: false,
-      courseSlug: 'test-course',
+      roundId: 'round-1',
     });
 
     expect(result).toBeNull();
@@ -622,7 +614,7 @@ describe('groupSwitching.switchGroup', () => {
       oldDiscussionId: 'disc-a1',
       newDiscussionId: 'disc-b1',
       isManualRequest: false,
-      courseSlug: 'test-course',
+      roundId: 'round-1',
     });
 
     const switches = await testDb.scan(groupSwitchingTable);
@@ -641,7 +633,7 @@ describe('groupSwitching.switchGroup', () => {
       switchType: 'Switch group permanently',
       oldGroupId: 'group-a',
       isManualRequest: false,
-      courseSlug: 'test-course',
+      roundId: 'round-1',
     })).rejects.toThrow('newGroupId is required');
   });
 
@@ -652,7 +644,7 @@ describe('groupSwitching.switchGroup', () => {
       switchType: 'Switch group permanently',
       oldGroupId: 'group-a',
       isManualRequest: true,
-      courseSlug: 'test-course',
+      roundId: 'round-1',
       notesFromParticipant: 'Please move me to a different group',
     });
 
@@ -675,7 +667,7 @@ describe('groupSwitching.switchGroup', () => {
       oldGroupId: 'group-b',
       newGroupId: 'group-b',
       isManualRequest: false,
-      courseSlug: 'test-course',
+      roundId: 'round-1',
     })).rejects.toThrow('User is not a member of old group');
   });
 
@@ -688,7 +680,7 @@ describe('groupSwitching.switchGroup', () => {
       oldGroupId: 'group-a',
       newGroupId: 'group-a',
       isManualRequest: false,
-      courseSlug: 'test-course',
+      roundId: 'round-1',
     })).rejects.toThrow('User is already a member of new group');
   });
 
@@ -706,7 +698,7 @@ describe('groupSwitching.switchGroup', () => {
       oldGroupId: 'group-a',
       newGroupId: 'group-b',
       isManualRequest: false,
-      courseSlug: 'test-course',
+      roundId: 'round-1',
     })).rejects.toThrow('no spots remaining');
   });
 
@@ -716,6 +708,7 @@ describe('groupSwitching.switchGroup', () => {
     // Make participant a facilitator on a discussion in group-a
     await testDb.insert(groupDiscussionTable, {
       group: 'group-a',
+      round: 'round-1',
       unitNumber: 2,
       unit: 'unit-2',
       startDateTime: futureTimeSecs,
@@ -729,7 +722,7 @@ describe('groupSwitching.switchGroup', () => {
       oldGroupId: 'group-a',
       newGroupId: 'group-b',
       isManualRequest: false,
-      courseSlug: 'test-course',
+      roundId: 'round-1',
     })).rejects.toThrow('Facilitators cannot switch groups');
   });
 
@@ -740,6 +733,7 @@ describe('groupSwitching.switchGroup', () => {
     await testDb.insert(groupDiscussionTable, {
       id: 'disc-b2',
       group: 'group-b',
+      round: 'round-1',
       unitNumber: 2,
       unit: 'unit-2',
       startDateTime: futureTimeSecs,
@@ -753,7 +747,7 @@ describe('groupSwitching.switchGroup', () => {
       oldDiscussionId: 'disc-a1',
       newDiscussionId: 'disc-b2',
       isManualRequest: false,
-      courseSlug: 'test-course',
+      roundId: 'round-1',
     })).rejects.toThrow('same course unit');
   });
 
@@ -762,7 +756,7 @@ describe('groupSwitching.switchGroup', () => {
       switchType: 'Switch group for one unit',
       newDiscussionId: 'disc-b1',
       isManualRequest: false,
-      courseSlug: 'test-course',
+      roundId: 'round-1',
     })).rejects.toThrow('oldDiscussionId is required');
   });
 
@@ -775,7 +769,7 @@ describe('groupSwitching.switchGroup', () => {
       oldDiscussionId: 'disc-b1',
       newDiscussionId: 'disc-b1',
       isManualRequest: false,
-      courseSlug: 'test-course',
+      roundId: 'round-1',
     })).rejects.toThrow('User not found in old discussion');
   });
 
@@ -788,7 +782,7 @@ describe('groupSwitching.switchGroup', () => {
       oldDiscussionId: 'disc-a1',
       newDiscussionId: 'disc-a1',
       isManualRequest: false,
-      courseSlug: 'test-course',
+      roundId: 'round-1',
     })).rejects.toThrow('already expected to attend');
   });
 
@@ -806,7 +800,7 @@ describe('groupSwitching.switchGroup', () => {
       oldDiscussionId: 'disc-a1',
       newDiscussionId: 'disc-b1',
       isManualRequest: false,
-      courseSlug: 'test-course',
+      roundId: 'round-1',
     })).rejects.toThrow('no spots remaining');
   });
 
@@ -817,7 +811,7 @@ describe('groupSwitching.switchGroup', () => {
       switchType: 'Switch group for one unit',
       oldDiscussionId: 'disc-a1',
       isManualRequest: true,
-      courseSlug: 'test-course',
+      roundId: 'round-1',
       notesFromParticipant: 'Cannot make my usual time',
     });
 
@@ -847,7 +841,7 @@ describe('groupSwitching.switchGroup', () => {
       oldDiscussionId: 'disc-a1',
       newDiscussionId: 'disc-b1',
       isManualRequest: false,
-      courseSlug: 'test-course',
+      roundId: 'round-1',
     })).rejects.toThrow('Facilitators cannot switch groups');
   });
 });
