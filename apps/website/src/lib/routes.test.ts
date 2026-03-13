@@ -41,6 +41,7 @@ describe('ROUTES configuration', () => {
     expect(ROUTES.blog).toBeDefined();
     expect(ROUTES.certification).toBeDefined();
     expect(ROUTES.courses).toBeDefined();
+    expect(ROUTES.grants).toBeDefined();
     expect(ROUTES.home).toBeDefined();
     expect(ROUTES.login).toBeDefined();
     expect(ROUTES.logout).toBeDefined();

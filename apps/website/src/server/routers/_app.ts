@@ -9,6 +9,7 @@ import { dropoutRouter } from './dropout';
 import { exercisesRouter } from './exercises';
 import { facilitatorSwitchingRouter } from './facilitator-switching';
 import { feedbackRouter } from './feedback';
+import { grantsRouter } from './grants';
 import { groupDiscussionsRouter } from './group-discussions';
 import { groupSwitchingRouter } from './group-switching';
 import { jobsRouter } from './jobs';
@@ -32,6 +33,7 @@ export const appRouter = router({
   exercises: exercisesRouter,
   facilitators: facilitatorSwitchingRouter,
   feedback: feedbackRouter,
+  grants: grantsRouter,
   groupDiscussions: groupDiscussionsRouter,
   groupSwitching: groupSwitchingRouter,
   jobs: jobsRouter,
