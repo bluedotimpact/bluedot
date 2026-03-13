@@ -255,11 +255,12 @@ const CourseListRow = ({
       )}
 
       {/* Group switching modal for participants without a group */}
-      {groupSwitchModalOpen && course.slug && (
+      {groupSwitchModalOpen && meetPerson?.round && (
         <GroupSwitchModal
           handleClose={() => setGroupSwitchModalOpen(false)}
           initialSwitchType="Switch group permanently"
           courseSlug={course.slug}
+          roundId={meetPerson.round}
         />
       )}
     </div>
@@ -360,7 +361,7 @@ const getCtaButtons = ({
   if (courseRegistration.certificateCreatedAt) {
     const certificateUrl = courseRegistration.certificateId
       ? addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)
-      : course.path;
+      : `/courses/${course.slug}`;
 
     return [(
       <CTALinkOrButton

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { delay } from 'msw';
+import { ONE_DAY_MS, ONE_HOUR_MS, ONE_HOUR_SECONDS } from '../../lib/constants';
 import type { Course, Unit } from '@bluedot/db';
 import GroupSwitchModal from './GroupSwitchModal';
 import type { DiscussionsAvailable } from '../../server/routers/group-switching';
@@ -84,7 +85,7 @@ const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
     1: [
       {
         discussion: createMockGroupDiscussion({
-          startDateTime: Math.floor((Date.now() + 2 * 60 * 60 * 1000) / 1000), // 2 hours from now
+          startDateTime: Math.floor((Date.now() + 2 * ONE_HOUR_MS) / 1000),
         }),
         groupName: 'Morning Group A',
         userIsParticipant: true,
@@ -92,7 +93,7 @@ const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
       },
       {
         discussion: createMockGroupDiscussion({
-          startDateTime: Math.floor((Date.now() + 24 * 60 * 60 * 1000) / 1000), // 24 hours from now
+          startDateTime: Math.floor((Date.now() + ONE_DAY_MS) / 1000),
         }),
         groupName: 'Evening Group B',
         userIsParticipant: false,
@@ -102,7 +103,7 @@ const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
     2: [
       {
         discussion: createMockGroupDiscussion({
-          startDateTime: Math.floor((Date.now() + 48 * 60 * 60 * 1000) / 1000), // 48 hours from now
+          startDateTime: Math.floor((Date.now() + 2 * ONE_DAY_MS) / 1000),
         }),
         groupName: 'Weekend Group C',
         userIsParticipant: false,
@@ -136,7 +137,7 @@ const mockManyGroupsData: DiscussionsAvailable = {
       group: createMockGroup({
         id: `group-${i + 2}`,
         groupName: name,
-        startTimeUtc: Math.floor(new Date('2024-01-01T14:00:00Z').getTime() / 1000) + (i + 1) * 3600 * 5,
+        startTimeUtc: Math.floor(new Date('2024-01-01T14:00:00Z').getTime() / 1000) + (i + 1) * 5 * ONE_HOUR_SECONDS,
       }),
       userIsParticipant: false,
       spotsLeftIfKnown: i === 5 ? 0 : i + 1,
@@ -145,7 +146,7 @@ const mockManyGroupsData: DiscussionsAvailable = {
   discussionsAvailable: {
     1: [
       {
-        discussion: createMockGroupDiscussion({ id: 'disc-current', startDateTime: Math.floor((Date.now() + 2 * 60 * 60 * 1000) / 1000) }),
+        discussion: createMockGroupDiscussion({ id: 'disc-current', startDateTime: Math.floor((Date.now() + 2 * ONE_HOUR_MS) / 1000) }),
         groupName: 'Monday 9am ET',
         userIsParticipant: true,
         spotsLeftIfKnown: 0,
@@ -153,7 +154,7 @@ const mockManyGroupsData: DiscussionsAvailable = {
       ...manyGroupNames.slice(1).map((name, i) => ({
         discussion: createMockGroupDiscussion({
           id: `disc-${i + 2}`,
-          startDateTime: Math.floor((Date.now() + (i + 1) * 12 * 60 * 60 * 1000) / 1000),
+          startDateTime: Math.floor((Date.now() + (i + 1) * 12 * ONE_HOUR_MS) / 1000),
         }),
         groupName: name,
         userIsParticipant: false,
@@ -187,6 +188,7 @@ export const Default: Story = {
     handleClose() {},
     initialUnitNumber: unit1.unitNumber,
     courseSlug: 'ai-safety',
+    roundId: 'round-1',
   },
   parameters: {
     msw: {
@@ -200,6 +202,7 @@ export const AlternativeUnit: Story = {
     handleClose() {},
     initialUnitNumber: unit2.unitNumber,
     courseSlug: 'ai-safety',
+    roundId: 'round-1',
   },
   parameters: {
     msw: {
@@ -213,6 +216,7 @@ export const NoAvailableGroups: Story = {
     handleClose() {},
     initialUnitNumber: unit3.unitNumber,
     courseSlug: 'ai-safety',
+    roundId: 'round-1',
   },
   parameters: {
     msw: {
@@ -226,6 +230,7 @@ export const ManyGroups: Story = {
     handleClose() {},
     initialUnitNumber: unit1.unitNumber,
     courseSlug: 'ai-safety',
+    roundId: 'round-1',
   },
   parameters: {
     msw: {
@@ -245,6 +250,7 @@ export const Loading: Story = {
     handleClose() {},
     initialUnitNumber: unit1.unitNumber,
     courseSlug: 'ai-safety',
+    roundId: 'round-1',
   },
   parameters: {
     msw: {

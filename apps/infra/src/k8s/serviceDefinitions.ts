@@ -4,8 +4,9 @@ import { getConnectionDetails, keycloakPg, airtableSyncPg } from './postgres';
 import { minioPvc } from './pvc';
 import { websiteAssetsBucket } from '../minio';
 
-const ALERTS_SLACK_CHANNEL_ID = 'C04SAGM4FN1'; // #updates_tech-prod
+const ALERTS_SLACK_CHANNEL_ID = 'C04SAGM4FN1'; // #update_tech-prod
 const INFO_SLACK_CHANNEL_ID = 'C04SFUECECU'; // #updates_tech-dev
+const CLIENT_ERRORS_SLACK_CHANNEL_ID = 'C0AL75QQ0SC'; // #update_client-errors
 
 export const services: ServiceDefinition[] = [
   {
@@ -18,7 +19,6 @@ export const services: ServiceDefinition[] = [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
           { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
-          { name: 'INFO_SLACK_CHANNEL_ID', value: INFO_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
         ],
       }],
@@ -35,7 +35,6 @@ export const services: ServiceDefinition[] = [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
           { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
-          { name: 'INFO_SLACK_CHANNEL_ID', value: INFO_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
         ],
       }],
@@ -62,13 +61,16 @@ export const services: ServiceDefinition[] = [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
           { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
-          { name: 'INFO_SLACK_CHANNEL_ID', value: INFO_SLACK_CHANNEL_ID },
+          { name: 'CLIENT_ERRORS_SLACK_CHANNEL_ID', value: CLIENT_ERRORS_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
           { name: 'KEYCLOAK_CLIENT_ID', valueFrom: envVarSources.keycloakClientId },
           { name: 'KEYCLOAK_CLIENT_SECRET', valueFrom: envVarSources.keycloakClientSecret },
           { name: 'NEXT_PUBLIC_SITE_URL', value: 'https://website-staging.k8s.bluedot.org' },
           { name: 'CERTIFICATE_CREATION_TOKEN', valueFrom: envVarSources.certificateCreationToken },
           { name: 'LUMA_API_KEY', valueFrom: envVarSources.lumaApiKey },
+          { name: 'CIO_APP_API_KEY', valueFrom: envVarSources.cioAppApiKey },
+          { name: 'CIO_TRACK_API_KEY', valueFrom: envVarSources.cioTrackApiKey },
+          { name: 'CIO_HMAC_SECRET', valueFrom: envVarSources.cioHmacSecret },
         ],
       }],
     },
@@ -84,7 +86,7 @@ export const services: ServiceDefinition[] = [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
           { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
-          { name: 'INFO_SLACK_CHANNEL_ID', value: INFO_SLACK_CHANNEL_ID },
+          { name: 'CLIENT_ERRORS_SLACK_CHANNEL_ID', value: CLIENT_ERRORS_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
           { name: 'KEYCLOAK_CLIENT_ID', valueFrom: envVarSources.keycloakClientId },
           { name: 'KEYCLOAK_CLIENT_SECRET', valueFrom: envVarSources.keycloakClientSecret },
@@ -94,6 +96,9 @@ export const services: ServiceDefinition[] = [
           { name: 'NEXT_PUBLIC_SITE_URL', value: 'https://bluedot.org' },
           { name: 'CERTIFICATE_CREATION_TOKEN', valueFrom: envVarSources.certificateCreationToken },
           { name: 'LUMA_API_KEY', valueFrom: envVarSources.lumaApiKey },
+          { name: 'CIO_APP_API_KEY', valueFrom: envVarSources.cioAppApiKey },
+          { name: 'CIO_TRACK_API_KEY', valueFrom: envVarSources.cioTrackApiKey },
+          { name: 'CIO_HMAC_SECRET', valueFrom: envVarSources.cioHmacSecret },
         ],
       }],
     },
@@ -119,7 +124,6 @@ export const services: ServiceDefinition[] = [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
           { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
-          { name: 'INFO_SLACK_CHANNEL_ID', value: INFO_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
           { name: 'WEBSITE_ASSETS_BUCKET_ACCESS_KEY_ID', value: websiteAssetsBucket.readWriteUser.name },
           { name: 'WEBSITE_ASSETS_BUCKET_SECRET_ACCESS_KEY', value: websiteAssetsBucket.readWriteUser.secret },
@@ -150,7 +154,6 @@ export const services: ServiceDefinition[] = [
           { name: 'NEXT_PUBLIC_ZOOM_CLIENT_ID', value: 'lX1NBglbQWO2ERYSS1xdfA' },
           { name: 'ZOOM_CLIENT_SECRET', valueFrom: envVarSources.meetZoomClientSecret },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
-          { name: 'INFO_SLACK_CHANNEL_ID', value: INFO_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
         ],
       }],
@@ -167,7 +170,6 @@ export const services: ServiceDefinition[] = [
           { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
           { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
-          { name: 'INFO_SLACK_CHANNEL_ID', value: INFO_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
         ],
       }],
@@ -183,7 +185,6 @@ export const services: ServiceDefinition[] = [
         env: [
           { name: 'DISPLAY_BEARER_TOKEN', valueFrom: envVarSources.roomDisplayBearerToken },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
-          { name: 'INFO_SLACK_CHANNEL_ID', value: INFO_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
         ],
       }],
@@ -202,7 +203,6 @@ export const services: ServiceDefinition[] = [
           { name: 'ANTHROPIC_API_KEY', valueFrom: envVarSources.anthropicApiKey },
           { name: 'OPENAI_API_KEY', valueFrom: envVarSources.openaiApiKey },
           { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
-          { name: 'INFO_SLACK_CHANNEL_ID', value: INFO_SLACK_CHANNEL_ID },
           { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
         ],
       }],

@@ -3,7 +3,7 @@ config:
   infra:airtablePat:
     secure: v1:xxnGOjci0H2TTfIY:p5/SIY+vels8uuUTUCJYRW3JIIYJNF9Jmr1m8usCqYgjU073BMKjQ+uq3dUb42f1iNeOs0A124ZIzDjxv9f1cJNaOd8gfvAxQf1oA1WC/A/CqnHyoNFIG6zpE1C0gNtu+u8=
   infra:alertsSlackBotToken:
-    secure: v1:KHo0xEvyljpu6RQu:FxDE6U4NfjkQTTCE+yLJKpF2tnjiNqGM4eWfgnSMgD+3RKyicTHqUuVKYyEQdNYj9YZkokYeD6X0eB277AYJHQUV3ZhbrrO/vA==
+    secure: v1:ymhuxWmu1MF/LSuC:ziehvfiYe/7ySIbrnMs6KLtah5FGqMEBH5A2a8rzhOjSioUq0vX2TxXGKX8XVWiNdgKihOXKHg796HvFJRf4jQQaYmHv1Dw6Og==
   infra:loginProxyKeycloakClientSecret:
     secure: v1:1HAWwfi+dX96o2Z0:2BIMFlRUbnJcmQoLqKiLiX8qeb8PF2GWSasLQKEpaJ3Y7EMOVsrrLOTLiVjoNa9e
   infra:loginProxySharedSecret:
@@ -38,3 +38,9 @@ config:
     secure: v1:jlrPAFIbbEzzaqOp:DnElwJ78V35tl8EDWtp7Z9hxBDhRqnYQ52REtrAv4S4W6VOUhBNNkU2r+ARMbs51
   infra:keycloakPreviewAuthToken:
     secure: v1:TnUqGgAxZqp/Y2WZ:FpCyw7kUIjFpmniL29mY/YUA1EcBSDP1TWhUv5P0KM+KXpbbiGWBiE35abWWufeB1RmsajPzxHCgLWVE2O4Ge8ultjKMGLT9y0fPU5/RNbU=
+  infra:cioAppApiKey:
+    secure: v1:5Q7p5kWb4brXMo9A:6+rfreGSYTqyhA2awuDBXkilOMK8fOSXbaMovjjgvuRc9yfO1caS+ho6FlB4ndc8
+  infra:cioTrackApiKey:
+    secure: v1:3TlW+6Q1YhvmuJ15:rRAcVGJSQiWyYT9Ynrh1+2/nPzecEg67kKyaHe9ovn++vaD4qtR++nG0jHlcTfOePg78435VeZar
+  infra:cioHmacSecret:
+    secure: v1:wPbUSYK/0qQk8Ney:k/Rusjtz9RuaLWnIT68V+oX7DZ/xFcb18jqSlyn+vVKpLWfSVrbOZSvJjhSFFLKuocEVIXqxluJmlixdVtV9yRl5ov4trNIeJfu8FWaDhsA=

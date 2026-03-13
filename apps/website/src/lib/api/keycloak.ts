@@ -1,6 +1,7 @@
 import axios from 'axios';
 import createHttpError from 'http-errors';
 import env from './env';
+import { ONE_MINUTE_SECONDS } from '../constants';
 
 // Keycloak configuration
 const KEYCLOAK_BASE_URL = 'https://login.bluedot.org';
@@ -19,8 +20,7 @@ let adminTokenCache: {
   expiresAtSeconds: number; // Unix timestamp in seconds
 } | null = null;
 
-// Cache expiration buffer (1 minute in seconds)
-const CACHE_EXPIRATION_BUFFER_IN_SECONDS = 60;
+const CACHE_EXPIRATION_BUFFER_IN_SECONDS = ONE_MINUTE_SECONDS;
 
 export async function verifyKeycloakPassword(
   email: string,

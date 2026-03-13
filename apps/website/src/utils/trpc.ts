@@ -2,8 +2,9 @@ import { REFRESH_BEFORE_EXPIRY_MS, useAuthStore } from '@bluedot/ui';
 import { httpBatchLink } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
 import type { AppRouter } from '../server/routers/_app';
+import { ONE_SECOND_MS } from '../lib/constants';
 
-const TEN_SECONDS_MS = 10 * 1000;
+const TEN_SECONDS_MS = 10 * ONE_SECOND_MS;
 
 export const IMPERSONATION_STORAGE_KEY = 'bluedot_impersonating';
 

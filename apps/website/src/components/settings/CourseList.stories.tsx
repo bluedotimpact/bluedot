@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { MeetPerson } from '@bluedot/db';
 import CourseList from './CourseList';
+import { ONE_HOUR_SECONDS } from '../../lib/constants';
 import type { GroupDiscussionWithGroupAndUnit } from '../../server/routers/group-discussions';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 import {
@@ -24,7 +25,6 @@ type Story = StoryObj<typeof meta>;
 const mockCourse = createMockCourse({
   title: 'Introduction to AI Safety',
   slug: 'intro-ai-safety',
-  path: '/courses/intro-ai-safety',
 });
 
 // Mock course registration for in-progress course
@@ -52,14 +52,13 @@ const mockFacilitatorMeetPerson = createMockMeetPerson({
 });
 
 const now = Math.floor(Date.now() / 1000);
-const hour = 60 * 60;
 
 const mockDiscussion: GroupDiscussionWithGroupAndUnit = {
   ...createMockGroupDiscussion({
     facilitators: ['facilitator-1'],
     participantsExpected: ['participant-1'],
-    startDateTime: now + 2 * hour,
-    endDateTime: now + 3 * hour,
+    startDateTime: now + 2 * ONE_HOUR_SECONDS,
+    endDateTime: now + 3 * ONE_HOUR_SECONDS,
     group: 'group-1',
     zoomLink: 'https://zoom.us/j/123',
   }),
@@ -141,7 +140,6 @@ export const LongTitle: Story = {
 const mockAgiStrategyCourse = createMockCourse({
   title: 'AGI Strategy',
   slug: 'agi-strategy',
-  path: '/courses/agi-strategy',
 });
 
 const mockPastNoCertRegistration = createMockCourseRegistration({
@@ -153,8 +151,8 @@ const mockPastNoCertRegistration = createMockCourseRegistration({
 const pastDiscussions = Array.from({ length: 5 }, (_, i) => ({
   ...createMockGroupDiscussion({
     id: `disc-${i + 1}`,
-    startDateTime: now - (10 - i) * hour,
-    endDateTime: now - (9 - i) * hour,
+    startDateTime: now - (10 - i) * ONE_HOUR_SECONDS,
+    endDateTime: now - (9 - i) * ONE_HOUR_SECONDS,
   }),
   unitNumber: i + 1,
   unitRecord: { unitNumber: String(i + 1), title: `Unit ${i + 1}` } as GroupDiscussionWithGroupAndUnit['unitRecord'],

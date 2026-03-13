@@ -287,6 +287,27 @@ describe('GroupDiscussionBanner', () => {
 
       expect(container).toMatchSnapshot();
     });
+
+    test('discussion doc button is hidden when activityDoc is null', async () => {
+      const discussionWithoutDoc = {
+        ...mockGroupDiscussion,
+        activityDoc: null,
+      };
+
+      render(
+        <GroupDiscussionBanner
+          unit={mockUnit}
+          groupDiscussion={discussionWithoutDoc}
+          userRole="participant"
+        />,
+        { wrapper: TrpcProvider },
+      );
+
+      const expandButton = await screen.findByRole('button', { name: 'Expand upcoming discussion banner' });
+      fireEvent.click(expandButton);
+
+      expect(screen.queryByText('Open discussion doc')).not.toBeInTheDocument();
+    });
   });
 
   describe('Edge Cases', () => {

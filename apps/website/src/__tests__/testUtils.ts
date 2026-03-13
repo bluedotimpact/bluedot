@@ -78,7 +78,6 @@ export const createMockCourse = (overrides: Partial<Course> = {}): Course => ({
   isFeatured: false,
   isNew: false,
   level: 'Beginner',
-  path: '/courses/course-slug',
   publicLastUpdated: null,
   shortDescription: 'Short description',
   slug: 'course-slug',
@@ -121,7 +120,6 @@ export const createMockUnit = (overrides: Partial<Unit> = {}): Unit => ({
   chunks: ['recuC87TILbjW4eF4'],
   content: null,
   courseId: MOCK_COURSE_ID,
-  coursePath: '/courses/test-course',
   courseSlug: 'test-course',
   courseTitle: 'Test Course',
   courseUnit: null,
@@ -182,7 +180,7 @@ export const createMockGroupDiscussion = (overrides: Partial<GroupDiscussion> = 
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   id: `discussion-${overrides.unitNumber || 1}`,
   participantsExpected: [],
-  round: null,
+  round: 'round-1',
   slackChannelId: null,
   startDateTime: Math.floor(Date.now() / 1000) + 60 * 60, // 1 hour from now (seconds)
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
@@ -212,6 +210,7 @@ export const createMockMeetPerson = (overrides: Partial<MeetPerson> = {}): MeetP
   email: 'test@example.com',
   courseFeedbackForm: null,
   courseFeedback: null,
+  hasSentInactiveEmail: false,
   ...overrides,
 });
 

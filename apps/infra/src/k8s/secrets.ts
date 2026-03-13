@@ -21,6 +21,9 @@ const toK8s = [
   'keycloakPreviewAuthToken',
   'prodOnlyWebhookDeletion',
   'certificateCreationToken',
+  'cioAppApiKey',
+  'cioTrackApiKey',
+  'cioHmacSecret',
   'lumaApiKey',
 ] as const;
 

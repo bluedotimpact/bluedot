@@ -368,7 +368,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 </A>
                 <FaChevronRight className="size-[14px] text-[#6A6F7A] flex-shrink-0 opacity-50" />
                 <A
-                  href={unit.coursePath}
+                  href={`/courses/${unit.courseSlug}`}
                   className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-bluedot-navy transition-colors no-underline truncate"
                 >
                   {unit.courseTitle}
@@ -456,7 +456,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 <>
                   <Congratulations
                     courseTitle={unit.courseTitle}
-                    coursePath={unit.coursePath}
+                    coursePath={`/courses/${unit.courseSlug}`}
                     courseId={unit.courseId}
                     className="mt-8 md:mt-6"
                   />

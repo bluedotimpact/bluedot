@@ -156,7 +156,6 @@ As of August 2025, these are
 
 For complete font licensing information, see `/public/fonts/README.md`
 
-
 ## Need Help?
 
 - Ask in the #website-dev Slack channel

@@ -1,3 +1,15 @@
+// Time unit constants (milliseconds)
+export const ONE_SECOND_MS = 1_000;
+export const ONE_MINUTE_MS = 60 * ONE_SECOND_MS;
+export const ONE_HOUR_MS = 60 * ONE_MINUTE_MS;
+export const ONE_DAY_MS = 24 * ONE_HOUR_MS;
+
+// Time unit constants (seconds)
+export const ONE_MINUTE_SECONDS = 60;
+export const ONE_HOUR_SECONDS = 60 * ONE_MINUTE_SECONDS;
+export const ONE_DAY_SECONDS = 24 * ONE_HOUR_SECONDS;
+export const ONE_YEAR_SECONDS = 365 * ONE_DAY_SECONDS;
+
 export const FOAI_COURSE_ID = 'rec0Zgize0c4liMl5';
 export const FOAI_COURSE_SLUG = 'future-of-ai';
 

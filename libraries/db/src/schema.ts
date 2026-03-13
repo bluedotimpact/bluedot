@@ -94,10 +94,6 @@ export const courseTable = pgAirtable('course', {
       pgColumn: text().notNull(),
       airtableId: 'fldHWXKaVuHJAaMbP',
     },
-    path: {
-      pgColumn: text().notNull(),
-      airtableId: 'fldEjx0ZP8SNYcNQR',
-    },
     shortDescription: {
       pgColumn: text().notNull(),
       airtableId: 'fld0KVXjcZkSpBOIT',
@@ -143,6 +139,11 @@ export const courseTable = pgAirtable('course', {
     image: {
       pgColumn: text(),
       airtableId: 'fldh90A6x8HwQSkMy',
+      deprecated: true,
+    },
+    path: {
+      pgColumn: text(),
+      airtableId: 'fldEjx0ZP8SNYcNQR',
       deprecated: true,
     },
   },
@@ -566,6 +567,10 @@ export const meetPersonTable = pgAirtable('meet_person', {
       pgColumn: text().array(),
       airtableId: 'fldD7uatp5h4szlzB',
     },
+    hasSentInactiveEmail: {
+      pgColumn: boolean(),
+      airtableId: 'fldAJk2NNzh32zVnJ',
+    },
   },
 });
 
@@ -955,10 +960,6 @@ export const unitTable = pgAirtable('unit', {
       pgColumn: text().notNull(),
       airtableId: 'fld4AYVyIcfnzfE3Z',
     },
-    coursePath: {
-      pgColumn: text().notNull(),
-      airtableId: 'fldlCrg7Nv1TPTorZ',
-    },
     courseSlug: {
       pgColumn: text().notNull(),
       airtableId: 'fldr9I5YGRIia8xln',
@@ -1010,6 +1011,13 @@ export const unitTable = pgAirtable('unit', {
     autoNumberId: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fld1rl39p5fSOiFya',
+    },
+  },
+  deprecatedColumns: {
+    coursePath: {
+      pgColumn: text(),
+      airtableId: 'fldlCrg7Nv1TPTorZ',
+      deprecated: true,
     },
   },
 });

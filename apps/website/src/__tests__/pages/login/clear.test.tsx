@@ -4,6 +4,7 @@ import {
 import { render, screen, cleanup } from '@testing-library/react';
 import type { Auth } from '@bluedot/ui';
 import LogoutPage from '../../../pages/login/clear';
+import { ONE_HOUR_MS } from '../../../lib/constants';
 
 // Mock dependencies
 vi.mock('@bluedot/ui', async () => {
@@ -34,7 +35,7 @@ const mockedShouldRedirectBackAfterLogout = vi.mocked(shouldRedirectBackAfterLog
 describe('Logout Page - Redirect Logic', () => {
   const mockAuth: Auth = {
     token: 'mock-token-123',
-    expiresAt: Date.now() + 3600000,
+    expiresAt: Date.now() + ONE_HOUR_MS,
     email: 'test@example.com',
   };
 

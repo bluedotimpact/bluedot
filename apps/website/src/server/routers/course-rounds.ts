@@ -6,6 +6,7 @@ import { publicProcedure, router } from '../trpc';
 import db from '../../lib/api/db';
 import { formatMonthAndDay } from '../../lib/utils';
 import type { ApplyCTAProps } from '../../components/courses/SideBar';
+import { ONE_DAY_MS, ONE_HOUR_MS } from '../../lib/constants';
 
 /**
  * Fetches course rounds data by course slug.
@@ -27,7 +28,7 @@ export async function getCourseRoundsData(courseSlug: string) {
   // Only show rounds where deadline hasn't passed everywhere in the world
   // Subtract 12 hours from current time to account for UTC-12 (furthest behind timezone)
   const now = new Date();
-  const deadlineThreshold = new Date(now.getTime() - (12 * 60 * 60 * 1000));
+  const deadlineThreshold = new Date(now.getTime() - (12 * ONE_HOUR_MS));
 
   const filteredRounds = await db.pg
     .select()
@@ -60,7 +61,7 @@ export async function getCourseRoundsData(courseSlug: string) {
       const isPartTime = intensity?.toLowerCase() === 'part-time';
       // Part-time: numberOfUnits weeks. Intensive: numberOfUnits days.
       const daysToAdd = isPartTime ? (numberOfUnits * 7) - 1 : numberOfUnits - 1;
-      computedLast = new Date(first.getTime() + daysToAdd * 24 * 60 * 60 * 1000);
+      computedLast = new Date(first.getTime() + daysToAdd * ONE_DAY_MS);
     } else if (lastDate) {
       computedLast = new Date(lastDate);
     } else {
@@ -172,7 +173,7 @@ export const courseRoundsRouter = router({
 
       // Only show rounds where deadline hasn't passed everywhere in the world
       const now = new Date();
-      const deadlineThreshold = new Date(now.getTime() - (12 * 60 * 60 * 1000));
+      const deadlineThreshold = new Date(now.getTime() - (12 * ONE_HOUR_MS));
 
       // Fetch all upcoming rounds for all courses
       const allRounds = await db.pg
@@ -208,7 +209,7 @@ export const courseRoundsRouter = router({
             daysToAdd = numberOfUnits - 1;
           }
 
-          computedLast = new Date(first.getTime() + daysToAdd * 24 * 60 * 60 * 1000);
+          computedLast = new Date(first.getTime() + daysToAdd * ONE_DAY_MS);
         } else if (lastDate) {
           computedLast = new Date(lastDate);
         } else {

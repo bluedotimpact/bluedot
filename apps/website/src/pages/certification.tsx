@@ -27,6 +27,7 @@ import { CertificateCard } from '../components/certificate/CertificateCard';
 import { CertificateCTA } from '../components/certificate/CertificateCTA';
 import { FOAI_COLORS } from '../components/lander/course-content/FutureOfAiContent';
 import { AGI_STRATEGY_COLORS } from '../components/lander/course-content/AgiStrategyContent';
+import { ONE_DAY_SECONDS, ONE_MINUTE_SECONDS } from '../lib/constants';
 import { TAS_COLORS } from '../components/lander/course-content/TechnicalAiSafetyContent';
 import { AI_GOVERNANCE_COLORS } from '../components/lander/course-content/AiGovernanceContent';
 import { BIOSECURITY_COLORS } from '../components/lander/course-content/BioSecurityContent';
@@ -349,7 +350,7 @@ export const getServerSideProps: GetServerSideProps<CertificatePageProps> = asyn
 
     res.setHeader(
       'Cache-Control',
-      'public, max-age=300, stale-while-revalidate=86400',
+      `public, max-age=${5 * ONE_MINUTE_SECONDS}, stale-while-revalidate=${ONE_DAY_SECONDS}`,
     );
 
     return {

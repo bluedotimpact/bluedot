@@ -5,6 +5,7 @@ import { OidcClient } from 'oidc-client-ts';
 import { type Auth, useAuthStore } from '@bluedot/ui';
 import { getHeadersWithValidToken } from './trpc';
 import { createMockOidcResponse } from '../__tests__/testUtils';
+import { ONE_HOUR_MS, ONE_HOUR_SECONDS } from '../lib/constants';
 
 vi.mock('oidc-client-ts', () => ({
   OidcClient: vi.fn(),
@@ -13,7 +14,7 @@ vi.mock('oidc-client-ts', () => ({
 
 const createAuth = (overrides?: Partial<Auth>): Auth => ({
   token: `test-token-${Math.random()}`,
-  expiresAt: Date.now() + 3600_000, // 1 hour from now
+  expiresAt: Date.now() + ONE_HOUR_MS, // 1 hour from now
   refreshToken: 'test-refresh-token',
   oidcSettings: {
     authority: 'https://auth.example.com',
@@ -59,7 +60,7 @@ describe('getHeadersWithValidToken', () => {
     // Given: auth with token that expires in 2 hours (well beyond REFRESH_BEFORE_EXPIRY_MS - 10s)
     const auth = createAuth({
       token: 'valid-token',
-      expiresAt: Date.now() + 7200_000, // 2 hours from now
+      expiresAt: Date.now() + 2 * ONE_HOUR_MS, // 2 hours from now
     });
     useAuthStore.getState().setAuth(auth);
 
@@ -84,7 +85,7 @@ describe('getHeadersWithValidToken', () => {
     const refreshResponse = createMockOidcResponse({
       id_token: 'new-access-token',
       refresh_token: 'new-refresh-token',
-      expires_at: Math.floor(Date.now() / 1000) + 3600,
+      expires_at: Math.floor(Date.now() / 1000) + ONE_HOUR_SECONDS,
     });
     const { mockUseRefreshToken } = setupMockOidcClient(true, refreshResponse);
 

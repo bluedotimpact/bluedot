@@ -35,7 +35,6 @@ describe('CourseDetails', () => {
     title: 'Introduction to AI Safety',
     description: 'Learn the fundamentals of AI safety and alignment.',
     durationDescription: '8 weeks',
-    path: '/courses/ai-safety',
     slug: 'ai-safety',
     level: 'Beginner',
   });
@@ -332,8 +331,7 @@ describe('CourseDetails: Participant view', () => {
     expect(screen.getByText('Switch type: Switch group permanently')).toBeInTheDocument();
   });
 
-  it('shows NOW/LIVE indicators and "Open discussion doc" menu item when discussion is live', async () => {
-    const user = userEvent.setup();
+  it('shows NOW/LIVE indicators when discussion is live', async () => {
     const currentTimeMs = Date.now();
 
     // WHEN: A discussion is currently live (started but not yet ended)
@@ -367,20 +365,90 @@ describe('CourseDetails: Participant view', () => {
       expect(screen.getByText('NOW')).toBeInTheDocument();
       expect(screen.getByText('LIVE')).toBeInTheDocument();
     });
+  });
 
-    // THEN: Open the overflow menu
+  it('shows "Open discussion doc" in overflow menu whenever activityDoc is set', async () => {
+    const user = userEvent.setup();
+    const currentTimeMs = Date.now();
+
+    // WHEN: An upcoming discussion (not live) has an activityDoc
+    const upcomingDiscussions = [
+      {
+        ...createMockGroupDiscussion({
+          id: 'discussion-upcoming-with-doc',
+          unitNumber: 2,
+          startDateTime: Math.floor(currentTimeMs / 1000) + 2 * 60 * 60, // 2 hours from now
+          endDateTime: Math.floor(currentTimeMs / 1000) + 3 * 60 * 60,
+          activityDoc: 'https://docs.google.com/document/d/abc123',
+        }),
+        unitRecord: createMockUnit({ unitNumber: '2', title: 'Unit Two' }),
+        groupDetails: createMockGroup(),
+      },
+    ];
+
+    render(<CourseDetails
+      course={mockCourse}
+      courseRegistration={mockCourseRegistration}
+      upcomingDiscussions={upcomingDiscussions}
+      attendedDiscussions={[]}
+      facilitatedDiscussions={[]}
+      isLoading={false}
+    />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('link', { name: 'Prepare for discussion' })).toBeInTheDocument();
+    });
+
     const overflowButton = screen.getByRole('button', { name: 'More actions' });
-    expect(overflowButton).toBeInTheDocument();
-
     await act(async () => {
       await user.click(overflowButton);
     });
 
-    // THEN: "Open discussion doc" should be present in the overflow menu
+    // THEN: "Open discussion doc" is present even though the discussion is not live
     const discussionDocLink = screen.getByRole('menuitem', { name: 'Open discussion doc' });
     expect(discussionDocLink).toBeInTheDocument();
     expect(discussionDocLink).toHaveAttribute('href', 'https://docs.google.com/document/d/abc123');
     expect(discussionDocLink).toHaveAttribute('target', '_blank');
+  });
+
+  it('does not show "Open discussion doc" when activityDoc is null', async () => {
+    const user = userEvent.setup();
+    const currentTimeMs = Date.now();
+
+    const upcomingDiscussions = [
+      {
+        ...createMockGroupDiscussion({
+          id: 'discussion-no-doc',
+          unitNumber: 2,
+          startDateTime: Math.floor(currentTimeMs / 1000) + 2 * 60 * 60,
+          endDateTime: Math.floor(currentTimeMs / 1000) + 3 * 60 * 60,
+          activityDoc: null,
+          slackChannelId: 'C1234567890',
+        }),
+        unitRecord: createMockUnit({ unitNumber: '2', title: 'Unit Two' }),
+        groupDetails: createMockGroup(),
+      },
+    ];
+
+    render(<CourseDetails
+      course={mockCourse}
+      courseRegistration={mockCourseRegistration}
+      upcomingDiscussions={upcomingDiscussions}
+      attendedDiscussions={[]}
+      facilitatedDiscussions={[]}
+      isLoading={false}
+    />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('link', { name: 'Prepare for discussion' })).toBeInTheDocument();
+    });
+
+    const overflowButton = screen.getByRole('button', { name: 'More actions' });
+    await act(async () => {
+      await user.click(overflowButton);
+    });
+
+    expect(screen.queryByRole('menuitem', { name: 'Open discussion doc' })).not.toBeInTheDocument();
   });
 });
 

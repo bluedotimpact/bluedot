@@ -99,6 +99,12 @@ const settingsCourses: BluedotRoute = {
   parentPages: [home, settings],
 };
 
+const subscriptionPreferences: BluedotRoute = {
+  title: 'Subscription Preferences',
+  url: '/subscription-preferences',
+  parentPages: [home],
+};
+
 export const ROUTES = {
   about,
   blog,
@@ -117,6 +123,7 @@ export const ROUTES = {
   settings,
   settingsAccount,
   settingsCourses,
+  subscriptionPreferences,
 } as const;
 
 /**
