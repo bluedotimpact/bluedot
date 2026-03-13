@@ -82,7 +82,7 @@ const GrantProgramHero = ({
               </p>
 
               <div className="mt-7 flex flex-wrap gap-3">
-                <CTALinkOrButton url={primaryCta.url}>
+                <CTALinkOrButton url={primaryCta.url} onClick={primaryCta.onClick}>
                   {primaryCta.text}
                 </CTALinkOrButton>
                 {secondaryCta && (
