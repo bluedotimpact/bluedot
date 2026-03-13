@@ -57,7 +57,7 @@ const GrantsOverviewPage = () => {
   const featuredRapidGrant = featuredGrant
     ? {
       title: featuredGrant.projectTitle,
-      summary: featuredGrant.projectSummary,
+      summary: featuredGrant.projectSummary ?? '',
       meta: `${featuredGrant.granteeName}${featuredGrant.amountUsd ? ` • ${new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
