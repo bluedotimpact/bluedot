@@ -125,6 +125,15 @@ exports[`Footer > renders default as expected 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/grants"
+                  tabindex="0"
+                >
+                  Grants
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/privacy-policy"
                   tabindex="0"
                 >
@@ -237,6 +246,15 @@ exports[`Footer > renders default as expected 1`] = `
                   target="_blank"
                 >
                   Events
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/grants"
+                  tabindex="0"
+                >
+                  Grants
                 </a>
               </li>
               <li>
@@ -435,6 +453,15 @@ exports[`Footer > renders default as expected 1`] = `
                   target="_blank"
                 >
                   Events
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/grants"
+                  tabindex="0"
+                >
+                  Grants
                 </a>
               </li>
               <li>
@@ -708,6 +735,15 @@ exports[`Footer > renders with optional args 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/grants"
+                  tabindex="0"
+                >
+                  Grants
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
                   href="/privacy-policy"
                   tabindex="0"
                 >
@@ -820,6 +856,15 @@ exports[`Footer > renders with optional args 1`] = `
                   target="_blank"
                 >
                   Events
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/grants"
+                  tabindex="0"
+                >
+                  Grants
                 </a>
               </li>
               <li>
@@ -1018,6 +1063,15 @@ exports[`Footer > renders with optional args 1`] = `
                   target="_blank"
                 >
                   Events
+                </a>
+              </li>
+              <li>
+                <a
+                  class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                  href="/grants"
+                  tabindex="0"
+                >
+                  Grants
                 </a>
               </li>
               <li>
