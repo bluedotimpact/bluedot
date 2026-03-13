@@ -1,3 +1,4 @@
+import '../test-setup';
 import { describe, expect, test } from 'vitest';
 import { syncMetadataTable } from '@bluedot/db';
 import { db } from './db';
