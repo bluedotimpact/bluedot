@@ -5,10 +5,10 @@ exports[`FAQSection > renders correctly 1`] = `
   class="w-full bg-white"
 >
   <div
-    class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:pt-16 min-[680px]:pb-12 min-[1024px]:py-16 min-[1280px]:py-24"
+    class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-8 min-[680px]:py-10 min-[1280px]:py-12"
   >
     <div
-      class="max-w-[928px] mx-auto flex flex-col gap-12 md:gap-16"
+      class="max-w-[928px] mx-auto flex flex-col gap-8 md:gap-10"
     >
       <h2
         class="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy text-center"
