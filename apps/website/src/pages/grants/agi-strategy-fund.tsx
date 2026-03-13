@@ -1,9 +1,10 @@
 import {
   Breadcrumbs,
+  P,
   type BluedotRoute,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import GranteesListSection from '../../components/grants/GranteesListSection';
+import GrantPageSection from '../../components/grants/GrantPageSection';
 import GrantProgramHero from '../../components/grants/GrantProgramHero';
 import GrantProgramViewTransitions from '../../components/grants/GrantProgramViewTransitions';
 import LandingBanner from '../../components/lander/components/LandingBanner';
@@ -47,12 +48,13 @@ const AgiStrategyFundPage = () => {
 
       <Breadcrumbs route={CURRENT_ROUTE} />
 
-      <GranteesListSection
+      <GrantPageSection
         title="AGI Strategy Fund grantees"
-        subtitle=""
-        emptyMessage="AGI Strategy Fund grantee profiles will appear here once they are published."
-        background="canvas"
-      />
+        tone="canvas"
+        contentClassName="max-w-[760px]"
+      >
+        <P>We will publish the AGI Strategy Fund grantee archive here once the full set of organizations and projects backed through the fund is ready to share.</P>
+      </GrantPageSection>
 
       <LandingBanner
         title="Organization-level funding?"

@@ -96,8 +96,8 @@ const GrantsOverviewPage = () => {
                 status={program.status}
                 emphasis={index === 0 ? 'primary' : 'secondary'}
                 className={index === 0 ? 'min-[960px]:col-span-12' : 'min-[960px]:col-span-6'}
-                applyUrl={program.title === 'Rapid Grants' ? RAPID_GRANT_APPLICATION_URL : undefined}
-                example={program.title === 'Rapid Grants' ? featuredRapidGrant : undefined}
+                applyUrl={program.slug === 'rapid' ? RAPID_GRANT_APPLICATION_URL : undefined}
+                example={program.slug === 'rapid' ? featuredRapidGrant : undefined}
               />
             ))}
           </div>

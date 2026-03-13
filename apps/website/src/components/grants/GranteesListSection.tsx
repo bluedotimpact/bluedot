@@ -101,12 +101,12 @@ const GranteesListSection = ({
     <section
       id={id}
       className={clsx(
-        'w-full',
+        'w-full scroll-mt-28',
         background === 'canvas' ? 'bg-color-canvas' : 'bg-white',
         className,
       )}
     >
-      <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-8 min-[680px]:py-10 min-[1280px]:py-12 scroll-mt-28">
+      <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-8 min-[680px]:py-10 min-[1280px]:py-12">
         <div className="max-w-[1120px] mx-auto">
           <div className="mb-8 min-[680px]:mb-10 max-w-[760px]">
             <h2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy">
