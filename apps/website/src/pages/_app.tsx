@@ -17,7 +17,7 @@ import { inter } from '../lib/fonts';
 import { trpc } from '../utils/trpc';
 import { reportClientError } from '../lib/reportClientError';
 import { ErrorBoundary } from '../components/ErrorBoundary';
-import type { FeedbackData } from '@bluedot/ui/src/BugReportModal';
+import type { FeedbackData } from '@bluedot/ui';
 import { toBase64 } from '../utils/toBase64';
 
 const AnnouncementBanner = dynamic(() => import('../components/AnnouncementBanner'), { ssr: false });
@@ -84,7 +84,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
       email: data.email,
       recordingUrl: data.recordingUrl,
       attachments: await Promise.all(data.attachments?.map(async (file) => ({
-        base64: await toBase64(file),
+        base64: (await toBase64(file)).split(',')[1] ?? '',
         filename: file.name,
         mimeType: file.type,
       })) ?? []),

@@ -94,7 +94,7 @@ export { UnitCard } from './UnitCard';
 export type { UnitCardProps } from './UnitCard';
 
 export { BugReportModal } from './BugReportModal';
-export type { BugReportModalProps } from './BugReportModal';
+export type { BugReportModalProps, FeedbackData } from './BugReportModal';
 
 // Utils
 
