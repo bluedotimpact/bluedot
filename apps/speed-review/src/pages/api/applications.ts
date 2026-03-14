@@ -41,6 +41,7 @@ export default makeApiRoute({
     if (err instanceof Error && err.message.includes('LIST_RECORDS_ITERATOR_NOT_AVAILABLE')) {
       return { applications: [], nextOffset: undefined };
     }
+
     throw err;
   }
 });

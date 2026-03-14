@@ -36,7 +36,7 @@ export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect }) => {
     const matchedCourse = ALLOWED_COURSES.find((c) => round.name.includes(c));
     if (!matchedCourse) return acc;
     const key = round.course || matchedCourse;
-    if (!acc[key]) acc[key] = { displayName: matchedCourse, rounds: [] };
+    acc[key] ??= { displayName: matchedCourse, rounds: [] };
     acc[key].rounds.push(round);
     return acc;
   }, {});

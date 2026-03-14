@@ -3,7 +3,9 @@ import {
 } from 'react';
 import useAxios from 'axios-hooks';
 import { ProgressDots, withAuth } from '@bluedot/ui';
-import { type Application, type RatedApplication, type RatingValue, toHumanOpinion, toDecision } from '../lib/client/types';
+import {
+  type Application, type RatedApplication, type RatingValue, toHumanOpinion, toDecision,
+} from '../lib/client/types';
 import { type Round } from '../lib/api/airtable';
 import { ApplicationCard } from '../components/ApplicationCard';
 import { RatingButtons } from '../components/RatingButtons';
@@ -201,14 +203,20 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
           opinions: [{ id: current.id, opinion: toHumanOpinion(rating), decision: toDecision(rating) }],
         }),
       }).then((r) => {
-        if (!r.ok) return r.text().then((t) => { throw new Error(`${r.status}: ${t}`); });
+        if (!r.ok) {
+          return r.text().then((t) => {
+            throw new Error(`${r.status}: ${t}`);
+          });
+        }
+
         setSaveError(null);
-      }).catch((err: Error) => {
+      }).catch((err: unknown) => {
         // eslint-disable-next-line no-console
         console.error(err);
-        setSaveError(`Failed to save rating for ${current.name} — ${err.message}`);
+        setSaveError(`Failed to save rating for ${current.name} — ${err instanceof Error ? err.message : String(err)}`);
       });
     }
+
     showMilestone(state.seen.length + 1);
     dispatch({ type: 'RATE', rating });
   }, [state, showMilestone]);
@@ -218,7 +226,7 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
     if (state.status !== 'reviewing') return;
     const [current] = state.queue;
     if (!current) return;
-    const name = current.name;
+    const { name } = current;
     dispatch({ type: 'TIMEOUT' });
     setToastName(name);
     if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
@@ -243,6 +251,7 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
           dispatch({ type: 'MORE_LOADED', applications: [], nextOffset: undefined });
           return;
         }
+
         dispatch({ type: 'MORE_LOADED', applications: Array.isArray(data.applications) ? data.applications : [], nextOffset: data.nextOffset });
       })
       // eslint-disable-next-line no-console
@@ -342,7 +351,7 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
     return (
       <div className="min-h-screen bg-stone-950 flex items-center justify-center p-8">
         <div className="bg-stone-900 rounded-xl border border-red-800 p-8 max-w-md w-full space-y-4">
-          <h1 className="text-xl font-bold text-red-400">Save failed</h1>
+          <h1 className="text-size-xl font-bold text-red-400">Save failed</h1>
           <p className="text-size-sm text-stone-300">
             Your last rating didn&apos;t save to Airtable. Continuing would mean your reviews are lost.
           </p>
@@ -357,7 +366,10 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
             </button>
             <button
               type="button"
-              onClick={() => { setSaveError(null); dispatch({ type: 'RESET' }); }}
+              onClick={() => {
+                setSaveError(null);
+                dispatch({ type: 'RESET' });
+              }}
               className="flex-1 py-2.5 px-4 rounded-lg font-semibold text-size-sm bg-red-900 border border-red-700 text-red-200 hover:bg-red-800 transition-colors"
             >
               Stop reviewing

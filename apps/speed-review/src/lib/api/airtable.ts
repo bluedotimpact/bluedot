@@ -157,7 +157,10 @@ export const fetchRounds = async (): Promise<Round[]> => {
     .sort((a, b) => {
       const aDate = a.firstDiscussion ?? '';
       const bDate = b.firstDiscussion ?? '';
-      return aDate < bDate ? -1 : aDate > bDate ? 1 : 0;
+      if (aDate < bDate) return -1;
+      if (aDate > bDate) return 1;
+
+      return 0;
     });
 };
 
@@ -176,7 +179,7 @@ export const fetchApplications = async (
     const { records, nextOffset } = await fetchPage(
       APPLICATIONS_URL,
       {
-        filterByFormula: `AND({fldWVKY5EFAGSRcDT} = "", SEARCH("Participant", {fld7fzQNFhb7Oyy90}))`,
+        filterByFormula: 'AND({fldWVKY5EFAGSRcDT} = "", SEARCH("Participant", {fld7fzQNFhb7Oyy90}))',
         pageSize: String(AIRTABLE_PAGE_SIZE),
         returnFieldsByFieldId: 'true',
       },
@@ -214,7 +217,7 @@ export const fetchRoundStats = async (roundId: string): Promise<RoundStats> => {
   );
 
   const fields = records[0]?.fields ?? {};
-  const n = (field: string) => (typeof fields[field] === 'number' ? fields[field] as number : 0);
+  const n = (field: string) => (typeof fields[field] === 'number' ? fields[field] : 0);
 
   return {
     total: n('fldc3Uc7v3OlWYgzJ'),
@@ -231,7 +234,7 @@ const patchBatch = async (batch: { id: string; opinion: string; decision: string
       records: batch.map(({ id, opinion, decision }) => ({
         id,
         fields: {
-          fldOm6fJcqhq78M71: opinion,  // Human opinion
+          fldOm6fJcqhq78M71: opinion, // Human opinion
           fldWVKY5EFAGSRcDT: decision, // Decision
         },
       })),

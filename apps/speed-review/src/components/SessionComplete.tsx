@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import { type RatingValue, type RatedApplication, toHumanOpinion, toDecision } from '../lib/client/types';
+import {
+  type RatingValue, type RatedApplication, toHumanOpinion, toDecision,
+} from '../lib/client/types';
 import { authFetch } from '../lib/client/api';
 
 type SessionCompleteProps = {
