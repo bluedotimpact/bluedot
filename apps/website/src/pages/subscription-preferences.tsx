@@ -1,29 +1,29 @@
 import Head from 'next/head';
-import { useRouter } from 'next/router';
+import { type GetServerSideProps } from 'next';
 import { useState } from 'react';
 import {
   CTALinkOrButton, ErrorSection, ProgressDots,
 } from '@bluedot/ui';
+import { H3, P } from '@bluedot/ui/src/Text';
 import { ROUTES } from '../lib/routes';
 import { trpc } from '../utils/trpc';
 import type { SubscriptionTopic } from '../server/routers/subscription-preferences';
 
 const CURRENT_ROUTE = ROUTES.subscriptionPreferences;
 
-const SubscriptionPreferencesPage = () => {
-  const router = useRouter();
-  const cid = typeof router.query.cid === 'string' ? router.query.cid : '';
-  const token = typeof router.query.token === 'string' ? router.query.token : '';
+type SubscriptionPreferencesPageProps = {
+  cid: string;
+  token: string;
+  topicId: number | null;
+};
 
-  const highlightTopicId = typeof router.query.topicId === 'string' ? Number(router.query.topicId) : null;
-
+const SubscriptionPreferencesPage = ({ cid, token, topicId: highlightTopicId }: SubscriptionPreferencesPageProps) => {
   const { data, isLoading, error } = trpc.subscriptionPreferences.getPreferences.useQuery(
     { cid, token },
     { enabled: !!cid && !!token, retry: false },
   );
 
-  if (!router.isReady || isLoading) return <ProgressDots className="py-16" />;
-  if (!cid || !token) return <GenericError />;
+  if (isLoading) return <ProgressDots className="py-16" />;
   if (error) return <GenericError />;
   if (!data) return null;
 
@@ -39,11 +39,12 @@ const SubscriptionPreferencesPage = () => {
     <div className="min-h-screen bg-white">
       <Head>
         <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
+        <meta name="robots" content="noindex" />
       </Head>
       <div className="mx-auto px-4 py-12 max-w-lg">
         <img src="/images/logo/BlueDot_Impact_Logo.svg" alt="BlueDot Impact" className="h-8 mb-8" />
-        <h2 className="text-2xl font-semibold text-black mb-2">Email Preferences</h2>
-        <p className="text-gray-500 mb-8">Choose which emails you&apos;d like to receive from BlueDot Impact.</p>
+        <H3 className="mb-2">Email Preferences</H3>
+        <P className="text-gray-500 mb-8">Choose which emails you&apos;d like to receive from BlueDot Impact.</P>
         <PreferencesForm cid={cid} token={token} topics={sortedTopics} highlightTopicId={highlightTopicId} />
       </div>
     </div>
@@ -100,14 +101,14 @@ const PreferencesForm = ({
           >
             <input
               type="checkbox"
-              className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-gray-300 accent-bluedot-normal"
+              className="mt-0.5 size-6 shrink-0 cursor-pointer accent-bluedot-normal"
               checked={subscribed[topic.id] ?? topic.subscribed}
               onChange={(e) => handleToggle(topic.id, e.target.checked)}
             />
             <div>
-              <p className="font-semibold text-black leading-snug">{topic.name}</p>
+              <P className="font-semibold text-black leading-snug">{topic.name}</P>
               {topic.description && (
-                <p className="text-gray-500 text-size-sm mt-0.5">{topic.description}</p>
+                <P className="text-gray-500 text-size-sm mt-0.5">{topic.description}</P>
               )}
             </div>
           </label>
@@ -122,13 +123,29 @@ const PreferencesForm = ({
         >
           {saveMutation.isPending ? 'Saving...' : 'Save preferences'}
         </CTALinkOrButton>
-        {saved && <p className="text-green-600 text-size-sm">Saved!</p>}
+        {saved && <P className="text-green-600 text-size-sm">Saved!</P>}
         {saveMutation.error && (
-          <p className="text-red-600 text-size-sm">Failed to save. Please try again.</p>
+          <P className="text-red-600 text-size-sm">Failed to save. Please try again.</P>
         )}
       </div>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps<SubscriptionPreferencesPageProps> = async ({ query }) => {
+  const cid = typeof query.cid === 'string' ? query.cid : null;
+  const token = typeof query.token === 'string' ? query.token : null;
+
+  if (!cid || !token) {
+    return { notFound: true };
+  }
+
+  const rawTopicId = typeof query.topicId === 'string' ? Number(query.topicId) : null;
+  const topicId = rawTopicId !== null && !Number.isNaN(rawTopicId) ? rawTopicId : null;
+
+  return {
+    props: { cid, token, topicId },
+  };
 };
 
 export default SubscriptionPreferencesPage;

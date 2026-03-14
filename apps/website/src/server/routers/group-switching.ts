@@ -126,7 +126,7 @@ export const groupSwitchingRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: 'No participant record found for user in this course round' });
       }
 
-      const courseRound = await db.get(roundTable, { id: roundId });
+      const courseRound = await db.getFirst(roundTable, { filter: { id: roundId }, sortBy: 'id' });
       if (!courseRound) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'No course round found' });
       }
@@ -259,7 +259,11 @@ export const groupSwitchingRouter = router({
       let oldDiscussionId: string | null = null;
       let newDiscussionId: string | null = null;
 
-      const round = await db.get(roundTable, { id: roundId });
+      const round = await db.getFirst(roundTable, { filter: { id: roundId }, sortBy: 'id' });
+      if (!round) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'No course round found' });
+      }
+
       const maxParticipants = round.maxParticipantsPerGroup;
 
       if (isTemporarySwitch) {

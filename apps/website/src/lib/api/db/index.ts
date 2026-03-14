@@ -1,10 +1,13 @@
-import { PgAirtableDb } from '@bluedot/db';
+import { PgAirtableDb, createTestDbClients } from '@bluedot/db';
 import { slackAlert } from '@bluedot/utils';
 import env from '../env';
+
+const isTest = env.VITEST === 'true';
 
 export default new PgAirtableDb({
   pgConnString: env.PG_URL,
   airtableApiKey: env.AIRTABLE_PERSONAL_ACCESS_TOKEN,
+  ...(isTest ? createTestDbClients() : {}),
   async onWarning(warning: unknown) {
     const err = warning instanceof Error ? warning : new Error(String(warning));
     await slackAlert(env, [

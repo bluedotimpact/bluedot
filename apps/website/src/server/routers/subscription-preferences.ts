@@ -1,5 +1,6 @@
 import { createHmac, timingSafeEqual } from 'crypto';
 import { TRPCError } from '@trpc/server';
+import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import { z } from 'zod';
 import { publicProcedure, router } from '../trpc';
 import env from '../../lib/api/env';
@@ -11,7 +12,10 @@ const HIRING_TOPIC_ID = 16;
 const HIRING_SEGMENT_ID = 365;
 
 function verifyToken(customerId: string, token: string): boolean {
-  if (!env.CIO_HMAC_SECRET) return false;
+  if (!env.CIO_HMAC_SECRET) {
+    return false;
+  }
+
   const expected = createHmac('sha256', env.CIO_HMAC_SECRET)
     .update(customerId)
     .digest('hex');
@@ -22,25 +26,35 @@ function verifyToken(customerId: string, token: string): boolean {
   }
 }
 
+async function fetchSegmentPage(segmentId: number, headers: Record<string, string>, cursor?: string) {
+  const url = new URL(`${CIO_API_BASE}/segments/${segmentId}/membership`);
+  if (cursor) url.searchParams.set('next', cursor);
+
+  const res = await fetch(url.toString(), { headers });
+  if (!res.ok) {
+    throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to fetch segment membership' });
+  }
+
+  return res.json() as Promise<{ identifiers: { cio_id: string }[]; next: string }>;
+}
+
+const MAX_SEGMENT_PAGES = 50;
+
 async function getSegmentMemberCioIds(segmentId: number, headers: Record<string, string>): Promise<string[]> {
   const cioIds: string[] = [];
-  let cursor = '';
+  let cursor: string | undefined;
 
-  do {
-    const url = new URL(`${CIO_API_BASE}/segments/${segmentId}/membership`);
-    if (cursor) url.searchParams.set('next', cursor);
-
-    // eslint-disable-next-line no-await-in-loop
-    const res = await fetch(url.toString(), { headers });
-    if (!res.ok) {
-      throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to fetch segment membership' });
-    }
-
-    // eslint-disable-next-line no-await-in-loop
-    const data = await res.json() as { identifiers: { cio_id: string }[]; next: string };
+  for (let page = 0; page < MAX_SEGMENT_PAGES; page++) {
+    // Each page depends on the cursor from the previous page
+    const data = await fetchSegmentPage(segmentId, headers, cursor); // eslint-disable-line no-await-in-loop
     cioIds.push(...(data.identifiers ?? []).map((c) => c.cio_id));
-    cursor = data.next ?? '';
-  } while (cursor);
+    cursor = data.next || undefined;
+    if (!cursor) break;
+  }
+
+  if (cursor) {
+    await slackAlert(env, [`[CIO] Segment ${segmentId} membership exceeded ${MAX_SEGMENT_PAGES} pages — results may be incomplete`]);
+  }
 
   return cioIds;
 }
@@ -82,7 +96,12 @@ export const subscriptionPreferencesRouter = router({
       ]);
 
       if (!prefsRes.ok) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'Contact not found' });
+        if (prefsRes.status === 404) {
+          throw new TRPCError({ code: 'NOT_FOUND', message: 'Contact not found' });
+        }
+
+        await slackAlert(env, [`[CIO] Failed to fetch subscription preferences: HTTP ${prefsRes.status}`]);
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to fetch preferences' });
       }
 
       const prefsData = await prefsRes.json() as { customer: { topics: CioTopic[] } };
@@ -127,11 +146,13 @@ export const subscriptionPreferencesRouter = router({
             cio_subscription_preferences: { topics: input.preferences },
           }),
         });
-      } catch {
-        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to save preferences' });
+      } catch (error) {
+        await slackAlert(env, [`[CIO] Network error saving subscription preferences: ${error instanceof Error ? error.message : String(error)}`]);
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to save preferences', cause: error });
       }
 
       if (!res.ok) {
+        await slackAlert(env, [`[CIO] Failed to save subscription preferences: HTTP ${res.status}`]);
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to save preferences' });
       }
 

@@ -6,7 +6,7 @@ export default validateEnv({
     'PG_URL',
     'AIRTABLE_PERSONAL_ACCESS_TOKEN',
     'ALERTS_SLACK_CHANNEL_ID',
-    'INFO_SLACK_CHANNEL_ID',
+    'CLIENT_ERRORS_SLACK_CHANNEL_ID',
     'ALERTS_SLACK_BOT_TOKEN',
     'KEYCLOAK_CLIENT_ID',
     'KEYCLOAK_CLIENT_SECRET',
@@ -21,5 +21,6 @@ export default validateEnv({
     'CIO_APP_API_KEY',
     'CIO_TRACK_API_KEY',
     'CIO_HMAC_SECRET',
+    'VITEST',
   ],
 });
