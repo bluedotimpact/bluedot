@@ -2,7 +2,7 @@ import {
   useCallback, useEffect, useReducer, useRef, useState,
 } from 'react';
 import useAxios from 'axios-hooks';
-import { ProgressDots } from '@bluedot/ui';
+import { ProgressDots, withAuth } from '@bluedot/ui';
 import { type Application, type RatedApplication, type RatingValue, toHumanOpinion, toDecision } from '../lib/client/types';
 import { type Round } from '../lib/api/airtable';
 import { ApplicationCard } from '../components/ApplicationCard';
@@ -10,6 +10,7 @@ import { RatingButtons } from '../components/RatingButtons';
 import { CountdownTimer, type CountdownTimerHandle } from '../components/CountdownTimer';
 import { SessionComplete } from '../components/SessionComplete';
 import { RoundPicker } from '../components/RoundPicker';
+import { authFetch } from '../lib/client/api';
 
 const COUNTDOWN_MS = 30_000;
 // Fetch next batch when queue drops to this many remaining
@@ -156,7 +157,7 @@ const ApplicationLoader: React.FC<ApplicationLoaderProps> = ({ round, onLoaded, 
 
 // ── Main component ─────────────────────────────────────────────────────────
 
-const SpeedReviewPage = () => {
+const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
   const [state, dispatch] = useReducer(reduce, { status: 'picking-round' });
   const [toastName, setToastName] = useState<string | null>(null);
   const [milestoneToast, setMilestoneToast] = useState<string | null>(null);
@@ -193,7 +194,7 @@ const SpeedReviewPage = () => {
     if (state.status !== 'reviewing') return;
     const [current] = state.queue;
     if (current) {
-      fetch('/api/decisions', {
+      authFetch('/api/decisions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -234,7 +235,7 @@ const SpeedReviewPage = () => {
     fetchingMoreRef.current = true;
     const { roundId, nextOffset } = state;
 
-    fetch(`/api/applications?round=${encodeURIComponent(roundId)}&offset=${encodeURIComponent(nextOffset)}`)
+    authFetch(`/api/applications?round=${encodeURIComponent(roundId)}&offset=${encodeURIComponent(nextOffset)}`)
       .then((r) => r.json())
       .then((data: { applications: Application[]; nextOffset?: string; error?: unknown }) => {
         if (data.error) {
@@ -443,4 +444,4 @@ const SpeedReviewPage = () => {
   );
 };
 
-export default SpeedReviewPage;
+export default withAuth(SpeedReviewPage);

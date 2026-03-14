@@ -1,4 +1,5 @@
 import '../globals.css';
+import '../lib/client/api';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';

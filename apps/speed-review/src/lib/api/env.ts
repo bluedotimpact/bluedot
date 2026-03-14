@@ -4,8 +4,7 @@ const env = validateEnv({
   required: [
     'APP_NAME',
     'AIRTABLE_PERSONAL_ACCESS_TOKEN',
-    'AIRTABLE_BASE_ID',
-    'AIRTABLE_TABLE_ID',
+    'PG_URL',
     'ALERTS_SLACK_BOT_TOKEN',
     'ALERTS_SLACK_CHANNEL_ID',
     'INFO_SLACK_CHANNEL_ID',

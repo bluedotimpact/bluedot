@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { type RatingValue, type RatedApplication, toHumanOpinion, toDecision } from '../lib/client/types';
+import { authFetch } from '../lib/client/api';
 
 type SessionCompleteProps = {
   roundId: string;
@@ -19,7 +20,7 @@ const RATING_OPTIONS: { value: RatingValue; humanOpinion: string; decision: stri
 ];
 
 const sendOpinion = (id: string, rating: RatingValue) => {
-  fetch('/api/decisions', {
+  authFetch('/api/decisions', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -37,7 +38,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
   const [roundStats, setRoundStats] = useState<{ total: number; evaluated: number; accepted: number } | null>(null);
 
   useEffect(() => {
-    fetch(`/api/round-stats?round=${encodeURIComponent(roundId)}`)
+    authFetch(`/api/round-stats?round=${encodeURIComponent(roundId)}`)
       .then((r) => r.json())
       .then((data: { total: number; evaluated: number; accepted: number }) => setRoundStats(data))
       // eslint-disable-next-line no-console

@@ -1,8 +1,8 @@
 import env from './env';
 import { type Application } from '../client/types';
 
-const AIRTABLE_BASE = `https://api.airtable.com/v0/${env.AIRTABLE_BASE_ID}`;
-const APPLICATIONS_URL = `${AIRTABLE_BASE}/${env.AIRTABLE_TABLE_ID}`;
+const AIRTABLE_BASE = 'https://api.airtable.com/v0/appnJbsG1eWbAdEvf';
+const APPLICATIONS_URL = `${AIRTABLE_BASE}/tblXKnWoXK3R63F6D`;
 const ROUNDS_URL = `${AIRTABLE_BASE}/tblt1XjyP5KPoVPfB`;
 
 // How many Airtable records to fetch per page when loading applications

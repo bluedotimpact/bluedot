@@ -209,6 +209,23 @@ export const services: ServiceDefinition[] = [
     },
     hosts: ['course-demos.k8s.bluedot.org'],
   },
+  {
+    name: 'bluedot-speed-review',
+    spec: {
+      containers: [{
+        name: 'bluedot-speed-review',
+        image: 'ghcr.io/bluedotimpact/bluedot-speed-review:latest',
+        env: [
+          { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
+          { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
+          { name: 'ALERTS_SLACK_CHANNEL_ID', value: ALERTS_SLACK_CHANNEL_ID },
+          { name: 'INFO_SLACK_CHANNEL_ID', value: INFO_SLACK_CHANNEL_ID },
+          { name: 'ALERTS_SLACK_BOT_TOKEN', valueFrom: envVarSources.alertsSlackBotToken },
+        ],
+      }],
+    },
+    hosts: ['speed-review.k8s.bluedot.org'],
+  },
   // {
   //   name: 'bluedot-backend',
   //   spec: {
