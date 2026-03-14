@@ -47,13 +47,13 @@ export const adminRouter = router({
         LIMIT 20
       `);
 
-      return results.rows.map((row) => ({
-        id: row.id as string,
-        email: row.email as string,
-        name: row.name as string | null,
-        lastSeenAt: row.lastSeenAt as string | null,
-        courseCount: row.courseCount as number,
-      }));
+      return results.rows as {
+        id: string;
+        email: string;
+        name: string | null;
+        lastSeenAt: string | null;
+        courseCount: number;
+      }[];
     }),
   syncHistory: adminProcedure.query(async () => {
     // Get last 24 hours of requests, newest first

@@ -98,7 +98,7 @@ export const groupDiscussionsRouter = router({
       });
 
       if (!courseRegistration) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'Course registration not found' });
+        return null;
       }
 
       const participant = await db.getFirst(meetPersonTable, {
