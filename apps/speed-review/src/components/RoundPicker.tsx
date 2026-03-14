@@ -63,7 +63,7 @@ export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect }) => {
                   </svg>
                 </summary>
                 <div className="space-y-2 mt-2">
-                  {grouped[key]!.rounds.map((round) => (
+                  {grouped[key]!.rounds.slice(0, 3).map((round) => (
                     <button
                       key={round.id}
                       type="button"
