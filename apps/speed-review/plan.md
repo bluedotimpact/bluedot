@@ -21,9 +21,11 @@ Change every route from `requireAuth: false` to `requireAuth: true`:
 
 The `makeApiRoute` + Keycloak `verifyAndDecodeToken` plumbing is already wired up in `src/lib/api/makeApiRoute.ts`. Flipping the flag is the only code change needed per route. Once done, any request without a valid Keycloak JWT will receive a 401.
 
+Also in `src/pages/api/decisions.ts`, cap the `opinions` array length (e.g. `.max(50)`) in the Zod schema to prevent a single request from bulk-writing an unbounded number of decisions.
+
 ### 2. Restrict to admins only
 
-Authentication (any Keycloak account) is not enough — access must be limited to team members with `isAdmin: true` in the DB. After verifying the JWT, each handler should confirm the caller is an admin before returning data.
+Authentication (any Keycloak account) is not enough — access must be limited to team members with `isAdmin: true` in the DB. This is the same access level used to gate the impersonate-user feature on the website. After verifying the JWT, each handler should confirm the caller is an admin before returning data.
 
 The pattern used in `apps/website/src/server/trpc.ts` is `checkAdminAccess`, which queries `userTable` (not `personTable`):
 
@@ -75,20 +77,9 @@ Confirm that no environment variables are prefixed `NEXT_PUBLIC_`. Currently:
 
 All Airtable calls happen in `src/lib/api/airtable.ts` (server-side only). The browser only receives the shaped `Application` objects returned by the API, not raw Airtable records or credentials. This is already correct.
 
-### 5. Deploy to the existing K8s cluster with a restricted hostname
+### 5. Add service definition and deploy
 
-The app already deploys via `npm run deploy:cd` (Docker → K8s). To make the deployment admin-only at the network level as a defence-in-depth layer, configure the K8s ingress for this app to:
-
-- Use an internal-only hostname (e.g. `speed-review.internal.bluedot.org`) that does not resolve publicly, **or**
-- Add an IP allowlist annotation on the ingress restricting access to the office VPN / known admin IPs.
-
-This is configured in `infra/serviceDefinitions.ts` alongside the other app service definitions. If the ingress controller supports it (nginx-ingress does), add:
-
-```yaml
-nginx.ingress.kubernetes.io/whitelist-source-range: "<VPN CIDR>"
-```
-
-Network restriction is a second line of defence. The auth checks in steps 1–2 are the primary controls and must be in place regardless.
+Speed-review needs a service definition in `apps/infra/src/k8s/serviceDefinitions.ts` before it can be deployed. This file is where every deployed app is registered with the K8s cluster — it specifies the Docker image, environment variables, and hostname(s). Add an entry following the pattern of existing apps (e.g. `bluedot-app-template`), including the required env vars (`AIRTABLE_PERSONAL_ACCESS_TOKEN`, `AIRTABLE_BASE_ID`, `AIRTABLE_TABLE_ID`, Slack tokens, etc.).
 
 ---
 
@@ -100,6 +91,6 @@ Network restriction is a second line of defence. The auth checks in steps 1–2 
 | 2 | Admin check after auth | new `src/lib/api/requireAdmin.ts` + each route handler | Any Keycloak user (e.g. course participants) could access |
 | 3 | Frontend auth guard | `src/pages/_app.tsx` | UX gap only (security still enforced server-side) |
 | 4 | No `NEXT_PUBLIC_` secrets | `src/lib/api/env.ts` | Already correct, no change needed |
-| 5 | Ingress IP allowlist | `infra/serviceDefinitions.ts` | Defence-in-depth layer missing, not a primary control |
+| 5 | Add service definition | `apps/infra/src/k8s/serviceDefinitions.ts` | App can't be deployed without it |
 
-Do steps 1 and 2 before deploying. Steps 3–5 are hardening.
+Do steps 1 and 2 before deploying. Steps 3–4 are hardening. Step 5 is a deployment prerequisite.
