@@ -141,9 +141,9 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
                     onBugReportSubmit={handleBugReportSubmit}
                   />
                 )}
-                <CircleWidget />
               </>
             )}
+          {router.pathname !== '/subscription-preferences' && <CircleWidget />}
           <CookieBanner />
           <GoogleTagManager />
           <CustomerioAnalytics />
