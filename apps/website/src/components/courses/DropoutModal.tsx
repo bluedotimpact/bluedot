@@ -47,7 +47,7 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, handleClose })
             <CheckIcon className="text-bluedot-normal" />
           </div>
           <div className="flex max-w-[512px] flex-col items-center gap-4">
-            <P className="text-center text-bluedot-navy/80">
+            <P className="text-bluedot-navy/80 text-center">
               {isDeferral
                 ? 'Your deferral request has been submitted. We\'ll be in touch about joining a future cohort.'
                 : 'Your dropout request has been submitted. We\'re sorry to see you go. You should receive a confirmation email soon.'}
@@ -78,15 +78,14 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, handleClose })
         <div className="flex flex-col gap-2">
           <H1 className="text-size-md font-medium text-black">2. Please tell us why</H1>
           <P>
-            Would you like to share why you're dropping out? It's really helpful for us to know what kind of problems
-            our participants have that lead them to drop out (we understand and don't expect details if the reason is
-            personal, though). We'd also like to know if and how the course didn't live up to your expectations.
+            Your feedback (positive and negative) helps improve our courses. Please share any details about your
+            decision with us.
           </P>
           <P>
-            If you choose to defer we'll reconsider your application for the next round of the course. We'll drop you
-            out from this course and contact you again closer to the start of the next round.
+            If you defer we'll reconsider your application when the course runs again; we'll contact you closer to the
+            time.
           </P>
-          <P>Thanks again for participating.</P>
+          <P>Thank you again for participating.</P>
           <Textarea
             value={reason}
             onChange={(e) => setReason(e.target.value)}
