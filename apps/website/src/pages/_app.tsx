@@ -141,12 +141,12 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
                     onBugReportSubmit={handleBugReportSubmit}
                   />
                 )}
+                <CircleWidget />
               </>
             )}
           <CookieBanner />
           <GoogleTagManager />
           <CustomerioAnalytics />
-          <CircleWidget />
           <ImpersonationBadge />
         </div>
       </PostHogProvider>
