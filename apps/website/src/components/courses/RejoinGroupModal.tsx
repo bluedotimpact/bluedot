@@ -28,7 +28,15 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
 
   const rejoinMutation = trpc.groupSwitching.switchGroup.useMutation();
 
-  const groups = availableGroups?.groupsAvailable?.filter((g) => !g.userIsParticipant) ?? [];
+  const groups = (availableGroups?.groupsAvailable?.filter((g) => !g.userIsParticipant) ?? []).sort((a, b) => {
+    // Sort groups with spots before full groups
+    const fullA = a.spotsLeftIfKnown === 0;
+    const fullB = b.spotsLeftIfKnown === 0;
+    if (fullA !== fullB) return fullA ? 1 : -1;
+
+    // Sort by start time ascending
+    return (a.group.startTimeUtc ?? 0) - (b.group.startTimeUtc ?? 0);
+  });
 
   const handleJoin = (entry: GroupEntry) => {
     rejoinMutation.mutate(
