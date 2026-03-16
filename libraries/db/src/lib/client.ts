@@ -3,6 +3,7 @@ import {
 } from 'drizzle-orm';
 import { type PgInsertValue, type PgUpdateSetSource, type PgColumn } from 'drizzle-orm/pg-core';
 import { drizzle } from 'drizzle-orm/node-postgres';
+import { type drizzle as pgLiteDrizzle } from 'drizzle-orm/pglite';
 import {
   AirtableTs, AirtableTsError, type AirtableTsOptions,
 } from 'airtable-ts';
@@ -75,32 +76,33 @@ export type Filter<T> = FilterOperation<T> | {
   OR: Filter<T>[];
 };
 
+export type PgDatabase = ReturnType<typeof drizzle> | ReturnType<typeof pgLiteDrizzle>;
+
 /**
  * Postgres client which is identical to the standard client in terms of functionality, but
  * with deprecated write functions to warn developers not to use them directly.
  */
-type RestrictedPgDatabase = Omit<ReturnType<typeof drizzle>, 'insert' | 'update' | 'delete'> & {
+type RestrictedPgDatabase = Omit<PgDatabase, 'insert' | 'update' | 'delete'> & {
   /**
    * @deprecated Use `db.insert`, which will write to Airtable and mirror the result to Postgres.
    * Using this raw `db.pg.insert` function will only write to Postgres.
    */
-  insert: ReturnType<typeof drizzle>['insert'];
+  insert: PgDatabase['insert'];
   /**
    * @deprecated Use `db.update` instead, which will write to Airtable and mirror the result to Postgres.
    * Using this raw `db.pg.update` function will only write to Postgres.
    */
-  update: ReturnType<typeof drizzle>['update'];
+  update: PgDatabase['update'];
   /**
    * @deprecated Use `remove`, which will write to Airtable and mirror the result to Postgres.
    * Using this raw `db.pg.delete` function will only write to Postgres.
    */
-  delete: ReturnType<typeof drizzle>['delete'];
+  delete: PgDatabase['delete'];
 };
 
 export class PgAirtableDb {
-  private pgUnrestricted: ReturnType<typeof drizzle>;
+  private pgUnrestricted: PgDatabase;
 
-  /** @deprecated Usually, don't use this. Use the primary methods on PgAirtableDb instead */
   public pg: RestrictedPgDatabase;
 
   /** @deprecated Never use this, unless you know what you're doing. Use the primary methods on PgAirtableDb instead */
@@ -119,21 +121,25 @@ export class PgAirtableDb {
     pgConnString,
     airtableApiKey,
     onWarning,
+    pgClient,
+    airtableClient,
   }: {
     pgConnString: string;
     airtableApiKey: string;
     onWarning?: AirtableTsOptions['onWarning'];
+    pgClient?: PgDatabase;
+    airtableClient?: AirtableTs;
   }) {
     // In production, try to proceed on validation errors
     const readValidation = env.NODE_ENV === 'production' ? 'warning' : 'error';
 
-    this.airtableClient = new AirtableTs({
+    this.airtableClient = airtableClient ?? new AirtableTs({
       apiKey: airtableApiKey,
       readValidation,
       onWarning,
     });
 
-    this.pgUnrestricted = drizzle(pgConnString);
+    this.pgUnrestricted = pgClient ?? drizzle(pgConnString);
     this.pg = this.pgUnrestricted as RestrictedPgDatabase;
   }
 

@@ -115,7 +115,11 @@ const PreferencesForm = ({
         );
       })}
 
-      <div className="pt-4 flex items-center gap-4">
+      <div className="pt-4 space-y-4">
+        {saved && <P className="text-green-600 text-size-sm">Your preferences have been saved. It may take a few seconds for changes to appear if you revisit this page.</P>}
+        {saveMutation.error && (
+          <P className="text-red-600 text-size-sm">Failed to save. Please try again.</P>
+        )}
         <CTALinkOrButton
           variant="primary"
           onClick={handleSave}
@@ -123,10 +127,6 @@ const PreferencesForm = ({
         >
           {saveMutation.isPending ? 'Saving...' : 'Save preferences'}
         </CTALinkOrButton>
-        {saved && <P className="text-green-600 text-size-sm">Saved!</P>}
-        {saveMutation.error && (
-          <P className="text-red-600 text-size-sm">Failed to save. Please try again.</P>
-        )}
       </div>
     </div>
   );
