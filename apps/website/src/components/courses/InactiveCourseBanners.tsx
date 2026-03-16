@@ -16,7 +16,7 @@ export default function InactiveCourseBanners({ courseSlug }: InactiveCourseBann
   return (
     <>
       {(inactiveCourseRegistrations ?? []).map((courseRegistration) => (
-        <InactiveCourseBanner key={courseRegistration.courseRegistrationId} applicantId={courseRegistration.courseRegistrationId} roundId={courseRegistration.roundId} />
+        <InactiveCourseBanner key={courseRegistration.courseRegistrationId} applicantId={courseRegistration.courseRegistrationId} courseSlug={courseRegistration.courseSlug} roundId={courseRegistration.roundId} />
       ))}
     </>
   );
@@ -24,10 +24,11 @@ export default function InactiveCourseBanners({ courseSlug }: InactiveCourseBann
 
 type InactiveCourseBannerProps = {
   applicantId: string;
+  courseSlug: string;
   roundId: string | null;
 };
 
-const InactiveCourseBanner = ({ applicantId, roundId }: InactiveCourseBannerProps) => {
+const InactiveCourseBanner = ({ applicantId, courseSlug, roundId }: InactiveCourseBannerProps) => {
   const [dropoutModalOpen, setDropoutModalOpen] = useState(false);
   const [rejoinModalOpen, setRejoinModalOpen] = useState(false);
 
@@ -63,7 +64,7 @@ const InactiveCourseBanner = ({ applicantId, roundId }: InactiveCourseBannerProp
 
       {rejoinModalOpen && roundId && <RejoinGroupModal roundId={roundId} handleClose={() => setRejoinModalOpen(false)} />}
 
-      {dropoutModalOpen && <DropoutModal applicantId={applicantId} handleClose={() => setDropoutModalOpen(false)} />}
+      {dropoutModalOpen && <DropoutModal applicantId={applicantId} courseSlug={courseSlug} handleClose={() => setDropoutModalOpen(false)} />}
     </>
   );
 };
