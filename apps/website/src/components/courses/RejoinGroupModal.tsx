@@ -31,13 +31,19 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
   const groups = availableGroups?.groupsAvailable?.filter((g) => !g.userIsParticipant) ?? [];
 
   const handleJoin = (entry: GroupEntry) => {
-    setJoinedGroup(entry);
-    rejoinMutation.mutate({
-      switchType: 'Switch group permanently',
-      isManualRequest: false,
-      newGroupId: entry.group.id,
-      roundId,
-    });
+    rejoinMutation.mutate(
+      {
+        switchType: 'Switch group permanently',
+        isManualRequest: false,
+        newGroupId: entry.group.id,
+        roundId,
+      },
+      {
+        onSuccess: () => {
+          setJoinedGroup(entry);
+        },
+      },
+    );
   };
 
   return (
