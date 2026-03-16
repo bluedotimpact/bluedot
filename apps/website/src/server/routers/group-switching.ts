@@ -363,7 +363,7 @@ export const groupSwitchingRouter = router({
         participant: participantId,
         requestStatus: isManualRequest ? 'Resolve' : 'Requested',
         switchType,
-        notesFromParticipant,
+        notesFromParticipant: notesFromParticipant ?? null,
         oldGroup: oldGroupId,
         newGroup: newGroupId,
         // Note: The reason the groupIds are values and discussionIds are single-element
