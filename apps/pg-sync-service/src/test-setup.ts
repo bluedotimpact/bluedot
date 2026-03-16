@@ -1,10 +1,11 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { beforeAll, beforeEach } from 'vitest';
-import { pushTestSchema, resetTestDb } from '@bluedot/db';
+import { resetTestDb } from '@bluedot/db';
+import { ensureSchemaUpToDate } from './lib/schema-sync';
 import { db } from './lib/db';
 
 beforeAll(async () => {
-  await pushTestSchema(db);
+  await ensureSchemaUpToDate();
 });
 
 beforeEach(async () => {
