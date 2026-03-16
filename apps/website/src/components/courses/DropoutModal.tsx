@@ -2,6 +2,8 @@ import {
   CTALinkOrButton, H1, Modal, P, ProgressDots, Select, Textarea,
 } from '@bluedot/ui';
 import { useState } from 'react';
+import { ONE_DAY_MS } from '../../lib/constants';
+import { formatMonthAndDay } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 import { CheckIcon } from '../icons/CheckIcon';
 import { InfoIcon } from '../icons/InfoIcon';
@@ -29,6 +31,24 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, courseSlug, ha
   const isDeferral = dropoutType === 'deferral';
   const submitDisabled = !dropoutType || dropoutMutation.isPending;
 
+  const nextRoundInfo = (() => {
+    if (!courseRounds) return null;
+    const allRounds = [...courseRounds.intense, ...courseRounds.partTime];
+    if (allRounds.length === 0) return null;
+    const sorted = allRounds
+      .filter((r) => r.firstDiscussionDateRaw)
+      .sort((a, b) => new Date(a.firstDiscussionDateRaw!).getTime() - new Date(b.firstDiscussionDateRaw!).getTime());
+    const earliest = sorted[0];
+    if (!earliest?.firstDiscussionDateRaw) return null;
+
+    const startDate = new Date(earliest.firstDiscussionDateRaw);
+    const oneWeekBefore = new Date(startDate.getTime() - 7 * ONE_DAY_MS);
+    const contactWeek = formatMonthAndDay(oneWeekBefore.toISOString());
+    const startFormatted = formatMonthAndDay(earliest.firstDiscussionDateRaw);
+
+    return { startFormatted, contactWeek };
+  })();
+
   const handleSubmit = () => {
     if (!dropoutType) {
       return;
@@ -51,7 +71,7 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, courseSlug, ha
           <div className="flex max-w-[512px] flex-col items-center gap-4">
             <P className="text-bluedot-navy/80 text-center">
               {isDeferral
-                ? 'Your deferral request has been submitted. We\'ll be in touch about joining a future cohort.'
+                ? `Your deferral request has been submitted. ${nextRoundInfo ? `We'll be in touch in the week of ${nextRoundInfo.contactWeek}. You should receive a confirmation email soon.` : 'We\'ll be in touch about joining a future cohort. You should receive a confirmation email soon.'}`
                 : 'Your dropout request has been submitted. We\'re sorry to see you go. You should receive a confirmation email soon.'}
             </P>
           </div>
@@ -75,6 +95,13 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, courseSlug, ha
             options={TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
             placeholder="Choose an option"
           />
+          {isDeferral && (
+            <P className="text-bluedot-normal">
+              {nextRoundInfo
+                ? <>We'll reconsider your application for the next round <strong>starting {nextRoundInfo.startFormatted}</strong>. We'll contact you a week beforehand.</>
+                : 'We\'ll reconsider your application when the course runs again; we\'ll contact you closer to the time.'}
+            </P>
+          )}
         </div>
 
         <div className="flex flex-col gap-2">
@@ -82,10 +109,6 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, courseSlug, ha
           <P>
             Your feedback (positive and negative) helps improve our courses. Please share any details about your
             decision with us.
-          </P>
-          <P>
-            If you defer we'll reconsider your application when the course runs again; we'll contact you closer to the
-            time.
           </P>
           <P>Thank you again for participating.</P>
           <Textarea
