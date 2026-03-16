@@ -1,5 +1,4 @@
-// @vitest-environment happy-dom
-
+import '@testing-library/jest-dom';
 import {
   fireEvent,
   render,
@@ -7,25 +6,13 @@ import {
   waitFor,
 } from '@testing-library/react';
 import {
-  beforeEach,
   describe,
   expect,
   test,
-  vi,
 } from 'vitest';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
+import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import GranteesListSection from './GranteesListSection';
-
-const mockUseQuery = vi.fn();
-
-vi.mock('../../utils/trpc', () => ({
-  trpc: {
-    grants: {
-      getAllPublicGrantees: {
-        useQuery: () => mockUseQuery(),
-      },
-    },
-  },
-}));
 
 const mockGrantees = [
   {
@@ -45,34 +32,28 @@ const mockGrantees = [
 ];
 
 describe('GranteesListSection', () => {
-  beforeEach(() => {
-    mockUseQuery.mockReturnValue({
-      data: mockGrantees,
-      isLoading: false,
-      error: null,
-    });
-  });
-
   test('applies scroll margin to the section and toggles hidden grants', async () => {
+    server.use(trpcMsw.grants.getAllPublicGrantees.query(() => mockGrantees));
+
     const { container } = render(<GranteesListSection
       id="grants-made"
       title="Projects we have funded"
       limit={1}
       background="canvas"
-    />);
+    />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      expect(screen.getByText('Alpha Project')).toBeDefined();
+      expect(screen.getByText('Alpha Project')).toBeInTheDocument();
     });
 
     const section = container.querySelector('section#grants-made');
     expect(section?.className).toContain('scroll-mt-28');
-    expect(screen.queryByText('Beta Project')).toBeNull();
+    expect(screen.queryByText('Beta Project')).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: 'Show all 2 public grants' }));
 
     await waitFor(() => {
-      expect(screen.getByText('Beta Project')).toBeDefined();
+      expect(screen.getByText('Beta Project')).toBeInTheDocument();
     });
   });
 });
