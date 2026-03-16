@@ -1,5 +1,5 @@
 import {
-  and, courseRegistrationTable, courseTable, eq, meetPersonTable, sql,
+  and, courseRegistrationTable, courseTable, eq, isNull, meetPersonTable, or, sql,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
@@ -48,8 +48,14 @@ export const meetPersonRouter = router({
           eq(courseRegistrationTable.pg.decision, 'Accept'),
           eq(courseRegistrationTable.pg.roundStatus, 'Active'),
           // Check for empty arrays = no dropout or deferral records
-          eq(sql`cardinality(${courseRegistrationTable.pg.dropoutId})`, 0),
-          eq(sql`cardinality(${courseRegistrationTable.pg.deferredId})`, 0),
+          or(
+            isNull(courseRegistrationTable.pg.dropoutId),
+            eq(sql`cardinality(${courseRegistrationTable.pg.dropoutId})`, 0),
+          ),
+          or(
+            isNull(courseRegistrationTable.pg.deferredId),
+            eq(sql`cardinality(${courseRegistrationTable.pg.deferredId})`, 0),
+          ),
           eq(meetPersonTable.pg.hasSentInactiveEmail, true),
           // Optionally filter by course slug if provided
           ...(input.courseSlug ? [eq(courseTable.pg.slug, input.courseSlug)] : []),
