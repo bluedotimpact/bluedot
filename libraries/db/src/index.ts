@@ -39,6 +39,7 @@ export {
   dropoutTable,
   teamMemberTable,
   testimonialTable,
+  grantTable,
   bugReportsTable,
 } from './schema';
 
@@ -78,6 +79,7 @@ export type {
   Dropout,
   TeamMember,
   Testimonial,
+  Grant,
   BugReport,
 } from './schema';
 
