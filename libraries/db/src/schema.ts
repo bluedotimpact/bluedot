@@ -866,15 +866,15 @@ export const testimonialTable = pgAirtable('testimonial', {
   },
 });
 
-export const grantGranteeTable = pgAirtable('grant_grantee', {
+export const grantTable = pgAirtable('grant', {
   baseId: WEB_CONTENT_BASE_ID,
   tableId: 'tblMdePJeKq1taknz',
   columns: {
-    name: {
+    granteeName: {
       pgColumn: text(),
       airtableId: 'fldjn3Zd2PCa2A7WP',
     },
-    projectName: {
+    projectTitle: {
       pgColumn: text(),
       airtableId: 'fldZvNTpduluCck7Q',
     },
@@ -886,7 +886,8 @@ export const grantGranteeTable = pgAirtable('grant_grantee', {
       pgColumn: text(),
       airtableId: 'fldR4zV1lEewVdsU0',
     },
-    profileOrProjectUrl: {
+    /** Profile or project URL */
+    link: {
       pgColumn: text(),
       airtableId: 'fld6qyxItmbNSC4zA',
     },
@@ -1433,7 +1434,7 @@ export type Blog = InferSelectModel<typeof blogTable.pg>;
 export type JobPosting = InferSelectModel<typeof jobPostingTable.pg>;
 export type Project = InferSelectModel<typeof projectTable.pg>;
 export type Testimonial = InferSelectModel<typeof testimonialTable.pg>;
-export type GrantGrantee = InferSelectModel<typeof grantGranteeTable.pg>;
+export type Grant = InferSelectModel<typeof grantTable.pg>;
 export type Chunk = InferSelectModel<typeof chunkTable.pg>;
 export type Unit = InferSelectModel<typeof unitTable.pg>;
 export type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;

@@ -39,7 +39,7 @@ export {
   dropoutTable,
   teamMemberTable,
   testimonialTable,
-  grantGranteeTable,
+  grantTable,
   bugReportsTable,
 } from './schema';
 
@@ -79,7 +79,7 @@ export type {
   Dropout,
   TeamMember,
   Testimonial,
-  GrantGrantee,
+  Grant,
   BugReport,
 } from './schema';
 
