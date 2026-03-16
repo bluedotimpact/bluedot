@@ -15,14 +15,16 @@ type DropoutType = (typeof TYPE_OPTIONS)[number]['value'];
 
 type DropoutModalProps = {
   applicantId: string;
+  courseSlug: string;
   handleClose: () => void;
 };
 
-const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, handleClose }) => {
+const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, courseSlug, handleClose }) => {
   const [dropoutType, setDropoutType] = useState<DropoutType | undefined>();
   const [reason, setReason] = useState('');
 
   const dropoutMutation = trpc.dropout.dropoutOrDeferral.useMutation();
+  const { data: courseRounds } = trpc.courseRounds.getRoundsForCourse.useQuery({ courseSlug });
 
   const isDeferral = dropoutType === 'deferral';
   const submitDisabled = !dropoutType || dropoutMutation.isPending;
