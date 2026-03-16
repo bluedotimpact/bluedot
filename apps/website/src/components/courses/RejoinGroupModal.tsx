@@ -74,6 +74,16 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
               </p>
             </div>
             <div className="mt-1 flex flex-col gap-2">
+              {!isLoading && groups.length === 0 && (
+                <p className="text-size-sm text-bluedot-normal py-4 text-center">
+                  No groups are currently available to join. Please{' '}
+                  <a href="mailto:team@bluedot.org" className="underline">
+                    contact us
+                  </a>{' '}
+                  for assistance.
+                </p>
+              )}
+
               {groups.map((g) => (
                 <RejoinGroupOption
                   key={g.group.id}
