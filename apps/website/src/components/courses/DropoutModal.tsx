@@ -97,9 +97,14 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, courseSlug, ha
           />
           {isDeferral && (
             <P className="text-bluedot-normal">
-              {nextRoundInfo
-                ? <>We'll reconsider your application for the next round <strong>starting {nextRoundInfo.startFormatted}</strong>. We'll contact you a week beforehand.</>
-                : 'We\'ll reconsider your application when the course runs again; we\'ll contact you closer to the time.'}
+              {nextRoundInfo ? (
+                <>
+                  We'll reconsider your application for the next round{' '}
+                  <strong>starting {nextRoundInfo.startFormatted}</strong>. We'll contact you a week beforehand.
+                </>
+              ) : (
+                'We\'ll reconsider your application when the course runs again; we\'ll contact you closer to the time.'
+              )}
             </P>
           )}
         </div>
