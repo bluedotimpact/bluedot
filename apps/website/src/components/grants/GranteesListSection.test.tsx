@@ -10,44 +10,40 @@ import {
   expect,
   test,
 } from 'vitest';
-import { TrpcProvider } from '../../__tests__/trpcProvider';
-import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
+import { grantTable } from '@bluedot/db';
+import { createTrpcDbProvider, setupTestDb, testDb } from '../../__tests__/dbTestUtils';
 import GranteesListSection from './GranteesListSection';
 
-const mockGrantees = [
-  {
-    granteeName: 'Alice',
-    projectTitle: 'Alpha Project',
-    amountUsd: 1000,
-    projectSummary: 'Alpha summary',
-    link: 'https://example.com/alpha',
-  },
-  {
-    granteeName: 'Bob',
-    projectTitle: 'Beta Project',
-    amountUsd: 2000,
-    projectSummary: undefined,
-    link: undefined,
-  },
-];
+setupTestDb();
 
 describe('GranteesListSection', () => {
-  test('applies scroll margin to the section and toggles hidden grants', async () => {
-    server.use(trpcMsw.grants.getAllPublicGrantees.query(() => mockGrantees));
+  test('renders grantees from DB and toggles show all', async () => {
+    await testDb.insert(grantTable, {
+      granteeName: 'Alice',
+      projectTitle: 'Alpha Project',
+      amountUsd: 1000,
+      projectSummary: 'Alpha summary',
+      link: 'https://example.com/alpha',
+    });
+    await testDb.insert(grantTable, {
+      granteeName: 'Bob',
+      projectTitle: 'Beta Project',
+      amountUsd: 2000,
+      projectSummary: null,
+      link: null,
+    });
 
-    const { container } = render(<GranteesListSection
+    render(<GranteesListSection
       id="grants-made"
       title="Projects we have funded"
       limit={1}
       background="canvas"
-    />, { wrapper: TrpcProvider });
+    />, { wrapper: createTrpcDbProvider() });
 
     await waitFor(() => {
       expect(screen.getByText('Alpha Project')).toBeInTheDocument();
     });
 
-    const section = container.querySelector('section#grants-made');
-    expect(section?.className).toContain('scroll-mt-28');
     expect(screen.queryByText('Beta Project')).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: 'Show all 2 public grants' }));

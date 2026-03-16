@@ -30,11 +30,11 @@ const sanitizeUrl = (value: string | null): string | undefined => {
   return undefined;
 };
 
-export const mapPublicGrants = (all: Grant[]): PublicGrant[] => {
+const mapPublicGrants = (all: Grant[]): PublicGrant[] => {
   return all
     .filter((grant) => grant.granteeName?.trim()
       && grant.projectTitle?.trim())
-    .map((grant) => ({
+    .map((grant: Grant) => ({
       granteeName: grant.granteeName!.trim(),
       projectTitle: grant.projectTitle!.trim(),
       amountUsd: grant.amountUsd ?? null,
