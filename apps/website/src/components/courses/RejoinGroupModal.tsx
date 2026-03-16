@@ -174,7 +174,8 @@ const RejoinGroupOption: React.FC<RejoinGroupOptionProps> = ({
           </div>
           <CTALinkOrButton
             onClick={onJoin}
-            disabled={isDisabled ?? isSubmitting}
+            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+            disabled={isDisabled || isSubmitting}
             aria-label={`Join ${groupName}`}
             className="my-auto h-fit"
           >
