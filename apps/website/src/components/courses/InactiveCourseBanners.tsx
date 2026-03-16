@@ -48,16 +48,15 @@ const InactiveCourseBanner = ({ applicantId, courseSlug, roundId }: InactiveCour
           </p>
         </div>
         <div className="flex w-full shrink-0 gap-2 sm:w-auto">
-          {roundId && (
-            <CTALinkOrButton
-              variant="primary"
-              size="small"
-              onClick={() => setRejoinModalOpen(true)}
-              className="flex-1 bg-[#CC6B11] hover:bg-[color-mix(in_oklab,#CC6B11,black_3%)] hover:text-white sm:flex-initial"
-            >
-              Rejoin a group
-            </CTALinkOrButton>
-          )}
+          <CTALinkOrButton
+            variant="primary"
+            size="small"
+            onClick={() => setRejoinModalOpen(true)}
+            disabled={!roundId}
+            className="flex-1 bg-[#CC6B11] hover:bg-[color-mix(in_oklab,#CC6B11,black_3%)] hover:text-white sm:flex-initial"
+          >
+            Rejoin a group
+          </CTALinkOrButton>
           <CTALinkOrButton
             variant="outline-black"
             size="small"
