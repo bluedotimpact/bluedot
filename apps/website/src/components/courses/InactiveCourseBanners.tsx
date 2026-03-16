@@ -16,7 +16,12 @@ export default function InactiveCourseBanners({ courseSlug }: InactiveCourseBann
   return (
     <>
       {(inactiveCourseRegistrations ?? []).map((courseRegistration) => (
-        <InactiveCourseBanner key={courseRegistration.courseRegistrationId} applicantId={courseRegistration.courseRegistrationId} courseSlug={courseRegistration.courseSlug} roundId={courseRegistration.roundId} />
+        <InactiveCourseBanner
+          key={courseRegistration.courseRegistrationId}
+          applicantId={courseRegistration.courseRegistrationId}
+          courseSlug={courseRegistration.courseSlug}
+          roundId={courseRegistration.roundId}
+        />
       ))}
     </>
   );
@@ -34,7 +39,7 @@ const InactiveCourseBanner = ({ applicantId, courseSlug, roundId }: InactiveCour
 
   return (
     <>
-      <div className="flex flex-col items-start gap-3 bg-[#FFF7ED] border-b border-[#BB4D2214] px-4 py-3 sm:flex-row sm:items-center sm:gap-4">
+      <div className="flex flex-col items-start gap-3 border-b border-[#BB4D2214] bg-[#FFF7ED] px-4 py-3 sm:flex-row sm:items-center sm:gap-4">
         <div className="flex min-w-0 flex-1 items-start gap-3">
           <MoonStarsIcon className="shrink-0" stroke="#CC6B11" />
           <p className="text-[13px] leading-[1.5] font-medium text-[#CC6B11]">
@@ -57,16 +62,24 @@ const InactiveCourseBanner = ({ applicantId, courseSlug, roundId }: InactiveCour
             variant="outline-black"
             size="small"
             onClick={() => setDropoutModalOpen(true)}
-            className="flex-1 bg-[#CC6B1114] text-[#CC6B11] border-none hover:bg-[#CC6B1124] hover:text-[#CC6B11] sm:flex-initial"
+            className="flex-1 border-none bg-[#CC6B1114] text-[#CC6B11] hover:bg-[#CC6B1124] hover:text-[#CC6B11] sm:flex-initial"
           >
             Drop out of course
           </CTALinkOrButton>
         </div>
       </div>
 
-      {rejoinModalOpen && roundId && <RejoinGroupModal roundId={roundId} handleClose={() => setRejoinModalOpen(false)} />}
+      {rejoinModalOpen && roundId && (
+        <RejoinGroupModal roundId={roundId} handleClose={() => setRejoinModalOpen(false)} />
+      )}
 
-      {dropoutModalOpen && <DropoutModal applicantId={applicantId} courseSlug={courseSlug} handleClose={() => setDropoutModalOpen(false)} />}
+      {dropoutModalOpen && (
+        <DropoutModal
+          applicantId={applicantId}
+          courseSlug={courseSlug}
+          handleClose={() => setDropoutModalOpen(false)}
+        />
+      )}
     </>
   );
 };
