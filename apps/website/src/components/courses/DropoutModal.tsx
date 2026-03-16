@@ -35,8 +35,9 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, courseSlug, ha
     if (!courseRounds) return null;
     const allRounds = [...courseRounds.intense, ...courseRounds.partTime];
     if (allRounds.length === 0) return null;
+    const now = new Date();
     const sorted = allRounds
-      .filter((r) => r.firstDiscussionDateRaw)
+      .filter((r) => r.firstDiscussionDateRaw && new Date(r.firstDiscussionDateRaw) > now)
       .sort((a, b) => new Date(a.firstDiscussionDateRaw!).getTime() - new Date(b.firstDiscussionDateRaw!).getTime());
     const earliest = sorted[0];
     if (!earliest?.firstDiscussionDateRaw) return null;
