@@ -48,6 +48,18 @@ export const Inactive: Story = {
         trpcStorybookMsw.meetPerson.getInactiveCourseRegistrations.query(() => [
           { courseRegistrationId: 'rec123456789', courseSlug: 'agi-safety-fundamentals', roundId: 'round-1' },
         ]),
+        trpcStorybookMsw.courseRounds.getRoundsForCourse.query(() => ({
+          intense: [],
+          partTime: [{
+            id: 'round-next',
+            intensity: 'Part-time',
+            applicationDeadline: '15 May',
+            applicationDeadlineRaw: '2026-05-15',
+            firstDiscussionDateRaw: '2026-06-01',
+            dateRange: '1 Jun - 20 Jul',
+            numberOfUnits: 8,
+          }],
+        })),
         trpcStorybookMsw.groupSwitching.discussionsAvailable.query(() => mockAvailableGroups),
         trpcStorybookMsw.groupSwitching.switchGroup.mutation(() => null),
       ],
