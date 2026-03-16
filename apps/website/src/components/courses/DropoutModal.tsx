@@ -93,7 +93,7 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, courseSlug, ha
             ariaLabel="Action type"
             value={dropoutType}
             onChange={(value) => setDropoutType(value as DropoutType)}
-            options={TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
+            options={TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label, disabled: dropoutMutation.isPending }))}
             placeholder="Choose an option"
           />
           {isDeferral && (
@@ -123,6 +123,7 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, courseSlug, ha
             placeholder="Share your reason for leaving..."
             rows={3}
             className="w-full"
+            disabled={dropoutMutation.isPending}
           />
         </div>
 
