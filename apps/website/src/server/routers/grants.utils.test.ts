@@ -5,6 +5,7 @@ describe('mapPublicGrants', () => {
   test('filters incomplete rows, trims fields, sanitizes links, and sorts by project title', () => {
     const result = mapPublicGrants([
       {
+        id: '1',
         granteeName: '  Alice  ',
         projectTitle: '  Zebra Project ',
         amountUsd: 5000,
@@ -12,6 +13,7 @@ describe('mapPublicGrants', () => {
         link: ' https://example.com/zebra ',
       },
       {
+        id: '2',
         granteeName: 'Bob',
         projectTitle: 'Alpha Project',
         amountUsd: null,
@@ -19,6 +21,7 @@ describe('mapPublicGrants', () => {
         link: '   ',
       },
       {
+        id: '3',
         granteeName: 'Missing Summary',
         projectTitle: 'No Summary Project',
         amountUsd: 1000,
@@ -26,6 +29,7 @@ describe('mapPublicGrants', () => {
         link: '',
       },
       {
+        id: '4',
         granteeName: 'Mallory',
         projectTitle: 'Javascript Link',
         amountUsd: 10,
@@ -33,6 +37,7 @@ describe('mapPublicGrants', () => {
         link: ['javascript', 'alert(1)'].join(':'),
       },
       {
+        id: '5',
         granteeName: 'Eve',
         projectTitle: 'Mailto Link',
         amountUsd: 20,
@@ -40,6 +45,7 @@ describe('mapPublicGrants', () => {
         link: 'mailto:test@example.com',
       },
       {
+        id: '6',
         granteeName: '   ',
         projectTitle: 'Should Drop',
         amountUsd: 1000,

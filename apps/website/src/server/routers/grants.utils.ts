@@ -1,17 +1,11 @@
+import type { Grant } from '@bluedot/db';
+
 export type PublicGrant = {
   granteeName: string;
   projectTitle: string;
   amountUsd: number | null;
   projectSummary?: string;
   link?: string;
-};
-
-export type GrantRow = {
-  granteeName: string | null;
-  projectTitle: string | null;
-  amountUsd: number | null;
-  projectSummary: string | null;
-  link: string | null;
 };
 
 const sanitizeUrl = (value: string | null): string | undefined => {
@@ -33,7 +27,7 @@ const sanitizeUrl = (value: string | null): string | undefined => {
   return undefined;
 };
 
-export const mapPublicGrants = (all: GrantRow[]): PublicGrant[] => {
+export const mapPublicGrants = (all: Grant[]): PublicGrant[] => {
   return all
     .filter((grant) => grant.granteeName?.trim()
       && grant.projectTitle?.trim())
