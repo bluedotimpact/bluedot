@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { mapPublicGrants } from './grants.utils';
+import { mapPublicGrants } from './grants';
 
 describe('mapPublicGrants', () => {
   test('filters incomplete rows, trims fields, sanitizes links, and sorts by project title', () => {
