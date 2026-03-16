@@ -29,18 +29,18 @@ vi.mock('../../utils/trpc', () => ({
 
 const mockGrantees = [
   {
-    name: 'Alice',
-    projectName: 'Alpha Project',
+    granteeName: 'Alice',
+    projectTitle: 'Alpha Project',
     amountUsd: 1000,
     projectSummary: 'Alpha summary',
-    profileOrProjectUrl: 'https://example.com/alpha',
+    link: 'https://example.com/alpha',
   },
   {
-    name: 'Bob',
-    projectName: 'Beta Project',
+    granteeName: 'Bob',
+    projectTitle: 'Beta Project',
     amountUsd: 2000,
     projectSummary: undefined,
-    profileOrProjectUrl: undefined,
+    link: undefined,
   },
 ];
 
