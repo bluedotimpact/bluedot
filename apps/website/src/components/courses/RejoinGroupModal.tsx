@@ -26,7 +26,15 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
     error,
   } = trpc.groupSwitching.discussionsAvailable.useQuery({ roundId }, { enabled: !joinedGroup });
 
+  const utils = trpc.useUtils();
   const rejoinMutation = trpc.groupSwitching.switchGroup.useMutation();
+
+  const handleCloseWithInvalidation = () => {
+    if (rejoinMutation.isSuccess) {
+      utils.meetPerson.getInactiveCourseRegistrations.invalidate();
+    }
+    handleClose();
+  };
 
   const groups = (availableGroups?.groupsAvailable?.filter((g) => !g.userIsParticipant) ?? []).sort((a, b) => {
     // Sort groups with spots before full groups
@@ -57,7 +65,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
   return (
     <Modal
       isOpen
-      setIsOpen={(open: boolean) => !open && handleClose()}
+      setIsOpen={(open: boolean) => !open && handleCloseWithInvalidation()}
       title={
         <div className="text-size-md mx-auto py-3 font-semibold">
           {rejoinMutation.isSuccess ? 'Success' : 'Rejoin a group'}
@@ -137,7 +145,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
               </p>
             </div>
 
-            <CTALinkOrButton className="w-full" onClick={handleClose}>
+            <CTALinkOrButton className="w-full" onClick={handleCloseWithInvalidation}>
               Close
             </CTALinkOrButton>
           </div>

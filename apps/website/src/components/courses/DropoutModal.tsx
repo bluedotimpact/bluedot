@@ -25,7 +25,15 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, courseSlug, ha
   const [dropoutType, setDropoutType] = useState<DropoutType | undefined>();
   const [reason, setReason] = useState('');
 
+  const utils = trpc.useUtils();
   const dropoutMutation = trpc.dropout.dropoutOrDeferral.useMutation();
+
+  const handleCloseWithInvalidation = () => {
+    if (dropoutMutation.isSuccess) {
+      utils.meetPerson.getInactiveCourseRegistrations.invalidate();
+    }
+    handleClose();
+  };
   const { data: courseRounds } = trpc.courseRounds.getRoundsForCourse.useQuery({ courseSlug });
 
   const isDeferral = dropoutType === 'deferral';
@@ -76,7 +84,7 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, courseSlug, ha
                 : 'Your dropout request has been submitted. We\'re sorry to see you go. You should receive a confirmation email soon.'}
             </P>
           </div>
-          <CTALinkOrButton className="bg-bluedot-normal w-full" onClick={handleClose}>
+          <CTALinkOrButton className="bg-bluedot-normal w-full" onClick={handleCloseWithInvalidation}>
             Close
           </CTALinkOrButton>
         </div>
@@ -160,7 +168,7 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, courseSlug, ha
   return (
     <Modal
       isOpen
-      setIsOpen={(open: boolean) => !open && handleClose()}
+      setIsOpen={(open: boolean) => !open && handleCloseWithInvalidation()}
       title={renderTitle()}
       bottomDrawerOnMobile
       desktopHeaderClassName="border-b border-charcoal-light py-4"
