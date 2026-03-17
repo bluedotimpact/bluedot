@@ -2,6 +2,8 @@ import {
   CTALinkOrButton, H1, Modal, P, ProgressDots, Select, Textarea,
 } from '@bluedot/ui';
 import { useState } from 'react';
+import { ONE_DAY_MS } from '../../lib/constants';
+import { formatMonthAndDay } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 import { CheckIcon } from '../icons/CheckIcon';
 import { InfoIcon } from '../icons/InfoIcon';
@@ -15,17 +17,48 @@ type DropoutType = (typeof TYPE_OPTIONS)[number]['value'];
 
 type DropoutModalProps = {
   applicantId: string;
+  courseSlug: string;
   handleClose: () => void;
 };
 
-const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, handleClose }) => {
+const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, courseSlug, handleClose }) => {
   const [dropoutType, setDropoutType] = useState<DropoutType | undefined>();
   const [reason, setReason] = useState('');
 
+  const utils = trpc.useUtils();
   const dropoutMutation = trpc.dropout.dropoutOrDeferral.useMutation();
+
+  const handleCloseWithInvalidation = () => {
+    if (dropoutMutation.isSuccess) {
+      utils.meetPerson.getInactiveCourseRegistrations.invalidate();
+    }
+
+    handleClose();
+  };
+
+  const { data: courseRounds } = trpc.courseRounds.getRoundsForCourse.useQuery({ courseSlug });
 
   const isDeferral = dropoutType === 'deferral';
   const submitDisabled = !dropoutType || dropoutMutation.isPending;
+
+  const nextRoundInfo = (() => {
+    if (!courseRounds) return null;
+    const allRounds = [...courseRounds.intense, ...courseRounds.partTime];
+    if (allRounds.length === 0) return null;
+    const now = new Date();
+    const sorted = allRounds
+      .filter((r) => r.firstDiscussionDateRaw && new Date(r.firstDiscussionDateRaw) > now)
+      .sort((a, b) => new Date(a.firstDiscussionDateRaw!).getTime() - new Date(b.firstDiscussionDateRaw!).getTime());
+    const earliest = sorted[0];
+    if (!earliest?.firstDiscussionDateRaw) return null;
+
+    const startDate = new Date(earliest.firstDiscussionDateRaw);
+    const oneWeekBefore = new Date(startDate.getTime() - 7 * ONE_DAY_MS);
+    const contactWeek = formatMonthAndDay(oneWeekBefore.toISOString());
+    const startFormatted = formatMonthAndDay(earliest.firstDiscussionDateRaw);
+
+    return { startFormatted, contactWeek };
+  })();
 
   const handleSubmit = () => {
     if (!dropoutType) {
@@ -47,13 +80,13 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, handleClose })
             <CheckIcon className="text-bluedot-normal" />
           </div>
           <div className="flex max-w-[512px] flex-col items-center gap-4">
-            <P className="text-center text-bluedot-navy/80">
+            <P className="text-bluedot-navy/80 text-center">
               {isDeferral
-                ? 'Your deferral request has been submitted. We\'ll be in touch about joining a future cohort.'
+                ? `Your deferral request has been submitted. ${nextRoundInfo ? `We'll be in touch in the week of ${nextRoundInfo.contactWeek}. You should receive a confirmation email soon.` : 'We\'ll be in touch about joining a future cohort. You should receive a confirmation email soon.'}`
                 : 'Your dropout request has been submitted. We\'re sorry to see you go. You should receive a confirmation email soon.'}
             </P>
           </div>
-          <CTALinkOrButton className="bg-bluedot-normal w-full" onClick={handleClose}>
+          <CTALinkOrButton className="bg-bluedot-normal w-full" onClick={handleCloseWithInvalidation}>
             Close
           </CTALinkOrButton>
         </div>
@@ -70,29 +103,37 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, handleClose })
             ariaLabel="Action type"
             value={dropoutType}
             onChange={(value) => setDropoutType(value as DropoutType)}
-            options={TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label }))}
+            options={TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label, disabled: dropoutMutation.isPending }))}
             placeholder="Choose an option"
           />
+          {isDeferral && (
+            <P className="text-bluedot-normal">
+              {nextRoundInfo ? (
+                <>
+                  We'll reconsider your application for the next round{' '}
+                  <strong>starting {nextRoundInfo.startFormatted}</strong>. We'll contact you a week beforehand.
+                </>
+              ) : (
+                'We\'ll reconsider your application when the course runs again; we\'ll contact you closer to the time.'
+              )}
+            </P>
+          )}
         </div>
 
         <div className="flex flex-col gap-2">
           <H1 className="text-size-md font-medium text-black">2. Please tell us why</H1>
           <P>
-            Would you like to share why you're dropping out? It's really helpful for us to know what kind of problems
-            our participants have that lead them to drop out (we understand and don't expect details if the reason is
-            personal, though). We'd also like to know if and how the course didn't live up to your expectations.
+            Your feedback (positive and negative) helps improve our courses. Please share any details about your
+            decision with us.
           </P>
-          <P>
-            If you choose to defer we'll reconsider your application for the next round of the course. We'll drop you
-            out from this course and contact you again closer to the start of the next round.
-          </P>
-          <P>Thanks again for participating.</P>
+          <P>Thank you again for participating.</P>
           <Textarea
             value={reason}
             onChange={(e) => setReason(e.target.value)}
             placeholder="Share your reason for leaving..."
             rows={3}
             className="w-full"
+            disabled={dropoutMutation.isPending}
           />
         </div>
 
@@ -129,7 +170,7 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, handleClose })
   return (
     <Modal
       isOpen
-      setIsOpen={(open: boolean) => !open && handleClose()}
+      setIsOpen={(open: boolean) => !open && handleCloseWithInvalidation()}
       title={renderTitle()}
       bottomDrawerOnMobile
       desktopHeaderClassName="border-b border-charcoal-light py-4"

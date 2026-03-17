@@ -10,7 +10,9 @@ import {
 import { FaArrowLeft, FaArrowRightArrowLeft } from 'react-icons/fa6';
 import { ClockUserIcon } from '../icons/ClockUserIcon';
 import { UserIcon } from '../icons/UserIcon';
-import { formatTime12HourClock, formatDateMonthAndDay, formatDateDayOfWeek } from '../../lib/utils';
+import {
+  formatTime12HourClock, formatDateMonthAndDay, formatDateDayOfWeek, getGMTOffsetWithCity,
+} from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
 export type GroupSwitchModalProps = {
@@ -488,18 +490,6 @@ const SWITCH_TYPE_OPTIONS = [
 ] as const;
 
 export type SwitchType = (typeof SWITCH_TYPE_OPTIONS)[number]['value'];
-
-const getGMTOffsetWithCity = () => {
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const now = new Date();
-  const offsetMinutes = now.getTimezoneOffset();
-  const offsetHours = Math.abs(offsetMinutes) / 60;
-  const offsetSign = offsetMinutes <= 0 ? '+' : '-';
-  const offsetFormatted = `${offsetSign}${Math.floor(offsetHours).toString().padStart(2, '0')}:${(Math.abs(offsetMinutes) % 60).toString().padStart(2, '0')}`;
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  const cityName = timezone.split('/').pop()?.replace(/_/g, ' ') || timezone;
-  return `(GMT ${offsetFormatted}) ${cityName}`;
-};
 
 export const buildAvailabilityFormUrl = ({
   email,

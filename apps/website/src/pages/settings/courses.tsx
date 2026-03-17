@@ -1,11 +1,12 @@
+import type { CourseRegistration } from '@bluedot/db';
 import {
   CTALinkOrButton, ErrorSection, P, ProgressDots,
 } from '@bluedot/ui';
-import type { CourseRegistration } from '@bluedot/db';
 import Head from 'next/head';
-import { ROUTES } from '../../lib/routes';
-import SettingsLayout from '../../components/settings/SettingsLayout';
+import InactiveCourseBanners from '../../components/courses/InactiveCourseBanners';
 import CourseList from '../../components/settings/CourseList';
+import SettingsLayout from '../../components/settings/SettingsLayout';
+import { ROUTES } from '../../lib/routes';
 import { trpc } from '../../utils/trpc';
 
 const CURRENT_ROUTE = ROUTES.settingsCourses;
@@ -21,7 +22,7 @@ const CoursesSettingsPage = () => {
       {userLoading && <ProgressDots />}
       {userError && <ErrorSection error={userError} />}
       {user && (
-        <SettingsLayout activeTab="courses" route={CURRENT_ROUTE}>
+        <SettingsLayout activeTab="courses" route={CURRENT_ROUTE} afterBreadcrumbs={<InactiveCourseBanners />}>
           <CoursesContent />
         </SettingsLayout>
       )}
