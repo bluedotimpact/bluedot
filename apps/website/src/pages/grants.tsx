@@ -13,6 +13,7 @@ import {
 } from '../components/grants/grantPrograms';
 import LandingBanner from '../components/lander/components/LandingBanner';
 import { ROUTES } from '../lib/routes';
+import { formatAmountUsd } from '../lib/utils';
 import { trpc } from '../utils/trpc';
 
 const CURRENT_ROUTE: BluedotRoute = {
@@ -58,11 +59,7 @@ const GrantsOverviewPage = () => {
     ? {
       title: featuredGrant.projectTitle,
       summary: featuredGrant.projectSummary ?? '',
-      meta: `${featuredGrant.granteeName}${featuredGrant.amountUsd ? ` • ${new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        maximumFractionDigits: 0,
-      }).format(featuredGrant.amountUsd)}` : ''}`,
+      meta: `${featuredGrant.granteeName}${featuredGrant.amountUsd ? ` • ${formatAmountUsd(featuredGrant.amountUsd)}` : ''}`,
       url: featuredGrant.link,
     }
     : undefined;

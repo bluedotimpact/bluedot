@@ -5,24 +5,13 @@ import type { inferRouterOutputs } from '@trpc/server';
 import clsx from 'clsx';
 import { useState } from 'react';
 import type { AppRouter } from '../../server/routers/_app';
+import { formatAmountUsd } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
 type PublicGrant = inferRouterOutputs<AppRouter>['grants']['getAllPublicGrantees'][number];
 
-const formatAmountUsd = (amountUsd: number | null) => {
-  if (amountUsd === null) {
-    return null;
-  }
-
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    maximumFractionDigits: 0,
-  }).format(amountUsd);
-};
-
 const GranteeListItem = ({ grantee }: { grantee: PublicGrant }) => {
-  const amount = formatAmountUsd(grantee.amountUsd);
+  const amount = grantee.amountUsd !== null ? formatAmountUsd(grantee.amountUsd) : null;
   const subtitle = amount ? `${grantee.granteeName} • ${amount}` : grantee.granteeName;
   const Container = grantee.link ? 'a' : 'div';
 

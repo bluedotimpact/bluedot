@@ -13,6 +13,7 @@ import { RAPID_GRANT_APPLICATION_URL } from '../../components/grants/grantProgra
 import LandingBanner from '../../components/lander/components/LandingBanner';
 import FAQSection from '../../components/lander/components/FAQSection';
 import { ROUTES } from '../../lib/routes';
+import { formatAmountUsd } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
 const CURRENT_ROUTE: BluedotRoute = {
@@ -102,14 +103,6 @@ const FAQ_ITEMS = [
     answer: 'Rapid Grants is for relatively small, concrete project costs. If what you need is substantially larger, this is probably the wrong mechanism.',
   },
 ];
-
-const formatAmountUsd = (amountUsd: number) => {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    maximumFractionDigits: 0,
-  }).format(amountUsd);
-};
 
 const RapidGrantsPage = () => {
   const { data: grantees } = trpc.grants.getAllPublicGrantees.useQuery();
