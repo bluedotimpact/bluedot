@@ -32,8 +32,10 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, courseSlug, ha
     if (dropoutMutation.isSuccess) {
       utils.meetPerson.getInactiveCourseRegistrations.invalidate();
     }
+
     handleClose();
   };
+
   const { data: courseRounds } = trpc.courseRounds.getRoundsForCourse.useQuery({ courseSlug });
 
   const isDeferral = dropoutType === 'deferral';

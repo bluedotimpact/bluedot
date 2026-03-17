@@ -44,6 +44,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
         (old) => old?.filter((r) => r.roundId !== roundId),
       );
     }
+
     handleClose();
   };
 
