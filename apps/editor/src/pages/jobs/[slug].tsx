@@ -1,6 +1,6 @@
 import {
   ErrorSection,
-  P, A,
+  H2, P, A,
   ProgressDots,
   withAuth,
 } from '@bluedot/ui';
@@ -53,6 +53,7 @@ const JobPostPage = withAuth(({ auth }) => {
       <Head>
         <title>{`${data.job.title} | BlueDot Editor`}</title>
       </Head>
+      <H2>{data.job.title}</H2>
       <BodyEditor auth={auth} onSave={saveJob}>
         {data.job.body ?? undefined}
       </BodyEditor>
