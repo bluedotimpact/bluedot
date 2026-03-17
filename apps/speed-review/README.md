@@ -1,8 +1,6 @@
-# app-template
+# speed-review
 
-A template Next.js app that you can copy and paste to start a new project.
-
-See the [main README for details on creating a new app](../../README.md#guide-adding-a-new-app).
+A Next.js app for quickly reviewing course applications in timed sessions. Reviewers pick a round, then rate applications one-by-one against a 30-second countdown, with progress milestones and a session summary at the end.
 
 ## Developer setup
 
