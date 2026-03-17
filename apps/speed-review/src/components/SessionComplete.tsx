@@ -28,6 +28,8 @@ const sendOpinion = (id: string, rating: RatingValue) => {
     body: JSON.stringify({
       opinions: [{ id, opinion: toHumanOpinion(rating), decision: toDecision(rating) }],
     }),
+  }).then((r) => {
+    if (!r.ok) throw new Error(`${r.status}: ${r.statusText}`);
   // eslint-disable-next-line no-console
   }).catch(console.error);
 };
@@ -41,7 +43,10 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
 
   useEffect(() => {
     authFetch(`/api/round-stats?round=${encodeURIComponent(roundId)}`)
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error(`${r.status}: ${r.statusText}`);
+        return r.json();
+      })
       .then((data: { total: number; evaluated: number; accepted: number }) => setRoundStats(data))
       // eslint-disable-next-line no-console
       .catch(console.error);
