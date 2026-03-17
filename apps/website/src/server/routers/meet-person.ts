@@ -1,5 +1,14 @@
 import {
-  and, courseRegistrationTable, courseTable, eq, isNull, meetPersonTable, or, sql,
+  and,
+  courseRegistrationTable,
+  courseTable,
+  dropoutTable,
+  eq,
+  groupSwitchingTable,
+  groupTable,
+  meetPersonTable,
+  notExists,
+  sql,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
@@ -53,6 +62,16 @@ export const meetPersonRouter = router({
             .from(dropoutTable.pg)
             .where(sql`${courseRegistrationTable.pg.id} = ANY(${dropoutTable.pg.applicantId})`)),
           eq(meetPersonTable.pg.hasSentInactiveEmail, true),
+          // Exclude users who have requested to rejoin a group in the same round
+          notExists(db.pg
+            .select({ one: sql`1` })
+            .from(groupSwitchingTable.pg)
+            .innerJoin(groupTable.pg, eq(groupTable.pg.id, groupSwitchingTable.pg.newGroup))
+            .where(and(
+              eq(groupSwitchingTable.pg.participant, meetPersonTable.pg.id),
+              eq(groupSwitchingTable.pg.switchType, 'Switch group permanently'),
+              eq(groupTable.pg.round, meetPersonTable.pg.round),
+            ))),
           // Optionally filter by course slug if provided
           ...(input.courseSlug ? [eq(courseTable.pg.slug, input.courseSlug)] : []),
         ));
