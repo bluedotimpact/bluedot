@@ -4,8 +4,6 @@ import {
   courseTable,
   dropoutTable,
   eq,
-  groupSwitchingTable,
-  groupTable,
   meetPersonTable,
   notExists,
   sql,
@@ -62,16 +60,8 @@ export const meetPersonRouter = router({
             .from(dropoutTable.pg)
             .where(sql`${courseRegistrationTable.pg.id} = ANY(${dropoutTable.pg.applicantId})`)),
           eq(meetPersonTable.pg.hasSentInactiveEmail, true),
-          // Exclude users who have requested to rejoin a group in the same round
-          notExists(db.pg
-            .select({ one: sql`1` })
-            .from(groupSwitchingTable.pg)
-            .innerJoin(groupTable.pg, eq(groupTable.pg.id, groupSwitchingTable.pg.newGroup))
-            .where(and(
-              eq(groupSwitchingTable.pg.participant, meetPersonTable.pg.id),
-              eq(groupSwitchingTable.pg.switchType, 'Switch group permanently'),
-              eq(groupTable.pg.round, meetPersonTable.pg.round),
-            ))),
+          // Exclude users who have rejoined a group (field is empty while inactive)
+          sql`coalesce(cardinality(${meetPersonTable.pg.groupsAsParticipant}), 0) = 0`,
           // Optionally filter by course slug if provided
           ...(input.courseSlug ? [eq(courseTable.pg.slug, input.courseSlug)] : []),
         ));
