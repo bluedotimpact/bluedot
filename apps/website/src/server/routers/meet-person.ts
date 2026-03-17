@@ -47,15 +47,11 @@ export const meetPersonRouter = router({
           eq(courseRegistrationTable.pg.email, ctx.auth.email),
           eq(courseRegistrationTable.pg.decision, 'Accept'),
           eq(courseRegistrationTable.pg.roundStatus, 'Active'),
-          // Check for empty arrays = no dropout or deferral records
-          or(
-            isNull(courseRegistrationTable.pg.dropoutId),
-            eq(sql`cardinality(${courseRegistrationTable.pg.dropoutId})`, 0),
-          ),
-          or(
-            isNull(courseRegistrationTable.pg.deferredId),
-            eq(sql`cardinality(${courseRegistrationTable.pg.deferredId})`, 0),
-          ),
+          // Exclude users who have dropped out or deferred
+          notExists(db.pg
+            .select({ one: sql`1` })
+            .from(dropoutTable.pg)
+            .where(sql`${courseRegistrationTable.pg.id} = ANY(${dropoutTable.pg.applicantId})`)),
           eq(meetPersonTable.pg.hasSentInactiveEmail, true),
           // Optionally filter by course slug if provided
           ...(input.courseSlug ? [eq(courseTable.pg.slug, input.courseSlug)] : []),
