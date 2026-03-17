@@ -1,8 +1,12 @@
 import {
   cn, CTALinkOrButton, ErrorSection, Modal, ProgressDots,
 } from '@bluedot/ui';
+import { useQueryClient } from '@tanstack/react-query';
+import { getQueryKey } from '@trpc/react-query';
+import type { inferRouterOutputs } from '@trpc/server';
 import type React from 'react';
 import { useMemo, useState } from 'react';
+import type { AppRouter } from '../../server/routers/_app';
 import { formatDateMonthAndDay, formatTime12HourClock, getGMTOffsetWithCity } from '../../lib/utils';
 import type { DiscussionsAvailable } from '../../server/routers/group-switching';
 import { trpc } from '../../utils/trpc';
@@ -26,12 +30,19 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
     error,
   } = trpc.groupSwitching.discussionsAvailable.useQuery({ roundId }, { enabled: !joinedGroup });
 
-  const utils = trpc.useUtils();
+  const queryClient = useQueryClient();
   const rejoinMutation = trpc.groupSwitching.switchGroup.useMutation();
+  const inactiveRegistrationsQueryKey = getQueryKey(trpc.meetPerson.getInactiveCourseRegistrations);
 
-  const handleCloseWithInvalidation = () => {
+  const handleCloseWithCacheUpdate = () => {
     if (rejoinMutation.isSuccess) {
-      utils.meetPerson.getInactiveCourseRegistrations.invalidate();
+      // Optimistically remove this registration from all cached query variants,
+      // since the server-side groupsAsParticipant field won't update until Airtable syncs
+      type InactiveRegistrations = inferRouterOutputs<AppRouter>['meetPerson']['getInactiveCourseRegistrations'];
+      queryClient.setQueriesData<InactiveRegistrations>(
+        { queryKey: inactiveRegistrationsQueryKey },
+        (old) => old?.filter((r) => r.roundId !== roundId),
+      );
     }
     handleClose();
   };
@@ -65,7 +76,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
   return (
     <Modal
       isOpen
-      setIsOpen={(open: boolean) => !open && handleCloseWithInvalidation()}
+      setIsOpen={(open: boolean) => !open && handleCloseWithCacheUpdate()}
       title={
         <div className="text-size-md mx-auto py-3 font-semibold">
           {rejoinMutation.isSuccess ? 'Success' : 'Rejoin a group'}
@@ -145,7 +156,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
               </p>
             </div>
 
-            <CTALinkOrButton className="w-full" onClick={handleCloseWithInvalidation}>
+            <CTALinkOrButton className="w-full" onClick={handleCloseWithCacheUpdate}>
               Close
             </CTALinkOrButton>
           </div>
