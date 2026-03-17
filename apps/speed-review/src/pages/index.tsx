@@ -234,14 +234,17 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
   }, [state]);
 
   // Background prefetch: trigger when queue is running low
+  const queueLength = state.status === 'reviewing' ? state.queue.length : 0;
+  const nextOffset = state.status === 'reviewing' ? state.nextOffset : undefined;
+  const roundId = state.status === 'reviewing' ? state.roundId : undefined;
+
   useEffect(() => {
     if (state.status !== 'reviewing') return;
-    if (!state.nextOffset) return;
-    if (state.queue.length > PREFETCH_THRESHOLD) return;
+    if (!nextOffset || !roundId) return;
+    if (queueLength > PREFETCH_THRESHOLD) return;
     if (fetchingMoreRef.current) return;
 
     fetchingMoreRef.current = true;
-    const { roundId, nextOffset } = state;
 
     authFetch(`/api/applications?round=${encodeURIComponent(roundId)}&offset=${encodeURIComponent(nextOffset)}`)
       .then((r) => r.json())
@@ -259,7 +262,7 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
       .finally(() => {
         fetchingMoreRef.current = false;
       });
-  }, [state]);
+  }, [state.status, queueLength, nextOffset, roundId]);
 
   // Keyboard shortcuts
   useEffect(() => {
