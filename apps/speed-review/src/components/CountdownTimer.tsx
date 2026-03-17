@@ -6,15 +6,16 @@ type CountdownTimerProps = {
   durationMs: number;
   paused: boolean;
   onExpire: () => void;
-  elapsedSessionMs: number;
+  startMs: number;
 };
 
 export type CountdownTimerHandle = { addTime: (ms: number) => void };
 
 export const CountdownTimer = forwardRef<CountdownTimerHandle, CountdownTimerProps>(({
-  durationMs, paused, onExpire, elapsedSessionMs,
+  durationMs, paused, onExpire, startMs,
 }, ref) => {
   const [remainingMs, setRemainingMs] = useState(durationMs);
+  const [elapsedSessionMs, setElapsedSessionMs] = useState(0);
   const lastTickRef = useRef<number>(Date.now());
   const expiredRef = useRef(false);
 
@@ -42,6 +43,7 @@ export const CountdownTimer = forwardRef<CountdownTimerHandle, CountdownTimerPro
       const delta = now - lastTickRef.current;
       lastTickRef.current = now;
 
+      setElapsedSessionMs(now - startMs);
       setRemainingMs((prev) => {
         const next = Math.max(0, prev - delta);
         if (next === 0 && !expiredRef.current) {
@@ -54,7 +56,7 @@ export const CountdownTimer = forwardRef<CountdownTimerHandle, CountdownTimerPro
     }, 100);
 
     return () => clearInterval(interval);
-  }, [paused, onExpire]);
+  }, [paused, onExpire, startMs]);
 
   const remainingSeconds = Math.ceil(remainingMs / 1000);
   const fraction = remainingMs / durationMs;

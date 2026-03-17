@@ -393,7 +393,6 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
     timerKeyRef.current += 1;
   }
 
-  const elapsedMs = Date.now() - state.startMs;
   const totalApps = state.queue.length + state.seen.length;
 
   return (
@@ -407,7 +406,7 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
               durationMs={COUNTDOWN_MS}
               paused={state.timerPaused}
               onExpire={handleTimeout}
-              elapsedSessionMs={elapsedMs}
+              startMs={state.startMs}
             />
           </div>
           <span className="font-mono text-size-xs text-stone-600 shrink-0">
