@@ -1,5 +1,3 @@
-// @vitest-environment happy-dom
-
 import {
   fireEvent,
   render,

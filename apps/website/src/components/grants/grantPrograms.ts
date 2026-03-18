@@ -77,22 +77,11 @@ export const SURFACE_CLASS_MAP: Record<GrantProgramStatus, { panel: string; glow
   },
 };
 
-const VIEW_TRANSITION_PARTS = {
-  surface: 'surface',
-  title: 'title',
-  status: 'status',
-} as const;
-
-export const getGrantProgramViewTransitionName = (
-  slug: GrantProgramSlug,
-  part: keyof typeof VIEW_TRANSITION_PARTS,
-) => {
-  return `grant-program-${slug}-${VIEW_TRANSITION_PARTS[part]}`;
-};
+type ViewTransitionPart = 'surface' | 'title' | 'status';
 
 export const getGrantProgramViewTransitionStyle = (
   slug: GrantProgramSlug,
-  part: keyof typeof VIEW_TRANSITION_PARTS,
+  part: ViewTransitionPart,
 ): React.CSSProperties => ({
-  viewTransitionName: getGrantProgramViewTransitionName(slug, part),
+  viewTransitionName: `grant-program-${slug}-${part}`,
 });
