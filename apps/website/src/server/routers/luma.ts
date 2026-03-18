@@ -2,22 +2,12 @@ import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import { publicProcedure, router } from '../trpc';
 import env from '../../lib/api/env';
 import { ONE_MINUTE_MS } from '../../lib/constants';
+import { isPublicLumaEvent, type LumaEvent } from './luma-utils';
 
 // In-memory cache for Luma API responses - reduces API calls, improves response time, and handles intermittent API failures
 const CACHE_TTL_MS = ONE_MINUTE_MS;
 const FAILURE_THRESHOLD = 3; // Alert after N consecutive failures
 const EXCLUDED_EVENT_TITLE_SUFFIXES = ['paper reading club', 'paper reading group'];
-
-type LumaEvent = {
-  name: string;
-  start_at: string; // ISO 8601 Datetime, already in UTC
-  end_at: string; // ISO 8601 Datetime, already in UTC
-  geo_address_json?: {
-    city?: string;
-  };
-  timezone: string; // IANA timezone, e.g. "America/New_York"
-  url: string;
-};
 
 function transformEvent(api_id: string, event: LumaEvent) {
   return {
@@ -113,6 +103,7 @@ async function refreshCache(): Promise<Event[]> {
       };
 
       const events = (data.entries || [])
+        .filter(({ event }) => isPublicLumaEvent(event))
         .map(({ api_id, event }) => transformEvent(api_id, event))
         .filter((event) => {
           const titleLower = event.title.toLowerCase();
