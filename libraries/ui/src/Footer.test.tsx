@@ -12,4 +12,9 @@ describe('Footer', () => {
     const { container } = render(<Footer logo="https://www.bluedot.com/test-logo.jpg" />);
     expect(container).toMatchSnapshot();
   });
+
+  test('renders with "report a bug" when onReportBug is provided', () => {
+    const { container } = render(<Footer onReportBug={() => {}} />);
+    expect(container).toMatchSnapshot();
+  });
 });
