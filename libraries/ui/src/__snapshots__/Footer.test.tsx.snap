@@ -714,14 +714,6 @@ exports[`Footer > renders with optional args 1`] = `
                   Privacy Policy
                 </a>
               </li>
-              <li>
-                <button
-                  class="text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white font-normal bg-transparent border-none p-0 cursor-pointer"
-                  type="button"
-                >
-                  Report a bug
-                </button>
-              </li>
             </ul>
           </div>
         </div>
@@ -830,14 +822,6 @@ exports[`Footer > renders with optional args 1`] = `
                 >
                   Privacy Policy
                 </a>
-              </li>
-              <li>
-                <button
-                  class="text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white font-normal bg-transparent border-none p-0 cursor-pointer"
-                  type="button"
-                >
-                  Report a bug
-                </button>
               </li>
             </ul>
           </div>
@@ -1028,14 +1012,6 @@ exports[`Footer > renders with optional args 1`] = `
                 >
                   Privacy Policy
                 </a>
-              </li>
-              <li>
-                <button
-                  class="text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white font-normal bg-transparent border-none p-0 cursor-pointer"
-                  type="button"
-                >
-                  Report a bug
-                </button>
               </li>
             </ul>
           </div>
