@@ -169,10 +169,10 @@ const RapidGrantsPage = () => {
           <P>One common barrier is lacking the resources to do the project well. Rapid Grants are aimed at people who, without funding, could not reasonably afford what they need for their chosen project.</P>
         </div>
 
-        <div className="flex max-w-[980px] flex-col gap-3 pt-1">
+        <div className="flex flex-col gap-3">
           {DECISION_CARDS.map((card) => (
-            <div key={card.title} className="rounded-[24px] border border-bluedot-navy/10 bg-white px-6 py-6 min-[980px]:px-8">
-              <div className="flex flex-col gap-3 min-[980px]:grid min-[980px]:grid-cols-[220px_1fr] min-[980px]:gap-6">
+            <div key={card.title} className="rounded-[24px] border border-bluedot-navy/10 bg-white px-6 py-6 lg:px-8">
+              <div className="flex flex-col gap-3 lg:grid lg:grid-cols-[220px_1fr] lg:gap-6">
                 <h3 className="text-[20px] font-semibold leading-[1.2] tracking-[-0.02em] text-bluedot-navy">
                   {card.title}
                 </h3>
@@ -199,63 +199,59 @@ const RapidGrantsPage = () => {
       <GrantPageSection
         title="What we fund and what we usually do not"
         tone="canvas"
+        contentClassName="flex flex-col gap-4"
       >
-        <div className="flex max-w-[980px] flex-col gap-4">
-          <div className="max-w-[860px]">
-            <P>Rapid Grants has a quality bar. These are examples of the kinds of costs we often fund and usually do not fund, not a promise that every application of that type will be approved.</P>
-          </div>
+        <P className="max-w-[760px]">Rapid Grants has a quality bar. These are examples of the kinds of costs we often fund and usually do not fund, not a promise that every application of that type will be approved.</P>
 
-          <div className="rounded-[24px] border border-[#D7E4F5] bg-[#F4F8FD] px-6 py-6">
-            <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-[#2A5FA8]">
-              Fundable
-            </p>
-            <ul className="mt-5 flex flex-col gap-4">
-              {FUNDED_EXAMPLES.map((item) => (
-                <li key={item} className="flex items-start gap-3 text-[15px] leading-[1.65] text-bluedot-navy/76">
-                  <span className="mt-[8px] size-1.5 shrink-0 rounded-full bg-[#356DB1]" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="rounded-[24px] border border-[#D7E4F5] bg-[#F4F8FD] px-6 py-6 flex flex-col gap-5">
+          <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-[#2A5FA8]">
+            Fundable
+          </p>
+          <ul className="flex flex-col gap-4">
+            {FUNDED_EXAMPLES.map((item) => (
+              <li key={item} className="flex items-start gap-3 text-[15px] leading-[1.65] text-bluedot-navy/76">
+                <span className="mt-[8px] size-1.5 shrink-0 rounded-full bg-[#356DB1]" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-          <div className="rounded-[24px] border border-[#E6D9C6] bg-[#FBF7F1] px-6 py-6">
-            <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-[#8B5A15]">
-              Usually not funded through this program
-            </p>
-            <ul className="mt-5 flex flex-col gap-4">
-              {NOT_FUNDED_EXAMPLES.map((item) => (
-                <li key={item} className="flex items-start gap-3 text-[15px] leading-[1.65] text-bluedot-navy/76">
-                  <span className="mt-[8px] size-1.5 shrink-0 rounded-full bg-[#9F6A2A]" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="rounded-[24px] border border-[#E6D9C6] bg-[#FBF7F1] px-6 py-6 flex flex-col gap-5">
+          <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-[#8B5A15]">
+            Usually not funded through this program
+          </p>
+          <ul className="flex flex-col gap-4">
+            {NOT_FUNDED_EXAMPLES.map((item) => (
+              <li key={item} className="flex items-start gap-3 text-[15px] leading-[1.65] text-bluedot-navy/76">
+                <span className="mt-[8px] size-1.5 shrink-0 rounded-full bg-[#9F6A2A]" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </GrantPageSection>
 
       <GrantPageSection
         title="How it works"
         tone="canvas"
+        contentClassName="flex flex-col gap-3"
       >
-        <div className="flex max-w-[980px] flex-col gap-3">
-          {PROCESS_STEPS.map((step) => (
-            <div key={step.title} className="rounded-[24px] border border-bluedot-navy/10 bg-white px-6 py-6 min-[980px]:px-8">
-              <div className="flex flex-col gap-3 min-[980px]:grid min-[980px]:grid-cols-[96px_220px_1fr] min-[980px]:gap-6">
-                <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-bluedot-navy/40">
-                  {step.number}
-                </p>
-                <h3 className="text-[20px] font-semibold leading-[1.2] tracking-[-0.02em] text-bluedot-navy">
-                  {step.title}
-                </h3>
-                <P className="text-[15px] leading-[1.65] text-bluedot-navy/70">
-                  {step.body}
-                </P>
-              </div>
+        {PROCESS_STEPS.map((step) => (
+          <div key={step.title} className="rounded-[24px] border border-bluedot-navy/10 bg-white px-6 py-6 lg:px-8">
+            <div className="flex flex-col gap-3 lg:grid lg:grid-cols-[96px_220px_1fr] lg:gap-6">
+              <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-bluedot-navy/40">
+                {step.number}
+              </p>
+              <h3 className="text-[20px] font-semibold leading-[1.2] tracking-[-0.02em] text-bluedot-navy">
+                {step.title}
+              </h3>
+              <P className="text-[15px] leading-[1.65] text-bluedot-navy/70">
+                {step.body}
+              </P>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </GrantPageSection>
 
       <GranteesListSection
@@ -272,16 +268,18 @@ const RapidGrantsPage = () => {
         background="canvas"
       />
 
-      <LandingBanner
-        title="Apply for a Rapid Grant"
-        ctaText="Apply now"
-        ctaUrl={RAPID_GRANT_APPLICATION_URL}
-        imageSrc="/images/courses/courses-gradient.webp"
-        imageAlt="Rapid Grants banner"
-        iconSrc="/images/logo/BlueDot_Impact_Icon_White.svg"
-        iconAlt="BlueDot icon"
-        noiseImageSrc="/images/agi-strategy/noise.webp"
-      />
+      <div className="pt-8 min-[680px]:pt-10 min-[1280px]:pt-12">
+        <LandingBanner
+          title="Apply for a Rapid Grant"
+          ctaText="Apply now"
+          ctaUrl={RAPID_GRANT_APPLICATION_URL}
+          imageSrc="/images/courses/courses-gradient.webp"
+          imageAlt="Rapid Grants banner"
+          iconSrc="/images/logo/BlueDot_Impact_Icon_White.svg"
+          iconAlt="BlueDot icon"
+          noiseImageSrc="/images/agi-strategy/noise.webp"
+        />
+      </div>
     </div>
   );
 };

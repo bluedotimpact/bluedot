@@ -42,7 +42,7 @@ const GrantPageSection = ({
       <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-8 min-[680px]:py-10 min-[1280px]:py-12">
         <div className="max-w-[1120px] mx-auto">
           {hasHeadingContent && (
-            <div className="max-w-[860px]">
+            <div className="max-w-[760px]">
               {eyebrow && (
                 <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-bluedot-navy/46">
                   {eyebrow}

@@ -48,7 +48,7 @@ const GrantProgramHero = ({
 
   return (
     <section className="w-full bg-white">
-      <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-6 min-[680px]:py-8 min-[1280px]:py-10">
+      <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-6 min-[680px]:py-8 min-[1280px]:py-10 bg-color-canvas">
         <div
           className={clsx(
             'relative overflow-hidden rounded-[28px] border border-bluedot-navy/10 shadow-[0_16px_50px_rgba(8,28,68,0.06)]',
