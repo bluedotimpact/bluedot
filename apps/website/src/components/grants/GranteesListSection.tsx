@@ -97,7 +97,7 @@ const GranteesListSection = ({
 
           {isLoading && <ProgressDots />}
           {!isLoading && (!grantees || grantees.length === 0) && (
-            <P>{emptyMessage}</P>
+            <P>No grants to show yet.</P>
           )}
           {!!visibleGrantees?.length && (
             <ul className="list-none flex flex-col gap-4 min-[680px]:gap-5">

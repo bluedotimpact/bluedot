@@ -37,7 +37,6 @@ describe('GranteesListSection', () => {
       id="grants-made"
       title="Projects we have funded"
       limit={1}
-      background="canvas"
     />, { wrapper: createTrpcDbProvider() });
 
     await waitFor(() => {
