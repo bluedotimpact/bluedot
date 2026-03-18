@@ -2,7 +2,6 @@ import Head from 'next/head';
 import CourseSection from '../components/homepage/CourseSection';
 import StorySection from '../components/homepage/StorySection';
 import HomeHeroContent from '../components/homepage/HomeHeroContent';
-import HomepageBlogSection from '../components/homepage/HomepageBlogSection';
 import TestimonialCarousel, { type TestimonialMember } from '../components/lander/TestimonialCarousel';
 import EventsSection from '../components/homepage/EventsSection';
 import NewsletterBanner from '../components/homepage/NewsletterBanner';
@@ -61,7 +60,11 @@ const HomePage = () => {
       <StorySection />
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
-      <HomepageBlogSection maxItems={3} />
+      <TestimonialCarousel
+        testimonials={testimonials}
+        subtitle="Learn more about the incredible work our community is doing."
+        variant="homepage"
+      />
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
       {/* Newsletter Section */}
