@@ -86,10 +86,11 @@ export default function BugReportProvider({ children }: { children: React.ReactN
   );
 }
 
-export const useBugReport = () => {
+export const useBugReport = (): BugReportContextType => {
   const context = useContext(bugReportContext);
   if (!context) {
-    throw new Error('useBugReport must be used within a BugReportProvider');
+    console.warn('useBugReport: No BugReportProvider found. Bug reporting will be unavailable.');
+    return { openBugReport: () => {} };
   }
 
   return context;
