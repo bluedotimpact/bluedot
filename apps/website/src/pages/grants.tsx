@@ -79,7 +79,7 @@ const GrantsOverviewPage = () => {
       <Breadcrumbs route={CURRENT_ROUTE} />
 
       <section className="w-full bg-color-canvas">
-        <div className="mx-auto max-w-max-width px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:py-16 min-[1280px]:py-24">
+        <div className="mx-auto max-w-max-width px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:py-16">
           <div className="grid gap-6 min-[960px]:grid-cols-12">
             {GRANT_PROGRAMS.map((program, index) => (
               <GrantProgramCard
