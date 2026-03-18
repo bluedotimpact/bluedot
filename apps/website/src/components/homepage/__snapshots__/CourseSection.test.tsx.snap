@@ -174,7 +174,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
-                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
+                  class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
                 >
                   <div
                     class="flex-grow"
@@ -285,7 +285,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
-                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
+                  class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
                 >
                   <div
                     class="flex-grow"
@@ -361,7 +361,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
-                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
+                  class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
                 >
                   <div
                     class="flex-grow"
@@ -437,7 +437,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
-                  class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
+                  class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
                 >
                   <div
                     class="flex-grow"
@@ -528,7 +528,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   />
                   <div
-                    class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
+                    class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
                   >
                     <div
                       class="flex-grow"
@@ -609,7 +609,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   />
                   <div
-                    class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
+                    class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
                   >
                     <div
                       class="flex-grow"
@@ -685,7 +685,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   />
                   <div
-                    class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
+                    class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
                   >
                     <div
                       class="flex-grow"
@@ -761,7 +761,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   />
                   <div
-                    class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
+                    class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
                   >
                     <div
                       class="flex-grow"
@@ -837,7 +837,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   />
                   <div
-                    class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
+                    class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
                   >
                     <div
                       class="flex-grow"
@@ -918,7 +918,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   />
                   <div
-                    class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
+                    class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
                   >
                     <div
                       class="flex-grow"
@@ -994,7 +994,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   />
                   <div
-                    class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
+                    class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
                   >
                     <div
                       class="flex-grow"
@@ -1070,7 +1070,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   />
                   <div
-                    class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
+                    class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
                   >
                     <div
                       class="flex-grow"
@@ -1146,7 +1146,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   />
                   <div
-                    class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
+                    class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
                   >
                     <div
                       class="flex-grow"
@@ -1227,7 +1227,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   />
                   <div
-                    class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
+                    class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
                   >
                     <div
                       class="flex-grow"
@@ -1303,7 +1303,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   />
                   <div
-                    class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
+                    class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
                   >
                     <div
                       class="flex-grow"
@@ -1379,7 +1379,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   />
                   <div
-                    class="relative z-10 flex flex-col h-[464px] sm:h-[440px] lg:h-[480px] p-6 md:p-8 lg:p-10"
+                    class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
                   >
                     <div
                       class="flex-grow"
