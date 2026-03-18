@@ -1,11 +1,10 @@
-import clsx from 'clsx';
+import { cn } from '@bluedot/ui';
 import type React from 'react';
 
 type GrantPageSectionProps = React.PropsWithChildren<{
   eyebrow?: string;
   title?: string;
   intro?: string;
-  tone?: 'plain' | 'muted' | 'canvas';
   className?: string;
   contentClassName?: string;
   dividerTop?: boolean;
@@ -15,27 +14,18 @@ const GrantPageSection = ({
   eyebrow,
   title,
   intro,
-  tone = 'plain',
   className,
   contentClassName,
   dividerTop = false,
   children,
 }: GrantPageSectionProps) => {
   const hasHeadingContent = [eyebrow, title, intro].some((value) => value !== undefined);
-  let backgroundClassName = 'bg-white';
-
-  if (tone === 'muted') {
-    backgroundClassName = 'bg-[#FAFBFD]';
-  } else if (tone === 'canvas') {
-    backgroundClassName = 'bg-color-canvas';
-  }
 
   return (
     <section
-      className={clsx(
+      className={cn(
         'w-full',
         dividerTop && 'border-t border-color-divider',
-        backgroundClassName,
         className,
       )}
     >
@@ -61,7 +51,7 @@ const GrantPageSection = ({
             </div>
           )}
 
-          <div className={clsx(hasHeadingContent ? 'mt-6' : '', contentClassName)}>
+          <div className={cn(hasHeadingContent ? 'mt-6' : '', contentClassName)}>
             {children}
           </div>
         </div>

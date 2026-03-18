@@ -1,8 +1,7 @@
 import {
-  ErrorSection, P, ProgressDots,
+  cn, ErrorSection, P, ProgressDots,
 } from '@bluedot/ui';
 import type { inferRouterOutputs } from '@trpc/server';
-import clsx from 'clsx';
 import { useState } from 'react';
 import type { AppRouter } from '../../server/routers/_app';
 import { formatAmountUsd } from '../../lib/utils';
@@ -21,10 +20,8 @@ const GranteeListItem = ({ grantee }: { grantee: PublicGrant }) => {
         ? {
           href: grantee.link,
           target: '_blank',
-          rel: 'noopener noreferrer',
-        }
-        : {})}
-      className={clsx(
+        } : {})}
+      className={cn(
         'group block rounded-[24px] border border-bluedot-navy/10 bg-white px-6 py-6 min-[680px]:px-8',
         grantee.link && 'transition-colors hover:border-bluedot-navy/18 hover:bg-white/90',
       )}
@@ -89,7 +86,7 @@ const GranteesListSection = ({
   return (
     <section
       id={id}
-      className={clsx(
+      className={cn(
         'w-full scroll-mt-28',
         background === 'canvas' ? 'bg-color-canvas' : 'bg-white',
         className,

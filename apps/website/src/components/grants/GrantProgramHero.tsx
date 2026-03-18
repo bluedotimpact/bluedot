@@ -1,6 +1,5 @@
 import type React from 'react';
-import { CTALinkOrButton, H1 } from '@bluedot/ui';
-import clsx from 'clsx';
+import { cn, CTALinkOrButton, H1 } from '@bluedot/ui';
 import {
   type GrantProgramSlug,
   type GrantProgramStatus,
@@ -50,22 +49,22 @@ const GrantProgramHero = ({
     <section className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-6 min-[680px]:py-8 min-[1280px]:py-10 bg-color-canvas">
         <div
-          className={clsx(
+          className={cn(
             'relative overflow-hidden rounded-[28px] border border-bluedot-navy/10 shadow-[0_16px_50px_rgba(8,28,68,0.06)]',
             surfaceClasses.panel,
           )}
           style={surfaceTransitionStyle}
         >
-          <div className={clsx('absolute inset-0 pointer-events-none', surfaceClasses.glow)} />
-          <div className={clsx('absolute inset-y-0 left-0 w-px pointer-events-none', surfaceClasses.line)} />
+          <div className={cn('absolute inset-0 pointer-events-none', surfaceClasses.glow)} />
+          <div className={cn('absolute inset-y-0 left-0 w-px pointer-events-none', surfaceClasses.line)} />
 
           <div className="relative p-6 min-[680px]:p-8 min-[1024px]:p-10">
             <div className="flex flex-wrap items-center gap-3">
               <span
-                className={clsx('inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[12px] font-semibold tracking-[0.02em]', STATUS_CLASS_MAP[status])}
+                className={cn('inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[12px] font-semibold tracking-[0.02em]', STATUS_CLASS_MAP[status])}
                 style={statusTransitionStyle}
               >
-                <span className={clsx('size-2 rounded-full', STATUS_DOT_CLASS_MAP[status])} />
+                <span className={cn('size-2 rounded-full', STATUS_DOT_CLASS_MAP[status])} />
                 {status}
               </span>
             </div>

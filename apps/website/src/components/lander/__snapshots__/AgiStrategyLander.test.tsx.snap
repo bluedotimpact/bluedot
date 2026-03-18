@@ -1777,7 +1777,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       </div>
     </section>
     <section
-      class="w-full bg-white pb-12 min-[680px]:pb-16 min-[1024px]:pb-16 min-[1280px]:pb-24"
+      class="w-full pb-12 min-[680px]:pb-16 min-[1024px]:pb-16 min-[1280px]:pb-24"
     >
       <div
         class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x"

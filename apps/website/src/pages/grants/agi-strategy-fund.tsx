@@ -50,7 +50,6 @@ const AgiStrategyFundPage = () => {
 
       <GrantPageSection
         title="AGI Strategy Fund grantees"
-        tone="canvas"
         contentClassName="max-w-[760px]"
       >
         <P>We will publish the AGI Strategy Fund grantee archive here once the full set of organizations and projects backed through the fund is ready to share.</P>

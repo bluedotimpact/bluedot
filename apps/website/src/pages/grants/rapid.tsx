@@ -161,7 +161,6 @@ const RapidGrantsPage = () => {
 
       <GrantPageSection
         title="What this program is for"
-        tone="canvas"
         contentClassName="flex flex-col gap-4"
       >
         <div className="max-w-[760px] flex flex-col gap-5">
@@ -198,7 +197,6 @@ const RapidGrantsPage = () => {
 
       <GrantPageSection
         title="What we fund and what we usually do not"
-        tone="canvas"
         contentClassName="flex flex-col gap-4"
       >
         <P className="max-w-[760px]">Rapid Grants has a quality bar. These are examples of the kinds of costs we often fund and usually do not fund, not a promise that every application of that type will be approved.</P>
@@ -234,7 +232,6 @@ const RapidGrantsPage = () => {
 
       <GrantPageSection
         title="How it works"
-        tone="canvas"
         contentClassName="flex flex-col gap-3"
       >
         {PROCESS_STEPS.map((step) => (

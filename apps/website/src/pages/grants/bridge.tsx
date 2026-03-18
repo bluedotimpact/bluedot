@@ -68,7 +68,7 @@ const BridgePage = () => {
 
       <Breadcrumbs route={CURRENT_ROUTE} />
 
-      <GrantPageSection tone="canvas" contentClassName="flex flex-col gap-5">
+      <GrantPageSection contentClassName="flex flex-col gap-5">
         <div className="max-w-[760px] flex flex-col gap-5">
           <P>The field&apos;s biggest bottleneck isn&apos;t ideas or funding. It&apos;s getting the right people to go all-in. The Bridge is designed to back that move: selective grants for people with a strong track record who are ready to leave their current career and commit fully to work that matters.</P>
           <P>This could mean joining a top AI safety or biosecurity organization, founding a new project, or spending a focused period building the skills, relationships, and strategy needed to have outsized impact.</P>

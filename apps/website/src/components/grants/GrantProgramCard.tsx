@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import clsx from 'clsx';
-import { CTALinkOrButton } from '@bluedot/ui';
+import { cn, CTALinkOrButton } from '@bluedot/ui';
 import {
   type GrantProgramSlug,
   type GrantProgramStatus,
@@ -54,7 +53,7 @@ const GrantProgramCard = ({
 
   return (
     <article
-      className={clsx(
+      className={cn(
         'group relative overflow-hidden rounded-[28px] border border-bluedot-navy/10 shadow-[0_16px_50px_rgba(8,28,68,0.06)] transition-all duration-200',
         'hover:border-bluedot-navy/14 hover:shadow-[0_24px_70px_rgba(8,28,68,0.10)]',
         surfaceClasses.panel,
@@ -63,15 +62,15 @@ const GrantProgramCard = ({
       )}
       style={surfaceTransitionStyle}
     >
-      <div className={clsx('absolute inset-0 pointer-events-none', surfaceClasses.glow)} />
-      <div className={clsx('absolute inset-y-0 left-0 w-px pointer-events-none', surfaceClasses.line)} />
+      <div className={cn('absolute inset-0 pointer-events-none', surfaceClasses.glow)} />
+      <div className={cn('absolute inset-y-0 left-0 w-px pointer-events-none', surfaceClasses.line)} />
 
       <div className="relative flex h-full flex-col p-6 min-[680px]:p-8 min-[960px]:p-9">
         <div className="flex items-start justify-between gap-4">
           <div>
             <Link href={href} className="block">
               <h3
-                className={clsx(
+                className={cn(
                   'max-w-[18ch] font-semibold leading-[1.02] tracking-[-0.04em] text-bluedot-navy transition-transform duration-200 group-hover:translate-x-0.5',
                   emphasis === 'primary'
                     ? 'text-[34px] min-[680px]:text-[40px]'
@@ -85,16 +84,16 @@ const GrantProgramCard = ({
           </div>
 
           <span
-            className={clsx('inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[12px] font-semibold tracking-[0.02em]', STATUS_CLASS_MAP[status])}
+            className={cn('inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[12px] font-semibold tracking-[0.02em]', STATUS_CLASS_MAP[status])}
             style={statusTransitionStyle}
           >
-            <span className={clsx('size-2 rounded-full', STATUS_DOT_CLASS_MAP[status])} />
+            <span className={cn('size-2 rounded-full', STATUS_DOT_CLASS_MAP[status])} />
             {status}
           </span>
         </div>
 
         <div
-          className={clsx(
+          className={cn(
             'mt-8 grid gap-4',
             emphasis === 'primary'
               ? 'min-[900px]:grid-cols-[1.1fr_1.1fr_0.95fr]'
