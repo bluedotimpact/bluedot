@@ -47,6 +47,13 @@ const HomePage = () => {
       <CourseSection />
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
+      <TestimonialCarousel
+        testimonials={testimonials}
+        subtitle="Learn more about the incredible work our community is doing."
+        variant="homepage"
+      />
+      {/* Divider */}
+      <div className="border-t-hairline border-color-divider" />
       <EventsSection />
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
