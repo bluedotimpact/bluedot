@@ -17,6 +17,7 @@ import { inter } from '../lib/fonts';
 import { trpc } from '../utils/trpc';
 import { reportClientError } from '../lib/reportClientError';
 import { ErrorBoundary } from '../components/ErrorBoundary';
+import BugReportProvider from '../hooks/useBugReport';
 import type { FeedbackData } from '@bluedot/ui';
 import { toBase64 } from '../utils/toBase64';
 
@@ -106,49 +107,51 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   return (
     <LatestUtmParamsProvider>
       <PostHogProvider>
-        <div className={inter.className}>
-          <Head>
-            <title>BlueDot Impact</title>
-            <link rel="icon" href="/favicon.ico" />
-            <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-            <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-          </Head>
-          {'rawLayout' in Component && Component.rawLayout
-            ? (
-              <ErrorBoundary key={router.asPath}>
-                <Component {...pageProps} />
-              </ErrorBoundary>
-            )
-            : (
-              <>
-                <Header announcementBanner={getAnnouncementBanner()} />
-                <main className="bluedot-base">
-                  <ErrorBoundary key={router.asPath}>
-                    <Component {...pageProps} />
-                  </ErrorBoundary>
-                </main>
-                {!hideFooter && (
-                  <Footer
-                    courses={courses.map((course) => ({
-                      path: `/courses/${course.slug}`,
-                      title: course.title,
-                    }))}
-                    loading={loading}
-                    logo="/images/logo/BlueDot_Impact_Logo_White.svg"
-                    onRecordScreen={() => window.birdie?.widget.open()}
-                    recordingUrl={recordingUrl}
-                    onBugReportModalClose={() => setRecordingUrl(undefined)}
-                    onBugReportSubmit={handleBugReportSubmit}
-                  />
-                )}
-              </>
-            )}
-          <CookieBanner />
-          <GoogleTagManager />
-          <CustomerioAnalytics />
-          <CircleWidget />
-          <ImpersonationBadge />
-        </div>
+        <BugReportProvider>
+          <div className={inter.className}>
+            <Head>
+              <title>BlueDot Impact</title>
+              <link rel="icon" href="/favicon.ico" />
+              <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+              <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+            </Head>
+            {'rawLayout' in Component && Component.rawLayout
+              ? (
+                <ErrorBoundary key={router.asPath}>
+                  <Component {...pageProps} />
+                </ErrorBoundary>
+              )
+              : (
+                <>
+                  <Header announcementBanner={getAnnouncementBanner()} />
+                  <main className="bluedot-base">
+                    <ErrorBoundary key={router.asPath}>
+                      <Component {...pageProps} />
+                    </ErrorBoundary>
+                  </main>
+                  {!hideFooter && (
+                    <Footer
+                      courses={courses.map((course) => ({
+                        path: `/courses/${course.slug}`,
+                        title: course.title,
+                      }))}
+                      loading={loading}
+                      logo="/images/logo/BlueDot_Impact_Logo_White.svg"
+                      onRecordScreen={() => window.birdie?.widget.open()}
+                      recordingUrl={recordingUrl}
+                      onBugReportModalClose={() => setRecordingUrl(undefined)}
+                      onBugReportSubmit={handleBugReportSubmit}
+                    />
+                  )}
+                </>
+              )}
+            <CookieBanner />
+            <GoogleTagManager />
+            <CustomerioAnalytics />
+            <CircleWidget />
+            <ImpersonationBadge />
+          </div>
+        </BugReportProvider>
       </PostHogProvider>
     </LatestUtmParamsProvider>
   );
