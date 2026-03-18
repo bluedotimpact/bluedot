@@ -487,7 +487,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               {/* Bottom-most section, underneath 'continue' button */}
               <div className="hidden md:block">
                 <hr className="mt-12 mb-4" />
-                <div className="flex items-center gap-1">
+                <div className="flex items-center justify-between">
                   <KeyboardNavMenu />
                   <button
                     type="button"
