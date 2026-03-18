@@ -16,14 +16,11 @@ type GrantProgramCardProps = {
   scope: string;
   scopeLabel?: string;
   href: string;
-  learnMoreText?: string;
   applyUrl?: string;
-  applyText?: string;
   status: GrantProgramStatus;
   emphasis?: 'primary' | 'secondary';
   className?: string;
   example?: {
-    label?: string;
     title: string;
     summary: string;
     meta?: string;
@@ -38,9 +35,7 @@ const GrantProgramCard = ({
   scope,
   scopeLabel = 'Scope',
   href,
-  learnMoreText = 'Learn more',
   applyUrl,
-  applyText = 'Apply now',
   status,
   emphasis = 'secondary',
   className,
@@ -121,7 +116,7 @@ const GrantProgramCard = ({
           {example && (
             <div className="rounded-2xl border border-[#D8E4F3] bg-[linear-gradient(180deg,rgba(255,255,255,0.92)_0%,rgba(244,248,254,0.96)_100%)] px-5 py-5">
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#5D789D]">
-                {example.label ?? 'Example grant'}
+                Example grant
               </p>
               <div className="mt-3">
                 {example.url ? (
@@ -148,12 +143,12 @@ const GrantProgramCard = ({
 
         <div className="mt-auto flex flex-wrap items-center gap-3 pt-8">
           <CTALinkOrButton url={href} variant="secondary" withChevron>
-            {learnMoreText}
+            Learn more
           </CTALinkOrButton>
 
           {applyUrl && (
             <CTALinkOrButton url={applyUrl}>
-              {applyText}
+              Apply now
             </CTALinkOrButton>
           )}
         </div>

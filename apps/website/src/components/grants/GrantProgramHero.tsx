@@ -18,7 +18,6 @@ type HeroCta = {
 type HeroFact = {
   label: string;
   value: string;
-  detail?: string;
 };
 
 type GrantProgramHeroProps = {
@@ -108,11 +107,6 @@ const GrantProgramHero = ({
                     <p className="mt-2 text-[18px] min-[680px]:text-[19px] font-medium leading-[1.35] text-bluedot-navy">
                       {fact.value}
                     </p>
-                    {fact.detail && (
-                      <p className="mt-3 text-[14px] leading-[1.6] text-bluedot-navy/62">
-                        {fact.detail}
-                      </p>
-                    )}
                   </div>
                 ))}
               </div>

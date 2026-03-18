@@ -11,7 +11,6 @@ export type GrantProgramDefinition = {
   goal: string;
   scope: string;
   scopeLabel?: string;
-  summary: string;
 };
 
 export const RAPID_GRANT_APPLICATION_URL = 'https://airtable.com/appMVNtdBtvtJvu5E/pag9G3oF4DYAyassX/form';
@@ -23,7 +22,6 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
     href: '/grants/rapid',
     goal: 'Remove concrete blockers so promising work that is already underway can move faster.',
     scope: 'Small grants up to $5,000 for project costs such as compute, research access, software, hosting, or narrowly justified travel. Designed to be fast, clear, and lightweight.',
-    summary: 'Live small grants for concrete project costs when a project is already underway.',
     status: 'Active',
   },
   {
@@ -33,7 +31,6 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
     goal: 'Back high-impact AI safety projects and new organizations coming out of the AGI Strategy Course.',
     scope: '$200k+ given out across 9 grants, with grant sizes ranging from $5k to $50k.',
     scopeLabel: 'Results',
-    summary: 'A closed, thesis-driven fund. The page now works as a short archive and framing layer.',
     status: 'Closed',
   },
   {
@@ -42,7 +39,6 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
     href: '/grants/bridge',
     goal: 'Back exceptional people to leave their current career and go full-time on AI safety.',
     scope: 'Career transition grants for people with a strong track record who are ready to go all-in on AI safety or Biosecurity.',
-    summary: 'Selective, fast, and designed around the conviction that one of the field\'s biggest bottlenecks is getting the right people to go all-in.',
     status: 'In development',
   },
 ];
