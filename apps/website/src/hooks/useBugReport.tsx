@@ -89,6 +89,7 @@ export default function BugReportProvider({ children }: { children: React.ReactN
 export const useBugReport = (): BugReportContextType => {
   const context = useContext(bugReportContext);
   if (!context) {
+    // eslint-disable-next-line no-console
     console.warn('useBugReport: No BugReportProvider found. Bug reporting will be unavailable.');
     return { openBugReport: () => {} };
   }
