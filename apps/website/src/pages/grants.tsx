@@ -59,7 +59,7 @@ const GrantsOverviewPage = () => {
     ? {
       title: featuredGrant.projectTitle,
       summary: featuredGrant.projectSummary ?? '',
-      meta: `${featuredGrant.granteeName}${featuredGrant.amountUsd ? ` • ${formatAmountUsd(featuredGrant.amountUsd)}` : ''}`,
+      meta: `${featuredGrant.granteeName}${featuredGrant.amountUsd != null ? ` • ${formatAmountUsd(featuredGrant.amountUsd)}` : ''}`,
       url: featuredGrant.link,
     }
     : undefined;
