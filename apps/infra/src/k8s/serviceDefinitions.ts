@@ -209,6 +209,20 @@ export const services: ServiceDefinition[] = [
     },
     hosts: ['course-demos.k8s.bluedot.org'],
   },
+  {
+    name: 'bluedot-speed-review',
+    spec: {
+      containers: [{
+        name: 'bluedot-speed-review',
+        image: 'ghcr.io/bluedotimpact/bluedot-speed-review:latest',
+        env: [
+          { name: 'AIRTABLE_PERSONAL_ACCESS_TOKEN', valueFrom: envVarSources.airtablePat },
+          { name: 'PG_URL', valueFrom: getConnectionDetails(airtableSyncPg).uri },
+        ],
+      }],
+    },
+    hosts: ['speed-review.k8s.bluedot.org'],
+  },
   // {
   //   name: 'bluedot-backend',
   //   spec: {

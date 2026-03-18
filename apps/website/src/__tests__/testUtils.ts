@@ -210,6 +210,7 @@ export const createMockMeetPerson = (overrides: Partial<MeetPerson> = {}): MeetP
   email: 'test@example.com',
   courseFeedbackForm: null,
   courseFeedback: null,
+  hasSentInactiveEmail: false,
   ...overrides,
 });
 

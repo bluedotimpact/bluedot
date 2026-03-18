@@ -567,6 +567,10 @@ export const meetPersonTable = pgAirtable('meet_person', {
       pgColumn: text().array(),
       airtableId: 'fldD7uatp5h4szlzB',
     },
+    hasSentInactiveEmail: {
+      pgColumn: boolean(),
+      airtableId: 'fldAJk2NNzh32zVnJ',
+    },
   },
 });
 
@@ -858,6 +862,34 @@ export const testimonialTable = pgAirtable('testimonial', {
     testimonialText: {
       pgColumn: text(),
       airtableId: 'fldSBm8bIIR5JAaeo',
+    },
+  },
+});
+
+export const grantTable = pgAirtable('grant', {
+  baseId: WEB_CONTENT_BASE_ID,
+  tableId: 'tblMdePJeKq1taknz',
+  columns: {
+    granteeName: {
+      pgColumn: text(),
+      airtableId: 'fldjn3Zd2PCa2A7WP',
+    },
+    projectTitle: {
+      pgColumn: text(),
+      airtableId: 'fldZvNTpduluCck7Q',
+    },
+    amountUsd: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldawx8cOHXxnzybF',
+    },
+    projectSummary: {
+      pgColumn: text(),
+      airtableId: 'fldR4zV1lEewVdsU0',
+    },
+    /** Profile or project URL */
+    link: {
+      pgColumn: text(),
+      airtableId: 'fld6qyxItmbNSC4zA',
     },
   },
 });
@@ -1402,6 +1434,7 @@ export type Blog = InferSelectModel<typeof blogTable.pg>;
 export type JobPosting = InferSelectModel<typeof jobPostingTable.pg>;
 export type Project = InferSelectModel<typeof projectTable.pg>;
 export type Testimonial = InferSelectModel<typeof testimonialTable.pg>;
+export type Grant = InferSelectModel<typeof grantTable.pg>;
 export type Chunk = InferSelectModel<typeof chunkTable.pg>;
 export type Unit = InferSelectModel<typeof unitTable.pg>;
 export type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;

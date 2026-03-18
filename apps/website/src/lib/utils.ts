@@ -132,3 +132,15 @@ export const formatDateTimeRelative = ({
 export const buildCourseUnitUrl = ({ courseSlug, unitNumber, chunkNumber = 1 }: { courseSlug: string; unitNumber: string | number; chunkNumber?: number }) => `/courses/${courseSlug}/${unitNumber}/${chunkNumber}`;
 
 export const getActionPlanUrl = (meetPersonId: string) => `https://web.miniextensions.com/7WZKkZiusMiAO1RMznFv?prefill_Participant=${meetPersonId}`;
+
+export const getGMTOffsetWithCity = () => {
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const now = new Date();
+  const offsetMinutes = now.getTimezoneOffset();
+  const offsetHours = Math.abs(offsetMinutes) / 60;
+  const offsetSign = offsetMinutes <= 0 ? '+' : '-';
+  const offsetFormatted = `${offsetSign}${Math.floor(offsetHours).toString().padStart(2, '0')}:${(Math.abs(offsetMinutes) % 60).toString().padStart(2, '0')}`;
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  const cityName = timezone.split('/').pop()?.replace(/_/g, ' ') || timezone;
+  return `(GMT ${offsetFormatted}) ${cityName}`;
+};

@@ -184,6 +184,7 @@ const CourseDetails = ({
       {dropoutModalOpen && (
         <DropoutModal
           applicantId={courseRegistration.id}
+          courseSlug={course.slug}
           handleClose={() => setDropoutModalOpen(false)}
         />
       )}

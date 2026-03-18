@@ -362,7 +362,7 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
               <img
                 src={photo.src}
                 alt={photo.alt}
-                className="h-[240px] min-[680px]:h-[300px] min-[1024px]:h-[385px] rounded-xl min-[1024px]:rounded-xl border border-bluedot-navy/10 object-cover object-center"
+                className="h-[240px] min-[680px]:h-[150px] min-[1024px]:h-[193px] rounded-xl min-[1024px]:rounded-xl border border-bluedot-navy/10 object-cover object-center"
                 style={{ width: `${photo.width}px` }}
               />
             </a>

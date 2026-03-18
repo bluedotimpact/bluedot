@@ -99,10 +99,10 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
           )}
         </>
       )}
+      {router.pathname !== '/subscription-preferences' && <CircleWidget />}
       <CookieBanner />
       <GoogleTagManager />
       <CustomerioAnalytics />
-      <CircleWidget />
       <ImpersonationBadge />
     </div>
   );
