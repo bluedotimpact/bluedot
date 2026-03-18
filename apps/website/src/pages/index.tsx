@@ -60,13 +60,6 @@ const HomePage = () => {
       <StorySection />
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
-      <TestimonialCarousel
-        testimonials={testimonials}
-        subtitle="Learn more about the incredible work our community is doing."
-        variant="homepage"
-      />
-      {/* Divider */}
-      <div className="border-t-hairline border-color-divider" />
       {/* Newsletter Section */}
       <section className="w-full bg-white min-[680px]:py-16 min-[680px]:px-8 min-[1024px]:py-20 min-[1024px]:px-12 min-[1280px]:py-24 min-[1280px]:px-16 2xl:px-20">
         <div className="mx-auto max-w-screen-xl">
