@@ -1,23 +1,23 @@
-import '../globals.css';
-import '../lib/axios'; // Configure axios-hooks
-import { useEffect } from 'react';
-import type { AppProps } from 'next/app';
-import Head from 'next/head';
 import { Footer, LatestUtmParamsProvider } from '@bluedot/ui';
-import { useRouter } from 'next/router';
+import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { ImpersonationBadge } from '../components/admin/ImpersonationBadge';
 import { GoogleTagManager } from '../components/analytics/GoogleTagManager';
 import { PostHogProvider } from '../components/analytics/PostHogProvider';
-import { Header } from '../components/Header';
-import { CookieBanner } from '../components/CookieBanner';
 import { CircleWidget } from '../components/community/CircleWidget';
-import { ImpersonationBadge } from '../components/admin/ImpersonationBadge';
-import { useCourses } from '../lib/hooks/useCourses';
-import { inter } from '../lib/fonts';
-import { trpc } from '../utils/trpc';
-import { reportClientError } from '../lib/reportClientError';
+import { CookieBanner } from '../components/CookieBanner';
 import { ErrorBoundary } from '../components/ErrorBoundary';
+import { Header } from '../components/Header';
+import '../globals.css';
 import BugReportProvider, { useBugReport } from '../hooks/useBugReport';
+import '../lib/axios'; // Configure axios-hooks
+import { inter } from '../lib/fonts';
+import { useCourses } from '../lib/hooks/useCourses';
+import { reportClientError } from '../lib/reportClientError';
+import { trpc } from '../utils/trpc';
 
 const AnnouncementBanner = dynamic(() => import('../components/AnnouncementBanner'), { ssr: false });
 // Dynamic import prevents SSR execution - required because Customer.io package has circular dependencies
