@@ -57,9 +57,6 @@ type GranteesListSectionProps = {
   title?: string;
   subtitle?: string;
   limit?: number;
-  emptyMessage?: string;
-  background?: 'white' | 'canvas';
-  className?: string;
 };
 
 const GranteesListSection = ({
@@ -67,9 +64,6 @@ const GranteesListSection = ({
   title = 'Featured grantees',
   subtitle = 'Projects we have backed through rapid small grants.',
   limit,
-  emptyMessage = 'Grantee profiles will appear here once the curated table is published.',
-  background = 'white',
-  className,
 }: GranteesListSectionProps) => {
   const { data: grantees, isLoading, error } = trpc.grants.getAllPublicGrantees.useQuery();
   const [showAll, setShowAll] = useState(false);
@@ -86,11 +80,7 @@ const GranteesListSection = ({
   return (
     <section
       id={id}
-      className={cn(
-        'w-full scroll-mt-28',
-        background === 'canvas' ? 'bg-color-canvas' : 'bg-white',
-        className,
-      )}
+      className="w-full scroll-mt-28"
     >
       <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-8 min-[680px]:py-10 min-[1280px]:py-12">
         <div className="max-w-[1120px] mx-auto">

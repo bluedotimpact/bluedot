@@ -256,7 +256,6 @@ const RapidGrantsPage = () => {
         title="Projects we have funded"
         subtitle=""
         limit={6}
-        background="canvas"
       />
 
       <FAQSection
