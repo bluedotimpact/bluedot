@@ -1,35 +1,35 @@
-import '../globals.css';
-import '../lib/axios'; // Configure axios-hooks
-import { useEffect, useState } from 'react';
-import type { AppProps } from 'next/app';
-import Head from 'next/head';
 import { Footer, LatestUtmParamsProvider } from '@bluedot/ui';
-import { useRouter } from 'next/router';
+import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { ImpersonationBadge } from '../components/admin/ImpersonationBadge';
 import { GoogleTagManager } from '../components/analytics/GoogleTagManager';
 import { PostHogProvider } from '../components/analytics/PostHogProvider';
-import { Header } from '../components/Header';
-import { CookieBanner } from '../components/CookieBanner';
 import { CircleWidget } from '../components/community/CircleWidget';
-import { ImpersonationBadge } from '../components/admin/ImpersonationBadge';
-import { useCourses } from '../lib/hooks/useCourses';
-import { inter } from '../lib/fonts';
-import { trpc } from '../utils/trpc';
-import { reportClientError } from '../lib/reportClientError';
+import { CookieBanner } from '../components/CookieBanner';
 import { ErrorBoundary } from '../components/ErrorBoundary';
-import type { FeedbackData } from '@bluedot/ui/src/BugReportModal';
-import { toBase64 } from '../utils/toBase64';
+import { Header } from '../components/Header';
+import '../globals.css';
+import BugReportProvider, { useBugReport } from '../hooks/useBugReport';
+import '../lib/axios'; // Configure axios-hooks
+import { inter } from '../lib/fonts';
+import { useCourses } from '../lib/hooks/useCourses';
+import { reportClientError } from '../lib/reportClientError';
+import { trpc } from '../utils/trpc';
 
 const AnnouncementBanner = dynamic(() => import('../components/AnnouncementBanner'), { ssr: false });
 // Dynamic import prevents SSR execution - required because Customer.io package has circular dependencies
 const CustomerioAnalytics = dynamic(() => import('../components/analytics/CustomerioAnalytics'), { ssr: false });
 
-const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
+const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
   const router = useRouter();
   const fromSiteParam = router.query.from_site as string;
   const fromSite = ['aisf', 'bsf'].includes(fromSiteParam) ? fromSiteParam as 'aisf' | 'bsf' : null;
   const hideFooter = 'hideFooter' in Component;
   const { courses, loading } = useCourses();
+  const { openBugReport } = useBugReport();
 
   useEffect(() => {
     const handleError = (event: ErrorEvent) => {
@@ -54,43 +54,6 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
     };
   }, []);
 
-  const submitBugMutation = trpc.feedback.submitBugReport.useMutation();
-
-  const [recordingUrl, setRecordingUrl] = useState<string | undefined>();
-
-  useEffect(() => {
-    if (window.innerWidth <= 768) return;
-    if (window.birdie) return;
-
-    window.birdieSettings = {
-      app_id: '4adrhn9g',
-      onRecordingPosted: (url) => setRecordingUrl(url),
-    };
-
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.async = true;
-    script.src = `https://app.birdie.so/widget/${window.birdieSettings.app_id}`;
-    document.body.appendChild(script);
-
-    return () => {
-      if (script) document.body.removeChild(script);
-    };
-  }, []);
-
-  const handleBugReportSubmit = async (data: FeedbackData) => {
-    await submitBugMutation.mutateAsync({
-      description: data.description,
-      email: data.email,
-      recordingUrl: data.recordingUrl,
-      attachments: await Promise.all(data.attachments?.map(async (file) => ({
-        base64: await toBase64(file),
-        filename: file.name,
-        mimeType: file.type,
-      })) ?? []),
-    });
-  };
-
   const getAnnouncementBanner = () => {
     if (fromSite) {
       return (
@@ -104,54 +67,55 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   };
 
   return (
-    <LatestUtmParamsProvider>
-      <PostHogProvider>
-        <div className={inter.className}>
-          <Head>
-            <title>BlueDot Impact</title>
-            <link rel="icon" href="/favicon.ico" />
-            <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-            <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-          </Head>
-          {'rawLayout' in Component && Component.rawLayout
-            ? (
-              <ErrorBoundary key={router.asPath}>
-                <Component {...pageProps} />
-              </ErrorBoundary>
-            )
-            : (
-              <>
-                <Header announcementBanner={getAnnouncementBanner()} />
-                <main className="bluedot-base">
-                  <ErrorBoundary key={router.asPath}>
-                    <Component {...pageProps} />
-                  </ErrorBoundary>
-                </main>
-                {!hideFooter && (
-                  <Footer
-                    courses={courses.map((course) => ({
-                      path: `/courses/${course.slug}`,
-                      title: course.title,
-                    }))}
-                    loading={loading}
-                    logo="/images/logo/BlueDot_Impact_Logo_White.svg"
-                    onRecordScreen={() => window.birdie?.widget.open()}
-                    recordingUrl={recordingUrl}
-                    onBugReportModalClose={() => setRecordingUrl(undefined)}
-                    onBugReportSubmit={handleBugReportSubmit}
-                  />
-                )}
-              </>
-            )}
-          {router.pathname !== '/subscription-preferences' && <CircleWidget />}
-          <CookieBanner />
-          <GoogleTagManager />
-          <CustomerioAnalytics />
-          <ImpersonationBadge />
-        </div>
-      </PostHogProvider>
-    </LatestUtmParamsProvider>
+    <div className={inter.className}>
+      <Head>
+        <title>BlueDot Impact</title>
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+      </Head>
+      {'rawLayout' in Component && Component.rawLayout ? (
+        <ErrorBoundary key={router.asPath}>
+          <Component {...pageProps} />
+        </ErrorBoundary>
+      ) : (
+        <>
+          <Header announcementBanner={getAnnouncementBanner()} />
+          <main className="bluedot-base">
+            <ErrorBoundary key={router.asPath}>
+              <Component {...pageProps} />
+            </ErrorBoundary>
+          </main>
+          {!hideFooter && (
+            <Footer
+              courses={courses.map((course) => ({
+                path: `/courses/${course.slug}`,
+                title: course.title,
+              }))}
+              loading={loading}
+              logo="/images/logo/BlueDot_Impact_Logo_White.svg"
+              onReportBug={openBugReport}
+            />
+          )}
+        </>
+      )}
+      {router.pathname !== '/subscription-preferences' && <CircleWidget />}
+      <CookieBanner />
+      <GoogleTagManager />
+      <CustomerioAnalytics />
+      <ImpersonationBadge />
+    </div>
   );
 };
+
+const App: React.FC<AppProps> = (props) => (
+  <LatestUtmParamsProvider>
+    <PostHogProvider>
+      <BugReportProvider>
+        <AppContent {...props} />
+      </BugReportProvider>
+    </PostHogProvider>
+  </LatestUtmParamsProvider>
+);
 
 export default trpc.withTRPC(App);

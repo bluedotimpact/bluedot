@@ -18,11 +18,12 @@ import {
 } from 'react-icons/fa6';
 
 import {
-  type Unit,
   type Chunk,
   type Exercise,
+  type Unit,
   type UnitResource,
 } from '@bluedot/db';
+import { useBugReport } from '../../hooks/useBugReport';
 import { ROUTES } from '../../lib/routes';
 import { buildCourseUnitUrl } from '../../lib/utils';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
@@ -163,6 +164,8 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
 }) => {
   const router = useRouter();
   const auth = useAuthStore((s) => s.auth);
+  const { openBugReport } = useBugReport();
+
   const [navigationAnnouncement, setNavigationAnnouncement] = useState('');
   const [isSidebarHidden, setIsSidebarHidden] = useState(false);
   const [isMobileCourseMenuOpen, setIsMobileCourseMenuOpen] = useState(false);
@@ -486,7 +489,16 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               {/* Bottom-most section, underneath 'continue' button */}
               <div className="hidden md:block">
                 <hr className="mt-12 mb-4" />
-                <KeyboardNavMenu />
+                <div className="flex items-center justify-between">
+                  <KeyboardNavMenu />
+                  <button
+                    type="button"
+                    onClick={() => openBugReport()}
+                    className="flex cursor-pointer items-center gap-1.5 rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-700"
+                  >
+                    Report a bug
+                  </button>
+                </div>
               </div>
             </div>
           </Section>

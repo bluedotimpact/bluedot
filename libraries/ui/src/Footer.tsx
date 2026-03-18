@@ -1,11 +1,9 @@
 import clsx from 'clsx';
 import type React from 'react';
-import { useEffect, useState } from 'react';
 import {
   FaLinkedin,
   FaXTwitter, FaYoutube,
 } from 'react-icons/fa6';
-import { BugReportModal, type FeedbackData } from './BugReportModal';
 import { ClickTarget } from './ClickTarget';
 import { ProgressDots } from './ProgressDots';
 import { A } from './Text';
@@ -15,10 +13,7 @@ export type FooterProps = React.PropsWithChildren<{
   logo?: string;
   courses?: { path: string; title: string }[];
   loading?: boolean;
-  onRecordScreen?: () => void;
-  recordingUrl?: string;
-  onBugReportModalClose?: () => void;
-  onBugReportSubmit?: (data: FeedbackData) => Promise<void>;
+  onReportBug?: () => void;
 }>;
 
 type FooterLinkItem =
@@ -87,29 +82,8 @@ const FooterSocial: React.FC<FooterSocialProps> = ({ className }) => (
 );
 
 export const Footer: React.FC<FooterProps> = ({
-  className, logo, courses = [], loading,
-  onRecordScreen, recordingUrl, onBugReportModalClose, onBugReportSubmit,
+  className, logo, courses = [], loading, onReportBug,
 }) => {
-  const [isBugReportOpen, setIsBugReportOpen] = useState(false);
-
-  const handleSetBugReportOpen = (v: boolean) => {
-    setIsBugReportOpen(v);
-    if (!v) onBugReportModalClose?.();
-  };
-
-  const handleRecordScreen = () => {
-    setIsBugReportOpen(false);
-    // Use `setTimeout` to ensure the bug modal has closed before opening the Birdie widget (also a modal), preventing
-    // potential UI and focus conflicts.
-    setTimeout(() => onRecordScreen?.());
-  };
-
-  useEffect(() => {
-    if (recordingUrl) {
-      setIsBugReportOpen(true);
-    }
-  }, [recordingUrl]);
-
   const bluedotLinks: FooterLinkItem[] = [
     { url: '/about', label: 'About us' },
     { url: 'https://donate.stripe.com/5kA3fpgjpdJv6o89AA', label: 'Support us' },
@@ -121,7 +95,7 @@ export const Footer: React.FC<FooterProps> = ({
     { url: 'https://blog.bluedot.org', label: 'Blog', target: '_blank' },
     { url: 'https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer', label: 'Events', target: '_blank' },
     { url: '/privacy-policy', label: 'Privacy Policy' },
-    { onClick: () => setIsBugReportOpen(true), label: 'Report a bug' },
+    ...(onReportBug ? [{ onClick: onReportBug, label: 'Report a bug' }] : []),
   ];
 
   const exploreLinks: FooterLinkItem[] = courses.map((course) => ({ url: course.path, label: course.title }));
@@ -226,13 +200,6 @@ export const Footer: React.FC<FooterProps> = ({
           </div>
         </div>
       )}
-      <BugReportModal
-        isOpen={isBugReportOpen}
-        setIsOpen={handleSetBugReportOpen}
-        onRecordScreen={onRecordScreen ? handleRecordScreen : undefined}
-        recordingUrl={recordingUrl}
-        onSubmit={onBugReportSubmit}
-      />
     </footer>
   );
 };

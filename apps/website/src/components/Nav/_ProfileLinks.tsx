@@ -10,6 +10,7 @@ import { ROUTES } from '../../lib/routes';
 import { UserSearchModal } from '../admin/UserSearchModal';
 import { trpc } from '../../utils/trpc';
 import { useClickOutside } from '../../lib/hooks/useClickOutside';
+import { useBugReport } from '../../hooks/useBugReport';
 
 export const ProfileLinks: React.FC<{
   expandedSections: ExpandedSectionsState;
@@ -21,6 +22,8 @@ export const ProfileLinks: React.FC<{
   onColoredBackground = false,
 }) => {
   const [isImpersonateModalOpen, setIsImpersonateModalOpen] = useState(false);
+  const { openBugReport } = useBugReport();
+
   const { data: isAdmin } = trpc.admin.isAdmin.useQuery();
   const profileRef = useClickOutside(
     () => updateExpandedSections({ profile: false }),
@@ -81,21 +84,29 @@ export const ProfileLinks: React.FC<{
             onClick={onToggleProfile}
           >Log out
           </A>
+          <div className="border-t border-gray-200 my-2" />
           {isAdmin && (
-            <>
-              <div className="border-t border-gray-200 my-2" />
-              <button
-                type="button"
-                onClick={() => {
-                  setIsImpersonateModalOpen(true);
-                  updateExpandedSections({ profile: false });
-                }}
-                className={clsx('bluedot-a', getNavLinkClasses())}
-              >
-                Impersonate a user
-              </button>
-            </>
+            <button
+              type="button"
+              onClick={() => {
+                setIsImpersonateModalOpen(true);
+                updateExpandedSections({ profile: false });
+              }}
+              className={clsx('bluedot-a', getNavLinkClasses())}
+            >
+              Impersonate a user
+            </button>
           )}
+          <button
+            type="button"
+            onClick={() => {
+              openBugReport();
+              updateExpandedSections({ profile: false });
+            }}
+            className={clsx('bluedot-a', getNavLinkClasses())}
+          >
+            Report a bug
+          </button>
         </div>
       </div>
       {isImpersonateModalOpen && <UserSearchModal isOpen={isImpersonateModalOpen} onClose={() => setIsImpersonateModalOpen(false)} />}
