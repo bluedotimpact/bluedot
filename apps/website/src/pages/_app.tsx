@@ -23,7 +23,7 @@ const AnnouncementBanner = dynamic(() => import('../components/AnnouncementBanne
 // Dynamic import prevents SSR execution - required because Customer.io package has circular dependencies
 const CustomerioAnalytics = dynamic(() => import('../components/analytics/CustomerioAnalytics'), { ssr: false });
 
-const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
+const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
   const router = useRouter();
   const fromSiteParam = router.query.from_site as string;
   const fromSite = ['aisf', 'bsf'].includes(fromSiteParam) ? fromSiteParam as 'aisf' | 'bsf' : null;
@@ -67,53 +67,57 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   };
 
   return (
-    <LatestUtmParamsProvider>
-      <PostHogProvider>
-        <BugReportProvider>
-          <div className={inter.className}>
-            <Head>
-              <title>BlueDot Impact</title>
-              <link rel="icon" href="/favicon.ico" />
-              <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-              <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-            </Head>
-            {'rawLayout' in Component && Component.rawLayout
-              ? (
-                <ErrorBoundary key={router.asPath}>
-                  <Component {...pageProps} />
-                </ErrorBoundary>
-              )
-              : (
-                <>
-                  <Header announcementBanner={getAnnouncementBanner()} />
-                  <main className="bluedot-base">
-                    <ErrorBoundary key={router.asPath}>
-                      <Component {...pageProps} />
-                    </ErrorBoundary>
-                  </main>
-                  {!hideFooter && (
-                    <Footer
-                      courses={courses.map((course) => ({
-                        path: `/courses/${course.slug}`,
-                        title: course.title,
-                      }))}
-                      loading={loading}
-                      logo="/images/logo/BlueDot_Impact_Logo_White.svg"
-                      onReportBug={openBugReport}
-                    />
-                  )}
-                </>
-              )}
-            <CookieBanner />
-            <GoogleTagManager />
-            <CustomerioAnalytics />
-            <CircleWidget />
-            <ImpersonationBadge />
-          </div>
-        </BugReportProvider>
-      </PostHogProvider>
-    </LatestUtmParamsProvider>
+    <div className={inter.className}>
+      <Head>
+        <title>BlueDot Impact</title>
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+      </Head>
+      {'rawLayout' in Component && Component.rawLayout
+        ? (
+          <ErrorBoundary key={router.asPath}>
+            <Component {...pageProps} />
+          </ErrorBoundary>
+        )
+        : (
+          <>
+            <Header announcementBanner={getAnnouncementBanner()} />
+            <main className="bluedot-base">
+              <ErrorBoundary key={router.asPath}>
+                <Component {...pageProps} />
+              </ErrorBoundary>
+            </main>
+            {!hideFooter && (
+              <Footer
+                courses={courses.map((course) => ({
+                  path: `/courses/${course.slug}`,
+                  title: course.title,
+                }))}
+                loading={loading}
+                logo="/images/logo/BlueDot_Impact_Logo_White.svg"
+                onReportBug={openBugReport}
+              />
+            )}
+          </>
+        )}
+      <CookieBanner />
+      <GoogleTagManager />
+      <CustomerioAnalytics />
+      <CircleWidget />
+      <ImpersonationBadge />
+    </div>
   );
 };
+
+const App: React.FC<AppProps> = (props) => (
+  <LatestUtmParamsProvider>
+    <PostHogProvider>
+      <BugReportProvider>
+        <AppContent {...props} />
+      </BugReportProvider>
+    </PostHogProvider>
+  </LatestUtmParamsProvider>
+);
 
 export default trpc.withTRPC(App);
