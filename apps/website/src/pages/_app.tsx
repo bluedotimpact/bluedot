@@ -74,33 +74,31 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
       </Head>
-      {'rawLayout' in Component && Component.rawLayout
-        ? (
-          <ErrorBoundary key={router.asPath}>
-            <Component {...pageProps} />
-          </ErrorBoundary>
-        )
-        : (
-          <>
-            <Header announcementBanner={getAnnouncementBanner()} />
-            <main className="bluedot-base">
-              <ErrorBoundary key={router.asPath}>
-                <Component {...pageProps} />
-              </ErrorBoundary>
-            </main>
-            {!hideFooter && (
-              <Footer
-                courses={courses.map((course) => ({
-                  path: `/courses/${course.slug}`,
-                  title: course.title,
-                }))}
-                loading={loading}
-                logo="/images/logo/BlueDot_Impact_Logo_White.svg"
-                onReportBug={openBugReport}
-              />
-            )}
-          </>
-        )}
+      {'rawLayout' in Component && Component.rawLayout ? (
+        <ErrorBoundary key={router.asPath}>
+          <Component {...pageProps} />
+        </ErrorBoundary>
+      ) : (
+        <>
+          <Header announcementBanner={getAnnouncementBanner()} />
+          <main className="bluedot-base">
+            <ErrorBoundary key={router.asPath}>
+              <Component {...pageProps} />
+            </ErrorBoundary>
+          </main>
+          {!hideFooter && (
+            <Footer
+              courses={courses.map((course) => ({
+                path: `/courses/${course.slug}`,
+                title: course.title,
+              }))}
+              loading={loading}
+              logo="/images/logo/BlueDot_Impact_Logo_White.svg"
+              onReportBug={openBugReport}
+            />
+          )}
+        </>
+      )}
       <CookieBanner />
       <GoogleTagManager />
       <CustomerioAnalytics />
