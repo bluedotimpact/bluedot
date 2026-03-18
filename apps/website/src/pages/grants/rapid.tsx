@@ -131,7 +131,7 @@ const RapidGrantsPage = () => {
     : '—';
 
   return (
-    <div className="bg-white">
+    <div className="bg-color-canvas">
       <Head>
         <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
         <meta
