@@ -17,7 +17,7 @@ import { inter } from '../lib/fonts';
 import { trpc } from '../utils/trpc';
 import { reportClientError } from '../lib/reportClientError';
 import { ErrorBoundary } from '../components/ErrorBoundary';
-import BugReportProvider from '../hooks/useBugReport';
+import BugReportProvider, { useBugReport } from '../hooks/useBugReport';
 
 const AnnouncementBanner = dynamic(() => import('../components/AnnouncementBanner'), { ssr: false });
 // Dynamic import prevents SSR execution - required because Customer.io package has circular dependencies
@@ -29,6 +29,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   const fromSite = ['aisf', 'bsf'].includes(fromSiteParam) ? fromSiteParam as 'aisf' | 'bsf' : null;
   const hideFooter = 'hideFooter' in Component;
   const { courses, loading } = useCourses();
+  const { openBugReport } = useBugReport();
 
   useEffect(() => {
     const handleError = (event: ErrorEvent) => {
@@ -98,6 +99,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
                       }))}
                       loading={loading}
                       logo="/images/logo/BlueDot_Impact_Logo_White.svg"
+                      onReportBug={openBugReport}
                     />
                   )}
                 </>
