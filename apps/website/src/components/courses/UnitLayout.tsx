@@ -1,6 +1,5 @@
 import {
   A,
-  BugReportModal,
   CTALinkOrButton,
   ErrorSection,
   H1,
@@ -19,14 +18,14 @@ import {
 } from 'react-icons/fa6';
 
 import {
-  type Unit,
   type Chunk,
   type Exercise,
+  type Unit,
   type UnitResource,
 } from '@bluedot/db';
+import { useBugReport } from '../../hooks/useBugReport';
 import { ROUTES } from '../../lib/routes';
 import { buildCourseUnitUrl } from '../../lib/utils';
-import { useSubmitBugReport } from '../../hooks/useSubmitBugReport';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 import type { CourseProgress } from '../../server/routers/courses';
 import { trpc } from '../../utils/trpc';
@@ -164,11 +163,11 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
 }) => {
   const router = useRouter();
   const auth = useAuthStore((s) => s.auth);
+  const { openBugReport } = useBugReport();
+
   const [navigationAnnouncement, setNavigationAnnouncement] = useState('');
   const [isSidebarHidden, setIsSidebarHidden] = useState(false);
   const [isMobileCourseMenuOpen, setIsMobileCourseMenuOpen] = useState(false);
-  const [isBugReportOpen, setIsBugReportOpen] = useState(false);
-  const handleBugReportSubmit = useSubmitBugReport();
   const unitArrIndex = units.findIndex((u) => u.id === unit.id);
 
   const { data: groupDiscussionWithZoomInfo, error: groupDiscussionError } = trpc.groupDiscussions.getByCourseSlug.useQuery(
@@ -492,7 +491,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                   <KeyboardNavMenu />
                   <button
                     type="button"
-                    onClick={() => setIsBugReportOpen(true)}
+                    onClick={() => openBugReport()}
                     className="flex cursor-pointer items-center gap-1.5 rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-700"
                   >
                     Report a bug
@@ -503,8 +502,6 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           </Section>
         </div>
       </div>
-
-      <BugReportModal isOpen={isBugReportOpen} setIsOpen={setIsBugReportOpen} onSubmit={handleBugReportSubmit} />
 
       <MobileCourseModal
         isOpen={isMobileCourseMenuOpen}
