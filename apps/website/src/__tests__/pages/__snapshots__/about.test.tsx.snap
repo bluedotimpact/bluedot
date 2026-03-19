@@ -139,6 +139,13 @@ exports[`AboutPage > should render correctly 1`] = `
                       </a>
                       <a
                         class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                        href="/grants"
+                        tabindex="0"
+                      >
+                        Grants
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                         href="/join-us"
                         tabindex="0"
                       >
@@ -251,6 +258,13 @@ exports[`AboutPage > should render correctly 1`] = `
                   tabindex="0"
                 >
                   About
+                </a>
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                  href="/grants"
+                  tabindex="0"
+                >
+                  Grants
                 </a>
                 <a
                   class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"

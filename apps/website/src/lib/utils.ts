@@ -144,3 +144,11 @@ export const getGMTOffsetWithCity = () => {
   const cityName = timezone.split('/').pop()?.replace(/_/g, ' ') || timezone;
   return `(GMT ${offsetFormatted}) ${cityName}`;
 };
+
+export const formatAmountUsd = (amount: number): string => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0,
+  }).format(amount);
+};
