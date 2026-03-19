@@ -151,7 +151,7 @@ exports[`CourseSection > renders as expected 1`] = `
           class="hidden lg:flex flex-col items-center gap-8 w-full max-w-screen-xl mx-auto"
         >
           <p
-            class="bluedot-p not-prose text-[14px] font-medium tracking-[1.5px] text-bluedot-navy/60"
+            class="bluedot-p not-prose text-[14px] font-medium uppercase tracking-[1.5px] text-bluedot-navy/60"
           >
             New to AI Safety? Start here
           </p>
@@ -259,7 +259,7 @@ exports[`CourseSection > renders as expected 1`] = `
           <p
             class="bluedot-p not-prose text-[14px] font-medium uppercase tracking-[1.5px] text-bluedot-navy/60"
           >
-            Deep-dives
+            Ready to contribute?
           </p>
           <div
             class="grid grid-cols-3 gap-8 w-full"
