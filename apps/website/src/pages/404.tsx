@@ -41,7 +41,7 @@ const Error404Page = () => {
         <HeroCTAContainer>
           <div className="flex flex-col sm:flex-row gap-3">
             <CTALinkOrButton url={ROUTES.courses.url} variant="primary">Browse courses</CTALinkOrButton>
-            <CTALinkOrButton url={ROUTES.joinUs.url} variant="secondary">Open roles</CTALinkOrButton>
+            <CTALinkOrButton url={ROUTES.joinUs.url} variant="primary">Open roles</CTALinkOrButton>
           </div>
         </HeroCTAContainer>
       </HeroSection>
