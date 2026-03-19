@@ -114,6 +114,9 @@ const DiscussionListRow = ({
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const discussionMeetLink = discussion.zoomLink || '';
   const discussionPrepareLink = course.slug && discussion.unitNumber !== null ? `/courses/${course.slug}/${discussion.unitNumber}` : '';
+  const unitLabel = discussion.unitRecord
+    ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
+    : `Unit ${discussion.unitFallback ?? ''}`;
   const slackChannelLink = discussion.slackChannelId ? buildGroupSlackChannelUrl(discussion.slackChannelId) : '';
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const discussionDocLink = discussion.activityDoc || '';
@@ -213,10 +216,9 @@ const DiscussionListRow = ({
           {/* Discussion details */}
           <div className="flex flex-col gap-1.5 min-w-0">
             <div className="text-size-sm font-medium text-gray-900 truncate">
-              {discussion.unitRecord
-                ? `Unit ${discussion.unitRecord.unitNumber}: ${discussion.unitRecord.title}`
-                // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-                : `Unit ${discussion.unitFallback || ''}`}
+              <a href={discussionPrepareLink} className="text-inherit no-underline transition-colors hover:text-bluedot-normal hover:underline underline-offset-2">
+                {unitLabel}
+              </a>
             </div>
             {!isPast && isNext && (
               <div className="truncate text-size-xs text-bluedot-normal font-medium">
