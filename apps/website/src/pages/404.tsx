@@ -3,6 +3,8 @@ import {
   type BluedotRoute,
   Breadcrumbs,
   HeroH2,
+  HeroCTAContainer,
+  CTALinkOrButton,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -36,6 +38,12 @@ const Error404Page = () => {
           />
         </div>
         <HeroH2>Sorry, this page does not exist.</HeroH2>
+        <HeroCTAContainer>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <CTALinkOrButton url={ROUTES.courses.url} variant="primary">Browse courses</CTALinkOrButton>
+            <CTALinkOrButton url={ROUTES.joinUs.url} variant="primary">Open roles</CTALinkOrButton>
+          </div>
+        </HeroCTAContainer>
       </HeroSection>
       <Breadcrumbs route={currentRoute} />
     </div>
