@@ -4,8 +4,6 @@ import { drizzle } from 'drizzle-orm/pglite';
 import {
   type Table, getTableName, isTable, sql,
 } from 'drizzle-orm';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { pushSchema } from 'drizzle-kit/api';
 import { type PgAirtableDb, type PgDatabase } from './client';
 import { MockAirtableTs } from './mock-airtable-ts';
 import { PgAirtableTable } from './db-core';
@@ -48,6 +46,9 @@ function collectPgTables() {
 }
 
 export async function pushTestSchema(db: PgAirtableDb): Promise<void> {
+  // Dynamic import to avoid bundling drizzle-kit (which requires 'fs') into Next.js server bundles
+  // eslint-disable-next-line import/no-extraneous-dependencies
+  const { pushSchema } = await import('drizzle-kit/api');
   const pgTables = collectPgTables();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { apply } = await pushSchema(pgTables, db.pg as any);
