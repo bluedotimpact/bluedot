@@ -1,7 +1,6 @@
 import {
   PiClockClockwise,
   PiHandHeart,
-  PiCalendarDots,
   PiRocketLaunch,
   PiUsersThree,
   PiCompass,
@@ -60,23 +59,23 @@ export const createPersonalTheoryOfImpactContent = (
       {
         icon: PiGraduationCap,
         title: 'AGI Strategy Course graduates',
-        summary: 'You understand the stakes. Now you need to figure out what you personally should do about it.',
-        description: 'You\'ve completed the AGI Strategy Course (or equivalent). You understand the AI safety landscape — the threat pathways, the actors, the challenges. But understanding the problem and knowing how to contribute are different things. You have a scattered sense of what you could do, but no concrete plan.',
-        valueProposition: 'This project gives you a structured process to go from "I want to help" to "here\'s specifically what I\'d spend 6 months working on and why." You\'ll produce a brief that crystallises your thinking — and the process of creating it is where the real clarity comes from.',
+        summary: 'You understand the landscape. Now you need to figure out what you personally should do about it.',
+        description: 'You\'ve completed the AGI Strategy Course (or equivalent) and understand the threat pathways, actors, and challenges. But understanding the problem and knowing how to contribute are different things.',
+        valueProposition: 'This project takes you from "I want to help" to "here\'s what I\'d spend 6 months working on and why." You\'ll produce a brief that crystallises your thinking through action, not just reflection.',
       },
       {
         icon: PiCompass,
-        title: 'People who feel deeply confused about what to work on',
-        summary: 'You have ideas, but you\'re not sure which ones matter. That confusion is normal — and productive.',
-        description: 'You care deeply about making AI go well. You\'ve read a lot, maybe taken courses, and have a growing list of areas that seem important. But the more you learn, the less certain you feel. You don\'t know if your instincts are right, or if you\'re missing something obvious.',
-        valueProposition: 'Confusion is the starting point, not the obstacle. This project pushes you to resolve it by doing — talking to practitioners, testing your fit, and narrowing down through action rather than more reading. You\'ll come out with a concrete direction, not just more options.',
+        title: 'People confused about how to contribute',
+        summary: 'You have ideas, but you\'re not sure which ones matter. It\'s normal to be confused!',
+        description: 'You\'ve read a lot, maybe taken courses, and have a growing list of areas that seem important. But the more you learn, the less certain you feel about where you\'d actually be useful.',
+        valueProposition: 'This project pushes you to resolve confusion by doing — talking to people actually working on the problem, testing your fit, and narrowing down where you can be most impactful with  more structure.',
       },
       {
         icon: PiRocketLaunch,
         title: 'People ready to take action',
         summary: 'You\'re done deliberating. You want a process that forces clarity.',
-        description: 'You\'ve done the thinking. You have domain expertise — maybe in engineering, policy, research, or operations — and you believe it\'s relevant to AI safety. But you haven\'t committed to a specific path because you\'re not sure where your skills are most needed or how to validate your ideas.',
-        valueProposition: 'This project is designed for people who learn by doing. You\'ll talk to people already in the field, build quick prototypes of your ideas, and stress-test your assumptions. By the end, you\'ll have a specific, well-reasoned case for what you should be working on.',
+        description: 'You have skills and experiences which you believe are relevant to AI safety. But you haven\'t committed to a specific path because you\'d be most impactful.',
+        valueProposition: 'You\'ll talk to people in the field, test your ideas, and stress-test your assumptions. By the end, you\'ll have a specific, well-reasoned case for what you should be working on.',
       },
     ],
   },
@@ -148,7 +147,7 @@ export const createPersonalTheoryOfImpactContent = (
         question: 'Do I need to complete the AGI Strategy Course first?',
         answer: (
           <>
-            Yes, or an equivalent. You need a foundational understanding of the AI safety landscape. If there's a domain course relevant to your area (e.g., <a href="https://bluedot.org/courses/technical-ai-safety" target="_blank" rel="noopener noreferrer" className="underline">Technical AI Safety</a>, <a href="https://bluedot.org/courses/ai-governance" target="_blank" rel="noopener noreferrer" className="underline">AI Governance</a>, <a href="https://bluedot.org/courses/biosecurity" target="_blank" rel="noopener noreferrer" className="underline">Biosecurity</a>), we recommend taking that first too, so you have a larger surface area of ideas to work with.
+            Yes, or demonstrate equivalent understanding of the AI safety landscape. If there's a domain course relevant to your area (e.g., <a href="https://bluedot.org/courses/technical-ai-safety" target="_blank" rel="noopener noreferrer" className="underline">Technical AI Safety</a>, <a href="https://bluedot.org/courses/ai-governance" target="_blank" rel="noopener noreferrer" className="underline">AI Governance</a>, <a href="https://bluedot.org/courses/biosecurity" target="_blank" rel="noopener noreferrer" className="underline">Biosecurity</a>), we recommend taking that first too, so you have a larger surface area of ideas to work with.
           </>
         ),
       },
@@ -157,7 +156,7 @@ export const createPersonalTheoryOfImpactContent = (
         question: 'How is this different from the Technical AI Safety Project Sprint?',
         answer: (
           <>
-            The <a href="https://bluedot.org/courses/technical-ai-safety-project" target="_blank" rel="noopener noreferrer" className="underline">Project Sprint</a> is for people who want to make a technical contribution to AI safety research or engineering. The Personal Theory of Impact is for anyone who wants to figure out how they can best contribute — technical or otherwise.
+            The <a href="https://bluedot.org/courses/technical-ai-safety-project" target="_blank" rel="noopener noreferrer" className="underline">project sprint</a> is for people who want to make a technical contribution to AI safety research or engineering. This project is for anyone who wants to figure out how they can best contribute — technical or otherwise.
           </>
         ),
       },
@@ -179,7 +178,7 @@ export const createPersonalTheoryOfImpactContent = (
       {
         id: 'time',
         question: 'How much time should I spend on this?',
-        answer: 'At least 20 hours over 2 weeks. You need enough time to research, talk to people, and test ideas — not just fill in a template. Gaining clarity is an active process that requires you to take action.',
+        answer: 'At least 20 hours over 2 weeks. You need enough time to research, talk to people, and test ideas. Gaining clarity is an active process that requires you to take action.',
       },
       {
         id: 'bluedot',
