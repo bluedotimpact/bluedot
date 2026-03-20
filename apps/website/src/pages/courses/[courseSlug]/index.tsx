@@ -22,6 +22,7 @@ import { createBioSecurityContent } from '../../../components/lander/course-cont
 import { createTechnicalAiSafetyContent } from '../../../components/lander/course-content/TechnicalAiSafetyContent';
 import { createAiGovernanceContent } from '../../../components/lander/course-content/AiGovernanceContent';
 import { createFutureOfAiContent, FUTURE_OF_AI_START_URL } from '../../../components/lander/course-content/FutureOfAiContent';
+import { createPersonalTheoryOfImpactContent, PERSONAL_TOI_START_URL } from '../../../components/lander/course-content/PersonalTheoryOfImpactContent';
 import { createTechnicalAiSafetyProjectContent } from '../../../components/lander/course-content/TechnicalAiSafetyProjectContent';
 import { getCourseRoundsData, getSoonestDeadline } from '../../../server/routers/course-rounds';
 import { createIncubatorWeekContent } from '../../../components/lander/course-content/IncubatorWeekContent';
@@ -128,6 +129,19 @@ const renderCoursePage = ({
         courseSlug={slug}
         baseApplicationUrl={baseApplicationUrl}
         createContentFor={createTechnicalAiSafetyProjectContent}
+        courseOgImage={courseOgImage}
+        soonestDeadline={soonestDeadline}
+      />
+    );
+  }
+
+  if (slug === 'personal-theory-of-impact') {
+    // Personal Theory of Impact is self-paced, so use the start URL instead of an apply URL
+    return (
+      <CourseLander
+        courseSlug={slug}
+        baseApplicationUrl={PERSONAL_TOI_START_URL}
+        createContentFor={createPersonalTheoryOfImpactContent}
         courseOgImage={courseOgImage}
         soonestDeadline={soonestDeadline}
       />

@@ -52,6 +52,8 @@ export type CourseLanderContent = {
   quotes?: QuoteSectionProps;
   testimonials?: TestimonialMember[];
   testimonialsTitle?: string;
+  /** Hide the testimonials section even if testimonials exist in the database */
+  hideTestimonials?: boolean;
   partners?: PartnerSectionProps;
   faq?: FAQSectionProps;
   banner: LandingBannerProps;
@@ -189,7 +191,7 @@ const CourseLander = ({
         </>
       )}
 
-      {testimonials && (
+      {testimonials && !content.hideTestimonials && (
         <>
           <div className="border-t-hairline border-color-divider" />
           <TestimonialCarousel
