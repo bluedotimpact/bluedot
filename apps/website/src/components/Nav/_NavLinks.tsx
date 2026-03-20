@@ -271,10 +271,6 @@ const NavDropdown: React.FC<{
                   {link.title === 'AGI Strategy' && (
                     <div className="border-t border-gray-200 my-2" />
                   )}
-                  {/* Add divider after Technical AI Safety */}
-                  {link.title === 'Technical AI Safety' && (
-                    <div className="border-t border-gray-200 my-2" />
-                  )}
                 </React.Fragment>
               );
             })
