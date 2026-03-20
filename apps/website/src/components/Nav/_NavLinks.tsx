@@ -50,7 +50,7 @@ export const NavLinks: React.FC<{
 
   const navProjects = [
     ...allCourses.filter((course) => course.type === 'Project'),
-    { title: 'See upcoming rounds', url: ROUTES.courses.url },
+    { title: 'See upcoming rounds', url: `${ROUTES.courses.url}#projects` },
   ];
 
   const exploreLinks = [
