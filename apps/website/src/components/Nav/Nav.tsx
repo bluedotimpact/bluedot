@@ -24,7 +24,8 @@ export const Nav: React.FC<NavProps> = ({ variant: variantProp }) => {
   const isOnColoredBackground = variant === 'transparent';
 
   const [expandedSections, setExpandedSections] = useState<ExpandedSectionsState>({
-    about: false,
+    courses: false,
+    projects: false,
     explore: false,
     mobileNav: false,
     profile: false,
@@ -40,7 +41,8 @@ export const Nav: React.FC<NavProps> = ({ variant: variantProp }) => {
 
     const handleBreakpointChange = () => {
       setExpandedSections({
-        about: false,
+        courses: false,
+        projects: false,
         explore: false,
         mobileNav: false,
         profile: false,

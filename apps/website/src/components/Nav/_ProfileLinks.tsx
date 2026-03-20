@@ -32,7 +32,8 @@ export const ProfileLinks: React.FC<{
   );
 
   const onToggleProfile = () => updateExpandedSections({
-    about: false,
+    courses: false,
+    projects: false,
     explore: false,
     mobileNav: false,
     profile: !expandedSections.profile,

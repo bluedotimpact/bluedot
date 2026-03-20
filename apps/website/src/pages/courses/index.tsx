@@ -48,17 +48,15 @@ const useSortedCourses = () => {
   }, [courses]);
 
   // Sort courses by fixed display order
-  const sortedCourses = useMemo(() => {
-    return [...displayedCourses].sort((a, b) => {
+  const sortByDisplayOrder = (items: Course[]) => {
+    return [...items].sort((a, b) => {
       const aIndex = COURSE_DISPLAY_ORDER.indexOf(a.slug);
       const bIndex = COURSE_DISPLAY_ORDER.indexOf(b.slug);
 
-      // If both are in the order list, sort by their position
       if (aIndex !== -1 && bIndex !== -1) {
         return aIndex - bIndex;
       }
 
-      // If only one is in the order list, it comes first
       if (aIndex !== -1) {
         return -1;
       }
@@ -67,13 +65,16 @@ const useSortedCourses = () => {
         return 1;
       }
 
-      // If neither is in the order list, sort alphabetically
       return a.title.localeCompare(b.title);
     });
-  }, [displayedCourses]);
+  };
+
+  const sortedCourses = useMemo(() => sortByDisplayOrder(displayedCourses.filter((c) => c.type !== 'Project')), [displayedCourses]);
+  const sortedProjects = useMemo(() => sortByDisplayOrder(displayedCourses.filter((c) => c.type === 'Project')), [displayedCourses]);
 
   return {
     courses: sortedCourses,
+    projects: sortedProjects,
     isLoading: coursesLoading,
     error,
   };
@@ -81,14 +82,15 @@ const useSortedCourses = () => {
 
 /* Main Page Component */
 const CoursesPage = () => {
-  const { courses: displayedCourses, isLoading, error } = useSortedCourses();
+  const { courses: displayedCourses, projects: displayedProjects, isLoading, error } = useSortedCourses();
+  const allDisplayed = [...displayedCourses, ...displayedProjects];
 
   return (
     <div className="bg-white min-[680px]:pb-16 min-[1280px]:pb-24">
       <Head>
         <title>AI safety courses with certificates</title>
         <meta name="description" content="Courses that support you to develop the knowledge, community and network needed to pursue a high-impact career." />
-        {displayedCourses.length > 0 && (
+        {allDisplayed.length > 0 && (
           <script
             type="application/ld+json"
 
@@ -96,7 +98,7 @@ const CoursesPage = () => {
               __html: JSON.stringify({
                 '@context': 'https://schema.org',
                 '@type': 'ItemList',
-                itemListElement: displayedCourses.map((course, index) => ({
+                itemListElement: allDisplayed.map((course, index) => ({
                   '@type': 'ListItem',
                   position: index + 1,
                   item: {
@@ -151,7 +153,7 @@ const CoursesPage = () => {
         <div className="pt-8 min-[680px]:pt-16 min-[1280px]:pt-24">
           <div className="flex flex-col min-[1280px]:flex-row min-[1280px]:gap-16">
             {/* Breadcrumb Menu */}
-            <BreadcrumbMenu courses={displayedCourses} />
+            <BreadcrumbMenu courses={displayedCourses} projects={displayedProjects} />
 
             {/* Horizontal divider - only visible on stacked layout (below 1280px) */}
             <div className="min-[1280px]:hidden mt-16 pt-16 border-t border-bluedot-navy/10" />
@@ -161,7 +163,18 @@ const CoursesPage = () => {
               {error && <ErrorSection error={error} />}
               {isLoading && <ProgressDots />}
               {!isLoading && !error && (
-                <CoursesList courses={displayedCourses} />
+                <>
+                  <CoursesList courses={displayedCourses} />
+                  {displayedProjects.length > 0 && (
+                    <>
+                      <div id="projects" className="my-12 min-[1024px]:my-16 min-[1280px]:my-20 border-t border-bluedot-navy/10" />
+                      <h2 className="text-[12px] leading-[14px] font-semibold text-bluedot-normal uppercase tracking-[0.5px] mb-12 min-[1280px]:hidden">
+                        Projects
+                      </h2>
+                      <CoursesList courses={displayedProjects} />
+                    </>
+                  )}
+                </>
               )}
             </div>
           </div>
@@ -203,7 +216,7 @@ const CoursesHero = () => {
 
             {/* Description */}
             <p className="text-size-sm min-[680px]:text-[18px] min-[1024px]:text-[20px] leading-[1.55] tracking-[-0.1px] text-white">
-              Learn how you can have a positive impact on the future of AI via one of our upcoming free courses.
+              Learn how you can have a positive impact on the future of AI via one of our upcoming free courses and projects.
             </p>
           </div>
         </div>
@@ -254,18 +267,22 @@ const useActiveSection = (sectionIds: string[]): string | null => {
 /* Breadcrumb Menu */
 type BreadcrumbMenuProps = {
   courses: Course[];
+  projects: Course[];
 };
 
-const BreadcrumbMenu = ({ courses }: BreadcrumbMenuProps) => {
+const BreadcrumbMenu = ({ courses, projects }: BreadcrumbMenuProps) => {
   const sectionIds = useMemo(
-    () => courses.map((course) => `course-${course.slug}`),
-    [courses],
+    () => [
+      ...courses.map((course) => `course-${course.slug}`),
+      ...projects.map((project) => `course-${project.slug}`),
+    ],
+    [courses, projects],
   );
 
   const activeSection = useActiveSection(sectionIds);
 
-  const scrollToSection = (slug: string) => {
-    const element = document.getElementById(`course-${slug}`);
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
     if (element) {
       /* Offset for sticky nav */
       const navHeight = 96;
@@ -277,47 +294,59 @@ const BreadcrumbMenu = ({ courses }: BreadcrumbMenuProps) => {
     }
   };
 
+  const renderItems = (items: Course[]) => (
+    <ul className="flex flex-col">
+      {items.map((course) => {
+        const isNew = course.isNew ?? false;
+        const isActive = activeSection === `course-${course.slug}`;
+
+        return (
+          <li key={course.slug}>
+            <button
+              type="button"
+              onClick={() => scrollToSection(`course-${course.slug}`)}
+              className={clsx(
+                'group flex items-center gap-3 h-11 pl-5 border-l-4 transition-colors cursor-pointer w-full text-left',
+                isActive
+                  ? 'border-bluedot-normal'
+                  : 'border-[rgba(21,21,21,0.15)] hover:border-bluedot-normal',
+              )}
+            >
+              <span
+                className={clsx(
+                  'text-[16px] leading-[24px] font-normal',
+                  isActive ? 'text-bluedot-normal' : 'text-[#151d42]',
+                )}
+              >
+                {course.title}
+              </span>
+              {isNew && (
+                <span className="bg-[#e9ecf8] text-[#2244bb] text-[10px] font-bold leading-[24px] px-[6px] rounded-[5px]">
+                  NEW
+                </span>
+              )}
+            </button>
+          </li>
+        );
+      })}
+    </ul>
+  );
+
   return (
     <nav className="w-[252px] flex-shrink-0 min-[1280px]:sticky min-[1280px]:top-24 min-[1280px]:self-start">
       <h2 className="text-[12px] leading-[14px] font-semibold text-bluedot-normal uppercase tracking-[0.5px] mb-[30px]">
         Courses
       </h2>
+      {renderItems(courses)}
 
-      <ul className="flex flex-col">
-        {courses.map((course) => {
-          const isNew = course.isNew ?? false;
-          const isActive = activeSection === `course-${course.slug}`;
-
-          return (
-            <li key={course.slug}>
-              <button
-                type="button"
-                onClick={() => scrollToSection(course.slug)}
-                className={clsx(
-                  'group flex items-center gap-3 h-11 pl-5 border-l-4 transition-colors cursor-pointer w-full text-left',
-                  isActive
-                    ? 'border-bluedot-normal'
-                    : 'border-[rgba(21,21,21,0.15)] hover:border-bluedot-normal',
-                )}
-              >
-                <span
-                  className={clsx(
-                    'text-[16px] leading-[24px] font-normal',
-                    isActive ? 'text-bluedot-normal' : 'text-[#151d42]',
-                  )}
-                >
-                  {course.title}
-                </span>
-                {isNew && (
-                  <span className="bg-[#e9ecf8] text-[#2244bb] text-[10px] font-bold leading-[24px] px-[6px] rounded-[5px]">
-                    NEW
-                  </span>
-                )}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+      {projects.length > 0 && (
+        <>
+          <h2 className="text-[12px] leading-[14px] font-semibold text-bluedot-normal uppercase tracking-[0.5px] mt-8 mb-[30px]">
+            Projects
+          </h2>
+          {renderItems(projects)}
+        </>
+      )}
     </nav>
   );
 };
