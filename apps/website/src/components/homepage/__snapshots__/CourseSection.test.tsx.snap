@@ -160,7 +160,7 @@ exports[`CourseSection > renders as expected 1`] = `
           >
             <span>
               <a
-                class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--featured"
+                class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block h-full course-card--featured"
                 href="/courses/agi-strategy"
               >
                 <div
@@ -174,7 +174,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
-                  class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
+                  class="relative z-10 flex flex-col h-full min-h-[380px] p-6 md:p-8 lg:p-10"
                 >
                   <div
                     class="flex-grow"
@@ -271,7 +271,7 @@ exports[`CourseSection > renders as expected 1`] = `
           >
             <span>
               <a
-                class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular"
+                class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block h-full course-card--regular"
                 href="/courses/biosecurity"
               >
                 <div
@@ -285,7 +285,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
-                  class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
+                  class="relative z-10 flex flex-col h-full min-h-[380px] p-6 md:p-8 lg:p-10"
                 >
                   <div
                     class="flex-grow"
@@ -347,7 +347,7 @@ exports[`CourseSection > renders as expected 1`] = `
             </span>
             <span>
               <a
-                class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular"
+                class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block h-full course-card--regular"
                 href="/courses/technical-ai-safety"
               >
                 <div
@@ -361,7 +361,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
-                  class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
+                  class="relative z-10 flex flex-col h-full min-h-[380px] p-6 md:p-8 lg:p-10"
                 >
                   <div
                     class="flex-grow"
@@ -423,7 +423,7 @@ exports[`CourseSection > renders as expected 1`] = `
             </span>
             <span>
               <a
-                class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular"
+                class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block h-full course-card--regular"
                 href="/courses/ai-governance"
               >
                 <div
@@ -437,7 +437,7 @@ exports[`CourseSection > renders as expected 1`] = `
                   class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                 />
                 <div
-                  class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
+                  class="relative z-10 flex flex-col h-full min-h-[380px] p-6 md:p-8 lg:p-10"
                 >
                   <div
                     class="flex-grow"
@@ -514,7 +514,7 @@ exports[`CourseSection > renders as expected 1`] = `
             >
               <span>
                 <a
-                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--featured flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block h-full course-card--featured flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/agi-strategy"
                 >
                   <div
@@ -528,7 +528,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   />
                   <div
-                    class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
+                    class="relative z-10 flex flex-col h-full min-h-[380px] p-6 md:p-8 lg:p-10"
                   >
                     <div
                       class="flex-grow"
@@ -595,7 +595,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block h-full course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/biosecurity"
                 >
                   <div
@@ -609,7 +609,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   />
                   <div
-                    class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
+                    class="relative z-10 flex flex-col h-full min-h-[380px] p-6 md:p-8 lg:p-10"
                   >
                     <div
                       class="flex-grow"
@@ -671,7 +671,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block h-full course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/technical-ai-safety"
                 >
                   <div
@@ -685,7 +685,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   />
                   <div
-                    class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
+                    class="relative z-10 flex flex-col h-full min-h-[380px] p-6 md:p-8 lg:p-10"
                   >
                     <div
                       class="flex-grow"
@@ -747,7 +747,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block h-full course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/ai-governance"
                 >
                   <div
@@ -761,7 +761,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   />
                   <div
-                    class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
+                    class="relative z-10 flex flex-col h-full min-h-[380px] p-6 md:p-8 lg:p-10"
                   >
                     <div
                       class="flex-grow"
@@ -823,7 +823,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--featured flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block h-full course-card--featured flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/agi-strategy"
                 >
                   <div
@@ -837,7 +837,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   />
                   <div
-                    class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
+                    class="relative z-10 flex flex-col h-full min-h-[380px] p-6 md:p-8 lg:p-10"
                   >
                     <div
                       class="flex-grow"
@@ -904,7 +904,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block h-full course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/biosecurity"
                 >
                   <div
@@ -918,7 +918,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   />
                   <div
-                    class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
+                    class="relative z-10 flex flex-col h-full min-h-[380px] p-6 md:p-8 lg:p-10"
                   >
                     <div
                       class="flex-grow"
@@ -980,7 +980,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block h-full course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/technical-ai-safety"
                 >
                   <div
@@ -994,7 +994,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   />
                   <div
-                    class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
+                    class="relative z-10 flex flex-col h-full min-h-[380px] p-6 md:p-8 lg:p-10"
                   >
                     <div
                       class="flex-grow"
@@ -1056,7 +1056,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block h-full course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/ai-governance"
                 >
                   <div
@@ -1070,7 +1070,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   />
                   <div
-                    class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
+                    class="relative z-10 flex flex-col h-full min-h-[380px] p-6 md:p-8 lg:p-10"
                   >
                     <div
                       class="flex-grow"
@@ -1132,7 +1132,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--featured flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block h-full course-card--featured flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/agi-strategy"
                 >
                   <div
@@ -1146,7 +1146,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   />
                   <div
-                    class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
+                    class="relative z-10 flex flex-col h-full min-h-[380px] p-6 md:p-8 lg:p-10"
                   >
                     <div
                       class="flex-grow"
@@ -1213,7 +1213,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block h-full course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/biosecurity"
                 >
                   <div
@@ -1227,7 +1227,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   />
                   <div
-                    class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
+                    class="relative z-10 flex flex-col h-full min-h-[380px] p-6 md:p-8 lg:p-10"
                   >
                     <div
                       class="flex-grow"
@@ -1289,7 +1289,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block h-full course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/technical-ai-safety"
                 >
                   <div
@@ -1303,7 +1303,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   />
                   <div
-                    class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
+                    class="relative z-10 flex flex-col h-full min-h-[380px] p-6 md:p-8 lg:p-10"
                   >
                     <div
                       class="flex-grow"
@@ -1365,7 +1365,7 @@ exports[`CourseSection > renders as expected 1`] = `
               </span>
               <span>
                 <a
-                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
+                  class="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block h-full course-card--regular flex-shrink-0 w-[276px] md:w-[400px]"
                   href="/courses/ai-governance"
                 >
                   <div
@@ -1379,7 +1379,7 @@ exports[`CourseSection > renders as expected 1`] = `
                     class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   />
                   <div
-                    class="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10"
+                    class="relative z-10 flex flex-col h-full min-h-[380px] p-6 md:p-8 lg:p-10"
                   >
                     <div
                       class="flex-grow"
