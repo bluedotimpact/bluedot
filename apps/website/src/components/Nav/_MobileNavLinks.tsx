@@ -45,6 +45,8 @@ export const MobileNavLinks: React.FC<{
   const onToggleMobileNav = () => {
     updateExpandedSections({
       mobileNav: !expandedSections.mobileNav,
+      courses: false,
+      projects: false,
       explore: false,
       profile: false,
     });
@@ -68,7 +70,8 @@ export const MobileNavLinks: React.FC<{
             // Close mobile nav when any link is clicked
             if ((e.target as HTMLElement).tagName === 'A') {
               updateExpandedSections({
-                about: false,
+                courses: false,
+                projects: false,
                 explore: false,
                 mobileNav: false,
                 profile: false,
@@ -79,7 +82,8 @@ export const MobileNavLinks: React.FC<{
             // Also handle keyboard navigation
             if (e.key === 'Enter' && (e.target as HTMLElement).tagName === 'A') {
               updateExpandedSections({
-                about: false,
+                courses: false,
+                projects: false,
                 explore: false,
                 mobileNav: false,
                 profile: false,
