@@ -494,7 +494,7 @@ const CourseCardRedesigned = ({
     <a
       href={getPrimaryCourseURL(course.slug)}
       className={clsx(
-        'relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block',
+        'relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block h-full',
         isFirstCard ? 'course-card--featured' : 'course-card--regular',
         className,
       )}
@@ -520,7 +520,7 @@ const CourseCardRedesigned = ({
       <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" />
 
       {/* Content Container */}
-      <div className="relative z-10 flex flex-col h-[400px] sm:h-[380px] lg:h-[380px] p-6 md:p-8 lg:p-10">
+      <div className="relative z-10 flex flex-col h-full min-h-[380px] p-6 md:p-8 lg:p-10">
         {/* Icon at top */}
         <div className="flex-grow">
           <div className="size-16 md:size-20 xl:size-24">
