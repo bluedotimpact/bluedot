@@ -44,7 +44,7 @@ export const createPersonalTheoryOfImpactContent = (
     description: 'There are no easy answers for ensuring the future goes well.\n\nFocus on the specifics of how you can contribute, so you can start taking action.',
     primaryCta: {
       text: 'Get started',
-      url: `/courses/${courseSlug}/1/1`,
+      url: applicationUrlWithUtm,
     },
     imageSrc: '/images/lander/agi-strategy/hero-graphic.png',
     imageAlt: 'Personal Theory of Impact visualisation',

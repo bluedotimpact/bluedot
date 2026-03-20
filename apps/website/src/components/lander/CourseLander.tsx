@@ -191,7 +191,7 @@ const CourseLander = ({
         </>
       )}
 
-      {testimonials && !content.hideTestimonials && (
+      {testimonials && testimonials.length > 0 && !content.hideTestimonials && (
         <>
           <div className="border-t-hairline border-color-divider" />
           <TestimonialCarousel
