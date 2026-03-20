@@ -36,14 +36,29 @@ export const NavLinks: React.FC<{
   const { courses, loading } = useCourses();
   const { getPrimaryCourseURL } = usePrimaryCourseURL();
 
-  const navCourses = loading ? [] : [
-    ...(courses || []).map((course) => ({
-      title: course.title,
-      url: getPrimaryCourseURL(course.slug),
-      isNew: course.isNew ?? false,
-    })),
+  const allCourses = loading ? [] : (courses || []).map((course) => ({
+    title: course.title,
+    url: getPrimaryCourseURL(course.slug),
+    isNew: course.isNew ?? false,
+    type: course.type ?? null,
+  }));
+
+  const navCourses = [
+    ...allCourses.filter((course) => course.type !== 'Project'),
     { title: 'See upcoming rounds', url: ROUTES.courses.url },
   ];
+
+  const navProjects = [
+    ...allCourses.filter((course) => course.type === 'Project'),
+    { title: 'See upcoming rounds', url: ROUTES.courses.url },
+  ];
+
+  const exploreLinks = [
+    { title: 'Events', url: 'https://lu.ma/bluedotevents?utm_source=website&utm_campaign=nav', external: true },
+    { title: 'Blog', url: ROUTES.blog.url, external: true },
+    { title: 'Grants', url: ROUTES.grants.url },
+  ];
+
   const getLinkClasses = (isCurrentPathValue?: boolean) => {
     // Mobile drawer always has white background, so always use dark text
     // Desktop navbar uses white text on colored background, dark text elsewhere
@@ -63,48 +78,56 @@ export const NavLinks: React.FC<{
     <div className={clsx('nav-links flex gap-9 [&>*]:w-fit', className)}>
       <NavDropdown
         expandedSections={expandedSections}
-        isExpanded={expandedSections.explore}
+        isExpanded={expandedSections.courses}
         onColoredBackground={onColoredBackground}
         links={navCourses}
         onToggle={() => updateExpandedSections({
-          about: false,
+          courses: !expandedSections.courses,
+          projects: false,
+          explore: false,
+          mobileNav: expandedSections.mobileNav,
+          profile: false,
+        })}
+        onClose={() => updateExpandedSections({ courses: false })}
+        title="Courses"
+        loading={loading}
+      />
+      <NavDropdown
+        expandedSections={expandedSections}
+        isExpanded={expandedSections.projects}
+        onColoredBackground={onColoredBackground}
+        links={navProjects}
+        onToggle={() => updateExpandedSections({
+          courses: false,
+          projects: !expandedSections.projects,
+          explore: false,
+          mobileNav: expandedSections.mobileNav,
+          profile: false,
+        })}
+        onClose={() => updateExpandedSections({ projects: false })}
+        title="Projects"
+        loading={loading}
+      />
+      <NavDropdown
+        expandedSections={expandedSections}
+        isExpanded={expandedSections.explore}
+        onColoredBackground={onColoredBackground}
+        links={exploreLinks}
+        onToggle={() => updateExpandedSections({
+          courses: false,
+          projects: false,
           explore: !expandedSections.explore,
           mobileNav: expandedSections.mobileNav,
           profile: false,
         })}
         onClose={() => updateExpandedSections({ explore: false })}
-        title="Courses"
-        loading={loading}
+        title="Explore"
       />
-      <A
-        href="https://lu.ma/bluedotevents?utm_source=website&utm_campaign=nav"
-        target="_blank"
-        rel="noopener noreferrer"
-        className={getLinkClasses()}
-        aria-label="Events (opens in new tab)"
-      >
-        Events
-      </A>
-      <A
-        href={ROUTES.blog.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={getLinkClasses(isCurrentPath(ROUTES.blog.url))}
-        aria-label="Blog (opens in new tab)"
-      >
-        Blog
-      </A>
       <A
         href={ROUTES.about.url}
         className={getLinkClasses(isCurrentPath(ROUTES.about.url))}
       >
         About
-      </A>
-      <A
-        href={ROUTES.grants.url}
-        className={getLinkClasses(isCurrentPath(ROUTES.grants.url))}
-      >
-        Grants
       </A>
       <A
         href={ROUTES.joinUs.url}
@@ -121,13 +144,13 @@ const NavDropdown: React.FC<{
   expandedSections: ExpandedSectionsState;
   isExpanded: boolean;
   onColoredBackground: boolean;
-  links: { title: string; url: string; isNew?: boolean | null }[];
+  links: { title: string; url: string; isNew?: boolean | null; external?: boolean }[];
   onToggle: () => void;
   onClose: () => void;
   title: string;
   // Optional
   className?: string;
-  loading: boolean;
+  loading?: boolean;
 }> = ({
   expandedSections,
   isExpanded,
@@ -137,7 +160,7 @@ const NavDropdown: React.FC<{
   onClose,
   title,
   className,
-  loading,
+  loading = false,
 }) => {
   const dropdownRef = useClickOutside(
     onClose,
@@ -216,12 +239,13 @@ const NavDropdown: React.FC<{
 
               return (
                 <React.Fragment key={link.url}>
-                  {/* Add separator before "See upcoming rounds" */}
-                  {link.title === 'See upcoming rounds' && (
+                  {/* Add separator before footer links */}
+                  {(link.title === 'See upcoming rounds' || link.title === 'See all projects') && (
                     <div className="border-t border-gray-200 my-2" />
                   )}
                   <A
                     href={link.url}
+                    {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                     className={clsx(
                       'nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle',
                       'pt-1',

@@ -21,7 +21,8 @@ export const DRAWER_CLASSES = (isOpen: boolean, zIndex: typeof DRAWER_Z_DEFAULT 
 );
 
 export type ExpandedSectionsState = {
-  about: boolean;
+  courses: boolean;
+  projects: boolean;
   explore: boolean;
   mobileNav: boolean;
   profile: boolean;
