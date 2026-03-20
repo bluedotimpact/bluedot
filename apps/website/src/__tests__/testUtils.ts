@@ -83,6 +83,7 @@ export const createMockCourse = (overrides: Partial<Course> = {}): Course => ({
   slug: 'course-slug',
   status: 'published',
   title: 'Course Title',
+  type: 'Course',
   units: [],
   ...overrides,
 });
