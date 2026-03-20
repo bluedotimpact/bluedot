@@ -52,24 +52,31 @@ export const createPersonalTheoryOfImpactContent = (
     imageAspectRatio: '1408/1122',
   },
 
-  whoIsThisFor: {
-    iconBackgroundColor: TOI_COLORS.iconBackground,
-    title: 'Who this course is for',
-    targetAudiences: [
+  personas: {
+    title: 'Who this project is for',
+    accentColor: TOI_COLORS.iconBackground,
+    defaultExpandedIndex: -1,
+    personas: [
       {
         icon: PiGraduationCap,
-        boldText: 'For AGI Strategy Course graduates',
-        description: 'who understand the AI safety landscape and want to figure out how they can personally contribute.',
+        title: 'AGI Strategy Course graduates',
+        summary: 'You understand the stakes. Now you need to figure out what you personally should do about it.',
+        description: 'You\'ve completed the AGI Strategy Course (or equivalent). You understand the AI safety landscape — the threat pathways, the actors, the challenges. But understanding the problem and knowing how to contribute are different things. You have a scattered sense of what you could do, but no concrete plan.',
+        valueProposition: 'This project gives you a structured process to go from "I want to help" to "here\'s specifically what I\'d spend 6 months working on and why." You\'ll produce a brief that crystallises your thinking — and the process of creating it is where the real clarity comes from.',
       },
       {
         icon: PiCompass,
-        boldText: 'For people who feel confused about what to work on',
-        description: 'who have ideas for areas they could contribute to, but aren\'t sure what will be most impactful.',
+        title: 'People who feel deeply confused about what to work on',
+        summary: 'You have ideas, but you\'re not sure which ones matter. That confusion is normal — and productive.',
+        description: 'You care deeply about making AI go well. You\'ve read a lot, maybe taken courses, and have a growing list of areas that seem important. But the more you learn, the less certain you feel. You don\'t know if your instincts are right, or if you\'re missing something obvious.',
+        valueProposition: 'Confusion is the starting point, not the obstacle. This project pushes you to resolve it by doing — talking to practitioners, testing your fit, and narrowing down through action rather than more reading. You\'ll come out with a concrete direction, not just more options.',
       },
       {
         icon: PiRocketLaunch,
-        boldText: 'For people ready to take action',
-        description: 'who feel ready to contribute but don\'t know where to start. This project pushes you through that process.',
+        title: 'People ready to take action',
+        summary: 'You\'re done deliberating. You want a process that forces clarity.',
+        description: 'You\'ve done the thinking. You have domain expertise — maybe in engineering, policy, research, or operations — and you believe it\'s relevant to AI safety. But you haven\'t committed to a specific path because you\'re not sure where your skills are most needed or how to validate your ideas.',
+        valueProposition: 'This project is designed for people who learn by doing. You\'ll talk to people already in the field, build quick prototypes of your ideas, and stress-test your assumptions. By the end, you\'ll have a specific, well-reasoned case for what you should be working on.',
       },
     ],
   },
