@@ -55,4 +55,9 @@ export const COURSE_CONFIG: Record<string, CourseConfigItem> = {
     accentColor: '#a060bb',
     badge: 'P',
   },
+  'personal-theory-of-impact': {
+    icon: '/images/courses/personal-theory-of-impact-icon.svg',
+    iconBackground: '#6B3A50',
+    accentColor: '#A06878',
+  },
 };
