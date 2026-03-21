@@ -115,7 +115,7 @@ describe('EventsPage', () => {
     render(<EventsPage />, { wrapper: TrpcProvider });
 
     expect(screen.getByText('Recurring groups, meetups, socials, and workshops for the BlueDot community.')).toBeTruthy();
-    expect(screen.getByText("Most BlueDot events live on Luma. This page is the quick scan - what's coming up, what we run, and where to RSVP.")).toBeTruthy();
+    expect(screen.getByText('Most BlueDot events live on Luma. This page is the quick scan - what\'s coming up, what we run, and where to RSVP.')).toBeTruthy();
     expect(screen.getByText('Virtual events are shown in your local time. In-person events are shown in local venue time.')).toBeTruthy();
 
     await waitFor(() => {

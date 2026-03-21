@@ -44,7 +44,7 @@ export const buildTimeDeltaString = (event: Event, locale?: string) => {
       timeZoneName: 'short',
       timeZone,
     }).formatToParts(endDate);
-    const timezone = timezoneParts.find((part) => part.type === 'timeZoneName')?.value || '';
+    const timezone = timezoneParts.find((part) => part.type === 'timeZoneName')?.value ?? '';
 
     return `${timeStart} - ${timeEndWeekday} (${timeEndDate}) ${timezone}`;
   }

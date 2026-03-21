@@ -35,6 +35,7 @@ function transformEvent(api_id: string, event: LumaEvent): Event {
     url: event.url,
   };
 }
+
 export type EventStats = {
   totalEvents: number;
   onlineEvents: number;
@@ -132,7 +133,7 @@ function buildListEventsUrl({
 }
 
 function filterAndTransformEvents(entries: LumaListEventsResponse['entries']) {
-  return (entries || [])
+  return (entries ?? [])
     .filter(({ event }) => isPublicLumaEvent(event))
     .map(({ api_id, event }) => transformEvent(api_id, event))
     .filter((event) => {
@@ -142,11 +143,7 @@ function filterAndTransformEvents(entries: LumaListEventsResponse['entries']) {
 }
 
 function summarizeEvents(events: Event[]): EventStats {
-  const cities = new Set(
-    events
-      .filter((event) => event.location !== 'ONLINE')
-      .map((event) => event.location),
-  ).size;
+  const cities = new Set(events.filter((event) => event.location !== 'ONLINE').map((event) => event.location)).size;
 
   const firstEventStartAt = events.reduce<string | null>((earliest, event) => {
     if (!earliest || event.startAt < earliest) {
@@ -176,6 +173,8 @@ async function fetchPublicEvents({ after }: { after?: string } = {}): Promise<Ev
   let pagesFetched = 0;
 
   do {
+    // Cursor-based pagination is sequential: each request depends on the previous page's cursor.
+    // eslint-disable-next-line no-await-in-loop
     const response = await fetch(buildListEventsUrl({ after, cursor }).toString(), {
       headers: {
         accept: 'application/json',
@@ -187,6 +186,7 @@ async function fetchPublicEvents({ after }: { after?: string } = {}): Promise<Ev
       throw new Error(`Luma API returned ${response.status}: ${response.statusText}`);
     }
 
+    // eslint-disable-next-line no-await-in-loop
     const data = await response.json() as LumaListEventsResponse;
     events.push(...filterAndTransformEvents(data.entries));
     cursor = data.has_more ? data.next_cursor : undefined;
@@ -226,7 +226,7 @@ async function refreshUpcomingEvents(): Promise<Event[]> {
 
       return events;
     } catch (error) {
-      return handleRefreshFailure(error, cachedUpcomingEvents || []);
+      return await handleRefreshFailure(error, cachedUpcomingEvents ?? []);
     } finally {
       isRefreshingUpcomingEvents = false;
       refreshUpcomingEventsPromise = null;
@@ -254,7 +254,7 @@ async function refreshEventStats(): Promise<EventStats> {
 
       return stats;
     } catch (error) {
-      return handleRefreshFailure(error, cachedEventStats || {
+      return await handleRefreshFailure(error, cachedEventStats ?? {
         totalEvents: 0,
         onlineEvents: 0,
         cities: 0,
