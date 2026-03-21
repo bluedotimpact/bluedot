@@ -9,7 +9,19 @@ const FAILURE_THRESHOLD = 3;
 const EXCLUDED_EVENT_TITLE_SUFFIXES = ['paper reading club', 'paper reading group'];
 const MAX_EVENT_PAGES = 20;
 
-function transformEvent(api_id: string, event: LumaEvent) {
+export type Event = {
+  id: string;
+  description?: string;
+  descriptionMd?: string;
+  startAt: string;
+  endAt: string;
+  location: string;
+  timezone: string;
+  title: string;
+  url: string;
+};
+
+function transformEvent(api_id: string, event: LumaEvent): Event {
   return {
     id: api_id,
     description: event.description,
@@ -23,8 +35,6 @@ function transformEvent(api_id: string, event: LumaEvent) {
     url: event.url,
   };
 }
-
-export type Event = ReturnType<typeof transformEvent>;
 export type EventStats = {
   totalEvents: number;
   onlineEvents: number;

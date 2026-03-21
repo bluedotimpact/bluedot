@@ -82,12 +82,12 @@ const EventDescriptionToggle = ({
         {isOpen ? 'Hide description' : 'Show description'}
       </button>
       {isOpen && (
-        <P
+        <p
           id={`event-description-${eventId}`}
-          className="mt-3 whitespace-pre-line text-bluedot-navy/78"
+          className="mt-3 whitespace-pre-line text-[16px] leading-[1.55] tracking-[-0.032px] text-bluedot-navy/78"
         >
           {description}
-        </P>
+        </p>
       )}
     </div>
   );
