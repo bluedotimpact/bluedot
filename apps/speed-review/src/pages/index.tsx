@@ -252,6 +252,8 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
     if (!current) return;
     const { name } = current;
     dispatch({ type: 'TIMEOUT' });
+    setUndoToast(null);
+    if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
     setToastName(name);
     if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
     toastTimerRef.current = setTimeout(() => setToastName(null), 3000);
@@ -479,7 +481,7 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
             onClick={handleUndo}
             className="font-semibold text-bluedot-normal hover:text-bluedot-lighter underline underline-offset-2"
           >
-            Undo
+            Re-rate
           </button>
         </div>
       )}
