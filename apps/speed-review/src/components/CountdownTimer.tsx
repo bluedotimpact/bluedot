@@ -72,7 +72,7 @@ export const CountdownTimer = forwardRef<CountdownTimerHandle, CountdownTimerPro
     <div className="flex items-center justify-between text-size-sm">
       <div className="flex items-center gap-3">
         {/* Countdown bar */}
-        <div className="w-32 h-2 bg-stone-700 rounded-full overflow-hidden">
+        <div className="w-20 sm:w-32 h-2 bg-stone-700 rounded-full overflow-hidden">
           <div
             className={`h-full rounded-full transition-all duration-100 ${isWarning ? 'bg-red-500' : 'bg-green-500'}`}
             style={{ width: `${fraction * 100}%` }}

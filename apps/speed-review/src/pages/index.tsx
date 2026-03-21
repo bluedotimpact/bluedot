@@ -333,8 +333,8 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
 
   if (state.status === 'complete') {
     return (
-      <div className="min-h-screen bg-stone-950 py-12 px-4">
-        <div className="max-w-3xl mx-auto bg-stone-900 rounded-xl shadow-sm border border-stone-700 p-8">
+      <div className="min-h-screen bg-stone-950 py-6 sm:py-12 px-3 sm:px-4">
+        <div className="max-w-3xl mx-auto bg-stone-900 rounded-xl shadow-sm border border-stone-700 p-4 sm:p-8">
           <SessionComplete
             roundId={state.roundId}
             round={state.roundName}
@@ -353,7 +353,7 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
   if (saveError) {
     return (
       <div className="min-h-screen bg-stone-950 flex items-center justify-center p-8">
-        <div className="bg-stone-900 rounded-xl border border-red-800 p-8 max-w-md w-full space-y-4">
+        <div className="bg-stone-900 rounded-xl border border-red-800 p-4 sm:p-8 max-w-md w-full space-y-4">
           <h1 className="text-size-xl font-bold text-red-400">Save failed</h1>
           <p className="text-size-sm text-stone-300">
             Your last rating didn&apos;t save to Airtable. Continuing would mean your reviews are lost.
@@ -396,7 +396,7 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
   const totalApps = state.queue.length + state.seen.length;
 
   return (
-    <div className="min-h-screen bg-stone-950 py-8 px-4">
+    <div className="min-h-screen bg-stone-950 py-4 sm:py-8 px-3 sm:px-4">
       <div className="max-w-3xl mx-auto space-y-4">
         <div className="bg-stone-900 rounded-xl border border-stone-700 px-5 py-3 flex items-center gap-4">
           <div className="flex-1">
@@ -425,7 +425,7 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
           </button>
         </div>
 
-        <div className="bg-stone-900 rounded-xl border border-stone-700 p-6">
+        <div className="bg-stone-900 rounded-xl border border-stone-700 p-4 sm:p-6">
           <ApplicationCard
             key={current.id}
             application={current}
@@ -437,7 +437,7 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
 
         <div className="bg-stone-900 rounded-xl border border-stone-700 p-4">
           <RatingButtons onRate={handleRate} />
-          <p className="text-size-xs text-stone-500 text-center mt-3">
+          <p className="hidden sm:block text-size-xs text-stone-500 text-center mt-3">
             ← / A No &nbsp;·&nbsp; ↑↓ / WS Neutral &nbsp;·&nbsp; → / D Yes &nbsp;·&nbsp; E Strong Yes &nbsp;·&nbsp; P Pause &nbsp;·&nbsp; Esc Conclude
           </p>
         </div>
