@@ -391,6 +391,7 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
   if (prevCurrentIdRef.current !== current.id) {
     prevCurrentIdRef.current = current.id;
     timerKeyRef.current += 1;
+    window.scrollTo({ top: 0 });
   }
 
   const totalApps = state.queue.length + state.seen.length;
