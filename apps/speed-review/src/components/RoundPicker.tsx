@@ -43,8 +43,8 @@ export const RoundPicker: React.FC<RoundPickerProps> = ({ onSelect }) => {
   const courseKeys = Object.keys(grouped);
 
   return (
-    <div className="min-h-screen bg-stone-950 flex items-center justify-center p-8">
-      <div className="bg-stone-900 rounded-xl border border-stone-700 p-8 max-w-md w-full space-y-6">
+    <div className="min-h-screen bg-stone-950 flex items-center justify-center p-4 sm:p-8">
+      <div className="bg-stone-900 rounded-xl border border-stone-700 p-4 sm:p-8 max-w-md w-full space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-stone-100">Speed Review</h1>
           <p className="text-size-sm text-stone-400 mt-1">Select a round to review</p>

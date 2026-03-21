@@ -30,7 +30,7 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
 
   return (
     <div className="space-y-4">
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
         <div>
           <h1 className="text-2xl font-bold text-stone-100">{name}</h1>
           {subtitle && (
@@ -39,12 +39,12 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
         </div>
         <div className="flex items-center gap-2 shrink-0">
           {profileUrl && (
-            <a href={profileUrl} target="_blank" rel="noopener noreferrer" onClick={onProfileOpen} className="px-3 py-1.5 rounded-lg text-size-sm font-medium border border-stone-600 text-stone-300 bg-stone-800 hover:bg-stone-700 transition-colors">
+            <a href={profileUrl} target="_blank" rel="noopener noreferrer" onClick={onProfileOpen} className="px-3 py-2 sm:py-1.5 rounded-lg text-size-sm font-medium border border-stone-600 text-stone-300 bg-stone-800 hover:bg-stone-700 transition-colors">
               LinkedIn
             </a>
           )}
           {otherProfileUrl && (
-            <a href={otherProfileUrl} target="_blank" rel="noopener noreferrer" onClick={onProfileOpen} className="px-3 py-1.5 rounded-lg text-size-sm font-medium border border-stone-600 text-stone-300 bg-stone-800 hover:bg-stone-700 transition-colors">
+            <a href={otherProfileUrl} target="_blank" rel="noopener noreferrer" onClick={onProfileOpen} className="px-3 py-2 sm:py-1.5 rounded-lg text-size-sm font-medium border border-stone-600 text-stone-300 bg-stone-800 hover:bg-stone-700 transition-colors">
               Profile
             </a>
           )}

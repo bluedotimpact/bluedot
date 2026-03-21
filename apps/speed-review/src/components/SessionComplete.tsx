@@ -162,7 +162,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
         )}
       </div>
 
-      <div className="grid grid-cols-2 gap-4 text-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-center">
         <div className="bg-stone-800 border border-stone-700 rounded-lg p-4">
           <p className="text-2xl font-bold text-stone-100">{mins}:{String(secs).padStart(2, '0')}</p>
           <p className="text-size-xs text-stone-500 mt-1">Total time</p>

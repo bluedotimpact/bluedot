@@ -8,8 +8,8 @@ export const SummaryCard: React.FC<SummaryCardProps> = ({ aiSummary }) => {
   const { role, domain, topAchievement, commitment } = parseSummary(aiSummary);
 
   return (
-    <div className="bg-stone-800 border border-stone-700 rounded-lg p-5 space-y-3">
-      <div className="grid grid-cols-2 gap-3">
+    <div className="bg-stone-800 border border-stone-700 rounded-lg p-3 sm:p-5 space-y-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <p className="text-size-xs font-semibold uppercase tracking-wide text-stone-500 mb-0.5">Role</p>
           <p className="text-size-sm text-stone-100">{role || '—'}</p>

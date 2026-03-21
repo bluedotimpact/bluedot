@@ -8,7 +8,7 @@ import {
 } from '../lib/client/types';
 import { type Round } from '../lib/api/airtable';
 import { ApplicationCard } from '../components/ApplicationCard';
-import { RatingButtons } from '../components/RatingButtons';
+import { SwipeableRatingArea } from '../components/SwipeableRatingArea';
 import { CountdownTimer, type CountdownTimerHandle } from '../components/CountdownTimer';
 import { SessionComplete } from '../components/SessionComplete';
 import { RoundPicker } from '../components/RoundPicker';
@@ -42,7 +42,8 @@ type Action =
   | { type: 'TIMEOUT' }
   | { type: 'TOGGLE_PAUSE' }
   | { type: 'CONCLUDE' }
-  | { type: 'RESET' };
+  | { type: 'RESET' }
+  | { type: 'UNDO' };
 
 const reduce = (state: SessionState, action: Action): SessionState => {
   if (action.type === 'RESET') {
@@ -98,6 +99,16 @@ const reduce = (state: SessionState, action: Action): SessionState => {
 
   if (action.type === 'TOGGLE_PAUSE') {
     return { ...state, timerPaused: !state.timerPaused };
+  }
+
+  if (action.type === 'UNDO') {
+    const lastSeen = state.seen[state.seen.length - 1];
+    if (!lastSeen) return state;
+    return {
+      ...state,
+      queue: [lastSeen, ...state.queue],
+      seen: state.seen.slice(0, -1),
+    };
   }
 
   if (action.type === 'TIMEOUT') {
@@ -163,9 +174,11 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
   const [state, dispatch] = useReducer(reduce, { status: 'picking-round' });
   const [toastName, setToastName] = useState<string | null>(null);
   const [milestoneToast, setMilestoneToast] = useState<string | null>(null);
+  const [undoToast, setUndoToast] = useState<string | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const milestoneTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const undoTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastMilestoneRef = useRef(0);
   const timerKeyRef = useRef(0);
   const prevCurrentIdRef = useRef<string | null>(null);
@@ -195,32 +208,43 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
   const handleRate = useCallback((rating: RatingValue) => {
     if (state.status !== 'reviewing') return;
     const [current] = state.queue;
-    if (current) {
-      authFetch('/api/decisions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          opinions: [{ id: current.id, opinion: toHumanOpinion(rating), decision: toDecision(rating) }],
-        }),
-      }).then((r) => {
-        if (!r.ok) {
-          return r.text().then((t) => {
-            throw new Error(`${r.status}: ${t}`);
-          });
-        }
+    if (!current) return;
 
-        setSaveError(null);
-      }).catch((err: unknown) => {
-        // eslint-disable-next-line no-console
-        console.error(err);
-        setSaveError(`Failed to save rating for ${current.name} — ${err instanceof Error ? err.message : String(err)}`);
-      });
-    }
+    authFetch('/api/decisions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        opinions: [{ id: current.id, opinion: toHumanOpinion(rating), decision: toDecision(rating) }],
+      }),
+    }).then((r) => {
+      if (!r.ok) {
+        return r.text().then((t) => {
+          throw new Error(`${r.status}: ${t}`);
+        });
+      }
+
+      setSaveError(null);
+    }).catch((err: unknown) => {
+      // eslint-disable-next-line no-console
+      console.error(err);
+      setSaveError(`Failed to save rating for ${current.name} — ${err instanceof Error ? err.message : String(err)}`);
+    });
 
     showMilestone(state.seen.length + 1);
     dispatch({ type: 'RATE', rating });
+
+    // Show undo toast
+    setUndoToast(current.name);
+    if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+    undoTimerRef.current = setTimeout(() => setUndoToast(null), 3000);
   }, [state, showMilestone]);
   handleRateRef.current = handleRate;
+
+  const handleUndo = useCallback(() => {
+    dispatch({ type: 'UNDO' });
+    setUndoToast(null);
+    if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+  }, []);
 
   const handleTimeout = useCallback(() => {
     if (state.status !== 'reviewing') return;
@@ -228,6 +252,8 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
     if (!current) return;
     const { name } = current;
     dispatch({ type: 'TIMEOUT' });
+    setUndoToast(null);
+    if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
     setToastName(name);
     if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
     toastTimerRef.current = setTimeout(() => setToastName(null), 3000);
@@ -333,8 +359,8 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
 
   if (state.status === 'complete') {
     return (
-      <div className="min-h-screen bg-stone-950 py-12 px-4">
-        <div className="max-w-3xl mx-auto bg-stone-900 rounded-xl shadow-sm border border-stone-700 p-8">
+      <div className="min-h-screen bg-stone-950 py-6 sm:py-12 px-3 sm:px-4">
+        <div className="max-w-3xl mx-auto bg-stone-900 rounded-xl shadow-sm border border-stone-700 p-4 sm:p-8">
           <SessionComplete
             roundId={state.roundId}
             round={state.roundName}
@@ -353,7 +379,7 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
   if (saveError) {
     return (
       <div className="min-h-screen bg-stone-950 flex items-center justify-center p-8">
-        <div className="bg-stone-900 rounded-xl border border-red-800 p-8 max-w-md w-full space-y-4">
+        <div className="bg-stone-900 rounded-xl border border-red-800 p-4 sm:p-8 max-w-md w-full space-y-4">
           <h1 className="text-size-xl font-bold text-red-400">Save failed</h1>
           <p className="text-size-sm text-stone-300">
             Your last rating didn&apos;t save to Airtable. Continuing would mean your reviews are lost.
@@ -391,12 +417,13 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
   if (prevCurrentIdRef.current !== current.id) {
     prevCurrentIdRef.current = current.id;
     timerKeyRef.current += 1;
+    window.scrollTo({ top: 0 });
   }
 
   const totalApps = state.queue.length + state.seen.length;
 
   return (
-    <div className="min-h-screen bg-stone-950 py-8 px-4">
+    <div className="min-h-screen bg-stone-950 py-4 sm:py-8 px-3 sm:px-4">
       <div className="max-w-3xl mx-auto space-y-4">
         <div className="bg-stone-900 rounded-xl border border-stone-700 px-5 py-3 flex items-center gap-4">
           <div className="flex-1">
@@ -425,7 +452,7 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
           </button>
         </div>
 
-        <div className="bg-stone-900 rounded-xl border border-stone-700 p-6">
+        <div className="bg-stone-900 rounded-xl border border-stone-700 p-4 sm:p-6">
           <ApplicationCard
             key={current.id}
             application={current}
@@ -436,16 +463,26 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
         </div>
 
         <div className="bg-stone-900 rounded-xl border border-stone-700 p-4">
-          <RatingButtons onRate={handleRate} />
-          <p className="text-size-xs text-stone-500 text-center mt-3">
-            ← / A No &nbsp;·&nbsp; ↑↓ / WS Neutral &nbsp;·&nbsp; → / D Yes &nbsp;·&nbsp; E Strong Yes &nbsp;·&nbsp; P Pause &nbsp;·&nbsp; Esc Conclude
-          </p>
+          <SwipeableRatingArea onRate={handleRate} />
         </div>
       </div>
 
       {milestoneToast && (
         <div className="fixed bottom-14 left-1/2 -translate-x-1/2 bg-bluedot-normal text-white text-size-sm px-5 py-2.5 rounded-full shadow-lg pointer-events-none whitespace-nowrap">
           {milestoneToast}
+        </div>
+      )}
+
+      {undoToast && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-stone-800 text-white text-size-sm px-4 py-2 rounded-full shadow-lg flex items-center gap-3 z-20">
+          <span>Rated {undoToast}</span>
+          <button
+            type="button"
+            onClick={handleUndo}
+            className="font-semibold text-bluedot-normal hover:text-bluedot-lighter underline underline-offset-2"
+          >
+            Re-rate
+          </button>
         </div>
       )}
 
