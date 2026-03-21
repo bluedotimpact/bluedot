@@ -5,7 +5,9 @@ import {
   useCallback,
 } from 'react';
 import { CTALinkOrButton, ProgressDots } from '@bluedot/ui';
+import { buildTimeDeltaString } from '../events/eventsUtils';
 import { trpc } from '../../utils/trpc';
+import { ROUTES } from '../../lib/routes';
 import type { Event } from '../../server/routers/luma';
 
 // Featured events - these will appear first (if not yet passed)
@@ -73,6 +75,8 @@ const CAROUSEL_CONFIG = {
   SCROLL_SPEED: 0.75, // pixels per interval (0.75px * 20 intervals/sec = 15px/sec)
 } as const;
 
+const EVENTS_SECTION_URL = `${ROUTES.events.url}?utm_source=website&utm_campaign=events-section`;
+
 const DateBadge = ({ month, day }: { month: string; day: string }) => {
   return (
     <div className="relative size-16 min-[1024px]:size-20 bg-white rounded-lg min-[1024px]:rounded-lg shadow-[0px_1.6px_4.8px_1.6px_rgba(0,0,0,0.05),0px_0.8px_1.6px_0px_rgba(0,0,0,0.15)] min-[1024px]:shadow-[0px_2px_6px_2px_rgba(0,0,0,0.05),0px_1px_2px_0px_rgba(0,0,0,0.15)] overflow-hidden flex flex-col">
@@ -91,64 +95,6 @@ const DateBadge = ({ month, day }: { month: string; day: string }) => {
       </div>
     </div>
   );
-};
-
-/** Given a transformed Luma event, returns a time delta string:
- * 1. If the event is online, the time delta is shown in local user time, e.g. "Mon 9:00 am - 5:00 pm GMT+2" (for a user in
- *    GMT+2)
- * 2. If the event is in-person, the time delta is shown in the event's timezone, e.g. "Mon 2 pm - 5 pm GMT" (even if user
- *    in GMT+2)
- * 3. If the event is shown over multiple days, the end date is in brackets with timezone after, e.g. "Mon 9:00 am - Fri 5:00 pm (5 Mar) GMT"
- */
-export const buildTimeDeltaString = (event: Event, locale?: string) => {
-  const startDate = new Date(event.startAt);
-  const endDate = new Date(event.endAt);
-  const timeZone = event.location === 'ONLINE' ? undefined : event.timezone;
-
-  // Check if event spans multiple days
-  const dateComparator = new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-    timeZone,
-  });
-  const isMultiDay = dateComparator.format(startDate) !== dateComparator.format(endDate);
-
-  const formatTime = (date: Date, extraOptions: Intl.DateTimeFormatOptions = {}) => {
-    return new Intl.DateTimeFormat(locale, {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true,
-      timeZone,
-      ...extraOptions,
-    }).format(date);
-  };
-
-  const timeStart = formatTime(startDate, { weekday: 'short' });
-
-  if (isMultiDay) {
-    // For multi-day: "Weekday Time (Date) Timezone"
-    const timeEndWeekday = formatTime(endDate, { weekday: 'short' });
-    const timeEndDate = new Intl.DateTimeFormat(locale, {
-      month: 'short',
-      day: 'numeric',
-      timeZone,
-    }).format(endDate);
-
-    // Extract timezone abbreviation
-    const timezoneParts = new Intl.DateTimeFormat(locale, {
-      timeZoneName: 'short',
-      timeZone,
-    }).formatToParts(endDate);
-    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-    const timezone = timezoneParts.find((part) => part.type === 'timeZoneName')?.value || '';
-
-    return `${timeStart} - ${timeEndWeekday} (${timeEndDate}) ${timezone}`;
-  }
-
-  // For single-day: "Weekday Time - Time Timezone"
-  const timeEnd = formatTime(endDate, { timeZoneName: 'short' });
-  return `${timeStart} - ${timeEnd}`;
 };
 
 const EventCard = ({ event }: { event: Event }) => {
@@ -353,11 +299,9 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
           return (
             <a
               key={uniqueKey}
-              href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=events-section"
-              target="_blank"
-              rel="noopener noreferrer"
+              href={EVENTS_SECTION_URL}
               className="flex-shrink-0"
-              aria-label={`View BlueDot event photo ${photoNumber} of ${photos.length} (opens in new tab)`}
+              aria-label={`View BlueDot event photo ${photoNumber} of ${photos.length}`}
             >
               <img
                 src={photo.src}
@@ -464,8 +408,7 @@ const EventsSection = ({ featuredUrls = FEATURED_EVENT_URLS }: EventsSectionProp
 
               {/* CTA Button - visible on all screen sizes */}
               <CTALinkOrButton
-                url="https://luma.com/bluedotevents?utm_source=website&utm_campaign=events-section"
-                target="_blank"
+                url={EVENTS_SECTION_URL}
                 className="flex h-[44px] px-[17px] text-[14px] font-normal leading-[18.2px] tracking-[0.42px] text-white bg-[#0033CC] rounded-[6px] hover:bg-[#0029A3] transition-all duration-200 whitespace-nowrap"
               >
                 See upcoming events
@@ -485,3 +428,4 @@ const EventsSection = ({ featuredUrls = FEATURED_EVENT_URLS }: EventsSectionProp
 };
 
 export default EventsSection;
+export { buildTimeDeltaString };

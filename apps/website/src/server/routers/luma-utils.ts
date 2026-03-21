@@ -1,5 +1,7 @@
 export type LumaEvent = {
   name: string;
+  description?: string;
+  description_md?: string;
   start_at: string; // ISO 8601 Datetime, already in UTC
   end_at: string; // ISO 8601 Datetime, already in UTC
   visibility?: string;

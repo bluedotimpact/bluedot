@@ -75,6 +75,12 @@ const grants: BluedotRoute = {
   parentPages: [home],
 };
 
+const events: BluedotRoute = {
+  title: 'Events',
+  url: '/events',
+  parentPages: [home],
+};
+
 const logout: BluedotRoute = {
   title: 'Log out',
   url: '/login/clear',
@@ -111,6 +117,7 @@ export const ROUTES = {
   certification,
   contact,
   courses,
+  events,
   home,
   join,
   joinUs,

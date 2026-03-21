@@ -206,10 +206,8 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                         >
                           <a
                             class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
-                            href="https://lu.ma/bluedotevents?utm_source=website&utm_campaign=nav"
-                            rel="noopener noreferrer"
+                            href="/events?utm_source=website&utm_campaign=nav"
                             tabindex="0"
-                            target="_blank"
                           >
                             Events
                           </a>
@@ -424,10 +422,8 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                   >
                     <a
                       class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
-                      href="https://lu.ma/bluedotevents?utm_source=website&utm_campaign=nav"
-                      rel="noopener noreferrer"
+                      href="/events?utm_source=website&utm_campaign=nav"
                       tabindex="0"
-                      target="_blank"
                     >
                       Events
                     </a>
