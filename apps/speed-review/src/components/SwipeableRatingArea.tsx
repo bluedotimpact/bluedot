@@ -105,26 +105,30 @@ export const SwipeableRatingArea: React.FC<SwipeableRatingAreaProps> = ({ onRate
       direction: getDirection(dx, dy, axis),
       pastThreshold,
     }));
-  }, [swipeState.active, swipeState.startX, swipeState.startY, swipeState.axis, disabled]);
+  }, [swipeState, disabled]);
 
   const handleTouchEnd = useCallback(() => {
     if (!swipeState.active) return;
     if (swipeState.pastThreshold && swipeState.direction) {
       onRate(SWIPE_RATING[swipeState.direction]);
     }
+
     setSwipeState((prev) => ({
       ...prev, active: false, dx: 0, dy: 0, axis: null, direction: null, pastThreshold: false,
     }));
-  }, [swipeState.active, swipeState.pastThreshold, swipeState.direction, onRate]);
+  }, [swipeState, onRate]);
 
   const { direction, pastThreshold, active, dx, dy, axis } = swipeState;
 
   // Calculate indicator offset for visual feedback
-  const indicatorTranslate = active && axis
-    ? axis === 'x'
-      ? `translateX(${dx * 0.3}px)`
-      : `translateY(${dy * 0.3}px)`
-    : undefined;
+  const getIndicatorTranslate = () => {
+    if (!active || !axis) return undefined;
+    if (axis === 'x') return `translateX(${dx * 0.3}px)`;
+
+    return `translateY(${dy * 0.3}px)`;
+  };
+
+  const indicatorTranslate = getIndicatorTranslate();
 
   return (
     <div
