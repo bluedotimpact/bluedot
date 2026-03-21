@@ -54,7 +54,7 @@ export const NavLinks: React.FC<{
   ];
 
   const exploreLinks = [
-    { title: 'Events', url: 'https://lu.ma/bluedotevents?utm_source=website&utm_campaign=nav', external: true },
+    { title: 'Events', url: `${ROUTES.events.url}?utm_source=website&utm_campaign=nav` },
     { title: 'Blog', url: ROUTES.blog.url, external: true },
     { title: 'Grants', url: ROUTES.grants.url },
   ];
