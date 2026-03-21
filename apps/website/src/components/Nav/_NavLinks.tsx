@@ -56,7 +56,6 @@ export const NavLinks: React.FC<{
   const exploreLinks = [
     { title: 'Events', url: `${ROUTES.events.url}?utm_source=website&utm_campaign=nav` },
     { title: 'Blog', url: ROUTES.blog.url, external: true },
-    { title: 'Grants', url: ROUTES.grants.url },
   ];
 
   const getLinkClasses = (isCurrentPathValue?: boolean) => {

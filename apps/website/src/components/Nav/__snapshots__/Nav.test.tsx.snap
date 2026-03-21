@@ -225,13 +225,6 @@ exports[`Nav > renders with courses 1`] = `
                         >
                           Blog
                         </a>
-                        <a
-                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
-                          href="/grants"
-                          tabindex="0"
-                        >
-                          Grants
-                        </a>
                       </div>
                     </div>
                   </div>
@@ -448,13 +441,6 @@ exports[`Nav > renders with courses 1`] = `
                     target="_blank"
                   >
                     Blog
-                  </a>
-                  <a
-                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
-                    href="/grants"
-                    tabindex="0"
-                  >
-                    Grants
                   </a>
                 </div>
               </div>
