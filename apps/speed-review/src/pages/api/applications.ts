@@ -43,7 +43,7 @@ export default makeApiRoute({
       // Offset expired — restart pagination from the beginning.
       // The filter excludes already-decided applications, so this
       // will return the next batch of unreviewed ones.
-      return await fetchApplications(round);
+      return fetchApplications(round);
     }
 
     throw err;
