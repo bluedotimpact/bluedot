@@ -40,7 +40,10 @@ export default makeApiRoute({
     return await fetchApplications(round, offset);
   } catch (err) {
     if (err instanceof Error && err.message.includes('LIST_RECORDS_ITERATOR_NOT_AVAILABLE')) {
-      return { applications: [], nextOffset: undefined };
+      // Offset expired — restart pagination from the beginning.
+      // The filter excludes already-decided applications, so this
+      // will return the next batch of unreviewed ones.
+      return fetchApplications(round);
     }
 
     throw err;

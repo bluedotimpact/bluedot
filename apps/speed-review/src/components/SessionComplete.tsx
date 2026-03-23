@@ -81,9 +81,9 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
 
     return (
       <div key={r.id} className={`border rounded-lg px-3 py-2 ${bgColors}`}>
-        <div className="flex items-start justify-between gap-2">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-2">
           <div className="min-w-0">
-            <p className="text-size-sm font-medium text-stone-100">
+            <p className="text-size-sm font-medium text-stone-100 break-words">
               {rating === 'strong-yes' && '🔥 '}{r.name}
             </p>
             {subtitle && (
@@ -192,7 +192,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
         </div>
       </div>
 
-      <div className="flex gap-3">
+      <div className="flex flex-col sm:flex-row gap-3">
         <button
           type="button"
           onClick={() => onReviewRound(roundId, round)}
