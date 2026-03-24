@@ -1309,7 +1309,7 @@ export const userTable = pgAirtable('user', {
       airtableId: 'fldtx4adP1XOOpg5e',
     },
     allowedImpersonationTargets: {
-      pgColumn: text().array().notNull(),
+      pgColumn: text().array(),
       airtableId: 'fldsMtibz4pDg0ztQ',
     },
   },
