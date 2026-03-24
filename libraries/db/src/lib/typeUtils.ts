@@ -99,11 +99,17 @@ export function drizzleColumnToTsTypeString(pgColumn: AllowedPgColumn): TsTypeSt
 
   const baseType = baseColumnConfig?.dataType ?? columnConfig.dataType;
   const isArray = columnConfig.dataType === 'array';
-  const isNullable = !columnConfig.notNull;
 
   if (!['string', 'number', 'boolean'].includes(baseType)) {
     throw new Error(`Unsupported column type: ${baseType}`);
   }
+
+  // Numbers are always nullable (need to distinguish null vs 0).
+  // Everything else (string, boolean, arrays) is always non-null so that
+  // airtable-ts coerces missing values to '', false, or [].
+  // This decouples .notNull() from airtable-ts behaviour, making it purely
+  // a PostgreSQL constraint. See gh-simpler-not-null/README.md.
+  const isNullable = baseType === 'number' && !isArray;
 
   return `${baseType}${isArray ? '[]' : ''}${isNullable ? ' | null' : ''}` as TsTypeString;
 }

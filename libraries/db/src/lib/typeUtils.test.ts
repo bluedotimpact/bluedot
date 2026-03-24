@@ -144,15 +144,18 @@ describe('DrizzleColumnToTsType type tests', () => {
 
 describe('drizzleColumnToTsTypeString', () => {
   test.each([
-    [text(), 'string | null'],
+    // String, boolean, and arrays are always non-null (airtable-ts coerces to '', false, [])
+    [text(), 'string'],
     [text().notNull(), 'string'],
-    [boolean(), 'boolean | null'],
+    [boolean(), 'boolean'],
     [boolean().notNull(), 'boolean'],
+    // Numbers are always nullable (need to distinguish null vs 0)
     [numeric({ mode: 'number' }), 'number | null'],
-    [numeric({ mode: 'number' }).notNull(), 'number'],
-    [text().array(), 'string[] | null'],
+    [numeric({ mode: 'number' }).notNull(), 'number | null'],
+    // Arrays are always non-null (airtable-ts coerces to [])
+    [text().array(), 'string[]'],
     [text().array().notNull(), 'string[]'],
-    [numeric({ mode: 'number' }).array(), 'number[] | null'],
+    [numeric({ mode: 'number' }).array(), 'number[]'],
     [numeric({ mode: 'number' }).array().notNull(), 'number[]'],
   ])('%s -> %s', (column, expectedType) => {
     const result = drizzleColumnToTsTypeString(column);
