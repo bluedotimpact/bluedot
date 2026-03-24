@@ -1308,6 +1308,10 @@ export const userTable = pgAirtable('user', {
       pgColumn: boolean(),
       airtableId: 'fldtx4adP1XOOpg5e',
     },
+    allowedImpersonationTargets: {
+      pgColumn: text().array(),
+      airtableId: 'fldsMtibz4pDg0ztQ',
+    },
   },
 });
 

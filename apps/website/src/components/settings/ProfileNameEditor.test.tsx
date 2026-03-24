@@ -24,6 +24,7 @@ const mockUser = {
   utmContent: null,
   autoNumberId: null,
   isAdmin: null,
+  allowedImpersonationTargets: [],
 };
 
 // Test helper function for selecting elements

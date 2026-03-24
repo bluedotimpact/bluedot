@@ -43,6 +43,7 @@ describe('CoursesPage', () => {
         utmCampaign: null,
         utmContent: null,
         isAdmin: null,
+        allowedImpersonationTargets: [],
       })),
       trpcMsw.courseRegistrations.getRoundStartDates.query(() => ({})),
     );
