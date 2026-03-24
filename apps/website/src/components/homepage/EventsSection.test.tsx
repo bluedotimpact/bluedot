@@ -309,7 +309,7 @@ describe('buildTimeDeltaString', () => {
   });
 });
 
-describe('EventsSection featured events', () => {
+describe('EventsSection', () => {
   const mockEvents: Event[] = [
     {
       id: 'event-1',
@@ -331,7 +331,7 @@ describe('EventsSection featured events', () => {
     },
     {
       id: 'event-3',
-      title: 'Third Chronologically - Featured',
+      title: 'Third Chronologically',
       startAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
       endAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000 + 2 * 60 * 60 * 1000).toISOString(),
       location: 'NEW YORK',
@@ -366,8 +366,8 @@ describe('EventsSection featured events', () => {
     return Array.from(headings).map((h) => h.textContent || '');
   };
 
-  test('displays events in chronological order when no featured URLs provided', async () => {
-    const { container } = render(<EventsSection featuredUrls={[]} />, { wrapper: TrpcProvider });
+  test('displays events in chronological order', async () => {
+    const { container } = render(<EventsSection />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
       expect(screen.getAllByText('First Chronologically').length).toBeGreaterThan(0);
@@ -377,60 +377,19 @@ describe('EventsSection featured events', () => {
     expect(titles).toEqual([
       'First Chronologically',
       'Second Chronologically',
-      'Third Chronologically - Featured',
+      'Third Chronologically',
       'Fourth Chronologically',
     ]);
   });
 
-  test('displays featured event first when featuredUrls is provided', async () => {
-    const { container } = render(
-      <EventsSection featuredUrls={['https://lu.ma/event-3']} />,
-      { wrapper: TrpcProvider },
-    );
-
-    await waitFor(() => {
-      expect(screen.getAllByText('Third Chronologically - Featured').length).toBeGreaterThan(0);
-    });
-
-    const titles = getDesktopEventTitles(container);
-    expect(titles).toEqual([
-      'Third Chronologically - Featured',
-      'First Chronologically',
-      'Second Chronologically',
-      'Fourth Chronologically',
-    ]);
-  });
-
-  test('handles URL normalization (trailing slashes)', async () => {
-    const { container } = render(
-      <EventsSection featuredUrls={['https://lu.ma/event-3/']} />,
-      { wrapper: TrpcProvider },
-    );
-
-    await waitFor(() => {
-      expect(screen.getAllByText('Third Chronologically - Featured').length).toBeGreaterThan(0);
-    });
-
-    const titles = getDesktopEventTitles(container);
-    expect(titles[0]).toBe('Third Chronologically - Featured');
-  });
-
-  test('preserves order of multiple featured events as specified in featuredUrls', async () => {
-    const { container } = render(
-      <EventsSection featuredUrls={['https://lu.ma/event-4', 'https://lu.ma/event-2']} />,
-      { wrapper: TrpcProvider },
-    );
+  test('shows the first four upcoming events', async () => {
+    const { container } = render(<EventsSection />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
       expect(screen.getAllByText('Fourth Chronologically').length).toBeGreaterThan(0);
     });
 
     const titles = getDesktopEventTitles(container);
-    expect(titles).toEqual([
-      'Fourth Chronologically',
-      'Second Chronologically',
-      'First Chronologically',
-      'Third Chronologically - Featured',
-    ]);
+    expect(titles).toHaveLength(4);
   });
 });
