@@ -114,10 +114,8 @@ exports[`Footer > renders default as expected 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
-                  rel="noopener noreferrer"
+                  href="/events?utm_source=website&utm_campaign=footer"
                   tabindex="0"
-                  target="_blank"
                 >
                   Events
                 </a>
@@ -232,10 +230,8 @@ exports[`Footer > renders default as expected 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
-                  rel="noopener noreferrer"
+                  href="/events?utm_source=website&utm_campaign=footer"
                   tabindex="0"
-                  target="_blank"
                 >
                   Events
                 </a>
@@ -431,10 +427,8 @@ exports[`Footer > renders default as expected 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
-                  rel="noopener noreferrer"
+                  href="/events?utm_source=website&utm_campaign=footer"
                   tabindex="0"
-                  target="_blank"
                 >
                   Events
                 </a>
@@ -700,10 +694,8 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
-                  rel="noopener noreferrer"
+                  href="/events?utm_source=website&utm_campaign=footer"
                   tabindex="0"
-                  target="_blank"
                 >
                   Events
                 </a>
@@ -826,10 +818,8 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
-                  rel="noopener noreferrer"
+                  href="/events?utm_source=website&utm_campaign=footer"
                   tabindex="0"
-                  target="_blank"
                 >
                   Events
                 </a>
@@ -1033,10 +1023,8 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
-                  rel="noopener noreferrer"
+                  href="/events?utm_source=website&utm_campaign=footer"
                   tabindex="0"
-                  target="_blank"
                 >
                   Events
                 </a>
@@ -1310,10 +1298,8 @@ exports[`Footer > renders with optional args 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
-                  rel="noopener noreferrer"
+                  href="/events?utm_source=website&utm_campaign=footer"
                   tabindex="0"
-                  target="_blank"
                 >
                   Events
                 </a>
@@ -1428,10 +1414,8 @@ exports[`Footer > renders with optional args 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
-                  rel="noopener noreferrer"
+                  href="/events?utm_source=website&utm_campaign=footer"
                   tabindex="0"
-                  target="_blank"
                 >
                   Events
                 </a>
@@ -1627,10 +1611,8 @@ exports[`Footer > renders with optional args 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="https://luma.com/bluedotevents?utm_source=website&utm_campaign=footer"
-                  rel="noopener noreferrer"
+                  href="/events?utm_source=website&utm_campaign=footer"
                   tabindex="0"
-                  target="_blank"
                 >
                   Events
                 </a>
