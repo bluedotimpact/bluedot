@@ -45,6 +45,7 @@ const mockUser = {
   utmCampaign: null,
   utmContent: null,
   isAdmin: null,
+  allowedImpersonationTargets: [],
 };
 
 const mockCourseRegistration = createMockCourseRegistration({

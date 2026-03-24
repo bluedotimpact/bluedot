@@ -53,6 +53,7 @@ describe('ImpersonationBadge', () => {
       utmCampaign: null,
       utmContent: null,
       isAdmin: null,
+      allowedImpersonationTargets: [],
     })));
 
     const { container } = render(<ImpersonationBadge />, { wrapper: TrpcProvider });
@@ -84,6 +85,7 @@ describe('ImpersonationBadge', () => {
       utmCampaign: null,
       utmContent: null,
       isAdmin: null,
+      allowedImpersonationTargets: [],
     })));
 
     render(<ImpersonationBadge />, { wrapper: TrpcProvider });

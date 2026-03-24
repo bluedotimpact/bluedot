@@ -165,6 +165,7 @@ const createHandlers = ({
     utmCampaign: null,
     utmContent: null,
     isAdmin: null,
+    allowedImpersonationTargets: [],
   }));
 
   if (error) {
