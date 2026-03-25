@@ -328,7 +328,7 @@ async function seedCourseWithGroups() {
     id: 'course-1',
     slug: 'test-course',
     title: 'Test Course',
-    description: 'A test course',
+    description: 'Test',
     shortDescription: 'Test',
     units: ['unit-1', 'unit-2'],
   });
