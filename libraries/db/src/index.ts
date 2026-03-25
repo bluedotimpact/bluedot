@@ -41,6 +41,8 @@ export {
   testimonialTable,
   grantTable,
   bugReportsTable,
+  courseFeedbackTable,
+  peerFeedbackTable,
 } from './schema';
 
 // Type exports
@@ -81,6 +83,8 @@ export type {
   Testimonial,
   Grant,
   BugReport,
+  CourseFeedback,
+  PeerFeedback,
 } from './schema';
 
 export { getPgAirtableFromIds, PgAirtableTable } from './lib/db-core';

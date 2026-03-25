@@ -1419,6 +1419,65 @@ export const bugReportsTable = pgAirtable('bug_reports', {
   },
 });
 
+// Course feedback tables
+export const courseFeedbackTable = pgAirtable('course_feedback', {
+  baseId: COURSE_RUNNER_BASE_ID,
+  tableId: 'tblRFqRF2tKAqh7sp',
+  columns: {
+    person: {
+      pgColumn: text().array(),
+      airtableId: 'fldG4l1tLMXcvoLXB',
+    },
+    round: {
+      pgColumn: text().array(),
+      airtableId: 'fldUrmIIPpfew5KIL',
+    },
+    courseRating: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fld90CnlNH6osIEhm',
+    },
+    courseValue: {
+      pgColumn: text(),
+      airtableId: 'fldhPd7BmdhlG2QKl',
+    },
+    improvements: {
+      pgColumn: text(),
+      airtableId: 'fldi82s0kEUrkhsaM',
+    },
+    completed: {
+      pgColumn: boolean(),
+      airtableId: 'fldwjYVkgTT8407U0',
+    },
+  },
+});
+
+export const peerFeedbackTable = pgAirtable('peer_feedback', {
+  baseId: COURSE_RUNNER_BASE_ID,
+  tableId: 'tbl8KC4Q1i5YlCGhm',
+  columns: {
+    courseFeedback: {
+      pgColumn: text().array(),
+      airtableId: 'fldbxDhfPqnvyFmmf',
+    },
+    feedbackRecipient: {
+      pgColumn: text().array(),
+      airtableId: 'fldnHEXJ0HMDJgiEM',
+    },
+    reasoningQualityRating: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldNXTpmIxyKvYdZH',
+    },
+    initiativeRating: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldUBSY6rZ1Oyf1bd',
+    },
+    feedback: {
+      pgColumn: text(),
+      airtableId: 'fldybGPKyRUcM0D84',
+    },
+  },
+});
+
 // Type exports for all tables
 export type Meta = InferSelectModel<typeof metaTable>;
 export type SyncMetadata = InferSelectModel<typeof syncMetadataTable>;
@@ -1455,3 +1514,5 @@ export type FacilitatorSwitching = InferSelectModel<typeof facilitatorDiscussion
 export type Dropout = InferSelectModel<typeof dropoutTable.pg>;
 export type TeamMember = InferSelectModel<typeof teamMemberTable.pg>;
 export type BugReport = InferSelectModel<typeof bugReportsTable.pg>;
+export type CourseFeedback = InferSelectModel<typeof courseFeedbackTable.pg>;
+export type PeerFeedback = InferSelectModel<typeof peerFeedbackTable.pg>;
