@@ -24,7 +24,7 @@ export const ProfileLinks: React.FC<{
   const [isImpersonateModalOpen, setIsImpersonateModalOpen] = useState(false);
   const { openBugReport } = useBugReport();
 
-  const { data: impersonationAccess } = trpc.impersonation.canImpersonate.useQuery();
+  const { data: impersonationAccess } = trpc.admin.canImpersonate.useQuery();
   const profileRef = useClickOutside(
     () => updateExpandedSections({ profile: false }),
     expandedSections.profile,

@@ -24,7 +24,7 @@ export const UserSearchModal = ({
   }, [isOpen]);
 
   const searchTerm = searchTermInput.trim() || 'test'; // Fallback to 'test' to show recently used test users
-  const { data: searchResults, isLoading, error } = trpc.impersonation.searchTargets.useQuery(
+  const { data: searchResults, isLoading, error } = trpc.admin.searchUsers.useQuery(
     { searchTerm },
     { enabled: isOpen },
   );

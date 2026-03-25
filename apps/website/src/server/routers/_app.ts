@@ -11,7 +11,6 @@ import { facilitatorSwitchingRouter } from './facilitator-switching';
 import { feedbackRouter } from './feedback';
 import { grantsRouter } from './grants';
 import { groupDiscussionsRouter } from './group-discussions';
-import { impersonationRouter } from './impersonation';
 import { groupSwitchingRouter } from './group-switching';
 import { jobsRouter } from './jobs';
 import { lumaRouter } from './luma';
@@ -36,7 +35,6 @@ export const appRouter = router({
   feedback: feedbackRouter,
   grants: grantsRouter,
   groupDiscussions: groupDiscussionsRouter,
-  impersonation: impersonationRouter,
   groupSwitching: groupSwitchingRouter,
   jobs: jobsRouter,
   luma: lumaRouter,
