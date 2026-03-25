@@ -3,7 +3,7 @@ import { loginPresets } from '@bluedot/ui';
 import { logger } from '@bluedot/ui/src/api';
 import type * as trpcNext from '@trpc/server/adapters/next';
 import db from '../lib/api/db';
-import { checkAdminAccess } from './trpc';
+import { checkImpersonationAccess } from './trpc';
 
 export const createContext = async ({ req }: trpcNext.CreateNextContextOptions) => {
   const authHeader = req.headers.authorization;
@@ -22,18 +22,23 @@ export const createContext = async ({ req }: trpcNext.CreateNextContextOptions) 
     // User impersonation spec:
     // - id of user to impersonate is stored client-side in sessionStorage. Using sessionStorage means the impersonation is cleared when the tab is closed.
     // - id is sent via x-impersonate-user header on each request
-    // - Server validates: 1. The requester is admin, 2. The target user exists
+    // - Server validates: 1. The requester is admin or has scoped access, 2. The target user exists and is within allowed targets
     // - Audit: impersonation events are logged with both admin and target emails so we can see when this is used in prod
     const impersonateUserId = req.headers['x-impersonate-user'] as string | undefined;
-    if (impersonateUserId && await checkAdminAccess(auth.email)) {
-      const targetUser = await db.getFirst(userTable, { filter: { id: impersonateUserId } });
-      if (targetUser) {
-        logger.info(`Admin ${auth.email} impersonating user ${targetUser.email}`);
-        return {
-          auth: { ...auth, email: targetUser.email },
-          impersonation: { adminEmail: auth.email, targetEmail: targetUser.email },
-          userAgent,
-        };
+    if (impersonateUserId) {
+      const { access, allowedTargets } = await checkImpersonationAccess(auth.email);
+      const canImpersonate = access === 'admin' || (access === 'scoped' && allowedTargets.includes(impersonateUserId));
+
+      if (canImpersonate) {
+        const targetUser = await db.getFirst(userTable, { filter: { id: impersonateUserId } });
+        if (targetUser) {
+          logger.info(`${auth.email} impersonating user ${targetUser.email} (access: ${access})`);
+          return {
+            auth: { ...auth, email: targetUser.email },
+            impersonation: { adminEmail: auth.email, targetEmail: targetUser.email },
+            userAgent,
+          };
+        }
       }
     }
 

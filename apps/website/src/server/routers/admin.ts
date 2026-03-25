@@ -5,28 +5,72 @@ import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
 import {
-  adminProcedure, checkAdminAccess, protectedProcedure, router,
+  adminProcedure, checkImpersonationAccess, protectedProcedure, router,
 } from '../trpc';
 
+type UserSearchResult = {
+  id: string;
+  email: string;
+  name: string | null;
+  lastSeenAt: string | null;
+  courseCount: number;
+};
+
 export const adminRouter = router({
-  isAdmin: protectedProcedure.query(async ({ ctx }) => {
-    return checkAdminAccess(ctx.auth.email);
+  canImpersonate: protectedProcedure.query(async ({ ctx }) => {
+    const realEmail = ctx.impersonation?.adminEmail ?? ctx.auth.email;
+    const { access } = await checkImpersonationAccess(realEmail);
+    return access;
   }),
-  searchUsers: adminProcedure
+
+  searchUsers: protectedProcedure
     .input(z.object({ searchTerm: z.string().max(200).optional() }))
-    .query(async ({ input }) => {
+    .query(async ({ ctx, input }) => {
+      const realEmail = ctx.impersonation?.adminEmail ?? ctx.auth.email;
+      const { access, allowedTargets } = await checkImpersonationAccess(realEmail);
+
+      if (access === 'none') {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Unauthorized' });
+      }
+
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const trimmedSearchTerm = (input.searchTerm || '').trim();
 
-      let whereClause;
-      if (!trimmedSearchTerm) {
-        whereClause = sql`TRUE`;
-      } else {
-        const pattern = `%${trimmedSearchTerm}%`;
-        whereClause = sql`(u.email ILIKE ${pattern} OR u.name ILIKE ${pattern})`;
+      if (access === 'admin') {
+        // Admins get full user search
+        let whereClause;
+        if (!trimmedSearchTerm) {
+          whereClause = sql`TRUE`;
+        } else {
+          const pattern = `%${trimmedSearchTerm}%`;
+          whereClause = sql`(u.email ILIKE ${pattern} OR u.name ILIKE ${pattern})`;
+        }
+
+        const results = await db.pg.execute(sql`
+          SELECT
+            u.id,
+            u.email,
+            u.name,
+            u."lastSeenAt",
+            COALESCE(
+              (SELECT COUNT(*)
+               FROM ${courseRegistrationTable.pg} cr
+               WHERE cr.email = u.email AND (cr."certificateId" IS NOT NULL OR cr.decision = 'Accepted')),
+              0
+            )::int AS "courseCount"
+          FROM ${userTable.pg} u
+          WHERE ${whereClause}
+          ORDER BY
+            CASE WHEN LOWER(u.email) = LOWER(${trimmedSearchTerm}) THEN 0 ELSE 1 END,
+            u."lastSeenAt" DESC NULLS LAST
+          LIMIT 20
+        `);
+
+        return results.rows as UserSearchResult[];
       }
 
-      // Sort exact email matches first, otherwise sort by most recently active
+      // Scoped users: return only their allowed targets, with optional name/email filtering
+      const idList = sql.join(allowedTargets.map((id) => sql`${id}`), sql`, `);
       const results = await db.pg.execute(sql`
         SELECT
           u.id,
@@ -40,20 +84,12 @@ export const adminRouter = router({
             0
           )::int AS "courseCount"
         FROM ${userTable.pg} u
-        WHERE ${whereClause}
-        ORDER BY
-          CASE WHEN LOWER(u.email) = LOWER(${trimmedSearchTerm}) THEN 0 ELSE 1 END,
-          u."lastSeenAt" DESC NULLS LAST
-        LIMIT 20
+        WHERE u.id IN (${idList})
+        ${trimmedSearchTerm ? sql`AND (u.email ILIKE ${`%${trimmedSearchTerm}%`} OR u.name ILIKE ${`%${trimmedSearchTerm}%`})` : sql``}
+        ORDER BY u.name ASC NULLS LAST
       `);
 
-      return results.rows as {
-        id: string;
-        email: string;
-        name: string | null;
-        lastSeenAt: string | null;
-        courseCount: number;
-      }[];
+      return results.rows as UserSearchResult[];
     }),
   syncHistory: adminProcedure.query(async () => {
     // Get last 24 hours of requests, newest first

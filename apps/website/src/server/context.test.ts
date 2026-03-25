@@ -1,10 +1,10 @@
 import {
   beforeEach, describe, expect, test, vi,
 } from 'vitest';
+import { userTable } from '@bluedot/db';
 import { loginPresets } from '@bluedot/ui';
 import { createContext } from './context';
-import { checkAdminAccess } from './trpc';
-import db from '../lib/api/db';
+import { setupTestDb, testDb } from '../__tests__/dbTestUtils';
 import { ONE_HOUR_SECONDS } from '../lib/constants';
 
 vi.mock('@bluedot/ui', async () => {
@@ -19,15 +19,7 @@ vi.mock('@bluedot/ui', async () => {
   };
 });
 
-vi.mock('./trpc', () => ({
-  checkAdminAccess: vi.fn(),
-}));
-
-vi.mock('../lib/api/db', () => ({
-  default: {
-    getFirst: vi.fn(),
-  },
-}));
+setupTestDb();
 
 const mockAuth = {
   email: 'user@example.com',
@@ -64,17 +56,18 @@ describe('createContext: User impersonation', () => {
     vi.clearAllMocks();
   });
 
-  test('impersonation works when admin with valid target user', async () => {
+  test('admin can impersonate any user', async () => {
     const adminAuth = { ...mockAuth, email: 'admin@example.com' };
-    const targetUser = { id: 'target-user-id', email: 'target@example.com', name: 'Target User' };
+    await testDb.insert(userTable, {
+      id: 'admin-id', email: 'admin@example.com', name: 'Admin', isAdmin: true,
+    });
+    await testDb.insert(userTable, { id: 'target-id', email: 'target@example.com', name: 'Target User' });
 
     vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(adminAuth);
-    vi.mocked(checkAdminAccess).mockResolvedValue(true);
-    vi.mocked(db.getFirst).mockResolvedValue(targetUser);
 
     const req = createMockReq({
       authorization: 'Bearer valid-token',
-      'x-impersonate-user': 'target-user-id',
+      'x-impersonate-user': 'target-id',
     });
     const result = await createContext({ req } as Parameters<typeof createContext>[0]);
 
@@ -83,36 +76,80 @@ describe('createContext: User impersonation', () => {
       adminEmail: 'admin@example.com',
       targetEmail: 'target@example.com',
     });
-    expect(checkAdminAccess).toHaveBeenCalledWith('admin@example.com');
   });
 
-  test('impersonation falls back to normal user when admin check fails', async () => {
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(mockAuth);
-    vi.mocked(checkAdminAccess).mockResolvedValue(false);
+  test('scoped user can impersonate allowed target', async () => {
+    const scopedAuth = { ...mockAuth, email: 'scoped@example.com' };
+    await testDb.insert(userTable, {
+      id: 'scoped-id', email: 'scoped@example.com', name: 'Scoped User', allowedImpersonationTargets: ['allowed-id'],
+    });
+    await testDb.insert(userTable, { id: 'allowed-id', email: 'target@example.com', name: 'Target User' });
+
+    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(scopedAuth);
 
     const req = createMockReq({
       authorization: 'Bearer valid-token',
-      'x-impersonate-user': 'target-user-id',
+      'x-impersonate-user': 'allowed-id',
+    });
+    const result = await createContext({ req } as Parameters<typeof createContext>[0]);
+
+    expect(result.auth?.email).toBe('target@example.com');
+    expect(result.impersonation).toEqual({
+      adminEmail: 'scoped@example.com',
+      targetEmail: 'target@example.com',
+    });
+  });
+
+  test('scoped user cannot impersonate non-allowed target', async () => {
+    const scopedAuth = { ...mockAuth, email: 'scoped@example.com' };
+    await testDb.insert(userTable, {
+      id: 'scoped-id', email: 'scoped@example.com', name: 'Scoped User', allowedImpersonationTargets: ['allowed-id'],
+    });
+    await testDb.insert(userTable, { id: 'other-id', email: 'other@example.com', name: 'Other User' });
+
+    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(scopedAuth);
+
+    const req = createMockReq({
+      authorization: 'Bearer valid-token',
+      'x-impersonate-user': 'other-id',
+    });
+    const result = await createContext({ req } as Parameters<typeof createContext>[0]);
+
+    expect(result.auth?.email).toBe('scoped@example.com');
+    expect(result.impersonation).toBeNull();
+  });
+
+  test('user with no impersonation access is rejected', async () => {
+    await testDb.insert(userTable, { id: 'regular-id', email: 'user@example.com', name: 'Regular User' });
+    await testDb.insert(userTable, { id: 'some-target-id', email: 'target@example.com', name: 'Target User' });
+
+    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(mockAuth);
+
+    const req = createMockReq({
+      authorization: 'Bearer valid-token',
+      'x-impersonate-user': 'some-target-id',
     });
     const result = await createContext({ req } as Parameters<typeof createContext>[0]);
 
     expect(result.auth?.email).toBe('user@example.com');
     expect(result.impersonation).toBeNull();
-    expect(db.getFirst).not.toHaveBeenCalled();
   });
 
   test('impersonation falls back to normal user when target user not found', async () => {
-    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(mockAuth);
-    vi.mocked(checkAdminAccess).mockResolvedValue(true);
-    vi.mocked(db.getFirst).mockResolvedValue(null);
+    const adminAuth = { ...mockAuth, email: 'admin@example.com' };
+    await testDb.insert(userTable, {
+      id: 'admin-id', email: 'admin@example.com', name: 'Admin', isAdmin: true,
+    });
+
+    vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(adminAuth);
 
     const req = createMockReq({
       authorization: 'Bearer valid-token',
-      'x-impersonate-user': 'nonexistent-user-id',
+      'x-impersonate-user': 'nonexistent-id',
     });
     const result = await createContext({ req } as Parameters<typeof createContext>[0]);
 
-    expect(result.auth?.email).toBe('user@example.com');
+    expect(result.auth?.email).toBe('admin@example.com');
     expect(result.impersonation).toBeNull();
   });
 });
