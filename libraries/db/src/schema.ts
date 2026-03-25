@@ -70,11 +70,6 @@ export const courseTable = pgAirtable('course', {
       pgColumn: text(),
       airtableId: 'fldsxyHg4BLouu7XZ',
     },
-    // Remove this column in a later PR
-    description: {
-      pgColumn: text().notNull(),
-      airtableId: 'fldCX0bk6SQuXZaI7',
-    },
     detailsUrl: {
       pgColumn: text(),
       airtableId: 'fldlnWDzZZPZHP6S1',
@@ -149,6 +144,11 @@ export const courseTable = pgAirtable('course', {
     path: {
       pgColumn: text(),
       airtableId: 'fldEjx0ZP8SNYcNQR',
+      deprecated: true,
+    },
+    description: {
+      pgColumn: text(),
+      airtableId: 'fldCX0bk6SQuXZaI7',
       deprecated: true,
     },
   },
@@ -1257,6 +1257,18 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
     deferredId: {
       pgColumn: text().array(),
       airtableId: 'fldc7bNIkEyrMsQ4w',
+    },
+  },
+  deprecatedColumns: {
+    lastVisitedUnitNumber: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldTz0302G1aNX9uP',
+      deprecated: true,
+    },
+    lastVisitedChunkIndex: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldqBkQC2fZLtPEZX',
+      deprecated: true,
     },
   },
 });
