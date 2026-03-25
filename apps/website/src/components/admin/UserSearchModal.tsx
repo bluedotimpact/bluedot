@@ -23,9 +23,9 @@ export const UserSearchModal = ({
     }
   }, [isOpen]);
 
-  const searchTerm = searchTermInput.trim() || 'test'; // Fallback to 'test' to show recently used test users
+  const searchTerm = searchTermInput.trim();
   const { data: searchResults, isLoading, error } = trpc.admin.searchUsers.useQuery(
-    { searchTerm },
+    { searchTerm: searchTerm || undefined },
     { enabled: isOpen },
   );
 
