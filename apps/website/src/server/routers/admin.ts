@@ -18,14 +18,16 @@ type UserSearchResult = {
 
 export const adminRouter = router({
   canImpersonate: protectedProcedure.query(async ({ ctx }) => {
-    const { access } = await checkImpersonationAccess(ctx.auth.email);
+    const realEmail = ctx.impersonation?.adminEmail ?? ctx.auth.email;
+    const { access } = await checkImpersonationAccess(realEmail);
     return access;
   }),
 
   searchUsers: protectedProcedure
     .input(z.object({ searchTerm: z.string().max(200).optional() }))
     .query(async ({ ctx, input }) => {
-      const { access, allowedTargets } = await checkImpersonationAccess(ctx.auth.email);
+      const realEmail = ctx.impersonation?.adminEmail ?? ctx.auth.email;
+      const { access, allowedTargets } = await checkImpersonationAccess(realEmail);
 
       if (access === 'none') {
         throw new TRPCError({ code: 'FORBIDDEN', message: 'Unauthorized' });
@@ -89,7 +91,6 @@ export const adminRouter = router({
 
       return results.rows as UserSearchResult[];
     }),
-
   syncHistory: adminProcedure.query(async () => {
     // Get last 24 hours of requests, newest first
     const twentyFourHoursAgo = new Date();
