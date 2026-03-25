@@ -70,6 +70,10 @@ export const courseTable = pgAirtable('course', {
       pgColumn: text(),
       airtableId: 'fldsxyHg4BLouu7XZ',
     },
+    description: {
+      pgColumn: text().notNull(),
+      airtableId: 'fldCX0bk6SQuXZaI7',
+    },
     detailsUrl: {
       pgColumn: text(),
       airtableId: 'fldlnWDzZZPZHP6S1',
@@ -144,11 +148,6 @@ export const courseTable = pgAirtable('course', {
     path: {
       pgColumn: text(),
       airtableId: 'fldEjx0ZP8SNYcNQR',
-      deprecated: true,
-    },
-    description: {
-      pgColumn: text(),
-      airtableId: 'fldCX0bk6SQuXZaI7',
       deprecated: true,
     },
   },

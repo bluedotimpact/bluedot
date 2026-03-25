@@ -328,6 +328,7 @@ async function seedCourseWithGroups() {
     id: 'course-1',
     slug: 'test-course',
     title: 'Test Course',
+    description: 'Test',
     shortDescription: 'Test',
     units: ['unit-1', 'unit-2'],
   });
@@ -492,6 +493,7 @@ describe('groupSwitching.discussionsAvailable', () => {
       id: 'course-1',
       slug: 'test-course',
       title: 'Test',
+      description: 'Test',
       shortDescription: 'Test',
       units: [],
     });
