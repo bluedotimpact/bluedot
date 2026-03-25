@@ -1,5 +1,4 @@
 import { userTable } from '@bluedot/db';
-import { TRPCError } from '@trpc/server';
 import {
   describe, expect, test,
 } from 'vitest';
@@ -30,7 +29,7 @@ describe('admin: privilege escalation prevention', () => {
       impersonation: { adminEmail: 'scoped@example.com', targetEmail: 'admin@example.com' },
     });
 
-    await expect(caller.admin.syncHistory()).rejects.toThrow(TRPCError);
+    await expect(caller.admin.syncHistory()).rejects.toMatchObject({ code: 'FORBIDDEN' });
   });
 });
 
@@ -50,6 +49,6 @@ describe('admin.searchUsers', () => {
   test('regular user gets FORBIDDEN', async () => {
     await testDb.insert(userTable, { id: 'regular-id', email: 'regular@example.com', name: 'Regular' });
 
-    await expect(callerAs('regular@example.com').admin.searchUsers({})).rejects.toThrow(TRPCError);
+    await expect(callerAs('regular@example.com').admin.searchUsers({})).rejects.toMatchObject({ code: 'FORBIDDEN' });
   });
 });

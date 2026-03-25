@@ -121,6 +121,7 @@ describe('createContext: User impersonation', () => {
 
   test('user with no impersonation access is rejected', async () => {
     await testDb.insert(userTable, { id: 'regular-id', email: 'user@example.com', name: 'Regular User' });
+    await testDb.insert(userTable, { id: 'some-target-id', email: 'target@example.com', name: 'Target User' });
 
     vi.mocked(loginPresets.keycloak.verifyAndDecodeToken).mockResolvedValue(mockAuth);
 
