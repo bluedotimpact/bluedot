@@ -70,6 +70,7 @@ export const courseTable = pgAirtable('course', {
       pgColumn: text(),
       airtableId: 'fldsxyHg4BLouu7XZ',
     },
+    // Remove this column in a later PR
     description: {
       pgColumn: text().notNull(),
       airtableId: 'fldCX0bk6SQuXZaI7',
@@ -1205,14 +1206,6 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
     certificateCreatedAt: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldQJyVjaiQzsVGD9',
-    },
-    lastVisitedUnitNumber: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldTz0302G1aNX9uP',
-    },
-    lastVisitedChunkIndex: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldqBkQC2fZLtPEZX',
     },
     roundStatus: {
       pgColumn: text(),
