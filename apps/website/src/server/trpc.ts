@@ -117,6 +117,15 @@ export const checkAdminAccess = async (email: string): Promise<boolean> => {
   return user?.isAdmin === true;
 };
 
+export type ImpersonationAccess = 'admin' | 'scoped' | 'none';
+
+export const checkImpersonationAccess = async (email: string): Promise<{ access: ImpersonationAccess; allowedTargets: string[] }> => {
+  const user = await db.getFirst(userTable, { filter: { email } });
+  if (user?.isAdmin) return { access: 'admin', allowedTargets: [] };
+  if (user?.allowedImpersonationTargets?.length) return { access: 'scoped', allowedTargets: user.allowedImpersonationTargets };
+  return { access: 'none', allowedTargets: [] };
+};
+
 /* Override `undefined` responses as `null` so that React query does not reject as a failed Promise, leading to
 `isError` being true on queries/mutations. */
 const overrideUndefinedResponse = t.middleware(async (opts) => {

@@ -65,7 +65,7 @@ describe('UserSearchModal', () => {
       },
     ];
 
-    server.use(trpcMsw.admin.searchUsers.query(({ input }) => {
+    server.use(trpcMsw.impersonation.searchTargets.query(({ input }) => {
       if (input.searchTerm === 'john') {
         return [mockUsers[0]!];
       }
@@ -103,7 +103,7 @@ describe('UserSearchModal', () => {
       },
     ];
 
-    server.use(trpcMsw.admin.searchUsers.query(() => mockUsers));
+    server.use(trpcMsw.impersonation.searchTargets.query(() => mockUsers));
 
     render(<UserSearchModal isOpen onClose={mockOnClose} />, { wrapper: TrpcProvider });
 

@@ -47,7 +47,7 @@ export const Default: Story = {
   parameters: {
     msw: {
       handlers: [
-        trpcStorybookMsw.admin.searchUsers.query(({ input }) => {
+        trpcStorybookMsw.impersonation.searchTargets.query(({ input }) => {
           // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
           const query = input.searchTerm?.toLowerCase() || '';
 

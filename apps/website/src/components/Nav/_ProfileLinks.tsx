@@ -24,7 +24,7 @@ export const ProfileLinks: React.FC<{
   const [isImpersonateModalOpen, setIsImpersonateModalOpen] = useState(false);
   const { openBugReport } = useBugReport();
 
-  const { data: isAdmin } = trpc.admin.isAdmin.useQuery();
+  const { data: impersonationAccess } = trpc.impersonation.canImpersonate.useQuery();
   const profileRef = useClickOutside(
     () => updateExpandedSections({ profile: false }),
     expandedSections.profile,
@@ -86,7 +86,7 @@ export const ProfileLinks: React.FC<{
           >Log out
           </A>
           <div className="border-t border-gray-200 my-2" />
-          {isAdmin && (
+          {impersonationAccess && impersonationAccess !== 'none' && (
             <button
               type="button"
               onClick={() => {
