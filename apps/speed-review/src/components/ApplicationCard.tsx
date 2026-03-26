@@ -6,9 +6,10 @@ type ApplicationCardProps = {
   position: number;
   total: number;
   onProfileOpen?: () => void;
+  course: string;
 };
 
-export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, position, total, onProfileOpen }) => {
+export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, position, total, onProfileOpen, course }) => {
   const {
     name,
     profileUrl,
@@ -51,7 +52,7 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
         </div>
       </div>
 
-      {aiSummary && <SummaryCard aiSummary={aiSummary} />}
+      {aiSummary && <SummaryCard aiSummary={aiSummary} course={course} />}
 
       <div className="border border-stone-700 rounded-lg divide-y divide-stone-700 overflow-hidden">
         {([

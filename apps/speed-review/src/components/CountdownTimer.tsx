@@ -6,13 +6,14 @@ type CountdownTimerProps = {
   durationMs: number;
   paused: boolean;
   onExpire: () => void;
+  onTogglePause: () => void;
   startMs: number;
 };
 
 export type CountdownTimerHandle = { addTime: (ms: number) => void };
 
 export const CountdownTimer = forwardRef<CountdownTimerHandle, CountdownTimerProps>(({
-  durationMs, paused, onExpire, startMs,
+  durationMs, paused, onExpire, onTogglePause, startMs,
 }, ref) => {
   const [remainingMs, setRemainingMs] = useState(durationMs);
   const [elapsedSessionMs, setElapsedSessionMs] = useState(0);
@@ -70,7 +71,12 @@ export const CountdownTimer = forwardRef<CountdownTimerHandle, CountdownTimerPro
 
   return (
     <div className="flex items-center justify-between text-size-sm">
-      <div className="flex items-center gap-3">
+      <button
+        type="button"
+        onClick={onTogglePause}
+        className="flex items-center gap-3 cursor-pointer"
+        title={paused ? 'Resume timer' : 'Pause timer'}
+      >
         {/* Countdown bar */}
         <div className="w-20 sm:w-32 h-2 bg-stone-700 rounded-full overflow-hidden">
           <div
@@ -81,7 +87,7 @@ export const CountdownTimer = forwardRef<CountdownTimerHandle, CountdownTimerPro
         <span className={`font-mono font-semibold tabular-nums ${isWarning ? 'text-red-400' : 'text-stone-300'}`}>
           {remainingSeconds}s {paused && <span className="text-stone-500">(paused)</span>}
         </span>
-      </div>
+      </button>
       <span className="text-stone-500 font-mono tabular-nums">
         Total: {elapsedFormatted}
       </span>
