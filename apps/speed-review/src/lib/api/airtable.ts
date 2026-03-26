@@ -267,12 +267,12 @@ const patchSingle = async (id: string, fields: Record<string, unknown>): Promise
 export const moveApplicationToAgisc = async (applicationId: string, roundId: string): Promise<void> => {
   // Step 1: Set course and round
   await patchSingle(applicationId, {
-    fldkEQ0zBUhqpIuJn: 'AGI Strategy',  // Course (single select)
-    fldYaHSLqnvBXyjur: [roundId],         // Round (linked record)
+    fldkEQ0zBUhqpIuJn: 'AGI Strategy', // Course (single select)
+    fldYaHSLqnvBXyjur: [roundId], // Round (linked record)
   });
   // Step 2: Clear [>] Course so automation refills it based on new course value
   await patchSingle(applicationId, {
-    fldPkqPbeoIhERqSY: [],                // [>] Course (linked record)
+    fldPkqPbeoIhERqSY: [], // [>] Course (linked record)
   });
 };
 

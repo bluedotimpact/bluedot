@@ -53,7 +53,12 @@ const reduce = (state: SessionState, action: Action): SessionState => {
   }
 
   if (action.type === 'ROUND_SELECTED') {
-    return { status: 'loading', roundId: action.round.id, roundName: action.round.name, course: action.round.name.split('(')[0]?.trim() ?? '' };
+    return {
+      status: 'loading',
+      roundId: action.round.id,
+      roundName: action.round.name,
+      course: action.round.name.split('(')[0]?.trim() ?? '',
+    };
   }
 
   if (action.type === 'LOADED' && state.status === 'loading') {

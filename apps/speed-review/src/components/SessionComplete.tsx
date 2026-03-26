@@ -78,9 +78,9 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
     const option = RATING_OPTIONS.find((o) => o.value === rating) ?? RATING_OPTIONS[1]!;
     const subtitle = [r.jobTitle, r.organisation].filter(Boolean).join(' · ');
     const isEditing = editingId === r.id;
-    const bgColors = isMoved
-      ? 'bg-amber-950 border-amber-800'
-      : accent === 'green' ? 'bg-green-950 border-green-800' : 'bg-red-950 border-red-800';
+    let bgColors = 'bg-red-950 border-red-800';
+    if (isMoved) bgColors = 'bg-amber-950 border-amber-800';
+    else if (accent === 'green') bgColors = 'bg-green-950 border-green-800';
 
     return (
       <div key={r.id} className={`border rounded-lg px-3 py-2 ${bgColors}`}>
@@ -89,11 +89,12 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
             <p className="text-size-sm font-medium text-stone-100 break-words">
               {rating === 'strong-yes' && '🔥 '}{r.name}
             </p>
-            {isMoved && r.movedToRound ? (
+            {isMoved && r.movedToRound && (
               <p className="text-size-xs text-amber-400 truncate">→ Moved to {r.movedToRound}</p>
-            ) : subtitle ? (
+            )}
+            {!isMoved && subtitle && (
               <p className="text-size-xs text-stone-400 truncate">{subtitle}</p>
-            ) : null}
+            )}
           </div>
           {!isMoved && (
             <button
