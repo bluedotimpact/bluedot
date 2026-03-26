@@ -2,10 +2,13 @@ import { parseSummary } from '../lib/client/parseSummary';
 
 type SummaryCardProps = {
   aiSummary: string;
+  course: string;
 };
 
-export const SummaryCard: React.FC<SummaryCardProps> = ({ aiSummary }) => {
-  const { role, domain, topAchievement, commitment } = parseSummary(aiSummary);
+export const SummaryCard: React.FC<SummaryCardProps> = ({ aiSummary, course }) => {
+  const { role, domain, technicalAbility, topAchievement, commitment } = parseSummary(aiSummary);
+
+  const showTechnicalAbility = course === 'Technical AI Safety' && !!technicalAbility;
 
   return (
     <div className="bg-stone-800 border border-stone-700 rounded-lg p-3 sm:p-5 space-y-3">
@@ -19,6 +22,12 @@ export const SummaryCard: React.FC<SummaryCardProps> = ({ aiSummary }) => {
           <p className="text-size-sm text-stone-100">{domain || '—'}</p>
         </div>
       </div>
+      {showTechnicalAbility && (
+        <div>
+          <p className="text-size-xs font-semibold uppercase tracking-wide text-stone-500 mb-0.5">Technical Ability</p>
+          <p className="text-size-sm text-stone-100">{technicalAbility}</p>
+        </div>
+      )}
       <div>
         <p className="text-size-xs font-semibold uppercase tracking-wide text-stone-500 mb-0.5">Top Achievement</p>
         <p className="text-size-sm text-stone-100">{topAchievement || '—'}</p>

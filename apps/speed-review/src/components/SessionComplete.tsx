@@ -73,11 +73,14 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
   const avgSecs = rated.length > 0 ? Math.round(totalSecs / rated.length) : 0;
 
   const renderRow = (r: RatedApplication, accent: 'green' | 'red') => {
+    const isMoved = r.rating === 'moved-to-agisc';
     const rating = effectiveRating(r);
     const option = RATING_OPTIONS.find((o) => o.value === rating) ?? RATING_OPTIONS[1]!;
     const subtitle = [r.jobTitle, r.organisation].filter(Boolean).join(' · ');
     const isEditing = editingId === r.id;
-    const bgColors = accent === 'green' ? 'bg-green-950 border-green-800' : 'bg-red-950 border-red-800';
+    let bgColors = 'bg-red-950 border-red-800';
+    if (isMoved) bgColors = 'bg-amber-950 border-amber-800';
+    else if (accent === 'green') bgColors = 'bg-green-950 border-green-800';
 
     return (
       <div key={r.id} className={`border rounded-lg px-3 py-2 ${bgColors}`}>
@@ -86,19 +89,24 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
             <p className="text-size-sm font-medium text-stone-100 break-words">
               {rating === 'strong-yes' && '🔥 '}{r.name}
             </p>
-            {subtitle && (
+            {isMoved && r.movedToRound && (
+              <p className="text-size-xs text-amber-400 truncate">→ Moved to {r.movedToRound}</p>
+            )}
+            {!isMoved && subtitle && (
               <p className="text-size-xs text-stone-400 truncate">{subtitle}</p>
             )}
           </div>
-          <button
-            type="button"
-            onClick={() => setEditingId(isEditing ? null : r.id)}
-            className="shrink-0 text-size-xs text-stone-400 hover:text-stone-200 underline underline-offset-2"
-          >
-            {option.humanOpinion} → {option.decision}
-          </button>
+          {!isMoved && (
+            <button
+              type="button"
+              onClick={() => setEditingId(isEditing ? null : r.id)}
+              className="shrink-0 text-size-xs text-stone-400 hover:text-stone-200 underline underline-offset-2"
+            >
+              {option.humanOpinion} → {option.decision}
+            </button>
+          )}
         </div>
-        {isEditing && (
+        {isEditing && !isMoved && (
           <div className="mt-2 flex flex-wrap gap-1">
             {RATING_OPTIONS.map((opt) => (
               <button

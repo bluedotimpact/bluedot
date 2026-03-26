@@ -22,6 +22,7 @@ const ApplicationSchema = z.object({
   applicationSource: z.string().optional(),
   utmSource: z.string().optional(),
   aiSummary: z.string().optional(),
+  allowMoveToAgisc: z.boolean().optional(),
 });
 
 export default makeApiRoute({

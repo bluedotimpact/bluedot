@@ -30,6 +30,7 @@ const APPLICATION_FIELDS = [
   'fldRXdZQ0rnuVOcl7', // AI application summary
   'fldYaHSLqnvBXyjur', // Round (for server-side filtering)
   'fld1rOZGAHBRcdJcM', // [*] Full name
+  'fldooZSRRtcLSKKvo', // [TAIS] Allow to move to AGISC
 ];
 
 export type Round = { id: string; name: string; course: string };
@@ -128,6 +129,7 @@ const toApplication = (record: AirtableRecord): Application => {
     applicationSource: str(f.flduEoJRp6uvz74xo),
     utmSource: str(f.fldQ9PM3ejhilPFc6),
     aiSummary: str(f.fldRXdZQ0rnuVOcl7),
+    allowMoveToAgisc: !!f.fldooZSRRtcLSKKvo,
   };
 };
 
@@ -245,6 +247,33 @@ const patchBatch = async (batch: { id: string; opinion: string; decision: string
     const body = await response.text().catch(() => '');
     throw new Error(`Airtable error: ${response.status} ${response.statusText} — ${body}`);
   }
+};
+
+const patchSingle = async (id: string, fields: Record<string, unknown>): Promise<void> => {
+  const response = await fetch(APPLICATIONS_URL, {
+    method: 'PATCH',
+    headers: headers(),
+    body: JSON.stringify({
+      records: [{ id, fields }],
+      returnFieldsByFieldId: true,
+    }),
+  });
+  if (!response.ok) {
+    const body = await response.text().catch(() => '');
+    throw new Error(`Airtable error: ${response.status} ${response.statusText} — ${body}`);
+  }
+};
+
+export const moveApplicationToAgisc = async (applicationId: string, roundId: string): Promise<void> => {
+  // Step 1: Set course and round
+  await patchSingle(applicationId, {
+    fldkEQ0zBUhqpIuJn: 'AGI Strategy', // Course (single select)
+    fldYaHSLqnvBXyjur: [roundId], // Round (linked record)
+  });
+  // Step 2: Clear [>] Course so automation refills it based on new course value
+  await patchSingle(applicationId, {
+    fldPkqPbeoIhERqSY: [], // [>] Course (linked record)
+  });
 };
 
 export const writeOpinions = async (opinions: { id: string; opinion: string; decision: string }[]): Promise<void> => {

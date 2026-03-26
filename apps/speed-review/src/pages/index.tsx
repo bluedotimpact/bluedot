@@ -12,6 +12,7 @@ import { SwipeableRatingArea } from '../components/SwipeableRatingArea';
 import { CountdownTimer, type CountdownTimerHandle } from '../components/CountdownTimer';
 import { SessionComplete } from '../components/SessionComplete';
 import { RoundPicker } from '../components/RoundPicker';
+import { MoveToAgiscControl } from '../components/MoveToAgiscControl';
 import { authFetch } from '../lib/client/api';
 
 const COUNTDOWN_MS = 30_000;
@@ -30,9 +31,9 @@ const MILESTONE_MESSAGES: Record<number, string> = {
 
 type SessionState =
   | { status: 'picking-round' }
-  | { status: 'loading'; roundId: string; roundName: string }
-  | { status: 'reviewing'; roundId: string; roundName: string; queue: Application[]; seen: RatedApplication[]; timerPaused: boolean; startMs: number; nextOffset?: string }
-  | { status: 'complete'; roundId: string; roundName: string; rated: RatedApplication[]; totalMs: number; totalLoaded: number };
+  | { status: 'loading'; roundId: string; roundName: string; course: string }
+  | { status: 'reviewing'; roundId: string; roundName: string; course: string; queue: Application[]; seen: RatedApplication[]; timerPaused: boolean; startMs: number; nextOffset?: string }
+  | { status: 'complete'; roundId: string; roundName: string; course: string; rated: RatedApplication[]; totalMs: number; totalLoaded: number };
 
 type Action =
   | { type: 'ROUND_SELECTED'; round: Round }
@@ -43,7 +44,8 @@ type Action =
   | { type: 'TOGGLE_PAUSE' }
   | { type: 'CONCLUDE' }
   | { type: 'RESET' }
-  | { type: 'UNDO' };
+  | { type: 'UNDO' }
+  | { type: 'MOVE_TO_AGISC'; roundName: string };
 
 const reduce = (state: SessionState, action: Action): SessionState => {
   if (action.type === 'RESET') {
@@ -51,13 +53,18 @@ const reduce = (state: SessionState, action: Action): SessionState => {
   }
 
   if (action.type === 'ROUND_SELECTED') {
-    return { status: 'loading', roundId: action.round.id, roundName: action.round.name };
+    return {
+      status: 'loading',
+      roundId: action.round.id,
+      roundName: action.round.name,
+      course: action.round.name.split('(')[0]?.trim() ?? '',
+    };
   }
 
   if (action.type === 'LOADED' && state.status === 'loading') {
     if (action.applications.length === 0) {
       return {
-        status: 'complete', roundId: state.roundId, roundName: state.roundName, rated: [], totalMs: 0, totalLoaded: 0,
+        status: 'complete', roundId: state.roundId, roundName: state.roundName, course: state.course, rated: [], totalMs: 0, totalLoaded: 0,
       };
     }
 
@@ -65,6 +72,7 @@ const reduce = (state: SessionState, action: Action): SessionState => {
       status: 'reviewing',
       roundId: state.roundId,
       roundName: state.roundName,
+      course: state.course,
       queue: action.applications,
       seen: [],
       timerPaused: false,
@@ -88,6 +96,7 @@ const reduce = (state: SessionState, action: Action): SessionState => {
       status: 'complete',
       roundId: state.roundId,
       roundName: state.roundName,
+      course: state.course,
       rated: state.seen,
       totalMs: Date.now() - state.startMs,
       totalLoaded: state.seen.length + state.queue.length,
@@ -115,6 +124,24 @@ const reduce = (state: SessionState, action: Action): SessionState => {
     return { ...state, queue: [...rest, current] };
   }
 
+  if (action.type === 'MOVE_TO_AGISC') {
+    const moved: RatedApplication = { ...current, rating: 'moved-to-agisc', movedToRound: action.roundName };
+    const newSeen = [...state.seen, moved];
+    if (rest.length === 0 && !state.nextOffset) {
+      return {
+        status: 'complete',
+        roundId: state.roundId,
+        roundName: state.roundName,
+        course: state.course,
+        rated: newSeen,
+        totalMs: Date.now() - state.startMs,
+        totalLoaded: newSeen.length,
+      };
+    }
+
+    return { ...state, queue: rest, seen: newSeen };
+  }
+
   if (action.type === 'RATE') {
     const rated: RatedApplication = { ...current, rating: action.rating };
     const newSeen = [...state.seen, rated];
@@ -123,6 +150,7 @@ const reduce = (state: SessionState, action: Action): SessionState => {
         status: 'complete',
         roundId: state.roundId,
         roundName: state.roundName,
+        course: state.course,
         rated: newSeen,
         totalMs: Date.now() - state.startMs,
         totalLoaded: newSeen.length,
@@ -367,7 +395,7 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
             rated={state.rated}
             totalMs={state.totalMs}
             onReset={() => dispatch({ type: 'RESET' })}
-            onReviewRound={(roundId, roundName) => dispatch({ type: 'ROUND_SELECTED', round: { id: roundId, name: roundName, course: '' } })}
+            onReviewRound={(roundId, roundName) => dispatch({ type: 'ROUND_SELECTED', round: { id: roundId, name: roundName, course: state.course } })}
           />
         </div>
       </div>
@@ -433,6 +461,7 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
               durationMs={COUNTDOWN_MS}
               paused={state.timerPaused}
               onExpire={handleTimeout}
+              onTogglePause={() => dispatch({ type: 'TOGGLE_PAUSE' })}
               startMs={state.startMs}
             />
           </div>
@@ -459,12 +488,23 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
             position={state.seen.length + 1}
             total={totalApps}
             onProfileOpen={() => timerRef.current?.addTime(10_000)}
+            course={state.course}
           />
         </div>
 
         <div className="bg-stone-900 rounded-xl border border-stone-700 p-4">
           <SwipeableRatingArea onRate={handleRate} />
         </div>
+
+        {state.course === 'Technical AI Safety' && (
+          <div className="bg-stone-900 rounded-xl border border-stone-700 p-4">
+            <MoveToAgiscControl
+              applicationId={current.id}
+              allowMoveToAgisc={current.allowMoveToAgisc ?? false}
+              onMoved={(roundName) => dispatch({ type: 'MOVE_TO_AGISC', roundName })}
+            />
+          </div>
+        )}
       </div>
 
       {milestoneToast && (
