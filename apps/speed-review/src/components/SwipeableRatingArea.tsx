@@ -155,7 +155,7 @@ export const SwipeableRatingArea: React.FC<SwipeableRatingAreaProps> = ({ onRate
         Swipe to rate
       </p>
       <p className="hidden sm:block text-size-xs text-stone-500 text-center mt-3">
-        ← / A No &nbsp;·&nbsp; ↑↓ / WS Neutral &nbsp;·&nbsp; → / D Yes &nbsp;·&nbsp; E Strong Yes &nbsp;·&nbsp; P Pause &nbsp;·&nbsp; Esc Conclude
+        ← / A No &nbsp;·&nbsp; ↑↓ / WS Neutral &nbsp;·&nbsp; → / D Yes &nbsp;·&nbsp; E Strong Yes &nbsp;·&nbsp; Space Next Section &nbsp;·&nbsp; P Pause &nbsp;·&nbsp; Esc Conclude
       </p>
     </div>
   );
