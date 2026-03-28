@@ -70,7 +70,10 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
   const totalSecs = Math.floor(totalMs / 1000);
   const mins = Math.floor(totalSecs / 60);
   const secs = totalSecs % 60;
-  const avgSecs = rated.length > 0 ? Math.round(totalSecs / rated.length) : 0;
+  const avgTotalSecs = rated.length > 0 ? Math.round(totalSecs / rated.length) : 0;
+  const avgMins = Math.floor(avgTotalSecs / 60);
+  const avgSecs = avgTotalSecs % 60;
+  const avgDisplay = avgMins > 0 ? `${avgMins}m ${String(avgSecs).padStart(2, '0')}s` : `${avgSecs}s`;
 
   const renderRow = (r: RatedApplication, accent: 'green' | 'red') => {
     const isMoved = r.rating === 'moved-to-agisc';
@@ -83,7 +86,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
     else if (accent === 'green') bgColors = 'bg-green-950 border-green-800';
 
     return (
-      <div key={r.id} className={`border rounded-lg px-3 py-2 ${bgColors}`}>
+      <div key={r.id} className={`border rounded-lg px-3 py-2 overflow-hidden ${bgColors}`}>
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-2">
           <div className="min-w-0">
             <p className="text-size-sm font-medium text-stone-100 break-words">
@@ -129,7 +132,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 overflow-hidden">
       <div>
         <h1 className="text-2xl font-bold text-stone-100">Session complete</h1>
         <p className="text-size-sm text-stone-400 mt-1">{round}</p>
@@ -176,13 +179,13 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
           <p className="text-size-xs text-stone-500 mt-1">Total time</p>
         </div>
         <div className="bg-stone-800 border border-stone-700 rounded-lg p-4">
-          <p className="text-2xl font-bold text-stone-100">{avgSecs}s</p>
+          <p className="text-2xl font-bold text-stone-100">{avgDisplay}</p>
           <p className="text-size-xs text-stone-500 mt-1">Avg per app</p>
         </div>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
-        <div>
+        <div className="min-w-0">
           <h2 className="text-size-sm font-semibold uppercase tracking-wide text-green-400 mb-3">
             Accept ({accepted.length})
           </h2>
@@ -190,7 +193,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
             {accepted.map((r) => renderRow(r, 'green'))}
           </div>
         </div>
-        <div>
+        <div className="min-w-0">
           <h2 className="text-size-sm font-semibold uppercase tracking-wide text-red-400 mb-3">
             Reject ({rejected.length})
           </h2>

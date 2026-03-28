@@ -145,7 +145,11 @@ export const fetchRounds = async (): Promise<Round[]> => {
     ['Course - Round - Intensity', 'Status', 'fldfi2ZKsbSK6NVTV', 'First discussion'],
   );
 
-  const today = new Date().toISOString().slice(0, 10);
+  // Hide rounds where the application deadline was 3+ days ago.
+  // Application deadline is 4 days before the first discussion date.
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - 3 + 4); // 3 days after deadline = first discussion minus 1 day
+  cutoff.setHours(0, 0, 0, 0);
 
   return records
     .map((r) => ({
@@ -155,7 +159,10 @@ export const fetchRounds = async (): Promise<Round[]> => {
       firstDiscussion: str(r.fields['First discussion']),
     }))
     .filter((r) => r.name !== '')
-    .filter((r) => !!r.firstDiscussion && r.firstDiscussion >= today)
+    .filter((r) => {
+      if (!r.firstDiscussion) return false;
+      return new Date(r.firstDiscussion) >= cutoff;
+    })
     .sort((a, b) => {
       const aDate = a.firstDiscussion ?? '';
       const bDate = b.firstDiscussion ?? '';
@@ -196,8 +203,11 @@ export const fetchApplications = async (
     if (!nextOffset) break;
   }
 
+  const withSummary = collected.filter((a) => a.aiSummary);
+  const withoutSummary = collected.filter((a) => !a.aiSummary);
+
   return {
-    applications: shuffle(collected),
+    applications: [...shuffle(withSummary), ...shuffle(withoutSummary)],
     nextOffset: currentOffset,
   };
 };
