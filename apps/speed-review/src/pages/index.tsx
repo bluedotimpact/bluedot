@@ -20,11 +20,15 @@ const COUNTDOWN_MS = 30_000;
 const PREFETCH_THRESHOLD = 10;
 
 const MILESTONE_MESSAGES: Record<number, string> = {
-  20: 'Nice work — 20 done! Keep it up!',
-  40: '40 reviewed! You\'re on a roll!',
-  60: '60 down! More than halfway!',
-  80: '80 applications! Almost there!',
-  100: '100 reviewed! Absolutely crushing it!',
+  20: '🔥 20 reviewed — found your rhythm.',
+  30: '⚡ 30! Faster than most.',
+  40: '🎯 40 — you\'re a machine (the good kind).',
+  50: '💪 Halfway to 100. No stopping now.',
+  60: '🚀 60 deep. Applications fear you.',
+  80: '👑 80 done. This is elite territory.',
+  100: '💯 ONE HUNDRED. Absolute legend.',
+  120: '🤯 120?! Take a break... or don\'t.',
+  150: '🏆 150. You might need professional help (in a good way).',
 };
 
 // ── State machine ──────────────────────────────────────────────────────────
@@ -225,12 +229,12 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
   }, []);
 
   const showMilestone = useCallback((count: number) => {
-    if (count === 0 || count % 20 !== 0 || count === lastMilestoneRef.current) return;
+    if (count === 0 || !MILESTONE_MESSAGES[count] || count === lastMilestoneRef.current) return;
     lastMilestoneRef.current = count;
     const message = MILESTONE_MESSAGES[count] ?? `${count} reviewed! Keep going!`;
     setMilestoneToast(message);
     if (milestoneTimerRef.current) clearTimeout(milestoneTimerRef.current);
-    milestoneTimerRef.current = setTimeout(() => setMilestoneToast(null), 4000);
+    milestoneTimerRef.current = setTimeout(() => setMilestoneToast(null), 7000);
   }, []);
 
   const handleRate = useCallback((rating: RatingValue) => {

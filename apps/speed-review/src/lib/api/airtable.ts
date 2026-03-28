@@ -145,8 +145,11 @@ export const fetchRounds = async (): Promise<Round[]> => {
     ['Course - Round - Intensity', 'Status', 'fldfi2ZKsbSK6NVTV', 'First discussion'],
   );
 
-  const todayStart = new Date();
-  todayStart.setHours(0, 0, 0, 0);
+  // Hide rounds where the application deadline was 3+ days ago.
+  // Application deadline is 4 days before the first discussion date.
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - 3 + 4); // 3 days after deadline = first discussion minus 1 day
+  cutoff.setHours(0, 0, 0, 0);
 
   return records
     .map((r) => ({
@@ -158,8 +161,7 @@ export const fetchRounds = async (): Promise<Round[]> => {
     .filter((r) => r.name !== '')
     .filter((r) => {
       if (!r.firstDiscussion) return false;
-      const discussionDate = new Date(r.firstDiscussion);
-      return discussionDate >= todayStart;
+      return new Date(r.firstDiscussion) >= cutoff;
     })
     .sort((a, b) => {
       const aDate = a.firstDiscussion ?? '';
@@ -281,6 +283,13 @@ export const moveApplicationToAgisc = async (applicationId: string, roundId: str
   // Step 2: Clear [>] Course so automation refills it based on new course value
   await patchSingle(applicationId, {
     fldPkqPbeoIhERqSY: [], // [>] Course (linked record)
+  });
+};
+
+export const resetOpinion = async (id: string): Promise<void> => {
+  await patchSingle(id, {
+    fldOm6fJcqhq78M71: 'TODO', // Human opinion
+    fldWVKY5EFAGSRcDT: null, // Decision — null clears single select
   });
 };
 

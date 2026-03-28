@@ -38,6 +38,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
   roundId, round, rated, totalMs, onReset, onReviewRound,
 }) => {
   const [overrides, setOverrides] = useState<Record<string, RatingValue>>({});
+  const [resetIds, setResetIds] = useState<Set<string>>(new Set());
   const [editingId, setEditingId] = useState<string | null>(null);
   const [roundStats, setRoundStats] = useState<{ total: number; evaluated: number; accepted: number } | null>(null);
 
@@ -60,8 +61,22 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
     setEditingId(null);
   };
 
-  const accepted = rated.filter((r) => toDecision(effectiveRating(r)) === 'Accept');
-  const rejected = rated.filter((r) => toDecision(effectiveRating(r)) === 'Reject');
+  const handleReset = (id: string) => {
+    setResetIds((prev) => new Set(prev).add(id));
+    setEditingId(null);
+    authFetch('/api/reset-opinion', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ applicationId: id }),
+    }).then((r) => {
+      if (!r.ok) throw new Error(`${r.status}: ${r.statusText}`);
+    // eslint-disable-next-line no-console
+    }).catch(console.error);
+  };
+
+  const active = rated.filter((r) => !resetIds.has(r.id));
+  const accepted = active.filter((r) => toDecision(effectiveRating(r)) === 'Accept');
+  const rejected = active.filter((r) => toDecision(effectiveRating(r)) === 'Reject');
 
   const totalCount = roundStats?.total ?? null;
   const reviewedCount = roundStats?.evaluated ?? null;
@@ -125,6 +140,13 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
                 {opt.humanOpinion} → {opt.decision}
               </button>
             ))}
+            <button
+              type="button"
+              onClick={() => handleReset(r.id)}
+              className="text-size-xs px-2 py-1 rounded border transition-colors bg-stone-800 text-orange-400 border-orange-700 hover:border-orange-500"
+            >
+              Rerate
+            </button>
           </div>
         )}
       </div>
