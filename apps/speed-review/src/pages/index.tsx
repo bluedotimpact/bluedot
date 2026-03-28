@@ -353,14 +353,19 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
           e.preventDefault();
           const details = Array.from(document.querySelectorAll('details'));
           const openIndex = details.findIndex((d) => d.open);
-          details.forEach((d) => { d.open = false; });
+          details.forEach((d) => {
+            d.open = false;
+          });
           const nextIndex = openIndex === -1 ? 0 : openIndex + 1;
+
           if (nextIndex < details.length) {
             details[nextIndex]!.open = true;
             details[nextIndex]!.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
           }
+
           break;
         }
+
         case 'p':
         case 'P':
           dispatch({ type: 'TOGGLE_PAUSE' });
