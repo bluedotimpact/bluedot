@@ -286,6 +286,13 @@ export const moveApplicationToAgisc = async (applicationId: string, roundId: str
   });
 };
 
+export const resetOpinion = async (id: string): Promise<void> => {
+  await patchSingle(id, {
+    fldOm6fJcqhq78M71: 'TODO', // Human opinion
+    fldWVKY5EFAGSRcDT: null, // Decision — null clears single select
+  });
+};
+
 export const writeOpinions = async (opinions: { id: string; opinion: string; decision: string }[]): Promise<void> => {
   const BATCH_SIZE = 10;
   const batches: { id: string; opinion: string; decision: string }[][] = [];
