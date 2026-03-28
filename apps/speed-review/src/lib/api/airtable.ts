@@ -201,8 +201,11 @@ export const fetchApplications = async (
     if (!nextOffset) break;
   }
 
+  const withSummary = collected.filter((a) => a.aiSummary);
+  const withoutSummary = collected.filter((a) => !a.aiSummary);
+
   return {
-    applications: shuffle(collected),
+    applications: [...shuffle(withSummary), ...shuffle(withoutSummary)],
     nextOffset: currentOffset,
   };
 };
