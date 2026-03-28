@@ -75,7 +75,7 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
       </div>
 
       {(applicationSource ?? utmSource) && (
-        <div className="text-size-xs text-stone-500 space-y-0.5">
+        <div className="text-size-xs text-stone-500 space-y-0.5 break-words overflow-hidden">
           {applicationSource && <p>Heard about us: {applicationSource}</p>}
           {utmSource && <p>UTM source: {utmSource}</p>}
         </div>
