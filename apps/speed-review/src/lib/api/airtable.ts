@@ -145,7 +145,8 @@ export const fetchRounds = async (): Promise<Round[]> => {
     ['Course - Round - Intensity', 'Status', 'fldfi2ZKsbSK6NVTV', 'First discussion'],
   );
 
-  const today = new Date().toISOString().slice(0, 10);
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
 
   return records
     .map((r) => ({
@@ -155,7 +156,11 @@ export const fetchRounds = async (): Promise<Round[]> => {
       firstDiscussion: str(r.fields['First discussion']),
     }))
     .filter((r) => r.name !== '')
-    .filter((r) => !!r.firstDiscussion && r.firstDiscussion >= today)
+    .filter((r) => {
+      if (!r.firstDiscussion) return false;
+      const discussionDate = new Date(r.firstDiscussion);
+      return discussionDate >= todayStart;
+    })
     .sort((a, b) => {
       const aDate = a.firstDiscussion ?? '';
       const bDate = b.firstDiscussion ?? '';
