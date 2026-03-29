@@ -17,6 +17,7 @@ export type Application = {
   utmSource?: string;
   aiSummary?: string;
   allowMoveToAgisc?: boolean;
+  previousCourses?: string[];
 };
 
 export type RatingValue = 'no' | 'neutral-accept' | 'neutral-reject' | 'yes' | 'strong-yes' | 'moved-to-agisc';
