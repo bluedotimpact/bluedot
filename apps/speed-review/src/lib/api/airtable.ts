@@ -131,7 +131,7 @@ const toApplication = (record: AirtableRecord): Application => {
     utmSource: str(f.fldQ9PM3ejhilPFc6),
     aiSummary: str(f.fldRXdZQ0rnuVOcl7),
     allowMoveToAgisc: !!f.fldooZSRRtcLSKKvo,
-    previousCourses: Array.isArray(f.fldpYmO0PaZxRFL5v) ? (f.fldpYmO0PaZxRFL5v as string[]) : undefined,
+    previousCourses: Array.isArray(f.fldpYmO0PaZxRFL5v) ? [...new Set((f.fldpYmO0PaZxRFL5v as unknown[]).map(String).map((s) => s.trim()).filter(Boolean))] : undefined,
   };
 };
 
