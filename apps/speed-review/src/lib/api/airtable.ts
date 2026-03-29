@@ -31,6 +31,7 @@ const APPLICATION_FIELDS = [
   'fldYaHSLqnvBXyjur', // Round (for server-side filtering)
   'fld1rOZGAHBRcdJcM', // [*] Full name
   'fldooZSRRtcLSKKvo', // [TAIS] Allow to move to AGISC
+  'fldpYmO0PaZxRFL5v', // Previous courses (lookup)
 ];
 
 export type Round = { id: string; name: string; course: string };
@@ -130,6 +131,7 @@ const toApplication = (record: AirtableRecord): Application => {
     utmSource: str(f.fldQ9PM3ejhilPFc6),
     aiSummary: str(f.fldRXdZQ0rnuVOcl7),
     allowMoveToAgisc: !!f.fldooZSRRtcLSKKvo,
+    previousCourses: Array.isArray(f.fldpYmO0PaZxRFL5v) ? (f.fldpYmO0PaZxRFL5v as string[]) : undefined,
   };
 };
 
@@ -145,10 +147,9 @@ export const fetchRounds = async (): Promise<Round[]> => {
     ['Course - Round - Intensity', 'Status', 'fldfi2ZKsbSK6NVTV', 'First discussion'],
   );
 
-  // Hide rounds where the application deadline was 3+ days ago.
-  // Application deadline is 4 days before the first discussion date.
+  // Hide rounds where the first discussion date is within 5 days.
   const cutoff = new Date();
-  cutoff.setDate(cutoff.getDate() - 3 + 4); // 3 days after deadline = first discussion minus 1 day
+  cutoff.setDate(cutoff.getDate() + 5);
   cutoff.setHours(0, 0, 0, 0);
 
   return records
