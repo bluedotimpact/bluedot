@@ -172,7 +172,8 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const emailValidationError = validateEmail(email.trim());
+    const normalisedEmail = email.trim();
+    const emailValidationError = validateEmail(normalisedEmail);
     if (emailValidationError) {
       setEmailError(emailValidationError);
       return;
@@ -183,7 +184,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
     try {
       await onSubmit?.({
         description,
-        email: email.trim(),
+        email: normalisedEmail,
         attachments,
         recordingUrl: recordingUrlInput.trim() || undefined,
       });
