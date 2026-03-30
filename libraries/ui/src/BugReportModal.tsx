@@ -166,7 +166,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
 
   const validateEmail = (value: string): string | null => {
     const result = emailSchema.safeParse(value.trim());
-    return result.success ? null : result.error.issues[0]?.message ?? 'Invalid email.';
+    return result.success ? null : (result.error.issues[0]?.message ?? 'Invalid email.');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -181,7 +181,10 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
     setError(null);
     try {
       await onSubmit?.({
-        description, email, attachments, recordingUrl: recordingUrlInput.trim() || undefined,
+        description,
+        email,
+        attachments,
+        recordingUrl: recordingUrlInput.trim() || undefined,
       });
       setShowSuccess(true);
     } catch (err) {
@@ -203,16 +206,13 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
       <div className="w-full md:w-[560px]">
         {showSuccess ? (
           <div className="flex flex-col items-center gap-8">
-            <div className="bg-bluedot-normal/10 flex rounded-full p-4 mt-2">
+            <div className="bg-bluedot-normal/10 mt-2 flex rounded-full p-4">
               <FaCheck className="text-bluedot-normal size-8" />
             </div>
-            <p className="text-[13px] leading-[1.5] text-bluedot-navy/60 max-w-[500px] text-center">
+            <p className="text-bluedot-navy/60 max-w-[500px] text-center text-[13px] leading-[1.5]">
               Your feedback has been sent! We'll be in touch if we have follow-up questions.
             </p>
-            <CTALinkOrButton
-              className="mt-4 w-full"
-              onClick={() => handleModalOpenChange(false)}
-            >
+            <CTALinkOrButton className="mt-4 w-full" onClick={() => handleModalOpenChange(false)}>
               Close
             </CTALinkOrButton>
           </div>
@@ -224,7 +224,10 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
               <p className="text-bluedot-navy text-[13px] leading-[1.5]">
                 We're here to help! Whether it's a bug or an idea on how to improve your experience, we're all ears.
               </p>
-              <label htmlFor="bug-description" className="text-[13px] font-semibold leading-5.5 text-bluedot-navy mt-2.5">
+              <label
+                htmlFor="bug-description"
+                className="text-bluedot-navy mt-2.5 text-[13px] leading-5.5 font-semibold"
+              >
                 Description
               </label>
 
@@ -301,28 +304,26 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                 )}
               </div>
               {attachmentError && (
-                <p className="text-red-600 text-size-sm mt-1" role="alert" aria-live="polite">
+                <p className="text-size-sm mt-1 text-red-600" role="alert" aria-live="polite">
                   {attachmentError}
                 </p>
               )}
             </div>
 
             {onRecordScreen && (
-              <div className="hidden md:flex flex-col gap-3">
-                <p className="text-[13px] font-semibold text-bluedot-navy">
-                  Could you show us with a video?
-                </p>
+              <div className="hidden flex-col gap-3 md:flex">
+                <p className="text-bluedot-navy text-[13px] font-semibold">Could you show us with a video?</p>
                 {recordingUrl ? (
                   <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2.5">
-                      <div className="flex items-center gap-2.5 rounded-[5px] bg-[#0EAC53] text-white px-3 py-2">
+                      <div className="flex items-center gap-2.5 rounded-[5px] bg-[#0EAC53] px-3 py-2 text-white">
                         <FaCheck className="size-3.5 shrink-0" />
                         <span className="text-[13px]">Recording saved</span>
                       </div>
                       <button
                         type="button"
                         onClick={onRecordScreen}
-                        className="flex items-center gap-[10px] h-9 px-3 rounded-[5px] border border-bluedot-normal text-bluedot-normal text-[13px] font-medium cursor-pointer"
+                        className="border-bluedot-normal text-bluedot-normal flex h-9 cursor-pointer items-center gap-[10px] rounded-[5px] border px-3 text-[13px] font-medium"
                       >
                         <FaVideo className="size-4 shrink-0" />
                         Re-record
@@ -332,7 +333,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                       type="url"
                       value={recordingUrlInput}
                       onChange={(e) => setRecordingUrlInput(e.target.value)}
-                      className="border-color-divider rounded-lg border bg-white px-3 py-2 text-[13px] text-bluedot-navy/60 placeholder:text-[13px]"
+                      className="border-color-divider text-bluedot-navy/60 rounded-lg border bg-white px-3 py-2 text-[13px] placeholder:text-[13px]"
                       aria-label="Recording URL"
                     />
                   </div>
@@ -340,7 +341,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                   <button
                     type="button"
                     onClick={onRecordScreen}
-                    className="flex items-center gap-[10px] h-9 px-3 rounded-[5px] bg-bluedot-normal text-white text-[13px] font-medium self-start cursor-pointer"
+                    className="bg-bluedot-normal flex h-9 cursor-pointer items-center gap-[10px] self-start rounded-[5px] px-3 text-[13px] font-medium text-white"
                   >
                     <FaVideo className="size-4 shrink-0" />
                     Record my screen
@@ -350,7 +351,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
             )}
 
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="bug-email" className="text-[13px] font-semibold leading-5.5 text-bluedot-navy">
+              <label htmlFor="bug-email" className="text-bluedot-navy text-[13px] leading-5.5 font-semibold">
                 Your contact email
               </label>
               <p className="text-bluedot-navy/60 text-[13px]">
@@ -360,7 +361,10 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                 id="bug-email"
                 type="email"
                 value={email}
-                className={cn('border-color-divider rounded-lg border bg-white px-3 py-2 text-[13px] placeholder:text-[13px]', emailError && 'border-red-500')}
+                className={cn(
+                  'border-color-divider rounded-lg border bg-white px-3 py-2 text-[13px] placeholder:text-[13px]',
+                  emailError && 'border-red-500',
+                )}
                 placeholder="Email"
                 required
                 onBlur={() => setEmailError(validateEmail(email))}
@@ -370,13 +374,17 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                 }}
               />
               {emailError && (
-                <p className="text-red-600 text-size-xxs mt-1" role="alert" aria-live="polite">
+                <p className="text-size-xxs mt-1 text-red-600" role="alert" aria-live="polite">
                   {emailError}
                 </p>
               )}
             </div>
 
-            <CTALinkOrButton type="submit" className="w-full" disabled={isSubmitting || !description.trim() || !email.trim()}>
+            <CTALinkOrButton
+              type="submit"
+              className="w-full"
+              disabled={isSubmitting || !description.trim() || !email.trim()}
+            >
               {isSubmitting ? (
                 <span className="flex items-center gap-2">
                   Submitting
