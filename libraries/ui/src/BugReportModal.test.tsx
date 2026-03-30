@@ -30,12 +30,15 @@ describe('BugReportModal', () => {
     fireEvent.change(screen.getByLabelText('Description'), {
       target: { value: 'Something is broken' },
     });
+    fireEvent.change(screen.getByPlaceholderText('Email'), {
+      target: { value: 'user@example.com' },
+    });
     fireEvent.click(screen.getByText('Submit'));
 
     await waitFor(() => {
       expect(mockOnSubmit).toHaveBeenCalledWith({
         description: 'Something is broken',
-        email: undefined,
+        email: 'user@example.com',
         attachments: [],
       });
       expect(screen.getByText('Thank you')).toBeInTheDocument();
@@ -60,6 +63,37 @@ describe('BugReportModal', () => {
     });
   });
 
+  it('shows an inline error and does not submit when email is invalid', async () => {
+    const mockOnSubmit = vi.fn();
+    render(<BugReportModal isOpen onSubmit={mockOnSubmit} />);
+
+    fireEvent.change(screen.getByLabelText('Description'), {
+      target: { value: 'Feedback' },
+    });
+    fireEvent.change(screen.getByPlaceholderText('Email'), {
+      target: { value: 'not-an-email' },
+    });
+    fireEvent.submit(screen.getByText('Submit').closest('form')!);
+
+    await waitFor(() => {
+      expect(screen.getByRole('alert')).toHaveTextContent('Please enter a valid email address.');
+      expect(mockOnSubmit).not.toHaveBeenCalled();
+    });
+  });
+
+  it('shows an inline error on blur when email is invalid', async () => {
+    render(<BugReportModal isOpen />);
+
+    fireEvent.change(screen.getByPlaceholderText('Email'), {
+      target: { value: 'bad-email' },
+    });
+    fireEvent.blur(screen.getByPlaceholderText('Email'));
+
+    await waitFor(() => {
+      expect(screen.getByRole('alert')).toHaveTextContent('Please enter a valid email address.');
+    });
+  });
+
   it('displays error when submission fails', async () => {
     const testError = new Error('Network error');
     const mockOnSubmit = vi.fn().mockRejectedValue(testError);
@@ -67,6 +101,9 @@ describe('BugReportModal', () => {
     render(<BugReportModal isOpen onSubmit={mockOnSubmit} />);
     fireEvent.change(screen.getByLabelText('Description'), {
       target: { value: 'Test' },
+    });
+    fireEvent.change(screen.getByPlaceholderText('Email'), {
+      target: { value: 'user@example.com' },
     });
     fireEvent.click(screen.getByText('Submit'));
 
@@ -182,6 +219,14 @@ describe('BugReportModal', () => {
     expect(screen.getByText('Submit').closest('button')).toBeDisabled();
   });
 
+  it('disables Submit when Email is empty', () => {
+    render(<BugReportModal isOpen />);
+    fireEvent.change(screen.getByLabelText('Description'), {
+      target: { value: 'Some feedback' },
+    });
+    expect(screen.getByText('Submit').closest('button')).toBeDisabled();
+  });
+
   it('does not render video section when onRecordScreen is not provided', () => {
     render(<BugReportModal isOpen />);
     expect(screen.queryByText('Could you show us with a video?')).not.toBeInTheDocument();
@@ -223,6 +268,9 @@ describe('BugReportModal', () => {
     fireEvent.change(screen.getByLabelText('Description'), {
       target: { value: 'Bug report with video' },
     });
+    fireEvent.change(screen.getByPlaceholderText('Email'), {
+      target: { value: 'user@example.com' },
+    });
     fireEvent.click(screen.getByText('Submit'));
 
     await waitFor(() => {
@@ -246,6 +294,9 @@ describe('BugReportModal', () => {
     });
     fireEvent.change(screen.getByLabelText('Description'), {
       target: { value: 'Bug report with corrected video' },
+    });
+    fireEvent.change(screen.getByPlaceholderText('Email'), {
+      target: { value: 'user@example.com' },
     });
     fireEvent.click(screen.getByText('Submit'));
 
