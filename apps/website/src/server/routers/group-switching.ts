@@ -13,6 +13,8 @@ import db from '../../lib/api/db';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 import { protectedProcedure, router } from '../trpc';
 
+export const VALID_HUMAN_OPINIONS = ['Strong yes', 'Weak yes', 'Neutral'] as const;
+
 export type DiscussionsAvailable = inferRouterOutputs<typeof groupSwitchingRouter>['discussionsAvailable'];
 
 type DiscussionsByUnit = Record<string, {
@@ -143,8 +145,7 @@ export const groupSwitchingRouter = router({
         // Explicitly allow groups the user is already in
         const allowedGroupIds = new Set<string>(participantGroupIds);
 
-        const validOpinions = ['Strong yes', 'Weak yes', 'Neutral'];
-        const opinion = participant.humanOpinion && validOpinions.includes(participant.humanOpinion)
+        const opinion = participant.humanOpinion && (VALID_HUMAN_OPINIONS as readonly string[]).includes(participant.humanOpinion)
           ? participant.humanOpinion
           : 'Neutral';
 
