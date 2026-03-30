@@ -176,7 +176,7 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
         <>
           <Head>
             <title>{`${courseData.course.title} | BlueDot Impact`}</title>
-            <meta name="description" content={courseData.course.description} />
+            <meta name="description" content={courseData.course.shortDescription} />
             <meta key="og:title" property="og:title" content={courseData.course.title} />
             <meta key="og:description" property="og:description" content={courseData.course.shortDescription} />
             <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
@@ -190,7 +190,7 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
           </Head>
           <HeroSection>
             <HeroH1>{courseData.course.title}</HeroH1>
-            <MarkdownExtendedRenderer className="invert my-8">{courseData.course.description}</MarkdownExtendedRenderer>
+            <MarkdownExtendedRenderer className="invert my-8">{courseData.course.shortDescription}</MarkdownExtendedRenderer>
             <div className="flex flex-row gap-4 justify-center items-center">
               {courseData.units?.[0]?.path && (
                 <HeroCTAContainer>
