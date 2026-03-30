@@ -24,7 +24,7 @@ export const feedbackRouter = router({
       // 1. Store bug report in the database, sending everything except attachments to Airtable
       const record = await db.insert(bugReportsTable, {
         description: input.description,
-        email: input.email ?? null,
+        email: input.email,
         recordingUrl: input.recordingUrl ?? null,
         createdAt: Math.floor(Date.now() / 1000),
       });
