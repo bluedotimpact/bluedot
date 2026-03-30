@@ -189,7 +189,7 @@ export const fetchApplications = async (
     const { records, nextOffset } = await fetchPage(
       APPLICATIONS_URL,
       {
-        filterByFormula: 'AND({fldWVKY5EFAGSRcDT} = "", SEARCH("Participant", {fld7fzQNFhb7Oyy90}), NOT({fld1KQjHFGoDZKf94}), {fldRXdZQ0rnuVOcl7} != "")',
+        filterByFormula: `AND({fldWVKY5EFAGSRcDT} = "", SEARCH("Participant", {fld7fzQNFhb7Oyy90}), NOT({fld1KQjHFGoDZKf94}), {fldRXdZQ0rnuVOcl7} != "", FIND("${roundId}", ARRAYJOIN({fldYaHSLqnvBXyjur})))`,
         pageSize: String(AIRTABLE_PAGE_SIZE),
         returnFieldsByFieldId: 'true',
       },
