@@ -189,7 +189,7 @@ export const fetchApplications = async (
     const { records, nextOffset } = await fetchPage(
       APPLICATIONS_URL,
       {
-        filterByFormula: 'AND({fldWVKY5EFAGSRcDT} = "", SEARCH("Participant", {fld7fzQNFhb7Oyy90}), NOT({fld1KQjHFGoDZKf94}))',
+        filterByFormula: 'AND({fldWVKY5EFAGSRcDT} = "", SEARCH("Participant", {fld7fzQNFhb7Oyy90}), NOT({fld1KQjHFGoDZKf94}), {fldRXdZQ0rnuVOcl7} != "")',
         pageSize: String(AIRTABLE_PAGE_SIZE),
         returnFieldsByFieldId: 'true',
       },
@@ -204,11 +204,8 @@ export const fetchApplications = async (
     if (!nextOffset) break;
   }
 
-  const withSummary = collected.filter((a) => a.aiSummary);
-  const withoutSummary = collected.filter((a) => !a.aiSummary);
-
   return {
-    applications: [...shuffle(withSummary), ...shuffle(withoutSummary)],
+    applications: shuffle(collected),
     nextOffset: currentOffset,
   };
 };
