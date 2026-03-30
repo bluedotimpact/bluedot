@@ -9,7 +9,7 @@ export const feedbackRouter = router({
   submitBugReport: publicProcedure
     .input(z.object({
       description: z.string().min(1).max(5000),
-      email: z.string().email().optional(),
+      email: z.string().email(),
       recordingUrl: z.string().url().optional(),
       attachments: z
         .array(z.object({

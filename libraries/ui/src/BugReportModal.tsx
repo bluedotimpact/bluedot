@@ -11,7 +11,7 @@ import { ProgressDots } from './ProgressDots';
 
 export type FeedbackData = {
   description: string;
-  email?: string;
+  email: string;
   attachments: File[];
   recordingUrl?: string;
 };
@@ -165,7 +165,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
     setError(null);
     try {
       await onSubmit?.({
-        description, email: email.trim() || undefined, attachments, recordingUrl: recordingUrlInput.trim() || undefined,
+        description, email, attachments, recordingUrl: recordingUrlInput.trim() || undefined,
       });
       setShowSuccess(true);
     } catch (err) {
@@ -191,7 +191,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
               <FaCheck className="text-bluedot-normal size-8" />
             </div>
             <p className="text-[13px] leading-[1.5] text-bluedot-navy/60 max-w-[500px] text-center">
-              Your feedback has been sent! We'll be in touch if you've left your email and we have follow-up questions.
+              Your feedback has been sent! We'll be in touch if we have follow-up questions.
             </p>
             <CTALinkOrButton
               className="mt-4 w-full"
@@ -335,10 +335,10 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
 
             <div className="flex flex-col gap-1.5">
               <label htmlFor="bug-email" className="text-[13px] font-semibold leading-5.5 text-bluedot-navy">
-                Your contact email (optional)
+                Your contact email
               </label>
               <p className="text-bluedot-navy/60 text-[13px]">
-                Leave your email if you're happy for us to contact you with follow-ups.
+                Please leave your email so we can contact you with follow-ups as needed.
               </p>
               <input
                 id="bug-email"
@@ -350,7 +350,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
               />
             </div>
 
-            <CTALinkOrButton type="submit" className="w-full" disabled={isSubmitting || !description.trim()}>
+            <CTALinkOrButton type="submit" className="w-full" disabled={isSubmitting || !description.trim() || !email.trim()}>
               {isSubmitting ? (
                 <span className="flex items-center gap-2">
                   Submitting
