@@ -234,7 +234,7 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
     const message = MILESTONE_MESSAGES[count] ?? `${count} reviewed! Keep going!`;
     setMilestoneToast(message);
     if (milestoneTimerRef.current) clearTimeout(milestoneTimerRef.current);
-    milestoneTimerRef.current = setTimeout(() => setMilestoneToast(null), 6000);
+    milestoneTimerRef.current = setTimeout(() => setMilestoneToast(null), 7000);
   }, []);
 
   const handleRate = useCallback((rating: RatingValue) => {
@@ -529,7 +529,7 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
       </div>
 
       {milestoneToast && (
-        <div className="fixed top-6 left-1/2 -translate-x-1/2 bg-bluedot-normal text-white text-size-sm px-5 py-2.5 rounded-full shadow-lg pointer-events-none whitespace-nowrap">
+        <div className="fixed bottom-14 left-1/2 -translate-x-1/2 bg-bluedot-normal text-white text-size-sm px-5 py-2.5 rounded-full shadow-lg pointer-events-none whitespace-nowrap">
           {milestoneToast}
         </div>
       )}

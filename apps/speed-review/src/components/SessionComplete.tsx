@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import Confetti from 'react-confetti';
 import {
   type RatingValue, type RatedApplication, toHumanOpinion, toDecision,
 } from '../lib/client/types';
@@ -82,7 +81,6 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
   const totalCount = roundStats?.total ?? null;
   const reviewedCount = roundStats?.evaluated ?? null;
   const acceptedCount = roundStats?.accepted ?? null;
-  const roundComplete = totalCount !== null && reviewedCount !== null && totalCount > 0 && reviewedCount >= totalCount;
 
   const totalSecs = Math.floor(totalMs / 1000);
   const mins = Math.floor(totalSecs / 60);
@@ -157,11 +155,8 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
 
   return (
     <div className="space-y-6 overflow-hidden">
-      {roundComplete && <Confetti recycle={false} numberOfPieces={500} />}
       <div>
-        <h1 className="text-2xl font-bold text-stone-100">
-          {roundComplete ? "You've evaluated all the applications for the round!" : 'Session complete'}
-        </h1>
+        <h1 className="text-2xl font-bold text-stone-100">Session complete</h1>
         <p className="text-size-sm text-stone-400 mt-1">{round}</p>
       </div>
 
@@ -243,7 +238,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
           onClick={onReset}
           className="flex-1 py-2.5 px-4 rounded-lg font-semibold text-size-sm border border-stone-600 text-stone-300 hover:bg-stone-800 transition-colors"
         >
-          Review a different round
+          Start new session
         </button>
       </div>
     </div>
