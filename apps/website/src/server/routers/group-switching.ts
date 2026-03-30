@@ -1,7 +1,6 @@
 import {
   and,
   arrayContains,
-  courseRunnerBucketTable,
   groupDiscussionTable,
   groupSwitchingTable,
   groupTable, inArray, meetPersonTable, roundTable,
@@ -133,15 +132,9 @@ export const groupSwitchingRouter = router({
 
       /**
        * Get groups the user is allowed to switch to:
-       * 1. Get all the groups in this round of the course. Context: Groups in the same
-       * round are on a synchronised schedule (e.g. unit 1 of the course will be discussed
-       * by all groups at some point during the same week). A participant could switch to
-       * any group in the same round and still complete the course in the right order.
-       * 2. Look up the participant's assigned buckets. A bucket defines a set of groups the
-       * participant is *allowed* to automatically switch between. This is desirable to have
-       * e.g. one bucket for recent graduates, and one for more experienced professionals within
-       * the same round of a course.
-       * 3. Return all groups that are associated with those buckets
+       * 1. Get all the groups in this round of the course.
+       * 2. Match the participant's humanOpinion against each group's whoCanSwitchIntoThisGroup.
+       * 3. Always include groups the participant is already in.
        */
       const getGroupsAllowedToSwitchInto = async () => {
         const allGroups = await db.scan(groupTable, { round: roundId });
@@ -150,17 +143,15 @@ export const groupSwitchingRouter = router({
         // Explicitly allow groups the user is already in
         const allowedGroupIds = new Set<string>(participantGroupIds);
 
-        if (participant.buckets && participant.buckets.length > 0) {
-          const bucketsOfAllowedGroups = await db.pg
-            .select()
-            .from(courseRunnerBucketTable.pg)
-            .where(inArray(courseRunnerBucketTable.pg.id, participant.buckets));
+        const validOpinions = ['Strong yes', 'Weak yes', 'Neutral'];
+        const opinion = participant.humanOpinion && validOpinions.includes(participant.humanOpinion)
+          ? participant.humanOpinion
+          : 'Neutral';
 
-          bucketsOfAllowedGroups.forEach((bucket) => {
-            (bucket.groups ?? []).forEach((groupId) => {
-              allowedGroupIds.add(groupId);
-            });
-          });
+        for (const group of allGroups) {
+          if ((group.whoCanSwitchIntoThisGroup ?? []).includes(opinion)) {
+            allowedGroupIds.add(group.id);
+          }
         }
 
         return allGroups.filter((group) => allowedGroupIds.has(group.id));
@@ -170,7 +161,7 @@ export const groupSwitchingRouter = router({
 
       if (allowedGroups.filter((g) => !(g.participants ?? []).includes(participant.id)).length === 0) {
         // eslint-disable-next-line no-console
-        console.warn(`[Group switching] Warning for course registration ${participant.id} (Course runner base id): No groups allowed to switch into. This is likely due to "Who can switch into this group" field on the user's group not being set correctly.`);
+        console.warn(`[Group switching] Warning for course registration ${participant.id}: No groups allowed to switch into. This is likely due to the "Who can switch into this group" field not including the participant's Human opinion value.`);
       }
 
       const allowedGroupDiscussions = allowedGroups.length ? await db.scan(groupDiscussionTable, {

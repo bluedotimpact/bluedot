@@ -325,8 +325,8 @@ export const groupTable = pgAirtable('group', {
       airtableId: 'fldcEa25oCDAmgDqm',
     },
     /**
-     * Array of buckets, i.e. records in the `courseRunnerBucketTable`. A bucket defines a set of groups,
-     * where participants are allowed to switch between the groups if requested.
+     * Multi-select of Human opinion values (e.g. "Strong yes", "Weak yes", "Neutral").
+     * A participant can switch into this group if their humanOpinion matches one of the values.
      */
     whoCanSwitchIntoThisGroup: {
       pgColumn: text().array(),
@@ -480,21 +480,6 @@ export const groupSwitchingTable = pgAirtable('group_switching', {
  * groups if requested. This is desirable to have e.g. one bucket for recent graduates, and
  * one for more experienced professionals within the same round of a course.
  */
-export const courseRunnerBucketTable = pgAirtable('course_runner_bucket', {
-  baseId: COURSE_RUNNER_BASE_ID,
-  tableId: 'tbl7Pevw79fDA7EmX',
-  columns: {
-    groups: {
-      pgColumn: text().array(),
-      airtableId: 'flduxhuBAiLVdfolQ',
-    },
-    round: {
-      pgColumn: text(),
-      airtableId: 'fld0afnDgsNXYim7V',
-    },
-  },
-});
-
 // Note: This is actually a sync of the "Course registration" table
 // from APPLICATIONS_BASE_ID, rather than the "User" table
 export const meetPersonTable = pgAirtable('meet_person', {
@@ -516,14 +501,6 @@ export const meetPersonTable = pgAirtable('meet_person', {
     role: {
       pgColumn: text(),
       airtableId: 'fldcMg0UmqlneGerA',
-    },
-    /**
-     * A bucket defines a set of groups, where participants are allowed to switch between the
-     * groups if requested. This field is an array of all the buckets the person is a member of.
-     */
-    buckets: {
-      pgColumn: text().array(),
-      airtableId: 'fldPOsY8Amd31Resf',
     },
     humanOpinion: { // Used for group switching
       pgColumn: text(),
@@ -1503,7 +1480,6 @@ export type SharedDemoOutput = InferSelectModel<typeof sharedDemoOutputTable.pg>
 export type Group = InferSelectModel<typeof groupTable.pg>;
 export type GroupDiscussion = InferSelectModel<typeof groupDiscussionTable.pg>;
 export type GroupSwitching = InferSelectModel<typeof groupSwitchingTable.pg>;
-export type CourseRunnerBucket = InferSelectModel<typeof courseRunnerBucketTable.pg>;
 export type MeetPerson = InferSelectModel<typeof meetPersonTable.pg>;
 export type ZoomAccount = InferSelectModel<typeof zoomAccountTable.pg>;
 export type Round = InferSelectModel<typeof roundTable.pg>;
