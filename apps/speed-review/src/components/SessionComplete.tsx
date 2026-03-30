@@ -243,7 +243,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
           onClick={onReset}
           className="flex-1 py-2.5 px-4 rounded-lg font-semibold text-size-sm border border-stone-600 text-stone-300 hover:bg-stone-800 transition-colors"
         >
-          Start new session
+          Review a different round
         </button>
       </div>
     </div>
