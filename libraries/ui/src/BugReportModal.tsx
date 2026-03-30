@@ -306,7 +306,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                 )}
               </div>
               {attachmentError && (
-                <p className="text-size-sm mt-1 text-red-600" role="alert" aria-live="polite">
+                <p className="text-size-xxs mt-1 text-red-600" role="alert" aria-live="polite">
                   {attachmentError}
                 </p>
               )}
