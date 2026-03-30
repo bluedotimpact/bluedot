@@ -525,6 +525,10 @@ export const meetPersonTable = pgAirtable('meet_person', {
       pgColumn: text().array(),
       airtableId: 'fldPOsY8Amd31Resf',
     },
+    humanOpinion: { // Used for group switching
+      pgColumn: text(),
+      airtableId: 'fldoLlp0mb3G1Cjrs',
+    },
     round: {
       pgColumn: text(),
       airtableId: 'fld8KD3BUPbCHHHqE',
@@ -1247,6 +1251,10 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
     roundId: {
       pgColumn: text(),
       airtableId: 'fldYaHSLqnvBXyjur',
+    },
+    isDuplicate: {
+      pgColumn: boolean(),
+      airtableId: 'fld1KQjHFGoDZKf94',
     },
     // Join to 'dropout' table if the user has dropped out or deferred from a course
     dropoutId: {
