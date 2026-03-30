@@ -3,11 +3,14 @@ import { useEffect, useRef, useState } from 'react';
 import {
   FaCheck, FaImage, FaPaperclip, FaVideo, FaXmark,
 } from 'react-icons/fa6';
+import { z } from 'zod';
 import { CTALinkOrButton } from './CTALinkOrButton';
 import { ErrorView } from './ErrorView';
 import { Modal } from './Modal';
-import { cn } from './utils';
 import { ProgressDots } from './ProgressDots';
+import { cn } from './utils';
+
+const emailSchema = z.string().min(1, 'Email is required.').email('Please enter a valid email address.');
 
 export type FeedbackData = {
   description: string;
@@ -72,6 +75,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
   const [email, setEmail] = useState('');
   const [attachments, setAttachments] = useState<File[]>([]);
   const [attachmentError, setAttachmentError] = useState<string | null>(null);
+  const [emailError, setEmailError] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -102,6 +106,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
     setEmail('');
     setAttachments([]);
     setAttachmentError(null);
+    setEmailError(null);
     setRecordingUrlInput('');
   };
 
@@ -159,8 +164,19 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
     }
   };
 
+  const validateEmail = (value: string): string | null => {
+    const result = emailSchema.safeParse(value.trim());
+    return result.success ? null : result.error.issues[0]?.message ?? 'Invalid email.';
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const emailValidationError = validateEmail(email);
+    if (emailValidationError) {
+      setEmailError(emailValidationError);
+      return;
+    }
+
     setIsSubmitting(true);
     setError(null);
     try {
@@ -344,10 +360,20 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                 id="bug-email"
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="border-color-divider rounded-lg border bg-white px-3 py-2 text-[13px] placeholder:text-[13px]"
+                className={cn('border-color-divider rounded-lg border bg-white px-3 py-2 text-[13px] placeholder:text-[13px]', emailError && 'border-red-500')}
                 placeholder="Email"
+                required
+                onBlur={() => setEmailError(validateEmail(email))}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (emailError) setEmailError(validateEmail(e.target.value));
+                }}
               />
+              {emailError && (
+                <p className="text-red-600 text-size-xxs mt-1" role="alert" aria-live="polite">
+                  {emailError}
+                </p>
+              )}
             </div>
 
             <CTALinkOrButton type="submit" className="w-full" disabled={isSubmitting || !description.trim() || !email.trim()}>
