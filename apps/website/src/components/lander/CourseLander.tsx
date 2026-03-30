@@ -24,7 +24,8 @@ import { trpc } from '../../utils/trpc';
 
 export type CourseLanderMeta = {
   title: string;
-  description: string;
+  /** Falls back to hero.description if not provided */
+  description?: string;
 };
 
 export type CourseLanderContent = {
@@ -77,6 +78,7 @@ const CourseLander = ({
     : baseApplicationUrl);
 
   const content = createContentFor(applicationUrlWithUtm, courseSlug);
+  const seoDescription = content.meta.description ?? content.hero.description;
 
   const { data: dbTestimonials } = trpc.testimonials.getCommunityMembersByCourseSlug.useQuery({ courseSlug });
 
@@ -98,11 +100,11 @@ const CourseLander = ({
     <div className="relative bg-white">
       <Head>
         <title>{content.meta.title}</title>
-        <meta name="description" content={content.meta.description} />
+        <meta name="description" content={seoDescription} />
 
         {/* Open Graph meta tags */}
         <meta property="og:title" content={content.meta.title} />
-        <meta property="og:description" content={content.meta.description} />
+        <meta property="og:description" content={seoDescription} />
         <meta property="og:image" content={courseOgImage} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
@@ -114,7 +116,7 @@ const CourseLander = ({
         {/* Twitter Card meta tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={content.meta.title} />
-        <meta name="twitter:description" content={content.meta.description} />
+        <meta name="twitter:description" content={seoDescription} />
         <meta name="twitter:image" content={courseOgImage} />
       </Head>
 
