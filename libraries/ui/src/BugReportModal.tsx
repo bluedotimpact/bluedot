@@ -172,7 +172,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const emailValidationError = validateEmail(email);
+    const emailValidationError = validateEmail(email.trim());
     if (emailValidationError) {
       setEmailError(emailValidationError);
       return;
