@@ -68,7 +68,6 @@ export const createMockCourse = (overrides: Partial<Course> = {}): Course => ({
   averageRating: 4.5,
   certificationBadgeImage: 'badge.png',
   certificationDescription: 'Certificate description',
-  description: 'Course description',
   detailsUrl: 'https://example.com',
   displayOnCourseHubIndex: true,
   durationDescription: '4 weeks',
