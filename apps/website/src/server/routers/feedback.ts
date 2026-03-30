@@ -9,7 +9,7 @@ export const feedbackRouter = router({
   submitBugReport: publicProcedure
     .input(z.object({
       description: z.string().min(1).max(5000),
-      email: z.string().email().optional(),
+      email: z.string().email(),
       recordingUrl: z.string().url().optional(),
       attachments: z
         .array(z.object({
@@ -24,7 +24,7 @@ export const feedbackRouter = router({
       // 1. Store bug report in the database, sending everything except attachments to Airtable
       const record = await db.insert(bugReportsTable, {
         description: input.description,
-        email: input.email ?? null,
+        email: input.email,
         recordingUrl: input.recordingUrl ?? null,
         createdAt: Math.floor(Date.now() / 1000),
       });
