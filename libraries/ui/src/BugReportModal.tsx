@@ -182,7 +182,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
     try {
       await onSubmit?.({
         description,
-        email,
+        email: email.trim(),
         attachments,
         recordingUrl: recordingUrlInput.trim() || undefined,
       });
