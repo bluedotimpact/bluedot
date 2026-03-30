@@ -97,6 +97,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
       setIsSubmitting(false);
       setError(null);
       setAttachmentError(null);
+      setEmailError(null);
       setShowSuccess(false);
     }
   }, [isOpen]);
