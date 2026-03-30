@@ -6,7 +6,6 @@ import {
   roundTable,
   groupTable,
   groupDiscussionTable,
-  courseRunnerBucketTable,
   groupSwitchingTable,
 } from '@bluedot/db';
 import {
@@ -321,7 +320,7 @@ const farPastTimeSecs = pastTimeSecs - 60 * 60;
 
 /**
  * Seeds the minimum data chain for group switching:
- * course -> registration -> meetPerson -> round -> bucket -> groups -> discussions
+ * course -> registration -> meetPerson -> round -> groups -> discussions
  */
 async function seedCourseWithGroups() {
   await testDb.insert(courseTable, {
@@ -353,7 +352,7 @@ async function seedCourseWithGroups() {
     applicationsBaseRecordId: 'reg-1',
     round: 'round-1',
     role: 'Participant',
-    buckets: ['bucket-1'],
+    humanOpinion: 'Strong yes',
   });
 
   await testDb.insert(groupTable, {
@@ -361,6 +360,7 @@ async function seedCourseWithGroups() {
     groupName: 'Group A',
     round: 'round-1',
     participants: ['participant-1', 'other-participant'],
+    whoCanSwitchIntoThisGroup: ['Strong yes'],
   });
 
   await testDb.insert(groupTable, {
@@ -368,12 +368,7 @@ async function seedCourseWithGroups() {
     groupName: 'Group B',
     round: 'round-1',
     participants: ['other-participant-2'],
-  });
-
-  await testDb.insert(courseRunnerBucketTable, {
-    id: 'bucket-1',
-    round: 'round-1',
-    groups: ['group-a', 'group-b'],
+    whoCanSwitchIntoThisGroup: ['Strong yes'],
   });
 
   await testDb.insert(groupDiscussionTable, {
@@ -459,15 +454,16 @@ describe('groupSwitching.discussionsAvailable', () => {
     expect(unit2[0]!.userIsParticipant).toBe(true);
   });
 
-  test('only shows groups within the participant bucket', async () => {
+  test('only shows groups matching participant human opinion', async () => {
     await seedCourseWithGroups();
 
-    // Add a group NOT in the participant's bucket
+    // Add a group that only allows "Weak yes" — participant has "Strong yes"
     await testDb.insert(groupTable, {
       id: 'group-c',
-      groupName: 'Group C (different bucket)',
+      groupName: 'Group C (different opinion)',
       round: 'round-1',
       participants: ['someone-else'],
+      whoCanSwitchIntoThisGroup: ['Weak yes'],
     });
 
     await testDb.insert(groupDiscussionTable, {
@@ -488,7 +484,7 @@ describe('groupSwitching.discussionsAvailable', () => {
     expect(result.groupsAvailable.every((g) => g.group.id !== 'group-c')).toBe(true);
   });
 
-  test('works when participant has no buckets (only shows groups they are already in)', async () => {
+  test('Weak yes participant can switch into Weak yes groups', async () => {
     await testDb.insert(courseTable, {
       id: 'course-1',
       slug: 'test-course',
@@ -518,7 +514,85 @@ describe('groupSwitching.discussionsAvailable', () => {
       applicationsBaseRecordId: 'reg-1',
       round: 'round-1',
       role: 'Participant',
-      // No buckets
+      humanOpinion: 'Weak yes',
+    });
+
+    await testDb.insert(groupTable, {
+      id: 'weak-yes-group',
+      groupName: 'Weak Yes Group',
+      round: 'round-1',
+      participants: ['someone-else'],
+      whoCanSwitchIntoThisGroup: ['Weak yes'],
+    });
+
+    await testDb.insert(groupTable, {
+      id: 'strong-yes-group',
+      groupName: 'Strong Yes Group',
+      round: 'round-1',
+      participants: ['someone-else-2'],
+      whoCanSwitchIntoThisGroup: ['Strong yes'],
+    });
+
+    await testDb.insert(groupDiscussionTable, {
+      group: 'weak-yes-group',
+      round: 'round-1',
+      unitNumber: 1,
+      unit: 'unit-1',
+      startDateTime: futureTimeSecs,
+      endDateTime: farFutureTimeSecs,
+      facilitators: ['fac-1'],
+      participantsExpected: ['someone-else'],
+    });
+
+    await testDb.insert(groupDiscussionTable, {
+      group: 'strong-yes-group',
+      round: 'round-1',
+      unitNumber: 1,
+      unit: 'unit-1',
+      startDateTime: futureTimeSecs,
+      endDateTime: farFutureTimeSecs,
+      facilitators: ['fac-2'],
+      participantsExpected: ['someone-else-2'],
+    });
+
+    const result = await caller.groupSwitching.discussionsAvailable({ roundId: 'round-1' });
+
+    // Weak yes participant should see weak-yes-group but not strong-yes-group
+    expect(result.groupsAvailable).toHaveLength(1);
+    expect(result.groupsAvailable[0]!.group.id).toBe('weak-yes-group');
+  });
+
+  test('null humanOpinion defaults to Neutral and can switch into Neutral groups', async () => {
+    await testDb.insert(courseTable, {
+      id: 'course-1',
+      slug: 'test-course',
+      title: 'Test',
+      description: 'Test',
+      shortDescription: 'Test',
+      units: [],
+    });
+
+    await testDb.insert(roundTable, {
+      id: 'round-1',
+      title: 'Round 1',
+      course: 'course-1',
+      maxParticipantsPerGroup: 5,
+    });
+
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-1',
+      email: 'test@example.com',
+      courseId: 'course-1',
+      decision: 'Accept',
+    });
+
+    await testDb.insert(meetPersonTable, {
+      id: 'participant-1',
+      email: 'test@example.com',
+      applicationsBaseRecordId: 'reg-1',
+      round: 'round-1',
+      role: 'Participant',
+      // No humanOpinion — should default to Neutral
     });
 
     await testDb.insert(groupTable, {
@@ -526,13 +600,23 @@ describe('groupSwitching.discussionsAvailable', () => {
       groupName: 'My Group',
       round: 'round-1',
       participants: ['participant-1'],
+      whoCanSwitchIntoThisGroup: ['Strong yes'],
     });
 
     await testDb.insert(groupTable, {
-      id: 'other-group',
-      groupName: 'Other Group',
+      id: 'neutral-group',
+      groupName: 'Neutral Group',
       round: 'round-1',
       participants: ['someone-else'],
+      whoCanSwitchIntoThisGroup: ['Neutral'],
+    });
+
+    await testDb.insert(groupTable, {
+      id: 'strong-yes-group',
+      groupName: 'Strong Yes Group',
+      round: 'round-1',
+      participants: ['someone-else-2'],
+      whoCanSwitchIntoThisGroup: ['Strong yes'],
     });
 
     await testDb.insert(groupDiscussionTable, {
@@ -547,7 +631,7 @@ describe('groupSwitching.discussionsAvailable', () => {
     });
 
     await testDb.insert(groupDiscussionTable, {
-      group: 'other-group',
+      group: 'neutral-group',
       round: 'round-1',
       unitNumber: 1,
       unit: 'unit-1',
@@ -557,11 +641,81 @@ describe('groupSwitching.discussionsAvailable', () => {
       participantsExpected: ['someone-else'],
     });
 
+    await testDb.insert(groupDiscussionTable, {
+      group: 'strong-yes-group',
+      round: 'round-1',
+      unitNumber: 1,
+      unit: 'unit-1',
+      startDateTime: futureTimeSecs,
+      endDateTime: farFutureTimeSecs,
+      facilitators: ['fac-3'],
+      participantsExpected: ['someone-else-2'],
+    });
+
     const result = await caller.groupSwitching.discussionsAvailable({ roundId: 'round-1' });
 
-    // Without buckets, only the group the participant is already in should show
+    // Should see my-group (already in) and neutral-group (matches default Neutral), but not strong-yes-group
+    expect(result.groupsAvailable).toHaveLength(2);
+    const groupIds = result.groupsAvailable.map((g) => g.group.id).sort();
+    expect(groupIds).toEqual(['my-group', 'neutral-group']);
+  });
+
+  test.each(['Weak no', 'TODO', 'Strong no'])('humanOpinion "%s" is treated as Neutral', async (invalidOpinion) => {
+    await testDb.insert(courseTable, {
+      id: 'course-1',
+      slug: 'test-course',
+      title: 'Test',
+      description: 'Test',
+      shortDescription: 'Test',
+      units: [],
+    });
+
+    await testDb.insert(roundTable, {
+      id: 'round-1',
+      title: 'Round 1',
+      course: 'course-1',
+      maxParticipantsPerGroup: 5,
+    });
+
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-1',
+      email: 'test@example.com',
+      courseId: 'course-1',
+      decision: 'Accept',
+    });
+
+    await testDb.insert(meetPersonTable, {
+      id: 'participant-1',
+      email: 'test@example.com',
+      applicationsBaseRecordId: 'reg-1',
+      round: 'round-1',
+      role: 'Participant',
+      humanOpinion: invalidOpinion,
+    });
+
+    await testDb.insert(groupTable, {
+      id: 'neutral-group',
+      groupName: 'Neutral Group',
+      round: 'round-1',
+      participants: ['someone-else'],
+      whoCanSwitchIntoThisGroup: ['Neutral'],
+    });
+
+    await testDb.insert(groupDiscussionTable, {
+      group: 'neutral-group',
+      round: 'round-1',
+      unitNumber: 1,
+      unit: 'unit-1',
+      startDateTime: futureTimeSecs,
+      endDateTime: farFutureTimeSecs,
+      facilitators: ['fac-1'],
+      participantsExpected: ['someone-else'],
+    });
+
+    const result = await caller.groupSwitching.discussionsAvailable({ roundId: 'round-1' });
+
     expect(result.groupsAvailable).toHaveLength(1);
-    expect(result.groupsAvailable[0]!.group.id).toBe('my-group');
+    expect(result.groupsAvailable[0]!.group.id).toBe('neutral-group');
   });
 
   test('returns null spotsLeftIfKnown when round has no max', async () => {
