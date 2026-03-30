@@ -160,7 +160,7 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
       {roundComplete && <Confetti recycle={false} numberOfPieces={500} />}
       <div>
         <h1 className="text-2xl font-bold text-stone-100">
-          {roundComplete ? "You've evaluated all the applications for the round!" : 'Session complete'}
+          {roundComplete ? 'You\'ve evaluated all the applications for the round!' : 'Session complete'}
         </h1>
         <p className="text-size-sm text-stone-400 mt-1">{round}</p>
       </div>
