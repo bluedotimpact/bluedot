@@ -5,9 +5,11 @@ import {
 } from '@bluedot/ui';
 import { useState } from 'react';
 import { FaArrowRightArrowLeft, FaRightToBracket } from 'react-icons/fa6';
+import { PiCalendarDots } from 'react-icons/pi';
 import {
   buildGroupSlackChannelUrl, formatDateMonthAndDay, formatDateTimeRelative, formatTime12HourClock,
 } from '../../lib/utils';
+import { downloadDiscussionCalendarFile } from '../../lib/downloadCalendarFile';
 import type { GroupDiscussionWithGroupAndUnit } from '../../server/routers/group-discussions';
 import type { SwitchType } from '../courses/GroupSwitchModal';
 import type { FacilitatorModalType } from '../courses/FacilitatorSwitchModal';
@@ -106,6 +108,8 @@ const DiscussionListRow = ({
   onOpenDropoutModal,
 }: DiscussionListRowProps) => {
   const currentTimeMs = useCurrentTimeMs();
+  const [isDownloadingCalendar, setIsDownloadingCalendar] = useState(false);
+  const [downloadError, setDownloadError] = useState<string | null>(null);
 
   const discussionTimeState = getDiscussionTimeState({ discussion, currentTimeMs });
   const discussionIsSoonOrLive = discussionTimeState === 'live' || discussionTimeState === 'soon';
@@ -120,6 +124,22 @@ const DiscussionListRow = ({
   const slackChannelLink = discussion.slackChannelId ? buildGroupSlackChannelUrl(discussion.slackChannelId) : '';
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const discussionDocLink = discussion.activityDoc || '';
+
+  const handleDownloadCalendarFile = async () => {
+    if (isDownloadingCalendar) {
+      return;
+    }
+
+    try {
+      setDownloadError(null);
+      setIsDownloadingCalendar(true);
+      await downloadDiscussionCalendarFile(discussion.id);
+    } catch {
+      setDownloadError('Could not download the calendar file. Please try again.');
+    } finally {
+      setIsDownloadingCalendar(false);
+    }
+  };
 
   const buttons: ButtonOrMenuItem[] = [
     // Primary CTA
@@ -198,6 +218,14 @@ const DiscussionListRow = ({
       isVisible: !isFacilitator && !isPast,
       onClick: onOpenDropoutModal,
       overflowIcon: <FaRightToBracket className="mx-auto size-[14px]" />,
+    },
+    {
+      id: 'download-calendar',
+      label: isDownloadingCalendar ? 'Downloading calendar file...' : 'Download calendar file',
+      variant: 'secondary',
+      onClick: handleDownloadCalendarFile,
+      isVisible: !isPast,
+      overflowIcon: <PiCalendarDots className="mx-auto" size={20} />,
     },
   ];
   const visibleButtons = buttons.filter((button) => button.isVisible);
@@ -279,6 +307,15 @@ const DiscussionListRow = ({
           </div>
         </div>
       </div>
+      {downloadError && (
+        <p
+          className="text-red-600 text-size-sm mt-2"
+          role="alert"
+          aria-live="polite"
+        >
+          {downloadError}
+        </p>
+      )}
     </div>
   );
 };
