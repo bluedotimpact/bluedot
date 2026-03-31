@@ -16,6 +16,7 @@ import {
   createMockGroupDiscussion,
   createMockUnit,
 } from '../../__tests__/testUtils';
+import { downloadDiscussionCalendarFile } from '../../lib/downloadCalendarFile';
 import CourseDetails from './CourseDetails';
 
 // Mock GroupSwitchModal to avoid testing it here
@@ -27,6 +28,10 @@ vi.mock('../courses/GroupSwitchModal', () => ({
       <button type="button" onClick={handleClose}>Close Modal</button>
     </div>
   ),
+}));
+
+vi.mock('../../lib/downloadCalendarFile', () => ({
+  downloadDiscussionCalendarFile: vi.fn(),
 }));
 
 describe('CourseDetails', () => {
@@ -409,6 +414,52 @@ describe('CourseDetails: Participant view', () => {
     expect(discussionDocLink).toBeInTheDocument();
     expect(discussionDocLink).toHaveAttribute('href', 'https://docs.google.com/document/d/abc123');
     expect(discussionDocLink).toHaveAttribute('target', '_blank');
+  });
+
+  it('shows and wires up "Download calendar file" in the overflow menu for upcoming discussions', async () => {
+    const user = userEvent.setup();
+    const currentTimeMs = Date.now();
+
+    const upcomingDiscussions = [
+      {
+        ...createMockGroupDiscussion({
+          id: 'discussion-calendar-download',
+          unitNumber: 2,
+          startDateTime: Math.floor(currentTimeMs / 1000) + 2 * 60 * 60,
+          endDateTime: Math.floor(currentTimeMs / 1000) + 3 * 60 * 60,
+        }),
+        unitRecord: createMockUnit({ unitNumber: '2', title: 'Unit Two' }),
+        groupDetails: createMockGroup(),
+      },
+    ];
+
+    vi.mocked(downloadDiscussionCalendarFile).mockResolvedValue(undefined);
+
+    render(<CourseDetails
+      course={mockCourse}
+      courseRegistration={mockCourseRegistration}
+      upcomingDiscussions={upcomingDiscussions}
+      attendedDiscussions={[]}
+      facilitatedDiscussions={[]}
+      isLoading={false}
+    />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('link', { name: 'Prepare for discussion' })).toBeInTheDocument();
+    });
+
+    await act(async () => {
+      await user.click(screen.getByRole('button', { name: 'More actions' }));
+    });
+
+    const downloadCalendarItem = screen.getByRole('menuitem', { name: 'Download calendar file' });
+    expect(downloadCalendarItem).toBeInTheDocument();
+
+    await act(async () => {
+      await user.click(downloadCalendarItem);
+    });
+
+    expect(downloadDiscussionCalendarFile).toHaveBeenCalledWith('discussion-calendar-download');
   });
 
   it('does not show "Open discussion doc" when activityDoc is null', async () => {
