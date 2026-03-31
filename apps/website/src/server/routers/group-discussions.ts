@@ -106,7 +106,7 @@ export const groupDiscussionsRouter = router({
       });
 
       if (!participant) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'Participant not found' });
+        return null;
       }
 
       const roundId = participant.round;
