@@ -94,7 +94,7 @@ const CourseUnitChunkPage = ({
     if (shouldRecordCourseRegistration && !isUtmLoading && !isEnsureExistsPending) {
       createCourseRegistrationMutation({ courseId: unit.courseId, source: latestUtmParams.utm_source });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps isEnsureExistsPending intentionally excluded to avoid re-fire loop
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- isEnsureExistsPending intentionally excluded to avoid re-fire loop
   }, [auth, unit.courseId, latestUtmParams.utm_source, createCourseRegistrationMutation, isUtmLoading]);
 
   useEffect(() => {
