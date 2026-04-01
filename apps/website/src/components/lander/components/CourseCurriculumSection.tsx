@@ -132,7 +132,7 @@ const CurriculumUnit = ({
   const coursePattern = courseName.split(' ').join('[\\s-]');
   const regex = new RegExp(`^${coursePattern}\\s*-\\s*`, 'i');
   const unitTitle = rawTitle.replace(regex, '').trim();
-  const description = unit.description;
+  const { description } = unit;
 
   const handleToggle = () => {
     if (!isOpen && onExpand) {
