@@ -976,10 +976,6 @@ export const unitResourceTable = pgAirtable('unit_resource', {
       pgColumn: text(),
       airtableId: 'fldXFZQpHtS5EqHyh',
     },
-    resourceType: {
-      pgColumn: text(),
-      airtableId: 'fldftDf7tejin3F7U',
-    },
     resourceLink: {
       pgColumn: text(),
       airtableId: 'fldWmLt7N06ezb66y',

@@ -18,7 +18,7 @@ export const CourseUnitsSection = ({ units }: { units: Unit[] }) => {
               <UnitCard
                 key={unit.id}
                 className="course-units-section__unit h-full"
-                description={undefined}
+                description={unit.description || undefined}
                 title={unit.title}
                 unitNumber={unit.unitNumber}
                 url={unit.path}
