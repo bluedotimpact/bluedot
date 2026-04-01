@@ -934,10 +934,6 @@ export const unitTable = pgAirtable('unit', {
       pgColumn: text().notNull(),
       airtableId: 'fldimS5GIqSKuyA9C',
     },
-    menuText: {
-      pgColumn: text(),
-      airtableId: 'flddCXEeJ9oFOhfNb',
-    },
     courseUnit: {
       pgColumn: text(),
       airtableId: 'fld0ba6PYWqirsjnH',

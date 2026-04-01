@@ -18,8 +18,7 @@ export const CourseUnitsSection = ({ units }: { units: Unit[] }) => {
               <UnitCard
                 key={unit.id}
                 className="course-units-section__unit h-full"
-                // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-                description={unit.menuText || undefined}
+                description={undefined}
                 title={unit.title}
                 unitNumber={unit.unitNumber}
                 url={unit.path}

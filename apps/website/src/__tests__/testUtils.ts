@@ -128,7 +128,6 @@ export const createMockUnit = (overrides: Partial<Unit> = {}): Unit => ({
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   id: `unit-${overrides.unitNumber || 1}`,
   learningOutcomes: null,
-  menuText: null,
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   path: `/courses/test-course/${overrides.unitNumber || '1'}`,
   title: 'Unit title',

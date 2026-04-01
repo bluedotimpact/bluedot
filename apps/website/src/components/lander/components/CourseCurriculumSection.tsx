@@ -132,8 +132,7 @@ const CurriculumUnit = ({
   const coursePattern = courseName.split(' ').join('[\\s-]');
   const regex = new RegExp(`^${coursePattern}\\s*-\\s*`, 'i');
   const unitTitle = rawTitle.replace(regex, '').trim();
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  const description = unit.menuText || unit.description;
+  const description = unit.description;
 
   const handleToggle = () => {
     if (!isOpen && onExpand) {
