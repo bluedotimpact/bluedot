@@ -1278,10 +1278,6 @@ export const resourceCompletionTable = pgAirtable('resource_completion', {
       pgColumn: text(),
       airtableId: 'fldk4dbWAohE312Qn',
     },
-    rating: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldq6J5taZX4xLDfD',
-    },
     isCompleted: {
       pgColumn: boolean(),
       airtableId: 'fldm74UNAQuC1XkQc',
@@ -1301,6 +1297,13 @@ export const resourceCompletionTable = pgAirtable('resource_completion', {
     autoNumberId: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldbT2G8lDkUsuusY',
+    },
+  },
+  deprecatedColumns: {
+    rating: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldq6J5taZX4xLDfD',
+      deprecated: true,
     },
   },
 });
