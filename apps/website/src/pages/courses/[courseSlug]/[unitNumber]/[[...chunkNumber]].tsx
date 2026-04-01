@@ -83,18 +83,19 @@ const CourseUnitChunkPage = ({
     }
   }, [courseSlug, unitNumber]);
 
-  const { latestUtmParams } = useLatestUtmParams();
-  const { mutate: createCourseRegistrationMutation } = trpc.courseRegistrations.ensureExists.useMutation();
+  const { latestUtmParams, isLoading: isUtmLoading } = useLatestUtmParams();
+  const { mutate: createCourseRegistrationMutation, isPending: isEnsureExistsPending } = trpc.courseRegistrations.ensureExists.useMutation();
 
   const { data: applyCTAProps } = trpc.courseRounds.getApplyCTAProps.useQuery({ courseSlug });
 
   useEffect(() => {
     // FoAI course only: If we're logged in, ensures a course registration is recorded
     const shouldRecordCourseRegistration = auth && (unit.courseId === FOAI_COURSE_ID);
-    if (shouldRecordCourseRegistration) {
+    if (shouldRecordCourseRegistration && !isUtmLoading && !isEnsureExistsPending) {
       createCourseRegistrationMutation({ courseId: unit.courseId, source: latestUtmParams.utm_source });
     }
-  }, [auth, unit.courseId, latestUtmParams.utm_source, createCourseRegistrationMutation]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- isEnsureExistsPending intentionally excluded to avoid re-fire loop
+  }, [auth, unit.courseId, latestUtmParams.utm_source, createCourseRegistrationMutation, isUtmLoading]);
 
   useEffect(() => {
     if (chunks && (chunkIndex < 0 || chunkIndex >= chunks.length)) {
