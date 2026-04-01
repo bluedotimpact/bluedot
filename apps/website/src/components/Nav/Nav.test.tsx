@@ -17,7 +17,6 @@ const mockCourses = [
   createMockCourse({
     id: '1',
     title: 'Featured Course',
-    description: 'Featured course description',
     slug: 'future-of-ai',
     durationDescription: '4 weeks',
     isFeatured: true,
@@ -26,7 +25,6 @@ const mockCourses = [
   createMockCourse({
     id: '2',
     title: 'New Course',
-    description: 'New course description',
     slug: 'ops',
     durationDescription: '2 weeks',
     isFeatured: false,

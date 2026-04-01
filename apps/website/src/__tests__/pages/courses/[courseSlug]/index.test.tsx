@@ -24,7 +24,7 @@ vi.mock('next/head', () => ({
 const mockCourse = createMockCourse({
   slug: 'ai-safety-fundamentals',
   title: 'AI Safety Fundamentals',
-  description: 'Learn about AI safety and alignment',
+  shortDescription: 'Learn about AI safety and alignment',
 });
 
 const mockUnits = [
