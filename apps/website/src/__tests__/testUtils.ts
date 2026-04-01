@@ -128,7 +128,6 @@ export const createMockUnit = (overrides: Partial<Unit> = {}): Unit => ({
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   id: `unit-${overrides.unitNumber || 1}`,
   learningOutcomes: null,
-  menuText: null,
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   path: `/courses/test-course/${overrides.unitNumber || '1'}`,
   title: 'Unit title',
@@ -217,7 +216,6 @@ export const createMockMeetPerson = (overrides: Partial<MeetPerson> = {}): MeetP
 export const createMockResource = (overrides: Partial<UnitResource> = {}): UnitResource => ({
   id: MOCK_RESOURCE_ID,
   resourceName: 'Introduction to AI Safety',
-  resourceType: 'article',
   resourceLink: 'https://example.com/article',
   resourceGuide: 'This is a guide to the resource',
   authors: 'John Doe',
