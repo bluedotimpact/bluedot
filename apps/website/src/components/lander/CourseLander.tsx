@@ -78,7 +78,8 @@ const CourseLander = ({
     : baseApplicationUrl);
 
   const content = createContentFor(applicationUrlWithUtm, courseSlug);
-  const seoDescription = content.meta.description ?? content.hero.description;
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  const seoDescription = content.meta.description || content.hero.description;
 
   const { data: dbTestimonials } = trpc.testimonials.getCommunityMembersByCourseSlug.useQuery({ courseSlug });
 
