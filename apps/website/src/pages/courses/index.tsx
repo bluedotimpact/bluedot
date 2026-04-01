@@ -13,6 +13,7 @@ import NewsletterBanner from '../../components/homepage/NewsletterBanner';
 import { CourseIcon } from '../../components/courses/CourseIcon';
 import { COURSE_CONFIG } from '../../lib/constants';
 import { appendPosthogSessionIdPrefill } from '../../lib/appendPosthogSessionIdPrefill';
+import { RoundItem, buildRoundApplyUrl } from '../../components/shared/RoundItem';
 
 const getCourseAccentColor = (courseSlug: string): string => {
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
@@ -378,6 +379,13 @@ type CourseCardProps = {
 
 const CourseCard = ({ course }: CourseCardProps) => {
   const { data: rounds, isLoading: roundsLoading } = trpc.courseRounds.getRoundsForCourse.useQuery({ courseSlug: course.slug });
+  const { latestUtmParams } = useLatestUtmParams();
+
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  const baseApplicationUrl = course.applyUrl || '';
+  const applicationUrlWithUtm = appendPosthogSessionIdPrefill(latestUtmParams.utm_source
+    ? addQueryParam(baseApplicationUrl, 'prefill_Source', latestUtmParams.utm_source)
+    : baseApplicationUrl);
 
   const isSelfPaced = isSelfPacedCourse(course);
   const hasIntense = rounds?.intense && rounds.intense.length > 0;
@@ -410,6 +418,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
                 type="intensive"
                 rounds={rounds.intense}
                 course={course}
+                applicationUrlWithUtm={applicationUrlWithUtm}
               />
             )}
             {hasPartTime && (
@@ -417,6 +426,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
                 type="part-time"
                 rounds={rounds.partTime}
                 course={course}
+                applicationUrlWithUtm={applicationUrlWithUtm}
               />
             )}
           </div>
@@ -548,9 +558,10 @@ type FormatSectionProps = {
   type: 'intensive' | 'part-time';
   rounds: Round[];
   course: Course;
+  applicationUrlWithUtm: string;
 };
 
-const FormatSection = ({ type, rounds, course }: FormatSectionProps) => {
+const FormatSection = ({ type, rounds, course, applicationUrlWithUtm }: FormatSectionProps) => {
   // Limit to display only first 3 rounds
   const displayedRounds = rounds.slice(0, 3);
   const firstRound = displayedRounds[0];
@@ -563,6 +574,8 @@ const FormatSection = ({ type, rounds, course }: FormatSectionProps) => {
     ? `${numberOfUnits} ${unitLabel} course (${perLabel})`
     : `${unitLabel} course`;
 
+  const accentColor = getCourseAccentColor(course.slug);
+
   return (
     <div className="flex flex-col">
       <div className="text-[15px] leading-tight text-bluedot-navy mb-6">
@@ -573,7 +586,12 @@ const FormatSection = ({ type, rounds, course }: FormatSectionProps) => {
       <ul className="flex flex-col">
         {displayedRounds.map((round, index) => (
           <li key={round.id}>
-            <CourseRoundItem round={round} course={course} />
+            <RoundItem
+              title={round.dateRange || 'TBD'}
+              subtitle={`Application closes ${round.applicationDeadline}`}
+              href={buildRoundApplyUrl(applicationUrlWithUtm, round.id)}
+              accentColor={accentColor}
+            />
             {index < displayedRounds.length - 1 && (
               <div className="my-4 border-t border-bluedot-navy/10" />
             )}
@@ -584,80 +602,3 @@ const FormatSection = ({ type, rounds, course }: FormatSectionProps) => {
   );
 };
 
-/* Course Round Item */
-type CourseRoundItemProps = {
-  round: Round;
-  course: Course;
-};
-
-const CourseRoundItem = ({ round, course }: CourseRoundItemProps) => {
-  const { latestUtmParams } = useLatestUtmParams();
-  const accentColor = getCourseAccentColor(course.slug);
-
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  const baseApplicationUrl = course.applyUrl || '';
-
-  // Add UTM source prefill if available
-  const applicationUrlWithUtm = appendPosthogSessionIdPrefill(latestUtmParams.utm_source
-    ? addQueryParam(baseApplicationUrl, 'prefill_Source', latestUtmParams.utm_source)
-    : baseApplicationUrl);
-
-  // Add round prefill - manually construct to use %20 encoding (miniextensions requires this format)
-  const separator = applicationUrlWithUtm.includes('?') ? '&' : '?';
-  const applyUrl = `${applicationUrlWithUtm}${separator}prefill_%5B%3E%5D%20Round=${round.id}`;
-
-  // Format the date range with en dash instead of hyphen
-  const formattedDateRange = round.dateRange?.replace(' - ', ' – ') || 'TBD';
-
-  return (
-    <>
-      {/* Mobile Layout */}
-      <div className="flex min-[680px]:hidden">
-        <div className="w-1 flex-shrink-0 rounded-sm" style={{ backgroundColor: accentColor }} />
-        <div className="flex flex-col pl-5">
-          <p className="text-[15px] leading-[1.6] font-semibold text-bluedot-navy">{formattedDateRange}</p>
-          <p className="text-[15px] leading-[1.6] font-normal text-bluedot-navy opacity-50">
-            Application closes {round.applicationDeadline}
-          </p>
-          <a
-            href={applyUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Apply now (opens in a new tab)"
-            className="mt-3 text-[15px] leading-[1.6] font-medium cursor-pointer text-bluedot-normal"
-          >
-            Apply now
-          </a>
-        </div>
-      </div>
-
-      {/* Desktop Layout */}
-      <a
-        href={applyUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Apply now (opens in a new tab)"
-        className="group hidden min-[680px]:flex flex-row items-center justify-between min-h-12 cursor-pointer"
-      >
-        <div className="flex items-stretch h-full">
-          <div className="w-1 flex-shrink-0 rounded-sm opacity-30 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" style={{ backgroundColor: accentColor }} />
-          <div className="flex flex-col justify-center pl-5">
-            <p className="text-[15px] leading-none font-semibold text-bluedot-navy">{formattedDateRange}</p>
-            <p className="text-[15px] leading-none font-normal text-bluedot-navy opacity-50 mt-1">
-              Application closes {round.applicationDeadline}
-            </p>
-          </div>
-        </div>
-
-        <div className="ml-auto flex items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal">
-          <span className="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1">
-            Apply now
-          </span>
-          <span className="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
-            →
-          </span>
-        </div>
-      </a>
-    </>
-  );
-};
