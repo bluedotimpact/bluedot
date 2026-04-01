@@ -216,7 +216,6 @@ export const createMockMeetPerson = (overrides: Partial<MeetPerson> = {}): MeetP
 export const createMockResource = (overrides: Partial<UnitResource> = {}): UnitResource => ({
   id: MOCK_RESOURCE_ID,
   resourceName: 'Introduction to AI Safety',
-  resourceType: 'article',
   resourceLink: 'https://example.com/article',
   resourceGuide: 'This is a guide to the resource',
   authors: 'John Doe',
