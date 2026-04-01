@@ -153,42 +153,6 @@ export const courseTable = pgAirtable('course', {
   },
 });
 
-// TODO: this isn't used by anything, consider removing
-export const unitFeedbackTable = pgAirtable('unit_feedback', {
-  baseId: COURSE_BUILDER_BASE_ID,
-  tableId: 'tblBwjMjul1c6l7ea',
-  columns: {
-    unitId: {
-      pgColumn: text(),
-      airtableId: 'fldYqvWII6kuxCCmH',
-    },
-    overallRating: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fld3B8HUudN5NxPIU',
-    },
-    anythingElse: {
-      pgColumn: text(),
-      airtableId: 'fldYdcPZPdJAqn06w',
-    },
-    userEmail: {
-      pgColumn: text(),
-      airtableId: 'fld9JsHJXjud5Bhle',
-    },
-    createdAt: {
-      pgColumn: text(),
-      airtableId: 'fldWyJJz3OVNK0kTn',
-    },
-    lastModified: {
-      pgColumn: text(),
-      airtableId: 'fldCQ0O6oOf4BcMpJ',
-    },
-    autoNumberId: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldAcKtUXHRvJpTkS',
-    },
-  },
-});
-
 export const exerciseResponseTable = pgAirtable('exercise_response', {
   baseId: APPLICATIONS_BASE_ID,
   tableId: 'tblLNijbqwoLtkd3O',
@@ -1472,7 +1436,6 @@ export type Meta = InferSelectModel<typeof metaTable>;
 export type SyncMetadata = InferSelectModel<typeof syncMetadataTable>;
 export type SyncRequest = InferSelectModel<typeof syncRequestsTable>;
 export type Course = InferSelectModel<typeof courseTable.pg>;
-export type UnitFeedback = InferSelectModel<typeof unitFeedbackTable.pg>;
 export type ExerciseResponse = InferSelectModel<typeof exerciseResponseTable.pg>;
 export type FormConfiguration = InferSelectModel<typeof formConfigurationTable.pg>;
 export type Person = InferSelectModel<typeof personTable.pg>;
