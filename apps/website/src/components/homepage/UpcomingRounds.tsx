@@ -2,6 +2,7 @@ import { CTALinkOrButton } from '@bluedot/ui';
 import type { inferRouterOutputs } from '@trpc/server';
 import { trpc } from '../../utils/trpc';
 import type { AppRouter } from '../../server/routers/_app';
+import { RoundItem, buildRoundApplyUrl } from '../shared/RoundItem';
 
 type RouterOutput = inferRouterOutputs<AppRouter>;
 type AllRounds = RouterOutput['courseRounds']['getAllUpcomingRounds'];
@@ -87,7 +88,12 @@ const RoundGroup = ({ label, rounds }: RoundGroupProps) => {
       <ul className="list-none flex flex-col gap-5">
         {rounds.map((round, index) => (
           <li key={round.id}>
-            <RoundItem round={round} />
+            <RoundItem
+              title={`${round.courseTitle} \u00b7 ${round.dateRange}`}
+              subtitle={`Application closes ${round.applicationDeadline}`}
+              // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+              href={buildRoundApplyUrl(round.applyUrl || '', round.id)}
+            />
             {index < rounds.length - 1 && (
               <div className="relative mt-5">
                 <div className="absolute inset-x-0 h-px bg-bluedot-navy/10" />
@@ -97,75 +103,6 @@ const RoundGroup = ({ label, rounds }: RoundGroupProps) => {
         ))}
       </ul>
     </div>
-  );
-};
-
-type RoundItemProps = {
-  round: Round;
-};
-
-const RoundItem = ({ round }: RoundItemProps) => {
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  const baseApplicationUrl = round.applyUrl || '';
-  const separator = baseApplicationUrl.includes('?') ? '&' : '?';
-  const applyUrl = baseApplicationUrl ? `${baseApplicationUrl}${separator}prefill_%5B%3E%5D%20Round=${round.id}` : '';
-
-  const dateContent = (
-    <div>
-      <p className="text-[15px] leading-[1.6] font-semibold text-bluedot-navy">
-        {round.courseTitle} · {round.dateRange}
-      </p>
-      <p className="text-[15px] leading-[1.6] text-bluedot-navy/50">
-        Application closes {round.applicationDeadline}
-      </p>
-    </div>
-  );
-
-  return (
-    <>
-      {/* Mobile: only "Apply now" link is clickable */}
-      <div className="flex flex-col gap-2 min-[680px]:hidden">
-        <div className="flex items-stretch gap-3">
-          <div className="bg-bluedot-normal w-1 flex-shrink-0 rounded-sm" />
-          <div className="flex flex-col gap-3">
-            {dateContent}
-
-            <a
-              href={applyUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Apply now (opens in a new tab)"
-              className="text-bluedot-normal text-[15px] leading-[1.6] font-medium"
-            >
-              Apply now
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* Desktop: entire card is clickable */}
-      <a
-        href={applyUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Apply now (opens in a new tab)"
-        className="group hidden flex-row items-center justify-between gap-4 min-[680px]:flex"
-      >
-        <div className="flex items-stretch gap-4">
-          <div className="bg-bluedot-normal w-1 flex-shrink-0 rounded-sm opacity-30 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" />
-          <div className="flex flex-col">{dateContent}</div>
-        </div>
-
-        <div className="text-bluedot-normal ml-auto flex items-center text-[15px] leading-[1.6] font-medium">
-          <span className="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1">
-            Apply now
-          </span>
-          <span className="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
-            →
-          </span>
-        </div>
-      </a>
-    </>
   );
 };
 

@@ -8,6 +8,65 @@ import { formatMonthAndDay } from '../../lib/utils';
 import type { ApplyCTAProps } from '../../components/courses/SideBar';
 import { ONE_DAY_MS, ONE_HOUR_MS } from '../../lib/constants';
 
+function getDeadlineThreshold(): Date {
+  const now = new Date();
+  return new Date(now.getTime() - 12 * ONE_HOUR_MS);
+}
+
+function formatDateRange(
+  firstDate: string | null,
+  lastDate: string | null,
+  numberOfUnits: number | null,
+  intensity: string | null,
+): string | null {
+  if (!firstDate) return null;
+
+  const first = new Date(firstDate);
+  let computedLast: Date | null = null;
+
+  if (numberOfUnits && numberOfUnits > 0) {
+    const isPartTime = intensity?.toLowerCase() === 'part-time';
+    const daysToAdd = isPartTime ? (numberOfUnits * 7) - 1 : numberOfUnits - 1;
+    computedLast = new Date(first.getTime() + daysToAdd * ONE_DAY_MS);
+  } else if (lastDate) {
+    computedLast = new Date(lastDate);
+  } else {
+    return null;
+  }
+
+  const firstDay = String(first.getUTCDate());
+  const lastDay = String(computedLast.getUTCDate());
+  const firstMonth = first.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
+  const lastMonth = computedLast.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
+
+  return `${firstDay} ${firstMonth} \u2013 ${lastDay} ${lastMonth}`;
+}
+
+function compareRoundsByDateAndDuration(
+  a: { firstDiscussionDateRaw: string | null; numberOfUnits: number | null },
+  b: { firstDiscussionDateRaw: string | null; numberOfUnits: number | null },
+): number {
+  if (!a.firstDiscussionDateRaw && !b.firstDiscussionDateRaw) return 0;
+  if (!a.firstDiscussionDateRaw) return 1;
+  if (!b.firstDiscussionDateRaw) return -1;
+
+  const aStart = new Date(a.firstDiscussionDateRaw).getTime();
+  const bStart = new Date(b.firstDiscussionDateRaw).getTime();
+
+  if (aStart === bStart) {
+    return (a.numberOfUnits ?? Infinity) - (b.numberOfUnits ?? Infinity);
+  }
+
+  return aStart - bStart;
+}
+
+function groupByIntensity<T extends { intensity: string | null }>(rounds: T[]): { intense: T[]; partTime: T[] } {
+  return {
+    intense: rounds.filter((r) => r.intensity?.toLowerCase() === 'intensive'),
+    partTime: rounds.filter((r) => r.intensity?.toLowerCase() === 'part-time'),
+  };
+}
+
 /**
  * Fetches course rounds data by course slug.
  * This function is shared between the tRPC procedure and getStaticProps.
@@ -27,8 +86,7 @@ export async function getCourseRoundsData(courseSlug: string) {
 
   // Only show rounds where deadline hasn't passed everywhere in the world
   // Subtract 12 hours from current time to account for UTC-12 (furthest behind timezone)
-  const now = new Date();
-  const deadlineThreshold = new Date(now.getTime() - (12 * ONE_HOUR_MS));
+  const deadlineThreshold = getDeadlineThreshold();
 
   const filteredRounds = await db.pg
     .select()
@@ -40,41 +98,6 @@ export async function getCourseRoundsData(courseSlug: string) {
         sql`${applicationsRoundTable.pg.applicationDeadline}::timestamp >= ${deadlineThreshold.toISOString()}::timestamp`,
       ),
     ));
-
-  // Format date range based on firstDiscussionDate and numberOfUnits.
-  // numberOfUnits = number of days (intensive) or weeks (part-time).
-  // Falls back to lastDiscussionDate when units are missing.
-  const formatDateRange = (
-    firstDate: string | null,
-    lastDate: string | null,
-    numberOfUnits: number | null,
-    intensity: string | null,
-  ) => {
-    if (!firstDate) {
-      return null;
-    }
-
-    const first = new Date(firstDate);
-    let computedLast: Date | null = null;
-
-    if (numberOfUnits && numberOfUnits > 0) {
-      const isPartTime = intensity?.toLowerCase() === 'part-time';
-      // Part-time: numberOfUnits weeks. Intensive: numberOfUnits days.
-      const daysToAdd = isPartTime ? (numberOfUnits * 7) - 1 : numberOfUnits - 1;
-      computedLast = new Date(first.getTime() + daysToAdd * ONE_DAY_MS);
-    } else if (lastDate) {
-      computedLast = new Date(lastDate);
-    } else {
-      return null;
-    }
-
-    const firstDay = String(first.getUTCDate());
-    const lastDay = String(computedLast.getUTCDate());
-    const firstMonth = first.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
-    const lastMonth = computedLast.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
-
-    return `${firstDay} ${firstMonth} - ${lastDay} ${lastMonth}`;
-  };
 
   const enrichedRounds = filteredRounds.map((round) => ({
     id: round.id,
@@ -93,33 +116,9 @@ export async function getCourseRoundsData(courseSlug: string) {
   }));
 
   // Sort by start date (earliest first), then by duration (shorter first)
-  enrichedRounds.sort((a, b) => {
-    if (!a.firstDiscussionDateRaw && !b.firstDiscussionDateRaw) {
-      return 0;
-    }
+  enrichedRounds.sort(compareRoundsByDateAndDuration);
 
-    if (!a.firstDiscussionDateRaw) {
-      return 1;
-    }
-
-    if (!b.firstDiscussionDateRaw) {
-      return -1;
-    }
-
-    const aStartDate = new Date(a.firstDiscussionDateRaw).getTime();
-    const bStartDate = new Date(b.firstDiscussionDateRaw).getTime();
-
-    if (aStartDate === bStartDate) {
-      return (a.numberOfUnits ?? Infinity) - (b.numberOfUnits ?? Infinity);
-    }
-
-    return aStartDate - bStartDate;
-  });
-
-  return {
-    intense: enrichedRounds.filter((r) => r.intensity?.toLowerCase() === 'intensive'),
-    partTime: enrichedRounds.filter((r) => r.intensity?.toLowerCase() === 'part-time'),
-  };
+  return groupByIntensity(enrichedRounds);
 }
 
 export type CourseRoundsData = Awaited<ReturnType<typeof getCourseRoundsData>>;
@@ -172,8 +171,7 @@ export const courseRoundsRouter = router({
       const courses = allCourses.filter((course) => course.slug !== 'future-of-ai');
 
       // Only show rounds where deadline hasn't passed everywhere in the world
-      const now = new Date();
-      const deadlineThreshold = new Date(now.getTime() - (12 * ONE_HOUR_MS));
+      const deadlineThreshold = getDeadlineThreshold();
 
       // Fetch all upcoming rounds for all courses
       const allRounds = await db.pg
@@ -183,46 +181,6 @@ export const courseRoundsRouter = router({
           sql`${applicationsRoundTable.pg.applicationDeadline} IS NULL`,
           sql`${applicationsRoundTable.pg.applicationDeadline}::timestamp >= ${deadlineThreshold.toISOString()}::timestamp`,
         ));
-
-      // Format date range with en-dash
-      const formatDateRange = (
-        firstDate: string | null,
-        lastDate: string | null,
-        numberOfUnits: number | null,
-        intensity: string | null,
-      ) => {
-        if (!firstDate) {
-          return null;
-        }
-
-        const first = new Date(firstDate);
-
-        let computedLast: Date | null = null;
-
-        if (numberOfUnits && numberOfUnits > 0) {
-          const isPartTime = intensity?.toLowerCase() === 'part-time';
-
-          let daysToAdd: number;
-          if (isPartTime) {
-            daysToAdd = (numberOfUnits * 7) - 1;
-          } else {
-            daysToAdd = numberOfUnits - 1;
-          }
-
-          computedLast = new Date(first.getTime() + daysToAdd * ONE_DAY_MS);
-        } else if (lastDate) {
-          computedLast = new Date(lastDate);
-        } else {
-          return null;
-        }
-
-        const firstDay = String(first.getUTCDate());
-        const lastDay = String(computedLast.getUTCDate());
-        const firstMonth = first.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
-        const lastMonth = computedLast.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
-
-        return `${firstDay} ${firstMonth} – ${lastDay} ${lastMonth}`;
-      };
 
       // Create a map of courseId to course info
       const courseMap = new Map(courses.map((c) => [c.id, c]));
@@ -264,38 +222,9 @@ export const courseRoundsRouter = router({
         .filter((r): r is NonNullable<typeof r> => r !== null);
 
       // Sort by start date (earliest first), then by duration (shorter first)
-      enrichedRounds.sort((a, b) => {
-        if (!a.firstDiscussionDateRaw && !b.firstDiscussionDateRaw) {
-          return 0;
-        }
+      enrichedRounds.sort(compareRoundsByDateAndDuration);
 
-        if (!a.firstDiscussionDateRaw) {
-          return 1;
-        }
-
-        if (!b.firstDiscussionDateRaw) {
-          return -1;
-        }
-
-        const aStartDate = new Date(a.firstDiscussionDateRaw).getTime();
-        const bStartDate = new Date(b.firstDiscussionDateRaw).getTime();
-
-        if (aStartDate === bStartDate) {
-          const aUnits = a.numberOfUnits ?? Infinity;
-          const bUnits = b.numberOfUnits ?? Infinity;
-          return aUnits - bUnits;
-        }
-
-        return aStartDate - bStartDate;
-      });
-
-      // Group by intensity type
-      const grouped = {
-        intense: enrichedRounds.filter((r) => r.intensity?.toLowerCase() === 'intensive'),
-        partTime: enrichedRounds.filter((r) => r.intensity?.toLowerCase() === 'part-time'),
-      };
-
-      return grouped;
+      return groupByIntensity(enrichedRounds);
     }),
 
   getApplyCTAProps: publicProcedure
