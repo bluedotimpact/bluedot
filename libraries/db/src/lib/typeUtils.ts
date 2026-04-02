@@ -88,8 +88,8 @@ export type BasePgTableType<
 
 /**
  * Maps a drizzle PgColumnBuilderBase to the corresponding airtable-ts TypeScript type string.
- * Currently supports numeric columns -> 'number | null', boolean columns -> 'boolean | null',
- * array columns, defaults to 'string | null'.
+ * Numbers are always nullable ('number | null'). Everything else (string, boolean, arrays)
+ * is always non-null since airtable-ts coerces missing values to '', false, or [].
  */
 export function drizzleColumnToTsTypeString(pgColumn: AllowedPgColumn): TsTypeString {
   // @ts-expect-error
@@ -108,7 +108,7 @@ export function drizzleColumnToTsTypeString(pgColumn: AllowedPgColumn): TsTypeSt
   // Everything else (string, boolean, arrays) is always non-null so that
   // airtable-ts coerces missing values to '', false, or [].
   // This decouples .notNull() from airtable-ts behaviour, making it purely
-  // a PostgreSQL constraint. See gh-simpler-not-null/README.md.
+  // a PostgreSQL constraint. See #2081 for full context.
   const isNullable = baseType === 'number' && !isArray;
 
   return `${baseType}${isArray ? '[]' : ''}${isNullable ? ' | null' : ''}` as TsTypeString;
