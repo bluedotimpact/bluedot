@@ -59,7 +59,7 @@ describe('UpcomingRounds', () => {
     expect(href).toContain(`prefill_%5B%3E%5D%20Round=${mockRoundId}`);
   });
 
-  it('renders empty apply link when applyUrl is null', () => {
+  it('does not render apply link when applyUrl is null', () => {
     vi.mocked(trpc.courseRounds.getAllUpcomingRounds.useQuery).mockReturnValue({
       data: {
         intense: [
@@ -85,11 +85,8 @@ describe('UpcomingRounds', () => {
 
     render(<UpcomingRounds />, { wrapper: TrpcProvider });
 
-    const applyLinks = screen.getAllByLabelText(/apply now/i);
-    expect(applyLinks.length).toBeGreaterThan(0);
-
-    const firstLink = applyLinks[0];
-    expect(firstLink).toHaveAttribute('href', '');
+    const applyLinks = screen.queryAllByLabelText(/apply now/i);
+    expect(applyLinks.length).toBe(0);
   });
 
   it('shows loading state', () => {

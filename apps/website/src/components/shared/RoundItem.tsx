@@ -39,6 +39,8 @@ export const RoundItem = ({
     </div>
   );
 
+  if (!href) return null;
+
   return (
     <>
       {/* Mobile: only CTA link is clickable */}

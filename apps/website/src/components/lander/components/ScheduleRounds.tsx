@@ -121,7 +121,7 @@ const RoundGroup = ({
         {displayedRounds.map((round, index) => (
           <li key={round.id}>
             <RoundItem
-              title={round.dateRange ?? 'TBD'}
+              title={round.dateRange}
               subtitle={`Application closes ${round.applicationDeadline}`}
               href={buildRoundApplyUrl(applicationUrl, round.id)}
               accentColor={accentColor}

@@ -587,7 +587,7 @@ const FormatSection = ({ type, rounds, course, applicationUrlWithUtm }: FormatSe
         {displayedRounds.map((round, index) => (
           <li key={round.id}>
             <RoundItem
-              title={round.dateRange || 'TBD'}
+              title={round.dateRange}
               subtitle={`Application closes ${round.applicationDeadline}`}
               href={buildRoundApplyUrl(applicationUrlWithUtm, round.id)}
               accentColor={accentColor}
