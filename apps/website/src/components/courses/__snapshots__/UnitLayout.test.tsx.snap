@@ -118,7 +118,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
       class="md:flex"
     >
       <div
-        class="sidebar flex flex-col bg-color-canvas size-full md:w-[360px] border-r-[0.5px] border-color-divider hidden md:block md:sticky md:top-(--nav-height-mobile) lg:top-(--nav-height-desktop) md:overflow-y-auto md:max-h-[calc(100vh-var(--nav-height-mobile))] lg:max-h-[calc(100vh-var(--nav-height-desktop))] md:self-start md:shrink-0"
+        class="sidebar flex flex-col bg-color-canvas size-full md:w-[360px] border-r-[0.5px] border-color-divider hidden md:block md:sticky md:top-(--nav-height-mobile) lg:top-(--nav-height-desktop) md:overflow-y-auto md:h-[calc(100vh-var(--nav-height-mobile))] lg:h-[calc(100vh-var(--nav-height-desktop))] md:shrink-0"
       >
         <div
           class="p-6 flex flex-col gap-5"
