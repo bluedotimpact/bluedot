@@ -189,6 +189,18 @@ describe('exercises.getGroupExerciseResponses', () => {
       decision: 'Accept',
       roundStatus: 'Past',
     });
+    await testDb.insert(meetPersonTable, {
+      id: 'meet-facilitator',
+      email: CALLER_EMAIL,
+      applicationsBaseRecordId: 'reg-1',
+      role: 'Facilitator',
+    });
+    await testDb.insert(meetPersonTable, { id: 'meet-participant', email: 'participant@example.com', name: 'Alice' });
+    await testDb.insert(groupTable, {
+      id: 'group-1',
+      facilitator: ['meet-facilitator'],
+      participants: ['meet-participant'],
+    });
 
     const result = await caller.exercises.getGroupExerciseResponses({
       courseSlug: 'test-course',
@@ -207,6 +219,18 @@ describe('exercises.getGroupExerciseResponses', () => {
       decision: 'Accept',
       roundStatus: null,
       isDuplicate: true,
+    });
+    await testDb.insert(meetPersonTable, {
+      id: 'meet-facilitator',
+      email: CALLER_EMAIL,
+      applicationsBaseRecordId: 'reg-1',
+      role: 'Facilitator',
+    });
+    await testDb.insert(meetPersonTable, { id: 'meet-participant', email: 'participant@example.com', name: 'Alice' });
+    await testDb.insert(groupTable, {
+      id: 'group-1',
+      facilitator: ['meet-facilitator'],
+      participants: ['meet-participant'],
     });
 
     const result = await caller.exercises.getGroupExerciseResponses({
@@ -233,6 +257,38 @@ describe('exercises.getGroupExerciseResponses', () => {
     });
 
     expect(result).toBeNull();
+  });
+
+  test('returns groups for null-roundStatus facilitator with full chain seeded', async () => {
+    await seedCourse();
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-1',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      decision: 'Accept',
+      roundStatus: null,
+    });
+    await testDb.insert(meetPersonTable, {
+      id: 'meet-facilitator',
+      email: CALLER_EMAIL,
+      applicationsBaseRecordId: 'reg-1',
+      role: 'Facilitator',
+    });
+    await testDb.insert(meetPersonTable, { id: 'meet-participant', email: 'participant@example.com', name: 'Alice' });
+    await testDb.insert(groupTable, {
+      id: 'group-1',
+      facilitator: ['meet-facilitator'],
+      participants: ['meet-participant'],
+    });
+
+    const result = await caller.exercises.getGroupExerciseResponses({
+      courseSlug: 'test-course',
+      exerciseId: 'ex-1',
+    });
+
+    expect(result).not.toBeNull();
+    expect(result!.groups).toHaveLength(1);
+    expect(result!.groups[0]!.totalParticipants).toBe(1);
   });
 
   test('returns null for a participant (non-facilitator role)', async () => {
