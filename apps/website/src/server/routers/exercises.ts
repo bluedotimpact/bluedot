@@ -108,7 +108,7 @@ export const exercisesRouter = router({
         .limit(1);
       const courseRegistration = courseRegistrationRows[0] ?? null;
       if (!courseRegistration) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'No active registration found for this course' });
+        return null;
       }
 
       // 3. Find meetPerson record and verify facilitator role
