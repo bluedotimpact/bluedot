@@ -1,6 +1,6 @@
 import {
   addQueryParam,
-  Card, CTALinkOrButton, P, ProgressDots, useAuthStore, useCurrentTimeMs,
+  Card, CTALinkOrButton, P, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
 import type React from 'react';
 import { FaAward } from 'react-icons/fa6';
@@ -213,20 +213,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
   courseId,
   config,
 }) => {
-  const {
-    data: courseRegistration, isLoading: loading, error, refetch,
-  } = trpc.courseRegistrations.getByCourseId.useQuery({ courseId });
-  const currentTimeMs = useCurrentTimeMs();
-
-  const {
-    data: meetPerson,
-    isLoading: meetPersonLoading,
-    error: meetPersonError,
-  } = trpc.meetPerson.getByCourseRegistrationId.useQuery(
-    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-    { courseRegistrationId: courseRegistration?.id || '' },
-    { enabled: !!courseRegistration?.id },
-  );
+  const { data: certificateData, isLoading, error, refetch } = trpc.certificates.getStatus.useQuery({ courseId });
 
   const requestCertificateMutation = trpc.certificates.request.useMutation({
     async onSuccess() {
@@ -254,7 +241,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
         <CTALinkOrButton
           variant="primary"
           onClick={() => (error ? refetch() : requestCertificate())}
-          disabled={loading || requestCertificateMutation.isPending}
+          disabled={isLoading ?? requestCertificateMutation.isPending}
         >
           Retry
         </CTALinkOrButton>
@@ -279,7 +266,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
     );
   }
 
-  if (loading || requestCertificateMutation.isPending || meetPersonLoading) {
+  if (isLoading || requestCertificateMutation.isPending) {
     if (config.useCard) {
       return (
         <Card
@@ -298,8 +285,8 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
     );
   }
 
-  if (courseRegistration?.certificateId) {
-    const formattedCertificateDate = new Date(courseRegistration?.certificateCreatedAt ? courseRegistration.certificateCreatedAt * 1000 : currentTimeMs).toLocaleDateString(undefined, { dateStyle: 'long' });
+  if (certificateData?.status === 'has-certificate') {
+    const formattedCertificateDate = new Date(certificateData.issuedAt * 1000).toLocaleDateString(undefined, { dateStyle: 'long' });
     const { hasCertificate } = config.texts;
 
     // For FoAI, use Card even though useCard is false, as per the existing behavior
@@ -316,13 +303,12 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
                 <FaAward size={24} className="text-bluedot-normal" />
               </div>
               <div className="min-w-0">
-                {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
-                <p className="font-semibold text-bluedot-black">Earned by {courseRegistration.fullName || courseRegistration.email}</p>
+                <p className="font-semibold text-bluedot-black">Earned by {certificateData.holderName}</p>
                 <p className="text-bluedot-darker">Issued on {formattedCertificateDate}</p>
               </div>
             </div>
             <CTALinkOrButton
-              url={addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)}
+              url={addQueryParam(ROUTES.certification.url, 'id', certificateData.certificateId)}
               variant="primary"
               target="_blank"
               className="lg:ml-auto"
@@ -337,32 +323,26 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
     );
   }
 
-  // Only future-of-ai certificates can be earned independently
-  // Note: the check `courseRegistration?.courseId !== FOAI_COURSE_ID` is required because we
-  // used to auto-create course registrations for independent learners for all courses, see https://github.com/bluedotimpact/bluedot/issues/1500
-  if (courseRegistration?.courseId !== FOAI_COURSE_ID && !courseRegistration?.certificateId) {
-    // Hide certificate card if user should see ActionPlanCard instead
-    // ActionPlanCard shows when: facilitated course + no certificate + meetPerson exists + role is Participant
-    if (meetPerson && !meetPersonError && meetPerson.role?.toLowerCase() === 'participant') {
-      // Return null - ActionPlanCard will show instead
-      return null;
-    }
+  // For participants in facilitated rounds who do not yet have a certificate - returning `null` causes `ActionPlanCard`
+  // to be rendered instead
+  if (certificateData?.status === 'action-plan-pending') {
+    return null;
+  }
 
-    const isFacilitator = meetPerson && !meetPersonError && meetPerson.role?.toLowerCase() === 'facilitator';
+  // Facilitators: show requirements message WITHOUT button
+  // (certificates issued via backend after 80% attendance)
+  if (certificateData?.status === 'facilitator-pending') {
+    return (
+      <Card
+        title="Your Certificate"
+        subtitle="To be eligible for a certificate, you need to submit your action plan/project and miss no more than 1 discussion."
+        className="container-lined p-8 bg-white"
+      />
+    );
+  }
 
-    if (isFacilitator) {
-      // Facilitators: show requirements message WITHOUT button
-      // (certificates issued via backend after 80% attendance)
-      return (
-        <Card
-          title="Your Certificate"
-          subtitle="To be eligible for a certificate, you need to submit your action plan/project and miss no more than 1 discussion."
-          className="container-lined p-8 bg-white"
-        />
-      );
-    }
-
-    // For independent learners (no meetPerson) or errors: show "not eligible" message
+  // For independent learners: show "not eligible" message
+  if (certificateData?.status === 'not-eligible') {
     const { notEligible } = config.texts;
     return (
       <Card
@@ -373,6 +353,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
     );
   }
 
+  // certificateData?.status === 'can-request'
   // Request certificate state
   const { requestCertificate: requestCertConfig } = config.texts;
   const content = (
