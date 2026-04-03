@@ -1,10 +1,8 @@
-import {
-  Card, CTALinkOrButton, ProgressDots, useAuthStore,
-} from '@bluedot/ui';
-import type React from 'react';
+import { Card, CTALinkOrButton, ProgressDots, useAuthStore } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
-import { trpc } from '../../utils/trpc';
+import type React from 'react';
 import { getActionPlanUrl } from '../../lib/utils';
+import { trpc } from '../../utils/trpc';
 
 type ActionPlanCardProps = {
   courseId: string;
