@@ -1,4 +1,6 @@
-import { Card, CTALinkOrButton, ProgressDots, useAuthStore } from '@bluedot/ui';
+import {
+  Card, CTALinkOrButton, ProgressDots, useAuthStore,
+} from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import type React from 'react';
 import { getActionPlanUrl } from '../../lib/utils';
@@ -19,18 +21,11 @@ const ActionPlanCard: React.FC<ActionPlanCardProps> = ({ courseId }) => {
 };
 
 const ActionPlanCardAuthed: React.FC<ActionPlanCardProps> = ({ courseId }) => {
-  const {
-    data: certificateData,
-    isLoading,
-    error,
-  } = trpc.certificates.getStatus.useQuery({ courseId });
+  const { data: certificateData, isLoading, error } = trpc.certificates.getStatus.useQuery({ courseId });
 
   if (isLoading) {
     return (
-      <Card
-        title="Your Certificate"
-        className="container-lined p-8 bg-white"
-      >
+      <Card title="Your Certificate" className="container-lined bg-white p-8">
         <ProgressDots />
       </Card>
     );
@@ -38,10 +33,7 @@ const ActionPlanCardAuthed: React.FC<ActionPlanCardProps> = ({ courseId }) => {
 
   if (error) {
     return (
-      <Card
-        title="Your Certificate"
-        className="container-lined p-8 bg-white"
-      >
+      <Card title="Your Certificate" className="container-lined bg-white p-8">
         <ErrorView error={error} />
       </Card>
     );
@@ -58,7 +50,7 @@ const ActionPlanCardAuthed: React.FC<ActionPlanCardProps> = ({ courseId }) => {
     <Card
       title="Your Certificate"
       subtitle="To be eligible for a certificate, you need to submit your action plan/project and miss no more than 1 discussion."
-      className="container-lined p-8 bg-white"
+      className="container-lined bg-white p-8"
     >
       <CTALinkOrButton
         url={actionPlanUrl}
