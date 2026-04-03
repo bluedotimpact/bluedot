@@ -90,7 +90,8 @@ export const certificatesRouter = router({
       if (courseRegistration.courseId !== FOAI_COURSE_ID) {
         throw new TRPCError({
           code: 'FORBIDDEN',
-          message: 'Self-requesting certificates is only available for the Future of AI course. For other courses, certificates are issued after completing your facilitated cohort.',
+          message:
+            'Self-requesting certificates is only available for the Future of AI course. For other courses, certificates are issued after completing your facilitated cohort.',
         });
       }
 
