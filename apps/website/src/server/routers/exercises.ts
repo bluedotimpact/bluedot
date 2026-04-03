@@ -3,13 +3,16 @@ import {
   arrayContains,
   courseRegistrationTable,
   courseTable,
+  desc,
   eq,
   exerciseResponseTable,
   exerciseTable,
   groupTable,
   inArray,
   isNotNull,
+  isNull,
   meetPersonTable,
+  or,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
@@ -84,16 +87,28 @@ export const exercisesRouter = router({
       }
 
       // 2. Find caller's registration
-      const courseRegistration = await db.getFirst(courseRegistrationTable, {
-        filter: {
-          email: ctx.auth.email,
-          courseId: course.id,
-          roundStatus: 'Active',
-          decision: 'Accept',
-        },
-      });
+      // roundStatus is 'Active' for live rounds, or null for self-paced courses with no round
+      const courseRegistrationRows = await db.pg
+        .select()
+        .from(courseRegistrationTable.pg)
+        .where(and(
+          eq(courseRegistrationTable.pg.email, ctx.auth.email),
+          eq(courseRegistrationTable.pg.courseId, course.id),
+          eq(courseRegistrationTable.pg.decision, 'Accept'),
+          or(
+            eq(courseRegistrationTable.pg.isDuplicate, false),
+            isNull(courseRegistrationTable.pg.isDuplicate),
+          ),
+          or(
+            eq(courseRegistrationTable.pg.roundStatus, 'Active'),
+            isNull(courseRegistrationTable.pg.roundStatus),
+          ),
+        ))
+        .orderBy(desc(courseRegistrationTable.pg.autoNumberId))
+        .limit(1);
+      const courseRegistration = courseRegistrationRows[0] ?? null;
       if (!courseRegistration) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'No active registration found for this course' });
+        return null;
       }
 
       // 3. Find meetPerson record and verify facilitator role
