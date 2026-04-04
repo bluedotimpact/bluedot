@@ -1,13 +1,16 @@
 import {
   courseRegistrationTable, exerciseResponseTable, exerciseTable, meetPersonTable,
 } from '@bluedot/db';
-import { TRPCError } from '@trpc/server';
+import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import { timingSafeEqual } from 'crypto';
 import z from 'zod';
 import db from '../../lib/api/db';
 import env from '../../lib/api/env';
 import { FOAI_COURSE_ID } from '../../lib/constants';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
+import type { AppRouter } from './_app';
+
+export type CertificateStatus = inferRouterOutputs<AppRouter>['certificates']['getStatus']['status'];
 
 export const certificatesRouter = router({
   // This is a public procedure because it's called from an Airtable script, not from within the app
