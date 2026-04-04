@@ -14,6 +14,7 @@ import { CourseIcon } from './CourseIcon';
 type SideBarProps = {
   courseTitle: string;
   courseSlug: string;
+  courseId: string;
   units: Unit[];
   currentUnitNumber: number;
   currentChunkIndex: number;
@@ -186,6 +187,7 @@ const ApplyCTA = ({ applicationDeadline, applicationUrl, hasApplied }: ApplyCTAP
 const SideBar: React.FC<SideBarProps> = ({
   courseTitle,
   courseSlug,
+  courseId,
   courseProgressData,
   className,
   units,

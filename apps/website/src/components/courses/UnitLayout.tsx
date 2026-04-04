@@ -333,6 +333,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           <SideBar
             courseTitle={unit.courseTitle}
             courseSlug={courseSlug}
+            courseId={unit.courseId}
             className="hidden md:block md:sticky md:top-(--nav-height-mobile) lg:top-(--nav-height-desktop) md:overflow-y-auto md:h-[calc(100vh-var(--nav-height-mobile))] lg:h-[calc(100vh-var(--nav-height-desktop))] md:shrink-0"
             units={units}
             currentUnitNumber={parseInt(unitNumber)}
