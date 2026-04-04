@@ -12,7 +12,7 @@ describe('BiosecHackathonPage', () => {
     expect(screen.getByRole('heading', { name: 'BIOSECURITY HACKATHON' })).toBeInTheDocument();
     expect(screen.getByText('24-26 April 2026')).toBeInTheDocument();
 
-    const onlineCta = screen.getByRole('link', { name: 'Sign up participate online' });
+    const onlineCta = screen.getByRole('link', { name: 'Sign up to participate online' });
     const onlineUrl = new URL(onlineCta.getAttribute('href') ?? '');
 
     expect(`${onlineUrl.origin}${onlineUrl.pathname}`).toBe('https://apartresearch.com/sprints/aixbio-hackathon-2026-04-24-to-2026-04-26');

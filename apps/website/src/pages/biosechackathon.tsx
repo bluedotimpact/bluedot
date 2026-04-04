@@ -4,7 +4,7 @@ const SITE_URL = 'https://bluedot.org';
 const PAGE_TITLE = 'BIOSECURITY HACKATHON - 24-26 April 2026';
 const ONLINE_SIGN_UP_URL = 'https://apartresearch.com/sprints/aixbio-hackathon-2026-04-24-to-2026-04-26?utm_source=bluedot&utm_medium=event_page&utm_campaign=biosecurity_hackathon_2026&utm_content=online';
 const SIGN_UP_OPTIONS = [
-  { label: 'Sign up participate online', url: ONLINE_SIGN_UP_URL, isLive: true },
+  { label: 'Sign up to participate online', url: ONLINE_SIGN_UP_URL, isLive: true },
   { label: '[tbc] Boston', isLive: false },
   { label: '[tbc] SF', isLive: false },
   { label: '[tbc] London', isLive: false },
