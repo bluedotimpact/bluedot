@@ -91,7 +91,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
           {chunks.map((chunk, index) => {
             const isActive = isCurrentUnit && currentChunkIndex === index;
             const chunkUrl = `/courses/${courseSlug}/${unit.unitNumber}/${index + 1}`;
-            const isLastChunkofFinalUnit = isFinalUnit && index === chunks.length - 1;
+            const isLastChunkOfFinalUnit = isFinalUnit && index === chunks.length - 1;
 
             // For current unit, use button with onChunkSelect
             // For non-current unit, use link to navigate
@@ -111,7 +111,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                     <div className="flex flex-col items-start gap-[6px]">
                       <p className="font-normal text-[14px] leading-[150%] text-bluedot-navy">
                         {chunk.chunkTitle}
-                        {isLastChunkofFinalUnit
+                        {isLastChunkOfFinalUnit
                         && certificateStatus
                         && (certificateStatus === 'has-certificate' ? (
                           <span className="ml-1.5" aria-label="Certificate earned">
@@ -162,7 +162,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                   <div className="flex flex-col items-start gap-[6px]">
                     <p className="font-normal text-[14px] leading-[150%] text-bluedot-navy">
                       {chunk.chunkTitle}
-                      {isLastChunkofFinalUnit
+                      {isLastChunkOfFinalUnit
                       && certificateStatus
                       && (certificateStatus === 'has-certificate' ? (
                         <span className="ml-1.5" aria-label="Certificate earned">
