@@ -28,6 +28,7 @@ type SideBarProps = {
 type SideBarCollapsibleProps = {
   unit: Unit;
   isCurrentUnit: boolean;
+  isFinalUnit: boolean;
   chunks: BasicChunk[];
   currentChunkIndex: number;
   onChunkSelect: (index: number) => void;
@@ -38,6 +39,7 @@ type SideBarCollapsibleProps = {
 const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   unit,
   isCurrentUnit,
+  isFinalUnit,
   chunks,
   currentChunkIndex,
   onChunkSelect,
@@ -197,10 +199,13 @@ const SideBar: React.FC<SideBarProps> = ({
   applyCTAProps,
   unitChunks,
 }) => {
-  const isCurrentUnit = (unit: Unit): boolean => {
+  const isCurrentUnit = (unit: Unit) => {
     return !!unit.unitNumber && currentUnitNumber === Number(unit.unitNumber);
   };
 
+  const isFinalUnit = (unit: Unit) => {
+    return unit.id === units[units.length - 1]?.id;
+  };
   return (
     <div className={clsx(
       'sidebar flex flex-col bg-color-canvas',
@@ -232,6 +237,7 @@ const SideBar: React.FC<SideBarProps> = ({
             key={unit.id}
             unit={unit}
             isCurrentUnit={isCurrentUnit(unit)}
+            isFinalUnit={isFinalUnit(unit)}
             chunks={unitChunks[unit.id] ?? []}
             currentChunkIndex={currentChunkIndex}
             onChunkSelect={onChunkSelect}
