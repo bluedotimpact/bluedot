@@ -1,6 +1,6 @@
 import type { Unit } from '@bluedot/db';
 import {
-  A, CTALinkOrButton, P,
+  A, CTALinkOrButton, P, HoverTooltip,
 } from '@bluedot/ui';
 import clsx from 'clsx';
 import type React from 'react';
@@ -107,7 +107,13 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                           certificateStatus === 'has-certificate' ? (
                             <span className="ml-1.5" aria-label="Certificate earned">🎉</span>
                           )
-                            : <span className="ml-1.5">🔒</span>
+                            : <span className="ml-1.5 inline-flex">
+                              <HoverTooltip content="my awesome tooltip">
+                                <span>
+                                  🔒
+                                </span>
+                              </HoverTooltip>
+                            </span>
                         )}
                       </p>
                     </div>
@@ -151,7 +157,13 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                         certificateStatus === 'has-certificate' ? (
                           <span className="ml-1.5" aria-label="Certificate earned">🎉</span>
                         )
-                          : <span className="ml-1.5">🔒</span>
+                          : <span className="ml-1.5 inline-flex">
+                            <HoverTooltip content="my awesome tooltip">
+                              <span>
+                                🔒
+                              </span>
+                            </HoverTooltip>
+                          </span>
                       )}
                     </p>
                   </div>
