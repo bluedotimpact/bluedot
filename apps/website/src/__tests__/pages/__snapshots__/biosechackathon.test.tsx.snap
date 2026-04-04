@@ -1,0 +1,147 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`BiosecHackathonPage > renders the page hierarchy and signup options 1`] = `
+<div>
+  <main
+    class="relative flex min-h-screen items-center justify-center overflow-hidden bg-black px-6 text-center"
+  >
+    <div
+      class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(20,255,120,0.08),transparent_34%),linear-gradient(180deg,#000_0%,#020403_100%)]"
+    />
+    <div
+      class="pointer-events-none absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:44px_44px]"
+    />
+    <span
+      class="signal-flash pointer-events-none absolute rounded-full"
+      style="top: 20%; left: 30%; animation-delay: 0.4s; width: 74px; height: 74px;"
+    />
+    <span
+      class="signal-flash pointer-events-none absolute rounded-full"
+      style="top: 34%; left: 72%; animation-delay: 1.6s; width: 92px; height: 92px;"
+    />
+    <span
+      class="signal-flash pointer-events-none absolute rounded-full"
+      style="top: 66%; left: 18%; animation-delay: 2.7s; width: 86px; height: 86px;"
+    />
+    <span
+      class="signal-flash pointer-events-none absolute rounded-full"
+      style="top: 77%; left: 78%; animation-delay: 1s; width: 70px; height: 70px;"
+    />
+    <div
+      class="relative z-10 max-w-[1100px]"
+    >
+      <h1
+        class="text-[34px] font-semibold uppercase leading-[0.95] tracking-[-0.06em] text-white min-[680px]:text-[64px] lg:text-[96px]"
+      >
+        BIOSECURITY HACKATHON
+      </h1>
+      <p
+        class="mt-4 text-[14px] font-medium uppercase tracking-[0.32em] text-white/60 min-[680px]:text-[18px] lg:text-[22px]"
+      >
+        24-26 April 2026
+      </p>
+      <div
+        class="mt-10 flex flex-wrap justify-center gap-3"
+      >
+        <a
+          class="inline-flex min-h-12 items-center justify-center rounded-full border border-[#72ffb8]/60 bg-[rgba(114,255,184,0.08)] px-5 py-3 text-[14px] font-medium uppercase tracking-[0.14em] text-[#d9ffe9] shadow-[0_0_28px_rgba(114,255,184,0.14)] transition-all duration-200 hover:border-[#9dffd1] hover:bg-[rgba(114,255,184,0.14)] hover:shadow-[0_0_36px_rgba(114,255,184,0.2)]"
+          href="https://apartresearch.com/sprints/aixbio-hackathon-2026-04-24-to-2026-04-26?utm_source=bluedot&utm_medium=event_page&utm_campaign=biosecurity_hackathon_2026&utm_content=online"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Sign up participate online
+        </a>
+        <button
+          class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-5 py-3 text-[14px] font-medium uppercase tracking-[0.14em] text-white/48"
+          disabled=""
+          type="button"
+        >
+          [tbc] Boston
+        </button>
+        <button
+          class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-5 py-3 text-[14px] font-medium uppercase tracking-[0.14em] text-white/48"
+          disabled=""
+          type="button"
+        >
+          [tbc] SF
+        </button>
+        <button
+          class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-5 py-3 text-[14px] font-medium uppercase tracking-[0.14em] text-white/48"
+          disabled=""
+          type="button"
+        >
+          [tbc] London
+        </button>
+        <button
+          class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-5 py-3 text-[14px] font-medium uppercase tracking-[0.14em] text-white/48"
+          disabled=""
+          type="button"
+        >
+          [tbc] Cambridge
+        </button>
+      </div>
+      <p
+        class="mt-6 text-[11px] font-medium uppercase tracking-[0.24em] text-white/46 min-[680px]:text-[12px] lg:text-[13px]"
+      >
+        In collaboration with
+         
+        <a
+          class="text-white/70 underline decoration-white/20 underline-offset-4 transition-colors hover:text-white"
+          href="https://apartresearch.com/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Apart Research
+        </a>
+         
+        &
+         
+        <a
+          class="text-white/70 underline decoration-white/20 underline-offset-4 transition-colors hover:text-white"
+          href="https://www.cambiohub.org/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Cambridge Biosecurity Hub
+        </a>
+      </p>
+    </div>
+  </main>
+  <style>
+    
+        .signal-flash {
+          background: radial-gradient(circle, rgba(95, 255, 164, 0.3) 0%, rgba(95, 255, 164, 0.12) 28%, transparent 68%);
+          filter: blur(8px);
+          animation: flicker 4.2s ease-in-out infinite;
+        }
+
+        @keyframes flicker {
+          0%, 100% {
+            opacity: 0;
+          }
+          10% {
+            opacity: 0.2;
+          }
+          16% {
+            opacity: 0.55;
+          }
+          24% {
+            opacity: 0.1;
+          }
+          34% {
+            opacity: 0.42;
+          }
+          42% {
+            opacity: 0;
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .signal-flash {
+            animation: none !important;
+          }
+        }
+      
+  </style>
+</div>
+`;
