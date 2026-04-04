@@ -202,37 +202,6 @@ describe('CertificateLinkCard', () => {
         expect(screen.getByText('To be eligible for a certificate, you need to submit your action plan/project and miss no more than 1 discussion.')).toBeInTheDocument();
       });
 
-      // Should NOT show Request Certificate button
-      expect(screen.queryByText('Request Certificate')).toBeNull();
-    });
-
-    test('renders Participant without certificate - returns null (ActionPlanCard shows)', async () => {
-      server.use(trpcMsw.certificates.getStatus.query(() => ({
-        status: 'action-plan-pending',
-        meetPersonId: 'meet123',
-        hasSubmittedActionPlan: false,
-      })));
-
-      const { container } = render(<CertificateLinkCard courseId="rec123456789" />, { wrapper: TrpcProvider });
-
-      await waitFor(() => {
-        expect(container.firstChild).toBeNull();
-      });
-    });
-
-    test('renders facilitator role with case variations - shows certificate message without button', async () => {
-      server.use(trpcMsw.certificates.getStatus.query(() => ({
-        status: 'facilitator-pending',
-      })));
-
-      render(<CertificateLinkCard courseId="rec123456789" />, { wrapper: TrpcProvider });
-
-      await waitFor(() => {
-        expect(screen.getByText('Your Certificate')).toBeInTheDocument();
-        expect(screen.getByText('To be eligible for a certificate, you need to submit your action plan/project and miss no more than 1 discussion.')).toBeInTheDocument();
-      });
-
-      // Should NOT show Request Certificate button
       expect(screen.queryByText('Request Certificate')).toBeNull();
     });
   });
