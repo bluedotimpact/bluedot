@@ -203,7 +203,7 @@ describe('CertificateLinkCard', () => {
       expect(screen.queryByText('Want to go deeper?')).toBeNull();
     });
 
-    test('renders FoAI course with certificate - includes community section', async () => {
+    test('renders FoAI course with certificate - ends at view certificate', async () => {
       server.use(
         trpcMsw.courseRegistrations.getByCourseId.query(({ input }) => createMockCourseRegistration({
           courseId: input.courseId,
@@ -221,9 +221,9 @@ describe('CertificateLinkCard', () => {
       });
       expect(screen.getByText('View Certificate')).toBeInTheDocument();
 
-      // AGI Strategy follow-on section SHOULD appear for FoAI course
-      expect(screen.getByText('Want to go deeper?')).toBeInTheDocument();
-      expect(screen.getByText('Apply now')).toBeInTheDocument();
+      // The certificate card should end after the certificate details and CTA
+      expect(screen.queryByText('Want to go deeper?')).toBeNull();
+      expect(screen.queryByText('Apply now')).toBeNull();
     });
 
     test('renders Facilitator without certificate - shows certificate message without button', async () => {
