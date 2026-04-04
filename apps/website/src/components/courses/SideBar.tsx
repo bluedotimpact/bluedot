@@ -7,7 +7,9 @@ import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
+import type { CertificateStatus } from '../../server/routers/certificates';
 import type { ChunkProgress, CourseProgress } from '../../server/routers/courses';
+import { trpc } from '../../utils/trpc';
 import { ChunkIcon } from '../icons/ChunkIcon';
 import { CourseIcon } from './CourseIcon';
 
@@ -34,6 +36,7 @@ type SideBarCollapsibleProps = {
   onChunkSelect: (index: number) => void;
   courseSlug: string;
   chunkProgress: ChunkProgress[];
+  certificateStatus: CertificateStatus | undefined;
 };
 
 const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
@@ -45,6 +48,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   onChunkSelect,
   courseSlug,
   chunkProgress,
+  certificateStatus,
 }) => {
   const [isExpanded, setIsExpanded] = useState(isCurrentUnit);
   const detailsRef = useRef<HTMLDetailsElement>(null);
@@ -206,6 +210,9 @@ const SideBar: React.FC<SideBarProps> = ({
   const isFinalUnit = (unit: Unit) => {
     return unit.id === units[units.length - 1]?.id;
   };
+
+  const { data: certificateData } = trpc.certificates.getStatus.useQuery({ courseId });
+
   return (
     <div className={clsx(
       'sidebar flex flex-col bg-color-canvas',
@@ -243,6 +250,7 @@ const SideBar: React.FC<SideBarProps> = ({
             onChunkSelect={onChunkSelect}
             courseSlug={courseSlug}
             chunkProgress={courseProgressData?.chunkProgressByUnitNumber[unit.unitNumber] ?? []}
+            certificateStatus={certificateData?.status}
           />
         ))}
       </div>
