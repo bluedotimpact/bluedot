@@ -52,6 +52,8 @@ describe('CertificateLinkCard', () => {
       expect(screen.getByText('Download your certificate, show you\'re taking AI seriously')).toBeInTheDocument();
       expect(screen.getByText('Complete all exercises to unlock your certificate, then share your accomplishment on social media.')).toBeInTheDocument();
       expect(screen.getByText('Download Certificate')).toBeInTheDocument();
+      expect(screen.getByText('Want to go deeper?')).toBeInTheDocument();
+      expect(screen.getByText('Apply now')).toBeInTheDocument();
     });
   });
 
@@ -168,8 +170,9 @@ describe('CertificateLinkCard', () => {
       expect(screen.getByText('Download your certificate, show you\'re taking AI seriously')).toBeInTheDocument();
       expect(screen.getByText('Complete all exercises to unlock your certificate, then share your accomplishment on social media.')).toBeInTheDocument();
 
-      // Verify community section DOES appear for FoAI course
-      expect(screen.getByText('Join the Community')).toBeInTheDocument();
+      // Verify AGI Strategy follow-on section appears for FoAI course
+      expect(screen.getByText('Want to go deeper?')).toBeInTheDocument();
+      expect(screen.getByText('Apply now')).toBeInTheDocument();
     });
 
     test('renders regular course with certificate - no community section', async () => {
@@ -196,8 +199,8 @@ describe('CertificateLinkCard', () => {
       const viewCertificateLink = screen.getByRole('link', { name: 'View Certificate' });
       expect(viewCertificateLink.getAttribute('target')).toBe('_blank');
 
-      // Community section should NOT appear for regular courses
-      expect(screen.queryByText('Join the Community')).toBeNull();
+      // FoAI-specific follow-on section should NOT appear for regular courses
+      expect(screen.queryByText('Want to go deeper?')).toBeNull();
     });
 
     test('renders FoAI course with certificate - includes community section', async () => {
@@ -218,8 +221,9 @@ describe('CertificateLinkCard', () => {
       });
       expect(screen.getByText('View Certificate')).toBeInTheDocument();
 
-      // Community section SHOULD appear for FoAI course
-      expect(screen.getByText('Join the Community')).toBeInTheDocument();
+      // AGI Strategy follow-on section SHOULD appear for FoAI course
+      expect(screen.getByText('Want to go deeper?')).toBeInTheDocument();
+      expect(screen.getByText('Apply now')).toBeInTheDocument();
     });
 
     test('renders Facilitator without certificate - shows certificate message without button', async () => {
