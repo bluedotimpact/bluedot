@@ -4,10 +4,8 @@ import { render, screen, waitFor } from '@testing-library/react';
 import {
   beforeEach, describe, expect, test, vi,
 } from 'vitest';
-import { createMockCourseRegistration, createMockMeetPerson } from '../../__tests__/testUtils';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
-import { FOAI_COURSE_ID } from '../../lib/constants';
 import ActionPlanCard from './ActionPlanCard';
 
 vi.mock('@bluedot/ui', async () => {
@@ -33,7 +31,7 @@ describe('ActionPlanCard', () => {
 
     test('shows loading state while fetching data', () => {
       // Never resolves to simulate loading
-      server.use(trpcMsw.courseRegistrations.getByCourseId.query(() => new Promise(() => {})));
+      server.use(trpcMsw.certificates.getStatus.query(() => new Promise(() => {})));
 
       render(<ActionPlanCard courseId={FACILITATED_COURSE_ID} />, { wrapper: TrpcProvider });
 
@@ -43,7 +41,7 @@ describe('ActionPlanCard', () => {
     });
 
     test('shows error state when query fails', async () => {
-      server.use(trpcMsw.courseRegistrations.getByCourseId.query(() => {
+      server.use(trpcMsw.certificates.getStatus.query(() => {
         throw new Error('Failed to fetch');
       }));
 
@@ -63,19 +61,11 @@ describe('ActionPlanCard', () => {
     });
 
     test('Scenario 1: Facilitated course, no certificate, no action plan → shows ActionPlanCard', async () => {
-      const mockMeetPerson = createMockMeetPerson({
-        id: 'recABC123',
-        role: 'Participant',
-        projectSubmission: [],
-      });
-
-      server.use(
-        trpcMsw.courseRegistrations.getByCourseId.query(() => createMockCourseRegistration({
-          courseId: FACILITATED_COURSE_ID,
-          certificateId: null,
-        })),
-        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => mockMeetPerson),
-      );
+      server.use(trpcMsw.certificates.getStatus.query(() => ({
+        status: 'action-plan-pending',
+        meetPersonId: 'recABC123',
+        hasSubmittedActionPlan: false,
+      })));
 
       render(<ActionPlanCard courseId={FACILITATED_COURSE_ID} />, { wrapper: TrpcProvider });
 
@@ -91,19 +81,11 @@ describe('ActionPlanCard', () => {
     });
 
     test('Scenario 2: Facilitated course, no certificate, action plan submitted → shows disabled button', async () => {
-      const mockMeetPerson = createMockMeetPerson({
-        id: 'recABC123',
-        role: 'Participant',
-        projectSubmission: ['submission-1'],
-      });
-
-      server.use(
-        trpcMsw.courseRegistrations.getByCourseId.query(() => createMockCourseRegistration({
-          courseId: FACILITATED_COURSE_ID,
-          certificateId: null,
-        })),
-        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => mockMeetPerson),
-      );
+      server.use(trpcMsw.certificates.getStatus.query(() => ({
+        status: 'action-plan-pending',
+        meetPersonId: 'recABC123',
+        hasSubmittedActionPlan: true,
+      })));
 
       render(<ActionPlanCard courseId={FACILITATED_COURSE_ID} />, { wrapper: TrpcProvider });
 
@@ -119,14 +101,13 @@ describe('ActionPlanCard', () => {
       expect(submitButton).toHaveClass('disabled:opacity-50', 'disabled:pointer-events-none');
     });
 
-    test('Scenario 3: Facilitated course, has certificate → returns null', async () => {
-      server.use(
-        trpcMsw.courseRegistrations.getByCourseId.query(() => createMockCourseRegistration({
-          courseId: FACILITATED_COURSE_ID,
-          certificateId: 'cert123',
-        })),
-        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => createMockMeetPerson()),
-      );
+    test('Scenario 3: has-certificate status → returns null', async () => {
+      server.use(trpcMsw.certificates.getStatus.query(() => ({
+        status: 'has-certificate',
+        certificateId: 'cert123',
+        issuedAt: 1704067200,
+        holderName: 'Test User',
+      })));
 
       const { container } = render(
         <ActionPlanCard courseId={FACILITATED_COURSE_ID} />,
@@ -138,33 +119,10 @@ describe('ActionPlanCard', () => {
       });
     });
 
-    test('Scenario 4: FOAI (self-paced) course → returns null', async () => {
-      server.use(
-        trpcMsw.courseRegistrations.getByCourseId.query(() => createMockCourseRegistration({
-          courseId: FOAI_COURSE_ID,
-          certificateId: null,
-        })),
-        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => createMockMeetPerson()),
-      );
-
-      const { container } = render(
-        <ActionPlanCard courseId={FOAI_COURSE_ID} />,
-        { wrapper: TrpcProvider },
-      );
-
-      await waitFor(() => {
-        expect(container.firstChild).toBeNull();
-      });
-    });
-
-    test('Scenario 5: No meetPerson record → returns null', async () => {
-      server.use(
-        trpcMsw.courseRegistrations.getByCourseId.query(() => createMockCourseRegistration({
-          courseId: FACILITATED_COURSE_ID,
-          certificateId: null,
-        })),
-        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => null),
-      );
+    test('Scenario 4: non-action-plan-pending status → returns null', async () => {
+      server.use(trpcMsw.certificates.getStatus.query(() => ({
+        status: 'can-request',
+      })));
 
       const { container } = render(
         <ActionPlanCard courseId={FACILITATED_COURSE_ID} />,
@@ -176,7 +134,7 @@ describe('ActionPlanCard', () => {
       });
     });
 
-    test('Scenario 6: Not logged in → returns null', () => {
+    test('Scenario 5: Not logged in → returns null', () => {
       vi.mocked(useAuthStore).mockReturnValue(null);
 
       const { container } = render(
@@ -185,56 +143,6 @@ describe('ActionPlanCard', () => {
       );
 
       expect(container.firstChild).toBeNull();
-    });
-
-    test('Scenario 7: Facilitator role → returns null (no action plan needed)', async () => {
-      const mockMeetPerson = createMockMeetPerson({
-        id: 'recABC123',
-        role: 'Facilitator',
-        projectSubmission: [],
-      });
-
-      server.use(
-        trpcMsw.courseRegistrations.getByCourseId.query(() => createMockCourseRegistration({
-          courseId: FACILITATED_COURSE_ID,
-          certificateId: null,
-        })),
-        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => mockMeetPerson),
-      );
-
-      const { container } = render(
-        <ActionPlanCard courseId={FACILITATED_COURSE_ID} />,
-        { wrapper: TrpcProvider },
-      );
-
-      await waitFor(() => {
-        expect(container.firstChild).toBeNull();
-      });
-    });
-
-    test('Scenario 8: Null role → returns null (treated as non-participant)', async () => {
-      const mockMeetPerson = createMockMeetPerson({
-        id: 'recABC123',
-        role: null,
-        projectSubmission: [],
-      });
-
-      server.use(
-        trpcMsw.courseRegistrations.getByCourseId.query(() => createMockCourseRegistration({
-          courseId: FACILITATED_COURSE_ID,
-          certificateId: null,
-        })),
-        trpcMsw.meetPerson.getByCourseRegistrationId.query(() => mockMeetPerson),
-      );
-
-      const { container } = render(
-        <ActionPlanCard courseId={FACILITATED_COURSE_ID} />,
-        { wrapper: TrpcProvider },
-      );
-
-      await waitFor(() => {
-        expect(container.firstChild).toBeNull();
-      });
     });
   });
 });
