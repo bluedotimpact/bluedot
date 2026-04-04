@@ -72,8 +72,7 @@ describe('CertificateLinkCard', () => {
       expect(document.querySelector('.progress-dots')).toBeInTheDocument();
     });
 
-    test('renders course without certificate - non-FoAI with meetPerson returns null (ActionPlanCard shows instead)', async () => {
-      // Mock query response with no certificate for non-FoAI course with meetPerson record
+    test('renders null when action-plan-pending (ActionPlanCard shows instead)', async () => {
       server.use(trpcMsw.certificates.getStatus.query(() => ({
         status: 'action-plan-pending',
         meetPersonId: 'meet123',
@@ -88,15 +87,13 @@ describe('CertificateLinkCard', () => {
       });
     });
 
-    test('renders course without certificate - non-FoAI without meetPerson shows not eligible message', async () => {
+    test('renders not-eligible message', async () => {
       server.use(trpcMsw.certificates.getStatus.query(() => ({
         status: 'not-eligible',
       })));
 
       render(<CertificateLinkCard courseId="rec123456789" />, { wrapper: TrpcProvider });
 
-      // Independent learners (no meetPerson) should see "not eligible" message
-      // Certificates for non-FOAI courses are only available via facilitated cohorts
       await waitFor(() => {
         expect(screen.getByText('Your Certificate')).toBeInTheDocument();
         expect(screen.getByText('This course doesn\'t currently issue certificates to independent learners. Join a facilitated version to get a certificate.')).toBeInTheDocument();
@@ -188,15 +185,13 @@ describe('CertificateLinkCard', () => {
       expect(screen.getByText('Join the Community')).toBeInTheDocument();
     });
 
-    test('renders Facilitator without certificate - shows certificate message without button', async () => {
+    test('renders facilitator-pending message without request button', async () => {
       server.use(trpcMsw.certificates.getStatus.query(() => ({
         status: 'facilitator-pending',
       })));
 
       render(<CertificateLinkCard courseId="rec123456789" />, { wrapper: TrpcProvider });
 
-      // Facilitators see the requirements message but NO button
-      // (certificates are issued via backend after 80% attendance)
       await waitFor(() => {
         expect(screen.getByText('Your Certificate')).toBeInTheDocument();
         expect(screen.getByText('To be eligible for a certificate, you need to submit your action plan/project and miss no more than 1 discussion.')).toBeInTheDocument();
