@@ -337,8 +337,6 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
               {hasCertificate.viewButtonLabel}
             </CTALinkOrButton>
           </div>
-
-          {config.showCommunity && <CommunitySection />}
         </div>
       </Card>
     );

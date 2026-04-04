@@ -14,16 +14,16 @@ const FoAICongratulations: React.FC<FoAICongratulationsProps> = ({ className }) 
           Congratulations on completing the Future of AI course!
         </p>
         <P className="congratulations__description">
-          Want to go deeper? <span className="font-semibold">The AGI Strategy course</span> is the natural next step: 25 hours, facilitated in small groups with live discussion. No specific background required. New rounds start every month.
+          Want to connect with others taking AI safety seriously? <span className="font-semibold">Join 3,000+ FoAI course graduates</span> turning knowledge into action.
         </P>
       </div>
       <div className="mt-4 flex justify-start">
         <CTALinkOrButton
-          url="/courses/agi-strategy"
+          url="https://community.bluedot.org"
           variant="primary"
-          withChevron
+          target="_blank"
         >
-          Apply now
+          Join the Community
         </CTALinkOrButton>
       </div>
     </div>
