@@ -1,6 +1,8 @@
 import type { Unit } from '@bluedot/db';
 import {
-  A, CTALinkOrButton, P, HoverTooltip,
+  A, CTALinkOrButton,
+  HoverTooltip,
+  P,
 } from '@bluedot/ui';
 import clsx from 'clsx';
 import type React from 'react';
