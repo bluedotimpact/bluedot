@@ -1,8 +1,6 @@
 import type { Unit } from '@bluedot/db';
 import {
-  A, CTALinkOrButton,
-  HoverTooltip,
-  P,
+  A, CTALinkOrButton, HoverTooltip, P,
 } from '@bluedot/ui';
 import clsx from 'clsx';
 import type React from 'react';
@@ -113,18 +111,19 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                     <div className="flex flex-col items-start gap-[6px]">
                       <p className="font-normal text-[14px] leading-[150%] text-bluedot-navy">
                         {chunk.chunkTitle}
-                        {isLastChunkofFinalUnit && certificateStatus && (
-                          certificateStatus === 'has-certificate' ? (
-                            <span className="ml-1.5" aria-label="Certificate earned">🎉</span>
-                          )
-                            : <span className="ml-1.5 inline-flex">
-                              <HoverTooltip content={LOCK_TOOLTIP_TEXT[certificateStatus]}>
-                                <span>
-                                  🔒
-                                </span>
-                              </HoverTooltip>
-                            </span>
-                        )}
+                        {isLastChunkofFinalUnit
+                        && certificateStatus
+                        && (certificateStatus === 'has-certificate' ? (
+                          <span className="ml-1.5" aria-label="Certificate earned">
+                            🎉
+                          </span>
+                        ) : (
+                          <span className="ml-1.5 inline-flex">
+                            <HoverTooltip content={LOCK_TOOLTIP_TEXT[certificateStatus]}>
+                              <span>🔒</span>
+                            </HoverTooltip>
+                          </span>
+                        ))}
                       </p>
                     </div>
                     {chunk.estimatedTime && (
@@ -163,18 +162,19 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                   <div className="flex flex-col items-start gap-[6px]">
                     <p className="font-normal text-[14px] leading-[150%] text-bluedot-navy">
                       {chunk.chunkTitle}
-                      {isLastChunkofFinalUnit && certificateStatus && (
-                        certificateStatus === 'has-certificate' ? (
-                          <span className="ml-1.5" aria-label="Certificate earned">🎉</span>
-                        )
-                          : <span className="ml-1.5 inline-flex">
-                            <HoverTooltip content={LOCK_TOOLTIP_TEXT[certificateStatus]}>
-                              <span>
-                                🔒
-                              </span>
-                            </HoverTooltip>
-                          </span>
-                      )}
+                      {isLastChunkofFinalUnit
+                      && certificateStatus
+                      && (certificateStatus === 'has-certificate' ? (
+                        <span className="ml-1.5" aria-label="Certificate earned">
+                          🎉
+                        </span>
+                      ) : (
+                        <span className="ml-1.5 inline-flex">
+                          <HoverTooltip content={LOCK_TOOLTIP_TEXT[certificateStatus]}>
+                            <span>🔒</span>
+                          </HoverTooltip>
+                        </span>
+                      ))}
                     </p>
                   </div>
                   {chunk.estimatedTime && (
