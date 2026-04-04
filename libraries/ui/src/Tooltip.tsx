@@ -5,6 +5,8 @@ import {
   DialogTrigger,
   Popover,
   Dialog,
+  TooltipTrigger,
+  Tooltip as AriaTooltip,
 } from 'react-aria-components';
 import { cn } from './utils';
 import { InfoCircleIcon } from './icons/InfoCircleIcon';
@@ -45,5 +47,42 @@ export const Tooltip: React.FC<TooltipProps> = ({
         </Dialog>
       </Popover>
     </DialogTrigger>
+  );
+};
+
+export type HoverTooltipProps = {
+  content: ReactNode;
+  children?: ReactNode;
+  placement?: React.ComponentProps<typeof AriaTooltip>['placement'];
+  delayInMs?: number;
+  className?: string;
+};
+
+/**
+ * Tooltip that opens on hover and focus (keyboard accessible), closes on mouse leave or blur.
+ */
+export const HoverTooltip: React.FC<HoverTooltipProps> = ({
+  content,
+  children = <InfoCircleIcon />,
+  placement = 'top',
+  delayInMs = 100,
+  className,
+}) => {
+  return (
+    <TooltipTrigger delay={delayInMs}>
+      <Button className="cursor-default">
+        {children}
+      </Button>
+      <AriaTooltip
+        placement={placement}
+        offset={8}
+        className={cn(
+          'bg-cream-dark text-pretty text-white text-size-xs px-3 py-2 rounded-lg shadow-md max-w-2xs',
+          className,
+        )}
+      >
+        {content}
+      </AriaTooltip>
+    </TooltipTrigger>
   );
 };
