@@ -39,6 +39,14 @@ type SideBarCollapsibleProps = {
   certificateStatus: CertificateStatus | undefined;
 };
 
+const LOCK_TOOLTIP_TEXT: Record<CertificateStatus, string> = {
+  'can-request': 'Complete all exercises to unlock your certificate.',
+  'action-plan-pending': 'Submit your action plan and attend all discussions to unlock your certificate.',
+  'facilitator-pending': 'Your certificate will be issued after your cohort ends.',
+  'not-eligible': 'Login and/or enroll in the course to receive a certificate!',
+  'has-certificate': '', // Never shown
+};
+
 const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   unit,
   isCurrentUnit,
@@ -108,7 +116,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                             <span className="ml-1.5" aria-label="Certificate earned">🎉</span>
                           )
                             : <span className="ml-1.5 inline-flex">
-                              <HoverTooltip content="my awesome tooltip">
+                              <HoverTooltip content={LOCK_TOOLTIP_TEXT[certificateStatus]}>
                                 <span>
                                   🔒
                                 </span>
@@ -158,7 +166,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                           <span className="ml-1.5" aria-label="Certificate earned">🎉</span>
                         )
                           : <span className="ml-1.5 inline-flex">
-                            <HoverTooltip content="my awesome tooltip">
+                            <HoverTooltip content={LOCK_TOOLTIP_TEXT[certificateStatus]}>
                               <span>
                                 🔒
                               </span>
