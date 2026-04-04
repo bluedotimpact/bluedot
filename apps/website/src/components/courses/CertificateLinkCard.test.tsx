@@ -172,7 +172,7 @@ describe('CertificateLinkCard', () => {
 
       // Verify AGI Strategy follow-on section appears for FoAI course
       expect(screen.getByText('Want to go deeper?')).toBeInTheDocument();
-      expect(screen.getByText('Apply now')).toBeInTheDocument();
+      expect(screen.getAllByText('Apply now')).toHaveLength(1);
     });
 
     test('renders regular course with certificate - no community section', async () => {
@@ -223,7 +223,7 @@ describe('CertificateLinkCard', () => {
 
       // AGI Strategy follow-on section SHOULD appear for FoAI course
       expect(screen.getByText('Want to go deeper?')).toBeInTheDocument();
-      expect(screen.getByText('Apply now')).toBeInTheDocument();
+      expect(screen.getAllByText('Apply now')).toHaveLength(1);
     });
 
     test('renders Facilitator without certificate - shows certificate message without button', async () => {
