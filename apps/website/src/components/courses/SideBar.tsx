@@ -40,11 +40,11 @@ type SideBarCollapsibleProps = {
 };
 
 const LOCK_TOOLTIP_TEXT: Record<CertificateStatus, string> = {
-  'can-request': 'Complete all exercises to unlock your certificate.',
   'action-plan-pending': 'Submit your action plan and attend all discussions to unlock your certificate.',
+  'can-request': 'Complete all exercises to unlock your certificate.',
   'facilitator-pending': 'Your certificate will be issued after your cohort ends.',
-  'not-eligible': 'Login and/or enroll in the course to receive a certificate!',
   'has-certificate': '', // Never shown
+  'not-eligible': 'Login and/or enroll in the course to receive a certificate!',
 };
 
 const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
