@@ -29,8 +29,8 @@ export const Header: React.FC<HeaderProps> = ({ announcementBanner }) => {
 
   return (
     <>
-      <Nav />
       {announcementBanner}
+      <Nav />
     </>
   );
 };

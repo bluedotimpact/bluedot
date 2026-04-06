@@ -32,6 +32,12 @@ describe('AnnouncementBanner', () => {
     expect(banner?.className).toContain('custom-class');
   });
 
+  test('renders label when provided', () => {
+    render(<AnnouncementBanner label="From AI Safety Fundamentals">Test Announcement</AnnouncementBanner>);
+
+    expect(screen.getByText('From AI Safety Fundamentals')).toBeDefined();
+  });
+
   test('does not render CTA button when ctaUrl is not provided', () => {
     render(<AnnouncementBanner>Test Announcement</AnnouncementBanner>);
 
