@@ -5,7 +5,9 @@ import {
   fireEvent, render, screen, waitFor,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { afterEach, describe, expect, test } from 'vitest';
+import {
+  afterEach, describe, expect, test,
+} from 'vitest';
 import { HoverTooltip, Tooltip } from './Tooltip';
 
 describe('Tooltip', () => {
