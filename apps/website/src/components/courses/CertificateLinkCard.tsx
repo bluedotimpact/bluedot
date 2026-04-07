@@ -340,7 +340,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
     return (
       <Card
         title="Your Certificate"
-        subtitle="To be eligible for a certificate, you need to submit your action plan/project and miss no more than 1 discussion."
+        subtitle="Your certificate will be issued after your cohort ends, based on attendance."
         className="container-lined p-8 bg-white"
       />
     );
