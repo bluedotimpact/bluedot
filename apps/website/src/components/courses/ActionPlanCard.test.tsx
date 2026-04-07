@@ -109,10 +109,7 @@ describe('ActionPlanCard', () => {
         holderName: 'Test User',
       })));
 
-      const { container } = render(
-        <ActionPlanCard courseId={FACILITATED_COURSE_ID} />,
-        { wrapper: TrpcProvider },
-      );
+      const { container } = render(<ActionPlanCard courseId={FACILITATED_COURSE_ID} />, { wrapper: TrpcProvider });
 
       await waitFor(() => {
         expect(container.firstChild).toBeNull();
@@ -124,10 +121,7 @@ describe('ActionPlanCard', () => {
         status: 'can-request',
       })));
 
-      const { container } = render(
-        <ActionPlanCard courseId={FACILITATED_COURSE_ID} />,
-        { wrapper: TrpcProvider },
-      );
+      const { container } = render(<ActionPlanCard courseId={FACILITATED_COURSE_ID} />, { wrapper: TrpcProvider });
 
       await waitFor(() => {
         expect(container.firstChild).toBeNull();
@@ -149,10 +143,7 @@ describe('ActionPlanCard', () => {
     test('Scenario 6: Not logged in → returns null', () => {
       vi.mocked(useAuthStore).mockReturnValue(null);
 
-      const { container } = render(
-        <ActionPlanCard courseId={FACILITATED_COURSE_ID} />,
-        { wrapper: TrpcProvider },
-      );
+      const { container } = render(<ActionPlanCard courseId={FACILITATED_COURSE_ID} />, { wrapper: TrpcProvider });
 
       expect(container.firstChild).toBeNull();
     });
