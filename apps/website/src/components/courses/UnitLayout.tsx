@@ -509,6 +509,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       <MobileCourseModal
         isOpen={isMobileCourseMenuOpen}
         setIsOpen={setIsMobileCourseMenuOpen}
+        courseId={unit.courseId}
         courseTitle={unit.courseTitle}
         courseSlug={courseSlug}
         units={units}

@@ -7,7 +7,9 @@ import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
+import type { CertificateStatus } from '../../server/routers/certificates';
 import type { ChunkProgress, CourseProgress } from '../../server/routers/courses';
+import { trpc } from '../../utils/trpc';
 import { ChunkIcon } from '../icons/ChunkIcon';
 import { CourseIcon } from './CourseIcon';
 import type { ApplyCTAProps } from './SideBar';
@@ -15,6 +17,7 @@ import type { ApplyCTAProps } from './SideBar';
 type MobileCourseModalProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  courseId: string;
   courseTitle: string;
   courseSlug: string;
   units: Unit[];
@@ -30,6 +33,7 @@ type MobileCourseModalProps = {
 export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
   isOpen,
   setIsOpen,
+  courseId,
   courseTitle,
   courseSlug,
   units,
@@ -47,9 +51,15 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
     return currentUnit ? new Set([currentUnit.id]) : new Set();
   });
 
-  const isCurrentUnit = (unit: Unit): boolean => {
+  const isCurrentUnit = (unit: Unit) => {
     return !!unit.unitNumber && currentUnitNumber === Number(unit.unitNumber);
   };
+
+  const isFinalUnit = (unit: Unit) => {
+    return unit.id === units[units.length - 1]?.id;
+  };
+
+  const { data: certificateData } = trpc.certificates.getStatus.useQuery({ courseId });
 
   const toggleUnitExpansion = (unitId: string) => {
     setExpandedUnitIds((prev) => {
@@ -115,10 +125,12 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
             chunks={unitChunks[unit.id] ?? []}
             isExpanded={expandedUnitIds.has(unit.id)}
             isCurrent={isCurrentUnit(unit)}
+            isFinalUnit={isFinalUnit(unit)}
             currentChunkIndex={currentChunkIndex}
             onToggle={() => toggleUnitExpansion(unit.id)}
             onChunkClick={(index) => handleChunkClick(unit, index)}
             chunkProgress={courseProgressData?.chunkProgressByUnitNumber[unit.unitNumber] ?? []}
+            certificateStatus={certificateData?.status}
           />
         ))}
       </div>
@@ -132,10 +144,12 @@ type MobileUnitSectionProps = {
   chunks: BasicChunk[];
   isExpanded: boolean;
   isCurrent: boolean;
+  isFinalUnit: boolean;
   currentChunkIndex: number;
   onToggle: () => void;
   onChunkClick: (index: number) => void;
   chunkProgress: ChunkProgress[];
+  certificateStatus: CertificateStatus | undefined;
 };
 
 const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
@@ -144,10 +158,12 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
   chunks,
   isExpanded,
   isCurrent,
+  isFinalUnit,
   currentChunkIndex,
   onToggle,
   onChunkClick,
   chunkProgress,
+  certificateStatus,
 }) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const formatTime = (min: number) => (min < 60 ? `${min}min` : `${Math.floor(min / 60)}h${min % 60 ? ` ${min % 60}min` : ''}`);
@@ -187,6 +203,7 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
       {isExpanded && (
         <div id={`unit-${unit.id}-chunks`} className="flex flex-col gap-1 pb-4">
           {chunks.map((chunk, index) => {
+            const isLastChunkOfFinalUnit = isFinalUnit && index === chunks.length - 1;
             const isActive = isCurrent && currentChunkIndex === index;
             return (
               <button
@@ -203,6 +220,13 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
                   <div className="flex flex-col gap-[6px]">
                     <p className="font-normal text-[14px] leading-[150%] text-bluedot-navy">
                       {chunk.chunkTitle}
+                      {isLastChunkOfFinalUnit
+                      && certificateStatus
+                      && (certificateStatus === 'has-certificate' ? (
+                        <span className="ml-1.5" aria-label="Certificate earned">🎉</span>
+                      ) : (
+                        <span className="ml-1.5 inline-flex">🔒</span>
+                      ))}
                     </p>
                   </div>
                   {chunk.estimatedTime != null && (
