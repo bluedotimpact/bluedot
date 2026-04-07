@@ -5,7 +5,7 @@ import {
   fireEvent, render, screen, waitFor,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, test } from 'vitest';
+import { afterEach, describe, expect, test } from 'vitest';
 import { HoverTooltip, Tooltip } from './Tooltip';
 
 describe('Tooltip', () => {
@@ -23,6 +23,10 @@ describe('Tooltip', () => {
 });
 
 describe('HoverTooltip', () => {
+  afterEach(() => {
+    setInteractionModality(null);
+  });
+
   test('opens on hover and matches snapshot', async () => {
     const user = userEvent.setup();
 
