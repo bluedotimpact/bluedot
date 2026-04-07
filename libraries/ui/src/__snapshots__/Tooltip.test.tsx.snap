@@ -4,6 +4,7 @@ exports[`HoverTooltip > opens on hover and matches snapshot 1`] = `
 <div>
   <button
     aria-describedby="react-aria-:r7:"
+    aria-label="Show info tooltip"
     class="cursor-default"
     data-hovered="true"
     data-rac=""
