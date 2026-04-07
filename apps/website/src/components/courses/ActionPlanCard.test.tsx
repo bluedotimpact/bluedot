@@ -134,7 +134,19 @@ describe('ActionPlanCard', () => {
       });
     });
 
-    test('Scenario 5: Not logged in → returns null', () => {
+    test('Scenario 5: not-eligible status → returns null', async () => {
+      server.use(trpcMsw.certificates.getStatus.query(() => ({
+        status: 'not-eligible',
+      })));
+
+      const { container } = render(<ActionPlanCard courseId={FACILITATED_COURSE_ID} />, { wrapper: TrpcProvider });
+
+      await waitFor(() => {
+        expect(container.firstChild).toBeNull();
+      });
+    });
+
+    test('Scenario 6: Not logged in → returns null', () => {
       vi.mocked(useAuthStore).mockReturnValue(null);
 
       const { container } = render(
