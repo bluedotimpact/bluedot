@@ -110,19 +110,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                     <div className="flex flex-col items-start gap-[6px]">
                       <p className="font-normal text-[14px] leading-[150%] text-bluedot-navy">
                         {chunk.chunkTitle}
-                        {isLastChunkOfFinalUnit
-                        && certificateStatus
-                        && (certificateStatus === 'has-certificate' ? (
-                          <span className="ml-1.5" aria-label="Certificate earned">
-                            🎉
-                          </span>
-                        ) : (
-                          <span className="ml-1.5 inline-flex">
-                            <HoverTooltip content={LOCK_TOOLTIP_TEXT[certificateStatus]}>
-                              <span>🔒</span>
-                            </HoverTooltip>
-                          </span>
-                        ))}
+                        <CertificateIndicator isLastChunkOfFinalUnit={isLastChunkOfFinalUnit} certificateStatus={certificateStatus} />
                       </p>
                     </div>
                     {chunk.estimatedTime && (
@@ -161,19 +149,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                   <div className="flex flex-col items-start gap-[6px]">
                     <p className="font-normal text-[14px] leading-[150%] text-bluedot-navy">
                       {chunk.chunkTitle}
-                      {isLastChunkOfFinalUnit
-                      && certificateStatus
-                      && (certificateStatus === 'has-certificate' ? (
-                        <span className="ml-1.5" aria-label="Certificate earned">
-                          🎉
-                        </span>
-                      ) : (
-                        <span className="ml-1.5 inline-flex">
-                          <HoverTooltip content={LOCK_TOOLTIP_TEXT[certificateStatus]}>
-                            <span>🔒</span>
-                          </HoverTooltip>
-                        </span>
-                      ))}
+                      <CertificateIndicator isLastChunkOfFinalUnit={isLastChunkOfFinalUnit} certificateStatus={certificateStatus} />
                     </p>
                   </div>
                   {chunk.estimatedTime && (
@@ -221,6 +197,32 @@ const ApplyCTA = ({ applicationDeadline, applicationUrl, hasApplied }: ApplyCTAP
     >
       {`Apply by ${applicationDeadline}`}
     </CTALinkOrButton>
+  );
+};
+
+const CertificateIndicator = ({
+  isLastChunkOfFinalUnit,
+  certificateStatus,
+}: {
+  isLastChunkOfFinalUnit: boolean;
+  certificateStatus: CertificateStatus | undefined;
+}) => {
+  if (!isLastChunkOfFinalUnit || !certificateStatus) return null;
+
+  if (certificateStatus === 'has-certificate') {
+    return (
+      <span className="ml-1.5" aria-label="Certificate earned">
+        🎉
+      </span>
+    );
+  }
+
+  return (
+    <span className="ml-1.5 inline-flex">
+      <HoverTooltip content={LOCK_TOOLTIP_TEXT[certificateStatus]}>
+        <span>🔒</span>
+      </HoverTooltip>
+    </span>
   );
 };
 
