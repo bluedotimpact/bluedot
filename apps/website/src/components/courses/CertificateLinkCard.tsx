@@ -124,14 +124,21 @@ const CommunitySection = ({ leftContent }: { leftContent?: React.ReactNode }) =>
             {leftContent}
           </div>
         )}
-        <p className="text-center font-bold w-full">Join 3,245 graduates in our graduate community!</p>
+        <div className="flex flex-col gap-2 w-full">
+          <p className="text-center font-bold w-full">
+            Want to go deeper?
+          </p>
+          <P className="text-center">
+            <span className="font-semibold">The AGI Strategy course</span> is the natural next step: 25 hours, facilitated in small groups with live discussion. No specific background required. New rounds start every month.
+          </P>
+        </div>
         <div className="flex justify-center w-full">
           <CTALinkOrButton
-            url="https://community.bluedot.org"
+            url="/courses/agi-strategy"
             variant="primary"
-            target="_blank"
+            withChevron
           >
-            Join the Community
+            Apply now
           </CTALinkOrButton>
         </div>
       </div>
@@ -317,7 +324,6 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
             </CTALinkOrButton>
           </div>
 
-          {config.showCommunity && <CommunitySection />}
         </div>
       </Card>
     );
