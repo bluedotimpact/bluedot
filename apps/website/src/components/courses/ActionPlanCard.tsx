@@ -1,11 +1,10 @@
 import {
   Card, CTALinkOrButton, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
-import type React from 'react';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
-import { trpc } from '../../utils/trpc';
-import { FOAI_COURSE_ID } from '../../lib/constants';
+import type React from 'react';
 import { getActionPlanUrl } from '../../lib/utils';
+import { trpc } from '../../utils/trpc';
 
 type ActionPlanCardProps = {
   courseId: string;
@@ -22,78 +21,36 @@ const ActionPlanCard: React.FC<ActionPlanCardProps> = ({ courseId }) => {
 };
 
 const ActionPlanCardAuthed: React.FC<ActionPlanCardProps> = ({ courseId }) => {
-  const {
-    data: courseRegistration,
-    isLoading: courseRegistrationLoading,
-    error: courseRegistrationError,
-  } = trpc.courseRegistrations.getByCourseId.useQuery({ courseId });
+  const { data: certificateData, isLoading, error } = trpc.certificates.getStatus.useQuery({ courseId });
 
-  const {
-    data: meetPerson,
-    isLoading: meetPersonLoading,
-    error: meetPersonError,
-  } = trpc.meetPerson.getByCourseRegistrationId.useQuery(
-    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-    { courseRegistrationId: courseRegistration?.id || '' },
-    { enabled: !!courseRegistration?.id },
-  );
-
-  const hasSubmittedActionPlan = meetPerson?.projectSubmission && meetPerson.projectSubmission.length > 0;
-
-  // Handle loading state
-  if (courseRegistrationLoading || meetPersonLoading) {
+  if (isLoading) {
     return (
-      <Card
-        title="Your Certificate"
-        className="container-lined p-8 bg-white"
-      >
+      <Card title="Your Certificate" className="container-lined bg-white p-8">
         <ProgressDots />
       </Card>
     );
   }
 
-  // Handle error state
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  if (courseRegistrationError || meetPersonError) {
+  if (error) {
     return (
-      <Card
-        title="Your Certificate"
-        className="container-lined p-8 bg-white"
-      >
-        {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
-        <ErrorView error={courseRegistrationError || meetPersonError} />
+      <Card title="Your Certificate" className="container-lined bg-white p-8">
+        <ErrorView error={error} />
       </Card>
     );
   }
 
-  // If no meetPerson record exists, cannot submit action plan
-  if (!meetPerson) {
+  if (certificateData?.status !== 'action-plan-pending') {
     return null;
   }
 
-  if (meetPerson.role?.toLowerCase() !== 'participant') {
-    return null;
-  }
-
-  // Check if conditions are met to show the card
-  // 1. User is in a facilitated course (courseId !== FOAI_COURSE_ID)
-  if (courseRegistration?.courseId === FOAI_COURSE_ID) {
-    return null;
-  }
-
-  // 2. User doesn't have a certificate
-  if (courseRegistration?.certificateId) {
-    return null;
-  }
-
-  // All conditions met - show the action plan card
-  const actionPlanUrl = getActionPlanUrl(meetPerson.id);
+  const actionPlanUrl = getActionPlanUrl(certificateData.meetPersonId);
+  const { hasSubmittedActionPlan } = certificateData;
 
   return (
     <Card
       title="Your Certificate"
       subtitle="To be eligible for a certificate, you need to submit your action plan/project and miss no more than 1 discussion."
-      className="container-lined p-8 bg-white"
+      className="container-lined bg-white p-8"
     >
       <CTALinkOrButton
         url={actionPlanUrl}
