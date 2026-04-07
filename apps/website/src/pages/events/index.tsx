@@ -11,12 +11,12 @@ import {
   type BluedotRoute,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import LandingBanner from '../components/lander/components/LandingBanner';
-import { Nav } from '../components/Nav/Nav';
-import { buildTimeDeltaString } from '../components/events/eventsUtils';
-import { ROUTES } from '../lib/routes';
-import type { Event } from '../server/routers/luma';
-import { trpc } from '../utils/trpc';
+import LandingBanner from '../../components/lander/components/LandingBanner';
+import { Nav } from '../../components/Nav/Nav';
+import { buildTimeDeltaString } from '../../components/events/eventsUtils';
+import { ROUTES } from '../../lib/routes';
+import type { Event } from '../../server/routers/luma';
+import { trpc } from '../../utils/trpc';
 
 const CURRENT_ROUTE: BluedotRoute = {
   title: 'Events',

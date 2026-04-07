@@ -24,7 +24,7 @@ const GraduateSection = () => {
         <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-5 w-full max-w-[1200px] 2xl:max-w-none">
           {/* Text */}
           <P className="text-bluedot-navy text-[16px] leading-[26px] whitespace-nowrap flex-shrink-0">
-            Our 6,000+ alumni work at
+            Our 7,000+ alumni work at
           </P>
 
           {/* Logos with scrolling */}

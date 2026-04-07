@@ -25,12 +25,14 @@ export const Default: Story = {
 
 export const WithCta: Story = {
   args: {
+    label: 'Platform update',
     ctaUrl: 'https://lu.ma/bluedotevents',
   },
 };
 
 export const CustomContent: Story = {
   args: {
+    label: 'From AI Safety Fundamentals',
     children: 'AI Safety Workshop',
     ctaText: 'Sign Up',
     ctaUrl: 'https://lu.ma/bluedotevents',
@@ -39,6 +41,7 @@ export const CustomContent: Story = {
 
 export const CustomJSXContent: Story = {
   args: {
+    label: 'Important update',
     children: <>This is some <span className="font-bold">custom</span> content</>,
     ctaText: 'Sign Up',
     ctaUrl: 'https://lu.ma/bluedotevents',

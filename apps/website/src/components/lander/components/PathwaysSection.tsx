@@ -1,4 +1,5 @@
 import { H2, P } from '@bluedot/ui';
+import { type ReactNode } from 'react';
 import { type IconType } from 'react-icons';
 import Link from 'next/link';
 
@@ -8,7 +9,7 @@ export type Pathway = {
   /** Title of the pathway */
   title: string;
   /** Description text */
-  description: string;
+  description: ReactNode;
   /** Accent color for the icon background */
   accentColor: string;
   /** Optional link URL */
@@ -23,13 +24,15 @@ export type PathwaysSectionProps = {
   /** Section heading */
   title: string;
   /** Introductory text below the heading */
-  intro?: string;
+  intro?: ReactNode;
   /** Array of pathway options */
   pathways: Pathway[];
+  /** Optional callout shown below the pathway cards */
+  callout?: ReactNode;
 };
 
 const PathwaysSection = ({
-  id, title, intro, pathways,
+  id, title, intro, pathways, callout,
 }: PathwaysSectionProps) => {
   return (
     <section id={id} className="w-full bg-white">
@@ -39,9 +42,9 @@ const PathwaysSection = ({
             {title}
           </H2>
           {intro && (
-            <P className="text-[16px] min-[680px]:text-[17px] leading-[1.6] text-bluedot-navy/70 text-center mb-12 md:mb-16 max-w-[600px] mx-auto">
+            <div className="text-[16px] min-[680px]:text-[17px] leading-[1.6] text-bluedot-navy/70 text-center mb-12 md:mb-16 max-w-[860px] mx-auto">
               {intro}
-            </P>
+            </div>
           )}
 
           <div className="grid grid-cols-1 min-[680px]:grid-cols-2 gap-6 lg:gap-8">
@@ -79,6 +82,14 @@ const PathwaysSection = ({
               );
             })}
           </div>
+
+          {callout && (
+            <div className="mt-10 md:mt-12 p-6 md:p-8 rounded-2xl border border-bluedot-navy/10 bg-bluedot-navy/[0.03]">
+              <div className="text-[15px] min-[680px]:text-[16px] leading-[1.7] text-bluedot-navy/80">
+                {callout}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>

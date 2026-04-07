@@ -20,6 +20,7 @@ import PrerequisitesSection, { type PrerequisitesSectionProps } from './componen
 import CaseStudiesSection, { type CaseStudiesSectionProps } from './components/CaseStudiesSection';
 import AlumniStoryCarousel, { type AlumniStoryCarouselProps } from './components/AlumniStoryCarousel';
 import SectionNav, { type SectionNavItem } from './components/SectionNav';
+import FieldBuildingSection, { type FieldBuildingSectionProps } from './components/FieldBuildingSection';
 import { trpc } from '../../utils/trpc';
 
 export type CourseLanderMeta = {
@@ -42,6 +43,8 @@ export type CourseLanderContent = {
   courseBenefits?: CourseBenefitsSectionProps;
   /** Course outcomes section - alternative to courseBenefits for text-focused content */
   courseOutcomes?: CourseOutcomesSectionProps;
+  /** Optional placement override for course outcomes section */
+  courseOutcomesPlacement?: 'default' | 'beforeStructure';
   /** Prerequisites section */
   prerequisites?: PrerequisitesSectionProps;
   courseInformation?: CourseInformationSectionProps;
@@ -55,7 +58,11 @@ export type CourseLanderContent = {
   testimonialsTitle?: string;
   /** Hide the testimonials section even if testimonials exist in the database */
   hideTestimonials?: boolean;
+  /** Optional placement override for testimonials section */
+  testimonialsPlacement?: 'default' | 'beforeOutcomes';
   partners?: PartnerSectionProps;
+  /** Optional recruiting / field-building section shown before FAQ */
+  fieldBuilding?: FieldBuildingSectionProps;
   faq?: FAQSectionProps;
   banner: LandingBannerProps;
 };
@@ -84,6 +91,17 @@ const CourseLander = ({
   const { data: dbTestimonials } = trpc.testimonials.getCommunityMembersByCourseSlug.useQuery({ courseSlug });
 
   const testimonials = dbTestimonials?.map((t): TestimonialMember => ({ ...t }));
+  const shouldShowTestimonials = Boolean(testimonials && testimonials.length > 0 && !content.hideTestimonials);
+  const testimonialsSection = shouldShowTestimonials ? (
+    <>
+      <div className="border-t-hairline border-color-divider" />
+      <TestimonialCarousel
+        testimonials={testimonials ?? []}
+        title={content.testimonialsTitle}
+        variant="lander"
+      />
+    </>
+  ) : null;
 
   const ctaText = soonestDeadline
     ? `Apply by ${soonestDeadline}`
@@ -140,8 +158,10 @@ const CourseLander = ({
       {content.personas && <PersonasSection id="personas" {...content.personas} />}
       {!content.personas && content.whoIsThisFor && <WhoIsThisForSection {...content.whoIsThisFor} />}
 
+      {content.testimonialsPlacement === 'beforeOutcomes' && testimonialsSection}
+
       {/* Course outcomes OR course benefits section */}
-      {content.courseOutcomes && (
+      {content.courseOutcomes && content.courseOutcomesPlacement !== 'beforeStructure' && (
         <>
           <div className="border-t-hairline border-color-divider" />
           <CourseOutcomesSection id="outcomes" {...content.courseOutcomes} />
@@ -187,6 +207,13 @@ const CourseLander = ({
         </>
       )}
 
+      {content.courseOutcomes && content.courseOutcomesPlacement === 'beforeStructure' && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <CourseOutcomesSection id="outcomes" {...content.courseOutcomes} />
+        </>
+      )}
+
       {content.courseInformation && (
         <>
           <div className="border-t-hairline border-color-divider" />
@@ -194,16 +221,7 @@ const CourseLander = ({
         </>
       )}
 
-      {testimonials && testimonials.length > 0 && !content.hideTestimonials && (
-        <>
-          <div className="border-t-hairline border-color-divider" />
-          <TestimonialCarousel
-            testimonials={testimonials}
-            title={content.testimonialsTitle}
-            variant="lander"
-          />
-        </>
-      )}
+      {content.testimonialsPlacement !== 'beforeOutcomes' && testimonialsSection}
 
       {content.quotes && (
         <>
@@ -216,6 +234,13 @@ const CourseLander = ({
         <>
           <div className="border-t-hairline border-color-divider" />
           <PartnerSection {...content.partners} />
+        </>
+      )}
+
+      {content.fieldBuilding && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <FieldBuildingSection id="help-build-field" {...content.fieldBuilding} />
         </>
       )}
 

@@ -3,11 +3,14 @@ import {
 } from '@bluedot/ui';
 import { type ReactNode } from 'react';
 import { type IconType } from 'react-icons';
+import Link from 'next/link';
 
 export type CourseOutcome = {
   icon: IconType;
   title: string;
   description: ReactNode;
+  linkUrl?: string;
+  linkText?: string;
 };
 
 export type CourseOutcomesSectionProps = {
@@ -60,6 +63,15 @@ const CourseOutcomesSection = ({
                     <P className="text-[15px] leading-[1.65] text-bluedot-navy/70">
                       {outcome.description}
                     </P>
+                    {outcome.linkUrl && (
+                      <Link
+                        href={outcome.linkUrl}
+                        className="inline-flex items-center gap-1 text-[15px] font-medium text-bluedot-normal hover:underline mt-2"
+                      >
+                        {outcome.linkText ?? 'Open unit'}
+                        <span aria-hidden="true">→</span>
+                      </Link>
+                    )}
                   </div>
                 </div>
               );

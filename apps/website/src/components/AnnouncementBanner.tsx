@@ -47,6 +47,7 @@ export const getAnnouncementBannerKey = (children: React.ReactNode) => {
 
 export type AnnouncementBannerProps = React.PropsWithChildren<{
   className?: string;
+  label?: string;
   ctaText?: string;
   ctaUrl?: string;
   /** Hide the banner before this time. E.g. use this to schedule announcing a public product launch in the future */
@@ -59,6 +60,7 @@ export type AnnouncementBannerProps = React.PropsWithChildren<{
 export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
   className,
   children,
+  label,
   ctaText = 'Learn more',
   ctaUrl,
   hideUntil,
@@ -85,31 +87,47 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
   return (
     <div
       className={clsx(
-        'announcement-banner w-full py-4 bg-bluedot-lighter',
+        'announcement-banner w-full border-b border-color-divider bg-bluedot-lighter text-bluedot-darker',
         className,
       )}
     >
-      <div className="announcement-banner__container section-base flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-        <P className="announcement-banner__content text-center sm:text-left">{children}</P>
-        <div className="flex gap-2">
-          {ctaUrl && (
+      <div className="announcement-banner__container section-base">
+        <div className="flex flex-col gap-3 py-3 sm:py-3.5 lg:flex-row lg:items-center lg:justify-between lg:gap-6">
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-col gap-1.5">
+              {label && (
+                <span className="announcement-banner__label text-[11px] font-semibold uppercase tracking-[0.14em] text-bluedot-normal">
+                  {label}
+                </span>
+              )}
+              <P className="announcement-banner__content max-w-4xl text-pretty text-[14px] leading-6 text-bluedot-darker sm:text-[15px]">
+                {children}
+              </P>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            {ctaUrl && (
+              <CTALinkOrButton
+                className="announcement-banner__cta"
+                size="small"
+                variant="black"
+                url={ctaUrl}
+                withChevron
+              >
+                {ctaText}
+              </CTALinkOrButton>
+            )}
             <CTALinkOrButton
-              className="announcement-banner__cta"
-              variant="black"
-              url={ctaUrl}
+              className="announcement-banner__close"
+              variant="outline-black"
+              size="small"
+              aria-label="Close announcement"
+              onClick={() => dismissBanner(bannerKey)}
             >
-              {ctaText}
+              Dismiss
             </CTALinkOrButton>
-          )}
-          <CTALinkOrButton
-            className="announcement-banner__close"
-            variant="outline-black"
-            size="small"
-            aria-label="Close announcement"
-            onClick={() => dismissBanner(bannerKey)}
-          >
-            <span aria-hidden="true">&times;</span>
-          </CTALinkOrButton>
+          </div>
         </div>
       </div>
     </div>

@@ -838,11 +838,11 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           >
             What happens after
           </h2>
-          <p
-            class="bluedot-p not-prose text-[16px] min-[680px]:text-[17px] leading-[1.6] text-bluedot-navy/70 text-center mb-12 md:mb-16 max-w-[600px] mx-auto"
+          <div
+            class="text-[16px] min-[680px]:text-[17px] leading-[1.6] text-bluedot-navy/70 text-center mb-12 md:mb-16 max-w-[860px] mx-auto"
           >
             The AGI Strategy Course is where you get oriented. What comes next depends on you.
-          </p>
+          </div>
           <div
             class="grid grid-cols-1 min-[680px]:grid-cols-2 gap-6 lg:gap-8"
           >
