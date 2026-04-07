@@ -9,7 +9,6 @@ import { FaChevronRight } from 'react-icons/fa6';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 import type { CertificateStatus } from '../../server/routers/certificates';
 import type { ChunkProgress, CourseProgress } from '../../server/routers/courses';
-import { trpc } from '../../utils/trpc';
 import { ChunkIcon } from '../icons/ChunkIcon';
 import { CourseIcon } from './CourseIcon';
 import type { ApplyCTAProps } from './SideBar';
@@ -17,7 +16,7 @@ import type { ApplyCTAProps } from './SideBar';
 type MobileCourseModalProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  courseId: string;
+  certificateStatus: CertificateStatus | undefined;
   courseTitle: string;
   courseSlug: string;
   units: Unit[];
@@ -33,7 +32,7 @@ type MobileCourseModalProps = {
 export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
   isOpen,
   setIsOpen,
-  courseId,
+  certificateStatus,
   courseTitle,
   courseSlug,
   units,
@@ -58,8 +57,6 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
   const isFinalUnit = (unit: Unit) => {
     return unit.id === units[units.length - 1]?.id;
   };
-
-  const { data: certificateData } = trpc.certificates.getStatus.useQuery({ courseId });
 
   const toggleUnitExpansion = (unitId: string) => {
     setExpandedUnitIds((prev) => {
@@ -130,7 +127,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
             onToggle={() => toggleUnitExpansion(unit.id)}
             onChunkClick={(index) => handleChunkClick(unit, index)}
             chunkProgress={courseProgressData?.chunkProgressByUnitNumber[unit.unitNumber] ?? []}
-            certificateStatus={certificateData?.status}
+            certificateStatus={certificateStatus}
           />
         ))}
       </div>

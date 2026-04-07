@@ -181,6 +181,8 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
     { enabled: Boolean(auth) },
   );
 
+  const { data: certificateData } = trpc.certificates.getStatus.useQuery({ courseId: unit.courseId });
+
   const isFirstChunk = chunkIndex === 0;
   const isLastChunk = chunkIndex === chunks.length - 1;
   const chunk = chunks[chunkIndex];
@@ -333,7 +335,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           <SideBar
             courseTitle={unit.courseTitle}
             courseSlug={courseSlug}
-            courseId={unit.courseId}
+            certificateStatus={certificateData?.status}
             className="hidden md:block md:sticky md:top-(--nav-height-mobile) lg:top-(--nav-height-desktop) md:overflow-y-auto md:h-[calc(100vh-var(--nav-height-mobile))] lg:h-[calc(100vh-var(--nav-height-desktop))] md:shrink-0"
             units={units}
             currentUnitNumber={parseInt(unitNumber)}
@@ -509,7 +511,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       <MobileCourseModal
         isOpen={isMobileCourseMenuOpen}
         setIsOpen={setIsMobileCourseMenuOpen}
-        courseId={unit.courseId}
+        certificateStatus={certificateData?.status}
         courseTitle={unit.courseTitle}
         courseSlug={courseSlug}
         units={units}

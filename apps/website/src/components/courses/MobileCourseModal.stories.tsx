@@ -24,7 +24,6 @@ const meta: Meta<typeof MobileCourseModal> = {
   args: {
     isOpen: true,
     setIsOpen() {},
-    courseId: 'safety',
     courseTitle: 'AI Safety Fundamentals',
     courseSlug: 'ai-safety',
     units: mockUnits,

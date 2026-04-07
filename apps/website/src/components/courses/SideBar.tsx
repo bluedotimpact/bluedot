@@ -9,14 +9,13 @@ import { FaChevronRight } from 'react-icons/fa6';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 import type { CertificateStatus } from '../../server/routers/certificates';
 import type { ChunkProgress, CourseProgress } from '../../server/routers/courses';
-import { trpc } from '../../utils/trpc';
 import { ChunkIcon } from '../icons/ChunkIcon';
 import { CourseIcon } from './CourseIcon';
 
 type SideBarProps = {
   courseTitle: string;
   courseSlug: string;
-  courseId: string;
+  certificateStatus: CertificateStatus | undefined;
   units: Unit[];
   currentUnitNumber: number;
   currentChunkIndex: number;
@@ -228,7 +227,7 @@ const ApplyCTA = ({ applicationDeadline, applicationUrl, hasApplied }: ApplyCTAP
 const SideBar: React.FC<SideBarProps> = ({
   courseTitle,
   courseSlug,
-  courseId,
+  certificateStatus,
   courseProgressData,
   className,
   units,
@@ -245,8 +244,6 @@ const SideBar: React.FC<SideBarProps> = ({
   const isFinalUnit = (unit: Unit) => {
     return unit.id === units[units.length - 1]?.id;
   };
-
-  const { data: certificateData } = trpc.certificates.getStatus.useQuery({ courseId });
 
   return (
     <div className={clsx(
@@ -285,7 +282,7 @@ const SideBar: React.FC<SideBarProps> = ({
             onChunkSelect={onChunkSelect}
             courseSlug={courseSlug}
             chunkProgress={courseProgressData?.chunkProgressByUnitNumber[unit.unitNumber] ?? []}
-            certificateStatus={certificateData?.status}
+            certificateStatus={certificateStatus}
           />
         ))}
       </div>
