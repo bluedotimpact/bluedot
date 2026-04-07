@@ -24,7 +24,7 @@ describe('Tooltip', () => {
 
 describe('HoverTooltip', () => {
   afterEach(() => {
-    setInteractionModality(null);
+    setInteractionModality('virtual');
   });
 
   test('opens on hover and matches snapshot', async () => {
