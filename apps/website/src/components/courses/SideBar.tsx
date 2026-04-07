@@ -218,7 +218,7 @@ const CertificateIndicator = ({
   }
 
   return (
-    <span className="ml-1.5 inline-flex">
+    <span className="ml-1.5 inline-flex" aria-label={LOCK_TOOLTIP_TEXT[certificateStatus]}>
       <HoverTooltip content={LOCK_TOOLTIP_TEXT[certificateStatus]}>
         <span>🔒</span>
       </HoverTooltip>
