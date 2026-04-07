@@ -68,7 +68,7 @@ export const HoverTooltip: React.FC<HoverTooltipProps> = ({
   placement = 'top',
   delayInMs = 100,
   className,
-  ariaLabel,
+  ariaLabel = 'Show info tooltip',
 }) => {
   return (
     <TooltipTrigger delay={delayInMs}>
