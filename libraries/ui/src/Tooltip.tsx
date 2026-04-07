@@ -56,6 +56,7 @@ export type HoverTooltipProps = {
   placement?: React.ComponentProps<typeof AriaTooltip>['placement'];
   delayInMs?: number;
   className?: string;
+  ariaLabel?: string;
 };
 
 /**
@@ -67,10 +68,11 @@ export const HoverTooltip: React.FC<HoverTooltipProps> = ({
   placement = 'top',
   delayInMs = 100,
   className,
+  ariaLabel = 'Show info tooltip',
 }) => {
   return (
     <TooltipTrigger delay={delayInMs}>
-      <Button className="cursor-default">
+      <Button className="cursor-default" aria-label={ariaLabel}>
         {children}
       </Button>
       <AriaTooltip
