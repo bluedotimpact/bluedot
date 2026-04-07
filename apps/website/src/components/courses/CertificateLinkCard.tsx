@@ -248,7 +248,7 @@ const CertificateLinkCardAuthed: React.FC<CertificateLinkCardProps & { config: C
         <CTALinkOrButton
           variant="primary"
           onClick={() => (error ? refetch() : requestCertificate())}
-          disabled={isLoading ?? requestCertificateMutation.isPending}
+          disabled={isLoading || requestCertificateMutation.isPending}
         >
           Retry
         </CTALinkOrButton>
