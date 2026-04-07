@@ -82,8 +82,8 @@ export type { TimePickerProps } from './TimePicker';
 export { ToggleSwitch } from './ToggleSwitch';
 export type { ToggleSwitchProps } from './ToggleSwitch';
 
-export { Tooltip } from './Tooltip';
-export type { TooltipProps } from './Tooltip';
+export { Tooltip, HoverTooltip } from './Tooltip';
+export type { TooltipProps, HoverTooltipProps } from './Tooltip';
 
 // Export text components directly
 export {
