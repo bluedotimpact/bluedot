@@ -222,7 +222,7 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
                       && (certificateStatus === 'has-certificate' ? (
                         <span className="ml-1.5" aria-label="Certificate earned">🎉</span>
                       ) : (
-                        <span className="ml-1.5 inline-flex">🔒</span>
+                        <span className="ml-1.5 inline-flex" aria-label="Certificate locked">🔒</span>
                       ))}
                     </p>
                   </div>
