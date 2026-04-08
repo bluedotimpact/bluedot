@@ -31,9 +31,9 @@ export type AllowedPgColumn =
   ReturnType<ReturnType<typeof pgBoolean>['array']>;
 
 export type DrizzleColumnToTsType<T extends AllowedPgColumn> =
-  T extends ReturnType<ReturnType<typeof text>['array']> ? string[] | null :
-    T extends ReturnType<ReturnType<typeof numeric<'number'>>['array']> ? number[] | null :
-      T extends ReturnType<ReturnType<typeof pgBoolean>['array']> ? boolean[] | null :
+  T extends ReturnType<ReturnType<typeof text>['array']> ? string[] :
+    T extends ReturnType<ReturnType<typeof numeric<'number'>>['array']> ? number[] :
+      T extends ReturnType<ReturnType<typeof pgBoolean>['array']> ? boolean[] :
         T extends ReturnType<typeof numeric<'number'>> ? number | null :
           T extends ReturnType<typeof pgBoolean> ? boolean | null :
             string | null;

@@ -37,18 +37,20 @@ const booleanNull: BooleanType = null;
 // @ts-expect-error - should not accept strings
 const booleanInvalid: BooleanType = 'test';
 
-// Test that array types are correct
 const textArrayValue: TextArrayType = ['test', 'test2'];
+// @ts-expect-error - should not accept null for arrays
 const textArrayNull: TextArrayType = null;
 // @ts-expect-error - should not accept single strings
 const textArrayInvalid: TextArrayType = 'test';
 
 const numericArrayValue: NumericArrayType = [1, 2, 3];
+// @ts-expect-error - should not accept null for arrays
 const numericArrayNull: NumericArrayType = null;
 // @ts-expect-error - should not accept string arrays
 const numericArrayInvalid: NumericArrayType = ['test'];
 
 const booleanArrayValue: BooleanArrayType = [true, false];
+// @ts-expect-error - should not accept null for arrays
 const booleanArrayNull: BooleanArrayType = null;
 // @ts-expect-error - should not accept string arrays
 const booleanArrayInvalid: BooleanArrayType = ['test'];
@@ -81,9 +83,9 @@ const validItemWithNulls: TestAirtableItem = {
   name: null,
   age: null,
   isActive: null,
-  tags: null,
-  scores: null,
-  flags: null,
+  tags: [],
+  scores: [],
+  flags: [],
 };
 
 // Test that invalid assignments are caught
@@ -128,9 +130,6 @@ describe('DrizzleColumnToTsType type tests', () => {
     expect(textNull).toBeNull();
     expect(numericNull).toBeNull();
     expect(booleanNull).toBeNull();
-    expect(textArrayNull).toBeNull();
-    expect(numericArrayNull).toBeNull();
-    expect(booleanArrayNull).toBeNull();
   });
 
   test('should create valid AirtableItemFromColumnsMap objects', () => {
