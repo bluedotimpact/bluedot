@@ -1,12 +1,9 @@
-import type { inferRouterOutputs } from '@trpc/server';
-import type { AppRouter } from '../../server/routers/_app';
+import type { CourseRound } from '../../server/routers/course-rounds';
 import { buildRoundApplyUrl, RoundItem } from './RoundItem';
-
-type Round = inferRouterOutputs<AppRouter>['courseRounds']['getRoundsForCourse']['intense'][number];
 
 type RoundGroupProps = {
   type: 'intensive' | 'part-time';
-  rounds: Round[];
+  rounds: CourseRound[];
   applicationUrl: string;
   accentColor?: string;
   /** Cap the number of rounds shown. Defaults to showing all. */
