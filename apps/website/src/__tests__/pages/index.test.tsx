@@ -65,11 +65,9 @@ describe('HomePage testimonials', () => {
   test('sets homepage social metadata', async () => {
     server.use(trpcMsw.testimonials.getCommunityMembers.query(() => []));
 
-    renderWithHead(
-      <TrpcProvider>
-        <HomePage />
-      </TrpcProvider>,
-    );
+    renderWithHead(<TrpcProvider>
+      <HomePage />
+    </TrpcProvider>);
 
     expect(document.title).toBe('BlueDot Impact | Have a positive impact on the trajectory of AI');
     expect(document.querySelector('meta[name="description"]')?.getAttribute('content')).toBe('Free courses, career support, and entrepreneur programs from the leading talent accelerator for beneficial AI and societal resilience. Join 7,000+ alumni and start today.');
