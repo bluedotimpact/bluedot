@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import UnitLayout from './UnitLayout';
 import { createMockChunk, createMockUnit } from '../../__tests__/testUtils';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
+import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 
 // Mock next/router
 vi.mock('next/router', () => ({
@@ -156,6 +157,9 @@ describe('UnitLayout', () => {
   });
 
   test('renders Congratulations section on final chunk of final unit', async () => {
+    // No upcoming rounds - CourseCompletionSection should show Congratulations
+    server.use(trpcMsw.courseRounds.getApplyCTAProps.query(() => null));
+
     // Update router mock to show last chunk
     vi.mocked(useRouter).mockReturnValue({
       query: { chunk: String(CHUNKS.length - 1) },
@@ -192,13 +196,10 @@ describe('UnitLayout', () => {
       { wrapper: TrpcProvider },
     );
 
-    // Wait for MarkdownExtendedRenderer to complete async rendering
     await waitFor(() => {
-      expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
+      expect(container.querySelector('.congratulations')).toBeTruthy();
     });
-
     expect(container.querySelector('.unit__cta-container')).toBeNull();
-    expect(container.querySelector('.congratulations')).toBeTruthy();
   });
 
   test('keyboard navigation component is displayed', async () => {
