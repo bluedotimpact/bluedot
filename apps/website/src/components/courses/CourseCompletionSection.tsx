@@ -37,7 +37,7 @@ export default function CourseCompletionSection({
     { enabled: shouldFetchRounds },
   );
 
-  const isLoading = isApplyCTALoading || (shouldFetchRounds && isRoundsLoading);
+  const isLoading = isApplyCTALoading || (shouldFetchRounds && (isRoundsLoading || !roundsData));
   const hasRounds = Boolean(roundsData && (roundsData.intense.length > 0 || roundsData.partTime.length > 0));
   const showEnrollmentCTA = shouldFetchRounds && !isRoundsLoading && hasRounds && applyCTAProps && roundsData;
 
