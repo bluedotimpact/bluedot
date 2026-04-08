@@ -4,7 +4,23 @@ import {
 } from 'vitest';
 import { server, trpcMsw } from '../trpcMswSetup';
 import { TrpcProvider } from '../trpcProvider';
+import { renderWithHead } from '../testUtils';
 import HomePage from '../../pages/index';
+
+vi.mock('next/head', () => ({
+  __esModule: true,
+  default({ children }: { children: React.ReactNode }) {
+    if (children) {
+      return (
+        <head-proxy data-testid="head-proxy">
+          {children}
+        </head-proxy>
+      );
+    }
+
+    return null;
+  },
+}));
 
 vi.mock('next/router', () => ({
   useRouter: () => ({
@@ -15,6 +31,7 @@ vi.mock('next/router', () => ({
 
 describe('HomePage testimonials', () => {
   beforeEach(() => {
+    document.head.innerHTML = '';
     server.use(trpcMsw.courses.getAll.query(() => []));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => []));
     server.use(trpcMsw.luma.getUpcomingEvents.query(() => []));
@@ -43,5 +60,20 @@ describe('HomePage testimonials', () => {
     await waitFor(() => {
       expect(screen.getAllByText('DB Person 1').length).toBeGreaterThan(0);
     });
+  });
+
+  test('sets homepage social metadata', async () => {
+    server.use(trpcMsw.testimonials.getCommunityMembers.query(() => []));
+
+    renderWithHead(
+      <TrpcProvider>
+        <HomePage />
+      </TrpcProvider>,
+    );
+
+    expect(document.title).toBe('BlueDot Impact | Have a positive impact on the trajectory of AI');
+    expect(document.querySelector('meta[name="description"]')?.getAttribute('content')).toBe('Free courses, career support, and entrepreneur programs from the leading talent accelerator for beneficial AI and societal resilience. Join 7,000+ alumni and start today.');
+    expect(document.querySelector('meta[property="og:title"]')?.getAttribute('content')).toBe('BlueDot Impact | Have a positive impact on the trajectory of AI');
+    expect(document.querySelector('meta[name="twitter:description"]')?.getAttribute('content')).toBe('Free courses, career support, and entrepreneur programs from the leading talent accelerator for beneficial AI and societal resilience. Join 7,000+ alumni and start today.');
   });
 });
