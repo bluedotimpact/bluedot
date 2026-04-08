@@ -1,16 +1,16 @@
 import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { useRouter } from 'next/router';
 import {
   describe,
   expect,
   test,
   vi,
 } from 'vitest';
-import { useRouter } from 'next/router';
-import UnitLayout from './UnitLayout';
 import { createMockChunk, createMockUnit } from '../../__tests__/testUtils';
-import { TrpcProvider } from '../../__tests__/trpcProvider';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
+import { TrpcProvider } from '../../__tests__/trpcProvider';
+import UnitLayout from './UnitLayout';
 
 // Mock next/router
 vi.mock('next/router', () => ({
