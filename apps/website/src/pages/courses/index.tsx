@@ -13,7 +13,7 @@ import NewsletterBanner from '../../components/homepage/NewsletterBanner';
 import { CourseIcon } from '../../components/courses/CourseIcon';
 import { COURSE_CONFIG } from '../../lib/constants';
 import { appendPosthogSessionIdPrefill } from '../../lib/appendPosthogSessionIdPrefill';
-import { RoundItem, buildRoundApplyUrl } from '../../components/shared/RoundItem';
+import RoundGroup from '../../components/shared/RoundGroup';
 
 const getCourseAccentColor = (courseSlug: string): string => {
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
@@ -21,8 +21,6 @@ const getCourseAccentColor = (courseSlug: string): string => {
 };
 
 type Course = inferRouterOutputs<AppRouter>['courses']['getAll'][number];
-type CourseRounds = inferRouterOutputs<AppRouter>['courseRounds']['getRoundsForCourse'];
-type Round = CourseRounds['intense'][number];
 
 /* Self-paced courses have no cohort rounds - just open access content */
 const isSelfPacedCourse = (course: Course): boolean => course.slug === 'future-of-ai' || course.slug === 'personal-theory-of-impact';
@@ -414,19 +412,21 @@ const CourseCard = ({ course }: CourseCardProps) => {
         {!roundsLoading && !isSelfPaced && showRounds && (
           <div className="flex flex-col gap-16">
             {hasIntense && (
-              <FormatSection
+              <RoundGroup
                 type="intensive"
                 rounds={rounds.intense}
-                course={course}
-                applicationUrlWithUtm={applicationUrlWithUtm}
+                applicationUrl={applicationUrlWithUtm}
+                accentColor={getCourseAccentColor(course.slug)}
+                maxRounds={3}
               />
             )}
             {hasPartTime && (
-              <FormatSection
+              <RoundGroup
                 type="part-time"
                 rounds={rounds.partTime}
-                course={course}
-                applicationUrlWithUtm={applicationUrlWithUtm}
+                applicationUrl={applicationUrlWithUtm}
+                accentColor={getCourseAccentColor(course.slug)}
+                maxRounds={3}
               />
             )}
           </div>
@@ -552,53 +552,3 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
     </>
   );
 };
-
-/* Format Section (Intensive or Part-time) */
-type FormatSectionProps = {
-  type: 'intensive' | 'part-time';
-  rounds: Round[];
-  course: Course;
-  applicationUrlWithUtm: string;
-};
-
-const FormatSection = ({ type, rounds, course, applicationUrlWithUtm }: FormatSectionProps) => {
-  // Limit to display only first 3 rounds
-  const displayedRounds = rounds.slice(0, 3);
-  const firstRound = displayedRounds[0];
-  const numberOfUnits = firstRound?.numberOfUnits;
-  const label = type === 'intensive' ? 'Intensive:' : 'Part-time:';
-  const unitLabel = type === 'intensive' ? 'day' : 'week';
-  const perLabel = type === 'intensive' ? '5h/day' : '5h/week';
-
-  const description = numberOfUnits
-    ? `${numberOfUnits} ${unitLabel} course (${perLabel})`
-    : `${unitLabel} course`;
-
-  const accentColor = getCourseAccentColor(course.slug);
-
-  return (
-    <div className="flex flex-col">
-      <div className="text-[15px] leading-tight text-bluedot-navy mb-6">
-        <span className="font-semibold uppercase tracking-[0.45px]">{label}</span>
-        <span className="ml-1 font-normal opacity-80">{description}</span>
-      </div>
-
-      <ul className="flex flex-col">
-        {displayedRounds.map((round, index) => (
-          <li key={round.id}>
-            <RoundItem
-              title={round.dateRange}
-              subtitle={`Application closes ${round.applicationDeadline}`}
-              href={buildRoundApplyUrl(applicationUrlWithUtm, round.id)}
-              accentColor={accentColor}
-            />
-            {index < displayedRounds.length - 1 && (
-              <div className="my-4 border-t border-bluedot-navy/10" />
-            )}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
-
