@@ -50,10 +50,9 @@ export default function CourseCompletionSection({
   }
 
   if (showEnrollmentCTA) {
-    const applicationUrl = applyCTAProps?.applicationUrl ?? '';
     const applicationUrlWithUtm = appendPosthogSessionIdPrefill(latestUtmParams.utm_source
-      ? addQueryParam(applicationUrl, 'prefill_Source', latestUtmParams.utm_source)
-      : applicationUrl);
+      ? addQueryParam(applyCTAProps.applicationUrl, 'prefill_Source', latestUtmParams.utm_source)
+      : applyCTAProps.applicationUrl);
 
     return (
       <div className={cn('container-lined bg-white p-6', className)}>
