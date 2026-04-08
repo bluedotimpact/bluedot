@@ -1,4 +1,3 @@
-import { render, type RenderResult } from '@testing-library/react';
 import type {
   Chunk,
   Course,
@@ -11,6 +10,8 @@ import type {
   UnitResource,
 } from '@bluedot/db';
 import { RESOURCE_FEEDBACK } from '@bluedot/db/src/schema';
+import { render, type RenderResult } from '@testing-library/react';
+import type { CourseRound } from '../server/routers/course-rounds';
 
 // Re-export from libraries/ui for convenience
 export { createMockOidcResponse } from '@bluedot/ui/src/utils/testUtils';
@@ -228,6 +229,22 @@ export const createMockResource = (overrides: Partial<UnitResource> = {}): UnitR
   autoNumberId: 1,
   ...overrides,
 });
+
+let mockRoundCounter = 0;
+
+export const createMockRound = (overrides: Partial<CourseRound> = {}): CourseRound => {
+  mockRoundCounter += 1;
+  return {
+    id: `round-${mockRoundCounter}`,
+    intensity: 'intensive',
+    applicationDeadline: '15 Jan',
+    applicationDeadlineRaw: '2025-01-15',
+    firstDiscussionDateRaw: '2025-01-20',
+    dateRange: '20 – 24 Jan',
+    numberOfUnits: 5,
+    ...overrides,
+  };
+};
 
 export const createMockResourceCompletion = (overrides: Partial<ResourceCompletion> = {}): ResourceCompletion => ({
   autoNumberId: 1,
