@@ -77,7 +77,7 @@ export default function CourseCompletionSection({
         )}
 
         {roundsData.partTime.length > 0 && (
-          <div className={roundsData.intense.length > 0 ? 'mt-6' : ''}>
+          <div className={cn(roundsData.intense.length > 0 && 'mt-6')}>
             <RoundGroup
               type="part-time"
               rounds={roundsData.partTime}
