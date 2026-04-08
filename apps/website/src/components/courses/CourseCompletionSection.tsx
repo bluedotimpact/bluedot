@@ -30,11 +30,6 @@ export default function CourseCompletionSection({
     courseSlug,
   });
 
-  const applicationUrl = applyCTAProps?.applicationUrl ?? '';
-  const applicationUrlWithUtm = appendPosthogSessionIdPrefill(latestUtmParams.utm_source
-    ? addQueryParam(applicationUrl, 'prefill_Source', latestUtmParams.utm_source)
-    : applicationUrl);
-
   const shouldFetchRounds = Boolean(applyCTAProps) && !applyCTAProps?.hasApplied;
 
   const { data: roundsData, isLoading: isRoundsLoading } = trpc.courseRounds.getRoundsForCourse.useQuery(
@@ -55,6 +50,11 @@ export default function CourseCompletionSection({
   }
 
   if (showEnrollmentCTA) {
+    const applicationUrl = applyCTAProps?.applicationUrl ?? '';
+    const applicationUrlWithUtm = appendPosthogSessionIdPrefill(latestUtmParams.utm_source
+      ? addQueryParam(applicationUrl, 'prefill_Source', latestUtmParams.utm_source)
+      : applicationUrl);
+
     return (
       <div className={cn('container-lined bg-white p-6', className)}>
         <div className="flex flex-col gap-4 pb-6 min-[680px]:flex-row min-[680px]:items-center">
