@@ -24,11 +24,11 @@ import { trpc } from '../../utils/trpc';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
 
 export const CERTIFICATE_STATUS_DESCRIPTIONS: Record<CertificateStatus, string> = {
-  'action-plan-pending': "To receive your certificate, you need to submit an action plan/project and can't have missed more than one discussion.",
+  'action-plan-pending': 'To receive your certificate, you need to submit an action plan/project and can\'t have missed more than one discussion.',
   'can-request': 'Complete all exercises to unlock your certificate, then share your accomplishment on social media.',
   'facilitator-pending': 'Your certificate will be issued after your cohort ends, based on attendance.',
   'has-certificate': '',
-  'not-eligible': "This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate.",
+  'not-eligible': 'This course doesn\'t currently issue certificates to independent learners. Join a facilitated version to get a certificate.',
 };
 
 const secondaryBtnClass
