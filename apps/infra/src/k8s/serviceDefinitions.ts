@@ -1,12 +1,19 @@
+import { jsonStringify } from '@pulumi/pulumi';
 import { type core } from '@pulumi/kubernetes/types/input';
 import { envVarSources } from './secrets';
 import { getConnectionDetails, keycloakPg, airtableSyncPg } from './postgres';
-import { minioPvc } from './pvc';
+import { minioPvc, mcpAggregatorDataPvc, mcpAshbyDataPvc } from './pvc';
 import { websiteAssetsBucket } from '../minio';
+import { config } from '../config';
 
 const ALERTS_SLACK_CHANNEL_ID = 'C04SAGM4FN1'; // #update_tech-prod
 const INFO_SLACK_CHANNEL_ID = 'C04SFUECECU'; // #updates_tech-dev
 const CLIENT_ERRORS_SLACK_CHANNEL_ID = 'C0AL75QQ0SC'; // #update_client-errors
+
+const KEYCLOAK_ISSUER = 'https://login.bluedot.org/realms/customers';
+const MCP_AGGREGATOR_HOST = 'mcp.k8s.bluedot.org';
+const MCP_ASHBY_HOST = 'mcp-ashby.k8s.bluedot.org';
+const MCP_GOOGLE_HOST = 'mcp-google.k8s.bluedot.org';
 
 export const services: ServiceDefinition[] = [
   {
@@ -319,6 +326,106 @@ export const services: ServiceDefinition[] = [
       ],
     },
     hosts: ['storage.k8s.bluedot.org'],
+  },
+  // Google Workspace MCP server (gmail/drive/calendar/docs/sheets/forms/slides/tasks/contacts/appscript).
+  // Runs the workspace-mcp PyPI package directly via uvx; users OAuth to their own Google account on first use.
+  {
+    name: 'bluedot-mcp-google-workspace',
+    spec: {
+      containers: [{
+        name: 'bluedot-mcp-google-workspace',
+        image: 'ghcr.io/astral-sh/uv:python3.13-bookworm-slim',
+        command: ['uvx', 'workspace-mcp', '--transport', 'streamable-http', '--tools', 'gmail', 'drive', 'calendar', 'docs', 'sheets', 'forms', 'slides', 'tasks', 'contacts', 'appscript'],
+        env: [
+          { name: 'WORKSPACE_MCP_PORT', value: '8080' },
+          { name: 'WORKSPACE_EXTERNAL_URL', value: `https://${MCP_GOOGLE_HOST}` },
+          { name: 'MCP_ENABLE_OAUTH21', value: 'true' },
+          { name: 'GOOGLE_OAUTH_CLIENT_ID', valueFrom: envVarSources.mcpGoogleOauthClientId },
+          { name: 'GOOGLE_OAUTH_CLIENT_SECRET', valueFrom: envVarSources.mcpGoogleOauthClientSecret },
+        ],
+      }],
+    },
+    hosts: [MCP_GOOGLE_HOST],
+  },
+  // Ashby MCP server. ashby-mcp itself is stdio-only, so mcp-auth-wrapper exposes it as
+  // streamable-HTTP behind Keycloak; each user supplies their own Ashby API key via a web form.
+  {
+    name: 'bluedot-mcp-ashby',
+    spec: {
+      containers: [{
+        name: 'bluedot-mcp-ashby',
+        image: 'ghcr.io/domdomegg/mcp-auth-wrapper:1.2.0@sha256:fd2fb6d3c952349423b3dfac2c1bb4ecc18cadbe0b37d0c842d6570506695453',
+        env: [{
+          name: 'MCP_AUTH_WRAPPER_CONFIG',
+          value: jsonStringify({
+            command: ['npx', '-y', 'ashby-mcp'],
+            auth: { issuer: KEYCLOAK_ISSUER, clientId: 'mcp-auth-wrapper' },
+            envPerUser: [
+              {
+                name: 'ASHBY_API_KEY', label: 'Ashby API Key', description: 'Get this from Ashby admin → Integrations → API keys', secret: true,
+              },
+            ],
+            storage: '/app/data/mcp.sqlite',
+            issuerUrl: `https://${MCP_ASHBY_HOST}`,
+            port: 8080,
+            secret: config.requireSecret('mcpAuthWrapperSecret'),
+          }),
+        }],
+        volumeMounts: [{
+          name: 'mcp-data-volume',
+          mountPath: '/app/data',
+        }],
+      }],
+      volumes: [{
+        name: 'mcp-data-volume',
+        persistentVolumeClaim: {
+          claimName: mcpAshbyDataPvc.metadata.name,
+        },
+      }],
+    },
+    hosts: [MCP_ASHBY_HOST],
+  },
+  // MCP aggregator: single streamable-HTTP endpoint behind Keycloak that fronts the two
+  // self-hosted servers above plus six vendor-hosted MCPs. See https://github.com/domdomegg/mcp-aggregator
+  {
+    name: 'bluedot-mcp-aggregator',
+    spec: {
+      containers: [{
+        name: 'bluedot-mcp-aggregator',
+        image: 'ghcr.io/domdomegg/mcp-aggregator:2.0.1@sha256:990a63a45a29a5a7258202c2803f8ac8e5717fa90cd4dce1afb8580d0decc3ea',
+        env: [{
+          name: 'MCP_AGGREGATOR_CONFIG',
+          value: jsonStringify({
+            auth: { issuer: KEYCLOAK_ISSUER, clientId: 'mcp-aggregator' },
+            upstreams: [
+              { name: 'ashby', url: `https://${MCP_ASHBY_HOST}/mcp` },
+              { name: 'google', url: `https://${MCP_GOOGLE_HOST}/mcp` },
+              { name: 'slack', url: 'https://mcp.slack.com/mcp' },
+              { name: 'airtable', url: 'https://mcp.airtable.com/mcp' },
+              { name: 'notion', url: 'https://mcp.notion.com/mcp' },
+              { name: 'posthog', url: 'https://mcp-eu.posthog.com/mcp' },
+              { name: 'granola', url: 'https://mcp.granola.ai/mcp' },
+              { name: 'customerio', url: 'https://mcp.customer.io/mcp' },
+            ],
+            storage: '/app/data/mcp-aggregator.sqlite',
+            issuerUrl: `https://${MCP_AGGREGATOR_HOST}`,
+            port: 8080,
+            secret: config.requireSecret('mcpAggregatorSecret'),
+          }),
+        }],
+        volumeMounts: [{
+          name: 'mcp-data-volume',
+          mountPath: '/app/data',
+        }],
+      }],
+      volumes: [{
+        name: 'mcp-data-volume',
+        persistentVolumeClaim: {
+          claimName: mcpAggregatorDataPvc.metadata.name,
+        },
+      }],
+    },
+    hosts: [MCP_AGGREGATOR_HOST],
   },
 ];
 

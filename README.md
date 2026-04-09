@@ -29,6 +29,7 @@ This repository has the code for:
 - [storybook](./apps/storybook/) (storybook.k8s.bluedot.org): App to demo and document design system components
 - [website](./apps/website/) (bluedot.org): Public website
 - [website-proxy](./apps/website-proxy/) (bluedot.org): Reverse proxy to split traffic between the new and old website during migration
+- mcp-aggregator (mcp.k8s.bluedot.org): Single [MCP](https://modelcontextprotocol.io/) endpoint behind Keycloak that fronts Ashby, Google Workspace, Slack, Airtable, Notion, PostHog, Granola and Customer.io for use with AI clients (configured in [infra](./apps/infra/src/k8s/serviceDefinitions.ts))
 - [infra](./apps/infra/): Deploying the above applications on Kubernetes
 
 The following key parts of our software are _not_ in this repository because they are built in 3rd party services that are hard to open-source the code for:
