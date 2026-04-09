@@ -32,7 +32,7 @@ export const CERTIFICATE_STATUS_DESCRIPTIONS: Record<CertificateStatus, string> 
 };
 
 const secondaryBtnClass
-  = 'flex flex-1 items-center justify-center gap-2 bg-[rgba(19,19,46,0.05)] rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-[rgba(19,19,46,0.1)] transition-colors no-underline';
+  = 'flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline';
 
 type ActionCardProps = {
   number: number;
@@ -44,9 +44,9 @@ type ActionCardProps = {
 const ActionCard = ({
   number, title, description, actions,
 }: ActionCardProps) => (
-  <div className="bg-white border-[0.5px] border-[rgba(19,19,46,0.25)] rounded-[10px] overflow-hidden p-10 flex flex-col gap-12">
+  <div className="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden p-10 flex flex-col gap-12">
     <div className="flex flex-col gap-6">
-      <div className="border-2 border-[rgba(19,19,46,0.08)] rounded-[12px] size-16 flex items-center justify-center shrink-0">
+      <div className="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0">
         <span className="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy">
           {number}
         </span>
@@ -290,7 +290,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
         {courseId && <CertificateCard courseId={courseId} />}
 
         {courseId === FOAI_COURSE_ID && (
-          <div className="bg-white border-[0.5px] border-[rgba(19,19,46,0.25)] rounded-[10px] p-10 flex flex-col gap-6">
+          <div className="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] p-10 flex flex-col gap-6">
             <div className="flex flex-col gap-3">
               <h3 className="font-semibold text-[18px] leading-[1.4] text-bluedot-navy">Want to go deeper?</h3>
               <P className="text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy">
