@@ -24,3 +24,11 @@ export const mcpAshbyDataPvc = new k8s.core.v1.PersistentVolumeClaim('mcp-ashby-
     resources: { requests: { storage: '100Mi' } },
   },
 }, { provider });
+
+export const mcpGoogleDataPvc = new k8s.core.v1.PersistentVolumeClaim('mcp-google-data-pvc', {
+  metadata: { name: 'mcp-google-data-pvc' },
+  spec: {
+    accessModes: ['ReadWriteOnce'],
+    resources: { requests: { storage: '100Mi' } },
+  },
+}, { provider });

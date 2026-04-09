@@ -2,7 +2,9 @@ import { jsonStringify } from '@pulumi/pulumi';
 import { type core } from '@pulumi/kubernetes/types/input';
 import { envVarSources } from './secrets';
 import { getConnectionDetails, keycloakPg, airtableSyncPg } from './postgres';
-import { minioPvc, mcpAggregatorDataPvc, mcpAshbyDataPvc } from './pvc';
+import {
+  minioPvc, mcpAggregatorDataPvc, mcpAshbyDataPvc, mcpGoogleDataPvc,
+} from './pvc';
 import { websiteAssetsBucket } from '../minio';
 import { config } from '../config';
 
@@ -334,15 +336,26 @@ export const services: ServiceDefinition[] = [
     spec: {
       containers: [{
         name: 'bluedot-mcp-google-workspace',
-        image: 'ghcr.io/astral-sh/uv:python3.13-bookworm-slim',
-        command: ['uvx', 'workspace-mcp', '--transport', 'streamable-http', '--tools', 'gmail', 'drive', 'calendar', 'docs', 'sheets', 'forms', 'slides', 'tasks', 'contacts', 'appscript'],
+        image: 'ghcr.io/astral-sh/uv:python3.13-bookworm-slim@sha256:531f855bda2c73cd6ef67d56b733b357cea384185b3022bd09f05e002cd144ca',
+        command: ['uvx', 'workspace-mcp==1.18.0', '--transport', 'streamable-http', '--tools', 'gmail', 'drive', 'calendar', 'docs', 'sheets', 'forms', 'slides', 'tasks', 'contacts', 'appscript'],
         env: [
           { name: 'WORKSPACE_MCP_PORT', value: '8080' },
           { name: 'WORKSPACE_EXTERNAL_URL', value: `https://${MCP_GOOGLE_HOST}` },
           { name: 'MCP_ENABLE_OAUTH21', value: 'true' },
+          { name: 'GOOGLE_MCP_CREDENTIALS_DIR', value: '/app/data/credentials' },
           { name: 'GOOGLE_OAUTH_CLIENT_ID', valueFrom: envVarSources.mcpGoogleOauthClientId },
           { name: 'GOOGLE_OAUTH_CLIENT_SECRET', valueFrom: envVarSources.mcpGoogleOauthClientSecret },
         ],
+        volumeMounts: [{
+          name: 'mcp-data-volume',
+          mountPath: '/app/data',
+        }],
+      }],
+      volumes: [{
+        name: 'mcp-data-volume',
+        persistentVolumeClaim: {
+          claimName: mcpGoogleDataPvc.metadata.name,
+        },
       }],
     },
     hosts: [MCP_GOOGLE_HOST],
