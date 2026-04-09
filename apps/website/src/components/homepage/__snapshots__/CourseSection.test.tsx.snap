@@ -153,7 +153,7 @@ exports[`CourseSection > renders as expected 1`] = `
           <p
             class="bluedot-p not-prose text-[14px] font-medium uppercase tracking-[1.5px] text-bluedot-navy/60"
           >
-            Start here
+            New to AI Safety? Start here
           </p>
           <div
             class="w-full max-w-[50%]"
@@ -229,11 +229,6 @@ exports[`CourseSection > renders as expected 1`] = `
                       >
                         Every month
                       </span>
-                      <span
-                        class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white text-[#001140]"
-                      >
-                        Start here
-                      </span>
                     </div>
                   </div>
                 </div>
@@ -264,7 +259,7 @@ exports[`CourseSection > renders as expected 1`] = `
           <p
             class="bluedot-p not-prose text-[14px] font-medium uppercase tracking-[1.5px] text-bluedot-navy/60"
           >
-            Deep-dives
+            Ready to contribute?
           </p>
           <div
             class="grid grid-cols-3 gap-8 w-full"
@@ -583,11 +578,6 @@ exports[`CourseSection > renders as expected 1`] = `
                         >
                           Every month
                         </span>
-                        <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white text-[#001140]"
-                        >
-                          Start here
-                        </span>
                       </div>
                     </div>
                   </div>
@@ -892,11 +882,6 @@ exports[`CourseSection > renders as expected 1`] = `
                         >
                           Every month
                         </span>
-                        <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white text-[#001140]"
-                        >
-                          Start here
-                        </span>
                       </div>
                     </div>
                   </div>
@@ -1200,11 +1185,6 @@ exports[`CourseSection > renders as expected 1`] = `
                           class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Every month
-                        </span>
-                        <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white text-[#001140]"
-                        >
-                          Start here
                         </span>
                       </div>
                     </div>
