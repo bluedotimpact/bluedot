@@ -80,18 +80,38 @@ const WhatsAppPreviewPanel = ({ courseTitle, courseUrl }: {
   </div>
 );
 
-const CertificateBadgePanel = ({ courseSlug }: { courseSlug: string }) => {
+const CertificatePreviewPanel = ({ courseSlug, courseTitle, holderName }: {
+  courseSlug: string;
+  courseTitle: string;
+  holderName?: string;
+}) => {
   const badgeSrc = courseSlug in COURSE_CONFIG
     ? `/images/certificates/${courseSlug}.png`
     : '/images/certificates/certificate-fallback-image.png';
 
   return (
-    <div className="h-full bg-[#f7f7fd] flex items-center justify-center p-8">
-      <img
-        src={badgeSrc}
-        alt=""
-        className="max-h-[240px] md:max-h-[320px] w-auto object-contain"
-      />
+    <div className="h-full bg-[#f7f7fd] flex items-center justify-center p-6">
+      <div className="bg-white rounded-lg border border-slate-200 shadow-sm w-full max-w-[280px] overflow-hidden">
+        <div className="flex flex-col items-center px-5 py-6 gap-3">
+          <img src={badgeSrc} alt="" className="h-[100px] w-auto object-contain" />
+          <div className="flex flex-col items-center gap-1 text-center">
+            <p className="text-[10px] font-medium uppercase tracking-[0.06em] text-[#62748E]">
+              Professional Certification
+            </p>
+            <p className="text-[16px] font-semibold text-bluedot-navy leading-tight">
+              {courseTitle}
+            </p>
+          </div>
+          {holderName && (
+            <div className="flex flex-col items-center gap-0.5 text-center">
+              <p className="text-[10px] font-medium uppercase tracking-[0.06em] text-[#62748E]">
+                Awarded to
+              </p>
+              <p className="text-[13px] font-semibold text-bluedot-navy">{holderName}</p>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
@@ -134,9 +154,9 @@ const ActionCard = ({
 
 // --- Certificate card ---
 
-type CertificateCardProps = { courseId: string; courseSlug: string };
+type CertificateCardProps = { courseId: string; courseSlug: string; courseTitle: string };
 
-const CertificateCardAuthed = ({ courseId, courseSlug }: CertificateCardProps) => {
+const CertificateCardAuthed = ({ courseId, courseSlug, courseTitle }: CertificateCardProps) => {
   const { data: certificateData, isLoading, error, refetch } = trpc.certificates.getStatus.useQuery({ courseId });
 
   const requestCertificateMutation = trpc.certificates.request.useMutation({
@@ -148,7 +168,7 @@ const CertificateCardAuthed = ({ courseId, courseSlug }: CertificateCardProps) =
     },
   });
 
-  const preview = <CertificateBadgePanel courseSlug={courseSlug} />;
+  const preview = <CertificatePreviewPanel courseSlug={courseSlug} courseTitle={courseTitle} />;
 
   if (isLoading || requestCertificateMutation.isPending) {
     return (
@@ -185,7 +205,7 @@ const CertificateCardAuthed = ({ courseId, courseSlug }: CertificateCardProps) =
         number={3}
         title="Grab your certificate"
         description={`Earned by ${certificateData.holderName} · Issued ${formattedDate}`}
-        preview={preview}
+        preview={<CertificatePreviewPanel courseSlug={courseSlug} courseTitle={courseTitle} holderName={certificateData.holderName} />}
         actions={(
           <CTALinkOrButton
             url={addQueryParam(ROUTES.certification.url, 'id', certificateData.certificateId)}
@@ -264,7 +284,7 @@ const CertificateCardAuthed = ({ courseId, courseSlug }: CertificateCardProps) =
   );
 };
 
-const CertificateCard = ({ courseId, courseSlug }: CertificateCardProps) => {
+const CertificateCard = ({ courseId, courseSlug, courseTitle }: CertificateCardProps) => {
   const auth = useAuthStore((s) => s.auth);
   const router = useRouter();
 
@@ -274,7 +294,7 @@ const CertificateCard = ({ courseId, courseSlug }: CertificateCardProps) => {
         number={3}
         title="Grab your certificate"
         description="Create a free account to earn your course certificate."
-        preview={<CertificateBadgePanel courseSlug={courseSlug} />}
+        preview={<CertificatePreviewPanel courseSlug={courseSlug} courseTitle={courseTitle} />}
         actions={(
           <CTALinkOrButton url={getLoginUrl(router.asPath)} variant="primary">
             Log in
@@ -284,7 +304,7 @@ const CertificateCard = ({ courseId, courseSlug }: CertificateCardProps) => {
     );
   }
 
-  return <CertificateCardAuthed courseId={courseId} courseSlug={courseSlug} />;
+  return <CertificateCardAuthed courseId={courseId} courseSlug={courseSlug} courseTitle={courseTitle} />;
 };
 
 // --- Main component ---
@@ -376,7 +396,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
           )}
         />
 
-        {courseId && <CertificateCard courseId={courseId} courseSlug={courseSlug} />}
+        {courseId && <CertificateCard courseId={courseId} courseSlug={courseSlug} courseTitle={courseTitle} />}
 
         {courseId === FOAI_COURSE_ID && (
           <div className="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] p-10 flex flex-col gap-6">
