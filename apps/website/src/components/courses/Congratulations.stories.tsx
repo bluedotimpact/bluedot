@@ -12,12 +12,20 @@ const meta = {
   title: 'website/courses/Congratulations',
   component: Congratulations,
   tags: ['autodocs'],
+  decorators: [
+    (Story, { viewMode }) => viewMode === 'docs' ? <Story /> : (
+      <div style={{ paddingInline: '32rem' }}>
+        <Story />
+      </div>
+    ),
+  ],
   parameters: {
     layout: 'fullscreen',
   },
   args: {
-    courseTitle: 'AGI Safety Fundamentals',
-    coursePath: '/courses/agi-safety-fundamentals',
+    courseTitle: 'AGI Strategy',
+    coursePath: '/courses/agi-strategy',
+    courseSlug: 'agi-strategy',
     courseId: MOCK_COURSE_ID,
   },
   ...loggedInStory(),
@@ -28,11 +36,13 @@ type Story = StoryObj<typeof meta>;
 
 // Card 3: not logged in
 export const NotLoggedIn: Story = {
+  args: {},
   ...loggedOutStory(),
 };
 
 // Card 3: loading
 export const Loading: Story = {
+  args: {},
   parameters: {
     msw: {
       handlers: [
@@ -47,6 +57,7 @@ export const Loading: Story = {
 
 // Card 3: error
 export const Error: Story = {
+  args: {},
   parameters: {
     msw: {
       handlers: [
@@ -60,6 +71,7 @@ export const Error: Story = {
 
 // Card 3: has-certificate
 export const HasCertificate: Story = {
+  args: {},
   parameters: {
     msw: {
       handlers: [
@@ -76,6 +88,7 @@ export const HasCertificate: Story = {
 
 // Card 3: action-plan-pending (not yet submitted)
 export const ActionPlanPending: Story = {
+  args: {},
   parameters: {
     msw: {
       handlers: [
@@ -91,6 +104,7 @@ export const ActionPlanPending: Story = {
 
 // Card 3: action-plan-pending (already submitted)
 export const ActionPlanSubmitted: Story = {
+  args: {},
   parameters: {
     msw: {
       handlers: [
@@ -106,13 +120,14 @@ export const ActionPlanSubmitted: Story = {
 
 // Card 3: can-request (self-service certificate)
 export const CanRequest: Story = {
+  args: {},
   parameters: {
     msw: {
       handlers: [
         trpcStorybookMsw.certificates.getStatus.query(() => ({
           status: 'can-request' as const,
         })),
-        trpcStorybookMsw.certificates.request.mutation(() => ({})),
+        trpcStorybookMsw.certificates.request.mutation(() => undefined as never),
       ],
     },
   },
@@ -120,6 +135,7 @@ export const CanRequest: Story = {
 
 // Card 3: facilitator-pending
 export const FacilitatorPending: Story = {
+  args: {},
   parameters: {
     msw: {
       handlers: [
@@ -133,6 +149,7 @@ export const FacilitatorPending: Story = {
 
 // Card 3: not-eligible
 export const NotEligible: Story = {
+  args: {},
   parameters: {
     msw: {
       handlers: [
@@ -156,6 +173,7 @@ export const FoAI: Story = {
   args: {
     courseTitle: 'Future of AI',
     coursePath: '/courses/future-of-ai',
+    courseSlug: 'future-of-ai',
     courseId: FOAI_COURSE_ID,
   },
   parameters: {
@@ -164,7 +182,7 @@ export const FoAI: Story = {
         trpcStorybookMsw.certificates.getStatus.query(() => ({
           status: 'can-request' as const,
         })),
-        trpcStorybookMsw.certificates.request.mutation(() => ({})),
+        trpcStorybookMsw.certificates.request.mutation(() => undefined as never),
       ],
     },
   },
