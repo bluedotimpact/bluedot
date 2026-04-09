@@ -122,7 +122,7 @@ export const groupDiscussionsRouter = router({
       }
 
       const roundIds = [...new Set(participants.map((p) => p.round).filter((r): r is string => !!r))];
-      const participantIds = participants.map((p) => p.id);
+      const participantIds = [...new Set(participants.map((p) => p.id))];
 
       if (roundIds.length === 0) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'Round not found for participant' });
