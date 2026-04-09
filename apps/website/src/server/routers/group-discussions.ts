@@ -111,9 +111,11 @@ export const groupDiscussionsRouter = router({
         return null;
       }
 
-      // Get meetPerson records for all registrations
-      const participantResults = await Promise.all(courseRegistrations.map((reg) => db.getFirst(meetPersonTable, { filter: { applicationsBaseRecordId: reg.id } })));
-      const participants = participantResults.filter((p): p is NonNullable<typeof p> => p !== null);
+      // Get meetPerson records for all registrations in a single query
+      const participants = await db.pg
+        .select()
+        .from(meetPersonTable.pg)
+        .where(inArray(meetPersonTable.pg.applicationsBaseRecordId, courseRegistrations.map((r) => r.id)));
 
       if (participants.length === 0) {
         return null;
