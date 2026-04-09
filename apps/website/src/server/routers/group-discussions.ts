@@ -5,7 +5,10 @@ import {
   eq,
   groupDiscussionTable,
   groupTable,
+  inArray,
+  isNull,
   meetPersonTable,
+  or,
   sql,
   unitTable,
   zoomAccountTable,
@@ -89,39 +92,49 @@ export const groupDiscussionsRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: `Course not found for slug: ${courseSlug}` });
       }
 
-      const courseRegistration = await db.getFirst(courseRegistrationTable, {
-        filter: {
-          email: ctx.auth.email,
-          decision: 'Accept',
-          courseId: course.id,
-        },
-      });
+      // Get all accepted course registrations for this course (not just the first),
+      // so facilitators with discussions across multiple rounds see the soonest one
+      const courseRegistrations = await db.pg
+        .select()
+        .from(courseRegistrationTable.pg)
+        .where(and(
+          eq(courseRegistrationTable.pg.email, ctx.auth.email),
+          eq(courseRegistrationTable.pg.courseId, course.id),
+          eq(courseRegistrationTable.pg.decision, 'Accept'),
+          or(
+            eq(courseRegistrationTable.pg.isDuplicate, false),
+            isNull(courseRegistrationTable.pg.isDuplicate),
+          ),
+        ));
 
-      if (!courseRegistration) {
+      if (courseRegistrations.length === 0) {
         return null;
       }
 
-      const participant = await db.getFirst(meetPersonTable, {
-        filter: { applicationsBaseRecordId: courseRegistration.id },
-      });
+      // Get meetPerson records for all registrations
+      const participantResults = await Promise.all(courseRegistrations.map((reg) => db.getFirst(meetPersonTable, { filter: { applicationsBaseRecordId: reg.id } })));
+      const participants = participantResults.filter((p): p is NonNullable<typeof p> => p !== null);
 
-      if (!participant) {
+      if (participants.length === 0) {
         return null;
       }
 
-      const roundId = participant.round;
-      if (!roundId) {
+      const roundIds = [...new Set(participants.map((p) => p.round).filter((r): r is string => !!r))];
+      const participantIds = participants.map((p) => p.id);
+
+      if (roundIds.length === 0) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'Round not found for participant' });
       }
 
       const currentTimeMs = Date.now();
 
+      // Query discussions across all rounds where the user is a participant or facilitator
       const groupDiscussions = await db.pg
         .select()
         .from(groupDiscussionTable.pg)
         .where(and(
-          eq(groupDiscussionTable.pg.round, roundId),
-          sql`(${groupDiscussionTable.pg.participantsExpected} @> ARRAY[${participant.id}] OR ${groupDiscussionTable.pg.facilitators} @> ARRAY[${participant.id}])`,
+          inArray(groupDiscussionTable.pg.round, roundIds),
+          sql`(${groupDiscussionTable.pg.participantsExpected} && ARRAY[${sql.join(participantIds.map((id) => sql`${id}`), sql`, `)}]::text[] OR ${groupDiscussionTable.pg.facilitators} && ARRAY[${sql.join(participantIds.map((id) => sql`${id}`), sql`, `)}]::text[])`,
         ))
         .orderBy(groupDiscussionTable.pg.startDateTime);
 
@@ -132,20 +145,25 @@ export const groupDiscussionsRouter = router({
       let userRole: 'participant' | 'facilitator' | undefined;
       let hostKeyForFacilitators: string | undefined;
 
-      if (groupDiscussion?.facilitators.includes(participant.id)) {
-        userRole = 'facilitator';
+      if (groupDiscussion) {
+        const isFacilitator = participantIds.some((id) => groupDiscussion.facilitators.includes(id));
+        const isParticipant = participantIds.some((id) => groupDiscussion.participantsExpected.includes(id));
 
-        if (groupDiscussion.zoomAccount) {
-          try {
-            const zoomAccount = await db.get(zoomAccountTable, { id: groupDiscussion.zoomAccount });
-            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-            hostKeyForFacilitators = zoomAccount.hostKey || undefined;
-          } catch {
-            hostKeyForFacilitators = undefined;
+        if (isFacilitator) {
+          userRole = 'facilitator';
+
+          if (groupDiscussion.zoomAccount) {
+            try {
+              const zoomAccount = await db.get(zoomAccountTable, { id: groupDiscussion.zoomAccount });
+              // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+              hostKeyForFacilitators = zoomAccount.hostKey || undefined;
+            } catch {
+              hostKeyForFacilitators = undefined;
+            }
           }
+        } else if (isParticipant) {
+          userRole = 'participant';
         }
-      } else if (groupDiscussion?.participantsExpected.includes(participant.id)) {
-        userRole = 'participant';
       }
 
       return {
