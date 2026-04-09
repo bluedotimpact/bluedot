@@ -5,8 +5,6 @@ import { COURSE_CONFIG } from '../../lib/constants';
 import { appendPosthogSessionIdPrefill } from '../../lib/appendPosthogSessionIdPrefill';
 import { trpc } from '../../utils/trpc';
 import RoundGroup from '../shared/RoundGroup';
-import ActionPlanCard from './ActionPlanCard';
-import CertificateLinkCard from './CertificateLinkCard';
 import Congratulations from './Congratulations';
 import { CourseIcon } from './CourseIcon';
 
@@ -92,12 +90,6 @@ export default function CourseCompletionSection({
   return (
     <div className={className}>
       <Congratulations courseTitle={courseTitle} coursePath={`/courses/${courseSlug}`} courseId={courseId} />
-      <div className="mt-4">
-        <CertificateLinkCard courseId={courseId} />
-      </div>
-      <div className="mt-8 md:mt-6">
-        <ActionPlanCard courseId={courseId} />
-      </div>
     </div>
   );
 }
