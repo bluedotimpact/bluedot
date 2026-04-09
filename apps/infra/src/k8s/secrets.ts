@@ -25,6 +25,8 @@ const toK8s = [
   'cioTrackApiKey',
   'cioHmacSecret',
   'lumaApiKey',
+  'mcpGoogleOauthClientId',
+  'mcpGoogleOauthClientSecret',
 ] as const;
 
 export const envVarSources = toK8s.reduce((obj, key) => {
