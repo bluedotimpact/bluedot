@@ -89,7 +89,7 @@ export default function CourseCompletionSection({
 
   return (
     <div className={className}>
-      <Congratulations courseTitle={courseTitle} coursePath={`/courses/${courseSlug}`} courseId={courseId} />
+      <Congratulations courseTitle={courseTitle} coursePath={`/courses/${courseSlug}`} courseSlug={courseSlug} courseId={courseId} />
     </div>
   );
 }

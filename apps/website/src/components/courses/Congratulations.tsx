@@ -14,7 +14,7 @@ import { useState } from 'react';
 import {
   FaCopy, FaLinkedinIn, FaWhatsapp, FaXTwitter,
 } from 'react-icons/fa6';
-import { FOAI_COURSE_ID } from '../../lib/constants';
+import { COURSE_CONFIG, FOAI_COURSE_ID } from '../../lib/constants';
 import { ROUTES } from '../../lib/routes';
 import { getActionPlanUrl } from '../../lib/utils';
 import type { CertificateStatus } from '../../server/routers/certificates';
@@ -24,45 +24,119 @@ import { trpc } from '../../utils/trpc';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
 
 export const CERTIFICATE_STATUS_DESCRIPTIONS: Record<CertificateStatus, string> = {
-  'action-plan-pending': 'To receive your certificate, you need to submit an action plan/project and can\'t have missed more than one discussion.',
+  'action-plan-pending': "To receive your certificate, you need to submit an action plan/project and can't have missed more than one discussion.",
   'can-request': 'Complete all exercises to unlock your certificate, then share your accomplishment on social media.',
   'facilitator-pending': 'Your certificate will be issued after your cohort ends, based on attendance.',
   'has-certificate': '',
-  'not-eligible': 'This course doesn\'t currently issue certificates to independent learners. Join a facilitated version to get a certificate.',
+  'not-eligible': "This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate.",
 };
 
 const secondaryBtnClass
   = 'flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline';
+
+// --- Preview panels ---
+
+const PostPreviewPanel = ({ courseSlug, shareText, courseUrl }: {
+  courseSlug: string;
+  shareText: string;
+  courseUrl: string;
+}) => (
+  <div className="h-full bg-[#fbfbfd] border-t border-[#e5e9f2] md:border-t-0 md:border-l flex flex-col p-5 gap-4">
+    <p className="text-[11px] font-semibold uppercase tracking-[0.04em] text-bluedot-navy/40">
+      Post Preview
+    </p>
+    <div className="flex items-center gap-3">
+      <div className="size-8 rounded-full bg-bluedot-navy/10 shrink-0" />
+      <div className="flex flex-col gap-1">
+        <div className="h-2.5 w-24 rounded-full bg-bluedot-navy/15" />
+        <div className="h-2.5 w-14 rounded-full bg-bluedot-navy/15" />
+      </div>
+    </div>
+    <p className="text-[13px] leading-[1.5] text-bluedot-navy line-clamp-3">
+      {shareText}{' '}
+      <span className="text-blue-600">{courseUrl}</span>
+    </p>
+    <img
+      src={`/images/courses/link-preview/${courseSlug}.png`}
+      alt=""
+      className="w-full rounded-lg object-cover"
+    />
+  </div>
+);
+
+const WhatsAppPreviewPanel = ({ courseTitle, courseUrl }: {
+  courseTitle: string;
+  courseUrl: string;
+}) => (
+  <div className="h-full bg-[#f0ebe3] flex flex-col items-center justify-center p-8">
+    <div className="bg-[#d9fdd3] rounded-[7.5px] shadow-sm px-3 py-2.5 max-w-[280px]">
+      <p className="text-[13px] leading-[1.5] text-[#0a0a0a]">
+        Hey, I just finished this {courseTitle} course and it genuinely shifted how I
+        think about this stuff. It&apos;s free and self-paced.{' '}
+        <span className="text-[#1b8755] underline">{courseUrl}</span>
+      </p>
+      <p className="text-[11px] text-black/40 text-right mt-1">19:45 ✓✓</p>
+    </div>
+  </div>
+);
+
+const CertificateBadgePanel = ({ courseSlug }: { courseSlug: string }) => {
+  const badgeSrc = courseSlug in COURSE_CONFIG
+    ? `/images/certificates/${courseSlug}.png`
+    : '/images/certificates/certificate-fallback-image.png';
+
+  return (
+    <div className="h-full bg-[#f7f7fd] flex items-center justify-center p-8">
+      <img
+        src={badgeSrc}
+        alt=""
+        className="max-h-[240px] md:max-h-[320px] w-auto object-contain"
+      />
+    </div>
+  );
+};
+
+// --- ActionCard ---
 
 type ActionCardProps = {
   number: number;
   title: string;
   description: string;
   actions: React.ReactNode;
+  preview?: React.ReactNode;
 };
 
 const ActionCard = ({
-  number, title, description, actions,
+  number, title, description, actions, preview,
 }: ActionCardProps) => (
-  <div className="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden p-10 flex flex-col gap-12">
-    <div className="flex flex-col gap-6">
-      <div className="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0">
-        <span className="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy">
-          {number}
-        </span>
+  <div className="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row">
+    <div className="flex flex-col gap-12 p-10 md:w-1/2">
+      <div className="flex flex-col gap-6">
+        <div className="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0">
+          <span className="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy">
+            {number}
+          </span>
+        </div>
+        <div className="flex flex-col gap-3">
+          <h3 className="font-semibold text-[18px] leading-[1.4] text-bluedot-navy">{title}</h3>
+          {description && <P className="text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy">{description}</P>}
+        </div>
       </div>
-      <div className="flex flex-col gap-3">
-        <h3 className="font-semibold text-[18px] leading-[1.4] text-bluedot-navy">{title}</h3>
-        {description && <P className="text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy">{description}</P>}
-      </div>
+      {actions && <div className="flex gap-2">{actions}</div>}
     </div>
-    {actions && <div className="flex gap-2">{actions}</div>}
+    {preview && (
+      <div className="w-full md:w-1/2 overflow-hidden">
+        {preview}
+      </div>
+    )}
   </div>
 );
 
-type CertificateCardProps = { courseId: string };
+// --- Certificate card ---
 
-const CertificateCardAuthed = ({ courseId }: CertificateCardProps) => {
+type CertificateCardProps = { courseId: string; courseSlug: string };
+
+const CertificateCardAuthed = ({ courseId, courseSlug }: CertificateCardProps) => {
   const { data: certificateData, isLoading, error, refetch } = trpc.certificates.getStatus.useQuery({ courseId });
 
   const requestCertificateMutation = trpc.certificates.request.useMutation({
@@ -74,9 +148,11 @@ const CertificateCardAuthed = ({ courseId }: CertificateCardProps) => {
     },
   });
 
+  const preview = <CertificateBadgePanel courseSlug={courseSlug} />;
+
   if (isLoading || requestCertificateMutation.isPending) {
     return (
-      <ActionCard number={3} title="Grab your certificate" description="" actions={<ProgressDots />} />
+      <ActionCard number={3} title="Grab your certificate" description="" actions={<ProgressDots />} preview={preview} />
     );
   }
 
@@ -86,6 +162,7 @@ const CertificateCardAuthed = ({ courseId }: CertificateCardProps) => {
         number={3}
         title="Grab your certificate"
         description=""
+        preview={preview}
         actions={(
           <div className="flex flex-col gap-4">
             <ErrorView error={error ?? requestCertificateMutation.error} />
@@ -108,6 +185,7 @@ const CertificateCardAuthed = ({ courseId }: CertificateCardProps) => {
         number={3}
         title="Grab your certificate"
         description={`Earned by ${certificateData.holderName} · Issued ${formattedDate}`}
+        preview={preview}
         actions={(
           <CTALinkOrButton
             url={addQueryParam(ROUTES.certification.url, 'id', certificateData.certificateId)}
@@ -128,6 +206,7 @@ const CertificateCardAuthed = ({ courseId }: CertificateCardProps) => {
         number={3}
         title="Grab your certificate"
         description={CERTIFICATE_STATUS_DESCRIPTIONS['action-plan-pending']}
+        preview={preview}
         actions={(
           <CTALinkOrButton
             url={actionPlanUrl}
@@ -148,6 +227,7 @@ const CertificateCardAuthed = ({ courseId }: CertificateCardProps) => {
         number={3}
         title="Grab your certificate"
         description={CERTIFICATE_STATUS_DESCRIPTIONS['can-request']}
+        preview={preview}
         actions={(
           <CTALinkOrButton
             variant="primary"
@@ -166,6 +246,7 @@ const CertificateCardAuthed = ({ courseId }: CertificateCardProps) => {
         number={3}
         title="Grab your certificate"
         description={CERTIFICATE_STATUS_DESCRIPTIONS['facilitator-pending']}
+        preview={preview}
         actions={null}
       />
     );
@@ -177,12 +258,13 @@ const CertificateCardAuthed = ({ courseId }: CertificateCardProps) => {
       number={3}
       title="Grab your certificate"
       description={CERTIFICATE_STATUS_DESCRIPTIONS['not-eligible']}
+      preview={preview}
       actions={null}
     />
   );
 };
 
-const CertificateCard = ({ courseId }: CertificateCardProps) => {
+const CertificateCard = ({ courseId, courseSlug }: CertificateCardProps) => {
   const auth = useAuthStore((s) => s.auth);
   const router = useRouter();
 
@@ -192,6 +274,7 @@ const CertificateCard = ({ courseId }: CertificateCardProps) => {
         number={3}
         title="Grab your certificate"
         description="Create a free account to earn your course certificate."
+        preview={<CertificateBadgePanel courseSlug={courseSlug} />}
         actions={(
           <CTALinkOrButton url={getLoginUrl(router.asPath)} variant="primary">
             Log in
@@ -201,12 +284,15 @@ const CertificateCard = ({ courseId }: CertificateCardProps) => {
     );
   }
 
-  return <CertificateCardAuthed courseId={courseId} />;
+  return <CertificateCardAuthed courseId={courseId} courseSlug={courseSlug} />;
 };
+
+// --- Main component ---
 
 type CongratulationsProps = {
   courseTitle: string;
   coursePath: string;
+  courseSlug: string;
   courseId?: string;
   text?: string;
   className?: string;
@@ -215,6 +301,7 @@ type CongratulationsProps = {
 const Congratulations: React.FC<CongratulationsProps> = ({
   courseTitle,
   coursePath,
+  courseSlug,
   courseId,
   text,
   className,
@@ -251,6 +338,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
           number={1}
           title="Share your accomplishment"
           description="Raise awareness for safe AI within your network. This will only take 1 min of your time, but can have significant impact on more people working on making AI go well. We're counting on you!"
+          preview={<PostPreviewPanel courseSlug={courseSlug} shareText={shareText} courseUrl={courseUrl} />}
           actions={(
             <>
               <a href={linkedInUrl} target="_blank" rel="noopener noreferrer" className={secondaryBtnClass}>
@@ -269,6 +357,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
           number={2}
           title="Send it to someone personally"
           description={'Think of three people who\'d genuinely benefit from this course. A little "I thought of you" goes a long way. Is there anyone that comes to mind?'}
+          preview={<WhatsAppPreviewPanel courseTitle={courseTitle} courseUrl={courseUrl} />}
           actions={(
             <>
               <a href={whatsAppUrl} target="_blank" rel="noopener noreferrer" className={secondaryBtnClass}>
@@ -287,7 +376,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
           )}
         />
 
-        {courseId && <CertificateCard courseId={courseId} />}
+        {courseId && <CertificateCard courseId={courseId} courseSlug={courseSlug} />}
 
         {courseId === FOAI_COURSE_ID && (
           <div className="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] p-10 flex flex-col gap-6">
