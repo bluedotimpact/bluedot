@@ -14,10 +14,13 @@ We're currently hosting most things on [Vultr Kubernetes Engine](https://www.vul
 [vultr-object-storage]
 aws_access_key_id=80A66SRD78U8DZX8SBLJ
 # Get from https://my.vultr.com/objectstorage/subs/detail/?id=caa1d747-4302-4b90-b8dd-aca9d9de1a1f#overview
+# Or from 1Password: "Vultr" in the Engineering vault
 aws_secret_access_key=
 ```
 
-3. In `passphrase.prod.txt` add the contents from [1Password](https://start.1password.com/open/i?a=HTUBIRRURRGNNAKFHX5DU3YWRI&v=j3reqistnwqma7zpy5lzdnwvpi&i=fvtnqvlv5mvrer7o5zm4iijsga&h=bluedotimpact.1password.com).
+3. In `passphrase.prod.txt` add the contents from 1Password: **"bluedot/infra: passphrase.prod.txt k8s"** in the **Engineering** vault ([direct link](https://start.1password.com/open/i?a=HTUBIRRURRGNNAKFHX5DU3YWRI&v=j3reqistnwqma7zpy5lzdnwvpi&i=fvtnqvlv5mvrer7o5zm4iijsga&h=bluedotimpact.1password.com)).
+
+   With the 1Password CLI: `op item get --account bluedotimpact.1password.com j4c627x6cmdutnu7wz4nbagboi --fields notesPlain > passphrase.prod.txt`
 
 ## How it works
 
