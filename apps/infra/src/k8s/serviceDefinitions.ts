@@ -12,10 +12,20 @@ const ALERTS_SLACK_CHANNEL_ID = 'C04SAGM4FN1'; // #update_tech-prod
 const INFO_SLACK_CHANNEL_ID = 'C04SFUECECU'; // #updates_tech-dev
 const CLIENT_ERRORS_SLACK_CHANNEL_ID = 'C0AL75QQ0SC'; // #update_client-errors
 
-const KEYCLOAK_ISSUER = 'https://login.bluedot.org/realms/master';
 const MCP_AGGREGATOR_HOST = 'mcp.k8s.bluedot.org';
 const MCP_ASHBY_HOST = 'mcp-ashby.k8s.bluedot.org';
 const MCP_GOOGLE_HOST = 'mcp-google.k8s.bluedot.org';
+// Front-door auth for the MCP services uses Google OIDC. Access is restricted to @bluedot.org
+// because the OAuth client (mcpGoogleOauthClientId) lives in a GCP project whose consent screen
+// is configured as "Internal" — Google enforces that server-side. The same client serves both
+// identity (here, scope openid/email/profile) and workspace-mcp's data access (gmail/drive/etc).
+const mcpGoogleAuth = {
+  issuer: 'https://accounts.google.com',
+  clientId: config.requireSecret('mcpGoogleOauthClientId'),
+  clientSecret: config.requireSecret('mcpGoogleOauthClientSecret'),
+  scopes: ['openid', 'email', 'profile'],
+  userClaim: 'email',
+};
 
 export const services: ServiceDefinition[] = [
   {
@@ -361,7 +371,7 @@ export const services: ServiceDefinition[] = [
     hosts: [MCP_GOOGLE_HOST],
   },
   // Ashby MCP server. ashby-mcp itself is stdio-only, so mcp-auth-wrapper exposes it as
-  // streamable-HTTP behind Keycloak; each user supplies their own Ashby API key via a web form.
+  // streamable-HTTP behind Google sign-in; each user supplies their own Ashby API key via a web form.
   {
     name: 'bluedot-mcp-ashby',
     spec: {
@@ -372,7 +382,7 @@ export const services: ServiceDefinition[] = [
           name: 'MCP_AUTH_WRAPPER_CONFIG',
           value: jsonStringify({
             command: ['npx', '-y', 'ashby-mcp'],
-            auth: { issuer: KEYCLOAK_ISSUER, clientId: 'mcp-auth-wrapper' },
+            auth: mcpGoogleAuth,
             envPerUser: [
               {
                 name: 'ASHBY_API_KEY', label: 'Ashby API Key', description: 'Get this from Ashby admin → Integrations → API keys', secret: true,
@@ -398,7 +408,7 @@ export const services: ServiceDefinition[] = [
     },
     hosts: [MCP_ASHBY_HOST],
   },
-  // MCP aggregator: single streamable-HTTP endpoint behind Keycloak that fronts the two
+  // MCP aggregator: single streamable-HTTP endpoint behind Google sign-in that fronts the two
   // self-hosted servers above plus six vendor-hosted MCPs. See https://github.com/domdomegg/mcp-aggregator
   {
     name: 'bluedot-mcp-aggregator',
@@ -409,7 +419,7 @@ export const services: ServiceDefinition[] = [
         env: [{
           name: 'MCP_AGGREGATOR_CONFIG',
           value: jsonStringify({
-            auth: { issuer: KEYCLOAK_ISSUER, clientId: 'mcp-aggregator' },
+            auth: mcpGoogleAuth,
             upstreams: [
               { name: 'ashby', url: `https://${MCP_ASHBY_HOST}/mcp` },
               { name: 'google', url: `https://${MCP_GOOGLE_HOST}/mcp` },
