@@ -341,7 +341,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
   };
 
   return (
-    <div className={cn('congratulations flex flex-col gap-16', className)}>
+    <div className={cn('congratulations flex flex-col gap-16 max-w-[1100px] mx-auto w-full', className)}>
       <div className="flex flex-col gap-6 items-center text-center max-w-[640px] mx-auto">
         <H2 className="font-bold text-[32px] leading-[1.3] tracking-[-0.015em]">
           Hooray! You just finished the {courseTitle} course 🎉
