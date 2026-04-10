@@ -136,7 +136,7 @@ export type CourseRound = CourseRoundsData['intense'][number];
 export function getSoonestDeadline(rounds: CourseRoundsData): string | null {
   const allRounds = [...rounds.intense, ...rounds.partTime];
 
-  const roundsWithDeadlines = allRounds.filter((r): r is typeof r & { applicationDeadlineRaw: string } => !!r.applicationDeadlineRaw);
+  const roundsWithDeadlines = allRounds.filter((r): r is typeof r & { applicationDeadlineRaw: string } => r.applicationDeadlineRaw !== null);
 
   if (roundsWithDeadlines.length === 0) {
     return null;
