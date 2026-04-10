@@ -142,7 +142,7 @@ const ActionCard = ({
           {description && <P className="text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy">{description}</P>}
         </div>
       </div>
-      {actions && <div className="flex items-center gap-2 mt-6">{actions}</div>}
+      {actions && <div className="flex flex-wrap items-center gap-2 mt-6">{actions}</div>}
     </div>
     {preview && (
       <div className="w-full md:w-1/2 overflow-hidden">
