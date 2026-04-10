@@ -405,6 +405,8 @@ export const services: ServiceDefinition[] = [
           claimName: mcpAshbyDataPvc.metadata.name,
         },
       }],
+      // fsGroup so the node user (uid 1000) can write to the PVC mount
+      securityContext: { fsGroup: 1000 },
     },
     hosts: [MCP_ASHBY_HOST],
   },
@@ -447,6 +449,7 @@ export const services: ServiceDefinition[] = [
           claimName: mcpAggregatorDataPvc.metadata.name,
         },
       }],
+      securityContext: { fsGroup: 1000 },
     },
     hosts: [MCP_AGGREGATOR_HOST],
   },
