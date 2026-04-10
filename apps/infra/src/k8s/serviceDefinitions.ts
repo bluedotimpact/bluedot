@@ -406,18 +406,24 @@ export const services: ServiceDefinition[] = [
           'sh',
           '-c',
           [
-            'uv pip install --system workspace-mcp==1.18.0',
-            'SITE=$(python -c "import core.server; import os; print(os.path.dirname(core.server.__file__))")',
-            'sed -i \'s/provider_required_scopes: List\\[str\\] = sorted(BASE_SCOPES)/provider_required_scopes: List[str] = provider_valid_scopes/\' "$SITE/server.py"',
-            'grep -q "provider_required_scopes: List\\[str\\] = provider_valid_scopes" "$SITE/server.py" || { echo "ERROR: scope patch not applied — pattern not found in $SITE/server.py" >&2; exit 1; }',
-            'workspace-mcp --transport streamable-http --tools gmail drive calendar docs sheets forms slides tasks contacts appscript',
+            // Install into a venv (--system does not work in the uv Docker image)
+            'uv venv /tmp/venv',
+            'uv pip install -p /tmp/venv/bin/python workspace-mcp==1.18.0',
+            // Patch the scope bug: Python one-liner replaces required_scopes and asserts success
+            '/tmp/venv/bin/python -c "'
+            + 'import core.server,os;p=os.path.join(os.path.dirname(core.server.__file__),\'server.py\');'
+            + 't=open(p).read();old=\'provider_required_scopes: List[str] = sorted(BASE_SCOPES)\';'
+            + 'new=\'provider_required_scopes: List[str] = provider_valid_scopes\';'
+            + 'assert old in t,f\'ERROR: scope patch pattern not found in {p}\';'
+            + 'open(p,\'w\').write(t.replace(old,new));print(\'Patched \'+p)'
+            + '"',
+            '/tmp/venv/bin/workspace-mcp --transport streamable-http --tools gmail drive calendar docs sheets forms slides tasks contacts appscript',
           ].join(' && '),
         ],
         env: [
           { name: 'WORKSPACE_MCP_PORT', value: '8080' },
           { name: 'WORKSPACE_EXTERNAL_URL', value: `https://${MCP_GOOGLE_HOST}` },
           { name: 'MCP_ENABLE_OAUTH21', value: 'true' },
-          { name: 'EXTERNAL_OAUTH21_PROVIDER', value: 'true' },
           { name: 'GOOGLE_MCP_CREDENTIALS_DIR', value: '/app/data/credentials' },
           { name: 'GOOGLE_OAUTH_CLIENT_ID', valueFrom: envVarSources.mcpGoogleOauthClientId },
           { name: 'GOOGLE_OAUTH_CLIENT_SECRET', valueFrom: envVarSources.mcpGoogleOauthClientSecret },
