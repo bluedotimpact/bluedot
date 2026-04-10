@@ -407,6 +407,7 @@ export const services: ServiceDefinition[] = [
             'uv pip install --system workspace-mcp==1.18.0',
             'SITE=$(python -c "import core.server; import os; print(os.path.dirname(core.server.__file__))")',
             'sed -i \'s/provider_required_scopes: List\\[str\\] = sorted(BASE_SCOPES)/provider_required_scopes: List[str] = provider_valid_scopes/\' "$SITE/server.py"',
+            'grep -q "provider_required_scopes: List\\[str\\] = provider_valid_scopes" "$SITE/server.py" || { echo "ERROR: scope patch not applied — pattern not found in $SITE/server.py" >&2; exit 1; }',
             'workspace-mcp --transport streamable-http --tools gmail drive calendar docs sheets forms slides tasks contacts appscript',
           ].join(' && '),
         ],
