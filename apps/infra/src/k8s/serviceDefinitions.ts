@@ -17,14 +17,62 @@ const MCP_ASHBY_HOST = 'mcp-ashby.k8s.bluedot.org';
 const MCP_GOOGLE_HOST = 'mcp-google.k8s.bluedot.org';
 // Front-door auth for the MCP services uses Google OIDC. Access is restricted to @bluedot.org
 // because the OAuth client (mcpGoogleOauthClientId) lives in a GCP project whose consent screen
-// is configured as "Internal" — Google enforces that server-side. The same client serves both
-// identity (here, scope openid/email/profile) and workspace-mcp's data access (gmail/drive/etc).
-const mcpGoogleAuth = {
+// is configured as "Internal" — Google enforces that server-side.
+const mcpGoogleOauth = {
   issuer: 'https://accounts.google.com',
   clientId: config.requireSecret('mcpGoogleOauthClientId'),
   clientSecret: config.requireSecret('mcpGoogleOauthClientSecret'),
-  scopes: ['openid', 'email', 'profile'],
   userClaim: 'email',
+};
+
+// Identity-only auth: just verifies the user is @bluedot.org. Used by services that don't need
+// Google Workspace data access (e.g. Ashby MCP).
+const mcpIdentityAuth = {
+  ...mcpGoogleOauth,
+  scopes: [
+    'openid',
+    'email',
+    'profile',
+  ],
+};
+
+// Workspace auth: identity + Google Workspace API scopes. Used by the MCP aggregator (which
+// proxies to workspace-mcp). Scopes use the broadest variant per service; workspace-mcp's scope
+// hierarchy handles mapping (e.g. gmail.modify implies gmail.readonly).
+// See workspace-mcp auth/scopes.py SCOPE_HIERARCHY.
+const mcpWorkspaceAuth = {
+  ...mcpGoogleOauth,
+  scopes: [
+    // Identity
+    'openid',
+    'email',
+    'profile',
+    // Gmail (modify covers readonly/send/compose/labels)
+    'https://www.googleapis.com/auth/gmail.modify',
+    'https://www.googleapis.com/auth/gmail.settings.basic',
+    // Drive (drive covers drive.readonly and drive.file)
+    'https://www.googleapis.com/auth/drive',
+    // Calendar (calendar covers calendar.readonly and calendar.events)
+    'https://www.googleapis.com/auth/calendar',
+    // Docs
+    'https://www.googleapis.com/auth/documents',
+    // Sheets
+    'https://www.googleapis.com/auth/spreadsheets',
+    // Slides
+    'https://www.googleapis.com/auth/presentations',
+    // Forms
+    'https://www.googleapis.com/auth/forms.body',
+    'https://www.googleapis.com/auth/forms.responses.readonly',
+    // Tasks
+    'https://www.googleapis.com/auth/tasks',
+    // Contacts
+    'https://www.googleapis.com/auth/contacts',
+    // Apps Script
+    'https://www.googleapis.com/auth/script.projects',
+    'https://www.googleapis.com/auth/script.deployments',
+    'https://www.googleapis.com/auth/script.processes',
+    'https://www.googleapis.com/auth/script.metrics',
+  ],
 };
 
 export const services: ServiceDefinition[] = [
@@ -382,7 +430,7 @@ export const services: ServiceDefinition[] = [
           name: 'MCP_AUTH_WRAPPER_CONFIG',
           value: jsonStringify({
             command: ['npx', '-y', 'ashby-mcp'],
-            auth: mcpGoogleAuth,
+            auth: mcpIdentityAuth,
             envPerUser: [
               {
                 name: 'ASHBY_API_KEY', label: 'Ashby API Key', description: 'Get this from Ashby admin → Integrations → API keys', secret: true,
@@ -421,7 +469,7 @@ export const services: ServiceDefinition[] = [
         env: [{
           name: 'MCP_AGGREGATOR_CONFIG',
           value: jsonStringify({
-            auth: mcpGoogleAuth,
+            auth: mcpWorkspaceAuth,
             upstreams: [
               { name: 'ashby', url: `https://${MCP_ASHBY_HOST}/mcp` },
               { name: 'google', url: `https://${MCP_GOOGLE_HOST}/mcp` },
