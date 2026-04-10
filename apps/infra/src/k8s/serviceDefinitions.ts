@@ -389,20 +389,31 @@ export const services: ServiceDefinition[] = [
   },
   // Google Workspace MCP server (gmail/drive/calendar/docs/sheets/forms/slides/tasks/contacts/appscript).
   // Runs the workspace-mcp PyPI package directly via uvx; users OAuth to their own Google account on first use.
-  // EXTERNAL_OAUTH21_PROVIDER mode: workspace-mcp advertises required scopes via RFC 9728 metadata and
-  // expects the upstream proxy (mcp-aggregator) to handle the Google OAuth flow with full workspace scopes.
   {
     name: 'bluedot-mcp-google-workspace',
     spec: {
       containers: [{
         name: 'bluedot-mcp-google-workspace',
         image: 'ghcr.io/astral-sh/uv:python3.13-bookworm-slim@sha256:531f855bda2c73cd6ef67d56b733b357cea384185b3022bd09f05e002cd144ca',
-        command: ['uvx', 'workspace-mcp==1.18.0', '--transport', 'streamable-http', '--tools', 'gmail', 'drive', 'calendar', 'docs', 'sheets', 'forms', 'slides', 'tasks', 'contacts', 'appscript'],
+        // workspace-mcp 1.18.0 has a bug: in OAuth 2.1 mode, GoogleProvider's required_scopes is
+        // set to BASE_SCOPES (identity only) instead of all workspace scopes. This means the Google
+        // OAuth flow only requests openid/email/profile — not gmail/drive/calendar/etc. We patch
+        // core/server.py at startup to use provider_valid_scopes (full scopes) as required_scopes.
+        // TODO: remove this patch once upstream fixes https://github.com/taylorwilsdon/google_workspace_mcp
+        command: [
+          'sh',
+          '-c',
+          [
+            'uv pip install --system workspace-mcp==1.18.0',
+            'SITE=$(python -c "import core.server; import os; print(os.path.dirname(core.server.__file__))")',
+            'sed -i \'s/provider_required_scopes: List\\[str\\] = sorted(BASE_SCOPES)/provider_required_scopes: List[str] = provider_valid_scopes/\' "$SITE/server.py"',
+            'workspace-mcp --transport streamable-http --tools gmail drive calendar docs sheets forms slides tasks contacts appscript',
+          ].join(' && '),
+        ],
         env: [
           { name: 'WORKSPACE_MCP_PORT', value: '8080' },
           { name: 'WORKSPACE_EXTERNAL_URL', value: `https://${MCP_GOOGLE_HOST}` },
           { name: 'MCP_ENABLE_OAUTH21', value: 'true' },
-          { name: 'EXTERNAL_OAUTH21_PROVIDER', value: 'true' },
           { name: 'GOOGLE_MCP_CREDENTIALS_DIR', value: '/app/data/credentials' },
           { name: 'GOOGLE_OAUTH_CLIENT_ID', valueFrom: envVarSources.mcpGoogleOauthClientId },
           { name: 'GOOGLE_OAUTH_CLIENT_SECRET', valueFrom: envVarSources.mcpGoogleOauthClientSecret },
