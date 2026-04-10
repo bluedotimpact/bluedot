@@ -59,7 +59,8 @@ export const exercisesRouter = router({
           id: exerciseResponse.id,
           exerciseId: input.exerciseId,
           response: input.response,
-          completedAt: completedAt !== undefined ? completedAt : exerciseResponse.completedAt,
+          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- completedAt can be '' after airtable-ts coercion, which should be treated as null
+          completedAt: completedAt !== undefined ? completedAt : exerciseResponse.completedAt || null,
         });
       }
 

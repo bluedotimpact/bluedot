@@ -88,8 +88,8 @@ export type BasePgTableType<
 
 /**
  * Maps a drizzle PgColumnBuilderBase to the corresponding airtable-ts TypeScript type string.
- * Numbers are always nullable ('number | null'). Everything else (string, boolean, arrays)
- * is always non-null since airtable-ts coerces missing values to '', false, or [].
+ * Numbers are always nullable. Booleans and arrays are always non-null (coerced to false, []).
+ * Strings respect .notNull() because nullable date strings need 'string | null'.
  */
 export function drizzleColumnToTsTypeString(pgColumn: AllowedPgColumn): TsTypeString {
   // @ts-expect-error
@@ -105,11 +105,14 @@ export function drizzleColumnToTsTypeString(pgColumn: AllowedPgColumn): TsTypeSt
   }
 
   // Numbers are always nullable (need to distinguish null vs 0).
-  // Everything else (string, boolean, arrays) is always non-null so that
-  // airtable-ts coerces missing values to '', false, or [].
-  // This decouples .notNull() from airtable-ts behaviour, making it purely
-  // a PostgreSQL constraint. See #2081 for full context.
-  const isNullable = baseType === 'number' && !isArray;
+  // Booleans and arrays are always non-null (airtable-ts coerces to false, []).
+  // Strings respect .notNull(): text() -> 'string | null', text().notNull() -> 'string'.
+  // This is necessary because airtable-ts throws when reading a null dateTime
+  // field with a non-nullable type string, and we can't distinguish date
+  // strings from regular strings at this level.
+  // See #2081 for full context.
+  const isNullable = (baseType === 'number' && !isArray)
+    || (baseType === 'string' && !isArray && !columnConfig.notNull);
 
   return `${baseType}${isArray ? '[]' : ''}${isNullable ? ' | null' : ''}` as TsTypeString;
 }

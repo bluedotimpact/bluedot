@@ -143,9 +143,10 @@ describe('DrizzleColumnToTsType type tests', () => {
 
 describe('drizzleColumnToTsTypeString', () => {
   test.each([
-    // String, boolean, and arrays are always non-null (airtable-ts coerces to '', false, [])
-    [text(), 'string'],
+    // Strings respect .notNull() (nullable date strings need 'string | null')
+    [text(), 'string | null'],
     [text().notNull(), 'string'],
+    // Booleans are always non-null (airtable-ts coerces to false)
     [boolean(), 'boolean'],
     [boolean().notNull(), 'boolean'],
     // Numbers are always nullable (need to distinguish null vs 0)
