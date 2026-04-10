@@ -2,9 +2,7 @@ import { jsonStringify } from '@pulumi/pulumi';
 import { type core } from '@pulumi/kubernetes/types/input';
 import { envVarSources } from './secrets';
 import { getConnectionDetails, keycloakPg, airtableSyncPg } from './postgres';
-import {
-  minioPvc, mcpAggregatorDataPvc, mcpAshbyDataPvc, mcpGoogleDataPvc,
-} from './pvc';
+import { minioPvc } from './pvc';
 import { websiteAssetsBucket } from '../minio';
 import { config } from '../config';
 
@@ -361,11 +359,11 @@ export const services: ServiceDefinition[] = [
           mountPath: '/app/data',
         }],
       }],
+      // emptyDir for now — Vultr block-storage quota is maxed out. Swap to PVCs once the limit is raised
+      // (tokens are lost on pod restart until then, which means users re-auth — acceptable for MVP)
       volumes: [{
         name: 'mcp-data-volume',
-        persistentVolumeClaim: {
-          claimName: mcpGoogleDataPvc.metadata.name,
-        },
+        emptyDir: {},
       }],
     },
     hosts: [MCP_GOOGLE_HOST],
@@ -401,9 +399,7 @@ export const services: ServiceDefinition[] = [
       }],
       volumes: [{
         name: 'mcp-data-volume',
-        persistentVolumeClaim: {
-          claimName: mcpAshbyDataPvc.metadata.name,
-        },
+        emptyDir: {},
       }],
     },
     hosts: [MCP_ASHBY_HOST],
@@ -443,9 +439,7 @@ export const services: ServiceDefinition[] = [
       }],
       volumes: [{
         name: 'mcp-data-volume',
-        persistentVolumeClaim: {
-          claimName: mcpAggregatorDataPvc.metadata.name,
-        },
+        emptyDir: {},
       }],
     },
     hosts: [MCP_AGGREGATOR_HOST],
