@@ -32,7 +32,7 @@ export const CERTIFICATE_STATUS_DESCRIPTIONS: Record<CertificateStatus, string> 
 };
 
 const secondaryBtnClass
-  = 'flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline';
+  = 'flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap';
 
 // --- Preview panels ---
 
