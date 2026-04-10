@@ -410,12 +410,33 @@ export const services: ServiceDefinition[] = [
             'uv venv /tmp/venv',
             'uv pip install -p /tmp/venv/bin/python workspace-mcp==1.18.0',
             // Patch the scope bug: Python one-liner replaces required_scopes and asserts success
+            // Patch 1: scope fix in workspace-mcp core/server.py
             '/tmp/venv/bin/python -c "'
             + 'import core.server,os;p=os.path.join(os.path.dirname(core.server.__file__),\'server.py\');'
             + 't=open(p).read();old=\'provider_required_scopes: List[str] = sorted(BASE_SCOPES)\';'
             + 'new=\'provider_required_scopes: List[str] = provider_valid_scopes\';'
             + 'assert old in t,f\'ERROR: scope patch pattern not found in {p}\';'
-            + 'open(p,\'w\').write(t.replace(old,new));print(\'Patched \'+p)'
+            + 'open(p,\'w\').write(t.replace(old,new));print(\'Patch 1: \'+p)'
+            + '"',
+            // Patch 2: FastMCP consent CSRF idempotency fix. The consent page generates a new CSRF
+            // token on every GET. Browser prefetch causes a double-load which overwrites the CSRF
+            // token, making the form submission fail with "Invalid or expired consent token".
+            // Fix: reuse the existing CSRF token if one is already set and not expired.
+            '/tmp/venv/bin/python -c "'
+            + 'import fastmcp.server.auth.oauth_proxy.consent as m,os;'
+            + 'p=os.path.join(os.path.dirname(m.__file__),\'consent.py\');t=open(p).read();'
+            + 'old=\'        # Need consent: issue CSRF token and show HTML\\n'
+            + '        csrf_token = secrets.token_urlsafe(32)\\n'
+            + '        csrf_expires_at = time.time() + 15 * 60\';'
+            + 'new=\'        # Need consent: reuse existing CSRF token if present (prevents double-load bug)\\n'
+            + '        if txn_model.csrf_token and txn_model.csrf_expires_at and time.time() < txn_model.csrf_expires_at:\\n'
+            + '            csrf_token = txn_model.csrf_token\\n'
+            + '            csrf_expires_at = txn_model.csrf_expires_at\\n'
+            + '        else:\\n'
+            + '            csrf_token = secrets.token_urlsafe(32)\\n'
+            + '            csrf_expires_at = time.time() + 15 * 60\';'
+            + 'assert old in t,f\'ERROR: CSRF patch pattern not found in {p}\';'
+            + 'open(p,\'w\').write(t.replace(old,new));print(\'Patch 2: \'+p)'
             + '"',
             '/tmp/venv/bin/workspace-mcp --transport streamable-http --tools gmail drive calendar docs sheets forms slides tasks contacts appscript',
           ].join(' && '),
