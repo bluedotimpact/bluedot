@@ -389,6 +389,8 @@ export const services: ServiceDefinition[] = [
   },
   // Google Workspace MCP server (gmail/drive/calendar/docs/sheets/forms/slides/tasks/contacts/appscript).
   // Runs the workspace-mcp PyPI package directly via uvx; users OAuth to their own Google account on first use.
+  // EXTERNAL_OAUTH21_PROVIDER mode: workspace-mcp advertises required scopes via RFC 9728 metadata and
+  // expects the upstream proxy (mcp-aggregator) to handle the Google OAuth flow with full workspace scopes.
   {
     name: 'bluedot-mcp-google-workspace',
     spec: {
@@ -400,6 +402,7 @@ export const services: ServiceDefinition[] = [
           { name: 'WORKSPACE_MCP_PORT', value: '8080' },
           { name: 'WORKSPACE_EXTERNAL_URL', value: `https://${MCP_GOOGLE_HOST}` },
           { name: 'MCP_ENABLE_OAUTH21', value: 'true' },
+          { name: 'EXTERNAL_OAUTH21_PROVIDER', value: 'true' },
           { name: 'GOOGLE_MCP_CREDENTIALS_DIR', value: '/app/data/credentials' },
           { name: 'GOOGLE_OAUTH_CLIENT_ID', valueFrom: envVarSources.mcpGoogleOauthClientId },
           { name: 'GOOGLE_OAUTH_CLIENT_SECRET', valueFrom: envVarSources.mcpGoogleOauthClientSecret },
