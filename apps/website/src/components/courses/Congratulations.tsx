@@ -129,8 +129,8 @@ type ActionCardProps = {
 const ActionCard = ({
   number, title, description, actions, preview,
 }: ActionCardProps) => (
-  <div className="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row">
-    <div className="flex flex-col gap-12 p-10 md:w-1/2">
+  <div className="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]">
+    <div className="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2">
       <div className="flex flex-col gap-6">
         <div className="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0">
           <span className="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy">
