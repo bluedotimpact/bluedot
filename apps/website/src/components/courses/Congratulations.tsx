@@ -68,7 +68,7 @@ const WhatsAppPreviewPanel = ({ courseTitle, courseUrl }: {
   courseTitle: string;
   courseUrl: string;
 }) => (
-  <div className="h-full bg-[#f0ebe3] flex flex-col items-center justify-center p-8">
+  <div className="h-full flex flex-col items-center justify-center p-8" style={{ backgroundImage: 'url(/images/whatsapp-bg.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
     <div className="bg-[#d9fdd3] rounded-[7.5px] shadow-sm px-3 py-2.5 max-w-[280px]">
       <p className="text-[13px] leading-[1.5] text-[#0a0a0a]">
         Hey, I just finished this {courseTitle} course and it genuinely shifted how I
