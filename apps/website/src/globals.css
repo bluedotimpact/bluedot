@@ -100,3 +100,26 @@ body {
     transform: translateY(0);
   }
 }
+
+.grant-process-card {
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease,
+    background-color 180ms ease;
+}
+
+.grant-process-card:hover {
+  border-color: rgba(53, 109, 177, 0.28);
+  background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(238,245,253,1) 100%);
+  box-shadow: 0 18px 38px rgba(53, 109, 177, 0.08);
+  transform: translateY(-1px);
+}
+
+.grant-process-card:focus-visible {
+  outline: 2px solid rgba(53, 109, 177, 0.42);
+  outline-offset: 3px;
+  border-color: rgba(53, 109, 177, 0.32);
+  background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(238,245,253,1) 100%);
+  box-shadow: 0 18px 38px rgba(53, 109, 177, 0.08);
+}

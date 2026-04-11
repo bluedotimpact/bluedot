@@ -20,8 +20,8 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
     slug: 'rapid',
     title: 'Rapid Grants',
     href: '/grants/rapid',
-    goal: 'Remove concrete blockers so promising work that is already underway can move faster.',
-    scope: 'Small grants up to $5,000 for project costs such as compute, research access, software, hosting, or narrowly justified travel. Designed to be fast, clear, and lightweight.',
+    goal: 'Fund talented people in the BlueDot community to do excellent work on AI safety - research, events, community building, and more.',
+    scope: 'Grants up to $10,000 for project costs, events, travel, community building, and other costs that remove barriers. Fast decisions, lightweight process.',
     status: 'Active',
   },
   {
