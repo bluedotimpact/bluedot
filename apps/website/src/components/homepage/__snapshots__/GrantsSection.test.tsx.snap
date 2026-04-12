@@ -1,0 +1,88 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`GrantsSection > renders default as expected 1`] = `
+<div>
+  <section
+    class="w-full bg-white py-[48px] px-5 min-[680px]:py-[64px] min-[680px]:px-8 min-[1024px]:py-[80px] lg:px-12 min-[1280px]:py-[96px] xl:px-16 2xl:px-20"
+  >
+    <div
+      class="mx-auto grid max-w-screen-xl gap-10 min-[960px]:grid-cols-[minmax(0,1fr)_420px] min-[960px]:items-center min-[1280px]:gap-14"
+    >
+      <div
+        class="max-w-[640px]"
+      >
+        <p
+          class="text-[12px] font-semibold uppercase tracking-[0.14em] text-[#2A5FA8]"
+        >
+          Grants
+        </p>
+        <h2
+          class="bluedot-h2 not-prose mt-4 text-[28px] min-[680px]:text-[36px] min-[1024px]:text-[40px] min-[1280px]:text-[48px] leading-tight tracking-[-1px] font-medium text-bluedot-navy"
+        >
+          Need funding to keep moving?
+        </h2>
+        <div
+          class="mt-6 flex flex-col gap-5"
+        >
+          <p
+            class="bluedot-p not-prose text-[16px] min-[680px]:text-[18px] leading-[1.6] text-bluedot-navy/80"
+          >
+            Rapid Grants back concrete AI safety work in the BlueDot community: research projects, events, community building, travel, tooling, and more.
+          </p>
+          <p
+            class="bluedot-p not-prose text-[16px] min-[680px]:text-[18px] leading-[1.6] text-bluedot-navy/80"
+          >
+            Five-minute application, decisions in days, money upfront by default.
+          </p>
+        </div>
+        <div
+          class="mt-8 flex flex-wrap gap-3"
+        >
+          <a
+            class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+            href="/programs/rapid-grants?utm_source=website&utm_campaign=homepage-grants"
+            tabindex="0"
+          >
+            Apply for Rapid Grants
+          </a>
+          <a
+            class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter"
+            href="/programs?utm_source=website&utm_campaign=homepage-grants"
+            tabindex="0"
+          >
+            See all programs
+            <span
+              class="cta-button__chevron ml-3"
+            >
+              <svg
+                class="cta-button__chevron-icon size-2"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 320 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                />
+              </svg>
+            </span>
+          </a>
+        </div>
+      </div>
+      <a
+        class="group relative block overflow-hidden rounded-[8px] border border-bluedot-navy/10 bg-[#F4F8FD] min-[960px]:justify-self-end"
+        href="/programs/rapid-grants?utm_source=website&utm_campaign=homepage-grants"
+      >
+        <img
+          alt="BlueDot community members in conversation"
+          class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+          src="/images/community-values/people.png"
+        />
+      </a>
+    </div>
+  </section>
+</div>
+`;

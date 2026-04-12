@@ -27,14 +27,14 @@ type FooterSectionProps = {
 };
 
 const FooterLinksSection: React.FC<FooterSectionProps> = ({ title, links, className }) => (
-  <div className={clsx('flex flex-col', className)}>
+  <div className={clsx('flex flex-col gap-4', className)}>
     {title && (
-      <h3 className="text-white text-size-sm leading-[19px] mb-[15px] font-semibold">
+      <h3 className="text-white text-size-sm leading-[19px] font-semibold">
         {title}
       </h3>
     )}
     {links && (
-      <ul className="flex flex-col gap-[15px] list-none p-0">
+      <ul className="flex flex-col gap-4 list-none p-0">
         {links.map((link) =>
           link.onClick ? (
             <li key={link.label}>
@@ -94,7 +94,7 @@ export const Footer: React.FC<FooterProps> = ({
   const resourceLinks: FooterLinkItem[] = [
     { url: 'https://blog.bluedot.org', label: 'Blog', target: '_blank' },
     { url: '/events?utm_source=website&utm_campaign=footer', label: 'Events' },
-    { url: '/grants', label: 'Grants' },
+    { url: '/programs', label: 'Programs' },
     { url: '/privacy-policy', label: 'Privacy Policy' },
     ...(onReportBug ? [{ onClick: onReportBug, label: 'Report a bug' }] : []),
   ];
@@ -110,7 +110,7 @@ export const Footer: React.FC<FooterProps> = ({
           <div className="max-w-screen-xl mx-auto">
 
             {/* Logo (mobile and tablet only) */}
-            <div className="lg:hidden mb-12">
+            <div className="lg:hidden flex flex-col gap-8 mb-12">
               <ClickTarget url="/">
                 {logo ? (
                   <img className="w-48 h-6" src={logo} alt="BlueDot Impact Logo" />
@@ -118,6 +118,8 @@ export const Footer: React.FC<FooterProps> = ({
                   <p className="w-48 h-6 text-size-lg text-white bluedot-p">BlueDot Impact</p>
                 )}
               </ClickTarget>
+
+              <FooterSocial />
             </div>
 
             {/* Mobile: All sections stacked (320px-679px) */}
@@ -137,7 +139,7 @@ export const Footer: React.FC<FooterProps> = ({
             </div>
 
             {/* Tablet: 2x2 grid (680px-1023px) */}
-            <div className="hidden min-[680px]:grid min-[680px]:grid-cols-2 min-[680px]:gap-12 lg:hidden">
+            <div className="hidden min-[680px]:grid min-[680px]:grid-cols-3 min-[680px]:gap-x-8 min-[680px]:gap-y-12 lg:hidden">
               <FooterLinksSection
                 title="BlueDot Impact"
                 links={bluedotLinks}
@@ -153,9 +155,9 @@ export const Footer: React.FC<FooterProps> = ({
             </div>
 
             {/* Desktop: 4 columns with logo+social on left (1024px+) */}
-            <div className="hidden lg:flex lg:flex-row lg:justify-between lg:gap-8">
+            <div className="hidden lg:grid lg:grid-cols-[minmax(220px,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-x-12 xl:gap-x-16 lg:items-start">
               {/* Logo + Social column */}
-              <div className="flex flex-col justify-between shrink-0">
+              <div className="flex flex-col gap-14 shrink-0">
                 <ClickTarget url="/">
                   {logo ? (
                     <img className="w-48 h-6" src={logo} alt="BlueDot Impact Logo" />
@@ -181,13 +183,8 @@ export const Footer: React.FC<FooterProps> = ({
               />
             </div>
 
-            {/* Social Icons (mobile and tablet only) */}
-            <div className="lg:hidden my-12">
-              <FooterSocial />
-            </div>
-
             {/* Copyright */}
-            <div className="text-size-sm text-[#CCD7FF] leading-[26px] min-[680px]:mt-0 lg:mt-12 2xl:mt-[64px]">
+            <div className="mt-12 border-t border-white/10 pt-8 text-size-sm text-[#CCD7FF] leading-[26px] min-[680px]:mt-14 min-[680px]:pt-10 lg:mt-16 2xl:mt-20">
               <p className="mb-2">
                 &copy; {new Date().getFullYear()}. BlueDot Impact operates as a UK CLG (<A href="https://find-and-update.company-information.service.gov.uk/company/14964572" target="_blank" rel="noopener noreferrer" className="text-[#CCD7FF] hover:text-white">14964572</A>) and a US 501(c)3 (<A href="https://projects.propublica.org/nonprofits/organizations/994885308" target="_blank" rel="noopener noreferrer" className="text-[#CCD7FF] hover:text-white">99-4885308</A>).
               </p>

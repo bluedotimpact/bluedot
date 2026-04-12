@@ -7,6 +7,7 @@ import { ROUTES } from '../../lib/routes';
 import { useCourses } from '../../lib/hooks/useCourses';
 import { usePrimaryCourseURL } from '../../lib/hooks/usePrimaryCourseURL';
 import { useClickOutside } from '../../lib/hooks/useClickOutside';
+import { GRANT_PROGRAMS } from '../grants/grantPrograms';
 import {
   DRAWER_CLASSES,
   type ExpandedSectionsState,
@@ -48,9 +49,12 @@ export const NavLinks: React.FC<{
     { title: 'See upcoming rounds', url: ROUTES.courses.url },
   ];
 
-  const navProjects = [
-    ...allCourses.filter((course) => course.type === 'Project'),
-    { title: 'See upcoming rounds', url: `${ROUTES.courses.url}#projects` },
+  const navPrograms = [
+    ...GRANT_PROGRAMS.map((program) => ({
+      title: program.title,
+      url: program.href,
+    })),
+    { title: 'See all programs', url: `${ROUTES.programs.url}?utm_source=website&utm_campaign=nav` },
   ];
 
   const exploreLinks = [
@@ -95,7 +99,7 @@ export const NavLinks: React.FC<{
         expandedSections={expandedSections}
         isExpanded={expandedSections.projects}
         onColoredBackground={onColoredBackground}
-        links={navProjects}
+        links={navPrograms}
         onToggle={() => updateExpandedSections({
           courses: false,
           projects: !expandedSections.projects,
@@ -104,8 +108,7 @@ export const NavLinks: React.FC<{
           profile: false,
         })}
         onClose={() => updateExpandedSections({ projects: false })}
-        title="Projects"
-        loading={loading}
+        title="Programs"
       />
       <NavDropdown
         expandedSections={expandedSections}
@@ -239,7 +242,7 @@ const NavDropdown: React.FC<{
               return (
                 <React.Fragment key={link.url}>
                   {/* Add separator before footer links */}
-                  {(link.title === 'See upcoming rounds') && (
+                  {(link.title === 'See upcoming rounds' || link.title === 'See all programs') && (
                     <div className="border-t border-gray-200 my-2" />
                   )}
                   <A

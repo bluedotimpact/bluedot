@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import CourseSection from '../components/homepage/CourseSection';
+import GrantsSection from '../components/homepage/GrantsSection';
 import StorySection from '../components/homepage/StorySection';
 import HomeHeroContent from '../components/homepage/HomeHeroContent';
 import TestimonialCarousel, { type TestimonialMember } from '../components/lander/TestimonialCarousel';
@@ -45,6 +46,9 @@ const HomePage = () => {
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
       <CourseSection />
+      {/* Divider */}
+      <div className="border-t-hairline border-color-divider" />
+      <GrantsSection />
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
       <TestimonialCarousel
