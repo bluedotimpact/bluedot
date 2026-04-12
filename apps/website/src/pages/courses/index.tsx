@@ -13,6 +13,7 @@ import NewsletterBanner from '../../components/homepage/NewsletterBanner';
 import { CourseIcon } from '../../components/courses/CourseIcon';
 import { COURSE_CONFIG } from '../../lib/constants';
 import { appendPosthogSessionIdPrefill } from '../../lib/appendPosthogSessionIdPrefill';
+import { getDefaultCourseURL } from '../../lib/hooks/usePrimaryCourseURL';
 import RoundGroup from '../../components/shared/RoundGroup';
 
 const getCourseAccentColor = (courseSlug: string): string => {
@@ -110,7 +111,7 @@ const CoursesPage = () => {
                       name: 'BlueDot Impact',
                       sameAs: 'https://bluedot.org',
                     },
-                    url: `https://bluedot.org/courses/${course.slug}`,
+                    url: `https://bluedot.org${getDefaultCourseURL(course.slug)}`,
                     offers: [{
                       '@type': 'Offer',
                       category: 'Free',
@@ -437,7 +438,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
           <div className="flex items-center min-h-[48px] border-l-4 border-bluedot-navy/20 pl-5">
             <p className="text-[15px] leading-[1.6] font-normal text-bluedot-navy opacity-50">
               No upcoming rounds.{' '}
-              <Link href={`/courses/${course.slug}`} className="text-bluedot-normal font-medium hover:underline cursor-pointer">
+              <Link href={getDefaultCourseURL(course.slug)} className="text-bluedot-normal font-medium hover:underline cursor-pointer">
                 Learn more about this course
               </Link>
             </p>
@@ -454,6 +455,8 @@ type CourseHeaderProps = {
 };
 
 const CourseHeader = ({ course }: CourseHeaderProps) => {
+  const courseUrl = getDefaultCourseURL(course.slug);
+
   return (
     <>
       {/* Mobile Layout */}
@@ -464,7 +467,7 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
         </div>
 
         <Link
-          href={`/courses/${course.slug}`}
+          href={courseUrl}
           className="group flex items-center gap-2 cursor-pointer"
         >
           <h2 className="text-[24px] leading-[1.4] font-semibold tracking-[-0.5px] text-bluedot-navy">
@@ -481,7 +484,7 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
         <CourseIcon courseSlug={course.slug} size="xlarge" className="rounded-[12px]" />
 
         <Link
-          href={`/courses/${course.slug}`}
+          href={courseUrl}
           className="group flex items-center gap-2 pt-[15px] cursor-pointer"
         >
           <h2 className="text-[24px] leading-[1.4] font-semibold tracking-[-0.5px] text-bluedot-navy">
