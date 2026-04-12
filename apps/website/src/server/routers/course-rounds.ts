@@ -13,9 +13,9 @@ import { ONE_DAY_MS, ONE_HOUR_MS } from '../../lib/constants';
 import { formatMonthAndDay } from '../../lib/utils';
 import { publicProcedure, router } from '../trpc';
 
-function getDeadlineThreshold(): Date {
+function getDeadlineThresholdDate(): string {
   const now = new Date();
-  return new Date(now.getTime() - 12 * ONE_HOUR_MS);
+  return new Date(now.getTime() - 12 * ONE_HOUR_MS).toISOString().slice(0, 10);
 }
 
 function formatDateRange(
@@ -91,7 +91,7 @@ export async function getCourseRoundsData(courseSlug: string) {
 
   // Only show rounds where deadline hasn't passed everywhere in the world
   // Subtract 12 hours from current time to account for UTC-12 (furthest behind timezone)
-  const deadlineThreshold = getDeadlineThreshold();
+  const deadlineThresholdDate = getDeadlineThresholdDate();
 
   const filteredRounds = await db.pg
     .select()
@@ -100,7 +100,7 @@ export async function getCourseRoundsData(courseSlug: string) {
       eq(applicationsRoundTable.pg.courseId, courseId),
       or(
         sql`${applicationsRoundTable.pg.applicationDeadline} IS NULL`,
-        sql`${applicationsRoundTable.pg.applicationDeadline}::timestamp >= ${deadlineThreshold.toISOString()}::timestamp`,
+        sql`${applicationsRoundTable.pg.applicationDeadline}::date >= ${deadlineThresholdDate}::date`,
       ),
     ));
 
@@ -177,7 +177,7 @@ export const courseRoundsRouter = router({
       const courses = allCourses.filter((course) => course.slug !== 'future-of-ai');
 
       // Only show rounds where deadline hasn't passed everywhere in the world
-      const deadlineThreshold = getDeadlineThreshold();
+      const deadlineThresholdDate = getDeadlineThresholdDate();
 
       // Fetch all upcoming rounds for all courses
       const allRounds = await db.pg
@@ -185,7 +185,7 @@ export const courseRoundsRouter = router({
         .from(applicationsRoundTable.pg)
         .where(or(
           sql`${applicationsRoundTable.pg.applicationDeadline} IS NULL`,
-          sql`${applicationsRoundTable.pg.applicationDeadline}::timestamp >= ${deadlineThreshold.toISOString()}::timestamp`,
+          sql`${applicationsRoundTable.pg.applicationDeadline}::date >= ${deadlineThresholdDate}::date`,
         ));
 
       // Create a map of courseId to course info
