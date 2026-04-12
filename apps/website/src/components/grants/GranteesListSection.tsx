@@ -72,8 +72,8 @@ type GranteesListSectionProps = {
 
 const GranteesListSection = ({
   id,
-  title = 'Featured grantees',
-  subtitle = 'Projects we have backed through rapid small grants.',
+  title,
+  subtitle,
   limit,
 }: GranteesListSectionProps) => {
   const { data: grantees, isLoading, error } = trpc.grants.getAllPublicGrantees.useQuery();
@@ -110,19 +110,23 @@ const GranteesListSection = ({
       id={id}
       className="w-full scroll-mt-28"
     >
-      <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-8 min-[680px]:py-10 min-[1280px]:py-12">
+      <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x pt-4 pb-8 min-[680px]:pt-6 min-[680px]:pb-10 min-[1280px]:pt-8 min-[1280px]:pb-12">
         <div className="max-w-[1120px] mx-auto">
           <div className="mb-8 min-[680px]:mb-10 flex flex-col gap-5 min-[960px]:flex-row min-[960px]:items-end min-[960px]:justify-between">
-            <div className="max-w-[760px]">
-              <h2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy">
-                {title}
-              </h2>
-              {subtitle && (
-                <P className="text-[16px] min-[680px]:text-[18px] leading-[160%] text-bluedot-navy/75 mt-4">
-                  {subtitle}
-                </P>
-              )}
-            </div>
+            {(title ?? subtitle) && (
+              <div className="max-w-[760px]">
+                {title && (
+                  <h2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy">
+                    {title}
+                  </h2>
+                )}
+                {subtitle && (
+                  <P className="text-[16px] min-[680px]:text-[18px] leading-[160%] text-bluedot-navy/75 mt-4">
+                    {subtitle}
+                  </P>
+                )}
+              </div>
+            )}
 
             <label className="flex w-full min-[960px]:max-w-[340px] items-center gap-2 rounded-[8px] border border-bluedot-navy/12 bg-white px-3 py-2.5 font-sans">
               <RiSearchLine className="shrink-0 text-bluedot-navy/40" size={18} />

@@ -34,6 +34,36 @@ module.exports = withDefaultBlueDotNextConfig({
         permanent: true,
       },
       {
+        source: '/grants',
+        destination: '/programs',
+        permanent: true,
+      },
+      {
+        source: '/grants/rapid',
+        destination: '/programs/rapid-grants',
+        permanent: true,
+      },
+      {
+        source: '/grants/agi-strategy-fund',
+        destination: '/programs',
+        permanent: true,
+      },
+      {
+        source: '/grants/bridge',
+        destination: '/programs',
+        permanent: true,
+      },
+      {
+        source: '/courses/incubator-week',
+        destination: '/programs/incubator-week',
+        permanent: true,
+      },
+      {
+        source: '/courses/technical-ai-safety-project',
+        destination: '/programs/technical-ai-safety-project-sprint',
+        permanent: true,
+      },
+      {
         source: '/join-us/mentor',
         destination: '/join-us/coach',
         permanent: true,

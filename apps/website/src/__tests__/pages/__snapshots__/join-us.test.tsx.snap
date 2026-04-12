@@ -114,12 +114,12 @@ exports[`JoinUsPage > should render correctly 1`] = `
                         class="nav-dropdown"
                       >
                         <button
-                          aria-controls="projects-dropdown"
+                          aria-controls="programs-dropdown"
                           aria-expanded="false"
                           class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                           type="button"
                         >
-                          Projects
+                          Programs
                           <svg
                             class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
                             fill="none"
@@ -137,23 +137,44 @@ exports[`JoinUsPage > should render correctly 1`] = `
                           </svg>
                         </button>
                         <div
-                          aria-label="Projects menu"
+                          aria-label="Programs menu"
                           class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
-                          id="projects-dropdown"
+                          id="programs-dropdown"
                           role="region"
                         >
                           <div
                             class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                           >
+                            <a
+                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
+                              href="/programs/rapid-grants"
+                              tabindex="0"
+                            >
+                              Rapid Grants
+                            </a>
+                            <a
+                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
+                              href="/programs/technical-ai-safety-project-sprint"
+                              tabindex="0"
+                            >
+                              Technical AI Safety Project Sprint
+                            </a>
+                            <a
+                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
+                              href="/programs/incubator-week"
+                              tabindex="0"
+                            >
+                              Incubator Week
+                            </a>
                             <div
                               class="border-t border-gray-200 my-2"
                             />
                             <a
                               class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
-                              href="/courses#projects"
+                              href="/programs?utm_source=website&utm_campaign=nav"
                               tabindex="0"
                             >
-                              See upcoming rounds
+                              See all programs
                             </a>
                           </div>
                         </div>
@@ -311,12 +332,12 @@ exports[`JoinUsPage > should render correctly 1`] = `
                   class="nav-dropdown"
                 >
                   <button
-                    aria-controls="projects-dropdown"
+                    aria-controls="programs-dropdown"
                     aria-expanded="false"
                     class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                     type="button"
                   >
-                    Projects
+                    Programs
                     <svg
                       class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
                       fill="none"
@@ -334,23 +355,44 @@ exports[`JoinUsPage > should render correctly 1`] = `
                     </svg>
                   </button>
                   <div
-                    aria-label="Projects menu"
+                    aria-label="Programs menu"
                     class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
-                    id="projects-dropdown"
+                    id="programs-dropdown"
                     role="region"
                   >
                     <div
                       class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                     >
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
+                        href="/programs/rapid-grants"
+                        tabindex="0"
+                      >
+                        Rapid Grants
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
+                        href="/programs/technical-ai-safety-project-sprint"
+                        tabindex="0"
+                      >
+                        Technical AI Safety Project Sprint
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
+                        href="/programs/incubator-week"
+                        tabindex="0"
+                      >
+                        Incubator Week
+                      </a>
                       <div
                         class="border-t border-gray-200 my-2"
                       />
                       <a
                         class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
-                        href="/courses#projects"
+                        href="/programs?utm_source=website&utm_campaign=nav"
                         tabindex="0"
                       >
-                        See upcoming rounds
+                        See all programs
                       </a>
                     </div>
                   </div>

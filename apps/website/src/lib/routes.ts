@@ -69,9 +69,9 @@ const projects: BluedotRoute = {
   parentPages: [home],
 };
 
-const grants: BluedotRoute = {
-  title: 'Grants',
-  url: '/grants',
+const programs: BluedotRoute = {
+  title: 'Programs',
+  url: '/programs',
   parentPages: [home],
 };
 
@@ -123,7 +123,8 @@ export const ROUTES = {
   joinUs,
   login,
   logout,
-  grants,
+  programs,
+  grants: programs,
   privacyPolicy,
   profile,
   projects,
