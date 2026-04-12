@@ -1,12 +1,79 @@
+import { jsonStringify } from '@pulumi/pulumi';
 import { type core } from '@pulumi/kubernetes/types/input';
 import { envVarSources } from './secrets';
 import { getConnectionDetails, keycloakPg, airtableSyncPg } from './postgres';
-import { minioPvc } from './pvc';
+import {
+  minioPvc, mcpAggregatorDataPvc, mcpAshbyDataPvc, mcpGoogleDataPvc,
+} from './pvc';
 import { websiteAssetsBucket } from '../minio';
+import { config } from '../config';
 
 const ALERTS_SLACK_CHANNEL_ID = 'C04SAGM4FN1'; // #update_tech-prod
 const INFO_SLACK_CHANNEL_ID = 'C04SFUECECU'; // #updates_tech-dev
 const CLIENT_ERRORS_SLACK_CHANNEL_ID = 'C0AL75QQ0SC'; // #update_client-errors
+
+const MCP_AGGREGATOR_HOST = 'mcp.k8s.bluedot.org';
+const MCP_ASHBY_HOST = 'mcp-ashby.k8s.bluedot.org';
+const MCP_GOOGLE_HOST = 'mcp-google.k8s.bluedot.org';
+// Front-door auth for the MCP services uses Google OIDC. Access is restricted to @bluedot.org
+// because the OAuth client (mcpGoogleOauthClientId) lives in a GCP project whose consent screen
+// is configured as "Internal" — Google enforces that server-side.
+const mcpGoogleOauth = {
+  issuer: 'https://accounts.google.com',
+  clientId: config.requireSecret('mcpGoogleOauthClientId'),
+  clientSecret: config.requireSecret('mcpGoogleOauthClientSecret'),
+  userClaim: 'email',
+};
+
+// Identity-only auth: just verifies the user is @bluedot.org. Used by services that don't need
+// Google Workspace data access (e.g. Ashby MCP).
+const mcpIdentityAuth = {
+  ...mcpGoogleOauth,
+  scopes: [
+    'openid',
+    'email',
+    'profile',
+  ],
+};
+
+// Workspace auth: identity + Google Workspace API scopes. Used by the MCP aggregator (which
+// proxies to workspace-mcp). Scopes use the broadest variant per service; workspace-mcp's scope
+// hierarchy handles mapping (e.g. gmail.modify implies gmail.readonly).
+// See workspace-mcp auth/scopes.py SCOPE_HIERARCHY.
+const mcpWorkspaceAuth = {
+  ...mcpGoogleOauth,
+  scopes: [
+    // Identity
+    'openid',
+    'email',
+    'profile',
+    // Gmail (modify covers readonly/send/compose/labels)
+    'https://www.googleapis.com/auth/gmail.modify',
+    'https://www.googleapis.com/auth/gmail.settings.basic',
+    // Drive (drive covers drive.readonly and drive.file)
+    'https://www.googleapis.com/auth/drive',
+    // Calendar (calendar covers calendar.readonly and calendar.events)
+    'https://www.googleapis.com/auth/calendar',
+    // Docs
+    'https://www.googleapis.com/auth/documents',
+    // Sheets
+    'https://www.googleapis.com/auth/spreadsheets',
+    // Slides
+    'https://www.googleapis.com/auth/presentations',
+    // Forms
+    'https://www.googleapis.com/auth/forms.body',
+    'https://www.googleapis.com/auth/forms.responses.readonly',
+    // Tasks
+    'https://www.googleapis.com/auth/tasks',
+    // Contacts
+    'https://www.googleapis.com/auth/contacts',
+    // Apps Script
+    'https://www.googleapis.com/auth/script.projects',
+    'https://www.googleapis.com/auth/script.deployments',
+    'https://www.googleapis.com/auth/script.processes',
+    'https://www.googleapis.com/auth/script.metrics',
+  ],
+};
 
 export const services: ServiceDefinition[] = [
   {
@@ -319,6 +386,165 @@ export const services: ServiceDefinition[] = [
       ],
     },
     hosts: ['storage.k8s.bluedot.org'],
+  },
+  // Google Workspace MCP server (gmail/drive/calendar/docs/sheets/forms/slides/tasks/contacts/appscript).
+  // Runs the workspace-mcp PyPI package directly via uvx; users OAuth to their own Google account on first use.
+  // EXTERNAL_OAUTH21_PROVIDER mode: workspace-mcp advertises required scopes via RFC 9728 metadata and
+  // expects the upstream proxy (mcp-aggregator) to handle the Google OAuth flow with full workspace scopes.
+  {
+    name: 'bluedot-mcp-google-workspace',
+    spec: {
+      containers: [{
+        name: 'bluedot-mcp-google-workspace',
+        image: 'ghcr.io/astral-sh/uv:python3.13-bookworm-slim@sha256:531f855bda2c73cd6ef67d56b733b357cea384185b3022bd09f05e002cd144ca',
+        // workspace-mcp 1.18.0 has a bug: in OAuth 2.1 mode, GoogleProvider's required_scopes is
+        // set to BASE_SCOPES (identity only) instead of all workspace scopes. This means the Google
+        // OAuth flow only requests openid/email/profile — not gmail/drive/calendar/etc. We patch
+        // core/server.py at startup to use provider_valid_scopes (full scopes) as required_scopes.
+        // TODO: remove this patch once upstream fixes https://github.com/taylorwilsdon/google_workspace_mcp
+        command: [
+          'sh',
+          '-c',
+          [
+            // Install into a venv (--system does not work in the uv Docker image)
+            'uv venv /tmp/venv',
+            'uv pip install -p /tmp/venv/bin/python workspace-mcp==1.18.0',
+            // Patch the scope bug: Python one-liner replaces required_scopes and asserts success
+            // Patch 1: scope fix in workspace-mcp core/server.py
+            '/tmp/venv/bin/python -c "'
+            + 'import core.server,os;p=os.path.join(os.path.dirname(core.server.__file__),\'server.py\');'
+            + 't=open(p).read();old=\'provider_required_scopes: List[str] = sorted(BASE_SCOPES)\';'
+            + 'new=\'provider_required_scopes: List[str] = provider_valid_scopes\';'
+            + 'assert old in t,f\'ERROR: scope patch pattern not found in {p}\';'
+            + 'open(p,\'w\').write(t.replace(old,new));print(\'Patch 1: \'+p)'
+            + '"',
+            // Patch 2: FastMCP consent CSRF idempotency fix. The consent page generates a new CSRF
+            // token on every GET. Browser prefetch causes a double-load which overwrites the CSRF
+            // token, making the form submission fail with "Invalid or expired consent token".
+            // Fix: reuse the existing CSRF token if one is already set and not expired.
+            '/tmp/venv/bin/python -c "'
+            + 'import fastmcp.server.auth.oauth_proxy.consent as m,os;'
+            + 'p=os.path.join(os.path.dirname(m.__file__),\'consent.py\');t=open(p).read();'
+            + 'old=\'        # Need consent: issue CSRF token and show HTML\\n'
+            + '        csrf_token = secrets.token_urlsafe(32)\\n'
+            + '        csrf_expires_at = time.time() + 15 * 60\';'
+            + 'new=\'        # Need consent: reuse existing CSRF token if present (prevents double-load bug)\\n'
+            + '        if txn_model.csrf_token and txn_model.csrf_expires_at and time.time() < txn_model.csrf_expires_at:\\n'
+            + '            csrf_token = txn_model.csrf_token\\n'
+            + '            csrf_expires_at = txn_model.csrf_expires_at\\n'
+            + '        else:\\n'
+            + '            csrf_token = secrets.token_urlsafe(32)\\n'
+            + '            csrf_expires_at = time.time() + 15 * 60\';'
+            + 'assert old in t,f\'ERROR: CSRF patch pattern not found in {p}\';'
+            + 'open(p,\'w\').write(t.replace(old,new));print(\'Patch 2: \'+p)'
+            + '"',
+            '/tmp/venv/bin/workspace-mcp --transport streamable-http --tools gmail drive calendar docs sheets forms slides tasks contacts appscript',
+          ].join(' && '),
+        ],
+        env: [
+          { name: 'WORKSPACE_MCP_PORT', value: '8080' },
+          { name: 'WORKSPACE_EXTERNAL_URL', value: `https://${MCP_GOOGLE_HOST}` },
+          { name: 'MCP_ENABLE_OAUTH21', value: 'true' },
+          { name: 'GOOGLE_MCP_CREDENTIALS_DIR', value: '/app/data/credentials' },
+          { name: 'GOOGLE_OAUTH_CLIENT_ID', valueFrom: envVarSources.mcpGoogleOauthClientId },
+          { name: 'GOOGLE_OAUTH_CLIENT_SECRET', valueFrom: envVarSources.mcpGoogleOauthClientSecret },
+        ],
+        volumeMounts: [{
+          name: 'mcp-data-volume',
+          mountPath: '/app/data',
+        }],
+      }],
+      volumes: [{
+        name: 'mcp-data-volume',
+        persistentVolumeClaim: {
+          claimName: mcpGoogleDataPvc.metadata.name,
+        },
+      }],
+    },
+    hosts: [MCP_GOOGLE_HOST],
+  },
+  // Ashby MCP server. ashby-mcp itself is stdio-only, so mcp-auth-wrapper exposes it as
+  // streamable-HTTP behind Google sign-in; each user supplies their own Ashby API key via a web form.
+  {
+    name: 'bluedot-mcp-ashby',
+    spec: {
+      containers: [{
+        name: 'bluedot-mcp-ashby',
+        image: 'ghcr.io/domdomegg/mcp-auth-wrapper:1.2.0@sha256:fd2fb6d3c952349423b3dfac2c1bb4ecc18cadbe0b37d0c842d6570506695453',
+        env: [{
+          name: 'MCP_AUTH_WRAPPER_CONFIG',
+          value: jsonStringify({
+            command: ['npx', '-y', 'ashby-mcp'],
+            auth: mcpIdentityAuth,
+            envPerUser: [
+              {
+                name: 'ASHBY_API_KEY', label: 'Ashby API Key', description: 'Get this from Ashby admin → Integrations → API keys', secret: true,
+              },
+            ],
+            storage: '/app/data/mcp.sqlite',
+            issuerUrl: `https://${MCP_ASHBY_HOST}`,
+            port: 8080,
+            secret: config.requireSecret('mcpAuthWrapperSecret'),
+          }),
+        }],
+        volumeMounts: [{
+          name: 'mcp-data-volume',
+          mountPath: '/app/data',
+        }],
+      }],
+      volumes: [{
+        name: 'mcp-data-volume',
+        persistentVolumeClaim: {
+          claimName: mcpAshbyDataPvc.metadata.name,
+        },
+      }],
+      // fsGroup so the node user (uid 1000) can write to the PVC mount
+      securityContext: { fsGroup: 1000 },
+    },
+    hosts: [MCP_ASHBY_HOST],
+  },
+  // MCP aggregator: single streamable-HTTP endpoint behind Google sign-in that fronts the two
+  // self-hosted servers above plus six vendor-hosted MCPs. See https://github.com/domdomegg/mcp-aggregator
+  {
+    name: 'bluedot-mcp-aggregator',
+    spec: {
+      containers: [{
+        name: 'bluedot-mcp-aggregator',
+        image: 'ghcr.io/domdomegg/mcp-aggregator:2.0.1@sha256:990a63a45a29a5a7258202c2803f8ac8e5717fa90cd4dce1afb8580d0decc3ea',
+        env: [{
+          name: 'MCP_AGGREGATOR_CONFIG',
+          value: jsonStringify({
+            auth: mcpWorkspaceAuth,
+            upstreams: [
+              { name: 'ashby', url: `https://${MCP_ASHBY_HOST}/mcp` },
+              { name: 'google', url: `https://${MCP_GOOGLE_HOST}/mcp` },
+              { name: 'slack', url: 'https://mcp.slack.com/mcp' },
+              { name: 'airtable', url: 'https://mcp.airtable.com/mcp' },
+              { name: 'notion', url: 'https://mcp.notion.com/mcp' },
+              { name: 'posthog', url: 'https://mcp-eu.posthog.com/mcp' },
+              { name: 'granola', url: 'https://mcp.granola.ai/mcp' },
+              { name: 'customerio', url: 'https://mcp.customer.io/mcp' },
+            ],
+            storage: '/app/data/mcp-aggregator.sqlite',
+            issuerUrl: `https://${MCP_AGGREGATOR_HOST}`,
+            port: 8080,
+            secret: config.requireSecret('mcpAggregatorSecret'),
+          }),
+        }],
+        volumeMounts: [{
+          name: 'mcp-data-volume',
+          mountPath: '/app/data',
+        }],
+      }],
+      volumes: [{
+        name: 'mcp-data-volume',
+        persistentVolumeClaim: {
+          claimName: mcpAggregatorDataPvc.metadata.name,
+        },
+      }],
+      securityContext: { fsGroup: 1000 },
+    },
+    hosts: [MCP_AGGREGATOR_HOST],
   },
 ];
 

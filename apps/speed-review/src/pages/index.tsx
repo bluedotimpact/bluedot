@@ -268,7 +268,7 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
     // Show undo toast
     setUndoToast(current.name);
     if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
-    undoTimerRef.current = setTimeout(() => setUndoToast(null), 3000);
+    undoTimerRef.current = setTimeout(() => setUndoToast(null), 6000);
   }, [state, showMilestone]);
   handleRateRef.current = handleRate;
 
@@ -548,7 +548,7 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
       )}
 
       {toastName && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-stone-800 text-white text-size-sm px-4 py-2 rounded-full shadow-lg pointer-events-none">
+        <div className={`fixed left-1/2 -translate-x-1/2 bg-stone-800 text-white text-size-sm px-4 py-2 rounded-full shadow-lg pointer-events-none ${undoToast ? 'bottom-16' : 'bottom-6'}`}>
           Moved to back of queue: {toastName}
         </div>
       )}

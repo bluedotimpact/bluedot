@@ -56,9 +56,15 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
 
   const getAnnouncementBanner = () => {
     if (fromSite) {
+      const sourceSiteName = fromSite === 'aisf' ? 'AI Safety Fundamentals' : 'Biosecurity Fundamentals';
+
       return (
-        <AnnouncementBanner ctaText="Learn more" ctaUrl="/blog/course-website-consolidation">
-          <b>Welcome from {fromSite === 'aisf' ? 'AI Safety Fundamentals' : 'Biosecurity Fundamentals'}!</b> We've consolidated our course sites in the BlueDot Impact platform to provide a more consistent and higher-quality experience.
+        <AnnouncementBanner
+          label={`From ${sourceSiteName}`}
+          ctaText="What changed"
+          ctaUrl="/blog/course-website-consolidation"
+        >
+          You&apos;re in the right place. We&apos;ve moved the {sourceSiteName} experience into BlueDot Impact so your courses, account, and community now live on one platform.
         </AnnouncementBanner>
       );
     }

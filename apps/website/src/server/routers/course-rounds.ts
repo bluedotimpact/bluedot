@@ -1,12 +1,17 @@
-import { z } from 'zod';
 import {
-  applicationsRoundTable, courseTable, courseRegistrationTable, eq, and, or, sql,
+  and,
+  applicationsRoundTable,
+  courseRegistrationTable,
+  courseTable,
+  eq,
+  or, sql,
 } from '@bluedot/db';
-import { publicProcedure, router } from '../trpc';
-import db from '../../lib/api/db';
-import { formatMonthAndDay } from '../../lib/utils';
+import { z } from 'zod';
 import type { ApplyCTAProps } from '../../components/courses/SideBar';
+import db from '../../lib/api/db';
 import { ONE_DAY_MS, ONE_HOUR_MS } from '../../lib/constants';
+import { formatMonthAndDay } from '../../lib/utils';
+import { publicProcedure, router } from '../trpc';
 
 function getDeadlineThreshold(): Date {
   const now = new Date();
@@ -122,6 +127,7 @@ export async function getCourseRoundsData(courseSlug: string) {
 }
 
 export type CourseRoundsData = Awaited<ReturnType<typeof getCourseRoundsData>>;
+export type CourseRound = CourseRoundsData['intense'][number];
 
 /**
  * Finds the soonest upcoming application deadline across all rounds.

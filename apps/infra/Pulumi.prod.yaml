@@ -44,3 +44,11 @@ config:
     secure: v1:3TlW+6Q1YhvmuJ15:rRAcVGJSQiWyYT9Ynrh1+2/nPzecEg67kKyaHe9ovn++vaD4qtR++nG0jHlcTfOePg78435VeZar
   infra:cioHmacSecret:
     secure: v1:wPbUSYK/0qQk8Ney:k/Rusjtz9RuaLWnIT68V+oX7DZ/xFcb18jqSlyn+vVKpLWfSVrbOZSvJjhSFFLKuocEVIXqxluJmlixdVtV9yRl5ov4trNIeJfu8FWaDhsA=
+  infra:mcpAggregatorSecret:
+    secure: v1:y9qSfOFvE69wDwsR:DsNc4IBABgqn249uTJCdbrR2X7VbvwH3piaHN1kHSQMnfMcU+zGHrlPsDKhcxnQPnEvlrvvHmu57iw7D25QYKQ6E6Mn1hHhwNsEZh5dPG24=
+  infra:mcpAuthWrapperSecret:
+    secure: v1:H4FJ9MqBYF2ddbBm:DfZtl1M9zUBUxcNges2VCGl0LoMPSe64qOonjtGgR4ShI8u+vlw/Tgndb1PcNZweRc8JWUAc0EWYB8lEJ7H3HoAbWRZFib5QY42pG2pz/M4=
+  infra:mcpGoogleOauthClientId:
+    secure: v1:rrEk1XQ9LwV+9G6s:KUs0YC8GYniqNrD8Z+xB1l/7S5Lt5B2aZVvaXMCEHmObdtlp15idwrHIJKg6RzqFCQuPXJbZYC+KvCHiA0fURDJ81ABpm4Ax0ex60de4SvuVmx5L1P5P6w==
+  infra:mcpGoogleOauthClientSecret:
+    secure: v1:b5UzcM6qaYfkVVdW:xhm2fxYkE8rZ/hdDf/HxweP6Ey/Xwbb7Yakk+BfCTZ4/RKcOSDvMyHQry7dr9ahBJ2cU
