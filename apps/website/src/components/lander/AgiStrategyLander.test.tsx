@@ -10,6 +10,7 @@ import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 
 // Test URL - in production this comes from the database
 const TEST_APPLICATION_URL = 'https://web.miniextensions.com/test';
+const mockLatestUtmParams: { utm_source: string | undefined } = { utm_source: undefined };
 
 // Mock Next.js Head component
 vi.mock('next/head', () => ({
@@ -31,7 +32,7 @@ vi.mock('@bluedot/ui', async () => {
   return {
     ...actual,
     useLatestUtmParams: () => ({
-      latestUtmParams: { utm_source: undefined },
+      latestUtmParams: mockLatestUtmParams,
     }),
   };
 });
@@ -53,6 +54,8 @@ vi.mock('./TestimonialCarousel', () => ({
 
 describe('AgiStrategyLander', () => {
   beforeEach(() => {
+    mockLatestUtmParams.utm_source = undefined;
+
     server.use(trpcMsw.testimonials.getCommunityMembersByCourseSlug.query(() => [
       {
         name: 'Test Person 1', jobTitle: 'Job 1', imageSrc: 'https://example.com/1.jpg', url: 'https://example.com/1', quote: 'Quote 1',
@@ -170,5 +173,22 @@ describe('AgiStrategyLander', () => {
     const titleElement = container.querySelector('title');
     expect(titleElement).toBeTruthy();
     expect(titleElement?.textContent).toBe('AGI Strategy Course | BlueDot Impact');
+  });
+
+  it('does not crash when application URL is temporarily missing during client navigation', () => {
+    mockLatestUtmParams.utm_source = 'programs-overview';
+
+    render(
+      <CourseLander
+        courseSlug="agi-strategy"
+        baseApplicationUrl={undefined}
+        createContentFor={createAgiStrategyContent}
+        courseOgImage="https://bluedot.org/images/courses/link-preview/agi-strategy.png"
+        soonestDeadline={null}
+      />,
+      { wrapper: TrpcProvider },
+    );
+
+    expect(screen.getAllByText('AGI Strategy').length).toBeGreaterThan(0);
   });
 });
