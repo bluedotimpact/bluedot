@@ -6,51 +6,37 @@ exports[`GrantsSection > renders default as expected 1`] = `
     class="w-full bg-white py-[48px] px-5 min-[680px]:py-[64px] min-[680px]:px-8 min-[1024px]:py-[80px] lg:px-12 min-[1280px]:py-[96px] xl:px-16 2xl:px-20"
   >
     <div
-      class="mx-auto grid max-w-screen-xl gap-10 min-[960px]:grid-cols-[minmax(0,1fr)_420px] min-[960px]:items-center min-[1280px]:gap-14"
+      class="mx-auto flex max-w-[760px] flex-col items-center text-center"
     >
       <div
-        class="max-w-[640px]"
+        class="max-w-[700px]"
       >
-        <p
-          class="text-[12px] font-semibold uppercase tracking-[0.14em] text-[#2A5FA8]"
-        >
-          Grants
-        </p>
         <h2
-          class="bluedot-h2 not-prose mt-4 text-[28px] min-[680px]:text-[36px] min-[1024px]:text-[40px] min-[1280px]:text-[48px] leading-tight tracking-[-1px] font-medium text-bluedot-navy"
+          class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[36px] min-[1024px]:text-[40px] min-[1280px]:text-[48px] leading-tight tracking-[-1px] font-medium text-bluedot-navy"
         >
-          Need funding to keep moving?
+          Go beyond a course
         </h2>
-        <div
-          class="mt-6 flex flex-col gap-5"
+        <p
+          class="bluedot-p not-prose mt-6 text-[16px] min-[680px]:text-[18px] leading-[1.6] text-bluedot-navy/80"
         >
-          <p
-            class="bluedot-p not-prose text-[16px] min-[680px]:text-[18px] leading-[1.6] text-bluedot-navy/80"
-          >
-            Rapid Grants back concrete AI safety work in the BlueDot community: research projects, events, community building, travel, tooling, and more.
-          </p>
-          <p
-            class="bluedot-p not-prose text-[16px] min-[680px]:text-[18px] leading-[1.6] text-bluedot-navy/80"
-          >
-            Five-minute application, decisions in days, money upfront by default.
-          </p>
-        </div>
+          Funding, structured sprints, or a bigger launchpad for the next stage of your work on making AI go well. Explore what programs we are running currently, or go straight to Rapid Grants if you need money to keep moving.
+        </p>
         <div
-          class="mt-8 flex flex-wrap gap-3"
+          class="mt-8 flex flex-wrap justify-center gap-3"
         >
           <a
             class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
-            href="/programs/rapid-grants?utm_source=website&utm_campaign=homepage-grants"
+            href="/programs?utm_source=website&utm_campaign=homepage-programs"
             tabindex="0"
           >
-            Apply for Rapid Grants
+            Explore programs
           </a>
           <a
             class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter"
-            href="/programs?utm_source=website&utm_campaign=homepage-grants"
+            href="/programs/rapid-grants?utm_source=website&utm_campaign=homepage-programs"
             tabindex="0"
           >
-            See all programs
+            Rapid Grants
             <span
               class="cta-button__chevron ml-3"
             >
@@ -72,16 +58,6 @@ exports[`GrantsSection > renders default as expected 1`] = `
           </a>
         </div>
       </div>
-      <a
-        class="group relative block overflow-hidden rounded-[8px] border border-bluedot-navy/10 bg-[#F4F8FD] min-[960px]:justify-self-end"
-        href="/programs/rapid-grants?utm_source=website&utm_campaign=homepage-grants"
-      >
-        <img
-          alt="BlueDot community members in conversation"
-          class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-          src="/images/community-values/people.png"
-        />
-      </a>
     </div>
   </section>
 </div>
