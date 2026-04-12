@@ -123,33 +123,56 @@ export const groupDiscussionsRouter = router({
 
       const roundIds = [...new Set(participants.map((p) => p.round).filter((r): r is string => !!r))];
       const participantIds = [...new Set(participants.map((p) => p.id))];
+      const expectedParticipantDiscussionIds = [
+        ...new Set(participants.flatMap((p) => p.expectedDiscussionsParticipant ?? [])),
+      ];
+      const expectedFacilitatorDiscussionIds = [
+        ...new Set(participants.flatMap((p) => p.expectedDiscussionsFacilitator ?? [])),
+      ];
+      const expectedDiscussionIds = [
+        ...new Set([...expectedParticipantDiscussionIds, ...expectedFacilitatorDiscussionIds]),
+      ];
 
-      if (roundIds.length === 0) {
+      if (roundIds.length === 0 && expectedDiscussionIds.length === 0) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'Round not found for participant' });
       }
 
       const currentTimeMs = Date.now();
+      const discussionConditions = [];
 
-      // Query discussions across all rounds where the user is a participant or facilitator
+      if (roundIds.length > 0) {
+        discussionConditions.push(and(
+          inArray(groupDiscussionTable.pg.round, roundIds),
+          sql`(${groupDiscussionTable.pg.participantsExpected} && ARRAY[${sql.join(participantIds.map((id) => sql`${id}`), sql`, `)}]::text[] OR ${groupDiscussionTable.pg.facilitators} && ARRAY[${sql.join(participantIds.map((id) => sql`${id}`), sql`, `)}]::text[])`,
+        ));
+      }
+
+      if (expectedDiscussionIds.length > 0) {
+        discussionConditions.push(inArray(groupDiscussionTable.pg.id, expectedDiscussionIds));
+      }
+
+      // Query discussions through both the direct expected-discussion linkage and the
+      // round-based fallback so the course hub stays aligned with the settings page.
       const groupDiscussions = await db.pg
         .select()
         .from(groupDiscussionTable.pg)
-        .where(and(
-          inArray(groupDiscussionTable.pg.round, roundIds),
-          sql`(${groupDiscussionTable.pg.participantsExpected} && ARRAY[${sql.join(participantIds.map((id) => sql`${id}`), sql`, `)}]::text[] OR ${groupDiscussionTable.pg.facilitators} && ARRAY[${sql.join(participantIds.map((id) => sql`${id}`), sql`, `)}]::text[])`,
-        ))
+        .where(discussionConditions.length === 1 ? discussionConditions[0]! : or(...discussionConditions))
         .orderBy(groupDiscussionTable.pg.startDateTime);
 
+      const dedupedDiscussions = groupDiscussions.filter((discussion, index, discussions) => discussions.findIndex((d) => d.id === discussion.id) === index);
+
       // Get the first discussion that hasn't ended (already ordered by start time)
-      const groupDiscussion = groupDiscussions.find((d) => getDiscussionTimeState({ discussion: d, currentTimeMs }) !== 'ended') ?? null;
+      const groupDiscussion = dedupedDiscussions.find((d) => getDiscussionTimeState({ discussion: d, currentTimeMs }) !== 'ended') ?? null;
 
       // Determine user role and get host key if facilitator
       let userRole: 'participant' | 'facilitator' | undefined;
       let hostKeyForFacilitators: string | undefined;
 
       if (groupDiscussion) {
-        const isFacilitator = participantIds.some((id) => groupDiscussion.facilitators.includes(id));
-        const isParticipant = participantIds.some((id) => groupDiscussion.participantsExpected.includes(id));
+        const isFacilitator = expectedFacilitatorDiscussionIds.includes(groupDiscussion.id)
+          || participantIds.some((id) => groupDiscussion.facilitators.includes(id));
+        const isParticipant = expectedParticipantDiscussionIds.includes(groupDiscussion.id)
+          || participantIds.some((id) => groupDiscussion.participantsExpected.includes(id));
 
         if (isFacilitator) {
           userRole = 'facilitator';
