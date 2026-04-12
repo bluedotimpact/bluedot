@@ -218,14 +218,14 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                           </a>
                           <a
                             class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
-                            href="/programs/technical-ai-safety-project-sprint"
+                            href="/courses/technical-ai-safety-project"
                             tabindex="0"
                           >
                             Technical AI Safety Project Sprint
                           </a>
                           <a
                             class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
-                            href="/programs/incubator-week"
+                            href="/courses/incubator-week"
                             tabindex="0"
                           >
                             Incubator Week
@@ -442,14 +442,14 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     </a>
                     <a
                       class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
-                      href="/programs/technical-ai-safety-project-sprint"
+                      href="/courses/technical-ai-safety-project"
                       tabindex="0"
                     >
                       Technical AI Safety Project Sprint
                     </a>
                     <a
                       class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
-                      href="/programs/incubator-week"
+                      href="/courses/incubator-week"
                       tabindex="0"
                     >
                       Incubator Week
