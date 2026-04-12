@@ -27,7 +27,7 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
   {
     slug: 'technical-ai-safety-project-sprint',
     title: 'Technical AI Safety Project Sprint',
-    href: '/programs/technical-ai-safety-project-sprint',
+    href: '/courses/technical-ai-safety-project',
     goal: 'Help technically minded people ship a concrete AI safety research or engineering project with expert support.',
     scope: 'A 30-hour project sprint with mentorship, public output, and a clear path to portfolio-building.',
     scopeLabel: 'Format',
@@ -36,7 +36,7 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
   {
     slug: 'incubator-week',
     title: 'Incubator Week',
-    href: '/programs/incubator-week',
+    href: '/courses/incubator-week',
     goal: 'Back founders from our courses to turn strong ideas into organizations that can make AI go well.',
     scope: 'A five-day intensive in London. All expenses paid. Pitch for funding on Friday.',
     scopeLabel: 'Format',

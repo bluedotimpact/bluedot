@@ -156,7 +156,7 @@ export const createPersonalTheoryOfImpactContent = (
         question: 'How is this different from the Technical AI Safety Project Sprint?',
         answer: (
           <>
-            The <a href="/programs/technical-ai-safety-project-sprint" className="underline">project sprint</a> is for people who want to make a technical contribution to AI safety research or engineering. This project is for anyone who wants to figure out how they can best contribute — technical or otherwise.
+            The <a href="/courses/technical-ai-safety-project" className="underline">project sprint</a> is for people who want to make a technical contribution to AI safety research or engineering. This project is for anyone who wants to figure out how they can best contribute — technical or otherwise.
           </>
         ),
       },
