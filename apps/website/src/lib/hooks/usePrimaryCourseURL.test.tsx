@@ -6,7 +6,7 @@ import { useAuthStore } from '@bluedot/ui';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import { createMockCourse, createMockCourseRegistration } from '../../__tests__/testUtils';
-import { getDefaultCourseURL, usePrimaryCourseURL } from './usePrimaryCourseURL';
+import { usePrimaryCourseURL } from './usePrimaryCourseURL';
 import { ONE_HOUR_MS } from '../constants';
 
 vi.mock('@bluedot/ui', async () => {
@@ -36,25 +36,6 @@ describe('usePrimaryCourseURL', () => {
 
     await waitFor(() => {
       expect(result.current.getPrimaryCourseURL('unknown-course')).toBe('/courses/unknown-course');
-    });
-  });
-
-  it('returns the program URL for the technical AI safety project sprint by default', async () => {
-    const mockCourse = createMockCourse({
-      id: 'course-1',
-      slug: 'technical-ai-safety-project',
-      title: 'Technical AI Safety Project',
-    });
-
-    server.use(trpcMsw.courses.getAll.query(() => [mockCourse]));
-    server.use(trpcMsw.courseRegistrations.getAll.query(() => []));
-
-    const { result } = renderHook(() => usePrimaryCourseURL(), {
-      wrapper: TrpcProvider,
-    });
-
-    await waitFor(() => {
-      expect(result.current.getPrimaryCourseURL('technical-ai-safety-project')).toBe('/programs/technical-ai-safety-project-sprint');
     });
   });
 
@@ -146,15 +127,5 @@ describe('usePrimaryCourseURL', () => {
       // Not enrolled in course-2
       expect(result.current.getPrimaryCourseURL('course-2')).toBe('/courses/course-2');
     });
-  });
-});
-
-describe('getDefaultCourseURL', () => {
-  it('maps the technical AI safety project to its program page', () => {
-    expect(getDefaultCourseURL('technical-ai-safety-project')).toBe('/programs/technical-ai-safety-project-sprint');
-  });
-
-  it('falls back to the course lander for standard courses', () => {
-    expect(getDefaultCourseURL('future-of-ai')).toBe('/courses/future-of-ai');
   });
 });
