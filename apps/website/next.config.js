@@ -54,16 +54,6 @@ module.exports = withDefaultBlueDotNextConfig({
         permanent: true,
       },
       {
-        source: '/courses/incubator-week',
-        destination: '/programs/incubator-week',
-        permanent: true,
-      },
-      {
-        source: '/courses/technical-ai-safety-project',
-        destination: '/programs/technical-ai-safety-project-sprint',
-        permanent: true,
-      },
-      {
         source: '/join-us/mentor',
         destination: '/join-us/coach',
         permanent: true,
