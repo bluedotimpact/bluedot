@@ -2,14 +2,6 @@ import { useCallback } from 'react';
 import { useAuthStore } from '@bluedot/ui';
 import { trpc } from '../../utils/trpc';
 
-const SPECIAL_COURSE_DESTINATIONS: Record<string, string> = {
-  'technical-ai-safety-project': '/programs/technical-ai-safety-project-sprint',
-};
-
-export const getDefaultCourseURL = (courseSlug: string): string => {
-  return SPECIAL_COURSE_DESTINATIONS[courseSlug] ?? `/courses/${courseSlug}`;
-};
-
 /**
  * Provides a function `getPrimaryCourseURL` to get the primary URL for any course.
  * - In progress -> /courses/{slug}/1/1 (course content)
@@ -28,7 +20,7 @@ export const usePrimaryCourseURL = () => {
 
     // Fallback to lander url while loading
     if (!course) {
-      return getDefaultCourseURL(courseSlug);
+      return `/courses/${courseSlug}`;
     }
 
     const registration = registrations?.find((r) => r.courseId === course.id);
@@ -38,7 +30,7 @@ export const usePrimaryCourseURL = () => {
       return `/courses/${courseSlug}/1/1`;
     }
 
-    return getDefaultCourseURL(courseSlug);
+    return `/courses/${courseSlug}`;
   }, [coursesData, registrations]);
 
   return { getPrimaryCourseURL };
