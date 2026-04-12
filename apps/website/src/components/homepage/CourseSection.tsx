@@ -6,7 +6,7 @@ import {
   useEffect, useRef, useCallback, useState, useMemo,
 } from 'react';
 import { PiShieldStarLight, PiShootingStarLight, PiUsersThreeLight } from 'react-icons/pi';
-import { usePrimaryCourseURL } from '../../lib/hooks/usePrimaryCourseURL';
+import { getDefaultCourseURL, usePrimaryCourseURL } from '../../lib/hooks/usePrimaryCourseURL';
 import { withClickTracking } from '../../lib/withClickTracking';
 import { trpc } from '../../utils/trpc';
 
@@ -394,7 +394,7 @@ const CourseCarousel = ({
                 key={uniqueKey}
                 trackingEventParams={{
                   course_title: course.title,
-                  course_url: `/courses/${course.slug}`, // Always use lander rather than getPrimaryCourseURL(course.slug) to simplify analytics
+                  course_url: getDefaultCourseURL(course.slug),
                 }}
                 course={course}
                 className="flex-shrink-0 w-[276px] md:w-[400px]"
