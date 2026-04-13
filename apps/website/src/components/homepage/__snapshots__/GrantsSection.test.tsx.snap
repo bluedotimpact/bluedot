@@ -1,0 +1,64 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`GrantsSection > renders default as expected 1`] = `
+<div>
+  <section
+    class="w-full bg-white py-[48px] px-5 min-[680px]:py-[64px] min-[680px]:px-8 min-[1024px]:py-[80px] lg:px-12 min-[1280px]:py-[96px] xl:px-16 2xl:px-20"
+  >
+    <div
+      class="mx-auto flex max-w-[760px] flex-col items-center text-center"
+    >
+      <div
+        class="max-w-[700px]"
+      >
+        <h2
+          class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[36px] min-[1024px]:text-[40px] min-[1280px]:text-[48px] leading-tight tracking-[-1px] font-medium text-bluedot-navy"
+        >
+          Go beyond a course
+        </h2>
+        <p
+          class="bluedot-p not-prose mt-6 text-[16px] min-[680px]:text-[18px] leading-[1.6] text-bluedot-navy/80"
+        >
+          Funding, structured sprints, or a bigger launchpad for the next stage of your work on making AI go well. Explore what programs we are running currently, or go straight to Rapid Grants if you need money to keep moving.
+        </p>
+        <div
+          class="mt-8 flex flex-wrap justify-center gap-3"
+        >
+          <a
+            class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+            href="/programs?utm_source=website&utm_campaign=homepage-programs"
+            tabindex="0"
+          >
+            Explore programs
+          </a>
+          <a
+            class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter"
+            href="/programs/rapid-grants?utm_source=website&utm_campaign=homepage-programs"
+            tabindex="0"
+          >
+            Rapid Grants
+            <span
+              class="cta-button__chevron ml-3"
+            >
+              <svg
+                class="cta-button__chevron-icon size-2"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 320 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                />
+              </svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+`;

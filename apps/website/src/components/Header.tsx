@@ -15,13 +15,15 @@ export const Header: React.FC<HeaderProps> = ({ announcementBanner }) => {
   const router = useRouter();
   // Pages that render their own Nav: homepage, /courses index, and course lander pages
   const isCourseLander = router.pathname === '/courses/[courseSlug]';
+  const isProgramsPage = router.pathname === '/programs' || router.pathname.startsWith('/programs/');
   const pageRendersOwnNav = router.pathname === '/'
     || router.pathname === '/courses'
     || router.pathname === '/about'
     || router.pathname === '/events'
     || router.pathname === '/join-us'
     || router.pathname === '/grants'
-    || isCourseLander;
+    || isCourseLander
+    || isProgramsPage;
 
   if (pageRendersOwnNav) {
     return announcementBanner ?? null;
@@ -29,8 +31,8 @@ export const Header: React.FC<HeaderProps> = ({ announcementBanner }) => {
 
   return (
     <>
-      <Nav />
       {announcementBanner}
+      <Nav />
     </>
   );
 };

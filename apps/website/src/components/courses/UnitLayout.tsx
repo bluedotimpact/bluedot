@@ -29,14 +29,12 @@ import { buildCourseUnitUrl } from '../../lib/utils';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 import type { CourseProgress } from '../../server/routers/courses';
 import { trpc } from '../../utils/trpc';
-import ActionPlanCard from './ActionPlanCard';
-import CertificateLinkCard from './CertificateLinkCard';
-import Congratulations from './Congratulations';
 import { CourseIcon } from './CourseIcon';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
 import InactiveCourseBanners from './InactiveCourseBanners';
 import KeyboardNavMenu from './KeyboardNavMenu';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
+import CourseCompletionSection from './CourseCompletionSection';
 import { MobileCourseModal } from './MobileCourseModal';
 import { ResourceDisplay } from './ResourceDisplay';
 import SideBar, { type ApplyCTAProps } from './SideBar';
@@ -180,6 +178,8 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
     { courseSlug },
     { enabled: Boolean(auth) },
   );
+
+  const { data: certificateData } = trpc.certificates.getStatus.useQuery({ courseId: unit.courseId });
 
   const isFirstChunk = chunkIndex === 0;
   const isLastChunk = chunkIndex === chunks.length - 1;
@@ -333,6 +333,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           <SideBar
             courseTitle={unit.courseTitle}
             courseSlug={courseSlug}
+            certificateStatus={certificateData?.status}
             className="hidden md:block md:sticky md:top-(--nav-height-mobile) lg:top-(--nav-height-desktop) md:overflow-y-auto md:h-[calc(100vh-var(--nav-height-mobile))] lg:h-[calc(100vh-var(--nav-height-desktop))] md:shrink-0"
             units={units}
             currentUnitNumber={parseInt(unitNumber)}
@@ -458,20 +459,12 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               ) : null}
 
               {(!nextUnit && isLastChunk) ? (
-                <>
-                  <Congratulations
-                    courseTitle={unit.courseTitle}
-                    coursePath={`/courses/${unit.courseSlug}`}
-                    courseId={unit.courseId}
-                    className="mt-8 md:mt-6"
-                  />
-                  <div className="mt-8 md:mt-6">
-                    <ActionPlanCard courseId={unit.courseId} />
-                  </div>
-                  <div className="mt-4">
-                    <CertificateLinkCard courseId={unit.courseId} />
-                  </div>
-                </>
+                <CourseCompletionSection
+                  courseId={unit.courseId}
+                  courseTitle={unit.courseTitle}
+                  courseSlug={courseSlug}
+                  className="mt-8 md:mt-6"
+                />
               ) : (
                 // Margin-bottom is added to accommodate the Circle widget on mobile screens
                 <div className="unit__cta-container flex flex-row justify-center mt-6 mx-1 mb-14 sm:mb-0">
@@ -508,6 +501,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       <MobileCourseModal
         isOpen={isMobileCourseMenuOpen}
         setIsOpen={setIsMobileCourseMenuOpen}
+        certificateStatus={certificateData?.status}
         courseTitle={unit.courseTitle}
         courseSlug={courseSlug}
         units={units}

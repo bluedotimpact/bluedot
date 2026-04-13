@@ -178,7 +178,7 @@ export const createTechnicalAiSafetyProjectContent = (
         question: 'Do you provide funding for compute?',
         answer: (
           <>
-            Yes. Once you're accepted onto the sprint, you can apply for a <a href="https://blog.bluedot.org/p/rapid-grants-for-bluedot-projects" target="_blank" rel="noopener noreferrer" className="underline">rapid small grant</a> if you need compute or other resources for your project.
+            Yes. Once you're accepted onto the sprint, you can apply for <a href="/programs/rapid-grants" className="underline">Rapid Grants</a> if you need compute or other resources for your project.
           </>
         ),
       },

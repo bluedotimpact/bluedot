@@ -60,6 +60,7 @@ COURSE_UNITS.forEach((unit) => {
 describe('SideBar', () => {
   const defaultProps = {
     unitChunks: ALL_UNIT_CHUNKS,
+    certificateStatus: undefined,
     courseTitle: 'What the fish [Test Course]',
     courseSlug: 'test-course',
     units: COURSE_UNITS,

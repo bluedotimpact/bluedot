@@ -17,7 +17,7 @@ import GranteesListSection from './GranteesListSection';
 setupTestDb();
 
 describe('GranteesListSection', () => {
-  test('renders grantees from DB and toggles show all', async () => {
+  test('renders grantees from DB, toggles show all, and filters by search', async () => {
     await testDb.insert(grantTable, {
       granteeName: 'Alice',
       projectTitle: 'Alpha Project',
@@ -50,5 +50,16 @@ describe('GranteesListSection', () => {
     await waitFor(() => {
       expect(screen.getByText('Beta Project')).toBeInTheDocument();
     });
+
+    fireEvent.change(screen.getByRole('searchbox', { name: 'Search projects or grantees' }), {
+      target: { value: 'bob' },
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('1 result for "bob"')).toBeInTheDocument();
+    });
+
+    expect(screen.queryByText('Alpha Project')).not.toBeInTheDocument();
+    expect(screen.getByText('Beta Project')).toBeInTheDocument();
   });
 });

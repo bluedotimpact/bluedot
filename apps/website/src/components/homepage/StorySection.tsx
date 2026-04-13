@@ -12,11 +12,11 @@ const StorySection = () => {
         <div className="flex flex-col gap-[32px] items-center">
           <div className="flex flex-col">
             <P className="text-[16px] min-[680px]:text-[18px] leading-[1.6] opacity-80 mb-[1em]">
-              BlueDot Impact is a non-profit based out of London. We train and accelerate talented people into opportunities that positively impact the trajectory of AI.
+              BlueDot Impact is a non-profit talent accelerator based in London and San Francisco. We help people build careers and organizations that positively impact the trajectory of AI - through our courses, career support, events, and startup programs.
             </P>
 
             <P className="text-[16px] min-[680px]:text-[18px] leading-[1.6] opacity-80 mb-0">
-              Since 2022, we've trained over 5,000 professionals worldwide – from technical staff at frontier AI companies to government policymakers. Our alumni work on critical challenges at organisations like Anthropic, Google DeepMind, and the UK's AI Security Institute. We're a small team, and we've raised $35M.
+              Since 2022, we've trained over 7,000 professionals worldwide, from technical staff at frontier AI labs to government policymakers. Our alumni work on critical challenges at organisations like Anthropic, Google DeepMind, and the UK's AI Security Institute. We're a small team, and we've raised $35M to date.
             </P>
           </div>
 

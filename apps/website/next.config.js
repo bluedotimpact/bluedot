@@ -34,6 +34,26 @@ module.exports = withDefaultBlueDotNextConfig({
         permanent: true,
       },
       {
+        source: '/grants',
+        destination: '/programs',
+        permanent: true,
+      },
+      {
+        source: '/grants/rapid',
+        destination: '/programs/rapid-grants',
+        permanent: true,
+      },
+      {
+        source: '/grants/agi-strategy-fund',
+        destination: '/programs',
+        permanent: true,
+      },
+      {
+        source: '/grants/bridge',
+        destination: '/programs',
+        permanent: true,
+      },
+      {
         source: '/join-us/mentor',
         destination: '/join-us/coach',
         permanent: true,

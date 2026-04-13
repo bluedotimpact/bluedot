@@ -1,11 +1,16 @@
-import { courseRegistrationTable, exerciseResponseTable, exerciseTable } from '@bluedot/db';
-import { TRPCError } from '@trpc/server';
+import {
+  courseRegistrationTable, exerciseResponseTable, exerciseTable, meetPersonTable,
+} from '@bluedot/db';
+import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import { timingSafeEqual } from 'crypto';
 import z from 'zod';
 import db from '../../lib/api/db';
 import env from '../../lib/api/env';
-import { protectedProcedure, publicProcedure, router } from '../trpc';
 import { FOAI_COURSE_ID } from '../../lib/constants';
+import { protectedProcedure, publicProcedure, router } from '../trpc';
+import type { AppRouter } from './_app';
+
+export type CertificateStatus = inferRouterOutputs<AppRouter>['certificates']['getStatus']['status'];
 
 export const certificatesRouter = router({
   // This is a public procedure because it's called from an Airtable script, not from within the app
@@ -88,7 +93,8 @@ export const certificatesRouter = router({
       if (courseRegistration.courseId !== FOAI_COURSE_ID) {
         throw new TRPCError({
           code: 'FORBIDDEN',
-          message: 'Self-requesting certificates is only available for the Future of AI course. For other courses, certificates are issued after completing your facilitated cohort.',
+          message:
+            'Self-requesting certificates is only available for the Future of AI course. For other courses, certificates are issued after completing your facilitated cohort.',
         });
       }
 
@@ -133,4 +139,55 @@ Please complete all exercises before requesting a certificate.`,
         certificateCreatedAt: Math.floor(Date.now() / 1000),
       });
     }),
+
+  getStatus: publicProcedure.input(z.object({ courseId: z.string() })).query(async ({ ctx, input: { courseId } }) => {
+    // For non-logged in users
+    if (!ctx.auth) {
+      return { status: 'not-eligible' } as const;
+    }
+
+    const courseRegistration = await db.getFirst(courseRegistrationTable, {
+      filter: { email: ctx.auth.email, courseId, decision: 'Accept' },
+    });
+
+    if (!courseRegistration) {
+      return { status: 'not-eligible' } as const;
+    }
+
+    if (courseRegistration.certificateId) {
+      return {
+        status: 'has-certificate',
+        certificateId: courseRegistration.certificateId,
+        issuedAt: courseRegistration.certificateCreatedAt ?? Math.floor(Date.now() / 1000),
+        holderName: courseRegistration.fullName ?? courseRegistration.email,
+      } as const;
+    }
+
+    if (courseRegistration.courseId === FOAI_COURSE_ID) {
+      // FOAI -> self-service certificates, users must request a certificate which runs a generation mutation
+      return { status: 'can-request' } as const;
+    }
+
+    const meetPerson = await db.getFirst(meetPersonTable, {
+      filter: { applicationsBaseRecordId: courseRegistration.id },
+    });
+
+    if (!meetPerson) {
+      return { status: 'not-eligible' } as const;
+    }
+
+    if (meetPerson.role === 'Participant') {
+      return {
+        status: 'action-plan-pending',
+        meetPersonId: meetPerson.id,
+        hasSubmittedActionPlan: (meetPerson.projectSubmission?.length ?? 0) > 0,
+      } as const;
+    }
+
+    if (meetPerson.role === 'Facilitator') {
+      return { status: 'facilitator-pending' } as const;
+    }
+
+    return { status: 'not-eligible' } as const;
+  }),
 });
