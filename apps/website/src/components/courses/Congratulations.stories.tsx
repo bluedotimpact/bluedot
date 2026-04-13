@@ -6,8 +6,6 @@ import { FOAI_COURSE_ID } from '../../lib/constants';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 import Congratulations from './Congratulations';
 
-const MOCK_COURSE_ID = 'course-123';
-
 const meta = {
   title: 'website/courses/Congratulations',
   component: Congratulations,
@@ -26,7 +24,7 @@ const meta = {
     courseTitle: 'AGI Strategy',
     coursePath: '/courses/agi-strategy',
     courseSlug: 'agi-strategy',
-    courseId: MOCK_COURSE_ID,
+    courseId: 'course123',
   },
   ...loggedInStory(),
 } satisfies Meta<typeof Congratulations>;
