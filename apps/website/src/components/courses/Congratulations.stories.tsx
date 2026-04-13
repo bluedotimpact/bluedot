@@ -32,13 +32,11 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Card 3: not logged in
 export const NotLoggedIn: Story = {
   args: {},
   ...loggedOutStory(),
 };
 
-// Card 3: loading
 export const Loading: Story = {
   args: {},
   parameters: {
@@ -53,7 +51,6 @@ export const Loading: Story = {
   },
 };
 
-// Card 3: error
 export const Error: Story = {
   args: {},
   parameters: {
@@ -67,7 +64,6 @@ export const Error: Story = {
   },
 };
 
-// Card 3: has-certificate
 export const HasCertificate: Story = {
   args: {},
   parameters: {
@@ -84,7 +80,6 @@ export const HasCertificate: Story = {
   },
 };
 
-// Card 3: action-plan-pending (not yet submitted)
 export const ActionPlanPending: Story = {
   args: {},
   parameters: {
@@ -100,7 +95,6 @@ export const ActionPlanPending: Story = {
   },
 };
 
-// Card 3: action-plan-pending (already submitted)
 export const ActionPlanSubmitted: Story = {
   args: {},
   parameters: {
@@ -116,7 +110,6 @@ export const ActionPlanSubmitted: Story = {
   },
 };
 
-// Card 3: can-request (self-service certificate)
 export const CanRequest: Story = {
   args: {},
   parameters: {
@@ -131,7 +124,6 @@ export const CanRequest: Story = {
   },
 };
 
-// Card 3: facilitator-pending
 export const FacilitatorPending: Story = {
   args: {},
   parameters: {
@@ -145,7 +137,6 @@ export const FacilitatorPending: Story = {
   },
 };
 
-// Card 3: not-eligible
 export const NotEligible: Story = {
   args: {},
   parameters: {
@@ -159,14 +150,12 @@ export const NotEligible: Story = {
   },
 };
 
-// No certificate card (no courseId)
 export const NoCertificateCard: Story = {
   args: {
     courseId: undefined,
   },
 };
 
-// FoAI variant: shows "Want to go deeper?" section + can-request certificate state
 export const FoAI: Story = {
   args: {
     courseTitle: 'Future of AI',
