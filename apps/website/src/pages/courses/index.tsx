@@ -380,7 +380,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
   const { latestUtmParams } = useLatestUtmParams();
 
   const baseApplicationUrl = course.applyUrl ?? '';
-  const applicationUrlWithUtm = appendPosthogSessionIdPrefill(latestUtmParams.utm_source
+  const applicationUrlWithUtm = appendPosthogSessionIdPrefill(latestUtmParams.utm_source && baseApplicationUrl
     ? addQueryParam(baseApplicationUrl, 'prefill_Source', latestUtmParams.utm_source)
     : baseApplicationUrl);
 

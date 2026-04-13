@@ -81,7 +81,7 @@ const CourseLander = ({
 }: CourseLanderProps) => {
   const { latestUtmParams } = useLatestUtmParams();
   const applyUrl = baseApplicationUrl ?? '';
-  const applicationUrlWithUtm = appendPosthogSessionIdPrefill(latestUtmParams.utm_source
+  const applicationUrlWithUtm = appendPosthogSessionIdPrefill(latestUtmParams.utm_source && applyUrl
     ? addQueryParam(applyUrl, 'prefill_Source', latestUtmParams.utm_source)
     : applyUrl);
 
