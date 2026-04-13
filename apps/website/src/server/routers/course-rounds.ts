@@ -4,13 +4,17 @@ import {
 } from '@bluedot/db';
 import { publicProcedure, router } from '../trpc';
 import db from '../../lib/api/db';
-import { formatMonthAndDay } from '../../lib/utils';
+import { formatApplicationDeadlineUtcDetailed, formatMonthAndDay } from '../../lib/utils';
 import type { ApplyCTAProps } from '../../components/courses/SideBar';
-import { ONE_DAY_MS, ONE_HOUR_MS } from '../../lib/constants';
+import { ONE_DAY_MS } from '../../lib/constants';
 
-function getDeadlineThreshold(): Date {
+export function getDeadlineThresholdUtc(): Date {
   const now = new Date();
-  return new Date(now.getTime() - 12 * ONE_HOUR_MS);
+  return new Date(Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate(),
+  ));
 }
 
 function formatDateRange(
@@ -84,9 +88,9 @@ export async function getCourseRoundsData(courseSlug: string) {
 
   const courseId = course[0].id;
 
-  // Only show rounds where deadline hasn't passed everywhere in the world
-  // Subtract 12 hours from current time to account for UTC-12 (furthest behind timezone)
-  const deadlineThreshold = getDeadlineThreshold();
+  // Only show rounds whose deadline is today or later in UTC.
+  // This keeps the displayed "12 Apr" deadline visible until 00:00 UTC on 13 Apr.
+  const deadlineThreshold = getDeadlineThresholdUtc();
 
   const filteredRounds = await db.pg
     .select()
@@ -103,6 +107,9 @@ export async function getCourseRoundsData(courseSlug: string) {
     id: round.id,
     intensity: round.intensity,
     applicationDeadline: round.applicationDeadline ? formatMonthAndDay(round.applicationDeadline) : 'TBD',
+    applicationDeadlineDetailed: round.applicationDeadline
+      ? formatApplicationDeadlineUtcDetailed(round.applicationDeadline)
+      : 'TBD',
     applicationDeadlineRaw: round.applicationDeadline,
     firstDiscussionDateRaw: round.firstDiscussionDate,
     dateRange: formatDateRange(
@@ -142,7 +149,7 @@ export function getSoonestDeadline(rounds: CourseRoundsData): string | null {
     return currentDate < soonestDate ? current : soonest;
   });
 
-  return soonestRound.applicationDeadline;
+  return formatMonthAndDay(soonestRound.applicationDeadlineRaw);
 }
 
 export const courseRoundsRouter = router({
@@ -170,8 +177,8 @@ export const courseRoundsRouter = router({
       // Filter out self-paced courses (slug = 'future-of-ai')
       const courses = allCourses.filter((course) => course.slug !== 'future-of-ai');
 
-      // Only show rounds where deadline hasn't passed everywhere in the world
-      const deadlineThreshold = getDeadlineThreshold();
+      // Only show rounds whose deadline is today or later in UTC.
+      const deadlineThreshold = getDeadlineThresholdUtc();
 
       // Fetch all upcoming rounds for all courses
       const allRounds = await db.pg
@@ -206,6 +213,9 @@ export const courseRoundsRouter = router({
             intensity: round.intensity,
             applicationDeadline: round.applicationDeadline
               ? formatMonthAndDay(round.applicationDeadline)
+              : 'TBD',
+            applicationDeadlineDetailed: round.applicationDeadline
+              ? formatApplicationDeadlineUtcDetailed(round.applicationDeadline)
               : 'TBD',
             applicationDeadlineRaw: round.applicationDeadline,
             firstDiscussionDateRaw: round.firstDiscussionDate,

@@ -67,7 +67,7 @@ export const WithApplyCTA: Story = {
   ...loggedInStory(),
   args: {
     applyCTAProps: {
-      applicationDeadline: 'Jan 15',
+      applicationDeadline: '15 Jan',
       applicationUrl: 'https://example.com/apply',
       hasApplied: false,
     },

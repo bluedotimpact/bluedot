@@ -10,6 +10,7 @@ type Round = {
   applyUrl: string | null;
   intensity: string;
   applicationDeadline: string;
+  applicationDeadlineDetailed: string;
   applicationDeadlineRaw: string;
   firstDiscussionDateRaw: string;
   dateRange: string;
@@ -25,6 +26,7 @@ const mockIntensiveRounds: Round[] = [
     applyUrl: 'https://web.miniextensions.com/test-tas',
     intensity: 'intensive',
     applicationDeadline: '15 Jan',
+    applicationDeadlineDetailed: '15 Jan at 23:59 UTC',
     applicationDeadlineRaw: '2025-01-15',
     firstDiscussionDateRaw: '2025-02-01',
     dateRange: '1 Feb – 14 Feb',
@@ -38,6 +40,7 @@ const mockIntensiveRounds: Round[] = [
     applyUrl: 'https://web.miniextensions.com/test-gov',
     intensity: 'intensive',
     applicationDeadline: '22 Jan',
+    applicationDeadlineDetailed: '22 Jan at 23:59 UTC',
     applicationDeadlineRaw: '2025-01-22',
     firstDiscussionDateRaw: '2025-02-10',
     dateRange: '10 Feb – 23 Feb',
@@ -51,6 +54,7 @@ const mockIntensiveRounds: Round[] = [
     applyUrl: 'https://web.miniextensions.com/test-agi',
     intensity: 'intensive',
     applicationDeadline: '1 Feb',
+    applicationDeadlineDetailed: '1 Feb at 23:59 UTC',
     applicationDeadlineRaw: '2025-02-01',
     firstDiscussionDateRaw: '2025-02-20',
     dateRange: '20 Feb – 5 Mar',
@@ -67,6 +71,7 @@ const mockPartTimeRounds: Round[] = [
     applyUrl: 'https://web.miniextensions.com/test-tas',
     intensity: 'part-time',
     applicationDeadline: '15 Jan',
+    applicationDeadlineDetailed: '15 Jan at 23:59 UTC',
     applicationDeadlineRaw: '2025-01-15',
     firstDiscussionDateRaw: '2025-02-01',
     dateRange: '1 Feb – 28 Mar',
@@ -80,6 +85,7 @@ const mockPartTimeRounds: Round[] = [
     applyUrl: 'https://web.miniextensions.com/test-gov',
     intensity: 'part-time',
     applicationDeadline: '22 Jan',
+    applicationDeadlineDetailed: '22 Jan at 23:59 UTC',
     applicationDeadlineRaw: '2025-01-22',
     firstDiscussionDateRaw: '2025-02-10',
     dateRange: '10 Feb – 6 Apr',
@@ -93,6 +99,7 @@ const mockPartTimeRounds: Round[] = [
     applyUrl: 'https://web.miniextensions.com/test-bio',
     intensity: 'part-time',
     applicationDeadline: '5 Feb',
+    applicationDeadlineDetailed: '5 Feb at 23:59 UTC',
     applicationDeadlineRaw: '2025-02-05',
     firstDiscussionDateRaw: '2025-02-25',
     dateRange: '25 Feb – 21 Apr',

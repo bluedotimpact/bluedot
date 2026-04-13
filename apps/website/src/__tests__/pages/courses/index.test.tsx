@@ -40,6 +40,7 @@ const mockRounds = {
       id: 'round-1',
       intensity: 'intensive' as const,
       applicationDeadline: '15 Jan',
+      applicationDeadlineDetailed: '15 Jan at 23:59 UTC',
       applicationDeadlineRaw: '2025-01-15',
       firstDiscussionDateRaw: '2025-01-20',
       dateRange: '20 Jan - 24 Jan',

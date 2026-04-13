@@ -588,7 +588,7 @@ const FormatSection = ({ type, rounds, course, applicationUrlWithUtm }: FormatSe
           <li key={round.id}>
             <RoundItem
               title={round.dateRange}
-              subtitle={`Application closes ${round.applicationDeadline}`}
+              subtitle={`Applications close ${round.applicationDeadlineDetailed ?? `${round.applicationDeadline} at 23:59 UTC`}`}
               href={buildRoundApplyUrl(applicationUrlWithUtm, round.id)}
               accentColor={accentColor}
             />
@@ -601,4 +601,3 @@ const FormatSection = ({ type, rounds, course, applicationUrlWithUtm }: FormatSe
     </div>
   );
 };
-

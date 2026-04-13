@@ -90,7 +90,7 @@ const RoundGroup = ({ label, rounds }: RoundGroupProps) => {
           <li key={round.id}>
             <RoundItem
               title={`${round.courseTitle} \u00b7 ${round.dateRange}`}
-              subtitle={`Application closes ${round.applicationDeadline}`}
+              subtitle={`Applications close ${round.applicationDeadlineDetailed ?? `${round.applicationDeadline} at 23:59 UTC`}`}
               // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
               href={buildRoundApplyUrl(round.applyUrl || '', round.id)}
             />
