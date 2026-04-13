@@ -133,7 +133,7 @@ const RapidGrantsPage = () => {
     : '—';
 
   return (
-    <div className="bg-color-canvas">
+    <div className="bg-white">
       <Head>
         <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
         <meta
@@ -151,7 +151,7 @@ const RapidGrantsPage = () => {
         description="Research project, event, community chapter? We fund ambitious people doing concrete work to make AI go well."
         status="Active"
         primaryCta={{ text: 'Apply now', url: RAPID_GRANT_APPLICATION_URL }}
-        secondaryCta={{ text: 'Look at grantees', url: '#grants-made', onClick: scrollToGrantees }}
+        secondaryCta={{ text: 'See funded projects', url: '#grants-made', onClick: scrollToGrantees }}
         facts={[
           { label: 'Typical grants', value: 'Up to $10k' },
           { label: 'Decision time', value: 'Around 5 working days' },
@@ -160,7 +160,7 @@ const RapidGrantsPage = () => {
         ]}
       />
 
-      <Breadcrumbs route={CURRENT_ROUTE} />
+      <Breadcrumbs route={CURRENT_ROUTE} className="bg-white" />
 
       <GrantPageSection
         title="What this program is for"
@@ -276,7 +276,7 @@ const RapidGrantsPage = () => {
 
       <div id="grants-made">
         <GrantPageSection title="Projects we have funded">
-          <GranteesListSection />
+          <GranteesListSection previewRows={2} />
         </GrantPageSection>
       </div>
 
