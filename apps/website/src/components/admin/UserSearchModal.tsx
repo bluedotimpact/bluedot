@@ -65,7 +65,7 @@ export const UserSearchModal = ({
               onClick={() => handleSelectUser(user.id)}
               className="w-full cursor-pointer text-left px-3 py-2 hover:bg-gray-100 rounded"
             >
-              <div className="flex items-center justify-between gap-4">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-1 md:gap-4">
                 <div className="min-w-0">
                   {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
                   <div className="font-medium truncate">{user.name || '(No name)'}</div>
