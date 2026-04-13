@@ -1,240 +1,2858 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Congratulations > renders FoAI course with special component 1`] = `
+exports[`Congratulations > certificate card — authenticated > action-plan-pending: shows disabled button when plan already submitted 1`] = `
 <div>
   <div
-    class="congratulations container-lined p-8 bg-white"
+    class="congratulations flex flex-col gap-16 max-w-[1100px] mx-auto w-full"
   >
     <div
-      class="flex flex-col gap-2"
+      class="flex flex-col gap-6 items-center text-center max-w-[640px] mx-auto"
     >
-      <p
-        class="congratulations__title bluedot-h4 mb-2 text-center"
+      <h2
+        class="bluedot-h2 not-prose font-bold text-[32px] leading-[1.3] tracking-[-0.015em]"
       >
-        Congratulations on completing the Future of AI course!
-      </p>
+        Hooray! You just finished the 
+        AGI Strategy
+         course 🎉
+      </h2>
       <p
-        class="bluedot-p not-prose congratulations__description"
+        class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em]"
       >
-        Want to go deeper? 
-        <span
-          class="font-semibold"
-        >
-          The AGI Strategy course
-        </span>
-         is the natural next step: 25 hours, facilitated in small groups with live discussion. No specific background required. New rounds start every month.
+        Well done! Before you venture out contributing to safe AI, we'd like to ask you for a favor: Please share your experience with your friends and network. This helps us immensely to raise awareness further and ensure making AI go well.
       </p>
     </div>
     <div
-      class="mt-4 flex justify-start"
+      class="flex flex-col gap-12"
     >
-      <a
-        class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
-        href="/courses/agi-strategy"
-        tabindex="0"
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]"
       >
-        Apply now
-        <span
-          class="cta-button__chevron ml-3"
+        <div
+          class="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2"
         >
-          <svg
-            class="cta-button__chevron-icon size-2"
-            fill="currentColor"
-            height="1em"
-            stroke="currentColor"
-            stroke-width="0"
-            viewBox="0 0 320 512"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
+          <div
+            class="flex flex-col gap-6"
           >
-            <path
-              d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+            <div
+              class="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0"
+            >
+              <span
+                class="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy"
+              >
+                1
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-3"
+            >
+              <h3
+                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+              >
+                Share your accomplishment
+              </h3>
+              <p
+                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+              >
+                Raise awareness for safe AI within your network. This will only take 1 min of your time, but can have significant impact on more people working on making AI go well. We're counting on you!
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-2 mt-6"
+          >
+            <a
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap"
+              href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fbluedot.org%2Fcourses%2Fagi-strategy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"
+                />
+              </svg>
+              Share on LinkedIn
+            </a>
+            <a
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap"
+              href="https://twitter.com/intent/tweet?text=%F0%9F%8E%89%20I%20just%20completed%20the%20AGI%20Strategy%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%3A%20https%3A%2F%2Fbluedot.org%2Fcourses%2Fagi-strategy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
+                />
+              </svg>
+              Share on X
+            </a>
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/2 overflow-hidden"
+        >
+          <div
+            class="h-full bg-[#fbfbfd] border-t border-[#e5e9f2] md:border-t-0 md:border-l flex flex-col p-5 gap-4"
+          >
+            <p
+              class="text-[11px] font-semibold uppercase tracking-[0.04em] text-bluedot-navy/40"
+            >
+              Post Preview
+            </p>
+            <div
+              class="flex items-center gap-3"
+            >
+              <div
+                class="size-8 rounded-full bg-bluedot-navy/10 shrink-0"
+              />
+              <div
+                class="flex flex-col gap-1"
+              >
+                <div
+                  class="h-2.5 w-24 rounded-full bg-bluedot-navy/15"
+                />
+                <div
+                  class="h-2.5 w-14 rounded-full bg-bluedot-navy/15"
+                />
+              </div>
+            </div>
+            <p
+              class="text-[13px] leading-[1.5] text-bluedot-navy line-clamp-3"
+            >
+              🎉 I just completed the AGI Strategy course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out:
+               
+              <span
+                class="text-blue-600"
+              >
+                https://bluedot.org/courses/agi-strategy
+              </span>
+            </p>
+            <img
+              alt=""
+              class="w-full rounded-lg object-cover"
+              src="/images/courses/link-preview/agi-strategy.png"
             />
-          </svg>
-        </span>
-      </a>
+          </div>
+        </div>
+      </div>
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]"
+      >
+        <div
+          class="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2"
+        >
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0"
+            >
+              <span
+                class="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy"
+              >
+                2
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-3"
+            >
+              <h3
+                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+              >
+                Send it to someone personally
+              </h3>
+              <p
+                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+              >
+                Think of three people who'd genuinely benefit from this course. A little "I thought of you" goes a long way. Is there anyone that comes to mind?
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-2 mt-6"
+          >
+            <a
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap"
+              href="https://wa.me/?text=%F0%9F%8E%89%20I%20just%20completed%20the%20AGI%20Strategy%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%3A%20https%3A%2F%2Fbluedot.org%2Fcourses%2Fagi-strategy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"
+                />
+              </svg>
+              WhatsApp
+            </a>
+            <button
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap border-0 cursor-pointer"
+              type="button"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M208 0L332.1 0c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9L448 336c0 26.5-21.5 48-48 48l-192 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48zM48 128l80 0 0 64-64 0 0 256 192 0 0-32 64 0 0 48c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 176c0-26.5 21.5-48 48-48z"
+                />
+              </svg>
+              Copy
+            </button>
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/2 overflow-hidden"
+        >
+          <div
+            class="h-full flex flex-col items-center justify-center p-8"
+            style="background-image: url("/images/whatsapp-bg.png"); background-size: cover; background-position: center center;"
+          >
+            <div
+              class="bg-[#d9fdd3] rounded-[7.5px] shadow-sm px-3 py-2.5 max-w-[280px]"
+            >
+              <p
+                class="text-[13px] leading-[1.5] text-[#0a0a0a]"
+              >
+                Hey, I just finished this 
+                AGI Strategy
+                 course and it genuinely shifted how I think about this stuff. It's free and self-paced.
+                 
+                <span
+                  class="text-[#1b8755] underline"
+                >
+                  https://bluedot.org/courses/agi-strategy
+                </span>
+              </p>
+              <p
+                class="text-[11px] text-black/40 text-right mt-1"
+              >
+                19:45 ✓✓
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]"
+      >
+        <div
+          class="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2"
+        >
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0"
+            >
+              <span
+                class="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy"
+              >
+                3
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-3"
+            >
+              <h3
+                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+              >
+                Grab your certificate
+              </h3>
+              <p
+                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+              >
+                To receive your certificate, you need to submit an action plan/project and can't have missed more than one discussion.
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-2 mt-6"
+          >
+            <a
+              aria-disabled="true"
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+              href="https://web.miniextensions.com/7WZKkZiusMiAO1RMznFv?prefill_Participant=recABC123"
+              rel="noopener noreferrer"
+              tabindex="-1"
+              target="_blank"
+            >
+              Submitted!
+            </a>
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/2 overflow-hidden"
+        >
+          <div
+            class="h-full bg-[#f7f7fd] flex items-center justify-center p-6"
+          >
+            <div
+              class="bg-white rounded-lg border border-slate-200 shadow-sm w-full max-w-[360px] overflow-hidden"
+            >
+              <div
+                class="flex flex-col items-center px-6 py-8 gap-4"
+              >
+                <img
+                  alt=""
+                  class="h-[140px] w-auto object-contain"
+                  src="/images/certificates/agi-strategy.png"
+                />
+                <div
+                  class="flex flex-col items-center gap-1 text-center"
+                >
+                  <p
+                    class="text-[11px] font-medium uppercase tracking-[0.06em] text-[#62748E]"
+                  >
+                    Professional Certification
+                  </p>
+                  <p
+                    class="text-[18px] font-semibold text-bluedot-navy leading-tight"
+                  >
+                    AGI Strategy
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 `;
 
-exports[`Congratulations > renders default as expected 1`] = `
+exports[`Congratulations > certificate card — authenticated > action-plan-pending: shows submit link with correct URL 1`] = `
 <div>
   <div
-    class="congratulations flex flex-col gap-4 container-lined p-4 bg-white items-center"
+    class="congratulations flex flex-col gap-16 max-w-[1100px] mx-auto w-full"
   >
-    <h3
-      class="bluedot-h3 not-prose congratulations__title text-center pt-2"
-    >
-      Congratulations on completing 
-      Test Course
-      !
-    </h3>
-    <p
-      class="bluedot-p not-prose congratulations__description text-center"
-    >
-      Now share your perspective! Those reflections aren't going to achieve much sitting in an exercise box. Share them with your network to get the conversation going.
-    </p>
     <div
-      class="flex justify-center gap-4"
+      class="flex flex-col gap-6 items-center text-center max-w-[640px] mx-auto"
     >
-      <a
-        aria-label="X (Twitter)"
-        class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
-        href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter&text=%F0%9F%8E%89%20I%20just%20completed%20the%20Test%20Course%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%3A"
-        rel="noopener noreferrer"
-        tabindex="0"
-        target="_blank"
+      <h2
+        class="bluedot-h2 not-prose font-bold text-[32px] leading-[1.3] tracking-[-0.015em]"
       >
-        <svg
-          fill="currentColor"
-          height="20"
-          stroke="currentColor"
-          stroke-width="0"
-          viewBox="0 0 512 512"
-          width="20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
-          />
-        </svg>
-      </a>
-      <a
-        aria-label="LinkedIn"
-        class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
-        href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin&text=%F0%9F%8E%89%20I%20just%20completed%20the%20Test%20Course%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%3A"
-        rel="noopener noreferrer"
-        tabindex="0"
-        target="_blank"
+        Hooray! You just finished the 
+        AGI Strategy
+         course 🎉
+      </h2>
+      <p
+        class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em]"
       >
-        <svg
-          fill="currentColor"
-          height="20"
-          stroke="currentColor"
-          stroke-width="0"
-          viewBox="0 0 448 512"
-          width="20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
-          />
-        </svg>
-      </a>
-      <a
-        aria-label="Facebook"
-        class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
-        href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dfacebook"
-        rel="noopener noreferrer"
-        tabindex="0"
-        target="_blank"
+        Well done! Before you venture out contributing to safe AI, we'd like to ask you for a favor: Please share your experience with your friends and network. This helps us immensely to raise awareness further and ensure making AI go well.
+      </p>
+    </div>
+    <div
+      class="flex flex-col gap-12"
+    >
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]"
       >
-        <svg
-          fill="currentColor"
-          height="20"
-          stroke="currentColor"
-          stroke-width="0"
-          viewBox="0 0 512 512"
-          width="20"
-          xmlns="http://www.w3.org/2000/svg"
+        <div
+          class="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2"
         >
-          <path
-            d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"
-          />
-        </svg>
-      </a>
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0"
+            >
+              <span
+                class="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy"
+              >
+                1
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-3"
+            >
+              <h3
+                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+              >
+                Share your accomplishment
+              </h3>
+              <p
+                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+              >
+                Raise awareness for safe AI within your network. This will only take 1 min of your time, but can have significant impact on more people working on making AI go well. We're counting on you!
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-2 mt-6"
+          >
+            <a
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap"
+              href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fbluedot.org%2Fcourses%2Fagi-strategy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"
+                />
+              </svg>
+              Share on LinkedIn
+            </a>
+            <a
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap"
+              href="https://twitter.com/intent/tweet?text=%F0%9F%8E%89%20I%20just%20completed%20the%20AGI%20Strategy%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%3A%20https%3A%2F%2Fbluedot.org%2Fcourses%2Fagi-strategy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
+                />
+              </svg>
+              Share on X
+            </a>
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/2 overflow-hidden"
+        >
+          <div
+            class="h-full bg-[#fbfbfd] border-t border-[#e5e9f2] md:border-t-0 md:border-l flex flex-col p-5 gap-4"
+          >
+            <p
+              class="text-[11px] font-semibold uppercase tracking-[0.04em] text-bluedot-navy/40"
+            >
+              Post Preview
+            </p>
+            <div
+              class="flex items-center gap-3"
+            >
+              <div
+                class="size-8 rounded-full bg-bluedot-navy/10 shrink-0"
+              />
+              <div
+                class="flex flex-col gap-1"
+              >
+                <div
+                  class="h-2.5 w-24 rounded-full bg-bluedot-navy/15"
+                />
+                <div
+                  class="h-2.5 w-14 rounded-full bg-bluedot-navy/15"
+                />
+              </div>
+            </div>
+            <p
+              class="text-[13px] leading-[1.5] text-bluedot-navy line-clamp-3"
+            >
+              🎉 I just completed the AGI Strategy course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out:
+               
+              <span
+                class="text-blue-600"
+              >
+                https://bluedot.org/courses/agi-strategy
+              </span>
+            </p>
+            <img
+              alt=""
+              class="w-full rounded-lg object-cover"
+              src="/images/courses/link-preview/agi-strategy.png"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]"
+      >
+        <div
+          class="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2"
+        >
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0"
+            >
+              <span
+                class="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy"
+              >
+                2
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-3"
+            >
+              <h3
+                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+              >
+                Send it to someone personally
+              </h3>
+              <p
+                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+              >
+                Think of three people who'd genuinely benefit from this course. A little "I thought of you" goes a long way. Is there anyone that comes to mind?
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-2 mt-6"
+          >
+            <a
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap"
+              href="https://wa.me/?text=%F0%9F%8E%89%20I%20just%20completed%20the%20AGI%20Strategy%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%3A%20https%3A%2F%2Fbluedot.org%2Fcourses%2Fagi-strategy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"
+                />
+              </svg>
+              WhatsApp
+            </a>
+            <button
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap border-0 cursor-pointer"
+              type="button"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M208 0L332.1 0c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9L448 336c0 26.5-21.5 48-48 48l-192 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48zM48 128l80 0 0 64-64 0 0 256 192 0 0-32 64 0 0 48c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 176c0-26.5 21.5-48 48-48z"
+                />
+              </svg>
+              Copy
+            </button>
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/2 overflow-hidden"
+        >
+          <div
+            class="h-full flex flex-col items-center justify-center p-8"
+            style="background-image: url("/images/whatsapp-bg.png"); background-size: cover; background-position: center center;"
+          >
+            <div
+              class="bg-[#d9fdd3] rounded-[7.5px] shadow-sm px-3 py-2.5 max-w-[280px]"
+            >
+              <p
+                class="text-[13px] leading-[1.5] text-[#0a0a0a]"
+              >
+                Hey, I just finished this 
+                AGI Strategy
+                 course and it genuinely shifted how I think about this stuff. It's free and self-paced.
+                 
+                <span
+                  class="text-[#1b8755] underline"
+                >
+                  https://bluedot.org/courses/agi-strategy
+                </span>
+              </p>
+              <p
+                class="text-[11px] text-black/40 text-right mt-1"
+              >
+                19:45 ✓✓
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]"
+      >
+        <div
+          class="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2"
+        >
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0"
+            >
+              <span
+                class="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy"
+              >
+                3
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-3"
+            >
+              <h3
+                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+              >
+                Grab your certificate
+              </h3>
+              <p
+                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+              >
+                To receive your certificate, you need to submit an action plan/project and can't have missed more than one discussion.
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-2 mt-6"
+          >
+            <a
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+              href="https://web.miniextensions.com/7WZKkZiusMiAO1RMznFv?prefill_Participant=recABC123"
+              rel="noopener noreferrer"
+              tabindex="0"
+              target="_blank"
+            >
+              Submit your plan here
+            </a>
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/2 overflow-hidden"
+        >
+          <div
+            class="h-full bg-[#f7f7fd] flex items-center justify-center p-6"
+          >
+            <div
+              class="bg-white rounded-lg border border-slate-200 shadow-sm w-full max-w-[360px] overflow-hidden"
+            >
+              <div
+                class="flex flex-col items-center px-6 py-8 gap-4"
+              >
+                <img
+                  alt=""
+                  class="h-[140px] w-auto object-contain"
+                  src="/images/certificates/agi-strategy.png"
+                />
+                <div
+                  class="flex flex-col items-center gap-1 text-center"
+                >
+                  <p
+                    class="text-[11px] font-medium uppercase tracking-[0.06em] text-[#62748E]"
+                  >
+                    Professional Certification
+                  </p>
+                  <p
+                    class="text-[18px] font-semibold text-bluedot-navy leading-tight"
+                  >
+                    AGI Strategy
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 `;
 
-exports[`Congratulations > renders with custom args 1`] = `
+exports[`Congratulations > certificate card — authenticated > can-request: shows download button for FoAI 1`] = `
 <div>
   <div
-    class="congratulations flex flex-col gap-4 container-lined p-4 bg-white items-center"
+    class="congratulations flex flex-col gap-16 max-w-[1100px] mx-auto w-full"
   >
-    <h3
-      class="bluedot-h3 not-prose congratulations__title text-center pt-2"
-    >
-      Congratulations on completing 
-      Test Course
-      !
-    </h3>
-    <p
-      class="bluedot-p not-prose congratulations__description text-center"
-    >
-      Now share your perspective! Those reflections aren't going to achieve much sitting in an exercise box. Share them with your network to get the conversation going.
-    </p>
     <div
-      class="flex justify-center gap-4"
+      class="flex flex-col gap-6 items-center text-center max-w-[640px] mx-auto"
     >
-      <a
-        aria-label="X (Twitter)"
-        class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
-        href="https://twitter.com/intent/tweet?url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dtwitter&text=This%20is%20a%20custom%20text%20I've%20written%20for%20this%20course!"
-        rel="noopener noreferrer"
-        tabindex="0"
-        target="_blank"
+      <h2
+        class="bluedot-h2 not-prose font-bold text-[32px] leading-[1.3] tracking-[-0.015em]"
       >
-        <svg
-          fill="currentColor"
-          height="20"
-          stroke="currentColor"
-          stroke-width="0"
-          viewBox="0 0 512 512"
-          width="20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
-          />
-        </svg>
-      </a>
-      <a
-        aria-label="LinkedIn"
-        class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
-        href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dlinkedin&text=This%20is%20a%20custom%20text%20I've%20written%20for%20this%20course!"
-        rel="noopener noreferrer"
-        tabindex="0"
-        target="_blank"
+        Hooray! You just finished the 
+        Future of AI
+         course 🎉
+      </h2>
+      <p
+        class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em]"
       >
-        <svg
-          fill="currentColor"
-          height="20"
-          stroke="currentColor"
-          stroke-width="0"
-          viewBox="0 0 448 512"
-          width="20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
-          />
-        </svg>
-      </a>
-      <a
-        aria-label="Facebook"
-        class="flex items-center justify-center size-12 text-gray-700 hover:text-gray-900 transition-colors"
-        href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Fcourses%2Ftest-course%3Futm_source%3Dreferral%26utm_campaign%3Dfacebook"
-        rel="noopener noreferrer"
-        tabindex="0"
-        target="_blank"
+        Well done! Before you venture out contributing to safe AI, we'd like to ask you for a favor: Please share your experience with your friends and network. This helps us immensely to raise awareness further and ensure making AI go well.
+      </p>
+    </div>
+    <div
+      class="flex flex-col gap-12"
+    >
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]"
       >
-        <svg
-          fill="currentColor"
-          height="20"
-          stroke="currentColor"
-          stroke-width="0"
-          viewBox="0 0 512 512"
-          width="20"
-          xmlns="http://www.w3.org/2000/svg"
+        <div
+          class="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2"
         >
-          <path
-            d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"
-          />
-        </svg>
-      </a>
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0"
+            >
+              <span
+                class="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy"
+              >
+                1
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-3"
+            >
+              <h3
+                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+              >
+                Share your accomplishment
+              </h3>
+              <p
+                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+              >
+                Raise awareness for safe AI within your network. This will only take 1 min of your time, but can have significant impact on more people working on making AI go well. We're counting on you!
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-2 mt-6"
+          >
+            <a
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap"
+              href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fbluedot.org%2Fcourses%2Ffuture-of-ai"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"
+                />
+              </svg>
+              Share on LinkedIn
+            </a>
+            <a
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap"
+              href="https://twitter.com/intent/tweet?text=%F0%9F%8E%89%20I%20just%20completed%20the%20Future%20of%20AI%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%3A%20https%3A%2F%2Fbluedot.org%2Fcourses%2Ffuture-of-ai"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
+                />
+              </svg>
+              Share on X
+            </a>
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/2 overflow-hidden"
+        >
+          <div
+            class="h-full bg-[#fbfbfd] border-t border-[#e5e9f2] md:border-t-0 md:border-l flex flex-col p-5 gap-4"
+          >
+            <p
+              class="text-[11px] font-semibold uppercase tracking-[0.04em] text-bluedot-navy/40"
+            >
+              Post Preview
+            </p>
+            <div
+              class="flex items-center gap-3"
+            >
+              <div
+                class="size-8 rounded-full bg-bluedot-navy/10 shrink-0"
+              />
+              <div
+                class="flex flex-col gap-1"
+              >
+                <div
+                  class="h-2.5 w-24 rounded-full bg-bluedot-navy/15"
+                />
+                <div
+                  class="h-2.5 w-14 rounded-full bg-bluedot-navy/15"
+                />
+              </div>
+            </div>
+            <p
+              class="text-[13px] leading-[1.5] text-bluedot-navy line-clamp-3"
+            >
+              🎉 I just completed the Future of AI course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out:
+               
+              <span
+                class="text-blue-600"
+              >
+                https://bluedot.org/courses/future-of-ai
+              </span>
+            </p>
+            <img
+              alt=""
+              class="w-full rounded-lg object-cover"
+              src="/images/courses/link-preview/future-of-ai.png"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]"
+      >
+        <div
+          class="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2"
+        >
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0"
+            >
+              <span
+                class="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy"
+              >
+                2
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-3"
+            >
+              <h3
+                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+              >
+                Send it to someone personally
+              </h3>
+              <p
+                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+              >
+                Think of three people who'd genuinely benefit from this course. A little "I thought of you" goes a long way. Is there anyone that comes to mind?
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-2 mt-6"
+          >
+            <a
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap"
+              href="https://wa.me/?text=%F0%9F%8E%89%20I%20just%20completed%20the%20Future%20of%20AI%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%3A%20https%3A%2F%2Fbluedot.org%2Fcourses%2Ffuture-of-ai"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"
+                />
+              </svg>
+              WhatsApp
+            </a>
+            <button
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap border-0 cursor-pointer"
+              type="button"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M208 0L332.1 0c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9L448 336c0 26.5-21.5 48-48 48l-192 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48zM48 128l80 0 0 64-64 0 0 256 192 0 0-32 64 0 0 48c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 176c0-26.5 21.5-48 48-48z"
+                />
+              </svg>
+              Copy
+            </button>
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/2 overflow-hidden"
+        >
+          <div
+            class="h-full flex flex-col items-center justify-center p-8"
+            style="background-image: url("/images/whatsapp-bg.png"); background-size: cover; background-position: center center;"
+          >
+            <div
+              class="bg-[#d9fdd3] rounded-[7.5px] shadow-sm px-3 py-2.5 max-w-[280px]"
+            >
+              <p
+                class="text-[13px] leading-[1.5] text-[#0a0a0a]"
+              >
+                Hey, I just finished this 
+                Future of AI
+                 course and it genuinely shifted how I think about this stuff. It's free and self-paced.
+                 
+                <span
+                  class="text-[#1b8755] underline"
+                >
+                  https://bluedot.org/courses/future-of-ai
+                </span>
+              </p>
+              <p
+                class="text-[11px] text-black/40 text-right mt-1"
+              >
+                19:45 ✓✓
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]"
+      >
+        <div
+          class="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2"
+        >
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0"
+            >
+              <span
+                class="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy"
+              >
+                3
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-3"
+            >
+              <h3
+                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+              >
+                Grab your certificate
+              </h3>
+              <p
+                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+              >
+                Complete all exercises to unlock your certificate, then share your accomplishment on social media.
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-2 mt-6"
+          >
+            <button
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+              type="button"
+            >
+              Download Certificate
+            </button>
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/2 overflow-hidden"
+        >
+          <div
+            class="h-full bg-[#f7f7fd] flex items-center justify-center p-6"
+          >
+            <div
+              class="bg-white rounded-lg border border-slate-200 shadow-sm w-full max-w-[360px] overflow-hidden"
+            >
+              <div
+                class="flex flex-col items-center px-6 py-8 gap-4"
+              >
+                <img
+                  alt=""
+                  class="h-[140px] w-auto object-contain"
+                  src="/images/certificates/future-of-ai.png"
+                />
+                <div
+                  class="flex flex-col items-center gap-1 text-center"
+                >
+                  <p
+                    class="text-[11px] font-medium uppercase tracking-[0.06em] text-[#62748E]"
+                  >
+                    Professional Certification
+                  </p>
+                  <p
+                    class="text-[18px] font-semibold text-bluedot-navy leading-tight"
+                  >
+                    Future of AI
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] p-10 flex flex-col gap-6"
+      >
+        <div
+          class="flex flex-col gap-3"
+        >
+          <h3
+            class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+          >
+            Want to go deeper?
+          </h3>
+          <p
+            class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+          >
+            <span
+              class="font-semibold"
+            >
+              The AGI Strategy course
+            </span>
+             is the natural next step: 25 hours, facilitated in small groups with live discussion. No specific background required. New rounds start every month.
+          </p>
+        </div>
+        <a
+          class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+          href="/courses/agi-strategy"
+          tabindex="0"
+        >
+          Apply now
+          <span
+            class="cta-button__chevron ml-3"
+          >
+            <svg
+              class="cta-button__chevron-icon size-2"
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 320 512"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+              />
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Congratulations > certificate card — authenticated > facilitator-pending: shows message with no action button 1`] = `
+<div>
+  <div
+    class="congratulations flex flex-col gap-16 max-w-[1100px] mx-auto w-full"
+  >
+    <div
+      class="flex flex-col gap-6 items-center text-center max-w-[640px] mx-auto"
+    >
+      <h2
+        class="bluedot-h2 not-prose font-bold text-[32px] leading-[1.3] tracking-[-0.015em]"
+      >
+        Hooray! You just finished the 
+        AGI Strategy
+         course 🎉
+      </h2>
+      <p
+        class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em]"
+      >
+        Well done! Before you venture out contributing to safe AI, we'd like to ask you for a favor: Please share your experience with your friends and network. This helps us immensely to raise awareness further and ensure making AI go well.
+      </p>
+    </div>
+    <div
+      class="flex flex-col gap-12"
+    >
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]"
+      >
+        <div
+          class="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2"
+        >
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0"
+            >
+              <span
+                class="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy"
+              >
+                1
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-3"
+            >
+              <h3
+                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+              >
+                Share your accomplishment
+              </h3>
+              <p
+                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+              >
+                Raise awareness for safe AI within your network. This will only take 1 min of your time, but can have significant impact on more people working on making AI go well. We're counting on you!
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-2 mt-6"
+          >
+            <a
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap"
+              href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fbluedot.org%2Fcourses%2Fagi-strategy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"
+                />
+              </svg>
+              Share on LinkedIn
+            </a>
+            <a
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap"
+              href="https://twitter.com/intent/tweet?text=%F0%9F%8E%89%20I%20just%20completed%20the%20AGI%20Strategy%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%3A%20https%3A%2F%2Fbluedot.org%2Fcourses%2Fagi-strategy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
+                />
+              </svg>
+              Share on X
+            </a>
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/2 overflow-hidden"
+        >
+          <div
+            class="h-full bg-[#fbfbfd] border-t border-[#e5e9f2] md:border-t-0 md:border-l flex flex-col p-5 gap-4"
+          >
+            <p
+              class="text-[11px] font-semibold uppercase tracking-[0.04em] text-bluedot-navy/40"
+            >
+              Post Preview
+            </p>
+            <div
+              class="flex items-center gap-3"
+            >
+              <div
+                class="size-8 rounded-full bg-bluedot-navy/10 shrink-0"
+              />
+              <div
+                class="flex flex-col gap-1"
+              >
+                <div
+                  class="h-2.5 w-24 rounded-full bg-bluedot-navy/15"
+                />
+                <div
+                  class="h-2.5 w-14 rounded-full bg-bluedot-navy/15"
+                />
+              </div>
+            </div>
+            <p
+              class="text-[13px] leading-[1.5] text-bluedot-navy line-clamp-3"
+            >
+              🎉 I just completed the AGI Strategy course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out:
+               
+              <span
+                class="text-blue-600"
+              >
+                https://bluedot.org/courses/agi-strategy
+              </span>
+            </p>
+            <img
+              alt=""
+              class="w-full rounded-lg object-cover"
+              src="/images/courses/link-preview/agi-strategy.png"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]"
+      >
+        <div
+          class="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2"
+        >
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0"
+            >
+              <span
+                class="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy"
+              >
+                2
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-3"
+            >
+              <h3
+                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+              >
+                Send it to someone personally
+              </h3>
+              <p
+                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+              >
+                Think of three people who'd genuinely benefit from this course. A little "I thought of you" goes a long way. Is there anyone that comes to mind?
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-2 mt-6"
+          >
+            <a
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap"
+              href="https://wa.me/?text=%F0%9F%8E%89%20I%20just%20completed%20the%20AGI%20Strategy%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%3A%20https%3A%2F%2Fbluedot.org%2Fcourses%2Fagi-strategy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"
+                />
+              </svg>
+              WhatsApp
+            </a>
+            <button
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap border-0 cursor-pointer"
+              type="button"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M208 0L332.1 0c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9L448 336c0 26.5-21.5 48-48 48l-192 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48zM48 128l80 0 0 64-64 0 0 256 192 0 0-32 64 0 0 48c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 176c0-26.5 21.5-48 48-48z"
+                />
+              </svg>
+              Copy
+            </button>
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/2 overflow-hidden"
+        >
+          <div
+            class="h-full flex flex-col items-center justify-center p-8"
+            style="background-image: url("/images/whatsapp-bg.png"); background-size: cover; background-position: center center;"
+          >
+            <div
+              class="bg-[#d9fdd3] rounded-[7.5px] shadow-sm px-3 py-2.5 max-w-[280px]"
+            >
+              <p
+                class="text-[13px] leading-[1.5] text-[#0a0a0a]"
+              >
+                Hey, I just finished this 
+                AGI Strategy
+                 course and it genuinely shifted how I think about this stuff. It's free and self-paced.
+                 
+                <span
+                  class="text-[#1b8755] underline"
+                >
+                  https://bluedot.org/courses/agi-strategy
+                </span>
+              </p>
+              <p
+                class="text-[11px] text-black/40 text-right mt-1"
+              >
+                19:45 ✓✓
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]"
+      >
+        <div
+          class="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2"
+        >
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0"
+            >
+              <span
+                class="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy"
+              >
+                3
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-3"
+            >
+              <h3
+                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+              >
+                Grab your certificate
+              </h3>
+              <p
+                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+              >
+                Your certificate will be issued after your cohort ends, based on attendance.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/2 overflow-hidden"
+        >
+          <div
+            class="h-full bg-[#f7f7fd] flex items-center justify-center p-6"
+          >
+            <div
+              class="bg-white rounded-lg border border-slate-200 shadow-sm w-full max-w-[360px] overflow-hidden"
+            >
+              <div
+                class="flex flex-col items-center px-6 py-8 gap-4"
+              >
+                <img
+                  alt=""
+                  class="h-[140px] w-auto object-contain"
+                  src="/images/certificates/agi-strategy.png"
+                />
+                <div
+                  class="flex flex-col items-center gap-1 text-center"
+                >
+                  <p
+                    class="text-[11px] font-medium uppercase tracking-[0.06em] text-[#62748E]"
+                  >
+                    Professional Certification
+                  </p>
+                  <p
+                    class="text-[18px] font-semibold text-bluedot-navy leading-tight"
+                  >
+                    AGI Strategy
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Congratulations > certificate card — authenticated > has-certificate: shows holder name, date, and view link 1`] = `
+<div>
+  <div
+    class="congratulations flex flex-col gap-16 max-w-[1100px] mx-auto w-full"
+  >
+    <div
+      class="flex flex-col gap-6 items-center text-center max-w-[640px] mx-auto"
+    >
+      <h2
+        class="bluedot-h2 not-prose font-bold text-[32px] leading-[1.3] tracking-[-0.015em]"
+      >
+        Hooray! You just finished the 
+        AGI Strategy
+         course 🎉
+      </h2>
+      <p
+        class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em]"
+      >
+        Well done! Before you venture out contributing to safe AI, we'd like to ask you for a favor: Please share your experience with your friends and network. This helps us immensely to raise awareness further and ensure making AI go well.
+      </p>
+    </div>
+    <div
+      class="flex flex-col gap-12"
+    >
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]"
+      >
+        <div
+          class="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2"
+        >
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0"
+            >
+              <span
+                class="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy"
+              >
+                1
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-3"
+            >
+              <h3
+                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+              >
+                Share your accomplishment
+              </h3>
+              <p
+                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+              >
+                Raise awareness for safe AI within your network. This will only take 1 min of your time, but can have significant impact on more people working on making AI go well. We're counting on you!
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-2 mt-6"
+          >
+            <a
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap"
+              href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fbluedot.org%2Fcourses%2Fagi-strategy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"
+                />
+              </svg>
+              Share on LinkedIn
+            </a>
+            <a
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap"
+              href="https://twitter.com/intent/tweet?text=%F0%9F%8E%89%20I%20just%20completed%20the%20AGI%20Strategy%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%3A%20https%3A%2F%2Fbluedot.org%2Fcourses%2Fagi-strategy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
+                />
+              </svg>
+              Share on X
+            </a>
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/2 overflow-hidden"
+        >
+          <div
+            class="h-full bg-[#fbfbfd] border-t border-[#e5e9f2] md:border-t-0 md:border-l flex flex-col p-5 gap-4"
+          >
+            <p
+              class="text-[11px] font-semibold uppercase tracking-[0.04em] text-bluedot-navy/40"
+            >
+              Post Preview
+            </p>
+            <div
+              class="flex items-center gap-3"
+            >
+              <div
+                class="size-8 rounded-full bg-bluedot-navy/10 shrink-0"
+              />
+              <div
+                class="flex flex-col gap-1"
+              >
+                <div
+                  class="h-2.5 w-24 rounded-full bg-bluedot-navy/15"
+                />
+                <div
+                  class="h-2.5 w-14 rounded-full bg-bluedot-navy/15"
+                />
+              </div>
+            </div>
+            <p
+              class="text-[13px] leading-[1.5] text-bluedot-navy line-clamp-3"
+            >
+              🎉 I just completed the AGI Strategy course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out:
+               
+              <span
+                class="text-blue-600"
+              >
+                https://bluedot.org/courses/agi-strategy
+              </span>
+            </p>
+            <img
+              alt=""
+              class="w-full rounded-lg object-cover"
+              src="/images/courses/link-preview/agi-strategy.png"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]"
+      >
+        <div
+          class="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2"
+        >
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0"
+            >
+              <span
+                class="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy"
+              >
+                2
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-3"
+            >
+              <h3
+                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+              >
+                Send it to someone personally
+              </h3>
+              <p
+                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+              >
+                Think of three people who'd genuinely benefit from this course. A little "I thought of you" goes a long way. Is there anyone that comes to mind?
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-2 mt-6"
+          >
+            <a
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap"
+              href="https://wa.me/?text=%F0%9F%8E%89%20I%20just%20completed%20the%20AGI%20Strategy%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%3A%20https%3A%2F%2Fbluedot.org%2Fcourses%2Fagi-strategy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"
+                />
+              </svg>
+              WhatsApp
+            </a>
+            <button
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap border-0 cursor-pointer"
+              type="button"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M208 0L332.1 0c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9L448 336c0 26.5-21.5 48-48 48l-192 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48zM48 128l80 0 0 64-64 0 0 256 192 0 0-32 64 0 0 48c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 176c0-26.5 21.5-48 48-48z"
+                />
+              </svg>
+              Copy
+            </button>
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/2 overflow-hidden"
+        >
+          <div
+            class="h-full flex flex-col items-center justify-center p-8"
+            style="background-image: url("/images/whatsapp-bg.png"); background-size: cover; background-position: center center;"
+          >
+            <div
+              class="bg-[#d9fdd3] rounded-[7.5px] shadow-sm px-3 py-2.5 max-w-[280px]"
+            >
+              <p
+                class="text-[13px] leading-[1.5] text-[#0a0a0a]"
+              >
+                Hey, I just finished this 
+                AGI Strategy
+                 course and it genuinely shifted how I think about this stuff. It's free and self-paced.
+                 
+                <span
+                  class="text-[#1b8755] underline"
+                >
+                  https://bluedot.org/courses/agi-strategy
+                </span>
+              </p>
+              <p
+                class="text-[11px] text-black/40 text-right mt-1"
+              >
+                19:45 ✓✓
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]"
+      >
+        <div
+          class="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2"
+        >
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0"
+            >
+              <span
+                class="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy"
+              >
+                3
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-3"
+            >
+              <h3
+                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+              >
+                Grab your certificate
+              </h3>
+              <p
+                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+              >
+                Earned by Test User · Issued January 1, 2024
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-2 mt-6"
+          >
+            <a
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+              href="/certification?id=cert-abc-123"
+              rel="noopener noreferrer"
+              tabindex="0"
+              target="_blank"
+            >
+              View Certificate
+            </a>
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/2 overflow-hidden"
+        >
+          <div
+            class="h-full bg-[#f7f7fd] flex items-center justify-center p-6"
+          >
+            <div
+              class="bg-white rounded-lg border border-slate-200 shadow-sm w-full max-w-[360px] overflow-hidden"
+            >
+              <div
+                class="flex flex-col items-center px-6 py-8 gap-4"
+              >
+                <img
+                  alt=""
+                  class="h-[140px] w-auto object-contain"
+                  src="/images/certificates/agi-strategy.png"
+                />
+                <div
+                  class="flex flex-col items-center gap-1 text-center"
+                >
+                  <p
+                    class="text-[11px] font-medium uppercase tracking-[0.06em] text-[#62748E]"
+                  >
+                    Professional Certification
+                  </p>
+                  <p
+                    class="text-[18px] font-semibold text-bluedot-navy leading-tight"
+                  >
+                    AGI Strategy
+                  </p>
+                </div>
+                <div
+                  class="flex flex-col items-center gap-0.5 text-center"
+                >
+                  <p
+                    class="text-[11px] font-medium uppercase tracking-[0.06em] text-[#62748E]"
+                  >
+                    Awarded to
+                  </p>
+                  <p
+                    class="text-[14px] font-semibold text-bluedot-navy"
+                  >
+                    Test User
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Congratulations > certificate card — authenticated > not-eligible: shows ineligibility message 1`] = `
+<div>
+  <div
+    class="congratulations flex flex-col gap-16 max-w-[1100px] mx-auto w-full"
+  >
+    <div
+      class="flex flex-col gap-6 items-center text-center max-w-[640px] mx-auto"
+    >
+      <h2
+        class="bluedot-h2 not-prose font-bold text-[32px] leading-[1.3] tracking-[-0.015em]"
+      >
+        Hooray! You just finished the 
+        AGI Strategy
+         course 🎉
+      </h2>
+      <p
+        class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em]"
+      >
+        Well done! Before you venture out contributing to safe AI, we'd like to ask you for a favor: Please share your experience with your friends and network. This helps us immensely to raise awareness further and ensure making AI go well.
+      </p>
+    </div>
+    <div
+      class="flex flex-col gap-12"
+    >
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]"
+      >
+        <div
+          class="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2"
+        >
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0"
+            >
+              <span
+                class="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy"
+              >
+                1
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-3"
+            >
+              <h3
+                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+              >
+                Share your accomplishment
+              </h3>
+              <p
+                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+              >
+                Raise awareness for safe AI within your network. This will only take 1 min of your time, but can have significant impact on more people working on making AI go well. We're counting on you!
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-2 mt-6"
+          >
+            <a
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap"
+              href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fbluedot.org%2Fcourses%2Fagi-strategy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"
+                />
+              </svg>
+              Share on LinkedIn
+            </a>
+            <a
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap"
+              href="https://twitter.com/intent/tweet?text=%F0%9F%8E%89%20I%20just%20completed%20the%20AGI%20Strategy%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%3A%20https%3A%2F%2Fbluedot.org%2Fcourses%2Fagi-strategy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
+                />
+              </svg>
+              Share on X
+            </a>
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/2 overflow-hidden"
+        >
+          <div
+            class="h-full bg-[#fbfbfd] border-t border-[#e5e9f2] md:border-t-0 md:border-l flex flex-col p-5 gap-4"
+          >
+            <p
+              class="text-[11px] font-semibold uppercase tracking-[0.04em] text-bluedot-navy/40"
+            >
+              Post Preview
+            </p>
+            <div
+              class="flex items-center gap-3"
+            >
+              <div
+                class="size-8 rounded-full bg-bluedot-navy/10 shrink-0"
+              />
+              <div
+                class="flex flex-col gap-1"
+              >
+                <div
+                  class="h-2.5 w-24 rounded-full bg-bluedot-navy/15"
+                />
+                <div
+                  class="h-2.5 w-14 rounded-full bg-bluedot-navy/15"
+                />
+              </div>
+            </div>
+            <p
+              class="text-[13px] leading-[1.5] text-bluedot-navy line-clamp-3"
+            >
+              🎉 I just completed the AGI Strategy course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out:
+               
+              <span
+                class="text-blue-600"
+              >
+                https://bluedot.org/courses/agi-strategy
+              </span>
+            </p>
+            <img
+              alt=""
+              class="w-full rounded-lg object-cover"
+              src="/images/courses/link-preview/agi-strategy.png"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]"
+      >
+        <div
+          class="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2"
+        >
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0"
+            >
+              <span
+                class="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy"
+              >
+                2
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-3"
+            >
+              <h3
+                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+              >
+                Send it to someone personally
+              </h3>
+              <p
+                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+              >
+                Think of three people who'd genuinely benefit from this course. A little "I thought of you" goes a long way. Is there anyone that comes to mind?
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-2 mt-6"
+          >
+            <a
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap"
+              href="https://wa.me/?text=%F0%9F%8E%89%20I%20just%20completed%20the%20AGI%20Strategy%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%3A%20https%3A%2F%2Fbluedot.org%2Fcourses%2Fagi-strategy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"
+                />
+              </svg>
+              WhatsApp
+            </a>
+            <button
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap border-0 cursor-pointer"
+              type="button"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M208 0L332.1 0c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9L448 336c0 26.5-21.5 48-48 48l-192 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48zM48 128l80 0 0 64-64 0 0 256 192 0 0-32 64 0 0 48c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 176c0-26.5 21.5-48 48-48z"
+                />
+              </svg>
+              Copy
+            </button>
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/2 overflow-hidden"
+        >
+          <div
+            class="h-full flex flex-col items-center justify-center p-8"
+            style="background-image: url("/images/whatsapp-bg.png"); background-size: cover; background-position: center center;"
+          >
+            <div
+              class="bg-[#d9fdd3] rounded-[7.5px] shadow-sm px-3 py-2.5 max-w-[280px]"
+            >
+              <p
+                class="text-[13px] leading-[1.5] text-[#0a0a0a]"
+              >
+                Hey, I just finished this 
+                AGI Strategy
+                 course and it genuinely shifted how I think about this stuff. It's free and self-paced.
+                 
+                <span
+                  class="text-[#1b8755] underline"
+                >
+                  https://bluedot.org/courses/agi-strategy
+                </span>
+              </p>
+              <p
+                class="text-[11px] text-black/40 text-right mt-1"
+              >
+                19:45 ✓✓
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]"
+      >
+        <div
+          class="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2"
+        >
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0"
+            >
+              <span
+                class="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy"
+              >
+                3
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-3"
+            >
+              <h3
+                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+              >
+                Grab your certificate
+              </h3>
+              <p
+                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+              >
+                This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/2 overflow-hidden"
+        >
+          <div
+            class="h-full bg-[#f7f7fd] flex items-center justify-center p-6"
+          >
+            <div
+              class="bg-white rounded-lg border border-slate-200 shadow-sm w-full max-w-[360px] overflow-hidden"
+            >
+              <div
+                class="flex flex-col items-center px-6 py-8 gap-4"
+              >
+                <img
+                  alt=""
+                  class="h-[140px] w-auto object-contain"
+                  src="/images/certificates/agi-strategy.png"
+                />
+                <div
+                  class="flex flex-col items-center gap-1 text-center"
+                >
+                  <p
+                    class="text-[11px] font-medium uppercase tracking-[0.06em] text-[#62748E]"
+                  >
+                    Professional Certification
+                  </p>
+                  <p
+                    class="text-[18px] font-semibold text-bluedot-navy leading-tight"
+                  >
+                    AGI Strategy
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Congratulations > certificate card — authenticated > renders loading state 1`] = `
+<div>
+  <div
+    class="congratulations flex flex-col gap-16 max-w-[1100px] mx-auto w-full"
+  >
+    <div
+      class="flex flex-col gap-6 items-center text-center max-w-[640px] mx-auto"
+    >
+      <h2
+        class="bluedot-h2 not-prose font-bold text-[32px] leading-[1.3] tracking-[-0.015em]"
+      >
+        Hooray! You just finished the 
+        AGI Strategy
+         course 🎉
+      </h2>
+      <p
+        class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em]"
+      >
+        Well done! Before you venture out contributing to safe AI, we'd like to ask you for a favor: Please share your experience with your friends and network. This helps us immensely to raise awareness further and ensure making AI go well.
+      </p>
+    </div>
+    <div
+      class="flex flex-col gap-12"
+    >
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]"
+      >
+        <div
+          class="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2"
+        >
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0"
+            >
+              <span
+                class="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy"
+              >
+                1
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-3"
+            >
+              <h3
+                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+              >
+                Share your accomplishment
+              </h3>
+              <p
+                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+              >
+                Raise awareness for safe AI within your network. This will only take 1 min of your time, but can have significant impact on more people working on making AI go well. We're counting on you!
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-2 mt-6"
+          >
+            <a
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap"
+              href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fbluedot.org%2Fcourses%2Fagi-strategy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"
+                />
+              </svg>
+              Share on LinkedIn
+            </a>
+            <a
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap"
+              href="https://twitter.com/intent/tweet?text=%F0%9F%8E%89%20I%20just%20completed%20the%20AGI%20Strategy%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%3A%20https%3A%2F%2Fbluedot.org%2Fcourses%2Fagi-strategy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
+                />
+              </svg>
+              Share on X
+            </a>
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/2 overflow-hidden"
+        >
+          <div
+            class="h-full bg-[#fbfbfd] border-t border-[#e5e9f2] md:border-t-0 md:border-l flex flex-col p-5 gap-4"
+          >
+            <p
+              class="text-[11px] font-semibold uppercase tracking-[0.04em] text-bluedot-navy/40"
+            >
+              Post Preview
+            </p>
+            <div
+              class="flex items-center gap-3"
+            >
+              <div
+                class="size-8 rounded-full bg-bluedot-navy/10 shrink-0"
+              />
+              <div
+                class="flex flex-col gap-1"
+              >
+                <div
+                  class="h-2.5 w-24 rounded-full bg-bluedot-navy/15"
+                />
+                <div
+                  class="h-2.5 w-14 rounded-full bg-bluedot-navy/15"
+                />
+              </div>
+            </div>
+            <p
+              class="text-[13px] leading-[1.5] text-bluedot-navy line-clamp-3"
+            >
+              🎉 I just completed the AGI Strategy course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out:
+               
+              <span
+                class="text-blue-600"
+              >
+                https://bluedot.org/courses/agi-strategy
+              </span>
+            </p>
+            <img
+              alt=""
+              class="w-full rounded-lg object-cover"
+              src="/images/courses/link-preview/agi-strategy.png"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]"
+      >
+        <div
+          class="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2"
+        >
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0"
+            >
+              <span
+                class="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy"
+              >
+                2
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-3"
+            >
+              <h3
+                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+              >
+                Send it to someone personally
+              </h3>
+              <p
+                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+              >
+                Think of three people who'd genuinely benefit from this course. A little "I thought of you" goes a long way. Is there anyone that comes to mind?
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-2 mt-6"
+          >
+            <a
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap"
+              href="https://wa.me/?text=%F0%9F%8E%89%20I%20just%20completed%20the%20AGI%20Strategy%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%3A%20https%3A%2F%2Fbluedot.org%2Fcourses%2Fagi-strategy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"
+                />
+              </svg>
+              WhatsApp
+            </a>
+            <button
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap border-0 cursor-pointer"
+              type="button"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M208 0L332.1 0c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9L448 336c0 26.5-21.5 48-48 48l-192 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48zM48 128l80 0 0 64-64 0 0 256 192 0 0-32 64 0 0 48c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 176c0-26.5 21.5-48 48-48z"
+                />
+              </svg>
+              Copy
+            </button>
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/2 overflow-hidden"
+        >
+          <div
+            class="h-full flex flex-col items-center justify-center p-8"
+            style="background-image: url("/images/whatsapp-bg.png"); background-size: cover; background-position: center center;"
+          >
+            <div
+              class="bg-[#d9fdd3] rounded-[7.5px] shadow-sm px-3 py-2.5 max-w-[280px]"
+            >
+              <p
+                class="text-[13px] leading-[1.5] text-[#0a0a0a]"
+              >
+                Hey, I just finished this 
+                AGI Strategy
+                 course and it genuinely shifted how I think about this stuff. It's free and self-paced.
+                 
+                <span
+                  class="text-[#1b8755] underline"
+                >
+                  https://bluedot.org/courses/agi-strategy
+                </span>
+              </p>
+              <p
+                class="text-[11px] text-black/40 text-right mt-1"
+              >
+                19:45 ✓✓
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]"
+      >
+        <div
+          class="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2"
+        >
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0"
+            >
+              <span
+                class="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy"
+              >
+                3
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-3"
+            >
+              <h3
+                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+              >
+                Grab your certificate
+              </h3>
+            </div>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-2 mt-6"
+          >
+            <div
+              class="progress-dots my-6 flex items-center justify-center space-x-2"
+            >
+              <span
+                class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                style="animation-delay: 0ms;"
+              />
+              <span
+                class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                style="animation-delay: 150ms;"
+              />
+              <span
+                class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                style="animation-delay: 300ms;"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/2 overflow-hidden"
+        >
+          <div
+            class="h-full bg-[#f7f7fd] flex items-center justify-center p-6"
+          >
+            <div
+              class="bg-white rounded-lg border border-slate-200 shadow-sm w-full max-w-[360px] overflow-hidden"
+            >
+              <div
+                class="flex flex-col items-center px-6 py-8 gap-4"
+              >
+                <img
+                  alt=""
+                  class="h-[140px] w-auto object-contain"
+                  src="/images/certificates/agi-strategy.png"
+                />
+                <div
+                  class="flex flex-col items-center gap-1 text-center"
+                >
+                  <p
+                    class="text-[11px] font-medium uppercase tracking-[0.06em] text-[#62748E]"
+                  >
+                    Professional Certification
+                  </p>
+                  <p
+                    class="text-[18px] font-semibold text-bluedot-navy leading-tight"
+                  >
+                    AGI Strategy
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Congratulations > certificate card — not authenticated > shows log in prompt 1`] = `
+<div>
+  <div
+    class="congratulations flex flex-col gap-16 max-w-[1100px] mx-auto w-full"
+  >
+    <div
+      class="flex flex-col gap-6 items-center text-center max-w-[640px] mx-auto"
+    >
+      <h2
+        class="bluedot-h2 not-prose font-bold text-[32px] leading-[1.3] tracking-[-0.015em]"
+      >
+        Hooray! You just finished the 
+        AGI Strategy
+         course 🎉
+      </h2>
+      <p
+        class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em]"
+      >
+        Well done! Before you venture out contributing to safe AI, we'd like to ask you for a favor: Please share your experience with your friends and network. This helps us immensely to raise awareness further and ensure making AI go well.
+      </p>
+    </div>
+    <div
+      class="flex flex-col gap-12"
+    >
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]"
+      >
+        <div
+          class="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2"
+        >
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0"
+            >
+              <span
+                class="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy"
+              >
+                1
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-3"
+            >
+              <h3
+                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+              >
+                Share your accomplishment
+              </h3>
+              <p
+                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+              >
+                Raise awareness for safe AI within your network. This will only take 1 min of your time, but can have significant impact on more people working on making AI go well. We're counting on you!
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-2 mt-6"
+          >
+            <a
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap"
+              href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fbluedot.org%2Fcourses%2Fagi-strategy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"
+                />
+              </svg>
+              Share on LinkedIn
+            </a>
+            <a
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap"
+              href="https://twitter.com/intent/tweet?text=%F0%9F%8E%89%20I%20just%20completed%20the%20AGI%20Strategy%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%3A%20https%3A%2F%2Fbluedot.org%2Fcourses%2Fagi-strategy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
+                />
+              </svg>
+              Share on X
+            </a>
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/2 overflow-hidden"
+        >
+          <div
+            class="h-full bg-[#fbfbfd] border-t border-[#e5e9f2] md:border-t-0 md:border-l flex flex-col p-5 gap-4"
+          >
+            <p
+              class="text-[11px] font-semibold uppercase tracking-[0.04em] text-bluedot-navy/40"
+            >
+              Post Preview
+            </p>
+            <div
+              class="flex items-center gap-3"
+            >
+              <div
+                class="size-8 rounded-full bg-bluedot-navy/10 shrink-0"
+              />
+              <div
+                class="flex flex-col gap-1"
+              >
+                <div
+                  class="h-2.5 w-24 rounded-full bg-bluedot-navy/15"
+                />
+                <div
+                  class="h-2.5 w-14 rounded-full bg-bluedot-navy/15"
+                />
+              </div>
+            </div>
+            <p
+              class="text-[13px] leading-[1.5] text-bluedot-navy line-clamp-3"
+            >
+              🎉 I just completed the AGI Strategy course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out:
+               
+              <span
+                class="text-blue-600"
+              >
+                https://bluedot.org/courses/agi-strategy
+              </span>
+            </p>
+            <img
+              alt=""
+              class="w-full rounded-lg object-cover"
+              src="/images/courses/link-preview/agi-strategy.png"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]"
+      >
+        <div
+          class="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2"
+        >
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0"
+            >
+              <span
+                class="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy"
+              >
+                2
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-3"
+            >
+              <h3
+                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+              >
+                Send it to someone personally
+              </h3>
+              <p
+                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+              >
+                Think of three people who'd genuinely benefit from this course. A little "I thought of you" goes a long way. Is there anyone that comes to mind?
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-2 mt-6"
+          >
+            <a
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap"
+              href="https://wa.me/?text=%F0%9F%8E%89%20I%20just%20completed%20the%20AGI%20Strategy%20course%20from%20BlueDot%20Impact!%20It's%20free%2C%20self-paced%2C%20and%20packed%20with%20insights.%20Check%20it%20out%3A%20https%3A%2F%2Fbluedot.org%2Fcourses%2Fagi-strategy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"
+                />
+              </svg>
+              WhatsApp
+            </a>
+            <button
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap border-0 cursor-pointer"
+              type="button"
+            >
+              <svg
+                class="size-4"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M208 0L332.1 0c12.7 0 24.9 5.1 33.9 14.1l67.9 67.9c9 9 14.1 21.2 14.1 33.9L448 336c0 26.5-21.5 48-48 48l-192 0c-26.5 0-48-21.5-48-48l0-288c0-26.5 21.5-48 48-48zM48 128l80 0 0 64-64 0 0 256 192 0 0-32 64 0 0 48c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 176c0-26.5 21.5-48 48-48z"
+                />
+              </svg>
+              Copy
+            </button>
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/2 overflow-hidden"
+        >
+          <div
+            class="h-full flex flex-col items-center justify-center p-8"
+            style="background-image: url("/images/whatsapp-bg.png"); background-size: cover; background-position: center center;"
+          >
+            <div
+              class="bg-[#d9fdd3] rounded-[7.5px] shadow-sm px-3 py-2.5 max-w-[280px]"
+            >
+              <p
+                class="text-[13px] leading-[1.5] text-[#0a0a0a]"
+              >
+                Hey, I just finished this 
+                AGI Strategy
+                 course and it genuinely shifted how I think about this stuff. It's free and self-paced.
+                 
+                <span
+                  class="text-[#1b8755] underline"
+                >
+                  https://bluedot.org/courses/agi-strategy
+                </span>
+              </p>
+              <p
+                class="text-[11px] text-black/40 text-right mt-1"
+              >
+                19:45 ✓✓
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[400px]"
+      >
+        <div
+          class="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2"
+        >
+          <div
+            class="flex flex-col gap-6"
+          >
+            <div
+              class="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0"
+            >
+              <span
+                class="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy"
+              >
+                3
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-3"
+            >
+              <h3
+                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+              >
+                Grab your certificate
+              </h3>
+              <p
+                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+              >
+                Create a free account to earn your course certificate.
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex flex-wrap items-center gap-2 mt-6"
+          >
+            <a
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+              href="/login?redirect_to=%2Fcourses%2Fagi-strategy%2F5%2F7"
+              tabindex="0"
+            >
+              Log in
+            </a>
+          </div>
+        </div>
+        <div
+          class="w-full md:w-1/2 overflow-hidden"
+        >
+          <div
+            class="h-full bg-[#f7f7fd] flex items-center justify-center p-6"
+          >
+            <div
+              class="bg-white rounded-lg border border-slate-200 shadow-sm w-full max-w-[360px] overflow-hidden"
+            >
+              <div
+                class="flex flex-col items-center px-6 py-8 gap-4"
+              >
+                <img
+                  alt=""
+                  class="h-[140px] w-auto object-contain"
+                  src="/images/certificates/agi-strategy.png"
+                />
+                <div
+                  class="flex flex-col items-center gap-1 text-center"
+                >
+                  <p
+                    class="text-[11px] font-medium uppercase tracking-[0.06em] text-[#62748E]"
+                  >
+                    Professional Certification
+                  </p>
+                  <p
+                    class="text-[18px] font-semibold text-bluedot-navy leading-tight"
+                  >
+                    AGI Strategy
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
