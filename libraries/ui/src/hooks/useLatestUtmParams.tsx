@@ -13,7 +13,7 @@ import posthog from 'posthog-js';
 import { addQueryParam } from '../utils/addQueryParam';
 
 type LatestUtmParamsContextType = {
-  latestUtmParams: Record<string, string>;
+  latestUtmParams: Partial<Record<string, string>>;
   appendLatestUtmParamsToUrl: (url: string) => string;
   /** Whether the provider is still checking the current route for UTM params. */
   isLoading: boolean;
