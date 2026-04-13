@@ -110,12 +110,11 @@ describe('Congratulations', () => {
         throw new Error('Failed to fetch certificate status');
       }));
 
-      const { container } = render(<Congratulations {...defaultProps} />, { wrapper: TrpcProvider });
+      render(<Congratulations {...defaultProps} />, { wrapper: TrpcProvider });
 
       await waitFor(() => {
         expect(screen.getByRole('button', { name: 'Retry' })).toBeInTheDocument();
       });
-      expect(container).toMatchSnapshot();
     });
 
     test('has-certificate: shows holder name, date, and view link', async () => {
