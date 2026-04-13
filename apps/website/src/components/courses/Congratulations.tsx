@@ -60,6 +60,9 @@ const PostPreviewPanel = ({ courseSlug, shareText, courseUrl }: {
       src={`/images/courses/link-preview/${courseSlug}.png`}
       alt=""
       className="w-full rounded-lg object-cover"
+      onError={(e) => {
+        (e.target as HTMLImageElement).src = `${SITE_URL}/images/logo/link-preview-fallback.png`;
+      }}
     />
   </div>
 );
