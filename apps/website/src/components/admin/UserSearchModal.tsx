@@ -71,7 +71,7 @@ export const UserSearchModal = ({
                   <div className="font-medium truncate">{user.name || '(No name)'}</div>
                   <div className="text-size-sm text-gray-500 truncate">{user.email}</div>
                 </div>
-                <div className="text-size-sm text-gray-400 flex-shrink-0 text-right">
+                <div className="text-size-sm text-gray-400 md:flex-shrink-0 md:text-right">
                   {user.courseCount > 0 && <div>{user.courseCount} course{user.courseCount !== 1 ? 's' : ''}</div>}
                   {user.lastSeenAt && (
                     <div>Last seen: {formatDateTimeRelative({ dateTimeMs: new Date(user.lastSeenAt).getTime(), currentTimeMs })}</div>
