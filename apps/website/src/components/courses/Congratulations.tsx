@@ -335,9 +335,13 @@ const Congratulations: React.FC<CongratulationsProps> = ({
   const whatsAppUrl = `https://wa.me/?text=${encodeURIComponent(`${shareText} ${courseUrl}`)}`;
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(`${shareText} ${courseUrl}`);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(`${shareText} ${courseUrl}`);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (_error) {
+      // Clipboard API unavailable
+    }
   };
 
   return (
