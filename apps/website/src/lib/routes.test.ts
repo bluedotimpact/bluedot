@@ -41,13 +41,18 @@ describe('ROUTES configuration', () => {
     expect(ROUTES.blog).toBeDefined();
     expect(ROUTES.certification).toBeDefined();
     expect(ROUTES.courses).toBeDefined();
-    expect(ROUTES.grants).toBeDefined();
+    expect(ROUTES.programs).toBeDefined();
     expect(ROUTES.home).toBeDefined();
     expect(ROUTES.login).toBeDefined();
     expect(ROUTES.logout).toBeDefined();
     expect(ROUTES.privacyPolicy).toBeDefined();
     expect(ROUTES.profile).toBeDefined();
     expect(ROUTES.projects).toBeDefined();
+  });
+
+  test('programs route has correct URL and title', () => {
+    expect(ROUTES.programs.url).toBe('/programs');
+    expect(ROUTES.programs.title).toBe('Programs');
   });
 
   test('profile route still exists for backward compatibility', () => {

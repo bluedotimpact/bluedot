@@ -431,9 +431,9 @@ const CourseCardsGrid = ({
   otherCourses: Course[];
 }) => (
   <div className="hidden lg:flex flex-col items-center gap-8 w-full max-w-screen-xl mx-auto">
-    {/* "Start here" heading */}
-    <P className="text-[14px] font-medium uppercase tracking-[1.5px] text-bluedot-navy/60">
-      Start here
+    {/* "New to AI Safety? Start here" heading */}
+    <P className="text-[14px] font-medium tracking-[1.5px] text-bluedot-navy/60">
+      New to AI Safety? Start here
     </P>
 
     {/* Featured AGI Strategy card - centered, ~50% width */}
@@ -571,11 +571,6 @@ const CourseTags = ({ course }: { course: Course }) => {
           {tag}
         </span>
       ))}
-      {course.isFeatured && (
-        <span className="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white text-[#001140]">
-          Start here
-        </span>
-      )}
     </div>
   );
 };

@@ -12,7 +12,7 @@ exports[`Footer > renders default as expected 1`] = `
         class="max-w-screen-xl mx-auto"
       >
         <div
-          class="lg:hidden mb-12"
+          class="lg:hidden flex flex-col gap-8 mb-12"
         >
           <a
             href="/"
@@ -24,20 +24,87 @@ exports[`Footer > renders default as expected 1`] = `
               BlueDot Impact
             </p>
           </a>
+          <div
+            class="flex gap-6"
+          >
+            <a
+              aria-label="Twitter"
+              class="bluedot-a not-prose link-on-dark"
+              href="https://twitter.com/BlueDotImpact"
+              tabindex="0"
+            >
+              <svg
+                class="size-6"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
+                />
+              </svg>
+            </a>
+            <a
+              aria-label="YouTube"
+              class="bluedot-a not-prose link-on-dark"
+              href="https://youtube.com/@bluedotimpact"
+              tabindex="0"
+            >
+              <svg
+                class="size-6"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 576 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"
+                />
+              </svg>
+            </a>
+            <a
+              aria-label="LinkedIn"
+              class="bluedot-a not-prose link-on-dark"
+              href="https://www.linkedin.com/company/bluedotimpact/"
+              tabindex="0"
+            >
+              <svg
+                class="size-6"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
+                />
+              </svg>
+            </a>
+          </div>
         </div>
         <div
           class="flex flex-col gap-12 min-[680px]:hidden"
         >
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               BlueDot Impact
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             >
               <li>
                 <a
@@ -78,27 +145,27 @@ exports[`Footer > renders default as expected 1`] = `
             </ul>
           </div>
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               Explore
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             />
           </div>
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               Resources
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             >
               <li>
                 <a
@@ -123,10 +190,10 @@ exports[`Footer > renders default as expected 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/grants"
+                  href="/programs"
                   tabindex="0"
                 >
-                  Grants
+                  Programs
                 </a>
               </li>
               <li>
@@ -142,18 +209,18 @@ exports[`Footer > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="hidden min-[680px]:grid min-[680px]:grid-cols-2 min-[680px]:gap-12 lg:hidden"
+          class="hidden min-[680px]:grid min-[680px]:grid-cols-3 min-[680px]:gap-x-8 min-[680px]:gap-y-12 lg:hidden"
         >
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               BlueDot Impact
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             >
               <li>
                 <a
@@ -194,27 +261,27 @@ exports[`Footer > renders default as expected 1`] = `
             </ul>
           </div>
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               Explore
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             />
           </div>
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               Resources
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             >
               <li>
                 <a
@@ -239,10 +306,10 @@ exports[`Footer > renders default as expected 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/grants"
+                  href="/programs"
                   tabindex="0"
                 >
-                  Grants
+                  Programs
                 </a>
               </li>
               <li>
@@ -258,10 +325,10 @@ exports[`Footer > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="hidden lg:flex lg:flex-row lg:justify-between lg:gap-8"
+          class="hidden lg:grid lg:grid-cols-[minmax(220px,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-x-12 xl:gap-x-16 lg:items-start"
         >
           <div
-            class="flex flex-col justify-between shrink-0"
+            class="flex flex-col gap-14 shrink-0"
           >
             <a
               href="/"
@@ -342,15 +409,15 @@ exports[`Footer > renders default as expected 1`] = `
             </div>
           </div>
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               BlueDot Impact
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             >
               <li>
                 <a
@@ -391,27 +458,27 @@ exports[`Footer > renders default as expected 1`] = `
             </ul>
           </div>
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               Explore
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             />
           </div>
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               Resources
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             >
               <li>
                 <a
@@ -436,10 +503,10 @@ exports[`Footer > renders default as expected 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/grants"
+                  href="/programs"
                   tabindex="0"
                 >
-                  Grants
+                  Programs
                 </a>
               </li>
               <li>
@@ -455,78 +522,7 @@ exports[`Footer > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="lg:hidden my-12"
-        >
-          <div
-            class="flex gap-6"
-          >
-            <a
-              aria-label="Twitter"
-              class="bluedot-a not-prose link-on-dark"
-              href="https://twitter.com/BlueDotImpact"
-              tabindex="0"
-            >
-              <svg
-                class="size-6"
-                fill="currentColor"
-                height="1em"
-                stroke="currentColor"
-                stroke-width="0"
-                viewBox="0 0 512 512"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
-                />
-              </svg>
-            </a>
-            <a
-              aria-label="YouTube"
-              class="bluedot-a not-prose link-on-dark"
-              href="https://youtube.com/@bluedotimpact"
-              tabindex="0"
-            >
-              <svg
-                class="size-6"
-                fill="currentColor"
-                height="1em"
-                stroke="currentColor"
-                stroke-width="0"
-                viewBox="0 0 576 512"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"
-                />
-              </svg>
-            </a>
-            <a
-              aria-label="LinkedIn"
-              class="bluedot-a not-prose link-on-dark"
-              href="https://www.linkedin.com/company/bluedotimpact/"
-              tabindex="0"
-            >
-              <svg
-                class="size-6"
-                fill="currentColor"
-                height="1em"
-                stroke="currentColor"
-                stroke-width="0"
-                viewBox="0 0 448 512"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
-                />
-              </svg>
-            </a>
-          </div>
-        </div>
-        <div
-          class="text-size-sm text-[#CCD7FF] leading-[26px] min-[680px]:mt-0 lg:mt-12 2xl:mt-[64px]"
+          class="mt-12 border-t border-white/10 pt-8 text-size-sm text-[#CCD7FF] leading-[26px] min-[680px]:mt-14 min-[680px]:pt-10 lg:mt-16 2xl:mt-20"
         >
           <p
             class="mb-2"
@@ -592,7 +588,7 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
         class="max-w-screen-xl mx-auto"
       >
         <div
-          class="lg:hidden mb-12"
+          class="lg:hidden flex flex-col gap-8 mb-12"
         >
           <a
             href="/"
@@ -604,20 +600,87 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
               BlueDot Impact
             </p>
           </a>
+          <div
+            class="flex gap-6"
+          >
+            <a
+              aria-label="Twitter"
+              class="bluedot-a not-prose link-on-dark"
+              href="https://twitter.com/BlueDotImpact"
+              tabindex="0"
+            >
+              <svg
+                class="size-6"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 512 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
+                />
+              </svg>
+            </a>
+            <a
+              aria-label="YouTube"
+              class="bluedot-a not-prose link-on-dark"
+              href="https://youtube.com/@bluedotimpact"
+              tabindex="0"
+            >
+              <svg
+                class="size-6"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 576 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"
+                />
+              </svg>
+            </a>
+            <a
+              aria-label="LinkedIn"
+              class="bluedot-a not-prose link-on-dark"
+              href="https://www.linkedin.com/company/bluedotimpact/"
+              tabindex="0"
+            >
+              <svg
+                class="size-6"
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 448 512"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
+                />
+              </svg>
+            </a>
+          </div>
         </div>
         <div
           class="flex flex-col gap-12 min-[680px]:hidden"
         >
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               BlueDot Impact
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             >
               <li>
                 <a
@@ -658,27 +721,27 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
             </ul>
           </div>
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               Explore
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             />
           </div>
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               Resources
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             >
               <li>
                 <a
@@ -703,10 +766,10 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/grants"
+                  href="/programs"
                   tabindex="0"
                 >
-                  Grants
+                  Programs
                 </a>
               </li>
               <li>
@@ -730,18 +793,18 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
           </div>
         </div>
         <div
-          class="hidden min-[680px]:grid min-[680px]:grid-cols-2 min-[680px]:gap-12 lg:hidden"
+          class="hidden min-[680px]:grid min-[680px]:grid-cols-3 min-[680px]:gap-x-8 min-[680px]:gap-y-12 lg:hidden"
         >
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               BlueDot Impact
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             >
               <li>
                 <a
@@ -782,27 +845,27 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
             </ul>
           </div>
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               Explore
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             />
           </div>
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               Resources
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             >
               <li>
                 <a
@@ -827,10 +890,10 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/grants"
+                  href="/programs"
                   tabindex="0"
                 >
-                  Grants
+                  Programs
                 </a>
               </li>
               <li>
@@ -854,10 +917,10 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
           </div>
         </div>
         <div
-          class="hidden lg:flex lg:flex-row lg:justify-between lg:gap-8"
+          class="hidden lg:grid lg:grid-cols-[minmax(220px,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-x-12 xl:gap-x-16 lg:items-start"
         >
           <div
-            class="flex flex-col justify-between shrink-0"
+            class="flex flex-col gap-14 shrink-0"
           >
             <a
               href="/"
@@ -938,15 +1001,15 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
             </div>
           </div>
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               BlueDot Impact
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             >
               <li>
                 <a
@@ -987,27 +1050,27 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
             </ul>
           </div>
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               Explore
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             />
           </div>
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               Resources
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             >
               <li>
                 <a
@@ -1032,10 +1095,10 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/grants"
+                  href="/programs"
                   tabindex="0"
                 >
-                  Grants
+                  Programs
                 </a>
               </li>
               <li>
@@ -1059,8 +1122,84 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
           </div>
         </div>
         <div
-          class="lg:hidden my-12"
+          class="mt-12 border-t border-white/10 pt-8 text-size-sm text-[#CCD7FF] leading-[26px] min-[680px]:mt-14 min-[680px]:pt-10 lg:mt-16 2xl:mt-20"
         >
+          <p
+            class="mb-2"
+          >
+            © 
+            2026
+            . BlueDot Impact operates as a UK CLG (
+            <a
+              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
+              href="https://find-and-update.company-information.service.gov.uk/company/14964572"
+              rel="noopener noreferrer"
+              tabindex="0"
+              target="_blank"
+            >
+              14964572
+            </a>
+            ) and a US 501(c)3 (
+            <a
+              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
+              href="https://projects.propublica.org/nonprofits/organizations/994885308"
+              rel="noopener noreferrer"
+              tabindex="0"
+              target="_blank"
+            >
+              99-4885308
+            </a>
+            ).
+          </p>
+          <p
+            class="mb-2"
+          >
+            US Address: 1680 Mission St. Suite 411, San Francisco, CA 94103
+          </p>
+          <p>
+            Funded by 
+            <a
+              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
+              href="https://www.coefficientgiving.org/"
+              rel="noopener noreferrer"
+              tabindex="0"
+              target="_blank"
+            >
+              Coefficient Giving
+            </a>
+            .
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+`;
+
+exports[`Footer > renders with optional args 1`] = `
+<div>
+  <footer
+    class="w-full bg-[#02051E]"
+  >
+    <div
+      class="w-full py-8 px-5 min-[680px]:pt-10 min-[680px]:pb-[72px] min-[680px]:px-8 lg:pt-10 lg:pb-[72px] lg:px-12 xl:pt-10 xl:pb-[72px] xl:px-16 2xl:py-16 2xl:px-20"
+    >
+      <div
+        class="max-w-screen-xl mx-auto"
+      >
+        <div
+          class="lg:hidden flex flex-col gap-8 mb-12"
+        >
+          <a
+            href="/"
+            tabindex="0"
+          >
+            <img
+              alt="BlueDot Impact Logo"
+              class="w-48 h-6"
+              src="https://www.bluedot.com/test-logo.jpg"
+            />
+          </a>
           <div
             class="flex gap-6"
           >
@@ -1130,98 +1269,18 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
           </div>
         </div>
         <div
-          class="text-size-sm text-[#CCD7FF] leading-[26px] min-[680px]:mt-0 lg:mt-12 2xl:mt-[64px]"
-        >
-          <p
-            class="mb-2"
-          >
-            © 
-            2026
-            . BlueDot Impact operates as a UK CLG (
-            <a
-              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
-              href="https://find-and-update.company-information.service.gov.uk/company/14964572"
-              rel="noopener noreferrer"
-              tabindex="0"
-              target="_blank"
-            >
-              14964572
-            </a>
-            ) and a US 501(c)3 (
-            <a
-              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
-              href="https://projects.propublica.org/nonprofits/organizations/994885308"
-              rel="noopener noreferrer"
-              tabindex="0"
-              target="_blank"
-            >
-              99-4885308
-            </a>
-            ).
-          </p>
-          <p
-            class="mb-2"
-          >
-            US Address: 1680 Mission St. Suite 411, San Francisco, CA 94103
-          </p>
-          <p>
-            Funded by 
-            <a
-              class="bluedot-a not-prose text-[#CCD7FF] hover:text-white"
-              href="https://www.coefficientgiving.org/"
-              rel="noopener noreferrer"
-              tabindex="0"
-              target="_blank"
-            >
-              Coefficient Giving
-            </a>
-            .
-          </p>
-        </div>
-      </div>
-    </div>
-  </footer>
-</div>
-`;
-
-exports[`Footer > renders with optional args 1`] = `
-<div>
-  <footer
-    class="w-full bg-[#02051E]"
-  >
-    <div
-      class="w-full py-8 px-5 min-[680px]:pt-10 min-[680px]:pb-[72px] min-[680px]:px-8 lg:pt-10 lg:pb-[72px] lg:px-12 xl:pt-10 xl:pb-[72px] xl:px-16 2xl:py-16 2xl:px-20"
-    >
-      <div
-        class="max-w-screen-xl mx-auto"
-      >
-        <div
-          class="lg:hidden mb-12"
-        >
-          <a
-            href="/"
-            tabindex="0"
-          >
-            <img
-              alt="BlueDot Impact Logo"
-              class="w-48 h-6"
-              src="https://www.bluedot.com/test-logo.jpg"
-            />
-          </a>
-        </div>
-        <div
           class="flex flex-col gap-12 min-[680px]:hidden"
         >
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               BlueDot Impact
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             >
               <li>
                 <a
@@ -1262,27 +1321,27 @@ exports[`Footer > renders with optional args 1`] = `
             </ul>
           </div>
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               Explore
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             />
           </div>
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               Resources
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             >
               <li>
                 <a
@@ -1307,10 +1366,10 @@ exports[`Footer > renders with optional args 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/grants"
+                  href="/programs"
                   tabindex="0"
                 >
-                  Grants
+                  Programs
                 </a>
               </li>
               <li>
@@ -1326,18 +1385,18 @@ exports[`Footer > renders with optional args 1`] = `
           </div>
         </div>
         <div
-          class="hidden min-[680px]:grid min-[680px]:grid-cols-2 min-[680px]:gap-12 lg:hidden"
+          class="hidden min-[680px]:grid min-[680px]:grid-cols-3 min-[680px]:gap-x-8 min-[680px]:gap-y-12 lg:hidden"
         >
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               BlueDot Impact
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             >
               <li>
                 <a
@@ -1378,27 +1437,27 @@ exports[`Footer > renders with optional args 1`] = `
             </ul>
           </div>
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               Explore
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             />
           </div>
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               Resources
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             >
               <li>
                 <a
@@ -1423,10 +1482,10 @@ exports[`Footer > renders with optional args 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/grants"
+                  href="/programs"
                   tabindex="0"
                 >
-                  Grants
+                  Programs
                 </a>
               </li>
               <li>
@@ -1442,10 +1501,10 @@ exports[`Footer > renders with optional args 1`] = `
           </div>
         </div>
         <div
-          class="hidden lg:flex lg:flex-row lg:justify-between lg:gap-8"
+          class="hidden lg:grid lg:grid-cols-[minmax(220px,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-x-12 xl:gap-x-16 lg:items-start"
         >
           <div
-            class="flex flex-col justify-between shrink-0"
+            class="flex flex-col gap-14 shrink-0"
           >
             <a
               href="/"
@@ -1526,15 +1585,15 @@ exports[`Footer > renders with optional args 1`] = `
             </div>
           </div>
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               BlueDot Impact
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             >
               <li>
                 <a
@@ -1575,27 +1634,27 @@ exports[`Footer > renders with optional args 1`] = `
             </ul>
           </div>
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               Explore
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             />
           </div>
           <div
-            class="flex flex-col"
+            class="flex flex-col gap-4"
           >
             <h3
-              class="text-white text-size-sm leading-[19px] mb-[15px] font-semibold"
+              class="text-white text-size-sm leading-[19px] font-semibold"
             >
               Resources
             </h3>
             <ul
-              class="flex flex-col gap-[15px] list-none p-0"
+              class="flex flex-col gap-4 list-none p-0"
             >
               <li>
                 <a
@@ -1620,10 +1679,10 @@ exports[`Footer > renders with optional args 1`] = `
               <li>
                 <a
                   class="bluedot-a not-prose text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
-                  href="/grants"
+                  href="/programs"
                   tabindex="0"
                 >
-                  Grants
+                  Programs
                 </a>
               </li>
               <li>
@@ -1639,78 +1698,7 @@ exports[`Footer > renders with optional args 1`] = `
           </div>
         </div>
         <div
-          class="lg:hidden my-12"
-        >
-          <div
-            class="flex gap-6"
-          >
-            <a
-              aria-label="Twitter"
-              class="bluedot-a not-prose link-on-dark"
-              href="https://twitter.com/BlueDotImpact"
-              tabindex="0"
-            >
-              <svg
-                class="size-6"
-                fill="currentColor"
-                height="1em"
-                stroke="currentColor"
-                stroke-width="0"
-                viewBox="0 0 512 512"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"
-                />
-              </svg>
-            </a>
-            <a
-              aria-label="YouTube"
-              class="bluedot-a not-prose link-on-dark"
-              href="https://youtube.com/@bluedotimpact"
-              tabindex="0"
-            >
-              <svg
-                class="size-6"
-                fill="currentColor"
-                height="1em"
-                stroke="currentColor"
-                stroke-width="0"
-                viewBox="0 0 576 512"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"
-                />
-              </svg>
-            </a>
-            <a
-              aria-label="LinkedIn"
-              class="bluedot-a not-prose link-on-dark"
-              href="https://www.linkedin.com/company/bluedotimpact/"
-              tabindex="0"
-            >
-              <svg
-                class="size-6"
-                fill="currentColor"
-                height="1em"
-                stroke="currentColor"
-                stroke-width="0"
-                viewBox="0 0 448 512"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"
-                />
-              </svg>
-            </a>
-          </div>
-        </div>
-        <div
-          class="text-size-sm text-[#CCD7FF] leading-[26px] min-[680px]:mt-0 lg:mt-12 2xl:mt-[64px]"
+          class="mt-12 border-t border-white/10 pt-8 text-size-sm text-[#CCD7FF] leading-[26px] min-[680px]:mt-14 min-[680px]:pt-10 lg:mt-16 2xl:mt-20"
         >
           <p
             class="mb-2"
