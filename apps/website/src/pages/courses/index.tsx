@@ -379,8 +379,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
   const { data: rounds, isLoading: roundsLoading } = trpc.courseRounds.getRoundsForCourse.useQuery({ courseSlug: course.slug });
   const { latestUtmParams } = useLatestUtmParams();
 
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  const baseApplicationUrl = course.applyUrl || '';
+  const baseApplicationUrl = course.applyUrl ?? '';
   const applicationUrlWithUtm = appendPosthogSessionIdPrefill(latestUtmParams.utm_source
     ? addQueryParam(baseApplicationUrl, 'prefill_Source', latestUtmParams.utm_source)
     : baseApplicationUrl);
