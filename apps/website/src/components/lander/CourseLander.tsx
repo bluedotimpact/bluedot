@@ -80,8 +80,8 @@ const CourseLander = ({
   courseSlug, baseApplicationUrl, createContentFor, courseOgImage, soonestDeadline, canonicalPath,
 }: CourseLanderProps) => {
   const { latestUtmParams } = useLatestUtmParams();
-  const safeBaseApplicationUrl = baseApplicationUrl ?? '';
 
+  const safeBaseApplicationUrl = baseApplicationUrl ?? '';
   const applicationUrlWithUtm = appendPosthogSessionIdPrefill(latestUtmParams.utm_source && safeBaseApplicationUrl
     ? addQueryParam(safeBaseApplicationUrl, 'prefill_Source', latestUtmParams.utm_source)
     : safeBaseApplicationUrl);

@@ -55,8 +55,7 @@ const renderCoursePage = ({
   courseSlug: slug, courseData, courseOgImage, soonestDeadline,
 }: CoursePageProps) => {
   const { course } = courseData;
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  const baseApplicationUrl = course?.applyUrl || '';
+  const baseApplicationUrl = course?.applyUrl ?? '';
 
   if (slug === 'future-of-ai') {
     // Future of AI is self-paced, so use the start URL instead of an apply URL
