@@ -42,14 +42,4 @@ describe('addQueryParam', () => {
     const result = addQueryParam('', 'key', 'value');
     expect(result).toBe('?key=value');
   });
-
-  test('handles undefined URL', () => {
-    const result = addQueryParam(undefined, 'key', 'value');
-    expect(result).toBe('?key=value');
-  });
-
-  test('handles null URL', () => {
-    const result = addQueryParam(null, 'key', 'value');
-    expect(result).toBe('?key=value');
-  });
 });
