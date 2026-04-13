@@ -45,7 +45,7 @@ describe('GranteesListSection', () => {
 
     expect(screen.queryByText('Beta Project')).not.toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', { name: 'Show all 2 public grants' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Show 1 more project' }));
 
     await waitFor(() => {
       expect(screen.getByText('Beta Project')).toBeInTheDocument();

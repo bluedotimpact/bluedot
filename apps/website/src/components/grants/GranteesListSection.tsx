@@ -2,7 +2,10 @@ import {
   cn, ErrorSection, P, ProgressDots,
 } from '@bluedot/ui';
 import type { inferRouterOutputs } from '@trpc/server';
-import { useState } from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
 import { RiSearchLine } from 'react-icons/ri';
 import type { AppRouter } from '../../server/routers/_app';
 import { formatAmountUsd } from '../../lib/utils';
@@ -68,6 +71,7 @@ type GranteesListSectionProps = {
   title?: string;
   subtitle?: string;
   limit?: number;
+  previewRows?: number;
 };
 
 const GranteesListSection = ({
@@ -75,10 +79,31 @@ const GranteesListSection = ({
   title,
   subtitle,
   limit,
+  previewRows,
 }: GranteesListSectionProps) => {
   const { data: grantees, isLoading, error } = trpc.grants.getAllPublicGrantees.useQuery();
   const [showAll, setShowAll] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [viewportWidth, setViewportWidth] = useState(() => {
+    if (typeof window === 'undefined') {
+      return 1120;
+    }
+
+    return window.innerWidth;
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   if (error) {
     return <ErrorSection error={error} />;
@@ -99,11 +124,26 @@ const GranteesListSection = ({
     return searchableText.includes(normalizedSearchTerm);
   });
 
-  const shouldLimitResults = !!limit && !showAll && !normalizedSearchTerm;
+  let previewColumns = 1;
+  if (viewportWidth >= 1120) {
+    previewColumns = 3;
+  } else if (viewportWidth >= 680) {
+    previewColumns = 2;
+  }
+
+  const previewLimit = previewRows
+    ? previewRows * previewColumns
+    : undefined;
+  const effectiveLimit = previewLimit ?? limit;
+  const shouldLimitResults = !!effectiveLimit && !showAll && !normalizedSearchTerm;
   const visibleGrantees = shouldLimitResults
-    ? filteredGrantees?.slice(0, limit)
+    ? filteredGrantees?.slice(0, effectiveLimit)
     : filteredGrantees;
-  const hasHiddenGrantees = !!limit && !normalizedSearchTerm && !!filteredGrantees && filteredGrantees.length > limit;
+  const hasHiddenGrantees = !!effectiveLimit && !normalizedSearchTerm && !!filteredGrantees && filteredGrantees.length > effectiveLimit;
+  const hiddenGranteeCount = hasHiddenGrantees && effectiveLimit && filteredGrantees
+    ? filteredGrantees.length - effectiveLimit
+    : 0;
+  const showCollapsedPreview = hasHiddenGrantees && !showAll;
 
   return (
     <section
@@ -156,22 +196,41 @@ const GranteesListSection = ({
             </div>
           )}
           {!!visibleGrantees?.length && (
-            <ul className="list-none grid gap-4 min-[680px]:grid-cols-2 min-[1120px]:grid-cols-3">
-              {visibleGrantees.map((grantee) => (
-                <li key={`${grantee.granteeName}-${grantee.projectTitle}`} className="h-full">
-                  <GranteeListItem grantee={grantee} />
-                </li>
-              ))}
-            </ul>
+            <div className={cn('relative', showCollapsedPreview && 'pb-20 min-[680px]:pb-24')}>
+              <ul className="list-none grid gap-4 min-[680px]:grid-cols-2 min-[1120px]:grid-cols-3">
+                {visibleGrantees.map((grantee) => (
+                  <li key={`${grantee.granteeName}-${grantee.projectTitle}`} className="h-full">
+                    <GranteeListItem grantee={grantee} />
+                  </li>
+                ))}
+              </ul>
+
+              {showCollapsedPreview && (
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center px-4 pb-2 min-[680px]:pb-3">
+                  <div className="absolute inset-x-0 bottom-0 h-28 min-[680px]:h-32 bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.72)_34%,rgba(255,255,255,0.94)_62%,rgba(255,255,255,1)_100%)]" />
+                  <div className="absolute inset-x-[12%] bottom-11 h-px bg-[linear-gradient(90deg,rgba(8,28,68,0)_0%,rgba(8,28,68,0.12)_18%,rgba(8,28,68,0.12)_82%,rgba(8,28,68,0)_100%)] min-[680px]:bottom-14" />
+                  <button
+                    type="button"
+                    onClick={() => setShowAll(true)}
+                    className="pointer-events-auto relative inline-flex items-center gap-2 rounded-full border border-[#D7E4F5] bg-white/96 px-5 py-3 text-[14px] font-medium text-bluedot-navy shadow-[0_16px_40px_rgba(8,28,68,0.12)] backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-[#BED3EE] hover:shadow-[0_20px_44px_rgba(8,28,68,0.14)]"
+                  >
+                    <span aria-hidden="true" className="inline-flex size-6 items-center justify-center rounded-full bg-[#EEF5FD] text-[#2A5FA8]">
+                      ↓
+                    </span>
+                    {`Show ${hiddenGranteeCount} more project${hiddenGranteeCount === 1 ? '' : 's'}`}
+                  </button>
+                </div>
+              )}
+            </div>
           )}
-          {hasHiddenGrantees && (
+          {hasHiddenGrantees && showAll && (
             <button
               type="button"
-              onClick={() => setShowAll((previousValue) => !previousValue)}
-              className="mt-8 inline-flex items-center gap-2 text-[14px] font-medium text-bluedot-navy transition-colors hover:text-[#0A2358]"
+              onClick={() => setShowAll(false)}
+              className="mt-8 inline-flex items-center gap-2 rounded-full border border-bluedot-navy/10 bg-white px-4 py-2.5 text-[14px] font-medium text-bluedot-navy transition-all hover:border-bluedot-navy/16 hover:bg-[#FBFCFE]"
             >
-              {showAll ? 'Show fewer grantees' : `Show all ${grantees?.length ?? 0} public grants`}
-              <span aria-hidden="true">{showAll ? '↑' : '→'}</span>
+              Show fewer projects
+              <span aria-hidden="true">↑</span>
             </button>
           )}
         </div>
