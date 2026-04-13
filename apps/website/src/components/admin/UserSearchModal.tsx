@@ -39,9 +39,9 @@ export const UserSearchModal = ({
 
   return (
     <Modal bottomDrawerOnMobile isOpen={isOpen} setIsOpen={(open) => !open && onClose()} title="Impersonate a user">
-        {/* Spacer to stop the modal shrinking when there are no results */}
-        <div className="w-[600px] max-w-full h-0" />
       <div className="w-full max-w-[600px] mx-auto">
+        {/* Spacer to stop the desktop modal shrinking when there are no results */}
+        <div className="hidden md:block w-[600px] max-w-full h-0" />
         <div className="flex items-center gap-2 border border-gray-300 rounded px-3 py-2 mb-4">
           <RiSearchLine className="text-gray-400" size={18} />
           <input
