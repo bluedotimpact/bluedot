@@ -1,6 +1,8 @@
 import { useAuthStore } from '@bluedot/ui';
 import '@testing-library/jest-dom';
-import { render, screen, waitFor } from '@testing-library/react';
+import {
+  fireEvent, render, screen, waitFor,
+} from '@testing-library/react';
 import { useRouter } from 'next/router';
 import {
   beforeEach, describe, expect, test, vi,
@@ -182,6 +184,32 @@ describe('Congratulations', () => {
         expect(screen.getByRole('button', { name: 'Download Certificate' })).toBeInTheDocument();
       });
       expect(container).toMatchSnapshot();
+    });
+
+    test('can-request: happy path — clicking Download Certificate transitions to has-certificate', async () => {
+      server.use(
+        trpcMsw.certificates.getStatus.query(() => ({ status: 'can-request' })),
+        trpcMsw.certificates.request.mutation(() => undefined as never),
+      );
+
+      render(<Congratulations {...foaiProps} />, { wrapper: TrpcProvider });
+
+      await waitFor(() => {
+        expect(screen.getByRole('button', { name: 'Download Certificate' })).toBeInTheDocument();
+      });
+
+      server.use(trpcMsw.certificates.getStatus.query(() => ({
+        status: 'has-certificate',
+        certificateId: 'cert-new-123',
+        issuedAt: 1704067200,
+        holderName: 'Test User',
+      })));
+
+      fireEvent.click(screen.getByRole('button', { name: 'Download Certificate' }));
+
+      await waitFor(() => {
+        expect(screen.getByRole('link', { name: 'View Certificate' })).toBeInTheDocument();
+      });
     });
 
     test('facilitator-pending: shows message with no action button', async () => {
