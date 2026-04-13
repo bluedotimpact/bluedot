@@ -39,9 +39,9 @@ export const UserSearchModal = ({
 
   return (
     <Modal bottomDrawerOnMobile isOpen={isOpen} setIsOpen={(open) => !open && onClose()} title="Impersonate a user">
-      <div className="max-w-[600px] mx-auto">
-        {/* Spacer to stop the modal shrinking when there are no results */}
-        <div className="w-[600px] max-w-full h-0" />
+      <div className="w-full max-w-[600px] mx-auto">
+        {/* Spacer to stop the desktop modal shrinking when there are no results */}
+        <div className="hidden md:block w-[600px] max-w-full h-0" />
         <div className="flex items-center gap-2 border border-gray-300 rounded px-3 py-2 mb-4">
           <RiSearchLine className="text-gray-400" size={18} />
           <input
@@ -65,13 +65,13 @@ export const UserSearchModal = ({
               onClick={() => handleSelectUser(user.id)}
               className="w-full cursor-pointer text-left px-3 py-2 hover:bg-gray-100 rounded"
             >
-              <div className="flex items-center justify-between gap-4">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-1 md:gap-4">
                 <div className="min-w-0">
                   {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
                   <div className="font-medium truncate">{user.name || '(No name)'}</div>
                   <div className="text-size-sm text-gray-500 truncate">{user.email}</div>
                 </div>
-                <div className="text-size-sm text-gray-400 flex-shrink-0 text-right">
+                <div className="text-size-sm text-gray-400 md:flex-shrink-0 md:text-right">
                   {user.courseCount > 0 && <div>{user.courseCount} course{user.courseCount !== 1 ? 's' : ''}</div>}
                   {user.lastSeenAt && (
                     <div>Last seen: {formatDateTimeRelative({ dateTimeMs: new Date(user.lastSeenAt).getTime(), currentTimeMs })}</div>
