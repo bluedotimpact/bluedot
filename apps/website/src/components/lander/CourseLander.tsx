@@ -80,10 +80,10 @@ const CourseLander = ({
   courseSlug, baseApplicationUrl, createContentFor, courseOgImage, soonestDeadline, canonicalPath,
 }: CourseLanderProps) => {
   const { latestUtmParams } = useLatestUtmParams();
-  const applyUrl = baseApplicationUrl ?? '';
-  const applicationUrlWithUtm = appendPosthogSessionIdPrefill(latestUtmParams.utm_source && applyUrl
-    ? addQueryParam(applyUrl, 'prefill_Source', latestUtmParams.utm_source)
-    : applyUrl);
+  const safeBaseApplicationUrl = baseApplicationUrl ?? '';
+  const applicationUrlWithUtm = appendPosthogSessionIdPrefill(latestUtmParams.utm_source && safeBaseApplicationUrl
+    ? addQueryParam(safeBaseApplicationUrl, 'prefill_Source', latestUtmParams.utm_source)
+    : safeBaseApplicationUrl);
 
   const content = createContentFor(applicationUrlWithUtm, courseSlug);
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
