@@ -458,6 +458,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 />
               ) : null}
 
+              {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
               {(nextUnit || !isLastChunk) && (
                 // Margin-bottom is added to accommodate the Circle widget on mobile screens
                 <div className="unit__cta-container flex flex-row justify-center mt-6 mx-1 mb-14 sm:mb-0">
@@ -473,6 +474,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               )}
 
               {/* Bottom-most section, underneath 'continue' button */}
+              {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
               {(nextUnit || !isLastChunk) && (
                 <div className="hidden md:block">
                   <hr className="mt-12 mb-4" />
