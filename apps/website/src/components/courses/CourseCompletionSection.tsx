@@ -53,36 +53,38 @@ export default function CourseCompletionSection({
       : applyCTAProps.applicationUrl);
 
     return (
-      <div className={cn('container-lined bg-white p-6', className)}>
-        <div className="flex flex-col gap-4 pb-6 min-[680px]:flex-row min-[680px]:items-center">
-          <CourseIcon courseSlug={courseSlug} size="xlarge" className="rounded-[12px]" />
-          <div>
-            <h2 className="text-bluedot-navy text-[24px] leading-[1.4] font-semibold tracking-[-0.5px]">
-              {courseTitle}
-            </h2>
-            <p className="text-[16px]">Enroll today to receive your certificate</p>
+      <div className={className}>
+        <div className="container-lined bg-white p-6">
+          <div className="flex flex-col gap-4 pb-6 min-[680px]:flex-row min-[680px]:items-center">
+            <CourseIcon courseSlug={courseSlug} size="xlarge" className="rounded-[12px]" />
+            <div>
+              <h2 className="text-bluedot-navy text-[24px] leading-[1.4] font-semibold tracking-[-0.5px]">
+                {courseTitle}
+              </h2>
+              <p className="text-[16px]">Enroll today to receive your certificate</p>
+            </div>
           </div>
-        </div>
 
-        {roundsData.intense.length > 0 && (
-          <RoundGroup
-            type="intensive"
-            rounds={roundsData.intense}
-            applicationUrl={applicationUrlWithUtm}
-            accentColor={COURSE_CONFIG[courseSlug]?.accentColor}
-          />
-        )}
-
-        {roundsData.partTime.length > 0 && (
-          <div className={cn(roundsData.intense.length > 0 && 'mt-6')}>
+          {roundsData.intense.length > 0 && (
             <RoundGroup
-              type="part-time"
-              rounds={roundsData.partTime}
+              type="intensive"
+              rounds={roundsData.intense}
               applicationUrl={applicationUrlWithUtm}
               accentColor={COURSE_CONFIG[courseSlug]?.accentColor}
             />
-          </div>
-        )}
+          )}
+
+          {roundsData.partTime.length > 0 && (
+            <div className={cn(roundsData.intense.length > 0 && 'mt-6')}>
+              <RoundGroup
+                type="part-time"
+                rounds={roundsData.partTime}
+                applicationUrl={applicationUrlWithUtm}
+                accentColor={COURSE_CONFIG[courseSlug]?.accentColor}
+              />
+            </div>
+          )}
+        </div>
       </div>
     );
   }
