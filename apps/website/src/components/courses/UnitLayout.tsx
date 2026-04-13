@@ -458,14 +458,8 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 />
               ) : null}
 
-              {(!nextUnit && isLastChunk) ? (
-                <CourseCompletionSection
-                  courseId={unit.courseId}
-                  courseTitle={unit.courseTitle}
-                  courseSlug={courseSlug}
-                  className="mt-8 md:mt-6"
-                />
-              ) : (
+              {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
+              {(nextUnit || !isLastChunk) && (
                 // Margin-bottom is added to accommodate the Circle widget on mobile screens
                 <div className="unit__cta-container flex flex-row justify-center mt-6 mx-1 mb-14 sm:mb-0">
                   <CTALinkOrButton
@@ -480,20 +474,37 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               )}
 
               {/* Bottom-most section, underneath 'continue' button */}
-              <div className="hidden md:block">
-                <hr className="mt-12 mb-4" />
-                <div className="flex items-center justify-between">
-                  <KeyboardNavMenu />
-                  <button
-                    type="button"
-                    onClick={() => openBugReport()}
-                    className="flex cursor-pointer items-center gap-1.5 rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-700"
-                  >
-                    Report a bug
-                  </button>
+              {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
+              {(nextUnit || !isLastChunk) && (
+                <div className="hidden md:block">
+                  <hr className="mt-12 mb-4" />
+                  <div className="flex items-center justify-between">
+                    <KeyboardNavMenu />
+                    <button
+                      type="button"
+                      onClick={() => openBugReport()}
+                      className="flex cursor-pointer items-center gap-1.5 rounded-md p-2 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-700"
+                    >
+                      Report a bug
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
+
+            {(!nextUnit && isLastChunk) && (
+              <CourseCompletionSection
+                courseId={unit.courseId}
+                courseTitle={unit.courseTitle}
+                courseSlug={courseSlug}
+                className={clsx(
+                  'mt-8 md:mt-6 px-5',
+                  isSidebarHidden
+                    ? 'md:px-[60px] lg:px-[100px] xl:px-[140px] 2xl:px-[200px]'
+                    : 'lg:px-[40px] xl:px-[80px] 2xl:px-[120px]',
+                )}
+              />
+            )}
           </Section>
         </div>
       </div>

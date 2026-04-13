@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 import type { CertificateStatus } from '../../server/routers/certificates';
+import { CERTIFICATE_STATUS_DESCRIPTIONS } from './Congratulations';
 import type { ChunkProgress, CourseProgress } from '../../server/routers/courses';
 import { ChunkIcon } from '../icons/ChunkIcon';
 import { CourseIcon } from './CourseIcon';
@@ -36,14 +37,6 @@ type SideBarCollapsibleProps = {
   courseSlug: string;
   chunkProgress: ChunkProgress[];
   certificateStatus: CertificateStatus | undefined;
-};
-
-const LOCK_TOOLTIP_TEXT: Record<CertificateStatus, string> = {
-  'action-plan-pending': 'Submit your action plan and attend all discussions to unlock your certificate.',
-  'can-request': 'Complete all exercises to unlock your certificate.',
-  'facilitator-pending': 'Your certificate will be issued after your cohort ends.',
-  'has-certificate': '', // Never shown
-  'not-eligible': 'Login and/or enroll in the course to receive a certificate!',
 };
 
 const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
@@ -218,8 +211,8 @@ const CertificateIndicator = ({
   }
 
   return (
-    <span className="ml-1.5 inline-flex" aria-label={LOCK_TOOLTIP_TEXT[certificateStatus]}>
-      <HoverTooltip content={LOCK_TOOLTIP_TEXT[certificateStatus]}>
+    <span className="ml-1.5 inline-flex" aria-label={CERTIFICATE_STATUS_DESCRIPTIONS[certificateStatus]}>
+      <HoverTooltip content={CERTIFICATE_STATUS_DESCRIPTIONS[certificateStatus]}>
         <span>🔒</span>
       </HoverTooltip>
     </span>

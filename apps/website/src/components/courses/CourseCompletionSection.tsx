@@ -5,8 +5,6 @@ import { COURSE_CONFIG } from '../../lib/constants';
 import { appendPosthogSessionIdPrefill } from '../../lib/appendPosthogSessionIdPrefill';
 import { trpc } from '../../utils/trpc';
 import RoundGroup from '../shared/RoundGroup';
-import ActionPlanCard from './ActionPlanCard';
-import CertificateLinkCard from './CertificateLinkCard';
 import Congratulations from './Congratulations';
 import { CourseIcon } from './CourseIcon';
 
@@ -55,49 +53,45 @@ export default function CourseCompletionSection({
       : applyCTAProps.applicationUrl);
 
     return (
-      <div className={cn('container-lined bg-white p-6', className)}>
-        <div className="flex flex-col gap-4 pb-6 min-[680px]:flex-row min-[680px]:items-center">
-          <CourseIcon courseSlug={courseSlug} size="xlarge" className="rounded-[12px]" />
-          <div>
-            <h2 className="text-bluedot-navy text-[24px] leading-[1.4] font-semibold tracking-[-0.5px]">
-              {courseTitle}
-            </h2>
-            <p className="text-[16px]">Enroll today to receive your certificate</p>
+      <div className={className}>
+        <div className="container-lined bg-white p-6">
+          <div className="flex flex-col gap-4 pb-6 min-[680px]:flex-row min-[680px]:items-center">
+            <CourseIcon courseSlug={courseSlug} size="xlarge" className="rounded-[12px]" />
+            <div>
+              <h2 className="text-bluedot-navy text-[24px] leading-[1.4] font-semibold tracking-[-0.5px]">
+                {courseTitle}
+              </h2>
+              <p className="text-[16px]">Enroll today to receive your certificate</p>
+            </div>
           </div>
-        </div>
 
-        {roundsData.intense.length > 0 && (
-          <RoundGroup
-            type="intensive"
-            rounds={roundsData.intense}
-            applicationUrl={applicationUrlWithUtm}
-            accentColor={COURSE_CONFIG[courseSlug]?.accentColor}
-          />
-        )}
-
-        {roundsData.partTime.length > 0 && (
-          <div className={cn(roundsData.intense.length > 0 && 'mt-6')}>
+          {roundsData.intense.length > 0 && (
             <RoundGroup
-              type="part-time"
-              rounds={roundsData.partTime}
+              type="intensive"
+              rounds={roundsData.intense}
               applicationUrl={applicationUrlWithUtm}
               accentColor={COURSE_CONFIG[courseSlug]?.accentColor}
             />
-          </div>
-        )}
+          )}
+
+          {roundsData.partTime.length > 0 && (
+            <div className={cn(roundsData.intense.length > 0 && 'mt-6')}>
+              <RoundGroup
+                type="part-time"
+                rounds={roundsData.partTime}
+                applicationUrl={applicationUrlWithUtm}
+                accentColor={COURSE_CONFIG[courseSlug]?.accentColor}
+              />
+            </div>
+          )}
+        </div>
       </div>
     );
   }
 
   return (
     <div className={className}>
-      <Congratulations courseTitle={courseTitle} coursePath={`/courses/${courseSlug}`} courseId={courseId} />
-      <div className="mt-4">
-        <CertificateLinkCard courseId={courseId} />
-      </div>
-      <div className="mt-8 md:mt-6">
-        <ActionPlanCard courseId={courseId} />
-      </div>
+      <Congratulations courseTitle={courseTitle} coursePath={`/courses/${courseSlug}`} courseSlug={courseSlug} courseId={courseId} />
     </div>
   );
 }
