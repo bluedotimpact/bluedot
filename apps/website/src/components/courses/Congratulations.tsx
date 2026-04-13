@@ -91,23 +91,23 @@ const CertificatePreviewPanel = ({ courseSlug, courseTitle, holderName }: {
 
   return (
     <div className="h-full bg-[#f7f7fd] flex items-center justify-center p-6">
-      <div className="bg-white rounded-lg border border-slate-200 shadow-sm w-full max-w-[280px] overflow-hidden">
-        <div className="flex flex-col items-center px-5 py-6 gap-3">
-          <img src={badgeSrc} alt="" className="h-[100px] w-auto object-contain" />
+      <div className="bg-white rounded-lg border border-slate-200 shadow-sm w-full max-w-[360px] overflow-hidden">
+        <div className="flex flex-col items-center px-6 py-8 gap-4">
+          <img src={badgeSrc} alt="" className="h-[140px] w-auto object-contain" />
           <div className="flex flex-col items-center gap-1 text-center">
-            <p className="text-[10px] font-medium uppercase tracking-[0.06em] text-[#62748E]">
+            <p className="text-[11px] font-medium uppercase tracking-[0.06em] text-[#62748E]">
               Professional Certification
             </p>
-            <p className="text-[16px] font-semibold text-bluedot-navy leading-tight">
+            <p className="text-[18px] font-semibold text-bluedot-navy leading-tight">
               {courseTitle}
             </p>
           </div>
           {holderName && (
             <div className="flex flex-col items-center gap-0.5 text-center">
-              <p className="text-[10px] font-medium uppercase tracking-[0.06em] text-[#62748E]">
+              <p className="text-[11px] font-medium uppercase tracking-[0.06em] text-[#62748E]">
                 Awarded to
               </p>
-              <p className="text-[13px] font-semibold text-bluedot-navy">{holderName}</p>
+              <p className="text-[14px] font-semibold text-bluedot-navy">{holderName}</p>
             </div>
           )}
         </div>
