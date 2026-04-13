@@ -10,6 +10,7 @@ const mockCourseRounds = {
       id: 'round-next',
       intensity: 'Part-time',
       applicationDeadline: '15 May',
+      applicationDeadlineDetailed: '15 May at 23:59 UTC',
       applicationDeadlineRaw: '2026-05-15',
       firstDiscussionDateRaw: '2026-06-01',
       dateRange: '1 Jun - 20 Jul',

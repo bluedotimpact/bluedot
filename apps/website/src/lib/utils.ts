@@ -55,6 +55,9 @@ export const formatMonthAndDay = (isoDate: string): string => {
   return `${day} ${month}`;
 };
 
+/** Format an ISO date string as a UTC end-of-day application deadline. Example: '9 Feb at 23:59 UTC' */
+export const formatApplicationDeadlineUtcDetailed = (isoDate: string): string => `${formatMonthAndDay(isoDate)} at 23:59 UTC`;
+
 /** Example: 'Jun 19' */
 export const formatDateMonthAndDay = (dateTimeSeconds: number): string => {
   const date = new Date(dateTimeSeconds * 1000);

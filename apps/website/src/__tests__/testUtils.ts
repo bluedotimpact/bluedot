@@ -238,6 +238,7 @@ export const createMockRound = (overrides: Partial<CourseRound> = {}): CourseRou
     id: `round-${mockRoundCounter}`,
     intensity: 'intensive',
     applicationDeadline: '15 Jan',
+    applicationDeadlineDetailed: '15 Jan at 23:59 UTC',
     applicationDeadlineRaw: '2025-01-15',
     firstDiscussionDateRaw: '2025-01-20',
     dateRange: '20 – 24 Jan',
