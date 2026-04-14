@@ -521,10 +521,9 @@ export const services: ServiceDefinition[] = [
               {
                 name: 'slack',
                 url: 'https://mcp.slack.com/mcp',
-                // Slack's MCP server doesn't support Dynamic Client Registration, so we pass a
-                // pre-registered Slack app's credentials and the aggregator skips DCR (v2.2.0+).
-                clientId: config.requireSecret('mcpSlackOauthClientId'),
-                clientSecret: config.requireSecret('mcpSlackOauthClientSecret'),
+                // Slack doesn't support DCR, and uses PKCE (public client) so only the client_id
+                // is needed. See https://adamjones.me/blog/slack-mcp-custom-client/
+                clientId: '3048373368743.10898791060215',
               },
               { name: 'airtable', url: 'https://mcp.airtable.com/mcp' },
               { name: 'notion', url: 'https://mcp.notion.com/mcp' },
