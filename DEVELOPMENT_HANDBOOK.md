@@ -2,22 +2,20 @@
 
 ## Executive Summary
 
-Welcome to Bluedot! This handbook consolidates our development patterns and helps new team members transition smoothly. Our tech stack includes:
+This handbook consolidates development patterns and helps new team members transition smoothly. Our tech stack includes:
 
-- **Frontend**: Next.js, React, Tailwind CSS, Axios (currently, considering alternatives)
-- **Backend**: Next.js API routes, Airtable (source of truth), PostgreSQL (read replica)
+- **Frontend**: Next.js (Pages Router), React, Tailwind CSS, tRPC (data fetching)
+- **Backend**: tRPC routers, Airtable (source of truth), PostgreSQL (read replica)
 - **Authentication**: Keycloak
 - **Deployment**: Pulumi, Kubernetes, nginx
 
 ### Quick Start Checklist
 - [ ] Request Airtable access and create personal access token
-- [ ] Get production PG_URL from Bluedot team member (Joshua most likely)
+- [ ] Get production PG_URL from a Bluedot team member (if needed — template has a localhost default)
 - [ ] Set up local development environment
 - [ ] Be aware of Component Library in `libraries/ui` - reuse these components whenever possible
 - [ ] Read Section 4: Development Standards
 
-### Philosophy
-*From Martin*: Practicality - get 80% of the benefit for 20% of the extra work.
 ---
 
 ## 1. Table of Contents
@@ -29,7 +27,6 @@ Welcome to Bluedot! This handbook consolidates our development patterns and help
    - 4.1 [Frontend Standards](#41-frontend-standards)
    - 4.2 [Backend Standards](#42-backend-standards)
    - 4.3 [Database Guidelines](#43-database-guidelines)
-   - 4.4 [Technical Proposals & RFCs](#44-technical-proposals--rfcs)
 5. [Component Library](#5-component-library)
 6. [Deployment & DevOps](#6-deployment--devops)
 7. [Appendices](#7-appendices)
@@ -72,7 +69,7 @@ Welcome to Bluedot! This handbook consolidates our development patterns and help
   - No rate limiting issues
   - Enables faster page loads
 
-**Important**: Reads go to PostgreSQL, writes go to Airtable + PostgreSQL
+**Important**: Reads go to PostgreSQL, writes go to Airtable, and only afterwards go to PostgreSQL
 
 ---
 
@@ -100,13 +97,27 @@ Welcome to Bluedot! This handbook consolidates our development patterns and help
 
 3. **Set up environment variables**
    ```bash
-   # Copy the template and rename it
-   cp .env.template .env.local
-   
-   # Then update with your values:
-   AIRTABLE_API_KEY=your_personal_access_token
-   PG_URL=get_from_bluedot_team_member
+   # Copy the template
+   cp apps/website/.env.local.template apps/website/.env.local
+   # Then fill in your values
    ```
+
+   The `.env.local.template` file is the source of truth for all environment variables. Most have sensible defaults for local development. You only need to fill in:
+
+   | Variable | How to get it |
+   |----------|---------------|
+   | `AIRTABLE_PERSONAL_ACCESS_TOKEN` | Create a personal access token in Airtable |
+
+   `PG_URL` has a localhost default in the template. To use production data instead, get the production connection string from a Bluedot team member. 
+
+   **Conditionally required** (only if working on specific features):
+
+   | Variable | When needed |
+   |----------|-------------|
+   | `KEYCLOAK_CLIENT_ID` / `KEYCLOAK_CLIENT_SECRET` | Account settings page |
+   | `LUMA_API_KEY` | Luma events integration |
+
+   Everything else (`ALERTS_SLACK_*`, `NEXT_PUBLIC_*`, `APP_NAME`, etc.) has working defaults in the template.
 
 4. **Configure Airtable Access**
    - Request access to production Airtable base
@@ -119,25 +130,7 @@ Welcome to Bluedot! This handbook consolidates our development patterns and help
    npm run dev
    ```
 
-### Test Resources
-
-#### Test Course
-Every user is automatically enrolled in a test course that can be accessed at:
-- **URL**: http://bluedot.org/courses/test-course
-
-This is particularly helpful when you're modifying course components and want to see how they look without needing to enroll in a specific course or manipulate test data.
-
-**Use cases**:
-- Testing course UI components
-- Verifying course navigation flow
-- Testing course-specific features without affecting real courses
-- Quick visual checks during development
-
 ### Common Issues & Solutions
-
-#### PG_URL Required Error
-**Problem**: Created a branch where PG_URL is required but development experience isn't finalized. If you're a contractor, just ask for PG_URL from Joshua.
-**Workaround?**: Use an older master branch where PG_URL isn't required yet (temporary solution until #1060 is complete)
 
 #### Airtable Performance (FYI)
 **Context**: 
@@ -171,64 +164,87 @@ This is particularly helpful when you're modifying course components and want to
 
 | Scenario | Page | Component | Explanation |
 |----------|------|-----------|-------------|
-| Needs SEO (e.g., `<Head>`, metadata, JSON-LD) | ✅ Yes | ❌ No | SEO logic belongs at the page level in frameworks like Next.js |
-| Is linked to via routing (e.g., /dashboard, /profile) | ✅ Yes | ❌ No | Pages represent routes in the application (especially in file-based routing) |
-| Makes API calls | ✅ Yes | ✅ Yes | Both pages and components may encapsulate API calls. Pages may switch between components based on API responses |
-| Needs to manage its own local state | ❌ No | ✅ Yes | Create a component if it manages state internally |
-| Is getting large or complex | ❌ No | ✅ Yes | Break it into a component for better readability and maintainability |
-| Might be reused elsewhere in the app | ❌ No | ✅ Yes | Reusable UI logic or elements should live in components |
+| Needs SEO (e.g., `<Head>`, metadata, JSON-LD) | Yes | No | SEO logic belongs at the page level in frameworks like Next.js |
+| Is linked to via routing (e.g., /dashboard, /profile) | Yes | No | Pages represent routes in the application (especially in file-based routing) |
+| Makes API calls | Yes | Yes | Both pages and components may encapsulate API calls. Pages may switch between components based on API responses |
+| Needs to manage its own local state | No | Yes | Create a component if it manages state internally |
+| Is getting large or complex | No | Yes | Break it into a component for better readability and maintainability |
+| Might be reused elsewhere in the app | No | Yes | Reusable UI logic or elements should live in components |
 
-**💡 Rule of thumb**: Pages should orchestrate and compose components. Components should encapsulate behavior, state, and reusable UI.
+**Rule of thumb**: Pages should orchestrate and compose components. Components should encapsulate behavior, state, and reusable UI.
 
 #### Component Organization
 
-**Current Pattern**:
 - Keep everything in same file unless obviously reusable
-- Only have one export (the topmost component)
+- Prefer a single default export (the topmost component) where practical
 - Topmost component handles orchestration
 - Sub-components should be self-reliant (handle own API calls and logic)
+- Named exports for types used by other files are fine
+
+#### Data Fetching with tRPC
+
+All data fetching uses tRPC (`import { trpc } from 'src/utils/trpc'` — use the appropriate relative path for your file). tRPC provides end-to-end type safety from backend to frontend with no manual schema parsing needed.
+
+**Queries** (reading data):
+```tsx
+const { data, isLoading, error } = trpc.courses.getBySlug.useQuery({ courseSlug });
+
+// Render pattern
+if (isLoading) return <ProgressDots />;
+if (error) return <ErrorSection error={error} />;
+return <CourseContent data={data} />;
+```
+
+**Mutations** (writing data):
+```tsx
+const mutation = trpc.users.changePassword.useMutation();
+
+mutation.mutate(
+  { currentPassword, newPassword },
+  {
+    onSuccess() {
+      // handle success (e.g., close modal, show success message)
+    },
+    onError(err) {
+      if (err instanceof TRPCClientError) {
+        if (err.data?.code === 'UNAUTHORIZED') {
+          setError('Incorrect password');
+        } else if (err.data?.code === 'BAD_REQUEST') {
+          setError(err.message || 'Invalid input');
+        } else {
+          setError(`Failed: ${err.message || 'Please try again.'}`);
+        }
+      } else {
+        setError('Network error. Please check your connection.');
+      }
+    },
+    onSettled() {
+      setIsLoading(false);
+    },
+  },
+);
+```
+
+See `src/components/settings/PasswordSection.tsx` for a complete real-world example.
 
 #### Error Handling
 
-**⚠️ Note**: Current error handling uses axios with `parseZodValidationError`, but we're investigating replacements. Note that React Query/tRPC proposals below solve data fetching but not error display - for that, see the toast proposal in [Open Questions](#appendix-a-open-questions-registry).
+Errors are handled inline per component using tRPC error codes. There is no centralized toast system — each component manages its own error UI with local state.
 
-**Current Pattern for API Errors**:
-```tsx
-try {
-  const response = await axios.post('/api/profile/update', data);
-  // handle success
-} catch (err) {
-  if (!axios.isAxiosError(err)) {
-    setNameError('Failed to update name. Please try again.');
-    return;
-  }
-
-  if (err.response?.status === 401) {
-    setNameError('Session expired. Please refresh the page and try again.');
-    return;
-  }
-
-  if (err.response?.status === 400) {
-    setNameError(parseZodValidationError(err, 'Invalid name format'));
-    return;
-  }
-
-  setNameError('Failed to update name. Please try again.');
-} finally {
-  setIsSaving(false);
-}
-```
-
-The `parseZodValidationError` function from `lib/utils.ts` parses backend error JSON to provide human-readable strings.
+**Pattern**:
+- Use `useState` for field-level error strings
+- Check `err instanceof TRPCClientError` in `onError` callbacks
+- Map tRPC error codes (`UNAUTHORIZED`, `BAD_REQUEST`, etc.) to user-friendly messages
+- Use `aria-invalid`, `aria-live="polite"`, and `role="alert"` for accessibility
 
 #### Styling Guidelines
 
-**Use Tailwind CSS** - This is our standard approach
+**Use Tailwind CSS for all new code.**
 
-**History**: We previously used BEM (Block Element Modifier) naming conventions in our codebase, but found it didn't provide additional benefits over Tailwind's utility classes. BEM added verbosity without solving problems that Tailwind already handles.
+Legacy BEM-style class names (e.g., `culture-section__container`, `announcement-banner__label`) still exist in parts of the codebase. When touching files with BEM classes, migrate them to Tailwind.
 
 ```tsx
-// ✅ CORRECT - Use Tailwind with proper accessibility for testing
+// Correct — Tailwind with accessibility
 <div className="flex items-center justify-between p-4 bg-white rounded-lg shadow">
   <label className="text-sm font-medium text-gray-700">
     Email Address
@@ -246,27 +262,25 @@ The `parseZodValidationError` function from `lib/utils.ts` parses backend error 
   </button>
 </div>
 
-// ❌ INCORRECT - Don't use BEM (our old approach)
+// Don't use BEM
 <div className="profile-account-details__title">
   <input className="profile-account-details__input" />
 </div>
 ```
 
-**Note**: The `aria-label` attributes above make elements easily selectable in tests using React Testing Library.
+The `aria-label` attributes make elements easily selectable in tests using React Testing Library.
 
-**Decision**: We moved away from BEM to Tailwind for cleaner, more maintainable styles.
+#### Handling Image Assets
 
-#### Handling image assets
+Images are kept in the codebase with manual optimisation rather than `next/image`. The site isn't very image-heavy, so this keeps things simple.
 
-We keep images in the codebase and rely on manual optimisation rather than using `next/image`. The site isn't very image-heavy, so this keeps things simple and gives us full control over image quality and size when needed.
+**Airtable attachment images**: Some images are served directly from Airtable attachment fields rather than stored in the codebase. Examples include testimonial headshots (`headshotAttachmentUrls` field) and team member photos (`imagePublicUrls` field). Routers extract the first URL using helper functions like `getFirstHeadshotUrl()` — see `src/server/routers/testimonials.ts` for the pattern.
 
-For images referenced from outside the codebase itself (in Airtable data fields), place them under `public/images/content/`. This is so
-devs know to be more careful about deleting those images, as they might
-be referenced elsewhere.
+**Static content images**: For images referenced from Airtable data fields but stored locally, place them under `public/images/content/`. This signals to devs to be more careful about deleting those images, as they might be referenced elsewhere.
 
 **How to optimize images:**
 
-You should generally aim to get all images under 200kB. This is usually achievable unless you need a very large detailed image.
+Generally aim to get all images under 200kB.
 
 1. **Convert to WebP** using ImageMagick:
    ```bash
@@ -281,17 +295,17 @@ You should generally aim to get all images under 200kB. This is usually achievab
 
 3. **Update references** in code to use the new `.webp` filename and delete the old version.
 
-4. **(Optional) For hero/banner images** that appear above the fold, add `{...{ fetchpriority: 'high' }}` to the `<img>` tag to improve Largest Contentful Paint. *Don't* do this if the image doesn't appear above the fold.
+4. **(Optional) For hero/banner images** that appear above the fold, add `{...{ fetchpriority: 'high' }}` to the `<img>` tag to improve Largest Contentful Paint. Don't do this if the image doesn't appear above the fold.
 
 If you don't have ImageMagick installed, run `brew install imagemagick` on mac.
 
 #### Testing Standards
 
-**Testing Philosophy**: We follow React Testing Library best practices - "The more your tests resemble the way your software is used, the more confidence they can give you."
+**Testing Philosophy**: Follow React Testing Library best practices — "The more your tests resemble the way your software is used, the more confidence they can give you."
 
 **Component Accessibility Checklist**
 
-The following practices make your components easily testable by allowing React Testing Library to find elements the way users would:
+The following practices make components easily testable:
 
 - [ ] All interactive elements have unique accessible names (text or aria-label)
 - [ ] Generic actions include context ("Delete" → aria-label="Delete user John")
@@ -303,7 +317,7 @@ The following practices make your components easily testable by allowing React T
 
 **Testing Query Priority (Simplified)**
 
-When writing tests, use queries in this order to match how users interact with your app:
+When writing tests, use queries in this order:
 
 1. **getByRole** - Your first choice for almost everything (with name option)
 2. **getByLabelText** - Best for form fields
@@ -311,176 +325,118 @@ When writing tests, use queries in this order to match how users interact with y
 4. **getByText** - For non-interactive elements (divs, spans, paragraphs)
 5. **getByDisplayValue** - For filled-in form values
 
-Avoid `getByTestId` and `querySelector` - they don't reflect user behavior.
+Avoid `getByTestId` and `querySelector` — they don't reflect user behavior.
 
 Full details: https://testing-library.com/docs/queries/about/#priority
 
-**Example: How These Help Testing**
-```tsx
-// Component with good accessibility
-<form>
-  <input 
-    type="email" 
-    aria-label="Email Address"
-    placeholder="Enter your email"
-  />
-  <button aria-label="Save profile changes">
-    Save
-  </button>
-</form>
-
-// Now easily testable with React Testing Library
-test('user can update their email', async () => {
-  render(<ProfileForm />);
-  
-  // Find elements the way a user would
-  const emailInput = screen.getByLabelText('Email Address');
-  const saveButton = screen.getByRole('button', { name: 'Save profile changes' });
-  
-  // Simulate user actions
-  await userEvent.type(emailInput, 'new@email.com');
-  await userEvent.click(saveButton);
-  
-  // Verify user sees success
-  expect(screen.getByText('Profile updated successfully')).toBeInTheDocument();
-});
-```
-
-**Query Priority (Test Like a User)**:
-```tsx
-// ✅ PREFERRED - How users interact (in order of preference)
-getByRole('button', { name: 'Save email changes' })  // With specific aria-label
-getByLabelText('Email Address')
-getByText('Welcome back!')
-
-// ⚠️ AVOID - Implementation details
-getByTestId('save-button')  // Only for dynamic content
-container.querySelector('.btn-primary')  // Never use
-```
-
 **Consider for Every Component**:
 
-The general idea is that you get how it's supposed to look from a snapshot test, then you confirm that it does what it should through functional tests.
+Snapshot tests catch visual regressions, functional tests confirm behavior.
 
-1. **Snapshot Test**
-   - Full output snapshot of default render
-   - Purpose: Catch HTML/CSS regressions
-
-2. **Functional Tests**
-   - Test complete user flows (e.g., "user can update their profile")
-   - Mock API responses but focus on what the user experiences
-   - Verify UI updates correctly from the user's perspective
-   - Ensure error states are shown to users appropriately
-
-**Example Test Structure**:
-```tsx
-describe('UserProfile', () => {
-  // 1. Snapshot test
-  it('renders correctly with minimal props', () => {
-    const { container } = render(<UserProfile userId="123" />);
-    expect(container).toMatchSnapshot();
-  });
-
-  it('renders correctly with all props', () => {
-    const { container } = render(
-      <UserProfile 
-        userId="123" 
-        showBadges={true} 
-        enableEdit={true}
-        initialTab="achievements" 
-      />
-    );
-    expect(container).toMatchSnapshot();
-  });
-
-  // 2. Functional tests - test user flows, not implementation
-  it('user can successfully update their profile name', async () => {
-    // Mock the API response
-    server.use(
-      rest.post('/api/profile/update', (req, res, ctx) => {
-        return res(ctx.json({ success: true }));
-      })
-    );
-    
-    render(<UserProfile userId="123" />);
-    
-    // User clicks edit button
-    await userEvent.click(screen.getByRole('button', { name: 'Edit profile' }));
-    
-    // User types new name
-    const nameInput = screen.getByLabelText('Name');
-    await userEvent.clear(nameInput);
-    await userEvent.type(nameInput, 'New Name');
-    
-    // User saves changes
-    await userEvent.click(screen.getByRole('button', { name: 'Save profile changes' }));
-    
-    // User sees success message
-    expect(screen.getByText('Profile updated successfully')).toBeInTheDocument();
-    
-    // Form returns to view mode
-    expect(screen.queryByRole('button', { name: 'Save profile changes' })).not.toBeInTheDocument();
-    expect(screen.getByText('New Name')).toBeInTheDocument();
-  });
-
-  it('user sees error message when update fails', async () => {
-    // Mock API failure
-    server.use(
-      rest.post('/api/profile/update', (req, res, ctx) => {
-        return res(ctx.status(400));
-      })
-    );
-    
-    render(<UserProfile userId="123" />);
-    
-    await userEvent.click(screen.getByRole('button', { name: 'Edit profile' }));
-    await userEvent.click(screen.getByRole('button', { name: 'Save profile changes' }));
-    
-    // User sees error message
-    expect(screen.getByText('Failed to update profile. Please try again.')).toBeInTheDocument();
-  });
-});
-```
+1. **Snapshot Test** — Full output snapshot of default render
+2. **Functional Tests** — Test complete user flows, mock API responses, verify UI updates from the user's perspective
 
 ### 4.2 Backend Standards
 
-#### API Design
+#### tRPC Router Architecture
 
-**Route Structure**: Based on objects/nouns in database (not features)
-- Example: "profile" page pulls from both `/api/courses` and `/api/users`
+All backend logic lives in tRPC routers at `src/server/routers/`. Routers are aggregated in `src/server/routers/_app.ts`.
 
-**File Naming Convention**:
-- New routes should use `index.ts`
-- Files like `api/users/me.ts` should probably just be index.ts
+**Procedure types** (defined in `src/server/trpc.ts`):
+- `publicProcedure` — No authentication required
+- `protectedProcedure` — Requires authenticated user; `ctx.auth` contains `{ email, sub, iss, aud, exp, email_verified }`
+- `adminProcedure` — Requires admin access (checks `isAdmin` flag on user record)
 
-#### Validation
+For the full auth context shape, see `src/server/context.ts`.
 
-**⚠️ Note**: The previous team questioned the maintenance work of keeping separate Zod schemas and preferred to just validate on the backend. However, Martin's opinion is to have the shared schema that both frontend and backend can use.
+When adding a new router: create the file in `src/server/routers/`, then register it in `_app.ts`. Look at existing routers for patterns — they cover reads, writes, auth context usage, and error handling.
 
-**Shared Validation with Zod**:
-- Place schemas in `website/src/lib/schemas`
-- Follow backend folder structure
-- Example: `src/pages/api/profile/me.ts` → `lib/schemas/profile/me.schema.ts`
-
+**Example router** (from `src/server/routers/grants.ts`):
 ```typescript
-// Both frontend and backend can use the same schema
-const schema = z.object({
-  name: z.string().min(1).max(100),
-  email: z.string().email(),
+import { grantTable } from '@bluedot/db';
+import db from '../../lib/api/db';
+import { publicProcedure, router } from '../trpc';
+
+export const grantsRouter = router({
+  getAllPublicGrantees: publicProcedure.query(async () => {
+    const all = await db.scan(grantTable);
+    return mapPublicGrants(all);
+  }),
 });
 ```
 
-#### Testing Backend
+**With input validation** (from `src/server/routers/testimonials.ts`):
+```typescript
+import { z } from 'zod';
 
-**Current State**: We don't test the backend - only frontend tests that mock API requests.
+getCommunityMembersByCourseSlug: publicProcedure
+  .input(z.object({ courseSlug: z.string() }))
+  .query(async ({ input }) => {
+    const all = await db.scan(testimonialTable);
+    return all.filter((t) => t.displayOnCourseSlugs?.includes(input.courseSlug));
+  }),
+```
 
-**Martin's Opinion**: 
-- Prefers integration tests using real services
-- Creating local Airtable might not be accurate or worth it
+Input validation uses inline Zod schemas on each procedure. tRPC automatically provides type safety to the frontend — no separate shared schema files needed.
 
-Adam's proposal: "I think now we have everything flowing through @bluedot/db it should be fairly possible to have a fake in-memory db for tests (either something simple our own, or something like PGlite if we want to properly support pg queries)?"
+#### Non-tRPC API Routes
 
-This is currently an open question - see [Open Questions Registry](#appendix-a-open-questions-registry) for details.
+A few special-purpose Next.js API routes remain in `src/pages/api/` for integrations that don't fit the tRPC model:
+- `calendar/discussions/[discussionId].ts`
+- `keycloak-register-preview-redirect-uri.ts`
+- `report-client-error.ts`
+- `site-login.ts`
+
+All new backend endpoints should be tRPC routers.
+
+#### Testing Backend with PGlite
+
+Backend tests use PGlite to run an in-memory PostgreSQL database. This allows testing tRPC routers against a real database without external services.
+
+**Setup utilities** are in `libraries/db/src/lib/test-db.ts`:
+- `createTestPgClient()` — Creates an in-memory PGlite-backed Drizzle client
+- `pushTestSchema(db)` — Initializes database tables
+- `resetTestDb(db)` — Truncates all tables for test isolation
+
+**Test helpers** for the website app are in `src/__tests__/dbTestUtils.tsx`:
+- `setupTestDb()` — Calls `pushTestSchema` in `beforeAll` and `resetTestDb` in `beforeEach`
+- `testDb` — Test database instance that allows explicit ID insertion
+- `createCaller(ctx)` — Server-side tRPC caller for router tests (defaults to unauthenticated; pass `testAuthContextLoggedIn` for authenticated calls)
+- `testAuthContextLoggedIn` / `testAuthContextLoggedOut` — Pre-built auth context fixtures
+- `createTrpcDbProvider(ctx)` — React provider using `localLink` for component tests
+
+**Example** (see full version at `src/server/routers/grants.test.ts`):
+```typescript
+import { describe, expect, test } from 'vitest';
+import { grantTable } from '@bluedot/db';
+import { createCaller, setupTestDb, testDb } from '../../__tests__/dbTestUtils';
+
+setupTestDb();
+
+describe('grants.getAllPublicGrantees', () => {
+  test('filters incomplete rows, trims fields, sanitizes links, and sorts by project title', async () => {
+    await testDb.insert(grantTable, {
+      granteeName: '  Alice  ', projectTitle: '  Zebra Project ',
+      amountUsd: 5000, projectSummary: '  Useful work  ', link: ' https://example.com/zebra ',
+    });
+    await testDb.insert(grantTable, {
+      granteeName: 'Bob', projectTitle: 'Alpha Project',
+      amountUsd: null, projectSummary: '', link: '   ',
+    });
+    // ... more inserts testing edge cases (blank names, unsafe links, etc.)
+
+    const caller = createCaller();
+    const result = await caller.grants.getAllPublicGrantees();
+
+    expect(result).toEqual([
+      // Results are sorted by project title, with trimmed fields and sanitized links
+      { granteeName: 'Bob', projectTitle: 'Alpha Project', amountUsd: null, projectSummary: undefined, link: undefined },
+      // ...
+      { granteeName: 'Alice', projectTitle: 'Zebra Project', amountUsd: 5000, projectSummary: 'Useful work', link: 'https://example.com/zebra' },
+    ]);
+  });
+});
+```
 
 ### 4.3 Database Guidelines
 
@@ -490,6 +446,15 @@ This is currently an open question - see [Open Questions Registry](#appendix-a-o
 - **Reads**: PostgreSQL replica
 - **Writes**: Airtable + PostgreSQL sync
 - **Primary Key**: User's email address (in Keycloak)
+
+#### Schema
+
+The database schema is defined in `libraries/db/src/schema.ts` using Drizzle ORM. There are two kinds of tables:
+
+- **`pgAirtable(...)`** — Synced from Airtable. Used for most data (courses, users, grants, etc.). Writes go through Airtable and sync back to Postgres.
+- **`pgTable(...)`** — Postgres-only. Used for data that doesn't need Airtable (e.g., sync metadata, sync requests). Writes go directly to Postgres.
+
+Tables and their types are exported from `@bluedot/db` (e.g., `import { grantTable, type Grant } from '@bluedot/db'`).
 
 #### Database Migrations
 
@@ -524,75 +489,6 @@ You need to make two PRs:
   a. Start using the column in code
 
 **Note**: Since Airtable is source of truth, PostgreSQL issues aren't catastrophic, but we should still avoid breaking prod data.
-
-### 4.4 Technical Proposals & RFCs
-
-#### Active Proposals
-
-##### 4.4.1 Frontend Data Fetching Strategy
-**Status**: 🟡 Under Discussion  
-**Context**: Current axios + parseZodValidationError approach has limitations
-
-###### Current Problems
-1. **Redundant API calls**: Multiple components requesting same data
-2. **Manual cache management**: Components don't update after mutations
-3. **Verbose error handling**: Repetitive try/catch blocks everywhere
-4. **No optimistic updates**: Poor UX for mutations
-
-###### Proposed Solutions
-
-**Option A: React Query (TanStack Query)** - Lower commitment, immediate benefits
-```typescript
-// Example: Automatic request deduplication and caching
-const { data, error, isLoading } = useQuery({
-  queryKey: ['user', userId],
-  queryFn: () => fetchUser(userId),
-});
-
-// Automatic cache invalidation
-const mutation = useMutation({
-  mutationFn: updateUser,
-  onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ['user'] });
-  },
-});
-```
-
-Benefits:
-- Eliminates duplicate requests automatically
-- Components auto-update after mutations
-- Built-in loading/error states
-- Works with existing REST API
-- **No backend changes required**
-
-Drawbacks:
-- No end-to-end type safety
-- Still need manual Zod validation on frontend
-
-**Option B: tRPC** - Higher commitment, more benefits
-```typescript
-// End-to-end type safety
-const { data, error } = trpc.user.getById.useQuery({ id: userId });
-```
-
-Benefits:
-- Type safety from backend to frontend
-- No more manual Zod parsing on frontend
-- Built on React Query (includes all React Query benefits)
-- Standardized error responses
-
-Drawbacks:
-- **Requires significant backend rewrite**
-- Larger architectural change
-- Team needs to learn new patterns
-
-**Note**: These aren't mutually exclusive - we could adopt React Query first for immediate benefits, then migrate to tRPC later if we want end-to-end type safety.
-
-###### Next Steps
-- [ ] Gather team feedback
-- [ ] Create proof-of-concept branch
-- [ ] Estimate migration effort
-- [ ] Make decision
 
 ---
 
@@ -721,25 +617,19 @@ The production website also needs:
 
 ## 7. Appendices
 
-### Appendix A: Open Questions Registry
-
-| Question | Context | Priority |
-|----------|---------|----------|
-| Toast notifications for errors? | Simple 80/20 solution for better error handling UX | High |
-| React Query adoption? | Solve redundant API calls, manual cache management, no backend changes needed | High |
-| tRPC adoption? | End-to-end type safety, standardized error responses, requires backend rewrite | Medium |
-| Backend testing approach? | Currently no backend tests. Adam's proposal: fake in-memory DB or PGLite for tests | Medium |
-
-### Appendix B: Established Decisions
+### Appendix A: Established Decisions
 
 | Decision | Rationale |
 |----------|-----------|
-| No BEM naming, use Tailwind | BEM didn't provide additional benefits over Tailwind's utility classes |
-| Follow React Testing Library best practices | Tests should resemble how users interact with the software |
-| Snapshot + functional tests required | Catches regressions and ensures functionality |
-| Airtable + PostgreSQL architecture | Best of both worlds - CRM features + performance |
+| tRPC for all data fetching | End-to-end type safety, built-in React Query, standardized error handling |
+| PGlite for backend testing | In-memory PostgreSQL for fast, isolated integration tests |
+| Inline Zod schemas via tRPC | No separate shared schema files needed — tRPC provides type safety natively |
+| Tailwind CSS (no BEM) | BEM didn't provide additional benefits over Tailwind's utility classes |
+| React Testing Library best practices | Tests should resemble how users interact with the software |
+| Snapshot + functional tests | Catches regressions and ensures functionality |
+| Airtable + PostgreSQL architecture | Best of both worlds — CRM features + performance |
 
-### Appendix C: FAQ
+### Appendix B: FAQ
 
 #### Development Issues
 
@@ -749,15 +639,7 @@ A: Update the version in `apps/login/tools/getBluedotKeycloakTheme.sh`
 **Q: What about local development without production data?**  
 A: Currently requires production Airtable. Local setup is a known limitation.
 
-### Appendix D: Glossary
+### Appendix C: Glossary
 
 - **Base**: Database in Airtable terminology
 - **QPS**: Queries Per Second
-
----
-
-## Contributing
-
-This is a living document meant to capture our actual practices and ongoing discussions. Feel free to add comments and suggestions!
-
-*Currently maintained by Martin but go ahead and make PRs*
