@@ -470,7 +470,7 @@ export const services: ServiceDefinition[] = [
     spec: {
       containers: [{
         name: 'bluedot-mcp-ashby',
-        image: 'ghcr.io/domdomegg/mcp-auth-wrapper:1.2.0@sha256:fd2fb6d3c952349423b3dfac2c1bb4ecc18cadbe0b37d0c842d6570506695453',
+        image: 'ghcr.io/domdomegg/mcp-auth-wrapper:1.3.0@sha256:4319f73b2b2080f9acd274ba9bacd0ed51f72751882598df494a7d1994b479f5',
         env: [{
           name: 'MCP_AUTH_WRAPPER_CONFIG',
           value: jsonStringify({
@@ -510,7 +510,7 @@ export const services: ServiceDefinition[] = [
     spec: {
       containers: [{
         name: 'bluedot-mcp-aggregator',
-        image: 'ghcr.io/domdomegg/mcp-aggregator:2.0.1@sha256:990a63a45a29a5a7258202c2803f8ac8e5717fa90cd4dce1afb8580d0decc3ea',
+        image: 'ghcr.io/domdomegg/mcp-aggregator:2.2.1@sha256:65947be79e35172db59dfbe8cd811b36115d17e6fc8fbdc76d92cb392dd34243',
         env: [{
           name: 'MCP_AGGREGATOR_CONFIG',
           value: jsonStringify({
@@ -518,7 +518,13 @@ export const services: ServiceDefinition[] = [
             upstreams: [
               { name: 'ashby', url: `https://${MCP_ASHBY_HOST}/mcp` },
               { name: 'google', url: `https://${MCP_GOOGLE_HOST}/mcp` },
-              { name: 'slack', url: 'https://mcp.slack.com/mcp' },
+              {
+                name: 'slack',
+                url: 'https://mcp.slack.com/mcp',
+                // Slack doesn't support DCR, and uses PKCE (public client) so only the client_id
+                // is needed. See https://adamjones.me/blog/slack-mcp-custom-client/
+                clientId: '3048373368743.10898791060215',
+              },
               { name: 'airtable', url: 'https://mcp.airtable.com/mcp' },
               { name: 'notion', url: 'https://mcp.notion.com/mcp' },
               { name: 'posthog', url: 'https://mcp-eu.posthog.com/mcp' },
