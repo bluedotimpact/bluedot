@@ -2,6 +2,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import StarRating from '../../components/courses/StarRating';
+import ParticipantFeedbackModal from '../../components/courses/ParticipantFeedbackModal';
 
 const FacilitatorFeedbackPage = () => {
   const router = useRouter();
@@ -10,6 +11,7 @@ const FacilitatorFeedbackPage = () => {
   // TODO: fetch from API
   const roundName = 'Technical AI Safety (2026 Feb W08) – Part-time';
 
+  const [selectedParticipant, setSelectedParticipant] = useState<{ id: string; name: string } | null>(null);
   const [overallRating, setOverallRating] = useState(0);
   const [mostValuable, setMostValuable] = useState('');
   const [difficulties, setDifficulties] = useState('');
@@ -95,17 +97,23 @@ const FacilitatorFeedbackPage = () => {
             {participants.map((participant) => {
               const initials = participant.name.split(' ').map((n) => n[0]).join('');
               return (
-                <li key={participant.id} className="flex items-center justify-between border rounded-lg p-4 mb-2">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center text-sm font-medium">
-                      {initials}
+                <li key={participant.id}>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedParticipant(participant)}
+                    className="w-full flex items-center justify-between border rounded-lg p-4 mb-2 text-left"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center text-sm font-medium">
+                        {initials}
+                      </div>
+                      <div>
+                        <p className="font-medium">{participant.name}</p>
+                        <p className="text-sm text-gray-400">Not yet completed</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-medium">{participant.name}</p>
-                      <p className="text-sm text-gray-400">Not yet completed</p>
-                    </div>
-                  </div>
-                  <span className="text-sm text-bluedot-normal">Add feedback →</span>
+                    <span className="text-sm text-bluedot-normal">Add feedback →</span>
+                  </button>
                 </li>
               );
             })}
@@ -124,6 +132,15 @@ const FacilitatorFeedbackPage = () => {
           </div>
         </section>
       </div>
+
+      {selectedParticipant && (
+        <ParticipantFeedbackModal
+          participant={selectedParticipant}
+          open
+          onClose={() => setSelectedParticipant(null)}
+          onSave={() => setSelectedParticipant(null)}
+        />
+      )}
     </div>
   );
 };
