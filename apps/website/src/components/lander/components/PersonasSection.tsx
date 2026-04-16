@@ -20,6 +20,8 @@ export type PersonasSectionProps = {
     text: string;
     url: string;
   };
+  /** Plain text shown below the personas (no button) */
+  footerText?: string;
 };
 
 const PersonasSection = ({
@@ -29,6 +31,7 @@ const PersonasSection = ({
   accentColor = '#1F588A',
   defaultExpandedIndex = 0,
   cta,
+  footerText,
 }: PersonasSectionProps) => {
   const [expandedIndex, setExpandedIndex] = useState<number>(defaultExpandedIndex);
 
@@ -114,14 +117,16 @@ const PersonasSection = ({
                       </P>
 
                       {/* What this looks like */}
-                      <div className="pt-4 border-t border-bluedot-navy/10">
-                        <p className="text-[11px] min-[680px]:text-[12px] font-semibold uppercase tracking-[0.08em] text-bluedot-navy/40 mb-2">
-                          What this looks like
-                        </p>
-                        <P className="text-[15px] min-[680px]:text-[16px] leading-[1.6] text-bluedot-navy/80">
-                          {persona.valueProposition}
-                        </P>
-                      </div>
+                      {persona.valueProposition && (
+                        <div className="pt-4 border-t border-bluedot-navy/10">
+                          <p className="text-[11px] min-[680px]:text-[12px] font-semibold uppercase tracking-[0.08em] text-bluedot-navy/40 mb-2">
+                            What this looks like
+                          </p>
+                          <P className="text-[15px] min-[680px]:text-[16px] leading-[1.6] text-bluedot-navy/80">
+                            {persona.valueProposition}
+                          </P>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -140,6 +145,11 @@ const PersonasSection = ({
               {cta.text}
             </CTALinkOrButton>
           </div>
+        )}
+        {footerText && (
+          <P className="text-center text-[15px] min-[680px]:text-[16px] leading-[1.6] text-bluedot-navy/60 mt-10 md:mt-12">
+            {footerText}
+          </P>
         )}
       </div>
     </section>
