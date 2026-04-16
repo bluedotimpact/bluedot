@@ -1,7 +1,7 @@
 export function buildRoundApplyUrl(baseUrl: string, roundId: string): string {
   if (!baseUrl) return '';
   const separator = baseUrl.includes('?') ? '&' : '?';
-  return `${baseUrl}${separator}prefill_%5B%3E%5D%20Round=${roundId}`;
+  return `${baseUrl}${separator}prefill_Round=${roundId}`;
 }
 
 type RoundItemProps = {
