@@ -74,7 +74,10 @@ const CourseListRow = ({
 
   const isFuture = courseRegistration.roundStatus === 'Future';
 
-  const { data: meetPerson, isLoading: isMeetPersonLoading } = trpc.meetPerson.getByCourseRegistrationId.useQuery(isFuture ? skipToken : { courseRegistrationId: courseRegistration.id });
+  const { data: meetPerson, isLoading: isMeetPersonLoading } = trpc.meetPerson.getByCourseRegistrationId.useQuery(
+    { courseRegistrationId: courseRegistration.id },
+    { enabled: !isFuture },
+  );
 
   // Only fetch expected discussions for the list row
   // Use expectedDiscussionsFacilitator if the user is a facilitator, otherwise use expectedDiscussionsParticipant
