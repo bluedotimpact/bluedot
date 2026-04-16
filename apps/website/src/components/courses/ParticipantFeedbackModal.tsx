@@ -28,6 +28,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
   const [showUpRating, setShowUpRating] = useState<number | null>(null);
   const [engageRating, setEngageRating] = useState<number | null>(null);
   const [investmentNote, setInvestmentNote] = useState('');
+  const [followUps, setFollowUps] = useState<Record<string, boolean>>({});
 
   return (
     <Modal
@@ -74,7 +75,18 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
           />
         </div>
 
-        <p className="text-gray-500 mt-6">TODO: checkboxes</p>
+        <div className="mt-6">
+          <p className="font-medium">How should we follow up with them?</p>
+          <p className="text-sm text-gray-500 mb-2">Check all that apply.</p>
+          {FOLLOW_UP_OPTIONS.map((option) => (
+            <FollowUpCheckbox
+              key={option.id}
+              label={option.label}
+              checked={!!followUps[option.id]}
+              onChange={(checked) => setFollowUps({ ...followUps, [option.id]: checked })}
+            />
+          ))}
+        </div>
 
         <div className="flex justify-end gap-2 mt-6">
           <button type="button" onClick={onClose}>Cancel</button>
@@ -86,6 +98,27 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
 };
 
 export default ParticipantFeedbackModal;
+
+const FOLLOW_UP_OPTIONS = [
+  { id: 'no-action', label: 'No further action needed' },
+  { id: 'talent-pipeline', label: 'Add to talent pipeline (keep warm) — for future opportunities' },
+  { id: 'schedule-call', label: 'Schedule a call within the week (high priority)' },
+  { id: 'funding-candidate', label: 'Potential funding candidate — career transition or project support' },
+  { id: 'invite-facilitator', label: 'Invite to apply as a facilitator' },
+];
+
+// --- FollowUpCheckbox ---
+
+const FollowUpCheckbox: React.FC<{ label: string; checked: boolean; onChange: (checked: boolean) => void }> = ({ label, checked, onChange }) => (
+  <label className="flex items-center gap-3 border rounded p-3 mb-1 cursor-pointer">
+    <input
+      type="checkbox"
+      checked={checked}
+      onChange={(e) => onChange(e.target.checked)}
+    />
+    <span className="text-sm">{label}</span>
+  </label>
+);
 
 // --- RubricSelector ---
 
