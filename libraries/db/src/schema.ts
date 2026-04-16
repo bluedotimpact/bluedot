@@ -1397,6 +1397,10 @@ export const courseFeedbackTable = pgAirtable('course_feedback', {
       pgColumn: boolean(),
       airtableId: 'fldwjYVkgTT8407U0',
     },
+    personFeedback: {
+      pgColumn: text().array(),
+      airtableId: 'fldf1vkZDkPDpWdRX',
+    },
   },
 });
 
@@ -1423,6 +1427,10 @@ export const peerFeedbackTable = pgAirtable('peer_feedback', {
     feedback: {
       pgColumn: text(),
       airtableId: 'fldybGPKyRUcM0D84',
+    },
+    nextSteps: {
+      pgColumn: text().array(),
+      airtableId: 'fldDXBWnFLi7vD2CQ',
     },
   },
 });
