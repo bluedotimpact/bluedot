@@ -7,7 +7,7 @@ export type Persona = {
   title: string;
   summary?: string;
   description: ReactNode;
-  valueProposition: ReactNode;
+  valueProposition?: ReactNode;
 };
 
 export type PersonasSectionProps = {
