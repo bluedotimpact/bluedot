@@ -1,5 +1,4 @@
 import {
-  PiBriefcase,
   PiFlask,
   PiClockClockwise,
   PiChats,
@@ -10,7 +9,6 @@ import {
   PiCode,
   PiChalkboardTeacherLight,
   PiBank,
-  PiHandshake,
   PiGraduationCap,
   PiBookOpen,
 } from 'react-icons/pi';
