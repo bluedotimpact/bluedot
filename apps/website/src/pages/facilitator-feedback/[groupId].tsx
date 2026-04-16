@@ -4,6 +4,10 @@ import { useState } from 'react';
 import StarRating from '../../components/courses/StarRating';
 import ParticipantFeedbackModal from '../../components/courses/ParticipantFeedbackModal';
 
+type ParticipantFeedback =
+  | { status: 'no-strong-impression' }
+  | { status: 'completed'; showUpRating: number; engageRating: number; flagged: boolean };
+
 const FacilitatorFeedbackPage = () => {
   const router = useRouter();
   const groupId = router.query.groupId as string;
@@ -12,6 +16,7 @@ const FacilitatorFeedbackPage = () => {
   const roundName = 'Technical AI Safety (2026 Feb W08) – Part-time';
 
   const [selectedParticipant, setSelectedParticipant] = useState<{ id: string; name: string } | null>(null);
+  const [feedbackByParticipant, setFeedbackByParticipant] = useState<Record<string, ParticipantFeedback>>({});
   const [overallRating, setOverallRating] = useState(0);
   const [mostValuable, setMostValuable] = useState('');
   const [difficulties, setDifficulties] = useState('');
@@ -95,25 +100,14 @@ const FacilitatorFeedbackPage = () => {
           <p className="text-xs uppercase tracking-wide text-gray-500 mb-2">Cohort members</p>
           <ul>
             {participants.map((participant) => {
-              const initials = participant.name.split(' ').map((n) => n[0]).join('');
+              const feedback = feedbackByParticipant[participant.id];
               return (
                 <li key={participant.id}>
-                  <button
-                    type="button"
+                  <ParticipantCard
+                    participant={participant}
+                    feedback={feedback}
                     onClick={() => setSelectedParticipant(participant)}
-                    className="w-full flex items-center justify-between border rounded-lg p-4 mb-2 text-left"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center text-sm font-medium">
-                        {initials}
-                      </div>
-                      <div>
-                        <p className="font-medium">{participant.name}</p>
-                        <p className="text-sm text-gray-400">Not yet completed</p>
-                      </div>
-                    </div>
-                    <span className="text-sm text-bluedot-normal">Add feedback →</span>
-                  </button>
+                  />
                 </li>
               );
             })}
@@ -128,7 +122,9 @@ const FacilitatorFeedbackPage = () => {
             <button type="button" className="bg-bluedot-normal text-white px-6 py-3 rounded-lg font-medium">
               Submit feedback
             </button>
-            <p className="text-sm text-gray-500">0 of {participants.length} participant feedback completed</p>
+            <p className="text-sm text-gray-500">
+              {Object.keys(feedbackByParticipant).length} of {participants.length} participant feedback completed
+            </p>
           </div>
         </section>
       </div>
@@ -146,3 +142,49 @@ const FacilitatorFeedbackPage = () => {
 };
 
 export default FacilitatorFeedbackPage;
+
+// --- ParticipantCard ---
+
+type ParticipantCardProps = {
+  participant: { id: string; name: string };
+  feedback: ParticipantFeedback | undefined;
+  onClick: () => void;
+};
+
+const getSubtitle = (feedback: ParticipantFeedback | undefined): string => {
+  if (!feedback) return 'Not yet completed';
+  if (feedback.status === 'no-strong-impression') return 'No strong impression';
+  const parts = [
+    `Initiative & preparation: ${feedback.showUpRating}/5`,
+    `Quality of contribution: ${feedback.engageRating}/5`,
+  ];
+  if (feedback.flagged) parts.push('→ Flagged');
+  return parts.join(' · ');
+};
+
+const ParticipantCard: React.FC<ParticipantCardProps> = ({ participant, feedback, onClick }) => {
+  const initials = participant.name.split(' ').map((n) => n[0]).join('');
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="w-full flex items-center justify-between border rounded-lg p-4 mb-2 text-left"
+    >
+      <div className="flex items-center gap-3">
+        {feedback ? (
+          <div className="w-10 h-10 rounded-full bg-bluedot-normal text-white flex items-center justify-center text-sm">✓</div>
+        ) : (
+          <div className="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center text-sm font-medium">{initials}</div>
+        )}
+        <div>
+          <p className="font-medium">{participant.name}</p>
+          <p className="text-sm text-gray-400">{getSubtitle(feedback)}</p>
+        </div>
+      </div>
+      <span className="text-sm text-bluedot-normal">
+        {feedback ? 'Edit' : 'Add feedback →'}
+      </span>
+    </button>
+  );
+};
