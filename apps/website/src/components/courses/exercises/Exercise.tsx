@@ -202,6 +202,7 @@ const Exercise: React.FC<ExerciseProps> = ({
             <button
               type="button"
               onClick={() => handleExerciseSubmit(editorTextRef.current, !isCompleted)}
+              onMouseDown={(e) => e.preventDefault()}
               disabled={checkboxDisabled}
               onMouseEnter={() => setCheckboxHovered(true)}
               onMouseLeave={() => setCheckboxHovered(false)}
