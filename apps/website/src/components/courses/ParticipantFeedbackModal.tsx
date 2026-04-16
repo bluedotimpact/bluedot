@@ -27,6 +27,7 @@ const ENGAGE_OPTIONS: RubricOption[] = [
 const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ participant, open, onClose }) => {
   const [showUpRating, setShowUpRating] = useState<number | null>(null);
   const [engageRating, setEngageRating] = useState<number | null>(null);
+  const [investmentNote, setInvestmentNote] = useState('');
 
   return (
     <Modal
@@ -59,7 +60,21 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
           />
         </div>
 
-        <p className="text-gray-500 mt-6">TODO: free text + checkboxes</p>
+        <div className="mt-6">
+          <label htmlFor="investment-note" className="font-medium">
+            In 2–3 sentences: what would you tell BlueDot if we asked "how much time should we invest in this person?"
+          </label>
+          <p className="text-sm text-gray-500 mb-2">Feel free to paste this from your 1:1 report.</p>
+          <textarea
+            id="investment-note"
+            value={investmentNote}
+            onChange={(e) => setInvestmentNote(e.target.value)}
+            rows={4}
+            className="w-full border rounded p-2"
+          />
+        </div>
+
+        <p className="text-gray-500 mt-6">TODO: checkboxes</p>
 
         <div className="flex justify-end gap-2 mt-6">
           <button type="button" onClick={onClose}>Cancel</button>
