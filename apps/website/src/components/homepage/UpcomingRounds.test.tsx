@@ -56,7 +56,7 @@ describe('UpcomingRounds', () => {
     const href = firstLink?.getAttribute('href') || '';
 
     expect(href).toContain(mockApplyUrl);
-    expect(href).toContain(`prefill_%5B%3E%5D%20Round=${mockRoundId}`);
+    expect(href).toContain(`prefill_Round=${mockRoundId}`);
   });
 
   it('does not render apply link when applyUrl is null', () => {
