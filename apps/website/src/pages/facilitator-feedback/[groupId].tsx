@@ -28,7 +28,7 @@ const FacilitatorFeedbackPage = () => {
   const router = useRouter();
   const meetPersonId = router.query.groupId as string;
 
-  const { data: formData, isLoading } = trpc.facilitatorFeedback.getFormData.useQuery(
+  const { data: formData, isLoading } = trpc.facilitators.getFeedbackFormData.useQuery(
     { meetPersonId },
     { enabled: !!meetPersonId },
   );
@@ -66,9 +66,9 @@ const FacilitatorFeedbackPage = () => {
     setFeedbackByParticipant(initial);
   }, [formData]);
 
-  const savePeerFeedback = trpc.facilitatorFeedback.savePeerFeedback.useMutation();
-  const submitFeedback = trpc.facilitatorFeedback.submit.useMutation();
-  const unsubmitFeedback = trpc.facilitatorFeedback.unsubmit.useMutation();
+  const savePeerFeedback = trpc.facilitators.savePeerFeedback.useMutation();
+  const submitFeedback = trpc.facilitators.submitFeedback.useMutation();
+  const unsubmitFeedback = trpc.facilitators.unsubmitFeedback.useMutation();
 
   if (isLoading) {
     return (
