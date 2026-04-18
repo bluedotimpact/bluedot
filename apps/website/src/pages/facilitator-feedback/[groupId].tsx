@@ -3,19 +3,25 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { ProgressDots } from '@bluedot/ui';
 import StarRating from '../../components/courses/StarRating';
-import ParticipantFeedbackModal, { type ParticipantFeedbackData } from '../../components/courses/ParticipantFeedbackModal';
+import ParticipantFeedbackModal, { FOLLOW_UP_OPTIONS, type ParticipantFeedbackData } from '../../components/courses/ParticipantFeedbackModal';
 import { trpc } from '../../utils/trpc';
 
 type ParticipantFeedback =
   | { status: 'no-strong-impression' }
   | { status: 'completed'; peerFeedbackId?: string; data: ParticipantFeedbackData; flagged: boolean };
 
-const FOLLOW_UP_ID_TO_AIRTABLE: Record<string, string> = {
-  'no-action': 'No further action needed',
-  'talent-pipeline': 'Add to talent pipeline [keep warm for future opportunities/check-ins]',
-  'schedule-call': 'Schedule follow-up call with BlueDot team within ~1 week (high-priority)',
-  'funding-candidate': 'Flag as candidate for funding (career transition/project)',
-  'invite-facilitator': 'Recommend to facilitate',
+const isFlagged = (followUps: Record<string, boolean>) => Object.entries(followUps).some(([key, v]) => v && key !== 'no-action');
+
+const followUpsToAirtable = (followUps: Record<string, boolean>) => FOLLOW_UP_OPTIONS
+  .filter((o) => followUps[o.id])
+  .map((o) => o.airtableValue);
+
+const airtableToFollowUps = (nextSteps: string[] | null) => {
+  const result: Record<string, boolean> = {};
+  for (const o of FOLLOW_UP_OPTIONS) {
+    if (nextSteps?.includes(o.airtableValue)) result[o.id] = true;
+  }
+  return result;
 };
 
 const FacilitatorFeedbackPage = () => {
@@ -27,26 +33,24 @@ const FacilitatorFeedbackPage = () => {
     { enabled: !!meetPersonId },
   );
 
-  const roundName = formData?.roundName ?? '';
-  const participants = formData?.participants ?? [];
-
   const [selectedParticipant, setSelectedParticipant] = useState<{ id: string; name: string } | null>(null);
   const [feedbackByParticipant, setFeedbackByParticipant] = useState<Record<string, ParticipantFeedback>>({});
   const [overallRating, setOverallRating] = useState(0);
   const [mostValuable, setMostValuable] = useState('');
   const [difficulties, setDifficulties] = useState('');
 
-  // Initialise feedback state from server data
   useEffect(() => {
-    if (!formData?.existingPeerFeedback) return;
+    if (!formData) return;
+
+    if (formData.existingCourseFeedback) {
+      setOverallRating(formData.existingCourseFeedback.courseRating ?? 0);
+      setMostValuable(formData.existingCourseFeedback.courseValue ?? '');
+      setDifficulties(formData.existingCourseFeedback.improvements ?? '');
+    }
+
     const initial: Record<string, ParticipantFeedback> = {};
     for (const pf of formData.existingPeerFeedback) {
-      const followUps: Record<string, boolean> = {};
-      for (const [key, airtableVal] of Object.entries(FOLLOW_UP_ID_TO_AIRTABLE)) {
-        if (pf.nextSteps?.includes(airtableVal)) {
-          followUps[key] = true;
-        }
-      }
+      const followUps = airtableToFollowUps(pf.nextSteps);
       initial[pf.recipientId] = {
         status: 'completed',
         peerFeedbackId: pf.id,
@@ -56,16 +60,10 @@ const FacilitatorFeedbackPage = () => {
           investmentNote: pf.feedback ?? '',
           followUps,
         },
-        flagged: Object.entries(followUps).some(([key, v]) => v && key !== 'no-action'),
+        flagged: isFlagged(followUps),
       };
     }
     setFeedbackByParticipant(initial);
-
-    if (formData.existingCourseFeedback) {
-      setOverallRating(formData.existingCourseFeedback.courseRating ?? 0);
-      setMostValuable(formData.existingCourseFeedback.courseValue ?? '');
-      setDifficulties(formData.existingCourseFeedback.improvements ?? '');
-    }
   }, [formData]);
 
   const savePeerFeedback = trpc.facilitatorFeedback.savePeerFeedback.useMutation();
@@ -79,6 +77,11 @@ const FacilitatorFeedbackPage = () => {
       </div>
     );
   }
+
+  const roundName = formData?.roundName ?? '';
+  const participants = formData?.participants ?? [];
+  const selectedFeedback = selectedParticipant ? feedbackByParticipant[selectedParticipant.id] : undefined;
+  const selectedInitialData = selectedFeedback?.status === 'completed' ? selectedFeedback.data : undefined;
 
   return (
     <div className="min-h-screen bg-cream-normal">
@@ -148,18 +151,15 @@ const FacilitatorFeedbackPage = () => {
 
           <p className="text-xs uppercase tracking-wide text-gray-500 mb-2">Cohort members</p>
           <ul>
-            {participants.map((participant) => {
-              const feedback = feedbackByParticipant[participant.id];
-              return (
-                <li key={participant.id}>
-                  <ParticipantCard
-                    participant={participant}
-                    feedback={feedback}
-                    onClick={() => setSelectedParticipant(participant)}
-                  />
-                </li>
-              );
-            })}
+            {participants.map((participant) => (
+              <li key={participant.id}>
+                <ParticipantCard
+                  participant={participant}
+                  feedback={feedbackByParticipant[participant.id]}
+                  onClick={() => setSelectedParticipant(participant)}
+                />
+              </li>
+            ))}
           </ul>
 
           <button type="button" className="text-sm text-gray-500 mt-2">+ Add a participant</button>
@@ -172,15 +172,13 @@ const FacilitatorFeedbackPage = () => {
               type="button"
               className="bg-bluedot-normal text-white px-6 py-3 rounded-lg font-medium"
               disabled={submitFeedback.isPending || overallRating === 0}
-              onClick={async () => {
-                await submitFeedback.mutateAsync({
-                  meetPersonId,
-                  courseRating: overallRating,
-                  courseValue: mostValuable,
-                  improvements: difficulties,
-                  courseFeedbackId: formData?.existingCourseFeedback?.id,
-                });
-              }}
+              onClick={() => submitFeedback.mutateAsync({
+                meetPersonId,
+                courseRating: overallRating,
+                courseValue: mostValuable,
+                improvements: difficulties,
+                courseFeedbackId: formData?.existingCourseFeedback?.id,
+              })}
             >
               {submitFeedback.isPending ? 'Submitting...' : 'Submit feedback'}
             </button>
@@ -188,15 +186,11 @@ const FacilitatorFeedbackPage = () => {
               {Object.keys(feedbackByParticipant).length} of {participants.length} participant feedback completed
             </p>
           </div>
-          {/* Debug: unsubmit */}
           {formData?.existingCourseFeedback?.completed && (
             <button
               type="button"
               className="text-xs text-gray-400 mt-2"
-              onClick={async () => {
-                await unsubmitFeedback.mutateAsync({ meetPersonId });
-                window.location.reload();
-              }}
+              onClick={() => unsubmitFeedback.mutateAsync({ meetPersonId }).then(() => window.location.reload())}
             >
               [Debug] Unsubmit
             </button>
@@ -208,34 +202,23 @@ const FacilitatorFeedbackPage = () => {
         <ParticipantFeedbackModal
           participant={selectedParticipant}
           open
+          initialData={selectedInitialData}
           onClose={() => setSelectedParticipant(null)}
-          initialData={(() => { const f = feedbackByParticipant[selectedParticipant.id]; return f?.status === 'completed' ? f.data : undefined; })()}
           onSave={async (data) => {
-            const nextSteps = Object.entries(data.followUps)
-              .filter(([, v]) => v)
-              .map(([key]) => FOLLOW_UP_ID_TO_AIRTABLE[key])
-              .filter((v): v is string => !!v);
-
-            const existingFeedback = feedbackByParticipant[selectedParticipant.id];
-            const peerFeedbackId = existingFeedback?.status === 'completed' ? existingFeedback.peerFeedbackId : undefined;
-
+            const peerFeedbackId = selectedFeedback?.status === 'completed' ? selectedFeedback.peerFeedbackId : undefined;
             const result = await savePeerFeedback.mutateAsync({
-              meetPersonId: meetPersonId,
+              meetPersonId,
               participantId: selectedParticipant.id,
               peerFeedbackId,
               initiativeRating: data.showUpRating,
               reasoningQualityRating: data.engageRating,
               feedback: data.investmentNote,
-              nextSteps,
+              nextSteps: followUpsToAirtable(data.followUps),
             });
-
             setFeedbackByParticipant({
               ...feedbackByParticipant,
               [selectedParticipant.id]: {
-                status: 'completed',
-                peerFeedbackId: result.id,
-                data,
-                flagged: Object.entries(data.followUps).some(([key, v]) => v && key !== 'no-action'),
+                status: 'completed', peerFeedbackId: result.id, data, flagged: isFlagged(data.followUps),
               },
             });
             setSelectedParticipant(null);
@@ -276,7 +259,6 @@ const getSubtitle = (feedback: ParticipantFeedback | undefined): string => {
 
 const ParticipantCard: React.FC<ParticipantCardProps> = ({ participant, feedback, onClick }) => {
   const initials = participant.name.split(' ').map((n) => n[0]).join('');
-
   return (
     <button
       type="button"
