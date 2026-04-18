@@ -40,6 +40,8 @@ const FacilitatorFeedbackPage = () => {
   const [difficulties, setDifficulties] = useState('');
   const [showIncompleteWarning, setShowIncompleteWarning] = useState(false);
 
+  const noStrongImpressionKey = `facilitator-feedback:${meetPersonId}:no-strong-impression`;
+
   useEffect(() => {
     if (!formData) return;
 
@@ -50,6 +52,15 @@ const FacilitatorFeedbackPage = () => {
     }
 
     const initial: Record<string, ParticipantFeedback> = {};
+
+    // Restore no-strong-impression from localStorage
+    try {
+      const stored = JSON.parse(localStorage.getItem(noStrongImpressionKey) ?? '[]') as string[];
+      for (const id of stored) {
+        initial[id] = { status: 'no-strong-impression' };
+      }
+    } catch { /* ignore corrupt localStorage */ }
+
     for (const pf of formData.existingPeerFeedback) {
       const followUps = airtableToFollowUps(pf.nextSteps);
       initial[pf.recipientId] = {
@@ -81,8 +92,16 @@ const FacilitatorFeedbackPage = () => {
 
   const roundName = formData?.roundName ?? '';
   const participants = formData?.participants ?? [];
+  const completedCount = Object.keys(feedbackByParticipant).length;
   const selectedFeedback = selectedParticipant ? feedbackByParticipant[selectedParticipant.id] : undefined;
   const selectedInitialData = selectedFeedback?.status === 'completed' ? selectedFeedback.data : undefined;
+  const submitPayload = {
+    meetPersonId,
+    courseRating: overallRating,
+    courseValue: mostValuable,
+    improvements: difficulties,
+    courseFeedbackId: formData?.existingCourseFeedback?.id,
+  };
 
   return (
     <div className="min-h-screen bg-cream-normal">
@@ -169,23 +188,17 @@ const FacilitatorFeedbackPage = () => {
 
         {/* Submit section */}
         <section className="bg-white rounded-lg border p-8 mb-8">
-          {showIncompleteWarning && Object.keys(feedbackByParticipant).length < participants.length ? (
+          {showIncompleteWarning && completedCount < participants.length ? (
             <>
               <p className="flex gap-2 items-start bg-orange-50 text-orange-800 text-sm rounded p-3 border border-orange-200">
                 <span className="shrink-0">⚠</span>
-                {participants.length - Object.keys(feedbackByParticipant).length} participants still need feedback. Even just a star rating or "no strong impression" on each one helps BlueDot understand where they stand.
+                {participants.length - completedCount} participants still need feedback. Even just a star rating or "no strong impression" on each one helps BlueDot understand where they stand.
               </p>
               <button
                 type="button"
                 className="text-sm text-gray-500 mt-2 underline"
                 disabled={submitFeedback.isPending}
-                onClick={() => submitFeedback.mutateAsync({
-                  meetPersonId,
-                  courseRating: overallRating,
-                  courseValue: mostValuable,
-                  improvements: difficulties,
-                  courseFeedbackId: formData?.existingCourseFeedback?.id,
-                })}
+                onClick={() => { /* TODO: error handling */ submitFeedback.mutateAsync(submitPayload); }}
               >
                 {submitFeedback.isPending ? 'Submitting...' : 'Submit anyway'}
               </button>
@@ -197,23 +210,18 @@ const FacilitatorFeedbackPage = () => {
                 className="bg-bluedot-normal text-white px-6 py-3 rounded-lg font-medium"
                 disabled={submitFeedback.isPending || overallRating === 0}
                 onClick={() => {
-                  if (Object.keys(feedbackByParticipant).length < participants.length) {
+                  if (completedCount < participants.length) {
                     setShowIncompleteWarning(true);
                   } else {
-                    submitFeedback.mutateAsync({
-                      meetPersonId,
-                      courseRating: overallRating,
-                      courseValue: mostValuable,
-                      improvements: difficulties,
-                      courseFeedbackId: formData?.existingCourseFeedback?.id,
-                    });
+                    // TODO: error handling
+                    submitFeedback.mutateAsync(submitPayload);
                   }
                 }}
               >
                 {submitFeedback.isPending ? 'Submitting...' : 'Submit feedback'}
               </button>
               <p className="text-sm text-gray-500">
-                {Object.keys(feedbackByParticipant).length} of {participants.length} participant feedback completed
+                {completedCount} of {participants.length} participant feedback completed
               </p>
             </div>
           )}
@@ -221,7 +229,7 @@ const FacilitatorFeedbackPage = () => {
             <button
               type="button"
               className="text-xs text-gray-400 mt-2"
-              onClick={() => unsubmitFeedback.mutateAsync({ meetPersonId }).then(() => window.location.reload())}
+              onClick={() => { /* TODO: error handling */ unsubmitFeedback.mutateAsync({ meetPersonId }).then(() => window.location.reload()); }}
             >
               [Debug] Unsubmit
             </button>
@@ -234,9 +242,11 @@ const FacilitatorFeedbackPage = () => {
           participant={selectedParticipant}
           open
           initialData={selectedInitialData}
+          isSaving={savePeerFeedback.isPending}
           onClose={() => setSelectedParticipant(null)}
           onSave={async (data) => {
             const peerFeedbackId = selectedFeedback?.status === 'completed' ? selectedFeedback.peerFeedbackId : undefined;
+            // TODO: error handling
             const result = await savePeerFeedback.mutateAsync({
               meetPersonId,
               participantId: selectedParticipant.id,
@@ -255,10 +265,16 @@ const FacilitatorFeedbackPage = () => {
             setSelectedParticipant(null);
           }}
           onNoStrongImpression={() => {
-            setFeedbackByParticipant({
+            const updated = {
               ...feedbackByParticipant,
-              [selectedParticipant.id]: { status: 'no-strong-impression' },
-            });
+              [selectedParticipant.id]: { status: 'no-strong-impression' as const },
+            };
+            setFeedbackByParticipant(updated);
+            // Persist to localStorage
+            const nsiIds = Object.entries(updated)
+              .filter(([, f]) => f.status === 'no-strong-impression')
+              .map(([id]) => id);
+            localStorage.setItem(noStrongImpressionKey, JSON.stringify(nsiIds));
             setSelectedParticipant(null);
           }}
         />

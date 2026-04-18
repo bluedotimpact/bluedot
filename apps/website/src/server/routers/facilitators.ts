@@ -1,6 +1,7 @@
 import {
   and,
   arrayContains,
+  arrayOverlaps,
   courseFeedbackTable,
   eq,
   facilitatorDiscussionSwitchingTable,
@@ -50,8 +51,8 @@ async function getGroupForFacilitator(facilitatorId: string) {
 
 async function getPeerFeedbackForParticipants(participantIds: string[]) {
   if (participantIds.length === 0) return [];
-  const all = await db.pg.select().from(peerFeedbackTable.pg);
-  return all.filter((pf) => pf.feedbackRecipient?.some((r) => participantIds.includes(r)));
+  return db.pg.select().from(peerFeedbackTable.pg)
+    .where(arrayOverlaps(peerFeedbackTable.pg.feedbackRecipient, participantIds));
 }
 
 export const facilitatorRouter = router({

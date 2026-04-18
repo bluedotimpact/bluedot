@@ -12,6 +12,7 @@ type ParticipantFeedbackModalProps = {
   participant: { id: string; name: string };
   initialData?: ParticipantFeedbackData;
   open: boolean;
+  isSaving?: boolean;
   onClose: () => void;
   onSave: (data: ParticipantFeedbackData) => void;
   onNoStrongImpression: () => void;
@@ -33,7 +34,7 @@ const ENGAGE_OPTIONS: RubricOption[] = [
   { value: 1, label: 'Mostly quiet or repeated what the readings said', description: 'When asked to elaborate, responses were vague or surface-level.' },
 ];
 
-const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ participant, initialData, open, onClose, onSave, onNoStrongImpression }) => {
+const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ participant, initialData, open, isSaving, onClose, onSave, onNoStrongImpression }) => {
   const [showUpRating, setShowUpRating] = useState<number | null>(initialData?.showUpRating ?? null);
   const [engageRating, setEngageRating] = useState<number | null>(initialData?.engageRating ?? null);
   const [investmentNote, setInvestmentNote] = useState(initialData?.investmentNote ?? '');
@@ -130,7 +131,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
                 onSave({ showUpRating, engageRating, investmentNote, followUps });
               }
             }}
-            disabled={showUpRating === null || engageRating === null}
+            disabled={showUpRating === null || engageRating === null || isSaving}
           >
             Done
           </button>
