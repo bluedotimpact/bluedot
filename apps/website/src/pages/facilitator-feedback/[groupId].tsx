@@ -1,19 +1,34 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { ProgressDots } from '@bluedot/ui';
 import StarRating from '../../components/courses/StarRating';
-import ParticipantFeedbackModal from '../../components/courses/ParticipantFeedbackModal';
+import ParticipantFeedbackModal, { type ParticipantFeedbackData } from '../../components/courses/ParticipantFeedbackModal';
+import { trpc } from '../../utils/trpc';
 
 type ParticipantFeedback =
   | { status: 'no-strong-impression' }
-  | { status: 'completed'; showUpRating: number; engageRating: number; flagged: boolean };
+  | { status: 'completed'; peerFeedbackId?: string; data: ParticipantFeedbackData; flagged: boolean };
+
+const FOLLOW_UP_ID_TO_AIRTABLE: Record<string, string> = {
+  'no-action': 'No further action needed',
+  'talent-pipeline': 'Add to talent pipeline [keep warm for future opportunities/check-ins]',
+  'schedule-call': 'Schedule follow-up call with BlueDot team within ~1 week (high-priority)',
+  'funding-candidate': 'Flag as candidate for funding (career transition/project)',
+  'invite-facilitator': 'Recommend to facilitate',
+};
 
 const FacilitatorFeedbackPage = () => {
   const router = useRouter();
-  const groupId = router.query.groupId as string;
+  const meetPersonId = router.query.groupId as string;
 
-  // TODO: fetch from API
-  const roundName = 'Technical AI Safety (2026 Feb W08) – Part-time';
+  const { data: formData, isLoading } = trpc.facilitatorFeedback.getFormData.useQuery(
+    { meetPersonId },
+    { enabled: !!meetPersonId },
+  );
+
+  const roundName = formData?.roundName ?? '';
+  const participants = formData?.participants ?? [];
 
   const [selectedParticipant, setSelectedParticipant] = useState<{ id: string; name: string } | null>(null);
   const [feedbackByParticipant, setFeedbackByParticipant] = useState<Record<string, ParticipantFeedback>>({});
@@ -21,15 +36,49 @@ const FacilitatorFeedbackPage = () => {
   const [mostValuable, setMostValuable] = useState('');
   const [difficulties, setDifficulties] = useState('');
 
-  // TODO: fetch from API
-  const participants = [
-    { id: '1', name: 'Aisha Kamara' },
-    { id: '2', name: 'Ben Okafor' },
-    { id: '3', name: 'Clara Ndubuisi' },
-    { id: '4', name: 'Diego Herrera' },
-    { id: '5', name: 'Priya Mehta' },
-    { id: '6', name: 'Tom Calahan' },
-  ];
+  // Initialise feedback state from server data
+  useEffect(() => {
+    if (!formData?.existingPeerFeedback) return;
+    const initial: Record<string, ParticipantFeedback> = {};
+    for (const pf of formData.existingPeerFeedback) {
+      const followUps: Record<string, boolean> = {};
+      for (const [key, airtableVal] of Object.entries(FOLLOW_UP_ID_TO_AIRTABLE)) {
+        if (pf.nextSteps?.includes(airtableVal)) {
+          followUps[key] = true;
+        }
+      }
+      initial[pf.recipientId] = {
+        status: 'completed',
+        peerFeedbackId: pf.id,
+        data: {
+          showUpRating: pf.initiativeRating ?? 0,
+          engageRating: pf.reasoningQualityRating ?? 0,
+          investmentNote: pf.feedback ?? '',
+          followUps,
+        },
+        flagged: Object.entries(followUps).some(([key, v]) => v && key !== 'no-action'),
+      };
+    }
+    setFeedbackByParticipant(initial);
+
+    if (formData.existingCourseFeedback) {
+      setOverallRating(formData.existingCourseFeedback.courseRating ?? 0);
+      setMostValuable(formData.existingCourseFeedback.courseValue ?? '');
+      setDifficulties(formData.existingCourseFeedback.improvements ?? '');
+    }
+  }, [formData]);
+
+  const savePeerFeedback = trpc.facilitatorFeedback.savePeerFeedback.useMutation();
+  const submitFeedback = trpc.facilitatorFeedback.submit.useMutation();
+  const unsubmitFeedback = trpc.facilitatorFeedback.unsubmit.useMutation();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-cream-normal flex items-center justify-center">
+        <ProgressDots />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-cream-normal">
@@ -119,13 +168,39 @@ const FacilitatorFeedbackPage = () => {
         {/* Submit section */}
         <section className="bg-white rounded-lg border p-8 mb-8">
           <div className="flex items-center gap-4">
-            <button type="button" className="bg-bluedot-normal text-white px-6 py-3 rounded-lg font-medium">
-              Submit feedback
+            <button
+              type="button"
+              className="bg-bluedot-normal text-white px-6 py-3 rounded-lg font-medium"
+              disabled={submitFeedback.isPending || overallRating === 0}
+              onClick={async () => {
+                await submitFeedback.mutateAsync({
+                  meetPersonId,
+                  courseRating: overallRating,
+                  courseValue: mostValuable,
+                  improvements: difficulties,
+                  courseFeedbackId: formData?.existingCourseFeedback?.id,
+                });
+              }}
+            >
+              {submitFeedback.isPending ? 'Submitting...' : 'Submit feedback'}
             </button>
             <p className="text-sm text-gray-500">
               {Object.keys(feedbackByParticipant).length} of {participants.length} participant feedback completed
             </p>
           </div>
+          {/* Debug: unsubmit */}
+          {formData?.existingCourseFeedback?.completed && (
+            <button
+              type="button"
+              className="text-xs text-gray-400 mt-2"
+              onClick={async () => {
+                await unsubmitFeedback.mutateAsync({ meetPersonId });
+                window.location.reload();
+              }}
+            >
+              [Debug] Unsubmit
+            </button>
+          )}
         </section>
       </div>
 
@@ -134,7 +209,44 @@ const FacilitatorFeedbackPage = () => {
           participant={selectedParticipant}
           open
           onClose={() => setSelectedParticipant(null)}
-          onSave={() => setSelectedParticipant(null)}
+          initialData={(() => { const f = feedbackByParticipant[selectedParticipant.id]; return f?.status === 'completed' ? f.data : undefined; })()}
+          onSave={async (data) => {
+            const nextSteps = Object.entries(data.followUps)
+              .filter(([, v]) => v)
+              .map(([key]) => FOLLOW_UP_ID_TO_AIRTABLE[key])
+              .filter((v): v is string => !!v);
+
+            const existingFeedback = feedbackByParticipant[selectedParticipant.id];
+            const peerFeedbackId = existingFeedback?.status === 'completed' ? existingFeedback.peerFeedbackId : undefined;
+
+            const result = await savePeerFeedback.mutateAsync({
+              meetPersonId: meetPersonId,
+              participantId: selectedParticipant.id,
+              peerFeedbackId,
+              initiativeRating: data.showUpRating,
+              reasoningQualityRating: data.engageRating,
+              feedback: data.investmentNote,
+              nextSteps,
+            });
+
+            setFeedbackByParticipant({
+              ...feedbackByParticipant,
+              [selectedParticipant.id]: {
+                status: 'completed',
+                peerFeedbackId: result.id,
+                data,
+                flagged: Object.entries(data.followUps).some(([key, v]) => v && key !== 'no-action'),
+              },
+            });
+            setSelectedParticipant(null);
+          }}
+          onNoStrongImpression={() => {
+            setFeedbackByParticipant({
+              ...feedbackByParticipant,
+              [selectedParticipant.id]: { status: 'no-strong-impression' },
+            });
+            setSelectedParticipant(null);
+          }}
         />
       )}
     </div>
@@ -155,8 +267,8 @@ const getSubtitle = (feedback: ParticipantFeedback | undefined): string => {
   if (!feedback) return 'Not yet completed';
   if (feedback.status === 'no-strong-impression') return 'No strong impression';
   const parts = [
-    `Initiative & preparation: ${feedback.showUpRating}/5`,
-    `Quality of contribution: ${feedback.engageRating}/5`,
+    `Initiative & preparation: ${feedback.data.showUpRating}/5`,
+    `Quality of contribution: ${feedback.data.engageRating}/5`,
   ];
   if (feedback.flagged) parts.push('→ Flagged');
   return parts.join(' · ');

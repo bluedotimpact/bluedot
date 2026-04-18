@@ -1,11 +1,20 @@
 import { Modal } from '@bluedot/ui';
 import { useState } from 'react';
 
+export type ParticipantFeedbackData = {
+  showUpRating: number;
+  engageRating: number;
+  investmentNote: string;
+  followUps: Record<string, boolean>;
+};
+
 type ParticipantFeedbackModalProps = {
   participant: { id: string; name: string };
+  initialData?: ParticipantFeedbackData;
   open: boolean;
   onClose: () => void;
-  onSave: () => void;
+  onSave: (data: ParticipantFeedbackData) => void;
+  onNoStrongImpression: () => void;
 };
 
 const SHOW_UP_OPTIONS: RubricOption[] = [
@@ -24,11 +33,11 @@ const ENGAGE_OPTIONS: RubricOption[] = [
   { value: 1, label: 'Mostly quiet or repeated what the readings said', description: 'When asked to elaborate, responses were vague or surface-level.' },
 ];
 
-const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ participant, open, onClose }) => {
-  const [showUpRating, setShowUpRating] = useState<number | null>(null);
-  const [engageRating, setEngageRating] = useState<number | null>(null);
-  const [investmentNote, setInvestmentNote] = useState('');
-  const [followUps, setFollowUps] = useState<Record<string, boolean>>({});
+const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ participant, initialData, open, onClose, onSave, onNoStrongImpression }) => {
+  const [showUpRating, setShowUpRating] = useState<number | null>(initialData?.showUpRating ?? null);
+  const [engageRating, setEngageRating] = useState<number | null>(initialData?.engageRating ?? null);
+  const [investmentNote, setInvestmentNote] = useState(initialData?.investmentNote ?? '');
+  const [followUps, setFollowUps] = useState<Record<string, boolean>>(initialData?.followUps ?? {});
 
   return (
     <Modal
@@ -40,6 +49,13 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
     >
       <div className="w-full pt-6 max-w-[600px]">
         <div className="w-[600px] max-w-full h-0" />
+
+        <div className="flex justify-between items-center mb-4">
+          <p className="text-sm text-gray-400">Your responses are only seen by BlueDot staff.</p>
+          <button type="button" className="text-sm text-bluedot-normal" onClick={onNoStrongImpression}>
+            No strong impression
+          </button>
+        </div>
 
         <RubricSelector
           name="show-up"
@@ -88,9 +104,21 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
           ))}
         </div>
 
-        <div className="flex justify-end gap-2 mt-6">
+        <p className="text-xs text-gray-400 mt-6">Changes save when you click "Done"</p>
+        <div className="flex justify-end gap-2 mt-2">
           <button type="button" onClick={onClose}>Cancel</button>
-          <button type="button" className="bg-bluedot-normal text-white px-4 py-2 rounded">Done</button>
+          <button
+            type="button"
+            className="bg-bluedot-normal text-white px-4 py-2 rounded"
+            onClick={() => {
+              if (showUpRating !== null && engageRating !== null) {
+                onSave({ showUpRating, engageRating, investmentNote, followUps });
+              }
+            }}
+            disabled={showUpRating === null || engageRating === null}
+          >
+            Done
+          </button>
         </div>
       </div>
     </Modal>
