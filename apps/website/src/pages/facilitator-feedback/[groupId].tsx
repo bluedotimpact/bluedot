@@ -100,7 +100,6 @@ const FacilitatorFeedbackPage = () => {
     courseRating: overallRating,
     courseValue: mostValuable,
     improvements: difficulties,
-    courseFeedbackId: formData?.existingCourseFeedback?.id,
   };
 
   return (

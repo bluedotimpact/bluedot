@@ -1,7 +1,6 @@
 import {
   and,
   arrayContains,
-  arrayOverlaps,
   courseFeedbackTable,
   eq,
   facilitatorDiscussionSwitchingTable,
@@ -49,10 +48,19 @@ async function getGroupForFacilitator(facilitatorId: string) {
   return groups[0]!;
 }
 
-async function getPeerFeedbackForParticipants(participantIds: string[]) {
-  if (participantIds.length === 0) return [];
-  return db.pg.select().from(peerFeedbackTable.pg)
-    .where(arrayOverlaps(peerFeedbackTable.pg.feedbackRecipient, participantIds));
+async function getOrCreateCourseFeedback(meetPerson: { id: string; round: string | null; courseFeedback: string[] | null }) {
+  const existingId = meetPerson.courseFeedback?.[0];
+  if (existingId) {
+    const existing = await db.getFirst(courseFeedbackTable, { filter: { id: existingId }, sortBy: 'id' });
+    if (existing) return existing;
+  }
+
+  const created = await db.insert(courseFeedbackTable, {
+    person: [meetPerson.id],
+    round: meetPerson.round ? [meetPerson.round] : [],
+  });
+  await db.update(meetPersonTable, { id: meetPerson.id, courseFeedback: [created.id] });
+  return created;
 }
 
 export const facilitatorRouter = router({
@@ -233,7 +241,10 @@ export const facilitatorRouter = router({
         ? await db.getFirst(courseFeedbackTable, { filter: { id: meetPerson.courseFeedback![0]! }, sortBy: 'id' })
         : null;
 
-      const existingPeerFeedback = await getPeerFeedbackForParticipants(participantIds);
+      const existingPeerFeedback = existingCourseFeedback
+        ? await db.pg.select().from(peerFeedbackTable.pg)
+          .where(arrayContains(peerFeedbackTable.pg.courseFeedback, [existingCourseFeedback.id]))
+        : [];
 
       return {
         meetPersonId: meetPerson.id,
@@ -270,10 +281,12 @@ export const facilitatorRouter = router({
       nextSteps: z.array(z.string()),
     }))
     .mutation(async ({ input, ctx }) => {
-      await verifyFacilitatorById(input.meetPersonId, ctx.auth.email);
+      const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx.auth.email);
+      const courseFeedback = await getOrCreateCourseFeedback(meetPerson);
 
       const fields = {
         feedbackRecipient: [input.participantId],
+        courseFeedback: [courseFeedback.id],
         initiativeRating: input.initiativeRating,
         reasoningQualityRating: input.reasoningQualityRating,
         feedback: input.feedback,
@@ -292,35 +305,18 @@ export const facilitatorRouter = router({
       courseRating: z.number().min(1).max(5),
       courseValue: z.string(),
       improvements: z.string(),
-      courseFeedbackId: z.string().optional(),
     }))
     .mutation(async ({ input, ctx }) => {
       const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx.auth.email);
-      const group = await getGroupForFacilitator(meetPerson.id);
-      const peerFeedback = await getPeerFeedbackForParticipants(group.participants ?? []);
-      const peerFeedbackIds = peerFeedback.map((pf) => pf.id);
+      const courseFeedback = await getOrCreateCourseFeedback(meetPerson);
 
-      const courseFields = {
+      await db.update(courseFeedbackTable, {
+        id: courseFeedback.id,
         courseRating: input.courseRating,
         courseValue: input.courseValue,
         improvements: input.improvements,
-        completed: true as const,
-        personFeedback: peerFeedbackIds,
-      };
-
-      const courseFeedback = input.courseFeedbackId
-        ? await db.update(courseFeedbackTable, { id: input.courseFeedbackId, ...courseFields })
-        : await db.insert(courseFeedbackTable, {
-          person: [meetPerson.id],
-          round: meetPerson.round ? [meetPerson.round] : [],
-          ...courseFields,
-        });
-
-      await db.update(meetPersonTable, { id: meetPerson.id, courseFeedback: [courseFeedback.id] });
-
-      for (const pfId of peerFeedbackIds) {
-        await db.update(peerFeedbackTable, { id: pfId, courseFeedback: [courseFeedback.id] });
-      }
+        completed: true,
+      });
 
       return { courseFeedbackId: courseFeedback.id };
     }),
@@ -329,7 +325,6 @@ export const facilitatorRouter = router({
     .input(z.object({ meetPersonId: z.string().min(1) }))
     .mutation(async ({ input, ctx }) => {
       const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx.auth.email);
-      await db.update(meetPersonTable, { id: meetPerson.id, courseFeedback: [] });
       if (meetPerson.courseFeedback?.[0]) {
         await db.update(courseFeedbackTable, { id: meetPerson.courseFeedback[0], completed: false });
       }
