@@ -38,11 +38,12 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
   const [engageRating, setEngageRating] = useState<number | null>(initialData?.engageRating ?? null);
   const [investmentNote, setInvestmentNote] = useState(initialData?.investmentNote ?? '');
   const [followUps, setFollowUps] = useState<Record<string, boolean>>(initialData?.followUps ?? {});
+  const hasTopScore = showUpRating === 5 || engageRating === 5;
 
   return (
     <Modal
       isOpen={open}
-      setIsOpen={(isOpen: boolean) => !isOpen && onClose()}
+      setIsOpen={() => { /* disable close on outside click */ }}
       title={participant.name}
       bottomDrawerOnMobile
       ariaLabel="Participant feedback"
@@ -89,6 +90,12 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
             rows={4}
             className="w-full border rounded p-2"
           />
+          {hasTopScore && (
+            <p className="flex gap-2 items-start bg-blue-50 text-bluedot-normal text-sm rounded p-3 mt-2">
+              <span className="shrink-0">ℹ</span>
+              You've given a top score — a short note on what stood out helps us act on this.
+            </p>
+          )}
         </div>
 
         <div className="mt-6">
@@ -104,6 +111,12 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
               <span className="text-sm">{option.label}</span>
             </label>
           ))}
+          {hasTopScore && (
+            <p className="flex gap-2 items-start bg-blue-50 text-bluedot-normal text-sm rounded p-3 mt-2">
+              <span className="shrink-0">ℹ</span>
+              You've given a top score — let us know how to follow up.
+            </p>
+          )}
         </div>
 
         <p className="text-xs text-gray-400 mt-6">Changes save when you click "Done"</p>

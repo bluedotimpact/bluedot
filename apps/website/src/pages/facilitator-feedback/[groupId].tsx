@@ -38,6 +38,7 @@ const FacilitatorFeedbackPage = () => {
   const [overallRating, setOverallRating] = useState(0);
   const [mostValuable, setMostValuable] = useState('');
   const [difficulties, setDifficulties] = useState('');
+  const [showIncompleteWarning, setShowIncompleteWarning] = useState(false);
 
   useEffect(() => {
     if (!formData) return;
@@ -156,6 +157,7 @@ const FacilitatorFeedbackPage = () => {
                 <ParticipantCard
                   participant={participant}
                   feedback={feedbackByParticipant[participant.id]}
+                  showNudge={showIncompleteWarning}
                   onClick={() => setSelectedParticipant(participant)}
                 />
               </li>
@@ -167,25 +169,54 @@ const FacilitatorFeedbackPage = () => {
 
         {/* Submit section */}
         <section className="bg-white rounded-lg border p-8 mb-8">
-          <div className="flex items-center gap-4">
-            <button
-              type="button"
-              className="bg-bluedot-normal text-white px-6 py-3 rounded-lg font-medium"
-              disabled={submitFeedback.isPending || overallRating === 0}
-              onClick={() => submitFeedback.mutateAsync({
-                meetPersonId,
-                courseRating: overallRating,
-                courseValue: mostValuable,
-                improvements: difficulties,
-                courseFeedbackId: formData?.existingCourseFeedback?.id,
-              })}
-            >
-              {submitFeedback.isPending ? 'Submitting...' : 'Submit feedback'}
-            </button>
-            <p className="text-sm text-gray-500">
-              {Object.keys(feedbackByParticipant).length} of {participants.length} participant feedback completed
-            </p>
-          </div>
+          {showIncompleteWarning && Object.keys(feedbackByParticipant).length < participants.length ? (
+            <>
+              <p className="flex gap-2 items-start bg-orange-50 text-orange-800 text-sm rounded p-3 border border-orange-200">
+                <span className="shrink-0">⚠</span>
+                {participants.length - Object.keys(feedbackByParticipant).length} participants still need feedback. Even just a star rating or "no strong impression" on each one helps BlueDot understand where they stand.
+              </p>
+              <button
+                type="button"
+                className="text-sm text-gray-500 mt-2 underline"
+                disabled={submitFeedback.isPending}
+                onClick={() => submitFeedback.mutateAsync({
+                  meetPersonId,
+                  courseRating: overallRating,
+                  courseValue: mostValuable,
+                  improvements: difficulties,
+                  courseFeedbackId: formData?.existingCourseFeedback?.id,
+                })}
+              >
+                {submitFeedback.isPending ? 'Submitting...' : 'Submit anyway'}
+              </button>
+            </>
+          ) : (
+            <div className="flex items-center gap-4">
+              <button
+                type="button"
+                className="bg-bluedot-normal text-white px-6 py-3 rounded-lg font-medium"
+                disabled={submitFeedback.isPending || overallRating === 0}
+                onClick={() => {
+                  if (Object.keys(feedbackByParticipant).length < participants.length) {
+                    setShowIncompleteWarning(true);
+                  } else {
+                    submitFeedback.mutateAsync({
+                      meetPersonId,
+                      courseRating: overallRating,
+                      courseValue: mostValuable,
+                      improvements: difficulties,
+                      courseFeedbackId: formData?.existingCourseFeedback?.id,
+                    });
+                  }
+                }}
+              >
+                {submitFeedback.isPending ? 'Submitting...' : 'Submit feedback'}
+              </button>
+              <p className="text-sm text-gray-500">
+                {Object.keys(feedbackByParticipant).length} of {participants.length} participant feedback completed
+              </p>
+            </div>
+          )}
           {formData?.existingCourseFeedback?.completed && (
             <button
               type="button"
@@ -243,6 +274,7 @@ export default FacilitatorFeedbackPage;
 type ParticipantCardProps = {
   participant: { id: string; name: string };
   feedback: ParticipantFeedback | undefined;
+  showNudge: boolean;
   onClick: () => void;
 };
 
@@ -257,7 +289,7 @@ const getSubtitle = (feedback: ParticipantFeedback | undefined): string => {
   return parts.join(' · ');
 };
 
-const ParticipantCard: React.FC<ParticipantCardProps> = ({ participant, feedback, onClick }) => {
+const ParticipantCard: React.FC<ParticipantCardProps> = ({ participant, feedback, showNudge, onClick }) => {
   const initials = participant.name.split(' ').map((n) => n[0]).join('');
   return (
     <button
@@ -274,6 +306,9 @@ const ParticipantCard: React.FC<ParticipantCardProps> = ({ participant, feedback
         <div>
           <p className="font-medium">{participant.name}</p>
           <p className="text-sm text-gray-400">{getSubtitle(feedback)}</p>
+          {showNudge && !feedback && (
+            <p className="text-xs text-bluedot-normal">ℹ Even just a star rating helps</p>
+          )}
         </div>
       </div>
       <span className="text-sm text-bluedot-normal">
