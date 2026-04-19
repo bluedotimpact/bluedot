@@ -25,6 +25,7 @@ const getFacilitator = async (roundId: string, facilitatorEmail: string) => {
   if (!facilitator) {
     throw new TRPCError({ code: 'NOT_FOUND', message: 'No facilitator found for this round' });
   }
+
   return facilitator;
 };
 
@@ -35,6 +36,7 @@ async function verifyFacilitatorById(meetPersonId: string, email: string) {
   if (!meetPerson || meetPerson.role !== 'Facilitator') {
     throw new TRPCError({ code: 'FORBIDDEN', message: 'Not authorized' });
   }
+
   return meetPerson;
 }
 
@@ -46,7 +48,32 @@ async function getGroupForFacilitator(facilitatorId: string) {
   if (groups.length === 0) {
     throw new TRPCError({ code: 'NOT_FOUND', message: 'No group found for this facilitator' });
   }
+
   return groups[0]!;
+}
+
+async function getDropInIdsForGroup(groupId: string, participantIds: string[]) {
+  const discussions = await db.pg
+    .select({ attendees: groupDiscussionTable.pg.attendees })
+    .from(groupDiscussionTable.pg)
+    .where(eq(groupDiscussionTable.pg.group, groupId));
+  const participantSet = new Set(participantIds);
+  const candidateSet = new Set<string>();
+  for (const d of discussions) {
+    for (const id of d.attendees ?? []) {
+      if (!participantSet.has(id)) candidateSet.add(id);
+    }
+  }
+
+  if (candidateSet.size === 0) return [];
+
+  // Exclude facilitators (including the current one and co-facilitators who joined a session)
+  const candidates = [...candidateSet];
+  const rows = await db.pg
+    .select({ id: meetPersonTable.pg.id })
+    .from(meetPersonTable.pg)
+    .where(and(inArray(meetPersonTable.pg.id, candidates), eq(meetPersonTable.pg.role, 'Participant')));
+  return rows.map((r) => r.id);
 }
 
 async function getOrCreateCourseFeedback(meetPerson: { id: string; round: string | null; courseFeedback: string[] | null }) {
@@ -110,6 +137,7 @@ export const facilitatorRouter = router({
         if (!group) {
           throw new TRPCError({ code: 'NOT_FOUND', message: `Related group not found for discussion ${discussion.id}` });
         }
+
         return { ...discussion, groupDetails: group, unitRecord: unitMap.get(discussion.courseBuilderUnitRecordId ?? '') ?? null };
       });
     }),
@@ -141,6 +169,7 @@ export const facilitatorRouter = router({
         if (!allowedDiscussions.includes(discussionId)) {
           throw new TRPCError({ code: 'FORBIDDEN', message: 'Facilitator is not allowed to manage this discussion' });
         }
+
         const discussion = await db.getFirst(groupDiscussionTable, { filter: { id: discussionId } });
         if (!discussion || discussion.group !== groupId) {
           throw new TRPCError({ code: 'BAD_REQUEST', message: 'Discussion does not belong to the specified group' });
@@ -202,9 +231,11 @@ export const facilitatorRouter = router({
       if (!newFacilitator) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'New facilitator not found' });
       }
+
       if (newFacilitator.round !== facilitator.round) {
         throw new TRPCError({ code: 'BAD_REQUEST', message: 'New facilitator must be in the same round' });
       }
+
       if (newFacilitator.role !== 'Facilitator') {
         throw new TRPCError({ code: 'BAD_REQUEST', message: 'Selected person is not a facilitator' });
       }
@@ -229,10 +260,13 @@ export const facilitatorRouter = router({
       const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx.auth.email);
       const group = await getGroupForFacilitator(meetPerson.id);
       const participantIds = group.participants ?? [];
+      const dropInIds = await getDropInIdsForGroup(group.id, participantIds);
 
-      const participants = participantIds.length > 0
-        ? await db.pg.select({ id: meetPersonTable.pg.id, name: meetPersonTable.pg.name }).from(meetPersonTable.pg).where(inArray(meetPersonTable.pg.id, participantIds))
+      const personIds = [...participantIds, ...dropInIds];
+      const people = personIds.length > 0
+        ? await db.pg.select({ id: meetPersonTable.pg.id, name: meetPersonTable.pg.name }).from(meetPersonTable.pg).where(inArray(meetPersonTable.pg.id, personIds))
         : [];
+      const nameById = new Map(people.map((p) => [p.id, p.name ?? '']));
 
       const round = meetPerson.round
         ? await db.getFirst(roundTable, { filter: { id: meetPerson.round }, sortBy: 'id' })
@@ -252,7 +286,8 @@ export const facilitatorRouter = router({
         roundName: round?.title ?? '',
         groupId: group.id,
         groupName: group.groupName,
-        participants: participants.map((p) => ({ id: p.id, name: p.name ?? '' })),
+        participants: participantIds.map((id) => ({ id, name: nameById.get(id) ?? '' })),
+        dropIns: dropInIds.map((id) => ({ id, name: nameById.get(id) ?? '' })),
         existingCourseFeedback: existingCourseFeedback ? {
           id: existingCourseFeedback.id,
           courseRating: existingCourseFeedback.courseRating,
@@ -282,9 +317,14 @@ export const facilitatorRouter = router({
     .mutation(async ({ input, ctx }) => {
       const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx.auth.email);
       const group = await getGroupForFacilitator(meetPerson.id);
-      if (!(group.participants ?? []).includes(input.participantId)) {
-        throw new TRPCError({ code: 'FORBIDDEN', message: 'Participant is not in your group' });
+      const participantIds = group.participants ?? [];
+      if (!participantIds.includes(input.participantId)) {
+        const dropInIds = await getDropInIdsForGroup(group.id, participantIds);
+        if (!dropInIds.includes(input.participantId)) {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'Participant is not in your group' });
+        }
       }
+
       const courseFeedback = await getOrCreateCourseFeedback(meetPerson);
 
       const fields = {
@@ -305,6 +345,7 @@ export const facilitatorRouter = router({
       if (existing) {
         return db.update(peerFeedbackTable, { id: existing.id, ...fields });
       }
+
       return db.insert(peerFeedbackTable, fields);
     }),
 
@@ -337,6 +378,7 @@ export const facilitatorRouter = router({
       if (meetPerson.courseFeedback?.[0]) {
         await db.update(courseFeedbackTable, { id: meetPerson.courseFeedback[0], submittedAt: null });
       }
+
       return { success: true };
     }),
 });

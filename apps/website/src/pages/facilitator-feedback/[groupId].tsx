@@ -22,6 +22,7 @@ const airtableToFollowUps = (nextSteps: string[] | null) => {
   for (const o of FOLLOW_UP_OPTIONS) {
     if (nextSteps?.includes(o.airtableValue)) result[o.id] = true;
   }
+
   return result;
 };
 
@@ -75,6 +76,7 @@ const FacilitatorFeedbackPage = () => {
         flagged: isFlagged(followUps),
       };
     }
+
     setFeedbackByParticipant(initial);
   }, [formData]);
 
@@ -92,7 +94,8 @@ const FacilitatorFeedbackPage = () => {
 
   const roundName = formData?.roundName ?? '';
   const participants = formData?.participants ?? [];
-  const completedCount = Object.keys(feedbackByParticipant).length;
+  const dropIns = formData?.dropIns ?? [];
+  const completedCount = participants.filter((p) => feedbackByParticipant[p.id]).length;
   const selectedFeedback = selectedParticipant ? feedbackByParticipant[selectedParticipant.id] : undefined;
   const selectedInitialData = selectedFeedback?.status === 'completed' ? selectedFeedback.data : undefined;
   const submitPayload = {
@@ -105,7 +108,7 @@ const FacilitatorFeedbackPage = () => {
   return (
     <div className="min-h-screen bg-cream-normal">
       <Head>
-        <title>Course Feedback | BlueDot Impact</title>
+        <title>{roundName ? `Course Feedback · ${roundName}` : 'Course Feedback'} | BlueDot Impact</title>
       </Head>
 
       <div className="max-w-2xl mx-auto py-8 px-4">
@@ -113,7 +116,7 @@ const FacilitatorFeedbackPage = () => {
         <section className="bg-white rounded-lg border border-t-4 border-t-bluedot-normal p-8 mb-6">
           <h1>Course Feedback</h1>
           <p className="text-bluedot-normal mb-4">{roundName}</p>
-          <ul className="text-sm text-gray-600 space-y-1">
+          <ul className="text-size-sm text-gray-600 space-y-1">
             <li>☆ Help us improve the course and support the right people.</li>
             <li>⏱ 8–10 min for course questions + a few min per participant.</li>
             <li>🔒 Your responses are only seen by BlueDot staff.</li>
@@ -122,9 +125,9 @@ const FacilitatorFeedbackPage = () => {
 
         {/* Course feedback card */}
         <section className="bg-white rounded-lg border p-8 mb-6">
-          <p className="text-xs uppercase tracking-wide text-gray-500 mb-2">Course feedback</p>
+          <p className="text-size-xs uppercase tracking-wide text-gray-500 mb-2">Course feedback</p>
           <h2>How did the course go?</h2>
-          <p className="text-sm text-gray-600 mb-6">Your honest feedback helps us improve the course and calibrate quality across cohorts.</p>
+          <p className="text-size-sm text-gray-600 mb-6">Your honest feedback helps us improve the course and calibrate quality across cohorts.</p>
 
           <label className="block mb-1 font-medium">
             Overall rating <span className="text-red-500">*</span>
@@ -134,7 +137,7 @@ const FacilitatorFeedbackPage = () => {
           <label htmlFor="most-valuable" className="block mt-6 mb-1 font-medium">
             What did you find most valuable? <span className="text-red-500">*</span>
           </label>
-          <p className="text-sm text-gray-500 mb-1">Describe a specific moment or element that stands out.</p>
+          <p className="text-size-sm text-gray-500 mb-1">Describe a specific moment or element that stands out.</p>
           <textarea
             id="most-valuable"
             value={mostValuable}
@@ -146,7 +149,7 @@ const FacilitatorFeedbackPage = () => {
           <label htmlFor="difficulties" className="block mt-6 mb-1 font-medium">
             Where did you face difficulties? <span className="text-red-500">*</span>
           </label>
-          <p className="text-sm text-gray-500 mb-1">Share at least two specific situations — underprepared moments, curriculum gaps, platform issues, or cohort challenges.</p>
+          <p className="text-size-sm text-gray-500 mb-1">Share at least two specific situations — underprepared moments, curriculum gaps, platform issues, or cohort challenges.</p>
           <textarea
             id="difficulties"
             value={difficulties}
@@ -159,16 +162,16 @@ const FacilitatorFeedbackPage = () => {
 
         {/* Participant insights card */}
         <section className="bg-white rounded-lg border p-8 mb-6">
-          <p className="text-xs uppercase tracking-wide text-gray-500 mb-2">Participant insights</p>
+          <p className="text-size-xs uppercase tracking-wide text-gray-500 mb-2">Participant insights</p>
           <h2>Share your insights on each participant</h2>
-          <p className="text-sm text-gray-600 mb-2">
+          <p className="text-size-sm text-gray-600 mb-2">
             We use it to identify the most promising participants in your cohort and decide how to back them — whether that's career introductions, grants, or an invitation to facilitate.
           </p>
-          <p className="text-sm text-gray-600 mb-6">
+          <p className="text-size-sm text-gray-600 mb-6">
             We recommend starting with participants who stood out in the course.
           </p>
 
-          <p className="text-xs uppercase tracking-wide text-gray-500 mb-2">Cohort members</p>
+          <p className="text-size-xs uppercase tracking-wide text-gray-500 mb-2">Cohort members</p>
           <ul>
             {participants.map((participant) => (
               <li key={participant.id}>
@@ -182,22 +185,42 @@ const FacilitatorFeedbackPage = () => {
             ))}
           </ul>
 
-          <button type="button" className="text-sm text-gray-500 mt-2">+ Add a participant</button>
+          {dropIns.length > 0 && (
+            <>
+              <p className="text-size-xs uppercase tracking-wide text-gray-500 mt-6 mb-2">Drop-ins</p>
+              <ul>
+                {dropIns.map((participant) => (
+                  <li key={participant.id}>
+                    <ParticipantCard
+                      participant={participant}
+                      feedback={feedbackByParticipant[participant.id]}
+                      showNudge={false}
+                      onClick={() => setSelectedParticipant(participant)}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+
+          <button type="button" className="text-size-sm text-gray-500 mt-2">+ Add a participant</button>
         </section>
 
         {/* Submit section */}
         <section className="bg-white rounded-lg border p-8 mb-8">
           {showIncompleteWarning && completedCount < participants.length ? (
             <>
-              <p className="flex gap-2 items-start bg-orange-50 text-orange-800 text-sm rounded p-3 border border-orange-200">
+              <p className="flex gap-2 items-start bg-orange-50 text-orange-800 text-size-sm rounded p-3 border border-orange-200">
                 <span className="shrink-0">⚠</span>
                 {participants.length - completedCount} participants still need feedback. Even just a star rating or "no strong impression" on each one helps BlueDot understand where they stand.
               </p>
               <button
                 type="button"
-                className="text-sm text-gray-500 mt-2 underline"
+                className="text-size-sm text-gray-500 mt-2 underline"
                 disabled={submitFeedback.isPending}
-                onClick={() => { /* TODO: error handling */ submitFeedback.mutateAsync(submitPayload); }}
+                onClick={() => {
+                  /* TODO: error handling */ submitFeedback.mutateAsync(submitPayload);
+                }}
               >
                 {submitFeedback.isPending ? 'Submitting...' : 'Submit anyway'}
               </button>
@@ -219,7 +242,7 @@ const FacilitatorFeedbackPage = () => {
               >
                 {submitFeedback.isPending ? 'Submitting...' : 'Submit feedback'}
               </button>
-              <p className="text-sm text-gray-500">
+              <p className="text-size-sm text-gray-500">
                 {completedCount} of {participants.length} participant feedback completed
               </p>
             </div>
@@ -227,8 +250,10 @@ const FacilitatorFeedbackPage = () => {
           {formData?.existingCourseFeedback?.submittedAt != null && (
             <button
               type="button"
-              className="text-xs text-gray-400 mt-2"
-              onClick={() => { /* TODO: error handling */ unsubmitFeedback.mutateAsync({ meetPersonId }).then(() => window.location.reload()); }}
+              className="text-size-xs text-gray-400 mt-2"
+              onClick={() => {
+                /* TODO: error handling */ unsubmitFeedback.mutateAsync({ meetPersonId }).then(() => window.location.reload());
+              }}
             >
               [Debug] Unsubmit
             </button>
@@ -311,19 +336,19 @@ const ParticipantCard: React.FC<ParticipantCardProps> = ({ participant, feedback
     >
       <div className="flex items-center gap-3">
         {feedback ? (
-          <div className="w-10 h-10 rounded-full bg-bluedot-normal text-white flex items-center justify-center text-sm">✓</div>
+          <div className="w-10 h-10 rounded-full bg-bluedot-normal text-white flex items-center justify-center text-size-sm">✓</div>
         ) : (
-          <div className="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center text-sm font-medium">{initials}</div>
+          <div className="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center text-size-sm font-medium">{initials}</div>
         )}
         <div>
           <p className="font-medium">{participant.name}</p>
-          <p className="text-sm text-gray-400">{getSubtitle(feedback)}</p>
+          <p className="text-size-sm text-gray-400">{getSubtitle(feedback)}</p>
           {showNudge && !feedback && (
-            <p className="text-xs text-bluedot-normal">ℹ Even just a star rating helps</p>
+            <p className="text-size-xs text-bluedot-normal">ℹ Even just a star rating helps</p>
           )}
         </div>
       </div>
-      <span className="text-sm text-bluedot-normal">
+      <span className="text-size-sm text-bluedot-normal">
         {feedback ? 'Edit' : 'Add feedback →'}
       </span>
     </button>

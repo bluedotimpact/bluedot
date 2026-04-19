@@ -1,6 +1,7 @@
 import {
   courseFeedbackTable,
   courseTable,
+  groupDiscussionTable,
   groupTable,
   meetPersonTable,
   peerFeedbackTable,
@@ -18,8 +19,10 @@ const FACILITATOR_ID = 'facilitator-1';
 const PARTICIPANT_1 = 'participant-1';
 const PARTICIPANT_2 = 'participant-2';
 const OUTSIDER = 'outsider-1';
+const DROP_IN = 'drop-in-1';
 const ROUND_ID = 'round-1';
 const GROUP_ID = 'group-1';
+const DISCUSSION_ID = 'discussion-1';
 
 async function seedFacilitatorGroup() {
   await testDb.insert(courseTable, {
@@ -64,6 +67,25 @@ async function seedFacilitatorGroup() {
     round: ROUND_ID,
     facilitator: [FACILITATOR_ID],
     participants: [PARTICIPANT_1, PARTICIPANT_2],
+  });
+}
+
+async function seedDropIn() {
+  await testDb.insert(meetPersonTable, {
+    id: DROP_IN,
+    email: 'dropin@example.com',
+    name: 'Drop In',
+    round: ROUND_ID,
+    role: 'Participant',
+  });
+  await testDb.insert(groupDiscussionTable, {
+    id: DISCUSSION_ID,
+    group: GROUP_ID,
+    facilitators: [FACILITATOR_ID],
+    participantsExpected: [PARTICIPANT_1, PARTICIPANT_2],
+    attendees: [PARTICIPANT_1, DROP_IN],
+    startDateTime: 1000,
+    endDateTime: 2000,
   });
 }
 
@@ -177,6 +199,17 @@ describe('facilitators.savePeerFeedback', () => {
     expect(await testDb.scan(courseFeedbackTable)).toHaveLength(0);
   });
 
+  test('allows feedback for a drop-in (attendee of a group discussion, not a listed participant)', async () => {
+    await seedFacilitatorGroup();
+    await seedDropIn();
+
+    await caller.facilitators.savePeerFeedback({ ...baseInput, participantId: DROP_IN });
+
+    const pfs = await testDb.scan(peerFeedbackTable);
+    expect(pfs).toHaveLength(1);
+    expect(pfs[0]!.feedbackRecipient).toEqual([DROP_IN]);
+  });
+
   test('rejects meetPersonId that belongs to a Participant, not a Facilitator', async () => {
     await seedFacilitatorGroup();
     await testDb.insert(meetPersonTable, {
@@ -244,6 +277,7 @@ describe('facilitators.getFeedbackFormData', () => {
 
     expect(result.groupId).toBe(GROUP_ID);
     expect(result.participants.map((p) => p.id).sort()).toEqual([PARTICIPANT_1, PARTICIPANT_2].sort());
+    expect(result.dropIns).toEqual([]);
     expect(result.existingCourseFeedback).toMatchObject({
       courseRating: 5,
       courseValue: 'Great course',
@@ -270,6 +304,41 @@ describe('facilitators.getFeedbackFormData', () => {
 
     await expect(caller.facilitators.getFeedbackFormData({ meetPersonId: 'other-facilitator' }))
       .rejects.toThrow('Not authorized');
+  });
+
+  test('returns drop-ins (attendees not in group.participants)', async () => {
+    await seedFacilitatorGroup();
+    await seedDropIn();
+
+    const result = await caller.facilitators.getFeedbackFormData({ meetPersonId: FACILITATOR_ID });
+
+    expect(result.participants.map((p) => p.id).sort()).toEqual([PARTICIPANT_1, PARTICIPANT_2].sort());
+    expect(result.dropIns).toEqual([{ id: DROP_IN, name: 'Drop In' }]);
+  });
+
+  test('excludes facilitators from drop-ins (self and co-facilitators)', async () => {
+    await seedFacilitatorGroup();
+    await testDb.insert(meetPersonTable, {
+      id: 'co-facilitator',
+      email: 'co@example.com',
+      name: 'Co Facilitator',
+      round: ROUND_ID,
+      role: 'Facilitator',
+    });
+    await testDb.insert(groupDiscussionTable, {
+      id: DISCUSSION_ID,
+      group: GROUP_ID,
+      facilitators: [FACILITATOR_ID],
+      participantsExpected: [PARTICIPANT_1, PARTICIPANT_2],
+      // Discussion had both facilitators attending, plus a real drop-in participant
+      attendees: [FACILITATOR_ID, 'co-facilitator', PARTICIPANT_1],
+      startDateTime: 1000,
+      endDateTime: 2000,
+    });
+
+    const result = await caller.facilitators.getFeedbackFormData({ meetPersonId: FACILITATOR_ID });
+
+    expect(result.dropIns).toEqual([]);
   });
 });
 
