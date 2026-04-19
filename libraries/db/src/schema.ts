@@ -1401,6 +1401,10 @@ export const courseFeedbackTable = pgAirtable('course_feedback', {
       pgColumn: text().array(),
       airtableId: 'fldf1vkZDkPDpWdRX',
     },
+    submittedAt: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldU1lnBjth2Fxban',
+    },
   },
 });
 
