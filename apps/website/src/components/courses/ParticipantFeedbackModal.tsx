@@ -1,5 +1,6 @@
 import { Modal } from '@bluedot/ui';
 import { useState } from 'react';
+import { FOLLOW_UP_OPTIONS } from '../../lib/facilitatorFollowUps';
 
 export type ParticipantFeedbackData = {
   showUpRating: number;
@@ -142,14 +143,6 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
 };
 
 export default ParticipantFeedbackModal;
-
-export const FOLLOW_UP_OPTIONS = [
-  { id: 'no-action', label: 'No further action needed', airtableValue: 'No further action needed' },
-  { id: 'talent-pipeline', label: 'Add to talent pipeline (keep warm) — for future opportunities', airtableValue: 'Add to talent pipeline [keep warm for future opportunities/check-ins]' },
-  { id: 'schedule-call', label: 'Schedule a call within the week (high priority)', airtableValue: 'Schedule follow-up call with BlueDot team within ~1 week (high-priority)' },
-  { id: 'funding-candidate', label: 'Potential funding candidate — career transition or project support', airtableValue: 'Flag as candidate for funding (career transition/project)' },
-  { id: 'invite-facilitator', label: 'Invite to apply as a facilitator', airtableValue: 'Recommend to facilitate' },
-];
 
 // --- RubricSelector ---
 

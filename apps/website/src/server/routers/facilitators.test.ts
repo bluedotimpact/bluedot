@@ -73,7 +73,7 @@ const baseInput = {
   initiativeRating: 4,
   reasoningQualityRating: 5,
   feedback: 'Great work',
-  nextSteps: ['Recommend to facilitate'],
+  nextSteps: ['Recommend to facilitate' as const],
 };
 
 describe('facilitators.savePeerFeedback', () => {

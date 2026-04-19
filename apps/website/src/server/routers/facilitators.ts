@@ -15,6 +15,7 @@ import {
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
+import { FOLLOW_UP_AIRTABLE_VALUES } from '../../lib/facilitatorFollowUps';
 import { protectedProcedure, router } from '../trpc';
 
 const getFacilitator = async (roundId: string, facilitatorEmail: string) => {
@@ -276,7 +277,7 @@ export const facilitatorRouter = router({
       initiativeRating: z.number().min(1).max(5),
       reasoningQualityRating: z.number().min(1).max(5),
       feedback: z.string(),
-      nextSteps: z.array(z.string()),
+      nextSteps: z.array(z.enum(FOLLOW_UP_AIRTABLE_VALUES)),
     }))
     .mutation(async ({ input, ctx }) => {
       const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx.auth.email);

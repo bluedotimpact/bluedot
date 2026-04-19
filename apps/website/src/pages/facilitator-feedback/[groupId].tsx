@@ -3,7 +3,8 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { ProgressDots } from '@bluedot/ui';
 import StarRating from '../../components/courses/StarRating';
-import ParticipantFeedbackModal, { FOLLOW_UP_OPTIONS, type ParticipantFeedbackData } from '../../components/courses/ParticipantFeedbackModal';
+import ParticipantFeedbackModal, { type ParticipantFeedbackData } from '../../components/courses/ParticipantFeedbackModal';
+import { FOLLOW_UP_OPTIONS } from '../../lib/facilitatorFollowUps';
 import { trpc } from '../../utils/trpc';
 
 type ParticipantFeedback =
