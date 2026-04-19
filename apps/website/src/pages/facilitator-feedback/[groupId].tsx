@@ -223,7 +223,7 @@ const FacilitatorFeedbackPage = () => {
               </p>
             </div>
           )}
-          {formData?.existingCourseFeedback?.completed && (
+          {formData?.existingCourseFeedback?.submittedAt != null && (
             <button
               type="button"
               className="text-xs text-gray-400 mt-2"
