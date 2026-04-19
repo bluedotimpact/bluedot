@@ -11,7 +11,6 @@ export type ParticipantFeedbackData = {
 type ParticipantFeedbackModalProps = {
   participant: { id: string; name: string };
   initialData?: ParticipantFeedbackData;
-  open: boolean;
   isSaving?: boolean;
   onClose: () => void;
   onSave: (data: ParticipantFeedbackData) => void;
@@ -34,7 +33,7 @@ const ENGAGE_OPTIONS: RubricOption[] = [
   { value: 1, label: 'Mostly quiet or repeated what the readings said', description: 'When asked to elaborate, responses were vague or surface-level.' },
 ];
 
-const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ participant, initialData, open, isSaving, onClose, onSave, onNoStrongImpression }) => {
+const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ participant, initialData, isSaving, onClose, onSave, onNoStrongImpression }) => {
   const [showUpRating, setShowUpRating] = useState<number | null>(initialData?.showUpRating ?? null);
   const [engageRating, setEngageRating] = useState<number | null>(initialData?.engageRating ?? null);
   const [investmentNote, setInvestmentNote] = useState(initialData?.investmentNote ?? '');
@@ -43,11 +42,12 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
 
   return (
     <Modal
-      isOpen={open}
-      setIsOpen={() => { /* disable close on outside click */ }}
+      isOpen
+      setIsOpen={(v) => { if (!v) onClose(); }}
       title={participant.name}
       bottomDrawerOnMobile
       ariaLabel="Participant feedback"
+      // TODO: disable clickaway (needs isDismissable prop on Modal)
     >
       <div className="w-full pt-6 max-w-[600px]">
         <div className="w-[600px] max-w-full h-0" />

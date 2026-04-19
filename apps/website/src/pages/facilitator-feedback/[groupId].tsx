@@ -239,7 +239,6 @@ const FacilitatorFeedbackPage = () => {
       {selectedParticipant && (
         <ParticipantFeedbackModal
           participant={selectedParticipant}
-          open
           initialData={selectedInitialData}
           isSaving={savePeerFeedback.isPending}
           onClose={() => setSelectedParticipant(null)}
