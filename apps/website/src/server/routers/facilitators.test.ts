@@ -226,3 +226,108 @@ describe('facilitators.savePeerFeedback', () => {
       .rejects.toThrow('No group found for this facilitator');
   });
 });
+
+describe('facilitators.getFeedbackFormData', () => {
+  const caller = createCaller(testAuthContextLoggedIn);
+
+  test('returns existing course and peer feedback after saves', async () => {
+    await seedFacilitatorGroup();
+    await caller.facilitators.savePeerFeedback(baseInput);
+    await caller.facilitators.submitFeedback({
+      meetPersonId: FACILITATOR_ID,
+      courseRating: 5,
+      courseValue: 'Great course',
+      improvements: 'None',
+    });
+
+    const result = await caller.facilitators.getFeedbackFormData({ meetPersonId: FACILITATOR_ID });
+
+    expect(result.groupId).toBe(GROUP_ID);
+    expect(result.participants.map((p) => p.id).sort()).toEqual([PARTICIPANT_1, PARTICIPANT_2].sort());
+    expect(result.existingCourseFeedback).toMatchObject({
+      courseRating: 5,
+      courseValue: 'Great course',
+      improvements: 'None',
+    });
+    expect(result.existingCourseFeedback?.submittedAt).toBeTypeOf('number');
+    expect(result.existingPeerFeedback).toHaveLength(1);
+    expect(result.existingPeerFeedback[0]).toMatchObject({
+      recipientId: PARTICIPANT_1,
+      initiativeRating: 4,
+      reasoningQualityRating: 5,
+      feedback: 'Great work',
+    });
+  });
+
+  test('rejects meetPersonId that belongs to a different user', async () => {
+    await seedFacilitatorGroup();
+    await testDb.insert(meetPersonTable, {
+      id: 'other-facilitator',
+      email: 'other@example.com',
+      round: ROUND_ID,
+      role: 'Facilitator',
+    });
+
+    await expect(caller.facilitators.getFeedbackFormData({ meetPersonId: 'other-facilitator' }))
+      .rejects.toThrow('Not authorized');
+  });
+});
+
+describe('facilitators.submitFeedback', () => {
+  const caller = createCaller(testAuthContextLoggedIn);
+
+  const submitInput = {
+    meetPersonId: FACILITATOR_ID,
+    courseRating: 4,
+    courseValue: 'Valuable',
+    improvements: 'More exercises',
+  };
+
+  test('creates course_feedback stub and sets submittedAt on first submit', async () => {
+    await seedFacilitatorGroup();
+
+    const before = Math.floor(Date.now() / 1000);
+    const { courseFeedbackId } = await caller.facilitators.submitFeedback(submitInput);
+    const after = Math.floor(Date.now() / 1000);
+
+    const cfs = await testDb.scan(courseFeedbackTable);
+    expect(cfs).toHaveLength(1);
+    expect(cfs[0]!.id).toBe(courseFeedbackId);
+    expect(cfs[0]).toMatchObject({
+      courseRating: 4,
+      courseValue: 'Valuable',
+      improvements: 'More exercises',
+    });
+    expect(cfs[0]!.submittedAt).toBeGreaterThanOrEqual(before);
+    expect(cfs[0]!.submittedAt).toBeLessThanOrEqual(after);
+  });
+
+  test('reuses existing course_feedback (e.g. stub from savePeerFeedback)', async () => {
+    await seedFacilitatorGroup();
+    await caller.facilitators.savePeerFeedback(baseInput);
+    const [stub] = await testDb.scan(courseFeedbackTable);
+
+    const { courseFeedbackId } = await caller.facilitators.submitFeedback(submitInput);
+
+    expect(courseFeedbackId).toBe(stub!.id);
+    const cfs = await testDb.scan(courseFeedbackTable);
+    expect(cfs).toHaveLength(1);
+    expect(cfs[0]!.submittedAt).toBeTypeOf('number');
+  });
+
+  test('rejects meetPersonId that belongs to a Participant', async () => {
+    await seedFacilitatorGroup();
+    await testDb.insert(meetPersonTable, {
+      id: 'participant-self',
+      email: FACILITATOR_EMAIL,
+      round: ROUND_ID,
+      role: 'Participant',
+    });
+
+    await expect(caller.facilitators.submitFeedback({
+      ...submitInput,
+      meetPersonId: 'participant-self',
+    })).rejects.toThrow('Not authorized');
+  });
+});
+
