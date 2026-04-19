@@ -260,7 +260,6 @@ export const facilitatorRouter = router({
           completed: existingCourseFeedback.completed,
         } : null,
         existingPeerFeedback: existingPeerFeedback.map((pf) => ({
-          id: pf.id,
           recipientId: pf.feedbackRecipient?.[0] ?? '',
           initiativeRating: pf.initiativeRating,
           reasoningQualityRating: pf.reasoningQualityRating,
@@ -274,7 +273,6 @@ export const facilitatorRouter = router({
     .input(z.object({
       meetPersonId: z.string().min(1),
       participantId: z.string().min(1),
-      peerFeedbackId: z.string().optional(),
       initiativeRating: z.number().min(1).max(5),
       reasoningQualityRating: z.number().min(1).max(5),
       feedback: z.string(),
@@ -282,6 +280,10 @@ export const facilitatorRouter = router({
     }))
     .mutation(async ({ input, ctx }) => {
       const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx.auth.email);
+      const group = await getGroupForFacilitator(meetPerson.id);
+      if (!(group.participants ?? []).includes(input.participantId)) {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Participant is not in your group' });
+      }
       const courseFeedback = await getOrCreateCourseFeedback(meetPerson);
 
       const fields = {
@@ -293,8 +295,14 @@ export const facilitatorRouter = router({
         nextSteps: input.nextSteps,
       };
 
-      if (input.peerFeedbackId) {
-        return db.update(peerFeedbackTable, { id: input.peerFeedbackId, ...fields });
+      const [existing] = await db.pg.select({ id: peerFeedbackTable.pg.id }).from(peerFeedbackTable.pg)
+        .where(and(
+          arrayContains(peerFeedbackTable.pg.courseFeedback, [courseFeedback.id]),
+          arrayContains(peerFeedbackTable.pg.feedbackRecipient, [input.participantId]),
+        ));
+
+      if (existing) {
+        return db.update(peerFeedbackTable, { id: existing.id, ...fields });
       }
       return db.insert(peerFeedbackTable, fields);
     }),

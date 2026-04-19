@@ -8,7 +8,7 @@ import { trpc } from '../../utils/trpc';
 
 type ParticipantFeedback =
   | { status: 'no-strong-impression' }
-  | { status: 'completed'; peerFeedbackId?: string; data: ParticipantFeedbackData; flagged: boolean };
+  | { status: 'completed'; data: ParticipantFeedbackData; flagged: boolean };
 
 const isFlagged = (followUps: Record<string, boolean>) => Object.entries(followUps).some(([key, v]) => v && key !== 'no-action');
 
@@ -65,7 +65,6 @@ const FacilitatorFeedbackPage = () => {
       const followUps = airtableToFollowUps(pf.nextSteps);
       initial[pf.recipientId] = {
         status: 'completed',
-        peerFeedbackId: pf.id,
         data: {
           showUpRating: pf.initiativeRating ?? 0,
           engageRating: pf.reasoningQualityRating ?? 0,
@@ -243,12 +242,10 @@ const FacilitatorFeedbackPage = () => {
           isSaving={savePeerFeedback.isPending}
           onClose={() => setSelectedParticipant(null)}
           onSave={async (data) => {
-            const peerFeedbackId = selectedFeedback?.status === 'completed' ? selectedFeedback.peerFeedbackId : undefined;
             // TODO: error handling
-            const result = await savePeerFeedback.mutateAsync({
+            await savePeerFeedback.mutateAsync({
               meetPersonId,
               participantId: selectedParticipant.id,
-              peerFeedbackId,
               initiativeRating: data.showUpRating,
               reasoningQualityRating: data.engageRating,
               feedback: data.investmentNote,
@@ -257,7 +254,7 @@ const FacilitatorFeedbackPage = () => {
             setFeedbackByParticipant({
               ...feedbackByParticipant,
               [selectedParticipant.id]: {
-                status: 'completed', peerFeedbackId: result.id, data, flagged: isFlagged(data.followUps),
+                status: 'completed', data, flagged: isFlagged(data.followUps),
               },
             });
             setSelectedParticipant(null);
