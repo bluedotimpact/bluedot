@@ -86,9 +86,18 @@ const reduce = (state: SessionState, action: Action): SessionState => {
   }
 
   if (action.type === 'MORE_LOADED' && state.status === 'reviewing') {
+    // Dedupe against seen and queue: Airtable pagination can return the same
+    // record across pages when the filtered-on field is modified mid-iteration,
+    // which happens constantly here because every rating mutates the Decision
+    // field the formula filters on.
+    const known = new Set<string>([
+      ...state.seen.map((a) => a.id),
+      ...state.queue.map((a) => a.id),
+    ]);
+    const fresh = (action.applications ?? []).filter((a) => !known.has(a.id));
     return {
       ...state,
-      queue: [...state.queue, ...(action.applications ?? [])],
+      queue: [...state.queue, ...fresh],
       nextOffset: action.nextOffset,
     };
   }
