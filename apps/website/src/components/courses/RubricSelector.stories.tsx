@@ -17,8 +17,7 @@ const RubricSelectorWrapper: React.FC = () => {
   return (
     <RubricSelector
       name="show-up"
-      label="How did they show up across discussions?"
-      description="Think about preparation, initiative, and engagement between sessions."
+      ariaLabelledBy="show-up-label"
       options={SAMPLE_OPTIONS}
       value={value}
       onChange={setValue}
@@ -44,8 +43,7 @@ const PreselectedWrapper: React.FC = () => {
   return (
     <RubricSelector
       name="show-up"
-      label="How did they show up across discussions?"
-      description="Think about preparation, initiative, and engagement between sessions."
+      ariaLabelledBy="show-up-label"
       options={SAMPLE_OPTIONS}
       value={value}
       onChange={setValue}

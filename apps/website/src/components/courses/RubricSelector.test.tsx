@@ -15,18 +15,15 @@ const OPTIONS = [
 ];
 
 describe('RubricSelector', () => {
-  test('renders legend, description, and all options', () => {
+  test('renders all options', () => {
     const { getByText } = render(<RubricSelector
       name="show-up"
-      label="How did they show up?"
-      description="Think about preparation."
+      ariaLabelledBy="show-up-label"
       options={OPTIONS}
       value={null}
       onChange={() => {}}
     />);
 
-    expect(getByText('How did they show up?')).toBeTruthy();
-    expect(getByText('Think about preparation.')).toBeTruthy();
     OPTIONS.forEach((option) => {
       expect(getByText(option.label)).toBeTruthy();
     });
@@ -36,8 +33,7 @@ describe('RubricSelector', () => {
     const onChange = vi.fn();
     const { getByText } = render(<RubricSelector
       name="show-up"
-      label="How did they show up?"
-      description="Think about preparation."
+      ariaLabelledBy="show-up-label"
       options={OPTIONS}
       value={null}
       onChange={onChange}
@@ -50,8 +46,7 @@ describe('RubricSelector', () => {
   test('reflects the selected value', () => {
     const { container } = render(<RubricSelector
       name="show-up"
-      label="How did they show up?"
-      description="Think about preparation."
+      ariaLabelledBy="show-up-label"
       options={OPTIONS}
       value={3}
       onChange={() => {}}
@@ -66,8 +61,7 @@ describe('RubricSelector', () => {
   test('shows description only for the selected option', () => {
     const { getByText, queryByText } = render(<RubricSelector
       name="show-up"
-      label="How did they show up?"
-      description="Think about preparation."
+      ariaLabelledBy="show-up-label"
       options={OPTIONS}
       value={3}
       onChange={() => {}}
@@ -85,8 +79,7 @@ describe('RubricSelector', () => {
   test('hides all descriptions when nothing is selected', () => {
     const { queryByText } = render(<RubricSelector
       name="show-up"
-      label="How did they show up?"
-      description="Think about preparation."
+      ariaLabelledBy="show-up-label"
       options={OPTIONS}
       value={null}
       onChange={() => {}}
@@ -100,8 +93,7 @@ describe('RubricSelector', () => {
   test('is a semantic radiogroup', () => {
     const { container } = render(<RubricSelector
       name="show-up"
-      label="How did they show up?"
-      description="Think about preparation."
+      ariaLabelledBy="show-up-label"
       options={OPTIONS}
       value={null}
       onChange={() => {}}

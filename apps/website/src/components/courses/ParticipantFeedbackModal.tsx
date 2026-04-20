@@ -73,42 +73,59 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
           Your responses are only seen by BlueDot staff
         </p>
 
-        <RubricSelector
-          name="show-up"
-          label="How did they show up across discussions?"
-          description="Think about preparation, initiative, and engagement between sessions."
-          options={SHOW_UP_OPTIONS}
-          value={showUpRating}
-          onChange={setShowUpRating}
-        />
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-1.5">
+            <p id="show-up-label" className="text-size-xs font-semibold text-bluedot-navy">
+              How did they show up across discussions?
+            </p>
+            <p className="text-size-xs text-gray-500">
+              Think about preparation, initiative, and engagement between sessions.
+            </p>
+          </div>
+          <RubricSelector
+            name="show-up"
+            ariaLabelledBy="show-up-label"
+            options={SHOW_UP_OPTIONS}
+            value={showUpRating}
+            onChange={setShowUpRating}
+          />
+        </div>
 
-        <div className="mt-6">
+        <div className="mt-6 flex flex-col gap-2">
+          <div className="flex flex-col gap-1.5">
+            <p id="engage-label" className="text-size-xs font-semibold text-bluedot-navy">
+              How did they engage with ideas during discussions?
+            </p>
+            <p className="text-size-xs text-gray-500">
+              Think about quality of thinking, willingness to challenge, and depth of engagement.
+            </p>
+          </div>
           <RubricSelector
             name="engage"
-            label="How did they engage with ideas during discussions?"
-            description="Think about quality of thinking, willingness to challenge, and depth of engagement."
+            ariaLabelledBy="engage-label"
             options={ENGAGE_OPTIONS}
             value={engageRating}
             onChange={setEngageRating}
           />
         </div>
 
-        <div className="mt-6">
-          <label htmlFor="investment-note" className="font-medium">
-            In 2–3 sentences: what would you tell BlueDot if we asked "how much time should we invest in this person?"
-          </label>
-          <p className="text-size-sm text-gray-500 mb-2">Feel free to paste this from your 1:1 report.</p>
+        <div className="mt-6 flex flex-col gap-2">
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="investment-note" className="text-size-xs font-semibold text-bluedot-navy">
+              In 2-3 sentences: what would you tell BlueDot if we asked "how much time should we invest in this person?"
+            </label>
+            <p className="text-size-xs text-gray-500">Feel free to paste this from your 1:1 report.</p>
+          </div>
           <textarea
             id="investment-note"
             value={investmentNote}
             onChange={(e) => setInvestmentNote(e.target.value)}
-            rows={4}
-            className="w-full border rounded p-2"
+            className="w-full h-[106px] border border-gray-300 rounded-md p-3 text-size-xs text-bluedot-navy bg-white resize-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
           />
           {hasTopScore && (
-            <p className="flex gap-2 items-start bg-blue-50 text-bluedot-normal text-size-sm rounded p-3 mt-2">
+            <p className="flex gap-2 items-start bg-blue-50 text-bluedot-normal text-size-xs rounded-md p-3">
               <span className="shrink-0">ℹ</span>
-              You've given a top score — a short note on what stood out helps us act on this.
+              You've given a top score - a short note on what stood out helps us act on this.
             </p>
           )}
         </div>
@@ -171,19 +188,15 @@ export type RubricOption = {
 
 type RubricSelectorProps = {
   name: string;
-  label: string;
-  description: string;
+  ariaLabelledBy: string;
   options: RubricOption[];
   value: number | null;
   onChange: (value: number) => void;
 };
 
-export const RubricSelector: React.FC<RubricSelectorProps> = ({ name, label, description, options, value, onChange }) => {
-  const labelId = `${name}-label`;
+export const RubricSelector: React.FC<RubricSelectorProps> = ({ name, ariaLabelledBy, options, value, onChange }) => {
   return (
-    <div role="radiogroup" aria-labelledby={labelId}>
-      <p id={labelId} className="font-medium">{label}</p>
-      <p className="text-size-sm text-gray-500 mb-2">{description}</p>
+    <div role="radiogroup" aria-labelledby={ariaLabelledBy}>
       {options.map((option) => {
         const isSelected = value === option.value;
         return (
