@@ -1,6 +1,8 @@
 import { Modal } from '@bluedot/ui';
 import { useState } from 'react';
+import { FaLock } from 'react-icons/fa6';
 import { FOLLOW_UP_OPTIONS } from '../../lib/facilitatorFollowUps';
+import { getInitials } from '../../lib/utils';
 
 export type ParticipantFeedbackData = {
   showUpRating: number;
@@ -34,14 +36,6 @@ const ENGAGE_OPTIONS: RubricOption[] = [
   { value: 1, label: 'Mostly quiet or repeated what the readings said', description: 'When asked to elaborate, responses were vague or surface-level.' },
 ];
 
-const getInitials = (name: string) => name
-  .split(/\s+/)
-  .map((part) => part[0])
-  .filter(Boolean)
-  .slice(0, 2)
-  .join('')
-  .toUpperCase();
-
 const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ participant, initialData, isSaving, onClose, onSave, onNoStrongImpression }) => {
   const [showUpRating, setShowUpRating] = useState<number | null>(initialData?.showUpRating ?? null);
   const [engageRating, setEngageRating] = useState<number | null>(initialData?.engageRating ?? null);
@@ -61,7 +55,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
             {getInitials(participant.name)}
           </div>
           <span className="font-bold text-[16px] text-bluedot-navy">{participant.name}</span>
-          <button type="button" className="ml-auto text-size-xs font-medium text-bluedot-navy/56 underline cursor-pointer" onClick={onNoStrongImpression}>
+          <button type="button" className="ml-auto text-size-xs font-medium text-gray-500 underline underline-offset-[3px] cursor-pointer" onClick={onNoStrongImpression}>
             No strong impression
           </button>
         </div>
@@ -71,10 +65,13 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
       ariaLabel="Participant feedback"
       // TODO: disable clickaway (needs isDismissable prop on Modal)
     >
-      <div className="w-full pt-4 max-w-[600px]">
-        <div className="w-[600px] max-w-full h-0" />
+      <div className="w-full pt-6 max-w-[552px] -mx-2">
+        <div className="w-[552px] max-w-full h-0" />
 
-        <p className="text-size-sm text-gray-400 mb-4">Your responses are only seen by BlueDot staff.</p>
+        <p className="flex items-center gap-1.5 text-[13px] leading-[1.3] text-gray-500 mb-6">
+          <FaLock className="size-[13px] shrink-0" aria-hidden />
+          Your responses are only seen by BlueDot staff
+        </p>
 
         <RubricSelector
           name="show-up"

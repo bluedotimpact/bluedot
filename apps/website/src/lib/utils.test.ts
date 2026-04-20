@@ -13,6 +13,7 @@ import {
   formatDateMonthAndDay,
   formatDateDayOfWeek,
   formatDateTimeRelative,
+  getInitials,
 } from './utils';
 
 // Test constants
@@ -289,5 +290,24 @@ describe('formatDateDayOfWeek', () => {
     const eveningResult = formatDateDayOfWeek(eveningTimestamp);
 
     expect(eveningResult).toBe('Tue');
+  });
+});
+
+describe('getInitials', () => {
+  it.each([
+    ['Clara Ndubuisi', 'CN'],
+    ['clara ndubuisi', 'CN'],
+    ['Cher', 'C'],
+    ['Jean-Luc Picard', 'JP'],
+    ['Mary-Jane', 'M'],
+    ['Foo Bar Baz', 'FB'],
+    ['  Foo   Bar  ', 'FB'],
+    ['', ''],
+    ['   ', ''],
+    ['李明', '李'],
+    ['Léa Dupont', 'LD'],
+    ['😀 Bob', '😀B'],
+  ])('getInitials(%j) returns %j', (input, expected) => {
+    expect(getInitials(input)).toBe(expected);
   });
 });
