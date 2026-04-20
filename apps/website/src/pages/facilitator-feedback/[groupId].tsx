@@ -114,12 +114,12 @@ const FacilitatorFeedbackPage = () => {
 
       <div className="max-w-[680px] mx-auto py-8 px-4">
         {/* Hero card */}
-        <section className="bg-white rounded-lg border border-t-8 border-t-bluedot-normal p-9 mb-6 flex flex-col gap-6">
+        <section className="bg-white rounded-xl border border-t-8 border-t-bluedot-normal p-9 mb-8 flex flex-col gap-6">
           <div>
             <h1 className="text-3xl font-bold mb-2">Course Feedback</h1>
             <p className="text-size-xs font-medium text-bluedot-normal">{roundName}</p>
           </div>
-          <ul className="text-size-sm text-gray-600 space-y-2">
+          <ul className="text-size-xs text-gray-600 space-y-2">
             <li className="flex items-center gap-2"><PiStar className="shrink-0" aria-hidden />Help us improve the course and support the right people.</li>
             <li className="flex items-center gap-2"><PiClock className="shrink-0" aria-hidden />8–10 min for course questions + a few min per participant.</li>
             <li className="flex items-center gap-2"><PiLockSimple className="shrink-0" aria-hidden />Your responses are only seen by BlueDot staff.</li>
@@ -127,40 +127,54 @@ const FacilitatorFeedbackPage = () => {
         </section>
 
         {/* Course feedback card */}
-        <section className="bg-white rounded-lg border p-8 mb-6">
-          <p className="text-size-xs uppercase tracking-wide text-gray-500 mb-2">Course feedback</p>
-          <h2>How did the course go?</h2>
-          <p className="text-size-sm text-gray-600 mb-6">Your honest feedback helps us improve the course and calibrate quality across cohorts.</p>
+        <section className="bg-white rounded-xl border p-9 mb-8 flex flex-col gap-7">
+          <div className="flex flex-col gap-4">
+            <p className="text-size-xxs font-semibold uppercase tracking-wider text-bluedot-normal">Course feedback</p>
+            <div className="flex flex-col gap-1">
+              <h2 className="text-size-lg font-bold text-bluedot-navy">How did the course go?</h2>
+              <p className="text-size-xs text-bluedot-navy leading-relaxed">Your honest feedback helps us improve the course and calibrate quality across cohorts.</p>
+            </div>
+          </div>
 
-          <p className="block mb-1 font-medium">
-            Overall rating <span className="text-red-500">*</span>
-          </p>
-          <StarRating rating={overallRating} onChange={setOverallRating} />
+          <div className="flex flex-col gap-2">
+            <p className="text-size-xs font-semibold text-bluedot-navy">
+              Overall rating <span className="text-red-600">*</span>
+            </p>
+            <StarRating rating={overallRating} onChange={setOverallRating} />
+          </div>
 
-          <label htmlFor="most-valuable" className="block mt-6 mb-1 font-medium">
-            What did you find most valuable? <span className="text-red-500">*</span>
-          </label>
-          <p className="text-size-sm text-gray-500 mb-1">Describe a specific moment or element that stands out.</p>
-          <textarea
-            id="most-valuable"
-            value={mostValuable}
-            onChange={(e) => setMostValuable(e.target.value)}
-            rows={3}
-            className="w-full border rounded p-2"
-          />
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="most-valuable" className="text-size-xs font-semibold text-bluedot-navy">
+                What did you find most valuable? <span className="text-red-600">*</span>
+              </label>
+              <p className="text-size-xs text-gray-500">Describe a specific moment or element that stands out.</p>
+            </div>
+            <textarea
+              id="most-valuable"
+              value={mostValuable}
+              onChange={(e) => setMostValuable(e.target.value)}
+              rows={4}
+              className="w-full border border-gray-300 rounded-md p-3 text-size-xs text-bluedot-navy"
+            />
+          </div>
 
-          <label htmlFor="difficulties" className="block mt-6 mb-1 font-medium">
-            Where did you face difficulties? <span className="text-red-500">*</span>
-          </label>
-          <p className="text-size-sm text-gray-500 mb-1">Share at least two specific situations — underprepared moments, curriculum gaps, platform issues, or cohort challenges.</p>
-          <textarea
-            id="difficulties"
-            value={difficulties}
-            onChange={(e) => setDifficulties(e.target.value)}
-            placeholder="The more specific your feedback is, the easier it is for us to take action on it."
-            rows={3}
-            className="w-full border rounded p-2"
-          />
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="difficulties" className="text-size-xs font-semibold text-bluedot-navy">
+                Where did you face difficulties? <span className="text-red-600">*</span>
+              </label>
+              <p className="text-size-xs text-gray-500">Share at least two specific situations — underprepared moments, curriculum gaps, platform issues, or cohort challenges.</p>
+            </div>
+            <textarea
+              id="difficulties"
+              value={difficulties}
+              onChange={(e) => setDifficulties(e.target.value)}
+              placeholder="The more specific your feedback is, the easier it is for us to take action on it."
+              rows={4}
+              className="w-full border border-gray-300 rounded-md p-3 text-size-xs text-bluedot-navy placeholder:text-gray-400"
+            />
+          </div>
         </section>
 
         {/* Participant insights card */}
