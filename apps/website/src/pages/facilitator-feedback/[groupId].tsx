@@ -111,12 +111,14 @@ const FacilitatorFeedbackPage = () => {
         <title>{roundName ? `Course Feedback · ${roundName}` : 'Course Feedback'} | BlueDot Impact</title>
       </Head>
 
-      <div className="max-w-2xl mx-auto py-8 px-4">
+      <div className="max-w-[680px] mx-auto py-8 px-4">
         {/* Hero card */}
-        <section className="bg-white rounded-lg border border-t-4 border-t-bluedot-normal p-8 mb-6">
-          <h1>Course Feedback</h1>
-          <p className="text-bluedot-normal mb-4">{roundName}</p>
-          <ul className="text-size-sm text-gray-600 space-y-1">
+        <section className="bg-white rounded-lg border border-t-8 border-t-bluedot-normal p-9 mb-6 flex flex-col gap-6">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">Course Feedback</h1>
+            <p className="text-size-xs font-medium text-bluedot-normal">{roundName}</p>
+          </div>
+          <ul className="text-size-sm text-gray-600 space-y-2">
             <li>☆ Help us improve the course and support the right people.</li>
             <li>⏱ 8–10 min for course questions + a few min per participant.</li>
             <li>🔒 Your responses are only seen by BlueDot staff.</li>
