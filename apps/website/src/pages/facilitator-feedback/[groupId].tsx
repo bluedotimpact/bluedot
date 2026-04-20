@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { ProgressDots } from '@bluedot/ui';
-import { PiClock, PiLockSimple, PiStar } from 'react-icons/pi';
+import { PiClock, PiLockSimple, PiStar, PiWarningCircle } from 'react-icons/pi';
 import StarRating from '../../components/courses/StarRating';
 import ParticipantFeedbackModal, { type ParticipantFeedbackData } from '../../components/courses/ParticipantFeedbackModal';
 import { FOLLOW_UP_OPTIONS } from '../../lib/facilitatorFollowUps';
@@ -239,16 +239,20 @@ const FacilitatorFeedbackPage = () => {
         </section>
 
         {/* Submit section */}
-        <section className="bg-white rounded-lg border p-8 mb-8">
+        <section className="bg-white rounded-lg border p-5 mb-8 flex flex-col gap-3">
           {showIncompleteWarning && completedCount < participants.length ? (
             <>
-              <p className="flex gap-2 items-start bg-orange-50 text-orange-800 text-size-sm rounded p-3 border border-orange-200">
-                <span className="shrink-0">⚠</span>
-                {participants.length - completedCount} participants still need feedback. Even just a star rating or "no strong impression" on each one helps BlueDot understand where they stand.
-              </p>
+              <div className="flex gap-2 items-start bg-orange-50 text-orange-800 text-size-xs rounded-md p-3 border border-orange-200">
+                <PiWarningCircle className="shrink-0 mt-0.5 text-base" aria-hidden />
+                <p>
+                  <span className="font-semibold">{participants.length - completedCount} participants still need feedback.</span>
+                  {' '}
+                  Even just a star rating or "no strong impression" on each one helps BlueDot understand where they stand.
+                </p>
+              </div>
               <button
                 type="button"
-                className="text-size-sm text-gray-500 mt-2 underline"
+                className="self-start text-size-xs text-gray-500 underline cursor-pointer transition-colors hover:text-gray-700 disabled:opacity-50 disabled:pointer-events-none"
                 disabled={submitFeedback.isPending}
                 onClick={() => {
                   /* TODO: error handling */ submitFeedback.mutateAsync(submitPayload);
@@ -261,7 +265,7 @@ const FacilitatorFeedbackPage = () => {
             <div className="flex items-center gap-4">
               <button
                 type="button"
-                className="bg-bluedot-normal text-white px-6 py-3 rounded-lg font-medium"
+                className="bg-bluedot-normal text-white px-6 py-3 rounded-md text-size-xs leading-5 font-semibold transition-colors cursor-pointer hover:bg-bluedot-darker disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
                 disabled={submitFeedback.isPending || overallRating === 0}
                 onClick={() => {
                   if (completedCount < participants.length) {
@@ -274,15 +278,15 @@ const FacilitatorFeedbackPage = () => {
               >
                 {submitFeedback.isPending ? 'Submitting...' : 'Submit feedback'}
               </button>
-              <p className="text-size-sm text-gray-500">
-                {completedCount} of {participants.length} participant feedback completed
+              <p className="text-size-xs text-gray-600">
+                <span className="font-semibold text-bluedot-navy">{completedCount}</span> of <span className="font-semibold text-bluedot-navy">{participants.length}</span> participant feedback completed
               </p>
             </div>
           )}
           {formData?.existingCourseFeedback?.submittedAt != null && (
             <button
               type="button"
-              className="text-size-xs text-gray-400 mt-2"
+              className="self-start text-size-xxs text-gray-400 underline cursor-pointer"
               onClick={() => {
                 /* TODO: error handling */ unsubmitFeedback.mutateAsync({ meetPersonId }).then(() => window.location.reload());
               }}
