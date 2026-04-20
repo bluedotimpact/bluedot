@@ -182,6 +182,10 @@ export const fetchApplications = async (
   offset?: string,
 ): Promise<{ applications: Application[]; nextOffset?: string }> => {
   const collected: Application[] = [];
+  // Airtable pagination can return the same record across internal pages when
+  // the filtered-on field is modified mid-iteration (every rating mutates the
+  // Decision field). Track IDs to drop duplicates before they reach the queue.
+  const seenIds = new Set<string>();
   let currentOffset = offset;
 
   while (collected.length < RESPONSE_PAGE_SIZE) {
@@ -197,7 +201,14 @@ export const fetchApplications = async (
       currentOffset,
     );
 
-    const matching = records.filter((r) => matchesRound(r, roundId)).map(toApplication);
+    const matching = records
+      .filter((r) => matchesRound(r, roundId))
+      .map(toApplication)
+      .filter((a) => {
+        if (seenIds.has(a.id)) return false;
+        seenIds.add(a.id);
+        return true;
+      });
     collected.push(...matching);
     currentOffset = nextOffset;
 

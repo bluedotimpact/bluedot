@@ -86,10 +86,25 @@ const reduce = (state: SessionState, action: Action): SessionState => {
   }
 
   if (action.type === 'MORE_LOADED' && state.status === 'reviewing') {
+    // Dedupe against seen and queue: Airtable pagination can return the same
+    // record across pages when the filtered-on field is modified mid-iteration,
+    // which happens constantly here because every rating mutates the Decision
+    // field the formula filters on.
+    const known = new Set<string>([
+      ...state.seen.map((a) => a.id),
+      ...state.queue.map((a) => a.id),
+    ]);
+    const incoming = action.applications ?? [];
+    const fresh = incoming.filter((a) => !known.has(a.id));
+    // If the server returned records but every one was a duplicate (e.g. an
+    // offset-expired retry re-scanning already-rated records from the top),
+    // stop paginating. Otherwise the prefetch effect would fire again as soon
+    // as nextOffset changes and we'd burn API calls on more stale pages.
+    const nextOffset = incoming.length > 0 && fresh.length === 0 ? undefined : action.nextOffset;
     return {
       ...state,
-      queue: [...state.queue, ...(action.applications ?? [])],
-      nextOffset: action.nextOffset,
+      queue: [...state.queue, ...fresh],
+      nextOffset,
     };
   }
 
