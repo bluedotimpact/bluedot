@@ -136,15 +136,19 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
             </p>
             <p className="text-size-xs text-gray-500">Check all that apply.</p>
           </div>
-          <div>
+          <div className="flex flex-col gap-2">
             {FOLLOW_UP_OPTIONS.map((option) => (
-              <label key={option.id} className="flex items-center gap-3 border rounded p-3 mb-1 cursor-pointer">
+              <label
+                key={option.id}
+                className="flex items-center gap-2.5 border border-gray-300 rounded-md bg-white px-2.5 py-3 cursor-pointer hover:bg-gray-50 transition-colors"
+              >
                 <input
                   type="checkbox"
                   checked={!!followUps[option.id]}
                   onChange={(e) => setFollowUps({ ...followUps, [option.id]: e.target.checked })}
+                  className="size-[18px] shrink-0 cursor-pointer accent-bluedot-normal"
                 />
-                <span className="text-size-sm">{option.label}</span>
+                <span className="text-size-xs font-medium text-bluedot-navy">{option.label}</span>
               </label>
             ))}
           </div>
