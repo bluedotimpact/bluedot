@@ -121,12 +121,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
             onChange={(e) => setInvestmentNote(e.target.value)}
             className="w-full h-[106px] border border-gray-300 rounded-md p-3 text-size-xs text-bluedot-navy bg-white resize-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
           />
-          {hasTopScore && (
-            <p className="flex gap-2 items-start bg-blue-50 text-bluedot-normal text-size-xs rounded-md p-3">
-              <span className="shrink-0">ℹ</span>
-              You've given a top score - a short note on what stood out helps us act on this.
-            </p>
-          )}
+          {hasTopScore && <TopScoreNudge detail="a short note on what stood out helps us act on this." />}
         </div>
 
         <div className="mt-6 flex flex-col gap-2">
@@ -152,12 +147,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
               </label>
             ))}
           </div>
-          {hasTopScore && (
-            <p className="flex gap-2 items-start bg-blue-50 text-bluedot-normal text-size-xs rounded-md p-3">
-              <span className="shrink-0">ℹ</span>
-              You've given a top score - let us know how to follow up.
-            </p>
-          )}
+          {hasTopScore && <TopScoreNudge detail="let us know how to follow up." />}
         </div>
 
         <div className="flex items-center justify-between gap-3 mt-8 py-4 border-t border-gray-200">
@@ -192,6 +182,13 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
 };
 
 export default ParticipantFeedbackModal;
+
+const TopScoreNudge: React.FC<{ detail: string }> = ({ detail }) => (
+  <p className="flex gap-2 items-start bg-blue-50 text-bluedot-normal text-size-xs rounded-md p-3">
+    <span className="shrink-0">ℹ</span>
+    You've given a top score - {detail}
+  </p>
+);
 
 // --- RubricSelector ---
 
