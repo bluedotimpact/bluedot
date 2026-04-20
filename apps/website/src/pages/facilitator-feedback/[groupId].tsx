@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ProgressDots } from '@bluedot/ui';
 import {
   PiClock, PiLockSimple, PiStar, PiWarningCircle,
@@ -82,16 +82,6 @@ const FacilitatorFeedbackPage = () => {
 
     setFeedbackByParticipant(initial);
   }, [formData, noStrongImpressionKey]);
-
-  // TODO revert
-  // DEV: auto-open modal on first participant for styling iteration
-  const autoOpenedRef = useRef(false);
-  useEffect(() => {
-    if (!autoOpenedRef.current && formData?.participants?.[0]) {
-      autoOpenedRef.current = true;
-      setSelectedParticipant(formData.participants[0]);
-    }
-  }, [formData]);
 
   const savePeerFeedback = trpc.facilitators.savePeerFeedback.useMutation();
   const submitFeedback = trpc.facilitators.submitFeedback.useMutation();
@@ -244,7 +234,7 @@ const FacilitatorFeedbackPage = () => {
             className="self-start flex items-center gap-2 bg-white border border-gray-300 rounded-md px-4 py-2.5 text-size-xs font-medium text-bluedot-navy transition-colors cursor-pointer hover:bg-gray-50 active:bg-gray-100 focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
           >
             <span aria-hidden>+</span>
-            Add a participant
+            Add a participant (TODO)
           </button>
         </section>
 
@@ -368,7 +358,7 @@ const getSubtitle = (feedback: ParticipantFeedback | undefined): string => {
     `Initiative & preparation: ${feedback.data.showUpRating}/5`,
     `Quality of contribution: ${feedback.data.engageRating}/5`,
   ];
-  if (feedback.flagged) parts.push('→ Flagged');
+  if (feedback.flagged) parts.push('⭐ Flagged');
   return parts.join(' · ');
 };
 
@@ -387,7 +377,10 @@ const ParticipantCard: React.FC<ParticipantCardProps> = ({ participant, feedback
         <p className="text-size-xs font-semibold text-bluedot-navy">{participant.name}</p>
         <p className="text-size-xxs text-gray-500">{getSubtitle(feedback)}</p>
         {showNudge && !feedback && (
-          <p className="text-size-xs text-bluedot-normal">ℹ Even just a star rating helps</p>
+          <p className="flex items-center gap-1 text-[11px] leading-[16.5px] font-medium text-[#cc6b11]">
+            <PiWarningCircle className="size-[11px] shrink-0" aria-hidden />
+            Even just a star rating helps
+          </p>
         )}
       </div>
       <span className="shrink-0 text-size-xs font-medium text-bluedot-normal">

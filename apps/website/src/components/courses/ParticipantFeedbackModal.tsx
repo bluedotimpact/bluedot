@@ -1,6 +1,6 @@
 import { Modal } from '@bluedot/ui';
 import { useState } from 'react';
-import { FaCheck, FaLock } from 'react-icons/fa6';
+import { FaCheck, FaCircleInfo, FaLock } from 'react-icons/fa6';
 import { FOLLOW_UP_OPTIONS } from '../../lib/facilitatorFollowUps';
 import { getInitials } from '../../lib/utils';
 
@@ -63,10 +63,9 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
       desktopHeaderClassName="h-[73px] pt-0 pb-0 pl-6 pr-6 mb-0 border-b border-gray-200"
       bottomDrawerOnMobile
       ariaLabel="Participant feedback"
-      // TODO: disable clickaway (needs isDismissable prop on Modal)
+      noClickaway
     >
       <div className="w-full max-w-[600px] pt-6">
-
         <p className="flex items-center gap-1.5 text-[13px] leading-[1.3] text-gray-500 mb-6">
           <FaLock className="size-[13px] shrink-0" aria-hidden />
           Your responses are only seen by BlueDot staff
@@ -121,7 +120,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
             onChange={(e) => setInvestmentNote(e.target.value)}
             className="w-full h-[106px] border border-gray-300 rounded-md p-3 text-size-xs text-bluedot-navy bg-white resize-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
           />
-          {hasTopScore && <TopScoreNudge detail="a short note on what stood out helps us act on this." />}
+          {hasTopScore && <TopScoreNudge detail="a short note on what made them stand out would help us act on this." />}
         </div>
 
         <div className="mt-6 flex flex-col gap-2">
@@ -147,7 +146,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
               </label>
             ))}
           </div>
-          {hasTopScore && <TopScoreNudge detail="let us know how to follow up." />}
+          {hasTopScore && <TopScoreNudge detail="let us know how we can back them." />}
         </div>
 
         <div className="flex items-center justify-between gap-3 mt-8 py-4 border-t border-gray-200">
@@ -184,10 +183,12 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
 export default ParticipantFeedbackModal;
 
 const TopScoreNudge: React.FC<{ detail: string }> = ({ detail }) => (
-  <p className="flex gap-2 items-start bg-blue-50 text-bluedot-normal text-size-xs rounded-md p-3">
-    <span className="shrink-0">ℹ</span>
-    You've given a top score - {detail}
-  </p>
+  <div className="flex gap-2 items-start bg-[#e5edfe] border border-[#c4d3f8] rounded-[6px] p-[11px]">
+    <FaCircleInfo className="size-3.5 shrink-0 text-bluedot-normal mt-[3px]" aria-hidden />
+    <p className="text-[13px] leading-[19.5px] text-bluedot-normal">
+      You've given a top score — {detail}
+    </p>
+  </div>
 );
 
 // --- RubricSelector ---
@@ -237,9 +238,9 @@ export const RubricSelector: React.FC<RubricSelectorProps> = ({ name, ariaLabell
               {option.value}
             </div>
             <div className="flex-1 min-w-0 px-3 pt-3 pb-5">
-              <p className="text-[13px] leading-[19.5px] text-[#13132e]">{option.label}</p>
+              <p className="text-[13px] leading-[19.5px] text-bluedot-navy">{option.label}</p>
               {isSelected && (
-                <p className="text-[12px] leading-[19.5px] text-[#13132e] mt-1.5">{option.description}</p>
+                <p className="text-[12px] leading-[19.5px] text-bluedot-navy mt-1.5">{option.description}</p>
               )}
             </div>
             {isSelected && (
