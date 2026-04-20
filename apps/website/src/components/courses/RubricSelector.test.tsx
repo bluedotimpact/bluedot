@@ -16,16 +16,14 @@ const OPTIONS = [
 
 describe('RubricSelector', () => {
   test('renders legend, description, and all options', () => {
-    const { getByText } = render(
-      <RubricSelector
-        name="show-up"
-        label="How did they show up?"
-        description="Think about preparation."
-        options={OPTIONS}
-        value={null}
-        onChange={() => {}}
-      />,
-    );
+    const { getByText } = render(<RubricSelector
+      name="show-up"
+      label="How did they show up?"
+      description="Think about preparation."
+      options={OPTIONS}
+      value={null}
+      onChange={() => {}}
+    />);
 
     expect(getByText('How did they show up?')).toBeTruthy();
     expect(getByText('Think about preparation.')).toBeTruthy();
@@ -36,32 +34,28 @@ describe('RubricSelector', () => {
 
   test('calls onChange when an option is clicked', () => {
     const onChange = vi.fn();
-    const { getByText } = render(
-      <RubricSelector
-        name="show-up"
-        label="How did they show up?"
-        description="Think about preparation."
-        options={OPTIONS}
-        value={null}
-        onChange={onChange}
-      />,
-    );
+    const { getByText } = render(<RubricSelector
+      name="show-up"
+      label="How did they show up?"
+      description="Think about preparation."
+      options={OPTIONS}
+      value={null}
+      onChange={onChange}
+    />);
 
     fireEvent.click(getByText('Took clear ownership of their learning'));
     expect(onChange).toHaveBeenCalledWith(4);
   });
 
   test('reflects the selected value', () => {
-    const { container } = render(
-      <RubricSelector
-        name="show-up"
-        label="How did they show up?"
-        description="Think about preparation."
-        options={OPTIONS}
-        value={3}
-        onChange={() => {}}
-      />,
-    );
+    const { container } = render(<RubricSelector
+      name="show-up"
+      label="How did they show up?"
+      description="Think about preparation."
+      options={OPTIONS}
+      value={3}
+      onChange={() => {}}
+    />);
 
     const radios = container.querySelectorAll('input[type="radio"]');
     const checkedRadio = Array.from(radios).find((r) => (r as HTMLInputElement).checked) as HTMLInputElement;
@@ -70,16 +64,14 @@ describe('RubricSelector', () => {
   });
 
   test('shows description only for the selected option', () => {
-    const { getByText, queryByText } = render(
-      <RubricSelector
-        name="show-up"
-        label="How did they show up?"
-        description="Think about preparation."
-        options={OPTIONS}
-        value={3}
-        onChange={() => {}}
-      />,
-    );
+    const { getByText, queryByText } = render(<RubricSelector
+      name="show-up"
+      label="How did they show up?"
+      description="Think about preparation."
+      options={OPTIONS}
+      value={3}
+      onChange={() => {}}
+    />);
 
     // Selected option's description is visible
     expect(getByText('Reliable participant.')).toBeTruthy();
@@ -91,16 +83,14 @@ describe('RubricSelector', () => {
   });
 
   test('hides all descriptions when nothing is selected', () => {
-    const { queryByText } = render(
-      <RubricSelector
-        name="show-up"
-        label="How did they show up?"
-        description="Think about preparation."
-        options={OPTIONS}
-        value={null}
-        onChange={() => {}}
-      />,
-    );
+    const { queryByText } = render(<RubricSelector
+      name="show-up"
+      label="How did they show up?"
+      description="Think about preparation."
+      options={OPTIONS}
+      value={null}
+      onChange={() => {}}
+    />);
 
     OPTIONS.forEach((option) => {
       expect(queryByText(option.description)).toBeNull();
@@ -108,16 +98,14 @@ describe('RubricSelector', () => {
   });
 
   test('is a semantic radiogroup', () => {
-    const { container } = render(
-      <RubricSelector
-        name="show-up"
-        label="How did they show up?"
-        description="Think about preparation."
-        options={OPTIONS}
-        value={null}
-        onChange={() => {}}
-      />,
-    );
+    const { container } = render(<RubricSelector
+      name="show-up"
+      label="How did they show up?"
+      description="Think about preparation."
+      options={OPTIONS}
+      value={null}
+      onChange={() => {}}
+    />);
 
     expect(container.querySelector('[role="radiogroup"]')).toBeTruthy();
     expect(container.querySelectorAll('input[type="radio"]')).toHaveLength(5);

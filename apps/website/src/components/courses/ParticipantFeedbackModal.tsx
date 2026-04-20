@@ -44,7 +44,9 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
   return (
     <Modal
       isOpen
-      setIsOpen={(v) => { if (!v) onClose(); }}
+      setIsOpen={(v) => {
+        if (!v) onClose();
+      }}
       title={participant.name}
       bottomDrawerOnMobile
       ariaLabel="Participant feedback"
@@ -54,8 +56,8 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
         <div className="w-[600px] max-w-full h-0" />
 
         <div className="flex justify-between items-center mb-4">
-          <p className="text-sm text-gray-400">Your responses are only seen by BlueDot staff.</p>
-          <button type="button" className="text-sm text-bluedot-normal" onClick={onNoStrongImpression}>
+          <p className="text-size-sm text-gray-400">Your responses are only seen by BlueDot staff.</p>
+          <button type="button" className="text-size-sm text-bluedot-normal" onClick={onNoStrongImpression}>
             No strong impression
           </button>
         </div>
@@ -84,7 +86,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
           <label htmlFor="investment-note" className="font-medium">
             In 2–3 sentences: what would you tell BlueDot if we asked "how much time should we invest in this person?"
           </label>
-          <p className="text-sm text-gray-500 mb-2">Feel free to paste this from your 1:1 report.</p>
+          <p className="text-size-sm text-gray-500 mb-2">Feel free to paste this from your 1:1 report.</p>
           <textarea
             id="investment-note"
             value={investmentNote}
@@ -93,7 +95,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
             className="w-full border rounded p-2"
           />
           {hasTopScore && (
-            <p className="flex gap-2 items-start bg-blue-50 text-bluedot-normal text-sm rounded p-3 mt-2">
+            <p className="flex gap-2 items-start bg-blue-50 text-bluedot-normal text-size-sm rounded p-3 mt-2">
               <span className="shrink-0">ℹ</span>
               You've given a top score — a short note on what stood out helps us act on this.
             </p>
@@ -102,7 +104,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
 
         <div className="mt-6">
           <p className="font-medium">How should we follow up with them?</p>
-          <p className="text-sm text-gray-500 mb-2">Check all that apply.</p>
+          <p className="text-size-sm text-gray-500 mb-2">Check all that apply.</p>
           {FOLLOW_UP_OPTIONS.map((option) => (
             <label key={option.id} className="flex items-center gap-3 border rounded p-3 mb-1 cursor-pointer">
               <input
@@ -110,18 +112,18 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
                 checked={!!followUps[option.id]}
                 onChange={(e) => setFollowUps({ ...followUps, [option.id]: e.target.checked })}
               />
-              <span className="text-sm">{option.label}</span>
+              <span className="text-size-sm">{option.label}</span>
             </label>
           ))}
           {hasTopScore && (
-            <p className="flex gap-2 items-start bg-blue-50 text-bluedot-normal text-sm rounded p-3 mt-2">
+            <p className="flex gap-2 items-start bg-blue-50 text-bluedot-normal text-size-sm rounded p-3 mt-2">
               <span className="shrink-0">ℹ</span>
               You've given a top score — let us know how to follow up.
             </p>
           )}
         </div>
 
-        <p className="text-xs text-gray-400 mt-6">Changes save when you click "Done"</p>
+        <p className="text-size-xs text-gray-400 mt-6">Changes save when you click "Done"</p>
         <div className="flex justify-end gap-2 mt-2">
           <button type="button" onClick={onClose}>Cancel</button>
           <button
@@ -129,7 +131,9 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
             className="bg-bluedot-normal text-white px-4 py-2 rounded"
             onClick={() => {
               if (showUpRating !== null && engageRating !== null) {
-                onSave({ showUpRating, engageRating, investmentNote, followUps });
+                onSave({
+                  showUpRating, engageRating, investmentNote, followUps,
+                });
               }
             }}
             disabled={showUpRating === null || engageRating === null || isSaving}
@@ -166,7 +170,7 @@ export const RubricSelector: React.FC<RubricSelectorProps> = ({ name, label, des
   return (
     <div role="radiogroup" aria-labelledby={labelId}>
       <p id={labelId} className="font-medium">{label}</p>
-      <p className="text-sm text-gray-500 mb-2">{description}</p>
+      <p className="text-size-sm text-gray-500 mb-2">{description}</p>
       {options.map((option) => {
         const isSelected = value === option.value;
         return (
@@ -181,11 +185,11 @@ export const RubricSelector: React.FC<RubricSelectorProps> = ({ name, label, des
               checked={isSelected}
               onChange={() => onChange(option.value)}
             />
-            <span className="font-medium text-sm w-6 text-center shrink-0">{option.value}</span>
+            <span className="font-medium text-size-sm w-6 text-center shrink-0">{option.value}</span>
             <div>
-              <span className="text-sm">{option.label}</span>
+              <span className="text-size-sm">{option.label}</span>
               {isSelected && (
-                <p className="text-sm text-gray-500 mt-1">{option.description}</p>
+                <p className="text-size-sm text-gray-500 mt-1">{option.description}</p>
               )}
             </div>
           </label>

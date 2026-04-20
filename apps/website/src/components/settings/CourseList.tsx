@@ -417,7 +417,7 @@ const getCtaButtons = ({
   if (courseRegistration.roundStatus === 'Past') {
     const buttons: ReactNode[] = [];
 
-    if (!hasSubmittedFeedback && (feedbackFormUrl || (isFacilitatorRole && meetPerson))) {
+    if (!hasSubmittedFeedback && (feedbackFormUrl ?? (isFacilitatorRole && meetPerson))) {
       const url = isFacilitatorRole && meetPerson
         ? `/facilitator-feedback/${meetPerson.id}`
         : feedbackFormUrl!;

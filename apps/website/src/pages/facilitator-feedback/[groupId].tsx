@@ -78,7 +78,7 @@ const FacilitatorFeedbackPage = () => {
     }
 
     setFeedbackByParticipant(initial);
-  }, [formData]);
+  }, [formData, noStrongImpressionKey]);
 
   const savePeerFeedback = trpc.facilitators.savePeerFeedback.useMutation();
   const submitFeedback = trpc.facilitators.submitFeedback.useMutation();
@@ -129,9 +129,9 @@ const FacilitatorFeedbackPage = () => {
           <h2>How did the course go?</h2>
           <p className="text-size-sm text-gray-600 mb-6">Your honest feedback helps us improve the course and calibrate quality across cohorts.</p>
 
-          <label className="block mb-1 font-medium">
+          <p className="block mb-1 font-medium">
             Overall rating <span className="text-red-500">*</span>
-          </label>
+          </p>
           <StarRating rating={overallRating} onChange={setOverallRating} />
 
           <label htmlFor="most-valuable" className="block mt-6 mb-1 font-medium">
