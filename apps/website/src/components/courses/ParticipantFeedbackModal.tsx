@@ -1,6 +1,6 @@
 import { Modal } from '@bluedot/ui';
 import { useState } from 'react';
-import { FaLock } from 'react-icons/fa6';
+import { FaCheck, FaLock } from 'react-icons/fa6';
 import { FOLLOW_UP_OPTIONS } from '../../lib/facilitatorFollowUps';
 import { getInitials } from '../../lib/utils';
 
@@ -206,15 +206,24 @@ type RubricSelectorProps = {
   onChange: (value: number) => void;
 };
 
+const BUBBLE_COLORS: Record<number, string> = {
+  5: 'bg-[#d3f0e3] text-[#1a7a52]',
+  4: 'bg-[#e2f5da] text-[#4a7a30]',
+  3: 'bg-[#fffbe0] text-[#8a7020]',
+  2: 'bg-[#ffe9d5] text-[#8a5020]',
+  1: 'bg-[#ffe4e0] text-[#8a2020]',
+};
+
 export const RubricSelector: React.FC<RubricSelectorProps> = ({ name, ariaLabelledBy, options, value, onChange }) => {
   return (
-    <div role="radiogroup" aria-labelledby={ariaLabelledBy}>
-      {options.map((option) => {
+    <div role="radiogroup" aria-labelledby={ariaLabelledBy} className="rounded-[6px] border-[0.5px] border-[rgba(106,111,122,0.5)] overflow-clip">
+      {options.map((option, idx) => {
         const isSelected = value === option.value;
+        const isLast = idx === options.length - 1;
         return (
           <label
             key={option.value}
-            className={`flex gap-3 border rounded p-3 mb-1 cursor-pointer ${isSelected ? 'border-bluedot-normal bg-blue-50' : ''}`}
+            className={`flex items-start cursor-pointer ${isLast ? '' : 'border-b border-[#edeef2]'} has-[:focus-visible]:outline-2 has-[:focus-visible]:-outline-offset-2 has-[:focus-visible]:outline-bluedot-normal ${isSelected ? 'bg-[#e5edfe]' : 'bg-white'}`}
           >
             <input
               type="radio"
@@ -222,14 +231,22 @@ export const RubricSelector: React.FC<RubricSelectorProps> = ({ name, ariaLabell
               value={option.value}
               checked={isSelected}
               onChange={() => onChange(option.value)}
+              className="sr-only"
             />
-            <span className="font-medium text-size-sm w-6 text-center shrink-0">{option.value}</span>
-            <div>
-              <span className="text-size-sm">{option.label}</span>
+            <div className={`w-[44px] self-stretch shrink-0 flex items-start justify-center pt-3 text-[15px] leading-[22.5px] font-bold border-r ${isSelected ? 'bg-[#c4d3f8] text-[#0d3399] border-[#c4d3f8]' : `${BUBBLE_COLORS[option.value]} opacity-[0.56] border-[rgba(0,0,0,0.06)]`}`}>
+              {option.value}
+            </div>
+            <div className="flex-1 min-w-0 px-3 pt-3 pb-5">
+              <p className="text-[13px] leading-[19.5px] text-[#13132e]">{option.label}</p>
               {isSelected && (
-                <p className="text-size-sm text-gray-500 mt-1">{option.description}</p>
+                <p className="text-[12px] leading-[19.5px] text-[#13132e] mt-1.5">{option.description}</p>
               )}
             </div>
+            {isSelected && (
+              <div className="w-[30px] shrink-0 flex justify-center pt-3">
+                <FaCheck className="size-3.5 text-bluedot-normal" aria-hidden />
+              </div>
+            )}
           </label>
         );
       })}
