@@ -178,7 +178,7 @@ const FacilitatorFeedbackPage = () => {
         </section>
 
         {/* Participant insights card */}
-        <section className="bg-white rounded-xl border p-9 mb-8 flex flex-col gap-7">
+        <section className="bg-white rounded-xl border p-9 pb-7 mb-8 flex flex-col gap-5">
           <div className="flex flex-col gap-4">
             <p className="text-size-xxs font-semibold uppercase tracking-wider text-bluedot-normal">Participant insights</p>
             <div className="flex flex-col gap-2">
@@ -212,7 +212,7 @@ const FacilitatorFeedbackPage = () => {
             <div className="flex flex-col gap-2">
               <div className="flex flex-col gap-0.5">
                 <p className="text-size-xxs font-semibold uppercase tracking-wider text-gray-500">Drop-ins</p>
-                <p className="text-size-xxs text-gray-500">Joined one or more of your group's discussions.</p>
+                <p className="text-size-xs text-gray-500">Joined one or more of your group's discussions.</p>
               </div>
               <div className="flex flex-col gap-2">
                 {dropIns.map((participant) => (
@@ -231,7 +231,7 @@ const FacilitatorFeedbackPage = () => {
 
           <button
             type="button"
-            className="self-start flex items-center gap-2 bg-white border border-gray-300 rounded-md px-4 py-2.5 text-size-xs font-medium text-bluedot-navy"
+            className="self-start flex items-center gap-2 bg-white border border-gray-300 rounded-md px-4 py-2.5 text-size-xs font-medium text-bluedot-navy transition-colors cursor-pointer hover:bg-gray-50 active:bg-gray-100 focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
           >
             <span aria-hidden>+</span>
             Add a participant
@@ -364,23 +364,19 @@ const ParticipantCard: React.FC<ParticipantCardProps> = ({ participant, feedback
     <button
       type="button"
       onClick={onClick}
-      className="w-full flex items-center justify-between border rounded-lg p-4 mb-2 text-left"
+      className="w-full flex items-center gap-3 border border-gray-300 rounded-lg px-4 py-3.5 text-left transition-colors cursor-pointer hover:bg-gray-50 active:bg-gray-100 focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
     >
-      <div className="flex items-center gap-3">
-        {feedback ? (
-          <div className="w-10 h-10 rounded-full bg-bluedot-normal text-white flex items-center justify-center text-size-sm">✓</div>
-        ) : (
-          <div className="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center text-size-sm font-medium">{initials}</div>
-        )}
-        <div>
-          <p className="font-medium">{participant.name}</p>
-          <p className="text-size-sm text-gray-400">{getSubtitle(feedback)}</p>
-          {showNudge && !feedback && (
-            <p className="text-size-xs text-bluedot-normal">ℹ Even just a star rating helps</p>
-          )}
-        </div>
+      <div className={`shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-white text-size-xs font-bold ${feedback ? 'bg-bluedot-normal' : 'bg-bluedot-navy'}`}>
+        {feedback ? '✓' : initials}
       </div>
-      <span className="text-size-sm text-bluedot-normal">
+      <div className="flex-1 flex flex-col gap-1">
+        <p className="text-size-xs font-semibold text-bluedot-navy">{participant.name}</p>
+        <p className="text-size-xxs text-gray-500">{getSubtitle(feedback)}</p>
+        {showNudge && !feedback && (
+          <p className="text-size-xs text-bluedot-normal">ℹ Even just a star rating helps</p>
+        )}
+      </div>
+      <span className="shrink-0 text-size-xs font-medium text-bluedot-normal">
         {feedback ? 'Edit' : 'Add feedback →'}
       </span>
     </button>
