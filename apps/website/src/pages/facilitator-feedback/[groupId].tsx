@@ -114,7 +114,7 @@ const FacilitatorFeedbackPage = () => {
 
       <div className="max-w-[680px] mx-auto py-8 px-4">
         {/* Hero card */}
-        <section className="bg-white rounded-xl border border-t-8 border-t-bluedot-normal p-9 mb-8 flex flex-col gap-6">
+        <section className="bg-white rounded-xl border border-t-8 border-t-bluedot-normal p-5 sm:p-9 mb-8 flex flex-col gap-6">
           <div>
             <h1 className="text-3xl font-bold mb-2">Course Feedback</h1>
             <p className="text-size-xs font-medium text-bluedot-normal">{roundName}</p>
@@ -127,7 +127,7 @@ const FacilitatorFeedbackPage = () => {
         </section>
 
         {/* Course feedback card */}
-        <section className="bg-white rounded-xl border p-9 mb-8 flex flex-col gap-7">
+        <section className="bg-white rounded-xl border p-5 sm:p-9 mb-8 flex flex-col gap-7">
           <div className="flex flex-col gap-4">
             <p className="text-size-xxs font-semibold uppercase tracking-wider text-bluedot-normal">Course feedback</p>
             <div className="flex flex-col gap-1">
@@ -178,7 +178,7 @@ const FacilitatorFeedbackPage = () => {
         </section>
 
         {/* Participant insights card */}
-        <section className="bg-white rounded-xl border p-9 pb-7 mb-8 flex flex-col gap-5">
+        <section className="bg-white rounded-xl border p-5 sm:p-9 sm:pb-7 mb-8 flex flex-col gap-5">
           <div className="flex flex-col gap-4">
             <p className="text-size-xxs font-semibold uppercase tracking-wider text-bluedot-normal">Participant insights</p>
             <div className="flex flex-col gap-2">
@@ -262,10 +262,10 @@ const FacilitatorFeedbackPage = () => {
               </button>
             </>
           ) : (
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
               <button
                 type="button"
-                className="bg-bluedot-normal text-white px-6 py-3 rounded-md text-size-xs leading-5 font-semibold transition-colors cursor-pointer hover:bg-bluedot-darker disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+                className="w-full sm:w-auto bg-bluedot-normal text-white px-6 py-3 rounded-md text-size-xs leading-5 font-semibold transition-colors cursor-pointer hover:bg-bluedot-darker disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
                 disabled={submitFeedback.isPending || overallRating === 0}
                 onClick={() => {
                   if (completedCount < participants.length) {
@@ -368,12 +368,12 @@ const ParticipantCard: React.FC<ParticipantCardProps> = ({ participant, feedback
     <button
       type="button"
       onClick={onClick}
-      className="w-full flex items-center gap-3 border border-gray-300 rounded-lg px-4 py-3.5 text-left transition-colors cursor-pointer hover:bg-gray-50 active:bg-gray-100 focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+      className="w-full flex items-center gap-3 border border-gray-300 rounded-lg px-3 sm:px-4 py-3.5 text-left transition-colors cursor-pointer hover:bg-gray-50 active:bg-gray-100 focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
     >
       <div className={`shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-white text-size-xs font-bold ${feedback ? 'bg-bluedot-normal' : 'bg-bluedot-navy'}`}>
         {feedback ? '✓' : initials}
       </div>
-      <div className="flex-1 flex flex-col gap-1">
+      <div className="flex-1 min-w-0 flex flex-col gap-1">
         <p className="text-size-xs font-semibold text-bluedot-navy">{participant.name}</p>
         <p className="text-size-xxs text-gray-500">{getSubtitle(feedback)}</p>
         {showNudge && !feedback && (
