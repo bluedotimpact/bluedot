@@ -42,6 +42,14 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
   const [resetIds, setResetIds] = useState<Set<string>>(new Set());
   const [editingId, setEditingId] = useState<string | null>(null);
   const [roundStats, setRoundStats] = useState<{ total: number; evaluated: number; accepted: number } | null>(null);
+  const [confettiSize, setConfettiSize] = useState<{ width: number; height: number } | null>(null);
+
+  useEffect(() => {
+    const update = () => setConfettiSize({ width: window.innerWidth, height: window.innerHeight });
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
 
   useEffect(() => {
     authFetch(`/api/round-stats?round=${encodeURIComponent(roundId)}`)
@@ -157,13 +165,19 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
 
   return (
     <div className="space-y-6 overflow-hidden">
-      {roundComplete && (
+      {roundComplete && confettiSize && (
         <Confetti
           recycle={false}
           numberOfPieces={500}
-          width={typeof window !== 'undefined' ? window.innerWidth : undefined}
-          height={typeof window !== 'undefined' ? window.innerHeight : undefined}
-          style={{ position: 'fixed', top: 0, left: 0, pointerEvents: 'none', zIndex: 50 }}
+          width={confettiSize.width}
+          height={confettiSize.height}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            pointerEvents: 'none',
+            zIndex: 50,
+          }}
         />
       )}
       <div>
