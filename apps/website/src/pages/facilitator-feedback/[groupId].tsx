@@ -119,11 +119,11 @@ const FacilitatorFeedbackPage = () => {
             <h1 className="text-3xl font-bold mb-2">Course Feedback</h1>
             <p className="text-size-xs font-medium text-bluedot-normal">{roundName}</p>
           </div>
-          <ul className="text-size-xs text-gray-600 space-y-2">
-            <li className="flex items-center gap-2"><PiStar className="shrink-0" aria-hidden />Help us improve the course and support the right people.</li>
-            <li className="flex items-center gap-2"><PiClock className="shrink-0" aria-hidden />8–10 min for course questions + a few min per participant.</li>
-            <li className="flex items-center gap-2"><PiLockSimple className="shrink-0" aria-hidden />Your responses are only seen by BlueDot staff.</li>
-          </ul>
+          <div className="flex flex-col gap-2 text-size-xs text-gray-600">
+            <div className="flex items-center gap-2"><PiStar className="shrink-0" aria-hidden />Help us improve the course and support the right people.</div>
+            <div className="flex items-center gap-2"><PiClock className="shrink-0" aria-hidden />8–10 min for course questions + a few min per participant.</div>
+            <div className="flex items-center gap-2"><PiLockSimple className="shrink-0" aria-hidden />Your responses are only seen by BlueDot staff.</div>
+          </div>
         </section>
 
         {/* Course feedback card */}
@@ -178,49 +178,64 @@ const FacilitatorFeedbackPage = () => {
         </section>
 
         {/* Participant insights card */}
-        <section className="bg-white rounded-lg border p-8 mb-6">
-          <p className="text-size-xs uppercase tracking-wide text-gray-500 mb-2">Participant insights</p>
-          <h2>Share your insights on each participant</h2>
-          <p className="text-size-sm text-gray-600 mb-2">
-            We use it to identify the most promising participants in your cohort and decide how to back them — whether that's career introductions, grants, or an invitation to facilitate.
-          </p>
-          <p className="text-size-sm text-gray-600 mb-6">
-            We recommend starting with participants who stood out in the course.
-          </p>
+        <section className="bg-white rounded-xl border p-9 mb-8 flex flex-col gap-7">
+          <div className="flex flex-col gap-4">
+            <p className="text-size-xxs font-semibold uppercase tracking-wider text-bluedot-normal">Participant insights</p>
+            <div className="flex flex-col gap-2">
+              <h2 className="text-size-lg font-bold text-bluedot-navy">Share your insights on each participant</h2>
+              <p className="text-size-xs text-gray-600 leading-relaxed">
+                We use it to identify the most promising participants in your cohort and decide how to back them — whether that's career introductions, grants, or an invitation to facilitate.
+              </p>
+              <p className="text-size-xs text-gray-600 leading-relaxed">
+                We recommend starting with participants who stood out in the course.
+              </p>
+            </div>
+          </div>
 
-          <p className="text-size-xs uppercase tracking-wide text-gray-500 mb-2">Cohort members</p>
-          <ul>
-            {participants.map((participant) => (
-              <li key={participant.id}>
-                <ParticipantCard
-                  participant={participant}
-                  feedback={feedbackByParticipant[participant.id]}
-                  showNudge={showIncompleteWarning}
-                  onClick={() => setSelectedParticipant(participant)}
-                />
-              </li>
-            ))}
-          </ul>
+          <div className="flex flex-col gap-2">
+            <p className="text-size-xxs font-semibold uppercase tracking-wider text-gray-500">Cohort members</p>
+            <div className="flex flex-col gap-2">
+              {participants.map((participant) => (
+                <div key={participant.id}>
+                  <ParticipantCard
+                    participant={participant}
+                    feedback={feedbackByParticipant[participant.id]}
+                    showNudge={showIncompleteWarning}
+                    onClick={() => setSelectedParticipant(participant)}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
 
           {dropIns.length > 0 && (
-            <>
-              <p className="text-size-xs uppercase tracking-wide text-gray-500 mt-6 mb-2">Drop-ins</p>
-              <ul>
+            <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-0.5">
+                <p className="text-size-xxs font-semibold uppercase tracking-wider text-gray-500">Drop-ins</p>
+                <p className="text-size-xxs text-gray-500">Joined one or more of your group's discussions.</p>
+              </div>
+              <div className="flex flex-col gap-2">
                 {dropIns.map((participant) => (
-                  <li key={participant.id}>
+                  <div key={participant.id}>
                     <ParticipantCard
                       participant={participant}
                       feedback={feedbackByParticipant[participant.id]}
                       showNudge={false}
                       onClick={() => setSelectedParticipant(participant)}
                     />
-                  </li>
+                  </div>
                 ))}
-              </ul>
-            </>
+              </div>
+            </div>
           )}
 
-          <button type="button" className="text-size-sm text-gray-500 mt-2">+ Add a participant</button>
+          <button
+            type="button"
+            className="self-start flex items-center gap-2 bg-white border border-gray-300 rounded-md px-4 py-2.5 text-size-xs font-medium text-bluedot-navy"
+          >
+            <span aria-hidden>+</span>
+            Add a participant
+          </button>
         </section>
 
         {/* Submit section */}
