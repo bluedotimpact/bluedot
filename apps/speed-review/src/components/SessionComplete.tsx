@@ -157,7 +157,15 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
 
   return (
     <div className="space-y-6 overflow-hidden">
-      {roundComplete && <Confetti recycle={false} numberOfPieces={500} />}
+      {roundComplete && (
+        <Confetti
+          recycle={false}
+          numberOfPieces={500}
+          width={typeof window !== 'undefined' ? window.innerWidth : undefined}
+          height={typeof window !== 'undefined' ? window.innerHeight : undefined}
+          style={{ position: 'fixed', top: 0, left: 0, pointerEvents: 'none', zIndex: 50 }}
+        />
+      )}
       <div>
         <h1 className="text-2xl font-bold text-stone-100">
           {roundComplete ? 'You\'ve evaluated all the applications for the round!' : 'Session complete'}
