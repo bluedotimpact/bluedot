@@ -2,7 +2,9 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { ProgressDots } from '@bluedot/ui';
-import { PiClock, PiLockSimple, PiStar, PiWarningCircle } from 'react-icons/pi';
+import {
+  PiClock, PiLockSimple, PiStar, PiWarningCircle,
+} from 'react-icons/pi';
 import StarRating from '../../components/courses/StarRating';
 import ParticipantFeedbackModal, { type ParticipantFeedbackData } from '../../components/courses/ParticipantFeedbackModal';
 import { FOLLOW_UP_OPTIONS } from '../../lib/facilitatorFollowUps';
@@ -251,7 +253,7 @@ const FacilitatorFeedbackPage = () => {
           {showIncompleteWarning && completedCount < participants.length ? (
             <>
               <div className="flex gap-2 items-start bg-orange-50 text-orange-800 text-size-xs rounded-md p-3 border border-orange-200">
-                <PiWarningCircle className="shrink-0 mt-0.5 text-base" aria-hidden />
+                <PiWarningCircle className="shrink-0 mt-0.5 text-size-md" aria-hidden />
                 <p>
                   <span className="font-semibold">{participants.length - completedCount} participants still need feedback.</span>
                   {' '}

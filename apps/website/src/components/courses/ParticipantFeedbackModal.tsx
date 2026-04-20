@@ -65,7 +65,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
       ariaLabel="Participant feedback"
       // TODO: disable clickaway (needs isDismissable prop on Modal)
     >
-      <div className="w-full max-w-[552px] pt-6 -mx-2">
+      <div className="w-full max-w-[600px] pt-6">
 
         <p className="flex items-center gap-1.5 text-[13px] leading-[1.3] text-gray-500 mb-6">
           <FaLock className="size-[13px] shrink-0" aria-hidden />
