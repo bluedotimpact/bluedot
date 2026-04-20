@@ -42,6 +42,14 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
   const [resetIds, setResetIds] = useState<Set<string>>(new Set());
   const [editingId, setEditingId] = useState<string | null>(null);
   const [roundStats, setRoundStats] = useState<{ total: number; evaluated: number; accepted: number } | null>(null);
+  const [confettiSize, setConfettiSize] = useState<{ width: number; height: number } | null>(null);
+
+  useEffect(() => {
+    const update = () => setConfettiSize({ width: window.innerWidth, height: window.innerHeight });
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
 
   useEffect(() => {
     authFetch(`/api/round-stats?round=${encodeURIComponent(roundId)}`)
@@ -157,7 +165,21 @@ export const SessionComplete: React.FC<SessionCompleteProps> = ({
 
   return (
     <div className="space-y-6 overflow-hidden">
-      {roundComplete && <Confetti recycle={false} numberOfPieces={500} />}
+      {roundComplete && confettiSize && (
+        <Confetti
+          recycle={false}
+          numberOfPieces={500}
+          width={confettiSize.width}
+          height={confettiSize.height}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            pointerEvents: 'none',
+            zIndex: 50,
+          }}
+        />
+      )}
       <div>
         <h1 className="text-2xl font-bold text-stone-100">
           {roundComplete ? 'You\'ve evaluated all the applications for the round!' : 'Session complete'}
