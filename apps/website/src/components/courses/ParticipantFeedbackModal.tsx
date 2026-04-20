@@ -65,8 +65,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
       ariaLabel="Participant feedback"
       // TODO: disable clickaway (needs isDismissable prop on Modal)
     >
-      <div className="w-full pt-6 max-w-[552px] -mx-2">
-        <div className="w-[552px] max-w-full h-0" />
+      <div className="w-full max-w-[552px] pt-6 -mx-2">
 
         <p className="flex items-center gap-1.5 text-[13px] leading-[1.3] text-gray-500 mb-6">
           <FaLock className="size-[13px] shrink-0" aria-hidden />
@@ -130,23 +129,29 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
           )}
         </div>
 
-        <div className="mt-6">
-          <p className="font-medium">How should we follow up with them?</p>
-          <p className="text-size-sm text-gray-500 mb-2">Check all that apply.</p>
-          {FOLLOW_UP_OPTIONS.map((option) => (
-            <label key={option.id} className="flex items-center gap-3 border rounded p-3 mb-1 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={!!followUps[option.id]}
-                onChange={(e) => setFollowUps({ ...followUps, [option.id]: e.target.checked })}
-              />
-              <span className="text-size-sm">{option.label}</span>
-            </label>
-          ))}
+        <div className="mt-6 flex flex-col gap-2">
+          <div className="flex flex-col gap-1.5">
+            <p className="text-size-xs font-semibold text-bluedot-navy">
+              How should we follow up with them?
+            </p>
+            <p className="text-size-xs text-gray-500">Check all that apply.</p>
+          </div>
+          <div>
+            {FOLLOW_UP_OPTIONS.map((option) => (
+              <label key={option.id} className="flex items-center gap-3 border rounded p-3 mb-1 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={!!followUps[option.id]}
+                  onChange={(e) => setFollowUps({ ...followUps, [option.id]: e.target.checked })}
+                />
+                <span className="text-size-sm">{option.label}</span>
+              </label>
+            ))}
+          </div>
           {hasTopScore && (
-            <p className="flex gap-2 items-start bg-blue-50 text-bluedot-normal text-size-sm rounded p-3 mt-2">
+            <p className="flex gap-2 items-start bg-blue-50 text-bluedot-normal text-size-xs rounded-md p-3">
               <span className="shrink-0">ℹ</span>
-              You've given a top score — let us know how to follow up.
+              You've given a top score - let us know how to follow up.
             </p>
           )}
         </div>
