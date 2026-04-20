@@ -60,7 +60,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
           </button>
         </div>
       )}
-      desktopHeaderClassName="h-[73px] pt-0 pb-0 pl-6 pr-6 mb-0 border-b border-[#edeef2]"
+      desktopHeaderClassName="h-[73px] pt-0 pb-0 pl-6 pr-6 mb-0 border-b border-gray-200"
       bottomDrawerOnMobile
       ariaLabel="Participant feedback"
       // TODO: disable clickaway (needs isDismissable prop on Modal)
@@ -151,13 +151,19 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
           )}
         </div>
 
-        <div className="flex items-center justify-between gap-3 mt-8 pt-4 border-t border-gray-200">
-          <p className="text-size-xs text-gray-400">Changes save when you click "Done"</p>
-          <div className="flex gap-2">
-            <button type="button" onClick={onClose}>Cancel</button>
+        <div className="flex items-center justify-between gap-3 mt-8 py-4 border-t border-gray-200">
+          <p className="text-size-xxs text-gray-500">Changes save when you click "Done"</p>
+          <div className="flex gap-2.5">
             <button
               type="button"
-              className="bg-bluedot-normal text-white px-4 py-2 rounded"
+              onClick={onClose}
+              className="bg-white border border-gray-300 rounded-md px-4 py-2.5 text-size-xs font-medium text-bluedot-navy transition-colors cursor-pointer hover:bg-gray-50 active:bg-gray-100 focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              className="bg-bluedot-normal text-white px-6 py-2.5 rounded-md text-size-xs leading-5 font-semibold transition-colors cursor-pointer hover:bg-bluedot-darker disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
               onClick={() => {
                 if (showUpRating !== null && engageRating !== null) {
                   onSave({
