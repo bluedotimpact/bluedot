@@ -2,6 +2,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { ProgressDots } from '@bluedot/ui';
+import { PiClock, PiLockSimple, PiStar } from 'react-icons/pi';
 import StarRating from '../../components/courses/StarRating';
 import ParticipantFeedbackModal, { type ParticipantFeedbackData } from '../../components/courses/ParticipantFeedbackModal';
 import { FOLLOW_UP_OPTIONS } from '../../lib/facilitatorFollowUps';
@@ -119,9 +120,9 @@ const FacilitatorFeedbackPage = () => {
             <p className="text-size-xs font-medium text-bluedot-normal">{roundName}</p>
           </div>
           <ul className="text-size-sm text-gray-600 space-y-2">
-            <li>☆ Help us improve the course and support the right people.</li>
-            <li>⏱ 8–10 min for course questions + a few min per participant.</li>
-            <li>🔒 Your responses are only seen by BlueDot staff.</li>
+            <li className="flex items-center gap-2"><PiStar className="shrink-0" aria-hidden />Help us improve the course and support the right people.</li>
+            <li className="flex items-center gap-2"><PiClock className="shrink-0" aria-hidden />8–10 min for course questions + a few min per participant.</li>
+            <li className="flex items-center gap-2"><PiLockSimple className="shrink-0" aria-hidden />Your responses are only seen by BlueDot staff.</li>
           </ul>
         </section>
 
