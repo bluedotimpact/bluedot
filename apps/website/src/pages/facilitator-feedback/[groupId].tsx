@@ -112,9 +112,9 @@ const FacilitatorFeedbackPage = () => {
         <title>{roundName ? `Course Feedback · ${roundName}` : 'Course Feedback'} | BlueDot Impact</title>
       </Head>
 
-      <div className="max-w-[680px] mx-auto py-8 px-4">
+      <div className="max-w-[680px] mx-auto pt-8 pb-16 px-4 flex flex-col gap-8">
         {/* Hero card */}
-        <section className="bg-white rounded-xl border border-t-8 border-t-bluedot-normal p-5 sm:p-9 mb-8 flex flex-col gap-6">
+        <section className="bg-white rounded-xl border border-t-8 border-t-bluedot-normal p-5 sm:p-9 flex flex-col gap-6">
           <div>
             <h1 className="text-3xl font-bold mb-2">Course Feedback</h1>
             <p className="text-size-xs font-medium text-bluedot-normal">{roundName}</p>
@@ -127,7 +127,7 @@ const FacilitatorFeedbackPage = () => {
         </section>
 
         {/* Course feedback card */}
-        <section className="bg-white rounded-xl border p-5 sm:p-9 mb-8 flex flex-col gap-7">
+        <section className="bg-white rounded-xl border p-5 sm:p-9 flex flex-col gap-7">
           <div className="flex flex-col gap-4">
             <p className="text-size-xxs font-semibold uppercase tracking-wider text-bluedot-normal">Course feedback</p>
             <div className="flex flex-col gap-1">
@@ -178,7 +178,7 @@ const FacilitatorFeedbackPage = () => {
         </section>
 
         {/* Participant insights card */}
-        <section className="bg-white rounded-xl border p-5 sm:p-9 sm:pb-7 mb-8 flex flex-col gap-5">
+        <section className="bg-white rounded-xl border p-5 sm:p-9 flex flex-col gap-5">
           <div className="flex flex-col gap-4">
             <p className="text-size-xxs font-semibold uppercase tracking-wider text-bluedot-normal">Participant insights</p>
             <div className="flex flex-col gap-2">
@@ -196,14 +196,13 @@ const FacilitatorFeedbackPage = () => {
             <p className="text-size-xxs font-semibold uppercase tracking-wider text-gray-500">Cohort members</p>
             <div className="flex flex-col gap-2">
               {participants.map((participant) => (
-                <div key={participant.id}>
-                  <ParticipantCard
-                    participant={participant}
-                    feedback={feedbackByParticipant[participant.id]}
-                    showNudge={showIncompleteWarning}
-                    onClick={() => setSelectedParticipant(participant)}
-                  />
-                </div>
+                <ParticipantCard
+                  key={participant.id}
+                  participant={participant}
+                  feedback={feedbackByParticipant[participant.id]}
+                  showNudge={showIncompleteWarning}
+                  onClick={() => setSelectedParticipant(participant)}
+                />
               ))}
             </div>
           </div>
@@ -216,14 +215,13 @@ const FacilitatorFeedbackPage = () => {
               </div>
               <div className="flex flex-col gap-2">
                 {dropIns.map((participant) => (
-                  <div key={participant.id}>
-                    <ParticipantCard
-                      participant={participant}
-                      feedback={feedbackByParticipant[participant.id]}
-                      showNudge={false}
-                      onClick={() => setSelectedParticipant(participant)}
-                    />
-                  </div>
+                  <ParticipantCard
+                    key={participant.id}
+                    participant={participant}
+                    feedback={feedbackByParticipant[participant.id]}
+                    showNudge={false}
+                    onClick={() => setSelectedParticipant(participant)}
+                  />
                 ))}
               </div>
             </div>
@@ -239,7 +237,7 @@ const FacilitatorFeedbackPage = () => {
         </section>
 
         {/* Submit section */}
-        <section className="bg-white rounded-lg border p-5 mb-8 flex flex-col gap-3">
+        <section className="bg-white rounded-lg border p-5 flex flex-col gap-3">
           {showIncompleteWarning && completedCount < participants.length ? (
             <>
               <div className="flex gap-2 items-start bg-orange-50 text-orange-800 text-size-xs rounded-md p-3 border border-orange-200">
@@ -262,7 +260,7 @@ const FacilitatorFeedbackPage = () => {
               </button>
             </>
           ) : (
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
               <button
                 type="button"
                 className="w-full sm:w-auto bg-bluedot-normal text-white px-6 py-3 rounded-md text-size-xs leading-5 font-semibold transition-colors cursor-pointer hover:bg-bluedot-darker disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
@@ -368,7 +366,7 @@ const ParticipantCard: React.FC<ParticipantCardProps> = ({ participant, feedback
     <button
       type="button"
       onClick={onClick}
-      className="w-full flex items-center gap-3 border border-gray-300 rounded-lg px-3 sm:px-4 py-3.5 text-left transition-colors cursor-pointer hover:bg-gray-50 active:bg-gray-100 focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+      className="w-full flex items-center gap-3 border border-gray-300 rounded-lg px-4 py-3.5 text-left transition-colors cursor-pointer hover:bg-gray-50 active:bg-gray-100 focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
     >
       <div className={`shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-white text-size-xs font-bold ${feedback ? 'bg-bluedot-normal' : 'bg-bluedot-navy'}`}>
         {feedback ? '✓' : initials}
