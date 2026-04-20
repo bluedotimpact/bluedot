@@ -94,11 +94,17 @@ const reduce = (state: SessionState, action: Action): SessionState => {
       ...state.seen.map((a) => a.id),
       ...state.queue.map((a) => a.id),
     ]);
-    const fresh = (action.applications ?? []).filter((a) => !known.has(a.id));
+    const incoming = action.applications ?? [];
+    const fresh = incoming.filter((a) => !known.has(a.id));
+    // If the server returned records but every one was a duplicate (e.g. an
+    // offset-expired retry re-scanning already-rated records from the top),
+    // stop paginating. Otherwise the prefetch effect would fire again as soon
+    // as nextOffset changes and we'd burn API calls on more stale pages.
+    const nextOffset = incoming.length > 0 && fresh.length === 0 ? undefined : action.nextOffset;
     return {
       ...state,
       queue: [...state.queue, ...fresh],
-      nextOffset: action.nextOffset,
+      nextOffset,
     };
   }
 
