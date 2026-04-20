@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ProgressDots } from '@bluedot/ui';
 import { PiClock, PiLockSimple, PiStar, PiWarningCircle } from 'react-icons/pi';
 import StarRating from '../../components/courses/StarRating';
@@ -80,6 +80,16 @@ const FacilitatorFeedbackPage = () => {
 
     setFeedbackByParticipant(initial);
   }, [formData, noStrongImpressionKey]);
+
+  // TODO revert
+  // DEV: auto-open modal on first participant for styling iteration
+  const autoOpenedRef = useRef(false);
+  useEffect(() => {
+    if (!autoOpenedRef.current && formData?.participants?.[0]) {
+      autoOpenedRef.current = true;
+      setSelectedParticipant(formData.participants[0]);
+    }
+  }, [formData]);
 
   const savePeerFeedback = trpc.facilitators.savePeerFeedback.useMutation();
   const submitFeedback = trpc.facilitators.submitFeedback.useMutation();

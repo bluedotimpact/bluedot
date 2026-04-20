@@ -34,6 +34,14 @@ const ENGAGE_OPTIONS: RubricOption[] = [
   { value: 1, label: 'Mostly quiet or repeated what the readings said', description: 'When asked to elaborate, responses were vague or surface-level.' },
 ];
 
+const getInitials = (name: string) => name
+  .split(/\s+/)
+  .map((part) => part[0])
+  .filter(Boolean)
+  .slice(0, 2)
+  .join('')
+  .toUpperCase();
+
 const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ participant, initialData, isSaving, onClose, onSave, onNoStrongImpression }) => {
   const [showUpRating, setShowUpRating] = useState<number | null>(initialData?.showUpRating ?? null);
   const [engageRating, setEngageRating] = useState<number | null>(initialData?.engageRating ?? null);
@@ -47,20 +55,26 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
       setIsOpen={(v) => {
         if (!v) onClose();
       }}
-      title={participant.name}
+      title={(
+        <div className="flex-1 flex items-center gap-3 pr-3">
+          <div className="size-10 rounded-full bg-bluedot-normal flex items-center justify-center text-white text-size-xs font-bold shrink-0">
+            {getInitials(participant.name)}
+          </div>
+          <span className="font-bold text-[16px] text-bluedot-navy">{participant.name}</span>
+          <button type="button" className="ml-auto text-size-xs font-medium text-bluedot-navy/56 underline cursor-pointer" onClick={onNoStrongImpression}>
+            No strong impression
+          </button>
+        </div>
+      )}
+      desktopHeaderClassName="h-[73px] pt-0 pb-0 pl-6 pr-6 mb-0 border-b border-[#edeef2]"
       bottomDrawerOnMobile
       ariaLabel="Participant feedback"
       // TODO: disable clickaway (needs isDismissable prop on Modal)
     >
-      <div className="w-full pt-6 max-w-[600px]">
+      <div className="w-full pt-4 max-w-[600px]">
         <div className="w-[600px] max-w-full h-0" />
 
-        <div className="flex justify-between items-center mb-4">
-          <p className="text-size-sm text-gray-400">Your responses are only seen by BlueDot staff.</p>
-          <button type="button" className="text-size-sm text-bluedot-normal" onClick={onNoStrongImpression}>
-            No strong impression
-          </button>
-        </div>
+        <p className="text-size-sm text-gray-400 mb-4">Your responses are only seen by BlueDot staff.</p>
 
         <RubricSelector
           name="show-up"
@@ -123,23 +137,25 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
           )}
         </div>
 
-        <p className="text-size-xs text-gray-400 mt-6">Changes save when you click "Done"</p>
-        <div className="flex justify-end gap-2 mt-2">
-          <button type="button" onClick={onClose}>Cancel</button>
-          <button
-            type="button"
-            className="bg-bluedot-normal text-white px-4 py-2 rounded"
-            onClick={() => {
-              if (showUpRating !== null && engageRating !== null) {
-                onSave({
-                  showUpRating, engageRating, investmentNote, followUps,
-                });
-              }
-            }}
-            disabled={showUpRating === null || engageRating === null || isSaving}
-          >
-            Done
-          </button>
+        <div className="flex items-center justify-between gap-3 mt-8 pt-4 border-t border-gray-200">
+          <p className="text-size-xs text-gray-400">Changes save when you click "Done"</p>
+          <div className="flex gap-2">
+            <button type="button" onClick={onClose}>Cancel</button>
+            <button
+              type="button"
+              className="bg-bluedot-normal text-white px-4 py-2 rounded"
+              onClick={() => {
+                if (showUpRating !== null && engageRating !== null) {
+                  onSave({
+                    showUpRating, engageRating, investmentNote, followUps,
+                  });
+                }
+              }}
+              disabled={showUpRating === null || engageRating === null || isSaving}
+            >
+              Done
+            </button>
+          </div>
         </div>
       </div>
     </Modal>
