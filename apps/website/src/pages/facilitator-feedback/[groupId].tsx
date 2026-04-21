@@ -315,7 +315,7 @@ const FacilitatorFeedbackPage = () => {
               <button
                 type="button"
                 className="w-full sm:w-auto bg-bluedot-normal text-white px-6 py-3 rounded-md text-size-xs leading-5 font-semibold transition-colors cursor-pointer hover:bg-bluedot-darker disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
-                disabled={submitFeedback.isPending || overallRating === 0}
+                disabled={submitFeedback.isPending || overallRating === 0 || !mostValuable.trim() || !difficulties.trim()}
                 onClick={async () => {
                   if (completedCount < participants.length) {
                     setShowIncompleteWarning(true);
