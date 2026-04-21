@@ -19,7 +19,7 @@ import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { FOLLOW_UP_AIRTABLE_VALUES } from '../../lib/facilitatorFollowUps';
-import { protectedProcedure, router } from '../trpc';
+import { checkAdminAccess, protectedProcedure, router } from '../trpc';
 
 const getFacilitator = async (roundId: string, facilitatorEmail: string) => {
   const facilitator = await db.getFirst(meetPersonTable, {
@@ -34,10 +34,17 @@ const getFacilitator = async (roundId: string, facilitatorEmail: string) => {
 
 async function verifyFacilitatorById(meetPersonId: string, email: string) {
   const meetPerson = await db.getFirst(meetPersonTable, {
-    filter: { id: meetPersonId, email },
+    filter: { id: meetPersonId },
   });
   if (!meetPerson || meetPerson.role !== 'Facilitator') {
     throw new TRPCError({ code: 'FORBIDDEN', message: 'Not authorized' });
+  }
+
+  if (meetPerson.email !== email) {
+    const isAdmin = await checkAdminAccess(email);
+    if (!isAdmin) {
+      throw new TRPCError({ code: 'FORBIDDEN', message: 'Not authorized' });
+    }
   }
 
   return meetPerson;
@@ -289,7 +296,13 @@ export const facilitatorRouter = router({
 
       return {
         meetPersonId: meetPerson.id,
+        firstName: meetPerson.firstName,
+        lastName: meetPerson.lastName,
+        email: meetPerson.email,
+        payForFacilitatedDiscussions: meetPerson.payForFacilitatedDiscussions,
         roundName: round?.title ?? '',
+        roundStartDate: round?.startDate ?? null,
+        roundLastDiscussionDate: round?.lastDiscussionDate ?? null,
         groupId: group.id,
         groupName: group.groupName,
         participants: participantIds.map((id) => ({ id, name: nameById.get(id) ?? '' })),
