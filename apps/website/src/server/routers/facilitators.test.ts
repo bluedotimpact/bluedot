@@ -186,17 +186,38 @@ describe('facilitators.savePeerFeedback', () => {
     expect(pfs[0]!.courseFeedback).toEqual([existing.id]);
   });
 
-  test('rejects participantId that is not in the facilitator\'s group', async () => {
+  test('allows feedback for a same-round Participant outside the facilitator\'s group (manually added)', async () => {
+    await seedFacilitatorGroup();
+
+    await caller.facilitators.savePeerFeedback({ ...baseInput, participantId: OUTSIDER });
+
+    const pfs = await testDb.scan(peerFeedbackTable);
+    expect(pfs).toHaveLength(1);
+    expect(pfs[0]!.feedbackRecipient).toEqual([OUTSIDER]);
+  });
+
+  test('rejects participantId from a different round', async () => {
+    await seedFacilitatorGroup();
+    await testDb.insert(meetPersonTable, {
+      id: 'other-round-participant',
+      email: 'other-round@example.com',
+      round: 'different-round',
+      role: 'Participant',
+    });
+
+    await expect(caller.facilitators.savePeerFeedback({
+      ...baseInput,
+      participantId: 'other-round-participant',
+    })).rejects.toThrow('Participant is not in your round');
+  });
+
+  test('rejects a Facilitator as a feedback recipient', async () => {
     await seedFacilitatorGroup();
 
     await expect(caller.facilitators.savePeerFeedback({
       ...baseInput,
-      participantId: OUTSIDER,
-    })).rejects.toThrow('Participant is not in your group');
-
-    expect(await testDb.scan(peerFeedbackTable)).toHaveLength(0);
-    // No course_feedback stub should be created either
-    expect(await testDb.scan(courseFeedbackTable)).toHaveLength(0);
+      participantId: FACILITATOR_ID,
+    })).rejects.toThrow('Participant is not in your round');
   });
 
   test('allows feedback for a drop-in (attendee of a group discussion, not a listed participant)', async () => {
@@ -238,25 +259,6 @@ describe('facilitators.savePeerFeedback', () => {
       ...baseInput,
       meetPersonId: 'other-facilitator',
     })).rejects.toThrow('Not authorized');
-  });
-
-  test('rejects if facilitator has no group', async () => {
-    await testDb.insert(courseTable, {
-      id: 'course-1', slug: 'test', title: 'Test', shortDescription: 'T', units: [],
-    });
-    await testDb.insert(roundTable, { id: ROUND_ID, title: 'R', course: 'course-1' });
-    await testDb.insert(meetPersonTable, {
-      id: FACILITATOR_ID,
-      email: FACILITATOR_EMAIL,
-      round: ROUND_ID,
-      role: 'Facilitator',
-    });
-    await testDb.insert(meetPersonTable, {
-      id: PARTICIPANT_1, email: 'p1@example.com', round: ROUND_ID, role: 'Participant',
-    });
-
-    await expect(caller.facilitators.savePeerFeedback(baseInput))
-      .rejects.toThrow('No group found for this facilitator');
   });
 });
 
@@ -339,6 +341,56 @@ describe('facilitators.getFeedbackFormData', () => {
     const result = await caller.facilitators.getFeedbackFormData({ meetPersonId: FACILITATOR_ID });
 
     expect(result.dropIns).toEqual([]);
+  });
+});
+
+describe('facilitators.searchAddableParticipants', () => {
+  const caller = createCaller(testAuthContextLoggedIn);
+
+  test('returns same-round Participants excluding group members, drop-ins, and facilitators', async () => {
+    await seedFacilitatorGroup();
+    await seedDropIn();
+    await testDb.insert(meetPersonTable, {
+      id: 'co-facilitator',
+      email: 'co@example.com',
+      name: 'Co Facilitator',
+      round: ROUND_ID,
+      role: 'Facilitator',
+    });
+    await testDb.insert(meetPersonTable, {
+      id: 'other-round-participant',
+      email: 'otherround@example.com',
+      name: 'Other Round',
+      round: 'different-round',
+      role: 'Participant',
+    });
+    await testDb.update(meetPersonTable, { id: OUTSIDER, name: 'Outside R. Group' });
+
+    const result = await caller.facilitators.searchAddableParticipants({ meetPersonId: FACILITATOR_ID });
+
+    expect(result.map((p) => p.id)).toEqual([OUTSIDER]);
+  });
+
+  test('filters by searchTerm (case-insensitive name match)', async () => {
+    await seedFacilitatorGroup();
+    await testDb.insert(meetPersonTable, {
+      id: 'alice',
+      email: 'alice@example.com',
+      name: 'Alice Adams',
+      round: ROUND_ID,
+      role: 'Participant',
+    });
+    await testDb.insert(meetPersonTable, {
+      id: 'bob',
+      email: 'bob@example.com',
+      name: 'Bob Baker',
+      round: ROUND_ID,
+      role: 'Participant',
+    });
+
+    const result = await caller.facilitators.searchAddableParticipants({ meetPersonId: FACILITATOR_ID, searchTerm: 'alice' });
+
+    expect(result.map((p) => p.id)).toEqual(['alice']);
   });
 });
 

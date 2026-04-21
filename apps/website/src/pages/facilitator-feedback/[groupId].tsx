@@ -7,6 +7,7 @@ import {
 } from 'react-icons/pi';
 import StarRating from '../../components/courses/StarRating';
 import ParticipantFeedbackModal, { type ParticipantFeedbackData } from '../../components/courses/ParticipantFeedbackModal';
+import AddParticipantModal from '../../components/courses/AddParticipantModal';
 import { FOLLOW_UP_OPTIONS } from '../../lib/facilitatorFollowUps';
 import { trpc } from '../../utils/trpc';
 
@@ -40,12 +41,15 @@ const FacilitatorFeedbackPage = () => {
 
   const [selectedParticipant, setSelectedParticipant] = useState<{ id: string; name: string } | null>(null);
   const [feedbackByParticipant, setFeedbackByParticipant] = useState<Record<string, ParticipantFeedback>>({});
+  const [addedParticipants, setAddedParticipants] = useState<{ id: string; name: string }[]>([]);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(true);
   const [overallRating, setOverallRating] = useState(0);
   const [mostValuable, setMostValuable] = useState('');
   const [difficulties, setDifficulties] = useState('');
   const [showIncompleteWarning, setShowIncompleteWarning] = useState(false);
 
   const noStrongImpressionKey = `facilitator-feedback:${meetPersonId}:no-strong-impression`;
+  const addedKey = `facilitator-feedback:${meetPersonId}:added`;
 
   useEffect(() => {
     if (!formData) return;
@@ -81,13 +85,36 @@ const FacilitatorFeedbackPage = () => {
     }
 
     setFeedbackByParticipant(initial);
-  }, [formData, noStrongImpressionKey]);
+
+    // Hydrate addedParticipants: union of localStorage and any existingPeerFeedback recipients
+    // that aren't in the main participant/drop-in lists.
+    const knownIds = new Set([
+      ...formData.participants.map((p) => p.id),
+      ...formData.dropIns.map((p) => p.id),
+    ]);
+    const hydrated = new Map<string, { id: string; name: string }>();
+    try {
+      const stored = JSON.parse(localStorage.getItem(addedKey) ?? '[]') as { id: string; name: string }[];
+      for (const person of stored) {
+        if (!knownIds.has(person.id)) hydrated.set(person.id, person);
+      }
+    } catch { /* ignore corrupt localStorage */ }
+
+    // Server-side truth: recipients with peerFeedback but not in the known lists
+    for (const pf of formData.existingPeerFeedback) {
+      if (!knownIds.has(pf.recipientId)) {
+        hydrated.set(pf.recipientId, { id: pf.recipientId, name: pf.recipientName });
+      }
+    }
+
+    setAddedParticipants([...hydrated.values()]);
+  }, [formData, noStrongImpressionKey, addedKey]);
 
   const savePeerFeedback = trpc.facilitators.savePeerFeedback.useMutation();
   const submitFeedback = trpc.facilitators.submitFeedback.useMutation();
   const unsubmitFeedback = trpc.facilitators.unsubmitFeedback.useMutation();
 
-  if (isLoading) {
+  if (isLoading || !router.isReady) {
     return (
       <div className="min-h-screen bg-cream-normal flex items-center justify-center">
         <ProgressDots />
@@ -229,12 +256,30 @@ const FacilitatorFeedbackPage = () => {
             </div>
           )}
 
+          {addedParticipants.length > 0 && (
+            <div className="flex flex-col gap-2">
+              <p className="text-size-xxs font-semibold uppercase tracking-wider text-gray-500">Added by you</p>
+              <div className="flex flex-col gap-2">
+                {addedParticipants.map((participant) => (
+                  <ParticipantCard
+                    key={participant.id}
+                    participant={participant}
+                    feedback={feedbackByParticipant[participant.id]}
+                    showNudge={false}
+                    onClick={() => setSelectedParticipant(participant)}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
           <button
             type="button"
+            onClick={() => setIsAddModalOpen(true)}
             className="self-start flex items-center gap-2 bg-white border border-gray-300 rounded-md px-4 py-2.5 text-size-xs font-medium text-bluedot-navy transition-colors cursor-pointer hover:bg-gray-50 active:bg-gray-100 focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
           >
             <span aria-hidden>+</span>
-            Add a participant (TODO)
+            Add a participant
           </button>
         </section>
 
@@ -334,6 +379,19 @@ const FacilitatorFeedbackPage = () => {
             localStorage.setItem(noStrongImpressionKey, JSON.stringify(nsiIds));
             setSelectedParticipant(null);
           }}
+        />
+      )}
+
+      {isAddModalOpen && (
+        <AddParticipantModal
+          meetPersonId={meetPersonId}
+          excludeIds={addedParticipants.map((p) => p.id)}
+          onAdd={(person) => {
+            const next = [...addedParticipants, person];
+            setAddedParticipants(next);
+            localStorage.setItem(addedKey, JSON.stringify(next));
+          }}
+          onClose={() => setIsAddModalOpen(false)}
         />
       )}
     </div>

@@ -1,13 +1,16 @@
 import {
   and,
   arrayContains,
+  asc,
   courseFeedbackTable,
   eq,
   facilitatorDiscussionSwitchingTable,
   groupDiscussionTable,
   groupTable,
+  ilike,
   inArray,
   meetPersonTable,
+  notInArray,
   peerFeedbackTable,
   roundTable,
   unitTable,
@@ -262,12 +265,6 @@ export const facilitatorRouter = router({
       const participantIds = group.participants ?? [];
       const dropInIds = await getDropInIdsForGroup(group.id, participantIds);
 
-      const personIds = [...participantIds, ...dropInIds];
-      const people = personIds.length > 0
-        ? await db.pg.select({ id: meetPersonTable.pg.id, name: meetPersonTable.pg.name }).from(meetPersonTable.pg).where(inArray(meetPersonTable.pg.id, personIds))
-        : [];
-      const nameById = new Map(people.map((p) => [p.id, p.name ?? '']));
-
       const round = meetPerson.round
         ? await db.getFirst(roundTable, { filter: { id: meetPerson.round }, sortBy: 'id' })
         : null;
@@ -280,6 +277,15 @@ export const facilitatorRouter = router({
         ? await db.pg.select().from(peerFeedbackTable.pg)
           .where(arrayContains(peerFeedbackTable.pg.courseFeedback, [existingCourseFeedback.id]))
         : [];
+
+      // Include peer feedback recipients in the name lookup so the UI can display manually-added
+      // participants (who aren't in group.participants or drop-ins) after localStorage is cleared.
+      const recipientIds = existingPeerFeedback.map((pf) => pf.feedbackRecipient?.[0] ?? '').filter(Boolean);
+      const personIds = [...new Set([...participantIds, ...dropInIds, ...recipientIds])];
+      const people = personIds.length > 0
+        ? await db.pg.select({ id: meetPersonTable.pg.id, name: meetPersonTable.pg.name }).from(meetPersonTable.pg).where(inArray(meetPersonTable.pg.id, personIds))
+        : [];
+      const nameById = new Map(people.map((p) => [p.id, p.name ?? '']));
 
       return {
         meetPersonId: meetPerson.id,
@@ -295,14 +301,45 @@ export const facilitatorRouter = router({
           improvements: existingCourseFeedback.improvements,
           submittedAt: existingCourseFeedback.submittedAt,
         } : null,
-        existingPeerFeedback: existingPeerFeedback.map((pf) => ({
-          recipientId: pf.feedbackRecipient?.[0] ?? '',
-          initiativeRating: pf.initiativeRating,
-          reasoningQualityRating: pf.reasoningQualityRating,
-          feedback: pf.feedback,
-          nextSteps: pf.nextSteps,
-        })),
+        existingPeerFeedback: existingPeerFeedback.map((pf) => {
+          const recipientId = pf.feedbackRecipient?.[0] ?? '';
+          return {
+            recipientId,
+            recipientName: nameById.get(recipientId) ?? '',
+            initiativeRating: pf.initiativeRating,
+            reasoningQualityRating: pf.reasoningQualityRating,
+            feedback: pf.feedback,
+            nextSteps: pf.nextSteps,
+          };
+        }),
       };
+    }),
+
+  searchAddableParticipants: protectedProcedure
+    .input(z.object({ meetPersonId: z.string().min(1), searchTerm: z.string().max(200).optional() }))
+    .query(async ({ input, ctx }) => {
+      const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx.auth.email);
+      const group = await getGroupForFacilitator(meetPerson.id);
+      const participantIds = group.participants ?? [];
+      const dropInIds = await getDropInIdsForGroup(group.id, participantIds);
+      const excludeIds = [...participantIds, ...dropInIds];
+      if (!meetPerson.round) return [];
+
+      const trimmed = (input.searchTerm ?? '').trim();
+      const conditions = [
+        eq(meetPersonTable.pg.round, meetPerson.round),
+        eq(meetPersonTable.pg.role, 'Participant'),
+      ];
+      if (excludeIds.length > 0) conditions.push(notInArray(meetPersonTable.pg.id, excludeIds));
+      if (trimmed) conditions.push(ilike(meetPersonTable.pg.name, `%${trimmed}%`));
+
+      const rows = await db.pg
+        .select({ id: meetPersonTable.pg.id, name: meetPersonTable.pg.name })
+        .from(meetPersonTable.pg)
+        .where(and(...conditions))
+        .orderBy(asc(meetPersonTable.pg.name))
+        .limit(20);
+      return rows.map((r) => ({ id: r.id, name: r.name ?? '' }));
     }),
 
   savePeerFeedback: protectedProcedure
@@ -316,13 +353,9 @@ export const facilitatorRouter = router({
     }))
     .mutation(async ({ input, ctx }) => {
       const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx.auth.email);
-      const group = await getGroupForFacilitator(meetPerson.id);
-      const participantIds = group.participants ?? [];
-      if (!participantIds.includes(input.participantId)) {
-        const dropInIds = await getDropInIdsForGroup(group.id, participantIds);
-        if (!dropInIds.includes(input.participantId)) {
-          throw new TRPCError({ code: 'FORBIDDEN', message: 'Participant is not in your group' });
-        }
+      const target = await db.getFirst(meetPersonTable, { filter: { id: input.participantId } });
+      if (!target || target.role !== 'Participant' || target.round !== meetPerson.round) {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Participant is not in your round' });
       }
 
       const courseFeedback = await getOrCreateCourseFeedback(meetPerson);
