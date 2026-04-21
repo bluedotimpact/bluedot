@@ -529,7 +529,7 @@ export const meetPersonTable = pgAirtable('meet_person', {
       pgColumn: text(),
       airtableId: 'fldaIGPvelun2YNc9',
     },
-    /** Airtable formula "[*] Pay for facilitated discussions"; number, may be 0/blank */
+    /** Airtable formula "[*] Pay for facilitated discussions": Total payment for facilitating this course (one round, all discussions) */
     payForFacilitatedDiscussions: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldSaRaUdmezPh9gH',
