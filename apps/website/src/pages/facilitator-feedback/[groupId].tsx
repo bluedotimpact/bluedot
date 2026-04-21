@@ -136,6 +136,8 @@ const FacilitatorFeedbackPage = () => {
     improvements: difficulties,
   };
   const alreadySubmitted = formData?.existingCourseFeedback?.submittedAt != null;
+  const submitIdleLabel = alreadySubmitted ? 'Update feedback' : 'Submit feedback';
+  const submitAnywayIdleLabel = alreadySubmitted ? 'Update anyway' : 'Submit anyway';
 
   return (
     <div className="min-h-screen bg-cream-normal">
@@ -308,7 +310,7 @@ const FacilitatorFeedbackPage = () => {
                   router.push(`/facilitator-feedback/${meetPersonId}/success`);
                 }}
               >
-                {submitFeedback.isPending ? 'Saving...' : (alreadySubmitted ? 'Update anyway' : 'Submit anyway')}
+                {submitFeedback.isPending ? 'Saving...' : submitAnywayIdleLabel}
               </button>
             </>
           ) : (
@@ -328,7 +330,7 @@ const FacilitatorFeedbackPage = () => {
                   }
                 }}
               >
-                {submitFeedback.isPending ? 'Saving...' : (alreadySubmitted ? 'Update feedback' : 'Submit feedback')}
+                {submitFeedback.isPending ? 'Saving...' : submitIdleLabel}
               </button>
               <p className="text-size-xs text-gray-600">
                 <span className="font-semibold text-bluedot-navy">{completedCount}</span> of <span className="font-semibold text-bluedot-navy">{participants.length}</span> participant feedback completed
