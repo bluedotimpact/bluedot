@@ -87,9 +87,9 @@ const FacilitatorFeedbackSuccessPage = () => {
       )}
 
       <div className="max-w-[680px] mx-auto pt-8 pb-16 px-4 flex flex-col gap-8">
-        <section className="bg-white rounded-lg border p-6 sm:p-12 flex flex-col gap-7">
+        <section className="bg-white rounded-lg border border-color-divider p-6 sm:p-12 flex flex-col gap-7">
           <div className="flex flex-col gap-4">
-            <div className="w-[60px] h-[60px] rounded-full bg-bluedot-lightest flex items-center justify-center">
+            <div className="w-[60px] h-[60px] rounded-full bg-bluedot-normal/10 flex items-center justify-center">
               <PiCheck className="text-bluedot-normal text-[28px]" aria-hidden />
             </div>
             <div className="flex flex-col gap-2">
@@ -110,9 +110,9 @@ const FacilitatorFeedbackSuccessPage = () => {
           )}
 
           {showInvoiceCard && invoiceUrl && (
-            <div className="bg-[#f8f9fb] border rounded-md p-6 flex flex-col gap-3">
+            <div className="bg-[#f8f9fb] border border-color-divider rounded-md p-6 flex flex-col gap-2">
               <div className="flex items-center gap-2.5">
-                <div className="size-8 rounded-md bg-bluedot-lightest flex items-center justify-center">
+                <div className="size-8 rounded-md bg-bluedot-normal/10 flex items-center justify-center shrink-0">
                   <PiCreditCard className="text-bluedot-normal" aria-hidden />
                 </div>
                 <p className="text-size-xs font-semibold text-bluedot-navy">Ready to submit your invoice?</p>
@@ -123,7 +123,7 @@ const FacilitatorFeedbackSuccessPage = () => {
               <a
                 href={invoiceUrl}
                 target="_blank"
-                className="self-start bg-bluedot-normal text-white font-semibold text-size-xs px-6 py-3 rounded-md hover:bg-bluedot-darker transition-colors"
+                className="self-start mt-2 bg-bluedot-normal text-white font-semibold text-size-xs px-6 py-3 rounded-md hover:bg-bluedot-darker transition-colors"
               >
                 Submit invoice
               </a>
