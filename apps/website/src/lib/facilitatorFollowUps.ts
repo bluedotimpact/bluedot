@@ -12,3 +12,8 @@ export const FOLLOW_UP_AIRTABLE_VALUES = FOLLOW_UP_OPTIONS.map((o) => o.airtable
 ];
 
 export type FollowUpAirtableValue = typeof FOLLOW_UP_OPTIONS[number]['airtableValue'];
+
+const NO_ACTION_AIRTABLE_VALUE = FOLLOW_UP_OPTIONS.find((o) => o.id === 'no-action')!.airtableValue;
+
+/** A participant is "flagged" if the facilitator picked any follow-up other than "no further action needed". */
+export const isFlaggedFromAirtable = (nextSteps: string[] | null | undefined): boolean => (nextSteps ?? []).some((step) => step !== NO_ACTION_AIRTABLE_VALUE);

@@ -42,7 +42,7 @@ const FacilitatorFeedbackPage = () => {
   const [selectedParticipant, setSelectedParticipant] = useState<{ id: string; name: string } | null>(null);
   const [feedbackByParticipant, setFeedbackByParticipant] = useState<Record<string, ParticipantFeedback>>({});
   const [addedParticipants, setAddedParticipants] = useState<{ id: string; name: string }[]>([]);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(true);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [overallRating, setOverallRating] = useState(0);
   const [mostValuable, setMostValuable] = useState('');
   const [difficulties, setDifficulties] = useState('');
@@ -110,6 +110,7 @@ const FacilitatorFeedbackPage = () => {
     setAddedParticipants([...hydrated.values()]);
   }, [formData, noStrongImpressionKey, addedKey]);
 
+  const utils = trpc.useUtils();
   const savePeerFeedback = trpc.facilitators.savePeerFeedback.useMutation();
   const submitFeedback = trpc.facilitators.submitFeedback.useMutation();
   const unsubmitFeedback = trpc.facilitators.unsubmitFeedback.useMutation();
@@ -299,8 +300,11 @@ const FacilitatorFeedbackPage = () => {
                 type="button"
                 className="self-start text-size-xs text-gray-500 underline cursor-pointer transition-colors hover:text-gray-700 disabled:opacity-50 disabled:pointer-events-none"
                 disabled={submitFeedback.isPending}
-                onClick={() => {
-                  /* TODO: error handling */ submitFeedback.mutateAsync(submitPayload);
+                onClick={async () => {
+                  // TODO: error handling
+                  await submitFeedback.mutateAsync(submitPayload);
+                  await utils.facilitators.getFeedbackFormData.invalidate({ meetPersonId });
+                  router.push(`/facilitator-feedback/${meetPersonId}/success`);
                 }}
               >
                 {submitFeedback.isPending ? 'Submitting...' : 'Submit anyway'}
@@ -312,12 +316,14 @@ const FacilitatorFeedbackPage = () => {
                 type="button"
                 className="w-full sm:w-auto bg-bluedot-normal text-white px-6 py-3 rounded-md text-size-xs leading-5 font-semibold transition-colors cursor-pointer hover:bg-bluedot-darker disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
                 disabled={submitFeedback.isPending || overallRating === 0}
-                onClick={() => {
+                onClick={async () => {
                   if (completedCount < participants.length) {
                     setShowIncompleteWarning(true);
                   } else {
                     // TODO: error handling
-                    submitFeedback.mutateAsync(submitPayload);
+                    await submitFeedback.mutateAsync(submitPayload);
+                    await utils.facilitators.getFeedbackFormData.invalidate({ meetPersonId });
+                    router.push(`/facilitator-feedback/${meetPersonId}/success`);
                   }
                 }}
               >

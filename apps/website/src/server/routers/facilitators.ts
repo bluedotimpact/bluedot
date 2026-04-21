@@ -32,18 +32,20 @@ const getFacilitator = async (roundId: string, facilitatorEmail: string) => {
   return facilitator;
 };
 
-async function verifyFacilitatorById(meetPersonId: string, email: string) {
+async function verifyFacilitatorById(meetPersonId: string, ctx: { auth: { email: string }; impersonation?: { adminEmail: string } | null }) {
   const meetPerson = await db.getFirst(meetPersonTable, {
     filter: { id: meetPersonId },
   });
   if (!meetPerson || meetPerson.role !== 'Facilitator') {
-    throw new TRPCError({ code: 'FORBIDDEN', message: 'Not authorized' });
+    throw new TRPCError({ code: 'NOT_FOUND', message: 'Not found' });
   }
 
-  if (meetPerson.email !== email) {
-    const isAdmin = await checkAdminAccess(email);
+  if (meetPerson.email !== ctx.auth.email) {
+    // During impersonation, check the real admin's permissions, not the impersonated user's.
+    const realEmail = ctx.impersonation?.adminEmail ?? ctx.auth.email;
+    const isAdmin = await checkAdminAccess(realEmail);
     if (!isAdmin) {
-      throw new TRPCError({ code: 'FORBIDDEN', message: 'Not authorized' });
+      throw new TRPCError({ code: 'NOT_FOUND', message: 'Not found' });
     }
   }
 
@@ -267,7 +269,7 @@ export const facilitatorRouter = router({
   getFeedbackFormData: protectedProcedure
     .input(z.object({ meetPersonId: z.string().min(1) }))
     .query(async ({ input, ctx }) => {
-      const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx.auth.email);
+      const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx);
       const group = await getGroupForFacilitator(meetPerson.id);
       const participantIds = group.participants ?? [];
       const dropInIds = await getDropInIdsForGroup(group.id, participantIds);
@@ -331,7 +333,7 @@ export const facilitatorRouter = router({
   searchAddableParticipants: protectedProcedure
     .input(z.object({ meetPersonId: z.string().min(1), searchTerm: z.string().max(200).optional() }))
     .query(async ({ input, ctx }) => {
-      const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx.auth.email);
+      const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx);
       const group = await getGroupForFacilitator(meetPerson.id);
       const participantIds = group.participants ?? [];
       const dropInIds = await getDropInIdsForGroup(group.id, participantIds);
@@ -365,7 +367,7 @@ export const facilitatorRouter = router({
       nextSteps: z.array(z.enum(FOLLOW_UP_AIRTABLE_VALUES)),
     }))
     .mutation(async ({ input, ctx }) => {
-      const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx.auth.email);
+      const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx);
       const target = await db.getFirst(meetPersonTable, { filter: { id: input.participantId } });
       if (!target || target.role !== 'Participant' || target.round !== meetPerson.round) {
         throw new TRPCError({ code: 'FORBIDDEN', message: 'Participant is not in your round' });
@@ -403,7 +405,7 @@ export const facilitatorRouter = router({
       improvements: z.string(),
     }))
     .mutation(async ({ input, ctx }) => {
-      const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx.auth.email);
+      const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx);
       const courseFeedback = await getOrCreateCourseFeedback(meetPerson);
 
       await db.update(courseFeedbackTable, {
@@ -420,7 +422,7 @@ export const facilitatorRouter = router({
   unsubmitFeedback: protectedProcedure
     .input(z.object({ meetPersonId: z.string().min(1) }))
     .mutation(async ({ input, ctx }) => {
-      const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx.auth.email);
+      const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx);
       if (meetPerson.courseFeedback?.[0]) {
         await db.update(courseFeedbackTable, { id: meetPerson.courseFeedback[0], submittedAt: null });
       }

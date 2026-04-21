@@ -1,8 +1,19 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import Confetti from 'react-confetti';
 import { ProgressDots } from '@bluedot/ui';
+import { PiCheck, PiCreditCard } from 'react-icons/pi';
 import { generateInvoiceUrl } from '../../../lib/generateInvoiceUrl';
+import { isFlaggedFromAirtable } from '../../../lib/facilitatorFollowUps';
 import { trpc } from '../../../utils/trpc';
+
+const formatNames = (names: string[]): string => {
+  if (names.length === 0) return '';
+  if (names.length === 1) return names[0]!;
+  if (names.length === 2) return `${names[0]} and ${names[1]}`;
+  return `${names.slice(0, -1).join(', ')}, and ${names[names.length - 1]}`;
+};
 
 const FacilitatorFeedbackSuccessPage = () => {
   const router = useRouter();
@@ -13,7 +24,30 @@ const FacilitatorFeedbackSuccessPage = () => {
     { enabled: !!meetPersonId },
   );
 
-  if (isLoading || !router.isReady || !data) {
+  const notSubmitted = !!data && !data.existingCourseFeedback?.submittedAt;
+  useEffect(() => {
+    if (notSubmitted) {
+      router.replace(`/facilitator-feedback/${meetPersonId}`);
+    }
+  }, [notSubmitted, meetPersonId, router]);
+
+  const [showConfetti, setShowConfetti] = useState(false);
+  useEffect(() => {
+    if (!data) return;
+    let noStrongImpressionIds: string[] = [];
+    try {
+      noStrongImpressionIds = JSON.parse(localStorage.getItem(`facilitator-feedback:${meetPersonId}:no-strong-impression`) ?? '[]') as string[];
+    } catch { /* ignore corrupt localStorage */ }
+    const completedIds = new Set<string>([
+      ...data.existingPeerFeedback.map((pf) => pf.recipientId),
+      ...noStrongImpressionIds,
+    ]);
+    const allComplete = data.participants.length > 0
+      && data.participants.every((p) => completedIds.has(p.id));
+    if (allComplete) setShowConfetti(true);
+  }, [data, meetPersonId]);
+
+  if (isLoading || !router.isReady || !data || notSubmitted) {
     return (
       <div className="min-h-screen bg-cream-normal flex items-center justify-center">
         <ProgressDots />
@@ -21,32 +55,81 @@ const FacilitatorFeedbackSuccessPage = () => {
     );
   }
 
-  const invoiceUrl = generateInvoiceUrl({
-    firstName: data.firstName ?? '',
-    lastName: data.lastName ?? '',
-    email: data.email ?? '',
-    compensationLumpSum: data.payForFacilitatedDiscussions ?? 0,
-    roundTitle: data.roundName,
-    contractStartDate: data.roundStartDate ?? '',
-    contractEndDate: data.roundLastDiscussionDate ?? '',
-  });
+  const compensationLumpSum = data.payForFacilitatedDiscussions ?? 0;
+  const showInvoiceCard = compensationLumpSum > 0;
+  const invoiceUrl = showInvoiceCard
+    ? generateInvoiceUrl({
+      firstName: data.firstName ?? '',
+      lastName: data.lastName ?? '',
+      email: data.email ?? '',
+      compensationLumpSum,
+      roundTitle: data.roundName,
+      contractStartDate: data.roundStartDate ?? '',
+      contractEndDate: data.roundLastDiscussionDate ?? '',
+    })
+    : null;
+
+  const flaggedNames = data.existingPeerFeedback
+    .filter((pf) => isFlaggedFromAirtable(pf.nextSteps))
+    .map((pf) => pf.recipientName)
+    .filter(Boolean);
 
   return (
     <div className="min-h-screen bg-cream-normal">
       <Head>
-        <title>Thanks for your feedback | BlueDot Impact</title>
+        <title>{data.roundName ? `Feedback submitted · ${data.roundName}` : 'Feedback submitted'} | BlueDot Impact</title>
       </Head>
-      <div className="max-w-[680px] mx-auto pt-8 pb-16 px-4 flex flex-col gap-4">
-        <h1 className="text-3xl font-bold">Thanks for your feedback!</h1>
-        <p>Next step: submit your invoice so we can pay you.</p>
-        <a
-          href={invoiceUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="self-start underline text-bluedot-normal"
-        >
-          Open pre-filled invoice form →
-        </a>
+
+      {showConfetti && (
+        <div className="fixed inset-0 pointer-events-none z-50">
+          <Confetti numberOfPieces={300} recycle={false} />
+        </div>
+      )}
+
+      <div className="max-w-[680px] mx-auto pt-8 pb-16 px-4 flex flex-col gap-8">
+        <section className="bg-white rounded-lg border p-6 sm:p-12 flex flex-col gap-7">
+          <div className="flex flex-col gap-4">
+            <div className="w-[60px] h-[60px] rounded-full bg-bluedot-lightest flex items-center justify-center">
+              <PiCheck className="text-bluedot-normal text-[28px]" aria-hidden />
+            </div>
+            <div className="flex flex-col gap-2">
+              <h1 className="text-2xl font-bold text-bluedot-navy leading-8">Feedback submitted!</h1>
+              <p className="text-size-xs text-bluedot-navy/70 leading-relaxed">
+                Your insights help BlueDot support the most engaged participants and improve every future cohort.
+              </p>
+            </div>
+          </div>
+
+          {flaggedNames.length > 0 && (
+            <div className="bg-[#f2fff8] border border-[rgba(5,144,5,0.2)] rounded-md px-4 py-3">
+              <p className="text-size-xs leading-relaxed text-[#1a7a52]">
+                <span className="font-bold">🙌 You suggested follow-up actions for {formatNames(flaggedNames)}</span>
+                <span>{` — we'll review these and do our best to act on them.`}</span>
+              </p>
+            </div>
+          )}
+
+          {showInvoiceCard && invoiceUrl && (
+            <div className="bg-[#f8f9fb] border rounded-md p-6 flex flex-col gap-3">
+              <div className="flex items-center gap-2.5">
+                <div className="size-8 rounded-md bg-bluedot-lightest flex items-center justify-center">
+                  <PiCreditCard className="text-bluedot-normal" aria-hidden />
+                </div>
+                <p className="text-size-xs font-semibold text-bluedot-navy">Ready to submit your invoice?</p>
+              </div>
+              <p className="text-size-xs text-bluedot-navy/70 leading-relaxed">
+                You can submit your bank details below and expect to receive your compensation within a week. We'll also send you a link by email.
+              </p>
+              <a
+                href={invoiceUrl}
+                target="_blank"
+                className="self-start bg-bluedot-normal text-white font-semibold text-size-xs px-6 py-3 rounded-md hover:bg-bluedot-darker transition-colors"
+              >
+                Submit invoice
+              </a>
+            </div>
+          )}
+        </section>
       </div>
     </div>
   );
