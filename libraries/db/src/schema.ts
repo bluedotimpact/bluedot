@@ -521,6 +521,19 @@ export const meetPersonTable = pgAirtable('meet_person', {
       pgColumn: boolean(),
       airtableId: 'fldAJk2NNzh32zVnJ',
     },
+    firstName: {
+      pgColumn: text(),
+      airtableId: 'fldyJ6QUIiw1kGOfc',
+    },
+    lastName: {
+      pgColumn: text(),
+      airtableId: 'fldaIGPvelun2YNc9',
+    },
+    /** Airtable formula "[*] Pay for facilitated discussions"; number, may be 0/blank */
+    payForFacilitatedDiscussions: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldSaRaUdmezPh9gH',
+    },
   },
 });
 
@@ -558,6 +571,14 @@ export const roundTable = pgAirtable('round', {
     maxParticipantsPerGroup: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldoIzHNm8NzjAefW',
+    },
+    startDate: {
+      pgColumn: text(),
+      airtableId: 'fldmmbX7ZtwjPbfMK',
+    },
+    lastDiscussionDate: {
+      pgColumn: text(),
+      airtableId: 'fldlXsYFtqt96nuvk',
     },
   },
 });
