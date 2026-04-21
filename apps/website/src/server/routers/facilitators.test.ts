@@ -243,7 +243,7 @@ describe('facilitators.savePeerFeedback', () => {
     await expect(caller.facilitators.savePeerFeedback({
       ...baseInput,
       meetPersonId: 'participant-self',
-    })).rejects.toThrow('Not authorized');
+    })).rejects.toThrow('Not found');
   });
 
   test('rejects meetPersonId that belongs to a different user', async () => {
@@ -258,7 +258,7 @@ describe('facilitators.savePeerFeedback', () => {
     await expect(caller.facilitators.savePeerFeedback({
       ...baseInput,
       meetPersonId: 'other-facilitator',
-    })).rejects.toThrow('Not authorized');
+    })).rejects.toThrow('Not found');
   });
 });
 
@@ -305,7 +305,7 @@ describe('facilitators.getFeedbackFormData', () => {
     });
 
     await expect(caller.facilitators.getFeedbackFormData({ meetPersonId: 'other-facilitator' }))
-      .rejects.toThrow('Not authorized');
+      .rejects.toThrow('Not found');
   });
 
   test('returns drop-ins (attendees not in group.participants)', async () => {
@@ -448,7 +448,7 @@ describe('facilitators.submitFeedback', () => {
     await expect(caller.facilitators.submitFeedback({
       ...submitInput,
       meetPersonId: 'participant-self',
-    })).rejects.toThrow('Not authorized');
+    })).rejects.toThrow('Not found');
   });
 });
 
