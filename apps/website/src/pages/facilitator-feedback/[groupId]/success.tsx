@@ -38,6 +38,7 @@ const FacilitatorFeedbackSuccessPage = () => {
     try {
       noStrongImpressionIds = JSON.parse(localStorage.getItem(`facilitator-feedback:${meetPersonId}:no-strong-impression`) ?? '[]') as string[];
     } catch { /* ignore corrupt localStorage */ }
+
     const completedIds = new Set<string>([
       ...data.existingPeerFeedback.map((pf) => pf.recipientId),
       ...noStrongImpressionIds,
@@ -104,7 +105,7 @@ const FacilitatorFeedbackSuccessPage = () => {
             <div className="bg-[#f2fff8] border border-[rgba(5,144,5,0.2)] rounded-md px-4 py-3">
               <p className="text-size-xs leading-relaxed text-[#1a7a52]">
                 <span className="font-bold">🙌 You suggested follow-up actions for {formatNames(flaggedNames)}</span>
-                <span>{` — we'll review these and do our best to act on them.`}</span>
+                <span>{' — we\'ll review these and do our best to act on them.'}</span>
               </p>
             </div>
           )}
@@ -123,6 +124,7 @@ const FacilitatorFeedbackSuccessPage = () => {
               <a
                 href={invoiceUrl}
                 target="_blank"
+                rel="noreferrer"
                 className="self-start mt-2 bg-bluedot-normal text-white font-semibold text-size-xs px-6 py-3 rounded-md hover:bg-bluedot-darker transition-colors"
               >
                 Submit invoice
