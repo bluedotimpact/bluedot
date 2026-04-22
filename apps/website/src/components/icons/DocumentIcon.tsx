@@ -1,13 +1,19 @@
 import { cn } from '@bluedot/ui';
 import type { IconProps } from './types';
 
-export const DocumentIcon = ({ size = 12, className, ...props }: IconProps) => (
+// Narrow `size` to number: viewBox is 12x15 (non-square), height is computed
+// as size * 1.25. String sizes (e.g. '1em') would squash the icon.
+type DocumentIconProps = Omit<IconProps, 'size'> & {
+  size?: number;
+};
+
+export const DocumentIcon = ({ size = 12, className, ...props }: DocumentIconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 12 15"
     fill="none"
     width={size}
-    height={typeof size === 'number' ? size * 1.25 : size}
+    height={size * 1.25}
     className={cn('translate-y-[0.5px]', className)}
     {...props}
   >
