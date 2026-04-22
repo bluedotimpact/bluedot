@@ -114,7 +114,7 @@ const ProgramGroup = ({ label, programs }: { label: string; programs: ProgramIte
 };
 
 const ProgramsPage = () => {
-  const { data: publicGrantees } = trpc.grants.getAllPublicGrantees.useQuery();
+  const { data: publicGrantees } = trpc.grants.getAllPublicRapidGrantees.useQuery();
 
   const fundingGivenOut = publicGrantees?.reduce((sum, grantee) => {
     return sum + (grantee.amountUsd ?? 0);

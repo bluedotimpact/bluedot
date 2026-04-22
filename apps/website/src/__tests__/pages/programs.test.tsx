@@ -28,7 +28,7 @@ beforeEach(() => {
   (useRouter as unknown as Mock).mockReturnValue(mockRouter);
   server.use(
     trpcMsw.courses.getAll.query(() => []),
-    trpcMsw.grants.getAllPublicGrantees.query(() => [
+    trpcMsw.grants.getAllPublicRapidGrantees.query(() => [
       {
         projectTitle: 'Example grant',
         projectSummary: 'Helped someone ship useful work.',

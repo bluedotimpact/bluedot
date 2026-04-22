@@ -12,6 +12,7 @@ const COURSE_RUNNER_BASE_ID = 'appPs3sb9BrYZN69z';
 const AVAILABILITY_FORMS_BASE_ID = 'app6dkBHka8c4WaEj';
 const MOCK_DATA_BASE_ID = 'appRcVrzrkGoSrfR4';
 const WEB_CONTENT_BASE_ID = 'app63L1YChHfS6RJF';
+const CONTRACTOR_PAYMENTS_BASE_ID = 'appMVNtdBtvtJvu5E';
 
 /**
  * Table used to track the link between fields in Airtable and their corresponding field
@@ -837,30 +838,86 @@ export const testimonialTable = pgAirtable('testimonial', {
   },
 });
 
-export const grantTable = pgAirtable('grant', {
+export const rapidGrantTable = pgAirtable('rapid_grant', {
   baseId: WEB_CONTENT_BASE_ID,
-  tableId: 'tblMdePJeKq1taknz',
+  tableId: 'tblSrknIDVIyNySWn',
   columns: {
     granteeName: {
       pgColumn: text(),
-      airtableId: 'fldjn3Zd2PCa2A7WP',
+      airtableId: 'fldUlQHywCO4veSSt',
     },
     projectTitle: {
       pgColumn: text(),
-      airtableId: 'fldZvNTpduluCck7Q',
+      airtableId: 'fld2UrP0r95OYSkRT',
     },
     amountUsd: {
       pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldawx8cOHXxnzybF',
+      airtableId: 'fld1WoF5PUZVqiQdN',
     },
     projectSummary: {
       pgColumn: text(),
-      airtableId: 'fldR4zV1lEewVdsU0',
+      airtableId: 'fld45GOVLKJWWrbr1',
     },
-    /** Profile or project URL */
     link: {
       pgColumn: text(),
-      airtableId: 'fld6qyxItmbNSC4zA',
+      airtableId: 'fldAKj0OmnG43FRSp',
+    },
+  },
+});
+
+export const careerTransitionGrantTable = pgAirtable('career_transition_grant', {
+  baseId: WEB_CONTENT_BASE_ID,
+  tableId: 'tbln76u7AsVnWAKZo',
+  columns: {
+    firstName: {
+      pgColumn: text(),
+      airtableId: 'flduZeVfCBVWhq0YM',
+    },
+    lastName: {
+      pgColumn: text(),
+      airtableId: 'fldKQXPr9ZiQq9DVT',
+    },
+    amountUsd: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldbObYsPX0lEK2fi',
+    },
+    grantDuration: {
+      pgColumn: text(),
+      airtableId: 'fldblFNC8n6nhWlag',
+    },
+  },
+});
+/** Operational table. Only amount + status synced; grantee identifying info stays in Airtable. */
+export const careerTransitionGrantApplicationTable = pgAirtable('career_transition_grant_application', {
+  baseId: CONTRACTOR_PAYMENTS_BASE_ID,
+  tableId: 'tblTBVFKyJNlvhfA6',
+  columns: {
+    grantAmountUsd: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldkLVS7boXaC3sJT',
+    },
+    evaluationStatus: {
+      pgColumn: text(),
+      airtableId: 'fldL3RXC6Yuwyng78',
+    },
+  },
+});
+/** Operational table. Only amount + decision + createdAt synced; applicant identifying info stays in Airtable. */
+export const rapidGrantApplicationTable = pgAirtable('rapid_grant_application', {
+  baseId: CONTRACTOR_PAYMENTS_BASE_ID,
+  tableId: 'tblS9NHgtwl7YaHiZ',
+  columns: {
+    grantedAmountUsd: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldVIMRImfNwFeZvr',
+    },
+    grantDecision: {
+      pgColumn: text(),
+      airtableId: 'fldplHyKcS4NY2Oce',
+    },
+    createdAt: {
+      pgColumn: text(),
+      airtableId: 'fldSEVGlsG4wcKk4k',
     },
   },
 });
@@ -1481,7 +1538,10 @@ export type Blog = InferSelectModel<typeof blogTable.pg>;
 export type JobPosting = InferSelectModel<typeof jobPostingTable.pg>;
 export type Project = InferSelectModel<typeof projectTable.pg>;
 export type Testimonial = InferSelectModel<typeof testimonialTable.pg>;
-export type Grant = InferSelectModel<typeof grantTable.pg>;
+export type RapidGrant = InferSelectModel<typeof rapidGrantTable.pg>;
+export type CareerTransitionGrant = InferSelectModel<typeof careerTransitionGrantTable.pg>;
+export type CareerTransitionGrantApplication = InferSelectModel<typeof careerTransitionGrantApplicationTable.pg>;
+export type RapidGrantApplication = InferSelectModel<typeof rapidGrantApplicationTable.pg>;
 export type Chunk = InferSelectModel<typeof chunkTable.pg>;
 export type Unit = InferSelectModel<typeof unitTable.pg>;
 export type UnitResource = InferSelectModel<typeof unitResourceTable.pg>;

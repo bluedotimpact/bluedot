@@ -1,14 +1,30 @@
-import type { Grant } from '@bluedot/db';
-import { grantTable } from '@bluedot/db';
+import type { CareerTransitionGrant, RapidGrant } from '@bluedot/db';
+import {
+  careerTransitionGrantApplicationTable,
+  careerTransitionGrantTable,
+  rapidGrantApplicationTable,
+  rapidGrantTable,
+} from '@bluedot/db';
 import db from '../../lib/api/db';
 import { publicProcedure, router } from '../trpc';
 
-export type PublicGrant = {
+export type GrantStats = {
+  count: number;
+  totalAmountUsd: number;
+};
+
+export type PublicRapidGrant = {
   granteeName: string;
   projectTitle: string;
   amountUsd: number | null;
   projectSummary?: string;
   link?: string;
+};
+
+export type PublicCareerTransitionGrant = {
+  granteeName: string;
+  amountUsd: number | null;
+  grantDuration?: string;
 };
 
 const sanitizeUrl = (value: string | null): string | undefined => {
@@ -30,11 +46,11 @@ const sanitizeUrl = (value: string | null): string | undefined => {
   return undefined;
 };
 
-const mapPublicGrants = (all: Grant[]): PublicGrant[] => {
+const mapPublicRapidGrants = (all: RapidGrant[]): PublicRapidGrant[] => {
   return all
     .filter((grant) => grant.granteeName?.trim()
       && grant.projectTitle?.trim())
-    .map((grant: Grant) => ({
+    .map((grant: RapidGrant) => ({
       granteeName: grant.granteeName!.trim(),
       projectTitle: grant.projectTitle!.trim(),
       amountUsd: grant.amountUsd ?? null,
@@ -46,9 +62,52 @@ const mapPublicGrants = (all: Grant[]): PublicGrant[] => {
     .sort((a, b) => a.projectTitle.localeCompare(b.projectTitle));
 };
 
+const mapPublicCareerTransitionGrants = (all: CareerTransitionGrant[]): PublicCareerTransitionGrant[] => {
+  return all
+    .filter((grant) => Boolean(grant.firstName?.trim()) || Boolean(grant.lastName?.trim()))
+    .map((grant: CareerTransitionGrant) => ({
+      granteeName: [grant.firstName?.trim(), grant.lastName?.trim()].filter(Boolean).join(' '),
+      amountUsd: grant.amountUsd ?? null,
+      grantDuration: grant.grantDuration?.trim()
+        ? grant.grantDuration.trim()
+        : undefined,
+    }))
+    .sort((a, b) => a.granteeName.localeCompare(b.granteeName));
+};
+
 export const grantsRouter = router({
-  getAllPublicGrantees: publicProcedure.query(async (): Promise<PublicGrant[]> => {
-    const all = await db.scan(grantTable);
-    return mapPublicGrants(all);
+  getAllPublicRapidGrantees: publicProcedure.query(async (): Promise<PublicRapidGrant[]> => {
+    const all = await db.scan(rapidGrantTable);
+    return mapPublicRapidGrants(all);
+  }),
+
+  getAllPublicCareerTransitionGrantees: publicProcedure.query(async (): Promise<PublicCareerTransitionGrant[]> => {
+    const all = await db.scan(careerTransitionGrantTable);
+    return mapPublicCareerTransitionGrants(all);
+  }),
+
+  getRapidGrantStats: publicProcedure.query(async (): Promise<GrantStats> => {
+    const all = await db.scan(rapidGrantApplicationTable);
+    // Program launched 2025-06-01; exclude earlier records that predate the current program.
+    // Airtable createdTime is serialised as an ISO 8601 string, which sorts correctly lexicographically.
+    const programLaunch = '2025-06-01';
+    const accepted = all.filter((g) => (
+      g.grantDecision === 'Accept'
+      && g.createdAt
+      && g.createdAt >= programLaunch
+    ));
+    return {
+      count: accepted.length,
+      totalAmountUsd: accepted.reduce((sum, g) => sum + (g.grantedAmountUsd ?? 0), 0),
+    };
+  }),
+
+  getCareerTransitionGrantStats: publicProcedure.query(async (): Promise<GrantStats> => {
+    const all = await db.scan(careerTransitionGrantApplicationTable);
+    const signed = all.filter((g) => g.evaluationStatus === 'Agreement signed');
+    return {
+      count: signed.length,
+      totalAmountUsd: signed.reduce((sum, g) => sum + (g.grantAmountUsd ?? 0), 0),
+    };
   }),
 });

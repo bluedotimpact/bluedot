@@ -11,9 +11,9 @@ import type { AppRouter } from '../../server/routers/_app';
 import { formatAmountUsd } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
-type PublicGrant = inferRouterOutputs<AppRouter>['grants']['getAllPublicGrantees'][number];
+type PublicRapidGrant = inferRouterOutputs<AppRouter>['grants']['getAllPublicRapidGrantees'][number];
 
-const GranteeListItem = ({ grantee }: { grantee: PublicGrant }) => {
+const GranteeListItem = ({ grantee }: { grantee: PublicRapidGrant }) => {
   const amount = grantee.amountUsd !== null ? formatAmountUsd(grantee.amountUsd) : null;
   const subtitle = grantee.granteeName;
   const Container = grantee.link ? 'a' : 'div';
@@ -81,7 +81,7 @@ const GranteesListSection = ({
   limit,
   previewRows,
 }: GranteesListSectionProps) => {
-  const { data: grantees, isLoading, error } = trpc.grants.getAllPublicGrantees.useQuery();
+  const { data: grantees, isLoading, error } = trpc.grants.getAllPublicRapidGrantees.useQuery();
   const [showAll, setShowAll] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [viewportWidth, setViewportWidth] = useState(() => {
