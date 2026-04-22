@@ -23,8 +23,7 @@ export type PublicRapidGrant = {
 
 export type PublicCareerTransitionGrant = {
   granteeName: string;
-  amountUsd: number | null;
-  grantDuration?: string;
+  imageUrl?: string;
 };
 
 const sanitizeUrl = (value: string | null): string | undefined => {
@@ -65,13 +64,14 @@ const mapPublicRapidGrants = (all: RapidGrant[]): PublicRapidGrant[] => {
 const mapPublicCareerTransitionGrants = (all: CareerTransitionGrant[]): PublicCareerTransitionGrant[] => {
   return all
     .filter((grant) => Boolean(grant.firstName?.trim()) && Boolean(grant.lastName?.trim()))
-    .map((grant: CareerTransitionGrant) => ({
-      granteeName: [grant.firstName?.trim(), grant.lastName?.trim()].filter(Boolean).join(' '),
-      amountUsd: grant.amountUsd ?? null,
-      grantDuration: grant.grantDuration?.trim()
-        ? grant.grantDuration.trim()
-        : undefined,
-    }))
+    .map((grant: CareerTransitionGrant) => {
+      // Formula concatenates up to 5 permanent URLs space-separated; take the first.
+      const firstImageUrl = grant.imageUrl?.trim().split(/\s+/)[0] ?? null;
+      return {
+        granteeName: [grant.firstName?.trim(), grant.lastName?.trim()].filter(Boolean).join(' '),
+        imageUrl: sanitizeUrl(firstImageUrl),
+      };
+    })
     .sort((a, b) => a.granteeName.localeCompare(b.granteeName));
 };
 

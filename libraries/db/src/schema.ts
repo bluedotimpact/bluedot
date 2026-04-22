@@ -882,13 +882,11 @@ export const careerTransitionGrantTable = pgAirtable('career_transition_grant', 
       pgColumn: text(),
       airtableId: 'fldKQXPr9ZiQq9DVT',
     },
-    amountUsd: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldbObYsPX0lEK2fi',
-    },
-    grantDuration: {
+    // Formula field that outputs a permanent (miniextension-hosted) URL for the Photo attachment.
+    // Concatenates up to 5 URLs space-separated; consumers should take the first.
+    imageUrl: {
       pgColumn: text(),
-      airtableId: 'fldblFNC8n6nhWlag',
+      airtableId: 'fldWPOiBQAYxUlA7V',
     },
   },
 });
