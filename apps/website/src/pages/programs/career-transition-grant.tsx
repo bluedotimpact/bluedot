@@ -39,24 +39,20 @@ const SUPPORT_CARDS = [
   },
 ];
 
-const TIMELINE_STEPS = [
+const EXPECTATIONS = [
   {
-    label: 'Start',
     title: 'Full-time commitment',
     body: 'This is not something to do alongside a full or part-time role.',
   },
   {
-    label: 'Weekly',
-    title: 'Progress updates',
-    body: 'Short async updates on what you did, who you talked to, what you learned, and how your thinking is evolving.',
+    title: 'Weekly progress updates',
+    body: 'Short async updates to your BlueDot point of contact on what you did, who you talked to, what you learned, and how your thinking is evolving.',
   },
   {
-    label: 'Every 3 months',
-    title: 'Formal check-in',
-    body: 'A more structured conversation to review progress and discuss what support you need.',
+    title: 'Quarterly check-in',
+    body: 'Every three months, a more structured conversation to review progress and discuss what support you need.',
   },
   {
-    label: 'End',
     title: 'End-of-grant report',
     body: 'A short (1-2 page) summary of what you achieved during the grant and what you will be doing next.',
   },
@@ -110,7 +106,7 @@ const CareerTransitionGrantPage = () => {
         <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
         <meta
           name="description"
-          content="Funding and support for exceptional BlueDot community members ready to work full-time on AI safety."
+          content="Funding and support for BlueDot community members ready to work full-time on AI safety."
         />
       </Head>
 
@@ -120,7 +116,7 @@ const CareerTransitionGrantPage = () => {
       <GrantProgramHero
         slug="career-transition-grant"
         title="Career Transition Grants"
-        description="Funding and support for exceptional people to work full-time on AI safety."
+        description="Funding and support to help you work full-time on AI safety."
         status="Active"
         primaryCta={{ text: 'Apply now', url: CAREER_TRANSITION_GRANT_APPLICATION_URL }}
       />
@@ -128,7 +124,7 @@ const CareerTransitionGrantPage = () => {
       <GrantPageSection title="What this program is for">
         <div className="max-w-[760px] flex flex-col gap-5">
           <P>
-            BlueDot&apos;s career transition grant supports exceptional people to work full-time on impactful AI safety work. The grant enables you to fully focus on upskilling, exploring opportunities, building your network, and figuring out where you can have the most impact.
+            BlueDot&apos;s career transition grant supports you to work full-time on impactful AI safety work. It enables you to fully focus on upskilling, exploring opportunities, building your network, and figuring out where you can have the most impact.
           </P>
           <P>Alongside funding, you also get:</P>
         </div>
@@ -156,42 +152,17 @@ const CareerTransitionGrantPage = () => {
       </GrantPageSection>
 
       <GrantPageSection title="What we expect from you">
-        <div className="max-w-[1120px]">
-          <div className="relative">
-            <div className="hidden md:block absolute top-5 left-0 right-0 h-px bg-bluedot-navy/15" aria-hidden="true" />
-            <ol className="grid gap-8 md:gap-6 grid-cols-1 md:grid-cols-4">
-              {TIMELINE_STEPS.map((step, index) => (
-                <li key={step.title} className="relative flex flex-col gap-4">
-                  <div className="flex items-center gap-3">
-                    <span
-                      className="relative z-10 flex items-center justify-center size-10 rounded-full bg-white border border-bluedot-navy/15 text-[13px] font-semibold text-bluedot-navy"
-                      aria-hidden="true"
-                    >
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-bluedot-normal">
-                      {step.label}
-                    </span>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <h3 className="text-[18px] min-[680px]:text-[20px] font-semibold text-bluedot-navy">
-                      {step.title}
-                    </h3>
-                    <P className="text-size-sm leading-[1.6] text-bluedot-navy/80">
-                      {step.body}
-                    </P>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </div>
-
-          <div className="mt-10 max-w-[760px] rounded-[12px] border border-bluedot-navy/10 bg-color-canvas px-6 py-5">
-            <P className="text-size-sm text-bluedot-navy/80">
-              <strong className="text-bluedot-navy">If things change,</strong>
-              {' '}let us know. If you no longer need the grant before the end of the grant period (e.g. you secure a full-time role or your circumstances change), any remaining funds would be returned to BlueDot.
-            </P>
-          </div>
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-2 max-w-[960px]">
+          {EXPECTATIONS.map((item) => (
+            <div key={item.title} className="flex flex-col gap-3">
+              <h3 className="text-[18px] min-[680px]:text-[20px] font-semibold text-bluedot-navy">
+                {item.title}
+              </h3>
+              <P className="text-size-sm leading-[1.65] text-bluedot-navy/80">
+                {item.body}
+              </P>
+            </div>
+          ))}
         </div>
       </GrantPageSection>
 

@@ -139,7 +139,7 @@ const ProgramsPage = () => {
       status: 'Active',
       href: '/programs/career-transition-grant',
       summary: 'Funding to work full-time on AI safety, plus intros, advising, and community.',
-      detail: 'For exceptional BlueDot community members ready to make the jump. Propose a budget and a plan; decisions after a short call.',
+      detail: 'For BlueDot community members ready to make the jump. Propose a budget and a plan; decisions after a short call.',
       ctaLabel: 'Explore program',
     },
     {
