@@ -838,7 +838,12 @@ export const testimonialTable = pgAirtable('testimonial', {
   },
 });
 
-export const rapidGrantTable = pgAirtable('rapid_grant', {
+// Postgres table name is kept as 'grant' (not 'rapid_grant') because drizzle-kit's
+// pushSchema cannot disambiguate a rename from a drop+create without interactive
+// input, which hangs headless pg-sync-service (see drizzle-orm issue #4651).
+// The TypeScript variable is named for semantic clarity; only the physical table
+// name stays put. The Airtable source is still the new Rapid grants table.
+export const rapidGrantTable = pgAirtable('grant', {
   baseId: WEB_CONTENT_BASE_ID,
   tableId: 'tblSrknIDVIyNySWn',
   columns: {
@@ -877,13 +882,11 @@ export const careerTransitionGrantTable = pgAirtable('career_transition_grant', 
       pgColumn: text(),
       airtableId: 'fldKQXPr9ZiQq9DVT',
     },
-    amountUsd: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldbObYsPX0lEK2fi',
-    },
-    grantDuration: {
+    // Formula field that outputs a permanent (miniextension-hosted) URL for the Photo attachment.
+    // Concatenates up to 5 URLs space-separated; consumers should take the first.
+    imageUrl: {
       pgColumn: text(),
-      airtableId: 'fldblFNC8n6nhWlag',
+      airtableId: 'fldWPOiBQAYxUlA7V',
     },
   },
 });
