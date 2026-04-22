@@ -838,21 +838,6 @@ export const testimonialTable = pgAirtable('testimonial', {
   },
 });
 
-// Kept so drizzle-kit sees an unambiguous CREATE TABLE rapid_grant rather than
-// the rename/drop-and-create ambiguity that hangs headless pg-sync-service (see
-// drizzle-orm issue #4651). A plain pgTable (not pgAirtable) — this stops
-// syncing from Airtable, but the table is dropped in the follow-up PR anyway.
-// Columns match what pgAirtable('grant', ...) previously produced so drizzle
-// detects no physical change.
-export const grantLegacyTable = pgTable('grant', {
-  id: text('id').primaryKey(),
-  granteeName: text(),
-  projectTitle: text(),
-  amountUsd: numeric({ mode: 'number' }),
-  projectSummary: text(),
-  link: text(),
-});
-
 export const rapidGrantTable = pgAirtable('rapid_grant', {
   baseId: WEB_CONTENT_BASE_ID,
   tableId: 'tblSrknIDVIyNySWn',
