@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import {
   pgTable, text, boolean, numeric, timestamp,
   serial,
@@ -887,6 +888,18 @@ export const careerTransitionGrantTable = pgAirtable('career_transition_grant', 
     imageUrl: {
       pgColumn: text(),
       airtableId: 'fldWPOiBQAYxUlA7V',
+    },
+    bio: {
+      pgColumn: text(),
+      airtableId: 'fldRFV73ElzbB2Jl9',
+    },
+    grantPlan: {
+      pgColumn: text(),
+      airtableId: 'fldsRnpwVRdO6F4iq',
+    },
+    profileUrl: {
+      pgColumn: text(),
+      airtableId: 'fld2h9ghKvg79nayH',
     },
   },
 });

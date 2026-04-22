@@ -107,7 +107,10 @@ const COMMUNITY_CARD = {
 };
 
 const RapidGrantsPage = () => {
-  const { data: grantees } = trpc.grants.getAllPublicRapidGrantees.useQuery();
+  // Hero stats come from the operational endpoint so they reflect total program
+  // activity, not just the subset of grantees that consented to public listing.
+  // The "Projects we have funded" list below fetches its own data.
+  const { data: stats } = trpc.grants.getRapidGrantStats.useQuery();
 
   const scrollToGrantees = (e: React.BaseSyntheticEvent) => {
     e.preventDefault();
@@ -124,13 +127,8 @@ const RapidGrantsPage = () => {
     window.scrollTo({ top: targetTop, behavior: 'smooth' });
   };
 
-  const grantsMadeLabel = grantees ? String(grantees.length) : '—';
-  const fundingGivenOut = grantees?.reduce((sum, grantee) => {
-    return sum + (grantee.amountUsd ?? 0);
-  }, 0);
-  const fundingGivenOutLabel = typeof fundingGivenOut === 'number'
-    ? formatAmountUsd(fundingGivenOut)
-    : '—';
+  const grantsMadeLabel = stats ? String(stats.count) : '—';
+  const fundingGivenOutLabel = stats ? formatAmountUsd(stats.totalAmountUsd) : '—';
 
   return (
     <div className="bg-white">
