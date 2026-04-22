@@ -35,7 +35,7 @@ const getStatusConfig = (savedText: string): Record<SaveStatus, {
     text: savedText,
   },
   error: {
-    icon: <ErrorIcon size={16} className="-translate-y-[0.5px]" />,
+    icon: <ErrorIcon className="-translate-y-[0.5px]" />,
     text: (onRetry) => (
       <span className="flex items-center gap-1">
         <span style={{ color: '#DC0000' }}>Couldn't save answer.</span>

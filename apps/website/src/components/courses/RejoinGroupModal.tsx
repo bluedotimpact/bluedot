@@ -148,7 +148,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
                   </div>
                   <div className="text-size-xs text-bluedot-normal flex items-center gap-1">
                     <span>You joined this group</span>
-                    <CheckIcon className="size-3" />
+                    <CheckIcon size={12} />
                   </div>
                 </div>
               </div>

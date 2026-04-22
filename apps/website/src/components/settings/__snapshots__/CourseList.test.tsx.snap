@@ -60,7 +60,7 @@ exports[`CourseList > renders completed course correctly (snapshot) 1`] = `
               type="button"
             >
               <svg
-                class="transition-transform duration-200 "
+                class="text-gray-800 transition-transform duration-200 "
                 fill="none"
                 height="20"
                 viewBox="0 0 20 20"
@@ -69,7 +69,7 @@ exports[`CourseList > renders completed course correctly (snapshot) 1`] = `
               >
                 <path
                   d="M7.5 5L12.5 10L7.5 15"
-                  stroke="#1F2937"
+                  stroke="currentColor"
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="1.5"
@@ -94,7 +94,7 @@ exports[`CourseList > renders completed course correctly (snapshot) 1`] = `
                 type="button"
               >
                 <svg
-                  class="transition-transform duration-200 "
+                  class="text-gray-800 transition-transform duration-200 "
                   fill="none"
                   height="20"
                   viewBox="0 0 20 20"
@@ -103,7 +103,7 @@ exports[`CourseList > renders completed course correctly (snapshot) 1`] = `
                 >
                   <path
                     d="M7.5 5L12.5 10L7.5 15"
-                    stroke="#1F2937"
+                    stroke="currentColor"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="1.5"
@@ -168,7 +168,7 @@ exports[`CourseList > renders in-progress course correctly (snapshot) 1`] = `
               type="button"
             >
               <svg
-                class="transition-transform duration-200 "
+                class="text-gray-800 transition-transform duration-200 "
                 fill="none"
                 height="20"
                 viewBox="0 0 20 20"
@@ -177,7 +177,7 @@ exports[`CourseList > renders in-progress course correctly (snapshot) 1`] = `
               >
                 <path
                   d="M7.5 5L12.5 10L7.5 15"
-                  stroke="#1F2937"
+                  stroke="currentColor"
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="1.5"
@@ -195,7 +195,7 @@ exports[`CourseList > renders in-progress course correctly (snapshot) 1`] = `
                 type="button"
               >
                 <svg
-                  class="transition-transform duration-200 "
+                  class="text-gray-800 transition-transform duration-200 "
                   fill="none"
                   height="20"
                   viewBox="0 0 20 20"
@@ -204,7 +204,7 @@ exports[`CourseList > renders in-progress course correctly (snapshot) 1`] = `
                 >
                   <path
                     d="M7.5 5L12.5 10L7.5 15"
-                    stroke="#1F2937"
+                    stroke="currentColor"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="1.5"

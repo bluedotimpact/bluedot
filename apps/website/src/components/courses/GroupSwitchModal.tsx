@@ -481,7 +481,7 @@ export default function GroupSwitchModal({
 const SWITCH_TYPE_OPTIONS = [
   {
     value: 'Switch group for one unit',
-    label: <span className="grid grid-cols-[20px_1fr] gap-2 items-center"><ClockUserIcon className="mx-auto size-[22px] -translate-y-px" /> Switch group for one unit</span>,
+    label: <span className="grid grid-cols-[20px_1fr] gap-2 items-center"><ClockUserIcon size={22} className="mx-auto -translate-y-px" /> Switch group for one unit</span>,
   },
   {
     value: 'Switch group permanently',

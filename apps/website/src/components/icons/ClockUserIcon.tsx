@@ -1,15 +1,7 @@
-import { cn } from '@bluedot/ui';
-import type React from 'react';
+import type { IconProps } from './types';
 
-export const ClockUserIcon: React.FC<{ size?: number; className?: string }> = ({ size = 24, className }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    className={cn(className)}
-  >
+export const ClockUserIcon = ({ size = 24, ...props }: IconProps) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" width={size} height={size} {...props}>
     <g>
       <path
         d="M16.5 9.75L12 12V6.75"

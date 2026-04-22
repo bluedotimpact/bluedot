@@ -191,7 +191,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
         setFacilitatorSwitchModalType('Change facilitator');
       },
       isVisible: isFacilitator,
-      overflowIcon: <SwitchUserIcon className="mx-auto" />,
+      overflowIcon: <SwitchUserIcon className="mx-auto" size={20} />,
     },
     {
       id: 'cant-make-it',

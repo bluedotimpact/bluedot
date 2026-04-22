@@ -189,7 +189,7 @@ const InformationBanner = () => {
     <div className="inline-flex items-center justify-between self-stretch rounded-md bg-[#E5EDFE] px-4 py-3">
       <div className="flex flex-1 items-start justify-start gap-3">
         <div className="flex items-center justify-start">
-          <InfoIcon className="size-5 shrink-0" />
+          <InfoIcon className="shrink-0" />
         </div>
         <P className="text-bluedot-normal flex-1 justify-start">
           If you're having trouble keeping up or need to adjust your schedule, consider deferring to a future cohort
