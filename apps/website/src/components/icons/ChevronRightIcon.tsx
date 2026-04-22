@@ -1,14 +1,12 @@
-import { cn } from '@bluedot/ui';
 import type { IconProps } from './types';
 
-export const ChevronRightIcon = ({ size = 20, className, ...props }: IconProps) => (
+export const ChevronRightIcon = ({ size = 20, ...props }: IconProps) => (
   <svg
     viewBox="0 0 20 20"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     width={size}
     height={size}
-    className={cn('text-[#1F2937]', className)}
     {...props}
   >
     <path
