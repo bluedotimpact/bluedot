@@ -10,7 +10,7 @@ import {
   expect,
   test,
 } from 'vitest';
-import { grantTable } from '@bluedot/db';
+import { rapidGrantTable } from '@bluedot/db';
 import { createTrpcDbProvider, setupTestDb, testDb } from '../../__tests__/dbTestUtils';
 import GranteesListSection from './GranteesListSection';
 
@@ -18,14 +18,14 @@ setupTestDb();
 
 describe('GranteesListSection', () => {
   test('renders grantees from DB, toggles show all, and filters by search', async () => {
-    await testDb.insert(grantTable, {
+    await testDb.insert(rapidGrantTable, {
       granteeName: 'Alice',
       projectTitle: 'Alpha Project',
       amountUsd: 1000,
       projectSummary: 'Alpha summary',
       link: 'https://example.com/alpha',
     });
-    await testDb.insert(grantTable, {
+    await testDb.insert(rapidGrantTable, {
       granteeName: 'Bob',
       projectTitle: 'Beta Project',
       amountUsd: 2000,

@@ -107,7 +107,7 @@ const COMMUNITY_CARD = {
 };
 
 const RapidGrantsPage = () => {
-  const { data: grantees } = trpc.grants.getAllPublicGrantees.useQuery();
+  const { data: grantees } = trpc.grants.getAllPublicRapidGrantees.useQuery();
 
   const scrollToGrantees = (e: React.BaseSyntheticEvent) => {
     e.preventDefault();
