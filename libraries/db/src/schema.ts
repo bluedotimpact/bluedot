@@ -838,7 +838,10 @@ export const testimonialTable = pgAirtable('testimonial', {
   },
 });
 
-export const rapidGrantTable = pgAirtable('rapid_grant', {
+// Postgres table name kept as 'grant' (not 'rapid_grant') so drizzle-kit does not
+// interpret the TypeScript rename as a DROP+CREATE, which can hang pushSchema (see
+// drizzle-orm issue #4651). The Airtable source was repointed in the previous PR.
+export const rapidGrantTable = pgAirtable('grant', {
   baseId: WEB_CONTENT_BASE_ID,
   tableId: 'tblSrknIDVIyNySWn',
   columns: {
