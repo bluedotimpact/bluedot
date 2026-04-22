@@ -53,21 +53,16 @@ const Gallery = () => (
       <Grid>
         <IconCell name="CheckIcon"><CheckIcon size={24} /></IconCell>
         <IconCell name="ChevronRightIcon"><ChevronRightIcon /></IconCell>
+        <IconCell name="CircledCheckmarkIcon"><CircledCheckmarkIcon size={24} /></IconCell>
         <IconCell name="ClockIcon"><ClockIcon /></IconCell>
         <IconCell name="ClockUserIcon"><ClockUserIcon /></IconCell>
         <IconCell name="DocumentIcon"><DocumentIcon size={20} /></IconCell>
+        <IconCell name="ErrorIcon"><ErrorIcon size={24} /></IconCell>
         <IconCell name="MoonStarsIcon"><MoonStarsIcon /></IconCell>
         <IconCell name="SlackIcon"><SlackIcon /></IconCell>
         <IconCell name="SwitchUserIcon"><SwitchUserIcon /></IconCell>
         <IconCell name="UndoIcon"><UndoIcon /></IconCell>
         <IconCell name="UserIcon"><UserIcon size={24} /></IconCell>
-      </Grid>
-    </Section>
-
-    <Section title="Compound icons (wrapped in div)">
-      <Grid>
-        <IconCell name="ErrorIcon"><ErrorIcon size={24} /></IconCell>
-        <IconCell name="CircledCheckmarkIcon"><CircledCheckmarkIcon size={24} /></IconCell>
       </Grid>
     </Section>
 
