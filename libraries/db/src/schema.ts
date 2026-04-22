@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import {
   pgTable, text, boolean, numeric, timestamp,
   serial,

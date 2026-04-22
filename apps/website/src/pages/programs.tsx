@@ -116,8 +116,10 @@ const ProgramGroup = ({ label, programs }: { label: string; programs: ProgramIte
 const ProgramsPage = () => {
   const { data: stats } = trpc.grants.getRapidGrantStats.useQuery();
 
+  // Fallback strings render while the query is loading (stats === undefined).
+  // Once stats resolves, show real values even if count/amount are 0.
   const fundingGivenOutLabel = stats ? formatAmountUsd(stats.totalAmountUsd) : '$50k+';
-  const grantsMadeLabel = stats?.count ? `${stats.count} grants` : 'many grants';
+  const grantsMadeLabel = stats ? `${stats.count} grants` : 'many grants';
 
   const programs: ProgramItem[] = [
     {
