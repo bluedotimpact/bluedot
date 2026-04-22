@@ -28,7 +28,7 @@ const IconCell = ({ name, children, note }: IconCellProps) => (
     <div className="flex min-h-[48px] items-center justify-center text-bluedot-navy">
       {children}
     </div>
-    <div className="text-xs font-medium text-gray-800">{name}</div>
+    <div className="text-size-xs font-medium text-gray-800">{name}</div>
     {note && <div className="text-[10px] text-gray-500">{note}</div>}
   </div>
 );
@@ -41,7 +41,7 @@ const Grid = ({ children }: { children: React.ReactNode }) => (
 
 const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
   <section className="flex flex-col gap-3">
-    <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-600">{title}</h2>
+    <h2 className="text-size-sm font-semibold uppercase tracking-wider text-gray-600">{title}</h2>
     {children}
   </section>
 );
