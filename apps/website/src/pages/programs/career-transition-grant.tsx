@@ -3,6 +3,7 @@ import {
   type BluedotRoute,
 } from '@bluedot/ui';
 import Head from 'next/head';
+import Link from 'next/link';
 import {
   PiHandshake,
   PiCompass,
@@ -152,7 +153,7 @@ const CareerTransitionGrantPage = () => {
         ]}
       />
 
-      <GrantPageSection title="What this program is for">
+      <GrantPageSection title="What this is for">
         <div className="max-w-[760px] flex flex-col gap-5">
           <P>
             BlueDot&apos;s career transition grant supports you to work full-time on impactful AI safety work. It enables you to fully focus on upskilling, exploring opportunities, building your network, and figuring out where you can have the most impact.
@@ -261,7 +262,7 @@ const CareerTransitionGrantPage = () => {
 
       {!!grantees?.length && (
         <GrantPageSection title="Our grantees">
-          <ul className="list-none flex flex-wrap gap-8 md:gap-10 max-w-[1120px]">
+          <ul className="list-none flex flex-wrap gap-5 min-[680px]:gap-6 min-[1280px]:gap-8 max-w-[1120px]">
             {grantees.map((grantee) => {
               const initials = grantee.granteeName
                 .split(' ')
@@ -269,25 +270,64 @@ const CareerTransitionGrantPage = () => {
                 .map((part) => part[0]?.toUpperCase() ?? '')
                 .join('')
                 .slice(0, 2);
+              const cardClasses = 'flex flex-col flex-shrink-0 h-full bg-white border border-bluedot-navy/10 rounded-xl overflow-hidden w-[276px] min-[680px]:w-[288px] min-[1280px]:w-[320px]';
+              const cardContent = (
+                <>
+                  <div className="flex-shrink-0 w-full h-[296px] min-[680px]:h-[320px] bg-bluedot-navy/[0.06]">
+                    {grantee.imageUrl ? (
+                      <img
+                        src={grantee.imageUrl}
+                        alt=""
+                        className="size-full object-cover"
+                      />
+                    ) : (
+                      <div
+                        className="size-full flex items-center justify-center text-[56px] min-[680px]:text-[64px] font-semibold text-bluedot-navy/30"
+                        aria-hidden="true"
+                      >
+                        {initials}
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex flex-1 flex-col p-6">
+                    <div className="flex flex-1 flex-col gap-8">
+                      {grantee.grantPlan ? (
+                        <P className="flex-1 text-[16px] font-normal leading-[160%] text-bluedot-navy">
+                          {grantee.grantPlan}
+                        </P>
+                      ) : (
+                        <div className="flex-1" />
+                      )}
+                      <div className="flex flex-col items-start gap-1 shrink-0 w-full">
+                        <p className="text-[16px] font-semibold leading-[125%] text-bluedot-navy">
+                          {grantee.granteeName}
+                        </p>
+                        {grantee.bio && (
+                          <p className="text-[14px] font-normal leading-[160%] text-bluedot-navy/60">
+                            {grantee.bio}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </>
+              );
               return (
-                <li key={grantee.granteeName} className="flex flex-col items-center gap-3 w-[140px]">
-                  {grantee.imageUrl ? (
-                    <img
-                      src={grantee.imageUrl}
-                      alt=""
-                      className="size-24 rounded-full object-cover bg-bluedot-navy/[0.06]"
-                    />
-                  ) : (
-                    <div
-                      className="size-24 rounded-full bg-bluedot-navy/[0.06] flex items-center justify-center text-[22px] font-semibold text-bluedot-navy/60"
-                      aria-hidden="true"
+                <li key={grantee.granteeName}>
+                  {grantee.profileUrl ? (
+                    <Link
+                      href={grantee.profileUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`${cardClasses} cursor-pointer transition-colors hover:border-bluedot-navy/20`}
                     >
-                      {initials}
+                      {cardContent}
+                    </Link>
+                  ) : (
+                    <div className={cardClasses}>
+                      {cardContent}
                     </div>
                   )}
-                  <p className="text-[15px] font-semibold text-bluedot-navy text-center leading-tight">
-                    {grantee.granteeName}
-                  </p>
                 </li>
               );
             })}

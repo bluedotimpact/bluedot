@@ -98,7 +98,12 @@ const GrantProgramHero = ({
               </div>
 
               {!!facts?.length && (
-                <div className="mt-10 grid gap-4 min-[680px]:grid-cols-2 lg:mt-0 lg:self-stretch">
+                <div
+                  className={cn(
+                    'mt-10 grid gap-4 auto-rows-max lg:mt-0 lg:self-start',
+                    facts.length > 2 && 'min-[680px]:grid-cols-2',
+                  )}
+                >
                   {facts.map((fact) => (
                     <div key={fact.label} className="rounded-[20px] border border-white/70 bg-white/72 px-5 py-5 backdrop-blur-sm">
                       <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-bluedot-navy/44">
