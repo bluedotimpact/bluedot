@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import type { ReactNode } from 'react';
 
 import { CheckIcon } from './CheckIcon';
 import { CheckmarkIcon } from './CheckmarkIcon';
@@ -19,7 +20,7 @@ import { UserIcon } from './UserIcon';
 
 type IconCellProps = {
   name: string;
-  children: React.ReactNode;
+  children: ReactNode;
   note?: string;
 };
 
@@ -33,7 +34,7 @@ const IconCell = ({ name, children, note }: IconCellProps) => (
   </div>
 );
 
-const Grid = ({ children }: { children: React.ReactNode }) => (
+const Grid = ({ children }: { children: ReactNode }) => (
   <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
     {children}
   </div>
