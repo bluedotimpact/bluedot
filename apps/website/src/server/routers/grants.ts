@@ -64,7 +64,7 @@ const mapPublicRapidGrants = (all: RapidGrant[]): PublicRapidGrant[] => {
 
 const mapPublicCareerTransitionGrants = (all: CareerTransitionGrant[]): PublicCareerTransitionGrant[] => {
   return all
-    .filter((grant) => Boolean(grant.firstName?.trim()) || Boolean(grant.lastName?.trim()))
+    .filter((grant) => Boolean(grant.firstName?.trim()) && Boolean(grant.lastName?.trim()))
     .map((grant: CareerTransitionGrant) => ({
       granteeName: [grant.firstName?.trim(), grant.lastName?.trim()].filter(Boolean).join(' '),
       amountUsd: grant.amountUsd ?? null,
@@ -88,14 +88,17 @@ export const grantsRouter = router({
 
   getRapidGrantStats: publicProcedure.query(async (): Promise<GrantStats> => {
     const all = await db.scan(rapidGrantApplicationTable);
-    // Program launched 2025-06-01; exclude earlier records that predate the current program.
-    // Airtable createdTime is serialised as an ISO 8601 string, which sorts correctly lexicographically.
-    const programLaunch = '2025-06-01';
-    const accepted = all.filter((g) => (
-      g.grantDecision === 'Accept'
-      && g.createdAt
-      && g.createdAt >= programLaunch
-    ));
+    // Scope to the current program launched 2025-06-01. pgAirtable does not support
+    // timestamp columns, so createdAt is stored as text; parse to Date here so the
+    // comparison is not a brittle string compare. Records with an unparseable value
+    // (malformed or empty) are excluded.
+    const programLaunch = new Date('2025-06-01T00:00:00Z');
+    const accepted = all.filter((g) => {
+      if (g.grantDecision !== 'Accept' || !g.createdAt) return false;
+      const createdAt = new Date(g.createdAt);
+      if (Number.isNaN(createdAt.getTime())) return false;
+      return createdAt >= programLaunch;
+    });
     return {
       count: accepted.length,
       totalAmountUsd: accepted.reduce((sum, g) => sum + (g.grantedAmountUsd ?? 0), 0),
