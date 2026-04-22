@@ -1,6 +1,8 @@
 import type { IconProps } from './types';
 
-type InfoIconProps = IconProps & {
+// Omit `fill` from IconProps so callers use explicit `bgFill`/`fgFill` and
+// `fill` is never silently forwarded to the <svg> element as an SVG attribute.
+type InfoIconProps = Omit<IconProps, 'fill'> & {
   bgFill?: string;
   fgFill?: string;
 };
