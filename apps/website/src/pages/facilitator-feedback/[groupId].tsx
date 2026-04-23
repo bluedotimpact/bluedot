@@ -8,6 +8,7 @@ import {
 import StarRating from '../../components/courses/StarRating';
 import ParticipantFeedbackModal, { type ParticipantFeedbackData } from '../../components/courses/ParticipantFeedbackModal';
 import AddParticipantModal from '../../components/courses/AddParticipantModal';
+import FacilitatorFeedbackHeader from '../../components/courses/FacilitatorFeedbackHeader';
 import { airtableToFollowUps, followUpsToAirtable, isFlagged } from '../../lib/facilitatorFollowUps';
 import { trpc } from '../../utils/trpc';
 
@@ -129,6 +130,8 @@ const FacilitatorFeedbackPage = () => {
       <Head>
         <title>{roundName ? `Course Feedback · ${roundName}` : 'Course Feedback'} | BlueDot Impact</title>
       </Head>
+
+      <FacilitatorFeedbackHeader roundName={roundName || undefined} />
 
       <div className="max-w-[680px] mx-auto pt-8 pb-16 px-4 flex flex-col gap-8">
         {/* Hero card */}
@@ -391,6 +394,8 @@ const FacilitatorFeedbackPage = () => {
     </div>
   );
 };
+
+FacilitatorFeedbackPage.rawLayout = true;
 
 export default FacilitatorFeedbackPage;
 

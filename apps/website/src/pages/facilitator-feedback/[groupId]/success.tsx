@@ -7,6 +7,7 @@ import { PiCheck, PiCreditCard } from 'react-icons/pi';
 import { generateInvoiceUrl } from '../../../lib/generateInvoiceUrl';
 import { airtableToFollowUps, isFlagged } from '../../../lib/facilitatorFollowUps';
 import { trpc } from '../../../utils/trpc';
+import FacilitatorFeedbackHeader from '../../../components/courses/FacilitatorFeedbackHeader';
 
 const formatNames = (names: string[]): string => {
   if (names.length === 0) return '';
@@ -86,6 +87,8 @@ const FacilitatorFeedbackSuccessPage = () => {
         <title>{data.roundName ? `Feedback submitted · ${data.roundName}` : 'Feedback submitted'} | BlueDot Impact</title>
       </Head>
 
+      <FacilitatorFeedbackHeader roundName={data.roundName || undefined} />
+
       {showConfetti && windowSize.width > 0 && (
         <div className="fixed inset-0 pointer-events-none z-50">
           <Confetti
@@ -157,5 +160,7 @@ const FacilitatorFeedbackSuccessPage = () => {
     </div>
   );
 };
+
+FacilitatorFeedbackSuccessPage.rawLayout = true;
 
 export default FacilitatorFeedbackSuccessPage;
