@@ -37,7 +37,6 @@ export {
   dropoutTable,
   teamMemberTable,
   testimonialTable,
-  grantLegacyTable,
   rapidGrantTable,
   careerTransitionGrantTable,
   careerTransitionGrantApplicationTable,
