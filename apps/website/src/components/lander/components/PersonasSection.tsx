@@ -1,5 +1,7 @@
 import { useState, type ReactNode } from 'react';
-import { cn, CTALinkOrButton, H2, P } from '@bluedot/ui';
+import {
+  cn, CTALinkOrButton, H2, P,
+} from '@bluedot/ui';
 import { PlusToggleIcon } from '../../icons/PlusToggleIcon';
 import { type IconType } from 'react-icons';
 
