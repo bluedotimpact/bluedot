@@ -15,6 +15,7 @@ import { ExternalLinkIcon } from './ExternalLinkIcon';
 import { InfoIcon } from './InfoIcon';
 import { MoonStarsIcon } from './MoonStarsIcon';
 import { PlayCircleIcon } from './PlayCircleIcon';
+import { ResizeHandleIcon } from './ResizeHandleIcon';
 import { SlackIcon } from './SlackIcon';
 import { StarIcon } from './StarIcon';
 import { SwitchUserIcon } from './SwitchUserIcon';
@@ -67,6 +68,7 @@ const Gallery = () => (
         <IconCell name="ExternalLinkIcon"><ExternalLinkIcon size={20} /></IconCell>
         <IconCell name="MoonStarsIcon"><MoonStarsIcon /></IconCell>
         <IconCell name="PlayCircleIcon"><PlayCircleIcon /></IconCell>
+        <IconCell name="ResizeHandleIcon"><ResizeHandleIcon /></IconCell>
         <IconCell name="SlackIcon"><SlackIcon /></IconCell>
         <IconCell name="SwitchUserIcon"><SwitchUserIcon /></IconCell>
         <IconCell name="UndoIcon"><UndoIcon /></IconCell>
