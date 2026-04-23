@@ -8,27 +8,12 @@ import {
 import StarRating from '../../components/courses/StarRating';
 import ParticipantFeedbackModal, { type ParticipantFeedbackData } from '../../components/courses/ParticipantFeedbackModal';
 import AddParticipantModal from '../../components/courses/AddParticipantModal';
-import { FOLLOW_UP_OPTIONS } from '../../lib/facilitatorFollowUps';
+import { airtableToFollowUps, followUpsToAirtable, isFlagged } from '../../lib/facilitatorFollowUps';
 import { trpc } from '../../utils/trpc';
 
 type ParticipantFeedback =
   | { status: 'no-strong-impression' }
   | { status: 'completed'; data: ParticipantFeedbackData; flagged: boolean };
-
-const isFlagged = (followUps: Record<string, boolean>) => Object.entries(followUps).some(([key, v]) => v && key !== 'no-action');
-
-const followUpsToAirtable = (followUps: Record<string, boolean>) => FOLLOW_UP_OPTIONS
-  .filter((o) => followUps[o.id])
-  .map((o) => o.airtableValue);
-
-const airtableToFollowUps = (nextSteps: string[] | null) => {
-  const result: Record<string, boolean> = {};
-  for (const o of FOLLOW_UP_OPTIONS) {
-    if (nextSteps?.includes(o.airtableValue)) result[o.id] = true;
-  }
-
-  return result;
-};
 
 const FacilitatorFeedbackPage = () => {
   const router = useRouter();
@@ -169,19 +154,19 @@ const FacilitatorFeedbackPage = () => {
             </div>
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-4">
             <p className="text-size-xs font-semibold text-bluedot-navy">
               Overall rating <span className="text-red-600">*</span>
             </p>
             <StarRating rating={overallRating} onChange={setOverallRating} />
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-1.5">
               <label htmlFor="most-valuable" className="text-size-xs font-semibold text-bluedot-navy">
                 What did you find most valuable? <span className="text-red-600">*</span>
               </label>
-              <p className="text-size-xs text-gray-500">Describe a specific moment or element that stands out.</p>
+              <p className="text-size-xs text-gray-600">Describe a specific moment or element that stands out.</p>
             </div>
             <textarea
               id="most-valuable"
@@ -192,12 +177,12 @@ const FacilitatorFeedbackPage = () => {
             />
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-1.5">
               <label htmlFor="difficulties" className="text-size-xs font-semibold text-bluedot-navy">
                 Where did you face difficulties? <span className="text-red-600">*</span>
               </label>
-              <p className="text-size-xs text-gray-500">Share at least two specific situations — underprepared moments, curriculum gaps, platform issues, or cohort challenges.</p>
+              <p className="text-size-xs text-gray-600">Share at least two specific situations — underprepared moments, curriculum gaps, platform issues, or cohort challenges.</p>
             </div>
             <textarea
               id="difficulties"
@@ -244,7 +229,7 @@ const FacilitatorFeedbackPage = () => {
             <div className="flex flex-col gap-2">
               <div className="flex flex-col gap-0.5">
                 <p className="text-size-xxs font-semibold uppercase tracking-wider text-gray-500">Drop-ins</p>
-                <p className="text-size-xs text-gray-500">Joined one or more of your group's discussions.</p>
+                <p className="text-size-xs text-gray-600">Joined one or more of your group's discussions.</p>
               </div>
               <div className="flex flex-col gap-2">
                 {dropIns.map((participant) => (
@@ -252,7 +237,7 @@ const FacilitatorFeedbackPage = () => {
                     key={participant.id}
                     participant={participant}
                     feedback={feedbackByParticipant[participant.id]}
-                    showNudge={false}
+                    showNudge={showIncompleteWarning}
                     onClick={() => setSelectedParticipant(participant)}
                   />
                 ))}
@@ -269,7 +254,7 @@ const FacilitatorFeedbackPage = () => {
                     key={participant.id}
                     participant={participant}
                     feedback={feedbackByParticipant[participant.id]}
-                    showNudge={false}
+                    showNudge={showIncompleteWarning}
                     onClick={() => setSelectedParticipant(participant)}
                   />
                 ))}

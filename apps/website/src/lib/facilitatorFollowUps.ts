@@ -13,7 +13,19 @@ export const FOLLOW_UP_AIRTABLE_VALUES = FOLLOW_UP_OPTIONS.map((o) => o.airtable
 
 export type FollowUpAirtableValue = typeof FOLLOW_UP_OPTIONS[number]['airtableValue'];
 
-const NO_ACTION_AIRTABLE_VALUE = FOLLOW_UP_OPTIONS.find((o) => o.id === 'no-action')!.airtableValue;
+export const ACTIONABLE_FOLLOW_UP_IDS = ['schedule-call', 'funding-candidate', 'invite-facilitator'] as const;
 
-/** A participant is "flagged" if the facilitator picked any follow-up other than "no further action needed". */
-export const isFlaggedFromAirtable = (nextSteps: string[] | null | undefined): boolean => (nextSteps ?? []).some((step) => step !== NO_ACTION_AIRTABLE_VALUE);
+export const followUpsToAirtable = (followUps: Record<string, boolean>): FollowUpAirtableValue[] => FOLLOW_UP_OPTIONS
+  .filter((o) => followUps[o.id])
+  .map((o) => o.airtableValue);
+
+export const airtableToFollowUps = (nextSteps: string[] | null | undefined): Record<string, boolean> => {
+  const result: Record<string, boolean> = {};
+  for (const o of FOLLOW_UP_OPTIONS) {
+    if (nextSteps?.includes(o.airtableValue)) result[o.id] = true;
+  }
+
+  return result;
+};
+
+export const isFlagged = (followUps: Record<string, boolean>): boolean => ACTIONABLE_FOLLOW_UP_IDS.some((id) => followUps[id]);

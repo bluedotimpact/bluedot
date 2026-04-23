@@ -65,18 +65,18 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
       ariaLabel="Participant feedback"
       noClickaway
     >
-      <div className="w-full max-w-[600px] pt-6">
-        <p className="flex items-center gap-1.5 text-[13px] leading-[1.3] text-gray-500 mb-6">
+      <div className="w-full max-w-[600px] pt-4">
+        <p className="flex items-center gap-1.5 text-[13px] leading-[1.3] text-gray-600 mb-6">
           <FaLock className="size-[13px] shrink-0" aria-hidden />
           Your responses are only seen by BlueDot staff
         </p>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <p id="show-up-label" className="text-size-xs font-semibold text-bluedot-navy">
               How did they show up across discussions?
             </p>
-            <p className="text-size-xs text-gray-500">
+            <p className="text-size-xs text-gray-600">
               Think about preparation, initiative, and engagement between sessions.
             </p>
           </div>
@@ -89,12 +89,12 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
           />
         </div>
 
-        <div className="mt-6 flex flex-col gap-2">
+        <div className="mt-8 flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <p id="engage-label" className="text-size-xs font-semibold text-bluedot-navy">
               How did they engage with ideas during discussions?
             </p>
-            <p className="text-size-xs text-gray-500">
+            <p className="text-size-xs text-gray-600">
               Think about quality of thinking, willingness to challenge, and depth of engagement.
             </p>
           </div>
@@ -107,12 +107,12 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
           />
         </div>
 
-        <div className="mt-6 flex flex-col gap-2">
+        <div className="mt-8 flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <label htmlFor="investment-note" className="text-size-xs font-semibold text-bluedot-navy">
               In 2-3 sentences: what would you tell BlueDot if we asked "how much time should we invest in this person?"
             </label>
-            <p className="text-size-xs text-gray-500">Feel free to paste this from your 1:1 report.</p>
+            <p className="text-size-xs text-gray-600">Feel free to paste this from your 1:1 report.</p>
           </div>
           <textarea
             id="investment-note"
@@ -123,12 +123,12 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
           {hasTopScore && <TopScoreNudge detail="a short note on what made them stand out would help us act on this." />}
         </div>
 
-        <div className="mt-6 flex flex-col gap-2">
+        <div className="mt-8 flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <p className="text-size-xs font-semibold text-bluedot-navy">
               How should we follow up with them?
             </p>
-            <p className="text-size-xs text-gray-500">Check all that apply.</p>
+            <p className="text-size-xs text-gray-600">Check all that apply.</p>
           </div>
           <div className="flex flex-col gap-2">
             {FOLLOW_UP_OPTIONS.map((option) => (
