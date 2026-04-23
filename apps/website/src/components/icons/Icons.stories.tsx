@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
 
+import { ArrowDownIcon } from './ArrowDownIcon';
 import { ArrowRightIcon } from './ArrowRightIcon';
 import { CheckIcon } from './CheckIcon';
 import { CheckmarkIcon } from './CheckmarkIcon';
@@ -59,6 +60,7 @@ const Gallery = () => (
   <div className="flex flex-col gap-8 p-6 bg-gray-50 min-h-screen">
     <Section title="Single-color icons">
       <Grid>
+        <IconCell name="ArrowDownIcon"><ArrowDownIcon /></IconCell>
         <IconCell name="ArrowRightIcon"><ArrowRightIcon /></IconCell>
         <IconCell name="CheckIcon"><CheckIcon size={24} /></IconCell>
         <IconCell name="ChevronRightIcon"><ChevronRightIcon /></IconCell>
