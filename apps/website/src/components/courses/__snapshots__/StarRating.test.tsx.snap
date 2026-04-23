@@ -16,7 +16,9 @@ exports[`StarRating Component > renders correctly 1`] = `
       >
         <svg
           fill="none"
+          height="37"
           viewBox="0 0 39 37"
+          width="39"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
@@ -42,7 +44,9 @@ exports[`StarRating Component > renders correctly 1`] = `
       >
         <svg
           fill="none"
+          height="37"
           viewBox="0 0 39 37"
+          width="39"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
@@ -68,7 +72,9 @@ exports[`StarRating Component > renders correctly 1`] = `
       >
         <svg
           fill="none"
+          height="37"
           viewBox="0 0 39 37"
+          width="39"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
@@ -94,7 +100,9 @@ exports[`StarRating Component > renders correctly 1`] = `
       >
         <svg
           fill="none"
+          height="37"
           viewBox="0 0 39 37"
+          width="39"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
@@ -120,7 +128,9 @@ exports[`StarRating Component > renders correctly 1`] = `
       >
         <svg
           fill="none"
+          height="37"
           viewBox="0 0 39 37"
+          width="39"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path

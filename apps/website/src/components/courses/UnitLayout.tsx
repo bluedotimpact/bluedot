@@ -32,6 +32,7 @@ import { trpc } from '../../utils/trpc';
 import { CourseIcon } from './CourseIcon';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
 import InactiveCourseBanners from './InactiveCourseBanners';
+import { ArrowRightIcon } from '../icons/ArrowRightIcon';
 import KeyboardNavMenu from './KeyboardNavMenu';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import CourseCompletionSection from './CourseCompletionSection';
@@ -113,12 +114,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
             onClick={onPrevClick}
             aria-label="Previous unit"
           >
-            <svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg" className="rotate-180">
-              <path
-                d="M6.90887 10L6.08856 9.19034L9.46569 5.81321H0.719238V4.64133H9.46569L6.08856 1.27486L6.90887 0.454546L11.6816 5.22727L6.90887 10Z"
-                fill={isFirstChunk && !prevUnit ? '#6A6F7A' : '#00114D'}
-              />
-            </svg>
+            <ArrowRightIcon aria-hidden="true" className={clsx('rotate-180', (isFirstChunk && !prevUnit) ? 'text-[#6A6F7A]' : 'text-[#00114D]')} />
           </button>
           <button
             type="button"
@@ -127,12 +123,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
             onClick={onNextClick}
             aria-label="Next unit"
           >
-            <svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M6.90887 10L6.08856 9.19034L9.46569 5.81321H0.719238V4.64133H9.46569L6.08856 1.27486L6.90887 0.454546L11.6816 5.22727L6.90887 10Z"
-                fill={isLastChunk && !nextUnit ? '#6A6F7A' : '#00114D'}
-              />
-            </svg>
+            <ArrowRightIcon aria-hidden="true" className={(isLastChunk && !nextUnit) ? 'text-[#6A6F7A]' : 'text-[#00114D]'} />
           </button>
         </div>
         {courseProgressData && courseProgressData.courseProgress.totalCount > 0 && (

@@ -221,7 +221,7 @@ exports[`IncubatorWeekLander > renders the complete page correctly (snapshot) 1`
                             href="/programs/career-transition-grant"
                             tabindex="0"
                           >
-                            Career Transition Grant
+                            Career Transition Grants
                           </a>
                           <a
                             class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
@@ -452,7 +452,7 @@ exports[`IncubatorWeekLander > renders the complete page correctly (snapshot) 1`
                       href="/programs/career-transition-grant"
                       tabindex="0"
                     >
-                      Career Transition Grant
+                      Career Transition Grants
                     </a>
                     <a
                       class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
@@ -1187,7 +1187,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                   How do I join Incubator Week?
                 </span>
                 <svg
-                  class="flex-shrink-0 transition-transform duration-300 ease "
+                  class="flex-shrink-0 transition-transform duration-300 ease text-[#001133]"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1196,7 +1196,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                 >
                   <path
                     d="M0 8.5H16M8 0.5L8 16.5"
-                    stroke="#001133"
+                    stroke="currentColor"
                     stroke-width="2"
                   />
                 </svg>
@@ -1235,7 +1235,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                   Can I apply solo or do I need a co-founder?
                 </span>
                 <svg
-                  class="flex-shrink-0 transition-transform duration-300 ease "
+                  class="flex-shrink-0 transition-transform duration-300 ease text-[#001133]"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1244,7 +1244,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                 >
                   <path
                     d="M0 8.5H16M8 0.5L8 16.5"
-                    stroke="#001133"
+                    stroke="currentColor"
                     stroke-width="2"
                   />
                 </svg>
@@ -1283,7 +1283,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                   What expenses are covered?
                 </span>
                 <svg
-                  class="flex-shrink-0 transition-transform duration-300 ease "
+                  class="flex-shrink-0 transition-transform duration-300 ease text-[#001133]"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1292,7 +1292,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                 >
                   <path
                     d="M0 8.5H16M8 0.5L8 16.5"
-                    stroke="#001133"
+                    stroke="currentColor"
                     stroke-width="2"
                   />
                 </svg>
@@ -1331,7 +1331,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                   What tracks do you support?
                 </span>
                 <svg
-                  class="flex-shrink-0 transition-transform duration-300 ease "
+                  class="flex-shrink-0 transition-transform duration-300 ease text-[#001133]"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1340,7 +1340,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                 >
                   <path
                     d="M0 8.5H16M8 0.5L8 16.5"
-                    stroke="#001133"
+                    stroke="currentColor"
                     stroke-width="2"
                   />
                 </svg>
@@ -1379,7 +1379,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                   How does the funding work?
                 </span>
                 <svg
-                  class="flex-shrink-0 transition-transform duration-300 ease "
+                  class="flex-shrink-0 transition-transform duration-300 ease text-[#001133]"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1388,7 +1388,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                 >
                   <path
                     d="M0 8.5H16M8 0.5L8 16.5"
-                    stroke="#001133"
+                    stroke="currentColor"
                     stroke-width="2"
                   />
                 </svg>
@@ -1427,7 +1427,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                   Who is BlueDot Impact?
                 </span>
                 <svg
-                  class="flex-shrink-0 transition-transform duration-300 ease "
+                  class="flex-shrink-0 transition-transform duration-300 ease text-[#001133]"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1436,7 +1436,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                 >
                   <path
                     d="M0 8.5H16M8 0.5L8 16.5"
-                    stroke="#001133"
+                    stroke="currentColor"
                     stroke-width="2"
                   />
                 </svg>

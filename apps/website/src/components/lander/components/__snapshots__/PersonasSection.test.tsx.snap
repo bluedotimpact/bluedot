@@ -50,7 +50,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
             Technical people considering governance
           </span>
           <svg
-            class="flex-shrink-0 transition-transform duration-300 rotate-45"
+            class="flex-shrink-0 transition-transform duration-300 text-white rotate-45"
             fill="none"
             height="17"
             viewBox="0 0 16 17"
@@ -59,7 +59,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
           >
             <path
               d="M0 8.5H16M8 0.5L8 16.5"
-              stroke="white"
+              stroke="currentColor"
               stroke-width="2"
             />
           </svg>
@@ -135,7 +135,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
             High-potential people early in their careers
           </span>
           <svg
-            class="flex-shrink-0 transition-transform duration-300 "
+            class="flex-shrink-0 transition-transform duration-300 text-bluedot-navy"
             fill="none"
             height="17"
             viewBox="0 0 16 17"
@@ -144,7 +144,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
           >
             <path
               d="M0 8.5H16M8 0.5L8 16.5"
-              stroke="var(--bluedot-navy)"
+              stroke="currentColor"
               stroke-width="2"
             />
           </svg>
@@ -220,7 +220,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
             Policy professionals adding AI expertise
           </span>
           <svg
-            class="flex-shrink-0 transition-transform duration-300 "
+            class="flex-shrink-0 transition-transform duration-300 text-bluedot-navy"
             fill="none"
             height="17"
             viewBox="0 0 16 17"
@@ -229,7 +229,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
           >
             <path
               d="M0 8.5H16M8 0.5L8 16.5"
-              stroke="var(--bluedot-navy)"
+              stroke="currentColor"
               stroke-width="2"
             />
           </svg>

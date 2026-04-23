@@ -157,7 +157,7 @@ exports[`AboutPage > should render correctly 1`] = `
                               href="/programs/career-transition-grant"
                               tabindex="0"
                             >
-                              Career Transition Grant
+                              Career Transition Grants
                             </a>
                             <a
                               class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
@@ -382,7 +382,7 @@ exports[`AboutPage > should render correctly 1`] = `
                         href="/programs/career-transition-grant"
                         tabindex="0"
                       >
-                        Career Transition Grant
+                        Career Transition Grants
                       </a>
                       <a
                         class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"

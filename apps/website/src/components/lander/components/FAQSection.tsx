@@ -1,5 +1,6 @@
-import { P } from '@bluedot/ui';
+import { cn, P } from '@bluedot/ui';
 import clsx from 'clsx';
+import { PlusToggleIcon } from '../../icons/PlusToggleIcon';
 import { useState } from 'react';
 
 /**
@@ -78,18 +79,9 @@ const FAQSection = ({
                     <span className="text-[18px] font-semibold leading-[125%] text-bluedot-navy flex-grow">
                       {item.question}
                     </span>
-                    <svg
-                      width="16"
-                      height="17"
-                      viewBox="0 0 16 17"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className={`flex-shrink-0 transition-transform duration-300 ease ${
-                        isOpen ? 'rotate-45' : ''
-                      }`}
-                    >
-                      <path d="M0 8.5H16M8 0.5L8 16.5" stroke="#001133" strokeWidth="2" />
-                    </svg>
+                    <PlusToggleIcon
+                      className={cn('flex-shrink-0 transition-transform duration-300 ease text-[#001133]', isOpen && 'rotate-45')}
+                    />
                   </button>
 
                   {/* Answer container with animation */}

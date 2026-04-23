@@ -36,6 +36,7 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
           class="absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]"
         >
           <svg
+            class="text-bluedot-navy"
             fill="none"
             height="14"
             viewBox="0 0 15 14"
@@ -43,25 +44,25 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
             xmlns="http://www.w3.org/2000/svg"
           >
             <g
-              clip-path="url(#clip0_auto_save)"
+              clip-path="url(#resize-handle-clip)"
               opacity="0.6"
             >
               <path
                 d="M11.875 7L7.5 11.375"
-                stroke="var(--bluedot-navy)"
+                stroke="currentColor"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
               <path
                 d="M11 2.1875L2.6875 10.5"
-                stroke="var(--bluedot-navy)"
+                stroke="currentColor"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
             </g>
             <defs>
               <clippath
-                id="clip0_auto_save"
+                id="resize-handle-clip"
               >
                 <rect
                   fill="white"
@@ -149,6 +150,7 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
           class="absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]"
         >
           <svg
+            class="text-bluedot-navy"
             fill="none"
             height="14"
             viewBox="0 0 15 14"
@@ -156,25 +158,25 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
             xmlns="http://www.w3.org/2000/svg"
           >
             <g
-              clip-path="url(#clip0_auto_save)"
+              clip-path="url(#resize-handle-clip)"
               opacity="0.6"
             >
               <path
                 d="M11.875 7L7.5 11.375"
-                stroke="var(--bluedot-navy)"
+                stroke="currentColor"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
               <path
                 d="M11 2.1875L2.6875 10.5"
-                stroke="var(--bluedot-navy)"
+                stroke="currentColor"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
             </g>
             <defs>
               <clippath
-                id="clip0_auto_save"
+                id="resize-handle-clip"
               >
                 <rect
                   fill="white"
@@ -249,6 +251,7 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
           class="absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]"
         >
           <svg
+            class="text-bluedot-navy"
             fill="none"
             height="14"
             viewBox="0 0 15 14"
@@ -256,25 +259,25 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
             xmlns="http://www.w3.org/2000/svg"
           >
             <g
-              clip-path="url(#clip0_auto_save)"
+              clip-path="url(#resize-handle-clip)"
               opacity="0.6"
             >
               <path
                 d="M11.875 7L7.5 11.375"
-                stroke="var(--bluedot-navy)"
+                stroke="currentColor"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
               <path
                 d="M11 2.1875L2.6875 10.5"
-                stroke="var(--bluedot-navy)"
+                stroke="currentColor"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
             </g>
             <defs>
               <clippath
-                id="clip0_auto_save"
+                id="resize-handle-clip"
               >
                 <rect
                   fill="white"

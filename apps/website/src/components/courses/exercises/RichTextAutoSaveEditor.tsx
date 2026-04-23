@@ -17,6 +17,7 @@ import { Markdown } from 'tiptap-markdown';
 import Placeholder from '@tiptap/extension-placeholder';
 import SaveStatusIndicator from './SaveStatusIndicator';
 import { ONE_MINUTE_MS, ONE_SECOND_MS } from '../../../lib/constants';
+import { ResizeHandleIcon } from '../../icons/ResizeHandleIcon';
 
 type SaveStatus = 'idle' | 'typing' | 'saving' | 'saved' | 'error';
 
@@ -280,17 +281,7 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
         </div>
         {/* Custom drag notches overlay */}
         <div className="absolute w-[15px] h-[14px] right-2 bottom-2 pointer-events-none z-[2]">
-          <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g opacity="0.6" clipPath="url(#clip0_auto_save)">
-              <path d="M11.875 7L7.5 11.375" stroke="var(--bluedot-navy)" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M11 2.1875L2.6875 10.5" stroke="var(--bluedot-navy)" strokeLinecap="round" strokeLinejoin="round" />
-            </g>
-            <defs>
-              <clipPath id="clip0_auto_save">
-                <rect width="14" height="14" fill="white" transform="translate(0.5)" />
-              </clipPath>
-            </defs>
-          </svg>
+          <ResizeHandleIcon />
         </div>
       </div>
       {!disabled && (

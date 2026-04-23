@@ -9,6 +9,7 @@ import { PiShieldStarLight, PiShootingStarLight, PiUsersThreeLight } from 'react
 import { usePrimaryCourseURL } from '../../lib/hooks/usePrimaryCourseURL';
 import { withClickTracking } from '../../lib/withClickTracking';
 import { trpc } from '../../utils/trpc';
+import { ArrowDownIcon } from '../icons/ArrowDownIcon';
 
 type Course = {
   slug: string;
@@ -450,9 +451,7 @@ const CourseCardsGrid = ({
 
     {/* Downward arrow separator */}
     <div className="flex flex-col items-center gap-4 py-2">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M12 4L12 20M12 20L6 14M12 20L18 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-bluedot-navy/40" />
-      </svg>
+      <ArrowDownIcon aria-hidden="true" className="text-bluedot-navy/40" />
     </div>
 
     {/* "Deep-dives" heading */}

@@ -80,7 +80,8 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             type="button"
           >
             <svg
-              class="rotate-180"
+              aria-hidden="true"
+              class="rotate-180 text-[#6A6F7A]"
               fill="none"
               height="10"
               viewBox="0 0 12 10"
@@ -89,7 +90,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             >
               <path
                 d="M6.90887 10L6.08856 9.19034L9.46569 5.81321H0.719238V4.64133H9.46569L6.08856 1.27486L6.90887 0.454546L11.6816 5.22727L6.90887 10Z"
-                fill="#6A6F7A"
+                fill="currentColor"
               />
             </svg>
           </button>
@@ -99,6 +100,8 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             type="button"
           >
             <svg
+              aria-hidden="true"
+              class="text-[#00114D]"
               fill="none"
               height="10"
               viewBox="0 0 12 10"
@@ -107,7 +110,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             >
               <path
                 d="M6.90887 10L6.08856 9.19034L9.46569 5.81321H0.719238V4.64133H9.46569L6.08856 1.27486L6.90887 0.454546L11.6816 5.22727L6.90887 10Z"
-                fill="#00114D"
+                fill="currentColor"
               />
             </svg>
           </button>

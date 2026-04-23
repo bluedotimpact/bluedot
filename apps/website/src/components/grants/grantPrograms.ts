@@ -32,7 +32,7 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
   },
   {
     slug: 'career-transition-grant',
-    title: 'Career Transition Grant',
+    title: 'Career Transition Grants',
     href: '/programs/career-transition-grant',
     track: 'Funding',
     goal: 'Support BlueDot graduates to work full-time on impactful AI safety work.',
