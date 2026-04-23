@@ -2,7 +2,8 @@ import type { IconProps } from './types';
 
 // Narrow `size` to number: viewBox is 39x37 (non-square), height is size * (37/39).
 // stroke and fill are fixed amber colors — not currentColor.
-type StarIconProps = Omit<IconProps, 'size'> & {
+// Omit `fill` so callers can't accidentally override the path's explicit fill values.
+type StarIconProps = Omit<IconProps, 'size' | 'fill'> & {
   size?: number;
   filled?: boolean;
 };
