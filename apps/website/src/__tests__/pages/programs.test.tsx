@@ -28,15 +28,8 @@ beforeEach(() => {
   (useRouter as unknown as Mock).mockReturnValue(mockRouter);
   server.use(
     trpcMsw.courses.getAll.query(() => []),
-    trpcMsw.grants.getAllPublicRapidGrantees.query(() => [
-      {
-        projectTitle: 'Example grant',
-        projectSummary: 'Helped someone ship useful work.',
-        granteeName: 'Jane Doe',
-        amountUsd: 3200,
-        link: 'https://example.com/grant',
-      },
-    ]),
+    trpcMsw.grants.getRapidGrantStats.query(() => ({ count: 104, totalAmountUsd: 105000 })),
+    trpcMsw.grants.getCareerTransitionGrantStats.query(() => ({ count: 1, totalAmountUsd: 67500 })),
   );
 });
 
@@ -45,8 +38,10 @@ describe('ProgramsPage', () => {
     render(<ProgramsPage />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      expect(screen.getByText('Funding', { selector: 'p' })).toBeInTheDocument();
+      // Funding appears twice (Rapid Grants + Career Transition Grant).
+      expect(screen.getAllByText('Funding', { selector: 'p' })).toHaveLength(2);
       expect(screen.getByText('Rapid Grants', { selector: 'p' })).toBeInTheDocument();
+      expect(screen.getByText('Career Transition Grants', { selector: 'p' })).toBeInTheDocument();
       expect(screen.getByText('Build', { selector: 'p' })).toBeInTheDocument();
       expect(screen.getByText('Technical AI Safety Project Sprint', { selector: 'p' })).toBeInTheDocument();
       expect(screen.getByText('Launch', { selector: 'p' })).toBeInTheDocument();
