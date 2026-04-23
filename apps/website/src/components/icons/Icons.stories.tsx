@@ -15,6 +15,7 @@ import { InfoIcon } from './InfoIcon';
 import { MoonStarsIcon } from './MoonStarsIcon';
 import { PlayCircleIcon } from './PlayCircleIcon';
 import { SlackIcon } from './SlackIcon';
+import { StarIcon } from './StarIcon';
 import { SwitchUserIcon } from './SwitchUserIcon';
 import { ThumbIcon } from './ThumbIcon';
 import { UndoIcon } from './UndoIcon';
@@ -87,6 +88,12 @@ const Gallery = () => (
         </IconCell>
         <IconCell name="CheckmarkIcon" note="hover">
           <CheckmarkIcon variant="hover" />
+        </IconCell>
+        <IconCell name="StarIcon" note="filled">
+          <StarIcon filled size={24} />
+        </IconCell>
+        <IconCell name="StarIcon" note="empty">
+          <StarIcon size={24} />
         </IconCell>
         <IconCell name="ThumbIcon" note="filled=true">
           <ThumbIcon filled />
