@@ -20,7 +20,7 @@ import { formatAmountUsd } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
 const CURRENT_ROUTE: BluedotRoute = {
-  title: 'Career Transition Grant',
+  title: 'Career Transition Grants',
   url: '/programs/career-transition-grant',
 };
 
@@ -310,7 +310,7 @@ const CareerTransitionGrantPage = () => {
         ctaText="Apply now"
         ctaUrl={CAREER_TRANSITION_GRANT_APPLICATION_URL}
         imageSrc="/images/courses/courses-gradient.webp"
-        imageAlt="Career Transition Grant banner"
+        imageAlt="Career Transition Grants banner"
         iconSrc="/images/logo/BlueDot_Impact_Icon_White.svg"
         iconAlt="BlueDot icon"
         noiseImageSrc="/images/agi-strategy/noise.webp"
