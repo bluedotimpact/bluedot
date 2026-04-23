@@ -888,6 +888,18 @@ export const careerTransitionGrantTable = pgAirtable('career_transition_grant', 
       pgColumn: text(),
       airtableId: 'fldWPOiBQAYxUlA7V',
     },
+    bio: {
+      pgColumn: text(),
+      airtableId: 'fldRFV73ElzbB2Jl9',
+    },
+    grantPlan: {
+      pgColumn: text(),
+      airtableId: 'fldsRnpwVRdO6F4iq',
+    },
+    profileUrl: {
+      pgColumn: text(),
+      airtableId: 'fld2h9ghKvg79nayH',
+    },
   },
 });
 /** Operational table. Only amount + status synced; grantee identifying info stays in Airtable. */

@@ -24,6 +24,12 @@ export type PublicRapidGrant = {
 export type PublicCareerTransitionGrant = {
   granteeName: string;
   imageUrl?: string;
+  /** Short bio, e.g. "Director of AI/ML at Syndigo. 7+ years deploying production ML." */
+  bio?: string;
+  /** What the grantee is doing with the grant, shown as a quote on their card. */
+  grantPlan?: string;
+  /** Optional LinkedIn or personal URL. When present the whole card links to it. */
+  profileUrl?: string;
 };
 
 const sanitizeUrl = (value: string | null): string | undefined => {
@@ -70,6 +76,9 @@ const mapPublicCareerTransitionGrants = (all: CareerTransitionGrant[]): PublicCa
       return {
         granteeName: [grant.firstName?.trim(), grant.lastName?.trim()].filter(Boolean).join(' '),
         imageUrl: sanitizeUrl(firstImageUrl),
+        bio: grant.bio?.trim() ? grant.bio.trim() : undefined,
+        grantPlan: grant.grantPlan?.trim() ? grant.grantPlan.trim() : undefined,
+        profileUrl: sanitizeUrl(grant.profileUrl),
       };
     })
     .sort((a, b) => a.granteeName.localeCompare(b.granteeName));
