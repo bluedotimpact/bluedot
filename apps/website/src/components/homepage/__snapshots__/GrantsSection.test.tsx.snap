@@ -75,7 +75,7 @@ exports[`GrantsSection > renders default as expected 1`] = `
             <h3
               class="text-[18px] min-[680px]:text-[20px] font-semibold leading-tight text-bluedot-navy"
             >
-              Career Transition Grant
+              Career Transition Grants
             </h3>
             <p
               class="text-[15px] leading-[1.55] text-bluedot-navy/70"
