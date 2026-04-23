@@ -80,6 +80,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             type="button"
           >
             <svg
+              aria-hidden="true"
               class="rotate-180 text-[#6A6F7A]"
               fill="none"
               height="10"
@@ -99,6 +100,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             type="button"
           >
             <svg
+              aria-hidden="true"
               class="text-[#00114D]"
               fill="none"
               height="10"
