@@ -15,6 +15,7 @@ import { ErrorIcon } from './ErrorIcon';
 import { ExternalLinkIcon } from './ExternalLinkIcon';
 import { InfoIcon } from './InfoIcon';
 import { MoonStarsIcon } from './MoonStarsIcon';
+import { MusicNoteIcon } from './MusicNoteIcon';
 import { PlayCircleIcon } from './PlayCircleIcon';
 import { PlusToggleIcon } from './PlusToggleIcon';
 import { ResizeHandleIcon } from './ResizeHandleIcon';
@@ -72,6 +73,7 @@ const Gallery = () => (
         <IconCell name="ErrorIcon"><ErrorIcon size={24} /></IconCell>
         <IconCell name="ExternalLinkIcon"><ExternalLinkIcon size={20} /></IconCell>
         <IconCell name="MoonStarsIcon"><MoonStarsIcon /></IconCell>
+        <IconCell name="MusicNoteIcon"><MusicNoteIcon /></IconCell>
         <IconCell name="PlayCircleIcon"><PlayCircleIcon /></IconCell>
         <IconCell name="PlusToggleIcon"><PlusToggleIcon className="text-bluedot-navy" /></IconCell>
         <IconCell name="ResizeHandleIcon"><ResizeHandleIcon /></IconCell>
