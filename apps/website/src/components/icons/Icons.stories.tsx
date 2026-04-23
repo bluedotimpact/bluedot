@@ -10,6 +10,7 @@ import { ClockIcon } from './ClockIcon';
 import { ClockUserIcon } from './ClockUserIcon';
 import { DocumentIcon } from './DocumentIcon';
 import { ErrorIcon } from './ErrorIcon';
+import { ExternalLinkIcon } from './ExternalLinkIcon';
 import { InfoIcon } from './InfoIcon';
 import { MoonStarsIcon } from './MoonStarsIcon';
 import { SlackIcon } from './SlackIcon';
@@ -58,6 +59,7 @@ const Gallery = () => (
         <IconCell name="ClockUserIcon"><ClockUserIcon /></IconCell>
         <IconCell name="DocumentIcon"><DocumentIcon size={20} /></IconCell>
         <IconCell name="ErrorIcon"><ErrorIcon size={24} /></IconCell>
+        <IconCell name="ExternalLinkIcon"><ExternalLinkIcon size={20} /></IconCell>
         <IconCell name="MoonStarsIcon"><MoonStarsIcon /></IconCell>
         <IconCell name="SlackIcon"><SlackIcon /></IconCell>
         <IconCell name="SwitchUserIcon"><SwitchUserIcon /></IconCell>
