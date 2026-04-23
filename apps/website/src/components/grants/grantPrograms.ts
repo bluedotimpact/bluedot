@@ -1,7 +1,7 @@
 import type React from 'react';
 
 export type GrantProgramStatus = 'Active' | 'On hiatus';
-export type GrantProgramSlug = 'rapid-grants' | 'technical-ai-safety-project-sprint' | 'incubator-week';
+export type GrantProgramSlug = 'rapid-grants' | 'career-transition-grant' | 'technical-ai-safety-project-sprint' | 'incubator-week';
 
 export type GrantProgramDefinition = {
   slug: GrantProgramSlug;
@@ -14,6 +14,7 @@ export type GrantProgramDefinition = {
 };
 
 export const RAPID_GRANT_APPLICATION_URL = 'https://airtable.com/appMVNtdBtvtJvu5E/pag9G3oF4DYAyassX/form';
+export const CAREER_TRANSITION_GRANT_APPLICATION_URL = 'https://airtable.com/appMVNtdBtvtJvu5E/pagyKD4M0wd0ci2gH/form';
 
 export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
   {
@@ -22,6 +23,14 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
     href: '/programs/rapid-grants',
     goal: 'Fund talented people in the BlueDot community to do excellent work on AI safety - research, events, community building, and more.',
     scope: 'Grants up to $10,000 for project costs, events, travel, community building, and other costs that remove barriers. Fast decisions, lightweight process.',
+    status: 'Active',
+  },
+  {
+    slug: 'career-transition-grant',
+    title: 'Career Transition Grant',
+    href: '/programs/career-transition-grant',
+    goal: 'Support BlueDot graduates to work full-time on impactful AI safety work.',
+    scope: 'Funding plus intros, advising, and community for people ready to go full-time on AI safety.',
     status: 'Active',
   },
   {

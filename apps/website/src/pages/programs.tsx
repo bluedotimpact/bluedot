@@ -133,6 +133,16 @@ const ProgramsPage = () => {
       ctaLabel: 'Explore program',
     },
     {
+      id: 'career-transition-grant',
+      name: 'BlueDot Career Transition Grant',
+      track: 'Funding',
+      status: 'Active',
+      href: '/programs/career-transition-grant',
+      summary: 'Funding to work full-time on AI safety, plus intros, advising, and community.',
+      detail: 'For BlueDot community members ready to make the jump. Propose a budget and a plan; decisions after a short call.',
+      ctaLabel: 'Explore program',
+    },
+    {
       id: 'technical-ai-safety-project-sprint',
       name: 'Technical AI Safety Project Sprint',
       track: 'Build',

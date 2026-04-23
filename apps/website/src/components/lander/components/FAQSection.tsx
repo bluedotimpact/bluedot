@@ -71,7 +71,7 @@ const FAQSection = ({
                     type="button"
                     onClick={() => handleToggle(item.id)}
                     className={`w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease ${
-                      isOpen ? 'pt-6 pb-2' : 'py-6'
+                      isOpen ? 'pt-6 pb-4' : 'py-6'
                     } ${!isOpen ? 'hover:bg-gray-50' : ''}`}
                     aria-expanded={isOpen}
                     aria-controls={`faq-answer-${item.id}`}

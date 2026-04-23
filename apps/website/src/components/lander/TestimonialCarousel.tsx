@@ -27,6 +27,18 @@ const CARD_CONFIG = {
   AUTO_SCROLL_INTERVAL: 3000,
 } as const;
 
+/**
+ * Minimum testimonial count before triplicating + auto-scrolling the carousel.
+ * Depends on viewport because a handful of cards that already fill a mobile
+ * viewport might not fill a desktop one (and vice versa). Below the returned
+ * threshold we render cards once, left-aligned, with no nav buttons.
+ */
+const getMinForInfinite = (viewportWidth: number): number => {
+  if (viewportWidth >= 1280) return 4;
+  if (viewportWidth >= 680) return 3;
+  return 2;
+};
+
 const TestimonialCarousel = ({
   testimonials,
   title,
@@ -39,12 +51,28 @@ const TestimonialCarousel = ({
   const isResettingRef = useRef(false);
   const prefersReducedMotionRef = useRef(false);
 
+  // SSR/first render assumes desktop; updated on mount + resize via the effect below.
+  const [shouldLoop, setShouldLoop] = useState(() => testimonials.length >= getMinForInfinite(1280));
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+    const update = () => {
+      setShouldLoop(testimonials.length >= getMinForInfinite(window.innerWidth));
+    };
+
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, [testimonials.length]);
+
   const createInfiniteScrollData = () => {
     if (testimonials.length === 0) {
       return [];
     }
 
-    return [...testimonials, ...testimonials, ...testimonials];
+    return shouldLoop
+      ? [...testimonials, ...testimonials, ...testimonials]
+      : testimonials;
   };
 
   const infiniteTestimonials = createInfiniteScrollData();
@@ -84,7 +112,7 @@ const TestimonialCarousel = ({
   }, []);
 
   const startAutoScroll = useCallback(() => {
-    if (prefersReducedMotionRef.current) {
+    if (prefersReducedMotionRef.current || !shouldLoop) {
       return;
     }
 
@@ -106,7 +134,7 @@ const TestimonialCarousel = ({
         });
       }
     }, CARD_CONFIG.AUTO_SCROLL_INTERVAL);
-  }, [getCardWidth, getCardGap]);
+  }, [getCardWidth, getCardGap, shouldLoop]);
 
   const stopAutoScroll = useCallback(() => {
     if (autoScrollIntervalRef.current) {
@@ -169,18 +197,18 @@ const TestimonialCarousel = ({
   }, []);
 
   useEffect(() => {
-    if (scrollContainerRef.current && testimonials.length > 0) {
+    if (scrollContainerRef.current && testimonials.length > 0 && shouldLoop) {
       const cardWidth = getCardWidth();
       const gap = getCardGap();
       const scrollUnit = cardWidth + gap;
       const sectionWidth = testimonials.length * scrollUnit;
       scrollContainerRef.current.scrollLeft = sectionWidth;
     }
-  }, [testimonials.length, getCardWidth, getCardGap]);
+  }, [testimonials.length, getCardWidth, getCardGap, shouldLoop]);
 
   const handleScroll = useCallback(() => {
     const container = scrollContainerRef.current;
-    if (container && !isResettingRef.current && testimonials.length > 0) {
+    if (container && !isResettingRef.current && testimonials.length > 0 && shouldLoop) {
       const { scrollLeft } = container;
       const cardWidth = getCardWidth();
       const gap = getCardGap();
@@ -197,7 +225,7 @@ const TestimonialCarousel = ({
         isResettingRef.current = false;
       }
     }
-  }, [testimonials.length, getCardWidth, getCardGap]);
+  }, [testimonials.length, getCardWidth, getCardGap, shouldLoop]);
 
   const scroll = useCallback((direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -264,72 +292,89 @@ const TestimonialCarousel = ({
             )}
           </div>
 
-          {/* Navigation Buttons - Desktop */}
-          <div className="hidden min-[680px]:flex gap-3 flex-shrink-0">
-            <NavigationButton
-              direction="left"
-              onClick={() => scroll('left')}
-              disabled={false}
-            />
-            <NavigationButton
-              direction="right"
-              onClick={() => scroll('right')}
-              disabled={false}
-            />
+          {/* Navigation Buttons - Desktop (carousel only) */}
+          {shouldLoop && (
+            <div className="hidden min-[680px]:flex gap-3 flex-shrink-0">
+              <NavigationButton
+                direction="left"
+                onClick={() => scroll('left')}
+                disabled={false}
+              />
+              <NavigationButton
+                direction="right"
+                onClick={() => scroll('right')}
+                disabled={false}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+
+      {shouldLoop ? (
+        /* Scrolling carousel: bleeds to viewport edges, auto-advances, loops */
+        <div className="relative -mx-5 min-[680px]:-mx-8 lg:-mx-12 xl:-mx-16 2xl:-mx-20">
+          <div id="community-carousel-description" className="sr-only">
+            This carousel uses infinite scrolling and auto-advances every few seconds. Hover to pause auto-scrolling. Use arrow keys to navigate when focused. Navigation buttons allow manual control.
+          </div>
+
+          <div
+            ref={scrollContainerRef}
+            className="grid grid-flow-col auto-rows-fr overflow-x-auto scrollbar-none px-5 min-[680px]:px-8 lg:px-12 xl:pl-[max(64px,calc(50vw-640px))] xl:pr-16 2xl:pl-[max(80px,calc(50vw-640px))] 2xl:pr-20 gap-[20px] min-[680px]:gap-[24px] min-[1280px]:gap-[32px]"
+            style={{
+              scrollSnapType: 'none',
+              scrollBehavior: 'auto',
+            }}
+            onScroll={handleScroll}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            onKeyDown={handleKeyDown}
+
+            tabIndex={0}
+            role="region"
+            aria-label="Testimonials carousel"
+            aria-describedby="community-carousel-description"
+          >
+            {infiniteTestimonials.map((testimonial, index) => {
+              const sectionNumber = Math.floor(index / testimonials.length);
+              const uniqueKey = `${testimonial.name}-${index}-${sectionNumber}`;
+              return (
+                <div key={uniqueKey} className="h-full">
+                  <TestimonialMemberCard testimonial={testimonial} />
+                </div>
+              );
+            })}
           </div>
         </div>
-      </div>
-
-      {/* Carousel Container */}
-      <div className="relative -mx-5 min-[680px]:-mx-8 lg:-mx-12 xl:-mx-16 2xl:-mx-20">
-        <div id="community-carousel-description" className="sr-only">
-          This carousel uses infinite scrolling and auto-advances every few seconds. Hover to pause auto-scrolling. Use arrow keys to navigate when focused. Navigation buttons allow manual control.
-        </div>
-
-        <div
-          ref={scrollContainerRef}
-          className="grid grid-flow-col auto-rows-fr overflow-x-auto scrollbar-none px-5 min-[680px]:px-8 lg:px-12 xl:pl-[max(64px,calc(50vw-640px))] xl:pr-16 2xl:pl-[max(80px,calc(50vw-640px))] 2xl:pr-20 gap-[20px] min-[680px]:gap-[24px] min-[1280px]:gap-[32px]"
-          style={{
-            scrollSnapType: 'none',
-            scrollBehavior: 'auto',
-          }}
-          onScroll={handleScroll}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          onKeyDown={handleKeyDown}
-
-          tabIndex={0}
-          role="region"
-          aria-label="Testimonials carousel"
-          aria-describedby="community-carousel-description"
-        >
-          {infiniteTestimonials.map((testimonial, index) => {
-            const sectionNumber = Math.floor(index / testimonials.length);
-            const uniqueKey = `${testimonial.name}-${index}-${sectionNumber}`;
-            return (
-              <div key={uniqueKey} className="h-full">
+      ) : (
+        /* Too few to fill the viewport: render once, left-aligned, equal heights. */
+        <div className="mx-auto max-w-screen-xl">
+          <div className="grid auto-rows-fr gap-[20px] min-[680px]:gap-[24px] min-[1280px]:gap-[32px] grid-cols-[repeat(auto-fit,276px)] min-[680px]:grid-cols-[repeat(auto-fit,288px)] min-[1280px]:grid-cols-[repeat(auto-fit,320px)]">
+            {testimonials.map((testimonial, index) => (
+              <div key={`${testimonial.name}-${index}`} className="h-full">
                 <TestimonialMemberCard testimonial={testimonial} />
               </div>
-            );
-          })}
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Mobile Navigation Buttons */}
-      <div className="flex min-[680px]:hidden gap-3 justify-center mt-8">
-        <NavigationButton
-          direction="left"
-          onClick={() => scroll('left')}
-          disabled={false}
-        />
-        <NavigationButton
-          direction="right"
-          onClick={() => scroll('right')}
-          disabled={false}
-        />
-      </div>
+      {/* Mobile Navigation Buttons (carousel only) */}
+      {shouldLoop && (
+        <div className="flex min-[680px]:hidden gap-3 justify-center mt-8">
+          <NavigationButton
+            direction="left"
+            onClick={() => scroll('left')}
+            disabled={false}
+          />
+          <NavigationButton
+            direction="right"
+            onClick={() => scroll('right')}
+            disabled={false}
+          />
+        </div>
+      )}
     </section>
   );
 };
