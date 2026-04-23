@@ -3,11 +3,15 @@ import type React from 'react';
 export type GrantProgramStatus = 'Active' | 'On hiatus';
 export type GrantProgramSlug = 'rapid-grants' | 'career-transition-grant' | 'technical-ai-safety-project-sprint' | 'incubator-week';
 
+export type GrantProgramTrack = 'Funding' | 'Build' | 'Launch';
+
 export type GrantProgramDefinition = {
   slug: GrantProgramSlug;
   title: string;
   href: string;
   status: GrantProgramStatus;
+  /** Short track label shown above the program title (e.g. 'Funding', 'Build'). */
+  track: GrantProgramTrack;
   goal: string;
   scope: string;
   scopeLabel?: string;
@@ -21,6 +25,7 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
     slug: 'rapid-grants',
     title: 'Rapid Grants',
     href: '/programs/rapid-grants',
+    track: 'Funding',
     goal: 'Fund talented people in the BlueDot community to do excellent work on AI safety - research, events, community building, and more.',
     scope: 'Grants up to $10,000 for project costs, events, travel, community building, and other costs that remove barriers. Fast decisions, lightweight process.',
     status: 'Active',
@@ -29,6 +34,7 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
     slug: 'career-transition-grant',
     title: 'Career Transition Grant',
     href: '/programs/career-transition-grant',
+    track: 'Funding',
     goal: 'Support BlueDot graduates to work full-time on impactful AI safety work.',
     scope: 'Funding plus intros, advising, and community for people ready to go full-time on AI safety.',
     status: 'Active',
@@ -37,6 +43,7 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
     slug: 'technical-ai-safety-project-sprint',
     title: 'Technical AI Safety Project Sprint',
     href: '/courses/technical-ai-safety-project',
+    track: 'Build',
     goal: 'Help technically minded people ship a concrete AI safety research or engineering project with expert support.',
     scope: 'A 30-hour project sprint with mentorship, public output, and a clear path to portfolio-building.',
     scopeLabel: 'Format',
@@ -46,6 +53,7 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
     slug: 'incubator-week',
     title: 'Incubator Week',
     href: '/courses/incubator-week',
+    track: 'Launch',
     goal: 'Back founders from our courses to turn strong ideas into organizations that can make AI go well.',
     scope: 'A five-day intensive in London. All expenses paid. Pitch for funding on Friday.',
     scopeLabel: 'Format',

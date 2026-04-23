@@ -1,16 +1,9 @@
 import { CTALinkOrButton, H2, P } from '@bluedot/ui';
 import Link from 'next/link';
-import { GRANT_PROGRAMS, type GrantProgramSlug } from '../grants/grantPrograms';
+import { GRANT_PROGRAMS } from '../grants/grantPrograms';
 import { ROUTES } from '../../lib/routes';
 
 const PROGRAMS_OVERVIEW_URL = `${ROUTES.programs.url}?utm_source=website&utm_campaign=homepage-programs`;
-
-const TRACK_BY_SLUG: Record<GrantProgramSlug, string> = {
-  'rapid-grants': 'Funding',
-  'career-transition-grant': 'Funding',
-  'technical-ai-safety-project-sprint': 'Build',
-  'incubator-week': 'Launch',
-};
 
 const GrantsSection = () => {
   const activePrograms = GRANT_PROGRAMS.filter((p) => p.status === 'Active');
@@ -35,7 +28,7 @@ const GrantsSection = () => {
                 className="group flex h-full flex-col gap-3 rounded-xl border border-bluedot-navy/10 bg-white p-6 transition-colors hover:border-bluedot-navy/20"
               >
                 <p className="text-[11px] font-semibold uppercase tracking-[0.5px] text-bluedot-normal">
-                  {TRACK_BY_SLUG[program.slug]}
+                  {program.track}
                 </p>
                 <h3 className="text-[18px] min-[680px]:text-[20px] font-semibold leading-tight text-bluedot-navy">
                   {program.title}
@@ -44,7 +37,7 @@ const GrantsSection = () => {
                   {program.goal}
                 </p>
                 <span className="mt-auto pt-2 inline-flex items-center gap-1 text-[14px] font-medium text-bluedot-normal">
-                  <span className="transition-transform group-hover:-translate-x-0.5 group-focus-visible:-translate-x-0.5">
+                  <span className="transition-transform group-hover:translate-x-0.5 group-focus-visible:translate-x-0.5">
                     Learn more
                   </span>
                   <span aria-hidden="true" className="opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
