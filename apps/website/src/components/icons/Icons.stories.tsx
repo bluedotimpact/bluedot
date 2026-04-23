@@ -18,6 +18,7 @@ import { SwitchUserIcon } from './SwitchUserIcon';
 import { ThumbIcon } from './ThumbIcon';
 import { UndoIcon } from './UndoIcon';
 import { UserIcon } from './UserIcon';
+import { VideoIcon } from './VideoIcon';
 
 type IconCellProps = {
   name: string;
@@ -65,6 +66,7 @@ const Gallery = () => (
         <IconCell name="SwitchUserIcon"><SwitchUserIcon /></IconCell>
         <IconCell name="UndoIcon"><UndoIcon /></IconCell>
         <IconCell name="UserIcon"><UserIcon size={24} /></IconCell>
+        <IconCell name="VideoIcon"><VideoIcon size={24} /></IconCell>
       </Grid>
     </Section>
 
