@@ -506,6 +506,94 @@ You need to make two PRs:
 
 All components in `libraries/ui` follow Bluedot branding. **Always reuse these components instead of creating new ones when possible.**
 
+### Adding a New Icon
+
+Custom SVG icons live in `apps/website/src/components/icons/`. They share a common API via `IconProps` (see `icons/types.ts`) so callers can control size and color consistently.
+
+#### Interface
+
+All icons accept:
+
+- `size?: number | string` — defaults to a sensible value per icon (usually the viewBox dimension). Sets both width and height.
+- `className?: string` — Tailwind utility classes; use `text-*` to color (icons use `currentColor` internally).
+- All other SVG props (via `SVGProps<SVGSVGElement>`), spread onto the `<svg>` element.
+
+Color comes from `currentColor`, driven by the caller's `text-*` class or a parent with `color` set.
+
+#### Template (single-color icon)
+
+```tsx
+import type { IconProps } from './types';
+
+export const ExampleIcon = ({ size = 20, ...props }: IconProps) => (
+  <svg
+    viewBox="0 0 20 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    {...props}
+  >
+    <path
+      d="..."
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+```
+
+Usage:
+
+```tsx
+<ExampleIcon className="text-bluedot-navy" size={24} />
+```
+
+#### When the base `IconProps` isn't enough
+
+Some icons need extra state (e.g., `isActive`, `filled`, `variant`) or multiple colors. Extend `IconProps` with an intersection:
+
+```tsx
+type ChunkIconProps = IconProps & {
+  isActive?: boolean;
+};
+
+export const ChunkIcon = ({ isActive, size = 24, className, ...props }: ChunkIconProps) => ( ... );
+```
+
+For dual-tone icons, `Omit` the conflicting SVG attribute so TypeScript catches misuse:
+
+```tsx
+type InfoIconProps = Omit<IconProps, 'fill'> & {
+  bgFill?: string;
+  fgFill?: string;
+};
+```
+
+For non-square icons with a fixed aspect ratio, narrow `size` to `number` so the height calculation is safe:
+
+```tsx
+type DocumentIconProps = Omit<IconProps, 'size'> & {
+  size?: number;
+};
+```
+
+#### Updating the gallery story
+
+All icons are previewed in `apps/website/src/components/icons/Icons.stories.tsx`. When adding an icon, register it in the appropriate section:
+
+1. Import the new icon at the top of the file.
+2. Add an `<IconCell name="YourIcon">...</IconCell>` to the right `<Section>`:
+   - **Single-color icons** — simple icons using only `currentColor`.
+   - **Compound icons** — icons wrapped in a `<div>` (e.g., bordered circles).
+   - **Stateful / multi-variant icons** — render one cell per state (e.g., active/inactive).
+   - **Dual-tone icons** — render the default, plus a variant showing custom colors.
+3. If the icon has a non-default size or color baked into the variant, pass those as props on the `<IconCell>` so the preview matches real usage.
+
+Run the gallery locally with `cd apps/storybook && npm start` and open **website/icons/Gallery → AllIcons**.
+
 ---
 
 ## 6. Deployment & DevOps

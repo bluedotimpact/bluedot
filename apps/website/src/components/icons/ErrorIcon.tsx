@@ -1,21 +1,17 @@
 import { cn } from '@bluedot/ui';
+import type { IconProps } from './types';
 
-type ErrorIconProps = {
-  className?: string;
-  size?: number;
-};
-
-export const ErrorIcon = ({ className, size = 16 }: ErrorIconProps) => (
-  <div
-    className={cn(
-      'relative box-border flex items-center justify-center rounded-full text-[#DC0000]',
-      'border-[1.25px] border-current',
-      className,
-    )}
-    style={{ width: size, height: size }}
+export const ErrorIcon = ({ size = 16, className, ...props }: IconProps) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 16 16"
+    fill="none"
+    width={size}
+    height={size}
+    className={cn('text-[#DC0000]', className)}
+    {...props}
   >
-    <svg width={size * 0.625} height={size * 0.625} viewBox="0 0 10 10" fill="none">
-      <path d="M2 2L8 8M8 2L2 8" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" />
-    </svg>
-  </div>
+    <circle cx="8" cy="8" r="7.375" stroke="currentColor" strokeWidth="1.25" />
+    <path d="M5 5L11 11M11 5L5 11" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" />
+  </svg>
 );
