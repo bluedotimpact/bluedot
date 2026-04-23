@@ -101,6 +101,7 @@ export default [
       'arrow-body-style': 'off',
       'object-shorthand': 'off',
       'max-len': 'off',
+      'max-lines': 'off',
       'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
       'capitalized-comments': 'off',
       complexity: 'off',
