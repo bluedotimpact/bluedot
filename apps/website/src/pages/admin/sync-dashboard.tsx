@@ -2,6 +2,8 @@ import type { SyncStatus } from '@bluedot/db';
 import { useAuthStore } from '@bluedot/ui';
 import { RiLoader4Line } from 'react-icons/ri';
 import { trpc } from '../../utils/trpc';
+import { WarningTriangleIcon } from '../../components/icons/WarningTriangleIcon';
+import { WarningCircleIcon } from '../../components/icons/WarningCircleIcon';
 
 // Time formatter for 24-hour data
 function formatTimeAgo(date: Date): string {
@@ -60,9 +62,7 @@ const SyncDashboard = () => {
         <div className="bg-red-50 border border-red-200 rounded-lg p-6">
           <div className="flex items-center mb-4">
             <div className="flex-shrink-0">
-              <svg className="size-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.888-.833-2.828 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
-              </svg>
+              <WarningTriangleIcon size={32} className="text-red-600" />
             </div>
             <div className="ml-3">
               <h3 className="text-size-lg font-medium text-red-800">Access Denied</h3>
@@ -102,9 +102,7 @@ const SyncDashboard = () => {
         <div className="bg-amber-50 border border-amber-200 rounded-lg p-6">
           <div className="flex items-center mb-4">
             <div className="flex-shrink-0">
-              <svg className="size-8 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+              <WarningCircleIcon size={32} className="text-amber-600" />
             </div>
             <div className="ml-3">
               <h3 className="text-size-lg font-medium text-amber-800">Connection Error</h3>

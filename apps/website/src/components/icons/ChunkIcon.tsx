@@ -5,12 +5,7 @@ type ChunkIconProps = IconProps & {
   isActive?: boolean;
 };
 
-export const ChunkIcon = ({
-  isActive,
-  size = 24,
-  className,
-  ...props
-}: ChunkIconProps) => (
+export const ChunkIcon = ({ isActive, size = 24, className, ...props }: ChunkIconProps) => (
   <svg
     viewBox="0 0 24 24"
     fill="none"

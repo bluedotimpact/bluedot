@@ -1,5 +1,8 @@
 import { useState, type ReactNode } from 'react';
-import { CTALinkOrButton, H2, P } from '@bluedot/ui';
+import {
+  cn, CTALinkOrButton, H2, P,
+} from '@bluedot/ui';
+import { PlusToggleIcon } from '../../icons/PlusToggleIcon';
 import { type IconType } from 'react-icons';
 
 export type Persona = {
@@ -80,20 +83,12 @@ const PersonasSection = ({
                   >
                     {persona.title}
                   </span>
-                  <svg
-                    width="16"
-                    height="17"
-                    viewBox="0 0 16 17"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className={`flex-shrink-0 transition-transform duration-300 ${isExpanded ? 'rotate-45' : ''}`}
-                  >
-                    <path
-                      d="M0 8.5H16M8 0.5L8 16.5"
-                      stroke={isExpanded ? 'white' : 'var(--bluedot-navy)'}
-                      strokeWidth="2"
-                    />
-                  </svg>
+                  <PlusToggleIcon
+                    className={cn(
+                      'flex-shrink-0 transition-transform duration-300',
+                      isExpanded ? 'text-white rotate-45' : 'text-bluedot-navy',
+                    )}
+                  />
                 </button>
 
                 {/* Content - expandable */}

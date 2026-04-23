@@ -1638,7 +1638,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   What background do I need?
                 </span>
                 <svg
-                  class="flex-shrink-0 transition-transform duration-300 ease "
+                  class="flex-shrink-0 transition-transform duration-300 ease text-[#001133]"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1647,7 +1647,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 >
                   <path
                     d="M0 8.5H16M8 0.5L8 16.5"
-                    stroke="#001133"
+                    stroke="currentColor"
                     stroke-width="2"
                   />
                 </svg>
@@ -1686,7 +1686,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   Is this course for beginners?
                 </span>
                 <svg
-                  class="flex-shrink-0 transition-transform duration-300 ease "
+                  class="flex-shrink-0 transition-transform duration-300 ease text-[#001133]"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1695,7 +1695,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 >
                   <path
                     d="M0 8.5H16M8 0.5L8 16.5"
-                    stroke="#001133"
+                    stroke="currentColor"
                     stroke-width="2"
                   />
                 </svg>
@@ -1734,7 +1734,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   What's the difference between intensive and part-time?
                 </span>
                 <svg
-                  class="flex-shrink-0 transition-transform duration-300 ease "
+                  class="flex-shrink-0 transition-transform duration-300 ease text-[#001133]"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1743,7 +1743,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 >
                   <path
                     d="M0 8.5H16M8 0.5L8 16.5"
-                    stroke="#001133"
+                    stroke="currentColor"
                     stroke-width="2"
                   />
                 </svg>
@@ -1782,7 +1782,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   What if I don't know which direction I want to go?
                 </span>
                 <svg
-                  class="flex-shrink-0 transition-transform duration-300 ease "
+                  class="flex-shrink-0 transition-transform duration-300 ease text-[#001133]"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1791,7 +1791,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 >
                   <path
                     d="M0 8.5H16M8 0.5L8 16.5"
-                    stroke="#001133"
+                    stroke="currentColor"
                     stroke-width="2"
                   />
                 </svg>
@@ -1830,7 +1830,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   Is there funding available?
                 </span>
                 <svg
-                  class="flex-shrink-0 transition-transform duration-300 ease "
+                  class="flex-shrink-0 transition-transform duration-300 ease text-[#001133]"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1839,7 +1839,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 >
                   <path
                     d="M0 8.5H16M8 0.5L8 16.5"
-                    stroke="#001133"
+                    stroke="currentColor"
                     stroke-width="2"
                   />
                 </svg>
@@ -1897,7 +1897,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   Is it really free?
                 </span>
                 <svg
-                  class="flex-shrink-0 transition-transform duration-300 ease "
+                  class="flex-shrink-0 transition-transform duration-300 ease text-[#001133]"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1906,7 +1906,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 >
                   <path
                     d="M0 8.5H16M8 0.5L8 16.5"
-                    stroke="#001133"
+                    stroke="currentColor"
                     stroke-width="2"
                   />
                 </svg>
@@ -1945,7 +1945,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   Who is BlueDot Impact?
                 </span>
                 <svg
-                  class="flex-shrink-0 transition-transform duration-300 ease "
+                  class="flex-shrink-0 transition-transform duration-300 ease text-[#001133]"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1954,7 +1954,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 >
                   <path
                     d="M0 8.5H16M8 0.5L8 16.5"
-                    stroke="#001133"
+                    stroke="currentColor"
                     stroke-width="2"
                   />
                 </svg>

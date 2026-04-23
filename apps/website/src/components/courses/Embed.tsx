@@ -1,5 +1,7 @@
 import clsx from 'clsx';
 import type React from 'react';
+import { ExternalLinkIcon } from '../icons/ExternalLinkIcon';
+import { MusicNoteIcon } from '../icons/MusicNoteIcon';
 
 type EmbedProps = {
   url: string;
@@ -33,9 +35,7 @@ const Embed: React.FC<EmbedProps> = ({
         <div className="p-5 pb-4">
           <div className="flex items-center gap-4">
             <div className="size-12 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
-              <svg className="size-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z" />
-              </svg>
+              <MusicNoteIcon className="text-white" size={24} />
             </div>
             <div className="flex-1">
               <h3 className="text-size-lg font-semibold text-gray-800">Suno AI Music</h3>
@@ -46,9 +46,7 @@ const Embed: React.FC<EmbedProps> = ({
                 className="text-size-sm text-gray-600 hover:text-purple-600 transition-colors inline-flex items-center gap-1"
               >
                 AI-generated music from Suno
-                <svg className="size-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
+                <ExternalLinkIcon size={12} />
               </a>
             </div>
           </div>
