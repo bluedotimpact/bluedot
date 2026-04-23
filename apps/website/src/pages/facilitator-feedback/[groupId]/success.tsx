@@ -48,6 +48,11 @@ const FacilitatorFeedbackSuccessPage = () => {
     if (allComplete) setShowConfetti(true);
   }, [data, meetPersonId]);
 
+  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
+  useEffect(() => {
+    setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+  }, []);
+
   if (isLoading || !router.isReady || !data || notSubmitted) {
     return (
       <div className="min-h-screen bg-cream-normal flex items-center justify-center">
@@ -81,9 +86,25 @@ const FacilitatorFeedbackSuccessPage = () => {
         <title>{data.roundName ? `Feedback submitted · ${data.roundName}` : 'Feedback submitted'} | BlueDot Impact</title>
       </Head>
 
-      {showConfetti && (
+      {showConfetti && windowSize.width > 0 && (
         <div className="fixed inset-0 pointer-events-none z-50">
-          <Confetti numberOfPieces={300} recycle={false} />
+          <Confetti
+            width={windowSize.width}
+            height={windowSize.height}
+            numberOfPieces={120}
+            recycle={false}
+            confettiSource={{
+              x: windowSize.width * 0.2,
+              y: 80,
+              w: windowSize.width * 0.6,
+              h: 150,
+            }}
+            initialVelocityX={{ min: -20, max: 20 }}
+            initialVelocityY={{ min: -8, max: 18 }}
+            friction={0.96}
+            gravity={0.4}
+            tweenDuration={300}
+          />
         </div>
       )}
 
