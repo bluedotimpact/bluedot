@@ -40,7 +40,7 @@ const GrantsSection = () => {
                   <span className="transition-transform group-hover:translate-x-0.5 group-focus-visible:translate-x-0.5">
                     Learn more
                   </span>
-                  <span aria-hidden="true" className="opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+                  <span aria-hidden="true" className="opacity-60 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
                     →
                   </span>
                 </span>

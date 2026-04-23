@@ -55,7 +55,7 @@ exports[`GrantsSection > renders default as expected 1`] = `
               </span>
               <span
                 aria-hidden="true"
-                class="opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                class="opacity-60 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
               >
                 →
               </span>
@@ -92,7 +92,7 @@ exports[`GrantsSection > renders default as expected 1`] = `
               </span>
               <span
                 aria-hidden="true"
-                class="opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                class="opacity-60 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
               >
                 →
               </span>
@@ -129,7 +129,7 @@ exports[`GrantsSection > renders default as expected 1`] = `
               </span>
               <span
                 aria-hidden="true"
-                class="opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                class="opacity-60 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
               >
                 →
               </span>
