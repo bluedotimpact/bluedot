@@ -114,12 +114,17 @@ const ProgramGroup = ({ label, programs }: { label: string; programs: ProgramIte
 };
 
 const ProgramsPage = () => {
-  const { data: stats } = trpc.grants.getRapidGrantStats.useQuery();
+  const { data: rapidStats } = trpc.grants.getRapidGrantStats.useQuery();
+  const { data: ctStats } = trpc.grants.getCareerTransitionGrantStats.useQuery();
 
-  // Fallback strings render while the query is loading (stats === undefined).
+  const pluralizeGrants = (count: number) => `${count} ${count === 1 ? 'grant' : 'grants'}`;
+
+  // Fallback strings render while each query is loading (stats === undefined).
   // Once stats resolves, show real values even if count/amount are 0.
-  const fundingGivenOutLabel = stats ? formatAmountUsd(stats.totalAmountUsd) : '$50k+';
-  const grantsMadeLabel = stats ? `${stats.count} grants` : 'many grants';
+  const rapidFundingLabel = rapidStats ? formatAmountUsd(rapidStats.totalAmountUsd) : '$50k+';
+  const rapidGrantsLabel = rapidStats ? pluralizeGrants(rapidStats.count) : 'many grants';
+  const ctFundingLabel = ctStats ? formatAmountUsd(ctStats.totalAmountUsd) : '$50k+';
+  const ctGrantsLabel = ctStats ? pluralizeGrants(ctStats.count) : 'a handful of grants';
 
   const programs: ProgramItem[] = [
     {
@@ -129,17 +134,17 @@ const ProgramsPage = () => {
       status: 'Active',
       href: '/programs/rapid-grants',
       summary: 'Small, fast funding for concrete AI safety work.',
-      detail: `Five-minute application, decisions in days, money upfront by default. ${fundingGivenOutLabel} deployed so far across ${grantsMadeLabel}.`,
+      detail: `Five-minute application, decisions in days, money upfront by default. ${rapidFundingLabel} deployed so far across ${rapidGrantsLabel}.`,
       ctaLabel: 'Explore program',
     },
     {
       id: 'career-transition-grant',
-      name: 'BlueDot Career Transition Grant',
+      name: 'Career Transition Grants',
       track: 'Funding',
       status: 'Active',
       href: '/programs/career-transition-grant',
-      summary: 'Funding to work full-time on AI safety, plus intros, advising, and community.',
-      detail: 'For BlueDot community members ready to make the jump. Propose a budget and a plan; decisions after a short call.',
+      summary: 'Funding to enable you to work full-time on impactful AI safety work.',
+      detail: `Propose your plan for contributing full-time to AI safety. ${ctFundingLabel} awarded so far across ${ctGrantsLabel}.`,
       ctaLabel: 'Explore program',
     },
     {
