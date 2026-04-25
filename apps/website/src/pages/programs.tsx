@@ -147,7 +147,7 @@ const ProgramsPage = () => {
         </div>
       </section>
 
-      <div className="w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y mb-16">
+      <div className="w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y pb-16">
         <NewsletterBanner />
       </div>
     </div>
