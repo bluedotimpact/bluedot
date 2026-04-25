@@ -11,7 +11,7 @@ const StatsStripSection = () => {
 
   return (
     <section className="section section-body career-transition-grant-stats-strip">
-      <div className="w-full min-[680px]:max-w-[1120px] min-[680px]:mx-auto flex flex-col gap-6 min-[680px]:flex-row min-[680px]:items-center min-[680px]:justify-between">
+      <div className="w-full flex flex-col gap-6 min-[680px]:flex-row min-[680px]:items-center min-[680px]:justify-between">
         <div className="flex flex-wrap items-baseline gap-x-10 gap-y-3">
           <Stat label="Grants made" value={grantsMadeLabel} />
           <Stat label="Funding awarded" value={fundingAwardedLabel} />

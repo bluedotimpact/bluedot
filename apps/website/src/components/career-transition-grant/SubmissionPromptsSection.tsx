@@ -27,7 +27,7 @@ const SUBMISSION_PROMPTS = [
 const SubmissionPromptsSection = () => {
   return (
     <section className="section section-body career-transition-grant-prompts-section">
-      <div className="w-full min-[680px]:max-w-[1120px] min-[680px]:mx-auto flex flex-col gap-6">
+      <div className="w-full flex flex-col gap-6">
         <h3 className={pageSectionHeadingClass}>What to submit</h3>
 
         <P>Put together a 1-2 page proposal covering the prompts below.</P>

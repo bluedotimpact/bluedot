@@ -19,7 +19,7 @@ const NEXT_STEPS = [
 const NextStepsSection = () => {
   return (
     <section className="section section-body career-transition-grant-next-steps-section">
-      <div className="w-full min-[680px]:max-w-[1120px] min-[680px]:mx-auto flex flex-col gap-6">
+      <div className="w-full flex flex-col gap-6">
         <h3 className={pageSectionHeadingClass}>What happens next</h3>
 
         <ol className="grid gap-8 min-[680px]:gap-6 grid-cols-1 min-[680px]:grid-cols-3">

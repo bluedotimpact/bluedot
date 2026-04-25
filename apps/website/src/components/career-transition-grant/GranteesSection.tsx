@@ -63,7 +63,7 @@ const GranteesSection = () => {
 
   return (
     <section className="section section-body career-transition-grant-grantees-section">
-      <div className="w-full min-[680px]:max-w-[1120px] min-[680px]:mx-auto flex flex-col gap-6">
+      <div className="w-full flex flex-col gap-6">
         <h3 className={pageSectionHeadingClass}>Some of our grantees</h3>
         <ul className="list-none grid gap-4 grid-cols-1 min-[680px]:grid-cols-2 min-[1120px]:grid-cols-3">
           {visibleGrantees.map((g) => (

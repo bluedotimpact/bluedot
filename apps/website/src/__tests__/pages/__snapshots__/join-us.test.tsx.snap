@@ -574,28 +574,24 @@ exports[`JoinUsPage > should render correctly 1`] = `
     <section
       class="section section-body"
     >
-      <div
-        class="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto"
+      <h3
+        class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
       >
-        <h3
-          class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
+        Why us
+      </h3>
+      <div
+        class="flex flex-col gap-5"
+      >
+        <p
+          class="bluedot-p not-prose"
         >
-          Why us
-        </h3>
-        <div
-          class="flex flex-col gap-5"
+          We're 7 people. We just raised $25M. We're expanding from London to San Francisco in 2026 and scaling to 20 team members. If you join now, you'll shape how the organisation works, what we build, and who we become.
+        </p>
+        <p
+          class="bluedot-p not-prose"
         >
-          <p
-            class="bluedot-p not-prose"
-          >
-            We're 7 people. We just raised $25M. We're expanding from London to San Francisco in 2026 and scaling to 20 team members. If you join now, you'll shape how the organisation works, what we build, and who we become.
-          </p>
-          <p
-            class="bluedot-p not-prose"
-          >
-            On any given day you might be shipping a new course, redesigning a placements pipeline, or figuring out how to reach ten times more people. We delete bureaucracy: our expense policy is "act in BlueDot's best interest." We're a non-profit, but our salaries are benchmarked on SF tech salaries.
-          </p>
-        </div>
+          On any given day you might be shipping a new course, redesigning a placements pipeline, or figuring out how to reach ten times more people. We delete bureaucracy: our expense policy is "act in BlueDot's best interest." We're a non-profit, but our salaries are benchmarked on SF tech salaries.
+        </p>
       </div>
     </section>
     <section
@@ -605,20 +601,16 @@ exports[`JoinUsPage > should render correctly 1`] = `
         class="invisible relative bottom-48"
         id="open-roles-anchor"
       />
-      <div
-        class="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto"
+      <h3
+        class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
       >
-        <h3
-          class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
-        >
-          Open roles
-        </h3>
-        <p
-          class="bluedot-p not-prose"
-        >
-          We're not currently running any open hiring rounds at the moment.
-        </p>
-      </div>
+        Open roles
+      </h3>
+      <p
+        class="bluedot-p not-prose"
+      >
+        We're not currently running any open hiring rounds at the moment.
+      </p>
     </section>
     <div
       class="w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y mb-16"
