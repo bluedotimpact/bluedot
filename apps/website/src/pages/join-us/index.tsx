@@ -6,8 +6,8 @@ import {
   Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
+import NewsletterBanner from '../../components/homepage/NewsletterBanner';
 import { Nav } from '../../components/Nav/Nav';
-import AboutCta from '../../components/join-us/AboutCta';
 import JobsListSection from '../../components/join-us/JobsListSection';
 import WhyUsSection from '../../components/join-us/WhyUsSection';
 import { ROUTES } from '../../lib/routes';
@@ -63,7 +63,9 @@ const JoinUsPage = () => {
       )}
       {cmsError && <ErrorSection error={cmsError} />}
       {cmsData && <JobsListSection jobs={cmsData} />}
-      <AboutCta />
+      <div className="w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y mb-16">
+        <NewsletterBanner />
+      </div>
     </div>
   );
 };

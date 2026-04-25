@@ -11,8 +11,9 @@ import {
   type BluedotRoute,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import LandingBanner from '../../components/lander/components/LandingBanner';
+import NewsletterBanner from '../../components/homepage/NewsletterBanner';
 import { Nav } from '../../components/Nav/Nav';
+import { PageListGroup, PageListRow } from '../../components/PageListRow';
 import { buildTimeDeltaString } from '../../components/events/eventsUtils';
 import { ROUTES } from '../../lib/routes';
 import type { Event } from '../../server/routers/luma';
@@ -56,42 +57,6 @@ const formatMonthLabel = (dateString: string) => new Intl.DateTimeFormat('en-US'
   month: 'long',
   year: 'numeric',
 }).format(new Date(dateString));
-
-const EventDescriptionToggle = ({
-  eventId,
-  description,
-}: {
-  eventId: string;
-  description?: string;
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  if (!description) {
-    return null;
-  }
-
-  return (
-    <div className="mt-2">
-      <button
-        type="button"
-        onClick={() => setIsOpen((currentValue) => !currentValue)}
-        className="text-[13px] font-medium text-bluedot-normal transition-colors hover:text-[#1a3599]"
-        aria-expanded={isOpen}
-        aria-controls={`event-description-${eventId}`}
-      >
-        {isOpen ? 'Hide description' : 'Show description'}
-      </button>
-      {isOpen && (
-        <p
-          id={`event-description-${eventId}`}
-          className="mt-3 whitespace-pre-line text-[16px] leading-[1.55] tracking-[-0.032px] text-bluedot-navy/78"
-        >
-          {description}
-        </p>
-      )}
-    </div>
-  );
-};
 
 const groupEventsByMonth = (events: Event[]) => {
   const groups: { month: string; events: Event[] }[] = [];
@@ -163,8 +128,8 @@ const EventsHero = () => {
 
 const EventDateBadge = ({ event }: { event: Event }) => {
   return (
-    <div className="flex size-[68px] shrink-0 flex-col overflow-hidden rounded-[16px] border border-[#D6E3F4] bg-white shadow-[0_10px_28px_rgba(7,31,72,0.08)]">
-      <div className="flex items-center justify-center border-b border-[#D6E3F4] bg-[linear-gradient(90deg,#245EC8_0%,#3878EA_100%)] px-2 py-1.5">
+    <div className="flex size-[68px] shrink-0 flex-col overflow-hidden rounded-[12px] border border-bluedot-navy/10 bg-white">
+      <div className="flex items-center justify-center bg-bluedot-normal px-2 py-1.5">
         <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white">
           {formatMonth(event.startAt)}
         </span>
@@ -178,48 +143,39 @@ const EventDateBadge = ({ event }: { event: Event }) => {
   );
 };
 
-const EventListRow = ({
-  event,
+const EventDescriptionToggle = ({
+  eventId,
+  description,
 }: {
-  event: Event;
+  eventId: string;
+  description?: string;
 }) => {
-  const eventTitleUrl = addEventsPageUtm(event.url, 'event-title');
-  const eventLinkUrl = addEventsPageUtm(event.url, 'event-link');
+  const [isOpen, setIsOpen] = useState(false);
+
+  if (!description) {
+    return null;
+  }
 
   return (
-    <article className="rounded-[20px] border border-bluedot-navy/10 bg-white px-5 py-5 min-[680px]:px-6">
-      <div className="flex flex-col gap-4 min-[900px]:flex-row min-[900px]:items-center min-[900px]:justify-between">
-        <div className="flex flex-col gap-4 min-[680px]:flex-row min-[680px]:items-start min-[680px]:gap-5">
-          <EventDateBadge event={event} />
-
-          <div className="min-w-0">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-full border border-[#D7E4F5] bg-[#F4F8FD] px-3 py-1 text-[12px] font-semibold uppercase tracking-[0.12em] text-[#2A5FA8]">
-                {formatLocationLabel(event.location)}
-              </span>
-            </div>
-            <h3 className="mt-3 text-[19px] min-[680px]:text-[21px] font-semibold leading-[1.2] tracking-[-0.02em] text-bluedot-navy">
-              <a
-                href={eventTitleUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition-colors hover:text-[#1a3599]"
-              >
-                {event.title}
-              </a>
-            </h3>
-            <P className="mt-2">{buildTimeDeltaString(event)}</P>
-            <EventDescriptionToggle eventId={event.id} description={event.description} />
-          </div>
-        </div>
-
-        <div>
-          <CTALinkOrButton url={eventLinkUrl} target="_blank" variant="secondary" withChevron>
-            View on Luma
-          </CTALinkOrButton>
-        </div>
-      </div>
-    </article>
+    <div>
+      <button
+        type="button"
+        onClick={() => setIsOpen((currentValue) => !currentValue)}
+        className="text-[13px] font-medium text-bluedot-normal transition-colors hover:text-[#1a3599]"
+        aria-expanded={isOpen}
+        aria-controls={`event-description-${eventId}`}
+      >
+        {isOpen ? 'Hide description' : 'Show description'}
+      </button>
+      {isOpen && (
+        <p
+          id={`event-description-${eventId}`}
+          className="mt-3 whitespace-pre-line text-[15px] leading-[1.55] tracking-[-0.032px] text-bluedot-navy/78"
+        >
+          {description}
+        </p>
+      )}
+    </div>
   );
 };
 
@@ -228,7 +184,6 @@ const EventsPage = () => {
   const [selectedFilter, setSelectedFilter] = useState<EventFilterKey>('all');
   const topCalendarUrl = addEventsPageUtm(LUMA_CALENDAR_URL, 'top-cta');
   const emptyCalendarUrl = addEventsPageUtm(LUMA_CALENDAR_URL, 'empty-cta');
-  const footerCalendarUrl = addEventsPageUtm(LUMA_CALENDAR_URL, 'footer-banner');
 
   const upcomingEvents = events ?? [];
   const visibleEvents = upcomingEvents.slice(0, VISIBLE_EVENTS_COUNT);
@@ -257,6 +212,25 @@ const EventsPage = () => {
   const groupedListEvents = groupEventsByMonth(filteredListEvents);
   const showFilters = visibleEvents.length >= 4 && availableFilters.length > 1;
 
+  const renderEventRow = (event: Event) => {
+    const eventLinkUrl = addEventsPageUtm(event.url, 'event-link');
+    const meta = `${formatLocationLabel(event.location)} · ${buildTimeDeltaString(event)}`;
+    return (
+      <PageListRow
+        key={event.id}
+        href={eventLinkUrl}
+        title={event.title}
+        meta={meta}
+        external
+        fullyClickable={false}
+        ctaLabel="View on Luma"
+        leadingSlot={<EventDateBadge event={event} />}
+      >
+        <EventDescriptionToggle eventId={event.id} description={event.description} />
+      </PageListRow>
+    );
+  };
+
   return (
     <div>
       <Head>
@@ -270,8 +244,8 @@ const EventsPage = () => {
       <EventsHero />
       <Breadcrumbs route={CURRENT_ROUTE} />
 
-      <Section className="events-featured-section">
-        <div className="flex flex-col gap-8">
+      <Section title="Upcoming events" className="events-featured-section">
+        <div className="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto flex flex-col gap-8">
           <div
             id={UPCOMING_EVENTS_ANCHOR}
             className="scroll-mt-28 flex flex-col gap-4 min-[960px]:flex-row min-[960px]:items-end min-[960px]:justify-between"
@@ -295,9 +269,9 @@ const EventsPage = () => {
           {error && <ErrorSection error={error} />}
 
           {!isLoading && !error && visibleEvents.length > 0 && (
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-10">
               {showFilters && (
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-2">
                   {availableFilters.map((filter) => {
                     const isActive = activeFilter === filter;
 
@@ -307,8 +281,8 @@ const EventsPage = () => {
                         type="button"
                         onClick={() => setSelectedFilter(filter)}
                         className={isActive
-                          ? 'inline-flex items-center justify-center rounded-full bg-bluedot-navy px-4 py-2 text-[14px] font-medium text-white'
-                          : 'inline-flex items-center justify-center rounded-full border border-bluedot-navy/12 bg-white px-4 py-2 text-[14px] font-medium text-bluedot-navy transition-colors hover:border-bluedot-navy/22'}
+                          ? 'inline-flex items-center justify-center rounded-full bg-bluedot-navy px-4 py-1.5 text-[13px] font-medium text-white'
+                          : 'inline-flex items-center justify-center rounded-full border border-bluedot-navy/15 bg-white px-4 py-1.5 text-[13px] font-medium text-bluedot-navy/72 transition-colors hover:border-bluedot-navy/30 hover:text-bluedot-navy'}
                         aria-pressed={isActive}
                       >
                         {FILTER_LABELS[filter]}
@@ -318,31 +292,22 @@ const EventsPage = () => {
                 </div>
               )}
 
-              <div className="flex flex-col gap-10">
+              <div className="flex flex-col gap-12">
                 {groupedListEvents.length > 0 ? (
                   groupedListEvents.map((group) => (
-                    <div key={group.month}>
-                      <h3 className="text-[18px] min-[680px]:text-[20px] font-semibold leading-[1.15] tracking-[-0.02em] text-bluedot-navy">
-                        {group.month}
-                      </h3>
-                      <div className="mt-4 flex flex-col gap-4">
-                        {group.events.map((event) => (
-                          <EventListRow key={event.id} event={event} />
-                        ))}
-                      </div>
-                    </div>
+                    <PageListGroup key={group.month} label={group.month}>
+                      {group.events.map(renderEventRow)}
+                    </PageListGroup>
                   ))
                 ) : (
-                  <div className="rounded-[20px] border border-bluedot-navy/10 bg-white px-5 py-6">
-                    <P>No events match this filter right now.</P>
-                  </div>
+                  <P>No events match this filter right now.</P>
                 )}
               </div>
             </div>
           )}
 
           {!isLoading && !error && upcomingEvents.length === 0 && (
-            <div className="rounded-[24px] border border-bluedot-navy/10 bg-white px-6 py-8">
+            <div>
               <P>No upcoming events are showing right now. Check the Luma calendar directly for the latest updates.</P>
               <div className="mt-5">
                 <CTALinkOrButton url={emptyCalendarUrl} target="_blank">
@@ -354,16 +319,9 @@ const EventsPage = () => {
         </div>
       </Section>
 
-      <LandingBanner
-        title="Keep pace with the BlueDot community calendar"
-        ctaText="Open the Luma calendar"
-        ctaUrl={footerCalendarUrl}
-        imageSrc="/images/courses/courses-gradient.webp"
-        imageAlt="BlueDot gradient banner"
-        iconSrc="/images/logo/BlueDot_Impact_Icon_White.svg"
-        iconAlt="BlueDot icon"
-        noiseImageSrc="/images/agi-strategy/noise.webp"
-      />
+      <div className="w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y mb-16">
+        <NewsletterBanner />
+      </div>
     </div>
   );
 };
