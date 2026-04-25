@@ -30,6 +30,8 @@ const accentBarClassName = clsx(
 
 const arrowCtaClassName = 'ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal min-[680px]:ml-6 min-[680px]:whitespace-nowrap';
 
+export const pageSectionHeadingClass = 'text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy';
+
 const titleClassName = 'text-[15px] leading-[1.45] font-semibold text-bluedot-navy';
 const summaryClassName = 'mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62';
 const metaClassName = 'mt-1 text-[15px] leading-[1.6] text-bluedot-navy/50';
@@ -139,7 +141,7 @@ export const PageListGroup: React.FC<PageListGroupProps> = ({ label, children, c
   return (
     <div className={clsx('flex flex-col gap-6', className)}>
       {label && (
-        <h3 className="text-[15px] font-semibold uppercase tracking-[0.45px] leading-tight text-bluedot-navy text-center min-[680px]:text-left">
+        <h3 className={pageSectionHeadingClass}>
           {label}
         </h3>
       )}

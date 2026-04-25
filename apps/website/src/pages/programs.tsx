@@ -115,7 +115,7 @@ const ProgramsPage = () => {
   );
 
   return (
-    <div className="bg-white min-[680px]:pb-16 min-[1280px]:pb-24">
+    <div className="bg-white">
       <Head>
         <title>Programs | BlueDot Impact</title>
         <meta
@@ -133,7 +133,7 @@ const ProgramsPage = () => {
             <PageListGroup label="Active">
               {activePrograms.map(renderRow)}
             </PageListGroup>
-            <PageListGroup label="On Hiatus">
+            <PageListGroup label="On hiatus">
               {pausedPrograms.map(renderRow)}
             </PageListGroup>
           </div>
@@ -146,12 +146,12 @@ const ProgramsPage = () => {
               Explore courses instead
             </CTALinkOrButton>
           </div>
-
-          <div className="w-full pt-8 min-[680px]:pt-12 min-[1024px]:pt-14">
-            <NewsletterBanner />
-          </div>
         </div>
       </section>
+
+      <div className="w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y mb-16">
+        <NewsletterBanner />
+      </div>
     </div>
   );
 };

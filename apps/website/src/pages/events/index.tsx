@@ -7,7 +7,6 @@ import {
   H1,
   P,
   ProgressDots,
-  Section,
   type BluedotRoute,
 } from '@bluedot/ui';
 import Head from 'next/head';
@@ -143,42 +142,6 @@ const EventDateBadge = ({ event }: { event: Event }) => {
   );
 };
 
-const EventDescriptionToggle = ({
-  eventId,
-  description,
-}: {
-  eventId: string;
-  description?: string;
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  if (!description) {
-    return null;
-  }
-
-  return (
-    <div>
-      <button
-        type="button"
-        onClick={() => setIsOpen((currentValue) => !currentValue)}
-        className="text-[13px] font-medium text-bluedot-normal transition-colors hover:text-[#1a3599]"
-        aria-expanded={isOpen}
-        aria-controls={`event-description-${eventId}`}
-      >
-        {isOpen ? 'Hide description' : 'Show description'}
-      </button>
-      {isOpen && (
-        <p
-          id={`event-description-${eventId}`}
-          className="mt-3 whitespace-pre-line text-[15px] leading-[1.55] tracking-[-0.032px] text-bluedot-navy/78"
-        >
-          {description}
-        </p>
-      )}
-    </div>
-  );
-};
-
 const EventsPage = () => {
   const { data: events, isLoading, error } = trpc.luma.getUpcomingEvents.useQuery();
   const [selectedFilter, setSelectedFilter] = useState<EventFilterKey>('all');
@@ -222,12 +185,9 @@ const EventsPage = () => {
         title={event.title}
         meta={meta}
         external
-        fullyClickable={false}
         ctaLabel="View on Luma"
         leadingSlot={<EventDateBadge event={event} />}
-      >
-        <EventDescriptionToggle eventId={event.id} description={event.description} />
-      </PageListRow>
+      />
     );
   };
 
@@ -244,7 +204,7 @@ const EventsPage = () => {
       <EventsHero />
       <Breadcrumbs route={CURRENT_ROUTE} />
 
-      <Section title="Upcoming events" className="events-featured-section">
+      <section className="section section-body events-featured-section">
         <div className="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto flex flex-col gap-8">
           <div
             id={UPCOMING_EVENTS_ANCHOR}
@@ -281,8 +241,8 @@ const EventsPage = () => {
                         type="button"
                         onClick={() => setSelectedFilter(filter)}
                         className={isActive
-                          ? 'inline-flex items-center justify-center rounded-full bg-bluedot-navy px-4 py-1.5 text-[13px] font-medium text-white'
-                          : 'inline-flex items-center justify-center rounded-full border border-bluedot-navy/15 bg-white px-4 py-1.5 text-[13px] font-medium text-bluedot-navy/72 transition-colors hover:border-bluedot-navy/30 hover:text-bluedot-navy'}
+                          ? 'inline-flex items-center justify-center rounded-md bg-bluedot-navy px-4 py-2 text-[15px] font-[450] tracking-[-0.3px] text-white'
+                          : 'inline-flex items-center justify-center rounded-md bg-bluedot-navy/10 px-4 py-2 text-[15px] font-[450] tracking-[-0.3px] text-bluedot-navy transition-colors hover:bg-bluedot-navy/15'}
                         aria-pressed={isActive}
                       >
                         {FILTER_LABELS[filter]}
@@ -317,7 +277,7 @@ const EventsPage = () => {
             </div>
           )}
         </div>
-      </Section>
+      </section>
 
       <div className="w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y mb-16">
         <NewsletterBanner />

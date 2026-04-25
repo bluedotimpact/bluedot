@@ -1,8 +1,8 @@
-import { P, Section } from '@bluedot/ui';
+import { P } from '@bluedot/ui';
 import type { inferRouterOutputs } from '@trpc/server';
 import { ROUTES } from '../../lib/routes';
 import type { AppRouter } from '../../server/routers/_app';
-import { PageListGroup, PageListRow } from '../PageListRow';
+import { PageListGroup, PageListRow, pageSectionHeadingClass } from '../PageListRow';
 
 type JobsListSectionProps = inferRouterOutputs<AppRouter>['jobs']['getAll'];
 
@@ -25,27 +25,30 @@ const JobsListSection = ({ jobs }: { jobs: JobsListSectionProps }) => {
 
   return (
     <>
-      <Section title="Open roles">
+      <section className="section section-body">
         <div id="open-roles-anchor" className="invisible relative bottom-48" />
         <div className="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto">
           {regularJobs.length === 0 ? (
-            <P>We're not currently running any open hiring rounds at the moment.</P>
+            <>
+              <h3 className={`${pageSectionHeadingClass} mb-6`}>Open roles</h3>
+              <P>We're not currently running any open hiring rounds at the moment.</P>
+            </>
           ) : (
-            <PageListGroup>
+            <PageListGroup label="Open roles">
               {regularJobs.map(renderRow)}
             </PageListGroup>
           )}
         </div>
-      </Section>
+      </section>
 
       {contractorJobs.length > 0 && (
-        <Section title="Support our mission">
+        <section className="section section-body">
           <div className="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto">
-            <PageListGroup>
+            <PageListGroup label="Support our mission">
               {contractorJobs.map(renderRow)}
             </PageListGroup>
           </div>
-        </Section>
+        </section>
       )}
     </>
   );

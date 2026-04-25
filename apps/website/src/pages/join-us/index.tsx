@@ -3,11 +3,11 @@ import {
   ErrorSection,
   H1,
   ProgressDots,
-  Section,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import NewsletterBanner from '../../components/homepage/NewsletterBanner';
 import { Nav } from '../../components/Nav/Nav';
+import { pageSectionHeadingClass } from '../../components/PageListRow';
 import JobsListSection from '../../components/join-us/JobsListSection';
 import WhyUsSection from '../../components/join-us/WhyUsSection';
 import { ROUTES } from '../../lib/routes';
@@ -57,9 +57,14 @@ const JoinUsPage = () => {
       <Breadcrumbs route={CURRENT_ROUTE} />
       <WhyUsSection />
       {cmsLoading && (
-        <Section title="Open roles">
-          <ProgressDots />
-        </Section>
+        <section className="section section-body">
+          <div className="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto">
+            <h3 className={`${pageSectionHeadingClass} mb-6`}>
+              Open roles
+            </h3>
+            <ProgressDots />
+          </div>
+        </section>
       )}
       {cmsError && <ErrorSection error={cmsError} />}
       {cmsData && <JobsListSection jobs={cmsData} />}
