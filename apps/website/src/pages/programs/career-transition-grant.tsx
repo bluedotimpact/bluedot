@@ -19,7 +19,7 @@ const CURRENT_ROUTE: BluedotRoute = {
 
 const CareerTransitionGrantPage = () => {
   return (
-    <div className="bg-white">
+    <div>
       <Head>
         <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
         <meta

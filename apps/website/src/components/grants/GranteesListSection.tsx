@@ -125,7 +125,9 @@ const GranteesListSection = ({
   });
 
   let previewColumns = 1;
-  if (viewportWidth >= 680) {
+  if (viewportWidth >= 1120) {
+    previewColumns = 3;
+  } else if (viewportWidth >= 680) {
     previewColumns = 2;
   }
 
@@ -204,8 +206,8 @@ const GranteesListSection = ({
           </div>
         )}
         {!!visibleGrantees?.length && (
-          <div className={cn('relative', showCollapsedPreview && 'pb-20 min-[680px]:pb-24')}>
-            <ul className="list-none grid gap-4 min-[680px]:grid-cols-2">
+          <div>
+            <ul className="list-none grid gap-4 min-[680px]:grid-cols-2 min-[1120px]:grid-cols-3">
               {visibleGrantees.map((grantee) => (
                 <li key={`${grantee.granteeName}-${grantee.projectTitle}`} className="h-full">
                   <GranteeListItem grantee={grantee} />
@@ -214,16 +216,13 @@ const GranteesListSection = ({
             </ul>
 
             {showCollapsedPreview && (
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center pb-2 min-[680px]:pb-3">
-                <div className="absolute inset-x-0 bottom-0 h-28 min-[680px]:h-32 bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.72)_34%,rgba(255,255,255,0.94)_62%,rgba(255,255,255,1)_100%)]" />
-                <div className="pointer-events-auto relative">
-                  <CTALinkOrButton
-                    variant="secondary"
-                    onClick={() => setShowAll(true)}
-                  >
-                    {`Show ${hiddenGranteeCount} more project${hiddenGranteeCount === 1 ? '' : 's'}`}
-                  </CTALinkOrButton>
-                </div>
+              <div className="mt-6 flex justify-center">
+                <CTALinkOrButton
+                  variant="secondary"
+                  onClick={() => setShowAll(true)}
+                >
+                  {`Show ${hiddenGranteeCount} more project${hiddenGranteeCount === 1 ? '' : 's'}`}
+                </CTALinkOrButton>
               </div>
             )}
           </div>

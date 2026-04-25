@@ -18,7 +18,7 @@ const DECISION_CARDS = [
 const WhatThisIsForSection = () => {
   return (
     <section className="section section-body rapid-grants-what-section">
-      <div className="w-full min-[680px]:max-w-[840px] flex flex-col gap-6">
+      <div className="w-full min-[680px]:max-w-[1120px] min-[680px]:mx-auto flex flex-col gap-6">
         <h3 className={SECTION_HEADING_CLASS}>What this program is for</h3>
 
         <div className="flex flex-col gap-5">

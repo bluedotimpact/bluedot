@@ -29,12 +29,12 @@ const SUBMISSION_PROMPTS = [
 const SubmissionPromptsSection = () => {
   return (
     <section className="section section-body career-transition-grant-prompts-section">
-      <div className="w-full min-[680px]:max-w-[840px] flex flex-col gap-6">
+      <div className="w-full min-[680px]:max-w-[1120px] min-[680px]:mx-auto flex flex-col gap-6">
         <h3 className={SECTION_HEADING_CLASS}>What to submit</h3>
 
         <P>Put together a 1-2 page proposal covering the prompts below.</P>
 
-        <div className="pt-2 grid gap-4 md:gap-5 grid-cols-1 md:grid-cols-2">
+        <div className="pt-2 grid gap-4 md:gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {SUBMISSION_PROMPTS.map((item, index) => (
             <div
               key={item.title}

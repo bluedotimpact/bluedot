@@ -39,6 +39,7 @@ const FaqSection = () => {
       id="rapid-grants-faq"
       title="Frequently asked questions"
       items={FAQ_ITEMS}
+      background="canvas"
     />
   );
 };

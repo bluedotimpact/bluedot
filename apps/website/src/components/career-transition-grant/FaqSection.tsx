@@ -24,6 +24,7 @@ const FaqSection = () => {
       id="career-transition-grant-faq"
       title="Frequently asked questions"
       items={FAQ_ITEMS}
+      background="canvas"
     />
   );
 };
