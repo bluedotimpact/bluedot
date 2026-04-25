@@ -6,8 +6,8 @@ const SECTION_HEADING_CLASS = 'text-[24px] font-bold tracking-[-0.4px] leading-[
 const FundedProjectsSection = () => {
   return (
     <section id="grants-made" className="section section-body rapid-grants-funded-section">
-      <div className="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto flex flex-col gap-6">
-        <h3 className={SECTION_HEADING_CLASS}>Projects we have funded</h3>
+      <div className="w-full min-[680px]:max-w-[840px] flex flex-col gap-6">
+        <h3 className={SECTION_HEADING_CLASS}>Projects we&apos;ve funded</h3>
         <GranteesListSection previewRows={2} />
       </div>
     </section>

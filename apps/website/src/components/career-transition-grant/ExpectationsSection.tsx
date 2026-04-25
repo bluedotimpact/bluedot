@@ -29,7 +29,7 @@ const EXPECTATIONS = [
 const ExpectationsSection = () => {
   return (
     <section className="section section-body career-transition-grant-expectations-section">
-      <div className="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto flex flex-col gap-6">
+      <div className="w-full min-[680px]:max-w-[840px] flex flex-col gap-6">
         <h3 className={SECTION_HEADING_CLASS}>What we expect from you</h3>
 
         <ul className="flex flex-col divide-y divide-bluedot-navy/10 border-y border-bluedot-navy/10">

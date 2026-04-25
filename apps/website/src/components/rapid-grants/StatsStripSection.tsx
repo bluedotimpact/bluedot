@@ -27,7 +27,7 @@ const StatsStripSection = () => {
 
   return (
     <section className="section section-body rapid-grants-stats-strip">
-      <div className="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto flex flex-col gap-6 min-[1024px]:flex-row min-[1024px]:items-center min-[1024px]:justify-between">
+      <div className="w-full min-[680px]:max-w-[840px] flex flex-col gap-6 min-[1024px]:flex-row min-[1024px]:items-center min-[1024px]:justify-between">
         <div className="grid grid-cols-2 gap-x-8 gap-y-4 min-[680px]:grid-cols-4 min-[680px]:gap-x-10">
           <Stat label="Typical grants" value="Up to $10k" />
           <Stat label="Decision time" value="~5 working days" />

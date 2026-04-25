@@ -6,15 +6,11 @@ const SECTION_HEADING_CLASS = 'text-[24px] font-bold tracking-[-0.4px] leading-[
 
 const DECISION_CARDS = [
   {
-    title: 'Good fit',
-    accentClassName: 'bg-bluedot-normal',
-    eyebrowClassName: 'text-bluedot-dark',
-    body: 'You are doing something concrete - a research project, an event series, community building, or fieldwork - and a specific cost is the bottleneck. We fund compute and API credits, events and meetups, research access, travel, community chapters, project tooling, and high-impact wildcard projects that do not fit a category yet.',
+    title: 'What we fund',
+    body: 'Concrete work where a specific cost is the bottleneck - a research project, an event series, community building, or fieldwork. We fund compute and API credits, events and meetups, research access, travel, community chapters, project tooling, and high-impact wildcard projects that do not fit a category yet.',
   },
   {
-    title: 'Use judgment',
-    accentClassName: 'bg-bluedot-navy/40',
-    eyebrowClassName: 'text-bluedot-navy/70',
+    title: 'What needs a stronger case',
     body: 'General-purpose equipment, productivity subscriptions, or vague plans without evidence of work already underway. Stipends and living expenses are not our default, but we consider them for high-impact work - apply and make the argument.',
   },
 ];
@@ -22,7 +18,7 @@ const DECISION_CARDS = [
 const WhatThisIsForSection = () => {
   return (
     <section className="section section-body rapid-grants-what-section">
-      <div className="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto flex flex-col gap-6">
+      <div className="w-full min-[680px]:max-w-[840px] flex flex-col gap-6">
         <h3 className={SECTION_HEADING_CLASS}>What this program is for</h3>
 
         <div className="flex flex-col gap-5">
@@ -40,23 +36,18 @@ const WhatThisIsForSection = () => {
           </P>
         </div>
 
-        <div className="pt-2 grid gap-4 min-[960px]:grid-cols-2">
+        <div className="pt-2 grid gap-4 min-[680px]:grid-cols-2">
           {DECISION_CARDS.map((card) => (
             <div
               key={card.title}
-              className="relative overflow-hidden rounded-[24px] border border-bluedot-navy/10 bg-white px-6 py-6 lg:px-8"
+              className="rounded-[16px] border border-bluedot-navy/10 bg-white p-6 lg:p-8 flex flex-col gap-3"
             >
-              <div className="flex flex-col gap-6">
-                <div className="flex items-center gap-3">
-                  <span className={`size-2 rounded-full ${card.accentClassName}`} />
-                  <p className={`text-[12px] font-semibold uppercase tracking-[0.14em] ${card.eyebrowClassName}`}>
-                    {card.title}
-                  </p>
-                </div>
-                <P className="max-w-[46ch] text-[15px] min-[680px]:text-[16px] leading-[1.8] text-bluedot-navy/70">
-                  {card.body}
-                </P>
-              </div>
+              <h4 className="text-[18px] min-[680px]:text-[20px] font-semibold leading-tight text-bluedot-navy">
+                {card.title}
+              </h4>
+              <P className="text-[15px] min-[680px]:text-[16px] leading-[1.7] text-bluedot-navy/70">
+                {card.body}
+              </P>
             </div>
           ))}
         </div>
