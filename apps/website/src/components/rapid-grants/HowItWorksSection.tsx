@@ -9,7 +9,7 @@ const PROCESS_STEPS = [
     number: '01',
     title: 'Apply',
     url: RAPID_GRANT_APPLICATION_URL,
-    body: 'Tell us what you are doing, what you need, and how much it costs. Five minutes, no lengthy proposals.',
+    body: 'Tell us what you\'re doing, what you need, and how much it costs. Takes five minutes.',
   },
   {
     number: '02',
@@ -19,24 +19,24 @@ const PROCESS_STEPS = [
   {
     number: '03',
     title: 'Get paid',
-    body: 'We pay upfront by default. In some cases we reimburse after - we will tell you which.',
+    body: 'We pay upfront by default; sometimes we reimburse instead. We\'ll let you know which when we approve.',
   },
   {
     number: '04',
     title: 'Do the work',
-    body: 'Use the funding for what we agreed on. If your plans change materially, let us know.',
+    body: 'Use the funding for what we agreed on. If your plan shifts, tell us.',
   },
   {
     number: '05',
     title: 'Share your impact',
-    body: 'A short update when the work is done - what you did, what came of it. No formal report, just close the loop.',
+    body: 'A short update when you\'re done. What you did, what came of it. No formal report.',
   },
 ];
 
 const COMMUNITY_CARD = {
   eyebrow: 'Beyond the grant',
   title: 'Community',
-  body: 'We keep a community of grantees, and depending on the work and timing, we may invite grant recipients into programming, events, or other opportunities.',
+  body: 'Grantees join our community: intros, event invites, and follow-on opportunities as they come up.',
 };
 
 const cardBaseClass = 'rapid-grants-step-card relative overflow-hidden rounded-lg border px-5 py-5 min-h-[188px]';

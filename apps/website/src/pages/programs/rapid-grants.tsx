@@ -27,7 +27,7 @@ const RapidGrantsPage = () => {
       </Head>
       <MarketingHero
         title="Rapid Grants"
-        subtitle="Research project, event, community chapter? We fund ambitious people doing concrete work to make AI go well."
+        subtitle="Funding for the BlueDot community to ship projects, run events, and do other concrete work on AI safety."
       />
       <Breadcrumbs route={CURRENT_ROUTE} />
       <StatsStripSection />

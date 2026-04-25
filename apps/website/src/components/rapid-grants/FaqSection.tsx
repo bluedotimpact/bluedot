@@ -3,13 +3,13 @@ import FAQSection from '../lander/components/FAQSection';
 const FAQ_ITEMS = [
   {
     id: 'unsure',
-    question: 'Should I apply if I am not sure the request is a fit?',
-    answer: 'Yes. If the work is underway and the need is concrete, applying is usually better than self-screening out too early.',
+    question: 'Should I apply if I\'m not sure it\'s a fit?',
+    answer: 'Yes. If the work\'s underway and the need is specific, just apply. Don\'t talk yourself out of it.',
   },
   {
     id: 'eligibility',
     question: 'Who is eligible?',
-    answer: 'BlueDot course participants, alumni, facilitators, and active community members. If you are in our network and doing excellent work on AI safety, you are likely eligible.',
+    answer: 'BlueDot course participants, alumni, facilitators, and active community members. If you\'re in our network and doing serious AI safety work, you qualify.',
   },
   {
     id: 'events',
@@ -19,7 +19,7 @@ const FAQ_ITEMS = [
   {
     id: 'reimbursement',
     question: 'Do you fund upfront or reimburse later?',
-    answer: 'Both. In many cases we send the money upfront as a grant, and in other cases we reimburse later.',
+    answer: 'Both. Usually we send the money upfront; sometimes we reimburse instead. We\'ll tell you which when we approve.',
   },
   {
     id: 'travel',
@@ -29,7 +29,7 @@ const FAQ_ITEMS = [
   {
     id: 'larger-request',
     question: 'What if I need more than a few thousand dollars?',
-    answer: 'Rapid Grants typically range from $50 to $10,000. If your need is substantially larger, get in touch - we may be able to help through another program.',
+    answer: 'Rapid Grants run from $50 to $10,000. If you need more, get in touch. We can sometimes route you through another program.',
   },
 ];
 

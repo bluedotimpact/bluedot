@@ -7,11 +7,11 @@ const SECTION_HEADING_CLASS = 'text-[24px] font-bold tracking-[-0.4px] leading-[
 const DECISION_CARDS = [
   {
     title: 'What we fund',
-    body: 'Concrete work where a specific cost is the bottleneck - a research project, an event series, community building, or fieldwork. We fund compute and API credits, events and meetups, research access, travel, community chapters, project tooling, and high-impact wildcard projects that do not fit a category yet.',
+    body: 'Impactful work where money is the bottleneck. Compute and API credits, events and meetups, research access, travel, community chapters, project tooling. Wildcards welcome. Pitch us.',
   },
   {
     title: 'What needs a stronger case',
-    body: 'General-purpose equipment, productivity subscriptions, or vague plans without evidence of work already underway. Stipends and living expenses are not our default, but we consider them for high-impact work - apply and make the argument.',
+    body: 'General equipment, productivity subscriptions, or plans you haven\'t started yet. Stipends and living expenses aren\'t our usual scope, but apply and make the case if yours is high-impact.',
   },
 ];
 
@@ -19,13 +19,12 @@ const WhatThisIsForSection = () => {
   return (
     <section className="section section-body rapid-grants-what-section">
       <div className="w-full min-[680px]:max-w-[1120px] min-[680px]:mx-auto flex flex-col gap-6">
-        <h3 className={SECTION_HEADING_CLASS}>What this program is for</h3>
+        <h3 className={SECTION_HEADING_CLASS}>Who this is for</h3>
 
         <div className="flex flex-col gap-5">
-          <P>Over the past few months, we have given out nearly $50,000 in small grants to people in the BlueDot community. Now we are going bigger.</P>
-          <P>Rapid Grants fund whatever it takes to remove the barrier between talented people, great ideas and their best work on AI safety. We fund everything from compute for projects, events you want to run, travel to hubs, community building, and more.</P>
+          <P>We&apos;ve given out nearly $50,000 in small grants to the BlueDot community over the past few months. Now we&apos;re scaling up. Bigger grants, more of them.</P>
           <P>
-            If you are unsure whether to apply, the default is simple:{' '}
+            If in doubt,{' '}
             <a
               href={RAPID_GRANT_APPLICATION_URL}
               className="font-medium text-bluedot-navy underline underline-offset-4"
