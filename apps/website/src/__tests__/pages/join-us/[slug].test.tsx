@@ -57,15 +57,13 @@ describe('JobPostingPage SSR/SEO', () => {
   test('renders SEO meta tags during SSR without API calls', () => {
     server.use(trpcMsw.courses.getAll.query(() => []));
 
-    renderWithHead(
-      <TrpcProvider>
-        <JobPostingPage
-          slug="ai-safety-researcher"
-          job={mockJob}
-          jobOgImage={`https://bluedot.org/images/jobs/link-preview/${mockJob.slug}.png`}
-        />
-      </TrpcProvider>,
-    );
+    renderWithHead(<TrpcProvider>
+      <JobPostingPage
+        slug="ai-safety-researcher"
+        job={mockJob}
+        jobOgImage={`https://bluedot.org/images/jobs/link-preview/${mockJob.slug}.png`}
+      />
+    </TrpcProvider>);
 
     expect(document.title).toBe('AI Safety Researcher | BlueDot Impact');
 
