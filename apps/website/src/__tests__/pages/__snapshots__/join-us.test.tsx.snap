@@ -578,7 +578,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
         class="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto"
       >
         <h3
-          class="text-[24px] font-medium tracking-[-0.4px] leading-tight text-bluedot-navy mb-6"
+          class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
         >
           Why us
         </h3>
@@ -609,7 +609,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
         class="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto"
       >
         <h3
-          class="text-[24px] font-medium tracking-[-0.4px] leading-tight text-bluedot-navy mb-6"
+          class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
         >
           Open roles
         </h3>

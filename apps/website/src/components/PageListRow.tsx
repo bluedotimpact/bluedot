@@ -132,7 +132,7 @@ export type PageListGroupProps = {
 };
 
 export const PageListGroup: React.FC<PageListGroupProps> = ({ label, children, className }) => {
-  const items = (Array.isArray(children) ? children : [children]).filter(Boolean);
+  const items = children.filter(Boolean);
 
   if (items.length === 0) {
     return null;
@@ -146,17 +146,12 @@ export const PageListGroup: React.FC<PageListGroupProps> = ({ label, children, c
         </h3>
       )}
 
-      <ul className="list-none flex flex-col gap-5">
+      <ul className="list-none flex flex-col divide-y divide-bluedot-navy/10">
         {items.map((child, index) => {
           const key = (child as React.ReactElement)?.key ?? `row-${index}`;
           return (
-            <li key={key}>
+            <li key={key} className="py-5 first:pt-0 last:pb-0">
               {child}
-              {index < items.length - 1 && (
-                <div className="relative mt-5">
-                  <div className="absolute inset-x-0 h-px bg-bluedot-navy/10" />
-                </div>
-              )}
             </li>
           );
         })}
