@@ -115,7 +115,7 @@ const ProgramsPage = () => {
   );
 
   return (
-    <div className="bg-white min-h-screen">
+    <div>
       <Head>
         <title>Programs | BlueDot Impact</title>
         <meta
@@ -147,11 +147,13 @@ const ProgramsPage = () => {
         </div>
       </section>
 
-      <div className="w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y pb-16">
+      <div className="w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y mb-16">
         <NewsletterBanner />
       </div>
     </div>
   );
 };
+
+ProgramsPage.mainBgWhite = true;
 
 export default ProgramsPage;

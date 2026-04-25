@@ -28,6 +28,7 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
   const fromSiteParam = router.query.from_site as string;
   const fromSite = ['aisf', 'bsf'].includes(fromSiteParam) ? fromSiteParam as 'aisf' | 'bsf' : null;
   const hideFooter = 'hideFooter' in Component;
+  const mainBgWhite = 'mainBgWhite' in Component && Boolean(Component.mainBgWhite);
   const { courses, loading } = useCourses();
   const { openBugReport } = useBugReport();
 
@@ -87,7 +88,7 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
       ) : (
         <>
           <Header announcementBanner={getAnnouncementBanner()} />
-          <main className="bluedot-base">
+          <main className="bluedot-base" style={mainBgWhite ? { backgroundColor: 'white', minHeight: 'auto' } : undefined}>
             <ErrorBoundary key={router.asPath}>
               <Component {...pageProps} />
             </ErrorBoundary>
