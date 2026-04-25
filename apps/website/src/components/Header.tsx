@@ -21,6 +21,7 @@ export const Header: React.FC<HeaderProps> = ({ announcementBanner }) => {
     || router.pathname === '/about'
     || router.pathname === '/events'
     || router.pathname === '/join-us'
+    || router.pathname === '/join-us/[slug]'
     || router.pathname === '/grants'
     || isCourseLander
     || isProgramsPage;
