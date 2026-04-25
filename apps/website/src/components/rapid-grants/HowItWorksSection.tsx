@@ -67,7 +67,7 @@ const StepCardBody = ({ number, title, body, eyebrowClass }: {
 const HowItWorksSection = () => {
   return (
     <section className="section section-body rapid-grants-how-section">
-      <div className="w-full min-[680px]:max-w-[1120px] min-[680px]:mx-auto flex flex-col gap-6">
+      <div className="w-full flex flex-col gap-6">
         <h3 className={pageSectionHeadingClass}>How it works</h3>
 
         <div className="grid gap-4 min-[680px]:grid-cols-2 min-[960px]:grid-cols-3">
