@@ -39,6 +39,7 @@ const StatsStripSection = () => {
             variant="primary"
             withChevron
             url={RAPID_GRANT_APPLICATION_URL}
+            target="_blank"
           >
             Apply now
           </CTALinkOrButton>

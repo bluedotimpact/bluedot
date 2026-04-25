@@ -76,6 +76,8 @@ const HowItWorksSection = () => {
               <a
                 key={step.title}
                 href={step.url}
+                target="_blank"
+                rel="noopener noreferrer"
                 className={`${accentCardClass} block cursor-pointer`}
               >
                 <StepCardBody

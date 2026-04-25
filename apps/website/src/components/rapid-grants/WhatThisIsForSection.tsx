@@ -25,6 +25,8 @@ const WhatThisIsForSection = () => {
             If in doubt,{' '}
             <a
               href={RAPID_GRANT_APPLICATION_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="font-medium text-bluedot-navy underline underline-offset-4"
             >
               apply

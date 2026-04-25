@@ -8,6 +8,7 @@ const Cta = () => {
         variant="primary"
         withChevron
         url={CAREER_TRANSITION_GRANT_APPLICATION_URL}
+        target="_blank"
       >
         Apply now
       </CTALinkOrButton>

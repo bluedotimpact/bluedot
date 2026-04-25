@@ -32,7 +32,7 @@ const SubmissionPromptsSection = () => {
 
         <P>Put together a 1-2 page proposal covering the prompts below.</P>
 
-        <div className="pt-2 grid gap-4 md:gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <div className="pt-2 grid gap-4 min-[680px]:gap-5 grid-cols-1 min-[680px]:grid-cols-2 min-[1024px]:grid-cols-3">
           {SUBMISSION_PROMPTS.map((item, index) => (
             <div
               key={item.title}
