@@ -3,7 +3,6 @@ import {
 } from '@bluedot/ui';
 import type { inferRouterOutputs } from '@trpc/server';
 import { useState } from 'react';
-import { RiSearchLine } from 'react-icons/ri';
 import type { AppRouter } from '../../server/routers/_app';
 import { formatAmountUsd } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
@@ -63,34 +62,18 @@ const GranteesListSection = ({
 }: GranteesListSectionProps) => {
   const { data: grantees, isLoading, error } = trpc.grants.getAllPublicRapidGrantees.useQuery();
   const [showAll, setShowAll] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
 
   if (error) {
     return <ErrorSection error={error} />;
   }
 
-  const normalizedSearchTerm = searchTerm.trim().toLowerCase();
-  const filteredGrantees = grantees?.filter((grantee) => {
-    if (!normalizedSearchTerm) {
-      return true;
-    }
-
-    const searchableText = [
-      grantee.projectTitle,
-      grantee.granteeName,
-      grantee.projectSummary ?? '',
-    ].join(' ').toLowerCase();
-
-    return searchableText.includes(normalizedSearchTerm);
-  });
-
-  const shouldLimitResults = !!limit && !showAll && !normalizedSearchTerm;
+  const shouldLimitResults = !!limit && !showAll;
   const visibleGrantees = shouldLimitResults
-    ? filteredGrantees?.slice(0, limit)
-    : filteredGrantees;
-  const hasHiddenGrantees = !!limit && !normalizedSearchTerm && !!filteredGrantees && filteredGrantees.length > limit;
-  const hiddenGranteeCount = hasHiddenGrantees && limit && filteredGrantees
-    ? filteredGrantees.length - limit
+    ? grantees?.slice(0, limit)
+    : grantees;
+  const hasHiddenGrantees = !!limit && !!grantees && grantees.length > limit;
+  const hiddenGranteeCount = hasHiddenGrantees && limit && grantees
+    ? grantees.length - limit
     : 0;
   const showCollapsedPreview = hasHiddenGrantees && !showAll;
 
@@ -99,94 +82,58 @@ const GranteesListSection = ({
       id={id}
       className="w-full scroll-mt-28"
     >
-      <div>
-        <div className="mb-8 min-[680px]:mb-10 flex flex-col gap-5 min-[960px]:flex-row min-[960px]:items-end min-[960px]:justify-between">
-          {(title ?? subtitle) && (
-            <div className="max-w-[760px]">
-              {title && (
-                <h2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy">
-                  {title}
-                </h2>
-              )}
-              {subtitle && (
-                <P className="text-[16px] min-[680px]:text-[18px] leading-[160%] text-bluedot-navy/75 mt-4">
-                  {subtitle}
-                </P>
-              )}
-            </div>
+      {(title ?? subtitle) && (
+        <div className="mb-8 min-[680px]:mb-10 max-w-[760px]">
+          {title && (
+            <h2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy">
+              {title}
+            </h2>
           )}
+          {subtitle && (
+            <P className="text-[16px] min-[680px]:text-[18px] leading-[160%] text-bluedot-navy/75 mt-4">
+              {subtitle}
+            </P>
+          )}
+        </div>
+      )}
 
-          <div className="flex flex-col gap-3 min-[680px]:flex-row min-[680px]:items-center min-[680px]:gap-4 min-[960px]:max-w-[unset]">
-            <label className="flex w-full min-[960px]:w-[340px] items-center gap-2 rounded-[8px] border border-bluedot-navy/12 bg-white px-3 py-2.5 font-sans">
-              <RiSearchLine className="shrink-0 text-bluedot-navy/40" size={18} />
-              <input
-                type="search"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search projects or grantees"
-                className="w-full border-0 bg-transparent font-sans text-[15px] text-bluedot-navy outline-none placeholder:text-bluedot-navy/42"
-                aria-label="Search projects or grantees"
+      {isLoading && <ProgressDots />}
+      {!isLoading && (!grantees || grantees.length === 0) && (
+        <P>No grants to show yet.</P>
+      )}
+      {!!visibleGrantees?.length && (
+        <div>
+          <PageListGroup>
+            {visibleGrantees.map((grantee) => (
+              <GranteeRow
+                key={`${grantee.granteeName}-${grantee.projectTitle}`}
+                grantee={grantee}
               />
-            </label>
-            {hasHiddenGrantees && showAll && (
+            ))}
+          </PageListGroup>
+
+          {showCollapsedPreview && (
+            <div className="mt-6 flex justify-center">
               <CTALinkOrButton
                 variant="secondary"
-                onClick={() => setShowAll(false)}
+                onClick={() => setShowAll(true)}
               >
-                Show fewer projects
+                {`Show ${hiddenGranteeCount} more project${hiddenGranteeCount === 1 ? '' : 's'}`}
               </CTALinkOrButton>
-            )}
-          </div>
+            </div>
+          )}
         </div>
-
-        {isLoading && <ProgressDots />}
-        {!isLoading && (!grantees || grantees.length === 0) && (
-          <P>No grants to show yet.</P>
-        )}
-        {!isLoading && !!grantees?.length && normalizedSearchTerm && (
-          <P className="mb-5 text-[14px] text-bluedot-navy/62">
-            {filteredGrantees?.length ?? 0} result{filteredGrantees?.length === 1 ? '' : 's'} for &quot;{searchTerm.trim()}&quot;
-          </P>
-        )}
-        {!isLoading && !!grantees?.length && normalizedSearchTerm && filteredGrantees?.length === 0 && (
-          <div className="rounded-[8px] border border-bluedot-navy/10 bg-white px-5 py-6">
-            <P>No projects match that search yet.</P>
-          </div>
-        )}
-        {!!visibleGrantees?.length && (
-          <div>
-            <PageListGroup>
-              {visibleGrantees.map((grantee) => (
-                <GranteeRow
-                  key={`${grantee.granteeName}-${grantee.projectTitle}`}
-                  grantee={grantee}
-                />
-              ))}
-            </PageListGroup>
-
-            {showCollapsedPreview && (
-              <div className="mt-6 flex justify-center">
-                <CTALinkOrButton
-                  variant="secondary"
-                  onClick={() => setShowAll(true)}
-                >
-                  {`Show ${hiddenGranteeCount} more project${hiddenGranteeCount === 1 ? '' : 's'}`}
-                </CTALinkOrButton>
-              </div>
-            )}
-          </div>
-        )}
-        {hasHiddenGrantees && showAll && (
-          <div className="mt-8">
-            <CTALinkOrButton
-              variant="secondary"
-              onClick={() => setShowAll(false)}
-            >
-              Show fewer projects
-            </CTALinkOrButton>
-          </div>
-        )}
-      </div>
+      )}
+      {hasHiddenGrantees && showAll && (
+        <div className="mt-8 flex justify-center">
+          <CTALinkOrButton
+            variant="secondary"
+            onClick={() => setShowAll(false)}
+          >
+            Show fewer projects
+          </CTALinkOrButton>
+        </div>
+      )}
     </div>
   );
 };
