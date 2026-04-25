@@ -286,4 +286,6 @@ const EventsPage = () => {
   );
 };
 
+EventsPage.mainShrinkToContent = true;
+
 export default EventsPage;

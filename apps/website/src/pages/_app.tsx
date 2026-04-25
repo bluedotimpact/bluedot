@@ -29,6 +29,7 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
   const fromSite = ['aisf', 'bsf'].includes(fromSiteParam) ? fromSiteParam as 'aisf' | 'bsf' : null;
   const hideFooter = 'hideFooter' in Component;
   const mainBgWhite = 'mainBgWhite' in Component && Boolean(Component.mainBgWhite);
+  const mainShrinkToContent = mainBgWhite || ('mainShrinkToContent' in Component && Boolean(Component.mainShrinkToContent));
   const { courses, loading } = useCourses();
   const { openBugReport } = useBugReport();
 
@@ -88,7 +89,13 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
       ) : (
         <>
           <Header announcementBanner={getAnnouncementBanner()} />
-          <main className="bluedot-base" style={mainBgWhite ? { backgroundColor: 'white', minHeight: 'auto' } : undefined}>
+          <main
+            className="bluedot-base"
+            style={(mainBgWhite || mainShrinkToContent) ? {
+              ...(mainBgWhite && { backgroundColor: 'white' }),
+              minHeight: 'auto',
+            } : undefined}
+          >
             <ErrorBoundary key={router.asPath}>
               <Component {...pageProps} />
             </ErrorBoundary>
