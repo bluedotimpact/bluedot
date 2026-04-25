@@ -11,7 +11,6 @@ export type PageListRowProps = {
   ctaLabel?: string;
   external?: boolean;
   leadingSlot?: React.ReactNode;
-  trailingSlot?: React.ReactNode;
   /**
    * When true (default), the entire row is a single clickable link.
    * When false, only the title text and trailing CTA are clickable —
@@ -45,7 +44,6 @@ export const PageListRow: React.FC<PageListRowProps> = ({
   ctaLabel = 'Learn more',
   external = false,
   leadingSlot,
-  trailingSlot,
   fullyClickable = true,
   children,
 }) => {
@@ -66,12 +64,6 @@ export const PageListRow: React.FC<PageListRowProps> = ({
             {children && <div className="mt-2">{children}</div>}
           </div>
         </div>
-
-        {trailingSlot && (
-          <div className="shrink-0 flex items-center min-[680px]:ml-2">
-            {trailingSlot}
-          </div>
-        )}
 
         <div className={arrowCtaClassName}>
           <span className="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1">
@@ -118,12 +110,6 @@ export const PageListRow: React.FC<PageListRowProps> = ({
           {children && <div className="mt-2">{children}</div>}
         </div>
       </div>
-
-      {trailingSlot && (
-        <div className="shrink-0 flex items-center min-[680px]:ml-2">
-          {trailingSlot}
-        </div>
-      )}
 
       <div className="ml-5 shrink-0 min-[680px]:ml-6">
         <CTALinkOrButton

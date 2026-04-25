@@ -11,16 +11,11 @@ import { PageListGroup, PageListRow } from '../PageListRow';
 
 type PublicRapidGrant = inferRouterOutputs<AppRouter>['grants']['getAllPublicRapidGrantees'][number];
 
-const AmountBadge = ({ amount }: { amount: string }) => (
-  <span className="rounded-[8px] border border-[#D7E4F5] bg-[#F4F8FD] px-2.5 py-1 text-[12px] font-semibold text-[#2A5FA8]">
-    {amount}
-  </span>
-);
-
 const GranteeRow = ({ grantee }: { grantee: PublicRapidGrant }) => {
   const amount = grantee.amountUsd !== null ? formatAmountUsd(grantee.amountUsd) : null;
-  const summary = [grantee.granteeName, grantee.projectSummary].filter(Boolean).join(' · ');
-  const trailingSlot = amount ? <AmountBadge amount={amount} /> : undefined;
+  const summary = [grantee.granteeName, amount, grantee.projectSummary]
+    .filter(Boolean)
+    .join(' · ');
 
   if (grantee.link) {
     return (
@@ -30,7 +25,6 @@ const GranteeRow = ({ grantee }: { grantee: PublicRapidGrant }) => {
         title={grantee.projectTitle}
         summary={summary}
         ctaLabel="View project"
-        trailingSlot={trailingSlot}
       />
     );
   }
@@ -50,11 +44,6 @@ const GranteeRow = ({ grantee }: { grantee: PublicRapidGrant }) => {
           )}
         </div>
       </div>
-      {trailingSlot && (
-        <div className="shrink-0 flex items-center min-[680px]:ml-2">
-          {trailingSlot}
-        </div>
-      )}
     </div>
   );
 };
