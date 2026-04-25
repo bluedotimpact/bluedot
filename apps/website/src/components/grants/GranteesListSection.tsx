@@ -167,29 +167,28 @@ const GranteesListSection = ({
             </div>
           )}
 
-          <label className="flex w-full min-[960px]:max-w-[340px] items-center gap-2 rounded-[8px] border border-bluedot-navy/12 bg-white px-3 py-2.5 font-sans">
-            <RiSearchLine className="shrink-0 text-bluedot-navy/40" size={18} />
-            <input
-              type="search"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search projects or grantees"
-              className="w-full border-0 bg-transparent font-sans text-[15px] text-bluedot-navy outline-none placeholder:text-bluedot-navy/42"
-              aria-label="Search projects or grantees"
-            />
-          </label>
-        </div>
-
-        {hasHiddenGrantees && showAll && (
-          <div className="mb-6 flex justify-end">
-            <CTALinkOrButton
-              variant="secondary"
-              onClick={() => setShowAll(false)}
-            >
-              Show fewer projects
-            </CTALinkOrButton>
+          <div className="flex flex-col gap-3 min-[680px]:flex-row min-[680px]:items-center min-[680px]:gap-4 min-[960px]:max-w-[unset]">
+            <label className="flex w-full min-[960px]:w-[340px] items-center gap-2 rounded-[8px] border border-bluedot-navy/12 bg-white px-3 py-2.5 font-sans">
+              <RiSearchLine className="shrink-0 text-bluedot-navy/40" size={18} />
+              <input
+                type="search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search projects or grantees"
+                className="w-full border-0 bg-transparent font-sans text-[15px] text-bluedot-navy outline-none placeholder:text-bluedot-navy/42"
+                aria-label="Search projects or grantees"
+              />
+            </label>
+            {hasHiddenGrantees && showAll && (
+              <CTALinkOrButton
+                variant="secondary"
+                onClick={() => setShowAll(false)}
+              >
+                Show fewer projects
+              </CTALinkOrButton>
+            )}
           </div>
-        )}
+        </div>
 
         {isLoading && <ProgressDots />}
         {!isLoading && (!grantees || grantees.length === 0) && (
