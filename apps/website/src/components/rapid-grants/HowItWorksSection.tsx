@@ -1,8 +1,6 @@
 import { P } from '@bluedot/ui';
+import { pageSectionHeadingClass } from '../PageListRow';
 import { RAPID_GRANT_APPLICATION_URL } from '../grants/grantPrograms';
-
-// TODO: replace with pageSectionHeadingClass from ../PageListRow once #2309 lands
-const SECTION_HEADING_CLASS = 'text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy';
 
 const PROCESS_STEPS = [
   {
@@ -70,7 +68,7 @@ const HowItWorksSection = () => {
   return (
     <section className="section section-body rapid-grants-how-section">
       <div className="w-full min-[680px]:max-w-[1120px] min-[680px]:mx-auto flex flex-col gap-6">
-        <h3 className={SECTION_HEADING_CLASS}>How it works</h3>
+        <h3 className={pageSectionHeadingClass}>How it works</h3>
 
         <div className="grid gap-4 min-[680px]:grid-cols-2 min-[960px]:grid-cols-3">
           {PROCESS_STEPS.map((step) => (

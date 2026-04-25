@@ -1,7 +1,5 @@
 import { P } from '@bluedot/ui';
-
-// TODO: replace with pageSectionHeadingClass from ../PageListRow once #2309 lands
-const SECTION_HEADING_CLASS = 'text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy';
+import { pageSectionHeadingClass } from '../PageListRow';
 
 const SUBMISSION_PROMPTS = [
   {
@@ -30,7 +28,7 @@ const SubmissionPromptsSection = () => {
   return (
     <section className="section section-body career-transition-grant-prompts-section">
       <div className="w-full min-[680px]:max-w-[1120px] min-[680px]:mx-auto flex flex-col gap-6">
-        <h3 className={SECTION_HEADING_CLASS}>What to submit</h3>
+        <h3 className={pageSectionHeadingClass}>What to submit</h3>
 
         <P>Put together a 1-2 page proposal covering the prompts below.</P>
 

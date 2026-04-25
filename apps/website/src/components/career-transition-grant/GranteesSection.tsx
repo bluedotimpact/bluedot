@@ -1,9 +1,7 @@
 import { P } from '@bluedot/ui';
+import { pageSectionHeadingClass } from '../PageListRow';
 import Link from 'next/link';
 import { trpc } from '../../utils/trpc';
-
-// TODO: replace with pageSectionHeadingClass from ../PageListRow once #2309 lands
-const SECTION_HEADING_CLASS = 'text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy';
 
 type GranteeCardProps = {
   name: string;
@@ -66,7 +64,7 @@ const GranteesSection = () => {
   return (
     <section className="section section-body career-transition-grant-grantees-section">
       <div className="w-full min-[680px]:max-w-[1120px] min-[680px]:mx-auto flex flex-col gap-6">
-        <h3 className={SECTION_HEADING_CLASS}>Some of our grantees</h3>
+        <h3 className={pageSectionHeadingClass}>Some of our grantees</h3>
         <ul className="list-none grid gap-4 grid-cols-1 min-[680px]:grid-cols-2 min-[1120px]:grid-cols-3">
           {visibleGrantees.map((g) => (
             <li key={g.granteeName} className="h-full">
