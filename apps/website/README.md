@@ -2,7 +2,7 @@
 
 Quick links:
 - [Production version](https://bluedot.org/)
-- [Staging version](https://website.k8s.bluedot.org/)
+- [Staging version](https://website-staging.k8s.bluedot.org/)
 - [Storybook](https://bluedot-storybook.k8s.bluedot.org/)
 - [Designs](https://www.figma.com/design/s4dNR4ELGKPbja6GkHLVJy/Website-Laura's-Working-File)
 
