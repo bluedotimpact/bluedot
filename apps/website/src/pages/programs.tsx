@@ -115,7 +115,7 @@ const ProgramsPage = () => {
   );
 
   return (
-    <div className="bg-white">
+    <div className="bg-white min-h-screen">
       <Head>
         <title>Programs | BlueDot Impact</title>
         <meta

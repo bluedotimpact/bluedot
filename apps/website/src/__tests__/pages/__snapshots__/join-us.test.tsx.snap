@@ -585,7 +585,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
         <p
           class="bluedot-p not-prose"
         >
-          We're 7 people. We just raised $25M. We're expanding from London to San Francisco in 2026 and scaling to 20 team members. If you join now, you'll shape how the organisation works, what we build, and who we become.
+          We're a small team. We just raised $25M. We're expanding from London to San Francisco in 2026 and scaling to 20 team members. If you join now, you'll shape how the organisation works, what we build, and who we become.
         </p>
         <p
           class="bluedot-p not-prose"
