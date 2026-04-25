@@ -575,21 +575,13 @@ exports[`JoinUsPage > should render correctly 1`] = `
       class="section section-body"
     >
       <div
-        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+        class="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto"
       >
-        <div
-          class="section-heading__content flex-1 flex flex-col gap-2"
+        <h3
+          class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
         >
-          <h2
-            class="section-heading__title relative ml-[-0.08em] bluedot-h2"
-          >
-            Why us
-          </h2>
-        </div>
-      </div>
-      <div
-        class="section__body"
-      >
+          Why us
+        </h3>
         <div
           class="flex flex-col gap-5"
         >
@@ -603,11 +595,6 @@ exports[`JoinUsPage > should render correctly 1`] = `
           >
             On any given day you might be shipping a new course, redesigning a placements pipeline, or figuring out how to reach ten times more people. We delete bureaucracy: our expense policy is "act in BlueDot's best interest." We're a non-profit, but our salaries are benchmarked on SF tech salaries.
           </p>
-          <p
-            class="bluedot-p not-prose"
-          >
-            If this sounds exciting rather than exhausting, you'll fit right in.
-          </p>
         </div>
       </div>
     </section>
@@ -615,25 +602,17 @@ exports[`JoinUsPage > should render correctly 1`] = `
       class="section section-body"
     >
       <div
-        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
-      >
-        <div
-          class="section-heading__content flex-1 flex flex-col gap-2"
-        >
-          <h2
-            class="section-heading__title relative ml-[-0.08em] bluedot-h2"
-          >
-            Open roles
-          </h2>
-        </div>
-      </div>
+        class="invisible relative bottom-48"
+        id="open-roles-anchor"
+      />
       <div
-        class="section__body"
+        class="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto"
       >
-        <div
-          class="invisible relative bottom-48"
-          id="open-roles-anchor"
-        />
+        <h3
+          class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
+        >
+          Open roles
+        </h3>
         <p
           class="bluedot-p not-prose"
         >
@@ -642,33 +621,77 @@ exports[`JoinUsPage > should render correctly 1`] = `
       </div>
     </section>
     <div
-      class="about-cta w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y mb-16 flex justify-center"
+      class="w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y mb-16"
     >
-      <a
-        class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark about-cta__cta-button"
-        href="/about"
-        tabindex="0"
+      <div
+        class="relative w-full min-[680px]:border min-[680px]:border-[rgba(0,0,0,0.08)] min-[680px]:rounded-xl overflow-hidden"
       >
-        Learn more about us
-        <span
-          class="cta-button__chevron ml-3"
+        <div
+          aria-hidden="true"
+          class="absolute inset-0 pointer-events-none"
         >
-          <svg
-            class="cta-button__chevron-icon size-2"
-            fill="currentColor"
-            height="1em"
-            stroke="currentColor"
-            stroke-width="0"
-            viewBox="0 0 320 512"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
+          <div
+            class="absolute inset-0 min-[680px]:rounded-xl -scale-x-100 bg-cover"
+            style="background-image: url("/images/homepage/hero.webp"); background-position: 50% 60%;"
+          />
+          <div
+            class="absolute inset-0 min-[680px]:rounded-xl"
+            style="mix-blend-mode: overlay;"
+          />
+        </div>
+        <div
+          class="relative z-10 flex flex-col items-center min-[680px]:items-start gap-8 pt-8 px-6 pb-0 min-[680px]:py-10 min-[680px]:px-8 lg:py-16 lg:px-12"
+        >
+          <div
+            class="flex flex-col gap-4 w-full"
           >
-            <path
-              d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-            />
-          </svg>
-        </span>
-      </a>
+            <span
+              class="text-[10px] leading-[14px] tracking-[0.5px] uppercase text-white opacity-70 font-medium"
+            >
+              Newsletter
+            </span>
+            <h3
+              class="text-2xl leading-tight text-white max-w-[512px]"
+            >
+              Subscribe to get AI safety news and course updates delivered directly to your inbox
+            </h3>
+          </div>
+          <div
+            class="relative w-full lg:w-[480px]"
+          >
+            <form
+              class="flex flex-col lg:flex-row gap-3 w-full transition-opacity duration-300 opacity-100"
+            >
+              <label
+                class="sr-only"
+                for="newsletter-email"
+              >
+                Email address
+              </label>
+              <input
+                class="w-full h-11 px-4 bg-white rounded-md text-size-sm leading-[18.2px] tracking-[0.42px] text-bluedot-navy placeholder:text-bluedot-navy/60 border border-[rgba(0,0,0,0.1)] focus:outline-none focus:border-transparent focus:border-[3px] transition-all"
+                id="newsletter-email"
+                placeholder="Email"
+                required=""
+                style="background-origin: padding-box, border-box; background-clip: padding-box, border-box;"
+                type="email"
+                value=""
+              />
+              <button
+                class="w-full lg:w-auto h-11 px-[17px] flex items-center justify-center rounded-md text-size-sm leading-[18.2px] tracking-[0.42px] text-white bg-white/15 border border-white/15 backdrop-blur-[2px] hover:bg-white/20 hover:border-white/20 disabled:hover:bg-white/15 disabled:hover:border-white/15 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                type="submit"
+              >
+                Subscribe
+              </button>
+            </form>
+          </div>
+          <img
+            alt=""
+            class="min-[680px]:hidden lg:block size-[140px] lg:absolute lg:top-10 lg:right-6 lg:size-64 2xl:top-6 2xl:right-12 2xl:size-[280px] opacity-80"
+            src="/images/homepage/newsletter.svg"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </div>

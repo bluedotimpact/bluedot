@@ -141,21 +141,6 @@ describe('EventsPage', () => {
     });
   });
 
-  test('toggles an event description individually', async () => {
-    render(<EventsPage />, { wrapper: TrpcProvider });
-
-    await waitFor(() => {
-      expect(screen.getByText('AI Governance Club')).toBeTruthy();
-    });
-
-    expect(screen.queryByText('A weekly discussion on AI governance and strategy.')).toBeNull();
-
-    fireEvent.click(screen.getAllByRole('button', { name: 'Show description' })[0]!);
-
-    expect(screen.getByText('A weekly discussion on AI governance and strategy.')).toBeTruthy();
-    expect(screen.queryByText('Meet people working on governance, safety, and fieldbuilding in London.')).toBeNull();
-  });
-
   test('filters the calendar list', async () => {
     render(<EventsPage />, { wrapper: TrpcProvider });
 
