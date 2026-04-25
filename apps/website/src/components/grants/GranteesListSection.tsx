@@ -1,147 +1,81 @@
 import {
-  cn, CTALinkOrButton, ErrorSection, P, ProgressDots,
+  CTALinkOrButton, ErrorSection, P, ProgressDots,
 } from '@bluedot/ui';
 import type { inferRouterOutputs } from '@trpc/server';
-import {
-  useEffect,
-  useState,
-} from 'react';
-import { RiSearchLine } from 'react-icons/ri';
+import { useState } from 'react';
 import type { AppRouter } from '../../server/routers/_app';
 import { formatAmountUsd } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
+import { PageListGroup, PageListRow, pageSectionHeadingClass } from '../PageListRow';
 
 type PublicRapidGrant = inferRouterOutputs<AppRouter>['grants']['getAllPublicRapidGrantees'][number];
 
-const GranteeListItem = ({ grantee }: { grantee: PublicRapidGrant }) => {
+const GranteeRow = ({ grantee }: { grantee: PublicRapidGrant }) => {
   const amount = grantee.amountUsd !== null ? formatAmountUsd(grantee.amountUsd) : null;
-  const subtitle = grantee.granteeName;
-  const Container = grantee.link ? 'a' : 'div';
+  const summary = [grantee.granteeName, amount, grantee.projectSummary]
+    .filter(Boolean)
+    .join(' · ');
+
+  if (grantee.link) {
+    return (
+      <PageListRow
+        href={grantee.link}
+        external
+        title={grantee.projectTitle}
+        summary={summary}
+        ctaLabel="View project"
+      />
+    );
+  }
 
   return (
-    <Container
-      {...(grantee.link
-        ? {
-          href: grantee.link,
-          target: '_blank',
-        } : {})}
-      className={cn(
-        'group block h-full rounded-[8px] border border-bluedot-navy/10 bg-white p-5',
-        grantee.link && 'transition-colors hover:border-bluedot-navy/18 hover:bg-[#FBFCFE]',
-      )}
-    >
-      <div className="flex h-full flex-col">
-        <div className="flex items-start justify-between gap-4">
-          <h3 className="min-w-0 text-[20px] min-[680px]:text-[21px] font-semibold leading-[1.2] tracking-[-0.02em] text-bluedot-navy">
+    <div className="flex flex-col gap-3 min-[680px]:flex-row min-[680px]:items-center min-[680px]:justify-between min-[680px]:gap-6">
+      <div className="flex items-stretch gap-4 min-w-0 flex-1">
+        <div className="w-1 flex-shrink-0 rounded-sm bg-bluedot-normal/30" />
+        <div className="min-w-0 flex-1">
+          <p className="text-[15px] leading-[1.45] font-semibold text-bluedot-navy">
             {grantee.projectTitle}
-          </h3>
-          {amount && (
-            <span className="shrink-0 rounded-[8px] border border-[#D7E4F5] bg-[#F4F8FD] px-2.5 py-1 text-[12px] font-semibold text-[#2A5FA8]">
-              {amount}
-            </span>
-          )}
-        </div>
-
-        <div className="mt-3 min-w-0">
-          <p className="text-[14px] min-[680px]:text-[15px] leading-[1.55] text-bluedot-navy/68">
-            {subtitle}
           </p>
-          {grantee.projectSummary && (
-            <P className="mt-4 text-[15px] leading-[1.65] text-bluedot-navy/74">
-              {grantee.projectSummary}
-            </P>
+          {summary && (
+            <p className="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62">
+              {summary}
+            </p>
           )}
         </div>
-
-        {grantee.link && (
-          <div className="mt-auto pt-5">
-            <span className="inline-flex items-center gap-2 border-t border-bluedot-navy/10 pt-4 text-[14px] font-medium text-bluedot-navy/68 transition-colors group-hover:text-bluedot-navy">
-              View project
-              <span aria-hidden="true" className="text-[18px]">→</span>
-            </span>
-          </div>
-        )}
       </div>
-    </Container>
+    </div>
   );
 };
 
 type GranteesListSectionProps = {
   id?: string;
+  heading?: string;
   title?: string;
   subtitle?: string;
   limit?: number;
-  previewRows?: number;
 };
 
 const GranteesListSection = ({
   id,
+  heading,
   title,
   subtitle,
   limit,
-  previewRows,
 }: GranteesListSectionProps) => {
   const { data: grantees, isLoading, error } = trpc.grants.getAllPublicRapidGrantees.useQuery();
   const [showAll, setShowAll] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [viewportWidth, setViewportWidth] = useState(() => {
-    if (typeof window === 'undefined') {
-      return 1120;
-    }
-
-    return window.innerWidth;
-  });
-
-  useEffect(() => {
-    const handleResize = () => {
-      setViewportWidth(window.innerWidth);
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
 
   if (error) {
     return <ErrorSection error={error} />;
   }
 
-  const normalizedSearchTerm = searchTerm.trim().toLowerCase();
-  const filteredGrantees = grantees?.filter((grantee) => {
-    if (!normalizedSearchTerm) {
-      return true;
-    }
-
-    const searchableText = [
-      grantee.projectTitle,
-      grantee.granteeName,
-      grantee.projectSummary ?? '',
-    ].join(' ').toLowerCase();
-
-    return searchableText.includes(normalizedSearchTerm);
-  });
-
-  let previewColumns = 1;
-  if (viewportWidth >= 1120) {
-    previewColumns = 3;
-  } else if (viewportWidth >= 680) {
-    previewColumns = 2;
-  }
-
-  const previewLimit = previewRows
-    ? previewRows * previewColumns
-    : undefined;
-  const effectiveLimit = previewLimit ?? limit;
-  const shouldLimitResults = !!effectiveLimit && !showAll && !normalizedSearchTerm;
+  const shouldLimitResults = !!limit && !showAll;
   const visibleGrantees = shouldLimitResults
-    ? filteredGrantees?.slice(0, effectiveLimit)
-    : filteredGrantees;
-  const hasHiddenGrantees = !!effectiveLimit && !normalizedSearchTerm && !!filteredGrantees && filteredGrantees.length > effectiveLimit;
-  const hiddenGranteeCount = hasHiddenGrantees && effectiveLimit && filteredGrantees
-    ? filteredGrantees.length - effectiveLimit
+    ? grantees?.slice(0, limit)
+    : grantees;
+  const hasHiddenGrantees = !!limit && !!grantees && grantees.length > limit;
+  const hiddenGranteeCount = hasHiddenGrantees && limit && grantees
+    ? grantees.length - limit
     : 0;
   const showCollapsedPreview = hasHiddenGrantees && !showAll;
 
@@ -150,93 +84,72 @@ const GranteesListSection = ({
       id={id}
       className="w-full scroll-mt-28"
     >
-      <div>
-        <div className="mb-8 min-[680px]:mb-10 flex flex-col gap-5 min-[960px]:flex-row min-[960px]:items-end min-[960px]:justify-between">
-          {(title ?? subtitle) && (
-            <div className="max-w-[760px]">
-              {title && (
-                <h2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy">
-                  {title}
-                </h2>
-              )}
-              {subtitle && (
-                <P className="text-[16px] min-[680px]:text-[18px] leading-[160%] text-bluedot-navy/75 mt-4">
-                  {subtitle}
-                </P>
-              )}
-            </div>
+      {heading && (
+        <div className="mb-6 flex items-center justify-between gap-4">
+          <h3 className={pageSectionHeadingClass}>{heading}</h3>
+          {hasHiddenGrantees && showAll && (
+            <button
+              type="button"
+              onClick={() => setShowAll(false)}
+              className="shrink-0 text-[14px] font-medium text-bluedot-normal transition-colors hover:text-bluedot-navy"
+            >
+              Close
+            </button>
           )}
+        </div>
+      )}
+      {(title ?? subtitle) && (
+        <div className="mb-8 min-[680px]:mb-10 max-w-[760px]">
+          {title && (
+            <h2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy">
+              {title}
+            </h2>
+          )}
+          {subtitle && (
+            <P className="text-[16px] min-[680px]:text-[18px] leading-[160%] text-bluedot-navy/75 mt-4">
+              {subtitle}
+            </P>
+          )}
+        </div>
+      )}
 
-          <div className="flex flex-col gap-3 min-[680px]:flex-row min-[680px]:items-center min-[680px]:gap-4 min-[960px]:max-w-[unset]">
-            <label className="flex w-full min-[960px]:w-[340px] items-center gap-2 rounded-[8px] border border-bluedot-navy/12 bg-white px-3 py-2.5 font-sans">
-              <RiSearchLine className="shrink-0 text-bluedot-navy/40" size={18} />
-              <input
-                type="search"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search projects or grantees"
-                className="w-full border-0 bg-transparent font-sans text-[15px] text-bluedot-navy outline-none placeholder:text-bluedot-navy/42"
-                aria-label="Search projects or grantees"
+      {isLoading && <ProgressDots />}
+      {!isLoading && (!grantees || grantees.length === 0) && (
+        <P>No grants to show yet.</P>
+      )}
+      {!!visibleGrantees?.length && (
+        <div>
+          <PageListGroup>
+            {visibleGrantees.map((grantee) => (
+              <GranteeRow
+                key={`${grantee.granteeName}-${grantee.projectTitle}`}
+                grantee={grantee}
               />
-            </label>
-            {hasHiddenGrantees && showAll && (
+            ))}
+          </PageListGroup>
+
+          {showCollapsedPreview && (
+            <div className="mt-6 flex justify-center">
               <CTALinkOrButton
                 variant="secondary"
-                onClick={() => setShowAll(false)}
+                onClick={() => setShowAll(true)}
               >
-                Show fewer projects
+                {`Show ${hiddenGranteeCount} more project${hiddenGranteeCount === 1 ? '' : 's'}`}
               </CTALinkOrButton>
-            )}
-          </div>
+            </div>
+          )}
         </div>
-
-        {isLoading && <ProgressDots />}
-        {!isLoading && (!grantees || grantees.length === 0) && (
-          <P>No grants to show yet.</P>
-        )}
-        {!isLoading && !!grantees?.length && normalizedSearchTerm && (
-          <P className="mb-5 text-[14px] text-bluedot-navy/62">
-            {filteredGrantees?.length ?? 0} result{filteredGrantees?.length === 1 ? '' : 's'} for &quot;{searchTerm.trim()}&quot;
-          </P>
-        )}
-        {!isLoading && !!grantees?.length && normalizedSearchTerm && filteredGrantees?.length === 0 && (
-          <div className="rounded-[8px] border border-bluedot-navy/10 bg-white px-5 py-6">
-            <P>No projects match that search yet.</P>
-          </div>
-        )}
-        {!!visibleGrantees?.length && (
-          <div>
-            <ul className="list-none grid gap-4 min-[680px]:grid-cols-2 min-[1120px]:grid-cols-3">
-              {visibleGrantees.map((grantee) => (
-                <li key={`${grantee.granteeName}-${grantee.projectTitle}`} className="h-full">
-                  <GranteeListItem grantee={grantee} />
-                </li>
-              ))}
-            </ul>
-
-            {showCollapsedPreview && (
-              <div className="mt-6 flex justify-center">
-                <CTALinkOrButton
-                  variant="secondary"
-                  onClick={() => setShowAll(true)}
-                >
-                  {`Show ${hiddenGranteeCount} more project${hiddenGranteeCount === 1 ? '' : 's'}`}
-                </CTALinkOrButton>
-              </div>
-            )}
-          </div>
-        )}
-        {hasHiddenGrantees && showAll && (
-          <div className="mt-8">
-            <CTALinkOrButton
-              variant="secondary"
-              onClick={() => setShowAll(false)}
-            >
-              Show fewer projects
-            </CTALinkOrButton>
-          </div>
-        )}
-      </div>
+      )}
+      {hasHiddenGrantees && showAll && (
+        <div className="mt-8 flex justify-center">
+          <CTALinkOrButton
+            variant="secondary"
+            onClick={() => setShowAll(false)}
+          >
+            Show fewer projects
+          </CTALinkOrButton>
+        </div>
+      )}
     </div>
   );
 };
