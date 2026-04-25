@@ -5,6 +5,8 @@ import { useRouter } from 'next/router';
 import { type JobPosting } from '@bluedot/db';
 import JobPostingPage from '../../../pages/join-us/[slug]';
 import { renderWithHead } from '../../testUtils';
+import { TrpcProvider } from '../../trpcProvider';
+import { server, trpcMsw } from '../../trpcMswSetup';
 
 // Mock <Head>, which doesn't work in tests. See docstring of
 // `renderWithHead` for more details.
@@ -53,11 +55,17 @@ describe('JobPostingPage SSR/SEO', () => {
   });
 
   test('renders SEO meta tags during SSR without API calls', () => {
-    renderWithHead(<JobPostingPage
-      slug="ai-safety-researcher"
-      job={mockJob}
-      jobOgImage={`https://bluedot.org/images/jobs/link-preview/${mockJob.slug}.png`}
-    />);
+    server.use(trpcMsw.courses.getAll.query(() => []));
+
+    renderWithHead(
+      <TrpcProvider>
+        <JobPostingPage
+          slug="ai-safety-researcher"
+          job={mockJob}
+          jobOgImage={`https://bluedot.org/images/jobs/link-preview/${mockJob.slug}.png`}
+        />
+      </TrpcProvider>,
+    );
 
     expect(document.title).toBe('AI Safety Researcher | BlueDot Impact');
 
