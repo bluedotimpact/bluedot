@@ -205,7 +205,7 @@ const EventsPage = () => {
       <Breadcrumbs route={CURRENT_ROUTE} />
 
       <section className="section section-body events-featured-section">
-        <div className="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto flex flex-col gap-8">
+        <div className="w-full flex flex-col gap-8">
           <div
             id={UPCOMING_EVENTS_ANCHOR}
             className="scroll-mt-28 flex flex-col gap-4 min-[960px]:flex-row min-[960px]:items-end min-[960px]:justify-between"

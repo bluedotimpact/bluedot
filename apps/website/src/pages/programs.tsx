@@ -32,9 +32,9 @@ const ProgramsHero = () => {
         {...{ fetchpriority: 'high' }}
       />
 
-      <div className="relative z-10 flex h-full min-h-[317px] flex-col justify-end px-5 pb-12 pt-20 min-[680px]:min-h-[366px] min-[680px]:px-8 min-[680px]:pb-16 min-[680px]:pt-20 min-[1024px]:px-12 min-[1280px]:px-16 min-[1920px]:px-0">
-        <div className="mx-auto w-full min-[1920px]:max-w-[1360px]">
-          <div className="flex max-w-[780px] flex-col gap-6">
+      <div className="relative z-10 flex flex-col justify-end h-full min-h-[317px] min-[680px]:min-h-[366px] pb-12 pt-20 min-[680px]:pb-16 min-[680px]:pt-20">
+        <div className="w-full mx-auto max-w-max-width px-spacing-x">
+          <div className="flex flex-col gap-6 max-w-[780px]">
             <H1 className="text-[32px] min-[680px]:text-[40px] min-[1024px]:text-[48px] leading-tight font-medium tracking-[-1px] text-white">
               Programs
             </H1>
@@ -127,25 +127,23 @@ const ProgramsPage = () => {
       <ProgramsHero />
       <Breadcrumbs route={ROUTES.programs} />
 
-      <section className="bg-white pt-[40px] px-5 min-[680px]:pt-[48px] min-[680px]:px-8 min-[1024px]:pt-[56px] lg:px-12 min-[1280px]:pt-[64px] xl:px-16 2xl:px-20">
-        <div className="flex flex-col items-center gap-6 max-w-screen-xl mx-auto">
-          <div className="flex flex-col gap-12 w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto min-[1024px]:gap-14">
-            <PageListGroup label="Active">
-              {activePrograms.map(renderRow)}
-            </PageListGroup>
-            <PageListGroup label="On hiatus">
-              {pausedPrograms.map(renderRow)}
-            </PageListGroup>
-          </div>
+      <section className="section section-body bg-white">
+        <div className="flex flex-col gap-12 min-[1024px]:gap-14">
+          <PageListGroup label="Active">
+            {activePrograms.map(renderRow)}
+          </PageListGroup>
+          <PageListGroup label="On hiatus">
+            {pausedPrograms.map(renderRow)}
+          </PageListGroup>
+        </div>
 
-          <div className="flex justify-center pt-6 min-[680px]:pt-8 min-[1024px]:pt-10">
-            <CTALinkOrButton
-              url={ROUTES.courses.url}
-              className="px-4 bg-bluedot-navy/10 text-bluedot-navy hover:text-bluedot-navy text-[15px] font-[450] tracking-[-0.3px] rounded-md hover:bg-bluedot-navy/15"
-            >
-              Explore courses instead
-            </CTALinkOrButton>
-          </div>
+        <div className="flex justify-center pt-6 min-[680px]:pt-8 min-[1024px]:pt-10">
+          <CTALinkOrButton
+            url={ROUTES.courses.url}
+            className="px-4 bg-bluedot-navy/10 text-bluedot-navy hover:text-bluedot-navy text-[15px] font-[450] tracking-[-0.3px] rounded-md hover:bg-bluedot-navy/15"
+          >
+            Explore courses instead
+          </CTALinkOrButton>
         </div>
       </section>
 

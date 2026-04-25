@@ -58,12 +58,10 @@ const JoinUsPage = () => {
       <WhyUsSection />
       {cmsLoading && (
         <section className="section section-body">
-          <div className="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto">
-            <h3 className={`${pageSectionHeadingClass} mb-6`}>
-              Open roles
-            </h3>
-            <ProgressDots />
-          </div>
+          <h3 className={`${pageSectionHeadingClass} mb-6`}>
+            Open roles
+          </h3>
+          <ProgressDots />
         </section>
       )}
       {cmsError && <ErrorSection error={cmsError} />}
