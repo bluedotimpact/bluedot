@@ -6,7 +6,7 @@ import { useState } from 'react';
 import type { AppRouter } from '../../server/routers/_app';
 import { formatAmountUsd } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
-import { PageListGroup, PageListRow } from '../PageListRow';
+import { PageListGroup, PageListRow, pageSectionHeadingClass } from '../PageListRow';
 
 type PublicRapidGrant = inferRouterOutputs<AppRouter>['grants']['getAllPublicRapidGrantees'][number];
 
@@ -49,6 +49,7 @@ const GranteeRow = ({ grantee }: { grantee: PublicRapidGrant }) => {
 
 type GranteesListSectionProps = {
   id?: string;
+  heading?: string;
   title?: string;
   subtitle?: string;
   limit?: number;
@@ -56,6 +57,7 @@ type GranteesListSectionProps = {
 
 const GranteesListSection = ({
   id,
+  heading,
   title,
   subtitle,
   limit,
@@ -82,6 +84,20 @@ const GranteesListSection = ({
       id={id}
       className="w-full scroll-mt-28"
     >
+      {heading && (
+        <div className="mb-6 flex items-center justify-between gap-4">
+          <h3 className={pageSectionHeadingClass}>{heading}</h3>
+          {hasHiddenGrantees && showAll && (
+            <button
+              type="button"
+              onClick={() => setShowAll(false)}
+              className="shrink-0 text-[14px] font-medium text-bluedot-normal transition-colors hover:text-bluedot-navy"
+            >
+              Close
+            </button>
+          )}
+        </div>
+      )}
       {(title ?? subtitle) && (
         <div className="mb-8 min-[680px]:mb-10 max-w-[760px]">
           {title && (
