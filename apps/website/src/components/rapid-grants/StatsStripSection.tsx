@@ -26,8 +26,8 @@ const StatsStripSection = () => {
   };
 
   return (
-    <section className="w-full max-w-max-width mx-auto px-spacing-x py-8 min-[680px]:py-10">
-      <div className="flex flex-col gap-6 min-[1024px]:flex-row min-[1024px]:items-center min-[1024px]:justify-between">
+    <section className="section section-body rapid-grants-stats-strip">
+      <div className="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto flex flex-col gap-6 min-[1024px]:flex-row min-[1024px]:items-center min-[1024px]:justify-between">
         <div className="grid grid-cols-2 gap-x-8 gap-y-4 min-[680px]:grid-cols-4 min-[680px]:gap-x-10">
           <Stat label="Typical grants" value="Up to $10k" />
           <Stat label="Decision time" value="~5 working days" />
@@ -59,10 +59,10 @@ const StatsStripSection = () => {
 const Stat = ({ label, value }: { label: string; value: string }) => {
   return (
     <div className="flex flex-col gap-1">
-      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-bluedot-darker/60">
+      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-bluedot-navy/60">
         {label}
       </p>
-      <p className="text-[18px] min-[680px]:text-[20px] font-medium leading-tight text-bluedot-darker">
+      <p className="text-[18px] min-[680px]:text-[20px] font-medium leading-tight text-bluedot-navy">
         {value}
       </p>
     </div>

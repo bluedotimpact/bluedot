@@ -1,4 +1,7 @@
-import { P, Section } from '@bluedot/ui';
+import { P } from '@bluedot/ui';
+
+// TODO: replace with pageSectionHeadingClass from ../PageListRow once #2309 lands
+const SECTION_HEADING_CLASS = 'text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy';
 
 const EXPECTATIONS = [
   {
@@ -25,30 +28,34 @@ const EXPECTATIONS = [
 
 const ExpectationsSection = () => {
   return (
-    <Section className="career-transition-grant-expectations-section" title="What we expect from you">
-      <ul className="max-w-[960px] flex flex-col divide-y divide-bluedot-darker/10 border-y border-bluedot-darker/10">
-        {EXPECTATIONS.map((item) => (
-          <li
-            key={item.title}
-            className="flex flex-col min-[680px]:flex-row min-[680px]:items-baseline gap-3 min-[680px]:gap-10 py-6"
-          >
-            <div className="min-[680px]:w-[160px] min-[680px]:shrink-0">
-              <span className="inline-flex items-center rounded-full bg-bluedot-darker/[0.06] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-bluedot-darker/70">
-                {item.cadence}
-              </span>
-            </div>
-            <div className="flex flex-col gap-2 max-w-[720px]">
-              <h3 className="text-[18px] min-[680px]:text-[20px] font-semibold text-bluedot-darker">
-                {item.title}
-              </h3>
-              <P className="text-size-sm leading-[1.65] text-bluedot-darker/80">
-                {item.body}
-              </P>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </Section>
+    <section className="section section-body career-transition-grant-expectations-section">
+      <div className="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto flex flex-col gap-6">
+        <h3 className={SECTION_HEADING_CLASS}>What we expect from you</h3>
+
+        <ul className="flex flex-col divide-y divide-bluedot-navy/10 border-y border-bluedot-navy/10">
+          {EXPECTATIONS.map((item) => (
+            <li
+              key={item.title}
+              className="flex flex-col min-[680px]:flex-row min-[680px]:items-baseline gap-3 min-[680px]:gap-10 py-6"
+            >
+              <div className="min-[680px]:w-[160px] min-[680px]:shrink-0">
+                <span className="inline-flex items-center rounded-full bg-bluedot-navy/[0.06] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-bluedot-navy/70">
+                  {item.cadence}
+                </span>
+              </div>
+              <div className="flex flex-col gap-2">
+                <h4 className="text-[18px] min-[680px]:text-[20px] font-semibold text-bluedot-navy">
+                  {item.title}
+                </h4>
+                <P className="text-size-sm leading-[1.65] text-bluedot-navy/80">
+                  {item.body}
+                </P>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
   );
 };
 

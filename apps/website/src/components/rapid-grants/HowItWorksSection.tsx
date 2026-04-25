@@ -1,5 +1,8 @@
-import { P, Section } from '@bluedot/ui';
+import { P } from '@bluedot/ui';
 import { RAPID_GRANT_APPLICATION_URL } from '../grants/grantPrograms';
+
+// TODO: replace with pageSectionHeadingClass from ../PageListRow once #2309 lands
+const SECTION_HEADING_CLASS = 'text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy';
 
 const PROCESS_STEPS = [
   {
@@ -37,7 +40,7 @@ const COMMUNITY_CARD = {
 };
 
 const cardBaseClass = 'rapid-grants-step-card relative overflow-hidden rounded-lg border px-5 py-5 min-h-[188px]';
-const defaultCardClass = `${cardBaseClass} border-bluedot-darker/10 bg-white`;
+const defaultCardClass = `${cardBaseClass} border-bluedot-navy/10 bg-white`;
 const accentCardClass = `${cardBaseClass} border-bluedot-lighter bg-bluedot-lighter/20`;
 
 const StepCardBody = ({ number, title, body, eyebrowClass }: {
@@ -52,10 +55,10 @@ const StepCardBody = ({ number, title, body, eyebrowClass }: {
         {number}
       </p>
       <div className="flex flex-col gap-3">
-        <h3 className="text-[20px] min-[680px]:text-[22px] font-medium tracking-[-0.04em] text-bluedot-darker">
+        <h4 className="text-[20px] min-[680px]:text-[22px] font-medium tracking-[-0.04em] text-bluedot-navy">
           {title}
-        </h3>
-        <P className="text-[15px] min-[680px]:text-[16px] leading-[1.7] text-bluedot-darker/70">
+        </h4>
+        <P className="text-[15px] min-[680px]:text-[16px] leading-[1.7] text-bluedot-navy/70">
           {body}
         </P>
       </div>
@@ -65,44 +68,48 @@ const StepCardBody = ({ number, title, body, eyebrowClass }: {
 
 const HowItWorksSection = () => {
   return (
-    <Section className="rapid-grants-how-section" title="How it works">
-      <div className="grid gap-4 min-[960px]:grid-cols-3">
-        {PROCESS_STEPS.map((step) => (
-          step.url ? (
-            <a
-              key={step.title}
-              href={step.url}
-              className={`${accentCardClass} block cursor-pointer`}
-            >
-              <StepCardBody
-                number={step.number}
-                title={step.title}
-                body={step.body}
-                eyebrowClass="text-bluedot-dark"
-              />
-            </a>
-          ) : (
-            <div key={step.title} className={defaultCardClass}>
-              <StepCardBody
-                number={step.number}
-                title={step.title}
-                body={step.body}
-                eyebrowClass="text-bluedot-darker/40"
-              />
-            </div>
-          )
-        ))}
+    <section className="section section-body rapid-grants-how-section">
+      <div className="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto flex flex-col gap-6">
+        <h3 className={SECTION_HEADING_CLASS}>How it works</h3>
 
-        <div className={accentCardClass}>
-          <StepCardBody
-            number={COMMUNITY_CARD.eyebrow}
-            title={COMMUNITY_CARD.title}
-            body={COMMUNITY_CARD.body}
-            eyebrowClass="text-bluedot-dark"
-          />
+        <div className="grid gap-4 min-[680px]:grid-cols-2">
+          {PROCESS_STEPS.map((step) => (
+            step.url ? (
+              <a
+                key={step.title}
+                href={step.url}
+                className={`${accentCardClass} block cursor-pointer`}
+              >
+                <StepCardBody
+                  number={step.number}
+                  title={step.title}
+                  body={step.body}
+                  eyebrowClass="text-bluedot-dark"
+                />
+              </a>
+            ) : (
+              <div key={step.title} className={defaultCardClass}>
+                <StepCardBody
+                  number={step.number}
+                  title={step.title}
+                  body={step.body}
+                  eyebrowClass="text-bluedot-navy/40"
+                />
+              </div>
+            )
+          ))}
+
+          <div className={accentCardClass}>
+            <StepCardBody
+              number={COMMUNITY_CARD.eyebrow}
+              title={COMMUNITY_CARD.title}
+              body={COMMUNITY_CARD.body}
+              eyebrowClass="text-bluedot-dark"
+            />
+          </div>
         </div>
       </div>
-    </Section>
+    </section>
   );
 };
 

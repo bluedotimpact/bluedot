@@ -1,4 +1,7 @@
-import { P, Section } from '@bluedot/ui';
+import { P } from '@bluedot/ui';
+
+// TODO: replace with pageSectionHeadingClass from ../PageListRow once #2309 lands
+const SECTION_HEADING_CLASS = 'text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy';
 
 const SUBMISSION_PROMPTS = [
   {
@@ -25,45 +28,47 @@ const SUBMISSION_PROMPTS = [
 
 const SubmissionPromptsSection = () => {
   return (
-    <Section className="career-transition-grant-prompts-section" title="What to submit">
-      <div className="max-w-[760px]">
-        <P>Put together a 1-2 page proposal covering the prompts below.</P>
-      </div>
+    <section className="section section-body career-transition-grant-prompts-section">
+      <div className="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto flex flex-col gap-6">
+        <h3 className={SECTION_HEADING_CLASS}>What to submit</h3>
 
-      <div className="pt-6 min-[680px]:pt-8 grid gap-4 md:gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {SUBMISSION_PROMPTS.map((item, index) => (
-          <div
-            key={item.title}
-            className="relative rounded-lg border border-bluedot-darker/10 bg-white px-6 py-6 flex flex-col gap-4"
-          >
-            <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-bluedot-darker/40">
-              {String(index + 1).padStart(2, '0')}
+        <P>Put together a 1-2 page proposal covering the prompts below.</P>
+
+        <div className="pt-2 grid gap-4 md:gap-5 grid-cols-1 md:grid-cols-2">
+          {SUBMISSION_PROMPTS.map((item, index) => (
+            <div
+              key={item.title}
+              className="relative rounded-lg border border-bluedot-navy/10 bg-white px-6 py-6 flex flex-col gap-4"
+            >
+              <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-bluedot-navy/40">
+                {String(index + 1).padStart(2, '0')}
+              </p>
+              <h4 className="text-[18px] min-[680px]:text-[20px] font-semibold leading-tight text-bluedot-navy">
+                {item.title}
+              </h4>
+              <P className="text-size-sm leading-[1.7] text-bluedot-navy/75">
+                {item.body}
+              </P>
+            </div>
+          ))}
+          <div className="relative rounded-lg border border-bluedot-lighter bg-bluedot-lighter/20 px-6 py-6 flex flex-col gap-4">
+            <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-bluedot-dark">
+              Tips
             </p>
-            <h3 className="text-[18px] min-[680px]:text-[20px] font-semibold leading-tight text-bluedot-darker">
-              {item.title}
-            </h3>
-            <P className="text-size-sm leading-[1.7] text-bluedot-darker/75">
-              {item.body}
-            </P>
-          </div>
-        ))}
-        <div className="relative rounded-lg border border-bluedot-lighter bg-bluedot-lighter/20 px-6 py-6 flex flex-col gap-4">
-          <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-bluedot-dark">
-            Tips
-          </p>
-          <div className="flex flex-col gap-4">
-            <P className="text-size-sm leading-[1.7] text-bluedot-darker/80">
-              <strong className="text-bluedot-darker">Be honest about your uncertainties.</strong>
-              {' '}We do not expect you to have it all figured out. Provide an honest account of your uncertainties and plan for working through them.
-            </P>
-            <P className="text-size-sm leading-[1.7] text-bluedot-darker/80">
-              <strong className="text-bluedot-darker">Keep it concise.</strong>
-              {' '}Clear writing is a sign of clear thinking.
-            </P>
+            <div className="flex flex-col gap-4">
+              <P className="text-size-sm leading-[1.7] text-bluedot-navy/80">
+                <strong className="text-bluedot-navy">Be honest about your uncertainties.</strong>
+                {' '}We do not expect you to have it all figured out. Provide an honest account of your uncertainties and plan for working through them.
+              </P>
+              <P className="text-size-sm leading-[1.7] text-bluedot-navy/80">
+                <strong className="text-bluedot-navy">Keep it concise.</strong>
+                {' '}Clear writing is a sign of clear thinking.
+              </P>
+            </div>
           </div>
         </div>
       </div>
-    </Section>
+    </section>
   );
 };
 
