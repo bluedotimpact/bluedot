@@ -65,12 +65,60 @@ npm run render-preview # render OG/preview images
 3. Update the navigation if needed
 4. Add tests for the new page
 
+### Reusing existing components first
+
+**Before** writing anything new, check what already exists. We have a real shared library and most marketing-page primitives are already in it.
+
+**Where to look:**
+- Run `cd apps/storybook && npm start` (or browse [storybook.k8s.bluedot.org](https://storybook.k8s.bluedot.org)).
+- Read `libraries/ui/src/index.ts` for the canonical exports.
+
+**`@bluedot/ui` cheat sheet:**
+
+| Need | Use |
+| --- | --- |
+| Button or link CTA | `CTALinkOrButton` (variants: primary, secondary, black, outline-black, ghost; sizes: default, small) |
+| Page section / card | `Section`, `SectionHeading`, `Card` |
+| Heading / paragraph / link | `H1`–`H4`, `P`, `A` (or `bluedot-h1` / `bluedot-p` / `bluedot-a` utility classes) |
+| Hero (page top) | `HeroSection` + `HeroH1` / `HeroH2` / `HeroCTAContainer` |
+| Form input | `Input`, `Textarea`, `Select`, `DatePicker`, `TimePicker`, `ToggleSwitch` |
+| Modal / drawer / dropdown | `Modal`, `BottomDrawerModal`, `OverflowMenu`, `Tooltip` |
+| Accordion / show-hide | `Collapsible` |
+| Alert / tag / banner | `Banner`, `Tag`, `ErrorSection` |
+| Carousel / list / progress | `SlideList`, `QuoteCarousel`, `ProgressDots`, `Breadcrumbs` |
+| Avatars / share | `FaceTiles`, `ShareButton`, `SocialShare` |
+| Auth | `LoginRedirectPage`, `LoginOauthCallbackPage`, `useAuthStore`, `withAuth` |
+| Utils | `cn`, `addQueryParam`, `maybePlural`, `asError` |
+
+**Website-local reusables** (in `src/components/`):
+
+- `MarketingHero` — top-of-page hero with image background + Nav (used on /about, /our-community, /join-us, /grants).
+- `PageListRow` — list row with leading slot + CTA (used on /grants, /career-transition-grant). Compose with `PageListGroup` for divided lists.
+- `Nav/Nav` — main site nav (variants: default, transparent).
+- `Header` — page header wrapper.
+
+If you find yourself duplicating one of these, stop and reuse instead.
+
+### Use design tokens, not raw Tailwind values
+
+The token system is documented in `apps/storybook/src/GettingStarted.mdx` (browse it via Storybook's "Getting Started" intro page).
+
+| Don't write | Write instead |
+| --- | --- |
+| `text-[16px]`, `text-[18px]`, `text-[24px]` | `text-size-sm`, `text-size-md`, `text-size-lg` |
+| `text-bluedot-navy/62` | `text-color-secondary-text` |
+| `bg-bluedot-normal` (primary accent) | `bg-color-primary-accent` |
+| `border-bluedot-lighter` | `border-color-divider` |
+
+If a token doesn't exist for what you need, add it to `globals.css` rather than inlining.
+
 ### Creating a New Component
 
 1. Create the component `.tsx` file in `src/components/`
-2. Add a Storybook story `.stories.tsx`
+2. Add a Storybook story `.stories.tsx` — autodocs tag, at least 2 variants, args/argTypes
 3. Write tests in `.test.tsx` and run snapshots via `npm run test:update`
 4. Use Tailwind classes for styling and BEM classes for identification
+5. Add a `parameters.design.figma` URL pointing at the Figma node (see [`CTALinkOrButton.stories.tsx`](../../libraries/ui/src/CTALinkOrButton.stories.tsx) for an example)
 
 ### Making API Changes
 
