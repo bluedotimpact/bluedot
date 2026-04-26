@@ -1,4 +1,5 @@
 import type React from 'react';
+import { Breadcrumbs } from '@bluedot/ui';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
 import GrantStatsStrip from '../../components/grants/sections/GrantStatsStrip';
@@ -7,6 +8,7 @@ import GrantCta from '../../components/grants/sections/GrantCta';
 import WhatThisIsForSection from '../../components/rapid-grants/WhatThisIsForSection';
 import HowItWorksSection from '../../components/rapid-grants/HowItWorksSection';
 import FundedProjectsSection from '../../components/rapid-grants/FundedProjectsSection';
+import { ROUTES } from '../../lib/routes';
 import { formatAmountUsd } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
@@ -42,6 +44,13 @@ const RapidGrantsPage = () => {
       <MarketingHero
         title="Rapid Grants"
         subtitle="Funding for the BlueDot community to ship projects, run events, and do other concrete work on AI safety."
+      />
+      <Breadcrumbs
+        route={{
+          title: 'Rapid Grants',
+          url: '/programs/rapid-grants',
+          parentPages: [ROUTES.home, ROUTES.programs],
+        }}
       />
       <GrantStatsStrip
         program="rapid-grants"

@@ -1,3 +1,4 @@
+import { Breadcrumbs } from '@bluedot/ui';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
 import GrantStatsStrip from '../../components/grants/sections/GrantStatsStrip';
@@ -8,6 +9,7 @@ import ExpectationsSection from '../../components/career-transition-grant/Expect
 import SubmissionPromptsSection from '../../components/career-transition-grant/SubmissionPromptsSection';
 import NextStepsSection from '../../components/career-transition-grant/NextStepsSection';
 import GranteesSection from '../../components/career-transition-grant/GranteesSection';
+import { ROUTES } from '../../lib/routes';
 import { formatAmountUsd } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
@@ -30,6 +32,13 @@ const CareerTransitionGrantPage = () => {
       <MarketingHero
         title="Career Transition Grants"
         subtitle="Funding and support to help you work full-time on AI safety."
+      />
+      <Breadcrumbs
+        route={{
+          title: 'Career Transition Grants',
+          url: '/programs/career-transition-grant',
+          parentPages: [ROUTES.home, ROUTES.programs],
+        }}
       />
       <GrantStatsStrip
         program="career-transition-grant"
