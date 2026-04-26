@@ -73,6 +73,8 @@ export type CourseLanderContent = {
   testimonialsTitle?: string;
   /** Hide the testimonials section even if testimonials exist in the database */
   hideTestimonials?: boolean;
+  /** Show testimonial cards as image + name + role only (drop the quote text) */
+  testimonialsHideQuotes?: boolean;
   /** Optional placement override for testimonials section */
   testimonialsPlacement?: 'default' | 'beforeOutcomes';
   partners?: PartnerSectionProps;
@@ -116,6 +118,7 @@ const CourseLander = ({
         testimonials={testimonials ?? []}
         title={content.testimonialsTitle}
         variant="lander"
+        hideQuotes={content.testimonialsHideQuotes}
       />
     </>
   ) : null;

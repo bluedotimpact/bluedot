@@ -92,6 +92,9 @@ export const createAgiStrategyContent = (
     applicationUrl: applicationUrlWithUtm,
   },
 
+  testimonialsTitle: 'BlueDot Alumni',
+  testimonialsHideQuotes: true,
+
   pathwaysList: {
     title: 'What happens after',
     intro: 'This course is where you get oriented. What comes next depends on you.',

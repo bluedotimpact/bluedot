@@ -1,9 +1,8 @@
 import {
-  useState, useEffect, useRef, useCallback,
+  useState, useRef, useCallback,
 } from 'react';
 import { type Quote } from '@bluedot/ui';
 import { useAboveBreakpoint } from '@bluedot/ui/src/hooks/useBreakpoint';
-import { ONE_SECOND_MS } from '../../../lib/constants';
 
 export type QuoteWithUrl = Quote & {
   /** Source URL for the quote */
@@ -143,51 +142,13 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
 
 const QuoteSection = ({ quotes, cardBackgroundColor, accentColor }: QuoteSectionProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const autorotateTiming = 11 * ONE_SECOND_MS; // Design constant
   const isDesktop = useAboveBreakpoint(680); // 680px is the design breakpoint specified
 
-  // Single effect that handles all timer logic
-  useEffect(() => {
-    if (!isPaused) {
-      intervalRef.current = setInterval(() => {
-        setActiveIndex((prevIndex) => (prevIndex + 1) % quotes.length);
-      }, autorotateTiming);
-    }
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
-    };
-  }, [activeIndex, autorotateTiming, isPaused, quotes.length]);
+  // Auto-rotation removed: distracting. Manual nav buttons, arrow keys, and swipe still work.
 
   const handleIndicatorClick = (index: number) => {
     if (index !== activeIndex) {
       setActiveIndex(index);
-    }
-  };
-
-  const handleMouseEnter = () => {
-    setIsPaused(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsPaused(false);
-  };
-
-  const handleFocusCapture = () => {
-    setIsPaused(true);
-  };
-
-  const handleBlurCapture = (e: React.FocusEvent<HTMLElement>) => {
-    // Only unpause if focus is leaving the entire section
-    const nextFocusedNode = e.relatedTarget instanceof Node ? e.relatedTarget : null;
-
-    if (!nextFocusedNode || !e.currentTarget.contains(nextFocusedNode)) {
-      setIsPaused(false);
     }
   };
 
@@ -242,10 +203,6 @@ const QuoteSection = ({ quotes, cardBackgroundColor, accentColor }: QuoteSection
     <section
       className="relative w-full py-12 px-5 sm:px-5 min-[680px]:py-16 min-[680px]:px-8 lg:py-12 xl:py-24 overflow-x-hidden"
       style={{ backgroundColor: DEFAULT_COLORS.background }}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onFocusCapture={handleFocusCapture}
-      onBlurCapture={handleBlurCapture}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
