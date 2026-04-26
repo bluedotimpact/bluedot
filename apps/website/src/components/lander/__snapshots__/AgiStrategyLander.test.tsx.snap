@@ -237,6 +237,13 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                           >
                             Incubator Week
                           </a>
+                          <a
+                            class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
+                            href="/programs/1-1-advising"
+                            tabindex="0"
+                          >
+                            1-1 advising
+                          </a>
                           <div
                             class="border-t border-gray-200 my-2"
                           />
@@ -467,6 +474,13 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       tabindex="0"
                     >
                       Incubator Week
+                    </a>
+                    <a
+                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
+                      href="/programs/1-1-advising"
+                      tabindex="0"
+                    >
+                      1-1 advising
                     </a>
                     <div
                       class="border-t border-gray-200 my-2"

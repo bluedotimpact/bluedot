@@ -31,4 +31,21 @@ export const teamMembersRouter = router({
         }))
         .sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''));
     }),
+  getOneOnOneAdvisors: publicProcedure
+    .query(async () => {
+      const all = await db.scan(teamMemberTable, {
+        status: 'Active',
+        isOneOnOneAdvisor: true,
+      });
+
+      return all
+        .filter((m) => m.name && getFirstImageUrl(m.imagePublicUrls))
+        .map((m) => ({
+          name: m.name,
+          jobTitle: m.jobTitle,
+          imageUrl: getFirstImageUrl(m.imagePublicUrls),
+          url: m.url ?? undefined,
+        }))
+        .sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''));
+    }),
 });
