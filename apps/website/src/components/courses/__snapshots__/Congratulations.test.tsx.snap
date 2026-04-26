@@ -1739,7 +1739,7 @@ exports[`Congratulations > certificate card — authenticated > has-certificate:
               <p
                 class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
               >
-                Earned by Test User · Issued 1 January 2024
+                Earned by Test User · Issued January 1, 2024
               </p>
             </div>
           </div>
