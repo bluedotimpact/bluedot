@@ -1,5 +1,5 @@
 import {
-  addQueryParam, ErrorSection, H1, ProgressDots, useLatestUtmParams,
+  addQueryParam, Breadcrumbs, ErrorSection, H1, ProgressDots, useLatestUtmParams,
 } from '@bluedot/ui';
 import type { inferRouterOutputs } from '@trpc/server';
 import clsx from 'clsx';
@@ -14,6 +14,7 @@ import { CourseIcon } from '../../components/courses/CourseIcon';
 import { COURSE_CONFIG } from '../../lib/constants';
 import { appendPosthogSessionIdPrefill } from '../../lib/appendPosthogSessionIdPrefill';
 import RoundGroup from '../../components/shared/RoundGroup';
+import { ROUTES } from '../../lib/routes';
 
 const getCourseAccentColor = (courseSlug: string): string => {
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
@@ -146,6 +147,7 @@ const CoursesPage = () => {
 
       {/* Hero Section */}
       <CoursesHero />
+      <Breadcrumbs route={ROUTES.courses} />
 
       {/* Main Content Area */}
       <div className="w-full mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-12 min-[1280px]:px-16 min-[1440px]:px-20 min-[1920px]:max-w-[1360px] min-[1920px]:px-0">
