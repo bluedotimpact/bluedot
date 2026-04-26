@@ -1,10 +1,14 @@
 import {
+  PiArrowsLeftRight,
   PiBriefcase,
+  PiChats,
+  PiClockClockwise,
   PiCompass,
   PiFlask,
+  PiHandCoins,
+  PiHandHeart,
   PiRocketLaunch,
   PiUsersThree,
-  PiHandCoins,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
 
@@ -98,16 +102,39 @@ export const createBioSecurityContent = (
     ],
   },
 
-  howTheCourseWorks: {
+  courseInformation: {
     title: 'How the course works',
+    applicationUrl: applicationUrlWithUtm,
+    scheduleCtaText: 'Apply now',
     courseSlug,
-    paragraphs: ({ intenseUnits, partTimeUnits }) => [
-      <>The course has two &ldquo;intensity levels&rdquo;: part-time and intensive.</>,
-      <>If you join the <em>part-time</em> course, you&rsquo;ll invest ~5h/week for {partTimeUnits ?? 6} weeks.</>,
-      <>If you join the <em>intensive</em> course, you&rsquo;ll invest ~5h/day for {intenseUnits ?? 6} days.</>,
-      <>Each day/week, you&rsquo;ll complete 2&ndash;3 hours of reading and writing, followed by a 2h group discussion with ~8 peers over Zoom.</>,
-      <>All discussions are facilitated by a biosecurity expert who can help introduce you to others in the field.</>,
-      <><strong>This course is free</strong>, and operates on a &ldquo;pay-what-you-want&rdquo; model.</>,
+    accentColor: BIOSECURITY_COLORS.full,
+    details: [
+      {
+        icon: PiArrowsLeftRight,
+        label: 'Options',
+        description: 'Intensive (~6 days at ~5h/day) or part-time (~6 weeks at ~5h/week). Same content, different pace.',
+      },
+      {
+        icon: PiClockClockwise,
+        label: 'Commitment',
+        description: (
+          <>
+            Each day or week, you will:
+            <br />
+            <span className="font-semibold">Complete 2-3 hours</span> of reading and writing, and <span className="font-semibold">join ~8 peers in a 2-hour Zoom meeting</span> to discuss the content.
+          </>
+        ),
+      },
+      {
+        icon: PiChats,
+        label: 'Facilitator',
+        description: 'All discussions will be facilitated by a biosecurity expert.',
+      },
+      {
+        icon: PiHandHeart,
+        label: 'Price',
+        description: 'This course is freely available and operates on a "pay-what-you-want" model.',
+      },
     ],
   },
 

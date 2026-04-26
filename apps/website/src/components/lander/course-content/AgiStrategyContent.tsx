@@ -1,3 +1,9 @@
+import {
+  PiArrowsLeftRight,
+  PiChats,
+  PiClockClockwise,
+  PiHandHeart,
+} from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
 
 export const AGI_STRATEGY_COLORS = {
@@ -68,16 +74,39 @@ export const createAgiStrategyContent = (
     ],
   },
 
-  howTheCourseWorks: {
+  courseInformation: {
     title: 'How the course works',
+    applicationUrl: applicationUrlWithUtm,
+    scheduleCtaText: 'Apply now',
     courseSlug,
-    paragraphs: ({ intenseUnits, partTimeUnits }) => [
-      <>The course has two &ldquo;intensity levels&rdquo;: part-time and intensive.</>,
-      <>If you join the <em>part-time</em> course, you&rsquo;ll invest 5h/week for {partTimeUnits ?? 5} weeks.</>,
-      <>If you join the <em>intensive</em> course, you&rsquo;ll invest 5h/day for {intenseUnits ?? 5} days.</>,
-      <>Each day/week, you&rsquo;ll complete 3 hours of reading and writing, followed by a 2h group discussion with ~8 peers over Zoom.</>,
-      <>All discussions are facilitated by an AI safety expert who can help to introduce you to others in the field.</>,
-      <><strong>This course is free</strong>, and operates on a &ldquo;pay-what-you-want&rdquo; model.</>,
+    accentColor: AGI_STRATEGY_COLORS.full,
+    details: [
+      {
+        icon: PiArrowsLeftRight,
+        label: 'Options',
+        description: 'Intensive (~5 days at ~5h/day) or part-time (~5 weeks at ~5h/week). Same content, different pace.',
+      },
+      {
+        icon: PiClockClockwise,
+        label: 'Commitment',
+        description: (
+          <>
+            Each day or week, you will:
+            <br />
+            <span className="font-semibold">Complete 3 hours</span> of reading and writing, and <span className="font-semibold">join ~8 peers in a 2-hour Zoom meeting</span> to discuss the content.
+          </>
+        ),
+      },
+      {
+        icon: PiChats,
+        label: 'Facilitator',
+        description: 'All discussions will be facilitated by an AI safety expert.',
+      },
+      {
+        icon: PiHandHeart,
+        label: 'Price',
+        description: 'This course is freely available and operates on a "pay-what-you-want" model.',
+      },
     ],
   },
 

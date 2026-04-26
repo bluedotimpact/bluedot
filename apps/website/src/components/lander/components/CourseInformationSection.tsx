@@ -47,14 +47,14 @@ const CourseInformationSection = ({
 }: CourseInformationSectionProps) => {
   return (
     <section id={id} className="w-full bg-white">
-      <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-12 min-[1280px]:px-44 xl:px-40 py-12 min-[680px]:py-16 min-[1280px]:py-24 xl:py-24 flex flex-col items-center gap-12 md:gap-16">
+      <div className="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24 flex flex-col items-center gap-8 md:gap-10">
         {/* Section Title */}
-        <H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
+        <H2 className="w-full min-[680px]:max-w-[840px] text-[28px] min-[680px]:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
           {title}
         </H2>
 
-        {/* White Card Container - Scales with viewport then fixed width on larger screens */}
-        <div className="w-[calc(100vw-40px)] min-[680px]:w-[calc(100vw-64px)] lg:w-[928px] xl:w-[1120px] bg-white border border-bluedot-navy/10 rounded-xl py-8 flex flex-col items-center gap-6">
+        {/* White Card Container — capped to the same 840px column as ScheduleListSection. */}
+        <div className="w-full min-[680px]:max-w-[840px] bg-white border border-bluedot-navy/10 rounded-xl py-8 flex flex-col items-center gap-6">
           {/* Course Details List */}
           <div className="flex flex-col w-full">
             {details.map((detail, index) => (

@@ -263,24 +263,25 @@ const CourseLander = ({
         </>
       )}
 
-      {/* Editorial "How the course works" + standalone Schedule replace
-          the boxed CourseInformationSection when set. */}
+      {/* Course-info section: editorial prose `howTheCourseWorks` if set,
+          else the boxed `CourseInformationSection`. Either can pair with
+          a standalone `scheduleList` rendered immediately below. */}
       {content.howTheCourseWorks && (
         <>
           <div className="border-t-hairline border-color-divider" />
           <HowTheCourseWorksSection id="structure" {...content.howTheCourseWorks} />
         </>
       )}
+      {!content.howTheCourseWorks && content.courseInformation && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <CourseInformationSection id="structure" {...content.courseInformation} />
+        </>
+      )}
       {content.scheduleList && (
         <>
           <div className="border-t-hairline border-color-divider" />
           <ScheduleListSection id="schedule" {...content.scheduleList} />
-        </>
-      )}
-      {!content.howTheCourseWorks && !content.scheduleList && content.courseInformation && (
-        <>
-          <div className="border-t-hairline border-color-divider" />
-          <CourseInformationSection id="structure" {...content.courseInformation} />
         </>
       )}
 
