@@ -716,55 +716,59 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="border-t-hairline border-color-divider"
     />
     <section
-      class="section section-body"
+      class="w-full bg-white"
     >
       <div
-        class="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto"
+        class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24"
       >
-        <h3
-          class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
-        >
-          Who this course is for
-        </h3>
         <div
-          class="flex flex-col gap-5"
+          class="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto"
         >
-          <p
-            class="bluedot-p not-prose"
+          <h3
+            class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
           >
-            You've read some essays, watched the talks, and you don't think the people building AGI have a serious plan for making it go well. You want to change that.
-          </p>
-          <p
-            class="bluedot-p not-prose"
+            Who this course is for
+          </h3>
+          <div
+            class="flex flex-col gap-5"
           >
-            The course is an in-depth introduction to what's going on with AI development, what the good and bad outcomes could be, and what could be done to steer AI towards better futures.
-          </p>
-          <p
-            class="bluedot-p not-prose"
+            <p
+              class="bluedot-p not-prose"
+            >
+              You've read some essays, watched the talks, and you don't think the people building AGI have a serious plan for making it go well. You want to change that.
+            </p>
+            <p
+              class="bluedot-p not-prose"
+            >
+              The course is an in-depth introduction to what's going on with AI development, what the good and bad outcomes could be, and what could be done to steer AI towards better futures.
+            </p>
+            <p
+              class="bluedot-p not-prose"
+            >
+              It's built for three groups: 1) domain experts in policy, security, operations, or engineering looking to redirect their skills; 2) people heading into technical safety or governance roles who want the strategic picture first; and 3) newcomers who are serious about making big moves and having a huge impact.
+            </p>
+            <p
+              class="bluedot-p not-prose"
+            >
+              Not sure you fit? Apply anyway. Recent cohorts have also included teachers, lawyers, engineers, and community organisers.
+            </p>
+          </div>
+          <div
+            class="mt-8 flex flex-col items-start gap-4"
           >
-            It's built for three groups: 1) domain experts in policy, security, operations, or engineering looking to redirect their skills; 2) people heading into technical safety or governance roles who want the strategic picture first; and 3) newcomers who are serious about making big moves and having a huge impact.
-          </p>
-          <p
-            class="bluedot-p not-prose"
-          >
-            Not sure you fit? Apply anyway. Recent cohorts have also included teachers, lawyers, engineers, and community organisers.
-          </p>
-        </div>
-        <div
-          class="mt-8 flex flex-col items-start gap-4"
-        >
-          <p
-            class="bluedot-p not-prose"
-          >
-            Applying takes about 15 minutes.
-          </p>
-          <a
-            class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
-            href="https://web.miniextensions.com/test"
-            tabindex="0"
-          >
-            Apply now
-          </a>
+            <p
+              class="bluedot-p not-prose"
+            >
+              Applying takes about 15 minutes.
+            </p>
+            <a
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+              href="https://web.miniextensions.com/test"
+              tabindex="0"
+            >
+              Apply now
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -772,314 +776,322 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       class="border-t-hairline border-color-divider"
     />
     <section
-      class="section section-body"
+      class="w-full bg-white"
+    >
+      <div
+        class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24"
+      >
+        <div
+          class="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto"
+        >
+          <h3
+            class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-8"
+          >
+            How this course will benefit you
+          </h3>
+          <div
+            class="flex flex-col gap-8"
+          >
+            <div
+              class="flex flex-col gap-2"
+            >
+              <h4
+                class="text-[18px] font-semibold leading-[1.4] text-bluedot-navy"
+              >
+                A launchpad for your AI safety career
+              </h4>
+              <p
+                class="bluedot-p not-prose"
+              >
+                You'll leave this course with an opinion on which threats matter, early takes on how we could solve these problems, and concrete next steps you can take.
+              </p>
+            </div>
+            <div
+              class="flex flex-col gap-2"
+            >
+              <h4
+                class="text-[18px] font-semibold leading-[1.4] text-bluedot-navy"
+              >
+                A clear way to think about the future of AI
+              </h4>
+              <p
+                class="bluedot-p not-prose"
+              >
+                You'll analyse the incentives facing AI companies. You'll develop "kill chains" to analyse the threats. And you'll apply defense in depth to evaluate and prioritise interventions. You'll know enough to hold your own in rooms with experts.
+              </p>
+            </div>
+            <div
+              class="flex flex-col gap-2"
+            >
+              <h4
+                class="text-[18px] font-semibold leading-[1.4] text-bluedot-navy"
+              >
+                A community of builders
+              </h4>
+              <p
+                class="bluedot-p not-prose"
+              >
+                BlueDot has 7,000+ alumni, with many now working at Anthropic, DeepMind, UK AISI, and dozens of organisations working on a safe transition to advanced AI. You'll meet people in the field who can open doors for you and pressure-test your thinking.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div
+      class="border-t-hairline border-color-divider"
+    />
+    <section
+      class="w-full bg-white"
       id="pathways"
     >
       <div
-        class="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto flex flex-col gap-6"
+        class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24"
       >
         <div
-          class="flex flex-col gap-3"
-        >
-          <h3
-            class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy"
-          >
-            What happens after
-          </h3>
-          <p
-            class="bluedot-p not-prose"
-          >
-            This course is where you get oriented. What comes next depends on you.
-          </p>
-        </div>
-        <div
-          class="flex flex-col gap-6"
-        >
-          <ul
-            class="list-none flex flex-col divide-y divide-bluedot-navy/10"
-          >
-            <li
-              class="py-5 first:pt-0 last:pb-0"
-            >
-              <a
-                class="group flex flex-col gap-3 min-[680px]:flex-row min-[680px]:items-center min-[680px]:justify-between min-[680px]:gap-6"
-                href="/courses/technical-ai-safety"
-              >
-                <div
-                  class="flex items-stretch gap-4 min-w-0 flex-1"
-                >
-                  <div
-                    class="w-1 flex-shrink-0 rounded-sm bg-bluedot-normal/30 transition-colors group-hover:bg-bluedot-normal group-focus-within:bg-bluedot-normal"
-                  />
-                  <div
-                    class="min-w-0 flex-1"
-                  >
-                    <p
-                      class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
-                    >
-                      Technical AI Safety
-                    </p>
-                    <p
-                      class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
-                    >
-                      Interpretability, evals, alignment research. For people ready to work on the technical problems.
-                    </p>
-                  </div>
-                </div>
-                <div
-                  class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal min-[680px]:ml-6 min-[680px]:whitespace-nowrap"
-                >
-                  <span
-                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
-                  >
-                    Explore the course
-                  </span>
-                  <span
-                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
-                  >
-                    →
-                  </span>
-                </div>
-              </a>
-            </li>
-            <li
-              class="py-5 first:pt-0 last:pb-0"
-            >
-              <a
-                class="group flex flex-col gap-3 min-[680px]:flex-row min-[680px]:items-center min-[680px]:justify-between min-[680px]:gap-6"
-                href="/courses/ai-governance"
-              >
-                <div
-                  class="flex items-stretch gap-4 min-w-0 flex-1"
-                >
-                  <div
-                    class="w-1 flex-shrink-0 rounded-sm bg-bluedot-normal/30 transition-colors group-hover:bg-bluedot-normal group-focus-within:bg-bluedot-normal"
-                  />
-                  <div
-                    class="min-w-0 flex-1"
-                  >
-                    <p
-                      class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
-                    >
-                      AI Governance
-                    </p>
-                    <p
-                      class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
-                    >
-                      Policy, institutions, international coordination. For people shaping how these systems get governed.
-                    </p>
-                  </div>
-                </div>
-                <div
-                  class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal min-[680px]:ml-6 min-[680px]:whitespace-nowrap"
-                >
-                  <span
-                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
-                  >
-                    Explore the course
-                  </span>
-                  <span
-                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
-                  >
-                    →
-                  </span>
-                </div>
-              </a>
-            </li>
-            <li
-              class="py-5 first:pt-0 last:pb-0"
-            >
-              <a
-                class="group flex flex-col gap-3 min-[680px]:flex-row min-[680px]:items-center min-[680px]:justify-between min-[680px]:gap-6"
-                href="/courses/biosecurity"
-              >
-                <div
-                  class="flex items-stretch gap-4 min-w-0 flex-1"
-                >
-                  <div
-                    class="w-1 flex-shrink-0 rounded-sm bg-bluedot-normal/30 transition-colors group-hover:bg-bluedot-normal group-focus-within:bg-bluedot-normal"
-                  />
-                  <div
-                    class="min-w-0 flex-1"
-                  >
-                    <p
-                      class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
-                    >
-                      Biosecurity
-                    </p>
-                    <p
-                      class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
-                    >
-                      Pandemic preparedness, early warning systems, policy. For people building defences against bio risks.
-                    </p>
-                  </div>
-                </div>
-                <div
-                  class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal min-[680px]:ml-6 min-[680px]:whitespace-nowrap"
-                >
-                  <span
-                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
-                  >
-                    Explore the course
-                  </span>
-                  <span
-                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
-                  >
-                    →
-                  </span>
-                </div>
-              </a>
-            </li>
-            <li
-              class="py-5 first:pt-0 last:pb-0"
-            >
-              <a
-                class="group flex flex-col gap-3 min-[680px]:flex-row min-[680px]:items-center min-[680px]:justify-between min-[680px]:gap-6"
-                href="/programs/rapid-grants"
-              >
-                <div
-                  class="flex items-stretch gap-4 min-w-0 flex-1"
-                >
-                  <div
-                    class="w-1 flex-shrink-0 rounded-sm bg-bluedot-normal/30 transition-colors group-hover:bg-bluedot-normal group-focus-within:bg-bluedot-normal"
-                  />
-                  <div
-                    class="min-w-0 flex-1"
-                  >
-                    <p
-                      class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
-                    >
-                      Rapid Grants
-                    </p>
-                    <p
-                      class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
-                    >
-                      Small, fast funding for concrete AI safety work. Five-minute application, decisions in days, money upfront by default.
-                    </p>
-                  </div>
-                </div>
-                <div
-                  class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal min-[680px]:ml-6 min-[680px]:whitespace-nowrap"
-                >
-                  <span
-                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
-                  >
-                    Explore program
-                  </span>
-                  <span
-                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
-                  >
-                    →
-                  </span>
-                </div>
-              </a>
-            </li>
-            <li
-              class="py-5 first:pt-0 last:pb-0"
-            >
-              <a
-                class="group flex flex-col gap-3 min-[680px]:flex-row min-[680px]:items-center min-[680px]:justify-between min-[680px]:gap-6"
-                href="/programs/career-transition-grant"
-              >
-                <div
-                  class="flex items-stretch gap-4 min-w-0 flex-1"
-                >
-                  <div
-                    class="w-1 flex-shrink-0 rounded-sm bg-bluedot-normal/30 transition-colors group-hover:bg-bluedot-normal group-focus-within:bg-bluedot-normal"
-                  />
-                  <div
-                    class="min-w-0 flex-1"
-                  >
-                    <p
-                      class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
-                    >
-                      Career Transition Grants
-                    </p>
-                    <p
-                      class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
-                    >
-                      Funding to enable you to work full-time on impactful AI safety work. Propose your plan and we'll back you.
-                    </p>
-                  </div>
-                </div>
-                <div
-                  class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal min-[680px]:ml-6 min-[680px]:whitespace-nowrap"
-                >
-                  <span
-                    class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
-                  >
-                    Explore program
-                  </span>
-                  <span
-                    class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
-                  >
-                    →
-                  </span>
-                </div>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-    <div
-      class="border-t-hairline border-color-divider"
-    />
-    <section
-      class="section section-body"
-    >
-      <div
-        class="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto"
-      >
-        <h3
-          class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-8"
-        >
-          How this course will benefit you
-        </h3>
-        <div
-          class="flex flex-col gap-8"
+          class="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto flex flex-col gap-6"
         >
           <div
-            class="flex flex-col gap-2"
+            class="flex flex-col gap-3"
           >
-            <h4
-              class="text-[18px] font-semibold leading-[1.4] text-bluedot-navy"
+            <h3
+              class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy"
             >
-              A launchpad for your AI safety career
-            </h4>
+              What happens after
+            </h3>
             <p
               class="bluedot-p not-prose"
             >
-              You'll leave this course with an opinion on which threats matter, early takes on how we could solve these problems, and concrete next steps you can take.
+              This course is where you get oriented. What comes next depends on you.
             </p>
           </div>
           <div
-            class="flex flex-col gap-2"
+            class="flex flex-col gap-6"
           >
-            <h4
-              class="text-[18px] font-semibold leading-[1.4] text-bluedot-navy"
+            <ul
+              class="list-none flex flex-col divide-y divide-bluedot-navy/10"
             >
-              A clear way to think about the future of AI
-            </h4>
-            <p
-              class="bluedot-p not-prose"
-            >
-              You'll analyse the incentives facing AI companies. You'll develop "kill chains" to analyse the threats. And you'll apply defense in depth to evaluate and prioritise interventions. You'll know enough to hold your own in rooms with experts.
-            </p>
-          </div>
-          <div
-            class="flex flex-col gap-2"
-          >
-            <h4
-              class="text-[18px] font-semibold leading-[1.4] text-bluedot-navy"
-            >
-              A community of builders
-            </h4>
-            <p
-              class="bluedot-p not-prose"
-            >
-              BlueDot has 7,000+ alumni, with many now working at Anthropic, DeepMind, UK AISI, and dozens of organisations working on a safe transition to advanced AI. You'll meet people in the field who can open doors for you and pressure-test your thinking.
-            </p>
+              <li
+                class="py-5 first:pt-0 last:pb-0"
+              >
+                <a
+                  class="group flex flex-col gap-3 min-[680px]:flex-row min-[680px]:items-center min-[680px]:justify-between min-[680px]:gap-6"
+                  href="/courses/technical-ai-safety"
+                >
+                  <div
+                    class="flex items-stretch gap-4 min-w-0 flex-1"
+                  >
+                    <div
+                      class="w-1 flex-shrink-0 rounded-sm bg-bluedot-normal/30 transition-colors group-hover:bg-bluedot-normal group-focus-within:bg-bluedot-normal"
+                    />
+                    <div
+                      class="min-w-0 flex-1"
+                    >
+                      <p
+                        class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
+                      >
+                        Technical AI Safety
+                      </p>
+                      <p
+                        class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
+                      >
+                        Interpretability, evals, alignment research. For people ready to work on the technical problems.
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal min-[680px]:ml-6 min-[680px]:whitespace-nowrap"
+                  >
+                    <span
+                      class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                    >
+                      Explore the course
+                    </span>
+                    <span
+                      class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                    >
+                      →
+                    </span>
+                  </div>
+                </a>
+              </li>
+              <li
+                class="py-5 first:pt-0 last:pb-0"
+              >
+                <a
+                  class="group flex flex-col gap-3 min-[680px]:flex-row min-[680px]:items-center min-[680px]:justify-between min-[680px]:gap-6"
+                  href="/courses/ai-governance"
+                >
+                  <div
+                    class="flex items-stretch gap-4 min-w-0 flex-1"
+                  >
+                    <div
+                      class="w-1 flex-shrink-0 rounded-sm bg-bluedot-normal/30 transition-colors group-hover:bg-bluedot-normal group-focus-within:bg-bluedot-normal"
+                    />
+                    <div
+                      class="min-w-0 flex-1"
+                    >
+                      <p
+                        class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
+                      >
+                        AI Governance
+                      </p>
+                      <p
+                        class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
+                      >
+                        Policy, institutions, international coordination. For people shaping how these systems get governed.
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal min-[680px]:ml-6 min-[680px]:whitespace-nowrap"
+                  >
+                    <span
+                      class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                    >
+                      Explore the course
+                    </span>
+                    <span
+                      class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                    >
+                      →
+                    </span>
+                  </div>
+                </a>
+              </li>
+              <li
+                class="py-5 first:pt-0 last:pb-0"
+              >
+                <a
+                  class="group flex flex-col gap-3 min-[680px]:flex-row min-[680px]:items-center min-[680px]:justify-between min-[680px]:gap-6"
+                  href="/courses/biosecurity"
+                >
+                  <div
+                    class="flex items-stretch gap-4 min-w-0 flex-1"
+                  >
+                    <div
+                      class="w-1 flex-shrink-0 rounded-sm bg-bluedot-normal/30 transition-colors group-hover:bg-bluedot-normal group-focus-within:bg-bluedot-normal"
+                    />
+                    <div
+                      class="min-w-0 flex-1"
+                    >
+                      <p
+                        class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
+                      >
+                        Biosecurity
+                      </p>
+                      <p
+                        class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
+                      >
+                        Pandemic preparedness, early warning systems, policy. For people building defences against bio risks.
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal min-[680px]:ml-6 min-[680px]:whitespace-nowrap"
+                  >
+                    <span
+                      class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                    >
+                      Explore the course
+                    </span>
+                    <span
+                      class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                    >
+                      →
+                    </span>
+                  </div>
+                </a>
+              </li>
+              <li
+                class="py-5 first:pt-0 last:pb-0"
+              >
+                <a
+                  class="group flex flex-col gap-3 min-[680px]:flex-row min-[680px]:items-center min-[680px]:justify-between min-[680px]:gap-6"
+                  href="/programs/rapid-grants"
+                >
+                  <div
+                    class="flex items-stretch gap-4 min-w-0 flex-1"
+                  >
+                    <div
+                      class="w-1 flex-shrink-0 rounded-sm bg-bluedot-normal/30 transition-colors group-hover:bg-bluedot-normal group-focus-within:bg-bluedot-normal"
+                    />
+                    <div
+                      class="min-w-0 flex-1"
+                    >
+                      <p
+                        class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
+                      >
+                        Rapid Grants
+                      </p>
+                      <p
+                        class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
+                      >
+                        Small, fast funding for concrete AI safety work. Five-minute application, decisions in days, money upfront by default.
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal min-[680px]:ml-6 min-[680px]:whitespace-nowrap"
+                  >
+                    <span
+                      class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                    >
+                      Explore program
+                    </span>
+                    <span
+                      class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                    >
+                      →
+                    </span>
+                  </div>
+                </a>
+              </li>
+              <li
+                class="py-5 first:pt-0 last:pb-0"
+              >
+                <a
+                  class="group flex flex-col gap-3 min-[680px]:flex-row min-[680px]:items-center min-[680px]:justify-between min-[680px]:gap-6"
+                  href="/programs/career-transition-grant"
+                >
+                  <div
+                    class="flex items-stretch gap-4 min-w-0 flex-1"
+                  >
+                    <div
+                      class="w-1 flex-shrink-0 rounded-sm bg-bluedot-normal/30 transition-colors group-hover:bg-bluedot-normal group-focus-within:bg-bluedot-normal"
+                    />
+                    <div
+                      class="min-w-0 flex-1"
+                    >
+                      <p
+                        class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
+                      >
+                        Career Transition Grants
+                      </p>
+                      <p
+                        class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
+                      >
+                        Funding to enable you to work full-time on impactful AI safety work. Propose your plan and we'll back you.
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal min-[680px]:ml-6 min-[680px]:whitespace-nowrap"
+                  >
+                    <span
+                      class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                    >
+                      Explore program
+                    </span>
+                    <span
+                      class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                    >
+                      →
+                    </span>
+                  </div>
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -1092,142 +1104,98 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       id="structure"
     >
       <div
-        class="max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-12 min-[1280px]:px-44 xl:px-40 py-12 min-[680px]:py-16 min-[1280px]:py-24 xl:py-24 flex flex-col items-center gap-12 md:gap-16"
+        class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24"
       >
-        <h2
-          class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]"
-        >
-          Course information
-        </h2>
         <div
-          class="w-[calc(100vw-40px)] min-[680px]:w-[calc(100vw-64px)] lg:w-[928px] xl:w-[1120px] bg-white border border-bluedot-navy/10 rounded-xl py-8 flex flex-col items-center gap-6"
+          class="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto"
+        >
+          <h3
+            class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-8"
+          >
+            How the course works
+          </h3>
+          <div
+            class="flex flex-col gap-8"
+          >
+            <div
+              class="flex flex-col gap-2"
+            >
+              <h4
+                class="text-[18px] font-semibold leading-[1.4] text-bluedot-navy"
+              >
+                Commitment
+              </h4>
+              <p
+                class="bluedot-p not-prose"
+              >
+                Each day or week, you will:
+                <br />
+                Complete 2-3 hours of reading and writing, and join ~8 peers in a 2-hour Zoom meeting to discuss the content.
+              </p>
+            </div>
+            <div
+              class="flex flex-col gap-2"
+            >
+              <h4
+                class="text-[18px] font-semibold leading-[1.4] text-bluedot-navy"
+              >
+                Facilitator
+              </h4>
+              <p
+                class="bluedot-p not-prose"
+              >
+                All discussions will be facilitated by an AI safety expert.
+              </p>
+            </div>
+            <div
+              class="flex flex-col gap-2"
+            >
+              <h4
+                class="text-[18px] font-semibold leading-[1.4] text-bluedot-navy"
+              >
+                Price
+              </h4>
+              <p
+                class="bluedot-p not-prose"
+              >
+                This course is freely available and operates on a "pay-what-you-want" model.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div
+      class="border-t-hairline border-color-divider"
+    />
+    <section
+      class="w-full bg-white"
+      id="schedule"
+    >
+      <div
+        class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24"
+      >
+        <div
+          class="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto flex flex-col gap-6"
         >
           <div
-            class="flex flex-col w-full"
+            class="flex flex-col gap-3"
           >
-            <div>
-              <div
-                class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
-              >
-                <div
-                  class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
-                >
-                  <p
-                    class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
-                  >
-                    Commitment
-                  </p>
-                </div>
-                <div
-                  class="flex-1 min-w-0"
-                >
-                  <p
-                    class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
-                  >
-                    Each day or week, you will:
-                    <br />
-                    <span
-                      class="font-semibold"
-                    >
-                      Complete 2-3 hours
-                    </span>
-                     of reading and writing, and 
-                    <span
-                      class="font-semibold"
-                    >
-                      join ~8 peers in a 2-hour Zoom meeting
-                    </span>
-                     to discuss the content.
-                  </p>
-                </div>
-              </div>
-              <div
-                class="w-full h-px bg-bluedot-navy/10 my-6"
-              />
-            </div>
-            <div>
-              <div
-                class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
-              >
-                <div
-                  class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
-                >
-                  <p
-                    class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
-                  >
-                    Facilitator
-                  </p>
-                </div>
-                <div
-                  class="flex-1 min-w-0"
-                >
-                  <p
-                    class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
-                  >
-                    All discussions will be facilitated by an AI safety expert.
-                  </p>
-                </div>
-              </div>
-              <div
-                class="w-full h-px bg-bluedot-navy/10 my-6"
-              />
-            </div>
-            <div>
-              <div
-                class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
-              >
-                <div
-                  class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
-                >
-                  <p
-                    class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
-                  >
-                    Price
-                  </p>
-                </div>
-                <div
-                  class="flex-1 min-w-0"
-                >
-                  <p
-                    class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
-                  >
-                    This course is freely available and operates on a "pay-what-you-want" model.
-                  </p>
-                </div>
-              </div>
-              <div
-                class="w-full h-px bg-bluedot-navy/10 my-6"
-              />
-            </div>
-            <div>
-              <div
-                class="flex flex-col min-[680px]:flex-row px-5 min-[680px]:px-8 py-0 gap-6 min-[680px]:gap-6 md:gap-8 items-start w-full"
-              >
-                <div
-                  class="min-[680px]:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
-                >
-                  <p
-                    class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
-                  >
-                    Schedule
-                  </p>
-                </div>
-                <div
-                  class="w-full min-[680px]:flex-1 min-[680px]:min-w-0"
-                >
-                  <div
-                    class="flex flex-col gap-4"
-                  >
-                    <div
-                      class="h-20 w-full animate-pulse rounded bg-gray-200"
-                    />
-                    <div
-                      class="h-20 w-full animate-pulse rounded bg-gray-200"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
+            <h3
+              class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy"
+            >
+              Schedule
+            </h3>
+          </div>
+          <div
+            class="flex flex-col gap-3"
+          >
+            <div
+              class="h-16 w-full animate-pulse rounded bg-gray-200"
+            />
+            <div
+              class="h-16 w-full animate-pulse rounded bg-gray-200"
+            />
           </div>
         </div>
       </div>

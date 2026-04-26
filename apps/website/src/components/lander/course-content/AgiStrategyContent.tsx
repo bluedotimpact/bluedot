@@ -1,9 +1,3 @@
-import {
-  PiClockClockwise,
-  PiChats,
-  PiHandHeart,
-  PiCalendarDots,
-} from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
 
 export const AGI_STRATEGY_COLORS = {
@@ -79,42 +73,34 @@ export const createAgiStrategyContent = (
     ],
   },
 
-  courseInformation: {
-    title: 'Course information',
-    applicationUrl: applicationUrlWithUtm,
-    scheduleCtaText: 'Apply now',
-    courseSlug,
-    accentColor: AGI_STRATEGY_COLORS.full,
-    details: [
+  howTheCourseWorks: {
+    title: 'How the course works',
+    items: [
       {
-        icon: PiClockClockwise,
-        label: 'Commitment',
-        description: (
+        heading: 'Commitment',
+        body: (
           <>
             Each day or week, you will:
             <br />
-            <span className="font-semibold">Complete 2-3 hours</span> of reading and writing, and <span className="font-semibold">join ~8 peers in a 2-hour Zoom meeting</span> to discuss the content.
+            Complete 2-3 hours of reading and writing, and join ~8 peers in a 2-hour Zoom meeting to discuss the content.
           </>
         ),
       },
       {
-        icon: PiChats,
-        label: 'Facilitator',
-        description: 'All discussions will be facilitated by an AI safety expert.',
+        heading: 'Facilitator',
+        body: 'All discussions will be facilitated by an AI safety expert.',
       },
       {
-        icon: PiHandHeart,
-        label: 'Price',
-        description: 'This course is freely available and operates on a "pay-what-you-want" model.',
-      },
-      {
-        icon: PiCalendarDots,
-        label: 'Schedule',
-        description: null,
-        isSchedule: true,
-        scheduleDescription: 'Check above for upcoming rounds and application deadlines.',
+        heading: 'Price',
+        body: 'This course is freely available and operates on a "pay-what-you-want" model.',
       },
     ],
+  },
+
+  scheduleList: {
+    title: 'Schedule',
+    courseSlug,
+    applicationUrl: applicationUrlWithUtm,
   },
 
   pathwaysList: {
