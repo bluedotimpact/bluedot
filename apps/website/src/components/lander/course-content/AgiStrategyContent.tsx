@@ -48,11 +48,6 @@ export const createAgiStrategyContent = (
       'It\'s built for three groups: 1) domain experts in policy, security, operations, or engineering looking to redirect their skills; 2) people heading into technical safety or governance roles who want the strategic picture first; and 3) newcomers who are serious about making big moves and having a huge impact.',
       'Not sure you fit? Apply anyway. Recent cohorts have also included teachers, lawyers, engineers, and community organisers.',
     ],
-    bottomCta: {
-      text: 'Applying takes about 15 minutes.',
-      buttonText: 'Apply now',
-      buttonUrl: applicationUrlWithUtm,
-    },
   },
 
   courseBenefitsText: {

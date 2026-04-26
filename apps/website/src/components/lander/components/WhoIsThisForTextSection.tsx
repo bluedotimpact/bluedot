@@ -1,4 +1,4 @@
-import { CTALinkOrButton, P } from '@bluedot/ui';
+import { P } from '@bluedot/ui';
 import { type ReactNode } from 'react';
 import { pageSectionHeadingClass } from '../../PageListRow';
 
@@ -6,15 +6,10 @@ export type WhoIsThisForTextSectionProps = {
   id?: string;
   title: string;
   paragraphs: ReactNode[];
-  bottomCta?: {
-    text: ReactNode;
-    buttonText: string;
-    buttonUrl: string;
-  };
 };
 
 const WhoIsThisForTextSection = ({
-  id, title, paragraphs, bottomCta,
+  id, title, paragraphs,
 }: WhoIsThisForTextSectionProps) => {
   return (
     <section id={id} className="w-full bg-white">
@@ -26,14 +21,6 @@ const WhoIsThisForTextSection = ({
               <P key={index}>{paragraph}</P>
             ))}
           </div>
-          {bottomCta && (
-            <div className="mt-8 flex flex-col items-start gap-4">
-              <P>{bottomCta.text}</P>
-              <CTALinkOrButton url={bottomCta.buttonUrl} variant="primary">
-                {bottomCta.buttonText}
-              </CTALinkOrButton>
-            </div>
-          )}
         </div>
       </div>
     </section>
