@@ -58,7 +58,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: apps/website/.next/cache
-          key: ${{ runner.os }}-nextjs-website-${{ hashFiles('package-lock.json') }}-${{ hashFiles('apps/website/**/*.{js,jsx,ts,tsx,mdx,md,json,css}') }}
+          key: ${{ runner.os }}-nextjs-website-${{ hashFiles('package-lock.json') }}-${{ hashFiles('apps/website/**/*.{js,jsx,ts,tsx,mdx,md,json,css}', '!apps/website/node_modules/**', '!apps/website/.next/**', '!apps/website/dist/**') }}
           restore-keys: |
             ${{ runner.os }}-nextjs-website-${{ hashFiles('package-lock.json') }}-
 
