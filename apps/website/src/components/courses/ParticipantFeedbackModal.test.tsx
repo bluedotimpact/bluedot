@@ -51,7 +51,7 @@ const renderModal = (overrides: Partial<React.ComponentProps<typeof ParticipantF
 const getDoneButton = () => screen.getByRole('button', { name: 'Done' });
 
 describe('ParticipantFeedbackModal', () => {
-  test('Done starts disabled, enables once both rubrics are set, then saves and fires onSaved', async () => {
+  test('Done starts disabled, enables once both rubrics and a follow-up are set, then saves and fires onSaved', async () => {
     await seed();
     const onSaved = vi.fn();
     renderModal({ onSaved });
@@ -59,13 +59,13 @@ describe('ParticipantFeedbackModal', () => {
     expect(getDoneButton()).toBeDisabled();
 
     fireEvent.click(screen.getByText('Took clear ownership of their learning')); // 4
-    expect(getDoneButton()).toBeDisabled();
-
     fireEvent.click(screen.getByText('Regularly engaged critically')); // 4
+    expect(getDoneButton()).toBeDisabled(); // still need a follow-up
+
+    fireEvent.click(screen.getByText('Schedule a call within the week (high priority)'));
     expect(getDoneButton()).toBeEnabled();
 
     fireEvent.change(screen.getByLabelText(/In 2-3 sentences/), { target: { value: 'Strong cohort member.' } });
-    fireEvent.click(screen.getByText('Schedule a call within the week (high priority)'));
 
     fireEvent.click(getDoneButton());
 

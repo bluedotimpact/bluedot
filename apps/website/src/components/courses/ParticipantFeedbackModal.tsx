@@ -1,7 +1,7 @@
 import { ErrorSection, Modal } from '@bluedot/ui';
 import { useState } from 'react';
 import { FaCheck, FaCircleInfo, FaLock } from 'react-icons/fa6';
-import { FOLLOW_UP_OPTIONS, followUpsToAirtable } from '../../lib/facilitatorFollowUps';
+import { ACTIONABLE_FOLLOW_UP_IDS, FOLLOW_UP_OPTIONS, followUpsToAirtable } from '../../lib/facilitatorFollowUps';
 import { getInitials } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
@@ -42,12 +42,14 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
   const [engageRating, setEngageRating] = useState<number | null>(initialData?.engageRating ?? null);
   const [investmentNote, setInvestmentNote] = useState(initialData?.investmentNote ?? '');
   const [followUps, setFollowUps] = useState<Record<string, boolean>>(initialData?.followUps ?? {});
-  const hasTopScore = showUpRating === 5 || engageRating === 5;
+  const hasFollowUp = Object.values(followUps).some(Boolean);
+  const isStandout = showUpRating === 5 || engageRating === 5
+    || ACTIONABLE_FOLLOW_UP_IDS.some((id) => followUps[id]);
 
   const savePeerFeedback = trpc.facilitators.savePeerFeedback.useMutation();
 
   const handleSave = () => {
-    if (showUpRating === null || engageRating === null) return;
+    if (showUpRating === null || engageRating === null || !hasFollowUp) return;
     const data: ParticipantFeedbackData = {
       showUpRating, engageRating, investmentNote, followUps,
     };
@@ -128,22 +130,6 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
 
         <div className="mt-8 flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
-            <label htmlFor="investment-note" className="text-size-xs font-semibold text-bluedot-navy">
-              In 2-3 sentences: what would you tell BlueDot if we asked "how much time should we invest in this person?"
-            </label>
-            <p className="text-size-xs text-gray-600">Feel free to paste this from your 1:1 report.</p>
-          </div>
-          <textarea
-            id="investment-note"
-            value={investmentNote}
-            onChange={(e) => setInvestmentNote(e.target.value)}
-            className="w-full h-[106px] border border-gray-300 rounded-md p-3 text-size-xs text-bluedot-navy bg-white resize-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
-          />
-          {hasTopScore && <TopScoreNudge detail="a short note on what made them stand out would help us act on this." />}
-        </div>
-
-        <div className="mt-8 flex flex-col gap-4">
-          <div className="flex flex-col gap-1.5">
             <p className="text-size-xs font-semibold text-bluedot-navy">
               How should we follow up with them?
             </p>
@@ -165,7 +151,22 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
               </label>
             ))}
           </div>
-          {hasTopScore && <TopScoreNudge detail="let us know how we can back them." />}
+        </div>
+
+        <div className="mt-8 flex flex-col gap-4">
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="investment-note" className="text-size-xs font-semibold text-bluedot-navy">
+              In 2-3 sentences: what would you tell BlueDot if we asked "how much time should we invest in this person?"
+            </label>
+            <p className="text-size-xs text-gray-600">Feel free to paste this from your 1:1 report.</p>
+          </div>
+          <textarea
+            id="investment-note"
+            value={investmentNote}
+            onChange={(e) => setInvestmentNote(e.target.value)}
+            className="w-full h-[106px] border border-gray-300 rounded-md p-3 text-size-xs text-bluedot-navy bg-white resize-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
+          />
+          {isStandout && <StandoutNudge />}
         </div>
 
         <div className="flex items-center justify-between gap-3 mt-8 py-4 border-t border-gray-200">
@@ -182,7 +183,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
               type="button"
               className="bg-bluedot-normal text-white px-6 py-2.5 rounded-md text-size-xs leading-5 font-semibold transition-colors cursor-pointer hover:bg-bluedot-darker disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
               onClick={handleSave}
-              disabled={showUpRating === null || engageRating === null || savePeerFeedback.isPending}
+              disabled={showUpRating === null || engageRating === null || !hasFollowUp || savePeerFeedback.isPending}
             >
               Done
             </button>
@@ -195,11 +196,11 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
 
 export default ParticipantFeedbackModal;
 
-const TopScoreNudge: React.FC<{ detail: string }> = ({ detail }) => (
+const StandoutNudge: React.FC = () => (
   <div className="flex gap-2 items-start bg-[#e5edfe] border border-[#c4d3f8] rounded-[6px] p-[11px]">
     <FaCircleInfo className="size-3.5 shrink-0 text-bluedot-normal mt-[3px]" aria-hidden />
     <p className="text-[13px] leading-[19.5px] text-bluedot-normal">
-      You've given a top score — {detail}
+      Sounds like they are a standout – a short note here would help us act on this.
     </p>
   </div>
 );
