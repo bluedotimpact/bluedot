@@ -30,4 +30,6 @@ export const getStaticProps: GetStaticProps<ProgramCoursePageProps> = async () =
   return getProgramCoursePageStaticProps(COURSE_SLUG);
 };
 
+IncubatorWeekProgramPage.pageRendersOwnNav = true;
+
 export default IncubatorWeekProgramPage;

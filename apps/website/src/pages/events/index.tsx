@@ -4,14 +4,13 @@ import {
   Breadcrumbs,
   CTALinkOrButton,
   ErrorSection,
-  H1,
   P,
   ProgressDots,
   type BluedotRoute,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import NewsletterBanner from '../../components/homepage/NewsletterBanner';
-import { Nav } from '../../components/Nav/Nav';
+import MarketingHero from '../../components/MarketingHero';
 import { PageListGroup, PageListRow } from '../../components/PageListRow';
 import { buildTimeDeltaString } from '../../components/events/eventsUtils';
 import { ROUTES } from '../../lib/routes';
@@ -99,32 +98,6 @@ const matchesFilter = (event: Event, filter: EventFilterKey) => {
   }
 };
 
-const EventsHero = () => {
-  return (
-    <section className="relative w-full min-h-[317px] min-[680px]:min-h-[366px]">
-      <Nav variant="transparent" />
-      <img
-        src="/images/homepage/hero.webp"
-        alt=""
-        className="absolute inset-0 size-full object-cover -scale-x-100"
-        {...{ fetchpriority: 'high' }}
-      />
-      <div className="relative z-10 flex flex-col justify-end h-full min-h-[317px] min-[680px]:min-h-[366px] pb-12 pt-20 min-[680px]:pb-16 min-[680px]:pt-20">
-        <div className="w-full mx-auto max-w-max-width px-spacing-x">
-          <div className="flex flex-col gap-6 max-w-[780px]">
-            <H1 className="text-[32px] min-[680px]:text-[40px] min-[1024px]:text-[48px] leading-tight font-medium tracking-[-1px] text-white">
-              Events
-            </H1>
-            <p className="text-size-sm min-[680px]:text-[18px] min-[1024px]:text-[20px] leading-[1.55] tracking-[-0.1px] text-white">
-              Recurring groups, meetups, socials, and workshops for the BlueDot community.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
 const EventDateBadge = ({ event }: { event: Event }) => {
   return (
     <div className="flex size-[68px] shrink-0 flex-col overflow-hidden rounded-[12px] border border-bluedot-navy/10 bg-white">
@@ -201,7 +174,10 @@ const EventsPage = () => {
         />
       </Head>
 
-      <EventsHero />
+      <MarketingHero
+        title="Events"
+        subtitle="Recurring groups, meetups, socials, and workshops for the BlueDot community."
+      />
       <Breadcrumbs route={CURRENT_ROUTE} />
 
       <section className="section section-body events-featured-section">
@@ -287,5 +263,6 @@ const EventsPage = () => {
 };
 
 EventsPage.mainShrinkToContent = true;
+EventsPage.pageRendersOwnNav = true;
 
 export default EventsPage;

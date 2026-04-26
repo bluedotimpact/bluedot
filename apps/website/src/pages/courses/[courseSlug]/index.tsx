@@ -2,7 +2,6 @@ import {
   addQueryParam,
   Breadcrumbs,
   CTALinkOrButton,
-  H1,
   useLatestUtmParams,
 } from '@bluedot/ui';
 import Head from 'next/head';
@@ -12,7 +11,7 @@ import path from 'path';
 import { ROUTES } from '../../../lib/routes';
 import { ONE_MINUTE_SECONDS } from '../../../lib/constants';
 import { appendPosthogSessionIdPrefill } from '../../../lib/appendPosthogSessionIdPrefill';
-import { Nav } from '../../../components/Nav/Nav';
+import MarketingHero from '../../../components/MarketingHero';
 import NewsletterBanner from '../../../components/homepage/NewsletterBanner';
 import { PageListGroup, PageListRow } from '../../../components/PageListRow';
 import AiSafetyOpsLander from '../../../components/lander/AiSafetyOpsLander';
@@ -194,27 +193,7 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
         <meta key="og:image:alt" property="og:image:alt" content="BlueDot Impact logo" />
       </Head>
 
-      <section className="relative w-full min-h-[317px] min-[680px]:min-h-[366px]">
-        <Nav variant="transparent" />
-        <img
-          src="/images/homepage/hero.webp"
-          alt=""
-          className="absolute inset-0 size-full object-cover -scale-x-100"
-          {...{ fetchpriority: 'high' }}
-        />
-        <div className="relative z-10 flex flex-col justify-end h-full min-h-[317px] min-[680px]:min-h-[366px] pb-12 pt-20 min-[680px]:pb-16 min-[680px]:pt-20">
-          <div className="w-full mx-auto max-w-max-width px-spacing-x">
-            <div className="flex flex-col gap-6 max-w-[780px]">
-              <H1 className="text-[32px] min-[680px]:text-[40px] min-[1024px]:text-[48px] leading-tight font-medium tracking-[-1px] text-white">
-                {course.title}
-              </H1>
-              <p className="text-size-sm min-[680px]:text-[18px] min-[1024px]:text-[20px] leading-[1.55] tracking-[-0.1px] text-white">
-                {course.shortDescription}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <MarketingHero title={course.title} subtitle={course.shortDescription} />
 
       <Breadcrumbs
         route={{
@@ -303,5 +282,7 @@ export const getStaticProps: GetStaticProps<CoursePageProps> = async ({ params }
     };
   }
 };
+
+CoursePage.pageRendersOwnNav = true;
 
 export default CoursePage;

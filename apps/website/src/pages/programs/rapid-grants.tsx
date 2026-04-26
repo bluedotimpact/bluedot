@@ -40,4 +40,6 @@ const RapidGrantsPage = () => {
   );
 };
 
+RapidGrantsPage.pageRendersOwnNav = true;
+
 export default RapidGrantsPage;

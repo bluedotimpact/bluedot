@@ -1,31 +1,22 @@
 'use client';
 
 import type React from 'react';
-import { useRouter } from 'next/router';
 import { Nav } from './Nav/Nav';
 
 type HeaderProps = {
   announcementBanner?: React.ReactNode;
+  pageRendersOwnNav?: boolean;
 };
 
 /**
  * Header component that handles the announcement banner and nav.
+ *
+ * When the active page renders its own Nav (e.g. an image-backed hero where
+ * the Nav overlays the image), set `pageRendersOwnNav` so the global Nav is
+ * skipped. Pages opt in via a `pageRendersOwnNav = true` static on the page
+ * component, read by `_app.tsx` and forwarded here.
  */
-export const Header: React.FC<HeaderProps> = ({ announcementBanner }) => {
-  const router = useRouter();
-  // Pages that render their own Nav: homepage, /courses index, and course lander pages
-  const isCourseLander = router.pathname === '/courses/[courseSlug]';
-  const isProgramsPage = router.pathname === '/programs' || router.pathname.startsWith('/programs/');
-  const pageRendersOwnNav = router.pathname === '/'
-    || router.pathname === '/courses'
-    || router.pathname === '/about'
-    || router.pathname === '/events'
-    || router.pathname === '/join-us'
-    || router.pathname === '/join-us/[slug]'
-    || router.pathname === '/grants'
-    || isCourseLander
-    || isProgramsPage;
-
+export const Header: React.FC<HeaderProps> = ({ announcementBanner, pageRendersOwnNav }) => {
   if (pageRendersOwnNav) {
     return announcementBanner ?? null;
   }

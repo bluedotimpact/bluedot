@@ -30,4 +30,6 @@ export const getStaticProps: GetStaticProps<ProgramCoursePageProps> = async () =
   return getProgramCoursePageStaticProps(COURSE_SLUG);
 };
 
+TechnicalAiSafetyProjectSprintProgramPage.pageRendersOwnNav = true;
+
 export default TechnicalAiSafetyProjectSprintProgramPage;
