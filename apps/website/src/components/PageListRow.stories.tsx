@@ -59,15 +59,12 @@ export const InGroup: Story = {
   args: {
     href: '/programs/rapid-grants',
     title: 'Rapid Grants',
+    summary: 'Fund talented people in the BlueDot community to do excellent work on AI safety.',
+    meta: 'Funding · Active',
   },
-  render: () => (
+  render: (args) => (
     <PageListGroup label="Funding programmes">
-      <PageListRow
-        href="/programs/rapid-grants"
-        title="Rapid Grants"
-        summary="Fund talented people in the BlueDot community to do excellent work on AI safety."
-        meta="Funding · Active"
-      />
+      <PageListRow {...args} />
       <PageListRow
         href="/programs/career-transition-grant"
         title="Career Transition Grant"
