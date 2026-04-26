@@ -160,6 +160,35 @@ const CourseLander = ({
         <meta name="twitter:title" content={content.meta.title} />
         <meta name="twitter:description" content={seoDescription} />
         <meta name="twitter:image" content={courseOgImage} />
+
+        {/* Schema.org Course markup for rich results */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Course',
+              availableLanguage: 'en',
+              name: content.meta.title,
+              description: seoDescription,
+              image: courseOgImage,
+              url: ogUrl,
+              provider: {
+                '@type': 'Organization',
+                name: 'BlueDot Impact',
+                sameAs: 'https://bluedot.org',
+              },
+              offers: [{
+                '@type': 'Offer',
+                category: 'Free',
+              }],
+              hasCourseInstance: [{
+                '@type': 'CourseInstance',
+                courseMode: 'Online',
+              }],
+            }),
+          }}
+        />
       </Head>
 
       <Nav variant={heroProps.gradient ? 'transparent' : 'default'} />
