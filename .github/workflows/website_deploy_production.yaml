@@ -54,6 +54,10 @@ jobs:
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm ci --prefer-offline --audit false --fund false
 
+      - name: Run postinstall scripts (cache hit)
+        if: steps.cache-node-modules.outputs.cache-hit == 'true'
+        run: npm run postinstall --workspaces --if-present
+
       - name: Cache Next.js build
         uses: actions/cache@v4
         with:
