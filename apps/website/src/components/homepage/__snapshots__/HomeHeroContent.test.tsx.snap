@@ -173,17 +173,17 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                           </a>
                           <a
                             class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
-                            href="/courses/incubator-week"
-                            tabindex="0"
-                          >
-                            Incubator Week
-                          </a>
-                          <a
-                            class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
                             href="/programs/1-1-advising"
                             tabindex="0"
                           >
                             1-1 advising
+                          </a>
+                          <a
+                            class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
+                            href="/courses/incubator-week"
+                            tabindex="0"
+                          >
+                            Incubator Week
                           </a>
                           <div
                             class="border-t border-gray-200 my-2"
@@ -411,17 +411,17 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                     </a>
                     <a
                       class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
-                      href="/courses/incubator-week"
-                      tabindex="0"
-                    >
-                      Incubator Week
-                    </a>
-                    <a
-                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
                       href="/programs/1-1-advising"
                       tabindex="0"
                     >
                       1-1 advising
+                    </a>
+                    <a
+                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-[#02034B] hover:text-[#02034B]"
+                      href="/courses/incubator-week"
+                      tabindex="0"
+                    >
+                      Incubator Week
                     </a>
                     <div
                       class="border-t border-gray-200 my-2"

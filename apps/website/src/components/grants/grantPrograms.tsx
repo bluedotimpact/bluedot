@@ -52,6 +52,15 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
     status: 'Active',
   },
   {
+    slug: '1-1-advising',
+    title: '1-1 advising',
+    href: '/programs/1-1-advising',
+    track: 'Build',
+    goal: 'Help BlueDot community members figure out how to contribute their skills to AI safety.',
+    scope: 'A 20-minute call with the BlueDot team. Leave with concrete next steps.',
+    status: 'Active',
+  },
+  {
     slug: 'incubator-week',
     title: 'Incubator Week',
     href: '/courses/incubator-week',
@@ -60,15 +69,6 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
     scope: 'A five-day intensive in London. All expenses paid. Pitch for funding on Friday.',
     scopeLabel: 'Format',
     status: 'On hiatus',
-  },
-  {
-    slug: '1-1-advising',
-    title: '1-1 advising',
-    href: '/programs/1-1-advising',
-    track: 'Build',
-    goal: 'Help BlueDot community members figure out how to contribute their skills to AI safety.',
-    scope: 'A 20-minute call with the BlueDot team. Leave with concrete next steps.',
-    status: 'Active',
   },
 ];
 
