@@ -719,7 +719,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
       class="w-full bg-white"
     >
       <div
-        class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24 xl:py-24"
+        class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24"
       >
         <h2
           class="bluedot-h2 not-prose text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy text-center mb-12 md:mb-16 tracking-[-0.01em]"
@@ -727,13 +727,13 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
           Who this is for
         </h2>
         <div
-          class="grid grid-cols-1 bd-md:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+          class="grid grid-cols-1 bd-md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
         >
           <div
-            class="flex flex-col items-center bd-md:items-start gap-6 bd-md:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-bluedot-navy/10 rounded-xl p-8 bd-md:min-h-[288px] mx-auto md:mx-0 max-w-[350px] bd-md:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
+            class="flex flex-col items-center bd-md:items-start gap-6 bd-md:justify-start bg-white border border-bluedot-navy/10 rounded-xl p-8 bd-md:min-h-[288px] mx-auto md:mx-0 max-w-[350px] bd-md:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
           >
             <div
-              class="size-14 bd-md:size-14 rounded-lg flex items-center justify-center flex-shrink-0 "
+              class="size-14 rounded-lg flex items-center justify-center flex-shrink-0 "
               style="background-color: #5C1F2E;"
             >
               <svg
@@ -752,7 +752,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
               </svg>
             </div>
             <p
-              class="bluedot-p not-prose text-[18px] bd-md:leading-[160%] leading-[1.6] text-bluedot-navy"
+              class="bluedot-p not-prose text-[18px] leading-[1.6] text-bluedot-navy"
             >
               <span
                 class="font-semibold"
@@ -766,10 +766,10 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
             </p>
           </div>
           <div
-            class="flex flex-col items-center bd-md:items-start gap-6 bd-md:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-bluedot-navy/10 rounded-xl p-8 bd-md:min-h-[288px] mx-auto md:mx-0 max-w-[350px] bd-md:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
+            class="flex flex-col items-center bd-md:items-start gap-6 bd-md:justify-start bg-white border border-bluedot-navy/10 rounded-xl p-8 bd-md:min-h-[288px] mx-auto md:mx-0 max-w-[350px] bd-md:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
           >
             <div
-              class="size-14 bd-md:size-14 rounded-lg flex items-center justify-center flex-shrink-0 "
+              class="size-14 rounded-lg flex items-center justify-center flex-shrink-0 "
               style="background-color: #5C1F2E;"
             >
               <svg
@@ -788,7 +788,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
               </svg>
             </div>
             <p
-              class="bluedot-p not-prose text-[18px] bd-md:leading-[160%] leading-[1.6] text-bluedot-navy"
+              class="bluedot-p not-prose text-[18px] leading-[1.6] text-bluedot-navy"
             >
               <span
                 class="font-semibold"
@@ -802,10 +802,10 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
             </p>
           </div>
           <div
-            class="flex flex-col items-center bd-md:items-start gap-6 bd-md:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-bluedot-navy/10 rounded-xl p-8 bd-md:min-h-[288px] mx-auto md:mx-0 max-w-[350px] bd-md:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
+            class="flex flex-col items-center bd-md:items-start gap-6 bd-md:justify-start bg-white border border-bluedot-navy/10 rounded-xl p-8 bd-md:min-h-[288px] mx-auto md:mx-0 max-w-[350px] bd-md:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
           >
             <div
-              class="size-14 bd-md:size-14 rounded-lg flex items-center justify-center flex-shrink-0 "
+              class="size-14 rounded-lg flex items-center justify-center flex-shrink-0 "
               style="background-color: #5C1F2E;"
             >
               <svg
@@ -824,7 +824,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
               </svg>
             </div>
             <p
-              class="bluedot-p not-prose text-[18px] bd-md:leading-[160%] leading-[1.6] text-bluedot-navy"
+              class="bluedot-p not-prose text-[18px] leading-[1.6] text-bluedot-navy"
             >
               <span
                 class="font-semibold"
@@ -871,7 +871,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
       class="w-full bg-white"
     >
       <div
-        class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 md:px-spacing-x xl:py-24 xl:py-24"
+        class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 md:px-spacing-x xl:py-24"
       >
         <h2
           class="bluedot-h2 not-prose text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy text-center mb-16 tracking-[-0.01em]"

@@ -509,7 +509,7 @@ exports[`AboutPage > should render correctly 1`] = `
         src="/images/homepage/hero.webp"
       />
       <div
-        class="relative z-10 flex flex-col justify-end h-full min-h-[317px] bd-md:min-h-[366px] pb-12 pt-20 bd-md:pb-16 bd-md:pt-20"
+        class="relative z-10 flex flex-col justify-end h-full min-h-[317px] bd-md:min-h-[366px] pb-12 pt-20 bd-md:pb-16"
       >
         <div
           class="section-base"

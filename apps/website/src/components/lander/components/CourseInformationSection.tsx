@@ -61,7 +61,7 @@ const CourseInformationSection = ({
               <div key={detail.label}>
                 {detail.isSchedule ? (
                   /* Schedule section  */
-                  <div className="flex flex-col bd-md:flex-row px-5 bd-md:px-8 py-0 gap-6 bd-md:gap-6 md:gap-8 items-start w-full">
+                  <div className="flex flex-col bd-md:flex-row px-5 bd-md:px-8 py-0 gap-6 md:gap-8 items-start w-full">
                     {/* Schedule Label (left column, no icon) */}
                     <div className="bd-md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0">
                       <P className="text-[16px] font-semibold leading-[125%] text-bluedot-navy">

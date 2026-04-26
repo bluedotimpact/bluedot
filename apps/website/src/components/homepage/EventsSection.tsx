@@ -311,7 +311,7 @@ const EventsSection = () => {
     >
       {/* Heading Section */}
       <div className="mx-auto max-w-screen-xl">
-        <div className="flex flex-col items-center text-center gap-8 bd-md:gap-12 lg:gap-12 xl:gap-12 mb-12 bd-md:mb-12 lg:mb-12 xl:mb-16">
+        <div className="flex flex-col items-center text-center gap-8 bd-md:gap-12 mb-12 xl:mb-16">
           <h2
             id="events-section-heading"
             className="text-[28px] bd-md:text-[36px] lg:text-[40px] xl:text-[48px] font-medium leading-[125%] text-bluedot-navy tracking-[-1px] max-w-[666px]"
@@ -323,7 +323,7 @@ const EventsSection = () => {
       </div>
 
       {/* Photo Carousel with full-bleed */}
-      <div className="mb-16 bd-md:mb-16 lg:mb-20 xl:mb-20">
+      <div className="mb-16 lg:mb-20">
         <PhotoCarousel photos={BLUEDOT_EVENTS_PHOTOS} />
       </div>
 

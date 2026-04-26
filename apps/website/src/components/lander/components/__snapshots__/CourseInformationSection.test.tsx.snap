@@ -153,7 +153,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
         </div>
         <div>
           <div
-            class="flex flex-col bd-md:flex-row px-5 bd-md:px-8 py-0 gap-6 bd-md:gap-6 md:gap-8 items-start w-full"
+            class="flex flex-col bd-md:flex-row px-5 bd-md:px-8 py-0 gap-6 md:gap-8 items-start w-full"
           >
             <div
               class="bd-md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0"

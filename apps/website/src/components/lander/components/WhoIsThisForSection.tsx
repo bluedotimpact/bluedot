@@ -29,23 +29,23 @@ const WhoIsThisForSection = ({
 }: WhoIsThisForSectionProps) => {
   return (
     <section className="w-full bg-white">
-      <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24 xl:py-24">
+      <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24">
         <H2 className="text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy text-center mb-12 md:mb-16 tracking-[-0.01em]">
           {title}
         </H2>
-        <div className="grid grid-cols-1 bd-md:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 bd-md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {targetAudiences.map(({ icon: IconComponent, boldText, description }) => (
             <div
               key={boldText}
-              className="flex flex-col items-center bd-md:items-start gap-6 bd-md:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-bluedot-navy/10 rounded-xl p-8 bd-md:min-h-[288px] mx-auto md:mx-0 max-w-[350px] bd-md:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
+              className="flex flex-col items-center bd-md:items-start gap-6 bd-md:justify-start bg-white border border-bluedot-navy/10 rounded-xl p-8 bd-md:min-h-[288px] mx-auto md:mx-0 max-w-[350px] bd-md:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
             >
               <div
-                className={`size-14 bd-md:size-14 rounded-lg flex items-center justify-center flex-shrink-0 ${!iconBackgroundColor ? 'bg-bluedot-normal' : ''}`}
+                className={`size-14 rounded-lg flex items-center justify-center flex-shrink-0 ${!iconBackgroundColor ? 'bg-bluedot-normal' : ''}`}
                 style={iconBackgroundColor ? { backgroundColor: iconBackgroundColor } : undefined}
               >
                 <IconComponent className="text-white" size={28} />
               </div>
-              <P className="text-[18px] bd-md:leading-[160%] leading-[1.6] text-bluedot-navy">
+              <P className="text-[18px] leading-[1.6] text-bluedot-navy">
                 <span className="font-semibold">{boldText}</span>
                 <span> {description}</span>
               </P>

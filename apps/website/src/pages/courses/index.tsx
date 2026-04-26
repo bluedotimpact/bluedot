@@ -152,6 +152,8 @@ const CoursesPage = () => {
       <Breadcrumbs route={ROUTES.courses} />
 
       {/* Main Content Area */}
+      {/* 1024/1280 stay arbitrary on this line: lg:/xl: would emit after the 1440/1920 arbitrary
+          variants in Tailwind v4's cascade and shadow them at higher viewports. */}
       <div className="w-full mx-auto px-5 bd-md:px-8 min-[1024px]:px-12 min-[1280px]:px-16 min-[1440px]:px-20 min-[1920px]:max-w-[1360px] min-[1920px]:px-0">
         <div className="pt-8 bd-md:pt-16 xl:pt-24">
           <div className="flex flex-col xl:flex-row xl:gap-16">
