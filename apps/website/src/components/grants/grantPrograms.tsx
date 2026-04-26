@@ -196,7 +196,7 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
         question: 'Should I apply for a call if I don\'t have any options I\'m considering?',
         answer: (
           <>
-            If you haven&apos;t seriously considered the risks from advanced AI systems before, you should take the <a href="https://bluedot.org/courses/future-of-ai" className="underline hover:no-underline">Future of AI course</a>.
+            If you're new to AI safety, you should start with the <a href="https://bluedot.org/courses/future-of-ai" className="underline hover:no-underline">Future of AI course</a>.
             <br /><br />
             If you can&apos;t come up with any guesses for how you could contribute, you might want to consider taking the <a href="https://bluedot.org/courses/agi-strategy" className="underline hover:no-underline">AGI Strategy course</a> or our <a href="https://bluedot.org/courses" className="underline hover:no-underline">deep dive courses</a> to get a better sense of what&apos;s needed in AI safety.
           </>
