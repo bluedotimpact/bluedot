@@ -13,7 +13,7 @@ type AddParticipantModalProps = {
 
 const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId, excludeIds, onAdd, onClose }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const { data, isLoading } = trpc.facilitators.searchAddableParticipants.useQuery({
+  const { data, isLoading, isError } = trpc.facilitators.searchAddableParticipants.useQuery({
     meetPersonId,
     searchTerm: searchTerm.trim() || undefined,
   });
@@ -51,8 +51,13 @@ const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId,
 
         <div className="flex flex-col gap-1.5 max-h-[320px] overflow-y-auto">
           {isLoading && <ProgressDots />}
-          {!isLoading && results.length === 0 && (
-            <p className="text-size-xs text-gray-500 py-2">No participants found.</p>
+          {isError && (
+            <p className="text-red-600 text-size-xs py-2" role="alert" aria-live="polite">
+              Couldn't load participants. Please try again.
+            </p>
+          )}
+          {!isLoading && !isError && results.length === 0 && (
+            <p className="text-size-xs text-gray-600 py-2">No participants found.</p>
           )}
           {results.map((person) => (
             <div

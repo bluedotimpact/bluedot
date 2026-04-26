@@ -14,6 +14,7 @@ export type ParticipantFeedbackData = {
 type ParticipantFeedbackModalProps = {
   participant: { id: string; name: string };
   initialData?: ParticipantFeedbackData;
+  // TODO perhaps make it own its own save process
   isSaving?: boolean;
   onClose: () => void;
   onSave: (data: ParticipantFeedbackData) => void;
