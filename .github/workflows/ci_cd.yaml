@@ -6,15 +6,24 @@ on:
       - master
   pull_request:
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
-  ci:
+  setup:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 10
+    outputs:
+      node_version: ${{ steps.setup-node.outputs.node-version }}
+      turbo_filter: ${{ steps.get_affected_apps.outputs.turbo_filter }}
+      affected_deployable_apps: ${{ steps.get_affected_deployable_apps.outputs.deploy_array }}
     steps:
       - name: Checkout ${{ github.sha }}
         uses: actions/checkout@v4
         with:
           fetch-depth: 10  # Fetch more history to be likely to find a successful commit when identifying affected apps
+
       - name: Use Node.js
         id: setup-node
         uses: actions/setup-node@v4
@@ -22,6 +31,7 @@ jobs:
           node-version: 22
           cache: 'npm'
           registry-url: https://registry.npmjs.org/
+
       - name: Cache node_modules
         id: cache-node-modules
         uses: actions/cache@v4
@@ -34,8 +44,8 @@ jobs:
 
       - name: Install NPM dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm ci --audit false --fund false
-        
+        run: npm ci --prefer-offline --audit false --fund false
+
       - name: Get affected apps
         id: get_affected_apps
         env:
@@ -45,15 +55,6 @@ jobs:
         run: |
           TURBO_FILTER=$(npm run turbo_filter --silent --workspace @bluedot/affected-packages)
           echo "turbo_filter=$TURBO_FILTER" >> $GITHUB_OUTPUT
-          
-      - name: Typecheck affected apps
-        run: npx turbo typecheck ${{ steps.get_affected_apps.outputs.turbo_filter }}
-
-      - name: Lint affected apps
-        run: npx turbo lint ${{ steps.get_affected_apps.outputs.turbo_filter }}
-
-      - name: Test affected apps
-        run: npx turbo test ${{ steps.get_affected_apps.outputs.turbo_filter }}
 
       - name: Get affected deployable apps
         id: get_affected_deployable_apps
@@ -64,8 +65,147 @@ jobs:
         run: |
           DEPLOY_ARRAY=$(npm run deploy_array --silent --workspace @bluedot/affected-packages)
           echo "deploy_array=$DEPLOY_ARRAY" >> $GITHUB_OUTPUT
+
+  typecheck:
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout ${{ github.sha }}
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          registry-url: https://registry.npmjs.org/
+
+      - name: Restore node_modules
+        id: cache-node-modules
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            apps/*/node_modules
+            libraries/*/node_modules
+          key: ${{ runner.os }}-node-${{ needs.setup.outputs.node_version }}-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Install NPM dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --audit false --fund false
+
+      - name: Cache turbo
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-typecheck-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-typecheck-
+
+      - name: Typecheck affected apps
+        run: npx turbo typecheck ${{ needs.setup.outputs.turbo_filter }}
+
+  lint:
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout ${{ github.sha }}
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          registry-url: https://registry.npmjs.org/
+
+      - name: Restore node_modules
+        id: cache-node-modules
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            apps/*/node_modules
+            libraries/*/node_modules
+          key: ${{ runner.os }}-node-${{ needs.setup.outputs.node_version }}-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Install NPM dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --audit false --fund false
+
+      - name: Cache turbo
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-lint-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-lint-
+
+      - name: Lint affected apps
+        run: npx turbo lint ${{ needs.setup.outputs.turbo_filter }}
+
+  test:
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout ${{ github.sha }}
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          registry-url: https://registry.npmjs.org/
+
+      - name: Restore node_modules
+        id: cache-node-modules
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            apps/*/node_modules
+            libraries/*/node_modules
+          key: ${{ runner.os }}-node-${{ needs.setup.outputs.node_version }}-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Install NPM dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --audit false --fund false
+
+      - name: Cache turbo
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-test-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-test-
+
+      - name: Test affected apps
+        run: npx turbo test ${{ needs.setup.outputs.turbo_filter }}
+
+  ci:
+    # Aggregator job: branch protection requires a check named "ci", so we keep
+    # this name and have it gate on the parallel jobs above. Removing or
+    # renaming this job would break PR merges.
+    needs: [setup, typecheck, lint, test]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
     outputs:
-      affected_deployable_apps: ${{ steps.get_affected_deployable_apps.outputs.deploy_array }}
+      affected_deployable_apps: ${{ needs.setup.outputs.affected_deployable_apps }}
+    steps:
+      - name: Verify all checks passed
+        run: |
+          if [[ "${{ needs.setup.result }}" != "success" \
+             || "${{ needs.typecheck.result }}" != "success" \
+             || "${{ needs.lint.result }}" != "success" \
+             || "${{ needs.test.result }}" != "success" ]]; then
+            echo "setup=${{ needs.setup.result }}, typecheck=${{ needs.typecheck.result }}, lint=${{ needs.lint.result }}, test=${{ needs.test.result }}"
+            exit 1
+          fi
 
   cd:
     needs: ci
@@ -83,13 +223,43 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Use Node.js
+        id: setup-node
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: 'npm'
           registry-url: https://registry.npmjs.org/
 
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            apps/*/node_modules
+            libraries/*/node_modules
+          key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+
       - name: Install NPM dependencies
-        run: npm ci --audit false --fund false
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --audit false --fund false
+
+      - name: Cache Next.js build (website)
+        if: matrix.app == '@bluedot/website'
+        uses: actions/cache@v4
+        with:
+          path: apps/website/.next/cache
+          key: ${{ runner.os }}-nextjs-website-${{ hashFiles('package-lock.json') }}-${{ hashFiles('apps/website/**/*.{js,jsx,ts,tsx,mdx,md,json,css}', '!apps/website/node_modules/**', '!apps/website/.next/**', '!apps/website/dist/**') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-website-${{ hashFiles('package-lock.json') }}-
+
+      - name: Cache turbo
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-cd-${{ matrix.app }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-cd-${{ matrix.app }}-
 
       - name: Configure infra deployment
         if: matrix.app == '@bluedot/infra'
