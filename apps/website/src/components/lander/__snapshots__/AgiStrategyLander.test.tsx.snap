@@ -1110,57 +1110,58 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           class="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto"
         >
           <h3
-            class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-8"
+            class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
           >
             How the course works
           </h3>
           <div
-            class="flex flex-col gap-8"
+            class="flex flex-col gap-5"
           >
-            <div
-              class="flex flex-col gap-2"
+            <p
+              class="bluedot-p not-prose"
             >
-              <h4
-                class="text-[18px] font-semibold leading-[1.4] text-bluedot-navy"
-              >
-                Commitment
-              </h4>
-              <p
-                class="bluedot-p not-prose"
-              >
-                Each day or week, you will:
-                <br />
-                Complete 2-3 hours of reading and writing, and join ~8 peers in a 2-hour Zoom meeting to discuss the content.
-              </p>
-            </div>
-            <div
-              class="flex flex-col gap-2"
+              The course has two “intensity levels”: part-time and intensive.
+            </p>
+            <p
+              class="bluedot-p not-prose"
             >
-              <h4
-                class="text-[18px] font-semibold leading-[1.4] text-bluedot-navy"
-              >
-                Facilitator
-              </h4>
-              <p
-                class="bluedot-p not-prose"
-              >
-                All discussions will be facilitated by an AI safety expert.
-              </p>
-            </div>
-            <div
-              class="flex flex-col gap-2"
+              If you join the 
+              <em>
+                part-time
+              </em>
+               course, you’ll invest 5h/week for 
+              5
+               weeks.
+            </p>
+            <p
+              class="bluedot-p not-prose"
             >
-              <h4
-                class="text-[18px] font-semibold leading-[1.4] text-bluedot-navy"
-              >
-                Price
-              </h4>
-              <p
-                class="bluedot-p not-prose"
-              >
-                This course is freely available and operates on a "pay-what-you-want" model.
-              </p>
-            </div>
+              If you join the 
+              <em>
+                intensive
+              </em>
+               course, you’ll invest 5h/day for 
+              5
+               days.
+            </p>
+            <p
+              class="bluedot-p not-prose"
+            >
+              Each day/week, you’ll complete 3 hours of reading and writing, followed by a 2h group discussion with ~8 peers over Zoom.
+            </p>
+            <p
+              class="bluedot-p not-prose"
+            >
+              All discussions are facilitated by an AI safety expert who can help to introduce you to others in the field.
+            </p>
+            <p
+              class="bluedot-p not-prose"
+            >
+              <strong>
+                This course is free
+              </strong>
+              , and operates on a “pay-what-you-want” model.
+            </p>
           </div>
         </div>
       </div>

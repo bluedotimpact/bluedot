@@ -11,6 +11,7 @@ import WhoIsThisForTextSection, { type WhoIsThisForTextSectionProps } from './co
 import CourseBenefitsTextSection, { type CourseBenefitsTextSectionProps } from './components/CourseBenefitsTextSection';
 import PathwaysListSection, { type PathwaysListSectionProps } from './components/PathwaysListSection';
 import ScheduleListSection, { type ScheduleListSectionProps } from './components/ScheduleListSection';
+import HowTheCourseWorksSection, { type HowTheCourseWorksSectionProps } from './components/HowTheCourseWorksSection';
 import HeroSection, { type HeroSectionProps } from './components/HeroSection';
 import QuoteSection, { type QuoteSectionProps } from './components/QuoteSection';
 import CourseInformationSection, { type CourseInformationSectionProps } from './components/CourseInformationSection';
@@ -56,8 +57,8 @@ export type CourseLanderContent = {
   /** Prerequisites section */
   prerequisites?: PrerequisitesSectionProps;
   courseInformation?: CourseInformationSectionProps;
-  /** Editorial text variant of "How the course works" (commitment / facilitator / price etc.) — replaces courseInformation when set. Reuses the heading + paragraph treatment from courseBenefitsText. */
-  howTheCourseWorks?: CourseBenefitsTextSectionProps;
+  /** Editorial prose "How the course works" — replaces courseInformation when set. Renders paragraphs with course-round unit counts interpolated from the database. */
+  howTheCourseWorks?: HowTheCourseWorksSectionProps;
   /** Standalone schedule section using PageListRow rows — renders alongside howTheCourseWorks instead of inside courseInformation's box. */
   scheduleList?: ScheduleListSectionProps;
   /** Case studies / alumni stories section */
@@ -254,7 +255,7 @@ const CourseLander = ({
       {content.howTheCourseWorks && (
         <>
           <div className="border-t-hairline border-color-divider" />
-          <CourseBenefitsTextSection id="structure" {...content.howTheCourseWorks} />
+          <HowTheCourseWorksSection id="structure" {...content.howTheCourseWorks} />
         </>
       )}
       {content.scheduleList && (
