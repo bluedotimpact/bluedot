@@ -207,7 +207,7 @@ export const createBioSecurityContent = (
     title: 'Start building a pandemic-proof world today',
     ctaText: 'Apply now',
     ctaUrl: applicationUrlWithUtm,
-    imageSrc: '/images/lander/biosecurity/hero-banner-split.webp',
+    imageSrc: '/images/lander/agi-strategy/hero-banner-split.webp',
     imageAlt: 'Biosecurity banner',
     iconSrc: '/images/agi-strategy/bluedot-icon.svg',
     iconAlt: 'BlueDot',
