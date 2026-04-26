@@ -1,16 +1,8 @@
 import {
-  PiBriefcase,
-  PiCompass,
   PiClockClockwise,
   PiChats,
   PiHandHeart,
   PiCalendarDots,
-  PiRocketLaunch,
-  PiUsersThree,
-  PiLightbulb,
-  PiCpu,
-  PiBank,
-  PiShieldCheck,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
 
@@ -54,52 +46,34 @@ export const createAgiStrategyContent = (
     imageAspectRatio: '1408/1122',
   },
 
-  whoIsThisFor: {
-    iconBackgroundColor: AGI_STRATEGY_COLORS.iconBackground,
+  whoIsThisForText: {
     title: 'Who this course is for',
-    targetAudiences: [
-      {
-        icon: PiRocketLaunch,
-        boldText: 'For people who are done reading about AI risk',
-        description: 'and ready to actually work on it.',
-      },
-      {
-        icon: PiBriefcase,
-        boldText: 'For domain experts - in policy, security, operations, engineering -',
-        description: 'who want to point their skills at the most important problem of our time.',
-      },
-      {
-        icon: PiCompass,
-        boldText: 'For those planning to go deep on technical safety or governance,',
-        description: 'and want the strategic context first.',
-      },
+    paragraphs: [
+      'You\'ve read the essays, watched the talks, and you don\'t think the people building AGI have a serious plan. You want to act on that.',
+      'The course is built for three groups: domain experts in policy, security, operations, or engineering looking to redirect their skills; people heading into technical safety or governance research who want the strategic picture first; and serious newcomers who can think hard and finish what they start.',
+      'Not sure you fit? Apply anyway. Recent cohorts have included teachers, lawyers, engineers, and community organisers. We bet on drive and ambition, not CVs.',
     ],
     bottomCta: {
-      boldText: 'Don\'t fit these perfectly? Apply anyway.',
-      text: 'Some of our most impactful participants have included teachers, lawyers, engineers, and community leaders. We bet on drive and ambition, not CVs.',
+      text: 'Applications take about 15 minutes.',
       buttonText: 'Apply now',
       buttonUrl: applicationUrlWithUtm,
     },
   },
 
-  courseBenefits: {
+  courseBenefitsText: {
     title: 'How this course will benefit you',
-    iconBackgroundColor: AGI_STRATEGY_COLORS.bright,
-    benefits: [
+    items: [
       {
-        icon: PiRocketLaunch,
-        title: 'A launchpad, not a lecture',
-        description: 'This is not a course you "complete." It\'s the starting point for whatever you do next. You\'ll leave knowing which problems matter most, which paths make sense for your background, and what to do next.',
+        heading: 'A launchpad, not a lecture',
+        body: 'You won\'t "complete" this course. You\'ll leave it with a view on which problems matter, which path fits your background, and what you\'re going to do next week.',
       },
       {
-        icon: PiLightbulb,
-        title: 'Frameworks that cut through the noise',
-        description: 'Three mental models that replace months of scattered reading: incentive mapping to understand the race to AGI, kill chains to analyze threats, and defense-in-depth to design interventions. You\'ll leave able to hold your own in conversations with people already in the field.',
+        heading: 'Three frameworks you\'ll actually use',
+        body: 'Incentive mapping for the race to AGI. Kill chains for analysing threats. Defense in depth for designing interventions. Enough to hold your own in any room of people working on this.',
       },
       {
-        icon: PiUsersThree,
-        title: 'A community of people who ship',
-        description: 'We have 7,000+ alumni at Anthropic, DeepMind, UK AISI, and dozens of organizations making sure humanity safely navigates transformative AI. You\'ll meet people already doing the work - and who\'ll open doors and pressure-test your thinking.',
+        heading: 'A community of people who ship',
+        body: 'BlueDot has 7,000+ alumni at Anthropic, DeepMind, UK AISI, and dozens of organisations working on a safe transition to advanced AI. You\'ll meet people already doing the work, who can open doors and pressure-test your thinking.',
       },
     ],
   },
@@ -142,39 +116,31 @@ export const createAgiStrategyContent = (
     ],
   },
 
-  pathways: {
+  pathwaysList: {
     title: 'What happens after',
-    intro: 'The AGI Strategy Course is where you get oriented. What comes next depends on you.',
-    pathways: [
+    intro: 'AGI Strategy is where you get oriented. What comes next depends on you.',
+    items: [
       {
-        icon: PiCpu,
         title: 'Technical AI Safety',
-        description: 'Interpretability, evals, alignment research. For people ready to work on the technical problems.',
-        accentColor: 'hsla(284, 46%, 30%, 1)', // TAS iconBackground
-        linkUrl: '/courses/technical-ai-safety',
-        linkText: 'Explore the course',
+        summary: 'Interpretability, evals, alignment research. For people ready to work on the technical problems.',
+        href: '/courses/technical-ai-safety',
+        ctaLabel: 'Explore the course',
       },
       {
-        icon: PiBank,
         title: 'AI Governance',
-        description: 'Policy, institutions, international coordination. For people shaping how we govern these systems.',
-        accentColor: '#1F588A', // AI Gov iconBackground
-        linkUrl: '/courses/ai-governance',
-        linkText: 'Explore the course',
+        summary: 'Policy, institutions, international coordination. For people shaping how these systems get governed.',
+        href: '/courses/ai-governance',
+        ctaLabel: 'Explore the course',
       },
       {
-        icon: PiShieldCheck,
         title: 'Biosecurity',
-        description: 'Pandemic preparedness, early warning systems, policy. For people building defences against bio risks.',
-        accentColor: '#316761', // Biosecurity iconBackground
-        linkUrl: '/courses/biosecurity',
-        linkText: 'Explore the course',
+        summary: 'Pandemic preparedness, early warning systems, policy. For people building defences against bio risks.',
+        href: '/courses/biosecurity',
+        ctaLabel: 'Explore the course',
       },
       {
-        icon: PiRocketLaunch,
         title: 'Make a bigger leap',
-        description: 'Pivot directly into high-impact work, or start building something new. We can help.',
-        accentColor: AGI_STRATEGY_COLORS.iconBackground,
+        summary: 'Pivot full-time into impactful work, or start building something new. We can help.',
       },
     ],
   },

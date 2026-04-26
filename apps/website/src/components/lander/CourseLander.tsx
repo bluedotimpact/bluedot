@@ -7,6 +7,9 @@ import GraduateSection from './components/GraduateSection';
 import PartnerSection, { type PartnerSectionProps } from './components/PartnerSection';
 import CourseBenefitsSection, { type CourseBenefitsSectionProps } from './components/CourseBenefitsSection';
 import WhoIsThisForSection, { type WhoIsThisForSectionProps } from './components/WhoIsThisForSection';
+import WhoIsThisForTextSection, { type WhoIsThisForTextSectionProps } from './components/WhoIsThisForTextSection';
+import CourseBenefitsTextSection, { type CourseBenefitsTextSectionProps } from './components/CourseBenefitsTextSection';
+import PathwaysListSection, { type PathwaysListSectionProps } from './components/PathwaysListSection';
 import HeroSection, { type HeroSectionProps } from './components/HeroSection';
 import QuoteSection, { type QuoteSectionProps } from './components/QuoteSection';
 import CourseInformationSection, { type CourseInformationSectionProps } from './components/CourseInformationSection';
@@ -38,9 +41,13 @@ export type CourseLanderContent = {
   alumniLogos?: AlumniLogosSectionProps;
   /** Standard "Who is this for" section with icon cards */
   whoIsThisFor?: WhoIsThisForSectionProps;
+  /** Editorial text variant of "Who this course is for" — paragraphs, no icon cards */
+  whoIsThisForText?: WhoIsThisForTextSectionProps;
   /** Detailed personas section - alternative to whoIsThisFor for longer-form content */
   personas?: PersonasSectionProps;
   courseBenefits?: CourseBenefitsSectionProps;
+  /** Editorial text variant of "How this course will benefit you" — heading + paragraph pairs, no icons */
+  courseBenefitsText?: CourseBenefitsTextSectionProps;
   /** Course outcomes section - alternative to courseBenefits for text-focused content */
   courseOutcomes?: CourseOutcomesSectionProps;
   /** Optional placement override for course outcomes section */
@@ -53,6 +60,8 @@ export type CourseLanderContent = {
   /** Alumni story carousel - carousel with full story text */
   alumniStories?: AlumniStoryCarouselProps;
   pathways?: PathwaysSectionProps;
+  /** Editorial list variant of "What happens after" — PageListRow rows like /programs and /events */
+  pathwaysList?: PathwaysListSectionProps;
   quotes?: QuoteSectionProps;
   testimonials?: TestimonialMember[];
   testimonialsTitle?: string;
@@ -157,9 +166,10 @@ const CourseLander = ({
 
       <div className="border-t-hairline border-color-divider" />
 
-      {/* Personas section OR standard "Who is this for" section */}
+      {/* Personas / editorial "Who is this for" / standard icon-card "Who is this for" */}
       {content.personas && <PersonasSection id="personas" {...content.personas} />}
-      {!content.personas && content.whoIsThisFor && <WhoIsThisForSection {...content.whoIsThisFor} />}
+      {!content.personas && content.whoIsThisForText && <WhoIsThisForTextSection {...content.whoIsThisForText} />}
+      {!content.personas && !content.whoIsThisForText && content.whoIsThisFor && <WhoIsThisForSection {...content.whoIsThisFor} />}
 
       {content.testimonialsPlacement === 'beforeOutcomes' && testimonialsSection}
 
@@ -172,14 +182,26 @@ const CourseLander = ({
       )}
 
       {/* Pathways - what happens after (placed right after outcomes for unified "what you're joining" feel) */}
-      {content.pathways && (
+      {content.pathwaysList && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <PathwaysListSection id="pathways" {...content.pathwaysList} />
+        </>
+      )}
+      {!content.pathwaysList && content.pathways && (
         <>
           <div className="border-t-hairline border-color-divider" />
           <PathwaysSection id="pathways" {...content.pathways} />
         </>
       )}
 
-      {content.courseBenefits && (
+      {content.courseBenefitsText && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <CourseBenefitsTextSection {...content.courseBenefitsText} />
+        </>
+      )}
+      {!content.courseBenefitsText && content.courseBenefits && (
         <>
           <div className="border-t-hairline border-color-divider" />
           <CourseBenefitsSection {...content.courseBenefits} />
