@@ -725,7 +725,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           class="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto"
         >
           <h3
-            class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
+            class="bluedot-section-heading mb-6"
           >
             Who this course is for
           </h3>
@@ -769,7 +769,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           class="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto"
         >
           <h3
-            class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-8"
+            class="bluedot-section-heading mb-8"
           >
             How this course will benefit you
           </h3>
@@ -839,7 +839,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             class="flex flex-col gap-3"
           >
             <h3
-              class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy"
+              class="bluedot-section-heading"
             >
               What happens after
             </h3>
@@ -1240,7 +1240,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             class="flex flex-col gap-3"
           >
             <h3
-              class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy"
+              class="bluedot-section-heading"
             >
               Schedule
             </h3>

@@ -30,7 +30,7 @@ const accentBarClassName = clsx(
 
 const arrowCtaClassName = 'ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal min-[680px]:ml-6 min-[680px]:whitespace-nowrap';
 
-export const pageSectionHeadingClass = 'text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy';
+export const pageSectionHeadingClass = 'bluedot-section-heading';
 
 const titleClassName = 'text-[15px] leading-[1.45] font-semibold text-bluedot-navy';
 const summaryClassName = 'mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62';

@@ -61,13 +61,26 @@ body {
   display: none; /* Chrome, Safari and Opera */
 }
 
-/* 
+/*
  * Custom font-weight override: Inter font only supports weights up to 600, not 650
  * The UI library uses font-[650] but we need to map this to 600 for Inter
  */
 .bluedot-h3,
 .bluedot-h4 {
   font-weight: 600;
+}
+
+/* Canonical section H3 used across marketing pages (about, join-us, grants, etc).
+   Previously inlined as `pageSectionHeadingClass` in PageListRow.tsx. */
+.bluedot-section-heading {
+  @apply text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy;
+}
+
+/* Canonical white-on-image marketing-hero H1.
+   Used in MarketingHero; the 6 pages that still inline an identical hero will
+   inherit this class once they migrate to <MarketingHero>. */
+.bluedot-marketing-hero-h1 {
+  @apply text-[32px] min-[680px]:text-[40px] min-[1024px]:text-[48px] leading-tight font-medium tracking-[-1px] text-white;
 }
 
 @theme {

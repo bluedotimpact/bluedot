@@ -6,7 +6,7 @@ exports[`TeamSection > renders as expected 1`] = `
     class="team-section section section-body !border-b-0"
   >
     <h3
-      class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
+      class="bluedot-section-heading mb-6"
     >
       Our team
     </h3>

@@ -518,7 +518,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
             class="flex flex-col gap-6 max-w-[780px]"
           >
             <h1
-              class="bluedot-h1 not-prose text-[32px] min-[680px]:text-[40px] min-[1024px]:text-[48px] leading-tight font-medium tracking-[-1px] text-white"
+              class="bluedot-h1 not-prose bluedot-marketing-hero-h1"
             >
               Work with us
             </h1>
@@ -575,7 +575,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
       class="section section-body"
     >
       <h3
-        class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
+        class="bluedot-section-heading mb-6"
       >
         Why us
       </h3>
@@ -602,7 +602,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
         id="open-roles-anchor"
       />
       <h3
-        class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
+        class="bluedot-section-heading mb-6"
       >
         Open roles
       </h3>
