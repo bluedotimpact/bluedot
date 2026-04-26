@@ -19,7 +19,7 @@ const MarketingHero = ({ title, subtitle }: MarketingHeroProps) => {
       <div className="relative z-10 flex flex-col justify-end h-full min-h-[317px] min-[680px]:min-h-[366px] pb-12 pt-20 min-[680px]:pb-16 min-[680px]:pt-20">
         <div className="w-full mx-auto max-w-max-width px-spacing-x">
           <div className="flex flex-col gap-6 max-w-[780px]">
-            <H1 className="text-[32px] min-[680px]:text-[40px] min-[1024px]:text-[48px] leading-tight font-medium tracking-[-1px] text-white">
+            <H1 className="bluedot-marketing-hero-h1">
               {title}
             </H1>
             {subtitle && (

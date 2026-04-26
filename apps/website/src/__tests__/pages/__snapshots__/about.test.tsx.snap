@@ -518,7 +518,7 @@ exports[`AboutPage > should render correctly 1`] = `
             class="flex flex-col gap-6 max-w-[780px]"
           >
             <h1
-              class="bluedot-h1 not-prose text-[32px] min-[680px]:text-[40px] min-[1024px]:text-[48px] leading-tight font-medium tracking-[-1px] text-white"
+              class="bluedot-h1 not-prose bluedot-marketing-hero-h1"
             >
               About us
             </h1>
@@ -575,7 +575,7 @@ exports[`AboutPage > should render correctly 1`] = `
       class="intro-section section section-body"
     >
       <h3
-        class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
+        class="bluedot-section-heading mb-6"
       >
         Who we are
       </h3>
@@ -608,7 +608,7 @@ exports[`AboutPage > should render correctly 1`] = `
       class="beliefs-section section section-body"
     >
       <h3
-        class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
+        class="bluedot-section-heading mb-6"
       >
         Core beliefs
       </h3>
@@ -657,7 +657,7 @@ exports[`AboutPage > should render correctly 1`] = `
       class="values-section section section-body"
     >
       <h3
-        class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
+        class="bluedot-section-heading mb-6"
       >
         Values
       </h3>
@@ -706,7 +706,7 @@ exports[`AboutPage > should render correctly 1`] = `
       class="history-section section section-body"
     >
       <h3
-        class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
+        class="bluedot-section-heading mb-6"
       >
         Our history
       </h3>
@@ -844,7 +844,7 @@ exports[`AboutPage > should render correctly 1`] = `
       class="team-section section section-body !border-b-0"
     >
       <h3
-        class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
+        class="bluedot-section-heading mb-6"
       >
         Our team
       </h3>
