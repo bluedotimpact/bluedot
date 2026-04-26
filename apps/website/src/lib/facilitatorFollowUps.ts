@@ -15,6 +15,7 @@ export type FollowUpAirtableValue = typeof FOLLOW_UP_OPTIONS[number]['airtableVa
 
 export const ACTIONABLE_FOLLOW_UP_IDS = ['schedule-call', 'funding-candidate', 'invite-facilitator'] as const;
 
+// TODO rename all this ToAirtable stuff, or add comments
 export const followUpsToAirtable = (followUps: Record<string, boolean>): FollowUpAirtableValue[] => FOLLOW_UP_OPTIONS
   .filter((o) => followUps[o.id])
   .map((o) => o.airtableValue);

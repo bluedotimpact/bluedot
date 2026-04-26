@@ -1,8 +1,9 @@
 import { Modal } from '@bluedot/ui';
 import { useState } from 'react';
 import { FaCheck, FaCircleInfo, FaLock } from 'react-icons/fa6';
-import { FOLLOW_UP_OPTIONS } from '../../lib/facilitatorFollowUps';
+import { FOLLOW_UP_OPTIONS, followUpsToAirtable } from '../../lib/facilitatorFollowUps';
 import { getInitials } from '../../lib/utils';
+import { trpc } from '../../utils/trpc';
 
 export type ParticipantFeedbackData = {
   showUpRating: number;
@@ -12,12 +13,11 @@ export type ParticipantFeedbackData = {
 };
 
 type ParticipantFeedbackModalProps = {
+  meetPersonId: string;
   participant: { id: string; name: string };
   initialData?: ParticipantFeedbackData;
-  // TODO perhaps make it own its own save process
-  isSaving?: boolean;
   onClose: () => void;
-  onSave: (data: ParticipantFeedbackData) => void;
+  onSaved: (data: ParticipantFeedbackData) => void;
   onNoStrongImpression: () => void;
 };
 
@@ -37,12 +37,31 @@ const ENGAGE_OPTIONS: RubricOption[] = [
   { value: 1, label: 'Mostly quiet or repeated what the readings said', description: 'When asked to elaborate, responses were vague or surface-level.' },
 ];
 
-const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ participant, initialData, isSaving, onClose, onSave, onNoStrongImpression }) => {
+const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ meetPersonId, participant, initialData, onClose, onSaved, onNoStrongImpression }) => {
   const [showUpRating, setShowUpRating] = useState<number | null>(initialData?.showUpRating ?? null);
   const [engageRating, setEngageRating] = useState<number | null>(initialData?.engageRating ?? null);
   const [investmentNote, setInvestmentNote] = useState(initialData?.investmentNote ?? '');
   const [followUps, setFollowUps] = useState<Record<string, boolean>>(initialData?.followUps ?? {});
   const hasTopScore = showUpRating === 5 || engageRating === 5;
+
+  const savePeerFeedback = trpc.facilitators.savePeerFeedback.useMutation();
+
+  const handleSave = async () => {
+    if (showUpRating === null || engageRating === null) return;
+    const data: ParticipantFeedbackData = {
+      showUpRating, engageRating, investmentNote, followUps,
+    };
+    // TODO: error handling
+    await savePeerFeedback.mutateAsync({
+      meetPersonId,
+      participantId: participant.id,
+      initiativeRating: data.showUpRating,
+      reasoningQualityRating: data.engageRating,
+      feedback: data.investmentNote,
+      nextSteps: followUpsToAirtable(data.followUps),
+    });
+    onSaved(data);
+  };
 
   return (
     <Modal
@@ -163,14 +182,8 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ par
             <button
               type="button"
               className="bg-bluedot-normal text-white px-6 py-2.5 rounded-md text-size-xs leading-5 font-semibold transition-colors cursor-pointer hover:bg-bluedot-darker disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
-              onClick={() => {
-                if (showUpRating !== null && engageRating !== null) {
-                  onSave({
-                    showUpRating, engageRating, investmentNote, followUps,
-                  });
-                }
-              }}
-              disabled={showUpRating === null || engageRating === null || isSaving}
+              onClick={handleSave}
+              disabled={showUpRating === null || engageRating === null || savePeerFeedback.isPending}
             >
               Done
             </button>

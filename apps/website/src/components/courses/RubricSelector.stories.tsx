@@ -36,21 +36,3 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-
-const PreselectedWrapper: React.FC = () => {
-  const [value, setValue] = useState<number | null>(4);
-
-  return (
-    <RubricSelector
-      name="show-up"
-      ariaLabelledBy="show-up-label"
-      options={SAMPLE_OPTIONS}
-      value={value}
-      onChange={setValue}
-    />
-  );
-};
-
-export const Preselected: Story = {
-  render: () => <PreselectedWrapper />,
-};

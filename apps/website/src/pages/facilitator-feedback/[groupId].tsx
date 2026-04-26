@@ -9,7 +9,7 @@ import StarRating from '../../components/courses/StarRating';
 import ParticipantFeedbackModal, { type ParticipantFeedbackData } from '../../components/courses/ParticipantFeedbackModal';
 import AddParticipantModal from '../../components/courses/AddParticipantModal';
 import FacilitatorFeedbackHeader from '../../components/courses/FacilitatorFeedbackHeader';
-import { airtableToFollowUps, followUpsToAirtable, isFlagged } from '../../lib/facilitatorFollowUps';
+import { airtableToFollowUps, isFlagged } from '../../lib/facilitatorFollowUps';
 import { trpc } from '../../utils/trpc';
 
 type ParticipantFeedback =
@@ -97,9 +97,10 @@ const FacilitatorFeedbackPage = () => {
   }, [formData, noStrongImpressionKey, addedKey]);
 
   const utils = trpc.useUtils();
-  const savePeerFeedback = trpc.facilitators.savePeerFeedback.useMutation();
   const submitFeedback = trpc.facilitators.submitFeedback.useMutation();
   const unsubmitFeedback = trpc.facilitators.unsubmitFeedback.useMutation();
+  const { data: currentUser } = trpc.users.getUser.useQuery();
+  const isAdmin = currentUser?.isAdmin === true;
 
   if (isLoading || !router.isReady) {
     return (
@@ -124,6 +125,39 @@ const FacilitatorFeedbackPage = () => {
   const alreadySubmitted = formData?.existingCourseFeedback?.submittedAt != null;
   const submitIdleLabel = alreadySubmitted ? 'Update feedback' : 'Submit feedback';
   const submitAnywayIdleLabel = alreadySubmitted ? 'Update anyway' : 'Submit anyway';
+
+  const handleParticipantSaved = (data: ParticipantFeedbackData) => {
+    if (!selectedParticipant) return;
+
+    setFeedbackByParticipant({
+      ...feedbackByParticipant,
+      [selectedParticipant.id]: {
+        status: 'completed', data, flagged: isFlagged(data.followUps),
+      },
+    });
+    setSelectedParticipant(null);
+  };
+
+  const handleNoStrongImpression = () => {
+    if (!selectedParticipant) return;
+
+    const updated = {
+      ...feedbackByParticipant,
+      [selectedParticipant.id]: { status: 'no-strong-impression' as const },
+    };
+    setFeedbackByParticipant(updated);
+    const noStrongImpressionIds = Object.entries(updated)
+      .filter(([, f]) => f.status === 'no-strong-impression')
+      .map(([id]) => id);
+    localStorage.setItem(noStrongImpressionKey, JSON.stringify(noStrongImpressionIds));
+    setSelectedParticipant(null);
+  };
+
+  const handleParticipantAdded = (person: { id: string; name: string }) => {
+    const next = [...addedParticipants, person];
+    setAddedParticipants(next);
+    localStorage.setItem(addedKey, JSON.stringify(next));
+  };
 
   return (
     <div className="min-h-screen bg-cream-normal">
@@ -325,7 +359,7 @@ const FacilitatorFeedbackPage = () => {
               </p>
             </div>
           )}
-          {formData?.existingCourseFeedback?.submittedAt != null && (
+          {isAdmin && formData?.existingCourseFeedback?.submittedAt != null && (
             <button
               type="button"
               className="self-start text-size-xxs text-gray-400 underline cursor-pointer"
@@ -333,7 +367,7 @@ const FacilitatorFeedbackPage = () => {
                 /* TODO: error handling */ unsubmitFeedback.mutateAsync({ meetPersonId }).then(() => window.location.reload());
               }}
             >
-              [Debug] Unsubmit
+              Unsubmit (admin)
             </button>
           )}
         </section>
@@ -341,41 +375,12 @@ const FacilitatorFeedbackPage = () => {
 
       {selectedParticipant && (
         <ParticipantFeedbackModal
+          meetPersonId={meetPersonId}
           participant={selectedParticipant}
           initialData={selectedInitialData}
-          isSaving={savePeerFeedback.isPending}
           onClose={() => setSelectedParticipant(null)}
-          onSave={async (data) => {
-            // TODO: error handling
-            await savePeerFeedback.mutateAsync({
-              meetPersonId,
-              participantId: selectedParticipant.id,
-              initiativeRating: data.showUpRating,
-              reasoningQualityRating: data.engageRating,
-              feedback: data.investmentNote,
-              nextSteps: followUpsToAirtable(data.followUps),
-            });
-            setFeedbackByParticipant({
-              ...feedbackByParticipant,
-              [selectedParticipant.id]: {
-                status: 'completed', data, flagged: isFlagged(data.followUps),
-              },
-            });
-            setSelectedParticipant(null);
-          }}
-          onNoStrongImpression={() => {
-            const updated = {
-              ...feedbackByParticipant,
-              [selectedParticipant.id]: { status: 'no-strong-impression' as const },
-            };
-            setFeedbackByParticipant(updated);
-            // Persist to localStorage
-            const nsiIds = Object.entries(updated)
-              .filter(([, f]) => f.status === 'no-strong-impression')
-              .map(([id]) => id);
-            localStorage.setItem(noStrongImpressionKey, JSON.stringify(nsiIds));
-            setSelectedParticipant(null);
-          }}
+          onSaved={handleParticipantSaved}
+          onNoStrongImpression={handleNoStrongImpression}
         />
       )}
 
@@ -383,11 +388,7 @@ const FacilitatorFeedbackPage = () => {
         <AddParticipantModal
           meetPersonId={meetPersonId}
           excludeIds={addedParticipants.map((p) => p.id)}
-          onAdd={(person) => {
-            const next = [...addedParticipants, person];
-            setAddedParticipants(next);
-            localStorage.setItem(addedKey, JSON.stringify(next));
-          }}
+          onAdd={handleParticipantAdded}
           onClose={() => setIsAddModalOpen(false)}
         />
       )}
