@@ -9,6 +9,7 @@ import StarRating from '../../components/courses/StarRating';
 import ParticipantFeedbackModal, { type ParticipantFeedbackData } from '../../components/courses/ParticipantFeedbackModal';
 import AddParticipantModal from '../../components/courses/AddParticipantModal';
 import FacilitatorFeedbackHeader from '../../components/courses/FacilitatorFeedbackHeader';
+import { useFacilitatorFeedbackStorage } from '../../hooks/useFacilitatorFeedbackStorage';
 import { type FollowUpId, isFlagged } from '../../lib/facilitatorFollowUps';
 import { trpc } from '../../utils/trpc';
 
@@ -27,15 +28,18 @@ const FacilitatorFeedbackPage = () => {
 
   const [selectedParticipant, setSelectedParticipant] = useState<{ id: string; name: string } | null>(null);
   const [feedbackByParticipant, setFeedbackByParticipant] = useState<Record<string, ParticipantFeedback>>({});
-  const [addedParticipants, setAddedParticipants] = useState<{ id: string; name: string }[]>([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [overallRating, setOverallRating] = useState(0);
   const [mostValuable, setMostValuable] = useState('');
   const [difficulties, setDifficulties] = useState('');
   const [showIncompleteWarning, setShowIncompleteWarning] = useState(false);
 
-  const noStrongImpressionKey = `facilitator-feedback:${meetPersonId}:no-strong-impression`;
-  const addedKey = `facilitator-feedback:${meetPersonId}:added`;
+  const {
+    noStrongImpressionIds,
+    setNoStrongImpressionIds,
+    addedParticipants,
+    addParticipant,
+  } = useFacilitatorFeedbackStorage(meetPersonId);
 
   useEffect(() => {
     if (!formData) return;
@@ -47,14 +51,9 @@ const FacilitatorFeedbackPage = () => {
     }
 
     const initial: Record<string, ParticipantFeedback> = {};
-
-    // Restore no-strong-impression from localStorage
-    try {
-      const stored = JSON.parse(localStorage.getItem(noStrongImpressionKey) ?? '[]') as string[];
-      for (const id of stored) {
-        initial[id] = { status: 'no-strong-impression' };
-      }
-    } catch { /* ignore corrupt localStorage */ }
+    for (const id of noStrongImpressionIds) {
+      initial[id] = { status: 'no-strong-impression' };
+    }
 
     for (const pf of formData.existingPeerFeedback) {
       const followUps = (pf.nextSteps ?? []) as FollowUpId[];
@@ -71,30 +70,10 @@ const FacilitatorFeedbackPage = () => {
     }
 
     setFeedbackByParticipant(initial);
-
-    // Hydrate addedParticipants: union of localStorage and any existingPeerFeedback recipients
-    // that aren't in the main participant/drop-in lists.
-    const knownIds = new Set([
-      ...formData.participants.map((p) => p.id),
-      ...formData.dropIns.map((p) => p.id),
-    ]);
-    const hydrated = new Map<string, { id: string; name: string }>();
-    try {
-      const stored = JSON.parse(localStorage.getItem(addedKey) ?? '[]') as { id: string; name: string }[];
-      for (const person of stored) {
-        if (!knownIds.has(person.id)) hydrated.set(person.id, person);
-      }
-    } catch { /* ignore corrupt localStorage */ }
-
-    // Server-side truth: recipients with peerFeedback but not in the known lists
-    for (const pf of formData.existingPeerFeedback) {
-      if (!knownIds.has(pf.recipientId)) {
-        hydrated.set(pf.recipientId, { id: pf.recipientId, name: pf.recipientName });
-      }
-    }
-
-    setAddedParticipants([...hydrated.values()]);
-  }, [formData, noStrongImpressionKey, addedKey]);
+    // Read localStorage values once when formData arrives; don't re-hydrate on
+    // subsequent user-driven changes (which would wipe in-flight local saves).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formData]);
 
   const utils = trpc.useUtils();
   const submitFeedback = trpc.facilitators.submitFeedback.useMutation();
@@ -113,6 +92,17 @@ const FacilitatorFeedbackPage = () => {
   const roundName = formData?.roundName ?? '';
   const participants = formData?.participants ?? [];
   const dropIns = formData?.dropIns ?? [];
+  // Recipients with saved peerFeedback who aren't in the current participants/drop-ins lists —
+  // surface them in the same "Added by you" section so the facilitator can edit/see them.
+  const knownIds = new Set([
+    ...participants.map((p) => p.id),
+    ...dropIns.map((p) => p.id),
+    ...addedParticipants.map((p) => p.id),
+  ]);
+  const serverOrphanParticipants = (formData?.existingPeerFeedback ?? [])
+    .filter((pf) => !knownIds.has(pf.recipientId))
+    .map((pf) => ({ id: pf.recipientId, name: pf.recipientName }));
+  const displayedAddedParticipants = [...addedParticipants, ...serverOrphanParticipants];
   const completedCount = participants.filter((p) => feedbackByParticipant[p.id]).length;
   const selectedFeedback = selectedParticipant ? feedbackByParticipant[selectedParticipant.id] : undefined;
   const selectedInitialData = selectedFeedback?.status === 'completed' ? selectedFeedback.data : undefined;
@@ -141,22 +131,15 @@ const FacilitatorFeedbackPage = () => {
   const handleNoStrongImpression = () => {
     if (!selectedParticipant) return;
 
-    const updated = {
+    setFeedbackByParticipant({
       ...feedbackByParticipant,
       [selectedParticipant.id]: { status: 'no-strong-impression' as const },
-    };
-    setFeedbackByParticipant(updated);
-    const noStrongImpressionIds = Object.entries(updated)
-      .filter(([, f]) => f.status === 'no-strong-impression')
-      .map(([id]) => id);
-    localStorage.setItem(noStrongImpressionKey, JSON.stringify(noStrongImpressionIds));
-    setSelectedParticipant(null);
-  };
+    });
+    if (!noStrongImpressionIds.includes(selectedParticipant.id)) {
+      setNoStrongImpressionIds([...noStrongImpressionIds, selectedParticipant.id]);
+    }
 
-  const handleParticipantAdded = (person: { id: string; name: string }) => {
-    const next = [...addedParticipants, person];
-    setAddedParticipants(next);
-    localStorage.setItem(addedKey, JSON.stringify(next));
+    setSelectedParticipant(null);
   };
 
   return (
@@ -286,11 +269,11 @@ const FacilitatorFeedbackPage = () => {
             </div>
           )}
 
-          {addedParticipants.length > 0 && (
+          {displayedAddedParticipants.length > 0 && (
             <div className="flex flex-col gap-2">
               <p className="text-size-xxs font-semibold uppercase tracking-wider text-gray-500">Added by you</p>
               <div className="flex flex-col gap-2">
-                {addedParticipants.map((participant) => (
+                {displayedAddedParticipants.map((participant) => (
                   <ParticipantCard
                     key={participant.id}
                     participant={participant}
@@ -393,8 +376,8 @@ const FacilitatorFeedbackPage = () => {
       {isAddModalOpen && (
         <AddParticipantModal
           meetPersonId={meetPersonId}
-          excludeIds={addedParticipants.map((p) => p.id)}
-          onAdd={handleParticipantAdded}
+          excludeIds={displayedAddedParticipants.map((p) => p.id)}
+          onAdd={addParticipant}
           onClose={() => setIsAddModalOpen(false)}
         />
       )}

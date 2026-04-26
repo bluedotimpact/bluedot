@@ -8,6 +8,7 @@ import { generateInvoiceUrl } from '../../../lib/generateInvoiceUrl';
 import { isFlagged } from '../../../lib/facilitatorFollowUps';
 import { trpc } from '../../../utils/trpc';
 import FacilitatorFeedbackHeader from '../../../components/courses/FacilitatorFeedbackHeader';
+import { useFacilitatorFeedbackStorage } from '../../../hooks/useFacilitatorFeedbackStorage';
 
 const formatNames = (names: string[]): string => {
   if (names.length === 0) return '';
@@ -32,14 +33,10 @@ const FacilitatorFeedbackSuccessPage = () => {
     }
   }, [notSubmitted, meetPersonId, router]);
 
+  const { noStrongImpressionIds } = useFacilitatorFeedbackStorage(meetPersonId);
   const [showConfetti, setShowConfetti] = useState(false);
   useEffect(() => {
     if (!data) return;
-    let noStrongImpressionIds: string[] = [];
-    try {
-      noStrongImpressionIds = JSON.parse(localStorage.getItem(`facilitator-feedback:${meetPersonId}:no-strong-impression`) ?? '[]') as string[];
-    } catch { /* ignore corrupt localStorage */ }
-
     const completedIds = new Set<string>([
       ...data.existingPeerFeedback.map((pf) => pf.recipientId),
       ...noStrongImpressionIds,
@@ -47,7 +44,7 @@ const FacilitatorFeedbackSuccessPage = () => {
     const allComplete = data.participants.length > 0
       && data.participants.every((p) => completedIds.has(p.id));
     if (allComplete) setShowConfetti(true);
-  }, [data, meetPersonId]);
+  }, [data, noStrongImpressionIds]);
 
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
   useEffect(() => {

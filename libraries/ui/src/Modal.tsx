@@ -21,7 +21,6 @@ export type ModalProps = {
   desktopHeaderClassName?: string;
   /** ariaLabel for case where `title` is not a string, otherwise prefer leaving blank (`title` will be used) */
   ariaLabel?: string;
-  /** When true, clicking the backdrop does not close the modal. Escape key still works. */
   noClickaway?: boolean;
 };
 
