@@ -47,7 +47,7 @@ const RapidGrantsPage = () => {
       />
       <Breadcrumbs
         route={{
-          title: 'Rapid Grants',
+          title: PAGE_TITLE,
           url: '/programs/rapid-grants',
           parentPages: [ROUTES.home, ROUTES.programs],
         }}

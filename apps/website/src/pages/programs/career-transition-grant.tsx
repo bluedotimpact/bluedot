@@ -35,7 +35,7 @@ const CareerTransitionGrantPage = () => {
       />
       <Breadcrumbs
         route={{
-          title: 'Career Transition Grants',
+          title: PAGE_TITLE,
           url: '/programs/career-transition-grant',
           parentPages: [ROUTES.home, ROUTES.programs],
         }}
