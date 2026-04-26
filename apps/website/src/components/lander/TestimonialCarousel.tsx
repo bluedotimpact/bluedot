@@ -21,14 +21,13 @@ export type TestimonialCarouselProps = {
   title?: string;
   subtitle?: string;
   variant?: 'homepage' | 'lander';
+  /** When true, suppress the quote text on every card and show image + name + role only. */
+  hideQuotes?: boolean;
 };
 
-const CARD_CONFIG = {
-  AUTO_SCROLL_INTERVAL: 3000,
-} as const;
-
 /**
- * Minimum testimonial count before triplicating + auto-scrolling the carousel.
+ * Minimum testimonial count before triplicating the list to enable infinite-loop
+ * scrolling.
  * Depends on viewport because a handful of cards that already fill a mobile
  * viewport might not fill a desktop one (and vice versa). Below the returned
  * threshold we render cards once, left-aligned, with no nav buttons.
@@ -44,12 +43,10 @@ const TestimonialCarousel = ({
   title,
   subtitle,
   variant = 'homepage',
+  hideQuotes = false,
 }: TestimonialCarouselProps) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const autoScrollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const [isHovered, setIsHovered] = useState(false);
   const isResettingRef = useRef(false);
-  const prefersReducedMotionRef = useRef(false);
 
   // SSR/first render assumes desktop; updated on mount + resize via the effect below.
   const [shouldLoop, setShouldLoop] = useState(() => testimonials.length >= getMinForInfinite(1280));
@@ -111,90 +108,7 @@ const TestimonialCarousel = ({
     return 20;
   }, []);
 
-  const startAutoScroll = useCallback(() => {
-    if (prefersReducedMotionRef.current || !shouldLoop) {
-      return;
-    }
-
-    if (autoScrollIntervalRef.current) {
-      clearInterval(autoScrollIntervalRef.current);
-    }
-
-    autoScrollIntervalRef.current = setInterval(() => {
-      if (scrollContainerRef.current && !isResettingRef.current) {
-        const cardWidth = getCardWidth();
-        const gap = getCardGap();
-        const scrollAmount = cardWidth + gap;
-        const currentScrollLeft = scrollContainerRef.current.scrollLeft;
-        const newScrollLeft = currentScrollLeft + scrollAmount;
-
-        scrollContainerRef.current.scrollTo({
-          left: newScrollLeft,
-          behavior: 'smooth',
-        });
-      }
-    }, CARD_CONFIG.AUTO_SCROLL_INTERVAL);
-  }, [getCardWidth, getCardGap, shouldLoop]);
-
-  const stopAutoScroll = useCallback(() => {
-    if (autoScrollIntervalRef.current) {
-      clearInterval(autoScrollIntervalRef.current);
-      autoScrollIntervalRef.current = null;
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!isHovered && !prefersReducedMotionRef.current) {
-      startAutoScroll();
-    } else {
-      stopAutoScroll();
-    }
-
-    return () => {
-      stopAutoScroll();
-    };
-  }, [isHovered, startAutoScroll, stopAutoScroll]);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') {
-      return undefined;
-    }
-
-    const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const applyPreference = (matches: boolean) => {
-      prefersReducedMotionRef.current = matches;
-      if (matches) {
-        stopAutoScroll();
-      } else if (!isHovered) {
-        startAutoScroll();
-      }
-    };
-
-    applyPreference(mql.matches);
-
-    const onChange = (e: MediaQueryListEvent) => {
-      applyPreference(e.matches);
-    };
-
-    mql.addEventListener('change', onChange);
-    return () => mql.removeEventListener('change', onChange);
-  }, [isHovered, startAutoScroll, stopAutoScroll]);
-
-  const handleMouseEnter = useCallback(() => {
-    setIsHovered(true);
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    setIsHovered(false);
-  }, []);
-
-  const handleFocus = useCallback(() => {
-    setIsHovered(true);
-  }, []);
-
-  const handleBlur = useCallback(() => {
-    setIsHovered(false);
-  }, []);
+  // Auto-scroll removed: distracting. Manual nav buttons + arrow keys still work.
 
   useEffect(() => {
     if (scrollContainerRef.current && testimonials.length > 0 && shouldLoop) {
@@ -325,10 +239,6 @@ const TestimonialCarousel = ({
               scrollBehavior: 'auto',
             }}
             onScroll={handleScroll}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
             onKeyDown={handleKeyDown}
 
             tabIndex={0}
@@ -341,7 +251,7 @@ const TestimonialCarousel = ({
               const uniqueKey = `${testimonial.name}-${index}-${sectionNumber}`;
               return (
                 <div key={uniqueKey} className="h-full">
-                  <TestimonialMemberCard testimonial={testimonial} />
+                  <TestimonialMemberCard testimonial={testimonial} hideQuote={hideQuotes} />
                 </div>
               );
             })}
@@ -353,7 +263,7 @@ const TestimonialCarousel = ({
           <div className="grid auto-rows-fr gap-[20px] min-[680px]:gap-[24px] min-[1280px]:gap-[32px] grid-cols-[repeat(auto-fit,276px)] min-[680px]:grid-cols-[repeat(auto-fit,288px)] min-[1280px]:grid-cols-[repeat(auto-fit,320px)]">
             {testimonials.map((testimonial, index) => (
               <div key={`${testimonial.name}-${index}`} className="h-full">
-                <TestimonialMemberCard testimonial={testimonial} />
+                <TestimonialMemberCard testimonial={testimonial} hideQuote={hideQuotes} />
               </div>
             ))}
           </div>
@@ -379,46 +289,54 @@ const TestimonialCarousel = ({
   );
 };
 
-const TestimonialMemberCard = ({ testimonial }: { testimonial: TestimonialMember }) => {
-  const hasQuote = testimonial.quote?.trim();
+const TestimonialMemberCard = ({ testimonial, hideQuote = false }: { testimonial: TestimonialMember; hideQuote?: boolean }) => {
+  const hasQuote = !hideQuote && testimonial.quote?.trim();
 
-  const cardContent = (
+  const imageBlock = (
+    <div className="flex-shrink-0 w-full h-[296px] min-[680px]:h-[320px]">
+      <img
+        src={testimonial.imageSrc}
+        alt={`Profile of ${testimonial.name}`}
+        className="size-full object-cover"
+      />
+    </div>
+  );
+
+  const nameRoleBlock = (
+    <div className="flex flex-col items-start gap-1 w-full">
+      <P className="text-[16px] font-semibold leading-[125%] text-bluedot-navy text-left w-full">
+        {testimonial.name}
+      </P>
+      <P className="text-[14px] font-normal leading-[160%] text-bluedot-navy/60 text-left w-full">
+        {testimonial.jobTitle}
+      </P>
+    </div>
+  );
+
+  const cardContent = hideQuote ? (
+    /* Alumni-wall layout: image flush at top, tight name/role block right below.
+       No spacer, no quote, no flex-1 fill — card sizes to its natural content. */
     <>
-      {/* Image Section */}
-      <div className="flex-shrink-0 w-full h-[296px] min-[680px]:h-[320px]">
-        <img
-          src={testimonial.imageSrc}
-          alt={`Profile of ${testimonial.name}`}
-          className="size-full object-cover"
-        />
+      {imageBlock}
+      <div className="px-6 py-5">
+        {nameRoleBlock}
       </div>
-
-      {/* Content Section - flex-1 to fill available space */}
+    </>
+  ) : (
+    /* Default layout: image, then quote (or spacer) that fills available height,
+       pushing name/role to the bottom of the card so all cards align. */
+    <>
+      {imageBlock}
       <div className="flex flex-1 flex-col p-6">
-        {/* Inner flex container with gap-8 (32px) matching Figma */}
         <div className="flex flex-1 flex-col gap-8">
-          {/* Quote uses flex-1 to grow and push name to bottom */}
           {hasQuote ? (
             <P className="flex-1 text-[16px] font-normal leading-[160%] text-bluedot-navy text-left w-full">
               {testimonial.quote}
             </P>
           ) : (
-            /* Spacer when no quote - pushes name/jobTitle to bottom */
             <div className="flex-1" />
           )}
-
-          {/* Name and Job Title Container - shrink-0 stays at bottom */}
-          <div className="flex flex-col items-start gap-1 shrink-0 w-full">
-            {/* Name */}
-            <P className="text-[16px] font-semibold leading-[125%] text-bluedot-navy text-left w-full">
-              {testimonial.name}
-            </P>
-
-            {/* Job Title */}
-            <P className="text-[14px] font-normal leading-[160%] text-bluedot-navy/60 text-left w-full">
-              {testimonial.jobTitle}
-            </P>
-          </div>
+          {nameRoleBlock}
         </div>
       </div>
     </>

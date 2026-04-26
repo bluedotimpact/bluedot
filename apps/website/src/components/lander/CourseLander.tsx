@@ -7,6 +7,11 @@ import GraduateSection from './components/GraduateSection';
 import PartnerSection, { type PartnerSectionProps } from './components/PartnerSection';
 import CourseBenefitsSection, { type CourseBenefitsSectionProps } from './components/CourseBenefitsSection';
 import WhoIsThisForSection, { type WhoIsThisForSectionProps } from './components/WhoIsThisForSection';
+import WhoIsThisForTextSection, { type WhoIsThisForTextSectionProps } from './components/WhoIsThisForTextSection';
+import CourseBenefitsTextSection, { type CourseBenefitsTextSectionProps } from './components/CourseBenefitsTextSection';
+import PathwaysListSection, { type PathwaysListSectionProps } from './components/PathwaysListSection';
+import ScheduleListSection, { type ScheduleListSectionProps } from './components/ScheduleListSection';
+import HowTheCourseWorksSection, { type HowTheCourseWorksSectionProps } from './components/HowTheCourseWorksSection';
 import HeroSection, { type HeroSectionProps } from './components/HeroSection';
 import QuoteSection, { type QuoteSectionProps } from './components/QuoteSection';
 import CourseInformationSection, { type CourseInformationSectionProps } from './components/CourseInformationSection';
@@ -38,9 +43,13 @@ export type CourseLanderContent = {
   alumniLogos?: AlumniLogosSectionProps;
   /** Standard "Who is this for" section with icon cards */
   whoIsThisFor?: WhoIsThisForSectionProps;
+  /** Editorial text variant of "Who this course is for" — paragraphs, no icon cards */
+  whoIsThisForText?: WhoIsThisForTextSectionProps;
   /** Detailed personas section - alternative to whoIsThisFor for longer-form content */
   personas?: PersonasSectionProps;
   courseBenefits?: CourseBenefitsSectionProps;
+  /** Editorial text variant of "How this course will benefit you" — heading + paragraph pairs, no icons */
+  courseBenefitsText?: CourseBenefitsTextSectionProps;
   /** Course outcomes section - alternative to courseBenefits for text-focused content */
   courseOutcomes?: CourseOutcomesSectionProps;
   /** Optional placement override for course outcomes section */
@@ -48,16 +57,24 @@ export type CourseLanderContent = {
   /** Prerequisites section */
   prerequisites?: PrerequisitesSectionProps;
   courseInformation?: CourseInformationSectionProps;
+  /** Editorial prose "How the course works" — replaces courseInformation when set. Renders paragraphs with course-round unit counts interpolated from the database. */
+  howTheCourseWorks?: HowTheCourseWorksSectionProps;
+  /** Standalone schedule section using PageListRow rows — renders alongside howTheCourseWorks instead of inside courseInformation's box. */
+  scheduleList?: ScheduleListSectionProps;
   /** Case studies / alumni stories section */
   caseStudies?: CaseStudiesSectionProps;
   /** Alumni story carousel - carousel with full story text */
   alumniStories?: AlumniStoryCarouselProps;
   pathways?: PathwaysSectionProps;
+  /** Editorial list variant of "What happens after" — PageListRow rows like /programs and /events */
+  pathwaysList?: PathwaysListSectionProps;
   quotes?: QuoteSectionProps;
   testimonials?: TestimonialMember[];
   testimonialsTitle?: string;
   /** Hide the testimonials section even if testimonials exist in the database */
   hideTestimonials?: boolean;
+  /** Show testimonial cards as image + name + role only (drop the quote text) */
+  testimonialsHideQuotes?: boolean;
   /** Optional placement override for testimonials section */
   testimonialsPlacement?: 'default' | 'beforeOutcomes';
   partners?: PartnerSectionProps;
@@ -101,6 +118,7 @@ const CourseLander = ({
         testimonials={testimonials ?? []}
         title={content.testimonialsTitle}
         variant="lander"
+        hideQuotes={content.testimonialsHideQuotes}
       />
     </>
   ) : null;
@@ -157,9 +175,10 @@ const CourseLander = ({
 
       <div className="border-t-hairline border-color-divider" />
 
-      {/* Personas section OR standard "Who is this for" section */}
+      {/* Personas / editorial "Who is this for" / standard icon-card "Who is this for" */}
       {content.personas && <PersonasSection id="personas" {...content.personas} />}
-      {!content.personas && content.whoIsThisFor && <WhoIsThisForSection {...content.whoIsThisFor} />}
+      {!content.personas && content.whoIsThisForText && <WhoIsThisForTextSection {...content.whoIsThisForText} />}
+      {!content.personas && !content.whoIsThisForText && content.whoIsThisFor && <WhoIsThisForSection {...content.whoIsThisFor} />}
 
       {content.testimonialsPlacement === 'beforeOutcomes' && testimonialsSection}
 
@@ -171,15 +190,32 @@ const CourseLander = ({
         </>
       )}
 
-      {/* Pathways - what happens after (placed right after outcomes for unified "what you're joining" feel) */}
-      {content.pathways && (
+      {/* Editorial "How this course will benefit you" renders BEFORE pathways
+          so the page reads value-then-next-steps. The icon-card variant
+          (`courseBenefits`) keeps its original after-pathways slot below
+          to avoid changing other course pages. */}
+      {content.courseBenefitsText && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <CourseBenefitsTextSection {...content.courseBenefitsText} />
+        </>
+      )}
+
+      {/* Pathways - what happens after */}
+      {content.pathwaysList && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <PathwaysListSection id="pathways" {...content.pathwaysList} />
+        </>
+      )}
+      {!content.pathwaysList && content.pathways && (
         <>
           <div className="border-t-hairline border-color-divider" />
           <PathwaysSection id="pathways" {...content.pathways} />
         </>
       )}
 
-      {content.courseBenefits && (
+      {!content.courseBenefitsText && content.courseBenefits && (
         <>
           <div className="border-t-hairline border-color-divider" />
           <CourseBenefitsSection {...content.courseBenefits} />
@@ -217,7 +253,21 @@ const CourseLander = ({
         </>
       )}
 
-      {content.courseInformation && (
+      {/* Editorial "How the course works" + standalone Schedule replace
+          the boxed CourseInformationSection when set. */}
+      {content.howTheCourseWorks && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <HowTheCourseWorksSection id="structure" {...content.howTheCourseWorks} />
+        </>
+      )}
+      {content.scheduleList && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <ScheduleListSection id="schedule" {...content.scheduleList} />
+        </>
+      )}
+      {!content.howTheCourseWorks && !content.scheduleList && content.courseInformation && (
         <>
           <div className="border-t-hairline border-color-divider" />
           <CourseInformationSection id="structure" {...content.courseInformation} />
