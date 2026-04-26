@@ -74,13 +74,13 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
           <div className="size-10 rounded-full bg-bluedot-normal flex items-center justify-center text-white text-size-xs font-bold shrink-0">
             {getInitials(participant.name)}
           </div>
-          <span className="font-bold text-[16px] text-bluedot-navy">{participant.name}</span>
+          <span className="font-bold text-size-md text-bluedot-navy">{participant.name}</span>
           <button type="button" className="ml-auto text-size-xs font-medium text-gray-500 underline underline-offset-[3px] cursor-pointer" onClick={onNoStrongImpression}>
             No strong impression
           </button>
         </div>
       )}
-      desktopHeaderClassName="h-[73px] pt-0 pb-0 pl-6 pr-6 mb-0 border-b border-gray-200"
+      desktopHeaderClassName="h-[73px] py-0 px-6 mb-0 border-b border-gray-200"
       bottomDrawerOnMobile
       ariaLabel="Participant feedback"
       noClickaway
@@ -199,7 +199,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
 export default ParticipantFeedbackModal;
 
 const StandoutNudge: React.FC = () => (
-  <div className="flex gap-2 items-start bg-[#e5edfe] border border-[#c4d3f8] rounded-[6px] p-[11px]">
+  <div className="flex gap-2 items-start bg-[#e5edfe] border border-[#c4d3f8] rounded-md p-[11px]">
     <FaCircleInfo className="size-3.5 shrink-0 text-bluedot-normal mt-[3px]" aria-hidden />
     <p className="text-[13px] leading-[19.5px] text-bluedot-normal">
       Sounds like they are a standout – a short note here would help us act on this.
@@ -233,7 +233,7 @@ const BUBBLE_COLORS: Record<number, string> = {
 
 export const RubricSelector: React.FC<RubricSelectorProps> = ({ name, ariaLabelledBy, options, value, onChange }) => {
   return (
-    <div role="radiogroup" aria-labelledby={ariaLabelledBy} className="rounded-[6px] border-[0.5px] border-[rgba(106,111,122,0.5)] overflow-clip">
+    <div role="radiogroup" aria-labelledby={ariaLabelledBy} className="rounded-md border-[0.5px] border-[rgba(106,111,122,0.5)] overflow-clip">
       {options.map((option, idx) => {
         const isSelected = value === option.value;
         const isLast = idx === options.length - 1;
@@ -250,7 +250,7 @@ export const RubricSelector: React.FC<RubricSelectorProps> = ({ name, ariaLabell
               onChange={() => onChange(option.value)}
               className="sr-only"
             />
-            <div className={`w-[44px] self-stretch shrink-0 flex items-start justify-center pt-3 text-[15px] leading-[22.5px] font-bold border-r ${isSelected ? 'bg-[#c4d3f8] text-[#0d3399] border-[#c4d3f8]' : `${BUBBLE_COLORS[option.value]} opacity-[0.56] border-[rgba(0,0,0,0.06)]`}`}>
+            <div className={`w-11 self-stretch shrink-0 flex items-start justify-center pt-3 text-[15px] leading-[22.5px] font-bold border-r ${isSelected ? 'bg-[#c4d3f8] text-[#0d3399] border-[#c4d3f8]' : `${BUBBLE_COLORS[option.value]} opacity-[0.56] border-[rgba(0,0,0,0.06)]`}`}>
               {option.value}
             </div>
             <div className="flex-1 min-w-0 px-3 pt-3 pb-5">

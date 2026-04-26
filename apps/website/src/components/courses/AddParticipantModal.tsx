@@ -28,7 +28,7 @@ const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId,
         if (!v) onClose();
       }}
       title={<span className="font-bold text-size-md text-bluedot-navy">Add a participant</span>}
-      desktopHeaderClassName="h-[73px] pt-0 pb-0 pl-6 pr-6 mb-0 border-b border-gray-200"
+      desktopHeaderClassName="h-[73px] py-0 px-6 mb-0 border-b border-gray-200"
       bottomDrawerOnMobile
       ariaLabel="Add a participant"
       noClickaway
@@ -38,7 +38,7 @@ const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId,
           Search for a participant enrolled in this course who isn't already on your list.
         </p>
 
-        <div className="flex items-center gap-2 h-[46px] border border-gray-300 rounded-[6px] px-3">
+        <div className="flex items-center gap-2 h-[46px] border border-gray-300 rounded-md px-3">
           <RiSearchLine className="text-gray-400 shrink-0" size={15} />
           <input
             type="text"
@@ -62,7 +62,7 @@ const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId,
           {results.map((person) => (
             <div
               key={person.id}
-              className="flex items-center gap-3 border border-gray-300 rounded-[6px] px-3 py-3"
+              className="flex items-center gap-3 border border-gray-300 rounded-md px-3 py-3"
             >
               <div className="size-[30px] rounded-full bg-bluedot-normal flex items-center justify-center text-white text-size-xxs font-bold shrink-0">
                 {getInitials(person.name)}
@@ -71,7 +71,7 @@ const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId,
               <button
                 type="button"
                 onClick={() => onAdd(person)}
-                className="bg-bluedot-normal text-white h-8 px-3 rounded-[6px] text-size-xs font-semibold transition-colors cursor-pointer hover:bg-bluedot-darker focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+                className="bg-bluedot-normal text-white h-8 px-3 rounded-md text-size-xs font-semibold transition-colors cursor-pointer hover:bg-bluedot-darker focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
               >
                 Add
               </button>

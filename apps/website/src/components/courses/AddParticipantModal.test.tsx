@@ -8,7 +8,9 @@ import {
 import {
   describe, expect, test, vi,
 } from 'vitest';
-import { setupTestDb, testAuthContextLoggedIn, testDb, createTrpcDbProvider } from '../../__tests__/dbTestUtils';
+import {
+  createTrpcDbProvider, setupTestDb, testAuthContextLoggedIn, testDb,
+} from '../../__tests__/dbTestUtils';
 import AddParticipantModal from './AddParticipantModal';
 
 setupTestDb();

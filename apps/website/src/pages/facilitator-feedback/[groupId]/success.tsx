@@ -114,7 +114,7 @@ const FacilitatorFeedbackSuccessPage = () => {
       <div className="max-w-[680px] mx-auto pt-8 pb-16 px-4 flex flex-col gap-8">
         <section className="bg-white rounded-lg border border-color-divider p-6 sm:p-12 flex flex-col gap-7">
           <div className="flex flex-col gap-4">
-            <div className="w-[60px] h-[60px] rounded-full bg-bluedot-normal/10 flex items-center justify-center">
+            <div className="size-[60px] rounded-full bg-bluedot-normal/10 flex items-center justify-center">
               <PiCheck className="text-bluedot-normal text-[28px]" aria-hidden />
             </div>
             <div className="flex flex-col gap-2">
