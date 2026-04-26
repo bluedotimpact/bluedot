@@ -133,7 +133,7 @@ export const createAgiStrategyContent = (
   },
 
   quotes: {
-    cardBackgroundColor: AGI_STRATEGY_COLORS.bright,
+    variant: 'editorial',
     accentColor: AGI_STRATEGY_COLORS.full,
     quotes: [
       {

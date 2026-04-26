@@ -14,10 +14,15 @@ export type QuoteWithUrl = Quote & {
 export type QuoteSectionProps = {
   /** Array of quotes to display in the carousel */
   quotes: QuoteWithUrl[];
-  /** Background color for the quote card. Defaults to '#ECF0FF' */
+  /** Background color for the quote card (only used by the `card` variant). Defaults to '#ECF0FF' */
   cardBackgroundColor?: string;
   /** Accent color for the active navigation indicator. Defaults to bluedot-normal */
   accentColor?: string;
+  /**
+   * `card`: original lavender-card-with-side-image layout.
+   * `editorial`: white background, left-aligned pull-quote, byline with small avatar, tight pagination — matches /programs and /events house style.
+   */
+  variant?: 'card' | 'editorial';
 };
 
 // Design constants - these stay consistent across all courses
@@ -140,7 +145,23 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
   );
 };
 
-const QuoteSection = ({ quotes, cardBackgroundColor, accentColor }: QuoteSectionProps) => {
+// Editorial variant font sizing: smaller and tighter than the card-variant scale,
+// since text sits on a white background with no card to fill.
+const getEditorialFontSize = (quote: string): string => {
+  if (quote.length > FONT_SIZE_THRESHOLDS.EXTRA_LONG) {
+    return 'text-[18px] min-[680px]:text-[20px] lg:text-[22px]';
+  }
+
+  if (quote.length > FONT_SIZE_THRESHOLDS.LONG) {
+    return 'text-[20px] min-[680px]:text-[22px] lg:text-[24px]';
+  }
+
+  return 'text-[22px] min-[680px]:text-[24px] lg:text-[28px]';
+};
+
+const QuoteSection = ({
+  quotes, cardBackgroundColor, accentColor, variant = 'card',
+}: QuoteSectionProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const isDesktop = useAboveBreakpoint(680); // 680px is the design breakpoint specified
 
@@ -197,6 +218,104 @@ const QuoteSection = ({ quotes, cardBackgroundColor, accentColor }: QuoteSection
 
   if (!activeQuote) {
     return null;
+  }
+
+  if (variant === 'editorial') {
+    const dotActiveColor = accentColor ?? DEFAULT_COLORS.accent;
+    const Byline = (
+      <>
+        <img
+          src={activeQuote.imageSrc}
+          alt={activeQuote.name}
+          className="size-12 rounded-full object-cover flex-shrink-0"
+        />
+        <div className="flex flex-col">
+          <div className="text-[15px] font-semibold leading-[1.4] text-bluedot-navy group-hover:text-bluedot-normal transition-colors">
+            {activeQuote.name}
+          </div>
+          <div className="text-[15px] leading-[1.5] text-bluedot-navy/60">
+            {activeQuote.role}
+          </div>
+        </div>
+      </>
+    );
+
+    return (
+      <section
+        className="w-full bg-white"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        aria-label="Quote carousel"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        <div className="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24">
+          <div className="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto flex flex-col gap-8">
+            <blockquote
+              className={`${getEditorialFontSize(activeQuote.quote)} leading-[1.5] font-medium text-bluedot-navy`}
+            >
+              {activeQuote.quote}
+            </blockquote>
+
+            {activeQuote.url ? (
+              <a
+                href={activeQuote.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-4 group self-start"
+              >
+                {Byline}
+              </a>
+            ) : (
+              <div className="flex items-center gap-4 group self-start">
+                {Byline}
+              </div>
+            )}
+
+            <div className="flex items-center gap-3 mt-2">
+              <button
+                type="button"
+                onClick={handlePrevious}
+                className="size-10 rounded-full flex items-center justify-center bg-bluedot-navy/8 hover:bg-bluedot-navy/15 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+                aria-label="Previous quote"
+              >
+                <span className="text-bluedot-navy text-[16px] leading-none" style={{ transform: 'scaleX(-1)' }}>→</span>
+              </button>
+
+              <div className="flex items-center gap-2 mx-1">
+                {quotes.map((quote, index) => (
+                  <button
+                    type="button"
+                    key={`indicator-${quote.name}`}
+                    onClick={() => handleIndicatorClick(index)}
+                    className="size-2 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+                    style={{
+                      backgroundColor: index === activeIndex ? dotActiveColor : 'rgba(11, 21, 53, 0.15)',
+                    }}
+                    aria-label={`Go to quote ${index + 1}`}
+                    aria-current={index === activeIndex ? 'true' : 'false'}
+                  />
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={handleNext}
+                className="size-10 rounded-full flex items-center justify-center bg-bluedot-navy/8 hover:bg-bluedot-navy/15 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+                aria-label="Next quote"
+              >
+                <span className="text-bluedot-navy text-[16px] leading-none">→</span>
+              </button>
+
+              <span className="text-[14px] text-bluedot-navy/50 ml-auto tabular-nums">
+                {activeIndex + 1} / {quotes.length}
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
   }
 
   return (

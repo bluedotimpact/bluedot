@@ -1208,244 +1208,111 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       aria-atomic="true"
       aria-label="Quote carousel"
       aria-live="polite"
-      class="relative w-full py-12 px-5 sm:px-5 min-[680px]:py-16 min-[680px]:px-8 lg:py-12 xl:py-24 overflow-x-hidden"
-      style="background-color: #FFFFFF;"
+      class="w-full bg-white"
     >
       <div
-        class="flex flex-col items-center gap-8 w-full max-w-[calc(100vw-40px)] min-[680px]:max-w-none min-[680px]:w-[calc(100vw-64px)] lg:w-auto lg:max-w-none mx-auto overflow-visible"
+        class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24"
       >
         <div
-          class="relative w-full"
+          class="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto flex flex-col gap-8"
         >
-          <div
-            class="lg:hidden relative"
+          <blockquote
+            class="text-[22px] min-[680px]:text-[24px] lg:text-[28px] leading-[1.5] font-medium text-bluedot-navy"
           >
+            "We should not underestimate the real threats coming from AI [while] we have a narrowing window of opportunity to guide this technology responsibly."
+          </blockquote>
+          <a
+            class="flex items-center gap-4 group self-start"
+            href="https://neighbourhood-enlargement.ec.europa.eu/news/2023-state-union-address-president-von-der-leyen-2023-09-13_en"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <img
+              alt="Ursula von der Leyen"
+              class="size-12 rounded-full object-cover flex-shrink-0"
+              src="/images/agi-strategy/ursula.webp"
+            />
             <div
-              class="flex justify-center w-full"
+              class="flex flex-col"
             >
               <div
-                class="w-[calc(100vw-40px)] min-[680px]:w-[calc(100vw-64px)] relative z-10"
+                class="text-[15px] font-semibold leading-[1.4] text-bluedot-navy group-hover:text-bluedot-normal transition-colors"
               >
-                <div
-                  class="w-full rounded-xl overflow-hidden"
-                  style="background-color: #f3e8ff;"
-                >
-                  <div
-                    class="flex flex-col lg:flex-row-reverse w-full h-[465px] min-[680px]:!h-[377px] lg:h-[385px]"
-                  >
-                    <div
-                      class="flex flex-col items-center lg:items-start py-8 px-6 min-[680px]:!py-8 min-[680px]:!px-6 lg:!p-16 gap-6 sm:gap-8 min-[680px]:gap-12 flex-grow justify-between"
-                    >
-                      <blockquote
-                        class="text-[20px] min-[680px]:text-[24px] lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
-                        style="color: var(--bluedot-navy);"
-                      >
-                        "We should not underestimate the real threats coming from AI [while] we have a narrowing window of opportunity to guide this technology responsibly."
-                      </blockquote>
-                      <div
-                        class="flex flex-col items-center lg:items-start gap-4 lg:gap-0"
-                      >
-                        <a
-                          class="cursor-pointer"
-                          href="https://neighbourhood-enlargement.ec.europa.eu/news/2023-state-union-address-president-von-der-leyen-2023-09-13_en"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                          <img
-                            alt="Ursula von der Leyen"
-                            class="size-12 sm:size-16 object-cover rounded-full lg:hidden"
-                            src="/images/agi-strategy/ursula.webp"
-                          />
-                        </a>
-                        <div
-                          class="flex flex-col items-center lg:items-start"
-                        >
-                          <div
-                            class="text-[18px] leading-tight font-semibold"
-                            style="color: var(--bluedot-navy);"
-                          >
-                            Ursula von der Leyen
-                          </div>
-                          <div
-                            class="text-[16px] leading-[1.6] opacity-80 text-center lg:text-left lg:px-0"
-                            style="color: var(--bluedot-navy);"
-                          >
-                            President, European Commission
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      class="hidden lg:block w-80 h-[385px] flex-shrink-0 overflow-hidden rounded-l-xl"
-                    >
-                      <a
-                        class="block size-full cursor-pointer"
-                        href="https://neighbourhood-enlargement.ec.europa.eu/news/2023-state-union-address-president-von-der-leyen-2023-09-13_en"
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                        <img
-                          alt="Ursula von der Leyen"
-                          class="size-full object-cover rounded-l-xl"
-                          src="/images/agi-strategy/ursula.webp"
-                        />
-                      </a>
-                    </div>
-                  </div>
-                </div>
+                Ursula von der Leyen
+              </div>
+              <div
+                class="text-[15px] leading-[1.5] text-bluedot-navy/60"
+              >
+                President, European Commission
               </div>
             </div>
-          </div>
+          </a>
           <div
-            class="hidden lg:block relative"
+            class="flex items-center gap-3 mt-2"
           >
-            <div
-              class="flex justify-center w-full"
+            <button
+              aria-label="Previous quote"
+              class="size-10 rounded-full flex items-center justify-center bg-bluedot-navy/8 hover:bg-bluedot-navy/15 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+              type="button"
             >
-              <div
-                class="lg:w-[928px] xl:w-[1120px] relative z-10"
+              <span
+                class="text-bluedot-navy text-[16px] leading-none"
+                style="transform: scaleX(-1);"
               >
-                <div
-                  class="w-full rounded-xl overflow-hidden"
-                  style="background-color: #f3e8ff;"
-                >
-                  <div
-                    class="flex flex-col lg:flex-row-reverse w-full h-[465px] min-[680px]:!h-[377px] lg:h-[385px]"
-                  >
-                    <div
-                      class="flex flex-col items-center lg:items-start py-8 px-6 min-[680px]:!py-8 min-[680px]:!px-6 lg:!p-16 gap-6 sm:gap-8 min-[680px]:gap-12 flex-grow justify-between"
-                    >
-                      <blockquote
-                        class="text-[20px] min-[680px]:text-[24px] lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
-                        style="color: var(--bluedot-navy);"
-                      >
-                        "We should not underestimate the real threats coming from AI [while] we have a narrowing window of opportunity to guide this technology responsibly."
-                      </blockquote>
-                      <div
-                        class="flex flex-col items-center lg:items-start gap-4 lg:gap-0"
-                      >
-                        <a
-                          class="cursor-pointer"
-                          href="https://neighbourhood-enlargement.ec.europa.eu/news/2023-state-union-address-president-von-der-leyen-2023-09-13_en"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                          <img
-                            alt="Ursula von der Leyen"
-                            class="size-12 sm:size-16 object-cover rounded-full lg:hidden"
-                            src="/images/agi-strategy/ursula.webp"
-                          />
-                        </a>
-                        <div
-                          class="flex flex-col items-center lg:items-start"
-                        >
-                          <div
-                            class="text-[18px] leading-tight font-semibold"
-                            style="color: var(--bluedot-navy);"
-                          >
-                            Ursula von der Leyen
-                          </div>
-                          <div
-                            class="text-[16px] leading-[1.6] opacity-80 text-center lg:text-left lg:px-0"
-                            style="color: var(--bluedot-navy);"
-                          >
-                            President, European Commission
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      class="hidden lg:block w-80 h-[385px] flex-shrink-0 overflow-hidden rounded-l-xl"
-                    >
-                      <a
-                        class="block size-full cursor-pointer"
-                        href="https://neighbourhood-enlargement.ec.europa.eu/news/2023-state-union-address-president-von-der-leyen-2023-09-13_en"
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                        <img
-                          alt="Ursula von der Leyen"
-                          class="size-full object-cover rounded-l-xl"
-                          src="/images/agi-strategy/ursula.webp"
-                        />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                →
+              </span>
+            </button>
+            <div
+              class="flex items-center gap-2 mx-1"
+            >
+              <button
+                aria-current="true"
+                aria-label="Go to quote 1"
+                class="size-2 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+                style="background-color: #9177dc;"
+                type="button"
+              />
+              <button
+                aria-current="false"
+                aria-label="Go to quote 2"
+                class="size-2 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+                style="background-color: rgba(11, 21, 53, 0.15);"
+                type="button"
+              />
+              <button
+                aria-current="false"
+                aria-label="Go to quote 3"
+                class="size-2 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+                style="background-color: rgba(11, 21, 53, 0.15);"
+                type="button"
+              />
+              <button
+                aria-current="false"
+                aria-label="Go to quote 4"
+                class="size-2 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+                style="background-color: rgba(11, 21, 53, 0.15);"
+                type="button"
+              />
             </div>
-          </div>
-        </div>
-        <div
-          class="flex items-center justify-center w-[calc(100vw-40px)] min-[680px]:gap-8 min-[680px]:w-[calc(100vw-64px)] lg:w-[928px] lg:h-[38px] lg:gap-8 relative z-10"
-        >
-          <button
-            aria-label="Previous quote"
-            class="size-12 rounded-full flex items-center justify-center bg-bluedot-navy/8 transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-bluedot-navy/15 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
-            type="button"
-          >
+            <button
+              aria-label="Next quote"
+              class="size-10 rounded-full flex items-center justify-center bg-bluedot-navy/8 hover:bg-bluedot-navy/15 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+              type="button"
+            >
+              <span
+                class="text-bluedot-navy text-[16px] leading-none"
+              >
+                →
+              </span>
+            </button>
             <span
-              class="text-bluedot-navy text-[22.4px] font-medium select-none"
-              style="transform: scaleX(-1);"
+              class="text-[14px] text-bluedot-navy/50 ml-auto tabular-nums"
             >
-              →
+              1
+               / 
+              4
             </span>
-          </button>
-          <div
-            class="flex gap-2 w-[280px] h-[38px] min-[680px]:w-[408px] min-[680px]:h-[38px] lg:w-[408px] lg:h-[38px]"
-          >
-            <button
-              aria-label="Go to quote 1"
-              class="flex-1 py-4 h-[38px] min-[680px]:flex-none min-[680px]:w-24 min-[680px]:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
-              type="button"
-            >
-              <div
-                class="w-full min-[680px]:w-24 h-1.5 rounded transition-all duration-300"
-                style="background-color: #9177dc; opacity: 1;"
-              />
-            </button>
-            <button
-              aria-label="Go to quote 2"
-              class="flex-1 py-4 h-[38px] min-[680px]:flex-none min-[680px]:w-24 min-[680px]:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
-              type="button"
-            >
-              <div
-                class="w-full min-[680px]:w-24 h-1.5 rounded transition-all duration-300"
-                style="background-color: var(--bluedot-navy); opacity: 0.15;"
-              />
-            </button>
-            <button
-              aria-label="Go to quote 3"
-              class="flex-1 py-4 h-[38px] min-[680px]:flex-none min-[680px]:w-24 min-[680px]:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
-              type="button"
-            >
-              <div
-                class="w-full min-[680px]:w-24 h-1.5 rounded transition-all duration-300"
-                style="background-color: var(--bluedot-navy); opacity: 0.15;"
-              />
-            </button>
-            <button
-              aria-label="Go to quote 4"
-              class="flex-1 py-4 h-[38px] min-[680px]:flex-none min-[680px]:w-24 min-[680px]:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
-              type="button"
-            >
-              <div
-                class="w-full min-[680px]:w-24 h-1.5 rounded transition-all duration-300"
-                style="background-color: var(--bluedot-navy); opacity: 0.15;"
-              />
-            </button>
           </div>
-          <button
-            aria-label="Next quote"
-            class="size-12 rounded-full flex items-center justify-center bg-bluedot-navy/8 transition-all duration-200 opacity-80 hover:opacity-100 hover:bg-bluedot-navy/15 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
-            type="button"
-          >
-            <span
-              class="text-bluedot-navy text-[22.4px] font-medium select-none"
-            >
-              →
-            </span>
-          </button>
         </div>
       </div>
     </section>
