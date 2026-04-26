@@ -1,27 +1,37 @@
-import { Section, SlideList } from '@bluedot/ui';
+import { SlideList } from '@bluedot/ui';
 import { trpc } from '../../utils/trpc';
+import { pageSectionHeadingClass } from '../PageListRow';
+
+const TeamSectionShell: React.FC<React.PropsWithChildren> = ({ children }) => {
+  return (
+    <section className="team-section section section-body !border-b-0">
+      <h3 className={`${pageSectionHeadingClass} mb-6`}>Our team</h3>
+      {children}
+    </section>
+  );
+};
 
 const TeamSection = () => {
   const { data: teamMembers, isLoading, error } = trpc.teamMembers.getAll.useQuery();
 
   if (error) {
     return (
-      <Section title="Our team" className="team-section !border-b-0">
+      <TeamSectionShell>
         <p className="text-red-600">Failed to load team members.</p>
-      </Section>
+      </TeamSectionShell>
     );
   }
 
   if (isLoading || !teamMembers) {
     return (
-      <Section title="Our team" className="team-section !border-b-0">
+      <TeamSectionShell>
         <p>Loading...</p>
-      </Section>
+      </TeamSectionShell>
     );
   }
 
   return (
-    <Section title="Our team" className="team-section !border-b-0">
+    <TeamSectionShell>
       <SlideList
         maxItemsPerSlide={4}
         maxRows={3}
@@ -53,14 +63,14 @@ const TeamSection = () => {
                 )}
               </div>
               <div className="card__content w-full p-4">
-                <h3 className="card__title font-bold text-size-lg mb-1">{member.name}</h3>
+                <h4 className="card__title font-bold text-size-lg mb-1">{member.name}</h4>
                 <p className="card__subtitle text-gray-600">{member.jobTitle}</p>
               </div>
             </div>
           </div>
         ))}
       </SlideList>
-    </Section>
+    </TeamSectionShell>
   );
 };
 
