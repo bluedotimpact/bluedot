@@ -9,7 +9,7 @@ const GrantsSection = () => {
   const activePrograms = GRANT_PROGRAMS.filter((p) => p.status === 'Active');
 
   return (
-    <section className="w-full bg-white py-[48px] px-5 bd-md:py-[64px] bd-md:px-8 lg:py-[80px] lg:px-12 xl:py-[96px] xl:px-16 2xl:px-20">
+    <section className="w-full py-[48px] px-5 bd-md:py-[64px] bd-md:px-8 lg:py-[80px] lg:px-12 xl:py-[96px] xl:px-16 2xl:px-20">
       <div className="mx-auto max-w-screen-xl flex flex-col items-center">
         <div className="max-w-[700px] text-center">
           <H2 className="text-[28px] bd-md:text-[36px] lg:text-[40px] xl:text-[48px] leading-tight tracking-[-1px] font-medium text-bluedot-navy">

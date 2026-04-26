@@ -98,7 +98,7 @@ const ProgramsPage = () => {
         subtitle="Go beyond a course. Build, launch, get funded."
       />
 
-      <section className="section section-body bg-white">
+      <section className="section section-body">
         <div className="flex flex-col gap-12 lg:gap-14">
           <PageListGroup label="Active">
             {activePrograms.map(renderRow)}
@@ -123,7 +123,6 @@ const ProgramsPage = () => {
   );
 };
 
-ProgramsPage.mainBgWhite = true;
 ProgramsPage.pageRendersOwnNav = true;
 
 export default ProgramsPage;

@@ -18,7 +18,7 @@ const HomePage = () => {
   const testimonials = dbTestimonials?.map((t): TestimonialMember => ({ ...t })) ?? [];
 
   return (
-    <div className="bg-white">
+    <div>
       <Head>
         <title>{META_TITLE}</title>
         <meta name="description" content={META_DESCRIPTION} />
@@ -83,7 +83,7 @@ const HomePage = () => {
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
       {/* Newsletter Section */}
-      <section className="w-full bg-white bd-md:py-16 bd-md:px-8 lg:py-20 lg:px-12 xl:py-24 xl:px-16 2xl:px-20">
+      <section className="w-full bd-md:py-16 bd-md:px-8 lg:py-20 lg:px-12 xl:py-24 xl:px-16 2xl:px-20">
         <div className="mx-auto max-w-screen-xl">
           <NewsletterBanner />
         </div>

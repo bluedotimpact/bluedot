@@ -13,7 +13,7 @@ export const UpcomingRounds = () => {
 
   if (isLoading) {
     return (
-      <section className="bg-white pt-[16px] pb-[48px] px-5 bd-md:pt-0 bd-md:pb-[64px] bd-md:px-8 min-[1024px]:pb-[80px] min-[1024px]:px-12 min-[1280px]:pb-[96px] min-[1440px]:pt-[24px] min-[1920px]:pt-0 min-[1280px]:px-16 2xl:px-20">
+      <section className="pt-[16px] pb-[48px] px-5 bd-md:pt-0 bd-md:pb-[64px] bd-md:px-8 min-[1024px]:pb-[80px] min-[1024px]:px-12 min-[1280px]:pb-[96px] min-[1440px]:pt-[24px] min-[1920px]:pt-0 min-[1280px]:px-16 2xl:px-20">
         <div className="flex flex-col gap-4 max-w-screen-xl mx-auto">
           <div className="h-20 w-full animate-pulse rounded bg-gray-200" />
           <div className="h-20 w-full animate-pulse rounded bg-gray-200" />
@@ -37,7 +37,7 @@ export const UpcomingRounds = () => {
   }
 
   return (
-    <section className="bg-white pt-[16px] pb-[48px] px-5 bd-md:pt-0 bd-md:pb-[64px] bd-md:px-8 min-[1024px]:pb-[80px] min-[1024px]:px-12 min-[1280px]:pb-[96px] min-[1440px]:pt-[24px] min-[1920px]:pt-0 min-[1280px]:px-16 2xl:px-20">
+    <section className="pt-[16px] pb-[48px] px-5 bd-md:pt-0 bd-md:pb-[64px] bd-md:px-8 min-[1024px]:pb-[80px] min-[1024px]:px-12 min-[1280px]:pb-[96px] min-[1440px]:pt-[24px] min-[1920px]:pt-0 min-[1280px]:px-16 2xl:px-20">
       <div className="flex flex-col items-center gap-6 max-w-screen-xl mx-auto">
         {/* Section Title */}
         <h2 className="text-[24px] leading-[140%] tracking-[-0.5px] font-[450] text-bluedot-navy text-center">

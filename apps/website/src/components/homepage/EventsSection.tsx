@@ -306,7 +306,7 @@ const EventsSection = () => {
 
   return (
     <section
-      className="w-full bg-white py-12 px-5 bd-md:py-16 bd-md:px-8 lg:py-20 lg:px-12 xl:py-24 xl:px-16 2xl:px-20"
+      className="w-full py-12 px-5 bd-md:py-16 bd-md:px-8 lg:py-20 lg:px-12 xl:py-24 xl:px-16 2xl:px-20"
       aria-labelledby="events-section-heading"
     >
       {/* Heading Section */}

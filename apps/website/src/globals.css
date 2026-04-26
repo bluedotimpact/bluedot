@@ -26,6 +26,11 @@
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif ;
   --font-serif: var(--font-inter-display), ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif ;
 
+  /* Override library cream canvas → pure white for bluedot.org.
+     Library token name kept (`--bluedot-cream-normal`) to avoid touching
+     other apps in the monorepo that consume the cream default. */
+  --bluedot-cream-normal: #ffffff;
+
   /* Hairline borders for standard displays */
   --border-hairline: 1px;
 
