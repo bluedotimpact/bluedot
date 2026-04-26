@@ -227,13 +227,13 @@ const QuoteSection = ({
         <img
           src={activeQuote.imageSrc}
           alt={activeQuote.name}
-          className="size-12 rounded-full object-cover flex-shrink-0"
+          className="size-16 min-[680px]:size-20 rounded-xl object-cover flex-shrink-0"
         />
         <div className="flex flex-col">
-          <div className="text-[15px] font-semibold leading-[1.4] text-bluedot-navy group-hover:text-bluedot-normal transition-colors">
+          <div className="text-[16px] min-[680px]:text-[17px] font-semibold leading-[1.4] text-bluedot-navy group-hover:text-bluedot-normal transition-colors">
             {activeQuote.name}
           </div>
-          <div className="text-[15px] leading-[1.5] text-bluedot-navy/60">
+          <div className="text-[15px] min-[680px]:text-[16px] leading-[1.5] text-bluedot-navy/60">
             {activeQuote.role}
           </div>
         </div>
