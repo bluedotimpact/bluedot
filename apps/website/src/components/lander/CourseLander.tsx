@@ -48,6 +48,8 @@ export type CourseLanderContent = {
   /** Detailed personas section - alternative to whoIsThisFor for longer-form content */
   personas?: PersonasSectionProps;
   courseBenefits?: CourseBenefitsSectionProps;
+  /** Optional placement override for icon-card course benefits section. `beforePathways` lifts it above the pathways list (matches the editorial-variant order). Default leaves it after pathways for backwards compatibility. */
+  courseBenefitsPlacement?: 'default' | 'beforePathways';
   /** Editorial text variant of "How this course will benefit you" — heading + paragraph pairs, no icons */
   courseBenefitsText?: CourseBenefitsTextSectionProps;
   /** Course outcomes section - alternative to courseBenefits for text-focused content */
@@ -192,12 +194,20 @@ const CourseLander = ({
 
       {/* Editorial "How this course will benefit you" renders BEFORE pathways
           so the page reads value-then-next-steps. The icon-card variant
-          (`courseBenefits`) keeps its original after-pathways slot below
-          to avoid changing other course pages. */}
+          (`courseBenefits`) defaults to its original after-pathways slot
+          below for backwards compatibility, but opt in to the same value-
+          then-next-steps order via `courseBenefitsPlacement: 'beforePathways'`. */}
       {content.courseBenefitsText && (
         <>
           <div className="border-t-hairline border-color-divider" />
           <CourseBenefitsTextSection {...content.courseBenefitsText} />
+        </>
+      )}
+
+      {!content.courseBenefitsText && content.courseBenefits && content.courseBenefitsPlacement === 'beforePathways' && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <CourseBenefitsSection {...content.courseBenefits} />
         </>
       )}
 
@@ -215,7 +225,7 @@ const CourseLander = ({
         </>
       )}
 
-      {!content.courseBenefitsText && content.courseBenefits && (
+      {!content.courseBenefitsText && content.courseBenefits && content.courseBenefitsPlacement !== 'beforePathways' && (
         <>
           <div className="border-t-hairline border-color-divider" />
           <CourseBenefitsSection {...content.courseBenefits} />
@@ -253,24 +263,25 @@ const CourseLander = ({
         </>
       )}
 
-      {/* Editorial "How the course works" + standalone Schedule replace
-          the boxed CourseInformationSection when set. */}
+      {/* Course-info section: editorial prose `howTheCourseWorks` if set,
+          else the boxed `CourseInformationSection`. Either can pair with
+          a standalone `scheduleList` rendered immediately below. */}
       {content.howTheCourseWorks && (
         <>
           <div className="border-t-hairline border-color-divider" />
           <HowTheCourseWorksSection id="structure" {...content.howTheCourseWorks} />
         </>
       )}
+      {!content.howTheCourseWorks && content.courseInformation && (
+        <>
+          <div className="border-t-hairline border-color-divider" />
+          <CourseInformationSection id="structure" {...content.courseInformation} />
+        </>
+      )}
       {content.scheduleList && (
         <>
           <div className="border-t-hairline border-color-divider" />
           <ScheduleListSection id="schedule" {...content.scheduleList} />
-        </>
-      )}
-      {!content.howTheCourseWorks && !content.scheduleList && content.courseInformation && (
-        <>
-          <div className="border-t-hairline border-color-divider" />
-          <CourseInformationSection id="structure" {...content.courseInformation} />
         </>
       )}
 

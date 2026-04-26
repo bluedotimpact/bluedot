@@ -1,14 +1,14 @@
 import {
+  PiArrowsLeftRight,
   PiBriefcase,
+  PiChats,
+  PiClockClockwise,
   PiCompass,
   PiFlask,
-  PiClockClockwise,
-  PiChats,
+  PiHandCoins,
   PiHandHeart,
-  PiCalendarDots,
   PiRocketLaunch,
   PiUsersThree,
-  PiHandCoins,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
 
@@ -78,6 +78,8 @@ export const createBioSecurityContent = (
     },
   },
 
+  courseBenefitsPlacement: 'beforePathways',
+
   courseBenefits: {
     title: 'How this course will benefit you',
     iconBackgroundColor: BIOSECURITY_COLORS.bright,
@@ -101,12 +103,17 @@ export const createBioSecurityContent = (
   },
 
   courseInformation: {
-    title: 'Course information',
+    title: 'How the course works',
     applicationUrl: applicationUrlWithUtm,
     scheduleCtaText: 'Apply now',
     courseSlug,
     accentColor: BIOSECURITY_COLORS.full,
     details: [
+      {
+        icon: PiArrowsLeftRight,
+        label: 'Options',
+        description: 'Intensive (~6 days at ~5h/day) or part-time (~6 weeks at ~5h/week). Same content, different pace.',
+      },
       {
         icon: PiClockClockwise,
         label: 'Commitment',
@@ -128,22 +135,43 @@ export const createBioSecurityContent = (
         label: 'Price',
         description: 'This course is freely available and operates on a "pay-what-you-want" model.',
       },
+    ],
+  },
+
+  scheduleList: {
+    title: 'Schedule',
+    courseSlug,
+    applicationUrl: applicationUrlWithUtm,
+  },
+
+  testimonialsTitle: 'Meet our alumni working on biosecurity',
+  testimonialsHideQuotes: true,
+
+  pathwaysList: {
+    title: 'What happens after',
+    intro: 'This course is where you get oriented. What comes next depends on you.',
+    items: [
       {
-        icon: PiCalendarDots,
-        label: 'Schedule',
-        description: null,
-        isSchedule: true,
-        scheduleDescription: 'Check above for upcoming rounds and application deadlines.',
+        title: 'Rapid Grants',
+        summary: 'Small, fast funding for concrete biosecurity work. Five-minute application, decisions in days, money upfront by default.',
+        href: '/programs/rapid-grants',
+        ctaLabel: 'Explore program',
+      },
+      {
+        title: 'Career Transition Grants',
+        summary: 'Funding to enable you to work full-time on impactful biosecurity work. Propose your plan and we\'ll back you.',
+        href: '/programs/career-transition-grant',
+        ctaLabel: 'Explore program',
       },
     ],
   },
 
   quotes: {
-    cardBackgroundColor: BIOSECURITY_COLORS.bright,
+    variant: 'editorial',
     accentColor: BIOSECURITY_COLORS.full,
     quotes: [
       {
-        quote: '"[COVID-19] has been very severe … it has affected every corner of this planet. But this is not necessarily the big one."',
+        quote: '"COVID-19 has been very severe … it has affected every corner of this planet. But this is not necessarily the big one."',
         name: 'Dr Michael Ryan',
         role: 'Former Executive Director, WHO Health Emergencies Programme',
         imageSrc: '/images/lander/biosecurity/michael-ryan.webp',
@@ -163,13 +191,6 @@ export const createBioSecurityContent = (
         imageSrc: '/images/lander/foai/dario.webp',
         url: 'https://www.congress.gov/event/118th-congress/senate-event/LC72507/text',
       },
-      // {
-      //   quote: '"Five years ago, our country was caught unprepared by the Covid pandemic. It would be a tragedy if we failed to do enough to ensure we are sufficiently prepared for the next one. Biosecurity is now an essential aspect of national security and growth."',
-      //   name: 'Tony Blair and William Hague',
-      //   role: 'Former UK Prime Minister and Leader of the Opposition',
-      //   imageSrc: '/images/lander/biosecurity/blair-hague.webp',
-      //   url: 'https://institute.global/insights/politics-and-governance/a-new-national-purpose-biosecurity-as-the-foundation-for-growth-and-global-leadership',
-      // },
       {
         quote: '"We\'re reaching an inflection point with biotechnology where, with the help of AI, we are starting to be able to program cells like we program computers. This inflection point will define our national and economic security in the decades to come."',
         name: 'Michelle Rozo',
@@ -180,33 +201,32 @@ export const createBioSecurityContent = (
     ],
   },
 
-  testimonialsTitle: 'Meet our alumni working on biosecurity',
-
   faq: {
     title: 'Frequently Asked Questions',
     items: [
       {
-        id: 'funding',
-        question: 'Can I just apply for funding?',
-        answer: 'Funding is only available for graduates of the course.',
+        id: 'biology-expertise',
+        question: 'How much biology expertise do I need?',
+        answer: 'None. We\'ll help you build the foundation. The course is designed for serious thinkers from any background. We cover the biology you need as we go.',
       },
       {
-        id: 'bluedot',
-        question: 'Who is BlueDot Impact?',
+        id: 'formats',
+        question: 'What\'s the difference between intensive and part-time?',
+        answer: 'Same content, different pace. Intensive is ~6 days at ~5h/day, for people who can clear a week and want to move fast. Part-time is ~6 weeks at ~5h/week, for people fitting this around other commitments. Both end in the same place.',
+      },
+      {
+        id: 'funding',
+        question: 'Is there funding available?',
         answer: (
           <>
-            We're a London-based startup. Since 2022, we've trained 5,000 people, with ~1,000 now working on making AI go well.
-            <br /><br />
-            Our courses are the main entry point into the AI safety field.
-            <br /><br />
-            We're an intense 4-person team. We've raised $35M in total, including $25M in 2025.
+            Yes. Funding is available to graduates of the course. See <a href="/programs" className="underline">bluedot.org/programs</a> for current grants and how to apply.
           </>
         ),
       },
       {
-        id: 'biology-expertise',
-        question: 'How much biology expertise do I need?',
-        answer: 'None! We will help you understand the basics.',
+        id: 'bluedot',
+        question: 'Who is BlueDot Impact?',
+        answer: 'BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run cohort-based courses, help people land jobs, organise events around the world, and back people starting new organisations. Biosecurity is one of three programmes alongside AI safety and AI governance. We\'ve trained thousands of people since 2022, and our biosecurity alumni now work on pandemic preparedness at organisations around the world.',
       },
     ],
   },

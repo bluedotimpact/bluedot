@@ -1088,64 +1088,137 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       id="structure"
     >
       <div
-        class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24"
+        class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24 flex flex-col items-center gap-8 md:gap-10"
       >
-        <div
-          class="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto"
+        <h2
+          class="bluedot-h2 not-prose w-full min-[680px]:max-w-[840px] text-[28px] min-[680px]:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]"
         >
-          <h3
-            class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
-          >
-            How the course works
-          </h3>
+          How the course works
+        </h2>
+        <div
+          class="w-full min-[680px]:max-w-[840px] bg-white border border-bluedot-navy/10 rounded-xl py-8 flex flex-col items-center gap-6"
+        >
           <div
-            class="flex flex-col gap-5"
+            class="flex flex-col w-full"
           >
-            <p
-              class="bluedot-p not-prose"
-            >
-              The course has two “intensity levels”: part-time and intensive.
-            </p>
-            <p
-              class="bluedot-p not-prose"
-            >
-              If you join the 
-              <em>
-                part-time
-              </em>
-               course, you’ll invest 5h/week for 
-              5
-               weeks.
-            </p>
-            <p
-              class="bluedot-p not-prose"
-            >
-              If you join the 
-              <em>
-                intensive
-              </em>
-               course, you’ll invest 5h/day for 
-              5
-               days.
-            </p>
-            <p
-              class="bluedot-p not-prose"
-            >
-              Each day/week, you’ll complete 3 hours of reading and writing, followed by a 2h group discussion with ~8 peers over Zoom.
-            </p>
-            <p
-              class="bluedot-p not-prose"
-            >
-              All discussions are facilitated by an AI safety expert who can help to introduce you to others in the field.
-            </p>
-            <p
-              class="bluedot-p not-prose"
-            >
-              <strong>
-                This course is free
-              </strong>
-              , and operates on a “pay-what-you-want” model.
-            </p>
+            <div>
+              <div
+                class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
+              >
+                <div
+                  class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
+                >
+                  <p
+                    class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
+                  >
+                    Options
+                  </p>
+                </div>
+                <div
+                  class="flex-1 min-w-0"
+                >
+                  <p
+                    class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
+                  >
+                    Intensive (~5 days at ~5h/day) or part-time (~5 weeks at ~5h/week). Same content, different pace.
+                  </p>
+                </div>
+              </div>
+              <div
+                class="w-full h-px bg-bluedot-navy/10 my-6"
+              />
+            </div>
+            <div>
+              <div
+                class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
+              >
+                <div
+                  class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
+                >
+                  <p
+                    class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
+                  >
+                    Commitment
+                  </p>
+                </div>
+                <div
+                  class="flex-1 min-w-0"
+                >
+                  <p
+                    class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
+                  >
+                    Each day or week, you will:
+                    <br />
+                    <span
+                      class="font-semibold"
+                    >
+                      Complete 3 hours
+                    </span>
+                     of reading and writing, and 
+                    <span
+                      class="font-semibold"
+                    >
+                      join ~8 peers in a 2-hour Zoom meeting
+                    </span>
+                     to discuss the content.
+                  </p>
+                </div>
+              </div>
+              <div
+                class="w-full h-px bg-bluedot-navy/10 my-6"
+              />
+            </div>
+            <div>
+              <div
+                class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
+              >
+                <div
+                  class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
+                >
+                  <p
+                    class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
+                  >
+                    Facilitator
+                  </p>
+                </div>
+                <div
+                  class="flex-1 min-w-0"
+                >
+                  <p
+                    class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
+                  >
+                    All discussions will be facilitated by an AI safety expert.
+                  </p>
+                </div>
+              </div>
+              <div
+                class="w-full h-px bg-bluedot-navy/10 my-6"
+              />
+            </div>
+            <div>
+              <div
+                class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
+              >
+                <div
+                  class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
+                >
+                  <p
+                    class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
+                  >
+                    Price
+                  </p>
+                </div>
+                <div
+                  class="flex-1 min-w-0"
+                >
+                  <p
+                    class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
+                  >
+                    This course is freely available and operates on a "pay-what-you-want" model.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -1,16 +1,16 @@
 import {
-  PiFlask,
-  PiClockClockwise,
+  PiArrowsLeftRight,
+  PiBank,
+  PiBookOpen,
+  PiChalkboardTeacherLight,
   PiChats,
+  PiClockClockwise,
+  PiCode,
+  PiFlask,
+  PiGraduationCap,
   PiHandHeart,
-  PiCalendarDots,
   PiRocketLaunch,
   PiUsersThree,
-  PiCode,
-  PiChalkboardTeacherLight,
-  PiBank,
-  PiGraduationCap,
-  PiBookOpen,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
 
@@ -210,12 +210,17 @@ export const createTechnicalAiSafetyContent = (
   },
 
   courseInformation: {
-    title: 'How it works',
+    title: 'How the course works',
     applicationUrl: applicationUrlWithUtm,
     scheduleCtaText: 'Apply now',
     courseSlug,
     accentColor: TAS_COLORS.full,
     details: [
+      {
+        icon: PiArrowsLeftRight,
+        label: 'Options',
+        description: 'Intensive (~6 days at ~5h/day) or part-time (~6 weeks at ~5h/week). Same content, different pace.',
+      },
       {
         icon: PiClockClockwise,
         label: 'Commitment',
@@ -233,23 +238,17 @@ export const createTechnicalAiSafetyContent = (
         description: 'All discussions will be facilitated by an AI safety expert.',
       },
       {
-        icon: PiClockClockwise,
-        label: 'Time',
-        description: '~30 hours total',
-      },
-      {
         icon: PiHandHeart,
         label: 'Price',
-        description: 'Free (pay-what-you-want)',
-      },
-      {
-        icon: PiCalendarDots,
-        label: 'Schedule',
-        description: null,
-        isSchedule: true,
-        scheduleDescription: 'Check above for upcoming rounds and application deadlines.',
+        description: 'This course is freely available and operates on a "pay-what-you-want" model.',
       },
     ],
+  },
+
+  scheduleList: {
+    title: 'Schedule',
+    courseSlug,
+    applicationUrl: applicationUrlWithUtm,
   },
 
   faq: {
