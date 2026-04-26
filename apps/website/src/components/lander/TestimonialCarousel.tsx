@@ -292,43 +292,51 @@ const TestimonialCarousel = ({
 const TestimonialMemberCard = ({ testimonial, hideQuote = false }: { testimonial: TestimonialMember; hideQuote?: boolean }) => {
   const hasQuote = !hideQuote && testimonial.quote?.trim();
 
-  const cardContent = (
-    <>
-      {/* Image Section */}
-      <div className="flex-shrink-0 w-full h-[296px] min-[680px]:h-[320px]">
-        <img
-          src={testimonial.imageSrc}
-          alt={`Profile of ${testimonial.name}`}
-          className="size-full object-cover"
-        />
-      </div>
+  const imageBlock = (
+    <div className="flex-shrink-0 w-full h-[296px] min-[680px]:h-[320px]">
+      <img
+        src={testimonial.imageSrc}
+        alt={`Profile of ${testimonial.name}`}
+        className="size-full object-cover"
+      />
+    </div>
+  );
 
-      {/* Content Section - flex-1 to fill available space */}
+  const nameRoleBlock = (
+    <div className="flex flex-col items-start gap-1 w-full">
+      <P className="text-[16px] font-semibold leading-[125%] text-bluedot-navy text-left w-full">
+        {testimonial.name}
+      </P>
+      <P className="text-[14px] font-normal leading-[160%] text-bluedot-navy/60 text-left w-full">
+        {testimonial.jobTitle}
+      </P>
+    </div>
+  );
+
+  const cardContent = hideQuote ? (
+    /* Alumni-wall layout: image flush at top, tight name/role block right below.
+       No spacer, no quote, no flex-1 fill — card sizes to its natural content. */
+    <>
+      {imageBlock}
+      <div className="px-6 py-5">
+        {nameRoleBlock}
+      </div>
+    </>
+  ) : (
+    /* Default layout: image, then quote (or spacer) that fills available height,
+       pushing name/role to the bottom of the card so all cards align. */
+    <>
+      {imageBlock}
       <div className="flex flex-1 flex-col p-6">
-        {/* Inner flex container with gap-8 (32px) matching Figma */}
         <div className="flex flex-1 flex-col gap-8">
-          {/* Quote uses flex-1 to grow and push name to bottom */}
           {hasQuote ? (
             <P className="flex-1 text-[16px] font-normal leading-[160%] text-bluedot-navy text-left w-full">
               {testimonial.quote}
             </P>
           ) : (
-            /* Spacer when no quote - pushes name/jobTitle to bottom */
             <div className="flex-1" />
           )}
-
-          {/* Name and Job Title Container - shrink-0 stays at bottom */}
-          <div className="flex flex-col items-start gap-1 shrink-0 w-full">
-            {/* Name */}
-            <P className="text-[16px] font-semibold leading-[125%] text-bluedot-navy text-left w-full">
-              {testimonial.name}
-            </P>
-
-            {/* Job Title */}
-            <P className="text-[14px] font-normal leading-[160%] text-bluedot-navy/60 text-left w-full">
-              {testimonial.jobTitle}
-            </P>
-          </div>
+          {nameRoleBlock}
         </div>
       </div>
     </>

@@ -173,37 +173,41 @@ export const createAgiStrategyContent = (
       {
         id: 'background',
         question: 'What background do I need?',
-        answer: 'We don\'t care about your CV. We care about what you\'ll do next. We\'ve had participants from policy, engineering, law, medicine, operations, and academia - what they shared was drive and a bias toward action.',
+        answer: 'We don\'t care about your CV. We care about what you\'ll do next. Recent cohorts have included people from policy, engineering, law, medicine, operations, and academia. What they shared was drive and a bias toward action.',
       },
       {
         id: 'beginners',
         question: 'Is this course for beginners?',
-        answer: 'It\'s for people who are new to working on AI safety, not new to taking things seriously. If you\'ve been reading and thinking and are ready to stop orbiting, this is where you start.',
+        answer: 'It\'s for people new to working on AI safety, not new to thinking hard. If you\'ve been reading and thinking, and are ready to act, this is where you start.',
       },
       {
         id: 'formats',
         question: 'What\'s the difference between intensive and part-time?',
-        answer: 'Same content, different pace. Intensive is 5 days at ~5 hours/day - for people who can clear a week and want to move fast. Part-time is 5 weeks at ~5 hours/week - for people building this around other commitments. Both get you to the same place.',
+        answer: 'Same content, different pace. Intensive is 5 days at ~5h/day, for people who can clear a week and want to move fast. Part-time is 5 weeks at ~5h/week, for people fitting this around other commitments. Both end in the same place.',
+      },
+      {
+        id: 'timezones',
+        question: 'What time zones do you run cohorts in?',
+        answer: 'We run discussions across a wide range of timezones. You\'ll tell us your availability and we\'ll put you in a group that works for your current schedule.',
       },
       {
         id: 'direction',
         question: 'What if I don\'t know which direction I want to go?',
-        answer: 'That\'s what the course is for. You\'ll leave knowing which problems matter most to you and which path fits your skills - technical research, governance, biosecurity, or building something new. Figuring it out is the work.',
+        answer: 'That\'s what the course is for. You\'ll leave with a view on which problems matter most and which path fits your skills: technical research, governance, biosecurity, or building something new. Figuring that out is the work.',
       },
       {
         id: 'funding',
         question: 'Is there funding available?',
         answer: (
           <>
-            Yes, for people who are building.
-            <br /><br />
-            <span className="font-semibold">Rapid Small Grants ($50–$1,500):</span> For participants who need compute, conference travel, research access, or tools. Apply in under 15 minutes, hear back within 5 days.
-            <br /><br />
-            <span className="font-semibold">Incubator Grants ($10–50K):</span> For participants who come out ready to launch something. Selective, awarded through our incubator programme - not a direct application.
-            <br /><br />
-            We're not here to fund curiosity. But if you're building something ambitious that matters, we will back you.
+            Yes. See <a href="/programs" className="underline">bluedot.org/programs</a> for current grants and how to apply.
           </>
         ),
+      },
+      {
+        id: 'certificate',
+        question: 'Will I get a certificate?',
+        answer: 'Yes. Participants who complete the course receive a digital certificate they can share on LinkedIn or with employers.',
       },
       {
         id: 'free',
@@ -213,7 +217,7 @@ export const createAgiStrategyContent = (
       {
         id: 'bluedot',
         question: 'Who is BlueDot Impact?',
-        answer: 'BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run courses, help people land jobs, organise events all over the world, and accelerate entrepreneurs to start new companies. We\'ve trained 7,000+ people since 2022. Our alumni are now at Anthropic, DeepMind, UK AISI, and have started new organisations working on safely navigating the transition to AGI.',
+        answer: 'BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run courses, help people land jobs, organise events around the world, and back people starting new organisations. We\'ve trained thousands of people since 2022. Our alumni now work at Anthropic, DeepMind, UK AISI, and have founded new organisations working on a safe transition to advanced AI.',
       },
     ],
   },
