@@ -33,4 +33,6 @@ const AboutPage = () => {
   );
 };
 
+AboutPage.pageRendersOwnNav = true;
+
 export default AboutPage;

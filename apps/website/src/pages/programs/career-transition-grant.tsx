@@ -44,4 +44,6 @@ const CareerTransitionGrantPage = () => {
   );
 };
 
+CareerTransitionGrantPage.pageRendersOwnNav = true;
+
 export default CareerTransitionGrantPage;

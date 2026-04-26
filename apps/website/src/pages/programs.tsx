@@ -1,11 +1,10 @@
 import {
   Breadcrumbs,
   CTALinkOrButton,
-  H1,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import NewsletterBanner from '../components/homepage/NewsletterBanner';
-import { Nav } from '../components/Nav/Nav';
+import MarketingHero from '../components/MarketingHero';
 import { PageListGroup, PageListRow } from '../components/PageListRow';
 import { ROUTES } from '../lib/routes';
 import { formatAmountUsd } from '../lib/utils';
@@ -19,33 +18,6 @@ type ProgramItem = {
   summary: string;
   detail: string;
   ctaLabel: string;
-};
-
-const ProgramsHero = () => {
-  return (
-    <section className="relative w-full min-h-[317px] min-[680px]:min-h-[366px]">
-      <Nav variant="transparent" />
-      <img
-        src="/images/homepage/hero.webp"
-        alt=""
-        className="absolute inset-0 size-full object-cover -scale-x-100"
-        {...{ fetchpriority: 'high' }}
-      />
-
-      <div className="relative z-10 flex flex-col justify-end h-full min-h-[317px] min-[680px]:min-h-[366px] pb-12 pt-20 min-[680px]:pb-16 min-[680px]:pt-20">
-        <div className="w-full mx-auto max-w-max-width px-spacing-x">
-          <div className="flex flex-col gap-6 max-w-[780px]">
-            <H1 className="text-[32px] min-[680px]:text-[40px] min-[1024px]:text-[48px] leading-tight font-medium tracking-[-1px] text-white">
-              Programs
-            </H1>
-            <p className="text-size-sm min-[680px]:text-[18px] min-[1024px]:text-[20px] leading-[1.55] tracking-[-0.1px] text-white">
-              Go beyond a course. Build, launch, get funded.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
 };
 
 const ProgramsPage = () => {
@@ -124,7 +96,10 @@ const ProgramsPage = () => {
         />
       </Head>
 
-      <ProgramsHero />
+      <MarketingHero
+        title="Programs"
+        subtitle="Go beyond a course. Build, launch, get funded."
+      />
       <Breadcrumbs route={ROUTES.programs} />
 
       <section className="section section-body bg-white">
@@ -155,5 +130,6 @@ const ProgramsPage = () => {
 };
 
 ProgramsPage.mainBgWhite = true;
+ProgramsPage.pageRendersOwnNav = true;
 
 export default ProgramsPage;

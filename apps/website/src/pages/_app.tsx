@@ -30,6 +30,7 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
   const hideFooter = 'hideFooter' in Component;
   const mainBgWhite = 'mainBgWhite' in Component && Boolean(Component.mainBgWhite);
   const mainShrinkToContent = mainBgWhite || ('mainShrinkToContent' in Component && Boolean(Component.mainShrinkToContent));
+  const pageRendersOwnNav = 'pageRendersOwnNav' in Component && Boolean(Component.pageRendersOwnNav);
   const { courses, loading } = useCourses();
   const { openBugReport } = useBugReport();
 
@@ -88,7 +89,7 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
         </ErrorBoundary>
       ) : (
         <>
-          <Header announcementBanner={getAnnouncementBanner()} />
+          <Header announcementBanner={getAnnouncementBanner()} pageRendersOwnNav={pageRendersOwnNav} />
           <main
             className="bluedot-base"
             style={(mainBgWhite || mainShrinkToContent) ? {

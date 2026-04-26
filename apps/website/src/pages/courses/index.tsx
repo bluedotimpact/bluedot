@@ -1,12 +1,12 @@
 import {
-  addQueryParam, Breadcrumbs, ErrorSection, H1, ProgressDots, useLatestUtmParams,
+  addQueryParam, Breadcrumbs, ErrorSection, ProgressDots, useLatestUtmParams,
 } from '@bluedot/ui';
 import type { inferRouterOutputs } from '@trpc/server';
 import clsx from 'clsx';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
-import { Nav } from '../../components/Nav/Nav';
+import MarketingHero from '../../components/MarketingHero';
 import type { AppRouter } from '../../server/routers/_app';
 import { trpc } from '../../utils/trpc';
 import NewsletterBanner from '../../components/homepage/NewsletterBanner';
@@ -145,8 +145,10 @@ const CoursesPage = () => {
         )}
       </Head>
 
-      {/* Hero Section */}
-      <CoursesHero />
+      <MarketingHero
+        title="Course Schedule"
+        subtitle="Learn how you can have a positive impact on the future of AI via one of our upcoming free courses and projects."
+      />
       <Breadcrumbs route={ROUTES.courses} />
 
       {/* Main Content Area */}
@@ -190,41 +192,9 @@ const CoursesPage = () => {
   );
 };
 
+CoursesPage.pageRendersOwnNav = true;
+
 export default CoursesPage;
-
-/* Hero Section */
-const CoursesHero = () => {
-  return (
-    <section className="relative w-full min-h-[317px] min-[680px]:min-h-[366px]">
-      <Nav />
-      {/* Background Image */}
-      <img
-        src="/images/homepage/hero.webp"
-        alt=""
-        className="absolute inset-0 size-full object-cover -scale-x-100"
-        // Workaround for bug with camelcase `fetchPriority`: https://github.com/facebook/react/issues/25682
-        {...{ fetchpriority: 'high' }}
-      />
-
-      {/* Content Container */}
-      <div className="relative z-10 flex flex-col justify-end h-full min-h-[317px] min-[680px]:min-h-[366px] px-5 pb-12 pt-20 min-[680px]:px-8 min-[680px]:pb-16 min-[680px]:pt-20 min-[1024px]:px-12 min-[1280px]:px-16 min-[1920px]:px-0">
-        <div className="w-full mx-auto min-[1920px]:max-w-[1360px]">
-          <div className="flex flex-col gap-6 max-w-[780px]">
-            {/* Title */}
-            <H1 className="text-[32px] min-[680px]:text-[40px] min-[1024px]:text-[48px] leading-tight font-medium tracking-[-1px] text-white">
-              Course Schedule
-            </H1>
-
-            {/* Description */}
-            <p className="text-size-sm min-[680px]:text-[18px] min-[1024px]:text-[20px] leading-[1.55] tracking-[-0.1px] text-white">
-              Learn how you can have a positive impact on the future of AI via one of our upcoming free courses and projects.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
 
 /* Hook to track active section via IntersectionObserver */
 const useActiveSection = (sectionIds: string[]): string | null => {

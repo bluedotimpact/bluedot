@@ -92,4 +92,6 @@ const HomePage = () => {
   );
 };
 
+HomePage.pageRendersOwnNav = true;
+
 export default HomePage;

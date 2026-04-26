@@ -1,5 +1,4 @@
 import {
-  H1,
   Section,
   Breadcrumbs,
   type BluedotRoute,
@@ -9,7 +8,7 @@ import Head from 'next/head';
 import { type GetStaticProps, type GetStaticPaths } from 'next';
 import { type JobPosting, jobPostingTable } from '@bluedot/db';
 import path from 'path';
-import { Nav } from '../../components/Nav/Nav';
+import MarketingHero from '../../components/MarketingHero';
 import { ROUTES } from '../../lib/routes';
 import { ONE_MINUTE_SECONDS } from '../../lib/constants';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
@@ -78,29 +77,7 @@ const JobPostingPage = ({ slug, job, jobOgImage }: JobPostingPageProps) => {
           }}
         />
       </Head>
-      <section className="relative w-full min-h-[317px] min-[680px]:min-h-[366px]">
-        <Nav variant="transparent" />
-        <img
-          src="/images/homepage/hero.webp"
-          alt=""
-          className="absolute inset-0 size-full object-cover -scale-x-100"
-          {...{ fetchpriority: 'high' }}
-        />
-        <div className="relative z-10 flex flex-col justify-end h-full min-h-[317px] min-[680px]:min-h-[366px] pb-12 pt-20 min-[680px]:pb-16 min-[680px]:pt-20">
-          <div className="w-full mx-auto max-w-max-width px-spacing-x">
-            <div className="flex flex-col gap-6 max-w-[780px]">
-              <H1 className="text-[32px] min-[680px]:text-[40px] min-[1024px]:text-[48px] leading-tight font-medium tracking-[-1px] text-white">
-                {job.title}
-              </H1>
-              {job.subtitle && (
-                <p className="text-size-sm min-[680px]:text-[18px] min-[1024px]:text-[20px] leading-[1.55] tracking-[-0.1px] text-white">
-                  {job.subtitle}
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
+      <MarketingHero title={currentRoute.title} subtitle={job.subtitle ?? undefined} />
       <Breadcrumbs route={currentRoute} />
       <Section className="max-w-3xl">
         <MarkdownExtendedRenderer>
@@ -159,5 +136,7 @@ export const getStaticProps: GetStaticProps<JobPostingPageProps> = async ({ para
     };
   }
 };
+
+JobPostingPage.pageRendersOwnNav = true;
 
 export default JobPostingPage;
