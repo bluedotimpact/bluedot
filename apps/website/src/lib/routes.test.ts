@@ -47,7 +47,6 @@ describe('ROUTES configuration', () => {
     expect(ROUTES.logout).toBeDefined();
     expect(ROUTES.privacyPolicy).toBeDefined();
     expect(ROUTES.profile).toBeDefined();
-    expect(ROUTES.projects).toBeDefined();
   });
 
   test('programs route has correct URL and title', () => {

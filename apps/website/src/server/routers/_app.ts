@@ -1,6 +1,5 @@
 import { router } from '../trpc';
 import { adminRouter } from './admin';
-import { blogsRouter } from './blogs';
 import { certificatesRouter } from './certificates';
 import { courseRegistrationsRouter } from './course-registrations';
 import { courseRoundsRouter } from './course-rounds';
@@ -16,7 +15,6 @@ import { jobsRouter } from './jobs';
 import { lumaRouter } from './luma';
 import { meetPersonRouter } from './meet-person';
 import { missionsRouter } from './missions';
-import { projectsRouter } from './projects';
 import { resourcesRouter } from './resources';
 import { subscriptionPreferencesRouter } from './subscription-preferences';
 import { teamMembersRouter } from './teamMembers';
@@ -25,7 +23,6 @@ import { usersRouter } from './users';
 
 export const appRouter = router({
   admin: adminRouter,
-  blogs: blogsRouter,
   certificates: certificatesRouter,
   courseRegistrations: courseRegistrationsRouter,
   courseRounds: courseRoundsRouter,
@@ -41,7 +38,6 @@ export const appRouter = router({
   luma: lumaRouter,
   meetPerson: meetPersonRouter,
   missions: missionsRouter,
-  projects: projectsRouter,
   resources: resourcesRouter,
   subscriptionPreferences: subscriptionPreferencesRouter,
   teamMembers: teamMembersRouter,

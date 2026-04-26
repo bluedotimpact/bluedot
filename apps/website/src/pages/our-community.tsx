@@ -1,6 +1,4 @@
 import {
-  HeroSection,
-  HeroH1,
   Section,
   Breadcrumbs,
   type BluedotRoute,
@@ -8,6 +6,7 @@ import {
 import Head from 'next/head';
 import { ROUTES } from '../lib/routes';
 import MarkdownExtendedRenderer from '../components/courses/MarkdownExtendedRenderer';
+import MarketingHero from '../components/MarketingHero';
 
 const CURRENT_ROUTE: BluedotRoute = {
   title: 'AI Safety Fundamentals Community',
@@ -15,15 +14,16 @@ const CURRENT_ROUTE: BluedotRoute = {
   parentPages: [ROUTES.home],
 };
 
-const ContentPage = () => {
+const SUBTITLE = 'The community course participants and alumni stay part of after the course ends.';
+
+const OurCommunityPage = () => {
   return (
     <div>
       <Head>
         <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
+        <meta name="description" content={SUBTITLE} />
       </Head>
-      <HeroSection>
-        <HeroH1>{CURRENT_ROUTE.title}</HeroH1>
-      </HeroSection>
+      <MarketingHero title={CURRENT_ROUTE.title} subtitle={SUBTITLE} />
       <Breadcrumbs route={CURRENT_ROUTE} />
       <Section className="max-w-3xl">
         <MarkdownExtendedRenderer>{`
@@ -50,4 +50,6 @@ We will continue to ensure our community is a space for you and other members to
   );
 };
 
-export default ContentPage;
+OurCommunityPage.pageRendersOwnNav = true;
+
+export default OurCommunityPage;
