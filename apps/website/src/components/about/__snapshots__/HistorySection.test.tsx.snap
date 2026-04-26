@@ -3,151 +3,139 @@
 exports[`HistorySection > renders desktop as expected 1`] = `
 <div>
   <section
-    class="section section-body history-section"
+    class="history-section section section-body"
   >
+    <h3
+      class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
+    >
+      Our history
+    </h3>
     <div
-      class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+      class="history-section__container flex flex-col lg:flex-row lg:gap-2 gap-8"
     >
       <div
-        class="section-heading__content flex-1 flex flex-col gap-2"
+        class="history-section__event flex-1"
       >
-        <h2
-          class="section-heading__title relative ml-[-0.08em] bluedot-h2"
+        <div
+          class="history-section__event-container--desktop flex flex-col gap-space-between"
         >
-          Our history
-        </h2>
+          <div
+            class="history-section__year-container w-full flex gap-2"
+          >
+            <p
+              class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
+            >
+              2021
+            </p>
+            <div
+              class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+            />
+          </div>
+          <p
+            class="bluedot-p not-prose history-section__event-details mr-12"
+          >
+            Started as reading groups at the University of Cambridge.
+          </p>
+        </div>
       </div>
-    </div>
-    <div
-      class="section__body"
-    >
       <div
-        class="history-section__container flex flex-col lg:flex-row lg:gap-2 gap-8"
+        class="history-section__event flex-1"
       >
         <div
-          class="history-section__event flex-1"
+          class="history-section__event-container--desktop flex flex-col gap-space-between"
         >
           <div
-            class="history-section__event-container--desktop flex flex-col gap-space-between"
+            class="history-section__year-container w-full flex gap-2"
           >
-            <div
-              class="history-section__year-container w-full flex gap-2"
-            >
-              <p
-                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
-              >
-                2021
-              </p>
-              <div
-                class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
-              />
-            </div>
             <p
-              class="bluedot-p not-prose history-section__event-details mr-12"
+              class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
             >
-              Started as reading groups at the University of Cambridge.
+              2022
             </p>
+            <div
+              class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+            />
           </div>
+          <p
+            class="bluedot-p not-prose history-section__event-details mr-12"
+          >
+            Founded BlueDot Impact. Launched our first AI safety course with 400 participants.
+          </p>
         </div>
+      </div>
+      <div
+        class="history-section__event flex-1"
+      >
         <div
-          class="history-section__event flex-1"
+          class="history-section__event-container--desktop flex flex-col gap-space-between"
         >
           <div
-            class="history-section__event-container--desktop flex flex-col gap-space-between"
+            class="history-section__year-container w-full flex gap-2"
           >
-            <div
-              class="history-section__year-container w-full flex gap-2"
-            >
-              <p
-                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
-              >
-                2022
-              </p>
-              <div
-                class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
-              />
-            </div>
             <p
-              class="bluedot-p not-prose history-section__event-details mr-12"
+              class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
             >
-              Founded BlueDot Impact. Launched our first AI safety course with 400 participants.
+              2023
             </p>
+            <div
+              class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+            />
           </div>
+          <p
+            class="bluedot-p not-prose history-section__event-details mr-12"
+          >
+            Expanded to AI governance and biosecurity. Trained 900. Moved to London.
+          </p>
         </div>
+      </div>
+      <div
+        class="history-section__event flex-1"
+      >
         <div
-          class="history-section__event flex-1"
+          class="history-section__event-container--desktop flex flex-col gap-space-between"
         >
           <div
-            class="history-section__event-container--desktop flex flex-col gap-space-between"
+            class="history-section__year-container w-full flex gap-2"
           >
-            <div
-              class="history-section__year-container w-full flex gap-2"
-            >
-              <p
-                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
-              >
-                2023
-              </p>
-              <div
-                class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
-              />
-            </div>
             <p
-              class="bluedot-p not-prose history-section__event-details mr-12"
+              class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
             >
-              Expanded to AI governance and biosecurity. Trained 900. Moved to London.
+              2024
             </p>
+            <div
+              class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+            />
           </div>
+          <p
+            class="bluedot-p not-prose history-section__event-details mr-12"
+          >
+            Trained 3,500. Raised $5M.
+          </p>
         </div>
+      </div>
+      <div
+        class="history-section__event flex-1"
+      >
         <div
-          class="history-section__event flex-1"
+          class="history-section__event-container--desktop flex flex-col gap-space-between"
         >
           <div
-            class="history-section__event-container--desktop flex flex-col gap-space-between"
+            class="history-section__year-container w-full flex gap-2"
           >
-            <div
-              class="history-section__year-container w-full flex gap-2"
-            >
-              <p
-                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
-              >
-                2024
-              </p>
-              <div
-                class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
-              />
-            </div>
             <p
-              class="bluedot-p not-prose history-section__event-details mr-12"
+              class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
             >
-              Trained 3,500. Raised $5M.
+              2025
             </p>
+            <div
+              class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+            />
           </div>
-        </div>
-        <div
-          class="history-section__event flex-1"
-        >
-          <div
-            class="history-section__event-container--desktop flex flex-col gap-space-between"
+          <p
+            class="bluedot-p not-prose history-section__event-details mr-12"
           >
-            <div
-              class="history-section__year-container w-full flex gap-2"
-            >
-              <p
-                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
-              >
-                2025
-              </p>
-              <div
-                class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
-              />
-            </div>
-            <p
-              class="bluedot-p not-prose history-section__event-details mr-12"
-            >
-              Launched monthly courses. Raised $25M. Announced SF expansion.
-            </p>
-          </div>
+            Launched monthly courses. Raised $25M. Announced SF expansion.
+          </p>
         </div>
       </div>
     </div>

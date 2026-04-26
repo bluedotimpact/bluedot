@@ -1,4 +1,5 @@
-import { P, Section } from '@bluedot/ui';
+import { P } from '@bluedot/ui';
+import { pageSectionHeadingClass } from '../PageListRow';
 
 const beliefs = [
   {
@@ -17,16 +18,17 @@ const beliefs = [
 
 const BeliefsSection = () => {
   return (
-    <Section title="Core beliefs" className="beliefs-section">
+    <section className="beliefs-section section section-body">
+      <h3 className={`${pageSectionHeadingClass} mb-6`}>Core beliefs</h3>
       <div className="flex flex-col gap-6">
         {beliefs.map((belief) => (
           <div key={belief.title}>
-            <h3 className="bluedot-h4 mb-2">{belief.title}</h3>
+            <h4 className="bluedot-h4 mb-2">{belief.title}</h4>
             <P>{belief.description}</P>
           </div>
         ))}
       </div>
-    </Section>
+    </section>
   );
 };
 

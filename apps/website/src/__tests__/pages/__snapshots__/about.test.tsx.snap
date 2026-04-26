@@ -572,352 +572,292 @@ exports[`AboutPage > should render correctly 1`] = `
       </nav>
     </div>
     <section
-      class="section section-body intro-section"
+      class="intro-section section section-body"
     >
-      <div
-        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+      <h3
+        class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
       >
-        <div
-          class="section-heading__content flex-1 flex flex-col gap-2"
+        Who we are
+      </h3>
+      <div
+        class="intro-section__text-container flex flex-col gap-5"
+      >
+        <p
+          class="bluedot-p not-prose"
         >
-          <h2
-            class="section-heading__title relative ml-[-0.08em] bluedot-h2"
-          >
-            Who we are
-          </h2>
-        </div>
+          In 2021, a handful of us at Cambridge wanted to work on AI safety, but couldn't find where to start. Important ideas and arguments were scattered across the internet. There were no courses, no career paths, and few people to talk to. So we started running reading groups.
+        </p>
+        <p
+          class="bluedot-p not-prose"
+        >
+          Those reading groups evolved into the BlueDot courses. We've trained over 7,000 people in AI safety, governance and biosecurity, and hundreds of our graduates now work at Anthropic, DeepMind, and UK AISI.
+        </p>
+        <p
+          class="bluedot-p not-prose"
+        >
+          But training alone isn't enough. We give out grants to support career transitions, and we help exceptional people land impactful roles or start new organisations. Our goal isn't just to educate people, it's to get them working on the most important problems.
+        </p>
+        <p
+          class="bluedot-p not-prose"
+        >
+          The gap between how fast AI is advancing and how fast the safety and security workforce is growing is the most dangerous mismatch of our time. We're a small team based in San Francisco and London working as fast as we can to close it.
+        </p>
       </div>
-      <div
-        class="section__body"
+    </section>
+    <section
+      class="beliefs-section section section-body"
+    >
+      <h3
+        class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
       >
-        <div
-          class="intro-section__text-container flex flex-col gap-5"
-        >
+        Core beliefs
+      </h3>
+      <div
+        class="flex flex-col gap-6"
+      >
+        <div>
+          <h4
+            class="bluedot-h4 mb-2"
+          >
+            AGI could arrive soon, and society is dangerously unprepared
+          </h4>
           <p
             class="bluedot-p not-prose"
           >
-            In 2021, a handful of us at Cambridge wanted to work on AI safety, but couldn't find where to start. Important ideas and arguments were scattered across the internet. There were no courses, no career paths, and few people to talk to. So we started running reading groups.
+            Human-level AI is likely years away, not decades. AI companies are moving at a blistering pace, while the institutions meant to govern it are moving at a fraction of the speed required.
           </p>
+        </div>
+        <div>
+          <h4
+            class="bluedot-h4 mb-2"
+          >
+            People at key moments rewrite history
+          </h4>
           <p
             class="bluedot-p not-prose"
           >
-            Those reading groups evolved into the BlueDot courses. We've trained over 7,000 people in AI safety, governance and biosecurity, and hundreds of our graduates now work at Anthropic, DeepMind, and UK AISI.
+            The future of AI isn't set in stone. Throughout history, a small number of people in the right positions at the right time have steered powerful technologies toward better outcomes. We find and prepare those people.
           </p>
+        </div>
+        <div>
+          <h4
+            class="bluedot-h4 mb-2"
+          >
+            We need urgency and wisdom
+          </h4>
           <p
             class="bluedot-p not-prose"
           >
-            But training alone isn't enough. We give out grants to support career transitions, and we help exceptional people land impactful roles or start new organisations. Our goal isn't just to educate people, it's to get them working on the most important problems.
-          </p>
-          <p
-            class="bluedot-p not-prose"
-          >
-            The gap between how fast AI is advancing and how fast the safety and security workforce is growing is the most dangerous mismatch of our time. We're a small team based in San Francisco and London working as fast as we can to close it.
+            The stakes are vast and time is short, but panic and fatalism lead to bad decisions. We need thoughtful and rapid action.
           </p>
         </div>
       </div>
     </section>
     <section
-      class="section section-body beliefs-section"
+      class="values-section section section-body"
     >
-      <div
-        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+      <h3
+        class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
       >
-        <div
-          class="section-heading__content flex-1 flex flex-col gap-2"
-        >
-          <h2
-            class="section-heading__title relative ml-[-0.08em] bluedot-h2"
+        Values
+      </h3>
+      <div
+        class="flex flex-col gap-6"
+      >
+        <div>
+          <h4
+            class="bluedot-h4 mb-2"
           >
-            Core beliefs
-          </h2>
+            Own the mission
+          </h4>
+          <p
+            class="bluedot-p not-prose"
+          >
+            We all take responsibility for achieving our mission, not just getting tasks done. If something important needs doing and it's not anyone's job, it's your job.
+          </p>
+        </div>
+        <div>
+          <h4
+            class="bluedot-h4 mb-2"
+          >
+            Think hard and move fast
+          </h4>
+          <p
+            class="bluedot-p not-prose"
+          >
+            We think carefully about what matters most, then we pursue it with urgency. Speed in the wrong direction is wasted effort.
+          </p>
+        </div>
+        <div>
+          <h4
+            class="bluedot-h4 mb-2"
+          >
+            Say the uncomfortable truth
+          </h4>
+          <p
+            class="bluedot-p not-prose"
+          >
+            We give feedback directly and receive it generously. The mission is too important for politeness to get in the way of honesty.
+          </p>
         </div>
       </div>
+    </section>
+    <section
+      class="history-section section section-body"
+    >
+      <h3
+        class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
+      >
+        Our history
+      </h3>
       <div
-        class="section__body"
+        class="history-section__container flex flex-col lg:flex-row lg:gap-2 gap-8"
       >
         <div
-          class="flex flex-col gap-6"
+          class="history-section__event flex-1"
         >
-          <div>
-            <h3
-              class="bluedot-h4 mb-2"
+          <div
+            class="history-section__event-container--desktop flex flex-col gap-space-between"
+          >
+            <div
+              class="history-section__year-container w-full flex gap-2"
             >
-              AGI could arrive soon, and society is dangerously unprepared
-            </h3>
+              <p
+                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
+              >
+                2021
+              </p>
+              <div
+                class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+              />
+            </div>
             <p
-              class="bluedot-p not-prose"
+              class="bluedot-p not-prose history-section__event-details mr-12"
             >
-              Human-level AI is likely years away, not decades. AI companies are moving at a blistering pace, while the institutions meant to govern it are moving at a fraction of the speed required.
+              Started as reading groups at the University of Cambridge.
             </p>
           </div>
-          <div>
-            <h3
-              class="bluedot-h4 mb-2"
+        </div>
+        <div
+          class="history-section__event flex-1"
+        >
+          <div
+            class="history-section__event-container--desktop flex flex-col gap-space-between"
+          >
+            <div
+              class="history-section__year-container w-full flex gap-2"
             >
-              People at key moments rewrite history
-            </h3>
+              <p
+                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
+              >
+                2022
+              </p>
+              <div
+                class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+              />
+            </div>
             <p
-              class="bluedot-p not-prose"
+              class="bluedot-p not-prose history-section__event-details mr-12"
             >
-              The future of AI isn't set in stone. Throughout history, a small number of people in the right positions at the right time have steered powerful technologies toward better outcomes. We find and prepare those people.
+              Founded BlueDot Impact. Launched our first AI safety course with 400 participants.
             </p>
           </div>
-          <div>
-            <h3
-              class="bluedot-h4 mb-2"
+        </div>
+        <div
+          class="history-section__event flex-1"
+        >
+          <div
+            class="history-section__event-container--desktop flex flex-col gap-space-between"
+          >
+            <div
+              class="history-section__year-container w-full flex gap-2"
             >
-              We need urgency and wisdom
-            </h3>
+              <p
+                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
+              >
+                2023
+              </p>
+              <div
+                class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+              />
+            </div>
             <p
-              class="bluedot-p not-prose"
+              class="bluedot-p not-prose history-section__event-details mr-12"
             >
-              The stakes are vast and time is short, but panic and fatalism lead to bad decisions. We need thoughtful and rapid action.
+              Expanded to AI governance and biosecurity. Trained 900. Moved to London.
+            </p>
+          </div>
+        </div>
+        <div
+          class="history-section__event flex-1"
+        >
+          <div
+            class="history-section__event-container--desktop flex flex-col gap-space-between"
+          >
+            <div
+              class="history-section__year-container w-full flex gap-2"
+            >
+              <p
+                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
+              >
+                2024
+              </p>
+              <div
+                class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+              />
+            </div>
+            <p
+              class="bluedot-p not-prose history-section__event-details mr-12"
+            >
+              Trained 3,500. Raised $5M.
+            </p>
+          </div>
+        </div>
+        <div
+          class="history-section__event flex-1"
+        >
+          <div
+            class="history-section__event-container--desktop flex flex-col gap-space-between"
+          >
+            <div
+              class="history-section__year-container w-full flex gap-2"
+            >
+              <p
+                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
+              >
+                2025
+              </p>
+              <div
+                class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
+              />
+            </div>
+            <p
+              class="bluedot-p not-prose history-section__event-details mr-12"
+            >
+              Launched monthly courses. Raised $25M. Announced SF expansion.
             </p>
           </div>
         </div>
       </div>
     </section>
     <section
-      class="section section-body values-section"
+      class="team-section section section-body !border-b-0"
     >
+      <h3
+        class="text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy mb-6"
+      >
+        Our team
+      </h3>
       <div
-        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
+        class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0 team-section__team"
       >
         <div
-          class="section-heading__content flex-1 flex flex-col gap-2"
-        >
-          <h2
-            class="section-heading__title relative ml-[-0.08em] bluedot-h2"
-          >
-            Values
-          </h2>
-        </div>
-      </div>
-      <div
-        class="section__body"
-      >
-        <div
-          class="flex flex-col gap-6"
-        >
-          <div>
-            <h3
-              class="bluedot-h4 mb-2"
-            >
-              Own the mission
-            </h3>
-            <p
-              class="bluedot-p not-prose"
-            >
-              We all take responsibility for achieving our mission, not just getting tasks done. If something important needs doing and it's not anyone's job, it's your job.
-            </p>
-          </div>
-          <div>
-            <h3
-              class="bluedot-h4 mb-2"
-            >
-              Think hard and move fast
-            </h3>
-            <p
-              class="bluedot-p not-prose"
-            >
-              We think carefully about what matters most, then we pursue it with urgency. Speed in the wrong direction is wasted effort.
-            </p>
-          </div>
-          <div>
-            <h3
-              class="bluedot-h4 mb-2"
-            >
-              Say the uncomfortable truth
-            </h3>
-            <p
-              class="bluedot-p not-prose"
-            >
-              We give feedback directly and receive it generously. The mission is too important for politeness to get in the way of honesty.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section
-      class="section section-body history-section"
-    >
-      <div
-        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
-      >
-        <div
-          class="section-heading__content flex-1 flex flex-col gap-2"
-        >
-          <h2
-            class="section-heading__title relative ml-[-0.08em] bluedot-h2"
-          >
-            Our history
-          </h2>
-        </div>
-      </div>
-      <div
-        class="section__body"
-      >
-        <div
-          class="history-section__container flex flex-col lg:flex-row lg:gap-2 gap-8"
+          class="slide-list__gradient-wrapper relative flex-1"
         >
           <div
-            class="history-section__event flex-1"
-          >
-            <div
-              class="history-section__event-container--desktop flex flex-col gap-space-between"
-            >
-              <div
-                class="history-section__year-container w-full flex gap-2"
-              >
-                <p
-                  class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
-                >
-                  2021
-                </p>
-                <div
-                  class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
-                />
-              </div>
-              <p
-                class="bluedot-p not-prose history-section__event-details mr-12"
-              >
-                Started as reading groups at the University of Cambridge.
-              </p>
-            </div>
-          </div>
-          <div
-            class="history-section__event flex-1"
-          >
-            <div
-              class="history-section__event-container--desktop flex flex-col gap-space-between"
-            >
-              <div
-                class="history-section__year-container w-full flex gap-2"
-              >
-                <p
-                  class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
-                >
-                  2022
-                </p>
-                <div
-                  class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
-                />
-              </div>
-              <p
-                class="bluedot-p not-prose history-section__event-details mr-12"
-              >
-                Founded BlueDot Impact. Launched our first AI safety course with 400 participants.
-              </p>
-            </div>
-          </div>
-          <div
-            class="history-section__event flex-1"
-          >
-            <div
-              class="history-section__event-container--desktop flex flex-col gap-space-between"
-            >
-              <div
-                class="history-section__year-container w-full flex gap-2"
-              >
-                <p
-                  class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
-                >
-                  2023
-                </p>
-                <div
-                  class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
-                />
-              </div>
-              <p
-                class="bluedot-p not-prose history-section__event-details mr-12"
-              >
-                Expanded to AI governance and biosecurity. Trained 900. Moved to London.
-              </p>
-            </div>
-          </div>
-          <div
-            class="history-section__event flex-1"
-          >
-            <div
-              class="history-section__event-container--desktop flex flex-col gap-space-between"
-            >
-              <div
-                class="history-section__year-container w-full flex gap-2"
-              >
-                <p
-                  class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
-                >
-                  2024
-                </p>
-                <div
-                  class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
-                />
-              </div>
-              <p
-                class="bluedot-p not-prose history-section__event-details mr-12"
-              >
-                Trained 3,500. Raised $5M.
-              </p>
-            </div>
-          </div>
-          <div
-            class="history-section__event flex-1"
-          >
-            <div
-              class="history-section__event-container--desktop flex flex-col gap-space-between"
-            >
-              <div
-                class="history-section__year-container w-full flex gap-2"
-              >
-                <p
-                  class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
-                >
-                  2025
-                </p>
-                <div
-                  class="history-section__year-decoration relative w-full after:content-[''] after:absolute after:top-1/2 after:w-full after:h-[2px] after:bg-bluedot-normal after:right-0"
-                />
-              </div>
-              <p
-                class="bluedot-p not-prose history-section__event-details mr-12"
-              >
-                Launched monthly courses. Raised $25M. Announced SF expansion.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section
-      class="section section-body team-section !border-b-0"
-    >
-      <div
-        class="section-heading__title-container flex justify-between items-center gap-space-between mb-6"
-      >
-        <div
-          class="section-heading__content flex-1 flex flex-col gap-2"
-        >
-          <h2
-            class="section-heading__title relative ml-[-0.08em] bluedot-h2"
-          >
-            Our team
-          </h2>
-        </div>
-      </div>
-      <div
-        class="section__body"
-      >
-        <div
-          class="slide-list relative overflow-hidden flex flex-col gap-space-between -mx-spacing-x md:mx-0 team-section__team"
-        >
-          <div
-            class="slide-list__gradient-wrapper relative flex-1"
-          >
-            <div
-              class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-y-spacing-y md:gap-x-space-between scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory flex-wrap"
-              style="scroll-padding-inline: 0px;"
-            />
-          </div>
+            class="slide-list__slides flex flex-1 h-full items-stretch overflow-x-scroll gap-y-spacing-y md:gap-x-space-between scrollbar-hidden transition-transform duration-300 snap-x snap-mandatory flex-wrap"
+            style="scroll-padding-inline: 0px;"
+          />
         </div>
       </div>
     </section>

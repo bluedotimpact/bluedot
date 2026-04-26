@@ -1,8 +1,10 @@
-import { P, Section } from '@bluedot/ui';
+import { P } from '@bluedot/ui';
+import { pageSectionHeadingClass } from '../PageListRow';
 
 const HistorySection = () => {
   return (
-    <Section className="history-section" title="Our history">
+    <section className="history-section section section-body">
+      <h3 className={`${pageSectionHeadingClass} mb-6`}>Our history</h3>
       <div className="history-section__container flex flex-col lg:flex-row lg:gap-2 gap-8">
         <HistoryEvent year="2021">Started as reading groups at the University of Cambridge.</HistoryEvent>
         <HistoryEvent year="2022">Founded BlueDot Impact. Launched our first AI safety course with 400 participants.</HistoryEvent>
@@ -10,7 +12,7 @@ const HistorySection = () => {
         <HistoryEvent year="2024">Trained 3,500. Raised $5M.</HistoryEvent>
         <HistoryEvent year="2025">Launched monthly courses. Raised $25M. Announced SF expansion.</HistoryEvent>
       </div>
-    </Section>
+    </section>
   );
 };
 
