@@ -9,8 +9,8 @@ import {
   type BluedotRoute,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import NewsletterBanner from '../../components/homepage/NewsletterBanner';
 import MarketingHero from '../../components/MarketingHero';
+import PageNewsletter from '../../components/PageNewsletter';
 import { PageListGroup, PageListRow } from '../../components/PageListRow';
 import { buildTimeDeltaString } from '../../components/events/eventsUtils';
 import { ROUTES } from '../../lib/routes';
@@ -255,9 +255,7 @@ const EventsPage = () => {
         </div>
       </section>
 
-      <div className="w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y mb-16">
-        <NewsletterBanner />
-      </div>
+      <PageNewsletter />
     </div>
   );
 };

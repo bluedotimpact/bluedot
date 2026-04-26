@@ -12,7 +12,7 @@ import { ROUTES } from '../../../lib/routes';
 import { ONE_MINUTE_SECONDS } from '../../../lib/constants';
 import { appendPosthogSessionIdPrefill } from '../../../lib/appendPosthogSessionIdPrefill';
 import MarketingHero from '../../../components/MarketingHero';
-import NewsletterBanner from '../../../components/homepage/NewsletterBanner';
+import PageNewsletter from '../../../components/PageNewsletter';
 import { PageListGroup, PageListRow } from '../../../components/PageListRow';
 import AiSafetyOpsLander from '../../../components/lander/AiSafetyOpsLander';
 import CourseLander from '../../../components/lander/CourseLander';
@@ -228,9 +228,7 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
         </div>
       </section>
 
-      <div className="w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y mb-16">
-        <NewsletterBanner />
-      </div>
+      <PageNewsletter />
     </div>
   );
 };

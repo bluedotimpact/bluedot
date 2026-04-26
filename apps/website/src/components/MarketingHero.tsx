@@ -17,7 +17,7 @@ const MarketingHero = ({ title, subtitle }: MarketingHeroProps) => {
         {...{ fetchpriority: 'high' }}
       />
       <div className="relative z-10 flex flex-col justify-end h-full min-h-[317px] min-[680px]:min-h-[366px] pb-12 pt-20 min-[680px]:pb-16 min-[680px]:pt-20">
-        <div className="w-full mx-auto max-w-max-width px-spacing-x">
+        <div className="section-base">
           <div className="flex flex-col gap-6 max-w-[780px]">
             <H1 className="bluedot-marketing-hero-h1">
               {title}
