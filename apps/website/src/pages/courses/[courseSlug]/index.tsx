@@ -172,10 +172,10 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
   }
 
   const { course, units } = courseData;
-  const applyUrl = course.applyUrl?.trim() ? course.applyUrl : registerInterestUrlWithUtm;
-  const ctaLabel = course.applyUrl?.trim() ? 'Apply now' : 'Register interest';
-
-  const sortedUnits = [...units].sort((a, b) => Number(a.unitNumber) - Number(b.unitNumber));
+  const trimmedApplyUrl = course.applyUrl?.trim() ?? '';
+  const hasApplyUrl = trimmedApplyUrl.length > 0;
+  const applyUrl = hasApplyUrl ? trimmedApplyUrl : registerInterestUrlWithUtm;
+  const ctaLabel = hasApplyUrl ? 'Apply now' : 'Register interest';
 
   return (
     <div>
@@ -232,9 +232,9 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
             </CTALinkOrButton>
           </div>
 
-          {sortedUnits.length > 0 && (
+          {units.length > 0 && (
             <PageListGroup label="Curriculum">
-              {sortedUnits.map((unit) => (
+              {units.map((unit) => (
                 <PageListRow
                   key={unit.id}
                   href={`/courses/${course.slug}/${unit.unitNumber}`}
