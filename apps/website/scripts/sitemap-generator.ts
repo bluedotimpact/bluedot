@@ -9,11 +9,9 @@ const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://bluedot.org';
 const INCLUDED_ROUTES = [
   ROUTES.home,
   ROUTES.about,
-  ROUTES.blog,
   ROUTES.courses,
   ROUTES.joinUs,
   ROUTES.privacyPolicy,
-  ROUTES.projects,
 ];
 
 /** Parse git history to determine when file was last updated */
@@ -64,15 +62,7 @@ ${urls}
     <lastmod>${new Date().toISOString()}</lastmod>
   </sitemap>
   <sitemap>
-    <loc>${BASE_URL}/blog/sitemap.xml</loc>
-    <lastmod>${new Date().toISOString()}</lastmod>
-  </sitemap>
-  <sitemap>
     <loc>${BASE_URL}/courses/sitemap.xml</loc>
-    <lastmod>${new Date().toISOString()}</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>${BASE_URL}/projects/sitemap.xml</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
   </sitemap>
 </sitemapindex>

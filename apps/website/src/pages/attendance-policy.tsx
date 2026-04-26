@@ -1,6 +1,4 @@
 import {
-  HeroSection,
-  HeroH1,
   Section,
   Breadcrumbs,
   type BluedotRoute,
@@ -8,6 +6,7 @@ import {
 import Head from 'next/head';
 import { ROUTES } from '../lib/routes';
 import MarkdownExtendedRenderer from '../components/courses/MarkdownExtendedRenderer';
+import MarketingHero from '../components/MarketingHero';
 
 const CURRENT_ROUTE: BluedotRoute = {
   title: 'Course Attendance Policy',
@@ -15,15 +14,16 @@ const CURRENT_ROUTE: BluedotRoute = {
   parentPages: [ROUTES.home],
 };
 
-const ContentPage = () => {
+const SUBTITLE = 'What we expect from participants in our facilitated courses.';
+
+const AttendancePolicyPage = () => {
   return (
     <div>
       <Head>
         <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
+        <meta name="description" content={SUBTITLE} />
       </Head>
-      <HeroSection>
-        <HeroH1>{CURRENT_ROUTE.title}</HeroH1>
-      </HeroSection>
+      <MarketingHero title={CURRENT_ROUTE.title} subtitle={SUBTITLE} />
       <Breadcrumbs route={CURRENT_ROUTE} />
       <Section className="max-w-3xl">
         <MarkdownExtendedRenderer>{`
@@ -73,4 +73,6 @@ If you feel like poor attendance or disruptive behaviour from others in your gro
   );
 };
 
-export default ContentPage;
+AttendancePolicyPage.pageRendersOwnNav = true;
+
+export default AttendancePolicyPage;

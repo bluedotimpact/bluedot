@@ -35,8 +35,6 @@ describe('HomePage testimonials', () => {
     server.use(trpcMsw.courses.getAll.query(() => []));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => []));
     server.use(trpcMsw.luma.getUpcomingEvents.query(() => []));
-    server.use(trpcMsw.blogs.getAll.query(() => []));
-    server.use(trpcMsw.blogs.getSubstack.query(() => []));
   });
 
   test('shows database testimonials', async () => {

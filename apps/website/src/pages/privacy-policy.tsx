@@ -1,26 +1,24 @@
 import {
-  HeroSection,
-  HeroH1,
-  HeroH2,
   Section,
   Breadcrumbs,
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { ROUTES } from '../lib/routes';
 import MarkdownExtendedRenderer from '../components/courses/MarkdownExtendedRenderer';
+import MarketingHero from '../components/MarketingHero';
 
 const CURRENT_ROUTE = ROUTES.privacyPolicy;
+
+const SUBTITLE = 'Effective date: 30 August, 2024.';
 
 const PrivacyPolicyPage = () => {
   return (
     <div>
       <Head>
         <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
+        <meta name="description" content="How BlueDot Impact collects, uses, and shares your personal information." />
       </Head>
-      <HeroSection>
-        <HeroH1>Privacy Policy</HeroH1>
-        <HeroH2>Effective date: 30 August, 2024</HeroH2>
-      </HeroSection>
+      <MarketingHero title="Privacy Policy" subtitle={SUBTITLE} />
       <Breadcrumbs route={CURRENT_ROUTE} />
       <Section className="max-w-3xl">
         <MarkdownExtendedRenderer>{`
@@ -184,5 +182,7 @@ We reserve the right to change this Privacy Policy. We'll alert you when we do t
     </div>
   );
 };
+
+PrivacyPolicyPage.pageRendersOwnNav = true;
 
 export default PrivacyPolicyPage;
