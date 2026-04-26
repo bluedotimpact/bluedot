@@ -49,6 +49,52 @@ const BiosecHackathonPage = () => {
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="BlueDot Impact" />
         <meta property="og:url" content={`${SITE_URL}/biosechackathon`} />
+
+        {/* Schema.org Event markup so the hackathon qualifies for Event rich results in Google */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Event',
+              name: 'Biosecurity Hackathon',
+              startDate: '2026-04-24',
+              endDate: '2026-04-26',
+              eventAttendanceMode: 'https://schema.org/MixedEventAttendanceMode',
+              eventStatus: 'https://schema.org/EventScheduled',
+              description: 'A 48-hour hackathon for people working at the intersection of AI and biosecurity. Online plus in-person hubs in Boston, SF, London, and Cambridge.',
+              url: `${SITE_URL}/biosechackathon`,
+              location: [
+                {
+                  '@type': 'VirtualLocation',
+                  url: ONLINE_SIGN_UP_URL,
+                },
+              ],
+              organizer: [
+                {
+                  '@type': 'Organization',
+                  name: 'BlueDot Impact',
+                  url: SITE_URL,
+                },
+                {
+                  '@type': 'Organization',
+                  name: 'Apart Research',
+                  url: 'https://apartresearch.com/',
+                },
+                {
+                  '@type': 'Organization',
+                  name: 'Cambridge Biosecurity Hub',
+                  url: 'https://www.cambiohub.org/',
+                },
+              ],
+              offers: {
+                '@type': 'Offer',
+                category: 'Free',
+                url: ONLINE_SIGN_UP_URL,
+              },
+            }),
+          }}
+        />
       </Head>
 
       <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-black px-6 text-center">
