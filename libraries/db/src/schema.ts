@@ -803,6 +803,33 @@ export const projectTable = pgAirtable('project', {
   },
 });
 
+export const missionTable = pgAirtable('mission', {
+  baseId: WEB_CONTENT_BASE_ID,
+  tableId: 'tbliCg6DPR69uAowM',
+  columns: {
+    title: {
+      pgColumn: text(),
+      airtableId: 'fldzlqsMILDYMzHBL',
+    },
+    subtitle: {
+      pgColumn: text(),
+      airtableId: 'fldjUyEUtkCsOwtER',
+    },
+    status: {
+      pgColumn: text(),
+      airtableId: 'fldCKGTnYaRApgPH6',
+    },
+    description: {
+      pgColumn: text(),
+      airtableId: 'fldgVNx5KyDMChQjl',
+    },
+    slug: {
+      pgColumn: text(),
+      airtableId: 'fld3F1H8EFqg6SBtm',
+    },
+  },
+});
+
 export const testimonialTable = pgAirtable('testimonial', {
   baseId: WEB_CONTENT_BASE_ID,
   tableId: 'tblrA0ZIg4t2t6sh5',
@@ -1547,6 +1574,7 @@ export type MeetCourse = InferSelectModel<typeof meetCourseTable.pg>;
 export type Blog = InferSelectModel<typeof blogTable.pg>;
 export type JobPosting = InferSelectModel<typeof jobPostingTable.pg>;
 export type Project = InferSelectModel<typeof projectTable.pg>;
+export type Mission = InferSelectModel<typeof missionTable.pg>;
 export type Testimonial = InferSelectModel<typeof testimonialTable.pg>;
 export type RapidGrant = InferSelectModel<typeof rapidGrantTable.pg>;
 export type CareerTransitionGrant = InferSelectModel<typeof careerTransitionGrantTable.pg>;
