@@ -1,21 +1,13 @@
 import Head from 'next/head';
 import {
   CTALinkOrButton,
-  H1,
-  H2,
   H3,
-  QuoteCarousel,
   Section,
 } from '@bluedot/ui';
-import {
-  HeroH1,
-  HeroMiniTitle,
-  HeroCTAContainer,
-  HeroSection,
-} from '@bluedot/ui/src/HeroSection';
 import { FaCalendarAlt, FaUserFriends, FaLaptop } from 'react-icons/fa';
 import TestimonialSubSection, { type Testimonial } from '../homepage/CommunitySection/TestimonialSubSection';
 import MarkdownExtendedRenderer from '../courses/MarkdownExtendedRenderer';
+import MarketingHero from '../MarketingHero';
 import { trpc } from '../../utils/trpc';
 
 const AiSafetyOpsBanner = ({ title, ctaUrl }: { title: string; ctaUrl: string }) => {
@@ -29,9 +21,8 @@ const AiSafetyOpsBanner = ({ title, ctaUrl }: { title: string; ctaUrl: string })
   );
 };
 
-const customMiniTitle = 'AI Safety Operations Bootcamp';
-const customTitle = 'Are you an operations specialist who wants to make the future go well?';
-
+const PAGE_TITLE = 'AI Safety Operations Bootcamp';
+const PAGE_TAGLINE = 'Are you an operations specialist who wants to make the future go well?';
 const applicationUrl = 'https://forms.bluedot.org/1W29W7atNVeEF3RTkfCX';
 
 const AiSafetyOpsLander = () => {
@@ -39,77 +30,43 @@ const AiSafetyOpsLander = () => {
 
   const allTestimonials = dbTestimonials?.map((t): Testimonial => ({ ...t, role: t.jobTitle })) ?? [];
 
-  // Split for desktop display
-  const midPoint = Math.ceil(allTestimonials.length / 2);
-  const testimonials1 = allTestimonials.slice(0, midPoint);
-  const testimonials2 = allTestimonials.slice(midPoint);
   return (
     <>
       <Head>
-        <title>AI Safety Operations Bootcamp | BlueDot Impact</title>
+        <title>{`${PAGE_TITLE} | BlueDot Impact`}</title>
         <meta name="description" content="This intensive bootcamp prepares early-to-mid-career working professionals for operational roles in AI safety." />
-        <meta property="og:title" content="AI Safety Operations Bootcamp | BlueDot Impact" />
+        <meta property="og:title" content={`${PAGE_TITLE} | BlueDot Impact`} />
         <meta property="og:description" content="This intensive bootcamp prepares early-to-mid-career working professionals for operational roles in AI safety." />
         <meta property="og:image" content="https://bluedot.org/images/courses/ops-bootcamp-og-image.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content="AI Safety Operations Bootcamp | BlueDot Impact" />
+        <meta property="og:image:alt" content={`${PAGE_TITLE} | BlueDot Impact`} />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="BlueDot Impact" />
         <meta property="og:url" content="https://bluedot.org/courses/ops" />
       </Head>
 
-      {/* Mobile hero */}
-      <HeroSection className="2xl:hidden">
-        <HeroMiniTitle>{customMiniTitle}</HeroMiniTitle>
-        <HeroH1>{customTitle}</HeroH1>
-        <div className="flex flex-row flex-wrap justify-center gap-2 items-center mt-4">
-          <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-            <FaCalendarAlt /> 6 hours total
-          </div>
-          <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-            <FaUserFriends /> Group discussions
-          </div>
-          <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-            <FaLaptop /> Online
-          </div>
-        </div>
-        <HeroCTAContainer>
-          <CTALinkOrButton url={applicationUrl} withChevron>Apply now</CTALinkOrButton>
-        </HeroCTAContainer>
-      </HeroSection>
+      <MarketingHero title={PAGE_TITLE} subtitle={PAGE_TAGLINE} />
 
-      {/* Desktop hero */}
-      <div className="hidden 2xl:flex flex-row justify-center items-center w-full py-12 px-spacing-x bg-color-canvas relative min-h-160">
-        <div className="ai-safety-ops-lander__hero-container flex flex-row justify-between items-center w-max-width px-spacing-x">
-          <div className="
-              ai-safety-ops-lander__hero-content flex flex-col items-start w-1/2 max-w-[555px] z-10
-              after:content-[''] after:-z-10 after:absolute after:bg-bluedot-darker after:size-full after:top-0 after:right-[45%] after:-skew-x-[10deg]"
-          >
-            <H1 className="text-color-text-on-dark uppercase tracking-wider text-size-sm font-semibold mb-4">{customMiniTitle}</H1>
-            <H2 className="text-color-text-on-dark">{customTitle}</H2>
-            <div className="flex flex-row flex-wrap justify-start gap-2 items-center mt-8">
-              <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-                <FaCalendarAlt /> 6 hours total
-              </div>
-              <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-                <FaUserFriends /> Group discussions
-              </div>
-              <div className="flex gap-2 items-center border border-color-border rounded-lg p-4 text-color-text-on-dark">
-                <FaLaptop /> Online
-              </div>
-            </div>
-            <HeroCTAContainer>
-              <CTALinkOrButton url={applicationUrl} withChevron>Apply now</CTALinkOrButton>
-            </HeroCTAContainer>
-          </div>
-          <QuoteCarousel className="ai-safety-ops-lander__hero-quotes text-color-text w-1/2 max-w-[555px] z-10 pl-12" quotes={testimonials1} />
-        </div>
-      </div>
-
-      {/* Role details section */}
       <Section>
-        <div className="ai-safety-ops-lander__details-section w-full flex flex-col justify-center gap-12 items-center mt-4 mx-auto max-w-3xl">
+        <div className="ai-safety-ops-lander__intro flex flex-col gap-6 items-center text-center mx-auto max-w-3xl">
+          <div className="flex flex-row flex-wrap justify-center gap-2 items-center">
+            <div className="flex gap-2 items-center border border-color-border rounded-lg px-4 py-3 text-color-text">
+              <FaCalendarAlt /> 6 hours total
+            </div>
+            <div className="flex gap-2 items-center border border-color-border rounded-lg px-4 py-3 text-color-text">
+              <FaUserFriends /> Group discussions
+            </div>
+            <div className="flex gap-2 items-center border border-color-border rounded-lg px-4 py-3 text-color-text">
+              <FaLaptop /> Online
+            </div>
+          </div>
+          <CTALinkOrButton url={applicationUrl} withChevron>Apply now</CTALinkOrButton>
+        </div>
+      </Section>
+
+      <Section>
+        <div className="ai-safety-ops-lander__details-section w-full flex flex-col justify-center gap-12 items-center mx-auto max-w-3xl">
           <MarkdownExtendedRenderer>
             {`## What roles does this bootcamp prepare you for?
 
@@ -168,19 +125,10 @@ Got questions or feedback? We’d love to hear from you - email [adam@bluedot.or
         </div>
       </Section>
 
-      {/* Banner */}
       <AiSafetyOpsBanner title="Join our AI Safety Operations Bootcamp and accelerate your impact in AI safety." ctaUrl={applicationUrl} />
 
       <Section className="mt-8">
-        {/* Testimonials mobile */}
-        <div className="xl:hidden">
-          <TestimonialSubSection testimonials={allTestimonials} title="What people say about our other courses" />
-        </div>
-
-        {/* Testimonials desktop */}
-        <div className="hidden xl:block">
-          <TestimonialSubSection testimonials={testimonials2} title="What people say about our other courses" />
-        </div>
+        <TestimonialSubSection testimonials={allTestimonials} title="What people say about our other courses" />
       </Section>
     </>
   );
