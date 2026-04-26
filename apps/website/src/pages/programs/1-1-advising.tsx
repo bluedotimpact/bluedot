@@ -18,7 +18,7 @@ const OneOnOneAdvisingPage = () => {
         <title>{`${PAGE_TITLE} | BlueDot Impact`}</title>
         <meta
           name="description"
-          content="20-min calls with the BlueDot team to accelerate you towards doing impactful work in AI safety."
+          content="20 min calls with the BlueDot team to accelerate you towards doing impactful work in AI safety."
         />
       </Head>
       <MarketingHero
