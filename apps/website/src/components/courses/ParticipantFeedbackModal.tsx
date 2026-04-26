@@ -1,4 +1,4 @@
-import { Modal } from '@bluedot/ui';
+import { ErrorSection, Modal } from '@bluedot/ui';
 import { useState } from 'react';
 import { FaCheck, FaCircleInfo, FaLock } from 'react-icons/fa6';
 import { FOLLOW_UP_OPTIONS, followUpsToAirtable } from '../../lib/facilitatorFollowUps';
@@ -46,21 +46,19 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
 
   const savePeerFeedback = trpc.facilitators.savePeerFeedback.useMutation();
 
-  const handleSave = async () => {
+  const handleSave = () => {
     if (showUpRating === null || engageRating === null) return;
     const data: ParticipantFeedbackData = {
       showUpRating, engageRating, investmentNote, followUps,
     };
-    // TODO: error handling
-    await savePeerFeedback.mutateAsync({
+    savePeerFeedback.mutate({
       meetPersonId,
       participantId: participant.id,
       initiativeRating: data.showUpRating,
       reasoningQualityRating: data.engageRating,
       feedback: data.investmentNote,
       nextSteps: followUpsToAirtable(data.followUps),
-    });
-    onSaved(data);
+    }, { onSuccess: () => onSaved(data) });
   };
 
   return (
@@ -86,6 +84,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
       noClickaway
     >
       <div className="w-full max-w-[600px] pt-4">
+        {savePeerFeedback.isError && <ErrorSection error={savePeerFeedback.error} />}
         <p className="flex items-center gap-1.5 text-[13px] leading-[1.3] text-gray-600 mb-6">
           <FaLock className="size-[13px] shrink-0" aria-hidden />
           Your responses are only seen by BlueDot staff

@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { ProgressDots } from '@bluedot/ui';
+import { ErrorSection, ProgressDots } from '@bluedot/ui';
 import {
   PiClock, PiLockSimple, PiStar, PiWarningCircle,
 } from 'react-icons/pi';
@@ -168,6 +168,10 @@ const FacilitatorFeedbackPage = () => {
       <FacilitatorFeedbackHeader roundName={roundName || undefined} />
 
       <div className="max-w-[680px] mx-auto pt-8 pb-16 px-4 flex flex-col gap-8">
+        {(submitFeedback.isError || unsubmitFeedback.isError) && (
+          <ErrorSection error={submitFeedback.error ?? unsubmitFeedback.error} />
+        )}
+
         {/* Hero card */}
         <section className="bg-white rounded-xl border border-t-8 border-t-bluedot-normal p-5 sm:p-9 flex flex-col gap-6">
           <div>
@@ -325,12 +329,12 @@ const FacilitatorFeedbackPage = () => {
                 type="button"
                 className="self-start text-size-xs text-gray-500 underline cursor-pointer transition-colors hover:text-gray-700 disabled:opacity-50 disabled:pointer-events-none"
                 disabled={submitFeedback.isPending}
-                onClick={async () => {
-                  // TODO: error handling
-                  await submitFeedback.mutateAsync(submitPayload);
-                  await utils.facilitators.getFeedbackFormData.invalidate({ meetPersonId });
-                  router.push(`/facilitator-feedback/${meetPersonId}/success`);
-                }}
+                onClick={() => submitFeedback.mutate(submitPayload, {
+                  onSuccess: async () => {
+                    await utils.facilitators.getFeedbackFormData.invalidate({ meetPersonId });
+                    router.push(`/facilitator-feedback/${meetPersonId}/success`);
+                  },
+                })}
               >
                 {submitFeedback.isPending ? 'Saving...' : submitAnywayIdleLabel}
               </button>
@@ -341,14 +345,16 @@ const FacilitatorFeedbackPage = () => {
                 type="button"
                 className="w-full sm:w-auto bg-bluedot-normal text-white px-6 py-3 rounded-md text-size-xs leading-5 font-semibold transition-colors cursor-pointer hover:bg-bluedot-darker disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
                 disabled={submitFeedback.isPending || overallRating === 0 || !mostValuable.trim() || !difficulties.trim()}
-                onClick={async () => {
+                onClick={() => {
                   if (completedCount < participants.length) {
                     setShowIncompleteWarning(true);
                   } else {
-                    // TODO: error handling
-                    await submitFeedback.mutateAsync(submitPayload);
-                    await utils.facilitators.getFeedbackFormData.invalidate({ meetPersonId });
-                    router.push(`/facilitator-feedback/${meetPersonId}/success`);
+                    submitFeedback.mutate(submitPayload, {
+                      onSuccess: async () => {
+                        await utils.facilitators.getFeedbackFormData.invalidate({ meetPersonId });
+                        router.push(`/facilitator-feedback/${meetPersonId}/success`);
+                      },
+                    });
                   }
                 }}
               >
@@ -363,9 +369,9 @@ const FacilitatorFeedbackPage = () => {
             <button
               type="button"
               className="self-start text-size-xxs text-gray-400 underline cursor-pointer"
-              onClick={() => {
-                /* TODO: error handling */ unsubmitFeedback.mutateAsync({ meetPersonId }).then(() => window.location.reload());
-              }}
+              onClick={() => unsubmitFeedback.mutate({ meetPersonId }, {
+                onSuccess: () => window.location.reload(),
+              })}
             >
               Unsubmit (admin)
             </button>
