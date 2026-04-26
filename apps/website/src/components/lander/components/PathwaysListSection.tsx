@@ -5,7 +5,7 @@ import { PageListGroup, PageListRow, pageSectionHeadingClass } from '../../PageL
 export type PathwaysListItem = {
   title: string;
   summary: ReactNode;
-  href?: string;
+  href: string;
   ctaLabel?: string;
   external?: boolean;
 };
@@ -30,26 +30,14 @@ const PathwaysListSection = ({
           </div>
           <PageListGroup>
             {items.map((item) => (
-              item.href ? (
-                <PageListRow
-                  key={item.title}
-                  href={item.href}
-                  title={item.title}
-                  summary={item.summary}
-                  ctaLabel={item.ctaLabel ?? 'Explore the course'}
-                  external={item.external}
-                />
-              ) : (
-                <div key={item.title} className="flex flex-col gap-3 min-[680px]:flex-row min-[680px]:items-center min-[680px]:justify-between min-[680px]:gap-6">
-                  <div className="flex items-stretch gap-4 min-w-0 flex-1">
-                    <div className="w-1 flex-shrink-0 rounded-sm bg-bluedot-normal/30" />
-                    <div className="min-w-0 flex-1">
-                      <p className="text-[15px] leading-[1.45] font-semibold text-bluedot-navy">{item.title}</p>
-                      <p className="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62">{item.summary}</p>
-                    </div>
-                  </div>
-                </div>
-              )
+              <PageListRow
+                key={item.title}
+                href={item.href}
+                title={item.title}
+                summary={item.summary}
+                ctaLabel={item.ctaLabel ?? 'Explore the course'}
+                external={item.external}
+              />
             ))}
           </PageListGroup>
         </div>
