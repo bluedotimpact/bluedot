@@ -63,6 +63,12 @@ const profile: BluedotRoute = {
   parentPages: [home],
 };
 
+const missions: BluedotRoute = {
+  title: 'Missions',
+  url: '/missions',
+  parentPages: [home],
+};
+
 const programs: BluedotRoute = {
   title: 'Programs',
   url: '/programs',
@@ -117,6 +123,7 @@ export const ROUTES = {
   joinUs,
   login,
   logout,
+  missions,
   programs,
   grants: programs,
   privacyPolicy,

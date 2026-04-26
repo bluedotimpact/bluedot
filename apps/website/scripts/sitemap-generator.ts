@@ -11,6 +11,7 @@ const INCLUDED_ROUTES = [
   ROUTES.about,
   ROUTES.courses,
   ROUTES.joinUs,
+  ROUTES.missions,
   ROUTES.privacyPolicy,
 ];
 
@@ -63,6 +64,10 @@ ${urls}
   </sitemap>
   <sitemap>
     <loc>${BASE_URL}/courses/sitemap.xml</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>${BASE_URL}/missions/sitemap.xml</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
   </sitemap>
 </sitemapindex>
