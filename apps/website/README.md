@@ -3,7 +3,7 @@
 Quick links:
 - [Production version](https://bluedot.org/)
 - [Staging version](https://website-staging.k8s.bluedot.org/)
-- [Storybook](https://bluedot-storybook.k8s.bluedot.org/)
+- [Storybook](https://storybook.k8s.bluedot.org/)
 - [Designs](https://www.figma.com/design/s4dNR4ELGKPbja6GkHLVJy/Website-Laura's-Working-File)
 
 ## Tech Stack
@@ -16,28 +16,44 @@ Quick links:
 
 ## Project Structure
 
+Non-exhaustive — only the most-touched paths are listed.
+
 ```
 apps/website/
 ├── src/
 │   ├── components/     # Reusable UI components
+│   ├── pages/          # Next.js pages and API routes (pages router)
 │   ├── lib/
-│   │   ├── /api        # API routes
-│   │   ├── /utils      # Helper functions and utils
-│   ├── pages/          # Next.js pages
-│   ├── globals.css     # Custom Tailwind CSS styles
-├── public/             # Static assets
+│   │   ├── api/        # Server-side API helpers (auth, env, db, route wrappers)
+│   │   └── ...         # Client/shared helpers (routes, utils, fonts, schemas)
+│   ├── hooks/          # Custom React hooks
+│   ├── server/         # Server-only modules
+│   ├── stores/         # Zustand stores
+│   ├── utils/          # Misc client-side utilities
+│   ├── types/          # Shared TypeScript types
+│   ├── middleware.ts   # Next.js middleware
+│   ├── instrumentation.ts # Next.js instrumentation hook
+│   └── globals.css     # Custom Tailwind CSS styles
+├── public/             # Static assets (incl. /fonts)
+└── scripts/            # Build-time scripts (sitemap, preview rendering)
 ```
 
 ## Developer Setup
 
 No special actions needed, just follow [the general developer setup instructions](../../README.md#developer-setup-instructions).
 
-```bash
-npm run start
-```
+Common scripts (run from `apps/website/`):
 
 ```bash
-npm run test
+npm run start         # next dev on http://localhost:8000
+npm run build         # next build (also generates sitemap)
+npm run typecheck     # tsc --noEmit
+npm run lint          # eslint (no warnings allowed)
+npm run lint:fix      # eslint --fix
+npm run test          # vitest --run
+npm run test:watch    # vitest in watch mode
+npm run test:update   # update vitest snapshots
+npm run render-preview # render OG/preview images
 ```
 
 ## Common Development Tasks
@@ -58,8 +74,9 @@ npm run test
 
 ### Making API Changes
 
-1. Add the API route in `src/lib/api/`
-2. Update `src/lib/api/db/tables.ts` if needed
+1. Add the route handler under `src/pages/api/` (Next.js pages-router API routes)
+2. Reuse server-side helpers from `src/lib/api/` (auth, env, `makeApiRoute`, etc.)
+3. For database access, use the shared `@bluedot/db` package (unified Airtable + Postgres via airtable-ts and Drizzle ORM) — don't bypass it
 
 ## Storybook
 
@@ -139,15 +156,16 @@ The website uses **Inter** for body text and **Inter Display** for headlines, wh
 - `Roobert-*.woff2` - Sans-serif (weights: 300, 400, 600, 700)
 - `RecklessNeue-*.woff2` - Serif (weights: 300, 300i, 700)
 
-As of August 2025, these are   
-1. Storybook - Component documentation
-  2. Room - Some kind of meeting/collaboration app
-  3. Meet - Video meeting app
-  4. Editor - Code/content editor
-  5. Availability - Scheduling/availability app
-  6. Course Demos - Course demonstration app
-  7. Frontend Example - Example/template app
-  8. App Template - Template for new apps
+These are loaded by the shared UI library (`libraries/ui/src/default-config/tailwind.css`) and consumed by the other apps in this monorepo:
+
+- `storybook` — component documentation
+- `meet` — meeting attendance + Zoom Web SDK
+- `room` — meeting/collaboration app
+- `editor` — content editor
+- `availability` — scheduling/availability forms
+- `course-demos` — interactive course demos
+- `frontend-example` — example app
+- `app-template` — template for new apps
 
 **Website-specific fonts (loaded via next/font):**
 - `Inter-*.woff2` - Body text (weights: 400, 500, 600, 700)
