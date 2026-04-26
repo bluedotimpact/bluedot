@@ -29,7 +29,8 @@ const MissionPostPage = ({ slug, mission }: MissionPostPageProps) => {
   return (
     <div>
       <Head>
-        <title>{`${mission.title} | BlueDot Impact`}</title>
+        {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
+        <title>{`${mission.title || 'Mission'} | BlueDot Impact`}</title>
         <meta name="description" content={mission.subtitle ?? undefined} />
       </Head>
       <MarketingHero title={currentRoute.title} subtitle={mission.subtitle ?? undefined} />

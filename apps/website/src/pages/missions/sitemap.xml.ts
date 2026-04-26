@@ -6,11 +6,12 @@ const BASE_URL = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://bluedot.org'}/m
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const missions = await getAllLiveMissions();
-  const lastmod = new Date().toISOString();
+  // <lastmod> is intentionally omitted: the mission table has no
+  // `updatedAt` field, and a `lastmod` that's always "now" trains
+  // crawlers to ignore the signal.
   const urls = missions.map((mission) => {
     return `  <url>
     <loc>${BASE_URL}/${encodeURIComponent(mission.slug ?? '')}</loc>
-    <lastmod>${lastmod}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>`;
