@@ -2,7 +2,7 @@ import type React from 'react';
 import type { FAQItem } from '../lander/components/FAQSection';
 
 export type GrantProgramStatus = 'Active' | 'On hiatus';
-export type GrantProgramSlug = 'rapid-grants' | 'career-transition-grant' | 'technical-ai-safety-project-sprint' | 'incubator-week';
+export type GrantProgramSlug = 'rapid-grants' | 'career-transition-grant' | 'technical-ai-safety-project-sprint' | 'incubator-week' | '1-1-advising';
 
 export type GrantProgramTrack = 'Funding' | 'Build' | 'Launch';
 
@@ -20,6 +20,7 @@ export type GrantProgramDefinition = {
 
 export const RAPID_GRANT_APPLICATION_URL = 'https://airtable.com/appMVNtdBtvtJvu5E/pag9G3oF4DYAyassX/form';
 export const CAREER_TRANSITION_GRANT_APPLICATION_URL = 'https://airtable.com/appMVNtdBtvtJvu5E/pagyKD4M0wd0ci2gH/form';
+export const ONE_ON_ONE_ADVISING_APPLICATION_URL = 'https://web.miniextensions.com/elMoT4tTN0jx49tNB0cS';
 
 export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
   {
@@ -48,6 +49,15 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
     goal: 'Help technically minded people ship a concrete AI safety research or engineering project with expert support.',
     scope: 'A 30-hour project sprint with mentorship, public output, and a clear path to portfolio-building.',
     scopeLabel: 'Format',
+    status: 'Active',
+  },
+  {
+    slug: '1-1-advising',
+    title: '1-1 advising',
+    href: '/programs/1-1-advising',
+    track: 'Build',
+    goal: 'Help BlueDot community members figure out how to contribute their skills to AI safety.',
+    scope: 'A 20-minute call with the BlueDot team. Leave with concrete next steps.',
     status: 'Active',
   },
   {
@@ -95,7 +105,7 @@ export const getGrantProgramViewTransitionStyle = (
 });
 
 /** Slugs that have a marketing page assembled from the shared section components. */
-export type ConfigurableGrantProgramSlug = 'rapid-grants' | 'career-transition-grant';
+export type ConfigurableGrantProgramSlug = 'rapid-grants' | 'career-transition-grant' | '1-1-advising';
 
 export type GrantProgramSectionConfig = {
   applicationUrl: string;
@@ -155,6 +165,42 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
         id: 'circumstances-change',
         question: 'What if I secure a full-time role or my circumstances change during the grant?',
         answer: 'Please let us know. Any remaining funds would be returned to BlueDot.',
+      },
+    ],
+  },
+  '1-1-advising': {
+    applicationUrl: ONE_ON_ONE_ADVISING_APPLICATION_URL,
+    faqItems: [
+      {
+        id: 'no-bluedot-course',
+        question: 'Do I need to have done a BlueDot course to apply?',
+        answer: 'No. We\'re excited to have advising calls with you if you\'ve engaged with AI safety through other channels.',
+      },
+      {
+        id: 'rejected',
+        question: 'What if I get rejected?',
+        answer: 'If a call isn\'t the right fit for you now, we\'ll point you to other resources which might be more appropriate like our courses, events or programs. You can always reapply.',
+      },
+      {
+        id: 'apply-again',
+        question: 'After I\'ve had one call, can I apply again?',
+        answer: 'Yes.',
+      },
+      {
+        id: 'after-call',
+        question: 'What happens after the call?',
+        answer: 'Most calls end with a 20-minute follow-up scheduled in 1-2 weeks, plus specific things to do in between. Sometimes the next step is just things you can go do on your own.',
+      },
+      {
+        id: 'no-options',
+        question: 'Should I apply for a call if I don\'t have any options I\'m considering?',
+        answer: (
+          <>
+            If you're new to AI safety, you should start with the <a href="https://bluedot.org/courses/future-of-ai" className="underline hover:no-underline">Future of AI course</a>.
+            <br /><br />
+            If you can&apos;t come up with any guesses for how you could contribute, you might want to consider taking the <a href="https://bluedot.org/courses/agi-strategy" className="underline hover:no-underline">AGI Strategy course</a> or our <a href="https://bluedot.org/courses" className="underline hover:no-underline">deep dive courses</a> to get a better sense of what&apos;s needed in AI safety.
+          </>
+        ),
       },
     ],
   },
