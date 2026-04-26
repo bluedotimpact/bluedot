@@ -9,7 +9,7 @@ import StarRating from '../../components/courses/StarRating';
 import ParticipantFeedbackModal, { type ParticipantFeedbackData } from '../../components/courses/ParticipantFeedbackModal';
 import AddParticipantModal from '../../components/courses/AddParticipantModal';
 import FacilitatorFeedbackHeader from '../../components/courses/FacilitatorFeedbackHeader';
-import { airtableToFollowUps, isFlagged } from '../../lib/facilitatorFollowUps';
+import { type FollowUpId, isFlagged } from '../../lib/facilitatorFollowUps';
 import { trpc } from '../../utils/trpc';
 
 type ParticipantFeedback =
@@ -57,7 +57,7 @@ const FacilitatorFeedbackPage = () => {
     } catch { /* ignore corrupt localStorage */ }
 
     for (const pf of formData.existingPeerFeedback) {
-      const followUps = airtableToFollowUps(pf.nextSteps);
+      const followUps = (pf.nextSteps ?? []) as FollowUpId[];
       initial[pf.recipientId] = {
         status: 'completed',
         data: {

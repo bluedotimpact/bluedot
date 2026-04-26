@@ -1,7 +1,7 @@
 import { ErrorSection, Modal } from '@bluedot/ui';
 import { useState } from 'react';
 import { FaCheck, FaCircleInfo, FaLock } from 'react-icons/fa6';
-import { ACTIONABLE_FOLLOW_UP_IDS, FOLLOW_UP_OPTIONS, followUpsToAirtable } from '../../lib/facilitatorFollowUps';
+import { ACTIONABLE_FOLLOW_UP_IDS, FOLLOW_UP_OPTIONS, type FollowUpId } from '../../lib/facilitatorFollowUps';
 import { getInitials } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
@@ -9,7 +9,7 @@ export type ParticipantFeedbackData = {
   showUpRating: number;
   engageRating: number;
   investmentNote: string;
-  followUps: Record<string, boolean>;
+  followUps: FollowUpId[];
 };
 
 type ParticipantFeedbackModalProps = {
@@ -41,10 +41,10 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
   const [showUpRating, setShowUpRating] = useState<number | null>(initialData?.showUpRating ?? null);
   const [engageRating, setEngageRating] = useState<number | null>(initialData?.engageRating ?? null);
   const [investmentNote, setInvestmentNote] = useState(initialData?.investmentNote ?? '');
-  const [followUps, setFollowUps] = useState<Record<string, boolean>>(initialData?.followUps ?? {});
-  const hasFollowUp = Object.values(followUps).some(Boolean);
+  const [followUps, setFollowUps] = useState<FollowUpId[]>(initialData?.followUps ?? []);
+  const hasFollowUp = followUps.length > 0;
   const isStandout = showUpRating === 5 || engageRating === 5
-    || ACTIONABLE_FOLLOW_UP_IDS.some((id) => followUps[id]);
+    || ACTIONABLE_FOLLOW_UP_IDS.some((id) => followUps.includes(id));
 
   const savePeerFeedback = trpc.facilitators.savePeerFeedback.useMutation();
 
@@ -59,7 +59,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
       initiativeRating: data.showUpRating,
       reasoningQualityRating: data.engageRating,
       feedback: data.investmentNote,
-      nextSteps: followUpsToAirtable(data.followUps),
+      nextSteps: data.followUps,
     }, { onSuccess: () => onSaved(data) });
   };
 
@@ -143,8 +143,10 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
               >
                 <input
                   type="checkbox"
-                  checked={!!followUps[option.id]}
-                  onChange={(e) => setFollowUps({ ...followUps, [option.id]: e.target.checked })}
+                  checked={followUps.includes(option.id)}
+                  onChange={(e) => setFollowUps(e.target.checked
+                    ? [...followUps, option.id]
+                    : followUps.filter((id) => id !== option.id))}
                   className="size-[18px] shrink-0 cursor-pointer accent-bluedot-normal"
                 />
                 <span className="text-size-xs font-medium text-bluedot-navy">{option.label}</span>
@@ -252,9 +254,9 @@ export const RubricSelector: React.FC<RubricSelectorProps> = ({ name, ariaLabell
               {option.value}
             </div>
             <div className="flex-1 min-w-0 px-3 pt-3 pb-5">
-              <p className="text-[13px] leading-[19.5px] text-bluedot-navy">{option.label}</p>
+              <p className="text-[13px] leading-[20px] text-bluedot-navy">{option.label}</p>
               {isSelected && (
-                <p className="text-[12px] leading-[19.5px] text-bluedot-navy mt-1.5">{option.description}</p>
+                <p className="text-[12px] leading-[20px] text-bluedot-navy mt-1.5">{option.description}</p>
               )}
             </div>
             {isSelected && (

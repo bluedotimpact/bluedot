@@ -74,7 +74,7 @@ describe('ParticipantFeedbackModal', () => {
         showUpRating: 4,
         engageRating: 4,
         investmentNote: 'Strong cohort member.',
-        followUps: { 'schedule-call': true },
+        followUps: ['Schedule follow-up call with BlueDot team within ~1 week (high-priority)'],
       });
     });
 
@@ -96,7 +96,7 @@ describe('ParticipantFeedbackModal', () => {
         showUpRating: 5,
         engageRating: 3,
         investmentNote: 'Existing note',
-        followUps: { 'no-action': true },
+        followUps: ['No further action needed'],
       },
     });
 

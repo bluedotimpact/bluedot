@@ -5,7 +5,7 @@ import Confetti from 'react-confetti';
 import { ProgressDots } from '@bluedot/ui';
 import { PiCheck, PiCreditCard } from 'react-icons/pi';
 import { generateInvoiceUrl } from '../../../lib/generateInvoiceUrl';
-import { airtableToFollowUps, isFlagged } from '../../../lib/facilitatorFollowUps';
+import { isFlagged } from '../../../lib/facilitatorFollowUps';
 import { trpc } from '../../../utils/trpc';
 import FacilitatorFeedbackHeader from '../../../components/courses/FacilitatorFeedbackHeader';
 
@@ -77,7 +77,7 @@ const FacilitatorFeedbackSuccessPage = () => {
     : null;
 
   const flaggedNames = data.existingPeerFeedback
-    .filter((pf) => isFlagged(airtableToFollowUps(pf.nextSteps)))
+    .filter((pf) => isFlagged(pf.nextSteps))
     .map((pf) => pf.recipientName)
     .filter(Boolean);
 

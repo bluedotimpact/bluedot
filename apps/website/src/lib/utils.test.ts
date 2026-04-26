@@ -301,6 +301,7 @@ describe('getInitials', () => {
     ['Jean-Luc Picard', 'JP'],
     ['Mary-Jane', 'M'],
     ['Foo Bar Baz', 'FB'],
+    ['Mary Jane Watson Smith Jones', 'MJ'],
     ['  Foo   Bar  ', 'FB'],
     ['', ''],
     ['   ', ''],
