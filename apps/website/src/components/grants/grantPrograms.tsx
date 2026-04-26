@@ -20,8 +20,7 @@ export type GrantProgramDefinition = {
 
 export const RAPID_GRANT_APPLICATION_URL = 'https://airtable.com/appMVNtdBtvtJvu5E/pag9G3oF4DYAyassX/form';
 export const CAREER_TRANSITION_GRANT_APPLICATION_URL = 'https://airtable.com/appMVNtdBtvtJvu5E/pagyKD4M0wd0ci2gH/form';
-// TODO: replace with the real advising application form URL when ready.
-export const ONE_ON_ONE_ADVISING_APPLICATION_URL = '#';
+export const ONE_ON_ONE_ADVISING_APPLICATION_URL = 'https://web.miniextensions.com/elMoT4tTN0jx49tNB0cS';
 
 export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
   {
