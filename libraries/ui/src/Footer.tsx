@@ -106,7 +106,7 @@ export const Footer: React.FC<FooterProps> = ({
       {loading ? (
         <ProgressDots className="w-full py-16" />
       ) : (
-        <div className="w-full py-8 px-5 min-[680px]:pt-10 min-[680px]:pb-[72px] min-[680px]:px-8 lg:pt-10 lg:pb-[72px] lg:px-12 xl:pt-10 xl:pb-[72px] xl:px-16 2xl:py-16 2xl:px-20">
+        <div className="w-full py-8 px-5 bd-md:pt-10 bd-md:pb-[72px] bd-md:px-8 lg:pt-10 lg:pb-[72px] lg:px-12 xl:pt-10 xl:pb-[72px] xl:px-16 2xl:py-16 2xl:px-20">
           <div className="max-w-screen-xl mx-auto">
 
             {/* Logo (mobile and tablet only) */}
@@ -123,7 +123,7 @@ export const Footer: React.FC<FooterProps> = ({
             </div>
 
             {/* Mobile: All sections stacked (320px-679px) */}
-            <div className="flex flex-col gap-12 min-[680px]:hidden">
+            <div className="flex flex-col gap-12 bd-md:hidden">
               <FooterLinksSection
                 title="BlueDot Impact"
                 links={bluedotLinks}
@@ -139,7 +139,7 @@ export const Footer: React.FC<FooterProps> = ({
             </div>
 
             {/* Tablet: 2x2 grid (680px-1023px) */}
-            <div className="hidden min-[680px]:grid min-[680px]:grid-cols-3 min-[680px]:gap-x-8 min-[680px]:gap-y-12 lg:hidden">
+            <div className="hidden bd-md:grid bd-md:grid-cols-3 bd-md:gap-x-8 bd-md:gap-y-12 lg:hidden">
               <FooterLinksSection
                 title="BlueDot Impact"
                 links={bluedotLinks}
@@ -184,7 +184,7 @@ export const Footer: React.FC<FooterProps> = ({
             </div>
 
             {/* Copyright */}
-            <div className="mt-12 border-t border-white/10 pt-8 text-size-sm text-[#CCD7FF] leading-[26px] min-[680px]:mt-14 min-[680px]:pt-10 lg:mt-16 2xl:mt-20">
+            <div className="mt-12 border-t border-white/10 pt-8 text-size-sm text-[#CCD7FF] leading-[26px] bd-md:mt-14 bd-md:pt-10 lg:mt-16 2xl:mt-20">
               <p className="mb-2">
                 &copy; {new Date().getFullYear()}. BlueDot Impact operates as a UK CLG (<A href="https://find-and-update.company-information.service.gov.uk/company/14964572" target="_blank" rel="noopener noreferrer" className="text-[#CCD7FF] hover:text-white">14964572</A>) and a US 501(c)3 (<A href="https://projects.propublica.org/nonprofits/organizations/994885308" target="_blank" rel="noopener noreferrer" className="text-[#CCD7FF] hover:text-white">99-4885308</A>).
               </p>

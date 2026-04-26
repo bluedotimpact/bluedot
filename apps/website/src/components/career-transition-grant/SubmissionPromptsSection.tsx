@@ -32,7 +32,7 @@ const SubmissionPromptsSection = () => {
 
         <P>Put together a 1-2 page proposal covering the prompts below.</P>
 
-        <div className="pt-2 grid gap-4 min-[680px]:gap-5 grid-cols-1 min-[680px]:grid-cols-2 min-[1024px]:grid-cols-3">
+        <div className="pt-2 grid gap-4 bd-md:gap-5 grid-cols-1 bd-md:grid-cols-2 lg:grid-cols-3">
           {SUBMISSION_PROMPTS.map((item, index) => (
             <div
               key={item.title}
@@ -41,7 +41,7 @@ const SubmissionPromptsSection = () => {
               <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-bluedot-navy/40">
                 {String(index + 1).padStart(2, '0')}
               </p>
-              <h4 className="text-[18px] min-[680px]:text-[20px] font-semibold leading-tight text-bluedot-navy">
+              <h4 className="text-[18px] bd-md:text-[20px] font-semibold leading-tight text-bluedot-navy">
                 {item.title}
               </h4>
               <P className="text-size-sm leading-[1.7] text-bluedot-navy/75">

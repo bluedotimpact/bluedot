@@ -80,7 +80,7 @@ body {
    Used in MarketingHero; the 6 pages that still inline an identical hero will
    inherit this class once they migrate to <MarketingHero>. */
 .bluedot-marketing-hero-h1 {
-  @apply text-[32px] min-[680px]:text-[40px] min-[1024px]:text-[48px] leading-tight font-medium tracking-[-1px] text-white;
+  @apply text-[32px] bd-md:text-[40px] lg:text-[48px] leading-tight font-medium tracking-[-1px] text-white;
 }
 
 @theme {

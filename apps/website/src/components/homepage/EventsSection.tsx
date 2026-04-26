@@ -62,17 +62,17 @@ const EVENTS_SECTION_URL = `${ROUTES.events.url}?utm_source=website&utm_campaign
 
 const DateBadge = ({ month, day }: { month: string; day: string }) => {
   return (
-    <div className="relative size-16 min-[1024px]:size-20 bg-white rounded-lg min-[1024px]:rounded-lg shadow-[0px_1.6px_4.8px_1.6px_rgba(0,0,0,0.05),0px_0.8px_1.6px_0px_rgba(0,0,0,0.15)] min-[1024px]:shadow-[0px_2px_6px_2px_rgba(0,0,0,0.05),0px_1px_2px_0px_rgba(0,0,0,0.15)] overflow-hidden flex flex-col">
+    <div className="relative size-16 lg:size-20 bg-white rounded-lg lg:rounded-lg shadow-[0px_1.6px_4.8px_1.6px_rgba(0,0,0,0.05),0px_0.8px_1.6px_0px_rgba(0,0,0,0.15)] lg:shadow-[0px_2px_6px_2px_rgba(0,0,0,0.05),0px_1px_2px_0px_rgba(0,0,0,0.15)] overflow-hidden flex flex-col">
       {/* Month Label */}
-      <div className="relative flex items-center justify-center py-[4.8px] min-[1024px]:py-1.5 border-b border-bluedot-navy/10 bg-gradient-to-r from-blue-600 to-blue-500">
-        <span className="text-[11.2px] min-[1024px]:text-[14px] font-semibold uppercase tracking-[0.4px] min-[1024px]:tracking-[0.5px] text-white leading-[11.2px] min-[1024px]:leading-[14px]">
+      <div className="relative flex items-center justify-center py-[4.8px] lg:py-1.5 border-b border-bluedot-navy/10 bg-gradient-to-r from-blue-600 to-blue-500">
+        <span className="text-[11.2px] lg:text-[14px] font-semibold uppercase tracking-[0.4px] lg:tracking-[0.5px] text-white leading-[11.2px] lg:leading-[14px]">
           {month}
         </span>
       </div>
 
       {/* Day Number */}
-      <div className="relative flex items-center justify-center h-[43.2px] min-[1024px]:h-[54px]">
-        <span className="text-[32px] min-[1024px]:text-[40px] font-normal text-bluedot-navy tracking-[-0.8px] min-[1024px]:tracking-[-1px] leading-tight">
+      <div className="relative flex items-center justify-center h-[43.2px] lg:h-[54px]">
+        <span className="text-[32px] lg:text-[40px] font-normal text-bluedot-navy tracking-[-0.8px] lg:tracking-[-1px] leading-tight">
           {day}
         </span>
       </div>
@@ -88,7 +88,7 @@ const EventCard = ({ event }: { event: Event }) => {
   const timeString = buildTimeDeltaString(event);
 
   return (
-    <div className="flex flex-col gap-8 min-[680px]:gap-7 min-[1024px]:gap-8 min-[1280px]:gap-12 min-h-[216px] min-[680px]:min-h-[208px] min-[1024px]:min-h-[232px] min-[1280px]:min-h-[248px] pl-6 border-l border-bluedot-navy/15 w-[232px] min-[680px]:w-auto flex-shrink-0 min-[680px]:flex-shrink min-[680px]:flex-grow min-[680px]:basis-0">
+    <div className="flex flex-col gap-8 bd-md:gap-7 lg:gap-8 xl:gap-12 min-h-[216px] bd-md:min-h-[208px] lg:min-h-[232px] xl:min-h-[248px] pl-6 border-l border-bluedot-navy/15 w-[232px] bd-md:w-auto flex-shrink-0 bd-md:flex-shrink bd-md:flex-grow bd-md:basis-0">
       <DateBadge month={month} day={day} />
 
       <div className="flex flex-col gap-3">
@@ -99,7 +99,7 @@ const EventCard = ({ event }: { event: Event }) => {
           href={event.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[20px] min-[680px]:text-[24px] font-normal leading-[1.3] tracking-[-0.4px] min-[680px]:tracking-[-0.18px] text-bluedot-navy hover:text-[#271dcd] transition-colors"
+          className="text-[20px] bd-md:text-[24px] font-normal leading-[1.3] tracking-[-0.4px] bd-md:tracking-[-0.18px] text-bluedot-navy hover:text-[#271dcd] transition-colors"
           aria-label={`${event.title} (opens in new tab)`}
         >
           <h3>
@@ -257,10 +257,10 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
   };
 
   return (
-    <div className="relative -mx-5 min-[680px]:-mx-8 min-[1024px]:-mx-12 min-[1280px]:-mx-16 2xl:-mx-20">
+    <div className="relative -mx-5 bd-md:-mx-8 lg:-mx-12 xl:-mx-16 2xl:-mx-20">
       <div
         ref={scrollContainerRef}
-        className="flex flex-nowrap overflow-x-auto scrollbar-none gap-5 min-[680px]:gap-6 min-[1024px]:gap-8"
+        className="flex flex-nowrap overflow-x-auto scrollbar-none gap-5 bd-md:gap-6 lg:gap-8"
         style={{
           scrollSnapType: 'none',
           scrollBehavior: 'auto',
@@ -289,7 +289,7 @@ const PhotoCarousel = ({ photos }: { photos: Photo[] }) => {
               <img
                 src={photo.src}
                 alt={photo.alt}
-                className="h-[240px] min-[680px]:h-[150px] min-[1024px]:h-[193px] rounded-xl min-[1024px]:rounded-xl border border-bluedot-navy/10 object-cover object-center"
+                className="h-[240px] bd-md:h-[150px] lg:h-[193px] rounded-xl lg:rounded-xl border border-bluedot-navy/10 object-cover object-center"
                 style={{ width: `${photo.width}px` }}
               />
             </a>
@@ -306,15 +306,15 @@ const EventsSection = () => {
 
   return (
     <section
-      className="w-full bg-white py-12 px-5 min-[680px]:py-16 min-[680px]:px-8 min-[1024px]:py-20 min-[1024px]:px-12 min-[1280px]:py-24 min-[1280px]:px-16 2xl:px-20"
+      className="w-full bg-white py-12 px-5 bd-md:py-16 bd-md:px-8 lg:py-20 lg:px-12 xl:py-24 xl:px-16 2xl:px-20"
       aria-labelledby="events-section-heading"
     >
       {/* Heading Section */}
       <div className="mx-auto max-w-screen-xl">
-        <div className="flex flex-col items-center text-center gap-8 min-[680px]:gap-12 min-[1024px]:gap-12 min-[1280px]:gap-12 mb-12 min-[680px]:mb-12 min-[1024px]:mb-12 min-[1280px]:mb-16">
+        <div className="flex flex-col items-center text-center gap-8 bd-md:gap-12 mb-12 xl:mb-16">
           <h2
             id="events-section-heading"
-            className="text-[28px] min-[680px]:text-[36px] min-[1024px]:text-[40px] min-[1280px]:text-[48px] font-medium leading-[125%] text-bluedot-navy tracking-[-1px] max-w-[666px]"
+            className="text-[28px] bd-md:text-[36px] lg:text-[40px] xl:text-[48px] font-medium leading-[125%] text-bluedot-navy tracking-[-1px] max-w-[666px]"
             style={{ fontFeatureSettings: '\'ss04\' on' }}
           >
             Join an event near you
@@ -323,34 +323,34 @@ const EventsSection = () => {
       </div>
 
       {/* Photo Carousel with full-bleed */}
-      <div className="mb-16 min-[680px]:mb-16 min-[1024px]:mb-20 min-[1280px]:mb-20">
+      <div className="mb-16 lg:mb-20">
         <PhotoCarousel photos={BLUEDOT_EVENTS_PHOTOS} />
       </div>
 
       {/* Event Cards */}
       <div className="mx-auto max-w-screen-xl">
-        <div className="flex flex-col items-center gap-16 min-[1024px]:gap-20">
+        <div className="flex flex-col items-center gap-16 lg:gap-20">
           {isLoading && <ProgressDots />}
 
           {!isLoading && displayEvents.length > 0 && (
             <>
               <div className="w-full">
                 {/* Mobile: horizontal scroll carousel */}
-                <div className="flex overflow-x-auto scrollbar-none gap-6 min-[680px]:hidden">
+                <div className="flex overflow-x-auto scrollbar-none gap-6 bd-md:hidden">
                   {displayEvents.map((event) => (
                     <EventCard key={event.id} event={event} />
                   ))}
                 </div>
 
                 {/* Tablet 2×2 grid */}
-                <div className="hidden min-[680px]:grid min-[1280px]:hidden grid-cols-2 gap-x-4 gap-y-16">
+                <div className="hidden bd-md:grid xl:hidden grid-cols-2 gap-x-4 gap-y-16">
                   {displayEvents.map((event) => (
                     <EventCard key={event.id} event={event} />
                   ))}
                 </div>
 
                 {/* Desktop: single row */}
-                <div className="hidden min-[1280px]:flex gap-4">
+                <div className="hidden xl:flex gap-4">
                   {displayEvents.map((event) => (
                     <EventCard key={event.id} event={event} />
                   ))}

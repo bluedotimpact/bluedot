@@ -72,19 +72,19 @@ const HeaderSection = () => (
 
 /* Value Props Section */
 const ValuePropsSection = () => (
-  <div className="flex flex-col min-[680px]:flex-row justify-center gap-8 min-[680px]:gap-0 max-w-screen-xl mx-auto w-full">
+  <div className="flex flex-col bd-md:flex-row justify-center gap-8 bd-md:gap-0 max-w-screen-xl mx-auto w-full">
     <ValueProp
       iconType="career"
       title="Build a career in AI safety, fast"
       description="25% of our graduates land impactful roles within six months of completing a course."
     />
-    <div className="h-px min-[680px]:h-auto min-[680px]:w-px bg-bluedot-navy/20 min-[680px]:mx-8" />
+    <div className="h-px bd-md:h-auto bd-md:w-px bg-bluedot-navy/20 bd-md:mx-8" />
     <ValueProp
       iconType="network"
       title="Get recognised in the industry"
       description="Hiring managers at all the major AI companies and governments recruit from our community."
     />
-    <div className="h-px min-[680px]:h-auto min-[680px]:w-px bg-bluedot-navy/20 min-[680px]:mx-8" />
+    <div className="h-px bd-md:h-auto bd-md:w-px bg-bluedot-navy/20 bd-md:mx-8" />
     <ValueProp
       iconType="expert"
       title="Join a growing global community"
@@ -104,7 +104,7 @@ const ValueProp = ({ iconType, title, description }: { iconType: string; title: 
   }
 
   return (
-    <div className="flex flex-col gap-6 min-[680px]:basis-0 min-[680px]:grow">
+    <div className="flex flex-col gap-6 bd-md:basis-0 bd-md:grow">
       <div className="size-16 rounded-full bg-bluedot-navy/8 flex items-center justify-center">
         <IconComponent className="size-8 text-bluedot-navy" />
       </div>
@@ -616,7 +616,7 @@ const CourseSection = () => {
     .slice(0, 4);
 
   return (
-    <Section className="py-12 md:py-16 lg:py-20 xl:py-24 px-5 min-[680px]:px-8 lg:px-12 xl:px-16 2xl:px-20">
+    <Section className="py-12 md:py-16 lg:py-20 xl:py-24 px-5 bd-md:px-8 lg:px-12 xl:px-16 2xl:px-20">
       <div className="flex flex-col items-center gap-16 lg:gap-20 xl:gap-24 2xl:gap-[120px] max-w-screen-xl mx-auto">
         {/* Header Section */}
         <HeaderSection />

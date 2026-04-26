@@ -60,7 +60,7 @@ const GrantProgramCard = ({
       <div className={cn('absolute inset-0 pointer-events-none', surfaceClasses.glow)} />
       <div className={cn('absolute inset-y-0 left-0 w-px pointer-events-none', surfaceClasses.line)} />
 
-      <div className="relative flex h-full flex-col p-6 min-[680px]:p-8 min-[960px]:p-9">
+      <div className="relative flex h-full flex-col p-6 bd-md:p-8 min-[960px]:p-9">
         <div className="flex items-start justify-between gap-4">
           <div>
             <Link href={href} className="block">
@@ -68,8 +68,8 @@ const GrantProgramCard = ({
                 className={cn(
                   'max-w-[18ch] font-semibold leading-[1.02] tracking-[-0.04em] text-bluedot-navy transition-transform duration-200 group-hover:translate-x-0.5',
                   emphasis === 'primary'
-                    ? 'text-[34px] min-[680px]:text-[40px]'
-                    : 'text-[28px] min-[680px]:text-[32px]',
+                    ? 'text-[34px] bd-md:text-[40px]'
+                    : 'text-[28px] bd-md:text-[32px]',
                 )}
                 style={titleTransitionStyle}
               >
@@ -99,7 +99,7 @@ const GrantProgramCard = ({
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-bluedot-navy/46">
               Objective
             </p>
-            <p className="mt-3 text-[15px] min-[680px]:text-[16px] leading-[1.65] text-bluedot-navy/76">
+            <p className="mt-3 text-[15px] bd-md:text-[16px] leading-[1.65] text-bluedot-navy/76">
               {goal}
             </p>
           </div>
@@ -108,7 +108,7 @@ const GrantProgramCard = ({
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-bluedot-navy/46">
               {scopeLabel}
             </p>
-            <p className="mt-3 text-[15px] min-[680px]:text-[16px] leading-[1.65] text-bluedot-navy/76">
+            <p className="mt-3 text-[15px] bd-md:text-[16px] leading-[1.65] text-bluedot-navy/76">
               {scope}
             </p>
           </div>

@@ -70,10 +70,10 @@ const BiosecHackathonPage = () => {
         ))}
 
         <div className="relative z-10 max-w-[1100px]">
-          <h1 className="text-[34px] font-semibold uppercase leading-[0.95] tracking-[-0.06em] text-white min-[680px]:text-[64px] lg:text-[96px]">
+          <h1 className="text-[34px] font-semibold uppercase leading-[0.95] tracking-[-0.06em] text-white bd-md:text-[64px] lg:text-[96px]">
             BIOSECURITY HACKATHON
           </h1>
-          <p className="mt-4 text-[14px] font-medium uppercase tracking-[0.32em] text-white/60 min-[680px]:text-[18px] lg:text-[22px]">
+          <p className="mt-4 text-[14px] font-medium uppercase tracking-[0.32em] text-white/60 bd-md:text-[18px] lg:text-[22px]">
             24-26 April 2026
           </p>
 
@@ -106,7 +106,7 @@ const BiosecHackathonPage = () => {
             })}
           </div>
 
-          <p className="mt-6 text-[11px] font-medium uppercase tracking-[0.24em] text-white/46 min-[680px]:text-[12px] lg:text-[13px]">
+          <p className="mt-6 text-[11px] font-medium uppercase tracking-[0.24em] text-white/46 bd-md:text-[12px] lg:text-[13px]">
             In collaboration with
             {' '}
             <a

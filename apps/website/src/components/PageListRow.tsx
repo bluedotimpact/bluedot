@@ -21,14 +21,14 @@ export type PageListRowProps = {
   children?: React.ReactNode;
 };
 
-const wrapperClassName = 'group flex flex-col gap-3 min-[680px]:flex-row min-[680px]:items-center min-[680px]:justify-between min-[680px]:gap-6';
+const wrapperClassName = 'group flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-6';
 
 const accentBarClassName = clsx(
   'w-1 flex-shrink-0 rounded-sm bg-bluedot-normal/30 transition-colors',
   'group-hover:bg-bluedot-normal group-focus-within:bg-bluedot-normal',
 );
 
-const arrowCtaClassName = 'ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal min-[680px]:ml-6 min-[680px]:whitespace-nowrap';
+const arrowCtaClassName = 'ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap';
 
 export const pageSectionHeadingClass = 'bluedot-section-heading';
 
@@ -111,7 +111,7 @@ export const PageListRow: React.FC<PageListRowProps> = ({
         </div>
       </div>
 
-      <div className="ml-5 shrink-0 min-[680px]:ml-6">
+      <div className="ml-5 shrink-0 bd-md:ml-6">
         <CTALinkOrButton
           url={href}
           target={external ? '_blank' : undefined}

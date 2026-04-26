@@ -5,11 +5,11 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
   aria-atomic="true"
   aria-label="Quote carousel"
   aria-live="polite"
-  class="relative w-full py-12 px-5 sm:px-5 min-[680px]:py-16 min-[680px]:px-8 lg:py-12 xl:py-24 overflow-x-hidden"
+  class="relative w-full py-12 px-5 sm:px-5 bd-md:py-16 bd-md:px-8 lg:py-12 xl:py-24 overflow-x-hidden"
   style="background-color: #FFFFFF;"
 >
   <div
-    class="flex flex-col items-center gap-8 w-full max-w-[calc(100vw-40px)] min-[680px]:max-w-none min-[680px]:w-[calc(100vw-64px)] lg:w-auto lg:max-w-none mx-auto overflow-visible"
+    class="flex flex-col items-center gap-8 w-full max-w-[calc(100vw-40px)] bd-md:max-w-none bd-md:w-[calc(100vw-64px)] lg:w-auto lg:max-w-none mx-auto overflow-visible"
   >
     <div
       class="relative w-full"
@@ -21,20 +21,20 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
           class="flex justify-center w-full"
         >
           <div
-            class="w-[calc(100vw-40px)] min-[680px]:w-[calc(100vw-64px)] relative z-10"
+            class="w-[calc(100vw-40px)] bd-md:w-[calc(100vw-64px)] relative z-10"
           >
             <div
               class="w-full rounded-xl overflow-hidden"
               style="background-color: #ECF0FF;"
             >
               <div
-                class="flex flex-col lg:flex-row-reverse w-full h-[465px] min-[680px]:!h-[377px] lg:h-[385px]"
+                class="flex flex-col lg:flex-row-reverse w-full h-[465px] bd-md:!h-[377px] lg:h-[385px]"
               >
                 <div
-                  class="flex flex-col items-center lg:items-start py-8 px-6 min-[680px]:!py-8 min-[680px]:!px-6 lg:!p-16 gap-6 sm:gap-8 min-[680px]:gap-12 flex-grow justify-between"
+                  class="flex flex-col items-center lg:items-start py-8 px-6 bd-md:!py-8 bd-md:!px-6 lg:!p-16 gap-6 sm:gap-8 bd-md:gap-12 flex-grow justify-between"
                 >
                   <blockquote
-                    class="text-[20px] min-[680px]:text-[24px] lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
+                    class="text-[20px] bd-md:text-[24px] lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
                     style="color: var(--bluedot-navy);"
                   >
                     "AI could surpass almost all humans at almost everything shortly after 2027."
@@ -107,13 +107,13 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
               style="background-color: #ECF0FF;"
             >
               <div
-                class="flex flex-col lg:flex-row-reverse w-full h-[465px] min-[680px]:!h-[377px] lg:h-[385px]"
+                class="flex flex-col lg:flex-row-reverse w-full h-[465px] bd-md:!h-[377px] lg:h-[385px]"
               >
                 <div
-                  class="flex flex-col items-center lg:items-start py-8 px-6 min-[680px]:!py-8 min-[680px]:!px-6 lg:!p-16 gap-6 sm:gap-8 min-[680px]:gap-12 flex-grow justify-between"
+                  class="flex flex-col items-center lg:items-start py-8 px-6 bd-md:!py-8 bd-md:!px-6 lg:!p-16 gap-6 sm:gap-8 bd-md:gap-12 flex-grow justify-between"
                 >
                   <blockquote
-                    class="text-[20px] min-[680px]:text-[24px] lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
+                    class="text-[20px] bd-md:text-[24px] lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
                     style="color: var(--bluedot-navy);"
                   >
                     "AI could surpass almost all humans at almost everything shortly after 2027."
@@ -174,7 +174,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
       </div>
     </div>
     <div
-      class="flex items-center justify-center w-[calc(100vw-40px)] min-[680px]:gap-8 min-[680px]:w-[calc(100vw-64px)] lg:w-[928px] lg:h-[38px] lg:gap-8 relative z-10"
+      class="flex items-center justify-center w-[calc(100vw-40px)] bd-md:gap-8 bd-md:w-[calc(100vw-64px)] lg:w-[928px] lg:h-[38px] lg:gap-8 relative z-10"
     >
       <button
         aria-label="Previous quote"
@@ -189,25 +189,25 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
         </span>
       </button>
       <div
-        class="flex gap-2 w-[280px] h-[38px] min-[680px]:w-[408px] min-[680px]:h-[38px] lg:w-[408px] lg:h-[38px]"
+        class="flex gap-2 w-[280px] h-[38px] bd-md:w-[408px] bd-md:h-[38px] lg:w-[408px] lg:h-[38px]"
       >
         <button
           aria-label="Go to quote 1"
-          class="flex-1 py-4 h-[38px] min-[680px]:flex-none min-[680px]:w-24 min-[680px]:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+          class="flex-1 py-4 h-[38px] bd-md:flex-none bd-md:w-24 bd-md:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
           type="button"
         >
           <div
-            class="w-full min-[680px]:w-24 h-1.5 rounded transition-all duration-300"
+            class="w-full bd-md:w-24 h-1.5 rounded transition-all duration-300"
             style="background-color: var(--bluedot-normal); opacity: 1;"
           />
         </button>
         <button
           aria-label="Go to quote 2"
-          class="flex-1 py-4 h-[38px] min-[680px]:flex-none min-[680px]:w-24 min-[680px]:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+          class="flex-1 py-4 h-[38px] bd-md:flex-none bd-md:w-24 bd-md:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
           type="button"
         >
           <div
-            class="w-full min-[680px]:w-24 h-1.5 rounded transition-all duration-300"
+            class="w-full bd-md:w-24 h-1.5 rounded transition-all duration-300"
             style="background-color: var(--bluedot-navy); opacity: 0.15;"
           />
         </button>

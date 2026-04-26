@@ -86,7 +86,7 @@ const CoursesPage = () => {
   const allDisplayed = [...displayedCourses, ...displayedProjects];
 
   return (
-    <div className="bg-white min-[680px]:pb-16 min-[1280px]:pb-24">
+    <div className="bg-white bd-md:pb-16 xl:pb-24">
       <Head>
         <title>AI safety courses with certificates</title>
         <meta name="description" content="Courses that support you to develop the knowledge, community and network needed to pursue a high-impact career." />
@@ -152,17 +152,19 @@ const CoursesPage = () => {
       <Breadcrumbs route={ROUTES.courses} />
 
       {/* Main Content Area */}
-      <div className="w-full mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-12 min-[1280px]:px-16 min-[1440px]:px-20 min-[1920px]:max-w-[1360px] min-[1920px]:px-0">
-        <div className="pt-8 min-[680px]:pt-16 min-[1280px]:pt-24">
-          <div className="flex flex-col min-[1280px]:flex-row min-[1280px]:gap-16">
+      {/* 1024/1280 stay arbitrary on this line: lg:/xl: would emit after the 1440/1920 arbitrary
+          variants in Tailwind v4's cascade and shadow them at higher viewports. */}
+      <div className="w-full mx-auto px-5 bd-md:px-8 min-[1024px]:px-12 min-[1280px]:px-16 min-[1440px]:px-20 min-[1920px]:max-w-[1360px] min-[1920px]:px-0">
+        <div className="pt-8 bd-md:pt-16 xl:pt-24">
+          <div className="flex flex-col xl:flex-row xl:gap-16">
             {/* Breadcrumb Menu */}
             <BreadcrumbMenu courses={displayedCourses} projects={displayedProjects} />
 
             {/* Horizontal divider - only visible on stacked layout (below 1280px) */}
-            <div className="min-[1280px]:hidden mt-16 pt-16 border-t border-bluedot-navy/10" />
+            <div className="xl:hidden mt-16 pt-16 border-t border-bluedot-navy/10" />
 
             {/* Course Cards Section */}
-            <div className="flex-1 max-w-[780px] min-[1280px]:max-w-none">
+            <div className="flex-1 max-w-[780px] xl:max-w-none">
               {error && <ErrorSection error={error} />}
               {isLoading && <ProgressDots />}
               {!isLoading && !error && (
@@ -170,8 +172,8 @@ const CoursesPage = () => {
                   <CoursesList courses={displayedCourses} />
                   {displayedProjects.length > 0 && (
                     <>
-                      <div id="projects" className="my-12 min-[1024px]:my-16 min-[1280px]:my-20 border-t border-bluedot-navy/10" />
-                      <h2 className="text-[12px] leading-[14px] font-semibold text-bluedot-normal uppercase tracking-[0.5px] mb-12 min-[1280px]:hidden">
+                      <div id="projects" className="my-12 lg:my-16 xl:my-20 border-t border-bluedot-navy/10" />
+                      <h2 className="text-[12px] leading-[14px] font-semibold text-bluedot-normal uppercase tracking-[0.5px] mb-12 xl:hidden">
                         Projects
                       </h2>
                       <CoursesList courses={displayedProjects} />
@@ -184,7 +186,7 @@ const CoursesPage = () => {
         </div>
 
         {/* Newsletter Banner - ml-[316px] aligns with courses list (breadcrumb 252px + gap 64px) */}
-        <div className="-mx-5 mt-16 min-[680px]:mx-0 min-[680px]:mt-12 min-[1024px]:mt-16 min-[1280px]:ml-[316px] min-[1280px]:mt-20">
+        <div className="-mx-5 mt-16 bd-md:mx-0 bd-md:mt-12 lg:mt-16 xl:ml-[316px] xl:mt-20">
           <NewsletterBanner />
         </div>
       </div>
@@ -304,7 +306,7 @@ const BreadcrumbMenu = ({ courses, projects }: BreadcrumbMenuProps) => {
   );
 
   return (
-    <nav className="w-[252px] flex-shrink-0 min-[1280px]:sticky min-[1280px]:top-24 min-[1280px]:self-start">
+    <nav className="w-[252px] flex-shrink-0 xl:sticky xl:top-24 xl:self-start">
       <h2 className="text-[12px] leading-[14px] font-semibold text-bluedot-normal uppercase tracking-[0.5px] mb-[30px]">
         Courses
       </h2>
@@ -334,7 +336,7 @@ const CoursesList = ({ courses }: CoursesListProps) => {
         <div key={course.id} id={`course-${course.slug}`}>
           <CourseCard course={course} />
           {index < courses.length - 1 && (
-            <div className="my-12 min-[1024px]:my-16 min-[1280px]:my-20 border-t border-bluedot-navy/10" />
+            <div className="my-12 lg:my-16 xl:my-20 border-t border-bluedot-navy/10" />
           )}
         </div>
       ))}
@@ -428,7 +430,7 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
   return (
     <>
       {/* Mobile Layout */}
-      <div className="flex flex-col min-[680px]:hidden">
+      <div className="flex flex-col bd-md:hidden">
         {/* Course Icon */}
         <div className="mb-6" aria-hidden="true">
           <CourseIcon courseSlug={course.slug} size="xlarge" className="rounded-[12px]" />
@@ -448,7 +450,7 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
       </div>
 
       {/* Desktop Layout */}
-      <div className="hidden min-[680px]:flex items-start gap-6">
+      <div className="hidden bd-md:flex items-start gap-6">
         <CourseIcon courseSlug={course.slug} size="xlarge" className="rounded-[12px]" />
 
         <Link
@@ -480,7 +482,7 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
   return (
     <>
       {/* Mobile Layout */}
-      <div className="flex min-[680px]:hidden">
+      <div className="flex bd-md:hidden">
         <div className="w-1 flex-shrink-0 rounded-sm" style={{ backgroundColor: accentColor }} />
         <div className="flex flex-col pl-5">
           <p className="text-[15px] leading-[1.6] font-semibold text-bluedot-navy">Self-paced learning</p>
@@ -499,7 +501,7 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
       {/* Desktop Layout */}
       <Link
         href={`/courses/${course.slug}/1/1`}
-        className="group hidden min-[680px]:flex flex-row items-center justify-between min-h-12 cursor-pointer"
+        className="group hidden bd-md:flex flex-row items-center justify-between min-h-12 cursor-pointer"
       >
         <div className="flex items-stretch h-full">
           <div className="w-1 flex-shrink-0 rounded-sm opacity-30 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" style={{ backgroundColor: accentColor }} />

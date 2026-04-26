@@ -13,7 +13,7 @@ export const UpcomingRounds = () => {
 
   if (isLoading) {
     return (
-      <section className="bg-white pt-[16px] pb-[48px] px-5 min-[680px]:pt-0 min-[680px]:pb-[64px] min-[680px]:px-8 min-[1024px]:pb-[80px] lg:px-12 min-[1280px]:pb-[96px] min-[1440px]:pt-[24px] min-[1920px]:pt-0 xl:px-16 2xl:px-20">
+      <section className="bg-white pt-[16px] pb-[48px] px-5 bd-md:pt-0 bd-md:pb-[64px] bd-md:px-8 min-[1024px]:pb-[80px] min-[1024px]:px-12 min-[1280px]:pb-[96px] min-[1440px]:pt-[24px] min-[1920px]:pt-0 min-[1280px]:px-16 2xl:px-20">
         <div className="flex flex-col gap-4 max-w-screen-xl mx-auto">
           <div className="h-20 w-full animate-pulse rounded bg-gray-200" />
           <div className="h-20 w-full animate-pulse rounded bg-gray-200" />
@@ -37,7 +37,7 @@ export const UpcomingRounds = () => {
   }
 
   return (
-    <section className="bg-white pt-[16px] pb-[48px] px-5 min-[680px]:pt-0 min-[680px]:pb-[64px] min-[680px]:px-8 min-[1024px]:pb-[80px] lg:px-12 min-[1280px]:pb-[96px] min-[1440px]:pt-[24px] min-[1920px]:pt-0 xl:px-16 2xl:px-20">
+    <section className="bg-white pt-[16px] pb-[48px] px-5 bd-md:pt-0 bd-md:pb-[64px] bd-md:px-8 min-[1024px]:pb-[80px] min-[1024px]:px-12 min-[1280px]:pb-[96px] min-[1440px]:pt-[24px] min-[1920px]:pt-0 min-[1280px]:px-16 2xl:px-20">
       <div className="flex flex-col items-center gap-6 max-w-screen-xl mx-auto">
         {/* Section Title */}
         <h2 className="text-[24px] leading-[140%] tracking-[-0.5px] font-[450] text-bluedot-navy text-center">
@@ -45,7 +45,7 @@ export const UpcomingRounds = () => {
         </h2>
 
         {/* Rounds Container */}
-        <div className="flex flex-col gap-16 w-full min-[680px]:max-w-[780px] min-[680px]:mx-auto">
+        <div className="flex flex-col gap-16 w-full bd-md:max-w-[780px] bd-md:mx-auto">
           {hasIntensiveRounds && (
             <RoundGroup
               label="INTENSIVE"
@@ -81,7 +81,7 @@ type RoundGroupProps = {
 const RoundGroup = ({ label, rounds }: RoundGroupProps) => {
   return (
     <div className="flex flex-col gap-6">
-      <h3 className="text-[15px] font-semibold uppercase tracking-[0.45px] leading-tight text-bluedot-navy text-center min-[680px]:text-left">
+      <h3 className="text-[15px] font-semibold uppercase tracking-[0.45px] leading-tight text-bluedot-navy text-center bd-md:text-left">
         {label}
       </h3>
 

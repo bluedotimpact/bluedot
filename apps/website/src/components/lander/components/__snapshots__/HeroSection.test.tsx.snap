@@ -9,7 +9,7 @@ exports[`HeroSection > renders correctly (snapshot) 1`] = `
       class="relative"
     >
       <div
-        class="max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-spacing-x"
+        class="max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-spacing-x"
       >
         <div
           class="py-8 sm:pt-8 lg:py-0 lg:w-1/2 lg:min-h-[600px] lg:flex lg:items-center"
@@ -81,7 +81,7 @@ exports[`HeroSection > renders gradient variant correctly (snapshot) 1`] = `
       class="relative"
     >
       <div
-        class="max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-spacing-x"
+        class="max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-spacing-x"
       >
         <div
           class="py-8 sm:pt-8 lg:py-0 lg:w-1/2 lg:min-h-[600px] lg:flex lg:items-center"

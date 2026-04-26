@@ -17,8 +17,8 @@ export type CourseBenefitsSectionProps = {
 const CourseBenefitsSection = ({ title, benefits, iconBackgroundColor = '#ECF0FF' }: CourseBenefitsSectionProps) => {
   return (
     <section className="w-full bg-white">
-      <div className="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 md:px-spacing-x min-[1280px]:py-24 xl:py-24">
-        <H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy text-center mb-16 tracking-[-0.01em]">
+      <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 md:px-spacing-x xl:py-24">
+        <H2 className="text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy text-center mb-16 tracking-[-0.01em]">
           {title}
         </H2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

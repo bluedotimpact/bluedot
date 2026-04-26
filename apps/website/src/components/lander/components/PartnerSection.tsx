@@ -64,15 +64,15 @@ const PartnerCard = ({
 const PartnerSection = ({ title, partners }: PartnerSectionProps) => {
   return (
     <section className="w-full bg-white">
-      <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:py-16 min-[1280px]:py-24">
+      <div className="max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-spacing-x py-12 bd-md:py-16 xl:py-24">
 
         {/* Section Header */}
-        <h2 className="text-[28px] min-[680px]:text-[32px] min-[1280px]:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy text-center mb-12 md:mb-16 max-w-[734px] mx-auto">
+        <h2 className="text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy text-center mb-12 md:mb-16 max-w-[734px] mx-auto">
           {title}
         </h2>
 
         {/* Mobile Infinite Scroll Carousel (1024px and below) */}
-        <div className="max-lg:block hidden -mx-5 min-[680px]:-mx-8 lg:-mx-spacing-x">
+        <div className="max-lg:block hidden -mx-5 bd-md:-mx-8 lg:-mx-spacing-x">
           <div className="w-full inline-flex flex-nowrap overflow-hidden group">
             {/* Duplicate the partners array for infinite scroll */}
             {[1, 2].map((setIndex) => (

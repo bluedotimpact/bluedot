@@ -44,7 +44,7 @@ export const RoundItem = ({
   return (
     <>
       {/* Mobile: only CTA link is clickable */}
-      <div className="flex flex-col gap-2 min-[680px]:hidden">
+      <div className="flex flex-col gap-2 bd-md:hidden">
         <div className="flex items-stretch gap-3">
           <div className="w-1 flex-shrink-0 rounded-sm" style={{ backgroundColor: barColor }} />
           <div className="flex flex-col gap-3">
@@ -69,7 +69,7 @@ export const RoundItem = ({
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`${ctaText} (opens in a new tab)`}
-        className="group hidden flex-row items-center justify-between gap-4 min-[680px]:flex"
+        className="group hidden flex-row items-center justify-between gap-4 bd-md:flex"
       >
         <div className="flex items-stretch gap-4">
           <div

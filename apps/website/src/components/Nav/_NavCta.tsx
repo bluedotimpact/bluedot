@@ -69,7 +69,7 @@ export const NavCta: React.FC<{
             Sign in
           </CTALinkOrButton>
           <CTALinkOrButton
-            className={clsx('nav-cta__primary-cta hidden min-[680px]:flex', getButtonClasses('primary'))}
+            className={clsx('nav-cta__primary-cta hidden bd-md:flex', getButtonClasses('primary'))}
             variant="primary"
             url={joinUrl}
           >

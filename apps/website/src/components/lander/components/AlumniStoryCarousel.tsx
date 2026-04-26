@@ -224,23 +224,23 @@ const AlumniStoryCarousel = ({
   }, [scroll]);
 
   return (
-    <section className="w-full bg-white py-12 md:py-16 lg:py-20 xl:py-24 px-5 min-[680px]:px-8 lg:px-12 xl:px-16 2xl:px-20">
+    <section className="w-full bg-white py-12 md:py-16 lg:py-20 xl:py-24 px-5 bd-md:px-8 lg:px-12 xl:px-16 2xl:px-20">
       {/* Header Container */}
-      <div className="mx-auto max-w-screen-xl mb-8 min-[680px]:mb-12 min-[1024px]:mb-16">
-        <div className="flex flex-col items-center text-center min-[680px]:flex-row min-[680px]:items-end min-[680px]:justify-between min-[680px]:text-left gap-6 min-[680px]:gap-16">
+      <div className="mx-auto max-w-screen-xl mb-8 bd-md:mb-12 lg:mb-16">
+        <div className="flex flex-col items-center text-center bd-md:flex-row bd-md:items-end bd-md:justify-between bd-md:text-left gap-6 bd-md:gap-16">
           <div className="flex flex-col gap-4">
-            <H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
+            <H2 className="text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
               {title}
             </H2>
             {subtitle && (
-              <P className="text-[16px] min-[680px]:text-[18px] font-normal leading-[160%] text-bluedot-navy/60 italic">
+              <P className="text-[16px] bd-md:text-[18px] font-normal leading-[160%] text-bluedot-navy/60 italic">
                 {subtitle}
               </P>
             )}
           </div>
 
           {/* Navigation Buttons - Desktop */}
-          <div className="hidden min-[680px]:flex gap-3 flex-shrink-0">
+          <div className="hidden bd-md:flex gap-3 flex-shrink-0">
             <NavigationButton
               direction="left"
               onClick={() => scroll('left')}
@@ -254,10 +254,10 @@ const AlumniStoryCarousel = ({
       </div>
 
       {/* Carousel Container */}
-      <div className="relative -mx-5 min-[680px]:-mx-8 lg:-mx-12 xl:-mx-16 2xl:-mx-20">
+      <div className="relative -mx-5 bd-md:-mx-8 lg:-mx-12 xl:-mx-16 2xl:-mx-20">
         <div
           ref={scrollContainerRef}
-          className="flex flex-nowrap overflow-x-auto scrollbar-none px-5 min-[680px]:px-8 lg:px-12 xl:pl-[max(64px,calc(50vw-640px))] xl:pr-16 2xl:pl-[max(80px,calc(50vw-640px))] 2xl:pr-20 gap-[20px] min-[680px]:gap-[24px] min-[1280px]:gap-[32px]"
+          className="flex flex-nowrap overflow-x-auto scrollbar-none px-5 bd-md:px-8 lg:px-12 xl:pl-[max(64px,calc(50vw-640px))] xl:pr-16 2xl:pl-[max(80px,calc(50vw-640px))] 2xl:pr-20 gap-[20px] bd-md:gap-[24px] xl:gap-[32px]"
           style={{
             scrollSnapType: 'none',
             scrollBehavior: 'auto',
@@ -286,7 +286,7 @@ const AlumniStoryCarousel = ({
       </div>
 
       {/* Mobile Navigation Buttons */}
-      <div className="flex min-[680px]:hidden gap-3 justify-center mt-8">
+      <div className="flex bd-md:hidden gap-3 justify-center mt-8">
         <NavigationButton
           direction="left"
           onClick={() => scroll('left')}
@@ -300,30 +300,30 @@ const AlumniStoryCarousel = ({
   );
 };
 
-const cardClassName = 'flex flex-col flex-shrink-0 bg-white border border-bluedot-navy/10 rounded-2xl overflow-hidden w-[320px] min-[680px]:w-[380px] min-[1280px]:w-[420px] hover:border-bluedot-navy/20 hover:shadow-lg transition-all duration-200';
+const cardClassName = 'flex flex-col flex-shrink-0 bg-white border border-bluedot-navy/10 rounded-2xl overflow-hidden w-[320px] bd-md:w-[380px] xl:w-[420px] hover:border-bluedot-navy/20 hover:shadow-lg transition-all duration-200';
 
 const AlumniStoryCardContent = ({ story }: { story: AlumniStory }) => (
   <>
     {/* Top section with image and info */}
-    <div className="flex items-start gap-4 p-5 min-[680px]:p-6 border-b border-bluedot-navy/6">
+    <div className="flex items-start gap-4 p-5 bd-md:p-6 border-b border-bluedot-navy/6">
       <img
         src={story.imageSrc}
         alt={story.name}
-        className="size-16 min-[680px]:size-20 rounded-full object-cover flex-shrink-0"
+        className="size-16 bd-md:size-20 rounded-full object-cover flex-shrink-0"
       />
       <div className="flex flex-col gap-1 min-w-0 pt-1">
-        <P className="text-[17px] min-[680px]:text-[18px] font-semibold leading-[130%] text-bluedot-navy truncate">
+        <P className="text-[17px] bd-md:text-[18px] font-semibold leading-[130%] text-bluedot-navy truncate">
           {story.name}
         </P>
-        <P className="text-[14px] min-[680px]:text-[15px] leading-[150%] text-bluedot-navy/70">
+        <P className="text-[14px] bd-md:text-[15px] leading-[150%] text-bluedot-navy/70">
           {story.role}
         </P>
       </div>
     </div>
 
     {/* Story content */}
-    <div className="p-5 min-[680px]:p-6 flex-grow">
-      <P className="text-[15px] min-[680px]:text-[16px] leading-[1.7] text-bluedot-navy/80">
+    <div className="p-5 bd-md:p-6 flex-grow">
+      <P className="text-[15px] bd-md:text-[16px] leading-[1.7] text-bluedot-navy/80">
         {story.story}
       </P>
     </div>

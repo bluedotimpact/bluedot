@@ -53,10 +53,10 @@ const StepCardBody = ({ number, title, body, eyebrowClass }: {
         {number}
       </p>
       <div className="flex flex-col gap-3">
-        <h4 className="text-[20px] min-[680px]:text-[22px] font-medium tracking-[-0.04em] text-bluedot-navy">
+        <h4 className="text-[20px] bd-md:text-[22px] font-medium tracking-[-0.04em] text-bluedot-navy">
           {title}
         </h4>
-        <P className="text-[15px] min-[680px]:text-[16px] leading-[1.7] text-bluedot-navy/70">
+        <P className="text-[15px] bd-md:text-[16px] leading-[1.7] text-bluedot-navy/70">
           {body}
         </P>
       </div>
@@ -70,7 +70,7 @@ const HowItWorksSection = () => {
       <div className="w-full flex flex-col gap-6">
         <h3 className={pageSectionHeadingClass}>How it works</h3>
 
-        <div className="grid gap-4 min-[680px]:grid-cols-2 min-[960px]:grid-cols-3">
+        <div className="grid gap-4 bd-md:grid-cols-2 min-[960px]:grid-cols-3">
           {PROCESS_STEPS.map((step) => (
             step.url ? (
               <a

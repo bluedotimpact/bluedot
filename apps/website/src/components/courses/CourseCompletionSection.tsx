@@ -55,7 +55,7 @@ export default function CourseCompletionSection({
     return (
       <div className={className}>
         <div className="container-lined bg-white p-6">
-          <div className="flex flex-col gap-4 pb-6 min-[680px]:flex-row min-[680px]:items-center">
+          <div className="flex flex-col gap-4 pb-6 bd-md:flex-row bd-md:items-center">
             <CourseIcon courseSlug={courseSlug} size="xlarge" className="rounded-[12px]" />
             <div>
               <h2 className="text-bluedot-navy text-[24px] leading-[1.4] font-semibold tracking-[-0.5px]">

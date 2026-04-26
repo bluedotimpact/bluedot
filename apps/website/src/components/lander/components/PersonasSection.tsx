@@ -44,8 +44,8 @@ const PersonasSection = ({
 
   return (
     <section id={id} className="w-full bg-white">
-      <div className="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24">
-        <H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy text-center mb-12 md:mb-16 tracking-[-0.01em]">
+      <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24">
+        <H2 className="text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy text-center mb-12 md:mb-16 tracking-[-0.01em]">
           {title}
         </H2>
         <div className="max-w-[800px] mx-auto flex flex-col gap-4">
@@ -62,7 +62,7 @@ const PersonasSection = ({
                 <button
                   type="button"
                   onClick={() => handleToggle(index)}
-                  className="w-full px-6 py-5 min-[680px]:px-8 min-[680px]:py-6 flex items-center gap-4 cursor-pointer transition-colors duration-200 hover:bg-gray-50"
+                  className="w-full px-6 py-5 bd-md:px-8 bd-md:py-6 flex items-center gap-4 cursor-pointer transition-colors duration-200 hover:bg-gray-50"
                   style={isExpanded ? { backgroundColor: accentColor } : {}}
                   aria-expanded={isExpanded}
                 >
@@ -78,7 +78,7 @@ const PersonasSection = ({
                     />
                   </div>
                   <span
-                    className="text-[18px] min-[680px]:text-[20px] font-semibold leading-[130%] flex-grow text-left"
+                    className="text-[18px] bd-md:text-[20px] font-semibold leading-[130%] flex-grow text-left"
                     style={{ color: isExpanded ? 'white' : 'var(--bluedot-navy)' }}
                   >
                     {persona.title}
@@ -98,26 +98,26 @@ const PersonasSection = ({
                   }`}
                 >
                   <div className="overflow-hidden">
-                    <div className="p-6 min-[680px]:p-8 flex flex-col gap-4">
+                    <div className="p-6 bd-md:p-8 flex flex-col gap-4">
                       {/* Summary */}
                       {persona.summary && (
-                        <P className="text-[17px] min-[680px]:text-[18px] leading-normal text-bluedot-navy font-semibold">
+                        <P className="text-[17px] bd-md:text-[18px] leading-normal text-bluedot-navy font-semibold">
                           {persona.summary}
                         </P>
                       )}
 
                       {/* Description */}
-                      <P className="text-[15px] min-[680px]:text-[16px] leading-[1.7] text-bluedot-navy/70">
+                      <P className="text-[15px] bd-md:text-[16px] leading-[1.7] text-bluedot-navy/70">
                         {persona.description}
                       </P>
 
                       {/* What this looks like */}
                       {persona.valueProposition && (
                         <div className="pt-4 border-t border-bluedot-navy/10">
-                          <p className="text-[11px] min-[680px]:text-[12px] font-semibold uppercase tracking-[0.08em] text-bluedot-navy/40 mb-2">
+                          <p className="text-[11px] bd-md:text-[12px] font-semibold uppercase tracking-[0.08em] text-bluedot-navy/40 mb-2">
                             What this looks like
                           </p>
-                          <P className="text-[15px] min-[680px]:text-[16px] leading-[1.6] text-bluedot-navy/80">
+                          <P className="text-[15px] bd-md:text-[16px] leading-[1.6] text-bluedot-navy/80">
                             {persona.valueProposition}
                           </P>
                         </div>
@@ -142,7 +142,7 @@ const PersonasSection = ({
           </div>
         )}
         {footerText && (
-          <P className="text-center text-[15px] min-[680px]:text-[16px] leading-[1.6] text-bluedot-navy/60 mt-10 md:mt-12">
+          <P className="text-center text-[15px] bd-md:text-[16px] leading-[1.6] text-bluedot-navy/60 mt-10 md:mt-12">
             {footerText}
           </P>
         )}

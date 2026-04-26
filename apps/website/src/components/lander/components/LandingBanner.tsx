@@ -22,10 +22,10 @@ const LandingBanner = ({
   noiseImageSrc,
 }: LandingBannerProps) => {
   return (
-    <section className="w-full pb-12 min-[680px]:pb-16 min-[1024px]:pb-16 min-[1280px]:pb-24">
-      <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x">
+    <section className="w-full pb-12 bd-md:pb-16 lg:pb-16 xl:pb-24">
+      <div className="max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-spacing-x">
         <div
-          className="relative w-full h-[382px] min-[680px]:h-[360px] mx-auto overflow-hidden rounded-xl bg-bluedot-navy bg-cover bg-center xl:max-w-[1118px]"
+          className="relative w-full h-[382px] bd-md:h-[360px] mx-auto overflow-hidden rounded-xl bg-bluedot-navy bg-cover bg-center xl:max-w-[1118px]"
           style={{ backgroundImage: `url('${imageSrc}')` }}
           role="img"
           aria-label={imageAlt}
@@ -38,7 +38,7 @@ const LandingBanner = ({
           <div className="relative flex flex-col items-center justify-center h-full px-14 py-16 gap-8 text-center">
             <img src={iconSrc} alt={iconAlt} className="w-8 h-[30px]" />
 
-            <H3 className="max-w-[238px] min-[680px]:max-w-[496px] text-[20px] min-[680px]:text-[36px] font-[600] text-white leading-[140%] min-[680px]:leading-[125%]">
+            <H3 className="max-w-[238px] bd-md:max-w-[496px] text-[20px] bd-md:text-[36px] font-[600] text-white leading-[140%] bd-md:leading-[125%]">
               {title}
             </H3>
 
