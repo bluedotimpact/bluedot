@@ -1,15 +1,3 @@
-import {
-  PiBriefcase,
-  PiCompass,
-  PiFlask,
-  PiClockClockwise,
-  PiChats,
-  PiHandHeart,
-  PiCalendarDots,
-  PiRocketLaunch,
-  PiUsersThree,
-  PiHandCoins,
-} from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
 
 export const BIOSECURITY_COLORS = {
@@ -50,96 +38,83 @@ export const createBioSecurityContent = (
     imageAspectRatio: '1408/1122',
   },
 
-  whoIsThisFor: {
-    iconBackgroundColor: BIOSECURITY_COLORS.iconBackground,
+  whoIsThisForText: {
     title: 'Who this course is for',
-    targetAudiences: [
-      {
-        icon: PiFlask,
-        boldText: 'Engineers and scientists',
-        description: 'who want to defend against pandemics.',
-      },
-      {
-        icon: PiBriefcase,
-        boldText: 'Policy professionals',
-        description: 'who want to contribute to biosecurity policy.',
-      },
-      {
-        icon: PiCompass,
-        boldText: 'Entrepreneurs',
-        description: 'who want to build new pandemic defences.',
-      },
+    paragraphs: [
+      'COVID exposed how unprepared we were, AI is starting to lower the barrier to engineering dangerous pathogens, and you don\'t think the people in charge have a serious plan for the next pandemic. You want to change that.',
+      'The course is an in-depth introduction to the biological threats we face, what\'s being done to prevent and respond to them, and where you can contribute.',
+      'It\'s built for three groups: 1) scientists and engineers who want to point their skills at biodefence; 2) policy professionals shaping how governments prepare; and 3) entrepreneurs and operators ready to build new pandemic defences.',
+      'Not sure you fit? Apply anyway. Recent cohorts have also included teachers, lawyers, doctors, and community organisers.',
     ],
-    bottomCta: {
-      boldText: 'Don\'t fit these perfectly? Apply anyway.',
-      text: 'Some of our most impactful participants have included teachers, policymakers, engineers, and community leaders. We bet on drive and ambition, not CVs.',
-      buttonText: 'Apply now',
-      buttonUrl: applicationUrlWithUtm,
-    },
   },
 
-  courseBenefits: {
+  courseBenefitsText: {
     title: 'How this course will benefit you',
-    iconBackgroundColor: BIOSECURITY_COLORS.bright,
-    benefits: [
+    items: [
       {
-        icon: PiRocketLaunch,
-        title: 'Take action in less than 30 hours',
-        description: 'Skip months of scattered reading. This course gives you a structured overview of efforts to prevent, detect and respond to pandemics. Understand what works, what fails, and where the gaps are.',
+        heading: 'A launchpad for your biosecurity career',
+        body: 'You\'ll leave this course with an opinion on which biological threats matter most, early takes on how we could defend against them, and concrete next steps you can take.',
       },
       {
-        icon: PiUsersThree,
-        title: 'Join a network of builders',
-        description: 'We\'re building a community of people who are energised to take ambitious actions to build a pandemic-proof world, including starting new companies, policy entrepreneurship, and high-impact research bets. Completing this course will give you access to this community.',
+        heading: 'A clear way to think about pandemic risk',
+        body: 'You\'ll learn how pathogens spread and where our defences break down. You\'ll see how AI is widening the threat surface. And you\'ll apply layered-defence thinking to evaluate and prioritise interventions. You\'ll know enough to hold your own in rooms with experts.',
       },
       {
-        icon: PiHandCoins,
-        title: 'Get funded to accelerate your impact',
-        description: 'From small grants to build your portfolio, up to £50k to launch new organisations. We\'ll do whatever it takes to accelerate your journey.',
+        heading: 'A community of builders',
+        body: 'BlueDot has 7,000+ alumni, with many now working on pandemic preparedness at top biosecurity organisations, governments, and new ventures defending against bio risks. You\'ll meet people in the field who can open doors for you and pressure-test your thinking.',
       },
     ],
   },
 
-  courseInformation: {
-    title: 'Course information',
-    applicationUrl: applicationUrlWithUtm,
-    scheduleCtaText: 'Apply now',
+  howTheCourseWorks: {
+    title: 'How the course works',
     courseSlug,
-    accentColor: BIOSECURITY_COLORS.full,
-    details: [
+    paragraphs: ({ intenseUnits, partTimeUnits }) => [
+      <>The course has two &ldquo;intensity levels&rdquo;: part-time and intensive.</>,
+      <>If you join the <em>part-time</em> course, you&rsquo;ll invest ~5h/week for {partTimeUnits ?? 6} weeks.</>,
+      <>If you join the <em>intensive</em> course, you&rsquo;ll invest ~5h/day for {intenseUnits ?? 6} days.</>,
+      <>Each day/week, you&rsquo;ll complete 2&ndash;3 hours of reading and writing, followed by a 2h group discussion with ~8 peers over Zoom.</>,
+      <>All discussions are facilitated by a biosecurity expert who can help introduce you to others in the field.</>,
+      <><strong>This course is free</strong>, and operates on a &ldquo;pay-what-you-want&rdquo; model.</>,
+    ],
+  },
+
+  scheduleList: {
+    title: 'Schedule',
+    courseSlug,
+    applicationUrl: applicationUrlWithUtm,
+  },
+
+  testimonialsTitle: 'Meet our alumni working on biosecurity',
+  testimonialsHideQuotes: true,
+
+  pathwaysList: {
+    title: 'What happens after',
+    intro: 'This course is where you get oriented. What comes next depends on you.',
+    items: [
       {
-        icon: PiClockClockwise,
-        label: 'Commitment',
-        description: (
-          <>
-            Each day or week, you will:
-            <br />
-            <span className="font-semibold">Complete 2-3 hours</span> of reading and writing, and <span className="font-semibold">join ~8 peers in a 2-hour Zoom meeting</span> to discuss the content.
-          </>
-        ),
+        title: 'AGI Strategy',
+        summary: 'The strategic landscape of AI risk, including where AI×bio sits. For biosecurity people who want the broader picture.',
+        href: '/courses/agi-strategy',
+        ctaLabel: 'Explore the course',
       },
       {
-        icon: PiChats,
-        label: 'Facilitator',
-        description: 'All discussions will be facilitated by a biosecurity expert.',
+        title: 'Rapid Grants',
+        summary: 'Small, fast funding for concrete biosecurity work. Five-minute application, decisions in days, money upfront by default.',
+        href: '/programs/rapid-grants',
+        ctaLabel: 'Explore program',
       },
       {
-        icon: PiHandHeart,
-        label: 'Price',
-        description: 'This course is freely available and operates on a "pay-what-you-want" model.',
-      },
-      {
-        icon: PiCalendarDots,
-        label: 'Schedule',
-        description: null,
-        isSchedule: true,
-        scheduleDescription: 'Check above for upcoming rounds and application deadlines.',
+        title: 'Career Transition Grants',
+        summary: 'Funding to enable you to work full-time on impactful biosecurity work. Propose your plan and we\'ll back you.',
+        href: '/programs/career-transition-grant',
+        ctaLabel: 'Explore program',
       },
     ],
   },
 
   quotes: {
-    cardBackgroundColor: BIOSECURITY_COLORS.bright,
+    variant: 'editorial',
     accentColor: BIOSECURITY_COLORS.full,
     quotes: [
       {
@@ -163,13 +138,6 @@ export const createBioSecurityContent = (
         imageSrc: '/images/lander/foai/dario.webp',
         url: 'https://www.congress.gov/event/118th-congress/senate-event/LC72507/text',
       },
-      // {
-      //   quote: '"Five years ago, our country was caught unprepared by the Covid pandemic. It would be a tragedy if we failed to do enough to ensure we are sufficiently prepared for the next one. Biosecurity is now an essential aspect of national security and growth."',
-      //   name: 'Tony Blair and William Hague',
-      //   role: 'Former UK Prime Minister and Leader of the Opposition',
-      //   imageSrc: '/images/lander/biosecurity/blair-hague.webp',
-      //   url: 'https://institute.global/insights/politics-and-governance/a-new-national-purpose-biosecurity-as-the-foundation-for-growth-and-global-leadership',
-      // },
       {
         quote: '"We\'re reaching an inflection point with biotechnology where, with the help of AI, we are starting to be able to program cells like we program computers. This inflection point will define our national and economic security in the decades to come."',
         name: 'Michelle Rozo',
@@ -180,33 +148,57 @@ export const createBioSecurityContent = (
     ],
   },
 
-  testimonialsTitle: 'Meet our alumni working on biosecurity',
-
   faq: {
     title: 'Frequently Asked Questions',
     items: [
       {
-        id: 'funding',
-        question: 'Can I just apply for funding?',
-        answer: 'Funding is only available for graduates of the course.',
-      },
-      {
-        id: 'bluedot',
-        question: 'Who is BlueDot Impact?',
-        answer: (
-          <>
-            We're a London-based startup. Since 2022, we've trained 5,000 people, with ~1,000 now working on making AI go well.
-            <br /><br />
-            Our courses are the main entry point into the AI safety field.
-            <br /><br />
-            We're an intense 4-person team. We've raised $35M in total, including $25M in 2025.
-          </>
-        ),
+        id: 'background',
+        question: 'What background do I need?',
+        answer: 'We don\'t care about your CV. We care about what you\'ll do next. Recent cohorts have included people from policy, engineering, life sciences, medicine, law, and operations. What they shared was drive and a bias toward action.',
       },
       {
         id: 'biology-expertise',
         question: 'How much biology expertise do I need?',
-        answer: 'None! We will help you understand the basics.',
+        answer: 'None. We\'ll help you build the foundation. The course is designed for serious thinkers from any background. We cover the biology you need as we go.',
+      },
+      {
+        id: 'beginners',
+        question: 'Is this course for beginners?',
+        answer: 'It\'s for people new to working on biosecurity, not new to thinking hard. If you\'ve been reading and thinking, and are ready to act, this is where you start.',
+      },
+      {
+        id: 'formats',
+        question: 'What\'s the difference between intensive and part-time?',
+        answer: 'Same content, different pace. Intensive is ~6 days at ~5h/day, for people who can clear a week and want to move fast. Part-time is ~6 weeks at ~5h/week, for people fitting this around other commitments. Both end in the same place.',
+      },
+      {
+        id: 'timezones',
+        question: 'What time zones do you run cohorts in?',
+        answer: 'We run discussions across a wide range of timezones. You\'ll tell us your availability and we\'ll put you in a group that works for your current schedule.',
+      },
+      {
+        id: 'funding',
+        question: 'Is there funding available?',
+        answer: (
+          <>
+            Yes. Funding is available to graduates of the course. See <a href="/programs" className="underline">bluedot.org/programs</a> for current grants and how to apply.
+          </>
+        ),
+      },
+      {
+        id: 'certificate',
+        question: 'Will I get a certificate?',
+        answer: 'Yes. Participants who complete the course receive a digital certificate they can share on LinkedIn or with employers.',
+      },
+      {
+        id: 'free',
+        question: 'Is it really free?',
+        answer: 'Yes.',
+      },
+      {
+        id: 'bluedot',
+        question: 'Who is BlueDot Impact?',
+        answer: 'BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run courses, help people land jobs, organise events around the world, and back people starting new organisations. We\'ve trained thousands of people since 2022. Our alumni now work on pandemic preparedness, AI safety, and AI governance at top organisations and have founded new ones.',
       },
     ],
   },
@@ -215,7 +207,7 @@ export const createBioSecurityContent = (
     title: 'Start building a pandemic-proof world today',
     ctaText: 'Apply now',
     ctaUrl: applicationUrlWithUtm,
-    imageSrc: '/images/lander/agi-strategy/hero-banner-split.webp',
+    imageSrc: '/images/lander/biosecurity/hero-banner-split.webp',
     imageAlt: 'Biosecurity banner',
     iconSrc: '/images/agi-strategy/bluedot-icon.svg',
     iconAlt: 'BlueDot',
