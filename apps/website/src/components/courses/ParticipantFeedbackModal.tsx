@@ -67,7 +67,8 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
     <Modal
       isOpen
       setIsOpen={(v) => {
-        if (!v) onClose();
+        // Block dismissal while a save is in flight to prevent duplicates
+        if (!v && !savePeerFeedback.isPending) onClose();
       }}
       title={(
         <div className="flex-1 flex items-center gap-3 pr-3">
@@ -177,7 +178,8 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
             <button
               type="button"
               onClick={onClose}
-              className="bg-white border border-gray-300 rounded-md px-4 py-2.5 text-size-xs font-medium text-bluedot-navy transition-colors cursor-pointer hover:bg-gray-50 active:bg-gray-100 focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
+              disabled={savePeerFeedback.isPending}
+              className="bg-white border border-gray-300 rounded-md px-4 py-2.5 text-size-xs font-medium text-bluedot-navy transition-colors cursor-pointer hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
             >
               Cancel
             </button>
