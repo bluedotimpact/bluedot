@@ -1,4 +1,3 @@
-import { Breadcrumbs, type BluedotRoute } from '@bluedot/ui';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
 import GrantStatsStrip from '../../components/grants/sections/GrantStatsStrip';
@@ -11,13 +10,8 @@ import NextStepsSection from '../../components/career-transition-grant/NextSteps
 import GranteesSection from '../../components/career-transition-grant/GranteesSection';
 import { formatAmountUsd } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
-import { ROUTES } from '../../lib/routes';
 
-const CURRENT_ROUTE: BluedotRoute = {
-  title: 'Career Transition Grants',
-  url: '/programs/career-transition-grant',
-  parentPages: [ROUTES.home, ROUTES.programs],
-};
+const PAGE_TITLE = 'Career Transition Grants';
 
 const CareerTransitionGrantPage = () => {
   const { data: stats } = trpc.grants.getCareerTransitionGrantStats.useQuery();
@@ -27,7 +21,7 @@ const CareerTransitionGrantPage = () => {
   return (
     <div>
       <Head>
-        <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
+        <title>{`${PAGE_TITLE} | BlueDot Impact`}</title>
         <meta
           name="description"
           content="Funding and support for BlueDot community members ready to work full-time on AI safety."
@@ -37,7 +31,6 @@ const CareerTransitionGrantPage = () => {
         title="Career Transition Grants"
         subtitle="Funding and support to help you work full-time on AI safety."
       />
-      <Breadcrumbs route={CURRENT_ROUTE} />
       <GrantStatsStrip
         program="career-transition-grant"
         stats={[

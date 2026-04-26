@@ -1,7 +1,4 @@
-import {
-  Breadcrumbs,
-  CTALinkOrButton,
-} from '@bluedot/ui';
+import { CTALinkOrButton } from '@bluedot/ui';
 import Head from 'next/head';
 import MarketingHero from '../components/MarketingHero';
 import PageNewsletter from '../components/PageNewsletter';
@@ -100,7 +97,6 @@ const ProgramsPage = () => {
         title="Programs"
         subtitle="Go beyond a course. Build, launch, get funded."
       />
-      <Breadcrumbs route={ROUTES.programs} />
 
       <section className="section section-body bg-white">
         <div className="flex flex-col gap-12 min-[1024px]:gap-14">
