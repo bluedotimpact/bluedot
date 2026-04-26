@@ -1,4 +1,5 @@
 import type React from 'react';
+import type { FAQItem } from '../lander/components/FAQSection';
 
 export type GrantProgramStatus = 'Active' | 'On hiatus';
 export type GrantProgramSlug = 'rapid-grants' | 'career-transition-grant' | 'technical-ai-safety-project-sprint' | 'incubator-week';
@@ -92,3 +93,69 @@ export const getGrantProgramViewTransitionStyle = (
 ): React.CSSProperties => ({
   viewTransitionName: `grant-program-${slug}-${part}`,
 });
+
+/** Slugs that have a marketing page assembled from the shared section components. */
+export type ConfigurableGrantProgramSlug = 'rapid-grants' | 'career-transition-grant';
+
+export type GrantProgramSectionConfig = {
+  applicationUrl: string;
+  faqItems: FAQItem[];
+};
+
+export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantProgramSectionConfig> = {
+  'rapid-grants': {
+    applicationUrl: RAPID_GRANT_APPLICATION_URL,
+    faqItems: [
+      {
+        id: 'unsure',
+        question: 'Should I apply if I\'m not sure it\'s a fit?',
+        answer: 'Yes. If the work\'s underway and the need is specific, just apply. Don\'t talk yourself out of it.',
+      },
+      {
+        id: 'eligibility',
+        question: 'Who is eligible?',
+        answer: 'BlueDot course participants, alumni, facilitators, and active community members. If you\'re in our network and doing serious AI safety work, you qualify.',
+      },
+      {
+        id: 'events',
+        question: 'Can Rapid Grants fund events or meetups?',
+        answer: 'Yes. We have funded meetup series, venue costs, and community events in multiple countries. Show us the plan and the specific costs.',
+      },
+      {
+        id: 'reimbursement',
+        question: 'Do you fund upfront or reimburse later?',
+        answer: 'Both. Usually we send the money upfront; sometimes we reimburse instead. We\'ll tell you which when we approve.',
+      },
+      {
+        id: 'travel',
+        question: 'Can Rapid Grants cover travel?',
+        answer: 'Yes. We fund travel for conferences, collaboration, and fieldwork. Show us why being there matters for the work.',
+      },
+      {
+        id: 'larger-request',
+        question: 'What if I need more than a few thousand dollars?',
+        answer: 'Rapid Grants run from $50 to $10,000. If you need more, get in touch. We can sometimes route you through another program.',
+      },
+    ],
+  },
+  'career-transition-grant': {
+    applicationUrl: CAREER_TRANSITION_GRANT_APPLICATION_URL,
+    faqItems: [
+      {
+        id: 'eligibility',
+        question: 'Who is eligible?',
+        answer: 'BlueDot course participants, alumni, facilitators, and active community members. If you are in our network and doing excellent work on AI safety, you are likely eligible.',
+      },
+      {
+        id: 'uncertain',
+        question: 'Should I apply if I don\'t know exactly how to contribute to AI safety yet?',
+        answer: 'Yes. We do not expect you to have it all figured out. We would rather see a clear-eyed account of what you do not know and a plan for finding out.',
+      },
+      {
+        id: 'circumstances-change',
+        question: 'What if I secure a full-time role or my circumstances change during the grant?',
+        answer: 'Please let us know. Any remaining funds would be returned to BlueDot.',
+      },
+    ],
+  },
+};
