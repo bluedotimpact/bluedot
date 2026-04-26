@@ -29,22 +29,46 @@ jobs:
               core.setFailed(`CI/CD has not passed for ${context.sha} (status: ${run?.status ?? 'not found'}, conclusion: ${run?.conclusion ?? 'N/A'})`);
             }
 
-      - name: Install turbo
-        id: install_turbo
-        run: |
-          npm install --global turbo
-
       - name: Checkout ${{ github.sha }}
         uses: actions/checkout@v4
 
       - name: Use Node.js
+        id: setup-node
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: 'npm'
           registry-url: https://registry.npmjs.org/
 
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            apps/*/node_modules
+            libraries/*/node_modules
+          key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-modules-${{ hashFiles('package-lock.json') }}
+
       - name: Install NPM dependencies
-        run: npm ci
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --audit false --fund false
+
+      - name: Cache Next.js build
+        uses: actions/cache@v4
+        with:
+          path: apps/website/.next/cache
+          key: ${{ runner.os }}-nextjs-website-${{ hashFiles('package-lock.json') }}-${{ hashFiles('apps/website/**/*.{js,jsx,ts,tsx,mdx,md,json,css}') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-website-${{ hashFiles('package-lock.json') }}-
+
+      - name: Cache turbo
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-website-prod-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-website-prod-
 
       - name: Configure k8s deployment
         run: |
