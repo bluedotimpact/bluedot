@@ -49,12 +49,13 @@ export const createAgiStrategyContent = (
   whoIsThisForText: {
     title: 'Who this course is for',
     paragraphs: [
-      'You\'ve read the essays, watched the talks, and you don\'t think the people building AGI have a serious plan. You want to act on that.',
-      'The course is built for three groups: domain experts in policy, security, operations, or engineering looking to redirect their skills; people heading into technical safety or governance research who want the strategic picture first; and serious newcomers who can think hard and finish what they start.',
-      'Not sure you fit? Apply anyway. Recent cohorts have included teachers, lawyers, engineers, and community organisers. We bet on drive and ambition, not CVs.',
+      'You\'ve read some essays, watched the talks, and you don\'t think the people building AGI have a serious plan for making it go well. You want to change that.',
+      'The course is an in-depth introduction to what\'s going on with AI development, what the good and bad outcomes could be, and what could be done to steer AI towards better futures.',
+      'It\'s built for three groups: 1) domain experts in policy, security, operations, or engineering looking to redirect their skills; 2) people heading into technical safety or governance roles who want the strategic picture first; and 3) newcomers who are serious about making big moves and having a huge impact.',
+      'Not sure you fit? Apply anyway. Recent cohorts have also included teachers, lawyers, engineers, and community organisers.',
     ],
     bottomCta: {
-      text: 'Applications take about 15 minutes.',
+      text: 'Applying takes about 15 minutes.',
       buttonText: 'Apply now',
       buttonUrl: applicationUrlWithUtm,
     },
@@ -64,16 +65,16 @@ export const createAgiStrategyContent = (
     title: 'How this course will benefit you',
     items: [
       {
-        heading: 'A launchpad, not a lecture',
-        body: 'You won\'t "complete" this course. You\'ll leave it with a view on which problems matter, which path fits your background, and what you\'re going to do next week.',
+        heading: 'A launchpad for your AI safety career',
+        body: 'You\'ll leave this course with an opinion on which threats matter, early takes on how we could solve these problems, and concrete next steps you can take.',
       },
       {
-        heading: 'Three frameworks you\'ll actually use',
-        body: 'Incentive mapping for the race to AGI. Kill chains for analysing threats. Defense in depth for designing interventions. Enough to hold your own in any room of people working on this.',
+        heading: 'A clear way to think about the future of AI',
+        body: 'You\'ll analyse the incentives facing AI companies. You\'ll develop "kill chains" to analyse the threats. And you\'ll apply defense in depth to evaluate and prioritise interventions. You\'ll know enough to hold your own in rooms with experts.',
       },
       {
-        heading: 'A community of people who ship',
-        body: 'BlueDot has 7,000+ alumni at Anthropic, DeepMind, UK AISI, and dozens of organisations working on a safe transition to advanced AI. You\'ll meet people already doing the work, who can open doors and pressure-test your thinking.',
+        heading: 'A community of builders',
+        body: 'BlueDot has 7,000+ alumni, with many now working at Anthropic, DeepMind, UK AISI, and dozens of organisations working on a safe transition to advanced AI. You\'ll meet people in the field who can open doors for you and pressure-test your thinking.',
       },
     ],
   },
@@ -118,7 +119,7 @@ export const createAgiStrategyContent = (
 
   pathwaysList: {
     title: 'What happens after',
-    intro: 'AGI Strategy is where you get oriented. What comes next depends on you.',
+    intro: 'This course is where you get oriented. What comes next depends on you.',
     items: [
       {
         title: 'Technical AI Safety',
@@ -139,8 +140,16 @@ export const createAgiStrategyContent = (
         ctaLabel: 'Explore the course',
       },
       {
-        title: 'Make a bigger leap',
-        summary: 'Pivot full-time into impactful work, or start building something new. We can help.',
+        title: 'Rapid Grants',
+        summary: 'Small, fast funding for concrete AI safety work. Five-minute application, decisions in days, money upfront by default.',
+        href: '/programs/rapid-grants',
+        ctaLabel: 'Explore program',
+      },
+      {
+        title: 'Career Transition Grants',
+        summary: 'Funding to enable you to work full-time on impactful AI safety work. Propose your plan and we\'ll back you.',
+        href: '/programs/career-transition-grant',
+        ctaLabel: 'Explore program',
       },
     ],
   },
