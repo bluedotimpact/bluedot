@@ -1,14 +1,16 @@
 import { Breadcrumbs, type BluedotRoute } from '@bluedot/ui';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
-import StatsStripSection from '../../components/career-transition-grant/StatsStripSection';
+import GrantStatsStrip from '../../components/grants/sections/GrantStatsStrip';
+import GrantFaqSection from '../../components/grants/sections/GrantFaqSection';
+import GrantCta from '../../components/grants/sections/GrantCta';
 import WhatThisIsForSection from '../../components/career-transition-grant/WhatThisIsForSection';
 import ExpectationsSection from '../../components/career-transition-grant/ExpectationsSection';
 import SubmissionPromptsSection from '../../components/career-transition-grant/SubmissionPromptsSection';
 import NextStepsSection from '../../components/career-transition-grant/NextStepsSection';
 import GranteesSection from '../../components/career-transition-grant/GranteesSection';
-import FaqSection from '../../components/career-transition-grant/FaqSection';
-import Cta from '../../components/career-transition-grant/Cta';
+import { formatAmountUsd } from '../../lib/utils';
+import { trpc } from '../../utils/trpc';
 import { ROUTES } from '../../lib/routes';
 
 const CURRENT_ROUTE: BluedotRoute = {
@@ -18,6 +20,10 @@ const CURRENT_ROUTE: BluedotRoute = {
 };
 
 const CareerTransitionGrantPage = () => {
+  const { data: stats } = trpc.grants.getCareerTransitionGrantStats.useQuery();
+  const grantsMadeLabel = stats ? String(stats.count) : '—';
+  const fundingAwardedLabel = stats ? formatAmountUsd(stats.totalAmountUsd) : '—';
+
   return (
     <div>
       <Head>
@@ -32,14 +38,20 @@ const CareerTransitionGrantPage = () => {
         subtitle="Funding and support to help you work full-time on AI safety."
       />
       <Breadcrumbs route={CURRENT_ROUTE} />
-      <StatsStripSection />
+      <GrantStatsStrip
+        program="career-transition-grant"
+        stats={[
+          { label: 'Grants made', value: grantsMadeLabel },
+          { label: 'Funding awarded', value: fundingAwardedLabel },
+        ]}
+      />
       <WhatThisIsForSection />
       <ExpectationsSection />
       <SubmissionPromptsSection />
       <NextStepsSection />
       <GranteesSection />
-      <FaqSection />
-      <Cta />
+      <GrantFaqSection program="career-transition-grant" />
+      <GrantCta program="career-transition-grant" />
     </div>
   );
 };
