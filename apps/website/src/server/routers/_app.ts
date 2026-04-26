@@ -15,6 +15,7 @@ import { groupSwitchingRouter } from './group-switching';
 import { jobsRouter } from './jobs';
 import { lumaRouter } from './luma';
 import { meetPersonRouter } from './meet-person';
+import { missionsRouter } from './missions';
 import { projectsRouter } from './projects';
 import { resourcesRouter } from './resources';
 import { subscriptionPreferencesRouter } from './subscription-preferences';
@@ -39,6 +40,7 @@ export const appRouter = router({
   jobs: jobsRouter,
   luma: lumaRouter,
   meetPerson: meetPersonRouter,
+  missions: missionsRouter,
   projects: projectsRouter,
   resources: resourcesRouter,
   subscriptionPreferences: subscriptionPreferencesRouter,
