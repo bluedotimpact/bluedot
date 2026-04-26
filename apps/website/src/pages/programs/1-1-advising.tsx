@@ -1,3 +1,4 @@
+import { Breadcrumbs } from '@bluedot/ui';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
 import GrantStatsStrip from '../../components/grants/sections/GrantStatsStrip';
@@ -8,6 +9,7 @@ import WhatToExpectSection from '../../components/1-1-advising/WhatToExpectSecti
 import HowItWorksSection from '../../components/1-1-advising/HowItWorksSection';
 import WhatMakesStrongApplicationSection from '../../components/1-1-advising/WhatMakesStrongApplicationSection';
 import AdvisorsSection from '../../components/1-1-advising/AdvisorsSection';
+import { ROUTES } from '../../lib/routes';
 
 const PAGE_TITLE = '1-1 advising';
 
@@ -24,6 +26,13 @@ const OneOnOneAdvisingPage = () => {
       <MarketingHero
         title="1-1 advising"
         subtitle="20 min calls with the BlueDot team to accelerate you towards doing impactful work in AI safety."
+      />
+      <Breadcrumbs
+        route={{
+          title: PAGE_TITLE,
+          url: '/programs/1-1-advising',
+          parentPages: [ROUTES.home, ROUTES.programs],
+        }}
       />
       <GrantStatsStrip
         program="1-1-advising"
