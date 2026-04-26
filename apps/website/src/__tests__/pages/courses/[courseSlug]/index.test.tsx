@@ -21,6 +21,21 @@ vi.mock('next/head', () => ({
   },
 }));
 
+vi.mock('next/router', () => ({
+  useRouter: () => ({
+    asPath: '/courses/ai-safety-fundamentals',
+    pathname: '/courses/[courseSlug]',
+    push: vi.fn(),
+    query: { courseSlug: 'ai-safety-fundamentals' },
+  }),
+}));
+
+// Stub Nav: the SSR/SEO test only cares about meta tags, and the real Nav
+// pulls in tRPC + auth + posthog which aren't wired up here.
+vi.mock('../../../../components/Nav/Nav', () => ({
+  Nav: () => null,
+}));
+
 const mockCourse = createMockCourse({
   slug: 'ai-safety-fundamentals',
   title: 'AI Safety Fundamentals',
