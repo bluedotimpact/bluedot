@@ -4,7 +4,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
 <div>
   <div>
     <section
-      class="relative w-full min-h-[317px] min-[680px]:min-h-[366px]"
+      class="relative w-full min-h-[317px] bd-md:min-h-[366px]"
     >
       <nav
         class="nav absolute top-0 inset-x-0 z-50 w-full transition-all duration-300 bg-transparent border-b border-white/15"
@@ -13,7 +13,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
           class="nav__container section-base"
         >
           <div
-            class="nav__bar w-full flex justify-between items-center min-h-(--nav-height-mobile) min-[1024px]:min-h-(--nav-height-desktop)"
+            class="nav__bar w-full flex justify-between items-center min-h-(--nav-height-mobile) lg:min-h-(--nav-height-desktop)"
           >
             <div
               class="flex items-center"
@@ -53,7 +53,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                   </svg>
                 </button>
                 <div
-                  class="mobile-nav-links__drawer absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                  class="mobile-nav-links__drawer absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                 >
                   <div
                     class="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 lg:hidden"
@@ -90,7 +90,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                         </button>
                         <div
                           aria-label="Courses menu"
-                          class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                          class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                           id="courses-dropdown"
                           role="region"
                         >
@@ -138,7 +138,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                         </button>
                         <div
                           aria-label="Programs menu"
-                          class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                          class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                           id="programs-dropdown"
                           role="region"
                         >
@@ -214,7 +214,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                         </button>
                         <div
                           aria-label="Explore menu"
-                          class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                          class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                           id="explore-dropdown"
                           role="region"
                         >
@@ -315,7 +315,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                   </button>
                   <div
                     aria-label="Courses menu"
-                    class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                    class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                     id="courses-dropdown"
                     role="region"
                   >
@@ -363,7 +363,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                   </button>
                   <div
                     aria-label="Programs menu"
-                    class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                    class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                     id="programs-dropdown"
                     role="region"
                   >
@@ -439,7 +439,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                   </button>
                   <div
                     aria-label="Explore menu"
-                    class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                    class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                     id="explore-dropdown"
                     role="region"
                   >
@@ -491,7 +491,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                   Sign in
                 </a>
                 <a
-                  class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--primary link-on-dark nav-cta__primary-cta hidden min-[680px]:flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-white hover:bg-white/90 text-[#02034B] hover:text-[#02034B]"
+                  class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--primary link-on-dark nav-cta__primary-cta hidden bd-md:flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-white hover:bg-white/90 text-[#02034B] hover:text-[#02034B]"
                   href="/login?register=true&redirect_to=%2Fjoin-us"
                   tabindex="0"
                 >
@@ -509,7 +509,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
         src="/images/homepage/hero.webp"
       />
       <div
-        class="relative z-10 flex flex-col justify-end h-full min-h-[317px] min-[680px]:min-h-[366px] pb-12 pt-20 min-[680px]:pb-16 min-[680px]:pt-20"
+        class="relative z-10 flex flex-col justify-end h-full min-h-[317px] bd-md:min-h-[366px] pb-12 pt-20 bd-md:pb-16 bd-md:pt-20"
       >
         <div
           class="section-base"
@@ -523,7 +523,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
               Work with us
             </h1>
             <p
-              class="text-size-sm min-[680px]:text-[18px] min-[1024px]:text-[20px] leading-[1.55] tracking-[-0.1px] text-white"
+              class="text-size-sm bd-md:text-[18px] lg:text-[20px] leading-[1.55] tracking-[-0.1px] text-white"
             >
               AI safety needs thousands more people. We need the team that gets them there.
             </p>
@@ -616,23 +616,23 @@ exports[`JoinUsPage > should render correctly 1`] = `
       class="page-newsletter section-base mt-spacing-y mb-16"
     >
       <div
-        class="relative w-full min-[680px]:border min-[680px]:border-[rgba(0,0,0,0.08)] min-[680px]:rounded-xl overflow-hidden"
+        class="relative w-full bd-md:border bd-md:border-[rgba(0,0,0,0.08)] bd-md:rounded-xl overflow-hidden"
       >
         <div
           aria-hidden="true"
           class="absolute inset-0 pointer-events-none"
         >
           <div
-            class="absolute inset-0 min-[680px]:rounded-xl -scale-x-100 bg-cover"
+            class="absolute inset-0 bd-md:rounded-xl -scale-x-100 bg-cover"
             style="background-image: url("/images/homepage/hero.webp"); background-position: 50% 60%;"
           />
           <div
-            class="absolute inset-0 min-[680px]:rounded-xl"
+            class="absolute inset-0 bd-md:rounded-xl"
             style="mix-blend-mode: overlay;"
           />
         </div>
         <div
-          class="relative z-10 flex flex-col items-center min-[680px]:items-start gap-8 pt-8 px-6 pb-0 min-[680px]:py-10 min-[680px]:px-8 lg:py-16 lg:px-12"
+          class="relative z-10 flex flex-col items-center bd-md:items-start gap-8 pt-8 px-6 pb-0 bd-md:py-10 bd-md:px-8 lg:py-16 lg:px-12"
         >
           <div
             class="flex flex-col gap-4 w-full"
@@ -679,7 +679,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
           </div>
           <img
             alt=""
-            class="min-[680px]:hidden lg:block size-[140px] lg:absolute lg:top-10 lg:right-6 lg:size-64 2xl:top-6 2xl:right-12 2xl:size-[280px] opacity-80"
+            class="bd-md:hidden lg:block size-[140px] lg:absolute lg:top-10 lg:right-6 lg:size-64 2xl:top-6 2xl:right-12 2xl:size-[280px] opacity-80"
             src="/images/homepage/newsletter.svg"
           />
         </div>

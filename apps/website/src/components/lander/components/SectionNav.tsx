@@ -65,16 +65,16 @@ const SectionNav = ({ sections, applyUrl }: SectionNavProps) => {
       className="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-sm border-b border-bluedot-navy/5 transition-all duration-300"
       style={{ opacity: isVisible ? 1 : 0 }}
     >
-      <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-spacing-x">
+      <div className="max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-spacing-x">
         <div className="flex items-center justify-between py-3">
-          <div className="flex items-center gap-1 min-[680px]:gap-2 overflow-x-auto scrollbar-none">
+          <div className="flex items-center gap-1 bd-md:gap-2 overflow-x-auto scrollbar-none">
             {sections.map((section) => (
               <button
                 type="button"
                 key={section.id}
                 onClick={() => scrollToSection(section.id)}
                 className={`
-                  px-3 min-[680px]:px-4 py-1.5 rounded-full text-[13px] min-[680px]:text-[14px] font-medium
+                  px-3 bd-md:px-4 py-1.5 rounded-full text-[13px] bd-md:text-[14px] font-medium
                   whitespace-nowrap transition-all duration-200
                   ${activeSection === section.id
                 ? 'bg-bluedot-navy text-white'

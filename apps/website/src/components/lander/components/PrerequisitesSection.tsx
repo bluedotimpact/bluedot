@@ -32,12 +32,12 @@ const PrerequisitesSection = ({
 }: PrerequisitesSectionProps) => {
   return (
     <section id={id} className="w-full bg-white">
-      <div className="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24">
-        <H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy text-center mb-12 md:mb-16 tracking-[-0.01em]">
+      <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24">
+        <H2 className="text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy text-center mb-12 md:mb-16 tracking-[-0.01em]">
           {title}
         </H2>
         <div className="max-w-[1100px] mx-auto">
-          <div className="grid grid-cols-1 min-[680px]:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 bd-md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {prerequisites.map((prereq) => {
               const IconComponent = prereq.icon;
               return (
@@ -57,7 +57,7 @@ const PrerequisitesSection = ({
                     </div>
                   )}
                   <div className="space-y-2">
-                    <H3 className="text-[17px] min-[680px]:text-[18px] font-semibold leading-[130%] text-bluedot-navy">
+                    <H3 className="text-[17px] bd-md:text-[18px] font-semibold leading-[130%] text-bluedot-navy">
                       {prereq.title}
                     </H3>
                     <P className="text-[15px] leading-[1.65] text-bluedot-navy/70">

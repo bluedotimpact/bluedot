@@ -6,7 +6,7 @@ exports[`Footer > renders default as expected 1`] = `
     class="w-full bg-[#02051E]"
   >
     <div
-      class="w-full py-8 px-5 min-[680px]:pt-10 min-[680px]:pb-[72px] min-[680px]:px-8 lg:pt-10 lg:pb-[72px] lg:px-12 xl:pt-10 xl:pb-[72px] xl:px-16 2xl:py-16 2xl:px-20"
+      class="w-full py-8 px-5 bd-md:pt-10 bd-md:pb-[72px] bd-md:px-8 lg:pt-10 lg:pb-[72px] lg:px-12 xl:pt-10 xl:pb-[72px] xl:px-16 2xl:py-16 2xl:px-20"
     >
       <div
         class="max-w-screen-xl mx-auto"
@@ -93,7 +93,7 @@ exports[`Footer > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="flex flex-col gap-12 min-[680px]:hidden"
+          class="flex flex-col gap-12 bd-md:hidden"
         >
           <div
             class="flex flex-col gap-4"
@@ -209,7 +209,7 @@ exports[`Footer > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="hidden min-[680px]:grid min-[680px]:grid-cols-3 min-[680px]:gap-x-8 min-[680px]:gap-y-12 lg:hidden"
+          class="hidden bd-md:grid bd-md:grid-cols-3 bd-md:gap-x-8 bd-md:gap-y-12 lg:hidden"
         >
           <div
             class="flex flex-col gap-4"
@@ -522,7 +522,7 @@ exports[`Footer > renders default as expected 1`] = `
           </div>
         </div>
         <div
-          class="mt-12 border-t border-white/10 pt-8 text-size-sm text-[#CCD7FF] leading-[26px] min-[680px]:mt-14 min-[680px]:pt-10 lg:mt-16 2xl:mt-20"
+          class="mt-12 border-t border-white/10 pt-8 text-size-sm text-[#CCD7FF] leading-[26px] bd-md:mt-14 bd-md:pt-10 lg:mt-16 2xl:mt-20"
         >
           <p
             class="mb-2"
@@ -582,7 +582,7 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
     class="w-full bg-[#02051E]"
   >
     <div
-      class="w-full py-8 px-5 min-[680px]:pt-10 min-[680px]:pb-[72px] min-[680px]:px-8 lg:pt-10 lg:pb-[72px] lg:px-12 xl:pt-10 xl:pb-[72px] xl:px-16 2xl:py-16 2xl:px-20"
+      class="w-full py-8 px-5 bd-md:pt-10 bd-md:pb-[72px] bd-md:px-8 lg:pt-10 lg:pb-[72px] lg:px-12 xl:pt-10 xl:pb-[72px] xl:px-16 2xl:py-16 2xl:px-20"
     >
       <div
         class="max-w-screen-xl mx-auto"
@@ -669,7 +669,7 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
           </div>
         </div>
         <div
-          class="flex flex-col gap-12 min-[680px]:hidden"
+          class="flex flex-col gap-12 bd-md:hidden"
         >
           <div
             class="flex flex-col gap-4"
@@ -793,7 +793,7 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
           </div>
         </div>
         <div
-          class="hidden min-[680px]:grid min-[680px]:grid-cols-3 min-[680px]:gap-x-8 min-[680px]:gap-y-12 lg:hidden"
+          class="hidden bd-md:grid bd-md:grid-cols-3 bd-md:gap-x-8 bd-md:gap-y-12 lg:hidden"
         >
           <div
             class="flex flex-col gap-4"
@@ -1122,7 +1122,7 @@ exports[`Footer > renders with "report a bug" when onReportBug is provided 1`] =
           </div>
         </div>
         <div
-          class="mt-12 border-t border-white/10 pt-8 text-size-sm text-[#CCD7FF] leading-[26px] min-[680px]:mt-14 min-[680px]:pt-10 lg:mt-16 2xl:mt-20"
+          class="mt-12 border-t border-white/10 pt-8 text-size-sm text-[#CCD7FF] leading-[26px] bd-md:mt-14 bd-md:pt-10 lg:mt-16 2xl:mt-20"
         >
           <p
             class="mb-2"
@@ -1182,7 +1182,7 @@ exports[`Footer > renders with optional args 1`] = `
     class="w-full bg-[#02051E]"
   >
     <div
-      class="w-full py-8 px-5 min-[680px]:pt-10 min-[680px]:pb-[72px] min-[680px]:px-8 lg:pt-10 lg:pb-[72px] lg:px-12 xl:pt-10 xl:pb-[72px] xl:px-16 2xl:py-16 2xl:px-20"
+      class="w-full py-8 px-5 bd-md:pt-10 bd-md:pb-[72px] bd-md:px-8 lg:pt-10 lg:pb-[72px] lg:px-12 xl:pt-10 xl:pb-[72px] xl:px-16 2xl:py-16 2xl:px-20"
     >
       <div
         class="max-w-screen-xl mx-auto"
@@ -1269,7 +1269,7 @@ exports[`Footer > renders with optional args 1`] = `
           </div>
         </div>
         <div
-          class="flex flex-col gap-12 min-[680px]:hidden"
+          class="flex flex-col gap-12 bd-md:hidden"
         >
           <div
             class="flex flex-col gap-4"
@@ -1385,7 +1385,7 @@ exports[`Footer > renders with optional args 1`] = `
           </div>
         </div>
         <div
-          class="hidden min-[680px]:grid min-[680px]:grid-cols-3 min-[680px]:gap-x-8 min-[680px]:gap-y-12 lg:hidden"
+          class="hidden bd-md:grid bd-md:grid-cols-3 bd-md:gap-x-8 bd-md:gap-y-12 lg:hidden"
         >
           <div
             class="flex flex-col gap-4"
@@ -1698,7 +1698,7 @@ exports[`Footer > renders with optional args 1`] = `
           </div>
         </div>
         <div
-          class="mt-12 border-t border-white/10 pt-8 text-size-sm text-[#CCD7FF] leading-[26px] min-[680px]:mt-14 min-[680px]:pt-10 lg:mt-16 2xl:mt-20"
+          class="mt-12 border-t border-white/10 pt-8 text-size-sm text-[#CCD7FF] leading-[26px] bd-md:mt-14 bd-md:pt-10 lg:mt-16 2xl:mt-20"
         >
           <p
             class="mb-2"

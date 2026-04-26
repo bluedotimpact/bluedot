@@ -71,7 +71,7 @@ exports[`IncubatorWeekLander > renders the complete page correctly (snapshot) 1`
         class="nav__container section-base"
       >
         <div
-          class="nav__bar w-full flex justify-between items-center min-h-(--nav-height-mobile) min-[1024px]:min-h-(--nav-height-desktop)"
+          class="nav__bar w-full flex justify-between items-center min-h-(--nav-height-mobile) lg:min-h-(--nav-height-desktop)"
         >
           <div
             class="flex items-center"
@@ -111,7 +111,7 @@ exports[`IncubatorWeekLander > renders the complete page correctly (snapshot) 1`
                 </svg>
               </button>
               <div
-                class="mobile-nav-links__drawer absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                class="mobile-nav-links__drawer absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
               >
                 <div
                   class="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 lg:hidden"
@@ -148,7 +148,7 @@ exports[`IncubatorWeekLander > renders the complete page correctly (snapshot) 1`
                       </button>
                       <div
                         aria-label="Courses menu"
-                        class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                        class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                         id="courses-dropdown"
                         role="region"
                       >
@@ -202,7 +202,7 @@ exports[`IncubatorWeekLander > renders the complete page correctly (snapshot) 1`
                       </button>
                       <div
                         aria-label="Programs menu"
-                        class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                        class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                         id="programs-dropdown"
                         role="region"
                       >
@@ -278,7 +278,7 @@ exports[`IncubatorWeekLander > renders the complete page correctly (snapshot) 1`
                       </button>
                       <div
                         aria-label="Explore menu"
-                        class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                        class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                         id="explore-dropdown"
                         role="region"
                       >
@@ -379,7 +379,7 @@ exports[`IncubatorWeekLander > renders the complete page correctly (snapshot) 1`
                 </button>
                 <div
                   aria-label="Courses menu"
-                  class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                  class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                   id="courses-dropdown"
                   role="region"
                 >
@@ -433,7 +433,7 @@ exports[`IncubatorWeekLander > renders the complete page correctly (snapshot) 1`
                 </button>
                 <div
                   aria-label="Programs menu"
-                  class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                  class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                   id="programs-dropdown"
                   role="region"
                 >
@@ -509,7 +509,7 @@ exports[`IncubatorWeekLander > renders the complete page correctly (snapshot) 1`
                 </button>
                 <div
                   aria-label="Explore menu"
-                  class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                  class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                   id="explore-dropdown"
                   role="region"
                 >
@@ -561,7 +561,7 @@ exports[`IncubatorWeekLander > renders the complete page correctly (snapshot) 1`
                 Sign in
               </a>
               <a
-                class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--primary link-on-dark nav-cta__primary-cta hidden min-[680px]:flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-white hover:bg-white/90 text-[#02034B] hover:text-[#02034B]"
+                class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--primary link-on-dark nav-cta__primary-cta hidden bd-md:flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-white hover:bg-white/90 text-[#02034B] hover:text-[#02034B]"
                 href="/login?register=true&redirect_to=%2Fcourses%2Fincubator-week"
                 tabindex="0"
               >
@@ -576,13 +576,13 @@ exports[`IncubatorWeekLander > renders the complete page correctly (snapshot) 1`
       class="w-full "
     >
       <div
-        class="relative max-w-max-width mx-auto px-8 min-[1024px]:pl-[80px] min-[1024px]:pr-0"
+        class="relative max-w-max-width mx-auto px-8 lg:pl-[80px] lg:pr-0"
       >
         <div
-          class="flex flex-col items-center gap-8 pt-[calc(var(--nav-height-mobile)+32px)] pb-8 min-[680px]:pt-[calc(var(--nav-height-mobile)+48px)] min-[1024px]:hidden"
+          class="flex flex-col items-center gap-8 pt-[calc(var(--nav-height-mobile)+32px)] pb-8 bd-md:pt-[calc(var(--nav-height-mobile)+48px)] lg:hidden"
         >
           <div
-            class="flex items-center justify-center w-[280px] min-[680px]:w-[400px]"
+            class="flex items-center justify-center w-[280px] bd-md:w-[400px]"
             style="aspect-ratio: 1408 / 1122;"
           >
             <img
@@ -604,12 +604,12 @@ exports[`IncubatorWeekLander > renders the complete page correctly (snapshot) 1`
                 5-DAY INTENSIVE
               </p>
               <h1
-                class="text-[32px] min-[680px]:text-[40px] leading-tight font-semibold tracking-[-0.5px] text-white"
+                class="text-[32px] bd-md:text-[40px] leading-tight font-semibold tracking-[-0.5px] text-white"
               >
                 Incubator Week
               </h1>
               <p
-                class="text-[16px] min-[680px]:text-[18px] leading-[1.6] opacity-80 text-white whitespace-pre-line"
+                class="text-[16px] bd-md:text-[18px] leading-[1.6] opacity-80 text-white whitespace-pre-line"
               >
                 Training isn't enough. We need new organizations to make AI go well. Incubator Week takes the strongest founders from our courses and backs them to build. Five days. All expenses paid. Pitch for funding on Friday.
 
@@ -617,10 +617,10 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
               </p>
             </div>
             <div
-              class="flex flex-col min-[680px]:flex-row gap-3 w-full min-[680px]:w-auto min-[680px]:justify-center"
+              class="flex flex-col bd-md:flex-row gap-3 w-full bd-md:w-auto bd-md:justify-center"
             >
               <a
-                class="cta-button flex items-center justify-center duration-200 whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none h-[50px] px-5 py-3 text-[16px] font-medium rounded-md cursor-pointer transition-all text-bluedot-navy w-full min-[680px]:w-auto hover:brightness-90"
+                class="cta-button flex items-center justify-center duration-200 whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none h-[50px] px-5 py-3 text-[16px] font-medium rounded-md cursor-pointer transition-all text-bluedot-navy w-full bd-md:w-auto hover:brightness-90"
                 href="https://web.miniextensions.com/test"
                 style="background-color: #FF8C8C;"
                 tabindex="0"
@@ -628,7 +628,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                 Apply now
               </a>
               <a
-                class="cta-button flex items-center justify-center duration-200 whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none h-[50px] px-5 py-3 text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-all border w-full min-[680px]:w-auto hover:bg-white/10"
+                class="cta-button flex items-center justify-center duration-200 whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none h-[50px] px-5 py-3 text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-all border w-full bd-md:w-auto hover:bg-white/10"
                 href="/courses/incubator-week/1/1"
                 style="border-color: #FF8C8C; color: #FF8C8C;"
                 tabindex="0"
@@ -639,7 +639,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
           </div>
         </div>
         <div
-          class="hidden min-[1024px]:block"
+          class="hidden lg:block"
         >
           <div
             class="w-3/5 min-h-[600px] flex items-center pt-[var(--nav-height-desktop)] pr-[200px]"
@@ -719,21 +719,21 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
       class="w-full bg-white"
     >
       <div
-        class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24 xl:py-24"
+        class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24 xl:py-24"
       >
         <h2
-          class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy text-center mb-12 md:mb-16 tracking-[-0.01em]"
+          class="bluedot-h2 not-prose text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy text-center mb-12 md:mb-16 tracking-[-0.01em]"
         >
           Who this is for
         </h2>
         <div
-          class="grid grid-cols-1 min-[680px]:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+          class="grid grid-cols-1 bd-md:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
         >
           <div
-            class="flex flex-col items-center min-[680px]:items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-bluedot-navy/10 rounded-xl p-8 min-[680px]:min-h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
+            class="flex flex-col items-center bd-md:items-start gap-6 bd-md:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-bluedot-navy/10 rounded-xl p-8 bd-md:min-h-[288px] mx-auto md:mx-0 max-w-[350px] bd-md:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
           >
             <div
-              class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 "
+              class="size-14 bd-md:size-14 rounded-lg flex items-center justify-center flex-shrink-0 "
               style="background-color: #5C1F2E;"
             >
               <svg
@@ -752,7 +752,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
               </svg>
             </div>
             <p
-              class="bluedot-p not-prose text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-bluedot-navy"
+              class="bluedot-p not-prose text-[18px] bd-md:leading-[160%] leading-[1.6] text-bluedot-navy"
             >
               <span
                 class="font-semibold"
@@ -766,10 +766,10 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
             </p>
           </div>
           <div
-            class="flex flex-col items-center min-[680px]:items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-bluedot-navy/10 rounded-xl p-8 min-[680px]:min-h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
+            class="flex flex-col items-center bd-md:items-start gap-6 bd-md:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-bluedot-navy/10 rounded-xl p-8 bd-md:min-h-[288px] mx-auto md:mx-0 max-w-[350px] bd-md:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
           >
             <div
-              class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 "
+              class="size-14 bd-md:size-14 rounded-lg flex items-center justify-center flex-shrink-0 "
               style="background-color: #5C1F2E;"
             >
               <svg
@@ -788,7 +788,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
               </svg>
             </div>
             <p
-              class="bluedot-p not-prose text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-bluedot-navy"
+              class="bluedot-p not-prose text-[18px] bd-md:leading-[160%] leading-[1.6] text-bluedot-navy"
             >
               <span
                 class="font-semibold"
@@ -802,10 +802,10 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
             </p>
           </div>
           <div
-            class="flex flex-col items-center min-[680px]:items-start gap-6 min-[680px]:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-bluedot-navy/10 rounded-xl p-8 min-[680px]:min-h-[288px] mx-auto md:mx-0 max-w-[350px] min-[680px]:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
+            class="flex flex-col items-center bd-md:items-start gap-6 bd-md:justify-start min-[768px]:justify-start min-[1200px]:justify-start bg-white border border-bluedot-navy/10 rounded-xl p-8 bd-md:min-h-[288px] mx-auto md:mx-0 max-w-[350px] bd-md:max-w-[296px] md:max-w-none min-[1200px]:min-h-[264px]"
           >
             <div
-              class="size-14 min-[680px]:size-14 rounded-lg flex items-center justify-center flex-shrink-0 "
+              class="size-14 bd-md:size-14 rounded-lg flex items-center justify-center flex-shrink-0 "
               style="background-color: #5C1F2E;"
             >
               <svg
@@ -824,7 +824,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
               </svg>
             </div>
             <p
-              class="bluedot-p not-prose text-[18px] min-[680px]:leading-[160%] leading-[1.6] text-bluedot-navy"
+              class="bluedot-p not-prose text-[18px] bd-md:leading-[160%] leading-[1.6] text-bluedot-navy"
             >
               <span
                 class="font-semibold"
@@ -871,10 +871,10 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
       class="w-full bg-white"
     >
       <div
-        class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 md:px-spacing-x min-[1280px]:py-24 xl:py-24"
+        class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 md:px-spacing-x xl:py-24 xl:py-24"
       >
         <h2
-          class="bluedot-h2 not-prose text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy text-center mb-16 tracking-[-0.01em]"
+          class="bluedot-h2 not-prose text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy text-center mb-16 tracking-[-0.01em]"
         >
           What you'll get
         </h2>
@@ -1003,15 +1003,15 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
       id="structure"
     >
       <div
-        class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24 flex flex-col items-center gap-8 md:gap-10"
+        class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24 flex flex-col items-center gap-8 md:gap-10"
       >
         <h2
-          class="bluedot-h2 not-prose w-full min-[680px]:max-w-[840px] text-[28px] min-[680px]:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]"
+          class="bluedot-h2 not-prose w-full bd-md:max-w-[840px] text-[28px] bd-md:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]"
         >
           Program information
         </h2>
         <div
-          class="w-full min-[680px]:max-w-[840px] bg-white border border-bluedot-navy/10 rounded-xl py-8 flex flex-col items-center gap-6"
+          class="w-full bd-md:max-w-[840px] bg-white border border-bluedot-navy/10 rounded-xl py-8 flex flex-col items-center gap-6"
         >
           <div
             class="flex flex-col w-full"
@@ -1021,7 +1021,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                 class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
               >
                 <div
-                  class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
+                  class="md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0"
                 >
                   <p
                     class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
@@ -1074,7 +1074,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                 class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
               >
                 <div
-                  class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
+                  class="md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0"
                 >
                   <p
                     class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
@@ -1101,7 +1101,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                 class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
               >
                 <div
-                  class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
+                  class="md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0"
                 >
                   <p
                     class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
@@ -1128,7 +1128,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
                 class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
               >
                 <div
-                  class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
+                  class="md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0"
                 >
                   <p
                     class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
@@ -1159,13 +1159,13 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
       id="faq"
     >
       <div
-        class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x py-12 min-[680px]:pt-16 min-[680px]:pb-12 min-[1024px]:py-16 min-[1280px]:py-24"
+        class="max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-spacing-x py-12 bd-md:pt-16 bd-md:pb-12 lg:py-16 xl:py-24"
       >
         <div
           class="max-w-[928px] mx-auto flex flex-col gap-12 md:gap-16"
         >
           <h2
-            class="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy text-center"
+            class="text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy text-center"
           >
             Frequently Asked Questions
           </h2>
@@ -1468,14 +1468,14 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
       </div>
     </section>
     <section
-      class="w-full pb-12 min-[680px]:pb-16 min-[1024px]:pb-16 min-[1280px]:pb-24"
+      class="w-full pb-12 bd-md:pb-16 lg:pb-16 xl:pb-24"
     >
       <div
-        class="max-w-max-width mx-auto px-5 min-[680px]:px-8 lg:px-spacing-x"
+        class="max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-spacing-x"
       >
         <div
           aria-label="Incubator Week banner"
-          class="relative w-full h-[382px] min-[680px]:h-[360px] mx-auto overflow-hidden rounded-xl bg-bluedot-navy bg-cover bg-center xl:max-w-[1118px]"
+          class="relative w-full h-[382px] bd-md:h-[360px] mx-auto overflow-hidden rounded-xl bg-bluedot-navy bg-cover bg-center xl:max-w-[1118px]"
           role="img"
           style="background-image: url("/images/lander/agi-strategy/hero-banner-split.webp");"
         >
@@ -1492,7 +1492,7 @@ Currently on hiatus. Fill out our application to join the waitlist for future co
               src="/images/agi-strategy/bluedot-icon.svg"
             />
             <h3
-              class="bluedot-h3 not-prose max-w-[238px] min-[680px]:max-w-[496px] text-[20px] min-[680px]:text-[36px] font-[600] text-white leading-[140%] min-[680px]:leading-[125%]"
+              class="bluedot-h3 not-prose max-w-[238px] bd-md:max-w-[496px] text-[20px] bd-md:text-[36px] font-[600] text-white leading-[140%] bd-md:leading-[125%]"
             >
               Ready to build something that matters?
             </h3>

@@ -355,8 +355,8 @@ describe('EventsSection', () => {
 
   // Helper to get event titles in order from the desktop layout (single row)
   const getDesktopEventTitles = (container: HTMLElement): string[] => {
-    // Desktop layout uses flex, find the container with "hidden min-[1280px]:flex"
-    const desktopContainer = container.querySelector('.hidden.min-\\[1280px\\]\\:flex');
+    // Desktop layout uses flex, find the container with "hidden xl:flex"
+    const desktopContainer = container.querySelector('.hidden.xl\\:flex');
     if (!desktopContainer) {
       return [];
     }

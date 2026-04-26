@@ -37,7 +37,7 @@ const WhatThisIsForSection = () => {
           <P>Alongside funding, you also get:</P>
         </div>
 
-        <div className="pt-2 grid gap-8 grid-cols-1 min-[680px]:grid-cols-3">
+        <div className="pt-2 grid gap-8 grid-cols-1 bd-md:grid-cols-3">
           {SUPPORT_CARDS.map(({ icon: Icon, title, description }) => (
             <div key={title} className="flex flex-col gap-5">
               <div className="size-14 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-lighter/40">

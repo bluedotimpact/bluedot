@@ -171,15 +171,15 @@ const TestimonialCarousel = ({
     : 'Meet our alumni shaping AI\'s future';
 
   const headerSizeClasses = variant === 'homepage'
-    ? 'text-[28px] min-[680px]:text-[36px] min-[1024px]:text-[40px] min-[1280px]:text-[48px]'
-    : 'text-[28px] min-[680px]:text-[32px] xl:text-[36px]';
+    ? 'text-[28px] bd-md:text-[36px] lg:text-[40px] xl:text-[48px]'
+    : 'text-[28px] bd-md:text-[32px] xl:text-[36px]';
 
   return (
-    <section className="w-full bg-white py-12 md:py-16 lg:py-20 xl:py-24 px-5 min-[680px]:px-8 lg:px-12 xl:px-16 2xl:px-20">
+    <section className="w-full bg-white py-12 md:py-16 lg:py-20 xl:py-24 px-5 bd-md:px-8 lg:px-12 xl:px-16 2xl:px-20">
       {/* Header Container */}
-      <div className="mx-auto max-w-screen-xl mb-8 min-[680px]:mb-16 min-[1024px]:mb-20 min-[1440px]:mb-16">
+      <div className="mx-auto max-w-screen-xl mb-8 bd-md:mb-16 min-[1024px]:mb-20 min-[1440px]:mb-16">
         {/* Header Section */}
-        <div className="flex flex-col items-center text-center min-[680px]:flex-row min-[680px]:items-end min-[680px]:justify-between min-[680px]:text-left gap-8 min-[680px]:gap-16">
+        <div className="flex flex-col items-center text-center bd-md:flex-row bd-md:items-end bd-md:justify-between bd-md:text-left gap-8 bd-md:gap-16">
           {/* Header Content */}
           <div className="flex flex-col gap-8">
             {variant === 'homepage' ? (
@@ -200,7 +200,7 @@ const TestimonialCarousel = ({
               </H2>
             )}
             {subtitle && (
-              <P className="text-[16px] min-[680px]:text-[18px] font-normal leading-[160%] text-bluedot-navy/80 max-w-full">
+              <P className="text-[16px] bd-md:text-[18px] font-normal leading-[160%] text-bluedot-navy/80 max-w-full">
                 {subtitle}
               </P>
             )}
@@ -208,7 +208,7 @@ const TestimonialCarousel = ({
 
           {/* Navigation Buttons - Desktop (carousel only) */}
           {shouldLoop && (
-            <div className="hidden min-[680px]:flex gap-3 flex-shrink-0">
+            <div className="hidden bd-md:flex gap-3 flex-shrink-0">
               <NavigationButton
                 direction="left"
                 onClick={() => scroll('left')}
@@ -226,14 +226,14 @@ const TestimonialCarousel = ({
 
       {shouldLoop ? (
         /* Scrolling carousel: bleeds to viewport edges, auto-advances, loops */
-        <div className="relative -mx-5 min-[680px]:-mx-8 lg:-mx-12 xl:-mx-16 2xl:-mx-20">
+        <div className="relative -mx-5 bd-md:-mx-8 lg:-mx-12 xl:-mx-16 2xl:-mx-20">
           <div id="community-carousel-description" className="sr-only">
             This carousel uses infinite scrolling and auto-advances every few seconds. Hover to pause auto-scrolling. Use arrow keys to navigate when focused. Navigation buttons allow manual control.
           </div>
 
           <div
             ref={scrollContainerRef}
-            className="grid grid-flow-col auto-rows-fr overflow-x-auto scrollbar-none px-5 min-[680px]:px-8 lg:px-12 xl:pl-[max(64px,calc(50vw-640px))] xl:pr-16 2xl:pl-[max(80px,calc(50vw-640px))] 2xl:pr-20 gap-[20px] min-[680px]:gap-[24px] min-[1280px]:gap-[32px]"
+            className="grid grid-flow-col auto-rows-fr overflow-x-auto scrollbar-none px-5 bd-md:px-8 lg:px-12 xl:pl-[max(64px,calc(50vw-640px))] xl:pr-16 2xl:pl-[max(80px,calc(50vw-640px))] 2xl:pr-20 gap-[20px] bd-md:gap-[24px] xl:gap-[32px]"
             style={{
               scrollSnapType: 'none',
               scrollBehavior: 'auto',
@@ -260,7 +260,7 @@ const TestimonialCarousel = ({
       ) : (
         /* Too few to fill the viewport: render once, left-aligned, equal heights. */
         <div className="mx-auto max-w-screen-xl">
-          <div className="grid auto-rows-fr gap-[20px] min-[680px]:gap-[24px] min-[1280px]:gap-[32px] grid-cols-[repeat(auto-fit,276px)] min-[680px]:grid-cols-[repeat(auto-fit,288px)] min-[1280px]:grid-cols-[repeat(auto-fit,320px)]">
+          <div className="grid auto-rows-fr gap-[20px] bd-md:gap-[24px] xl:gap-[32px] grid-cols-[repeat(auto-fit,276px)] bd-md:grid-cols-[repeat(auto-fit,288px)] xl:grid-cols-[repeat(auto-fit,320px)]">
             {testimonials.map((testimonial, index) => (
               <div key={`${testimonial.name}-${index}`} className="h-full">
                 <TestimonialMemberCard testimonial={testimonial} hideQuote={hideQuotes} />
@@ -272,7 +272,7 @@ const TestimonialCarousel = ({
 
       {/* Mobile Navigation Buttons (carousel only) */}
       {shouldLoop && (
-        <div className="flex min-[680px]:hidden gap-3 justify-center mt-8">
+        <div className="flex bd-md:hidden gap-3 justify-center mt-8">
           <NavigationButton
             direction="left"
             onClick={() => scroll('left')}
@@ -293,7 +293,7 @@ const TestimonialMemberCard = ({ testimonial, hideQuote = false }: { testimonial
   const hasQuote = !hideQuote && testimonial.quote?.trim();
 
   const imageBlock = (
-    <div className="flex-shrink-0 w-full h-[296px] min-[680px]:h-[320px]">
+    <div className="flex-shrink-0 w-full h-[296px] bd-md:h-[320px]">
       <img
         src={testimonial.imageSrc}
         alt={`Profile of ${testimonial.name}`}
@@ -342,7 +342,7 @@ const TestimonialMemberCard = ({ testimonial, hideQuote = false }: { testimonial
     </>
   );
 
-  const cardClasses = 'flex flex-col flex-shrink-0 h-full bg-white border border-bluedot-navy/10 rounded-xl overflow-hidden w-[276px] min-[680px]:w-[288px] min-[1280px]:w-[320px]';
+  const cardClasses = 'flex flex-col flex-shrink-0 h-full bg-white border border-bluedot-navy/10 rounded-xl overflow-hidden w-[276px] bd-md:w-[288px] xl:w-[320px]';
 
   if (testimonial.url) {
     return (

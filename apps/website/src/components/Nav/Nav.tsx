@@ -72,7 +72,7 @@ export const Nav: React.FC<NavProps> = ({ variant: variantProp }) => {
   return (
     <nav className={getNavClasses()}>
       <div className="nav__container section-base">
-        <div className="nav__bar w-full flex justify-between items-center min-h-(--nav-height-mobile) min-[1024px]:min-h-(--nav-height-desktop)">
+        <div className="nav__bar w-full flex justify-between items-center min-h-(--nav-height-mobile) lg:min-h-(--nav-height-desktop)">
           {/* Left side: Logo */}
           <div className="flex items-center">
             {/* Mobile & Tablet: Hamburger Button */}

@@ -204,7 +204,7 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
       />
 
       <section className="section section-body">
-        <div className="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto flex flex-col gap-8">
+        <div className="w-full bd-md:max-w-[840px] bd-md:mx-auto flex flex-col gap-8">
           <div className="flex flex-wrap gap-3">
             <CTALinkOrButton url={applyUrl} target="_blank">
               {ctaLabel}

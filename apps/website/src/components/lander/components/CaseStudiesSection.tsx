@@ -20,9 +20,9 @@ const CaseStudiesSection = ({
 }: CaseStudiesSectionProps) => {
   return (
     <section className="w-full bg-white">
-      <div className="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24">
+      <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24">
         <div className="text-center mb-12 md:mb-16">
-          <H2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
+          <H2 className="text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
             {title}
           </H2>
           {subtitle && (
@@ -31,11 +31,11 @@ const CaseStudiesSection = ({
             </P>
           )}
         </div>
-        <div className="grid grid-cols-1 min-[680px]:grid-cols-2 gap-6 lg:gap-8 max-w-[900px] mx-auto">
+        <div className="grid grid-cols-1 bd-md:grid-cols-2 gap-6 lg:gap-8 max-w-[900px] mx-auto">
           {caseStudies.map((study) => (
             <div
               key={study.name}
-              className="flex flex-col gap-4 p-6 min-[680px]:p-8 bg-[#FAFAFA] rounded-xl"
+              className="flex flex-col gap-4 p-6 bd-md:p-8 bg-[#FAFAFA] rounded-xl"
             >
               <div className="flex items-center gap-4">
                 {study.imageSrc && (

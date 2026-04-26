@@ -47,30 +47,30 @@ const CourseInformationSection = ({
 }: CourseInformationSectionProps) => {
   return (
     <section id={id} className="w-full bg-white">
-      <div className="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24 flex flex-col items-center gap-8 md:gap-10">
+      <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24 flex flex-col items-center gap-8 md:gap-10">
         {/* Section Title */}
-        <H2 className="w-full min-[680px]:max-w-[840px] text-[28px] min-[680px]:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
+        <H2 className="w-full bd-md:max-w-[840px] text-[28px] bd-md:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
           {title}
         </H2>
 
         {/* White Card Container — capped to the same 840px column as ScheduleListSection. */}
-        <div className="w-full min-[680px]:max-w-[840px] bg-white border border-bluedot-navy/10 rounded-xl py-8 flex flex-col items-center gap-6">
+        <div className="w-full bd-md:max-w-[840px] bg-white border border-bluedot-navy/10 rounded-xl py-8 flex flex-col items-center gap-6">
           {/* Course Details List */}
           <div className="flex flex-col w-full">
             {details.map((detail, index) => (
               <div key={detail.label}>
                 {detail.isSchedule ? (
                   /* Schedule section  */
-                  <div className="flex flex-col min-[680px]:flex-row px-5 min-[680px]:px-8 py-0 gap-6 min-[680px]:gap-6 md:gap-8 items-start w-full">
+                  <div className="flex flex-col bd-md:flex-row px-5 bd-md:px-8 py-0 gap-6 bd-md:gap-6 md:gap-8 items-start w-full">
                     {/* Schedule Label (left column, no icon) */}
-                    <div className="min-[680px]:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0">
+                    <div className="bd-md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0">
                       <P className="text-[16px] font-semibold leading-[125%] text-bluedot-navy">
                         {detail.label}
                       </P>
                     </div>
 
                     {/* Schedule Content (right column) */}
-                    <div className="w-full min-[680px]:flex-1 min-[680px]:min-w-0">
+                    <div className="w-full bd-md:flex-1 bd-md:min-w-0">
                       <ScheduleRounds
                         courseSlug={courseSlug}
                         applicationUrl={applicationUrl}
@@ -96,7 +96,7 @@ const CourseInformationSection = ({
                 ) : (
                   <div className="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8">
                     {/* Label */}
-                    <div className="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0">
+                    <div className="md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0">
                       <P className="text-[16px] font-semibold leading-[125%] text-bluedot-navy">
                         {detail.label}
                       </P>

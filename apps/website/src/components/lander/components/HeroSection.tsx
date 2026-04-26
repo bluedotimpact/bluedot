@@ -61,11 +61,11 @@ const HeroSection = ({
     >
       {layoutType === 'constrained' && (
         /* Constrained image layout: centered on mobile, pixel-perfect image sizing */
-        <div className="relative max-w-max-width mx-auto px-8 min-[1024px]:pl-[80px] min-[1024px]:pr-0">
+        <div className="relative max-w-max-width mx-auto px-8 lg:pl-[80px] lg:pr-0">
           {/* Mobile/Tablet: Single column centered layout */}
-          <div className="flex flex-col items-center gap-8 pt-[calc(var(--nav-height-mobile)+32px)] pb-8 min-[680px]:pt-[calc(var(--nav-height-mobile)+48px)] min-[1024px]:hidden">
+          <div className="flex flex-col items-center gap-8 pt-[calc(var(--nav-height-mobile)+32px)] pb-8 bd-md:pt-[calc(var(--nav-height-mobile)+48px)] lg:hidden">
             {/* Image - centered, sized per breakpoint */}
-            <div className="flex items-center justify-center w-[280px] min-[680px]:w-[400px]" style={{ aspectRatio: imageAspectRatio }}>
+            <div className="flex items-center justify-center w-[280px] bd-md:w-[400px]" style={{ aspectRatio: imageAspectRatio }}>
               <img src={imageSrc} alt={imageAlt} className="size-full object-contain" />
             </div>
 
@@ -80,20 +80,20 @@ const HeroSection = ({
                     {categoryLabel}
                   </p>
                 )}
-                <h1 className="text-[32px] min-[680px]:text-[40px] leading-tight font-semibold tracking-[-0.5px] text-white">
+                <h1 className="text-[32px] bd-md:text-[40px] leading-tight font-semibold tracking-[-0.5px] text-white">
                   {title}
                 </h1>
-                <p className="text-[16px] min-[680px]:text-[18px] leading-[1.6] opacity-80 text-white whitespace-pre-line">
+                <p className="text-[16px] bd-md:text-[18px] leading-[1.6] opacity-80 text-white whitespace-pre-line">
                   {description}
                 </p>
               </div>
 
               {/* CTA Buttons - stacked on mobile, side-by-side on tablet */}
-              <div className="flex flex-col min-[680px]:flex-row gap-3 w-full min-[680px]:w-auto min-[680px]:justify-center">
+              <div className="flex flex-col bd-md:flex-row gap-3 w-full bd-md:w-auto bd-md:justify-center">
                 <CTALinkOrButton
                   url={primaryCta.url}
                   variant="unstyled"
-                  className="h-[50px] px-5 py-3 text-[16px] font-medium rounded-md cursor-pointer transition-all text-bluedot-navy w-full min-[680px]:w-auto hover:brightness-90"
+                  className="h-[50px] px-5 py-3 text-[16px] font-medium rounded-md cursor-pointer transition-all text-bluedot-navy w-full bd-md:w-auto hover:brightness-90"
                   style={accentColor ? { backgroundColor: accentColor } : undefined}
                 >
                   {primaryCta.text}
@@ -103,7 +103,7 @@ const HeroSection = ({
                   <CTALinkOrButton
                     url={secondaryCta.url}
                     variant="unstyled"
-                    className="h-[50px] px-5 py-3 text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-all border w-full min-[680px]:w-auto hover:bg-white/10"
+                    className="h-[50px] px-5 py-3 text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-all border w-full bd-md:w-auto hover:bg-white/10"
                     style={accentColor ? { borderColor: accentColor, color: accentColor } : undefined}
                   >
                     {secondaryCta.text}
@@ -114,7 +114,7 @@ const HeroSection = ({
           </div>
 
           {/* Desktop: Side-by-side layout with absolute positioned image */}
-          <div className="hidden min-[1024px]:block">
+          <div className="hidden lg:block">
             <div className="w-3/5 min-h-[600px] flex items-center pt-[var(--nav-height-desktop)] pr-[200px]">
               <div className="w-full space-y-8">
                 <div className="space-y-4">
@@ -173,7 +173,7 @@ const HeroSection = ({
       {layoutType === 'gradient' && (
         /* Gradient with standard layout: image extends to viewport edge */
         <div className="relative">
-          <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-spacing-x">
+          <div className="max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-spacing-x">
             <div className="py-8 sm:pt-8 lg:py-0 lg:w-1/2 lg:min-h-[600px] lg:flex lg:items-center">
               <div className="w-full lg:max-w-[512px] space-y-8">
 
@@ -233,7 +233,7 @@ const HeroSection = ({
       {layoutType === 'light' && (
         /* Light variant: image extends to viewport edge */
         <div className="relative">
-          <div className="max-w-max-width mx-auto px-5 min-[680px]:px-8 min-[1024px]:px-spacing-x">
+          <div className="max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-spacing-x">
             <div className="py-8 sm:pt-8 lg:py-0 lg:w-1/2 lg:min-h-[600px] lg:flex lg:items-center">
               <div className="w-full lg:max-w-[512px] space-y-8">
 

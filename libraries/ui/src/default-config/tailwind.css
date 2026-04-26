@@ -63,6 +63,12 @@
     --spacing-spacing-x: var(--spacing-x);
     --spacing-spacing-y: var(--spacing-y);
     --spacing-space-between: var(--space-between);
+
+    /* BlueDot-specific named breakpoint. Tailwind defaults (sm 640 / md 768 / lg 1024 / xl 1280 / 2xl 1536) stay available.
+     * 680 gets a bd- alias because it is bespoke; 1024 / 1280 already match lg / xl so use those directly.
+     * 1920 stays as the rare arbitrary `min-[1920px]:` because Tailwind v4 emits custom breakpoints before defaults
+     * in the cascade, so a named breakpoint above xl/2xl would lose to xl/2xl at the higher viewport. */
+    --breakpoint-bd-md: 680px;
 }
 
 @layer base {

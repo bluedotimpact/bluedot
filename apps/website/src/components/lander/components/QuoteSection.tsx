@@ -40,9 +40,9 @@ const FONT_SIZE_THRESHOLDS = {
 } as const;
 
 const FONT_SIZE_CLASSES = {
-  EXTRA_LONG: 'text-[12px] sm:text-[14px] min-[680px]:text-[16px] lg:text-[16px] xl:text-[20px]', // For quotes > 400 chars
-  LONG: 'text-[16px] sm:text-[18px] min-[680px]:text-[20px] lg:text-[20px] xl:text-[24px]', // For quotes 200-400 chars
-  DEFAULT: 'text-[20px] min-[680px]:text-[24px] lg:text-[28px] xl:text-[32px]', // For quotes < 200 chars
+  EXTRA_LONG: 'text-[12px] sm:text-[14px] bd-md:text-[16px] lg:text-[16px] xl:text-[20px]', // For quotes > 400 chars
+  LONG: 'text-[16px] sm:text-[18px] bd-md:text-[20px] lg:text-[20px] xl:text-[24px]', // For quotes 200-400 chars
+  DEFAULT: 'text-[20px] bd-md:text-[24px] lg:text-[28px] xl:text-[32px]', // For quotes < 200 chars
 } as const;
 
 // Automatically determine font size based on quote length
@@ -66,9 +66,9 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
   cardBackgroundColor?: string;
 }) => {
   const cardContent = (
-    <div className="flex flex-col lg:flex-row-reverse w-full h-[465px] min-[680px]:!h-[377px] lg:h-[385px]">
+    <div className="flex flex-col lg:flex-row-reverse w-full h-[465px] bd-md:!h-[377px] lg:h-[385px]">
       {/* Quote and author info */}
-      <div className="flex flex-col items-center lg:items-start py-8 px-6 min-[680px]:!py-8 min-[680px]:!px-6 lg:!p-16 gap-6 sm:gap-8 min-[680px]:gap-12 flex-grow justify-between">
+      <div className="flex flex-col items-center lg:items-start py-8 px-6 bd-md:!py-8 bd-md:!px-6 lg:!p-16 gap-6 sm:gap-8 bd-md:gap-12 flex-grow justify-between">
         {/* Quote text - sizing automatically determined by content length */}
         <blockquote
           className={`${getFontSizeForQuote(quote.quote)} leading-normal lg:leading-tight font-semibold text-center lg:text-left`}
@@ -149,14 +149,14 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
 // since text sits on a white background with no card to fill.
 const getEditorialFontSize = (quote: string): string => {
   if (quote.length > FONT_SIZE_THRESHOLDS.EXTRA_LONG) {
-    return 'text-[18px] min-[680px]:text-[20px] lg:text-[22px]';
+    return 'text-[18px] bd-md:text-[20px] lg:text-[22px]';
   }
 
   if (quote.length > FONT_SIZE_THRESHOLDS.LONG) {
-    return 'text-[20px] min-[680px]:text-[22px] lg:text-[24px]';
+    return 'text-[20px] bd-md:text-[22px] lg:text-[24px]';
   }
 
-  return 'text-[22px] min-[680px]:text-[24px] lg:text-[28px]';
+  return 'text-[22px] bd-md:text-[24px] lg:text-[28px]';
 };
 
 const QuoteSection = ({
@@ -227,13 +227,13 @@ const QuoteSection = ({
         <img
           src={activeQuote.imageSrc}
           alt={activeQuote.name}
-          className="size-16 min-[680px]:size-20 rounded-xl object-cover flex-shrink-0"
+          className="size-16 bd-md:size-20 rounded-xl object-cover flex-shrink-0"
         />
         <div className="flex flex-col">
-          <div className="text-[16px] min-[680px]:text-[17px] font-semibold leading-[1.4] text-bluedot-navy group-hover:text-bluedot-normal transition-colors">
+          <div className="text-[16px] bd-md:text-[17px] font-semibold leading-[1.4] text-bluedot-navy group-hover:text-bluedot-normal transition-colors">
             {activeQuote.name}
           </div>
-          <div className="text-[15px] min-[680px]:text-[16px] leading-[1.5] text-bluedot-navy/60">
+          <div className="text-[15px] bd-md:text-[16px] leading-[1.5] text-bluedot-navy/60">
             {activeQuote.role}
           </div>
         </div>
@@ -250,8 +250,8 @@ const QuoteSection = ({
         aria-live="polite"
         aria-atomic="true"
       >
-        <div className="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24">
-          <div className="w-full min-[680px]:max-w-[840px] min-[680px]:mx-auto flex flex-col gap-8">
+        <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24">
+          <div className="w-full bd-md:max-w-[840px] bd-md:mx-auto flex flex-col gap-8">
             <blockquote
               className={`${getEditorialFontSize(activeQuote.quote)} leading-[1.5] font-medium text-bluedot-navy`}
             >
@@ -320,7 +320,7 @@ const QuoteSection = ({
 
   return (
     <section
-      className="relative w-full py-12 px-5 sm:px-5 min-[680px]:py-16 min-[680px]:px-8 lg:py-12 xl:py-24 overflow-x-hidden"
+      className="relative w-full py-12 px-5 sm:px-5 bd-md:py-16 bd-md:px-8 lg:py-12 xl:py-24 overflow-x-hidden"
       style={{ backgroundColor: DEFAULT_COLORS.background }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
@@ -330,14 +330,14 @@ const QuoteSection = ({
       aria-atomic="true"
     >
       {/* Main content container */}
-      <div className="flex flex-col items-center gap-8 w-full max-w-[calc(100vw-40px)] min-[680px]:max-w-none min-[680px]:w-[calc(100vw-64px)] lg:w-auto lg:max-w-none mx-auto overflow-visible">
+      <div className="flex flex-col items-center gap-8 w-full max-w-[calc(100vw-40px)] bd-md:max-w-none bd-md:w-[calc(100vw-64px)] lg:w-auto lg:max-w-none mx-auto overflow-visible">
         {/* Quote cards container */}
         <div className="relative w-full">
           {/* Mobile and Tablet layout (below 1024px) */}
           <div className="lg:hidden relative">
             {/* Main quote card - centered */}
             <div className="flex justify-center w-full">
-              <div className="w-[calc(100vw-40px)] min-[680px]:w-[calc(100vw-64px)] relative z-10">
+              <div className="w-[calc(100vw-40px)] bd-md:w-[calc(100vw-64px)] relative z-10">
                 <QuoteCard quote={activeQuote} isActive cardBackgroundColor={cardBackgroundColor} />
               </div>
             </div>
@@ -355,7 +355,7 @@ const QuoteSection = ({
         </div>
 
         {/* Navigation controls - Match 680px Figma specs exactly */}
-        <div className="flex items-center justify-center w-[calc(100vw-40px)] min-[680px]:gap-8 min-[680px]:w-[calc(100vw-64px)] lg:w-[928px] lg:h-[38px] lg:gap-8 relative z-10">
+        <div className="flex items-center justify-center w-[calc(100vw-40px)] bd-md:gap-8 bd-md:w-[calc(100vw-64px)] lg:w-[928px] lg:h-[38px] lg:gap-8 relative z-10">
           {isDesktop && (
             <button
               type="button"
@@ -375,17 +375,17 @@ const QuoteSection = ({
           )}
 
           {/* Selector container - Mobile: 280px width, 64px indicators | Desktop: 408px width, 96px indicators */}
-          <div className="flex gap-2 w-[280px] h-[38px] min-[680px]:w-[408px] min-[680px]:h-[38px] lg:w-[408px] lg:h-[38px]">
+          <div className="flex gap-2 w-[280px] h-[38px] bd-md:w-[408px] bd-md:h-[38px] lg:w-[408px] lg:h-[38px]">
             {quotes.map((quote, index) => (
               <button
                 type="button"
                 key={`indicator-${quote.name}`}
                 onClick={() => handleIndicatorClick(index)}
-                className="flex-1 py-4 h-[38px] min-[680px]:flex-none min-[680px]:w-24 min-[680px]:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
+                className="flex-1 py-4 h-[38px] bd-md:flex-none bd-md:w-24 bd-md:h-[38px] lg:w-24 lg:h-[38px] cursor-pointer transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
                 aria-label={`Go to quote ${index + 1}`}
               >
                 <div
-                  className="w-full min-[680px]:w-24 h-1.5 rounded transition-all duration-300"
+                  className="w-full bd-md:w-24 h-1.5 rounded transition-all duration-300"
                   style={{
                     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                     backgroundColor: index === activeIndex ? (accentColor || DEFAULT_COLORS.accent) : DEFAULT_COLORS.text,

@@ -54,12 +54,12 @@ const NewsletterBanner = () => {
   };
 
   return (
-    <div className="relative w-full min-[680px]:border min-[680px]:border-[rgba(0,0,0,0.08)] min-[680px]:rounded-xl overflow-hidden">
+    <div className="relative w-full bd-md:border bd-md:border-[rgba(0,0,0,0.08)] bd-md:rounded-xl overflow-hidden">
       {/* Background Layers - Non-interactive */}
       <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
         {/* Background Image - Flipped Horizontally */}
         <div
-          className="absolute inset-0 min-[680px]:rounded-xl -scale-x-100 bg-cover"
+          className="absolute inset-0 bd-md:rounded-xl -scale-x-100 bg-cover"
           style={{
             backgroundImage: 'url(\'/images/homepage/hero.webp\')',
             backgroundPosition: '50% 60%',
@@ -68,7 +68,7 @@ const NewsletterBanner = () => {
 
         {/* Overlay */}
         <div
-          className="absolute inset-0 min-[680px]:rounded-xl"
+          className="absolute inset-0 bd-md:rounded-xl"
           style={{
             background: 'linear-gradient(to bottom, rgba(0,0,0,0) 5.172%, rgba(0,0,0,0.6) 100%)',
             mixBlendMode: 'overlay', // Tailwind doesn't support mix-blend-mode
@@ -77,7 +77,7 @@ const NewsletterBanner = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center min-[680px]:items-start gap-8 pt-8 px-6 pb-0 min-[680px]:py-10 min-[680px]:px-8 lg:py-16 lg:px-12">
+      <div className="relative z-10 flex flex-col items-center bd-md:items-start gap-8 pt-8 px-6 pb-0 bd-md:py-10 bd-md:px-8 lg:py-16 lg:px-12">
         <div className="flex flex-col gap-4 w-full">
           <span className="text-[10px] leading-[14px] tracking-[0.5px] uppercase text-white opacity-70 font-medium">
             Newsletter
@@ -152,7 +152,7 @@ const NewsletterBanner = () => {
         <img
           src="/images/homepage/newsletter.svg"
           alt=""
-          className="min-[680px]:hidden lg:block size-[140px] lg:absolute lg:top-10 lg:right-6 lg:size-64 2xl:top-6 2xl:right-12 2xl:size-[280px] opacity-80"
+          className="bd-md:hidden lg:block size-[140px] lg:absolute lg:top-10 lg:right-6 lg:size-64 2xl:top-6 2xl:right-12 2xl:size-[280px] opacity-80"
         />
       </div>
     </div>

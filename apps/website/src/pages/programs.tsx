@@ -103,7 +103,7 @@ const ProgramsPage = () => {
       <Breadcrumbs route={ROUTES.programs} />
 
       <section className="section section-body bg-white">
-        <div className="flex flex-col gap-12 min-[1024px]:gap-14">
+        <div className="flex flex-col gap-12 lg:gap-14">
           <PageListGroup label="Active">
             {activePrograms.map(renderRow)}
           </PageListGroup>
@@ -112,7 +112,7 @@ const ProgramsPage = () => {
           </PageListGroup>
         </div>
 
-        <div className="flex justify-center pt-6 min-[680px]:pt-8 min-[1024px]:pt-10">
+        <div className="flex justify-center pt-6 bd-md:pt-8 lg:pt-10">
           <CTALinkOrButton
             url={ROUTES.courses.url}
             className="px-4 bg-bluedot-navy/10 text-bluedot-navy hover:text-bluedot-navy text-[15px] font-[450] tracking-[-0.3px] rounded-md hover:bg-bluedot-navy/15"

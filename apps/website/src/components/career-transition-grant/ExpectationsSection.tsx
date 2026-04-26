@@ -34,15 +34,15 @@ const ExpectationsSection = () => {
           {EXPECTATIONS.map((item) => (
             <li
               key={item.title}
-              className="flex flex-col min-[680px]:flex-row min-[680px]:items-baseline gap-3 min-[680px]:gap-10 py-6"
+              className="flex flex-col bd-md:flex-row bd-md:items-baseline gap-3 bd-md:gap-10 py-6"
             >
-              <div className="min-[680px]:w-[160px] min-[680px]:shrink-0">
+              <div className="bd-md:w-[160px] bd-md:shrink-0">
                 <span className="inline-flex items-center rounded-full bg-bluedot-navy/[0.06] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-bluedot-navy/70">
                   {item.cadence}
                 </span>
               </div>
               <div className="flex flex-col gap-2">
-                <h4 className="text-[18px] min-[680px]:text-[20px] font-semibold text-bluedot-navy">
+                <h4 className="text-[18px] bd-md:text-[20px] font-semibold text-bluedot-navy">
                   {item.title}
                 </h4>
                 <P className="text-size-sm leading-[1.65] text-bluedot-navy/80">

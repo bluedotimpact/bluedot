@@ -12,7 +12,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
         class="nav__container section-base"
       >
         <div
-          class="nav__bar w-full flex justify-between items-center min-h-(--nav-height-mobile) min-[1024px]:min-h-(--nav-height-desktop)"
+          class="nav__bar w-full flex justify-between items-center min-h-(--nav-height-mobile) lg:min-h-(--nav-height-desktop)"
         >
           <div
             class="flex items-center"
@@ -52,7 +52,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                 </svg>
               </button>
               <div
-                class="mobile-nav-links__drawer absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                class="mobile-nav-links__drawer absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
               >
                 <div
                   class="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 lg:hidden"
@@ -89,7 +89,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                       </button>
                       <div
                         aria-label="Courses menu"
-                        class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                        class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                         id="courses-dropdown"
                         role="region"
                       >
@@ -143,7 +143,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                       </button>
                       <div
                         aria-label="Programs menu"
-                        class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                        class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                         id="programs-dropdown"
                         role="region"
                       >
@@ -219,7 +219,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                       </button>
                       <div
                         aria-label="Explore menu"
-                        class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                        class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                         id="explore-dropdown"
                         role="region"
                       >
@@ -320,7 +320,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                 </button>
                 <div
                   aria-label="Courses menu"
-                  class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                  class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                   id="courses-dropdown"
                   role="region"
                 >
@@ -374,7 +374,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                 </button>
                 <div
                   aria-label="Programs menu"
-                  class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                  class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                   id="programs-dropdown"
                   role="region"
                 >
@@ -450,7 +450,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                 </button>
                 <div
                   aria-label="Explore menu"
-                  class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] min-[1024px]:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                  class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
                   id="explore-dropdown"
                   role="region"
                 >
@@ -502,7 +502,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                 Sign in
               </a>
               <a
-                class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--primary link-on-dark nav-cta__primary-cta hidden min-[680px]:flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-white hover:bg-white/90 text-[#02034B] hover:text-[#02034B]"
+                class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--primary link-on-dark nav-cta__primary-cta hidden bd-md:flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-white hover:bg-white/90 text-[#02034B] hover:text-[#02034B]"
                 href="/login?register=true&redirect_to=undefined"
                 tabindex="0"
               >
@@ -514,7 +514,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
       </div>
     </nav>
     <div
-      class="relative flex flex-col min-h-[653px] min-[680px]:max-[1023px]:min-h-[659px] min-[1024px]:max-[1279px]:min-h-[738px] min-[1280px]:max-[1439px]:min-h-[821px] min-[1440px]:min-h-[821px] w-full -scale-x-100"
+      class="relative flex flex-col min-h-[653px] bd-md:max-[1023px]:min-h-[659px] min-[1024px]:max-[1279px]:min-h-[738px] min-[1280px]:max-[1439px]:min-h-[821px] min-[1440px]:min-h-[821px] w-full -scale-x-100"
     >
       <img
         alt=""
@@ -523,24 +523,24 @@ exports[`HomeHeroContent > renders as expected 1`] = `
         src="/images/homepage/hero.webp"
       />
       <div
-        class="relative z-20 min-h-[60px] min-[680px]:max-[1023px]:min-h-[60px] min-[1024px]:min-h-[76px] -scale-x-100"
+        class="relative z-20 min-h-[60px] bd-md:max-[1023px]:min-h-[60px] lg:min-h-[76px] -scale-x-100"
       />
       <div
-        class="relative z-20 flex-1 flex flex-col justify-end px-5 py-12 min-[680px]:max-[1023px]:justify-center min-[680px]:max-[1023px]:px-8 min-[680px]:max-[1023px]:py-20 min-[1024px]:max-[1279px]:justify-center min-[1024px]:max-[1279px]:px-12 min-[1024px]:max-[1279px]:pt-32 min-[1024px]:max-[1279px]:pb-24 min-[1280px]:max-[1439px]:justify-start min-[1280px]:max-[1439px]:pt-40 min-[1280px]:max-[1439px]:pb-[120px] min-[1280px]:max-[1439px]:px-12 min-[1440px]:justify-center min-[1440px]:px-6 min-[1440px]:py-0 -scale-x-100"
+        class="relative z-20 flex-1 flex flex-col justify-end px-5 py-12 bd-md:max-[1023px]:justify-center bd-md:max-[1023px]:px-8 bd-md:max-[1023px]:py-20 min-[1024px]:max-[1279px]:justify-center min-[1024px]:max-[1279px]:px-12 min-[1024px]:max-[1279px]:pt-32 min-[1024px]:max-[1279px]:pb-24 min-[1280px]:max-[1439px]:justify-start min-[1280px]:max-[1439px]:pt-40 min-[1280px]:max-[1439px]:pb-[120px] min-[1280px]:max-[1439px]:px-12 min-[1440px]:justify-center min-[1440px]:px-6 min-[1440px]:py-0 -scale-x-100"
       >
         <div
           class="w-full max-w-[1488px] mx-auto min-[1440px]:px-6"
         >
           <div
-            class="w-full max-w-[280px] min-[680px]:max-[1023px]:max-w-[616px] min-[680px]:max-[1023px]:min-h-[348px] min-[1024px]:max-[1279px]:w-[768px] min-[1024px]:max-[1279px]:max-w-screen-md min-[1024px]:max-[1279px]:min-h-[347px] min-[1280px]:max-[1439px]:w-[768px] min-[1280px]:max-[1439px]:max-w-screen-md min-[1280px]:max-[1439px]:min-h-[374px] min-[1440px]:w-[900px] min-[1440px]:max-w-[900px] min-[1440px]:min-h-[374px] mx-auto flex flex-col justify-center items-center gap-8 text-center text-white"
+            class="w-full max-w-[280px] bd-md:max-[1023px]:max-w-[616px] bd-md:max-[1023px]:min-h-[348px] min-[1024px]:max-[1279px]:w-[768px] min-[1024px]:max-[1279px]:max-w-screen-md min-[1024px]:max-[1279px]:min-h-[347px] min-[1280px]:max-[1439px]:w-[768px] min-[1280px]:max-[1439px]:max-w-screen-md min-[1280px]:max-[1439px]:min-h-[374px] min-[1440px]:w-[900px] min-[1440px]:max-w-[900px] min-[1440px]:min-h-[374px] mx-auto flex flex-col justify-center items-center gap-8 text-center text-white"
           >
             <h1
-              class="bluedot-h1 not-prose w-full text-[40px] min-[680px]:max-[1023px]:text-[56px] min-[1024px]:max-[1279px]:w-[682px] min-[1024px]:max-[1279px]:text-[64px] min-[1280px]:max-[1439px]:w-[682px] min-[1280px]:max-[1439px]:text-[72px] min-[1440px]:w-[682px] min-[1440px]:text-[72px] leading-[115%] font-normal slide-up-fade-in flex items-center tracking-[-1px] text-white"
+              class="bluedot-h1 not-prose w-full text-[40px] bd-md:max-[1023px]:text-[56px] min-[1024px]:max-[1279px]:w-[682px] min-[1024px]:max-[1279px]:text-[64px] min-[1280px]:max-[1439px]:w-[682px] min-[1280px]:max-[1439px]:text-[72px] min-[1440px]:w-[682px] min-[1440px]:text-[72px] leading-[115%] font-normal slide-up-fade-in flex items-center tracking-[-1px] text-white"
             >
               We help you have a positive impact on the trajectory of AI
             </h1>
             <p
-              class="text-size-sm min-[680px]:max-[1023px]:text-[20px] min-[1024px]:text-[20px] leading-[155%] font-normal w-full max-w-[280px] min-[680px]:max-[1023px]:max-w-[616px] min-[1024px]:max-[1279px]:max-w-screen-md min-[1280px]:max-[1439px]:max-w-screen-md min-[1440px]:max-w-[900px] mx-auto tracking-[-0.005em]"
+              class="text-size-sm bd-md:max-[1023px]:text-[20px] min-[1024px]:text-[20px] leading-[155%] font-normal w-full max-w-[280px] bd-md:max-[1023px]:max-w-[616px] min-[1024px]:max-[1279px]:max-w-screen-md min-[1280px]:max-[1439px]:max-w-screen-md min-[1440px]:max-w-[900px] mx-auto tracking-[-0.005em]"
               style="font-feature-settings: "ss02" on;"
             >
               BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run courses, help people land jobs, organise events all over the world, and accelerate entrepreneurs to start new companies
@@ -552,7 +552,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
         class="relative z-20 -scale-x-100"
       >
         <section
-          class="w-full h-[106px] min-[680px]:h-[91px] bg-white flex items-center"
+          class="w-full h-[106px] bd-md:h-[91px] bg-white flex items-center"
         >
           <div
             class="w-full flex items-center justify-center 2xl:justify-end p-5 sm:px-6 md:px-12 2xl:pl-[272px] 2xl:pr-[48px]"

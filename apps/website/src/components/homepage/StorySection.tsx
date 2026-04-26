@@ -3,19 +3,19 @@ import { ROUTES } from '../../lib/routes';
 
 const StorySection = () => {
   return (
-    <section className="bg-white py-[48px] px-5 min-[680px]:py-[64px] min-[680px]:px-8 min-[1024px]:py-[80px] lg:px-12 min-[1280px]:py-[96px] xl:px-16 2xl:px-20">
+    <section className="bg-white py-[48px] px-5 bd-md:py-[64px] bd-md:px-8 lg:py-[80px] lg:px-12 xl:py-[96px] xl:px-16 2xl:px-20">
       <div className="flex flex-col items-center max-w-2xl mx-auto text-center">
-        <H2 className="text-[28px] min-[680px]:text-[36px] min-[1024px]:text-[40px] min-[1280px]:text-[48px] leading-tight tracking-[-1px] font-medium mb-[48px] min-[680px]:mb-[32px]">
+        <H2 className="text-[28px] bd-md:text-[36px] lg:text-[40px] xl:text-[48px] leading-tight tracking-[-1px] font-medium mb-[48px] bd-md:mb-[32px]">
           Who is BlueDot?
         </H2>
 
         <div className="flex flex-col gap-[32px] items-center">
           <div className="flex flex-col">
-            <P className="text-[16px] min-[680px]:text-[18px] leading-[1.6] opacity-80 mb-[1em]">
+            <P className="text-[16px] bd-md:text-[18px] leading-[1.6] opacity-80 mb-[1em]">
               BlueDot Impact is a non-profit talent accelerator based in London and San Francisco. We help people build careers and organizations that positively impact the trajectory of AI - through our courses, career support, events, and startup programs.
             </P>
 
-            <P className="text-[16px] min-[680px]:text-[18px] leading-[1.6] opacity-80 mb-0">
+            <P className="text-[16px] bd-md:text-[18px] leading-[1.6] opacity-80 mb-0">
               Since 2022, we've trained over 7,000 professionals worldwide, from technical staff at frontier AI labs to government policymakers. Our alumni work on critical challenges at organisations like Anthropic, Google DeepMind, and the UK's AI Security Institute. We're a small team, and we've raised $35M to date.
             </P>
           </div>

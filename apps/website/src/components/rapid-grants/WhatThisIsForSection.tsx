@@ -35,16 +35,16 @@ const WhatThisIsForSection = () => {
           </P>
         </div>
 
-        <div className="pt-2 grid gap-4 min-[680px]:grid-cols-2">
+        <div className="pt-2 grid gap-4 bd-md:grid-cols-2">
           {DECISION_CARDS.map((card) => (
             <div
               key={card.title}
               className="rounded-[16px] border border-bluedot-navy/10 bg-white p-6 lg:p-8 flex flex-col gap-3"
             >
-              <h4 className="text-[18px] min-[680px]:text-[20px] font-semibold leading-tight text-bluedot-navy">
+              <h4 className="text-[18px] bd-md:text-[20px] font-semibold leading-tight text-bluedot-navy">
                 {card.title}
               </h4>
-              <P className="text-[15px] min-[680px]:text-[16px] leading-[1.7] text-bluedot-navy/70">
+              <P className="text-[15px] bd-md:text-[16px] leading-[1.7] text-bluedot-navy/70">
                 {card.body}
               </P>
             </div>

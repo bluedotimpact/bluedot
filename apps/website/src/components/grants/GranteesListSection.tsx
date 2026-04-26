@@ -29,7 +29,7 @@ const GranteeRow = ({ grantee }: { grantee: PublicRapidGrant }) => {
   }
 
   return (
-    <div className="flex flex-col gap-3 min-[680px]:flex-row min-[680px]:items-center min-[680px]:justify-between min-[680px]:gap-6">
+    <div className="flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-6">
       <div className="flex items-stretch gap-4 min-w-0 flex-1">
         <div className="w-1 flex-shrink-0 rounded-sm bg-bluedot-normal/30" />
         <div className="min-w-0 flex-1">
@@ -99,14 +99,14 @@ const GranteesListSection = ({
         </div>
       )}
       {(title ?? subtitle) && (
-        <div className="mb-8 min-[680px]:mb-10 max-w-[760px]">
+        <div className="mb-8 bd-md:mb-10 max-w-[760px]">
           {title && (
-            <h2 className="text-[28px] min-[680px]:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy">
+            <h2 className="text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy">
               {title}
             </h2>
           )}
           {subtitle && (
-            <P className="text-[16px] min-[680px]:text-[18px] leading-[160%] text-bluedot-navy/75 mt-4">
+            <P className="text-[16px] bd-md:text-[18px] leading-[160%] text-bluedot-navy/75 mt-4">
               {subtitle}
             </P>
           )}

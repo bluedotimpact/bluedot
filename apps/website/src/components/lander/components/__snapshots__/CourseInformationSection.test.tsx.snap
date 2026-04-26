@@ -5,15 +5,15 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
   class="w-full bg-white"
 >
   <div
-    class="max-w-max-width mx-auto px-5 py-12 min-[680px]:px-8 min-[680px]:py-16 min-[1024px]:px-spacing-x min-[1280px]:py-24 flex flex-col items-center gap-8 md:gap-10"
+    class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24 flex flex-col items-center gap-8 md:gap-10"
   >
     <h2
-      class="bluedot-h2 not-prose w-full min-[680px]:max-w-[840px] text-[28px] min-[680px]:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]"
+      class="bluedot-h2 not-prose w-full bd-md:max-w-[840px] text-[28px] bd-md:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]"
     >
       Course information
     </h2>
     <div
-      class="w-full min-[680px]:max-w-[840px] bg-white border border-bluedot-navy/10 rounded-xl py-8 flex flex-col items-center gap-6"
+      class="w-full bd-md:max-w-[840px] bg-white border border-bluedot-navy/10 rounded-xl py-8 flex flex-col items-center gap-6"
     >
       <div
         class="flex flex-col w-full"
@@ -23,7 +23,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
             class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
           >
             <div
-              class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
+              class="md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0"
             >
               <p
                 class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
@@ -62,7 +62,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
             class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
           >
             <div
-              class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
+              class="md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0"
             >
               <p
                 class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
@@ -102,7 +102,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
             class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
           >
             <div
-              class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
+              class="md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0"
             >
               <p
                 class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
@@ -129,7 +129,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
             class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
           >
             <div
-              class="md:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
+              class="md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0"
             >
               <p
                 class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
@@ -153,10 +153,10 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
         </div>
         <div>
           <div
-            class="flex flex-col min-[680px]:flex-row px-5 min-[680px]:px-8 py-0 gap-6 min-[680px]:gap-6 md:gap-8 items-start w-full"
+            class="flex flex-col bd-md:flex-row px-5 bd-md:px-8 py-0 gap-6 bd-md:gap-6 md:gap-8 items-start w-full"
           >
             <div
-              class="min-[680px]:w-[120px] min-[1024px]:w-[144px] xl:w-[160px] shrink-0"
+              class="bd-md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0"
             >
               <p
                 class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
@@ -165,7 +165,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               </p>
             </div>
             <div
-              class="w-full min-[680px]:flex-1 min-[680px]:min-w-0"
+              class="w-full bd-md:flex-1 bd-md:min-w-0"
             >
               <div
                 class="flex flex-col gap-4"

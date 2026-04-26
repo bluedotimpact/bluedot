@@ -22,7 +22,7 @@ const NextStepsSection = () => {
       <div className="w-full flex flex-col gap-6">
         <h3 className={pageSectionHeadingClass}>What happens next</h3>
 
-        <ol className="grid gap-8 min-[680px]:gap-6 grid-cols-1 min-[680px]:grid-cols-3">
+        <ol className="grid gap-8 bd-md:gap-6 grid-cols-1 bd-md:grid-cols-3">
           {NEXT_STEPS.map((step, index) => (
             <li key={step.title} className="flex flex-col gap-3">
               <span

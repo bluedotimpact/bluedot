@@ -105,15 +105,15 @@ const RoundGroup = ({
   const displayedRounds = rounds.slice(0, 3);
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col min-[680px]:flex-row min-[680px]:items-end gap-1 text-[15px] text-bluedot-navy">
+      <div className="flex flex-col bd-md:flex-row bd-md:items-end gap-1 text-[15px] text-bluedot-navy">
         <span className="font-semibold uppercase tracking-[0.45px] leading-tight">
-          <span className="min-[680px]:hidden">{labelShort}</span>
-          <span className="hidden min-[680px]:inline min-[1024px]:hidden min-[1440px]:inline">{labelShort}</span>
+          <span className="bd-md:hidden">{labelShort}</span>
+          <span className="hidden bd-md:inline min-[1024px]:hidden min-[1440px]:inline">{labelShort}</span>
           <span className="hidden min-[1024px]:inline min-[1440px]:hidden">{labelLong}</span>
         </span>
         <span className="opacity-80 font-normal leading-tight">
-          <span className="min-[680px]:hidden">{descriptionShort}</span>
-          <span className="hidden min-[680px]:inline">{descriptionLong}</span>
+          <span className="bd-md:hidden">{descriptionShort}</span>
+          <span className="hidden bd-md:inline">{descriptionLong}</span>
         </span>
       </div>
 

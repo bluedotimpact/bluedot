@@ -8,7 +8,7 @@ type MarketingHeroProps = {
 
 const MarketingHero = ({ title, subtitle }: MarketingHeroProps) => {
   return (
-    <section className="relative w-full min-h-[317px] min-[680px]:min-h-[366px]">
+    <section className="relative w-full min-h-[317px] bd-md:min-h-[366px]">
       <Nav variant="transparent" />
       <img
         src="/images/homepage/hero.webp"
@@ -16,14 +16,14 @@ const MarketingHero = ({ title, subtitle }: MarketingHeroProps) => {
         className="absolute inset-0 size-full object-cover -scale-x-100"
         {...{ fetchpriority: 'high' }}
       />
-      <div className="relative z-10 flex flex-col justify-end h-full min-h-[317px] min-[680px]:min-h-[366px] pb-12 pt-20 min-[680px]:pb-16 min-[680px]:pt-20">
+      <div className="relative z-10 flex flex-col justify-end h-full min-h-[317px] bd-md:min-h-[366px] pb-12 pt-20 bd-md:pb-16 bd-md:pt-20">
         <div className="section-base">
           <div className="flex flex-col gap-6 max-w-[780px]">
             <H1 className="bluedot-marketing-hero-h1">
               {title}
             </H1>
             {subtitle && (
-              <p className="text-size-sm min-[680px]:text-[18px] min-[1024px]:text-[20px] leading-[1.55] tracking-[-0.1px] text-white">
+              <p className="text-size-sm bd-md:text-[18px] lg:text-[20px] leading-[1.55] tracking-[-0.1px] text-white">
                 {subtitle}
               </p>
             )}
