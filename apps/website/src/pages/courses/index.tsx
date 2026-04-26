@@ -86,7 +86,7 @@ const CoursesPage = () => {
   const allDisplayed = [...displayedCourses, ...displayedProjects];
 
   return (
-    <div className="bg-white bd-md:pb-16 xl:pb-24">
+    <div className="bd-md:pb-16 xl:pb-24">
       <Head>
         <title>AI safety courses with certificates</title>
         <meta name="description" content="Courses that support you to develop the knowledge, community and network needed to pursue a high-impact career." />

@@ -3,7 +3,7 @@ import { ROUTES } from '../../lib/routes';
 
 const StorySection = () => {
   return (
-    <section className="bg-white py-[48px] px-5 bd-md:py-[64px] bd-md:px-8 lg:py-[80px] lg:px-12 xl:py-[96px] xl:px-16 2xl:px-20">
+    <section className="py-[48px] px-5 bd-md:py-[64px] bd-md:px-8 lg:py-[80px] lg:px-12 xl:py-[96px] xl:px-16 2xl:px-20">
       <div className="flex flex-col items-center max-w-2xl mx-auto text-center">
         <H2 className="text-[28px] bd-md:text-[36px] lg:text-[40px] xl:text-[48px] leading-tight tracking-[-1px] font-medium mb-[48px] bd-md:mb-[32px]">
           Who is BlueDot?
