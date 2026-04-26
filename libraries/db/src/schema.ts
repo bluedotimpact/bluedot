@@ -1407,6 +1407,7 @@ export const teamMemberTable = pgAirtable('team_member', {
     imagePublicUrls: { pgColumn: text(), airtableId: 'fldmN54i5qJObcwuN' },
     url: { pgColumn: text(), airtableId: 'fld3ChLLOQHQGDK18' },
     status: { pgColumn: text(), airtableId: 'fld5nsgLdaDUoMC2N' },
+    isOneOnOneAdvisor: { pgColumn: boolean(), airtableId: 'fld2buAZqzoTYiYW3' },
   },
 });
 
