@@ -67,7 +67,7 @@ exports[`IncubatorWeekLander > renders the complete page correctly (snapshot) 1`
     <script
       type="application/ld+json"
     >
-      {"@context":"https://schema.org","@type":"Course","availableLanguage":"en","name":"Incubator Week | BlueDot Impact","description":"A 5-day intensive for founders building organizations to make AI go well. Develop threat models, design interventions, pitch for funding. All expenses paid in London.","image":"https://bluedot.org/images/courses/link-preview/incubator-week.png","url":"https://bluedot.org/courses/incubator-week","provider":{"@type":"Organization","name":"BlueDot Impact","sameAs":"https://bluedot.org"},"offers":[{"@type":"Offer","category":"Free"}],"hasCourseInstance":[{"@type":"CourseInstance","courseMode":"Online"}]}
+      {"@context":"https://schema.org","@type":"Course","availableLanguage":"en","name":"Incubator Week | BlueDot Impact","description":"A 5-day intensive for founders building organizations to make AI go well. Develop threat models, design interventions, pitch for funding. All expenses paid in London.","image":"https://bluedot.org/images/courses/link-preview/incubator-week.png","url":"https://bluedot.org/courses/incubator-week","provider":{"@type":"Organization","name":"BlueDot Impact","sameAs":"https://bluedot.org"},"offers":[{"@type":"Offer","category":"Free"}],"hasCourseInstance":[{"@type":"CourseInstance","courseMode":"Onsite"}]}
     </script>
     <nav
       class="nav absolute top-0 inset-x-0 z-50 w-full transition-all duration-300 bg-transparent border-b border-white/15"

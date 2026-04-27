@@ -34,8 +34,16 @@ export type CourseLanderMeta = {
   description?: string;
 };
 
+/**
+ * Schema.org Course delivery modes recognised by Google's Course rich-results validator.
+ * https://developers.google.com/search/docs/appearance/structured-data/course-info
+ */
+export type CourseMode = 'Online' | 'Onsite' | 'Blended' | 'Hybrid';
+
 export type CourseLanderContent = {
   meta: CourseLanderMeta;
+  /** Schema.org CourseInstance.courseMode. Defaults to 'Online' if omitted. */
+  courseMode?: CourseMode;
   hero: HeroSectionProps;
   /** Section navigation items - if provided, shows a sticky nav */
   sectionNav?: SectionNavItem[];
@@ -184,7 +192,7 @@ const CourseLander = ({
               }],
               hasCourseInstance: [{
                 '@type': 'CourseInstance',
-                courseMode: 'Online',
+                courseMode: content.courseMode ?? 'Online',
               }],
             }),
           }}
