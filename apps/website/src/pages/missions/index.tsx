@@ -6,7 +6,6 @@ import {
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
 import PageNewsletter from '../../components/PageNewsletter';
-import { pageSectionHeadingClass } from '../../components/PageListRow';
 import MissionsListSection from '../../components/missions/MissionsListSection';
 import { ROUTES } from '../../lib/routes';
 import { trpc } from '../../utils/trpc';
@@ -27,9 +26,6 @@ const MissionsPage = () => {
       <Breadcrumbs route={CURRENT_ROUTE} />
       {isLoading && (
         <section className="section section-body">
-          <h3 className={`${pageSectionHeadingClass} mb-6`}>
-            Open missions
-          </h3>
           <ProgressDots />
         </section>
       )}
