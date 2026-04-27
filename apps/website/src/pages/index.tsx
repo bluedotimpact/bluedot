@@ -73,6 +73,7 @@ const HomePage = () => {
         testimonials={testimonials}
         subtitle="Learn more about the incredible work our community is doing."
         variant="homepage"
+        hideQuotes
       />
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
