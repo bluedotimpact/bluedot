@@ -95,6 +95,14 @@ const FacilitatorFeedbackPage = () => {
     );
   }
 
+  if (error ?? !formData) {
+    return (
+      <div className="min-h-screen bg-cream-normal flex items-center justify-center px-4">
+        <ErrorSection error={error ?? new Error('Could not load the feedback form. Please refresh the page.')} />
+      </div>
+    );
+  }
+
   const roundName = formData?.roundName ?? '';
   const participants = formData?.participants ?? [];
   const dropIns = formData?.dropIns ?? [];

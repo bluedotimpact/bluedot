@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
-import { ProgressDots } from '@bluedot/ui';
+import { ErrorSection, ProgressDots } from '@bluedot/ui';
 import { PiCheck, PiCreditCard } from 'react-icons/pi';
 import { generateInvoiceUrl } from '../../../lib/generateInvoiceUrl';
 import { isFlagged } from '../../../lib/facilitatorFollowUps';
@@ -56,10 +56,18 @@ const FacilitatorFeedbackSuccessPage = () => {
     setWindowSize({ width: window.innerWidth, height: window.innerHeight });
   }, []);
 
-  if (isLoading || shouldShow404 || !router.isReady || !data || notSubmitted) {
+  if (isLoading || shouldShow404 || !router.isReady || notSubmitted) {
     return (
       <div className="min-h-screen bg-cream-normal flex items-center justify-center">
         <ProgressDots />
+      </div>
+    );
+  }
+
+  if (error ?? !data) {
+    return (
+      <div className="min-h-screen bg-cream-normal flex items-center justify-center px-4">
+        <ErrorSection error={error ?? new Error('Could not load the feedback form. Please refresh the page.')} />
       </div>
     );
   }
