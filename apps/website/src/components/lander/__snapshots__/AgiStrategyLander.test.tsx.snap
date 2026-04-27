@@ -64,6 +64,11 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
       content="https://bluedot.org/images/courses/link-preview/agi-strategy.png"
       name="twitter:image"
     />
+    <script
+      type="application/ld+json"
+    >
+      {"@context":"https://schema.org","@type":"Course","availableLanguage":"en","name":"AGI Strategy Course | BlueDot Impact","description":"The launchpad for AI safety work. In 25 hours, understand the landscape, pick a direction, and start moving.","image":"https://bluedot.org/images/courses/link-preview/agi-strategy.png","url":"https://bluedot.org/courses/agi-strategy","provider":{"@type":"Organization","name":"BlueDot Impact","sameAs":"https://bluedot.org"},"offers":[{"@type":"Offer","category":"Free"}],"hasCourseInstance":[{"@type":"CourseInstance","courseMode":"Online"}]}
+    </script>
     <nav
       class="nav absolute top-0 inset-x-0 z-50 w-full transition-all duration-300 bg-transparent border-b border-white/15"
     >

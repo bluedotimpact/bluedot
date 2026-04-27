@@ -34,8 +34,16 @@ export type CourseLanderMeta = {
   description?: string;
 };
 
+/**
+ * Schema.org Course delivery modes recognised by Google's Course rich-results validator.
+ * https://developers.google.com/search/docs/appearance/structured-data/course-info
+ */
+export type CourseMode = 'Online' | 'Onsite' | 'Blended' | 'Hybrid';
+
 export type CourseLanderContent = {
   meta: CourseLanderMeta;
+  /** Schema.org CourseInstance.courseMode. Defaults to 'Online' if omitted. */
+  courseMode?: CourseMode;
   hero: HeroSectionProps;
   /** Section navigation items - if provided, shows a sticky nav */
   sectionNav?: SectionNavItem[];
@@ -160,6 +168,35 @@ const CourseLander = ({
         <meta name="twitter:title" content={content.meta.title} />
         <meta name="twitter:description" content={seoDescription} />
         <meta name="twitter:image" content={courseOgImage} />
+
+        {/* Schema.org Course markup for rich results */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Course',
+              availableLanguage: 'en',
+              name: content.meta.title,
+              description: seoDescription,
+              image: courseOgImage,
+              url: ogUrl,
+              provider: {
+                '@type': 'Organization',
+                name: 'BlueDot Impact',
+                sameAs: 'https://bluedot.org',
+              },
+              offers: [{
+                '@type': 'Offer',
+                category: 'Free',
+              }],
+              hasCourseInstance: [{
+                '@type': 'CourseInstance',
+                courseMode: content.courseMode ?? 'Online',
+              }],
+            }),
+          }}
+        />
       </Head>
 
       <Nav variant={heroProps.gradient ? 'transparent' : 'default'} />

@@ -33,6 +33,8 @@ export const createIncubatorWeekContent = (
     description: 'A 5-day intensive for founders building organizations to make AI go well. Develop threat models, design interventions, pitch for funding. All expenses paid in London.',
   },
 
+  courseMode: 'Onsite',
+
   hero: {
     gradient: INCUBATOR_WEEK_COLORS.gradient,
     accentColor: INCUBATOR_WEEK_COLORS.accent,
