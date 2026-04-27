@@ -11,6 +11,7 @@ import AddParticipantModal from '../../components/courses/AddParticipantModal';
 import FacilitatorFeedbackHeader from '../../components/courses/FacilitatorFeedbackHeader';
 import { useFacilitatorFeedbackStorage } from '../../hooks/useFacilitatorFeedbackStorage';
 import { type FollowUpId, isFlagged } from '../../lib/facilitatorFollowUps';
+import { getInitials } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
 type ParticipantFeedback =
@@ -425,7 +426,6 @@ const getSubtitle = (feedback: ParticipantFeedback | undefined): string => {
 };
 
 const ParticipantCard: React.FC<ParticipantCardProps> = ({ participant, feedback, showNudge, onClick }) => {
-  const initials = participant.name.split(' ').map((n) => n[0]).join('');
   return (
     <button
       type="button"
@@ -433,7 +433,7 @@ const ParticipantCard: React.FC<ParticipantCardProps> = ({ participant, feedback
       className="w-full flex items-center gap-3 border border-gray-300 rounded-lg px-4 py-3.5 text-left transition-colors cursor-pointer hover:bg-gray-50 active:bg-gray-100 focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
     >
       <div className={`shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-white text-size-xs font-bold ${feedback ? 'bg-bluedot-normal' : 'bg-bluedot-navy'}`}>
-        {feedback ? '✓' : initials}
+        {feedback ? '✓' : getInitials(participant.name)}
       </div>
       <div className="flex-1 min-w-0 flex flex-col gap-1">
         <p className="text-size-xs font-semibold text-bluedot-navy">{participant.name}</p>

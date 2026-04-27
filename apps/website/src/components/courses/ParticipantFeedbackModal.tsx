@@ -76,7 +76,12 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
             {getInitials(participant.name)}
           </div>
           <span className="font-bold text-size-md text-bluedot-navy">{participant.name}</span>
-          <button type="button" className="ml-auto text-size-xs font-medium text-bluedot-navy/50 underline underline-offset-[3px] cursor-pointer" onClick={onNoStrongImpression}>
+          <button
+            type="button"
+            onClick={onNoStrongImpression}
+            disabled={savePeerFeedback.isPending}
+            className="ml-auto text-size-xs font-medium text-bluedot-navy/50 underline underline-offset-[3px] cursor-pointer disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed"
+          >
             No strong impression
           </button>
         </div>
