@@ -27,7 +27,6 @@ const IncubatorWeekProgramPage = () => {
           name="description"
           content="A 5-day intensive for founders building organizations to make AI go well. Develop threat models, design interventions, pitch for funding. All expenses paid in London."
         />
-        <link rel="canonical" href="https://bluedot.org/programs/incubator-week" />
       </Head>
       <MarketingHero
         title="Incubator Week"
