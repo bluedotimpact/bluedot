@@ -76,7 +76,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
             {getInitials(participant.name)}
           </div>
           <span className="font-bold text-size-md text-bluedot-navy">{participant.name}</span>
-          <button type="button" className="ml-auto text-size-xs font-medium text-gray-500 underline underline-offset-[3px] cursor-pointer" onClick={onNoStrongImpression}>
+          <button type="button" className="ml-auto text-size-xs font-medium text-bluedot-navy/50 underline underline-offset-[3px] cursor-pointer" onClick={onNoStrongImpression}>
             No strong impression
           </button>
         </div>
@@ -88,7 +88,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
     >
       <div className="w-full max-w-[600px] pt-4">
         {savePeerFeedback.isError && <ErrorSection error={savePeerFeedback.error} />}
-        <p className="flex items-center gap-1.5 text-[13px] leading-[1.3] text-gray-600 mb-6">
+        <p className="flex items-center gap-1.5 text-[13px] leading-[1.3] text-bluedot-navy/60 mb-6">
           <FaLock className="size-[13px] shrink-0" aria-hidden />
           Your responses are only seen by BlueDot staff
         </p>
@@ -98,7 +98,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
             <p id="show-up-label" className="text-size-xs font-semibold text-bluedot-navy">
               How did they show up across discussions? <span className="text-red-600">*</span>
             </p>
-            <p className="text-size-xs text-gray-600">
+            <p className="text-size-xs text-bluedot-navy/60">
               Think about preparation, initiative, and engagement between sessions.
             </p>
           </div>
@@ -116,7 +116,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
             <p id="engage-label" className="text-size-xs font-semibold text-bluedot-navy">
               How did they engage with ideas during discussions? <span className="text-red-600">*</span>
             </p>
-            <p className="text-size-xs text-gray-600">
+            <p className="text-size-xs text-bluedot-navy/60">
               Think about quality of thinking, willingness to challenge, and depth of engagement.
             </p>
           </div>
@@ -134,7 +134,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
             <p className="text-size-xs font-semibold text-bluedot-navy">
               How should we follow up with them? <span className="text-red-600">*</span>
             </p>
-            <p className="text-size-xs text-gray-600">Check all that apply.</p>
+            <p className="text-size-xs text-bluedot-navy/60">Check all that apply.</p>
           </div>
           <div className="flex flex-col gap-2">
             {FOLLOW_UP_OPTIONS.map((option) => (
@@ -161,7 +161,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
             <label htmlFor="investment-note" className="text-size-xs font-semibold text-bluedot-navy">
               In 2-3 sentences: what would you tell BlueDot if we asked "how much time should we invest in this person?"
             </label>
-            <p className="text-size-xs text-gray-600">Feel free to paste this from your 1:1 report.</p>
+            <p className="text-size-xs text-bluedot-navy/60">Feel free to paste this from your 1:1 report.</p>
           </div>
           <textarea
             id="investment-note"
@@ -173,7 +173,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
         </div>
 
         <div className="flex items-center justify-between gap-3 mt-8 py-4 border-t border-gray-200">
-          <p className="text-size-xxs text-gray-500">Changes save when you click "Done"</p>
+          <p className="text-size-xxs text-bluedot-navy/50">Changes save when you click "Done"</p>
           <div className="flex gap-2.5">
             <button
               type="button"
