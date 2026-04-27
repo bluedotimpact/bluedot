@@ -2,7 +2,7 @@ import { P } from '@bluedot/ui';
 import type { inferRouterOutputs } from '@trpc/server';
 import { ROUTES } from '../../lib/routes';
 import type { AppRouter } from '../../server/routers/_app';
-import { PageListGroup, PageListRow, pageSectionHeadingClass } from '../PageListRow';
+import { PageListGroup, PageListRow } from '../PageListRow';
 
 type Missions = inferRouterOutputs<AppRouter>['missions']['getAll'];
 
@@ -19,12 +19,9 @@ const MissionsListSection = ({ missions }: { missions: Missions }) => {
   return (
     <section className="section section-body">
       {missions.length === 0 ? (
-        <>
-          <h3 className={`${pageSectionHeadingClass} mb-6`}>Open missions</h3>
-          <P>No missions are listed right now. Check back soon.</P>
-        </>
+        <P>No missions are listed right now. Check back soon.</P>
       ) : (
-        <PageListGroup label="Open missions">
+        <PageListGroup>
           {missions.map(renderRow)}
         </PageListGroup>
       )}
