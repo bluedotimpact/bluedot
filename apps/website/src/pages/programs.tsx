@@ -71,7 +71,7 @@ const ProgramsPage = () => {
       id: 'incubator-week',
       name: 'Incubator Week',
       status: 'On hiatus',
-      href: '/courses/incubator-week',
+      href: '/programs/incubator-week',
       summary: 'A concentrated week for stronger founders and operators testing bigger bets.',
       detail: 'Five-day London intensive. All expenses paid. Strong teams pitch for funding on Friday.',
       ctaLabel: 'Learn more',

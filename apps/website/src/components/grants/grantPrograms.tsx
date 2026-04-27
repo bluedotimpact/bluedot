@@ -21,6 +21,7 @@ export type GrantProgramDefinition = {
 export const RAPID_GRANT_APPLICATION_URL = 'https://airtable.com/appMVNtdBtvtJvu5E/pag9G3oF4DYAyassX/form';
 export const CAREER_TRANSITION_GRANT_APPLICATION_URL = 'https://airtable.com/appMVNtdBtvtJvu5E/pagyKD4M0wd0ci2gH/form';
 export const ONE_ON_ONE_ADVISING_APPLICATION_URL = 'https://web.miniextensions.com/elMoT4tTN0jx49tNB0cS';
+export const INCUBATOR_WEEK_APPLICATION_URL = 'https://web.miniextensions.com/9UQbEOQ10oTYrqpIOwVS';
 
 export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
   {
@@ -63,7 +64,7 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
   {
     slug: 'incubator-week',
     title: 'Incubator Week',
-    href: '/courses/incubator-week',
+    href: '/programs/incubator-week',
     track: 'Launch',
     goal: 'Back founders from our courses to turn strong ideas into organizations that can make AI go well.',
     scope: 'A five-day intensive in London. All expenses paid. Pitch for funding on Friday.',
@@ -105,7 +106,7 @@ export const getGrantProgramViewTransitionStyle = (
 });
 
 /** Slugs that have a marketing page assembled from the shared section components. */
-export type ConfigurableGrantProgramSlug = 'rapid-grants' | 'career-transition-grant' | 'advising';
+export type ConfigurableGrantProgramSlug = 'rapid-grants' | 'career-transition-grant' | 'advising' | 'incubator-week';
 
 export type GrantProgramSectionConfig = {
   applicationUrl: string;
@@ -165,6 +166,47 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
         id: 'circumstances-change',
         question: 'What if I secure a full-time role or my circumstances change during the grant?',
         answer: 'Please let us know. Any remaining funds would be returned to BlueDot.',
+      },
+    ],
+  },
+  'incubator-week': {
+    applicationUrl: INCUBATOR_WEEK_APPLICATION_URL,
+    faqItems: [
+      {
+        id: 'how-to-join',
+        question: 'How do I join Incubator Week?',
+        answer: 'The AGI Strategy Course and Technical AI Safety Course are our primary feeders. We filter the best participants through problem statement quality, then interview before inviting to Incubator Week.',
+      },
+      {
+        id: 'solo-or-team',
+        question: 'Can I apply solo or do I need a co-founder?',
+        answer: 'Both work. Solo founders are welcome — though we\'ve learned that co-founder matching is hard, so coming with a partner (friend, classmate, existing co-founder) is a plus. We\'ll help facilitate connections during the week.',
+      },
+      {
+        id: 'expenses',
+        question: 'What expenses are covered?',
+        answer: 'Everything. We\'ll fly you to London, provide accommodation, and cover all meals during the week. You just need to show up ready to build.',
+      },
+      {
+        id: 'tracks',
+        question: 'What tracks do you support?',
+        answer: 'For now we\'re focused on for-profit companies. We\'re keen to explore other areas as well, especially policy entrepreneurship.',
+      },
+      {
+        id: 'funding',
+        question: 'How does the funding work?',
+        answer: 'Strong pitches on Friday receive initial grants of £50k+ to work on your project full-time. This is designed to help you build momentum in the months after Incubator Week.',
+      },
+      {
+        id: 'bluedot',
+        question: 'Who is BlueDot Impact?',
+        answer: (
+          <>
+            We&apos;re a London-based nonprofit. Since 2022, we&apos;ve trained over 6,000 people. Our courses are the main entry point into the AI safety field, with alumni now working at OpenAI, Anthropic, DeepMind, the UK AI Safety Institute, and many more.
+            <br /><br />
+            Incubator Week is our program for the most entrepreneurial participants — the ones ready to build the organizations the world needs.
+          </>
+        ),
       },
     ],
   },
