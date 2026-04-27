@@ -151,7 +151,7 @@ const CertificatePage = ({
 
   if (!certificateId) {
     return (
-      <main className="bluedot-base flex flex-col">
+      <main className="bluedot-base flex flex-col min-h-screen">
         <Nav />
         <Section className="flex-1">
           <div className="flex flex-col gap-4 mt-4">
@@ -170,7 +170,7 @@ const CertificatePage = ({
 
   if (!certificate) {
     return (
-      <main className="bluedot-base flex flex-col">
+      <main className="bluedot-base flex flex-col min-h-screen">
         <Nav />
         <Section className="flex-1">
           <div className="flex flex-col gap-4 mt-4">
@@ -211,7 +211,7 @@ const CertificatePage = ({
   });
 
   return (
-    <main className="bluedot-base flex flex-col">
+    <main className="bluedot-base flex flex-col min-h-screen">
       <Nav />
       <Head>
         <title>{`${certificate.recipientName} has completed ${certificate.courseName} | BlueDot Impact`}</title>

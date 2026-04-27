@@ -103,7 +103,7 @@
 }
 
 @utility bluedot-base {
-    @apply min-h-screen flow-root bg-cream-normal text-bluedot-black antialiased
+    @apply flow-root bg-cream-normal text-bluedot-black antialiased
 }
 
 @utility container-lined {
