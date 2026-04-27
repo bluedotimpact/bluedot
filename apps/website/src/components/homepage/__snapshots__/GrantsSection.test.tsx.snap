@@ -139,7 +139,7 @@ exports[`GrantsSection > renders default as expected 1`] = `
         <li>
           <a
             class="group flex h-full flex-col gap-3 rounded-xl border border-bluedot-navy/10 bg-white p-6 transition-colors hover:border-bluedot-navy/20"
-            href="/programs/1-1-advising?utm_source=website&utm_campaign=homepage-programs"
+            href="/programs/advising?utm_source=website&utm_campaign=homepage-programs"
           >
             <p
               class="text-[11px] font-semibold uppercase tracking-[0.5px] text-bluedot-normal"
