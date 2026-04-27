@@ -3,16 +3,50 @@
 import { matchesGlob } from 'node:path';
 import { execAsync } from './execAsync';
 
-const getChangedFilesSinceLastSuccessfulCommit = async (): Promise<string[]> => {
+const sleep = (ms: number): Promise<void> => new Promise((resolve) => {
+  setTimeout(resolve, ms);
+});
+
+// GitHub's /actions/workflows/{id}/runs?status=success endpoint occasionally
+// returns an empty page even when many successful runs exist. Without a retry
+// here the parent walk would find no successful ancestor and the deploy gate
+// would silently skip. Retry on empty, throw if still empty after the final
+// attempt so the failure is loud rather than silent.
+const fetchSuccessfulCommitShas = async (repo: string, workflowId: string): Promise<string[]> => {
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    // eslint-disable-next-line no-await-in-loop -- sequential retries are intentional
+    const stdout = await execAsync(`gh api 'repos/${repo}/actions/workflows/${workflowId}/runs?status=success&per_page=100' --jq '.workflow_runs[] | .head_sha'`);
+    const shas = stdout.split('\n').filter(Boolean);
+    if (shas.length > 0) return shas;
+
+    if (attempt < 3) {
+      const backoffMs = 2 ** (attempt - 1) * 1000;
+      console.error(`GitHub API returned 0 successful ${workflowId} runs (attempt ${attempt}/3). Retrying in ${backoffMs}ms...`);
+      // eslint-disable-next-line no-await-in-loop -- sequential retries are intentional
+      await sleep(backoffMs);
+    }
+  }
+
+  throw new Error(`GitHub API returned 0 successful runs for workflow ${workflowId} after 3 attempts. This is almost certainly a transient API issue. Re-run the workflow to retry.`);
+};
+
+// `null` signals "could not determine which files changed" — caller treats
+// it as "all packages affected" (conservative fallback).
+const getChangedFilesSinceLastSuccessfulCommit = async (): Promise<string[] | null> => {
   const repo = process.env.GITHUB_REPOSITORY ?? 'bluedotimpact/bluedot';
   const workflowName = process.env.GITHUB_WORKFLOW_NAME ?? 'ci_cd';
   const workflowId = await execAsync(`gh api repos/${repo}/actions/workflows --jq '.workflows[] | select(.name == "${workflowName}") | .id'`);
 
-  const successfulCommitShas = (await execAsync(`gh api repos/${repo}/actions/workflows/${workflowId}/runs?status=success --jq '.workflow_runs[] | .head_sha'`)).split('\n');
+  const successfulCommitShas = await fetchSuccessfulCommitShas(repo, workflowId);
 
   const headSha = await execAsync('git rev-parse HEAD');
   const successfulParentCommits = [...new Set(await getSuccessfulParentCommits(headSha, successfulCommitShas))];
   console.error(`Successful parent commits:\n${successfulParentCommits.map((c) => `- ${c.commitSha}`).join('\n')}\n`);
+
+  if (successfulParentCommits.length === 0) {
+    console.error(`WARN: no successful ${workflowName} run found among ancestors of ${headSha} (usually fetch-depth shorter than distance to fork point). Falling back to treating all packages as changed.`);
+    return null;
+  }
 
   // This intentionally goes through all commits up to the parents with `git diff-tree`, instead of using `git diff` against the parent.
   // This is so if a file is changed, then changed back, it will still be included.
@@ -123,6 +157,11 @@ export const getPackagesWithChanges = async (): Promise<PackageInfo[]> => {
     getChangedFilesSinceLastSuccessfulCommit(),
     getInternalPackages(),
   ]);
+
+  if (changedFiles === null) {
+    console.error('Treating all internal packages as changed (conservative fallback).\n');
+    return internalPackages;
+  }
 
   console.error(`Changed files:\n${changedFiles.map((f) => `- ${f}`).join('\n')}\n`);
 

@@ -21,13 +21,30 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const { data: { workflow_runs: [run] } } = await github.rest.actions.listWorkflowRuns({
-              owner: context.repo.owner, repo: context.repo.repo,
-              workflow_id: 'ci_cd.yaml', head_sha: context.sha,
-            });
-            if (!run || run.status !== 'completed' || run.conclusion !== 'success') {
-              core.setFailed(`CI/CD has not passed for ${context.sha} (status: ${run?.status ?? 'not found'}, conclusion: ${run?.conclusion ?? 'N/A'})`);
+            // GitHub's listWorkflowRuns endpoint occasionally returns an
+            // empty page or only stale entries during transient API blips,
+            // so retry a few times and search every run for the SHA rather
+            // than trusting the first one returned.
+            const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+            const maxAttempts = 5;
+            let lastRuns = [];
+            for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+              const { data: { workflow_runs: runs } } = await github.rest.actions.listWorkflowRuns({
+                owner: context.repo.owner, repo: context.repo.repo,
+                workflow_id: 'ci_cd.yaml', head_sha: context.sha, per_page: 100,
+              });
+              lastRuns = runs;
+              if (runs.some((r) => r.status === 'completed' && r.conclusion === 'success')) return;
+              if (attempt < maxAttempts) {
+                const backoffMs = 2 ** (attempt - 1) * 1000;
+                core.warning(`No successful ci_cd run for ${context.sha} on attempt ${attempt}/${maxAttempts}; retrying in ${backoffMs}ms`);
+                await sleep(backoffMs);
+              }
             }
+            const summary = lastRuns.length === 0
+              ? 'no runs returned by API'
+              : lastRuns.map((r) => `${r.status}/${r.conclusion ?? 'N/A'}`).join(', ');
+            core.setFailed(`CI/CD has not passed for ${context.sha} after ${maxAttempts} attempts (${summary})`);
 
       - name: Checkout ${{ github.sha }}
         uses: actions/checkout@v4
