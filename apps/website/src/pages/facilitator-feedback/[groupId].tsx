@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ErrorSection, ProgressDots } from '@bluedot/ui';
 import {
   PiClock, PiLockSimple, PiStar, PiWarningCircle,
@@ -38,6 +38,7 @@ const FacilitatorFeedbackPage = () => {
   const [mostValuable, setMostValuable] = useState('');
   const [difficulties, setDifficulties] = useState('');
   const [showIncompleteWarning, setShowIncompleteWarning] = useState(false);
+  const participantInsightsRef = useRef<HTMLElement>(null);
 
   const {
     noStrongImpressionIds,
@@ -225,7 +226,7 @@ const FacilitatorFeedbackPage = () => {
         </section>
 
         {/* Participant insights card */}
-        <section className="bg-white rounded-xl border p-5 sm:p-9 flex flex-col gap-5">
+        <section ref={participantInsightsRef} className="bg-white rounded-xl border p-5 sm:p-9 flex flex-col gap-5">
           <div className="flex flex-col gap-4">
             <p className="text-size-xxs font-semibold uppercase tracking-wider text-bluedot-normal">Participant insights</p>
             <div className="flex flex-col gap-2">
@@ -336,6 +337,7 @@ const FacilitatorFeedbackPage = () => {
                 onClick={() => {
                   if (completedCount < participants.length) {
                     setShowIncompleteWarning(true);
+                    participantInsightsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   } else {
                     submitFeedback.mutate(submitPayload, {
                       onSuccess: async () => {
