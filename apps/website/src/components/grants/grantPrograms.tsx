@@ -2,7 +2,7 @@ import type React from 'react';
 import type { FAQItem } from '../lander/components/FAQSection';
 
 export type GrantProgramStatus = 'Active' | 'On hiatus';
-export type GrantProgramSlug = 'rapid-grants' | 'career-transition-grant' | 'technical-ai-safety-project-sprint' | 'incubator-week' | '1-1-advising';
+export type GrantProgramSlug = 'rapid-grants' | 'career-transition-grant' | 'technical-ai-safety-project-sprint' | 'incubator-week' | 'advising';
 
 export type GrantProgramTrack = 'Funding' | 'Build' | 'Launch';
 
@@ -52,9 +52,9 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
     status: 'Active',
   },
   {
-    slug: '1-1-advising',
+    slug: 'advising',
     title: '1-1 advising',
-    href: '/programs/1-1-advising',
+    href: '/programs/advising',
     track: 'Build',
     goal: 'Help BlueDot community members figure out how to contribute their skills to AI safety.',
     scope: 'A 20-minute call with the BlueDot team. Leave with concrete next steps.',
@@ -105,7 +105,7 @@ export const getGrantProgramViewTransitionStyle = (
 });
 
 /** Slugs that have a marketing page assembled from the shared section components. */
-export type ConfigurableGrantProgramSlug = 'rapid-grants' | 'career-transition-grant' | '1-1-advising';
+export type ConfigurableGrantProgramSlug = 'rapid-grants' | 'career-transition-grant' | 'advising';
 
 export type GrantProgramSectionConfig = {
   applicationUrl: string;
@@ -168,7 +168,7 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
       },
     ],
   },
-  '1-1-advising': {
+  advising: {
     applicationUrl: ONE_ON_ONE_ADVISING_APPLICATION_URL,
     faqItems: [
       {

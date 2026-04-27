@@ -4,11 +4,11 @@ import MarketingHero from '../../components/MarketingHero';
 import GrantStatsStrip from '../../components/grants/sections/GrantStatsStrip';
 import GrantFaqSection from '../../components/grants/sections/GrantFaqSection';
 import GrantCta from '../../components/grants/sections/GrantCta';
-import WhatThisIsForSection from '../../components/1-1-advising/WhatThisIsForSection';
-import WhatToExpectSection from '../../components/1-1-advising/WhatToExpectSection';
-import HowItWorksSection from '../../components/1-1-advising/HowItWorksSection';
-import WhatMakesStrongApplicationSection from '../../components/1-1-advising/WhatMakesStrongApplicationSection';
-import AdvisorsSection from '../../components/1-1-advising/AdvisorsSection';
+import WhatThisIsForSection from '../../components/advising/WhatThisIsForSection';
+import WhatToExpectSection from '../../components/advising/WhatToExpectSection';
+import HowItWorksSection from '../../components/advising/HowItWorksSection';
+import WhatMakesStrongApplicationSection from '../../components/advising/WhatMakesStrongApplicationSection';
+import AdvisorsSection from '../../components/advising/AdvisorsSection';
 import { ROUTES } from '../../lib/routes';
 
 const PAGE_TITLE = '1-1 advising';
@@ -30,12 +30,12 @@ const OneOnOneAdvisingPage = () => {
       <Breadcrumbs
         route={{
           title: PAGE_TITLE,
-          url: '/programs/1-1-advising',
+          url: '/programs/advising',
           parentPages: [ROUTES.home, ROUTES.programs],
         }}
       />
       <GrantStatsStrip
-        program="1-1-advising"
+        program="advising"
         stats={[
           { label: 'Advising calls done', value: '200+' },
           { label: 'Decision time', value: '~5 working days' },
@@ -46,8 +46,8 @@ const OneOnOneAdvisingPage = () => {
       <HowItWorksSection />
       <WhatMakesStrongApplicationSection />
       <AdvisorsSection />
-      <GrantFaqSection program="1-1-advising" />
-      <GrantCta program="1-1-advising" />
+      <GrantFaqSection program="advising" />
+      <GrantCta program="advising" />
     </div>
   );
 };
