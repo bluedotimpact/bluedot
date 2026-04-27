@@ -38,10 +38,27 @@
   --nav-height-desktop: 76px;
 }
 
+/* Website-only opt-out from the shared `bluedot-base` utility's `min-h-screen`.
+   Other monorepo apps (meet, speed-review, editor, room, etc.) still rely on
+   `<main class="bluedot-base">` filling the viewport so their canvas backgrounds
+   reach the bottom on short pages — keep that default in libraries/ui. The
+   website overrides it here because we'd rather have content + footer flush
+   than a 100vh-tall <main> that leaves an empty gap above the footer. */
+.bluedot-base {
+  min-height: auto;
+}
+
 /* Prevent horizontal scrolling from absolutely positioned nav dropdowns
-   Note: We can't use overflow-x: hidden on html/body because it breaks position: sticky on the nav */
+   Note: We can't use overflow-x: hidden on html/body because it breaks position: sticky on the nav
+
+   Body background matches the Footer's hardcoded #02051E so on short pages
+   where content + footer doesn't fill the viewport, the area below the footer
+   reads as a continuation of the footer rather than a stark white gap. The
+   page wrapper (`<main class="bluedot-base">`) has its own cream/white
+   background that covers body bg above the footer. */
 body {
   overflow-x: clip;
+  background-color: #02051E;
 }
 
 /* High-DPI displays (2dppx and above) get 0.5px hairline borders */

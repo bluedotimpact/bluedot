@@ -260,7 +260,6 @@ const EventsPage = () => {
   );
 };
 
-EventsPage.mainShrinkToContent = true;
 EventsPage.pageRendersOwnNav = true;
 
 export default EventsPage;

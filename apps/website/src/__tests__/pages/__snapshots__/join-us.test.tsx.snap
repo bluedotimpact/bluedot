@@ -627,75 +627,79 @@ exports[`JoinUsPage > should render correctly 1`] = `
       </p>
     </section>
     <div
-      class="page-newsletter section-base mt-spacing-y mb-16"
+      class="page-newsletter w-full bd-md:px-spacing-x bd-md:mt-spacing-y bd-md:mb-16"
     >
       <div
-        class="relative w-full bd-md:border bd-md:border-[rgba(0,0,0,0.08)] bd-md:rounded-xl overflow-hidden"
+        class="mx-auto max-w-max-width"
       >
         <div
-          aria-hidden="true"
-          class="absolute inset-0 pointer-events-none"
+          class="relative w-full bd-md:border bd-md:border-[rgba(0,0,0,0.08)] bd-md:rounded-xl overflow-hidden"
         >
           <div
-            class="absolute inset-0 bd-md:rounded-xl -scale-x-100 bg-cover"
-            style="background-image: url("/images/homepage/hero.webp"); background-position: 50% 60%;"
-          />
-          <div
-            class="absolute inset-0 bd-md:rounded-xl"
-            style="mix-blend-mode: overlay;"
-          />
-        </div>
-        <div
-          class="relative z-10 flex flex-col items-center bd-md:items-start gap-8 pt-8 px-6 pb-0 bd-md:py-10 bd-md:px-8 lg:py-16 lg:px-12"
-        >
-          <div
-            class="flex flex-col gap-4 w-full"
+            aria-hidden="true"
+            class="absolute inset-0 pointer-events-none"
           >
-            <span
-              class="text-[10px] leading-[14px] tracking-[0.5px] uppercase text-white opacity-70 font-medium"
-            >
-              Newsletter
-            </span>
-            <h3
-              class="text-2xl leading-tight text-white max-w-[512px]"
-            >
-              Subscribe to get AI safety news and course updates delivered directly to your inbox
-            </h3>
+            <div
+              class="absolute inset-0 bd-md:rounded-xl -scale-x-100 bg-cover"
+              style="background-image: url("/images/homepage/hero.webp"); background-position: 50% 60%;"
+            />
+            <div
+              class="absolute inset-0 bd-md:rounded-xl"
+              style="mix-blend-mode: overlay;"
+            />
           </div>
           <div
-            class="relative w-full lg:w-[480px]"
+            class="relative z-10 flex flex-col items-center bd-md:items-start gap-8 pt-8 px-6 pb-0 bd-md:py-10 bd-md:px-8 lg:py-16 lg:px-12"
           >
-            <form
-              class="flex flex-col lg:flex-row gap-3 w-full transition-opacity duration-300 opacity-100"
+            <div
+              class="flex flex-col gap-4 w-full"
             >
-              <label
-                class="sr-only"
-                for="newsletter-email"
+              <span
+                class="text-[10px] leading-[14px] tracking-[0.5px] uppercase text-white opacity-70 font-medium"
               >
-                Email address
-              </label>
-              <input
-                class="w-full h-11 px-4 bg-white rounded-md text-size-sm leading-[18.2px] tracking-[0.42px] text-bluedot-navy placeholder:text-bluedot-navy/60 border border-[rgba(0,0,0,0.1)] focus:outline-none focus:border-transparent focus:border-[3px] transition-all"
-                id="newsletter-email"
-                placeholder="Email"
-                required=""
-                style="background-origin: padding-box, border-box; background-clip: padding-box, border-box;"
-                type="email"
-                value=""
-              />
-              <button
-                class="w-full lg:w-auto h-11 px-[17px] flex items-center justify-center rounded-md text-size-sm leading-[18.2px] tracking-[0.42px] text-white bg-white/15 border border-white/15 backdrop-blur-[2px] hover:bg-white/20 hover:border-white/20 disabled:hover:bg-white/15 disabled:hover:border-white/15 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                type="submit"
+                Newsletter
+              </span>
+              <h3
+                class="text-2xl leading-tight text-white max-w-[512px]"
               >
-                Subscribe
-              </button>
-            </form>
+                Subscribe to get AI safety news and course updates delivered directly to your inbox
+              </h3>
+            </div>
+            <div
+              class="relative w-full lg:w-[480px]"
+            >
+              <form
+                class="flex flex-col lg:flex-row gap-3 w-full transition-opacity duration-300 opacity-100"
+              >
+                <label
+                  class="sr-only"
+                  for="newsletter-email"
+                >
+                  Email address
+                </label>
+                <input
+                  class="w-full h-11 px-4 bg-white rounded-md text-size-sm leading-[18.2px] tracking-[0.42px] text-bluedot-navy placeholder:text-bluedot-navy/60 border border-[rgba(0,0,0,0.1)] focus:outline-none focus:border-transparent focus:border-[3px] transition-all"
+                  id="newsletter-email"
+                  placeholder="Email"
+                  required=""
+                  style="background-origin: padding-box, border-box; background-clip: padding-box, border-box;"
+                  type="email"
+                  value=""
+                />
+                <button
+                  class="w-full lg:w-auto h-11 px-[17px] flex items-center justify-center rounded-md text-size-sm leading-[18.2px] tracking-[0.42px] text-white bg-white/15 border border-white/15 backdrop-blur-[2px] hover:bg-white/20 hover:border-white/20 disabled:hover:bg-white/15 disabled:hover:border-white/15 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                  type="submit"
+                >
+                  Subscribe
+                </button>
+              </form>
+            </div>
+            <img
+              alt=""
+              class="bd-md:hidden lg:block size-[140px] lg:absolute lg:top-10 lg:right-6 lg:size-64 2xl:top-6 2xl:right-12 2xl:size-[280px] opacity-80"
+              src="/images/homepage/newsletter.svg"
+            />
           </div>
-          <img
-            alt=""
-            class="bd-md:hidden lg:block size-[140px] lg:absolute lg:top-10 lg:right-6 lg:size-64 2xl:top-6 2xl:right-12 2xl:size-[280px] opacity-80"
-            src="/images/homepage/newsletter.svg"
-          />
         </div>
       </div>
     </div>

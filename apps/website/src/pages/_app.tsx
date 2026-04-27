@@ -28,7 +28,6 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
   const fromSiteParam = router.query.from_site as string;
   const fromSite = ['aisf', 'bsf'].includes(fromSiteParam) ? fromSiteParam as 'aisf' | 'bsf' : null;
   const hideFooter = 'hideFooter' in Component;
-  const mainShrinkToContent = 'mainShrinkToContent' in Component && Boolean(Component.mainShrinkToContent);
   const pageRendersOwnNav = 'pageRendersOwnNav' in Component && Boolean(Component.pageRendersOwnNav);
   const { courses, loading } = useCourses();
   const { openBugReport } = useBugReport();
@@ -89,10 +88,7 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
       ) : (
         <>
           <Header announcementBanner={getAnnouncementBanner()} pageRendersOwnNav={pageRendersOwnNav} />
-          <main
-            className="bluedot-base"
-            style={mainShrinkToContent ? { minHeight: 'auto' } : undefined}
-          >
+          <main className="bluedot-base">
             <ErrorBoundary key={router.asPath}>
               <Component {...pageProps} />
             </ErrorBoundary>

@@ -135,6 +135,5 @@ const ProgramsPage = () => {
 };
 
 ProgramsPage.pageRendersOwnNav = true;
-ProgramsPage.mainShrinkToContent = true;
 
 export default ProgramsPage;
