@@ -30,7 +30,7 @@ const IncubatorWeekProgramPage = () => {
       </Head>
       <MarketingHero
         title="Incubator Week"
-        subtitle="A five-day intensive that backs the strongest founders from our courses to build organizations to make AI go well. All expenses paid. Pitch for funding on Friday. Currently on hiatus — apply to join the waitlist."
+        subtitle="A five-day intensive that backs the strongest founders from our courses to build organizations to make AI go well. All expenses paid. Pitch for funding on Friday. 1-5 June in London."
       />
       <Breadcrumbs route={CURRENT_ROUTE} />
       <GrantStatsStrip
