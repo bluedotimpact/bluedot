@@ -45,6 +45,7 @@ const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId,
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search by name..."
+            aria-label="Search participants by name"
             className="flex-1 outline-none text-size-xs placeholder:text-gray-400"
           />
         </div>
