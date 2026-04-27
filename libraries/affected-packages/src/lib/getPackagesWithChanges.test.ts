@@ -17,7 +17,7 @@ vi.mock('./execAsync', async (importOriginal) => {
       // Handle mocked commands
       const commandMocks: Record<string, string> = {
         'gh api repos/bluedotimpact/bluedot/actions/workflows --jq \'.workflows[] | select(.name == "ci_cd") | .id\'': '123',
-        'gh api repos/bluedotimpact/bluedot/actions/workflows/123/runs?status=success --jq \'.workflow_runs[] | .head_sha\'': TEST_SUCCESSFUL_COMMIT,
+        'gh api repos/bluedotimpact/bluedot/actions/workflows/123/runs?status=success\'&\'per_page=100 --jq \'.workflow_runs[] | .head_sha\'': TEST_SUCCESSFUL_COMMIT,
         'git rev-parse HEAD': TEST_HEAD_COMMIT,
         'git status --porcelain --untracked-files': '?? libraries/affected-packages/src/lib/getPackagesWithChanges.test.ts',
       };
