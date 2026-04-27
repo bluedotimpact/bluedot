@@ -29,7 +29,7 @@ const TEST_CERT_TOKEN = 'test-token-secret';
 setupTestDb();
 
 describe('certificates.create (Airtable-script callable, shared-secret auth)', () => {
-  test('throws UNAUTHORIZED when token is the wrong length (constant-time check rejects early)', async () => {
+  test('throws UNAUTHORIZED when token is the wrong length (length mismatch short-circuits before timingSafeEqual)', async () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg1', email: 'test@example.com', courseId: 'c1',
     });
@@ -109,9 +109,11 @@ describe('certificates.verifyOwnership', () => {
   // the "no record" case currently surfaces as a thrown error rather than `{ isOwner: false }`.
   // Same root cause as the dead-code note in `certificates.create` above.
 
+  // `id` and `certificateId` are deliberately distinct in these fixtures so the test proves the
+  // router is actually filtering on the certificateId column, not implicitly resolving by primary key.
   test('returns { isOwner: false } when the certificate belongs to someone else', async () => {
     await testDb.insert(courseRegistrationTable, {
-      id: 'cert-1', email: 'someone-else@example.com', courseId: 'c1', certificateId: 'cert-1',
+      id: 'reg-someone-else', email: 'someone-else@example.com', courseId: 'c1', certificateId: 'cert-1',
     });
 
     const result = await createCaller(testAuthContextLoggedIn)
@@ -121,7 +123,7 @@ describe('certificates.verifyOwnership', () => {
 
   test('returns { isOwner: true } for the owner, case-insensitively', async () => {
     await testDb.insert(courseRegistrationTable, {
-      id: 'cert-1', email: 'TEST@Example.com', courseId: 'c1', certificateId: 'cert-1',
+      id: 'reg-owner', email: 'TEST@Example.com', courseId: 'c1', certificateId: 'cert-1',
     });
 
     const result = await createCaller(testAuthContextLoggedIn)
