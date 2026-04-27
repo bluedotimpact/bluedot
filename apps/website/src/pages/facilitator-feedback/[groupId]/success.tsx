@@ -21,10 +21,15 @@ const FacilitatorFeedbackSuccessPage = () => {
   const router = useRouter();
   const meetPersonId = router.query.groupId as string;
 
-  const { data, isLoading } = trpc.facilitators.getFeedbackFormData.useQuery(
+  const { data, isLoading, error } = trpc.facilitators.getFeedbackFormData.useQuery(
     { meetPersonId },
     { enabled: !!meetPersonId },
   );
+  const shouldShow404 = error?.data?.code === 'NOT_FOUND' || error?.data?.code === 'UNAUTHORIZED';
+
+  useEffect(() => {
+    if (shouldShow404) router.replace('/404');
+  }, [shouldShow404, router]);
 
   const notSubmitted = !!data && !data.existingCourseFeedback?.submittedAt;
   useEffect(() => {
@@ -51,7 +56,7 @@ const FacilitatorFeedbackSuccessPage = () => {
     setWindowSize({ width: window.innerWidth, height: window.innerHeight });
   }, []);
 
-  if (isLoading || !router.isReady || !data || notSubmitted) {
+  if (isLoading || shouldShow404 || !router.isReady || !data || notSubmitted) {
     return (
       <div className="min-h-screen bg-cream-normal flex items-center justify-center">
         <ProgressDots />

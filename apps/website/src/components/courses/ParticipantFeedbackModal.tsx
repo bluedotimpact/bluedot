@@ -96,7 +96,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <p id="show-up-label" className="text-size-xs font-semibold text-bluedot-navy">
-              How did they show up across discussions?
+              How did they show up across discussions? <span className="text-red-600">*</span>
             </p>
             <p className="text-size-xs text-gray-600">
               Think about preparation, initiative, and engagement between sessions.
@@ -114,7 +114,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
         <div className="mt-8 flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <p id="engage-label" className="text-size-xs font-semibold text-bluedot-navy">
-              How did they engage with ideas during discussions?
+              How did they engage with ideas during discussions? <span className="text-red-600">*</span>
             </p>
             <p className="text-size-xs text-gray-600">
               Think about quality of thinking, willingness to challenge, and depth of engagement.
@@ -132,7 +132,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
         <div className="mt-8 flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
             <p className="text-size-xs font-semibold text-bluedot-navy">
-              How should we follow up with them?
+              How should we follow up with them? <span className="text-red-600">*</span>
             </p>
             <p className="text-size-xs text-gray-600">Check all that apply.</p>
           </div>

@@ -21,10 +21,15 @@ const FacilitatorFeedbackPage = () => {
   const router = useRouter();
   const meetPersonId = router.query.groupId as string;
 
-  const { data: formData, isLoading } = trpc.facilitators.getFeedbackFormData.useQuery(
+  const { data: formData, isLoading, error } = trpc.facilitators.getFeedbackFormData.useQuery(
     { meetPersonId },
     { enabled: !!meetPersonId },
   );
+  const shouldShow404 = error?.data?.code === 'NOT_FOUND' || error?.data?.code === 'UNAUTHORIZED';
+
+  useEffect(() => {
+    if (shouldShow404) router.replace('/404');
+  }, [shouldShow404, router]);
 
   const [selectedParticipant, setSelectedParticipant] = useState<{ id: string; name: string } | null>(null);
   const [feedbackByParticipant, setFeedbackByParticipant] = useState<Record<string, ParticipantFeedback>>({});
@@ -81,7 +86,7 @@ const FacilitatorFeedbackPage = () => {
   const { data: currentUser } = trpc.users.getUser.useQuery();
   const isAdmin = currentUser?.isAdmin === true;
 
-  if (isLoading || !router.isReady) {
+  if (isLoading || shouldShow404 || !router.isReady) {
     return (
       <div className="min-h-screen bg-cream-normal flex items-center justify-center">
         <ProgressDots />
@@ -174,7 +179,7 @@ const FacilitatorFeedbackPage = () => {
             <p className="text-size-xxs font-semibold uppercase tracking-wider text-bluedot-normal">Course feedback</p>
             <div className="flex flex-col gap-1">
               <h2 className="text-size-lg font-bold text-bluedot-navy">How did the course go?</h2>
-              <p className="text-size-xs text-bluedot-navy leading-relaxed">Your honest feedback helps us improve the course and calibrate quality across cohorts.</p>
+              <p className="text-size-xs text-gray-600 leading-relaxed">Your honest feedback helps us improve the course and calibrate quality across cohorts.</p>
             </div>
           </div>
 
