@@ -66,7 +66,7 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
     title: 'Incubator Week',
     href: '/programs/incubator-week',
     track: 'Launch',
-    goal: 'Back founders from our courses to turn strong ideas into organizations that can make AI go well.',
+    goal: 'Back graduates launching AI safety companies, with seed funding and an intensive week in London.',
     scope: 'A five-day intensive in London. All expenses paid. Pitch for funding on Friday.',
     scopeLabel: 'Format',
     status: 'On hiatus',

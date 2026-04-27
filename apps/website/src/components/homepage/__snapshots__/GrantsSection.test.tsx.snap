@@ -204,6 +204,50 @@ exports[`GrantsSection > renders default as expected 1`] = `
               </div>
             </a>
           </li>
+          <li
+            class="py-5 first:pt-0 last:pb-0"
+          >
+            <a
+              class="group flex flex-col gap-3 bd-md:flex-row bd-md:items-center bd-md:justify-between bd-md:gap-6"
+              href="/programs/incubator-week?utm_source=website&utm_campaign=homepage-programs"
+            >
+              <div
+                class="flex items-stretch gap-4 min-w-0 flex-1"
+              >
+                <div
+                  class="w-1 flex-shrink-0 rounded-sm bg-bluedot-normal/30 transition-colors group-hover:bg-bluedot-normal group-focus-within:bg-bluedot-normal"
+                />
+                <div
+                  class="min-w-0 flex-1"
+                >
+                  <p
+                    class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
+                  >
+                    Incubator Week
+                  </p>
+                  <p
+                    class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
+                  >
+                    Back graduates launching AI safety companies, with seed funding and an intensive week in London.
+                  </p>
+                </div>
+              </div>
+              <div
+                class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
+              >
+                <span
+                  class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+                >
+                  Learn more
+                </span>
+                <span
+                  class="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                >
+                  →
+                </span>
+              </div>
+            </a>
+          </li>
         </ul>
       </div>
       <div

@@ -6,8 +6,6 @@ import { ROUTES } from '../../lib/routes';
 const PROGRAMS_OVERVIEW_URL = `${ROUTES.programs.url}?utm_source=website&utm_campaign=homepage-programs`;
 
 const GrantsSection = () => {
-  const activePrograms = GRANT_PROGRAMS.filter((p) => p.status === 'Active');
-
   return (
     <section className="w-full py-[48px] px-5 bd-md:py-[64px] bd-md:px-8 lg:py-[80px] lg:px-12 xl:py-[96px] xl:px-16 2xl:px-20">
       <div className="mx-auto max-w-screen-xl flex flex-col items-center">
@@ -21,7 +19,7 @@ const GrantsSection = () => {
         </div>
 
         <PageListGroup className="mt-10 bd-md:mt-12 w-full max-w-[1120px]">
-          {activePrograms.map((program) => (
+          {GRANT_PROGRAMS.map((program) => (
             <PageListRow
               key={program.slug}
               href={`${program.href}?utm_source=website&utm_campaign=homepage-programs`}
