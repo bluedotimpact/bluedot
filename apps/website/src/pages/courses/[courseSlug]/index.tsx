@@ -24,7 +24,6 @@ import { createFutureOfAiContent, FUTURE_OF_AI_START_URL } from '../../../compon
 import { createPersonalTheoryOfImpactContent, PERSONAL_TOI_START_URL } from '../../../components/lander/course-content/PersonalTheoryOfImpactContent';
 import { createTechnicalAiSafetyProjectContent } from '../../../components/lander/course-content/TechnicalAiSafetyProjectContent';
 import { getCourseRoundsData, getSoonestDeadline } from '../../../server/routers/course-rounds';
-import { createIncubatorWeekContent } from '../../../components/lander/course-content/IncubatorWeekContent';
 import { getCourseData, type CourseAndUnits } from '../../../server/routers/courses';
 import { fileExists } from '../../../utils/fileExists';
 
@@ -138,18 +137,6 @@ const renderCoursePage = ({
         courseSlug={slug}
         baseApplicationUrl={PERSONAL_TOI_START_URL}
         createContentFor={createPersonalTheoryOfImpactContent}
-        courseOgImage={courseOgImage}
-        soonestDeadline={soonestDeadline}
-      />
-    );
-  }
-
-  if (slug === 'incubator-week') {
-    return (
-      <CourseLander
-        courseSlug={slug}
-        baseApplicationUrl={baseApplicationUrl}
-        createContentFor={createIncubatorWeekContent}
         courseOgImage={courseOgImage}
         soonestDeadline={soonestDeadline}
       />
