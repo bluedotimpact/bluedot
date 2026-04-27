@@ -12,7 +12,7 @@ const LOGISTICS = [
   },
   {
     label: 'Schedule',
-    body: 'Currently on hiatus. Fill out our application to join the waitlist for future cohorts.',
+    body: '1-5 June.',
   },
 ];
 

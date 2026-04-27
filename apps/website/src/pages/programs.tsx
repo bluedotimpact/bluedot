@@ -10,7 +10,6 @@ import { trpc } from '../utils/trpc';
 type ProgramItem = {
   id: string;
   name: string;
-  status: 'Active' | 'On hiatus';
   href: string;
   summary: string;
   detail: string;
@@ -34,7 +33,6 @@ const ProgramsPage = () => {
     {
       id: 'rapid-grants',
       name: 'Rapid Grants',
-      status: 'Active',
       href: '/programs/rapid-grants',
       summary: 'Small, fast funding for concrete AI safety work.',
       detail: `Five-minute application, decisions in days, money upfront by default. ${rapidFundingLabel} deployed so far across ${rapidGrantsLabel}.`,
@@ -43,7 +41,6 @@ const ProgramsPage = () => {
     {
       id: 'career-transition-grant',
       name: 'Career Transition Grants',
-      status: 'Active',
       href: '/programs/career-transition-grant',
       summary: 'Funding to enable you to work full-time on impactful AI safety work.',
       detail: `Propose your plan for contributing full-time to AI safety. ${ctFundingLabel} awarded so far across ${ctGrantsLabel}.`,
@@ -52,7 +49,6 @@ const ProgramsPage = () => {
     {
       id: 'technical-ai-safety-project-sprint',
       name: 'Technical AI Safety Project Sprint',
-      status: 'Active',
       href: '/courses/technical-ai-safety-project',
       summary: 'A structured sprint for people who need momentum and accountability to ship.',
       detail: '30 hours, expert check-ins, peer accountability, and a public output.',
@@ -61,7 +57,6 @@ const ProgramsPage = () => {
     {
       id: 'advising',
       name: '1-1 advising',
-      status: 'Active',
       href: '/programs/advising',
       summary: 'A 20-min call with the BlueDot team to accelerate you towards impactful work in AI safety.',
       detail: '200+ advising calls done. Decisions in ~5 working days.',
@@ -70,16 +65,12 @@ const ProgramsPage = () => {
     {
       id: 'incubator-week',
       name: 'Incubator Week',
-      status: 'On hiatus',
       href: '/programs/incubator-week',
       summary: 'A concentrated week for stronger founders and operators testing bigger bets.',
       detail: 'Five-day London intensive. All expenses paid. Strong teams pitch for funding on Friday.',
       ctaLabel: 'Learn more',
     },
   ];
-
-  const activePrograms = programs.filter((program) => program.status === 'Active');
-  const pausedPrograms = programs.filter((program) => program.status === 'On hiatus');
 
   const renderRow = (program: ProgramItem) => (
     <PageListRow
@@ -111,11 +102,8 @@ const ProgramsPage = () => {
 
       <section className="section section-body">
         <div className="flex flex-col gap-12 lg:gap-14">
-          <PageListGroup label="Active">
-            {activePrograms.map(renderRow)}
-          </PageListGroup>
-          <PageListGroup label="On hiatus">
-            {pausedPrograms.map(renderRow)}
+          <PageListGroup>
+            {programs.map(renderRow)}
           </PageListGroup>
         </div>
 
