@@ -34,7 +34,7 @@ const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId,
       noClickaway
     >
       <div className="w-full max-w-[480px] flex flex-col gap-4 pt-0 sm:pt-5 -mb-4">
-        <p className="text-size-xs leading-normal text-gray-500">
+        <p className="text-size-xs leading-normal text-gray-600">
           Search for a participant enrolled in this course who isn't already on your list.
         </p>
 
