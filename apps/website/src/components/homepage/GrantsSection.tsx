@@ -1,13 +1,11 @@
 import { CTALinkOrButton, H2, P } from '@bluedot/ui';
-import Link from 'next/link';
 import { GRANT_PROGRAMS } from '../grants/grantPrograms';
+import { PageListGroup, PageListRow } from '../PageListRow';
 import { ROUTES } from '../../lib/routes';
 
 const PROGRAMS_OVERVIEW_URL = `${ROUTES.programs.url}?utm_source=website&utm_campaign=homepage-programs`;
 
 const GrantsSection = () => {
-  const activePrograms = GRANT_PROGRAMS.filter((p) => p.status === 'Active');
-
   return (
     <section className="w-full py-[48px] px-5 bd-md:py-[64px] bd-md:px-8 lg:py-[80px] lg:px-12 xl:py-[96px] xl:px-16 2xl:px-20">
       <div className="mx-auto max-w-screen-xl flex flex-col items-center">
@@ -20,34 +18,16 @@ const GrantsSection = () => {
           </P>
         </div>
 
-        <ul className="list-none mt-10 bd-md:mt-12 grid gap-4 w-full max-w-[1120px] grid-cols-1 bd-md:grid-cols-2 lg:grid-cols-3">
-          {activePrograms.map((program) => (
-            <li key={program.slug}>
-              <Link
-                href={`${program.href}?utm_source=website&utm_campaign=homepage-programs`}
-                className="group flex h-full flex-col gap-3 rounded-xl border border-bluedot-navy/10 bg-white p-6 transition-colors hover:border-bluedot-navy/20"
-              >
-                <p className="text-[11px] font-semibold uppercase tracking-[0.5px] text-bluedot-normal">
-                  {program.track}
-                </p>
-                <h3 className="text-[18px] bd-md:text-[20px] font-semibold leading-tight text-bluedot-navy">
-                  {program.title}
-                </h3>
-                <p className="text-[15px] leading-[1.55] text-bluedot-navy/70">
-                  {program.goal}
-                </p>
-                <span className="mt-auto pt-2 inline-flex items-center gap-1 text-[14px] font-medium text-bluedot-normal">
-                  <span className="transition-transform group-hover:translate-x-0.5 group-focus-visible:translate-x-0.5">
-                    Learn more
-                  </span>
-                  <span aria-hidden="true" className="opacity-60 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
-                    →
-                  </span>
-                </span>
-              </Link>
-            </li>
+        <PageListGroup className="mt-10 bd-md:mt-12 w-full max-w-[1120px]">
+          {GRANT_PROGRAMS.map((program) => (
+            <PageListRow
+              key={program.slug}
+              href={`${program.href}?utm_source=website&utm_campaign=homepage-programs`}
+              title={program.title}
+              summary={program.goal}
+            />
           ))}
-        </ul>
+        </PageListGroup>
 
         <div className="mt-10 bd-md:mt-12">
           <CTALinkOrButton url={PROGRAMS_OVERVIEW_URL} variant="secondary" withChevron>
