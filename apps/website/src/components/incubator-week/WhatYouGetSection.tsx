@@ -6,7 +6,11 @@ import {
 } from 'react-icons/pi';
 import { pageSectionHeadingClass } from '../PageListRow';
 
-const BENEFITS = [
+const BENEFITS: {
+  icon: React.ComponentType<{ className?: string; size?: number }>;
+  title: string;
+  description: React.ReactNode;
+}[] = [
   {
     icon: PiRocketLaunch,
     title: 'From problem to pitch in 5 days',
@@ -15,12 +19,18 @@ const BENEFITS = [
   {
     icon: PiHandshake,
     title: 'Work alongside the best',
-    description: 'You\'ll work from our office at LISA alongside Apollo Research, Workshop Labs, and other leading AI safety organizations. We bring in founders, funders, and experts throughout the week.',
+    description: 'You\'ll work from our office at LISA alongside Apollo Research and other leading AI safety organizations. We bring in founders, funders, and experts throughout the week.',
   },
   {
     icon: PiCurrencyDollar,
     title: 'Get backed to build',
-    description: 'Strong pitches receive initial grants of £50k+ to work on your project full-time. Our first batch backed Exona — they have since raised more, work from our co-working space, and are already hiring.',
+    description: (
+      <>
+        Strong pitches receive initial grants of £50k+ to work on your project full-time. Our first batch backed{' '}
+        <a href="https://exonalab.com/" target="_blank" rel="noreferrer" className="underline hover:no-underline">Exona</a>
+        {' '}— they have since raised more, work from our co-working space, and are already hiring.
+      </>
+    ),
   },
 ];
 
