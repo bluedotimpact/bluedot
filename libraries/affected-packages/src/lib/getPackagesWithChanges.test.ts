@@ -113,10 +113,14 @@ describe('getPackagesWithChanges', () => {
   });
 
   test('falls back to all packages when no successful ancestor is reachable', async () => {
-    // Return a SHA that is not in any ancestor chain — parent walk will return empty.
+    // Return a SHA that's not an ancestor, and mock `git rev-list` so the
+    // parent walk runs without depending on real git history (CI uses a
+    // shallow clone where TEST_HEAD_COMMIT is not present).
     const baseImpl = vi.mocked(execAsync).getMockImplementation()!;
     vi.mocked(execAsync).mockImplementation(async (command) => {
       if (command === SUCCESS_RUNS_COMMAND) return '0000000000000000000000000000000000000000';
+      // Pretend HEAD has no parents — parent walk returns [] immediately.
+      if (command === `git rev-list --parents -n 1 ${TEST_HEAD_COMMIT}`) return TEST_HEAD_COMMIT;
       return baseImpl(command);
     });
 
