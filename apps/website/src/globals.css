@@ -39,9 +39,16 @@
 }
 
 /* Prevent horizontal scrolling from absolutely positioned nav dropdowns
-   Note: We can't use overflow-x: hidden on html/body because it breaks position: sticky on the nav */
+   Note: We can't use overflow-x: hidden on html/body because it breaks position: sticky on the nav
+
+   Body background matches the footer (--bluedot-navy) so on short pages where
+   content + footer doesn't fill the viewport, the area below the footer reads
+   as a continuation of the footer rather than a stark white gap. The page
+   wrapper (`<main class="bluedot-base">`) has its own cream/white background
+   that covers body bg above the footer. */
 body {
   overflow-x: clip;
+  background-color: #02051E;
 }
 
 /* High-DPI displays (2dppx and above) get 0.5px hairline borders */

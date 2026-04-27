@@ -1,5 +1,4 @@
 import { Footer, LatestUtmParamsProvider } from '@bluedot/ui';
-import clsx from 'clsx';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
@@ -75,7 +74,7 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
   };
 
   return (
-    <div className={clsx(inter.className, 'flex flex-col min-h-screen')}>
+    <div className={inter.className}>
       <Head>
         <title>BlueDot Impact</title>
         <link rel="icon" href="/favicon.ico" />
@@ -89,7 +88,7 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
       ) : (
         <>
           <Header announcementBanner={getAnnouncementBanner()} pageRendersOwnNav={pageRendersOwnNav} />
-          <main className="bluedot-base flex-1">
+          <main className="bluedot-base">
             <ErrorBoundary key={router.asPath}>
               <Component {...pageProps} />
             </ErrorBoundary>
