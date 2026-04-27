@@ -7,31 +7,40 @@ const sleep = (ms: number): Promise<void> => new Promise((resolve) => {
   setTimeout(resolve, ms);
 });
 
+export const RETRY_BACKOFF_BASE_MS = 1000;
+const MAX_API_ATTEMPTS = 3;
+
 // GitHub's /actions/workflows/{id}/runs?status=success endpoint occasionally
 // returns an empty page even when many successful runs exist. A single empty
 // response here used to silently skip every deploy because the parent walk
 // found no successful ancestor. Retry on empty, and throw if still empty after
 // the final attempt so the failure is loud rather than silent.
 const fetchSuccessfulCommitShas = async (repo: string, workflowId: string): Promise<string[]> => {
-  const maxAttempts = 3;
-  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+  for (let attempt = 1; attempt <= MAX_API_ATTEMPTS; attempt++) {
     // eslint-disable-next-line no-await-in-loop -- sequential retries are intentional
-    const stdout = await execAsync(`gh api repos/${repo}/actions/workflows/${workflowId}/runs?status=success'&'per_page=100 --jq '.workflow_runs[] | .head_sha'`);
+    const stdout = await execAsync(`gh api 'repos/${repo}/actions/workflows/${workflowId}/runs?status=success&per_page=100' --jq '.workflow_runs[] | .head_sha'`);
     const shas = stdout.split('\n').filter(Boolean);
     if (shas.length > 0) return shas;
 
-    if (attempt < maxAttempts) {
-      const backoffMs = 2 ** (attempt - 1) * 1000;
-      console.error(`GitHub API returned 0 successful ${workflowId} runs (attempt ${attempt}/${maxAttempts}). Retrying in ${backoffMs}ms...`);
+    if (attempt < MAX_API_ATTEMPTS) {
+      const backoffMs = 2 ** (attempt - 1) * RETRY_BACKOFF_BASE_MS;
+      console.error(`GitHub API returned 0 successful ${workflowId} runs (attempt ${attempt}/${MAX_API_ATTEMPTS}). Retrying in ${backoffMs}ms...`);
       // eslint-disable-next-line no-await-in-loop -- sequential retries are intentional
       await sleep(backoffMs);
     }
   }
 
-  throw new Error(`GitHub API returned 0 successful runs for workflow ${workflowId} after ${maxAttempts} attempts. This is almost certainly a transient API issue. Re-run the workflow to retry.`);
+  throw new Error(`GitHub API returned 0 successful runs for workflow ${workflowId} after ${MAX_API_ATTEMPTS} attempts. This is almost certainly a transient API issue. Re-run the workflow to retry.`);
 };
 
-const getChangedFilesSinceLastSuccessfulCommit = async (): Promise<string[]> => {
+// `null` signals "could not determine which files changed" — caller should
+// treat all packages as affected (conservative fallback). Used when the
+// parent walk fails to find a successful ancestor, which usually means the
+// fork point is older than `fetch-depth` in the calling workflow rather
+// than a genuine API failure.
+type ChangedFilesResult = string[] | null;
+
+const getChangedFilesSinceLastSuccessfulCommit = async (): Promise<ChangedFilesResult> => {
   const repo = process.env.GITHUB_REPOSITORY ?? 'bluedotimpact/bluedot';
   const workflowName = process.env.GITHUB_WORKFLOW_NAME ?? 'ci_cd';
   const workflowId = await execAsync(`gh api repos/${repo}/actions/workflows --jq '.workflows[] | select(.name == "${workflowName}") | .id'`);
@@ -43,7 +52,8 @@ const getChangedFilesSinceLastSuccessfulCommit = async (): Promise<string[]> => 
   console.error(`Successful parent commits:\n${successfulParentCommits.map((c) => `- ${c.commitSha}`).join('\n')}\n`);
 
   if (successfulParentCommits.length === 0) {
-    throw new Error(`Could not find any successful ${workflowName} run among ancestors of ${headSha}. This usually means GitHub's API returned an incomplete page; re-run the workflow. (If the repo genuinely has no successful runs yet, deploy via workflow_dispatch.)`);
+    console.error(`WARN: could not find any successful ${workflowName} run among ancestors of ${headSha}. Falling back to treating all packages as changed. (If this is a fresh PR with many commits since the fork point, increase fetch-depth in the calling workflow.)`);
+    return null;
   }
 
   // This intentionally goes through all commits up to the parents with `git diff-tree`, instead of using `git diff` against the parent.
@@ -155,6 +165,11 @@ export const getPackagesWithChanges = async (): Promise<PackageInfo[]> => {
     getChangedFilesSinceLastSuccessfulCommit(),
     getInternalPackages(),
   ]);
+
+  if (changedFiles === null) {
+    console.error('Treating all internal packages as changed (conservative fallback).\n');
+    return internalPackages;
+  }
 
   console.error(`Changed files:\n${changedFiles.map((f) => `- ${f}`).join('\n')}\n`);
 
