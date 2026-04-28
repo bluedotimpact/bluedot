@@ -179,7 +179,7 @@ const FacilitatorFeedbackPage = () => {
             <p className="text-size-xs font-medium text-bluedot-normal">{roundName}</p>
           </div>
           <div className="flex flex-col gap-2 text-size-xs text-bluedot-navy/60">
-            <div className="flex items-center gap-2"><PiStar className="shrink-0" aria-hidden />Help us improve the course and support the right people.</div>
+            <div className="flex items-center gap-2"><PiStar className="shrink-0" aria-hidden />Help us improve the course and support participants.</div>
             <div className="flex items-center gap-2"><PiClock className="shrink-0" aria-hidden />8–10 min for course questions + a few min per participant.</div>
             <div className="flex items-center gap-2"><PiLockSimple className="shrink-0" aria-hidden />Your responses are only seen by BlueDot staff.</div>
           </div>

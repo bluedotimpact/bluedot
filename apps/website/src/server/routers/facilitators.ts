@@ -292,9 +292,15 @@ export const facilitatorRouter = router({
       const recipientIds = existingPeerFeedback.map((pf) => pf.feedbackRecipient?.[0] ?? '').filter(Boolean);
       const personIds = [...new Set([...participantIds, ...dropInIds, ...recipientIds])];
       const people = personIds.length > 0
-        ? await db.pg.select({ id: meetPersonTable.pg.id, name: meetPersonTable.pg.name }).from(meetPersonTable.pg).where(inArray(meetPersonTable.pg.id, personIds))
+        ? await db.pg
+          .select({ id: meetPersonTable.pg.id, name: meetPersonTable.pg.name })
+          .from(meetPersonTable.pg)
+          .where(inArray(meetPersonTable.pg.id, personIds))
+          .orderBy(asc(meetPersonTable.pg.name))
         : [];
       const nameById = new Map(people.map((p) => [p.id, p.name ?? '']));
+      const participantIdSet = new Set(participantIds);
+      const dropInIdSet = new Set(dropInIds);
 
       return {
         meetPersonId: meetPerson.id,
@@ -307,8 +313,8 @@ export const facilitatorRouter = router({
         roundLastDiscussionDate: round?.lastDiscussionDate ?? null,
         groupId: group.id,
         groupName: group.groupName,
-        participants: participantIds.map((id) => ({ id, name: nameById.get(id) ?? '' })),
-        dropIns: dropInIds.map((id) => ({ id, name: nameById.get(id) ?? '' })),
+        participants: people.filter((p) => participantIdSet.has(p.id)).map((p) => ({ id: p.id, name: p.name ?? '' })),
+        dropIns: people.filter((p) => dropInIdSet.has(p.id)).map((p) => ({ id: p.id, name: p.name ?? '' })),
         existingCourseFeedback: existingCourseFeedback ? {
           id: existingCourseFeedback.id,
           courseRating: existingCourseFeedback.courseRating,
