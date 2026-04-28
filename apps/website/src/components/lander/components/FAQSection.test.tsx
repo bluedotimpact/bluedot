@@ -23,6 +23,11 @@ const mockProps = {
   ],
 };
 
+const getJsonLd = (container: HTMLElement) => {
+  const script = container.querySelector('script[type="application/ld+json"]');
+  return script ? JSON.parse(script.textContent ?? '') : null;
+};
+
 describe('FAQSection', () => {
   it('renders correctly', () => {
     const { container } = render(<FAQSection {...mockProps} />);
@@ -40,6 +45,65 @@ describe('FAQSection', () => {
     expect(mockProps.items.length).toBeGreaterThan(0);
     mockProps.items.forEach((item) => {
       expect(getByText(item.question)).toBeDefined();
+    });
+  });
+
+  describe('JSON-LD structured data', () => {
+    it('renders a JSON-LD script tag', () => {
+      const { container } = render(<FAQSection {...mockProps} />);
+      const script = container.querySelector('script[type="application/ld+json"]');
+      expect(script).not.toBeNull();
+    });
+
+    it('sets FAQPage type', () => {
+      const { container } = render(<FAQSection {...mockProps} />);
+      const jsonLd = getJsonLd(container);
+      expect(jsonLd['@type']).toBe('FAQPage');
+      expect(jsonLd['@context']).toBe('https://schema.org');
+    });
+
+    it('includes string answers in structured data', () => {
+      const { container } = render(<FAQSection {...mockProps} />);
+      const jsonLd = getJsonLd(container);
+      expect(jsonLd.mainEntity).toHaveLength(3);
+      expect(jsonLd.mainEntity[0]).toEqual({
+        '@type': 'Question',
+        name: 'How much technical background do I need?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'You should understand the basics of how LLMs are trained.',
+        },
+      });
+    });
+
+    it('extracts plain text from JSX answers', () => {
+      const items = [
+        { id: 'jsx-item', question: 'JSX question?', answer: <span>JSX answer</span> },
+        { id: 'string-item', question: 'String question?', answer: 'String answer' },
+      ];
+      const { container } = render(<FAQSection title="FAQ" items={items} />);
+      const jsonLd = getJsonLd(container);
+      expect(jsonLd.mainEntity).toHaveLength(2);
+      expect(jsonLd.mainEntity[0].acceptedAnswer.text).toBe('JSX answer');
+      expect(jsonLd.mainEntity[1].acceptedAnswer.text).toBe('String answer');
+    });
+
+    it('strips HTML tags from JSX answers', () => {
+      const items = [
+        {
+          id: 'jsx-item',
+          question: 'JSX question?',
+          answer: (
+            <>
+              First paragraph.<br />
+              <a href="https://example.com">A link</a> with text.
+            </>
+          ),
+        },
+      ];
+      const { container } = render(<FAQSection title="FAQ" items={items} />);
+      const jsonLd = getJsonLd(container);
+      expect(jsonLd.mainEntity[0].acceptedAnswer.text).toBe('First paragraph. A link with text.');
     });
   });
 });
