@@ -118,7 +118,9 @@ const FacilitatorFeedbackPage = () => {
     .filter((pf) => !knownIds.has(pf.recipientId))
     .map((pf) => ({ id: pf.recipientId, name: pf.recipientName }));
   const displayedAddedParticipants = [...addedParticipants, ...serverOrphanParticipants];
-  const completedCount = participants.filter((p) => feedbackByParticipant[p.id]).length;
+  const allFeedbackTargets = [...participants, ...dropIns, ...displayedAddedParticipants];
+  const completedCount = allFeedbackTargets.filter((p) => feedbackByParticipant[p.id]).length;
+  const totalCount = allFeedbackTargets.length;
   const selectedFeedback = selectedParticipant ? feedbackByParticipant[selectedParticipant.id] : undefined;
   const selectedInitialData = selectedFeedback?.status === 'completed' ? selectedFeedback.data : undefined;
   const submitPayload = {
@@ -313,12 +315,12 @@ const FacilitatorFeedbackPage = () => {
 
         {/* Submit section */}
         <section className="bg-white rounded-lg border p-5 flex flex-col gap-3">
-          {showIncompleteWarning && completedCount < participants.length ? (
+          {showIncompleteWarning && completedCount < totalCount ? (
             <>
               <div className="flex gap-2 items-start bg-orange-50 text-orange-800 text-size-xs rounded-md p-3 border border-orange-200">
                 <PiWarningCircle className="shrink-0 mt-0.5 text-size-md" aria-hidden />
                 <p>
-                  <span className="font-semibold">{participants.length - completedCount} participants still need feedback.</span>
+                  <span className="font-semibold">{totalCount - completedCount} participants still need feedback.</span>
                   {' '}
                   Even just a star rating or "no strong impression" on each one helps BlueDot understand where they stand.
                 </p>
@@ -344,7 +346,7 @@ const FacilitatorFeedbackPage = () => {
                 className="w-full sm:w-auto bg-bluedot-normal text-white px-6 py-3 rounded-md text-size-xs leading-5 font-semibold transition-colors cursor-pointer hover:bg-bluedot-darker disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-bluedot-light"
                 disabled={submitFeedback.isPending || overallRating === 0 || !mostValuable.trim() || !difficulties.trim()}
                 onClick={() => {
-                  if (completedCount < participants.length) {
+                  if (completedCount < totalCount) {
                     setShowIncompleteWarning(true);
                     participantInsightsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   } else {
@@ -360,7 +362,7 @@ const FacilitatorFeedbackPage = () => {
                 {submitFeedback.isPending ? 'Saving...' : submitIdleLabel}
               </button>
               <p className="text-size-xs text-bluedot-navy/60">
-                <span className="font-semibold text-bluedot-navy">{completedCount}</span> of <span className="font-semibold text-bluedot-navy">{participants.length}</span> participant feedback completed
+                <span className="font-semibold text-bluedot-navy">{completedCount}</span> of <span className="font-semibold text-bluedot-navy">{totalCount}</span> participant feedback completed
               </p>
             </div>
           )}
