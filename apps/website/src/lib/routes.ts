@@ -111,8 +111,15 @@ const subscriptionPreferences: BluedotRoute = {
   parentPages: [home],
 };
 
+const adminSyncDashboard: BluedotRoute = {
+  title: 'Sync Dashboard',
+  url: '/admin/sync-dashboard',
+  parentPages: [home],
+};
+
 export const ROUTES = {
   about,
+  adminSyncDashboard,
   blog,
   certification,
   contact,

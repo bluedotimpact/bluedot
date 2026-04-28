@@ -15,9 +15,13 @@ import SyncDashboard from '../../../pages/admin/sync-dashboard';
 import { ONE_HOUR_MS } from '../../../lib/constants';
 
 // Mock dependencies
-vi.mock('@bluedot/ui', () => ({
-  useAuthStore: vi.fn(),
-}));
+vi.mock('@bluedot/ui', async () => {
+  const actual = await vi.importActual<typeof import('@bluedot/ui')>('@bluedot/ui');
+  return {
+    ...actual,
+    useAuthStore: vi.fn(),
+  };
+});
 
 const mockedUseAuthStore = vi.mocked(useAuthStore, true);
 
@@ -89,7 +93,7 @@ describe('SyncDashboard - Main User Journeys', () => {
     const syncButton = screen.getByRole('button', { name: 'Request Full Sync' });
     expect(syncButton).toBeInTheDocument();
     expect(syncButton).toBeEnabled();
-    expect(syncButton).toHaveClass('bg-blue-600');
+    expect(syncButton).toHaveClass('cta-button--primary');
 
     // Click the button
     await act(async () => {
