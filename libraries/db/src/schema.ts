@@ -889,6 +889,10 @@ export const rapidGrantTable = pgAirtable('rapid_grant', {
       pgColumn: text(),
       airtableId: 'fldAKj0OmnG43FRSp',
     },
+    grantDate: {
+      pgColumn: text(),
+      airtableId: 'fld1hj1URzMqImRFu',
+    },
   },
 });
 
