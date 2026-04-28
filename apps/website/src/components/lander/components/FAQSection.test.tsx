@@ -76,15 +76,20 @@ describe('FAQSection', () => {
       });
     });
 
-    it('extracts plain text from JSX answers', () => {
+    it('uses answerText for JSX answers when provided', () => {
       const items = [
-        { id: 'jsx-item', question: 'JSX question?', answer: <span>JSX answer</span> },
+        {
+          id: 'jsx-item',
+          question: 'JSX question?',
+          answer: <span>JSX answer</span>,
+          answerText: 'Plain text version',
+        },
         { id: 'string-item', question: 'String question?', answer: 'String answer' },
       ];
       const { container } = render(<FAQSection title="FAQ" items={items} />);
       const jsonLd = getJsonLd(container);
       expect(jsonLd.mainEntity).toHaveLength(2);
-      expect(jsonLd.mainEntity[0].acceptedAnswer.text).toBe('JSX answer');
+      expect(jsonLd.mainEntity[0].acceptedAnswer.text).toBe('Plain text version');
       expect(jsonLd.mainEntity[1].acceptedAnswer.text).toBe('String answer');
     });
 
