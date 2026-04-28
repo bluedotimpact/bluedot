@@ -163,6 +163,7 @@ export const createTechnicalAiSafetyProjectContent = (
             If you're not comfortable coding, you could instead work on a written project, like a blog post reflecting on a past BlueDot course or exploring different ways you could contribute to AI safety.
           </>
         ),
+        answerText: 'You should be comfortable coding—either through professional experience or a few fully completed projects. Our mentorship focuses on scoping and refining your project ideas, not teaching you to code. If you\'re not comfortable coding, you could instead work on a written project, like a blog post reflecting on a past BlueDot course or exploring different ways you could contribute to AI safety.',
       },
       {
         id: 'technical-ai-safety',
@@ -172,6 +173,7 @@ export const createTechnicalAiSafetyProjectContent = (
             We designed this course as a follow-up to the <a href="https://bluedot.org/courses/technical-ai-safety" target="_blank" rel="noopener noreferrer" className="underline">Technical AI Safety course</a>. We will be prioritising graduates from the course, but we'll also consider applicants who can demonstrate equivalent knowledge of technical AI safety concepts.
           </>
         ),
+        answerText: 'We designed this course as a follow-up to the Technical AI Safety course. We will be prioritising graduates from the course, but we\'ll also consider applicants who can demonstrate equivalent knowledge of technical AI safety concepts.',
       },
       {
         id: 'funding',
@@ -181,6 +183,7 @@ export const createTechnicalAiSafetyProjectContent = (
             Yes. Once you're accepted onto the sprint, you can apply for <a href="/programs/rapid-grants" className="underline">Rapid Grants</a> if you need compute or other resources for your project.
           </>
         ),
+        answerText: 'Yes. Once you\'re accepted onto the sprint, you can apply for Rapid Grants if you need compute or other resources for your project.',
       },
       {
         id: 'project-submission',
@@ -190,6 +193,7 @@ export const createTechnicalAiSafetyProjectContent = (
             You'll get feedback on your project from an AI safety expert. We'll feature the best projects on <a href="https://bluedot.org/projects/" target="_blank" rel="noopener noreferrer" className="underline">our website</a> and share it with hiring managers from relevant AI safety orgs.
           </>
         ),
+        answerText: 'You\'ll get feedback on your project from an AI safety expert. We\'ll feature the best projects on our website and share it with hiring managers from relevant AI safety orgs.',
       },
       {
         id: 'bluedot',
@@ -203,6 +207,7 @@ export const createTechnicalAiSafetyProjectContent = (
             We're an intense 7-person team. We've raised $35M in total, including $25M in 2025.
           </>
         ),
+        answerText: 'We\'re a London-based startup. Since 2022, we\'ve trained 7,000+ people, with 100s now working on making AI go well. Our courses are the main entry point into the AI safety field. We\'re an intense 7-person team. We\'ve raised $35M in total, including $25M in 2025.',
       },
     ],
   },

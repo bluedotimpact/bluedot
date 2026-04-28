@@ -187,6 +187,7 @@ export const createFutureOfAiContent = (
             We're the world's leading talent accelerator for beneficial AI and societal resilience. Since 2022, we've trained 6,000+ people. Our courses are the main entry point into the AI safety field. We're a small team. We've raised $34M in total, including $25M in 2025.
           </>
         ),
+        answerText: 'We\'re the world\'s leading talent accelerator for beneficial AI and societal resilience. Since 2022, we\'ve trained 6,000+ people. Our courses are the main entry point into the AI safety field. We\'re a small team. We\'ve raised $34M in total, including $25M in 2025.',
       },
     ],
   },

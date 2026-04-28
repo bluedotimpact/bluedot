@@ -227,6 +227,7 @@ export const createAgiStrategyContent = (
             Yes. See <a href="/programs" className="underline">bluedot.org/programs</a> for current grants and how to apply.
           </>
         ),
+        answerText: 'Yes. See bluedot.org/programs for current grants and how to apply.',
       },
       {
         id: 'certificate',

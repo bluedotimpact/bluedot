@@ -264,6 +264,7 @@ export const createTechnicalAiSafetyContent = (
             Our 2-hour, self-paced <a href="https://bluedot-impact.notion.site/AI-Foundations-293f8e69035380f29863c4c92c41fac7" target="_blank" rel="noopener noreferrer" className="underline">AI Foundations course</a> will give you enough background.
           </>
         ),
+        answerText: 'You should understand the basics of how LLMs are trained/fine-tuned, that AI development is driven by data, algorithms and compute, and that the reward function for neural networks is optimised through gradient descent. Our 2-hour, self-paced AI Foundations course will give you enough background.',
       },
       {
         id: 'agi-strategy',
@@ -273,6 +274,7 @@ export const createTechnicalAiSafetyContent = (
             It's not required, but strongly recommended. The AGI Strategy course provides essential context that this course builds on. While you can start here directly, you'll get more value if you understand how technical safety fits into the broader landscape of making AI go well.
           </>
         ),
+        answerText: 'It\'s not required, but strongly recommended. The AGI Strategy course provides essential context that this course builds on. While you can start here directly, you\'ll get more value if you understand how technical safety fits into the broader landscape of making AI go well.',
       },
       {
         id: 'bluedot',
@@ -286,6 +288,7 @@ export const createTechnicalAiSafetyContent = (
             We're an intense 4-person team. We've raised $35M in total, including $25M in 2025.
           </>
         ),
+        answerText: 'We\'re a London-based startup. Since 2022, we\'ve trained 7,000+ people, with 100s now working on making AI go well. Our courses are the main entry point into the AI safety field. We\'re an intense 4-person team. We\'ve raised $35M in total, including $25M in 2025.',
       },
     ],
   },
