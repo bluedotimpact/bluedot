@@ -417,13 +417,15 @@ const getCtaButtons = ({
   if (courseRegistration.roundStatus === 'Past') {
     const buttons: ReactNode[] = [];
 
-    if (feedbackFormUrl && !hasSubmittedFeedback) {
+    const facilitatorFeedbackUrl = isFacilitatorRole && meetPerson ? `/facilitator-feedback/${meetPerson.id}` : null;
+    const feedbackUrl = facilitatorFeedbackUrl ?? feedbackFormUrl;
+    if (!hasSubmittedFeedback && feedbackUrl) {
       buttons.push(<CTALinkOrButton
         key="feedback"
         variant="outline-black"
         size="small"
-        url={feedbackFormUrl}
-        target="_blank"
+        url={feedbackUrl}
+        target={facilitatorFeedbackUrl ? undefined : '_blank'}
         className="w-full sm:w-auto border-bluedot-darker"
       >
         Share feedback

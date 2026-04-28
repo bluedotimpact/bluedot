@@ -21,6 +21,7 @@ export type ModalProps = {
   desktopHeaderClassName?: string;
   /** ariaLabel for case where `title` is not a string, otherwise prefer leaving blank (`title` will be used) */
   ariaLabel?: string;
+  noClickaway?: boolean;
 };
 
 const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
@@ -30,10 +31,11 @@ const DesktopModal: React.FC<Omit<ModalProps, 'bottomDrawerOnMobile'>> = ({
   children,
   desktopHeaderClassName,
   ariaLabel,
+  noClickaway,
 }) => {
   return (
     <ModalOverlay
-      isDismissable
+      isDismissable={!noClickaway}
       isOpen={isOpen}
       onOpenChange={setIsOpen}
       className="fixed inset-0 z-60 overflow-y-auto bg-black/25 flex min-h-full items-center justify-center p-4 backdrop-blur-xs"
@@ -64,6 +66,7 @@ export const Modal: React.FC<ModalProps> = ({
   bottomDrawerOnMobile = false,
   desktopHeaderClassName,
   ariaLabel,
+  noClickaway,
 }) => {
   const isDesktop = useAboveBreakpoint(breakpoints.md);
 
@@ -76,14 +79,14 @@ export const Modal: React.FC<ModalProps> = ({
 
   if (shouldUseMobileDrawer) {
     return (
-      <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} initialSize="fit-screen" ariaLabel={ariaLabel}>
+      <BottomDrawerModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} initialSize="fit-screen" ariaLabel={ariaLabel} noClickaway={noClickaway}>
         {children}
       </BottomDrawerModal>
     );
   }
 
   return (
-    <DesktopModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} ariaLabel={ariaLabel} desktopHeaderClassName={desktopHeaderClassName}>
+    <DesktopModal isOpen={isOpen} setIsOpen={setIsOpen} title={title} ariaLabel={ariaLabel} desktopHeaderClassName={desktopHeaderClassName} noClickaway={noClickaway}>
       {children}
     </DesktopModal>
   );

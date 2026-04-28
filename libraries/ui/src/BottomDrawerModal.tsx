@@ -38,6 +38,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
   initialSize,
   children,
   ariaLabel,
+  noClickaway,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -113,7 +114,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
 
   return (
     <ModalOverlay
-      isDismissable
+      isDismissable={!noClickaway}
       isOpen={isOpen}
       onOpenChange={(open) => !open && handleClose()}
       className="fixed inset-0 z-60 flex min-h-full items-center justify-center"
@@ -128,7 +129,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                onClick={handleClose}
+                onClick={noClickaway ? undefined : handleClose}
               />
               {/* Modal Container */}
               <motion.div
