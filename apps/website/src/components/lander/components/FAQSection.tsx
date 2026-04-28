@@ -1,7 +1,8 @@
 import { cn, P } from '@bluedot/ui';
 import clsx from 'clsx';
-import { PlusToggleIcon } from '../../icons/PlusToggleIcon';
 import { useState } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { PlusToggleIcon } from '../../icons/PlusToggleIcon';
 
 /**
  * Represents a single FAQ item with question and answer
@@ -28,13 +29,33 @@ export type FAQSectionProps = {
   background?: 'white' | 'canvas';
 };
 
-const FAQSection = ({
-  id,
-  title,
-  items,
-  background = 'white',
-}: FAQSectionProps) => {
+const FAQSection = ({ id, title, items, background = 'white' }: FAQSectionProps) => {
   const [openQuestions, setOpenQuestions] = useState<string[]>([]);
+
+  // Renders JSX to HTML then strips tags
+  const toPlainText = (node: React.ReactNode): string => {
+    try {
+      return renderToStaticMarkup(node as React.ReactElement)
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    } catch {
+      return typeof node === 'string' ? node : '';
+    }
+  };
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: toPlainText(item.answer),
+      },
+    })),
+  };
 
   const handleToggle = (questionId: string) => {
     setOpenQuestions((prev) => {
@@ -45,67 +66,62 @@ const FAQSection = ({
   };
 
   return (
-    <section
-      id={id}
-      className={clsx(
-        'w-full',
-        background === 'canvas' ? 'bg-color-canvas' : 'bg-white',
-      )}
-    >
-      <div className="max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-spacing-x py-12 bd-md:pt-16 bd-md:pb-12 lg:py-16 xl:py-24">
-        <div className="max-w-[928px] mx-auto flex flex-col gap-12 md:gap-16">
-          <h2 className="text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy text-center">
-            {title}
-          </h2>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <section id={id} className={clsx('w-full', background === 'canvas' ? 'bg-color-canvas' : 'bg-white')}>
+        <div className="max-w-max-width bd-md:px-8 lg:px-spacing-x bd-md:pt-16 bd-md:pb-12 mx-auto px-5 py-12 lg:py-16 xl:py-24">
+          <div className="mx-auto flex max-w-[928px] flex-col gap-12 md:gap-16">
+            <h2 className="bd-md:text-[32px] text-bluedot-navy text-center text-[28px] leading-[125%] font-semibold tracking-[-0.01em] xl:text-[36px]">
+              {title}
+            </h2>
 
-          <div className="flex flex-col gap-6">
-            {items.map((item) => {
-              const isOpen = openQuestions.includes(item.id);
+            <div className="flex flex-col gap-6">
+              {items.map((item) => {
+                const isOpen = openQuestions.includes(item.id);
 
-              return (
-                <div
-                  key={item.id}
-                  className="border border-bluedot-navy/10 bg-white rounded-xl overflow-hidden"
-                >
-                  <button
-                    type="button"
-                    onClick={() => handleToggle(item.id)}
-                    className={`w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease ${
-                      isOpen ? 'pt-6 pb-4' : 'py-6'
-                    } ${!isOpen ? 'hover:bg-gray-50' : ''}`}
-                    aria-expanded={isOpen}
-                    aria-controls={`faq-answer-${item.id}`}
-                  >
-                    <span className="text-[18px] font-semibold leading-[125%] text-bluedot-navy flex-grow">
-                      {item.question}
-                    </span>
-                    <PlusToggleIcon
-                      className={cn('flex-shrink-0 transition-transform duration-300 ease text-[#001133]', isOpen && 'rotate-45')}
-                    />
-                  </button>
+                return (
+                  <div key={item.id} className="border-bluedot-navy/10 overflow-hidden rounded-xl border bg-white">
+                    <button
+                      type="button"
+                      onClick={() => handleToggle(item.id)}
+                      className={`ease flex w-full cursor-pointer items-center gap-8 px-8 text-left transition-all duration-300 ${
+                        isOpen ? 'pt-6 pb-4' : 'py-6'
+                      } ${!isOpen ? 'hover:bg-gray-50' : ''}`}
+                      aria-expanded={isOpen}
+                      aria-controls={`faq-answer-${item.id}`}
+                    >
+                      <span className="text-bluedot-navy flex-grow text-[18px] leading-[125%] font-semibold">
+                        {item.question}
+                      </span>
+                      <PlusToggleIcon
+                        className={cn(
+                          'ease flex-shrink-0 text-[#001133] transition-transform duration-300',
+                          isOpen && 'rotate-45',
+                        )}
+                      />
+                    </button>
 
-                  {/* Answer container with animation */}
-                  <div
-                    id={`faq-answer-${item.id}`}
-                    className={`grid transition-[grid-template-rows] duration-300 ease ${
-                      isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
-                    }`}
-                  >
-                    <div className="overflow-hidden">
-                      <div className="px-8 pb-6">
-                        <P className="text-[18px] text-bluedot-navy/80">
-                          {item.answer}
-                        </P>
+                    {/* Answer container with animation */}
+                    <div
+                      id={`faq-answer-${item.id}`}
+                      className={`ease grid transition-[grid-template-rows] duration-300 ${
+                        isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+                      }`}
+                    >
+                      <div className="overflow-hidden">
+                        <div className="px-8 pb-6">
+                          <P className="text-bluedot-navy/80 text-[18px]">{item.answer}</P>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 
