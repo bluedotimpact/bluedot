@@ -12,7 +12,7 @@ type PublicRapidGrant = inferRouterOutputs<AppRouter>['grants']['getAllPublicRap
 
 const GranteeRow = ({ grantee }: { grantee: PublicRapidGrant }) => {
   const amount = grantee.amountUsd !== null ? formatAmountUsd(grantee.amountUsd) : null;
-  const summary = [grantee.granteeName, amount, grantee.projectSummary]
+  const summary = [grantee.granteeName, amount, grantee.monthLabel, grantee.projectSummary]
     .filter(Boolean)
     .join(' · ');
 
