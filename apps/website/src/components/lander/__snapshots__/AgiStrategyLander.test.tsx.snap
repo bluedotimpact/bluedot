@@ -1395,18 +1395,23 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
     <div
       class="border-t-hairline border-color-divider"
     />
+    <script
+      type="application/ld+json"
+    >
+      {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What background do I need?","acceptedAnswer":{"@type":"Answer","text":"We don't care about your CV. We care about what you'll do next. Recent cohorts have included people from policy, engineering, law, medicine, operations, and academia. What they shared was drive and a bias toward action."}},{"@type":"Question","name":"Is this course for beginners?","acceptedAnswer":{"@type":"Answer","text":"It's for people new to working on AI safety, not new to thinking hard. If you've been reading and thinking, and are ready to act, this is where you start."}},{"@type":"Question","name":"What's the difference between intensive and part-time?","acceptedAnswer":{"@type":"Answer","text":"Same content, different pace. Intensive is 5 days at ~5h/day, for people who can clear a week and want to move fast. Part-time is 5 weeks at ~5h/week, for people fitting this around other commitments. Both end in the same place."}},{"@type":"Question","name":"What time zones do you run cohorts in?","acceptedAnswer":{"@type":"Answer","text":"We run discussions across a wide range of timezones. You'll tell us your availability and we'll put you in a group that works for your current schedule."}},{"@type":"Question","name":"What if I don't know which direction I want to go?","acceptedAnswer":{"@type":"Answer","text":"That's what the course is for. You'll leave with a view on which problems matter most and which path fits your skills: technical research, governance, biosecurity, or building something new. Figuring that out is the work."}},{"@type":"Question","name":"Is there funding available?","acceptedAnswer":{"@type":"Answer","text":"Yes. See bluedot.org/programs for current grants and how to apply."}},{"@type":"Question","name":"Will I get a certificate?","acceptedAnswer":{"@type":"Answer","text":"Yes. Participants who complete the course receive a digital certificate they can share on LinkedIn or with employers."}},{"@type":"Question","name":"Is it really free?","acceptedAnswer":{"@type":"Answer","text":"Yes."}},{"@type":"Question","name":"Who is BlueDot Impact?","acceptedAnswer":{"@type":"Answer","text":"BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run courses, help people land jobs, organise events around the world, and back people starting new organisations. We've trained thousands of people since 2022. Our alumni now work at Anthropic, DeepMind, UK AISI, and have founded new organisations working on a safe transition to advanced AI."}}]}
+    </script>
     <section
       class="w-full bg-white"
       id="faq"
     >
       <div
-        class="max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-spacing-x py-12 bd-md:pt-16 bd-md:pb-12 lg:py-16 xl:py-24"
+        class="max-w-max-width bd-md:px-8 lg:px-spacing-x bd-md:pt-16 bd-md:pb-12 mx-auto px-5 py-12 lg:py-16 xl:py-24"
       >
         <div
-          class="max-w-[928px] mx-auto flex flex-col gap-12 md:gap-16"
+          class="mx-auto flex max-w-[928px] flex-col gap-12 md:gap-16"
         >
           <h2
-            class="text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy text-center"
+            class="bd-md:text-[32px] text-bluedot-navy text-center text-[28px] leading-[125%] font-semibold tracking-[-0.01em] xl:text-[36px]"
           >
             Frequently Asked Questions
           </h2>
@@ -1414,21 +1419,21 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
             class="flex flex-col gap-6"
           >
             <div
-              class="border border-bluedot-navy/10 bg-white rounded-xl overflow-hidden"
+              class="border-bluedot-navy/10 overflow-hidden rounded-xl border bg-white"
             >
               <button
                 aria-controls="faq-answer-background"
                 aria-expanded="false"
-                class="w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease py-6 hover:bg-gray-50"
+                class="ease flex w-full cursor-pointer items-center gap-8 px-8 text-left transition-all duration-300 py-6 hover:bg-gray-50"
                 type="button"
               >
                 <span
-                  class="text-[18px] font-semibold leading-[125%] text-bluedot-navy flex-grow"
+                  class="text-bluedot-navy flex-grow text-[18px] leading-[125%] font-semibold"
                 >
                   What background do I need?
                 </span>
                 <svg
-                  class="flex-shrink-0 transition-transform duration-300 ease text-[#001133]"
+                  class="ease flex-shrink-0 text-[#001133] transition-transform duration-300"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1443,7 +1448,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 </svg>
               </button>
               <div
-                class="grid transition-[grid-template-rows] duration-300 ease grid-rows-[0fr]"
+                class="ease grid transition-[grid-template-rows] duration-300 grid-rows-[0fr]"
                 id="faq-answer-background"
               >
                 <div
@@ -1453,7 +1458,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     class="px-8 pb-6"
                   >
                     <p
-                      class="bluedot-p not-prose text-[18px] text-bluedot-navy/80"
+                      class="bluedot-p not-prose text-bluedot-navy/80 text-[18px]"
                     >
                       We don't care about your CV. We care about what you'll do next. Recent cohorts have included people from policy, engineering, law, medicine, operations, and academia. What they shared was drive and a bias toward action.
                     </p>
@@ -1462,21 +1467,21 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
             <div
-              class="border border-bluedot-navy/10 bg-white rounded-xl overflow-hidden"
+              class="border-bluedot-navy/10 overflow-hidden rounded-xl border bg-white"
             >
               <button
                 aria-controls="faq-answer-beginners"
                 aria-expanded="false"
-                class="w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease py-6 hover:bg-gray-50"
+                class="ease flex w-full cursor-pointer items-center gap-8 px-8 text-left transition-all duration-300 py-6 hover:bg-gray-50"
                 type="button"
               >
                 <span
-                  class="text-[18px] font-semibold leading-[125%] text-bluedot-navy flex-grow"
+                  class="text-bluedot-navy flex-grow text-[18px] leading-[125%] font-semibold"
                 >
                   Is this course for beginners?
                 </span>
                 <svg
-                  class="flex-shrink-0 transition-transform duration-300 ease text-[#001133]"
+                  class="ease flex-shrink-0 text-[#001133] transition-transform duration-300"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1491,7 +1496,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 </svg>
               </button>
               <div
-                class="grid transition-[grid-template-rows] duration-300 ease grid-rows-[0fr]"
+                class="ease grid transition-[grid-template-rows] duration-300 grid-rows-[0fr]"
                 id="faq-answer-beginners"
               >
                 <div
@@ -1501,7 +1506,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     class="px-8 pb-6"
                   >
                     <p
-                      class="bluedot-p not-prose text-[18px] text-bluedot-navy/80"
+                      class="bluedot-p not-prose text-bluedot-navy/80 text-[18px]"
                     >
                       It's for people new to working on AI safety, not new to thinking hard. If you've been reading and thinking, and are ready to act, this is where you start.
                     </p>
@@ -1510,21 +1515,21 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
             <div
-              class="border border-bluedot-navy/10 bg-white rounded-xl overflow-hidden"
+              class="border-bluedot-navy/10 overflow-hidden rounded-xl border bg-white"
             >
               <button
                 aria-controls="faq-answer-formats"
                 aria-expanded="false"
-                class="w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease py-6 hover:bg-gray-50"
+                class="ease flex w-full cursor-pointer items-center gap-8 px-8 text-left transition-all duration-300 py-6 hover:bg-gray-50"
                 type="button"
               >
                 <span
-                  class="text-[18px] font-semibold leading-[125%] text-bluedot-navy flex-grow"
+                  class="text-bluedot-navy flex-grow text-[18px] leading-[125%] font-semibold"
                 >
                   What's the difference between intensive and part-time?
                 </span>
                 <svg
-                  class="flex-shrink-0 transition-transform duration-300 ease text-[#001133]"
+                  class="ease flex-shrink-0 text-[#001133] transition-transform duration-300"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1539,7 +1544,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 </svg>
               </button>
               <div
-                class="grid transition-[grid-template-rows] duration-300 ease grid-rows-[0fr]"
+                class="ease grid transition-[grid-template-rows] duration-300 grid-rows-[0fr]"
                 id="faq-answer-formats"
               >
                 <div
@@ -1549,7 +1554,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     class="px-8 pb-6"
                   >
                     <p
-                      class="bluedot-p not-prose text-[18px] text-bluedot-navy/80"
+                      class="bluedot-p not-prose text-bluedot-navy/80 text-[18px]"
                     >
                       Same content, different pace. Intensive is 5 days at ~5h/day, for people who can clear a week and want to move fast. Part-time is 5 weeks at ~5h/week, for people fitting this around other commitments. Both end in the same place.
                     </p>
@@ -1558,21 +1563,21 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
             <div
-              class="border border-bluedot-navy/10 bg-white rounded-xl overflow-hidden"
+              class="border-bluedot-navy/10 overflow-hidden rounded-xl border bg-white"
             >
               <button
                 aria-controls="faq-answer-timezones"
                 aria-expanded="false"
-                class="w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease py-6 hover:bg-gray-50"
+                class="ease flex w-full cursor-pointer items-center gap-8 px-8 text-left transition-all duration-300 py-6 hover:bg-gray-50"
                 type="button"
               >
                 <span
-                  class="text-[18px] font-semibold leading-[125%] text-bluedot-navy flex-grow"
+                  class="text-bluedot-navy flex-grow text-[18px] leading-[125%] font-semibold"
                 >
                   What time zones do you run cohorts in?
                 </span>
                 <svg
-                  class="flex-shrink-0 transition-transform duration-300 ease text-[#001133]"
+                  class="ease flex-shrink-0 text-[#001133] transition-transform duration-300"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1587,7 +1592,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 </svg>
               </button>
               <div
-                class="grid transition-[grid-template-rows] duration-300 ease grid-rows-[0fr]"
+                class="ease grid transition-[grid-template-rows] duration-300 grid-rows-[0fr]"
                 id="faq-answer-timezones"
               >
                 <div
@@ -1597,7 +1602,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     class="px-8 pb-6"
                   >
                     <p
-                      class="bluedot-p not-prose text-[18px] text-bluedot-navy/80"
+                      class="bluedot-p not-prose text-bluedot-navy/80 text-[18px]"
                     >
                       We run discussions across a wide range of timezones. You'll tell us your availability and we'll put you in a group that works for your current schedule.
                     </p>
@@ -1606,21 +1611,21 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
             <div
-              class="border border-bluedot-navy/10 bg-white rounded-xl overflow-hidden"
+              class="border-bluedot-navy/10 overflow-hidden rounded-xl border bg-white"
             >
               <button
                 aria-controls="faq-answer-direction"
                 aria-expanded="false"
-                class="w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease py-6 hover:bg-gray-50"
+                class="ease flex w-full cursor-pointer items-center gap-8 px-8 text-left transition-all duration-300 py-6 hover:bg-gray-50"
                 type="button"
               >
                 <span
-                  class="text-[18px] font-semibold leading-[125%] text-bluedot-navy flex-grow"
+                  class="text-bluedot-navy flex-grow text-[18px] leading-[125%] font-semibold"
                 >
                   What if I don't know which direction I want to go?
                 </span>
                 <svg
-                  class="flex-shrink-0 transition-transform duration-300 ease text-[#001133]"
+                  class="ease flex-shrink-0 text-[#001133] transition-transform duration-300"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1635,7 +1640,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 </svg>
               </button>
               <div
-                class="grid transition-[grid-template-rows] duration-300 ease grid-rows-[0fr]"
+                class="ease grid transition-[grid-template-rows] duration-300 grid-rows-[0fr]"
                 id="faq-answer-direction"
               >
                 <div
@@ -1645,7 +1650,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     class="px-8 pb-6"
                   >
                     <p
-                      class="bluedot-p not-prose text-[18px] text-bluedot-navy/80"
+                      class="bluedot-p not-prose text-bluedot-navy/80 text-[18px]"
                     >
                       That's what the course is for. You'll leave with a view on which problems matter most and which path fits your skills: technical research, governance, biosecurity, or building something new. Figuring that out is the work.
                     </p>
@@ -1654,21 +1659,21 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
             <div
-              class="border border-bluedot-navy/10 bg-white rounded-xl overflow-hidden"
+              class="border-bluedot-navy/10 overflow-hidden rounded-xl border bg-white"
             >
               <button
                 aria-controls="faq-answer-funding"
                 aria-expanded="false"
-                class="w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease py-6 hover:bg-gray-50"
+                class="ease flex w-full cursor-pointer items-center gap-8 px-8 text-left transition-all duration-300 py-6 hover:bg-gray-50"
                 type="button"
               >
                 <span
-                  class="text-[18px] font-semibold leading-[125%] text-bluedot-navy flex-grow"
+                  class="text-bluedot-navy flex-grow text-[18px] leading-[125%] font-semibold"
                 >
                   Is there funding available?
                 </span>
                 <svg
-                  class="flex-shrink-0 transition-transform duration-300 ease text-[#001133]"
+                  class="ease flex-shrink-0 text-[#001133] transition-transform duration-300"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1683,7 +1688,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 </svg>
               </button>
               <div
-                class="grid transition-[grid-template-rows] duration-300 ease grid-rows-[0fr]"
+                class="ease grid transition-[grid-template-rows] duration-300 grid-rows-[0fr]"
                 id="faq-answer-funding"
               >
                 <div
@@ -1693,7 +1698,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     class="px-8 pb-6"
                   >
                     <p
-                      class="bluedot-p not-prose text-[18px] text-bluedot-navy/80"
+                      class="bluedot-p not-prose text-bluedot-navy/80 text-[18px]"
                     >
                       Yes. See 
                       <a
@@ -1709,21 +1714,21 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
             <div
-              class="border border-bluedot-navy/10 bg-white rounded-xl overflow-hidden"
+              class="border-bluedot-navy/10 overflow-hidden rounded-xl border bg-white"
             >
               <button
                 aria-controls="faq-answer-certificate"
                 aria-expanded="false"
-                class="w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease py-6 hover:bg-gray-50"
+                class="ease flex w-full cursor-pointer items-center gap-8 px-8 text-left transition-all duration-300 py-6 hover:bg-gray-50"
                 type="button"
               >
                 <span
-                  class="text-[18px] font-semibold leading-[125%] text-bluedot-navy flex-grow"
+                  class="text-bluedot-navy flex-grow text-[18px] leading-[125%] font-semibold"
                 >
                   Will I get a certificate?
                 </span>
                 <svg
-                  class="flex-shrink-0 transition-transform duration-300 ease text-[#001133]"
+                  class="ease flex-shrink-0 text-[#001133] transition-transform duration-300"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1738,7 +1743,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 </svg>
               </button>
               <div
-                class="grid transition-[grid-template-rows] duration-300 ease grid-rows-[0fr]"
+                class="ease grid transition-[grid-template-rows] duration-300 grid-rows-[0fr]"
                 id="faq-answer-certificate"
               >
                 <div
@@ -1748,7 +1753,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     class="px-8 pb-6"
                   >
                     <p
-                      class="bluedot-p not-prose text-[18px] text-bluedot-navy/80"
+                      class="bluedot-p not-prose text-bluedot-navy/80 text-[18px]"
                     >
                       Yes. Participants who complete the course receive a digital certificate they can share on LinkedIn or with employers.
                     </p>
@@ -1757,21 +1762,21 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
             <div
-              class="border border-bluedot-navy/10 bg-white rounded-xl overflow-hidden"
+              class="border-bluedot-navy/10 overflow-hidden rounded-xl border bg-white"
             >
               <button
                 aria-controls="faq-answer-free"
                 aria-expanded="false"
-                class="w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease py-6 hover:bg-gray-50"
+                class="ease flex w-full cursor-pointer items-center gap-8 px-8 text-left transition-all duration-300 py-6 hover:bg-gray-50"
                 type="button"
               >
                 <span
-                  class="text-[18px] font-semibold leading-[125%] text-bluedot-navy flex-grow"
+                  class="text-bluedot-navy flex-grow text-[18px] leading-[125%] font-semibold"
                 >
                   Is it really free?
                 </span>
                 <svg
-                  class="flex-shrink-0 transition-transform duration-300 ease text-[#001133]"
+                  class="ease flex-shrink-0 text-[#001133] transition-transform duration-300"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1786,7 +1791,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 </svg>
               </button>
               <div
-                class="grid transition-[grid-template-rows] duration-300 ease grid-rows-[0fr]"
+                class="ease grid transition-[grid-template-rows] duration-300 grid-rows-[0fr]"
                 id="faq-answer-free"
               >
                 <div
@@ -1796,7 +1801,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     class="px-8 pb-6"
                   >
                     <p
-                      class="bluedot-p not-prose text-[18px] text-bluedot-navy/80"
+                      class="bluedot-p not-prose text-bluedot-navy/80 text-[18px]"
                     >
                       Yes.
                     </p>
@@ -1805,21 +1810,21 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               </div>
             </div>
             <div
-              class="border border-bluedot-navy/10 bg-white rounded-xl overflow-hidden"
+              class="border-bluedot-navy/10 overflow-hidden rounded-xl border bg-white"
             >
               <button
                 aria-controls="faq-answer-bluedot"
                 aria-expanded="false"
-                class="w-full flex items-center gap-8 text-left px-8 cursor-pointer transition-all duration-300 ease py-6 hover:bg-gray-50"
+                class="ease flex w-full cursor-pointer items-center gap-8 px-8 text-left transition-all duration-300 py-6 hover:bg-gray-50"
                 type="button"
               >
                 <span
-                  class="text-[18px] font-semibold leading-[125%] text-bluedot-navy flex-grow"
+                  class="text-bluedot-navy flex-grow text-[18px] leading-[125%] font-semibold"
                 >
                   Who is BlueDot Impact?
                 </span>
                 <svg
-                  class="flex-shrink-0 transition-transform duration-300 ease text-[#001133]"
+                  class="ease flex-shrink-0 text-[#001133] transition-transform duration-300"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1834,7 +1839,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 </svg>
               </button>
               <div
-                class="grid transition-[grid-template-rows] duration-300 ease grid-rows-[0fr]"
+                class="ease grid transition-[grid-template-rows] duration-300 grid-rows-[0fr]"
                 id="faq-answer-bluedot"
               >
                 <div
@@ -1844,7 +1849,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     class="px-8 pb-6"
                   >
                     <p
-                      class="bluedot-p not-prose text-[18px] text-bluedot-navy/80"
+                      class="bluedot-p not-prose text-bluedot-navy/80 text-[18px]"
                     >
                       BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run courses, help people land jobs, organise events around the world, and back people starting new organisations. We've trained thousands of people since 2022. Our alumni now work at Anthropic, DeepMind, UK AISI, and have founded new organisations working on a safe transition to advanced AI.
                     </p>
