@@ -101,6 +101,23 @@ describe('FAQSection', () => {
       const jsonLd = getJsonLd(container);
       expect(jsonLd.mainEntity[0].acceptedAnswer.text).toBe('');
     });
+
+    it('escapes </script> in answer to prevent script injection', () => {
+      const items = [{ id: 'xss', question: 'Q?', answer: '</script><script>alert(1)</script>' }];
+      const { container } = render(<FAQSection title="FAQ" items={items} />);
+      const script = container.querySelector('script[type="application/ld+json"]');
+      expect(script?.textContent).not.toContain('</script>');
+      expect(() => JSON.parse(script?.textContent ?? '')).not.toThrow();
+    });
+
+    it('escapes Unicode line terminators to prevent JS parsing errors', () => {
+      const sep = '\u2028';
+      const paraSep = '\u2029';
+      const items = [{ id: 'uni', question: 'Q?', answer: `text${sep}newline${paraSep}para` }];
+      const { container } = render(<FAQSection title="FAQ" items={items} />);
+      const script = container.querySelector('script[type="application/ld+json"]');
+      expect(script?.textContent).not.toMatch(/\u2028|\u2029/);
+      expect(() => JSON.parse(script?.textContent ?? '')).not.toThrow();
     });
   });
 });
