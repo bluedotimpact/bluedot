@@ -101,7 +101,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="text-[#00114D]"
+              class="text-bluedot-darker"
               fill="none"
               height="10"
               viewBox="0 0 12 10"

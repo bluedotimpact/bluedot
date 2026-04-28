@@ -41,7 +41,7 @@ const FooterLinksSection: React.FC<FooterSectionProps> = ({ title, links, classN
               <button
                 type="button"
                 onClick={link.onClick}
-                className="text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white font-normal bg-transparent border-none p-0 cursor-pointer"
+                className="text-size-sm leading-[19px] text-bluedot-lighter hover:text-white font-normal bg-transparent border-none p-0 cursor-pointer"
               >
                 {link.label}
               </button>
@@ -52,7 +52,7 @@ const FooterLinksSection: React.FC<FooterSectionProps> = ({ title, links, classN
                 href={link.url}
                 target={link.target}
                 rel={link.target === '_blank' ? 'noopener noreferrer' : undefined}
-                className="text-size-sm leading-[19px] text-[#CCD7FF] hover:text-white no-underline font-normal"
+                className="text-size-sm leading-[19px] text-bluedot-lighter hover:text-white no-underline font-normal"
               >
                 {link.label}
               </A>
@@ -184,15 +184,15 @@ export const Footer: React.FC<FooterProps> = ({
             </div>
 
             {/* Copyright */}
-            <div className="mt-12 border-t border-white/10 pt-8 text-size-sm text-[#CCD7FF] leading-[26px] bd-md:mt-14 bd-md:pt-10 lg:mt-16 2xl:mt-20">
+            <div className="mt-12 border-t border-white/10 pt-8 text-size-sm text-bluedot-lighter leading-[26px] bd-md:mt-14 bd-md:pt-10 lg:mt-16 2xl:mt-20">
               <p className="mb-2">
-                &copy; {new Date().getFullYear()}. BlueDot Impact operates as a UK CLG (<A href="https://find-and-update.company-information.service.gov.uk/company/14964572" target="_blank" rel="noopener noreferrer" className="text-[#CCD7FF] hover:text-white">14964572</A>) and a US 501(c)3 (<A href="https://projects.propublica.org/nonprofits/organizations/994885308" target="_blank" rel="noopener noreferrer" className="text-[#CCD7FF] hover:text-white">99-4885308</A>).
+                &copy; {new Date().getFullYear()}. BlueDot Impact operates as a UK CLG (<A href="https://find-and-update.company-information.service.gov.uk/company/14964572" target="_blank" rel="noopener noreferrer" className="text-bluedot-lighter hover:text-white">14964572</A>) and a US 501(c)3 (<A href="https://projects.propublica.org/nonprofits/organizations/994885308" target="_blank" rel="noopener noreferrer" className="text-bluedot-lighter hover:text-white">99-4885308</A>).
               </p>
               <p className="mb-2">
                 US Address: 1680 Mission St. Suite 411, San Francisco, CA 94103
               </p>
               <p>
-                Funded by <A href="https://www.coefficientgiving.org/" target="_blank" rel="noopener noreferrer" className="text-[#CCD7FF] hover:text-white">Coefficient Giving</A>.
+                Funded by <A href="https://www.coefficientgiving.org/" target="_blank" rel="noopener noreferrer" className="text-bluedot-lighter hover:text-white">Coefficient Giving</A>.
               </p>
             </div>
           </div>

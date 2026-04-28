@@ -3,6 +3,11 @@ import {
   PiRocketLaunch, PiUsersThree, PiHandCoins,
 } from 'react-icons/pi';
 import CourseBenefitsSection from './CourseBenefitsSection';
+import { AGI_STRATEGY_COLORS } from '../course-content/AgiStrategyContent';
+import { BIOSECURITY_COLORS } from '../course-content/BioSecurityContent';
+import { FOAI_COLORS } from '../course-content/FutureOfAiContent';
+import { AI_GOVERNANCE_COLORS } from '../course-content/AiGovernanceContent';
+import { TAS_COLORS } from '../course-content/TechnicalAiSafetyContent';
 
 const meta = {
   title: 'website/CourseLander/CourseBenefitsSection',
@@ -60,7 +65,7 @@ export const AgiStrategyColors: Story = {
   args: {
     title: 'How this course will benefit you',
     benefits: defaultBenefits,
-    iconBackgroundColor: '#f3e8ff',
+    iconBackgroundColor: AGI_STRATEGY_COLORS.bright,
   },
 };
 
@@ -68,7 +73,7 @@ export const BiosecurityColors: Story = {
   args: {
     title: 'How this course will benefit you',
     benefits: defaultBenefits,
-    iconBackgroundColor: '#e5faea',
+    iconBackgroundColor: BIOSECURITY_COLORS.bright,
   },
 };
 
@@ -76,7 +81,7 @@ export const FutureOfAiColors: Story = {
   args: {
     title: 'How this course will benefit you',
     benefits: defaultBenefits,
-    iconBackgroundColor: '#faf6e1',
+    iconBackgroundColor: FOAI_COLORS.bright,
   },
 };
 
@@ -84,7 +89,7 @@ export const AiGovernanceColors: Story = {
   args: {
     title: 'How this course will benefit you',
     benefits: defaultBenefits,
-    iconBackgroundColor: '#ddf4ff',
+    iconBackgroundColor: AI_GOVERNANCE_COLORS.bright,
   },
 };
 
@@ -92,6 +97,6 @@ export const TechnicalAiSafetyColors: Story = {
   args: {
     title: 'How this course will benefit you',
     benefits: defaultBenefits,
-    iconBackgroundColor: '#ffe9ff',
+    iconBackgroundColor: TAS_COLORS.bright,
   },
 };

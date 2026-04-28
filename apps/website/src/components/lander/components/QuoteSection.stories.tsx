@@ -1,5 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import QuoteSection, { type QuoteWithUrl } from './QuoteSection';
+import { AGI_STRATEGY_COLORS } from '../course-content/AgiStrategyContent';
+import { BIOSECURITY_COLORS } from '../course-content/BioSecurityContent';
+import { FOAI_COLORS } from '../course-content/FutureOfAiContent';
+import { AI_GOVERNANCE_COLORS } from '../course-content/AiGovernanceContent';
+import { TAS_COLORS } from '../course-content/TechnicalAiSafetyContent';
 
 const meta = {
   title: 'website/CourseLander/QuoteSection',
@@ -106,39 +111,39 @@ export const LongQuotes: Story = {
 export const AgiStrategyColors: Story = {
   args: {
     quotes: sampleQuotes,
-    cardBackgroundColor: '#f3e8ff',
-    accentColor: '#9177dc',
+    cardBackgroundColor: AGI_STRATEGY_COLORS.bright,
+    accentColor: AGI_STRATEGY_COLORS.full,
   },
 };
 
 export const BiosecurityColors: Story = {
   args: {
     quotes: sampleQuotes,
-    cardBackgroundColor: '#e5faea',
-    accentColor: '#3da462',
+    cardBackgroundColor: BIOSECURITY_COLORS.bright,
+    accentColor: BIOSECURITY_COLORS.full,
   },
 };
 
 export const FutureOfAiColors: Story = {
   args: {
     quotes: sampleQuotes,
-    cardBackgroundColor: '#faf6e1',
-    accentColor: '#8c8146',
+    cardBackgroundColor: FOAI_COLORS.bright,
+    accentColor: FOAI_COLORS.full,
   },
 };
 
 export const AiGovernanceColors: Story = {
   args: {
     quotes: sampleQuotes,
-    cardBackgroundColor: '#ddf4ff',
-    accentColor: '#4092d6',
+    cardBackgroundColor: AI_GOVERNANCE_COLORS.bright,
+    accentColor: AI_GOVERNANCE_COLORS.full,
   },
 };
 
 export const TechnicalAiSafetyColors: Story = {
   args: {
     quotes: sampleQuotes,
-    cardBackgroundColor: '#ffe9ff',
-    accentColor: '#a060bb',
+    cardBackgroundColor: TAS_COLORS.bright,
+    accentColor: TAS_COLORS.full,
   },
 };

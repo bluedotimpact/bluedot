@@ -2,6 +2,11 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { CTALinkOrButton } from '@bluedot/ui';
 import { ScheduleRounds } from './ScheduleRounds';
 import { trpcStorybookMsw } from '../../../__tests__/trpcMswSetup.browser';
+import { AGI_STRATEGY_COLORS } from '../course-content/AgiStrategyContent';
+import { BIOSECURITY_COLORS } from '../course-content/BioSecurityContent';
+import { FOAI_COLORS } from '../course-content/FutureOfAiContent';
+import { AI_GOVERNANCE_COLORS } from '../course-content/AiGovernanceContent';
+import { TAS_COLORS } from '../course-content/TechnicalAiSafetyContent';
 
 const mockIntensiveRounds = [
   {
@@ -128,7 +133,7 @@ export const AgiStrategyColors: Story = {
     courseSlug: 'agi-strategy',
     applicationUrl: 'https://example.com/apply',
     fallbackContent: FallbackContent,
-    accentColor: '#9177dc',
+    accentColor: AGI_STRATEGY_COLORS.full,
   },
   parameters: defaultMswHandlers,
 };
@@ -138,7 +143,7 @@ export const BiosecurityColors: Story = {
     courseSlug: 'biosecurity',
     applicationUrl: 'https://example.com/apply',
     fallbackContent: FallbackContent,
-    accentColor: '#3da462',
+    accentColor: BIOSECURITY_COLORS.full,
   },
   parameters: defaultMswHandlers,
 };
@@ -148,7 +153,7 @@ export const FutureOfAiColors: Story = {
     courseSlug: 'future-of-ai',
     applicationUrl: 'https://example.com/apply',
     fallbackContent: FallbackContent,
-    accentColor: '#8c8146',
+    accentColor: FOAI_COLORS.full,
   },
   parameters: defaultMswHandlers,
 };
@@ -158,7 +163,7 @@ export const AiGovernanceColors: Story = {
     courseSlug: 'ai-governance',
     applicationUrl: 'https://example.com/apply',
     fallbackContent: FallbackContent,
-    accentColor: '#4092d6',
+    accentColor: AI_GOVERNANCE_COLORS.full,
   },
   parameters: defaultMswHandlers,
 };
@@ -168,7 +173,7 @@ export const TechnicalAiSafetyColors: Story = {
     courseSlug: 'technical-ai-safety',
     applicationUrl: 'https://example.com/apply',
     fallbackContent: FallbackContent,
-    accentColor: '#a060bb',
+    accentColor: TAS_COLORS.full,
   },
   parameters: defaultMswHandlers,
 };

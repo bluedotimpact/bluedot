@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { FaBriefcase, FaGraduationCap, FaUsers } from 'react-icons/fa6';
 import PersonasSection from './PersonasSection';
+import { AGI_STRATEGY_COLORS } from '../course-content/AgiStrategyContent';
 
 const meta = {
   title: 'website/CourseLander/PersonasSection',
@@ -51,7 +52,7 @@ export const AgiStrategy: Story = {
   args: {
     title: 'Who this course is for',
     personas: samplePersonas,
-    accentColor: '#1F588A',
+    accentColor: AGI_STRATEGY_COLORS.iconBackground,
     defaultExpandedIndex: 0,
     cta: {
       text: 'Apply now',
