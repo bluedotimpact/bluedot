@@ -1,7 +1,6 @@
 import { cn, P } from '@bluedot/ui';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { renderToStaticMarkup } from 'react-dom/server';
 import { PlusToggleIcon } from '../../icons/PlusToggleIcon';
 
 /**
@@ -14,6 +13,8 @@ export type FAQItem = {
   question: string;
   /** The answer text or React element */
   answer: React.ReactNode;
+  /** Plain text version of answer for JSON-LD structured data. Required when answer is JSX. */
+  answerText?: string;
 };
 
 /**
@@ -32,16 +33,9 @@ export type FAQSectionProps = {
 const FAQSection = ({ id, title, items, background = 'white' }: FAQSectionProps) => {
   const [openQuestions, setOpenQuestions] = useState<string[]>([]);
 
-  // Renders JSX to HTML then strips tags
-  const toPlainText = (node: React.ReactNode): string => {
-    try {
-      return renderToStaticMarkup(node as React.ReactElement)
-        .replace(/<[^>]+>/g, ' ')
-        .replace(/\s+/g, ' ')
-        .trim();
-    } catch {
-      return typeof node === 'string' ? node : '';
-    }
+  const getAnswerText = (item: FAQItem): string => {
+    if (item.answerText !== undefined) return item.answerText;
+    return typeof item.answer === 'string' ? item.answer : '';
   };
 
   const jsonLd = {
@@ -52,7 +46,7 @@ const FAQSection = ({ id, title, items, background = 'white' }: FAQSectionProps)
       name: item.question,
       acceptedAnswer: {
         '@type': 'Answer',
-        text: toPlainText(item.answer),
+        text: getAnswerText(item),
       },
     })),
   };
