@@ -222,6 +222,7 @@ export const createBioSecurityContent = (
             Yes. Funding is available to graduates of the course. See <a href="/programs" className="underline">bluedot.org/programs</a> for current grants and how to apply.
           </>
         ),
+        answerText: 'Yes. Funding is available to graduates of the course. See bluedot.org/programs for current grants and how to apply.',
       },
       {
         id: 'bluedot',

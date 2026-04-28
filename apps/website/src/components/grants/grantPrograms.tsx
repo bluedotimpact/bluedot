@@ -207,6 +207,7 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
             Incubator Week is our program for the most entrepreneurial participants — the ones ready to build the organizations the world needs.
           </>
         ),
+        answerText: 'We\'re a London-based nonprofit. Since 2022, we\'ve trained over 6,000 people. Our courses are the main entry point into the AI safety field, with alumni now working at OpenAI, Anthropic, DeepMind, the UK AI Safety Institute, and many more. Incubator Week is our program for the most entrepreneurial participants — the ones ready to build the organizations the world needs.',
       },
     ],
   },
@@ -243,6 +244,7 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
             If you can&apos;t come up with any guesses for how you could contribute, you might want to consider taking the <a href="https://bluedot.org/courses/agi-strategy" className="underline hover:no-underline">AGI Strategy course</a> or our <a href="https://bluedot.org/courses" className="underline hover:no-underline">deep dive courses</a> to get a better sense of what&apos;s needed in AI safety.
           </>
         ),
+        answerText: 'If you\'re new to AI safety, you should start with the Future of AI course. If you can\'t come up with any guesses for how you could contribute, you might want to consider taking the AGI Strategy course or our deep dive courses to get a better sense of what\'s needed in AI safety.',
       },
     ],
   },

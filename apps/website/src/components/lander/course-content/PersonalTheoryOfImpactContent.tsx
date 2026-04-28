@@ -150,6 +150,7 @@ export const createPersonalTheoryOfImpactContent = (
             Yes, or demonstrate equivalent understanding of the AI safety landscape. If there's a domain course relevant to your area (e.g., <a href="https://bluedot.org/courses/technical-ai-safety" target="_blank" rel="noopener noreferrer" className="underline">Technical AI Safety</a>, <a href="https://bluedot.org/courses/ai-governance" target="_blank" rel="noopener noreferrer" className="underline">AI Governance</a>, <a href="https://bluedot.org/courses/biosecurity" target="_blank" rel="noopener noreferrer" className="underline">Biosecurity</a>), we recommend taking that first too, so you have a larger surface area of ideas to work with.
           </>
         ),
+        answerText: 'Yes, or demonstrate equivalent understanding of the AI safety landscape. If there\'s a domain course relevant to your area (e.g., Technical AI Safety, AI Governance, Biosecurity), we recommend taking that first too, so you have a larger surface area of ideas to work with.',
       },
       {
         id: 'difference',
@@ -159,6 +160,7 @@ export const createPersonalTheoryOfImpactContent = (
             The <a href="/courses/technical-ai-safety-project" className="underline">project sprint</a> is for people who want to make a technical contribution to AI safety research or engineering. This project is for anyone who wants to figure out how they can best contribute — technical or otherwise.
           </>
         ),
+        answerText: 'The project sprint is for people who want to make a technical contribution to AI safety research or engineering. This project is for anyone who wants to figure out how they can best contribute — technical or otherwise.',
       },
       {
         id: 'output',
@@ -174,6 +176,7 @@ export const createPersonalTheoryOfImpactContent = (
             • What you've read and ideas you engaged with
           </>
         ),
+        answerText: 'A 1-2 page brief with specific things you would spend 6 months full-time working on and why, plus a log of: Who you\'ve spoken to and what you learned, Things you tried or built and what this taught you, What you\'ve read and ideas you engaged with.',
       },
       {
         id: 'time',
@@ -192,6 +195,7 @@ export const createPersonalTheoryOfImpactContent = (
             We're an intense 7-person team. We've raised $35M in total, including $25M in 2025.
           </>
         ),
+        answerText: 'We\'re a London-based startup. Since 2022, we\'ve trained 7,000+ people, with 100s now working on making AI go well. Our courses are the main entry point into the AI safety field. We\'re an intense 7-person team. We\'ve raised $35M in total, including $25M in 2025.',
       },
     ],
   },
