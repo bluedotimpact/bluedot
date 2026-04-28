@@ -114,7 +114,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
             onClick={onPrevClick}
             aria-label="Previous unit"
           >
-            <ArrowRightIcon aria-hidden="true" className={clsx('rotate-180', (isFirstChunk && !prevUnit) ? 'text-[#6A6F7A]' : 'text-[#00114D]')} />
+            <ArrowRightIcon aria-hidden="true" className={clsx('rotate-180', (isFirstChunk && !prevUnit) ? 'text-[#6A6F7A]' : 'text-bluedot-darker')} />
           </button>
           <button
             type="button"
@@ -123,7 +123,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
             onClick={onNextClick}
             aria-label="Next unit"
           >
-            <ArrowRightIcon aria-hidden="true" className={(isLastChunk && !nextUnit) ? 'text-[#6A6F7A]' : 'text-[#00114D]'} />
+            <ArrowRightIcon aria-hidden="true" className={(isLastChunk && !nextUnit) ? 'text-[#6A6F7A]' : 'text-bluedot-darker'} />
           </button>
         </div>
         {courseProgressData && courseProgressData.courseProgress.totalCount > 0 && (
