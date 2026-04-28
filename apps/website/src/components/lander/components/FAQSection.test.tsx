@@ -93,22 +93,14 @@ describe('FAQSection', () => {
       expect(jsonLd.mainEntity[1].acceptedAnswer.text).toBe('String answer');
     });
 
-    it('strips HTML tags from JSX answers', () => {
+    it('falls back to empty string for JSX answers without answerText', () => {
       const items = [
-        {
-          id: 'jsx-item',
-          question: 'JSX question?',
-          answer: (
-            <>
-              First paragraph.<br />
-              <a href="https://example.com">A link</a> with text.
-            </>
-          ),
-        },
+        { id: 'jsx-item', question: 'JSX question?', answer: <span>JSX answer</span> },
       ];
       const { container } = render(<FAQSection title="FAQ" items={items} />);
       const jsonLd = getJsonLd(container);
-      expect(jsonLd.mainEntity[0].acceptedAnswer.text).toBe('First paragraph. A link with text.');
+      expect(jsonLd.mainEntity[0].acceptedAnswer.text).toBe('');
+    });
     });
   });
 });
