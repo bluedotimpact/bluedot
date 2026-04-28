@@ -7,6 +7,11 @@ import {
 } from 'react-icons/pi';
 import CourseInformationSection from './CourseInformationSection';
 import { trpcStorybookMsw } from '../../../__tests__/trpcMswSetup.browser';
+import { AGI_STRATEGY_COLORS } from '../course-content/AgiStrategyContent';
+import { BIOSECURITY_COLORS } from '../course-content/BioSecurityContent';
+import { FOAI_COLORS } from '../course-content/FutureOfAiContent';
+import { AI_GOVERNANCE_COLORS } from '../course-content/AiGovernanceContent';
+import { TAS_COLORS } from '../course-content/TechnicalAiSafetyContent';
 
 const mockIntensiveRounds = [
   {
@@ -192,7 +197,7 @@ export const AgiStrategyColors: Story = {
     details: baseDetails,
     scheduleCtaText: 'Apply now',
     courseSlug: 'agi-strategy',
-    accentColor: '#9177dc',
+    accentColor: AGI_STRATEGY_COLORS.full,
   },
   parameters: defaultMswHandlers,
 };
@@ -204,7 +209,7 @@ export const BiosecurityColors: Story = {
     details: baseDetails,
     scheduleCtaText: 'Apply now',
     courseSlug: 'biosecurity',
-    accentColor: '#3da462',
+    accentColor: BIOSECURITY_COLORS.full,
   },
   parameters: defaultMswHandlers,
 };
@@ -216,7 +221,7 @@ export const FutureOfAiColors: Story = {
     details: baseDetails,
     scheduleCtaText: 'Apply now',
     courseSlug: 'future-of-ai',
-    accentColor: '#8c8146',
+    accentColor: FOAI_COLORS.full,
   },
   parameters: defaultMswHandlers,
 };
@@ -228,7 +233,7 @@ export const AiGovernanceColors: Story = {
     details: baseDetails,
     scheduleCtaText: 'Apply now',
     courseSlug: 'ai-governance',
-    accentColor: '#4092d6',
+    accentColor: AI_GOVERNANCE_COLORS.full,
   },
   parameters: defaultMswHandlers,
 };
@@ -240,7 +245,7 @@ export const TechnicalAiSafetyColors: Story = {
     details: baseDetails,
     scheduleCtaText: 'Apply now',
     courseSlug: 'technical-ai-safety',
-    accentColor: '#a060bb',
+    accentColor: TAS_COLORS.full,
   },
   parameters: defaultMswHandlers,
 };

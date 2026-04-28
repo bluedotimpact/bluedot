@@ -1,5 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import HeroSection from './HeroSection';
+import { AGI_STRATEGY_COLORS } from '../course-content/AgiStrategyContent';
+import { BIOSECURITY_COLORS } from '../course-content/BioSecurityContent';
+import { FOAI_COLORS } from '../course-content/FutureOfAiContent';
+import { AI_GOVERNANCE_COLORS } from '../course-content/AiGovernanceContent';
+import { TAS_COLORS } from '../course-content/TechnicalAiSafetyContent';
 
 const meta = {
   title: 'website/CourseLander/HeroSection',
@@ -87,8 +92,8 @@ export const FutureOfAI: Story = {
     imageSrc: '/images/lander/foai/hero-graphic.png',
     imageAlt: 'Future of AI visualization',
     imageAspectRatio: '1408/1112',
-    gradient: 'linear-gradient(to right, rgba(30, 30, 20, 0.6) 0%, rgba(30, 30, 20, 0.4) 25%, rgba(30, 30, 20, 0.2) 45%, transparent 60%), radial-gradient(ellipse 70% 60% at 85% 20%, rgba(155, 180, 115, 0.12) 0%, transparent 60%), radial-gradient(ellipse 200% 180% at 105% -5%, rgba(150, 207, 156, 0.35) 0%, rgba(163, 179, 110, 0.35) 28.6%, rgba(176, 152, 64, 0.35) 57.2%, rgba(147, 120, 64, 0.35) 67.9%, rgba(118, 88, 64, 0.35) 78.6%, rgba(89, 56, 63, 0.35) 89.3%, rgba(60, 24, 63, 0.35) 100%), #29281D',
-    accentColor: '#E6DBA6',
+    gradient: FOAI_COLORS.gradient,
+    accentColor: FOAI_COLORS.accent,
   },
 };
 
@@ -108,9 +113,9 @@ export const Biosecurity: Story = {
     imageSrc: '/images/lander/biosecurity/hero-graphic.png',
     imageAlt: 'Biosecurity visualization',
     imageAspectRatio: '1408/1122',
-    gradient: 'linear-gradient(135deg, #012A07 10%, rgba(1, 42, 7, 0.00) 90%), radial-gradient(110.09% 127.37% at 112.15% 117.08%, rgba(220, 238, 171, 0.45) 0%, rgba(86, 140, 94, 0.45) 50%, rgba(1, 42, 7, 0.45) 100%), radial-gradient(97.29% 122.23% at 85.59% 126.89%, rgba(222, 149, 47, 0.35) 0%, rgba(157, 205, 98, 0.35) 52.4%, rgba(28, 175, 141, 0.35) 100%), #012A07',
-    accentColor: '#ABEEB5',
-    categoryLabelColor: '#81DBAF',
+    gradient: BIOSECURITY_COLORS.gradient,
+    accentColor: BIOSECURITY_COLORS.accent,
+    categoryLabelColor: BIOSECURITY_COLORS.categoryLabel,
   },
 };
 
@@ -130,8 +135,8 @@ export const AgiStrategy: Story = {
     imageSrc: '/images/lander/agi-strategy/hero-graphic.png',
     imageAlt: 'AGI Strategy visualization',
     imageAspectRatio: '1408/1122',
-    gradient: 'linear-gradient(to right, rgba(10, 8, 36, 0.9) 0%, rgba(10, 8, 36, 0.4) 5%, rgba(10, 8, 36, 0.15) 15%, rgba(10, 8, 36, 0.05) 30%, transparent 45%), radial-gradient(115% 175% at 95% 135%, rgba(255, 194, 195, 0.65) 0%, rgba(255, 194, 195, 0.50) 25%, rgba(53, 42, 106, 0.65) 60%, rgba(10, 8, 36, 0.60) 100%), #181D3F',
-    accentColor: '#BCA9FF',
+    gradient: AGI_STRATEGY_COLORS.gradient,
+    accentColor: AGI_STRATEGY_COLORS.accent,
   },
 };
 
@@ -150,8 +155,8 @@ export const TechnicalAISafety: Story = {
     },
     imageSrc: '/images/lander/technical-ai-safety/hero-graphic.png',
     imageAlt: 'Technical AI Safety visualization',
-    gradient: 'linear-gradient(to right, rgba(20, 8, 25, 0.6) 0%, rgba(20, 8, 25, 0.4) 20%, rgba(20, 8, 25, 0.2) 40%, transparent 55%), radial-gradient(130% 160% at 100% 108.81%, rgba(255, 202, 171, 0.40) 0%, rgba(126, 85, 144, 0.40) 52.4%, rgba(46, 16, 54, 0.40) 100%), #2E1036',
-    accentColor: '#E0A5F9',
+    gradient: TAS_COLORS.gradient,
+    accentColor: TAS_COLORS.accent,
     imageAspectRatio: '1408/1122',
   },
 };
@@ -172,7 +177,7 @@ export const AiGovernance: Story = {
     imageSrc: '/images/lander/ai-governance/hero-graphic.png',
     imageAlt: 'AI Governance visualization',
     imageAspectRatio: '1408/1122',
-    gradient: 'linear-gradient(270deg, rgba(5, 24, 67, 0.00) -3.82%, rgba(5, 24, 67, 0.50) 98.44%), radial-gradient(96.03% 113.39% at 98.65% 96.93%, rgba(175, 196, 151, 0.40) 0%, rgba(21, 148, 194, 0.40) 44.58%, rgba(5, 24, 67, 0.40) 100%), #051843',
-    accentColor: '#adfeff',
+    gradient: AI_GOVERNANCE_COLORS.gradient,
+    accentColor: AI_GOVERNANCE_COLORS.accent,
   },
 };
