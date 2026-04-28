@@ -76,7 +76,7 @@ export type SubscriptionTopic = {
 
 export const subscriptionPreferencesRouter = router({
   getPreferences: publicProcedure
-    .input(z.object({ cid: z.string(), token: z.string() }))
+    .input(z.object({ cid: z.string().min(1), token: z.string().min(1) }))
     .query(async ({ input }) => {
       if (!verifyToken(input.cid, input.token)) {
         throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid or expired link' });
@@ -120,8 +120,8 @@ export const subscriptionPreferencesRouter = router({
 
   savePreferences: publicProcedure
     .input(z.object({
-      cid: z.string(),
-      token: z.string(),
+      cid: z.string().min(1),
+      token: z.string().min(1),
       // Record of topic_<id> -> boolean, only for topics shown to the user.
       // Never send false for hidden topics (e.g. hiring topic for non-hiring managers).
       preferences: z.record(z.boolean()),

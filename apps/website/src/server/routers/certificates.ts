@@ -15,7 +15,7 @@ export type CertificateStatus = inferRouterOutputs<AppRouter>['certificates']['g
 export const certificatesRouter = router({
   // This is a public procedure because it's called from an Airtable script, not from within the app
   create: publicProcedure
-    .input(z.object({ courseRegistrationId: z.string(), publicToken: z.string() }))
+    .input(z.object({ courseRegistrationId: z.string(), publicToken: z.string().min(1) }))
     .mutation(async ({ input: { courseRegistrationId, publicToken } }) => {
       // This is similar to the `request` procedure below, but it relies on a shared secret for authentication and
       // allows a certificate to be created even if not all exercises are complete.

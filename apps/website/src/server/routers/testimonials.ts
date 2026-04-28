@@ -66,7 +66,7 @@ export const testimonialsRouter = router({
   }),
 
   getCommunityMembersByCourseSlug: publicProcedure
-    .input(z.object({ courseSlug: z.string() }))
+    .input(z.object({ courseSlug: z.string().min(1) }))
     .query(async ({ input }) => {
       const all = await db.scan(testimonialTable);
       const filtered = all.filter((t) => t.name

@@ -181,7 +181,7 @@ export const coursesRouter = router({
 
   getBySlug: publicProcedure
     .input(z.object({
-      courseSlug: z.string(),
+      courseSlug: z.string().min(1),
     }))
     .query(async ({ input: { courseSlug } }) => {
       return getCourseData(courseSlug);
@@ -194,7 +194,7 @@ export const coursesRouter = router({
 
   getCurriculumMetadata: publicProcedure
     .input(z.object({
-      courseSlug: z.string(),
+      courseSlug: z.string().min(1),
     }))
     .query(async ({ input: { courseSlug } }) => {
       const course = await db.get(courseTable, { slug: courseSlug });
@@ -253,7 +253,7 @@ export const coursesRouter = router({
     }),
 
   getCourseProgress: protectedProcedure
-    .input(z.object({ courseSlug: z.string() }))
+    .input(z.object({ courseSlug: z.string().min(1) }))
     .query(async ({ input: { courseSlug }, ctx }) => {
       const { units } = await getCourseData(courseSlug);
       const unitIds = units.map((u) => u.id);
