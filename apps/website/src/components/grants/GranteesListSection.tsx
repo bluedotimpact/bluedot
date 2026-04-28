@@ -88,13 +88,13 @@ const GranteesListSection = ({
         <div className="mb-6 flex items-center justify-between gap-4">
           <h3 className={pageSectionHeadingClass}>{heading}</h3>
           {hasHiddenGrantees && showAll && (
-            <button
-              type="button"
+            <CTALinkOrButton
+              variant="secondary"
               onClick={() => setShowAll(false)}
-              className="shrink-0 text-[14px] font-medium text-bluedot-normal transition-colors hover:text-bluedot-navy"
+              className="shrink-0"
             >
               Close
-            </button>
+            </CTALinkOrButton>
           )}
         </div>
       )}
