@@ -2,7 +2,6 @@ import type { SyncStatus } from '@bluedot/db';
 import {
   Breadcrumbs,
   CTALinkOrButton,
-  H2,
   H3,
   P,
   ProgressDots,
@@ -11,12 +10,14 @@ import {
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { RiLoader4Line } from 'react-icons/ri';
+import MarketingHero from '../../components/MarketingHero';
 import { ROUTES } from '../../lib/routes';
 import { trpc } from '../../utils/trpc';
 import { WarningTriangleIcon } from '../../components/icons/WarningTriangleIcon';
 import { WarningCircleIcon } from '../../components/icons/WarningCircleIcon';
 
 const CURRENT_ROUTE = ROUTES.adminSyncDashboard;
+const HERO_SUBTITLE = 'Trigger a manual database sync and review the most recent activity.';
 
 // Time formatter for 24-hour data
 function formatTimeAgo(date: Date): string {
@@ -36,11 +37,16 @@ function formatTimeAgo(date: Date): string {
   return diffInHours === 1 ? '1 hour ago' : `${diffInHours} hours ago`;
 }
 
-const PageHead = () => (
-  <Head>
-    <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
-    <meta name="robots" content="noindex" />
-  </Head>
+const PageChrome = ({ children }: { children: React.ReactNode }) => (
+  <div>
+    <Head>
+      <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
+      <meta name="robots" content="noindex" />
+    </Head>
+    <MarketingHero title={CURRENT_ROUTE.title} subtitle={HERO_SUBTITLE} />
+    <Breadcrumbs route={CURRENT_ROUTE} />
+    {children}
+  </div>
 );
 
 const SyncDashboard = () => {
@@ -78,9 +84,7 @@ const SyncDashboard = () => {
   // Access denied
   if (hasAuthError) {
     return (
-      <div>
-        <PageHead />
-        <Breadcrumbs route={CURRENT_ROUTE} />
+      <PageChrome>
         <Section className="max-w-3xl">
           <div className="bg-red-50 border border-red-200 rounded-lg p-6">
             <div className="flex items-center mb-4">
@@ -115,16 +119,14 @@ const SyncDashboard = () => {
             </div>
           </div>
         </Section>
-      </div>
+      </PageChrome>
     );
   }
 
   // Show general error (network, server errors, etc.)
   if (hasGeneralError) {
     return (
-      <div>
-        <PageHead />
-        <Breadcrumbs route={CURRENT_ROUTE} />
+      <PageChrome>
         <Section className="max-w-3xl">
           <div className="bg-amber-50 border border-amber-200 rounded-lg p-6">
             <div className="flex items-center mb-4">
@@ -145,18 +147,16 @@ const SyncDashboard = () => {
             </div>
           </div>
         </Section>
-      </div>
+      </PageChrome>
     );
   }
 
   // Show loading until we have determined access (either success or error response from API)
   if (isLoading) {
     return (
-      <div>
-        <PageHead />
-        <Breadcrumbs route={CURRENT_ROUTE} />
+      <PageChrome>
         <ProgressDots className="py-8" />
-      </div>
+      </PageChrome>
     );
   }
 
@@ -165,10 +165,8 @@ const SyncDashboard = () => {
   const hasSyncRunning = (syncData || []).some((r) => r.status === 'running');
 
   return (
-    <div>
-      <PageHead />
-      <Breadcrumbs route={CURRENT_ROUTE} />
-      <Section className="max-w-3xl" title="Sync Dashboard" titleLevel="h1">
+    <PageChrome>
+      <Section className="max-w-3xl">
         {/* Single action button */}
         <div className="mb-8">
           <CTALinkOrButton
@@ -188,7 +186,7 @@ const SyncDashboard = () => {
 
         {/* Important note about manual vs automatic syncs */}
         <div className="container-lined mb-8 p-4 bg-blue-50 border-blue-200">
-          <H3 className="text-blue-900 mb-2">Important Notes</H3>
+          <P className="font-semibold text-blue-900 mb-2">Important notes</P>
           <ul className="text-size-sm text-blue-800 space-y-1 list-disc list-inside">
             <li>This dashboard only shows manually requested syncs</li>
             <li>Automatic syncs from schema changes are not displayed here</li>
@@ -199,12 +197,12 @@ const SyncDashboard = () => {
 
         {/* Recent activity (last 24 hours) */}
         <div>
-          <H2 className="mb-4 flex items-center gap-2">
-            Manual Sync Requests (Last 24 Hours)
+          <H3 className="mb-4 flex items-center gap-2">
+            Manual sync requests (last 24 hours)
             {isFetching && (
               <RiLoader4Line className="animate-spin text-bluedot-normal" size={16} />
             )}
-          </H2>
+          </H3>
 
           {!syncData || syncData.length === 0 ? (
             <P className="text-gray-600">No manual sync requests in the last 24 hours</P>
@@ -257,7 +255,7 @@ const SyncDashboard = () => {
           )}
         </div>
       </Section>
-    </div>
+    </PageChrome>
   );
 };
 
@@ -274,5 +272,8 @@ const StatusBadge = ({ status }: { status: SyncStatus }) => {
     </span>
   );
 };
+
+SyncDashboard.pageRendersOwnNav = true;
+SyncDashboard.mainShrinkToContent = true;
 
 export default SyncDashboard;
