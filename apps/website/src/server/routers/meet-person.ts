@@ -25,7 +25,7 @@ export const meetPersonRouter = router({
     }),
 
   getInactiveCourseRegistrations: protectedProcedure
-    .input(z.object({ courseSlug: z.string().optional() }))
+    .input(z.object({ courseSlug: z.string().min(1).optional() }))
     .query(async ({ ctx, input }) => {
       const results = await db.pg
         .select({

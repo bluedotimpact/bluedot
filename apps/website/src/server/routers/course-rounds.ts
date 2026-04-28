@@ -161,7 +161,7 @@ export function getSoonestDeadline(rounds: CourseRoundsData): string | null {
 export const courseRoundsRouter = router({
   getRoundsForCourse: publicProcedure
     .input(z.object({
-      courseSlug: z.string(),
+      courseSlug: z.string().min(1),
     }))
     .query(async ({ input }) => {
       return getCourseRoundsData(input.courseSlug);
@@ -244,7 +244,7 @@ export const courseRoundsRouter = router({
     }),
 
   getApplyCTAProps: publicProcedure
-    .input(z.object({ courseSlug: z.string() }))
+    .input(z.object({ courseSlug: z.string().min(1) }))
     .query(async ({ ctx, input }): Promise<ApplyCTAProps | null> => {
       const { courseSlug } = input;
 

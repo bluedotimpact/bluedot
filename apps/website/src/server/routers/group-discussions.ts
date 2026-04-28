@@ -85,7 +85,7 @@ export const groupDiscussionsRouter = router({
     }),
 
   getByCourseSlug: protectedProcedure
-    .input(z.object({ courseSlug: z.string() }))
+    .input(z.object({ courseSlug: z.string().min(1) }))
     .query(async ({ ctx, input: { courseSlug } }) => {
       const course = await db.get(courseTable, { slug: courseSlug });
       if (!course) {
