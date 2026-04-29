@@ -54,7 +54,7 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({ resourceFeedback, onF
 
     let textColorClass = 'text-bluedot-navy';
     if (isActive && isLikeButton) {
-      textColorClass = 'text-[#2244bb]';
+      textColorClass = 'text-bluedot-normal';
     }
 
     // Flip vertically for dislike (thumbs down) by flipping on Y-axis

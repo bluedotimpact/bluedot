@@ -288,13 +288,13 @@ const BreadcrumbMenu = ({ courses, projects }: BreadcrumbMenuProps) => {
               <span
                 className={clsx(
                   'text-size-sm leading-[24px] font-normal',
-                  isActive ? 'text-bluedot-normal' : 'text-[#151d42]',
+                  isActive ? 'text-bluedot-normal' : 'text-bluedot-navy',
                 )}
               >
                 {course.title}
               </span>
               {isNew && (
-                <span className="bg-[#e9ecf8] text-[#2244bb] text-[10px] font-bold leading-[24px] px-[6px] rounded-[5px]">
+                <span className="bg-bluedot-lightest text-bluedot-normal text-[10px] font-bold leading-[24px] px-[6px] rounded-[5px]">
                   NEW
                 </span>
               )}

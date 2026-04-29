@@ -23,7 +23,7 @@ const StorySection = () => {
           <CTALinkOrButton
             size="small"
             url={ROUTES.about.url}
-            className="h-[44px] px-[17px] py-[16px] text-size-xs font-normal leading-[18.2px] tracking-[0.42px] text-white bg-[#0033CC] rounded-[6px] hover:bg-[#0029A3] transition-all duration-200"
+            className="h-[44px] px-[17px] py-[16px] text-size-xs font-normal leading-[18.2px] tracking-[0.42px] text-white bg-bluedot-normal rounded-[6px] hover:bg-bluedot-dark transition-all duration-200"
           >
             Learn more
           </CTALinkOrButton>
