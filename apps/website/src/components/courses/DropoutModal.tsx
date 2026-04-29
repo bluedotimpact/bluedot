@@ -106,10 +106,18 @@ const DropoutModal: React.FC<DropoutModalProps> = ({
 
   const renderSuccess = () => {
     const startDateRaw = selectedRound?.firstDiscussionDateRaw;
-    let contactWeek: string | null = null;
-    if (isDeferral && startDateRaw) {
-      const oneWeekBefore = new Date(new Date(startDateRaw).getTime() - 7 * ONE_DAY_MS);
-      contactWeek = formatMonthAndDay(oneWeekBefore.toISOString());
+    const startFormatted = startDateRaw ? formatMonthAndDay(startDateRaw) : null;
+    const contactWeek = startDateRaw
+      ? formatMonthAndDay(new Date(new Date(startDateRaw).getTime() - 7 * ONE_DAY_MS).toISOString())
+      : null;
+
+    let message: string;
+    if (!isDeferral) {
+      message = 'Your dropout request has been submitted. We\'re sorry to see you go. You should receive a confirmation email soon.';
+    } else if (selectedRound && startFormatted && contactWeek) {
+      message = `Your deferral request has been submitted. We'll move you to the ${selectedRound.intensity?.toLowerCase()} round starting ${startFormatted} and be in touch the week of ${contactWeek}.`;
+    } else {
+      message = 'Your deferral request has been submitted. You should receive a confirmation email soon.';
     }
 
     return (
@@ -118,11 +126,7 @@ const DropoutModal: React.FC<DropoutModalProps> = ({
           <CheckIcon className="text-bluedot-normal" />
         </div>
         <div className="flex max-w-[512px] flex-col items-center gap-4">
-          <P className="text-bluedot-navy/80 text-center">
-            {isDeferral
-              ? `Your deferral request has been submitted.${contactWeek ? ` We'll be in touch in the week of ${contactWeek}.` : ''} You should receive a confirmation email soon.`
-              : 'Your dropout request has been submitted. We\'re sorry to see you go. You should receive a confirmation email soon.'}
-          </P>
+          <P className="text-bluedot-navy/80 text-center">{message}</P>
         </div>
         <CTALinkOrButton className="bg-bluedot-normal w-full" onClick={handleCloseWithInvalidation}>
           Close
@@ -147,36 +151,40 @@ const DropoutModal: React.FC<DropoutModalProps> = ({
       : [];
 
     return (
-      <div className="flex flex-col gap-2">
-        <H1 className="text-size-md font-medium text-black">Format</H1>
-        <Select
-          ariaLabel="Course format"
-          value={effectiveIntensity}
-          onChange={(value) => {
-            setIntensity(value as Intensity);
-            setTargetRoundId(undefined);
-          }}
-          options={INTENSITY_OPTIONS.map((opt) => ({
-            value: opt.value,
-            label: opt.label,
-            disabled: dropoutMutation.isPending,
-          }))}
-        />
+      <div className="border-l-2 border-color-divider pl-4 ml-2 mt-3 flex flex-col gap-3">
+        <div className="flex flex-col gap-1">
+          <span className="text-size-sm font-medium text-bluedot-navy/80">Intensity</span>
+          <Select
+            ariaLabel="Intensity"
+            value={effectiveIntensity}
+            onChange={(value) => {
+              setIntensity(value as Intensity);
+              setTargetRoundId(undefined);
+            }}
+            options={INTENSITY_OPTIONS.map((opt) => ({
+              value: opt.value,
+              label: opt.label,
+              disabled: dropoutMutation.isPending,
+            }))}
+          />
+        </div>
 
-        <H1 className="text-size-md font-medium text-black mt-2">Round</H1>
-        <Select
-          ariaLabel="Round"
-          value={hasRounds ? effectiveTargetRoundId : undefined}
-          onChange={(value) => setTargetRoundId(value)}
-          options={roundOptions}
-          placeholder={hasRounds ? 'Choose a round' : 'No upcoming rounds available'}
-          disabled={!hasRounds || dropoutMutation.isPending}
-        />
-        {!hasRounds && (
-          <P className="text-bluedot-normal">
-            No upcoming rounds for this intensity available. You can select a different intensity or drop out instead.
-          </P>
-        )}
+        <div className="flex flex-col gap-1">
+          <span className="text-size-sm font-medium text-bluedot-navy/80">Round</span>
+          <Select
+            ariaLabel="Round"
+            value={hasRounds ? effectiveTargetRoundId : undefined}
+            onChange={(value) => setTargetRoundId(value)}
+            options={roundOptions}
+            placeholder={hasRounds ? 'Choose a round' : 'No upcoming rounds available'}
+            disabled={!hasRounds || dropoutMutation.isPending}
+          />
+          {!hasRounds && (
+            <P className="text-bluedot-normal text-size-xs mt-1">
+              No upcoming rounds for this intensity available. You can select a different intensity or drop out instead.
+            </P>
+          )}
+        </div>
       </div>
     );
   };
@@ -194,17 +202,14 @@ const DropoutModal: React.FC<DropoutModalProps> = ({
           options={TYPE_OPTIONS.map((opt) => ({ value: opt.value, label: opt.label, disabled: dropoutMutation.isPending }))}
           placeholder="Choose an option"
         />
+        {isDeferral && renderRoundPicker()}
       </div>
 
-      {isDeferral && renderRoundPicker()}
-
       <div className="flex flex-col gap-2">
-        <H1 className="text-size-md font-medium text-black">2. Please tell us why</H1>
-        <P>
-          Your feedback (positive and negative) helps improve our courses. Please share any details about your
-          decision with us.
-        </P>
-        <P>Thank you again for participating.</P>
+        <H1 className="text-size-md font-medium text-black">2. We'd love to hear why</H1>
+        <p className="text-size-xs text-[#666C80]">
+          Your feedback helps us improve the course. Thank you for participating.
+        </p>
         <Textarea
           value={reason}
           onChange={(e) => setReason(e.target.value)}

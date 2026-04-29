@@ -30,7 +30,7 @@ export const dropoutRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: 'Course registration not found' });
       }
 
-      const oldRoundId = courseRegistration.roundId?.[0] ?? null;
+      const oldRoundId = courseRegistration.roundId ?? null;
 
       return db.insert(dropoutTable, {
         applicantId: [applicantId],
