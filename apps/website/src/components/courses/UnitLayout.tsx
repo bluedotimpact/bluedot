@@ -424,6 +424,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               <div className="unit__title-container">
                 <P className="unit__course-title font-semibold text-size-xs leading-[140%] tracking-[0.04em] uppercase text-bluedot-normal mb-2">Unit {unit.unitNumber}: {unit.title}</P>
                 {chunk?.chunkTitle && (
+                  // eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: standalone H1 in course-unit chrome, fixed 32px is intentional
                   <H1 className="unit__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-bluedot-navy">{chunk.chunkTitle}</H1>
                 )}
               </div>

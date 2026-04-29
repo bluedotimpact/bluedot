@@ -107,6 +107,7 @@ const EventDateBadge = ({ event }: { event: Event }) => {
         </span>
       </div>
       <div className="flex flex-1 items-center justify-center">
+        {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: event-row day number, fixed 28px sized to fit the row chrome */}
         <span className="text-[28px] font-medium tracking-[-0.05em] text-bluedot-navy">
           {formatDay(event.startAt)}
         </span>

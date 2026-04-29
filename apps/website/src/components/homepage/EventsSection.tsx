@@ -72,6 +72,7 @@ const DateBadge = ({ month, day }: { month: string; day: string }) => {
 
       {/* Day Number */}
       <div className="relative flex items-center justify-center h-[43.2px] lg:h-[54px]">
+        {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: day-number sized to fit 43.2px / 54px containers */}
         <span className="text-[32px] lg:text-[40px] font-normal text-bluedot-navy tracking-[-0.8px] lg:tracking-[-1px] leading-tight">
           {day}
         </span>

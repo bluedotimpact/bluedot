@@ -126,6 +126,7 @@ const HeroSection = ({
                       {categoryLabel}
                     </p>
                   )}
+                  {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: hero variant pairing text-[40px] with xl:text-5xl (Tailwind default = 48px) */}
                   <H1 className="text-[40px] xl:text-5xl leading-tight font-semibold tracking-[-0.5px] text-white">
                     {title}
                   </H1>
@@ -188,6 +189,7 @@ const HeroSection = ({
                     </p>
                   )}
 
+                  {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: 4-breakpoint hero ramp using sm:/lg:/xl: that doesn't compose with the responsive 2xl token */}
                   <H1 className="text-[32px] sm:text-[40px] sm:leading-tight lg:text-[40px] xl:text-5xl leading-tight font-semibold tracking-[-0.5px] text-white">
                     {title}
                   </H1>
@@ -248,6 +250,7 @@ const HeroSection = ({
                     </p>
                   )}
 
+                  {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: 4-breakpoint hero ramp using sm:/lg:/xl: that doesn't compose with the responsive 2xl token */}
                   <H1 className="text-[32px] sm:text-[40px] sm:leading-tight lg:text-[40px] xl:text-5xl leading-tight font-semibold tracking-[-0.5px] text-bluedot-navy">
                     {title}
                   </H1>

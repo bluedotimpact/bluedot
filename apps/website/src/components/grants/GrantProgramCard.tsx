@@ -65,6 +65,7 @@ const GrantProgramCard = ({
           <div>
             <Link href={href} className="block">
               <h3
+                // eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: 2-tier card (primary 34→40, secondary 28→32) preserves the existing visual hierarchy
                 className={cn(
                   'max-w-[18ch] font-semibold leading-[1.02] tracking-[-0.04em] text-bluedot-navy transition-transform duration-200 group-hover:translate-x-0.5',
                   emphasis === 'primary'
