@@ -7,6 +7,7 @@ import { TRPCError } from '@trpc/server';
 import {
   describe, expect, test, vi, beforeEach,
 } from 'vitest';
+import type * as BluedotUi from '@bluedot/ui';
 import { useAuthStore } from '@bluedot/ui';
 import type { SyncStatus } from '@bluedot/db';
 import { server, trpcMsw } from '../../trpcMswSetup';
@@ -15,9 +16,13 @@ import SyncDashboard from '../../../pages/admin/sync-dashboard';
 import { ONE_HOUR_MS } from '../../../lib/constants';
 
 // Mock dependencies
-vi.mock('@bluedot/ui', () => ({
-  useAuthStore: vi.fn(),
-}));
+vi.mock('@bluedot/ui', async () => {
+  const actual = await vi.importActual<typeof BluedotUi>('@bluedot/ui');
+  return {
+    ...actual,
+    useAuthStore: vi.fn(),
+  };
+});
 
 const mockedUseAuthStore = vi.mocked(useAuthStore, true);
 
@@ -26,6 +31,14 @@ vi.mock('react-icons/ri', () => ({
   RiLoader4Line: ({ className, size }: { className?: string; size?: number }) => (
     <div data-testid="loader-icon" className={className} style={{ width: size, height: size }} />
   ),
+}));
+
+// MarketingHero renders <Nav /> which calls next/router's useRouter
+vi.mock('next/router', () => ({
+  useRouter: () => ({
+    pathname: '/admin/sync-dashboard',
+    query: {},
+  }),
 }));
 
 describe('SyncDashboard - Main User Journeys', () => {
@@ -81,15 +94,15 @@ describe('SyncDashboard - Main User Journeys', () => {
     render(<SyncDashboard />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      expect(screen.getByRole('heading', { name: 'Sync Dashboard' })).toBeInTheDocument();
+      expect(screen.getByText('No manual sync requests in the last 24 hours')).toBeInTheDocument();
     });
-    expect(screen.getByText('No manual sync requests in the last 24 hours')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Sync Dashboard' })).toBeInTheDocument();
 
     // Find the sync button
     const syncButton = screen.getByRole('button', { name: 'Request Full Sync' });
     expect(syncButton).toBeInTheDocument();
     expect(syncButton).toBeEnabled();
-    expect(syncButton).toHaveClass('bg-blue-600');
+    expect(syncButton).toHaveClass('cta-button--primary');
 
     // Click the button
     await act(async () => {

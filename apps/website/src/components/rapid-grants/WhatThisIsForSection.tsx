@@ -20,7 +20,7 @@ const WhatThisIsForSection = () => {
         <h3 className={pageSectionHeadingClass}>Who this is for</h3>
 
         <div className="flex flex-col gap-5">
-          <P>We&apos;ve given out nearly $50,000 in small grants to the BlueDot community over the past few months. Now we&apos;re scaling up. Bigger grants, more of them.</P>
+          <P>For anyone working on concrete AI safety projects. Research, events, community building, tooling, compute.</P>
           <P>
             If in doubt,{' '}
             <a

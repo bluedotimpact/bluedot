@@ -37,6 +37,7 @@ export const Default: Story = {
     handleClose() {},
     applicantId: 'rec123456789',
     courseSlug: 'agi-safety-fundamentals',
+    currentRoundId: null,
   },
   parameters: {
     msw: {
@@ -60,6 +61,7 @@ export const Error: Story = {
     handleClose() {},
     applicantId: 'rec123456789',
     courseSlug: 'agi-safety-fundamentals',
+    currentRoundId: null,
   },
   parameters: {
     msw: {
@@ -78,6 +80,7 @@ export const NoUpcomingRounds: Story = {
     handleClose() {},
     applicantId: 'rec123456789',
     courseSlug: 'agi-safety-fundamentals',
+    currentRoundId: null,
   },
   parameters: {
     msw: {
