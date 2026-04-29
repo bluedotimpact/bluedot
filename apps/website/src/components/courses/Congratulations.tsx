@@ -17,6 +17,7 @@ import {
 import { COURSE_CONFIG, FOAI_COURSE_ID } from '../../lib/constants';
 import { ROUTES } from '../../lib/routes';
 import { getCourseCtaColours } from '../../lib/courseCtaColours';
+import { getActionPlanUrl } from '../../lib/utils';
 import type { CertificateStatus } from '../../server/routers/certificates';
 import { getLoginUrl } from '../../utils/getLoginUrl';
 import { trpc } from '../../utils/trpc';
@@ -149,71 +150,146 @@ const outlinedBtnClass
 
 // --- Certificate hero ---
 
-type CertificateHeroProps = { courseId: string; courseTitle: string };
+type CertificateHeroProps = { courseId: string; courseSlug: string; courseTitle: string };
 
-const CertificateHeroAuthed = ({ courseId, courseTitle }: CertificateHeroProps) => {
-  const { data, isLoading, error } = trpc.certificates.getStatus.useQuery({ courseId });
-  const [copied, setCopied] = useState(false);
-
-  if (isLoading) {
-    return <div className="flex justify-center py-12"><ProgressDots /></div>;
-  }
-
-  if (error != null) {
-    return <ErrorView error={error} />;
-  }
-
-  if (data?.status !== 'has-certificate') {
-    return null;
-  }
-
-  const issuedDate = new Date(data.certificateCreatedAt * 1000).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-
-  const certificateLink = `${SITE_URL}${addQueryParam(ROUTES.certification.url, 'id', data.certificateId)}`;
-
-  const handleCopyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(certificateLink);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (_error) {
-      // Clipboard API unavailable
-    }
-  };
+const CertificatePreviewCard = ({ courseSlug, courseTitle }: { courseSlug: string; courseTitle: string }) => {
+  const badgeSrc = courseSlug in COURSE_CONFIG
+    ? `/images/certificates/${courseSlug}.png`
+    : '/images/certificates/certificate-fallback-image.png';
 
   return (
-    <div className="flex flex-col items-center gap-6 w-full">
-      <CertificateCard
-        courseName={data.courseName ?? courseTitle}
-        courseSlug={data.courseSlug}
-        recipientName={data.recipientName}
-        description={data.certificationDescription}
-        issuedDate={issuedDate}
-        certificateId={data.certificateId}
-      />
-      <button
-        type="button"
-        onClick={handleCopyLink}
-        className={outlinedBtnClass}
-      >
-        <FaLink className="size-4" />
-        {copied ? 'Link copied!' : 'Copy link'}
-      </button>
+    <div className="w-full max-w-[640px] bg-white rounded-lg border border-slate-200 shadow-sm flex flex-col items-center px-6 py-10 gap-4">
+      <img src={badgeSrc} alt="" className="h-[160px] w-auto object-contain" />
+      <p className="text-[11px] font-medium uppercase tracking-[0.06em] text-[#62748E]">
+        Professional Certification
+      </p>
+      <p className="text-[28px] font-semibold text-bluedot-navy leading-tight text-center">
+        {courseTitle}
+      </p>
     </div>
   );
 };
 
-const CertificateHero = ({ courseId, courseTitle }: CertificateHeroProps) => {
+const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: CertificateHeroProps) => {
+  const { data, isLoading, error, refetch } = trpc.certificates.getStatus.useQuery({ courseId });
+  const [copied, setCopied] = useState(false);
+
+  const requestCertificateMutation = trpc.certificates.request.useMutation({
+    onSuccess: async () => {
+      await refetch();
+      if (typeof window !== 'undefined' && window.dataLayer && courseId === FOAI_COURSE_ID) {
+        window.dataLayer.push({ event: 'completers', course_slug: 'future-of-ai' });
+      }
+    },
+  });
+
+  if (isLoading || requestCertificateMutation.isPending) {
+    return <div className="flex justify-center py-12"><ProgressDots /></div>;
+  }
+
+  if (error != null || requestCertificateMutation.isError) {
+    return (
+      <div className="flex flex-col items-center gap-4">
+        <ErrorView error={error ?? requestCertificateMutation.error} />
+        <CTALinkOrButton
+          variant="primary"
+          onClick={() => (error ? refetch() : requestCertificateMutation.mutate({ courseId }))}
+        >
+          Retry
+        </CTALinkOrButton>
+      </div>
+    );
+  }
+
+  if (data?.status === 'has-certificate') {
+    const issuedDate = new Date(data.certificateCreatedAt * 1000).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+
+    const certificateLink = `${SITE_URL}${addQueryParam(ROUTES.certification.url, 'id', data.certificateId)}`;
+
+    const handleCopyLink = async () => {
+      try {
+        await navigator.clipboard.writeText(certificateLink);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch (_error) {
+        // Clipboard API unavailable
+      }
+    };
+
+    return (
+      <div className="flex flex-col items-center gap-6 w-full">
+        <CertificateCard
+          courseName={data.courseName ?? courseTitle}
+          courseSlug={data.courseSlug}
+          recipientName={data.recipientName}
+          description={data.certificationDescription}
+          issuedDate={issuedDate}
+          certificateId={data.certificateId}
+        />
+        <button
+          type="button"
+          onClick={handleCopyLink}
+          className={outlinedBtnClass}
+        >
+          <FaLink className="size-4" />
+          {copied ? 'Link copied!' : 'Copy link'}
+        </button>
+      </div>
+    );
+  }
+
+  const status = data?.status ?? 'not-eligible';
+  const description = CERTIFICATE_STATUS_DESCRIPTIONS[status];
+
+  let cta: React.ReactNode = null;
+  if (data?.status === 'can-request') {
+    cta = (
+      <CTALinkOrButton
+        variant="primary"
+        onClick={() => requestCertificateMutation.mutate({ courseId })}
+      >
+        Download Certificate
+      </CTALinkOrButton>
+    );
+  } else if (data?.status === 'action-plan-pending') {
+    const actionPlanUrl = getActionPlanUrl(data.meetPersonId);
+    cta = (
+      <CTALinkOrButton
+        url={actionPlanUrl}
+        variant="primary"
+        target="_blank"
+        disabled={data.hasSubmittedActionPlan ?? false}
+      >
+        {data.hasSubmittedActionPlan ? 'Submitted!' : 'Submit your plan here'}
+      </CTALinkOrButton>
+    );
+  }
+
+  return (
+    <div className="flex flex-col items-center gap-6 w-full">
+      <CertificatePreviewCard courseSlug={courseSlug} courseTitle={courseTitle} />
+      {description && (
+        <p className="text-[14px] text-[#62748E] text-center max-w-[480px]">
+          {description}
+        </p>
+      )}
+      {cta}
+    </div>
+  );
+};
+
+const CertificateHero = ({ courseId, courseSlug, courseTitle }: CertificateHeroProps) => {
   const auth = useAuthStore((s) => s.auth);
   const router = useRouter();
 
   if (!auth) {
     return (
-      <div className="flex flex-col items-center gap-3">
+      <div className="flex flex-col items-center gap-6 w-full">
+        <CertificatePreviewCard courseSlug={courseSlug} courseTitle={courseTitle} />
         <p className="text-[14px] text-[#62748E] text-center max-w-[480px]">
           Create a free account to earn your course certificate.
         </p>
@@ -224,7 +300,7 @@ const CertificateHero = ({ courseId, courseTitle }: CertificateHeroProps) => {
     );
   }
 
-  return <CertificateHeroAuthed courseId={courseId} courseTitle={courseTitle} />;
+  return <CertificateHeroAuthed courseId={courseId} courseSlug={courseSlug} courseTitle={courseTitle} />;
 };
 
 // --- Main component ---
@@ -273,7 +349,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
           Congratulations on finishing the {courseTitle} course!
         </H2>
         {courseId && (
-          <CertificateHero courseId={courseId} courseTitle={courseTitle} />
+          <CertificateHero courseId={courseId} courseSlug={courseSlug} courseTitle={courseTitle} />
         )}
       </div>
 
