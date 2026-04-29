@@ -1,11 +1,5 @@
 import {
-  addQueryParam,
-  cn,
-  CTALinkOrButton,
-  H2,
-  P,
-  ProgressDots,
-  useAuthStore,
+  addQueryParam, cn, CTALinkOrButton, H2, P, ProgressDots, useAuthStore,
 } from '@bluedot/ui';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { useRouter } from 'next/router';
@@ -15,8 +9,8 @@ import {
   FaCopy, FaLink, FaLinkedinIn, FaXTwitter,
 } from 'react-icons/fa6';
 import { COURSE_CONFIG, FOAI_COURSE_ID } from '../../lib/constants';
-import { ROUTES } from '../../lib/routes';
 import { getCourseCtaColours } from '../../lib/courseCtaColours';
+import { ROUTES } from '../../lib/routes';
 import { getActionPlanUrl } from '../../lib/utils';
 import type { CertificateStatus } from '../../server/routers/certificates';
 import { getLoginUrl } from '../../utils/getLoginUrl';
@@ -28,11 +22,13 @@ import { CourseIcon } from './CourseIcon';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
 
 export const CERTIFICATE_STATUS_DESCRIPTIONS: Record<CertificateStatus, string> = {
-  'action-plan-pending': 'To receive your certificate, you need to submit an action plan/project and can\'t have missed more than one discussion.',
+  'action-plan-pending':
+    'To receive your certificate, you need to submit an action plan/project and can\'t have missed more than one discussion.',
   'can-request': 'Complete all exercises to unlock your certificate, then share your accomplishment on social media.',
   'facilitator-pending': 'Your certificate will be issued after your cohort ends, based on attendance.',
   'has-certificate': '',
-  'not-eligible': 'This course doesn\'t currently issue certificates to independent learners. Join a facilitated version to get a certificate.',
+  'not-eligible':
+    'This course doesn\'t currently issue certificates to independent learners. Join a facilitated version to get a certificate.',
 };
 
 // --- Laurel wreath ---
@@ -42,7 +38,7 @@ const LaurelWreath = ({ courseSlug }: { courseSlug: string }) => {
   const accentColor = config?.accentColor ?? '#94a3b8';
 
   return (
-    <div className="relative flex items-center justify-center w-[255px] h-[174px]" style={{ color: accentColor }}>
+    <div className="relative flex h-[174px] w-[255px] items-center justify-center" style={{ color: accentColor }}>
       <LaurelWreathIcon className="absolute inset-0" aria-hidden="true" />
       <CourseIcon courseSlug={courseSlug} size="xlarge" className="relative -translate-y-6 shadow-md" />
     </div>
@@ -51,25 +47,26 @@ const LaurelWreath = ({ courseSlug }: { courseSlug: string }) => {
 
 // --- Preview panels ---
 
-const PostPreviewPanel = ({ courseSlug, shareText, courseUrl }: {
+const PostPreviewPanel = ({
+  courseSlug,
+  shareText,
+  courseUrl,
+}: {
   courseSlug: string;
   shareText: string;
   courseUrl: string;
 }) => (
-  <div className="h-full bg-[#fbfbfd] border-t border-[#e5e9f2] md:border-t-0 md:border-l flex flex-col p-5 gap-4">
-    <p className="text-[11px] font-semibold uppercase tracking-[0.04em] text-bluedot-navy/40">
-      Post Preview
-    </p>
+  <div className="flex h-full flex-col gap-4 border-t border-[#e5e9f2] bg-[#fbfbfd] p-5 md:border-t-0 md:border-l">
+    <p className="text-bluedot-navy/40 text-[11px] font-semibold tracking-[0.04em] uppercase">Post Preview</p>
     <div className="flex items-center gap-3">
-      <div className="size-8 rounded-full bg-bluedot-navy/10 shrink-0" />
+      <div className="bg-bluedot-navy/10 size-8 shrink-0 rounded-full" />
       <div className="flex flex-col gap-1">
-        <div className="h-2.5 w-24 rounded-full bg-bluedot-navy/15" />
-        <div className="h-2.5 w-14 rounded-full bg-bluedot-navy/15" />
+        <div className="bg-bluedot-navy/15 h-2.5 w-24 rounded-full" />
+        <div className="bg-bluedot-navy/15 h-2.5 w-14 rounded-full" />
       </div>
     </div>
-    <p className="text-[13px] leading-[1.5] text-bluedot-navy line-clamp-3">
-      {shareText}{' '}
-      <span className="text-blue-600">{courseUrl}</span>
+    <p className="text-bluedot-navy line-clamp-3 text-[13px] leading-[1.5]">
+      {shareText} <span className="text-blue-600">{courseUrl}</span>
     </p>
     <img
       src={`/images/courses/link-preview/${courseSlug}.png`}
@@ -82,21 +79,18 @@ const PostPreviewPanel = ({ courseSlug, shareText, courseUrl }: {
   </div>
 );
 
-const ChatPreviewPanel = ({ courseTitle, courseUrl }: {
-  courseTitle: string;
-  courseUrl: string;
-}) => (
-  <div className="h-full flex flex-col items-center justify-center p-8 bg-[#fbfbfd] border-l border-[#e5e9f2]">
-    <div className="relative bg-bluedot-normal rounded-[7.5px] shadow-sm px-4 py-3 max-w-[280px]">
+const ChatPreviewPanel = ({ courseTitle, courseUrl }: { courseTitle: string; courseUrl: string }) => (
+  <div className="flex h-full flex-col items-center justify-center border-l border-[#e5e9f2] bg-[#fbfbfd] p-8">
+    <div className="bg-bluedot-normal relative max-w-[280px] rounded-[7.5px] px-4 py-3 shadow-sm">
       <p className="text-[14px] leading-[20px] text-white">
-        Hey, I just finished this free {courseTitle} course and it genuinely shifted how I
-        think about this stuff. Thought you&rsquo;d find it interesting as well.
+        Hey, I just finished this free {courseTitle} course and it genuinely shifted how I think about this stuff.
+        Thought you&rsquo;d find it interesting as well.
         <br />
-        <span className="underline tracking-[0.16px]">{courseUrl}</span>
+        <span className="tracking-[0.16px] underline">{courseUrl}</span>
       </p>
-      <p className="text-[12px] text-white/60 text-right mt-1">19:45</p>
+      <p className="mt-1 text-right text-[12px] text-white/60">19:45</p>
       <svg
-        className="absolute text-bluedot-normal"
+        className="text-bluedot-normal absolute"
         style={{ right: '5px', bottom: '-8.917px' }}
         width="15"
         height="13"
@@ -123,22 +117,18 @@ type ShareCardProps = {
   preview?: React.ReactNode;
 };
 
-const ShareCard = ({
-  title, description, actions, preview,
-}: ShareCardProps) => (
-  <div className="bg-white border-[0.5px] border-[rgba(19,19,46,0.25)] rounded-[10px] overflow-hidden flex flex-col md:flex-row md:min-h-[327px]">
-    <div className="flex flex-col p-6 md:px-[40px] md:py-[32px] md:w-1/2 gap-[32px]">
+const ShareCard = ({ title, description, actions, preview }: ShareCardProps) => (
+  <div className="flex flex-col overflow-hidden rounded-[10px] border-[0.5px] border-[rgba(19,19,46,0.25)] bg-white md:min-h-[327px] md:flex-row">
+    <div className="flex flex-col gap-[32px] p-6 md:w-1/2 md:px-[40px] md:py-[32px]">
       <div className="flex flex-col gap-3">
-        <h3 className="font-semibold text-[20px] leading-[1.4] text-bluedot-navy">{title}</h3>
-        {description && <P className="text-[16px] leading-[1.6] tracking-[-0.032px] text-bluedot-navy">{description}</P>}
+        <h3 className="text-bluedot-navy text-[20px] leading-[1.4] font-semibold">{title}</h3>
+        {description && (
+          <P className="text-bluedot-navy text-[16px] leading-[1.6] tracking-[-0.032px]">{description}</P>
+        )}
       </div>
       {actions && <div className="flex flex-wrap items-center gap-3">{actions}</div>}
     </div>
-    {preview && (
-      <div className="w-full md:w-1/2 overflow-hidden">
-        {preview}
-      </div>
-    )}
+    {preview && <div className="w-full overflow-hidden md:w-1/2">{preview}</div>}
   </div>
 );
 
@@ -153,19 +143,16 @@ const outlinedBtnClass
 type CertificateHeroProps = { courseId: string; courseSlug: string; courseTitle: string };
 
 const CertificatePreviewCard = ({ courseSlug, courseTitle }: { courseSlug: string; courseTitle: string }) => {
-  const badgeSrc = courseSlug in COURSE_CONFIG
-    ? `/images/certificates/${courseSlug}.png`
-    : '/images/certificates/certificate-fallback-image.png';
+  const badgeSrc
+    = courseSlug in COURSE_CONFIG
+      ? `/images/certificates/${courseSlug}.png`
+      : '/images/certificates/certificate-fallback-image.png';
 
   return (
-    <div className="w-full max-w-[640px] bg-white rounded-lg border border-slate-200 shadow-sm flex flex-col items-center px-6 py-10 gap-4">
+    <div className="flex w-full max-w-[640px] flex-col items-center gap-4 rounded-lg border border-slate-200 bg-white px-6 py-10 shadow-sm">
       <img src={badgeSrc} alt="" className="h-[160px] w-auto object-contain" />
-      <p className="text-[11px] font-medium uppercase tracking-[0.06em] text-[#62748E]">
-        Professional Certification
-      </p>
-      <p className="text-[28px] font-semibold text-bluedot-navy leading-tight text-center">
-        {courseTitle}
-      </p>
+      <p className="text-[11px] font-medium tracking-[0.06em] text-[#62748E] uppercase">Professional Certification</p>
+      <p className="text-bluedot-navy text-center text-[28px] leading-tight font-semibold">{courseTitle}</p>
     </div>
   );
 };
@@ -184,7 +171,11 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
   });
 
   if (isLoading || requestCertificateMutation.isPending) {
-    return <div className="flex justify-center py-12"><ProgressDots /></div>;
+    return (
+      <div className="flex justify-center py-12">
+        <ProgressDots />
+      </div>
+    );
   }
 
   if (error != null || requestCertificateMutation.isError) {
@@ -221,7 +212,7 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
     };
 
     return (
-      <div className="flex flex-col items-center gap-6 w-full">
+      <div className="flex w-full flex-col items-center gap-6">
         <CertificateCard
           courseName={data.courseName ?? courseTitle}
           courseSlug={data.courseSlug}
@@ -230,11 +221,7 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
           issuedDate={issuedDate}
           certificateId={data.certificateId}
         />
-        <button
-          type="button"
-          onClick={handleCopyLink}
-          className={outlinedBtnClass}
-        >
+        <button type="button" onClick={handleCopyLink} className={outlinedBtnClass}>
           <FaLink className="size-4" />
           {copied ? 'Link copied!' : 'Copy link'}
         </button>
@@ -248,10 +235,7 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
   let cta: React.ReactNode = null;
   if (data?.status === 'can-request') {
     cta = (
-      <CTALinkOrButton
-        variant="primary"
-        onClick={() => requestCertificateMutation.mutate({ courseId })}
-      >
+      <CTALinkOrButton variant="primary" onClick={() => requestCertificateMutation.mutate({ courseId })}>
         Download Certificate
       </CTALinkOrButton>
     );
@@ -270,13 +254,9 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
   }
 
   return (
-    <div className="flex flex-col items-center gap-6 w-full">
+    <div className="flex w-full flex-col items-center gap-6">
       <CertificatePreviewCard courseSlug={courseSlug} courseTitle={courseTitle} />
-      {description && (
-        <p className="text-[14px] text-[#62748E] text-center max-w-[480px]">
-          {description}
-        </p>
-      )}
+      {description && <p className="max-w-[480px] text-center text-[14px] text-[#62748E]">{description}</p>}
       {cta}
     </div>
   );
@@ -288,9 +268,9 @@ const CertificateHero = ({ courseId, courseSlug, courseTitle }: CertificateHeroP
 
   if (!auth) {
     return (
-      <div className="flex flex-col items-center gap-6 w-full">
+      <div className="flex w-full flex-col items-center gap-6">
         <CertificatePreviewCard courseSlug={courseSlug} courseTitle={courseTitle} />
-        <p className="text-[14px] text-[#62748E] text-center max-w-[480px]">
+        <p className="max-w-[480px] text-center text-[14px] text-[#62748E]">
           Create a free account to earn your course certificate.
         </p>
         <CTALinkOrButton url={getLoginUrl(router.asPath)} variant="primary">
@@ -325,7 +305,9 @@ const Congratulations: React.FC<CongratulationsProps> = ({
   const [copied, setCopied] = useState(false);
 
   const courseUrl = `${SITE_URL}${coursePath}`;
-  const shareText = text ?? `I just completed the ${courseTitle} course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out:`;
+  const shareText
+    = text
+      ?? `I just completed the ${courseTitle} course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out:`;
   const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(courseUrl)}`;
   const xUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${shareText} ${courseUrl}`)}`;
   const courseColors = getCourseCtaColours(courseSlug);
@@ -343,44 +325,39 @@ const Congratulations: React.FC<CongratulationsProps> = ({
   return (
     <div className={cn('congratulations flex flex-col bg-white', className)}>
       {/* Certificate hero section */}
-      <div className="flex flex-col items-center pt-12 pb-16 gap-8">
+      <div className="flex flex-col items-center gap-8 pt-12 pb-16">
         <LaurelWreath courseSlug={courseSlug} />
-        <H2 className="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] max-w-[720px] text-center">
+        <H2 className="max-w-[720px] text-center text-[32px] leading-[1.3] font-bold tracking-[-0.015em]">
           Congratulations on finishing the {courseTitle} course!
         </H2>
-        {courseId && (
-          <CertificateHero courseId={courseId} courseSlug={courseSlug} courseTitle={courseTitle} />
-        )}
+        {courseId && <CertificateHero courseId={courseId} courseSlug={courseSlug} courseTitle={courseTitle} />}
       </div>
 
       {/* Sharing section with course-colored gradient (inset rounded card) */}
-      <div className="pb-12 w-full max-w-[964px] mx-auto">
+      <div className="mx-auto w-full max-w-[964px] pb-12">
         <div
-          className="flex flex-col items-center px-5 md:px-[54px] py-[64px] gap-12 rounded-[17px] overflow-hidden"
+          className="flex flex-col items-center gap-12 overflow-hidden rounded-[17px] px-5 py-[64px] md:px-[54px]"
           style={{ background: courseColors.gradient }}
         >
-          <div className="flex flex-col items-center text-center gap-4 max-w-[653px]">
-            <p
-              className="text-[16px] font-semibold uppercase tracking-[0.04em]"
-              style={{ color: courseColors.accent }}
-            >
+          <div className="flex max-w-[653px] flex-col items-center gap-4 text-center">
+            <p className="text-[16px] font-semibold tracking-[0.04em] uppercase" style={{ color: courseColors.accent }}>
               Start making impact today
             </p>
-            <H2 className="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-white">
+            <H2 className="text-[32px] leading-[1.3] font-bold tracking-[-0.015em] text-white">
               Help more people discover AI safety today
             </H2>
             <P className="text-[16px] leading-[1.6] tracking-[-0.002em] text-white">
-              You&apos;ve spent time understanding one of the most important problems of our era.
-              A post or a message to the right person can have a real ripple effect.
+              You&apos;ve spent time understanding one of the most important problems of our era. A post or a message to
+              the right person can have a real ripple effect.
             </P>
           </div>
 
-          <div className="flex flex-col gap-8 w-full">
+          <div className="flex w-full flex-col gap-8">
             <ShareCard
               title="1. Share with your network"
               description="Take a minute to celebrate and raise awareness for safe AI in your network!"
               preview={<PostPreviewPanel courseSlug={courseSlug} shareText={shareText} courseUrl={courseUrl} />}
-              actions={(
+              actions={
                 <>
                   <a href={linkedInUrl} target="_blank" rel="noopener noreferrer" className={primaryBtnClass}>
                     <FaLinkedinIn className="size-4" />
@@ -391,31 +368,35 @@ const Congratulations: React.FC<CongratulationsProps> = ({
                     Share on X
                   </a>
                 </>
-              )}
+              }
             />
 
             <ShareCard
               title="2. Refer a friend or colleague"
-              description={'Think of three people who\'d genuinely benefit from this course. A little "I thought of you" goes a long way.'}
+              description={
+                'Think of three people who\'d genuinely benefit from this course. A little "I thought of you" goes a long way.'
+              }
               preview={<ChatPreviewPanel courseTitle={courseTitle} courseUrl={courseUrl} />}
-              actions={(
+              actions={
                 <button type="button" onClick={handleCopyShare} className={primaryBtnClass}>
                   <FaCopy className="size-4" />
                   {copied ? 'Copied!' : 'Copy Message'}
                 </button>
-              )}
+              }
             />
           </div>
         </div>
       </div>
 
       {courseId === FOAI_COURSE_ID && (
-        <div className="py-12 flex justify-center bg-white">
-          <div className="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] p-10 flex flex-col gap-6 w-full max-w-[1100px]">
+        <div className="flex justify-center bg-white py-12">
+          <div className="border-hairline border-bluedot-navy/25 flex w-full max-w-[1100px] flex-col gap-6 rounded-[10px] bg-white p-10">
             <div className="flex flex-col gap-3">
-              <h3 className="font-semibold text-[18px] leading-[1.4] text-bluedot-navy">Want to go deeper?</h3>
-              <P className="text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy">
-                <span className="font-semibold">The AGI Strategy course</span> is the natural next step: 25 hours, facilitated in small groups with live discussion. No specific background required. New rounds start every month.
+              <h3 className="text-bluedot-navy text-[18px] leading-[1.4] font-semibold">Want to go deeper?</h3>
+              <P className="text-bluedot-navy text-[16px] leading-[1.6] tracking-[-0.002em]">
+                <span className="font-semibold">The AGI Strategy course</span> is the natural next step: 25 hours,
+                facilitated in small groups with live discussion. No specific background required. New rounds start
+                every month.
               </P>
             </div>
             <CTALinkOrButton url="/courses/agi-strategy" variant="primary" withChevron>
