@@ -339,7 +339,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
   const [copied, setCopied] = useState(false);
 
   const courseUrl = `${SITE_URL}${coursePath}`;
-  const shareText = text ?? `🎉 I just completed the ${courseTitle} course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out:`;
+  const shareText = text ?? `I just completed the ${courseTitle} course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out:`;
   const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(courseUrl)}`;
   const xUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${shareText} ${courseUrl}`)}`;
   const whatsAppUrl = `https://wa.me/?text=${encodeURIComponent(`${shareText} ${courseUrl}`)}`;
