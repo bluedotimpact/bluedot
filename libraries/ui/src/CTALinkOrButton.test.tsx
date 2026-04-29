@@ -81,7 +81,8 @@ describe('CTALinkOrButton', () => {
   test('renders with medium size by default', () => {
     render(<CTALinkOrButton>Click me</CTALinkOrButton>);
     const button = screen.getByRole('button');
-    expect(button.className).includes('text-sm');
+    expect(button.className).includes('text-size-sm');
+    expect(button.className).includes('bd-md:text-size-xs');
     expect(button.className).includes('px-4');
     expect(button.className).includes('py-3');
   });
@@ -89,7 +90,8 @@ describe('CTALinkOrButton', () => {
   test('renders with small size', () => {
     render(<CTALinkOrButton size="small">Click me</CTALinkOrButton>);
     const button = screen.getByRole('button');
-    expect(button.className).includes('text-[13px]');
+    expect(button.className).includes('text-size-sm');
+    expect(button.className).includes('bd-md:text-size-xs');
     expect(button.className).includes('px-3');
     expect(button.className).includes('py-2.5');
     expect(button.className).includes('h-9');

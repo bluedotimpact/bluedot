@@ -42,7 +42,7 @@ const InactiveCourseBanner = ({ applicantId, courseSlug, roundId }: InactiveCour
       <div className="flex flex-col items-start gap-3 border-b border-[#BB4D2214] bg-[#FFF7ED] px-4 py-3 sm:flex-row sm:items-center sm:gap-4">
         <div className="flex min-w-0 flex-1 items-start gap-3">
           <MoonStarsIcon className="text-[#CC6B11] shrink-0" />
-          <p className="text-[13px] leading-[1.5] font-medium text-[#CC6B11]">
+          <p className="text-size-xs leading-[1.5] font-medium text-[#CC6B11]">
             We've removed you from upcoming discussions due to inactivity.
             <strong> Please rejoin a group.</strong>
           </p>

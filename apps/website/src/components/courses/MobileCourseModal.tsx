@@ -94,7 +94,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
         <div className="flex flex-wrap items-center justify-between gap-4 pb-1 w-full">
           <div className="flex items-center gap-4">
             <CourseIcon courseSlug={courseSlug} />
-            <h3 className="text-[20px] leading-[40px] font-semibold text-bluedot-navy">
+            <h3 className="text-size-md leading-[40px] font-semibold text-bluedot-navy">
               {courseTitle}
             </h3>
           </div>
@@ -227,7 +227,7 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
                     </p>
                   </div>
                   {chunk.estimatedTime != null && (
-                    <div className="flex gap-1 text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-bluedot-navy/60 mt-2">
+                    <div className="flex gap-1 text-size-xs leading-[140%] tracking-[-0.005em] font-medium text-bluedot-navy/60 mt-2">
                       <span>
                         {formatTime(chunk.estimatedTime)}
                       </span>

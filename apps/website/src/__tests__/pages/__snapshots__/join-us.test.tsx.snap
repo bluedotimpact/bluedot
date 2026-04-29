@@ -266,7 +266,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
                       class="mobile-nav-cta flex flex-col gap-4 pt-6 mt-6 border-t border-color-divider"
                     >
                       <a
-                        class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-[5px] text-size-sm font-[450] leading-[160%] items-center justify-center bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white"
+                        class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary link-on-dark mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white"
                         href="/login?register=true&redirect_to=%2Fjoin-us"
                         tabindex="0"
                       >
@@ -498,14 +498,14 @@ exports[`JoinUsPage > should render correctly 1`] = `
                 class="nav-cta flex flex-row items-center gap-4"
               >
                 <a
-                  class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--secondary nav-cta__secondary-cta flex px-3 py-[5px] rounded-[5px] text-size-sm font-[450] leading-[160%] items-center justify-center bg-white/15 border border-white/20 text-white hover:text-white hover:bg-white/20 backdrop-blur-sm"
+                  class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--secondary nav-cta__secondary-cta flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-white/15 border border-white/20 text-white hover:text-white hover:bg-white/20 backdrop-blur-sm"
                   href="/login?redirect_to=%2Fjoin-us"
                   tabindex="0"
                 >
                   Sign in
                 </a>
                 <a
-                  class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none cta-button--primary link-on-dark nav-cta__primary-cta hidden bd-md:flex px-3 py-[5px] rounded-[5px] text-size-sm font-[450] leading-[160%] items-center justify-center bg-white hover:bg-white/90 text-bluedot-darker hover:text-bluedot-darker"
+                  class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary link-on-dark nav-cta__primary-cta hidden bd-md:flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-white hover:bg-white/90 text-bluedot-darker hover:text-bluedot-darker"
                   href="/login?register=true&redirect_to=%2Fjoin-us"
                   tabindex="0"
                 >
@@ -537,7 +537,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
               Work with us
             </h1>
             <p
-              class="text-size-sm bd-md:text-size-md lg:text-[20px] leading-[1.55] tracking-[-0.1px] text-white"
+              class="text-size-sm bd-md:text-size-md leading-[1.55] tracking-[-0.1px] text-white"
             >
               AI safety needs thousands more people. We need the team that gets them there.
             </p>
@@ -655,7 +655,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
               class="flex flex-col gap-4 w-full"
             >
               <span
-                class="text-[10px] leading-[14px] tracking-[0.5px] uppercase text-white opacity-70 font-medium"
+                class="text-size-xxs leading-[14px] tracking-[0.5px] uppercase text-white opacity-70 font-medium"
               >
                 Newsletter
               </span>

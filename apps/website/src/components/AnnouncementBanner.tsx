@@ -96,11 +96,11 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
           <div className="min-w-0 flex-1">
             <div className="flex flex-col gap-1.5">
               {label && (
-                <span className="announcement-banner__label text-[11px] font-semibold uppercase tracking-[0.14em] text-bluedot-normal">
+                <span className="announcement-banner__label text-size-xxs font-semibold uppercase tracking-[0.14em] text-bluedot-normal">
                   {label}
                 </span>
               )}
-              <P className="announcement-banner__content max-w-4xl text-pretty text-size-xs leading-6 text-bluedot-darker sm:text-[15px]">
+              <P className="announcement-banner__content max-w-4xl text-pretty text-size-xs leading-6 text-bluedot-darker sm:text-size-sm">
                 {children}
               </P>
             </div>

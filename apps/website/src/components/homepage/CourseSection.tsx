@@ -61,10 +61,10 @@ const HOMEPAGE_COURSE_SLUGS = Object.keys(COURSE_VISUAL_CONFIG);
 const HeaderSection = () => (
   <div className="flex flex-col items-center gap-8 max-w-4xl mx-auto text-center">
     <div className="flex flex-col gap-5">
-      <H1 className="text-[28px] md:text-[36px] lg:text-[40px] xl:text-[48px] font-medium leading-tight tracking-[-1px]">
+      <H1 className="text-size-xl bd-md:text-size-2xl font-medium leading-tight tracking-[-1px]">
         Start making an impact today
       </H1>
-      <P className="text-size-sm md:text-[20px] leading-[1.55] tracking-[-0.005em] opacity-70 max-w-4xl">
+      <P className="text-size-sm md:text-size-md leading-[1.55] tracking-[-0.005em] opacity-70 max-w-4xl">
         Do you want to help build an awesome, safe future with AI? Apply to one of our free courses today.
         We'll help you ensure that humanity safely navigates the transition to transformative AI.
       </P>
@@ -143,7 +143,7 @@ const CourseCarouselButton = ({
     aria-label={`Scroll ${direction}`}
   >
     <span
-      className="text-bluedot-navy text-[22.4px] font-medium select-none"
+      className="text-bluedot-navy text-size-lg font-medium select-none"
       style={{
         transform: direction === 'left' ? 'scaleX(-1)' : 'none',
       }}
@@ -532,7 +532,7 @@ const CourseCardRedesigned = ({
         {/* Text content at bottom */}
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-4">
-            <H3 className={clsx('font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200', course.slug === 'ai-governance' ? 'text-[23px]' : 'text-size-lg')}>
+            <H3 className="font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-size-lg">
               {course.title}
               {/* Hover arrow for all cards */}
               <span className="inline-block ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -567,7 +567,7 @@ const CourseTags = ({ course }: { course: Course }) => {
       {regularTags.map((tag) => (
         <span
           key={tag}
-          className="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+          className="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
         >
           {tag}
         </span>

@@ -49,7 +49,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="mobile-unit-header__course-title-row flex items-center gap-1"
             >
               <p
-                class="mobile-unit-header__course-title text-[17px] font-semibold leading-[120%] tracking-[-0.5%] text-bluedot-navy truncate"
+                class="mobile-unit-header__course-title text-size-md font-semibold leading-[120%] tracking-[-0.5%] text-bluedot-navy truncate"
               >
                 What the fish [Test Course]
               </p>
@@ -158,7 +158,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 class="flex flex-col"
               >
                 <h2
-                  class="font-semibold text-[26px] leading-[44px] text-bluedot-navy"
+                  class="font-semibold text-size-lg leading-[44px] text-bluedot-navy"
                 >
                   What the fish [Test Course]
                 </h2>
@@ -720,7 +720,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             >
               <button
                 aria-label="Hide sidebar"
-                class="flex items-center gap-[8px] text-[13px] font-medium text-bluedot-navy hover:opacity-80 transition-opacity cursor-pointer"
+                class="flex items-center gap-[8px] text-size-xs font-medium text-bluedot-navy hover:opacity-80 transition-opacity cursor-pointer"
                 type="button"
               >
                 <svg
@@ -751,7 +751,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="flex items-center gap-[8px] flex-1 min-h-[18px] min-w-0"
             >
               <a
-                class="bluedot-a not-prose text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-bluedot-navy transition-colors no-underline"
+                class="bluedot-a not-prose text-size-xs font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-bluedot-navy transition-colors no-underline"
                 href="/courses"
                 tabindex="0"
               >
@@ -772,7 +772,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 />
               </svg>
               <a
-                class="bluedot-a not-prose text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-bluedot-navy transition-colors no-underline truncate"
+                class="bluedot-a not-prose text-size-xs font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-bluedot-navy transition-colors no-underline truncate"
                 href="/courses/test-course"
                 tabindex="0"
               >
@@ -793,7 +793,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 />
               </svg>
               <span
-                class="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy truncate"
+                class="text-size-xs font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy truncate"
                 title="1. Basic Principles of Fish"
               >
                 1
@@ -806,7 +806,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             >
               <button
                 aria-label="Previous"
-                class="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                class="flex items-center gap-1 text-size-xs font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 disabled=""
                 title="Navigate to previous section (use ← arrow key)"
                 type="button"
@@ -815,7 +815,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               </button>
               <button
                 aria-label="Next"
-                class="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                class="flex items-center gap-1 text-size-xs font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 title="Navigate to next section (use → arrow key)"
                 type="button"
               >
@@ -840,7 +840,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 class="unit__title-container"
               >
                 <p
-                  class="bluedot-p not-prose unit__course-title font-semibold text-[13px] leading-[140%] tracking-[0.04em] uppercase text-bluedot-normal mb-2"
+                  class="bluedot-p not-prose unit__course-title font-semibold text-size-xs leading-[140%] tracking-[0.04em] uppercase text-bluedot-normal mb-2"
                 >
                   Unit 
                   1
@@ -869,7 +869,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 class="unit__cta-container flex flex-row justify-center mt-6 mx-1 mb-14 sm:mb-0"
               >
                 <button
-                  class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link [&]:bg-bluedot-normal [&]:hover:bg-[color-mix(in_oklab,var(--bluedot-normal),black_20%)] hover:text-white"
+                  class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link [&]:bg-bluedot-normal [&]:hover:bg-[color-mix(in_oklab,var(--bluedot-normal),black_20%)] hover:text-white"
                   type="button"
                 >
                   Continue
@@ -949,7 +949,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
 
 exports[`UnitLayout > renders previous and next unit buttons for middle unit 1`] = `
 <button
-  class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link [&]:bg-bluedot-normal [&]:hover:bg-[color-mix(in_oklab,var(--bluedot-normal),black_20%)] hover:text-white"
+  class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark unit__cta-link [&]:bg-bluedot-normal [&]:hover:bg-[color-mix(in_oklab,var(--bluedot-normal),black_20%)] hover:text-white"
   type="button"
 >
   Continue

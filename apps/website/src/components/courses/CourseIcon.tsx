@@ -18,7 +18,7 @@ const SIZE_CONFIG = {
     svg: {
       width: 32, height: 32, viewBox: '0 0 32 32', transform: 'translate(16, 16) scale(0.9) translate(-21.3, -18.7)',
     },
-    badge: 'size-3 text-[7px]',
+    badge: 'size-3 text-size-xxs leading-none',
   },
   medium: {
     container: 'size-10', // 40x40
@@ -26,7 +26,7 @@ const SIZE_CONFIG = {
     svg: {
       width: 40, height: 40, viewBox: '0 0 40 40', transform: 'translate(20, 20) scale(1.1) translate(-21.3, -18.7)',
     },
-    badge: 'size-3.5 text-[8px]',
+    badge: 'size-3.5 text-size-xxs leading-none',
   },
   large: {
     container: 'size-11', // 44x44
@@ -34,7 +34,7 @@ const SIZE_CONFIG = {
     svg: {
       width: 44, height: 44, viewBox: '0 0 44 44', transform: 'translate(22, 22) scale(1.27) translate(-21.3, -18.7)',
     },
-    badge: 'size-4 text-[9px]',
+    badge: 'size-4 text-size-xxs leading-none',
   },
   xlarge: {
     container: 'size-16', // 64x64
@@ -42,7 +42,7 @@ const SIZE_CONFIG = {
     svg: {
       width: 64, height: 64, viewBox: '0 0 64 64', transform: 'translate(32, 32) scale(1.8) translate(-21.3, -18.7)',
     },
-    badge: 'size-5 text-[11px]',
+    badge: 'size-5 text-size-xxs leading-none',
   },
 } as const;
 

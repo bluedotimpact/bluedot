@@ -171,8 +171,8 @@ const TestimonialCarousel = ({
     : 'Meet our alumni shaping AI\'s future';
 
   const headerSizeClasses = variant === 'homepage'
-    ? 'text-[28px] bd-md:text-[36px] lg:text-[40px] xl:text-[48px]'
-    : 'text-[28px] bd-md:text-[32px] xl:text-[36px]';
+    ? 'text-size-xl bd-md:text-size-2xl'
+    : 'text-size-xl';
 
   return (
     <section className="w-full bg-white py-12 md:py-16 lg:py-20 xl:py-24 px-5 bd-md:px-8 lg:px-12 xl:px-16 2xl:px-20">
@@ -388,7 +388,7 @@ const NavigationButton = ({
     aria-label={`Scroll ${direction}`}
   >
     <span
-      className="text-bluedot-navy text-[22.4px] font-medium select-none"
+      className="text-bluedot-navy text-size-lg font-medium select-none"
       style={{
         transform: direction === 'left' ? 'scaleX(-1)' : 'none',
       }}

@@ -39,7 +39,7 @@ const formatDuration = (minutes: number): string => {
 const SectionWrapper = ({ children, title }: { children: React.ReactNode; title: string }) => (
   <section className="w-full bg-white">
     <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 md:px-spacing-x xl:py-24">
-      <H2 className="text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy text-center mb-12 md:mb-16 tracking-[-0.01em]">
+      <H2 className="text-size-xl font-semibold leading-[125%] text-bluedot-navy text-center mb-12 md:mb-16 tracking-[-0.01em]">
         {title}
       </H2>
       {children}
@@ -62,7 +62,7 @@ const UnitMetadataDisplay = ({
     return (
       <div className="flex items-center gap-1">
         <div className="h-[18px] w-[50px] animate-pulse rounded bg-bluedot-navy/10" />
-        <span className="text-[13px] text-bluedot-navy/60">·</span>
+        <span className="text-size-xs text-bluedot-navy/60">·</span>
         <div className="h-[18px] w-[70px] animate-pulse rounded bg-bluedot-navy/10" />
       </div>
     );
@@ -81,18 +81,18 @@ const UnitMetadataDisplay = ({
       {duration != null && (
         <>
           <CgTime className="size-[18px] text-bluedot-navy/60" />
-          <span className="text-[13px] font-medium leading-[1.4] tracking-[-0.065px] text-bluedot-navy/60">
+          <span className="text-size-xs font-medium leading-[1.4] tracking-[-0.065px] text-bluedot-navy/60">
             {formatDuration(duration)}
           </span>
         </>
       )}
       {duration != null && exerciseCount > 0 && (
-        <span className="text-[13px] font-medium leading-[1.4] tracking-[-0.065px] text-bluedot-navy/60">
+        <span className="text-size-xs font-medium leading-[1.4] tracking-[-0.065px] text-bluedot-navy/60">
           ·
         </span>
       )}
       {exerciseCount > 0 && (
-        <span className="text-[13px] font-medium leading-[1.4] tracking-[-0.065px] text-bluedot-navy/60">
+        <span className="text-size-xs font-medium leading-[1.4] tracking-[-0.065px] text-bluedot-navy/60">
           {exerciseCount} {exerciseCount === 1 ? 'Exercise' : 'Exercises'}
         </span>
       )}

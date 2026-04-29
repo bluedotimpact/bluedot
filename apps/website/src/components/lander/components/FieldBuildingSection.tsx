@@ -25,10 +25,10 @@ const FieldBuildingSection = ({
     <section id={id} className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-12 xl:px-40 py-12 bd-md:py-16 xl:py-24 flex flex-col items-center gap-8 md:gap-10">
         <div className="max-w-[840px] text-center">
-          <H2 className="text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
+          <H2 className="text-size-xl font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
             {title}
           </H2>
-          <P className="mt-4 text-size-sm bd-md:text-[17px] leading-[1.6] text-bluedot-navy/70">
+          <P className="mt-4 text-size-sm bd-md:text-size-md leading-[1.6] text-bluedot-navy/70">
             {intro}
           </P>
         </div>
@@ -44,12 +44,12 @@ const FieldBuildingSection = ({
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <P className="text-[15px] leading-[1.65] text-bluedot-navy/80">
+                  <P className="text-size-sm leading-[1.65] text-bluedot-navy/80">
                     {role.description}
                   </P>
                   <Link
                     href={role.linkUrl}
-                    className="mt-3 inline-flex items-center gap-1 text-[15px] font-medium text-bluedot-normal hover:underline"
+                    className="mt-3 inline-flex items-center gap-1 text-size-sm font-medium text-bluedot-normal hover:underline"
                   >
                     {role.linkText}
                     <span aria-hidden="true">→</span>

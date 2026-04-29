@@ -53,10 +53,10 @@ const StepCardBody = ({ number, title, body, eyebrowClass }: {
         {number}
       </p>
       <div className="flex flex-col gap-3">
-        <h4 className="text-[20px] bd-md:text-[22px] font-medium tracking-[-0.04em] text-bluedot-navy">
+        <h4 className="text-size-md bd-md:text-size-lg font-medium tracking-[-0.04em] text-bluedot-navy">
           {title}
         </h4>
-        <P className="text-[15px] bd-md:text-size-sm leading-[1.7] text-bluedot-navy/70">
+        <P className="text-size-sm leading-[1.7] text-bluedot-navy/70">
           {body}
         </P>
       </div>
