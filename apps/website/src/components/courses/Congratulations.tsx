@@ -20,6 +20,8 @@ import { getActionPlanUrl } from '../../lib/utils';
 import type { CertificateStatus } from '../../server/routers/certificates';
 import { getLoginUrl } from '../../utils/getLoginUrl';
 import { trpc } from '../../utils/trpc';
+import { LaurelWreathIcon } from '../icons/LaurelWreathIcon';
+import { CourseIcon } from './CourseIcon';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
 
@@ -33,6 +35,19 @@ export const CERTIFICATE_STATUS_DESCRIPTIONS: Record<CertificateStatus, string> 
 
 const secondaryBtnClass
   = 'flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap';
+// --- Laurel wreath ---
+
+const LaurelWreath = ({ courseSlug }: { courseSlug: string }) => {
+  const config = COURSE_CONFIG[courseSlug];
+  const accentColor = config?.accentColor ?? '#94a3b8';
+
+  return (
+    <div className="relative flex items-center justify-center w-[255px] h-[174px]" style={{ color: accentColor }}>
+      <LaurelWreathIcon className="absolute inset-0" aria-hidden="true" />
+      <CourseIcon courseSlug={courseSlug} size="xlarge" className="relative -translate-y-6 shadow-md" />
+    </div>
+  );
+};
 
 // --- Preview panels ---
 
