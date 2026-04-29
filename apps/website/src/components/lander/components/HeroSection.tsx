@@ -80,7 +80,7 @@ const HeroSection = ({
                     {categoryLabel}
                   </p>
                 )}
-                <h1 className="text-[32px] bd-md:text-[40px] leading-tight font-semibold tracking-[-0.5px] text-white">
+                <h1 className="text-size-xl leading-tight font-semibold tracking-[-0.5px] text-white">
                   {title}
                 </h1>
                 <p className="text-size-sm bd-md:text-size-md leading-[1.6] opacity-80 text-white whitespace-pre-line">

@@ -49,7 +49,7 @@ const CourseInformationSection = ({
     <section id={id} className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24 flex flex-col items-center gap-8 md:gap-10">
         {/* Section Title */}
-        <H2 className="w-full bd-md:max-w-[840px] text-[28px] bd-md:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
+        <H2 className="w-full bd-md:max-w-[840px] text-size-xl text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
           {title}
         </H2>
 

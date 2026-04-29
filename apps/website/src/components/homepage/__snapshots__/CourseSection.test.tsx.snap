@@ -18,7 +18,7 @@ exports[`CourseSection > renders as expected 1`] = `
             class="flex flex-col gap-5"
           >
             <h1
-              class="bluedot-h1 not-prose text-[28px] md:text-[36px] lg:text-[40px] xl:text-[48px] font-medium leading-tight tracking-[-1px]"
+              class="bluedot-h1 not-prose text-size-xl bd-md:text-size-2xl font-medium leading-tight tracking-[-1px]"
             >
               Start making an impact today
             </h1>

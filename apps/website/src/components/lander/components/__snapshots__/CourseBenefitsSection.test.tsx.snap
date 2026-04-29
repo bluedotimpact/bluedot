@@ -8,7 +8,7 @@ exports[`CourseBenefitsSection > renders correctly with default colors 1`] = `
     class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 md:px-spacing-x xl:py-24"
   >
     <h2
-      class="bluedot-h2 not-prose text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy text-center mb-16 tracking-[-0.01em]"
+      class="bluedot-h2 not-prose text-size-xl font-semibold leading-[125%] text-bluedot-navy text-center mb-16 tracking-[-0.01em]"
     >
       How this course will benefit you
     </h2>

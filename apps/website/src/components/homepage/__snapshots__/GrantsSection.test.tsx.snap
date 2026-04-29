@@ -12,7 +12,7 @@ exports[`GrantsSection > renders default as expected 1`] = `
         class="max-w-[700px] text-center"
       >
         <h2
-          class="bluedot-h2 not-prose text-[28px] bd-md:text-[36px] lg:text-[40px] xl:text-[48px] leading-tight tracking-[-1px] font-medium text-bluedot-navy"
+          class="bluedot-h2 not-prose text-size-xl bd-md:text-size-2xl leading-tight tracking-[-1px] font-medium text-bluedot-navy"
         >
           Go beyond a course
         </h2>
