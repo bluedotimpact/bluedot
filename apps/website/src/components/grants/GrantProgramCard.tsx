@@ -65,6 +65,7 @@ const GrantProgramCard = ({
           <div>
             <Link href={href} className="block">
               <h3
+                // eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: 2-tier card (primary 34→40, secondary 28→32) preserves the existing visual hierarchy
                 className={cn(
                   'max-w-[18ch] font-semibold leading-[1.02] tracking-[-0.04em] text-bluedot-navy transition-transform duration-200 group-hover:translate-x-0.5',
                   emphasis === 'primary'
@@ -99,7 +100,7 @@ const GrantProgramCard = ({
             <p className="text-size-xxs font-semibold uppercase tracking-[0.16em] text-bluedot-navy/46">
               Objective
             </p>
-            <p className="mt-3 text-size-sm bd-md:text-size-sm leading-[1.65] text-bluedot-navy/76">
+            <p className="mt-3 text-size-sm leading-[1.65] text-bluedot-navy/76">
               {goal}
             </p>
           </div>
@@ -108,7 +109,7 @@ const GrantProgramCard = ({
             <p className="text-size-xxs font-semibold uppercase tracking-[0.16em] text-bluedot-navy/46">
               {scopeLabel}
             </p>
-            <p className="mt-3 text-size-sm bd-md:text-size-sm leading-[1.65] text-bluedot-navy/76">
+            <p className="mt-3 text-size-sm leading-[1.65] text-bluedot-navy/76">
               {scope}
             </p>
           </div>

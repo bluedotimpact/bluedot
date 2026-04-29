@@ -34,7 +34,7 @@ const CourseOutcomesSection = ({
   return (
     <section id={id} className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24">
-        <H2 className="text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy text-center mb-12 md:mb-16 tracking-[-0.01em]">
+        <H2 className="text-size-xl font-semibold leading-[125%] text-bluedot-navy text-center mb-12 md:mb-16 tracking-[-0.01em]">
           {title}
         </H2>
         <div className="max-w-[1100px] mx-auto">
@@ -57,7 +57,7 @@ const CourseOutcomesSection = ({
                     />
                   </div>
                   <div className="space-y-2">
-                    <H3 className="text-size-md bd-md:text-size-md font-semibold leading-[130%] text-bluedot-navy">
+                    <H3 className="text-size-md font-semibold leading-[130%] text-bluedot-navy">
                       {outcome.title}
                     </H3>
                     <P className="text-size-sm leading-[1.65] text-bluedot-navy/70">

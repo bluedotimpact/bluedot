@@ -38,7 +38,7 @@ const PathwaysSection = ({
     <section id={id} className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24">
         <div className="max-w-[1100px] mx-auto">
-          <H2 className={`text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy text-center tracking-[-0.01em] ${intro ? 'mb-4' : 'mb-12 md:mb-16'}`}>
+          <H2 className={`text-size-xl font-semibold leading-[125%] text-bluedot-navy text-center tracking-[-0.01em] ${intro ? 'mb-4' : 'mb-12 md:mb-16'}`}>
             {title}
           </H2>
           {intro && (
@@ -62,7 +62,7 @@ const PathwaysSection = ({
                     <IconComponent className="text-white" size={24} />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h3 className="text-size-md bd-md:text-size-md font-semibold leading-[130%] text-bluedot-navy">
+                    <h3 className="text-size-md font-semibold leading-[130%] text-bluedot-navy">
                       {pathway.title}
                     </h3>
                     <P className="text-size-sm leading-[1.65] text-bluedot-navy/70">
@@ -85,7 +85,7 @@ const PathwaysSection = ({
 
           {callout && (
             <div className="mt-10 md:mt-12 p-6 md:p-8 rounded-2xl border border-bluedot-navy/10 bg-bluedot-navy/[0.03]">
-              <div className="text-size-sm bd-md:text-size-sm leading-[1.7] text-bluedot-navy/80">
+              <div className="text-size-sm leading-[1.7] text-bluedot-navy/80">
                 {callout}
               </div>
             </div>

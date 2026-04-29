@@ -18,12 +18,12 @@ exports[`CourseSection > renders as expected 1`] = `
             class="flex flex-col gap-5"
           >
             <h1
-              class="bluedot-h1 not-prose text-[28px] md:text-[36px] lg:text-[40px] xl:text-[48px] font-medium leading-tight tracking-[-1px]"
+              class="bluedot-h1 not-prose text-size-xl bd-md:text-size-2xl font-medium leading-tight tracking-[-1px]"
             >
               Start making an impact today
             </h1>
             <p
-              class="bluedot-p not-prose text-size-sm md:text-[20px] leading-[1.55] tracking-[-0.005em] opacity-70 max-w-4xl"
+              class="bluedot-p not-prose text-size-sm md:text-size-md leading-[1.55] tracking-[-0.005em] opacity-70 max-w-4xl"
             >
               Do you want to help build an awesome, safe future with AI? Apply to one of our free courses today. We'll help you ensure that humanity safely navigates the transition to transformative AI.
             </p>

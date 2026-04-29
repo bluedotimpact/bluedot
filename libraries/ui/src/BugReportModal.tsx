@@ -200,7 +200,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
     <Modal
       isOpen={isOpen}
       setIsOpen={handleModalOpenChange}
-      title={<span className="mx-auto text-[22px] font-semibold">{showSuccess ? 'Thank you' : 'Submit feedback'}</span>}
+      title={<span className="mx-auto text-size-lg font-semibold">{showSuccess ? 'Thank you' : 'Submit feedback'}</span>}
       ariaLabel={showSuccess ? 'Thank you' : 'Submit feedback'}
       bottomDrawerOnMobile
       desktopHeaderClassName="border-b border-charcoal-light py-4"
@@ -211,7 +211,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
             <div className="bg-bluedot-normal/10 mt-2 flex rounded-full p-4">
               <FaCheck className="text-bluedot-normal size-8" />
             </div>
-            <p className="text-bluedot-navy/60 max-w-[500px] text-center text-[13px] leading-[1.5]">
+            <p className="text-bluedot-navy/60 max-w-[500px] text-center text-size-xs leading-[1.5]">
               Your feedback has been sent! We'll be in touch if we have follow-up questions.
             </p>
             <CTALinkOrButton className="mt-4 w-full" onClick={() => handleModalOpenChange(false)}>
@@ -223,12 +223,12 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
             {error && <ErrorView error={error} />}
 
             <div className="flex flex-col gap-1.5">
-              <p className="text-bluedot-navy text-[13px] leading-[1.5]">
+              <p className="text-bluedot-navy text-size-xs leading-[1.5]">
                 We're here to help! Whether it's a bug or an idea on how to improve your experience, we're all ears.
               </p>
               <label
                 htmlFor="bug-description"
-                className="text-bluedot-navy mt-2.5 text-[13px] leading-5.5 font-semibold"
+                className="text-bluedot-navy mt-2.5 text-size-xs leading-5.5 font-semibold"
               >
                 Description
               </label>
@@ -258,7 +258,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       onPaste={handlePaste}
-                      className="min-h-[120px] w-full resize-none bg-transparent text-[13px] placeholder:text-[13px] focus:outline-none"
+                      className="min-h-[120px] w-full resize-none bg-transparent text-size-xs placeholder:text-size-xs focus:outline-none"
                       placeholder="What feedback would you like to share?"
                       required
                     />
@@ -296,7 +296,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                       <button
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
-                        className="text-bluedot-navy/60 flex items-center gap-2 rounded-lg px-2 py-1.5 text-[12px] hover:bg-gray-100"
+                        className="text-bluedot-navy/60 flex items-center gap-2 rounded-lg px-2 py-1.5 text-size-xxs hover:bg-gray-100"
                       >
                         <FaPaperclip className="size-3.5 shrink-0" />
                         <span>Add, drag, or paste attachments here</span>
@@ -314,18 +314,18 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
 
             {onRecordScreen && (
               <div className="hidden flex-col gap-3 md:flex">
-                <p className="text-bluedot-navy text-[13px] font-semibold">Could you show us with a video?</p>
+                <p className="text-bluedot-navy text-size-xs font-semibold">Could you show us with a video?</p>
                 {recordingUrl ? (
                   <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2.5">
                       <div className="flex items-center gap-2.5 rounded-[5px] bg-[#0EAC53] px-3 py-2 text-white">
                         <FaCheck className="size-3.5 shrink-0" />
-                        <span className="text-[13px]">Recording saved</span>
+                        <span className="text-size-xs">Recording saved</span>
                       </div>
                       <button
                         type="button"
                         onClick={onRecordScreen}
-                        className="border-bluedot-normal text-bluedot-normal flex h-9 cursor-pointer items-center gap-[10px] rounded-[5px] border px-3 text-[13px] font-medium"
+                        className="border-bluedot-normal text-bluedot-normal flex h-9 cursor-pointer items-center gap-[10px] rounded-[5px] border px-3 text-size-xs font-medium"
                       >
                         <FaVideo className="size-4 shrink-0" />
                         Re-record
@@ -335,7 +335,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                       type="url"
                       value={recordingUrlInput}
                       onChange={(e) => setRecordingUrlInput(e.target.value)}
-                      className="border-color-divider text-bluedot-navy/60 rounded-lg border bg-white px-3 py-2 text-[13px] placeholder:text-[13px]"
+                      className="border-color-divider text-bluedot-navy/60 rounded-lg border bg-white px-3 py-2 text-size-xs placeholder:text-size-xs"
                       aria-label="Recording URL"
                     />
                   </div>
@@ -343,7 +343,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                   <button
                     type="button"
                     onClick={onRecordScreen}
-                    className="bg-bluedot-normal flex h-9 cursor-pointer items-center gap-[10px] self-start rounded-[5px] px-3 text-[13px] font-medium text-white"
+                    className="bg-bluedot-normal flex h-9 cursor-pointer items-center gap-[10px] self-start rounded-[5px] px-3 text-size-xs font-medium text-white"
                   >
                     <FaVideo className="size-4 shrink-0" />
                     Record my screen
@@ -353,10 +353,10 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
             )}
 
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="bug-email" className="text-bluedot-navy text-[13px] leading-5.5 font-semibold">
+              <label htmlFor="bug-email" className="text-bluedot-navy text-size-xs leading-5.5 font-semibold">
                 Your contact email
               </label>
-              <p className="text-bluedot-navy/60 text-[13px]">
+              <p className="text-bluedot-navy/60 text-size-xs">
                 Please leave your email so we can contact you with follow-ups as needed.
               </p>
               <input
@@ -364,7 +364,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                 type="email"
                 value={email}
                 className={cn(
-                  'border-color-divider rounded-lg border bg-white px-3 py-2 text-[13px] placeholder:text-[13px]',
+                  'border-color-divider rounded-lg border bg-white px-3 py-2 text-size-xs placeholder:text-size-xs',
                   emailError && 'border-red-500',
                 )}
                 placeholder="Email"
