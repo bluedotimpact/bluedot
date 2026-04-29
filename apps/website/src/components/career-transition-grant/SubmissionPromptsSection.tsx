@@ -38,10 +38,10 @@ const SubmissionPromptsSection = () => {
               key={item.title}
               className="relative rounded-lg border border-bluedot-navy/10 bg-white px-6 py-6 flex flex-col gap-4"
             >
-              <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-bluedot-navy/40">
+              <p className="text-size-xxs font-semibold uppercase tracking-[0.14em] text-bluedot-navy/40">
                 {String(index + 1).padStart(2, '0')}
               </p>
-              <h4 className="text-[18px] bd-md:text-[20px] font-semibold leading-tight text-bluedot-navy">
+              <h4 className="text-size-md bd-md:text-[20px] font-semibold leading-tight text-bluedot-navy">
                 {item.title}
               </h4>
               <P className="text-size-sm leading-[1.7] text-bluedot-navy/75">
@@ -50,7 +50,7 @@ const SubmissionPromptsSection = () => {
             </div>
           ))}
           <div className="relative rounded-lg border border-bluedot-lighter bg-bluedot-lighter/20 px-6 py-6 flex flex-col gap-4">
-            <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-bluedot-dark">
+            <p className="text-size-xxs font-semibold uppercase tracking-[0.14em] text-bluedot-dark">
               Tips
             </p>
             <div className="flex flex-col gap-4">

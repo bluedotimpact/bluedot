@@ -103,7 +103,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
               url={applyCTAProps.applicationUrl}
               variant="outline-black"
               target="_blank"
-              className="px-3 py-1.5 text-[14px]"
+              className="px-3 py-1.5 text-size-xs"
             >
               {`Apply by ${applyCTAProps.applicationDeadline}`}
             </CTALinkOrButton>
@@ -215,7 +215,7 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
                 <ChunkIcon isActive={isActive} />
                 <div className="flex flex-col flex-1 min-h-[44px] justify-center">
                   <div className="flex flex-col gap-[6px]">
-                    <p className="font-normal text-[14px] leading-[150%] text-bluedot-navy">
+                    <p className="font-normal text-size-xs leading-[150%] text-bluedot-navy">
                       {chunk.chunkTitle}
                       {isLastChunkOfFinalUnit
                       && certificateStatus

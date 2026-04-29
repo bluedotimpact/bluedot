@@ -65,12 +65,12 @@ const SiteLoginPage = () => {
               placeholder="Enter password"
               autoComplete="current-password"
               autoFocus
-              className="flex-1 p-3 border border-gray-300 rounded text-[16px] outline-none focus:border-blue-600"
+              className="flex-1 p-3 border border-gray-300 rounded text-size-sm outline-none focus:border-blue-600"
             />
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              className="px-4 border border-gray-300 rounded text-[14px] text-gray-600 hover:bg-gray-50"
+              className="px-4 border border-gray-300 rounded text-size-xs text-gray-600 hover:bg-gray-50"
             >
               {showPassword ? 'Hide' : 'Show'}
             </button>
@@ -78,7 +78,7 @@ const SiteLoginPage = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full p-3 bg-blue-900 text-white rounded text-[16px] font-medium hover:opacity-90 disabled:opacity-50"
+            className="w-full p-3 bg-blue-900 text-white rounded text-size-sm font-medium hover:opacity-90 disabled:opacity-50"
           >
             {loading ? 'Checking...' : 'Enter'}
           </button>

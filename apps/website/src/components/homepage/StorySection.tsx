@@ -11,11 +11,11 @@ const StorySection = () => {
 
         <div className="flex flex-col gap-[32px] items-center">
           <div className="flex flex-col">
-            <P className="text-[16px] bd-md:text-[18px] leading-[1.6] opacity-80 mb-[1em]">
+            <P className="text-size-sm bd-md:text-size-md leading-[1.6] opacity-80 mb-[1em]">
               BlueDot Impact is a non-profit talent accelerator based in London and San Francisco. We help people build careers and organizations that positively impact the trajectory of AI - through our courses, career support, events, and startup programs.
             </P>
 
-            <P className="text-[16px] bd-md:text-[18px] leading-[1.6] opacity-80 mb-0">
+            <P className="text-size-sm bd-md:text-size-md leading-[1.6] opacity-80 mb-0">
               Since 2022, we've trained over 7,000 professionals worldwide, from technical staff at frontier AI labs to government policymakers. Our alumni work on critical challenges at organisations like Anthropic, Google DeepMind, and the UK's AI Security Institute. We're a small team, and we've raised $35M to date.
             </P>
           </div>
@@ -23,7 +23,7 @@ const StorySection = () => {
           <CTALinkOrButton
             size="small"
             url={ROUTES.about.url}
-            className="h-[44px] px-[17px] py-[16px] text-[14px] font-normal leading-[18.2px] tracking-[0.42px] text-white bg-[#0033CC] rounded-[6px] hover:bg-[#0029A3] transition-all duration-200"
+            className="h-[44px] px-[17px] py-[16px] text-size-xs font-normal leading-[18.2px] tracking-[0.42px] text-white bg-[#0033CC] rounded-[6px] hover:bg-[#0029A3] transition-all duration-200"
           >
             Learn more
           </CTALinkOrButton>

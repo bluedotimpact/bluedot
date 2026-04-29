@@ -58,10 +58,10 @@ export default function CourseCompletionSection({
           <div className="flex flex-col gap-4 pb-6 bd-md:flex-row bd-md:items-center">
             <CourseIcon courseSlug={courseSlug} size="xlarge" className="rounded-[12px]" />
             <div>
-              <h2 className="text-bluedot-navy text-[24px] leading-[1.4] font-semibold tracking-[-0.5px]">
+              <h2 className="text-bluedot-navy text-size-lg leading-[1.4] font-semibold tracking-[-0.5px]">
                 {courseTitle}
               </h2>
-              <p className="text-[16px]">Enroll today to receive your certificate</p>
+              <p className="text-size-sm">Enroll today to receive your certificate</p>
             </div>
           </div>
 

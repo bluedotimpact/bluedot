@@ -65,7 +65,7 @@ const DateBadge = ({ month, day }: { month: string; day: string }) => {
     <div className="relative size-16 lg:size-20 bg-white rounded-lg lg:rounded-lg shadow-[0px_1.6px_4.8px_1.6px_rgba(0,0,0,0.05),0px_0.8px_1.6px_0px_rgba(0,0,0,0.15)] lg:shadow-[0px_2px_6px_2px_rgba(0,0,0,0.05),0px_1px_2px_0px_rgba(0,0,0,0.15)] overflow-hidden flex flex-col">
       {/* Month Label */}
       <div className="relative flex items-center justify-center py-[4.8px] lg:py-1.5 border-b border-bluedot-navy/10 bg-gradient-to-r from-blue-600 to-blue-500">
-        <span className="text-[11.2px] lg:text-[14px] font-semibold uppercase tracking-[0.4px] lg:tracking-[0.5px] text-white leading-[11.2px] lg:leading-[14px]">
+        <span className="text-[11.2px] lg:text-size-xs font-semibold uppercase tracking-[0.4px] lg:tracking-[0.5px] text-white leading-[11.2px] lg:leading-[14px]">
           {month}
         </span>
       </div>
@@ -99,14 +99,14 @@ const EventCard = ({ event }: { event: Event }) => {
           href={event.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[20px] bd-md:text-[24px] font-normal leading-[1.3] tracking-[-0.4px] bd-md:tracking-[-0.18px] text-bluedot-navy hover:text-[#271dcd] transition-colors"
+          className="text-[20px] bd-md:text-size-lg font-normal leading-[1.3] tracking-[-0.4px] bd-md:tracking-[-0.18px] text-bluedot-navy hover:text-[#271dcd] transition-colors"
           aria-label={`${event.title} (opens in new tab)`}
         >
           <h3>
             {event.title}
           </h3>
         </a>
-        <p className="text-[16px] font-normal leading-[1.55] tracking-[-0.032px] text-bluedot-navy/70">
+        <p className="text-size-sm font-normal leading-[1.55] tracking-[-0.032px] text-bluedot-navy/70">
           {timeString}
         </p>
       </div>
@@ -360,7 +360,7 @@ const EventsSection = () => {
               {/* CTA Button - visible on all screen sizes */}
               <CTALinkOrButton
                 url={EVENTS_SECTION_URL}
-                className="flex h-[44px] px-[17px] text-[14px] font-normal leading-[18.2px] tracking-[0.42px] text-white bg-[#0033CC] rounded-[6px] hover:bg-[#0029A3] transition-all duration-200 whitespace-nowrap"
+                className="flex h-[44px] px-[17px] text-size-xs font-normal leading-[18.2px] tracking-[0.42px] text-white bg-[#0033CC] rounded-[6px] hover:bg-[#0029A3] transition-all duration-200 whitespace-nowrap"
               >
                 See upcoming events
               </CTALinkOrButton>
@@ -368,7 +368,7 @@ const EventsSection = () => {
           )}
 
           {!isLoading && displayEvents.length === 0 && (
-            <p className="text-[16px] font-normal leading-[1.55] tracking-[-0.032px] text-bluedot-navy/70">
+            <p className="text-size-sm font-normal leading-[1.55] tracking-[-0.032px] text-bluedot-navy/70">
               No upcoming events at the moment. Check back soon!
             </p>
           )}

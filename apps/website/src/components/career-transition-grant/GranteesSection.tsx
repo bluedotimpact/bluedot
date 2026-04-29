@@ -24,7 +24,7 @@ const GranteeCard = ({ name, bio, plan, imageUrl, profileUrl }: GranteeCardProps
           loading="lazy"
         />
         <div className="flex min-w-0 flex-col">
-          <h4 className="text-[16px] font-semibold leading-tight text-bluedot-navy">
+          <h4 className="text-size-sm font-semibold leading-tight text-bluedot-navy">
             {name}
           </h4>
           {bio && (
@@ -35,12 +35,12 @@ const GranteeCard = ({ name, bio, plan, imageUrl, profileUrl }: GranteeCardProps
         </div>
       </div>
       {plan && (
-        <P className="mt-4 text-[14px] leading-[1.6] text-bluedot-navy/74">
+        <P className="mt-4 text-size-xs leading-[1.6] text-bluedot-navy/74">
           {plan}
         </P>
       )}
       {profileUrl && (
-        <span className="mt-auto pt-4 text-[14px] font-medium text-bluedot-navy/68 transition-colors group-hover:text-bluedot-navy">
+        <span className="mt-auto pt-4 text-size-xs font-medium text-bluedot-navy/68 transition-colors group-hover:text-bluedot-navy">
           View profile →
         </span>
       )}

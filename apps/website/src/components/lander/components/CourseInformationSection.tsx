@@ -64,7 +64,7 @@ const CourseInformationSection = ({
                   <div className="flex flex-col bd-md:flex-row px-5 bd-md:px-8 py-0 gap-6 md:gap-8 items-start w-full">
                     {/* Schedule Label (left column, no icon) */}
                     <div className="bd-md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0">
-                      <P className="text-[16px] font-semibold leading-[125%] text-bluedot-navy">
+                      <P className="text-size-sm font-semibold leading-[125%] text-bluedot-navy">
                         {detail.label}
                       </P>
                     </div>
@@ -83,7 +83,7 @@ const CourseInformationSection = ({
                             <div className="flex justify-start">
                               <CTALinkOrButton
                                 url={applicationUrl}
-                                className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-[16px] font-medium bg-bluedot-normal text-white rounded-md hover:bg-[#1a3399] cursor-pointer transition-colors"
+                                className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-size-sm font-medium bg-bluedot-normal text-white rounded-md hover:bg-[#1a3399] cursor-pointer transition-colors"
                               >
                                 {scheduleCtaText}
                               </CTALinkOrButton>
@@ -97,7 +97,7 @@ const CourseInformationSection = ({
                   <div className="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8">
                     {/* Label */}
                     <div className="md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0">
-                      <P className="text-[16px] font-semibold leading-[125%] text-bluedot-navy">
+                      <P className="text-size-sm font-semibold leading-[125%] text-bluedot-navy">
                         {detail.label}
                       </P>
                     </div>

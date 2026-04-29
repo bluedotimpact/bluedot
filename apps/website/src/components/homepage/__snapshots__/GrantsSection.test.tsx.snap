@@ -17,7 +17,7 @@ exports[`GrantsSection > renders default as expected 1`] = `
           Go beyond a course
         </h2>
         <p
-          class="bluedot-p not-prose mt-6 text-[16px] bd-md:text-[18px] leading-[1.6] text-bluedot-navy/80"
+          class="bluedot-p not-prose mt-6 text-size-sm bd-md:text-size-md leading-[1.6] text-bluedot-navy/80"
         >
           Funding, structured sprints, or a bigger launchpad for the next stage of your work on making AI go well.
         </p>

@@ -537,7 +537,7 @@ exports[`AboutPage > should render correctly 1`] = `
               About us
             </h1>
             <p
-              class="text-size-sm bd-md:text-[18px] lg:text-[20px] leading-[1.55] tracking-[-0.1px] text-white"
+              class="text-size-sm bd-md:text-size-md lg:text-[20px] leading-[1.55] tracking-[-0.1px] text-white"
             >
               Building the workforce that protects humanity
             </p>
@@ -737,7 +737,7 @@ exports[`AboutPage > should render correctly 1`] = `
               class="history-section__year-container w-full flex gap-2"
             >
               <p
-                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
+                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-size-sm font-bold w-min"
               >
                 2021
               </p>
@@ -762,7 +762,7 @@ exports[`AboutPage > should render correctly 1`] = `
               class="history-section__year-container w-full flex gap-2"
             >
               <p
-                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
+                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-size-sm font-bold w-min"
               >
                 2022
               </p>
@@ -787,7 +787,7 @@ exports[`AboutPage > should render correctly 1`] = `
               class="history-section__year-container w-full flex gap-2"
             >
               <p
-                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
+                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-size-sm font-bold w-min"
               >
                 2023
               </p>
@@ -812,7 +812,7 @@ exports[`AboutPage > should render correctly 1`] = `
               class="history-section__year-container w-full flex gap-2"
             >
               <p
-                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
+                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-size-sm font-bold w-min"
               >
                 2024
               </p>
@@ -837,7 +837,7 @@ exports[`AboutPage > should render correctly 1`] = `
               class="history-section__year-container w-full flex gap-2"
             >
               <p
-                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-[16px] font-bold w-min"
+                class="bluedot-p not-prose history-section__year bg-bluedot-normal rounded-full px-4 py-2 text-color-text-on-dark text-size-sm font-bold w-min"
               >
                 2025
               </p>

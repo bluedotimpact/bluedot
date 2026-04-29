@@ -26,7 +26,7 @@ const CaseStudiesSection = ({
             {title}
           </H2>
           {subtitle && (
-            <P className="text-[18px] leading-[1.6] text-bluedot-navy/60 mt-3 italic">
+            <P className="text-size-md leading-[1.6] text-bluedot-navy/60 mt-3 italic">
               {subtitle}
             </P>
           )}
@@ -45,11 +45,11 @@ const CaseStudiesSection = ({
                     className="size-12 rounded-full object-cover"
                   />
                 )}
-                <span className="text-[18px] font-semibold text-bluedot-navy">
+                <span className="text-size-md font-semibold text-bluedot-navy">
                   {study.name}
                 </span>
               </div>
-              <P className="text-[16px] leading-[1.7] text-bluedot-navy/80">
+              <P className="text-size-sm leading-[1.7] text-bluedot-navy/80">
                 {study.story}
               </P>
             </div>

@@ -101,7 +101,7 @@ const CertificatePreviewPanel = ({ courseSlug, courseTitle, holderName }: {
             <p className="text-[11px] font-medium uppercase tracking-[0.06em] text-[#62748E]">
               Professional Certification
             </p>
-            <p className="text-[18px] font-semibold text-bluedot-navy leading-tight">
+            <p className="text-size-md font-semibold text-bluedot-navy leading-tight">
               {courseTitle}
             </p>
           </div>
@@ -110,7 +110,7 @@ const CertificatePreviewPanel = ({ courseSlug, courseTitle, holderName }: {
               <p className="text-[11px] font-medium uppercase tracking-[0.06em] text-[#62748E]">
                 Awarded to
               </p>
-              <p className="text-[14px] font-semibold text-bluedot-navy">{holderName}</p>
+              <p className="text-size-xs font-semibold text-bluedot-navy">{holderName}</p>
             </div>
           )}
         </div>
@@ -141,8 +141,8 @@ const ActionCard = ({
           </span>
         </div>
         <div className="flex flex-col gap-3">
-          <h3 className="font-semibold text-[18px] leading-[1.4] text-bluedot-navy">{title}</h3>
-          {description && <P className="text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy">{description}</P>}
+          <h3 className="font-semibold text-size-md leading-[1.4] text-bluedot-navy">{title}</h3>
+          {description && <P className="text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy">{description}</P>}
         </div>
       </div>
       {actions && <div className="flex flex-wrap items-center gap-2 mt-6">{actions}</div>}
@@ -353,7 +353,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
         <H2 className="font-bold text-[32px] leading-[1.3] tracking-[-0.015em]">
           Hooray! You just finished the {courseTitle} course 🎉
         </H2>
-        <P className="text-[16px] leading-[1.6] tracking-[-0.002em]">
+        <P className="text-size-sm leading-[1.6] tracking-[-0.002em]">
           Well done! Before you venture out contributing to safe AI, we'd like to ask you
           for a favor: Please share your experience with your friends and network. This
           helps us immensely to raise awareness further and ensure making AI go well.
@@ -408,8 +408,8 @@ const Congratulations: React.FC<CongratulationsProps> = ({
         {courseId === FOAI_COURSE_ID && (
           <div className="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] p-10 flex flex-col gap-6">
             <div className="flex flex-col gap-3">
-              <h3 className="font-semibold text-[18px] leading-[1.4] text-bluedot-navy">Want to go deeper?</h3>
-              <P className="text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy">
+              <h3 className="font-semibold text-size-md leading-[1.4] text-bluedot-navy">Want to go deeper?</h3>
+              <P className="text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy">
                 <span className="font-semibold">The AGI Strategy course</span> is the natural next step: 25 hours, facilitated in small groups with live discussion. No specific background required. New rounds start every month.
               </P>
             </div>

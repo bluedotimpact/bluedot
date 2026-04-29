@@ -23,7 +23,7 @@ const GraduateSection = () => {
         {/* Container with text and logos */}
         <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-5 w-full max-w-[1200px] 2xl:max-w-none">
           {/* Text */}
-          <P className="text-bluedot-navy text-[16px] leading-[26px] whitespace-nowrap flex-shrink-0">
+          <P className="text-bluedot-navy text-size-sm leading-[26px] whitespace-nowrap flex-shrink-0">
             Our 7,000+ alumni work at
           </P>
 

@@ -28,7 +28,7 @@ const FieldBuildingSection = ({
           <H2 className="text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
             {title}
           </H2>
-          <P className="mt-4 text-[16px] bd-md:text-[17px] leading-[1.6] text-bluedot-navy/70">
+          <P className="mt-4 text-size-sm bd-md:text-[17px] leading-[1.6] text-bluedot-navy/70">
             {intro}
           </P>
         </div>
@@ -38,7 +38,7 @@ const FieldBuildingSection = ({
             <div key={role.title}>
               <div className="flex flex-col md:flex-row gap-3 md:gap-8 px-5 md:px-8 py-5 md:py-6">
                 <div className="md:w-[160px] shrink-0">
-                  <P className="text-[16px] font-semibold leading-[1.3] text-bluedot-navy">
+                  <P className="text-size-sm font-semibold leading-[1.3] text-bluedot-navy">
                     {role.title}
                   </P>
                 </div>

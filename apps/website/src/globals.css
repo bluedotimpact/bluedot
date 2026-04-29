@@ -95,7 +95,7 @@ body {
 /* Canonical section H3 used across marketing pages (about, join-us, grants, etc).
    Previously inlined as `pageSectionHeadingClass` in PageListRow.tsx. */
 .bluedot-section-heading {
-  @apply text-[24px] font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy;
+  @apply text-size-lg font-bold tracking-[-0.4px] leading-[1.333] text-bluedot-navy;
 }
 
 /* Canonical white-on-image marketing-hero H1.

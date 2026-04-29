@@ -41,7 +41,7 @@ exports[`CourseBenefitsSection > renders correctly with default colors 1`] = `
           class="space-y-2"
         >
           <h3
-            class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-bluedot-navy"
+            class="bluedot-h3 not-prose text-size-md font-semibold leading-tight text-bluedot-navy"
           >
             Take action in less than 30 hours
           </h3>
@@ -78,7 +78,7 @@ exports[`CourseBenefitsSection > renders correctly with default colors 1`] = `
           class="space-y-2"
         >
           <h3
-            class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-bluedot-navy"
+            class="bluedot-h3 not-prose text-size-md font-semibold leading-tight text-bluedot-navy"
           >
             Join a network of builders
           </h3>
@@ -115,7 +115,7 @@ exports[`CourseBenefitsSection > renders correctly with default colors 1`] = `
           class="space-y-2"
         >
           <h3
-            class="bluedot-h3 not-prose text-[18px] font-semibold leading-tight text-bluedot-navy"
+            class="bluedot-h3 not-prose text-size-md font-semibold leading-tight text-bluedot-navy"
           >
             Get funded to accelerate your impact
           </h3>
