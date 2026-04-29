@@ -183,7 +183,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
               >
                 <p
-                  class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
+                  class="font-semibold text-size-xs leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
                 >
                   1
                   . 
@@ -238,7 +238,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                       class="flex flex-col items-start gap-[6px]"
                     >
                       <p
-                        class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
+                        class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
                       >
                         What can AI do today?
                       </p>
@@ -270,7 +270,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                       class="flex flex-col items-start gap-[6px]"
                     >
                       <p
-                        class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
+                        class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
                       >
                         What can AI do today?
                       </p>
@@ -293,7 +293,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
               >
                 <p
-                  class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
+                  class="font-semibold text-size-xs leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
                 >
                   2
                   . 
@@ -343,7 +343,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                       class="flex flex-col items-start gap-[6px]"
                     >
                       <p
-                        class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
+                        class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
                       >
                         What can AI do today?
                       </p>
@@ -376,7 +376,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                       class="flex flex-col items-start gap-[6px]"
                     >
                       <p
-                        class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
+                        class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
                       >
                         What can AI do today?
                       </p>
@@ -399,7 +399,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
               >
                 <p
-                  class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
+                  class="font-semibold text-size-xs leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
                 >
                   3
                   . 
@@ -449,7 +449,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                       class="flex flex-col items-start gap-[6px]"
                     >
                       <p
-                        class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
+                        class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
                       >
                         What can AI do today?
                       </p>
@@ -482,7 +482,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                       class="flex flex-col items-start gap-[6px]"
                     >
                       <p
-                        class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
+                        class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
                       >
                         What can AI do today?
                       </p>
@@ -505,7 +505,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
               >
                 <p
-                  class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
+                  class="font-semibold text-size-xs leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
                 >
                   4
                   . 
@@ -555,7 +555,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                       class="flex flex-col items-start gap-[6px]"
                     >
                       <p
-                        class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
+                        class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
                       >
                         What can AI do today?
                       </p>
@@ -588,7 +588,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                       class="flex flex-col items-start gap-[6px]"
                     >
                       <p
-                        class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
+                        class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
                       >
                         What can AI do today?
                       </p>
@@ -611,7 +611,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
               >
                 <p
-                  class="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
+                  class="font-semibold text-size-xs leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
                 >
                   5
                   . 
@@ -661,7 +661,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                       class="flex flex-col items-start gap-[6px]"
                     >
                       <p
-                        class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
+                        class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
                       >
                         What can AI do today?
                       </p>
@@ -694,7 +694,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                       class="flex flex-col items-start gap-[6px]"
                     >
                       <p
-                        class="font-normal text-[14px] leading-[150%] text-bluedot-navy"
+                        class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
                       >
                         What can AI do today?
                       </p>
@@ -854,7 +854,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 </h1>
               </div>
               <div
-                class="markdown-extended-renderer prose prose-p:text-[16px] prose-li:text-[16px] prose-p:leading-[160%] prose-li:leading-[160%] prose-p:tracking-[-0.002em] prose-li:tracking-[-0.002em] prose-p:font-normal prose-li:font-normal prose-p:font-sans prose-li:font-sans prose-strong:font-sans prose-strong:font-semibold prose-strong:text-[16px] prose-strong:leading-[160%] prose-strong:tracking-[-0.002em] prose-a:font-normal prose-a:underline max-w-none mt-8 md:mt-6"
+                class="markdown-extended-renderer prose prose-p:text-size-sm prose-li:text-size-sm prose-p:leading-[160%] prose-li:leading-[160%] prose-p:tracking-[-0.002em] prose-li:tracking-[-0.002em] prose-p:font-normal prose-li:font-normal prose-p:font-sans prose-li:font-sans prose-strong:font-sans prose-strong:font-semibold prose-strong:text-size-sm prose-strong:leading-[160%] prose-strong:tracking-[-0.002em] prose-a:font-normal prose-a:underline max-w-none mt-8 md:mt-6"
               >
                 <p>
                   Five years ago, AI systems struggled to form coherent sentences. Today, &gt;5% of the world use AI products like ChatGPT every week for help with work, studies, and creative projects. These systems extend far beyond a simple chat. They can produce art, write complex code, and control robots to do real-world tasks.

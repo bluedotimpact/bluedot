@@ -153,7 +153,7 @@ const CurriculumUnit = ({
         aria-expanded={isOpen}
         aria-controls={`curriculum-unit-${unit.id}`}
       >
-        <h3 className="text-[16px] md:text-[18px] font-semibold leading-[125%] text-bluedot-navy flex-1 text-left">
+        <h3 className="text-size-sm md:text-size-md font-semibold leading-[125%] text-bluedot-navy flex-1 text-left">
           {unitTitle}
         </h3>
         <div className="size-5 flex items-center justify-center">

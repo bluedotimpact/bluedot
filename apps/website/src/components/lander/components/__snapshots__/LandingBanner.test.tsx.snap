@@ -31,7 +31,7 @@ exports[`LandingBanner > renders correctly 1`] = `
           Start building towards a good future today
         </h3>
         <a
-          class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none hover:text-bluedot-navy text-[16px] font-medium leading-[24px] px-5 py-3 h-12 bg-white text-bluedot-navy rounded-md hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
+          class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm hover:text-bluedot-navy font-medium leading-[24px] px-5 py-3 h-12 bg-white text-bluedot-navy rounded-md hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
           href="https://example.com/apply"
           tabindex="0"
         >

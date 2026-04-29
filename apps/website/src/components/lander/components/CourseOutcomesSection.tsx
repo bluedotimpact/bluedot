@@ -57,7 +57,7 @@ const CourseOutcomesSection = ({
                     />
                   </div>
                   <div className="space-y-2">
-                    <H3 className="text-[17px] bd-md:text-[18px] font-semibold leading-[130%] text-bluedot-navy">
+                    <H3 className="text-[17px] bd-md:text-size-md font-semibold leading-[130%] text-bluedot-navy">
                       {outcome.title}
                     </H3>
                     <P className="text-[15px] leading-[1.65] text-bluedot-navy/70">

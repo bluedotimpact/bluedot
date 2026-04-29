@@ -263,7 +263,7 @@ export const RubricSelector: React.FC<RubricSelectorProps> = ({ name, ariaLabell
             <div className="flex-1 min-w-0 px-3 pt-3 pb-5">
               <p className="text-[13px] leading-[20px] text-bluedot-navy">{option.label}</p>
               {isSelected && (
-                <p className="text-[12px] leading-[20px] text-bluedot-navy mt-1.5">{option.description}</p>
+                <p className="text-size-xxs leading-[20px] text-bluedot-navy mt-1.5">{option.description}</p>
               )}
             </div>
             {isSelected && (

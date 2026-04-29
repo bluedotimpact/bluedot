@@ -91,7 +91,7 @@ const GranteesListSection = ({
             <button
               type="button"
               onClick={() => setShowAll(false)}
-              className="shrink-0 text-[14px] font-medium text-bluedot-normal transition-colors hover:text-bluedot-navy"
+              className="shrink-0 text-size-xs font-medium text-bluedot-normal transition-colors hover:text-bluedot-navy"
             >
               Close
             </button>
@@ -106,7 +106,7 @@ const GranteesListSection = ({
             </h2>
           )}
           {subtitle && (
-            <P className="text-[16px] bd-md:text-[18px] leading-[160%] text-bluedot-navy/75 mt-4">
+            <P className="text-size-sm bd-md:text-size-md leading-[160%] text-bluedot-navy/75 mt-4">
               {subtitle}
             </P>
           )}

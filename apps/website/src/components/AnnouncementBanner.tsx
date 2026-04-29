@@ -100,7 +100,7 @@ export const AnnouncementBanner: React.FC<AnnouncementBannerProps> = ({
                   {label}
                 </span>
               )}
-              <P className="announcement-banner__content max-w-4xl text-pretty text-[14px] leading-6 text-bluedot-darker sm:text-[15px]">
+              <P className="announcement-banner__content max-w-4xl text-pretty text-size-xs leading-6 text-bluedot-darker sm:text-[15px]">
                 {children}
               </P>
             </div>

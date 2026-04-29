@@ -23,7 +23,7 @@ exports[`CourseSection > renders as expected 1`] = `
               Start making an impact today
             </h1>
             <p
-              class="bluedot-p not-prose text-[16px] md:text-[20px] leading-[1.55] tracking-[-0.005em] opacity-70 max-w-4xl"
+              class="bluedot-p not-prose text-size-sm md:text-[20px] leading-[1.55] tracking-[-0.005em] opacity-70 max-w-4xl"
             >
               Do you want to help build an awesome, safe future with AI? Apply to one of our free courses today. We'll help you ensure that humanity safely navigates the transition to transformative AI.
             </p>
@@ -151,7 +151,7 @@ exports[`CourseSection > renders as expected 1`] = `
           class="hidden lg:flex flex-col items-center gap-8 w-full max-w-screen-xl mx-auto"
         >
           <p
-            class="bluedot-p not-prose text-[14px] font-medium tracking-[1.5px] text-bluedot-navy/60"
+            class="bluedot-p not-prose text-size-xs font-medium tracking-[1.5px] text-bluedot-navy/60"
           >
             New to AI Safety? Start here
           </p>
@@ -196,7 +196,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="flex flex-col gap-4"
                     >
                       <h3
-                        class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
+                        class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-size-lg"
                       >
                         AGI Strategy
                         <span
@@ -206,7 +206,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         </span>
                       </h3>
                       <p
-                        class="bluedot-p not-prose text-[16px] leading-[1.55] tracking-[-0.002em] text-white"
+                        class="bluedot-p not-prose text-size-sm leading-[1.55] tracking-[-0.002em] text-white"
                       >
                         A deep dive into the incentives driving the AI companies, what's at stake, and the strategies for ensuring AI benefits humanity. You'll finish with your own action plan.
                       </p>
@@ -257,7 +257,7 @@ exports[`CourseSection > renders as expected 1`] = `
             </svg>
           </div>
           <p
-            class="bluedot-p not-prose text-[14px] font-medium uppercase tracking-[1.5px] text-bluedot-navy/60"
+            class="bluedot-p not-prose text-size-xs font-medium uppercase tracking-[1.5px] text-bluedot-navy/60"
           >
             Deep-dives
           </p>
@@ -302,7 +302,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="flex flex-col gap-4"
                     >
                       <h3
-                        class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
+                        class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-size-lg"
                       >
                         Biosecurity
                         <span
@@ -312,7 +312,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         </span>
                       </h3>
                       <p
-                        class="bluedot-p not-prose text-[16px] leading-[1.55] tracking-[-0.002em] text-white"
+                        class="bluedot-p not-prose text-size-sm leading-[1.55] tracking-[-0.002em] text-white"
                       >
                         For people who want to build a pandemic-proof world. Learn how we can defend against AI-enabled bioattacks.
                       </p>
@@ -378,7 +378,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="flex flex-col gap-4"
                     >
                       <h3
-                        class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
+                        class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-size-lg"
                       >
                         Technical AI Safety
                         <span
@@ -388,7 +388,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         </span>
                       </h3>
                       <p
-                        class="bluedot-p not-prose text-[16px] leading-[1.55] tracking-[-0.002em] text-white"
+                        class="bluedot-p not-prose text-size-sm leading-[1.55] tracking-[-0.002em] text-white"
                       >
                         For technical talent who want to drive AI safety research and policy professionals building governance solutions.
                       </p>
@@ -464,7 +464,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         </span>
                       </h3>
                       <p
-                        class="bluedot-p not-prose text-[16px] leading-[1.55] tracking-[-0.002em] text-white"
+                        class="bluedot-p not-prose text-size-sm leading-[1.55] tracking-[-0.002em] text-white"
                       >
                         Learn about the policy landscape, regulatory tools, and institutional reforms needed to navigate the transition to transformative AI.
                       </p>
@@ -545,7 +545,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-size-lg"
                         >
                           AGI Strategy
                           <span
@@ -555,7 +555,7 @@ exports[`CourseSection > renders as expected 1`] = `
                           </span>
                         </h3>
                         <p
-                          class="bluedot-p not-prose text-[16px] leading-[1.55] tracking-[-0.002em] text-white"
+                          class="bluedot-p not-prose text-size-sm leading-[1.55] tracking-[-0.002em] text-white"
                         >
                           A deep dive into the incentives driving the AI companies, what's at stake, and the strategies for ensuring AI benefits humanity. You'll finish with your own action plan.
                         </p>
@@ -621,7 +621,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-size-lg"
                         >
                           Biosecurity
                           <span
@@ -631,7 +631,7 @@ exports[`CourseSection > renders as expected 1`] = `
                           </span>
                         </h3>
                         <p
-                          class="bluedot-p not-prose text-[16px] leading-[1.55] tracking-[-0.002em] text-white"
+                          class="bluedot-p not-prose text-size-sm leading-[1.55] tracking-[-0.002em] text-white"
                         >
                           For people who want to build a pandemic-proof world. Learn how we can defend against AI-enabled bioattacks.
                         </p>
@@ -697,7 +697,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-size-lg"
                         >
                           Technical AI Safety
                           <span
@@ -707,7 +707,7 @@ exports[`CourseSection > renders as expected 1`] = `
                           </span>
                         </h3>
                         <p
-                          class="bluedot-p not-prose text-[16px] leading-[1.55] tracking-[-0.002em] text-white"
+                          class="bluedot-p not-prose text-size-sm leading-[1.55] tracking-[-0.002em] text-white"
                         >
                           For technical talent who want to drive AI safety research and policy professionals building governance solutions.
                         </p>
@@ -783,7 +783,7 @@ exports[`CourseSection > renders as expected 1`] = `
                           </span>
                         </h3>
                         <p
-                          class="bluedot-p not-prose text-[16px] leading-[1.55] tracking-[-0.002em] text-white"
+                          class="bluedot-p not-prose text-size-sm leading-[1.55] tracking-[-0.002em] text-white"
                         >
                           Learn about the policy landscape, regulatory tools, and institutional reforms needed to navigate the transition to transformative AI.
                         </p>
@@ -849,7 +849,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-size-lg"
                         >
                           AGI Strategy
                           <span
@@ -859,7 +859,7 @@ exports[`CourseSection > renders as expected 1`] = `
                           </span>
                         </h3>
                         <p
-                          class="bluedot-p not-prose text-[16px] leading-[1.55] tracking-[-0.002em] text-white"
+                          class="bluedot-p not-prose text-size-sm leading-[1.55] tracking-[-0.002em] text-white"
                         >
                           A deep dive into the incentives driving the AI companies, what's at stake, and the strategies for ensuring AI benefits humanity. You'll finish with your own action plan.
                         </p>
@@ -925,7 +925,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-size-lg"
                         >
                           Biosecurity
                           <span
@@ -935,7 +935,7 @@ exports[`CourseSection > renders as expected 1`] = `
                           </span>
                         </h3>
                         <p
-                          class="bluedot-p not-prose text-[16px] leading-[1.55] tracking-[-0.002em] text-white"
+                          class="bluedot-p not-prose text-size-sm leading-[1.55] tracking-[-0.002em] text-white"
                         >
                           For people who want to build a pandemic-proof world. Learn how we can defend against AI-enabled bioattacks.
                         </p>
@@ -1001,7 +1001,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-size-lg"
                         >
                           Technical AI Safety
                           <span
@@ -1011,7 +1011,7 @@ exports[`CourseSection > renders as expected 1`] = `
                           </span>
                         </h3>
                         <p
-                          class="bluedot-p not-prose text-[16px] leading-[1.55] tracking-[-0.002em] text-white"
+                          class="bluedot-p not-prose text-size-sm leading-[1.55] tracking-[-0.002em] text-white"
                         >
                           For technical talent who want to drive AI safety research and policy professionals building governance solutions.
                         </p>
@@ -1087,7 +1087,7 @@ exports[`CourseSection > renders as expected 1`] = `
                           </span>
                         </h3>
                         <p
-                          class="bluedot-p not-prose text-[16px] leading-[1.55] tracking-[-0.002em] text-white"
+                          class="bluedot-p not-prose text-size-sm leading-[1.55] tracking-[-0.002em] text-white"
                         >
                           Learn about the policy landscape, regulatory tools, and institutional reforms needed to navigate the transition to transformative AI.
                         </p>
@@ -1153,7 +1153,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-size-lg"
                         >
                           AGI Strategy
                           <span
@@ -1163,7 +1163,7 @@ exports[`CourseSection > renders as expected 1`] = `
                           </span>
                         </h3>
                         <p
-                          class="bluedot-p not-prose text-[16px] leading-[1.55] tracking-[-0.002em] text-white"
+                          class="bluedot-p not-prose text-size-sm leading-[1.55] tracking-[-0.002em] text-white"
                         >
                           A deep dive into the incentives driving the AI companies, what's at stake, and the strategies for ensuring AI benefits humanity. You'll finish with your own action plan.
                         </p>
@@ -1229,7 +1229,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-size-lg"
                         >
                           Biosecurity
                           <span
@@ -1239,7 +1239,7 @@ exports[`CourseSection > renders as expected 1`] = `
                           </span>
                         </h3>
                         <p
-                          class="bluedot-p not-prose text-[16px] leading-[1.55] tracking-[-0.002em] text-white"
+                          class="bluedot-p not-prose text-size-sm leading-[1.55] tracking-[-0.002em] text-white"
                         >
                           For people who want to build a pandemic-proof world. Learn how we can defend against AI-enabled bioattacks.
                         </p>
@@ -1305,7 +1305,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[24px]"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-size-lg"
                         >
                           Technical AI Safety
                           <span
@@ -1315,7 +1315,7 @@ exports[`CourseSection > renders as expected 1`] = `
                           </span>
                         </h3>
                         <p
-                          class="bluedot-p not-prose text-[16px] leading-[1.55] tracking-[-0.002em] text-white"
+                          class="bluedot-p not-prose text-size-sm leading-[1.55] tracking-[-0.002em] text-white"
                         >
                           For technical talent who want to drive AI safety research and policy professionals building governance solutions.
                         </p>
@@ -1391,7 +1391,7 @@ exports[`CourseSection > renders as expected 1`] = `
                           </span>
                         </h3>
                         <p
-                          class="bluedot-p not-prose text-[16px] leading-[1.55] tracking-[-0.002em] text-white"
+                          class="bluedot-p not-prose text-size-sm leading-[1.55] tracking-[-0.002em] text-white"
                         >
                           Learn about the policy landscape, regulatory tools, and institutional reforms needed to navigate the transition to transformative AI.
                         </p>

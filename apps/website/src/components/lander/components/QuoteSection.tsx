@@ -40,9 +40,9 @@ const FONT_SIZE_THRESHOLDS = {
 } as const;
 
 const FONT_SIZE_CLASSES = {
-  EXTRA_LONG: 'text-[12px] sm:text-[14px] bd-md:text-[16px] lg:text-[16px] xl:text-[20px]', // For quotes > 400 chars
-  LONG: 'text-[16px] sm:text-[18px] bd-md:text-[20px] lg:text-[20px] xl:text-[24px]', // For quotes 200-400 chars
-  DEFAULT: 'text-[20px] bd-md:text-[24px] lg:text-[28px] xl:text-[32px]', // For quotes < 200 chars
+  EXTRA_LONG: 'text-size-xxs sm:text-size-xs bd-md:text-size-sm lg:text-size-sm xl:text-[20px]', // For quotes > 400 chars
+  LONG: 'text-size-sm sm:text-size-md bd-md:text-[20px] lg:text-[20px] xl:text-size-lg', // For quotes 200-400 chars
+  DEFAULT: 'text-[20px] bd-md:text-size-lg lg:text-[28px] xl:text-[32px]', // For quotes < 200 chars
 } as const;
 
 // Automatically determine font size based on quote length
@@ -98,10 +98,10 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
 
           {/* Name and role */}
           <div className="flex flex-col items-center lg:items-start">
-            <div className="text-[18px] leading-tight font-semibold" style={{ color: DEFAULT_COLORS.text }}>
+            <div className="text-size-md leading-tight font-semibold" style={{ color: DEFAULT_COLORS.text }}>
               {quote.name}
             </div>
-            <div className="text-[16px] leading-[1.6] opacity-80 text-center lg:text-left lg:px-0" style={{ color: DEFAULT_COLORS.text }}>
+            <div className="text-size-sm leading-[1.6] opacity-80 text-center lg:text-left lg:px-0" style={{ color: DEFAULT_COLORS.text }}>
               {quote.role}
             </div>
           </div>
@@ -149,14 +149,14 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
 // since text sits on a white background with no card to fill.
 const getEditorialFontSize = (quote: string): string => {
   if (quote.length > FONT_SIZE_THRESHOLDS.EXTRA_LONG) {
-    return 'text-[18px] bd-md:text-[20px] lg:text-[22px]';
+    return 'text-size-md bd-md:text-[20px] lg:text-[22px]';
   }
 
   if (quote.length > FONT_SIZE_THRESHOLDS.LONG) {
-    return 'text-[20px] bd-md:text-[22px] lg:text-[24px]';
+    return 'text-[20px] bd-md:text-[22px] lg:text-size-lg';
   }
 
-  return 'text-[22px] bd-md:text-[24px] lg:text-[28px]';
+  return 'text-[22px] bd-md:text-size-lg lg:text-[28px]';
 };
 
 const QuoteSection = ({
@@ -230,10 +230,10 @@ const QuoteSection = ({
           className="size-16 bd-md:size-20 rounded-xl object-cover flex-shrink-0"
         />
         <div className="flex flex-col">
-          <div className="text-[16px] bd-md:text-[17px] font-semibold leading-[1.4] text-bluedot-navy group-hover:text-bluedot-normal transition-colors">
+          <div className="text-size-sm bd-md:text-[17px] font-semibold leading-[1.4] text-bluedot-navy group-hover:text-bluedot-normal transition-colors">
             {activeQuote.name}
           </div>
-          <div className="text-[15px] bd-md:text-[16px] leading-[1.5] text-bluedot-navy/60">
+          <div className="text-[15px] bd-md:text-size-sm leading-[1.5] text-bluedot-navy/60">
             {activeQuote.role}
           </div>
         </div>
@@ -280,7 +280,7 @@ const QuoteSection = ({
                 className="size-10 rounded-full flex items-center justify-center bg-bluedot-navy/8 hover:bg-bluedot-navy/15 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
                 aria-label="Previous quote"
               >
-                <span className="text-bluedot-navy text-[16px] leading-none" style={{ transform: 'scaleX(-1)' }}>→</span>
+                <span className="text-bluedot-navy text-size-sm leading-none" style={{ transform: 'scaleX(-1)' }}>→</span>
               </button>
 
               <div className="flex items-center gap-2 mx-1">
@@ -305,10 +305,10 @@ const QuoteSection = ({
                 className="size-10 rounded-full flex items-center justify-center bg-bluedot-navy/8 hover:bg-bluedot-navy/15 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-bluedot-normal"
                 aria-label="Next quote"
               >
-                <span className="text-bluedot-navy text-[16px] leading-none">→</span>
+                <span className="text-bluedot-navy text-size-sm leading-none">→</span>
               </button>
 
-              <span className="text-[14px] text-bluedot-navy/50 ml-auto tabular-nums">
+              <span className="text-size-xs text-bluedot-navy/50 ml-auto tabular-nums">
                 {activeIndex + 1} / {quotes.length}
               </span>
             </div>

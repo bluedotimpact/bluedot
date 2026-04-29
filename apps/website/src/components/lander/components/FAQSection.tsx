@@ -92,7 +92,7 @@ const FAQSection = ({ id, title, items, background = 'white' }: FAQSectionProps)
                       aria-expanded={isOpen}
                       aria-controls={`faq-answer-${item.id}`}
                     >
-                      <span className="text-bluedot-navy flex-grow text-[18px] leading-[125%] font-semibold">
+                      <span className="text-bluedot-navy flex-grow text-size-md leading-[125%] font-semibold">
                         {item.question}
                       </span>
                       <PlusToggleIcon
@@ -112,7 +112,7 @@ const FAQSection = ({ id, title, items, background = 'white' }: FAQSectionProps)
                     >
                       <div className="overflow-hidden">
                         <div className="px-8 pb-6">
-                          <P className="text-bluedot-navy/80 text-[18px]">{item.answer}</P>
+                          <P className="text-bluedot-navy/80 text-size-md">{item.answer}</P>
                         </div>
                       </div>
                     </div>

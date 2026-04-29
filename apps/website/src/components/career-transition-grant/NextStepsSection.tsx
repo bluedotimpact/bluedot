@@ -31,7 +31,7 @@ const NextStepsSection = () => {
               >
                 {index + 1}
               </span>
-              <h4 className="text-[18px] font-semibold text-bluedot-navy">
+              <h4 className="text-size-md font-semibold text-bluedot-navy">
                 {step.title}
               </h4>
               <P className="text-size-sm leading-[1.65] text-bluedot-navy/80">

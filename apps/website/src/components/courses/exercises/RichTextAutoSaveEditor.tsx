@@ -264,7 +264,7 @@ const RichTextAutoSaveEditor: React.FC<RichTextAutoSaveEditorProps> = ({
             className={cn(
               'outline-none max-w-none',
               '[&_.ProseMirror]:outline-none',
-              '[&_.ProseMirror]:font-normal [&_.ProseMirror]:text-[14px] [&_.ProseMirror]:leading-[160%] [&_.ProseMirror]:tracking-[-0.002em] [&_.ProseMirror]:text-bluedot-navy',
+              '[&_.ProseMirror]:font-normal [&_.ProseMirror]:text-size-xs [&_.ProseMirror]:leading-[160%] [&_.ProseMirror]:tracking-[-0.002em] [&_.ProseMirror]:text-bluedot-navy',
               '[&_.ProseMirror_p]:m-0',
               '[&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-5 [&_.ProseMirror_ul]:my-1',
               '[&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-5 [&_.ProseMirror_ol]:my-1',

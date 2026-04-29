@@ -34,7 +34,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                   class="flex flex-col items-center lg:items-start py-8 px-6 bd-md:!py-8 bd-md:!px-6 lg:!p-16 gap-6 sm:gap-8 bd-md:gap-12 flex-grow justify-between"
                 >
                   <blockquote
-                    class="text-[20px] bd-md:text-[24px] lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
+                    class="text-[20px] bd-md:text-size-lg lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
                     style="color: var(--bluedot-navy);"
                   >
                     "AI could surpass almost all humans at almost everything shortly after 2027."
@@ -58,13 +58,13 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                       class="flex flex-col items-center lg:items-start"
                     >
                       <div
-                        class="text-[18px] leading-tight font-semibold"
+                        class="text-size-md leading-tight font-semibold"
                         style="color: var(--bluedot-navy);"
                       >
                         Dario Amodei
                       </div>
                       <div
-                        class="text-[16px] leading-[1.6] opacity-80 text-center lg:text-left lg:px-0"
+                        class="text-size-sm leading-[1.6] opacity-80 text-center lg:text-left lg:px-0"
                         style="color: var(--bluedot-navy);"
                       >
                         CEO, Anthropic
@@ -113,7 +113,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                   class="flex flex-col items-center lg:items-start py-8 px-6 bd-md:!py-8 bd-md:!px-6 lg:!p-16 gap-6 sm:gap-8 bd-md:gap-12 flex-grow justify-between"
                 >
                   <blockquote
-                    class="text-[20px] bd-md:text-[24px] lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
+                    class="text-[20px] bd-md:text-size-lg lg:text-[28px] xl:text-[32px] leading-normal lg:leading-tight font-semibold text-center lg:text-left"
                     style="color: var(--bluedot-navy);"
                   >
                     "AI could surpass almost all humans at almost everything shortly after 2027."
@@ -137,13 +137,13 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
                       class="flex flex-col items-center lg:items-start"
                     >
                       <div
-                        class="text-[18px] leading-tight font-semibold"
+                        class="text-size-md leading-tight font-semibold"
                         style="color: var(--bluedot-navy);"
                       >
                         Dario Amodei
                       </div>
                       <div
-                        class="text-[16px] leading-[1.6] opacity-80 text-center lg:text-left lg:px-0"
+                        class="text-size-sm leading-[1.6] opacity-80 text-center lg:text-left lg:px-0"
                         style="color: var(--bluedot-navy);"
                       >
                         CEO, Anthropic

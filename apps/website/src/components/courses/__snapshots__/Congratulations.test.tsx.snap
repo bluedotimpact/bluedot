@@ -16,7 +16,7 @@ exports[`Congratulations > certificate card — authenticated > action-plan-pend
          course 🎉
       </h2>
       <p
-        class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em]"
+        class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em]"
       >
         Well done! Before you venture out contributing to safe AI, we'd like to ask you for a favor: Please share your experience with your friends and network. This helps us immensely to raise awareness further and ensure making AI go well.
       </p>
@@ -46,12 +46,12 @@ exports[`Congratulations > certificate card — authenticated > action-plan-pend
               class="flex flex-col gap-3"
             >
               <h3
-                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+                class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
               >
                 Share your accomplishment
               </h3>
               <p
-                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
               >
                 Raise awareness for safe AI within your network. This will only take 1 min of your time, but can have significant impact on more people working on making AI go well. We're counting on you!
               </p>
@@ -175,12 +175,12 @@ exports[`Congratulations > certificate card — authenticated > action-plan-pend
               class="flex flex-col gap-3"
             >
               <h3
-                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+                class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
               >
                 Send it to someone personally
               </h3>
               <p
-                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
               >
                 Think of three people who'd genuinely benefit from this course. A little "I thought of you" goes a long way. Is there anyone that comes to mind?
               </p>
@@ -287,12 +287,12 @@ exports[`Congratulations > certificate card — authenticated > action-plan-pend
               class="flex flex-col gap-3"
             >
               <h3
-                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+                class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
               >
                 Grab your certificate
               </h3>
               <p
-                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
               >
                 To receive your certificate, you need to submit an action plan/project and can't have missed more than one discussion.
               </p>
@@ -339,7 +339,7 @@ exports[`Congratulations > certificate card — authenticated > action-plan-pend
                     Professional Certification
                   </p>
                   <p
-                    class="text-[18px] font-semibold text-bluedot-navy leading-tight"
+                    class="text-size-md font-semibold text-bluedot-navy leading-tight"
                   >
                     AGI Strategy
                   </p>
@@ -370,7 +370,7 @@ exports[`Congratulations > certificate card — authenticated > action-plan-pend
          course 🎉
       </h2>
       <p
-        class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em]"
+        class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em]"
       >
         Well done! Before you venture out contributing to safe AI, we'd like to ask you for a favor: Please share your experience with your friends and network. This helps us immensely to raise awareness further and ensure making AI go well.
       </p>
@@ -400,12 +400,12 @@ exports[`Congratulations > certificate card — authenticated > action-plan-pend
               class="flex flex-col gap-3"
             >
               <h3
-                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+                class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
               >
                 Share your accomplishment
               </h3>
               <p
-                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
               >
                 Raise awareness for safe AI within your network. This will only take 1 min of your time, but can have significant impact on more people working on making AI go well. We're counting on you!
               </p>
@@ -529,12 +529,12 @@ exports[`Congratulations > certificate card — authenticated > action-plan-pend
               class="flex flex-col gap-3"
             >
               <h3
-                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+                class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
               >
                 Send it to someone personally
               </h3>
               <p
-                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
               >
                 Think of three people who'd genuinely benefit from this course. A little "I thought of you" goes a long way. Is there anyone that comes to mind?
               </p>
@@ -641,12 +641,12 @@ exports[`Congratulations > certificate card — authenticated > action-plan-pend
               class="flex flex-col gap-3"
             >
               <h3
-                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+                class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
               >
                 Grab your certificate
               </h3>
               <p
-                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
               >
                 To receive your certificate, you need to submit an action plan/project and can't have missed more than one discussion.
               </p>
@@ -692,7 +692,7 @@ exports[`Congratulations > certificate card — authenticated > action-plan-pend
                     Professional Certification
                   </p>
                   <p
-                    class="text-[18px] font-semibold text-bluedot-navy leading-tight"
+                    class="text-size-md font-semibold text-bluedot-navy leading-tight"
                   >
                     AGI Strategy
                   </p>
@@ -723,7 +723,7 @@ exports[`Congratulations > certificate card — authenticated > can-request: sho
          course 🎉
       </h2>
       <p
-        class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em]"
+        class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em]"
       >
         Well done! Before you venture out contributing to safe AI, we'd like to ask you for a favor: Please share your experience with your friends and network. This helps us immensely to raise awareness further and ensure making AI go well.
       </p>
@@ -753,12 +753,12 @@ exports[`Congratulations > certificate card — authenticated > can-request: sho
               class="flex flex-col gap-3"
             >
               <h3
-                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+                class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
               >
                 Share your accomplishment
               </h3>
               <p
-                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
               >
                 Raise awareness for safe AI within your network. This will only take 1 min of your time, but can have significant impact on more people working on making AI go well. We're counting on you!
               </p>
@@ -882,12 +882,12 @@ exports[`Congratulations > certificate card — authenticated > can-request: sho
               class="flex flex-col gap-3"
             >
               <h3
-                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+                class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
               >
                 Send it to someone personally
               </h3>
               <p
-                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
               >
                 Think of three people who'd genuinely benefit from this course. A little "I thought of you" goes a long way. Is there anyone that comes to mind?
               </p>
@@ -994,12 +994,12 @@ exports[`Congratulations > certificate card — authenticated > can-request: sho
               class="flex flex-col gap-3"
             >
               <h3
-                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+                class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
               >
                 Grab your certificate
               </h3>
               <p
-                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
               >
                 Complete all exercises to unlock your certificate, then share your accomplishment on social media.
               </p>
@@ -1042,7 +1042,7 @@ exports[`Congratulations > certificate card — authenticated > can-request: sho
                     Professional Certification
                   </p>
                   <p
-                    class="text-[18px] font-semibold text-bluedot-navy leading-tight"
+                    class="text-size-md font-semibold text-bluedot-navy leading-tight"
                   >
                     Future of AI
                   </p>
@@ -1059,12 +1059,12 @@ exports[`Congratulations > certificate card — authenticated > can-request: sho
           class="flex flex-col gap-3"
         >
           <h3
-            class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+            class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
           >
             Want to go deeper?
           </h3>
           <p
-            class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+            class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
           >
             <span
               class="font-semibold"
@@ -1121,7 +1121,7 @@ exports[`Congratulations > certificate card — authenticated > facilitator-pend
          course 🎉
       </h2>
       <p
-        class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em]"
+        class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em]"
       >
         Well done! Before you venture out contributing to safe AI, we'd like to ask you for a favor: Please share your experience with your friends and network. This helps us immensely to raise awareness further and ensure making AI go well.
       </p>
@@ -1151,12 +1151,12 @@ exports[`Congratulations > certificate card — authenticated > facilitator-pend
               class="flex flex-col gap-3"
             >
               <h3
-                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+                class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
               >
                 Share your accomplishment
               </h3>
               <p
-                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
               >
                 Raise awareness for safe AI within your network. This will only take 1 min of your time, but can have significant impact on more people working on making AI go well. We're counting on you!
               </p>
@@ -1280,12 +1280,12 @@ exports[`Congratulations > certificate card — authenticated > facilitator-pend
               class="flex flex-col gap-3"
             >
               <h3
-                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+                class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
               >
                 Send it to someone personally
               </h3>
               <p
-                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
               >
                 Think of three people who'd genuinely benefit from this course. A little "I thought of you" goes a long way. Is there anyone that comes to mind?
               </p>
@@ -1392,12 +1392,12 @@ exports[`Congratulations > certificate card — authenticated > facilitator-pend
               class="flex flex-col gap-3"
             >
               <h3
-                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+                class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
               >
                 Grab your certificate
               </h3>
               <p
-                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
               >
                 Your certificate will be issued after your cohort ends, based on attendance.
               </p>
@@ -1430,7 +1430,7 @@ exports[`Congratulations > certificate card — authenticated > facilitator-pend
                     Professional Certification
                   </p>
                   <p
-                    class="text-[18px] font-semibold text-bluedot-navy leading-tight"
+                    class="text-size-md font-semibold text-bluedot-navy leading-tight"
                   >
                     AGI Strategy
                   </p>
@@ -1461,7 +1461,7 @@ exports[`Congratulations > certificate card — authenticated > has-certificate:
          course 🎉
       </h2>
       <p
-        class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em]"
+        class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em]"
       >
         Well done! Before you venture out contributing to safe AI, we'd like to ask you for a favor: Please share your experience with your friends and network. This helps us immensely to raise awareness further and ensure making AI go well.
       </p>
@@ -1491,12 +1491,12 @@ exports[`Congratulations > certificate card — authenticated > has-certificate:
               class="flex flex-col gap-3"
             >
               <h3
-                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+                class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
               >
                 Share your accomplishment
               </h3>
               <p
-                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
               >
                 Raise awareness for safe AI within your network. This will only take 1 min of your time, but can have significant impact on more people working on making AI go well. We're counting on you!
               </p>
@@ -1620,12 +1620,12 @@ exports[`Congratulations > certificate card — authenticated > has-certificate:
               class="flex flex-col gap-3"
             >
               <h3
-                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+                class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
               >
                 Send it to someone personally
               </h3>
               <p
-                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
               >
                 Think of three people who'd genuinely benefit from this course. A little "I thought of you" goes a long way. Is there anyone that comes to mind?
               </p>
@@ -1732,12 +1732,12 @@ exports[`Congratulations > certificate card — authenticated > has-certificate:
               class="flex flex-col gap-3"
             >
               <h3
-                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+                class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
               >
                 Grab your certificate
               </h3>
               <p
-                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
               >
                 Earned by Test User · Issued January 1, 2024
               </p>
@@ -1783,7 +1783,7 @@ exports[`Congratulations > certificate card — authenticated > has-certificate:
                     Professional Certification
                   </p>
                   <p
-                    class="text-[18px] font-semibold text-bluedot-navy leading-tight"
+                    class="text-size-md font-semibold text-bluedot-navy leading-tight"
                   >
                     AGI Strategy
                   </p>
@@ -1797,7 +1797,7 @@ exports[`Congratulations > certificate card — authenticated > has-certificate:
                     Awarded to
                   </p>
                   <p
-                    class="text-[14px] font-semibold text-bluedot-navy"
+                    class="text-size-xs font-semibold text-bluedot-navy"
                   >
                     Test User
                   </p>
@@ -1828,7 +1828,7 @@ exports[`Congratulations > certificate card — authenticated > not-eligible: sh
          course 🎉
       </h2>
       <p
-        class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em]"
+        class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em]"
       >
         Well done! Before you venture out contributing to safe AI, we'd like to ask you for a favor: Please share your experience with your friends and network. This helps us immensely to raise awareness further and ensure making AI go well.
       </p>
@@ -1858,12 +1858,12 @@ exports[`Congratulations > certificate card — authenticated > not-eligible: sh
               class="flex flex-col gap-3"
             >
               <h3
-                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+                class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
               >
                 Share your accomplishment
               </h3>
               <p
-                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
               >
                 Raise awareness for safe AI within your network. This will only take 1 min of your time, but can have significant impact on more people working on making AI go well. We're counting on you!
               </p>
@@ -1987,12 +1987,12 @@ exports[`Congratulations > certificate card — authenticated > not-eligible: sh
               class="flex flex-col gap-3"
             >
               <h3
-                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+                class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
               >
                 Send it to someone personally
               </h3>
               <p
-                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
               >
                 Think of three people who'd genuinely benefit from this course. A little "I thought of you" goes a long way. Is there anyone that comes to mind?
               </p>
@@ -2099,12 +2099,12 @@ exports[`Congratulations > certificate card — authenticated > not-eligible: sh
               class="flex flex-col gap-3"
             >
               <h3
-                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+                class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
               >
                 Grab your certificate
               </h3>
               <p
-                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
               >
                 This course doesn't currently issue certificates to independent learners. Join a facilitated version to get a certificate.
               </p>
@@ -2137,7 +2137,7 @@ exports[`Congratulations > certificate card — authenticated > not-eligible: sh
                     Professional Certification
                   </p>
                   <p
-                    class="text-[18px] font-semibold text-bluedot-navy leading-tight"
+                    class="text-size-md font-semibold text-bluedot-navy leading-tight"
                   >
                     AGI Strategy
                   </p>
@@ -2168,7 +2168,7 @@ exports[`Congratulations > certificate card — authenticated > renders loading 
          course 🎉
       </h2>
       <p
-        class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em]"
+        class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em]"
       >
         Well done! Before you venture out contributing to safe AI, we'd like to ask you for a favor: Please share your experience with your friends and network. This helps us immensely to raise awareness further and ensure making AI go well.
       </p>
@@ -2198,12 +2198,12 @@ exports[`Congratulations > certificate card — authenticated > renders loading 
               class="flex flex-col gap-3"
             >
               <h3
-                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+                class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
               >
                 Share your accomplishment
               </h3>
               <p
-                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
               >
                 Raise awareness for safe AI within your network. This will only take 1 min of your time, but can have significant impact on more people working on making AI go well. We're counting on you!
               </p>
@@ -2327,12 +2327,12 @@ exports[`Congratulations > certificate card — authenticated > renders loading 
               class="flex flex-col gap-3"
             >
               <h3
-                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+                class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
               >
                 Send it to someone personally
               </h3>
               <p
-                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
               >
                 Think of three people who'd genuinely benefit from this course. A little "I thought of you" goes a long way. Is there anyone that comes to mind?
               </p>
@@ -2439,7 +2439,7 @@ exports[`Congratulations > certificate card — authenticated > renders loading 
               class="flex flex-col gap-3"
             >
               <h3
-                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+                class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
               >
                 Grab your certificate
               </h3>
@@ -2492,7 +2492,7 @@ exports[`Congratulations > certificate card — authenticated > renders loading 
                     Professional Certification
                   </p>
                   <p
-                    class="text-[18px] font-semibold text-bluedot-navy leading-tight"
+                    class="text-size-md font-semibold text-bluedot-navy leading-tight"
                   >
                     AGI Strategy
                   </p>
@@ -2523,7 +2523,7 @@ exports[`Congratulations > certificate card — not authenticated > shows log in
          course 🎉
       </h2>
       <p
-        class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em]"
+        class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em]"
       >
         Well done! Before you venture out contributing to safe AI, we'd like to ask you for a favor: Please share your experience with your friends and network. This helps us immensely to raise awareness further and ensure making AI go well.
       </p>
@@ -2553,12 +2553,12 @@ exports[`Congratulations > certificate card — not authenticated > shows log in
               class="flex flex-col gap-3"
             >
               <h3
-                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+                class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
               >
                 Share your accomplishment
               </h3>
               <p
-                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
               >
                 Raise awareness for safe AI within your network. This will only take 1 min of your time, but can have significant impact on more people working on making AI go well. We're counting on you!
               </p>
@@ -2682,12 +2682,12 @@ exports[`Congratulations > certificate card — not authenticated > shows log in
               class="flex flex-col gap-3"
             >
               <h3
-                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+                class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
               >
                 Send it to someone personally
               </h3>
               <p
-                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
               >
                 Think of three people who'd genuinely benefit from this course. A little "I thought of you" goes a long way. Is there anyone that comes to mind?
               </p>
@@ -2794,12 +2794,12 @@ exports[`Congratulations > certificate card — not authenticated > shows log in
               class="flex flex-col gap-3"
             >
               <h3
-                class="font-semibold text-[18px] leading-[1.4] text-bluedot-navy"
+                class="font-semibold text-size-md leading-[1.4] text-bluedot-navy"
               >
                 Grab your certificate
               </h3>
               <p
-                class="bluedot-p not-prose text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm leading-[1.6] tracking-[-0.002em] text-bluedot-navy"
               >
                 Create a free account to earn your course certificate.
               </p>
@@ -2843,7 +2843,7 @@ exports[`Congratulations > certificate card — not authenticated > shows log in
                     Professional Certification
                   </p>
                   <p
-                    class="text-[18px] font-semibold text-bluedot-navy leading-tight"
+                    class="text-size-md font-semibold text-bluedot-navy leading-tight"
                   >
                     AGI Strategy
                   </p>

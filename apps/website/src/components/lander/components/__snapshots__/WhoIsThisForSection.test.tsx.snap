@@ -37,7 +37,7 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
           </svg>
         </div>
         <p
-          class="bluedot-p not-prose text-[18px] leading-[1.6] text-bluedot-navy"
+          class="bluedot-p not-prose text-size-md leading-[1.6] text-bluedot-navy"
         >
           <span
             class="font-semibold"
@@ -72,7 +72,7 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
           </svg>
         </div>
         <p
-          class="bluedot-p not-prose text-[18px] leading-[1.6] text-bluedot-navy"
+          class="bluedot-p not-prose text-size-md leading-[1.6] text-bluedot-navy"
         >
           <span
             class="font-semibold"
@@ -107,7 +107,7 @@ exports[`WhoIsThisForSection > renders correctly 1`] = `
           </svg>
         </div>
         <p
-          class="bluedot-p not-prose text-[18px] leading-[1.6] text-bluedot-navy"
+          class="bluedot-p not-prose text-size-md leading-[1.6] text-bluedot-navy"
         >
           <span
             class="font-semibold"

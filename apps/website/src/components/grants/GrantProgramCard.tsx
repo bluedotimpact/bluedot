@@ -79,7 +79,7 @@ const GrantProgramCard = ({
           </div>
 
           <span
-            className={cn('inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[12px] font-semibold tracking-[0.02em]', STATUS_CLASS_MAP[status])}
+            className={cn('inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-size-xxs font-semibold tracking-[0.02em]', STATUS_CLASS_MAP[status])}
             style={statusTransitionStyle}
           >
             <span className={cn('size-2 rounded-full', STATUS_DOT_CLASS_MAP[status])} />
@@ -99,7 +99,7 @@ const GrantProgramCard = ({
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-bluedot-navy/46">
               Objective
             </p>
-            <p className="mt-3 text-[15px] bd-md:text-[16px] leading-[1.65] text-bluedot-navy/76">
+            <p className="mt-3 text-[15px] bd-md:text-size-sm leading-[1.65] text-bluedot-navy/76">
               {goal}
             </p>
           </div>
@@ -108,7 +108,7 @@ const GrantProgramCard = ({
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-bluedot-navy/46">
               {scopeLabel}
             </p>
-            <p className="mt-3 text-[15px] bd-md:text-[16px] leading-[1.65] text-bluedot-navy/76">
+            <p className="mt-3 text-[15px] bd-md:text-size-sm leading-[1.65] text-bluedot-navy/76">
               {scope}
             </p>
           </div>
@@ -120,11 +120,11 @@ const GrantProgramCard = ({
               </p>
               <div className="mt-3">
                 {example.url ? (
-                  <a href={example.url} target="_blank" rel="noopener noreferrer" className="text-[18px] font-semibold leading-[1.25] tracking-[-0.02em] text-bluedot-navy hover:underline">
+                  <a href={example.url} target="_blank" rel="noopener noreferrer" className="text-size-md font-semibold leading-[1.25] tracking-[-0.02em] text-bluedot-navy hover:underline">
                     {example.title}
                   </a>
                 ) : (
-                  <p className="text-[18px] font-semibold leading-[1.25] tracking-[-0.02em] text-bluedot-navy">
+                  <p className="text-size-md font-semibold leading-[1.25] tracking-[-0.02em] text-bluedot-navy">
                     {example.title}
                   </p>
                 )}
@@ -133,7 +133,7 @@ const GrantProgramCard = ({
                     {example.meta}
                   </p>
                 )}
-                <p className="mt-3 text-[14px] leading-[1.6] text-bluedot-navy/70">
+                <p className="mt-3 text-size-xs leading-[1.6] text-bluedot-navy/70">
                   {example.summary}
                 </p>
               </div>
