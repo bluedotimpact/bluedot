@@ -32,7 +32,7 @@ import { TAS_COLORS } from '../components/lander/course-content/TechnicalAiSafet
 import { AI_GOVERNANCE_COLORS } from '../components/lander/course-content/AiGovernanceContent';
 import { BIOSECURITY_COLORS } from '../components/lander/course-content/BioSecurityContent';
 
-type Certificate = {
+export type Certificate = {
   certificateId: string;
   certificateCreatedAt: number;
   recipientName: string;
