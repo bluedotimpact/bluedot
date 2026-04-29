@@ -42,7 +42,7 @@ export type Certificate = {
   courseDetailsUrl: string;
 };
 
-async function getCertificateData(certificateId: string) {
+export async function getCertificateData(certificateId: string) {
   const courseRegistration = await db.get(courseRegistrationTable, { certificateId });
   const course = await db.get(courseTable, { id: courseRegistration.courseId });
 
