@@ -61,7 +61,7 @@ const HOMEPAGE_COURSE_SLUGS = Object.keys(COURSE_VISUAL_CONFIG);
 const HeaderSection = () => (
   <div className="flex flex-col items-center gap-8 max-w-4xl mx-auto text-center">
     <div className="flex flex-col gap-5">
-      <H1 className="text-[28px] md:text-[36px] lg:text-[40px] xl:text-[48px] font-medium leading-tight tracking-[-1px]">
+      <H1 className="text-size-xl bd-md:text-size-2xl font-medium leading-tight tracking-[-1px]">
         Start making an impact today
       </H1>
       <P className="text-size-sm md:text-size-md leading-[1.55] tracking-[-0.005em] opacity-70 max-w-4xl">

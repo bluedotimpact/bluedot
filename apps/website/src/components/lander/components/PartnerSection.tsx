@@ -67,7 +67,7 @@ const PartnerSection = ({ title, partners }: PartnerSectionProps) => {
       <div className="max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-spacing-x py-12 bd-md:py-16 xl:py-24">
 
         {/* Section Header */}
-        <h2 className="text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy text-center mb-12 md:mb-16 max-w-[734px] mx-auto">
+        <h2 className="text-size-xl font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy text-center mb-12 md:mb-16 max-w-[734px] mx-auto">
           {title}
         </h2>
 

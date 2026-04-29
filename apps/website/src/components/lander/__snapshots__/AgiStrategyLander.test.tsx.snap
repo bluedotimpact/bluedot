@@ -623,7 +623,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 COHORT-BASED COURSE
               </p>
               <h1
-                class="text-[32px] bd-md:text-[40px] leading-tight font-semibold tracking-[-0.5px] text-white"
+                class="text-size-xl leading-tight font-semibold tracking-[-0.5px] text-white"
               >
                 AGI Strategy
               </h1>
@@ -1110,7 +1110,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24 flex flex-col items-center gap-8 md:gap-10"
       >
         <h2
-          class="bluedot-h2 not-prose w-full bd-md:max-w-[840px] text-[28px] bd-md:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]"
+          class="bluedot-h2 not-prose w-full bd-md:max-w-[840px] text-size-xl text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]"
         >
           How the course works
         </h2>
@@ -1411,7 +1411,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           class="mx-auto flex max-w-[928px] flex-col gap-12 md:gap-16"
         >
           <h2
-            class="bd-md:text-[32px] text-bluedot-navy text-center text-[28px] leading-[125%] font-semibold tracking-[-0.01em] xl:text-[36px]"
+            class="text-bluedot-navy text-center text-size-xl leading-[125%] font-semibold tracking-[-0.01em]"
           >
             Frequently Asked Questions
           </h2>
