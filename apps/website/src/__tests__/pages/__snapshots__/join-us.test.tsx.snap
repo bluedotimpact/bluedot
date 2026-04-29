@@ -655,7 +655,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
               class="flex flex-col gap-4 w-full"
             >
               <span
-                class="text-[10px] leading-[14px] tracking-[0.5px] uppercase text-white opacity-70 font-medium"
+                class="text-size-xxs leading-[14px] tracking-[0.5px] uppercase text-white opacity-70 font-medium"
               >
                 Newsletter
               </span>

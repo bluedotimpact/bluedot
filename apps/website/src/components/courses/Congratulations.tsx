@@ -32,7 +32,7 @@ export const CERTIFICATE_STATUS_DESCRIPTIONS: Record<CertificateStatus, string> 
 };
 
 const secondaryBtnClass
-  = 'flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap';
+  = 'flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-size-xs font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap';
 
 // --- Preview panels ---
 
@@ -42,7 +42,7 @@ const PostPreviewPanel = ({ courseSlug, shareText, courseUrl }: {
   courseUrl: string;
 }) => (
   <div className="h-full bg-[#fbfbfd] border-t border-[#e5e9f2] md:border-t-0 md:border-l flex flex-col p-5 gap-4">
-    <p className="text-[11px] font-semibold uppercase tracking-[0.04em] text-bluedot-navy/40">
+    <p className="text-size-xxs font-semibold uppercase tracking-[0.04em] text-bluedot-navy/40">
       Post Preview
     </p>
     <div className="flex items-center gap-3">
@@ -52,7 +52,7 @@ const PostPreviewPanel = ({ courseSlug, shareText, courseUrl }: {
         <div className="h-2.5 w-14 rounded-full bg-bluedot-navy/15" />
       </div>
     </div>
-    <p className="text-[13px] leading-[1.5] text-bluedot-navy line-clamp-3">
+    <p className="text-size-xs leading-[1.5] text-bluedot-navy line-clamp-3">
       {shareText}{' '}
       <span className="text-blue-600">{courseUrl}</span>
     </p>
@@ -73,12 +73,12 @@ const WhatsAppPreviewPanel = ({ courseTitle, courseUrl }: {
 }) => (
   <div className="h-full flex flex-col items-center justify-center p-8" style={{ backgroundImage: 'url(/images/whatsapp-bg.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
     <div className="bg-[#d9fdd3] rounded-[7.5px] shadow-sm px-3 py-2.5 max-w-[280px]">
-      <p className="text-[13px] leading-[1.5] text-[#0a0a0a]">
+      <p className="text-size-xs leading-[1.5] text-[#0a0a0a]">
         Hey, I just finished this {courseTitle} course and it genuinely shifted how I
         think about this stuff. It&apos;s free and self-paced.{' '}
         <span className="text-[#1b8755] underline">{courseUrl}</span>
       </p>
-      <p className="text-[11px] text-black/40 text-right mt-1">19:45 ✓✓</p>
+      <p className="text-size-xxs text-black/40 text-right mt-1">19:45 ✓✓</p>
     </div>
   </div>
 );
@@ -98,7 +98,7 @@ const CertificatePreviewPanel = ({ courseSlug, courseTitle, holderName }: {
         <div className="flex flex-col items-center px-6 py-8 gap-4">
           <img src={badgeSrc} alt="" className="h-[140px] w-auto object-contain" />
           <div className="flex flex-col items-center gap-1 text-center">
-            <p className="text-[11px] font-medium uppercase tracking-[0.06em] text-[#62748E]">
+            <p className="text-size-xxs font-medium uppercase tracking-[0.06em] text-[#62748E]">
               Professional Certification
             </p>
             <p className="text-size-md font-semibold text-bluedot-navy leading-tight">
@@ -107,7 +107,7 @@ const CertificatePreviewPanel = ({ courseSlug, courseTitle, holderName }: {
           </div>
           {holderName && (
             <div className="flex flex-col items-center gap-0.5 text-center">
-              <p className="text-[11px] font-medium uppercase tracking-[0.06em] text-[#62748E]">
+              <p className="text-size-xxs font-medium uppercase tracking-[0.06em] text-[#62748E]">
                 Awarded to
               </p>
               <p className="text-size-xs font-semibold text-bluedot-navy">{holderName}</p>

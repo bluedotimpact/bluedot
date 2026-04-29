@@ -80,7 +80,7 @@ const GrantStatsStrip = ({
 
 const Stat = ({ label, value, compact }: { label: string; value: string; compact: boolean }) => {
   const labelClass = compact
-    ? 'text-[11px] font-semibold uppercase tracking-[0.14em] text-bluedot-navy/60'
+    ? 'text-size-xxs font-semibold uppercase tracking-[0.14em] text-bluedot-navy/60'
     : 'text-size-xxs font-semibold uppercase tracking-[0.14em] text-bluedot-navy/60';
   const valueClass = compact
     ? 'text-size-md bd-md:text-[20px] font-medium leading-tight text-bluedot-navy'

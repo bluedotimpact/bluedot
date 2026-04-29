@@ -75,7 +75,7 @@ const SettingsNavigation = ({ activeTab }: { activeTab: SettingsTab }) => {
                 aria-label={`${item.label} settings`}
               >
                 <span className="flex items-center gap-3 w-full">
-                  <P className={`text-[13px] leading-[22px] flex-grow !m-0 ${isActive ? 'font-semibold' : 'font-normal'}`}>
+                  <P className={`text-size-xs leading-[22px] flex-grow !m-0 ${isActive ? 'font-semibold' : 'font-normal'}`}>
                     {item.label}
                   </P>
                 </span>

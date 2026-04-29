@@ -57,16 +57,16 @@ const CourseOutcomesSection = ({
                     />
                   </div>
                   <div className="space-y-2">
-                    <H3 className="text-[17px] bd-md:text-size-md font-semibold leading-[130%] text-bluedot-navy">
+                    <H3 className="text-size-md bd-md:text-size-md font-semibold leading-[130%] text-bluedot-navy">
                       {outcome.title}
                     </H3>
-                    <P className="text-[15px] leading-[1.65] text-bluedot-navy/70">
+                    <P className="text-size-sm leading-[1.65] text-bluedot-navy/70">
                       {outcome.description}
                     </P>
                     {outcome.linkUrl && (
                       <Link
                         href={outcome.linkUrl}
-                        className="inline-flex items-center gap-1 text-[15px] font-medium text-bluedot-normal hover:underline mt-2"
+                        className="inline-flex items-center gap-1 text-size-sm font-medium text-bluedot-normal hover:underline mt-2"
                       >
                         {outcome.linkText ?? 'Open unit'}
                         <span aria-hidden="true">→</span>

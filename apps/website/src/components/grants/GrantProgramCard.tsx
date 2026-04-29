@@ -96,26 +96,26 @@ const GrantProgramCard = ({
           )}
         >
           <div className="rounded-2xl border border-white/70 bg-white/72 px-5 py-5 backdrop-blur-sm">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-bluedot-navy/46">
+            <p className="text-size-xxs font-semibold uppercase tracking-[0.16em] text-bluedot-navy/46">
               Objective
             </p>
-            <p className="mt-3 text-[15px] bd-md:text-size-sm leading-[1.65] text-bluedot-navy/76">
+            <p className="mt-3 text-size-sm bd-md:text-size-sm leading-[1.65] text-bluedot-navy/76">
               {goal}
             </p>
           </div>
 
           <div className="rounded-2xl border border-white/70 bg-white/72 px-5 py-5 backdrop-blur-sm">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-bluedot-navy/46">
+            <p className="text-size-xxs font-semibold uppercase tracking-[0.16em] text-bluedot-navy/46">
               {scopeLabel}
             </p>
-            <p className="mt-3 text-[15px] bd-md:text-size-sm leading-[1.65] text-bluedot-navy/76">
+            <p className="mt-3 text-size-sm bd-md:text-size-sm leading-[1.65] text-bluedot-navy/76">
               {scope}
             </p>
           </div>
 
           {example && (
             <div className="rounded-2xl border border-[#D8E4F3] bg-[linear-gradient(180deg,rgba(255,255,255,0.92)_0%,rgba(244,248,254,0.96)_100%)] px-5 py-5">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#5D789D]">
+              <p className="text-size-xxs font-semibold uppercase tracking-[0.16em] text-[#5D789D]">
                 Example grant
               </p>
               <div className="mt-3">
@@ -129,7 +129,7 @@ const GrantProgramCard = ({
                   </p>
                 )}
                 {example.meta && (
-                  <p className="mt-2 text-[13px] font-medium text-[#4E6486]">
+                  <p className="mt-2 text-size-xs font-medium text-[#4E6486]">
                     {example.meta}
                   </p>
                 )}

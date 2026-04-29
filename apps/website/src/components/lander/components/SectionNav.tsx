@@ -74,7 +74,7 @@ const SectionNav = ({ sections, applyUrl }: SectionNavProps) => {
                 key={section.id}
                 onClick={() => scrollToSection(section.id)}
                 className={`
-                  px-3 bd-md:px-4 py-1.5 rounded-full text-[13px] bd-md:text-size-xs font-medium
+                  px-3 bd-md:px-4 py-1.5 rounded-full text-size-xs bd-md:text-size-xs font-medium
                   whitespace-nowrap transition-all duration-200
                   ${activeSection === section.id
                 ? 'bg-bluedot-navy text-white'

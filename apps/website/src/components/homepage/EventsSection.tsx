@@ -65,7 +65,7 @@ const DateBadge = ({ month, day }: { month: string; day: string }) => {
     <div className="relative size-16 lg:size-20 bg-white rounded-lg lg:rounded-lg shadow-[0px_1.6px_4.8px_1.6px_rgba(0,0,0,0.05),0px_0.8px_1.6px_0px_rgba(0,0,0,0.15)] lg:shadow-[0px_2px_6px_2px_rgba(0,0,0,0.05),0px_1px_2px_0px_rgba(0,0,0,0.15)] overflow-hidden flex flex-col">
       {/* Month Label */}
       <div className="relative flex items-center justify-center py-[4.8px] lg:py-1.5 border-b border-bluedot-navy/10 bg-gradient-to-r from-blue-600 to-blue-500">
-        <span className="text-[11.2px] lg:text-size-xs font-semibold uppercase tracking-[0.4px] lg:tracking-[0.5px] text-white leading-[11.2px] lg:leading-[14px]">
+        <span className="text-size-xxs lg:text-size-xs font-semibold uppercase tracking-[0.4px] lg:tracking-[0.5px] text-white leading-[11.2px] lg:leading-[14px]">
           {month}
         </span>
       </div>
@@ -92,7 +92,7 @@ const EventCard = ({ event }: { event: Event }) => {
       <DateBadge month={month} day={day} />
 
       <div className="flex flex-col gap-3">
-        <p className="text-[10px] font-medium uppercase tracking-[0.5px] leading-[14px] text-[#271dcd]">
+        <p className="text-size-xxs font-medium uppercase tracking-[0.5px] leading-[14px] text-[#271dcd]">
           {event.location}
         </p>
         <a
