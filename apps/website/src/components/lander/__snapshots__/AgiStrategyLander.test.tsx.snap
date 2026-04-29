@@ -639,7 +639,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="flex flex-col bd-md:flex-row gap-3 w-full bd-md:w-auto bd-md:justify-center"
             >
               <a
-                class="cta-button flex items-center justify-center duration-200 whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm h-[50px] px-5 py-3 font-medium rounded-md cursor-pointer transition-all text-bluedot-navy w-full bd-md:w-auto hover:brightness-90"
+                class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none px-5 py-2.5 h-[50px] rounded-md font-medium text-bluedot-navy w-full bd-md:w-auto hover:brightness-90"
                 href="https://web.miniextensions.com/test"
                 style="background-color: #BCA9FF;"
                 tabindex="0"
@@ -647,7 +647,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 Apply now
               </a>
               <a
-                class="cta-button flex items-center justify-center duration-200 whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm h-[50px] px-5 py-3 text-size-sm font-medium rounded-md bg-transparent cursor-pointer transition-all border w-full bd-md:w-auto hover:bg-white/10"
+                class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm px-5 py-2.5 h-[50px] rounded-md font-medium bg-transparent border w-full bd-md:w-auto hover:bg-white/10"
                 href="/courses/agi-strategy/1/1"
                 style="border-color: #BCA9FF; color: #BCA9FF;"
                 tabindex="0"
@@ -692,7 +692,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 class="flex gap-3"
               >
                 <a
-                  class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm h-[50px] px-5 py-2.5 font-medium rounded-md cursor-pointer transition-all text-bluedot-navy hover:brightness-90"
+                  class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none px-5 py-2.5 h-[50px] rounded-md font-medium text-bluedot-navy hover:brightness-90"
                   href="https://web.miniextensions.com/test"
                   style="background-color: #BCA9FF;"
                   tabindex="0"
@@ -700,7 +700,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   Apply now
                 </a>
                 <a
-                  class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm h-[50px] px-5 py-2.5 text-size-sm font-medium rounded-md bg-transparent cursor-pointer transition-all border hover:bg-white/10"
+                  class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm px-5 py-2.5 h-[50px] rounded-md font-medium bg-transparent border hover:bg-white/10"
                   href="/courses/agi-strategy/1/1"
                   style="border-color: #BCA9FF; color: #BCA9FF;"
                   tabindex="0"

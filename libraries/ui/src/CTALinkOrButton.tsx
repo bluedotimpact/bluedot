@@ -5,7 +5,7 @@ import { cn } from './utils';
 
 export type CTALinkOrButtonProps = {
   variant?: 'primary' | 'secondary' | 'black' | 'outline-black' | 'ghost' | 'unstyled';
-  size?: 'small' | 'medium';
+  size?: 'small' | 'medium' | 'large';
   withChevron?: boolean;
   withBackChevron?: boolean;
   style?: React.CSSProperties;
@@ -17,6 +17,8 @@ const CTA_BASE_STYLES = 'cta-button flex items-center justify-center transition-
 const CTA_SIZE_STYLES = {
   small: 'text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold',
   medium: 'text-sm px-4 py-3 rounded-sm font-[650]',
+  // 50px-tall hero/landing CTA, used by lander HeroSection variants.
+  large: 'text-size-sm px-5 py-2.5 h-[50px] rounded-md font-medium',
 } as const;
 
 const CTA_VARIANT_STYLES = {
