@@ -15,8 +15,8 @@ export type CTALinkOrButtonProps = {
 const CTA_BASE_STYLES = 'cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none';
 
 const CTA_SIZE_STYLES = {
-  small: 'text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold',
-  medium: 'text-sm px-4 py-3 rounded-sm font-[650]',
+  small: 'text-size-sm bd-md:text-size-xs px-3 py-2.5 h-9 rounded-md font-semibold',
+  medium: 'text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-[650]',
 } as const;
 
 const CTA_VARIANT_STYLES = {

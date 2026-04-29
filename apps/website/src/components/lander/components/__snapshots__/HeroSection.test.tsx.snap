@@ -35,14 +35,14 @@ exports[`HeroSection > renders correctly (snapshot) 1`] = `
               class="flex gap-3"
             >
               <a
-                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 lg:text-size-sm font-medium rounded-md cursor-pointer transition-colors bg-bluedot-normal text-white hover:bg-bluedot-dark focus:bg-bluedot-dark"
+                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 lg:text-size-sm font-medium rounded-md cursor-pointer transition-colors bg-bluedot-normal text-white hover:bg-bluedot-dark focus:bg-bluedot-dark"
                 href="https://example.com/apply"
                 tabindex="0"
               >
                 Apply now
               </a>
               <a
-                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 lg:text-size-sm font-medium rounded-md bg-transparent cursor-pointer transition-colors border border-bluedot-navy/30 text-bluedot-navy hover:border-bluedot-navy/50 hover:bg-bluedot-navy/5 hover:text-bluedot-navy"
+                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 lg:text-size-sm font-medium rounded-md bg-transparent cursor-pointer transition-colors border border-bluedot-navy/30 text-bluedot-navy hover:border-bluedot-navy/50 hover:bg-bluedot-navy/5 hover:text-bluedot-navy"
                 href="/courses/agi-strategy/1"
                 tabindex="0"
               >
@@ -113,7 +113,7 @@ exports[`HeroSection > renders gradient variant correctly (snapshot) 1`] = `
               class="flex gap-3"
             >
               <a
-                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] cta-button--primary bg-bluedot-normal link-on-dark h-10 lg:h-[50px] px-5 py-2.5 lg:text-size-sm font-medium rounded-md cursor-pointer transition-colors text-bluedot-navy hover:brightness-90"
+                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary bg-bluedot-normal link-on-dark h-10 lg:h-[50px] px-5 py-2.5 lg:text-size-sm font-medium rounded-md cursor-pointer transition-colors text-bluedot-navy hover:brightness-90"
                 href="https://example.com/apply"
                 style="background-color: #91cfff;"
                 tabindex="0"
@@ -121,7 +121,7 @@ exports[`HeroSection > renders gradient variant correctly (snapshot) 1`] = `
                 Apply now
               </a>
               <a
-                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-size-xs lg:text-size-sm font-medium rounded-md bg-transparent cursor-pointer transition-colors border hover:bg-white/10"
+                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 text-size-xs lg:text-size-sm font-medium rounded-md bg-transparent cursor-pointer transition-colors border hover:bg-white/10"
                 href="/courses/agi-strategy/1"
                 style="border-color: #91cfff; color: #91cfff;"
                 tabindex="0"
