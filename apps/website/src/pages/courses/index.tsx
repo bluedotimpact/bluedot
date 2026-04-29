@@ -368,7 +368,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
     <article className="flex flex-col">
       <CourseHeader course={course} />
 
-      <p className="mt-6 text-size-md leading-[1.6] font-normal text-bluedot-navy opacity-80">
+      <p className="mt-6 text-size-md leading-[1.6] font-normal text-bluedot-navy/80">
         {course.shortDescription}
       </p>
 
@@ -408,7 +408,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
         {/* No Upcoming Rounds */}
         {!roundsLoading && !isSelfPaced && !showRounds && (
           <div className="flex items-center min-h-[48px] border-l-4 border-bluedot-navy/20 pl-5">
-            <p className="text-[15px] leading-[1.6] font-normal text-bluedot-navy opacity-50">
+            <p className="text-[15px] leading-[1.6] font-normal text-bluedot-navy/50">
               No upcoming rounds.{' '}
               <Link href={`/courses/${course.slug}`} className="text-bluedot-normal font-medium hover:underline cursor-pointer">
                 Learn more about this course
@@ -486,7 +486,7 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
         <div className="w-1 flex-shrink-0 rounded-sm" style={{ backgroundColor: accentColor }} />
         <div className="flex flex-col pl-5">
           <p className="text-[15px] leading-[1.6] font-semibold text-bluedot-navy">Self-paced learning</p>
-          <p className="text-[15px] leading-[1.6] font-normal text-bluedot-navy opacity-50">
+          <p className="text-[15px] leading-[1.6] font-normal text-bluedot-navy/50">
             Open access · {course.durationHours ? `${course.durationHours} hours` : course.durationDescription}
           </p>
           <Link
@@ -507,7 +507,7 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
           <div className="w-1 flex-shrink-0 rounded-sm opacity-30 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" style={{ backgroundColor: accentColor }} />
           <div className="flex flex-col justify-center pl-5">
             <span className="text-[15px] leading-none font-semibold text-bluedot-navy">Self-paced learning</span>
-            <span className="text-[15px] leading-none font-normal text-bluedot-navy opacity-50 mt-1">
+            <span className="text-[15px] leading-none font-normal text-bluedot-navy/50 mt-1">
               Open access · {course.durationHours ? `${course.durationHours} hours` : course.durationDescription}
             </span>
           </div>
