@@ -60,7 +60,7 @@ const WhoYouAreSection = () => {
                   {description}
                 </P>
               </div>
-                <P className="text-size-sm leading-[1.7] text-bluedot-navy/70">
+            </div>
           ))}
         </div>
       </div>
