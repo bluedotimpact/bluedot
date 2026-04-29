@@ -51,12 +51,12 @@ const WhoYouAreSection = () => {
                 >
                   <Icon size={24} className="text-white" />
                 </div>
-                <span className="text-size-md bd-md:text-[20px] font-semibold leading-[130%] flex-grow text-left text-white">
+                <span className="text-size-md font-semibold leading-[130%] flex-grow text-left text-white">
                   {title}
                 </span>
               </div>
               <div className="p-6 bd-md:p-8">
-                <P className="text-size-sm bd-md:text-size-sm leading-[1.7] text-bluedot-navy/70">
+                <P className="text-size-sm leading-[1.7] text-bluedot-navy/70">
                   {description}
                 </P>
               </div>
