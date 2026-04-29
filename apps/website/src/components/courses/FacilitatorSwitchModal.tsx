@@ -12,7 +12,9 @@ import {
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { useEffect, useState } from 'react';
 import { trpc } from '../../utils/trpc';
-import { CheckIcon, ClockIcon, InfoIcon, SwitchUserIcon } from '../icons';
+import {
+  CheckIcon, ClockIcon, InfoIcon, SwitchUserIcon,
+} from '../icons';
 import type { GroupDiscussionWithGroupAndUnit } from '../../server/routers/group-discussions';
 
 const MODAL_TYPE_OPTIONS = [

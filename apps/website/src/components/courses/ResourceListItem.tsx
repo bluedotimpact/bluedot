@@ -23,7 +23,9 @@ import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import ListenToArticleButton from './ListenToArticleButton';
 import RichTextAutoSaveEditor from './exercises/RichTextAutoSaveEditor';
 import { trpc } from '../../utils/trpc';
-import { CheckmarkIcon, ExternalLinkIcon, ThumbIcon, UndoIcon } from '../icons';
+import {
+  CheckmarkIcon, ExternalLinkIcon, ThumbIcon, UndoIcon,
+} from '../icons';
 import type { AppRouter } from '../../server/routers/_app';
 import { optimisticallyUpdateCourseProgress, rollbackCourseProgress } from '../../utils/optimisticCourseProgress';
 
