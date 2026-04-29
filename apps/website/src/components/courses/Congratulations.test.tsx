@@ -54,7 +54,7 @@ describe('Congratulations', () => {
     test('renders hero with course title', () => {
       render(<Congratulations {...defaultProps} />, { wrapper: TrpcProvider });
 
-      expect(screen.getByText(/Hooray! You just finished the AGI Strategy course/)).toBeInTheDocument();
+      expect(screen.getByText(/Congratulations on finishing the AGI Strategy course/)).toBeInTheDocument();
     });
 
     test('renders share and send cards', () => {
