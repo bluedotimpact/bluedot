@@ -11,8 +11,8 @@ const meta = {
   component: Congratulations,
   tags: ['autodocs'],
   decorators: [
-    (Story, { viewMode }) => viewMode === 'docs' ? <Story /> : (
-      <div style={{ paddingInline: '32rem' }}>
+    (Story) => (
+      <div className="-m-8">
         <Story />
       </div>
     ),
