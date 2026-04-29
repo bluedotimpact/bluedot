@@ -35,7 +35,7 @@ exports[`HeroSection > renders correctly (snapshot) 1`] = `
               class="flex gap-3"
             >
               <a
-                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 lg:text-size-sm font-medium rounded-md cursor-pointer transition-colors bg-bluedot-normal text-white hover:bg-[#1a3399] focus:bg-[#1a3399]"
+                class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] cta-button--primary link-on-dark h-10 lg:h-[50px] px-5 py-2.5 lg:text-size-sm font-medium rounded-md cursor-pointer transition-colors bg-bluedot-normal text-white hover:bg-bluedot-dark focus:bg-bluedot-dark"
                 href="https://example.com/apply"
                 tabindex="0"
               >
