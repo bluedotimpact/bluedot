@@ -360,7 +360,7 @@ const EventsSection = () => {
               {/* CTA Button - visible on all screen sizes */}
               <CTALinkOrButton
                 url={EVENTS_SECTION_URL}
-                className="flex h-[44px] px-[17px] text-size-xs font-normal leading-[18.2px] tracking-[0.42px] text-white bg-[#0033CC] rounded-[6px] hover:bg-[#0029A3] transition-all duration-200 whitespace-nowrap"
+                className="flex h-[44px] px-[17px] text-size-xs font-normal leading-[18.2px] tracking-[0.42px] text-white bg-bluedot-normal rounded-[6px] hover:bg-bluedot-dark transition-all duration-200 whitespace-nowrap"
               >
                 See upcoming events
               </CTALinkOrButton>
