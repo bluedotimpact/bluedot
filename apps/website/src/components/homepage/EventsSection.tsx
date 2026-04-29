@@ -65,13 +65,14 @@ const DateBadge = ({ month, day }: { month: string; day: string }) => {
     <div className="relative size-16 lg:size-20 bg-white rounded-lg lg:rounded-lg shadow-[0px_1.6px_4.8px_1.6px_rgba(0,0,0,0.05),0px_0.8px_1.6px_0px_rgba(0,0,0,0.15)] lg:shadow-[0px_2px_6px_2px_rgba(0,0,0,0.05),0px_1px_2px_0px_rgba(0,0,0,0.15)] overflow-hidden flex flex-col">
       {/* Month Label */}
       <div className="relative flex items-center justify-center py-[4.8px] lg:py-1.5 border-b border-bluedot-navy/10 bg-gradient-to-r from-blue-600 to-blue-500">
-        <span className="text-[11.2px] lg:text-size-xs font-semibold uppercase tracking-[0.4px] lg:tracking-[0.5px] text-white leading-[11.2px] lg:leading-[14px]">
+        <span className="text-size-xxs lg:text-size-xs font-semibold uppercase tracking-[0.4px] lg:tracking-[0.5px] text-white leading-[11.2px] lg:leading-[14px]">
           {month}
         </span>
       </div>
 
       {/* Day Number */}
       <div className="relative flex items-center justify-center h-[43.2px] lg:h-[54px]">
+        {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: day-number sized to fit 43.2px / 54px containers */}
         <span className="text-[32px] lg:text-[40px] font-normal text-bluedot-navy tracking-[-0.8px] lg:tracking-[-1px] leading-tight">
           {day}
         </span>
@@ -92,14 +93,14 @@ const EventCard = ({ event }: { event: Event }) => {
       <DateBadge month={month} day={day} />
 
       <div className="flex flex-col gap-3">
-        <p className="text-[10px] font-medium uppercase tracking-[0.5px] leading-[14px] text-[#271dcd]">
+        <p className="text-size-xxs font-medium uppercase tracking-[0.5px] leading-[14px] text-[#271dcd]">
           {event.location}
         </p>
         <a
           href={event.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[20px] bd-md:text-size-lg font-normal leading-[1.3] tracking-[-0.4px] bd-md:tracking-[-0.18px] text-bluedot-navy hover:text-[#271dcd] transition-colors"
+          className="text-size-md bd-md:text-size-lg font-normal leading-[1.3] tracking-[-0.4px] bd-md:tracking-[-0.18px] text-bluedot-navy hover:text-[#271dcd] transition-colors"
           aria-label={`${event.title} (opens in new tab)`}
         >
           <h3>
@@ -314,7 +315,7 @@ const EventsSection = () => {
         <div className="flex flex-col items-center text-center gap-8 bd-md:gap-12 mb-12 xl:mb-16">
           <h2
             id="events-section-heading"
-            className="text-[28px] bd-md:text-[36px] lg:text-[40px] xl:text-[48px] font-medium leading-[125%] text-bluedot-navy tracking-[-1px] max-w-[666px]"
+            className="text-size-xl bd-md:text-size-2xl font-medium leading-[125%] text-bluedot-navy tracking-[-1px] max-w-[666px]"
             style={{ fontFeatureSettings: '\'ss04\' on' }}
           >
             Join an event near you

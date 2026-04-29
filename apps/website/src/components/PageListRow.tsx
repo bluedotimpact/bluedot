@@ -28,13 +28,13 @@ const accentBarClassName = clsx(
   'group-hover:bg-bluedot-normal group-focus-within:bg-bluedot-normal',
 );
 
-const arrowCtaClassName = 'ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap';
+const arrowCtaClassName = 'ml-5 flex shrink-0 items-center text-size-sm leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap';
 
 export const pageSectionHeadingClass = 'bluedot-section-heading';
 
-const titleClassName = 'text-[15px] leading-[1.45] font-semibold text-bluedot-navy';
-const summaryClassName = 'mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62';
-const metaClassName = 'mt-1 text-[15px] leading-[1.6] text-bluedot-navy/50';
+const titleClassName = 'text-size-sm leading-[1.45] font-semibold text-bluedot-navy';
+const summaryClassName = 'mt-1 text-size-sm leading-[1.6] text-bluedot-navy/62';
+const metaClassName = 'mt-1 text-size-sm leading-[1.6] text-bluedot-navy/50';
 
 export const PageListRow: React.FC<PageListRowProps> = ({
   href,

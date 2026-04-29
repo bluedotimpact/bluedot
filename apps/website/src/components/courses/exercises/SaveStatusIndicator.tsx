@@ -25,7 +25,7 @@ const getStatusConfig = (savedText: string): Record<SaveStatus, {
     text: '', // No typing message shown - auto-saves after 5 seconds
   },
   saving: {
-    icon: <RiLoader4Line className="animate-spin -translate-y-[0.5px]" size={16} style={{ color: '#1641D9' }} />,
+    icon: <RiLoader4Line className="animate-spin -translate-y-[0.5px] text-bluedot-normal" size={16} />,
     text: 'Saving...',
   },
   saved: {

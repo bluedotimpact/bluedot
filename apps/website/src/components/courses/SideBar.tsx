@@ -107,7 +107,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                       </p>
                     </div>
                     {chunk.estimatedTime && (
-                      <div className="flex gap-1 text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-bluedot-navy/60 mt-[8px]">
+                      <div className="flex gap-1 text-size-xs leading-[140%] tracking-[-0.005em] font-medium text-bluedot-navy/60 mt-[8px]">
                         <span>
                           {formatTime(chunk.estimatedTime)}
                         </span>
@@ -146,7 +146,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                     </p>
                   </div>
                   {chunk.estimatedTime && (
-                    <div className="flex gap-1 text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-bluedot-navy/60 mt-[8px]">
+                    <div className="flex gap-1 text-size-xs leading-[140%] tracking-[-0.005em] font-medium text-bluedot-navy/60 mt-[8px]">
                       <span>
                         {formatTime(chunk.estimatedTime)}
                       </span>
@@ -254,7 +254,7 @@ const SideBar: React.FC<SideBarProps> = ({
           <CourseIcon courseSlug={courseSlug} size="xlarge" />
           <div className="flex flex-1 min-w-0">
             <div className="flex flex-col">
-              <h2 className="font-semibold text-[26px] leading-[44px] text-bluedot-navy">{courseTitle}</h2>
+              <h2 className="font-semibold text-size-lg leading-[44px] text-bluedot-navy">{courseTitle}</h2>
               {courseProgressData && courseProgressData.courseProgress.totalCount > 0 && (
                 <P className="opacity-60">{courseProgressData.courseProgress.percentage}% completed</P>
               )}

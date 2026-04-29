@@ -335,7 +335,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     class="mobile-nav-cta flex flex-col gap-4 pt-6 mt-6 border-t border-color-divider"
                   >
                     <a
-                      class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--primary link-on-dark mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white"
+                      class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary link-on-dark mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white"
                       href="/login?register=true&redirect_to=%2Fcourses%2Fagi-strategy"
                       tabindex="0"
                     >
@@ -573,14 +573,14 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="nav-cta flex flex-row items-center gap-4"
             >
               <a
-                class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--secondary nav-cta__secondary-cta flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-white/15 border border-white/20 text-white hover:text-white hover:bg-white/20 backdrop-blur-sm"
+                class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--secondary nav-cta__secondary-cta flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-white/15 border border-white/20 text-white hover:text-white hover:bg-white/20 backdrop-blur-sm"
                 href="/login?redirect_to=%2Fcourses%2Fagi-strategy"
                 tabindex="0"
               >
                 Sign in
               </a>
               <a
-                class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm cta-button--primary link-on-dark nav-cta__primary-cta hidden bd-md:flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-white hover:bg-white/90 text-bluedot-darker hover:text-bluedot-darker"
+                class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary link-on-dark nav-cta__primary-cta hidden bd-md:flex px-3 py-[5px] rounded-[5px] font-[450] leading-[160%] items-center justify-center bg-white hover:bg-white/90 text-bluedot-darker hover:text-bluedot-darker"
                 href="/login?register=true&redirect_to=%2Fcourses%2Fagi-strategy"
                 tabindex="0"
               >
@@ -623,7 +623,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 COHORT-BASED COURSE
               </p>
               <h1
-                class="text-[32px] bd-md:text-[40px] leading-tight font-semibold tracking-[-0.5px] text-white"
+                class="text-size-xl leading-tight font-semibold tracking-[-0.5px] text-white"
               >
                 AGI Strategy
               </h1>
@@ -639,7 +639,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="flex flex-col bd-md:flex-row gap-3 w-full bd-md:w-auto bd-md:justify-center"
             >
               <a
-                class="cta-button flex items-center justify-center duration-200 whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm h-[50px] px-5 py-3 font-medium rounded-md cursor-pointer transition-all text-bluedot-navy w-full bd-md:w-auto hover:brightness-90"
+                class="cta-button flex items-center justify-center duration-200 whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs h-[50px] px-5 py-3 font-medium rounded-md cursor-pointer transition-all text-bluedot-navy w-full bd-md:w-auto hover:brightness-90"
                 href="https://web.miniextensions.com/test"
                 style="background-color: #BCA9FF;"
                 tabindex="0"
@@ -647,7 +647,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 Apply now
               </a>
               <a
-                class="cta-button flex items-center justify-center duration-200 whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm h-[50px] px-5 py-3 text-size-sm font-medium rounded-md bg-transparent cursor-pointer transition-all border w-full bd-md:w-auto hover:bg-white/10"
+                class="cta-button flex items-center justify-center duration-200 whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs h-[50px] px-5 py-3 text-size-sm font-medium rounded-md bg-transparent cursor-pointer transition-all border w-full bd-md:w-auto hover:bg-white/10"
                 href="/courses/agi-strategy/1/1"
                 style="border-color: #BCA9FF; color: #BCA9FF;"
                 tabindex="0"
@@ -692,7 +692,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 class="flex gap-3"
               >
                 <a
-                  class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm h-[50px] px-5 py-2.5 font-medium rounded-md cursor-pointer transition-all text-bluedot-navy hover:brightness-90"
+                  class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs h-[50px] px-5 py-2.5 font-medium rounded-md cursor-pointer transition-all text-bluedot-navy hover:brightness-90"
                   href="https://web.miniextensions.com/test"
                   style="background-color: #BCA9FF;"
                   tabindex="0"
@@ -700,7 +700,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   Apply now
                 </a>
                 <a
-                  class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm h-[50px] px-5 py-2.5 text-size-sm font-medium rounded-md bg-transparent cursor-pointer transition-all border hover:bg-white/10"
+                  class="cta-button flex items-center justify-center duration-200 w-fit whitespace-nowrap not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs h-[50px] px-5 py-2.5 text-size-sm font-medium rounded-md bg-transparent cursor-pointer transition-all border hover:bg-white/10"
                   href="/courses/agi-strategy/1/1"
                   style="border-color: #BCA9FF; color: #BCA9FF;"
                   tabindex="0"
@@ -891,19 +891,19 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       class="min-w-0 flex-1"
                     >
                       <p
-                        class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
+                        class="text-size-sm leading-[1.45] font-semibold text-bluedot-navy"
                       >
                         Technical AI Safety
                       </p>
                       <p
-                        class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
+                        class="mt-1 text-size-sm leading-[1.6] text-bluedot-navy/62"
                       >
                         Interpretability, evals, alignment research. For people ready to work on the technical problems.
                       </p>
                     </div>
                   </div>
                   <div
-                    class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
+                    class="ml-5 flex shrink-0 items-center text-size-sm leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
                   >
                     <span
                       class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
@@ -935,19 +935,19 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       class="min-w-0 flex-1"
                     >
                       <p
-                        class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
+                        class="text-size-sm leading-[1.45] font-semibold text-bluedot-navy"
                       >
                         AI Governance
                       </p>
                       <p
-                        class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
+                        class="mt-1 text-size-sm leading-[1.6] text-bluedot-navy/62"
                       >
                         Policy, institutions, international coordination. For people shaping how these systems get governed.
                       </p>
                     </div>
                   </div>
                   <div
-                    class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
+                    class="ml-5 flex shrink-0 items-center text-size-sm leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
                   >
                     <span
                       class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
@@ -979,19 +979,19 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       class="min-w-0 flex-1"
                     >
                       <p
-                        class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
+                        class="text-size-sm leading-[1.45] font-semibold text-bluedot-navy"
                       >
                         Biosecurity
                       </p>
                       <p
-                        class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
+                        class="mt-1 text-size-sm leading-[1.6] text-bluedot-navy/62"
                       >
                         Pandemic preparedness, early warning systems, policy. For people building defences against bio risks.
                       </p>
                     </div>
                   </div>
                   <div
-                    class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
+                    class="ml-5 flex shrink-0 items-center text-size-sm leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
                   >
                     <span
                       class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
@@ -1023,19 +1023,19 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       class="min-w-0 flex-1"
                     >
                       <p
-                        class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
+                        class="text-size-sm leading-[1.45] font-semibold text-bluedot-navy"
                       >
                         Rapid Grants
                       </p>
                       <p
-                        class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
+                        class="mt-1 text-size-sm leading-[1.6] text-bluedot-navy/62"
                       >
                         Small, fast funding for concrete AI safety work. Five-minute application, decisions in days, money upfront by default.
                       </p>
                     </div>
                   </div>
                   <div
-                    class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
+                    class="ml-5 flex shrink-0 items-center text-size-sm leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
                   >
                     <span
                       class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
@@ -1067,19 +1067,19 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       class="min-w-0 flex-1"
                     >
                       <p
-                        class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
+                        class="text-size-sm leading-[1.45] font-semibold text-bluedot-navy"
                       >
                         Career Transition Grants
                       </p>
                       <p
-                        class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
+                        class="mt-1 text-size-sm leading-[1.6] text-bluedot-navy/62"
                       >
                         Funding to enable you to work full-time on impactful AI safety work. Propose your plan and we'll back you.
                       </p>
                     </div>
                   </div>
                   <div
-                    class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
+                    class="ml-5 flex shrink-0 items-center text-size-sm leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
                   >
                     <span
                       class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
@@ -1110,7 +1110,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24 flex flex-col items-center gap-8 md:gap-10"
       >
         <h2
-          class="bluedot-h2 not-prose w-full bd-md:max-w-[840px] text-[28px] bd-md:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]"
+          class="bluedot-h2 not-prose w-full bd-md:max-w-[840px] text-size-xl text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]"
         >
           How the course works
         </h2>
@@ -1137,7 +1137,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   class="flex-1 min-w-0"
                 >
                   <p
-                    class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
+                    class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
                   >
                     Intensive (~5 days at ~5h/day) or part-time (~5 weeks at ~5h/week). Same content, different pace.
                   </p>
@@ -1164,7 +1164,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   class="flex-1 min-w-0"
                 >
                   <p
-                    class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
+                    class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
                   >
                     Each day or week, you will:
                     <br />
@@ -1204,7 +1204,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   class="flex-1 min-w-0"
                 >
                   <p
-                    class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
+                    class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
                   >
                     All discussions will be facilitated by an AI safety expert.
                   </p>
@@ -1231,7 +1231,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   class="flex-1 min-w-0"
                 >
                   <p
-                    class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
+                    class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
                   >
                     This course is freely available and operates on a "pay-what-you-want" model.
                   </p>
@@ -1293,7 +1293,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           class="w-full bd-md:max-w-[840px] bd-md:mx-auto flex flex-col gap-8"
         >
           <blockquote
-            class="text-[22px] bd-md:text-size-lg lg:text-[28px] leading-[1.5] font-medium text-bluedot-navy"
+            class="text-size-lg lg:text-[28px] leading-[1.5] font-medium text-bluedot-navy"
           >
             "We should not underestimate the real threats coming from AI [while] we have a narrowing window of opportunity to guide this technology responsibly."
           </blockquote>
@@ -1312,12 +1312,12 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="flex flex-col"
             >
               <div
-                class="text-size-sm bd-md:text-[17px] font-semibold leading-[1.4] text-bluedot-navy group-hover:text-bluedot-normal transition-colors"
+                class="text-size-sm bd-md:text-size-md font-semibold leading-[1.4] text-bluedot-navy group-hover:text-bluedot-normal transition-colors"
               >
                 Ursula von der Leyen
               </div>
               <div
-                class="text-[15px] bd-md:text-size-sm leading-[1.5] text-bluedot-navy/60"
+                class="text-size-sm leading-[1.5] text-bluedot-navy/60"
               >
                 President, European Commission
               </div>
@@ -1411,7 +1411,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           class="mx-auto flex max-w-[928px] flex-col gap-12 md:gap-16"
         >
           <h2
-            class="bd-md:text-[32px] text-bluedot-navy text-center text-[28px] leading-[125%] font-semibold tracking-[-0.01em] xl:text-[36px]"
+            class="text-bluedot-navy text-center text-size-xl leading-[125%] font-semibold tracking-[-0.01em]"
           >
             Frequently Asked Questions
           </h2>
@@ -1886,12 +1886,12 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               src="/images/agi-strategy/bluedot-icon.svg"
             />
             <h3
-              class="bluedot-h3 not-prose max-w-[238px] bd-md:max-w-[496px] text-[20px] bd-md:text-[36px] font-[600] text-white leading-[140%] bd-md:leading-[125%]"
+              class="bluedot-h3 not-prose max-w-[238px] bd-md:max-w-[496px] text-size-md bd-md:text-[36px] font-[600] text-white leading-[140%] bd-md:leading-[125%]"
             >
               Start building towards a good future today
             </h3>
             <a
-              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm hover:text-bluedot-navy font-medium leading-[24px] px-5 py-3 h-12 bg-white text-bluedot-navy rounded-md hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs hover:text-bluedot-navy font-medium leading-[24px] px-5 py-3 h-12 bg-white text-bluedot-navy rounded-md hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
               href="https://web.miniextensions.com/test"
               tabindex="0"
             >

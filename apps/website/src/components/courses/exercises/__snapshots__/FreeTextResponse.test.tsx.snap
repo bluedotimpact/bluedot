@@ -12,7 +12,7 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
         class="relative w-full z-[1]"
       >
         <div
-          class="resize-y overflow-auto relative box-border w-full bg-white rounded-md z-[1] p-4 border-[0.5px] border-bluedot-navy/25 focus-within:border-[1.25px] focus-within:border-[#1641D9] focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 [&::-webkit-resizer]:hidden cursor-not-allowed opacity-60 min-h-[140px]"
+          class="resize-y overflow-auto relative box-border w-full bg-white rounded-md z-[1] p-4 border-[0.5px] border-bluedot-navy/25 focus-within:border-[1.25px] focus-within:border-bluedot-normal focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 [&::-webkit-resizer]:hidden cursor-not-allowed opacity-60 min-h-[140px]"
         >
           <div
             aria-label="Rich text input area"
@@ -80,7 +80,7 @@ exports[`FreeTextResponse > renders default as expected 1`] = `
       class="w-full flex"
     >
       <a
-        class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark !w-auto !whitespace-normal text-center min-w-0"
+        class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark !w-auto !whitespace-normal text-center min-w-0"
         href="/login?register=true&redirect_to=%2Ftest-path"
         tabindex="0"
       >
@@ -121,7 +121,7 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
         class="relative w-full z-[1]"
       >
         <div
-          class="resize-y overflow-auto relative cursor-text box-border w-full bg-white rounded-md z-[1] p-4 border-[0.5px] border-bluedot-navy/25 focus-within:border-[1.25px] focus-within:border-[#1641D9] focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 [&::-webkit-resizer]:hidden min-h-[140px]"
+          class="resize-y overflow-auto relative cursor-text box-border w-full bg-white rounded-md z-[1] p-4 border-[0.5px] border-bluedot-navy/25 focus-within:border-[1.25px] focus-within:border-bluedot-normal focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 [&::-webkit-resizer]:hidden min-h-[140px]"
         >
           <div
             aria-describedby="save-status-message"
@@ -204,7 +204,7 @@ exports[`FreeTextResponse > renders logged in as expected 1`] = `
     <div>
       <button
         aria-label="Mark exercise as complete"
-        class="flex flex-row justify-center items-center px-2.5 py-1.5 gap-2 h-[30px] rounded-md border-none font-medium text-[13px] leading-[140%] tracking-[-0.005em] transition-all duration-200 bg-bluedot-normal text-white opacity-60 cursor-not-allowed"
+        class="flex flex-row justify-center items-center px-2.5 py-1.5 gap-2 h-[30px] rounded-md border-none font-medium leading-[140%] tracking-[-0.005em] transition-all duration-200 bg-bluedot-normal text-white opacity-60 cursor-not-allowed"
         disabled=""
         type="button"
       >
@@ -227,7 +227,7 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
         class="relative w-full z-[1]"
       >
         <div
-          class="resize-y overflow-auto relative cursor-text box-border w-full bg-white rounded-md z-[1] p-4 border-[0.5px] border-bluedot-navy/25 focus-within:border-[1.25px] focus-within:border-[#1641D9] focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 [&::-webkit-resizer]:hidden min-h-[140px]"
+          class="resize-y overflow-auto relative cursor-text box-border w-full bg-white rounded-md z-[1] p-4 border-[0.5px] border-bluedot-navy/25 focus-within:border-[1.25px] focus-within:border-bluedot-normal focus-within:shadow-[0px_0px_10px_rgba(34,68,187,0.3)] transition-all duration-200 [&::-webkit-resizer]:hidden min-h-[140px]"
         >
           <div
             aria-describedby="save-status-message"
@@ -305,7 +305,7 @@ exports[`FreeTextResponse > renders with saved exercise response 1`] = `
     <div>
       <button
         aria-label="Mark exercise as complete"
-        class="flex flex-row justify-center items-center px-2.5 py-1.5 gap-2 h-[30px] rounded-md border-none font-medium text-[13px] leading-[140%] tracking-[-0.005em] transition-all duration-200 bg-bluedot-normal text-white cursor-pointer"
+        class="flex flex-row justify-center items-center px-2.5 py-1.5 gap-2 h-[30px] rounded-md border-none font-medium leading-[140%] tracking-[-0.005em] transition-all duration-200 bg-bluedot-normal text-white cursor-pointer"
         type="button"
       >
         Complete

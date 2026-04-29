@@ -217,6 +217,7 @@ export default [
       // Custom rules
       '@bluedot/custom/no-default-tailwind-tokens': ['error'],
       '@bluedot/custom/no-overflow-scroll': ['error'],
+      '@bluedot/custom/no-arbitrary-text-size': ['error'],
     },
   },
 

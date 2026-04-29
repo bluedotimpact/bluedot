@@ -110,7 +110,7 @@ const ShareButtons: React.FC<{ shareUrl: string; shareText: string }> = ({ share
   const linkedInUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
   const xUrl = `https://x.com/intent/post?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
 
-  const baseButtonClasses = 'h-10 px-4 py-[7px] rounded-[5px] flex items-center justify-center gap-2 font-medium text-[13px] leading-[22px] transition-opacity hover:opacity-90';
+  const baseButtonClasses = 'h-10 px-4 py-[7px] rounded-[5px] flex items-center justify-center gap-2 font-medium text-size-xs leading-[22px] transition-opacity hover:opacity-90';
 
   return (
     <div className="flex flex-col sm:flex-row gap-2 justify-center">
@@ -239,7 +239,7 @@ const CertificatePage = ({
         <div className="hidden md:block">
           <Breadcrumbs
             route={certificateRoute}
-            className="text-[13px] leading-[1.4] tracking-[-0.065px]"
+            className="text-size-xs leading-[1.4] tracking-[-0.065px]"
           />
         </div>
       )}

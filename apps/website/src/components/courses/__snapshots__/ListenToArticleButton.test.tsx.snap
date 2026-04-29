@@ -30,7 +30,7 @@ exports[`ListenToArticleButton > should render correctly 1`] = `
     />
   </svg>
   <span
-    class="text-[13px] font-medium leading-[140%] tracking-[-0.005em] text-[#6A6F7A] group-hover:text-bluedot-navy transition-colors duration-200"
+    class="text-size-xs font-medium leading-[140%] tracking-[-0.005em] text-[#6A6F7A] group-hover:text-bluedot-navy transition-colors duration-200"
   >
     Listen to article
   </span>

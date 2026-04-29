@@ -18,12 +18,12 @@ exports[`CourseSection > renders as expected 1`] = `
             class="flex flex-col gap-5"
           >
             <h1
-              class="bluedot-h1 not-prose text-[28px] md:text-[36px] lg:text-[40px] xl:text-[48px] font-medium leading-tight tracking-[-1px]"
+              class="bluedot-h1 not-prose text-size-xl bd-md:text-size-2xl font-medium leading-tight tracking-[-1px]"
             >
               Start making an impact today
             </h1>
             <p
-              class="bluedot-p not-prose text-size-sm md:text-[20px] leading-[1.55] tracking-[-0.005em] opacity-70 max-w-4xl"
+              class="bluedot-p not-prose text-size-sm md:text-size-md leading-[1.55] tracking-[-0.005em] opacity-70 max-w-4xl"
             >
               Do you want to help build an awesome, safe future with AI? Apply to one of our free courses today. We'll help you ensure that humanity safely navigates the transition to transformative AI.
             </p>
@@ -215,17 +215,17 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="flex flex-wrap gap-2"
                     >
                       <span
-                        class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                        class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                       >
                         25H
                       </span>
                       <span
-                        class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                        class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                       >
                         Cohort-based
                       </span>
                       <span
-                        class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                        class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                       >
                         Every month
                       </span>
@@ -321,17 +321,17 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="flex flex-wrap gap-2"
                     >
                       <span
-                        class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                        class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                       >
                         30H
                       </span>
                       <span
-                        class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                        class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                       >
                         Cohort-based
                       </span>
                       <span
-                        class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                        class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                       >
                         Every month
                       </span>
@@ -397,17 +397,17 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="flex flex-wrap gap-2"
                     >
                       <span
-                        class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                        class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                       >
                         30H
                       </span>
                       <span
-                        class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                        class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                       >
                         Cohort-based
                       </span>
                       <span
-                        class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                        class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                       >
                         Every month
                       </span>
@@ -454,7 +454,7 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="flex flex-col gap-4"
                     >
                       <h3
-                        class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[23px]"
+                        class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-size-lg"
                       >
                         Frontier AI Governance
                         <span
@@ -473,17 +473,17 @@ exports[`CourseSection > renders as expected 1`] = `
                       class="flex flex-wrap gap-2"
                     >
                       <span
-                        class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                        class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                       >
                         25H
                       </span>
                       <span
-                        class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                        class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                       >
                         Cohort-based
                       </span>
                       <span
-                        class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                        class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                       >
                         Every month
                       </span>
@@ -564,17 +564,17 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-wrap gap-2"
                       >
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           25H
                         </span>
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Cohort-based
                         </span>
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Every month
                         </span>
@@ -640,17 +640,17 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-wrap gap-2"
                       >
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           30H
                         </span>
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Cohort-based
                         </span>
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Every month
                         </span>
@@ -716,17 +716,17 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-wrap gap-2"
                       >
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           30H
                         </span>
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Cohort-based
                         </span>
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Every month
                         </span>
@@ -773,7 +773,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[23px]"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-size-lg"
                         >
                           Frontier AI Governance
                           <span
@@ -792,17 +792,17 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-wrap gap-2"
                       >
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           25H
                         </span>
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Cohort-based
                         </span>
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Every month
                         </span>
@@ -868,17 +868,17 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-wrap gap-2"
                       >
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           25H
                         </span>
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Cohort-based
                         </span>
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Every month
                         </span>
@@ -944,17 +944,17 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-wrap gap-2"
                       >
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           30H
                         </span>
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Cohort-based
                         </span>
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Every month
                         </span>
@@ -1020,17 +1020,17 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-wrap gap-2"
                       >
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           30H
                         </span>
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Cohort-based
                         </span>
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Every month
                         </span>
@@ -1077,7 +1077,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[23px]"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-size-lg"
                         >
                           Frontier AI Governance
                           <span
@@ -1096,17 +1096,17 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-wrap gap-2"
                       >
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           25H
                         </span>
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Cohort-based
                         </span>
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Every month
                         </span>
@@ -1172,17 +1172,17 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-wrap gap-2"
                       >
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           25H
                         </span>
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Cohort-based
                         </span>
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Every month
                         </span>
@@ -1248,17 +1248,17 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-wrap gap-2"
                       >
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           30H
                         </span>
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Cohort-based
                         </span>
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Every month
                         </span>
@@ -1324,17 +1324,17 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-wrap gap-2"
                       >
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           30H
                         </span>
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Cohort-based
                         </span>
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Every month
                         </span>
@@ -1381,7 +1381,7 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-col gap-4"
                       >
                         <h3
-                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-[23px]"
+                          class="bluedot-h3 not-prose font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-size-lg"
                         >
                           Frontier AI Governance
                           <span
@@ -1400,17 +1400,17 @@ exports[`CourseSection > renders as expected 1`] = `
                         class="flex flex-wrap gap-2"
                       >
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           25H
                         </span>
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Cohort-based
                         </span>
                         <span
-                          class="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+                          class="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
                         >
                           Every month
                         </span>
@@ -1430,7 +1430,7 @@ exports[`CourseSection > renders as expected 1`] = `
               type="button"
             >
               <span
-                class="text-bluedot-navy text-[22.4px] font-medium select-none"
+                class="text-bluedot-navy text-size-lg font-medium select-none"
                 style="transform: scaleX(-1);"
               >
                 →
@@ -1442,7 +1442,7 @@ exports[`CourseSection > renders as expected 1`] = `
               type="button"
             >
               <span
-                class="text-bluedot-navy text-[22.4px] font-medium select-none"
+                class="text-bluedot-navy text-size-lg font-medium select-none"
                 style="transform: none;"
               >
                 →

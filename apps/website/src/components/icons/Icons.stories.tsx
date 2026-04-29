@@ -41,7 +41,7 @@ const IconCell = ({ name, children, note }: IconCellProps) => (
   <div className="flex flex-col items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white p-4 text-center">
     <div className="text-bluedot-navy flex min-h-[48px] items-center justify-center">{children}</div>
     <div className="text-size-xs font-medium text-gray-800">{name}</div>
-    {note && <div className="text-[10px] text-gray-500">{note}</div>}
+    {note && <div className="text-size-xxs text-gray-500">{note}</div>}
   </div>
 );
 

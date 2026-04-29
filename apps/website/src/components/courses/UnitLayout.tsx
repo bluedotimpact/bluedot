@@ -99,7 +99,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
           <CourseIcon courseSlug={courseSlug} size="small" />
           <div className="mobile-unit-header__course-title-container flex flex-col justify-center text-left flex-1 min-w-0">
             <div className="mobile-unit-header__course-title-row flex items-center gap-1">
-              <p className="mobile-unit-header__course-title text-[17px] font-semibold leading-[120%] tracking-[-0.5%] text-bluedot-navy truncate">{unit.courseTitle}</p>
+              <p className="mobile-unit-header__course-title text-size-md font-semibold leading-[120%] tracking-[-0.5%] text-bluedot-navy truncate">{unit.courseTitle}</p>
               <FaChevronDown className="size-3 text-bluedot-navy flex-shrink-0" />
             </div>
           </div>
@@ -345,7 +345,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsSidebarHidden(!isSidebarHidden)}
-                  className="flex items-center gap-[8px] text-[13px] font-medium text-bluedot-navy hover:opacity-80 transition-opacity cursor-pointer"
+                  className="flex items-center gap-[8px] text-size-xs font-medium text-bluedot-navy hover:opacity-80 transition-opacity cursor-pointer"
                   aria-label={isSidebarHidden ? 'Show sidebar' : 'Hide sidebar'}
                 >
                   <FaBars className="size-[16px]" />
@@ -358,19 +358,19 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               <nav className="flex items-center gap-[8px] flex-1 min-h-[18px] min-w-0">
                 <A
                   href={ROUTES.courses.url}
-                  className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-bluedot-navy transition-colors no-underline"
+                  className="text-size-xs font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-bluedot-navy transition-colors no-underline"
                 >
                   Courses
                 </A>
                 <FaChevronRight className="size-[14px] text-[#6A6F7A] flex-shrink-0 opacity-50" />
                 <A
                   href={`/courses/${unit.courseSlug}`}
-                  className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-bluedot-navy transition-colors no-underline truncate"
+                  className="text-size-xs font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-bluedot-navy transition-colors no-underline truncate"
                 >
                   {unit.courseTitle}
                 </A>
                 <FaChevronRight className="size-[14px] text-[#6A6F7A] flex-shrink-0 opacity-50" />
-                <span className="text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy truncate" title={`${unitNumber}. ${unit.title}`}>
+                <span className="text-size-xs font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy truncate" title={`${unitNumber}. ${unit.title}`}>
                   {unitNumber}. {unit.title}
                 </span>
               </nav>
@@ -379,7 +379,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               <div className="flex items-center gap-[20px] min-h-[18px]">
                 <button
                   type="button"
-                  className="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                  className="flex items-center gap-1 text-size-xs font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                   disabled={isFirstChunk && !prevUnit}
                   onClick={handlePrevClick}
                   aria-label="Previous"
@@ -389,7 +389,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 </button>
                 <button
                   type="button"
-                  className="flex items-center gap-1 text-[13px] font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                  className="flex items-center gap-1 text-size-xs font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                   disabled={isLastChunk && !nextUnit}
                   onClick={handleNextClick}
                   aria-label="Next"
@@ -422,8 +422,9 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
           <Section className="unit__main !border-none !pt-0 !mt-0 md:!max-w-none md:!mx-0 md:!px-0">
             <div className="unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto px-5 sm:px-spacing-x pt-6 md:pt-8">
               <div className="unit__title-container">
-                <P className="unit__course-title font-semibold text-[13px] leading-[140%] tracking-[0.04em] uppercase text-bluedot-normal mb-2">Unit {unit.unitNumber}: {unit.title}</P>
+                <P className="unit__course-title font-semibold text-size-xs leading-[140%] tracking-[0.04em] uppercase text-bluedot-normal mb-2">Unit {unit.unitNumber}: {unit.title}</P>
                 {chunk?.chunkTitle && (
+                  // eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: standalone H1 in course-unit chrome, fixed 32px is intentional
                   <H1 className="unit__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-bluedot-navy">{chunk.chunkTitle}</H1>
                 )}
               </div>

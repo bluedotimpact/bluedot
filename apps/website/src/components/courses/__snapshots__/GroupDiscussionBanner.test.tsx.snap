@@ -60,7 +60,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
         id="discussion-banner-desktop-container"
       >
         <a
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--primary link-on-dark bg-bluedot-normal flex items-center gap-[6px]"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-3 py-2.5 h-9 rounded-md font-semibold cta-button--primary link-on-dark bg-bluedot-normal flex items-center gap-[6px]"
           href="https://zoom.us/j/123456789"
           rel="noopener noreferrer"
           tabindex="0"
@@ -95,7 +95,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
           </div>
         </a>
         <button
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex items-center gap-[6px]"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex items-center gap-[6px]"
           type="button"
         >
           <svg
@@ -114,7 +114,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
           Host key: 123456
         </button>
         <a
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex items-center gap-[6px]"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex items-center gap-[6px]"
           href="https://docs.google.com/document/d/abc123"
           rel="noopener noreferrer"
           tabindex="0"
@@ -126,7 +126,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
           aria-expanded="false"
           aria-haspopup="true"
           aria-label="More discussion options"
-          class="flex items-center justify-center p-2 rounded-md border border-bluedot-normal cursor-pointer ml-auto border-none bg-transparent text-bluedot-normal hover:bg-bluedot-lighter px-3 py-2.5 h-9 text-[13px] font-medium whitespace-nowrap"
+          class="flex items-center justify-center p-2 rounded-md border border-bluedot-normal cursor-pointer ml-auto border-none bg-transparent hover:bg-bluedot-lighter px-3 py-2.5 h-9 text-size-xs font-medium whitespace-nowrap"
           data-rac=""
           data-react-aria-pressable="true"
           id="react-aria-:r4:"
@@ -169,7 +169,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
       id="discussion-banner-mobile-container"
     >
       <a
-        class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--primary link-on-dark bg-bluedot-normal w-full flex-1 gap-[6px]"
+        class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-3 py-2.5 h-9 rounded-md font-semibold cta-button--primary link-on-dark bg-bluedot-normal w-full flex-1 gap-[6px]"
         href="https://zoom.us/j/123456789"
         rel="noopener noreferrer"
         tabindex="0"
@@ -204,7 +204,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
         </div>
       </a>
       <button
-        class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter w-full flex-1 gap-[6px]"
+        class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter w-full flex-1 gap-[6px]"
         type="button"
       >
         <svg
@@ -226,7 +226,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for facili
         aria-expanded="false"
         aria-haspopup="true"
         aria-label="More discussion options"
-        class="flex items-center justify-center p-2 rounded-md text-bluedot-normal hover:bg-bluedot-lighter cursor-pointer flex-1 border border-[#B5C3EC] w-full px-3 py-2.5 h-9 text-[13px] font-medium"
+        class="flex items-center justify-center p-2 rounded-md hover:bg-bluedot-lighter cursor-pointer flex-1 border border-[#B5C3EC] w-full px-3 py-2.5 h-9 text-size-xs font-medium"
         data-rac=""
         data-react-aria-pressable="true"
         id="react-aria-:r8:"
@@ -300,7 +300,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
         id="discussion-banner-desktop-container"
       >
         <a
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--primary link-on-dark bg-bluedot-normal flex items-center gap-[6px]"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-3 py-2.5 h-9 rounded-md font-semibold cta-button--primary link-on-dark bg-bluedot-normal flex items-center gap-[6px]"
           href="https://zoom.us/j/123456789"
           rel="noopener noreferrer"
           tabindex="0"
@@ -335,7 +335,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
           </div>
         </a>
         <a
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex items-center gap-[6px]"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex items-center gap-[6px]"
           href="https://docs.google.com/document/d/abc123"
           rel="noopener noreferrer"
           tabindex="0"
@@ -344,7 +344,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
           Open discussion doc
         </a>
         <a
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex items-center gap-[6px]"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex items-center gap-[6px]"
           href="https://app.slack.com/client/T01K0M15NEQ/C1234567890"
           rel="noopener noreferrer"
           tabindex="0"
@@ -353,7 +353,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
           Message group
         </a>
         <button
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border border-bluedot-navy/30 font-medium bg-transparent border-none text-bluedot-normal hover:bg-bluedot-lighter flex items-center gap-[6px] ml-auto"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs px-3 py-2.5 h-9 rounded-md cta-button--outline-black border border-bluedot-navy/30 font-medium bg-transparent border-none text-bluedot-normal hover:bg-bluedot-lighter flex items-center gap-[6px] ml-auto"
           type="button"
         >
           Can't make it?
@@ -392,7 +392,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
       id="discussion-banner-mobile-container"
     >
       <a
-        class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md font-semibold cta-button--primary link-on-dark bg-bluedot-normal w-full flex-1 gap-[6px]"
+        class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-3 py-2.5 h-9 rounded-md font-semibold cta-button--primary link-on-dark bg-bluedot-normal w-full flex-1 gap-[6px]"
         href="https://zoom.us/j/123456789"
         rel="noopener noreferrer"
         tabindex="0"
@@ -427,7 +427,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
         </div>
       </a>
       <button
-        class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter w-full flex-1 gap-[6px]"
+        class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter w-full flex-1 gap-[6px]"
         type="button"
       >
         Can't make it?
@@ -436,7 +436,7 @@ exports[`GroupDiscussionBanner > Happy Path Tests > renders correctly for partic
         aria-expanded="false"
         aria-haspopup="true"
         aria-label="More discussion options"
-        class="flex items-center justify-center p-2 rounded-md text-bluedot-normal hover:bg-bluedot-lighter cursor-pointer flex-1 border border-[#B5C3EC] w-full px-3 py-2.5 h-9 text-[13px] font-medium"
+        class="flex items-center justify-center p-2 rounded-md hover:bg-bluedot-lighter cursor-pointer flex-1 border border-[#B5C3EC] w-full px-3 py-2.5 h-9 text-size-xs font-medium"
         data-rac=""
         data-react-aria-pressable="true"
         id="react-aria-:r0:"
@@ -483,7 +483,7 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
         id="discussion-banner-desktop-container"
       >
         <a
-          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex items-center gap-[6px]"
+          class="cta-button justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter flex items-center gap-[6px]"
           href="https://docs.google.com/document/d/abc123"
           rel="noopener noreferrer"
           tabindex="0"
@@ -495,7 +495,7 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
           aria-expanded="false"
           aria-haspopup="true"
           aria-label="More discussion options"
-          class="flex items-center justify-center p-2 rounded-md border border-bluedot-normal cursor-pointer ml-auto border-none bg-transparent text-bluedot-normal hover:bg-bluedot-lighter px-3 py-2.5 h-9 text-[13px] font-medium whitespace-nowrap"
+          class="flex items-center justify-center p-2 rounded-md border border-bluedot-normal cursor-pointer ml-auto border-none bg-transparent hover:bg-bluedot-lighter px-3 py-2.5 h-9 text-size-xs font-medium whitespace-nowrap"
           data-rac=""
           data-react-aria-pressable="true"
           id="react-aria-:r1n:"
@@ -538,7 +538,7 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
       id="discussion-banner-mobile-container"
     >
       <a
-        class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter w-full flex-1 gap-[6px]"
+        class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter w-full flex-1 gap-[6px]"
         href="https://docs.google.com/document/d/abc123"
         rel="noopener noreferrer"
         tabindex="0"
@@ -547,7 +547,7 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
         Open discussion doc
       </a>
       <button
-        class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-[13px] px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter w-full flex-1 gap-[6px]"
+        class="cta-button flex items-center justify-center transition-all duration-200 whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs px-3 py-2.5 h-9 rounded-md cta-button--outline-black border font-medium bg-transparent border-[#B5C3EC] text-bluedot-normal hover:bg-bluedot-lighter w-full flex-1 gap-[6px]"
         type="button"
       >
         Update discussion time
@@ -556,7 +556,7 @@ exports[`GroupDiscussionBanner > User Role Specific Behavior > facilitator sees 
         aria-expanded="false"
         aria-haspopup="true"
         aria-label="More discussion options"
-        class="flex items-center justify-center p-2 rounded-md text-bluedot-normal hover:bg-bluedot-lighter cursor-pointer flex-1 border border-[#B5C3EC] w-full px-3 py-2.5 h-9 text-[13px] font-medium"
+        class="flex items-center justify-center p-2 rounded-md hover:bg-bluedot-lighter cursor-pointer flex-1 border border-[#B5C3EC] w-full px-3 py-2.5 h-9 text-size-xs font-medium"
         data-rac=""
         data-react-aria-pressable="true"
         id="react-aria-:r1r:"

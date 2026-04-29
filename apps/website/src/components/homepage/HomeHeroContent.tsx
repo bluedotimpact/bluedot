@@ -27,12 +27,13 @@ const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
             {/* Text container with responsive dimensions */}
             <div className="w-full max-w-[280px] bd-md:max-[1023px]:max-w-[616px] bd-md:max-[1023px]:min-h-[348px] min-[1024px]:max-[1279px]:w-[768px] min-[1024px]:max-[1279px]:max-w-screen-md min-[1024px]:max-[1279px]:min-h-[347px] min-[1280px]:max-[1439px]:w-[768px] min-[1280px]:max-[1439px]:max-w-screen-md min-[1280px]:max-[1439px]:min-h-[374px] min-[1440px]:w-[900px] min-[1440px]:max-w-[900px] min-[1440px]:min-h-[374px] mx-auto flex flex-col justify-center items-center gap-8 text-center text-white">
               <H1
+                // eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: bespoke 5-breakpoint homepage hero ramp (40 → 56 → 64 → 72 → 72) tied to viewport-specific max-w values; can't compose into the 2-step responsive token chain
                 className="w-full text-[40px] bd-md:max-[1023px]:text-[56px] min-[1024px]:max-[1279px]:w-[682px] min-[1024px]:max-[1279px]:text-[64px] min-[1280px]:max-[1439px]:w-[682px] min-[1280px]:max-[1439px]:text-[72px] min-[1440px]:w-[682px] min-[1440px]:text-[72px] leading-[115%] font-normal slide-up-fade-in flex items-center tracking-[-1px] text-white"
               >
                 We help you have a positive impact on the trajectory of AI
               </H1>
               <p
-                className="text-size-sm bd-md:max-[1023px]:text-[20px] min-[1024px]:text-[20px] leading-[155%] font-normal w-full max-w-[280px] bd-md:max-[1023px]:max-w-[616px] min-[1024px]:max-[1279px]:max-w-screen-md min-[1280px]:max-[1439px]:max-w-screen-md min-[1440px]:max-w-[900px] mx-auto tracking-[-0.005em]"
+                className="text-size-sm bd-md:max-[1023px]:text-size-md min-[1024px]:text-size-md leading-[155%] font-normal w-full max-w-[280px] bd-md:max-[1023px]:max-w-[616px] min-[1024px]:max-[1279px]:max-w-screen-md min-[1280px]:max-[1439px]:max-w-screen-md min-[1440px]:max-w-[900px] mx-auto tracking-[-0.005em]"
                 style={{
                   /* Tailwind doesn't support OpenType font-feature-settings for stylistic alternates */
                   fontFeatureSettings: '"ss02" on',
