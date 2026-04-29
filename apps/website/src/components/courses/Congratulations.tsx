@@ -16,7 +16,7 @@ import {
 } from 'react-icons/fa6';
 import { COURSE_CONFIG, FOAI_COURSE_ID } from '../../lib/constants';
 import { ROUTES } from '../../lib/routes';
-import { getCourseCtaColors } from '../../lib/courseCtaColors';
+import { getCourseCtaColours } from '../../lib/courseCtaColours';
 import type { CertificateStatus } from '../../server/routers/certificates';
 import { getLoginUrl } from '../../utils/getLoginUrl';
 import { trpc } from '../../utils/trpc';
@@ -237,7 +237,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
   const shareText = text ?? `I just completed the ${courseTitle} course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out:`;
   const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(courseUrl)}`;
   const xUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${shareText} ${courseUrl}`)}`;
-  const courseColors = getCourseCtaColors(courseSlug);
+  const courseColors = getCourseCtaColours(courseSlug);
 
   const handleCopyShare = async () => {
     try {

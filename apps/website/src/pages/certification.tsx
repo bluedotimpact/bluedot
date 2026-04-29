@@ -26,7 +26,7 @@ import { fileExists } from '../utils/fileExists';
 import { CertificateCard } from '../components/certificate/CertificateCard';
 import { CertificateCTA } from '../components/certificate/CertificateCTA';
 import { ONE_DAY_SECONDS, ONE_MINUTE_SECONDS } from '../lib/constants';
-import { getCourseCtaColors } from '../lib/courseCtaColors';
+import { getCourseCtaColours } from '../lib/courseCtaColours';
 
 export async function getCertificateData(certificateId: string) {
   const courseRegistration = await db.get(courseRegistrationTable, { certificateId });
@@ -160,7 +160,7 @@ const CertificatePage = ({
   const linkPreviewAbsoluteUrl = `${siteUrl}/images/certificates/link-preview/${linkPreviewFilename}`;
   const shareUrl = `${siteUrl}/certification?id=${certificate.certificateId}`;
   const shareText = `I've completed ${certificate.courseName} with BlueDot Impact!`;
-  const courseColors = getCourseCtaColors(certificate.courseSlug);
+  const courseColors = getCourseCtaColours(certificate.courseSlug);
 
   const certificateRoute: BluedotRoute = {
     title: `${certificate.courseName} Certificate`,

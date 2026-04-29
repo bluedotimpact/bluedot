@@ -4,14 +4,14 @@ import { BIOSECURITY_COLORS } from '../components/lander/course-content/BioSecur
 import { FOAI_COLORS } from '../components/lander/course-content/FutureOfAiContent';
 import { TAS_COLORS } from '../components/lander/course-content/TechnicalAiSafetyContent';
 
-type CourseCtaColors = { gradient: string; accent: string };
+type CourseCtaColours = { gradient: string; accent: string };
 
-const DEFAULT_CTA_COLORS: CourseCtaColors = {
+const DEFAULT_CTA_COLORS: CourseCtaColours = {
   gradient: 'linear-gradient(to right, rgba(26, 26, 46, 0.6) 0%, transparent 60%), #1a1a2e',
   accent: '#94a3b8',
 };
 
-const COURSE_COLOR_MAP: Record<string, CourseCtaColors> = {
+const COURSE_COLOR_MAP: Record<string, CourseCtaColours> = {
   'future-of-ai': FOAI_COLORS,
   'agi-strategy': AGI_STRATEGY_COLORS,
   'technical-ai-safety': TAS_COLORS,
@@ -20,6 +20,6 @@ const COURSE_COLOR_MAP: Record<string, CourseCtaColors> = {
   biosecurity: BIOSECURITY_COLORS,
 };
 
-export const getCourseCtaColors = (courseSlug: string): CourseCtaColors => {
+export const getCourseCtaColours = (courseSlug: string): CourseCtaColours => {
   return COURSE_COLOR_MAP[courseSlug] ?? DEFAULT_CTA_COLORS;
 };
