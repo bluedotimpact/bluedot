@@ -136,6 +136,7 @@ const ActionCard = ({
     <div className="flex flex-col justify-between p-6 md:py-10 md:px-16 md:w-1/2">
       <div className="flex flex-col gap-6">
         <div className="border-2 border-bluedot-navy/8 rounded-[12px] size-16 flex items-center justify-center shrink-0">
+          {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: numerical badge inside a 64px square, fixed 32px sized to fit */}
           <span className="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy">
             {number}
           </span>
@@ -350,6 +351,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
   return (
     <div className={cn('congratulations flex flex-col gap-16 max-w-[1100px] mx-auto w-full', className)}>
       <div className="flex flex-col gap-6 items-center text-center max-w-[640px] mx-auto">
+        {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: course-completion celebration H2, fixed 32px is intentional standalone */}
         <H2 className="font-bold text-[32px] leading-[1.3] tracking-[-0.015em]">
           Hooray! You just finished the {courseTitle} course 🎉
         </H2>

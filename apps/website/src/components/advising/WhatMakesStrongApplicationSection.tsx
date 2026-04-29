@@ -31,7 +31,7 @@ const WhatMakesStrongApplicationSection = () => {
               <p className="text-size-xxs font-semibold uppercase tracking-[0.14em] text-bluedot-navy/40">
                 {String(index + 1).padStart(2, '0')}
               </p>
-              <h4 className="text-size-md bd-md:text-[20px] font-semibold leading-tight text-bluedot-navy">
+              <h4 className="text-size-md font-semibold leading-tight text-bluedot-navy">
                 {item.title}
               </h4>
               <P className="text-size-sm leading-[1.7] text-bluedot-navy/75">

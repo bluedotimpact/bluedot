@@ -70,6 +70,7 @@ const BiosecHackathonPage = () => {
         ))}
 
         <div className="relative z-10 max-w-[1100px]">
+          {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: bespoke uppercase event hero (34 → 64 → 96) with extreme tracking, not in the standard ramp */}
           <h1 className="text-[34px] font-semibold uppercase leading-[0.95] tracking-[-0.06em] text-white bd-md:text-[64px] lg:text-[96px]">
             BIOSECURITY HACKATHON
           </h1>

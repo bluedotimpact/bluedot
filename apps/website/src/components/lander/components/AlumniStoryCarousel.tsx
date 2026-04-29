@@ -229,7 +229,7 @@ const AlumniStoryCarousel = ({
       <div className="mx-auto max-w-screen-xl mb-8 bd-md:mb-12 lg:mb-16">
         <div className="flex flex-col items-center text-center bd-md:flex-row bd-md:items-end bd-md:justify-between bd-md:text-left gap-6 bd-md:gap-16">
           <div className="flex flex-col gap-4">
-            <H2 className="text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
+            <H2 className="text-size-xl font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
               {title}
             </H2>
             {subtitle && (
@@ -312,7 +312,7 @@ const AlumniStoryCardContent = ({ story }: { story: AlumniStory }) => (
         className="size-16 bd-md:size-20 rounded-full object-cover flex-shrink-0"
       />
       <div className="flex flex-col gap-1 min-w-0 pt-1">
-        <P className="text-size-md bd-md:text-size-md font-semibold leading-[130%] text-bluedot-navy truncate">
+        <P className="text-size-md font-semibold leading-[130%] text-bluedot-navy truncate">
           {story.name}
         </P>
         <P className="text-size-xs bd-md:text-size-sm leading-[150%] text-bluedot-navy/70">
@@ -323,7 +323,7 @@ const AlumniStoryCardContent = ({ story }: { story: AlumniStory }) => (
 
     {/* Story content */}
     <div className="p-5 bd-md:p-6 flex-grow">
-      <P className="text-size-sm bd-md:text-size-sm leading-[1.7] text-bluedot-navy/80">
+      <P className="text-size-sm leading-[1.7] text-bluedot-navy/80">
         {story.story}
       </P>
     </div>

@@ -72,6 +72,7 @@ const DateBadge = ({ month, day }: { month: string; day: string }) => {
 
       {/* Day Number */}
       <div className="relative flex items-center justify-center h-[43.2px] lg:h-[54px]">
+        {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: day-number sized to fit 43.2px / 54px containers */}
         <span className="text-[32px] lg:text-[40px] font-normal text-bluedot-navy tracking-[-0.8px] lg:tracking-[-1px] leading-tight">
           {day}
         </span>
@@ -99,7 +100,7 @@ const EventCard = ({ event }: { event: Event }) => {
           href={event.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[20px] bd-md:text-size-lg font-normal leading-[1.3] tracking-[-0.4px] bd-md:tracking-[-0.18px] text-bluedot-navy hover:text-[#271dcd] transition-colors"
+          className="text-size-md bd-md:text-size-lg font-normal leading-[1.3] tracking-[-0.4px] bd-md:tracking-[-0.18px] text-bluedot-navy hover:text-[#271dcd] transition-colors"
           aria-label={`${event.title} (opens in new tab)`}
         >
           <h3>
@@ -314,7 +315,7 @@ const EventsSection = () => {
         <div className="flex flex-col items-center text-center gap-8 bd-md:gap-12 mb-12 xl:mb-16">
           <h2
             id="events-section-heading"
-            className="text-[28px] bd-md:text-[36px] lg:text-[40px] xl:text-[48px] font-medium leading-[125%] text-bluedot-navy tracking-[-1px] max-w-[666px]"
+            className="text-size-xl bd-md:text-size-2xl font-medium leading-[125%] text-bluedot-navy tracking-[-1px] max-w-[666px]"
             style={{ fontFeatureSettings: '\'ss04\' on' }}
           >
             Join an event near you

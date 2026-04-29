@@ -623,7 +623,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 COHORT-BASED COURSE
               </p>
               <h1
-                class="text-[32px] bd-md:text-[40px] leading-tight font-semibold tracking-[-0.5px] text-white"
+                class="text-size-xl leading-tight font-semibold tracking-[-0.5px] text-white"
               >
                 AGI Strategy
               </h1>
@@ -1110,7 +1110,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24 flex flex-col items-center gap-8 md:gap-10"
       >
         <h2
-          class="bluedot-h2 not-prose w-full bd-md:max-w-[840px] text-[28px] bd-md:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]"
+          class="bluedot-h2 not-prose w-full bd-md:max-w-[840px] text-size-xl text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]"
         >
           How the course works
         </h2>
@@ -1293,7 +1293,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           class="w-full bd-md:max-w-[840px] bd-md:mx-auto flex flex-col gap-8"
         >
           <blockquote
-            class="text-size-lg bd-md:text-size-lg lg:text-[28px] leading-[1.5] font-medium text-bluedot-navy"
+            class="text-size-lg lg:text-[28px] leading-[1.5] font-medium text-bluedot-navy"
           >
             "We should not underestimate the real threats coming from AI [while] we have a narrowing window of opportunity to guide this technology responsibly."
           </blockquote>
@@ -1317,7 +1317,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 Ursula von der Leyen
               </div>
               <div
-                class="text-size-sm bd-md:text-size-sm leading-[1.5] text-bluedot-navy/60"
+                class="text-size-sm leading-[1.5] text-bluedot-navy/60"
               >
                 President, European Commission
               </div>
@@ -1411,7 +1411,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           class="mx-auto flex max-w-[928px] flex-col gap-12 md:gap-16"
         >
           <h2
-            class="bd-md:text-[32px] text-bluedot-navy text-center text-[28px] leading-[125%] font-semibold tracking-[-0.01em] xl:text-[36px]"
+            class="text-bluedot-navy text-center text-size-xl leading-[125%] font-semibold tracking-[-0.01em]"
           >
             Frequently Asked Questions
           </h2>
@@ -1886,7 +1886,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               src="/images/agi-strategy/bluedot-icon.svg"
             />
             <h3
-              class="bluedot-h3 not-prose max-w-[238px] bd-md:max-w-[496px] text-[20px] bd-md:text-[36px] font-[600] text-white leading-[140%] bd-md:leading-[125%]"
+              class="bluedot-h3 not-prose max-w-[238px] bd-md:max-w-[496px] text-size-md bd-md:text-[36px] font-[600] text-white leading-[140%] bd-md:leading-[125%]"
             >
               Start building towards a good future today
             </h3>

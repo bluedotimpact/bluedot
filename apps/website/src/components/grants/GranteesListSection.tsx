@@ -101,7 +101,7 @@ const GranteesListSection = ({
       {(title ?? subtitle) && (
         <div className="mb-8 bd-md:mb-10 max-w-[760px]">
           {title && (
-            <h2 className="text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy">
+            <h2 className="text-size-xl font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy">
               {title}
             </h2>
           )}

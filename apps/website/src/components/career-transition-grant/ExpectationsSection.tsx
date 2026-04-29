@@ -42,7 +42,7 @@ const ExpectationsSection = () => {
                 </span>
               </div>
               <div className="flex flex-col gap-2">
-                <h4 className="text-size-md bd-md:text-[20px] font-semibold text-bluedot-navy">
+                <h4 className="text-size-md font-semibold text-bluedot-navy">
                   {item.title}
                 </h4>
                 <P className="text-size-sm leading-[1.65] text-bluedot-navy/80">
