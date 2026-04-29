@@ -43,6 +43,9 @@ jobs:
                 repo: context.repo.repo,
                 workflow_id: 'ci_cd.yaml',
                 head_sha: context.sha,
+                // ci_cd also runs on pull_request; restrict to the master-push run
+                // so a same-SHA PR run (rebase-and-merge edge case) can't satisfy the gate.
+                event: 'push',
                 per_page: 100,
               });
 
