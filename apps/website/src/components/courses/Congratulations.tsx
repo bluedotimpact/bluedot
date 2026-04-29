@@ -82,18 +82,19 @@ const PostPreviewPanel = ({ courseSlug, shareText, courseUrl }: {
   </div>
 );
 
-const WhatsAppPreviewPanel = ({ courseTitle, courseUrl }: {
+const ChatPreviewPanel = ({ courseTitle, courseUrl }: {
   courseTitle: string;
   courseUrl: string;
 }) => (
-  <div className="h-full flex flex-col items-center justify-center p-8" style={{ backgroundImage: 'url(/images/whatsapp-bg.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
-    <div className="bg-[#d9fdd3] rounded-[7.5px] shadow-sm px-3 py-2.5 max-w-[280px]">
-      <p className="text-[13px] leading-[1.5] text-[#0a0a0a]">
-        Hey, I just finished this {courseTitle} course and it genuinely shifted how I
-        think about this stuff. It&apos;s free and self-paced.{' '}
-        <span className="text-[#1b8755] underline">{courseUrl}</span>
+  <div className="h-full flex flex-col items-center justify-center p-8 bg-[#fbfbfd] border-l border-[#e5e9f2]">
+    <div className="bg-bluedot-normal rounded-[7.5px] shadow-sm px-4 py-3 max-w-[280px]">
+      <p className="text-[14px] leading-[20px] text-white">
+        Hey, I just finished this free {courseTitle} course and it genuinely shifted how I
+        think about this stuff. Thought you&rsquo;d find it interesting as well.
+        <br />
+        <span className="underline tracking-[0.16px]">{courseUrl}</span>
       </p>
-      <p className="text-[11px] text-black/40 text-right mt-1">19:45 ✓✓</p>
+      <p className="text-[12px] text-white/60 text-right mt-1">19:45</p>
     </div>
   </div>
 );
