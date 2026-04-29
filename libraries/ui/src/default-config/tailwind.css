@@ -58,6 +58,12 @@
     --text-size-lg--line-height: 1.2;
     --text-size-xl: var(--text-size-xl);
     --text-size-xl--line-height: 1.2;
+    --text-size-2xl: var(--text-size-2xl);
+    --text-size-2xl--line-height: 1.1;
+    --text-size-3xl: var(--text-size-3xl);
+    --text-size-3xl--line-height: 1.1;
+    --text-size-4xl: var(--text-size-4xl);
+    --text-size-4xl--line-height: 1.05;
 
     --spacing-max-width: var(--max-width);
     --spacing-spacing-x: var(--spacing-x);
@@ -260,6 +266,9 @@
     --text-size-md: 1.125rem; /* 18px */
     --text-size-lg: 1.5rem; /* 24px */
     --text-size-xl: 2rem; /* 32px */
+    --text-size-2xl: 2.25rem; /* 36px */
+    --text-size-3xl: 3rem; /* 48px */
+    --text-size-4xl: 3.5rem; /* 56px */
     --spacing-x: var(--spacing-x-sm); /* For horizontal section padding */
     --spacing-y: var(--spacing-y-sm); /* For vertical section padding */
     --space-between: var(--space-between-sm); /* For space between items */
@@ -269,6 +278,9 @@
 @media (width >= 48rem) {
     :root {
         --text-size-xl: 3rem; /* 48px */
+        --text-size-2xl: 2.5rem; /* 40px */
+        --text-size-3xl: 3.5rem; /* 56px */
+        --text-size-4xl: 4.5rem; /* 72px */
         --spacing-x: var(--spacing-x-md); /* For horizontal section padding */
         --spacing-y: var(--spacing-y-md); /* For vertical section padding */
         --space-between: var(--space-between-md); /* For space between items */
