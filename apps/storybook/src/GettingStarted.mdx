@@ -94,7 +94,7 @@ Our color tokens are built to be used with Tailwind CSS utility classes. Here ar
 
 ### Typography
 
-You may use `text-size-` classes for different text sizes, from `text-size-xs` for the smallest text to `text-size-xl` for the largest text.
+You may use `text-size-` classes for different text sizes, from `text-size-xxs` (12px) for the smallest text to `text-size-4xl` (56px → 72px at md+) for marketing-hero headlines. The `xl`, `2xl`, `3xl` and `4xl` tokens are responsive — they scale up at the `md` breakpoint.
 
 For convenience we also ship `<H1>` through `<H4>`, `<P>`, `<Blockquote>`, `<A>` tags that you can use in your React components.
 
@@ -124,6 +124,18 @@ import { H1, H2, H3, H4, P, A } from '@bluedot/ui';
     <Unstyled>
       <div className="flex flex-col gap-2 space-y-2">
         <div className="flex">
+          <div className="text-size-xs min-w-16">4xl</div>
+          <div className="text-size-4xl">Make AI go well</div>
+        </div>
+        <div className="flex">
+          <div className="text-size-xs min-w-16">3xl</div>
+          <div className="text-size-3xl">Make AI go well</div>
+        </div>
+        <div className="flex">
+          <div className="text-size-xs min-w-16">2xl</div>
+          <div className="text-size-2xl">Our work on AI safety</div>
+        </div>
+        <div className="flex">
           <div className="text-size-xs min-w-16">xl</div>
           <div className="text-size-xl">Our work</div>
         </div>
@@ -142,6 +154,10 @@ import { H1, H2, H3, H4, P, A } from '@bluedot/ui';
         <div className="flex">
           <div className="text-size-xs min-w-16">xs</div>
           <div className="text-size-xs">BlueDot Impact was founded in August 2022, and grew out of a non-profit supporting students at the University of Cambridge to pursue high-impact careers. To learn more, check out this podcast interview and our blog.</div>
+        </div>
+        <div className="flex">
+          <div className="text-size-xs min-w-16">xxs</div>
+          <div className="text-size-xxs">Tag · Caption · Microcopy</div>
         </div>
       </div>
     </Unstyled>
