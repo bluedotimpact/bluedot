@@ -303,7 +303,7 @@ exports[`Congratulations > certificate card — authenticated > action-plan-pend
           >
             <a
               aria-disabled="true"
-              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
               href="https://web.miniextensions.com/7WZKkZiusMiAO1RMznFv?prefill_Participant=recABC123"
               rel="noopener noreferrer"
               tabindex="-1"
@@ -656,7 +656,7 @@ exports[`Congratulations > certificate card — authenticated > action-plan-pend
             class="flex flex-wrap items-center gap-2 mt-6"
           >
             <a
-              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
               href="https://web.miniextensions.com/7WZKkZiusMiAO1RMznFv?prefill_Participant=recABC123"
               rel="noopener noreferrer"
               tabindex="0"
@@ -1009,7 +1009,7 @@ exports[`Congratulations > certificate card — authenticated > can-request: sho
             class="flex flex-wrap items-center gap-2 mt-6"
           >
             <button
-              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
               type="button"
             >
               Download Certificate
@@ -1075,7 +1075,7 @@ exports[`Congratulations > certificate card — authenticated > can-request: sho
           </p>
         </div>
         <a
-          class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+          class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
           href="/courses/agi-strategy"
           tabindex="0"
         >
@@ -1747,7 +1747,7 @@ exports[`Congratulations > certificate card — authenticated > has-certificate:
             class="flex flex-wrap items-center gap-2 mt-6"
           >
             <a
-              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
               href="/certification?id=cert-abc-123"
               rel="noopener noreferrer"
               tabindex="0"
@@ -2809,7 +2809,7 @@ exports[`Congratulations > certificate card — not authenticated > shows log in
             class="flex flex-wrap items-center gap-2 mt-6"
           >
             <a
-              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark"
               href="/login?redirect_to=%2Fcourses%2Fagi-strategy%2F5%2F7"
               tabindex="0"
             >
