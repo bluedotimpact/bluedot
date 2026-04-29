@@ -93,7 +93,8 @@ const HeroSection = ({
                 <CTALinkOrButton
                   url={primaryCta.url}
                   variant="unstyled"
-                  className="h-[50px] px-5 py-3 text-size-sm font-medium rounded-md cursor-pointer transition-all text-bluedot-navy w-full bd-md:w-auto hover:brightness-90"
+                  size="large"
+                  className="text-bluedot-navy w-full bd-md:w-auto hover:brightness-90"
                   style={accentColor ? { backgroundColor: accentColor } : undefined}
                 >
                   {primaryCta.text}
@@ -103,7 +104,8 @@ const HeroSection = ({
                   <CTALinkOrButton
                     url={secondaryCta.url}
                     variant="unstyled"
-                    className="h-[50px] px-5 py-3 text-size-sm font-medium rounded-md bg-transparent cursor-pointer transition-all border w-full bd-md:w-auto hover:bg-white/10"
+                    size="large"
+                    className="bg-transparent border w-full bd-md:w-auto hover:bg-white/10"
                     style={accentColor ? { borderColor: accentColor, color: accentColor } : undefined}
                   >
                     {secondaryCta.text}
@@ -139,7 +141,8 @@ const HeroSection = ({
                   <CTALinkOrButton
                     url={primaryCta.url}
                     variant="unstyled"
-                    className="h-[50px] px-5 py-2.5 text-size-sm font-medium rounded-md cursor-pointer transition-all text-bluedot-navy hover:brightness-90"
+                    size="large"
+                    className="text-bluedot-navy hover:brightness-90"
                     style={accentColor ? { backgroundColor: accentColor } : undefined}
                   >
                     {primaryCta.text}
@@ -149,7 +152,8 @@ const HeroSection = ({
                     <CTALinkOrButton
                       url={secondaryCta.url}
                       variant="unstyled"
-                      className="h-[50px] px-5 py-2.5 text-size-sm font-medium rounded-md bg-transparent cursor-pointer transition-all border hover:bg-white/10"
+                      size="large"
+                      className="bg-transparent border hover:bg-white/10"
                       style={accentColor ? { borderColor: accentColor, color: accentColor } : undefined}
                     >
                       {secondaryCta.text}
