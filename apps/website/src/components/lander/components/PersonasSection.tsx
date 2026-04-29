@@ -101,23 +101,23 @@ const PersonasSection = ({
                     <div className="p-6 bd-md:p-8 flex flex-col gap-4">
                       {/* Summary */}
                       {persona.summary && (
-                        <P className="text-[17px] bd-md:text-size-md leading-normal text-bluedot-navy font-semibold">
+                        <P className="text-size-md bd-md:text-size-md leading-normal text-bluedot-navy font-semibold">
                           {persona.summary}
                         </P>
                       )}
 
                       {/* Description */}
-                      <P className="text-[15px] bd-md:text-size-sm leading-[1.7] text-bluedot-navy/70">
+                      <P className="text-size-sm bd-md:text-size-sm leading-[1.7] text-bluedot-navy/70">
                         {persona.description}
                       </P>
 
                       {/* What this looks like */}
                       {persona.valueProposition && (
                         <div className="pt-4 border-t border-bluedot-navy/10">
-                          <p className="text-[11px] bd-md:text-size-xxs font-semibold uppercase tracking-[0.08em] text-bluedot-navy/40 mb-2">
+                          <p className="text-size-xxs bd-md:text-size-xxs font-semibold uppercase tracking-[0.08em] text-bluedot-navy/40 mb-2">
                             What this looks like
                           </p>
-                          <P className="text-[15px] bd-md:text-size-sm leading-[1.6] text-bluedot-navy/80">
+                          <P className="text-size-sm bd-md:text-size-sm leading-[1.6] text-bluedot-navy/80">
                             {persona.valueProposition}
                           </P>
                         </div>
@@ -142,7 +142,7 @@ const PersonasSection = ({
           </div>
         )}
         {footerText && (
-          <P className="text-center text-[15px] bd-md:text-size-sm leading-[1.6] text-bluedot-navy/60 mt-10 md:mt-12">
+          <P className="text-center text-size-sm bd-md:text-size-sm leading-[1.6] text-bluedot-navy/60 mt-10 md:mt-12">
             {footerText}
           </P>
         )}

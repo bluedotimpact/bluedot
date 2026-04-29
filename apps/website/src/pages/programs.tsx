@@ -110,7 +110,7 @@ const ProgramsPage = () => {
         <div className="flex justify-center pt-6 bd-md:pt-8 lg:pt-10">
           <CTALinkOrButton
             url={ROUTES.courses.url}
-            className="px-4 bg-bluedot-navy/10 text-bluedot-navy hover:text-bluedot-navy text-[15px] font-[450] tracking-[-0.3px] rounded-md hover:bg-bluedot-navy/15"
+            className="px-4 bg-bluedot-navy/10 text-bluedot-navy hover:text-bluedot-navy text-size-sm font-[450] tracking-[-0.3px] rounded-md hover:bg-bluedot-navy/15"
           >
             Explore courses instead
           </CTALinkOrButton>

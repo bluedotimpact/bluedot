@@ -45,19 +45,19 @@ exports[`GrantsSection > renders default as expected 1`] = `
                   class="min-w-0 flex-1"
                 >
                   <p
-                    class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
+                    class="text-size-sm leading-[1.45] font-semibold text-bluedot-navy"
                   >
                     Rapid Grants
                   </p>
                   <p
-                    class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
+                    class="mt-1 text-size-sm leading-[1.6] text-bluedot-navy/62"
                   >
                     Fund talented people in the BlueDot community to do excellent work on AI safety - research, events, community building, and more.
                   </p>
                 </div>
               </div>
               <div
-                class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
+                class="ml-5 flex shrink-0 items-center text-size-sm leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
               >
                 <span
                   class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
@@ -89,19 +89,19 @@ exports[`GrantsSection > renders default as expected 1`] = `
                   class="min-w-0 flex-1"
                 >
                   <p
-                    class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
+                    class="text-size-sm leading-[1.45] font-semibold text-bluedot-navy"
                   >
                     Career Transition Grants
                   </p>
                   <p
-                    class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
+                    class="mt-1 text-size-sm leading-[1.6] text-bluedot-navy/62"
                   >
                     Support BlueDot graduates to work full-time on impactful AI safety work.
                   </p>
                 </div>
               </div>
               <div
-                class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
+                class="ml-5 flex shrink-0 items-center text-size-sm leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
               >
                 <span
                   class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
@@ -133,19 +133,19 @@ exports[`GrantsSection > renders default as expected 1`] = `
                   class="min-w-0 flex-1"
                 >
                   <p
-                    class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
+                    class="text-size-sm leading-[1.45] font-semibold text-bluedot-navy"
                   >
                     Technical AI Safety Project Sprint
                   </p>
                   <p
-                    class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
+                    class="mt-1 text-size-sm leading-[1.6] text-bluedot-navy/62"
                   >
                     Help technically minded people ship a concrete AI safety research or engineering project with expert support.
                   </p>
                 </div>
               </div>
               <div
-                class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
+                class="ml-5 flex shrink-0 items-center text-size-sm leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
               >
                 <span
                   class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
@@ -177,19 +177,19 @@ exports[`GrantsSection > renders default as expected 1`] = `
                   class="min-w-0 flex-1"
                 >
                   <p
-                    class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
+                    class="text-size-sm leading-[1.45] font-semibold text-bluedot-navy"
                   >
                     1-1 advising
                   </p>
                   <p
-                    class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
+                    class="mt-1 text-size-sm leading-[1.6] text-bluedot-navy/62"
                   >
                     Help BlueDot community members figure out how to contribute their skills to AI safety.
                   </p>
                 </div>
               </div>
               <div
-                class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
+                class="ml-5 flex shrink-0 items-center text-size-sm leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
               >
                 <span
                   class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
@@ -221,19 +221,19 @@ exports[`GrantsSection > renders default as expected 1`] = `
                   class="min-w-0 flex-1"
                 >
                   <p
-                    class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
+                    class="text-size-sm leading-[1.45] font-semibold text-bluedot-navy"
                   >
                     Incubator Week
                   </p>
                   <p
-                    class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
+                    class="mt-1 text-size-sm leading-[1.6] text-bluedot-navy/62"
                   >
                     Back graduates launching AI safety companies, with seed funding and an intensive week in London.
                   </p>
                 </div>
               </div>
               <div
-                class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
+                class="ml-5 flex shrink-0 items-center text-size-sm leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
               >
                 <span
                   class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"

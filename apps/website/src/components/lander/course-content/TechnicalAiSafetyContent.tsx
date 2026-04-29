@@ -13,21 +13,11 @@ import {
   PiUsersThree,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
+import { COURSE_COLORS } from '../../../lib/courseColors';
 
 const externalLinkClassName = 'font-medium underline underline-offset-2 hover:text-bluedot-normal';
 
-export const TAS_COLORS = {
-  /* Gradient layers:
-     1. Left-side darkness - horizontal gradient to darken left edge for text readability
-     2. Bottom-right warm glow - peach → purple → dark purple (from Figma)
-     3. Base color - deep purple/magenta */
-  gradient: 'linear-gradient(to right, rgba(20, 8, 25, 0.6) 0%, rgba(20, 8, 25, 0.4) 20%, rgba(20, 8, 25, 0.2) 40%, transparent 55%), radial-gradient(130% 160% at 100% 108.81%, rgba(255, 202, 171, 0.40) 0%, rgba(126, 85, 144, 0.40) 52.4%, rgba(46, 16, 54, 0.40) 100%), #2E1036',
-  accent: '#E0A5F9',
-  iconBackground: '#502869',
-  bright: '#ffe9ff',
-  mid: '#b880d1',
-  full: '#a060bb',
-};
+export const TAS_COLORS = COURSE_COLORS['technical-ai-safety'];
 
 export const createTechnicalAiSafetyContent = (
   applicationUrlWithUtm: string,
@@ -93,7 +83,7 @@ export const createTechnicalAiSafetyContent = (
         <p className="mb-5">This course doesn&apos;t end at Unit 6. Here&apos;s where our alumni go - and how we help them get there.</p>
         <div className="rounded-2xl border border-bluedot-navy/10 bg-bluedot-navy/[0.03] p-6 md:p-8 text-left">
           <p className="text-size-sm font-semibold leading-[1.4] text-bluedot-navy mb-3">We don&apos;t just teach</p>
-          <p className="text-[15px] bd-md:text-size-sm leading-[1.7] text-bluedot-navy/80">
+          <p className="text-size-sm bd-md:text-size-sm leading-[1.7] text-bluedot-navy/80">
             BlueDot runs a talent pipeline, not just a course. We actively scout for high-potential participants during the course, facilitate introductions to hiring managers and fellowship leads, and run a
             {' '}
             <a href="/programs/rapid-grants" className={externalLinkClassName}>Rapid Grants program</a>
@@ -177,7 +167,7 @@ export const createTechnicalAiSafetyContent = (
     callout: (
       <>
         <p className="text-size-sm font-semibold leading-[1.4] text-bluedot-navy mb-3">Technical AI Safety Project Sprint</p>
-        <p className="text-[15px] bd-md:text-size-sm leading-[1.7] text-bluedot-navy/80">
+        <p className="text-size-sm bd-md:text-size-sm leading-[1.7] text-bluedot-navy/80">
           After completing this course, you can apply for our
           {' '}
           <a href="/courses/technical-ai-safety-project" className={externalLinkClassName}>Project Sprint</a>

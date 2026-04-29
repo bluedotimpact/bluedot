@@ -40,7 +40,7 @@ exports[`SideBar > renders default as expected 1`] = `
             class="flex flex-col"
           >
             <h2
-              class="font-semibold text-[26px] leading-[44px] text-bluedot-navy"
+              class="font-semibold text-size-lg leading-[44px] text-bluedot-navy"
             >
               What the fish [Test Course]
             </h2>

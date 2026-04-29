@@ -33,11 +33,11 @@ const GranteeRow = ({ grantee }: { grantee: PublicRapidGrant }) => {
       <div className="flex items-stretch gap-4 min-w-0 flex-1">
         <div className="w-1 flex-shrink-0 rounded-sm bg-bluedot-normal/30" />
         <div className="min-w-0 flex-1">
-          <p className="text-[15px] leading-[1.45] font-semibold text-bluedot-navy">
+          <p className="text-size-sm leading-[1.45] font-semibold text-bluedot-navy">
             {grantee.projectTitle}
           </p>
           {summary && (
-            <p className="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62">
+            <p className="mt-1 text-size-sm leading-[1.6] text-bluedot-navy/62">
               {summary}
             </p>
           )}

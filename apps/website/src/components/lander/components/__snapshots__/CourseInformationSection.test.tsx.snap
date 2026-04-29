@@ -35,7 +35,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="flex-1 min-w-0"
             >
               <p
-                class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
+                class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
               >
                 <span
                   class="font-semibold"
@@ -74,7 +74,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="flex-1 min-w-0"
             >
               <p
-                class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
+                class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
               >
                 Each day or week, you will:
                 <br />
@@ -114,7 +114,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="flex-1 min-w-0"
             >
               <p
-                class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
+                class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
               >
                 All discussions will be facilitated by an AI safety expert.
               </p>
@@ -141,7 +141,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="flex-1 min-w-0"
             >
               <p
-                class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
+                class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
               >
                 This course is freely available and operates on a "pay-what-you-want" model.
               </p>

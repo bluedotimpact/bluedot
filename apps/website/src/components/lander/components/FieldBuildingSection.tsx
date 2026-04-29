@@ -28,7 +28,7 @@ const FieldBuildingSection = ({
           <H2 className="text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
             {title}
           </H2>
-          <P className="mt-4 text-size-sm bd-md:text-[17px] leading-[1.6] text-bluedot-navy/70">
+          <P className="mt-4 text-size-sm bd-md:text-size-md leading-[1.6] text-bluedot-navy/70">
             {intro}
           </P>
         </div>
@@ -44,12 +44,12 @@ const FieldBuildingSection = ({
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <P className="text-[15px] leading-[1.65] text-bluedot-navy/80">
+                  <P className="text-size-sm leading-[1.65] text-bluedot-navy/80">
                     {role.description}
                   </P>
                   <Link
                     href={role.linkUrl}
-                    className="mt-3 inline-flex items-center gap-1 text-[15px] font-medium text-bluedot-normal hover:underline"
+                    className="mt-3 inline-flex items-center gap-1 text-size-sm font-medium text-bluedot-normal hover:underline"
                   >
                     {role.linkText}
                     <span aria-hidden="true">→</span>

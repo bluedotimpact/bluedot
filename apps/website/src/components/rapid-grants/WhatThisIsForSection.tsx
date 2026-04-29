@@ -44,7 +44,7 @@ const WhatThisIsForSection = () => {
               <h4 className="text-size-md bd-md:text-[20px] font-semibold leading-tight text-bluedot-navy">
                 {card.title}
               </h4>
-              <P className="text-[15px] bd-md:text-size-sm leading-[1.7] text-bluedot-navy/70">
+              <P className="text-size-sm bd-md:text-size-sm leading-[1.7] text-bluedot-navy/70">
                 {card.body}
               </P>
             </div>

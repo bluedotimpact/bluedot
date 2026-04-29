@@ -77,13 +77,13 @@ const CourseInformationSection = ({
                         accentColor={accentColor}
                         fallbackContent={(
                           <div className="flex flex-col gap-4">
-                            <P className="text-[15px] leading-[160%] text-bluedot-navy/80 font-normal">
+                            <P className="text-size-sm leading-[160%] text-bluedot-navy/80 font-normal">
                               {detail.scheduleDescription}
                             </P>
                             <div className="flex justify-start">
                               <CTALinkOrButton
                                 url={applicationUrl}
-                                className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-size-sm font-medium bg-bluedot-normal text-white rounded-md hover:bg-[#1a3399] cursor-pointer transition-colors"
+                                className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-size-sm font-medium bg-bluedot-normal text-white rounded-md hover:bg-bluedot-dark cursor-pointer transition-colors"
                               >
                                 {scheduleCtaText}
                               </CTALinkOrButton>
@@ -104,7 +104,7 @@ const CourseInformationSection = ({
 
                     {/* Description */}
                     <div className="flex-1 min-w-0">
-                      <P className="text-[15px] leading-[160%] text-bluedot-navy/80 font-normal">
+                      <P className="text-size-sm leading-[160%] text-bluedot-navy/80 font-normal">
                         {detail.description}
                       </P>
                     </div>

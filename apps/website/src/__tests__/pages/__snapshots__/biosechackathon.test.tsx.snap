@@ -36,7 +36,7 @@ exports[`BiosecHackathonPage > renders the page hierarchy and signup options 1`]
         BIOSECURITY HACKATHON
       </h1>
       <p
-        class="mt-4 text-size-xs font-medium uppercase tracking-[0.32em] text-white/60 bd-md:text-size-md lg:text-[22px]"
+        class="mt-4 text-size-xs font-medium uppercase tracking-[0.32em] text-white/60 bd-md:text-size-md lg:text-size-lg"
       >
         24-26 April 2026
       </p>
@@ -81,7 +81,7 @@ exports[`BiosecHackathonPage > renders the page hierarchy and signup options 1`]
         </button>
       </div>
       <p
-        class="mt-6 text-[11px] font-medium uppercase tracking-[0.24em] text-white/46 bd-md:text-size-xxs lg:text-[13px]"
+        class="mt-6 text-size-xxs font-medium uppercase tracking-[0.24em] text-white/46 bd-md:text-size-xxs lg:text-size-xs"
       >
         In collaboration with
          

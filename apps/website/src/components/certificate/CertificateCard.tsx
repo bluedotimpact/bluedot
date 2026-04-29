@@ -117,7 +117,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
           </p>
 
           <h1
-            className="mt-1 text-[40px] md:text-[56px] font-semibold leading-tight tracking-[-0.5px] text-bluedot-navy text-center font-display"
+            className="mt-1 text-size-2xl font-semibold leading-tight tracking-[-0.5px] text-bluedot-navy text-center font-display"
             style={DISPLAY_FONT_STYLE}
           >
             {courseName}
@@ -134,7 +134,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
 
           <div className="mt-12 md:max-w-[672px]">
             <p
-              className="text-[15px] md:text-base leading-[1.6] md:leading-[26px] tracking-[-0.3125px] text-[#62748E] text-center [&_strong]:font-semibold [&_strong]:text-bluedot-navy"
+              className="text-size-sm md:text-base leading-[1.6] md:leading-[26px] tracking-[-0.3125px] text-[#62748E] text-center [&_strong]:font-semibold [&_strong]:text-bluedot-navy"
               style={DISPLAY_FONT_STYLE}
 
               dangerouslySetInnerHTML={{ __html: description }}
@@ -150,7 +150,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
               Issued
             </p>
             <p
-              className="mt-1 text-[15px] md:text-base font-medium leading-[26px] tracking-[-0.3125px] text-bluedot-navy"
+              className="mt-1 text-size-sm md:text-base font-medium leading-[26px] tracking-[-0.3125px] text-bluedot-navy"
               style={DISPLAY_FONT_STYLE}
             >
               {issuedDate}
@@ -172,7 +172,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
               Certificate ID
             </p>
             <p
-              className="mt-1 text-[15px] md:text-base font-medium leading-[26px] tracking-[-0.3125px] text-bluedot-navy"
+              className="mt-1 text-size-sm md:text-base font-medium leading-[26px] tracking-[-0.3125px] text-bluedot-navy"
               style={DISPLAY_FONT_STYLE}
             >
               {certificateId}

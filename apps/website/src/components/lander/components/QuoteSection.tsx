@@ -149,14 +149,14 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
 // since text sits on a white background with no card to fill.
 const getEditorialFontSize = (quote: string): string => {
   if (quote.length > FONT_SIZE_THRESHOLDS.EXTRA_LONG) {
-    return 'text-size-md bd-md:text-[20px] lg:text-[22px]';
+    return 'text-size-md bd-md:text-[20px] lg:text-size-lg';
   }
 
   if (quote.length > FONT_SIZE_THRESHOLDS.LONG) {
-    return 'text-[20px] bd-md:text-[22px] lg:text-size-lg';
+    return 'text-[20px] bd-md:text-size-lg lg:text-size-lg';
   }
 
-  return 'text-[22px] bd-md:text-size-lg lg:text-[28px]';
+  return 'text-size-lg bd-md:text-size-lg lg:text-[28px]';
 };
 
 const QuoteSection = ({
@@ -230,10 +230,10 @@ const QuoteSection = ({
           className="size-16 bd-md:size-20 rounded-xl object-cover flex-shrink-0"
         />
         <div className="flex flex-col">
-          <div className="text-size-sm bd-md:text-[17px] font-semibold leading-[1.4] text-bluedot-navy group-hover:text-bluedot-normal transition-colors">
+          <div className="text-size-sm bd-md:text-size-md font-semibold leading-[1.4] text-bluedot-navy group-hover:text-bluedot-normal transition-colors">
             {activeQuote.name}
           </div>
-          <div className="text-[15px] bd-md:text-size-sm leading-[1.5] text-bluedot-navy/60">
+          <div className="text-size-sm bd-md:text-size-sm leading-[1.5] text-bluedot-navy/60">
             {activeQuote.role}
           </div>
         </div>
@@ -364,7 +364,7 @@ const QuoteSection = ({
               aria-label="Previous quote"
             >
               <span
-                className="text-bluedot-navy text-[22.4px] font-medium select-none"
+                className="text-bluedot-navy text-size-lg font-medium select-none"
                 style={{
                   transform: 'scaleX(-1)',
                 }}
@@ -404,7 +404,7 @@ const QuoteSection = ({
               aria-label="Next quote"
             >
               <span
-                className="text-bluedot-navy text-[22.4px] font-medium select-none"
+                className="text-bluedot-navy text-size-lg font-medium select-none"
               >
                 →
               </span>
