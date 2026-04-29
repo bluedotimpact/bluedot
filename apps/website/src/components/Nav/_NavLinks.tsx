@@ -237,7 +237,7 @@ const NavDropdown: React.FC<{
           ) : (
             links?.map((link) => {
               // Dropdown links: always dark text on white background
-              const linkTextColor = 'text-[#02034B] hover:text-[#02034B]';
+              const linkTextColor = 'text-bluedot-darker hover:text-bluedot-darker';
 
               return (
                 <React.Fragment key={link.url}>
