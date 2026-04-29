@@ -6,6 +6,7 @@ import { timingSafeEqual } from 'crypto';
 import z from 'zod';
 import db from '../../lib/api/db';
 import env from '../../lib/api/env';
+import { getCertificateData } from '../../pages/certification';
 import { FOAI_COURSE_ID } from '../../lib/constants';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 import type { AppRouter } from './_app';
@@ -155,12 +156,11 @@ Please complete all exercises before requesting a certificate.`,
     }
 
     if (courseRegistration.certificateId) {
+      const certificate = await getCertificateData(courseRegistration.certificateId);
       return {
-        status: 'has-certificate',
-        certificateId: courseRegistration.certificateId,
-        issuedAt: courseRegistration.certificateCreatedAt ?? Math.floor(Date.now() / 1000),
-        holderName: courseRegistration.fullName ?? courseRegistration.email,
-      } as const;
+        status: 'has-certificate' as const,
+        ...certificate,
+      };
     }
 
     if (courseRegistration.courseId === FOAI_COURSE_ID) {
