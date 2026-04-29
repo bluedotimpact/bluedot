@@ -32,23 +32,13 @@ import { TAS_COLORS } from '../components/lander/course-content/TechnicalAiSafet
 import { AI_GOVERNANCE_COLORS } from '../components/lander/course-content/AiGovernanceContent';
 import { BIOSECURITY_COLORS } from '../components/lander/course-content/BioSecurityContent';
 
-export type Certificate = {
-  certificateId: string;
-  certificateCreatedAt: number;
-  recipientName: string;
-  courseName: string;
-  courseSlug: string;
-  certificationDescription: string;
-  courseDetailsUrl: string;
-};
-
 export async function getCertificateData(certificateId: string) {
   const courseRegistration = await db.get(courseRegistrationTable, { certificateId });
   const course = await db.get(courseTable, { id: courseRegistration.courseId });
 
-  const certificate: Certificate = {
+  return {
     certificateId,
-    certificateCreatedAt: courseRegistration.certificateCreatedAt ?? Date.now() / 1000,
+    certificateCreatedAt: courseRegistration.certificateCreatedAt ?? Math.floor(Date.now() / 1000),
     recipientName: courseRegistration.fullName ?? '',
     courseName: course.title,
     courseSlug: course.slug,
@@ -56,9 +46,9 @@ export async function getCertificateData(certificateId: string) {
     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     certificationDescription: course.certificationDescription || '',
   };
-
-  return certificate;
 }
+
+type Certificate = Awaited<ReturnType<typeof getCertificateData>>;
 
 type CertificatePageProps = {
   certificate: Certificate | null;
