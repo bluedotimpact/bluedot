@@ -1293,7 +1293,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           class="w-full bd-md:max-w-[840px] bd-md:mx-auto flex flex-col gap-8"
         >
           <blockquote
-            class="text-size-lg bd-md:text-size-lg lg:text-[28px] leading-[1.5] font-medium text-bluedot-navy"
+            class="text-size-lg lg:text-[28px] leading-[1.5] font-medium text-bluedot-navy"
           >
             "We should not underestimate the real threats coming from AI [while] we have a narrowing window of opportunity to guide this technology responsibly."
           </blockquote>
@@ -1317,7 +1317,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 Ursula von der Leyen
               </div>
               <div
-                class="text-size-sm bd-md:text-size-sm leading-[1.5] text-bluedot-navy/60"
+                class="text-size-sm leading-[1.5] text-bluedot-navy/60"
               >
                 President, European Commission
               </div>
@@ -1886,7 +1886,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               src="/images/agi-strategy/bluedot-icon.svg"
             />
             <h3
-              class="bluedot-h3 not-prose max-w-[238px] bd-md:max-w-[496px] text-[20px] bd-md:text-[36px] font-[600] text-white leading-[140%] bd-md:leading-[125%]"
+              class="bluedot-h3 not-prose max-w-[238px] bd-md:max-w-[496px] text-size-md bd-md:text-[36px] font-[600] text-white leading-[140%] bd-md:leading-[125%]"
             >
               Start building towards a good future today
             </h3>

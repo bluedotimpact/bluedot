@@ -18,7 +18,7 @@ const AlumniLogosSection = ({
   return (
     <section className="w-full bg-[#FAFAFA]">
       <div className="max-w-max-width mx-auto px-5 py-10 bd-md:px-8 bd-md:py-12 lg:px-spacing-x">
-        <H2 className="text-size-md bd-md:text-[20px] font-medium leading-[140%] text-bluedot-navy/60 text-center mb-8 tracking-[-0.01em]">
+        <H2 className="text-size-md font-medium leading-[140%] text-bluedot-navy/60 text-center mb-8 tracking-[-0.01em]">
           {title}
         </H2>
         <div className="flex flex-wrap justify-center items-center gap-8 bd-md:gap-12 lg:gap-16">

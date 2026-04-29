@@ -32,7 +32,7 @@ const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
                 We help you have a positive impact on the trajectory of AI
               </H1>
               <p
-                className="text-size-sm bd-md:max-[1023px]:text-[20px] min-[1024px]:text-[20px] leading-[155%] font-normal w-full max-w-[280px] bd-md:max-[1023px]:max-w-[616px] min-[1024px]:max-[1279px]:max-w-screen-md min-[1280px]:max-[1439px]:max-w-screen-md min-[1440px]:max-w-[900px] mx-auto tracking-[-0.005em]"
+                className="text-size-sm bd-md:max-[1023px]:text-size-md min-[1024px]:text-size-md leading-[155%] font-normal w-full max-w-[280px] bd-md:max-[1023px]:max-w-[616px] min-[1024px]:max-[1279px]:max-w-screen-md min-[1280px]:max-[1439px]:max-w-screen-md min-[1440px]:max-w-[900px] mx-auto tracking-[-0.005em]"
                 style={{
                   /* Tailwind doesn't support OpenType font-feature-settings for stylistic alternates */
                   fontFeatureSettings: '"ss02" on',

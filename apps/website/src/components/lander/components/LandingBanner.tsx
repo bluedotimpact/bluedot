@@ -38,7 +38,7 @@ const LandingBanner = ({
           <div className="relative flex flex-col items-center justify-center h-full px-14 py-16 gap-8 text-center">
             <img src={iconSrc} alt={iconAlt} className="w-8 h-[30px]" />
 
-            <H3 className="max-w-[238px] bd-md:max-w-[496px] text-[20px] bd-md:text-[36px] font-[600] text-white leading-[140%] bd-md:leading-[125%]">
+            <H3 className="max-w-[238px] bd-md:max-w-[496px] text-size-md bd-md:text-[36px] font-[600] text-white leading-[140%] bd-md:leading-[125%]">
               {title}
             </H3>
 

@@ -62,7 +62,7 @@ const PathwaysSection = ({
                     <IconComponent className="text-white" size={24} />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h3 className="text-size-md bd-md:text-size-md font-semibold leading-[130%] text-bluedot-navy">
+                    <h3 className="text-size-md font-semibold leading-[130%] text-bluedot-navy">
                       {pathway.title}
                     </h3>
                     <P className="text-size-sm leading-[1.65] text-bluedot-navy/70">
@@ -85,7 +85,7 @@ const PathwaysSection = ({
 
           {callout && (
             <div className="mt-10 md:mt-12 p-6 md:p-8 rounded-2xl border border-bluedot-navy/10 bg-bluedot-navy/[0.03]">
-              <div className="text-size-sm bd-md:text-size-sm leading-[1.7] text-bluedot-navy/80">
+              <div className="text-size-sm leading-[1.7] text-bluedot-navy/80">
                 {callout}
               </div>
             </div>

@@ -99,7 +99,7 @@ const EventCard = ({ event }: { event: Event }) => {
           href={event.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[20px] bd-md:text-size-lg font-normal leading-[1.3] tracking-[-0.4px] bd-md:tracking-[-0.18px] text-bluedot-navy hover:text-[#271dcd] transition-colors"
+          className="text-size-md bd-md:text-size-lg font-normal leading-[1.3] tracking-[-0.4px] bd-md:tracking-[-0.18px] text-bluedot-navy hover:text-[#271dcd] transition-colors"
           aria-label={`${event.title} (opens in new tab)`}
         >
           <h3>
