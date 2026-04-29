@@ -13,8 +13,7 @@ import { RiLoader4Line } from 'react-icons/ri';
 import MarketingHero from '../../components/MarketingHero';
 import { ROUTES } from '../../lib/routes';
 import { trpc } from '../../utils/trpc';
-import { WarningTriangleIcon } from '../../components/icons/WarningTriangleIcon';
-import { WarningCircleIcon } from '../../components/icons/WarningCircleIcon';
+import { WarningCircleIcon, WarningTriangleIcon } from '../../components/icons';
 
 const CURRENT_ROUTE = ROUTES.adminSyncDashboard;
 const HERO_SUBTITLE = 'Trigger a manual database sync and review the most recent activity.';

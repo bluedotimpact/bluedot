@@ -32,7 +32,7 @@ import { trpc } from '../../utils/trpc';
 import { CourseIcon } from './CourseIcon';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
 import InactiveCourseBanners from './InactiveCourseBanners';
-import { ArrowRightIcon } from '../icons/ArrowRightIcon';
+import { ArrowRightIcon } from '../icons';
 import KeyboardNavMenu from './KeyboardNavMenu';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import CourseCompletionSection from './CourseCompletionSection';

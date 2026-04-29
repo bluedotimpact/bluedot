@@ -1,5 +1,5 @@
 import type React from 'react';
-import { PlayCircleIcon } from '../icons/PlayCircleIcon';
+import { PlayCircleIcon } from '../icons';
 
 type ListenToArticleButtonProps = {
   audioUrl: string;

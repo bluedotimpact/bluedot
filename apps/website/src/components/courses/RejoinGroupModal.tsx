@@ -10,8 +10,7 @@ import type { AppRouter } from '../../server/routers/_app';
 import { formatDateMonthAndDay, formatTime12HourClock, getGMTOffsetWithCity } from '../../lib/utils';
 import type { DiscussionsAvailable } from '../../server/routers/group-switching';
 import { trpc } from '../../utils/trpc';
-import { CheckIcon } from '../icons/CheckIcon';
-import { UserIcon } from '../icons/UserIcon';
+import { CheckIcon, UserIcon } from '../icons';
 
 export type RejoinGroupModalProps = {
   handleClose: () => void;

@@ -7,7 +7,7 @@ import {
 import { useRouter } from 'next/router';
 import { getLoginUrl } from '../../../utils/getLoginUrl';
 import RichTextAutoSaveEditor from './RichTextAutoSaveEditor';
-import { UndoIcon } from '../../icons/UndoIcon';
+import { UndoIcon } from '../../icons';
 
 export type FreeTextResponseProps = {
   onExerciseSubmit: (exerciseResponse: string, complete?: boolean) => Promise<void>;

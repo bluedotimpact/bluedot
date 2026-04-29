@@ -9,7 +9,7 @@ import { FaChevronRight } from 'react-icons/fa6';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 import type { CertificateStatus } from '../../server/routers/certificates';
 import type { ChunkProgress, CourseProgress } from '../../server/routers/courses';
-import { ChunkIcon } from '../icons/ChunkIcon';
+import { ChunkIcon } from '../icons';
 import { CourseIcon } from './CourseIcon';
 import type { ApplyCTAProps } from './SideBar';
 

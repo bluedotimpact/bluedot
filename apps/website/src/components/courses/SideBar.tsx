@@ -10,7 +10,7 @@ import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[
 import type { CertificateStatus } from '../../server/routers/certificates';
 import { CERTIFICATE_STATUS_DESCRIPTIONS } from './Congratulations';
 import type { ChunkProgress, CourseProgress } from '../../server/routers/courses';
-import { ChunkIcon } from '../icons/ChunkIcon';
+import { ChunkIcon } from '../icons';
 import { CourseIcon } from './CourseIcon';
 
 type SideBarProps = {

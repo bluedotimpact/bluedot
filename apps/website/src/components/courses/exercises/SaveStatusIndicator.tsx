@@ -1,9 +1,7 @@
 import type React from 'react';
 import { RiLoader4Line } from 'react-icons/ri';
 import { cn } from '@bluedot/ui';
-import { UndoIcon } from '../../icons/UndoIcon';
-import { CircledCheckmarkIcon } from '../../icons/CircledCheckmarkIcon';
-import { ErrorIcon } from '../../icons/ErrorIcon';
+import { CircledCheckmarkIcon, ErrorIcon, UndoIcon } from '../../icons';
 
 type SaveStatus = 'idle' | 'typing' | 'saving' | 'saved' | 'error';
 

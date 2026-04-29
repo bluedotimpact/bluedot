@@ -13,11 +13,9 @@ import { downloadDiscussionCalendarFile } from '../../lib/downloadCalendarFile';
 import type { GroupDiscussionWithGroupAndUnit } from '../../server/routers/group-discussions';
 import type { SwitchType } from '../courses/GroupSwitchModal';
 import type { FacilitatorModalType } from '../courses/FacilitatorSwitchModal';
-import { SwitchUserIcon } from '../icons/SwitchUserIcon';
+import { SwitchUserIcon } from '../icons';
 import type { ButtonOrMenuItem } from '../courses/GroupDiscussionBanner';
-import { DocumentIcon } from '../icons/DocumentIcon';
-import { ClockIcon } from '../icons/ClockIcon';
-import { SlackIcon } from '../icons/SlackIcon';
+import { ClockIcon, DocumentIcon, SlackIcon } from '../icons';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 
 const BUTTON_STYLES = {

@@ -1,7 +1,7 @@
 import { cn, P } from '@bluedot/ui';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { PlusToggleIcon } from '../../icons/PlusToggleIcon';
+import { PlusToggleIcon } from '../../icons';
 
 /**
  * Represents a single FAQ item with question and answer
