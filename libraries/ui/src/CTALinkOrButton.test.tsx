@@ -110,4 +110,30 @@ describe('CTALinkOrButton', () => {
     expect(button.className).includes('text-bluedot-navy/60');
     expect(button.className).includes('h-9');
   });
+
+  test('renders with large size', () => {
+    render(<CTALinkOrButton size="large">Click me</CTALinkOrButton>);
+    const button = screen.getByRole('button');
+    expect(button.className).includes('text-size-sm');
+    expect(button.className).includes('px-5');
+    expect(button.className).includes('py-2.5');
+    expect(button.className).includes('h-[50px]');
+    expect(button.className).includes('rounded-md');
+    expect(button.className).includes('font-medium');
+  });
+
+  // Regression test for the tailwind-merge bug Greptile flagged on the PR that
+  // introduced `size="large"`: callers passing a `text-{color}` className were
+  // silently dropping `text-size-sm` from the size config because `text-size-*`
+  // wasn't registered as a font-size class group. The fix lives in `cn()`.
+  test('size="large" keeps its font-size when caller adds a text colour class', () => {
+    render(
+      <CTALinkOrButton variant="unstyled" size="large" className="text-bluedot-navy">
+        Click me
+      </CTALinkOrButton>,
+    );
+    const button = screen.getByRole('button');
+    expect(button.className).includes('text-size-sm');
+    expect(button.className).includes('text-bluedot-navy');
+  });
 });
