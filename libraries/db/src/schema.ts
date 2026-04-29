@@ -1454,10 +1454,6 @@ export const dropoutTable = pgAirtable('dropout', {
       pgColumn: text(),
       airtableId: 'fld46PnSM2D9naqtK',
     },
-    isDeferral: {
-      pgColumn: boolean(),
-      airtableId: 'fldzYMTGkTd91Chyu',
-    },
     type: {
       pgColumn: text(),
       airtableId: 'fldDiWfBa7r9x3C1B',
