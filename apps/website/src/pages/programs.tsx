@@ -58,7 +58,7 @@ const ProgramsPage = () => {
       id: 'advising',
       name: '1-1 advising',
       href: '/programs/advising',
-      summary: 'A 20-min call with the BlueDot team to accelerate you towards impactful work in AI safety.',
+      summary: 'A 30-min call with the BlueDot team to accelerate you towards impactful work in AI safety.',
       detail: '200+ advising calls done. Decisions in ~5 working days.',
       ctaLabel: 'Explore program',
     },
