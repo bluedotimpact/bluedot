@@ -129,11 +129,9 @@ describe('CTALinkOrButton', () => {
   // silently dropping `text-size-sm` from the size config because `text-size-*`
   // wasn't registered as a font-size class group. The fix lives in `cn()`.
   test('size="large" keeps its font-size when caller adds a text colour class', () => {
-    render(
-      <CTALinkOrButton variant="unstyled" size="large" className="text-bluedot-navy">
-        Click me
-      </CTALinkOrButton>,
-    );
+    render(<CTALinkOrButton variant="unstyled" size="large" className="text-bluedot-navy">
+      Click me
+    </CTALinkOrButton>);
     const button = screen.getByRole('button');
     expect(button.className).includes('text-size-sm');
     expect(button.className).includes('text-bluedot-navy');
