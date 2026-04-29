@@ -123,7 +123,7 @@ describe('getPackagesWithChanges', () => {
       // returns [] immediately. Broad match avoids a real git call (which hangs
       // on CI for unknown SHAs) when the walk visits the all-zeros SHA.
       const revListMatch = command.match(/^git rev-list --parents -n 1 ([0-9a-f]+)$/);
-      if (revListMatch) return revListMatch[1];
+      if (revListMatch?.[1]) return revListMatch[1];
       return baseImpl(command);
     });
 
