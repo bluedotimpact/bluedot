@@ -119,8 +119,11 @@ describe('getPackagesWithChanges', () => {
     const baseImpl = vi.mocked(execAsync).getMockImplementation()!;
     vi.mocked(execAsync).mockImplementation(async (command) => {
       if (command === SUCCESS_RUNS_COMMAND) return '0000000000000000000000000000000000000000';
-      // Pretend HEAD has no parents — parent walk returns [] immediately.
-      if (command === `git rev-list --parents -n 1 ${TEST_HEAD_COMMIT}`) return TEST_HEAD_COMMIT;
+      // Any rev-list --parents call returns the queried SHA itself — parent walk
+      // returns [] immediately. Broad match avoids a real git call (which hangs
+      // on CI for unknown SHAs) when the walk visits the all-zeros SHA.
+      const revListMatch = command.match(/^git rev-list --parents -n 1 ([0-9a-f]+)$/);
+      if (revListMatch) return revListMatch[1];
       return baseImpl(command);
     });
 
