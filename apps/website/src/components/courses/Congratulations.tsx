@@ -86,7 +86,7 @@ const ChatPreviewPanel = ({ courseTitle, courseUrl }: {
   courseUrl: string;
 }) => (
   <div className="h-full flex flex-col items-center justify-center p-8 bg-[#fbfbfd] border-l border-[#e5e9f2]">
-    <div className="bg-bluedot-normal rounded-[7.5px] shadow-sm px-4 py-3 max-w-[280px]">
+    <div className="relative bg-bluedot-normal rounded-[7.5px] shadow-sm px-4 py-3 max-w-[280px]">
       <p className="text-[14px] leading-[20px] text-white">
         Hey, I just finished this free {courseTitle} course and it genuinely shifted how I
         think about this stuff. Thought you&rsquo;d find it interesting as well.
@@ -94,6 +94,21 @@ const ChatPreviewPanel = ({ courseTitle, courseUrl }: {
         <span className="underline tracking-[0.16px]">{courseUrl}</span>
       </p>
       <p className="text-[12px] text-white/60 text-right mt-1">19:45</p>
+      <svg
+        className="absolute text-bluedot-normal"
+        style={{ right: '5px', bottom: '-8.917px' }}
+        width="15"
+        height="13"
+        viewBox="0 0 15 13"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <path
+          d="M10.5266 0H1.97356C0.26132 0 -0.640961 2.01068 0.527016 3.26271C12.8436 16.4658 16.2185 12.8421 13.9392 11.5753C12.2434 10.6329 12.7191 5.20631 12.3495 1.55509C12.2564 0.634952 11.4514 0 10.5266 0Z"
+          fill="currentColor"
+        />
+      </svg>
     </div>
   </div>
 );
