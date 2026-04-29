@@ -8,8 +8,7 @@ import {
   Select,
 } from '@bluedot/ui';
 import { FaArrowLeft, FaArrowRightArrowLeft } from 'react-icons/fa6';
-import { ClockUserIcon } from '../icons/ClockUserIcon';
-import { UserIcon } from '../icons/UserIcon';
+import { ClockUserIcon, UserIcon } from '../icons';
 import {
   formatTime12HourClock, formatDateMonthAndDay, formatDateDayOfWeek, getGMTOffsetWithCity,
 } from '../../lib/utils';

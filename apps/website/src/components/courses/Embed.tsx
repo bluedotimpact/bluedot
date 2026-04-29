@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 import type React from 'react';
-import { ExternalLinkIcon } from '../icons/ExternalLinkIcon';
-import { MusicNoteIcon } from '../icons/MusicNoteIcon';
+import { ExternalLinkIcon, MusicNoteIcon } from '../icons';
 
 type EmbedProps = {
   url: string;

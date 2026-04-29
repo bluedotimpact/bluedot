@@ -17,7 +17,7 @@ import { Markdown } from 'tiptap-markdown';
 import Placeholder from '@tiptap/extension-placeholder';
 import SaveStatusIndicator from './SaveStatusIndicator';
 import { ONE_MINUTE_MS, ONE_SECOND_MS } from '../../../lib/constants';
-import { ResizeHandleIcon } from '../../icons/ResizeHandleIcon';
+import { ResizeHandleIcon } from '../../icons';
 
 type SaveStatus = 'idle' | 'typing' | 'saving' | 'saved' | 'error';
 

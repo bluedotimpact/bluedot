@@ -2,7 +2,7 @@ import { useState, type ReactNode } from 'react';
 import {
   cn, CTALinkOrButton, H2, P,
 } from '@bluedot/ui';
-import { PlusToggleIcon } from '../../icons/PlusToggleIcon';
+import { PlusToggleIcon } from '../../icons';
 import { type IconType } from 'react-icons';
 
 export type Persona = {

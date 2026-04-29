@@ -9,7 +9,7 @@ import { PiShieldStarLight, PiShootingStarLight, PiUsersThreeLight } from 'react
 import { usePrimaryCourseURL } from '../../lib/hooks/usePrimaryCourseURL';
 import { withClickTracking } from '../../lib/withClickTracking';
 import { trpc } from '../../utils/trpc';
-import { ArrowDownIcon } from '../icons/ArrowDownIcon';
+import { ArrowDownIcon } from '../icons';
 import { COURSE_COLORS } from '../../lib/courseColors';
 
 type Course = {

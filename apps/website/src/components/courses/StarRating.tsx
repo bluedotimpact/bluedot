@@ -1,7 +1,7 @@
 import { maybePlural } from '@bluedot/ui';
 import type React from 'react';
 import { useState } from 'react';
-import { StarIcon } from '../icons/StarIcon';
+import { StarIcon } from '../icons';
 
 type StarRatingProps = {
   rating: number;

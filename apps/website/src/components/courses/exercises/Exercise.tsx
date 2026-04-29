@@ -9,7 +9,7 @@ import MultipleChoice from './MultipleChoice';
 
 import GroupResponses from './GroupResponses';
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
-import { CheckmarkIcon } from '../../icons/CheckmarkIcon';
+import { CheckmarkIcon } from '../../icons';
 import { trpc } from '../../../utils/trpc';
 import { optimisticallyUpdateCourseProgress, rollbackCourseProgress } from '../../../utils/optimisticCourseProgress';
 

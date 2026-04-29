@@ -1,33 +1,35 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
 
-import { ArrowDownIcon } from './ArrowDownIcon';
-import { ArrowRightIcon } from './ArrowRightIcon';
-import { CheckIcon } from './CheckIcon';
-import { CheckmarkIcon } from './CheckmarkIcon';
-import { ChevronRightIcon } from './ChevronRightIcon';
-import { ChunkIcon } from './ChunkIcon';
-import { CircledCheckmarkIcon } from './CircledCheckmarkIcon';
-import { ClockIcon } from './ClockIcon';
-import { ClockUserIcon } from './ClockUserIcon';
-import { DocumentIcon } from './DocumentIcon';
-import { ErrorIcon } from './ErrorIcon';
-import { ExternalLinkIcon } from './ExternalLinkIcon';
-import { InfoIcon } from './InfoIcon';
-import { MoonStarsIcon } from './MoonStarsIcon';
-import { MusicNoteIcon } from './MusicNoteIcon';
-import { PlayCircleIcon } from './PlayCircleIcon';
-import { PlusToggleIcon } from './PlusToggleIcon';
-import { ResizeHandleIcon } from './ResizeHandleIcon';
-import { SlackIcon } from './SlackIcon';
-import { StarIcon } from './StarIcon';
-import { SwitchUserIcon } from './SwitchUserIcon';
-import { ThumbIcon } from './ThumbIcon';
-import { UndoIcon } from './UndoIcon';
-import { UserIcon } from './UserIcon';
-import { VideoIcon } from './VideoIcon';
-import { WarningCircleIcon } from './WarningCircleIcon';
-import { WarningTriangleIcon } from './WarningTriangleIcon';
+import {
+  ArrowDownIcon,
+  ArrowRightIcon,
+  CheckIcon,
+  CheckmarkIcon,
+  ChevronRightIcon,
+  ChunkIcon,
+  CircledCheckmarkIcon,
+  ClockIcon,
+  ClockUserIcon,
+  DocumentIcon,
+  ErrorIcon,
+  ExternalLinkIcon,
+  InfoIcon,
+  MoonStarsIcon,
+  MusicNoteIcon,
+  PlayCircleIcon,
+  PlusToggleIcon,
+  ResizeHandleIcon,
+  SlackIcon,
+  StarIcon,
+  SwitchUserIcon,
+  ThumbIcon,
+  UndoIcon,
+  UserIcon,
+  VideoIcon,
+  WarningCircleIcon,
+  WarningTriangleIcon,
+} from '.';
 
 type IconCellProps = {
   name: string;

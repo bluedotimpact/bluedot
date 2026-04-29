@@ -1,7 +1,7 @@
 import { CTALinkOrButton } from '@bluedot/ui';
 import { useState } from 'react';
 import { trpc } from '../../utils/trpc';
-import { MoonStarsIcon } from '../icons/MoonStarsIcon';
+import { MoonStarsIcon } from '../icons';
 import DropoutModal from './DropoutModal';
 import RejoinGroupModal from './RejoinGroupModal';
 

@@ -6,8 +6,7 @@ import type { CourseRound, CourseRoundsData } from '../../server/routers/course-
 import { ONE_DAY_MS } from '../../lib/constants';
 import { formatMonthAndDay } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
-import { CheckIcon } from '../icons/CheckIcon';
-import { InfoIcon } from '../icons/InfoIcon';
+import { CheckIcon, InfoIcon } from '../icons';
 
 const TYPE_OPTIONS = [
   { value: 'Drop out', label: 'Drop out of the course' },

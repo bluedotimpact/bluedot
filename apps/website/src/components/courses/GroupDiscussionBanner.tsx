@@ -12,11 +12,9 @@ import { IoAdd } from 'react-icons/io5';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 import { buildCourseUnitUrl, buildGroupSlackChannelUrl, formatDateTimeRelative } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
-import { ClockIcon } from '../icons/ClockIcon';
-import { DocumentIcon } from '../icons/DocumentIcon';
-import { SlackIcon } from '../icons/SlackIcon';
-import { SwitchUserIcon } from '../icons/SwitchUserIcon';
-import { VideoIcon } from '../icons/VideoIcon';
+import {
+  ClockIcon, DocumentIcon, SlackIcon, SwitchUserIcon, VideoIcon,
+} from '../icons';
 import FacilitatorSwitchModal, { type FacilitatorModalType } from './FacilitatorSwitchModal';
 import GroupSwitchModal from './GroupSwitchModal';
 
