@@ -9,8 +9,8 @@ import { CheckIcon } from '../icons/CheckIcon';
 import { InfoIcon } from '../icons/InfoIcon';
 
 const TYPE_OPTIONS = [
-  { value: 'dropout', label: 'Drop out of the course' },
-  { value: 'deferral', label: 'Defer to a future cohort' },
+  { value: 'Drop out', label: 'Drop out of the course' },
+  { value: 'Deferral', label: 'Defer to a future round' },
 ] as const;
 
 type DropoutType = (typeof TYPE_OPTIONS)[number]['value'];
@@ -38,7 +38,7 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, courseSlug, ha
 
   const { data: courseRounds } = trpc.courseRounds.getRoundsForCourse.useQuery({ courseSlug });
 
-  const isDeferral = dropoutType === 'deferral';
+  const isDeferral = dropoutType === 'Deferral';
   const submitDisabled = !dropoutType || dropoutMutation.isPending;
 
   const nextRoundInfo = (() => {
@@ -68,7 +68,7 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, courseSlug, ha
     dropoutMutation.mutate({
       applicantId,
       reason: reason.trim(),
-      isDeferral,
+      type: dropoutType,
     });
   };
 
@@ -82,7 +82,7 @@ const DropoutModal: React.FC<DropoutModalProps> = ({ applicantId, courseSlug, ha
           <div className="flex max-w-[512px] flex-col items-center gap-4">
             <P className="text-bluedot-navy/80 text-center">
               {isDeferral
-                ? `Your deferral request has been submitted. ${nextRoundInfo ? `We'll be in touch in the week of ${nextRoundInfo.contactWeek}. You should receive a confirmation email soon.` : 'We\'ll be in touch about joining a future cohort. You should receive a confirmation email soon.'}`
+                ? `Your deferral request has been submitted. ${nextRoundInfo ? `We'll be in touch in the week of ${nextRoundInfo.contactWeek}. You should receive a confirmation email soon.` : 'We\'ll be in touch about joining a future round. You should receive a confirmation email soon.'}`
                 : 'Your dropout request has been submitted. We\'re sorry to see you go. You should receive a confirmation email soon.'}
             </P>
           </div>
@@ -192,7 +192,7 @@ const InformationBanner = () => {
           <InfoIcon className="shrink-0" />
         </div>
         <P className="text-bluedot-normal flex-1 justify-start">
-          If you're having trouble keeping up or need to adjust your schedule, consider deferring to a future cohort
+          If you're having trouble keeping up or need to adjust your schedule, consider deferring to a future round
           instead of dropping out completely.
         </P>
       </div>
