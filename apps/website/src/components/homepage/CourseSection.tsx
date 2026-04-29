@@ -10,6 +10,7 @@ import { usePrimaryCourseURL } from '../../lib/hooks/usePrimaryCourseURL';
 import { withClickTracking } from '../../lib/withClickTracking';
 import { trpc } from '../../utils/trpc';
 import { ArrowDownIcon } from '../icons/ArrowDownIcon';
+import { COURSE_COLORS } from '../../lib/courseColors';
 
 type Course = {
   slug: string;
@@ -24,28 +25,29 @@ type Course = {
   gradient?: string;
 };
 
-// Visual config per course (gradients, icons, tag labels) — keyed by slug
+// Per-slug homepage card config: gradient comes from the shared `lib/courseColors`
+// source-of-truth; icon path + cadence/tag stay here since they're homepage-specific.
 const COURSE_VISUAL_CONFIG: Record<string, { gradient: string; icon: string; cadence: string; additionalTag: string }> = {
   'agi-strategy': {
-    gradient: 'linear-gradient(to right, rgba(10, 8, 36, 0.9) 0%, rgba(10, 8, 36, 0.4) 5%, rgba(10, 8, 36, 0.15) 15%, rgba(10, 8, 36, 0.05) 30%, transparent 45%), radial-gradient(115% 175% at 95% 135%, rgba(255, 194, 195, 0.65) 0%, rgba(255, 194, 195, 0.50) 25%, rgba(53, 42, 106, 0.65) 60%, rgba(10, 8, 36, 0.60) 100%), #181D3F',
+    gradient: COURSE_COLORS['agi-strategy'].gradient,
     icon: '/images/courses/agi-strategy-icon.svg',
     cadence: 'Cohort-based',
     additionalTag: 'Every month',
   },
   biosecurity: {
-    gradient: 'linear-gradient(135deg, #012A07 10%, rgba(1, 42, 7, 0.00) 90%), radial-gradient(110.09% 127.37% at 112.15% 117.08%, rgba(220, 238, 171, 0.45) 0%, rgba(86, 140, 94, 0.45) 50%, rgba(1, 42, 7, 0.45) 100%), radial-gradient(97.29% 122.23% at 85.59% 126.89%, rgba(222, 149, 47, 0.35) 0%, rgba(157, 205, 98, 0.35) 52.4%, rgba(28, 175, 141, 0.35) 100%), #012A07',
+    gradient: COURSE_COLORS.biosecurity.gradient,
     icon: '/images/courses/biosecurity-icon.svg',
     cadence: 'Cohort-based',
     additionalTag: 'Every month',
   },
   'technical-ai-safety': {
-    gradient: 'linear-gradient(to right, rgba(20, 8, 25, 0.6) 0%, rgba(20, 8, 25, 0.4) 20%, rgba(20, 8, 25, 0.2) 40%, transparent 55%), radial-gradient(130% 160% at 100% 108.81%, rgba(255, 202, 171, 0.40) 0%, rgba(126, 85, 144, 0.40) 52.4%, rgba(46, 16, 54, 0.40) 100%), #2E1036',
+    gradient: COURSE_COLORS['technical-ai-safety'].gradient,
     icon: '/images/courses/technical-ai-safety-icon.svg',
     cadence: 'Cohort-based',
     additionalTag: 'Every month',
   },
   'ai-governance': {
-    gradient: 'linear-gradient(270deg, rgba(5, 24, 67, 0.00) -3.82%, rgba(5, 24, 67, 0.50) 98.44%), radial-gradient(96.03% 113.39% at 98.65% 96.93%, rgba(175, 196, 151, 0.40) 0%, rgba(21, 148, 194, 0.40) 44.58%, rgba(5, 24, 67, 0.40) 100%), #051843',
+    gradient: COURSE_COLORS['ai-governance'].gradient,
     icon: '/images/courses/ai-governance-icon.svg',
     cadence: 'Cohort-based',
     additionalTag: 'Every month',

@@ -5,18 +5,9 @@ import {
   PiHandHeart,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
+import { COURSE_COLORS } from '../../../lib/courseColors';
 
-export const AGI_STRATEGY_COLORS = {
-  /* Gradient layers:
-     1. Left-side darkness - horizontal gradient to darken left edge for text readability
-     2. Main colorful gradient - pink→purple→dark blue from bottom-right
-     3. Base color - dark navy */
-  gradient: 'linear-gradient(to right, rgba(10, 8, 36, 0.9) 0%, rgba(10, 8, 36, 0.4) 5%, rgba(10, 8, 36, 0.15) 15%, rgba(10, 8, 36, 0.05) 30%, transparent 45%), radial-gradient(115% 175% at 95% 135%, rgba(255, 194, 195, 0.65) 0%, rgba(255, 194, 195, 0.50) 25%, rgba(53, 42, 106, 0.65) 60%, rgba(10, 8, 36, 0.60) 100%), #181D3F',
-  accent: '#BCA9FF',
-  iconBackground: '#2C3F81',
-  bright: '#f3e8ff',
-  full: '#9177dc',
-};
+export const AGI_STRATEGY_COLORS = COURSE_COLORS['agi-strategy'];
 
 export const createAgiStrategyContent = (
   applicationUrlWithUtm: string,
