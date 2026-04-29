@@ -18,6 +18,7 @@ export type SelectProps = {
   placeholder?: string;
   className?: string;
   ariaLabel?: string;
+  disabled?: boolean;
 };
 
 export const Select = ({
@@ -27,6 +28,7 @@ export const Select = ({
   placeholder = 'Select an option',
   className,
   ariaLabel,
+  disabled,
 }: SelectProps) => {
   const selectedOption = options.find((op) => op.value === value);
   const isDesktop = useAboveBreakpoint(breakpoints.md);
@@ -66,10 +68,15 @@ export const Select = ({
       <AriaSelect
         selectedKey={value}
         onSelectionChange={handleSelect}
-        isOpen={isDesktop ? isOpen : false}
-        onOpenChange={setIsOpen}
+        isOpen={isDesktop && !disabled ? isOpen : false}
+        onOpenChange={(open) => !disabled && setIsOpen(open)}
+        isDisabled={disabled}
         aria-label={ariaLabel}
-        className={cn('w-full flex flex-col bg-white border border-color-divider rounded-lg transition-all text-size-sm', className)}
+        className={cn(
+          'w-full flex flex-col bg-white border border-color-divider rounded-lg transition-all text-size-sm',
+          disabled && 'opacity-50 cursor-not-allowed bg-gray-50',
+          className,
+        )}
       >
         <Button
           className="w-full gap-3 flex justify-between p-4 items-center cursor-pointer text-left transition-all"

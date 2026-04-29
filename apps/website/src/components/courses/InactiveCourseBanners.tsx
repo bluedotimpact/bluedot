@@ -77,6 +77,7 @@ const InactiveCourseBanner = ({ applicantId, courseSlug, roundId }: InactiveCour
         <DropoutModal
           applicantId={applicantId}
           courseSlug={courseSlug}
+          currentRoundId={roundId}
           handleClose={() => setDropoutModalOpen(false)}
         />
       )}
