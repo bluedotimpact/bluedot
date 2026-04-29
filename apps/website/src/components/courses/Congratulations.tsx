@@ -12,14 +12,15 @@ import { useRouter } from 'next/router';
 import type React from 'react';
 import { useState } from 'react';
 import {
-  FaCopy, FaLinkedinIn, FaWhatsapp, FaXTwitter,
+  FaCopy, FaLink, FaLinkedinIn, FaXTwitter,
 } from 'react-icons/fa6';
 import { COURSE_CONFIG, FOAI_COURSE_ID } from '../../lib/constants';
 import { ROUTES } from '../../lib/routes';
-import { getActionPlanUrl } from '../../lib/utils';
+import { getCourseCtaColors } from '../../lib/courseCtaColors';
 import type { CertificateStatus } from '../../server/routers/certificates';
 import { getLoginUrl } from '../../utils/getLoginUrl';
 import { trpc } from '../../utils/trpc';
+import { CertificateCard } from '../certificate/CertificateCard';
 import { LaurelWreathIcon } from '../icons/LaurelWreathIcon';
 import { CourseIcon } from './CourseIcon';
 
@@ -33,8 +34,6 @@ export const CERTIFICATE_STATUS_DESCRIPTIONS: Record<CertificateStatus, string> 
   'not-eligible': 'This course doesn\'t currently issue certificates to independent learners. Join a facilitated version to get a certificate.',
 };
 
-const secondaryBtnClass
-  = 'flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-[13px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap';
 // --- Laurel wreath ---
 
 const LaurelWreath = ({ courseSlug }: { courseSlug: string }) => {
@@ -99,41 +98,6 @@ const ChatPreviewPanel = ({ courseTitle, courseUrl }: {
   </div>
 );
 
-const CertificatePreviewPanel = ({ courseSlug, courseTitle, holderName }: {
-  courseSlug: string;
-  courseTitle: string;
-  holderName?: string;
-}) => {
-  const badgeSrc = courseSlug in COURSE_CONFIG
-    ? `/images/certificates/${courseSlug}.png`
-    : '/images/certificates/certificate-fallback-image.png';
-
-  return (
-    <div className="h-full bg-[#f7f7fd] flex items-center justify-center p-6">
-      <div className="bg-white rounded-lg border border-slate-200 shadow-sm w-full max-w-[360px] overflow-hidden">
-        <div className="flex flex-col items-center px-6 py-8 gap-4">
-          <img src={badgeSrc} alt="" className="h-[140px] w-auto object-contain" />
-          <div className="flex flex-col items-center gap-1 text-center">
-            <p className="text-[11px] font-medium uppercase tracking-[0.06em] text-[#62748E]">
-              Professional Certification
-            </p>
-            <p className="text-[18px] font-semibold text-bluedot-navy leading-tight">
-              {courseTitle}
-            </p>
-          </div>
-          {holderName && (
-            <div className="flex flex-col items-center gap-0.5 text-center">
-              <p className="text-[11px] font-medium uppercase tracking-[0.06em] text-[#62748E]">
-                Awarded to
-              </p>
-              <p className="text-[14px] font-semibold text-bluedot-navy">{holderName}</p>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
 // --- ShareCard ---
 
 type ShareCardProps = {
@@ -162,159 +126,90 @@ const ShareCard = ({
   </div>
 );
 
-// --- Certificate card ---
+const primaryBtnClass
+  = 'flex items-center justify-center gap-3 bg-bluedot-normal text-white rounded-[6px] px-4 py-3 text-[14px] font-semibold tracking-[-0.35px] hover:opacity-90 transition-opacity no-underline whitespace-nowrap cursor-pointer';
 
-type CertificateCardProps = { courseId: string; courseSlug: string; courseTitle: string };
+const outlinedBtnClass
+  = 'flex items-center justify-center gap-2.5 bg-white border border-[rgba(106,111,122,0.5)] text-bluedot-navy rounded-[6px] px-4 py-3 text-[14px] font-medium hover:bg-slate-50 transition-colors no-underline whitespace-nowrap cursor-pointer';
 
-const CertificateCardAuthed = ({ courseId, courseSlug, courseTitle }: CertificateCardProps) => {
-  const { data: certificateData, isLoading, error, refetch } = trpc.certificates.getStatus.useQuery({ courseId });
+// --- Certificate hero ---
 
-  const requestCertificateMutation = trpc.certificates.request.useMutation({
-    onSuccess: async () => {
-      await refetch();
-      if (typeof window !== 'undefined' && window.dataLayer && courseId === FOAI_COURSE_ID) {
-        window.dataLayer.push({ event: 'completers', course_slug: 'future-of-ai' });
-      }
-    },
+type CertificateHeroProps = { courseId: string; courseTitle: string };
+
+const CertificateHeroAuthed = ({ courseId, courseTitle }: CertificateHeroProps) => {
+  const { data, isLoading, error } = trpc.certificates.getStatus.useQuery({ courseId });
+  const [copied, setCopied] = useState(false);
+
+  if (isLoading) {
+    return <div className="flex justify-center py-12"><ProgressDots /></div>;
+  }
+
+  if (error != null) {
+    return <ErrorView error={error} />;
+  }
+
+  if (data?.status !== 'has-certificate') {
+    return null;
+  }
+
+  const issuedDate = new Date(data.certificateCreatedAt * 1000).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
   });
 
-  const preview = <CertificatePreviewPanel courseSlug={courseSlug} courseTitle={courseTitle} />;
+  const certificateLink = `${SITE_URL}${addQueryParam(ROUTES.certification.url, 'id', data.certificateId)}`;
 
-  if (isLoading || requestCertificateMutation.isPending) {
-    return (
-      <ActionCard number={3} title="Grab your certificate" description="" actions={<ProgressDots />} preview={preview} />
-    );
-  }
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(certificateLink);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (_error) {
+      // Clipboard API unavailable
+    }
+  };
 
-  if (error != null || requestCertificateMutation.isError) {
-    return (
-      <ActionCard
-        number={3}
-        title="Grab your certificate"
-        description=""
-        preview={preview}
-        actions={(
-          <div className="flex flex-col gap-4">
-            <ErrorView error={error ?? requestCertificateMutation.error} />
-            <CTALinkOrButton
-              variant="primary"
-              onClick={() => (error ? refetch() : requestCertificateMutation.mutate({ courseId }))}
-            >
-              Retry
-            </CTALinkOrButton>
-          </div>
-        )}
-      />
-    );
-  }
-
-  if (certificateData?.status === 'has-certificate') {
-    const formattedDate = new Date(certificateData.issuedAt * 1000).toLocaleDateString(undefined, { dateStyle: 'long' });
-    return (
-      <ActionCard
-        number={3}
-        title="Grab your certificate"
-        description={`Earned by ${certificateData.holderName} · Issued ${formattedDate}`}
-        preview={<CertificatePreviewPanel courseSlug={courseSlug} courseTitle={courseTitle} holderName={certificateData.holderName} />}
-        actions={(
-          <CTALinkOrButton
-            url={addQueryParam(ROUTES.certification.url, 'id', certificateData.certificateId)}
-            variant="primary"
-            target="_blank"
-          >
-            View Certificate
-          </CTALinkOrButton>
-        )}
-      />
-    );
-  }
-
-  if (certificateData?.status === 'action-plan-pending') {
-    const actionPlanUrl = getActionPlanUrl(certificateData.meetPersonId);
-    return (
-      <ActionCard
-        number={3}
-        title="Grab your certificate"
-        description={CERTIFICATE_STATUS_DESCRIPTIONS['action-plan-pending']}
-        preview={preview}
-        actions={(
-          <CTALinkOrButton
-            url={actionPlanUrl}
-            variant="primary"
-            target="_blank"
-            disabled={certificateData.hasSubmittedActionPlan ?? false}
-          >
-            {certificateData.hasSubmittedActionPlan ? 'Submitted!' : 'Submit your plan here'}
-          </CTALinkOrButton>
-        )}
-      />
-    );
-  }
-
-  if (certificateData?.status === 'can-request') {
-    return (
-      <ActionCard
-        number={3}
-        title="Grab your certificate"
-        description={CERTIFICATE_STATUS_DESCRIPTIONS['can-request']}
-        preview={preview}
-        actions={(
-          <CTALinkOrButton
-            variant="primary"
-            onClick={() => requestCertificateMutation.mutate({ courseId })}
-          >
-            Download Certificate
-          </CTALinkOrButton>
-        )}
-      />
-    );
-  }
-
-  if (certificateData?.status === 'facilitator-pending') {
-    return (
-      <ActionCard
-        number={3}
-        title="Grab your certificate"
-        description={CERTIFICATE_STATUS_DESCRIPTIONS['facilitator-pending']}
-        preview={preview}
-        actions={null}
-      />
-    );
-  }
-
-  // not-eligible (and any other status)
   return (
-    <ActionCard
-      number={3}
-      title="Grab your certificate"
-      description={CERTIFICATE_STATUS_DESCRIPTIONS['not-eligible']}
-      preview={preview}
-      actions={null}
-    />
+    <div className="flex flex-col items-center gap-6 w-full">
+      <CertificateCard
+        courseName={data.courseName ?? courseTitle}
+        courseSlug={data.courseSlug}
+        recipientName={data.recipientName}
+        description={data.certificationDescription}
+        issuedDate={issuedDate}
+        certificateId={data.certificateId}
+      />
+      <button
+        type="button"
+        onClick={handleCopyLink}
+        className={outlinedBtnClass}
+      >
+        <FaLink className="size-4" />
+        {copied ? 'Link copied!' : 'Copy link'}
+      </button>
+    </div>
   );
 };
 
-const CertificateCard = ({ courseId, courseSlug, courseTitle }: CertificateCardProps) => {
+const CertificateHero = ({ courseId, courseTitle }: CertificateHeroProps) => {
   const auth = useAuthStore((s) => s.auth);
   const router = useRouter();
 
   if (!auth) {
     return (
-      <ActionCard
-        number={3}
-        title="Grab your certificate"
-        description="Create a free account to earn your course certificate."
-        preview={<CertificatePreviewPanel courseSlug={courseSlug} courseTitle={courseTitle} />}
-        actions={(
-          <CTALinkOrButton url={getLoginUrl(router.asPath)} variant="primary">
-            Log in
-          </CTALinkOrButton>
-        )}
-      />
+      <div className="flex flex-col items-center gap-3">
+        <p className="text-[14px] text-[#62748E] text-center max-w-[480px]">
+          Create a free account to earn your course certificate.
+        </p>
+        <CTALinkOrButton url={getLoginUrl(router.asPath)} variant="primary">
+          Log in
+        </CTALinkOrButton>
+      </div>
     );
   }
 
-  return <CertificateCardAuthed courseId={courseId} courseSlug={courseSlug} courseTitle={courseTitle} />;
+  return <CertificateHeroAuthed courseId={courseId} courseTitle={courseTitle} />;
 };
 
 // --- Main component ---
@@ -342,9 +237,9 @@ const Congratulations: React.FC<CongratulationsProps> = ({
   const shareText = text ?? `I just completed the ${courseTitle} course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out:`;
   const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(courseUrl)}`;
   const xUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${shareText} ${courseUrl}`)}`;
-  const whatsAppUrl = `https://wa.me/?text=${encodeURIComponent(`${shareText} ${courseUrl}`)}`;
+  const courseColors = getCourseCtaColors(courseSlug);
 
-  const handleCopy = async () => {
+  const handleCopyShare = async () => {
     try {
       await navigator.clipboard.writeText(`${shareText} ${courseUrl}`);
       setCopied(true);
@@ -355,65 +250,77 @@ const Congratulations: React.FC<CongratulationsProps> = ({
   };
 
   return (
-    <div className={cn('congratulations flex flex-col gap-16 max-w-[1100px] mx-auto w-full', className)}>
-      <div className="flex flex-col gap-6 items-center text-center max-w-[640px] mx-auto">
-        <H2 className="font-bold text-[32px] leading-[1.3] tracking-[-0.015em]">
-          Hooray! You just finished the {courseTitle} course 🎉
+    <div className={cn('congratulations flex flex-col bg-white', className)}>
+      {/* Certificate hero section */}
+      <div className="flex flex-col items-center pt-12 pb-16 gap-8">
+        <LaurelWreath courseSlug={courseSlug} />
+        <H2 className="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] max-w-[720px] text-center">
+          Congratulations on finishing the {courseTitle} course!
         </H2>
-        <P className="text-[16px] leading-[1.6] tracking-[-0.002em]">
-          Well done! Before you venture out contributing to safe AI, we'd like to ask you
-          for a favor: Please share your experience with your friends and network. This
-          helps us immensely to raise awareness further and ensure making AI go well.
-        </P>
+        {courseId && (
+          <CertificateHero courseId={courseId} courseTitle={courseTitle} />
+        )}
       </div>
 
-      <div className="flex flex-col gap-12">
-        <ActionCard
-          number={1}
-          title="Share your accomplishment"
-          description="Raise awareness for safe AI within your network. This will only take 1 min of your time, but can have significant impact on more people working on making AI go well. We're counting on you!"
-          preview={<PostPreviewPanel courseSlug={courseSlug} shareText={shareText} courseUrl={courseUrl} />}
-          actions={(
-            <>
-              <a href={linkedInUrl} target="_blank" rel="noopener noreferrer" className={secondaryBtnClass}>
-                <FaLinkedinIn className="size-4" />
-                Share on LinkedIn
-              </a>
-              <a href={xUrl} target="_blank" rel="noopener noreferrer" className={secondaryBtnClass}>
-                <FaXTwitter className="size-4" />
-                Share on X
-              </a>
-            </>
-          )}
-        />
+      {/* Sharing section with course-colored gradient (inset rounded card) */}
+      <div className="pb-12 w-full max-w-[964px] mx-auto">
+        <div
+          className="flex flex-col items-center px-5 md:px-[54px] py-[64px] gap-12 rounded-[17px] overflow-hidden"
+          style={{ background: courseColors.gradient }}
+        >
+          <div className="flex flex-col items-center text-center gap-4 max-w-[653px]">
+            <p
+              className="text-[16px] font-semibold uppercase tracking-[0.04em]"
+              style={{ color: courseColors.accent }}
+            >
+              Start making impact today
+            </p>
+            <H2 className="font-bold text-[32px] leading-[1.3] tracking-[-0.015em] text-white">
+              Help more people discover AI safety today
+            </H2>
+            <P className="text-[16px] leading-[1.6] tracking-[-0.002em] text-white">
+              You&apos;ve spent time understanding one of the most important problems of our era.
+              A post or a message to the right person can have a real ripple effect.
+            </P>
+          </div>
 
-        <ActionCard
-          number={2}
-          title="Send it to someone personally"
-          description={'Think of three people who\'d genuinely benefit from this course. A little "I thought of you" goes a long way. Is there anyone that comes to mind?'}
-          preview={<WhatsAppPreviewPanel courseTitle={courseTitle} courseUrl={courseUrl} />}
-          actions={(
-            <>
-              <a href={whatsAppUrl} target="_blank" rel="noopener noreferrer" className={secondaryBtnClass}>
-                <FaWhatsapp className="size-4" />
-                WhatsApp
-              </a>
-              <button
-                type="button"
-                onClick={handleCopy}
-                className={cn(secondaryBtnClass, 'border-0 cursor-pointer')}
-              >
-                <FaCopy className="size-4" />
-                {copied ? 'Copied!' : 'Copy'}
-              </button>
-            </>
-          )}
-        />
+          <div className="flex flex-col gap-8 w-full">
+            <ShareCard
+              title="1. Share with your network"
+              description="Take a minute to celebrate and raise awareness for safe AI in your network!"
+              preview={<PostPreviewPanel courseSlug={courseSlug} shareText={shareText} courseUrl={courseUrl} />}
+              actions={(
+                <>
+                  <a href={linkedInUrl} target="_blank" rel="noopener noreferrer" className={primaryBtnClass}>
+                    <FaLinkedinIn className="size-4" />
+                    Share on LinkedIn
+                  </a>
+                  <a href={xUrl} target="_blank" rel="noopener noreferrer" className={outlinedBtnClass}>
+                    <FaXTwitter className="size-4" />
+                    Share on X
+                  </a>
+                </>
+              )}
+            />
 
-        {courseId && <CertificateCard courseId={courseId} courseSlug={courseSlug} courseTitle={courseTitle} />}
+            <ShareCard
+              title="2. Refer a friend or colleague"
+              description={'Think of three people who\'d genuinely benefit from this course. A little "I thought of you" goes a long way.'}
+              preview={<ChatPreviewPanel courseTitle={courseTitle} courseUrl={courseUrl} />}
+              actions={(
+                <button type="button" onClick={handleCopyShare} className={primaryBtnClass}>
+                  <FaCopy className="size-4" />
+                  {copied ? 'Copied!' : 'Copy Message'}
+                </button>
+              )}
+            />
+          </div>
+        </div>
+      </div>
 
-        {courseId === FOAI_COURSE_ID && (
-          <div className="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] p-10 flex flex-col gap-6">
+      {courseId === FOAI_COURSE_ID && (
+        <div className="py-12 flex justify-center bg-white">
+          <div className="bg-white border-hairline border-bluedot-navy/25 rounded-[10px] p-10 flex flex-col gap-6 w-full max-w-[1100px]">
             <div className="flex flex-col gap-3">
               <h3 className="font-semibold text-[18px] leading-[1.4] text-bluedot-navy">Want to go deeper?</h3>
               <P className="text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy">
@@ -424,8 +331,8 @@ const Congratulations: React.FC<CongratulationsProps> = ({
               Apply now
             </CTALinkOrButton>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
