@@ -64,7 +64,7 @@ export const UpcomingRounds = () => {
         {/* CTA Button */}
         <CTALinkOrButton
           url="/courses"
-          className="mt-[24px] px-4 bg-bluedot-navy/10 text-bluedot-navy hover:text-bluedot-navy text-[15px] font-[450] tracking-[-0.3px] rounded-md hover:bg-bluedot-navy/15"
+          className="mt-[24px] px-4 bg-bluedot-navy/10 text-bluedot-navy hover:text-bluedot-navy text-size-sm font-[450] tracking-[-0.3px] rounded-md hover:bg-bluedot-navy/15"
         >
           See all rounds
         </CTALinkOrButton>
@@ -81,7 +81,7 @@ type RoundGroupProps = {
 const RoundGroup = ({ label, rounds }: RoundGroupProps) => {
   return (
     <div className="flex flex-col gap-6">
-      <h3 className="text-[15px] font-semibold uppercase tracking-[0.45px] leading-tight text-bluedot-navy text-center bd-md:text-left">
+      <h3 className="text-size-sm font-semibold uppercase tracking-[0.45px] leading-tight text-bluedot-navy text-center bd-md:text-left">
         {label}
       </h3>
 

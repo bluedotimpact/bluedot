@@ -274,7 +274,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                   <OverflowMenu
                     ariaLabel="More discussion options"
                     // 'ghost' variant styling
-                    buttonClassName="ml-auto border-none bg-transparent text-bluedot-normal hover:bg-bluedot-lighter px-3 py-2.5 h-9 text-[13px] font-medium whitespace-nowrap"
+                    buttonClassName="ml-auto border-none bg-transparent text-bluedot-normal hover:bg-bluedot-lighter px-3 py-2.5 h-9 text-size-xs font-medium whitespace-nowrap"
                     items={desktopOverflowButtons.map((button): OverflowMenuItemProps => ({
                       id: button.id,
                       label: button.overflowIcon ? (
@@ -370,7 +370,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                 <OverflowMenu
                   ariaLabel="More discussion options"
                   // 'secondary' variant styling
-                  buttonClassName="flex-1 border border-[#B5C3EC] w-full px-3 py-2.5 h-9 text-[13px] font-medium"
+                  buttonClassName="flex-1 border border-[#B5C3EC] w-full px-3 py-2.5 h-9 text-size-xs font-medium"
                   items={overflowButtons.map((button): OverflowMenuItemProps => ({
                     id: button.id,
                     label: button.overflowIcon ? (

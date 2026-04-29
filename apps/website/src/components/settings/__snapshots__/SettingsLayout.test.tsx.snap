@@ -93,7 +93,7 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
                   class="flex items-center gap-3 w-full"
                 >
                   <p
-                    class="bluedot-p not-prose text-[13px] leading-[22px] flex-grow !m-0 font-semibold"
+                    class="bluedot-p not-prose text-size-xs leading-[22px] flex-grow !m-0 font-semibold"
                   >
                     Account
                   </p>
@@ -114,7 +114,7 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
                   class="flex items-center gap-3 w-full"
                 >
                   <p
-                    class="bluedot-p not-prose text-[13px] leading-[22px] flex-grow !m-0 font-normal"
+                    class="bluedot-p not-prose text-size-xs leading-[22px] flex-grow !m-0 font-normal"
                   >
                     Courses
                   </p>

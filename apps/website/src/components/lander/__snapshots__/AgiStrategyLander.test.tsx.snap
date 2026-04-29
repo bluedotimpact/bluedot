@@ -891,19 +891,19 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       class="min-w-0 flex-1"
                     >
                       <p
-                        class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
+                        class="text-size-sm leading-[1.45] font-semibold text-bluedot-navy"
                       >
                         Technical AI Safety
                       </p>
                       <p
-                        class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
+                        class="mt-1 text-size-sm leading-[1.6] text-bluedot-navy/62"
                       >
                         Interpretability, evals, alignment research. For people ready to work on the technical problems.
                       </p>
                     </div>
                   </div>
                   <div
-                    class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
+                    class="ml-5 flex shrink-0 items-center text-size-sm leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
                   >
                     <span
                       class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
@@ -935,19 +935,19 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       class="min-w-0 flex-1"
                     >
                       <p
-                        class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
+                        class="text-size-sm leading-[1.45] font-semibold text-bluedot-navy"
                       >
                         AI Governance
                       </p>
                       <p
-                        class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
+                        class="mt-1 text-size-sm leading-[1.6] text-bluedot-navy/62"
                       >
                         Policy, institutions, international coordination. For people shaping how these systems get governed.
                       </p>
                     </div>
                   </div>
                   <div
-                    class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
+                    class="ml-5 flex shrink-0 items-center text-size-sm leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
                   >
                     <span
                       class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
@@ -979,19 +979,19 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       class="min-w-0 flex-1"
                     >
                       <p
-                        class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
+                        class="text-size-sm leading-[1.45] font-semibold text-bluedot-navy"
                       >
                         Biosecurity
                       </p>
                       <p
-                        class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
+                        class="mt-1 text-size-sm leading-[1.6] text-bluedot-navy/62"
                       >
                         Pandemic preparedness, early warning systems, policy. For people building defences against bio risks.
                       </p>
                     </div>
                   </div>
                   <div
-                    class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
+                    class="ml-5 flex shrink-0 items-center text-size-sm leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
                   >
                     <span
                       class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
@@ -1023,19 +1023,19 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       class="min-w-0 flex-1"
                     >
                       <p
-                        class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
+                        class="text-size-sm leading-[1.45] font-semibold text-bluedot-navy"
                       >
                         Rapid Grants
                       </p>
                       <p
-                        class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
+                        class="mt-1 text-size-sm leading-[1.6] text-bluedot-navy/62"
                       >
                         Small, fast funding for concrete AI safety work. Five-minute application, decisions in days, money upfront by default.
                       </p>
                     </div>
                   </div>
                   <div
-                    class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
+                    class="ml-5 flex shrink-0 items-center text-size-sm leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
                   >
                     <span
                       class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
@@ -1067,19 +1067,19 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       class="min-w-0 flex-1"
                     >
                       <p
-                        class="text-[15px] leading-[1.45] font-semibold text-bluedot-navy"
+                        class="text-size-sm leading-[1.45] font-semibold text-bluedot-navy"
                       >
                         Career Transition Grants
                       </p>
                       <p
-                        class="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62"
+                        class="mt-1 text-size-sm leading-[1.6] text-bluedot-navy/62"
                       >
                         Funding to enable you to work full-time on impactful AI safety work. Propose your plan and we'll back you.
                       </p>
                     </div>
                   </div>
                   <div
-                    class="ml-5 flex shrink-0 items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
+                    class="ml-5 flex shrink-0 items-center text-size-sm leading-[1.6] font-medium text-bluedot-normal bd-md:ml-6 bd-md:whitespace-nowrap"
                   >
                     <span
                       class="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
@@ -1137,7 +1137,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   class="flex-1 min-w-0"
                 >
                   <p
-                    class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
+                    class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
                   >
                     Intensive (~5 days at ~5h/day) or part-time (~5 weeks at ~5h/week). Same content, different pace.
                   </p>
@@ -1164,7 +1164,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   class="flex-1 min-w-0"
                 >
                   <p
-                    class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
+                    class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
                   >
                     Each day or week, you will:
                     <br />
@@ -1204,7 +1204,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   class="flex-1 min-w-0"
                 >
                   <p
-                    class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
+                    class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
                   >
                     All discussions will be facilitated by an AI safety expert.
                   </p>
@@ -1231,7 +1231,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   class="flex-1 min-w-0"
                 >
                   <p
-                    class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
+                    class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
                   >
                     This course is freely available and operates on a "pay-what-you-want" model.
                   </p>
@@ -1293,7 +1293,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
           class="w-full bd-md:max-w-[840px] bd-md:mx-auto flex flex-col gap-8"
         >
           <blockquote
-            class="text-[22px] bd-md:text-size-lg lg:text-[28px] leading-[1.5] font-medium text-bluedot-navy"
+            class="text-size-lg bd-md:text-size-lg lg:text-[28px] leading-[1.5] font-medium text-bluedot-navy"
           >
             "We should not underestimate the real threats coming from AI [while] we have a narrowing window of opportunity to guide this technology responsibly."
           </blockquote>
@@ -1312,12 +1312,12 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="flex flex-col"
             >
               <div
-                class="text-size-sm bd-md:text-[17px] font-semibold leading-[1.4] text-bluedot-navy group-hover:text-bluedot-normal transition-colors"
+                class="text-size-sm bd-md:text-size-md font-semibold leading-[1.4] text-bluedot-navy group-hover:text-bluedot-normal transition-colors"
               >
                 Ursula von der Leyen
               </div>
               <div
-                class="text-[15px] bd-md:text-size-sm leading-[1.5] text-bluedot-navy/60"
+                class="text-size-sm bd-md:text-size-sm leading-[1.5] text-bluedot-navy/60"
               >
                 President, European Commission
               </div>

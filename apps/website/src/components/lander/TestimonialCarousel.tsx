@@ -388,7 +388,7 @@ const NavigationButton = ({
     aria-label={`Scroll ${direction}`}
   >
     <span
-      className="text-bluedot-navy text-[22.4px] font-medium select-none"
+      className="text-bluedot-navy text-size-lg font-medium select-none"
       style={{
         transform: direction === 'left' ? 'scaleX(-1)' : 'none',
       }}

@@ -62,7 +62,7 @@ const UnitMetadataDisplay = ({
     return (
       <div className="flex items-center gap-1">
         <div className="h-[18px] w-[50px] animate-pulse rounded bg-bluedot-navy/10" />
-        <span className="text-[13px] text-bluedot-navy/60">·</span>
+        <span className="text-size-xs text-bluedot-navy/60">·</span>
         <div className="h-[18px] w-[70px] animate-pulse rounded bg-bluedot-navy/10" />
       </div>
     );
@@ -81,18 +81,18 @@ const UnitMetadataDisplay = ({
       {duration != null && (
         <>
           <CgTime className="size-[18px] text-bluedot-navy/60" />
-          <span className="text-[13px] font-medium leading-[1.4] tracking-[-0.065px] text-bluedot-navy/60">
+          <span className="text-size-xs font-medium leading-[1.4] tracking-[-0.065px] text-bluedot-navy/60">
             {formatDuration(duration)}
           </span>
         </>
       )}
       {duration != null && exerciseCount > 0 && (
-        <span className="text-[13px] font-medium leading-[1.4] tracking-[-0.065px] text-bluedot-navy/60">
+        <span className="text-size-xs font-medium leading-[1.4] tracking-[-0.065px] text-bluedot-navy/60">
           ·
         </span>
       )}
       {exerciseCount > 0 && (
-        <span className="text-[13px] font-medium leading-[1.4] tracking-[-0.065px] text-bluedot-navy/60">
+        <span className="text-size-xs font-medium leading-[1.4] tracking-[-0.065px] text-bluedot-navy/60">
           {exerciseCount} {exerciseCount === 1 ? 'Exercise' : 'Exercises'}
         </span>
       )}

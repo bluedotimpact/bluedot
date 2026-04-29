@@ -42,11 +42,11 @@ const AdvisorsSection = () => {
                   loading="lazy"
                 />
                 <div className="flex flex-col gap-1">
-                  <h4 className="text-[15px] font-semibold leading-tight text-bluedot-navy">
+                  <h4 className="text-size-sm font-semibold leading-tight text-bluedot-navy">
                     {advisor.name}
                   </h4>
                   {advisor.jobTitle && (
-                    <p className="text-[13px] leading-[1.4] text-bluedot-navy/68">
+                    <p className="text-size-xs leading-[1.4] text-bluedot-navy/68">
                       {advisor.jobTitle}
                     </p>
                   )}

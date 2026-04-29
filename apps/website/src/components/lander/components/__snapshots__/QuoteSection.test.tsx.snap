@@ -182,7 +182,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
         type="button"
       >
         <span
-          class="text-bluedot-navy text-[22.4px] font-medium select-none"
+          class="text-bluedot-navy text-size-lg font-medium select-none"
           style="transform: scaleX(-1);"
         >
           →
@@ -218,7 +218,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
         type="button"
       >
         <span
-          class="text-bluedot-navy text-[22.4px] font-medium select-none"
+          class="text-bluedot-navy text-size-lg font-medium select-none"
         >
           →
         </span>
