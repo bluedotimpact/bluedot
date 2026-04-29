@@ -212,7 +212,7 @@ exports[`Congratulations > certificate card — authenticated > action-plan-pend
               WhatsApp
             </a>
             <button
-              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap border-0 cursor-pointer"
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-size-xs font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap border-0 cursor-pointer"
               type="button"
             >
               <svg
@@ -566,7 +566,7 @@ exports[`Congratulations > certificate card — authenticated > action-plan-pend
               WhatsApp
             </a>
             <button
-              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap border-0 cursor-pointer"
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-size-xs font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap border-0 cursor-pointer"
               type="button"
             >
               <svg
@@ -919,7 +919,7 @@ exports[`Congratulations > certificate card — authenticated > can-request: sho
               WhatsApp
             </a>
             <button
-              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap border-0 cursor-pointer"
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-size-xs font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap border-0 cursor-pointer"
               type="button"
             >
               <svg
@@ -1317,7 +1317,7 @@ exports[`Congratulations > certificate card — authenticated > facilitator-pend
               WhatsApp
             </a>
             <button
-              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap border-0 cursor-pointer"
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-size-xs font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap border-0 cursor-pointer"
               type="button"
             >
               <svg
@@ -1657,7 +1657,7 @@ exports[`Congratulations > certificate card — authenticated > has-certificate:
               WhatsApp
             </a>
             <button
-              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap border-0 cursor-pointer"
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-size-xs font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap border-0 cursor-pointer"
               type="button"
             >
               <svg
@@ -2024,7 +2024,7 @@ exports[`Congratulations > certificate card — authenticated > not-eligible: sh
               WhatsApp
             </a>
             <button
-              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap border-0 cursor-pointer"
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-size-xs font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap border-0 cursor-pointer"
               type="button"
             >
               <svg
@@ -2364,7 +2364,7 @@ exports[`Congratulations > certificate card — authenticated > renders loading 
               WhatsApp
             </a>
             <button
-              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap border-0 cursor-pointer"
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-size-xs font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap border-0 cursor-pointer"
               type="button"
             >
               <svg
@@ -2719,7 +2719,7 @@ exports[`Congratulations > certificate card — not authenticated > shows log in
               WhatsApp
             </a>
             <button
-              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap border-0 cursor-pointer"
+              class="flex flex-1 items-center justify-center gap-2 bg-bluedot-navy/5 rounded-[5px] px-4 py-[7px] text-size-xs font-medium text-bluedot-navy/80 hover:bg-bluedot-navy/10 transition-colors no-underline whitespace-nowrap border-0 cursor-pointer"
               type="button"
             >
               <svg
