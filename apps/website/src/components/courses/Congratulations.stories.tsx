@@ -6,6 +6,17 @@ import { FOAI_COURSE_ID } from '../../lib/constants';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 import Congratulations from './Congratulations';
 
+const hasCertificateMock = {
+  status: 'has-certificate' as const,
+  certificateId: 'cert-abc-123',
+  certificateCreatedAt: Math.floor(new Date('2024-11-15').getTime() / 1000),
+  recipientName: 'Jane Smith',
+  courseName: 'AGI Strategy',
+  courseSlug: 'agi-strategy',
+  certificationDescription: 'Demonstrated rigorous understanding of AGI strategy and the policy landscape shaping advanced AI development.',
+  courseDetailsUrl: 'https://bluedot.org/courses/agi-strategy',
+};
+
 const meta = {
   title: 'website/courses/Congratulations',
   component: Congratulations,
@@ -26,25 +37,35 @@ const meta = {
     courseSlug: 'agi-strategy',
     courseId: 'course123',
   },
-  ...loggedInStory(),
 } satisfies Meta<typeof Congratulations>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const NotLoggedIn: Story = {
+export const HasCertificate: Story = {
+  ...loggedInStory(),
   args: {},
+  parameters: {
+    msw: {
+      handlers: [trpcStorybookMsw.certificates.getStatus.query(() => hasCertificateMock)],
+    },
+  },
+};
+
+export const NotLoggedIn: Story = {
   ...loggedOutStory(),
+  args: {},
 };
 
 export const Loading: Story = {
+  ...loggedInStory(),
   args: {},
   parameters: {
     msw: {
       handlers: [
         trpcStorybookMsw.certificates.getStatus.query(async () => {
           await delay('infinite');
-          return { status: 'not-eligible' } as const;
+          return hasCertificateMock;
         }),
       ],
     },
@@ -52,6 +73,7 @@ export const Loading: Story = {
 };
 
 export const Error: Story = {
+  ...loggedInStory(),
   args: {},
   parameters: {
     msw: {
@@ -64,23 +86,21 @@ export const Error: Story = {
   },
 };
 
-export const HasCertificate: Story = {
+export const CanRequest: Story = {
+  ...loggedInStory(),
   args: {},
   parameters: {
     msw: {
       handlers: [
-        trpcStorybookMsw.certificates.getStatus.query(() => ({
-          status: 'has-certificate' as const,
-          certificateId: 'cert-abc-123',
-          issuedAt: Math.floor(new Date('2024-11-15').getTime() / 1000),
-          holderName: 'Jane Smith',
-        })),
+        trpcStorybookMsw.certificates.getStatus.query(() => ({ status: 'can-request' as const })),
+        trpcStorybookMsw.certificates.request.mutation(() => undefined as never),
       ],
     },
   },
 };
 
 export const ActionPlanPending: Story = {
+  ...loggedInStory(),
   args: {},
   parameters: {
     msw: {
@@ -96,6 +116,7 @@ export const ActionPlanPending: Story = {
 };
 
 export const ActionPlanSubmitted: Story = {
+  ...loggedInStory(),
   args: {},
   parameters: {
     msw: {
@@ -110,53 +131,39 @@ export const ActionPlanSubmitted: Story = {
   },
 };
 
-export const CanRequest: Story = {
-  args: {},
-  parameters: {
-    msw: {
-      handlers: [
-        trpcStorybookMsw.certificates.getStatus.query(() => ({
-          status: 'can-request' as const,
-        })),
-        trpcStorybookMsw.certificates.request.mutation(() => undefined as never),
-      ],
-    },
-  },
-};
-
 export const FacilitatorPending: Story = {
+  ...loggedInStory(),
   args: {},
   parameters: {
     msw: {
       handlers: [
-        trpcStorybookMsw.certificates.getStatus.query(() => ({
-          status: 'facilitator-pending' as const,
-        })),
+        trpcStorybookMsw.certificates.getStatus.query(() => ({ status: 'facilitator-pending' as const })),
       ],
     },
   },
 };
 
 export const NotEligible: Story = {
+  ...loggedInStory(),
   args: {},
   parameters: {
     msw: {
       handlers: [
-        trpcStorybookMsw.certificates.getStatus.query(() => ({
-          status: 'not-eligible' as const,
-        })),
+        trpcStorybookMsw.certificates.getStatus.query(() => ({ status: 'not-eligible' as const })),
       ],
     },
   },
 };
 
 export const NoCertificateCard: Story = {
+  ...loggedInStory(),
   args: {
     courseId: undefined,
   },
 };
 
 export const FoAI: Story = {
+  ...loggedInStory(),
   args: {
     courseTitle: 'Future of AI',
     coursePath: '/courses/future-of-ai',
@@ -167,9 +174,11 @@ export const FoAI: Story = {
     msw: {
       handlers: [
         trpcStorybookMsw.certificates.getStatus.query(() => ({
-          status: 'can-request' as const,
+          ...hasCertificateMock,
+          courseName: 'Future of AI',
+          courseSlug: 'future-of-ai',
+          courseDetailsUrl: 'https://bluedot.org/courses/future-of-ai',
         })),
-        trpcStorybookMsw.certificates.request.mutation(() => undefined as never),
       ],
     },
   },
