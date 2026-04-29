@@ -62,7 +62,7 @@ const HeaderSection = () => (
       <H1 className="text-[28px] md:text-[36px] lg:text-[40px] xl:text-[48px] font-medium leading-tight tracking-[-1px]">
         Start making an impact today
       </H1>
-      <P className="text-size-sm md:text-[20px] leading-[1.55] tracking-[-0.005em] opacity-70 max-w-4xl">
+      <P className="text-size-sm md:text-size-md leading-[1.55] tracking-[-0.005em] opacity-70 max-w-4xl">
         Do you want to help build an awesome, safe future with AI? Apply to one of our free courses today.
         We'll help you ensure that humanity safely navigates the transition to transformative AI.
       </P>
@@ -530,7 +530,7 @@ const CourseCardRedesigned = ({
         {/* Text content at bottom */}
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-4">
-            <H3 className={clsx('font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200', course.slug === 'ai-governance' ? 'text-size-lg' : 'text-size-lg')}>
+            <H3 className="font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-size-lg">
               {course.title}
               {/* Hover arrow for all cards */}
               <span className="inline-block ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">

@@ -94,7 +94,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
         <div className="flex flex-wrap items-center justify-between gap-4 pb-1 w-full">
           <div className="flex items-center gap-4">
             <CourseIcon courseSlug={courseSlug} />
-            <h3 className="text-[20px] leading-[40px] font-semibold text-bluedot-navy">
+            <h3 className="text-size-md leading-[40px] font-semibold text-bluedot-navy">
               {courseTitle}
             </h3>
           </div>

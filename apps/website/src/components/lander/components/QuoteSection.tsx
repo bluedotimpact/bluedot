@@ -40,9 +40,9 @@ const FONT_SIZE_THRESHOLDS = {
 } as const;
 
 const FONT_SIZE_CLASSES = {
-  EXTRA_LONG: 'text-size-xxs sm:text-size-xs bd-md:text-size-sm lg:text-size-sm xl:text-[20px]', // For quotes > 400 chars
-  LONG: 'text-size-sm sm:text-size-md bd-md:text-[20px] lg:text-[20px] xl:text-size-lg', // For quotes 200-400 chars
-  DEFAULT: 'text-[20px] bd-md:text-size-lg lg:text-[28px] xl:text-[32px]', // For quotes < 200 chars
+  EXTRA_LONG: 'text-size-xxs sm:text-size-xs bd-md:text-size-sm xl:text-size-md', // For quotes > 400 chars
+  LONG: 'text-size-sm sm:text-size-md xl:text-size-lg', // For quotes 200-400 chars
+  DEFAULT: 'text-size-md bd-md:text-size-lg lg:text-[28px] xl:text-[32px]', // For quotes < 200 chars
 } as const;
 
 // Automatically determine font size based on quote length
@@ -149,14 +149,14 @@ const QuoteCard = ({ quote, isActive = true, cardBackgroundColor }: {
 // since text sits on a white background with no card to fill.
 const getEditorialFontSize = (quote: string): string => {
   if (quote.length > FONT_SIZE_THRESHOLDS.EXTRA_LONG) {
-    return 'text-size-md bd-md:text-[20px] lg:text-size-lg';
+    return 'text-size-md lg:text-size-lg';
   }
 
   if (quote.length > FONT_SIZE_THRESHOLDS.LONG) {
-    return 'text-[20px] bd-md:text-size-lg lg:text-size-lg';
+    return 'text-size-md bd-md:text-size-lg';
   }
 
-  return 'text-size-lg bd-md:text-size-lg lg:text-[28px]';
+  return 'text-size-lg lg:text-[28px]';
 };
 
 const QuoteSection = ({
@@ -233,7 +233,7 @@ const QuoteSection = ({
           <div className="text-size-sm bd-md:text-size-md font-semibold leading-[1.4] text-bluedot-navy group-hover:text-bluedot-normal transition-colors">
             {activeQuote.name}
           </div>
-          <div className="text-size-sm bd-md:text-size-sm leading-[1.5] text-bluedot-navy/60">
+          <div className="text-size-sm leading-[1.5] text-bluedot-navy/60">
             {activeQuote.role}
           </div>
         </div>

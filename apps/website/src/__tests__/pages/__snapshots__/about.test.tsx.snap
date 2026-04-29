@@ -537,7 +537,7 @@ exports[`AboutPage > should render correctly 1`] = `
               About us
             </h1>
             <p
-              class="text-size-sm bd-md:text-size-md lg:text-[20px] leading-[1.55] tracking-[-0.1px] text-white"
+              class="text-size-sm bd-md:text-size-md leading-[1.55] tracking-[-0.1px] text-white"
             >
               Building the workforce that protects humanity
             </p>

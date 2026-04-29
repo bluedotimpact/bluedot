@@ -99,7 +99,7 @@ const GrantProgramCard = ({
             <p className="text-size-xxs font-semibold uppercase tracking-[0.16em] text-bluedot-navy/46">
               Objective
             </p>
-            <p className="mt-3 text-size-sm bd-md:text-size-sm leading-[1.65] text-bluedot-navy/76">
+            <p className="mt-3 text-size-sm leading-[1.65] text-bluedot-navy/76">
               {goal}
             </p>
           </div>
@@ -108,7 +108,7 @@ const GrantProgramCard = ({
             <p className="text-size-xxs font-semibold uppercase tracking-[0.16em] text-bluedot-navy/46">
               {scopeLabel}
             </p>
-            <p className="mt-3 text-size-sm bd-md:text-size-sm leading-[1.65] text-bluedot-navy/76">
+            <p className="mt-3 text-size-sm leading-[1.65] text-bluedot-navy/76">
               {scope}
             </p>
           </div>
