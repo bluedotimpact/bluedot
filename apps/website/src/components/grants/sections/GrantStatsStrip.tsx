@@ -1,9 +1,7 @@
 import type React from 'react';
 import { CTALinkOrButton } from '@bluedot/ui';
-import {
-  GRANT_PROGRAM_SECTIONS,
-  type ConfigurableGrantProgramSlug,
-} from '../grantPrograms';
+import { type ConfigurableGrantProgramSlug } from '../grantPrograms';
+import { useGrantApplicationUrl } from '../useGrantApplicationUrl';
 
 export type GrantStat = {
   label: string;
@@ -33,7 +31,7 @@ const GrantStatsStrip = ({
   secondaryAction,
   compact = false,
 }: Props) => {
-  const { applicationUrl } = GRANT_PROGRAM_SECTIONS[program];
+  const applicationUrl = useGrantApplicationUrl(program);
   const primary = primaryAction ?? { label: 'Apply now', url: applicationUrl };
 
   const outerLayoutClass = compact
