@@ -1,15 +1,13 @@
 import { CTALinkOrButton } from '@bluedot/ui';
-import {
-  GRANT_PROGRAM_SECTIONS,
-  type ConfigurableGrantProgramSlug,
-} from '../grantPrograms';
+import { type ConfigurableGrantProgramSlug } from '../grantPrograms';
+import { useGrantApplicationUrl } from '../useGrantApplicationUrl';
 
 type Props = {
   program: ConfigurableGrantProgramSlug;
 };
 
 const GrantCta = ({ program }: Props) => {
-  const { applicationUrl } = GRANT_PROGRAM_SECTIONS[program];
+  const applicationUrl = useGrantApplicationUrl(program);
 
   return (
     <div className={`${program}-cta w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y mb-16 flex justify-center`}>
