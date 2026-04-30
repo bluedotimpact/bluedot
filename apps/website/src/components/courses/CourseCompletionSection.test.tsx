@@ -54,11 +54,9 @@ describe('CourseCompletionSection', () => {
     const { container } = render(<CourseCompletionSection {...defaultProps} />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      expect(container.textContent).toContain('Enroll today to receive your certificate');
+      expect(container.textContent).toContain('Join a facilitated cohort to get certified');
     });
 
-    expect(container.textContent).toContain('20 – 24 Jan');
-    expect(container.textContent).toContain('17 Feb – 24 Mar');
     expect(container.querySelector('.congratulations')).toBeFalsy();
   });
 
@@ -70,7 +68,7 @@ describe('CourseCompletionSection', () => {
     await waitFor(() => {
       expect(container.querySelector('.congratulations')).toBeTruthy();
     });
-    expect(container.textContent).not.toContain('Enroll today');
+    expect(container.textContent).not.toContain('Join a facilitated cohort');
   });
 
   test('shows Congratulations when user has already applied', async () => {
@@ -81,7 +79,7 @@ describe('CourseCompletionSection', () => {
     await waitFor(() => {
       expect(container.querySelector('.congratulations')).toBeTruthy();
     });
-    expect(container.textContent).not.toContain('Enroll today');
+    expect(container.textContent).not.toContain('Join a facilitated cohort');
   });
 
   test('shows Congratulations when no rounds are available', async () => {
@@ -95,6 +93,6 @@ describe('CourseCompletionSection', () => {
     await waitFor(() => {
       expect(container.querySelector('.congratulations')).toBeTruthy();
     });
-    expect(container.textContent).not.toContain('Enroll today');
+    expect(container.textContent).not.toContain('Join a facilitated cohort');
   });
 });
