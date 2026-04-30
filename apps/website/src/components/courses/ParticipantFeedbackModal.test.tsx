@@ -62,7 +62,7 @@ describe('ParticipantFeedbackModal', () => {
     fireEvent.click(screen.getByText('Regularly engaged critically')); // 4
     expect(getDoneButton()).toBeDisabled(); // still need a follow-up
 
-    fireEvent.click(screen.getByText('Schedule a call within the week (high priority)'));
+    fireEvent.click(screen.getByText('Flag for 1-1 advising with BlueDot team'));
     expect(getDoneButton()).toBeEnabled();
 
     fireEvent.change(screen.getByLabelText(/In 2-3 sentences/), { target: { value: 'Strong cohort member.' } });
@@ -74,7 +74,7 @@ describe('ParticipantFeedbackModal', () => {
         showUpRating: 4,
         engageRating: 4,
         investmentNote: 'Strong cohort member.',
-        followUps: ['Schedule follow-up call with BlueDot team within ~1 week (high-priority)'],
+        followUps: ['Flag for 1-1 advising with BlueDot team'],
       });
     });
 
@@ -85,7 +85,7 @@ describe('ParticipantFeedbackModal', () => {
       initiativeRating: 4,
       reasoningQualityRating: 4,
       feedback: 'Strong cohort member.',
-      nextSteps: ['Schedule follow-up call with BlueDot team within ~1 week (high-priority)'],
+      nextSteps: ['Flag for 1-1 advising with BlueDot team'],
     });
   });
 

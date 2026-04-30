@@ -2,7 +2,7 @@
 export const FOLLOW_UP_OPTIONS = [
   { id: 'No further action needed', label: 'No further action needed' },
   { id: 'Add to talent pipeline [keep warm for future opportunities/check-ins]', label: 'Add to talent pipeline (keep warm) — for future opportunities' },
-  { id: 'Schedule follow-up call with BlueDot team within ~1 week (high-priority)', label: 'Schedule a call within the week (high priority)' },
+  { id: 'Flag for 1-1 advising with BlueDot team', label: 'Flag for 1-1 advising with BlueDot team' },
   { id: 'Flag as candidate for funding (career transition/project)', label: 'Potential funding candidate — career transition or project support' },
   { id: 'Recommend to facilitate', label: 'Invite to apply as a facilitator' },
 ] as const;
@@ -15,7 +15,7 @@ export const FOLLOW_UP_IDS = FOLLOW_UP_OPTIONS.map((o) => o.id) as [
 export type FollowUpId = typeof FOLLOW_UP_OPTIONS[number]['id'];
 
 export const ACTIONABLE_FOLLOW_UP_IDS = [
-  'Schedule follow-up call with BlueDot team within ~1 week (high-priority)',
+  'Flag for 1-1 advising with BlueDot team',
   'Flag as candidate for funding (career transition/project)',
   'Recommend to facilitate',
 ] as const;
