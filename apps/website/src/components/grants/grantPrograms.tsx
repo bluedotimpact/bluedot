@@ -167,6 +167,11 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
         question: 'What if I secure a full-time role or my circumstances change during the grant?',
         answer: 'Please let us know. Any remaining funds would be returned to BlueDot.',
       },
+      {
+        id: 'masters-phd',
+        question: 'Will you fund a Master\'s or PhD?',
+        answer: 'Generally, no. For most people, a Master\'s or PhD isn\'t the most direct route to impactful AI safety work. There are exceptions. Mention it in your application if you think yours is one.',
+      },
     ],
   },
   'incubator-week': {
