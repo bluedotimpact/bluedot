@@ -10,7 +10,7 @@ import ParticipantFeedbackModal, { type ParticipantFeedbackData } from '../../co
 import AddParticipantModal from '../../components/courses/AddParticipantModal';
 import FacilitatorFeedbackHeader from '../../components/courses/FacilitatorFeedbackHeader';
 import { useFacilitatorFeedbackStorage } from '../../hooks/useFacilitatorFeedbackStorage';
-import { type FollowUpId, isFlagged } from '../../lib/facilitatorFollowUps';
+import { isFlagged } from '../../lib/facilitatorFollowUps';
 import { getInitials } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
@@ -63,7 +63,7 @@ const FacilitatorFeedbackPage = () => {
     }
 
     for (const pf of formData.existingPeerFeedback) {
-      const followUps = (pf.nextSteps ?? []) as FollowUpId[];
+      const followUps = pf.nextSteps ?? [];
       initial[pf.recipientId] = {
         status: 'completed',
         data: {
@@ -384,6 +384,7 @@ const FacilitatorFeedbackPage = () => {
         <ParticipantFeedbackModal
           meetPersonId={meetPersonId}
           participant={selectedParticipant}
+          followUpOptions={formData.followUpOptions}
           initialData={selectedInitialData}
           onClose={() => setSelectedParticipant(null)}
           onSaved={handleParticipantSaved}

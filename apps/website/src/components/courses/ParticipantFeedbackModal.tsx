@@ -1,7 +1,7 @@
 import { ErrorSection, Modal } from '@bluedot/ui';
 import { useState } from 'react';
 import { FaCheck, FaCircleInfo, FaLock } from 'react-icons/fa6';
-import { ACTIONABLE_FOLLOW_UP_IDS, FOLLOW_UP_OPTIONS, type FollowUpId } from '../../lib/facilitatorFollowUps';
+import { ACTIONABLE_FOLLOW_UP_IDS } from '../../lib/facilitatorFollowUps';
 import { getInitials } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
@@ -9,12 +9,15 @@ export type ParticipantFeedbackData = {
   showUpRating: number;
   engageRating: number;
   investmentNote: string;
-  followUps: FollowUpId[];
+  followUps: string[];
 };
+
+export type FollowUpOption = { id: string; name: string };
 
 type ParticipantFeedbackModalProps = {
   meetPersonId: string;
   participant: { id: string; name: string };
+  followUpOptions: FollowUpOption[];
   initialData?: ParticipantFeedbackData;
   onClose: () => void;
   onSaved: (data: ParticipantFeedbackData) => void;
@@ -37,11 +40,11 @@ const ENGAGE_OPTIONS: RubricOption[] = [
   { value: 1, label: 'Mostly quiet or repeated what the readings said', description: 'When asked to elaborate, responses were vague or surface-level.' },
 ];
 
-const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ meetPersonId, participant, initialData, onClose, onSaved, onNoStrongImpression }) => {
+const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ meetPersonId, participant, followUpOptions, initialData, onClose, onSaved, onNoStrongImpression }) => {
   const [showUpRating, setShowUpRating] = useState<number | null>(initialData?.showUpRating ?? null);
   const [engageRating, setEngageRating] = useState<number | null>(initialData?.engageRating ?? null);
   const [investmentNote, setInvestmentNote] = useState(initialData?.investmentNote ?? '');
-  const [followUps, setFollowUps] = useState<FollowUpId[]>(initialData?.followUps ?? []);
+  const [followUps, setFollowUps] = useState<string[]>(initialData?.followUps ?? []);
   const hasFollowUp = followUps.length > 0;
   const isStandout = showUpRating === 5 || engageRating === 5
     || ACTIONABLE_FOLLOW_UP_IDS.some((id) => followUps.includes(id));
@@ -142,20 +145,20 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
             <p className="text-size-xs text-bluedot-navy/60">Check all that apply.</p>
           </div>
           <div className="flex flex-col gap-2">
-            {FOLLOW_UP_OPTIONS.map((option) => (
+            {followUpOptions.map((option) => (
               <label
                 key={option.id}
                 className="flex items-center gap-2.5 border border-gray-300 rounded-md bg-white px-2.5 py-3 cursor-pointer hover:bg-gray-50 transition-colors"
               >
                 <input
                   type="checkbox"
-                  checked={followUps.includes(option.id)}
+                  checked={followUps.includes(option.name)}
                   onChange={(e) => setFollowUps(e.target.checked
-                    ? [...followUps, option.id]
-                    : followUps.filter((id) => id !== option.id))}
+                    ? [...followUps, option.name]
+                    : followUps.filter((name) => name !== option.name))}
                   className="size-[18px] shrink-0 cursor-pointer accent-bluedot-normal"
                 />
-                <span className="text-size-xs font-medium text-bluedot-navy">{option.label}</span>
+                <span className="text-size-xs font-medium text-bluedot-navy">{option.name}</span>
               </label>
             ))}
           </div>
