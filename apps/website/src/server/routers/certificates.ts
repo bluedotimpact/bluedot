@@ -6,7 +6,7 @@ import { timingSafeEqual } from 'crypto';
 import z from 'zod';
 import db from '../../lib/api/db';
 import env from '../../lib/api/env';
-import { getCertificateData } from '../../pages/certification';
+import { getCertificateData } from '../../lib/api/getCertificateData';
 import { FOAI_COURSE_ID } from '../../lib/constants';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 import type { AppRouter } from './_app';

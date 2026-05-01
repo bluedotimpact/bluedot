@@ -1,4 +1,3 @@
-import { courseRegistrationTable, courseTable, type CourseRegistration } from '@bluedot/db';
 import {
   Breadcrumbs,
   type BluedotRoute,
@@ -19,7 +18,6 @@ import Confetti from 'react-confetti';
 import { FaLinkedin, FaXTwitter } from 'react-icons/fa6';
 import { Nav } from '../components/Nav/Nav';
 import { trpc } from '../utils/trpc';
-import db from '../lib/api/db';
 import { ROUTES } from '../lib/routes';
 import { getCourseRoundsData } from '../server/routers/course-rounds';
 import { fileExists } from '../utils/fileExists';
@@ -27,22 +25,7 @@ import { CertificateCard } from '../components/certificate/CertificateCard';
 import { CertificateCTA } from '../components/certificate/CertificateCTA';
 import { ONE_DAY_SECONDS, ONE_MINUTE_SECONDS } from '../lib/constants';
 import { getCourseCtaColors } from '../lib/courseCtaColors';
-
-export async function getCertificateData(certificateId: string, existingCourseRegistration?: CourseRegistration) {
-  const courseRegistration = existingCourseRegistration ?? await db.get(courseRegistrationTable, { certificateId });
-  const course = await db.get(courseTable, { id: courseRegistration.courseId });
-
-  return {
-    certificateId,
-    certificateCreatedAt: courseRegistration.certificateCreatedAt ?? Math.floor(Date.now() / 1000),
-    recipientName: courseRegistration.fullName ?? '',
-    courseName: course.title,
-    courseSlug: course.slug,
-    courseDetailsUrl: course.detailsUrl ?? '',
-    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-    certificationDescription: course.certificationDescription || '',
-  };
-}
+import { getCertificateData } from '../lib/api/getCertificateData';
 
 type Certificate = Awaited<ReturnType<typeof getCertificateData>>;
 
