@@ -177,6 +177,20 @@ Please complete all exercises before requesting a certificate.`,
     }
 
     if (meetPerson.role === 'Participant') {
+      const { uniqueDiscussionAttendance, numUnits } = meetPerson;
+      const hasAttendedEnough = uniqueDiscussionAttendance == null
+        || numUnits == null
+        || numUnits === 0
+        || (numUnits - uniqueDiscussionAttendance) <= 1;
+
+      if (!hasAttendedEnough) {
+        return {
+          status: 'attendance-ineligible' as const,
+          uniqueDiscussionAttendance,
+          numUnits,
+        };
+      }
+
       return {
         status: 'action-plan-pending',
         meetPersonId: meetPerson.id,
