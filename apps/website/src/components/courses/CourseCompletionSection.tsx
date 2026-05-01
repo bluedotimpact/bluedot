@@ -37,17 +37,17 @@ type FeatureCard = {
 const FEATURE_CARDS: FeatureCard[] = [
   {
     icon: PiUsersThree,
-    title: 'Community',
+    title: 'Access community',
     description: 'Connect with a global network of peers across policy, research, engineering, and governance',
   },
   {
     icon: PiChalkboardTeacher,
-    title: 'Expert facilitators',
+    title: 'Discuss with experts',
     description: 'Every course is led by an expert actively working in the field.',
   },
   {
     icon: PiCertificate,
-    title: 'Certificate',
+    title: 'Earn a certificate',
     description: 'Earn shareable certificate as your professional credential.',
   },
 ];
