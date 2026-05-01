@@ -1,4 +1,4 @@
-import { courseRegistrationTable, courseTable } from '@bluedot/db';
+import { courseRegistrationTable, courseTable, type CourseRegistration } from '@bluedot/db';
 import {
   Breadcrumbs,
   type BluedotRoute,
@@ -28,8 +28,8 @@ import { CertificateCTA } from '../components/certificate/CertificateCTA';
 import { ONE_DAY_SECONDS, ONE_MINUTE_SECONDS } from '../lib/constants';
 import { getCourseCtaColors } from '../lib/courseCtaColors';
 
-export async function getCertificateData(certificateId: string) {
-  const courseRegistration = await db.get(courseRegistrationTable, { certificateId });
+export async function getCertificateData(certificateId: string, existingCourseRegistration?: CourseRegistration) {
+  const courseRegistration = existingCourseRegistration ?? await db.get(courseRegistrationTable, { certificateId });
   const course = await db.get(courseTable, { id: courseRegistration.courseId });
 
   return {

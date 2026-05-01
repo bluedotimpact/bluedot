@@ -156,7 +156,7 @@ Please complete all exercises before requesting a certificate.`,
     }
 
     if (courseRegistration.certificateId) {
-      const certificate = await getCertificateData(courseRegistration.certificateId);
+      const certificate = await getCertificateData(courseRegistration.certificateId, courseRegistration);
       return {
         status: 'has-certificate' as const,
         ...certificate,
