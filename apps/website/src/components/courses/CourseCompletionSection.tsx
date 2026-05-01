@@ -17,7 +17,7 @@ type CourseCompletionSectionProps = {
 };
 
 // TODO: replace with a real fetched count once the metric is available.
-const COMMUNITY_SIZE_LABEL = '2,847 people';
+const COMMUNITY_SIZE_LABEL = '2,847 professionals';
 
 const AVATAR_IMAGES = [
   '/images/graduates/adam.webp',
