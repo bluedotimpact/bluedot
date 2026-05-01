@@ -28,16 +28,39 @@ const WhatThisIsForSection = () => {
   return (
     <section className="section section-body incubator-week-what-section">
       <div className="w-full flex flex-col gap-6">
-        <h3 className={pageSectionHeadingClass}>Who this is for</h3>
+        <h3 className={pageSectionHeadingClass}>What you&apos;ll do</h3>
 
         <div className="flex flex-col gap-5">
           <P>
-            Training isn&apos;t enough. We need new organizations to make AI go well. Incubator Week takes the strongest founders from our courses and backs them to build.
+            Incubator Week is a 5-day sprint for experts considering founding in AI safety.
           </P>
           <P>
-            We select from our AGI Strategy and Technical AI Safety courses. We&apos;re looking for people who can complete this sentence: &ldquo;Last year I built ___ which resulted in ___.&rdquo; Apply to our courses first, and we&apos;ll invite the strongest participants to Incubator Week.
+            We&apos;ll launch you into the field, help you lock in on a problem, find a co-founder. If we like your pitch we will give you $50k equity-free by the end of the week. The week is held at <a href="https://www.safeai.org.uk/" className="underline hover:no-underline">LISA</a> in London.
           </P>
         </div>
+
+        <h3 className={`${pageSectionHeadingClass} pt-4`}>Track record</h3>
+
+        <div className="flex flex-col gap-5">
+          <P>
+            Three cohorts in: 9 companies founded, $500k+ raised, 9-figure aggregate expected this year.
+          </P>
+          <div className="flex flex-col gap-2">
+            <P>Alumni include:</P>
+            <ul className="list-disc pl-6 flex flex-col gap-1">
+              <li>Exona Lab: Founders met during the week; Pre-seed raised, 7-figure round in progress</li>
+              <li>Jacob Arbeid: Quit AISI to found; Funding secured; $2.4M ARR pending</li>
+              <li>Zac Saber: Dropped out of EF; now on long-horizon AI evals; met his co-founder Jacob Arbeid during Incubator Week</li>
+              <li>Shay Yahal: Enterprise AI security; Already has paying customers and partnership with Redwood Research</li>
+              <li>Lysander Mawby: Mechanistic interpretability; Just wrapped up the FR8 incubator ($100k at $5M val)</li>
+            </ul>
+          </div>
+          <P className="text-size-sm leading-[1.6] text-bluedot-navy/80 pt-4">
+            Run by BlueDot Impact. We&apos;ve raised over $35M to build the workforce and organizations needed to safely navigate AGI.
+          </P>
+        </div>
+
+        <h3 className={`${pageSectionHeadingClass} pt-4`}>About you</h3>
 
         <div className="pt-2 grid gap-8 grid-cols-1 bd-md:grid-cols-3">
           {AUDIENCES.map(({ icon: Icon, title, description }) => (

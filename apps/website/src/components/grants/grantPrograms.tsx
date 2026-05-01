@@ -21,7 +21,7 @@ export type GrantProgramDefinition = {
 export const RAPID_GRANT_APPLICATION_URL = 'https://airtable.com/appMVNtdBtvtJvu5E/pag9G3oF4DYAyassX/form';
 export const CAREER_TRANSITION_GRANT_APPLICATION_URL = 'https://airtable.com/appMVNtdBtvtJvu5E/pagyKD4M0wd0ci2gH/form';
 export const ONE_ON_ONE_ADVISING_APPLICATION_URL = 'https://web.miniextensions.com/elMoT4tTN0jx49tNB0cS';
-export const INCUBATOR_WEEK_APPLICATION_URL = 'https://web.miniextensions.com/9UQbEOQ10oTYrqpIOwVS';
+export const INCUBATOR_WEEK_APPLICATION_URL = 'https://airtable.com/appnJbsG1eWbAdEvf/pagA7JU8pPkkbDCOJ/form';
 
 export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
   {
@@ -178,11 +178,6 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
     applicationUrl: INCUBATOR_WEEK_APPLICATION_URL,
     faqItems: [
       {
-        id: 'how-to-join',
-        question: 'How do I join Incubator Week?',
-        answer: 'The AGI Strategy Course and Technical AI Safety Course are our primary feeders. We filter the best participants through problem statement quality, then interview before inviting to Incubator Week.',
-      },
-      {
         id: 'solo-or-team',
         question: 'Can I apply solo or do I need a co-founder?',
         answer: 'Both work. Solo founders are welcome — though we\'ve learned that co-founder matching is hard, so coming with a partner (friend, classmate, existing co-founder) is a plus. We\'ll help facilitate connections during the week.',
@@ -195,7 +190,7 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
       {
         id: 'tracks',
         question: 'What tracks do you support?',
-        answer: 'For now we\'re focused on for-profit companies. We\'re keen to explore other areas as well, especially policy entrepreneurship.',
+        answer: 'We support both for-profit and non-profit organizations in fields like AI safety, biosecurity, cybersecurity, and other catastrophic risk reduction. We\'re especially interested in policy entrepreneurship.',
       },
       {
         id: 'funding',
