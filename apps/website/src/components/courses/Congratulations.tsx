@@ -123,7 +123,7 @@ type ShareCardProps = {
 };
 
 const ShareCard = ({ title, description, actions, preview }: ShareCardProps) => (
-  <div className="flex flex-col overflow-hidden rounded-[10px] border-[0.5px] border-[rgba(19,19,46,0.25)] bg-white md:min-h-[327px] md:flex-row">
+  <div className="flex flex-col overflow-hidden rounded-[10px] border-[0.5px] border-bluedot-navy/25 bg-white md:min-h-[327px] md:flex-row">
     <div className="flex flex-col gap-[32px] p-6 md:w-1/2 md:px-[40px] md:py-[32px]">
       <div className="flex flex-col gap-3">
         <h3 className="text-bluedot-navy text-[20px] leading-[1.4] font-semibold">{title}</h3>
@@ -157,7 +157,7 @@ const AttendanceIneligibleCard = ({
 
   return (
     <div
-      className="group w-full max-w-[640px] cursor-pointer rounded-xl border border-[rgba(19,19,46,0.1)] bg-white"
+      className="group w-full max-w-[640px] cursor-pointer rounded-xl border border-bluedot-navy/10 bg-white"
       onClick={() => setExpanded(!expanded)}
       role="button"
       tabIndex={0}
@@ -167,7 +167,7 @@ const AttendanceIneligibleCard = ({
     >
       <div className="flex items-center gap-6 px-8 py-6">
         <div className="flex flex-1 items-center gap-4">
-          <div className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-[rgba(19,19,46,0.08)]">
+          <div className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-bluedot-navy/[0.08]">
             <FaCircleMinus className="size-5 text-[#62748E]" />
           </div>
           <span className="text-bluedot-navy text-[16px] leading-5 font-semibold">
@@ -181,7 +181,7 @@ const AttendanceIneligibleCard = ({
 
       {expanded && (
         <>
-          <div className="h-px bg-[rgba(19,19,46,0.1)]" />
+          <div className="h-px bg-bluedot-navy/10" />
           <div className="flex items-center gap-3 px-8 py-6">
             <FaRegCircleXmark className="size-6 shrink-0" style={{ color: '#d04040' }} />
             <p className="text-bluedot-navy text-[16px] leading-5">
@@ -191,7 +191,7 @@ const AttendanceIneligibleCard = ({
               </span>
             </p>
           </div>
-          <div className="h-px bg-[rgba(19,19,46,0.1)]" />
+          <div className="h-px bg-bluedot-navy/10" />
           <div className="px-8 py-6">
             <p className="text-bluedot-navy text-[16px] leading-5">
               If you have any questions about certificate requirement, get in touch at{' '}
