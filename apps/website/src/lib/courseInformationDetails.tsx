@@ -1,11 +1,7 @@
 /**
- * Per-course content for the "How the course works" section on the
- * CourseCompletionSection enrollment-CTA path.
- *
- * NOTE: This duplicates the `courseInformation` blocks defined in each
- * `lander/course-content/*Content.tsx`. A future refactor should extract
- * those blocks into a shared registry consumed by both the lander and the
- * completion section. For now we duplicate to avoid touching 7 files.
+ * Source of truth for the per-course "How the course works" / "Course information"
+ * block. Consumed by both the lander (`lander/course-content/*Content.tsx`) and
+ * the post-completion enrollment CTA (`CourseCompletionSection`).
  */
 
 import {
@@ -91,6 +87,13 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
             <span className="font-medium">High-level understanding of AI</span>
             <br />
             <span className="font-medium">High agency</span> - bias toward action, not just learning
+            <br />
+            <br />
+            <span className="text-bluedot-navy/60">We're selective. The course has an acceptance rate of roughly 20-25%.</span>
+            <br />
+            <span className="text-bluedot-navy/60">We're looking for people who are analytical, motivated, and genuinely considering making this their life's work. If you're here to add a credential, this isn't for you.</span>
+            <br />
+            <span className="text-bluedot-navy/60">And to be clear: this is not a corporate AI governance or AI ethics course.</span>
           </>
         ),
       },
