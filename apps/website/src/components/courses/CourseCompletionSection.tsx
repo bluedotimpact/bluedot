@@ -124,7 +124,7 @@ export default function CourseCompletionSection({
       : applyCTAProps.applicationUrl);
 
     const info = COURSE_INFORMATION_DETAILS[courseSlug];
-    const accentColor = info?.accentColor ?? COURSE_CONFIG[courseSlug]?.accentColor;
+    const accentColor = COURSE_CONFIG[courseSlug]?.accentColor;
     // Schedule is rendered as separate RoundGroup blocks below — drop the schedule
     // entry from details so it doesn't duplicate inside the accordion.
     const detailsWithoutSchedule = info?.details.filter((d) => !d.isSchedule) ?? [];

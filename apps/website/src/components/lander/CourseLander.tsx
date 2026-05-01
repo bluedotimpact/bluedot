@@ -28,6 +28,7 @@ import SectionNav, { type SectionNavItem } from './components/SectionNav';
 import FieldBuildingSection, { type FieldBuildingSectionProps } from './components/FieldBuildingSection';
 import { trpc } from '../../utils/trpc';
 import { COURSE_INFORMATION_DETAILS } from '../../lib/courseInformationDetails';
+import { COURSE_COLORS } from '../../lib/courseColors';
 
 export type CourseLanderMeta = {
   title: string;
@@ -320,6 +321,7 @@ const CourseLander = ({
             {...COURSE_INFORMATION_DETAILS[courseSlug]}
             applicationUrl={content.courseInformationApplicationUrl ?? applicationUrlWithUtm}
             courseSlug={courseSlug}
+            accentColor={COURSE_COLORS[courseSlug as keyof typeof COURSE_COLORS]?.full}
           />
         </>
       )}
