@@ -179,11 +179,13 @@ export default function CourseCompletionSection({
         {detailsWithoutSchedule.length > 0 && (
           <div className="container-lined bg-white px-6">
             <Collapsible title={info?.title ?? 'How the course works'} className="border-b-0">
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col">
                 {detailsWithoutSchedule.map((detail) => (
-                  <div key={detail.label} className="flex flex-col md:flex-row md:items-start gap-2 md:gap-8">
-                    <div className="md:w-[160px] shrink-0 flex items-center gap-2">
-                      <detail.icon className="size-5 text-bluedot-navy/70" />
+                  <div
+                    key={detail.label}
+                    className="flex flex-col md:flex-row md:items-start gap-2 md:gap-8 py-5 border-t border-bluedot-navy/10"
+                  >
+                    <div className="md:w-[160px] shrink-0">
                       <P className="text-[16px] font-semibold leading-[125%] text-bluedot-navy">
                         {detail.label}
                       </P>
