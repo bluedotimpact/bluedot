@@ -320,7 +320,7 @@ export const facilitatorRouter = router({
           courseRating: existingCourseFeedback.courseRating,
           courseValue: existingCourseFeedback.courseValue,
           improvements: existingCourseFeedback.improvements,
-          submittedAt: existingCourseFeedback.submittedAt,
+          completed: existingCourseFeedback.completed,
         } : null,
         existingPeerFeedback: existingPeerFeedback.map((pf) => {
           const recipientId = pf.feedbackRecipient?.[0] ?? '';
@@ -419,7 +419,7 @@ export const facilitatorRouter = router({
         courseRating: input.courseRating,
         courseValue: input.courseValue,
         improvements: input.improvements,
-        submittedAt: Math.floor(Date.now() / 1000),
+        completed: true,
       });
 
       return { courseFeedbackId: courseFeedback.id };
@@ -430,7 +430,7 @@ export const facilitatorRouter = router({
     .mutation(async ({ input, ctx }) => {
       const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx);
       if (meetPerson.courseFeedback?.[0]) {
-        await db.update(courseFeedbackTable, { id: meetPerson.courseFeedback[0], submittedAt: null });
+        await db.update(courseFeedbackTable, { id: meetPerson.courseFeedback[0], completed: null });
       }
 
       return { success: true };
