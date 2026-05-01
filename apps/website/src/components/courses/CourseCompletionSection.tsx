@@ -137,7 +137,7 @@ export default function CourseCompletionSection({
               Join the next {courseTitle} cohort
             </H2>
             <P className="text-[16px] leading-[1.6] tracking-[-0.002em] text-bluedot-navy">
-              Take part in facilitated discussions with a small group, work on projects, and earn your certificate.
+              Learn alongside field experts and leave with a clear next step.
             </P>
           </div>
         </div>
