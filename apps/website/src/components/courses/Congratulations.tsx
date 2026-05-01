@@ -87,13 +87,13 @@ const PostPreviewPanel = ({
 const ChatPreviewPanel = ({ courseTitle, courseUrl }: { courseTitle: string; courseUrl: string }) => (
   <div className="flex h-full flex-col items-center justify-center border-l border-[#e5e9f2] bg-[#fbfbfd] p-8">
     <div className="bg-bluedot-normal relative max-w-[280px] rounded-[7.5px] px-4 py-3 shadow-sm">
-      <p className="text-[14px] leading-[20px] text-white">
+      <p className="text-size-xs leading-[20px] text-white">
         Hey, I just finished this free {courseTitle} course and it genuinely shifted how I think about this stuff.
         Thought you&rsquo;d find it interesting as well.
         <br />
         <span className="tracking-[0.16px] underline">{courseUrl}</span>
       </p>
-      <p className="mt-1 text-right text-[12px] text-white/60">19:45</p>
+      <p className="mt-1 text-right text-size-xxs text-white/60">19:45</p>
       <svg
         className="text-bluedot-normal absolute"
         style={{ right: '5px', bottom: '-8.917px' }}
@@ -128,7 +128,7 @@ const ShareCard = ({ title, description, actions, preview }: ShareCardProps) => 
       <div className="flex flex-col gap-3">
         <h3 className="text-bluedot-navy text-[20px] leading-[1.4] font-semibold">{title}</h3>
         {description && (
-          <P className="text-bluedot-navy text-[16px] leading-[1.6] tracking-[-0.032px]">{description}</P>
+          <P className="text-bluedot-navy text-size-sm leading-[1.6] tracking-[-0.032px]">{description}</P>
         )}
       </div>
       {actions && <div className="flex flex-wrap items-center gap-3">{actions}</div>}
@@ -158,14 +158,14 @@ const AttendanceIneligibleCard = ({
     <div className="flex w-full max-w-[640px] flex-col gap-2.5 rounded-[6px] border border-[rgba(106,111,122,0.5)] bg-[#fcfbf9] px-5 py-6">
       <div className="flex items-center gap-3">
         <FaCircleMinus className="size-8 shrink-0 text-[#62748E]" />
-        <span className="text-bluedot-navy text-[16px] leading-5 font-semibold">
+        <span className="text-bluedot-navy text-size-sm leading-5 font-semibold">
           Certificate requirement not met
         </span>
       </div>
-      <p className="text-bluedot-navy text-[14px] leading-[21px]">
+      <p className="text-bluedot-navy text-size-xs leading-[21px]">
         Discussions attended: {uniqueDiscussionAttendance} of {numUnits} discussions - Missed {missed} (max 1 allowed)
       </p>
-      <p className="text-bluedot-navy text-[14px] leading-5">
+      <p className="text-bluedot-navy text-size-xs leading-5">
         If you have any questions about certificate requirement, get in touch at{' '}
         <a href="mailto:team@bluedot.org" className="underline">
           team@bluedot.org
@@ -298,7 +298,7 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
   return (
     <div className="flex w-full flex-col items-center gap-6">
       <CertificatePreviewCard courseSlug={courseSlug} courseTitle={courseTitle} />
-      {description && <p className="max-w-[480px] text-center text-[14px] text-[#62748E]">{description}</p>}
+      {description && <p className="max-w-[480px] text-center text-size-xs text-[#62748E]">{description}</p>}
       {cta}
     </div>
   );
@@ -312,7 +312,7 @@ const CertificateHero = ({ courseId, courseSlug, courseTitle }: CertificateHeroP
     return (
       <div className="flex w-full flex-col items-center gap-6">
         <CertificatePreviewCard courseSlug={courseSlug} courseTitle={courseTitle} />
-        <p className="max-w-[480px] text-center text-[14px] text-[#62748E]">
+        <p className="max-w-[480px] text-center text-size-xs text-[#62748E]">
           Create a free account to earn your course certificate.
         </p>
         <CTALinkOrButton url={getLoginUrl(router.asPath)} variant="primary">
@@ -382,13 +382,13 @@ const Congratulations: React.FC<CongratulationsProps> = ({
           style={{ background: courseColors.gradient }}
         >
           <div className="flex max-w-[653px] flex-col items-center gap-4 text-center">
-            <p className="text-[16px] font-semibold tracking-[0.04em] uppercase" style={{ color: courseColors.accent }}>
+            <p className="text-size-sm font-semibold tracking-[0.04em] uppercase" style={{ color: courseColors.accent }}>
               Start making impact today
             </p>
             <H2 className="text-[32px] leading-[1.3] font-bold tracking-[-0.015em] text-white">
               Help more people discover AI safety today
             </H2>
-            <P className="text-[16px] leading-[1.6] tracking-[-0.002em] text-white">
+            <P className="text-size-sm leading-[1.6] tracking-[-0.002em] text-white">
               You&apos;ve spent time understanding one of the most important problems of our era. A post or a message to
               the right person can have a real ripple effect.
             </P>
@@ -434,8 +434,8 @@ const Congratulations: React.FC<CongratulationsProps> = ({
         <div className="flex justify-center bg-white py-12">
           <div className="border-hairline border-bluedot-navy/25 flex w-full max-w-[1100px] flex-col gap-6 rounded-[10px] bg-white p-10">
             <div className="flex flex-col gap-3">
-              <h3 className="text-bluedot-navy text-[18px] leading-[1.4] font-semibold">Want to go deeper?</h3>
-              <P className="text-bluedot-navy text-[16px] leading-[1.6] tracking-[-0.002em]">
+              <h3 className="text-bluedot-navy text-size-md leading-[1.4] font-semibold">Want to go deeper?</h3>
+              <P className="text-bluedot-navy text-size-sm leading-[1.6] tracking-[-0.002em]">
                 <span className="font-semibold">The AGI Strategy course</span> is the natural next step: 25 hours,
                 facilitated in small groups with live discussion. No specific background required. New rounds start
                 every month.
