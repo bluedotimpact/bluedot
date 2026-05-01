@@ -102,6 +102,26 @@ export default function CourseCompletionSection({
             </P>
           </div>
           <SocialProof />
+        <div className="container-lined bg-white p-6">
+          {roundsData.intense.length > 0 && (
+            <RoundGroup
+              type="intensive"
+              rounds={roundsData.intense}
+              applicationUrl={applicationUrlWithUtm}
+              accentColor={accentColor}
+            />
+          )}
+
+          {roundsData.partTime.length > 0 && (
+            <div className={cn(roundsData.intense.length > 0 && 'mt-6')}>
+              <RoundGroup
+                type="part-time"
+                rounds={roundsData.partTime}
+                applicationUrl={applicationUrlWithUtm}
+                accentColor={accentColor}
+              />
+            </div>
+          )}
         </div>
 
         {detailsWithoutSchedule.length > 0 && (
@@ -127,28 +147,6 @@ export default function CourseCompletionSection({
             </Collapsible>
           </div>
         )}
-
-        <div className="container-lined bg-white p-6">
-          {roundsData.intense.length > 0 && (
-            <RoundGroup
-              type="intensive"
-              rounds={roundsData.intense}
-              applicationUrl={applicationUrlWithUtm}
-              accentColor={accentColor}
-            />
-          )}
-
-          {roundsData.partTime.length > 0 && (
-            <div className={cn(roundsData.intense.length > 0 && 'mt-6')}>
-              <RoundGroup
-                type="part-time"
-                rounds={roundsData.partTime}
-                applicationUrl={applicationUrlWithUtm}
-                accentColor={accentColor}
-              />
-            </div>
-          )}
-        </div>
       </div>
     );
   }
