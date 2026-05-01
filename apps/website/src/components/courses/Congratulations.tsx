@@ -156,7 +156,15 @@ const AttendanceIneligibleCard = ({
   const missed = numUnits - uniqueDiscussionAttendance;
 
   return (
-    <div className="w-full max-w-[640px] rounded-xl border border-[rgba(19,19,46,0.1)] bg-white">
+    <div
+      className="group w-full max-w-[640px] cursor-pointer rounded-xl border border-[rgba(19,19,46,0.1)] bg-white"
+      onClick={() => setExpanded(!expanded)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') setExpanded(!expanded);
+      }}
+    >
       <div className="flex items-center gap-6 px-8 py-6">
         <div className="flex flex-1 items-center gap-4">
           <div className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-[rgba(19,19,46,0.08)]">
@@ -166,13 +174,9 @@ const AttendanceIneligibleCard = ({
             Certificate requirements not met
           </span>
         </div>
-        <button
-          type="button"
-          onClick={() => setExpanded(!expanded)}
-          className="text-bluedot-navy shrink-0 text-[16px] leading-5 underline transition-opacity hover:opacity-70"
-        >
+        <span className="text-bluedot-navy shrink-0 text-[16px] leading-5 group-hover:underline">
           {expanded ? 'Hide details' : 'Show details'}
-        </button>
+        </span>
       </div>
 
       {expanded && (
