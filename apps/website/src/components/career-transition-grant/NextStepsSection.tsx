@@ -3,8 +3,8 @@ import { pageSectionHeadingClass } from '../PageListRow';
 
 const NEXT_STEPS = [
   {
-    title: 'You submit',
-    body: 'Send us your 1-2 page proposal covering the prompts above.',
+    title: 'You apply',
+    body: 'Fill in the application form. It takes around 45 minutes.',
   },
   {
     title: 'We review and book a call',
