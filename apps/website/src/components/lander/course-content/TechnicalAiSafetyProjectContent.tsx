@@ -7,7 +7,6 @@ import {
   PiGraduationCap,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
-import { COURSE_INFORMATION_DETAILS } from '../../../lib/courseInformationDetails';
 
 // Custom color theme for Technical AI Safety Project - slightly more blue-purple than the main TAS course
 const TASP_COLORS = {
@@ -105,12 +104,6 @@ export const createTechnicalAiSafetyProjectContent = (
         description: 'You\'ll have regular check-ins with an AI safety expert who can debug your approach, validate extension ideas, and give rapid feedback. No more spinning your wheels alone. Get answers in hours, not days.',
       },
     ],
-  },
-
-  courseInformation: {
-    ...COURSE_INFORMATION_DETAILS[courseSlug]!,
-    applicationUrl: applicationUrlWithUtm,
-    courseSlug,
   },
 
   faq: {

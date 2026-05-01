@@ -9,7 +9,6 @@ import {
   PiUsersThree,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
-import { COURSE_INFORMATION_DETAILS } from '../../../lib/courseInformationDetails';
 
 const externalLinkClassName = 'font-medium underline underline-offset-2 hover:text-bluedot-normal';
 
@@ -204,12 +203,6 @@ export const createTechnicalAiSafetyContent = (
         description: 'You\'ll join a curated cohort of people who are serious about making AI go well. Many stay connected long after the course ends, through our community Slack, events, and collaborative projects. This is a network of people starting companies, leading research, and shaping policy in AI safety.',
       },
     ],
-  },
-
-  courseInformation: {
-    ...COURSE_INFORMATION_DETAILS[courseSlug]!,
-    applicationUrl: applicationUrlWithUtm,
-    courseSlug,
   },
 
   scheduleList: {

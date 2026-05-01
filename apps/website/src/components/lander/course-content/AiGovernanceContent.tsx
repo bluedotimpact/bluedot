@@ -12,7 +12,6 @@ import {
   PiPath,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
-import { COURSE_INFORMATION_DETAILS } from '../../../lib/courseInformationDetails';
 
 const externalLinkClassName = 'font-medium underline underline-offset-2 hover:text-bluedot-normal';
 
@@ -183,12 +182,6 @@ export const createAiGovernanceContent = (
     ],
   },
   courseOutcomesPlacement: 'beforeStructure',
-
-  courseInformation: {
-    ...COURSE_INFORMATION_DETAILS[courseSlug]!,
-    applicationUrl: applicationUrlWithUtm,
-    courseSlug,
-  },
 
   pathways: {
     title: 'Where this leads — and how we help',

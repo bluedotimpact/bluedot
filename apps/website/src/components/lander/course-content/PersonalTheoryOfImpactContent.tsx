@@ -7,7 +7,6 @@ import {
   PiLightbulb,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
-import { COURSE_INFORMATION_DETAILS } from '../../../lib/courseInformationDetails';
 
 export const PERSONAL_TOI_START_URL = '/courses/personal-theory-of-impact/1/1';
 
@@ -27,7 +26,7 @@ const TOI_COLORS = {
 
 export const createPersonalTheoryOfImpactContent = (
   applicationUrlWithUtm: string,
-  courseSlug: string,
+  _courseSlug: string,
 ): CourseLanderContent => ({
   meta: {
     title: 'Personal Theory of Impact | BlueDot Impact',
@@ -98,12 +97,6 @@ export const createPersonalTheoryOfImpactContent = (
         description: 'Lean into your domain background to figure out where your skills are most needed. Go deep on specific problems rather than staying abstract.',
       },
     ],
-  },
-
-  courseInformation: {
-    ...COURSE_INFORMATION_DETAILS[courseSlug]!,
-    applicationUrl: applicationUrlWithUtm,
-    courseSlug,
   },
 
   hideTestimonials: true,

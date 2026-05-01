@@ -6,7 +6,6 @@ import {
   PiUsers,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
-import { COURSE_INFORMATION_DETAILS } from '../../../lib/courseInformationDetails';
 
 export const FUTURE_OF_AI_START_URL = '/courses/future-of-ai/1/1';
 
@@ -25,7 +24,7 @@ export const FOAI_COLORS = {
 
 export const createFutureOfAiContent = (
   _applicationUrlWithUtm: string,
-  courseSlug: string,
+  _courseSlug: string,
 ): CourseLanderContent => ({
   meta: {
     title: 'Future of AI Course | BlueDot Impact',
@@ -97,11 +96,7 @@ export const createFutureOfAiContent = (
     ],
   },
 
-  courseInformation: {
-    ...COURSE_INFORMATION_DETAILS[courseSlug]!,
-    applicationUrl: FUTURE_OF_AI_START_URL,
-    courseSlug,
-  },
+  courseInformationApplicationUrl: FUTURE_OF_AI_START_URL,
 
   quotes: {
     cardBackgroundColor: FOAI_COLORS.bright,

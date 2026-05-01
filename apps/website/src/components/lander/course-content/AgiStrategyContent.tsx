@@ -1,5 +1,4 @@
 import { type CourseLanderContent } from '../CourseLander';
-import { COURSE_INFORMATION_DETAILS } from '../../../lib/courseInformationDetails';
 
 export const AGI_STRATEGY_COLORS = {
   /* Gradient layers:
@@ -67,12 +66,6 @@ export const createAgiStrategyContent = (
         body: 'BlueDot has 7,000+ alumni, with many now working at Anthropic, DeepMind, UK AISI, and dozens of organisations working on a safe transition to advanced AI. You\'ll meet people in the field who can open doors for you and pressure-test your thinking.',
       },
     ],
-  },
-
-  courseInformation: {
-    ...COURSE_INFORMATION_DETAILS[courseSlug]!,
-    applicationUrl: applicationUrlWithUtm,
-    courseSlug,
   },
 
   scheduleList: {
