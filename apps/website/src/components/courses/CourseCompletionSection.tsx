@@ -1,6 +1,8 @@
 import {
   addQueryParam, cn, Collapsible, H2, P, ProgressDots, useLatestUtmParams,
 } from '@bluedot/ui';
+import type { IconType } from 'react-icons';
+import { PiCertificate, PiChalkboardTeacher, PiUsersThree } from 'react-icons/pi';
 import { COURSE_CONFIG } from '../../lib/constants';
 import { appendPosthogSessionIdPrefill } from '../../lib/appendPosthogSessionIdPrefill';
 import { COURSE_INFORMATION_DETAILS } from '../../lib/courseInformationDetails';
@@ -27,21 +29,60 @@ const AVATAR_IMAGES = [
   '/images/graduates/chiara.webp',
 ];
 
-const SocialProof = () => (
-  <div className="flex items-center gap-3">
-    <div className="flex -space-x-2">
+type FeatureCard = {
+  icon: IconType;
+  title: string;
+  description: string;
+};
+
+const FEATURE_CARDS: FeatureCard[] = [
+  {
+    icon: PiUsersThree,
+    title: 'Community',
+    description: 'Connect with a global network of peers across policy, research, engineering, and governance',
+  },
+  {
+    icon: PiChalkboardTeacher,
+    title: 'Expert facilitators',
+    description: 'Every course is led by an expert actively working in the field.',
+  },
+  {
+    icon: PiCertificate,
+    title: 'Certificate',
+    description: 'Earn shareable certificate as your professional credential.',
+  },
+];
+
+const FeatureCardItem = ({ card, accentColor }: { card: FeatureCard; accentColor?: string }) => (
+  <div className="flex-1 rounded-[10px] border border-bluedot-navy/10 bg-white p-5 flex flex-col gap-2 text-left">
+    <div className="flex items-center gap-2">
+      <card.icon className="size-5" style={{ color: accentColor }} />
+      <p className="text-[16px] font-semibold leading-[1.4] text-bluedot-navy">{card.title}</p>
+    </div>
+    <P className="text-[15px] leading-[1.5] text-bluedot-navy/70">{card.description}</P>
+  </div>
+);
+
+const SocialProof = ({ accentColor }: { accentColor?: string }) => (
+  <div
+    className="inline-flex flex-col items-center gap-3 rounded-[24px] px-4 py-3 max-w-full sm:flex-row sm:rounded-full sm:py-2"
+    // 8-digit hex (#RRGGBBAA) — `1F` ≈ 12% opacity tint of the course accent.
+    style={{ backgroundColor: accentColor ? `${accentColor}1F` : undefined }}
+  >
+    <div className="flex -space-x-2 shrink-0">
       {AVATAR_IMAGES.map((src) => (
         <img
           key={src}
           src={src}
           alt=""
-          className="size-7 rounded-full object-cover ring-2 ring-white"
+          className="size-6 rounded-full object-cover ring-2 ring-white"
         />
       ))}
     </div>
-    <p className="text-[14px] leading-[1.4] text-bluedot-navy">
-      <span className="font-semibold text-bluedot-normal">{COMMUNITY_SIZE_LABEL}</span>
-      {' '}have joined a facilitated cohort
+    <p className="text-[14px] leading-[1.4] text-bluedot-navy text-center sm:text-left">
+      Join{' '}
+      <span className="font-semibold" style={{ color: accentColor }}>{COMMUNITY_SIZE_LABEL}</span>
+      {' '}already enrolled
     </p>
   </div>
 );
@@ -90,8 +131,8 @@ export default function CourseCompletionSection({
     const detailsWithoutSchedule = info?.details.filter((d) => !d.isSchedule) ?? [];
 
     return (
-      <div className={cn('flex flex-col gap-12', className)}>
-        <div className="flex flex-col items-center gap-8 pt-24 pb-8 text-center max-w-[640px] mx-auto">
+      <div className={cn('flex flex-col gap-8', className)}>
+        <div className="flex flex-col items-center gap-8 pt-24 pb-4 text-center max-w-[640px] mx-auto">
           <CourseIcon courseSlug={courseSlug} size="xlarge" className="rounded-[12px] shadow-md" />
           <div className="flex flex-col gap-3">
             <H2 className="font-bold text-[28px] md:text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy">
@@ -101,7 +142,18 @@ export default function CourseCompletionSection({
               Take part in facilitated discussions with a small group, work on projects, and earn your certificate.
             </P>
           </div>
-          <SocialProof />
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-3 max-w-[840px] w-full mx-auto">
+          {FEATURE_CARDS.map((card) => (
+            <FeatureCardItem key={card.title} card={card} accentColor={accentColor} />
+          ))}
+        </div>
+
+        <div className="flex justify-center">
+          <SocialProof accentColor={accentColor} />
+        </div>
+
         <div className="container-lined bg-white p-6">
           {roundsData.intense.length > 0 && (
             <RoundGroup
