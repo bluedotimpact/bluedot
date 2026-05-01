@@ -18,12 +18,9 @@ import {
   PiRocketLaunch,
 } from 'react-icons/pi';
 import type { CourseDetail } from '../components/lander/components/CourseInformationSection';
-import { COURSE_COLORS } from './courseColors';
-
 export type CourseInformationConfig = {
   title: string;
   scheduleCtaText: string;
-  accentColor: string;
   details: CourseDetail[];
 };
 
@@ -31,8 +28,7 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
   'agi-strategy': {
     title: 'How the course works',
     scheduleCtaText: 'Apply now',
-    accentColor: COURSE_COLORS['agi-strategy'].full,
-    details: [
+details: [
       {
         icon: PiArrowsLeftRight,
         label: 'Options',
@@ -65,7 +61,6 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
   'ai-governance': {
     title: 'How it works',
     scheduleCtaText: 'Join the next cohort',
-    accentColor: COURSE_COLORS['ai-governance'].full,
     details: [
       {
         icon: PiGraduationCap,
@@ -129,7 +124,6 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
   biosecurity: {
     title: 'How the course works',
     scheduleCtaText: 'Apply now',
-    accentColor: COURSE_COLORS.biosecurity.full,
     details: [
       {
         icon: PiArrowsLeftRight,
@@ -163,7 +157,6 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
   'future-of-ai': {
     title: 'Course information',
     scheduleCtaText: 'Start now',
-    accentColor: COURSE_COLORS['future-of-ai'].full,
     details: [
       {
         icon: PiClock,
@@ -196,7 +189,6 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
   'personal-theory-of-impact': {
     title: 'Project information',
     scheduleCtaText: 'Get started',
-    accentColor: COURSE_COLORS['personal-theory-of-impact'].full,
     details: [
       {
         icon: PiClockClockwise,
@@ -229,7 +221,6 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
   'technical-ai-safety': {
     title: 'How the course works',
     scheduleCtaText: 'Apply now',
-    accentColor: COURSE_COLORS['technical-ai-safety'].full,
     details: [
       {
         icon: PiArrowsLeftRight,
@@ -263,7 +254,6 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
   'technical-ai-safety-project': {
     title: 'Course information',
     scheduleCtaText: 'Apply now',
-    accentColor: COURSE_COLORS['technical-ai-safety-project'].full,
     details: [
       {
         icon: PiClockClockwise,
