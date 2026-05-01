@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import type React from 'react';
 import { useState } from 'react';
 import {
-  FaCopy, FaLink, FaLinkedinIn, FaXTwitter,
+  FaCircleMinus, FaCopy, FaLink, FaLinkedinIn, FaRegCircleXmark, FaXTwitter,
 } from 'react-icons/fa6';
 import { COURSE_CONFIG, FOAI_COURSE_ID } from '../../lib/constants';
 import { getCourseCtaColours } from '../../lib/courseCtaColours';
@@ -140,6 +140,65 @@ const primaryBtnClass
 const outlinedBtnClass
   = 'flex items-center justify-center gap-2.5 bg-white border border-[rgba(106,111,122,0.5)] text-bluedot-navy rounded-[6px] px-4 py-3 text-[14px] font-medium hover:bg-slate-50 transition-colors no-underline whitespace-nowrap cursor-pointer';
 
+// --- Attendance ineligible card ---
+
+const AttendanceIneligibleCard = ({
+  uniqueDiscussionAttendance,
+  numUnits,
+}: {
+  uniqueDiscussionAttendance: number;
+  numUnits: number;
+}) => {
+  const [expanded, setExpanded] = useState(true);
+  const missed = numUnits - uniqueDiscussionAttendance;
+
+  return (
+    <div className="w-full max-w-[640px] rounded-xl border border-[rgba(19,19,46,0.1)] bg-white">
+      <div className="flex items-center gap-6 px-8 py-6">
+        <div className="flex flex-1 items-center gap-4">
+          <div className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-[rgba(19,19,46,0.08)]">
+            <FaCircleMinus className="size-5 text-[#62748E]" />
+          </div>
+          <span className="text-bluedot-navy text-[16px] leading-5 font-semibold">
+            Certificate requirements not met
+          </span>
+        </div>
+        <button
+          type="button"
+          onClick={() => setExpanded(!expanded)}
+          className="text-bluedot-navy shrink-0 text-[16px] leading-5 underline transition-opacity hover:opacity-70"
+        >
+          {expanded ? 'Hide details' : 'Show details'}
+        </button>
+      </div>
+
+      {expanded && (
+        <>
+          <div className="h-px bg-[rgba(19,19,46,0.1)]" />
+          <div className="flex items-center gap-3 px-8 py-6">
+            <FaRegCircleXmark className="size-6 shrink-0" style={{ color: '#d04040' }} />
+            <p className="text-bluedot-navy text-[16px] leading-5">
+              <span className="font-semibold">Discussions attended: </span>
+              <span>
+                {uniqueDiscussionAttendance} of {numUnits} discussions - Missed {missed} (max 1 allowed)
+              </span>
+            </p>
+          </div>
+          <div className="h-px bg-[rgba(19,19,46,0.1)]" />
+          <div className="px-8 py-6">
+            <p className="text-bluedot-navy text-[16px] leading-5">
+              If you have any questions about certificate requirement, get in touch at{' '}
+              <a href="mailto:team@bluedot.org" className="underline">
+                team@bluedot.org
+              </a>
+            </p>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
 // --- Certificate hero ---
 
 type CertificateHeroProps = { courseId: string; courseSlug: string; courseTitle: string };
@@ -231,9 +290,12 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
     );
   }
 
-  // `not-eligible` is dead in practice here: `CourseCompletionSection` only renders
-  // `Congratulations` once the user is enrolled (past the rounds/apply gate), so
-  // unenrolled users never reach this hero. Kept as a defensive fallback.
+  if (data?.status === 'attendance-ineligible') {
+    return (
+      <AttendanceIneligibleCard uniqueDiscussionAttendance={data.uniqueDiscussionAttendance} numUnits={data.numUnits} />
+    );
+  }
+
   const description = data?.status ? CERTIFICATE_STATUS_DESCRIPTIONS[data.status] : null;
 
   let cta: React.ReactNode = null;
