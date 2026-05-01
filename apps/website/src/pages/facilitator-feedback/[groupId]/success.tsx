@@ -31,7 +31,7 @@ const FacilitatorFeedbackSuccessPage = () => {
     if (shouldShow404) router.replace('/404');
   }, [shouldShow404, router]);
 
-  const notSubmitted = !!data && !data.existingCourseFeedback?.submittedAt;
+  const notSubmitted = !!data && data.existingCourseFeedback?.completed !== true;
   useEffect(() => {
     if (notSubmitted) {
       router.replace(`/facilitator-feedback/${meetPersonId}`);

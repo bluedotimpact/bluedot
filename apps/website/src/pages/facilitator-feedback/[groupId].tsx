@@ -129,7 +129,7 @@ const FacilitatorFeedbackPage = () => {
     courseValue: mostValuable,
     improvements: difficulties,
   };
-  const alreadySubmitted = formData?.existingCourseFeedback?.submittedAt != null;
+  const alreadySubmitted = formData?.existingCourseFeedback?.completed === true;
   const submitIdleLabel = alreadySubmitted ? 'Update feedback' : 'Submit feedback';
   const submitAnywayIdleLabel = alreadySubmitted ? 'Update anyway' : 'Submit anyway';
 
@@ -366,7 +366,7 @@ const FacilitatorFeedbackPage = () => {
               </p>
             </div>
           )}
-          {isAdmin && formData?.existingCourseFeedback?.submittedAt != null && (
+          {isAdmin && formData?.existingCourseFeedback?.completed === true && (
             <button
               type="button"
               className="self-start text-size-xxs text-bluedot-navy/40 underline cursor-pointer"

@@ -285,7 +285,7 @@ describe('facilitators.getFeedbackFormData', () => {
       courseValue: 'Great course',
       improvements: 'None',
     });
-    expect(result.existingCourseFeedback?.submittedAt).toBeTypeOf('number');
+    expect(result.existingCourseFeedback?.completed).toBe(true);
     expect(result.existingPeerFeedback).toHaveLength(1);
     expect(result.existingPeerFeedback[0]).toMatchObject({
       recipientId: PARTICIPANT_1,
@@ -404,12 +404,10 @@ describe('facilitators.submitFeedback', () => {
     improvements: 'More exercises',
   };
 
-  test('creates course_feedback stub and sets submittedAt on first submit', async () => {
+  test('creates course_feedback stub and sets completed=true on first submit', async () => {
     await seedFacilitatorGroup();
 
-    const before = Math.floor(Date.now() / 1000);
     const { courseFeedbackId } = await caller.facilitators.submitFeedback(submitInput);
-    const after = Math.floor(Date.now() / 1000);
 
     const cfs = await testDb.scan(courseFeedbackTable);
     expect(cfs).toHaveLength(1);
@@ -418,9 +416,8 @@ describe('facilitators.submitFeedback', () => {
       courseRating: 4,
       courseValue: 'Valuable',
       improvements: 'More exercises',
+      completed: true,
     });
-    expect(cfs[0]!.submittedAt).toBeGreaterThanOrEqual(before);
-    expect(cfs[0]!.submittedAt).toBeLessThanOrEqual(after);
   });
 
   test('reuses existing course_feedback (e.g. stub from savePeerFeedback)', async () => {
@@ -433,7 +430,7 @@ describe('facilitators.submitFeedback', () => {
     expect(courseFeedbackId).toBe(stub!.id);
     const cfs = await testDb.scan(courseFeedbackTable);
     expect(cfs).toHaveLength(1);
-    expect(cfs[0]!.submittedAt).toBeTypeOf('number');
+    expect(cfs[0]!.completed).toBe(true);
   });
 
   test('rejects meetPersonId that belongs to a Participant', async () => {
