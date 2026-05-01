@@ -14,6 +14,7 @@ const COURSE_COLOR_MAP: Record<string, CourseCtaColors> = {
   'technical-ai-safety-project': COURSE_COLORS['technical-ai-safety'],
   'ai-governance': COURSE_COLORS['ai-governance'],
   biosecurity: COURSE_COLORS.biosecurity,
+  'personal-theory-of-impact': COURSE_COLORS['personal-theory-of-impact'],
 };
 
 export const getCourseCtaColors = (courseSlug: string): CourseCtaColors => {
