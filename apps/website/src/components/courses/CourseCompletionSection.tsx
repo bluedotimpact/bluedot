@@ -9,7 +9,6 @@ import { COURSE_INFORMATION_DETAILS } from '../../lib/courseInformationDetails';
 import { trpc } from '../../utils/trpc';
 import RoundGroup from '../shared/RoundGroup';
 import Congratulations from './Congratulations';
-import { CourseIcon } from './CourseIcon';
 
 type CourseCompletionSectionProps = {
   courseId: string;
@@ -133,7 +132,6 @@ export default function CourseCompletionSection({
     return (
       <div className={cn('flex flex-col gap-8', className)}>
         <div className="flex flex-col items-center gap-8 pt-24 pb-4 text-center max-w-[640px] mx-auto">
-          <CourseIcon courseSlug={courseSlug} size="xlarge" className="rounded-[12px] shadow-md" />
           <div className="flex flex-col gap-3">
             <H2 className="font-bold text-[28px] md:text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy">
               Join a facilitated cohort to get certified
