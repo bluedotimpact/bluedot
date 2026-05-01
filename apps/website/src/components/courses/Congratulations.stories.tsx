@@ -143,18 +143,6 @@ export const FacilitatorPending: Story = {
   },
 };
 
-export const NotEligible: Story = {
-  ...loggedInStory(),
-  args: {},
-  parameters: {
-    msw: {
-      handlers: [
-        trpcStorybookMsw.certificates.getStatus.query(() => ({ status: 'not-eligible' as const })),
-      ],
-    },
-  },
-};
-
 export const NoCertificateCard: Story = {
   ...loggedInStory(),
   args: {
