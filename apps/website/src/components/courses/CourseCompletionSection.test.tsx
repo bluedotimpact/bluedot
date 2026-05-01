@@ -54,7 +54,7 @@ describe('CourseCompletionSection', () => {
     const { container } = render(<CourseCompletionSection {...defaultProps} />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      expect(container.textContent).toContain('Join a facilitated cohort to get certified');
+      expect(container.textContent).toContain('Join the next AGI Strategy cohort');
     });
 
     expect(container.querySelector('.congratulations')).toBeFalsy();
