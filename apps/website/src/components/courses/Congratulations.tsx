@@ -229,6 +229,9 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
     );
   }
 
+  // `not-eligible` is dead in practice here: `CourseCompletionSection` only renders
+  // `Congratulations` once the user is enrolled (past the rounds/apply gate), so
+  // unenrolled users never reach this hero. Kept as a defensive fallback.
   const status = data?.status ?? 'not-eligible';
   const description = CERTIFICATE_STATUS_DESCRIPTIONS[status];
 
