@@ -7,7 +7,7 @@ import type React from 'react';
 import { useState } from 'react';
 import {
   FaCircleMinus,
-  FaLink, FaLinkedinIn, FaRegCircleXmark,
+  FaLink, FaLinkedinIn,
   FaRegCopy,
   FaXTwitter,
 } from 'react-icons/fa6';
@@ -152,56 +152,25 @@ const AttendanceIneligibleCard = ({
   uniqueDiscussionAttendance: number;
   numUnits: number;
 }) => {
-  const [expanded, setExpanded] = useState(true);
   const missed = numUnits - uniqueDiscussionAttendance;
 
   return (
-    <div
-      className="group w-full max-w-[640px] cursor-pointer rounded-xl border border-bluedot-navy/10 bg-white"
-      onClick={() => setExpanded(!expanded)}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') setExpanded(!expanded);
-      }}
-    >
-      <div className="flex items-center gap-6 px-8 py-6">
-        <div className="flex flex-1 items-center gap-4">
-          <div className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-bluedot-navy/[0.08]">
-            <FaCircleMinus className="size-5 text-[#62748E]" />
-          </div>
-          <span className="text-bluedot-navy text-[16px] leading-5 font-semibold">
-            Certificate requirements not met
-          </span>
-        </div>
-        <span className="text-bluedot-navy shrink-0 text-[16px] leading-5 group-hover:underline">
-          {expanded ? 'Hide details' : 'Show details'}
+    <div className="flex w-full max-w-[640px] flex-col gap-2.5 rounded-[6px] border border-[rgba(106,111,122,0.5)] bg-[#fcfbf9] px-5 py-6">
+      <div className="flex items-center gap-3">
+        <FaCircleMinus className="size-8 shrink-0 text-[#62748E]" />
+        <span className="text-bluedot-navy text-[16px] leading-5 font-semibold">
+          Certificate requirement not met
         </span>
       </div>
-
-      {expanded && (
-        <>
-          <div className="h-px bg-bluedot-navy/10" />
-          <div className="flex items-center gap-3 px-8 py-6">
-            <FaRegCircleXmark className="size-6 shrink-0" style={{ color: '#d04040' }} />
-            <p className="text-bluedot-navy text-[16px] leading-5">
-              <span className="font-semibold">Discussions attended: </span>
-              <span>
-                {uniqueDiscussionAttendance} of {numUnits} discussions - Missed {missed} (max 1 allowed)
-              </span>
-            </p>
-          </div>
-          <div className="h-px bg-bluedot-navy/10" />
-          <div className="px-8 py-6">
-            <p className="text-bluedot-navy text-[16px] leading-5">
-              If you have any questions about certificate requirement, get in touch at{' '}
-              <a href="mailto:team@bluedot.org" className="underline">
-                team@bluedot.org
-              </a>
-            </p>
-          </div>
-        </>
-      )}
+      <p className="text-bluedot-navy text-[14px] leading-[21px]">
+        Discussions attended: {uniqueDiscussionAttendance} of {numUnits} discussions - Missed {missed} (max 1 allowed)
+      </p>
+      <p className="text-bluedot-navy text-[14px] leading-5">
+        If you have any questions about certificate requirement, get in touch at{' '}
+        <a href="mailto:team@bluedot.org" className="underline">
+          team@bluedot.org
+        </a>
+      </p>
     </div>
   );
 };
