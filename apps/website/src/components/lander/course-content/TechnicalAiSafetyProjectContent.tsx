@@ -7,20 +7,7 @@ import {
   PiGraduationCap,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
-
-// Custom color theme for Technical AI Safety Project - slightly more blue-purple than the main TAS course
-const TASP_COLORS = {
-  /* Gradient layers:
-     1. Left-side darkness - horizontal gradient to darken left edge for text readability
-     2. Bottom-right warm glow - blue-purple tones (differentiated from main TAS course)
-     3. Base color - deep blue-purple */
-  gradient: 'linear-gradient(to right, rgba(15, 10, 30, 0.6) 0%, rgba(15, 10, 30, 0.4) 20%, rgba(15, 10, 30, 0.2) 40%, transparent 55%), radial-gradient(130% 160% at 100% 108.81%, rgba(200, 180, 255, 0.40) 0%, rgba(100, 85, 160, 0.40) 52.4%, rgba(35, 20, 60, 0.40) 100%), #2A1854',
-  accent: '#C8B3FF', // Lighter purple-blue accent
-  iconBackground: '#4A3B7A', // Slightly bluer purple for icons
-  bright: '#f0e6ff', // Light purple for benefit icons
-  mid: '#9B7FD1', // Mid-tone purple-blue
-  full: '#8A6BBB', // Full purple-blue for course info
-};
+import { TASP_COLORS } from '../../../lib/courseColors';
 
 export const createTechnicalAiSafetyProjectContent = (
   applicationUrlWithUtm: string,

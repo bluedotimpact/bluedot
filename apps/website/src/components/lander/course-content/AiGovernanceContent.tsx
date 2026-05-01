@@ -12,20 +12,9 @@ import {
   PiPath,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
+import { AI_GOVERNANCE_COLORS } from '../../../lib/courseColors';
 
 const externalLinkClassName = 'font-medium underline underline-offset-2 hover:text-bluedot-normal';
-
-export const AI_GOVERNANCE_COLORS = {
-  gradient: `
-    linear-gradient(270deg, rgba(5, 24, 67, 0.00) -3.82%, rgba(5, 24, 67, 0.50) 98.44%),
-    radial-gradient(96.03% 113.39% at 98.65% 96.93%, rgba(175, 196, 151, 0.40) 0%, rgba(21, 148, 194, 0.40) 44.58%, rgba(5, 24, 67, 0.40) 100%),
-    #051843
-  `,
-  accent: '#adfeff',
-  iconBackground: '#1F588A',
-  bright: '#ddf4ff',
-  full: '#4092d6',
-};
 
 export const createAiGovernanceContent = (
   applicationUrlWithUtm: string,

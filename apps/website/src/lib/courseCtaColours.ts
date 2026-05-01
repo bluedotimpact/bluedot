@@ -1,8 +1,10 @@
-import { AGI_STRATEGY_COLORS } from '../components/lander/course-content/AgiStrategyContent';
-import { AI_GOVERNANCE_COLORS } from '../components/lander/course-content/AiGovernanceContent';
-import { BIOSECURITY_COLORS } from '../components/lander/course-content/BioSecurityContent';
-import { FOAI_COLORS } from '../components/lander/course-content/FutureOfAiContent';
-import { TAS_COLORS } from '../components/lander/course-content/TechnicalAiSafetyContent';
+import {
+  AGI_STRATEGY_COLORS,
+  AI_GOVERNANCE_COLORS,
+  BIOSECURITY_COLORS,
+  FOAI_COLORS,
+  TAS_COLORS,
+} from './courseColors';
 
 type CourseCtaColours = { gradient: string; accent: string };
 

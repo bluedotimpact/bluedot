@@ -9,21 +9,9 @@ import {
   PiUsersThree,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
+import { TAS_COLORS } from '../../../lib/courseColors';
 
 const externalLinkClassName = 'font-medium underline underline-offset-2 hover:text-bluedot-normal';
-
-export const TAS_COLORS = {
-  /* Gradient layers:
-     1. Left-side darkness - horizontal gradient to darken left edge for text readability
-     2. Bottom-right warm glow - peach → purple → dark purple (from Figma)
-     3. Base color - deep purple/magenta */
-  gradient: 'linear-gradient(to right, rgba(20, 8, 25, 0.6) 0%, rgba(20, 8, 25, 0.4) 20%, rgba(20, 8, 25, 0.2) 40%, transparent 55%), radial-gradient(130% 160% at 100% 108.81%, rgba(255, 202, 171, 0.40) 0%, rgba(126, 85, 144, 0.40) 52.4%, rgba(46, 16, 54, 0.40) 100%), #2E1036',
-  accent: '#E0A5F9',
-  iconBackground: '#502869',
-  bright: '#ffe9ff',
-  mid: '#b880d1',
-  full: '#a060bb',
-};
 
 export const createTechnicalAiSafetyContent = (
   applicationUrlWithUtm: string,

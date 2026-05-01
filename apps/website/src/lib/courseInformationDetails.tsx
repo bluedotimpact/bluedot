@@ -18,6 +18,15 @@ import {
   PiRocketLaunch,
 } from 'react-icons/pi';
 import type { CourseDetail } from '../components/lander/components/CourseInformationSection';
+import {
+  AGI_STRATEGY_COLORS,
+  AI_GOVERNANCE_COLORS,
+  BIOSECURITY_COLORS,
+  FOAI_COLORS,
+  TOI_COLORS,
+  TAS_COLORS,
+  TASP_COLORS,
+} from './courseColors';
 
 export type CourseInformationConfig = {
   title: string;
@@ -26,22 +35,11 @@ export type CourseInformationConfig = {
   details: CourseDetail[];
 };
 
-// Accent colors mirror `*_COLORS.full` in each course-content file. Keep in sync.
-const ACCENT = {
-  agiStrategy: '#9177dc',
-  aiGovernance: '#4092d6',
-  biosecurity: '#3da462',
-  foai: '#8c8146',
-  toi: '#A06878',
-  tas: '#a060bb',
-  tasp: '#8A6BBB',
-} as const;
-
 export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig> = {
   'agi-strategy': {
     title: 'How the course works',
     scheduleCtaText: 'Apply now',
-    accentColor: ACCENT.agiStrategy,
+    accentColor: AGI_STRATEGY_COLORS.full,
     details: [
       {
         icon: PiArrowsLeftRight,
@@ -75,7 +73,7 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
   'ai-governance': {
     title: 'How it works',
     scheduleCtaText: 'Join the next cohort',
-    accentColor: ACCENT.aiGovernance,
+    accentColor: AI_GOVERNANCE_COLORS.full,
     details: [
       {
         icon: PiGraduationCap,
@@ -139,7 +137,7 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
   biosecurity: {
     title: 'How the course works',
     scheduleCtaText: 'Apply now',
-    accentColor: ACCENT.biosecurity,
+    accentColor: BIOSECURITY_COLORS.full,
     details: [
       {
         icon: PiArrowsLeftRight,
@@ -173,7 +171,7 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
   'future-of-ai': {
     title: 'Course information',
     scheduleCtaText: 'Start now',
-    accentColor: ACCENT.foai,
+    accentColor: FOAI_COLORS.full,
     details: [
       {
         icon: PiClock,
@@ -206,7 +204,7 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
   'personal-theory-of-impact': {
     title: 'Project information',
     scheduleCtaText: 'Get started',
-    accentColor: ACCENT.toi,
+    accentColor: TOI_COLORS.full,
     details: [
       {
         icon: PiClockClockwise,
@@ -239,7 +237,7 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
   'technical-ai-safety': {
     title: 'How the course works',
     scheduleCtaText: 'Apply now',
-    accentColor: ACCENT.tas,
+    accentColor: TAS_COLORS.full,
     details: [
       {
         icon: PiArrowsLeftRight,
@@ -273,7 +271,7 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
   'technical-ai-safety-project': {
     title: 'Course information',
     scheduleCtaText: 'Apply now',
-    accentColor: ACCENT.tasp,
+    accentColor: TASP_COLORS.full,
     details: [
       {
         icon: PiClockClockwise,

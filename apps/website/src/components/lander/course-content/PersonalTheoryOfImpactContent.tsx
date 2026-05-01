@@ -7,22 +7,9 @@ import {
   PiLightbulb,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
+import { TOI_COLORS } from '../../../lib/courseColors';
 
 export const PERSONAL_TOI_START_URL = '/courses/personal-theory-of-impact/1/1';
-
-// Custom color theme for Personal Theory of Impact - dusty rose/mauve, reflective and distinct
-const TOI_COLORS = {
-  /* Gradient layers:
-     1. Left-side darkness - horizontal gradient to darken left edge for text readability
-     2. Main colorful gradient - rose→mauve→deep plum from bottom-right
-     3. Base color - deep plum */
-  gradient: 'linear-gradient(to right, rgba(42, 21, 32, 0.9) 0%, rgba(42, 21, 32, 0.4) 5%, rgba(42, 21, 32, 0.15) 15%, rgba(42, 21, 32, 0.05) 30%, transparent 45%), radial-gradient(115% 175% at 95% 135%, rgba(212, 160, 176, 0.55) 0%, rgba(180, 130, 155, 0.40) 25%, rgba(80, 40, 65, 0.65) 60%, rgba(42, 21, 32, 0.60) 100%), #2A1520',
-  accent: '#D4A0B0', // Dusty rose accent
-  iconBackground: '#6B3A50', // Deep mauve for icons
-  bright: '#F5E4EA', // Light rose for benefit icons
-  mid: '#B87A90', // Mid-tone mauve
-  full: '#A06878', // Full rose for course info
-};
 
 export const createPersonalTheoryOfImpactContent = (
   applicationUrlWithUtm: string,
