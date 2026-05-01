@@ -24,6 +24,8 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
 export const CERTIFICATE_STATUS_DESCRIPTIONS: Record<CertificateStatus, string> = {
   'action-plan-pending':
     'To receive your certificate, you need to submit an action plan/project and can\'t have missed more than one discussion.',
+  'attendance-ineligible':
+    'You missed too many discussions to be eligible for a certificate. Participants can miss at most one discussion.',
   'can-request': 'Complete all exercises to unlock your certificate, then share your accomplishment on social media.',
   'facilitator-pending': 'Your certificate will be issued after your cohort ends, based on attendance.',
   'has-certificate': '',
