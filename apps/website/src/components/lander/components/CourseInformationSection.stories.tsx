@@ -7,11 +7,13 @@ import {
 } from 'react-icons/pi';
 import CourseInformationSection from './CourseInformationSection';
 import { trpcStorybookMsw } from '../../../__tests__/trpcMswSetup.browser';
-import { AGI_STRATEGY_COLORS } from '../course-content/AgiStrategyContent';
-import { BIOSECURITY_COLORS } from '../course-content/BioSecurityContent';
-import { FOAI_COLORS } from '../course-content/FutureOfAiContent';
-import { AI_GOVERNANCE_COLORS } from '../course-content/AiGovernanceContent';
-import { TAS_COLORS } from '../course-content/TechnicalAiSafetyContent';
+import {
+  AGI_STRATEGY_COLORS,
+  AI_GOVERNANCE_COLORS,
+  BIOSECURITY_COLORS,
+  FOAI_COLORS,
+  TAS_COLORS,
+} from '../../../lib/courseColors';
 
 const mockIntensiveRounds = [
   {
