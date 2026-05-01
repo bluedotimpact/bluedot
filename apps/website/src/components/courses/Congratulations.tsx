@@ -12,7 +12,7 @@ import {
   FaXTwitter,
 } from 'react-icons/fa6';
 import { COURSE_CONFIG, FOAI_COURSE_ID } from '../../lib/constants';
-import { getCourseCtaColours } from '../../lib/courseCtaColours';
+import { getCourseCtaColors } from '../../lib/courseCtaColors';
 import { ROUTES } from '../../lib/routes';
 import { getActionPlanUrl } from '../../lib/utils';
 import type { CertificateStatus } from '../../server/routers/certificates';
@@ -383,7 +383,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
       ?? `I just completed the ${courseTitle} course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out:`;
   const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(courseUrl)}`;
   const xUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${shareText} ${courseUrl}`)}`;
-  const courseColors = getCourseCtaColours(courseSlug);
+  const courseColors = getCourseCtaColors(courseSlug);
 
   const handleCopyShare = async () => {
     try {
