@@ -132,6 +132,7 @@ export default function CourseCompletionSection({
     return (
       <div className={cn('flex flex-col gap-8', className)}>
         <div className="flex flex-col items-center gap-8 pt-24 pb-4 text-center max-w-[640px] mx-auto">
+          <SocialProof accentColor={accentColor} />
           <div className="flex flex-col gap-3">
             <H2 className="font-bold text-[28px] md:text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy">
               Join the next {courseTitle} cohort
@@ -146,10 +147,6 @@ export default function CourseCompletionSection({
           {FEATURE_CARDS.map((card) => (
             <FeatureCardItem key={card.title} card={card} accentColor={accentColor} />
           ))}
-        </div>
-
-        <div className="flex justify-center">
-          <SocialProof accentColor={accentColor} />
         </div>
 
         <div className="container-lined bg-white p-6">
