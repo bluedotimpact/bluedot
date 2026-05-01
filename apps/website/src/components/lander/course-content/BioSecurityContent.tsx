@@ -7,7 +7,9 @@ import {
   PiUsersThree,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
-import { BIOSECURITY_COLORS } from '../../../lib/courseColors';
+import { COURSE_COLORS } from '../../../lib/courseColors';
+
+export const BIOSECURITY_COLORS = COURSE_COLORS.biosecurity;
 
 export const createBioSecurityContent = (
   applicationUrlWithUtm: string,

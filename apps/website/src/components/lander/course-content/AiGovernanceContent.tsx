@@ -12,7 +12,9 @@ import {
   PiPath,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
-import { AI_GOVERNANCE_COLORS } from '../../../lib/courseColors';
+import { COURSE_COLORS } from '../../../lib/courseColors';
+
+export const AI_GOVERNANCE_COLORS = COURSE_COLORS['ai-governance'];
 
 const externalLinkClassName = 'font-medium underline underline-offset-2 hover:text-bluedot-normal';
 

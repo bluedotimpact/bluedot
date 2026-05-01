@@ -6,7 +6,9 @@ import {
   PiUsers,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
-import { FOAI_COLORS } from '../../../lib/courseColors';
+import { COURSE_COLORS } from '../../../lib/courseColors';
+
+export const FOAI_COLORS = COURSE_COLORS['future-of-ai'];
 
 export const FUTURE_OF_AI_START_URL = '/courses/future-of-ai/1/1';
 

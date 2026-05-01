@@ -1,10 +1,4 @@
-import {
-  AGI_STRATEGY_COLORS,
-  AI_GOVERNANCE_COLORS,
-  BIOSECURITY_COLORS,
-  FOAI_COLORS,
-  TAS_COLORS,
-} from './courseColors';
+import { COURSE_COLORS } from './courseColors';
 
 type CourseCtaColors = { gradient: string; accent: string };
 
@@ -14,12 +8,12 @@ const DEFAULT_CTA_COLORS: CourseCtaColors = {
 };
 
 const COURSE_COLOR_MAP: Record<string, CourseCtaColors> = {
-  'future-of-ai': FOAI_COLORS,
-  'agi-strategy': AGI_STRATEGY_COLORS,
-  'technical-ai-safety': TAS_COLORS,
-  'technical-ai-safety-project': TAS_COLORS,
-  'ai-governance': AI_GOVERNANCE_COLORS,
-  biosecurity: BIOSECURITY_COLORS,
+  'future-of-ai': COURSE_COLORS['future-of-ai'],
+  'agi-strategy': COURSE_COLORS['agi-strategy'],
+  'technical-ai-safety': COURSE_COLORS['technical-ai-safety'],
+  'technical-ai-safety-project': COURSE_COLORS['technical-ai-safety'],
+  'ai-governance': COURSE_COLORS['ai-governance'],
+  biosecurity: COURSE_COLORS.biosecurity,
 };
 
 export const getCourseCtaColors = (courseSlug: string): CourseCtaColors => {

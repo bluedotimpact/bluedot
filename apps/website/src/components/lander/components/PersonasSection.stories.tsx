@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { FaBriefcase, FaGraduationCap, FaUsers } from 'react-icons/fa6';
 import PersonasSection from './PersonasSection';
-import { AGI_STRATEGY_COLORS } from '../../../lib/courseColors';
+import { AGI_STRATEGY_COLORS } from '../course-content/AgiStrategyContent';
 
 const meta = {
   title: 'website/CourseLander/PersonasSection',

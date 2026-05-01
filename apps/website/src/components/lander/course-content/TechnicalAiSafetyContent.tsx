@@ -9,7 +9,9 @@ import {
   PiUsersThree,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
-import { TAS_COLORS } from '../../../lib/courseColors';
+import { COURSE_COLORS } from '../../../lib/courseColors';
+
+export const TAS_COLORS = COURSE_COLORS['technical-ai-safety'];
 
 const externalLinkClassName = 'font-medium underline underline-offset-2 hover:text-bluedot-normal';
 

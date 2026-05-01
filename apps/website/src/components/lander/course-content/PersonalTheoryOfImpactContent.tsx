@@ -7,7 +7,9 @@ import {
   PiLightbulb,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
-import { TOI_COLORS } from '../../../lib/courseColors';
+import { COURSE_COLORS } from '../../../lib/courseColors';
+
+const TOI_COLORS = COURSE_COLORS['personal-theory-of-impact'];
 
 export const PERSONAL_TOI_START_URL = '/courses/personal-theory-of-impact/1/1';
 

@@ -1,5 +1,7 @@
 import { type CourseLanderContent } from '../CourseLander';
-import { AGI_STRATEGY_COLORS } from '../../../lib/courseColors';
+import { COURSE_COLORS } from '../../../lib/courseColors';
+
+export const AGI_STRATEGY_COLORS = COURSE_COLORS['agi-strategy'];
 
 export const createAgiStrategyContent = (
   applicationUrlWithUtm: string,

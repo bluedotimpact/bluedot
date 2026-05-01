@@ -7,7 +7,9 @@ import {
   PiGraduationCap,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
-import { TASP_COLORS } from '../../../lib/courseColors';
+import { COURSE_COLORS } from '../../../lib/courseColors';
+
+const TASP_COLORS = COURSE_COLORS['technical-ai-safety-project'];
 
 export const createTechnicalAiSafetyProjectContent = (
   applicationUrlWithUtm: string,
