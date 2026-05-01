@@ -1,15 +1,13 @@
 import {
-  PiClockClockwise,
-  PiHandHeart,
   PiRocketLaunch,
   PiUsersThree,
   PiCompass,
   PiGraduationCap,
   PiNotePencil,
   PiLightbulb,
-  PiChats,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
+import { COURSE_INFORMATION_DETAILS } from '../../../lib/courseInformationDetails';
 
 export const PERSONAL_TOI_START_URL = '/courses/personal-theory-of-impact/1/1';
 
@@ -103,38 +101,9 @@ export const createPersonalTheoryOfImpactContent = (
   },
 
   courseInformation: {
-    title: 'Project information',
+    ...COURSE_INFORMATION_DETAILS[courseSlug]!,
     applicationUrl: applicationUrlWithUtm,
-    scheduleCtaText: 'Get started',
     courseSlug,
-    accentColor: TOI_COLORS.full,
-    details: [
-      {
-        icon: PiClockClockwise,
-        label: 'Commitment',
-        description: (
-          <>
-            You will spend <b>at least 20 hours</b> over 2 weeks. You will:
-            <br />
-            • Orient yourself to the existing literature about your chosen area
-            <br />
-            • Talk to people who are already working on the problem
-            <br />
-            • Quickly test what it means to contribute in this area
-          </>
-        ),
-      },
-      {
-        icon: PiChats,
-        label: 'Format',
-        description: 'This is currently a self-paced project. A guided version with coaching is planned — check back in April 2026.',
-      },
-      {
-        icon: PiHandHeart,
-        label: 'Price',
-        description: 'This course is freely available.',
-      },
-    ],
   },
 
   hideTestimonials: true,

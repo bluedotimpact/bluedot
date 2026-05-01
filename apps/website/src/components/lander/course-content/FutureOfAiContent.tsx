@@ -1,13 +1,12 @@
 import {
   PiClock,
   PiDesktop,
-  PiCurrencyDollar,
-  PiCertificate,
   PiRocketLaunch,
   PiLightbulb,
   PiUsers,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
+import { COURSE_INFORMATION_DETAILS } from '../../../lib/courseInformationDetails';
 
 export const FUTURE_OF_AI_START_URL = '/courses/future-of-ai/1/1';
 
@@ -99,38 +98,9 @@ export const createFutureOfAiContent = (
   },
 
   courseInformation: {
-    title: 'Course information',
+    ...COURSE_INFORMATION_DETAILS[courseSlug]!,
     applicationUrl: FUTURE_OF_AI_START_URL,
-    scheduleCtaText: 'Start now',
     courseSlug,
-    accentColor: FOAI_COLORS.full,
-    details: [
-      {
-        icon: PiClock,
-        label: 'Commitment',
-        description: 'Self-paced. Complete the 2-hour course whenever suits you. Interactive content with reflection prompts throughout.',
-      },
-      {
-        icon: PiDesktop,
-        label: 'Format',
-        description: 'Entirely online. Accessible from any device. Includes videos, interactive demos, and discussion prompts.',
-      },
-      {
-        icon: PiCurrencyDollar,
-        label: 'Price',
-        description: 'Completely free. No hidden costs.',
-      },
-      {
-        icon: PiCertificate,
-        label: 'Certificate',
-        description: 'Industry-recognised certificate upon completion showing you\'re informed about AI\'s future.',
-      },
-      {
-        icon: PiRocketLaunch,
-        label: 'Start now',
-        description: 'Begin immediately. No waiting for cohorts or application approval.',
-      },
-    ],
   },
 
   quotes: {

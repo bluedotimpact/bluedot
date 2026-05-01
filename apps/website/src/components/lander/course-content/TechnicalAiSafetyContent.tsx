@@ -1,18 +1,15 @@
 import {
-  PiArrowsLeftRight,
   PiBank,
   PiBookOpen,
   PiChalkboardTeacherLight,
-  PiChats,
-  PiClockClockwise,
   PiCode,
   PiFlask,
   PiGraduationCap,
-  PiHandHeart,
   PiRocketLaunch,
   PiUsersThree,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
+import { COURSE_INFORMATION_DETAILS } from '../../../lib/courseInformationDetails';
 
 const externalLinkClassName = 'font-medium underline underline-offset-2 hover:text-bluedot-normal';
 
@@ -210,39 +207,9 @@ export const createTechnicalAiSafetyContent = (
   },
 
   courseInformation: {
-    title: 'How the course works',
+    ...COURSE_INFORMATION_DETAILS[courseSlug]!,
     applicationUrl: applicationUrlWithUtm,
-    scheduleCtaText: 'Apply now',
     courseSlug,
-    accentColor: TAS_COLORS.full,
-    details: [
-      {
-        icon: PiArrowsLeftRight,
-        label: 'Options',
-        description: 'Intensive (~6 days at ~5h/day) or part-time (~6 weeks at ~5h/week). Same content, different pace.',
-      },
-      {
-        icon: PiClockClockwise,
-        label: 'Commitment',
-        description: (
-          <>
-            Each day or week, you will:
-            <br />
-            <span className="font-semibold">Complete 2-3 hours</span> of reading and writing, and <span className="font-semibold">join ~8 peers in a 2-hour Zoom meeting</span> to discuss the content.
-          </>
-        ),
-      },
-      {
-        icon: PiChats,
-        label: 'Facilitator',
-        description: 'All discussions will be facilitated by an AI safety expert.',
-      },
-      {
-        icon: PiHandHeart,
-        label: 'Price',
-        description: 'This course is freely available and operates on a "pay-what-you-want" model.',
-      },
-    ],
   },
 
   scheduleList: {

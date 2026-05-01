@@ -1,9 +1,5 @@
 import {
   PiFlask,
-  PiClockClockwise,
-  PiChats,
-  PiHandHeart,
-  PiCalendarDots,
   PiRocketLaunch,
   PiUsersThree,
   PiCode,
@@ -11,6 +7,7 @@ import {
   PiGraduationCap,
 } from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
+import { COURSE_INFORMATION_DETAILS } from '../../../lib/courseInformationDetails';
 
 // Custom color theme for Technical AI Safety Project - slightly more blue-purple than the main TAS course
 const TASP_COLORS = {
@@ -111,43 +108,9 @@ export const createTechnicalAiSafetyProjectContent = (
   },
 
   courseInformation: {
-    title: 'Course information',
+    ...COURSE_INFORMATION_DETAILS[courseSlug]!,
     applicationUrl: applicationUrlWithUtm,
-    scheduleCtaText: 'Apply now',
     courseSlug,
-    accentColor: TASP_COLORS.full,
-    details: [
-      {
-        icon: PiClockClockwise,
-        label: 'Commitment',
-        description: (
-          <>
-            You will spend <b>30 hours</b> working on your project. Each week you will:
-            <br />
-            • Provide regular updates on your progress
-            <br />
-            • Join ~8 peers and an AI safety expert in a 1-hour check-in to discuss your progress and get feedback
-          </>
-        ),
-      },
-      {
-        icon: PiChats,
-        label: 'Facilitator',
-        description: 'All discussions will be facilitated by an AI safety expert.',
-      },
-      {
-        icon: PiHandHeart,
-        label: 'Price',
-        description: 'This course is freely available and operates on a "pay-what-you-want" model.',
-      },
-      {
-        icon: PiCalendarDots,
-        label: 'Schedule',
-        description: null,
-        isSchedule: true,
-        scheduleDescription: 'Check above for upcoming rounds and application deadlines.',
-      },
-    ],
   },
 
   faq: {
