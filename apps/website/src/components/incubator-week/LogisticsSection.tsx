@@ -8,7 +8,7 @@ const LOGISTICS = [
   },
   {
     label: 'Focus areas',
-    body: 'AI safety, biosecurity, cybersecurity, and other catastrophic risk reduction. For now we\'re focused on for-profit companies.',
+    body: 'For-profit and non-profit founders in fields like AI safety, biosecurity, cybersecurity, and other catastrophic risk reduction.',
   },
   {
     label: 'Schedule',
