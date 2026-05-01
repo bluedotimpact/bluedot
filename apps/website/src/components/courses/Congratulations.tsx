@@ -6,7 +6,10 @@ import { useRouter } from 'next/router';
 import type React from 'react';
 import { useState } from 'react';
 import {
-  FaCircleMinus, FaCopy, FaLink, FaLinkedinIn, FaRegCircleXmark, FaXTwitter,
+  FaCircleMinus,
+  FaLink, FaLinkedinIn, FaRegCircleXmark,
+  FaRegCopy,
+  FaXTwitter,
 } from 'react-icons/fa6';
 import { COURSE_CONFIG, FOAI_COURSE_ID } from '../../lib/constants';
 import { getCourseCtaColours } from '../../lib/courseCtaColours';
@@ -445,7 +448,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
               preview={<ChatPreviewPanel courseTitle={courseTitle} courseUrl={courseUrl} />}
               actions={
                 <button type="button" onClick={handleCopyShare} className={primaryBtnClass}>
-                  <FaCopy className="size-4" />
+                  <FaRegCopy className="size-4" />
                   {copied ? 'Copied!' : 'Copy Message'}
                 </button>
               }
