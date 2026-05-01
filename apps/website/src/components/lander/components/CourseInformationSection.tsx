@@ -49,7 +49,7 @@ const CourseInformationSection = ({
     <section id={id} className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24 flex flex-col items-center gap-8 md:gap-10">
         {/* Section Title */}
-        <H2 className="w-full bd-md:max-w-[840px] text-[28px] bd-md:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
+        <H2 className="w-full bd-md:max-w-[840px] text-size-xl text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
           {title}
         </H2>
 
@@ -64,7 +64,7 @@ const CourseInformationSection = ({
                   <div className="flex flex-col bd-md:flex-row px-5 bd-md:px-8 py-0 gap-6 md:gap-8 items-start w-full">
                     {/* Schedule Label (left column, no icon) */}
                     <div className="bd-md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0">
-                      <P className="text-[16px] font-semibold leading-[125%] text-bluedot-navy">
+                      <P className="text-size-sm font-semibold leading-[125%] text-bluedot-navy">
                         {detail.label}
                       </P>
                     </div>
@@ -77,13 +77,13 @@ const CourseInformationSection = ({
                         accentColor={accentColor}
                         fallbackContent={(
                           <div className="flex flex-col gap-4">
-                            <P className="text-[15px] leading-[160%] text-bluedot-navy/80 font-normal">
+                            <P className="text-size-sm leading-[160%] text-bluedot-navy/80 font-normal">
                               {detail.scheduleDescription}
                             </P>
                             <div className="flex justify-start">
                               <CTALinkOrButton
                                 url={applicationUrl}
-                                className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-[16px] font-medium bg-bluedot-normal text-white rounded-md hover:bg-[#1a3399] cursor-pointer transition-colors"
+                                className="px-5 py-[9px] md:px-5 md:py-3 text-size-xs md:text-size-sm font-medium bg-bluedot-normal text-white rounded-md hover:bg-bluedot-dark cursor-pointer transition-colors"
                               >
                                 {scheduleCtaText}
                               </CTALinkOrButton>
@@ -97,14 +97,14 @@ const CourseInformationSection = ({
                   <div className="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8">
                     {/* Label */}
                     <div className="md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0">
-                      <P className="text-[16px] font-semibold leading-[125%] text-bluedot-navy">
+                      <P className="text-size-sm font-semibold leading-[125%] text-bluedot-navy">
                         {detail.label}
                       </P>
                     </div>
 
                     {/* Description */}
                     <div className="flex-1 min-w-0">
-                      <P className="text-[15px] leading-[160%] text-bluedot-navy/80 font-normal">
+                      <P className="text-size-sm leading-[160%] text-bluedot-navy/80 font-normal">
                         {detail.description}
                       </P>
                     </div>

@@ -70,10 +70,11 @@ const BiosecHackathonPage = () => {
         ))}
 
         <div className="relative z-10 max-w-[1100px]">
+          {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: bespoke uppercase event hero (34 → 64 → 96) with extreme tracking, not in the standard ramp */}
           <h1 className="text-[34px] font-semibold uppercase leading-[0.95] tracking-[-0.06em] text-white bd-md:text-[64px] lg:text-[96px]">
             BIOSECURITY HACKATHON
           </h1>
-          <p className="mt-4 text-[14px] font-medium uppercase tracking-[0.32em] text-white/60 bd-md:text-[18px] lg:text-[22px]">
+          <p className="mt-4 text-size-xs font-medium uppercase tracking-[0.32em] text-white/60 bd-md:text-size-md lg:text-size-lg">
             24-26 April 2026
           </p>
 
@@ -86,7 +87,7 @@ const BiosecHackathonPage = () => {
                     href={option.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#72ffb8]/60 bg-[rgba(114,255,184,0.08)] px-5 py-3 text-[14px] font-medium uppercase tracking-[0.14em] text-[#d9ffe9] shadow-[0_0_28px_rgba(114,255,184,0.14)] transition-all duration-200 hover:border-[#9dffd1] hover:bg-[rgba(114,255,184,0.14)] hover:shadow-[0_0_36px_rgba(114,255,184,0.2)]"
+                    className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#72ffb8]/60 bg-[rgba(114,255,184,0.08)] px-5 py-3 text-size-xs font-medium uppercase tracking-[0.14em] text-[#d9ffe9] shadow-[0_0_28px_rgba(114,255,184,0.14)] transition-all duration-200 hover:border-[#9dffd1] hover:bg-[rgba(114,255,184,0.14)] hover:shadow-[0_0_36px_rgba(114,255,184,0.2)]"
                   >
                     {option.label}
                   </a>
@@ -98,7 +99,7 @@ const BiosecHackathonPage = () => {
                   key={option.label}
                   type="button"
                   disabled
-                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-5 py-3 text-[14px] font-medium uppercase tracking-[0.14em] text-white/48"
+                  className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-5 py-3 text-size-xs font-medium uppercase tracking-[0.14em] text-white/48"
                 >
                   {option.label}
                 </button>
@@ -106,7 +107,7 @@ const BiosecHackathonPage = () => {
             })}
           </div>
 
-          <p className="mt-6 text-[11px] font-medium uppercase tracking-[0.24em] text-white/46 bd-md:text-[12px] lg:text-[13px]">
+          <p className="mt-6 text-size-xxs font-medium uppercase tracking-[0.24em] text-white/46 bd-md:text-size-xxs lg:text-size-xs">
             In collaboration with
             {' '}
             <a

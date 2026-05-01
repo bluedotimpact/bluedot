@@ -9,7 +9,7 @@ import MultipleChoice from './MultipleChoice';
 
 import GroupResponses from './GroupResponses';
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
-import { CheckmarkIcon } from '../../icons/CheckmarkIcon';
+import { CheckmarkIcon } from '../../icons';
 import { trpc } from '../../../utils/trpc';
 import { optimisticallyUpdateCourseProgress, rollbackCourseProgress } from '../../../utils/optimisticCourseProgress';
 
@@ -187,7 +187,7 @@ const Exercise: React.FC<ExerciseProps> = ({
       {facilitatorGroupResponses && (
         <div className="flex justify-end">
           <div className="flex items-center gap-2">
-            <span className="text-[13px] font-medium text-bluedot-navy">Show my group's responses</span>
+            <span className="text-size-xs font-medium text-bluedot-navy">Show my group's responses</span>
             <ToggleSwitch
               checked={showGroupResponsesIfFacilitator}
               onChange={setShowGroupResponsesIfFacilitator}

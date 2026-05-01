@@ -10,7 +10,7 @@ import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[
 import type { CertificateStatus } from '../../server/routers/certificates';
 import { CERTIFICATE_STATUS_DESCRIPTIONS } from './Congratulations';
 import type { ChunkProgress, CourseProgress } from '../../server/routers/courses';
-import { ChunkIcon } from '../icons/ChunkIcon';
+import { ChunkIcon } from '../icons';
 import { CourseIcon } from './CourseIcon';
 
 type SideBarProps = {
@@ -74,7 +74,7 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
         className="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden scroll-mb-5"
       >
         <summary className="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors">
-          <p className="font-semibold text-[14px] leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1">
+          <p className="font-semibold text-size-xs leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1">
             {unit.unitNumber}. {unit.title}
           </p>
           <FaChevronRight className="size-[14px] transition-transform group-open:rotate-90 text-bluedot-navy" />
@@ -101,13 +101,13 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                   <ChunkIcon isActive={isActive} />
                   <div className="flex flex-col items-start p-0 flex-1">
                     <div className="flex flex-col items-start gap-[6px]">
-                      <p className="font-normal text-[14px] leading-[150%] text-bluedot-navy">
+                      <p className="font-normal text-size-xs leading-[150%] text-bluedot-navy">
                         {chunk.chunkTitle}
                         <CertificateIndicator isLastChunkOfFinalUnit={isLastChunkOfFinalUnit} certificateStatus={certificateStatus} />
                       </p>
                     </div>
                     {chunk.estimatedTime && (
-                      <div className="flex gap-1 text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-bluedot-navy/60 mt-[8px]">
+                      <div className="flex gap-1 text-size-xs leading-[140%] tracking-[-0.005em] font-medium text-bluedot-navy/60 mt-[8px]">
                         <span>
                           {formatTime(chunk.estimatedTime)}
                         </span>
@@ -140,13 +140,13 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                 <ChunkIcon isActive={false} />
                 <div className="flex flex-col items-start p-0 flex-1">
                   <div className="flex flex-col items-start gap-[6px]">
-                    <p className="font-normal text-[14px] leading-[150%] text-bluedot-navy">
+                    <p className="font-normal text-size-xs leading-[150%] text-bluedot-navy">
                       {chunk.chunkTitle}
                       <CertificateIndicator isLastChunkOfFinalUnit={isLastChunkOfFinalUnit} certificateStatus={certificateStatus} />
                     </p>
                   </div>
                   {chunk.estimatedTime && (
-                    <div className="flex gap-1 text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-bluedot-navy/60 mt-[8px]">
+                    <div className="flex gap-1 text-size-xs leading-[140%] tracking-[-0.005em] font-medium text-bluedot-navy/60 mt-[8px]">
                       <span>
                         {formatTime(chunk.estimatedTime)}
                       </span>
@@ -186,7 +186,7 @@ const ApplyCTA = ({ applicationDeadline, applicationUrl, hasApplied }: ApplyCTAP
       url={applicationUrl}
       variant="outline-black"
       target="_blank"
-      className="px-3 py-1.5 text-[14px]"
+      className="px-3 py-1.5 text-size-xs"
     >
       {`Apply by ${applicationDeadline}`}
     </CTALinkOrButton>
@@ -254,7 +254,7 @@ const SideBar: React.FC<SideBarProps> = ({
           <CourseIcon courseSlug={courseSlug} size="xlarge" />
           <div className="flex flex-1 min-w-0">
             <div className="flex flex-col">
-              <h2 className="font-semibold text-[26px] leading-[44px] text-bluedot-navy">{courseTitle}</h2>
+              <h2 className="font-semibold text-size-lg leading-[44px] text-bluedot-navy">{courseTitle}</h2>
               {courseProgressData && courseProgressData.courseProgress.totalCount > 0 && (
                 <P className="opacity-60">{courseProgressData.courseProgress.percentage}% completed</P>
               )}

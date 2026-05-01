@@ -12,7 +12,7 @@ type PublicRapidGrant = inferRouterOutputs<AppRouter>['grants']['getAllPublicRap
 
 const GranteeRow = ({ grantee }: { grantee: PublicRapidGrant }) => {
   const amount = grantee.amountUsd !== null ? formatAmountUsd(grantee.amountUsd) : null;
-  const summary = [grantee.granteeName, amount, grantee.projectSummary]
+  const summary = [grantee.granteeName, amount, grantee.monthLabel, grantee.projectSummary]
     .filter(Boolean)
     .join(' · ');
 
@@ -33,11 +33,11 @@ const GranteeRow = ({ grantee }: { grantee: PublicRapidGrant }) => {
       <div className="flex items-stretch gap-4 min-w-0 flex-1">
         <div className="w-1 flex-shrink-0 rounded-sm bg-bluedot-normal/30" />
         <div className="min-w-0 flex-1">
-          <p className="text-[15px] leading-[1.45] font-semibold text-bluedot-navy">
+          <p className="text-size-sm leading-[1.45] font-semibold text-bluedot-navy">
             {grantee.projectTitle}
           </p>
           {summary && (
-            <p className="mt-1 text-[15px] leading-[1.6] text-bluedot-navy/62">
+            <p className="mt-1 text-size-sm leading-[1.6] text-bluedot-navy/62">
               {summary}
             </p>
           )}
@@ -88,25 +88,25 @@ const GranteesListSection = ({
         <div className="mb-6 flex items-center justify-between gap-4">
           <h3 className={pageSectionHeadingClass}>{heading}</h3>
           {hasHiddenGrantees && showAll && (
-            <button
-              type="button"
+            <CTALinkOrButton
+              variant="secondary"
               onClick={() => setShowAll(false)}
-              className="shrink-0 text-[14px] font-medium text-bluedot-normal transition-colors hover:text-bluedot-navy"
+              className="shrink-0"
             >
               Close
-            </button>
+            </CTALinkOrButton>
           )}
         </div>
       )}
       {(title ?? subtitle) && (
         <div className="mb-8 bd-md:mb-10 max-w-[760px]">
           {title && (
-            <h2 className="text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy">
+            <h2 className="text-size-xl font-semibold leading-[125%] tracking-[-0.01em] text-bluedot-navy">
               {title}
             </h2>
           )}
           {subtitle && (
-            <P className="text-[16px] bd-md:text-[18px] leading-[160%] text-bluedot-navy/75 mt-4">
+            <P className="text-size-sm bd-md:text-size-md leading-[160%] text-bluedot-navy/75 mt-4">
               {subtitle}
             </P>
           )}

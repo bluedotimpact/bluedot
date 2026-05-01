@@ -37,6 +37,7 @@ export const Default: Story = {
     handleClose() {},
     applicantId: 'rec123456789',
     courseSlug: 'agi-safety-fundamentals',
+    currentRoundId: null,
   },
   parameters: {
     msw: {
@@ -46,7 +47,9 @@ export const Default: Story = {
           id: 'new-dropout-id',
           applicantId: [input.applicantId],
           reason: input.reason ?? null,
-          isDeferral: input.isDeferral,
+          type: input.type,
+          newRoundId: null,
+          oldRoundId: null,
         })),
       ],
     },
@@ -58,6 +61,7 @@ export const Error: Story = {
     handleClose() {},
     applicantId: 'rec123456789',
     courseSlug: 'agi-safety-fundamentals',
+    currentRoundId: null,
   },
   parameters: {
     msw: {
@@ -76,6 +80,7 @@ export const NoUpcomingRounds: Story = {
     handleClose() {},
     applicantId: 'rec123456789',
     courseSlug: 'agi-safety-fundamentals',
+    currentRoundId: null,
   },
   parameters: {
     msw: {
@@ -85,7 +90,9 @@ export const NoUpcomingRounds: Story = {
           id: 'new-dropout-id',
           applicantId: [input.applicantId],
           reason: input.reason ?? null,
-          isDeferral: input.isDeferral,
+          type: input.type,
+          newRoundId: null,
+          oldRoundId: null,
         })),
       ],
     },

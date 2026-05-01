@@ -23,10 +23,9 @@ import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import ListenToArticleButton from './ListenToArticleButton';
 import RichTextAutoSaveEditor from './exercises/RichTextAutoSaveEditor';
 import { trpc } from '../../utils/trpc';
-import { ThumbIcon } from '../icons/ThumbIcon';
-import { CheckmarkIcon } from '../icons/CheckmarkIcon';
-import { UndoIcon } from '../icons/UndoIcon';
-import { ExternalLinkIcon } from '../icons/ExternalLinkIcon';
+import {
+  CheckmarkIcon, ExternalLinkIcon, ThumbIcon, UndoIcon,
+} from '../icons';
 import type { AppRouter } from '../../server/routers/_app';
 import { optimisticallyUpdateCourseProgress, rollbackCourseProgress } from '../../utils/optimisticCourseProgress';
 
@@ -47,14 +46,14 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({ resourceFeedback, onF
     const activeBackground = isLikeButton ? 'bg-[rgba(0,55,255,0.06)]' : 'bg-bluedot-navy/10';
     const hoverBackground = 'hover:bg-bluedot-navy/8';
 
-    const baseClasses = 'flex flex-row justify-center items-center px-2 py-1.5 h-[30px] rounded-md border-none transition-all duration-200 font-medium text-[13px] leading-[140%] tracking-[-0.005em] cursor-pointer';
+    const baseClasses = 'flex flex-row justify-center items-center px-2 py-1.5 h-[30px] rounded-md border-none transition-all duration-200 font-medium text-size-xs leading-[140%] tracking-[-0.005em] cursor-pointer';
     const buttonGapClass = variant === 'mobile' ? 'gap-2' : 'gap-1.5';
     const opacityClass = isActive ? 'opacity-100' : 'opacity-60';
     const bgClass = isActive ? activeBackground : 'bg-transparent';
 
     let textColorClass = 'text-bluedot-navy';
     if (isActive && isLikeButton) {
-      textColorClass = 'text-[#2244bb]';
+      textColorClass = 'text-bluedot-normal';
     }
 
     // Flip vertically for dislike (thumbs down) by flipping on Y-axis
@@ -285,7 +284,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
           {/* Resource guide */}
           {resource.resourceGuide && (
             <div className="resource-item__guide mt-4">
-              <MarkdownExtendedRenderer className="text-gray-700 text-[15px] font-normal leading-[160%] tracking-[-0.002em]">
+              <MarkdownExtendedRenderer className="text-gray-700 text-size-sm font-normal leading-[160%] tracking-[-0.002em]">
                 {resource.resourceGuide}
               </MarkdownExtendedRenderer>
             </div>
@@ -295,7 +294,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
           {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
           {(resource.authors || resource.year || resource.timeFocusOnMins || resource.syncedAudioUrl) && (
             <div className="resource-item__bottom-metadata mt-4 flex flex-wrap items-center gap-x-1 gap-y-2">
-              <P className="text-gray-600 text-[13px] font-medium leading-[140%] tracking-[-0.005em]">
+              <P className="text-gray-600 text-size-xs font-medium leading-[140%] tracking-[-0.005em]">
                 {resource.authors && <span>{resource.authors}</span>}
                 {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
                 {resource.authors && (resource.year || resource.timeFocusOnMins) && <span> · </span>}
@@ -339,7 +338,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
                     <button
                       type="button"
                       onClick={() => handleToggleComplete(true)}
-                      className="flex flex-row justify-center items-center px-2.5 py-1.5 gap-2 w-20 h-[30px] bg-bluedot-normal rounded-md border-none cursor-pointer font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-white transition-all duration-200"
+                      className="flex flex-row justify-center items-center px-2.5 py-1.5 gap-2 w-20 h-[30px] bg-bluedot-normal rounded-md border-none cursor-pointer font-medium text-size-xs leading-[140%] tracking-[-0.005em] text-white transition-all duration-200"
                       aria-label="Mark resource as complete"
                     >
                       Complete
@@ -351,7 +350,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
                       className="flex items-center gap-2 transition-all duration-200 hover:opacity-70 bg-transparent border-none cursor-pointer p-0"
                       aria-label="Mark resource as incomplete"
                     >
-                      <span className="font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-bluedot-normal">
+                      <span className="font-medium text-size-xs leading-[140%] tracking-[-0.005em] text-bluedot-normal">
                         Completed
                       </span>
                       <UndoIcon className="text-bluedot-normal" />
@@ -397,7 +396,7 @@ export const ResourceListItem: React.FC<ResourceListItemProps> = ({
               aria-label="Resource feedback section"
             >
               <div className="flex items-center gap-3 px-2">
-                <P className="font-medium text-[13px] leading-[140%] tracking-[-0.005em] text-bluedot-navy/60">
+                <P className="font-medium text-size-xs leading-[140%] tracking-[-0.005em] text-bluedot-navy/60">
                   Was this resource useful?
                 </P>
                 <FeedbackSection

@@ -14,9 +14,9 @@ import {
 import { type CourseLanderContent } from '../CourseLander';
 import { COURSE_COLORS } from '../../../lib/courseColors';
 
-export const AI_GOVERNANCE_COLORS = COURSE_COLORS['ai-governance'];
-
 const externalLinkClassName = 'font-medium underline underline-offset-2 hover:text-bluedot-normal';
+
+export const AI_GOVERNANCE_COLORS = COURSE_COLORS['ai-governance'];
 
 export const createAiGovernanceContent = (
   applicationUrlWithUtm: string,
@@ -180,8 +180,8 @@ export const createAiGovernanceContent = (
       <>
         <p className="mb-5">This course doesn&apos;t end at Unit 6. Here&apos;s where our alumni go - and how we help them get there.</p>
         <div className="rounded-2xl border border-bluedot-navy/10 bg-bluedot-navy/[0.03] p-6 md:p-8 text-left">
-          <p className="text-[16px] font-semibold leading-[1.4] text-bluedot-navy mb-3">We don&apos;t just teach</p>
-          <p className="text-[15px] bd-md:text-[16px] leading-[1.7] text-bluedot-navy/80">
+          <p className="text-size-sm font-semibold leading-[1.4] text-bluedot-navy mb-3">We don&apos;t just teach</p>
+          <p className="text-size-sm leading-[1.7] text-bluedot-navy/80">
             BlueDot runs a talent pipeline, not just a course. We actively scout for high-potential participants during the course, facilitate introductions to hiring managers and fellowship leads, and run a
             {' '}
             <a href="/programs/rapid-grants" className={externalLinkClassName}>Rapid Grants program</a>

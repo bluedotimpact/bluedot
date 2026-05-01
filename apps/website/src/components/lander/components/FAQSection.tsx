@@ -1,7 +1,7 @@
 import { cn, P } from '@bluedot/ui';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { PlusToggleIcon } from '../../icons/PlusToggleIcon';
+import { PlusToggleIcon } from '../../icons';
 
 /**
  * Represents a single FAQ item with question and answer
@@ -73,7 +73,7 @@ const FAQSection = ({ id, title, items, background = 'white' }: FAQSectionProps)
       <section id={id} className={clsx('w-full', background === 'canvas' ? 'bg-color-canvas' : 'bg-white')}>
         <div className="max-w-max-width bd-md:px-8 lg:px-spacing-x bd-md:pt-16 bd-md:pb-12 mx-auto px-5 py-12 lg:py-16 xl:py-24">
           <div className="mx-auto flex max-w-[928px] flex-col gap-12 md:gap-16">
-            <h2 className="bd-md:text-[32px] text-bluedot-navy text-center text-[28px] leading-[125%] font-semibold tracking-[-0.01em] xl:text-[36px]">
+            <h2 className="text-bluedot-navy text-center text-size-xl leading-[125%] font-semibold tracking-[-0.01em]">
               {title}
             </h2>
 
@@ -92,7 +92,7 @@ const FAQSection = ({ id, title, items, background = 'white' }: FAQSectionProps)
                       aria-expanded={isOpen}
                       aria-controls={`faq-answer-${item.id}`}
                     >
-                      <span className="text-bluedot-navy flex-grow text-[18px] leading-[125%] font-semibold">
+                      <span className="text-bluedot-navy flex-grow text-size-md leading-[125%] font-semibold">
                         {item.question}
                       </span>
                       <PlusToggleIcon
@@ -112,7 +112,7 @@ const FAQSection = ({ id, title, items, background = 'white' }: FAQSectionProps)
                     >
                       <div className="overflow-hidden">
                         <div className="px-8 pb-6">
-                          <P className="text-bluedot-navy/80 text-[18px]">{item.answer}</P>
+                          <P className="text-bluedot-navy/80 text-size-md">{item.answer}</P>
                         </div>
                       </div>
                     </div>

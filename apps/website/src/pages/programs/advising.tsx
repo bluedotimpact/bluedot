@@ -5,9 +5,9 @@ import GrantStatsStrip from '../../components/grants/sections/GrantStatsStrip';
 import GrantFaqSection from '../../components/grants/sections/GrantFaqSection';
 import GrantCta from '../../components/grants/sections/GrantCta';
 import WhatThisIsForSection from '../../components/advising/WhatThisIsForSection';
+import WhoYouAreSection from '../../components/advising/WhoYouAreSection';
 import WhatToExpectSection from '../../components/advising/WhatToExpectSection';
 import HowItWorksSection from '../../components/advising/HowItWorksSection';
-import WhatMakesStrongApplicationSection from '../../components/advising/WhatMakesStrongApplicationSection';
 import AdvisorsSection from '../../components/advising/AdvisorsSection';
 import { ROUTES } from '../../lib/routes';
 
@@ -20,12 +20,12 @@ const OneOnOneAdvisingPage = () => {
         <title>{`${PAGE_TITLE} | BlueDot Impact`}</title>
         <meta
           name="description"
-          content="20 min calls with the BlueDot team to accelerate you towards doing impactful work in AI safety."
+          content="30 min calls with the BlueDot team to accelerate you towards doing impactful work in AI safety."
         />
       </Head>
       <MarketingHero
         title="1-1 advising"
-        subtitle="20 min calls with the BlueDot team to accelerate you towards doing impactful work in AI safety."
+        subtitle="30 min calls with the BlueDot team to accelerate you towards doing impactful work in AI safety."
       />
       <Breadcrumbs
         route={{
@@ -42,9 +42,9 @@ const OneOnOneAdvisingPage = () => {
         ]}
       />
       <WhatThisIsForSection />
+      <WhoYouAreSection />
       <WhatToExpectSection />
       <HowItWorksSection />
-      <WhatMakesStrongApplicationSection />
       <AdvisorsSection />
       <GrantFaqSection program="advising" />
       <GrantCta program="advising" />

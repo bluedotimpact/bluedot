@@ -8,7 +8,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
     class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24 flex flex-col items-center gap-8 md:gap-10"
   >
     <h2
-      class="bluedot-h2 not-prose w-full bd-md:max-w-[840px] text-[28px] bd-md:text-[32px] xl:text-[36px] text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]"
+      class="bluedot-h2 not-prose w-full bd-md:max-w-[840px] text-size-xl text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]"
     >
       Course information
     </h2>
@@ -26,7 +26,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0"
             >
               <p
-                class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm font-semibold leading-[125%] text-bluedot-navy"
               >
                 Options
               </p>
@@ -35,7 +35,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="flex-1 min-w-0"
             >
               <p
-                class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
+                class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
               >
                 <span
                   class="font-semibold"
@@ -65,7 +65,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0"
             >
               <p
-                class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm font-semibold leading-[125%] text-bluedot-navy"
               >
                 Commitment
               </p>
@@ -74,7 +74,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="flex-1 min-w-0"
             >
               <p
-                class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
+                class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
               >
                 Each day or week, you will:
                 <br />
@@ -105,7 +105,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0"
             >
               <p
-                class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm font-semibold leading-[125%] text-bluedot-navy"
               >
                 Facilitator
               </p>
@@ -114,7 +114,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="flex-1 min-w-0"
             >
               <p
-                class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
+                class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
               >
                 All discussions will be facilitated by an AI safety expert.
               </p>
@@ -132,7 +132,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0"
             >
               <p
-                class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm font-semibold leading-[125%] text-bluedot-navy"
               >
                 Price
               </p>
@@ -141,7 +141,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="flex-1 min-w-0"
             >
               <p
-                class="bluedot-p not-prose text-[15px] leading-[160%] text-bluedot-navy/80 font-normal"
+                class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
               >
                 This course is freely available and operates on a "pay-what-you-want" model.
               </p>
@@ -159,7 +159,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
               class="bd-md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0"
             >
               <p
-                class="bluedot-p not-prose text-[16px] font-semibold leading-[125%] text-bluedot-navy"
+                class="bluedot-p not-prose text-size-sm font-semibold leading-[125%] text-bluedot-navy"
               >
                 Schedule
               </p>

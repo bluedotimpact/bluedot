@@ -1,9 +1,7 @@
 import type React from 'react';
 import { CTALinkOrButton } from '@bluedot/ui';
-import {
-  GRANT_PROGRAM_SECTIONS,
-  type ConfigurableGrantProgramSlug,
-} from '../grantPrograms';
+import { type ConfigurableGrantProgramSlug } from '../grantPrograms';
+import { useGrantApplicationUrl } from '../useGrantApplicationUrl';
 
 export type GrantStat = {
   label: string;
@@ -33,7 +31,7 @@ const GrantStatsStrip = ({
   secondaryAction,
   compact = false,
 }: Props) => {
-  const { applicationUrl } = GRANT_PROGRAM_SECTIONS[program];
+  const applicationUrl = useGrantApplicationUrl(program);
   const primary = primaryAction ?? { label: 'Apply now', url: applicationUrl };
 
   const outerLayoutClass = compact
@@ -79,12 +77,10 @@ const GrantStatsStrip = ({
 };
 
 const Stat = ({ label, value, compact }: { label: string; value: string; compact: boolean }) => {
-  const labelClass = compact
-    ? 'text-[11px] font-semibold uppercase tracking-[0.14em] text-bluedot-navy/60'
-    : 'text-[12px] font-semibold uppercase tracking-[0.14em] text-bluedot-navy/60';
+  const labelClass = 'text-size-xxs font-semibold uppercase tracking-[0.14em] text-bluedot-navy/60';
   const valueClass = compact
-    ? 'text-[18px] bd-md:text-[20px] font-medium leading-tight text-bluedot-navy'
-    : 'text-[24px] bd-md:text-[28px] font-medium leading-tight text-bluedot-navy';
+    ? 'text-size-md font-medium leading-tight text-bluedot-navy'
+    : 'text-size-lg bd-md:text-[28px] font-medium leading-tight text-bluedot-navy';
 
   return (
     <div className="flex flex-col gap-1">

@@ -74,16 +74,16 @@ const HeroSection = ({
               <div className="space-y-4">
                 {categoryLabel && (
                   <p
-                    className="bluedot-p not-prose text-[14px] font-medium tracking-[0.28px] leading-[1.6] uppercase"
+                    className="bluedot-p not-prose text-size-xs font-medium tracking-[0.28px] leading-[1.6] uppercase"
                     style={{ color: effectiveCategoryLabelColor }}
                   >
                     {categoryLabel}
                   </p>
                 )}
-                <h1 className="text-[32px] bd-md:text-[40px] leading-tight font-semibold tracking-[-0.5px] text-white">
+                <h1 className="text-size-xl leading-tight font-semibold tracking-[-0.5px] text-white">
                   {title}
                 </h1>
-                <p className="text-[16px] bd-md:text-[18px] leading-[1.6] opacity-80 text-white whitespace-pre-line">
+                <p className="text-size-sm bd-md:text-size-md leading-[1.6] opacity-80 text-white whitespace-pre-line">
                   {description}
                 </p>
               </div>
@@ -93,7 +93,8 @@ const HeroSection = ({
                 <CTALinkOrButton
                   url={primaryCta.url}
                   variant="unstyled"
-                  className="h-[50px] px-5 py-3 text-[16px] font-medium rounded-md cursor-pointer transition-all text-bluedot-navy w-full bd-md:w-auto hover:brightness-90"
+                  size="large"
+                  className="text-bluedot-navy w-full bd-md:w-auto hover:brightness-90"
                   style={accentColor ? { backgroundColor: accentColor } : undefined}
                 >
                   {primaryCta.text}
@@ -103,7 +104,8 @@ const HeroSection = ({
                   <CTALinkOrButton
                     url={secondaryCta.url}
                     variant="unstyled"
-                    className="h-[50px] px-5 py-3 text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-all border w-full bd-md:w-auto hover:bg-white/10"
+                    size="large"
+                    className="bg-transparent border w-full bd-md:w-auto hover:bg-white/10"
                     style={accentColor ? { borderColor: accentColor, color: accentColor } : undefined}
                   >
                     {secondaryCta.text}
@@ -120,12 +122,13 @@ const HeroSection = ({
                 <div className="space-y-4">
                   {categoryLabel && (
                     <p
-                      className="bluedot-p not-prose text-[14px] font-medium tracking-[0.28px] leading-[1.6] uppercase"
+                      className="bluedot-p not-prose text-size-xs font-medium tracking-[0.28px] leading-[1.6] uppercase"
                       style={{ color: effectiveCategoryLabelColor }}
                     >
                       {categoryLabel}
                     </p>
                   )}
+                  {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: hero variant pairing text-[40px] with xl:text-5xl (Tailwind default = 48px) */}
                   <H1 className="text-[40px] xl:text-5xl leading-tight font-semibold tracking-[-0.5px] text-white">
                     {title}
                   </H1>
@@ -138,7 +141,8 @@ const HeroSection = ({
                   <CTALinkOrButton
                     url={primaryCta.url}
                     variant="unstyled"
-                    className="h-[50px] px-5 py-2.5 text-[16px] font-medium rounded-md cursor-pointer transition-all text-bluedot-navy hover:brightness-90"
+                    size="large"
+                    className="text-bluedot-navy hover:brightness-90"
                     style={accentColor ? { backgroundColor: accentColor } : undefined}
                   >
                     {primaryCta.text}
@@ -148,7 +152,8 @@ const HeroSection = ({
                     <CTALinkOrButton
                       url={secondaryCta.url}
                       variant="unstyled"
-                      className="h-[50px] px-5 py-2.5 text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-all border hover:bg-white/10"
+                      size="large"
+                      className="bg-transparent border hover:bg-white/10"
                       style={accentColor ? { borderColor: accentColor, color: accentColor } : undefined}
                     >
                       {secondaryCta.text}
@@ -181,13 +186,14 @@ const HeroSection = ({
                 <div className="space-y-5 sm:space-y-4">
                   {categoryLabel && (
                     <p
-                      className="bluedot-p not-prose text-[14px] font-medium tracking-[0.28px] leading-[1.6] uppercase"
+                      className="bluedot-p not-prose text-size-xs font-medium tracking-[0.28px] leading-[1.6] uppercase"
                       style={{ color: effectiveCategoryLabelColor }}
                     >
                       {categoryLabel}
                     </p>
                   )}
 
+                  {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: 4-breakpoint hero ramp using sm:/lg:/xl: that doesn't compose with the responsive 2xl token */}
                   <H1 className="text-[32px] sm:text-[40px] sm:leading-tight lg:text-[40px] xl:text-5xl leading-tight font-semibold tracking-[-0.5px] text-white">
                     {title}
                   </H1>
@@ -202,7 +208,7 @@ const HeroSection = ({
                   <CTALinkOrButton
                     url={primaryCta.url}
                     size="small"
-                    className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md cursor-pointer transition-colors text-bluedot-navy hover:brightness-90"
+                    className="h-10 lg:h-[50px] px-5 py-2.5 text-size-xs lg:text-size-sm font-medium rounded-md cursor-pointer transition-colors text-bluedot-navy hover:brightness-90"
                     style={accentColor ? { backgroundColor: accentColor } : undefined}
                   >
                     {primaryCta.text}
@@ -212,7 +218,7 @@ const HeroSection = ({
                     <CTALinkOrButton
                       url={secondaryCta.url}
                       size="small"
-                      className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-colors border hover:bg-white/10"
+                      className="h-10 lg:h-[50px] px-5 py-2.5 text-size-xs lg:text-size-sm font-medium rounded-md bg-transparent cursor-pointer transition-colors border hover:bg-white/10"
                       style={accentColor ? { borderColor: accentColor, color: accentColor } : undefined}
                     >
                       {secondaryCta.text}
@@ -241,13 +247,14 @@ const HeroSection = ({
                 <div className="space-y-5 sm:space-y-4">
                   {categoryLabel && (
                     <p
-                      className="bluedot-p not-prose text-[14px] font-medium tracking-[0.28px] leading-[1.6] uppercase text-bluedot-normal"
+                      className="bluedot-p not-prose text-size-xs font-medium tracking-[0.28px] leading-[1.6] uppercase text-bluedot-normal"
                       style={{ color: effectiveCategoryLabelColor }}
                     >
                       {categoryLabel}
                     </p>
                   )}
 
+                  {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: 4-breakpoint hero ramp using sm:/lg:/xl: that doesn't compose with the responsive 2xl token */}
                   <H1 className="text-[32px] sm:text-[40px] sm:leading-tight lg:text-[40px] xl:text-5xl leading-tight font-semibold tracking-[-0.5px] text-bluedot-navy">
                     {title}
                   </H1>
@@ -262,7 +269,7 @@ const HeroSection = ({
                   <CTALinkOrButton
                     url={primaryCta.url}
                     size="small"
-                    className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md cursor-pointer transition-colors bg-bluedot-normal text-white hover:bg-[#1a3399] focus:bg-[#1a3399]"
+                    className="h-10 lg:h-[50px] px-5 py-2.5 text-size-xs lg:text-size-sm font-medium rounded-md cursor-pointer transition-colors bg-bluedot-normal text-white hover:bg-bluedot-dark focus:bg-bluedot-dark"
                   >
                     {primaryCta.text}
                   </CTALinkOrButton>
@@ -271,7 +278,7 @@ const HeroSection = ({
                     <CTALinkOrButton
                       url={secondaryCta.url}
                       size="small"
-                      className="h-10 lg:h-[50px] px-5 py-2.5 text-[14px] lg:text-[16px] font-medium rounded-md bg-transparent cursor-pointer transition-colors border border-bluedot-navy/30 text-bluedot-navy hover:border-bluedot-navy/50 hover:bg-bluedot-navy/5 hover:text-bluedot-navy"
+                      className="h-10 lg:h-[50px] px-5 py-2.5 text-size-xs lg:text-size-sm font-medium rounded-md bg-transparent cursor-pointer transition-colors border border-bluedot-navy/30 text-bluedot-navy hover:border-bluedot-navy/50 hover:bg-bluedot-navy/5 hover:text-bluedot-navy"
                     >
                       {secondaryCta.text}
                     </CTALinkOrButton>

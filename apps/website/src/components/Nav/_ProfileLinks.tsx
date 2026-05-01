@@ -43,7 +43,7 @@ export const ProfileLinks: React.FC<{
     // Profile dropdown links: always dark text on white background
     return clsx(
       'nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle',
-      'text-[#02034B] hover:text-[#02034B]',
+      'text-bluedot-darker hover:text-bluedot-darker',
     );
   };
 

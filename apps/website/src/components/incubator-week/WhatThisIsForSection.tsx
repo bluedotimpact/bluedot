@@ -46,7 +46,7 @@ const WhatThisIsForSection = () => {
                 <Icon className="text-bluedot-navy" size={28} />
               </div>
               <div className="flex flex-col gap-2">
-                <h4 className="text-[18px] font-semibold leading-tight text-bluedot-navy">
+                <h4 className="text-size-md font-semibold leading-tight text-bluedot-navy">
                   {title}
                 </h4>
                 <P className="text-size-sm leading-[1.6] text-bluedot-navy/80">

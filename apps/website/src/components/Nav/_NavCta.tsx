@@ -38,8 +38,8 @@ export const NavCta: React.FC<{
       return clsx(
         baseClasses,
         onColoredBackground
-          ? 'bg-white hover:bg-white/90 text-[#02034B] hover:text-[#02034B]'
-          : 'bg-bluedot-normal hover:bg-[#1a3599] text-white hover:text-white',
+          ? 'bg-white hover:bg-white/90 text-bluedot-darker hover:text-bluedot-darker'
+          : 'bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white',
       );
     }
 

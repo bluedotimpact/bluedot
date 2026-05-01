@@ -34,8 +34,8 @@ export const RoundItem = ({
 
   const dateContent = (
     <div>
-      <p className="text-[15px] leading-[1.6] font-semibold text-bluedot-navy">{title}</p>
-      <p className="text-[15px] leading-[1.6] text-bluedot-navy/50">{subtitle}</p>
+      <p className="text-size-sm leading-[1.6] font-semibold text-bluedot-navy">{title}</p>
+      <p className="text-size-sm leading-[1.6] text-bluedot-navy/50">{subtitle}</p>
     </div>
   );
 
@@ -54,7 +54,7 @@ export const RoundItem = ({
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${ctaText} (opens in a new tab)`}
-              className="text-[15px] leading-[1.6] font-medium"
+              className="text-size-sm leading-[1.6] font-medium"
               style={{ color: resolvedCtaColor }}
             >
               {ctaText}
@@ -79,7 +79,7 @@ export const RoundItem = ({
           <div className="flex flex-col">{dateContent}</div>
         </div>
 
-        <div className="ml-auto flex items-center text-[15px] leading-[1.6] font-medium" style={{ color: resolvedCtaColor }}>
+        <div className="ml-auto flex items-center text-size-sm leading-[1.6] font-medium" style={{ color: resolvedCtaColor }}>
           <span className="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1">
             {ctaText}
           </span>

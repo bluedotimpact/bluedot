@@ -9,10 +9,16 @@ export const dropoutRouter = router({
     .input(z.object({
       applicantId: z.string().min(1),
       reason: z.string().optional(),
-      isDeferral: z.boolean(),
+      type: z.enum(['Drop out', 'Deferral']),
+      newRoundId: z.string().optional(),
+    }).refine((data) => data.type !== 'Deferral' || !!data.newRoundId, {
+      message: 'newRoundId is required for deferrals',
+      path: ['newRoundId'],
     }))
     .mutation(async ({ ctx, input }) => {
-      const { applicantId, reason, isDeferral } = input;
+      const {
+        applicantId, reason, type, newRoundId,
+      } = input;
 
       const courseRegistration = await db.getFirst(courseRegistrationTable, {
         filter: {
@@ -24,10 +30,14 @@ export const dropoutRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: 'Course registration not found' });
       }
 
+      const oldRoundId = courseRegistration.roundId ?? null;
+
       return db.insert(dropoutTable, {
         applicantId: [applicantId],
         reason: reason ?? null,
-        isDeferral,
+        type,
+        newRoundId: type === 'Deferral' && newRoundId ? [newRoundId] : null,
+        oldRoundId: type === 'Deferral' && oldRoundId ? [oldRoundId] : null,
       });
     }),
 });

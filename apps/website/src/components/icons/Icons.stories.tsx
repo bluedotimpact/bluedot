@@ -1,33 +1,35 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
 
-import { ArrowDownIcon } from './ArrowDownIcon';
-import { ArrowRightIcon } from './ArrowRightIcon';
-import { CheckIcon } from './CheckIcon';
-import { CheckmarkIcon } from './CheckmarkIcon';
-import { ChevronRightIcon } from './ChevronRightIcon';
-import { ChunkIcon } from './ChunkIcon';
-import { CircledCheckmarkIcon } from './CircledCheckmarkIcon';
-import { ClockIcon } from './ClockIcon';
-import { ClockUserIcon } from './ClockUserIcon';
-import { DocumentIcon } from './DocumentIcon';
-import { ErrorIcon } from './ErrorIcon';
-import { ExternalLinkIcon } from './ExternalLinkIcon';
-import { InfoIcon } from './InfoIcon';
-import { MoonStarsIcon } from './MoonStarsIcon';
-import { MusicNoteIcon } from './MusicNoteIcon';
-import { PlayCircleIcon } from './PlayCircleIcon';
-import { PlusToggleIcon } from './PlusToggleIcon';
-import { ResizeHandleIcon } from './ResizeHandleIcon';
-import { SlackIcon } from './SlackIcon';
-import { StarIcon } from './StarIcon';
-import { SwitchUserIcon } from './SwitchUserIcon';
-import { ThumbIcon } from './ThumbIcon';
-import { UndoIcon } from './UndoIcon';
-import { UserIcon } from './UserIcon';
-import { VideoIcon } from './VideoIcon';
-import { WarningCircleIcon } from './WarningCircleIcon';
-import { WarningTriangleIcon } from './WarningTriangleIcon';
+import {
+  ArrowDownIcon,
+  ArrowRightIcon,
+  CheckIcon,
+  CheckmarkIcon,
+  ChevronRightIcon,
+  ChunkIcon,
+  CircledCheckmarkIcon,
+  ClockIcon,
+  ClockUserIcon,
+  DocumentIcon,
+  ErrorIcon,
+  ExternalLinkIcon,
+  InfoIcon,
+  MoonStarsIcon,
+  MusicNoteIcon,
+  PlayCircleIcon,
+  PlusToggleIcon,
+  ResizeHandleIcon,
+  SlackIcon,
+  StarIcon,
+  SwitchUserIcon,
+  ThumbIcon,
+  UndoIcon,
+  UserIcon,
+  VideoIcon,
+  WarningCircleIcon,
+  WarningTriangleIcon,
+} from '.';
 
 type IconCellProps = {
   name: string;
@@ -39,7 +41,7 @@ const IconCell = ({ name, children, note }: IconCellProps) => (
   <div className="flex flex-col items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white p-4 text-center">
     <div className="text-bluedot-navy flex min-h-[48px] items-center justify-center">{children}</div>
     <div className="text-size-xs font-medium text-gray-800">{name}</div>
-    {note && <div className="text-[10px] text-gray-500">{note}</div>}
+    {note && <div className="text-size-xxs text-gray-500">{note}</div>}
   </div>
 );
 

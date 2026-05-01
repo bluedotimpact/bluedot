@@ -36,7 +36,7 @@ exports[`BiosecHackathonPage > renders the page hierarchy and signup options 1`]
         BIOSECURITY HACKATHON
       </h1>
       <p
-        class="mt-4 text-[14px] font-medium uppercase tracking-[0.32em] text-white/60 bd-md:text-[18px] lg:text-[22px]"
+        class="mt-4 text-size-xs font-medium uppercase tracking-[0.32em] text-white/60 bd-md:text-size-md lg:text-size-lg"
       >
         24-26 April 2026
       </p>
@@ -44,7 +44,7 @@ exports[`BiosecHackathonPage > renders the page hierarchy and signup options 1`]
         class="mt-10 flex flex-wrap justify-center gap-3"
       >
         <a
-          class="inline-flex min-h-12 items-center justify-center rounded-full border border-[#72ffb8]/60 bg-[rgba(114,255,184,0.08)] px-5 py-3 text-[14px] font-medium uppercase tracking-[0.14em] text-[#d9ffe9] shadow-[0_0_28px_rgba(114,255,184,0.14)] transition-all duration-200 hover:border-[#9dffd1] hover:bg-[rgba(114,255,184,0.14)] hover:shadow-[0_0_36px_rgba(114,255,184,0.2)]"
+          class="inline-flex min-h-12 items-center justify-center rounded-full border border-[#72ffb8]/60 bg-[rgba(114,255,184,0.08)] px-5 py-3 text-size-xs font-medium uppercase tracking-[0.14em] text-[#d9ffe9] shadow-[0_0_28px_rgba(114,255,184,0.14)] transition-all duration-200 hover:border-[#9dffd1] hover:bg-[rgba(114,255,184,0.14)] hover:shadow-[0_0_36px_rgba(114,255,184,0.2)]"
           href="https://apartresearch.com/sprints/aixbio-hackathon-2026-04-24-to-2026-04-26?utm_source=bluedot&utm_medium=event_page&utm_campaign=biosecurity_hackathon_2026&utm_content=online"
           rel="noopener noreferrer"
           target="_blank"
@@ -52,28 +52,28 @@ exports[`BiosecHackathonPage > renders the page hierarchy and signup options 1`]
           Sign up to participate online
         </a>
         <button
-          class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-5 py-3 text-[14px] font-medium uppercase tracking-[0.14em] text-white/48"
+          class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-5 py-3 text-size-xs font-medium uppercase tracking-[0.14em] text-white/48"
           disabled=""
           type="button"
         >
           [tbc] Boston
         </button>
         <button
-          class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-5 py-3 text-[14px] font-medium uppercase tracking-[0.14em] text-white/48"
+          class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-5 py-3 text-size-xs font-medium uppercase tracking-[0.14em] text-white/48"
           disabled=""
           type="button"
         >
           [tbc] SF
         </button>
         <button
-          class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-5 py-3 text-[14px] font-medium uppercase tracking-[0.14em] text-white/48"
+          class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-5 py-3 text-size-xs font-medium uppercase tracking-[0.14em] text-white/48"
           disabled=""
           type="button"
         >
           [tbc] London
         </button>
         <button
-          class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-5 py-3 text-[14px] font-medium uppercase tracking-[0.14em] text-white/48"
+          class="inline-flex min-h-12 items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-5 py-3 text-size-xs font-medium uppercase tracking-[0.14em] text-white/48"
           disabled=""
           type="button"
         >
@@ -81,7 +81,7 @@ exports[`BiosecHackathonPage > renders the page hierarchy and signup options 1`]
         </button>
       </div>
       <p
-        class="mt-6 text-[11px] font-medium uppercase tracking-[0.24em] text-white/46 bd-md:text-[12px] lg:text-[13px]"
+        class="mt-6 text-size-xxs font-medium uppercase tracking-[0.24em] text-white/46 bd-md:text-size-xxs lg:text-size-xs"
       >
         In collaboration with
          

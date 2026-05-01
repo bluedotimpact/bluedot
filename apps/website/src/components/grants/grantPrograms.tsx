@@ -58,7 +58,7 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
     href: '/programs/advising',
     track: 'Build',
     goal: 'Help BlueDot community members figure out how to contribute their skills to AI safety.',
-    scope: 'A 20-minute call with the BlueDot team. Leave with concrete next steps.',
+    scope: 'A 30-minute call with the BlueDot team. Leave with concrete next steps.',
     status: 'Active',
   },
   {
@@ -167,6 +167,11 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
         question: 'What if I secure a full-time role or my circumstances change during the grant?',
         answer: 'Please let us know. Any remaining funds would be returned to BlueDot.',
       },
+      {
+        id: 'masters-phd',
+        question: 'Will you fund a Master\'s or PhD?',
+        answer: 'Generally, no. For most people, a Master\'s or PhD isn\'t the most direct route to impactful AI safety work. There are exceptions. Mention it in your application if you think yours is one.',
+      },
     ],
   },
   'incubator-week': {
@@ -228,11 +233,6 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
         id: 'apply-again',
         question: 'After I\'ve had one call, can I apply again?',
         answer: 'Yes.',
-      },
-      {
-        id: 'after-call',
-        question: 'What happens after the call?',
-        answer: 'Most calls end with a 20-minute follow-up scheduled in 1-2 weeks, plus specific things to do in between. Sometimes the next step is just things you can go do on your own.',
       },
       {
         id: 'no-options',

@@ -12,11 +12,9 @@ import { IoAdd } from 'react-icons/io5';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 import { buildCourseUnitUrl, buildGroupSlackChannelUrl, formatDateTimeRelative } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
-import { ClockIcon } from '../icons/ClockIcon';
-import { DocumentIcon } from '../icons/DocumentIcon';
-import { SlackIcon } from '../icons/SlackIcon';
-import { SwitchUserIcon } from '../icons/SwitchUserIcon';
-import { VideoIcon } from '../icons/VideoIcon';
+import {
+  ClockIcon, DocumentIcon, SlackIcon, SwitchUserIcon, VideoIcon,
+} from '../icons';
 import FacilitatorSwitchModal, { type FacilitatorModalType } from './FacilitatorSwitchModal';
 import GroupSwitchModal from './GroupSwitchModal';
 
@@ -274,7 +272,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                   <OverflowMenu
                     ariaLabel="More discussion options"
                     // 'ghost' variant styling
-                    buttonClassName="ml-auto border-none bg-transparent text-bluedot-normal hover:bg-bluedot-lighter px-3 py-2.5 h-9 text-[13px] font-medium whitespace-nowrap"
+                    buttonClassName="ml-auto border-none bg-transparent text-bluedot-normal hover:bg-bluedot-lighter px-3 py-2.5 h-9 text-size-xs font-medium whitespace-nowrap"
                     items={desktopOverflowButtons.map((button): OverflowMenuItemProps => ({
                       id: button.id,
                       label: button.overflowIcon ? (
@@ -370,7 +368,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                 <OverflowMenu
                   ariaLabel="More discussion options"
                   // 'secondary' variant styling
-                  buttonClassName="flex-1 border border-[#B5C3EC] w-full px-3 py-2.5 h-9 text-[13px] font-medium"
+                  buttonClassName="flex-1 border border-[#B5C3EC] w-full px-3 py-2.5 h-9 text-size-xs font-medium"
                   items={overflowButtons.map((button): OverflowMenuItemProps => ({
                     id: button.id,
                     label: button.overflowIcon ? (

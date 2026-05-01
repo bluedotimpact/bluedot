@@ -40,7 +40,7 @@ export const UpcomingRounds = () => {
     <section className="pt-[16px] pb-[48px] px-5 bd-md:pt-0 bd-md:pb-[64px] bd-md:px-8 min-[1024px]:pb-[80px] min-[1024px]:px-12 min-[1280px]:pb-[96px] min-[1440px]:pt-[24px] min-[1920px]:pt-0 min-[1280px]:px-16 2xl:px-20">
       <div className="flex flex-col items-center gap-6 max-w-screen-xl mx-auto">
         {/* Section Title */}
-        <h2 className="text-[24px] leading-[140%] tracking-[-0.5px] font-[450] text-bluedot-navy text-center">
+        <h2 className="text-size-lg leading-[140%] tracking-[-0.5px] font-[450] text-bluedot-navy text-center">
           Upcoming rounds
         </h2>
 
@@ -64,7 +64,7 @@ export const UpcomingRounds = () => {
         {/* CTA Button */}
         <CTALinkOrButton
           url="/courses"
-          className="mt-[24px] px-4 bg-bluedot-navy/10 text-bluedot-navy hover:text-bluedot-navy text-[15px] font-[450] tracking-[-0.3px] rounded-md hover:bg-bluedot-navy/15"
+          className="mt-[24px] px-4 bg-bluedot-navy/10 text-bluedot-navy hover:text-bluedot-navy text-size-sm font-[450] tracking-[-0.3px] rounded-md hover:bg-bluedot-navy/15"
         >
           See all rounds
         </CTALinkOrButton>
@@ -81,7 +81,7 @@ type RoundGroupProps = {
 const RoundGroup = ({ label, rounds }: RoundGroupProps) => {
   return (
     <div className="flex flex-col gap-6">
-      <h3 className="text-[15px] font-semibold uppercase tracking-[0.45px] leading-tight text-bluedot-navy text-center bd-md:text-left">
+      <h3 className="text-size-sm font-semibold uppercase tracking-[0.45px] leading-tight text-bluedot-navy text-center bd-md:text-left">
         {label}
       </h3>
 

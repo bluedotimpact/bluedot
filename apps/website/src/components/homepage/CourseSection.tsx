@@ -9,7 +9,8 @@ import { PiShieldStarLight, PiShootingStarLight, PiUsersThreeLight } from 'react
 import { usePrimaryCourseURL } from '../../lib/hooks/usePrimaryCourseURL';
 import { withClickTracking } from '../../lib/withClickTracking';
 import { trpc } from '../../utils/trpc';
-import { ArrowDownIcon } from '../icons/ArrowDownIcon';
+import { ArrowDownIcon } from '../icons';
+import { COURSE_COLORS } from '../../lib/courseColors';
 
 type Course = {
   slug: string;
@@ -24,28 +25,29 @@ type Course = {
   gradient?: string;
 };
 
-// Visual config per course (gradients, icons, tag labels) — keyed by slug
+// Per-slug homepage card config: gradient comes from the shared `lib/courseColors`
+// source-of-truth; icon path + cadence/tag stay here since they're homepage-specific.
 const COURSE_VISUAL_CONFIG: Record<string, { gradient: string; icon: string; cadence: string; additionalTag: string }> = {
   'agi-strategy': {
-    gradient: 'linear-gradient(to right, rgba(10, 8, 36, 0.9) 0%, rgba(10, 8, 36, 0.4) 5%, rgba(10, 8, 36, 0.15) 15%, rgba(10, 8, 36, 0.05) 30%, transparent 45%), radial-gradient(115% 175% at 95% 135%, rgba(255, 194, 195, 0.65) 0%, rgba(255, 194, 195, 0.50) 25%, rgba(53, 42, 106, 0.65) 60%, rgba(10, 8, 36, 0.60) 100%), #181D3F',
+    gradient: COURSE_COLORS['agi-strategy'].gradient,
     icon: '/images/courses/agi-strategy-icon.svg',
     cadence: 'Cohort-based',
     additionalTag: 'Every month',
   },
   biosecurity: {
-    gradient: 'linear-gradient(135deg, #012A07 10%, rgba(1, 42, 7, 0.00) 90%), radial-gradient(110.09% 127.37% at 112.15% 117.08%, rgba(220, 238, 171, 0.45) 0%, rgba(86, 140, 94, 0.45) 50%, rgba(1, 42, 7, 0.45) 100%), radial-gradient(97.29% 122.23% at 85.59% 126.89%, rgba(222, 149, 47, 0.35) 0%, rgba(157, 205, 98, 0.35) 52.4%, rgba(28, 175, 141, 0.35) 100%), #012A07',
+    gradient: COURSE_COLORS.biosecurity.gradient,
     icon: '/images/courses/biosecurity-icon.svg',
     cadence: 'Cohort-based',
     additionalTag: 'Every month',
   },
   'technical-ai-safety': {
-    gradient: 'linear-gradient(to right, rgba(20, 8, 25, 0.6) 0%, rgba(20, 8, 25, 0.4) 20%, rgba(20, 8, 25, 0.2) 40%, transparent 55%), radial-gradient(130% 160% at 100% 108.81%, rgba(255, 202, 171, 0.40) 0%, rgba(126, 85, 144, 0.40) 52.4%, rgba(46, 16, 54, 0.40) 100%), #2E1036',
+    gradient: COURSE_COLORS['technical-ai-safety'].gradient,
     icon: '/images/courses/technical-ai-safety-icon.svg',
     cadence: 'Cohort-based',
     additionalTag: 'Every month',
   },
   'ai-governance': {
-    gradient: 'linear-gradient(270deg, rgba(5, 24, 67, 0.00) -3.82%, rgba(5, 24, 67, 0.50) 98.44%), radial-gradient(96.03% 113.39% at 98.65% 96.93%, rgba(175, 196, 151, 0.40) 0%, rgba(21, 148, 194, 0.40) 44.58%, rgba(5, 24, 67, 0.40) 100%), #051843',
+    gradient: COURSE_COLORS['ai-governance'].gradient,
     icon: '/images/courses/ai-governance-icon.svg',
     cadence: 'Cohort-based',
     additionalTag: 'Every month',
@@ -59,10 +61,10 @@ const HOMEPAGE_COURSE_SLUGS = Object.keys(COURSE_VISUAL_CONFIG);
 const HeaderSection = () => (
   <div className="flex flex-col items-center gap-8 max-w-4xl mx-auto text-center">
     <div className="flex flex-col gap-5">
-      <H1 className="text-[28px] md:text-[36px] lg:text-[40px] xl:text-[48px] font-medium leading-tight tracking-[-1px]">
+      <H1 className="text-size-xl bd-md:text-size-2xl font-medium leading-tight tracking-[-1px]">
         Start making an impact today
       </H1>
-      <P className="text-[16px] md:text-[20px] leading-[1.55] tracking-[-0.005em] opacity-70 max-w-4xl">
+      <P className="text-size-sm md:text-size-md leading-[1.55] tracking-[-0.005em] opacity-70 max-w-4xl">
         Do you want to help build an awesome, safe future with AI? Apply to one of our free courses today.
         We'll help you ensure that humanity safely navigates the transition to transformative AI.
       </P>
@@ -141,7 +143,7 @@ const CourseCarouselButton = ({
     aria-label={`Scroll ${direction}`}
   >
     <span
-      className="text-bluedot-navy text-[22.4px] font-medium select-none"
+      className="text-bluedot-navy text-size-lg font-medium select-none"
       style={{
         transform: direction === 'left' ? 'scaleX(-1)' : 'none',
       }}
@@ -433,7 +435,7 @@ const CourseCardsGrid = ({
 }) => (
   <div className="hidden lg:flex flex-col items-center gap-8 w-full max-w-screen-xl mx-auto">
     {/* "New to AI Safety? Start here" heading */}
-    <P className="text-[14px] font-medium tracking-[1.5px] text-bluedot-navy/60">
+    <P className="text-size-xs font-medium tracking-[1.5px] text-bluedot-navy/60">
       New to AI Safety? Start here
     </P>
 
@@ -455,7 +457,7 @@ const CourseCardsGrid = ({
     </div>
 
     {/* "Deep-dives" heading */}
-    <P className="text-[14px] font-medium uppercase tracking-[1.5px] text-bluedot-navy/60">
+    <P className="text-size-xs font-medium uppercase tracking-[1.5px] text-bluedot-navy/60">
       Deep-dives
     </P>
 
@@ -530,14 +532,14 @@ const CourseCardRedesigned = ({
         {/* Text content at bottom */}
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-4">
-            <H3 className={clsx('font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200', course.slug === 'ai-governance' ? 'text-[23px]' : 'text-[24px]')}>
+            <H3 className="font-[450] leading-[1.4] tracking-[-0.5px] text-white group-hover:translate-x-1 transition-transform duration-200 text-size-lg">
               {course.title}
               {/* Hover arrow for all cards */}
               <span className="inline-block ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                 →
               </span>
             </H3>
-            <P className="text-[16px] leading-[1.55] tracking-[-0.002em] text-white">
+            <P className="text-size-sm leading-[1.55] tracking-[-0.002em] text-white">
               {course.shortDescription}
             </P>
           </div>
@@ -565,7 +567,7 @@ const CourseTags = ({ course }: { course: Course }) => {
       {regularTags.map((tag) => (
         <span
           key={tag}
-          className="px-[10px] py-[5px] text-[10px] font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
+          className="px-[10px] py-[5px] text-size-xxs font-medium leading-[1.4] tracking-[0.5px] uppercase rounded bg-white/5 border border-white/30 backdrop-blur-[10px] text-white"
         >
           {tag}
         </span>

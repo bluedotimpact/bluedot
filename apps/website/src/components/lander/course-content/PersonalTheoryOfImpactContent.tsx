@@ -9,9 +9,9 @@ import {
 import { type CourseLanderContent } from '../CourseLander';
 import { COURSE_COLORS } from '../../../lib/courseColors';
 
-const TOI_COLORS = COURSE_COLORS['personal-theory-of-impact'];
-
 export const PERSONAL_TOI_START_URL = '/courses/personal-theory-of-impact/1/1';
+
+const TOI_COLORS = COURSE_COLORS['personal-theory-of-impact'];
 
 export const createPersonalTheoryOfImpactContent = (
   applicationUrlWithUtm: string,

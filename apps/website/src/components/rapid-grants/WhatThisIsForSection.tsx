@@ -20,7 +20,7 @@ const WhatThisIsForSection = () => {
         <h3 className={pageSectionHeadingClass}>Who this is for</h3>
 
         <div className="flex flex-col gap-5">
-          <P>We&apos;ve given out nearly $50,000 in small grants to the BlueDot community over the past few months. Now we&apos;re scaling up. Bigger grants, more of them.</P>
+          <P>For anyone working on concrete AI safety projects. Research, events, community building, tooling, compute.</P>
           <P>
             If in doubt,{' '}
             <a
@@ -41,10 +41,10 @@ const WhatThisIsForSection = () => {
               key={card.title}
               className="rounded-[16px] border border-bluedot-navy/10 bg-white p-6 lg:p-8 flex flex-col gap-3"
             >
-              <h4 className="text-[18px] bd-md:text-[20px] font-semibold leading-tight text-bluedot-navy">
+              <h4 className="text-size-md font-semibold leading-tight text-bluedot-navy">
                 {card.title}
               </h4>
-              <P className="text-[15px] bd-md:text-[16px] leading-[1.7] text-bluedot-navy/70">
+              <P className="text-size-sm leading-[1.7] text-bluedot-navy/70">
                 {card.body}
               </P>
             </div>

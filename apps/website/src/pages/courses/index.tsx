@@ -173,7 +173,7 @@ const CoursesPage = () => {
                   {displayedProjects.length > 0 && (
                     <>
                       <div id="projects" className="my-12 lg:my-16 xl:my-20 border-t border-bluedot-navy/10" />
-                      <h2 className="text-[12px] leading-[14px] font-semibold text-bluedot-normal uppercase tracking-[0.5px] mb-12 xl:hidden">
+                      <h2 className="text-size-xxs leading-[14px] font-semibold text-bluedot-normal uppercase tracking-[0.5px] mb-12 xl:hidden">
                         Projects
                       </h2>
                       <CoursesList courses={displayedProjects} />
@@ -287,14 +287,14 @@ const BreadcrumbMenu = ({ courses, projects }: BreadcrumbMenuProps) => {
             >
               <span
                 className={clsx(
-                  'text-[16px] leading-[24px] font-normal',
-                  isActive ? 'text-bluedot-normal' : 'text-[#151d42]',
+                  'text-size-sm leading-[24px] font-normal',
+                  isActive ? 'text-bluedot-normal' : 'text-bluedot-navy',
                 )}
               >
                 {course.title}
               </span>
               {isNew && (
-                <span className="bg-[#e9ecf8] text-[#2244bb] text-[10px] font-bold leading-[24px] px-[6px] rounded-[5px]">
+                <span className="bg-bluedot-lightest text-bluedot-normal text-size-xxs font-bold leading-[24px] px-[6px] rounded-[5px]">
                   NEW
                 </span>
               )}
@@ -307,14 +307,14 @@ const BreadcrumbMenu = ({ courses, projects }: BreadcrumbMenuProps) => {
 
   return (
     <nav className="w-[252px] flex-shrink-0 xl:sticky xl:top-24 xl:self-start">
-      <h2 className="text-[12px] leading-[14px] font-semibold text-bluedot-normal uppercase tracking-[0.5px] mb-[30px]">
+      <h2 className="text-size-xxs leading-[14px] font-semibold text-bluedot-normal uppercase tracking-[0.5px] mb-[30px]">
         Courses
       </h2>
       {renderItems(courses)}
 
       {projects.length > 0 && (
         <>
-          <h2 className="text-[12px] leading-[14px] font-semibold text-bluedot-normal uppercase tracking-[0.5px] mt-8 mb-[30px]">
+          <h2 className="text-size-xxs leading-[14px] font-semibold text-bluedot-normal uppercase tracking-[0.5px] mt-8 mb-[30px]">
             Projects
           </h2>
           {renderItems(projects)}
@@ -368,7 +368,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
     <article className="flex flex-col">
       <CourseHeader course={course} />
 
-      <p className="mt-6 text-[18px] leading-[1.6] font-normal text-bluedot-navy opacity-80">
+      <p className="mt-6 text-size-md leading-[1.6] font-normal text-bluedot-navy/80">
         {course.shortDescription}
       </p>
 
@@ -408,7 +408,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
         {/* No Upcoming Rounds */}
         {!roundsLoading && !isSelfPaced && !showRounds && (
           <div className="flex items-center min-h-[48px] border-l-4 border-bluedot-navy/20 pl-5">
-            <p className="text-[15px] leading-[1.6] font-normal text-bluedot-navy opacity-50">
+            <p className="text-size-sm leading-[1.6] font-normal text-bluedot-navy/50">
               No upcoming rounds.{' '}
               <Link href={`/courses/${course.slug}`} className="text-bluedot-normal font-medium hover:underline cursor-pointer">
                 Learn more about this course
@@ -440,10 +440,10 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
           href={`/courses/${course.slug}`}
           className="group flex items-center gap-2 cursor-pointer"
         >
-          <h2 className="text-[24px] leading-[1.4] font-semibold tracking-[-0.5px] text-bluedot-navy">
+          <h2 className="text-size-lg leading-[1.4] font-semibold tracking-[-0.5px] text-bluedot-navy">
             {course.title}
           </h2>
-          <span className="text-[24px] leading-[1.4] text-bluedot-navy transition-opacity opacity-0 group-hover:opacity-100">
+          <span className="text-size-lg leading-[1.4] text-bluedot-navy transition-opacity opacity-0 group-hover:opacity-100">
             →
           </span>
         </Link>
@@ -457,10 +457,10 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
           href={`/courses/${course.slug}`}
           className="group flex items-center gap-2 pt-[15px] cursor-pointer"
         >
-          <h2 className="text-[24px] leading-[1.4] font-semibold tracking-[-0.5px] text-bluedot-navy">
+          <h2 className="text-size-lg leading-[1.4] font-semibold tracking-[-0.5px] text-bluedot-navy">
             {course.title}
           </h2>
-          <span className="text-[24px] leading-[1.4] text-bluedot-navy transition-opacity opacity-0 group-hover:opacity-100">
+          <span className="text-size-lg leading-[1.4] text-bluedot-navy transition-opacity opacity-0 group-hover:opacity-100">
             →
           </span>
         </Link>
@@ -485,13 +485,13 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
       <div className="flex bd-md:hidden">
         <div className="w-1 flex-shrink-0 rounded-sm" style={{ backgroundColor: accentColor }} />
         <div className="flex flex-col pl-5">
-          <p className="text-[15px] leading-[1.6] font-semibold text-bluedot-navy">Self-paced learning</p>
-          <p className="text-[15px] leading-[1.6] font-normal text-bluedot-navy opacity-50">
+          <p className="text-size-sm leading-[1.6] font-semibold text-bluedot-navy">Self-paced learning</p>
+          <p className="text-size-sm leading-[1.6] font-normal text-bluedot-navy/50">
             Open access · {course.durationHours ? `${course.durationHours} hours` : course.durationDescription}
           </p>
           <Link
             href={`/courses/${course.slug}/1/1`}
-            className="mt-3 text-[15px] leading-[1.6] font-medium cursor-pointer text-bluedot-normal"
+            className="mt-3 text-size-sm leading-[1.6] font-medium cursor-pointer text-bluedot-normal"
           >
             Start learning
           </Link>
@@ -506,14 +506,14 @@ const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
         <div className="flex items-stretch h-full">
           <div className="w-1 flex-shrink-0 rounded-sm opacity-30 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" style={{ backgroundColor: accentColor }} />
           <div className="flex flex-col justify-center pl-5">
-            <span className="text-[15px] leading-none font-semibold text-bluedot-navy">Self-paced learning</span>
-            <span className="text-[15px] leading-none font-normal text-bluedot-navy opacity-50 mt-1">
+            <span className="text-size-sm leading-none font-semibold text-bluedot-navy">Self-paced learning</span>
+            <span className="text-size-sm leading-none font-normal text-bluedot-navy/50 mt-1">
               Open access · {course.durationHours ? `${course.durationHours} hours` : course.durationDescription}
             </span>
           </div>
         </div>
 
-        <div className="ml-auto flex items-center text-[15px] leading-[1.6] font-medium text-bluedot-normal">
+        <div className="ml-auto flex items-center text-size-sm leading-[1.6] font-medium text-bluedot-normal">
           <span className="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1">
             Start learning
           </span>

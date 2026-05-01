@@ -8,7 +8,7 @@ import { FaCheck, FaLock } from 'react-icons/fa6';
 import { type Course, type CourseRegistration, type MeetPerson } from '@bluedot/db';
 import { skipToken } from '@tanstack/react-query';
 import CourseDetails from './CourseDetails';
-import { ChevronRightIcon } from '../icons/ChevronRightIcon';
+import { ChevronRightIcon } from '../icons';
 import { ROUTES } from '../../lib/routes';
 import GroupSwitchModal, { buildAvailabilityFormUrl } from '../courses/GroupSwitchModal';
 import { trpc } from '../../utils/trpc';

@@ -171,8 +171,8 @@ const TestimonialCarousel = ({
     : 'Meet our alumni shaping AI\'s future';
 
   const headerSizeClasses = variant === 'homepage'
-    ? 'text-[28px] bd-md:text-[36px] lg:text-[40px] xl:text-[48px]'
-    : 'text-[28px] bd-md:text-[32px] xl:text-[36px]';
+    ? 'text-size-xl bd-md:text-size-2xl'
+    : 'text-size-xl';
 
   return (
     <section className="w-full bg-white py-12 md:py-16 lg:py-20 xl:py-24 px-5 bd-md:px-8 lg:px-12 xl:px-16 2xl:px-20">
@@ -200,7 +200,7 @@ const TestimonialCarousel = ({
               </H2>
             )}
             {subtitle && (
-              <P className="text-[16px] bd-md:text-[18px] font-normal leading-[160%] text-bluedot-navy/80 max-w-full">
+              <P className="text-size-sm bd-md:text-size-md font-normal leading-[160%] text-bluedot-navy/80 max-w-full">
                 {subtitle}
               </P>
             )}
@@ -304,10 +304,10 @@ const TestimonialMemberCard = ({ testimonial, hideQuote = false }: { testimonial
 
   const nameRoleBlock = (
     <div className="flex flex-col items-start gap-1 w-full">
-      <P className="text-[16px] font-semibold leading-[125%] text-bluedot-navy text-left w-full">
+      <P className="text-size-sm font-semibold leading-[125%] text-bluedot-navy text-left w-full">
         {testimonial.name}
       </P>
-      <P className="text-[14px] font-normal leading-[160%] text-bluedot-navy/60 text-left w-full">
+      <P className="text-size-xs font-normal leading-[160%] text-bluedot-navy/60 text-left w-full">
         {testimonial.jobTitle}
       </P>
     </div>
@@ -330,7 +330,7 @@ const TestimonialMemberCard = ({ testimonial, hideQuote = false }: { testimonial
       <div className="flex flex-1 flex-col p-6">
         <div className="flex flex-1 flex-col gap-8">
           {hasQuote ? (
-            <P className="flex-1 text-[16px] font-normal leading-[160%] text-bluedot-navy text-left w-full">
+            <P className="flex-1 text-size-sm font-normal leading-[160%] text-bluedot-navy text-left w-full">
               {testimonial.quote}
             </P>
           ) : (
@@ -388,7 +388,7 @@ const NavigationButton = ({
     aria-label={`Scroll ${direction}`}
   >
     <span
-      className="text-bluedot-navy text-[22.4px] font-medium select-none"
+      className="text-bluedot-navy text-size-lg font-medium select-none"
       style={{
         transform: direction === 'left' ? 'scaleX(-1)' : 'none',
       }}

@@ -1,5 +1,5 @@
 import type React from 'react';
-import { PlayCircleIcon } from '../icons/PlayCircleIcon';
+import { PlayCircleIcon } from '../icons';
 
 type ListenToArticleButtonProps = {
   audioUrl: string;
@@ -22,7 +22,7 @@ const ListenToArticleButton: React.FC<ListenToArticleButtonProps> = ({ audioUrl,
       <PlayCircleIcon aria-hidden="true" className="group-hover:text-bluedot-navy transition-colors duration-200" />
 
       {/* Text */}
-      <span className="text-[13px] font-medium leading-[140%] tracking-[-0.005em] text-[#6A6F7A] group-hover:text-bluedot-navy transition-colors duration-200">
+      <span className="text-size-xs font-medium leading-[140%] tracking-[-0.005em] text-[#6A6F7A] group-hover:text-bluedot-navy transition-colors duration-200">
         Listen to article
       </span>
     </button>

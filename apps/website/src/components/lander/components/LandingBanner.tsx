@@ -38,13 +38,14 @@ const LandingBanner = ({
           <div className="relative flex flex-col items-center justify-center h-full px-14 py-16 gap-8 text-center">
             <img src={iconSrc} alt={iconAlt} className="w-8 h-[30px]" />
 
-            <H3 className="max-w-[238px] bd-md:max-w-[496px] text-[20px] bd-md:text-[36px] font-[600] text-white leading-[140%] bd-md:leading-[125%]">
+            {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: banner H3 with bespoke text-size-md → 36px ramp paired with viewport-specific max-w */}
+            <H3 className="max-w-[238px] bd-md:max-w-[496px] text-size-md bd-md:text-[36px] font-[600] text-white leading-[140%] bd-md:leading-[125%]">
               {title}
             </H3>
 
             <CTALinkOrButton
               variant="ghost"
-              className="text-[16px] font-medium leading-[24px] px-5 py-3 h-12 bg-white text-bluedot-navy rounded-md hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
+              className="text-size-sm font-medium leading-[24px] px-5 py-3 h-12 bg-white text-bluedot-navy rounded-md hover:bg-gray-100 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal"
               url={ctaUrl}
             >
               {ctaText}

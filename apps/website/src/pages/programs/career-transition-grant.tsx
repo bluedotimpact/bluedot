@@ -6,7 +6,6 @@ import GrantFaqSection from '../../components/grants/sections/GrantFaqSection';
 import GrantCta from '../../components/grants/sections/GrantCta';
 import WhatThisIsForSection from '../../components/career-transition-grant/WhatThisIsForSection';
 import ExpectationsSection from '../../components/career-transition-grant/ExpectationsSection';
-import SubmissionPromptsSection from '../../components/career-transition-grant/SubmissionPromptsSection';
 import NextStepsSection from '../../components/career-transition-grant/NextStepsSection';
 import GranteesSection from '../../components/career-transition-grant/GranteesSection';
 import { ROUTES } from '../../lib/routes';
@@ -49,7 +48,6 @@ const CareerTransitionGrantPage = () => {
       />
       <WhatThisIsForSection />
       <ExpectationsSection />
-      <SubmissionPromptsSection />
       <NextStepsSection />
       <GranteesSection />
       <GrantFaqSection program="career-transition-grant" />

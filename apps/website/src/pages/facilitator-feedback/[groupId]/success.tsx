@@ -31,7 +31,7 @@ const FacilitatorFeedbackSuccessPage = () => {
     if (shouldShow404) router.replace('/404');
   }, [shouldShow404, router]);
 
-  const notSubmitted = !!data && !data.existingCourseFeedback?.submittedAt;
+  const notSubmitted = !!data && data.existingCourseFeedback?.completed !== true;
   useEffect(() => {
     if (notSubmitted) {
       router.replace(`/facilitator-feedback/${meetPersonId}`);
@@ -125,6 +125,7 @@ const FacilitatorFeedbackSuccessPage = () => {
         <section className="bg-white rounded-lg border border-color-divider p-6 sm:p-12 flex flex-col gap-7">
           <div className="flex flex-col gap-4">
             <div className="size-[60px] rounded-full bg-bluedot-normal/10 flex items-center justify-center">
+              {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- icon glyph size, not body text; 28px fits the 60px container */}
               <PiCheck className="text-bluedot-normal text-[28px]" aria-hidden />
             </div>
             <div className="flex flex-col gap-2">

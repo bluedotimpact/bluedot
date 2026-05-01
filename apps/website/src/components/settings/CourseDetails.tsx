@@ -185,6 +185,7 @@ const CourseDetails = ({
         <DropoutModal
           applicantId={courseRegistration.id}
           courseSlug={course.slug}
+          currentRoundId={courseRegistration.roundId ?? null}
           handleClose={() => setDropoutModalOpen(false)}
         />
       )}

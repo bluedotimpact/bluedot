@@ -49,14 +49,14 @@ const StepCardBody = ({ number, title, body, eyebrowClass }: {
 }) => {
   return (
     <div className="flex h-full flex-col gap-6">
-      <p className={`text-[12px] font-semibold uppercase tracking-[0.12em] ${eyebrowClass}`}>
+      <p className={`text-size-xxs font-semibold uppercase tracking-[0.12em] ${eyebrowClass}`}>
         {number}
       </p>
       <div className="flex flex-col gap-3">
-        <h4 className="text-[20px] bd-md:text-[22px] font-medium tracking-[-0.04em] text-bluedot-navy">
+        <h4 className="text-size-md bd-md:text-size-lg font-medium tracking-[-0.04em] text-bluedot-navy">
           {title}
         </h4>
-        <P className="text-[15px] bd-md:text-[16px] leading-[1.7] text-bluedot-navy/70">
+        <P className="text-size-sm leading-[1.7] text-bluedot-navy/70">
           {body}
         </P>
       </div>

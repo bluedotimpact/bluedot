@@ -22,11 +22,11 @@ const CaseStudiesSection = ({
     <section className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24">
         <div className="text-center mb-12 md:mb-16">
-          <H2 className="text-[28px] bd-md:text-[32px] xl:text-[36px] font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
+          <H2 className="text-size-xl font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
             {title}
           </H2>
           {subtitle && (
-            <P className="text-[18px] leading-[1.6] text-bluedot-navy/60 mt-3 italic">
+            <P className="text-size-md leading-[1.6] text-bluedot-navy/60 mt-3 italic">
               {subtitle}
             </P>
           )}
@@ -45,11 +45,11 @@ const CaseStudiesSection = ({
                     className="size-12 rounded-full object-cover"
                   />
                 )}
-                <span className="text-[18px] font-semibold text-bluedot-navy">
+                <span className="text-size-md font-semibold text-bluedot-navy">
                   {study.name}
                 </span>
               </div>
-              <P className="text-[16px] leading-[1.7] text-bluedot-navy/80">
+              <P className="text-size-sm leading-[1.7] text-bluedot-navy/80">
                 {study.story}
               </P>
             </div>

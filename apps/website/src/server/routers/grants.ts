@@ -19,6 +19,7 @@ export type PublicRapidGrant = {
   amountUsd: number | null;
   projectSummary?: string;
   link?: string;
+  monthLabel?: string;
 };
 
 export type PublicCareerTransitionGrant = {
@@ -51,20 +52,50 @@ const sanitizeUrl = (value: string | null): string | undefined => {
   return undefined;
 };
 
+// pgAirtable stores Airtable date columns as text; parse here and bucket
+// undated rows at the end of the list (alphabetised) so that newest grants
+// appear first without dropping legacy rows that haven't been backfilled.
+const parseGrantDate = (value: string | null | undefined): Date | null => {
+  if (!value?.trim()) return null;
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+};
+
+// en-US gives a consistent 3-letter month (Jan, Feb, ..., Sep, ..., Dec).
+// en-GB renders September as "Sept" which breaks visual rhythm in the list.
+const formatMonthLabel = (date: Date): string => date.toLocaleDateString('en-US', {
+  month: 'short',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+
 const mapPublicRapidGrants = (all: RapidGrant[]): PublicRapidGrant[] => {
-  return all
+  const enriched = all
     .filter((grant) => grant.granteeName?.trim()
       && grant.projectTitle?.trim())
-    .map((grant: RapidGrant) => ({
-      granteeName: grant.granteeName!.trim(),
-      projectTitle: grant.projectTitle!.trim(),
-      amountUsd: grant.amountUsd ?? null,
-      projectSummary: grant.projectSummary?.trim()
-        ? grant.projectSummary.trim()
-        : undefined,
-      link: sanitizeUrl(grant.link),
-    }))
-    .sort((a, b) => a.projectTitle.localeCompare(b.projectTitle));
+    .map((grant: RapidGrant) => {
+      const date = parseGrantDate(grant.grantDate);
+      const publicGrant: PublicRapidGrant = {
+        granteeName: grant.granteeName!.trim(),
+        projectTitle: grant.projectTitle!.trim(),
+        amountUsd: grant.amountUsd ?? null,
+        projectSummary: grant.projectSummary?.trim()
+          ? grant.projectSummary.trim()
+          : undefined,
+        link: sanitizeUrl(grant.link),
+        monthLabel: date ? formatMonthLabel(date) : undefined,
+      };
+      return { publicGrant, dateMs: date?.getTime() ?? null };
+    });
+
+  return enriched
+    .sort((a, b) => {
+      if (a.dateMs !== null && b.dateMs !== null) return b.dateMs - a.dateMs;
+      if (a.dateMs !== null) return -1;
+      if (b.dateMs !== null) return 1;
+      return a.publicGrant.projectTitle.localeCompare(b.publicGrant.projectTitle);
+    })
+    .map(({ publicGrant }) => publicGrant);
 };
 
 const mapPublicCareerTransitionGrants = (all: CareerTransitionGrant[]): PublicCareerTransitionGrant[] => {

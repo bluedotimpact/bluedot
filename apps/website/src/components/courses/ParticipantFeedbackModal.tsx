@@ -93,7 +93,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
     >
       <div className="w-full max-w-[600px] pt-4">
         {savePeerFeedback.isError && <ErrorSection error={savePeerFeedback.error} />}
-        <p className="flex items-center gap-1.5 text-[13px] leading-[1.3] text-bluedot-navy/60 mb-6">
+        <p className="flex items-center gap-1.5 text-size-xs leading-[1.3] text-bluedot-navy/60 mb-6">
           <FaLock className="size-[13px] shrink-0" aria-hidden />
           Your responses are only seen by BlueDot staff
         </p>
@@ -208,7 +208,7 @@ export default ParticipantFeedbackModal;
 const StandoutNudge: React.FC = () => (
   <div className="flex gap-2 items-start bg-[#e5edfe] border border-[#c4d3f8] rounded-md p-[11px]">
     <FaCircleInfo className="size-3.5 shrink-0 text-bluedot-normal mt-[3px]" aria-hidden />
-    <p className="text-[13px] leading-[19.5px] text-bluedot-normal">
+    <p className="text-size-xs leading-[19.5px] text-bluedot-normal">
       Sounds like they are a standout – a short note here would help us act on this.
     </p>
   </div>
@@ -257,13 +257,13 @@ export const RubricSelector: React.FC<RubricSelectorProps> = ({ name, ariaLabell
               onChange={() => onChange(option.value)}
               className="sr-only"
             />
-            <div className={`w-11 self-stretch shrink-0 flex items-start justify-center pt-3 text-[15px] leading-[22.5px] font-bold border-r ${isSelected ? 'bg-[#c4d3f8] text-[#0d3399] border-[#c4d3f8]' : `${BUBBLE_COLORS[option.value]} opacity-[0.56] border-[rgba(0,0,0,0.06)]`}`}>
+            <div className={`w-11 self-stretch shrink-0 flex items-start justify-center pt-3 text-size-sm leading-[22.5px] font-bold border-r ${isSelected ? 'bg-[#c4d3f8] text-[#0d3399] border-[#c4d3f8]' : `${BUBBLE_COLORS[option.value]} opacity-[0.56] border-[rgba(0,0,0,0.06)]`}`}>
               {option.value}
             </div>
             <div className="flex-1 min-w-0 px-3 pt-3 pb-5">
-              <p className="text-[13px] leading-[20px] text-bluedot-navy">{option.label}</p>
+              <p className="text-size-xs leading-[20px] text-bluedot-navy">{option.label}</p>
               {isSelected && (
-                <p className="text-[12px] leading-[20px] text-bluedot-navy mt-1.5">{option.description}</p>
+                <p className="text-size-xxs leading-[20px] text-bluedot-navy mt-1.5">{option.description}</p>
               )}
             </div>
             {isSelected && (

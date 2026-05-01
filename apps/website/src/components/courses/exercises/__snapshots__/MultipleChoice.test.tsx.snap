@@ -74,7 +74,7 @@ exports[`MultipleChoice > renders default as expected 1`] = `
       </label>
     </div>
     <a
-      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark !bg-bluedot-normal !whitespace-normal"
+      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark !bg-bluedot-normal !whitespace-normal"
       href="/login?register=true&redirect_to=%2Ftest-path"
       tabindex="0"
     >
@@ -172,7 +172,7 @@ exports[`MultipleChoice > renders logged in as expected 1`] = `
       </label>
     </div>
     <button
-      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark !bg-bluedot-normal"
+      class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-[650] cta-button--primary bg-bluedot-normal link-on-dark !bg-bluedot-normal"
       disabled=""
       type="submit"
     >
@@ -203,7 +203,7 @@ exports[`MultipleChoice > updates styles for incorrect option 1`] = `
 
 exports[`MultipleChoice > updates styles for incorrect option 2`] = `
 <button
-  class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-sm px-4 py-3 rounded-sm font-[650] cta-button--black bg-bluedot-darker link-on-dark hover:bg-bluedot-darkest"
+  class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-[650] cta-button--black bg-bluedot-darker link-on-dark hover:bg-bluedot-darkest"
   type="button"
 >
   <span

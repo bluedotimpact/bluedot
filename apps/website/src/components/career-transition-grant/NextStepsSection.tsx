@@ -3,8 +3,8 @@ import { pageSectionHeadingClass } from '../PageListRow';
 
 const NEXT_STEPS = [
   {
-    title: 'You submit',
-    body: 'Send us your 1-2 page proposal covering the prompts above.',
+    title: 'You apply',
+    body: 'Fill in the application form. It takes around 45 minutes.',
   },
   {
     title: 'We review and book a call',
@@ -26,12 +26,12 @@ const NextStepsSection = () => {
           {NEXT_STEPS.map((step, index) => (
             <li key={step.title} className="flex flex-col gap-3">
               <span
-                className="flex items-center justify-center size-8 rounded-full bg-bluedot-normal text-white text-[13px] font-semibold"
+                className="flex items-center justify-center size-8 rounded-full bg-bluedot-normal text-white text-size-xs font-semibold"
                 aria-hidden="true"
               >
                 {index + 1}
               </span>
-              <h4 className="text-[18px] font-semibold text-bluedot-navy">
+              <h4 className="text-size-md font-semibold text-bluedot-navy">
                 {step.title}
               </h4>
               <P className="text-size-sm leading-[1.65] text-bluedot-navy/80">

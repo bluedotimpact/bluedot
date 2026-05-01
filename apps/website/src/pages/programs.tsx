@@ -58,7 +58,7 @@ const ProgramsPage = () => {
       id: 'advising',
       name: '1-1 advising',
       href: '/programs/advising',
-      summary: 'A 20-min call with the BlueDot team to accelerate you towards impactful work in AI safety.',
+      summary: 'A 30-min call with the BlueDot team to accelerate you towards impactful work in AI safety.',
       detail: '200+ advising calls done. Decisions in ~5 working days.',
       ctaLabel: 'Explore program',
     },
@@ -110,7 +110,7 @@ const ProgramsPage = () => {
         <div className="flex justify-center pt-6 bd-md:pt-8 lg:pt-10">
           <CTALinkOrButton
             url={ROUTES.courses.url}
-            className="px-4 bg-bluedot-navy/10 text-bluedot-navy hover:text-bluedot-navy text-[15px] font-[450] tracking-[-0.3px] rounded-md hover:bg-bluedot-navy/15"
+            className="px-4 bg-bluedot-navy/10 text-bluedot-navy hover:text-bluedot-navy text-size-sm font-[450] tracking-[-0.3px] rounded-md hover:bg-bluedot-navy/15"
           >
             Explore courses instead
           </CTALinkOrButton>

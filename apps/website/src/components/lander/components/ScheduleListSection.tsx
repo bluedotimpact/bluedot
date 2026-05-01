@@ -14,7 +14,7 @@ export type ScheduleListSectionProps = {
   fallbackCtaText?: string;
 };
 
-const groupLabelClass = 'text-[13px] font-semibold uppercase tracking-[0.08em] text-bluedot-navy/72';
+const groupLabelClass = 'text-size-xs font-semibold uppercase tracking-[0.08em] text-bluedot-navy/72';
 
 const ScheduleListSection = ({
   id,

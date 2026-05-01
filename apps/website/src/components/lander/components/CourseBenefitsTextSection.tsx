@@ -20,7 +20,7 @@ const CourseBenefitsTextSection = ({ id, title, items }: CourseBenefitsTextSecti
           <div className="flex flex-col gap-8">
             {items.map((item) => (
               <div key={item.heading} className="flex flex-col gap-2">
-                <h4 className="text-[18px] font-semibold leading-[1.4] text-bluedot-navy">
+                <h4 className="text-size-md font-semibold leading-[1.4] text-bluedot-navy">
                   {item.heading}
                 </h4>
                 <P>{item.body}</P>

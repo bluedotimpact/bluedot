@@ -9,7 +9,7 @@ import { FaChevronRight } from 'react-icons/fa6';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 import type { CertificateStatus } from '../../server/routers/certificates';
 import type { ChunkProgress, CourseProgress } from '../../server/routers/courses';
-import { ChunkIcon } from '../icons/ChunkIcon';
+import { ChunkIcon } from '../icons';
 import { CourseIcon } from './CourseIcon';
 import type { ApplyCTAProps } from './SideBar';
 
@@ -94,7 +94,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
         <div className="flex flex-wrap items-center justify-between gap-4 pb-1 w-full">
           <div className="flex items-center gap-4">
             <CourseIcon courseSlug={courseSlug} />
-            <h3 className="text-[20px] leading-[40px] font-semibold text-bluedot-navy">
+            <h3 className="text-size-md leading-[40px] font-semibold text-bluedot-navy">
               {courseTitle}
             </h3>
           </div>
@@ -103,7 +103,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
               url={applyCTAProps.applicationUrl}
               variant="outline-black"
               target="_blank"
-              className="px-3 py-1.5 text-[14px]"
+              className="px-3 py-1.5 text-size-xs"
             >
               {`Apply by ${applyCTAProps.applicationDeadline}`}
             </CTALinkOrButton>
@@ -215,7 +215,7 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
                 <ChunkIcon isActive={isActive} />
                 <div className="flex flex-col flex-1 min-h-[44px] justify-center">
                   <div className="flex flex-col gap-[6px]">
-                    <p className="font-normal text-[14px] leading-[150%] text-bluedot-navy">
+                    <p className="font-normal text-size-xs leading-[150%] text-bluedot-navy">
                       {chunk.chunkTitle}
                       {isLastChunkOfFinalUnit
                       && certificateStatus
@@ -227,7 +227,7 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
                     </p>
                   </div>
                   {chunk.estimatedTime != null && (
-                    <div className="flex gap-1 text-[13px] leading-[140%] tracking-[-0.005em] font-medium text-bluedot-navy/60 mt-2">
+                    <div className="flex gap-1 text-size-xs leading-[140%] tracking-[-0.005em] font-medium text-bluedot-navy/60 mt-2">
                       <span>
                         {formatTime(chunk.estimatedTime)}
                       </span>

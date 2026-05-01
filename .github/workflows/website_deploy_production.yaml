@@ -14,37 +14,69 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 60
     steps:
-      - name: Verify CI/CD has passed
+      - name: Wait for CI/CD to pass
         if: ${{ !inputs.skip_ci_check }}
         uses: actions/github-script@v7
         with:
           script: |
-            // GitHub's listWorkflowRuns endpoint occasionally returns an
-            // empty page or only stale entries during transient API blips,
-            // so retry a few times and search every run for the SHA rather
-            // than trusting the first one returned.
+            // The matching ci_cd run for this SHA may still be running when the
+            // tag push fires, so poll listWorkflowRuns until it reaches a
+            // terminal state. Distinguishes three cases:
+            //   - no run visible yet: API blip, tolerate up to 60s
+            //   - run queued / in_progress: keep polling up to the 30 min ceiling
+            //   - run completed: pass on success, fail fast on any other conclusion
             const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-            const maxAttempts = 5;
-            let lastRuns = [];
-            for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-              const { data: { workflow_runs: runs } } = await github.rest.actions.listWorkflowRuns({
-                owner: context.repo.owner, repo: context.repo.repo,
-                workflow_id: 'ci_cd.yaml', head_sha: context.sha, per_page: 100,
+            const start = Date.now();
+            const totalDeadline = start + 30 * 60 * 1000;
+            const apiBlipDeadline = start + 60 * 1000;
+            const pollIntervalMs = 15_000;
+            // The 60s "no run found" guard only applies until we first see a run.
+            // After that, an empty list is a transient API result, not a missing run,
+            // so we keep polling against the 30 min ceiling instead of failing fast.
+            let runEverSeen = false;
+
+            while (true) {
+              const { data: { workflow_runs } } = await github.rest.actions.listWorkflowRuns({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                workflow_id: 'ci_cd.yaml',
+                head_sha: context.sha,
+                // ci_cd also runs on pull_request; restrict to the master-push run
+                // so a same-SHA PR run (rebase-and-merge edge case) can't satisfy the gate.
+                event: 'push',
+                per_page: 100,
               });
-              lastRuns = runs;
-              if (runs.some((r) => r.status === 'completed' && r.conclusion === 'success')) return;
-              if (attempt < maxAttempts) {
-                const backoffMs = 2 ** (attempt - 1) * 1000;
-                core.warning(`No successful ci_cd run for ${context.sha} on attempt ${attempt}/${maxAttempts}; retrying in ${backoffMs}ms`);
-                await sleep(backoffMs);
+
+              const latest = workflow_runs
+                .slice()
+                .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0];
+
+              if (latest) {
+                runEverSeen = true;
+                if (latest.status !== 'completed') {
+                  core.info(`ci_cd run ${latest.id} status=${latest.status}; polling…`);
+                } else if (latest.conclusion === 'success') {
+                  core.info(`ci_cd run ${latest.id} succeeded for ${context.sha}`);
+                  return;
+                } else {
+                  core.setFailed(`ci_cd run ${latest.id} concluded ${latest.conclusion} for ${context.sha}`);
+                  return;
+                }
+              } else if (!runEverSeen && Date.now() > apiBlipDeadline) {
+                core.setFailed(`No ci_cd run found for ${context.sha} within 60s — was the commit pushed to master?`);
+                return;
+              } else {
+                core.info(`No ci_cd run yet for ${context.sha}; polling…`);
               }
+
+              if (Date.now() > totalDeadline) {
+                core.setFailed(`Timed out after 30 min waiting for ci_cd on ${context.sha}`);
+                return;
+              }
+              await sleep(pollIntervalMs);
             }
-            const summary = lastRuns.length === 0
-              ? 'no runs returned by API'
-              : lastRuns.map((r) => `${r.status}/${r.conclusion ?? 'N/A'}`).join(', ');
-            core.setFailed(`CI/CD has not passed for ${context.sha} after ${maxAttempts} attempts (${summary})`);
 
       - name: Checkout ${{ github.sha }}
         uses: actions/checkout@v4

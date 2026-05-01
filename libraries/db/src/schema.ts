@@ -1454,9 +1454,17 @@ export const dropoutTable = pgAirtable('dropout', {
       pgColumn: text(),
       airtableId: 'fld46PnSM2D9naqtK',
     },
-    isDeferral: {
-      pgColumn: boolean(),
-      airtableId: 'fldzYMTGkTd91Chyu',
+    type: {
+      pgColumn: text(),
+      airtableId: 'fldDiWfBa7r9x3C1B',
+    },
+    newRoundId: {
+      pgColumn: text().array(),
+      airtableId: 'fldAEHMx3UxAGilGQ',
+    },
+    oldRoundId: {
+      pgColumn: text().array(),
+      airtableId: 'fldNsQ3fThCB4Z2sd',
     },
   },
 });
@@ -1521,9 +1529,12 @@ export const courseFeedbackTable = pgAirtable('course_feedback', {
       pgColumn: text().array(),
       airtableId: 'fldf1vkZDkPDpWdRX',
     },
+  },
+  deprecatedColumns: {
     submittedAt: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldU1lnBjth2Fxban',
+      deprecated: true,
     },
   },
 });

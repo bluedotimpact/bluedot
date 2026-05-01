@@ -112,15 +112,19 @@ describe('getPackagesWithChanges', () => {
     expect(callCount).toBe(2);
   });
 
-  test('falls back to all packages when no successful ancestor is reachable', async () => {
+  test('falls back to all packages when no successful ancestor is reachable', { timeout: 30000 }, async () => {
     // Return a SHA that's not an ancestor, and mock `git rev-list` so the
     // parent walk runs without depending on real git history (CI uses a
     // shallow clone where TEST_HEAD_COMMIT is not present).
+    const REV_LIST_PARENTS_RE = /^git rev-list --parents -n 1 ([0-9a-f]+)$/;
     const baseImpl = vi.mocked(execAsync).getMockImplementation()!;
     vi.mocked(execAsync).mockImplementation(async (command) => {
       if (command === SUCCESS_RUNS_COMMAND) return '0000000000000000000000000000000000000000';
-      // Pretend HEAD has no parents — parent walk returns [] immediately.
-      if (command === `git rev-list --parents -n 1 ${TEST_HEAD_COMMIT}`) return TEST_HEAD_COMMIT;
+      // Any rev-list --parents call returns the queried SHA itself — parent walk
+      // returns [] immediately. Broad match avoids a real git call (which hangs
+      // on CI for unknown SHAs) when the walk visits the all-zeros SHA.
+      const revListMatch = REV_LIST_PARENTS_RE.exec(command);
+      if (revListMatch?.[1]) return revListMatch[1];
       return baseImpl(command);
     });
 

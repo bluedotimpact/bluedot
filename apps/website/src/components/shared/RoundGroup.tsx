@@ -23,7 +23,7 @@ export default function RoundGroup({ type, rounds, applicationUrl, accentColor, 
 
   return (
     <div>
-      <div className="text-bluedot-navy mb-6 text-[15px] leading-tight">
+      <div className="text-bluedot-navy mb-6 text-size-sm leading-tight">
         <span className="font-semibold tracking-[0.45px] uppercase">{label}</span>
         <span className="ml-1 font-normal opacity-80">{description}</span>
       </div>
