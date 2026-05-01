@@ -13,6 +13,16 @@ import {
 } from '../../__tests__/dbTestUtils';
 import ParticipantFeedbackModal from './ParticipantFeedbackModal';
 
+vi.mock('../../server/airtableSchema', () => ({
+  getFieldOptions: vi.fn().mockResolvedValue([
+    { id: 'sel1', name: 'No further action needed' },
+    { id: 'sel2', name: 'Add to talent pipeline [keep warm for future opportunities/check-ins]' },
+    { id: 'sel3', name: 'Flag for 1-1 advising with BlueDot team' },
+    { id: 'sel4', name: 'Flag as candidate for funding (career transition/project)' },
+    { id: 'sel5', name: 'Recommend to facilitate' },
+  ]),
+}));
+
 setupTestDb();
 
 const FACILITATOR = 'rec-facilitator';
@@ -36,10 +46,19 @@ async function seed() {
   });
 }
 
+const FOLLOW_UP_OPTIONS = [
+  { id: 'sel1', name: 'No further action needed' },
+  { id: 'sel2', name: 'Add to talent pipeline [keep warm for future opportunities/check-ins]' },
+  { id: 'sel3', name: 'Flag for 1-1 advising with BlueDot team' },
+  { id: 'sel4', name: 'Flag as candidate for funding (career transition/project)' },
+  { id: 'sel5', name: 'Recommend to facilitate' },
+];
+
 const renderModal = (overrides: Partial<React.ComponentProps<typeof ParticipantFeedbackModal>> = {}) => render(
   <ParticipantFeedbackModal
     meetPersonId={FACILITATOR}
     participant={{ id: ALICE, name: 'Alice Anand' }}
+    followUpOptions={FOLLOW_UP_OPTIONS}
     onClose={() => {}}
     onSaved={() => {}}
     onNoStrongImpression={() => {}}

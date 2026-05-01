@@ -10,6 +10,13 @@ const meta: Meta<typeof ParticipantFeedbackModal> = {
   args: {
     meetPersonId: 'rec-facilitator',
     participant: { id: 'rec-aisha', name: 'Aisha Kamara' },
+    followUpOptions: [
+      { id: 'sel1', name: 'No further action needed' },
+      { id: 'sel2', name: 'Add to talent pipeline [keep warm for future opportunities/check-ins]' },
+      { id: 'sel3', name: 'Flag for 1-1 advising with BlueDot team' },
+      { id: 'sel4', name: 'Flag as candidate for funding (career transition/project)' },
+      { id: 'sel5', name: 'Recommend to facilitate' },
+    ],
     onClose: () => {},
     onSaved: () => {},
     onNoStrongImpression: () => {},
