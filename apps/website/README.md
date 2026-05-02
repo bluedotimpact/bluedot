@@ -122,9 +122,11 @@ If a token doesn't exist for what you need, add it to `globals.css` rather than 
 
 ### Making API Changes
 
-1. Add the route handler under `src/pages/api/` (Next.js pages-router API routes)
-2. Reuse server-side helpers from `src/lib/api/` (auth, env, `makeApiRoute`, etc.)
-3. For database access, use the shared `@bluedot/db` package (unified Airtable + Postgres via airtable-ts and Drizzle ORM) — don't bypass it
+New backend endpoints should be tRPC routers in `src/server/routers/`. Don't add `pages/api/*` routes unless tRPC genuinely won't fit (e.g., non-JSON responses like .ics files, cookie-based auth flows, or fire-and-forget error reporters). The few remaining `pages/api/` routes are legacy or special-purpose — see `DEVELOPMENT_HANDBOOK.md` §4.2 for the list.
+
+1. Add a tRPC procedure to the relevant router in `src/server/routers/`
+2. For the rare non-tRPC case, use `makeApiRoute` from `src/lib/api/` as the wrapper
+3. For database access, use the shared `@bluedot/db` package — don't bypass it
 
 ## Storybook
 
