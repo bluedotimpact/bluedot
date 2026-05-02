@@ -57,6 +57,15 @@ const VARIANTS: Variant[] = [
     pros: ['Strongest filter for exceptional people', 'Forces brand coherence', 'Doubles as values statement'],
     cons: ['Biggest rebuild (6-10 weeks)', 'Lowest reversibility', 'Risk of stale manifesto'],
   },
+  {
+    number: 6,
+    href: '/6',
+    title: 'Editorial hero + ladder',
+    shape: 'Recommended merge of /2 + /5',
+    oneLiner: 'V5\'s manifesto hero copy on the existing homepage hero shell, METR chart, then V2\'s three rungs with the 720px and Rung-3 fixes.',
+    pros: ['Story end-to-end on real chrome', 'Reuses existing components', 'Skip-link handles selectivity'],
+    cons: ['Sequenced behind FoAI v2', 'Long mobile scroll', 'Most copy to land in Dewi\'s voice'],
+  },
 ];
 
 const VariantCard = ({ variant }: { variant: Variant }) => (
