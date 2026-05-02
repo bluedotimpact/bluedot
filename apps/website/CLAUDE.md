@@ -51,6 +51,13 @@ const isHomepage = router.pathname === '/';
 
 **File structure**: Imports → Types/Interfaces → Constants → Main Component (exported here, not at the bottom) → Helper functions. Keep sub-components in the same file unless genuinely reusable elsewhere.
 
+### Code quality
+
+- Use semantic names: `activeUserItems` not `temp`, `hasActiveItems` not `flag`.
+- Extract repeated logic into well-named functions or components.
+- Apply consistent patterns — prefer Tailwind. Only use inline styles when you can't do it in tailwind
+- Avoid `!important` in CSS — use Tailwind's `!` prefix only when overriding third-party styles.
+
 ---
 
 ## Implementing UI
@@ -108,7 +115,6 @@ Component styles go in the component file via Tailwind — not in `globals.css`,
 
 ### Styling rules
 
-- Never use `!important` — use Tailwind's `!` prefix only when overriding third-party styles.
 - Never specify `font-family` — it's already set globally.
 - Prefer `min-h-[Xpx]` over `h-[Xpx]` — let content expand naturally.
 - Use `min-width`/`min-height` for flexibility; avoid `max-width`/`max-height` (except `max-w-prose` for readability).
