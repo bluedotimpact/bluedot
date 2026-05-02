@@ -10,7 +10,6 @@ import ParticipantFeedbackModal, { type ParticipantFeedbackData } from '../../co
 import AddParticipantModal from '../../components/courses/AddParticipantModal';
 import FacilitatorFeedbackHeader from '../../components/courses/FacilitatorFeedbackHeader';
 import { useFacilitatorFeedbackStorage } from '../../hooks/useFacilitatorFeedbackStorage';
-import { isFlagged } from '../../lib/facilitatorFollowUps';
 import { getInitials } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
@@ -47,6 +46,9 @@ const FacilitatorFeedbackPage = () => {
     addedParticipants,
     addParticipant,
   } = useFacilitatorFeedbackStorage(meetPersonId);
+
+  const actionableNames = formData?.followUpOptions.filter((o) => o.actionable).map((o) => o.name) ?? [];
+  const isFlagged = (followUps: readonly string[]) => actionableNames.some((n) => followUps.includes(n));
 
   useEffect(() => {
     if (!formData) return;

@@ -12,7 +12,7 @@ import {
   createCaller, setupTestDb, testAuthContextLoggedIn, testDb,
 } from '../../__tests__/dbTestUtils';
 
-vi.mock('../airtableSchema', () => ({
+vi.mock('../airtableFieldOptions', () => ({
   getFieldOptions: vi.fn().mockResolvedValue([
     { id: 'sel1', name: 'No further action needed' },
     { id: 'sel2', name: 'Add to talent pipeline [keep warm for future opportunities/check-ins]' },

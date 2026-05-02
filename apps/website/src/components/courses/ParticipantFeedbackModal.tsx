@@ -1,7 +1,6 @@
 import { ErrorSection, Modal } from '@bluedot/ui';
 import { useState } from 'react';
 import { FaCheck, FaCircleInfo, FaLock } from 'react-icons/fa6';
-import { ACTIONABLE_FOLLOW_UP_IDS } from '../../lib/facilitatorFollowUps';
 import { getInitials } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
 
@@ -12,7 +11,7 @@ export type ParticipantFeedbackData = {
   followUps: string[];
 };
 
-export type FollowUpOption = { id: string; name: string };
+export type FollowUpOption = { id: string; name: string; actionable: boolean };
 
 type ParticipantFeedbackModalProps = {
   meetPersonId: string;
@@ -47,7 +46,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
   const [followUps, setFollowUps] = useState<string[]>(initialData?.followUps ?? []);
   const hasFollowUp = followUps.length > 0;
   const isStandout = showUpRating === 5 || engageRating === 5
-    || ACTIONABLE_FOLLOW_UP_IDS.some((id) => followUps.includes(id));
+    || followUpOptions.some((o) => o.actionable && followUps.includes(o.name));
 
   const savePeerFeedback = trpc.facilitators.savePeerFeedback.useMutation();
 
