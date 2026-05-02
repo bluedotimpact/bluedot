@@ -10,7 +10,7 @@ const SCHEDULE = [
   {
     cadence: 'Tue – Wed',
     title: 'Build interventions',
-    body: 'Build and iterate on interventions, call experts, attend our community social.',
+    body: 'Build and test interventions, call experts, and pressure-test your assumptions with the cohort.',
   },
   {
     cadence: 'Thursday',
@@ -20,7 +20,7 @@ const SCHEDULE = [
   {
     cadence: 'Friday',
     title: 'Pitch for funding',
-    body: 'Pitch to us for funding. Strong pitches receive initial grants of £50k+ to work on your project full-time.',
+    body: 'Pitch to us. Strong pitches get $5k on the spot, up to $45k more after two weeks of progress, and a path to $200k total for the strongest teams.',
   },
 ];
 

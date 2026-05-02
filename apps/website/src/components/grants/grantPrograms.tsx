@@ -67,9 +67,9 @@ export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
     href: '/programs/incubator-week',
     track: 'Launch',
     goal: 'Back graduates launching AI safety companies, with seed funding and an intensive week in London.',
-    scope: 'A five-day intensive in London. All expenses paid. Pitch for funding on Friday.',
+    scope: 'Cohort 4 runs in London, 1–5 June. Apply by 26 May for a five-day sprint from idea to funded.',
     scopeLabel: 'Format',
-    status: 'On hiatus',
+    status: 'Active',
   },
 ];
 
@@ -195,7 +195,7 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
       {
         id: 'funding',
         question: 'How does the funding work?',
-        answer: 'Strong pitches on Friday receive initial grants of £50k+ to work on your project full-time. This is designed to help you build momentum in the months after Incubator Week.',
+        answer: 'Strong pitches on Friday get $5k on the spot, up to $45k more after two weeks of progress, and a path to $200k total for the strongest teams. Funding is equity-free.',
       },
       {
         id: 'bluedot',

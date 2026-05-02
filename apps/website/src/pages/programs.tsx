@@ -66,9 +66,9 @@ const ProgramsPage = () => {
       id: 'incubator-week',
       name: 'Incubator Week',
       href: '/programs/incubator-week',
-      summary: 'A concentrated week for stronger founders and operators testing bigger bets.',
-      detail: 'Five-day London intensive. All expenses paid. Strong teams pitch for funding on Friday.',
-      ctaLabel: 'Learn more',
+      summary: 'Five days from idea to funded for AI safety founders.',
+      detail: 'Cohort 4 runs 1–5 June in London. Apply by 26 May; $50k equity-free if your pitch lands.',
+      ctaLabel: 'Apply by 26 May',
     },
   ];
 
