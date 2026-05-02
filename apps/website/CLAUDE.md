@@ -131,7 +131,7 @@ Write comments only when the *why* is non-obvious. Don't add "NEW:" or "UPDATED:
 
 ## Working with data
 
-- **tRPC**: All new backend endpoints use tRPC routers in `src/server/routers/`. Don't add `pages/api/*` routes unless tRPC genuinely won't fit. See existing routers (e.g., `grants.ts`) for the pattern. Full rules in root `CLAUDE.md` → "Coding rules", detailed examples in `DEVELOPMENT_HANDBOOK.md` §4.1-4.2.
+- **tRPC**: All new backend endpoints use tRPC routers in `src/server/routers/`. Don't add `pages/api/*` routes unless tRPC genuinely won't fit. See existing routers (e.g., `grants.ts`) for the pattern. Detailed examples in `DEVELOPMENT_HANDBOOK.md` §4.1-4.2.
 - **Database / schema changes**: Two-PR workflow — schema change first, consumer code second. Mixing them in one PR breaks staging. Full process in root `CLAUDE.md` → "Database / schema changes", details in `DEVELOPMENT_HANDBOOK.md` §4.3.
 - **Testing**: Tests use vitest. Backend router tests use PGlite via `setupTestDb()` from `src/__tests__/dbTestUtils.tsx`. Key utilities: `testDb` for inserting test data, `createCaller()` for server-side tRPC calls, `testAuthContextLoggedIn`/`testAuthContextLoggedOut` for auth fixtures. See `DEVELOPMENT_HANDBOOK.md` §4.2 for the full API. Tests require `.env.local` with at least `AIRTABLE_PERSONAL_ACCESS_TOKEN` — if you don't have credentials, say so in the PR body.
 

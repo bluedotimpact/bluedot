@@ -24,7 +24,6 @@ We're fans of [boring technology](https://boringtechnology.club/) — don't intr
 
 ## Coding rules
 
-- All new data fetching goes through tRPC (`src/server/routers/`). Don't add new `pages/api/*` routes unless tRPC genuinely won't fit.
 - All new database access goes through `@bluedot/db`. Don't talk to Airtable or Postgres directly, and don't bypass the abstraction.
 - Use Tailwind for new styles. Migrate BEM classes you touch.
 - Comments: write them only when the *why* is non-obvious. Don't narrate *what* the code does, and don't reference the current task or PR ("added for issue #123") — that belongs in the PR description.
