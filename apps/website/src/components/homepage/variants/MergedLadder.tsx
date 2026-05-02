@@ -24,21 +24,21 @@ const COHORT_ICONS: Record<string, string> = {
 };
 
 type Rung = {
-  number: number;
+  step: string;
   title: string;
 };
 
 const RUNGS: Rung[] = [
-  { number: 1, title: 'Get oriented' },
-  { number: 2, title: 'Go deep on a path' },
-  { number: 3, title: 'Build something' },
+  { step: 'Step one', title: 'See where AI is going' },
+  { step: 'Step two', title: 'Pick a specialism' },
+  { step: 'Step three', title: 'Start contributing' },
 ];
 
 const RungHeader = ({ rung }: { rung: Rung }) => (
-  <div className="flex items-center gap-4">
-    <div className="size-10 rounded-full bg-bluedot-navy text-white font-medium flex items-center justify-center text-size-md">
-      {rung.number}
-    </div>
+  <div className="flex flex-col gap-3">
+    <P className="text-size-xs font-medium tracking-[1.5px] uppercase text-bluedot-navy/60">
+      {rung.step}
+    </P>
     <H3 className="text-[24px] md:text-[30px] lg:text-[36px] leading-[1.2] tracking-[-0.5px] font-medium text-bluedot-navy">
       {rung.title}
     </H3>
