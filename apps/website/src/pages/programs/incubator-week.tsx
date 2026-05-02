@@ -2,16 +2,15 @@ import { Breadcrumbs, type BluedotRoute } from '@bluedot/ui';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
 import GrantStatsStrip from '../../components/grants/sections/GrantStatsStrip';
-import GrantFaqSection from '../../components/grants/sections/GrantFaqSection';
-import GrantCta from '../../components/grants/sections/GrantCta';
-import WhatThisIsForSection from '../../components/incubator-week/WhatThisIsForSection';
+import TrackRecordSection from '../../components/incubator-week/TrackRecordSection';
 import TheWeekSection from '../../components/incubator-week/TheWeekSection';
-import WhatYouGetSection from '../../components/incubator-week/WhatYouGetSection';
-import LogisticsSection from '../../components/incubator-week/LogisticsSection';
+import AboutYouSection from '../../components/incubator-week/AboutYouSection';
+import AboutBlueDotSection from '../../components/incubator-week/AboutBlueDotSection';
+import { useGrantApplicationUrl } from '../../components/grants/useGrantApplicationUrl';
 import { ROUTES } from '../../lib/routes';
 
 const PAGE_TITLE = 'Incubator Week';
-
+const APPLICATION_DEADLINE = '26 May';
 const CURRENT_ROUTE: BluedotRoute = {
   title: PAGE_TITLE,
   url: '/programs/incubator-week',
@@ -19,36 +18,43 @@ const CURRENT_ROUTE: BluedotRoute = {
 };
 
 const IncubatorWeekProgramPage = () => {
+  const applicationUrl = useGrantApplicationUrl('incubator-week');
+
   return (
     <div>
       <Head>
         <title>{`${PAGE_TITLE} | BlueDot Impact`}</title>
         <meta
           name="description"
-          content="A 5-day intensive for founders building organizations to make AI go well. Develop threat models, design interventions, pitch for funding. All expenses paid in London."
+          content="Most accelerators take 12 weeks and 7%. We take 5 days and 0%. Fly to London to turn your AI safety idea into a funded org. $50k if your pitch lands. More for the strongest teams. Equity-free."
         />
       </Head>
       <MarketingHero
         title="Incubator Week"
-        subtitle="A five-day intensive that helps top talent become AI safety founders. All expenses paid. Pitch for funding on Friday. 1-5 June in London."
+        subtitle="Most accelerators take 12 weeks and 7%. We take 5 days and 0%. Fly to London to turn your AI safety idea into a funded org. $50k if your pitch lands. More for the strongest teams. Equity-free."
       />
       <Breadcrumbs route={CURRENT_ROUTE} />
       <GrantStatsStrip
         program="incubator-week"
         compact
+        primaryAction={{
+          label: `Apply by ${APPLICATION_DEADLINE}`,
+          url: applicationUrl,
+        }}
         stats={[
-          { label: 'Format', value: '5 days, in person' },
-          { label: 'Location', value: 'London (LISA)' },
-          { label: 'Cost', value: 'All expenses paid' },
-          { label: 'Funding', value: '£50k+ on strong pitches' },
+          { label: 'Cohort', value: 'v4' },
+          { label: 'Runs', value: '1–5 June' },
+          { label: 'Funding', value: '$50k equity-free' },
+          { label: 'Covered', value: 'Flights, stay, meals' },
         ]}
       />
-      <WhatThisIsForSection />
+      <TrackRecordSection />
       <TheWeekSection />
-      <WhatYouGetSection />
-      <LogisticsSection />
-      <GrantFaqSection program="incubator-week" />
-      <GrantCta program="incubator-week" />
+      <AboutYouSection />
+      <AboutBlueDotSection
+        applicationUrl={applicationUrl}
+        applicationDeadline={APPLICATION_DEADLINE}
+      />
     </div>
   );
 };
