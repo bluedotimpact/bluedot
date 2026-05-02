@@ -21,21 +21,31 @@ import z from 'zod';
 import db from '../../lib/api/db';
 import env from '../../lib/api/env';
 import { checkAdminAccess, protectedProcedure, router } from '../trpc';
-import { getFieldOptions, type FieldOption } from '../airtableSchema';
-import { ACTIONABLE_FOLLOW_UP_IDS } from '../../lib/facilitatorFollowUps';
+import { getFieldOptions } from '../airtableFieldOptions';
 
-const PEER_FEEDBACK_BASE_ID = 'appPs3sb9BrYZN69z';
-const PEER_FEEDBACK_TABLE_ID = 'tbl8KC4Q1i5YlCGhm';
-const PEER_FEEDBACK_NEXT_STEPS_FIELD_ID = 'fldDXBWnFLi7vD2CQ';
+// Subset of nextSteps option names that count as "actionable" — i.e. flag the participant
+// for follow-up. Must match Airtable option names verbatim; checked at request time.
+const ACTIONABLE_FOLLOW_UP_NAMES: ReadonlySet<string> = new Set([
+  'Flag for 1-1 advising with BlueDot team',
+  'Flag as candidate for funding (career transition/project)',
+  'Recommend to facilitate',
+]);
 
-const getNextStepsOptions = () => getFieldOptions(PEER_FEEDBACK_BASE_ID, PEER_FEEDBACK_TABLE_ID, PEER_FEEDBACK_NEXT_STEPS_FIELD_ID);
+type FollowUpOption = { id: string; name: string; actionable: boolean };
 
-const checkActionableFollowUps = async (options: FieldOption[]) => {
+const getNextStepsOptions = async (): Promise<FollowUpOption[]> => {
+  const { baseId, tableId } = peerFeedbackTable.airtable;
+  const fieldId = peerFeedbackTable.airtableFieldMap.get('nextSteps')!;
+  const options = await getFieldOptions(baseId, tableId, fieldId);
+  return options.map((o) => ({ ...o, actionable: ACTIONABLE_FOLLOW_UP_NAMES.has(o.name) }));
+};
+
+const checkActionableFollowUps = async (options: FollowUpOption[]) => {
   const names = new Set(options.map((o) => o.name));
-  const missing = ACTIONABLE_FOLLOW_UP_IDS.filter((id) => !names.has(id));
+  const missing = [...ACTIONABLE_FOLLOW_UP_NAMES].filter((n) => !names.has(n));
   if (missing.length === 0) return;
 
-  const message = `[facilitator-feedback] ACTIONABLE_FOLLOW_UP_IDS no longer match Airtable nextSteps options. Missing: ${missing.join(', ')}. Update apps/website/src/lib/facilitatorFollowUps.ts.`;
+  const message = `[facilitator-feedback] ACTIONABLE_FOLLOW_UP_NAMES no longer match Airtable nextSteps options. Missing: ${missing.join(', ')}. Update apps/website/src/server/routers/facilitators.ts.`;
   if (process.env.NODE_ENV !== 'production') {
     throw new Error(message);
   }
