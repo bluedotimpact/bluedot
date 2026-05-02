@@ -16,16 +16,31 @@ import {
   unitTable,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
+import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import z from 'zod';
 import db from '../../lib/api/db';
+import env from '../../lib/api/env';
 import { checkAdminAccess, protectedProcedure, router } from '../trpc';
-import { getFieldOptions } from '../airtableSchema';
+import { getFieldOptions, type FieldOption } from '../airtableSchema';
+import { ACTIONABLE_FOLLOW_UP_IDS } from '../../lib/facilitatorFollowUps';
 
 const PEER_FEEDBACK_BASE_ID = 'appPs3sb9BrYZN69z';
 const PEER_FEEDBACK_TABLE_ID = 'tbl8KC4Q1i5YlCGhm';
 const PEER_FEEDBACK_NEXT_STEPS_FIELD_ID = 'fldDXBWnFLi7vD2CQ';
 
 const getNextStepsOptions = () => getFieldOptions(PEER_FEEDBACK_BASE_ID, PEER_FEEDBACK_TABLE_ID, PEER_FEEDBACK_NEXT_STEPS_FIELD_ID);
+
+const checkActionableFollowUps = async (options: FieldOption[]) => {
+  const names = new Set(options.map((o) => o.name));
+  const missing = ACTIONABLE_FOLLOW_UP_IDS.filter((id) => !names.has(id));
+  if (missing.length === 0) return;
+
+  const message = `[facilitator-feedback] ACTIONABLE_FOLLOW_UP_IDS no longer match Airtable nextSteps options. Missing: ${missing.join(', ')}. Update apps/website/src/lib/facilitatorFollowUps.ts.`;
+  if (process.env.NODE_ENV !== 'production') {
+    throw new Error(message);
+  }
+  await slackAlert(env, [message]);
+};
 
 const getFacilitator = async (roundId: string, facilitatorEmail: string) => {
   const facilitator = await db.getFirst(meetPersonTable, {
@@ -282,6 +297,7 @@ export const facilitatorRouter = router({
         getDropInIdsForGroup(group.id, participantIds),
         getNextStepsOptions(),
       ]);
+      await checkActionableFollowUps(followUpOptions);
 
       const round = meetPerson.round
         ? await db.getFirst(roundTable, { filter: { id: meetPerson.round }, sortBy: 'id' })
