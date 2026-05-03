@@ -37,11 +37,14 @@ yarn-debug.log*
 yarn-error.log*
 core
 
+# PR screenshots (paste into GitHub PR description instead — don't commit to repo)
+.github/pr-screenshots/
+
 # Misc
 .DS_Store
 *.pem
 .vscode/launch.json
 .cursorrules
-CLAUDE.md
 .claude/
+CLAUDE.local.md
 plan.md
