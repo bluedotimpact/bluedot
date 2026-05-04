@@ -208,7 +208,7 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
       {
         icon: PiChats,
         label: 'Format',
-        description: 'This is currently a self-paced project. A guided version with coaching is planned — check back in April 2026.',
+        description: 'This is currently a self-paced project. A guided version with coaching is planned — check back in June 2026.',
       },
       {
         icon: PiHandHeart,
