@@ -17,10 +17,13 @@ type AirtableMetaResponse = {
   }[];
 };
 
-const cache = new Map<string, { value: FieldOption[]; timestamp: number }>();
-const cacheKey = (baseId: string, tableId: string, fieldId: string) => `${baseId}:${tableId}:${fieldId}`;
+type Tables = AirtableMetaResponse['tables'];
 
-async function fetchFieldOptions(baseId: string, tableId: string, fieldId: string): Promise<FieldOption[]> {
+// The Meta API returns the entire base schema regardless of which field we want, so we cache by baseId
+// and share the response across all (table, field) lookups in that base.
+const cache = new Map<string, { value: Tables; timestamp: number }>();
+
+async function fetchBaseSchema(baseId: string): Promise<Tables> {
   const response = await fetch(`https://api.airtable.com/v0/meta/bases/${baseId}/tables`, {
     headers: { Authorization: `Bearer ${env.AIRTABLE_PERSONAL_ACCESS_TOKEN}` },
   });
@@ -29,35 +32,41 @@ async function fetchFieldOptions(baseId: string, tableId: string, fieldId: strin
   }
 
   const data = await response.json() as AirtableMetaResponse;
-  const field = data.tables.find((t) => t.id === tableId)?.fields.find((f) => f.id === fieldId);
-  if (!field) throw new Error(`Field ${fieldId} not found in table ${tableId}`);
-  if (!field.options?.choices) throw new Error(`Field ${fieldId} has no choices (type: ${field.type})`);
-  return field.options.choices.map(({ id, name }) => ({ id, name }));
+  return data.tables;
 }
 
-async function refresh(key: string, baseId: string, tableId: string, fieldId: string): Promise<FieldOption[]> {
-  const value = await fetchFieldOptions(baseId, tableId, fieldId);
-  cache.set(key, { value, timestamp: Date.now() });
+async function refresh(baseId: string): Promise<Tables> {
+  const value = await fetchBaseSchema(baseId);
+  cache.set(baseId, { value, timestamp: Date.now() });
   return value;
 }
 
 // Stale-while-revalidate: serve cached value within TTL; if stale, return cached and refresh in background;
 // only block on cold start.
-export async function getFieldOptions(baseId: string, tableId: string, fieldId: string): Promise<FieldOption[]> {
-  const key = cacheKey(baseId, tableId, fieldId);
-  const entry = cache.get(key);
+async function getBaseSchema(baseId: string): Promise<Tables> {
+  const entry = cache.get(baseId);
 
   if (entry && Date.now() - entry.timestamp < CACHE_TTL_MS) {
     return entry.value;
   }
 
   if (entry) {
-    refresh(key, baseId, tableId, fieldId).catch((err: unknown) => {
+    refresh(baseId).catch((err: unknown) => {
       // eslint-disable-next-line no-console
-      console.error(`Background refresh failed for ${key}:`, err);
+      console.error(`Background refresh failed for ${baseId}:`, err);
     });
     return entry.value;
   }
 
-  return refresh(key, baseId, tableId, fieldId);
+  return refresh(baseId);
+}
+
+export async function getFieldOptions(baseId: string, tableId: string, fieldId: string): Promise<FieldOption[]> {
+  const tables = await getBaseSchema(baseId);
+  const field = tables.find((t) => t.id === tableId)?.fields.find((f) => f.id === fieldId);
+
+  if (!field) throw new Error(`Field ${fieldId} not found in table ${tableId}`);
+  if (!field.options?.choices) throw new Error(`Field ${fieldId} has no choices (type: ${field.type})`);
+
+  return field.options.choices.map(({ id, name }) => ({ id, name }));
 }
