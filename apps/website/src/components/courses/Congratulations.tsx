@@ -203,7 +203,7 @@ const CertificateCardAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
   }
 
   if (certificateData?.status === 'has-certificate') {
-    const formattedDate = new Date(certificateData.issuedAt * 1000).toLocaleDateString(undefined, { dateStyle: 'long' });
+    const formattedDate = new Date(certificateData.issuedAt * 1000).toLocaleDateString('en-US', { dateStyle: 'long' });
     return (
       <ActionCard
         number={3}
