@@ -49,6 +49,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
     )}
   >
     <nav className="mobile-unit-header__nav flex w-full flex-row items-center justify-between">
+      {/* Left side - course info */}
       <button
         type="button"
         className="mobile-unit-header__course-container flex flex-1 cursor-pointer flex-row items-center gap-2 rounded border-none bg-transparent p-0 outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
@@ -65,6 +66,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
           </div>
         </div>
       </button>
+      {/* Right side - navigation arrows */}
       <div className="mobile-unit-header__navigation flex h-8 w-16 flex-row items-center p-0">
         <button
           type="button"
