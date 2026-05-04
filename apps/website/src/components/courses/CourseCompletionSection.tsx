@@ -48,7 +48,7 @@ const FEATURE_CARDS: FeatureCard[] = [
   {
     icon: PiCertificate,
     title: 'Earn a certificate',
-    description: 'Earn shareable certificate as your professional credential.',
+    description: 'Earn a shareable certificate as your professional credential.',
   },
 ];
 
