@@ -1,6 +1,6 @@
 # CLAUDE.md — apps/website
 
-Website-specific rules for LLM assistants. Read the root `CLAUDE.md` first (coding standards, PR conventions, database workflow, design tokens). For detailed patterns and examples, read `DEVELOPMENT_HANDBOOK.md` (especially §4.1 Frontend Standards).
+Website-specific rules for LLM assistants. Read the root `CLAUDE.md` first (coding standards, PR conventions, database workflow, design tokens). For detailed patterns and examples, read [`DEVELOPMENT_HANDBOOK.md` — Frontend Standards](../../DEVELOPMENT_HANDBOOK.md#41-frontend-standards).
 
 ## Index
 
@@ -28,7 +28,7 @@ Never tell the user a change is "deployed" or "live" after merging. Always speci
 
 ## Component architecture guardrails
 
-These are patterns LLMs commonly get wrong in this codebase. See `DEVELOPMENT_HANDBOOK.md` §4.1 for full component standards.
+These are patterns LLMs commonly get wrong in this codebase. See [`DEVELOPMENT_HANDBOOK.md` — Frontend Standards](../../DEVELOPMENT_HANDBOOK.md#41-frontend-standards) for full component standards.
 
 **Self-contained components**: Components determine their own state. Don't pass props the child could derive itself.
 
@@ -125,7 +125,7 @@ When translating Figma designs: use Tailwind (not inline styles), prefer flexbox
 
 ### Images
 
-Convert to WebP, target under 200kB. For hero/banner images above the fold, add `{...{ fetchpriority: 'high' }}`. See `DEVELOPMENT_HANDBOOK.md` §4.1 → "Handling Image Assets" for ImageMagick commands and sizing rules.
+Convert to WebP, target under 200kB. For hero/banner images above the fold, add `{...{ fetchpriority: 'high' }}`. See [`DEVELOPMENT_HANDBOOK.md` — Handling Image Assets](../../DEVELOPMENT_HANDBOOK.md#handling-image-assets) for ImageMagick commands and sizing rules.
 
 ---
 
@@ -137,9 +137,9 @@ Write comments only when the *why* is non-obvious. Don't add "NEW:" or "UPDATED:
 
 ## Working with data
 
-- **tRPC**: All new backend endpoints use tRPC routers in `src/server/routers/`. Don't add `pages/api/*` routes unless tRPC genuinely won't fit. See existing routers (e.g., `grants.ts`) for the pattern. Detailed examples in `DEVELOPMENT_HANDBOOK.md` §4.1-4.2.
-- **Database / schema changes**: Two-PR workflow — schema change first, consumer code second. Mixing them in one PR breaks staging. Full process in root `CLAUDE.md` → "Database / schema changes", details in `DEVELOPMENT_HANDBOOK.md` §4.3.
-- **Testing**: Tests use vitest. Backend router tests use PGlite via `setupTestDb()` from `src/__tests__/dbTestUtils.tsx`. Key utilities: `testDb` for inserting test data, `createCaller()` for server-side tRPC calls, `testAuthContextLoggedIn`/`testAuthContextLoggedOut` for auth fixtures. See `DEVELOPMENT_HANDBOOK.md` §4.2 for the full API. Tests require `.env.local` with at least `AIRTABLE_PERSONAL_ACCESS_TOKEN` — if you don't have credentials, say so in the PR body.
+- **tRPC**: All new backend endpoints use tRPC routers in `src/server/routers/`. Don't add `pages/api/*` routes unless tRPC genuinely won't fit. See existing routers (e.g., `grants.ts`) for the pattern. Detailed examples in [`DEVELOPMENT_HANDBOOK.md` — Frontend](../../DEVELOPMENT_HANDBOOK.md#41-frontend-standards) and [Backend Standards](../../DEVELOPMENT_HANDBOOK.md#42-backend-standards).
+- **Database / schema changes**: Two-PR workflow — schema change first, consumer code second. Mixing them in one PR breaks staging. Full process in root `CLAUDE.md` → "Database / schema changes", details in [`DEVELOPMENT_HANDBOOK.md` — Database Guidelines](../../DEVELOPMENT_HANDBOOK.md#43-database-guidelines).
+- **Testing**: Tests use vitest. Backend router tests use PGlite via `setupTestDb()` from `src/__tests__/dbTestUtils.tsx`. Key utilities: `testDb` for inserting test data, `createCaller()` for server-side tRPC calls, `testAuthContextLoggedIn`/`testAuthContextLoggedOut` for auth fixtures. See [`DEVELOPMENT_HANDBOOK.md` — Backend Standards](../../DEVELOPMENT_HANDBOOK.md#42-backend-standards) for the full API. Tests require `.env.local` with at least `AIRTABLE_PERSONAL_ACCESS_TOKEN` — if you don't have credentials, say so in the PR body.
 
 ---
 

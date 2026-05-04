@@ -45,7 +45,7 @@ We're fans of [boring technology](https://boringtechnology.club/) — don't intr
   3. Move the old column to `deprecatedColumns`. If it used `.notNull()`, you must remove that constraint first — but you can't do that until no code depends on it (removing `.notNull()` changes the type to `T | null`, breaking any code that assumes non-null). Merge and deploy to production.
   4. Delete the old column from `deprecatedColumns`.
 
-Mixing schema additions and consumer code in one PR breaks staging because the table hasn't been materialised yet. Full rules in `DEVELOPMENT_HANDBOOK.md` §4.3.
+Mixing schema additions and consumer code in one PR breaks staging because the table hasn't been materialised yet. Full rules in [`DEVELOPMENT_HANDBOOK.md` — Database Guidelines](./DEVELOPMENT_HANDBOOK.md#43-database-guidelines).
 
 ## Before opening a PR
 
@@ -80,6 +80,7 @@ Mixing schema additions and consumer code in one PR breaks staging because the t
 - `apps/course-demos` — interactive demos embedded in courses
 - `apps/login` — custom Keycloak build
 - `apps/website-proxy` — nginx routing for bluedot.org traffic
+- `apps/pg-sync-service` — syncs Airtable → Postgres
 - `apps/infra` — Pulumi K8s deploy
 - `apps/storybook` — design system docs (storybook.k8s.bluedot.org)
 - `libraries/ui` — shared React components (`@bluedot/ui`)
