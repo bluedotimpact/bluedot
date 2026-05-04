@@ -15,7 +15,7 @@ import { COURSE_CONFIG, FOAI_COURSE_ID } from '../../lib/constants';
 import { getCourseCtaColors } from '../../lib/courseCtaColors';
 import { ROUTES } from '../../lib/routes';
 import { getActionPlanUrl } from '../../lib/utils';
-import type { CertificateStatus } from '../../server/routers/certificates';
+import type { CertificateData } from '../../server/routers/certificates';
 import { getLoginUrl } from '../../utils/getLoginUrl';
 import { trpc } from '../../utils/trpc';
 import { CertificateCard } from '../certificate/CertificateCard';
@@ -24,7 +24,7 @@ import { CourseIcon } from './CourseIcon';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
 
-export const CERTIFICATE_STATUS_DESCRIPTIONS: Record<CertificateStatus, string> = {
+export const CERTIFICATE_STATUS_DESCRIPTIONS: Record<CertificateData['status'], string> = {
   'action-plan-pending':
     'To receive your certificate, you need to submit an action plan/project and can\'t have missed more than one discussion.',
   'attendance-ineligible':
