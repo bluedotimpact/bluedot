@@ -32,7 +32,7 @@ exports[`PartnerSection > renders correctly 1`] = `
             >
               <img
                 alt="Entrepreneur First"
-                class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
+                class="object-contain max-w-full max-h-14 transition-opacity duration-200 group-hover:opacity-80"
                 src="/images/agi-strategy/ef.svg"
               />
             </a>
@@ -60,7 +60,7 @@ exports[`PartnerSection > renders correctly 1`] = `
             >
               <img
                 alt="Institute for Progress"
-                class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
+                class="object-contain max-w-full max-h-14 transition-opacity duration-200 group-hover:opacity-80"
                 src="/images/agi-strategy/ifp.svg"
               />
             </a>
@@ -88,7 +88,7 @@ exports[`PartnerSection > renders correctly 1`] = `
             >
               <img
                 alt="50 Years"
-                class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
+                class="object-contain max-w-full max-h-14 transition-opacity duration-200 group-hover:opacity-80"
                 src="/images/agi-strategy/fifty-years.svg"
               />
             </a>
@@ -122,7 +122,7 @@ exports[`PartnerSection > renders correctly 1`] = `
             >
               <img
                 alt="Entrepreneur First"
-                class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
+                class="object-contain max-w-full max-h-14 transition-opacity duration-200 group-hover:opacity-80"
                 src="/images/agi-strategy/ef.svg"
               />
             </a>
@@ -151,7 +151,7 @@ exports[`PartnerSection > renders correctly 1`] = `
             >
               <img
                 alt="Institute for Progress"
-                class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
+                class="object-contain max-w-full max-h-14 transition-opacity duration-200 group-hover:opacity-80"
                 src="/images/agi-strategy/ifp.svg"
               />
             </a>
@@ -180,7 +180,7 @@ exports[`PartnerSection > renders correctly 1`] = `
             >
               <img
                 alt="50 Years"
-                class="object-contain max-w-full max-h-[56px] transition-opacity duration-200 group-hover:opacity-80"
+                class="object-contain max-w-full max-h-14 transition-opacity duration-200 group-hover:opacity-80"
                 src="/images/agi-strategy/fifty-years.svg"
               />
             </a>
@@ -214,7 +214,7 @@ exports[`PartnerSection > renders correctly 1`] = `
         >
           <img
             alt="Entrepreneur First"
-            class="object-contain max-w-full max-h-[64px] transition-opacity duration-200 group-hover:opacity-80"
+            class="object-contain max-w-full max-h-16 transition-opacity duration-200 group-hover:opacity-80"
             src="/images/agi-strategy/ef.svg"
           />
         </a>
@@ -239,7 +239,7 @@ exports[`PartnerSection > renders correctly 1`] = `
         >
           <img
             alt="Institute for Progress"
-            class="object-contain max-w-full max-h-[64px] transition-opacity duration-200 group-hover:opacity-80"
+            class="object-contain max-w-full max-h-16 transition-opacity duration-200 group-hover:opacity-80"
             src="/images/agi-strategy/ifp.svg"
           />
         </a>
@@ -264,7 +264,7 @@ exports[`PartnerSection > renders correctly 1`] = `
         >
           <img
             alt="50 Years"
-            class="object-contain max-w-full max-h-[64px] transition-opacity duration-200 group-hover:opacity-80"
+            class="object-contain max-w-full max-h-16 transition-opacity duration-200 group-hover:opacity-80"
             src="/images/agi-strategy/fifty-years.svg"
           />
         </a>

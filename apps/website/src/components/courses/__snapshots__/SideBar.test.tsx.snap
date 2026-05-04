@@ -9,7 +9,7 @@ exports[`SideBar > renders default as expected 1`] = `
       class="p-6 flex flex-col gap-5"
     >
       <div
-        class="flex flex-row items-center gap-[16px]"
+        class="flex flex-row items-center gap-4"
       >
         <svg
           fill="none"
@@ -62,7 +62,7 @@ exports[`SideBar > renders default as expected 1`] = `
           open=""
         >
           <summary
-            class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
+            class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
           >
             <p
               class="font-semibold text-size-xs leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
@@ -87,10 +87,10 @@ exports[`SideBar > renders default as expected 1`] = `
             </svg>
           </summary>
           <div
-            class="flex flex-col items-start px-0 pb-[16px] gap-[4px]"
+            class="flex flex-col items-start px-0 pb-4 gap-1"
           >
             <button
-              class="flex flex-row items-center p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] text-left transition-colors bg-[rgba(42,45,52,0.05)] rounded-[10px]"
+              class="flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors bg-[rgba(42,45,52,0.05)] rounded-lg"
               type="button"
             >
               <svg
@@ -117,7 +117,7 @@ exports[`SideBar > renders default as expected 1`] = `
                 class="flex flex-col items-start p-0 flex-1"
               >
                 <div
-                  class="flex flex-col items-start gap-[6px]"
+                  class="flex flex-col items-start gap-1.5"
                 >
                   <p
                     class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
@@ -140,7 +140,7 @@ exports[`SideBar > renders default as expected 1`] = `
           class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden scroll-mb-5"
         >
           <summary
-            class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
+            class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
           >
             <p
               class="font-semibold text-size-xs leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
@@ -165,10 +165,10 @@ exports[`SideBar > renders default as expected 1`] = `
             </svg>
           </summary>
           <div
-            class="flex flex-col items-start px-0 pb-[16px] gap-[4px]"
+            class="flex flex-col items-start px-0 pb-4 gap-1"
           >
             <a
-              class="bluedot-a not-prose flex flex-row items-center p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px]"
+              class="bluedot-a not-prose flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg"
               href="/courses/test-course/2/1"
               tabindex="0"
             >
@@ -190,7 +190,7 @@ exports[`SideBar > renders default as expected 1`] = `
                 class="flex flex-col items-start p-0 flex-1"
               >
                 <div
-                  class="flex flex-col items-start gap-[6px]"
+                  class="flex flex-col items-start gap-1.5"
                 >
                   <p
                     class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
@@ -213,7 +213,7 @@ exports[`SideBar > renders default as expected 1`] = `
           class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden scroll-mb-5"
         >
           <summary
-            class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
+            class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
           >
             <p
               class="font-semibold text-size-xs leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
@@ -238,10 +238,10 @@ exports[`SideBar > renders default as expected 1`] = `
             </svg>
           </summary>
           <div
-            class="flex flex-col items-start px-0 pb-[16px] gap-[4px]"
+            class="flex flex-col items-start px-0 pb-4 gap-1"
           >
             <a
-              class="bluedot-a not-prose flex flex-row items-center p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px]"
+              class="bluedot-a not-prose flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg"
               href="/courses/test-course/3/1"
               tabindex="0"
             >
@@ -263,7 +263,7 @@ exports[`SideBar > renders default as expected 1`] = `
                 class="flex flex-col items-start p-0 flex-1"
               >
                 <div
-                  class="flex flex-col items-start gap-[6px]"
+                  class="flex flex-col items-start gap-1.5"
                 >
                   <p
                     class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
@@ -286,7 +286,7 @@ exports[`SideBar > renders default as expected 1`] = `
           class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden scroll-mb-5"
         >
           <summary
-            class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
+            class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
           >
             <p
               class="font-semibold text-size-xs leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
@@ -311,10 +311,10 @@ exports[`SideBar > renders default as expected 1`] = `
             </svg>
           </summary>
           <div
-            class="flex flex-col items-start px-0 pb-[16px] gap-[4px]"
+            class="flex flex-col items-start px-0 pb-4 gap-1"
           >
             <a
-              class="bluedot-a not-prose flex flex-row items-center p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px]"
+              class="bluedot-a not-prose flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg"
               href="/courses/test-course/4/1"
               tabindex="0"
             >
@@ -336,7 +336,7 @@ exports[`SideBar > renders default as expected 1`] = `
                 class="flex flex-col items-start p-0 flex-1"
               >
                 <div
-                  class="flex flex-col items-start gap-[6px]"
+                  class="flex flex-col items-start gap-1.5"
                 >
                   <p
                     class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
@@ -359,7 +359,7 @@ exports[`SideBar > renders default as expected 1`] = `
           class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden scroll-mb-5"
         >
           <summary
-            class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
+            class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
           >
             <p
               class="font-semibold text-size-xs leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
@@ -384,10 +384,10 @@ exports[`SideBar > renders default as expected 1`] = `
             </svg>
           </summary>
           <div
-            class="flex flex-col items-start px-0 pb-[16px] gap-[4px]"
+            class="flex flex-col items-start px-0 pb-4 gap-1"
           >
             <a
-              class="bluedot-a not-prose flex flex-row items-center p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px]"
+              class="bluedot-a not-prose flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg"
               href="/courses/test-course/5/1"
               tabindex="0"
             >
@@ -409,7 +409,7 @@ exports[`SideBar > renders default as expected 1`] = `
                 class="flex flex-col items-start p-0 flex-1"
               >
                 <div
-                  class="flex flex-col items-start gap-[6px]"
+                  class="flex flex-col items-start gap-1.5"
                 >
                   <p
                     class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
