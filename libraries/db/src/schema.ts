@@ -312,6 +312,14 @@ export const groupTable = pgAirtable('group', {
       pgColumn: text().array(),
       airtableId: 'fld7P1XI03ToIqthj',
     },
+    groupNumber: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fld5aHNaROfa7SXMC',
+    },
+    slackChannelId: {
+      pgColumn: text(),
+      airtableId: 'fldDE9zdLglu33Z1V',
+    },
   },
 });
 
