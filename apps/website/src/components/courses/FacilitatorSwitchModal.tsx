@@ -200,7 +200,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           <div className="bg-bluedot-normal/10 flex rounded-full p-4">
             <CheckIcon className="text-bluedot-normal" />
           </div>
-          <div className="flex max-w-[512px] flex-col items-center gap-4">
+          <div className="flex max-w-modal-sm flex-col items-center gap-4">
             <P className="text-center text-bluedot-navy/80">
               We've updated your group's {isSingleUnitChange ? 'discussion' : 'discussions'}.
             </P>
@@ -224,7 +224,7 @@ const FacilitatorSwitchModal: React.FC<FacilitatorSwitchModalProps> = ({
           <div className="bg-bluedot-normal/10 flex rounded-full p-4">
             <CheckIcon className="text-bluedot-normal" />
           </div>
-          <div className="flex max-w-[512px] flex-col items-center gap-4">
+          <div className="flex max-w-modal-sm flex-col items-center gap-4">
             <P className="text-center text-bluedot-navy/80">
               You won't be facilitating the group discussion for {selectedDiscussion?.label} for the group{' '}
               {groupOptions.find((g) => g.value === selectedGroupId)?.label}.

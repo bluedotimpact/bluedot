@@ -54,7 +54,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
     : null;
 
   return (
-    <div className="w-full max-w-[800px] bg-white rounded-lg border border-slate-200 overflow-hidden shadow-[0_8px_60px_rgba(0,0,0,0.06)]">
+    <div className="w-full max-w-text-narrow bg-white rounded-lg border border-slate-200 overflow-hidden shadow-[0_8px_60px_rgba(0,0,0,0.06)]">
       <div className="relative">
         {iconPath && (
           <div className="absolute -left-[338px] md:-left-[115px] top-0 w-[1043px] h-[450px] overflow-hidden">

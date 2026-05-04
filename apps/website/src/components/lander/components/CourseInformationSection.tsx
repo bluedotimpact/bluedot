@@ -49,12 +49,12 @@ const CourseInformationSection = ({
     <section id={id} className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24 flex flex-col items-center gap-8 md:gap-10">
         {/* Section Title */}
-        <H2 className="w-full bd-md:max-w-[840px] text-size-xl text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
+        <H2 className="w-full bd-md:max-w-text text-size-xl text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
           {title}
         </H2>
 
         {/* White Card Container — capped to the same 840px column as ScheduleListSection. */}
-        <div className="w-full bd-md:max-w-[840px] bg-white border border-bluedot-navy/10 rounded-xl py-8 flex flex-col items-center gap-6">
+        <div className="w-full bd-md:max-w-text bg-white border border-bluedot-navy/10 rounded-xl py-8 flex flex-col items-center gap-6">
           {/* Course Details List */}
           <div className="flex flex-col w-full">
             {details.map((detail, index) => (
@@ -63,7 +63,7 @@ const CourseInformationSection = ({
                   /* Schedule section  */
                   <div className="flex flex-col bd-md:flex-row px-5 bd-md:px-8 py-0 gap-6 md:gap-8 items-start w-full">
                     {/* Schedule Label (left column, no icon) */}
-                    <div className="bd-md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0">
+                    <div className="bd-md:w-[120px] lg:w-[144px] xl:w-40 shrink-0">
                       <P className="text-size-sm font-semibold leading-[125%] text-bluedot-navy">
                         {detail.label}
                       </P>
@@ -96,7 +96,7 @@ const CourseInformationSection = ({
                 ) : (
                   <div className="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8">
                     {/* Label */}
-                    <div className="md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0">
+                    <div className="md:w-[120px] lg:w-[144px] xl:w-40 shrink-0">
                       <P className="text-size-sm font-semibold leading-[125%] text-bluedot-navy">
                         {detail.label}
                       </P>

@@ -294,7 +294,7 @@ const BreadcrumbMenu = ({ courses, projects }: BreadcrumbMenuProps) => {
                 {course.title}
               </span>
               {isNew && (
-                <span className="bg-bluedot-lightest text-bluedot-normal text-size-xxs font-bold leading-[24px] px-[6px] rounded-[5px]">
+                <span className="bg-bluedot-lightest text-bluedot-normal text-size-xxs font-bold leading-[24px] px-1.5 rounded-md">
                   NEW
                 </span>
               )}
@@ -407,7 +407,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
 
         {/* No Upcoming Rounds */}
         {!roundsLoading && !isSelfPaced && !showRounds && (
-          <div className="flex items-center min-h-[48px] border-l-4 border-bluedot-navy/20 pl-5">
+          <div className="flex items-center min-h-12 border-l-4 border-bluedot-navy/20 pl-5">
             <p className="text-size-sm leading-[1.6] font-normal text-bluedot-navy/50">
               No upcoming rounds.{' '}
               <Link href={`/courses/${course.slug}`} className="text-bluedot-normal font-medium hover:underline cursor-pointer">
@@ -433,7 +433,7 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
       <div className="flex flex-col bd-md:hidden">
         {/* Course Icon */}
         <div className="mb-6" aria-hidden="true">
-          <CourseIcon courseSlug={course.slug} size="xlarge" className="rounded-[12px]" />
+          <CourseIcon courseSlug={course.slug} size="xlarge" className="rounded-xl" />
         </div>
 
         <Link
@@ -451,7 +451,7 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
 
       {/* Desktop Layout */}
       <div className="hidden bd-md:flex items-start gap-6">
-        <CourseIcon courseSlug={course.slug} size="xlarge" className="rounded-[12px]" />
+        <CourseIcon courseSlug={course.slug} size="xlarge" className="rounded-xl" />
 
         <Link
           href={`/courses/${course.slug}`}

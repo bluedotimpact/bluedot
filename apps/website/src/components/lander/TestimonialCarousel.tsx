@@ -233,7 +233,7 @@ const TestimonialCarousel = ({
 
           <div
             ref={scrollContainerRef}
-            className="grid grid-flow-col auto-rows-fr overflow-x-auto scrollbar-none px-5 bd-md:px-8 lg:px-12 xl:pl-[max(64px,calc(50vw-640px))] xl:pr-16 2xl:pl-[max(80px,calc(50vw-640px))] 2xl:pr-20 gap-[20px] bd-md:gap-[24px] xl:gap-[32px]"
+            className="grid grid-flow-col auto-rows-fr overflow-x-auto scrollbar-none px-5 bd-md:px-8 lg:px-12 xl:pl-[max(64px,calc(50vw-640px))] xl:pr-16 2xl:pl-[max(80px,calc(50vw-640px))] 2xl:pr-20 gap-5 bd-md:gap-6 xl:gap-8"
             style={{
               scrollSnapType: 'none',
               scrollBehavior: 'auto',
@@ -260,7 +260,7 @@ const TestimonialCarousel = ({
       ) : (
         /* Too few to fill the viewport: render once, left-aligned, equal heights. */
         <div className="mx-auto max-w-screen-xl">
-          <div className="grid auto-rows-fr gap-[20px] bd-md:gap-[24px] xl:gap-[32px] grid-cols-[repeat(auto-fit,276px)] bd-md:grid-cols-[repeat(auto-fit,288px)] xl:grid-cols-[repeat(auto-fit,320px)]">
+          <div className="grid auto-rows-fr gap-5 bd-md:gap-6 xl:gap-8 grid-cols-[repeat(auto-fit,276px)] bd-md:grid-cols-[repeat(auto-fit,288px)] xl:grid-cols-[repeat(auto-fit,320px)]">
             {testimonials.map((testimonial, index) => (
               <div key={`${testimonial.name}-${index}`} className="h-full">
                 <TestimonialMemberCard testimonial={testimonial} hideQuote={hideQuotes} />

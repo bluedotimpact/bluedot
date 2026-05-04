@@ -48,7 +48,7 @@ const PersonasSection = ({
         <H2 className="text-size-xl font-semibold leading-[125%] text-bluedot-navy text-center mb-12 md:mb-16 tracking-[-0.01em]">
           {title}
         </H2>
-        <div className="max-w-[800px] mx-auto flex flex-col gap-4">
+        <div className="max-w-text-narrow mx-auto flex flex-col gap-4">
           {personas.map((persona, index) => {
             const IconComponent = persona.icon;
             const isExpanded = expandedIndex === index;

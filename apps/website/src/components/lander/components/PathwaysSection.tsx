@@ -37,7 +37,7 @@ const PathwaysSection = ({
   return (
     <section id={id} className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24">
-        <div className="max-w-[1100px] mx-auto">
+        <div className="max-w-section-wide mx-auto">
           <H2 className={`text-size-xl font-semibold leading-[125%] text-bluedot-navy text-center tracking-[-0.01em] ${intro ? 'mb-4' : 'mb-12 md:mb-16'}`}>
             {title}
           </H2>
