@@ -1,6 +1,6 @@
 import type { Unit } from '@bluedot/db';
 import {
-  A, CTALinkOrButton, HoverTooltip, P,
+  A, CTALinkOrButton, P,
 } from '@bluedot/ui';
 import clsx from 'clsx';
 import type React from 'react';
@@ -8,7 +8,6 @@ import { useEffect, useRef, useState } from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
 import type { CertificateStatus } from '../../server/routers/certificates';
-import { CERTIFICATE_STATUS_DESCRIPTIONS } from './Congratulations';
 import type { ChunkProgress, CourseProgress } from '../../server/routers/courses';
 import { ChunkIcon } from '../icons';
 import { CourseIcon } from './CourseIcon';
@@ -83,7 +82,6 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
           {chunks.map((chunk, index) => {
             const isActive = isCurrentUnit && currentChunkIndex === index;
             const chunkUrl = `/courses/${courseSlug}/${unit.unitNumber}/${index + 1}`;
-            const isLastChunkOfFinalUnit = isFinalUnit && index === chunks.length - 1;
 
             // For current unit, use button with onChunkSelect
             // For non-current unit, use link to navigate
@@ -103,7 +101,6 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                     <div className="flex flex-col items-start gap-[6px]">
                       <p className="font-normal text-size-xs leading-[150%] text-bluedot-navy">
                         {chunk.chunkTitle}
-                        <CertificateIndicator isLastChunkOfFinalUnit={isLastChunkOfFinalUnit} certificateStatus={certificateStatus} />
                       </p>
                     </div>
                     {chunk.estimatedTime && (
@@ -142,7 +139,6 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                   <div className="flex flex-col items-start gap-[6px]">
                     <p className="font-normal text-size-xs leading-[150%] text-bluedot-navy">
                       {chunk.chunkTitle}
-                      <CertificateIndicator isLastChunkOfFinalUnit={isLastChunkOfFinalUnit} certificateStatus={certificateStatus} />
                     </p>
                   </div>
                   {chunk.estimatedTime && (
@@ -190,32 +186,6 @@ const ApplyCTA = ({ applicationDeadline, applicationUrl, hasApplied }: ApplyCTAP
     >
       {`Apply by ${applicationDeadline}`}
     </CTALinkOrButton>
-  );
-};
-
-const CertificateIndicator = ({
-  isLastChunkOfFinalUnit,
-  certificateStatus,
-}: {
-  isLastChunkOfFinalUnit: boolean;
-  certificateStatus: CertificateStatus | undefined;
-}) => {
-  if (!isLastChunkOfFinalUnit || !certificateStatus) return null;
-
-  if (certificateStatus === 'has-certificate') {
-    return (
-      <span className="ml-1.5" aria-label="Certificate earned">
-        🎉
-      </span>
-    );
-  }
-
-  return (
-    <span className="ml-1.5 inline-flex" aria-label={CERTIFICATE_STATUS_DESCRIPTIONS[certificateStatus]}>
-      <HoverTooltip content={CERTIFICATE_STATUS_DESCRIPTIONS[certificateStatus]}>
-        <span>🔒</span>
-      </HoverTooltip>
-    </span>
   );
 };
 
