@@ -180,7 +180,7 @@ const HeroSection = ({
         <div className="relative">
           <div className="max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-spacing-x">
             <div className="py-8 sm:pt-8 lg:py-0 lg:w-1/2 lg:min-h-[600px] lg:flex lg:items-center">
-              <div className="w-full lg:max-w-modal-sm space-y-8">
+              <div className="w-full lg:max-w-narrow space-y-8">
 
                 {/* Text Content */}
                 <div className="space-y-5 sm:space-y-4">
@@ -241,7 +241,7 @@ const HeroSection = ({
         <div className="relative">
           <div className="max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-spacing-x">
             <div className="py-8 sm:pt-8 lg:py-0 lg:w-1/2 lg:min-h-[600px] lg:flex lg:items-center">
-              <div className="w-full lg:max-w-modal-sm space-y-8">
+              <div className="w-full lg:max-w-narrow space-y-8">
 
                 {/* Text Content */}
                 <div className="space-y-5 sm:space-y-4">

@@ -71,12 +71,12 @@
     --spacing-space-between: var(--space-between);
 
     /* Section / content max-widths used 3+ times across the site.
-     * Generates max-w-section-wide / max-w-text / max-w-text-narrow / max-w-modal / max-w-modal-sm. */
+     * Generates max-w-section-wide / max-w-text / max-w-text-narrow / max-w-modal / max-w-narrow. */
     --container-section-wide: 1100px;
     --container-text: 840px;
     --container-text-narrow: 800px;
     --container-modal: 600px;
-    --container-modal-sm: 512px;
+    --container-narrow: 512px;
 
     /* BlueDot-specific named breakpoint. Tailwind defaults (sm 640 / md 768 / lg 1024 / xl 1280 / 2xl 1536) stay available.
      * 680 gets a bd- alias because it is bespoke; 1024 / 1280 already match lg / xl so use those directly.

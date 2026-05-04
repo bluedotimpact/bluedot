@@ -124,7 +124,7 @@ const DropoutModal: React.FC<DropoutModalProps> = ({
         <div className="bg-bluedot-normal/10 flex rounded-full p-4">
           <CheckIcon className="text-bluedot-normal" />
         </div>
-        <div className="flex max-w-modal-sm flex-col items-center gap-4">
+        <div className="flex max-w-narrow flex-col items-center gap-4">
           <P className="text-bluedot-navy/80 text-center">{message}</P>
         </div>
         <CTALinkOrButton className="bg-bluedot-normal w-full" onClick={handleCloseWithInvalidation}>
