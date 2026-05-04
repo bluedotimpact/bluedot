@@ -67,18 +67,16 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
         label: 'Prerequisites',
         description: (
           <>
-            <a href="/courses/agi-strategy" className="font-medium underline hover:text-bluedot-normal">AGI Strategy course</a> (or equivalent background in AI risks)
-            <br />
-            <span className="font-medium">High-level understanding of AI</span>
-            <br />
-            <span className="font-medium">High agency</span> - bias toward action, not just learning
-            <br />
-            <br />
-            <span className="text-bluedot-navy/60">We're selective. The course has an acceptance rate of roughly 20-25%.</span>
-            <br />
-            <span className="text-bluedot-navy/60">We're looking for people who are analytical, motivated, and genuinely considering making this their life's work. If you're here to add a credential, this isn't for you.</span>
-            <br />
-            <span className="text-bluedot-navy/60">And to be clear: this is not a corporate AI governance or AI ethics course.</span>
+            <ul className="list-none">
+              <li><a href="/courses/agi-strategy" className="font-medium underline hover:text-bluedot-normal">AGI Strategy course</a> (or equivalent background in AI risks)</li>
+              <li><span className="font-medium">High-level understanding of AI</span></li>
+              <li><span className="font-medium">High agency</span> - bias toward action, not just learning</li>
+            </ul>
+            <ul className="list-none mt-2 text-bluedot-navy/60">
+              <li>We're selective. The course has an acceptance rate of roughly 20-25%.</li>
+              <li>We're looking for people who are analytical, motivated, and genuinely considering making this their life's work. If you're here to add a credential, this isn't for you.</li>
+              <li>And to be clear: this is not a corporate AI governance or AI ethics course.</li>
+            </ul>
           </>
         ),
       },
@@ -196,12 +194,11 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
         description: (
           <>
             You will spend <b>at least 20 hours</b> over 2 weeks. You will:
-            <br />
-            • Orient yourself to the existing literature about your chosen area
-            <br />
-            • Talk to people who are already working on the problem
-            <br />
-            • Quickly test what it means to contribute in this area
+            <ul className="list-disc pl-4 mt-1">
+              <li>Orient yourself to the existing literature about your chosen area</li>
+              <li>Talk to people who are already working on the problem</li>
+              <li>Quickly test what it means to contribute in this area</li>
+            </ul>
           </>
         ),
       },
@@ -261,10 +258,10 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
         description: (
           <>
             You will spend <b>30 hours</b> working on your project. Each week you will:
-            <br />
-            • Provide regular updates on your progress
-            <br />
-            • Join ~8 peers and an AI safety expert in a 1-hour check-in to discuss your progress and get feedback
+            <ul className="list-disc pl-4 mt-1">
+              <li>Provide regular updates on your progress</li>
+              <li>Join ~8 peers and an AI safety expert in a 1-hour check-in to discuss your progress and get feedback</li>
+            </ul>
           </>
         ),
       },
