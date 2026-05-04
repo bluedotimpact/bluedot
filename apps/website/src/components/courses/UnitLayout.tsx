@@ -300,7 +300,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         role="status"
         aria-live="polite"
         aria-atomic="true"
-        className="absolute -left-[10000px] size-px overflow-hidden"
+        className="sr-only"
       >
         {navigationAnnouncement}
       </div>

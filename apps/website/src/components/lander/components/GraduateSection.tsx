@@ -19,6 +19,10 @@ const logos = [
 const GraduateSection = () => {
   return (
     <section className="w-full h-[106px] bd-md:h-[91px] bg-white flex items-center">
+      {/* At 2xl viewports the alumni bar right-aligns with a 272px gap on the left so
+        * the logo wall visually extends from a sibling element above. Bespoke layout —
+        * not a candidate for the standard max-w-max-width container. Revisit with Cyrus
+        * if the parent composition changes. */}
       <div className="w-full flex items-center justify-center 2xl:justify-end p-5 sm:px-6 md:px-12 2xl:pl-[272px] 2xl:pr-12">
         {/* Container with text and logos */}
         <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-5 w-full max-w-[1200px] 2xl:max-w-none">

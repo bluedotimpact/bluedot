@@ -60,7 +60,12 @@ const HeroSection = ({
       style={hasGradient ? { background: gradient } : undefined}
     >
       {layoutType === 'constrained' && (
-        /* Constrained image layout: centered on mobile, pixel-perfect image sizing */
+        /* Constrained image layout: centered on mobile, pixel-perfect image sizing.
+         * Desktop variant uses an absolute-positioned image on the right (line 168) and
+         * reserves space for it via pr-[200px] + w-3/5 on the text column. The 80px left-pad
+         * locks alignment with the constrained image-grid below; min-h-[600px] gives the
+         * absolute image enough height to render. Bespoke split layout — magic numbers
+         * here are real design intent, not rot. Revisit with Cyrus if the image grid changes. */
         <div className="relative max-w-max-width mx-auto px-8 lg:pl-[80px] lg:pr-0">
           {/* Mobile/Tablet: Single column centered layout */}
           <div className="flex flex-col items-center gap-8 pt-[calc(var(--nav-height-mobile)+32px)] pb-8 bd-md:pt-[calc(var(--nav-height-mobile)+48px)] lg:hidden">
