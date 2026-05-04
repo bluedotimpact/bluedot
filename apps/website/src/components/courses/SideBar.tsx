@@ -7,7 +7,7 @@ import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
-import type { CertificateStatusData } from '../../server/routers/certificates';
+import type { CertificateData } from '../../server/routers/certificates';
 import type { ChunkProgress, CourseProgress } from '../../server/routers/courses';
 import { ChunkIcon } from '../icons';
 import { CourseIcon } from './CourseIcon';
@@ -16,7 +16,7 @@ import { SidebarCertificatePanel } from './SidebarCertificatePanel';
 type SideBarProps = {
   courseTitle: string;
   courseSlug: string;
-  certificateStatusData: CertificateStatusData | undefined;
+  certificateData: CertificateData | undefined;
   units: Unit[];
   currentUnitNumber: number;
   currentChunkIndex: number;
@@ -189,7 +189,7 @@ const ApplyCTA = ({ applicationDeadline, applicationUrl, hasApplied }: ApplyCTAP
 const SideBar: React.FC<SideBarProps> = ({
   courseTitle,
   courseSlug,
-  certificateStatusData,
+  certificateData,
   courseProgressData,
   className,
   units,
@@ -246,7 +246,7 @@ const SideBar: React.FC<SideBarProps> = ({
           <SidebarCertificatePanel
             courseTitle={courseTitle}
             courseSlug={courseSlug}
-            certificateStatusData={certificateStatusData}
+            certificateData={certificateData}
           />
         </div>
       </div>

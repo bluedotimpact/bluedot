@@ -7,7 +7,7 @@ import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
-import type { CertificateStatusData } from '../../server/routers/certificates';
+import type { CertificateData } from '../../server/routers/certificates';
 import type { ChunkProgress, CourseProgress } from '../../server/routers/courses';
 import { ChunkIcon } from '../icons';
 import { CourseIcon } from './CourseIcon';
@@ -17,7 +17,7 @@ import { SidebarCertificatePanel } from './SidebarCertificatePanel';
 type MobileCourseModalProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  certificateStatusData: CertificateStatusData | undefined;
+  certificateData: CertificateData | undefined;
   courseTitle: string;
   courseSlug: string;
   units: Unit[];
@@ -33,7 +33,7 @@ type MobileCourseModalProps = {
 export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
   isOpen,
   setIsOpen,
-  certificateStatusData,
+  certificateData,
   courseTitle,
   courseSlug,
   units,
@@ -130,7 +130,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
           <SidebarCertificatePanel
             courseTitle={courseTitle}
             courseSlug={courseSlug}
-            certificateStatusData={certificateStatusData}
+            certificateData={certificateData}
           />
         </div>
       </div>

@@ -55,7 +55,7 @@ export default function CongratulationsPage({
       courseTitle={courseTitle}
       units={units}
       allUnitChunks={allUnitChunks}
-      certificateStatusData={certificateData}
+      certificateData={certificateData}
       breadcrumb="Congratulations"
     >
       <CourseCompletionSection

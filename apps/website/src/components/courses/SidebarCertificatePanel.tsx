@@ -4,9 +4,9 @@ import {
 import { useState } from 'react';
 import { FaArrowRight, FaLock } from 'react-icons/fa6';
 import { COURSE_CONFIG } from '../../lib/constants';
-import type { CertificateStatusData } from '../../server/routers/certificates';
+import type { CertificateData } from '../../server/routers/certificates';
 
-export const isCongratulationsAccessible = (data: CertificateStatusData | undefined): boolean => {
+export const isCongratulationsAccessible = (data: CertificateData | undefined): boolean => {
   if (!data) return true;
   const { status } = data;
   if (
@@ -44,20 +44,20 @@ const CertificateRequirementsModal = ({ isOpen, onClose }: { isOpen: boolean; on
 export const SidebarCertificatePanel = ({
   courseTitle,
   courseSlug,
-  certificateStatusData,
+  certificateData,
   className,
 }: {
   courseTitle: string;
   courseSlug: string;
-  certificateStatusData?: CertificateStatusData;
+  certificateData?: CertificateData;
   className?: string;
 }) => {
   const [isRequirementsModalOpen, setIsRequirementsModalOpen] = useState(false);
   const accentColor = COURSE_CONFIG[courseSlug]?.accentColor ?? '#6064d4';
   const congratsUrl = `/courses/${courseSlug}/congratulations`;
   const label = `${courseTitle} Certificate`;
-  const status = certificateStatusData?.status;
-  const isAccessible = isCongratulationsAccessible(certificateStatusData);
+  const status = certificateData?.status;
+  const isAccessible = isCongratulationsAccessible(certificateData);
 
   if (isAccessible) {
     let subtitle = 'Join a facilitated cohort today';

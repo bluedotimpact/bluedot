@@ -6,7 +6,7 @@ import { type ReactNode, useEffect, useState } from 'react';
 import { FaBars, FaChevronDown, FaChevronRight } from 'react-icons/fa6';
 import { ROUTES } from '../../lib/routes';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
-import type { CertificateStatusData } from '../../server/routers/certificates';
+import type { CertificateData } from '../../server/routers/certificates';
 import type { CourseProgress } from '../../server/routers/courses';
 import { ArrowRightIcon } from '../icons';
 import { CourseIcon } from './CourseIcon';
@@ -112,7 +112,7 @@ export type CourseShellProps = {
   courseTitle: string;
   units: Unit[];
   allUnitChunks: Record<string, BasicChunk[]>;
-  certificateStatusData: CertificateStatusData | undefined;
+  certificateData: CertificateData | undefined;
   currentUnitNumber?: number;
   currentChunkIndex?: number;
   onChunkSelect?: (index: number) => void;
@@ -131,7 +131,7 @@ const CourseShell: React.FC<CourseShellProps> = ({
   courseTitle,
   units,
   allUnitChunks,
-  certificateStatusData,
+  certificateData,
   currentUnitNumber = 0,
   currentChunkIndex = 0,
   onChunkSelect = () => {},
@@ -231,7 +231,7 @@ const CourseShell: React.FC<CourseShellProps> = ({
           <SideBar
             courseTitle={courseTitle}
             courseSlug={courseSlug}
-            certificateStatusData={certificateStatusData}
+            certificateData={certificateData}
             className="hidden md:sticky md:top-(--nav-height-mobile) md:block md:h-[calc(100vh-var(--nav-height-mobile))] md:shrink-0 md:overflow-y-auto lg:top-(--nav-height-desktop) lg:h-[calc(100vh-var(--nav-height-desktop))]"
             units={units}
             currentUnitNumber={currentUnitNumber}
@@ -296,7 +296,7 @@ const CourseShell: React.FC<CourseShellProps> = ({
         <MobileCourseModal
           isOpen={isMobileCourseMenuOpen}
           setIsOpen={setIsMobileCourseMenuOpen}
-          certificateStatusData={certificateStatusData}
+          certificateData={certificateData}
           courseTitle={courseTitle}
           courseSlug={courseSlug}
           units={units}
