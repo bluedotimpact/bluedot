@@ -62,7 +62,7 @@ const PostPreviewPanel = ({
   courseUrl: string;
 }) => (
   <div className="flex h-full flex-col gap-4 border-t border-[#e5e9f2] bg-[#fbfbfd] p-5 md:border-t-0 md:border-l">
-    <p className="text-bluedot-navy/40 text-[11px] font-semibold tracking-[0.04em] uppercase">Post Preview</p>
+    <p className="text-bluedot-navy/40 text-size-xxs font-semibold tracking-[0.04em] uppercase">Post Preview</p>
     <div className="flex items-center gap-3">
       <div className="bg-bluedot-navy/10 size-8 shrink-0 rounded-full" />
       <div className="flex flex-col gap-1">
@@ -70,7 +70,7 @@ const PostPreviewPanel = ({
         <div className="bg-bluedot-navy/15 h-2.5 w-14 rounded-full" />
       </div>
     </div>
-    <p className="text-bluedot-navy line-clamp-3 text-[13px] leading-[1.5]">
+    <p className="text-bluedot-navy line-clamp-3 text-size-sm leading-[1.5]">
       {shareText} <span className="text-blue-600">{courseUrl}</span>
     </p>
     <img
@@ -126,7 +126,7 @@ const ShareCard = ({ title, description, actions, preview }: ShareCardProps) => 
   <div className="flex flex-col overflow-hidden rounded-[10px] border-[0.5px] border-bluedot-navy/25 bg-white md:min-h-[327px] md:flex-row">
     <div className="flex flex-col gap-[32px] p-6 md:w-1/2 md:px-[40px] md:py-[32px]">
       <div className="flex flex-col gap-3">
-        <h3 className="text-bluedot-navy text-[20px] leading-[1.4] font-semibold">{title}</h3>
+        <h3 className="text-bluedot-navy text-size-md leading-[1.4] font-semibold">{title}</h3>
         {description && (
           <P className="text-bluedot-navy text-size-sm leading-[1.6] tracking-[-0.032px]">{description}</P>
         )}
@@ -188,7 +188,8 @@ const CertificatePreviewCard = ({ courseSlug, courseTitle }: { courseSlug: strin
   return (
     <div className="flex w-full max-w-[640px] flex-col items-center gap-4 rounded-lg border border-slate-200 bg-white px-6 py-10 shadow-sm">
       <img src={badgeSrc} alt="" className="h-[160px] w-auto object-contain" />
-      <p className="text-[11px] font-medium tracking-[0.06em] text-[#62748E] uppercase">Professional Certification</p>
+      <p className="text-size-xxs font-medium tracking-[0.06em] text-[#62748E] uppercase">Professional Certification</p>
+      {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
       <p className="text-bluedot-navy text-center text-[28px] leading-tight font-semibold">{courseTitle}</p>
     </div>
   );
@@ -369,7 +370,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
       {/* Certificate hero section */}
       <div className="flex flex-col items-center gap-8 pt-12 pb-16">
         <LaurelWreath courseSlug={courseSlug} />
-        <H2 className="max-w-[720px] text-center text-[32px] leading-[1.3] font-bold tracking-[-0.015em]">
+        <H2 className="max-w-[720px] text-center text-size-xl font-bold tracking-[-0.015em]">
           Congratulations on finishing the {courseTitle} course!
         </H2>
         {courseId && <CertificateHero courseId={courseId} courseSlug={courseSlug} courseTitle={courseTitle} />}
@@ -385,6 +386,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
             <p className="text-size-sm font-semibold tracking-[0.04em] uppercase" style={{ color: courseColors.accent }}>
               Start making impact today
             </p>
+            {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
             <H2 className="text-[32px] leading-[1.3] font-bold tracking-[-0.015em] text-white">
               Help more people discover AI safety today
             </H2>
