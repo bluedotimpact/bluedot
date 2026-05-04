@@ -58,7 +58,7 @@ const FeatureCardItem = ({ card, accentColor }: { card: FeatureCard; accentColor
       <card.icon className="size-5" style={{ color: accentColor }} />
       <p className="text-size-sm font-semibold leading-[1.4] text-bluedot-navy">{card.title}</p>
     </div>
-    <P className="text-[15px] leading-[1.5] text-bluedot-navy/70">{card.description}</P>
+    <P className="text-size-sm leading-[1.5] text-bluedot-navy/70">{card.description}</P>
   </div>
 );
 
@@ -134,6 +134,7 @@ export default function CourseCompletionSection({
         <div className="flex flex-col items-center gap-8 pt-24 pb-4 text-center max-w-[640px] mx-auto">
           <SocialProof accentColor={accentColor} />
           <div className="flex flex-col gap-3">
+            {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
             <H2 className="font-bold text-[28px] md:text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy">
               Join the next {courseTitle} cohort
             </H2>
@@ -186,7 +187,7 @@ export default function CourseCompletionSection({
                       </P>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <P className="text-[15px] leading-[160%] text-bluedot-navy/80 font-normal">
+                      <P className="text-size-sm leading-[1.7] text-bluedot-navy/80 font-normal">
                         {detail.description}
                       </P>
                     </div>
