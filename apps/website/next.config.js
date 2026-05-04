@@ -19,6 +19,11 @@ module.exports = withDefaultBlueDotNextConfig({
         permanent: true,
       },
       {
+        source: '/projects',
+        destination: 'https://blog.bluedot.org/s/projects',
+        permanent: true,
+      },
+      {
         source: '/projects/:slug',
         destination: 'https://blog.bluedot.org/p/:slug',
         permanent: true,
