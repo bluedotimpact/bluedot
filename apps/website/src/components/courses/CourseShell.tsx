@@ -203,8 +203,10 @@ const CourseShell: React.FC<CourseShellProps> = ({
         )}
 
         <div className="md:min-w-0 md:flex-1">
+          {/* Breadcrumbs bar */}
           <div className="unit__breadcrumbs-wrapper border-bluedot-navy/20 bg-color-canvas z-10 hidden h-[48px] border-b-[0.5px] md:sticky md:top-(--nav-height-mobile) md:block lg:top-(--nav-height-desktop)">
             <div className="flex size-full flex-row items-center justify-between gap-2 px-6">
+              {/* Left section: Hide/Show Toggle */}
               <div className="flex items-center gap-[8px]">
                 <button
                   type="button"
@@ -218,6 +220,7 @@ const CourseShell: React.FC<CourseShellProps> = ({
                 <span className="h-[18px] w-px bg-[#6A6F7A] opacity-50" />
               </div>
 
+              {/* Breadcrumbs - left aligned after hide */}
               <nav className="flex min-h-[18px] min-w-0 flex-1 items-center gap-[8px]">
                 <A
                   href={ROUTES.courses.url}
@@ -238,6 +241,7 @@ const CourseShell: React.FC<CourseShellProps> = ({
                 </span>
               </nav>
 
+              {/* Right section: Navigation */}
               {navigationControls && (
                 <div className="flex min-h-[18px] items-center gap-[20px]">{navigationControls}</div>
               )}
