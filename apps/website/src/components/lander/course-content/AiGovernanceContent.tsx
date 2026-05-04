@@ -1,13 +1,9 @@
 import {
-  PiClockClockwise,
-  PiChats,
-  PiHandHeart,
-  PiCalendarDots,
   PiBank,
   PiHandshake,
-  PiGraduationCap,
   PiBriefcase,
   PiCode,
+  PiGraduationCap,
   PiRocketLaunch,
   PiScales,
   PiMapTrifold,
@@ -177,72 +173,6 @@ export const createAiGovernanceContent = (
     ],
   },
   courseOutcomesPlacement: 'beforeStructure',
-
-  courseInformation: {
-    title: 'How it works',
-    applicationUrl: applicationUrlWithUtm,
-    scheduleCtaText: 'Join the next cohort',
-    courseSlug,
-    accentColor: AI_GOVERNANCE_COLORS.full,
-    details: [
-      {
-        icon: PiGraduationCap,
-        label: 'Prerequisites',
-        description: (
-          <>
-            <a href="/courses/agi-strategy" className="font-medium underline hover:text-bluedot-normal">AGI Strategy course</a> (or equivalent background in AI risks)
-            <br />
-            <span className="font-medium">High-level understanding of AI</span>
-            <br />
-            <span className="font-medium">High agency</span> - bias toward action, not just learning
-            <br />
-            <br />
-            <span className="text-bluedot-navy/60">We're selective. The course has an acceptance rate of roughly 20-25%.</span>
-            <br />
-            <span className="text-bluedot-navy/60">We're looking for people who are analytical, motivated, and genuinely considering making this their life's work. If you're here to add a credential, this isn't for you.</span>
-            <br />
-            <span className="text-bluedot-navy/60">And to be clear: this is not a corporate AI governance or AI ethics course.</span>
-          </>
-        ),
-      },
-      {
-        icon: PiClockClockwise,
-        label: 'Time',
-        description: '~30 hours total',
-      },
-      {
-        icon: PiChats,
-        label: 'Format',
-        description: (
-          <>
-            <span className="font-semibold">2-3 hours</span> readings, exercises and reflections per unit
-            <br />
-            <span className="font-semibold">2 hours live discussion</span> with your cohort of 7-9 per unit
-            <br />
-            Led by a Teaching Fellow working in AI governance
-          </>
-        ),
-      },
-      {
-        icon: PiHandHeart,
-        label: 'Price',
-        description: 'Free (pay-what-you-want)',
-      },
-      {
-        icon: PiCalendarDots,
-        label: 'Schedule',
-        description: null,
-        isSchedule: true,
-        scheduleDescription: (
-          <>
-            <span className="font-semibold">INTENSIVE:</span> 6 days, ~5h/day
-            <br />
-            <span className="font-semibold">PART-TIME:</span> 6 weeks, ~5h/week
-          </>
-        ),
-      },
-    ],
-  },
 
   pathways: {
     title: 'Where this leads — and how we help',

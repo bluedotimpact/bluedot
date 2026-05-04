@@ -1,5 +1,5 @@
 import {
-  courseRegistrationTable, exerciseResponseTable, exerciseTable, meetPersonTable,
+  courseRegistrationTable, courseTable, exerciseResponseTable, exerciseTable, meetPersonTable,
 } from '@bluedot/db';
 import {
   describe, expect, test, vi,
@@ -232,6 +232,15 @@ describe('certificates.getStatus', () => {
   });
 
   test('returns has-certificate when the registration has a certificateId', async () => {
+    await testDb.insert(courseTable, {
+      id: FOAI_COURSE_ID,
+      slug: 'future-of-ai',
+      shortDescription: 'short',
+      title: 'Future of AI',
+      certificationDescription: 'cert desc',
+      detailsUrl: 'https://example.com/foai',
+      units: [],
+    });
     await testDb.insert(courseRegistrationTable, {
       id: 'reg1',
       email: 'test@example.com',
@@ -246,12 +255,23 @@ describe('certificates.getStatus', () => {
     expect(result).toEqual({
       status: 'has-certificate',
       certificateId: 'cert-1',
-      issuedAt: 1700000000,
-      holderName: 'Dewi Erwan',
+      certificateCreatedAt: 1700000000,
+      recipientName: 'Dewi Erwan',
+      courseName: 'Future of AI',
+      courseSlug: 'future-of-ai',
+      certificationDescription: 'cert desc',
+      courseDetailsUrl: 'https://example.com/foai',
     });
   });
 
-  test('falls back to email as holderName when fullName is missing', async () => {
+  test('returns empty recipientName when fullName is missing', async () => {
+    await testDb.insert(courseTable, {
+      id: FOAI_COURSE_ID,
+      slug: 'future-of-ai',
+      shortDescription: 'short',
+      title: 'Future of AI',
+      units: [],
+    });
     await testDb.insert(courseRegistrationTable, {
       id: 'reg1',
       email: 'test@example.com',
@@ -262,7 +282,7 @@ describe('certificates.getStatus', () => {
     });
 
     const result = await createCaller(testAuthContextLoggedIn).certificates.getStatus({ courseId: FOAI_COURSE_ID });
-    expect(result).toMatchObject({ status: 'has-certificate', holderName: 'test@example.com' });
+    expect(result).toMatchObject({ status: 'has-certificate', recipientName: '' });
   });
 
   test('returns can-request for FOAI registrations without a certificate', async () => {
@@ -336,5 +356,25 @@ describe('certificates.getStatus', () => {
 
     const result = await createCaller(testAuthContextLoggedIn).certificates.getStatus({ courseId: 'rec-other' });
     expect(result).toEqual({ status: 'not-eligible' });
+  });
+
+  test('returns attendance-ineligible when a participant misses more than one discussion', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg1', email: 'test@example.com', courseId: 'rec-other', decision: 'Accept',
+    });
+    await testDb.insert(meetPersonTable, {
+      id: 'mp1',
+      applicationsBaseRecordId: 'reg1',
+      role: 'Participant',
+      uniqueDiscussionAttendance: 3,
+      numUnits: 5,
+    });
+
+    const result = await createCaller(testAuthContextLoggedIn).certificates.getStatus({ courseId: 'rec-other' });
+    expect(result).toEqual({
+      status: 'attendance-ineligible',
+      uniqueDiscussionAttendance: 3,
+      numUnits: 5,
+    });
   });
 });
