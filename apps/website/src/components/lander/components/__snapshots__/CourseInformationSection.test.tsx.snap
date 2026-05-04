@@ -34,7 +34,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
             <div
               class="flex-1 min-w-0"
             >
-              <p
+              <div
                 class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
               >
                 <span
@@ -50,7 +50,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
                   Part-time
                 </span>
                 : 6-week course (5h/week)
-              </p>
+              </div>
             </div>
           </div>
           <div
@@ -73,7 +73,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
             <div
               class="flex-1 min-w-0"
             >
-              <p
+              <div
                 class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
               >
                 Each day or week, you will:
@@ -90,7 +90,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
                   join ~8 peers in a 2-hour Zoom meeting
                 </span>
                  to discuss the content.
-              </p>
+              </div>
             </div>
           </div>
           <div
@@ -113,11 +113,11 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
             <div
               class="flex-1 min-w-0"
             >
-              <p
+              <div
                 class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
               >
                 All discussions will be facilitated by an AI safety expert.
-              </p>
+              </div>
             </div>
           </div>
           <div
@@ -140,11 +140,11 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
             <div
               class="flex-1 min-w-0"
             >
-              <p
+              <div
                 class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
               >
                 This course is freely available and operates on a "pay-what-you-want" model.
-              </p>
+              </div>
             </div>
           </div>
           <div
