@@ -241,7 +241,8 @@ const SideBar: React.FC<SideBarProps> = ({
             chunkProgress={courseProgressData?.chunkProgressByUnitNumber[unit.unitNumber] ?? []}
           />
         ))}
-        <div className="p-6">
+        <div className="relative p-6">
+          <div className="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]" />
           <SidebarCertificatePanel
             courseTitle={courseTitle}
             courseSlug={courseSlug}
