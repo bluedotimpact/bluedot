@@ -34,6 +34,7 @@ export const CERTIFICATE_STATUS_DESCRIPTIONS: Record<CertificateStatus, string> 
   'has-certificate': '',
   'not-eligible':
     'This course doesn\'t currently issue certificates to independent learners. Join a facilitated version to get a certificate.',
+  'not-enrolled': 'Join a facilitated cohort to receive a certificate.',
 };
 
 // --- Laurel wreath ---
