@@ -13,7 +13,7 @@ import { TrpcProvider } from './trpcProvider';
 initialize();
 
 const withBluedotBase = (Story: StoryFn) => (
-  <main className="bluedot-base text-bluedot-black antialiased p-8">
+  <main className="bluedot-base p-8">
     <Story />
   </main>
 );
