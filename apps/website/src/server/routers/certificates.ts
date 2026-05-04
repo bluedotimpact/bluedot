@@ -11,7 +11,9 @@ import { FOAI_COURSE_ID } from '../../lib/constants';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 import type { AppRouter } from './_app';
 
-export type CertificateStatus = inferRouterOutputs<AppRouter>['certificates']['getStatus']['status'];
+// TODO: do we need both of these?
+export type CertificateStatusData = inferRouterOutputs<AppRouter>['certificates']['getStatus'];
+export type CertificateStatus = CertificateStatusData['status'];
 
 export const certificatesRouter = router({
   // This is a public procedure because it's called from an Airtable script, not from within the app
