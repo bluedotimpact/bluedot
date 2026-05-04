@@ -68,10 +68,18 @@ const manyMockRounds = {
     createMockRound({ dateRange: '27 – 31 Jul', applicationDeadline: '19 Jul' }),
   ],
   partTime: [
-    createMockRound({ intensity: 'part-time', dateRange: '1 Jun – 5 Jul', applicationDeadline: '24 May', numberOfUnits: 5 }),
-    createMockRound({ intensity: 'part-time', dateRange: '6 Jul – 9 Aug', applicationDeadline: '28 Jun', numberOfUnits: 5 }),
-    createMockRound({ intensity: 'part-time', dateRange: '3 Aug – 6 Sep', applicationDeadline: '26 Jul', numberOfUnits: 5 }),
-    createMockRound({ intensity: 'part-time', dateRange: '7 Sep – 12 Oct', applicationDeadline: '30 Aug', numberOfUnits: 5 }),
+    createMockRound({
+      intensity: 'part-time', dateRange: '1 Jun – 5 Jul', applicationDeadline: '24 May', numberOfUnits: 5,
+    }),
+    createMockRound({
+      intensity: 'part-time', dateRange: '6 Jul – 9 Aug', applicationDeadline: '28 Jun', numberOfUnits: 5,
+    }),
+    createMockRound({
+      intensity: 'part-time', dateRange: '3 Aug – 6 Sep', applicationDeadline: '26 Jul', numberOfUnits: 5,
+    }),
+    createMockRound({
+      intensity: 'part-time', dateRange: '7 Sep – 12 Oct', applicationDeadline: '30 Aug', numberOfUnits: 5,
+    }),
   ],
 };
 
