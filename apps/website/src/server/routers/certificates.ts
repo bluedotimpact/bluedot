@@ -6,6 +6,7 @@ import { timingSafeEqual } from 'crypto';
 import z from 'zod';
 import db from '../../lib/api/db';
 import env from '../../lib/api/env';
+import { getCertificateData } from '../../lib/api/getCertificateData';
 import { FOAI_COURSE_ID } from '../../lib/constants';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 import type { AppRouter } from './_app';
@@ -155,12 +156,11 @@ Please complete all exercises before requesting a certificate.`,
     }
 
     if (courseRegistration.certificateId) {
+      const certificate = await getCertificateData(courseRegistration.certificateId, courseRegistration);
       return {
-        status: 'has-certificate',
-        certificateId: courseRegistration.certificateId,
-        issuedAt: courseRegistration.certificateCreatedAt ?? Math.floor(Date.now() / 1000),
-        holderName: courseRegistration.fullName ?? courseRegistration.email,
-      } as const;
+        status: 'has-certificate' as const,
+        ...certificate,
+      };
     }
 
     if (courseRegistration.courseId === FOAI_COURSE_ID) {
@@ -177,6 +177,20 @@ Please complete all exercises before requesting a certificate.`,
     }
 
     if (meetPerson.role === 'Participant') {
+      const { uniqueDiscussionAttendance, numUnits } = meetPerson;
+      const hasAttendedEnough = uniqueDiscussionAttendance == null
+        || numUnits == null
+        || numUnits === 0
+        || (numUnits - uniqueDiscussionAttendance) <= 1;
+
+      if (!hasAttendedEnough) {
+        return {
+          status: 'attendance-ineligible' as const,
+          uniqueDiscussionAttendance,
+          numUnits,
+        };
+      }
+
       return {
         status: 'action-plan-pending',
         meetPersonId: meetPerson.id,

@@ -14,7 +14,7 @@ import ScheduleListSection, { type ScheduleListSectionProps } from './components
 import HowTheCourseWorksSection, { type HowTheCourseWorksSectionProps } from './components/HowTheCourseWorksSection';
 import HeroSection, { type HeroSectionProps } from './components/HeroSection';
 import QuoteSection, { type QuoteSectionProps } from './components/QuoteSection';
-import CourseInformationSection, { type CourseInformationSectionProps } from './components/CourseInformationSection';
+import CourseInformationSection from './components/CourseInformationSection';
 import FAQSection, { type FAQSectionProps } from './components/FAQSection';
 import LandingBanner, { type LandingBannerProps } from './components/LandingBanner';
 import PathwaysSection, { type PathwaysSectionProps } from './components/PathwaysSection';
@@ -27,6 +27,8 @@ import AlumniStoryCarousel, { type AlumniStoryCarouselProps } from './components
 import SectionNav, { type SectionNavItem } from './components/SectionNav';
 import FieldBuildingSection, { type FieldBuildingSectionProps } from './components/FieldBuildingSection';
 import { trpc } from '../../utils/trpc';
+import { COURSE_INFORMATION_DETAILS } from '../../lib/courseInformationDetails';
+import { COURSE_COLORS } from '../../lib/courseColors';
 
 export type CourseLanderMeta = {
   title: string;
@@ -66,8 +68,10 @@ export type CourseLanderContent = {
   courseOutcomesPlacement?: 'default' | 'beforeStructure';
   /** Prerequisites section */
   prerequisites?: PrerequisitesSectionProps;
-  courseInformation?: CourseInformationSectionProps;
-  /** Editorial prose "How the course works" — replaces courseInformation when set. Renders paragraphs with course-round unit counts interpolated from the database. */
+  /** Override URL for the courseInformation CTA. Defaults to `applicationUrlWithUtm`.
+   *  Used by self-paced courses (e.g. Future of AI) that point at a start URL instead of an apply form. */
+  courseInformationApplicationUrl?: string;
+  /** Editorial prose "How the course works" — replaces the courseInformation registry block when set. Renders paragraphs with course-round unit counts interpolated from the database. */
   howTheCourseWorks?: HowTheCourseWorksSectionProps;
   /** Standalone schedule section using PageListRow rows — renders alongside howTheCourseWorks instead of inside courseInformation's box. */
   scheduleList?: ScheduleListSectionProps;
@@ -309,10 +313,16 @@ const CourseLander = ({
           <HowTheCourseWorksSection id="structure" {...content.howTheCourseWorks} />
         </>
       )}
-      {!content.howTheCourseWorks && content.courseInformation && (
+      {!content.howTheCourseWorks && COURSE_INFORMATION_DETAILS[courseSlug] && (
         <>
           <div className="border-t-hairline border-color-divider" />
-          <CourseInformationSection id="structure" {...content.courseInformation} />
+          <CourseInformationSection
+            id="structure"
+            {...COURSE_INFORMATION_DETAILS[courseSlug]}
+            applicationUrl={content.courseInformationApplicationUrl ?? applicationUrlWithUtm}
+            courseSlug={courseSlug}
+            accentColor={COURSE_COLORS[courseSlug as keyof typeof COURSE_COLORS]?.full}
+          />
         </>
       )}
       {content.scheduleList && (

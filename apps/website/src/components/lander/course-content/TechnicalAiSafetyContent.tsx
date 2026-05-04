@@ -1,14 +1,10 @@
 import {
-  PiArrowsLeftRight,
   PiBank,
   PiBookOpen,
   PiChalkboardTeacherLight,
-  PiChats,
-  PiClockClockwise,
   PiCode,
   PiFlask,
   PiGraduationCap,
-  PiHandHeart,
   PiRocketLaunch,
   PiUsersThree,
 } from 'react-icons/pi';
@@ -195,42 +191,6 @@ export const createTechnicalAiSafetyContent = (
         icon: PiUsersThree,
         title: 'Join a community building towards safety',
         description: 'You\'ll join a curated cohort of people who are serious about making AI go well. Many stay connected long after the course ends, through our community Slack, events, and collaborative projects. This is a network of people starting companies, leading research, and shaping policy in AI safety.',
-      },
-    ],
-  },
-
-  courseInformation: {
-    title: 'How the course works',
-    applicationUrl: applicationUrlWithUtm,
-    scheduleCtaText: 'Apply now',
-    courseSlug,
-    accentColor: TAS_COLORS.full,
-    details: [
-      {
-        icon: PiArrowsLeftRight,
-        label: 'Options',
-        description: 'Intensive (~6 days at ~5h/day) or part-time (~6 weeks at ~5h/week). Same content, different pace.',
-      },
-      {
-        icon: PiClockClockwise,
-        label: 'Commitment',
-        description: (
-          <>
-            Each day or week, you will:
-            <br />
-            <span className="font-semibold">Complete 2-3 hours</span> of reading and writing, and <span className="font-semibold">join ~8 peers in a 2-hour Zoom meeting</span> to discuss the content.
-          </>
-        ),
-      },
-      {
-        icon: PiChats,
-        label: 'Facilitator',
-        description: 'All discussions will be facilitated by an AI safety expert.',
-      },
-      {
-        icon: PiHandHeart,
-        label: 'Price',
-        description: 'This course is freely available and operates on a "pay-what-you-want" model.',
       },
     ],
   },

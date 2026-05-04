@@ -1,4 +1,4 @@
-import { loggedInStory, loggedOutStory } from '@bluedot/ui/src/utils/storybook';
+import { loggedOutStory } from '@bluedot/ui/src/utils/storybook';
 import type { Meta, StoryObj } from '@storybook/react';
 import { createMockRound } from '../../__tests__/testUtils';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
@@ -54,29 +54,6 @@ export const EnrollmentCTA: Story = {
       handlers: [
         trpcStorybookMsw.courseRounds.getApplyCTAProps.query(() => mockApplyCTAProps),
         trpcStorybookMsw.courseRounds.getRoundsForCourse.query(() => mockRounds),
-      ],
-    },
-  },
-};
-
-export const Congratulations: Story = {
-  parameters: {
-    msw: {
-      handlers: [
-        trpcStorybookMsw.courseRounds.getApplyCTAProps.query(() => null),
-        trpcStorybookMsw.certificates.getStatus.query(() => ({ status: 'not-eligible' as const })),
-      ],
-    },
-  },
-};
-
-export const AlreadyApplied: Story = {
-  ...loggedInStory(),
-  parameters: {
-    msw: {
-      handlers: [
-        trpcStorybookMsw.courseRounds.getApplyCTAProps.query(() => ({ ...mockApplyCTAProps, hasApplied: true })),
-        trpcStorybookMsw.certificates.getStatus.query(() => ({ status: 'not-eligible' as const })),
       ],
     },
   },

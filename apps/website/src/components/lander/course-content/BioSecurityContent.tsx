@@ -1,12 +1,8 @@
 import {
-  PiArrowsLeftRight,
   PiBriefcase,
-  PiChats,
-  PiClockClockwise,
   PiCompass,
   PiFlask,
   PiHandCoins,
-  PiHandHeart,
   PiRocketLaunch,
   PiUsersThree,
 } from 'react-icons/pi';
@@ -92,42 +88,6 @@ export const createBioSecurityContent = (
         icon: PiHandCoins,
         title: 'Get funded to accelerate your impact',
         description: 'From small grants to build your portfolio, up to £50k to launch new organisations. We\'ll do whatever it takes to accelerate your journey.',
-      },
-    ],
-  },
-
-  courseInformation: {
-    title: 'How the course works',
-    applicationUrl: applicationUrlWithUtm,
-    scheduleCtaText: 'Apply now',
-    courseSlug,
-    accentColor: BIOSECURITY_COLORS.full,
-    details: [
-      {
-        icon: PiArrowsLeftRight,
-        label: 'Options',
-        description: 'Intensive (~6 days at ~5h/day) or part-time (~6 weeks at ~5h/week). Same content, different pace.',
-      },
-      {
-        icon: PiClockClockwise,
-        label: 'Commitment',
-        description: (
-          <>
-            Each day or week, you will:
-            <br />
-            <span className="font-semibold">Complete 2-3 hours</span> of reading and writing, and <span className="font-semibold">join ~8 peers in a 2-hour Zoom meeting</span> to discuss the content.
-          </>
-        ),
-      },
-      {
-        icon: PiChats,
-        label: 'Facilitator',
-        description: 'All discussions will be facilitated by a biosecurity expert.',
-      },
-      {
-        icon: PiHandHeart,
-        label: 'Price',
-        description: 'This course is freely available and operates on a "pay-what-you-want" model.',
       },
     ],
   },

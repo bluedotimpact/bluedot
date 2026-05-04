@@ -1,8 +1,6 @@
 import {
   PiClock,
   PiDesktop,
-  PiCurrencyDollar,
-  PiCertificate,
   PiRocketLaunch,
   PiLightbulb,
   PiUsers,
@@ -16,7 +14,7 @@ export const FOAI_COLORS = COURSE_COLORS['future-of-ai'];
 
 export const createFutureOfAiContent = (
   _applicationUrlWithUtm: string,
-  courseSlug: string,
+  _courseSlug: string,
 ): CourseLanderContent => ({
   meta: {
     title: 'Future of AI Course | BlueDot Impact',
@@ -88,40 +86,7 @@ export const createFutureOfAiContent = (
     ],
   },
 
-  courseInformation: {
-    title: 'Course information',
-    applicationUrl: FUTURE_OF_AI_START_URL,
-    scheduleCtaText: 'Start now',
-    courseSlug,
-    accentColor: FOAI_COLORS.full,
-    details: [
-      {
-        icon: PiClock,
-        label: 'Commitment',
-        description: 'Self-paced. Complete the 2-hour course whenever suits you. Interactive content with reflection prompts throughout.',
-      },
-      {
-        icon: PiDesktop,
-        label: 'Format',
-        description: 'Entirely online. Accessible from any device. Includes videos, interactive demos, and discussion prompts.',
-      },
-      {
-        icon: PiCurrencyDollar,
-        label: 'Price',
-        description: 'Completely free. No hidden costs.',
-      },
-      {
-        icon: PiCertificate,
-        label: 'Certificate',
-        description: 'Industry-recognised certificate upon completion showing you\'re informed about AI\'s future.',
-      },
-      {
-        icon: PiRocketLaunch,
-        label: 'Start now',
-        description: 'Begin immediately. No waiting for cohorts or application approval.',
-      },
-    ],
-  },
+  courseInformationApplicationUrl: FUTURE_OF_AI_START_URL,
 
   quotes: {
     cardBackgroundColor: FOAI_COLORS.bright,
