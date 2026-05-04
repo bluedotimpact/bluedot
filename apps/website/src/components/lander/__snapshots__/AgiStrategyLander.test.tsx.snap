@@ -215,15 +215,21 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                           class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                         >
                           <div
-                            class="border-t border-gray-200 my-2"
-                          />
-                          <a
-                            class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                            href="/programs?utm_source=website&utm_campaign=nav"
-                            tabindex="0"
+                            class="progress-dots my-6 flex items-center justify-center space-x-2 py-2"
                           >
-                            See all programs
-                          </a>
+                            <span
+                              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                              style="animation-delay: 0ms;"
+                            />
+                            <span
+                              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                              style="animation-delay: 150ms;"
+                            />
+                            <span
+                              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                              style="animation-delay: 300ms;"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -418,15 +424,21 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                   >
                     <div
-                      class="border-t border-gray-200 my-2"
-                    />
-                    <a
-                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                      href="/programs?utm_source=website&utm_campaign=nav"
-                      tabindex="0"
+                      class="progress-dots my-6 flex items-center justify-center space-x-2 py-2"
                     >
-                      See all programs
-                    </a>
+                      <span
+                        class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                        style="animation-delay: 0ms;"
+                      />
+                      <span
+                        class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                        style="animation-delay: 150ms;"
+                      />
+                      <span
+                        class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                        style="animation-delay: 300ms;"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

@@ -36,7 +36,7 @@ export const NavLinks: React.FC<{
 }) => {
   const { courses, loading } = useCourses();
   const { getPrimaryCourseURL } = usePrimaryCourseURL();
-  const { data: programs } = trpc.programs.getAll.useQuery();
+  const { data: programs, isLoading: programsLoading } = trpc.programs.getAll.useQuery();
 
   const allCourses = loading ? [] : (courses || []).map((course) => ({
     title: course.title,
@@ -112,6 +112,7 @@ export const NavLinks: React.FC<{
         })}
         onClose={() => updateExpandedSections({ programs: false })}
         title="Programs"
+        loading={programsLoading}
       />
       <NavDropdown
         expandedSections={expandedSections}
