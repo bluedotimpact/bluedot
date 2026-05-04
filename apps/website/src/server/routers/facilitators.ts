@@ -16,40 +16,30 @@ import {
   unitTable,
 } from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
-import { slackAlert } from '@bluedot/utils/src/slackNotifications';
 import z from 'zod';
 import db from '../../lib/api/db';
-import env from '../../lib/api/env';
 import { checkAdminAccess, protectedProcedure, router } from '../trpc';
 import { getFieldOptions } from '../airtableFieldOptions';
 
-// Subset of nextSteps option names that count as "actionable" — i.e. flag the participant
-// for follow-up. Must match Airtable option names verbatim; checked at request time.
-const ACTIONABLE_FOLLOW_UP_NAMES: ReadonlySet<string> = new Set([
-  'Flag for 1-1 advising with BlueDot team',
-  'Flag as candidate for funding (career transition/project)',
-  'Recommend to facilitate',
-]);
+// Options whose Airtable name starts with "[!]" are "actionable" — flagging the participant
+// for follow-up. The marker (and surrounding whitespace) is stripped before display on the client.
+const ACTIONABLE_MARKER = '[!]';
 
-type FollowUpOption = { id: string; name: string; actionable: boolean };
+type FollowUpOption = { id: string; name: string; label: string; actionable: boolean };
 
 const getNextStepsOptions = async (): Promise<FollowUpOption[]> => {
   const { baseId, tableId } = peerFeedbackTable.airtable;
   const fieldId = peerFeedbackTable.airtableFieldMap.get('nextSteps')!;
   const options = await getFieldOptions(baseId, tableId, fieldId);
-  return options.map((o) => ({ ...o, actionable: ACTIONABLE_FOLLOW_UP_NAMES.has(o.name) }));
-};
-
-const checkActionableFollowUps = async (options: FollowUpOption[]) => {
-  const names = new Set(options.map((o) => o.name));
-  const missing = [...ACTIONABLE_FOLLOW_UP_NAMES].filter((n) => !names.has(n));
-  if (missing.length === 0) return;
-
-  const message = `[facilitator-feedback] ACTIONABLE_FOLLOW_UP_NAMES no longer match Airtable nextSteps options. Missing: ${missing.join(', ')}. Update apps/website/src/server/routers/facilitators.ts.`;
-  if (process.env.NODE_ENV !== 'production') {
-    throw new Error(message);
-  }
-  await slackAlert(env, [message]);
+  return options.map((o) => {
+    const actionable = o.name.startsWith(ACTIONABLE_MARKER);
+    return {
+      id: o.id,
+      name: o.name,
+      label: actionable ? o.name.slice(ACTIONABLE_MARKER.length).trim() : o.name,
+      actionable,
+    };
+  });
 };
 
 const getFacilitator = async (roundId: string, facilitatorEmail: string) => {
@@ -307,7 +297,6 @@ export const facilitatorRouter = router({
         getDropInIdsForGroup(group.id, participantIds),
         getNextStepsOptions(),
       ]);
-      await checkActionableFollowUps(followUpOptions);
 
       const round = meetPerson.round
         ? await db.getFirst(roundTable, { filter: { id: meetPerson.round }, sortBy: 'id' })
