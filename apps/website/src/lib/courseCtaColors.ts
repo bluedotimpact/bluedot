@@ -11,7 +11,7 @@ const COURSE_COLOR_MAP: Record<string, CourseCtaColors> = {
   'future-of-ai': COURSE_COLORS['future-of-ai'],
   'agi-strategy': COURSE_COLORS['agi-strategy'],
   'technical-ai-safety': COURSE_COLORS['technical-ai-safety'],
-  'technical-ai-safety-project': COURSE_COLORS['technical-ai-safety'],
+  'technical-ai-safety-project': COURSE_COLORS['technical-ai-safety-project'],
   'ai-governance': COURSE_COLORS['ai-governance'],
   biosecurity: COURSE_COLORS.biosecurity,
   'personal-theory-of-impact': COURSE_COLORS['personal-theory-of-impact'],
