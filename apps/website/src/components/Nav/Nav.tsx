@@ -26,6 +26,7 @@ export const Nav: React.FC<NavProps> = ({ variant: variantProp }) => {
   const [expandedSections, setExpandedSections] = useState<ExpandedSectionsState>({
     courses: false,
     projects: false,
+    programs: false,
     explore: false,
     mobileNav: false,
     profile: false,
@@ -43,6 +44,7 @@ export const Nav: React.FC<NavProps> = ({ variant: variantProp }) => {
       setExpandedSections({
         courses: false,
         projects: false,
+        programs: false,
         explore: false,
         mobileNav: false,
         profile: false,

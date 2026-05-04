@@ -9,7 +9,7 @@ import {
 import { useAuthStore } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 import { Nav } from './Nav';
-import { createMockCourse } from '../../__tests__/testUtils';
+import { createMockCourse, MOCK_NAV_PROGRAMS } from '../../__tests__/testUtils';
 import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 
@@ -46,7 +46,10 @@ const mockRouter = {
 // Setup router mock and tRPC mock before each test
 beforeEach(() => {
   (useRouter as unknown as Mock).mockReturnValue(mockRouter);
-  server.use(trpcMsw.courses.getAll.query(() => mockCourses));
+  server.use(
+    trpcMsw.courses.getAll.query(() => mockCourses),
+    trpcMsw.programs.getAll.query(() => MOCK_NAV_PROGRAMS),
+  );
 });
 
 const withLoggedInUser = () => {

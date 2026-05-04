@@ -47,6 +47,7 @@ export const MobileNavLinks: React.FC<{
       mobileNav: !expandedSections.mobileNav,
       courses: false,
       projects: false,
+      programs: false,
       explore: false,
       profile: false,
     });
@@ -72,6 +73,7 @@ export const MobileNavLinks: React.FC<{
               updateExpandedSections({
                 courses: false,
                 projects: false,
+                programs: false,
                 explore: false,
                 mobileNav: false,
                 profile: false,
@@ -84,6 +86,7 @@ export const MobileNavLinks: React.FC<{
               updateExpandedSections({
                 courses: false,
                 projects: false,
+                programs: false,
                 explore: false,
                 mobileNav: false,
                 profile: false,

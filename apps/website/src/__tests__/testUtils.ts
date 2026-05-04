@@ -5,6 +5,7 @@ import type {
   Group,
   GroupDiscussion,
   MeetPerson,
+  Program,
   ResourceCompletion,
   Unit,
   UnitResource,
@@ -63,6 +64,50 @@ const MOCK_GROUP_ID = 'group-id';
 const MOCK_MEET_PERSON_ID = 'meet-person-id';
 const MOCK_RESOURCE_ID = 'resource-id';
 const MOCK_RESOURCE_COMPLETION_ID = 'resource-completion-id';
+
+/** Default Programs router output for tests that render the Nav. */
+export const MOCK_NAV_PROGRAMS: Program[] = [
+  {
+    id: 'rec-advising',
+    name: '1-1 advising',
+    status: 'Active',
+    description: '30 min calls with the BlueDot team to accelerate you towards doing impactful work in AI safety.',
+    applicationForm: 'https://example.com/advising',
+    category: null,
+    slug: 'advising',
+    order: '1',
+  },
+  {
+    id: 'rec-rapid',
+    name: 'Rapid Grants',
+    status: 'Active',
+    description: 'Funding for the BlueDot community to ship projects, run events, and do other concrete work on AI safety.',
+    applicationForm: 'https://example.com/rapid',
+    category: 'Funding',
+    slug: 'rapid-grants',
+    order: '2',
+  },
+  {
+    id: 'rec-ct',
+    name: 'Career Transition Grants',
+    status: 'Active',
+    description: 'Funding and support to help you work full-time on AI safety.',
+    applicationForm: 'https://example.com/ct',
+    category: 'Funding',
+    slug: 'career-transition-grant',
+    order: '3',
+  },
+  {
+    id: 'rec-incubator',
+    name: 'Incubator Week',
+    status: 'Active',
+    description: 'Most accelerators take 12 weeks and 7%. We take 5 days and 0%. Fly to London to turn your AI safety idea into a funded org. $50k if your pitch lands. More for the strongest teams. Equity-free.',
+    applicationForm: 'https://example.com/incubator',
+    category: 'Found',
+    slug: 'incubator-week',
+    order: '4',
+  },
+];
 
 export const createMockCourse = (overrides: Partial<Course> = {}): Course => ({
   applyUrl: null,
