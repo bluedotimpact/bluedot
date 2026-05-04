@@ -7,7 +7,7 @@ import { ROUTES } from '../../lib/routes';
 import { useCourses } from '../../lib/hooks/useCourses';
 import { usePrimaryCourseURL } from '../../lib/hooks/usePrimaryCourseURL';
 import { useClickOutside } from '../../lib/hooks/useClickOutside';
-import { GRANT_PROGRAMS } from '../grants/grantPrograms';
+import { trpc } from '../../utils/trpc';
 import {
   DRAWER_CLASSES,
   type ExpandedSectionsState,
@@ -36,6 +36,7 @@ export const NavLinks: React.FC<{
 }) => {
   const { courses, loading } = useCourses();
   const { getPrimaryCourseURL } = usePrimaryCourseURL();
+  const { data: programs, isLoading: programsLoading } = trpc.programs.getAll.useQuery();
 
   const allCourses = loading ? [] : (courses || []).map((course) => ({
     title: course.title,
@@ -49,17 +50,19 @@ export const NavLinks: React.FC<{
     { title: 'See upcoming rounds', url: ROUTES.courses.url },
   ];
 
-  const navPrograms = [
-    ...GRANT_PROGRAMS.map((program) => ({
-      title: program.title,
-      url: program.href,
-    })),
-    { title: 'See all programs', url: `${ROUTES.programs.url}?utm_source=website&utm_campaign=nav` },
+  const navProjects = [
+    ...allCourses.filter((course) => course.type === 'Project'),
+    { title: 'See all projects', url: ROUTES.projects.url },
   ];
 
-  const exploreLinks = [
-    { title: 'Events', url: `${ROUTES.events.url}?utm_source=website&utm_campaign=nav` },
-    { title: 'Blog', url: ROUTES.blog.url, external: true },
+  const navPrograms = [
+    ...(programs ?? [])
+      .filter((program): program is typeof program & { slug: string } => Boolean(program.slug))
+      .map((program) => ({
+        title: program.name,
+        url: `/programs/${program.slug}`,
+      })),
+    { title: 'See all programs', url: `${ROUTES.programs.url}?utm_source=website&utm_campaign=nav` },
   ];
 
   const getLinkClasses = (isCurrentPathValue?: boolean) => {
@@ -87,6 +90,7 @@ export const NavLinks: React.FC<{
         onToggle={() => updateExpandedSections({
           courses: !expandedSections.courses,
           projects: false,
+          programs: false,
           explore: false,
           mobileNav: expandedSections.mobileNav,
           profile: false,
@@ -97,33 +101,37 @@ export const NavLinks: React.FC<{
       />
       <NavDropdown
         expandedSections={expandedSections}
-        isExpanded={expandedSections.projects}
+        isExpanded={expandedSections.programs}
         onColoredBackground={onColoredBackground}
         links={navPrograms}
         onToggle={() => updateExpandedSections({
           courses: false,
+          projects: false,
+          programs: !expandedSections.programs,
+          explore: false,
+          mobileNav: expandedSections.mobileNav,
+          profile: false,
+        })}
+        onClose={() => updateExpandedSections({ programs: false })}
+        title="Programs"
+        loading={programsLoading}
+      />
+      <NavDropdown
+        expandedSections={expandedSections}
+        isExpanded={expandedSections.projects}
+        onColoredBackground={onColoredBackground}
+        links={navProjects}
+        onToggle={() => updateExpandedSections({
+          courses: false,
           projects: !expandedSections.projects,
+          programs: false,
           explore: false,
           mobileNav: expandedSections.mobileNav,
           profile: false,
         })}
         onClose={() => updateExpandedSections({ projects: false })}
-        title="Programs"
-      />
-      <NavDropdown
-        expandedSections={expandedSections}
-        isExpanded={expandedSections.explore}
-        onColoredBackground={onColoredBackground}
-        links={exploreLinks}
-        onToggle={() => updateExpandedSections({
-          courses: false,
-          projects: false,
-          explore: !expandedSections.explore,
-          mobileNav: expandedSections.mobileNav,
-          profile: false,
-        })}
-        onClose={() => updateExpandedSections({ explore: false })}
-        title="Explore"
+        title="Projects"
+        loading={loading}
       />
       <A
         href={ROUTES.about.url}

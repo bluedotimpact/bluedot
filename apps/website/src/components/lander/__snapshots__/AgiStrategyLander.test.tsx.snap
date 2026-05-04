@@ -214,51 +214,22 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                         <div
                           class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                         >
-                          <a
-                            class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                            href="/programs/rapid-grants"
-                            tabindex="0"
-                          >
-                            Rapid Grants
-                          </a>
-                          <a
-                            class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                            href="/programs/career-transition-grant"
-                            tabindex="0"
-                          >
-                            Career Transition Grants
-                          </a>
-                          <a
-                            class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                            href="/courses/technical-ai-safety-project"
-                            tabindex="0"
-                          >
-                            Technical AI Safety Project Sprint
-                          </a>
-                          <a
-                            class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                            href="/programs/advising"
-                            tabindex="0"
-                          >
-                            1-1 advising
-                          </a>
-                          <a
-                            class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                            href="/programs/incubator-week"
-                            tabindex="0"
-                          >
-                            Incubator Week
-                          </a>
                           <div
-                            class="border-t border-gray-200 my-2"
-                          />
-                          <a
-                            class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                            href="/programs?utm_source=website&utm_campaign=nav"
-                            tabindex="0"
+                            class="progress-dots my-6 flex items-center justify-center space-x-2 py-2"
                           >
-                            See all programs
-                          </a>
+                            <span
+                              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                              style="animation-delay: 0ms;"
+                            />
+                            <span
+                              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                              style="animation-delay: 150ms;"
+                            />
+                            <span
+                              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                              style="animation-delay: 300ms;"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -266,12 +237,12 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       class="nav-dropdown"
                     >
                       <button
-                        aria-controls="explore-dropdown"
+                        aria-controls="projects-dropdown"
                         aria-expanded="false"
                         class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                         type="button"
                       >
-                        Explore
+                        Projects
                         <svg
                           class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
                           fill="none"
@@ -289,30 +260,30 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                         </svg>
                       </button>
                       <div
-                        aria-label="Explore menu"
+                        aria-label="Projects menu"
                         class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
-                        id="explore-dropdown"
+                        id="projects-dropdown"
                         role="region"
                       >
                         <div
                           class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                         >
-                          <a
-                            class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                            href="/events?utm_source=website&utm_campaign=nav"
-                            tabindex="0"
+                          <div
+                            class="progress-dots my-6 flex items-center justify-center space-x-2 py-2"
                           >
-                            Events
-                          </a>
-                          <a
-                            class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                            href="https://blog.bluedot.org"
-                            rel="noopener noreferrer"
-                            tabindex="0"
-                            target="_blank"
-                          >
-                            Blog
-                          </a>
+                            <span
+                              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                              style="animation-delay: 0ms;"
+                            />
+                            <span
+                              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                              style="animation-delay: 150ms;"
+                            />
+                            <span
+                              class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                              style="animation-delay: 300ms;"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -452,51 +423,22 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   <div
                     class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                   >
-                    <a
-                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                      href="/programs/rapid-grants"
-                      tabindex="0"
-                    >
-                      Rapid Grants
-                    </a>
-                    <a
-                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                      href="/programs/career-transition-grant"
-                      tabindex="0"
-                    >
-                      Career Transition Grants
-                    </a>
-                    <a
-                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                      href="/courses/technical-ai-safety-project"
-                      tabindex="0"
-                    >
-                      Technical AI Safety Project Sprint
-                    </a>
-                    <a
-                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                      href="/programs/advising"
-                      tabindex="0"
-                    >
-                      1-1 advising
-                    </a>
-                    <a
-                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                      href="/programs/incubator-week"
-                      tabindex="0"
-                    >
-                      Incubator Week
-                    </a>
                     <div
-                      class="border-t border-gray-200 my-2"
-                    />
-                    <a
-                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                      href="/programs?utm_source=website&utm_campaign=nav"
-                      tabindex="0"
+                      class="progress-dots my-6 flex items-center justify-center space-x-2 py-2"
                     >
-                      See all programs
-                    </a>
+                      <span
+                        class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                        style="animation-delay: 0ms;"
+                      />
+                      <span
+                        class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                        style="animation-delay: 150ms;"
+                      />
+                      <span
+                        class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                        style="animation-delay: 300ms;"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -504,12 +446,12 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 class="nav-dropdown"
               >
                 <button
-                  aria-controls="explore-dropdown"
+                  aria-controls="projects-dropdown"
                   aria-expanded="false"
                   class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                   type="button"
                 >
-                  Explore
+                  Projects
                   <svg
                     class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
                     fill="none"
@@ -527,30 +469,30 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   </svg>
                 </button>
                 <div
-                  aria-label="Explore menu"
+                  aria-label="Projects menu"
                   class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
-                  id="explore-dropdown"
+                  id="projects-dropdown"
                   role="region"
                 >
                   <div
                     class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                   >
-                    <a
-                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                      href="/events?utm_source=website&utm_campaign=nav"
-                      tabindex="0"
+                    <div
+                      class="progress-dots my-6 flex items-center justify-center space-x-2 py-2"
                     >
-                      Events
-                    </a>
-                    <a
-                      class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                      href="https://blog.bluedot.org"
-                      rel="noopener noreferrer"
-                      tabindex="0"
-                      target="_blank"
-                    >
-                      Blog
-                    </a>
+                      <span
+                        class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                        style="animation-delay: 0ms;"
+                      />
+                      <span
+                        class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                        style="animation-delay: 150ms;"
+                      />
+                      <span
+                        class="size-2 bg-bluedot-normal rounded-full animate-bounce"
+                        style="animation-delay: 300ms;"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

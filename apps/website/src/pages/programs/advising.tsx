@@ -1,4 +1,5 @@
 import { Breadcrumbs } from '@bluedot/ui';
+import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
 import GrantStatsStrip from '../../components/grants/sections/GrantStatsStrip';
@@ -10,26 +11,29 @@ import WhatToExpectSection from '../../components/advising/WhatToExpectSection';
 import HowItWorksSection from '../../components/advising/HowItWorksSection';
 import AdvisorsSection from '../../components/advising/AdvisorsSection';
 import { ROUTES } from '../../lib/routes';
+import {
+  getProgramDetailPageStaticProps,
+  type ProgramDetailPageProps,
+} from '../../lib/programDetailPage';
 
-const PAGE_TITLE = '1-1 advising';
+const PROGRAM_SLUG = 'advising';
+const FALLBACK_NAME = '1-1 advising';
+const FALLBACK_DESCRIPTION = '30 min calls with the BlueDot team to accelerate you towards doing impactful work in AI safety.';
 
-const OneOnOneAdvisingPage = () => {
+const OneOnOneAdvisingPage = ({ programName, programDescription }: ProgramDetailPageProps) => {
   return (
     <div>
       <Head>
-        <title>{`${PAGE_TITLE} | BlueDot Impact`}</title>
-        <meta
-          name="description"
-          content="30 min calls with the BlueDot team to accelerate you towards doing impactful work in AI safety."
-        />
+        <title>{`${programName} | BlueDot Impact`}</title>
+        <meta name="description" content={programDescription} />
       </Head>
       <MarketingHero
-        title="1-1 advising"
-        subtitle="30 min calls with the BlueDot team to accelerate you towards doing impactful work in AI safety."
+        title={programName}
+        subtitle={programDescription}
       />
       <Breadcrumbs
         route={{
-          title: PAGE_TITLE,
+          title: programName,
           url: '/programs/advising',
           parentPages: [ROUTES.home, ROUTES.programs],
         }}
@@ -51,6 +55,11 @@ const OneOnOneAdvisingPage = () => {
     </div>
   );
 };
+
+export const getStaticProps: GetStaticProps<ProgramDetailPageProps> = () => getProgramDetailPageStaticProps(
+  PROGRAM_SLUG,
+  { programName: FALLBACK_NAME, programDescription: FALLBACK_DESCRIPTION },
+);
 
 OneOnOneAdvisingPage.pageRendersOwnNav = true;
 

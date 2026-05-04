@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import JoinUsPage from '../../pages/join-us';
 import { server, trpcMsw } from '../trpcMswSetup';
 import { TrpcProvider } from '../trpcProvider';
+import { MOCK_NAV_PROGRAMS } from '../testUtils';
 
 vi.mock('next/router', () => ({
   useRouter: vi.fn(),
@@ -27,6 +28,7 @@ describe('JoinUsPage', () => {
     server.use(
       trpcMsw.jobs.getAll.query(() => []),
       trpcMsw.courses.getAll.query(() => []),
+      trpcMsw.programs.getAll.query(() => MOCK_NAV_PROGRAMS),
     );
     const { container } = render(<JoinUsPage />, { wrapper: TrpcProvider });
 
