@@ -21,8 +21,6 @@ const COURSE_DISPLAY_ORDER = [
   'technical-ai-safety-project',
 ];
 
-const isSelfPacedCourse = (course: Course): boolean => course.slug === 'future-of-ai' || course.slug === 'personal-theory-of-impact';
-
 const getCourseAccentColor = (courseSlug: string): string => {
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   return COURSE_CONFIG[courseSlug]?.accentColor || 'var(--bluedot-normal)';
@@ -230,7 +228,6 @@ const CourseScheduleCard = ({ course }: CourseScheduleCardProps) => {
     ? addQueryParam(baseApplicationUrl, 'prefill_Source', latestUtmParams.utm_source)
     : baseApplicationUrl);
 
-  const isSelfPaced = isSelfPacedCourse(course);
   const hasIntense = rounds?.intense && rounds.intense.length > 0;
   const hasPartTime = rounds?.partTime && rounds.partTime.length > 0;
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
@@ -248,13 +245,7 @@ const CourseScheduleCard = ({ course }: CourseScheduleCardProps) => {
       <div className="mt-12">
         {roundsLoading && <ProgressDots className="my-0" />}
 
-        {/* Self-paced courses show only the self-paced section */}
-        {!roundsLoading && isSelfPaced && (
-          <SelfPacedSection course={course} />
-        )}
-
-        {/* Cohort-based courses show their rounds */}
-        {!roundsLoading && !isSelfPaced && showRounds && (
+        {!roundsLoading && showRounds && (
           <div className="flex flex-col gap-16">
             {hasIntense && (
               <RoundGroup
@@ -277,8 +268,7 @@ const CourseScheduleCard = ({ course }: CourseScheduleCardProps) => {
           </div>
         )}
 
-        {/* No Upcoming Rounds */}
-        {!roundsLoading && !isSelfPaced && !showRounds && (
+        {!roundsLoading && !showRounds && (
           <div className="flex items-center min-h-[48px] border-l-4 border-bluedot-navy/20 pl-5">
             <p className="text-size-sm leading-[1.6] font-normal text-bluedot-navy/50">
               No upcoming rounds.{' '}
@@ -340,58 +330,3 @@ const CourseScheduleHeader = ({ course }: CourseScheduleHeaderProps) => {
   );
 };
 
-type SelfPacedSectionProps = {
-  course: Course;
-};
-
-/** TODO: this is dead code, we can remove it.
- * In https://github.com/bluedotimpact/bluedot/pull/2062 we stopped FoAI course being shown. */
-const SelfPacedSection = ({ course }: SelfPacedSectionProps) => {
-  const accentColor = getCourseAccentColor(course.slug);
-
-  return (
-    <>
-      {/* Mobile Layout */}
-      <div className="flex bd-md:hidden">
-        <div className="w-1 flex-shrink-0 rounded-sm" style={{ backgroundColor: accentColor }} />
-        <div className="flex flex-col pl-5">
-          <p className="text-size-sm leading-[1.6] font-semibold text-bluedot-navy">Self-paced learning</p>
-          <p className="text-size-sm leading-[1.6] font-normal text-bluedot-navy/50">
-            Open access · {course.durationHours ? `${course.durationHours} hours` : course.durationDescription}
-          </p>
-          <Link
-            href={`/courses/${course.slug}/1/1`}
-            className="mt-3 text-size-sm leading-[1.6] font-medium cursor-pointer text-bluedot-normal"
-          >
-            Start learning
-          </Link>
-        </div>
-      </div>
-
-      {/* Desktop Layout */}
-      <Link
-        href={`/courses/${course.slug}/1/1`}
-        className="group hidden bd-md:flex flex-row items-center justify-between min-h-12 cursor-pointer"
-      >
-        <div className="flex items-stretch h-full">
-          <div className="w-1 flex-shrink-0 rounded-sm opacity-30 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" style={{ backgroundColor: accentColor }} />
-          <div className="flex flex-col justify-center pl-5">
-            <span className="text-size-sm leading-none font-semibold text-bluedot-navy">Self-paced learning</span>
-            <span className="text-size-sm leading-none font-normal text-bluedot-navy/50 mt-1">
-              Open access · {course.durationHours ? `${course.durationHours} hours` : course.durationDescription}
-            </span>
-          </div>
-        </div>
-
-        <div className="ml-auto flex items-center text-size-sm leading-[1.6] font-medium text-bluedot-normal">
-          <span className="transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1">
-            Start learning
-          </span>
-          <span className="ml-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
-            →
-          </span>
-        </div>
-      </Link>
-    </>
-  );
-};

@@ -56,10 +56,12 @@ export const NavLinks: React.FC<{
   ];
 
   const navPrograms = [
-    ...(programs ?? []).map((program) => ({
-      title: program.name,
-      url: program.slug ? `/programs/${program.slug}` : (program.applicationForm ?? '#'),
-    })),
+    ...(programs ?? [])
+      .filter((program): program is typeof program & { slug: string } => Boolean(program.slug))
+      .map((program) => ({
+        title: program.name,
+        url: `/programs/${program.slug}`,
+      })),
     { title: 'See all programs', url: `${ROUTES.programs.url}?utm_source=website&utm_campaign=nav` },
   ];
 

@@ -100,10 +100,12 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
                 path: `/courses/${course.slug}`,
                 title: course.title,
               }))}
-              programs={(programs ?? []).map((program) => ({
-                path: program.slug ? `/programs/${program.slug}` : (program.applicationForm ?? '#'),
-                title: program.name,
-              }))}
+              programs={(programs ?? [])
+                .filter((program): program is typeof program & { slug: string } => Boolean(program.slug))
+                .map((program) => ({
+                  path: `/programs/${program.slug}`,
+                  title: program.name,
+                }))}
               loading={loading}
               logo="/images/logo/BlueDot_Impact_Logo_White.svg"
               onReportBug={openBugReport}
