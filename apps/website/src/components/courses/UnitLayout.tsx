@@ -35,7 +35,6 @@ import InactiveCourseBanners from './InactiveCourseBanners';
 import { ArrowRightIcon } from '../icons';
 import KeyboardNavMenu from './KeyboardNavMenu';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
-import CourseCompletionSection from './CourseCompletionSection';
 import { MobileCourseModal } from './MobileCourseModal';
 import { ResourceDisplay } from './ResourceDisplay';
 import SideBar, { type ApplyCTAProps } from './SideBar';
@@ -483,20 +482,6 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                 </div>
               )}
             </div>
-
-            {(!nextUnit && isLastChunk) && (
-              <CourseCompletionSection
-                courseId={unit.courseId}
-                courseTitle={unit.courseTitle}
-                courseSlug={courseSlug}
-                className={clsx(
-                  'mt-8 md:mt-6 px-5',
-                  isSidebarHidden
-                    ? 'md:px-[60px] lg:px-[100px] xl:px-[140px] 2xl:px-[200px]'
-                    : 'lg:px-[40px] xl:px-[80px] 2xl:px-[120px]',
-                )}
-              />
-            )}
           </Section>
         </div>
       </div>
