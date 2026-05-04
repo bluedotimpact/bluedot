@@ -93,7 +93,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
       ariaLabel="Participant feedback"
       noClickaway
     >
-      <div className="w-full max-w-[600px] pt-4">
+      <div className="w-full max-w-modal pt-4">
         {savePeerFeedback.isError && <ErrorSection error={savePeerFeedback.error} />}
         <p className="flex items-center gap-1.5 text-size-xs leading-[1.3] text-bluedot-navy/60 mb-6">
           <FaLock className="size-[13px] shrink-0" aria-hidden />

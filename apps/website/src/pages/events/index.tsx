@@ -100,7 +100,7 @@ const matchesFilter = (event: Event, filter: EventFilterKey) => {
 
 const EventDateBadge = ({ event }: { event: Event }) => {
   return (
-    <div className="flex size-[68px] shrink-0 flex-col overflow-hidden rounded-[12px] border border-bluedot-navy/10 bg-white">
+    <div className="flex size-[68px] shrink-0 flex-col overflow-hidden rounded-xl border border-bluedot-navy/10 bg-white">
       <div className="flex items-center justify-center bg-bluedot-normal px-2 py-1.5">
         <span className="text-size-xxs font-semibold uppercase tracking-[0.14em] text-white">
           {formatMonth(event.startAt)}

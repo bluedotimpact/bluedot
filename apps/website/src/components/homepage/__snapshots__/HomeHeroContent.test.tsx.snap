@@ -271,7 +271,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
                     class="mobile-nav-cta flex flex-col gap-4 pt-6 mt-6 border-t border-color-divider"
                   >
                     <a
-                      class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary link-on-dark mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-[5px] text-size-sm font-[450] leading-[160%] items-center justify-center bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white"
+                      class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary link-on-dark mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-md text-size-sm font-[450] leading-[160%] items-center justify-center bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white"
                       href="/login?register=true&redirect_to=undefined"
                       tabindex="0"
                     >
@@ -509,14 +509,14 @@ exports[`HomeHeroContent > renders as expected 1`] = `
               class="nav-cta flex flex-row items-center gap-4"
             >
               <a
-                class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--secondary nav-cta__secondary-cta flex px-3 py-[5px] rounded-[5px] text-size-sm font-[450] leading-[160%] items-center justify-center bg-white/15 border border-white/20 text-white hover:text-white hover:bg-white/20 backdrop-blur-sm"
+                class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--secondary nav-cta__secondary-cta flex px-3 py-[5px] rounded-md text-size-sm font-[450] leading-[160%] items-center justify-center bg-white/15 border border-white/20 text-white hover:text-white hover:bg-white/20 backdrop-blur-sm"
                 href="/login?redirect_to=undefined"
                 tabindex="0"
               >
                 Sign in
               </a>
               <a
-                class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary link-on-dark nav-cta__primary-cta hidden bd-md:flex px-3 py-[5px] rounded-[5px] text-size-sm font-[450] leading-[160%] items-center justify-center bg-white hover:bg-white/90 text-bluedot-darker hover:text-bluedot-darker"
+                class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary link-on-dark nav-cta__primary-cta hidden bd-md:flex px-3 py-[5px] rounded-md text-size-sm font-[450] leading-[160%] items-center justify-center bg-white hover:bg-white/90 text-bluedot-darker hover:text-bluedot-darker"
                 href="/login?register=true&redirect_to=undefined"
                 tabindex="0"
               >
@@ -569,7 +569,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
           class="w-full h-[106px] bd-md:h-[91px] bg-white flex items-center"
         >
           <div
-            class="w-full flex items-center justify-center 2xl:justify-end p-5 sm:px-6 md:px-12 2xl:pl-[272px] 2xl:pr-[48px]"
+            class="w-full flex items-center justify-center 2xl:justify-end p-5 sm:px-6 md:px-12 2xl:pl-[272px] 2xl:pr-12"
           >
             <div
               class="flex flex-col sm:flex-row items-center gap-4 sm:gap-5 w-full max-w-[1200px] 2xl:max-w-none"

@@ -42,10 +42,10 @@ const PartnerCard = ({
           <img
             src={partner.logo}
             alt={partner.name}
-            className={`object-contain max-w-full ${isDesktop ? 'max-h-[64px]' : 'max-h-[56px]'} transition-opacity duration-200 group-hover:opacity-80`}
+            className={`object-contain max-w-full ${isDesktop ? 'max-h-16' : 'max-h-14'} transition-opacity duration-200 group-hover:opacity-80`}
           />
         ) : (
-          <div className="w-[160px] h-[50px] bg-gray-200 rounded-md flex items-center justify-center text-gray-500 text-size-sm font-medium transition-opacity duration-200 group-hover:opacity-80">
+          <div className="w-40 h-[50px] bg-gray-200 rounded-md flex items-center justify-center text-gray-500 text-size-sm font-medium transition-opacity duration-200 group-hover:opacity-80">
             {partner.name}
           </div>
         )}

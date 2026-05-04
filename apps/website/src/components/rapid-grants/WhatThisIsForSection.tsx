@@ -39,7 +39,7 @@ const WhatThisIsForSection = () => {
           {DECISION_CARDS.map((card) => (
             <div
               key={card.title}
-              className="rounded-[16px] border border-bluedot-navy/10 bg-white p-6 lg:p-8 flex flex-col gap-3"
+              className="rounded-2xl border border-bluedot-navy/10 bg-white p-6 lg:p-8 flex flex-col gap-3"
             >
               <h4 className="text-size-md font-semibold leading-tight text-bluedot-navy">
                 {card.title}

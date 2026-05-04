@@ -187,7 +187,7 @@ export default function GroupSwitchModal({
         <div className="flex items-center w-full">
           <ClickTarget
             onClick={() => setIsManualRequest(false)}
-            className="text-black rounded-[50%] p-[6px] hover:bg-gray-100 cursor-pointer"
+            className="text-black rounded-full p-1.5 hover:bg-gray-100 cursor-pointer"
             aria-label="Back to group selection"
           >
             <FaArrowLeft size={16} />
@@ -321,7 +321,7 @@ export default function GroupSwitchModal({
           placeholder="Share your reason here..."
           value={reason}
           onChange={(e) => setReason(e.target.value)}
-          className="border border-color-divider rounded-lg px-3 py-2 min-h-[80px] bg-white"
+          className="border border-color-divider rounded-lg px-3 py-2 min-h-20 bg-white"
           required
           aria-label="Reason for group switch request"
         />
@@ -402,7 +402,7 @@ export default function GroupSwitchModal({
       desktopHeaderClassName="border-b border-charcoal-light pt-3 pb-2 mb-0"
       ariaLabel="Group switching"
     >
-      <div className="w-full pt-6 max-w-[600px]">
+      <div className="w-full pt-6 max-w-modal">
         {/* Spacer to stop the modal shrinking when there are no results */}
         <div className="w-[600px] max-w-full h-0" />
         {isLoading && <ProgressDots />}
@@ -693,10 +693,10 @@ const GroupSwitchOption: React.FC<GroupSwitchOptionProps> = ({
         </div>
         <div className="flex gap-4 justify-between">
           <div>
-            <div className="font-semibold mb-[4px]">
+            <div className="font-semibold mb-1">
               {groupName}
             </div>
-            <div className="flex items-center gap-[6px] text-size-xs text-gray-500">
+            <div className="flex items-center gap-1.5 text-size-xs text-gray-500">
               {description}
             </div>
           </div>

@@ -112,7 +112,7 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
       )}
       bottomDrawerOnMobile
     >
-      <div className="flex flex-col gap-1 w-full max-w-[600px]">
+      <div className="flex flex-col gap-1 w-full max-w-modal">
         {/* Unit Listing */}
         {units.map((unit, unitIndex) => (
           <MobileUnitSection
@@ -213,8 +213,8 @@ const MobileUnitSection: React.FC<MobileUnitSectionProps> = ({
                 )}
               >
                 <ChunkIcon isActive={isActive} />
-                <div className="flex flex-col flex-1 min-h-[44px] justify-center">
-                  <div className="flex flex-col gap-[6px]">
+                <div className="flex flex-col flex-1 min-h-11 justify-center">
+                  <div className="flex flex-col gap-1.5">
                     <p className="font-normal text-size-xs leading-[150%] text-bluedot-navy">
                       {chunk.chunkTitle}
                       {isLastChunkOfFinalUnit

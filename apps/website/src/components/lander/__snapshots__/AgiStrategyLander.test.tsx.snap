@@ -335,7 +335,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                     class="mobile-nav-cta flex flex-col gap-4 pt-6 mt-6 border-t border-color-divider"
                   >
                     <a
-                      class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary link-on-dark mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-[5px] text-size-sm font-[450] leading-[160%] items-center justify-center bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white"
+                      class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary link-on-dark mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-md text-size-sm font-[450] leading-[160%] items-center justify-center bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white"
                       href="/login?register=true&redirect_to=%2Fcourses%2Fagi-strategy"
                       tabindex="0"
                     >
@@ -573,14 +573,14 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
               class="nav-cta flex flex-row items-center gap-4"
             >
               <a
-                class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--secondary nav-cta__secondary-cta flex px-3 py-[5px] rounded-[5px] text-size-sm font-[450] leading-[160%] items-center justify-center bg-white/15 border border-white/20 text-white hover:text-white hover:bg-white/20 backdrop-blur-sm"
+                class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--secondary nav-cta__secondary-cta flex px-3 py-[5px] rounded-md text-size-sm font-[450] leading-[160%] items-center justify-center bg-white/15 border border-white/20 text-white hover:text-white hover:bg-white/20 backdrop-blur-sm"
                 href="/login?redirect_to=%2Fcourses%2Fagi-strategy"
                 tabindex="0"
               >
                 Sign in
               </a>
               <a
-                class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary link-on-dark nav-cta__primary-cta hidden bd-md:flex px-3 py-[5px] rounded-[5px] text-size-sm font-[450] leading-[160%] items-center justify-center bg-white hover:bg-white/90 text-bluedot-darker hover:text-bluedot-darker"
+                class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary link-on-dark nav-cta__primary-cta hidden bd-md:flex px-3 py-[5px] rounded-md text-size-sm font-[450] leading-[160%] items-center justify-center bg-white hover:bg-white/90 text-bluedot-darker hover:text-bluedot-darker"
                 href="/login?register=true&redirect_to=%2Fcourses%2Fagi-strategy"
                 tabindex="0"
               >
@@ -741,7 +741,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24"
       >
         <div
-          class="w-full bd-md:max-w-[840px] bd-md:mx-auto"
+          class="w-full bd-md:max-w-text bd-md:mx-auto"
         >
           <h3
             class="bluedot-section-heading mb-6"
@@ -785,7 +785,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24"
       >
         <div
-          class="w-full bd-md:max-w-[840px] bd-md:mx-auto"
+          class="w-full bd-md:max-w-text bd-md:mx-auto"
         >
           <h3
             class="bluedot-section-heading mb-8"
@@ -852,7 +852,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24"
       >
         <div
-          class="w-full bd-md:max-w-[840px] bd-md:mx-auto flex flex-col gap-6"
+          class="w-full bd-md:max-w-text bd-md:mx-auto flex flex-col gap-6"
         >
           <div
             class="flex flex-col gap-3"
@@ -1110,12 +1110,12 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24 flex flex-col items-center gap-8 md:gap-10"
       >
         <h2
-          class="bluedot-h2 not-prose w-full bd-md:max-w-[840px] text-size-xl text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]"
+          class="bluedot-h2 not-prose w-full bd-md:max-w-text text-size-xl text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]"
         >
           How the course works
         </h2>
         <div
-          class="w-full bd-md:max-w-[840px] bg-white border border-bluedot-navy/10 rounded-xl py-8 flex flex-col items-center gap-6"
+          class="w-full bd-md:max-w-text bg-white border border-bluedot-navy/10 rounded-xl py-8 flex flex-col items-center gap-6"
         >
           <div
             class="flex flex-col w-full"
@@ -1125,7 +1125,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
               >
                 <div
-                  class="md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0"
+                  class="md:w-[120px] lg:w-[144px] xl:w-40 shrink-0"
                 >
                   <p
                     class="bluedot-p not-prose text-size-sm font-semibold leading-[125%] text-bluedot-navy"
@@ -1152,7 +1152,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
               >
                 <div
-                  class="md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0"
+                  class="md:w-[120px] lg:w-[144px] xl:w-40 shrink-0"
                 >
                   <p
                     class="bluedot-p not-prose text-size-sm font-semibold leading-[125%] text-bluedot-navy"
@@ -1192,7 +1192,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
               >
                 <div
-                  class="md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0"
+                  class="md:w-[120px] lg:w-[144px] xl:w-40 shrink-0"
                 >
                   <p
                     class="bluedot-p not-prose text-size-sm font-semibold leading-[125%] text-bluedot-navy"
@@ -1219,7 +1219,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
               >
                 <div
-                  class="md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0"
+                  class="md:w-[120px] lg:w-[144px] xl:w-40 shrink-0"
                 >
                   <p
                     class="bluedot-p not-prose text-size-sm font-semibold leading-[125%] text-bluedot-navy"
@@ -1253,7 +1253,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24"
       >
         <div
-          class="w-full bd-md:max-w-[840px] bd-md:mx-auto flex flex-col gap-6"
+          class="w-full bd-md:max-w-text bd-md:mx-auto flex flex-col gap-6"
         >
           <div
             class="flex flex-col gap-3"
@@ -1290,7 +1290,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24"
       >
         <div
-          class="w-full bd-md:max-w-[840px] bd-md:mx-auto flex flex-col gap-8"
+          class="w-full bd-md:max-w-text bd-md:mx-auto flex flex-col gap-8"
         >
           <blockquote
             class="text-size-lg lg:text-[28px] leading-[1.5] font-medium text-bluedot-navy"

@@ -28,7 +28,7 @@ exports[`BiosecHackathonPage > renders the page hierarchy and signup options 1`]
       style="top: 77%; left: 78%; animation-delay: 1s; width: 70px; height: 70px;"
     />
     <div
-      class="relative z-10 max-w-[1100px]"
+      class="relative z-10 max-w-section-wide"
     >
       <h1
         class="text-[34px] font-semibold uppercase leading-[0.95] tracking-[-0.06em] text-white bd-md:text-[64px] lg:text-[96px]"
