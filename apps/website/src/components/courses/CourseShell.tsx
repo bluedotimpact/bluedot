@@ -1,5 +1,6 @@
 import type { Unit } from '@bluedot/db';
 import { A, cn } from '@bluedot/ui';
+import { useRouter } from 'next/router';
 import type React from 'react';
 import { type ReactNode, useEffect, useState } from 'react';
 import { FaBars, FaChevronDown, FaChevronRight } from 'react-icons/fa6';
@@ -121,6 +122,7 @@ export type CourseShellProps = {
   breadcrumb: ReactNode;
   navigationControls?: ReactNode;
   mobileNavigation?: MobileNavigation;
+  onNavigate?: (msg: string) => void;
   children: ReactNode;
 };
 
@@ -139,13 +141,17 @@ const CourseShell: React.FC<CourseShellProps> = ({
   breadcrumb,
   navigationControls,
   mobileNavigation,
+  onNavigate,
   children,
 }) => {
+  const router = useRouter();
   const [isSidebarHidden, setIsSidebarHidden] = useState(false);
   const [isMobileCourseMenuOpen, setIsMobileCourseMenuOpen] = useState(false);
 
+  // Handle keyboard navigation with arrow keys and sidebar toggle
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      // Ignore if user is typing in an input
       const { activeElement } = document;
       if (
         activeElement
@@ -156,6 +162,8 @@ const CourseShell: React.FC<CourseShellProps> = ({
         return;
       }
 
+      // Handle sidebar toggle shortcut: Cmd+B (macOS) or Ctrl+B (Windows/Linux)
+      // Use physical key detection (event.code) for consistent behavior across all keyboard layouts
       const isSidebarToggle
         = event.code === 'KeyB'
           && !event.altKey
@@ -165,12 +173,45 @@ const CourseShell: React.FC<CourseShellProps> = ({
       if (isSidebarToggle) {
         event.preventDefault();
         setIsSidebarHidden((prev) => !prev);
+        return;
+      }
+
+      // Ignore if modifier keys are pressed for arrow navigation
+      if (event.ctrlKey || event.altKey || event.metaKey || event.shiftKey) {
+        return;
+      }
+
+      // Handle number keys for unit navigation
+      if (/^[1-9]$/.test(event.key)) {
+        const targetUnitNumber = parseInt(event.key, 10);
+        const targetUnit = units.find((u) => Number(u.unitNumber) === targetUnitNumber);
+        if (targetUnit) {
+          event.preventDefault();
+          router.push(targetUnit.path);
+          onNavigate?.(`Navigated to Unit ${targetUnitNumber}: ${targetUnit.title}`);
+        }
+
+        return;
+      }
+
+      switch (event.key) {
+        case 'ArrowLeft':
+          event.preventDefault();
+          mobileNavigation?.onPrevClick();
+          break;
+        case 'ArrowRight':
+          event.preventDefault();
+          mobileNavigation?.onNextClick();
+          break;
+        default:
+          // Ignore other keys
+          break;
       }
     };
 
     document.addEventListener('keydown', handleKeyDown, true);
     return () => document.removeEventListener('keydown', handleKeyDown, true);
-  }, []);
+  }, [router, units, mobileNavigation, onNavigate]);
 
   return (
     <div>

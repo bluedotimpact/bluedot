@@ -8,7 +8,7 @@ import {
 } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 import type React from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import {
   type Chunk,
@@ -117,72 +117,6 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
     }
   }, [isLastChunk, chunks.length, nextUnit, chunkIndex, router, handleChunkSelect, courseSlug]);
 
-  // Handle keyboard navigation with arrow keys and sidebar toggle
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      // Ignore if user is typing in an input
-      const { activeElement } = document;
-      if (activeElement && (
-        activeElement.tagName === 'INPUT'
-        || activeElement.tagName === 'TEXTAREA'
-        || activeElement.getAttribute('contenteditable') === 'true'
-      )) {
-        return;
-      }
-
-      // Handle sidebar toggle shortcut: Cmd+B (macOS) or Ctrl+B (Windows/Linux)
-      // Use physical key detection (event.code) for consistent behavior across all keyboard layouts
-      const isSidebarToggle = event.code === 'KeyB' && !event.altKey && !event.shiftKey && (
-        (event.metaKey && !event.ctrlKey) // Cmd+B on macOS
-        || (event.ctrlKey && !event.metaKey) // Ctrl+B on Windows/Linux
-      );
-
-      if (isSidebarToggle) {
-        event.preventDefault();
-        setIsSidebarHidden((prev) => !prev);
-        return;
-      }
-
-      // Ignore if modifier keys are pressed for arrow navigation
-      if (event.ctrlKey || event.altKey || event.metaKey || event.shiftKey) {
-        return;
-      }
-
-      // Handle number keys for unit navigation
-      if (/^[1-9]$/.test(event.key)) {
-        const targetUnitNumber = parseInt(event.key, 10);
-        const targetUnit = units.find((u) => Number(u.unitNumber) === targetUnitNumber);
-        if (targetUnit) {
-          event.preventDefault();
-          router.push(targetUnit.path);
-          setNavigationAnnouncement(`Navigated to Unit ${targetUnitNumber}: ${targetUnit.title}`);
-        }
-
-        return;
-      }
-
-      switch (event.key) {
-        case 'ArrowLeft':
-          event.preventDefault();
-          handlePrevClick();
-          break;
-        case 'ArrowRight':
-          event.preventDefault();
-          handleNextClick();
-          break;
-        default:
-          // Ignore other keys
-          break;
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown, true);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown, true);
-    };
-  }, [handlePrevClick, handleNextClick, router, units]);
-
   if (!unit || unitArrIndex === -1) {
     // Should never happen
     throw new Error('Unit not found');
@@ -201,6 +135,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       onUnitSelect={(unitPath) => router.push(unitPath)}
       applyCTAProps={applyCTAProps}
       courseProgressData={courseProgressData}
+      onNavigate={setNavigationAnnouncement}
       breadcrumb={`${unitNumber}. ${unit.title}`}
       navigationControls={(
         <>
