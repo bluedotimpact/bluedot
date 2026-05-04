@@ -1,0 +1,708 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`JoinUsPage > should render correctly 1`] = `
+<div>
+  <div>
+    <section
+      class="relative w-full min-h-[317px] bd-md:min-h-[366px]"
+    >
+      <nav
+        class="nav absolute top-0 inset-x-0 z-50 w-full transition-all duration-300 bg-transparent border-b border-white/15"
+      >
+        <div
+          class="nav__container section-base"
+        >
+          <div
+            class="nav__bar w-full flex justify-between items-center min-h-(--nav-height-mobile) lg:min-h-(--nav-height-desktop)"
+          >
+            <div
+              class="flex items-center"
+            >
+              <div
+                class="mobile-nav-links lg:hidden"
+              >
+                <button
+                  class="icon-button size-[32px] flex items-center justify-center hover:cursor-pointer mobile-nav-links__btn text-white [&_svg]:text-white"
+                  type="button"
+                >
+                  <svg
+                    fill="none"
+                    height="48"
+                    viewBox="0 0 48 48"
+                    width="48"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16 18H32"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-width="2"
+                    />
+                    <path
+                      d="M16 24H32"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-width="2"
+                    />
+                    <path
+                      d="M16 30H32"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-width="2"
+                    />
+                  </svg>
+                </button>
+                <div
+                  class="mobile-nav-links__drawer absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                >
+                  <div
+                    class="mobile-nav-links__drawer-content flex flex-col grow font-medium pb-8 pt-2 lg:hidden"
+                    role="presentation"
+                  >
+                    <div
+                      class="nav-links flex gap-9 [&>*]:w-fit mobile-nav-links__nav-links flex-col"
+                    >
+                      <div
+                        class="nav-dropdown"
+                      >
+                        <button
+                          aria-controls="courses-dropdown"
+                          aria-expanded="false"
+                          class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                          type="button"
+                        >
+                          Courses
+                          <svg
+                            class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                            fill="none"
+                            height="1em"
+                            stroke="currentColor"
+                            stroke-width="0"
+                            viewBox="0 0 24 24"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
+                              fill="currentColor"
+                            />
+                          </svg>
+                        </button>
+                        <div
+                          aria-label="Courses menu"
+                          class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                          id="courses-dropdown"
+                          role="region"
+                        >
+                          <div
+                            class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                          >
+                            <div
+                              class="border-t border-gray-200 my-2"
+                            />
+                            <a
+                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                              href="/courses"
+                              tabindex="0"
+                            >
+                              See upcoming rounds
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="nav-dropdown"
+                      >
+                        <button
+                          aria-controls="programs-dropdown"
+                          aria-expanded="false"
+                          class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                          type="button"
+                        >
+                          Programs
+                          <svg
+                            class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                            fill="none"
+                            height="1em"
+                            stroke="currentColor"
+                            stroke-width="0"
+                            viewBox="0 0 24 24"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
+                              fill="currentColor"
+                            />
+                          </svg>
+                        </button>
+                        <div
+                          aria-label="Programs menu"
+                          class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                          id="programs-dropdown"
+                          role="region"
+                        >
+                          <div
+                            class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                          >
+                            <a
+                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                              href="/programs/rapid-grants"
+                              tabindex="0"
+                            >
+                              Rapid Grants
+                            </a>
+                            <a
+                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                              href="/programs/career-transition-grant"
+                              tabindex="0"
+                            >
+                              Career Transition Grants
+                            </a>
+                            <a
+                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                              href="/courses/technical-ai-safety-project"
+                              tabindex="0"
+                            >
+                              Technical AI Safety Project Sprint
+                            </a>
+                            <a
+                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                              href="/programs/advising"
+                              tabindex="0"
+                            >
+                              1-1 advising
+                            </a>
+                            <a
+                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                              href="/programs/incubator-week"
+                              tabindex="0"
+                            >
+                              Incubator Week
+                            </a>
+                            <div
+                              class="border-t border-gray-200 my-2"
+                            />
+                            <a
+                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                              href="/programs?utm_source=website&utm_campaign=nav"
+                              tabindex="0"
+                            >
+                              See all programs
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="nav-dropdown"
+                      >
+                        <button
+                          aria-controls="explore-dropdown"
+                          aria-expanded="false"
+                          class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                          type="button"
+                        >
+                          Explore
+                          <svg
+                            class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                            fill="none"
+                            height="1em"
+                            stroke="currentColor"
+                            stroke-width="0"
+                            viewBox="0 0 24 24"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
+                              fill="currentColor"
+                            />
+                          </svg>
+                        </button>
+                        <div
+                          aria-label="Explore menu"
+                          class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                          id="explore-dropdown"
+                          role="region"
+                        >
+                          <div
+                            class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                          >
+                            <a
+                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                              href="/events?utm_source=website&utm_campaign=nav"
+                              tabindex="0"
+                            >
+                              Events
+                            </a>
+                            <a
+                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                              href="https://blog.bluedot.org"
+                              rel="noopener noreferrer"
+                              tabindex="0"
+                              target="_blank"
+                            >
+                              Blog
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                        href="/about"
+                        tabindex="0"
+                      >
+                        About
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                        href="/join-us"
+                        tabindex="0"
+                      >
+                        Join us
+                      </a>
+                    </div>
+                    <div
+                      class="mobile-nav-cta flex flex-col gap-4 pt-6 mt-6 border-t border-color-divider"
+                    >
+                      <a
+                        class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary link-on-dark mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-md text-size-sm font-[450] leading-[160%] items-center justify-center bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white"
+                        href="/login?register=true&redirect_to=%2Fjoin-us"
+                        tabindex="0"
+                      >
+                        Start for free
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a
+                class="bluedot-a not-prose logo shrink-0 w-[151px] min-[681px]:w-[200px] no-underline"
+                href="/"
+                tabindex="0"
+              >
+                <img
+                  alt="BlueDot Impact Logo"
+                  class="logo__img h-5 min-[681px]:h-6 mr-auto transition-all duration-300"
+                  src="/images/logo/BlueDot_Impact_Logo_White.svg"
+                />
+              </a>
+            </div>
+            <div
+              class="flex items-center gap-12"
+            >
+              <div
+                class="nav-links flex gap-9 [&>*]:w-fit hidden lg:flex"
+              >
+                <div
+                  class="nav-dropdown"
+                >
+                  <button
+                    aria-controls="courses-dropdown"
+                    aria-expanded="false"
+                    class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                    type="button"
+                  >
+                    Courses
+                    <svg
+                      class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                      fill="none"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    aria-label="Courses menu"
+                    class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                    id="courses-dropdown"
+                    role="region"
+                  >
+                    <div
+                      class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                    >
+                      <div
+                        class="border-t border-gray-200 my-2"
+                      />
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                        href="/courses"
+                        tabindex="0"
+                      >
+                        See upcoming rounds
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="nav-dropdown"
+                >
+                  <button
+                    aria-controls="programs-dropdown"
+                    aria-expanded="false"
+                    class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                    type="button"
+                  >
+                    Programs
+                    <svg
+                      class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                      fill="none"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    aria-label="Programs menu"
+                    class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                    id="programs-dropdown"
+                    role="region"
+                  >
+                    <div
+                      class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                    >
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                        href="/programs/rapid-grants"
+                        tabindex="0"
+                      >
+                        Rapid Grants
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                        href="/programs/career-transition-grant"
+                        tabindex="0"
+                      >
+                        Career Transition Grants
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                        href="/courses/technical-ai-safety-project"
+                        tabindex="0"
+                      >
+                        Technical AI Safety Project Sprint
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                        href="/programs/advising"
+                        tabindex="0"
+                      >
+                        1-1 advising
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                        href="/programs/incubator-week"
+                        tabindex="0"
+                      >
+                        Incubator Week
+                      </a>
+                      <div
+                        class="border-t border-gray-200 my-2"
+                      />
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                        href="/programs?utm_source=website&utm_campaign=nav"
+                        tabindex="0"
+                      >
+                        See all programs
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="nav-dropdown"
+                >
+                  <button
+                    aria-controls="explore-dropdown"
+                    aria-expanded="false"
+                    class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                    type="button"
+                  >
+                    Explore
+                    <svg
+                      class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
+                      fill="none"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 24 24"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6.34317 7.75732L4.92896 9.17154L12 16.2426L19.0711 9.17157L17.6569 7.75735L12 13.4142L6.34317 7.75732Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    aria-label="Explore menu"
+                    class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
+                    id="explore-dropdown"
+                    role="region"
+                  >
+                    <div
+                      class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
+                    >
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                        href="/events?utm_source=website&utm_campaign=nav"
+                        tabindex="0"
+                      >
+                        Events
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                        href="https://blog.bluedot.org"
+                        rel="noopener noreferrer"
+                        tabindex="0"
+                        target="_blank"
+                      >
+                        Blog
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                  href="/about"
+                  tabindex="0"
+                >
+                  About
+                </a>
+                <a
+                  class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
+                  href="/join-us"
+                  tabindex="0"
+                >
+                  Join us
+                </a>
+              </div>
+              <div
+                class="nav-cta flex flex-row items-center gap-4"
+              >
+                <a
+                  class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--secondary nav-cta__secondary-cta flex px-3 py-[5px] rounded-md text-size-sm font-[450] leading-[160%] items-center justify-center bg-white/15 border border-white/20 text-white hover:text-white hover:bg-white/20 backdrop-blur-sm"
+                  href="/login?redirect_to=%2Fjoin-us"
+                  tabindex="0"
+                >
+                  Sign in
+                </a>
+                <a
+                  class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary link-on-dark nav-cta__primary-cta hidden bd-md:flex px-3 py-[5px] rounded-md text-size-sm font-[450] leading-[160%] items-center justify-center bg-white hover:bg-white/90 text-bluedot-darker hover:text-bluedot-darker"
+                  href="/login?register=true&redirect_to=%2Fjoin-us"
+                  tabindex="0"
+                >
+                  Start for free
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <img
+        alt=""
+        class="absolute inset-0 size-full object-cover -scale-x-100"
+        fetchpriority="high"
+        src="/images/homepage/hero.webp"
+      />
+      <div
+        class="relative z-10 flex flex-col justify-end h-full min-h-[317px] bd-md:min-h-[366px] pb-12 pt-20 bd-md:pb-16"
+      >
+        <div
+          class="section-base"
+        >
+          <div
+            class="flex flex-col gap-6 max-w-[780px]"
+          >
+            <h1
+              class="bluedot-h1 not-prose bluedot-marketing-hero-h1"
+            >
+              Work with us
+            </h1>
+            <p
+              class="text-size-sm bd-md:text-size-md leading-[1.55] tracking-[-0.1px] text-white"
+            >
+              AI safety needs thousands more people. We need the team that gets them there.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div
+      class="breadcrumbs bg-color-canvas border-b border-color-divider w-full py-space-between"
+    >
+      <nav
+        aria-label="Breadcrumbs"
+        class="breadcrumbs__nav section-base flex flex-row justify-between"
+      >
+        <ol
+          class="breadcrumbs__list flex"
+        >
+          <li
+            class="breadcrumbs__item flex items-center"
+          >
+            <a
+              class="bluedot-a not-prose breadcrumbs__link no-underline"
+              href="/"
+              tabindex="0"
+            >
+              Home
+            </a>
+            <span
+              class="breadcrumbs__separator mx-2"
+            >
+              &gt;
+            </span>
+          </li>
+          <li
+            class="breadcrumbs__item flex items-center"
+          >
+            <a
+              class="bluedot-a not-prose breadcrumbs__link no-underline"
+              href="/join-us"
+              tabindex="0"
+            >
+              Work with us
+            </a>
+          </li>
+        </ol>
+      </nav>
+    </div>
+    <section
+      class="section section-body"
+    >
+      <h3
+        class="bluedot-section-heading mb-6"
+      >
+        Why us
+      </h3>
+      <div
+        class="flex flex-col gap-5"
+      >
+        <p
+          class="bluedot-p not-prose"
+        >
+          We're a small team. We just raised $25M. We're expanding from London to San Francisco in 2026 and scaling to 20 team members. If you join now, you'll shape how the organisation works, what we build, and who we become.
+        </p>
+        <p
+          class="bluedot-p not-prose"
+        >
+          On any given day you might be shipping a new course, redesigning a placements pipeline, or figuring out how to reach ten times more people. We delete bureaucracy: our expense policy is "act in BlueDot's best interest." We're a non-profit, but our salaries are benchmarked on SF tech salaries.
+        </p>
+      </div>
+    </section>
+    <section
+      class="section section-body"
+    >
+      <div
+        class="invisible relative bottom-48"
+        id="open-roles-anchor"
+      />
+      <h3
+        class="bluedot-section-heading mb-6"
+      >
+        Open roles
+      </h3>
+      <p
+        class="bluedot-p not-prose"
+      >
+        We're not currently running any open hiring rounds at the moment.
+      </p>
+    </section>
+    <div
+      class="page-newsletter w-full bd-md:px-spacing-x bd-md:mt-spacing-y bd-md:mb-16"
+    >
+      <div
+        class="mx-auto max-w-max-width"
+      >
+        <div
+          class="relative w-full bd-md:border bd-md:border-[rgba(0,0,0,0.08)] bd-md:rounded-xl overflow-hidden"
+        >
+          <div
+            aria-hidden="true"
+            class="absolute inset-0 pointer-events-none"
+          >
+            <div
+              class="absolute inset-0 bd-md:rounded-xl -scale-x-100 bg-cover"
+              style="background-image: url("/images/homepage/hero.webp"); background-position: 50% 60%;"
+            />
+            <div
+              class="absolute inset-0 bd-md:rounded-xl"
+              style="mix-blend-mode: overlay;"
+            />
+          </div>
+          <div
+            class="relative z-10 flex flex-col items-center bd-md:items-start gap-8 pt-8 px-6 pb-0 bd-md:py-10 bd-md:px-8 lg:py-16 lg:px-12"
+          >
+            <div
+              class="flex flex-col gap-4 w-full"
+            >
+              <span
+                class="text-size-xxs leading-[14px] tracking-[0.5px] uppercase text-white opacity-70 font-medium"
+              >
+                Newsletter
+              </span>
+              <h3
+                class="text-2xl leading-tight text-white max-w-narrow"
+              >
+                Subscribe to get AI safety news and course updates delivered directly to your inbox
+              </h3>
+            </div>
+            <div
+              class="relative w-full lg:w-[480px]"
+            >
+              <form
+                class="flex flex-col lg:flex-row gap-3 w-full transition-opacity duration-300 opacity-100"
+              >
+                <label
+                  class="sr-only"
+                  for="newsletter-email"
+                >
+                  Email address
+                </label>
+                <input
+                  class="w-full h-11 px-4 bg-white rounded-md text-size-sm leading-[18.2px] tracking-[0.42px] text-bluedot-navy placeholder:text-bluedot-navy/60 border border-[rgba(0,0,0,0.1)] focus:outline-none focus:border-transparent focus:border-[3px] transition-all"
+                  id="newsletter-email"
+                  placeholder="Email"
+                  required=""
+                  style="background-origin: padding-box, border-box; background-clip: padding-box, border-box;"
+                  type="email"
+                  value=""
+                />
+                <button
+                  class="w-full lg:w-auto h-11 px-[17px] flex items-center justify-center rounded-md text-size-sm leading-[18.2px] tracking-[0.42px] text-white bg-white/15 border border-white/15 backdrop-blur-[2px] hover:bg-white/20 hover:border-white/20 disabled:hover:bg-white/15 disabled:hover:border-white/15 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                  type="submit"
+                >
+                  Subscribe
+                </button>
+              </form>
+            </div>
+            <img
+              alt=""
+              class="bd-md:hidden lg:block size-[140px] lg:absolute lg:top-10 lg:right-6 lg:size-64 2xl:top-6 2xl:right-12 2xl:size-[280px] opacity-80"
+              src="/images/homepage/newsletter.svg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
