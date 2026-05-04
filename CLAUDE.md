@@ -58,7 +58,7 @@ Mixing schema additions and consumer code in one PR breaks staging because the t
 
 - Commit prefix: `[feat]`, `[fix]`, `[style]`, `[chore]`, `[docs]`, `[refactor]`.
 - Open a real PR with `gh pr create` — title + body. Don't leave a "create PR" link for the human to fill in.
-- **UI screenshots**: take before/after screenshots and save them to `.github/pr-screenshots/` (gitignored). Tell the user the file paths so they can drag-and-drop them into the GitHub PR description. Don't commit screenshots to the repo — GitHub hosts uploaded images automatically. If you can't take screenshots, say so in the PR body.
+- **UI screenshots**: embed real `<img>` tags, not text descriptions. Commit screenshots to `.github/pr-screenshots/<n>/` (where `<n>` is the PR number or branch slug), push, then embed via SHA-pinned `raw.githubusercontent.com` URLs (`<img width="390">` for mobile, `<img width="1280">` for desktop). Dismiss any cookie banner before capturing. After embedding, push a follow-up commit deleting the screenshots from `.github/pr-screenshots/` so the folder doesn't grow. The SHA-pinned URLs will still work. If you can't take screenshots, note in the PR body that a human should take them.
 
 ## apps/website specifics
 
