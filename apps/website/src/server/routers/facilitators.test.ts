@@ -18,9 +18,9 @@ vi.mock('../airtableFieldOptions', () => ({
   getFieldOptions: vi.fn().mockResolvedValue([
     { id: 'sel1', name: 'No further action needed' },
     { id: 'sel2', name: 'Add to talent pipeline [keep warm for future opportunities/check-ins]' },
-    { id: 'sel3', name: 'Flag for 1-1 advising with BlueDot team' },
-    { id: 'sel4', name: 'Flag as candidate for funding (career transition/project)' },
-    { id: 'sel5', name: 'Recommend to facilitate' },
+    { id: 'sel3', name: '[!] Flag for 1-1 advising with BlueDot team' },
+    { id: 'sel4', name: '[!] Flag as candidate for funding (career transition/project)' },
+    { id: 'sel5', name: '[!] Recommend to facilitate' },
   ]),
 }));
 
@@ -107,7 +107,7 @@ const baseInput = {
   initiativeRating: 4,
   reasoningQualityRating: 5,
   feedback: 'Great work',
-  nextSteps: ['Recommend to facilitate' as const],
+  nextSteps: ['[!] Recommend to facilitate' as const],
 };
 
 describe('facilitators.savePeerFeedback', () => {
@@ -133,7 +133,7 @@ describe('facilitators.savePeerFeedback', () => {
       initiativeRating: 4,
       reasoningQualityRating: 5,
       feedback: 'Great work',
-      nextSteps: ['Recommend to facilitate'],
+      nextSteps: ['[!] Recommend to facilitate'],
     });
   });
 

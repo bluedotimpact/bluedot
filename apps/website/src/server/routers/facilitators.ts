@@ -29,7 +29,12 @@ type FollowUpOption = { id: string; name: string; label: string; actionable: boo
 
 const getNextStepsOptions = async (): Promise<FollowUpOption[]> => {
   const { baseId, tableId } = peerFeedbackTable.airtable;
-  const fieldId = peerFeedbackTable.airtableFieldMap.get('nextSteps')!;
+  const fieldId = peerFeedbackTable.airtableFieldMap.get('nextSteps');
+
+  if (!fieldId) {
+    throw new Error('peerFeedbackTable.airtableFieldMap is missing a mapping for nextSteps');
+  }
+
   const options = await getFieldOptions(baseId, tableId, fieldId);
   return options.map((o) => {
     const actionable = o.name.startsWith(ACTIONABLE_MARKER);
