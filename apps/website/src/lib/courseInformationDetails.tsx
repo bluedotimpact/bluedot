@@ -28,7 +28,7 @@ export const COURSE_INFORMATION_DETAILS: Record<string, CourseInformationConfig>
   'agi-strategy': {
     title: 'How the course works',
     scheduleCtaText: 'Apply now',
-details: [
+    details: [
       {
         icon: PiArrowsLeftRight,
         label: 'Options',
