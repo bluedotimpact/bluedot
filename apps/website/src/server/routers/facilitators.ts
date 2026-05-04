@@ -18,8 +18,29 @@ import {
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
-import { FOLLOW_UP_IDS } from '../../lib/facilitatorFollowUps';
 import { checkAdminAccess, protectedProcedure, router } from '../trpc';
+import { getFieldOptions } from '../airtableFieldOptions';
+
+// Options whose Airtable name starts with "[!]" are "actionable" — flagging the participant
+// for follow-up. The marker (and surrounding whitespace) is stripped before display on the client.
+const ACTIONABLE_MARKER = '[!]';
+
+type FollowUpOption = { id: string; name: string; label: string; actionable: boolean };
+
+const getNextStepsOptions = async (): Promise<FollowUpOption[]> => {
+  const { baseId, tableId } = peerFeedbackTable.airtable;
+  const fieldId = peerFeedbackTable.airtableFieldMap.get('nextSteps')!;
+  const options = await getFieldOptions(baseId, tableId, fieldId);
+  return options.map((o) => {
+    const actionable = o.name.startsWith(ACTIONABLE_MARKER);
+    return {
+      id: o.id,
+      name: o.name,
+      label: actionable ? o.name.slice(ACTIONABLE_MARKER.length).trim() : o.name,
+      actionable,
+    };
+  });
+};
 
 const getFacilitator = async (roundId: string, facilitatorEmail: string) => {
   const facilitator = await db.getFirst(meetPersonTable, {
@@ -272,7 +293,10 @@ export const facilitatorRouter = router({
       const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx);
       const group = await getGroupForFacilitator(meetPerson.id);
       const participantIds = group.participants ?? [];
-      const dropInIds = await getDropInIdsForGroup(group.id, participantIds);
+      const [dropInIds, followUpOptions] = await Promise.all([
+        getDropInIdsForGroup(group.id, participantIds),
+        getNextStepsOptions(),
+      ]);
 
       const round = meetPerson.round
         ? await db.getFirst(roundTable, { filter: { id: meetPerson.round }, sortBy: 'id' })
@@ -313,6 +337,7 @@ export const facilitatorRouter = router({
         roundLastDiscussionDate: round?.lastDiscussionDate ?? null,
         groupId: group.id,
         groupName: group.groupName,
+        followUpOptions,
         participants: people.filter((p) => participantIdSet.has(p.id)).map((p) => ({ id: p.id, name: p.name ?? '' })),
         dropIns: people.filter((p) => dropInIdSet.has(p.id)).map((p) => ({ id: p.id, name: p.name ?? '' })),
         existingCourseFeedback: existingCourseFeedback ? {
@@ -370,13 +395,20 @@ export const facilitatorRouter = router({
       initiativeRating: z.number().min(1).max(5),
       reasoningQualityRating: z.number().min(1).max(5),
       feedback: z.string(),
-      nextSteps: z.array(z.enum(FOLLOW_UP_IDS)),
+      nextSteps: z.array(z.string()),
     }))
     .mutation(async ({ input, ctx }) => {
       const meetPerson = await verifyFacilitatorById(input.meetPersonId, ctx);
       const target = await db.getFirst(meetPersonTable, { filter: { id: input.participantId } });
       if (!target || target.role !== 'Participant' || target.round !== meetPerson.round) {
         throw new TRPCError({ code: 'FORBIDDEN', message: 'Participant is not in your round' });
+      }
+
+      const validOptions = await getNextStepsOptions();
+      const validNames = new Set(validOptions.map((o) => o.name));
+      const invalid = input.nextSteps.filter((s) => !validNames.has(s));
+      if (invalid.length > 0) {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: `Unknown nextSteps option(s): ${invalid.join(', ')}` });
       }
 
       const courseFeedback = await getOrCreateCourseFeedback(meetPerson);

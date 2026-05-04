@@ -5,7 +5,6 @@ import Confetti from 'react-confetti';
 import { ErrorSection, ProgressDots } from '@bluedot/ui';
 import { PiCheck, PiCreditCard } from 'react-icons/pi';
 import { generateInvoiceUrl } from '../../../lib/generateInvoiceUrl';
-import { isFlagged } from '../../../lib/facilitatorFollowUps';
 import { trpc } from '../../../utils/trpc';
 import FacilitatorFeedbackHeader from '../../../components/courses/FacilitatorFeedbackHeader';
 import { useFacilitatorFeedbackStorage } from '../../../hooks/useFacilitatorFeedbackStorage';
@@ -86,8 +85,9 @@ const FacilitatorFeedbackSuccessPage = () => {
     })
     : null;
 
+  const actionableNames = new Set(data.followUpOptions.filter((o) => o.actionable).map((o) => o.name));
   const flaggedNames = data.existingPeerFeedback
-    .filter((pf) => isFlagged(pf.nextSteps))
+    .filter((pf) => (pf.nextSteps ?? []).some((n) => actionableNames.has(n)))
     .map((pf) => pf.recipientName)
     .filter(Boolean);
 
