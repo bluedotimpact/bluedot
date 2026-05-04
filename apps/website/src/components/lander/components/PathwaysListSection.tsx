@@ -27,9 +27,9 @@ const PathwaysListSection = ({
           <div className="flex flex-col gap-3">
             <h3 className={pageSectionHeadingClass}>{title}</h3>
             {intro && (
-              <div className="text-size-sm leading-[1.6] text-bluedot-navy/80">
-                {typeof intro === 'string' ? <P>{intro}</P> : intro}
-              </div>
+              typeof intro === 'string'
+                ? <P>{intro}</P>
+                : <div className="text-size-sm leading-[1.6] text-bluedot-navy/80">{intro}</div>
             )}
           </div>
           <PageListGroup>
