@@ -300,7 +300,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         role="status"
         aria-live="polite"
         aria-atomic="true"
-        className="absolute -left-[10000px] size-px overflow-hidden"
+        className="sr-only"
       >
         {navigationAnnouncement}
       </div>
@@ -338,14 +338,14 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
 
         <div className="md:flex-1 md:min-w-0">
           {/* Breadcrumbs bar */}
-          <div className="unit__breadcrumbs-wrapper hidden md:block md:sticky md:top-(--nav-height-mobile) lg:top-(--nav-height-desktop) z-10 border-b-[0.5px] border-bluedot-navy/20 h-[48px] bg-color-canvas">
+          <div className="unit__breadcrumbs-wrapper hidden md:block md:sticky md:top-(--nav-height-mobile) lg:top-(--nav-height-desktop) z-10 border-b-[0.5px] border-bluedot-navy/20 h-12 bg-color-canvas">
             <div className="flex flex-row justify-between items-center size-full px-6 gap-2">
               {/* Left section: Hide/Show Toggle */}
-              <div className="flex items-center gap-[8px]">
+              <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => setIsSidebarHidden(!isSidebarHidden)}
-                  className="flex items-center gap-[8px] text-size-xs font-medium text-bluedot-navy hover:opacity-80 transition-opacity cursor-pointer"
+                  className="flex items-center gap-2 text-size-xs font-medium text-bluedot-navy hover:opacity-80 transition-opacity cursor-pointer"
                   aria-label={isSidebarHidden ? 'Show sidebar' : 'Hide sidebar'}
                 >
                   <FaBars className="size-[16px]" />
@@ -355,7 +355,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               </div>
 
               {/* Breadcrumbs - left aligned after hide */}
-              <nav className="flex items-center gap-[8px] flex-1 min-h-[18px] min-w-0">
+              <nav className="flex items-center gap-2 flex-1 min-h-[18px] min-w-0">
                 <A
                   href={ROUTES.courses.url}
                   className="text-size-xs font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-bluedot-navy transition-colors no-underline"
@@ -376,7 +376,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               </nav>
 
               {/* Right section: Navigation */}
-              <div className="flex items-center gap-[20px] min-h-[18px]">
+              <div className="flex items-center gap-5 min-h-[18px]">
                 <button
                   type="button"
                   className="flex items-center gap-1 text-size-xs font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
@@ -420,7 +420,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
 
           {/* Main content section */}
           <Section className="unit__main !border-none !pt-0 !mt-0 md:!max-w-none md:!mx-0 md:!px-0">
-            <div className="unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto px-5 sm:px-spacing-x pt-6 md:pt-8">
+            <div className="unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-text-narrow xl:max-w-[900px] mx-auto px-5 sm:px-spacing-x pt-6 md:pt-8">
               <div className="unit__title-container">
                 <P className="unit__course-title font-semibold text-size-xs leading-[140%] tracking-[0.04em] uppercase text-bluedot-normal mb-2">Unit {unit.unitNumber}: {unit.title}</P>
                 {chunk?.chunkTitle && (

@@ -31,7 +31,7 @@ export const CertificateCTA: React.FC<CertificateCTAProps> = ({
   return (
     // Tailwind doesn't support dynamic gradients passed as props
     <div
-      className="relative flex w-full md:max-w-[800px] min-h-[596px] md:min-h-[360px] rounded-none md:rounded-[10px] overflow-hidden"
+      className="relative flex w-full md:max-w-text-narrow min-h-[596px] md:min-h-[360px] rounded-none md:rounded-lg overflow-hidden"
       style={{
         '--cta-accent': accentColor,
         background: gradient,
@@ -60,7 +60,7 @@ export const CertificateCTA: React.FC<CertificateCTAProps> = ({
 
             <CTALinkOrButton
               url={courseUrl}
-              className="h-9 px-4 py-[7px] rounded-[5px] text-size-xs font-medium text-bluedot-navy w-fit bg-[var(--cta-accent)] shadow-[inset_0_0_0_0_rgba(0,0,0,0)] hover:shadow-[inset_0_0_0_100px_rgba(0,0,0,0.1)]"
+              className="h-9 px-4 py-[7px] rounded-md text-size-xs font-medium text-bluedot-navy w-fit bg-[var(--cta-accent)] shadow-[inset_0_0_0_0_rgba(0,0,0,0)] hover:shadow-[inset_0_0_0_100px_rgba(0,0,0,0.1)]"
             >
               Start for free
             </CTALinkOrButton>

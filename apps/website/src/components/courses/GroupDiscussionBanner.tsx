@@ -224,7 +224,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
           {(discussionIsLive || discussionIsSoonOrLive) && (
             <IndicatorIcon isLive={discussionIsLive} />
           )}
-          <div className="flex gap-[6px] min-w-0 flex-initial">
+          <div className="flex gap-1.5 min-w-0 flex-initial">
             <span className="text-bluedot-normal font-bold whitespace-nowrap">
               {discussionIsLive ? 'Discussion is live' : `Discussion ${startTimeDisplayRelative}`}
             </span>
@@ -262,7 +262,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                       url={button.url}
                       onClick={button.onClick}
                       target={button.target}
-                      className={clsx(style.className, 'flex items-center gap-[6px]', isRightAligned && 'ml-auto')}
+                      className={clsx(style.className, 'flex items-center gap-1.5', isRightAligned && 'ml-auto')}
                     >
                       {button.label}
                     </CTALinkOrButton>
@@ -276,7 +276,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                     items={desktopOverflowButtons.map((button): OverflowMenuItemProps => ({
                       id: button.id,
                       label: button.overflowIcon ? (
-                        <div className="grid grid-cols-[20px_1fr] items-center gap-[6px]">
+                        <div className="grid grid-cols-[20px_1fr] items-center gap-1.5">
                           {button.overflowIcon}
                           {button.label}
                         </div>
@@ -357,7 +357,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                     url={button.url}
                     onClick={button.onClick}
                     target={button.target}
-                    className={clsx(style.className, 'w-full flex-1 gap-[6px]')}
+                    className={clsx(style.className, 'w-full flex-1 gap-1.5')}
                   >
                     {button.label}
                   </CTALinkOrButton>
@@ -372,7 +372,7 @@ const GroupDiscussionBanner: React.FC<GroupDiscussionBannerProps> = ({
                   items={overflowButtons.map((button): OverflowMenuItemProps => ({
                     id: button.id,
                     label: button.overflowIcon ? (
-                      <div className="grid grid-cols-[20px_1fr] items-center gap-[6px]">
+                      <div className="grid grid-cols-[20px_1fr] items-center gap-1.5">
                         {button.overflowIcon}
                         {button.label}
                       </div>

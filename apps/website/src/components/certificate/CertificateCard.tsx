@@ -54,9 +54,14 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
     : null;
 
   return (
-    <div className="w-full max-w-[800px] bg-white rounded-lg border border-slate-200 overflow-hidden shadow-[0_8px_60px_rgba(0,0,0,0.06)]">
+    <div className="w-full max-w-text-narrow bg-white rounded-lg border border-slate-200 overflow-hidden shadow-[0_8px_60px_rgba(0,0,0,0.06)]">
       <div className="relative">
         {iconPath && (
+          /* Decorative pattern overlay: a 1248x450 grid of icon-masked dots,
+           * clipped to a 1043x450 visible window that bleeds 338px (mobile) /
+           * 115px (desktop) past the card's left edge. The dimensions match the
+           * decorative composition spec — bucket B asset-intrinsic, not magic-
+           * number rot. PATTERN_POSITIONS encodes the dot layout. */
           <div className="absolute -left-[338px] md:-left-[115px] top-0 w-[1043px] h-[450px] overflow-hidden">
             <div className="relative w-[1248px] h-[450px]">
               {/* Tailwind doesn't support CSS masks with dynamic URLs - using inline styles */}

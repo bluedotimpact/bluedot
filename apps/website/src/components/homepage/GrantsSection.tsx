@@ -7,7 +7,7 @@ const PROGRAMS_OVERVIEW_URL = `${ROUTES.programs.url}?utm_source=website&utm_cam
 
 const GrantsSection = () => {
   return (
-    <section className="w-full py-[48px] px-5 bd-md:py-[64px] bd-md:px-8 lg:py-[80px] lg:px-12 xl:py-[96px] xl:px-16 2xl:px-20">
+    <section className="w-full py-12 px-5 bd-md:py-16 bd-md:px-8 lg:py-20 lg:px-12 xl:py-24 xl:px-16 2xl:px-20">
       <div className="mx-auto max-w-screen-xl flex flex-col items-center">
         <div className="max-w-[700px] text-center">
           <H2 className="text-size-xl bd-md:text-size-2xl leading-tight tracking-[-1px] font-medium text-bluedot-navy">

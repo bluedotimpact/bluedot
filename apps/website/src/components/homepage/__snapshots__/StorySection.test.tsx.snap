@@ -3,18 +3,18 @@
 exports[`StorySection > renders default as expected 1`] = `
 <div>
   <section
-    class="py-[48px] px-5 bd-md:py-[64px] bd-md:px-8 lg:py-[80px] lg:px-12 xl:py-[96px] xl:px-16 2xl:px-20"
+    class="py-12 px-5 bd-md:py-16 bd-md:px-8 lg:py-20 lg:px-12 xl:py-24 xl:px-16 2xl:px-20"
   >
     <div
       class="flex flex-col items-center max-w-2xl mx-auto text-center"
     >
       <h2
-        class="bluedot-h2 not-prose text-size-xl bd-md:text-size-2xl leading-tight tracking-[-1px] font-medium mb-[48px] bd-md:mb-[32px]"
+        class="bluedot-h2 not-prose text-size-xl bd-md:text-size-2xl leading-tight tracking-[-1px] font-medium mb-12 bd-md:mb-8"
       >
         Who is BlueDot?
       </h2>
       <div
-        class="flex flex-col gap-[32px] items-center"
+        class="flex flex-col gap-8 items-center"
       >
         <div
           class="flex flex-col"
@@ -31,7 +31,7 @@ exports[`StorySection > renders default as expected 1`] = `
           </p>
         </div>
         <a
-          class="cta-button flex items-center justify-center w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary link-on-dark h-[44px] px-[17px] py-[16px] text-size-xs font-normal leading-[18.2px] tracking-[0.42px] text-white bg-bluedot-normal rounded-[6px] hover:bg-bluedot-dark transition-all duration-200"
+          class="cta-button flex items-center justify-center w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary link-on-dark h-11 px-[17px] py-4 text-size-xs font-normal leading-[18.2px] tracking-[0.42px] text-white bg-bluedot-normal rounded-md hover:bg-bluedot-dark transition-all duration-200"
           href="/about"
           tabindex="0"
         >

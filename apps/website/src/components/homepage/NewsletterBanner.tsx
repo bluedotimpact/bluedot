@@ -83,7 +83,7 @@ const NewsletterBanner = () => {
             Newsletter
           </span>
 
-          <h3 className="text-2xl leading-tight text-white max-w-[512px]">
+          <h3 className="text-2xl leading-tight text-white max-w-narrow">
             Subscribe to get AI safety news and course updates delivered directly to your inbox
           </h3>
         </div>

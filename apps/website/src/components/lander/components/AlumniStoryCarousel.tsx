@@ -257,7 +257,7 @@ const AlumniStoryCarousel = ({
       <div className="relative -mx-5 bd-md:-mx-8 lg:-mx-12 xl:-mx-16 2xl:-mx-20">
         <div
           ref={scrollContainerRef}
-          className="flex flex-nowrap overflow-x-auto scrollbar-none px-5 bd-md:px-8 lg:px-12 xl:pl-[max(64px,calc(50vw-640px))] xl:pr-16 2xl:pl-[max(80px,calc(50vw-640px))] 2xl:pr-20 gap-[20px] bd-md:gap-[24px] xl:gap-[32px]"
+          className="flex flex-nowrap overflow-x-auto scrollbar-none px-5 bd-md:px-8 lg:px-12 xl:pl-[max(64px,calc(50vw-640px))] xl:pr-16 2xl:pl-[max(80px,calc(50vw-640px))] 2xl:pr-20 gap-5 bd-md:gap-6 xl:gap-8"
           style={{
             scrollSnapType: 'none',
             scrollBehavior: 'auto',

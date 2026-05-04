@@ -208,6 +208,8 @@ export const createMockGroup = (overrides: Partial<Group> = {}): Group => ({
   startTimeUtc: Math.floor(Date.now() / 1000), // Unix timestamp in seconds
   whoCanSwitchIntoThisGroup: [],
   facilitator: null,
+  groupNumber: null,
+  slackChannelId: null,
   ...overrides,
 });
 

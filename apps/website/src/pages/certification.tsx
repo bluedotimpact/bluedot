@@ -61,7 +61,7 @@ const ShareButtons: React.FC<{ shareUrl: string; shareText: string }> = ({ share
   const linkedInUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
   const xUrl = `https://x.com/intent/post?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
 
-  const baseButtonClasses = 'h-10 px-4 py-[7px] rounded-[5px] flex items-center justify-center gap-2 font-medium text-size-xs leading-[22px] transition-opacity hover:opacity-90';
+  const baseButtonClasses = 'h-10 px-4 py-[7px] rounded-md flex items-center justify-center gap-2 font-medium text-size-xs leading-[22px] transition-opacity hover:opacity-90';
 
   return (
     <div className="flex flex-col sm:flex-row gap-2 justify-center">
@@ -224,7 +224,7 @@ const CertificatePage = ({
 
         <div
           className={clsx(
-            'md:max-w-[800px]',
+            'md:max-w-text-narrow',
             isOwner ? 'w-full mt-12 md:mt-20' : 'w-[calc(100%+40px)] md:w-full mt-12 md:mt-20 -mx-5 md:mx-0',
           )}
         >

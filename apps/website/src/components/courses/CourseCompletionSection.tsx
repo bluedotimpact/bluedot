@@ -144,7 +144,7 @@ export default function CourseCompletionSection({
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-3 max-w-[840px] w-full mx-auto">
+        <div className="flex flex-col md:flex-row gap-3 max-w-text w-full mx-auto">
           {FEATURE_CARDS.map((card) => (
             <FeatureCardItem key={card.title} card={card} accentColor={accentColor} />
           ))}
@@ -157,6 +157,7 @@ export default function CourseCompletionSection({
               rounds={roundsData.intense}
               applicationUrl={applicationUrlWithUtm}
               accentColor={accentColor}
+              maxRounds={3}
             />
           )}
 
@@ -167,6 +168,7 @@ export default function CourseCompletionSection({
                 rounds={roundsData.partTime}
                 applicationUrl={applicationUrlWithUtm}
                 accentColor={accentColor}
+                maxRounds={3}
               />
             </div>
           )}
