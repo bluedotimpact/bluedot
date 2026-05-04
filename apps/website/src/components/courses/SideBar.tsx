@@ -7,15 +7,16 @@ import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
 import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
-import type { CertificateStatus } from '../../server/routers/certificates';
+import type { CertificateStatusData } from '../../server/routers/certificates';
 import type { ChunkProgress, CourseProgress } from '../../server/routers/courses';
 import { ChunkIcon } from '../icons';
 import { CourseIcon } from './CourseIcon';
+import { SidebarCertificatePanel } from './SidebarCertificatePanel';
 
 type SideBarProps = {
   courseTitle: string;
   courseSlug: string;
-  certificateStatus: CertificateStatus | undefined;
+  certificateStatusData: CertificateStatusData | undefined;
   units: Unit[];
   currentUnitNumber: number;
   currentChunkIndex: number;
@@ -35,7 +36,6 @@ type SideBarCollapsibleProps = {
   onChunkSelect: (index: number) => void;
   courseSlug: string;
   chunkProgress: ChunkProgress[];
-  certificateStatus: CertificateStatus | undefined;
 };
 
 const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
@@ -47,7 +47,6 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   onChunkSelect,
   courseSlug,
   chunkProgress,
-  certificateStatus,
 }) => {
   const [isExpanded, setIsExpanded] = useState(isCurrentUnit);
   const detailsRef = useRef<HTMLDetailsElement>(null);
@@ -192,7 +191,7 @@ const ApplyCTA = ({ applicationDeadline, applicationUrl, hasApplied }: ApplyCTAP
 const SideBar: React.FC<SideBarProps> = ({
   courseTitle,
   courseSlug,
-  certificateStatus,
+  certificateStatusData,
   courseProgressData,
   className,
   units,
@@ -247,9 +246,15 @@ const SideBar: React.FC<SideBarProps> = ({
             onChunkSelect={onChunkSelect}
             courseSlug={courseSlug}
             chunkProgress={courseProgressData?.chunkProgressByUnitNumber[unit.unitNumber] ?? []}
-            certificateStatus={certificateStatus}
           />
         ))}
+        <div className="px-6 pb-6">
+          <SidebarCertificatePanel
+            courseTitle={courseTitle}
+            courseSlug={courseSlug}
+            certificateStatusData={certificateStatusData}
+          />
+        </div>
       </div>
     </div>
   );
