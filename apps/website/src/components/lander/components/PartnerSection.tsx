@@ -45,7 +45,7 @@ const PartnerCard = ({
             className={`object-contain max-w-full ${isDesktop ? 'max-h-16' : 'max-h-14'} transition-opacity duration-200 group-hover:opacity-80`}
           />
         ) : (
-          <div className="w-40 h-[50px] bg-gray-200 rounded-md flex items-center justify-center text-gray-500 text-size-sm font-medium transition-opacity duration-200 group-hover:opacity-80">
+          <div className="w-40 h-button-lg bg-gray-200 rounded-md flex items-center justify-center text-gray-500 text-size-sm font-medium transition-opacity duration-200 group-hover:opacity-80">
             {partner.name}
           </div>
         )}

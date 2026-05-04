@@ -70,6 +70,11 @@
     --spacing-spacing-y: var(--spacing-y);
     --spacing-space-between: var(--space-between);
 
+    /* Canonical CTA button height for the `large` size of CTALinkOrButton.
+     * Used directly as h-button-lg to vertically align other things with CTAs
+     * (e.g. responsive lg:h-button-lg on bespoke buttons in HeroSection). */
+    --spacing-button-lg: 50px;
+
     /* Section / content max-widths used 3+ times across the site.
      * Generates max-w-section-wide / max-w-text / max-w-text-narrow / max-w-modal / max-w-narrow. */
     --container-section-wide: 1100px;

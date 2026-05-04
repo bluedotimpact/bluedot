@@ -119,7 +119,7 @@ describe('CTALinkOrButton', () => {
     expect(button.className).includes('text-size-sm');
     expect(button.className).includes('px-5');
     expect(button.className).includes('py-2.5');
-    expect(button.className).includes('h-[50px]');
+    expect(button.className).includes('h-button-lg');
     expect(button.className).includes('rounded-md');
     expect(button.className).includes('font-medium');
   });
