@@ -142,9 +142,8 @@ Please complete all exercises before requesting a certificate.`,
     }),
 
   getStatus: publicProcedure.input(z.object({ courseId: z.string() })).query(async ({ ctx, input: { courseId } }) => {
-    // For non-logged in users
     if (!ctx.auth) {
-      return { status: 'not-eligible' } as const;
+      return { status: 'not-enrolled' } as const;
     }
 
     const courseRegistration = await db.getFirst(courseRegistrationTable, {
