@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { CTALinkOrButton } from '@bluedot/ui';
 
 export type PageListRowProps = {
-  href: string;
+  href?: string;
   title: string;
   summary?: React.ReactNode;
   meta?: React.ReactNode;
@@ -47,9 +47,30 @@ export const PageListRow: React.FC<PageListRowProps> = ({
   fullyClickable = true,
   children,
 }) => {
-  const linkProps = external
+  const linkProps = external && href
     ? { href, target: '_blank', rel: 'noopener noreferrer' as const }
     : null;
+
+  const staticInnerContent = (
+    <div className="flex items-stretch gap-4 min-w-0 flex-1">
+      <div className={accentBarClassName} />
+      {leadingSlot}
+      <div className="min-w-0 flex-1">
+        <p className={titleClassName}>{title}</p>
+        {summary && <p className={summaryClassName}>{summary}</p>}
+        {meta && <p className={metaClassName}>{meta}</p>}
+        {children && <div className="mt-2">{children}</div>}
+      </div>
+    </div>
+  );
+
+  if (!href) {
+    return (
+      <div className={wrapperClassName}>
+        {staticInnerContent}
+      </div>
+    );
+  }
 
   if (fullyClickable) {
     const innerContent = (

@@ -5,7 +5,7 @@ import { PageListGroup, PageListRow, pageSectionHeadingClass } from '../../PageL
 export type PathwaysListItem = {
   title: string;
   summary: ReactNode;
-  href: string;
+  href?: string;
   ctaLabel?: string;
   external?: boolean;
 };
@@ -26,7 +26,11 @@ const PathwaysListSection = ({
         <div className="w-full bd-md:max-w-[840px] bd-md:mx-auto flex flex-col gap-6">
           <div className="flex flex-col gap-3">
             <h3 className={pageSectionHeadingClass}>{title}</h3>
-            {intro && <P>{intro}</P>}
+            {intro && (
+              <div className="text-size-sm leading-[1.6] text-bluedot-navy/80">
+                {typeof intro === 'string' ? <P>{intro}</P> : intro}
+              </div>
+            )}
           </div>
           <PageListGroup>
             {items.map((item) => (
