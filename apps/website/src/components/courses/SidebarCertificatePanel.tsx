@@ -14,12 +14,13 @@ export const isCongratulationsAccessible = (data: CertificateData | undefined): 
     || status === 'not-enrolled'
     || status === 'has-certificate'
     || status === 'can-request'
+    || status === 'attendance-ineligible'
   ) {
     return true;
   }
 
   if (status === 'action-plan-pending') return !data.hasSubmittedActionPlan;
-  return false; // attendance-ineligible, facilitator-pending, submitted-action-plan
+  return false; // facilitator-pending, submitted action-plan-pending
 };
 
 const CertificateRequirementsModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => (
@@ -67,6 +68,8 @@ export const SidebarCertificatePanel = ({
       subtitle = 'Submit your project/action plan to claim';
     } else if (status === 'can-request') {
       subtitle = 'Request your certificate once you complete all exercises';
+    } else if (status === 'attendance-ineligible') {
+      subtitle = "See what's next";
     }
 
     return (
