@@ -17,9 +17,9 @@ vi.mock('../../server/airtableFieldOptions', () => ({
   getFieldOptions: vi.fn().mockResolvedValue([
     { id: 'sel1', name: 'No further action needed' },
     { id: 'sel2', name: 'Add to talent pipeline [keep warm for future opportunities/check-ins]' },
-    { id: 'sel3', name: 'Flag for 1-1 advising with BlueDot team' },
-    { id: 'sel4', name: 'Flag as candidate for funding (career transition/project)' },
-    { id: 'sel5', name: 'Recommend to facilitate' },
+    { id: 'sel3', name: '[!] Flag for 1-1 advising with BlueDot team' },
+    { id: 'sel4', name: '[!] Flag as candidate for funding (career transition/project)' },
+    { id: 'sel5', name: '[!] Recommend to facilitate' },
   ]),
 }));
 
@@ -47,11 +47,11 @@ async function seed() {
 }
 
 const FOLLOW_UP_OPTIONS = [
-  { id: 'sel1', name: 'No further action needed', actionable: false },
-  { id: 'sel2', name: 'Add to talent pipeline [keep warm for future opportunities/check-ins]', actionable: false },
-  { id: 'sel3', name: 'Flag for 1-1 advising with BlueDot team', actionable: true },
-  { id: 'sel4', name: 'Flag as candidate for funding (career transition/project)', actionable: true },
-  { id: 'sel5', name: 'Recommend to facilitate', actionable: true },
+  { id: 'sel1', name: 'No further action needed', label: 'No further action needed', actionable: false },
+  { id: 'sel2', name: 'Add to talent pipeline [keep warm for future opportunities/check-ins]', label: 'Add to talent pipeline [keep warm for future opportunities/check-ins]', actionable: false },
+  { id: 'sel3', name: '[!] Flag for 1-1 advising with BlueDot team', label: 'Flag for 1-1 advising with BlueDot team', actionable: true },
+  { id: 'sel4', name: '[!] Flag as candidate for funding (career transition/project)', label: 'Flag as candidate for funding (career transition/project)', actionable: true },
+  { id: 'sel5', name: '[!] Recommend to facilitate', label: 'Recommend to facilitate', actionable: true },
 ];
 
 const renderModal = (overrides: Partial<React.ComponentProps<typeof ParticipantFeedbackModal>> = {}) => render(
@@ -93,7 +93,7 @@ describe('ParticipantFeedbackModal', () => {
         showUpRating: 4,
         engageRating: 4,
         investmentNote: 'Strong cohort member.',
-        followUps: ['Flag for 1-1 advising with BlueDot team'],
+        followUps: ['[!] Flag for 1-1 advising with BlueDot team'],
       });
     });
 
@@ -104,7 +104,7 @@ describe('ParticipantFeedbackModal', () => {
       initiativeRating: 4,
       reasoningQualityRating: 4,
       feedback: 'Strong cohort member.',
-      nextSteps: ['Flag for 1-1 advising with BlueDot team'],
+      nextSteps: ['[!] Flag for 1-1 advising with BlueDot team'],
     });
   });
 

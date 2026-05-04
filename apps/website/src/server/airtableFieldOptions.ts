@@ -52,7 +52,7 @@ export async function getFieldOptions(baseId: string, tableId: string, fieldId: 
   }
 
   if (entry) {
-    refresh(key, baseId, tableId, fieldId).catch((err) => {
+    refresh(key, baseId, tableId, fieldId).catch((err: unknown) => {
       // eslint-disable-next-line no-console
       console.error(`Background refresh failed for ${key}:`, err);
     });

@@ -11,7 +11,7 @@ export type ParticipantFeedbackData = {
   followUps: string[];
 };
 
-export type FollowUpOption = { id: string; name: string; actionable: boolean };
+export type FollowUpOption = { id: string; name: string; label: string; actionable: boolean };
 
 type ParticipantFeedbackModalProps = {
   meetPersonId: string;
@@ -157,7 +157,7 @@ const ParticipantFeedbackModal: React.FC<ParticipantFeedbackModalProps> = ({ mee
                     : followUps.filter((name) => name !== option.name))}
                   className="size-[18px] shrink-0 cursor-pointer accent-bluedot-normal"
                 />
-                <span className="text-size-xs font-medium text-bluedot-navy">{option.name}</span>
+                <span className="text-size-xs font-medium text-bluedot-navy">{option.label}</span>
               </label>
             ))}
           </div>
