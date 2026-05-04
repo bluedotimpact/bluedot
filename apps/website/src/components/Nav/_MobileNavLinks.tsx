@@ -34,7 +34,7 @@ export const MobileNavLinks: React.FC<{
   );
 
   const getPrimaryButtonClasses = () => {
-    const baseClasses = 'px-3 py-[5px] rounded-[5px] text-size-sm font-[450] leading-[160%] items-center justify-center';
+    const baseClasses = 'px-3 py-[5px] rounded-md text-size-sm font-[450] leading-[160%] items-center justify-center';
 
     return clsx(
       baseClasses,
@@ -47,6 +47,7 @@ export const MobileNavLinks: React.FC<{
       mobileNav: !expandedSections.mobileNav,
       courses: false,
       projects: false,
+      programs: false,
       explore: false,
       profile: false,
     });
@@ -72,6 +73,7 @@ export const MobileNavLinks: React.FC<{
               updateExpandedSections({
                 courses: false,
                 projects: false,
+                programs: false,
                 explore: false,
                 mobileNav: false,
                 profile: false,
@@ -84,6 +86,7 @@ export const MobileNavLinks: React.FC<{
               updateExpandedSections({
                 courses: false,
                 projects: false,
+                programs: false,
                 explore: false,
                 mobileNav: false,
                 profile: false,

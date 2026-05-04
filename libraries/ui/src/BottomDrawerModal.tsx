@@ -187,7 +187,7 @@ export const BottomDrawerModal: React.FC<BottomDrawerModalProps> = ({
                       className="flex justify-center pt-1 pb-4 cursor-grab active:cursor-grabbing touch-none"
                       onPointerDown={(e) => dragControls.start(e)}
                     >
-                      <div className="w-[30px] h-1 bg-bluedot-navy/30 rounded-[3px]" />
+                      <div className="w-[30px] h-1 bg-bluedot-navy/30 rounded-xs" />
                     </div>
 
                     {title && (

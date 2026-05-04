@@ -3,7 +3,7 @@
 exports[`CertificateCard > Rendering > renders correctly with valid props 1`] = `
 <div>
   <div
-    class="w-full max-w-[800px] bg-white rounded-lg border border-slate-200 overflow-hidden shadow-[0_8px_60px_rgba(0,0,0,0.06)]"
+    class="w-full max-w-text-narrow bg-white rounded-lg border border-slate-200 overflow-hidden shadow-[0_8px_60px_rgba(0,0,0,0.06)]"
   >
     <div
       class="relative"

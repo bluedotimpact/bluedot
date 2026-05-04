@@ -8,12 +8,12 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
     class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24 flex flex-col items-center gap-8 md:gap-10"
   >
     <h2
-      class="bluedot-h2 not-prose w-full bd-md:max-w-[840px] text-size-xl text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]"
+      class="bluedot-h2 not-prose w-full bd-md:max-w-text text-size-xl text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]"
     >
       Course information
     </h2>
     <div
-      class="w-full bd-md:max-w-[840px] bg-white border border-bluedot-navy/10 rounded-xl py-8 flex flex-col items-center gap-6"
+      class="w-full bd-md:max-w-text bg-white border border-bluedot-navy/10 rounded-xl py-8 flex flex-col items-center gap-6"
     >
       <div
         class="flex flex-col w-full"
@@ -23,7 +23,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
             class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
           >
             <div
-              class="md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0"
+              class="md:w-[120px] lg:w-[144px] xl:w-40 shrink-0"
             >
               <p
                 class="bluedot-p not-prose text-size-sm font-semibold leading-[125%] text-bluedot-navy"
@@ -34,7 +34,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
             <div
               class="flex-1 min-w-0"
             >
-              <p
+              <div
                 class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
               >
                 <span
@@ -50,7 +50,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
                   Part-time
                 </span>
                 : 6-week course (5h/week)
-              </p>
+              </div>
             </div>
           </div>
           <div
@@ -62,7 +62,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
             class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
           >
             <div
-              class="md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0"
+              class="md:w-[120px] lg:w-[144px] xl:w-40 shrink-0"
             >
               <p
                 class="bluedot-p not-prose text-size-sm font-semibold leading-[125%] text-bluedot-navy"
@@ -73,7 +73,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
             <div
               class="flex-1 min-w-0"
             >
-              <p
+              <div
                 class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
               >
                 Each day or week, you will:
@@ -90,7 +90,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
                   join ~8 peers in a 2-hour Zoom meeting
                 </span>
                  to discuss the content.
-              </p>
+              </div>
             </div>
           </div>
           <div
@@ -102,7 +102,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
             class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
           >
             <div
-              class="md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0"
+              class="md:w-[120px] lg:w-[144px] xl:w-40 shrink-0"
             >
               <p
                 class="bluedot-p not-prose text-size-sm font-semibold leading-[125%] text-bluedot-navy"
@@ -113,11 +113,11 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
             <div
               class="flex-1 min-w-0"
             >
-              <p
+              <div
                 class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
               >
                 All discussions will be facilitated by an AI safety expert.
-              </p>
+              </div>
             </div>
           </div>
           <div
@@ -129,7 +129,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
             class="flex flex-col md:flex-row items-start px-5 md:px-8 py-0 gap-2 md:gap-8"
           >
             <div
-              class="md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0"
+              class="md:w-[120px] lg:w-[144px] xl:w-40 shrink-0"
             >
               <p
                 class="bluedot-p not-prose text-size-sm font-semibold leading-[125%] text-bluedot-navy"
@@ -140,11 +140,11 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
             <div
               class="flex-1 min-w-0"
             >
-              <p
+              <div
                 class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
               >
                 This course is freely available and operates on a "pay-what-you-want" model.
-              </p>
+              </div>
             </div>
           </div>
           <div
@@ -156,7 +156,7 @@ exports[`CourseInformationSection > renders correctly with default colors 1`] = 
             class="flex flex-col bd-md:flex-row px-5 bd-md:px-8 py-0 gap-6 md:gap-8 items-start w-full"
           >
             <div
-              class="bd-md:w-[120px] lg:w-[144px] xl:w-[160px] shrink-0"
+              class="bd-md:w-[120px] lg:w-[144px] xl:w-40 shrink-0"
             >
               <p
                 class="bluedot-p not-prose text-size-sm font-semibold leading-[125%] text-bluedot-navy"

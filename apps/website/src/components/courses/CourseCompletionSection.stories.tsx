@@ -1,4 +1,4 @@
-import { loggedInStory, loggedOutStory } from '@bluedot/ui/src/utils/storybook';
+import { loggedOutStory } from '@bluedot/ui/src/utils/storybook';
 import type { Meta, StoryObj } from '@storybook/react';
 import { createMockRound } from '../../__tests__/testUtils';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
@@ -59,24 +59,36 @@ export const EnrollmentCTA: Story = {
   },
 };
 
-export const Congratulations: Story = {
-  parameters: {
-    msw: {
-      handlers: [
-        trpcStorybookMsw.courseRounds.getApplyCTAProps.query(() => null),
-        trpcStorybookMsw.certificates.getStatus.query(() => ({ status: 'not-eligible' as const })),
-      ],
-    },
-  },
+const manyMockRounds = {
+  intense: [
+    createMockRound({ dateRange: '1 – 5 Jun', applicationDeadline: '24 May' }),
+    createMockRound({ dateRange: '15 – 19 Jun', applicationDeadline: '7 Jun' }),
+    createMockRound({ dateRange: '29 Jun – 3 Jul', applicationDeadline: '21 Jun' }),
+    createMockRound({ dateRange: '13 – 17 Jul', applicationDeadline: '5 Jul' }),
+    createMockRound({ dateRange: '27 – 31 Jul', applicationDeadline: '19 Jul' }),
+  ],
+  partTime: [
+    createMockRound({
+      intensity: 'part-time', dateRange: '1 Jun – 5 Jul', applicationDeadline: '24 May', numberOfUnits: 5,
+    }),
+    createMockRound({
+      intensity: 'part-time', dateRange: '6 Jul – 9 Aug', applicationDeadline: '28 Jun', numberOfUnits: 5,
+    }),
+    createMockRound({
+      intensity: 'part-time', dateRange: '3 Aug – 6 Sep', applicationDeadline: '26 Jul', numberOfUnits: 5,
+    }),
+    createMockRound({
+      intensity: 'part-time', dateRange: '7 Sep – 12 Oct', applicationDeadline: '30 Aug', numberOfUnits: 5,
+    }),
+  ],
 };
 
-export const AlreadyApplied: Story = {
-  ...loggedInStory(),
+export const EnrollmentCTAWithManyUpcomingRounds: Story = {
   parameters: {
     msw: {
       handlers: [
-        trpcStorybookMsw.courseRounds.getApplyCTAProps.query(() => ({ ...mockApplyCTAProps, hasApplied: true })),
-        trpcStorybookMsw.certificates.getStatus.query(() => ({ status: 'not-eligible' as const })),
+        trpcStorybookMsw.courseRounds.getApplyCTAProps.query(() => mockApplyCTAProps),
+        trpcStorybookMsw.courseRounds.getRoundsForCourse.query(() => manyMockRounds),
       ],
     },
   },

@@ -75,6 +75,12 @@ const programs: BluedotRoute = {
   parentPages: [home],
 };
 
+const projects: BluedotRoute = {
+  title: 'Projects',
+  url: '/projects',
+  parentPages: [home],
+};
+
 const events: BluedotRoute = {
   title: 'Events',
   url: '/events',
@@ -132,6 +138,7 @@ export const ROUTES = {
   logout,
   missions,
   programs,
+  projects,
   grants: programs,
   privacyPolicy,
   profile,

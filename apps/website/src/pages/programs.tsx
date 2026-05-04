@@ -1,4 +1,6 @@
-import { Breadcrumbs, CTALinkOrButton } from '@bluedot/ui';
+import {
+  Breadcrumbs, CTALinkOrButton, ErrorSection, ProgressDots,
+} from '@bluedot/ui';
 import Head from 'next/head';
 import MarketingHero from '../components/MarketingHero';
 import PageNewsletter from '../components/PageNewsletter';
@@ -7,81 +9,26 @@ import { ROUTES } from '../lib/routes';
 import { formatAmountUsd } from '../lib/utils';
 import { trpc } from '../utils/trpc';
 
-type ProgramItem = {
-  id: string;
-  name: string;
-  href: string;
-  summary: string;
-  detail: string;
-  ctaLabel: string;
-};
+const pluralizeGrants = (count: number) => `${count} ${count === 1 ? 'grant' : 'grants'}`;
 
 const ProgramsPage = () => {
+  const { data: programs, isLoading, error } = trpc.programs.getAll.useQuery();
   const { data: rapidStats } = trpc.grants.getRapidGrantStats.useQuery();
   const { data: ctStats } = trpc.grants.getCareerTransitionGrantStats.useQuery();
 
-  const pluralizeGrants = (count: number) => `${count} ${count === 1 ? 'grant' : 'grants'}`;
+  // Per-slug stats overlay. Keeps the live "$50k+ across N grants" copy fresh
+  // without baking stale numbers into Airtable.
+  const getMeta = (slug: string | null): string | null => {
+    if (slug === 'rapid-grants' && rapidStats) {
+      return `${formatAmountUsd(rapidStats.totalAmountUsd)} deployed so far across ${pluralizeGrants(rapidStats.count)}.`;
+    }
 
-  // Fallback strings render while each query is loading (stats === undefined).
-  // Once stats resolves, show real values even if count/amount are 0.
-  const rapidFundingLabel = rapidStats ? formatAmountUsd(rapidStats.totalAmountUsd) : '$50k+';
-  const rapidGrantsLabel = rapidStats ? pluralizeGrants(rapidStats.count) : 'many grants';
-  const ctFundingLabel = ctStats ? formatAmountUsd(ctStats.totalAmountUsd) : '$50k+';
-  const ctGrantsLabel = ctStats ? pluralizeGrants(ctStats.count) : 'a handful of grants';
+    if (slug === 'career-transition-grant' && ctStats) {
+      return `${formatAmountUsd(ctStats.totalAmountUsd)} awarded so far across ${pluralizeGrants(ctStats.count)}.`;
+    }
 
-  const programs: ProgramItem[] = [
-    {
-      id: 'rapid-grants',
-      name: 'Rapid Grants',
-      href: '/programs/rapid-grants',
-      summary: 'Small, fast funding for concrete AI safety work.',
-      detail: `Five-minute application, decisions in days, money upfront by default. ${rapidFundingLabel} deployed so far across ${rapidGrantsLabel}.`,
-      ctaLabel: 'Explore program',
-    },
-    {
-      id: 'career-transition-grant',
-      name: 'Career Transition Grants',
-      href: '/programs/career-transition-grant',
-      summary: 'Funding to enable you to work full-time on impactful AI safety work.',
-      detail: `Propose your plan for contributing full-time to AI safety. ${ctFundingLabel} awarded so far across ${ctGrantsLabel}.`,
-      ctaLabel: 'Explore program',
-    },
-    {
-      id: 'technical-ai-safety-project-sprint',
-      name: 'Technical AI Safety Project Sprint',
-      href: '/courses/technical-ai-safety-project',
-      summary: 'A structured sprint for people who need momentum and accountability to ship.',
-      detail: '30 hours, expert check-ins, peer accountability, and a public output.',
-      ctaLabel: 'Explore program',
-    },
-    {
-      id: 'advising',
-      name: '1-1 advising',
-      href: '/programs/advising',
-      summary: 'A 30-min call with the BlueDot team to accelerate you towards impactful work in AI safety.',
-      detail: '200+ advising calls done. Decisions in ~5 working days.',
-      ctaLabel: 'Explore program',
-    },
-    {
-      id: 'incubator-week',
-      name: 'Incubator Week',
-      href: '/programs/incubator-week',
-      summary: 'Five days from idea to funded for AI safety founders.',
-      detail: 'Cohort 4 runs 1–5 June in London. Apply by 26 May; $50k equity-free if your pitch lands.',
-      ctaLabel: 'Apply by 26 May',
-    },
-  ];
-
-  const renderRow = (program: ProgramItem) => (
-    <PageListRow
-      key={program.id}
-      href={program.href}
-      title={program.name}
-      summary={program.summary}
-      meta={program.detail}
-      ctaLabel={program.ctaLabel}
-    />
-  );
+    return null;
+  };
 
   return (
     <div>
@@ -89,7 +36,7 @@ const ProgramsPage = () => {
         <title>Programs | BlueDot Impact</title>
         <meta
           name="description"
-          content="Explore BlueDot Impact programs, including Rapid Grants, Incubator Week, and the Technical AI Safety Project Sprint."
+          content="Explore BlueDot Impact programs, including Rapid Grants, Incubator Week, and 1-1 advising."
         />
       </Head>
 
@@ -102,9 +49,22 @@ const ProgramsPage = () => {
 
       <section className="section section-body">
         <div className="flex flex-col gap-12 lg:gap-14">
-          <PageListGroup>
-            {programs.map(renderRow)}
-          </PageListGroup>
+          {error && <ErrorSection error={error} />}
+          {isLoading && <ProgressDots />}
+          {!isLoading && !error && programs && (
+            <PageListGroup>
+              {programs.map((program) => (
+                <PageListRow
+                  key={program.id}
+                  href={program.slug ? `/programs/${program.slug}` : (program.applicationForm ?? '#')}
+                  title={program.name}
+                  summary={program.description}
+                  meta={getMeta(program.slug)}
+                  ctaLabel="Explore program"
+                />
+              ))}
+            </PageListGroup>
+          )}
         </div>
 
         <div className="flex justify-center pt-6 bd-md:pt-8 lg:pt-10">

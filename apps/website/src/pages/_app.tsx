@@ -30,6 +30,7 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
   const hideFooter = 'hideFooter' in Component;
   const pageRendersOwnNav = 'pageRendersOwnNav' in Component && Boolean(Component.pageRendersOwnNav);
   const { courses, loading } = useCourses();
+  const { data: programs } = trpc.programs.getAll.useQuery();
   const { openBugReport } = useBugReport();
 
   useEffect(() => {
@@ -99,6 +100,12 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
                 path: `/courses/${course.slug}`,
                 title: course.title,
               }))}
+              programs={(programs ?? [])
+                .filter((program): program is typeof program & { slug: string } => Boolean(program.slug))
+                .map((program) => ({
+                  path: `/programs/${program.slug}`,
+                  title: program.name,
+                }))}
               loading={loading}
               logo="/images/logo/BlueDot_Impact_Logo_White.svg"
               onReportBug={openBugReport}

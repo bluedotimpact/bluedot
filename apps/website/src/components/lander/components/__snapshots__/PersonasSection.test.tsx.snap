@@ -13,7 +13,7 @@ exports[`PersonasSection > renders correctly with default expanded index 1`] = `
       Who this course is for
     </h2>
     <div
-      class="max-w-[800px] mx-auto flex flex-col gap-4"
+      class="max-w-text-narrow mx-auto flex flex-col gap-4"
     >
       <div
         class="bg-white rounded-xl border border-bluedot-navy/10 overflow-hidden"

@@ -12,6 +12,7 @@ export type FooterProps = React.PropsWithChildren<{
   className?: string;
   logo?: string;
   courses?: { path: string; title: string }[];
+  programs?: { path: string; title: string }[];
   loading?: boolean;
   onReportBug?: () => void;
 }>;
@@ -82,24 +83,21 @@ const FooterSocial: React.FC<FooterSocialProps> = ({ className }) => (
 );
 
 export const Footer: React.FC<FooterProps> = ({
-  className, logo, courses = [], loading, onReportBug,
+  className, logo, courses = [], programs = [], loading, onReportBug,
 }) => {
   const bluedotLinks: FooterLinkItem[] = [
     { url: '/about', label: 'About us' },
-    { url: 'https://donate.stripe.com/5kA3fpgjpdJv6o89AA', label: 'Support us' },
     { url: '/join-us', label: 'Join us' },
-    { url: 'mailto:team@bluedot.org', label: 'Contact us' },
-  ];
-
-  const resourceLinks: FooterLinkItem[] = [
-    { url: 'https://blog.bluedot.org', label: 'Blog', target: '_blank' },
     { url: '/events?utm_source=website&utm_campaign=footer', label: 'Events' },
-    { url: '/programs', label: 'Programs' },
+    { url: 'https://blog.bluedot.org', label: 'Blog', target: '_blank' },
+    { url: 'https://donate.stripe.com/5kA3fpgjpdJv6o89AA', label: 'Support us' },
     { url: '/privacy-policy', label: 'Privacy Policy' },
     ...(onReportBug ? [{ onClick: onReportBug, label: 'Report a bug' }] : []),
   ];
 
-  const exploreLinks: FooterLinkItem[] = courses.map((course) => ({ url: course.path, label: course.title }));
+  const courseLinks: FooterLinkItem[] = courses.map((course) => ({ url: course.path, label: course.title }));
+
+  const programLinks: FooterLinkItem[] = programs.map((program) => ({ url: program.path, label: program.title }));
 
   return (
     <footer className={clsx('w-full bg-[#02051E]', className)}>
@@ -129,12 +127,12 @@ export const Footer: React.FC<FooterProps> = ({
                 links={bluedotLinks}
               />
               <FooterLinksSection
-                title="Explore"
-                links={exploreLinks}
+                title="Courses"
+                links={courseLinks}
               />
               <FooterLinksSection
-                title="Resources"
-                links={resourceLinks}
+                title="Programs"
+                links={programLinks}
               />
             </div>
 
@@ -145,12 +143,12 @@ export const Footer: React.FC<FooterProps> = ({
                 links={bluedotLinks}
               />
               <FooterLinksSection
-                title="Explore"
-                links={exploreLinks}
+                title="Courses"
+                links={courseLinks}
               />
               <FooterLinksSection
-                title="Resources"
-                links={resourceLinks}
+                title="Programs"
+                links={programLinks}
               />
             </div>
 
@@ -174,12 +172,12 @@ export const Footer: React.FC<FooterProps> = ({
                 links={bluedotLinks}
               />
               <FooterLinksSection
-                title="Explore"
-                links={exploreLinks}
+                title="Courses"
+                links={courseLinks}
               />
               <FooterLinksSection
-                title="Resources"
-                links={resourceLinks}
+                title="Programs"
+                links={programLinks}
               />
             </div>
 

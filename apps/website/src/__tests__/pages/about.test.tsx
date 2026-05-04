@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import AboutPage from '../../pages/about';
 import { TrpcProvider } from '../trpcProvider';
 import { server, trpcMsw } from '../trpcMswSetup';
+import { MOCK_NAV_PROGRAMS } from '../testUtils';
 
 vi.mock('next/router', () => ({
   useRouter: vi.fn(),
@@ -27,6 +28,7 @@ describe('AboutPage', () => {
     server.use(
       trpcMsw.courses.getAll.query(() => []),
       trpcMsw.teamMembers.getAll.query(() => []),
+      trpcMsw.programs.getAll.query(() => MOCK_NAV_PROGRAMS),
     );
     const { container } = render(<AboutPage />, { wrapper: TrpcProvider });
 

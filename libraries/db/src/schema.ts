@@ -312,6 +312,14 @@ export const groupTable = pgAirtable('group', {
       pgColumn: text().array(),
       airtableId: 'fld7P1XI03ToIqthj',
     },
+    groupNumber: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fld5aHNaROfa7SXMC',
+    },
+    slackChannelId: {
+      pgColumn: text(),
+      airtableId: 'fldDE9zdLglu33Z1V',
+    },
   },
 });
 
@@ -826,6 +834,41 @@ export const missionTable = pgAirtable('mission', {
     slug: {
       pgColumn: text(),
       airtableId: 'fld3F1H8EFqg6SBtm',
+    },
+  },
+});
+
+export const programTable = pgAirtable('program', {
+  baseId: WEB_CONTENT_BASE_ID,
+  tableId: 'tbldDhQj8sd1beBPV',
+  columns: {
+    name: {
+      pgColumn: text().notNull(),
+      airtableId: 'fldWZljUylxYx5FQa',
+    },
+    status: {
+      pgColumn: text(),
+      airtableId: 'fldi9YtqwOYMpAebl',
+    },
+    description: {
+      pgColumn: text(),
+      airtableId: 'fldfRBApByMiwGWoX',
+    },
+    applicationForm: {
+      pgColumn: text(),
+      airtableId: 'fldwPmnN4qLBCvps5',
+    },
+    category: {
+      pgColumn: text(),
+      airtableId: 'fldlVKwp6ndGHbsXk',
+    },
+    slug: {
+      pgColumn: text(),
+      airtableId: 'fldMoZCSDHoMCGzw0',
+    },
+    order: {
+      pgColumn: text(),
+      airtableId: 'fldrl0QTloUcxG0tI',
     },
   },
 });
@@ -1591,6 +1634,7 @@ export type Blog = InferSelectModel<typeof blogTable.pg>;
 export type JobPosting = InferSelectModel<typeof jobPostingTable.pg>;
 export type Project = InferSelectModel<typeof projectTable.pg>;
 export type Mission = InferSelectModel<typeof missionTable.pg>;
+export type Program = InferSelectModel<typeof programTable.pg>;
 export type Testimonial = InferSelectModel<typeof testimonialTable.pg>;
 export type RapidGrant = InferSelectModel<typeof rapidGrantTable.pg>;
 export type CareerTransitionGrant = InferSelectModel<typeof careerTransitionGrantTable.pg>;

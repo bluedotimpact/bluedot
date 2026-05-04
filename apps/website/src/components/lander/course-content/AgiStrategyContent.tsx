@@ -1,9 +1,3 @@
-import {
-  PiArrowsLeftRight,
-  PiChats,
-  PiClockClockwise,
-  PiHandHeart,
-} from 'react-icons/pi';
 import { type CourseLanderContent } from '../CourseLander';
 import { COURSE_COLORS } from '../../../lib/courseColors';
 
@@ -61,42 +55,6 @@ export const createAgiStrategyContent = (
       {
         heading: 'A community of builders',
         body: 'BlueDot has 7,000+ alumni, with many now working at Anthropic, DeepMind, UK AISI, and dozens of organisations working on a safe transition to advanced AI. You\'ll meet people in the field who can open doors for you and pressure-test your thinking.',
-      },
-    ],
-  },
-
-  courseInformation: {
-    title: 'How the course works',
-    applicationUrl: applicationUrlWithUtm,
-    scheduleCtaText: 'Apply now',
-    courseSlug,
-    accentColor: AGI_STRATEGY_COLORS.full,
-    details: [
-      {
-        icon: PiArrowsLeftRight,
-        label: 'Options',
-        description: 'Intensive (~5 days at ~5h/day) or part-time (~5 weeks at ~5h/week). Same content, different pace.',
-      },
-      {
-        icon: PiClockClockwise,
-        label: 'Commitment',
-        description: (
-          <>
-            Each day or week, you will:
-            <br />
-            <span className="font-semibold">Complete 3 hours</span> of reading and writing, and <span className="font-semibold">join ~8 peers in a 2-hour Zoom meeting</span> to discuss the content.
-          </>
-        ),
-      },
-      {
-        icon: PiChats,
-        label: 'Facilitator',
-        description: 'All discussions will be facilitated by an AI safety expert.',
-      },
-      {
-        icon: PiHandHeart,
-        label: 'Price',
-        description: 'This course is freely available and operates on a "pay-what-you-want" model.',
       },
     ],
   },
