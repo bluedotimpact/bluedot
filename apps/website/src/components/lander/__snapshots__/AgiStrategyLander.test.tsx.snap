@@ -1136,11 +1136,11 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 <div
                   class="flex-1 min-w-0"
                 >
-                  <p
+                  <div
                     class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
                   >
                     Intensive (~5 days at ~5h/day) or part-time (~5 weeks at ~5h/week). Same content, different pace.
-                  </p>
+                  </div>
                 </div>
               </div>
               <div
@@ -1163,7 +1163,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 <div
                   class="flex-1 min-w-0"
                 >
-                  <p
+                  <div
                     class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
                   >
                     Each day or week, you will:
@@ -1180,7 +1180,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                       join ~8 peers in a 2-hour Zoom meeting
                     </span>
                      to discuss the content.
-                  </p>
+                  </div>
                 </div>
               </div>
               <div
@@ -1203,11 +1203,11 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 <div
                   class="flex-1 min-w-0"
                 >
-                  <p
+                  <div
                     class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
                   >
                     All discussions will be facilitated by an AI safety expert.
-                  </p>
+                  </div>
                 </div>
               </div>
               <div
@@ -1230,11 +1230,11 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                 <div
                   class="flex-1 min-w-0"
                 >
-                  <p
+                  <div
                     class="bluedot-p not-prose text-size-sm leading-[160%] text-bluedot-navy/80 font-normal"
                   >
                     This course is freely available and operates on a "pay-what-you-want" model.
-                  </p>
+                  </div>
                 </div>
               </div>
             </div>
