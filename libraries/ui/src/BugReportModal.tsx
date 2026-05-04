@@ -44,11 +44,11 @@ const FileAttachmentItem = ({ file, onRemove }: { file: File; onRemove: () => vo
   return (
     <div className="relative shrink-0">
       {isImage && objectUrl ? (
-        <div className="border-bluedot-navy/20 size-12 overflow-hidden rounded-[4px] border">
+        <div className="border-bluedot-navy/20 size-12 overflow-hidden rounded-sm border">
           <img src={objectUrl} alt={file.name} className="size-full object-cover" />
         </div>
       ) : (
-        <div className="border-color-divider text-size-xs text-bluedot-navy flex h-12 max-w-[120px] items-center truncate rounded-[4px] border bg-gray-50 px-2">
+        <div className="border-color-divider text-size-xs text-bluedot-navy flex h-12 max-w-[120px] items-center truncate rounded-sm border bg-gray-50 px-2">
           {file.name}
         </div>
       )}
@@ -318,14 +318,14 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                 {recordingUrl ? (
                   <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2.5">
-                      <div className="flex items-center gap-2.5 rounded-[5px] bg-[#0EAC53] px-3 py-2 text-white">
+                      <div className="flex items-center gap-2.5 rounded-md bg-[#0EAC53] px-3 py-2 text-white">
                         <FaCheck className="size-3.5 shrink-0" />
                         <span className="text-size-xs">Recording saved</span>
                       </div>
                       <button
                         type="button"
                         onClick={onRecordScreen}
-                        className="border-bluedot-normal text-bluedot-normal flex h-9 cursor-pointer items-center gap-[10px] rounded-[5px] border px-3 text-size-xs font-medium"
+                        className="border-bluedot-normal text-bluedot-normal flex h-9 cursor-pointer items-center gap-2.5 rounded-md border px-3 text-size-xs font-medium"
                       >
                         <FaVideo className="size-4 shrink-0" />
                         Re-record
@@ -343,7 +343,7 @@ export const BugReportModal: React.FC<BugReportModalProps> = ({
                   <button
                     type="button"
                     onClick={onRecordScreen}
-                    className="bg-bluedot-normal flex h-9 cursor-pointer items-center gap-[10px] self-start rounded-[5px] px-3 text-size-xs font-medium text-white"
+                    className="bg-bluedot-normal flex h-9 cursor-pointer items-center gap-2.5 self-start rounded-md px-3 text-size-xs font-medium text-white"
                   >
                     <FaVideo className="size-4 shrink-0" />
                     Record my screen
