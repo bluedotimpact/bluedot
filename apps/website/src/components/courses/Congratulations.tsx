@@ -84,12 +84,11 @@ const PostPreviewPanel = ({
   </div>
 );
 
-const ChatPreviewPanel = ({ courseTitle, courseUrl }: { courseTitle: string; courseUrl: string }) => (
+const ChatPreviewPanel = ({ courseUrl, shareText }: { courseUrl: string; shareText: string }) => (
   <div className="flex h-full flex-col items-center justify-center border-l border-[#e5e9f2] bg-[#fbfbfd] p-8">
     <div className="bg-bluedot-normal relative max-w-[280px] rounded-[7.5px] px-4 py-3 shadow-sm">
       <p className="text-size-xs leading-[20px] text-white">
-        Hey, I just finished this free {courseTitle} course and it genuinely shifted how I think about this stuff.
-        Thought you&rsquo;d find it interesting as well.
+        {shareText}
         <br />
         <span className="tracking-[0.16px] underline">{courseUrl}</span>
       </p>
@@ -351,13 +350,14 @@ const Congratulations: React.FC<CongratulationsProps> = ({
   const shareText
     = text
       ?? `I just completed the ${courseTitle} course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out:`;
+  const dmText = `Hey, I just finished this free ${courseTitle} course and it genuinely shifted how I think about this stuff. Thought you'd find it interesting as well.`;
   const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(courseUrl)}`;
   const xUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${shareText} ${courseUrl}`)}`;
   const courseColors = getCourseCtaColors(courseSlug);
 
   const handleCopyShare = async () => {
     try {
-      await navigator.clipboard.writeText(`${shareText} ${courseUrl}`);
+      await navigator.clipboard.writeText(`${dmText} ${courseUrl}`);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (_error) {
@@ -420,7 +420,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
               description={
                 'Think of three people who\'d genuinely benefit from this course. A little "I thought of you" goes a long way.'
               }
-              preview={<ChatPreviewPanel courseTitle={courseTitle} courseUrl={courseUrl} />}
+              preview={<ChatPreviewPanel courseUrl={courseUrl} shareText={dmText} />}
               actions={
                 <button type="button" onClick={handleCopyShare} className={primaryBtnClass}>
                   <FaRegCopy className="size-4" />
