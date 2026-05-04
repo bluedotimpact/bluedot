@@ -519,7 +519,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
               <p
                 class="bluedot-p not-prose text-bluedot-navy text-size-sm leading-[26px] whitespace-nowrap flex-shrink-0"
               >
-                Our 7,000+ alumni work at
+                Our 8,000+ alumni work at
               </p>
               <div
                 class="w-full sm:flex-1 inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(90deg,transparent_0,_black_12.63%,_black_80.26%,transparent_100%)]"
