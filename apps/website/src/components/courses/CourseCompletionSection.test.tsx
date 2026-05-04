@@ -95,4 +95,39 @@ describe('CourseCompletionSection', () => {
     });
     expect(container.textContent).not.toContain('Join a facilitated cohort');
   });
+
+  test('caps each round group to the next 3 upcoming rounds', async () => {
+    server.use(
+      trpcMsw.courseRounds.getApplyCTAProps.query(() => mockApplyCTAProps),
+      trpcMsw.courseRounds.getRoundsForCourse.query(() => ({
+        intense: [
+          createMockRound({ dateRange: '1 – 5 Jun' }),
+          createMockRound({ dateRange: '15 – 19 Jun' }),
+          createMockRound({ dateRange: '29 Jun – 3 Jul' }),
+          createMockRound({ dateRange: '13 – 17 Jul' }),
+          createMockRound({ dateRange: '27 – 31 Jul' }),
+        ],
+        partTime: [
+          createMockRound({ intensity: 'part-time', dateRange: '1 Jun – 5 Jul' }),
+          createMockRound({ intensity: 'part-time', dateRange: '6 Jul – 9 Aug' }),
+          createMockRound({ intensity: 'part-time', dateRange: '3 Aug – 6 Sep' }),
+          createMockRound({ intensity: 'part-time', dateRange: '7 Sep – 12 Oct' }),
+        ],
+      })),
+    );
+
+    const { container } = render(<CourseCompletionSection {...defaultProps} />, { wrapper: TrpcProvider });
+
+    await waitFor(() => {
+      expect(container.textContent).toContain('Join the next AGI Strategy cohort');
+    });
+
+    const applyLinks = Array.from(container.querySelectorAll('a')).filter((a) => a.textContent?.trim() === 'Apply now');
+    expect(applyLinks).toHaveLength(6);
+
+    expect(container.textContent).toContain('29 Jun – 3 Jul');
+    expect(container.textContent).not.toContain('13 – 17 Jul');
+    expect(container.textContent).toContain('3 Aug – 6 Sep');
+    expect(container.textContent).not.toContain('7 Sep – 12 Oct');
+  });
 });
