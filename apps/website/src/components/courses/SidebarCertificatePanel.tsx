@@ -69,19 +69,22 @@ export const SidebarCertificatePanel = ({
     }
 
     const hasCert = status === 'has-certificate';
+    const isAttendanceIneligible = status === 'attendance-ineligible';
 
     return (
       <A
         href={congratsUrl}
         className={cn(
           'flex items-center gap-3 rounded-[10px] border-[0.5px] border-solid px-3 py-4 no-underline transition-opacity hover:opacity-90',
-          hasCert ? 'border-[#1a7a52] bg-[#f2fff8] text-[#1a7a52]' : 'border-bluedot-normal bg-bluedot-normal text-white',
+          hasCert && 'border-[#1a7a52] bg-[#f2fff8] text-[#1a7a52]',
+          isAttendanceIneligible && 'border-bluedot-normal bg-bluedot-normal/5 text-bluedot-normal',
+          !hasCert && !isAttendanceIneligible && 'border-bluedot-normal bg-bluedot-normal text-white',
           className,
         )}
       >
         <div className="flex min-w-0 flex-1 flex-col gap-1">
           <p className="text-size-sm leading-[1.5] font-bold">
-            {hasCert ? `Your ${label}` : label}
+            {hasCert ? `Your ${label}` : isAttendanceIneligible ? 'Course complete' : label}
           </p>
           <p className="text-size-xs leading-[1.5] font-normal">{subtitle}</p>
         </div>
