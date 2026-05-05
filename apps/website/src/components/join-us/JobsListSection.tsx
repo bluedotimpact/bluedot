@@ -27,7 +27,7 @@ const JobsListSection = ({ jobs }: { jobs: JobsListSectionProps }) => {
     <>
       <section className="section section-body">
         <div id="open-roles-anchor" className="invisible relative bottom-48" />
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-prose mx-auto">
           {regularJobs.length === 0 ? (
             <>
               <h3 className={`${pageSectionHeadingClass} mb-6`}>Open roles</h3>
@@ -43,7 +43,7 @@ const JobsListSection = ({ jobs }: { jobs: JobsListSectionProps }) => {
 
       {contractorJobs.length > 0 && (
         <section className="section section-body">
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-prose mx-auto">
             <PageListGroup label="Support our mission">
               {contractorJobs.map(renderRow)}
             </PageListGroup>

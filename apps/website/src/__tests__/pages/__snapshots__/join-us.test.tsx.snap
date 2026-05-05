@@ -620,7 +620,7 @@ exports[`JoinUsPage > should render correctly 1`] = `
         id="open-roles-anchor"
       />
       <div
-        class="max-w-3xl mx-auto"
+        class="max-w-prose mx-auto"
       >
         <h3
           class="bluedot-section-heading mb-6"
