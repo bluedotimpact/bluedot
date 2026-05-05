@@ -2,7 +2,7 @@ import {
   A, cn, Modal, P,
 } from '@bluedot/ui';
 import { useState } from 'react';
-import { FaArrowRight, FaLock, FaRegCircleCheck } from 'react-icons/fa6';
+import { FaArrowRight, FaLock } from 'react-icons/fa6';
 import { getActionPlanUrl } from '../../lib/utils';
 import type { CertificateData } from '../../server/routers/certificates';
 
@@ -90,7 +90,7 @@ export const SidebarCertificatePanel = ({
           </p>
           <p className="text-size-xs leading-[1.5] font-normal">{subtitle}</p>
         </div>
-        {hasCert ? <FaRegCircleCheck className="size-5 shrink-0" /> : <FaArrowRight className="size-5 shrink-0" />}
+        <FaArrowRight className="size-5 shrink-0" />
       </A>
     );
   }
