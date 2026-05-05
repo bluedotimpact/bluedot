@@ -28,9 +28,7 @@ type EnrichedCourse = Overview['courses'][number];
 // Past Courses bundles completed + facilitated + dropped. Deferred registrations are excluded —
 // they appear via their next-round registration in another bucket. Sort puts no-cert first
 // (nudges users to complete) then certificate date desc.
-export const bucketCourses = (
-  courses: EnrichedCourse[] | undefined,
-): Record<CourseTab, EnrichedCourse[]> => {
+export const bucketCourses = (courses: EnrichedCourse[] | undefined): Record<CourseTab, EnrichedCourse[]> => {
   const eligible = (courses ?? [])
     .filter(({ courseRegistration: cr }) => cr.roundStatus === 'Active' || cr.roundStatus === 'Past' || cr.roundStatus === 'Future' || cr.certificateCreatedAt)
     .filter(({ courseRegistration: cr }) => cr.decision !== 'Reject' || cr.roundStatus === 'Future');

@@ -20,6 +20,8 @@ const CalendarBadge = ({ month, day }: { month: string; day: number | string }) 
       <span className="text-size-xxs font-semibold text-white">{month.toUpperCase()}</span>
     </div>
     <div className="flex flex-1 items-center justify-center">
+      {/* Calendar-badge day. Off-scale by design — sits between text-size-lg (24) and text-size-xl (32) so neither token reads right at the badge's 64px proportion. */}
+      {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
       <span className="text-[28px] font-bold leading-none text-bluedot-navy">{day}</span>
     </div>
   </div>
@@ -31,7 +33,7 @@ const NextDiscussionCard = ({
   const isLive = state === 'live';
   const primaryLabel = isLive ? 'Join discussion' : 'Prep for discussion';
   return (
-    <article className="flex items-center gap-5 rounded-xl border border-color-divider bg-white p-6">
+    <div className="flex items-center gap-5 rounded-xl border border-color-divider bg-white p-6">
       <CalendarBadge month={month} day={day} />
       <div className="min-w-0 flex-1">
         <p className="text-size-xxs font-semibold tracking-wide text-bluedot-normal">{eyebrow}</p>
@@ -55,7 +57,7 @@ const NextDiscussionCard = ({
           {primaryLabel}
         </CTALinkOrButton>
       </div>
-    </article>
+    </div>
   );
 };
 
