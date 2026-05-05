@@ -16,20 +16,29 @@ const classifyCourseRegistration = (cr: CourseRegistration): CourseRowState => {
   return 'completed';
 };
 
+const ONE_HOUR_SECONDS = 3600;
+
+const formatTimeRange = (startSec: number): string => {
+  const start = new Date(startSec * 1000);
+  const end = new Date((startSec + ONE_HOUR_SECONDS) * 1000);
+  const fmt = (d: Date, withMeridiem: boolean) => d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })
+    .replace(withMeridiem ? '' : / ?[AP]M$/, '');
+  return `${fmt(start, false)} - ${fmt(end, true)}`;
+};
+
 const buildSubtitle = (group: Group | null, facilitatorNames: string[]): string => {
   const parts: string[] = [];
   if (group?.startTimeUtc) {
     const date = new Date(group.startTimeUtc * 1000);
     const weekday = date.toLocaleDateString('en-US', { weekday: 'long' });
-    const time = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
-    parts.push(`${weekday}s, ${time}`);
+    parts.push(`${weekday}s, ${formatTimeRange(group.startTimeUtc)}`);
   }
 
   if (facilitatorNames.length > 0) {
     parts.push(`Facilitated by ${facilitatorNames.join(', ')}`);
   }
 
-  return parts.join(' · ');
+  return parts.join(' • ');
 };
 
 type CourseListRowProps = {
@@ -76,22 +85,24 @@ const CourseListRow = ({ course, courseRegistration, group, facilitatorNames }: 
             <p className="mt-1 text-size-xs text-bluedot-navy/60">{subtitle}</p>
           )}
         </div>
-        <div className="flex shrink-0 items-center gap-3">
-          {state === 'completed' && courseRegistration.certificateCreatedAt && (
-            <CTALinkOrButton variant="primary" size="small" url="#">View certificate</CTALinkOrButton>
-          )}
-          {state === 'dropped' && (
-            <>
-              <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-                <IoBan aria-hidden size={14} />
-                Dropped
-              </span>
-              <CTALinkOrButton variant="primary" size="small" url="#">Apply again</CTALinkOrButton>
-            </>
-          )}
-          {state !== 'dropped' && (
-            <OverflowMenu ariaLabel="Course actions" items={overflowItems} />
-          )}
+        <div className="flex shrink-0 items-center gap-4">
+          <div className="flex items-center gap-3">
+            {state === 'completed' && courseRegistration.certificateCreatedAt && (
+              <CTALinkOrButton variant="primary" size="small" url="#">View certificate</CTALinkOrButton>
+            )}
+            {state === 'dropped' && (
+              <>
+                <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
+                  <IoBan aria-hidden size={14} />
+                  Dropped
+                </span>
+                <CTALinkOrButton variant="primary" size="small" url="#">Apply again</CTALinkOrButton>
+              </>
+            )}
+            {state !== 'dropped' && (
+              <OverflowMenu ariaLabel="Course actions" items={overflowItems} />
+            )}
+          </div>
           {showChevron && (
             <button
               type="button"

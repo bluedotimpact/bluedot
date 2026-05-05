@@ -19,7 +19,7 @@ import { protectedProcedure, router } from '../trpc';
 
 export const myCoursesPageRouter = router({
   getOverview: protectedProcedure.query(async ({ ctx }) => {
-    const email = ctx.auth.email;
+    const { email } = ctx.auth;
 
     // Course registrations the user has — exclude facilitator role; that view lives elsewhere.
     const courseRegistrations = await db.pg
@@ -34,9 +34,7 @@ export const myCoursesPageRouter = router({
       return { courses: [], nextDiscussion: null };
     }
 
-    const courseIds = [...new Set(
-      courseRegistrations.map((cr) => cr.courseId).filter((id): id is string => !!id),
-    )];
+    const courseIds = [...new Set(courseRegistrations.map((cr) => cr.courseId).filter((id): id is string => !!id))];
 
     const [courses, meetPersons] = await Promise.all([
       courseIds.length > 0
@@ -86,9 +84,7 @@ export const myCoursesPageRouter = router({
     });
 
     // Globally soonest upcoming discussion across all the user's expected discussions.
-    const allExpectedDiscussionIds = [...new Set(
-      perCourse.flatMap((c) => c.expectedDiscussionsParticipant),
-    )];
+    const allExpectedDiscussionIds = [...new Set(perCourse.flatMap((c) => c.expectedDiscussionsParticipant))];
 
     let nextDiscussion: {
       courseSlug: string;

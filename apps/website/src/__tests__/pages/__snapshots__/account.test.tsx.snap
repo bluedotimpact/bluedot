@@ -48,153 +48,143 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
       </nav>
     </div>
     <div
-      class="container mx-auto px-4 py-6"
+      class="section-base py-8"
     >
       <div
-        class="lg:grid lg:grid-cols-12 lg:gap-8"
+        class="lg:flex lg:gap-8"
       >
-        <aside
-          aria-label="My BlueDot navigation"
-          class="lg:col-span-3 mb-6 lg:max-w-[320px]"
+        <nav
+          aria-labelledby="my-bluedot-nav-label"
+          class="hidden w-[200px] shrink-0 lg:block"
         >
           <p
-            class="text-xs font-semibold tracking-widest uppercase text-bluedot-normal mb-3 px-3"
+            class="mb-4 text-size-xxs font-semibold uppercase tracking-wide text-bluedot-normal"
+            id="my-bluedot-nav-label"
           >
             My BlueDot
           </p>
-          <nav>
+          <div
+            class="relative"
+          >
+            <div
+              aria-hidden="true"
+              class="absolute bottom-0 left-0 top-0 w-1 bg-color-divider"
+            />
+            <span
+              aria-hidden="true"
+              class="pointer-events-none absolute left-0 top-0 h-11 w-1 bg-bluedot-normal transition-transform duration-200 ease-out"
+              style="transform: translateY(44px);"
+            />
             <ul
-              class="flex gap-2 flex-wrap lg:block lg:space-y-1"
+              class="flex flex-col"
             >
               <li>
                 <a
-                  class="
-                    w-auto lg:w-full h-11 px-4 py-3 rounded-lg transition-colors flex items-center
-                    text-bluedot-darker hover:bg-[rgba(0,85,255,0.04)]
-                  "
+                  class="flex h-11 items-center rounded-md pl-5 transition-colors hover:bg-bluedot-normal/5"
                   href="/my-courses"
                   tabindex="0"
                 >
                   <span
-                    class="flex items-center gap-3 w-full"
+                    class="text-size-sm leading-6 transition-colors text-bluedot-navy"
                   >
-                    <p
-                      class="bluedot-p not-prose text-size-xs leading-[22px] flex-grow !m-0 font-normal"
-                    >
-                      My Courses
-                    </p>
+                    My Courses
                   </span>
                 </a>
               </li>
               <li>
                 <a
-                  class="
-                    w-auto lg:w-full h-11 px-4 py-3 rounded-lg transition-colors flex items-center
-                    bg-[rgba(0,85,255,0.08)] text-bluedot-darker font-semibold
-                  "
+                  class="flex h-11 items-center rounded-md pl-5 transition-colors hover:bg-bluedot-normal/5"
                   href="/account"
                   tabindex="0"
                 >
                   <span
-                    class="flex items-center gap-3 w-full"
+                    class="text-size-sm leading-6 transition-colors text-bluedot-normal"
                   >
-                    <p
-                      class="bluedot-p not-prose text-size-xs leading-[22px] flex-grow !m-0 font-semibold"
-                    >
-                      Account
-                    </p>
+                    Account
                   </span>
                 </a>
               </li>
             </ul>
-          </nav>
-        </aside>
-        <main
+          </div>
+        </nav>
+        <section
           aria-label="My BlueDot content"
-          class="lg:col-span-9"
+          class="min-w-0 flex-1"
         >
           <div
-            role="region"
+            class="mb-6"
           >
             <div
-              class="p-8"
+              class="flex flex-col gap-2"
             >
               <div
-                class="mb-6"
-              >
-                <div
-                  class="flex flex-col gap-2"
-                >
-                  <div
-                    id="profile-name-label"
-                  >
-                    <p
-                      class="bluedot-p not-prose font-semibold"
-                    >
-                      Profile Name*
-                    </p>
-                  </div>
-                  <div
-                    class="flex gap-2 items-center"
-                  >
-                    <label
-                      class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed flex-col flex-1 min-w-0"
-                    >
-                      <span
-                        class="input__label"
-                      />
-                      <input
-                        aria-describedby="profile-name-label"
-                        aria-invalid="false"
-                        aria-label="Profile name"
-                        class="input--text border border-color-divider rounded-lg p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 flex-1"
-                        placeholder="Enter your name"
-                        type="text"
-                        value="John Doe"
-                      />
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="border-t border-color-divider my-6"
-              />
-              <div
-                class="mb-6"
+                id="profile-name-label"
               >
                 <p
-                  class="bluedot-p not-prose font-semibold mb-2"
+                  class="bluedot-p not-prose font-semibold"
                 >
-                  Email*
-                </p>
-                <p
-                  class="bluedot-p not-prose text-gray-600"
-                >
-                  john.doe@example.com
+                  Profile Name*
                 </p>
               </div>
               <div
-                class="border-t border-color-divider my-6"
-              />
-              <div
-                class="mb-6"
+                class="flex gap-2 items-center"
               >
-                <p
-                  class="bluedot-p not-prose font-semibold mb-2"
+                <label
+                  class="input flex gap-2 cursor-pointer has-[:disabled]:cursor-not-allowed flex-col flex-1 min-w-0"
                 >
-                  Password
-                </p>
-                <button
-                  aria-label="Change password"
-                  class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter"
-                  type="button"
-                >
-                  Change Password
-                </button>
+                  <span
+                    class="input__label"
+                  />
+                  <input
+                    aria-describedby="profile-name-label"
+                    aria-invalid="false"
+                    aria-label="Profile name"
+                    class="input--text border border-color-divider rounded-lg p-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bluedot-normal disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400 flex-1"
+                    placeholder="Enter your name"
+                    type="text"
+                    value="John Doe"
+                  />
+                </label>
               </div>
             </div>
           </div>
-        </main>
+          <div
+            class="border-t border-color-divider my-6"
+          />
+          <div
+            class="mb-6"
+          >
+            <p
+              class="bluedot-p not-prose font-semibold mb-2"
+            >
+              Email*
+            </p>
+            <p
+              class="bluedot-p not-prose text-gray-600"
+            >
+              john.doe@example.com
+            </p>
+          </div>
+          <div
+            class="border-t border-color-divider my-6"
+          />
+          <div
+            class="mb-6"
+          >
+            <p
+              class="bluedot-p not-prose font-semibold mb-2"
+            >
+              Password
+            </p>
+            <button
+              aria-label="Change password"
+              class="cta-button flex items-center justify-center transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none text-size-sm bd-md:text-size-xs px-4 py-3 rounded-sm font-[650] cta-button--secondary bg-transparent border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-lighter"
+              type="button"
+            >
+              Change Password
+            </button>
+          </div>
+        </section>
       </div>
     </div>
   </div>

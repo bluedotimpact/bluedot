@@ -4,6 +4,10 @@ import {
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import CoursesSettingsPage from '../../../pages/legacy/settings/courses';
+
+vi.mock('next/router', () => ({
+  useRouter: () => ({ pathname: '/legacy/settings/courses', replace: vi.fn() }),
+}));
 import { server, trpcMsw } from '../../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../../__tests__/trpcProvider';
 import { createMockCourseRegistration, createMockCourse } from '../../../__tests__/testUtils';
@@ -42,7 +46,7 @@ describe('CoursesPage', () => {
         utmSource: null,
         utmCampaign: null,
         utmContent: null,
-        isAdmin: null,
+        isAdmin: true,
         allowedImpersonationTargets: [],
       })),
       trpcMsw.courseRegistrations.getRoundStartDates.query(() => ({})),
