@@ -1,5 +1,6 @@
 import {
   and,
+  applicationsRoundTable,
   courseRegistrationTable,
   courseTable,
   eq,
@@ -21,7 +22,7 @@ export const myCoursesPageRouter = router({
   getOverview: protectedProcedure.query(async ({ ctx }) => {
     const { email } = ctx.auth;
 
-    // Course registrations the user has — exclude facilitator role; that view lives elsewhere.
+    // Exclude facilitator-role registrations; the facilitator view lives elsewhere (P3).
     const courseRegistrations = await db.pg
       .select()
       .from(courseRegistrationTable.pg)
@@ -49,17 +50,49 @@ export const myCoursesPageRouter = router({
       : [];
 
     const facilitatorIds = [...new Set(groups.flatMap((g) => g.facilitator ?? []))];
-    const facilitators = facilitatorIds.length > 0
-      ? await db.pg
-        .select({
-          id: meetPersonTable.pg.id,
-          firstName: meetPersonTable.pg.firstName,
-          lastName: meetPersonTable.pg.lastName,
-        })
-        .from(meetPersonTable.pg)
-        .where(inArray(meetPersonTable.pg.id, facilitatorIds))
+    const allExpectedDiscussionIds = [...new Set(meetPersons.flatMap((mp) => mp.expectedDiscussionsParticipant ?? []))];
+    const upcomingRoundIds = [...new Set(courseRegistrations
+      .filter((cr) => cr.roundStatus === 'Future')
+      .map((cr) => cr.roundId)
+      .filter((id): id is string => !!id))];
+
+    const [facilitators, discussions, roundStartRows] = await Promise.all([
+      facilitatorIds.length > 0
+        ? db.pg
+          .select({
+            id: meetPersonTable.pg.id,
+            firstName: meetPersonTable.pg.firstName,
+            lastName: meetPersonTable.pg.lastName,
+          })
+          .from(meetPersonTable.pg)
+          .where(inArray(meetPersonTable.pg.id, facilitatorIds))
+        : Promise.resolve([]),
+      allExpectedDiscussionIds.length > 0
+        ? db.pg
+          .select()
+          .from(groupDiscussionTable.pg)
+          .where(inArray(groupDiscussionTable.pg.id, allExpectedDiscussionIds))
+        : Promise.resolve([] as GroupDiscussion[]),
+      upcomingRoundIds.length > 0
+        ? db.pg
+          .select({
+            id: applicationsRoundTable.pg.id,
+            firstDiscussionDate: applicationsRoundTable.pg.firstDiscussionDate,
+          })
+          .from(applicationsRoundTable.pg)
+          .where(inArray(applicationsRoundTable.pg.id, upcomingRoundIds))
+        : Promise.resolve([]),
+    ]);
+
+    const unitIds = [...new Set(discussions.map((d) => d.courseBuilderUnitRecordId).filter((id): id is string => !!id))];
+    const units: Unit[] = unitIds.length > 0
+      ? await db.pg.select().from(unitTable.pg).where(inArray(unitTable.pg.id, unitIds))
       : [];
+
     const facilitatorById = new Map(facilitators.map((f) => [f.id, f]));
+    const unitById = new Map(units.map((u) => [u.id, u] as const));
+    const discussionById = new Map(discussions.map((d) => [d.id, d] as const));
+    const roundStartById = new Map(roundStartRows.map((r) => [r.id, r.firstDiscussionDate] as const));
 
     const perCourse = courseRegistrations.flatMap((cr) => {
       const course = courses.find((c) => c.id === cr.courseId);
@@ -69,22 +102,57 @@ export const myCoursesPageRouter = router({
       const groupId = meetPerson?.groupsAsParticipant?.[0];
       const group = groupId ? groups.find((g) => g.id === groupId) ?? null : null;
       const facilitatorNames = (group?.facilitator ?? [])
-        .map((id) => facilitatorById.get(id))
-        .map((f) => (f ? `${f.firstName ?? ''} ${f.lastName ?? ''}`.trim() : ''))
-        .filter((s) => s.length > 0);
+        .flatMap((id) => {
+          const f = facilitatorById.get(id);
+          if (!f) return [];
+          const full = `${f.firstName ?? ''} ${f.lastName ?? ''}`.trim();
+          return full ? [full] : [];
+        });
+
+      const expectedIds = meetPerson?.expectedDiscussionsParticipant ?? [];
+      const courseDiscussions = expectedIds
+        .map((id) => discussionById.get(id))
+        .filter((d): d is GroupDiscussion => !!d)
+        .sort((a, b) => a.startDateTime - b.startDateTime);
+
+      const courseUnits: Record<string, Unit> = {};
+      for (const d of courseDiscussions) {
+        const unit = d.courseBuilderUnitRecordId ? unitById.get(d.courseBuilderUnitRecordId) : undefined;
+        if (unit) courseUnits[d.id] = unit;
+      }
+
+      // slackChannelId and activityDoc live on group_discussion. They're shared across
+      // a group's discussions, so any non-empty value works as the course-level link.
+      const slackChannelId = courseDiscussions.find((d) => d.slackChannelId)?.slackChannelId ?? null;
+      const activityDoc = courseDiscussions.find((d) => d.activityDoc)?.activityDoc ?? null;
 
       return [{
         courseRegistration: cr,
         course,
         group,
         facilitatorNames,
-        // Internal: used to derive the global next-discussion below; stripped before return.
-        expectedDiscussionsParticipant: meetPerson?.expectedDiscussionsParticipant ?? [],
+        meetPersonId: meetPerson?.id ?? null,
+        roundId: meetPerson?.round ?? cr.roundId ?? null,
+        discussions: courseDiscussions,
+        attendedDiscussionIds: meetPerson?.attendedDiscussions ?? [],
+        units: courseUnits,
+        slackChannelId,
+        activityDoc,
+        roundStartDate: cr.roundId ? roundStartById.get(cr.roundId) ?? null : null,
       }];
     });
 
-    // Globally soonest upcoming discussion across all the user's expected discussions.
-    const allExpectedDiscussionIds = [...new Set(perCourse.flatMap((c) => c.expectedDiscussionsParticipant))];
+    // Globally soonest upcoming participant discussion across all the user's courses.
+    const nowSec = Math.floor(Date.now() / 1000);
+    const expectedIdsByCourseSlug = new Map<string, Set<string>>();
+    for (const c of perCourse) {
+      expectedIdsByCourseSlug.set(c.course.slug, new Set(c.discussions.map((d) => d.id)));
+    }
+
+    const upcomingDiscussions = discussions
+      .filter((d) => d.startDateTime > nowSec)
+      .sort((a, b) => a.startDateTime - b.startDateTime);
+    const soonest = upcomingDiscussions[0];
 
     let nextDiscussion: {
       courseSlug: string;
@@ -92,43 +160,19 @@ export const myCoursesPageRouter = router({
       unit: Unit | null;
       group: Group | null;
     } | null = null;
-
-    if (allExpectedDiscussionIds.length > 0) {
-      const nowSec = Math.floor(Date.now() / 1000);
-      const discussions = await db.pg
-        .select()
-        .from(groupDiscussionTable.pg)
-        .where(inArray(groupDiscussionTable.pg.id, allExpectedDiscussionIds));
-
-      const upcoming = discussions
-        .filter((d) => d.startDateTime > nowSec)
-        .sort((a, b) => a.startDateTime - b.startDateTime);
-      const soonest = upcoming[0];
-
-      if (soonest) {
-        const owningCourse = perCourse.find((c) => c.expectedDiscussionsParticipant.includes(soonest.id));
-        const unit = soonest.courseBuilderUnitRecordId
-          ? (await db.pg
-            .select()
-            .from(unitTable.pg)
-            .where(eq(unitTable.pg.id, soonest.courseBuilderUnitRecordId))
-            .limit(1))[0] ?? null
-          : null;
-        const group = groups.find((g) => g.id === soonest.group) ?? null;
-        if (owningCourse) {
-          nextDiscussion = {
-            courseSlug: owningCourse.course.slug,
-            discussion: soonest,
-            unit,
-            group,
-          };
-        }
+    if (soonest) {
+      const owningSlug = [...expectedIdsByCourseSlug.entries()]
+        .find(([, ids]) => ids.has(soonest.id))?.[0];
+      if (owningSlug) {
+        nextDiscussion = {
+          courseSlug: owningSlug,
+          discussion: soonest,
+          unit: soonest.courseBuilderUnitRecordId ? unitById.get(soonest.courseBuilderUnitRecordId) ?? null : null,
+          group: groups.find((g) => g.id === soonest.group) ?? null,
+        };
       }
     }
 
-    return {
-      courses: perCourse.map(({ expectedDiscussionsParticipant: _, ...rest }) => rest),
-      nextDiscussion,
-    };
+    return { courses: perCourse, nextDiscussion };
   }),
 });

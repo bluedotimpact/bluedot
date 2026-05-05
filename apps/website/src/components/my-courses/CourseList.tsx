@@ -1,32 +1,23 @@
-import type { Course, CourseRegistration, Group } from '@bluedot/db';
+import type { inferRouterOutputs } from '@trpc/server';
+import type { AppRouter } from '../../server/routers/_app';
 import CourseListRow from './CourseListRow';
 
-export type EnrichedCourse = {
-  courseRegistration: CourseRegistration;
-  course: Course;
-  group: Group | null;
-  facilitatorNames: string[];
-};
+export type EnrichedCourse = inferRouterOutputs<AppRouter>['myCoursesPage']['getOverview']['courses'][number];
 
 type CourseListProps = {
   courses: EnrichedCourse[];
+  emptyMessage?: string;
 };
 
-const CourseList = ({ courses }: CourseListProps) => {
+const CourseList = ({ courses, emptyMessage = 'No courses to show.' }: CourseListProps) => {
   if (courses.length === 0) {
-    return <p className="text-size-sm text-gray-500">No courses to show.</p>;
+    return <p className="text-size-sm text-gray-500">{emptyMessage}</p>;
   }
 
   return (
     <div className="flex flex-col gap-4">
-      {courses.map(({ course, courseRegistration, group, facilitatorNames }) => (
-        <CourseListRow
-          key={courseRegistration.id}
-          course={course}
-          courseRegistration={courseRegistration}
-          group={group}
-          facilitatorNames={facilitatorNames}
-        />
+      {courses.map((c) => (
+        <CourseListRow key={c.courseRegistration.id} course={c} />
       ))}
     </div>
   );
