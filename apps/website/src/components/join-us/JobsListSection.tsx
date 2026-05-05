@@ -27,23 +27,27 @@ const JobsListSection = ({ jobs }: { jobs: JobsListSectionProps }) => {
     <>
       <section className="section section-body">
         <div id="open-roles-anchor" className="invisible relative bottom-48" />
-        {regularJobs.length === 0 ? (
-          <>
-            <h3 className={`${pageSectionHeadingClass} mb-6`}>Open roles</h3>
-            <P>We're not currently running any open hiring rounds at the moment.</P>
-          </>
-        ) : (
-          <PageListGroup label="Open roles">
-            {regularJobs.map(renderRow)}
-          </PageListGroup>
-        )}
+        <div className="max-w-3xl mx-auto">
+          {regularJobs.length === 0 ? (
+            <>
+              <h3 className={`${pageSectionHeadingClass} mb-6`}>Open roles</h3>
+              <P>We're not currently running any open hiring rounds at the moment.</P>
+            </>
+          ) : (
+            <PageListGroup label="Open roles">
+              {regularJobs.map(renderRow)}
+            </PageListGroup>
+          )}
+        </div>
       </section>
 
       {contractorJobs.length > 0 && (
         <section className="section section-body">
-          <PageListGroup label="Support our mission">
-            {contractorJobs.map(renderRow)}
-          </PageListGroup>
+          <div className="max-w-3xl mx-auto">
+            <PageListGroup label="Support our mission">
+              {contractorJobs.map(renderRow)}
+            </PageListGroup>
+          </div>
         </section>
       )}
     </>

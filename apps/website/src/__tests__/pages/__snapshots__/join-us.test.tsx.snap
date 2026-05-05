@@ -619,16 +619,20 @@ exports[`JoinUsPage > should render correctly 1`] = `
         class="invisible relative bottom-48"
         id="open-roles-anchor"
       />
-      <h3
-        class="bluedot-section-heading mb-6"
+      <div
+        class="max-w-3xl mx-auto"
       >
-        Open roles
-      </h3>
-      <p
-        class="bluedot-p not-prose"
-      >
-        We're not currently running any open hiring rounds at the moment.
-      </p>
+        <h3
+          class="bluedot-section-heading mb-6"
+        >
+          Open roles
+        </h3>
+        <p
+          class="bluedot-p not-prose"
+        >
+          We're not currently running any open hiring rounds at the moment.
+        </p>
+      </div>
     </section>
     <div
       class="page-newsletter w-full bd-md:px-spacing-x bd-md:mt-spacing-y bd-md:mb-16"
