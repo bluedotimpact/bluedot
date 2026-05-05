@@ -22,7 +22,7 @@ import { trpc } from '../utils/trpc';
 
 const FOAI_FOOTER_ENTRY = {
   path: `/courses/${FOAI_COURSE_SLUG}`,
-  title: 'The Future of AI',
+  title: 'Future of AI',
 };
 
 const AnnouncementBanner = dynamic(() => import('../components/AnnouncementBanner'), { ssr: false });

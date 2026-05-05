@@ -87,7 +87,7 @@ describe('Nav', () => {
       const courseLinks = container.querySelectorAll(`${selector} .nav-dropdown__dropdown-content a`);
 
       // Check specific course links and their URLs
-      const foaiCourse = Array.from(courseLinks).find((link) => link.textContent?.includes('The Future of AI'));
+      const foaiCourse = Array.from(courseLinks).find((link) => link.textContent?.includes('Future of AI'));
       const featuredCourse = Array.from(courseLinks).find((link) => link.textContent?.includes('Featured Course'));
       const newCourse = Array.from(courseLinks).find((link) => link.textContent?.includes('New Course'));
       const seeUpcomingRounds = Array.from(courseLinks).find((link) => link.textContent === 'See upcoming rounds');

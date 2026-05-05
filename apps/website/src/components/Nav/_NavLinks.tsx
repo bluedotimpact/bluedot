@@ -16,7 +16,7 @@ import {
 } from './utils';
 
 const FOAI_NAV_ENTRY = {
-  title: 'The Future of AI',
+  title: 'Future of AI',
   url: `/courses/${FOAI_COURSE_SLUG}`,
 };
 
