@@ -8,7 +8,7 @@ const ProfilePage = withAuth(() => {
 
   useEffect(() => {
     // Redirect to the new settings page
-    router.replace(ROUTES.settingsAccount.url);
+    router.replace(ROUTES.account.url);
   }, [router]);
 
   return null;

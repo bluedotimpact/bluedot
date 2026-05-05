@@ -3,7 +3,7 @@ import {
 } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import CoursesSettingsPage from '../../../pages/settings/courses';
+import CoursesSettingsPage from '../../../pages/legacy/settings/courses';
 import { server, trpcMsw } from '../../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../../__tests__/trpcProvider';
 import { createMockCourseRegistration, createMockCourse } from '../../../__tests__/testUtils';
@@ -24,7 +24,7 @@ vi.mock('../../settings/CourseList', () => ({
   ),
 }));
 
-vi.mock('../../settings/SettingsLayout', () => ({
+vi.mock('../../MyBlueDotLayout', () => ({
   default: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }));
 

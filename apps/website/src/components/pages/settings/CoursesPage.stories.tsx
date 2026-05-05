@@ -5,7 +5,7 @@ import type {
   MeetPerson,
 } from '@bluedot/db';
 import type { GroupDiscussionWithGroupAndUnit } from '../../../server/routers/group-discussions';
-import CoursesSettingsPage from '../../../pages/settings/courses';
+import CoursesSettingsPage from '../../../pages/legacy/settings/courses';
 import { ONE_HOUR_SECONDS } from '../../../lib/constants';
 import { trpcStorybookMsw } from '../../../__tests__/trpcMswSetup.browser';
 import {

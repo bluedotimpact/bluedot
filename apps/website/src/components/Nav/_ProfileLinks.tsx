@@ -25,6 +25,7 @@ export const ProfileLinks: React.FC<{
   const { openBugReport } = useBugReport();
 
   const { data: impersonationAccess } = trpc.admin.canImpersonate.useQuery();
+  const { data: user } = trpc.users.getUser.useQuery();
   const profileRef = useClickOutside(
     () => updateExpandedSections({ profile: false }),
     expandedSections.profile,
@@ -67,16 +68,16 @@ export const ProfileLinks: React.FC<{
       >
         <div className="profile-links__links flex flex-col gap-4 w-fit overflow-hidden mx-auto">
           <A
-            href={ROUTES.settingsAccount.url}
+            href={ROUTES.myCourses.url}
+            className={getNavLinkClasses()}
+            onClick={onToggleProfile}
+          >My Courses
+          </A>
+          <A
+            href={ROUTES.account.url}
             className={getNavLinkClasses()}
             onClick={onToggleProfile}
           >Account
-          </A>
-          <A
-            href={ROUTES.settingsCourses.url}
-            className={getNavLinkClasses()}
-            onClick={onToggleProfile}
-          >Courses
           </A>
           <A
             href={typeof window !== 'undefined'
@@ -109,6 +110,14 @@ export const ProfileLinks: React.FC<{
           >
             Report a bug
           </button>
+          {user?.isAdmin && (
+            <A
+              href={ROUTES.legacySettingsCourses.url}
+              className={getNavLinkClasses()}
+              onClick={onToggleProfile}
+            >Courses (legacy)
+            </A>
+          )}
         </div>
       </div>
       {isImpersonateModalOpen && <UserSearchModal isOpen={isImpersonateModalOpen} onClose={() => setIsImpersonateModalOpen(false)} />}

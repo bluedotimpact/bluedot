@@ -49,7 +49,7 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
         >
           <a
             class="bluedot-a not-prose breadcrumbs__link no-underline opacity-50"
-            href="/settings/account"
+            href="/legacy/settings/account"
             tabindex="0"
           >
             Account
@@ -86,7 +86,7 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
                   w-auto lg:w-full h-11 px-4 py-3 rounded-lg transition-colors flex items-center
                   bg-[rgba(0,85,255,0.08)] text-bluedot-darker font-semibold
                 "
-                href="/settings/account"
+                href="/legacy/settings/account"
                 tabindex="0"
               >
                 <span
@@ -107,7 +107,7 @@ exports[`SettingsLayout > renders complete layout structure with correct active 
                   w-auto lg:w-full h-11 px-4 py-3 rounded-lg transition-colors flex items-center
                   text-bluedot-darker hover:bg-[rgba(0,85,255,0.04)]
                 "
-                href="/settings/courses"
+                href="/legacy/settings/courses"
                 tabindex="0"
               >
                 <span

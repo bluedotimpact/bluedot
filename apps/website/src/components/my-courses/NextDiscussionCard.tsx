@@ -1,4 +1,4 @@
-const NextDiscussionSectionV2 = () => (
+const NextDiscussionCard = () => (
   <section aria-labelledby="next-discussion-heading">
     <h2 id="next-discussion-heading" className="text-sm font-semibold text-bluedot-navy mb-3">
       Next discussion
@@ -36,4 +36,4 @@ const NextDiscussionSectionV2 = () => (
   </section>
 );
 
-export default NextDiscussionSectionV2;
+export default NextDiscussionCard;
