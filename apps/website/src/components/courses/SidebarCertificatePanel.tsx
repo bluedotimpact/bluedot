@@ -125,7 +125,7 @@ export const SidebarCertificatePanel = ({
 
   if (status === 'is-facilitator') return null;
 
-  const subtitle: JSX.Element | string = status === 'action-plan-pending'
+  const subtitle: JSX.Element | string = certificateData?.status === 'action-plan-pending' && certificateData.hasSubmittedActionPlan
     ? 'Action plan submitted — pending review'
     : (
       <span>

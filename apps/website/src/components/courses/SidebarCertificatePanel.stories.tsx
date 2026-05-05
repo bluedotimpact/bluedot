@@ -46,17 +46,6 @@ export const ActionPlanPending: Story = {
   },
 };
 
-export const ActionPlanNotYetOpen: Story = {
-  args: {
-    certificateData: {
-      status: 'action-plan-pending',
-      meetPersonId: 'meet-person-123',
-      hasSubmittedActionPlan: false,
-      isActionPlanOpen: false,
-    },
-  },
-};
-
 export const AttendanceIneligible: Story = {
   args: {
     certificateData: {
@@ -68,7 +57,7 @@ export const AttendanceIneligible: Story = {
   },
 };
 
-export const AttendanceIneligibleNotOpen: Story = {
+export const MidCourse: Story = {
   args: {
     certificateData: {
       status: 'attendance-ineligible',
