@@ -41,6 +41,18 @@ export const ActionPlanPending: Story = {
       status: 'action-plan-pending',
       meetPersonId: 'meet-person-123',
       hasSubmittedActionPlan: false,
+      isActionPlanOpen: true,
+    },
+  },
+};
+
+export const ActionPlanNotYetOpen: Story = {
+  args: {
+    certificateData: {
+      status: 'action-plan-pending',
+      meetPersonId: 'meet-person-123',
+      hasSubmittedActionPlan: false,
+      isActionPlanOpen: false,
     },
   },
 };
@@ -51,6 +63,18 @@ export const AttendanceIneligible: Story = {
       status: 'attendance-ineligible',
       uniqueDiscussionAttendance: 2,
       numUnits: 5,
+      isActionPlanOpen: true,
+    },
+  },
+};
+
+export const AttendanceIneligibleNotOpen: Story = {
+  args: {
+    certificateData: {
+      status: 'attendance-ineligible',
+      uniqueDiscussionAttendance: 2,
+      numUnits: 5,
+      isActionPlanOpen: false,
     },
   },
 };
@@ -78,6 +102,7 @@ export const ActionPlanSubmitted: Story = {
       status: 'action-plan-pending',
       meetPersonId: 'meet-person-123',
       hasSubmittedActionPlan: true,
+      isActionPlanOpen: true,
     },
   },
 };
