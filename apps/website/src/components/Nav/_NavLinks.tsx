@@ -4,10 +4,16 @@ import { Tag, ProgressDots, A } from '@bluedot/ui';
 import { CgChevronDown } from 'react-icons/cg';
 
 import { ROUTES } from '../../lib/routes';
+import { FOAI_COURSE_SLUG } from '../../lib/constants';
 import { useCourses } from '../../lib/hooks/useCourses';
 import { usePrimaryCourseURL } from '../../lib/hooks/usePrimaryCourseURL';
 import { useClickOutside } from '../../lib/hooks/useClickOutside';
 import { trpc } from '../../utils/trpc';
+
+const FOAI_NAV_ENTRY = {
+  title: 'The Future of AI',
+  url: `/courses/${FOAI_COURSE_SLUG}`,
+};
 import {
   DRAWER_CLASSES,
   type ExpandedSectionsState,
@@ -46,7 +52,8 @@ export const NavLinks: React.FC<{
   }));
 
   const navCourses = [
-    ...allCourses.filter((course) => course.type !== 'Project'),
+    FOAI_NAV_ENTRY,
+    ...allCourses.filter((course) => course.type !== 'Project' && course.url !== FOAI_NAV_ENTRY.url),
     { title: 'See upcoming rounds', url: ROUTES.courses.url },
   ];
 
@@ -271,14 +278,13 @@ const NavDropdown: React.FC<{
                         New
                       </Tag>
                     )}
-                    {link.title === 'AGI Strategy' && (
+                    {link.title === FOAI_NAV_ENTRY.title && (
                       <Tag variant="secondary" className="uppercase ml-2 !p-1">
                         Start Here
                       </Tag>
                     )}
                   </A>
-                  {/* Add divider after AGI Strategy */}
-                  {link.title === 'AGI Strategy' && (
+                  {link.title === FOAI_NAV_ENTRY.title && (
                     <div className="border-t border-gray-200 my-2" />
                   )}
                 </React.Fragment>
