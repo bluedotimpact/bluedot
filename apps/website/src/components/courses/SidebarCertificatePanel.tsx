@@ -95,8 +95,10 @@ export const SidebarCertificatePanel = ({
     );
   }
 
-  // action-plan-pending + not yet submitted: two-panel layout
-  if (certificateData?.status === 'action-plan-pending' && !certificateData.hasSubmittedActionPlan && certificateData.isActionPlanOpen) {
+  if (status === 'is-facilitator' || !certificateData) return null;
+
+  // action-plan-pending + not yet submitted + open: two-panel layout
+  if (status === 'action-plan-pending' && !certificateData.hasSubmittedActionPlan && certificateData.isActionPlanOpen) {
     return (
       <div className={cn('flex flex-col gap-3', className)}>
         <CertificateRequirementsModal
@@ -122,8 +124,6 @@ export const SidebarCertificatePanel = ({
       </div>
     );
   }
-
-  if (status === 'is-facilitator') return null;
 
   const subtitle: ReactNode = status === 'action-plan-pending' && certificateData.hasSubmittedActionPlan
     ? 'Action plan submitted — pending review'
