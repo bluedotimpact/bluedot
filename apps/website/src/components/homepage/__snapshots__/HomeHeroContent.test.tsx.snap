@@ -496,7 +496,7 @@ exports[`HomeHeroContent > renders as expected 1`] = `
               The most consequential technology in human history is being built right now.
             </h1>
             <p
-              class="w-full text-[24px] bd-md:max-[1023px]:text-[32px] min-[1024px]:max-[1279px]:text-[36px] min-[1280px]:max-[1439px]:text-[40px] min-[1440px]:text-[40px] leading-[125%] font-normal tracking-[-0.5px] text-white/90"
+              class="w-full text-[24px] bd-md:max-[1023px]:text-[32px] min-[1024px]:max-[1279px]:text-[36px] min-[1280px]:max-[1439px]:text-[40px] min-[1440px]:text-[40px] leading-[125%] font-normal tracking-[-0.5px] text-white/90 slide-up-fade-in"
             >
               And not enough people work on making it go well.
             </p>

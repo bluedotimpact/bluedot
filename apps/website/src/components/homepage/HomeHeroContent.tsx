@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import Link from 'next/link';
 import { H1 } from '@bluedot/ui';
 import GraduateSection from '../lander/components/GraduateSection';
 import { Nav } from '../Nav/Nav';
@@ -34,7 +35,7 @@ const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
               </H1>
               <p
                 // eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- subtitle ramp pairs with the bespoke H1 ramp above
-                className="w-full text-[24px] bd-md:max-[1023px]:text-[32px] min-[1024px]:max-[1279px]:text-[36px] min-[1280px]:max-[1439px]:text-[40px] min-[1440px]:text-[40px] leading-[125%] font-normal tracking-[-0.5px] text-white/90"
+                className="w-full text-[24px] bd-md:max-[1023px]:text-[32px] min-[1024px]:max-[1279px]:text-[36px] min-[1280px]:max-[1439px]:text-[40px] min-[1440px]:text-[40px] leading-[125%] font-normal tracking-[-0.5px] text-white/90 slide-up-fade-in"
               >
                 And not enough people work on making it go well.
               </p>
@@ -47,13 +48,13 @@ const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
               >
                 BlueDot accelerates smart, mission-driven people into impactful work. We run courses, provide career advising, make grants, organise events all over the world, and support entrepreneurs to found new companies.
               </p>
-              <a
+              <Link
                 href="/courses/future-of-ai"
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-md bg-bluedot-normal text-white text-size-sm bd-md:text-size-md font-medium hover:bg-bluedot-dark transition-colors duration-200 mt-2"
               >
                 Learn where AI is headed
                 <span aria-hidden="true">→</span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
