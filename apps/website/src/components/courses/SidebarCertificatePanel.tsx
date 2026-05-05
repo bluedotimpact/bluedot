@@ -3,6 +3,7 @@ import {
 } from '@bluedot/ui';
 import { useState } from 'react';
 import { FaArrowRight, FaLock } from 'react-icons/fa6';
+import { getActionPlanUrl } from '../../lib/utils';
 import type { CertificateData } from '../../server/routers/certificates';
 
 export const isCongratulationsAccessible = (data: CertificateData | undefined): boolean => {
@@ -18,8 +19,7 @@ export const isCongratulationsAccessible = (data: CertificateData | undefined): 
     return true;
   }
 
-  if (status === 'action-plan-pending') return !data.hasSubmittedActionPlan;
-  return false; // facilitator-pending, submitted action-plan-pending
+  return false; // action-plan-pending (both states), facilitator-pending
 };
 
 const CertificateRequirementsModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => (
@@ -62,8 +62,6 @@ export const SidebarCertificatePanel = ({
     let subtitle = 'Join a facilitated cohort today';
     if (status === 'has-certificate') {
       subtitle = 'View your certificate';
-    } else if (status === 'action-plan-pending') {
-      subtitle = 'Submit your project/action plan to claim';
     } else if (status === 'can-request') {
       subtitle = 'Request your certificate once you complete all exercises';
     } else if (status === 'attendance-ineligible') {
@@ -89,9 +87,47 @@ export const SidebarCertificatePanel = ({
     );
   }
 
-  let subtitle: JSX.Element | string = 'Action plan submitted — pending review';
+  // action-plan-pending + not yet submitted: two-panel layout
+  if (certificateData?.status === 'action-plan-pending' && !certificateData.hasSubmittedActionPlan) {
+    return (
+      <div className={cn('flex flex-col gap-3', className)}>
+        <CertificateRequirementsModal
+          isOpen={isRequirementsModalOpen}
+          onClose={() => setIsRequirementsModalOpen(false)}
+        />
+        <a
+          href={getActionPlanUrl(certificateData.meetPersonId)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-3 rounded-[10px] border-[0.5px] border-solid border-bluedot-normal bg-bluedot-normal/5 px-3 py-4 text-bluedot-normal no-underline transition-opacity hover:opacity-90"
+        >
+          <p className="min-w-0 flex-1 text-size-sm font-bold leading-[1.5]">Submit your project/action plan</p>
+          <FaArrowRight className="size-5 shrink-0" />
+        </a>
+        <div className="flex items-center gap-3 rounded-[10px] bg-black/[0.04] px-3 py-4">
+          <div className="text-bluedot-navy/60 flex min-w-0 flex-1 flex-col gap-1">
+            <p className="text-size-sm leading-[1.5] font-bold">{label}</p>
+            <p className="text-size-xs leading-[1.5] font-normal">
+              <span>
+                {'Finish the course and '}
+                <button type="button" className="cursor-pointer underline" onClick={() => setIsRequirementsModalOpen(true)}>
+                  meet requirements
+                </button>
+                {' to unlock'}
+              </span>
+            </p>
+          </div>
+          <FaLock className="text-bluedot-navy/40 size-5 shrink-0" />
+        </div>
+      </div>
+    );
+  }
+
+  let subtitle: JSX.Element | string;
   if (status === 'facilitator-pending') {
     subtitle = 'Pending cohort completion';
+  } else if (status === 'action-plan-pending') {
+    subtitle = 'Action plan submitted — pending review';
   } else {
     subtitle = (
       <span>
