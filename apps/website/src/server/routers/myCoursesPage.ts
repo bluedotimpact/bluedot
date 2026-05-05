@@ -149,8 +149,9 @@ export const myCoursesPageRouter = router({
       expectedIdsByCourseSlug.set(c.course.slug, new Set(c.discussions.map((d) => d.id)));
     }
 
+    // "Next" includes a discussion that's started but not yet ended (i.e. live now).
     const upcomingDiscussions = discussions
-      .filter((d) => d.startDateTime > nowSec)
+      .filter((d) => d.endDateTime > nowSec)
       .sort((a, b) => a.startDateTime - b.startDateTime);
     const soonest = upcomingDiscussions[0];
 

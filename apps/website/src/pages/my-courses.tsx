@@ -65,7 +65,7 @@ const MyCoursesPage = () => {
 
   const buckets = bucketCourses(data?.courses);
   const visibleCourses = buckets[activeTab];
-  const nextDiscussionCourseSlug = data?.nextDiscussion?.courseSlug;
+  const nextDiscussion = data?.nextDiscussion ?? null;
 
   return (
     <div>
@@ -74,7 +74,13 @@ const MyCoursesPage = () => {
       </Head>
       <MyBlueDotLayout route={CURRENT_ROUTE}>
         <div className="flex flex-col gap-6">
-          {nextDiscussionCourseSlug && <NextDiscussionSection courseSlug={nextDiscussionCourseSlug} />}
+          {nextDiscussion && (
+            <NextDiscussionSection
+              courseSlug={nextDiscussion.courseSlug}
+              discussion={nextDiscussion.discussion}
+              unit={nextDiscussion.unit}
+            />
+          )}
           <TabPills
             ariaLabel="Course filter"
             tabs={TABS}
