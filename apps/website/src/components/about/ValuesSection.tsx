@@ -20,7 +20,7 @@ const ValuesSection = () => {
   return (
     <section className="values-section section section-body">
       <h3 className={`${pageSectionHeadingClass} mb-6`}>Values</h3>
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-6 max-w-prose">
         {values.map((value) => (
           <div key={value.title}>
             <h4 className="bluedot-h4 mb-2">{value.title}</h4>

@@ -11,7 +11,7 @@ exports[`IntroSection > renders default as expected 1`] = `
       Who we are
     </h3>
     <div
-      class="intro-section__text-container flex flex-col gap-5"
+      class="intro-section__text-container flex flex-col gap-5 max-w-prose"
     >
       <p
         class="bluedot-p not-prose"

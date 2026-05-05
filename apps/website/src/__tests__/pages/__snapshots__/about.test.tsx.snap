@@ -594,7 +594,7 @@ exports[`AboutPage > should render correctly 1`] = `
         Who we are
       </h3>
       <div
-        class="intro-section__text-container flex flex-col gap-5"
+        class="intro-section__text-container flex flex-col gap-5 max-w-prose"
       >
         <p
           class="bluedot-p not-prose"
@@ -627,7 +627,7 @@ exports[`AboutPage > should render correctly 1`] = `
         Core beliefs
       </h3>
       <div
-        class="flex flex-col gap-6"
+        class="flex flex-col gap-6 max-w-prose"
       >
         <div>
           <h4
@@ -676,7 +676,7 @@ exports[`AboutPage > should render correctly 1`] = `
         Values
       </h3>
       <div
-        class="flex flex-col gap-6"
+        class="flex flex-col gap-6 max-w-prose"
       >
         <div>
           <h4
