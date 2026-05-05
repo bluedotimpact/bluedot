@@ -14,10 +14,16 @@ import { Header } from '../components/Header';
 import '../globals.css';
 import BugReportProvider, { useBugReport } from '../hooks/useBugReport';
 import '../lib/axios'; // Configure axios-hooks
+import { FOAI_COURSE_SLUG } from '../lib/constants';
 import { inter } from '../lib/fonts';
 import { useCourses } from '../lib/hooks/useCourses';
 import { reportClientError } from '../lib/reportClientError';
 import { trpc } from '../utils/trpc';
+
+const FOAI_FOOTER_ENTRY = {
+  path: `/courses/${FOAI_COURSE_SLUG}`,
+  title: 'Future of AI',
+};
 
 const AnnouncementBanner = dynamic(() => import('../components/AnnouncementBanner'), { ssr: false });
 // Dynamic import prevents SSR execution - required because Customer.io package has circular dependencies
@@ -96,10 +102,12 @@ const AppContent: React.FC<AppProps> = ({ Component, pageProps }) => {
           </main>
           {!hideFooter && (
             <Footer
-              courses={courses.map((course) => ({
-                path: `/courses/${course.slug}`,
-                title: course.title,
-              }))}
+              courses={[
+                FOAI_FOOTER_ENTRY,
+                ...courses
+                  .map((course) => ({ path: `/courses/${course.slug}`, title: course.title }))
+                  .filter((c) => c.path !== FOAI_FOOTER_ENTRY.path),
+              ]}
               programs={(programs ?? [])
                 .filter((program): program is typeof program & { slug: string } => Boolean(program.slug))
                 .map((program) => ({

@@ -4,6 +4,7 @@ import { Tag, ProgressDots, A } from '@bluedot/ui';
 import { CgChevronDown } from 'react-icons/cg';
 
 import { ROUTES } from '../../lib/routes';
+import { FOAI_COURSE_SLUG } from '../../lib/constants';
 import { useCourses } from '../../lib/hooks/useCourses';
 import { usePrimaryCourseURL } from '../../lib/hooks/usePrimaryCourseURL';
 import { useClickOutside } from '../../lib/hooks/useClickOutside';
@@ -13,6 +14,11 @@ import {
   type ExpandedSectionsState,
   NAV_DROPDOWN_CLASS,
 } from './utils';
+
+const FOAI_NAV_ENTRY = {
+  title: 'Future of AI',
+  url: `/courses/${FOAI_COURSE_SLUG}`,
+};
 
 const isCurrentPath = (url: string): boolean => {
   if (typeof window === 'undefined') {
@@ -38,14 +44,20 @@ export const NavLinks: React.FC<{
   const { getPrimaryCourseURL } = usePrimaryCourseURL();
   const { data: programs, isLoading: programsLoading } = trpc.programs.getAll.useQuery();
 
-  const allCourses = loading ? [] : (courses || []).map((course) => ({
-    title: course.title,
-    url: getPrimaryCourseURL(course.slug),
-    isNew: course.isNew ?? false,
-    type: course.type ?? null,
-  }));
+  // Filter FoAI from the dynamic list at the slug level (not URL): getPrimaryCourseURL
+  // returns deep-link URLs like /courses/future-of-ai/1/1 for enrolled users, so a URL-based
+  // filter would let those slip through and double-list FoAI.
+  const allCourses = loading ? [] : (courses || [])
+    .filter((course) => course.slug !== FOAI_COURSE_SLUG)
+    .map((course) => ({
+      title: course.title,
+      url: getPrimaryCourseURL(course.slug),
+      isNew: course.isNew ?? false,
+      type: course.type ?? null,
+    }));
 
   const navCourses = [
+    FOAI_NAV_ENTRY,
     ...allCourses.filter((course) => course.type !== 'Project'),
     { title: 'See upcoming rounds', url: ROUTES.courses.url },
   ];
@@ -271,14 +283,13 @@ const NavDropdown: React.FC<{
                         New
                       </Tag>
                     )}
-                    {link.title === 'AGI Strategy' && (
+                    {link.title === FOAI_NAV_ENTRY.title && (
                       <Tag variant="secondary" className="uppercase ml-2 !p-1">
                         Start Here
                       </Tag>
                     )}
                   </A>
-                  {/* Add divider after AGI Strategy */}
-                  {link.title === 'AGI Strategy' && (
+                  {link.title === FOAI_NAV_ENTRY.title && (
                     <div className="border-t border-gray-200 my-2" />
                   )}
                 </React.Fragment>

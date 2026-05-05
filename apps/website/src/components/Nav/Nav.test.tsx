@@ -17,7 +17,7 @@ const mockCourses = [
   createMockCourse({
     id: '1',
     title: 'Featured Course',
-    slug: 'future-of-ai',
+    slug: 'agi-strategy',
     durationDescription: '4 weeks',
     isFeatured: true,
     isNew: false,
@@ -87,12 +87,17 @@ describe('Nav', () => {
       const courseLinks = container.querySelectorAll(`${selector} .nav-dropdown__dropdown-content a`);
 
       // Check specific course links and their URLs
+      const foaiCourse = Array.from(courseLinks).find((link) => link.textContent?.includes('Future of AI'));
       const featuredCourse = Array.from(courseLinks).find((link) => link.textContent?.includes('Featured Course'));
       const newCourse = Array.from(courseLinks).find((link) => link.textContent?.includes('New Course'));
       const seeUpcomingRounds = Array.from(courseLinks).find((link) => link.textContent === 'See upcoming rounds');
 
+      // FoAI is hardcoded as the orient course at the top of the dropdown
+      expect(foaiCourse).toBeDefined();
+      expect(foaiCourse?.getAttribute('href')).toBe('/courses/future-of-ai');
+
       expect(featuredCourse).toBeDefined();
-      expect(featuredCourse?.getAttribute('href')).toBe('/courses/future-of-ai');
+      expect(featuredCourse?.getAttribute('href')).toBe('/courses/agi-strategy');
 
       expect(newCourse).toBeDefined();
       expect(newCourse?.getAttribute('href')).toBe('/courses/ops');
@@ -100,10 +105,11 @@ describe('Nav', () => {
       expect(seeUpcomingRounds).toBeDefined();
       expect(seeUpcomingRounds?.getAttribute('href')).toBe('/courses');
 
-      // Verify "New" tag
-      const newTags = container.querySelectorAll(`${selector} .tag`);
-      expect(newTags).toHaveLength(1);
-      expect(newTags[0]!.textContent).toBe('New');
+      // Verify tags: one "Start Here" on FoAI, one "New" on new course
+      const tags = container.querySelectorAll(`${selector} .tag`);
+      const tagTexts = Array.from(tags).map((t) => t.textContent);
+      expect(tagTexts).toContain('Start Here');
+      expect(tagTexts).toContain('New');
     });
   };
 

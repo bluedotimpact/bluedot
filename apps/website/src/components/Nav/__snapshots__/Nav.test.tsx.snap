@@ -98,6 +98,22 @@ exports[`Nav > renders with courses 1`] = `
                           href="/courses/future-of-ai"
                           tabindex="0"
                         >
+                          Future of AI
+                          <span
+                            class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit !text-bluedot-normal bg-[#E5EDFE] rounded-sm uppercase ml-2 !p-1"
+                            role="status"
+                          >
+                            Start Here
+                          </span>
+                        </a>
+                        <div
+                          class="border-t border-gray-200 my-2"
+                        />
+                        <a
+                          class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                          href="/courses/agi-strategy"
+                          tabindex="0"
+                        >
                           Featured Course
                         </a>
                         <a
@@ -332,6 +348,22 @@ exports[`Nav > renders with courses 1`] = `
                   <a
                     class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                     href="/courses/future-of-ai"
+                    tabindex="0"
+                  >
+                    Future of AI
+                    <span
+                      class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit !text-bluedot-normal bg-[#E5EDFE] rounded-sm uppercase ml-2 !p-1"
+                      role="status"
+                    >
+                      Start Here
+                    </span>
+                  </a>
+                  <div
+                    class="border-t border-gray-200 my-2"
+                  />
+                  <a
+                    class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                    href="/courses/agi-strategy"
                     tabindex="0"
                   >
                     Featured Course
