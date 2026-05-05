@@ -1,6 +1,5 @@
 import type { Course, CourseRegistration, Group } from '@bluedot/db';
 import { CTALinkOrButton, OverflowMenu } from '@bluedot/ui';
-import clsx from 'clsx';
 import { useState } from 'react';
 import { IoBan, IoChevronDown } from 'react-icons/io5';
 import { COURSE_CONFIG } from '../../lib/constants';
@@ -111,10 +110,7 @@ const CourseListRow = ({ course, courseRegistration, group, facilitatorNames }: 
               onClick={() => setIsExpanded((prev) => !prev)}
               className="flex size-9 cursor-pointer items-center justify-center rounded border border-bluedot-normal text-bluedot-normal transition-colors hover:bg-bluedot-normal/5"
             >
-              <IoChevronDown
-                size={20}
-                className={clsx('transition-transform duration-200', isExpanded && 'rotate-180')}
-              />
+              <IoChevronDown size={20} />
             </button>
           )}
         </div>
