@@ -84,7 +84,9 @@ export const SidebarCertificatePanel = ({
       >
         <div className="flex min-w-0 flex-1 flex-col gap-1">
           <p className="text-size-sm leading-[1.5] font-bold">
-            {hasCert ? `Your ${label}` : isAttendanceIneligible ? 'Course complete' : label}
+            {hasCert && `Your ${label}`}
+            {isAttendanceIneligible && 'Course complete'}
+            {!hasCert && !isAttendanceIneligible && label}
           </p>
           <p className="text-size-xs leading-[1.5] font-normal">{subtitle}</p>
         </div>
