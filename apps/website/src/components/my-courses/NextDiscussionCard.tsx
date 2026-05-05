@@ -1,39 +1,62 @@
-const NextDiscussionCard = () => (
-  <section aria-labelledby="next-discussion-heading">
-    <h2 id="next-discussion-heading" className="text-sm font-semibold text-bluedot-navy mb-3">
-      Next discussion
-    </h2>
-    <article className="flex items-center gap-4 p-4 rounded-lg border border-bluedot-navy/15 bg-white">
-      <div
-        aria-hidden
-        className="flex flex-col items-center justify-center w-14 h-14 rounded-md overflow-hidden border border-bluedot-navy/15 shrink-0"
-      >
-        <span className="text-[10px] font-semibold uppercase bg-bluedot-normal text-white w-full text-center py-0.5">
-          Apr
-        </span>
-        <span className="text-lg font-semibold text-bluedot-navy leading-none mt-1">28</span>
+import { CTALinkOrButton } from '@bluedot/ui';
+import type { ReactNode } from 'react';
+
+export type NextDiscussionCardState = 'next' | 'soon' | 'live';
+
+export type NextDiscussionCardProps = {
+  month: string;
+  day: number | string;
+  eyebrow: ReactNode;
+  title: string;
+  datetimeLabel: string;
+  state: NextDiscussionCardState;
+  onReschedule?: () => void;
+  primaryHref?: string;
+};
+
+const CalendarBadge = ({ month, day }: { month: string; day: number | string }) => (
+  <div aria-hidden className="flex size-16 shrink-0 flex-col overflow-hidden rounded-2xl border border-color-divider bg-white">
+    <div className="flex h-6 items-center justify-center bg-bluedot-normal">
+      <span className="text-size-xxs font-semibold text-white">{month.toUpperCase()}</span>
+    </div>
+    <div className="flex flex-1 items-center justify-center">
+      <span className="text-[28px] font-bold leading-none text-bluedot-navy">{day}</span>
+    </div>
+  </div>
+);
+
+const NextDiscussionCard = ({
+  month, day, eyebrow, title, datetimeLabel, state, onReschedule, primaryHref,
+}: NextDiscussionCardProps) => {
+  const isLive = state === 'live';
+  const primaryLabel = isLive ? 'Join discussion' : 'Prep for discussion';
+  return (
+    <article className="flex items-center gap-5 rounded-xl border border-color-divider bg-white p-6">
+      <CalendarBadge month={month} day={day} />
+      <div className="min-w-0 flex-1">
+        <p className="text-size-xxs font-semibold tracking-wide text-bluedot-normal">{eyebrow}</p>
+        <h3 className="text-size-lg font-semibold text-bluedot-navy">{title}</h3>
+        <p className="mt-2 text-size-xxs font-medium text-gray-500">{datetimeLabel}</p>
       </div>
-      <div className="flex-1 min-w-0">
-        <p className="text-[11px] font-semibold tracking-wide uppercase text-bluedot-normal">UNIT 3</p>
-        <h3 className="text-base font-semibold text-bluedot-navy">Detecting danger</h3>
-        <p className="text-xs text-bluedot-navy/70">April 28, 2026, 4:00 - 5:00 PM</p>
-      </div>
-      <div className="flex items-center gap-2 shrink-0">
-        <button
-          type="button"
-          className="px-3 py-1.5 text-xs font-medium rounded-md border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-normal/5 transition-colors"
+      <div className="flex shrink-0 items-center gap-3">
+        <CTALinkOrButton
+          variant="secondary"
+          size="small"
+          onClick={onReschedule}
         >
           Reschedule
-        </button>
-        <button
-          type="button"
-          className="px-3 py-1.5 text-xs font-medium rounded-md bg-bluedot-normal text-white hover:bg-bluedot-darker transition-colors"
+        </CTALinkOrButton>
+        <CTALinkOrButton
+          variant="primary"
+          size="small"
+          url={primaryHref}
+          target={isLive ? '_blank' : undefined}
         >
-          Prep for discussion
-        </button>
+          {primaryLabel}
+        </CTALinkOrButton>
       </div>
     </article>
-  </section>
-);
+  );
+};
 
 export default NextDiscussionCard;

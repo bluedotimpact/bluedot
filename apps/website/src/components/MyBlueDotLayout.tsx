@@ -16,14 +16,12 @@ const MyBlueDotLayout = ({ children, route, afterBreadcrumbs }: MyBlueDotLayoutP
     <Breadcrumbs route={route} />
     {afterBreadcrumbs}
 
-    <div className="container mx-auto px-4 py-6">
-      <div className="lg:grid lg:grid-cols-12 lg:gap-8">
+    <div className="section-base py-8">
+      <div className="lg:flex lg:gap-8">
         <MyBlueDotSidebar />
-        <main className="lg:col-span-9" aria-label="My BlueDot content">
-          <div role="region">
-            {children}
-          </div>
-        </main>
+        <section className="min-w-0 flex-1" aria-label="My BlueDot content">
+          {children}
+        </section>
       </div>
     </div>
   </>
