@@ -3,7 +3,6 @@ import {
 } from '@bluedot/ui';
 import { useState } from 'react';
 import { FaArrowRight, FaLock } from 'react-icons/fa6';
-import { COURSE_CONFIG } from '../../lib/constants';
 import type { CertificateData } from '../../server/routers/certificates';
 
 export const isCongratulationsAccessible = (data: CertificateData | undefined): boolean => {
@@ -54,7 +53,6 @@ export const SidebarCertificatePanel = ({
   className?: string;
 }) => {
   const [isRequirementsModalOpen, setIsRequirementsModalOpen] = useState(false);
-  const accentColor = COURSE_CONFIG[courseSlug]?.accentColor ?? '#6064d4';
   const congratsUrl = `/courses/${courseSlug}/congratulations`;
   const label = `${courseTitle} Certificate`;
   const status = certificateData?.status;
@@ -76,10 +74,9 @@ export const SidebarCertificatePanel = ({
       <A
         href={congratsUrl}
         className={cn(
-          'flex items-center gap-3 rounded-[10px] px-3 py-4 text-white no-underline transition-opacity hover:opacity-90',
+          'flex items-center gap-3 rounded-[10px] px-3 py-4 text-white no-underline transition-opacity hover:opacity-90 bg-bluedot-normal',
           className,
         )}
-        style={{ backgroundColor: accentColor }}
       >
         <div className="flex min-w-0 flex-1 flex-col gap-1">
           <p className="text-size-sm leading-[1.5] font-bold">
