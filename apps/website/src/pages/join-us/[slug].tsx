@@ -77,7 +77,21 @@ const JobPostingPage = ({ slug, job, jobOgImage }: JobPostingPageProps) => {
           }}
         />
       </Head>
-      <MarketingHero title={currentRoute.title} subtitle={job.subtitle ?? undefined} />
+      <MarketingHero
+        title={currentRoute.title}
+        subtitle={job.subtitle ?? undefined}
+        cta={job.applicationUrl && (
+          <CTALinkOrButton
+            url={job.applicationUrl}
+            target="_blank"
+            variant="unstyled"
+            size="large"
+            className="bg-white text-bluedot-darker hover:bg-white/90"
+          >
+            Apply Now
+          </CTALinkOrButton>
+        )}
+      />
       <Breadcrumbs route={currentRoute} />
       <Section className="max-w-3xl">
         <MarkdownExtendedRenderer>
@@ -85,7 +99,7 @@ const JobPostingPage = ({ slug, job, jobOgImage }: JobPostingPageProps) => {
         </MarkdownExtendedRenderer>
         {job.applicationUrl && (
           <div className="my-8">
-            <CTALinkOrButton url={job.applicationUrl}>Apply Now</CTALinkOrButton>
+            <CTALinkOrButton url={job.applicationUrl} target="_blank">Apply Now</CTALinkOrButton>
           </div>
         )}
       </Section>
