@@ -184,7 +184,7 @@ Please complete all exercises before requesting a certificate.`,
 
       const round = meetPerson.round ? await db.get(roundTable, { id: meetPerson.round }) : null;
       const sevenDaysFromNow = Date.now() + 7 * ONE_DAY_MS;
-      const isActionPlanOpen = !round?.lastDiscussionDate
+      const isLastDiscussionSoonOrPassed = !round?.lastDiscussionDate
         || new Date(round.lastDiscussionDate).getTime() <= sevenDaysFromNow;
 
       if (!hasAttendedEnough) {
@@ -192,7 +192,7 @@ Please complete all exercises before requesting a certificate.`,
           status: 'attendance-ineligible' as const,
           uniqueDiscussionAttendance,
           numUnits,
-          isActionPlanOpen,
+          isLastDiscussionSoonOrPassed,
         };
       }
 
@@ -200,7 +200,7 @@ Please complete all exercises before requesting a certificate.`,
         status: 'action-plan-pending',
         meetPersonId: meetPerson.id,
         hasSubmittedActionPlan: (meetPerson.projectSubmission?.length ?? 0) > 0,
-        isActionPlanOpen,
+        isLastDiscussionSoonOrPassed,
       } as const;
     }
 

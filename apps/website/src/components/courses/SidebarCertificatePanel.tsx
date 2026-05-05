@@ -14,7 +14,7 @@ export const isCongratulationsAccessible = (data: CertificateData | undefined): 
     || status === 'not-enrolled'
     || status === 'has-certificate'
     || status === 'can-request'
-    || (status === 'attendance-ineligible' && data.isActionPlanOpen)
+    || (status === 'attendance-ineligible' && data.isLastDiscussionSoonOrPassed)
   ) {
     return true;
   }
@@ -98,7 +98,7 @@ export const SidebarCertificatePanel = ({
   }
 
   // action-plan-pending + not yet submitted + open: two-panel layout
-  if (status === 'action-plan-pending' && !certificateData.hasSubmittedActionPlan && certificateData.isActionPlanOpen) {
+  if (status === 'action-plan-pending' && !certificateData.hasSubmittedActionPlan && certificateData.isLastDiscussionSoonOrPassed) {
     return (
       <div className={cn('flex flex-col gap-3', className)}>
         <CertificateRequirementsModal
