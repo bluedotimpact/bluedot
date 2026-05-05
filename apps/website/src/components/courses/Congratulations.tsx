@@ -30,7 +30,7 @@ export const CERTIFICATE_STATUS_DESCRIPTIONS: Record<CertificateData['status'], 
   'attendance-ineligible':
     'You missed too many discussions to be eligible for a certificate. Participants can miss at most one discussion.',
   'can-request': 'Complete all exercises to unlock your certificate, then share your accomplishment on social media.',
-  'facilitator-pending': 'Your certificate will be issued after your cohort ends, based on attendance.',
+  'is-facilitator': '',
   'has-certificate': '',
   'not-eligible':
     'This course doesn\'t currently issue certificates to independent learners. Join a facilitated version to get a certificate.',

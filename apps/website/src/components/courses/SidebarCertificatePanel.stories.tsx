@@ -82,8 +82,8 @@ export const ActionPlanSubmitted: Story = {
   },
 };
 
-export const FacilitatorPending: Story = {
+export const IsFacilitator: Story = {
   args: {
-    certificateData: { status: 'facilitator-pending' },
+    certificateData: { status: 'is-facilitator' },
   },
 };

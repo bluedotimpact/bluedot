@@ -19,7 +19,7 @@ export const isCongratulationsAccessible = (data: CertificateData | undefined): 
     return true;
   }
 
-  return false; // action-plan-pending (both states), facilitator-pending
+  return false; // action-plan-pending (both states), is-facilitator
 };
 
 const CertificateRequirementsModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => (
@@ -118,13 +118,11 @@ export const SidebarCertificatePanel = ({
     );
   }
 
-  let subtitle: JSX.Element | string;
-  if (status === 'facilitator-pending') {
-    subtitle = 'Pending cohort completion';
-  } else if (status === 'action-plan-pending') {
-    subtitle = 'Action plan submitted - pending review';
-  } else {
-    subtitle = (
+  if (status === 'is-facilitator') return null;
+
+  const subtitle: JSX.Element | string = status === 'action-plan-pending'
+    ? 'Action plan submitted — pending review'
+    : (
       <span>
         {'Finish the course and '}
         <button type="button" className="cursor-pointer underline" onClick={() => setIsRequirementsModalOpen(true)}>
@@ -133,7 +131,6 @@ export const SidebarCertificatePanel = ({
         {' to unlock'}
       </span>
     );
-  }
 
   return (
     <>
