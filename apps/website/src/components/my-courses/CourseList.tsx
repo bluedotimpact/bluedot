@@ -14,7 +14,7 @@ type CourseListProps = {
 
 const CourseList = ({ courses }: CourseListProps) => {
   if (courses.length === 0) {
-    return <p className="text-sm text-gray-500">No courses to show.</p>;
+    return <p className="text-size-sm text-gray-500">No courses to show.</p>;
   }
 
   return (

@@ -1,4 +1,7 @@
-type DiscussionStatus = 'attended' | 'absent' | 'upcoming';
+import { CTALinkOrButton, OverflowMenu } from '@bluedot/ui';
+import { IoBan, IoCheckmark } from 'react-icons/io5';
+
+type DiscussionStatus = 'upcoming' | 'live' | 'attended' | 'absent';
 
 type DiscussionListRowProps = {
   date: string;
@@ -6,58 +9,62 @@ type DiscussionListRowProps = {
   unit: string;
   title: string;
   status: DiscussionStatus;
+  onReschedule?: () => void;
+  joinHref?: string;
+  onDownloadCalendar?: () => void;
 };
 
 const DiscussionListRow = ({
-  date, time, unit, title, status,
+  date, time, unit, title, status, onReschedule, joinHref, onDownloadCalendar,
 }: DiscussionListRowProps) => (
-  <li className="flex items-center gap-3 p-4">
+  <li className="flex items-center gap-5 px-6 pt-4 pb-4 not-last:border-b not-last:border-color-divider">
     <div
       aria-hidden
-      className="flex flex-col items-center justify-center w-16 px-2 py-1 rounded-md border border-bluedot-navy/15 text-bluedot-navy shrink-0"
+      className="flex shrink-0 flex-col items-center justify-center rounded border border-color-divider px-3 py-[7px] text-bluedot-navy"
     >
-      <span className="text-[11px] font-semibold leading-tight">{date}</span>
-      <span className="text-[10px] text-bluedot-navy/70 leading-tight">{time}</span>
+      <span className="text-size-xs font-semibold">{date}</span>
+      <span className="text-size-xxs font-medium text-gray-500">{time}</span>
     </div>
-    <div className="flex-1 min-w-0">
-      <p className="text-[11px] font-semibold tracking-wide uppercase text-bluedot-navy/60">{unit}</p>
-      <p className="text-sm font-semibold text-bluedot-navy">{title}</p>
+    <div className="min-w-0 flex-1">
+      <p className="text-size-xxs font-semibold text-bluedot-black">{unit}</p>
+      <p className="text-size-sm font-semibold text-bluedot-navy">{title}</p>
     </div>
-    {status === 'attended' && (
-      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-medium bg-bluedot-navy/10 text-bluedot-navy">
-        ✓ Attended
-      </span>
-    )}
-    {status === 'absent' && (
-      <>
-        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-medium bg-bluedot-navy/10 text-bluedot-navy">
-          ⊘ Absent
+    <div className="flex shrink-0 items-center gap-3">
+      {status === 'upcoming' && (
+        <>
+          <CTALinkOrButton variant="secondary" size="small" onClick={onReschedule}>Reschedule</CTALinkOrButton>
+          <OverflowMenu
+            ariaLabel="Discussion actions"
+            items={[{ id: 'cal', label: 'Download calendar file', onAction: onDownloadCalendar ?? (() => {}) }]}
+          />
+        </>
+      )}
+      {status === 'live' && (
+        <>
+          <CTALinkOrButton variant="secondary" size="small" onClick={onReschedule}>Reschedule</CTALinkOrButton>
+          <CTALinkOrButton variant="primary" size="small" url={joinHref} target="_blank">Join now</CTALinkOrButton>
+          <OverflowMenu
+            ariaLabel="Discussion actions"
+            items={[{ id: 'cal', label: 'Download calendar file', onAction: onDownloadCalendar ?? (() => {}) }]}
+          />
+        </>
+      )}
+      {status === 'attended' && (
+        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
+          <IoCheckmark aria-hidden size={14} />
+          Attended
         </span>
-        <button
-          type="button"
-          className="px-3 py-1.5 text-xs font-medium rounded-md bg-bluedot-normal text-white hover:bg-bluedot-darker transition-colors"
-        >
-          Reschedule
-        </button>
-      </>
-    )}
-    {status === 'upcoming' && (
-      <>
-        <button
-          type="button"
-          className="px-3 py-1.5 text-xs font-medium rounded-md border border-bluedot-normal text-bluedot-normal hover:bg-bluedot-normal/5 transition-colors"
-        >
-          Reschedule
-        </button>
-        <button
-          type="button"
-          aria-label="More actions"
-          className="w-8 h-8 rounded-md border border-bluedot-navy/15 text-bluedot-navy hover:bg-bluedot-navy/5 transition-colors"
-        >
-          ⋮
-        </button>
-      </>
-    )}
+      )}
+      {status === 'absent' && (
+        <>
+          <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
+            <IoBan aria-hidden size={14} />
+            Absent
+          </span>
+          <CTALinkOrButton variant="primary" size="small" onClick={onReschedule}>Reschedule</CTALinkOrButton>
+        </>
+      )}
+    </div>
   </li>
 );
 

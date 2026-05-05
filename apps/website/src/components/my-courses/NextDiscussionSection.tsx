@@ -16,6 +16,7 @@ const formatEyebrow = (state: NextDiscussionCardState, unitNumber: number | stri
   if (state === 'soon') {
     return minutesUntil === 1 ? 'Starts in 1 minute' : `Starts in ${minutesUntil} minutes`;
   }
+
   return unitNumber !== undefined ? `UNIT ${unitNumber}` : '';
 };
 
@@ -34,11 +35,9 @@ const NextDiscussionSection = ({ courseSlug }: NextDiscussionSectionProps) => {
   const { data: nextDiscussion } = trpc.groupDiscussions.getByCourseSlug.useQuery({ courseSlug });
   const groupDiscussion = nextDiscussion?.groupDiscussion;
 
-  const { data: unit } = trpc.courses.getUnit.useQuery(
-    groupDiscussion?.courseBuilderUnitRecordId
-      ? { courseSlug, unitId: groupDiscussion.courseBuilderUnitRecordId }
-      : skipToken,
-  );
+  const { data: unit } = trpc.courses.getUnit.useQuery(groupDiscussion?.courseBuilderUnitRecordId
+    ? { courseSlug, unitId: groupDiscussion.courseBuilderUnitRecordId }
+    : skipToken);
 
   if (!groupDiscussion) return null;
 
@@ -46,9 +45,10 @@ const NextDiscussionSection = ({ courseSlug }: NextDiscussionSectionProps) => {
   const endMs = groupDiscussion.endDateTime * 1000;
   const timeState = getDiscussionTimeState({ discussion: groupDiscussion, currentTimeMs });
 
-  // getDiscussionTimeState returns 'ended' | 'live' | 'soon' | 'upcoming'.
-  // The endpoint already filters out 'ended' so only 3 cases remain.
-  const cardState: NextDiscussionCardState = timeState === 'live' ? 'live' : timeState === 'soon' ? 'soon' : 'next';
+  const cardStateMap = {
+    live: 'live', soon: 'soon', upcoming: 'next', ended: 'next',
+  } as const;
+  const cardState: NextDiscussionCardState = cardStateMap[timeState];
 
   const minutesUntil = Math.max(0, Math.round((startMs - currentTimeMs) / 60_000));
   const start = new Date(startMs);
@@ -60,16 +60,17 @@ const NextDiscussionSection = ({ courseSlug }: NextDiscussionSectionProps) => {
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const title = unit?.title || 'Discussion';
 
-  const primaryHref = cardState === 'live'
+  let primaryHref: string | undefined;
+  if (cardState === 'live') {
     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-    ? (groupDiscussion.zoomLink || undefined)
-    : (unit ? buildCourseUnitUrl({ courseSlug, unitNumber: unit.unitNumber }) : undefined);
+    primaryHref = groupDiscussion.zoomLink || undefined;
+  } else if (unit) {
+    primaryHref = buildCourseUnitUrl({ courseSlug, unitNumber: unit.unitNumber });
+  }
 
   return (
-    <section aria-labelledby="next-discussion-heading">
-      <h2 id="next-discussion-heading" className="mb-3 text-size-sm font-semibold text-bluedot-navy">
-        Next discussion
-      </h2>
+    <div>
+      <h2 className="mb-3 text-size-sm font-semibold text-bluedot-navy">Next discussion</h2>
       <NextDiscussionCard
         month={month}
         day={day}
@@ -88,7 +89,7 @@ const NextDiscussionSection = ({ courseSlug }: NextDiscussionSectionProps) => {
           roundId={groupDiscussion.round}
         />
       )}
-    </section>
+    </div>
   );
 };
 
