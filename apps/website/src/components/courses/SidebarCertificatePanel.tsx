@@ -1,7 +1,7 @@
 import {
   A, cn, Modal, P,
 } from '@bluedot/ui';
-import { useState } from 'react';
+import { type ReactNode, useState } from 'react';
 import { FaArrowRight, FaLock } from 'react-icons/fa6';
 import { getActionPlanUrl } from '../../lib/utils';
 import type { CertificateData } from '../../server/routers/certificates';
@@ -125,7 +125,7 @@ export const SidebarCertificatePanel = ({
 
   if (status === 'is-facilitator') return null;
 
-  const subtitle: JSX.Element | string = certificateData?.status === 'action-plan-pending' && certificateData.hasSubmittedActionPlan
+  const subtitle: ReactNode = status === 'action-plan-pending' && certificateData.hasSubmittedActionPlan
     ? 'Action plan submitted — pending review'
     : (
       <span>
