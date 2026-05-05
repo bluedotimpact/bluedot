@@ -1,12 +1,50 @@
+import { useCurrentTimeMs } from '@bluedot/ui';
+import type { GroupDiscussion, Unit } from '@bluedot/db';
+import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
+import type { SwitchType } from '../courses/GroupSwitchModal';
 import DiscussionListRow from './DiscussionListRow';
 
-const DiscussionList = () => (
-  <ul className="px-6">
-    <DiscussionListRow date="Apr 29" time="4:00 PM" unit="UNIT 1" title="The technical challenge with AI" status="attended" />
-    <DiscussionListRow date="Apr 29" time="4:00 PM" unit="UNIT 2" title="Training safer models" status="absent" />
-    <DiscussionListRow date="Apr 29" time="4:00 PM" unit="UNIT 3" title="Detecting danger" status="upcoming" />
-    <DiscussionListRow date="Apr 29" time="4:00 PM" unit="UNIT 4" title="Live unit" status="live" joinHref="https://zoom.us/j/abc" />
-  </ul>
-);
+type DiscussionListProps = {
+  discussions: GroupDiscussion[];
+  units: Record<string, Unit>;
+  attendedDiscussionIds: string[];
+  onReschedule: (unitNumber: string | null, switchType: SwitchType) => void;
+};
+
+const DiscussionList = ({
+  discussions, units, attendedDiscussionIds, onReschedule,
+}: DiscussionListProps) => {
+  const currentTimeMs = useCurrentTimeMs();
+  const attendedSet = new Set(attendedDiscussionIds);
+
+  return (
+    <ul className="px-6">
+      {discussions.map((discussion) => {
+        const timeState = getDiscussionTimeState({ discussion, currentTimeMs });
+        const isPast = timeState === 'ended';
+        const isLive = timeState === 'live';
+        const isAttended = attendedSet.has(discussion.id);
+
+        let status: 'upcoming' | 'live' | 'attended' | 'absent';
+        if (isAttended) status = 'attended';
+        else if (isLive) status = 'live';
+        else if (isPast) status = 'absent';
+        else status = 'upcoming';
+
+        const unit = units[discussion.id] ?? null;
+
+        return (
+          <DiscussionListRow
+            key={discussion.id}
+            discussion={discussion}
+            unit={unit}
+            status={status}
+            onReschedule={() => onReschedule(unit?.unitNumber ?? null, 'Switch group for one unit')}
+          />
+        );
+      })}
+    </ul>
+  );
+};
 
 export default DiscussionList;

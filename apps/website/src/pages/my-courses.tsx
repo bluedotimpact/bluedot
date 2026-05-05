@@ -1,14 +1,12 @@
 import { ErrorSection, ProgressDots } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import type { inferRouterOutputs } from '@trpc/server';
 import MyBlueDotLayout from '../components/MyBlueDotLayout';
-import CourseList from '../components/my-courses/CourseList';
+import CourseList, { type EnrichedCourse } from '../components/my-courses/CourseList';
 import NextDiscussionSection from '../components/my-courses/NextDiscussionSection';
 import TabPills from '../components/my-courses/TabPills';
 import { ROUTES } from '../lib/routes';
 import { trpc } from '../utils/trpc';
-import type { AppRouter } from '../server/routers/_app';
 
 const CURRENT_ROUTE = ROUTES.myCourses;
 
@@ -22,8 +20,11 @@ type CourseTab = typeof TABS[number]['id'];
 
 const isCourseTab = (value: unknown): value is CourseTab => TABS.some((t) => t.id === value);
 
-type Overview = inferRouterOutputs<AppRouter>['myCoursesPage']['getOverview'];
-type EnrichedCourse = Overview['courses'][number];
+const EMPTY_MESSAGE: Record<CourseTab, string> = {
+  'in-progress': 'You are not enrolled in any active courses.',
+  upcoming: 'No upcoming courses.',
+  'past-courses': 'No past courses to show.',
+};
 
 // Past Courses bundles completed + facilitated + dropped. Deferred registrations are excluded —
 // they appear via their next-round registration in another bucket. Sort puts no-cert first
@@ -82,7 +83,9 @@ const MyCoursesPage = () => {
           />
           {isLoading && <ProgressDots />}
           {error && <ErrorSection error={error} />}
-          {!isLoading && !error && data && <CourseList courses={visibleCourses} />}
+          {!isLoading && !error && data && (
+            <CourseList courses={visibleCourses} emptyMessage={EMPTY_MESSAGE[activeTab]} />
+          )}
         </div>
       </MyBlueDotLayout>
     </div>

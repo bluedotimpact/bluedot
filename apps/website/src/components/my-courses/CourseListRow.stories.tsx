@@ -1,63 +1,83 @@
-import type { Course, CourseRegistration, Group } from '@bluedot/db';
 import type { Meta, StoryObj } from '@storybook/react';
 import CourseListRow from './CourseListRow';
+import type { EnrichedCourse } from './CourseList';
 
-const STUB_GROUP = { startTimeUtc: 1745784000 } as unknown as Group;
-const stubReg = (overrides: Partial<CourseRegistration> = {}): CourseRegistration => ({
-  roundStatus: 'Active',
-  decision: 'Accept',
-  dropoutId: null,
-  deferredId: null,
-  certificateCreatedAt: null,
+const stubCourse = (overrides: Partial<EnrichedCourse> = {}): EnrichedCourse => ({
+  course: { slug: 'technical-ai-safety', title: 'Technical AI Safety' } as EnrichedCourse['course'],
+  courseRegistration: {
+    id: 'reg-1',
+    roundStatus: 'Active',
+    decision: 'Accept',
+    dropoutId: null,
+    deferredId: null,
+    certificateCreatedAt: null,
+    certificateId: null,
+    roundId: 'round-1',
+  } as EnrichedCourse['courseRegistration'],
+  group: { startTimeUtc: 1745784000 } as EnrichedCourse['group'],
+  facilitatorNames: ['Shivam Arora'],
+  meetPersonId: 'mp-1',
+  roundId: 'round-1',
+  discussions: [],
+  attendedDiscussionIds: [],
+  units: {},
+  slackChannelId: null,
+  activityDoc: null,
+  roundStartDate: null,
   ...overrides,
-} as unknown as CourseRegistration);
-const stubCourse = (slug: string, title: string): Course => ({ slug, title } as unknown as Course);
+});
 
 const meta = {
   title: 'website/my-courses/CourseListRow',
   component: CourseListRow,
   parameters: { layout: 'padded' },
   tags: ['autodocs'],
-  args: {
-    group: STUB_GROUP,
-    facilitatorNames: ['Shivam Arora'],
-  },
 } satisfies Meta<typeof CourseListRow>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const InProgress: Story = {
-  args: {
-    course: stubCourse('technical-ai-safety', 'Technical AI Safety'),
-    courseRegistration: stubReg({ roundStatus: 'Active' }),
-  },
+  args: { course: stubCourse() },
 };
 
 export const Upcoming: Story = {
   args: {
-    course: stubCourse('ai-governance', 'AI Governance'),
-    courseRegistration: stubReg({ roundStatus: 'Future' }),
+    course: stubCourse({
+      course: { slug: 'ai-governance', title: 'AI Governance' } as EnrichedCourse['course'],
+      courseRegistration: { ...stubCourse().courseRegistration, roundStatus: 'Future' } as EnrichedCourse['courseRegistration'],
+    }),
   },
 };
 
 export const CompletedWithCertificate: Story = {
   args: {
-    course: stubCourse('agi-strategy', 'AGI Strategy'),
-    courseRegistration: stubReg({ roundStatus: 'Past', certificateCreatedAt: 1740000000 }),
+    course: stubCourse({
+      course: { slug: 'agi-strategy', title: 'AGI Strategy' } as EnrichedCourse['course'],
+      courseRegistration: {
+        ...stubCourse().courseRegistration,
+        roundStatus: 'Past',
+        certificateCreatedAt: 1740000000,
+        certificateId: 'cert-1',
+      } as EnrichedCourse['courseRegistration'],
+    }),
   },
 };
 
 export const CompletedWithoutCertificate: Story = {
   args: {
-    course: stubCourse('future-of-ai', 'Future of AI'),
-    courseRegistration: stubReg({ roundStatus: 'Past' }),
+    course: stubCourse({
+      course: { slug: 'future-of-ai', title: 'Future of AI' } as EnrichedCourse['course'],
+      courseRegistration: { ...stubCourse().courseRegistration, roundStatus: 'Past' } as EnrichedCourse['courseRegistration'],
+    }),
   },
 };
 
 export const Dropped: Story = {
   args: {
-    course: stubCourse('biosecurity', 'Biosecurity'),
-    courseRegistration: stubReg({ roundStatus: 'Active', dropoutId: ['drop_1'] }),
+    course: stubCourse({
+      course: { slug: 'biosecurity', title: 'Biosecurity' } as EnrichedCourse['course'],
+      courseRegistration: { ...stubCourse().courseRegistration, dropoutId: ['drop_1'] } as EnrichedCourse['courseRegistration'],
+    }),
   },
 };
