@@ -80,6 +80,13 @@ const JobPostingPage = ({ slug, job, jobOgImage }: JobPostingPageProps) => {
       <MarketingHero title={currentRoute.title} subtitle={job.subtitle ?? undefined} />
       <Breadcrumbs route={currentRoute} />
       <Section className="max-w-3xl">
+        {job.applicationUrl && (
+          <div className="mb-8">
+            <CTALinkOrButton url={job.applicationUrl} variant="primary" size="large">
+              Apply Now
+            </CTALinkOrButton>
+          </div>
+        )}
         <MarkdownExtendedRenderer>
           {job.body ?? undefined}
         </MarkdownExtendedRenderer>
