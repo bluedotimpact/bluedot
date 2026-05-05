@@ -110,15 +110,7 @@ export const SidebarCertificatePanel = ({
         <div className="flex items-center gap-3 rounded-[10px] bg-black/[0.04] px-3 py-4">
           <div className="text-bluedot-navy/60 flex min-w-0 flex-1 flex-col gap-1">
             <p className="text-size-sm leading-[1.5] font-bold">{label}</p>
-            <p className="text-size-xs leading-[1.5] font-normal">
-              <span>
-                {'Finish the course and '}
-                <button type="button" className="cursor-pointer underline" onClick={() => setIsRequirementsModalOpen(true)}>
-                  meet requirements
-                </button>
-                {' to unlock'}
-              </span>
-            </p>
+            <p className="text-size-xs leading-[1.5] font-normal">Submit your project/action plan to claim</p>
           </div>
           <FaLock className="text-bluedot-navy/40 size-5 shrink-0" />
         </div>
@@ -130,7 +122,7 @@ export const SidebarCertificatePanel = ({
   if (status === 'facilitator-pending') {
     subtitle = 'Pending cohort completion';
   } else if (status === 'action-plan-pending') {
-    subtitle = 'Action plan submitted — pending review';
+    subtitle = 'Action plan submitted - pending review';
   } else {
     subtitle = (
       <span>
