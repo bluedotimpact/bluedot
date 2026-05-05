@@ -4,11 +4,10 @@
  * persona/benefit cards, certificate CTA, and the homepage course grid).
  *
  * Previously each lander file (`*Content.tsx`) declared its own `*_COLORS`
- * constant inline; the homepage `CourseSection` had a parallel inline copy
- * of the gradient; `lib/constants.ts` had a parallel `COURSE_CONFIG` with
- * `iconBackground` + `accentColor`. Four files needed editing in lockstep
- * for a single palette tweak. This file consolidates them all so each
- * course's palette lives in exactly one place.
+ * constant inline, and `lib/constants.ts` had a parallel `COURSE_CONFIG`
+ * with `iconBackground` + `accentColor`. Multiple files needed editing in
+ * lockstep for a single palette tweak. This file consolidates them all so
+ * each course's palette lives in exactly one place.
  *
  * The lander files still export their old `*_COLORS` names as thin
  * re-exports from here, so existing imports (stories, certification.tsx,
