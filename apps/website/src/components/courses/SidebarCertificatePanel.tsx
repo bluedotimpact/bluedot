@@ -58,6 +58,8 @@ export const SidebarCertificatePanel = ({
   const status = certificateData?.status;
   const isAccessible = isCongratulationsAccessible(certificateData);
 
+  if (status === 'is-facilitator' || !certificateData) return null;
+
   if (isAccessible) {
     let subtitle = 'Join a facilitated cohort today';
     if (status === 'has-certificate') {
@@ -94,8 +96,6 @@ export const SidebarCertificatePanel = ({
       </A>
     );
   }
-
-  if (status === 'is-facilitator' || !certificateData) return null;
 
   // action-plan-pending + not yet submitted + open: two-panel layout
   if (status === 'action-plan-pending' && !certificateData.hasSubmittedActionPlan && certificateData.isActionPlanOpen) {
