@@ -129,7 +129,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       units={units}
       allUnitChunks={allUnitChunks}
       certificateData={certificateData}
-      currentUnitNumber={parseInt(unitNumber)}
+      currentUnitNumber={parseInt(unitNumber, 10)}
       currentChunkIndex={chunkIndex}
       onChunkSelect={handleChunkSelect}
       onUnitSelect={(unitPath) => router.push(unitPath)}
