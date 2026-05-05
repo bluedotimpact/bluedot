@@ -17,7 +17,7 @@ type DiscussionListRowProps = {
 const DiscussionListRow = ({
   date, time, unit, title, status, onReschedule, joinHref, onDownloadCalendar,
 }: DiscussionListRowProps) => (
-  <li className="flex items-center gap-5 px-6 pt-4 pb-4 not-last:border-b not-last:border-color-divider">
+  <li className="flex items-center gap-5 py-4 not-last:border-b not-last:border-color-divider">
     <div
       aria-hidden
       className="flex shrink-0 flex-col items-center justify-center rounded border border-color-divider px-3 py-[7px] text-bluedot-navy"
@@ -27,7 +27,7 @@ const DiscussionListRow = ({
     </div>
     <div className="min-w-0 flex-1">
       <p className="text-size-xxs font-semibold text-bluedot-black">{unit}</p>
-      <p className="text-size-sm font-semibold text-bluedot-navy">{title}</p>
+      <p className="mt-px text-size-sm font-semibold text-bluedot-navy">{title}</p>
     </div>
     <div className="flex shrink-0 items-center gap-3">
       {status === 'upcoming' && (
