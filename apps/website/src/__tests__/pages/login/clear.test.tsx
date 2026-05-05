@@ -87,7 +87,7 @@ describe('Logout Page - Redirect Logic', () => {
 
   test('redirects to home for auth-required pages', () => {
     // Test multiple auth-required paths
-    const authRequiredPaths = ['/settings/account', '/profile'];
+    const authRequiredPaths = ['/account', '/profile'];
 
     authRequiredPaths.forEach((path) => {
       cleanup();
@@ -200,7 +200,7 @@ describe('Logout Page - Redirect Logic', () => {
     vi.clearAllMocks();
     mockedShouldRedirectBackAfterLogout.mockReturnValue(false);
     mockedUseRouter.mockReturnValue({
-      query: { redirect_to: '/settings/account' },
+      query: { redirect_to: '/account' },
       pathname: '/login/clear',
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);

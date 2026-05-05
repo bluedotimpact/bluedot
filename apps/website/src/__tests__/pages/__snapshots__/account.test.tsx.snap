@@ -36,24 +36,9 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
           <li
             class="breadcrumbs__item flex items-center"
           >
-            <p
-              class="bluedot-p not-prose breadcrumbs__link !m-0"
-            >
-              Settings
-            </p>
-            <span
-              aria-hidden="true"
-              class="breadcrumbs__separator mx-2"
-            >
-              &gt;
-            </span>
-          </li>
-          <li
-            class="breadcrumbs__item flex items-center"
-          >
             <a
               class="bluedot-a not-prose breadcrumbs__link no-underline opacity-50"
-              href="/settings/account"
+              href="/account"
               tabindex="0"
             >
               Account
@@ -69,28 +54,45 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
         class="lg:grid lg:grid-cols-12 lg:gap-8"
       >
         <aside
-          aria-label="Settings sidebar"
+          aria-label="My BlueDot navigation"
           class="lg:col-span-3 mb-6 lg:max-w-[320px]"
         >
-          <h2
-            class="bluedot-h2 not-prose mb-4 font-semibold text-size-lg leading-[1.4]"
+          <p
+            class="text-xs font-semibold tracking-widest uppercase text-bluedot-normal mb-3 px-3"
           >
-            Settings
-          </h2>
-          <nav
-            aria-label="Settings navigation"
-          >
+            My BlueDot
+          </p>
+          <nav>
             <ul
               class="flex gap-2 flex-wrap lg:block lg:space-y-1"
             >
               <li>
                 <a
-                  aria-label="Account settings"
                   class="
-                  w-auto lg:w-full h-11 px-4 py-3 rounded-lg transition-colors flex items-center
-                  bg-[rgba(0,85,255,0.08)] text-bluedot-darker font-semibold
-                "
-                  href="/settings/account"
+                    w-auto lg:w-full h-11 px-4 py-3 rounded-lg transition-colors flex items-center
+                    text-bluedot-darker hover:bg-[rgba(0,85,255,0.04)]
+                  "
+                  href="/my-courses"
+                  tabindex="0"
+                >
+                  <span
+                    class="flex items-center gap-3 w-full"
+                  >
+                    <p
+                      class="bluedot-p not-prose text-size-xs leading-[22px] flex-grow !m-0 font-normal"
+                    >
+                      My Courses
+                    </p>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="
+                    w-auto lg:w-full h-11 px-4 py-3 rounded-lg transition-colors flex items-center
+                    bg-[rgba(0,85,255,0.08)] text-bluedot-darker font-semibold
+                  "
+                  href="/account"
                   tabindex="0"
                 >
                   <span
@@ -104,32 +106,11 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
                   </span>
                 </a>
               </li>
-              <li>
-                <a
-                  aria-label="Courses settings"
-                  class="
-                  w-auto lg:w-full h-11 px-4 py-3 rounded-lg transition-colors flex items-center
-                  text-bluedot-darker hover:bg-[rgba(0,85,255,0.04)]
-                "
-                  href="/settings/courses"
-                  tabindex="0"
-                >
-                  <span
-                    class="flex items-center gap-3 w-full"
-                  >
-                    <p
-                      class="bluedot-p not-prose text-size-xs leading-[22px] flex-grow !m-0 font-normal"
-                    >
-                      Courses
-                    </p>
-                  </span>
-                </a>
-              </li>
             </ul>
           </nav>
         </aside>
         <main
-          aria-label="Settings content"
+          aria-label="My BlueDot content"
           class="lg:col-span-9"
         >
           <div

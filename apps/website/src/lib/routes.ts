@@ -93,22 +93,34 @@ const logout: BluedotRoute = {
   parentPages: [home],
 };
 
-const settings: BluedotRoute = {
-  title: 'Settings',
-  url: '/settings',
+const account: BluedotRoute = {
+  title: 'Account',
+  url: '/account',
   parentPages: [home],
 };
 
-const settingsAccount: BluedotRoute = {
-  title: 'Account',
-  url: '/settings/account',
-  parentPages: [home, settings],
+const myCourses: BluedotRoute = {
+  title: 'My Courses',
+  url: '/my-courses',
+  parentPages: [home],
 };
 
-const settingsCourses: BluedotRoute = {
+const legacySettings: BluedotRoute = {
+  title: 'Settings',
+  url: '/legacy/settings',
+  parentPages: [home],
+};
+
+const legacySettingsCourses: BluedotRoute = {
   title: 'Courses',
-  url: '/settings/courses',
-  parentPages: [home, settings],
+  url: '/legacy/settings/courses',
+  parentPages: [home, legacySettings],
+};
+
+const legacySettingsAccount: BluedotRoute = {
+  title: 'Account',
+  url: '/legacy/settings/account',
+  parentPages: [home, legacySettings],
 };
 
 const subscriptionPreferences: BluedotRoute = {
@@ -142,9 +154,11 @@ export const ROUTES = {
   grants: programs,
   privacyPolicy,
   profile,
-  settings,
-  settingsAccount,
-  settingsCourses,
+  account,
+  myCourses,
+  legacySettings,
+  legacySettingsCourses,
+  legacySettingsAccount,
   subscriptionPreferences,
 } as const;
 
@@ -152,7 +166,7 @@ export const ROUTES = {
  * Determines if a user should be redirected back to a given path after logout.
  * Returns false for auth-required pages to avoid showing error states.
  *
- * @param path - The path to check (e.g., "/courses/governance" or "/settings/account")
+ * @param path - The path to check (e.g., "/courses/governance" or "/account")
  * @returns true if safe to redirect back, false if should redirect to home instead
  */
 export const shouldRedirectBackAfterLogout = (path: string): boolean => {

@@ -3,13 +3,13 @@ import {
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
-import { ROUTES } from '../../lib/routes';
-import SettingsLayout from '../../components/settings/SettingsLayout';
-import ProfileNameEditor from '../../components/settings/ProfileNameEditor';
-import PasswordSection from '../../components/settings/PasswordSection';
-import { trpc } from '../../utils/trpc';
+import { ROUTES } from '../lib/routes';
+import MyBlueDotLayout from '../components/MyBlueDotLayout';
+import ProfileNameEditor from '../components/settings/ProfileNameEditor';
+import PasswordSection from '../components/settings/PasswordSection';
+import { trpc } from '../utils/trpc';
 
-const CURRENT_ROUTE = ROUTES.settingsAccount;
+const CURRENT_ROUTE = ROUTES.account;
 
 const AccountSettingsPage = () => {
   const {
@@ -36,7 +36,7 @@ const AccountSettingsPage = () => {
       {userError && <ErrorSection error={userError} />}
       {user && (
         <>
-          <SettingsLayout activeTab="account" route={CURRENT_ROUTE}>
+          <MyBlueDotLayout route={CURRENT_ROUTE}>
             <div className="p-8">
               {/* Profile Name Editor */}
               <ProfileNameEditor
@@ -59,7 +59,7 @@ const AccountSettingsPage = () => {
               {/* Password Section */}
               <PasswordSection />
             </div>
-          </SettingsLayout>
+          </MyBlueDotLayout>
 
           {/* Welcome Modal */}
           <Modal
