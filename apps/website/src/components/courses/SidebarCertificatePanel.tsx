@@ -69,7 +69,7 @@ export const SidebarCertificatePanel = ({
     } else if (status === 'can-request') {
       subtitle = 'Request your certificate once you complete all exercises';
     } else if (status === 'attendance-ineligible') {
-      subtitle = "See what's next";
+      subtitle = 'See what\'s next';
     }
 
     return (
