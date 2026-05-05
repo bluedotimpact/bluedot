@@ -74,7 +74,7 @@ export const SidebarCertificatePanel = ({
       <A
         href={congratsUrl}
         className={cn(
-          'flex items-center gap-3 rounded-[10px] px-3 py-4 text-white no-underline transition-opacity hover:opacity-90 bg-bluedot-normal',
+          'flex items-center gap-3 rounded-[10px] border-[0.5px] border-solid border-bluedot-normal bg-bluedot-normal px-3 py-4 text-white no-underline transition-opacity hover:opacity-90',
           className,
         )}
       >
