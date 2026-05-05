@@ -1,4 +1,4 @@
-import { ClickTarget, P } from '@bluedot/ui';
+import { ClickTarget } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 
 const NAV_ITEMS = [
@@ -6,43 +6,52 @@ const NAV_ITEMS = [
   { label: 'Account', href: '/account' },
 ];
 
+const ITEM_HEIGHT_PX = 44;
+
 const MyBlueDotSidebar = () => {
   const router = useRouter();
+  const activeIndex = NAV_ITEMS.findIndex((item) => router.pathname === item.href);
 
   return (
-    <aside className="lg:col-span-3 mb-6 lg:max-w-[320px]" aria-label="My BlueDot navigation">
-      <p className="text-xs font-semibold tracking-widest uppercase text-bluedot-normal mb-3 px-3">
+    <nav
+      className="hidden lg:col-span-3 lg:block lg:w-[200px]"
+      aria-labelledby="my-bluedot-nav-label"
+    >
+      <p
+        id="my-bluedot-nav-label"
+        className="mb-4 text-size-xxs font-semibold uppercase tracking-wide text-bluedot-normal"
+      >
         My BlueDot
       </p>
-      <nav>
-        <ul className="flex gap-2 flex-wrap lg:block lg:space-y-1">
+      <div className="relative">
+        <div aria-hidden className="absolute bottom-0 left-0 top-0 w-1 bg-color-divider" />
+        {activeIndex >= 0 && (
+          <span
+            aria-hidden
+            className="pointer-events-none absolute left-0 top-0 h-11 w-1 bg-bluedot-normal transition-transform duration-200 ease-out"
+            style={{ transform: `translateY(${activeIndex * ITEM_HEIGHT_PX}px)` }}
+          />
+        )}
+        <ul className="flex flex-col">
           {NAV_ITEMS.map((item) => {
             const isActive = router.pathname === item.href;
             return (
               <li key={item.href}>
                 <ClickTarget
                   url={item.href}
-                  className={`
-                    w-auto lg:w-full h-11 px-4 py-3 rounded-lg transition-colors flex items-center
-                    ${isActive
-                ? 'bg-[rgba(0,85,255,0.08)] text-bluedot-darker font-semibold'
-                : 'text-bluedot-darker hover:bg-[rgba(0,85,255,0.04)]'
-              }
-                  `}
+                  className="flex h-11 items-center rounded-md pl-5 transition-colors hover:bg-bluedot-normal/5"
                   aria-current={isActive ? 'page' : undefined}
                 >
-                  <span className="flex items-center gap-3 w-full">
-                    <P className={`text-size-xs leading-[22px] flex-grow !m-0 ${isActive ? 'font-semibold' : 'font-normal'}`}>
-                      {item.label}
-                    </P>
+                  <span className={`text-size-sm leading-6 transition-colors ${isActive ? 'text-bluedot-normal' : 'text-bluedot-navy'}`}>
+                    {item.label}
                   </span>
                 </ClickTarget>
               </li>
             );
           })}
         </ul>
-      </nav>
-    </aside>
+      </div>
+    </nav>
   );
 };
 
