@@ -24,7 +24,7 @@ import { CourseIcon } from './CourseIcon';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
 
-export const CERTIFICATE_STATUS_DESCRIPTIONS: Record<CertificateData['status'], string> = {
+const CERTIFICATE_STATUS_DESCRIPTIONS: Record<CertificateData['status'], string> = {
   'action-plan-pending':
     'To receive your certificate, you need to submit an action plan/project and can\'t have missed more than one discussion.',
   'attendance-ineligible':
