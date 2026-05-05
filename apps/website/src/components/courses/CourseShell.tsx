@@ -148,6 +148,8 @@ const CourseShell: React.FC<CourseShellProps> = ({
   const [isSidebarHidden, setIsSidebarHidden] = useState(false);
   const [isMobileCourseMenuOpen, setIsMobileCourseMenuOpen] = useState(false);
 
+  const { onPrevClick, onNextClick } = mobileNavigation ?? {};
+
   // Handle keyboard navigation with arrow keys and sidebar toggle
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -197,11 +199,11 @@ const CourseShell: React.FC<CourseShellProps> = ({
       switch (event.key) {
         case 'ArrowLeft':
           event.preventDefault();
-          mobileNavigation?.onPrevClick();
+          onPrevClick?.();
           break;
         case 'ArrowRight':
           event.preventDefault();
-          mobileNavigation?.onNextClick();
+          onNextClick?.();
           break;
         default:
           // Ignore other keys
@@ -211,7 +213,7 @@ const CourseShell: React.FC<CourseShellProps> = ({
 
     document.addEventListener('keydown', handleKeyDown, true);
     return () => document.removeEventListener('keydown', handleKeyDown, true);
-  }, [router, units, mobileNavigation, onNavigate]);
+  }, [router, units, onPrevClick, onNextClick, onNavigate]);
 
   return (
     <div>
