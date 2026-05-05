@@ -14,7 +14,7 @@ const MyBlueDotSidebar = () => {
 
   return (
     <nav
-      className="hidden lg:col-span-3 lg:block lg:w-[200px]"
+      className="hidden w-[200px] shrink-0 lg:block"
       aria-labelledby="my-bluedot-nav-label"
     >
       <p

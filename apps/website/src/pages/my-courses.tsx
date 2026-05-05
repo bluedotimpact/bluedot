@@ -1,11 +1,14 @@
-import type { Course, CourseRegistration } from '@bluedot/db';
+import { ErrorSection, ProgressDots } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import type { inferRouterOutputs } from '@trpc/server';
 import MyBlueDotLayout from '../components/MyBlueDotLayout';
 import CourseList from '../components/my-courses/CourseList';
-import NextDiscussionCard from '../components/my-courses/NextDiscussionCard';
+import NextDiscussionSection from '../components/my-courses/NextDiscussionSection';
 import TabPills from '../components/my-courses/TabPills';
 import { ROUTES } from '../lib/routes';
+import { trpc } from '../utils/trpc';
+import type { AppRouter } from '../server/routers/_app';
 
 const CURRENT_ROUTE = ROUTES.myCourses;
 
@@ -19,31 +22,27 @@ type CourseTab = typeof TABS[number]['id'];
 
 const isCourseTab = (value: unknown): value is CourseTab => TABS.some((t) => t.id === value);
 
-type BucketedCourse = { course: Course; courseRegistration: CourseRegistration };
+type Overview = inferRouterOutputs<AppRouter>['myCoursesPage']['getOverview'];
+type EnrichedCourse = Overview['courses'][number];
 
 // Past Courses bundles completed + facilitated + dropped. Deferred registrations are excluded —
 // they appear via their next-round registration in another bucket. Sort puts no-cert first
 // (nudges users to complete) then certificate date desc.
-export const bucketCourseRegistrations = (
-  courseRegistrations: CourseRegistration[] | undefined,
-  courses: Course[] | undefined,
-): Record<CourseTab, BucketedCourse[]> => {
-  const enrolled = (courseRegistrations ?? [])
-    .filter((reg) => reg.roundStatus === 'Active' || reg.roundStatus === 'Past' || reg.roundStatus === 'Future' || reg.certificateCreatedAt)
-    .filter((reg) => reg.decision !== 'Reject' || reg.roundStatus === 'Future')
-    .flatMap((courseRegistration): BucketedCourse[] => {
-      const course = courses?.find((c) => c.id === courseRegistration.courseId);
-      return course ? [{ course, courseRegistration }] : [];
-    });
+export const bucketCourses = (
+  courses: EnrichedCourse[] | undefined,
+): Record<CourseTab, EnrichedCourse[]> => {
+  const eligible = (courses ?? [])
+    .filter(({ courseRegistration: cr }) => cr.roundStatus === 'Active' || cr.roundStatus === 'Past' || cr.roundStatus === 'Future' || cr.certificateCreatedAt)
+    .filter(({ courseRegistration: cr }) => cr.decision !== 'Reject' || cr.roundStatus === 'Future');
 
   return {
-    'in-progress': enrolled.filter(({ courseRegistration: r }) => r.roundStatus === 'Active'),
-    upcoming: enrolled.filter(({ courseRegistration: r }) => r.roundStatus === 'Future'),
-    'past-courses': enrolled
-      .filter(({ courseRegistration: r }) => {
-        if (r.deferredId?.length) return false;
-        const isPast = r.roundStatus !== 'Active' && r.roundStatus !== 'Future';
-        const isDroppedNotDeferred = Boolean(r.dropoutId?.length);
+    'in-progress': eligible.filter(({ courseRegistration: cr }) => cr.roundStatus === 'Active'),
+    upcoming: eligible.filter(({ courseRegistration: cr }) => cr.roundStatus === 'Future'),
+    'past-courses': eligible
+      .filter(({ courseRegistration: cr }) => {
+        if (cr.deferredId?.length) return false;
+        const isPast = cr.roundStatus !== 'Active' && cr.roundStatus !== 'Future';
+        const isDroppedNotDeferred = Boolean(cr.dropoutId?.length);
         return isPast || isDroppedNotDeferred;
       })
       .sort((a, b) => (b.courseRegistration.certificateCreatedAt ?? Infinity) - (a.courseRegistration.certificateCreatedAt ?? Infinity)),
@@ -63,6 +62,12 @@ const MyCoursesPage = () => {
     );
   };
 
+  const { data, isLoading, error } = trpc.myCoursesPage.getOverview.useQuery();
+
+  const buckets = bucketCourses(data?.courses);
+  const visibleCourses = buckets[activeTab];
+  const nextDiscussionCourseSlug = data?.nextDiscussion?.courseSlug;
+
   return (
     <div>
       <Head>
@@ -70,14 +75,16 @@ const MyCoursesPage = () => {
       </Head>
       <MyBlueDotLayout route={CURRENT_ROUTE}>
         <div className="flex flex-col gap-6">
-          <NextDiscussionCard />
+          {nextDiscussionCourseSlug && <NextDiscussionSection courseSlug={nextDiscussionCourseSlug} />}
           <TabPills
             ariaLabel="Course filter"
             tabs={TABS}
             value={activeTab}
             onChange={setActiveTab}
           />
-          <CourseList />
+          {isLoading && <ProgressDots />}
+          {error && <ErrorSection error={error} />}
+          {!isLoading && !error && data && <CourseList courses={visibleCourses} />}
         </div>
       </MyBlueDotLayout>
     </div>
