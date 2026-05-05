@@ -9,8 +9,8 @@ const meta = {
     layout: 'padded',
   },
   args: {
-    courseTitle: 'AI Safety Fundamentals',
-    courseSlug: 'aisf',
+    courseTitle: 'AI Strategy',
+    courseSlug: 'agi-strategy',
   },
 } satisfies Meta<typeof SidebarCertificatePanel>;
 
