@@ -198,7 +198,7 @@ Please complete all exercises before requesting a certificate.`,
     }
 
     if (meetPerson.role === 'Facilitator') {
-      return { status: 'facilitator-pending' } as const;
+      return { status: 'is-facilitator' } as const;
     }
 
     return { status: 'not-eligible' } as const;
