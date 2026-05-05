@@ -5,49 +5,53 @@ exports[`BeliefsSection > renders default as expected 1`] = `
   <section
     class="beliefs-section section section-body"
   >
-    <h3
-      class="bluedot-section-heading mb-6"
-    >
-      Core beliefs
-    </h3>
     <div
-      class="flex flex-col gap-6 max-w-prose"
+      class="max-w-prose mx-auto"
     >
-      <div>
-        <h4
-          class="bluedot-h4 mb-2"
-        >
-          AGI could arrive soon, and society is dangerously unprepared
-        </h4>
-        <p
-          class="bluedot-p not-prose"
-        >
-          Human-level AI is likely years away, not decades. AI companies are moving at a blistering pace, while the institutions meant to govern it are moving at a fraction of the speed required.
-        </p>
-      </div>
-      <div>
-        <h4
-          class="bluedot-h4 mb-2"
-        >
-          People at key moments rewrite history
-        </h4>
-        <p
-          class="bluedot-p not-prose"
-        >
-          The future of AI isn't set in stone. Throughout history, a small number of people in the right positions at the right time have steered powerful technologies toward better outcomes. We find and prepare those people.
-        </p>
-      </div>
-      <div>
-        <h4
-          class="bluedot-h4 mb-2"
-        >
-          We need urgency and wisdom
-        </h4>
-        <p
-          class="bluedot-p not-prose"
-        >
-          The stakes are vast and time is short, but panic and fatalism lead to bad decisions. We need thoughtful and rapid action.
-        </p>
+      <h3
+        class="bluedot-section-heading mb-6"
+      >
+        Core beliefs
+      </h3>
+      <div
+        class="flex flex-col gap-6"
+      >
+        <div>
+          <h4
+            class="bluedot-h4 mb-2"
+          >
+            AGI could arrive soon, and society is dangerously unprepared
+          </h4>
+          <p
+            class="bluedot-p not-prose"
+          >
+            Human-level AI is likely years away, not decades. AI companies are moving at a blistering pace, while the institutions meant to govern it are moving at a fraction of the speed required.
+          </p>
+        </div>
+        <div>
+          <h4
+            class="bluedot-h4 mb-2"
+          >
+            People at key moments rewrite history
+          </h4>
+          <p
+            class="bluedot-p not-prose"
+          >
+            The future of AI isn't set in stone. Throughout history, a small number of people in the right positions at the right time have steered powerful technologies toward better outcomes. We find and prepare those people.
+          </p>
+        </div>
+        <div>
+          <h4
+            class="bluedot-h4 mb-2"
+          >
+            We need urgency and wisdom
+          </h4>
+          <p
+            class="bluedot-p not-prose"
+          >
+            The stakes are vast and time is short, but panic and fatalism lead to bad decisions. We need thoughtful and rapid action.
+          </p>
+        </div>
       </div>
     </div>
   </section>

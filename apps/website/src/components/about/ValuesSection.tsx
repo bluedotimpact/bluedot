@@ -19,14 +19,16 @@ const values = [
 const ValuesSection = () => {
   return (
     <section className="values-section section section-body">
-      <h3 className={`${pageSectionHeadingClass} mb-6`}>Values</h3>
-      <div className="flex flex-col gap-6 max-w-prose">
-        {values.map((value) => (
-          <div key={value.title}>
-            <h4 className="bluedot-h4 mb-2">{value.title}</h4>
-            <P>{value.description}</P>
-          </div>
-        ))}
+      <div className="max-w-prose mx-auto">
+        <h3 className={`${pageSectionHeadingClass} mb-6`}>Values</h3>
+        <div className="flex flex-col gap-6">
+          {values.map((value) => (
+            <div key={value.title}>
+              <h4 className="bluedot-h4 mb-2">{value.title}</h4>
+              <P>{value.description}</P>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -19,14 +19,16 @@ const beliefs = [
 const BeliefsSection = () => {
   return (
     <section className="beliefs-section section section-body">
-      <h3 className={`${pageSectionHeadingClass} mb-6`}>Core beliefs</h3>
-      <div className="flex flex-col gap-6 max-w-prose">
-        {beliefs.map((belief) => (
-          <div key={belief.title}>
-            <h4 className="bluedot-h4 mb-2">{belief.title}</h4>
-            <P>{belief.description}</P>
-          </div>
-        ))}
+      <div className="max-w-prose mx-auto">
+        <h3 className={`${pageSectionHeadingClass} mb-6`}>Core beliefs</h3>
+        <div className="flex flex-col gap-6">
+          {beliefs.map((belief) => (
+            <div key={belief.title}>
+              <h4 className="bluedot-h4 mb-2">{belief.title}</h4>
+              <P>{belief.description}</P>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
