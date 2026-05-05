@@ -334,7 +334,7 @@ describe('certificates.getStatus', () => {
     expect(result).toMatchObject({ status: 'action-plan-pending', hasSubmittedActionPlan: false });
   });
 
-  test('returns facilitator-pending for non-FOAI Facilitators', async () => {
+  test('returns is-facilitator for non-FOAI Facilitators', async () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg1', email: 'test@example.com', courseId: 'rec-other', decision: 'Accept',
     });
@@ -343,7 +343,7 @@ describe('certificates.getStatus', () => {
     });
 
     const result = await createCaller(testAuthContextLoggedIn).certificates.getStatus({ courseId: 'rec-other' });
-    expect(result).toEqual({ status: 'facilitator-pending' });
+    expect(result).toEqual({ status: 'is-facilitator' });
   });
 
   test('returns not-eligible for an unrecognised meetPerson role', async () => {

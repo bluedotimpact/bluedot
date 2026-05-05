@@ -137,7 +137,7 @@ export const FacilitatorPending: Story = {
   parameters: {
     msw: {
       handlers: [
-        trpcStorybookMsw.certificates.getStatus.query(() => ({ status: 'facilitator-pending' as const })),
+        trpcStorybookMsw.certificates.getStatus.query(() => ({ status: 'is-facilitator' as const })),
       ],
     },
   },
