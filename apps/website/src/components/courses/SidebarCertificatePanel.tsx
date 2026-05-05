@@ -2,7 +2,7 @@ import {
   A, cn, Modal, P,
 } from '@bluedot/ui';
 import { useState } from 'react';
-import { FaArrowRight, FaLock } from 'react-icons/fa6';
+import { FaArrowRight, FaLock, FaRegCircleCheck } from 'react-icons/fa6';
 import { getActionPlanUrl } from '../../lib/utils';
 import type { CertificateData } from '../../server/routers/certificates';
 
@@ -68,21 +68,24 @@ export const SidebarCertificatePanel = ({
       subtitle = 'See what\'s next';
     }
 
+    const hasCert = status === 'has-certificate';
+
     return (
       <A
         href={congratsUrl}
         className={cn(
-          'flex items-center gap-3 rounded-[10px] border-[0.5px] border-solid border-bluedot-normal bg-bluedot-normal px-3 py-4 text-white no-underline transition-opacity hover:opacity-90',
+          'flex items-center gap-3 rounded-[10px] border-[0.5px] border-solid px-3 py-4 no-underline transition-opacity hover:opacity-90',
+          hasCert ? 'border-[#1a7a52] bg-[#f2fff8] text-[#1a7a52]' : 'border-bluedot-normal bg-bluedot-normal text-white',
           className,
         )}
       >
         <div className="flex min-w-0 flex-1 flex-col gap-1">
           <p className="text-size-sm leading-[1.5] font-bold">
-            {status === 'has-certificate' ? `Your ${label}` : label}
+            {hasCert ? `Your ${label}` : label}
           </p>
           <p className="text-size-xs leading-[1.5] font-normal">{subtitle}</p>
         </div>
-        <FaArrowRight className="size-5 shrink-0" />
+        {hasCert ? <FaRegCircleCheck className="size-5 shrink-0" /> : <FaArrowRight className="size-5 shrink-0" />}
       </A>
     );
   }
