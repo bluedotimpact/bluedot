@@ -42,16 +42,44 @@ const mockCourses = [
   }),
 ];
 
+const mockPrograms = [
+  {
+    id: 'program-rapid',
+    name: 'Rapid Grants',
+    description: 'Fund talented people in the BlueDot community.',
+    applicationForm: null,
+    category: 'Funding',
+    slug: 'rapid-grants',
+    order: '1',
+    status: 'Active',
+  },
+  {
+    id: 'program-incubator',
+    name: 'Incubator Week',
+    description: 'Back graduates launching AI safety companies.',
+    applicationForm: null,
+    category: 'Launch',
+    slug: 'incubator-week',
+    order: '2',
+    status: 'Active',
+  },
+];
+
 describe('MergedLadder', () => {
   beforeEach(() => {
-    server.use(trpcMsw.courses.getAll.query(() => mockCourses));
+    server.use(
+      trpcMsw.courses.getAll.query(() => mockCourses),
+      trpcMsw.programs.getAll.query(() => mockPrograms),
+      trpcMsw.grants.getRapidGrantStats.query(() => ({ totalAmountUsd: 0, count: 0 })),
+      trpcMsw.grants.getCareerTransitionGrantStats.query(() => ({ totalAmountUsd: 0, count: 0 })),
+    );
   });
 
   test('renders three rungs once cohort courses load', async () => {
     const { findByText, getByText } = render(<MergedLadder />, { wrapper: TrpcProvider });
 
     expect(getByText('See where AI is going')).toBeDefined();
-    expect(getByText('Pick a specialism')).toBeDefined();
+    expect(getByText('Understand how you can help')).toBeDefined();
     expect(getByText('Start contributing')).toBeDefined();
     expect(getByText('The Future of AI')).toBeDefined();
 
@@ -63,14 +91,14 @@ describe('MergedLadder', () => {
     });
   });
 
-  test('rung 3 grant links carry homepage UTM params', async () => {
+  test('rung 3 program links carry homepage UTM params', async () => {
     const { container } = render(<MergedLadder />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      const grantLinks = Array.from(container.querySelectorAll('a'))
+      const programLinks = Array.from(container.querySelectorAll('a'))
         .filter((a) => a.getAttribute('href')?.includes('utm_campaign=homepage-programs'));
-      expect(grantLinks.length).toBeGreaterThan(0);
-      grantLinks.forEach((a) => {
+      expect(programLinks.length).toBeGreaterThan(0);
+      programLinks.forEach((a) => {
         const href = a.getAttribute('href') ?? '';
         expect(href).toContain('utm_source=website');
         expect(href).toContain('utm_campaign=homepage-programs');

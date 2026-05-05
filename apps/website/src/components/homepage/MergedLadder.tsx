@@ -4,8 +4,8 @@ import {
 } from '@bluedot/ui';
 import { trpc } from '../../utils/trpc';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
-import { GRANT_PROGRAMS } from '../grants/grantPrograms';
-import { PageListGroup, PageListRow } from '../PageListRow';
+import { ProgramsList } from '../programs/ProgramsList';
+import { ArrowDownIcon } from '../icons';
 
 const FOAI = COURSE_COLORS['future-of-ai'];
 
@@ -30,25 +30,28 @@ type Rung = {
 
 const RUNGS: Rung[] = [
   { step: 'Step one', title: 'See where AI is going' },
-  { step: 'Step two', title: 'Pick a specialism' },
+  { step: 'Step two', title: 'Understand how you can help' },
   { step: 'Step three', title: 'Start contributing' },
 ];
 
 const RungHeader = ({ rung }: { rung: Rung }) => (
-  <div className="flex flex-col gap-3">
+  <div className="flex flex-col gap-3 text-center">
     <P className="text-size-xs font-medium tracking-[1.5px] uppercase text-bluedot-navy/60">
       {rung.step}
     </P>
-    <H3 className="text-size-lg md:text-size-xl lg:text-size-2xl leading-[1.2] tracking-[-0.5px] font-medium text-bluedot-navy">
+    <h2
+      className="text-size-xl bd-md:text-size-2xl font-medium leading-[125%] text-bluedot-navy tracking-[-1px]"
+      style={{ fontFeatureSettings: '\'ss04\' on' }}
+    >
       {rung.title}
-    </H3>
+    </h2>
   </div>
 );
 
 const FoaiRungCard = () => (
   <a
     href="/courses/future-of-ai"
-    className="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block"
+    className="relative rounded-xl border border-bluedot-navy/10 overflow-hidden group cursor-pointer block w-full lg:max-w-[50%] mx-auto"
   >
     <div className="absolute inset-0 pointer-events-none" style={{ background: FOAI.gradient }} />
     <div
@@ -60,18 +63,21 @@ const FoaiRungCard = () => (
       }}
     />
     <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" />
-    <div className="relative z-10 flex flex-col lg:flex-row gap-6 lg:gap-12 p-7 md:p-10 lg:p-12 min-h-[240px] items-start lg:items-center">
-      <div className="size-14 lg:size-20 flex-shrink-0">
-        <img src="/images/courses/future-of-ai-icon.svg" alt="" className="block size-full" />
+    <div className="relative z-10 flex flex-col h-full p-6 md:p-7 min-h-[260px] md:min-h-[300px]">
+      <div className="flex-grow">
+        <div className="size-14 md:size-16">
+          <img src="/images/courses/future-of-ai-icon.svg" alt="" className="block size-full" />
+        </div>
       </div>
-      <div className="flex flex-col gap-3 flex-1">
-        <H3 className="text-size-lg lg:text-size-xl font-medium tracking-[-0.3px] text-white leading-[1.25]">
+      <div className="flex flex-col gap-3 mt-5">
+        <H3 className="text-size-lg font-[450] leading-[1.3] tracking-[-0.3px] text-white">
           The Future of AI
+          <span className="inline-block ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">→</span>
         </H3>
-        <P className="text-size-sm md:text-size-md leading-[1.55] text-white/85 max-w-[520px]">
+        <P className="text-size-sm leading-[1.55] text-white/85">
           Free, self-paced, no application. Finish in an evening with a clearer picture of frontier AI and how to help.
         </P>
-        <div className="flex flex-wrap gap-2 mt-2">
+        <div className="flex flex-wrap gap-2 mt-1">
           {['2 hours', 'Free', 'No application'].map((tag) => (
             <span
               key={tag}
@@ -81,10 +87,6 @@ const FoaiRungCard = () => (
             </span>
           ))}
         </div>
-      </div>
-      <div className="flex items-center gap-2 text-white text-size-md font-medium group-hover:translate-x-1 transition-transform duration-200 flex-shrink-0">
-        Start the course
-        <span aria-hidden="true">→</span>
       </div>
     </div>
   </a>
@@ -180,8 +182,11 @@ const MergedLadder = () => {
   } else if (featuredCohort) {
     rungTwoContent = (
       <div className="flex flex-col gap-5 lg:gap-6">
-        <div className="lg:max-w-[60%]">
+        <div className="lg:max-w-[50%] mx-auto w-full">
           <CohortCard course={featuredCohort} featured />
+        </div>
+        <div className="flex justify-center">
+          <ArrowDownIcon aria-hidden="true" className="text-bluedot-navy/40" />
         </div>
         <div className="grid grid-cols-1 bd-md:grid-cols-3 gap-4 md:gap-5">
           {otherCohorts.slice(0, 3).map((c) => (
@@ -208,18 +213,9 @@ const MergedLadder = () => {
         </div>
 
         {/* Rung 3 — Build something */}
-        <div className="flex flex-col gap-6 lg:gap-8">
+        <div className="flex flex-col gap-6 lg:gap-8 w-full max-w-[730px] mx-auto">
           <RungHeader rung={RUNGS[2]!} />
-          <PageListGroup>
-            {GRANT_PROGRAMS.map((program) => (
-              <PageListRow
-                key={program.slug}
-                href={`${program.href}?utm_source=website&utm_campaign=homepage-programs`}
-                title={program.title}
-                summary={program.goal}
-              />
-            ))}
-          </PageListGroup>
+          <ProgramsList utmCampaign="homepage-programs" />
         </div>
       </div>
     </Section>
