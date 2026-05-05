@@ -37,28 +37,21 @@ const AccountSettingsPage = () => {
       {user && (
         <>
           <MyBlueDotLayout route={CURRENT_ROUTE}>
-            <div className="p-8">
-              {/* Profile Name Editor */}
-              <ProfileNameEditor
-                initialName={user.name}
-                onSave={() => utils.users.getUser.invalidate()}
-              />
+            <ProfileNameEditor
+              initialName={user.name}
+              onSave={() => utils.users.getUser.invalidate()}
+            />
 
-              {/* Divider */}
-              <div className="border-t border-color-divider my-6" />
+            <div className="border-t border-color-divider my-6" />
 
-              {/* Email Section */}
-              <div className="mb-6">
-                <P className="font-semibold mb-2">Email*</P>
-                <P className="text-gray-600">{user.email}</P>
-              </div>
-
-              {/* Divider */}
-              <div className="border-t border-color-divider my-6" />
-
-              {/* Password Section */}
-              <PasswordSection />
+            <div className="mb-6">
+              <P className="font-semibold mb-2">Email*</P>
+              <P className="text-gray-600">{user.email}</P>
             </div>
+
+            <div className="border-t border-color-divider my-6" />
+
+            <PasswordSection />
           </MyBlueDotLayout>
 
           {/* Welcome Modal */}

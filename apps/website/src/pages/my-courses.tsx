@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 import MyBlueDotLayout from '../components/MyBlueDotLayout';
 import CourseList from '../components/my-courses/CourseList';
 import NextDiscussionCard from '../components/my-courses/NextDiscussionCard';
-import TabPill from '../components/my-courses/TabPill';
 import TabPills from '../components/my-courses/TabPills';
 import { ROUTES } from '../lib/routes';
 
@@ -70,19 +69,14 @@ const MyCoursesPage = () => {
         <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
       </Head>
       <MyBlueDotLayout route={CURRENT_ROUTE}>
-        <div className="flex flex-col gap-6 p-4">
+        <div className="flex flex-col gap-6">
           <NextDiscussionCard />
-          <TabPills ariaLabel="Course filter">
-            {TABS.map((tab) => (
-              <TabPill
-                key={tab.id}
-                isActive={activeTab === tab.id}
-                onClick={() => setActiveTab(tab.id)}
-              >
-                {tab.label}
-              </TabPill>
-            ))}
-          </TabPills>
+          <TabPills
+            ariaLabel="Course filter"
+            tabs={TABS}
+            value={activeTab}
+            onChange={setActiveTab}
+          />
           <CourseList />
         </div>
       </MyBlueDotLayout>
