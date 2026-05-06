@@ -434,8 +434,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
       </div>
 
       {courseId === FOAI_COURSE_ID && (
-        <div className="flex justify-center bg-white py-12">
-          <div className="border-hairline border-bluedot-navy/25 flex w-full flex-col gap-6 rounded-lg bg-white p-10">
+        <div className="border-hairline border-bluedot-navy/25 flex flex-col gap-6 rounded-lg bg-white p-10 py-12">
             <div className="flex flex-col gap-3">
               <h3 className="text-bluedot-navy text-size-md leading-[1.4] font-semibold">Want to go deeper?</h3>
               <P className="text-bluedot-navy text-size-sm leading-[1.6] tracking-[-0.002em]">
@@ -447,7 +446,6 @@ const Congratulations: React.FC<CongratulationsProps> = ({
             <CTALinkOrButton url="/courses/agi-strategy" variant="primary" withChevron>
               Apply now
             </CTALinkOrButton>
-          </div>
         </div>
       )}
     </div>
