@@ -38,7 +38,7 @@ const FEATURE_CARDS: FeatureCard[] = [
   {
     icon: PiUsersThree,
     title: 'Access community',
-    description: 'Connect with a global network of peers across policy, research, engineering, and governance',
+    description: 'Connect with a global network of peers across policy, research, engineering, and governance.',
   },
   {
     icon: PiChalkboardTeacher,
