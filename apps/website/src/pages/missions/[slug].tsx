@@ -35,7 +35,7 @@ const MissionPostPage = ({ slug, mission }: MissionPostPageProps) => {
       </Head>
       <MarketingHero title={currentRoute.title} subtitle={mission.subtitle ?? undefined} />
       <Breadcrumbs route={currentRoute} />
-      <Section className="max-w-3xl">
+      <Section className="max-w-prose">
         <MarkdownExtendedRenderer>
           {mission.description ?? undefined}
         </MarkdownExtendedRenderer>

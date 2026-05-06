@@ -28,13 +28,15 @@ const WhatThisIsForSection = () => {
   return (
     <section className="section section-body career-transition-grant-what-section">
       <div className="w-full flex flex-col gap-6">
-        <h3 className={pageSectionHeadingClass}>What this is for</h3>
+        <div className="max-w-prose mx-auto w-full">
+          <h3 className={`${pageSectionHeadingClass} mb-6`}>What this is for</h3>
 
-        <div className="flex flex-col gap-5">
-          <P>
-            BlueDot&apos;s career transition grant supports you to work full-time on impactful AI safety work. It enables you to fully focus on upskilling, exploring opportunities, building your network, and figuring out where you can have the most impact.
-          </P>
-          <P>Alongside funding, you also get:</P>
+          <div className="flex flex-col gap-5">
+            <P>
+              BlueDot&apos;s career transition grant supports you to work full-time on impactful AI safety work. It enables you to fully focus on upskilling, exploring opportunities, building your network, and figuring out where you can have the most impact.
+            </P>
+            <P>Alongside funding, you also get:</P>
+          </div>
         </div>
 
         <div className="pt-2 grid gap-8 grid-cols-1 bd-md:grid-cols-3">

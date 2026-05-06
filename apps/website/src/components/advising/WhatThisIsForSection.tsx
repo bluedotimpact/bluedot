@@ -10,7 +10,7 @@ const HELP_BULLETS = [
 const WhatThisIsForSection = () => {
   return (
     <section className="section section-body advising-what-section">
-      <div className="w-full flex flex-col gap-6">
+      <div className="max-w-prose mx-auto w-full flex flex-col gap-6">
         <h3 className={pageSectionHeadingClass}>What this is for</h3>
 
         <P>We&apos;ve had hundreds of advising calls, where we&apos;ve helped people:</P>

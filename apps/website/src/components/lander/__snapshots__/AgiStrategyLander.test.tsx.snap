@@ -683,7 +683,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24"
       >
         <div
-          class="w-full bd-md:max-w-text bd-md:mx-auto"
+          class="w-full bd-md:max-w-prose bd-md:mx-auto"
         >
           <h3
             class="bluedot-section-heading mb-6"
@@ -727,7 +727,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24"
       >
         <div
-          class="w-full bd-md:max-w-text bd-md:mx-auto"
+          class="w-full bd-md:max-w-prose bd-md:mx-auto"
         >
           <h3
             class="bluedot-section-heading mb-8"
@@ -1232,7 +1232,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         class="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24"
       >
         <div
-          class="w-full bd-md:max-w-text bd-md:mx-auto flex flex-col gap-8"
+          class="w-full bd-md:max-w-prose bd-md:mx-auto flex flex-col gap-8"
         >
           <blockquote
             class="text-size-lg lg:text-[28px] leading-[1.5] font-medium text-bluedot-navy"

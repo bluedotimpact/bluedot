@@ -19,7 +19,7 @@ const LOGISTICS = [
 const LogisticsSection = () => {
   return (
     <section className="section section-body incubator-week-logistics-section">
-      <div className="w-full flex flex-col gap-6">
+      <div className="max-w-prose mx-auto w-full flex flex-col gap-6">
         <h3 className={pageSectionHeadingClass}>Logistics</h3>
 
         <ul className="flex flex-col divide-y divide-bluedot-navy/10 border-y border-bluedot-navy/10">

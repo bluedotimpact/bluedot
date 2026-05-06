@@ -117,7 +117,8 @@ Component styles go in the component file via Tailwind — not in `globals.css`,
 
 - Never specify `font-family` — it's already set globally.
 - Prefer `min-h-[Xpx]` over `h-[Xpx]` — let content expand naturally.
-- Use `min-width`/`min-height` for flexibility; avoid `max-width`/`max-height` (except `max-w-prose` for readability).
+- Use `min-width`/`min-height` for flexibility; avoid `max-width`/`max-height`.
+- **Prose width:** body-text columns (paragraphs, markdown content, descriptive lists) wrap in `max-w-prose mx-auto` (~65ch). One width across the public site — About, Join Us, lander prose sections, policies, missions, community, resources. Cards/grids/structured layouts use `max-w-text` (840px) or `max-w-section-wide` (1100px); they're not prose.
 
 ### Figma-to-code
 

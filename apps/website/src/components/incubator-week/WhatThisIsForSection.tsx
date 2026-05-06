@@ -28,36 +28,38 @@ const WhatThisIsForSection = () => {
   return (
     <section className="section section-body incubator-week-what-section">
       <div className="w-full flex flex-col gap-6">
-        <h3 className={pageSectionHeadingClass}>What you&apos;ll do</h3>
+        <div className="max-w-prose mx-auto w-full flex flex-col gap-6">
+          <h3 className={pageSectionHeadingClass}>What you&apos;ll do</h3>
 
-        <div className="flex flex-col gap-5">
-          <P>
-            Incubator Week is a 5-day sprint for experts considering founding in AI safety.
-          </P>
-          <P>
-            We&apos;ll launch you into the field, help you lock in on a problem, find a co-founder. If we like your pitch we will give you $50k equity-free by the end of the week. The week is held at <a href="https://www.safeai.org.uk/" className="underline hover:no-underline">LISA</a> in London.
-          </P>
-        </div>
-
-        <h3 className={`${pageSectionHeadingClass} pt-4`}>Track record</h3>
-
-        <div className="flex flex-col gap-5">
-          <P>
-            Three cohorts in: 9 companies founded, $500k+ raised, 9-figure aggregate expected this year.
-          </P>
-          <div className="flex flex-col gap-2">
-            <P>Alumni include:</P>
-            <ul className="list-disc pl-6 flex flex-col gap-1">
-              <li>Exona Lab: Founders met during the week; Pre-seed raised, 7-figure round in progress</li>
-              <li>Jacob Arbeid: Quit AISI to found; Funding secured; $2.4M ARR pending</li>
-              <li>Zac Saber: Dropped out of EF; now on long-horizon AI evals; met his co-founder Jacob Arbeid during Incubator Week</li>
-              <li>Shay Yahal: Enterprise AI security; Already has paying customers and partnership with Redwood Research</li>
-              <li>Lysander Mawby: Mechanistic interpretability; Just wrapped up the FR8 incubator ($100k at $5M val)</li>
-            </ul>
+          <div className="flex flex-col gap-5">
+            <P>
+              Incubator Week is a 5-day sprint for experts considering founding in AI safety.
+            </P>
+            <P>
+              We&apos;ll launch you into the field, help you lock in on a problem, find a co-founder. If we like your pitch we will give you $50k equity-free by the end of the week. The week is held at <a href="https://www.safeai.org.uk/" className="underline hover:no-underline">LISA</a> in London.
+            </P>
           </div>
-          <P className="text-size-sm leading-[1.6] text-bluedot-navy/80 pt-4">
-            Run by BlueDot Impact. We&apos;ve raised over $35M to build the workforce and organizations needed to safely navigate AGI.
-          </P>
+
+          <h3 className={`${pageSectionHeadingClass} pt-4`}>Track record</h3>
+
+          <div className="flex flex-col gap-5">
+            <P>
+              Three cohorts in: 9 companies founded, $500k+ raised, 9-figure aggregate expected this year.
+            </P>
+            <div className="flex flex-col gap-2">
+              <P>Alumni include:</P>
+              <ul className="list-disc pl-6 flex flex-col gap-1">
+                <li>Exona Lab: Founders met during the week; Pre-seed raised, 7-figure round in progress</li>
+                <li>Jacob Arbeid: Quit AISI to found; Funding secured; $2.4M ARR pending</li>
+                <li>Zac Saber: Dropped out of EF; now on long-horizon AI evals; met his co-founder Jacob Arbeid during Incubator Week</li>
+                <li>Shay Yahal: Enterprise AI security; Already has paying customers and partnership with Redwood Research</li>
+                <li>Lysander Mawby: Mechanistic interpretability; Just wrapped up the FR8 incubator ($100k at $5M val)</li>
+              </ul>
+            </div>
+            <P className="text-size-sm leading-[1.6] text-bluedot-navy/80 pt-4">
+              Run by BlueDot Impact. We&apos;ve raised over $35M to build the workforce and organizations needed to safely navigate AGI.
+            </P>
+          </div>
         </div>
 
         <h3 className={`${pageSectionHeadingClass} pt-4`}>About you</h3>
