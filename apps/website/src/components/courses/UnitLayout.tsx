@@ -482,21 +482,16 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
                   </div>
                 </div>
               )}
-            </div>
 
-            {(!nextUnit && isLastChunk) && (
-              <CourseCompletionSection
-                courseId={unit.courseId}
-                courseTitle={unit.courseTitle}
-                courseSlug={courseSlug}
-                className={clsx(
-                  'mt-8 md:mt-6 px-4',
-                  isSidebarHidden
-                    ? 'md:px-[60px] lg:px-[100px] xl:px-[140px] 2xl:px-[200px]'
-                    : 'lg:px-[40px] xl:px-[80px] 2xl:px-[120px]',
-                )}
-              />
-            )}
+              {(!nextUnit && isLastChunk) && (
+                <CourseCompletionSection
+                  courseId={unit.courseId}
+                  courseTitle={unit.courseTitle}
+                  courseSlug={courseSlug}
+                  className="mt-8 md:mt-6"
+                />
+              )}
+            </div>
           </Section>
         </div>
       </div>
