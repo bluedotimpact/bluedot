@@ -24,6 +24,11 @@ const stubCourse = (overrides: Partial<EnrichedCourse> = {}): EnrichedCourse => 
   slackChannelId: null,
   activityDoc: null,
   roundStartDate: null,
+  numUnits: null,
+  uniqueDiscussionAttendance: null,
+  hasSubmittedActionPlan: false,
+  feedbackFormUrl: null,
+  hasSubmittedFeedback: false,
   ...overrides,
 });
 
