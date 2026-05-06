@@ -435,17 +435,17 @@ const Congratulations: React.FC<CongratulationsProps> = ({
 
       {courseId === FOAI_COURSE_ID && (
         <div className="border-hairline border-bluedot-navy/25 flex flex-col gap-6 rounded-lg bg-white p-10 py-12">
-            <div className="flex flex-col gap-3">
-              <h3 className="text-bluedot-navy text-size-md leading-[1.4] font-semibold">Want to go deeper?</h3>
-              <P className="text-bluedot-navy text-size-sm leading-[1.6] tracking-[-0.002em]">
-                <span className="font-semibold">The AGI Strategy course</span> is the natural next step: 25 hours,
-                facilitated in small groups with live discussion. No specific background required. New rounds start
-                every month.
-              </P>
-            </div>
-            <CTALinkOrButton url="/courses/agi-strategy" variant="primary" withChevron>
-              Apply now
-            </CTALinkOrButton>
+          <div className="flex flex-col gap-3">
+            <h3 className="text-bluedot-navy text-size-md leading-[1.4] font-semibold">Want to go deeper?</h3>
+            <P className="text-bluedot-navy text-size-sm leading-[1.6] tracking-[-0.002em]">
+              <span className="font-semibold">The AGI Strategy course</span> is the natural next step: 25 hours,
+              facilitated in small groups with live discussion. No specific background required. New rounds start
+              every month.
+            </P>
+          </div>
+          <CTALinkOrButton url="/courses/agi-strategy" variant="primary" withChevron>
+            Apply now
+          </CTALinkOrButton>
         </div>
       )}
     </div>
