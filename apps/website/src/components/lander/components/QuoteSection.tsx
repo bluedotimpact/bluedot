@@ -222,23 +222,6 @@ const QuoteSection = ({
 
   if (variant === 'editorial') {
     const dotActiveColor = accentColor ?? DEFAULT_COLORS.accent;
-    const Byline = (
-      <>
-        <img
-          src={activeQuote.imageSrc}
-          alt={activeQuote.name}
-          className="size-16 bd-md:size-20 rounded-xl object-cover flex-shrink-0"
-        />
-        <div className="flex flex-col">
-          <div className="text-size-sm bd-md:text-size-md font-semibold leading-[1.4] text-bluedot-navy group-hover:text-bluedot-normal transition-colors">
-            {activeQuote.name}
-          </div>
-          <div className="text-size-sm leading-[1.5] text-bluedot-navy/60">
-            {activeQuote.role}
-          </div>
-        </div>
-      </>
-    );
 
     return (
       <section
@@ -252,26 +235,57 @@ const QuoteSection = ({
       >
         <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24">
           <div className="w-full bd-md:max-w-text bd-md:mx-auto flex flex-col gap-8">
-            <blockquote
-              className={`${getEditorialFontSize(activeQuote.quote)} leading-[1.5] font-medium text-bluedot-navy`}
-            >
-              {activeQuote.quote}
-            </blockquote>
+            {/* Grid stack: all quotes occupy the same cell so container height = tallest quote, no layout shift */}
+            <div className="grid">
+              {quotes.map((quote, index) => {
+                const isActive = index === activeIndex;
+                const byline = (
+                  <>
+                    <img
+                      src={quote.imageSrc}
+                      alt={quote.name}
+                      className="size-16 bd-md:size-20 rounded-xl object-cover flex-shrink-0"
+                    />
+                    <div className="flex flex-col">
+                      <div className="text-size-sm bd-md:text-size-md font-semibold leading-[1.4] text-bluedot-navy group-hover:text-bluedot-normal transition-colors">
+                        {quote.name}
+                      </div>
+                      <div className="text-size-sm leading-[1.5] text-bluedot-navy/60">
+                        {quote.role}
+                      </div>
+                    </div>
+                  </>
+                );
+                return (
+                  <div
+                    key={quote.name}
+                    className={`[grid-area:1/1] flex flex-col gap-8 ${isActive ? 'visible' : 'invisible'}`}
+                    aria-hidden={!isActive}
+                  >
+                    <blockquote
+                      className={`${getEditorialFontSize(quote.quote)} leading-[1.5] font-medium text-bluedot-navy`}
+                    >
+                      {quote.quote}
+                    </blockquote>
 
-            {activeQuote.url ? (
-              <a
-                href={activeQuote.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-4 group self-start"
-              >
-                {Byline}
-              </a>
-            ) : (
-              <div className="flex items-center gap-4 group self-start">
-                {Byline}
-              </div>
-            )}
+                    {quote.url ? (
+                      <a
+                        href={quote.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-4 group self-start"
+                      >
+                        {byline}
+                      </a>
+                    ) : (
+                      <div className="flex items-center gap-4 group self-start">
+                        {byline}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
 
             <div className="flex items-center gap-3 mt-2">
               <button
