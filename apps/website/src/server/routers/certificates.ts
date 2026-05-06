@@ -209,7 +209,8 @@ Please complete all exercises before requesting a certificate.`,
         : null;
       const sevenDaysFromNow = Date.now() + 7 * ONE_DAY_MS;
       const isLastDiscussionSoonOrPassed
-        = !round?.lastDiscussionDate || new Date(round.lastDiscussionDate).getTime() <= sevenDaysFromNow;
+        = round?.lastDiscussionDate != null
+          && new Date(round.lastDiscussionDate).getTime() <= sevenDaysFromNow;
 
       if (!hasAttendedEnough) {
         return {
