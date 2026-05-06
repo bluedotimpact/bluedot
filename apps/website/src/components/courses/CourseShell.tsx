@@ -279,7 +279,10 @@ const CourseShell: React.FC<CourseShellProps> = ({
                   {courseTitle}
                 </A>
                 <FaChevronRight className="size-[14px] flex-shrink-0 text-[#6A6F7A] opacity-50" />
-                <span className="text-size-xs text-bluedot-navy truncate leading-[18px] font-medium tracking-[-0.005em]">
+                <span
+                  className="text-size-xs text-bluedot-navy truncate leading-[18px] font-medium tracking-[-0.005em]"
+                  title={typeof breadcrumb === 'string' ? breadcrumb : undefined}
+                >
                   {breadcrumb}
                 </span>
               </nav>
