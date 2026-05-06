@@ -5,10 +5,10 @@ import {
   inArray,
   type Unit,
 } from '@bluedot/db';
+import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { ProgressDots } from '@bluedot/ui';
 import type { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import CourseCompletionSection from '../../../components/courses/CourseCompletionSection';
 import CourseShell from '../../../components/courses/CourseShell';
 import { isCongratulationsAccessible } from '../../../components/courses/SidebarCertificatePanel';
@@ -35,21 +35,23 @@ export default function CongratulationsPage({
 }: CongratulationsPageProps) {
   const router = useRouter();
 
-  const { data: certificateData, isLoading: isCertLoading } = trpc.certificates.getStatus.useQuery({ courseId });
-  const isIneligible = !isCertLoading && !isCongratulationsAccessible(certificateData);
+  const { data: certificateData, isLoading: isCertLoading, isError, error } = trpc.certificates.getStatus.useQuery({ courseId });
 
-  useEffect(() => {
-    if (isIneligible) {
-      router.replace(`/courses/${courseSlug}/1/1`);
-    }
-  }, [isIneligible, router, courseSlug]);
-
-  if (isCertLoading || isIneligible) {
+  if (isCertLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <ProgressDots />
       </div>
     );
+  }
+
+  if (isError) {
+    return <ErrorView error={error} />;
+  }
+
+  if (!isCongratulationsAccessible(certificateData)) {
+    router.replace(`/courses/${courseSlug}/1/1`);
+    return null;
   }
 
   return (
