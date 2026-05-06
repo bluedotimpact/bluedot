@@ -6,6 +6,7 @@ import {
   Section,
   useAuthStore,
 } from '@bluedot/ui';
+import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import type React from 'react';
 import { useCallback, useState } from 'react';
@@ -175,7 +176,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         role="status"
         aria-live="polite"
         aria-atomic="true"
-        className="absolute -left-[10000px] size-px overflow-hidden"
+        className="sr-only"
       >
         {navigationAnnouncement}
       </div>
@@ -198,7 +199,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       </div>
 
       <Section className="unit__main !border-none !pt-0 !mt-0 md:!max-w-none md:!mx-0 md:!px-0">
-        <div className="unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto px-5 sm:px-spacing-x pt-6 md:pt-8">
+        <div className="unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-text-narrow xl:max-w-[900px] mx-auto px-5 sm:px-spacing-x pt-6 md:pt-8">
           <div className="unit__title-container">
             <P className="unit__course-title font-semibold text-size-xs leading-[140%] tracking-[0.04em] uppercase text-bluedot-normal mb-2">Unit {unit.unitNumber}: {unit.title}</P>
             {chunk?.chunkTitle && (
@@ -206,6 +207,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               <H1 className="unit__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-bluedot-navy">{chunk.chunkTitle}</H1>
             )}
           </div>
+          {/* chunk content → unit content if no chunks - Only render if there's actual content */}
           {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
           {(chunk?.chunkContent || unit.content) && (
             <MarkdownExtendedRenderer className="mt-8 md:mt-6">
@@ -214,13 +216,14 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             </MarkdownExtendedRenderer>
           )}
 
+          {/* Chunk resources and exercises - Show if there are any resources or exercises */}
           {chunk && (chunk.resources?.length || chunk.exercises?.length) ? (
             <ResourceDisplay
               resources={chunk.resources || []}
               exercises={chunk.exercises || []}
               unitTitle={unit.title}
               unitNumber={unitNumber}
-              className={`${(chunk?.chunkContent || unit.content) ? 'mt-8 md:mt-6' : 'mt-4'}`}
+              className={clsx((chunk?.chunkContent || unit.content) ? 'mt-8 md:mt-6' : 'mt-4')}
               courseSlug={courseSlug}
               chunkIndex={chunkIndex}
             />
@@ -228,6 +231,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
 
           {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
           {(nextUnit || !isLastChunk) && (
+            // Margin-bottom is added to accommodate the Circle widget on mobile screens
             <div className="unit__cta-container flex flex-row justify-center mt-6 mx-1 mb-14 sm:mb-0">
               <CTALinkOrButton
                 className="unit__cta-link [&]:bg-bluedot-normal [&]:hover:bg-[color-mix(in_oklab,var(--bluedot-normal),black_20%)] hover:text-white"
@@ -240,6 +244,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             </div>
           )}
 
+          {/* Bottom-most section, underneath 'continue' button */}
           {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
           {(nextUnit || !isLastChunk) && (
             <div className="hidden md:block">
@@ -257,6 +262,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
             </div>
           )}
         </div>
+
       </Section>
     </CourseShell>
   );

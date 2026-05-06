@@ -290,7 +290,7 @@ const DiscussionListRow = ({
                 items={overflowButtons.map((button): OverflowMenuItemProps => ({
                   id: button.id,
                   label: button.overflowIcon ? (
-                    <div className="grid grid-cols-[20px_1fr] gap-[6px] items-center">
+                    <div className="grid grid-cols-[20px_1fr] gap-1.5 items-center">
                       {button.overflowIcon}
                       {button.label}
                     </div>

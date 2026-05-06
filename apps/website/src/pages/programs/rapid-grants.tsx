@@ -1,5 +1,6 @@
 import type React from 'react';
 import { Breadcrumbs } from '@bluedot/ui';
+import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
 import GrantStatsStrip from '../../components/grants/sections/GrantStatsStrip';
@@ -11,10 +12,16 @@ import FundedProjectsSection from '../../components/rapid-grants/FundedProjectsS
 import { ROUTES } from '../../lib/routes';
 import { formatAmountUsd } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';
+import {
+  getProgramDetailPageStaticProps,
+  type ProgramDetailPageProps,
+} from '../../lib/programDetailPage';
 
-const PAGE_TITLE = 'Rapid Grants';
+const PROGRAM_SLUG = 'rapid-grants';
+const FALLBACK_NAME = 'Rapid Grants';
+const FALLBACK_DESCRIPTION = 'Funding for the BlueDot community to ship projects, run events, and do other concrete work on AI safety.';
 
-const RapidGrantsPage = () => {
+const RapidGrantsPage = ({ programName, programDescription }: ProgramDetailPageProps) => {
   const { data: stats } = trpc.grants.getRapidGrantStats.useQuery();
   const grantsMadeLabel = stats ? String(stats.count) : '—';
   const fundingGivenOutLabel = stats ? formatAmountUsd(stats.totalAmountUsd) : '—';
@@ -35,19 +42,16 @@ const RapidGrantsPage = () => {
   return (
     <div>
       <Head>
-        <title>{`${PAGE_TITLE} | BlueDot Impact`}</title>
-        <meta
-          name="description"
-          content="Fast, flexible grants for BlueDot community members working on AI safety - research, events, community building, and more."
-        />
+        <title>{`${programName} | BlueDot Impact`}</title>
+        <meta name="description" content={programDescription} />
       </Head>
       <MarketingHero
-        title="Rapid Grants"
-        subtitle="Funding for the BlueDot community to ship projects, run events, and do other concrete work on AI safety."
+        title={programName}
+        subtitle={programDescription}
       />
       <Breadcrumbs
         route={{
-          title: PAGE_TITLE,
+          title: programName,
           url: '/programs/rapid-grants',
           parentPages: [ROUTES.home, ROUTES.programs],
         }}
@@ -75,6 +79,11 @@ const RapidGrantsPage = () => {
     </div>
   );
 };
+
+export const getStaticProps: GetStaticProps<ProgramDetailPageProps> = () => getProgramDetailPageStaticProps(
+  PROGRAM_SLUG,
+  { programName: FALLBACK_NAME, programDescription: FALLBACK_DESCRIPTION },
+);
 
 RapidGrantsPage.pageRendersOwnNav = true;
 

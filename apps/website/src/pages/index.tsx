@@ -1,6 +1,6 @@
 import Head from 'next/head';
-import CourseSection from '../components/homepage/CourseSection';
-import GrantsSection from '../components/homepage/GrantsSection';
+import CourseValueProps from '../components/homepage/CourseValueProps';
+import MergedLadder from '../components/homepage/MergedLadder';
 import StorySection from '../components/homepage/StorySection';
 import HomeHeroContent from '../components/homepage/HomeHeroContent';
 import TestimonialCarousel, { type TestimonialMember } from '../components/lander/TestimonialCarousel';
@@ -63,10 +63,10 @@ const HomePage = () => {
       <HomeHeroContent />
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
-      <CourseSection />
+      <CourseValueProps />
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
-      <GrantsSection />
+      <MergedLadder />
       {/* Divider */}
       <div className="border-t-hairline border-color-divider" />
       <TestimonialCarousel

@@ -86,7 +86,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
       desktopHeaderClassName="border-b border-charcoal-light pt-3 pb-2 mb-0"
       ariaLabel="Rejoin a group"
     >
-      <div className="w-full max-w-[600px] pt-6">
+      <div className="w-full max-w-modal pt-6">
         <div className="h-0 w-[600px] max-w-full" />
         {isLoading && <ProgressDots />}
         {error && <ErrorSection error={error} />}
@@ -142,7 +142,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
                   )}
                 </div>
                 <div className="flex flex-col items-start gap-1">
-                  <div className="text-size-sm mb-[2px] font-semibold">
+                  <div className="text-size-sm mb-0.5 font-semibold">
                     {joinedGroup.group.groupName ?? 'Group [Unknown]'}
                   </div>
                   <div className="text-size-xs text-bluedot-normal flex items-center gap-1">
@@ -209,8 +209,8 @@ const RejoinGroupOption: React.FC<RejoinGroupOptionProps> = ({
         </div>
         <div className="flex justify-between gap-4">
           <div>
-            <div className="mb-[4px] font-semibold">{groupName}</div>
-            <div className="text-size-xs flex items-center gap-[6px] text-gray-500">
+            <div className="mb-1 font-semibold">{groupName}</div>
+            <div className="text-size-xs flex items-center gap-1.5 text-gray-500">
               <UserIcon className="-translate-y-px" />
               <span>{spotsLabel}</span>
             </div>

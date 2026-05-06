@@ -64,7 +64,7 @@ export const CourseIcon: React.FC<CourseIconProps> = ({
       <div
         className={clsx(
           config.container,
-          'relative rounded-[8px] flex items-center justify-center flex-shrink-0',
+          'relative rounded-lg flex items-center justify-center flex-shrink-0',
           className,
         )}
         style={{ backgroundColor: iconBackground }}

@@ -1,12 +1,12 @@
 import { P } from '@bluedot/ui';
 import { pageSectionHeadingClass } from '../PageListRow';
-import { RAPID_GRANT_APPLICATION_URL } from '../grants/grantPrograms';
+import { useGrantApplicationUrl } from '../grants/useGrantApplicationUrl';
 
-const PROCESS_STEPS = [
+const buildProcessSteps = (applicationUrl: string) => [
   {
     number: '01',
     title: 'Apply',
-    url: RAPID_GRANT_APPLICATION_URL,
+    url: applicationUrl,
     body: 'Tell us what you\'re doing, what you need, and how much it costs. Takes five minutes.',
   },
   {
@@ -65,13 +65,16 @@ const StepCardBody = ({ number, title, body, eyebrowClass }: {
 };
 
 const HowItWorksSection = () => {
+  const applicationUrl = useGrantApplicationUrl('rapid-grants');
+  const processSteps = buildProcessSteps(applicationUrl);
+
   return (
     <section className="section section-body rapid-grants-how-section">
       <div className="w-full flex flex-col gap-6">
         <h3 className={pageSectionHeadingClass}>How it works</h3>
 
         <div className="grid gap-4 bd-md:grid-cols-2 min-[960px]:grid-cols-3">
-          {PROCESS_STEPS.map((step) => (
+          {processSteps.map((step) => (
             step.url ? (
               <a
                 key={step.title}

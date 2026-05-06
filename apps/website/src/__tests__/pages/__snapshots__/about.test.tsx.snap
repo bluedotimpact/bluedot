@@ -97,6 +97,22 @@ exports[`AboutPage > should render correctly 1`] = `
                           <div
                             class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                           >
+                            <a
+                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                              href="/courses/future-of-ai"
+                              tabindex="0"
+                            >
+                              Future of AI
+                              <span
+                                class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit !text-bluedot-normal bg-[#E5EDFE] rounded-sm uppercase ml-2 !p-1"
+                                role="status"
+                              >
+                                Start Here
+                              </span>
+                            </a>
+                            <div
+                              class="border-t border-gray-200 my-2"
+                            />
                             <div
                               class="border-t border-gray-200 my-2"
                             />
@@ -147,6 +163,13 @@ exports[`AboutPage > should render correctly 1`] = `
                           >
                             <a
                               class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                              href="/programs/advising"
+                              tabindex="0"
+                            >
+                              1-1 advising
+                            </a>
+                            <a
+                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                               href="/programs/rapid-grants"
                               tabindex="0"
                             >
@@ -158,20 +181,6 @@ exports[`AboutPage > should render correctly 1`] = `
                               tabindex="0"
                             >
                               Career Transition Grants
-                            </a>
-                            <a
-                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                              href="/courses/technical-ai-safety-project"
-                              tabindex="0"
-                            >
-                              Technical AI Safety Project Sprint
-                            </a>
-                            <a
-                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                              href="/programs/advising"
-                              tabindex="0"
-                            >
-                              1-1 advising
                             </a>
                             <a
                               class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
@@ -197,12 +206,12 @@ exports[`AboutPage > should render correctly 1`] = `
                         class="nav-dropdown"
                       >
                         <button
-                          aria-controls="explore-dropdown"
+                          aria-controls="projects-dropdown"
                           aria-expanded="false"
                           class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                           type="button"
                         >
-                          Explore
+                          Projects
                           <svg
                             class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
                             fill="none"
@@ -220,9 +229,9 @@ exports[`AboutPage > should render correctly 1`] = `
                           </svg>
                         </button>
                         <div
-                          aria-label="Explore menu"
+                          aria-label="Projects menu"
                           class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
-                          id="explore-dropdown"
+                          id="projects-dropdown"
                           role="region"
                         >
                           <div
@@ -230,19 +239,10 @@ exports[`AboutPage > should render correctly 1`] = `
                           >
                             <a
                               class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                              href="/events?utm_source=website&utm_campaign=nav"
+                              href="/projects"
                               tabindex="0"
                             >
-                              Events
-                            </a>
-                            <a
-                              class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                              href="https://blog.bluedot.org"
-                              rel="noopener noreferrer"
-                              tabindex="0"
-                              target="_blank"
-                            >
-                              Blog
+                              See all projects
                             </a>
                           </div>
                         </div>
@@ -266,7 +266,7 @@ exports[`AboutPage > should render correctly 1`] = `
                       class="mobile-nav-cta flex flex-col gap-4 pt-6 mt-6 border-t border-color-divider"
                     >
                       <a
-                        class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary link-on-dark mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-[5px] text-size-sm font-[450] leading-[160%] items-center justify-center bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white"
+                        class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary link-on-dark mobile-nav-cta__join hidden max-[679px]:flex px-3 py-[5px] rounded-md text-size-sm font-[450] leading-[160%] items-center justify-center bg-bluedot-normal hover:bg-bluedot-dark text-white hover:text-white"
                         href="/login?register=true&redirect_to=%2Fabout"
                         tabindex="0"
                       >
@@ -329,6 +329,22 @@ exports[`AboutPage > should render correctly 1`] = `
                     <div
                       class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                     >
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                        href="/courses/future-of-ai"
+                        tabindex="0"
+                      >
+                        Future of AI
+                        <span
+                          class="tag inline-flex items-center px-4 py-2 text-xs font-semibold w-fit !text-bluedot-normal bg-[#E5EDFE] rounded-sm uppercase ml-2 !p-1"
+                          role="status"
+                        >
+                          Start Here
+                        </span>
+                      </a>
+                      <div
+                        class="border-t border-gray-200 my-2"
+                      />
                       <div
                         class="border-t border-gray-200 my-2"
                       />
@@ -379,6 +395,13 @@ exports[`AboutPage > should render correctly 1`] = `
                     >
                       <a
                         class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
+                        href="/programs/advising"
+                        tabindex="0"
+                      >
+                        1-1 advising
+                      </a>
+                      <a
+                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                         href="/programs/rapid-grants"
                         tabindex="0"
                       >
@@ -390,20 +413,6 @@ exports[`AboutPage > should render correctly 1`] = `
                         tabindex="0"
                       >
                         Career Transition Grants
-                      </a>
-                      <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                        href="/courses/technical-ai-safety-project"
-                        tabindex="0"
-                      >
-                        Technical AI Safety Project Sprint
-                      </a>
-                      <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                        href="/programs/advising"
-                        tabindex="0"
-                      >
-                        1-1 advising
                       </a>
                       <a
                         class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
@@ -429,12 +438,12 @@ exports[`AboutPage > should render correctly 1`] = `
                   class="nav-dropdown"
                 >
                   <button
-                    aria-controls="explore-dropdown"
+                    aria-controls="projects-dropdown"
                     aria-expanded="false"
                     class="nav-dropdown__btn flex items-center gap-2 cursor-pointer nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle text-white hover:text-white nav-link-animation-dark"
                     type="button"
                   >
-                    Explore
+                    Projects
                     <svg
                       class="size-5 flex-shrink-0 transition-all duration-300 ease-in-out opacity-100"
                       fill="none"
@@ -452,9 +461,9 @@ exports[`AboutPage > should render correctly 1`] = `
                     </svg>
                   </button>
                   <div
-                    aria-label="Explore menu"
+                    aria-label="Projects menu"
                     class="nav-dropdown__content-wrapper pointer-events-none absolute top-[60px] lg:top-[76px] left-0 w-full lg:-left-spacing-x lg:w-[calc(100%+(var(--spacing-x)*2))] px-spacing-x transition-all duration-300 ease-in-out bg-white max-h-0 opacity-0 pb-0 pointer-events-none overflow-hidden"
-                    id="explore-dropdown"
+                    id="projects-dropdown"
                     role="region"
                   >
                     <div
@@ -462,19 +471,10 @@ exports[`AboutPage > should render correctly 1`] = `
                     >
                       <a
                         class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                        href="/events?utm_source=website&utm_campaign=nav"
+                        href="/projects"
                         tabindex="0"
                       >
-                        Events
-                      </a>
-                      <a
-                        class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
-                        href="https://blog.bluedot.org"
-                        rel="noopener noreferrer"
-                        tabindex="0"
-                        target="_blank"
-                      >
-                        Blog
+                        See all projects
                       </a>
                     </div>
                   </div>
@@ -498,14 +498,14 @@ exports[`AboutPage > should render correctly 1`] = `
                 class="nav-cta flex flex-row items-center gap-4"
               >
                 <a
-                  class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--secondary nav-cta__secondary-cta flex px-3 py-[5px] rounded-[5px] text-size-sm font-[450] leading-[160%] items-center justify-center bg-white/15 border border-white/20 text-white hover:text-white hover:bg-white/20 backdrop-blur-sm"
+                  class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--secondary nav-cta__secondary-cta flex px-3 py-[5px] rounded-md text-size-sm font-[450] leading-[160%] items-center justify-center bg-white/15 border border-white/20 text-white hover:text-white hover:bg-white/20 backdrop-blur-sm"
                   href="/login?redirect_to=%2Fabout"
                   tabindex="0"
                 >
                   Sign in
                 </a>
                 <a
-                  class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary link-on-dark nav-cta__primary-cta hidden bd-md:flex px-3 py-[5px] rounded-[5px] text-size-sm font-[450] leading-[160%] items-center justify-center bg-white hover:bg-white/90 text-bluedot-darker hover:text-bluedot-darker"
+                  class="cta-button transition-all duration-200 w-fit whitespace-nowrap cursor-pointer not-prose disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none bd-md:text-size-xs cta-button--primary link-on-dark nav-cta__primary-cta hidden bd-md:flex px-3 py-[5px] rounded-md text-size-sm font-[450] leading-[160%] items-center justify-center bg-white hover:bg-white/90 text-bluedot-darker hover:text-bluedot-darker"
                   href="/login?register=true&redirect_to=%2Fabout"
                   tabindex="0"
                 >

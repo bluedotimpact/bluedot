@@ -6,10 +6,10 @@ import {
 } from '@bluedot/ui';
 import Head from 'next/head';
 import { type GetStaticProps, type GetStaticPaths } from 'next';
-import path from 'path';
 
 import { ROUTES } from '../../../lib/routes';
 import { ONE_MINUTE_SECONDS } from '../../../lib/constants';
+import { getCourseOgImage } from '../../../lib/courseOgImage';
 import { appendPosthogSessionIdPrefill } from '../../../lib/appendPosthogSessionIdPrefill';
 import MarketingHero from '../../../components/MarketingHero';
 import PageNewsletter from '../../../components/PageNewsletter';
@@ -25,7 +25,6 @@ import { createPersonalTheoryOfImpactContent, PERSONAL_TOI_START_URL } from '../
 import { createTechnicalAiSafetyProjectContent } from '../../../components/lander/course-content/TechnicalAiSafetyProjectContent';
 import { getCourseRoundsData, getSoonestDeadline } from '../../../server/routers/course-rounds';
 import { getCourseData, type CourseAndUnits } from '../../../server/routers/courses';
-import { fileExists } from '../../../utils/fileExists';
 
 type CoursePageProps = {
   courseSlug: string;
@@ -191,7 +190,7 @@ const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseA
       />
 
       <section className="section section-body">
-        <div className="w-full bd-md:max-w-[840px] bd-md:mx-auto flex flex-col gap-8">
+        <div className="w-full bd-md:max-w-text bd-md:mx-auto flex flex-col gap-8">
           <div className="flex flex-wrap gap-3">
             <CTALinkOrButton url={applyUrl} target="_blank">
               {ctaLabel}
@@ -245,10 +244,7 @@ export const getStaticProps: GetStaticProps<CoursePageProps> = async ({ params }
     const rounds = await getCourseRoundsData(courseSlug);
     const soonestDeadline = getSoonestDeadline(rounds);
 
-    let courseOgImage = 'https://bluedot.org/images/logo/link-preview-fallback.png';
-    if (await fileExists(path.join(process.cwd(), 'public', 'images', 'courses', 'link-preview', `${courseSlug}.png`))) {
-      courseOgImage = `${process.env.NEXT_PUBLIC_SITE_URL}/images/courses/link-preview/${courseSlug}.png`;
-    }
+    const courseOgImage = await getCourseOgImage(courseSlug);
 
     return {
       props: {

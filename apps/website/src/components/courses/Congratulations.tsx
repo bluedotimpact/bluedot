@@ -87,7 +87,7 @@ const PostPreviewPanel = ({
 
 const ChatPreviewPanel = ({ courseUrl, shareText }: { courseUrl: string; shareText: string }) => (
   <div className="flex h-full flex-col items-center justify-center border-l border-[#e5e9f2] bg-[#fbfbfd] p-8">
-    <div className="bg-bluedot-normal relative max-w-[280px] rounded-[7.5px] px-4 py-3 shadow-sm">
+    <div className="bg-bluedot-normal relative max-w-[280px] rounded-lg px-4 py-3 shadow-sm">
       <p className="text-size-xs leading-[20px] text-white">
         {shareText}
         <br />
@@ -123,8 +123,8 @@ type ShareCardProps = {
 };
 
 const ShareCard = ({ title, description, actions, preview }: ShareCardProps) => (
-  <div className="flex flex-col overflow-hidden rounded-[10px] border-[0.5px] border-bluedot-navy/25 bg-white md:min-h-[327px] md:flex-row">
-    <div className="flex flex-col gap-[32px] p-6 md:w-1/2 md:px-[40px] md:py-[32px]">
+  <div className="flex flex-col overflow-hidden rounded-lg border-[0.5px] border-bluedot-navy/25 bg-white md:min-h-[327px] md:flex-row">
+    <div className="flex flex-col gap-8 p-6 md:w-1/2 md:px-10 md:py-8">
       <div className="flex flex-col gap-3">
         <h3 className="text-bluedot-navy text-size-md leading-[1.4] font-semibold">{title}</h3>
         {description && (
@@ -138,10 +138,10 @@ const ShareCard = ({ title, description, actions, preview }: ShareCardProps) => 
 );
 
 const primaryBtnClass
-  = 'flex items-center justify-center gap-3 bg-bluedot-normal text-white rounded-[6px] px-4 py-3 text-[14px] font-semibold tracking-[-0.35px] hover:opacity-90 transition-opacity no-underline whitespace-nowrap cursor-pointer';
+  = 'flex items-center justify-center gap-3 bg-bluedot-normal text-white rounded-md px-4 py-3 text-[14px] font-semibold tracking-[-0.35px] hover:opacity-90 transition-opacity no-underline whitespace-nowrap cursor-pointer';
 
 const outlinedBtnClass
-  = 'flex items-center justify-center gap-2.5 bg-white border border-[rgba(106,111,122,0.5)] text-bluedot-navy rounded-[6px] px-4 py-3 text-[14px] font-medium hover:bg-slate-50 transition-colors no-underline whitespace-nowrap cursor-pointer';
+  = 'flex items-center justify-center gap-2.5 bg-white border border-[rgba(106,111,122,0.5)] text-bluedot-navy rounded-md px-4 py-3 text-[14px] font-medium hover:bg-slate-50 transition-colors no-underline whitespace-nowrap cursor-pointer';
 
 // --- Attendance ineligible card ---
 
@@ -155,7 +155,7 @@ const AttendanceIneligibleCard = ({
   const missed = numUnits - uniqueDiscussionAttendance;
 
   return (
-    <div className="flex w-full max-w-[640px] flex-col gap-2.5 rounded-[6px] border border-[rgba(106,111,122,0.5)] bg-[#fcfbf9] px-5 py-6">
+    <div className="flex w-full max-w-[640px] flex-col gap-2.5 rounded-md border border-[rgba(106,111,122,0.5)] bg-[#fcfbf9] px-5 py-6">
       <div className="flex items-center gap-3">
         <FaCircleMinus className="size-8 shrink-0 text-[#62748E]" />
         <span className="text-bluedot-navy text-size-sm leading-5 font-semibold">
@@ -380,7 +380,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
       {/* Sharing section with course-colored gradient (inset rounded card) */}
       <div className="mx-auto w-full max-w-[964px] pb-12">
         <div
-          className="flex flex-col items-center gap-12 overflow-hidden rounded-[17px] px-5 py-[64px] md:px-[54px]"
+          className="flex flex-col items-center gap-12 overflow-hidden rounded-[17px] px-5 py-16 md:px-[54px]"
           style={{ background: courseColors.gradient }}
         >
           <div className="flex max-w-[653px] flex-col items-center gap-4 text-center">
@@ -435,7 +435,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
 
       {courseId === FOAI_COURSE_ID && (
         <div className="flex justify-center bg-white py-12">
-          <div className="border-hairline border-bluedot-navy/25 flex w-full max-w-[1100px] flex-col gap-6 rounded-[10px] bg-white p-10">
+          <div className="border-hairline border-bluedot-navy/25 flex w-full max-w-section-wide flex-col gap-6 rounded-lg bg-white p-10">
             <div className="flex flex-col gap-3">
               <h3 className="text-bluedot-navy text-size-md leading-[1.4] font-semibold">Want to go deeper?</h3>
               <P className="text-bluedot-navy text-size-sm leading-[1.6] tracking-[-0.002em]">

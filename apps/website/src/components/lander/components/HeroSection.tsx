@@ -60,7 +60,12 @@ const HeroSection = ({
       style={hasGradient ? { background: gradient } : undefined}
     >
       {layoutType === 'constrained' && (
-        /* Constrained image layout: centered on mobile, pixel-perfect image sizing */
+        /* Constrained image layout: centered on mobile, pixel-perfect image sizing.
+         * Desktop variant uses an absolute-positioned image on the right (line 168) and
+         * reserves space for it via pr-[200px] + w-3/5 on the text column. The 80px left-pad
+         * locks alignment with the constrained image-grid below; min-h-[600px] gives the
+         * absolute image enough height to render. Bespoke split layout — magic numbers
+         * here are real design intent, not rot. Revisit with Cyrus if the image grid changes. */
         <div className="relative max-w-max-width mx-auto px-8 lg:pl-[80px] lg:pr-0">
           {/* Mobile/Tablet: Single column centered layout */}
           <div className="flex flex-col items-center gap-8 pt-[calc(var(--nav-height-mobile)+32px)] pb-8 bd-md:pt-[calc(var(--nav-height-mobile)+48px)] lg:hidden">
@@ -180,7 +185,7 @@ const HeroSection = ({
         <div className="relative">
           <div className="max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-spacing-x">
             <div className="py-8 sm:pt-8 lg:py-0 lg:w-1/2 lg:min-h-[600px] lg:flex lg:items-center">
-              <div className="w-full lg:max-w-[512px] space-y-8">
+              <div className="w-full lg:max-w-narrow space-y-8">
 
                 {/* Text Content */}
                 <div className="space-y-5 sm:space-y-4">
@@ -208,7 +213,7 @@ const HeroSection = ({
                   <CTALinkOrButton
                     url={primaryCta.url}
                     size="small"
-                    className="h-10 lg:h-[50px] px-5 py-2.5 text-size-xs lg:text-size-sm font-medium rounded-md cursor-pointer transition-colors text-bluedot-navy hover:brightness-90"
+                    className="h-10 lg:h-button-lg px-5 py-2.5 text-size-xs lg:text-size-sm font-medium rounded-md cursor-pointer transition-colors text-bluedot-navy hover:brightness-90"
                     style={accentColor ? { backgroundColor: accentColor } : undefined}
                   >
                     {primaryCta.text}
@@ -218,7 +223,7 @@ const HeroSection = ({
                     <CTALinkOrButton
                       url={secondaryCta.url}
                       size="small"
-                      className="h-10 lg:h-[50px] px-5 py-2.5 text-size-xs lg:text-size-sm font-medium rounded-md bg-transparent cursor-pointer transition-colors border hover:bg-white/10"
+                      className="h-10 lg:h-button-lg px-5 py-2.5 text-size-xs lg:text-size-sm font-medium rounded-md bg-transparent cursor-pointer transition-colors border hover:bg-white/10"
                       style={accentColor ? { borderColor: accentColor, color: accentColor } : undefined}
                     >
                       {secondaryCta.text}
@@ -241,7 +246,7 @@ const HeroSection = ({
         <div className="relative">
           <div className="max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-spacing-x">
             <div className="py-8 sm:pt-8 lg:py-0 lg:w-1/2 lg:min-h-[600px] lg:flex lg:items-center">
-              <div className="w-full lg:max-w-[512px] space-y-8">
+              <div className="w-full lg:max-w-narrow space-y-8">
 
                 {/* Text Content */}
                 <div className="space-y-5 sm:space-y-4">
@@ -269,7 +274,7 @@ const HeroSection = ({
                   <CTALinkOrButton
                     url={primaryCta.url}
                     size="small"
-                    className="h-10 lg:h-[50px] px-5 py-2.5 text-size-xs lg:text-size-sm font-medium rounded-md cursor-pointer transition-colors bg-bluedot-normal text-white hover:bg-bluedot-dark focus:bg-bluedot-dark"
+                    className="h-10 lg:h-button-lg px-5 py-2.5 text-size-xs lg:text-size-sm font-medium rounded-md cursor-pointer transition-colors bg-bluedot-normal text-white hover:bg-bluedot-dark focus:bg-bluedot-dark"
                   >
                     {primaryCta.text}
                   </CTALinkOrButton>
@@ -278,7 +283,7 @@ const HeroSection = ({
                     <CTALinkOrButton
                       url={secondaryCta.url}
                       size="small"
-                      className="h-10 lg:h-[50px] px-5 py-2.5 text-size-xs lg:text-size-sm font-medium rounded-md bg-transparent cursor-pointer transition-colors border border-bluedot-navy/30 text-bluedot-navy hover:border-bluedot-navy/50 hover:bg-bluedot-navy/5 hover:text-bluedot-navy"
+                      className="h-10 lg:h-button-lg px-5 py-2.5 text-size-xs lg:text-size-sm font-medium rounded-md bg-transparent cursor-pointer transition-colors border border-bluedot-navy/30 text-bluedot-navy hover:border-bluedot-navy/50 hover:bg-bluedot-navy/5 hover:text-bluedot-navy"
                     >
                       {secondaryCta.text}
                     </CTALinkOrButton>

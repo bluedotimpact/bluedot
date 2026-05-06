@@ -6,7 +6,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
     <div
       aria-atomic="true"
       aria-live="polite"
-      class="absolute -left-[10000px] size-px overflow-hidden"
+      class="sr-only"
       role="status"
     />
     <div
@@ -127,7 +127,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           class="p-6 flex flex-col gap-5"
         >
           <div
-            class="flex flex-row items-center gap-[16px]"
+            class="flex flex-row items-center gap-4"
           >
             <svg
               fill="none"
@@ -180,7 +180,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               open=""
             >
               <summary
-                class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
+                class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
               >
                 <p
                   class="font-semibold text-size-xs leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
@@ -205,10 +205,10 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 </svg>
               </summary>
               <div
-                class="flex flex-col items-start px-0 pb-[16px] gap-[4px]"
+                class="flex flex-col items-start px-0 pb-4 gap-1"
               >
                 <button
-                  class="flex flex-row items-center p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] text-left transition-colors bg-[rgba(42,45,52,0.05)] rounded-[10px]"
+                  class="flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors bg-[rgba(42,45,52,0.05)] rounded-lg"
                   type="button"
                 >
                   <svg
@@ -235,7 +235,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     class="flex flex-col items-start p-0 flex-1"
                   >
                     <div
-                      class="flex flex-col items-start gap-[6px]"
+                      class="flex flex-col items-start gap-1.5"
                     >
                       <p
                         class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
@@ -246,7 +246,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   </div>
                 </button>
                 <button
-                  class="flex flex-row items-center p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] text-left transition-colors hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px]"
+                  class="flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg"
                   type="button"
                 >
                   <svg
@@ -267,7 +267,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     class="flex flex-col items-start p-0 flex-1"
                   >
                     <div
-                      class="flex flex-col items-start gap-[6px]"
+                      class="flex flex-col items-start gap-1.5"
                     >
                       <p
                         class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
@@ -290,7 +290,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden scroll-mb-5"
             >
               <summary
-                class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
+                class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
               >
                 <p
                   class="font-semibold text-size-xs leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
@@ -315,10 +315,10 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 </svg>
               </summary>
               <div
-                class="flex flex-col items-start px-0 pb-[16px] gap-[4px]"
+                class="flex flex-col items-start px-0 pb-4 gap-1"
               >
                 <a
-                  class="bluedot-a not-prose flex flex-row items-center p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px]"
+                  class="bluedot-a not-prose flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg"
                   href="/courses/test-course/2/1"
                   tabindex="0"
                 >
@@ -340,7 +340,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     class="flex flex-col items-start p-0 flex-1"
                   >
                     <div
-                      class="flex flex-col items-start gap-[6px]"
+                      class="flex flex-col items-start gap-1.5"
                     >
                       <p
                         class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
@@ -351,7 +351,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   </div>
                 </a>
                 <a
-                  class="bluedot-a not-prose flex flex-row items-center p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px]"
+                  class="bluedot-a not-prose flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg"
                   href="/courses/test-course/2/2"
                   tabindex="0"
                 >
@@ -373,7 +373,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     class="flex flex-col items-start p-0 flex-1"
                   >
                     <div
-                      class="flex flex-col items-start gap-[6px]"
+                      class="flex flex-col items-start gap-1.5"
                     >
                       <p
                         class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
@@ -396,7 +396,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden scroll-mb-5"
             >
               <summary
-                class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
+                class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
               >
                 <p
                   class="font-semibold text-size-xs leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
@@ -421,10 +421,10 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 </svg>
               </summary>
               <div
-                class="flex flex-col items-start px-0 pb-[16px] gap-[4px]"
+                class="flex flex-col items-start px-0 pb-4 gap-1"
               >
                 <a
-                  class="bluedot-a not-prose flex flex-row items-center p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px]"
+                  class="bluedot-a not-prose flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg"
                   href="/courses/test-course/3/1"
                   tabindex="0"
                 >
@@ -446,7 +446,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     class="flex flex-col items-start p-0 flex-1"
                   >
                     <div
-                      class="flex flex-col items-start gap-[6px]"
+                      class="flex flex-col items-start gap-1.5"
                     >
                       <p
                         class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
@@ -457,7 +457,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   </div>
                 </a>
                 <a
-                  class="bluedot-a not-prose flex flex-row items-center p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px]"
+                  class="bluedot-a not-prose flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg"
                   href="/courses/test-course/3/2"
                   tabindex="0"
                 >
@@ -479,7 +479,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     class="flex flex-col items-start p-0 flex-1"
                   >
                     <div
-                      class="flex flex-col items-start gap-[6px]"
+                      class="flex flex-col items-start gap-1.5"
                     >
                       <p
                         class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
@@ -502,7 +502,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden scroll-mb-5"
             >
               <summary
-                class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
+                class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
               >
                 <p
                   class="font-semibold text-size-xs leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
@@ -527,10 +527,10 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 </svg>
               </summary>
               <div
-                class="flex flex-col items-start px-0 pb-[16px] gap-[4px]"
+                class="flex flex-col items-start px-0 pb-4 gap-1"
               >
                 <a
-                  class="bluedot-a not-prose flex flex-row items-center p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px]"
+                  class="bluedot-a not-prose flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg"
                   href="/courses/test-course/4/1"
                   tabindex="0"
                 >
@@ -552,7 +552,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     class="flex flex-col items-start p-0 flex-1"
                   >
                     <div
-                      class="flex flex-col items-start gap-[6px]"
+                      class="flex flex-col items-start gap-1.5"
                     >
                       <p
                         class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
@@ -563,7 +563,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   </div>
                 </a>
                 <a
-                  class="bluedot-a not-prose flex flex-row items-center p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px]"
+                  class="bluedot-a not-prose flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg"
                   href="/courses/test-course/4/2"
                   tabindex="0"
                 >
@@ -585,7 +585,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     class="flex flex-col items-start p-0 flex-1"
                   >
                     <div
-                      class="flex flex-col items-start gap-[6px]"
+                      class="flex flex-col items-start gap-1.5"
                     >
                       <p
                         class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
@@ -608,7 +608,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               class="sidebar-collapsible group marker:hidden [&_summary::-webkit-details-marker]:hidden scroll-mb-5"
             >
               <summary
-                class="flex flex-row items-center mx-[24px] px-[24px] md:px-[12px] py-[15px] gap-[8px] text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px] transition-colors"
+                class="flex flex-row items-center mx-6 px-6 md:px-3 py-[15px] gap-2 text-left cursor-pointer hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg transition-colors"
               >
                 <p
                   class="font-semibold text-size-xs leading-[140%] tracking-[-0.005em] text-bluedot-navy flex-1"
@@ -633,10 +633,10 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 </svg>
               </summary>
               <div
-                class="flex flex-col items-start px-0 pb-[16px] gap-[4px]"
+                class="flex flex-col items-start px-0 pb-4 gap-1"
               >
                 <a
-                  class="bluedot-a not-prose flex flex-row items-center p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px]"
+                  class="bluedot-a not-prose flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg"
                   href="/courses/test-course/5/1"
                   tabindex="0"
                 >
@@ -658,7 +658,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     class="flex flex-col items-start p-0 flex-1"
                   >
                     <div
-                      class="flex flex-col items-start gap-[6px]"
+                      class="flex flex-col items-start gap-1.5"
                     >
                       <p
                         class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
@@ -669,7 +669,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   </div>
                 </a>
                 <a
-                  class="bluedot-a not-prose flex flex-row items-center p-[16px] gap-[12px] mx-[24px] w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-[10px]"
+                  class="bluedot-a not-prose flex flex-row items-center p-4 gap-3 mx-6 w-[calc(100%-48px)] text-left transition-colors no-underline hover:bg-[rgba(42,45,52,0.05)] hover:rounded-lg"
                   href="/courses/test-course/5/2"
                   tabindex="0"
                 >
@@ -691,7 +691,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                     class="flex flex-col items-start p-0 flex-1"
                   >
                     <div
-                      class="flex flex-col items-start gap-[6px]"
+                      class="flex flex-col items-start gap-1.5"
                     >
                       <p
                         class="font-normal text-size-xs leading-[150%] text-bluedot-navy"
@@ -710,17 +710,17 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
         class="md:flex-1 md:min-w-0"
       >
         <div
-          class="unit__breadcrumbs-wrapper hidden md:block md:sticky md:top-(--nav-height-mobile) lg:top-(--nav-height-desktop) z-10 border-b-[0.5px] border-bluedot-navy/20 h-[48px] bg-color-canvas"
+          class="unit__breadcrumbs-wrapper hidden md:block md:sticky md:top-(--nav-height-mobile) lg:top-(--nav-height-desktop) z-10 border-b-[0.5px] border-bluedot-navy/20 h-12 bg-color-canvas"
         >
           <div
             class="flex flex-row justify-between items-center size-full px-6 gap-2"
           >
             <div
-              class="flex items-center gap-[8px]"
+              class="flex items-center gap-2"
             >
               <button
                 aria-label="Hide sidebar"
-                class="flex items-center gap-[8px] text-size-xs font-medium text-bluedot-navy hover:opacity-80 transition-opacity cursor-pointer"
+                class="flex items-center gap-2 text-size-xs font-medium text-bluedot-navy hover:opacity-80 transition-opacity cursor-pointer"
                 type="button"
               >
                 <svg
@@ -748,7 +748,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               />
             </div>
             <nav
-              class="flex items-center gap-[8px] flex-1 min-h-[18px] min-w-0"
+              class="flex items-center gap-2 flex-1 min-h-[18px] min-w-0"
             >
               <a
                 class="bluedot-a not-prose text-size-xs font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-bluedot-navy transition-colors no-underline"
@@ -802,7 +802,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               </span>
             </nav>
             <div
-              class="flex items-center gap-[20px] min-h-[18px]"
+              class="flex items-center gap-5 min-h-[18px]"
             >
               <button
                 aria-label="Previous"
@@ -834,7 +834,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             class="section__body"
           >
             <div
-              class="unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-[800px] xl:max-w-[900px] mx-auto px-5 sm:px-spacing-x pt-6 md:pt-8"
+              class="unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-text-narrow xl:max-w-[900px] mx-auto px-5 sm:px-spacing-x pt-6 md:pt-8"
             >
               <div
                 class="unit__title-container"

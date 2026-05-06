@@ -1,6 +1,6 @@
 import { P } from '@bluedot/ui';
 import { pageSectionHeadingClass } from '../PageListRow';
-import { RAPID_GRANT_APPLICATION_URL } from '../grants/grantPrograms';
+import { useGrantApplicationUrl } from '../grants/useGrantApplicationUrl';
 
 const DECISION_CARDS = [
   {
@@ -14,6 +14,8 @@ const DECISION_CARDS = [
 ];
 
 const WhatThisIsForSection = () => {
+  const applicationUrl = useGrantApplicationUrl('rapid-grants');
+
   return (
     <section className="section section-body rapid-grants-what-section">
       <div className="w-full flex flex-col gap-6">
@@ -24,7 +26,7 @@ const WhatThisIsForSection = () => {
           <P>
             If in doubt,{' '}
             <a
-              href={RAPID_GRANT_APPLICATION_URL}
+              href={applicationUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="font-medium text-bluedot-navy underline underline-offset-4"
@@ -39,7 +41,7 @@ const WhatThisIsForSection = () => {
           {DECISION_CARDS.map((card) => (
             <div
               key={card.title}
-              className="rounded-[16px] border border-bluedot-navy/10 bg-white p-6 lg:p-8 flex flex-col gap-3"
+              className="rounded-2xl border border-bluedot-navy/10 bg-white p-6 lg:p-8 flex flex-col gap-3"
             >
               <h4 className="text-size-md font-semibold leading-tight text-bluedot-navy">
                 {card.title}

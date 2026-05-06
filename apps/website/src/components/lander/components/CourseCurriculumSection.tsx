@@ -172,7 +172,7 @@ const CurriculumUnit = ({
         }`}
       >
         <div className="overflow-hidden">
-          <div className="flex flex-col gap-3 pb-[18px] pl-[36px] pr-3 max-[679px]:pl-6">
+          <div className="flex flex-col gap-3 pb-[18px] pl-9 pr-3 max-[679px]:pl-6">
             {description && (
               <P className="text-bluedot-navy/80 whitespace-pre-line">
                 {description}

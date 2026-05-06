@@ -247,14 +247,14 @@ const CourseShell: React.FC<CourseShellProps> = ({
 
         <div className="md:min-w-0 md:flex-1">
           {/* Breadcrumbs bar */}
-          <div className="unit__breadcrumbs-wrapper border-bluedot-navy/20 bg-color-canvas z-10 hidden h-[48px] border-b-[0.5px] md:sticky md:top-(--nav-height-mobile) md:block lg:top-(--nav-height-desktop)">
+          <div className="unit__breadcrumbs-wrapper border-bluedot-navy/20 bg-color-canvas z-10 hidden h-12 border-b-[0.5px] md:sticky md:top-(--nav-height-mobile) md:block lg:top-(--nav-height-desktop)">
             <div className="flex size-full flex-row items-center justify-between gap-2 px-6">
               {/* Left section: Hide/Show Toggle */}
-              <div className="flex items-center gap-[8px]">
+              <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => setIsSidebarHidden(!isSidebarHidden)}
-                  className="text-size-xs text-bluedot-navy flex cursor-pointer items-center gap-[8px] font-medium transition-opacity hover:opacity-80"
+                  className="text-size-xs text-bluedot-navy flex cursor-pointer items-center gap-2 font-medium transition-opacity hover:opacity-80"
                   aria-label={isSidebarHidden ? 'Show sidebar' : 'Hide sidebar'}
                 >
                   <FaBars className="size-[16px]" />
@@ -264,7 +264,7 @@ const CourseShell: React.FC<CourseShellProps> = ({
               </div>
 
               {/* Breadcrumbs - left aligned after hide */}
-              <nav className="flex min-h-[18px] min-w-0 flex-1 items-center gap-[8px]">
+              <nav className="flex min-h-[18px] min-w-0 flex-1 items-center gap-2">
                 <A
                   href={ROUTES.courses.url}
                   className="text-size-xs hover:text-bluedot-navy leading-[18px] font-medium tracking-[-0.005em] text-[#6A6F7A] no-underline transition-colors"
@@ -286,7 +286,7 @@ const CourseShell: React.FC<CourseShellProps> = ({
 
               {/* Right section: Navigation */}
               {navigationControls && (
-                <div className="flex min-h-[18px] items-center gap-[20px]">{navigationControls}</div>
+                <div className="flex min-h-[18px] items-center gap-5">{navigationControls}</div>
               )}
             </div>
           </div>

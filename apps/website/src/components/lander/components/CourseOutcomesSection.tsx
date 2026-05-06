@@ -37,7 +37,7 @@ const CourseOutcomesSection = ({
         <H2 className="text-size-xl font-semibold leading-[125%] text-bluedot-navy text-center mb-12 md:mb-16 tracking-[-0.01em]">
           {title}
         </H2>
-        <div className="max-w-[1100px] mx-auto">
+        <div className="max-w-section-wide mx-auto">
           <div className="flex flex-wrap justify-center gap-6 lg:gap-8">
             {outcomes.map((outcome) => {
               const IconComponent = outcome.icon;
