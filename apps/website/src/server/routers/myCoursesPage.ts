@@ -9,6 +9,7 @@ import {
   groupDiscussionTable,
   groupTable,
   inArray,
+  isNull,
   meetPersonTable,
   ne,
   or,
@@ -22,13 +23,16 @@ export const myCoursesPageRouter = router({
   getOverview: protectedProcedure.query(async ({ ctx }) => {
     const { email } = ctx.auth;
 
-    // Exclude facilitator-role registrations; the facilitator view lives elsewhere (P3).
     const courseRegistrations = await db.pg
       .select()
       .from(courseRegistrationTable.pg)
       .where(and(
         eq(courseRegistrationTable.pg.email, email),
-        or(ne(courseRegistrationTable.pg.role, 'Facilitator'), eq(courseRegistrationTable.pg.role, '')),
+        or(
+          ne(courseRegistrationTable.pg.role, 'Facilitator'),
+          eq(courseRegistrationTable.pg.role, ''),
+          isNull(courseRegistrationTable.pg.role),
+        ),
       ));
 
     if (courseRegistrations.length === 0) {
@@ -144,9 +148,11 @@ export const myCoursesPageRouter = router({
 
     // Globally soonest upcoming participant discussion across all the user's courses.
     const nowSec = Math.floor(Date.now() / 1000);
-    const expectedIdsByCourseSlug = new Map<string, Set<string>>();
+    const courseSlugByDiscussionId = new Map<string, string>();
     for (const c of perCourse) {
-      expectedIdsByCourseSlug.set(c.course.slug, new Set(c.discussions.map((d) => d.id)));
+      for (const d of c.discussions) {
+        courseSlugByDiscussionId.set(d.id, c.course.slug);
+      }
     }
 
     // "Next" includes a discussion that's started but not yet ended (i.e. live now).
@@ -162,8 +168,7 @@ export const myCoursesPageRouter = router({
       group: Group | null;
     } | null = null;
     if (soonest) {
-      const owningSlug = [...expectedIdsByCourseSlug.entries()]
-        .find(([, ids]) => ids.has(soonest.id))?.[0];
+      const owningSlug = courseSlugByDiscussionId.get(soonest.id);
       if (owningSlug) {
         nextDiscussion = {
           courseSlug: owningSlug,
