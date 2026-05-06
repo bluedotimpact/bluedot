@@ -18,6 +18,8 @@ const PROGRAM_SLUG = 'incubator-week';
 const FALLBACK_NAME = 'Incubator Week';
 const FALLBACK_DESCRIPTION = 'Most accelerators take 12 weeks and 7%. We take 5 days and 0%. Fly to London to turn your AI safety idea into a funded org. $50k if your pitch lands. More for the strongest teams. Equity-free.';
 const APPLICATION_DEADLINE = '26 May';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
+const LINK_PREVIEW_IMAGE = `${SITE_URL}/images/programs/link-preview/incubator-week.png`;
 
 const IncubatorWeekProgramPage = ({ programName, programDescription }: ProgramDetailPageProps) => {
   const applicationUrl = useGrantApplicationUrl('incubator-week');
@@ -32,6 +34,18 @@ const IncubatorWeekProgramPage = ({ programName, programDescription }: ProgramDe
       <Head>
         <title>{`${programName} | BlueDot Impact`}</title>
         <meta name="description" content={programDescription} />
+        <meta property="og:title" content={`${programName} | BlueDot Impact`} />
+        <meta property="og:description" content={programDescription} />
+        <meta property="og:url" content={`${SITE_URL}/programs/incubator-week`} />
+        <meta property="og:image" content={LINK_PREVIEW_IMAGE} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:alt" content="Most accelerators take 12 weeks and 7%. We take 5 days and 0%. Apply by 26 May. BlueDot Impact." />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${programName} | BlueDot Impact`} />
+        <meta name="twitter:description" content={programDescription} />
+        <meta name="twitter:image" content={LINK_PREVIEW_IMAGE} />
       </Head>
       <MarketingHero
         title={programName}
