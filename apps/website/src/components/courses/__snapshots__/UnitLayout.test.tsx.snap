@@ -795,6 +795,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               </svg>
               <span
                 class="text-size-xs text-bluedot-navy truncate leading-[18px] font-medium tracking-[-0.005em]"
+                title="1. Basic Principles of Fish"
               >
                 1. Basic Principles of Fish
               </span>
