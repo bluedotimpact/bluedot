@@ -197,7 +197,9 @@ Please complete all exercises before requesting a certificate.`,
         || numUnits === 0
         || (numUnits - uniqueDiscussionAttendance) <= 1;
 
-      const round = meetPerson.round ? await db.get(roundTable, { id: meetPerson.round }) : null;
+      const round = meetPerson.round
+        ? await db.getFirst(roundTable, { filter: { id: meetPerson.round }, sortBy: 'lastDiscussionDate' })
+        : null;
       const sevenDaysFromNow = Date.now() + 7 * ONE_DAY_MS;
       const isLastDiscussionSoonOrPassed = !round?.lastDiscussionDate
         || new Date(round.lastDiscussionDate).getTime() <= sevenDaysFromNow;
