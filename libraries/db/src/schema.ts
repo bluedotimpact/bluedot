@@ -761,6 +761,10 @@ export const jobPostingTable = pgAirtable('job_posting', {
       pgColumn: text(),
       airtableId: 'fldSJh6VeETvtPuDD',
     },
+    linkPreviewImage: {
+      pgColumn: text(),
+      airtableId: 'fldXua1PI4iXLKCKm',
+    },
   },
 });
 
