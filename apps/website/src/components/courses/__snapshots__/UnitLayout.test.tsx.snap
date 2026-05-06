@@ -68,7 +68,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           class="mobile-unit-header__navigation flex h-8 w-16 flex-row items-center p-0"
         >
           <button
-            aria-label="Previous unit"
+            aria-label="Previous section"
             class="mobile-unit-header__prev-unit-cta focus:ring-color-primary flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
             disabled=""
             type="button"
@@ -89,7 +89,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             </svg>
           </button>
           <button
-            aria-label="Next unit"
+            aria-label="Next section"
             class="mobile-unit-header__next-unit-cta focus:ring-color-primary flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
             type="button"
           >
@@ -702,7 +702,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             class="relative p-6"
           >
             <div
-              class="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]"
+              class="border-t-hairline absolute inset-x-[24px] top-0 border-[rgba(42,45,52,0.2)]"
             />
           </div>
         </div>
