@@ -14,6 +14,7 @@ const mockCmsJobs = [
     publicationStatus: 'Published' as const,
     publishedAt: Date.now() / 1000,
     category: null,
+    linkPreviewImage: null,
   },
   {
     id: '2',
@@ -24,6 +25,7 @@ const mockCmsJobs = [
     publicationStatus: 'Published' as const,
     publishedAt: Date.now() / 1000,
     category: null,
+    linkPreviewImage: null,
   },
 ];
 
