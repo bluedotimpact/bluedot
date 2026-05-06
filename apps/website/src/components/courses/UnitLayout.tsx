@@ -185,6 +185,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         {groupDiscussionError && (
           <ErrorSection error={groupDiscussionError} />
         )}
+        {/* Group discussion banner - positioned below breadcrumbs */}
         {groupDiscussionWithZoomInfo?.groupDiscussion && (
           <div className="mb-8 md:mb-6">
             <GroupDiscussionBanner
@@ -198,6 +199,7 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
         <InactiveCourseBanners courseSlug={courseSlug} />
       </div>
 
+      {/* Main content section */}
       <Section className="unit__main !border-none !pt-0 !mt-0 md:!max-w-none md:!mx-0 md:!px-0">
         <div className="unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-text-narrow xl:max-w-[900px] mx-auto px-5 sm:px-spacing-x pt-6 md:pt-8">
           <div className="unit__title-container">
