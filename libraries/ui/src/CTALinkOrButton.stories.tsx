@@ -177,6 +177,15 @@ export const SmallWithChevron: Story = {
   },
 };
 
+export const LargeWithChevron: Story = {
+  args: {
+    children: 'Large With Chevron',
+    variant: 'primary',
+    size: 'large',
+    withChevron: true,
+  },
+};
+
 export const DisabledButton: Story = {
   args: {
     children: 'Disabled Button',

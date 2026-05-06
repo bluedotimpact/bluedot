@@ -833,13 +833,13 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           class="bg-color-canvas"
         />
         <section
-          class="section section-body unit__main !border-none !pt-0 !mt-0 md:!max-w-none md:!mx-0 md:!px-0"
+          class="section section-body unit__main !border-none !pt-0 !mt-0 md:!max-w-none md:!mx-0 !px-0"
         >
           <div
             class="section__body"
           >
             <div
-              class="unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-text-narrow xl:max-w-[900px] mx-auto px-5 sm:px-spacing-x pt-6 md:pt-8"
+              class="unit__content flex flex-col flex-1 max-w-full md:max-w-[680px] lg:max-w-text-narrow xl:max-w-[900px] mx-auto px-4 sm:px-spacing-x pt-6 md:pt-8"
             >
               <div
                 class="unit__title-container"

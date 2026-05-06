@@ -124,6 +124,15 @@ describe('CTALinkOrButton', () => {
     expect(button.className).includes('font-medium');
   });
 
+  test('chevron scales with size', () => {
+    const { rerender } = render(<CTALinkOrButton size="small" withChevron>Click me</CTALinkOrButton>);
+    expect(document.querySelector('.cta-button__chevron-icon')?.className).includes('size-2');
+    rerender(<CTALinkOrButton size="medium" withChevron>Click me</CTALinkOrButton>);
+    expect(document.querySelector('.cta-button__chevron-icon')?.className).includes('size-2');
+    rerender(<CTALinkOrButton size="large" withChevron>Click me</CTALinkOrButton>);
+    expect(document.querySelector('.cta-button__chevron-icon')?.className).includes('size-3');
+  });
+
   // Regression test for the tailwind-merge bug Greptile flagged on the PR that
   // introduced `size="large"`: callers passing a `text-{color}` className were
   // silently dropping `text-size-sm` from the size config because `text-size-*`

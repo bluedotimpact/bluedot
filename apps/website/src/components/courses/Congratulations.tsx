@@ -352,7 +352,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
     = text
       ?? `I just completed the ${courseTitle} course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out:`;
   const dmText = `Hey, I just finished this free ${courseTitle} course and it genuinely shifted how I think about this stuff. Thought you'd find it interesting as well.`;
-  const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(courseUrl)}`;
+  const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(courseUrl)}&text=${encodeURIComponent(shareText)}`;
   const xUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${shareText} ${courseUrl}`)}`;
   const courseColors = getCourseCtaColors(courseSlug);
 
@@ -378,7 +378,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
       </div>
 
       {/* Sharing section with course-colored gradient (inset rounded card) */}
-      <div className="mx-auto w-full max-w-[964px] pb-12">
+      <div className="w-full pb-12">
         <div
           className="flex flex-col items-center gap-12 overflow-hidden rounded-[17px] px-5 py-16 md:px-[54px]"
           style={{ background: courseColors.gradient }}
@@ -435,7 +435,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
 
       {courseId === FOAI_COURSE_ID && (
         <div className="flex justify-center bg-white py-12">
-          <div className="border-hairline border-bluedot-navy/25 flex w-full max-w-section-wide flex-col gap-6 rounded-lg bg-white p-10">
+          <div className="border-hairline border-bluedot-navy/25 flex w-full flex-col gap-6 rounded-lg bg-white p-10">
             <div className="flex flex-col gap-3">
               <h3 className="text-bluedot-navy text-size-md leading-[1.4] font-semibold">Want to go deeper?</h3>
               <P className="text-bluedot-navy text-size-sm leading-[1.6] tracking-[-0.002em]">
