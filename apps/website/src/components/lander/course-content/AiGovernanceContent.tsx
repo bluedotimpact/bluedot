@@ -42,6 +42,7 @@ export const createAiGovernanceContent = (
   },
 
   hideTestimonials: true,
+  courseInformationHeadingVariant: 'compact',
 
   whoIsThisForText: {
     id: 'personas',
@@ -131,6 +132,7 @@ export const createAiGovernanceContent = (
   courseOutcomes: {
     title: 'What you\'ll actually do',
     accentColor: AI_GOVERNANCE_COLORS.iconBackground,
+    headingVariant: 'compact',
     outcomes: [
       {
         icon: PiBookOpen,
@@ -194,6 +196,7 @@ export const createAiGovernanceContent = (
   fieldBuilding: {
     title: 'Help build the field',
     intro: 'We also hire Adjunct Experts and Facilitators (~5h/week) and Fellow-Researchers (20-30h/week) to teach.',
+    headingVariant: 'compact',
     roles: [
       {
         title: 'Adjunct Experts and Facilitators',

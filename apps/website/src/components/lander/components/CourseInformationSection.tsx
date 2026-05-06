@@ -5,6 +5,7 @@ import {
 } from '@bluedot/ui';
 import type { IconType } from 'react-icons';
 import { ScheduleRounds } from './ScheduleRounds';
+import { pageSectionHeadingClass } from '../../PageListRow';
 
 export type CourseDetail = {
   /** Icon component from react-icons (e.g., PiGraduationCap, PiClockClockwise) */
@@ -34,6 +35,8 @@ export type CourseInformationSectionProps = {
   courseSlug: string;
   /** Accent color for bars and "Apply now" links in the schedule section */
   accentColor?: string;
+  /** Smaller heading treatment used by editorial-style landers. */
+  headingVariant?: 'default' | 'compact';
 };
 
 const CourseInformationSection = ({
@@ -44,14 +47,21 @@ const CourseInformationSection = ({
   scheduleCtaText,
   courseSlug,
   accentColor,
+  headingVariant = 'default',
 }: CourseInformationSectionProps) => {
   return (
     <section id={id} className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24 flex flex-col items-center gap-8 md:gap-10">
         {/* Section Title */}
-        <H2 className="w-full bd-md:max-w-text text-size-xl text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
-          {title}
-        </H2>
+        {headingVariant === 'compact' ? (
+          <h3 className={`w-full bd-md:max-w-text ${pageSectionHeadingClass}`}>
+            {title}
+          </h3>
+        ) : (
+          <H2 className="w-full bd-md:max-w-text text-size-xl text-center font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
+            {title}
+          </H2>
+        )}
 
         {/* White Card Container — capped to the same 840px column as ScheduleListSection. */}
         <div className="w-full bd-md:max-w-text bg-white border border-bluedot-navy/10 rounded-xl py-8 flex flex-col items-center gap-6">
