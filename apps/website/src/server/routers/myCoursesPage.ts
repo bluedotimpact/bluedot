@@ -55,12 +55,9 @@ export const myCoursesPageRouter = router({
 
     const facilitatorIds = [...new Set(groups.flatMap((g) => g.facilitator ?? []))];
     const allExpectedDiscussionIds = [...new Set(meetPersons.flatMap((mp) => mp.expectedDiscussionsParticipant ?? []))];
-    const upcomingRoundIds = [...new Set(courseRegistrations
-      .filter((cr) => cr.roundStatus === 'Future')
-      .map((cr) => cr.roundId)
-      .filter((id): id is string => !!id))];
+    const allRoundIds = [...new Set(courseRegistrations.map((cr) => cr.roundId).filter((id): id is string => !!id))];
 
-    const [facilitators, discussions, roundStartRows] = await Promise.all([
+    const [facilitators, discussions, roundRows] = await Promise.all([
       facilitatorIds.length > 0
         ? db.pg
           .select({
@@ -77,14 +74,15 @@ export const myCoursesPageRouter = router({
           .from(groupDiscussionTable.pg)
           .where(inArray(groupDiscussionTable.pg.id, allExpectedDiscussionIds))
         : Promise.resolve([] as GroupDiscussion[]),
-      upcomingRoundIds.length > 0
+      allRoundIds.length > 0
         ? db.pg
           .select({
             id: applicationsRoundTable.pg.id,
             firstDiscussionDate: applicationsRoundTable.pg.firstDiscussionDate,
+            lastDiscussionDate: applicationsRoundTable.pg.lastDiscussionDate,
           })
           .from(applicationsRoundTable.pg)
-          .where(inArray(applicationsRoundTable.pg.id, upcomingRoundIds))
+          .where(inArray(applicationsRoundTable.pg.id, allRoundIds))
         : Promise.resolve([]),
     ]);
 
@@ -96,7 +94,7 @@ export const myCoursesPageRouter = router({
     const facilitatorById = new Map(facilitators.map((f) => [f.id, f]));
     const unitById = new Map(units.map((u) => [u.id, u] as const));
     const discussionById = new Map(discussions.map((d) => [d.id, d] as const));
-    const roundStartById = new Map(roundStartRows.map((r) => [r.id, r.firstDiscussionDate] as const));
+    const roundById = new Map(roundRows.map((r) => [r.id, r] as const));
 
     const perCourse = courseRegistrations.flatMap((cr) => {
       const course = courses.find((c) => c.id === cr.courseId);
@@ -142,7 +140,8 @@ export const myCoursesPageRouter = router({
         units: courseUnits,
         slackChannelId,
         activityDoc,
-        roundStartDate: cr.roundId ? roundStartById.get(cr.roundId) ?? null : null,
+        roundStartDate: cr.roundId ? roundById.get(cr.roundId)?.firstDiscussionDate ?? null : null,
+        roundEndDate: cr.roundId ? roundById.get(cr.roundId)?.lastDiscussionDate ?? null : null,
         numUnits: meetPerson?.numUnits ?? null,
         uniqueDiscussionAttendance: meetPerson?.uniqueDiscussionAttendance ?? null,
         hasSubmittedActionPlan: (meetPerson?.projectSubmission?.length ?? 0) > 0,

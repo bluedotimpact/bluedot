@@ -1,7 +1,7 @@
 import {
   CTALinkOrButton, OverflowMenu, Tooltip, type OverflowMenuItemProps, addQueryParam,
 } from '@bluedot/ui';
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { FaCheck, FaLock } from 'react-icons/fa6';
 import { IoBan, IoChevronDown } from 'react-icons/io5';
 import { COURSE_CONFIG, FOAI_COURSE_SLUG } from '../../lib/constants';
@@ -20,18 +20,11 @@ const classifyCourseRegistration = (cr: EnrichedCourse['courseRegistration']) =>
   return 'completed';
 };
 
-const buildSubtitle = (
-  state: ReturnType<typeof classifyCourseRegistration>,
+const formatRecurringSchedule = (
   group: EnrichedCourse['group'],
   facilitatorNames: string[],
-  roundStartDate: string | null,
 ): string => {
   const parts: string[] = [];
-
-  if (state === 'upcoming' && roundStartDate) {
-    parts.push(`Course starts ${formatMonthAndDay(roundStartDate)}`);
-  }
-
   if (group?.startTimeUtc) {
     const date = new Date(group.startTimeUtc * 1000);
     const weekday = date.toLocaleDateString('en-US', { weekday: 'long' });
@@ -39,11 +32,131 @@ const buildSubtitle = (
     parts.push(`${weekday}s, ${time}`);
   }
 
-  if (facilitatorNames.length > 0) {
-    parts.push(`Facilitated by ${facilitatorNames.join(', ')}`);
+  if (facilitatorNames.length > 0) parts.push(`Facilitated by ${facilitatorNames.join(', ')}`);
+  return parts.join(' · ');
+};
+
+const formatRoundDateRange = (start: string, end: string): string => {
+  const s = new Date(start);
+  const e = new Date(end);
+  const opts = (year?: 'numeric') => ({
+    month: 'short', day: 'numeric', timeZone: 'UTC', ...(year && { year }),
+  } as const);
+  if (s.getUTCFullYear() !== e.getUTCFullYear()) {
+    return `${s.toLocaleDateString('en-US', opts('numeric'))} – ${e.toLocaleDateString('en-US', opts('numeric'))}`;
   }
 
-  return parts.join(' · ');
+  if (s.getUTCMonth() !== e.getUTCMonth()) {
+    return `${s.toLocaleDateString('en-US', opts())} – ${e.toLocaleDateString('en-US', opts('numeric'))}`;
+  }
+
+  return `${s.toLocaleDateString('en-US', opts())} – ${e.getUTCDate()}, ${e.getUTCFullYear()}`;
+};
+
+// Subtitle precedence chain — first matching branch wins. Ported from legacy `getSubtitle`
+// (apps/website/src/components/settings/CourseList.tsx) and edited for the v2 design. Each
+// branch answers a specific user question (see gh-settings-courses/legacy-behaviours.md for
+// the full audit and design decisions).
+export const getSubtitle = ({
+  courseRegistration,
+  group,
+  facilitatorNames,
+  discussions,
+  numUnits,
+  uniqueDiscussionAttendance,
+  isNotInGroup,
+  roundStartDate,
+  roundEndDate,
+}: {
+  courseRegistration: EnrichedCourse['courseRegistration'];
+  group: EnrichedCourse['group'];
+  facilitatorNames: string[];
+  discussions: EnrichedCourse['discussions'];
+  numUnits: number | null;
+  uniqueDiscussionAttendance: number | null;
+  isNotInGroup: boolean;
+  roundStartDate: string | null;
+  roundEndDate: string | null;
+}): ReactNode => {
+  // 1. Future row: application status + optional "Course starts {date}".
+  if (courseRegistration.roundStatus === 'Future') {
+    let statusText: string;
+    switch (courseRegistration.decision) {
+      case 'Accept':
+        statusText = 'Application accepted!';
+        break;
+      case 'Reject':
+        statusText = 'Application rejected';
+        break;
+      default:
+        statusText = 'Application in review';
+        break;
+    }
+
+    const formattedDate = roundStartDate ? formatMonthAndDay(roundStartDate) : null;
+    return (
+      <>
+        <span className="text-bluedot-normal font-medium">{statusText}</span>
+        {formattedDate && (
+          <>
+            <span> · </span>
+            <span>{`Course starts ${formattedDate}`}</span>
+          </>
+        )}
+      </>
+    );
+  }
+
+  // 2. Past + cert: course-duration date range, e.g. "Mar 10 – 17, 2026".
+  //    (Legacy showed "Completed on Apr 1, 2026" + checkmark; v2 design uses the round range.)
+  if (courseRegistration.certificateCreatedAt && roundStartDate && roundEndDate) {
+    const range = formatRoundDateRange(roundStartDate, roundEndDate);
+    if (facilitatorNames.length > 0) return `${range} · Facilitated by ${facilitatorNames.join(', ')}`;
+    return range;
+  }
+
+  // 3. Past + no cert: date range + "You attended N out of M discussions" (date alone if data missing).
+  const isPast = courseRegistration.roundStatus === 'Past';
+  if (isPast && !courseRegistration.certificateCreatedAt) {
+    const attendance = `You attended ${uniqueDiscussionAttendance ?? 0} out of ${numUnits ?? 0} discussions`;
+    if (roundStartDate && roundEndDate) {
+      return `${formatRoundDateRange(roundStartDate, roundEndDate)} · ${attendance}`;
+    }
+
+    return attendance;
+  }
+
+  // 3b. Dropped: course-duration date range, identifies which round they dropped out of.
+  const isDropped = (courseRegistration.dropoutId?.length ?? 0) > 0 && (courseRegistration.deferredId?.length ?? 0) === 0;
+  if (isDropped && roundStartDate && roundEndDate) {
+    return formatRoundDateRange(roundStartDate, roundEndDate);
+  }
+
+  // 4. Accepted-Active but not yet placed in a group.
+  if (isNotInGroup) {
+    return (
+      <>
+        We&apos;re assigning you to a group, you&apos;ll receive an email from us within the next few days
+        {roundStartDate && (
+          <span className="hidden sm:inline">
+            {' · '}
+            {`Course starts ${formatMonthAndDay(roundStartDate)}`}
+          </span>
+        )}
+      </>
+    );
+  }
+
+  // 5. Active (default fall-through): recurring schedule + facilitator.
+  //    Legacy v1 had "Unit N/M · groupName" here; v2 design swaps that for the schedule.
+  const hasSchedule = group?.startTimeUtc != null;
+  const hasFacilitators = facilitatorNames.length > 0;
+  const hasDiscussions = discussions.length > 0;
+  if (hasSchedule || hasFacilitators || hasDiscussions) {
+    return formatRecurringSchedule(group, facilitatorNames);
+  }
+
+  return null;
 };
 
 type CourseListRowProps = {
@@ -53,7 +166,7 @@ type CourseListRowProps = {
 const CourseListRow = ({ course: c }: CourseListRowProps) => {
   const {
     course, courseRegistration, group, facilitatorNames, discussions, attendedDiscussionIds, units, roundId,
-    slackChannelId, activityDoc, roundStartDate, meetPersonId,
+    slackChannelId, activityDoc, roundStartDate, roundEndDate, meetPersonId,
     numUnits, uniqueDiscussionAttendance, hasSubmittedActionPlan, feedbackFormUrl, hasSubmittedFeedback,
   } = c;
   const state = classifyCourseRegistration(courseRegistration);
@@ -64,10 +177,18 @@ const CourseListRow = ({ course: c }: CourseListRowProps) => {
   const isFacilitatedCourse = course.slug !== FOAI_COURSE_SLUG;
   const hasCert = !!courseRegistration.certificateCreatedAt;
 
-  const showAttendanceLine = state === 'completed' && !hasCert && numUnits != null && uniqueDiscussionAttendance != null;
-  const subtitle = showAttendanceLine
-    ? `You attended ${uniqueDiscussionAttendance} out of ${numUnits} discussions`
-    : buildSubtitle(state, group, facilitatorNames, roundStartDate);
+  const isNotInGroup = !!meetPersonId && !group;
+  const subtitle = getSubtitle({
+    courseRegistration,
+    group,
+    facilitatorNames,
+    discussions,
+    numUnits,
+    uniqueDiscussionAttendance,
+    isNotInGroup,
+    roundStartDate,
+    roundEndDate,
+  });
 
   // Show the cert-eligibility tooltip when a Past, no-cert, facilitated-course participant
   // hasn't met both criteria yet (miss ≤ 1 discussion AND submit action plan).
@@ -179,7 +300,7 @@ const CourseListRow = ({ course: c }: CourseListRowProps) => {
               </span>
             )}
           </h3>
-          {state !== 'dropped' && subtitle && (
+          {subtitle && (
             <p className="mt-1 text-size-xs text-bluedot-navy/60">{subtitle}</p>
           )}
         </div>
