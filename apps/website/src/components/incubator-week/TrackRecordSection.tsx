@@ -4,7 +4,7 @@ import { pageSectionHeadingClass } from '../PageListRow';
 const TrackRecordSection = () => {
   return (
     <section className="section section-body incubator-week-track-record-section">
-      <div className="w-full flex flex-col gap-6">
+      <div className="max-w-prose mx-auto w-full flex flex-col gap-6">
         <h3 className={pageSectionHeadingClass}>Track record</h3>
 
         <div className="flex flex-col gap-5">

@@ -32,7 +32,7 @@ const PERSONAS: Persona[] = [
 const WhoYouAreSection = () => {
   return (
     <section className="section section-body advising-who-you-are-section">
-      <div className="w-full flex flex-col gap-6">
+      <div className="max-w-prose mx-auto w-full flex flex-col gap-6">
         <h3 className={pageSectionHeadingClass}>Who you are</h3>
 
         <div className="flex flex-col gap-4">

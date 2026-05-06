@@ -26,7 +26,7 @@ const ProgramsPage = () => {
       <Breadcrumbs route={ROUTES.programs} />
 
       <section className="section section-body">
-        <div className="flex flex-col gap-12 lg:gap-14">
+        <div className="max-w-prose mx-auto w-full flex flex-col gap-12 lg:gap-14">
           <ProgramsList />
         </div>
 

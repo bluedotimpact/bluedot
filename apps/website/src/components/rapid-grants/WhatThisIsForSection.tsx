@@ -19,22 +19,24 @@ const WhatThisIsForSection = () => {
   return (
     <section className="section section-body rapid-grants-what-section">
       <div className="w-full flex flex-col gap-6">
-        <h3 className={pageSectionHeadingClass}>Who this is for</h3>
+        <div className="max-w-prose mx-auto w-full">
+          <h3 className={`${pageSectionHeadingClass} mb-6`}>Who this is for</h3>
 
-        <div className="flex flex-col gap-5">
-          <P>For anyone working on concrete AI safety projects. Research, events, community building, tooling, compute.</P>
-          <P>
-            If in doubt,{' '}
-            <a
-              href={applicationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-bluedot-navy underline underline-offset-4"
-            >
-              apply
-            </a>
-            .
-          </P>
+          <div className="flex flex-col gap-5">
+            <P>For anyone working on concrete AI safety projects. Research, events, community building, tooling, compute.</P>
+            <P>
+              If in doubt,{' '}
+              <a
+                href={applicationUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-bluedot-navy underline underline-offset-4"
+              >
+                apply
+              </a>
+              .
+            </P>
+          </div>
         </div>
 
         <div className="pt-2 grid gap-4 bd-md:grid-cols-2">

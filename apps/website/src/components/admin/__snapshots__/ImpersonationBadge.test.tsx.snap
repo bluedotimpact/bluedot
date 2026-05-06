@@ -37,3 +37,5 @@ exports[`ImpersonationBadge > displays masked email when impersonating 1`] = `
   </div>
 </div>
 `;
+
+exports[`ImpersonationBadge > stop impersonating button removes storage and reloads page 1`] = `<div />`;
