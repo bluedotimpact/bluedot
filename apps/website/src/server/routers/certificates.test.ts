@@ -1,5 +1,5 @@
 import {
-  courseRegistrationTable, courseTable, exerciseResponseTable, exerciseTable, meetPersonTable,
+  courseRegistrationTable, courseTable, exerciseResponseTable, exerciseTable, meetPersonTable, roundTable,
 } from '@bluedot/db';
 import {
   describe, expect, test, vi,
@@ -307,10 +307,14 @@ describe('certificates.getStatus', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg1', email: 'test@example.com', courseId: 'rec-other', decision: 'Accept',
     });
+    await testDb.insert(roundTable, {
+      id: 'round1', lastDiscussionDate: '2020-01-01',
+    });
     await testDb.insert(meetPersonTable, {
       id: 'mp1',
       applicationsBaseRecordId: 'reg1',
       role: 'Participant',
+      round: 'round1',
       projectSubmission: ['https://example.com/plan'],
     });
 
@@ -363,10 +367,14 @@ describe('certificates.getStatus', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg1', email: 'test@example.com', courseId: 'rec-other', decision: 'Accept',
     });
+    await testDb.insert(roundTable, {
+      id: 'round1', lastDiscussionDate: '2020-01-01',
+    });
     await testDb.insert(meetPersonTable, {
       id: 'mp1',
       applicationsBaseRecordId: 'reg1',
       role: 'Participant',
+      round: 'round1',
       uniqueDiscussionAttendance: 3,
       numUnits: 5,
     });
