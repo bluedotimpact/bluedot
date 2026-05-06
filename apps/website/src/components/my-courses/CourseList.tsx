@@ -15,7 +15,7 @@ const CourseList = ({ courses, emptyMessage = 'No courses to show.' }: CourseLis
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-6">
       {courses.map((c) => (
         <CourseListRow key={c.courseRegistration.id} course={c} />
       ))}
