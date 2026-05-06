@@ -65,7 +65,7 @@ export default function CongratulationsPage({
         courseId={courseId}
         courseTitle={courseTitle}
         courseSlug={courseSlug}
-        className="px-5 md:px-[60px] lg:px-[100px] xl:px-[140px] 2xl:px-[200px] py-12"
+        className="max-w-full md:max-w-[680px] lg:max-w-text-narrow xl:max-w-[900px] mx-auto px-4 sm:px-spacing-x py-12"
       />
     </CourseShell>
   );
