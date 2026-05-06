@@ -319,6 +319,7 @@ describe('certificates.getStatus', () => {
       status: 'action-plan-pending',
       meetPersonId: 'mp1',
       hasSubmittedActionPlan: true,
+      isLastDiscussionSoonOrPassed: true,
     });
   });
 
@@ -375,6 +376,7 @@ describe('certificates.getStatus', () => {
       status: 'attendance-ineligible',
       uniqueDiscussionAttendance: 3,
       numUnits: 5,
+      isLastDiscussionSoonOrPassed: true,
     });
   });
 });
