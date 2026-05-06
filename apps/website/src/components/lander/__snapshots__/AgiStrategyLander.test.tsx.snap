@@ -1234,37 +1234,154 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
         <div
           class="w-full bd-md:max-w-text bd-md:mx-auto flex flex-col gap-8"
         >
-          <blockquote
-            class="text-size-lg lg:text-[28px] leading-[1.5] font-medium text-bluedot-navy"
+          <div
+            class="grid"
           >
-            "We should not underestimate the real threats coming from AI [while] we have a narrowing window of opportunity to guide this technology responsibly."
-          </blockquote>
-          <a
-            class="flex items-center gap-4 group self-start"
-            href="https://neighbourhood-enlargement.ec.europa.eu/news/2023-state-union-address-president-von-der-leyen-2023-09-13_en"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <img
-              alt="Ursula von der Leyen"
-              class="size-16 bd-md:size-20 rounded-xl object-cover flex-shrink-0"
-              src="/images/agi-strategy/ursula.webp"
-            />
             <div
-              class="flex flex-col"
+              aria-hidden="false"
+              class="[grid-area:1/1] flex flex-col gap-8 visible"
             >
-              <div
-                class="text-size-sm bd-md:text-size-md font-semibold leading-[1.4] text-bluedot-navy group-hover:text-bluedot-normal transition-colors"
+              <blockquote
+                class="text-size-lg lg:text-[28px] leading-[1.5] font-medium text-bluedot-navy"
               >
-                Ursula von der Leyen
-              </div>
-              <div
-                class="text-size-sm leading-[1.5] text-bluedot-navy/60"
+                "We should not underestimate the real threats coming from AI [while] we have a narrowing window of opportunity to guide this technology responsibly."
+              </blockquote>
+              <a
+                class="flex items-center gap-4 group self-start"
+                href="https://neighbourhood-enlargement.ec.europa.eu/news/2023-state-union-address-president-von-der-leyen-2023-09-13_en"
+                rel="noopener noreferrer"
+                target="_blank"
               >
-                President, European Commission
-              </div>
+                <img
+                  alt="Ursula von der Leyen"
+                  class="size-16 bd-md:size-20 rounded-xl object-cover flex-shrink-0"
+                  src="/images/agi-strategy/ursula.webp"
+                />
+                <div
+                  class="flex flex-col"
+                >
+                  <div
+                    class="text-size-sm bd-md:text-size-md font-semibold leading-[1.4] text-bluedot-navy group-hover:text-bluedot-normal transition-colors"
+                  >
+                    Ursula von der Leyen
+                  </div>
+                  <div
+                    class="text-size-sm leading-[1.5] text-bluedot-navy/60"
+                  >
+                    President, European Commission
+                  </div>
+                </div>
+              </a>
             </div>
-          </a>
+            <div
+              aria-hidden="true"
+              class="[grid-area:1/1] flex flex-col gap-8 invisible"
+            >
+              <blockquote
+                class="text-size-md bd-md:text-size-lg leading-[1.5] font-medium text-bluedot-navy"
+              >
+                "I've always thought of AI as the most profound technology humanity is working on. More profound than fire or electricity or anything that we've done in the past… The downside is, at some point, that humanity loses control of the technology it's developing."
+              </blockquote>
+              <a
+                class="flex items-center gap-4 group self-start"
+                href="https://garrisonlovely.substack.com/p/a-compilation-of-tech-executives"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <img
+                  alt="Sundar Pichai"
+                  class="size-16 bd-md:size-20 rounded-xl object-cover flex-shrink-0"
+                  src="/images/agi-strategy/sundar.webp"
+                />
+                <div
+                  class="flex flex-col"
+                >
+                  <div
+                    class="text-size-sm bd-md:text-size-md font-semibold leading-[1.4] text-bluedot-navy group-hover:text-bluedot-normal transition-colors"
+                  >
+                    Sundar Pichai
+                  </div>
+                  <div
+                    class="text-size-sm leading-[1.5] text-bluedot-navy/60"
+                  >
+                    CEO, Google
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div
+              aria-hidden="true"
+              class="[grid-area:1/1] flex flex-col gap-8 invisible"
+            >
+              <blockquote
+                class="text-size-lg lg:text-[28px] leading-[1.5] font-medium text-bluedot-navy"
+              >
+                "AI could surpass almost all humans at almost everything shortly after 2027."
+              </blockquote>
+              <a
+                class="flex items-center gap-4 group self-start"
+                href="https://arstechnica.com/ai/2025/01/anthropic-chief-says-ai-could-surpass-almost-all-humans-at-almost-everything-shortly-after-2027/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <img
+                  alt="Dario Amodei"
+                  class="size-16 bd-md:size-20 rounded-xl object-cover flex-shrink-0"
+                  src="/images/lander/foai/dario.webp"
+                />
+                <div
+                  class="flex flex-col"
+                >
+                  <div
+                    class="text-size-sm bd-md:text-size-md font-semibold leading-[1.4] text-bluedot-navy group-hover:text-bluedot-normal transition-colors"
+                  >
+                    Dario Amodei
+                  </div>
+                  <div
+                    class="text-size-sm leading-[1.5] text-bluedot-navy/60"
+                  >
+                    CEO, Anthropic
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div
+              aria-hidden="true"
+              class="[grid-area:1/1] flex flex-col gap-8 invisible"
+            >
+              <blockquote
+                class="text-size-md lg:text-size-lg leading-[1.5] font-medium text-bluedot-navy"
+              >
+                "I'm all in favor of accelerating technological progress, but there is something unsettling about the way OpenAI explicitly declares its mission to be the creation of AGI. AI is a wonderful tool for the betterment of humanity; AGI is a potential successor species … To the extent the mission produces extra motivation for the team to ship good products, it's a positive. To the extent it might actually succeed, it's a reason for concern."
+              </blockquote>
+              <a
+                class="flex items-center gap-4 group self-start"
+                href="https://x.com/HumanHarlan/status/1864858286065111298"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <img
+                  alt="David Sacks"
+                  class="size-16 bd-md:size-20 rounded-xl object-cover flex-shrink-0"
+                  src="/images/agi-strategy/david-sacks.webp"
+                />
+                <div
+                  class="flex flex-col"
+                >
+                  <div
+                    class="text-size-sm bd-md:text-size-md font-semibold leading-[1.4] text-bluedot-navy group-hover:text-bluedot-normal transition-colors"
+                  >
+                    David Sacks
+                  </div>
+                  <div
+                    class="text-size-sm leading-[1.5] text-bluedot-navy/60"
+                  >
+                    White House AI and Crypto Czar
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
           <div
             class="flex items-center gap-3 mt-2"
           >
