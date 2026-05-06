@@ -33,8 +33,12 @@ const UNITS = [
 ];
 
 const ALL_UNIT_CHUNKS: Record<string, { id: string; chunkTitle: string; chunkOrder: string; estimatedTime: number | null }[]> = {
-  'unit-1': [{ id: 'chunk-1', chunkTitle: 'Chunk 1', chunkOrder: '1', estimatedTime: null }],
-  'unit-2': [{ id: 'chunk-2', chunkTitle: 'Chunk 2', chunkOrder: '1', estimatedTime: null }],
+  'unit-1': [{
+    id: 'chunk-1', chunkTitle: 'Chunk 1', chunkOrder: '1', estimatedTime: null,
+  }],
+  'unit-2': [{
+    id: 'chunk-2', chunkTitle: 'Chunk 2', chunkOrder: '1', estimatedTime: null,
+  }],
 };
 
 const DEFAULT_PROPS = {
@@ -51,19 +55,16 @@ describe('CongratulationsPage', () => {
     server.use(
       trpcMsw.courseRounds.getApplyCTAProps.query(() => null),
       trpcMsw.groupDiscussions.getByCourseSlug.query(() => null),
-      trpcMsw.courseRounds.getIsEnrolledInActiveCourse.query(() => false),
     );
   });
 
   test('redirects to first unit when user is ineligible (action-plan-pending)', async () => {
-    server.use(
-      trpcMsw.certificates.getStatus.query(() => ({
-        status: 'action-plan-pending' as const,
-        meetPersonId: 'mp1',
-        hasSubmittedActionPlan: false,
-        isLastDiscussionSoonOrPassed: false,
-      })),
-    );
+    server.use(trpcMsw.certificates.getStatus.query(() => ({
+      status: 'action-plan-pending' as const,
+      meetPersonId: 'mp1',
+      hasSubmittedActionPlan: false,
+      isLastDiscussionSoonOrPassed: false,
+    })));
 
     render(<CongratulationsPage {...DEFAULT_PROPS} />, { wrapper: TrpcProvider });
 
@@ -73,9 +74,7 @@ describe('CongratulationsPage', () => {
   });
 
   test('redirects when user is a facilitator', async () => {
-    server.use(
-      trpcMsw.certificates.getStatus.query(() => ({ status: 'is-facilitator' as const })),
-    );
+    server.use(trpcMsw.certificates.getStatus.query(() => ({ status: 'is-facilitator' as const })));
 
     render(<CongratulationsPage {...DEFAULT_PROPS} />, { wrapper: TrpcProvider });
 
@@ -85,18 +84,16 @@ describe('CongratulationsPage', () => {
   });
 
   test('renders content when user has certificate', async () => {
-    server.use(
-      trpcMsw.certificates.getStatus.query(() => ({
-        status: 'has-certificate' as const,
-        certificateId: 'cert-1',
-        certificateCreatedAt: Math.floor(Date.now() / 1000),
-        courseName: 'Test Course',
-        courseSlug: 'test-course',
-        courseDetailsUrl: '/courses/test-course',
-        recipientName: 'Jane Smith',
-        certificationDescription: 'Completed the course.',
-      })),
-    );
+    server.use(trpcMsw.certificates.getStatus.query(() => ({
+      status: 'has-certificate' as const,
+      certificateId: 'cert-1',
+      certificateCreatedAt: Math.floor(Date.now() / 1000),
+      courseName: 'Test Course',
+      courseSlug: 'test-course',
+      courseDetailsUrl: '/courses/test-course',
+      recipientName: 'Jane Smith',
+      certificationDescription: 'Completed the course.',
+    })));
 
     const { container } = render(<CongratulationsPage {...DEFAULT_PROPS} />, { wrapper: TrpcProvider });
 
@@ -107,9 +104,7 @@ describe('CongratulationsPage', () => {
   });
 
   test('renders content when user can request certificate', async () => {
-    server.use(
-      trpcMsw.certificates.getStatus.query(() => ({ status: 'can-request' as const })),
-    );
+    server.use(trpcMsw.certificates.getStatus.query(() => ({ status: 'can-request' as const })));
 
     const { container } = render(<CongratulationsPage {...DEFAULT_PROPS} />, { wrapper: TrpcProvider });
 
@@ -120,14 +115,12 @@ describe('CongratulationsPage', () => {
   });
 
   test('does not redirect when attendance-ineligible but last discussion passed', async () => {
-    server.use(
-      trpcMsw.certificates.getStatus.query(() => ({
-        status: 'attendance-ineligible' as const,
-        uniqueDiscussionAttendance: 2,
-        numUnits: 5,
-        isLastDiscussionSoonOrPassed: true,
-      })),
-    );
+    server.use(trpcMsw.certificates.getStatus.query(() => ({
+      status: 'attendance-ineligible' as const,
+      uniqueDiscussionAttendance: 2,
+      numUnits: 5,
+      isLastDiscussionSoonOrPassed: true,
+    })));
 
     const { container } = render(<CongratulationsPage {...DEFAULT_PROPS} />, { wrapper: TrpcProvider });
 
@@ -138,14 +131,12 @@ describe('CongratulationsPage', () => {
   });
 
   test('redirects when attendance-ineligible and last discussion has not yet passed', async () => {
-    server.use(
-      trpcMsw.certificates.getStatus.query(() => ({
-        status: 'attendance-ineligible' as const,
-        uniqueDiscussionAttendance: 2,
-        numUnits: 5,
-        isLastDiscussionSoonOrPassed: false,
-      })),
-    );
+    server.use(trpcMsw.certificates.getStatus.query(() => ({
+      status: 'attendance-ineligible' as const,
+      uniqueDiscussionAttendance: 2,
+      numUnits: 5,
+      isLastDiscussionSoonOrPassed: false,
+    })));
 
     render(<CongratulationsPage {...DEFAULT_PROPS} />, { wrapper: TrpcProvider });
 
