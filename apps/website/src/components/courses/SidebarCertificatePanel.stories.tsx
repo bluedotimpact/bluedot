@@ -19,7 +19,7 @@ type Story = StoryObj<typeof meta>;
 
 export const NotEnrolled: Story = {
   args: {
-    certificateData: undefined,
+    certificateData: { status: 'not-enrolled' },
   },
 };
 
