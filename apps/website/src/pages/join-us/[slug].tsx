@@ -40,9 +40,6 @@ const JobPostingPage = ({ slug, job, jobOgImage }: JobPostingPageProps) => {
         <meta key="og:type" property="og:type" content="website" />
         <meta key="og:url" property="og:url" content={`https://bluedot.org/join-us/${encodeURIComponent(slug)}`} />
         <meta key="og:image" property="og:image" content={jobOgImage} />
-        <meta key="og:image:width" property="og:image:width" content="1200" />
-        <meta key="og:image:height" property="og:image:height" content="630" />
-        <meta key="og:image:type" property="og:image:type" content="image/png" />
         <meta key="og:image:alt" property="og:image:alt" content="BlueDot Impact logo" />
         <script
           type="application/ld+json"
@@ -129,9 +126,13 @@ export const getStaticProps: GetStaticProps<JobPostingPageProps> = async ({ para
     // Fetches both published and unlisted jobs, but not unpublished ones
     const job = await db.get(jobPostingTable, { slug, publicationStatus: { '!=': 'Unpublished' } });
 
-    let jobOgImage = 'https://bluedot.org/images/logo/link-preview-fallback.png';
-    if (await fileExists(path.join(process.cwd(), 'public', 'images', 'jobs', 'link-preview', `${job.slug}.png`))) {
+    let jobOgImage: string;
+    if (job.linkPreviewImage) {
+      jobOgImage = job.linkPreviewImage;
+    } else if (await fileExists(path.join(process.cwd(), 'public', 'images', 'jobs', 'link-preview', `${job.slug}.png`))) {
       jobOgImage = `${process.env.NEXT_PUBLIC_SITE_URL}/images/jobs/link-preview/${job.slug}.png`;
+    } else {
+      jobOgImage = 'https://bluedot.org/images/logo/link-preview-fallback.png';
     }
 
     return {
