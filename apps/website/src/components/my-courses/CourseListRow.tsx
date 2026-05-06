@@ -3,7 +3,8 @@ import {
 } from '@bluedot/ui';
 import { Fragment, useState, type ReactNode } from 'react';
 import { FaCheck, FaLock } from 'react-icons/fa6';
-import { IoBan, IoChevronDown } from 'react-icons/io5';
+import { IoBan } from 'react-icons/io5';
+import { ChevronRightIcon } from '../icons';
 import { COURSE_CONFIG, FOAI_COURSE_SLUG } from '../../lib/constants';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
 import { ROUTES } from '../../lib/routes';
@@ -214,7 +215,6 @@ const CourseListRow = ({ course: c }: CourseListRowProps) => {
 
   // Dropped rows can still expand if the user attended any discussions before dropping.
   const canExpand = state !== 'dropped' || attendedDiscussionIds.length > 0;
-  const showChevron = canExpand;
   const courseConfig = COURSE_CONFIG[course.slug];
   const tint = COURSE_COLORS[course.slug as CourseColorSlug]?.bright;
   const headerStyle = tint
@@ -255,19 +255,17 @@ const CourseListRow = ({ course: c }: CourseListRowProps) => {
     if (canExpand) setIsExpanded((prev) => !prev);
   };
 
-  const handleHeaderKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (!canExpand) return;
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      toggleExpand();
-    }
-  };
-
-  // Stop the click on action elements from also toggling the header expand state.
-  const stopPropagation = {
-    onClick: (e: React.MouseEvent) => e.stopPropagation(),
-    onKeyDown: (e: React.KeyboardEvent) => e.stopPropagation(),
-  };
+  const chevronButton = canExpand ? (
+    <button
+      type="button"
+      onClick={toggleExpand}
+      aria-expanded={isExpanded}
+      aria-label={isExpanded ? `Collapse ${course.title}` : `Expand ${course.title}`}
+      className="flex size-5 cursor-pointer items-center justify-center text-bluedot-normal"
+    >
+      <ChevronRightIcon className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`} />
+    </button>
+  ) : null;
 
   // Wide text CTAs / pills. Rendered inline on the right on desktop; full-width row below the
   // title block on mobile (so the title isn't squeezed by long labels like "Share feedback to view
@@ -327,14 +325,8 @@ const CourseListRow = ({ course: c }: CourseListRowProps) => {
   return (
     <div className="overflow-hidden rounded-xl border border-color-divider bg-white">
       <div
-        className={`flex items-start gap-4 p-5 pb-3.5 sm:items-center sm:p-6 ${canExpand ? 'cursor-pointer' : ''}`}
+        className="flex items-start gap-4 p-5 pb-3.5 sm:items-center sm:p-6"
         style={headerStyle}
-        onClick={toggleExpand}
-        onKeyDown={handleHeaderKeyDown}
-        role={canExpand ? 'button' : undefined}
-        tabIndex={canExpand ? 0 : undefined}
-        aria-expanded={canExpand ? isExpanded : undefined}
-        aria-label={canExpand ? `${isExpanded ? 'Collapse' : 'Expand'} ${course.title}` : undefined}
       >
         <div
           aria-hidden
@@ -348,12 +340,12 @@ const CourseListRow = ({ course: c }: CourseListRowProps) => {
           <h3 className="text-size-md font-semibold text-bluedot-navy sm:text-size-lg">
             {course.title}
             {certEligibilityReason && (
-              <span className="ml-1.5 -translate-y-px inline-flex items-center align-middle" {...stopPropagation} role="presentation">
+              <span className="ml-1.5 -translate-y-px inline-flex items-center align-middle">
                 <Tooltip content={certEligibilityReason} ariaLabel="Show certificate eligibility information" />
               </span>
             )}
             {showApplicationTimelineTooltip && (
-              <span className="ml-1.5 -translate-y-px inline-flex items-center align-middle" {...stopPropagation} role="presentation">
+              <span className="ml-1.5 -translate-y-px inline-flex items-center align-middle">
                 <Tooltip
                   content="We typically finalise all application decisions and group discussion times 1 week before the start of the course."
                   ariaLabel="Show application timeline information"
@@ -365,11 +357,7 @@ const CourseListRow = ({ course: c }: CourseListRowProps) => {
             <p className="mt-1 text-size-xs text-bluedot-navy">{subtitle}</p>
           )}
         </div>
-        <div
-          className="flex shrink-0 flex-col items-end gap-2 self-stretch sm:flex-row sm:items-center sm:gap-4 sm:self-auto"
-          {...stopPropagation}
-          role="presentation"
-        >
+        <div className="flex shrink-0 flex-col items-end gap-2 self-stretch sm:flex-row sm:items-center sm:gap-4 sm:self-auto">
           {/* Wide text CTAs / pills — desktop only; on mobile they live in a separate row below. */}
           <div className="hidden items-center gap-3 sm:flex">
             {wideActions}
@@ -377,44 +365,26 @@ const CourseListRow = ({ course: c }: CourseListRowProps) => {
               <OverflowMenu ariaLabel="Course actions" items={overflowItems} />
             )}
           </div>
-          {/* Icon-only actions on mobile. Overflow sticks to the top of the row, chevron sits at
-              the bottom (or moves to the wide-actions row if any). On desktop the overflow moves
-              into the desktop wide-actions row above and only the chevron stays here. */}
+          {/* Icon-only actions on mobile. Overflow sticks to the top of the row, chevron (if
+              applicable) sits at the bottom — or moves to the wide-actions row when wide
+              actions are present. On desktop the overflow moves into the desktop wide-actions
+              row above and the chevron lives next to it. */}
           <div className="flex flex-1 flex-col items-center justify-between gap-4 sm:hidden">
             {state !== 'dropped' && overflowItems.length > 0 ? (
               <OverflowMenu ariaLabel="Course actions" items={overflowItems} />
             ) : <span aria-hidden />}
-            {showChevron && !hasWideActions && (
-              <span aria-hidden className="text-bluedot-normal">
-                <IoChevronDown size={20} />
-              </span>
-            )}
+            {!hasWideActions && chevronButton}
           </div>
-          {showChevron && (
-            <span
-              aria-hidden
-              className="hidden size-9 items-center justify-center rounded border border-bluedot-normal text-bluedot-normal sm:flex"
-            >
-              <IoChevronDown size={20} />
-            </span>
-          )}
+          {chevronButton && <span className="hidden sm:inline">{chevronButton}</span>}
         </div>
       </div>
       {/* Mobile-only: wide CTAs / pills as a full-width row below the title block.
           Chevron lives here too (rather than the header's right column) so it sits inline
           with the button. */}
       {hasWideActions && (
-        <div
-          className="flex items-center gap-2 px-5 pb-3.5 sm:hidden"
-          {...stopPropagation}
-          role="presentation"
-        >
+        <div className="flex items-center gap-2 px-5 pb-3.5 sm:hidden">
           <div className="flex flex-1 flex-wrap gap-2">{wideActions}</div>
-          {showChevron && (
-            <span aria-hidden className="text-bluedot-normal">
-              <IoChevronDown size={20} />
-            </span>
-          )}
+          {chevronButton}
         </div>
       )}
       {isExpanded && canExpand && discussions.length > 0 && (
