@@ -191,15 +191,11 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
   const allUnitChunks = await getActiveChunksByUnit(units);
 
   // Get chunks for current unit (with full resources/exercises)
-  const unitIds = units.map((u) => u.id);
-  const activeChunksForCourse = await db.pg
+  const currentUnitChunks = await db.pg
     .select()
     .from(chunkTable.pg)
-    .where(and(eq(chunkTable.pg.status, 'Active'), inArray(chunkTable.pg.unitId, unitIds)));
-
-  const currentUnitChunks = activeChunksForCourse
-    .filter((chunk) => chunk.unitId === unit.id)
-    .sort((a, b) => Number(a.chunkOrder) - Number(b.chunkOrder));
+    .where(and(eq(chunkTable.pg.status, 'Active'), eq(chunkTable.pg.unitId, unit.id)))
+    .then((rows) => rows.sort((a, b) => Number(a.chunkOrder) - Number(b.chunkOrder)));
 
   const chunkResourceIds = currentUnitChunks.flatMap((chunk) => chunk.chunkResources ?? []);
   const chunkExerciseIds = currentUnitChunks.flatMap((chunk) => chunk.chunkExercises ?? []);
