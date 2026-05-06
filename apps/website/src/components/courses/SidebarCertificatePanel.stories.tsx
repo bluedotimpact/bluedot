@@ -17,6 +17,12 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+export const NotAuthenticated: Story = {
+  args: {
+    certificateData: { status: 'not-authenticated' },
+  },
+};
+
 export const NotEnrolled: Story = {
   args: {
     certificateData: { status: 'not-enrolled' },

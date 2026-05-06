@@ -32,9 +32,10 @@ const CERTIFICATE_STATUS_DESCRIPTIONS: Record<CertificateData['status'], string>
   'can-request': 'Complete all exercises to unlock your certificate, then share your accomplishment on social media.',
   'is-facilitator': '',
   'has-certificate': '',
+  'not-authenticated': 'Join a facilitated cohort to receive a certificate.',
+  'not-enrolled': 'Join a facilitated cohort to receive a certificate.',
   'not-eligible':
     'This course doesn\'t currently issue certificates to independent learners. Join a facilitated version to get a certificate.',
-  'not-enrolled': 'Join a facilitated cohort to receive a certificate.',
 };
 
 // --- Laurel wreath ---

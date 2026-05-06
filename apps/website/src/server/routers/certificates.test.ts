@@ -221,14 +221,14 @@ describe('certificates.request (FOAI self-serve)', () => {
 });
 
 describe('certificates.getStatus', () => {
-  test('returns not-enrolled for unauthenticated callers', async () => {
+  test('returns not-authenticated for unauthenticated callers', async () => {
     const result = await createCaller(testAuthContextLoggedOut).certificates.getStatus({ courseId: FOAI_COURSE_ID });
-    expect(result).toEqual({ status: 'not-enrolled' });
+    expect(result).toEqual({ status: 'not-authenticated' });
   });
 
-  test('returns not-eligible when the auth user has no accepted registration', async () => {
+  test('returns not-enrolled when the auth user has no accepted registration', async () => {
     const result = await createCaller(testAuthContextLoggedIn).certificates.getStatus({ courseId: FOAI_COURSE_ID });
-    expect(result).toEqual({ status: 'not-eligible' });
+    expect(result).toEqual({ status: 'not-enrolled' });
   });
 
   test('returns has-certificate when the registration has a certificateId', async () => {

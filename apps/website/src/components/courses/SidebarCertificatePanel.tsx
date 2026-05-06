@@ -10,8 +10,9 @@ export const isCongratulationsAccessible = (data: CertificateData | undefined): 
   if (!data) return true;
   const { status } = data;
   if (
-    status === 'not-eligible'
+    status === 'not-authenticated'
     || status === 'not-enrolled'
+    || status === 'not-eligible'
     || status === 'has-certificate'
     || status === 'can-request'
     || (status === 'attendance-ineligible' && data.isLastDiscussionSoonOrPassed)

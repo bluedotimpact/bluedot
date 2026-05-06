@@ -164,7 +164,7 @@ Please complete all exercises before requesting a certificate.`,
 
   getStatus: publicProcedure.input(z.object({ courseId: z.string() })).query(async ({ ctx, input: { courseId } }) => {
     if (!ctx.auth) {
-      return { status: 'not-enrolled' } as const;
+      return { status: 'not-authenticated' } as const;
     }
 
     const courseRegistration = await db.getFirst(courseRegistrationTable, {
@@ -172,7 +172,7 @@ Please complete all exercises before requesting a certificate.`,
     });
 
     if (!courseRegistration) {
-      return { status: 'not-eligible' } as const;
+      return { status: 'not-enrolled' } as const;
     }
 
     if (courseRegistration.certificateId) {
