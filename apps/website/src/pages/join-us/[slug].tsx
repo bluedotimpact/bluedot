@@ -14,6 +14,7 @@ import { ONE_MINUTE_SECONDS } from '../../lib/constants';
 import MarkdownExtendedRenderer from '../../components/courses/MarkdownExtendedRenderer';
 import db from '../../lib/api/db';
 import { fileExists } from '../../utils/fileExists';
+import { isUrlReachable } from '../../utils/isUrlReachable';
 
 type JobPostingPageProps = {
   slug: string;
@@ -129,9 +130,16 @@ export const getStaticProps: GetStaticProps<JobPostingPageProps> = async ({ para
     // Fetches both published and unlisted jobs, but not unpublished ones
     const job = await db.get(jobPostingTable, { slug, publicationStatus: { '!=': 'Unpublished' } });
 
-    let jobOgImage = 'https://bluedot.org/images/logo/link-preview-fallback.png';
-    if (await fileExists(path.join(process.cwd(), 'public', 'images', 'jobs', 'link-preview', `${job.slug}.png`))) {
+    // The Airtable `[*] Image` formula always returns a miniextensions URL,
+    // even for jobs that don't have a Link preview image attachment — those
+    // URLs 500. Probe before trusting it.
+    let jobOgImage: string;
+    if (job.linkPreviewImage && await isUrlReachable(job.linkPreviewImage)) {
+      jobOgImage = job.linkPreviewImage;
+    } else if (await fileExists(path.join(process.cwd(), 'public', 'images', 'jobs', 'link-preview', `${job.slug}.png`))) {
       jobOgImage = `${process.env.NEXT_PUBLIC_SITE_URL}/images/jobs/link-preview/${job.slug}.png`;
+    } else {
+      jobOgImage = 'https://bluedot.org/images/logo/link-preview-fallback.png';
     }
 
     return {
