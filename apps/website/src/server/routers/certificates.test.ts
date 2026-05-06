@@ -221,7 +221,7 @@ describe('certificates.request (FOAI self-serve)', () => {
 });
 
 describe('certificates.getStatus', () => {
-  test('returns not-eligible for unauthenticated callers', async () => {
+  test('returns not-enrolled for unauthenticated callers', async () => {
     const result = await createCaller(testAuthContextLoggedOut).certificates.getStatus({ courseId: FOAI_COURSE_ID });
     expect(result).toEqual({ status: 'not-enrolled' });
   });
