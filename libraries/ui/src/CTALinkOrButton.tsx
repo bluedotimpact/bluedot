@@ -40,6 +40,7 @@ export const CTALinkOrButton: React.FC<CTALinkOrButtonProps> = ({
   children,
   ...rest
 }) => {
+  const chevronClassName = cn('cta-button__chevron-icon', size === 'large' ? 'size-3' : 'size-2');
   return (
     <ClickTarget
       className={cn(
@@ -53,13 +54,13 @@ export const CTALinkOrButton: React.FC<CTALinkOrButtonProps> = ({
     >
       {withBackChevron && (
         <span className="cta-button__chevron mr-3">
-          <FaChevronLeft className="cta-button__chevron-icon size-2" />
+          <FaChevronLeft className={chevronClassName} />
         </span>
       )}
       {children}
       {withChevron && (
         <span className="cta-button__chevron ml-3">
-          <FaChevronRight className="cta-button__chevron-icon size-2" />
+          <FaChevronRight className={chevronClassName} />
         </span>
       )}
     </ClickTarget>
