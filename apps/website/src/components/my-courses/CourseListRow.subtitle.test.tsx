@@ -130,12 +130,20 @@ describe('getSubtitle precedence', () => {
     })))).toBe('You attended 6 out of 8 discussions');
   });
 
-  test('Past + no cert + missing meetPerson data → "0 out of 0"', () => {
+  test('Past + no cert + missing meetPerson data → empty (attendance suppressed when numUnits unknown)', () => {
     expect(renderText(getSubtitle(buildArgs({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Past', certificateCreatedAt: null }),
       numUnits: null,
       uniqueDiscussionAttendance: null,
-    })))).toBe('You attended 0 out of 0 discussions');
+    })))).toBe('');
+  });
+
+  test('Past + no cert + numUnits=0 (FOAI self-paced) → empty (attendance suppressed)', () => {
+    expect(renderText(getSubtitle(buildArgs({
+      courseRegistration: createMockCourseRegistration({ roundStatus: 'Past', certificateCreatedAt: null }),
+      numUnits: 0,
+      uniqueDiscussionAttendance: 0,
+    })))).toBe('');
   });
 
   test('Dropped + round dates → date range only', () => {

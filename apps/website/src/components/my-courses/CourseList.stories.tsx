@@ -180,7 +180,8 @@ const COURSES: EnrichedCourse[] = [
     hasSubmittedActionPlan: true,
   }),
 
-  // 11. Past + no cert + FOAI (non-facilitated). No eligibility tooltip, no action-plan CTA.
+  // 11. Past + no cert + FOAI (non-facilitated, self-paced). No round dates, no discussions
+  //     (numUnits=0 suppresses the attendance line). No eligibility tooltip, no action-plan CTA.
   stub({
     courseRegistration: {
       ...stub({}).courseRegistration,
@@ -189,13 +190,12 @@ const COURSES: EnrichedCourse[] = [
       certificateCreatedAt: null,
     } as EnrichedCourse['courseRegistration'],
     course: { slug: 'future-of-ai', title: 'Future of AI' } as EnrichedCourse['course'],
-    roundStartDate: '2026-03-10',
-    roundEndDate: '2026-03-17',
     numUnits: 0,
     uniqueDiscussionAttendance: 0,
   }),
 
-  // 12. Dropped. Date-range subtitle + Dropped pill + Apply again.
+  // 12. Dropped + attended some sessions before dropping. Date-range subtitle, Dropped pill,
+  //     Apply again, and chevron (because canExpand uses attendedDiscussionIds.length > 0).
   stub({
     courseRegistration: {
       ...stub({}).courseRegistration,
@@ -207,24 +207,43 @@ const COURSES: EnrichedCourse[] = [
     course: { slug: 'biosecurity', title: 'Biosecurity' } as EnrichedCourse['course'],
     roundStartDate: '2026-03-10',
     roundEndDate: '2026-04-17',
+    attendedDiscussionIds: ['disc-1', 'disc-2'],
   }),
 ];
+
+const MOBILE_VIEWPORT = {
+  name: 'Mobile (450px)',
+  styles: { width: '450px', height: '844px' },
+  type: 'mobile' as const,
+};
 
 const meta = {
   title: 'website/my-courses/CourseList',
   component: CourseList,
-  parameters: { layout: 'padded' },
+  parameters: {
+    layout: 'padded',
+    viewport: {
+      viewports: { mobile: MOBILE_VIEWPORT },
+    },
+  },
   tags: ['autodocs'],
 } satisfies Meta<typeof CourseList>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Single story exercising every subtitle / CTA / pill / tooltip state at once. Useful for
-// eyeballing the visual rhythm of the row across all the states the precedence chain can land
-// on. Each row is annotated above its definition in the source so you can map back to the case.
-export const AllStates: Story = {
+// Every subtitle / CTA / pill / tooltip state in one stack. Each row is annotated above its
+// definition in the source so you can map back to the case.
+export const AllStatesDesktop: Story = {
   args: { courses: COURSES },
+};
+
+// Same content at a fixed 390px viewport so mobile responsive styles take effect.
+export const AllStatesMobile: Story = {
+  args: { courses: COURSES },
+  parameters: {
+    viewport: { defaultViewport: 'mobile' },
+  },
 };
 
 export const Empty: Story = {

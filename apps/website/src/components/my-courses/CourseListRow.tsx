@@ -1,7 +1,7 @@
 import {
   CTALinkOrButton, OverflowMenu, Tooltip, type OverflowMenuItemProps, addQueryParam,
 } from '@bluedot/ui';
-import { useState, type ReactNode } from 'react';
+import { Fragment, useState, type ReactNode } from 'react';
 import { FaCheck, FaLock } from 'react-icons/fa6';
 import { IoBan, IoChevronDown } from 'react-icons/io5';
 import { COURSE_CONFIG, FOAI_COURSE_SLUG } from '../../lib/constants';
@@ -20,10 +20,10 @@ const classifyCourseRegistration = (cr: EnrichedCourse['courseRegistration']) =>
   return 'completed';
 };
 
-const formatRecurringSchedule = (
+const recurringScheduleParts = (
   group: EnrichedCourse['group'],
   facilitatorNames: string[],
-): string => {
+): string[] => {
   const parts: string[] = [];
   if (group?.startTimeUtc) {
     const date = new Date(group.startTimeUtc * 1000);
@@ -33,7 +33,24 @@ const formatRecurringSchedule = (
   }
 
   if (facilitatorNames.length > 0) parts.push(`Facilitated by ${facilitatorNames.join(', ')}`);
-  return parts.join(' · ');
+  return parts;
+};
+
+// Render subtitle parts so they wrap onto separate lines on mobile (no dot) and join inline
+// with a ` · ` separator on desktop.
+const renderParts = (parts: ReactNode[]): ReactNode | null => {
+  const filtered = parts.filter((p) => p !== null && p !== undefined && p !== '');
+  if (filtered.length === 0) return null;
+  return (
+    <>
+      {filtered.map((part, i) => (
+        <Fragment key={i}>
+          {i > 0 && <span className="hidden sm:inline"> · </span>}
+          <span className={`block sm:inline ${i > 0 ? 'mt-0.5 sm:mt-0' : ''}`}>{part}</span>
+        </Fragment>
+      ))}
+    </>
+  );
 };
 
 const formatRoundDateRange = (start: string, end: string): string => {
@@ -53,6 +70,7 @@ const formatRoundDateRange = (start: string, end: string): string => {
   return `${s.toLocaleDateString('en-US', opts())} – ${e.getUTCDate()}, ${e.getUTCFullYear()}`;
 };
 
+// TODO cut this comment
 // Subtitle precedence chain — first matching branch wins. Ported from legacy `getSubtitle`
 // (apps/website/src/components/settings/CourseList.tsx) and edited for the v2 design. Each
 // branch answers a specific user question (see gh-settings-courses/legacy-behaviours.md for
@@ -93,37 +111,30 @@ export const getSubtitle = ({
         break;
     }
 
-    const formattedDate = roundStartDate ? formatMonthAndDay(roundStartDate) : null;
-    return (
-      <>
-        <span className="text-bluedot-normal font-medium">{statusText}</span>
-        {formattedDate && (
-          <>
-            <span> · </span>
-            <span>{`Course starts ${formattedDate}`}</span>
-          </>
-        )}
-      </>
-    );
+    return renderParts([
+      <span key="status" className="text-bluedot-normal font-medium">{statusText}</span>,
+      roundStartDate ? `Course starts ${formatMonthAndDay(roundStartDate)}` : null,
+    ]);
   }
 
   // 2. Past + cert: course-duration date range, e.g. "Mar 10 – 17, 2026".
   //    (Legacy showed "Completed on Apr 1, 2026" + checkmark; v2 design uses the round range.)
   if (courseRegistration.certificateCreatedAt && roundStartDate && roundEndDate) {
-    const range = formatRoundDateRange(roundStartDate, roundEndDate);
-    if (facilitatorNames.length > 0) return `${range} · Facilitated by ${facilitatorNames.join(', ')}`;
-    return range;
+    return renderParts([
+      formatRoundDateRange(roundStartDate, roundEndDate),
+      facilitatorNames.length > 0 ? `Facilitated by ${facilitatorNames.join(', ')}` : null,
+    ]);
   }
 
-  // 3. Past + no cert: date range + "You attended N out of M discussions" (date alone if data missing).
+  // 3. Past + no cert: date range + "You attended N out of M discussions". The attendance line
+  //    is suppressed when numUnits is 0 / unknown (e.g. FOAI which is self-paced, no discussions).
   const isPast = courseRegistration.roundStatus === 'Past';
   if (isPast && !courseRegistration.certificateCreatedAt) {
-    const attendance = `You attended ${uniqueDiscussionAttendance ?? 0} out of ${numUnits ?? 0} discussions`;
-    if (roundStartDate && roundEndDate) {
-      return `${formatRoundDateRange(roundStartDate, roundEndDate)} · ${attendance}`;
-    }
-
-    return attendance;
+    const showAttendance = numUnits != null && numUnits > 0;
+    return renderParts([
+      roundStartDate && roundEndDate ? formatRoundDateRange(roundStartDate, roundEndDate) : null,
+      showAttendance ? `You attended ${uniqueDiscussionAttendance ?? 0} out of ${numUnits} discussions` : null,
+    ]);
   }
 
   // 3b. Dropped: course-duration date range, identifies which round they dropped out of.
@@ -134,26 +145,20 @@ export const getSubtitle = ({
 
   // 4. Accepted-Active but not yet placed in a group.
   if (isNotInGroup) {
-    return (
-      <>
-        We&apos;re assigning you to a group, you&apos;ll receive an email from us within the next few days
-        {roundStartDate && (
-          <span className="hidden sm:inline">
-            {' · '}
-            {`Course starts ${formatMonthAndDay(roundStartDate)}`}
-          </span>
-        )}
-      </>
-    );
+    return renderParts([
+      <span key="assigning">
+        We&apos;re assigning you to a group
+        <span className="hidden sm:inline">, you&apos;ll receive an email from us within the next few days</span>
+      </span>,
+      roundStartDate ? `Course starts ${formatMonthAndDay(roundStartDate)}` : null,
+    ]);
   }
 
   // 5. Active (default fall-through): recurring schedule + facilitator.
   //    Legacy v1 had "Unit N/M · groupName" here; v2 design swaps that for the schedule.
-  const hasSchedule = group?.startTimeUtc != null;
-  const hasFacilitators = facilitatorNames.length > 0;
-  const hasDiscussions = discussions.length > 0;
-  if (hasSchedule || hasFacilitators || hasDiscussions) {
-    return formatRecurringSchedule(group, facilitatorNames);
+  const scheduleParts = recurringScheduleParts(group, facilitatorNames);
+  if (scheduleParts.length > 0 || discussions.length > 0) {
+    return renderParts(scheduleParts);
   }
 
   return null;
@@ -207,7 +212,9 @@ const CourseListRow = ({ course: c }: CourseListRowProps) => {
 
   const showApplicationTimelineTooltip = state === 'upcoming' && courseRegistration.decision !== 'Reject';
 
-  const showChevron = state !== 'dropped';
+  // Dropped rows can still expand if the user attended any discussions before dropping.
+  const canExpand = state !== 'dropped' || attendedDiscussionIds.length > 0;
+  const showChevron = canExpand;
   const courseConfig = COURSE_CONFIG[course.slug];
   const tint = COURSE_COLORS[course.slug as CourseColorSlug]?.bright;
   const headerStyle = tint
@@ -244,7 +251,6 @@ const CourseListRow = ({ course: c }: CourseListRowProps) => {
     setGroupSwitch({ unitNumber: unitNumber ?? '1', switchType });
   };
 
-  const canExpand = state !== 'dropped';
   const toggleExpand = () => {
     if (canExpand) setIsExpanded((prev) => !prev);
   };
@@ -263,10 +269,65 @@ const CourseListRow = ({ course: c }: CourseListRowProps) => {
     onKeyDown: (e: React.KeyboardEvent) => e.stopPropagation(),
   };
 
+  // Wide text CTAs / pills. Rendered inline on the right on desktop; full-width row below the
+  // title block on mobile (so the title isn't squeezed by long labels like "Share feedback to view
+  // your certificate").
+  const wideActions = (
+    <>
+      {showLockedCert && feedbackFormUrl && (
+        <CTALinkOrButton
+          variant="primary"
+          size="small"
+          url={feedbackFormUrl}
+          target="_blank"
+          className="gap-1.5"
+        >
+          <FaLock />
+          <span>Share feedback</span>
+        </CTALinkOrButton>
+      )}
+      {state === 'completed' && hasCert && !showLockedCert && (
+        <CTALinkOrButton variant="primary" size="small" url={certificateUrl}>View certificate</CTALinkOrButton>
+      )}
+      {showActionPlan && (
+        hasSubmittedActionPlan ? (
+          <CTALinkOrButton variant="primary" size="small" disabled className="gap-1.5 disabled:opacity-80">
+            <span>Action plan submitted</span>
+            <span className="inline-flex size-3.5 items-center justify-center rounded-full bg-white">
+              <FaCheck className="size-1.5 text-bluedot-darker" />
+            </span>
+          </CTALinkOrButton>
+        ) : (
+          <CTALinkOrButton
+            variant="primary"
+            size="small"
+            url={getActionPlanUrl(meetPersonId)}
+            target="_blank"
+          >
+            Submit action plan
+          </CTALinkOrButton>
+        )
+      )}
+      {state === 'dropped' && (
+        <>
+          <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
+            <IoBan aria-hidden size={14} />
+            Dropped
+          </span>
+          <CTALinkOrButton variant="primary" size="small" url={applyAgainUrl}>Apply again</CTALinkOrButton>
+        </>
+      )}
+    </>
+  );
+  const hasWideActions = Boolean(showLockedCert && feedbackFormUrl)
+    || (state === 'completed' && hasCert && !showLockedCert)
+    || Boolean(showActionPlan)
+    || state === 'dropped';
+
   return (
     <div className="overflow-hidden rounded-xl border border-color-divider bg-white">
       <div
-        className={`flex items-center gap-4 p-6 ${canExpand ? 'cursor-pointer' : ''}`}
+        className={`flex items-start gap-4 p-5 pb-3.5 sm:p-6 ${canExpand ? 'cursor-pointer' : ''}`}
         style={headerStyle}
         onClick={toggleExpand}
         onKeyDown={handleHeaderKeyDown}
@@ -277,14 +338,14 @@ const CourseListRow = ({ course: c }: CourseListRowProps) => {
       >
         <div
           aria-hidden
-          className="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl"
+          className="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-lg sm:size-16 sm:rounded-2xl"
           // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
           style={{ backgroundColor: courseConfig?.iconBackground || 'var(--color-bluedot-normal)' }}
         >
-          {courseConfig?.icon && <img src={courseConfig.icon} alt="" className="size-10" />}
+          {courseConfig?.icon && <img src={courseConfig.icon} alt="" className="size-7 sm:size-10" />}
         </div>
         <div className="min-w-0 flex-1">
-          <h3 className="text-size-lg font-semibold text-bluedot-navy">
+          <h3 className="text-size-md font-semibold text-bluedot-navy sm:text-size-lg">
             {course.title}
             {certEligibilityReason && (
               <span className="ml-1 inline-flex items-center align-middle" {...stopPropagation} role="presentation">
@@ -301,69 +362,62 @@ const CourseListRow = ({ course: c }: CourseListRowProps) => {
             )}
           </h3>
           {subtitle && (
-            <p className="mt-1 text-size-xs text-bluedot-navy/60">{subtitle}</p>
+            <p className="mt-1 text-size-xs text-bluedot-navy">{subtitle}</p>
           )}
         </div>
-        <div className="flex shrink-0 items-center gap-4" {...stopPropagation} role="presentation">
-          <div className="flex items-center gap-3">
-            {showLockedCert && feedbackFormUrl && (
-              <CTALinkOrButton
-                variant="primary"
-                size="small"
-                url={feedbackFormUrl}
-                target="_blank"
-                className="gap-1.5"
-              >
-                <FaLock />
-                <span>Share feedback to view your certificate</span>
-              </CTALinkOrButton>
-            )}
-            {state === 'completed' && hasCert && !showLockedCert && (
-              <CTALinkOrButton variant="primary" size="small" url={certificateUrl}>View certificate</CTALinkOrButton>
-            )}
-            {showActionPlan && (
-              hasSubmittedActionPlan ? (
-                <CTALinkOrButton variant="primary" size="small" disabled className="gap-1.5 disabled:opacity-80">
-                  <span>Action plan submitted</span>
-                  <span className="inline-flex size-3.5 items-center justify-center rounded-full bg-white">
-                    <FaCheck className="size-1.5 text-bluedot-darker" />
-                  </span>
-                </CTALinkOrButton>
-              ) : (
-                <CTALinkOrButton
-                  variant="primary"
-                  size="small"
-                  url={getActionPlanUrl(meetPersonId)}
-                  target="_blank"
-                >
-                  Submit action plan
-                </CTALinkOrButton>
-              )
-            )}
-            {state === 'dropped' && (
-              <>
-                <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-                  <IoBan aria-hidden size={14} />
-                  Dropped
-                </span>
-                <CTALinkOrButton variant="primary" size="small" url={applyAgainUrl}>Apply again</CTALinkOrButton>
-              </>
-            )}
+        <div
+          className="flex shrink-0 flex-col items-end gap-2 self-stretch sm:flex-row sm:items-center sm:gap-4 sm:self-auto"
+          {...stopPropagation}
+          role="presentation"
+        >
+          {/* Wide text CTAs / pills — desktop only; on mobile they live in a separate row below. */}
+          <div className="hidden items-center gap-3 sm:flex">
+            {wideActions}
             {state !== 'dropped' && overflowItems.length > 0 && (
               <OverflowMenu ariaLabel="Course actions" items={overflowItems} />
+            )}
+          </div>
+          {/* Icon-only actions on mobile. Overflow sticks to the top of the row, chevron sits at
+              the bottom (or moves to the wide-actions row if any). On desktop the overflow moves
+              into the desktop wide-actions row above and only the chevron stays here. */}
+          <div className="flex flex-1 flex-col items-center justify-between gap-4 sm:hidden">
+            {state !== 'dropped' && overflowItems.length > 0 ? (
+              <OverflowMenu ariaLabel="Course actions" items={overflowItems} />
+            ) : <span aria-hidden />}
+            {showChevron && !hasWideActions && (
+              <span aria-hidden className="text-bluedot-normal">
+                <IoChevronDown size={20} />
+              </span>
             )}
           </div>
           {showChevron && (
             <span
               aria-hidden
-              className="flex size-9 items-center justify-center rounded border border-bluedot-normal text-bluedot-normal"
+              className="hidden size-9 items-center justify-center rounded border border-bluedot-normal text-bluedot-normal sm:flex"
             >
               <IoChevronDown size={20} />
             </span>
           )}
         </div>
       </div>
-      {isExpanded && state !== 'dropped' && discussions.length > 0 && (
+      {/* Mobile-only: wide CTAs / pills as a full-width row below the title block.
+          Chevron lives here too (rather than the header's right column) so it sits inline
+          with the button. */}
+      {hasWideActions && (
+        <div
+          className="flex items-center gap-2 px-5 pb-3.5 sm:hidden"
+          {...stopPropagation}
+          role="presentation"
+        >
+          <div className="flex flex-1 flex-wrap gap-2">{wideActions}</div>
+          {showChevron && (
+            <span aria-hidden className="text-bluedot-normal">
+              <IoChevronDown size={20} />
+            </span>
+          )}
+        </div>
+      )}
+      {isExpanded && canExpand && discussions.length > 0 && (
         <div className="border-t border-color-divider">
           <DiscussionList
             discussions={discussions}
