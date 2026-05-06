@@ -4,6 +4,7 @@ import {
 import { type ReactNode } from 'react';
 import { type IconType } from 'react-icons';
 import Link from 'next/link';
+import { pageSectionHeadingClass } from '../../PageListRow';
 
 export type CourseOutcome = {
   icon: IconType;
@@ -18,6 +19,7 @@ export type CourseOutcomesSectionProps = {
   title?: string;
   outcomes: CourseOutcome[];
   accentColor?: string;
+  headingVariant?: 'default' | 'compact';
   cta?: {
     text: string;
     url: string;
@@ -29,14 +31,21 @@ const CourseOutcomesSection = ({
   title = 'What you\'ll get',
   outcomes,
   accentColor = '#1F588A',
+  headingVariant = 'default',
   cta,
 }: CourseOutcomesSectionProps) => {
   return (
     <section id={id} className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24">
-        <H2 className="text-size-xl font-semibold leading-[125%] text-bluedot-navy text-center mb-12 md:mb-16 tracking-[-0.01em]">
-          {title}
-        </H2>
+        {headingVariant === 'compact' ? (
+          <h3 className={`${pageSectionHeadingClass} w-full bd-md:max-w-text bd-md:mx-auto mb-8 md:mb-10`}>
+            {title}
+          </h3>
+        ) : (
+          <H2 className="text-size-xl font-semibold leading-[125%] text-bluedot-navy text-center mb-12 md:mb-16 tracking-[-0.01em]">
+            {title}
+          </H2>
+        )}
         <div className="max-w-section-wide mx-auto">
           <div className="flex flex-wrap justify-center gap-6 lg:gap-8">
             {outcomes.map((outcome) => {

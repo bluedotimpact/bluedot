@@ -1,5 +1,6 @@
 import { H2, P } from '@bluedot/ui';
 import Link from 'next/link';
+import { pageSectionHeadingClass } from '../../PageListRow';
 
 export type FieldBuildingRole = {
   title: string;
@@ -13,6 +14,7 @@ export type FieldBuildingSectionProps = {
   title: string;
   intro: React.ReactNode;
   roles: FieldBuildingRole[];
+  headingVariant?: 'default' | 'compact';
 };
 
 const FieldBuildingSection = ({
@@ -20,14 +22,21 @@ const FieldBuildingSection = ({
   title,
   intro,
   roles,
+  headingVariant = 'default',
 }: FieldBuildingSectionProps) => {
   return (
     <section id={id} className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-12 xl:px-40 py-12 bd-md:py-16 xl:py-24 flex flex-col items-center gap-8 md:gap-10">
-        <div className="max-w-text text-center">
-          <H2 className="text-size-xl font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
-            {title}
-          </H2>
+        <div className={headingVariant === 'compact' ? 'w-full max-w-text' : 'max-w-text text-center'}>
+          {headingVariant === 'compact' ? (
+            <h3 className={pageSectionHeadingClass}>
+              {title}
+            </h3>
+          ) : (
+            <H2 className="text-size-xl font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
+              {title}
+            </H2>
+          )}
           <P className="mt-4 text-size-sm bd-md:text-size-md leading-[1.6] text-bluedot-navy/70">
             {intro}
           </P>

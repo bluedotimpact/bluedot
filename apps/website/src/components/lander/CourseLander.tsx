@@ -71,6 +71,8 @@ export type CourseLanderContent = {
   /** Override URL for the courseInformation CTA. Defaults to `applicationUrlWithUtm`.
    *  Used by self-paced courses (e.g. Future of AI) that point at a start URL instead of an apply form. */
   courseInformationApplicationUrl?: string;
+  /** Optional smaller heading treatment for the default course-information block. */
+  courseInformationHeadingVariant?: 'default' | 'compact';
   /** Editorial prose "How the course works" — replaces the courseInformation registry block when set. Renders paragraphs with course-round unit counts interpolated from the database. */
   howTheCourseWorks?: HowTheCourseWorksSectionProps;
   /** Standalone schedule section using PageListRow rows — renders alongside howTheCourseWorks instead of inside courseInformation's box. */
@@ -322,6 +324,7 @@ const CourseLander = ({
             applicationUrl={content.courseInformationApplicationUrl ?? applicationUrlWithUtm}
             courseSlug={courseSlug}
             accentColor={COURSE_COLORS[courseSlug as CourseColorSlug]?.full ?? content.hero.accentColor}
+            headingVariant={content.courseInformationHeadingVariant}
           />
         </>
       )}
