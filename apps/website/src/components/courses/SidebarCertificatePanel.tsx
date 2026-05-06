@@ -98,7 +98,11 @@ export const SidebarCertificatePanel = ({
   }
 
   // action-plan-pending + not yet submitted + open: two-panel layout
-  if (status === 'action-plan-pending' && !certificateData.hasSubmittedActionPlan && certificateData.isLastDiscussionSoonOrPassed) {
+  if (
+    status === 'action-plan-pending'
+    && !certificateData.hasSubmittedActionPlan
+    && certificateData.isLastDiscussionSoonOrPassed
+  ) {
     return (
       <div className={cn('flex flex-col gap-3', className)}>
         <CertificateRequirementsModal
@@ -109,9 +113,9 @@ export const SidebarCertificatePanel = ({
           href={getActionPlanUrl(certificateData.meetPersonId)}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-3 rounded-[10px] border-[0.5px] border-solid border-bluedot-normal bg-bluedot-normal/5 px-3 py-4 text-bluedot-normal no-underline transition-opacity hover:opacity-90"
+          className="border-bluedot-normal bg-bluedot-normal/5 text-bluedot-normal flex items-center gap-3 rounded-[10px] border-[0.5px] border-solid px-3 py-4 no-underline transition-opacity hover:opacity-90"
         >
-          <p className="min-w-0 flex-1 text-size-sm font-bold leading-[1.5]">Submit your project/action plan</p>
+          <p className="text-size-sm min-w-0 flex-1 leading-[1.5] font-bold">Submit your project/action plan</p>
           <FaArrowRight className="size-5 shrink-0" />
         </a>
         <div className="flex items-center gap-3 rounded-[10px] bg-black/[0.04] px-3 py-4">
@@ -125,9 +129,10 @@ export const SidebarCertificatePanel = ({
     );
   }
 
-  const subtitle: ReactNode = status === 'action-plan-pending' && certificateData.hasSubmittedActionPlan
-    ? 'Action plan submitted — pending review'
-    : (
+  const subtitle: ReactNode
+    = status === 'action-plan-pending' && certificateData.hasSubmittedActionPlan ? (
+      'Action plan submitted — pending review'
+    ) : (
       <span>
         {'Finish the course and '}
         <button type="button" className="cursor-pointer underline" onClick={() => setIsRequirementsModalOpen(true)}>

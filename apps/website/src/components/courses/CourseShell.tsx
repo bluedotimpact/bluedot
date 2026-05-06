@@ -288,9 +288,7 @@ const CourseShell: React.FC<CourseShellProps> = ({
               </nav>
 
               {/* Right section: Navigation */}
-              {navigationControls && (
-                <div className="flex min-h-[18px] items-center gap-5">{navigationControls}</div>
-              )}
+              {navigationControls && <div className="flex min-h-[18px] items-center gap-5">{navigationControls}</div>}
             </div>
           </div>
           {children}

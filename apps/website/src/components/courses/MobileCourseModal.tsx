@@ -1,7 +1,5 @@
 import type { Unit } from '@bluedot/db';
-import {
-  CTALinkOrButton, Modal,
-} from '@bluedot/ui';
+import { CTALinkOrButton, Modal } from '@bluedot/ui';
 import clsx from 'clsx';
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';

@@ -1,5 +1,11 @@
 import {
-  courseRegistrationTable, courseTable, exerciseResponseTable, exerciseTable, meetPersonTable, roundTable, type CourseRegistration,
+  courseRegistrationTable,
+  courseTable,
+  exerciseResponseTable,
+  exerciseTable,
+  meetPersonTable,
+  roundTable,
+  type CourseRegistration,
 } from '@bluedot/db';
 import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import { timingSafeEqual } from 'crypto';
@@ -13,7 +19,7 @@ import type { AppRouter } from './_app';
 export type CertificateData = inferRouterOutputs<AppRouter>['certificates']['getStatus'];
 
 export async function getCertificateData(certificateId: string, existingCourseRegistration?: CourseRegistration) {
-  const courseRegistration = existingCourseRegistration ?? await db.get(courseRegistrationTable, { certificateId });
+  const courseRegistration = existingCourseRegistration ?? (await db.get(courseRegistrationTable, { certificateId }));
   const course = await db.get(courseTable, { id: courseRegistration.courseId });
 
   return {
@@ -192,17 +198,18 @@ Please complete all exercises before requesting a certificate.`,
 
     if (meetPerson.role === 'Participant') {
       const { uniqueDiscussionAttendance, numUnits } = meetPerson;
-      const hasAttendedEnough = uniqueDiscussionAttendance == null
-        || numUnits == null
-        || numUnits === 0
-        || (numUnits - uniqueDiscussionAttendance) <= 1;
+      const hasAttendedEnough
+        = uniqueDiscussionAttendance == null
+          || numUnits == null
+          || numUnits === 0
+          || numUnits - uniqueDiscussionAttendance <= 1;
 
       const round = meetPerson.round
         ? await db.getFirst(roundTable, { filter: { id: meetPerson.round }, sortBy: 'lastDiscussionDate' })
         : null;
       const sevenDaysFromNow = Date.now() + 7 * ONE_DAY_MS;
-      const isLastDiscussionSoonOrPassed = !round?.lastDiscussionDate
-        || new Date(round.lastDiscussionDate).getTime() <= sevenDaysFromNow;
+      const isLastDiscussionSoonOrPassed
+        = !round?.lastDiscussionDate || new Date(round.lastDiscussionDate).getTime() <= sevenDaysFromNow;
 
       if (!hasAttendedEnough) {
         return {
