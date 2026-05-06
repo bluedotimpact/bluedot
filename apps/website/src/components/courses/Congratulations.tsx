@@ -351,7 +351,7 @@ const Congratulations: React.FC<CongratulationsProps> = ({
     = text
       ?? `I just completed the ${courseTitle} course from BlueDot Impact! It's free, self-paced, and packed with insights. Check it out:`;
   const dmText = `Hey, I just finished this free ${courseTitle} course and it genuinely shifted how I think about this stuff. Thought you'd find it interesting as well.`;
-  const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(courseUrl)}`;
+  const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(courseUrl)}&text=${encodeURIComponent(shareText)}`;
   const xUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${shareText} ${courseUrl}`)}`;
   const courseColors = getCourseCtaColors(courseSlug);
 
