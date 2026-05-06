@@ -53,7 +53,7 @@ const FEATURE_CARDS: FeatureCard[] = [
 ];
 
 const FeatureCardItem = ({ card, accentColor }: { card: FeatureCard; accentColor?: string }) => (
-  <div className="flex-1 rounded-[10px] border border-bluedot-navy/10 bg-white p-5 flex flex-col gap-2 text-left">
+  <div className="container-lined flex-1 bg-white p-5 flex flex-col gap-2 text-left">
     <div className="flex items-center gap-2">
       <card.icon className="size-5" style={{ color: accentColor }} />
       <p className="text-size-sm font-semibold leading-[1.4] text-bluedot-navy">{card.title}</p>
