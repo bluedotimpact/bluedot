@@ -1,7 +1,7 @@
 import type { Unit } from '@bluedot/db';
 import type { RequestHandler } from 'msw';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
-import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
+import type { BasicChunk } from '../../server/routers/courses';
 
 export const mockUnits: Unit[] = [
   {

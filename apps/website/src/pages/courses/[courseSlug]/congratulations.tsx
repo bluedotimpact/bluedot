@@ -1,10 +1,4 @@
-import {
-  and,
-  chunkTable,
-  eq,
-  inArray,
-  type Unit,
-} from '@bluedot/db';
+import { type Unit } from '@bluedot/db';
 import { ErrorView } from '@bluedot/ui/src/ErrorView';
 import { ProgressDots } from '@bluedot/ui';
 import type { GetServerSideProps } from 'next';
@@ -12,9 +6,7 @@ import { useRouter } from 'next/router';
 import CourseCompletionSection from '../../../components/courses/CourseCompletionSection';
 import CourseShell from '../../../components/courses/CourseShell';
 import { isCongratulationsAccessible } from '../../../components/courses/SidebarCertificatePanel';
-import db from '../../../lib/api/db';
-import type { BasicChunk } from './[unitNumber]/[[...chunkNumber]]';
-import { getCourseData } from '../../../server/routers/courses';
+import { type BasicChunk, getActiveChunksByUnit, getCourseData } from '../../../server/routers/courses';
 import { trpc } from '../../../utils/trpc';
 
 type CongratulationsPageProps = {
@@ -82,25 +74,7 @@ export const getServerSideProps: GetServerSideProps<CongratulationsPageProps> = 
 
   try {
     const { course, units } = await getCourseData(courseSlug);
-
-    const unitIds = units.map((u) => u.id);
-    const activeChunks = await db.pg
-      .select()
-      .from(chunkTable.pg)
-      .where(and(eq(chunkTable.pg.status, 'Active'), inArray(chunkTable.pg.unitId, unitIds)));
-
-    const allUnitChunks: Record<string, BasicChunk[]> = {};
-    for (const u of units) {
-      allUnitChunks[u.id] = activeChunks
-        .filter((c) => c.unitId === u.id)
-        .sort((a, b) => Number(a.chunkOrder) - Number(b.chunkOrder))
-        .map((c) => ({
-          id: c.id,
-          chunkTitle: c.chunkTitle,
-          chunkOrder: c.chunkOrder,
-          estimatedTime: c.estimatedTime,
-        }));
-    }
+    const allUnitChunks = await getActiveChunksByUnit(units);
 
     return {
       props: {

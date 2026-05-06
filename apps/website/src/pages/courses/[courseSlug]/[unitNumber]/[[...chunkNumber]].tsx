@@ -12,7 +12,7 @@ import db from '../../../../lib/api/db';
 import { FOAI_COURSE_ID } from '../../../../lib/constants';
 import { getCourseOgImage } from '../../../../lib/courseOgImage';
 import { buildCourseUnitUrl } from '../../../../lib/utils';
-import { getCourseData } from '../../../../server/routers/courses';
+import { type BasicChunk, getActiveChunksByUnit, getCourseData } from '../../../../server/routers/courses';
 import { trpc } from '../../../../utils/trpc';
 
 type CourseUnitChunkPageProps = UnitWithChunks & {
@@ -20,14 +20,6 @@ type CourseUnitChunkPageProps = UnitWithChunks & {
   unitNumber: string;
   courseOgImage: string;
   allUnitChunks: Record<string, BasicChunk[]>;
-};
-
-/** Chunk info only used for display (no resources/exercises) */
-export type BasicChunk = {
-  id: string;
-  chunkTitle: string;
-  chunkOrder: string;
-  estimatedTime: number | null;
 };
 
 const CourseUnitChunkPage = ({
@@ -196,29 +188,15 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
     throw new Error('NOT_FOUND');
   }
 
-  // Fetch active chunks for all units in this course
+  const allUnitChunks = await getActiveChunksByUnit(units);
+
+  // Get chunks for current unit (with full resources/exercises)
   const unitIds = units.map((u) => u.id);
   const activeChunksForCourse = await db.pg
     .select()
     .from(chunkTable.pg)
     .where(and(eq(chunkTable.pg.status, 'Active'), inArray(chunkTable.pg.unitId, unitIds)));
 
-  // Group chunks by unit ID and extract only the fields needed for sidebar
-  const allUnitChunks: Record<string, BasicChunk[]> = {};
-  for (const u of units) {
-    const unitChunks = activeChunksForCourse
-      .filter((c) => c.unitId === u.id)
-      .sort((a, b) => Number(a.chunkOrder) - Number(b.chunkOrder))
-      .map((c) => ({
-        id: c.id,
-        chunkTitle: c.chunkTitle,
-        chunkOrder: c.chunkOrder,
-        estimatedTime: c.estimatedTime,
-      }));
-    allUnitChunks[u.id] = unitChunks;
-  }
-
-  // Get chunks for current unit (with full resources/exercises)
   const currentUnitChunks = activeChunksForCourse
     .filter((chunk) => chunk.unitId === unit.id)
     .sort((a, b) => Number(a.chunkOrder) - Number(b.chunkOrder));

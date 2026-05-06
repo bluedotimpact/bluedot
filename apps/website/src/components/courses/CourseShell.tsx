@@ -5,7 +5,7 @@ import type React from 'react';
 import { type ReactNode, useEffect, useState } from 'react';
 import { FaBars, FaChevronDown, FaChevronRight } from 'react-icons/fa6';
 import { ROUTES } from '../../lib/routes';
-import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
+import type { BasicChunk } from '../../server/routers/courses';
 import type { CertificateData } from '../../server/routers/certificates';
 import type { CourseProgress } from '../../server/routers/courses';
 import { ArrowRightIcon } from '../icons';

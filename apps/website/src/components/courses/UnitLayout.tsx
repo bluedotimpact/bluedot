@@ -19,7 +19,7 @@ import {
 } from '@bluedot/db';
 import { useBugReport } from '../../hooks/useBugReport';
 import { buildCourseUnitUrl } from '../../lib/utils';
-import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
+import type { BasicChunk } from '../../server/routers/courses';
 import { trpc } from '../../utils/trpc';
 import GroupDiscussionBanner from './GroupDiscussionBanner';
 import InactiveCourseBanners from './InactiveCourseBanners';

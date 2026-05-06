@@ -9,7 +9,7 @@ import {
 import { createMockChunk, createMockUnit } from '../../__tests__/testUtils';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import SideBar from './SideBar';
-import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
+import type { BasicChunk } from '../../server/routers/courses';
 
 const COURSE_UNITS = [
   createMockUnit({
