@@ -223,7 +223,7 @@ describe('certificates.request (FOAI self-serve)', () => {
 describe('certificates.getStatus', () => {
   test('returns not-eligible for unauthenticated callers', async () => {
     const result = await createCaller(testAuthContextLoggedOut).certificates.getStatus({ courseId: FOAI_COURSE_ID });
-    expect(result).toEqual({ status: 'not-eligible' });
+    expect(result).toEqual({ status: 'not-enrolled' });
   });
 
   test('returns not-eligible when the auth user has no accepted registration', async () => {
