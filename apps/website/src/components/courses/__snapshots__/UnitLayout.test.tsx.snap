@@ -4,20 +4,14 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
 <div>
   <div>
     <div
-      aria-atomic="true"
-      aria-live="polite"
-      class="sr-only"
-      role="status"
-    />
-    <div
-      class="mobile-unit-header bg-color-canvas border-b border-color-divider w-full h-[76px] flex items-center px-3 unit__mobile-header md:hidden sticky top-(--nav-height-mobile) z-10"
+      class="mobile-unit-header bg-color-canvas border-color-divider flex h-[76px] w-full items-center border-b px-3 unit__mobile-header sticky top-(--nav-height-mobile) z-10 md:hidden"
     >
       <nav
-        class="mobile-unit-header__nav flex flex-row items-center justify-between w-full"
+        class="mobile-unit-header__nav flex w-full flex-row items-center justify-between"
       >
         <button
           aria-label="Open course navigation menu"
-          class="mobile-unit-header__course-container flex flex-row items-center gap-2 flex-1 cursor-pointer bg-transparent border-none p-0 outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
+          class="mobile-unit-header__course-container flex flex-1 cursor-pointer flex-row items-center gap-2 rounded border-none bg-transparent p-0 outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           type="button"
         >
           <svg
@@ -43,18 +37,18 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             </g>
           </svg>
           <div
-            class="mobile-unit-header__course-title-container flex flex-col justify-center text-left flex-1 min-w-0"
+            class="mobile-unit-header__course-title-container flex min-w-0 flex-1 flex-col justify-center text-left"
           >
             <div
               class="mobile-unit-header__course-title-row flex items-center gap-1"
             >
               <p
-                class="mobile-unit-header__course-title text-size-md font-semibold leading-[120%] tracking-[-0.5%] text-bluedot-navy truncate"
+                class="mobile-unit-header__course-title text-size-md text-bluedot-navy truncate leading-[120%] font-semibold tracking-[-0.5%]"
               >
                 What the fish [Test Course]
               </p>
               <svg
-                class="size-3 text-bluedot-navy flex-shrink-0"
+                class="text-bluedot-navy size-3 flex-shrink-0"
                 fill="currentColor"
                 height="1em"
                 stroke="currentColor"
@@ -71,11 +65,11 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           </div>
         </button>
         <div
-          class="mobile-unit-header__navigation flex flex-row items-center p-0 w-16 h-8"
+          class="mobile-unit-header__navigation flex h-8 w-16 flex-row items-center p-0"
         >
           <button
             aria-label="Previous unit"
-            class="mobile-unit-header__prev-unit-cta flex flex-col justify-center items-center p-0 gap-2 size-8 rounded-full focus:outline-none focus:ring-2 focus:ring-color-primary focus:ring-offset-2"
+            class="mobile-unit-header__prev-unit-cta focus:ring-color-primary flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
             disabled=""
             type="button"
           >
@@ -96,7 +90,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           </button>
           <button
             aria-label="Next unit"
-            class="mobile-unit-header__next-unit-cta flex flex-col justify-center items-center p-0 gap-2 size-8 rounded-full focus:outline-none focus:ring-2 focus:ring-color-primary focus:ring-offset-2"
+            class="mobile-unit-header__next-unit-cta focus:ring-color-primary flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
             type="button"
           >
             <svg
@@ -121,7 +115,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
       class="md:flex"
     >
       <div
-        class="sidebar flex flex-col bg-color-canvas size-full md:w-[360px] border-r-[0.5px] border-color-divider hidden md:block md:sticky md:top-(--nav-height-mobile) lg:top-(--nav-height-desktop) md:overflow-y-auto md:h-[calc(100vh-var(--nav-height-mobile))] lg:h-[calc(100vh-var(--nav-height-desktop))] md:shrink-0"
+        class="sidebar flex flex-col bg-color-canvas size-full md:w-[360px] border-r-[0.5px] border-color-divider hidden md:sticky md:top-(--nav-height-mobile) md:block md:h-[calc(100vh-var(--nav-height-mobile))] md:shrink-0 md:overflow-y-auto lg:top-(--nav-height-desktop) lg:h-[calc(100vh-var(--nav-height-desktop))]"
       >
         <div
           class="p-6 flex flex-col gap-5"
@@ -704,23 +698,30 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
               </div>
             </details>
           </div>
+          <div
+            class="relative p-6"
+          >
+            <div
+              class="absolute top-0 inset-x-[24px] border-t-hairline border-[rgba(42,45,52,0.2)]"
+            />
+          </div>
         </div>
       </div>
       <div
-        class="md:flex-1 md:min-w-0"
+        class="md:min-w-0 md:flex-1"
       >
         <div
-          class="unit__breadcrumbs-wrapper hidden md:block md:sticky md:top-(--nav-height-mobile) lg:top-(--nav-height-desktop) z-10 border-b-[0.5px] border-bluedot-navy/20 h-12 bg-color-canvas"
+          class="unit__breadcrumbs-wrapper border-bluedot-navy/20 bg-color-canvas z-10 hidden h-12 border-b-[0.5px] md:sticky md:top-(--nav-height-mobile) md:block lg:top-(--nav-height-desktop)"
         >
           <div
-            class="flex flex-row justify-between items-center size-full px-6 gap-2"
+            class="flex size-full flex-row items-center justify-between gap-2 px-6"
           >
             <div
               class="flex items-center gap-2"
             >
               <button
                 aria-label="Hide sidebar"
-                class="flex items-center gap-2 text-size-xs font-medium text-bluedot-navy hover:opacity-80 transition-opacity cursor-pointer"
+                class="text-size-xs text-bluedot-navy flex cursor-pointer items-center gap-2 font-medium transition-opacity hover:opacity-80"
                 type="button"
               >
                 <svg
@@ -744,21 +745,21 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 </span>
               </button>
               <span
-                class="w-px h-[18px] bg-[#6A6F7A] opacity-50"
+                class="h-[18px] w-px bg-[#6A6F7A] opacity-50"
               />
             </div>
             <nav
-              class="flex items-center gap-2 flex-1 min-h-[18px] min-w-0"
+              class="flex min-h-[18px] min-w-0 flex-1 items-center gap-2"
             >
               <a
-                class="bluedot-a not-prose text-size-xs font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-bluedot-navy transition-colors no-underline"
+                class="bluedot-a not-prose text-size-xs hover:text-bluedot-navy leading-[18px] font-medium tracking-[-0.005em] text-[#6A6F7A] no-underline transition-colors"
                 href="/courses"
                 tabindex="0"
               >
                 Courses
               </a>
               <svg
-                class="size-[14px] text-[#6A6F7A] flex-shrink-0 opacity-50"
+                class="size-[14px] flex-shrink-0 text-[#6A6F7A] opacity-50"
                 fill="currentColor"
                 height="1em"
                 stroke="currentColor"
@@ -772,14 +773,14 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 />
               </svg>
               <a
-                class="bluedot-a not-prose text-size-xs font-medium leading-[18px] tracking-[-0.005em] text-[#6A6F7A] hover:text-bluedot-navy transition-colors no-underline truncate"
+                class="bluedot-a not-prose text-size-xs hover:text-bluedot-navy truncate leading-[18px] font-medium tracking-[-0.005em] text-[#6A6F7A] no-underline transition-colors"
                 href="/courses/test-course"
                 tabindex="0"
               >
                 What the fish [Test Course]
               </a>
               <svg
-                class="size-[14px] text-[#6A6F7A] flex-shrink-0 opacity-50"
+                class="size-[14px] flex-shrink-0 text-[#6A6F7A] opacity-50"
                 fill="currentColor"
                 height="1em"
                 stroke="currentColor"
@@ -793,16 +794,13 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 />
               </svg>
               <span
-                class="text-size-xs font-medium leading-[18px] tracking-[-0.005em] text-bluedot-navy truncate"
-                title="1. Basic Principles of Fish"
+                class="text-size-xs text-bluedot-navy truncate leading-[18px] font-medium tracking-[-0.005em]"
               >
-                1
-                . 
-                Basic Principles of Fish
+                1. Basic Principles of Fish
               </span>
             </nav>
             <div
-              class="flex items-center gap-5 min-h-[18px]"
+              class="flex min-h-[18px] items-center gap-5"
             >
               <button
                 aria-label="Previous"
@@ -824,6 +822,12 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
             </div>
           </div>
         </div>
+        <div
+          aria-atomic="true"
+          aria-live="polite"
+          class="sr-only"
+          role="status"
+        />
         <div
           class="bg-color-canvas"
         />
