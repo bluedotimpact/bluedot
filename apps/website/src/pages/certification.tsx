@@ -25,7 +25,7 @@ import { CertificateCard } from '../components/certificate/CertificateCard';
 import { CertificateCTA } from '../components/certificate/CertificateCTA';
 import { ONE_DAY_SECONDS, ONE_MINUTE_SECONDS } from '../lib/constants';
 import { getCourseCtaColors } from '../lib/courseCtaColors';
-import { getCertificateData } from '../lib/api/getCertificateData';
+import { getCertificateData } from '../server/routers/certificates';
 
 type Certificate = Awaited<ReturnType<typeof getCertificateData>>;
 

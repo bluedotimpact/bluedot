@@ -1,17 +1,32 @@
 import {
-  courseRegistrationTable, exerciseResponseTable, exerciseTable, meetPersonTable, roundTable,
+  courseRegistrationTable, courseTable, exerciseResponseTable, exerciseTable, meetPersonTable, roundTable, type CourseRegistration,
 } from '@bluedot/db';
 import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import { timingSafeEqual } from 'crypto';
 import z from 'zod';
 import db from '../../lib/api/db';
 import env from '../../lib/api/env';
-import { getCertificateData } from '../../lib/api/getCertificateData';
 import { FOAI_COURSE_ID, ONE_DAY_MS } from '../../lib/constants';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 import type { AppRouter } from './_app';
 
 export type CertificateData = inferRouterOutputs<AppRouter>['certificates']['getStatus'];
+
+export async function getCertificateData(certificateId: string, existingCourseRegistration?: CourseRegistration) {
+  const courseRegistration = existingCourseRegistration ?? await db.get(courseRegistrationTable, { certificateId });
+  const course = await db.get(courseTable, { id: courseRegistration.courseId });
+
+  return {
+    certificateId,
+    certificateCreatedAt: courseRegistration.certificateCreatedAt ?? Math.floor(Date.now() / 1000),
+    recipientName: courseRegistration.fullName ?? '',
+    courseName: course.title,
+    courseSlug: course.slug,
+    courseDetailsUrl: course.detailsUrl ?? '',
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+    certificationDescription: course.certificationDescription || '',
+  };
+}
 
 export const certificatesRouter = router({
   // This is a public procedure because it's called from an Airtable script, not from within the app
