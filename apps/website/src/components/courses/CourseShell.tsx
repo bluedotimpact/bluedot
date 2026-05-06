@@ -74,7 +74,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
           className="mobile-unit-header__prev-unit-cta focus:ring-color-primary flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
           disabled={isFirstChunk && !prevUnit}
           onClick={onPrevClick}
-          aria-label="Previous unit"
+          aria-label={isFirstChunk && prevUnit ? 'Previous unit' : 'Previous section'}
         >
           <ArrowRightIcon
             aria-hidden="true"
@@ -86,7 +86,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
           className="mobile-unit-header__next-unit-cta focus:ring-color-primary flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
           disabled={isLastChunk && !nextUnit}
           onClick={onNextClick}
-          aria-label="Next unit"
+          aria-label={isLastChunk && nextUnit ? 'Next unit' : 'Next section'}
         >
           <ArrowRightIcon
             aria-hidden="true"
