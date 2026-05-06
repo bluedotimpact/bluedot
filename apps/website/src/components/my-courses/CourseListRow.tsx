@@ -327,7 +327,7 @@ const CourseListRow = ({ course: c }: CourseListRowProps) => {
   return (
     <div className="overflow-hidden rounded-xl border border-color-divider bg-white">
       <div
-        className={`flex items-start gap-4 p-5 pb-3.5 sm:p-6 ${canExpand ? 'cursor-pointer' : ''}`}
+        className={`flex items-start gap-4 p-5 pb-3.5 sm:items-center sm:p-6 ${canExpand ? 'cursor-pointer' : ''}`}
         style={headerStyle}
         onClick={toggleExpand}
         onKeyDown={handleHeaderKeyDown}
@@ -348,12 +348,12 @@ const CourseListRow = ({ course: c }: CourseListRowProps) => {
           <h3 className="text-size-md font-semibold text-bluedot-navy sm:text-size-lg">
             {course.title}
             {certEligibilityReason && (
-              <span className="ml-1 inline-flex items-center align-middle" {...stopPropagation} role="presentation">
+              <span className="ml-1.5 -translate-y-px inline-flex items-center align-middle" {...stopPropagation} role="presentation">
                 <Tooltip content={certEligibilityReason} ariaLabel="Show certificate eligibility information" />
               </span>
             )}
             {showApplicationTimelineTooltip && (
-              <span className="ml-1 inline-flex items-center align-middle" {...stopPropagation} role="presentation">
+              <span className="ml-1.5 -translate-y-px inline-flex items-center align-middle" {...stopPropagation} role="presentation">
                 <Tooltip
                   content="We typically finalise all application decisions and group discussion times 1 week before the start of the course."
                   ariaLabel="Show application timeline information"
