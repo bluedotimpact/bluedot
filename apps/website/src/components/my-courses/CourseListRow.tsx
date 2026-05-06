@@ -1,12 +1,13 @@
 import {
-  CTALinkOrButton, OverflowMenu, type OverflowMenuItemProps, addQueryParam,
+  CTALinkOrButton, OverflowMenu, Tooltip, type OverflowMenuItemProps, addQueryParam,
 } from '@bluedot/ui';
 import { useState } from 'react';
+import { FaCheck, FaLock } from 'react-icons/fa6';
 import { IoBan, IoChevronDown } from 'react-icons/io5';
-import { COURSE_CONFIG } from '../../lib/constants';
+import { COURSE_CONFIG, FOAI_COURSE_SLUG } from '../../lib/constants';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
 import { ROUTES } from '../../lib/routes';
-import { buildGroupSlackChannelUrl, formatMonthAndDay } from '../../lib/utils';
+import { buildGroupSlackChannelUrl, formatMonthAndDay, getActionPlanUrl } from '../../lib/utils';
 import DropoutModal from '../courses/DropoutModal';
 import GroupSwitchModal, { type SwitchType } from '../courses/GroupSwitchModal';
 import DiscussionList from './DiscussionList';
@@ -52,14 +53,39 @@ type CourseListRowProps = {
 const CourseListRow = ({ course: c }: CourseListRowProps) => {
   const {
     course, courseRegistration, group, facilitatorNames, discussions, attendedDiscussionIds, units, roundId,
-    slackChannelId, activityDoc, roundStartDate,
+    slackChannelId, activityDoc, roundStartDate, meetPersonId,
+    numUnits, uniqueDiscussionAttendance, hasSubmittedActionPlan, feedbackFormUrl, hasSubmittedFeedback,
   } = c;
   const state = classifyCourseRegistration(courseRegistration);
   const [isExpanded, setIsExpanded] = useState(state === 'in-progress');
   const [dropoutOpen, setDropoutOpen] = useState(false);
   const [groupSwitch, setGroupSwitch] = useState<{ unitNumber: string; switchType: SwitchType } | null>(null);
 
-  const subtitle = buildSubtitle(state, group, facilitatorNames, roundStartDate);
+  const isFacilitatedCourse = course.slug !== FOAI_COURSE_SLUG;
+  const hasCert = !!courseRegistration.certificateCreatedAt;
+
+  const showAttendanceLine = state === 'completed' && !hasCert && numUnits != null && uniqueDiscussionAttendance != null;
+  const subtitle = showAttendanceLine
+    ? `You attended ${uniqueDiscussionAttendance} out of ${numUnits} discussions`
+    : buildSubtitle(state, group, facilitatorNames, roundStartDate);
+
+  // Show the cert-eligibility tooltip when a Past, no-cert, facilitated-course participant
+  // hasn't met both criteria yet (miss ≤ 1 discussion AND submit action plan).
+  let certEligibilityReason: string | null = null;
+  if (
+    !hasCert
+    && isFacilitatedCourse
+    && uniqueDiscussionAttendance != null
+    && numUnits != null
+  ) {
+    const hasAttendedEnough = numUnits === 0 || (numUnits - uniqueDiscussionAttendance) <= 1;
+    if (!hasAttendedEnough || !hasSubmittedActionPlan) {
+      certEligibilityReason = 'To be eligible for a certificate, you need to submit your action plan/project and miss no more than 1 discussion.';
+    }
+  }
+
+  const showApplicationTimelineTooltip = state === 'upcoming' && courseRegistration.decision !== 'Reject';
+
   const showChevron = state !== 'dropped';
   const courseConfig = COURSE_CONFIG[course.slug];
   const tint = COURSE_COLORS[course.slug as CourseColorSlug]?.bright;
@@ -69,8 +95,10 @@ const CourseListRow = ({ course: c }: CourseListRowProps) => {
 
   const certificateUrl = courseRegistration.certificateId
     ? addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)
-    : null;
+    : `/courses/${course.slug}`;
+  const showLockedCert = state === 'completed' && hasCert && !hasSubmittedFeedback && feedbackFormUrl;
   const applyAgainUrl = `/courses/${course.slug}`;
+  const showActionPlan = state === 'completed' && !hasCert && isFacilitatedCourse && meetPersonId;
   const slackUrl = slackChannelId ? buildGroupSlackChannelUrl(slackChannelId) : null;
   const docUrl = activityDoc;
 
@@ -135,15 +163,61 @@ const CourseListRow = ({ course: c }: CourseListRowProps) => {
           {courseConfig?.icon && <img src={courseConfig.icon} alt="" className="size-10" />}
         </div>
         <div className="min-w-0 flex-1">
-          <h3 className="text-size-lg font-semibold text-bluedot-navy">{course.title}</h3>
+          <h3 className="text-size-lg font-semibold text-bluedot-navy">
+            {course.title}
+            {certEligibilityReason && (
+              <span className="ml-1 inline-flex items-center align-middle" {...stopPropagation} role="presentation">
+                <Tooltip content={certEligibilityReason} ariaLabel="Show certificate eligibility information" />
+              </span>
+            )}
+            {showApplicationTimelineTooltip && (
+              <span className="ml-1 inline-flex items-center align-middle" {...stopPropagation} role="presentation">
+                <Tooltip
+                  content="We typically finalise all application decisions and group discussion times 1 week before the start of the course."
+                  ariaLabel="Show application timeline information"
+                />
+              </span>
+            )}
+          </h3>
           {state !== 'dropped' && subtitle && (
             <p className="mt-1 text-size-xs text-bluedot-navy/60">{subtitle}</p>
           )}
         </div>
         <div className="flex shrink-0 items-center gap-4" {...stopPropagation} role="presentation">
           <div className="flex items-center gap-3">
-            {state === 'completed' && certificateUrl && (
+            {showLockedCert && feedbackFormUrl && (
+              <CTALinkOrButton
+                variant="primary"
+                size="small"
+                url={feedbackFormUrl}
+                target="_blank"
+                className="gap-1.5"
+              >
+                <FaLock />
+                <span>Share feedback to view your certificate</span>
+              </CTALinkOrButton>
+            )}
+            {state === 'completed' && hasCert && !showLockedCert && (
               <CTALinkOrButton variant="primary" size="small" url={certificateUrl}>View certificate</CTALinkOrButton>
+            )}
+            {showActionPlan && (
+              hasSubmittedActionPlan ? (
+                <CTALinkOrButton variant="primary" size="small" disabled className="gap-1.5 disabled:opacity-80">
+                  <span>Action plan submitted</span>
+                  <span className="inline-flex size-3.5 items-center justify-center rounded-full bg-white">
+                    <FaCheck className="size-1.5 text-bluedot-darker" />
+                  </span>
+                </CTALinkOrButton>
+              ) : (
+                <CTALinkOrButton
+                  variant="primary"
+                  size="small"
+                  url={getActionPlanUrl(meetPersonId)}
+                  target="_blank"
+                >
+                  Submit action plan
+                </CTALinkOrButton>
+              )
             )}
             {state === 'dropped' && (
               <>

@@ -143,6 +143,11 @@ export const myCoursesPageRouter = router({
         slackChannelId,
         activityDoc,
         roundStartDate: cr.roundId ? roundStartById.get(cr.roundId) ?? null : null,
+        numUnits: meetPerson?.numUnits ?? null,
+        uniqueDiscussionAttendance: meetPerson?.uniqueDiscussionAttendance ?? null,
+        hasSubmittedActionPlan: (meetPerson?.projectSubmission?.length ?? 0) > 0,
+        feedbackFormUrl: meetPerson?.courseFeedbackForm ?? null,
+        hasSubmittedFeedback: (meetPerson?.courseFeedback?.length ?? 0) > 0,
       }];
     });
 
