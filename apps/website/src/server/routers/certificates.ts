@@ -1,17 +1,38 @@
 import {
-  courseRegistrationTable, exerciseResponseTable, exerciseTable, meetPersonTable,
+  courseRegistrationTable,
+  courseTable,
+  exerciseResponseTable,
+  exerciseTable,
+  meetPersonTable,
+  roundTable,
+  type CourseRegistration,
 } from '@bluedot/db';
 import { TRPCError, type inferRouterOutputs } from '@trpc/server';
 import { timingSafeEqual } from 'crypto';
 import z from 'zod';
 import db from '../../lib/api/db';
 import env from '../../lib/api/env';
-import { getCertificateData } from '../../lib/api/getCertificateData';
-import { FOAI_COURSE_ID } from '../../lib/constants';
+import { FOAI_COURSE_ID, ONE_DAY_MS } from '../../lib/constants';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 import type { AppRouter } from './_app';
 
-export type CertificateStatus = inferRouterOutputs<AppRouter>['certificates']['getStatus']['status'];
+export type CertificateData = inferRouterOutputs<AppRouter>['certificates']['getStatus'];
+
+export async function getCertificateData(certificateId: string, existingCourseRegistration?: CourseRegistration) {
+  const courseRegistration = existingCourseRegistration ?? (await db.get(courseRegistrationTable, { certificateId }));
+  const course = await db.get(courseTable, { id: courseRegistration.courseId });
+
+  return {
+    certificateId,
+    certificateCreatedAt: courseRegistration.certificateCreatedAt ?? Math.floor(Date.now() / 1000),
+    recipientName: courseRegistration.fullName ?? '',
+    courseName: course.title,
+    courseSlug: course.slug,
+    courseDetailsUrl: course.detailsUrl ?? '',
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+    certificationDescription: course.certificationDescription || '',
+  };
+}
 
 export const certificatesRouter = router({
   // This is a public procedure because it's called from an Airtable script, not from within the app
@@ -142,9 +163,8 @@ Please complete all exercises before requesting a certificate.`,
     }),
 
   getStatus: publicProcedure.input(z.object({ courseId: z.string() })).query(async ({ ctx, input: { courseId } }) => {
-    // For non-logged in users
     if (!ctx.auth) {
-      return { status: 'not-eligible' } as const;
+      return { status: 'not-authenticated' } as const;
     }
 
     const courseRegistration = await db.getFirst(courseRegistrationTable, {
@@ -152,7 +172,7 @@ Please complete all exercises before requesting a certificate.`,
     });
 
     if (!courseRegistration) {
-      return { status: 'not-eligible' } as const;
+      return { status: 'not-enrolled' } as const;
     }
 
     if (courseRegistration.certificateId) {
@@ -178,16 +198,26 @@ Please complete all exercises before requesting a certificate.`,
 
     if (meetPerson.role === 'Participant') {
       const { uniqueDiscussionAttendance, numUnits } = meetPerson;
-      const hasAttendedEnough = uniqueDiscussionAttendance == null
-        || numUnits == null
-        || numUnits === 0
-        || (numUnits - uniqueDiscussionAttendance) <= 1;
+      const hasAttendedEnough
+        = uniqueDiscussionAttendance == null
+          || numUnits == null
+          || numUnits === 0
+          || numUnits - uniqueDiscussionAttendance <= 1;
+
+      const round = meetPerson.round
+        ? await db.getFirst(roundTable, { filter: { id: meetPerson.round }, sortBy: 'lastDiscussionDate' })
+        : null;
+      const sevenDaysFromNow = Date.now() + 7 * ONE_DAY_MS;
+      const isLastDiscussionSoonOrPassed
+        = round?.lastDiscussionDate != null
+          && new Date(round.lastDiscussionDate).getTime() <= sevenDaysFromNow;
 
       if (!hasAttendedEnough) {
         return {
           status: 'attendance-ineligible' as const,
           uniqueDiscussionAttendance,
           numUnits,
+          isLastDiscussionSoonOrPassed,
         };
       }
 
@@ -195,11 +225,12 @@ Please complete all exercises before requesting a certificate.`,
         status: 'action-plan-pending',
         meetPersonId: meetPerson.id,
         hasSubmittedActionPlan: (meetPerson.projectSubmission?.length ?? 0) > 0,
+        isLastDiscussionSoonOrPassed,
       } as const;
     }
 
     if (meetPerson.role === 'Facilitator') {
-      return { status: 'facilitator-pending' } as const;
+      return { status: 'is-facilitator' } as const;
     }
 
     return { status: 'not-eligible' } as const;

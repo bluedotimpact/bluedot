@@ -1,0 +1,95 @@
+import { type Unit } from '@bluedot/db';
+import { ErrorView } from '@bluedot/ui/src/ErrorView';
+import { ProgressDots } from '@bluedot/ui';
+import type { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
+import CourseCompletionSection from '../../../components/courses/CourseCompletionSection';
+import CourseShell from '../../../components/courses/CourseShell';
+import { isCongratulationsAccessible } from '../../../components/courses/SidebarCertificatePanel';
+import { type BasicChunk, getActiveChunksByUnit, getCourseData } from '../../../server/routers/courses';
+import { trpc } from '../../../utils/trpc';
+
+type CongratulationsPageProps = {
+  courseSlug: string;
+  courseId: string;
+  courseTitle: string;
+  units: Unit[];
+  allUnitChunks: Record<string, BasicChunk[]>;
+};
+
+// eslint-disable-next-line react/function-component-definition
+export default function CongratulationsPage({
+  courseSlug,
+  courseId,
+  courseTitle,
+  units,
+  allUnitChunks,
+}: CongratulationsPageProps) {
+  const router = useRouter();
+
+  const { data: certificateData, isLoading: isCertLoading, isError, error } = trpc.certificates.getStatus.useQuery({ courseId });
+
+  if (isCertLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <ProgressDots />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return <ErrorView error={error} />;
+  }
+
+  if (!isCongratulationsAccessible(certificateData)) {
+    router.replace(`/courses/${courseSlug}/1/1`);
+    return null;
+  }
+
+  return (
+    <CourseShell
+      courseSlug={courseSlug}
+      courseTitle={courseTitle}
+      units={units}
+      allUnitChunks={allUnitChunks}
+      certificateData={certificateData}
+      breadcrumb="Congratulations"
+    >
+      <CourseCompletionSection
+        courseId={courseId}
+        courseTitle={courseTitle}
+        courseSlug={courseSlug}
+        className="max-w-full md:max-w-[680px] lg:max-w-text-narrow xl:max-w-[900px] mx-auto px-4 sm:px-spacing-x py-12"
+      />
+    </CourseShell>
+  );
+}
+
+export const getServerSideProps: GetServerSideProps<CongratulationsPageProps> = async ({ params }) => {
+  const { courseSlug } = params ?? {};
+
+  if (typeof courseSlug !== 'string') {
+    throw new Error('Invalid course slug');
+  }
+
+  try {
+    const { course, units } = await getCourseData(courseSlug);
+    const allUnitChunks = await getActiveChunksByUnit(units);
+
+    return {
+      props: {
+        courseSlug,
+        courseId: course.id,
+        courseTitle: course.title,
+        units,
+        allUnitChunks,
+      },
+    };
+  } catch (error) {
+    if (error instanceof Error && error.message.includes('NOT_FOUND')) {
+      return { notFound: true };
+    }
+
+    throw error;
+  }
+};

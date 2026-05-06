@@ -422,6 +422,13 @@ exports[`SideBar > renders default as expected 1`] = `
           </div>
         </details>
       </div>
+      <div
+        class="relative p-6"
+      >
+        <div
+          class="border-t-hairline absolute inset-x-[24px] top-0 border-[rgba(42,45,52,0.2)]"
+        />
+      </div>
     </div>
   </div>
 </div>

@@ -1,6 +1,5 @@
 import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { useRouter } from 'next/router';
 import {
   describe,
   expect,
@@ -8,7 +7,6 @@ import {
   vi,
 } from 'vitest';
 import { createMockChunk, createMockUnit } from '../../__tests__/testUtils';
-import { server, trpcMsw } from '../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import UnitLayout from './UnitLayout';
 
@@ -156,31 +154,7 @@ describe('UnitLayout', () => {
     expect(container.querySelector('.congratulations')).toBeFalsy();
   });
 
-  test('renders Congratulations section on final chunk of final unit', async () => {
-    // No upcoming rounds - CourseCompletionSection should show Congratulations
-    server.use(trpcMsw.courseRounds.getApplyCTAProps.query(() => null));
-
-    // Update router mock to show last chunk
-    vi.mocked(useRouter).mockReturnValue({
-      query: { chunk: String(CHUNKS.length - 1) },
-      pathname: '/courses/test-course/5',
-      push: vi.fn(),
-      route: '',
-      asPath: '',
-      basePath: '',
-      isFallback: false,
-      isLocaleDomain: false,
-      isReady: true,
-      isPreview: false,
-      events: { on: vi.fn(), off: vi.fn(), emit: vi.fn() },
-      prefetch: vi.fn(),
-      reload: vi.fn(),
-      replace: vi.fn(),
-      back: vi.fn(),
-      forward: vi.fn(),
-      beforePopState: vi.fn(),
-    } as ReturnType<typeof useRouter>);
-
+  test('renders no CTA on final chunk of final unit', async () => {
     const { container } = render(
       <UnitLayout
         chunks={CHUNKS}
@@ -197,9 +171,10 @@ describe('UnitLayout', () => {
     );
 
     await waitFor(() => {
-      expect(container.querySelector('.congratulations')).toBeTruthy();
+      expect(container.querySelector('.markdown-extended-renderer')).toBeTruthy();
     });
     expect(container.querySelector('.unit__cta-container')).toBeNull();
+    expect(container.querySelector('.congratulations')).toBeNull();
   });
 
   test('keyboard navigation component is displayed', async () => {

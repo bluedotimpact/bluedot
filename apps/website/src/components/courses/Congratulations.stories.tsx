@@ -109,6 +109,7 @@ export const ActionPlanPending: Story = {
           status: 'action-plan-pending' as const,
           meetPersonId: 'meet-person-456',
           hasSubmittedActionPlan: false,
+          isLastDiscussionSoonOrPassed: true,
         })),
       ],
     },
@@ -125,6 +126,7 @@ export const ActionPlanSubmitted: Story = {
           status: 'action-plan-pending' as const,
           meetPersonId: 'meet-person-456',
           hasSubmittedActionPlan: true,
+          isLastDiscussionSoonOrPassed: true,
         })),
       ],
     },
@@ -137,7 +139,7 @@ export const FacilitatorPending: Story = {
   parameters: {
     msw: {
       handlers: [
-        trpcStorybookMsw.certificates.getStatus.query(() => ({ status: 'facilitator-pending' as const })),
+        trpcStorybookMsw.certificates.getStatus.query(() => ({ status: 'is-facilitator' as const })),
       ],
     },
   },
@@ -153,6 +155,7 @@ export const AttendanceIneligible: Story = {
           status: 'attendance-ineligible' as const,
           uniqueDiscussionAttendance: 3,
           numUnits: 5,
+          isLastDiscussionSoonOrPassed: true,
         })),
       ],
     },

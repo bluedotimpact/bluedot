@@ -9,7 +9,7 @@ import {
 import { createMockChunk, createMockUnit } from '../../__tests__/testUtils';
 import { TrpcProvider } from '../../__tests__/trpcProvider';
 import SideBar from './SideBar';
-import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
+import type { BasicChunk } from '../../server/routers/courses';
 
 const COURSE_UNITS = [
   createMockUnit({
@@ -60,7 +60,7 @@ COURSE_UNITS.forEach((unit) => {
 describe('SideBar', () => {
   const defaultProps = {
     unitChunks: ALL_UNIT_CHUNKS,
-    certificateStatus: undefined,
+    certificateData: undefined,
     courseTitle: 'What the fish [Test Course]',
     courseSlug: 'test-course',
     units: COURSE_UNITS,

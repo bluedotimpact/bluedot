@@ -1,10 +1,11 @@
 import { render, waitFor } from '@testing-library/react';
+import type { NextRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import {
   describe, expect, test, vi,
 } from 'vitest';
-import { useRouter } from 'next/router';
-import type { NextRouter } from 'next/router';
-import CourseUnitPage, { type BasicChunk } from '../../../../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
+import CourseUnitPage from '../../../../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
+import type { BasicChunk } from '../../../../../server/routers/courses';
 import { createMockChunk, createMockUnit, renderWithHead } from '../../../../testUtils';
 import { TrpcProvider } from '../../../../trpcProvider';
 

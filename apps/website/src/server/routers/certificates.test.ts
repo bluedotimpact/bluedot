@@ -1,5 +1,5 @@
 import {
-  courseRegistrationTable, courseTable, exerciseResponseTable, exerciseTable, meetPersonTable,
+  courseRegistrationTable, courseTable, exerciseResponseTable, exerciseTable, meetPersonTable, roundTable,
 } from '@bluedot/db';
 import {
   describe, expect, test, vi,
@@ -221,14 +221,14 @@ describe('certificates.request (FOAI self-serve)', () => {
 });
 
 describe('certificates.getStatus', () => {
-  test('returns not-eligible for unauthenticated callers', async () => {
+  test('returns not-authenticated for unauthenticated callers', async () => {
     const result = await createCaller(testAuthContextLoggedOut).certificates.getStatus({ courseId: FOAI_COURSE_ID });
-    expect(result).toEqual({ status: 'not-eligible' });
+    expect(result).toEqual({ status: 'not-authenticated' });
   });
 
-  test('returns not-eligible when the auth user has no accepted registration', async () => {
+  test('returns not-enrolled when the auth user has no accepted registration', async () => {
     const result = await createCaller(testAuthContextLoggedIn).certificates.getStatus({ courseId: FOAI_COURSE_ID });
-    expect(result).toEqual({ status: 'not-eligible' });
+    expect(result).toEqual({ status: 'not-enrolled' });
   });
 
   test('returns has-certificate when the registration has a certificateId', async () => {
@@ -307,10 +307,14 @@ describe('certificates.getStatus', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg1', email: 'test@example.com', courseId: 'rec-other', decision: 'Accept',
     });
+    await testDb.insert(roundTable, {
+      id: 'round1', lastDiscussionDate: '2020-01-01',
+    });
     await testDb.insert(meetPersonTable, {
       id: 'mp1',
       applicationsBaseRecordId: 'reg1',
       role: 'Participant',
+      round: 'round1',
       projectSubmission: ['https://example.com/plan'],
     });
 
@@ -319,6 +323,7 @@ describe('certificates.getStatus', () => {
       status: 'action-plan-pending',
       meetPersonId: 'mp1',
       hasSubmittedActionPlan: true,
+      isLastDiscussionSoonOrPassed: true,
     });
   });
 
@@ -334,7 +339,7 @@ describe('certificates.getStatus', () => {
     expect(result).toMatchObject({ status: 'action-plan-pending', hasSubmittedActionPlan: false });
   });
 
-  test('returns facilitator-pending for non-FOAI Facilitators', async () => {
+  test('returns is-facilitator for non-FOAI Facilitators', async () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg1', email: 'test@example.com', courseId: 'rec-other', decision: 'Accept',
     });
@@ -343,7 +348,7 @@ describe('certificates.getStatus', () => {
     });
 
     const result = await createCaller(testAuthContextLoggedIn).certificates.getStatus({ courseId: 'rec-other' });
-    expect(result).toEqual({ status: 'facilitator-pending' });
+    expect(result).toEqual({ status: 'is-facilitator' });
   });
 
   test('returns not-eligible for an unrecognised meetPerson role', async () => {
@@ -362,10 +367,14 @@ describe('certificates.getStatus', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg1', email: 'test@example.com', courseId: 'rec-other', decision: 'Accept',
     });
+    await testDb.insert(roundTable, {
+      id: 'round1', lastDiscussionDate: '2020-01-01',
+    });
     await testDb.insert(meetPersonTable, {
       id: 'mp1',
       applicationsBaseRecordId: 'reg1',
       role: 'Participant',
+      round: 'round1',
       uniqueDiscussionAttendance: 3,
       numUnits: 5,
     });
@@ -375,6 +384,7 @@ describe('certificates.getStatus', () => {
       status: 'attendance-ineligible',
       uniqueDiscussionAttendance: 3,
       numUnits: 5,
+      isLastDiscussionSoonOrPassed: true,
     });
   });
 });

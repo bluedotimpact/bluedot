@@ -1,22 +1,20 @@
 import type { Unit } from '@bluedot/db';
-import {
-  A, CTALinkOrButton, HoverTooltip, P,
-} from '@bluedot/ui';
+import { A, CTALinkOrButton, P } from '@bluedot/ui';
 import clsx from 'clsx';
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
-import type { BasicChunk } from '../../pages/courses/[courseSlug]/[unitNumber]/[[...chunkNumber]]';
-import type { CertificateStatus } from '../../server/routers/certificates';
-import { CERTIFICATE_STATUS_DESCRIPTIONS } from './Congratulations';
+import type { BasicChunk } from '../../server/routers/courses';
+import type { CertificateData } from '../../server/routers/certificates';
 import type { ChunkProgress, CourseProgress } from '../../server/routers/courses';
 import { ChunkIcon } from '../icons';
 import { CourseIcon } from './CourseIcon';
+import { SidebarCertificatePanel } from './SidebarCertificatePanel';
 
 type SideBarProps = {
   courseTitle: string;
   courseSlug: string;
-  certificateStatus: CertificateStatus | undefined;
+  certificateData: CertificateData | undefined;
   units: Unit[];
   currentUnitNumber: number;
   currentChunkIndex: number;
@@ -30,25 +28,21 @@ type SideBarProps = {
 type SideBarCollapsibleProps = {
   unit: Unit;
   isCurrentUnit: boolean;
-  isFinalUnit: boolean;
   chunks: BasicChunk[];
   currentChunkIndex: number;
   onChunkSelect: (index: number) => void;
   courseSlug: string;
   chunkProgress: ChunkProgress[];
-  certificateStatus: CertificateStatus | undefined;
 };
 
 const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   unit,
   isCurrentUnit,
-  isFinalUnit,
   chunks,
   currentChunkIndex,
   onChunkSelect,
   courseSlug,
   chunkProgress,
-  certificateStatus,
 }) => {
   const [isExpanded, setIsExpanded] = useState(isCurrentUnit);
   const detailsRef = useRef<HTMLDetailsElement>(null);
@@ -83,7 +77,6 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
           {chunks.map((chunk, index) => {
             const isActive = isCurrentUnit && currentChunkIndex === index;
             const chunkUrl = `/courses/${courseSlug}/${unit.unitNumber}/${index + 1}`;
-            const isLastChunkOfFinalUnit = isFinalUnit && index === chunks.length - 1;
 
             // For current unit, use button with onChunkSelect
             // For non-current unit, use link to navigate
@@ -103,7 +96,6 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                     <div className="flex flex-col items-start gap-1.5">
                       <p className="font-normal text-size-xs leading-[150%] text-bluedot-navy">
                         {chunk.chunkTitle}
-                        <CertificateIndicator isLastChunkOfFinalUnit={isLastChunkOfFinalUnit} certificateStatus={certificateStatus} />
                       </p>
                     </div>
                     {chunk.estimatedTime && (
@@ -142,7 +134,6 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
                   <div className="flex flex-col items-start gap-1.5">
                     <p className="font-normal text-size-xs leading-[150%] text-bluedot-navy">
                       {chunk.chunkTitle}
-                      <CertificateIndicator isLastChunkOfFinalUnit={isLastChunkOfFinalUnit} certificateStatus={certificateStatus} />
                     </p>
                   </div>
                   {chunk.estimatedTime && (
@@ -193,36 +184,10 @@ const ApplyCTA = ({ applicationDeadline, applicationUrl, hasApplied }: ApplyCTAP
   );
 };
 
-const CertificateIndicator = ({
-  isLastChunkOfFinalUnit,
-  certificateStatus,
-}: {
-  isLastChunkOfFinalUnit: boolean;
-  certificateStatus: CertificateStatus | undefined;
-}) => {
-  if (!isLastChunkOfFinalUnit || !certificateStatus) return null;
-
-  if (certificateStatus === 'has-certificate') {
-    return (
-      <span className="ml-1.5" aria-label="Certificate earned">
-        🎉
-      </span>
-    );
-  }
-
-  return (
-    <span className="ml-1.5 inline-flex" aria-label={CERTIFICATE_STATUS_DESCRIPTIONS[certificateStatus]}>
-      <HoverTooltip content={CERTIFICATE_STATUS_DESCRIPTIONS[certificateStatus]}>
-        <span>🔒</span>
-      </HoverTooltip>
-    </span>
-  );
-};
-
 const SideBar: React.FC<SideBarProps> = ({
   courseTitle,
   courseSlug,
-  certificateStatus,
+  certificateData,
   courseProgressData,
   className,
   units,
@@ -234,10 +199,6 @@ const SideBar: React.FC<SideBarProps> = ({
 }) => {
   const isCurrentUnit = (unit: Unit) => {
     return !!unit.unitNumber && currentUnitNumber === Number(unit.unitNumber);
-  };
-
-  const isFinalUnit = (unit: Unit) => {
-    return unit.id === units[units.length - 1]?.id;
   };
 
   return (
@@ -271,15 +232,23 @@ const SideBar: React.FC<SideBarProps> = ({
             key={unit.id}
             unit={unit}
             isCurrentUnit={isCurrentUnit(unit)}
-            isFinalUnit={isFinalUnit(unit)}
             chunks={unitChunks[unit.id] ?? []}
             currentChunkIndex={currentChunkIndex}
             onChunkSelect={onChunkSelect}
             courseSlug={courseSlug}
             chunkProgress={courseProgressData?.chunkProgressByUnitNumber[unit.unitNumber] ?? []}
-            certificateStatus={certificateStatus}
           />
         ))}
+        {certificateData?.status !== 'is-facilitator' && (
+          <div className="relative p-6">
+            <div className="border-t-hairline absolute inset-x-[24px] top-0 border-[rgba(42,45,52,0.2)]" />
+            <SidebarCertificatePanel
+              courseTitle={courseTitle}
+              courseSlug={courseSlug}
+              certificateData={certificateData}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

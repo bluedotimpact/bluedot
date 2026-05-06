@@ -15,7 +15,7 @@ import { COURSE_CONFIG, FOAI_COURSE_ID } from '../../lib/constants';
 import { getCourseCtaColors } from '../../lib/courseCtaColors';
 import { ROUTES } from '../../lib/routes';
 import { getActionPlanUrl } from '../../lib/utils';
-import type { CertificateStatus } from '../../server/routers/certificates';
+import type { CertificateData } from '../../server/routers/certificates';
 import { getLoginUrl } from '../../utils/getLoginUrl';
 import { trpc } from '../../utils/trpc';
 import { CertificateCard } from '../certificate/CertificateCard';
@@ -24,14 +24,16 @@ import { CourseIcon } from './CourseIcon';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
 
-export const CERTIFICATE_STATUS_DESCRIPTIONS: Record<CertificateStatus, string> = {
+const CERTIFICATE_STATUS_DESCRIPTIONS: Record<CertificateData['status'], string> = {
   'action-plan-pending':
     'To receive your certificate, you need to submit an action plan/project and can\'t have missed more than one discussion.',
   'attendance-ineligible':
     'You missed too many discussions to be eligible for a certificate. Participants can miss at most one discussion.',
   'can-request': 'Complete all exercises to unlock your certificate, then share your accomplishment on social media.',
-  'facilitator-pending': 'Your certificate will be issued after your cohort ends, based on attendance.',
+  'is-facilitator': '',
   'has-certificate': '',
+  'not-authenticated': 'Join a facilitated cohort to receive a certificate.',
+  'not-enrolled': 'Join a facilitated cohort to receive a certificate.',
   'not-eligible':
     'This course doesn\'t currently issue certificates to independent learners. Join a facilitated version to get a certificate.',
 };
@@ -433,20 +435,18 @@ const Congratulations: React.FC<CongratulationsProps> = ({
       </div>
 
       {courseId === FOAI_COURSE_ID && (
-        <div className="flex justify-center bg-white py-12">
-          <div className="border-hairline border-bluedot-navy/25 flex w-full flex-col gap-6 rounded-lg bg-white p-10">
-            <div className="flex flex-col gap-3">
-              <h3 className="text-bluedot-navy text-size-md leading-[1.4] font-semibold">Want to go deeper?</h3>
-              <P className="text-bluedot-navy text-size-sm leading-[1.6] tracking-[-0.002em]">
-                <span className="font-semibold">The AGI Strategy course</span> is the natural next step: 25 hours,
-                facilitated in small groups with live discussion. No specific background required. New rounds start
-                every month.
-              </P>
-            </div>
-            <CTALinkOrButton url="/courses/agi-strategy" variant="primary" withChevron>
-              Apply now
-            </CTALinkOrButton>
+        <div className="border-hairline border-bluedot-navy/25 flex flex-col gap-6 rounded-lg bg-white p-10 py-12">
+          <div className="flex flex-col gap-3">
+            <h3 className="text-bluedot-navy text-size-md leading-[1.4] font-semibold">Want to go deeper?</h3>
+            <P className="text-bluedot-navy text-size-sm leading-[1.6] tracking-[-0.002em]">
+              <span className="font-semibold">The AGI Strategy course</span> is the natural next step: 25 hours,
+              facilitated in small groups with live discussion. No specific background required. New rounds start
+              every month.
+            </P>
           </div>
+          <CTALinkOrButton url="/courses/agi-strategy" variant="primary" withChevron>
+            Apply now
+          </CTALinkOrButton>
         </div>
       )}
     </div>

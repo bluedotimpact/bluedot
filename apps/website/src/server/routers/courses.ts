@@ -19,6 +19,36 @@ import db from '../../lib/api/db';
 import { removeInactiveChunkIdsFromUnits } from '../../lib/api/utils';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 
+export type BasicChunk = {
+  id: string;
+  chunkTitle: string;
+  chunkOrder: string;
+  estimatedTime: number | null;
+};
+
+export async function getActiveChunksByUnit(units: { id: string }[]) {
+  const unitIds = units.map((u) => u.id);
+  const activeChunks = await db.pg
+    .select()
+    .from(chunkTable.pg)
+    .where(and(eq(chunkTable.pg.status, 'Active'), inArray(chunkTable.pg.unitId, unitIds)));
+
+  const result: Record<string, BasicChunk[]> = {};
+  for (const u of units) {
+    result[u.id] = activeChunks
+      .filter((c) => c.unitId === u.id)
+      .sort((a, b) => Number(a.chunkOrder) - Number(b.chunkOrder))
+      .map((c) => ({
+        id: c.id,
+        chunkTitle: c.chunkTitle,
+        chunkOrder: c.chunkOrder,
+        estimatedTime: c.estimatedTime,
+      }));
+  }
+
+  return result;
+}
+
 export type ChunkProgress = {
   totalCount: number;
   completedCount: number;
