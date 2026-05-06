@@ -12,9 +12,7 @@ import GroupSwitchModal, { type SwitchType } from '../courses/GroupSwitchModal';
 import DiscussionList from './DiscussionList';
 import type { EnrichedCourse } from './CourseList';
 
-type CourseRowState = 'in-progress' | 'upcoming' | 'completed' | 'dropped';
-
-const classifyCourseRegistration = (cr: EnrichedCourse['courseRegistration']): CourseRowState => {
+const classifyCourseRegistration = (cr: EnrichedCourse['courseRegistration']) => {
   if (cr.dropoutId?.length && !cr.deferredId?.length) return 'dropped';
   if (cr.roundStatus === 'Active') return 'in-progress';
   if (cr.roundStatus === 'Future') return 'upcoming';
@@ -22,7 +20,7 @@ const classifyCourseRegistration = (cr: EnrichedCourse['courseRegistration']): C
 };
 
 const buildSubtitle = (
-  state: CourseRowState,
+  state: ReturnType<typeof classifyCourseRegistration>,
   group: EnrichedCourse['group'],
   facilitatorNames: string[],
   roundStartDate: string | null,
