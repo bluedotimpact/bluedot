@@ -126,9 +126,13 @@ export const getStaticProps: GetStaticProps<JobPostingPageProps> = async ({ para
     // Fetches both published and unlisted jobs, but not unpublished ones
     const job = await db.get(jobPostingTable, { slug, publicationStatus: { '!=': 'Unpublished' } });
 
+    // Route the og:image through our /api/og-image proxy when an Airtable
+    // image is set. miniextensions returns 403 to LinkedIn/Facebook/Twitter
+    // user-agents, so scrapers can't fetch the URL directly — bouncing it
+    // through bluedot.org sidesteps that.
     let jobOgImage: string;
     if (job.linkPreviewImage) {
-      jobOgImage = job.linkPreviewImage;
+      jobOgImage = `${process.env.NEXT_PUBLIC_SITE_URL}/api/og-image/${encodeURIComponent(slug)}`;
     } else if (await fileExists(path.join(process.cwd(), 'public', 'images', 'jobs', 'link-preview', `${job.slug}.png`))) {
       jobOgImage = `${process.env.NEXT_PUBLIC_SITE_URL}/images/jobs/link-preview/${job.slug}.png`;
     } else {
