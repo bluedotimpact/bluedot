@@ -24,7 +24,7 @@ const FieldBuildingSection = ({
   return (
     <section id={id} className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 bd-md:px-8 lg:px-12 xl:px-40 py-12 bd-md:py-16 xl:py-24 flex flex-col items-center gap-8 md:gap-10">
-        <div className="max-w-text text-center">
+        <div className="max-w-prose text-center">
           <H2 className="text-size-xl font-semibold leading-[125%] text-bluedot-navy tracking-[-0.01em]">
             {title}
           </H2>

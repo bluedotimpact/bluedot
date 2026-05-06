@@ -251,7 +251,7 @@ const QuoteSection = ({
         aria-atomic="true"
       >
         <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 lg:px-spacing-x xl:py-24">
-          <div className="w-full bd-md:max-w-text bd-md:mx-auto flex flex-col gap-8">
+          <div className="w-full bd-md:max-w-prose bd-md:mx-auto flex flex-col gap-8">
             <blockquote
               className={`${getEditorialFontSize(activeQuote.quote)} leading-[1.5] font-medium text-bluedot-navy`}
             >

@@ -25,7 +25,7 @@ const AttendancePolicyPage = () => {
       </Head>
       <MarketingHero title={CURRENT_ROUTE.title} subtitle={SUBTITLE} />
       <Breadcrumbs route={CURRENT_ROUTE} />
-      <Section className="max-w-3xl">
+      <Section className="max-w-prose">
         <MarkdownExtendedRenderer>{`
 ## Course Attendance Policy
 

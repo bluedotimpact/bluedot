@@ -25,7 +25,7 @@ const CodeOfConductPage = () => {
       </Head>
       <MarketingHero title={CURRENT_ROUTE.title} subtitle={SUBTITLE} />
       <Breadcrumbs route={CURRENT_ROUTE} />
-      <Section className="max-w-3xl">
+      <Section className="max-w-prose">
         <MarkdownExtendedRenderer>{`
 We want everyone on this course to be able to focus their full attention on having good conversations, getting to know people, learning interesting things, and generally having fun.
 

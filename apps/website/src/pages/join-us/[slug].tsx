@@ -93,7 +93,7 @@ const JobPostingPage = ({ slug, job, jobOgImage }: JobPostingPageProps) => {
         )}
       />
       <Breadcrumbs route={currentRoute} />
-      <Section className="max-w-3xl">
+      <Section className="max-w-prose">
         <MarkdownExtendedRenderer>
           {job.body ?? undefined}
         </MarkdownExtendedRenderer>

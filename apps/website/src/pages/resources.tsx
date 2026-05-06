@@ -25,7 +25,7 @@ const ResourcesPage = () => {
       </Head>
       <MarketingHero title={CURRENT_ROUTE.title} subtitle={SUBTITLE} />
       <Breadcrumbs route={CURRENT_ROUTE} />
-      <Section className="max-w-3xl">
+      <Section className="max-w-prose">
         <MarkdownExtendedRenderer>{`
 This is a compilation of many of the resources likely to be useful to people in the AI safety space that we are aware of.
 

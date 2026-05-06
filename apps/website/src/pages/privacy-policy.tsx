@@ -20,7 +20,7 @@ const PrivacyPolicyPage = () => {
       </Head>
       <MarketingHero title="Privacy Policy" subtitle={SUBTITLE} />
       <Breadcrumbs route={CURRENT_ROUTE} />
-      <Section className="max-w-3xl">
+      <Section className="max-w-prose">
         <MarkdownExtendedRenderer>{`
 BlueDot Impact Ltd is a UK non-profit, registered as a company limited by guarantee (company number [14964572](https://find-and-update.company-information.service.gov.uk/company/14964572)). You can contact us at [team@bluedot.org](mailto:team@bluedot.org).
 
