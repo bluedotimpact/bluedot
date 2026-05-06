@@ -6,14 +6,13 @@ import { ProgressDots, useAuthStore, useLatestUtmParams } from '@bluedot/ui';
 import { type GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import path from 'path';
 import { useEffect } from 'react';
 import UnitLayout from '../../../../components/courses/UnitLayout';
 import db from '../../../../lib/api/db';
 import { FOAI_COURSE_ID } from '../../../../lib/constants';
+import { getCourseOgImage } from '../../../../lib/courseOgImage';
 import { buildCourseUnitUrl } from '../../../../lib/utils';
 import { getCourseData } from '../../../../server/routers/courses';
-import { fileExists } from '../../../../utils/fileExists';
 import { trpc } from '../../../../utils/trpc';
 
 type CourseUnitChunkPageProps = UnitWithChunks & {
@@ -169,11 +168,7 @@ export const getServerSideProps: GetServerSideProps<CourseUnitChunkPageProps> = 
   try {
     const unitWithContent = await getUnitWithChunks(courseSlug, unitNumber);
 
-    // Check for course-specific OG image, fallback to default BlueDot logo
-    let courseOgImage = 'https://bluedot.org/images/logo/link-preview-fallback.png';
-    if (await fileExists(path.join(process.cwd(), 'public', 'images', 'courses', 'link-preview', `${courseSlug}.png`))) {
-      courseOgImage = `${process.env.NEXT_PUBLIC_SITE_URL}/images/courses/link-preview/${courseSlug}.png`;
-    }
+    const courseOgImage = await getCourseOgImage(courseSlug);
 
     return {
       props: {

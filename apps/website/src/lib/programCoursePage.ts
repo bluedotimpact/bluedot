@@ -1,9 +1,8 @@
-import path from 'path';
 import type { GetStaticPropsResult } from 'next';
 import { ONE_MINUTE_SECONDS } from './constants';
+import { getCourseOgImage } from './courseOgImage';
 import { getCourseRoundsData, getSoonestDeadline } from '../server/routers/course-rounds';
 import { getCourseData } from '../server/routers/courses';
-import { fileExists } from '../utils/fileExists';
 
 export type ProgramCoursePageProps = {
   courseSlug: string;
@@ -18,10 +17,7 @@ export const getProgramCoursePageStaticProps = async (courseSlug: string): Promi
     const rounds = await getCourseRoundsData(courseSlug);
     const soonestDeadline = getSoonestDeadline(rounds);
 
-    let courseOgImage = 'https://bluedot.org/images/logo/link-preview-fallback.png';
-    if (await fileExists(path.join(process.cwd(), 'public', 'images', 'courses', 'link-preview', `${courseSlug}.png`))) {
-      courseOgImage = `${process.env.NEXT_PUBLIC_SITE_URL}/images/courses/link-preview/${courseSlug}.png`;
-    }
+    const courseOgImage = await getCourseOgImage(courseSlug);
 
     return {
       props: {
