@@ -144,16 +144,6 @@ export const courseTable = pgAirtable('course', {
       airtableId: 'fldCX0bk6SQuXZaI7',
       deprecated: true,
     },
-    level: {
-      pgColumn: text(),
-      airtableId: 'fldkL7aWITGCPqzxc',
-      deprecated: true,
-    },
-    durationDescription: {
-      pgColumn: text(),
-      airtableId: 'fldHxekJ6BioQMF3e',
-      deprecated: true,
-    },
   },
 });
 
@@ -1120,21 +1110,6 @@ export const unitTable = pgAirtable('unit', {
     coursePath: {
       pgColumn: text(),
       airtableId: 'fldlCrg7Nv1TPTorZ',
-      deprecated: true,
-    },
-    learningOutcomes: {
-      pgColumn: text(),
-      airtableId: 'fld9vAMgn0Fm7x6Xf',
-      deprecated: true,
-    },
-    unitPodcastUrl: {
-      pgColumn: text(),
-      airtableId: 'fldwByN7lbmcjc3Fj',
-      deprecated: true,
-    },
-    autoNumberId: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fld1rl39p5fSOiFya',
       deprecated: true,
     },
   },
