@@ -17,7 +17,7 @@ const course = {
   title: 'Technical AI Safety',
 } as unknown as Course;
 
-const makeDiscussion = (overrides: Partial<GroupDiscussionWithGroupAndUnit>): GroupDiscussionWithGroupAndUnit => ({
+const makeDiscussion = (overrides: Record<string, unknown>): GroupDiscussionWithGroupAndUnit => ({
   id: 'disc-default',
   startDateTime: IN_3_DAYS,
   endDateTime: IN_3_DAYS + TWO_HOURS,
@@ -55,6 +55,7 @@ type Story = StoryObj<typeof meta>;
 // The visual difference everyone keeps asking about: legacy renders a NOW + filled-blue
 // LIVE chip when the discussion is currently happening, vs a plain date+time block otherwise.
 export const TimeWidgetStates: Story = {
+  args: { ...baseListProps, discussions: [] },
   render: () => (
     <div className="flex gap-4">
       <div className="flex flex-col items-center gap-2">
@@ -75,7 +76,9 @@ export const NextDiscussionSoon: Story = {
     ...baseListProps,
     discussions: [
       makeDiscussion({ id: 'd-1', startDateTime: IN_5_MIN, endDateTime: IN_5_MIN + TWO_HOURS }),
-      makeDiscussion({ id: 'd-2', startDateTime: IN_3_DAYS, endDateTime: IN_3_DAYS + TWO_HOURS, unitNumber: 5, unitRecord: { unitNumber: 5, title: 'Risks from misalignment' } }),
+      makeDiscussion({
+        id: 'd-2', startDateTime: IN_3_DAYS, endDateTime: IN_3_DAYS + TWO_HOURS, unitNumber: 5, unitRecord: { unitNumber: '5', title: 'Risks from misalignment' },
+      }),
     ],
   },
 };
@@ -87,7 +90,9 @@ export const NextDiscussionLive: Story = {
     ...baseListProps,
     discussions: [
       makeDiscussion({ id: 'd-1', startDateTime: NOW_SEC - 10 * 60, endDateTime: NOW_SEC + 110 * 60 }),
-      makeDiscussion({ id: 'd-2', startDateTime: IN_3_DAYS, endDateTime: IN_3_DAYS + TWO_HOURS, unitNumber: 5, unitRecord: { unitNumber: 5, title: 'Risks from misalignment' } }),
+      makeDiscussion({
+        id: 'd-2', startDateTime: IN_3_DAYS, endDateTime: IN_3_DAYS + TWO_HOURS, unitNumber: 5, unitRecord: { unitNumber: '5', title: 'Risks from misalignment' },
+      }),
     ],
   },
 };
@@ -98,7 +103,9 @@ export const NextDiscussionFarFuture: Story = {
     ...baseListProps,
     discussions: [
       makeDiscussion({ id: 'd-1', startDateTime: IN_3_DAYS, endDateTime: IN_3_DAYS + TWO_HOURS }),
-      makeDiscussion({ id: 'd-2', startDateTime: IN_3_DAYS + 7 * 24 * 60 * 60, endDateTime: IN_3_DAYS + 7 * 24 * 60 * 60 + TWO_HOURS, unitNumber: 5, unitRecord: { unitNumber: 5, title: 'Risks from misalignment' } }),
+      makeDiscussion({
+        id: 'd-2', startDateTime: IN_3_DAYS + 7 * 24 * 60 * 60, endDateTime: IN_3_DAYS + 7 * 24 * 60 * 60 + TWO_HOURS, unitNumber: 5, unitRecord: { unitNumber: '5', title: 'Risks from misalignment' },
+      }),
     ],
   },
 };
@@ -110,7 +117,9 @@ export const PastDiscussions: Story = {
     isPast: true,
     discussions: [
       makeDiscussion({ id: 'd-1', startDateTime: NOW_SEC - 14 * 24 * 60 * 60, endDateTime: NOW_SEC - 14 * 24 * 60 * 60 + TWO_HOURS }),
-      makeDiscussion({ id: 'd-2', startDateTime: NOW_SEC - 7 * 24 * 60 * 60, endDateTime: NOW_SEC - 7 * 24 * 60 * 60 + TWO_HOURS, unitNumber: 5, unitRecord: { unitNumber: 5, title: 'Risks from misalignment' } }),
+      makeDiscussion({
+        id: 'd-2', startDateTime: NOW_SEC - 7 * 24 * 60 * 60, endDateTime: NOW_SEC - 7 * 24 * 60 * 60 + TWO_HOURS, unitNumber: 5, unitRecord: { unitNumber: '5', title: 'Risks from misalignment' },
+      }),
     ],
   },
 };
