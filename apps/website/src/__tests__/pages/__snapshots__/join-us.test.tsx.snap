@@ -237,6 +237,9 @@ exports[`JoinUsPage > should render correctly 1`] = `
                           <div
                             class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                           >
+                            <div
+                              class="border-t border-gray-200 my-2"
+                            />
                             <a
                               class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                               href="/projects"
@@ -469,6 +472,9 @@ exports[`JoinUsPage > should render correctly 1`] = `
                     <div
                       class="nav-dropdown__dropdown-content flex flex-col gap-3 w-fit mx-auto text-pretty"
                     >
+                      <div
+                        class="border-t border-gray-200 my-2"
+                      />
                       <a
                         class="bluedot-a not-prose nav-link nav-link-animation w-fit no-underline text-size-sm font-[450] leading-[160%] align-middle pt-1 text-bluedot-darker hover:text-bluedot-darker"
                         href="/projects"

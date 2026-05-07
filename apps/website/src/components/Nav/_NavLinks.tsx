@@ -262,7 +262,7 @@ const NavDropdown: React.FC<{
               return (
                 <React.Fragment key={link.url}>
                   {/* Add separator before footer links */}
-                  {(link.title === 'See upcoming rounds' || link.title === 'See all programs') && (
+                  {(link.title === 'See upcoming rounds' || link.title === 'See all programs' || link.title === 'See all projects') && (
                     <div className="border-t border-gray-200 my-2" />
                   )}
                   <A
