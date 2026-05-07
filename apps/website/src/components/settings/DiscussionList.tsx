@@ -307,7 +307,8 @@ const DiscussionListRow = ({
   );
 };
 
-const TimeWidget: React.FC<{
+// Exported for the legacy stories file (TODO: remove once the v2 my-courses redesign lands).
+export const TimeWidget: React.FC<{
   isLive: boolean;
   dateTimeSeconds: number;
 }> = ({ isLive, dateTimeSeconds }) => {

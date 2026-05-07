@@ -16,7 +16,7 @@ import {
   type Unit,
   unitTable,
 } from '@bluedot/db';
-import type { CourseListRowProps } from '../../components/my-courses/CourseListRow';
+import type { CourseRowData } from '../../components/my-courses/CourseListRow';
 import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
 
@@ -97,7 +97,7 @@ export const myCoursesPageRouter = router({
     const discussionById = new Map(discussions.map((d) => [d.id, d] as const));
     const roundById = new Map(roundRows.map((r) => [r.id, r] as const));
 
-    const perCourse: CourseListRowProps[] = courseRegistrations.flatMap((cr) => {
+    const perCourse: CourseRowData[] = courseRegistrations.flatMap((cr) => {
       const course = courses.find((c) => c.id === cr.courseId);
       if (!course) return [];
 

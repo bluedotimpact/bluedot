@@ -16,7 +16,9 @@ import DropoutModal from '../courses/DropoutModal';
 import GroupSwitchModal, { type SwitchType } from '../courses/GroupSwitchModal';
 import DiscussionList from './DiscussionList';
 
-export type CourseListRowProps = {
+// Server-derivable per-course data — consumed by the server router as its return shape and by
+// the page for bucketing/sorting. The expand-state props live separately on CourseListRowProps.
+export type CourseRowData = {
   courseRegistration: CourseRegistration;
   course: Pick<Course, 'slug' | 'title'>;
   group: Pick<Group, 'startTimeUtc' | 'slackChannelId' | 'discussionDoc'> | null;
@@ -35,11 +37,26 @@ export type CourseListRowProps = {
   hasSubmittedFeedback: boolean;
 };
 
+export type CourseListRowProps = CourseRowData & {
+  isExpanded: boolean;
+  onToggleExpand: () => void;
+};
+
 const classifyCourseRegistration = (cr: CourseRegistration) => {
   if (cr.dropoutId?.length && !cr.deferredId?.length) return 'dropped';
   if (cr.roundStatus === 'Active') return 'in-progress';
   if (cr.roundStatus === 'Future') return 'upcoming';
   return 'completed';
+};
+
+// True when the row is both expandable and has discussions to render. Used by the page
+// to pick which row in each tab auto-expands on first render.
+type AutoExpandInput = Pick<CourseRowData, 'courseRegistration' | 'attendedDiscussionIds' | 'discussions'>;
+
+export const isAutoExpandCandidate = (course: AutoExpandInput): boolean => {
+  const state = classifyCourseRegistration(course.courseRegistration);
+  const canExpand = state !== 'dropped' || course.attendedDiscussionIds.length > 0;
+  return canExpand && course.discussions.length > 0;
 };
 
 const formatWeeklySchedule = (group: Pick<Group, 'startTimeUtc'> | null): string | null => {
@@ -167,9 +184,9 @@ const CourseListRow = ({
   course, courseRegistration, group, facilitatorNames, discussions, attendedDiscussionIds, units, roundId,
   roundStartDate, roundEndDate, meetPersonId,
   numUnits, uniqueDiscussionAttendance, hasSubmittedActionPlan, feedbackFormUrl, hasSubmittedFeedback,
+  isExpanded, onToggleExpand,
 }: CourseListRowProps) => {
   const state = classifyCourseRegistration(courseRegistration);
-  const [isExpanded, setIsExpanded] = useState(state === 'in-progress');
   const [dropoutOpen, setDropoutOpen] = useState(false);
   const [groupSwitch, setGroupSwitch] = useState<{ unitNumber: string; switchType: SwitchType } | null>(null);
 
@@ -244,7 +261,7 @@ const CourseListRow = ({
   };
 
   const toggleExpand = () => {
-    if (canExpand) setIsExpanded((prev) => !prev);
+    if (canExpand) onToggleExpand();
   };
 
   const chevronButton = canExpand ? (
@@ -379,14 +396,18 @@ const CourseListRow = ({
           {chevronButton}
         </div>
       )}
-      {isExpanded && canExpand && discussions.length > 0 && (
+      {isExpanded && canExpand && (
         <div className="border-t border-color-divider">
-          <DiscussionList
-            discussions={discussions}
-            units={units}
-            attendedDiscussionIds={attendedDiscussionIds}
-            onReschedule={openReschedule}
-          />
+          {discussions.length > 0 ? (
+            <DiscussionList
+              discussions={discussions}
+              units={units}
+              attendedDiscussionIds={attendedDiscussionIds}
+              onReschedule={openReschedule}
+            />
+          ) : (
+            <p className="px-5 py-4 text-size-xs text-gray-500 sm:px-6">No discussions to show.</p>
+          )}
         </div>
       )}
       {dropoutOpen && (

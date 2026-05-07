@@ -1,9 +1,10 @@
 import { ErrorSection, ProgressDots } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useMemo, useState } from 'react';
 import MyBlueDotLayout from '../components/MyBlueDotLayout';
 import CourseList from '../components/my-courses/CourseList';
-import type { CourseListRowProps } from '../components/my-courses/CourseListRow';
+import { isAutoExpandCandidate, type CourseRowData } from '../components/my-courses/CourseListRow';
 import NextDiscussionSection from '../components/my-courses/NextDiscussionSection';
 import TabPills from '../components/my-courses/TabPills';
 import { ROUTES } from '../lib/routes';
@@ -30,7 +31,7 @@ const EMPTY_MESSAGE: Record<CourseTab, string> = {
 // Past Courses bundles completed + facilitated + dropped. Deferred registrations are excluded —
 // they appear via their next-round registration in another bucket. Sort puts no-cert first
 // (nudges users to complete) then certificate date desc.
-export const bucketCourses = (courses: CourseListRowProps[] | undefined): Record<CourseTab, CourseListRowProps[]> => {
+export const bucketCourses = (courses: CourseRowData[] | undefined): Record<CourseTab, CourseRowData[]> => {
   const eligible = (courses ?? [])
     .filter(({ courseRegistration: cr }) => cr.roundStatus === 'Active' || cr.roundStatus === 'Past' || cr.roundStatus === 'Future' || cr.certificateCreatedAt)
     .filter(({ courseRegistration: cr }) => cr.decision !== 'Reject' || cr.roundStatus === 'Future');
@@ -64,7 +65,30 @@ const MyCoursesPage = () => {
 
   const { data, isLoading, error } = trpc.myCoursesPage.getOverview.useQuery();
 
-  const buckets = bucketCourses(data?.courses);
+  const buckets = useMemo(() => bucketCourses(data?.courses), [data?.courses]);
+
+  // Auto-expand the top row of each tab if it's expandable and has discussions to show.
+  // Recomputed when data changes; user toggles in `manualOverrides` win.
+  const autoDefaults = useMemo<Record<string, boolean>>(() => {
+    const m: Record<string, boolean> = {};
+    for (const tab of ['in-progress', 'upcoming', 'past-courses'] as const) {
+      const top = buckets[tab][0];
+      if (top && isAutoExpandCandidate(top)) {
+        m[top.courseRegistration.id] = true;
+      }
+    }
+
+    return m;
+  }, [buckets]);
+
+  const [manualOverrides, setManualOverrides] = useState<Record<string, boolean>>({});
+  const expandedById = { ...autoDefaults, ...manualOverrides };
+
+  const handleToggleExpand = (id: string) => {
+    const current = expandedById[id] ?? false;
+    setManualOverrides((m) => ({ ...m, [id]: !current }));
+  };
+
   const visibleCourses = buckets[activeTab];
   const nextDiscussion = data?.nextDiscussion ?? null;
 
@@ -96,7 +120,12 @@ const MyCoursesPage = () => {
                 value={activeTab}
                 onChange={setActiveTab}
               />
-              <CourseList courses={visibleCourses} emptyMessage={EMPTY_MESSAGE[activeTab]} />
+              <CourseList
+                courses={visibleCourses}
+                emptyMessage={EMPTY_MESSAGE[activeTab]}
+                expandedById={expandedById}
+                onToggleExpand={handleToggleExpand}
+              />
             </>
           )}
         </div>
