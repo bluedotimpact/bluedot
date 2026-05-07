@@ -28,20 +28,16 @@ type MobileHeaderProps = {
   courseSlug: string;
   courseProgressData?: CourseProgress;
   onCourseMenuClick: () => void;
-} & MobileNavigation;
+  mobileNavigation?: MobileNavigation;
+};
 
 const MobileHeader: React.FC<MobileHeaderProps> = ({
   className,
   courseTitle,
   courseSlug,
-  prevUnit,
-  nextUnit,
-  isFirstChunk,
-  isLastChunk,
-  onPrevClick,
-  onNextClick,
   onCourseMenuClick,
   courseProgressData,
+  mobileNavigation,
 }) => (
   <div
     className={cn(
@@ -68,32 +64,34 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
         </div>
       </button>
       {/* Right side - navigation arrows */}
-      <div className="mobile-unit-header__navigation flex h-8 w-16 flex-row items-center p-0">
-        <button
-          type="button"
-          className="mobile-unit-header__prev-unit-cta focus:ring-color-primary flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
-          disabled={isFirstChunk && !prevUnit}
-          onClick={onPrevClick}
-          aria-label={isFirstChunk && prevUnit ? 'Previous unit' : 'Previous section'}
-        >
-          <ArrowRightIcon
-            aria-hidden="true"
-            className={cn('rotate-180', isFirstChunk && !prevUnit ? 'text-[#6A6F7A]' : 'text-bluedot-darker')}
-          />
-        </button>
-        <button
-          type="button"
-          className="mobile-unit-header__next-unit-cta focus:ring-color-primary flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
-          disabled={isLastChunk && !nextUnit}
-          onClick={onNextClick}
-          aria-label={isLastChunk && nextUnit ? 'Next unit' : 'Next section'}
-        >
-          <ArrowRightIcon
-            aria-hidden="true"
-            className={isLastChunk && !nextUnit ? 'text-[#6A6F7A]' : 'text-bluedot-darker'}
-          />
-        </button>
-      </div>
+      {mobileNavigation && (
+        <div className="mobile-unit-header__navigation flex h-8 w-16 flex-row items-center p-0">
+          <button
+            type="button"
+            className="mobile-unit-header__prev-unit-cta focus:ring-color-primary flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+            disabled={mobileNavigation.isFirstChunk && !mobileNavigation.prevUnit}
+            onClick={mobileNavigation.onPrevClick}
+            aria-label={mobileNavigation.isFirstChunk && mobileNavigation.prevUnit ? 'Previous unit' : 'Previous section'}
+          >
+            <ArrowRightIcon
+              aria-hidden="true"
+              className={cn('rotate-180', mobileNavigation.isFirstChunk && !mobileNavigation.prevUnit ? 'text-[#6A6F7A]' : 'text-bluedot-darker')}
+            />
+          </button>
+          <button
+            type="button"
+            className="mobile-unit-header__next-unit-cta focus:ring-color-primary flex size-8 flex-col items-center justify-center gap-2 rounded-full p-0 focus:ring-2 focus:ring-offset-2 focus:outline-none"
+            disabled={mobileNavigation.isLastChunk && !mobileNavigation.nextUnit}
+            onClick={mobileNavigation.onNextClick}
+            aria-label={mobileNavigation.isLastChunk && mobileNavigation.nextUnit ? 'Next unit' : 'Next section'}
+          >
+            <ArrowRightIcon
+              aria-hidden="true"
+              className={mobileNavigation.isLastChunk && !mobileNavigation.nextUnit ? 'text-[#6A6F7A]' : 'text-bluedot-darker'}
+            />
+          </button>
+        </div>
+      )}
       {courseProgressData && courseProgressData.courseProgress.totalCount > 0 && (
         <div className="absolute inset-x-0 bottom-0 h-1">
           <div
@@ -217,16 +215,14 @@ const CourseShell: React.FC<CourseShellProps> = ({
 
   return (
     <div>
-      {mobileNavigation && (
-        <MobileHeader
-          className="unit__mobile-header sticky top-(--nav-height-mobile) z-10 md:hidden"
-          courseTitle={courseTitle}
-          courseSlug={courseSlug}
-          courseProgressData={courseProgressData}
-          onCourseMenuClick={() => setIsMobileCourseMenuOpen(true)}
-          {...mobileNavigation}
-        />
-      )}
+      <MobileHeader
+        className="unit__mobile-header sticky top-(--nav-height-mobile) z-10 md:hidden"
+        courseTitle={courseTitle}
+        courseSlug={courseSlug}
+        courseProgressData={courseProgressData}
+        onCourseMenuClick={() => setIsMobileCourseMenuOpen(true)}
+        mobileNavigation={mobileNavigation}
+      />
 
       <div className="md:flex">
         {!isSidebarHidden && (
@@ -295,23 +291,21 @@ const CourseShell: React.FC<CourseShellProps> = ({
         </div>
       </div>
 
-      {mobileNavigation && (
-        <MobileCourseModal
-          isOpen={isMobileCourseMenuOpen}
-          setIsOpen={setIsMobileCourseMenuOpen}
-          certificateData={certificateData}
-          courseTitle={courseTitle}
-          courseSlug={courseSlug}
-          units={units}
-          currentUnitNumber={currentUnitNumber}
-          currentChunkIndex={currentChunkIndex}
-          onChunkSelect={onChunkSelect}
-          onUnitSelect={onUnitSelect}
-          unitChunks={allUnitChunks}
-          applyCTAProps={applyCTAProps}
-          courseProgressData={courseProgressData}
-        />
-      )}
+      <MobileCourseModal
+        isOpen={isMobileCourseMenuOpen}
+        setIsOpen={setIsMobileCourseMenuOpen}
+        certificateData={certificateData}
+        courseTitle={courseTitle}
+        courseSlug={courseSlug}
+        units={units}
+        currentUnitNumber={currentUnitNumber}
+        currentChunkIndex={currentChunkIndex}
+        onChunkSelect={onChunkSelect}
+        onUnitSelect={onUnitSelect}
+        unitChunks={allUnitChunks}
+        applyCTAProps={applyCTAProps}
+        courseProgressData={courseProgressData}
+      />
     </div>
   );
 };
