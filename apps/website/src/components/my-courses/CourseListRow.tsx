@@ -1,3 +1,6 @@
+import type {
+  Course, CourseRegistration, Group, GroupDiscussion, Unit,
+} from '@bluedot/db';
 import {
   CTALinkOrButton, OverflowMenu, Tooltip, type OverflowMenuItemProps, addQueryParam,
 } from '@bluedot/ui';
@@ -12,92 +15,102 @@ import { buildGroupSlackChannelUrl, formatMonthAndDay, getActionPlanUrl } from '
 import DropoutModal from '../courses/DropoutModal';
 import GroupSwitchModal, { type SwitchType } from '../courses/GroupSwitchModal';
 import DiscussionList from './DiscussionList';
-import type { EnrichedCourse } from './CourseList';
 
-const classifyCourseRegistration = (cr: EnrichedCourse['courseRegistration']) => {
+export type CourseListRowProps = {
+  courseRegistration: CourseRegistration;
+  course: Course;
+  group: Group | null;
+  facilitatorNames: string[];
+  meetPersonId: string | null;
+  roundId: string | null;
+  discussions: GroupDiscussion[];
+  attendedDiscussionIds: string[];
+  units: Record<string, Unit>;
+  slackChannelId: string | null;
+  activityDoc: string | null;
+  roundStartDate: string | null;
+  roundEndDate: string | null;
+  numUnits: number | null;
+  uniqueDiscussionAttendance: number | null;
+  hasSubmittedActionPlan: boolean;
+  feedbackFormUrl: string | null;
+  hasSubmittedFeedback: boolean;
+};
+
+const classifyCourseRegistration = (cr: CourseRegistration) => {
   if (cr.dropoutId?.length && !cr.deferredId?.length) return 'dropped';
   if (cr.roundStatus === 'Active') return 'in-progress';
   if (cr.roundStatus === 'Future') return 'upcoming';
   return 'completed';
 };
 
-const recurringScheduleParts = (
-  group: EnrichedCourse['group'],
-  facilitatorNames: string[],
-): string[] => {
-  const parts: string[] = [];
-  if (group?.startTimeUtc) {
-    const date = new Date(group.startTimeUtc * 1000);
-    const weekday = date.toLocaleDateString('en-US', { weekday: 'long' });
-    const time = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
-    parts.push(`${weekday}s, ${time}`);
-  }
-
-  if (facilitatorNames.length > 0) parts.push(`Facilitated by ${facilitatorNames.join(', ')}`);
-  return parts;
-};
-
-// Render subtitle parts so they wrap onto separate lines on mobile (no dot) and join inline
-// with a ` · ` separator on desktop.
-const renderParts = (parts: ReactNode[]): ReactNode | null => {
-  const filtered = parts.filter((p) => p !== null && p !== undefined && p !== '');
-  if (filtered.length === 0) return null;
-  return (
-    <>
-      {filtered.map((part, i) => (
-        <Fragment key={i}>
-          {i > 0 && <span className="hidden sm:inline"> · </span>}
-          <span className={`block sm:inline ${i > 0 ? 'mt-0.5 sm:mt-0' : ''}`}>{part}</span>
-        </Fragment>
-      ))}
-    </>
-  );
+const formatWeeklySchedule = (group: Group | null): string | null => {
+  if (!group?.startTimeUtc) return null;
+  const date = new Date(group.startTimeUtc * 1000);
+  const weekday = date.toLocaleDateString('en-US', { weekday: 'long' });
+  const time = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+  return `${weekday}s, ${time}`;
 };
 
 const formatRoundDateRange = (start: string, end: string): string => {
-  const s = new Date(start);
-  const e = new Date(end);
-  const opts = (year?: 'numeric') => ({
-    month: 'short', day: 'numeric', timeZone: 'UTC', ...(year && { year }),
-  } as const);
-  if (s.getUTCFullYear() !== e.getUTCFullYear()) {
-    return `${s.toLocaleDateString('en-US', opts('numeric'))} – ${e.toLocaleDateString('en-US', opts('numeric'))}`;
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+  const sameYear = startDate.getUTCFullYear() === endDate.getUTCFullYear();
+  const sameMonth = sameYear && startDate.getUTCMonth() === endDate.getUTCMonth();
+  const startStr = startDate.toLocaleDateString('en-US', sameYear
+    ? { month: 'short', day: 'numeric', timeZone: 'UTC' }
+    : {
+      month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC',
+    });
+  if (sameMonth) {
+    return `${startStr} – ${endDate.getUTCDate()}, ${endDate.getUTCFullYear()}`;
   }
 
-  if (s.getUTCMonth() !== e.getUTCMonth()) {
-    return `${s.toLocaleDateString('en-US', opts())} – ${e.toLocaleDateString('en-US', opts('numeric'))}`;
-  }
-
-  return `${s.toLocaleDateString('en-US', opts())} – ${e.getUTCDate()}, ${e.getUTCFullYear()}`;
+  const endStr = endDate.toLocaleDateString('en-US', {
+    month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC',
+  });
+  return `${startStr} – ${endStr}`;
 };
 
-// TODO cut this comment
-// Subtitle precedence chain — first matching branch wins. Ported from legacy `getSubtitle`
-// (apps/website/src/components/settings/CourseList.tsx) and edited for the v2 design. Each
-// branch answers a specific user question (see gh-settings-courses/legacy-behaviours.md for
-// the full audit and design decisions).
 export const getSubtitle = ({
   courseRegistration,
   group,
   facilitatorNames,
-  discussions,
   numUnits,
   uniqueDiscussionAttendance,
   isNotInGroup,
   roundStartDate,
   roundEndDate,
 }: {
-  courseRegistration: EnrichedCourse['courseRegistration'];
-  group: EnrichedCourse['group'];
+  courseRegistration: CourseRegistration;
+  group: Group | null;
   facilitatorNames: string[];
-  discussions: EnrichedCourse['discussions'];
   numUnits: number | null;
   uniqueDiscussionAttendance: number | null;
   isNotInGroup: boolean;
   roundStartDate: string | null;
   roundEndDate: string | null;
 }): ReactNode => {
-  // 1. Future row: application status + optional "Course starts {date}".
+  const renderParts = (parts: ReactNode[]): ReactNode | null => {
+    const filtered = parts.filter((p) => p != null && p !== '');
+    if (filtered.length === 0) return null;
+    return (
+      <>
+        {filtered.map((part, i) => (
+          <Fragment key={i}>
+            {i > 0 && <span className="hidden sm:inline"> · </span>}
+            <span className={`block sm:inline ${i > 0 ? 'mt-0.5 sm:mt-0' : ''}`}>{part}</span>
+          </Fragment>
+        ))}
+      </>
+    );
+  };
+
+  const state = classifyCourseRegistration(courseRegistration);
+  const dateRange = roundStartDate && roundEndDate ? formatRoundDateRange(roundStartDate, roundEndDate) : null;
+  const facilitatorDisplay = facilitatorNames.length > 0 ? `Facilitated by ${facilitatorNames.join(', ')}` : null;
+
+  // Future
   if (courseRegistration.roundStatus === 'Future') {
     let statusText: string;
     switch (courseRegistration.decision) {
@@ -118,33 +131,26 @@ export const getSubtitle = ({
     ]);
   }
 
-  // 2. Past + cert: course-duration date range, e.g. "Mar 10 – 17, 2026".
-  //    (Legacy showed "Completed on Apr 1, 2026" + checkmark; v2 design uses the round range.)
-  if (courseRegistration.certificateCreatedAt && roundStartDate && roundEndDate) {
-    return renderParts([
-      formatRoundDateRange(roundStartDate, roundEndDate),
-      facilitatorNames.length > 0 ? `Facilitated by ${facilitatorNames.join(', ')}` : null,
-    ]);
+  // Past + cert
+  if (courseRegistration.certificateCreatedAt && dateRange) {
+    return renderParts([dateRange, facilitatorDisplay]);
   }
 
-  // 3. Past + no cert: date range + "You attended N out of M discussions". The attendance line
-  //    is suppressed when numUnits is 0 / unknown (e.g. FOAI which is self-paced, no discussions).
-  const isPast = courseRegistration.roundStatus === 'Past';
-  if (isPast && !courseRegistration.certificateCreatedAt) {
+  // Past + no cert
+  if (state === 'completed' && !courseRegistration.certificateCreatedAt) {
     const showAttendance = numUnits != null && numUnits > 0;
     return renderParts([
-      roundStartDate && roundEndDate ? formatRoundDateRange(roundStartDate, roundEndDate) : null,
+      dateRange,
       showAttendance ? `You attended ${uniqueDiscussionAttendance ?? 0} out of ${numUnits} discussions` : null,
     ]);
   }
 
-  // 3b. Dropped: course-duration date range, identifies which round they dropped out of.
-  const isDropped = (courseRegistration.dropoutId?.length ?? 0) > 0 && (courseRegistration.deferredId?.length ?? 0) === 0;
-  if (isDropped && roundStartDate && roundEndDate) {
-    return formatRoundDateRange(roundStartDate, roundEndDate);
+  // Dropped
+  if (state === 'dropped' && dateRange) {
+    return dateRange;
   }
 
-  // 4. Accepted-Active but not yet placed in a group.
+  // Accepted, not yet placed in a group
   if (isNotInGroup) {
     return renderParts([
       <span key="assigning">
@@ -155,26 +161,15 @@ export const getSubtitle = ({
     ]);
   }
 
-  // 5. Active (default fall-through): recurring schedule + facilitator.
-  //    Legacy v1 had "Unit N/M · groupName" here; v2 design swaps that for the schedule.
-  const scheduleParts = recurringScheduleParts(group, facilitatorNames);
-  if (scheduleParts.length > 0 || discussions.length > 0) {
-    return renderParts(scheduleParts);
-  }
-
-  return null;
+  // In-progress (default): recurring schedule + facilitator
+  return renderParts([formatWeeklySchedule(group), facilitatorDisplay]);
 };
 
-type CourseListRowProps = {
-  course: EnrichedCourse;
-};
-
-const CourseListRow = ({ course: c }: CourseListRowProps) => {
-  const {
-    course, courseRegistration, group, facilitatorNames, discussions, attendedDiscussionIds, units, roundId,
-    slackChannelId, activityDoc, roundStartDate, roundEndDate, meetPersonId,
-    numUnits, uniqueDiscussionAttendance, hasSubmittedActionPlan, feedbackFormUrl, hasSubmittedFeedback,
-  } = c;
+const CourseListRow = ({
+  course, courseRegistration, group, facilitatorNames, discussions, attendedDiscussionIds, units, roundId,
+  slackChannelId, activityDoc, roundStartDate, roundEndDate, meetPersonId,
+  numUnits, uniqueDiscussionAttendance, hasSubmittedActionPlan, feedbackFormUrl, hasSubmittedFeedback,
+}: CourseListRowProps) => {
   const state = classifyCourseRegistration(courseRegistration);
   const [isExpanded, setIsExpanded] = useState(state === 'in-progress');
   const [dropoutOpen, setDropoutOpen] = useState(false);
@@ -188,7 +183,6 @@ const CourseListRow = ({ course: c }: CourseListRowProps) => {
     courseRegistration,
     group,
     facilitatorNames,
-    discussions,
     numUnits,
     uniqueDiscussionAttendance,
     isNotInGroup,
