@@ -116,7 +116,6 @@ export const createMockCourse = (overrides: Partial<Course> = {}): Course => ({
   certificationDescription: 'Certificate description',
   detailsUrl: 'https://example.com',
   displayOnCourseHubIndex: true,
-  durationDescription: '4 weeks',
   durationHours: 40,
   id: MOCK_COURSE_ID,
 

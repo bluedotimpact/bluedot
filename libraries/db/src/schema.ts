@@ -79,10 +79,6 @@ export const courseTable = pgAirtable('course', {
       pgColumn: boolean(),
       airtableId: 'fldf7ppu9kN4blXU9',
     },
-    durationDescription: {
-      pgColumn: text(),
-      airtableId: 'fldHxekJ6BioQMF3e',
-    },
     durationHours: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fld77qMwZ1de2owvx',
@@ -151,6 +147,11 @@ export const courseTable = pgAirtable('course', {
     level: {
       pgColumn: text(),
       airtableId: 'fldkL7aWITGCPqzxc',
+      deprecated: true,
+    },
+    durationDescription: {
+      pgColumn: text(),
+      airtableId: 'fldHxekJ6BioQMF3e',
       deprecated: true,
     },
   },

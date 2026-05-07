@@ -9,7 +9,6 @@ const mockCourses = [
     slug: 'future-of-ai',
     title: 'The Future of AI',
     durationHours: 1,
-    durationDescription: '1 hour',
     displayOnCourseHubIndex: true,
   }),
   createMockCourse({
@@ -17,7 +16,6 @@ const mockCourses = [
     slug: 'ai-governance',
     title: 'AI Governance',
     durationHours: 30,
-    durationDescription: '8 weeks',
     displayOnCourseHubIndex: true,
   }),
   createMockCourse({
@@ -25,7 +23,6 @@ const mockCourses = [
     slug: 'agi-strategy',
     title: 'AGI Strategy',
     durationHours: 30,
-    durationDescription: '5 days',
     displayOnCourseHubIndex: true,
   }),
   createMockCourse({
@@ -33,7 +30,6 @@ const mockCourses = [
     slug: 'technical-ai-safety',
     title: 'Technical AI Safety',
     durationHours: 30,
-    durationDescription: '8 weeks',
     displayOnCourseHubIndex: true,
     isNew: true,
   }),
@@ -42,7 +38,6 @@ const mockCourses = [
     slug: 'biosecurity',
     title: 'Biosecurity',
     durationHours: 30,
-    durationDescription: '8 weeks',
     displayOnCourseHubIndex: true,
     isNew: true,
   }),

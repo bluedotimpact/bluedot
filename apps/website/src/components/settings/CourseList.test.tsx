@@ -29,7 +29,6 @@ describe('CourseList', () => {
   const mockCourse = createMockCourse({
     id: 'course-1',
     title: 'Introduction to AI Safety',
-    durationDescription: '8 weeks',
     slug: 'ai-safety',
   });
 
