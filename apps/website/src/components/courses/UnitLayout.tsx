@@ -133,7 +133,6 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       currentUnitNumber={parseInt(unitNumber, 10)}
       currentChunkIndex={chunkIndex}
       onChunkSelect={handleChunkSelect}
-      onUnitSelect={(unitPath) => router.push(unitPath)}
       applyCTAProps={applyCTAProps}
       courseProgressData={courseProgressData}
       onNavigate={setNavigationAnnouncement}

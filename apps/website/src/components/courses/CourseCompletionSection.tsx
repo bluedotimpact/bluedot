@@ -131,7 +131,7 @@ export default function CourseCompletionSection({
 
     return (
       <div className={cn('flex flex-col gap-8', className)}>
-        <div className="flex flex-col items-center gap-8 pt-24 pb-4 text-center max-w-[640px] mx-auto">
+        <div className="flex flex-col items-center gap-8 py-4 text-center max-w-[640px] mx-auto">
           <SocialProof accentColor={accentColor} />
           <div className="flex flex-col gap-3">
             {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
