@@ -73,24 +73,30 @@ const MyCoursesPage = () => {
         <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
       </Head>
       <MyBlueDotLayout route={CURRENT_ROUTE}>
-        <div className="flex flex-col gap-6">
-          {nextDiscussion && (
-            <NextDiscussionSection
-              courseSlug={nextDiscussion.courseSlug}
-              discussion={nextDiscussion.discussion}
-              unit={nextDiscussion.unit}
-            />
+        <div className="flex min-h-[60vh] flex-col gap-6">
+          {isLoading && (
+            <div className="flex flex-1 items-center justify-center">
+              <ProgressDots />
+            </div>
           )}
-          <TabPills
-            ariaLabel="Course filter"
-            tabs={TABS}
-            value={activeTab}
-            onChange={setActiveTab}
-          />
-          {isLoading && <ProgressDots />}
           {error && <ErrorSection error={error} />}
           {!isLoading && !error && data && (
-            <CourseList courses={visibleCourses} emptyMessage={EMPTY_MESSAGE[activeTab]} />
+            <>
+              {nextDiscussion && (
+                <NextDiscussionSection
+                  courseSlug={nextDiscussion.courseSlug}
+                  discussion={nextDiscussion.discussion}
+                  unit={nextDiscussion.unit}
+                />
+              )}
+              <TabPills
+                ariaLabel="Course filter"
+                tabs={TABS}
+                value={activeTab}
+                onChange={setActiveTab}
+              />
+              <CourseList courses={visibleCourses} emptyMessage={EMPTY_MESSAGE[activeTab]} />
+            </>
           )}
         </div>
       </MyBlueDotLayout>
