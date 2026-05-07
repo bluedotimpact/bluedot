@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import { render } from '@testing-library/react';
 import {
-  createMockCourseRegistration, createMockGroup, createMockGroupDiscussion,
+  createMockCourseRegistration, createMockGroup,
 } from '../../__tests__/testUtils';
 import { getSubtitle } from './CourseListRow';
 
@@ -21,7 +21,6 @@ const buildArgs = (overrides: Partial<Args> = {}): Args => ({
   courseRegistration: createMockCourseRegistration(),
   group: createMockGroup({ startTimeUtc: new Date('2026-05-13T16:00:00Z').getTime() / 1000 }),
   facilitatorNames: ['Shivam Arora'],
-  discussions: [],
   numUnits: null,
   uniqueDiscussionAttendance: null,
   isNotInGroup: false,
@@ -194,27 +193,17 @@ describe('getSubtitle precedence', () => {
     })))).toBe('We\'re assigning you to a group, you\'ll receive an email from us within the next few days · Course starts 10 Mar');
   });
 
-  test('Active with discussions → recurring schedule', () => {
-    const discussions = [createMockGroupDiscussion({ unitNumber: 1, id: 'disc-1' })];
+  test('Active with group → recurring schedule', () => {
     expect(renderText(getSubtitle(buildArgs({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Active' }),
-      discussions,
     })))).toBe('Wednesdays, 4:00 PM · Facilitated by Shivam Arora');
   });
 
-  test('Active without discussions but with group → recurring schedule', () => {
-    expect(renderText(getSubtitle(buildArgs({
-      courseRegistration: createMockCourseRegistration({ roundStatus: 'Active' }),
-      discussions: [],
-    })))).toBe('Wednesdays, 4:00 PM · Facilitated by Shivam Arora');
-  });
-
-  test('Active without group/facilitators/discussions → empty', () => {
+  test('Active without group/facilitators → empty', () => {
     expect(renderText(getSubtitle(buildArgs({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Active' }),
       group: null,
       facilitatorNames: [],
-      discussions: [],
     })))).toBe('');
   });
 

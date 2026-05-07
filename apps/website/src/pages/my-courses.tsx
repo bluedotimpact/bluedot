@@ -2,7 +2,8 @@ import { ErrorSection, ProgressDots } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import MyBlueDotLayout from '../components/MyBlueDotLayout';
-import CourseList, { type EnrichedCourse } from '../components/my-courses/CourseList';
+import CourseList from '../components/my-courses/CourseList';
+import type { CourseListRowProps } from '../components/my-courses/CourseListRow';
 import NextDiscussionSection from '../components/my-courses/NextDiscussionSection';
 import TabPills from '../components/my-courses/TabPills';
 import { ROUTES } from '../lib/routes';
@@ -29,7 +30,7 @@ const EMPTY_MESSAGE: Record<CourseTab, string> = {
 // Past Courses bundles completed + facilitated + dropped. Deferred registrations are excluded —
 // they appear via their next-round registration in another bucket. Sort puts no-cert first
 // (nudges users to complete) then certificate date desc.
-export const bucketCourses = (courses: EnrichedCourse[] | undefined): Record<CourseTab, EnrichedCourse[]> => {
+export const bucketCourses = (courses: CourseListRowProps[] | undefined): Record<CourseTab, CourseListRowProps[]> => {
   const eligible = (courses ?? [])
     .filter(({ courseRegistration: cr }) => cr.roundStatus === 'Active' || cr.roundStatus === 'Past' || cr.roundStatus === 'Future' || cr.certificateCreatedAt)
     .filter(({ courseRegistration: cr }) => cr.decision !== 'Reject' || cr.roundStatus === 'Future');
