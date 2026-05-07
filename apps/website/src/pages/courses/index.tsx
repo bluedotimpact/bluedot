@@ -58,7 +58,6 @@ const CoursesPage = () => {
                         courseWorkload: `PT${course.durationHours}H`,
                       } : {},
                     }],
-                    educationalLevel: course.level,
                     educationalCredentialAwarded: [{
                       '@type': 'EducationalOccupationalCredential',
                       name: 'BlueDot Certificate',

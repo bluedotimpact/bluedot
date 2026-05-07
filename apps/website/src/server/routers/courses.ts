@@ -200,6 +200,7 @@ export const coursesRouter = router({
           courseSlug,
           unitStatus: 'Active',
         },
+        sortBy: { field: 'id' },
       });
 
       if (!unit) {

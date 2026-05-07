@@ -103,10 +103,6 @@ export const courseTable = pgAirtable('course', {
       pgColumn: text().array().notNull(),
       airtableId: 'fldxi3h4LD2Bs3efO',
     },
-    level: {
-      pgColumn: text(),
-      airtableId: 'fldkL7aWITGCPqzxc',
-    },
     averageRating: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldONpnyJ4OG0StDY',
@@ -150,6 +146,11 @@ export const courseTable = pgAirtable('course', {
     description: {
       pgColumn: text(),
       airtableId: 'fldCX0bk6SQuXZaI7',
+      deprecated: true,
+    },
+    level: {
+      pgColumn: text(),
+      airtableId: 'fldkL7aWITGCPqzxc',
       deprecated: true,
     },
   },
@@ -1109,27 +1110,30 @@ export const unitTable = pgAirtable('unit', {
       pgColumn: text().notNull(),
       airtableId: 'fldpJLWVPh0IXHfmm',
     },
-    learningOutcomes: {
-      pgColumn: text(),
-      airtableId: 'fld9vAMgn0Fm7x6Xf',
-    },
-    unitPodcastUrl: {
-      pgColumn: text(),
-      airtableId: 'fldwByN7lbmcjc3Fj',
-    },
     unitStatus: {
       pgColumn: text().notNull(),
       airtableId: 'fldFJbY40IjPXer1Q',
-    },
-    autoNumberId: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fld1rl39p5fSOiFya',
     },
   },
   deprecatedColumns: {
     coursePath: {
       pgColumn: text(),
       airtableId: 'fldlCrg7Nv1TPTorZ',
+      deprecated: true,
+    },
+    learningOutcomes: {
+      pgColumn: text(),
+      airtableId: 'fld9vAMgn0Fm7x6Xf',
+      deprecated: true,
+    },
+    unitPodcastUrl: {
+      pgColumn: text(),
+      airtableId: 'fldwByN7lbmcjc3Fj',
+      deprecated: true,
+    },
+    autoNumberId: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fld1rl39p5fSOiFya',
       deprecated: true,
     },
   },
