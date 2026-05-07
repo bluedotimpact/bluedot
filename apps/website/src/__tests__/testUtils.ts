@@ -116,13 +116,11 @@ export const createMockCourse = (overrides: Partial<Course> = {}): Course => ({
   certificationDescription: 'Certificate description',
   detailsUrl: 'https://example.com',
   displayOnCourseHubIndex: true,
-  durationDescription: '4 weeks',
   durationHours: 40,
   id: MOCK_COURSE_ID,
 
   isFeatured: false,
   isNew: false,
-  level: 'Beginner',
   publicLastUpdated: null,
   shortDescription: 'Short description',
   slug: 'course-slug',
@@ -161,7 +159,6 @@ export const createMockCourseRegistration = (overrides: Partial<CourseRegistrati
 });
 
 export const createMockUnit = (overrides: Partial<Unit> = {}): Unit => ({
-  autoNumberId: 1,
   chunks: ['recuC87TILbjW4eF4'],
   content: null,
   courseId: MOCK_COURSE_ID,
@@ -172,12 +169,10 @@ export const createMockUnit = (overrides: Partial<Unit> = {}): Unit => ({
   duration: 30,
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   id: `unit-${overrides.unitNumber || 1}`,
-  learningOutcomes: null,
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   path: `/courses/test-course/${overrides.unitNumber || '1'}`,
   title: 'Unit title',
   unitNumber: '1',
-  unitPodcastUrl: '',
   unitStatus: 'Active',
   ...overrides,
 });

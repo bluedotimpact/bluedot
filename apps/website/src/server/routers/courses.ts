@@ -194,19 +194,11 @@ export const coursesRouter = router({
     .query(async ({ input }) => {
       const { courseSlug, unitId } = input;
 
-      const unit = await db.getFirst(unitTable, {
-        filter: {
-          id: unitId,
-          courseSlug,
-          unitStatus: 'Active',
-        },
+      return db.get(unitTable, {
+        id: unitId,
+        courseSlug,
+        unitStatus: 'Active',
       });
-
-      if (!unit) {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'Unit not found' });
-      }
-
-      return unit;
     }),
 
   getBySlug: publicProcedure
