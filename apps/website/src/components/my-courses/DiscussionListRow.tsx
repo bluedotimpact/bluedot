@@ -3,9 +3,9 @@ import type { GroupDiscussion, Unit } from '@bluedot/db';
 import { useState } from 'react';
 import { IoBan, IoCheckmark } from 'react-icons/io5';
 import { downloadDiscussionCalendarFile } from '../../lib/downloadCalendarFile';
-import { formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
+import TimeWidget from './TimeWidget';
 
-type DiscussionStatus = 'upcoming' | 'live' | 'attended' | 'absent';
+type DiscussionStatus = 'upcoming' | 'soon' | 'live' | 'attended' | 'absent';
 
 type DiscussionListRowProps = {
   discussion: GroupDiscussion;
@@ -33,8 +33,6 @@ const DiscussionListRow = ({
     }
   };
 
-  const date = formatDateMonthAndDay(discussion.startDateTime);
-  const time = formatTime12HourClock(discussion.startDateTime);
   const unitNumber = unit?.unitNumber ?? discussion.unitNumber;
   const unitLabel = unitNumber !== null ? `UNIT ${unitNumber}` : 'UNIT';
   const title = unit?.title ?? 'Discussion';
@@ -47,33 +45,24 @@ const DiscussionListRow = ({
     onAction: handleDownloadCalendar,
   };
 
+  const showJoinNow = status === 'soon' || status === 'live';
+  const showSchedulingActions = status === 'upcoming' || status === 'soon' || status === 'live';
+
   return (
     <li className="flex items-center gap-5 py-4 not-last:border-b not-last:border-color-divider">
-      <div
-        aria-hidden
-        className="flex shrink-0 flex-col items-center justify-center rounded border border-color-divider px-3 py-[7px] text-bluedot-navy"
-      >
-        <span className="text-size-xs font-semibold">{date}</span>
-        <span className="text-size-xxs font-medium text-gray-500">{time}</span>
-      </div>
+      <TimeWidget isLive={status === 'live'} dateTimeSeconds={discussion.startDateTime} />
       <div className="min-w-0 flex-1">
         <p className="text-size-xxs font-semibold text-bluedot-black">{unitLabel}</p>
-        <p className="mt-px text-size-sm font-semibold text-bluedot-navy">{title}</p>
+        <p className="text-size-sm font-semibold leading-[24px] text-bluedot-black">{title}</p>
         {downloadError && (
           <p className="mt-1 text-size-xxs text-red-600" role="alert" aria-live="polite">{downloadError}</p>
         )}
       </div>
       <div className="flex shrink-0 items-center gap-3">
-        {status === 'upcoming' && (
+        {showSchedulingActions && (
           <>
             <CTALinkOrButton variant="secondary" size="small" onClick={onReschedule}>Reschedule</CTALinkOrButton>
-            <OverflowMenu ariaLabel="Discussion actions" items={[calendarItem]} />
-          </>
-        )}
-        {status === 'live' && (
-          <>
-            <CTALinkOrButton variant="secondary" size="small" onClick={onReschedule}>Reschedule</CTALinkOrButton>
-            {joinHref && (
+            {showJoinNow && joinHref && (
               <CTALinkOrButton variant="primary" size="small" url={joinHref} target="_blank">Join now</CTALinkOrButton>
             )}
             <OverflowMenu ariaLabel="Discussion actions" items={[calendarItem]} />

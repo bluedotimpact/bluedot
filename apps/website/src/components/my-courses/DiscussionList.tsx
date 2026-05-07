@@ -21,14 +21,13 @@ const DiscussionList = ({
     <ul className="px-6">
       {discussions.map((discussion) => {
         const timeState = getDiscussionTimeState({ discussion, currentTimeMs });
-        const isPast = timeState === 'ended';
-        const isLive = timeState === 'live';
         const isAttended = attendedSet.has(discussion.id);
 
-        let status: 'upcoming' | 'live' | 'attended' | 'absent';
+        let status: 'upcoming' | 'soon' | 'live' | 'attended' | 'absent';
         if (isAttended) status = 'attended';
-        else if (isLive) status = 'live';
-        else if (isPast) status = 'absent';
+        else if (timeState === 'live') status = 'live';
+        else if (timeState === 'soon') status = 'soon';
+        else if (timeState === 'ended') status = 'absent';
         else status = 'upcoming';
 
         const unit = units[discussion.id] ?? null;

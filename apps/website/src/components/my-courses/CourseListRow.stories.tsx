@@ -27,6 +27,8 @@ const stub = (overrides: Partial<CourseListRowProps> = {}): CourseListRowProps =
   hasSubmittedActionPlan: false,
   feedbackFormUrl: null,
   hasSubmittedFeedback: false,
+  isExpanded: false,
+  onToggleExpand: () => {},
   ...overrides,
 });
 
