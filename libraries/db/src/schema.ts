@@ -312,6 +312,10 @@ export const groupTable = pgAirtable('group', {
       pgColumn: text(),
       airtableId: 'fldDE9zdLglu33Z1V',
     },
+    discussionDoc: {
+      pgColumn: text(),
+      airtableId: 'fldtERcBHJfq8UeGX',
+    },
   },
 });
 
