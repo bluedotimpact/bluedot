@@ -18,16 +18,14 @@ import DiscussionList from './DiscussionList';
 
 export type CourseListRowProps = {
   courseRegistration: CourseRegistration;
-  course: Course;
-  group: Group | null;
+  course: Pick<Course, 'slug' | 'title'>;
+  group: Pick<Group, 'startTimeUtc' | 'slackChannelId' | 'discussionDoc'> | null;
   facilitatorNames: string[];
   meetPersonId: string | null;
   roundId: string | null;
   discussions: GroupDiscussion[];
   attendedDiscussionIds: string[];
   units: Record<string, Unit>;
-  slackChannelId: string | null;
-  activityDoc: string | null;
   roundStartDate: string | null;
   roundEndDate: string | null;
   numUnits: number | null;
@@ -44,7 +42,7 @@ const classifyCourseRegistration = (cr: CourseRegistration) => {
   return 'completed';
 };
 
-const formatWeeklySchedule = (group: Group | null): string | null => {
+const formatWeeklySchedule = (group: Pick<Group, 'startTimeUtc'> | null): string | null => {
   if (!group?.startTimeUtc) return null;
   const date = new Date(group.startTimeUtc * 1000);
   const weekday = date.toLocaleDateString('en-US', { weekday: 'long' });
@@ -83,7 +81,7 @@ export const getSubtitle = ({
   roundEndDate,
 }: {
   courseRegistration: CourseRegistration;
-  group: Group | null;
+  group: Pick<Group, 'startTimeUtc'> | null;
   facilitatorNames: string[];
   numUnits: number | null;
   uniqueDiscussionAttendance: number | null;
@@ -167,7 +165,7 @@ export const getSubtitle = ({
 
 const CourseListRow = ({
   course, courseRegistration, group, facilitatorNames, discussions, attendedDiscussionIds, units, roundId,
-  slackChannelId, activityDoc, roundStartDate, roundEndDate, meetPersonId,
+  roundStartDate, roundEndDate, meetPersonId,
   numUnits, uniqueDiscussionAttendance, hasSubmittedActionPlan, feedbackFormUrl, hasSubmittedFeedback,
 }: CourseListRowProps) => {
   const state = classifyCourseRegistration(courseRegistration);
@@ -221,8 +219,8 @@ const CourseListRow = ({
   const showLockedCert = state === 'completed' && hasCert && !hasSubmittedFeedback && feedbackFormUrl;
   const applyAgainUrl = `/courses/${course.slug}`;
   const showActionPlan = state === 'completed' && !hasCert && isFacilitatedCourse && meetPersonId;
-  const slackUrl = slackChannelId ? buildGroupSlackChannelUrl(slackChannelId) : null;
-  const docUrl = activityDoc;
+  const slackUrl = group?.slackChannelId ? buildGroupSlackChannelUrl(group.slackChannelId) : null;
+  const docUrl = group?.discussionDoc ?? null;
 
   const overflowItems: OverflowMenuItemProps[] = [];
   if (docUrl) {

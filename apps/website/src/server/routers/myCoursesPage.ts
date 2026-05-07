@@ -124,11 +124,6 @@ export const myCoursesPageRouter = router({
         if (unit) courseUnits[d.id] = unit;
       }
 
-      // slackChannelId and activityDoc live on group_discussion. They're shared across
-      // a group's discussions, so any non-empty value works as the course-level link.
-      const slackChannelId = courseDiscussions.find((d) => d.slackChannelId)?.slackChannelId ?? null;
-      const activityDoc = courseDiscussions.find((d) => d.activityDoc)?.activityDoc ?? null;
-
       return [{
         courseRegistration: cr,
         course,
@@ -139,8 +134,6 @@ export const myCoursesPageRouter = router({
         discussions: courseDiscussions,
         attendedDiscussionIds: meetPerson?.attendedDiscussions ?? [],
         units: courseUnits,
-        slackChannelId,
-        activityDoc,
         roundStartDate: cr.roundId ? roundById.get(cr.roundId)?.firstDiscussionDate ?? null : null,
         roundEndDate: cr.roundId ? roundById.get(cr.roundId)?.lastDiscussionDate ?? null : null,
         numUnits: meetPerson?.numUnits ?? null,
