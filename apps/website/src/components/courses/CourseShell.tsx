@@ -114,7 +114,6 @@ export type CourseShellProps = {
   currentUnitNumber?: number;
   currentChunkIndex?: number;
   onChunkSelect?: (index: number) => void;
-  onUnitSelect?: (unitPath: string) => void;
   applyCTAProps?: ApplyCTAProps;
   courseProgressData?: CourseProgress;
   breadcrumb: ReactNode;
@@ -133,7 +132,6 @@ const CourseShell: React.FC<CourseShellProps> = ({
   currentUnitNumber = 0,
   currentChunkIndex = 0,
   onChunkSelect = () => {},
-  onUnitSelect,
   applyCTAProps,
   courseProgressData,
   breadcrumb,
@@ -301,7 +299,7 @@ const CourseShell: React.FC<CourseShellProps> = ({
         currentUnitNumber={currentUnitNumber}
         currentChunkIndex={currentChunkIndex}
         onChunkSelect={onChunkSelect}
-        onUnitSelect={onUnitSelect}
+        onUnitSelect={(unitPath) => router.push(unitPath)}
         unitChunks={allUnitChunks}
         applyCTAProps={applyCTAProps}
         courseProgressData={courseProgressData}
