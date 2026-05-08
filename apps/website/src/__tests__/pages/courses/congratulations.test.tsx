@@ -100,14 +100,13 @@ describe('CongratulationsPage', () => {
     });
   });
 
-  test('renders content when user can request certificate', async () => {
-    server.use(trpcMsw.certificates.getStatus.query(() => ({ status: 'can-request' as const })));
+  test('redirects when FOAI exercises are still incomplete', async () => {
+    server.use(trpcMsw.certificates.getStatus.query(() => ({ status: 'exercises-incomplete' as const })));
 
-    const { container } = render(<CongratulationsPage {...DEFAULT_PROPS} />, { wrapper: TrpcProvider });
+    render(<CongratulationsPage {...DEFAULT_PROPS} />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
-      expect(mockReplace).not.toHaveBeenCalled();
-      expect(container.querySelector('.sidebar')).not.toBeNull();
+      expect(mockReplace).toHaveBeenCalledWith('/courses/test-course/1/1');
     });
   });
 
