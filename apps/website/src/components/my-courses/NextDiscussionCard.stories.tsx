@@ -10,7 +10,7 @@ const meta = {
     month: 'Apr',
     day: 28,
     title: 'Detecting danger',
-    datetimeLabel: 'April 28, 2026, 4:00 - 5:00 PM',
+    datetimeLabel: 'Apr 28, 4:00 PM - 5:00 PM',
     primaryHref: '/courses/technical-ai-safety/3/1',
     onReschedule: () => {},
   },
@@ -20,7 +20,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Next: Story = {
-  args: { state: 'next', eyebrow: 'UNIT 3' },
+  args: { state: 'next', eyebrow: 'TECHNICAL AI SAFETY: UNIT 3' },
 };
 
 export const StartingSoon: Story = {

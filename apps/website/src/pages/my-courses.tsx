@@ -130,6 +130,7 @@ const MyCoursesPage = () => {
               {nextDiscussion && (
                 <NextDiscussionSection
                   courseSlug={nextDiscussion.courseSlug}
+                  courseTitle={nextDiscussion.courseTitle}
                   discussion={nextDiscussion.discussion}
                   unit={nextDiscussion.unit}
                 />
