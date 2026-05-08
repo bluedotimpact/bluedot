@@ -1,4 +1,7 @@
+import { P } from '@bluedot/ui';
 import { pageSectionHeadingClass } from '../PageListRow';
+
+const REFERRAL_FORM_URL = 'https://airtable.com/appnJbsG1eWbAdEvf/pagzDBxQxLCuU2A1i/form';
 
 const AboutYouSection = () => {
   return (
@@ -11,6 +14,11 @@ const AboutYouSection = () => {
           <li>Ready to leave whatever you&apos;re doing now to build</li>
           <li>You don&apos;t need a polished idea - we will help you find one here</li>
         </ul>
+        <P className="text-size-sm leading-[1.6] text-bluedot-navy/80">
+          Know someone who should be there?{' '}
+          <a href={REFERRAL_FORM_URL} target="_blank" rel="noreferrer" className="underline hover:no-underline">Refer them here</a>
+          {', '}and we&apos;ll send you $2,000 for each person accepted after your referral.
+        </P>
       </div>
     </section>
   );
