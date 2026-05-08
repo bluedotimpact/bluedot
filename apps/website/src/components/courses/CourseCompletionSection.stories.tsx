@@ -4,7 +4,7 @@ import { createMockRound } from '../../__tests__/testUtils';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
 import CourseCompletionSection from './CourseCompletionSection';
 
-const mockApplyCTAProps = {
+const mockApplication = {
   applicationDeadline: '15 Jan',
   applicationUrl: 'https://bluedot.org/apply',
   hasApplied: false,
@@ -52,7 +52,7 @@ export const EnrollmentCTA: Story = {
   parameters: {
     msw: {
       handlers: [
-        trpcStorybookMsw.courseRounds.getApplyCTAProps.query(() => mockApplyCTAProps),
+        trpcStorybookMsw.courseRounds.getCourseApplication.query(() => mockApplication),
         trpcStorybookMsw.courseRounds.getRoundsForCourse.query(() => mockRounds),
       ],
     },
@@ -87,7 +87,7 @@ export const EnrollmentCTAWithManyUpcomingRounds: Story = {
   parameters: {
     msw: {
       handlers: [
-        trpcStorybookMsw.courseRounds.getApplyCTAProps.query(() => mockApplyCTAProps),
+        trpcStorybookMsw.courseRounds.getCourseApplication.query(() => mockApplication),
         trpcStorybookMsw.courseRounds.getRoundsForCourse.query(() => manyMockRounds),
       ],
     },

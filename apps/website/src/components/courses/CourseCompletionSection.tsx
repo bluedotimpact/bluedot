@@ -95,20 +95,20 @@ export default function CourseCompletionSection({
 }: CourseCompletionSectionProps) {
   const { latestUtmParams } = useLatestUtmParams();
 
-  const { data: applyCTAProps, isLoading: isApplyCTALoading } = trpc.courseRounds.getApplyCTAProps.useQuery({
+  const { data: application, isLoading: isApplicationLoading } = trpc.courseRounds.getCourseApplication.useQuery({
     courseSlug,
   });
 
-  const shouldFetchRounds = Boolean(applyCTAProps) && !applyCTAProps?.hasApplied;
+  const shouldFetchRounds = Boolean(application) && !application?.hasApplied;
 
   const { data: roundsData, isLoading: isRoundsLoading } = trpc.courseRounds.getRoundsForCourse.useQuery(
     { courseSlug },
     { enabled: shouldFetchRounds },
   );
 
-  const isLoading = isApplyCTALoading || (shouldFetchRounds && (isRoundsLoading || !roundsData));
+  const isLoading = isApplicationLoading || (shouldFetchRounds && (isRoundsLoading || !roundsData));
   const hasRounds = Boolean(roundsData && (roundsData.intense.length > 0 || roundsData.partTime.length > 0));
-  const showEnrollmentCTA = shouldFetchRounds && !isRoundsLoading && hasRounds && applyCTAProps && roundsData;
+  const showEnrollmentCTA = shouldFetchRounds && !isRoundsLoading && hasRounds && application && roundsData;
 
   if (isLoading) {
     return (
@@ -120,8 +120,8 @@ export default function CourseCompletionSection({
 
   if (showEnrollmentCTA) {
     const applicationUrlWithUtm = appendPosthogSessionIdPrefill(latestUtmParams.utm_source
-      ? addQueryParam(applyCTAProps.applicationUrl, 'prefill_Source', latestUtmParams.utm_source)
-      : applyCTAProps.applicationUrl);
+      ? addQueryParam(application.applicationUrl, 'prefill_Source', latestUtmParams.utm_source)
+      : application.applicationUrl);
 
     const info = COURSE_INFORMATION_DETAILS[courseSlug];
     const accentColor = COURSE_CONFIG[courseSlug]?.accentColor;

@@ -242,7 +242,7 @@ export const courseRoundsRouter = router({
       return groupByIntensity(enrichedRounds);
     }),
 
-  getApplyCTAProps: publicProcedure
+  getCourseApplication: publicProcedure
     .input(z.object({ courseSlug: z.string().min(1) }))
     .query(async ({ ctx, input }) => {
       const { courseSlug } = input;
