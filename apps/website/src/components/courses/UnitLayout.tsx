@@ -26,7 +26,6 @@ import InactiveCourseBanners from './InactiveCourseBanners';
 import KeyboardNavMenu from './KeyboardNavMenu';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
 import { ResourceDisplay } from './ResourceDisplay';
-import type { ApplyCTAProps } from './SideBar';
 import CourseShell from './CourseShell';
 
 export type ChunkWithContent = Chunk & {
@@ -44,8 +43,6 @@ type UnitLayoutProps = {
   setChunkIndex: (index: number) => void;
   courseSlug: string;
   allUnitChunks: Record<string, BasicChunk[]>;
-  // Optional
-  applyCTAProps?: ApplyCTAProps;
 };
 
 const UnitLayout: React.FC<UnitLayoutProps> = ({
@@ -57,7 +54,6 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
   setChunkIndex,
   courseSlug,
   allUnitChunks,
-  applyCTAProps,
 }) => {
   const router = useRouter();
   const auth = useAuthStore((s) => s.auth);
@@ -133,7 +129,6 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
       currentUnitNumber={parseInt(unitNumber, 10)}
       currentChunkIndex={chunkIndex}
       onChunkSelect={handleChunkSelect}
-      applyCTAProps={applyCTAProps}
       courseProgressData={courseProgressData}
       onNavigate={setNavigationAnnouncement}
       breadcrumb={`${unitNumber}. ${unit.title}`}
