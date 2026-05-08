@@ -47,7 +47,10 @@ const DiscussionListRow = ({
     onAction: handleDownloadCalendar,
   };
 
-  const showJoinNow = status === 'soon' || status === 'live';
+  // Match design: Join now appears only on the live row. The soon window keeps the standard
+  // upcoming-style row (Reschedule + overflow), matching the NextDiscussionCard which also
+  // only flips its primary CTA to Join discussion on live.
+  const showJoinNow = status === 'live';
   const showSchedulingActions = status === 'upcoming' || status === 'soon' || status === 'live';
 
   return (

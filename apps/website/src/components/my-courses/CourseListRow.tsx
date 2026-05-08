@@ -14,6 +14,7 @@ import { ROUTES } from '../../lib/routes';
 import { buildGroupSlackChannelUrl, formatMonthAndDay, getActionPlanUrl } from '../../lib/utils';
 import DropoutModal from '../courses/DropoutModal';
 import GroupSwitchModal, { buildAvailabilityFormUrl, type SwitchType } from '../courses/GroupSwitchModal';
+import ViewParticipantsModal from '../courses/ViewParticipantsModal';
 import DiscussionList from './DiscussionList';
 
 // Server-derivable per-course data — consumed by the server router as its return shape and by
@@ -188,6 +189,7 @@ const CourseListRow = ({
 }: CourseListRowProps) => {
   const state = classifyCourseRegistration(courseRegistration);
   const [dropoutOpen, setDropoutOpen] = useState(false);
+  const [viewParticipantsOpen, setViewParticipantsOpen] = useState(false);
   const [groupSwitch, setGroupSwitch] = useState<{ unitNumber: string; switchType: SwitchType } | null>(null);
 
   const isFacilitatedCourse = course.slug !== FOAI_COURSE_SLUG;
@@ -252,6 +254,16 @@ const CourseListRow = ({
     });
   }
 
+  if (state !== 'dropped') {
+    overflowItems.push({
+      id: 'view-participants',
+      label: 'View participants',
+      onAction: () => setViewParticipantsOpen(true),
+    });
+  }
+
+  // TODO flag in PR that I explicitly decided to keep this — Switch group permanently is not
+  // in Cyrus's overflow design but is useful enough to retain.
   if ((state === 'in-progress' || state === 'upcoming') && !isNotInGroup) {
     overflowItems.push({
       id: 'switch-group-permanently',
@@ -447,6 +459,9 @@ const CourseListRow = ({
           currentRoundId={courseRegistration.roundId ?? null}
           handleClose={() => setDropoutOpen(false)}
         />
+      )}
+      {viewParticipantsOpen && (
+        <ViewParticipantsModal handleClose={() => setViewParticipantsOpen(false)} />
       )}
       {groupSwitch && roundId && (
         <GroupSwitchModal
