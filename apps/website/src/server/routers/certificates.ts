@@ -16,6 +16,39 @@ import { FOAI_COURSE_ID, ONE_DAY_MS } from '../../lib/constants';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 import type { AppRouter } from './_app';
 
+async function areAllFoaiExercisesComplete(email: string): Promise<boolean> {
+  const allExercises = await db.scan(exerciseTable, { courseId: FOAI_COURSE_ID, status: 'Active' });
+  if (allExercises.length === 0) {
+    return false;
+  }
+
+  const exerciseResponses = await db.scan(exerciseResponseTable, { email });
+  return allExercises.every((exercise) => (
+    exerciseResponses.some((resp) => resp.exerciseId === exercise.id && resp.completedAt != null)
+  ));
+}
+
+export async function issueFoaiCertificateIfComplete(email: string): Promise<boolean> {
+  const courseRegistration = await db.getFirst(courseRegistrationTable, {
+    filter: { email, courseId: FOAI_COURSE_ID, decision: 'Accept' },
+  });
+
+  if (!courseRegistration || courseRegistration.certificateId) {
+    return false;
+  }
+
+  if (!(await areAllFoaiExercisesComplete(email))) {
+    return false;
+  }
+
+  await db.update(courseRegistrationTable, {
+    id: courseRegistration.id,
+    certificateId: courseRegistration.id,
+    certificateCreatedAt: Math.floor(Date.now() / 1000),
+  });
+  return true;
+}
+
 export type CertificateData = inferRouterOutputs<AppRouter>['certificates']['getStatus'];
 
 export async function getCertificateData(certificateId: string, existingCourseRegistration?: CourseRegistration) {
