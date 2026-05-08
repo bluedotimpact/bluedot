@@ -1,5 +1,3 @@
-// TODO: remove. Added for debugging the row's per-status visual treatment;
-// not intended to live long-term.
 import type { GroupDiscussion, Unit } from '@bluedot/db';
 import type { Meta, StoryObj } from '@storybook/react';
 import DiscussionListRow from './DiscussionListRow';

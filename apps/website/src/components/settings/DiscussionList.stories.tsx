@@ -1,6 +1,3 @@
-// TODO: remove. Added for debugging — captures how the legacy DiscussionList row
-// (with the NOW/LIVE TimeWidget) looked before the v2 my-courses redesign, so we can
-// compare against DiscussionListRow.stories.tsx in components/my-courses/.
 import type { Course } from '@bluedot/db';
 import type { Meta, StoryObj } from '@storybook/react';
 import DiscussionList, { TimeWidget } from './DiscussionList';
@@ -44,7 +41,7 @@ const baseListProps = {
 };
 
 const meta = {
-  title: 'website/legacy/DiscussionList (TODO: remove)',
+  title: 'website/settings/DiscussionList',
   component: DiscussionList,
   parameters: { layout: 'padded' },
 } satisfies Meta<typeof DiscussionList>;
