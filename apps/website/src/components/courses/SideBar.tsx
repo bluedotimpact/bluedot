@@ -161,29 +161,6 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   );
 };
 
-export type ApplyCTAProps = {
-  applicationDeadline: string;
-  applicationUrl: string;
-  hasApplied: boolean;
-};
-
-const ApplyCTA = ({ applicationDeadline, applicationUrl, hasApplied }: ApplyCTAProps) => {
-  if (hasApplied) {
-    return null;
-  }
-
-  return (
-    <CTALinkOrButton
-      url={applicationUrl}
-      variant="outline-black"
-      target="_blank"
-      className="px-3 py-1.5 text-size-xs"
-    >
-      {`Apply by ${applicationDeadline}`}
-    </CTALinkOrButton>
-  );
-};
-
 const SideBar: React.FC<SideBarProps> = ({
   courseTitle,
   courseSlug,
@@ -222,7 +199,6 @@ const SideBar: React.FC<SideBarProps> = ({
             </div>
           </div>
         </div>
-        {applyCTAProps && <ApplyCTA {...applyCTAProps} />}
       </div>
 
       {/* Units */}
