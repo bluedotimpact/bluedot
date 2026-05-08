@@ -29,7 +29,8 @@ const CERTIFICATE_STATUS_DESCRIPTIONS: Record<CertificateData['status'], string>
     'To receive your certificate, you need to submit an action plan/project and can\'t have missed more than one discussion.',
   'attendance-ineligible':
     'You missed too many discussions to be eligible for a certificate. Participants can miss at most one discussion.',
-  'can-request': 'Complete all exercises to unlock your certificate, then share your accomplishment on social media.',
+  'exercises-incomplete':
+    'Complete all exercises to unlock your certificate, then share your accomplishment on social media.',
   'is-facilitator': '',
   'has-certificate': '',
   'not-authenticated': 'Join a facilitated cohort to receive a certificate.',

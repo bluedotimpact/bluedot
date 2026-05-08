@@ -14,13 +14,12 @@ export const isCongratulationsAccessible = (data: CertificateData | undefined): 
     || status === 'not-enrolled'
     || status === 'not-eligible'
     || status === 'has-certificate'
-    || status === 'can-request'
     || (status === 'attendance-ineligible' && data.isLastDiscussionSoonOrPassed)
   ) {
     return true;
   }
 
-  return false; // action-plan-pending (both states), is-facilitator
+  return false; // exercises-incomplete, action-plan-pending (both states), is-facilitator
 };
 
 const CertificateRequirementsModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => (

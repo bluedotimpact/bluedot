@@ -217,8 +217,9 @@ Please complete all exercises before requesting a certificate.`,
     }
 
     if (courseRegistration.courseId === FOAI_COURSE_ID) {
-      // FOAI -> self-service certificates, users must request a certificate which runs a generation mutation
-      return { status: 'can-request' } as const;
+      // FOAI auto-issues certificates when every active exercise is completed (see saveExerciseResponse).
+      // Reaching this branch means the learner is enrolled but hasn't finished all exercises yet.
+      return { status: 'exercises-incomplete' } as const;
     }
 
     const meetPerson = await db.getFirst(meetPersonTable, {

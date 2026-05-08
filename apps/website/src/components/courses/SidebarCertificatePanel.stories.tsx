@@ -35,9 +35,9 @@ export const NotEligible: Story = {
   },
 };
 
-export const CanRequest: Story = {
+export const ExercisesIncomplete: Story = {
   args: {
-    certificateData: { status: 'can-request' },
+    certificateData: { status: 'exercises-incomplete' },
   },
 };
 
