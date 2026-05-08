@@ -37,6 +37,8 @@ export const NotEligible: Story = {
 
 export const ExercisesIncomplete: Story = {
   args: {
+    courseTitle: 'Future of AI',
+    courseSlug: 'future-of-ai',
     certificateData: { status: 'exercises-incomplete' },
   },
 };
