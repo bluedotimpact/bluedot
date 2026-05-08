@@ -272,10 +272,16 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
           issuedDate={issuedDate}
           certificateId={data.certificateId}
         />
-        <button type="button" onClick={handleCopyLink} className={outlinedBtnClass}>
-          <FaLink className="size-4" />
-          {copied ? 'Link copied!' : 'Copy link'}
-        </button>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <a href={linkedInCertUrl} target="_blank" rel="noopener noreferrer" className={primaryBtnClass}>
+            <FaLinkedinIn className="size-4" />
+            Add certificate to LinkedIn
+          </a>
+          <button type="button" onClick={handleCopyLink} className={outlinedBtnClass}>
+            <FaLink className="size-4" />
+            {copied ? 'Link copied!' : 'Copy link'}
+          </button>
+        </div>
       </div>
     );
   }
