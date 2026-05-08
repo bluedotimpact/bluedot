@@ -72,8 +72,8 @@ export const certificatesRouter = router({
   create: publicProcedure
     .input(z.object({ courseRegistrationId: z.string(), publicToken: z.string().min(1) }))
     .mutation(async ({ input: { courseRegistrationId, publicToken } }) => {
-      // This is similar to the `request` procedure below, but it relies on a shared secret for authentication and
-      // allows a certificate to be created even if not all exercises are complete.
+      // Authenticated by a shared secret rather than a user session. Allows certificate creation
+      // even when not all exercises are complete, for the admin/Airtable issuance flow.
       if (!env.CERTIFICATE_CREATION_TOKEN) {
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Certificate creation not configured' });
       }
