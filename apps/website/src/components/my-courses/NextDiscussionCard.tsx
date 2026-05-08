@@ -35,10 +35,12 @@ const NextDiscussionCard = ({
   return (
     <div className="flex items-center gap-5 rounded-xl border border-color-divider bg-white p-6">
       <CalendarBadge month={month} day={day} />
-      <div className="min-w-0 flex-1">
-        <p className="text-size-xxs font-semibold tracking-wide text-bluedot-normal">{eyebrow}</p>
-        <h3 className="text-size-lg font-semibold text-bluedot-navy">{title}</h3>
-        <p className="mt-2 text-size-xxs font-medium text-gray-500">{datetimeLabel}</p>
+      <div className="flex min-w-0 flex-1 flex-col items-start gap-1">
+        <div className="flex flex-col items-start">
+          <p className="text-size-xxs font-semibold leading-[16px] text-bluedot-normal">{eyebrow}</p>
+          <h3 className="text-size-lg font-semibold text-bluedot-navy">{title}</h3>
+        </div>
+        <p className="text-size-xxs font-medium leading-[16px] text-gray-500">{datetimeLabel}</p>
       </div>
       <div className="flex shrink-0 items-center gap-3">
         <CTALinkOrButton

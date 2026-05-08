@@ -150,10 +150,10 @@ export const myCoursesPageRouter = router({
 
     // Globally soonest upcoming participant discussion across all the user's courses.
     const nowSec = Math.floor(Date.now() / 1000);
-    const courseSlugByDiscussionId = new Map<string, string>();
+    const courseByDiscussionId = new Map<string, { slug: string; title: string }>();
     for (const c of perCourse) {
       for (const d of c.discussions) {
-        courseSlugByDiscussionId.set(d.id, c.course.slug);
+        courseByDiscussionId.set(d.id, { slug: c.course.slug, title: c.course.title });
       }
     }
 
@@ -165,15 +165,17 @@ export const myCoursesPageRouter = router({
 
     let nextDiscussion: {
       courseSlug: string;
+      courseTitle: string;
       discussion: GroupDiscussion;
       unit: Unit | null;
       group: Group | null;
     } | null = null;
     if (soonest) {
-      const owningSlug = courseSlugByDiscussionId.get(soonest.id);
-      if (owningSlug) {
+      const owningCourse = courseByDiscussionId.get(soonest.id);
+      if (owningCourse) {
         nextDiscussion = {
-          courseSlug: owningSlug,
+          courseSlug: owningCourse.slug,
+          courseTitle: owningCourse.title,
           discussion: soonest,
           unit: soonest.courseBuilderUnitRecordId ? unitById.get(soonest.courseBuilderUnitRecordId) ?? null : null,
           group: groups.find((g) => g.id === soonest.group) ?? null,

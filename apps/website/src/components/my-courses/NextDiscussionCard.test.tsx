@@ -8,7 +8,7 @@ const baseProps = {
   month: 'Apr',
   day: 28,
   title: 'Detecting danger',
-  datetimeLabel: 'April 28, 2026, 4:00 - 5:00 PM',
+  datetimeLabel: 'Apr 28, 4:00 PM - 5:00 PM',
   primaryHref: '/courses/technical-ai-safety/3/1',
 } as const;
 
@@ -21,10 +21,11 @@ describe('NextDiscussionCard', () => {
     expect(screen.queryByRole('link', { name: 'Join discussion' })).toBeNull();
   });
 
-  test('shows the soon eyebrow text', () => {
+  test('shows the soon eyebrow text and keeps Prep for discussion', () => {
     render(<NextDiscussionCard {...baseProps} state="soon" eyebrow="Starts in 16 minutes" />);
     expect(screen.getByText('Starts in 16 minutes')).toBeDefined();
     expect(screen.getByRole('link', { name: 'Prep for discussion' })).toBeDefined();
+    expect(screen.queryByRole('link', { name: 'Join discussion' })).toBeNull();
   });
 
   test('swaps Prep for Join discussion in the live state', () => {

@@ -2,32 +2,29 @@ import type { GroupDiscussion, Unit } from '@bluedot/db';
 import { useCurrentTimeMs } from '@bluedot/ui';
 import { useState } from 'react';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
-import { buildCourseUnitUrl } from '../../lib/utils';
+import { buildCourseUnitUrl, formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
 import NextDiscussionCard, { type NextDiscussionCardState } from './NextDiscussionCard';
 
 type NextDiscussionSectionProps = {
   courseSlug: string;
+  courseTitle: string;
   discussion: GroupDiscussion;
   unit: Unit | null;
 };
 
-const formatEyebrow = (state: NextDiscussionCardState, unitNumber: string | undefined, minutesUntil: number) => {
+const formatEyebrow = (state: NextDiscussionCardState, courseTitle: string, unitNumber: string | undefined, minutesUntil: number) => {
   if (state === 'live') return 'LIVE';
   if (state === 'soon') {
     return minutesUntil === 1 ? 'Starts in 1 minute' : `Starts in ${minutesUntil} minutes`;
   }
 
-  return unitNumber !== undefined ? `UNIT ${unitNumber}` : '';
+  if (unitNumber === undefined) return courseTitle.toUpperCase();
+  return `${courseTitle.toUpperCase()}: UNIT ${unitNumber}`;
 };
 
-const formatDatetimeLabel = (startMs: number, endMs: number) => {
-  const start = new Date(startMs);
-  const end = new Date(endMs);
-  const date = start.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-  const time = (d: Date) => d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-  return `${date}, ${time(start)} - ${time(end)}`;
-};
+const formatDatetimeLabel = (startSec: number, endSec: number) =>
+  `${formatDateMonthAndDay(startSec)}, ${formatTime12HourClock(startSec)} - ${formatTime12HourClock(endSec)}`;
 
 const TIME_STATE_TO_CARD_STATE: Record<ReturnType<typeof getDiscussionTimeState>, NextDiscussionCardState> = {
   live: 'live',
@@ -36,12 +33,13 @@ const TIME_STATE_TO_CARD_STATE: Record<ReturnType<typeof getDiscussionTimeState>
   ended: 'next',
 };
 
-const NextDiscussionSection = ({ courseSlug, discussion, unit }: NextDiscussionSectionProps) => {
+const NextDiscussionSection = ({
+  courseSlug, courseTitle, discussion, unit,
+}: NextDiscussionSectionProps) => {
   const [rescheduleOpen, setRescheduleOpen] = useState(false);
   const currentTimeMs = useCurrentTimeMs();
 
   const startMs = discussion.startDateTime * 1000;
-  const endMs = discussion.endDateTime * 1000;
   const cardState = TIME_STATE_TO_CARD_STATE[getDiscussionTimeState({ discussion, currentTimeMs })];
 
   const minutesUntil = Math.max(0, Math.round((startMs - currentTimeMs) / 60_000));
@@ -68,9 +66,9 @@ const NextDiscussionSection = ({ courseSlug, discussion, unit }: NextDiscussionS
       <NextDiscussionCard
         month={month}
         day={day}
-        eyebrow={formatEyebrow(cardState, unitNumber, minutesUntil)}
+        eyebrow={formatEyebrow(cardState, courseTitle, unitNumber, minutesUntil)}
         title={title}
-        datetimeLabel={formatDatetimeLabel(startMs, endMs)}
+        datetimeLabel={formatDatetimeLabel(discussion.startDateTime, discussion.endDateTime)}
         state={cardState}
         primaryHref={primaryHref}
         onReschedule={roundId ? () => setRescheduleOpen(true) : undefined}
