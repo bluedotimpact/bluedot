@@ -63,10 +63,13 @@ const Exercise: React.FC<ExerciseProps> = ({
     onSettled(data) {
       utils.courses.getCourseProgress.invalidate({ courseSlug });
       utils.exercises.getExerciseResponse.invalidate({ exerciseId });
-      // Server may auto-issue a FOAI certificate when this completion was the last outstanding
-      // exercise. Invalidate the status query so the Congratulations page reflects it.
       if (data?.certificateIssued) {
         utils.certificates.getStatus.invalidate();
+        // certificateIssued is only true for FoAI auto-issuance (server-side gated), so the
+        // GA event fires here without an extra course check.
+        if (typeof window !== 'undefined' && window.dataLayer) {
+          window.dataLayer.push({ event: 'completers', course_slug: 'future-of-ai' });
+        }
       }
     },
     async onMutate(newData) {
