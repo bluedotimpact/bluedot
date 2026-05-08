@@ -201,7 +201,6 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
   const { data, isLoading, error, refetch } = trpc.certificates.getStatus.useQuery({ courseId });
   const [copied, setCopied] = useState(false);
 
-
   if (isLoading) {
     return (
       <div className="flex justify-center py-12">
