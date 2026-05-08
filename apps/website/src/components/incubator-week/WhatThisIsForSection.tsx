@@ -43,7 +43,7 @@ const WhatThisIsForSection = () => {
 
         <div className="flex flex-col gap-5">
           <P>
-            Three cohorts in: 9 companies founded, $500k+ raised, 9-figure aggregate expected this year.
+            Three cohorts in: 9 companies founded, $1M+ raised, 9-figure aggregate expected this year.
           </P>
           <div className="flex flex-col gap-2">
             <P>Alumni include:</P>
