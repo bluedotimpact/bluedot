@@ -15,7 +15,7 @@ vi.mock('next/router', () => ({
   }),
 }));
 
-const mockApplyCTAProps = {
+const mockApplication = {
   applicationDeadline: '15 Jan',
   applicationUrl: 'https://bluedot.org/apply',
   hasApplied: false,
@@ -37,7 +37,7 @@ describe('CourseCompletionSection', () => {
     server.use(trpcMsw.certificates.getStatus.query(() => ({ status: 'not-eligible' as const })));
   });
 
-  test('shows ProgressDots while getApplyCTAProps is loading', () => {
+  test('shows ProgressDots while getCourseApplication is loading', () => {
     // No handler - query stays pending
     const { container } = render(<CourseCompletionSection {...defaultProps} />, { wrapper: TrpcProvider });
 
@@ -47,7 +47,7 @@ describe('CourseCompletionSection', () => {
 
   test('shows enrollment CTA when rounds are available and user has not applied', async () => {
     server.use(
-      trpcMsw.courseRounds.getApplyCTAProps.query(() => mockApplyCTAProps),
+      trpcMsw.courseRounds.getCourseApplication.query(() => mockApplication),
       trpcMsw.courseRounds.getRoundsForCourse.query(() => mockRounds),
     );
 
@@ -60,8 +60,8 @@ describe('CourseCompletionSection', () => {
     expect(container.querySelector('.congratulations')).toBeFalsy();
   });
 
-  test('shows Congratulations when getApplyCTAProps returns null', async () => {
-    server.use(trpcMsw.courseRounds.getApplyCTAProps.query(() => null));
+  test('shows Congratulations when getCourseApplication returns null', async () => {
+    server.use(trpcMsw.courseRounds.getCourseApplication.query(() => null));
 
     const { container } = render(<CourseCompletionSection {...defaultProps} />, { wrapper: TrpcProvider });
 
@@ -72,7 +72,7 @@ describe('CourseCompletionSection', () => {
   });
 
   test('shows Congratulations when user has already applied', async () => {
-    server.use(trpcMsw.courseRounds.getApplyCTAProps.query(() => ({ ...mockApplyCTAProps, hasApplied: true })));
+    server.use(trpcMsw.courseRounds.getCourseApplication.query(() => ({ ...mockApplication, hasApplied: true })));
 
     const { container } = render(<CourseCompletionSection {...defaultProps} />, { wrapper: TrpcProvider });
 
@@ -84,7 +84,7 @@ describe('CourseCompletionSection', () => {
 
   test('shows Congratulations when no rounds are available', async () => {
     server.use(
-      trpcMsw.courseRounds.getApplyCTAProps.query(() => mockApplyCTAProps),
+      trpcMsw.courseRounds.getCourseApplication.query(() => mockApplication),
       trpcMsw.courseRounds.getRoundsForCourse.query(() => ({ intense: [], partTime: [] })),
     );
 
@@ -98,7 +98,7 @@ describe('CourseCompletionSection', () => {
 
   test('caps each round group to the next 3 upcoming rounds', async () => {
     server.use(
-      trpcMsw.courseRounds.getApplyCTAProps.query(() => mockApplyCTAProps),
+      trpcMsw.courseRounds.getCourseApplication.query(() => mockApplication),
       trpcMsw.courseRounds.getRoundsForCourse.query(() => ({
         intense: [
           createMockRound({ dateRange: '1 – 5 Jun' }),
