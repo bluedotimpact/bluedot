@@ -1,5 +1,5 @@
 import type { Unit } from '@bluedot/db';
-import { CTALinkOrButton, Modal } from '@bluedot/ui';
+import { Modal } from '@bluedot/ui';
 import clsx from 'clsx';
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
@@ -9,7 +9,6 @@ import type { CertificateData } from '../../server/routers/certificates';
 import type { ChunkProgress, CourseProgress } from '../../server/routers/courses';
 import { ChunkIcon } from '../icons';
 import { CourseIcon } from './CourseIcon';
-import type { ApplyCTAProps } from './SideBar';
 import { SidebarCertificatePanel } from './SidebarCertificatePanel';
 
 type MobileCourseModalProps = {
@@ -24,7 +23,6 @@ type MobileCourseModalProps = {
   onChunkSelect: (index: number) => void;
   onUnitSelect?: (unitPath: string) => void;
   unitChunks: Record<string, BasicChunk[]>;
-  applyCTAProps?: ApplyCTAProps;
   courseProgressData?: CourseProgress;
 };
 
@@ -40,7 +38,6 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
   onChunkSelect,
   onUnitSelect,
   unitChunks,
-  applyCTAProps,
   courseProgressData,
 }) => {
   // Track which units are expanded (current unit starts expanded)
@@ -79,8 +76,6 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
     setIsOpen(false);
   };
 
-  const showApplyCTA = applyCTAProps && !applyCTAProps.hasApplied;
-
   return (
     <Modal
       isOpen={isOpen}
@@ -93,16 +88,6 @@ export const MobileCourseModal: React.FC<MobileCourseModalProps> = ({
               {courseTitle}
             </h3>
           </div>
-          {showApplyCTA && (
-            <CTALinkOrButton
-              url={applyCTAProps.applicationUrl}
-              variant="outline-black"
-              target="_blank"
-              className="px-3 py-1.5 text-size-xs"
-            >
-              {`Apply by ${applyCTAProps.applicationDeadline}`}
-            </CTALinkOrButton>
-          )}
         </div>
       )}
       bottomDrawerOnMobile
