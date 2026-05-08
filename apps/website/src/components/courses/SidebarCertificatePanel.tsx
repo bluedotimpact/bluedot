@@ -64,8 +64,6 @@ export const SidebarCertificatePanel = ({
     let subtitle = 'Join a facilitated cohort today';
     if (status === 'has-certificate') {
       subtitle = 'View your certificate';
-    } else if (status === 'can-request') {
-      subtitle = 'Request your certificate once you complete all exercises';
     } else if (status === 'attendance-ineligible') {
       subtitle = 'See what\'s next';
     }
@@ -125,6 +123,19 @@ export const SidebarCertificatePanel = ({
           </div>
           <FaLock className="text-bluedot-navy/40 size-5 shrink-0" />
         </div>
+      </div>
+    );
+  }
+
+  // FoAI auto-issues certificates on exercise completion; no facilitated-cohort requirements modal applies.
+  if (status === 'exercises-incomplete') {
+    return (
+      <div className={cn('flex items-center gap-3 rounded-[10px] bg-black/[0.04] px-3 py-4', className)}>
+        <div className="text-bluedot-navy/60 flex min-w-0 flex-1 flex-col gap-1">
+          <p className="text-size-sm leading-[1.5] font-bold">{label}</p>
+          <p className="text-size-xs leading-[1.5] font-normal">Complete all exercises to unlock</p>
+        </div>
+        <FaLock className="text-bluedot-navy/40 size-5 shrink-0" />
       </div>
     );
   }
