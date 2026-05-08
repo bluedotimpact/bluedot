@@ -20,7 +20,13 @@ const formatEyebrow = (state: NextDiscussionCardState, courseTitle: string, unit
   }
 
   if (unitNumber === undefined) return courseTitle.toUpperCase();
-  return `${courseTitle.toUpperCase()}: UNIT ${unitNumber}`;
+  // Course-title prefix is desktop-only per design (mobile shows just "UNIT N").
+  return (
+    <>
+      <span className="hidden sm:inline">{courseTitle.toUpperCase()}: </span>
+      UNIT {unitNumber}
+    </>
+  );
 };
 
 const formatDatetimeLabel = (startSec: number, endSec: number) =>
