@@ -69,11 +69,10 @@ export const SidebarCertificatePanel = ({
   const congratsUrl = `/courses/${courseSlug}/congratulations`;
   const label = `${courseTitle} Certificate`;
   const status = certificateData?.status;
-  const isAccessible = isCongratulationsAccessible(certificateData);
 
   if (status === 'is-facilitator' || !certificateData) return null;
 
-  if (isAccessible) {
+  if (isCongratulationsAccessible(certificateData)) {
     let subtitle = 'Join a facilitated cohort today';
     if (status === 'has-certificate') {
       subtitle = 'View your certificate';
