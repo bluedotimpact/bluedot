@@ -142,6 +142,7 @@ const MyCoursesPage = () => {
                 onChange={setActiveTab}
               />
               <CourseList
+                key={activeTab}
                 courses={visibleCourses}
                 emptyMessage={EMPTY_MESSAGE[activeTab]}
                 expandedById={expandedById}
