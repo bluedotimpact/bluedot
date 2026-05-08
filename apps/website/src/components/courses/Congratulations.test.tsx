@@ -115,6 +115,23 @@ describe('Congratulations', () => {
       expect(screen.getByRole('button', { name: 'Copy link' })).toBeInTheDocument();
       expect(screen.getByText('cert-abc-123')).toBeInTheDocument();
     });
+
+    test('renders Add certificate to LinkedIn link with correct query params', async () => {
+      server.use(trpcMsw.certificates.getStatus.query(() => hasCertificateResponse));
+
+      render(<Congratulations {...defaultProps} />, { wrapper: TrpcProvider });
+
+      const link = await screen.findByRole('link', { name: /Add certificate to LinkedIn/ });
+      const url = new URL(link.getAttribute('href')!);
+      expect(url.origin + url.pathname).toBe('https://www.linkedin.com/profile/add');
+      expect(url.searchParams.get('startTask')).toBe('CERTIFICATION_NAME');
+      expect(url.searchParams.get('name')).toBe('AGI Strategy, BlueDot Impact');
+      expect(url.searchParams.get('organizationId')).toBe('86200389');
+      expect(url.searchParams.get('issueYear')).toBe('2024');
+      expect(url.searchParams.get('issueMonth')).toBe('1');
+      expect(url.searchParams.get('certId')).toBe('cert-abc-123');
+      expect(url.searchParams.get('certUrl')).toContain('id=cert-abc-123');
+    });
   });
 
   describe('FoAI-specific behaviour', () => {
