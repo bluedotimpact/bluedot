@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import Link from 'next/link';
 import { H1 } from '@bluedot/ui';
 import GraduateSection from '../lander/components/GraduateSection';
 import { Nav } from '../Nav/Nav';
@@ -30,8 +31,14 @@ const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
                 // eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: bespoke 5-breakpoint homepage hero ramp (40 → 56 → 64 → 72 → 72) tied to viewport-specific max-w values; can't compose into the 2-step responsive token chain
                 className="w-full text-[40px] bd-md:max-[1023px]:text-[56px] min-[1024px]:max-[1279px]:w-[682px] min-[1024px]:max-[1279px]:text-[64px] min-[1280px]:max-[1439px]:w-[682px] min-[1280px]:max-[1439px]:text-[72px] min-[1440px]:w-[682px] min-[1440px]:text-[72px] leading-[115%] font-normal slide-up-fade-in flex items-center tracking-[-1px] text-white"
               >
-                We help you have a positive impact on the trajectory of AI
+                The most consequential technology in human history is being built right now.
               </H1>
+              <p
+                // eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- subtitle ramp pairs with the bespoke H1 ramp above
+                className="w-full text-[24px] bd-md:max-[1023px]:text-[32px] min-[1024px]:max-[1279px]:text-[36px] min-[1280px]:max-[1439px]:text-[40px] min-[1440px]:text-[40px] leading-[125%] font-normal tracking-[-0.5px] text-white/90 slide-up-fade-in"
+              >
+                And not enough people work on making it go well.
+              </p>
               <p
                 className="text-size-sm bd-md:max-[1023px]:text-size-md min-[1024px]:text-size-md leading-[155%] font-normal w-full max-w-[280px] bd-md:max-[1023px]:max-w-[616px] min-[1024px]:max-[1279px]:max-w-screen-md min-[1280px]:max-[1439px]:max-w-screen-md min-[1440px]:max-w-[900px] mx-auto tracking-[-0.005em]"
                 style={{
@@ -39,8 +46,15 @@ const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
                   fontFeatureSettings: '"ss02" on',
                 }}
               >
-                BlueDot is the leading talent accelerator for beneficial AI and societal resilience. We run courses, help people land jobs, organise events all over the world, and accelerate entrepreneurs to start new companies
+                BlueDot accelerates smart, mission-driven people into impactful work. We run courses, provide career advising, make grants, organise events all over the world, and support entrepreneurs to found new companies.
               </p>
+              <Link
+                href="/courses/future-of-ai"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-md bg-bluedot-normal text-white text-size-sm bd-md:text-size-md font-medium hover:bg-bluedot-dark transition-colors duration-200 mt-2"
+              >
+                Learn where AI is headed
+                <span aria-hidden="true">→</span>
+              </Link>
             </div>
           </div>
         </div>
