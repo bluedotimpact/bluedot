@@ -253,7 +253,6 @@ const CourseScheduleCard = ({ course }: CourseScheduleCardProps) => {
                 rounds={rounds.intense}
                 applicationUrl={applicationUrlWithUtm}
                 accentColor={getCourseAccentColor(course.slug)}
-                maxRounds={3}
               />
             )}
             {hasPartTime && (
@@ -262,7 +261,6 @@ const CourseScheduleCard = ({ course }: CourseScheduleCardProps) => {
                 rounds={rounds.partTime}
                 applicationUrl={applicationUrlWithUtm}
                 accentColor={getCourseAccentColor(course.slug)}
-                maxRounds={3}
               />
             )}
           </div>
