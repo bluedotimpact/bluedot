@@ -70,10 +70,10 @@ export const PartTime: Story = {
   },
 };
 
-export const Capped: Story = {
+export const ShowAll: Story = {
   args: {
     type: 'intensive',
     rounds: intensiveRounds,
-    maxRounds: 3,
+    maxRounds: Infinity,
   },
 };
