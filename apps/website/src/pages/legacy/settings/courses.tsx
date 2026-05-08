@@ -3,8 +3,6 @@ import {
   CTALinkOrButton, ErrorSection, P, ProgressDots,
 } from '@bluedot/ui';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import InactiveCourseBanners from '../../../components/courses/InactiveCourseBanners';
 import CourseList from '../../../components/settings/CourseList';
 import SettingsLayout from '../../../components/settings/SettingsLayout';
@@ -14,19 +12,6 @@ import { trpc } from '../../../utils/trpc';
 const CURRENT_ROUTE = ROUTES.legacySettingsCourses;
 
 const CoursesSettingsPage = () => {
-  const { data: user, isLoading: userLoading, error: userError } = trpc.users.getUser.useQuery();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (user && !user.isAdmin) {
-      router.replace('/');
-    }
-  }, [user, router]);
-
-  if (userLoading) return <ProgressDots />;
-  if (userError) return <ErrorSection error={userError} />;
-  if (!user?.isAdmin) return null;
-
   return (
     <div>
       <Head>

@@ -34,6 +34,10 @@ export const myCoursesPageRouter = router({
           eq(courseRegistrationTable.pg.role, ''),
           isNull(courseRegistrationTable.pg.role),
         ),
+        or(
+          ne(courseRegistrationTable.pg.decision, 'Withdrawn'),
+          isNull(courseRegistrationTable.pg.decision),
+        ),
       ));
 
     if (courseRegistrations.length === 0) {
