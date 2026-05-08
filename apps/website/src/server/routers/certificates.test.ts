@@ -285,13 +285,13 @@ describe('certificates.getStatus', () => {
     expect(result).toMatchObject({ status: 'has-certificate', recipientName: '' });
   });
 
-  test('returns can-request for FOAI registrations without a certificate', async () => {
+  test('returns exercises-incomplete for FOAI registrations without a certificate', async () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID, decision: 'Accept',
     });
 
     const result = await createCaller(testAuthContextLoggedIn).certificates.getStatus({ courseId: FOAI_COURSE_ID });
-    expect(result).toEqual({ status: 'can-request' });
+    expect(result).toEqual({ status: 'exercises-incomplete' });
   });
 
   test('returns not-eligible for non-FOAI registrations without a meetPerson record', async () => {
