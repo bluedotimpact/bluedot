@@ -11,7 +11,7 @@ import {
   FaRegCopy,
   FaXTwitter,
 } from 'react-icons/fa6';
-import { COURSE_CONFIG, FOAI_COURSE_ID } from '../../lib/constants';
+import { BLUEDOT_LINKEDIN_ORG_ID, COURSE_CONFIG, FOAI_COURSE_ID } from '../../lib/constants';
 import { getCourseCtaColors } from '../../lib/courseCtaColors';
 import { ROUTES } from '../../lib/routes';
 import { getActionPlanUrl } from '../../lib/utils';
@@ -232,13 +232,25 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
   }
 
   if (data?.status === 'has-certificate') {
-    const issuedDate = new Date(data.certificateCreatedAt * 1000).toLocaleDateString('en-US', {
+    const issuedAt = new Date(data.certificateCreatedAt * 1000);
+    const issuedDate = issuedAt.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
     });
 
     const certificateLink = `${SITE_URL}${addQueryParam(ROUTES.certification.url, 'id', data.certificateId)}`;
+
+    const linkedInCertParams = new URLSearchParams({
+      startTask: 'CERTIFICATION_NAME',
+      name: courseTitle,
+      organizationId: BLUEDOT_LINKEDIN_ORG_ID,
+      issueYear: String(issuedAt.getUTCFullYear()),
+      issueMonth: String(issuedAt.getUTCMonth() + 1),
+      certUrl: certificateLink,
+      certId: data.certificateId,
+    });
+    const linkedInCertUrl = `https://www.linkedin.com/profile/add?${linkedInCertParams.toString()}`;
 
     const handleCopyLink = async () => {
       try {
@@ -260,10 +272,16 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
           issuedDate={issuedDate}
           certificateId={data.certificateId}
         />
-        <button type="button" onClick={handleCopyLink} className={outlinedBtnClass}>
-          <FaLink className="size-4" />
-          {copied ? 'Link copied!' : 'Copy link'}
-        </button>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <a href={linkedInCertUrl} target="_blank" rel="noopener noreferrer" className={primaryBtnClass}>
+            <FaLinkedinIn className="size-4" />
+            Add certificate to LinkedIn
+          </a>
+          <button type="button" onClick={handleCopyLink} className={outlinedBtnClass}>
+            <FaLink className="size-4" />
+            {copied ? 'Link copied!' : 'Copy link'}
+          </button>
+        </div>
       </div>
     );
   }
