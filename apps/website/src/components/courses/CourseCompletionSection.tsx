@@ -157,7 +157,6 @@ export default function CourseCompletionSection({
               rounds={roundsData.intense}
               applicationUrl={applicationUrlWithUtm}
               accentColor={accentColor}
-              maxRounds={3}
             />
           )}
 
@@ -168,7 +167,6 @@ export default function CourseCompletionSection({
                 rounds={roundsData.partTime}
                 applicationUrl={applicationUrlWithUtm}
                 accentColor={accentColor}
-                maxRounds={3}
               />
             </div>
           )}
