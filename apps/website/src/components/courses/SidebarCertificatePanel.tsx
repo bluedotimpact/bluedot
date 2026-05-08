@@ -116,10 +116,6 @@ export const SidebarCertificatePanel = ({
   ) {
     return (
       <div className={cn('flex flex-col gap-3', className)}>
-        <CertificateRequirementsModal
-          isOpen={isRequirementsModalOpen}
-          onClose={() => setIsRequirementsModalOpen(false)}
-        />
         <a
           href={getActionPlanUrl(certificateData.meetPersonId)}
           target="_blank"
@@ -129,34 +125,18 @@ export const SidebarCertificatePanel = ({
           <p className="text-size-sm min-w-0 flex-1 leading-[1.5] font-bold">Submit your project/action plan</p>
           <FaArrowRight className="size-5 shrink-0" />
         </a>
-        <div className="flex items-center gap-3 rounded-[10px] bg-black/[0.04] px-3 py-4">
-          <div className="text-bluedot-navy/60 flex min-w-0 flex-1 flex-col gap-1">
-            <p className="text-size-sm leading-[1.5] font-bold">{label}</p>
-            <p className="text-size-xs leading-[1.5] font-normal">Submit your project/action plan to claim</p>
-          </div>
-          <FiLock className="text-bluedot-navy/40 size-5 shrink-0" />
-        </div>
+        <LockedPanel label={label} subtitle="Submit your project/action plan to claim" />
       </div>
     );
   }
 
-  // FoAI auto-issues certificates on exercise completion; no facilitated-cohort requirements modal applies.
+  let subtitle: ReactNode;
   if (status === 'exercises-incomplete') {
-    return (
-      <div className={cn('flex items-center gap-3 rounded-[10px] bg-black/[0.04] px-3 py-4', className)}>
-        <div className="text-bluedot-navy/60 flex min-w-0 flex-1 flex-col gap-1">
-          <p className="text-size-sm leading-[1.5] font-bold">{label}</p>
-          <p className="text-size-xs leading-[1.5] font-normal">Complete all exercises to unlock</p>
-        </div>
-        <FiLock className="text-bluedot-navy/40 size-5 shrink-0" />
-      </div>
-    );
-  }
-
-  const subtitle: ReactNode
-    = status === 'action-plan-pending' && certificateData.hasSubmittedActionPlan ? (
-      'Action plan submitted — pending review'
-    ) : (
+    subtitle = 'Complete all exercises to unlock';
+  } else if (status === 'action-plan-pending' && certificateData.hasSubmittedActionPlan) {
+    subtitle = 'Action plan submitted - pending review';
+  } else {
+    subtitle = (
       <span>
         {'Finish the course and '}
         <button type="button" className="cursor-pointer underline" onClick={() => setIsRequirementsModalOpen(true)}>
@@ -165,6 +145,7 @@ export const SidebarCertificatePanel = ({
         {' to unlock'}
       </span>
     );
+  }
 
   return (
     <>
@@ -172,13 +153,7 @@ export const SidebarCertificatePanel = ({
         isOpen={isRequirementsModalOpen}
         onClose={() => setIsRequirementsModalOpen(false)}
       />
-      <div className={cn('flex items-center gap-3 rounded-[10px] bg-black/[0.04] px-3 py-4', className)}>
-        <div className="text-bluedot-navy/60 flex min-w-0 flex-1 flex-col gap-1">
-          <p className="text-size-sm leading-[1.5] font-bold">{label}</p>
-          <p className="text-size-xs leading-[1.5] font-normal">{subtitle}</p>
-        </div>
-        <FiLock className="text-bluedot-navy/40 size-5 shrink-0" />
-      </div>
+      <LockedPanel label={label} subtitle={subtitle} className={className} />
     </>
   );
 };
