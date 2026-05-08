@@ -13,7 +13,7 @@ import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
 import { ROUTES } from '../../lib/routes';
 import { buildGroupSlackChannelUrl, formatMonthAndDay, getActionPlanUrl } from '../../lib/utils';
 import DropoutModal from '../courses/DropoutModal';
-import GroupSwitchModal, { type SwitchType } from '../courses/GroupSwitchModal';
+import GroupSwitchModal, { buildAvailabilityFormUrl, type SwitchType } from '../courses/GroupSwitchModal';
 import DiscussionList from './DiscussionList';
 
 // Server-derivable per-course data — consumed by the server router as its return shape and by
@@ -235,7 +235,7 @@ const CourseListRow = ({
     : `/courses/${course.slug}`;
   const showLockedCert = state === 'completed' && hasCert && !hasSubmittedFeedback && feedbackFormUrl;
   const applyAgainUrl = `/courses/${course.slug}`;
-  const showActionPlan = state === 'completed' && !hasCert && isFacilitatedCourse && meetPersonId;
+  const showActionPlan = state === 'completed' && !hasCert && isFacilitatedCourse && meetPersonId && courseRegistration.role !== 'Facilitator';
   const slackUrl = group?.slackChannelId ? buildGroupSlackChannelUrl(group.slackChannelId) : null;
   const docUrl = group?.discussionDoc ?? null;
 
@@ -290,7 +290,7 @@ const CourseListRow = ({
           className="gap-1.5"
         >
           <FaLock />
-          <span>Share feedback</span>
+          <span>Share feedback<span className="hidden sm:inline"> to view your certificate</span></span>
         </CTALinkOrButton>
       )}
       {state === 'completed' && hasCert && !showLockedCert && (
@@ -315,6 +315,26 @@ const CourseListRow = ({
           </CTALinkOrButton>
         )
       )}
+      {state === 'upcoming' && courseRegistration.decision !== 'Reject' && (
+        <CTALinkOrButton
+          variant="primary"
+          size="small"
+          url={buildAvailabilityFormUrl({
+            email: courseRegistration.email,
+            utmSource: 'bluedot-settings-upcoming',
+            courseRegistration,
+            roundId: courseRegistration.roundId ?? '',
+          })}
+          target="_blank"
+        >
+          {courseRegistration.availabilityIntervalsUTC ? 'Edit your availability' : 'Submit your availability'}
+        </CTALinkOrButton>
+      )}
+      {state === 'upcoming' && (
+        <CTALinkOrButton variant="secondary" size="small" url={`/courses/${course.slug}/1/1`}>
+          View curriculum
+        </CTALinkOrButton>
+      )}
       {state === 'dropped' && (
         <>
           <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
@@ -329,6 +349,7 @@ const CourseListRow = ({
   const hasWideActions = Boolean(showLockedCert && feedbackFormUrl)
     || (state === 'completed' && hasCert && !showLockedCert)
     || Boolean(showActionPlan)
+    || state === 'upcoming'
     || state === 'dropped';
 
   return (

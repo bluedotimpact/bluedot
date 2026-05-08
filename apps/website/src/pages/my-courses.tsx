@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import MyBlueDotLayout from '../components/MyBlueDotLayout';
+import InactiveCourseBanners from '../components/courses/InactiveCourseBanners';
 import CourseList from '../components/my-courses/CourseList';
 import { isAutoExpandCandidate, type CourseRowData } from '../components/my-courses/CourseListRow';
 import NextDiscussionSection from '../components/my-courses/NextDiscussionSection';
@@ -97,7 +98,7 @@ const MyCoursesPage = () => {
       <Head>
         <title>{`${CURRENT_ROUTE.title} | BlueDot Impact`}</title>
       </Head>
-      <MyBlueDotLayout route={CURRENT_ROUTE}>
+      <MyBlueDotLayout route={CURRENT_ROUTE} afterBreadcrumbs={<InactiveCourseBanners />}>
         <div className="flex min-h-[60vh] flex-col gap-6">
           {isLoading && (
             <div className="flex flex-1 items-center justify-center">
