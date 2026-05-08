@@ -62,14 +62,3 @@ export const LoggedInAllCompleted: Story = {
     },
   },
 };
-
-export const WithApplyCTA: Story = {
-  ...loggedInStory(),
-  args: {
-    applyCTAProps: {
-      applicationDeadline: '15 Jan',
-      applicationUrl: 'https://example.com/apply',
-      hasApplied: false,
-    },
-  },
-};

@@ -64,10 +64,6 @@ export const LoggedInAllCompleted: Story = {
   },
 };
 
-export const WithApplyCTA: Story = {
-  ...loggedInStory(),
-};
-
 export const OnSecondUnit: Story = {
   ...loggedInStory(),
   args: {
