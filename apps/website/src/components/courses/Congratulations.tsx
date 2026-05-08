@@ -11,7 +11,7 @@ import {
   FaRegCopy,
   FaXTwitter,
 } from 'react-icons/fa6';
-import { COURSE_CONFIG, FOAI_COURSE_ID } from '../../lib/constants';
+import { BLUEDOT_LINKEDIN_ORG_ID, COURSE_CONFIG, FOAI_COURSE_ID } from '../../lib/constants';
 import { getCourseCtaColors } from '../../lib/courseCtaColors';
 import { ROUTES } from '../../lib/routes';
 import { getActionPlanUrl } from '../../lib/utils';
@@ -232,13 +232,25 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
   }
 
   if (data?.status === 'has-certificate') {
-    const issuedDate = new Date(data.certificateCreatedAt * 1000).toLocaleDateString('en-US', {
+    const issuedAt = new Date(data.certificateCreatedAt * 1000);
+    const issuedDate = issuedAt.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
     });
 
     const certificateLink = `${SITE_URL}${addQueryParam(ROUTES.certification.url, 'id', data.certificateId)}`;
+    const linkedInCertName = `${data.courseName ?? courseTitle}, BlueDot Impact`;
+    const linkedInCertParams = new URLSearchParams({
+      startTask: 'CERTIFICATION_NAME',
+      name: linkedInCertName,
+      organizationId: BLUEDOT_LINKEDIN_ORG_ID,
+      issueYear: String(issuedAt.getFullYear()),
+      issueMonth: String(issuedAt.getMonth() + 1),
+      certUrl: certificateLink,
+      certId: data.certificateId,
+    });
+    const linkedInCertUrl = `https://www.linkedin.com/profile/add?${linkedInCertParams.toString()}`;
 
     const handleCopyLink = async () => {
       try {
