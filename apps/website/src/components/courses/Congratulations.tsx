@@ -240,7 +240,7 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
     });
 
     const certificateLink = `${SITE_URL}${addQueryParam(ROUTES.certification.url, 'id', data.certificateId)}`;
-    const linkedInCertName = `${data.courseName ?? courseTitle}, BlueDot Impact`;
+    const linkedInCertName = `${data.courseName ?? courseTitle} - BlueDot Impact`;
     const linkedInCertParams = new URLSearchParams({
       startTask: 'CERTIFICATION_NAME',
       name: linkedInCertName,

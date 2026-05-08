@@ -125,7 +125,7 @@ describe('Congratulations', () => {
       const url = new URL(link.getAttribute('href')!);
       expect(url.origin + url.pathname).toBe('https://www.linkedin.com/profile/add');
       expect(url.searchParams.get('startTask')).toBe('CERTIFICATION_NAME');
-      expect(url.searchParams.get('name')).toBe('AGI Strategy, BlueDot Impact');
+      expect(url.searchParams.get('name')).toBe('AGI Strategy - BlueDot Impact');
       expect(url.searchParams.get('organizationId')).toBe('86200389');
       expect(url.searchParams.get('issueYear')).toBe('2024');
       expect(url.searchParams.get('issueMonth')).toBe('1');
