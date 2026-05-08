@@ -15,6 +15,11 @@ export const ONE_YEAR_SECONDS = 365 * ONE_DAY_SECONDS;
 export const FOAI_COURSE_ID = 'rec0Zgize0c4liMl5';
 export const FOAI_COURSE_SLUG = 'future-of-ai';
 
+// Synthetic chunk appended to the last unit of every non-FoAI course so the
+// final view points learners at next-step programs (advising, grants, etc.).
+export const NEXT_STEPS_CHUNK_ID = 'next-steps-synthetic';
+export const NEXT_STEPS_CHUNK_TITLE = 'Next steps: Programs';
+
 export const BLUEDOT_LINKEDIN_ORG_ID = '86200389';
 
 type CourseConfigItem = {
