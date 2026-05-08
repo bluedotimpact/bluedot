@@ -8,11 +8,12 @@ type DiscussionListProps = {
   discussions: GroupDiscussion[];
   units: Record<string, Unit>;
   attendedDiscussionIds: string[];
+  courseSlug: string;
   onReschedule: (unitNumber: string | null, switchType: SwitchType) => void;
 };
 
 const DiscussionList = ({
-  discussions, units, attendedDiscussionIds, onReschedule,
+  discussions, units, attendedDiscussionIds, courseSlug, onReschedule,
 }: DiscussionListProps) => {
   const currentTimeMs = useCurrentTimeMs();
   const attendedSet = new Set(attendedDiscussionIds);
@@ -37,6 +38,7 @@ const DiscussionList = ({
             key={discussion.id}
             discussion={discussion}
             unit={unit}
+            courseSlug={courseSlug}
             status={status}
             onReschedule={() => onReschedule(unit?.unitNumber ?? null, 'Switch group for one unit')}
           />

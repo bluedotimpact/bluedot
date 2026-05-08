@@ -252,6 +252,14 @@ const CourseListRow = ({
     });
   }
 
+  if ((state === 'in-progress' || state === 'upcoming') && !isNotInGroup) {
+    overflowItems.push({
+      id: 'switch-group-permanently',
+      label: 'Switch group permanently',
+      onAction: () => setGroupSwitch({ unitNumber: '1', switchType: 'Switch group permanently' }),
+    });
+  }
+
   if (state === 'in-progress' || state === 'upcoming') {
     overflowItems.push({ id: 'drop', label: 'Drop or defer course', onAction: () => setDropoutOpen(true) });
   }
@@ -424,6 +432,7 @@ const CourseListRow = ({
               discussions={discussions}
               units={units}
               attendedDiscussionIds={attendedDiscussionIds}
+              courseSlug={course.slug}
               onReschedule={openReschedule}
             />
           ) : (

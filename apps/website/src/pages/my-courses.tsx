@@ -29,6 +29,25 @@ const EMPTY_MESSAGE: Record<CourseTab, string> = {
   'past-courses': 'No past courses to show.',
 };
 
+// Sort by latest "open" (not-attended, not-past) discussion descending. Courses with
+// remaining discussions bubble above fully-completed ones; among courses with open discussions,
+// the one whose final remaining unit is furthest out goes first. Falls back to course start
+// date when no open discussions remain.
+const sortByLatestOpen = (courses: CourseRowData[]): CourseRowData[] => {
+  const nowSec = Math.floor(Date.now() / 1000);
+  const sortKey = (c: CourseRowData): number => {
+    const attendedSet = new Set(c.attendedDiscussionIds);
+    const openTimes = c.discussions
+      .filter((d) => !attendedSet.has(d.id) && d.endDateTime >= nowSec)
+      .map((d) => d.startDateTime);
+    if (openTimes.length > 0) return Math.max(...openTimes);
+    if (c.roundStartDate) return new Date(c.roundStartDate).getTime() / 1000;
+    return 0;
+  };
+
+  return [...courses].sort((a, b) => sortKey(b) - sortKey(a));
+};
+
 // Past Courses bundles completed + facilitated + dropped. Deferred registrations are excluded —
 // they appear via their next-round registration in another bucket. Sort puts no-cert first
 // (nudges users to complete) then certificate date desc.
@@ -38,8 +57,8 @@ export const bucketCourses = (courses: CourseRowData[] | undefined): Record<Cour
     .filter(({ courseRegistration: cr }) => cr.decision !== 'Reject' || cr.roundStatus === 'Future');
 
   return {
-    'in-progress': eligible.filter(({ courseRegistration: cr }) => cr.roundStatus === 'Active'),
-    upcoming: eligible.filter(({ courseRegistration: cr }) => cr.roundStatus === 'Future'),
+    'in-progress': sortByLatestOpen(eligible.filter(({ courseRegistration: cr }) => cr.roundStatus === 'Active')),
+    upcoming: sortByLatestOpen(eligible.filter(({ courseRegistration: cr }) => cr.roundStatus === 'Future')),
     'past-courses': eligible
       .filter(({ courseRegistration: cr }) => {
         if (cr.deferredId?.length) return false;
