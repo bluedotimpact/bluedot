@@ -116,6 +116,8 @@ const Exercise: React.FC<ExerciseProps> = ({
         exerciseId,
         response: exerciseResponse,
         completed, // undefined means "don't change", backend preserves existing value
+        // Lets the server gate FOAI cert auto-issuance without an extra exerciseTable read.
+        courseId: exerciseData?.courseId ?? undefined,
       });
     } catch {
       // Rollback handled by onError
