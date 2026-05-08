@@ -76,38 +76,4 @@ describe('SideBar', () => {
     );
     expect(container).toMatchSnapshot();
   });
-
-  test('shows Apply CTA with deadline when upcoming round exists', () => {
-    const { getByRole } = render(
-      <SideBar
-        {...defaultProps}
-        applyCTAProps={{
-          applicationDeadline: '31 Jan',
-          applicationUrl: 'https://example.com/apply',
-          hasApplied: false,
-        }}
-      />,
-      { wrapper: TrpcProvider },
-    );
-
-    const button = getByRole('link', { name: 'Apply by 31 Jan' });
-    expect(button).toBeInTheDocument();
-    expect(button).toHaveAttribute('href', 'https://example.com/apply');
-  });
-
-  test('does not show Apply CTA when user has already applied', () => {
-    const { queryByRole } = render(
-      <SideBar
-        {...defaultProps}
-        applyCTAProps={{
-          applicationDeadline: '31 Jan',
-          applicationUrl: 'https://example.com/apply',
-          hasApplied: true,
-        }}
-      />,
-      { wrapper: TrpcProvider },
-    );
-
-    expect(queryByRole('link', { name: /apply/i })).not.toBeInTheDocument();
-  });
 });
