@@ -1,4 +1,5 @@
 import { ErrorSection, P, ProgressDots } from '@bluedot/ui';
+import type React from 'react';
 import { PageListGroup, PageListRow } from '../PageListRow';
 import { formatAmountUsd } from '../../lib/utils';
 import { trpc } from '../../utils/trpc';

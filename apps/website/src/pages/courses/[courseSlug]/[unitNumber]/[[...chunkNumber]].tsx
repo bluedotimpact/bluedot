@@ -9,7 +9,9 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import UnitLayout, { type ChunkWithContent } from '../../../../components/courses/UnitLayout';
 import db from '../../../../lib/api/db';
-import { FOAI_COURSE_ID, FOAI_COURSE_SLUG, NEXT_STEPS_CHUNK_ID } from '../../../../lib/constants';
+import {
+  FOAI_COURSE_ID, FOAI_COURSE_SLUG, NEXT_STEPS_CHUNK_ID, NEXT_STEPS_CHUNK_TITLE,
+} from '../../../../lib/constants';
 import { getCourseOgImage } from '../../../../lib/courseOgImage';
 import { buildCourseUnitUrl } from '../../../../lib/utils';
 import { type BasicChunk, getActiveChunksByUnit, getCourseData } from '../../../../server/routers/courses';
@@ -175,8 +177,6 @@ export const getServerSideProps: GetServerSideProps<CourseUnitChunkPageProps> = 
     throw error;
   }
 };
-
-const NEXT_STEPS_CHUNK_TITLE = 'Next steps: Programs';
 
 const buildNextStepsBasicChunk = (chunkOrder: string): BasicChunk => ({
   id: NEXT_STEPS_CHUNK_ID,
