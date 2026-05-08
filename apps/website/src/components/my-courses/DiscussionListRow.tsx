@@ -1,4 +1,4 @@
-import { CTALinkOrButton, OverflowMenu } from '@bluedot/ui';
+import { CTALinkOrButton, OverflowMenu, type OverflowMenuItemProps } from '@bluedot/ui';
 import type { GroupDiscussion, Unit } from '@bluedot/db';
 import { useState } from 'react';
 import { IoBan, IoCheckmark } from 'react-icons/io5';
@@ -12,11 +12,12 @@ type DiscussionListRowProps = {
   unit: Unit | null;
   courseSlug: string;
   status: DiscussionStatus;
+  canReschedule: boolean;
   onReschedule: () => void;
 };
 
 const DiscussionListRow = ({
-  discussion, unit, courseSlug, status, onReschedule,
+  discussion, unit, courseSlug, status, canReschedule, onReschedule,
 }: DiscussionListRowProps) => {
   const [downloadError, setDownloadError] = useState<string | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
@@ -52,6 +53,20 @@ const DiscussionListRow = ({
   // only flips its primary CTA to Join discussion on live.
   const showJoinNow = status === 'live';
   const showSchedulingActions = status === 'upcoming' || status === 'soon' || status === 'live';
+  const showRescheduleForAbsent = status === 'absent' && canReschedule;
+
+  const overflowItems: OverflowMenuItemProps[] = [];
+  if (showSchedulingActions || showRescheduleForAbsent) {
+    overflowItems.push({ id: 'reschedule', label: 'Reschedule', onAction: onReschedule });
+  }
+
+  if (showJoinNow && joinHref) {
+    overflowItems.push({
+      id: 'join', label: 'Join now', href: joinHref, target: '_blank',
+    });
+  }
+
+  overflowItems.push(calendarItem);
 
   return (
     <li className="flex items-center gap-5 py-4 not-last:border-b not-last:border-color-divider">
@@ -73,30 +88,35 @@ const DiscussionListRow = ({
         )}
       </div>
       <div className="flex shrink-0 items-center gap-3">
-        {showSchedulingActions && (
-          <>
-            <CTALinkOrButton variant="secondary" size="small" onClick={onReschedule}>Reschedule</CTALinkOrButton>
-            {showJoinNow && joinHref && (
-              <CTALinkOrButton variant="primary" size="small" url={joinHref} target="_blank">Join now</CTALinkOrButton>
-            )}
-            <OverflowMenu ariaLabel="Discussion actions" items={[calendarItem]} />
-          </>
-        )}
-        {status === 'attended' && (
-          <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-            <IoCheckmark aria-hidden size={14} />
-            Attended
-          </span>
-        )}
-        {status === 'absent' && (
-          <>
+        {/* Inline actions/pills hidden on mobile per design — everything reachable via the overflow menu instead. */}
+        <div className="hidden shrink-0 items-center gap-3 sm:flex">
+          {showSchedulingActions && (
+            <>
+              <CTALinkOrButton variant="secondary" size="small" onClick={onReschedule}>Reschedule</CTALinkOrButton>
+              {showJoinNow && joinHref && (
+                <CTALinkOrButton variant="primary" size="small" url={joinHref} target="_blank">Join now</CTALinkOrButton>
+              )}
+            </>
+          )}
+          {status === 'attended' && (
             <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-              <IoBan aria-hidden size={14} />
-              Absent
+              <IoCheckmark aria-hidden size={14} />
+              Attended
             </span>
-            <CTALinkOrButton variant="primary" size="small" onClick={onReschedule}>Reschedule</CTALinkOrButton>
-          </>
-        )}
+          )}
+          {status === 'absent' && (
+            <>
+              <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
+                <IoBan aria-hidden size={14} />
+                Absent
+              </span>
+              {canReschedule && (
+                <CTALinkOrButton variant="primary" size="small" onClick={onReschedule}>Reschedule</CTALinkOrButton>
+              )}
+            </>
+          )}
+        </div>
+        <OverflowMenu ariaLabel="Discussion actions" items={overflowItems} />
       </div>
     </li>
   );

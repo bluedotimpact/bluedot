@@ -34,6 +34,7 @@ const baseArgs = {
   discussion,
   unit,
   courseSlug: 'technical-ai-safety',
+  canReschedule: true,
   onReschedule: () => {},
 };
 

@@ -445,6 +445,7 @@ const CourseListRow = ({
               units={units}
               attendedDiscussionIds={attendedDiscussionIds}
               courseSlug={course.slug}
+              canReschedule={state !== 'dropped' && !hasCert}
               onReschedule={openReschedule}
             />
           ) : (
