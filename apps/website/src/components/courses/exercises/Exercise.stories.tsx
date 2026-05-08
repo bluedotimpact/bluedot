@@ -69,7 +69,7 @@ const defaultHandlers = [
   trpcStorybookMsw.exercises.getExercise.query(() => freeTextExercise),
   trpcStorybookMsw.exercises.getExerciseResponse.query(() => null),
   trpcStorybookMsw.exercises.getGroupExerciseResponses.query(() => null),
-  trpcStorybookMsw.exercises.saveExerciseResponse.mutation(() => savedResponse),
+  trpcStorybookMsw.exercises.saveExerciseResponse.mutation(() => ({ ...savedResponse, certificateIssued: false })),
 ];
 
 const meta: Meta<typeof Exercise> = {
