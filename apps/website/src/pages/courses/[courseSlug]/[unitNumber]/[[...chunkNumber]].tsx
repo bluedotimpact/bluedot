@@ -176,7 +176,7 @@ export const getServerSideProps: GetServerSideProps<CourseUnitChunkPageProps> = 
   }
 };
 
-const NEXT_STEPS_CHUNK_TITLE = 'Next steps';
+const NEXT_STEPS_CHUNK_TITLE = 'Next steps: Programs';
 
 const buildNextStepsBasicChunk = (chunkOrder: string): BasicChunk => ({
   id: NEXT_STEPS_CHUNK_ID,
