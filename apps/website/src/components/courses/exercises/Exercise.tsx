@@ -60,9 +60,14 @@ const Exercise: React.FC<ExerciseProps> = ({
   );
 
   const saveResponseMutation = trpc.exercises.saveExerciseResponse.useMutation({
-    onSettled() {
+    onSettled(data) {
       utils.courses.getCourseProgress.invalidate({ courseSlug });
       utils.exercises.getExerciseResponse.invalidate({ exerciseId });
+      // Server may auto-issue a FOAI certificate when this completion was the last outstanding
+      // exercise. Invalidate the status query so the Congratulations page reflects it.
+      if (data?.certificateIssued) {
+        utils.certificates.getStatus.invalidate();
+      }
     },
     async onMutate(newData) {
       await utils.exercises.getExerciseResponse.cancel({ exerciseId });
