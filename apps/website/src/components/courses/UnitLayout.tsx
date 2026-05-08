@@ -18,6 +18,7 @@ import {
   type UnitResource,
 } from '@bluedot/db';
 import { useBugReport } from '../../hooks/useBugReport';
+import { NEXT_STEPS_CHUNK_ID } from '../../lib/constants';
 import { buildCourseUnitUrl } from '../../lib/utils';
 import type { BasicChunk } from '../../server/routers/courses';
 import { trpc } from '../../utils/trpc';
@@ -25,6 +26,7 @@ import GroupDiscussionBanner from './GroupDiscussionBanner';
 import InactiveCourseBanners from './InactiveCourseBanners';
 import KeyboardNavMenu from './KeyboardNavMenu';
 import MarkdownExtendedRenderer from './MarkdownExtendedRenderer';
+import NextStepsChunk from './NextStepsChunk';
 import { ResourceDisplay } from './ResourceDisplay';
 import CourseShell from './CourseShell';
 
@@ -203,27 +205,33 @@ const UnitLayout: React.FC<UnitLayoutProps> = ({
               <H1 className="unit__title font-bold text-[32px] leading-[130%] tracking-[-0.015em] text-bluedot-navy">{chunk.chunkTitle}</H1>
             )}
           </div>
-          {/* chunk content → unit content if no chunks - Only render if there's actual content */}
-          {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
-          {(chunk?.chunkContent || unit.content) && (
-            <MarkdownExtendedRenderer className="mt-8 md:mt-6">
+          {chunk?.id === NEXT_STEPS_CHUNK_ID ? (
+            <NextStepsChunk />
+          ) : (
+            <>
+              {/* chunk content → unit content if no chunks - Only render if there's actual content */}
               {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
-              {chunk?.chunkContent || unit.content || ''}
-            </MarkdownExtendedRenderer>
-          )}
+              {(chunk?.chunkContent || unit.content) && (
+                <MarkdownExtendedRenderer className="mt-8 md:mt-6">
+                  {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
+                  {chunk?.chunkContent || unit.content || ''}
+                </MarkdownExtendedRenderer>
+              )}
 
-          {/* Chunk resources and exercises - Show if there are any resources or exercises */}
-          {chunk && (chunk.resources?.length || chunk.exercises?.length) ? (
-            <ResourceDisplay
-              resources={chunk.resources || []}
-              exercises={chunk.exercises || []}
-              unitTitle={unit.title}
-              unitNumber={unitNumber}
-              className={clsx((chunk?.chunkContent || unit.content) ? 'mt-8 md:mt-6' : 'mt-4')}
-              courseSlug={courseSlug}
-              chunkIndex={chunkIndex}
-            />
-          ) : null}
+              {/* Chunk resources and exercises - Show if there are any resources or exercises */}
+              {chunk && (chunk.resources?.length || chunk.exercises?.length) ? (
+                <ResourceDisplay
+                  resources={chunk.resources || []}
+                  exercises={chunk.exercises || []}
+                  unitTitle={unit.title}
+                  unitNumber={unitNumber}
+                  className={clsx((chunk?.chunkContent || unit.content) ? 'mt-8 md:mt-6' : 'mt-4')}
+                  courseSlug={courseSlug}
+                  chunkIndex={chunkIndex}
+                />
+              ) : null}
+            </>
+          )}
 
           {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
           {(nextUnit || !isLastChunk) && (

@@ -7,9 +7,9 @@ import { type GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import UnitLayout from '../../../../components/courses/UnitLayout';
+import UnitLayout, { type ChunkWithContent } from '../../../../components/courses/UnitLayout';
 import db from '../../../../lib/api/db';
-import { FOAI_COURSE_ID } from '../../../../lib/constants';
+import { FOAI_COURSE_ID, FOAI_COURSE_SLUG, NEXT_STEPS_CHUNK_ID } from '../../../../lib/constants';
 import { getCourseOgImage } from '../../../../lib/courseOgImage';
 import { buildCourseUnitUrl } from '../../../../lib/utils';
 import { type BasicChunk, getActiveChunksByUnit, getCourseData } from '../../../../server/routers/courses';
@@ -176,6 +176,32 @@ export const getServerSideProps: GetServerSideProps<CourseUnitChunkPageProps> = 
   }
 };
 
+const NEXT_STEPS_CHUNK_TITLE = 'Next steps';
+
+const buildNextStepsBasicChunk = (chunkOrder: string): BasicChunk => ({
+  id: NEXT_STEPS_CHUNK_ID,
+  chunkTitle: NEXT_STEPS_CHUNK_TITLE,
+  chunkOrder,
+  estimatedTime: null,
+});
+
+const buildNextStepsChunkWithContent = (unitId: string, chunkOrder: string): ChunkWithContent => ({
+  id: NEXT_STEPS_CHUNK_ID,
+  chunkId: NEXT_STEPS_CHUNK_ID,
+  unitId,
+  chunkTitle: NEXT_STEPS_CHUNK_TITLE,
+  chunkOrder,
+  chunkType: 'next-steps',
+  chunkContent: '',
+  estimatedTime: null,
+  chunkResources: null,
+  chunkExercises: null,
+  status: 'Active',
+  metaDescription: null,
+  resources: [],
+  exercises: [],
+});
+
 type UnitWithChunks = Awaited<ReturnType<typeof getUnitWithChunks>>;
 async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
   const { units } = await getCourseData(courseSlug);
@@ -186,6 +212,17 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
   }
 
   const allUnitChunks = await getActiveChunksByUnit(units);
+
+  // Append a synthetic "Next steps" chunk to the last unit of every non-FoAI
+  // course so learners see programs to continue with after finishing.
+  const finalUnit = units[units.length - 1];
+  const shouldShowNextSteps = courseSlug !== FOAI_COURSE_SLUG && finalUnit !== undefined;
+  if (shouldShowNextSteps) {
+    const finalUnitChunks = allUnitChunks[finalUnit.id] ?? [];
+    const lastChunkOrder = finalUnitChunks[finalUnitChunks.length - 1]?.chunkOrder;
+    const nextStepsOrder = String(Number(lastChunkOrder ?? '0') + 1);
+    allUnitChunks[finalUnit.id] = [...finalUnitChunks, buildNextStepsBasicChunk(nextStepsOrder)];
+  }
 
   // Get chunks for current unit (with full resources/exercises)
   const currentUnitChunks = await db.pg
@@ -239,10 +276,21 @@ async function getUnitWithChunks(courseSlug: string, unitNumber: string) {
     };
   });
 
+  const isFinalUnit = shouldShowNextSteps && unit.id === finalUnit.id;
+  const chunksForUnit: ChunkWithContent[] = isFinalUnit
+    ? [
+      ...chunksWithContent,
+      buildNextStepsChunkWithContent(
+        unit.id,
+        String(Number(chunksWithContent[chunksWithContent.length - 1]?.chunkOrder ?? '0') + 1),
+      ),
+    ]
+    : chunksWithContent;
+
   return {
     units,
     unit,
-    chunks: chunksWithContent,
+    chunks: chunksForUnit,
     allUnitChunks,
   };
 }
