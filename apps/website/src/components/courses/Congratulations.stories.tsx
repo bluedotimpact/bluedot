@@ -86,14 +86,13 @@ export const Error: Story = {
   },
 };
 
-export const CanRequest: Story = {
+export const ExercisesIncomplete: Story = {
   ...loggedInStory(),
   args: {},
   parameters: {
     msw: {
       handlers: [
-        trpcStorybookMsw.certificates.getStatus.query(() => ({ status: 'can-request' as const })),
-        trpcStorybookMsw.certificates.request.mutation(() => undefined as never),
+        trpcStorybookMsw.certificates.getStatus.query(() => ({ status: 'exercises-incomplete' as const })),
       ],
     },
   },
