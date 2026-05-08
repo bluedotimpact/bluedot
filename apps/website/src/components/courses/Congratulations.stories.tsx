@@ -86,18 +86,6 @@ export const Error: Story = {
   },
 };
 
-export const ExercisesIncomplete: Story = {
-  ...loggedInStory(),
-  args: {},
-  parameters: {
-    msw: {
-      handlers: [
-        trpcStorybookMsw.certificates.getStatus.query(() => ({ status: 'exercises-incomplete' as const })),
-      ],
-    },
-  },
-};
-
 export const ActionPlanPending: Story = {
   ...loggedInStory(),
   args: {},
