@@ -1,18 +1,22 @@
 import type { CourseRound } from '../../server/routers/course-rounds';
 import { buildRoundApplyUrl, RoundItem } from './RoundItem';
 
+const DEFAULT_MAX_ROUNDS = 3;
+
 type RoundGroupProps = {
   type: 'intensive' | 'part-time';
   rounds: CourseRound[];
   applicationUrl: string;
   accentColor?: string;
-  /** Cap the number of rounds shown. Defaults to showing all. */
+  /** Cap the number of rounds shown. Defaults to 3. */
   maxRounds?: number;
 };
 
 // eslint-disable-next-line react/function-component-definition
-export default function RoundGroup({ type, rounds, applicationUrl, accentColor, maxRounds }: RoundGroupProps) {
-  const displayedRounds = maxRounds !== undefined ? rounds.slice(0, maxRounds) : rounds;
+export default function RoundGroup({
+  type, rounds, applicationUrl, accentColor, maxRounds = DEFAULT_MAX_ROUNDS,
+}: RoundGroupProps) {
+  const displayedRounds = rounds.slice(0, maxRounds);
   const firstRound = displayedRounds[0];
   const numberOfUnits = firstRound?.numberOfUnits;
 
