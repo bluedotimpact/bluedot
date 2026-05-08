@@ -245,8 +245,8 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
       startTask: 'CERTIFICATION_NAME',
       name: linkedInCertName,
       organizationId: BLUEDOT_LINKEDIN_ORG_ID,
-      issueYear: String(issuedAt.getFullYear()),
-      issueMonth: String(issuedAt.getMonth() + 1),
+      issueYear: String(issuedAt.getUTCFullYear()),
+      issueMonth: String(issuedAt.getUTCMonth() + 1),
       certUrl: certificateLink,
       certId: data.certificateId,
     });
