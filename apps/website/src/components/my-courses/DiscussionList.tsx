@@ -55,7 +55,7 @@ const DiscussionList = ({
         })}
       </ul>
       {discussions.length > COLLAPSED_LIMIT && (
-        <div className="px-6 pt-3 pb-4 text-center">
+        <div className="px-6 pb-4 text-center">
           <button
             type="button"
             onClick={() => setShowAll(!showAll)}
