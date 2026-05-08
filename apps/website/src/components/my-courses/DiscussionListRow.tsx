@@ -10,12 +10,13 @@ type DiscussionStatus = 'upcoming' | 'soon' | 'live' | 'attended' | 'absent';
 type DiscussionListRowProps = {
   discussion: GroupDiscussion;
   unit: Unit | null;
+  courseSlug: string;
   status: DiscussionStatus;
   onReschedule: () => void;
 };
 
 const DiscussionListRow = ({
-  discussion, unit, status, onReschedule,
+  discussion, unit, courseSlug, status, onReschedule,
 }: DiscussionListRowProps) => {
   const [downloadError, setDownloadError] = useState<string | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
@@ -36,6 +37,7 @@ const DiscussionListRow = ({
   const unitNumber = unit?.unitNumber ?? discussion.unitNumber;
   const unitLabel = unitNumber !== null ? `UNIT ${unitNumber}` : 'UNIT';
   const title = unit?.title ?? 'Discussion';
+  const prepareUrl = unitNumber !== null ? `/courses/${courseSlug}/${unitNumber}` : null;
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const joinHref = discussion.zoomLink || undefined;
 
@@ -53,7 +55,16 @@ const DiscussionListRow = ({
       <TimeWidget isLive={status === 'live'} dateTimeSeconds={discussion.startDateTime} />
       <div className="min-w-0 flex-1">
         <p className="text-size-xxs font-semibold text-bluedot-black">{unitLabel}</p>
-        <p className="text-size-sm font-semibold leading-[24px] text-bluedot-black">{title}</p>
+        {prepareUrl ? (
+          <a
+            href={prepareUrl}
+            className="block text-size-sm font-semibold leading-[24px] text-bluedot-black no-underline w-fit transition-colors hover:text-bluedot-normal hover:underline underline-offset-2"
+          >
+            {title}
+          </a>
+        ) : (
+          <p className="text-size-sm font-semibold leading-[24px] text-bluedot-black">{title}</p>
+        )}
         {downloadError && (
           <p className="mt-1 text-size-xxs text-red-600" role="alert" aria-live="polite">{downloadError}</p>
         )}

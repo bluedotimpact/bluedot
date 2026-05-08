@@ -33,6 +33,7 @@ type Story = StoryObj<typeof meta>;
 const baseArgs = {
   discussion,
   unit,
+  courseSlug: 'technical-ai-safety',
   onReschedule: () => {},
 };
 
