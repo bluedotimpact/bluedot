@@ -2,7 +2,8 @@ import {
   A, cn, Modal, P,
 } from '@bluedot/ui';
 import { type ReactNode, useState } from 'react';
-import { FaArrowRight, FaLock } from 'react-icons/fa6';
+import { FaArrowRight } from 'react-icons/fa6';
+import { FiLock } from 'react-icons/fi';
 import { getActionPlanUrl } from '../../lib/utils';
 import type { CertificateData } from '../../server/routers/certificates';
 
@@ -121,7 +122,7 @@ export const SidebarCertificatePanel = ({
             <p className="text-size-sm leading-[1.5] font-bold">{label}</p>
             <p className="text-size-xs leading-[1.5] font-normal">Submit your project/action plan to claim</p>
           </div>
-          <FaLock className="text-bluedot-navy/40 size-5 shrink-0" />
+          <FiLock className="text-bluedot-navy/40 size-5 shrink-0" />
         </div>
       </div>
     );
@@ -135,7 +136,7 @@ export const SidebarCertificatePanel = ({
           <p className="text-size-sm leading-[1.5] font-bold">{label}</p>
           <p className="text-size-xs leading-[1.5] font-normal">Complete all exercises to unlock</p>
         </div>
-        <FaLock className="text-bluedot-navy/40 size-5 shrink-0" />
+        <FiLock className="text-bluedot-navy/40 size-5 shrink-0" />
       </div>
     );
   }
@@ -164,7 +165,7 @@ export const SidebarCertificatePanel = ({
           <p className="text-size-sm leading-[1.5] font-bold">{label}</p>
           <p className="text-size-xs leading-[1.5] font-normal">{subtitle}</p>
         </div>
-        <FaLock className="text-bluedot-navy/40 size-5 shrink-0" />
+        <FiLock className="text-bluedot-navy/40 size-5 shrink-0" />
       </div>
     </>
   );
