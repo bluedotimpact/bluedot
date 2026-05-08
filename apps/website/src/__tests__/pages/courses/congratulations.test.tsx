@@ -52,10 +52,7 @@ const DEFAULT_PROPS = {
 describe('CongratulationsPage', () => {
   beforeEach(() => {
     mockReplace.mockClear();
-    server.use(
-      trpcMsw.courseRounds.getApplyCTAProps.query(() => null),
-      trpcMsw.groupDiscussions.getByCourseSlug.query(() => null),
-    );
+    server.use(trpcMsw.groupDiscussions.getByCourseSlug.query(() => null));
   });
 
   test('redirects to first unit when user is ineligible (action-plan-pending)', async () => {

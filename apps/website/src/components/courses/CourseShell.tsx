@@ -5,13 +5,12 @@ import type React from 'react';
 import { type ReactNode, useEffect, useState } from 'react';
 import { FaBars, FaChevronDown, FaChevronRight } from 'react-icons/fa6';
 import { ROUTES } from '../../lib/routes';
-import type { BasicChunk } from '../../server/routers/courses';
 import type { CertificateData } from '../../server/routers/certificates';
-import type { CourseProgress } from '../../server/routers/courses';
+import type { BasicChunk, CourseProgress } from '../../server/routers/courses';
 import { ArrowRightIcon } from '../icons';
 import { CourseIcon } from './CourseIcon';
 import { MobileCourseModal } from './MobileCourseModal';
-import SideBar, { type ApplyCTAProps } from './SideBar';
+import SideBar from './SideBar';
 
 type MobileNavigation = {
   prevUnit?: Unit;
@@ -114,7 +113,6 @@ export type CourseShellProps = {
   currentUnitNumber?: number;
   currentChunkIndex?: number;
   onChunkSelect?: (index: number) => void;
-  applyCTAProps?: ApplyCTAProps;
   courseProgressData?: CourseProgress;
   breadcrumb: ReactNode;
   navigationControls?: ReactNode;
@@ -132,7 +130,6 @@ const CourseShell: React.FC<CourseShellProps> = ({
   currentUnitNumber = 0,
   currentChunkIndex = 0,
   onChunkSelect = () => {},
-  applyCTAProps,
   courseProgressData,
   breadcrumb,
   navigationControls,
@@ -234,7 +231,6 @@ const CourseShell: React.FC<CourseShellProps> = ({
             currentChunkIndex={currentChunkIndex}
             onChunkSelect={onChunkSelect}
             unitChunks={allUnitChunks}
-            applyCTAProps={applyCTAProps}
             courseProgressData={courseProgressData}
           />
         )}
@@ -301,7 +297,6 @@ const CourseShell: React.FC<CourseShellProps> = ({
         onChunkSelect={onChunkSelect}
         onUnitSelect={(unitPath) => router.push(unitPath)}
         unitChunks={allUnitChunks}
-        applyCTAProps={applyCTAProps}
         courseProgressData={courseProgressData}
       />
     </div>

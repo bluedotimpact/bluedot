@@ -1,5 +1,5 @@
 import type { Unit } from '@bluedot/db';
-import { A, CTALinkOrButton, P } from '@bluedot/ui';
+import { A, P } from '@bluedot/ui';
 import clsx from 'clsx';
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
@@ -20,7 +20,6 @@ type SideBarProps = {
   currentChunkIndex: number;
   onChunkSelect: (index: number) => void;
   unitChunks: Record<string, BasicChunk[]>;
-  applyCTAProps?: ApplyCTAProps;
   className?: string;
   courseProgressData?: CourseProgress;
 };
@@ -161,29 +160,6 @@ const SideBarCollapsible: React.FC<SideBarCollapsibleProps> = ({
   );
 };
 
-export type ApplyCTAProps = {
-  applicationDeadline: string;
-  applicationUrl: string;
-  hasApplied: boolean;
-};
-
-const ApplyCTA = ({ applicationDeadline, applicationUrl, hasApplied }: ApplyCTAProps) => {
-  if (hasApplied) {
-    return null;
-  }
-
-  return (
-    <CTALinkOrButton
-      url={applicationUrl}
-      variant="outline-black"
-      target="_blank"
-      className="px-3 py-1.5 text-size-xs"
-    >
-      {`Apply by ${applicationDeadline}`}
-    </CTALinkOrButton>
-  );
-};
-
 const SideBar: React.FC<SideBarProps> = ({
   courseTitle,
   courseSlug,
@@ -194,7 +170,6 @@ const SideBar: React.FC<SideBarProps> = ({
   currentUnitNumber,
   currentChunkIndex,
   onChunkSelect,
-  applyCTAProps,
   unitChunks,
 }) => {
   const isCurrentUnit = (unit: Unit) => {
@@ -222,7 +197,6 @@ const SideBar: React.FC<SideBarProps> = ({
             </div>
           </div>
         </div>
-        {applyCTAProps && <ApplyCTA {...applyCTAProps} />}
       </div>
 
       {/* Units */}

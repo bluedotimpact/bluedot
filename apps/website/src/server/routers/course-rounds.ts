@@ -7,7 +7,6 @@ import {
   or, sql,
 } from '@bluedot/db';
 import { z } from 'zod';
-import type { ApplyCTAProps } from '../../components/courses/SideBar';
 import db from '../../lib/api/db';
 import { ONE_DAY_MS } from '../../lib/constants';
 import { formatApplicationDeadlineUtcDetailed, formatMonthAndDay } from '../../lib/utils';
@@ -245,7 +244,7 @@ export const courseRoundsRouter = router({
 
   getApplyCTAProps: publicProcedure
     .input(z.object({ courseSlug: z.string().min(1) }))
-    .query(async ({ ctx, input }): Promise<ApplyCTAProps | null> => {
+    .query(async ({ ctx, input }) => {
       const { courseSlug } = input;
 
       // Get course with applyUrl from database
