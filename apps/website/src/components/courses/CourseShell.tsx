@@ -234,7 +234,6 @@ const CourseShell: React.FC<CourseShellProps> = ({
             currentChunkIndex={currentChunkIndex}
             onChunkSelect={onChunkSelect}
             unitChunks={allUnitChunks}
-            applyCTAProps={applyCTAProps}
             courseProgressData={courseProgressData}
           />
         )}

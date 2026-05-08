@@ -1,5 +1,5 @@
 import type { Unit } from '@bluedot/db';
-import { A, CTALinkOrButton, P } from '@bluedot/ui';
+import { A, P } from '@bluedot/ui';
 import clsx from 'clsx';
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
@@ -20,7 +20,6 @@ type SideBarProps = {
   currentChunkIndex: number;
   onChunkSelect: (index: number) => void;
   unitChunks: Record<string, BasicChunk[]>;
-  applyCTAProps?: ApplyCTAProps;
   className?: string;
   courseProgressData?: CourseProgress;
 };
@@ -171,7 +170,6 @@ const SideBar: React.FC<SideBarProps> = ({
   currentUnitNumber,
   currentChunkIndex,
   onChunkSelect,
-  applyCTAProps,
   unitChunks,
 }) => {
   const isCurrentUnit = (unit: Unit) => {
