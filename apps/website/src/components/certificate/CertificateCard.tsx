@@ -117,7 +117,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
         </div>
 
         <div className="relative flex flex-col items-center px-5 md:px-16 pb-0">
-          <p className="mt-16 text-size-xs md:text-size-sm font-medium uppercase tracking-[0.02em] leading-[1.6] text-[#62748E] text-center">
+          <p className="mt-16 text-size-xs md:text-size-sm font-medium uppercase tracking-[0.02em] leading-[1.6] text-charcoal-mid text-center">
             Professional certification
           </p>
 
@@ -129,7 +129,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
           </h1>
 
           <div className="mt-12">
-            <p className="text-size-sm font-medium uppercase tracking-[0.02em] leading-[1.6] text-[#62748E] text-center">
+            <p className="text-size-sm font-medium uppercase tracking-[0.02em] leading-[1.6] text-charcoal-mid text-center">
               Awarded to
             </p>
             <p className="mt-1 text-2xl font-semibold leading-tight text-bluedot-navy text-center font-display">
@@ -139,7 +139,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
 
           <div className="mt-12 md:max-w-[672px]">
             <p
-              className="text-size-sm md:text-base leading-[1.6] md:leading-[26px] tracking-[-0.3125px] text-[#62748E] text-center [&_strong]:font-semibold [&_strong]:text-bluedot-navy"
+              className="text-size-sm md:text-base leading-[1.6] md:leading-[26px] tracking-[-0.3125px] text-charcoal-mid text-center [&_strong]:font-semibold [&_strong]:text-bluedot-navy"
               style={DISPLAY_FONT_STYLE}
 
               dangerouslySetInnerHTML={{ __html: description }}
@@ -151,7 +151,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
       <div className="mt-16 mx-5 md:mx-16 border-t border-slate-200 pt-[25px] pb-6">
         <div className="flex justify-between items-end">
           <div className="w-[156px] md:w-[240px]">
-            <p className="text-size-xs font-medium uppercase tracking-[0.02em] leading-[1.6] text-[#62748E]">
+            <p className="text-size-xs font-medium uppercase tracking-[0.02em] leading-[1.6] text-charcoal-mid">
               Issued
             </p>
             <p
@@ -173,7 +173,7 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
           </div>
 
           <div className="w-[156px] md:w-[240px] text-right">
-            <p className="text-size-xs font-medium uppercase tracking-[0.02em] leading-[1.6] text-[#62748E]">
+            <p className="text-size-xs font-medium uppercase tracking-[0.02em] leading-[1.6] text-charcoal-mid">
               Certificate ID
             </p>
             <p
