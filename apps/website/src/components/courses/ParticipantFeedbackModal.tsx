@@ -242,7 +242,7 @@ const BUBBLE_COLORS: Record<number, string> = {
 
 export const RubricSelector: React.FC<RubricSelectorProps> = ({ name, ariaLabelledBy, options, value, onChange }) => {
   return (
-    <div role="radiogroup" aria-labelledby={ariaLabelledBy} className="rounded-md border-[0.5px] border-[rgba(106,111,122,0.5)] overflow-clip">
+    <div role="radiogroup" aria-labelledby={ariaLabelledBy} className="rounded-md border-[0.5px] border-charcoal-mid/50 overflow-clip">
       {options.map((option, idx) => {
         const isSelected = value === option.value;
         const isLast = idx === options.length - 1;
