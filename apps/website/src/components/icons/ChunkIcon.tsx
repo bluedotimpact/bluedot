@@ -12,7 +12,7 @@ export const ChunkIcon = ({ isActive, size = 24, className, ...props }: ChunkIco
     xmlns="http://www.w3.org/2000/svg"
     width={size}
     height={size}
-    className={cn(isActive ? 'text-bluedot-navy' : 'text-[#6A6F7A]/30', className)}
+    className={cn(isActive ? 'text-bluedot-navy' : 'text-charcoal-mid/30', className)}
     {...props}
   >
     <path

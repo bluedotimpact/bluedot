@@ -75,7 +75,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="rotate-180 text-[#6A6F7A]"
+              class="rotate-180 text-charcoal-mid"
               fill="none"
               height="10"
               viewBox="0 0 12 10"
@@ -244,7 +244,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   type="button"
                 >
                   <svg
-                    class="text-[#6A6F7A]/30"
+                    class="text-charcoal-mid/30"
                     fill="none"
                     height="24"
                     viewBox="0 0 24 24"
@@ -317,7 +317,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   tabindex="0"
                 >
                   <svg
-                    class="text-[#6A6F7A]/30"
+                    class="text-charcoal-mid/30"
                     fill="none"
                     height="24"
                     viewBox="0 0 24 24"
@@ -350,7 +350,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   tabindex="0"
                 >
                   <svg
-                    class="text-[#6A6F7A]/30"
+                    class="text-charcoal-mid/30"
                     fill="none"
                     height="24"
                     viewBox="0 0 24 24"
@@ -423,7 +423,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   tabindex="0"
                 >
                   <svg
-                    class="text-[#6A6F7A]/30"
+                    class="text-charcoal-mid/30"
                     fill="none"
                     height="24"
                     viewBox="0 0 24 24"
@@ -456,7 +456,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   tabindex="0"
                 >
                   <svg
-                    class="text-[#6A6F7A]/30"
+                    class="text-charcoal-mid/30"
                     fill="none"
                     height="24"
                     viewBox="0 0 24 24"
@@ -529,7 +529,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   tabindex="0"
                 >
                   <svg
-                    class="text-[#6A6F7A]/30"
+                    class="text-charcoal-mid/30"
                     fill="none"
                     height="24"
                     viewBox="0 0 24 24"
@@ -562,7 +562,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   tabindex="0"
                 >
                   <svg
-                    class="text-[#6A6F7A]/30"
+                    class="text-charcoal-mid/30"
                     fill="none"
                     height="24"
                     viewBox="0 0 24 24"
@@ -635,7 +635,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   tabindex="0"
                 >
                   <svg
-                    class="text-[#6A6F7A]/30"
+                    class="text-charcoal-mid/30"
                     fill="none"
                     height="24"
                     viewBox="0 0 24 24"
@@ -668,7 +668,7 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                   tabindex="0"
                 >
                   <svg
-                    class="text-[#6A6F7A]/30"
+                    class="text-charcoal-mid/30"
                     fill="none"
                     height="24"
                     viewBox="0 0 24 24"
@@ -745,21 +745,21 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 </span>
               </button>
               <span
-                class="h-[18px] w-px bg-[#6A6F7A] opacity-50"
+                class="h-[18px] w-px bg-charcoal-mid opacity-50"
               />
             </div>
             <nav
               class="flex min-h-[18px] min-w-0 flex-1 items-center gap-2"
             >
               <a
-                class="bluedot-a not-prose text-size-xs hover:text-bluedot-navy leading-[18px] font-medium tracking-[-0.005em] text-[#6A6F7A] no-underline transition-colors"
+                class="bluedot-a not-prose text-size-xs hover:text-bluedot-navy leading-[18px] font-medium tracking-[-0.005em] text-charcoal-mid no-underline transition-colors"
                 href="/courses"
                 tabindex="0"
               >
                 Courses
               </a>
               <svg
-                class="size-[14px] flex-shrink-0 text-[#6A6F7A] opacity-50"
+                class="size-[14px] flex-shrink-0 text-charcoal-mid opacity-50"
                 fill="currentColor"
                 height="1em"
                 stroke="currentColor"
@@ -773,14 +773,14 @@ exports[`UnitLayout > renders first unit as expected 1`] = `
                 />
               </svg>
               <a
-                class="bluedot-a not-prose text-size-xs hover:text-bluedot-navy truncate leading-[18px] font-medium tracking-[-0.005em] text-[#6A6F7A] no-underline transition-colors"
+                class="bluedot-a not-prose text-size-xs hover:text-bluedot-navy truncate leading-[18px] font-medium tracking-[-0.005em] text-charcoal-mid no-underline transition-colors"
                 href="/courses/test-course"
                 tabindex="0"
               >
                 What the fish [Test Course]
               </a>
               <svg
-                class="size-[14px] flex-shrink-0 text-[#6A6F7A] opacity-50"
+                class="size-[14px] flex-shrink-0 text-charcoal-mid opacity-50"
                 fill="currentColor"
                 height="1em"
                 stroke="currentColor"

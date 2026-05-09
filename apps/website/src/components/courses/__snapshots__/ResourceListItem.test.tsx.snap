@@ -27,7 +27,7 @@ exports[`ResourceListItem - Listen to Article Feature > should handle various me
   >
     <svg
       aria-hidden="true"
-      class="text-[#6A6F7A] group-hover:text-bluedot-navy transition-colors duration-200"
+      class="text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200"
       fill="none"
       height="16"
       viewBox="0 0 16 16"
@@ -49,7 +49,7 @@ exports[`ResourceListItem - Listen to Article Feature > should handle various me
       />
     </svg>
     <span
-      class="text-size-xs font-medium leading-[140%] tracking-[-0.005em] text-[#6A6F7A] group-hover:text-bluedot-navy transition-colors duration-200"
+      class="text-size-xs font-medium leading-[140%] tracking-[-0.005em] text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200"
     >
       Listen to article
     </span>
@@ -85,7 +85,7 @@ exports[`ResourceListItem - Listen to Article Feature > should handle various me
   >
     <svg
       aria-hidden="true"
-      class="text-[#6A6F7A] group-hover:text-bluedot-navy transition-colors duration-200"
+      class="text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200"
       fill="none"
       height="16"
       viewBox="0 0 16 16"
@@ -107,7 +107,7 @@ exports[`ResourceListItem - Listen to Article Feature > should handle various me
       />
     </svg>
     <span
-      class="text-size-xs font-medium leading-[140%] tracking-[-0.005em] text-[#6A6F7A] group-hover:text-bluedot-navy transition-colors duration-200"
+      class="text-size-xs font-medium leading-[140%] tracking-[-0.005em] text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200"
     >
       Listen to article
     </span>
@@ -149,7 +149,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
   >
     <svg
       aria-hidden="true"
-      class="text-[#6A6F7A] group-hover:text-bluedot-navy transition-colors duration-200"
+      class="text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200"
       fill="none"
       height="16"
       viewBox="0 0 16 16"
@@ -171,7 +171,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
       />
     </svg>
     <span
-      class="text-size-xs font-medium leading-[140%] tracking-[-0.005em] text-[#6A6F7A] group-hover:text-bluedot-navy transition-colors duration-200"
+      class="text-size-xs font-medium leading-[140%] tracking-[-0.005em] text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200"
     >
       Listen to article
     </span>
@@ -200,7 +200,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
   >
     <svg
       aria-hidden="true"
-      class="text-[#6A6F7A] group-hover:text-bluedot-navy transition-colors duration-200"
+      class="text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200"
       fill="none"
       height="16"
       viewBox="0 0 16 16"
@@ -222,7 +222,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
       />
     </svg>
     <span
-      class="text-size-xs font-medium leading-[140%] tracking-[-0.005em] text-[#6A6F7A] group-hover:text-bluedot-navy transition-colors duration-200"
+      class="text-size-xs font-medium leading-[140%] tracking-[-0.005em] text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200"
     >
       Listen to article
     </span>
@@ -264,7 +264,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
   >
     <svg
       aria-hidden="true"
-      class="text-[#6A6F7A] group-hover:text-bluedot-navy transition-colors duration-200"
+      class="text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200"
       fill="none"
       height="16"
       viewBox="0 0 16 16"
@@ -286,7 +286,7 @@ exports[`ResourceListItem - Listen to Article Feature > should render Listen to 
       />
     </svg>
     <span
-      class="text-size-xs font-medium leading-[140%] tracking-[-0.005em] text-[#6A6F7A] group-hover:text-bluedot-navy transition-colors duration-200"
+      class="text-size-xs font-medium leading-[140%] tracking-[-0.005em] text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200"
     >
       Listen to article
     </span>

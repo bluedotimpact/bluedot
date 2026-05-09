@@ -74,7 +74,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
           >
             <ArrowRightIcon
               aria-hidden="true"
-              className={cn('rotate-180', mobileNavigation.isFirstChunk && !mobileNavigation.prevUnit ? 'text-[#6A6F7A]' : 'text-bluedot-darker')}
+              className={cn('rotate-180', mobileNavigation.isFirstChunk && !mobileNavigation.prevUnit ? 'text-charcoal-mid' : 'text-bluedot-darker')}
             />
           </button>
           <button
@@ -86,7 +86,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({
           >
             <ArrowRightIcon
               aria-hidden="true"
-              className={mobileNavigation.isLastChunk && !mobileNavigation.nextUnit ? 'text-[#6A6F7A]' : 'text-bluedot-darker'}
+              className={mobileNavigation.isLastChunk && !mobileNavigation.nextUnit ? 'text-charcoal-mid' : 'text-bluedot-darker'}
             />
           </button>
         </div>
@@ -250,25 +250,25 @@ const CourseShell: React.FC<CourseShellProps> = ({
                   <FaBars className="size-[16px]" />
                   <span className="tracking-[-0.005em]">{isSidebarHidden ? 'Show' : 'Hide'}</span>
                 </button>
-                <span className="h-[18px] w-px bg-[#6A6F7A] opacity-50" />
+                <span className="h-[18px] w-px bg-charcoal-mid opacity-50" />
               </div>
 
               {/* Breadcrumbs - left aligned after hide */}
               <nav className="flex min-h-[18px] min-w-0 flex-1 items-center gap-2">
                 <A
                   href={ROUTES.courses.url}
-                  className="text-size-xs hover:text-bluedot-navy leading-[18px] font-medium tracking-[-0.005em] text-[#6A6F7A] no-underline transition-colors"
+                  className="text-size-xs hover:text-bluedot-navy leading-[18px] font-medium tracking-[-0.005em] text-charcoal-mid no-underline transition-colors"
                 >
                   Courses
                 </A>
-                <FaChevronRight className="size-[14px] flex-shrink-0 text-[#6A6F7A] opacity-50" />
+                <FaChevronRight className="size-[14px] flex-shrink-0 text-charcoal-mid opacity-50" />
                 <A
                   href={`/courses/${courseSlug}`}
-                  className="text-size-xs hover:text-bluedot-navy truncate leading-[18px] font-medium tracking-[-0.005em] text-[#6A6F7A] no-underline transition-colors"
+                  className="text-size-xs hover:text-bluedot-navy truncate leading-[18px] font-medium tracking-[-0.005em] text-charcoal-mid no-underline transition-colors"
                 >
                   {courseTitle}
                 </A>
-                <FaChevronRight className="size-[14px] flex-shrink-0 text-[#6A6F7A] opacity-50" />
+                <FaChevronRight className="size-[14px] flex-shrink-0 text-charcoal-mid opacity-50" />
                 <span
                   className="text-size-xs text-bluedot-navy truncate leading-[18px] font-medium tracking-[-0.005em]"
                   title={typeof breadcrumb === 'string' ? breadcrumb : undefined}

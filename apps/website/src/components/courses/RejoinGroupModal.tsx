@@ -95,7 +95,7 @@ export default function RejoinGroupModal({ handleClose, roundId }: RejoinGroupMo
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-2">
               <span className="text-size-sm text-bluedot-navy font-medium">Select a group</span>
-              <p className="text-size-xs text-[#666C80]">
+              <p className="text-size-xs text-charcoal-mid">
                 Select the group you want to rejoin. The displayed time is in your time zone:
                 <span className="font-medium"> {getGMTOffsetWithCity()}</span>
               </p>

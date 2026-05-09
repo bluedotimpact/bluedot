@@ -173,7 +173,7 @@ exports[`SideBar > renders default as expected 1`] = `
               tabindex="0"
             >
               <svg
-                class="text-[#6A6F7A]/30"
+                class="text-charcoal-mid/30"
                 fill="none"
                 height="24"
                 viewBox="0 0 24 24"
@@ -246,7 +246,7 @@ exports[`SideBar > renders default as expected 1`] = `
               tabindex="0"
             >
               <svg
-                class="text-[#6A6F7A]/30"
+                class="text-charcoal-mid/30"
                 fill="none"
                 height="24"
                 viewBox="0 0 24 24"
@@ -319,7 +319,7 @@ exports[`SideBar > renders default as expected 1`] = `
               tabindex="0"
             >
               <svg
-                class="text-[#6A6F7A]/30"
+                class="text-charcoal-mid/30"
                 fill="none"
                 height="24"
                 viewBox="0 0 24 24"
@@ -392,7 +392,7 @@ exports[`SideBar > renders default as expected 1`] = `
               tabindex="0"
             >
               <svg
-                class="text-[#6A6F7A]/30"
+                class="text-charcoal-mid/30"
                 fill="none"
                 height="24"
                 viewBox="0 0 24 24"
