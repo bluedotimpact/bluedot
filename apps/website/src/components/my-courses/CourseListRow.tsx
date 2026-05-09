@@ -31,6 +31,7 @@ export type CourseRowData = {
   units: Record<string, Unit>;
   roundStartDate: string | null;
   roundEndDate: string | null;
+  rescheduleEligibleUnits: string[];
   numUnits: number | null;
   uniqueDiscussionAttendance: number | null;
   hasSubmittedActionPlan: boolean;
@@ -183,7 +184,7 @@ export const getSubtitle = ({
 
 const CourseListRow = ({
   course, courseRegistration, group, facilitatorNames, discussions, attendedDiscussionIds, units, roundId,
-  roundStartDate, roundEndDate, meetPersonId,
+  roundStartDate, roundEndDate, rescheduleEligibleUnits, meetPersonId,
   numUnits, uniqueDiscussionAttendance, hasSubmittedActionPlan, feedbackFormUrl, hasSubmittedFeedback,
   isExpanded, onToggleExpand,
 }: CourseListRowProps) => {
@@ -228,9 +229,6 @@ const CourseListRow = ({
   const canExpand = state !== 'dropped' || attendedDiscussionIds.length > 0;
   const courseConfig = COURSE_CONFIG[course.slug];
   const tint = COURSE_COLORS[course.slug as CourseColorSlug]?.bright;
-  const headerStyle = tint
-    ? { background: `radial-gradient(ellipse 50% 230% at 50% -30%, ${tint} 0%, rgba(255,255,255,0) 100%)` }
-    : undefined;
 
   const certificateUrl = courseRegistration.certificateId
     ? addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)
@@ -290,7 +288,7 @@ const CourseListRow = ({
       onClick={toggleExpand}
       aria-expanded={isExpanded}
       aria-label={isExpanded ? `Collapse ${course.title}` : `Expand ${course.title}`}
-      className="flex size-5 cursor-pointer items-center justify-center text-bluedot-normal"
+      className="flex size-[38px] cursor-pointer items-center justify-center text-bluedot-normal sm:size-5"
     >
       <ChevronRightIcon className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`} />
     </button>
@@ -374,58 +372,66 @@ const CourseListRow = ({
 
   return (
     <div className="overflow-hidden rounded-xl border border-color-divider bg-white">
-      <div
-        className="flex items-start gap-4 p-5 pb-3.5 sm:items-center sm:p-6"
-        style={headerStyle}
-      >
+      <div className="relative">
+        {tint && (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0"
+            style={{ background: `radial-gradient(ellipse 50% 230% at 50% -30%, ${tint} 0%, rgba(255,255,255,0) 100%)` }}
+          />
+        )}
         <div
-          aria-hidden
-          className="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-lg sm:size-16 sm:rounded-2xl"
-          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-          style={{ backgroundColor: courseConfig?.iconBackground || 'var(--color-bluedot-normal)' }}
+          className="relative flex items-start gap-4 p-5 pb-3.5 sm:items-center sm:p-6"
         >
-          {courseConfig?.icon && <img src={courseConfig.icon} alt="" className="size-7 sm:size-10" />}
-        </div>
-        <div className="min-w-0 flex-1">
-          <h3 className="text-size-md font-semibold text-bluedot-navy sm:text-size-lg">
-            {course.title}
-            {certEligibilityReason && (
-              <span className="ml-1.5 -translate-y-px inline-flex items-center align-middle">
-                <Tooltip content={certEligibilityReason} ariaLabel="Show certificate eligibility information" />
-              </span>
-            )}
-            {showApplicationTimelineTooltip && (
-              <span className="ml-1.5 -translate-y-px inline-flex items-center align-middle">
-                <Tooltip
-                  content="We typically finalise all application decisions and group discussion times 1 week before the start of the course."
-                  ariaLabel="Show application timeline information"
-                />
-              </span>
-            )}
-          </h3>
-          {subtitle && (
-            <p className="mt-1 text-size-xs text-bluedot-navy">{subtitle}</p>
-          )}
-        </div>
-        <div className="flex shrink-0 flex-col items-end gap-2 self-stretch sm:flex-row sm:items-center sm:gap-4 sm:self-auto">
-          {/* Wide text CTAs / pills — desktop only; on mobile they live in a separate row below. */}
-          <div className="hidden items-center gap-3 sm:flex">
-            {wideActions}
-            {state !== 'dropped' && overflowItems.length > 0 && (
-              <OverflowMenu ariaLabel="Course actions" items={overflowItems} />
+          <div
+            aria-hidden
+            className="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-lg sm:size-16 sm:rounded-2xl"
+            // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+            style={{ backgroundColor: courseConfig?.iconBackground || 'var(--color-bluedot-normal)' }}
+          >
+            {courseConfig?.icon && <img src={courseConfig.icon} alt="" className="size-7 sm:size-10" />}
+          </div>
+          <div className="min-w-0 flex-1">
+            <h3 className="text-size-md font-semibold text-bluedot-navy sm:text-size-lg">
+              {course.title}
+              {certEligibilityReason && (
+                <span className="ml-1.5 -translate-y-px inline-flex items-center align-middle">
+                  <Tooltip content={certEligibilityReason} ariaLabel="Show certificate eligibility information" />
+                </span>
+              )}
+              {showApplicationTimelineTooltip && (
+                <span className="ml-1.5 -translate-y-px inline-flex items-center align-middle">
+                  <Tooltip
+                    content="We typically finalise all application decisions and group discussion times 1 week before the start of the course."
+                    ariaLabel="Show application timeline information"
+                  />
+                </span>
+              )}
+            </h3>
+            {subtitle && (
+              <p className="mt-1 text-size-xs text-bluedot-navy">{subtitle}</p>
             )}
           </div>
-          {/* Icon-only actions on mobile. Overflow sticks to the top of the row, chevron (if
+          <div className="flex shrink-0 flex-col items-end gap-2 self-stretch sm:flex-row sm:items-center sm:gap-4 sm:self-auto">
+            {/* Wide text CTAs / pills — desktop only; on mobile they live in a separate row below. */}
+            <div className="hidden items-center gap-3 sm:flex">
+              {wideActions}
+              {state !== 'dropped' && overflowItems.length > 0 && (
+                <OverflowMenu ariaLabel="Course actions" items={overflowItems} />
+              )}
+            </div>
+            {/* Icon-only actions on mobile. Overflow sticks to the top of the row, chevron (if
               applicable) sits at the bottom — or moves to the wide-actions row when wide
               actions are present. On desktop the overflow moves into the desktop wide-actions
               row above and the chevron lives next to it. */}
-          <div className="flex flex-1 flex-col items-center justify-between gap-4 sm:hidden">
-            {state !== 'dropped' && overflowItems.length > 0 ? (
-              <OverflowMenu ariaLabel="Course actions" items={overflowItems} />
-            ) : <span aria-hidden />}
-            {!hasWideActions && chevronButton}
+            <div className="flex flex-1 flex-col items-center justify-between gap-4 sm:hidden">
+              {state !== 'dropped' && overflowItems.length > 0 ? (
+                <OverflowMenu ariaLabel="Course actions" items={overflowItems} />
+              ) : <span aria-hidden />}
+              {!hasWideActions && chevronButton}
+            </div>
+            {chevronButton && <span className="hidden sm:inline">{chevronButton}</span>}
           </div>
-          {chevronButton && <span className="hidden sm:inline">{chevronButton}</span>}
         </div>
       </div>
       {/* Mobile-only: wide CTAs / pills as a full-width row below the title block.
@@ -446,6 +452,7 @@ const CourseListRow = ({
               attendedDiscussionIds={attendedDiscussionIds}
               courseSlug={course.slug}
               canReschedule={state !== 'dropped' && !hasCert}
+              rescheduleEligibleUnits={rescheduleEligibleUnits}
               onReschedule={openReschedule}
             />
           ) : (

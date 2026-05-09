@@ -13,12 +13,14 @@ import {
   meetPersonTable,
   ne,
   or,
+  roundTable,
   type Unit,
   unitTable,
 } from '@bluedot/db';
 import type { CourseRowData } from '../../components/my-courses/CourseListRow';
 import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
+import { getRescheduleEligibleUnits } from './group-switching';
 
 export const myCoursesPageRouter = router({
   getOverview: protectedProcedure.query(async ({ ctx }) => {
@@ -92,9 +94,39 @@ export const myCoursesPageRouter = router({
     ]);
 
     const unitIds = [...new Set(discussions.map((d) => d.courseBuilderUnitRecordId).filter((id): id is string => !!id))];
-    const units: Unit[] = unitIds.length > 0
-      ? await db.pg.select().from(unitTable.pg).where(inArray(unitTable.pg.id, unitIds))
-      : [];
+    const meetPersonRoundIds = [...new Set(meetPersons.map((mp) => mp.round).filter((r): r is string => !!r))];
+    const [units, allGroupsInRounds, allDiscussionsInRounds, courseRoundsForCapacity] = await Promise.all([
+      unitIds.length > 0
+        ? db.pg.select().from(unitTable.pg).where(inArray(unitTable.pg.id, unitIds)) as Promise<Unit[]>
+        : Promise.resolve([] as Unit[]),
+      meetPersonRoundIds.length > 0
+        ? db.pg.select().from(groupTable.pg).where(inArray(groupTable.pg.round, meetPersonRoundIds)) as Promise<Group[]>
+        : Promise.resolve([] as Group[]),
+      meetPersonRoundIds.length > 0
+        ? db.pg.select().from(groupDiscussionTable.pg).where(inArray(groupDiscussionTable.pg.round, meetPersonRoundIds)) as Promise<GroupDiscussion[]>
+        : Promise.resolve([] as GroupDiscussion[]),
+      meetPersonRoundIds.length > 0
+        ? db.pg
+          .select({ id: roundTable.pg.id, maxParticipantsPerGroup: roundTable.pg.maxParticipantsPerGroup })
+          .from(roundTable.pg)
+          .where(inArray(roundTable.pg.id, meetPersonRoundIds))
+        : Promise.resolve([] as { id: string; maxParticipantsPerGroup: number | null }[]),
+    ]);
+
+    const eligibleUnitsByMeetPersonId = new Map<string, Set<string>>();
+    for (const mp of meetPersons) {
+      if (!mp.round) continue;
+      const groupsInRound = allGroupsInRounds.filter((g) => g.round === mp.round);
+      const discussionsInRound = allDiscussionsInRounds.filter((d) => d.round === mp.round);
+      const courseRound = courseRoundsForCapacity.find((r) => r.id === mp.round);
+      eligibleUnitsByMeetPersonId.set(mp.id, getRescheduleEligibleUnits({
+        groups: groupsInRound,
+        groupDiscussions: discussionsInRound,
+        participantId: mp.id,
+        participantHumanOpinion: mp.humanOpinion ?? null,
+        maxParticipants: courseRound?.maxParticipantsPerGroup ?? null,
+      }));
+    }
 
     const facilitatorById = new Map(facilitators.map((f) => [f.id, f]));
     const unitById = new Map(units.map((u) => [u.id, u] as const));
@@ -128,6 +160,10 @@ export const myCoursesPageRouter = router({
         if (unit) courseUnits[d.id] = unit;
       }
 
+      const rescheduleEligibleUnits = meetPerson
+        ? Array.from(eligibleUnitsByMeetPersonId.get(meetPerson.id) ?? [])
+        : [];
+
       return [{
         courseRegistration: cr,
         course,
@@ -140,6 +176,7 @@ export const myCoursesPageRouter = router({
         units: courseUnits,
         roundStartDate: cr.roundId ? roundById.get(cr.roundId)?.firstDiscussionDate ?? null : null,
         roundEndDate: cr.roundId ? roundById.get(cr.roundId)?.lastDiscussionDate ?? null : null,
+        rescheduleEligibleUnits,
         numUnits: meetPerson?.numUnits ?? null,
         uniqueDiscussionAttendance: meetPerson?.uniqueDiscussionAttendance ?? null,
         hasSubmittedActionPlan: (meetPerson?.projectSubmission?.length ?? 0) > 0,
@@ -149,7 +186,6 @@ export const myCoursesPageRouter = router({
     });
 
     // Globally soonest upcoming participant discussion across all the user's courses.
-    const nowSec = Math.floor(Date.now() / 1000);
     const courseByDiscussionId = new Map<string, { slug: string; title: string }>();
     for (const c of perCourse) {
       for (const d of c.discussions) {
@@ -158,6 +194,7 @@ export const myCoursesPageRouter = router({
     }
 
     // "Next" includes a discussion that's started but not yet ended (i.e. live now).
+    const nowSec = Math.floor(Date.now() / 1000);
     const upcomingDiscussions = discussions
       .filter((d) => d.endDateTime > nowSec)
       .sort((a, b) => a.startDateTime - b.startDateTime);

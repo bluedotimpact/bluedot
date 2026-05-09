@@ -15,7 +15,11 @@ import { createMockGroup, createMockGroupDiscussion } from '../../__tests__/test
 import {
   setupTestDb, createCaller, testAuthContextLoggedIn, testDb,
 } from '../../__tests__/dbTestUtils';
-import { calculateGroupAvailability } from './group-switching';
+import {
+  calculateGroupAvailability,
+  extractRescheduleEligibleUnits,
+  getRescheduleEligibleUnits,
+} from './group-switching';
 import { ONE_DAY_SECONDS } from '../../lib/constants';
 
 setupTestDb();
@@ -993,5 +997,125 @@ describe('groupSwitching.switchGroup', () => {
       isManualRequest: false,
       roundId: 'round-1',
     })).rejects.toThrow('Facilitators cannot switch groups');
+  });
+});
+
+describe('extractRescheduleEligibleUnits', () => {
+  it('returns units with at least one non-self discussion', () => {
+    const result = extractRescheduleEligibleUnits({
+      3: [
+        {
+          discussion: createMockGroupDiscussion({ id: 'self' }), spotsLeftIfKnown: null, userIsParticipant: true, groupName: 'A',
+        },
+        {
+          discussion: createMockGroupDiscussion({ id: 'other' }), spotsLeftIfKnown: null, userIsParticipant: false, groupName: 'B',
+        },
+      ],
+      4: [
+        {
+          discussion: createMockGroupDiscussion({ id: 'self-only' }), spotsLeftIfKnown: null, userIsParticipant: true, groupName: 'A',
+        },
+      ],
+    });
+    expect(result).toEqual(new Set(['3']));
+  });
+
+  it('returns empty set when nothing matches', () => {
+    expect(extractRescheduleEligibleUnits({})).toEqual(new Set());
+  });
+});
+
+describe('getRescheduleEligibleUnits', () => {
+  const now = Math.floor(Date.now() / 1000);
+  const futureTimeSeconds = now + ONE_DAY_SECONDS;
+  const participantId = 'participant-123';
+
+  it('only counts units that have a future, allowed, non-self discussion', () => {
+    const groupSelf = createMockGroup({ id: 'group-self', participants: [participantId] });
+    const groupAllowed = createMockGroup({ id: 'group-allowed', whoCanSwitchIntoThisGroup: ['Strong yes'] });
+    const groupBlocked = createMockGroup({ id: 'group-blocked', whoCanSwitchIntoThisGroup: [] });
+
+    const discussions = [
+      // Unit 3 — user's own future discussion (excluded by !userIsParticipant filter), AND another group's future discussion (counts).
+      createMockGroupDiscussion({
+        id: 'd-self-3', group: 'group-self', unitNumber: 3, participantsExpected: [participantId], startDateTime: futureTimeSeconds, endDateTime: futureTimeSeconds + 60,
+      }),
+      createMockGroupDiscussion({
+        id: 'd-allowed-3', group: 'group-allowed', unitNumber: 3, participantsExpected: [], startDateTime: futureTimeSeconds, endDateTime: futureTimeSeconds + 60,
+      }),
+      // Unit 4 — only the user's own discussion is future. No catchup option.
+      createMockGroupDiscussion({
+        id: 'd-self-4', group: 'group-self', unitNumber: 4, participantsExpected: [participantId], startDateTime: futureTimeSeconds, endDateTime: futureTimeSeconds + 60,
+      }),
+      // Unit 5 — discussion in a blocked group (humanOpinion gating). Not eligible.
+      createMockGroupDiscussion({
+        id: 'd-blocked-5', group: 'group-blocked', unitNumber: 5, participantsExpected: [], startDateTime: futureTimeSeconds, endDateTime: futureTimeSeconds + 60,
+      }),
+    ];
+
+    const result = getRescheduleEligibleUnits({
+      groups: [groupSelf, groupAllowed, groupBlocked],
+      groupDiscussions: discussions,
+      participantId,
+      participantHumanOpinion: 'Strong yes',
+      maxParticipants: null,
+    });
+
+    expect(result).toEqual(new Set(['3']));
+  });
+
+  it('matches what extractRescheduleEligibleUnits derives directly from calculateGroupAvailability', () => {
+    // Same logical input as the previous test, run through both code paths and assert they agree.
+    // This is the "match between endpoints" guarantee — the aggregator and the modal endpoint
+    // both call into the same shared logic.
+    const groupSelf = createMockGroup({ id: 'group-self', participants: [participantId] });
+    const groupAllowed = createMockGroup({ id: 'group-allowed', whoCanSwitchIntoThisGroup: ['Strong yes'] });
+
+    const discussions = [
+      createMockGroupDiscussion({
+        id: 'd-self', group: 'group-self', unitNumber: 3, participantsExpected: [participantId], startDateTime: futureTimeSeconds, endDateTime: futureTimeSeconds + 60,
+      }),
+      createMockGroupDiscussion({
+        id: 'd-allowed', group: 'group-allowed', unitNumber: 3, participantsExpected: [], startDateTime: futureTimeSeconds, endDateTime: futureTimeSeconds + 60,
+      }),
+    ];
+
+    const viaUtility = getRescheduleEligibleUnits({
+      groups: [groupSelf, groupAllowed],
+      groupDiscussions: discussions,
+      participantId,
+      participantHumanOpinion: 'Strong yes',
+      maxParticipants: null,
+    });
+
+    const viaDirect = extractRescheduleEligibleUnits(calculateGroupAvailability({
+      groupDiscussions: discussions,
+      groups: [groupSelf, groupAllowed],
+      maxParticipants: null,
+      participantId,
+    }).discussionsAvailable);
+
+    expect(viaUtility).toEqual(viaDirect);
+  });
+
+  it('returns empty when round has no future discussions', () => {
+    const pastTimeSeconds = now - ONE_DAY_SECONDS;
+    const groupSelf = createMockGroup({ id: 'group-self', participants: [participantId] });
+    const groupAllowed = createMockGroup({ id: 'group-allowed', whoCanSwitchIntoThisGroup: ['Strong yes'] });
+    const discussions = [
+      createMockGroupDiscussion({
+        id: 'd1', group: 'group-allowed', unitNumber: 3, participantsExpected: [], startDateTime: pastTimeSeconds - 3600, endDateTime: pastTimeSeconds,
+      }),
+    ];
+
+    const result = getRescheduleEligibleUnits({
+      groups: [groupSelf, groupAllowed],
+      groupDiscussions: discussions,
+      participantId,
+      participantHumanOpinion: 'Strong yes',
+      maxParticipants: null,
+    });
+
+    expect(result).toEqual(new Set());
   });
 });
