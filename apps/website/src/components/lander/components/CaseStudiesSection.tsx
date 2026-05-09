@@ -35,7 +35,7 @@ const CaseStudiesSection = ({
           {caseStudies.map((study) => (
             <div
               key={study.name}
-              className="flex flex-col gap-4 p-6 bd-md:p-8 bg-[#FAFAFA] rounded-xl"
+              className="flex flex-col gap-4 p-6 bd-md:p-8 bg-bluedot-lightest rounded-xl"
             >
               <div className="flex items-center gap-4">
                 {study.imageSrc && (

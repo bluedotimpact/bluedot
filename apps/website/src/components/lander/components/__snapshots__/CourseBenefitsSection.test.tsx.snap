@@ -20,7 +20,7 @@ exports[`CourseBenefitsSection > renders correctly with default colors 1`] = `
       >
         <div
           class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
-          style="background-color: #ECF0FF;"
+          style="background-color: var(--bluedot-lightest);"
         >
           <svg
             class="text-black"
@@ -57,7 +57,7 @@ exports[`CourseBenefitsSection > renders correctly with default colors 1`] = `
       >
         <div
           class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
-          style="background-color: #ECF0FF;"
+          style="background-color: var(--bluedot-lightest);"
         >
           <svg
             class="text-black"
@@ -94,7 +94,7 @@ exports[`CourseBenefitsSection > renders correctly with default colors 1`] = `
       >
         <div
           class="size-14 rounded-lg flex items-center justify-center flex-shrink-0"
-          style="background-color: #ECF0FF;"
+          style="background-color: var(--bluedot-lightest);"
         >
           <svg
             class="text-black"

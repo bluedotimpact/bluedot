@@ -1492,7 +1492,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   What background do I need?
                 </span>
                 <svg
-                  class="ease flex-shrink-0 text-[#001133] transition-transform duration-300"
+                  class="ease flex-shrink-0 text-bluedot-darker transition-transform duration-300"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1540,7 +1540,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   Is this course for beginners?
                 </span>
                 <svg
-                  class="ease flex-shrink-0 text-[#001133] transition-transform duration-300"
+                  class="ease flex-shrink-0 text-bluedot-darker transition-transform duration-300"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1588,7 +1588,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   What's the difference between intensive and part-time?
                 </span>
                 <svg
-                  class="ease flex-shrink-0 text-[#001133] transition-transform duration-300"
+                  class="ease flex-shrink-0 text-bluedot-darker transition-transform duration-300"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1636,7 +1636,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   What time zones do you run cohorts in?
                 </span>
                 <svg
-                  class="ease flex-shrink-0 text-[#001133] transition-transform duration-300"
+                  class="ease flex-shrink-0 text-bluedot-darker transition-transform duration-300"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1684,7 +1684,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   What if I don't know which direction I want to go?
                 </span>
                 <svg
-                  class="ease flex-shrink-0 text-[#001133] transition-transform duration-300"
+                  class="ease flex-shrink-0 text-bluedot-darker transition-transform duration-300"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1732,7 +1732,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   Is there funding available?
                 </span>
                 <svg
-                  class="ease flex-shrink-0 text-[#001133] transition-transform duration-300"
+                  class="ease flex-shrink-0 text-bluedot-darker transition-transform duration-300"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1787,7 +1787,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   Will I get a certificate?
                 </span>
                 <svg
-                  class="ease flex-shrink-0 text-[#001133] transition-transform duration-300"
+                  class="ease flex-shrink-0 text-bluedot-darker transition-transform duration-300"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1835,7 +1835,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   Is it really free?
                 </span>
                 <svg
-                  class="ease flex-shrink-0 text-[#001133] transition-transform duration-300"
+                  class="ease flex-shrink-0 text-bluedot-darker transition-transform duration-300"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"
@@ -1883,7 +1883,7 @@ exports[`AgiStrategyLander > renders the complete page correctly (snapshot) 1`] 
                   Who is BlueDot Impact?
                 </span>
                 <svg
-                  class="ease flex-shrink-0 text-[#001133] transition-transform duration-300"
+                  class="ease flex-shrink-0 text-bluedot-darker transition-transform duration-300"
                   fill="none"
                   height="17"
                   viewBox="0 0 16 17"

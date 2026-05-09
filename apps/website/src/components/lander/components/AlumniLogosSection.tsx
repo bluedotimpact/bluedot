@@ -16,7 +16,7 @@ const AlumniLogosSection = ({
   organizations,
 }: AlumniLogosSectionProps) => {
   return (
-    <section className="w-full bg-[#FAFAFA]">
+    <section className="w-full bg-bluedot-lightest">
       <div className="max-w-max-width mx-auto px-5 py-10 bd-md:px-8 bd-md:py-12 lg:px-spacing-x">
         <H2 className="text-size-md font-medium leading-[140%] text-bluedot-navy/60 text-center mb-8 tracking-[-0.01em]">
           {title}
