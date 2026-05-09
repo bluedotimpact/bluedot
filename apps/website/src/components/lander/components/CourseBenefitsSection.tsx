@@ -14,7 +14,7 @@ export type CourseBenefitsSectionProps = {
   iconBackgroundColor?: string;
 };
 
-const CourseBenefitsSection = ({ title, benefits, iconBackgroundColor = '#ECF0FF' }: CourseBenefitsSectionProps) => {
+const CourseBenefitsSection = ({ title, benefits, iconBackgroundColor = '#F5F4F7' }: CourseBenefitsSectionProps) => {
   return (
     <section className="w-full bg-white">
       <div className="max-w-max-width mx-auto px-5 py-12 bd-md:px-8 bd-md:py-16 md:px-spacing-x xl:py-24">

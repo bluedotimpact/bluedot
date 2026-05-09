@@ -25,7 +25,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
           >
             <div
               class="w-full rounded-xl overflow-hidden"
-              style="background-color: #ECF0FF;"
+              style="background-color: #F5F4F7;"
             >
               <div
                 class="flex flex-col lg:flex-row-reverse w-full h-[465px] bd-md:!h-[377px] lg:h-[385px]"
@@ -104,7 +104,7 @@ exports[`QuoteSection > renders correctly with default colors 1`] = `
           >
             <div
               class="w-full rounded-xl overflow-hidden"
-              style="background-color: #ECF0FF;"
+              style="background-color: #F5F4F7;"
             >
               <div
                 class="flex flex-col lg:flex-row-reverse w-full h-[465px] bd-md:!h-[377px] lg:h-[385px]"
