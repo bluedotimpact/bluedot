@@ -13,12 +13,14 @@ type DiscussionListProps = {
   attendedDiscussionIds: string[];
   courseSlug: string;
   canReschedule: boolean;
+  rescheduleEligibleUnits: string[];
   onReschedule: (unitNumber: string | null, switchType: SwitchType) => void;
 };
 
 const DiscussionList = ({
-  discussions, units, attendedDiscussionIds, courseSlug, canReschedule, onReschedule,
+  discussions, units, attendedDiscussionIds, courseSlug, canReschedule, rescheduleEligibleUnits, onReschedule,
 }: DiscussionListProps) => {
+  const eligibleSet = new Set(rescheduleEligibleUnits);
   const currentTimeMs = useCurrentTimeMs();
   const attendedSet = new Set(attendedDiscussionIds);
   const [showAll, setShowAll] = useState(false);
@@ -50,7 +52,7 @@ const DiscussionList = ({
               unit={unit}
               courseSlug={courseSlug}
               status={status}
-              canReschedule={canReschedule}
+              canReschedule={canReschedule && (unit?.unitNumber !== undefined && eligibleSet.has(unit.unitNumber))}
               onReschedule={() => onReschedule(unit?.unitNumber ?? null, 'Switch group for one unit')}
             />
           );

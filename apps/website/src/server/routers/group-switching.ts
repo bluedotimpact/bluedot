@@ -118,6 +118,61 @@ export function calculateGroupAvailability({
   };
 }
 
+// TODO review this function in detail
+export function getAllowedGroupsForParticipant({
+  allGroups,
+  participantId,
+  participantHumanOpinion,
+}: {
+  allGroups: Group[];
+  participantId: string;
+  participantHumanOpinion: string | null;
+}): Group[] {
+  const opinion = participantHumanOpinion && (VALID_HUMAN_OPINIONS as readonly string[]).includes(participantHumanOpinion)
+    ? participantHumanOpinion
+    : 'Neutral';
+  return allGroups.filter((group) => (
+    (group.participants ?? []).includes(participantId)
+    || (group.whoCanSwitchIntoThisGroup ?? []).includes(opinion)
+  ));
+}
+
+export function extractRescheduleEligibleUnits(discussionsAvailable: DiscussionsByUnit): Set<string> {
+  const eligible = new Set<string>();
+  for (const [unitKey, list] of Object.entries(discussionsAvailable)) {
+    if (list.some((d) => !d.userIsParticipant)) {
+      eligible.add(unitKey);
+    }
+  }
+
+  return eligible;
+}
+
+export function getRescheduleEligibleUnits({
+  groups,
+  groupDiscussions,
+  participantId,
+  participantHumanOpinion,
+  maxParticipants,
+}: {
+  groups: Group[];
+  groupDiscussions: GroupDiscussion[];
+  participantId: string;
+  participantHumanOpinion: string | null;
+  maxParticipants: number | null | undefined;
+}): Set<string> {
+  const allowedGroups = getAllowedGroupsForParticipant({ allGroups: groups, participantId, participantHumanOpinion });
+  const allowedGroupIds = new Set(allowedGroups.map((g) => g.id));
+  const allowedDiscussions = groupDiscussions.filter((d) => allowedGroupIds.has(d.group));
+  const { discussionsAvailable } = calculateGroupAvailability({
+    groupDiscussions: allowedDiscussions,
+    groups: allowedGroups,
+    maxParticipants,
+    participantId,
+  });
+  return extractRescheduleEligibleUnits(discussionsAvailable);
+}
+
 export const groupSwitchingRouter = router({
   discussionsAvailable: protectedProcedure
     .input(z.object({ roundId: z.string() }))
@@ -132,33 +187,12 @@ export const groupSwitchingRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: 'No course round found' });
       }
 
-      /**
-       * Get groups the user is allowed to switch to:
-       * 1. Get all the groups in this round of the course.
-       * 2. Match the participant's humanOpinion against each group's whoCanSwitchIntoThisGroup.
-       * 3. Always include groups the participant is already in.
-       */
-      const getGroupsAllowedToSwitchInto = async () => {
-        const allGroups = await db.scan(groupTable, { round: roundId });
-        const participantGroupIds = allGroups.filter((g) => (g.participants ?? []).includes(participant.id)).map((g) => g.id);
-
-        // Explicitly allow groups the user is already in
-        const allowedGroupIds = new Set<string>(participantGroupIds);
-
-        const opinion = participant.humanOpinion && (VALID_HUMAN_OPINIONS as readonly string[]).includes(participant.humanOpinion)
-          ? participant.humanOpinion
-          : 'Neutral';
-
-        for (const group of allGroups) {
-          if ((group.whoCanSwitchIntoThisGroup ?? []).includes(opinion)) {
-            allowedGroupIds.add(group.id);
-          }
-        }
-
-        return allGroups.filter((group) => allowedGroupIds.has(group.id));
-      };
-
-      const allowedGroups = await getGroupsAllowedToSwitchInto();
+      const allGroupsInRound = await db.scan(groupTable, { round: roundId });
+      const allowedGroups = getAllowedGroupsForParticipant({
+        allGroups: allGroupsInRound,
+        participantId: participant.id,
+        participantHumanOpinion: participant.humanOpinion ?? null,
+      });
 
       if (allowedGroups.filter((g) => !(g.participants ?? []).includes(participant.id)).length === 0) {
         // eslint-disable-next-line no-console
