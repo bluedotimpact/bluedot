@@ -90,12 +90,12 @@ const PartnerSection = ({ title, partners }: PartnerSectionProps) => {
                     />
                     {/* Add divider after each partner except the last */}
                     {partnerIndex < partners.length - 1 && (
-                      <div className="w-px h-[210px] bg-bluedot-navy opacity-20 flex-shrink-0" />
+                      <div className="w-[0.5px] h-[210px] bg-bluedot-navy opacity-20 flex-shrink-0" />
                     )}
                   </React.Fragment>
                 ))}
                 {/* Add final divider after last partner to separate from next set */}
-                <div className="w-px h-[210px] bg-bluedot-navy opacity-20 flex-shrink-0" />
+                <div className="w-[0.5px] h-[210px] bg-bluedot-navy opacity-20 flex-shrink-0" />
               </div>
             ))}
           </div>
