@@ -1,6 +1,9 @@
 import type React from 'react';
 import Image from 'next/image';
-import { COURSE_CONFIG } from '../../lib/constants';
+import {
+  getCertificateBadgePath,
+  getCertificateIconPath,
+} from '../../lib/certificateAssets';
 
 type CertificateCardProps = {
   courseName: string;
@@ -11,7 +14,6 @@ type CertificateCardProps = {
   certificateId: string;
 };
 
-const DEFAULT_BADGE_PATH = '/images/certificates/certificate-fallback-image.png';
 const DISPLAY_FONT_STYLE = { fontFeatureSettings: '\'ss04\' 1' };
 
 const generatePatternPositions = () => {
@@ -45,13 +47,8 @@ export const CertificateCard: React.FC<CertificateCardProps> = ({
   issuedDate,
   certificateId,
 }) => {
-  const isKnownCourse = courseSlug in COURSE_CONFIG;
-  const badgePath = isKnownCourse
-    ? `/images/certificates/${courseSlug}.png`
-    : DEFAULT_BADGE_PATH;
-  const iconPath = isKnownCourse
-    ? `/images/certificates/icons/${courseSlug}-icon.svg`
-    : null;
+  const badgePath = getCertificateBadgePath(courseSlug);
+  const iconPath = getCertificateIconPath(courseSlug);
 
   return (
     <div className="w-full max-w-text-narrow bg-white rounded-lg border border-slate-200 overflow-hidden shadow-[0_8px_60px_rgba(0,0,0,0.06)]">
