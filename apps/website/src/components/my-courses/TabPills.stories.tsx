@@ -10,8 +10,8 @@ const TABS = [
 
 type TabId = typeof TABS[number]['id'];
 
-const Demo = ({ initialTab }: { initialTab: TabId }) => {
-  const [active, setActive] = useState<TabId>(initialTab);
+const Demo = () => {
+  const [active, setActive] = useState<TabId>('in-progress');
   return (
     <TabPills
       ariaLabel="Course filter"
@@ -32,6 +32,4 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const InProgress: Story = { args: { initialTab: 'in-progress' } };
-export const Upcoming: Story = { args: { initialTab: 'upcoming' } };
-export const PastCourses: Story = { args: { initialTab: 'past-courses' } };
+export const Default: Story = {};

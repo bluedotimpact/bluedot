@@ -38,12 +38,6 @@ const baseArgs = {
   onReschedule: () => {},
 };
 
-export const Upcoming: Story = { args: { ...baseArgs, status: 'upcoming' } };
-export const Soon: Story = { args: { ...baseArgs, status: 'soon' } };
-export const Live: Story = { args: { ...baseArgs, status: 'live' } };
-export const Attended: Story = { args: { ...baseArgs, status: 'attended' } };
-export const Absent: Story = { args: { ...baseArgs, status: 'absent' } };
-
 export const AllStates: Story = {
   args: { ...baseArgs, status: 'upcoming' },
   render: (args) => (
@@ -53,6 +47,14 @@ export const AllStates: Story = {
       <DiscussionListRow {...args} status="live" />
       <DiscussionListRow {...args} status="attended" />
       <DiscussionListRow {...args} status="absent" />
+      <DiscussionListRow {...args} status="absent" canReschedule={false} />
     </>
   ),
 };
+
+export const Upcoming: Story = { args: { ...baseArgs, status: 'upcoming' } };
+export const Soon: Story = { args: { ...baseArgs, status: 'soon' } };
+export const Live: Story = { args: { ...baseArgs, status: 'live' } };
+export const Attended: Story = { args: { ...baseArgs, status: 'attended' } };
+export const Absent: Story = { args: { ...baseArgs, status: 'absent' } };
+export const AbsentNoReschedule: Story = { args: { ...baseArgs, status: 'absent', canReschedule: false } };
