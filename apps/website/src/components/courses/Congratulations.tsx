@@ -12,6 +12,7 @@ import {
   FaXTwitter,
 } from 'react-icons/fa6';
 import { BLUEDOT_LINKEDIN_ORG_ID, COURSE_CONFIG, FOAI_COURSE_ID } from '../../lib/constants';
+import { getCertificateBadgePath } from '../../lib/certificateAssets';
 import { getCourseCtaColors } from '../../lib/courseCtaColors';
 import { ROUTES } from '../../lib/routes';
 import { getActionPlanUrl } from '../../lib/utils';
@@ -181,10 +182,7 @@ const AttendanceIneligibleCard = ({
 type CertificateHeroProps = { courseId: string; courseSlug: string; courseTitle: string };
 
 const CertificatePreviewCard = ({ courseSlug, courseTitle }: { courseSlug: string; courseTitle: string }) => {
-  const badgeSrc
-    = courseSlug in COURSE_CONFIG
-      ? `/images/certificates/${courseSlug}.png`
-      : '/images/certificates/certificate-fallback-image.png';
+  const badgeSrc = getCertificateBadgePath(courseSlug);
 
   return (
     <div className="flex w-full max-w-[640px] flex-col items-center gap-4 rounded-lg border border-slate-200 bg-white px-6 py-10 shadow-sm">

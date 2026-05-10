@@ -25,6 +25,7 @@ import { CertificateCard } from '../components/certificate/CertificateCard';
 import { CertificateCTA } from '../components/certificate/CertificateCTA';
 import { ONE_DAY_SECONDS, ONE_MINUTE_SECONDS } from '../lib/constants';
 import { getCourseCtaColors } from '../lib/courseCtaColors';
+import { getCertificateAssetSlug } from '../lib/certificateAssets';
 import { getCertificateData } from '../server/routers/certificates';
 
 type Certificate = Awaited<ReturnType<typeof getCertificateData>>;
@@ -272,16 +273,17 @@ export const getServerSideProps: GetServerSideProps<CertificatePageProps> = asyn
   try {
     const certificate = await getCertificateData(certificateId);
 
+    const linkPreviewAssetSlug = getCertificateAssetSlug(certificate.courseSlug) ?? certificate.courseSlug;
     const linkPreviewFsPath = path.join(
       process.cwd(),
       'public',
       'images',
       'certificates',
       'link-preview',
-      `${certificate.courseSlug}.png`,
+      `${linkPreviewAssetSlug}.png`,
     );
     const linkPreviewFilename = (await fileExists(linkPreviewFsPath))
-      ? `${certificate.courseSlug}.png`
+      ? `${linkPreviewAssetSlug}.png`
       : 'link-preview-fallback.png';
 
     // Fetch cohort data to display next cohort start date
