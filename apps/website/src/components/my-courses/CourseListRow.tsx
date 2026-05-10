@@ -260,15 +260,13 @@ const CourseListRow = ({
     </button>
   ) : null;
 
-  // All course-row actions, declared in one table. `variant` decides where it surfaces;
-  // `inline` and `overflow` are filled in as appropriate per variant.
-  //   inline          — inline on both viewports
-  //   inline-desktop  — inline on desktop, folded into the overflow menu on mobile
-  //   overflow        — only in the overflow menu
+  // All course-row actions, declared in one table. `variant` decides where it surfaces.
+  //   inline    — inline button or pill on both viewports
+  //   overflow  — only in the 3-dot overflow menu
   type CourseAction = {
     id: string;
     isVisible: boolean;
-    variant: 'inline' | 'inline-desktop' | 'overflow';
+    variant: 'inline' | 'overflow';
     inline?: ReactNode;
     overflow?: OverflowMenuItemProps;
   };
@@ -332,12 +330,7 @@ const CourseListRow = ({
     {
       id: 'view-curriculum',
       isVisible: state === 'upcoming',
-      variant: 'inline-desktop',
-      inline: (
-        <CTALinkOrButton variant="secondary" size="small" url={`/courses/${course.slug}/1/1`}>
-          View curriculum
-        </CTALinkOrButton>
-      ),
+      variant: 'overflow',
       overflow: {
         id: 'view-curriculum', label: 'View curriculum', href: `/courses/${course.slug}/1/1`,
       },
@@ -406,12 +399,11 @@ const CourseListRow = ({
   ];
 
   const visible = actions.filter((a) => a.isVisible);
-  const desktopInlineActions = visible.filter((a) => a.variant !== 'overflow');
-  const mobileInlineActions = visible.filter((a) => a.variant === 'inline');
+  const inlineActions = visible.filter((a) => a.variant === 'inline');
   const overflowItems: OverflowMenuItemProps[] = visible
-    .filter((a) => a.variant !== 'inline' && a.overflow)
+    .filter((a) => a.variant === 'overflow' && a.overflow)
     .map((a) => a.overflow!);
-  const hasMobileInlineActions = mobileInlineActions.length > 0;
+  const hasInlineActions = inlineActions.length > 0;
 
   return (
     <div className="overflow-hidden rounded-xl border border-color-divider bg-white">
@@ -458,7 +450,7 @@ const CourseListRow = ({
           <div className="flex shrink-0 flex-col items-end gap-2 self-stretch sm:flex-row sm:items-center sm:gap-4 sm:self-auto">
             {/* Wide text CTAs / pills — desktop only; on mobile they live in a separate row below. */}
             <div className="hidden items-center gap-3 sm:flex">
-              {desktopInlineActions.map((a) => <Fragment key={a.id}>{a.inline}</Fragment>)}
+              {inlineActions.map((a) => <Fragment key={a.id}>{a.inline}</Fragment>)}
               {state !== 'dropped' && overflowItems.length > 0 && (
                 <OverflowMenu ariaLabel="Course actions" items={overflowItems} />
               )}
@@ -471,7 +463,7 @@ const CourseListRow = ({
               {state !== 'dropped' && overflowItems.length > 0 ? (
                 <OverflowMenu ariaLabel="Course actions" items={overflowItems} />
               ) : <span aria-hidden />}
-              {!hasMobileInlineActions && chevronButton}
+              {!hasInlineActions && chevronButton}
             </div>
             {chevronButton && <span className="hidden sm:inline">{chevronButton}</span>}
           </div>
@@ -481,10 +473,10 @@ const CourseListRow = ({
           Chevron lives here too (rather than the header's right column) so it sits inline
           with the button. Secondary actions are NOT inlined here — they were already pushed
           into the overflow menu above to avoid stacking on narrow screens. */}
-      {hasMobileInlineActions && (
+      {hasInlineActions && (
         <div className="flex items-center gap-2 px-5 pb-3.5 sm:hidden">
           <div className="flex flex-1 flex-wrap gap-2">
-            {mobileInlineActions.map((a) => <Fragment key={a.id}>{a.inline}</Fragment>)}
+            {inlineActions.map((a) => <Fragment key={a.id}>{a.inline}</Fragment>)}
           </div>
           {chevronButton}
         </div>
@@ -514,8 +506,8 @@ const CourseListRow = ({
           handleClose={() => setDropoutOpen(false)}
         />
       )}
-      {viewParticipantsOpen && (
-        <ViewParticipantsModal handleClose={() => setViewParticipantsOpen(false)} />
+      {viewParticipantsOpen && meetPersonId && (
+        <ViewParticipantsModal meetPersonId={meetPersonId} handleClose={() => setViewParticipantsOpen(false)} />
       )}
       {groupSwitch && roundId && (
         <GroupSwitchModal
