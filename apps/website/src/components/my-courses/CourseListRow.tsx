@@ -468,19 +468,16 @@ const CourseListRow = ({
             {chevronButton && <span className="hidden sm:inline">{chevronButton}</span>}
           </div>
         </div>
-      </div>
-      {/* Mobile-only: pill + primary actions as a full-width row below the title block.
-          Chevron lives here too (rather than the header's right column) so it sits inline
-          with the button. Secondary actions are NOT inlined here — they were already pushed
-          into the overflow menu above to avoid stacking on narrow screens. */}
-      {hasInlineActions && (
-        <div className="flex items-center gap-2 px-5 pb-3.5 sm:hidden">
-          <div className="flex flex-1 flex-wrap gap-2">
-            {inlineActions.map((a) => <Fragment key={a.id}>{a.inline}</Fragment>)}
+        {/* Mobile-only: pill + primary actions as a full-width row below the title block */}
+        {hasInlineActions && (
+          <div className="relative flex items-center gap-2 px-5 pb-3.5 sm:hidden">
+            <div className="flex flex-1 flex-wrap gap-2">
+              {inlineActions.map((a) => <Fragment key={a.id}>{a.inline}</Fragment>)}
+            </div>
+            {chevronButton}
           </div>
-          {chevronButton}
-        </div>
-      )}
+        )}
+      </div>
       {isExpanded && canExpand && (
         <div className="border-t border-color-divider">
           {discussions.length > 0 ? (
