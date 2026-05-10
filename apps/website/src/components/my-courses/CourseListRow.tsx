@@ -278,7 +278,7 @@ const CourseListRow = ({
       isVisible: Boolean(showLockedCert && feedbackFormUrl),
       variant: 'inline',
       inline: feedbackFormUrl ? (
-        <CTALinkOrButton variant="primary" size="small" url={feedbackFormUrl} target="_blank" className="gap-1.5">
+        <CTALinkOrButton variant="primary" size="small" url={feedbackFormUrl} target="_blank" className="gap-1.5 text-size-xxs">
           <FaLock />
           <span>Share feedback<span className="hidden sm:inline"> to view your certificate</span></span>
         </CTALinkOrButton>
@@ -288,21 +288,21 @@ const CourseListRow = ({
       id: 'view-certificate',
       isVisible: state === 'completed' && hasCert && !showLockedCert,
       variant: 'inline',
-      inline: <CTALinkOrButton variant="primary" size="small" url={certificateUrl}>View certificate</CTALinkOrButton>,
+      inline: <CTALinkOrButton variant="primary" size="small" url={certificateUrl} className="text-size-xxs">View certificate</CTALinkOrButton>,
     },
     {
       id: 'action-plan',
       isVisible: Boolean(showActionPlan),
       variant: 'inline',
       inline: hasSubmittedActionPlan ? (
-        <CTALinkOrButton variant="primary" size="small" disabled className="gap-1.5 disabled:opacity-80">
+        <CTALinkOrButton variant="primary" size="small" disabled className="gap-1.5 text-size-xxs disabled:opacity-80">
           <span>Action plan submitted</span>
           <span className="inline-flex size-3.5 items-center justify-center rounded-full bg-white">
             <FaCheck className="size-1.5 text-bluedot-darker" />
           </span>
         </CTALinkOrButton>
       ) : (
-        <CTALinkOrButton variant="primary" size="small" url={getActionPlanUrl(meetPersonId ?? '')} target="_blank">
+        <CTALinkOrButton variant="primary" size="small" url={getActionPlanUrl(meetPersonId ?? '')} target="_blank" className="text-size-xxs">
           Submit action plan
         </CTALinkOrButton>
       ),
@@ -322,6 +322,7 @@ const CourseListRow = ({
             roundId: courseRegistration.roundId ?? '',
           })}
           target="_blank"
+          className="text-size-xxs"
         >
           {courseRegistration.availabilityIntervalsUTC ? 'Edit your availability' : 'Submit your availability'}
         </CTALinkOrButton>
@@ -350,7 +351,7 @@ const CourseListRow = ({
       id: 'apply-again',
       isVisible: state === 'dropped',
       variant: 'inline',
-      inline: <CTALinkOrButton variant="primary" size="small" url={applyAgainUrl}>Apply again</CTALinkOrButton>,
+      inline: <CTALinkOrButton variant="primary" size="small" url={applyAgainUrl} className="text-size-xxs">Apply again</CTALinkOrButton>,
     },
     {
       id: 'open-doc',
