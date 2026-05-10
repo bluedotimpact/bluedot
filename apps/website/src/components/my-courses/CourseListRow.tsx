@@ -188,6 +188,7 @@ const CourseListRow = ({
   numUnits, uniqueDiscussionAttendance, hasSubmittedActionPlan, feedbackFormUrl, hasSubmittedFeedback,
   isExpanded, onToggleExpand,
 }: CourseListRowProps) => {
+  // TODO rename to something more descriptive
   const state = classifyCourseRegistration(courseRegistration);
   const [dropoutOpen, setDropoutOpen] = useState(false);
   const [viewParticipantsOpen, setViewParticipantsOpen] = useState(false);
@@ -239,41 +240,6 @@ const CourseListRow = ({
   const slackUrl = group?.slackChannelId ? buildGroupSlackChannelUrl(group.slackChannelId) : null;
   const docUrl = group?.discussionDoc ?? null;
 
-  const overflowItems: OverflowMenuItemProps[] = [];
-  if (docUrl) {
-    overflowItems.push({
-      id: 'doc', label: 'Open discussion doc', href: docUrl, target: '_blank',
-    });
-  }
-
-  if (slackUrl) {
-    overflowItems.push({
-      id: 'slack', label: 'Open Slack group', href: slackUrl, target: '_blank',
-    });
-  }
-
-  if (state !== 'dropped') {
-    overflowItems.push({
-      id: 'view-participants',
-      label: 'View participants',
-      onAction: () => setViewParticipantsOpen(true),
-    });
-  }
-
-  // TODO flag in PR that I explicitly decided to keep this — Switch group permanently is not
-  // in Cyrus's overflow design but is useful enough to retain.
-  if ((state === 'in-progress' || state === 'upcoming') && !isNotInGroup) {
-    overflowItems.push({
-      id: 'switch-group-permanently',
-      label: 'Switch group permanently',
-      onAction: () => setGroupSwitch({ unitNumber: '1', switchType: 'Switch group permanently' }),
-    });
-  }
-
-  if (state === 'in-progress' || state === 'upcoming') {
-    overflowItems.push({ id: 'drop', label: 'Drop or defer course', onAction: () => setDropoutOpen(true) });
-  }
-
   const openReschedule = (unitNumber: string | null, switchType: SwitchType) => {
     setGroupSwitch({ unitNumber: unitNumber ?? '1', switchType });
   };
@@ -294,46 +260,60 @@ const CourseListRow = ({
     </button>
   ) : null;
 
-  // Wide text CTAs / pills. Rendered inline on the right on desktop; full-width row below the
-  // title block on mobile (so the title isn't squeezed by long labels like "Share feedback to view
-  // your certificate").
-  const wideActions = (
-    <>
-      {showLockedCert && feedbackFormUrl && (
-        <CTALinkOrButton
-          variant="primary"
-          size="small"
-          url={feedbackFormUrl}
-          target="_blank"
-          className="gap-1.5"
-        >
+  // All course-row actions, declared in one table. `variant` decides where it surfaces;
+  // `inline` and `overflow` are filled in as appropriate per variant.
+  //   inline          — inline on both viewports
+  //   inline-desktop  — inline on desktop, folded into the overflow menu on mobile
+  //   overflow        — only in the overflow menu
+  type CourseAction = {
+    id: string;
+    isVisible: boolean;
+    variant: 'inline' | 'inline-desktop' | 'overflow';
+    inline?: ReactNode;
+    overflow?: OverflowMenuItemProps;
+  };
+
+  const inProgressOrUpcoming = state === 'in-progress' || state === 'upcoming';
+  const actions: CourseAction[] = [
+    {
+      id: 'share-feedback',
+      isVisible: Boolean(showLockedCert && feedbackFormUrl),
+      variant: 'inline',
+      inline: feedbackFormUrl ? (
+        <CTALinkOrButton variant="primary" size="small" url={feedbackFormUrl} target="_blank" className="gap-1.5">
           <FaLock />
           <span>Share feedback<span className="hidden sm:inline"> to view your certificate</span></span>
         </CTALinkOrButton>
-      )}
-      {state === 'completed' && hasCert && !showLockedCert && (
-        <CTALinkOrButton variant="primary" size="small" url={certificateUrl}>View certificate</CTALinkOrButton>
-      )}
-      {showActionPlan && (
-        hasSubmittedActionPlan ? (
-          <CTALinkOrButton variant="primary" size="small" disabled className="gap-1.5 disabled:opacity-80">
-            <span>Action plan submitted</span>
-            <span className="inline-flex size-3.5 items-center justify-center rounded-full bg-white">
-              <FaCheck className="size-1.5 text-bluedot-darker" />
-            </span>
-          </CTALinkOrButton>
-        ) : (
-          <CTALinkOrButton
-            variant="primary"
-            size="small"
-            url={getActionPlanUrl(meetPersonId)}
-            target="_blank"
-          >
-            Submit action plan
-          </CTALinkOrButton>
-        )
-      )}
-      {state === 'upcoming' && courseRegistration.decision !== 'Reject' && (
+      ) : null,
+    },
+    {
+      id: 'view-certificate',
+      isVisible: state === 'completed' && hasCert && !showLockedCert,
+      variant: 'inline',
+      inline: <CTALinkOrButton variant="primary" size="small" url={certificateUrl}>View certificate</CTALinkOrButton>,
+    },
+    {
+      id: 'action-plan',
+      isVisible: Boolean(showActionPlan),
+      variant: 'inline',
+      inline: hasSubmittedActionPlan ? (
+        <CTALinkOrButton variant="primary" size="small" disabled className="gap-1.5 disabled:opacity-80">
+          <span>Action plan submitted</span>
+          <span className="inline-flex size-3.5 items-center justify-center rounded-full bg-white">
+            <FaCheck className="size-1.5 text-bluedot-darker" />
+          </span>
+        </CTALinkOrButton>
+      ) : (
+        <CTALinkOrButton variant="primary" size="small" url={getActionPlanUrl(meetPersonId ?? '')} target="_blank">
+          Submit action plan
+        </CTALinkOrButton>
+      ),
+    },
+    {
+      id: 'availability',
+      isVisible: state === 'upcoming' && courseRegistration.decision !== 'Reject',
+      variant: 'inline',
+      inline: (
         <CTALinkOrButton
           variant="primary"
           size="small"
@@ -347,28 +327,91 @@ const CourseListRow = ({
         >
           {courseRegistration.availabilityIntervalsUTC ? 'Edit your availability' : 'Submit your availability'}
         </CTALinkOrButton>
-      )}
-      {state === 'upcoming' && (
+      ),
+    },
+    {
+      id: 'view-curriculum',
+      isVisible: state === 'upcoming',
+      variant: 'inline-desktop',
+      inline: (
         <CTALinkOrButton variant="secondary" size="small" url={`/courses/${course.slug}/1/1`}>
           View curriculum
         </CTALinkOrButton>
-      )}
-      {state === 'dropped' && (
-        <>
-          <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-            <IoBan aria-hidden size={14} />
-            Dropped
-          </span>
-          <CTALinkOrButton variant="primary" size="small" url={applyAgainUrl}>Apply again</CTALinkOrButton>
-        </>
-      )}
-    </>
-  );
-  const hasWideActions = Boolean(showLockedCert && feedbackFormUrl)
-    || (state === 'completed' && hasCert && !showLockedCert)
-    || Boolean(showActionPlan)
-    || state === 'upcoming'
-    || state === 'dropped';
+      ),
+      overflow: {
+        id: 'view-curriculum', label: 'View curriculum', href: `/courses/${course.slug}/1/1`,
+      },
+    },
+    {
+      id: 'dropped-pill',
+      isVisible: state === 'dropped',
+      variant: 'inline',
+      inline: (
+        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
+          <IoBan aria-hidden size={14} />
+          Dropped
+        </span>
+      ),
+    },
+    {
+      id: 'apply-again',
+      isVisible: state === 'dropped',
+      variant: 'inline',
+      inline: <CTALinkOrButton variant="primary" size="small" url={applyAgainUrl}>Apply again</CTALinkOrButton>,
+    },
+    {
+      id: 'open-doc',
+      isVisible: Boolean(docUrl),
+      variant: 'overflow',
+      overflow: {
+        id: 'doc', label: 'Open discussion doc', href: docUrl ?? '', target: '_blank',
+      },
+    },
+    {
+      id: 'open-slack',
+      isVisible: Boolean(slackUrl),
+      variant: 'overflow',
+      overflow: {
+        id: 'slack', label: 'Open Slack group', href: slackUrl ?? '', target: '_blank',
+      },
+    },
+    {
+      id: 'view-participants',
+      isVisible: state !== 'dropped' && Boolean(group),
+      variant: 'overflow',
+      overflow: {
+        id: 'view-participants', label: 'View participants', onAction: () => setViewParticipantsOpen(true),
+      },
+    },
+    {
+      // TODO flag in PR that I explicitly decided to keep this — Switch group permanently is not in
+      // Cyrus's overflow design but is useful enough to retain.
+      id: 'switch-group-permanently',
+      isVisible: inProgressOrUpcoming && !isNotInGroup,
+      variant: 'overflow',
+      overflow: {
+        id: 'switch-group-permanently',
+        label: 'Switch group permanently',
+        onAction: () => setGroupSwitch({ unitNumber: '1', switchType: 'Switch group permanently' }),
+      },
+    },
+    {
+      id: 'drop',
+      isVisible: inProgressOrUpcoming,
+      variant: 'overflow',
+      overflow: {
+        id: 'drop', label: 'Drop or defer course', onAction: () => setDropoutOpen(true),
+      },
+    },
+  ];
+
+  const visible = actions.filter((a) => a.isVisible);
+  const desktopInlineActions = visible.filter((a) => a.variant !== 'overflow');
+  const mobileInlineActions = visible.filter((a) => a.variant === 'inline');
+  const overflowItems: OverflowMenuItemProps[] = visible
+    .filter((a) => a.variant !== 'inline' && a.overflow)
+    .map((a) => a.overflow!);
+  const hasMobileInlineActions = mobileInlineActions.length > 0;
 
   return (
     <div className="overflow-hidden rounded-xl border border-color-divider bg-white">
@@ -415,7 +458,7 @@ const CourseListRow = ({
           <div className="flex shrink-0 flex-col items-end gap-2 self-stretch sm:flex-row sm:items-center sm:gap-4 sm:self-auto">
             {/* Wide text CTAs / pills — desktop only; on mobile they live in a separate row below. */}
             <div className="hidden items-center gap-3 sm:flex">
-              {wideActions}
+              {desktopInlineActions.map((a) => <Fragment key={a.id}>{a.inline}</Fragment>)}
               {state !== 'dropped' && overflowItems.length > 0 && (
                 <OverflowMenu ariaLabel="Course actions" items={overflowItems} />
               )}
@@ -424,22 +467,25 @@ const CourseListRow = ({
               applicable) sits at the bottom — or moves to the wide-actions row when wide
               actions are present. On desktop the overflow moves into the desktop wide-actions
               row above and the chevron lives next to it. */}
-            <div className="flex flex-1 flex-col items-center justify-between gap-4 sm:hidden">
+            <div className="flex flex-1 flex-col items-center justify-between gap-2 sm:hidden">
               {state !== 'dropped' && overflowItems.length > 0 ? (
                 <OverflowMenu ariaLabel="Course actions" items={overflowItems} />
               ) : <span aria-hidden />}
-              {!hasWideActions && chevronButton}
+              {!hasMobileInlineActions && chevronButton}
             </div>
             {chevronButton && <span className="hidden sm:inline">{chevronButton}</span>}
           </div>
         </div>
       </div>
-      {/* Mobile-only: wide CTAs / pills as a full-width row below the title block.
+      {/* Mobile-only: pill + primary actions as a full-width row below the title block.
           Chevron lives here too (rather than the header's right column) so it sits inline
-          with the button. */}
-      {hasWideActions && (
+          with the button. Secondary actions are NOT inlined here — they were already pushed
+          into the overflow menu above to avoid stacking on narrow screens. */}
+      {hasMobileInlineActions && (
         <div className="flex items-center gap-2 px-5 pb-3.5 sm:hidden">
-          <div className="flex flex-1 flex-wrap gap-2">{wideActions}</div>
+          <div className="flex flex-1 flex-wrap gap-2">
+            {mobileInlineActions.map((a) => <Fragment key={a.id}>{a.inline}</Fragment>)}
+          </div>
           {chevronButton}
         </div>
       )}
