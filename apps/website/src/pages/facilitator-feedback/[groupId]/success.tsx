@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
@@ -144,6 +145,13 @@ const FacilitatorFeedbackSuccessPage = () => {
               </p>
             </div>
           )}
+
+          <Link
+            href={`/facilitator-feedback/${meetPersonId}`}
+            className="self-start text-size-xs font-medium text-bluedot-navy/60 underline underline-offset-[2px] hover:opacity-80"
+          >
+            Edit response
+          </Link>
 
           {showInvoiceCard && invoiceUrl && (
             <div className="bg-[#f8f9fb] border border-color-divider rounded-md p-6 flex flex-col gap-2">
