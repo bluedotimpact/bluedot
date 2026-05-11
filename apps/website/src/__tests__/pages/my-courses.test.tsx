@@ -1,8 +1,8 @@
 import { describe, test, expect } from 'vitest';
 import type { CourseRegistration } from '@bluedot/db';
-import { createMockCourseRegistration } from '../__tests__/testUtils';
-import { bucketCoursesByTab } from './my-courses';
-import type { CourseRowData } from '../components/my-courses/CourseListRow';
+import { createMockCourseRegistration } from '../testUtils';
+import { bucketCoursesByTab } from '../../pages/my-courses';
+import type { CourseRowData } from '../../components/my-courses/CourseListRow';
 
 const makeRow = (crOverrides: Partial<CourseRegistration> = {}): CourseRowData => ({
   courseRegistration: createMockCourseRegistration(crOverrides),
