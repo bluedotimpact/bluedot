@@ -443,7 +443,7 @@ const CourseListRow = ({
             {courseConfig?.icon && <img src={courseConfig.icon} className="size-7 sm:size-10" />}
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="text-size-md font-semibold text-bluedot-navy sm:text-size-lg">
+            <h3 className="text-size-md text-pretty font-semibold text-bluedot-navy sm:text-size-lg">
               {course.title}
               {certEligibilityReason && (
                 <span className="ml-1.5 -translate-y-px inline-flex items-center align-middle">
