@@ -40,7 +40,7 @@ const stub = (overrides: Partial<CourseListRowProps> = {}): CourseListRowProps =
 // In-progress (Active, accepted, in a group). Recurring-schedule subtitle, overflow menu populated.
 const inProgressArgs = stub({
   courseRegistration: { ...stub().courseRegistration, id: 'reg-in-progress', roundStatus: 'Active' } as CourseListRowProps['courseRegistration'],
-  course: { slug: 'technical-ai-safety', title: 'Technical AI Safety' },
+  course: { slug: 'technical-ai-safety', title: 'Technical AI Safety', applyUrl: null },
   group: { startTimeUtc: wednesday4pm, slackChannelId: 'C01ABCDEF', discussionDoc: 'https://example.com/discussion-doc' },
 });
 

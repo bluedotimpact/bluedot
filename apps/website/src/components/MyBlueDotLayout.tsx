@@ -27,6 +27,7 @@ const MyBlueDotLayout = ({ children, route, afterBreadcrumbs }: MyBlueDotLayoutP
   </>
 );
 
+// TODO does this need a custom component
 const Breadcrumbs = ({ route }: { route: BluedotRoute }) => {
   const breadcrumbItems = [...(route.parentPages ?? []), route];
 
