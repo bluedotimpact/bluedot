@@ -149,9 +149,15 @@ export const getSubtitle = ({
         break;
     }
 
+    // Suppress the "Course starts" addendum for rejected applicants — the round date is
+    // technically correct but reads as tone-deaf since they're not attending.
+    const startsAddendum = courseRegistration.decision !== 'Reject' && roundStartDate
+      ? `Course starts ${formatMonthAndDay(roundStartDate)}`
+      : null;
+
     return renderParts([
       <span key="status" className="text-bluedot-normal font-medium">{statusText}</span>,
-      roundStartDate ? `Course starts ${formatMonthAndDay(roundStartDate)}` : null,
+      startsAddendum,
     ]);
   }
 
