@@ -390,8 +390,10 @@ const CourseListRow = ({
     {
       // TODO flag in PR that I explicitly decided to keep this — Switch group permanently is not in
       // Cyrus's overflow design but is useful enough to retain.
+      // Requires an existing group (Boolean(group)) AND at least one unit with a future alternative
+      // discussion (rescheduleEligibleUnits.length > 0) so there's actually somewhere to switch to.
       id: 'switch-group-permanently',
-      isVisible: inProgressOrUpcoming && !isNotInGroup,
+      isVisible: inProgressOrUpcoming && Boolean(group) && rescheduleEligibleUnits.length > 0,
       variant: 'overflow',
       overflow: {
         id: 'switch-group-permanently',
@@ -401,7 +403,10 @@ const CourseListRow = ({
     },
     {
       id: 'drop',
-      isVisible: inProgressOrUpcoming,
+      // Hide on Upcoming + Reject / null decision: legacy didn't surface drop/defer on
+      // application states (you withdraw the application, not "drop" a course you're not in).
+      // Withdrawing an application is a future product decision (separate label + endpoint).
+      isVisible: state === 'in-progress' || (state === 'upcoming' && courseRegistration.decision === 'Accept'),
       variant: 'overflow',
       overflow: {
         id: 'drop', label: 'Drop or defer course', onAction: () => setDropoutOpen(true),

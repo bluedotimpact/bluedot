@@ -5,7 +5,7 @@ import CourseListRow, { type CourseListRowProps } from './CourseListRow';
 const NOW_SEC = Math.floor(new Date('2026-05-06T09:00:00Z').getTime() / 1000);
 const wednesday4pm = NOW_SEC - (NOW_SEC % (7 * 24 * 60 * 60)) + (3 * 24 * 60 * 60) + (16 * 60 * 60); // a Wednesday at 16:00 UTC
 
-const stub = (overrides: Partial<CourseListRowProps> = {}): CourseListRowProps => ({
+const stubProps = (overrides: Partial<CourseListRowProps> = {}): CourseListRowProps => ({
   course: { slug: 'technical-ai-safety', title: 'Technical AI Safety' } as CourseListRowProps['course'],
   courseRegistration: {
     id: 'reg-default',
@@ -37,53 +37,53 @@ const stub = (overrides: Partial<CourseListRowProps> = {}): CourseListRowProps =
   ...overrides,
 });
 
-// In-progress (Active, accepted, in a group). Recurring-schedule subtitle, overflow menu populated.
-const inProgressArgs = stub({
-  courseRegistration: { ...stub().courseRegistration, id: 'reg-in-progress', roundStatus: 'Active' } as CourseListRowProps['courseRegistration'],
+// In-progress (Active, accepted, in a group)
+const inProgressArgs = stubProps({
+  courseRegistration: { ...stubProps().courseRegistration, id: 'reg-in-progress', roundStatus: 'Active' } as CourseListRowProps['courseRegistration'],
   course: { slug: 'technical-ai-safety', title: 'Technical AI Safety', applyUrl: null },
   group: { startTimeUtc: wednesday4pm, slackChannelId: 'C01ABCDEF', discussionDoc: 'https://example.com/discussion-doc' },
 });
 
-// Upcoming (Future) + Accept. Status word + Course starts. Title application-timeline tooltip.
-const upcomingAcceptedArgs = stub({
+// Upcoming (Future) + Accept
+const upcomingAcceptedArgs = stubProps({
   courseRegistration: {
-    ...stub().courseRegistration, id: 'reg-upcoming-accept', roundStatus: 'Future', decision: 'Accept',
+    ...stubProps().courseRegistration, id: 'reg-upcoming-accept', roundStatus: 'Future', decision: 'Accept',
   } as CourseListRowProps['courseRegistration'],
   course: { slug: 'ai-governance', title: 'AI Governance' } as CourseListRowProps['course'],
   roundStartDate: '2026-06-15',
 });
 
-// Upcoming + null decision (Application in review). Title application-timeline tooltip.
-const upcomingInReviewArgs = stub({
+// Upcoming + null decision (Application in review)
+const upcomingInReviewArgs = stubProps({
   courseRegistration: {
-    ...stub().courseRegistration, id: 'reg-upcoming-review', roundStatus: 'Future', decision: null,
+    ...stubProps().courseRegistration, id: 'reg-upcoming-review', roundStatus: 'Future', decision: null,
   } as CourseListRowProps['courseRegistration'],
   course: { slug: 'biosecurity', title: 'Biosecurity' } as CourseListRowProps['course'],
   roundStartDate: '2026-06-15',
 });
 
-// Upcoming + Reject. No tooltip, no Submit availability button.
-const upcomingRejectedArgs = stub({
+// Upcoming + Reject
+const upcomingRejectedArgs = stubProps({
   courseRegistration: {
-    ...stub().courseRegistration, id: 'reg-upcoming-reject', roundStatus: 'Future', decision: 'Reject',
+    ...stubProps().courseRegistration, id: 'reg-upcoming-reject', roundStatus: 'Future', decision: 'Reject',
   } as CourseListRowProps['courseRegistration'],
   course: { slug: 'agi-strategy', title: 'AGI Strategy' } as CourseListRowProps['course'],
   roundStartDate: '2026-06-15',
 });
 
-// Accepted to an Active round but not yet placed in a group. No-group subtitle.
-const notYetInGroupArgs = stub({
-  courseRegistration: { ...stub().courseRegistration, id: 'reg-not-in-group', roundStatus: 'Active' } as CourseListRowProps['courseRegistration'],
+// Accepted to an Active round but not yet placed in a group
+const notYetInGroupArgs = stubProps({
+  courseRegistration: { ...stubProps().courseRegistration, id: 'reg-not-in-group', roundStatus: 'Active' } as CourseListRowProps['courseRegistration'],
   course: { slug: 'biosecurity', title: 'Biosecurity' } as CourseListRowProps['course'],
   group: null,
   facilitatorNames: [],
   roundStartDate: '2026-05-15',
 });
 
-// Past + cert (same month) + feedback submitted → date range subtitle + View certificate CTA.
-const completedWithCertArgs = stub({
+// Past + cert (same month) + feedback submitted
+const completedWithCertArgs = stubProps({
   courseRegistration: {
-    ...stub().courseRegistration,
+    ...stubProps().courseRegistration,
     id: 'reg-completed-cert',
     roundStatus: 'Past',
     certificateCreatedAt: new Date('2026-03-18T00:00:00Z').getTime() / 1000,
@@ -96,10 +96,10 @@ const completedWithCertArgs = stub({
   hasSubmittedFeedback: true,
 });
 
-// Past + cert + feedback NOT submitted → Locked cert CTA (Share feedback to view your certificate).
-const completedWithCertLockedArgs = stub({
+// Past + cert + feedback NOT submitted
+const completedWithCertLockedArgs = stubProps({
   courseRegistration: {
-    ...stub().courseRegistration,
+    ...stubProps().courseRegistration,
     id: 'reg-completed-locked',
     roundStatus: 'Past',
     certificateCreatedAt: new Date('2026-04-20T00:00:00Z').getTime() / 1000,
@@ -113,9 +113,9 @@ const completedWithCertLockedArgs = stub({
 });
 
 // Past + cert + cross-year date range. Sanity check for the date formatter.
-const completedWithCertCrossYearArgs = stub({
+const completedWithCertCrossYearArgs = stubProps({
   courseRegistration: {
-    ...stub().courseRegistration,
+    ...stubProps().courseRegistration,
     id: 'reg-completed-cross-year',
     roundStatus: 'Past',
     certificateCreatedAt: new Date('2026-01-10T00:00:00Z').getTime() / 1000,
@@ -128,10 +128,10 @@ const completedWithCertCrossYearArgs = stub({
   hasSubmittedFeedback: true,
 });
 
-// Past + no cert + no action plan yet → attendance line in subtitle, cert-eligibility tooltip, Submit action plan CTA.
-const completedNoCertEligibleArgs = stub({
+// Past + no cert + no action plan yet
+const completedNoCertEligibleArgs = stubProps({
   courseRegistration: {
-    ...stub().courseRegistration, id: 'reg-completed-no-cert-eligible', roundStatus: 'Past', certificateCreatedAt: null,
+    ...stubProps().courseRegistration, id: 'reg-completed-no-cert-eligible', roundStatus: 'Past', certificateCreatedAt: null,
   } as CourseListRowProps['courseRegistration'],
   course: { slug: 'technical-ai-safety', title: 'Technical AI Safety' } as CourseListRowProps['course'],
   roundStartDate: '2026-03-10',
@@ -141,10 +141,10 @@ const completedNoCertEligibleArgs = stub({
   hasSubmittedActionPlan: false,
 });
 
-// Past + no cert + action plan submitted but missed too many → Action plan submitted (disabled with check).
-const completedNoCertActionPlanSubmittedArgs = stub({
+// Past + no cert + action plan submitted but missed too many
+const completedNoCertActionPlanSubmittedArgs = stubProps({
   courseRegistration: {
-    ...stub().courseRegistration, id: 'reg-completed-no-cert-submitted', roundStatus: 'Past', certificateCreatedAt: null,
+    ...stubProps().courseRegistration, id: 'reg-completed-no-cert-submitted', roundStatus: 'Past', certificateCreatedAt: null,
   } as CourseListRowProps['courseRegistration'],
   course: { slug: 'biosecurity', title: 'Biosecurity' } as CourseListRowProps['course'],
   roundStartDate: '2026-03-10',
@@ -154,22 +154,20 @@ const completedNoCertActionPlanSubmittedArgs = stub({
   hasSubmittedActionPlan: true,
 });
 
-// Past + no cert + FOAI (non-facilitated, self-paced). numUnits=0 suppresses the attendance line.
-// No cert-eligibility tooltip, no action-plan CTA.
-const completedNoCertFoaiArgs = stub({
+// Past + no cert + FOAI (non-facilitated, self-paced)
+const completedNoCertFoaiArgs = stubProps({
   courseRegistration: {
-    ...stub().courseRegistration, id: 'reg-completed-foai', roundStatus: 'Past', certificateCreatedAt: null,
+    ...stubProps().courseRegistration, id: 'reg-completed-foai', roundStatus: 'Past', certificateCreatedAt: null,
   } as CourseListRowProps['courseRegistration'],
   course: { slug: 'future-of-ai', title: 'Future of AI' } as CourseListRowProps['course'],
   numUnits: 0,
   uniqueDiscussionAttendance: 0,
 });
 
-// Dropped + had attended some discussions before dropping. Date-range subtitle, Dropped pill,
-// Apply again, and chevron (canExpand allows when attendedDiscussionIds is non-empty).
-const droppedArgs = stub({
+// Dropped + had attended some discussions before dropping
+const droppedArgs = stubProps({
   courseRegistration: {
-    ...stub().courseRegistration, id: 'reg-dropped', roundStatus: 'Active', dropoutId: ['dropout-1'], deferredId: null,
+    ...stubProps().courseRegistration, id: 'reg-dropped', roundStatus: 'Active', dropoutId: ['dropout-1'], deferredId: null,
   } as CourseListRowProps['courseRegistration'],
   course: { slug: 'biosecurity', title: 'Biosecurity' } as CourseListRowProps['course'],
   roundStartDate: '2026-03-10',
@@ -177,10 +175,10 @@ const droppedArgs = stub({
   attendedDiscussionIds: ['disc-1', 'disc-2'],
 });
 
-// Dropped + no prior attendance. Same row content but no chevron (canExpand is false).
-const droppedNoAttendanceArgs = stub({
+// Dropped + no prior attendance
+const droppedNoAttendanceArgs = stubProps({
   courseRegistration: {
-    ...stub().courseRegistration, id: 'reg-dropped-no-attendance', roundStatus: 'Active', dropoutId: ['dropout-2'], deferredId: null,
+    ...stubProps().courseRegistration, id: 'reg-dropped-no-attendance', roundStatus: 'Active', dropoutId: ['dropout-2'], deferredId: null,
   } as CourseListRowProps['courseRegistration'],
   course: { slug: 'biosecurity', title: 'Biosecurity' } as CourseListRowProps['course'],
   roundStartDate: '2026-03-10',
@@ -214,8 +212,7 @@ const ALL = [
   { id: 'dropped-no-attendance', args: droppedNoAttendanceArgs },
 ];
 
-// Designer scroll-through: every meaningful state stacked vertically. First so it shows top of
-// the sidebar in Storybook.
+// Convenience story to be able to skim through all states with no visual clutter
 export const AllStates: Story = {
   args: inProgressArgs,
   render: () => (
