@@ -10,7 +10,8 @@ export const jobsRouter = router({
       });
 
       // Sort by Airtable Prio (e.g. "1 Top", "2 Med", "3 Low"), then title.
-      // Jobs without a priority sort to the bottom.
+      // '￿' (U+FFFF, the max BMP code point) is a sentinel so jobs without
+      // a priority sort after every real value.
       return allJobs
         .sort((a, b) => {
           const pa = a.priority ?? '￿';
