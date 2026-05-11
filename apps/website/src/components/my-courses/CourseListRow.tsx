@@ -2,7 +2,7 @@ import type {
   Course, CourseRegistration, Group, GroupDiscussion, Unit,
 } from '@bluedot/db';
 import {
-  CTALinkOrButton, OverflowMenu, Tooltip, type OverflowMenuItemProps, addQueryParam,
+  CTALinkOrButton, OverflowMenu, Tooltip, type OverflowMenuItemProps, addQueryParam, useLatestUtmParams,
 } from '@bluedot/ui';
 import { Fragment, useState, type ReactNode } from 'react';
 import { FaCheck, FaLock } from 'react-icons/fa6';
@@ -11,17 +11,17 @@ import { ChevronRightIcon } from '../icons';
 import { COURSE_CONFIG, FOAI_COURSE_SLUG } from '../../lib/constants';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
 import { ROUTES } from '../../lib/routes';
+import { appendPosthogSessionIdPrefill } from '../../lib/appendPosthogSessionIdPrefill';
 import { buildGroupSlackChannelUrl, formatMonthAndDay, getActionPlanUrl } from '../../lib/utils';
 import DropoutModal from '../courses/DropoutModal';
 import GroupSwitchModal, { buildAvailabilityFormUrl, type SwitchType } from '../courses/GroupSwitchModal';
 import ViewParticipantsModal from '../courses/ViewParticipantsModal';
 import DiscussionList from './DiscussionList';
 
-// Server-derivable per-course data — consumed by the server router as its return shape and by
-// the page for bucketing/sorting. The expand-state props live separately on CourseListRowProps.
+// TODO give more descriptive name
 export type CourseRowData = {
   courseRegistration: CourseRegistration;
-  course: Pick<Course, 'slug' | 'title'>;
+  course: Pick<Course, 'slug' | 'title' | 'applyUrl'>;
   group: Pick<Group, 'startTimeUtc' | 'slackChannelId' | 'discussionDoc'> | null;
   facilitatorNames: string[];
   meetPersonId: string | null;
@@ -192,7 +192,9 @@ const CourseListRow = ({
   const state = classifyCourseRegistration(courseRegistration);
   const [dropoutOpen, setDropoutOpen] = useState(false);
   const [viewParticipantsOpen, setViewParticipantsOpen] = useState(false);
+  // TODO give more descriptive name
   const [groupSwitch, setGroupSwitch] = useState<{ unitNumber: string; switchType: SwitchType } | null>(null);
+  const { latestUtmParams } = useLatestUtmParams();
 
   const isFacilitatedCourse = course.slug !== FOAI_COURSE_SLUG;
   const hasCert = !!courseRegistration.certificateCreatedAt;
@@ -235,11 +237,19 @@ const CourseListRow = ({
     ? addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)
     : `/courses/${course.slug}`;
   const showLockedCert = state === 'completed' && hasCert && !hasSubmittedFeedback && feedbackFormUrl;
-  const applyAgainUrl = `/courses/${course.slug}`;
+
+  const baseApplicationUrl = course.applyUrl ?? '';
+  const applyAgainUrl = baseApplicationUrl
+    ? appendPosthogSessionIdPrefill(latestUtmParams.utm_source
+      ? addQueryParam(baseApplicationUrl, 'prefill_Source', latestUtmParams.utm_source)
+      : baseApplicationUrl)
+    : `/courses/${course.slug}`;
+
   const showActionPlan = state === 'completed' && !hasCert && isFacilitatedCourse && meetPersonId && courseRegistration.role !== 'Facilitator';
   const slackUrl = group?.slackChannelId ? buildGroupSlackChannelUrl(group.slackChannelId) : null;
   const docUrl = group?.discussionDoc ?? null;
 
+  // TODO inline
   const openReschedule = (unitNumber: string | null, switchType: SwitchType) => {
     setGroupSwitch({ unitNumber: unitNumber ?? '1', switchType });
   };
@@ -351,7 +361,7 @@ const CourseListRow = ({
       id: 'apply-again',
       isVisible: state === 'dropped',
       variant: 'inline',
-      inline: <CTALinkOrButton variant="primary" size="small" url={applyAgainUrl} className="text-size-xxs">Apply again</CTALinkOrButton>,
+      inline: <CTALinkOrButton variant="primary" size="small" url={applyAgainUrl} target="_blank" className="text-size-xxs">Apply again</CTALinkOrButton>,
     },
     {
       id: 'open-doc',
@@ -425,7 +435,7 @@ const CourseListRow = ({
             // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             style={{ backgroundColor: courseConfig?.iconBackground || 'var(--color-bluedot-normal)' }}
           >
-            {courseConfig?.icon && <img src={courseConfig.icon} alt="" className="size-7 sm:size-10" />}
+            {courseConfig?.icon && <img src={courseConfig.icon} className="size-7 sm:size-10" />}
           </div>
           <div className="min-w-0 flex-1">
             <h3 className="text-size-md font-semibold text-bluedot-navy sm:text-size-lg">
@@ -456,10 +466,7 @@ const CourseListRow = ({
                 <OverflowMenu ariaLabel="Course actions" items={overflowItems} />
               )}
             </div>
-            {/* Icon-only actions on mobile. Overflow sticks to the top of the row, chevron (if
-              applicable) sits at the bottom — or moves to the wide-actions row when wide
-              actions are present. On desktop the overflow moves into the desktop wide-actions
-              row above and the chevron lives next to it. */}
+            {/* Mobile only: RHS buttons stacked vertically */}
             <div className="flex flex-1 flex-col items-center justify-between gap-2 sm:hidden">
               {state !== 'dropped' && overflowItems.length > 0 ? (
                 <OverflowMenu ariaLabel="Course actions" items={overflowItems} />
