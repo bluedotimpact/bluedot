@@ -9,10 +9,15 @@ export const jobsRouter = router({
         publicationStatus: 'Published',
       });
 
-      // Sort jobs alphabetically by title and remove the body field
-      // TODO: just fetch these fields from the DB in the first place
+      // Sort by Airtable Prio (e.g. "1 Top", "2 Med", "3 Low"), then title.
+      // Jobs without a priority sort to the bottom.
       return allJobs
-        .sort((a, b) => (a.title ?? '').localeCompare(b.title ?? ''))
+        .sort((a, b) => {
+          const pa = a.priority ?? '￿';
+          const pb = b.priority ?? '￿';
+          if (pa !== pb) return pa.localeCompare(pb);
+          return (a.title ?? '').localeCompare(b.title ?? '');
+        })
         .map(({ body, ...rest }) => rest);
     }),
 });

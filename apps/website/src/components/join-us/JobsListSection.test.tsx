@@ -15,6 +15,7 @@ const mockCmsJobs = [
     publishedAt: Date.now() / 1000,
     category: null,
     linkPreviewImage: null,
+    priority: null,
   },
   {
     id: '2',
@@ -26,6 +27,7 @@ const mockCmsJobs = [
     publishedAt: Date.now() / 1000,
     category: null,
     linkPreviewImage: null,
+    priority: null,
   },
 ];
 

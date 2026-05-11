@@ -7,11 +7,9 @@ import { PageListGroup, PageListRow, pageSectionHeadingClass } from '../PageList
 type JobsListSectionProps = inferRouterOutputs<AppRouter>['jobs']['getAll'];
 
 const JobsListSection = ({ jobs }: { jobs: JobsListSectionProps }) => {
-  // Split jobs into regular and contractor positions
-  // job.category is a single string value from Airtable
-  const regularJobs = jobs
-    .filter((job) => job.category !== 'Contractor')
-    .sort((a, b) => (a.slug === 'talent' ? 1 : 0) - (b.slug === 'talent' ? 1 : 0));
+  // Split jobs into regular and contractor positions. Ordering is set by the
+  // router (Airtable Prio field), so the component just preserves it.
+  const regularJobs = jobs.filter((job) => job.category !== 'Contractor');
   const contractorJobs = jobs.filter((job) => job.category === 'Contractor');
 
   const renderRow = (job: JobsListSectionProps[number]) => (
