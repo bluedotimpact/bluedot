@@ -127,6 +127,13 @@ export const getSubtitle = ({
   const dateRange = roundStartDate && roundEndDate ? formatRoundDateRange(roundStartDate, roundEndDate) : null;
   const facilitatorDisplay = facilitatorNames.length > 0 ? `Facilitated by ${facilitatorNames.join(', ')}` : null;
 
+  // Dropped — handled before Future/Past so the precedence matches classifyCourseRegistration.
+  // If dateRange is missing we show no subtitle rather than falling through to a state that
+  // doesn't apply (e.g. the recurring schedule of a course the user has left).
+  if (state === 'dropped') {
+    return dateRange;
+  }
+
   // Future
   if (courseRegistration.roundStatus === 'Future') {
     let statusText: string;
@@ -160,11 +167,6 @@ export const getSubtitle = ({
       dateRange,
       showAttendance ? `You attended ${uniqueDiscussionAttendance ?? 0} out of ${numUnits} discussions` : null,
     ]);
-  }
-
-  // Dropped
-  if (state === 'dropped' && dateRange) {
-    return dateRange;
   }
 
   // Accepted, not yet placed in a group
@@ -211,11 +213,12 @@ const CourseListRow = ({
     roundEndDate,
   });
 
-  // Show the cert-eligibility tooltip when a Past, no-cert, facilitated-course participant
-  // hasn't met both criteria yet (miss ≤ 1 discussion AND submit action plan).
+  // Excluded from Upcoming because meet_person.numUnits is pre-populated at acceptance
+  // with zero attendance, which would otherwise fire this tooltip on a not-yet-started course.
   let certEligibilityReason: string | null = null;
   if (
-    !hasCert
+    (state === 'in-progress' || state === 'completed')
+    && !hasCert
     && isFacilitatedCourse
     && uniqueDiscussionAttendance != null
     && numUnits != null
@@ -440,7 +443,11 @@ const CourseListRow = ({
             // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
             style={{ backgroundColor: courseConfig?.iconBackground || 'var(--color-bluedot-normal)' }}
           >
-            {courseConfig?.icon && <img src={courseConfig.icon} className="size-7 sm:size-10" />}
+            <img
+              src={courseConfig?.icon ?? '/images/logo/BlueDot_Impact_Icon_White.svg'}
+              className="size-7 sm:size-10"
+              alt=""
+            />
           </div>
           <div className="min-w-0 flex-1">
             <h3 className="text-size-md text-pretty font-semibold text-bluedot-navy sm:text-size-lg">

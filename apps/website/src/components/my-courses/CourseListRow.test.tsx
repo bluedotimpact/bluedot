@@ -167,12 +167,12 @@ describe('getSubtitle precedence', () => {
     })))).toBe('Mar 10 – 17, 2026');
   });
 
-  test('Dropped without round dates → falls through to recurring schedule', () => {
+  test('Dropped without round dates → no subtitle', () => {
     expect(renderText(getSubtitle(subtitleArgs({
       courseRegistration: createMockCourseRegistration({
         roundStatus: 'Active', dropoutId: ['drop_1'], deferredId: null,
       }),
-    })))).toBe('Wednesdays, 4:00 PM · Facilitated by Shivam Arora');
+    })))).toBe('');
   });
 
   test('Deferred (dropoutId set with deferredId) is NOT treated as dropped', () => {
@@ -226,6 +226,36 @@ describe('getSubtitle precedence', () => {
       isNotInGroup: true,
       roundStartDate: ROUND_START,
     })))).toBe('Application accepted! · Course starts 10 Mar');
+  });
+
+  test('Future + Accept + dropoutId + round dates → dropped wins (date range, not "Application accepted!")', () => {
+    expect(renderText(getSubtitle(subtitleArgs({
+      courseRegistration: createMockCourseRegistration({
+        roundStatus: 'Future', decision: 'Accept', dropoutId: ['drop_1'], deferredId: null,
+      }),
+      roundStartDate: ROUND_START,
+      roundEndDate: ROUND_END,
+    })))).toBe('Mar 10 – 17, 2026');
+  });
+
+  test('Future + Accept + dropoutId without roundEndDate → no subtitle', () => {
+    expect(renderText(getSubtitle(subtitleArgs({
+      courseRegistration: createMockCourseRegistration({
+        roundStatus: 'Future', decision: 'Accept', dropoutId: ['drop_1'], deferredId: null,
+      }),
+      roundStartDate: ROUND_START,
+      roundEndDate: null,
+    })))).toBe('');
+  });
+
+  test('Future + Reject + dropoutId + round dates → dropped wins (date range)', () => {
+    expect(renderText(getSubtitle(subtitleArgs({
+      courseRegistration: createMockCourseRegistration({
+        roundStatus: 'Future', decision: 'Reject', dropoutId: ['drop_1'], deferredId: null,
+      }),
+      roundStartDate: ROUND_START,
+      roundEndDate: ROUND_END,
+    })))).toBe('Mar 10 – 17, 2026');
   });
 });
 

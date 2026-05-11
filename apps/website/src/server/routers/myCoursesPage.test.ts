@@ -33,6 +33,7 @@ describe('myCoursesPage.getOverview', () => {
       title: 'Participant Course',
       shortDescription: 'p',
       units: [],
+      status: 'Active',
     });
     await testDb.insert(courseTable, {
       id: 'course-f',
@@ -40,6 +41,7 @@ describe('myCoursesPage.getOverview', () => {
       title: 'Facilitator Course',
       shortDescription: 'f',
       units: [],
+      status: 'Active',
     });
 
     await testDb.insert(courseRegistrationTable, {
@@ -119,5 +121,44 @@ describe('myCoursesPage.getOverview', () => {
 
     // The facilitator-role course should not appear in the regular course list either.
     expect(result.courses.map((c) => c.course.slug)).toEqual(['participant-course']);
+  });
+
+  test('registrations whose course is non-Active (archived) are filtered out', async () => {
+    await testDb.insert(courseTable, {
+      id: 'course-active',
+      slug: 'active-course',
+      title: 'Active Course',
+      shortDescription: 'a',
+      units: [],
+      status: 'Active',
+    });
+    await testDb.insert(courseTable, {
+      id: 'course-archived',
+      slug: 'archived-course',
+      title: 'Archived Course',
+      shortDescription: 'b',
+      units: [],
+      status: 'Past',
+    });
+
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-active',
+      email: CALLER_EMAIL,
+      courseId: 'course-active',
+      decision: 'Accept',
+      role: 'Participant',
+      roundStatus: 'Past',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-archived',
+      email: CALLER_EMAIL,
+      courseId: 'course-archived',
+      decision: 'Accept',
+      role: 'Participant',
+      roundStatus: 'Past',
+    });
+
+    const result = await caller.myCoursesPage.getOverview();
+    expect(result.courses.map((c) => c.course.slug)).toEqual(['active-course']);
   });
 });
