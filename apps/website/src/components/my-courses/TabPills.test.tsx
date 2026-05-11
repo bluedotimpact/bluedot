@@ -5,9 +5,9 @@ import {
 import TabPills from './TabPills';
 
 const TABS = [
-  { id: 'in-progress', label: 'In Progress' },
+  { id: 'inProgress', label: 'In Progress' },
   { id: 'upcoming', label: 'Upcoming' },
-  { id: 'past-courses', label: 'Past Courses' },
+  { id: 'pastCourses', label: 'Past Courses' },
 ] as const;
 
 describe('TabPills', () => {
@@ -21,8 +21,8 @@ describe('TabPills', () => {
 
   test('fires onChange with the clicked tab id', () => {
     const onChange = vi.fn();
-    render(<TabPills ariaLabel="Course filter" tabs={TABS} value="in-progress" onChange={onChange} />);
+    render(<TabPills ariaLabel="Course filter" tabs={TABS} value="inProgress" onChange={onChange} />);
     fireEvent.click(screen.getByRole('tab', { name: 'Past Courses' }));
-    expect(onChange).toHaveBeenCalledWith('past-courses');
+    expect(onChange).toHaveBeenCalledWith('pastCourses');
   });
 });

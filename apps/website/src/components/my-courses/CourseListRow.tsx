@@ -44,21 +44,11 @@ export type CourseListRowProps = CourseRowData & {
   onToggleExpand: () => void;
 };
 
-const classifyCourseRegistration = (cr: CourseRegistration) => {
+export const classifyCourseRegistration = (cr: CourseRegistration) => {
   if (cr.dropoutId?.length && !cr.deferredId?.length) return 'dropped';
   if (cr.roundStatus === 'Active') return 'in-progress';
   if (cr.roundStatus === 'Future') return 'upcoming';
   return 'completed';
-};
-
-// True when the row is both expandable and has discussions to render. Used by the page
-// to pick which row in each tab auto-expands on first render.
-type AutoExpandInput = Pick<CourseRowData, 'courseRegistration' | 'attendedDiscussionIds' | 'discussions'>;
-
-export const isAutoExpandCandidate = (course: AutoExpandInput): boolean => {
-  const state = classifyCourseRegistration(course.courseRegistration);
-  const canExpand = state !== 'dropped' || course.attendedDiscussionIds.length > 0;
-  return canExpand && course.discussions.length > 0;
 };
 
 const formatWeeklySchedule = (group: Pick<Group, 'startTimeUtc'> | null): string | null => {
