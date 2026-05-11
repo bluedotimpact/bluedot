@@ -1,3 +1,4 @@
+import type { CourseRegistration } from '@bluedot/db';
 import { ErrorSection, ProgressDots } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -57,21 +58,36 @@ const sortByFinalDiscussionDesc = (courses: CourseRowData[]): CourseRowData[] =>
   return [...courses].sort((a, b) => sortKey(b) - sortKey(a));
 };
 
+// Tab assignment by precedence — first match wins, so every row lands in exactly one tab
+// (or none, for deferred-past rows which the new-round registration covers elsewhere).
+const assignTab = (cr: CourseRegistration): CourseTab | null => {
+  if (cr.deferredId?.length) {
+    if (cr.roundStatus === 'Active') return 'in-progress';
+    if (cr.roundStatus === 'Future') return 'upcoming';
+    return null;
+  }
+
+  if (cr.dropoutId?.length) return 'past-courses';
+  if (cr.roundStatus === 'Active') return 'in-progress';
+  if (cr.roundStatus === 'Future') return 'upcoming';
+  return 'past-courses';
+};
+
 export const bucketCoursesByTab = (courses: CourseRowData[] | undefined): Record<CourseTab, CourseRowData[]> => {
   const eligible = (courses ?? [])
     .filter(({ courseRegistration: cr }) => cr.roundStatus === 'Active' || cr.roundStatus === 'Past' || cr.roundStatus === 'Future' || cr.certificateCreatedAt)
     .filter(({ courseRegistration: cr }) => cr.decision !== 'Reject' || cr.roundStatus === 'Future');
 
+  const buckets: Record<CourseTab, CourseRowData[]> = { 'in-progress': [], upcoming: [], 'past-courses': [] };
+  for (const row of eligible) {
+    const tab = assignTab(row.courseRegistration);
+    if (tab) buckets[tab].push(row);
+  }
+
   return {
-    'in-progress': sortByFinalDiscussionDesc(eligible.filter(({ courseRegistration: cr }) => cr.roundStatus === 'Active')),
-    upcoming: sortByFinalDiscussionDesc(eligible.filter(({ courseRegistration: cr }) => cr.roundStatus === 'Future')),
-    'past-courses': eligible
-      .filter(({ courseRegistration: cr }) => {
-        if (cr.deferredId?.length) return false;
-        const isPast = cr.roundStatus !== 'Active' && cr.roundStatus !== 'Future';
-        const isDroppedNotDeferred = Boolean(cr.dropoutId?.length);
-        return isPast || isDroppedNotDeferred;
-      })
+    'in-progress': sortByFinalDiscussionDesc(buckets['in-progress']),
+    upcoming: sortByFinalDiscussionDesc(buckets.upcoming),
+    'past-courses': buckets['past-courses']
       .sort((a, b) => (b.courseRegistration.certificateCreatedAt ?? Infinity) - (a.courseRegistration.certificateCreatedAt ?? Infinity)),
   };
 };

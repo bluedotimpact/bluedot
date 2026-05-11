@@ -52,7 +52,14 @@ export const myCoursesPageRouter = router({
 
     const [courses, meetPersons] = await Promise.all([
       courseIds.length > 0
-        ? db.pg.select().from(courseTable.pg).where(inArray(courseTable.pg.id, courseIds))
+        // Match legacy: only surface courses whose status is 'Active'. Archived/Past courses
+        // have unmaintained course pages, so showing them in /my-courses funnels users into
+        // broken areas of the site. Filtering at the join means registrations whose course
+        // is non-Active just don't appear (the perCourse flatMap drops them when no course matches).
+        ? db.pg.select().from(courseTable.pg).where(and(
+          inArray(courseTable.pg.id, courseIds),
+          eq(courseTable.pg.status, 'Active'),
+        ))
         : Promise.resolve([]),
       db.pg.select().from(meetPersonTable.pg).where(eq(meetPersonTable.pg.email, email)),
     ]);
