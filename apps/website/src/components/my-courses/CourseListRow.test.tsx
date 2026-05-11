@@ -56,11 +56,11 @@ describe('getSubtitle precedence', () => {
     })))).toBe('Application in review · Course starts 10 Mar');
   });
 
-  test('Future + Reject → "Application rejected"', () => {
+  test('Future + Reject → "Application rejected" (no "Course starts" addendum)', () => {
     expect(renderText(getSubtitle(subtitleArgs({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Reject' }),
       roundStartDate: ROUND_START,
-    })))).toBe('Application rejected · Course starts 10 Mar');
+    })))).toBe('Application rejected');
   });
 
   test('Future + no roundStartDate → status word only', () => {
