@@ -7,13 +7,10 @@ type ViewParticipantsModalProps = {
   handleClose: () => void;
 };
 
-const FacilitatorTag = () => (
-  <span className="text-size-xxs font-medium text-bluedot-navy/60">Facilitator</span>
-);
-
 const ViewParticipantsModal = ({ meetPersonId, handleClose }: ViewParticipantsModalProps) => {
   const { data, isLoading, isError } = trpc.myCoursesPage.getGroupParticipants.useQuery({ meetPersonId });
 
+  // TODO genuine error states
   const facilitators = data?.facilitators ?? [];
   const participants = data?.participants ?? [];
   const isEmpty = !isLoading && !isError && facilitators.length === 0 && participants.length === 0;
@@ -41,7 +38,7 @@ const ViewParticipantsModal = ({ meetPersonId, handleClose }: ViewParticipantsMo
             <p className="text-size-xs text-bluedot-navy/60 py-2">No other participants in your group yet.</p>
           )}
           {facilitators.map((p) => (
-            <ParticipantRow key={p.id} name={p.name} action={<FacilitatorTag />} />
+            <ParticipantRow key={p.id} name={p.name} rightHandNode={<span className="text-size-xxs font-medium text-bluedot-navy/60">Facilitator</span>} />
           ))}
           {participants.map((p) => (
             <ParticipantRow key={p.id} name={p.name} />

@@ -1,6 +1,6 @@
 import { CTALinkOrButton, OverflowMenu, type OverflowMenuItemProps } from '@bluedot/ui';
 import type { GroupDiscussion, Unit } from '@bluedot/db';
-import { useState } from 'react';
+import { Fragment, useState, type ReactNode } from 'react';
 import { IoBan, IoCheckmark } from 'react-icons/io5';
 import { downloadDiscussionCalendarFile } from '../../lib/downloadCalendarFile';
 import TimeWidget from './TimeWidget';
@@ -42,31 +42,95 @@ const DiscussionListRow = ({
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const joinHref = discussion.zoomLink || undefined;
 
-  const calendarItem = {
-    id: 'cal',
-    label: isDownloading ? 'Downloading…' : 'Download calendar file',
-    onAction: handleDownloadCalendar,
+  const isPast = status === 'attended' || status === 'absent';
+  const isFutureLike = status === 'upcoming' || status === 'soon' || status === 'live';
+
+  // All row actions declared once. `variant` decides where they surface:
+  //   inline   — desktop inline button or pill. Folded into the mobile overflow menu.
+  //   overflow — always in the overflow menu (both viewports).
+  // The renderer derives `desktopOverflow` and `mobileOverflow` from this single table so
+  // an action can never accidentally appear in both inline + overflow on the same viewport.
+  type DiscussionAction = {
+    id: string;
+    isVisible: boolean;
+    variant: 'inline' | 'overflow';
+    inline?: ReactNode;
+    overflow: OverflowMenuItemProps;
   };
 
-  // Match design: Join now appears only on the live row. The soon window keeps the standard
-  // upcoming-style row (Reschedule + overflow), matching the NextDiscussionCard which also
-  // only flips its primary CTA to Join discussion on live.
-  const showJoinNow = status === 'live';
-  const showSchedulingActions = status === 'upcoming' || status === 'soon' || status === 'live';
-  const showRescheduleForAbsent = status === 'absent' && canReschedule;
+  const actions: DiscussionAction[] = [
+    {
+      id: 'reschedule-upcoming',
+      isVisible: isFutureLike,
+      variant: 'inline',
+      inline: <CTALinkOrButton variant="secondary" size="small" onClick={onReschedule}>Reschedule</CTALinkOrButton>,
+      overflow: { id: 'reschedule', label: 'Reschedule', onAction: onReschedule },
+    },
+    {
+      id: 'join-now',
+      isVisible: status === 'live' && Boolean(joinHref),
+      variant: 'inline',
+      inline: joinHref ? <CTALinkOrButton variant="primary" size="small" url={joinHref} target="_blank">Join now</CTALinkOrButton> : null,
+      overflow: {
+        id: 'join', label: 'Join now', href: joinHref ?? '', target: '_blank',
+      },
+    },
+    {
+      id: 'attended-pill',
+      isVisible: status === 'attended',
+      variant: 'inline',
+      inline: (
+        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
+          <IoCheckmark aria-hidden size={14} />
+          Attended
+        </span>
+      ),
+      // Pills have no overflow representation but the type requires `overflow`; render a no-op
+      // entry that's never used because we filter pills out of overflow construction below.
+      overflow: { id: 'attended-pill-noop', label: 'Attended' },
+    },
+    {
+      id: 'absent-pill',
+      isVisible: status === 'absent',
+      variant: 'inline',
+      inline: (
+        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
+          <IoBan aria-hidden size={14} />
+          Absent
+        </span>
+      ),
+      overflow: { id: 'absent-pill-noop', label: 'Absent' },
+    },
+    {
+      id: 'reschedule-absent',
+      isVisible: status === 'absent' && canReschedule,
+      variant: 'inline',
+      inline: <CTALinkOrButton variant="primary" size="small" onClick={onReschedule}>Reschedule</CTALinkOrButton>,
+      overflow: { id: 'reschedule', label: 'Reschedule', onAction: onReschedule },
+    },
+    {
+      id: 'calendar',
+      isVisible: !isPast,
+      variant: 'overflow',
+      overflow: {
+        id: 'cal',
+        label: isDownloading ? 'Downloading…' : 'Download calendar file',
+        onAction: handleDownloadCalendar,
+      },
+    },
+  ];
 
-  const overflowItems: OverflowMenuItemProps[] = [];
-  if (showSchedulingActions || showRescheduleForAbsent) {
-    overflowItems.push({ id: 'reschedule', label: 'Reschedule', onAction: onReschedule });
-  }
+  // Pill ids whose overflow representation is intentionally a no-op (purely visual).
+  const PILL_IDS = new Set(['attended-pill', 'absent-pill']);
 
-  if (showJoinNow && joinHref) {
-    overflowItems.push({
-      id: 'join', label: 'Join now', href: joinHref, target: '_blank',
-    });
-  }
-
-  overflowItems.push(calendarItem);
+  const visible = actions.filter((a) => a.isVisible);
+  const inlineActions = visible.filter((a) => a.variant === 'inline');
+  const desktopOverflowItems = visible
+    .filter((a) => a.variant === 'overflow')
+    .map((a) => a.overflow);
+  const mobileOverflowItems = visible
+    .filter((a) => !PILL_IDS.has(a.id))
+    .map((a) => a.overflow);
 
   return (
     <li className="flex items-center gap-5 py-4 not-last:border-b not-last:border-color-divider">
@@ -88,35 +152,19 @@ const DiscussionListRow = ({
         )}
       </div>
       <div className="flex shrink-0 items-center gap-3">
-        {/* Inline actions/pills hidden on mobile per design — everything reachable via the overflow menu instead. */}
+        {/* Desktop: inline buttons/pills + overflow menu containing only `overflow`-variant items. */}
         <div className="hidden shrink-0 items-center gap-3 sm:flex">
-          {showSchedulingActions && (
-            <>
-              <CTALinkOrButton variant="secondary" size="small" onClick={onReschedule}>Reschedule</CTALinkOrButton>
-              {showJoinNow && joinHref && (
-                <CTALinkOrButton variant="primary" size="small" url={joinHref} target="_blank">Join now</CTALinkOrButton>
-              )}
-            </>
-          )}
-          {status === 'attended' && (
-            <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-              <IoCheckmark aria-hidden size={14} />
-              Attended
-            </span>
-          )}
-          {status === 'absent' && (
-            <>
-              <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-                <IoBan aria-hidden size={14} />
-                Absent
-              </span>
-              {canReschedule && (
-                <CTALinkOrButton variant="primary" size="small" onClick={onReschedule}>Reschedule</CTALinkOrButton>
-              )}
-            </>
+          {inlineActions.map((a) => <Fragment key={a.id}>{a.inline}</Fragment>)}
+          {desktopOverflowItems.length > 0 && (
+            <OverflowMenu ariaLabel="Discussion actions" items={desktopOverflowItems} />
           )}
         </div>
-        <OverflowMenu ariaLabel="Discussion actions" items={overflowItems} />
+        {/* Mobile: only the overflow menu, but it contains every action (inline buttons fold in). */}
+        <div className="sm:hidden">
+          {mobileOverflowItems.length > 0 && (
+            <OverflowMenu ariaLabel="Discussion actions" items={mobileOverflowItems} />
+          )}
+        </div>
       </div>
     </li>
   );

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import CourseListRow, { type CourseRowData } from './CourseListRow';
 
+// TODO I think this changed from the legacy version, also there are some unnecessary variable name changes
+// (e.g. SEE_ALL_THRESHOLD -> COLLAPSED_LIMIT). Make it more similar to the legacy unless there is a reason to change
 const COLLAPSED_LIMIT = 5;
 
 type CourseListProps = {
@@ -32,6 +34,7 @@ const CourseList = ({
           <CourseListRow
             key={id}
             {...c}
+            // TODO fix this prop drilling for expanded/collapsed
             isExpanded={expandedById[id] ?? false}
             onToggleExpand={() => onToggleExpand?.(id)}
           />

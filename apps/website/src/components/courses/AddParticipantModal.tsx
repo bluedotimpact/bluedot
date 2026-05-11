@@ -64,7 +64,7 @@ const AddParticipantModal: React.FC<AddParticipantModalProps> = ({ meetPersonId,
             <ParticipantRow
               key={person.id}
               name={person.name}
-              action={(
+              rightHandNode={(
                 <button
                   type="button"
                   onClick={() => onAdd(person)}
