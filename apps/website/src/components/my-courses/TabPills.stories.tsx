@@ -3,15 +3,15 @@ import { useState } from 'react';
 import TabPills from './TabPills';
 
 const TABS = [
-  { id: 'in-progress', label: 'In Progress' },
+  { id: 'inProgress', label: 'In Progress' },
   { id: 'upcoming', label: 'Upcoming' },
-  { id: 'past-courses', label: 'Past Courses' },
+  { id: 'pastCourses', label: 'Past Courses' },
 ] as const;
 
 type TabId = typeof TABS[number]['id'];
 
 const Demo = () => {
-  const [active, setActive] = useState<TabId>('in-progress');
+  const [active, setActive] = useState<TabId>('inProgress');
   return (
     <TabPills
       ariaLabel="Course filter"

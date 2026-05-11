@@ -40,6 +40,7 @@ export const appRouter = router({
   luma: lumaRouter,
   meetPerson: meetPersonRouter,
   missions: missionsRouter,
+  // TODO check if we really need a new router
   myCoursesPage: myCoursesPageRouter,
   programs: programsRouter,
   resources: resourcesRouter,

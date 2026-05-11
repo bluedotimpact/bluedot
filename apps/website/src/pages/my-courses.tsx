@@ -6,7 +6,7 @@ import { useMemo, useState } from 'react';
 import MyBlueDotLayout from '../components/MyBlueDotLayout';
 import InactiveCourseBanners from '../components/courses/InactiveCourseBanners';
 import CourseList from '../components/my-courses/CourseList';
-import { isAutoExpandCandidate, type CourseRowData } from '../components/my-courses/CourseListRow';
+import { classifyCourseRegistration, type CourseRowData } from '../components/my-courses/CourseListRow';
 import NextDiscussionSection from '../components/my-courses/NextDiscussionSection';
 import TabPills from '../components/my-courses/TabPills';
 import { ROUTES } from '../lib/routes';
@@ -15,19 +15,18 @@ import { trpc } from '../utils/trpc';
 const CURRENT_ROUTE = ROUTES.myCourses;
 
 const TABS = [
-  { id: 'in-progress', label: 'In Progress' },
+  { id: 'inProgress', label: 'In Progress' },
   { id: 'upcoming', label: 'Upcoming' },
-  { id: 'past-courses', label: 'Past Courses' },
+  { id: 'pastCourses', label: 'Past Courses' },
 ] as const;
 
 type CourseTab = typeof TABS[number]['id'];
-
 const isCourseTab = (value: unknown): value is CourseTab => TABS.some((t) => t.id === value);
 
 const EMPTY_MESSAGE: Record<CourseTab, string> = {
-  'in-progress': 'You are not enrolled in any active courses.',
+  inProgress: 'You are not enrolled in any active courses.',
   upcoming: 'No upcoming courses to show.',
-  'past-courses': 'No past courses to show.',
+  pastCourses: 'No past courses to show.',
 };
 
 /**
@@ -58,44 +57,48 @@ const sortByFinalDiscussionDesc = (courses: CourseRowData[]): CourseRowData[] =>
   return [...courses].sort((a, b) => sortKey(b) - sortKey(a));
 };
 
-// Tab assignment by precedence — first match wins, so every row lands in exactly one tab
-// (or none, for deferred-past rows which the new-round registration covers elsewhere).
-const assignTab = (cr: CourseRegistration): CourseTab | null => {
-  if (cr.deferredId?.length) {
-    if (cr.roundStatus === 'Active') return 'in-progress';
-    if (cr.roundStatus === 'Future') return 'upcoming';
-    return null;
-  }
-
-  if (cr.dropoutId?.length) return 'past-courses';
-  if (cr.roundStatus === 'Active') return 'in-progress';
-  if (cr.roundStatus === 'Future') return 'upcoming';
-  return 'past-courses';
-};
-
 export const bucketCoursesByTab = (courses: CourseRowData[] | undefined): Record<CourseTab, CourseRowData[]> => {
+  const assignTab = (cr: CourseRegistration): CourseTab | null => {
+    if (cr.deferredId?.length) {
+      if (cr.roundStatus === 'Active') return 'inProgress';
+      if (cr.roundStatus === 'Future') return 'upcoming';
+      return null;
+    }
+
+    if (cr.dropoutId?.length) return 'pastCourses';
+    if (cr.roundStatus === 'Active') return 'inProgress';
+    if (cr.roundStatus === 'Future') return 'upcoming';
+    return 'pastCourses';
+  };
+
   const eligible = (courses ?? [])
     .filter(({ courseRegistration: cr }) => cr.roundStatus === 'Active' || cr.roundStatus === 'Past' || cr.roundStatus === 'Future' || cr.certificateCreatedAt)
     .filter(({ courseRegistration: cr }) => cr.decision !== 'Reject' || cr.roundStatus === 'Future');
 
-  const buckets: Record<CourseTab, CourseRowData[]> = { 'in-progress': [], upcoming: [], 'past-courses': [] };
+  const buckets: Record<CourseTab, CourseRowData[]> = { inProgress: [], upcoming: [], pastCourses: [] };
   for (const row of eligible) {
     const tab = assignTab(row.courseRegistration);
     if (tab) buckets[tab].push(row);
   }
 
   return {
-    'in-progress': sortByFinalDiscussionDesc(buckets['in-progress']),
+    inProgress: sortByFinalDiscussionDesc(buckets.inProgress),
     upcoming: sortByFinalDiscussionDesc(buckets.upcoming),
-    'past-courses': buckets['past-courses']
+    pastCourses: buckets.pastCourses
       .sort((a, b) => (b.courseRegistration.certificateCreatedAt ?? Infinity) - (a.courseRegistration.certificateCreatedAt ?? Infinity)),
   };
+};
+
+const isAutoExpandCandidate = (course: CourseRowData): boolean => {
+  const state = classifyCourseRegistration(course.courseRegistration);
+  const canExpand = state !== 'dropped' || course.attendedDiscussionIds.length > 0;
+  return canExpand && course.discussions.length > 0;
 };
 
 const MyCoursesPage = () => {
   const router = useRouter();
   const queryTab = router.query.tab;
-  const activeTab: CourseTab = isCourseTab(queryTab) ? queryTab : 'in-progress';
+  const activeTab: CourseTab = isCourseTab(queryTab) ? queryTab : 'inProgress';
 
   const setActiveTab = (id: CourseTab) => {
     router.replace(
@@ -109,10 +112,9 @@ const MyCoursesPage = () => {
 
   const buckets = useMemo(() => bucketCoursesByTab(data?.courses), [data?.courses]);
 
-  // Auto-expand the top row of each tab if it's expandable and has discussions to show.
-  const autoDefaults = useMemo<Record<string, boolean>>(() => {
+  const expandedDefaults = useMemo<Record<string, boolean>>(() => {
     const m: Record<string, boolean> = {};
-    for (const tab of ['in-progress', 'upcoming', 'past-courses'] as const) {
+    for (const tab of ['inProgress', 'upcoming', 'pastCourses'] as const) {
       const top = buckets[tab][0];
       if (top && isAutoExpandCandidate(top)) {
         m[top.courseRegistration.id] = true;
@@ -122,13 +124,13 @@ const MyCoursesPage = () => {
     return m;
   }, [buckets]);
 
-  // TODO give more descriptive name, have CourseListRow own this state
-  const [manualOverrides, setManualOverrides] = useState<Record<string, boolean>>({});
-  const expandedById = { ...autoDefaults, ...manualOverrides };
+  // expandedState is defined at the page level, so rows don't collapse when you switch tabs
+  const [expandedState, setExpandedState] = useState<Record<string, boolean>>({});
+  const expandedById = { ...expandedDefaults, ...expandedState };
 
   const handleToggleExpand = (id: string) => {
     const current = expandedById[id] ?? false;
-    setManualOverrides((m) => ({ ...m, [id]: !current }));
+    setExpandedState((m) => ({ ...m, [id]: !current }));
   };
 
   const visibleCourses = buckets[activeTab];

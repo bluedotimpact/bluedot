@@ -25,6 +25,7 @@ import { protectedProcedure, router } from '../trpc';
 import { getRescheduleEligibleUnits } from './group-switching';
 
 export const myCoursesPageRouter = router({
+  // TODO this is very ugly! Make it more structured
   getOverview: protectedProcedure.query(async ({ ctx }) => {
     const { email } = ctx.auth;
 
