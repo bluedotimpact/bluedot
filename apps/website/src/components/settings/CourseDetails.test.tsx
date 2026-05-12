@@ -30,6 +30,15 @@ vi.mock('../courses/GroupSwitchModal', () => ({
   ),
 }));
 
+vi.mock('../courses/DropoutModal', () => ({
+  default: ({ handleClose }: { handleClose: () => void }) => (
+    <div data-testid="dropout-modal">
+      <div>Dropout Modal</div>
+      <button type="button" onClick={handleClose}>Close Dropout Modal</button>
+    </div>
+  ),
+}));
+
 vi.mock('../../lib/downloadCalendarFile', () => ({
   downloadDiscussionCalendarFile: vi.fn(),
 }));
@@ -320,6 +329,8 @@ describe('CourseDetails: Participant view', () => {
     expect(switchGroupPermanently).toBeInTheDocument();
     // This one should not have an href since it opens a modal
     expect(switchGroupPermanently).not.toHaveAttribute('href');
+    expect(screen.queryByRole('menuitem', { name: 'Request dropout or deferral' })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Defer or drop out' })).toBeInTheDocument();
 
     // Click "Switch group permanently" to verify it opens modal WITHOUT initial unit number
     await act(async () => {
@@ -331,6 +342,48 @@ describe('CourseDetails: Participant view', () => {
     // Should NOT have a unit number for "Switch group permanently"
     expect(modal).not.toHaveTextContent(/Unit \d/);
     expect(screen.getByText('Switch type: Switch group permanently')).toBeInTheDocument();
+  });
+
+  it('shows dropout or deferral as a footer action on the see all discussions line', async () => {
+    const user = userEvent.setup();
+    const currentTimeMs = Date.now();
+
+    const upcomingDiscussions = Array.from({ length: 5 }, (_, index) => {
+      const unitNumber = index + 1;
+
+      return {
+        ...createMockGroupDiscussion({
+          id: `discussion-footer-${unitNumber}`,
+          unitNumber,
+          startDateTime: Math.floor(currentTimeMs / 1000) + (index + 2) * 60 * 60,
+          endDateTime: Math.floor(currentTimeMs / 1000) + (index + 3) * 60 * 60,
+        }),
+        unitRecord: createMockUnit({ unitNumber: unitNumber.toString(), title: `Unit ${unitNumber}` }),
+        groupDetails: createMockGroup(),
+      };
+    });
+
+    render(<CourseDetails
+      course={mockCourse}
+      courseRegistration={mockCourseRegistration}
+      upcomingDiscussions={upcomingDiscussions}
+      attendedDiscussions={[]}
+      facilitatedDiscussions={[]}
+      isLoading={false}
+    />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: 'See all (5) discussions' })).toBeInTheDocument();
+    });
+
+    const dropoutButton = screen.getByRole('button', { name: 'Defer or drop out' });
+    expect(dropoutButton).toBeInTheDocument();
+
+    await act(async () => {
+      await user.click(dropoutButton);
+    });
+
+    expect(screen.getByTestId('dropout-modal')).toBeInTheDocument();
   });
 
   it('shows NOW/LIVE indicators when discussion is live', async () => {
