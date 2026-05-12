@@ -18,7 +18,7 @@ export default makeApiRoute({
 }, async (_, { auth, raw: { req } }) => {
   await requireAdmin(auth.email);
   const id = typeof req.query.id === 'string' ? req.query.id : '';
-  if (!id) throw new createHttpError.BadRequest('Missing required query param: id');
+  if (!/^rec[A-Za-z0-9]{14}$/.test(id)) throw new createHttpError.BadRequest('Missing or invalid query param: id');
   const history = await fetchApplicationHistory(id);
   return { history };
 });

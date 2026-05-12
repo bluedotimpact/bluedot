@@ -285,7 +285,11 @@ export const fetchApplicationHistory = async (applicationId: string): Promise<Pr
       createdAt: str(r.fields[APPLICATION_CREATED_AT_FIELD]) ?? '',
     }))
     .filter((a) => a.roundName !== '')
-    .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+    .sort((a, b) => {
+      if (a.createdAt < b.createdAt) return 1;
+      if (a.createdAt > b.createdAt) return -1;
+      return 0;
+    });
 };
 
 export type RoundStats = {
