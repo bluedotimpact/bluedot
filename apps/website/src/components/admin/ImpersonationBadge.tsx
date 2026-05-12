@@ -35,6 +35,8 @@ export const ImpersonationBadge = () => {
       if (target === 'clear' || target === '') {
         sessionStorage.removeItem(IMPERSONATION_STORAGE_KEY);
         setUserId(null);
+        // Cancel any in-flight email lookup
+        setPendingEmail(null);
         stripParamFromUrl();
         void utils.invalidate();
         return;
