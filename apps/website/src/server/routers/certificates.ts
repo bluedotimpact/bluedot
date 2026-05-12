@@ -25,11 +25,9 @@ async function areAllFoaiExercisesComplete(email: string): Promise<boolean> {
     return false;
   }
 
-  const completedExerciseIds = new Set(
-    exerciseResponses
-      .filter((resp) => resp.completedAt != null)
-      .map((resp) => resp.exerciseId),
-  );
+  const completedExerciseIds = new Set(exerciseResponses
+    .filter((resp) => resp.completedAt != null)
+    .map((resp) => resp.exerciseId));
   return allExercises.every((exercise) => completedExerciseIds.has(exercise.id));
 }
 
