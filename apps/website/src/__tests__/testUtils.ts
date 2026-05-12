@@ -256,6 +256,7 @@ export const createMockMeetPerson = (overrides: Partial<MeetPerson> = {}): MeetP
   firstName: null,
   lastName: null,
   payForFacilitatedDiscussions: null,
+  slackProfileUrl: null,
   ...overrides,
 });
 
