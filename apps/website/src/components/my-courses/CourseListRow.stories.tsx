@@ -20,6 +20,7 @@ const stubProps = (overrides: Partial<CourseListRowProps> = {}): CourseListRowPr
   group: { startTimeUtc: wednesday4pm, slackChannelId: null, discussionDoc: null },
   facilitatorNames: ['Shivam Arora'],
   meetPersonId: 'mp-default',
+  groupsAsParticipant: ['group-default'],
   roundId: 'round-default',
   discussions: [],
   attendedDiscussionIds: [],
@@ -76,6 +77,7 @@ const notYetInGroupArgs = stubProps({
   courseRegistration: { ...stubProps().courseRegistration, id: 'reg-not-in-group', roundStatus: 'Active' } as CourseListRowProps['courseRegistration'],
   course: { slug: 'biosecurity', title: 'Biosecurity' } as CourseListRowProps['course'],
   group: null,
+  groupsAsParticipant: [],
   facilitatorNames: [],
   roundStartDate: '2026-05-15',
 });

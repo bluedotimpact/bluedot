@@ -11,20 +11,19 @@ import { ChevronRightIcon } from '../icons';
 import { COURSE_CONFIG, FOAI_COURSE_SLUG } from '../../lib/constants';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
 import { ROUTES } from '../../lib/routes';
-import { appendPosthogSessionIdPrefill } from '../../lib/appendPosthogSessionIdPrefill';
-import { buildGroupSlackChannelUrl, formatMonthAndDay, getActionPlanUrl } from '../../lib/utils';
+import { buildApplicationUrl, buildGroupSlackChannelUrl, formatMonthAndDay, getActionPlanUrl } from '../../lib/utils';
 import DropoutModal from '../courses/DropoutModal';
 import GroupSwitchModal, { buildAvailabilityFormUrl, type SwitchType } from '../courses/GroupSwitchModal';
 import ViewParticipantsModal from '../courses/ViewParticipantsModal';
 import DiscussionList from './DiscussionList';
 
-// TODO give more descriptive name
-export type CourseRowData = {
+export type CourseListRowProps = {
   courseRegistration: CourseRegistration;
   course: Pick<Course, 'slug' | 'title' | 'applyUrl'>;
   group: Pick<Group, 'startTimeUtc' | 'slackChannelId' | 'discussionDoc'> | null;
   facilitatorNames: string[];
   meetPersonId: string | null;
+  groupsAsParticipant: string[] | null;
   roundId: string | null;
   discussions: GroupDiscussion[];
   attendedDiscussionIds: string[];
@@ -37,11 +36,8 @@ export type CourseRowData = {
   hasSubmittedActionPlan: boolean;
   feedbackFormUrl: string | null;
   hasSubmittedFeedback: boolean;
-};
-
-export type CourseListRowProps = CourseRowData & {
-  isExpanded: boolean;
-  onToggleExpand: () => void;
+  isExpanded?: boolean;
+  onToggleExpand?: () => void;
 };
 
 export const classifyCourseRegistration = (cr: CourseRegistration) => {
@@ -117,9 +113,7 @@ export const getSubtitle = ({
   const dateRange = roundStartDate && roundEndDate ? formatRoundDateRange(roundStartDate, roundEndDate) : null;
   const facilitatorDisplay = facilitatorNames.length > 0 ? `Facilitated by ${facilitatorNames.join(', ')}` : null;
 
-  // Dropped — handled before Future/Past so the precedence matches classifyCourseRegistration.
-  // If dateRange is missing we show no subtitle rather than falling through to a state that
-  // doesn't apply (e.g. the recurring schedule of a course the user has left).
+  // Dropped
   if (state === 'dropped') {
     return dateRange;
   }
@@ -139,8 +133,7 @@ export const getSubtitle = ({
         break;
     }
 
-    // Suppress the "Course starts" addendum for rejected applicants — the round date is
-    // technically correct but reads as tone-deaf since they're not attending.
+    // Suppress the "Course starts" addendum for rejected applicants
     const startsAddendum = courseRegistration.decision !== 'Reject' && roundStartDate
       ? `Course starts ${formatMonthAndDay(roundStartDate)}`
       : null;
@@ -182,22 +175,20 @@ export const getSubtitle = ({
 
 const CourseListRow = ({
   course, courseRegistration, group, facilitatorNames, discussions, attendedDiscussionIds, units, roundId,
-  roundStartDate, roundEndDate, rescheduleEligibleUnits, meetPersonId,
+  roundStartDate, roundEndDate, rescheduleEligibleUnits, meetPersonId, groupsAsParticipant,
   numUnits, uniqueDiscussionAttendance, hasSubmittedActionPlan, feedbackFormUrl, hasSubmittedFeedback,
   isExpanded, onToggleExpand,
 }: CourseListRowProps) => {
-  // TODO rename to something more descriptive
   const state = classifyCourseRegistration(courseRegistration);
-  const [dropoutOpen, setDropoutOpen] = useState(false);
-  const [viewParticipantsOpen, setViewParticipantsOpen] = useState(false);
-  // TODO give more descriptive name
-  const [groupSwitch, setGroupSwitch] = useState<{ unitNumber: string; switchType: SwitchType } | null>(null);
+  const [dropoutModalOpen, setDropoutModalOpen] = useState(false);
+  const [viewParticipantsModalOpen, setViewParticipantsModalOpen] = useState(false);
+  const [groupSwitchModalProps, setGroupSwitchModalProps] = useState<{ initialUnitNumber: string; initialSwitchType: SwitchType } | null>(null);
   const { latestUtmParams } = useLatestUtmParams();
 
   const isFacilitatedCourse = course.slug !== FOAI_COURSE_SLUG;
   const hasCert = !!courseRegistration.certificateCreatedAt;
 
-  const isNotInGroup = !!meetPersonId && !group;
+  const isNotInGroup = !!meetPersonId && (!groupsAsParticipant || groupsAsParticipant.length === 0);
   const subtitle = getSubtitle({
     courseRegistration,
     group,
@@ -209,8 +200,6 @@ const CourseListRow = ({
     roundEndDate,
   });
 
-  // Excluded from Upcoming because meet_person.numUnits is pre-populated at acceptance
-  // with zero attendance, which would otherwise fire this tooltip on a not-yet-started course.
   let certEligibilityReason: string | null = null;
   if (
     (state === 'in-progress' || state === 'completed')
@@ -237,24 +226,14 @@ const CourseListRow = ({
     : `/courses/${course.slug}`;
   const showLockedCert = state === 'completed' && hasCert && !hasSubmittedFeedback && feedbackFormUrl;
 
-  const baseApplicationUrl = course.applyUrl ?? '';
-  const applyAgainUrl = baseApplicationUrl
-    ? appendPosthogSessionIdPrefill(latestUtmParams.utm_source
-      ? addQueryParam(baseApplicationUrl, 'prefill_Source', latestUtmParams.utm_source)
-      : baseApplicationUrl)
-    : `/courses/${course.slug}`;
+  const applyAgainUrl = buildApplicationUrl(course.applyUrl, latestUtmParams.utm_source) || `/courses/${course.slug}`;
 
   const showActionPlan = state === 'completed' && !hasCert && isFacilitatedCourse && meetPersonId && courseRegistration.role !== 'Facilitator';
   const slackUrl = group?.slackChannelId ? buildGroupSlackChannelUrl(group.slackChannelId) : null;
   const docUrl = group?.discussionDoc ?? null;
 
-  // TODO inline
-  const openReschedule = (unitNumber: string | null, switchType: SwitchType) => {
-    setGroupSwitch({ unitNumber: unitNumber ?? '1', switchType });
-  };
-
   const toggleExpand = () => {
-    if (canExpand) onToggleExpand();
+    if (canExpand) onToggleExpand?.();
   };
 
   const chevronButton = canExpand ? (
@@ -270,8 +249,8 @@ const CourseListRow = ({
   ) : null;
 
   // All course-row actions, declared in one table. `variant` decides where it surfaces.
-  //   inline    — inline button or pill on both viewports
-  //   overflow  — only in the 3-dot overflow menu
+  // - inline: inline button or pill on both viewports
+  // - overflow: only in the 3-dot overflow menu
   type CourseAction = {
     id: string;
     isVisible: boolean;
@@ -375,21 +354,17 @@ const CourseListRow = ({
       isVisible: state !== 'dropped' && Boolean(group),
       variant: 'overflow',
       overflow: {
-        id: 'view-participants', label: 'View participants', onAction: () => setViewParticipantsOpen(true),
+        id: 'view-participants', label: 'View participants', onAction: () => setViewParticipantsModalOpen(true),
       },
     },
     {
-      // TODO flag in PR that I explicitly decided to keep this — Switch group permanently is not in
-      // Cyrus's overflow design but is useful enough to retain.
-      // Requires an existing group (Boolean(group)) AND at least one unit with a future alternative
-      // discussion (rescheduleEligibleUnits.length > 0) so there's actually somewhere to switch to.
       id: 'switch-group-permanently',
       isVisible: inProgressOrUpcoming && Boolean(group) && rescheduleEligibleUnits.length > 0,
       variant: 'overflow',
       overflow: {
         id: 'switch-group-permanently',
         label: 'Switch group permanently',
-        onAction: () => setGroupSwitch({ unitNumber: '1', switchType: 'Switch group permanently' }),
+        onAction: () => setGroupSwitchModalProps({ initialUnitNumber: '1', initialSwitchType: 'Switch group permanently' }),
       },
     },
     {
@@ -400,7 +375,7 @@ const CourseListRow = ({
       isVisible: state === 'in-progress' || (state === 'upcoming' && courseRegistration.decision === 'Accept'),
       variant: 'overflow',
       overflow: {
-        id: 'drop', label: 'Drop or defer course', onAction: () => setDropoutOpen(true),
+        id: 'drop', label: 'Drop or defer course', onAction: () => setDropoutModalOpen(true),
       },
     },
   ];
@@ -501,29 +476,29 @@ const CourseListRow = ({
               courseSlug={course.slug}
               canReschedule={state !== 'dropped' && !hasCert}
               rescheduleEligibleUnits={rescheduleEligibleUnits}
-              onReschedule={openReschedule}
+              onClickReschedule={({ unitNumber, switchType }) => setGroupSwitchModalProps({ initialUnitNumber: unitNumber ?? '1', initialSwitchType: switchType })}
             />
           ) : (
             <p className="px-5 py-4 text-size-xs text-gray-500 sm:px-6">No discussions to show.</p>
           )}
         </div>
       )}
-      {dropoutOpen && (
+      {dropoutModalOpen && (
         <DropoutModal
           applicantId={courseRegistration.id}
           courseSlug={course.slug}
           currentRoundId={courseRegistration.roundId ?? null}
-          handleClose={() => setDropoutOpen(false)}
+          handleClose={() => setDropoutModalOpen(false)}
         />
       )}
-      {viewParticipantsOpen && meetPersonId && (
-        <ViewParticipantsModal meetPersonId={meetPersonId} handleClose={() => setViewParticipantsOpen(false)} />
+      {viewParticipantsModalOpen && meetPersonId && (
+        <ViewParticipantsModal meetPersonId={meetPersonId} handleClose={() => setViewParticipantsModalOpen(false)} />
       )}
-      {groupSwitch && roundId && (
+      {groupSwitchModalProps && roundId && (
         <GroupSwitchModal
-          handleClose={() => setGroupSwitch(null)}
-          initialUnitNumber={groupSwitch.unitNumber}
-          initialSwitchType={groupSwitch.switchType}
+          handleClose={() => setGroupSwitchModalProps(null)}
+          initialUnitNumber={groupSwitchModalProps.initialUnitNumber}
+          initialSwitchType={groupSwitchModalProps.initialSwitchType}
           courseSlug={course.slug}
           roundId={roundId}
         />

@@ -1,7 +1,7 @@
-import CourseListRow, { type CourseRowData } from './CourseListRow';
+import CourseListRow, { type CourseListRowProps } from './CourseListRow';
 
 type CourseListProps = {
-  courses: CourseRowData[];
+  courses: CourseListRowProps[];
   emptyMessage?: string;
   expandedById?: Record<string, boolean>;
   onToggleExpand?: (id: string) => void;
@@ -25,7 +25,6 @@ const CourseList = ({
           <CourseListRow
             key={id}
             {...c}
-            // TODO fix this prop drilling for expanded/collapsed
             isExpanded={expandedById[id] ?? false}
             onToggleExpand={() => onToggleExpand?.(id)}
           />
