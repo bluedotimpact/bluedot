@@ -1,10 +1,10 @@
 import Head from 'next/head';
 import {
-  addQueryParam, CTALinkOrButton, H1, H3, P, useLatestUtmParams,
+  CTALinkOrButton, H1, H3, P, useLatestUtmParams,
 } from '@bluedot/ui';
 import { Nav } from '../../components/Nav/Nav';
 import { COURSE_COLORS } from '../../lib/courseColors';
-import { appendPosthogSessionIdPrefill } from '../../lib/appendPosthogSessionIdPrefill';
+import { buildApplicationUrl } from '../../lib/utils';
 
 const SITE_URL = 'https://bluedot.org';
 const PAGE_PATH = '/puzzles/technical-ai-safety';
@@ -64,9 +64,7 @@ const JUDGING_CRITERIA = [
 
 const PuzzleTechnicalAiSafetyPage = () => {
   const { latestUtmParams } = useLatestUtmParams();
-  const submissionFormUrl = appendPosthogSessionIdPrefill(latestUtmParams.utm_source
-    ? addQueryParam(SUBMISSION_FORM_BASE_URL, 'prefill_Source', latestUtmParams.utm_source)
-    : SUBMISSION_FORM_BASE_URL);
+  const submissionFormUrl = buildApplicationUrl(SUBMISSION_FORM_BASE_URL, latestUtmParams.utm_source);
 
   return (
     <>
