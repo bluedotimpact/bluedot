@@ -125,7 +125,7 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
       {
         id: 'eligibility',
         question: 'Who is eligible?',
-        answer: 'BlueDot course participants, alumni, facilitators, and active community members. If you\'re in our network and doing serious AI safety work, you qualify.',
+        answer: 'Everyone who wants to start working on AI safety and biosecurity. You\'re more likely to receive a grant if you\'re a BlueDot course participant, alumni, facilitator, or active member of the AI safety/biosecurity community.',
       },
       {
         id: 'events',
