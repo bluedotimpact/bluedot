@@ -4,7 +4,10 @@ import { createMockCourseRegistration } from '../testUtils';
 import { bucketCoursesByTab } from '../../pages/my-courses';
 import type { CourseRowData } from '../../components/my-courses/CourseListRow';
 
-const makeRow = (crOverrides: Partial<CourseRegistration> = {}): CourseRowData => ({
+const makeRow = (
+  crOverrides: Partial<CourseRegistration> = {},
+  rowOverrides: Partial<CourseRowData> = {},
+): CourseRowData => ({
   courseRegistration: createMockCourseRegistration(crOverrides),
   course: { slug: 'technical-ai-safety', title: 'Technical AI Safety', applyUrl: null },
   group: null,
@@ -22,80 +25,96 @@ const makeRow = (crOverrides: Partial<CourseRegistration> = {}): CourseRowData =
   hasSubmittedActionPlan: false,
   feedbackFormUrl: null,
   hasSubmittedFeedback: false,
+  ...rowOverrides,
 });
 
-// TODO this is no longer needed, it's like this by design
-describe('bucketCoursesByTab exclusivity', () => {
-  test('Future + Accept + dropoutId (non-deferred) lands in past-courses only', () => {
-    const row = makeRow({
-      roundStatus: 'Future', decision: 'Accept', dropoutId: ['drop_1'], deferredId: null,
-    });
-    const buckets = bucketCoursesByTab([row]);
-    expect(buckets.pastCourses).toHaveLength(1);
-    expect(buckets.upcoming).toHaveLength(0);
-    expect(buckets.inProgress).toHaveLength(0);
+describe('bucketCoursesByTab', () => {
+  test('returns empty buckets for undefined or empty input', () => {
+    const empty = { inProgress: [], upcoming: [], pastCourses: [] };
+    expect(bucketCoursesByTab(undefined)).toEqual(empty);
+    expect(bucketCoursesByTab([])).toEqual(empty);
   });
 
-  test('Active + Accept + dropoutId (non-deferred) lands in past-courses only', () => {
-    const row = makeRow({
-      roundStatus: 'Active', decision: 'Accept', dropoutId: ['drop_1'], deferredId: null,
-    });
-    const buckets = bucketCoursesByTab([row]);
-    expect(buckets.pastCourses).toHaveLength(1);
-    expect(buckets.inProgress).toHaveLength(0);
-    expect(buckets.upcoming).toHaveLength(0);
-  });
+  describe('tab assignment', () => {
+    type Tab = 'inProgress' | 'upcoming' | 'pastCourses';
+    type Case = {
+      rs: CourseRegistration['roundStatus'];
+      d: CourseRegistration['decision'];
+      drop: boolean;
+      defer: boolean;
+      cert: boolean;
+      tab: Tab | null;
+      why?: string;
+    };
 
-  test('Future + Accept (no dropoutId) lands in upcoming only', () => {
-    const row = makeRow({
-      roundStatus: 'Future', decision: 'Accept', dropoutId: null, deferredId: null,
-    });
-    const buckets = bucketCoursesByTab([row]);
-    expect(buckets.upcoming).toHaveLength(1);
-    expect(buckets.inProgress).toHaveLength(0);
-    expect(buckets.pastCourses).toHaveLength(0);
-  });
+    test.each<Case>([
+      // Active
+      {
+        rs: 'Active', d: 'Accept', drop: false, defer: false, cert: false, tab: 'inProgress',
+      },
+      {
+        rs: 'Active', d: 'Accept', drop: true, defer: false, cert: false, tab: 'pastCourses', why: 'dropped overrides Active',
+      },
+      {
+        rs: 'Active', d: 'Accept', drop: true, defer: true, cert: false, tab: 'inProgress', why: 'deferred overrides dropped',
+      },
+      {
+        rs: 'Active', d: 'Reject', drop: false, defer: false, cert: false, tab: null, why: 'rejection only visible while Future',
+      },
 
-  test('Past (no dropoutId) lands in past-courses only', () => {
-    const row = makeRow({
-      roundStatus: 'Past', decision: 'Accept', dropoutId: null, deferredId: null,
-    });
-    const buckets = bucketCoursesByTab([row]);
-    expect(buckets.pastCourses).toHaveLength(1);
-    expect(buckets.inProgress).toHaveLength(0);
-    expect(buckets.upcoming).toHaveLength(0);
-  });
+      // Future
+      {
+        rs: 'Future', d: 'Accept', drop: false, defer: false, cert: false, tab: 'upcoming',
+      },
+      {
+        rs: 'Future', d: 'Reject', drop: false, defer: false, cert: false, tab: 'upcoming', why: 'rejection visible while Future',
+      },
+      {
+        rs: 'Future', d: null, drop: false, defer: false, cert: false, tab: 'upcoming',
+      },
+      {
+        rs: 'Future', d: 'Accept', drop: true, defer: false, cert: false, tab: 'pastCourses', why: 'dropped overrides Future',
+      },
+      {
+        rs: 'Future', d: 'Accept', drop: true, defer: true, cert: false, tab: 'upcoming', why: 'deferred overrides dropped',
+      },
 
-  test('Deferred row (dropoutId AND deferredId set) follows normal roundStatus path, NOT past-courses', () => {
-    // roundStatus: 'Active' + both ids set → should be treated as in-progress, not past.
-    const row = makeRow({
-      roundStatus: 'Active', decision: 'Accept', dropoutId: ['drop_1'], deferredId: ['def_1'],
-    });
-    const buckets = bucketCoursesByTab([row]);
-    expect(buckets.pastCourses).toHaveLength(0);
-    expect(buckets.inProgress).toHaveLength(1);
-    expect(buckets.upcoming).toHaveLength(0);
-  });
+      // Past
+      {
+        rs: 'Past', d: 'Accept', drop: false, defer: false, cert: false, tab: 'pastCourses',
+      },
+      {
+        rs: 'Past', d: 'Accept', drop: false, defer: false, cert: true, tab: 'pastCourses',
+      },
+      {
+        rs: 'Past', d: 'Reject', drop: false, defer: false, cert: false, tab: null, why: 'rejection only visible while Future',
+      },
 
-  test('mixed registrations: total across buckets equals total input (no duplication, no loss)', () => {
-    const rows: CourseRowData[] = [
-      makeRow({ roundStatus: 'Future', decision: 'Accept' }),
-      makeRow({
-        roundStatus: 'Future', decision: 'Accept', dropoutId: ['drop_1'], deferredId: null,
-      }),
-      makeRow({ roundStatus: 'Active', decision: 'Accept' }),
-      makeRow({
-        roundStatus: 'Active', decision: 'Accept', dropoutId: ['drop_2'], deferredId: null,
-      }),
-      makeRow({ roundStatus: 'Past', decision: 'Accept' }),
-    ];
-    const buckets = bucketCoursesByTab(rows);
-    const total = buckets.inProgress.length + buckets.upcoming.length + buckets.pastCourses.length;
-    expect(total).toBe(rows.length);
-    expect(buckets.inProgress).toHaveLength(1);
-    expect(buckets.upcoming).toHaveLength(1);
-    expect(buckets.pastCourses).toHaveLength(3);
+      // Null roundStatus
+      {
+        rs: null, d: 'Accept', drop: false, defer: false, cert: true, tab: 'pastCourses', why: 'cert keeps null-roundStatus eligible',
+      },
+      {
+        rs: null, d: 'Accept', drop: false, defer: false, cert: false, tab: null, why: 'no roundStatus + no cert is filtered out (FOAI bug — update when fixed)',
+      },
+    ])('rs=$rs, d=$d, drop=$drop, defer=$defer, cert=$cert → $tab', ({
+      rs, d, drop, defer, cert, tab,
+    }) => {
+      const row = makeRow({
+        roundStatus: rs,
+        decision: d,
+        dropoutId: drop ? ['dropout-x'] : null,
+        deferredId: defer ? ['defer-x'] : null,
+        certificateCreatedAt: cert ? 1234 : null,
+      });
+      const buckets = bucketCoursesByTab([row]);
+      const allRows = [...buckets.inProgress, ...buckets.upcoming, ...buckets.pastCourses];
+      if (tab === null) {
+        expect(allRows).toHaveLength(0);
+      } else {
+        expect(allRows).toHaveLength(1);
+        expect(buckets[tab]).toHaveLength(1);
+      }
+    });
   });
 });
-
-// TODO
