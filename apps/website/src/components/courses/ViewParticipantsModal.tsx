@@ -1,4 +1,4 @@
-import { Modal, ProgressDots } from '@bluedot/ui';
+import { ErrorSection, Modal, ProgressDots } from '@bluedot/ui';
 import { trpc } from '../../utils/trpc';
 import ParticipantRow from './ParticipantRow';
 
@@ -8,12 +8,11 @@ type ViewParticipantsModalProps = {
 };
 
 const ViewParticipantsModal = ({ meetPersonId, handleClose }: ViewParticipantsModalProps) => {
-  const { data, isLoading, isError } = trpc.myCoursesPage.getGroupParticipants.useQuery({ meetPersonId });
+  const { data, isLoading, error } = trpc.myCoursesPage.getGroupParticipants.useQuery({ meetPersonId });
 
-  // TODO genuine error states
   const facilitators = data?.facilitators ?? [];
   const participants = data?.participants ?? [];
-  const isEmpty = !isLoading && !isError && facilitators.length === 0 && participants.length === 0;
+  const isEmpty = !isLoading && !error && facilitators.length === 0 && participants.length === 0;
 
   return (
     <Modal
@@ -29,11 +28,7 @@ const ViewParticipantsModal = ({ meetPersonId, handleClose }: ViewParticipantsMo
       <div className="w-full md:w-[480px] flex flex-col gap-4 pt-0 sm:pt-5">
         <div className="flex flex-col gap-1.5">
           {isLoading && <ProgressDots />}
-          {isError && (
-            <p className="text-red-600 text-size-xs py-2" role="alert" aria-live="polite">
-              Couldn't load participants. Please try again.
-            </p>
-          )}
+          {error && <ErrorSection error={error} />}
           {isEmpty && (
             <p className="text-size-xs text-bluedot-navy/60 py-2">No other participants in your group yet.</p>
           )}
