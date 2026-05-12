@@ -17,6 +17,7 @@ const PUZZLE_REPO_URL = 'https://github.com/SamDower/bluedot-tais-puzzle';
 const SUBMISSION_FORM_BASE_URL = 'https://web.miniextensions.com/KFslK1ZkgWb1AI4FwEMq';
 const COURSE_URL = '/courses/technical-ai-safety';
 const PUZZLE_IMAGE_SRC = '/images/puzzles/technical-ai-safety/puzzle.webp';
+const OG_IMAGE_URL = `${SITE_URL}/images/puzzles/technical-ai-safety/og.png`;
 
 const TAS = COURSE_COLORS['technical-ai-safety'];
 
@@ -78,9 +79,14 @@ const PuzzleTechnicalAiSafetyPage = () => {
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="BlueDot Impact" />
         <meta property="og:url" content={`${SITE_URL}${PAGE_PATH}`} />
+        <meta property="og:image" content={OG_IMAGE_URL} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content={PAGE_TITLE} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={PAGE_TITLE} />
         <meta name="twitter:description" content={PAGE_HOOK} />
+        <meta name="twitter:image" content={OG_IMAGE_URL} />
       </Head>
 
       <div className="relative bg-white">
