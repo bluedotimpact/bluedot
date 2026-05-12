@@ -112,9 +112,11 @@ const MyCoursesPage = () => {
 
   const buckets = useMemo(() => bucketCoursesByTab(data?.courses), [data?.courses]);
 
+  // Auto-expand the top row of In Progress and Upcoming only. Past Courses can run long
+  // (some users have 18+ past rows), so we keep them collapsed and rely on the per-row chevron.
   const expandedDefaults = useMemo<Record<string, boolean>>(() => {
     const m: Record<string, boolean> = {};
-    for (const tab of ['inProgress', 'upcoming', 'pastCourses'] as const) {
+    for (const tab of ['inProgress', 'upcoming'] as const) {
       const top = buckets[tab][0];
       if (top && isAutoExpandCandidate(top)) {
         m[top.courseRegistration.id] = true;

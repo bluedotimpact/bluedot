@@ -64,6 +64,10 @@ const NextDiscussionSection = ({
     primaryHref = buildCourseUnitUrl({ courseSlug, unitNumber: unit.unitNumber });
   }
 
+  // The title always links to the unit page (curriculum), independent of the primary CTA
+  // which flips to zoom when live.
+  const titleHref = unit ? buildCourseUnitUrl({ courseSlug, unitNumber: unit.unitNumber }) : undefined;
+
   const roundId = discussion.round;
 
   return (
@@ -74,6 +78,7 @@ const NextDiscussionSection = ({
         day={day}
         eyebrow={formatEyebrow(cardState, courseTitle, unitNumber, minutesUntil)}
         title={title}
+        titleHref={titleHref}
         datetimeLabel={formatDatetimeLabel(discussion.startDateTime, discussion.endDateTime)}
         state={cardState}
         primaryHref={primaryHref}
