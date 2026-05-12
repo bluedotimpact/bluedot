@@ -4,6 +4,7 @@ import {
 import { type ReactNode, useState } from 'react';
 import { FaArrowRight } from 'react-icons/fa6';
 import { FiLock } from 'react-icons/fi';
+import { FOAI_COURSE_SLUG } from '../../lib/constants';
 import { getActionPlanUrl } from '../../lib/utils';
 import type { CertificateData } from '../../server/routers/certificates';
 
@@ -71,6 +72,18 @@ export const SidebarCertificatePanel = ({
   const status = certificateData?.status;
 
   if (status === 'is-facilitator' || !certificateData) return null;
+
+  // FoAI is self-paced: only `has-certificate` gets a clickable CTA; every other state renders
+  // as a locked panel and the page itself redirects.
+  if (courseSlug === FOAI_COURSE_SLUG && status !== 'has-certificate') {
+    return (
+      <LockedPanel
+        label={label}
+        subtitle="Complete all exercises to unlock your certificate"
+        className={className}
+      />
+    );
+  }
 
   if (isCongratulationsAccessible(certificateData)) {
     let subtitle = 'Join a facilitated cohort today';
