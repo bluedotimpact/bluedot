@@ -17,15 +17,20 @@ import { protectedProcedure, publicProcedure, router } from '../trpc';
 import type { AppRouter } from './_app';
 
 async function areAllFoaiExercisesComplete(email: string): Promise<boolean> {
-  const allExercises = await db.scan(exerciseTable, { courseId: FOAI_COURSE_ID, status: 'Active' });
+  const [allExercises, exerciseResponses] = await Promise.all([
+    db.scan(exerciseTable, { courseId: FOAI_COURSE_ID, status: 'Active' }),
+    db.scan(exerciseResponseTable, { email }),
+  ]);
   if (allExercises.length === 0) {
     return false;
   }
 
-  const exerciseResponses = await db.scan(exerciseResponseTable, { email });
-  return allExercises.every((exercise) => (
-    exerciseResponses.some((resp) => resp.exerciseId === exercise.id && resp.completedAt != null)
-  ));
+  const completedExerciseIds = new Set(
+    exerciseResponses
+      .filter((resp) => resp.completedAt != null)
+      .map((resp) => resp.exerciseId),
+  );
+  return allExercises.every((exercise) => completedExerciseIds.has(exercise.id));
 }
 
 export async function issueFoaiCertificateIfComplete(email: string): Promise<boolean> {
