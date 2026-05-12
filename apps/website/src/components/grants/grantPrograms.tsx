@@ -125,7 +125,15 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
       {
         id: 'eligibility',
         question: 'Who is eligible?',
-        answer: 'Everyone who wants to start working on AI safety and biosecurity. You\'re more likely to receive a grant if you\'re a BlueDot course participant, alumni, facilitator, or active member of the AI safety/biosecurity community.',
+        answer: (
+          <>
+            Everyone who wants to start working on AI safety and biosecurity.
+            <br />
+            <br />
+            You're more likely to receive a grant if you're a BlueDot course participant, alumni, facilitator, or active member of the AI safety/biosecurity community.
+          </>
+        ),
+        answerText: 'Everyone who wants to start working on AI safety and biosecurity. You\'re more likely to receive a grant if you\'re a BlueDot course participant, alumni, facilitator, or active member of the AI safety/biosecurity community.',
       },
       {
         id: 'events',
