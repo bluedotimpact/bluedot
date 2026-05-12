@@ -338,14 +338,6 @@ const CourseListRow = ({
       ),
     },
     {
-      id: 'view-curriculum',
-      isVisible: state === 'upcoming',
-      variant: 'overflow',
-      overflow: {
-        id: 'view-curriculum', label: 'View curriculum', href: `/courses/${course.slug}/1/1`,
-      },
-    },
-    {
       id: 'dropped-pill',
       isVisible: state === 'dropped',
       variant: 'inline',
@@ -447,7 +439,12 @@ const CourseListRow = ({
           </div>
           <div className="min-w-0 flex-1">
             <h3 className="text-size-md text-pretty font-semibold text-bluedot-navy sm:text-size-lg">
-              {course.title}
+              <a
+                href={`/courses/${course.slug}`}
+                className="text-bluedot-navy no-underline transition-colors hover:text-bluedot-normal hover:underline underline-offset-2"
+              >
+                {course.title}
+              </a>
               {certEligibilityReason && (
                 <span className="ml-1.5 -translate-y-px inline-flex items-center align-middle">
                   <Tooltip content={certEligibilityReason} ariaLabel="Show certificate eligibility information" />

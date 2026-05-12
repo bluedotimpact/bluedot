@@ -8,6 +8,7 @@ export type NextDiscussionCardProps = {
   day: number | string;
   eyebrow: ReactNode;
   title: string;
+  titleHref?: string;
   datetimeLabel: string;
   state: NextDiscussionCardState;
   onReschedule?: () => void;
@@ -30,7 +31,7 @@ const CalendarBadge = ({ month, day }: { month: string; day: number | string }) 
 );
 
 const NextDiscussionCard = ({
-  month, day, eyebrow, title, datetimeLabel, state, onReschedule, primaryHref,
+  month, day, eyebrow, title, titleHref, datetimeLabel, state, onReschedule, primaryHref,
 }: NextDiscussionCardProps) => {
   const isLive = state === 'live';
   const primaryLabel = isLive ? 'Join discussion' : 'Prep for discussion';
@@ -41,9 +42,18 @@ const NextDiscussionCard = ({
         <div className="flex min-w-0 flex-1 flex-col items-start gap-1">
           <div className="flex flex-col items-start">
             <p className="text-size-xxs font-semibold leading-[16px] text-bluedot-normal">{eyebrow}</p>
-            <h3 className="text-size-md font-semibold leading-[24px] text-bluedot-navy sm:text-size-lg sm:leading-[normal]">{title}</h3>
+            <h3 className="text-size-md font-semibold leading-[24px] text-bluedot-navy sm:text-size-lg sm:leading-[normal]">
+              {titleHref ? (
+                <a
+                  href={titleHref}
+                  className="text-bluedot-navy no-underline transition-colors hover:text-bluedot-normal hover:underline underline-offset-2"
+                >
+                  {title}
+                </a>
+              ) : title}
+            </h3>
           </div>
-          <p className="text-size-xxs  leading-[16px] text-gray-500">{datetimeLabel}</p>
+          <p className="text-size-xs text-bluedot-navy">{datetimeLabel}</p>
         </div>
       </div>
       <div className="flex w-full gap-3 sm:w-auto sm:shrink-0 sm:items-center">
