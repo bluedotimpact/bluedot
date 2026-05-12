@@ -53,6 +53,7 @@ export const CourseIcon: React.FC<CourseIconProps> = ({
 }) => {
   const courseConfig = COURSE_CONFIG[courseSlug];
   const iconSrc = courseConfig?.icon;
+  const iconFullBleed = courseConfig?.iconFullBleed;
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const iconBackground = courseConfig?.iconBackground || 'var(--bluedot-normal)';
   const badge = courseConfig?.badge;
@@ -69,7 +70,11 @@ export const CourseIcon: React.FC<CourseIconProps> = ({
         )}
         style={{ backgroundColor: iconBackground }}
       >
-        <img src={iconSrc} alt="" className={config.image} />
+        <img
+          src={iconSrc}
+          alt=""
+          className={iconFullBleed ? 'size-full rounded-[inherit] object-cover' : config.image}
+        />
         {badge && (
           <span
             className={clsx(

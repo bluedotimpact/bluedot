@@ -28,6 +28,38 @@ type CourseConfigItem = {
   accentColor: string;
   badge?: string;
   landerFolder?: string;
+  iconFullBleed?: boolean;
+  certificateCtaOverride?: {
+    href: string;
+    label: string;
+    target?: '_blank';
+  };
+  externalCoursePage?: {
+    providerName: string;
+    detailsUrl: string;
+    summary: string;
+    curriculumCtaLabel: string;
+    detailsCtaLabel: string;
+  };
+};
+
+const DIGITAL_MINDS_COURSE_CONFIG: CourseConfigItem = {
+  icon: '/images/courses/digital-minds-logo.png',
+  iconBackground: COURSE_COLORS['digital-minds'].iconBackground,
+  accentColor: COURSE_COLORS['digital-minds'].full,
+  iconFullBleed: true,
+  certificateCtaOverride: {
+    href: 'https://digitalminds.cam/course',
+    label: 'Learn more about this course',
+    target: '_blank',
+  },
+  externalCoursePage: {
+    providerName: 'Cambridge Digital Minds',
+    detailsUrl: 'https://digitalminds.cam/course',
+    summary: 'This course was developed by Cambridge Digital Minds and is hosted on BlueDot for participants.',
+    curriculumCtaLabel: 'Start curriculum',
+    detailsCtaLabel: 'Learn more about this course',
+  },
 };
 
 /* Course config information that doesn't yet live in Airtable.
@@ -74,4 +106,7 @@ export const COURSE_CONFIG: Record<string, CourseConfigItem> = {
     iconBackground: COURSE_COLORS['personal-theory-of-impact'].iconBackground,
     accentColor: COURSE_COLORS['personal-theory-of-impact'].full,
   },
+  'digital-minds': DIGITAL_MINDS_COURSE_CONFIG,
+  'introduction-to-digital-minds': DIGITAL_MINDS_COURSE_CONFIG,
+  'cambridge-digital-minds': DIGITAL_MINDS_COURSE_CONFIG,
 };
