@@ -3,6 +3,7 @@ import {
 } from '@bluedot/ui';
 import { type ReactNode, useState } from 'react';
 import { FaArrowRight, FaLock } from 'react-icons/fa6';
+import { COURSE_CONFIG } from '../../lib/constants';
 import { getActionPlanUrl } from '../../lib/utils';
 import type { CertificateData } from '../../server/routers/certificates';
 
@@ -62,6 +63,11 @@ export const SidebarCertificatePanel = ({
   if (status === 'is-facilitator' || !certificateData) return null;
 
   if (isAccessible) {
+    const defaultCtaOverride = (
+      status === 'not-authenticated'
+      || status === 'not-enrolled'
+      || status === 'not-eligible'
+    ) ? COURSE_CONFIG[courseSlug]?.certificateCtaOverride : undefined;
     let subtitle = 'Join a facilitated cohort today';
     if (status === 'has-certificate') {
       subtitle = 'View your certificate';
@@ -73,10 +79,19 @@ export const SidebarCertificatePanel = ({
 
     const hasCert = status === 'has-certificate';
     const isAttendanceIneligible = status === 'attendance-ineligible';
+    let defaultTitle = label;
+    if (hasCert) {
+      defaultTitle = `Your ${label}`;
+    } else if (isAttendanceIneligible) {
+      defaultTitle = 'Course complete';
+    }
+
+    const title = defaultCtaOverride?.label ?? defaultTitle;
 
     return (
       <A
-        href={congratsUrl}
+        href={defaultCtaOverride?.href ?? congratsUrl}
+        target={defaultCtaOverride?.target}
         className={cn(
           'flex items-center gap-3 rounded-[10px] border-[0.5px] border-solid px-3 py-4 no-underline transition-opacity hover:opacity-90',
           hasCert && 'border-[#1a7a52] bg-[#f2fff8] text-[#1a7a52]',
@@ -87,11 +102,9 @@ export const SidebarCertificatePanel = ({
       >
         <div className="flex min-w-0 flex-1 flex-col gap-1">
           <p className="text-size-sm leading-[1.5] font-bold">
-            {hasCert && `Your ${label}`}
-            {isAttendanceIneligible && 'Course complete'}
-            {!hasCert && !isAttendanceIneligible && label}
+            {title}
           </p>
-          <p className="text-size-xs leading-[1.5] font-normal">{subtitle}</p>
+          {!defaultCtaOverride && <p className="text-size-xs leading-[1.5] font-normal">{subtitle}</p>}
         </div>
         <FaArrowRight className="size-5 shrink-0" />
       </A>

@@ -35,6 +35,14 @@ export type CourseColors = {
   categoryLabel?: string;
 };
 
+const DIGITAL_MINDS_COLORS = {
+  gradient: 'linear-gradient(135deg, #06101d 0%, #10263f 58%, #063947 100%)',
+  accent: '#7dd3fc',
+  iconBackground: '#06101d',
+  bright: '#e0f7ff',
+  full: '#0891b2',
+} as const satisfies CourseColors;
+
 export const COURSE_COLORS = {
   'agi-strategy': {
     /* Left-side darkness gradient + bottom-right pink→purple→navy radial; base #181D3F */
@@ -94,6 +102,9 @@ export const COURSE_COLORS = {
     mid: '#B87A90',
     full: '#A06878',
   },
+  'digital-minds': DIGITAL_MINDS_COLORS,
+  'introduction-to-digital-minds': DIGITAL_MINDS_COLORS,
+  'cambridge-digital-minds': DIGITAL_MINDS_COLORS,
 } as const satisfies Record<string, CourseColors>;
 
 export type CourseColorSlug = keyof typeof COURSE_COLORS;
