@@ -1,5 +1,6 @@
 import { type Application } from '../lib/client/types';
 import { SummaryCard } from './SummaryCard';
+import { PreviousApplicationsCard } from './PreviousApplicationsCard';
 
 type ApplicationCardProps = {
   application: Application;
@@ -57,6 +58,8 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
       </div>
 
       {aiSummary && <SummaryCard aiSummary={aiSummary} course={course} />}
+
+      <PreviousApplicationsCard applicationId={application.id} />
 
       <div className="border border-stone-700 rounded-lg divide-y divide-stone-700 overflow-hidden">
         {([
