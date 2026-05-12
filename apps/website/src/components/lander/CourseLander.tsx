@@ -1,6 +1,6 @@
 import Head from 'next/head';
-import { addQueryParam, useLatestUtmParams } from '@bluedot/ui';
-import { appendPosthogSessionIdPrefill } from '../../lib/appendPosthogSessionIdPrefill';
+import { useLatestUtmParams } from '@bluedot/ui';
+import { buildApplicationUrl } from '../../lib/utils';
 import { Nav } from '../Nav/Nav';
 import TestimonialCarousel, { type TestimonialMember } from './TestimonialCarousel';
 import GraduateSection from './components/GraduateSection';
@@ -114,10 +114,7 @@ const CourseLander = ({
 }: CourseLanderProps) => {
   const { latestUtmParams } = useLatestUtmParams();
 
-  const safeBaseApplicationUrl = baseApplicationUrl ?? '';
-  const applicationUrlWithUtm = appendPosthogSessionIdPrefill(latestUtmParams.utm_source && safeBaseApplicationUrl
-    ? addQueryParam(safeBaseApplicationUrl, 'prefill_Source', latestUtmParams.utm_source)
-    : safeBaseApplicationUrl);
+  const applicationUrlWithUtm = buildApplicationUrl(baseApplicationUrl, latestUtmParams.utm_source);
 
   const content = createContentFor(applicationUrlWithUtm, courseSlug);
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing

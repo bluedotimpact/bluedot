@@ -539,6 +539,10 @@ export const meetPersonTable = pgAirtable('meet_person', {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldSaRaUdmezPh9gH',
     },
+    slackProfileUrl: {
+      pgColumn: text(),
+      airtableId: 'fldGhn89JZWlISRvc',
+    },
   },
 });
 
