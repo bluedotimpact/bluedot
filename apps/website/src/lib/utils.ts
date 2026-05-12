@@ -1,4 +1,6 @@
+import { addQueryParam } from '@bluedot/ui';
 import { type AxiosError } from 'axios';
+import posthog from 'posthog-js';
 
 export const formatStringToArray = (
   input: string | null | undefined,
@@ -162,3 +164,25 @@ export function getInitials(name: string): string {
   const chars = parts.map((part) => Array.from(part)[0] ?? '');
   return chars.join('').toUpperCase();
 }
+
+/**
+ * Build an application form URL with PostHog session and UTM source prefill params
+ */
+export const buildApplicationUrl = (
+  baseUrl: string | null | undefined,
+  utmSource: string | null | undefined,
+): string => {
+  if (!baseUrl) return '';
+  const urlWithUtm = utmSource ? addQueryParam(baseUrl, 'prefill_Source', utmSource) : baseUrl;
+
+  // new URL() requires an absolute URL; skip relative paths (e.g. internal nav links)
+  if (!urlWithUtm.startsWith('http://') && !urlWithUtm.startsWith('https://')) return urlWithUtm;
+
+  const sessionId = posthog.get_session_id?.();
+  if (!sessionId) return urlWithUtm;
+
+  const urlObj = new URL(urlWithUtm);
+  urlObj.searchParams.set('prefill_PostHog Session ID', sessionId);
+  // URLSearchParams encodes spaces as '+', but miniextensions requires '%20'
+  return urlObj.toString().replace('prefill_PostHog+Session+ID', 'prefill_PostHog%20Session%20ID');
+};
