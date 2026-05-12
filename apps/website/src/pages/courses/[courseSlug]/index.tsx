@@ -1,5 +1,4 @@
 import {
-  addQueryParam,
   Breadcrumbs,
   CTALinkOrButton,
   useLatestUtmParams,
@@ -10,7 +9,7 @@ import { type GetStaticProps, type GetStaticPaths } from 'next';
 import { ROUTES } from '../../../lib/routes';
 import { ONE_MINUTE_SECONDS } from '../../../lib/constants';
 import { getCourseOgImage } from '../../../lib/courseOgImage';
-import { appendPosthogSessionIdPrefill } from '../../../lib/appendPosthogSessionIdPrefill';
+import { buildApplicationUrl } from '../../../lib/utils';
 import MarketingHero from '../../../components/MarketingHero';
 import PageNewsletter from '../../../components/PageNewsletter';
 import { PageListGroup, PageListRow } from '../../../components/PageListRow';
@@ -150,7 +149,7 @@ const registerInterestUrl = 'https://web.miniextensions.com/aGd0mXnpcN1gfqlnYNZc
 
 const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseAndUnits; courseOgImage: string }) => {
   const { latestUtmParams } = useLatestUtmParams();
-  const registerInterestUrlWithUtm = appendPosthogSessionIdPrefill(latestUtmParams.utm_source ? addQueryParam(registerInterestUrl, 'prefill_Source', latestUtmParams.utm_source) : registerInterestUrl);
+  const registerInterestUrlWithUtm = buildApplicationUrl(registerInterestUrl, latestUtmParams.utm_source);
 
   if (!courseData.course) {
     return null;
