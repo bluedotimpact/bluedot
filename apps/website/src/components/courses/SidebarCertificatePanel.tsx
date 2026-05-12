@@ -8,20 +8,18 @@ import { FOAI_COURSE_SLUG } from '../../lib/constants';
 import { getActionPlanUrl } from '../../lib/utils';
 import type { CertificateData } from '../../server/routers/certificates';
 
+// Cohort-course gate. FoAI (self-paced) is handled separately at each callsite because the rule
+// there is simpler: only `has-certificate` is accessible.
 export const isCongratulationsAccessible = (data: CertificateData | undefined): boolean => {
   if (!data) return true;
   const { status } = data;
-  if (
+  return (
     status === 'not-authenticated'
     || status === 'not-enrolled'
     || status === 'not-eligible'
     || status === 'has-certificate'
     || (status === 'attendance-ineligible' && data.isLastDiscussionSoonOrPassed)
-  ) {
-    return true;
-  }
-
-  return false; // exercises-incomplete, action-plan-pending (both states), is-facilitator
+  );
 };
 
 const CertificateRequirementsModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => (
@@ -143,9 +141,7 @@ export const SidebarCertificatePanel = ({
   }
 
   let subtitle: ReactNode;
-  if (status === 'exercises-incomplete') {
-    subtitle = 'Complete all exercises to unlock';
-  } else if (status === 'action-plan-pending' && certificateData.hasSubmittedActionPlan) {
+  if (status === 'action-plan-pending' && certificateData.hasSubmittedActionPlan) {
     subtitle = 'Action plan submitted - pending review';
   } else {
     subtitle = (
