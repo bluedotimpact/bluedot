@@ -40,139 +40,6 @@ export type CourseListRowProps = {
   onToggleExpand?: () => void;
 };
 
-export const classifyCourseRegistration = (cr: CourseRegistration) => {
-  if (cr.dropoutId?.length && !cr.deferredId?.length) return 'dropped';
-  if (cr.roundStatus === 'Active') return 'in-progress';
-  if (cr.roundStatus === 'Future') return 'upcoming';
-  return 'completed';
-};
-
-const formatWeeklySchedule = (group: Pick<Group, 'startTimeUtc'> | null): string | null => {
-  if (!group?.startTimeUtc) return null;
-  const date = new Date(group.startTimeUtc * 1000);
-  const weekday = date.toLocaleDateString('en-US', { weekday: 'long' });
-  const time = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
-  return `${weekday}s, ${time}`;
-};
-
-const formatRoundDateRange = (start: string, end: string): string => {
-  const startDate = new Date(start);
-  const endDate = new Date(end);
-  const sameYear = startDate.getUTCFullYear() === endDate.getUTCFullYear();
-  const sameMonth = sameYear && startDate.getUTCMonth() === endDate.getUTCMonth();
-  const startStr = startDate.toLocaleDateString('en-US', sameYear
-    ? { month: 'short', day: 'numeric', timeZone: 'UTC' }
-    : {
-      month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC',
-    });
-  if (sameMonth) {
-    return `${startStr} – ${endDate.getUTCDate()}, ${endDate.getUTCFullYear()}`;
-  }
-
-  const endStr = endDate.toLocaleDateString('en-US', {
-    month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC',
-  });
-  return `${startStr} – ${endStr}`;
-};
-
-export const getSubtitle = ({
-  courseRegistration,
-  group,
-  facilitatorNames,
-  numUnits,
-  uniqueDiscussionAttendance,
-  isNotInGroup,
-  roundStartDate,
-  roundEndDate,
-}: {
-  courseRegistration: CourseRegistration;
-  group: Pick<Group, 'startTimeUtc'> | null;
-  facilitatorNames: string[];
-  numUnits: number | null;
-  uniqueDiscussionAttendance: number | null;
-  isNotInGroup: boolean;
-  roundStartDate: string | null;
-  roundEndDate: string | null;
-}): ReactNode => {
-  const renderParts = (parts: ReactNode[]): ReactNode | null => {
-    const filtered = parts.filter((p) => p != null && p !== '');
-    if (filtered.length === 0) return null;
-    return (
-      <>
-        {filtered.map((part, i) => (
-          <Fragment key={i}>
-            {i > 0 && <span className="hidden sm:inline"> · </span>}
-            <span className={`block sm:inline ${i > 0 ? 'mt-0.5 sm:mt-0' : ''}`}>{part}</span>
-          </Fragment>
-        ))}
-      </>
-    );
-  };
-
-  const state = classifyCourseRegistration(courseRegistration);
-  const dateRange = roundStartDate && roundEndDate ? formatRoundDateRange(roundStartDate, roundEndDate) : null;
-  const facilitatorDisplay = facilitatorNames.length > 0 ? `Facilitated by ${facilitatorNames.join(', ')}` : null;
-
-  // Dropped
-  if (state === 'dropped') {
-    return dateRange;
-  }
-
-  // Future
-  if (courseRegistration.roundStatus === 'Future') {
-    let statusText: string;
-    switch (courseRegistration.decision) {
-      case 'Accept':
-        statusText = 'Application accepted!';
-        break;
-      case 'Reject':
-        statusText = 'Application rejected';
-        break;
-      default:
-        statusText = 'Application in review';
-        break;
-    }
-
-    // Suppress the "Course starts" addendum for rejected applicants
-    const startsAddendum = courseRegistration.decision !== 'Reject' && roundStartDate
-      ? `Course starts ${formatMonthAndDay(roundStartDate)}`
-      : null;
-
-    return renderParts([
-      <span key="status" className="text-bluedot-normal font-medium">{statusText}</span>,
-      startsAddendum,
-    ]);
-  }
-
-  // Past + cert
-  if (courseRegistration.certificateCreatedAt && dateRange) {
-    return renderParts([dateRange, facilitatorDisplay]);
-  }
-
-  // Past + no cert
-  if (state === 'completed' && !courseRegistration.certificateCreatedAt) {
-    const showAttendance = numUnits != null && numUnits > 0;
-    return renderParts([
-      dateRange,
-      showAttendance ? `You attended ${uniqueDiscussionAttendance ?? 0} out of ${numUnits} discussions` : null,
-    ]);
-  }
-
-  // Accepted, not yet placed in a group
-  if (isNotInGroup) {
-    return renderParts([
-      <span key="assigning">
-        We&apos;re assigning you to a group
-        <span className="hidden sm:inline">, you&apos;ll receive an email from us within the next few days</span>
-      </span>,
-      roundStartDate ? `Course starts ${formatMonthAndDay(roundStartDate)}` : null,
-    ]);
-  }
-
-  // In-progress (default): recurring schedule + facilitator
-  return renderParts([formatWeeklySchedule(group), facilitatorDisplay]);
-};
-
 const CourseListRow = ({
   course, courseRegistration, group, facilitatorNames, discussions, attendedDiscussionIds, units, roundId,
   roundStartDate, roundEndDate, rescheduleEligibleUnits, meetPersonId, groupsAsParticipant,
@@ -406,7 +273,6 @@ const CourseListRow = ({
             <img
               src={courseConfig?.icon ?? '/images/logo/BlueDot_Impact_Icon_White.svg'}
               className="size-7 sm:size-10"
-              alt=""
             />
           </div>
           <div className="min-w-0 flex-1">
@@ -436,7 +302,7 @@ const CourseListRow = ({
             )}
           </div>
           <div className="flex shrink-0 flex-col items-end gap-2 self-stretch sm:flex-row sm:items-center sm:gap-4 sm:self-auto">
-            {/* Wide text CTAs / pills — desktop only; on mobile they live in a separate row below. */}
+            {/* Desktop only: Wide text CTAs / pills; on mobile they live in a separate row below */}
             <div className="hidden items-center gap-3 sm:flex">
               {inlineActions.map((a) => <Fragment key={a.id}>{a.inline}</Fragment>)}
               {state !== 'dropped' && overflowItems.length > 0 && (
@@ -502,6 +368,139 @@ const CourseListRow = ({
       )}
     </div>
   );
+};
+
+export const classifyCourseRegistration = (cr: CourseRegistration) => {
+  if (cr.dropoutId?.length && !cr.deferredId?.length) return 'dropped';
+  if (cr.roundStatus === 'Active') return 'in-progress';
+  if (cr.roundStatus === 'Future') return 'upcoming';
+  return 'completed';
+};
+
+const formatWeeklySchedule = (group: Pick<Group, 'startTimeUtc'> | null): string | null => {
+  if (!group?.startTimeUtc) return null;
+  const date = new Date(group.startTimeUtc * 1000);
+  const weekday = date.toLocaleDateString('en-US', { weekday: 'long' });
+  const time = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+  return `${weekday}s, ${time}`;
+};
+
+const formatRoundDateRange = (start: string, end: string): string => {
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+  const sameYear = startDate.getUTCFullYear() === endDate.getUTCFullYear();
+  const sameMonth = sameYear && startDate.getUTCMonth() === endDate.getUTCMonth();
+  const startStr = startDate.toLocaleDateString('en-US', sameYear
+    ? { month: 'short', day: 'numeric', timeZone: 'UTC' }
+    : {
+      month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC',
+    });
+  if (sameMonth) {
+    return `${startStr} – ${endDate.getUTCDate()}, ${endDate.getUTCFullYear()}`;
+  }
+
+  const endStr = endDate.toLocaleDateString('en-US', {
+    month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC',
+  });
+  return `${startStr} – ${endStr}`;
+};
+
+export const getSubtitle = ({
+  courseRegistration,
+  group,
+  facilitatorNames,
+  numUnits,
+  uniqueDiscussionAttendance,
+  isNotInGroup,
+  roundStartDate,
+  roundEndDate,
+}: {
+  courseRegistration: CourseRegistration;
+  group: Pick<Group, 'startTimeUtc'> | null;
+  facilitatorNames: string[];
+  numUnits: number | null;
+  uniqueDiscussionAttendance: number | null;
+  isNotInGroup: boolean;
+  roundStartDate: string | null;
+  roundEndDate: string | null;
+}): ReactNode => {
+  const renderParts = (parts: ReactNode[]): ReactNode | null => {
+    const filtered = parts.filter((p) => p != null && p !== '');
+    if (filtered.length === 0) return null;
+    return (
+      <>
+        {filtered.map((part, i) => (
+          <Fragment key={i}>
+            {i > 0 && <span className="hidden sm:inline"> · </span>}
+            <span className={`block sm:inline ${i > 0 ? 'mt-0.5 sm:mt-0' : ''}`}>{part}</span>
+          </Fragment>
+        ))}
+      </>
+    );
+  };
+
+  const state = classifyCourseRegistration(courseRegistration);
+  const dateRange = roundStartDate && roundEndDate ? formatRoundDateRange(roundStartDate, roundEndDate) : null;
+  const facilitatorDisplay = facilitatorNames.length > 0 ? `Facilitated by ${facilitatorNames.join(', ')}` : null;
+
+  // Dropped
+  if (state === 'dropped') {
+    return dateRange;
+  }
+
+  // Future
+  if (courseRegistration.roundStatus === 'Future') {
+    let statusText: string;
+    switch (courseRegistration.decision) {
+      case 'Accept':
+        statusText = 'Application accepted!';
+        break;
+      case 'Reject':
+        statusText = 'Application rejected';
+        break;
+      default:
+        statusText = 'Application in review';
+        break;
+    }
+
+    // Suppress the "Course starts" addendum for rejected applicants
+    const startsAddendum = courseRegistration.decision !== 'Reject' && roundStartDate
+      ? `Course starts ${formatMonthAndDay(roundStartDate)}`
+      : null;
+
+    return renderParts([
+      <span key="status" className="text-bluedot-normal font-medium">{statusText}</span>,
+      startsAddendum,
+    ]);
+  }
+
+  // Past + cert
+  if (courseRegistration.certificateCreatedAt && dateRange) {
+    return renderParts([dateRange, facilitatorDisplay]);
+  }
+
+  // Past + no cert
+  if (state === 'completed' && !courseRegistration.certificateCreatedAt) {
+    const showAttendance = numUnits != null && numUnits > 0;
+    return renderParts([
+      dateRange,
+      showAttendance ? `You attended ${uniqueDiscussionAttendance ?? 0} out of ${numUnits} discussions` : null,
+    ]);
+  }
+
+  // Accepted, not yet placed in a group
+  if (isNotInGroup) {
+    return renderParts([
+      <span key="assigning">
+        We&apos;re assigning you to a group
+        <span className="hidden sm:inline">, you&apos;ll receive an email from us within the next few days</span>
+      </span>,
+      roundStartDate ? `Course starts ${formatMonthAndDay(roundStartDate)}` : null,
+    ]);
+  }
+
+  // In-progress (default): recurring schedule + facilitator
+  return renderParts([formatWeeklySchedule(group), facilitatorDisplay]);
 };
 
 export default CourseListRow;
