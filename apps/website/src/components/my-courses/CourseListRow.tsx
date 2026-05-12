@@ -369,9 +369,6 @@ const CourseListRow = ({
     },
     {
       id: 'drop',
-      // Hide on Upcoming + Reject / null decision: legacy didn't surface drop/defer on
-      // application states (you withdraw the application, not "drop" a course you're not in).
-      // Withdrawing an application is a future product decision (separate label + endpoint).
       isVisible: state === 'in-progress' || (state === 'upcoming' && courseRegistration.decision === 'Accept'),
       variant: 'overflow',
       overflow: {
