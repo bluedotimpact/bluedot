@@ -419,7 +419,9 @@ const getCtaButtons = ({
 
     const facilitatorFeedbackUrl = isFacilitatorRole && meetPerson ? `/facilitator-feedback/${meetPerson.id}` : null;
     const feedbackUrl = facilitatorFeedbackUrl ?? feedbackFormUrl;
-    if (!hasSubmittedFeedback && feedbackUrl) {
+    // Facilitators always see the button so they can return to amend their submission
+    const showFeedbackButton = feedbackUrl && (isFacilitatorRole || !hasSubmittedFeedback);
+    if (showFeedbackButton) {
       buttons.push(<CTALinkOrButton
         key="feedback"
         variant="outline-black"
@@ -428,7 +430,7 @@ const getCtaButtons = ({
         target={facilitatorFeedbackUrl ? undefined : '_blank'}
         className="w-full sm:w-auto border-bluedot-darker"
       >
-        Share feedback
+        {hasSubmittedFeedback ? 'Edit feedback' : 'Share feedback'}
       </CTALinkOrButton>);
     }
 
