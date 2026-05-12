@@ -6,7 +6,7 @@ import { useMemo, useState } from 'react';
 import MyBlueDotLayout from '../components/MyBlueDotLayout';
 import InactiveCourseBanners from '../components/courses/InactiveCourseBanners';
 import CourseList from '../components/my-courses/CourseList';
-import { classifyCourseRegistration, type CourseRowData } from '../components/my-courses/CourseListRow';
+import { classifyCourseRegistration, type CourseListRowProps } from '../components/my-courses/CourseListRow';
 import NextDiscussionSection from '../components/my-courses/NextDiscussionSection';
 import TabPills from '../components/my-courses/TabPills';
 import { ROUTES } from '../lib/routes';
@@ -34,9 +34,9 @@ const EMPTY_MESSAGE: Record<CourseTab, string> = {
  * courses with any remaining discussions to bubble above fully-completed ones that
  * are just waiting for a certificate.
 */
-const sortByFinalDiscussionDesc = (courses: CourseRowData[]): CourseRowData[] => {
+const sortByFinalDiscussionDesc = (courses: CourseListRowProps[]): CourseListRowProps[] => {
   const nowSec = Math.floor(Date.now() / 1000);
-  const sortKey = (c: CourseRowData): number => {
+  const sortKey = (c: CourseListRowProps): number => {
     const attendedSet = new Set(c.attendedDiscussionIds);
 
     const openTimes = c.discussions
@@ -57,7 +57,7 @@ const sortByFinalDiscussionDesc = (courses: CourseRowData[]): CourseRowData[] =>
   return [...courses].sort((a, b) => sortKey(b) - sortKey(a));
 };
 
-export const bucketCoursesByTab = (courses: CourseRowData[] | undefined): Record<CourseTab, CourseRowData[]> => {
+export const bucketCoursesByTab = (courses: CourseListRowProps[] | undefined): Record<CourseTab, CourseListRowProps[]> => {
   const assignTab = (cr: CourseRegistration): CourseTab | null => {
     if (cr.deferredId?.length) {
       if (cr.roundStatus === 'Active') return 'inProgress';
@@ -75,7 +75,7 @@ export const bucketCoursesByTab = (courses: CourseRowData[] | undefined): Record
     .filter(({ courseRegistration: cr }) => cr.roundStatus === 'Active' || cr.roundStatus === 'Past' || cr.roundStatus === 'Future' || cr.certificateCreatedAt)
     .filter(({ courseRegistration: cr }) => cr.decision !== 'Reject' || cr.roundStatus === 'Future');
 
-  const buckets: Record<CourseTab, CourseRowData[]> = { inProgress: [], upcoming: [], pastCourses: [] };
+  const buckets: Record<CourseTab, CourseListRowProps[]> = { inProgress: [], upcoming: [], pastCourses: [] };
   for (const row of eligible) {
     const tab = assignTab(row.courseRegistration);
     if (tab) buckets[tab].push(row);
@@ -89,7 +89,7 @@ export const bucketCoursesByTab = (courses: CourseRowData[] | undefined): Record
   };
 };
 
-const isAutoExpandCandidate = (course: CourseRowData): boolean => {
+const isAutoExpandCandidate = (course: CourseListRowProps): boolean => {
   const state = classifyCourseRegistration(course.courseRegistration);
   const canExpand = state !== 'dropped' || course.attendedDiscussionIds.length > 0;
   return canExpand && course.discussions.length > 0;

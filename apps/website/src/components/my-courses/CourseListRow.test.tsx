@@ -9,39 +9,31 @@ import {
 } from '../../__tests__/testUtils';
 import CourseListRow, { getSubtitle, type CourseListRowProps } from './CourseListRow';
 
-// useLatestUtmParams gracefully returns defaults without a provider but emits a console.warn.
-// Suppress it so the test output stays readable.
-vi.spyOn(console, 'warn').mockImplementation(() => {});
-
-// --------------------------------------------------------------------------
-// getSubtitle
-// --------------------------------------------------------------------------
-
-type SubtitleArgs = Parameters<typeof getSubtitle>[0];
-
-const renderText = (node: React.ReactNode): string => {
-  if (node == null) return '';
-  if (typeof node === 'string' || typeof node === 'number') return String(node);
-  const { container } = render(<>{node}</>);
-  return container.textContent ?? '';
-};
-
-const ROUND_START = '2026-03-10';
-const ROUND_END = '2026-03-17';
-
-const subtitleArgs = (overrides: Partial<SubtitleArgs> = {}): SubtitleArgs => ({
-  courseRegistration: createMockCourseRegistration(),
-  group: createMockGroup({ startTimeUtc: new Date('2026-05-13T16:00:00Z').getTime() / 1000 }),
-  facilitatorNames: ['Shivam Arora'],
-  numUnits: null,
-  uniqueDiscussionAttendance: null,
-  isNotInGroup: false,
-  roundStartDate: null,
-  roundEndDate: null,
-  ...overrides,
-});
-
 describe('getSubtitle precedence', () => {
+  type SubtitleArgs = Parameters<typeof getSubtitle>[0];
+
+  const renderText = (node: React.ReactNode): string => {
+    if (node == null) return '';
+    if (typeof node === 'string' || typeof node === 'number') return String(node);
+    const { container } = render(<>{node}</>);
+    return container.textContent ?? '';
+  };
+
+  const ROUND_START = '2026-03-10';
+  const ROUND_END = '2026-03-17';
+
+  const subtitleArgs = (overrides: Partial<SubtitleArgs> = {}): SubtitleArgs => ({
+    courseRegistration: createMockCourseRegistration(),
+    group: createMockGroup({ startTimeUtc: new Date('2026-05-13T16:00:00Z').getTime() / 1000 }),
+    facilitatorNames: ['Shivam Arora'],
+    numUnits: null,
+    uniqueDiscussionAttendance: null,
+    isNotInGroup: false,
+    roundStartDate: null,
+    roundEndDate: null,
+    ...overrides,
+  });
+
   test('Future + Accept → status word + Course starts', () => {
     expect(renderText(getSubtitle(subtitleArgs({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Accept' }),
@@ -259,58 +251,55 @@ describe('getSubtitle precedence', () => {
   });
 });
 
-// --------------------------------------------------------------------------
-// Action visibility (overflow menu + inline buttons)
-// --------------------------------------------------------------------------
-
-const renderRow = (props: CourseListRowProps) => render(<CourseListRow {...props} />);
-
-const baseProps = (overrides: Partial<CourseListRowProps> = {}): CourseListRowProps => ({
-  course: { slug: 'technical-ai-safety', title: 'Technical AI Safety', applyUrl: null },
-  courseRegistration: createMockCourseRegistration({ roundStatus: 'Active' }),
-  group: createMockGroup({
-    startTimeUtc: Math.floor(new Date('2026-05-13T16:00:00Z').getTime() / 1000),
-    slackChannelId: 'C01ABCDEF',
-    discussionDoc: 'https://example.com/doc',
-  }),
-  facilitatorNames: ['Shivam Arora'],
-  meetPersonId: 'mp-default',
-  roundId: 'round-default',
-  discussions: [],
-  attendedDiscussionIds: [],
-  units: {},
-  roundStartDate: null,
-  roundEndDate: null,
-  numUnits: null,
-  uniqueDiscussionAttendance: null,
-  hasSubmittedActionPlan: false,
-  feedbackFormUrl: null,
-  hasSubmittedFeedback: false,
-  rescheduleEligibleUnits: [],
-  isExpanded: false,
-  onToggleExpand: () => {},
-  ...overrides,
-});
-
-/** Open the overflow menu and return its menu item labels. Returns [] when no menu renders. */
-const openOverflowItems = (container: HTMLElement): string[] => {
-  const button = container.querySelector('button[aria-label="Course actions"]');
-  if (!button) return [];
-  fireEvent.click(button);
-  return Array.from(document.querySelectorAll('[role="menuitem"]'))
-    .map((i) => i.textContent?.trim() ?? '');
-};
-
-const inlineLabels = (container: HTMLElement): string[] => {
-  const desktopInline = container.querySelector('.sm\\:flex');
-  if (!desktopInline) return [];
-  return Array.from(desktopInline.querySelectorAll('a, button'))
-    .filter((el) => el.getAttribute('aria-label') !== 'Course actions')
-    .map((el) => el.textContent?.trim() ?? '')
-    .filter(Boolean);
-};
-
 describe('CourseListRow actions', () => {
+  const renderRow = (props: CourseListRowProps) => render(<CourseListRow {...props} />);
+
+  const baseProps = (overrides: Partial<CourseListRowProps> = {}): CourseListRowProps => ({
+    course: { slug: 'technical-ai-safety', title: 'Technical AI Safety', applyUrl: null },
+    courseRegistration: createMockCourseRegistration({ roundStatus: 'Active' }),
+    group: createMockGroup({
+      startTimeUtc: Math.floor(new Date('2026-05-13T16:00:00Z').getTime() / 1000),
+      slackChannelId: 'C01ABCDEF',
+      discussionDoc: 'https://example.com/doc',
+    }),
+    facilitatorNames: ['Shivam Arora'],
+    meetPersonId: 'mp-default',
+    groupsAsParticipant: ['group-default'],
+    roundId: 'round-default',
+    discussions: [],
+    attendedDiscussionIds: [],
+    units: {},
+    roundStartDate: null,
+    roundEndDate: null,
+    numUnits: null,
+    uniqueDiscussionAttendance: null,
+    hasSubmittedActionPlan: false,
+    feedbackFormUrl: null,
+    hasSubmittedFeedback: false,
+    rescheduleEligibleUnits: [],
+    isExpanded: false,
+    onToggleExpand: () => {},
+    ...overrides,
+  });
+
+  /** Open the overflow menu and return its menu item labels. Returns [] when no menu renders. */
+  const openOverflowItems = (container: HTMLElement): string[] => {
+    const button = container.querySelector('button[aria-label="Course actions"]');
+    if (!button) return [];
+    fireEvent.click(button);
+    return Array.from(document.querySelectorAll('[role="menuitem"]'))
+      .map((i) => i.textContent?.trim() ?? '');
+  };
+
+  const inlineLabels = (container: HTMLElement): string[] => {
+    const desktopInline = container.querySelector('.sm\\:flex');
+    if (!desktopInline) return [];
+    return Array.from(desktopInline.querySelectorAll('a, button'))
+      .filter((el) => el.getAttribute('aria-label') !== 'Course actions')
+      .map((el) => el.textContent?.trim() ?? '')
+      .filter(Boolean);
+  };
+
   describe('Open discussion doc / Open Slack group visibility', () => {
     test('shown on in-progress when group has discussionDoc + slackChannelId', () => {
       const { container } = renderRow(baseProps());

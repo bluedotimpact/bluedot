@@ -11,11 +11,11 @@ type DiscussionListProps = {
   courseSlug: string;
   canReschedule: boolean;
   rescheduleEligibleUnits: string[];
-  onReschedule: (unitNumber: string | null, switchType: SwitchType) => void;
+  onClickReschedule: (props: { unitNumber: string | null; switchType: SwitchType }) => void;
 };
 
 const DiscussionList = ({
-  discussions, units, attendedDiscussionIds, courseSlug, canReschedule, rescheduleEligibleUnits, onReschedule,
+  discussions, units, attendedDiscussionIds, courseSlug, canReschedule, rescheduleEligibleUnits, onClickReschedule,
 }: DiscussionListProps) => {
   const eligibleSet = new Set(rescheduleEligibleUnits);
   const currentTimeMs = useCurrentTimeMs();
@@ -28,8 +28,7 @@ const DiscussionList = ({
         const isAttended = attendedSet.has(discussion.id);
 
         // Live wins over attended: suppress the Attended pill while a discussion is in progress so
-        // users can't read off "you're counted as attended" the moment they click Join. After the
-        // discussion ends, the row flips to attended/absent as expected.
+        // users can't read off "you're counted as attended" the moment they click Join.
         let status: 'upcoming' | 'soon' | 'live' | 'attended' | 'absent';
         if (timeState === 'live') status = 'live';
         else if (isAttended) status = 'attended';
@@ -47,7 +46,7 @@ const DiscussionList = ({
             courseSlug={courseSlug}
             status={status}
             canReschedule={canReschedule && (unit?.unitNumber !== undefined && eligibleSet.has(unit.unitNumber))}
-            onReschedule={() => onReschedule(unit?.unitNumber ?? null, 'Switch group for one unit')}
+            onReschedule={() => onClickReschedule({ unitNumber: unit?.unitNumber ?? null, switchType: 'Switch group for one unit'})}
           />
         );
       })}
