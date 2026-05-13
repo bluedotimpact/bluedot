@@ -18,12 +18,6 @@ export type GrantProgramDefinition = {
   scopeLabel?: string;
 };
 
-export const RAPID_GRANT_APPLICATION_URL = 'https://airtable.com/appMVNtdBtvtJvu5E/pag9G3oF4DYAyassX/form';
-export const CAREER_TRANSITION_GRANT_APPLICATION_URL = 'https://airtable.com/appMVNtdBtvtJvu5E/pagyKD4M0wd0ci2gH/form';
-export const ONE_ON_ONE_ADVISING_APPLICATION_URL = 'https://web.miniextensions.com/elMoT4tTN0jx49tNB0cS';
-export const INCUBATOR_WEEK_APPLICATION_URL = 'https://airtable.com/appnJbsG1eWbAdEvf/pagA7JU8pPkkbDCOJ/form';
-export const BUILDER_WEEK_APPLICATION_URL = 'https://airtable.com/';
-
 export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
   {
     slug: 'rapid-grants',
@@ -110,13 +104,11 @@ export const getGrantProgramViewTransitionStyle = (
 export type ConfigurableGrantProgramSlug = 'rapid-grants' | 'career-transition-grant' | 'advising' | 'incubator-week' | 'builder-week';
 
 export type GrantProgramSectionConfig = {
-  applicationUrl: string;
   faqItems: FAQItem[];
 };
 
 export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantProgramSectionConfig> = {
   'rapid-grants': {
-    applicationUrl: RAPID_GRANT_APPLICATION_URL,
     faqItems: [
       {
         id: 'unsure',
@@ -159,7 +151,6 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
     ],
   },
   'career-transition-grant': {
-    applicationUrl: CAREER_TRANSITION_GRANT_APPLICATION_URL,
     faqItems: [
       {
         id: 'eligibility',
@@ -192,7 +183,6 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
     ],
   },
   'incubator-week': {
-    applicationUrl: INCUBATOR_WEEK_APPLICATION_URL,
     faqItems: [
       {
         id: 'solo-or-team',
@@ -229,11 +219,9 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
     ],
   },
   'builder-week': {
-    applicationUrl: BUILDER_WEEK_APPLICATION_URL,
     faqItems: [],
   },
   advising: {
-    applicationUrl: ONE_ON_ONE_ADVISING_APPLICATION_URL,
     faqItems: [
       {
         id: 'no-bluedot-course',

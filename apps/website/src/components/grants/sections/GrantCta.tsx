@@ -9,6 +9,8 @@ type Props = {
 const GrantCta = ({ program }: Props) => {
   const applicationUrl = useGrantApplicationUrl(program);
 
+  if (!applicationUrl) return null;
+
   return (
     <div className={`${program}-cta w-full max-w-max-width mx-auto px-spacing-x mt-spacing-y mb-16 flex justify-center`}>
       <CTALinkOrButton

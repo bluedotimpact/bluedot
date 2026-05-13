@@ -23,18 +23,20 @@ const WhatThisIsForSection = () => {
 
         <div className="flex flex-col gap-5">
           <P>For anyone working on concrete AI safety projects. Research, events, community building, tooling, compute.</P>
-          <P>
-            If in doubt,{' '}
-            <a
-              href={applicationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-bluedot-navy underline underline-offset-4"
-            >
-              apply
-            </a>
-            .
-          </P>
+          {applicationUrl && (
+            <P>
+              If in doubt,{' '}
+              <a
+                href={applicationUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-bluedot-navy underline underline-offset-4"
+              >
+                apply
+              </a>
+              .
+            </P>
+          )}
         </div>
 
         <div className="pt-2 grid gap-4 bd-md:grid-cols-2">
