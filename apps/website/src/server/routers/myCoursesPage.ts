@@ -285,6 +285,7 @@ export const myCoursesPageRouter = router({
         .map((id) => peopleById.get(id))
         .filter((p): p is { id: string; name: string } => !!p)
         .sort((a, b) => a.name.localeCompare(b.name));
+
       const participants = participantIdsArr
         .map((id) => peopleById.get(id))
         .filter((p): p is { id: string; name: string } => !!p)
