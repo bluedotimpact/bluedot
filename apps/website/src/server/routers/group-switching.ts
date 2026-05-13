@@ -118,7 +118,6 @@ export function calculateGroupAvailability({
   };
 }
 
-// TODO review this function in detail
 export function getAllowedGroupsForParticipant({
   allGroups,
   participantId,
@@ -137,7 +136,7 @@ export function getAllowedGroupsForParticipant({
   ));
 }
 
-export function extractRescheduleEligibleUnits(discussionsAvailable: DiscussionsByUnit): Set<string> {
+export function calculateRescheduleEligibleUnits(discussionsAvailable: DiscussionsByUnit): Set<string> {
   const eligible = new Set<string>();
   for (const [unitKey, list] of Object.entries(discussionsAvailable)) {
     if (list.some((d) => !d.userIsParticipant)) {
@@ -170,7 +169,7 @@ export function getRescheduleEligibleUnits({
     maxParticipants,
     participantId,
   });
-  return extractRescheduleEligibleUnits(discussionsAvailable);
+  return calculateRescheduleEligibleUnits(discussionsAvailable);
 }
 
 export const groupSwitchingRouter = router({
@@ -218,6 +217,7 @@ export const groupSwitchingRouter = router({
       return {
         groupsAvailable,
         discussionsAvailable,
+        rescheduleEligibleUnits: [...calculateRescheduleEligibleUnits(discussionsAvailable)],
       };
     }),
 
