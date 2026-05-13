@@ -31,7 +31,7 @@ const AdvisorsSection = () => {
       <div className="w-full flex flex-col gap-6">
         <h3 className={pageSectionHeadingClass}>Advisors</h3>
 
-        <ul className="list-none grid gap-6 grid-cols-2 bd-md:grid-cols-3 lg:grid-cols-5">
+        <ul className="list-none grid gap-8 grid-cols-1 bd-md:grid-cols-2 min-[1120px]:grid-cols-3">
           {advisors.map((advisor) => {
             const card = (
               <div className="flex flex-col gap-3">
@@ -41,13 +41,20 @@ const AdvisorsSection = () => {
                   className="aspect-square w-full rounded-lg object-cover"
                   loading="lazy"
                 />
-                <div className="flex flex-col gap-1">
-                  <h4 className="text-size-sm font-semibold leading-tight text-bluedot-navy">
-                    {advisor.name}
-                  </h4>
-                  {advisor.jobTitle && (
-                    <p className="text-size-xs leading-[1.4] text-bluedot-navy/68">
-                      {advisor.jobTitle}
+                <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-1">
+                    <h4 className="text-size-sm font-semibold leading-tight text-bluedot-navy">
+                      {advisor.name}
+                    </h4>
+                    {advisor.jobTitle && (
+                      <p className="text-size-xs leading-[1.4] text-bluedot-navy/68">
+                        {advisor.jobTitle}
+                      </p>
+                    )}
+                  </div>
+                  {advisor.advisorProfileDescription && (
+                    <p className="text-size-xs leading-[1.5] text-bluedot-navy/80">
+                      {advisor.advisorProfileDescription}
                     </p>
                   )}
                 </div>
