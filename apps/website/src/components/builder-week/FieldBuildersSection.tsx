@@ -16,10 +16,8 @@ type Builder = {
     src: string;
     alt: string;
   };
-  tint: string;
-  credentialBefore: string;
-  credentialAfter: string;
-  story: string;
+  before: string;
+  after: string;
 };
 
 const BUILDERS: Builder[] = [
@@ -31,10 +29,8 @@ const BUILDERS: Builder[] = [
     },
     program: { name: 'MATS', url: 'https://www.matsprogram.org/' },
     logo: { src: '/images/programs/builder-week-founders/mats.svg', alt: 'MATS logo' },
-    tint: 'rgba(34, 83, 230, 0.08)',
-    credentialBefore: 'Physics PhD doing independent alignment research at SERI, who co-founded ',
-    credentialAfter: '.',
-    story: 'He saw the shortage of excellent technical talent, and decided to build the pipeline.',
+    before: ' was a physics PhD doing independent alignment research at SERI who saw the shortage of excellent technical talent and co-founded ',
+    after: ' to build the pipeline.',
   },
   {
     slug: 'horizon',
@@ -44,10 +40,8 @@ const BUILDERS: Builder[] = [
     },
     program: { name: 'Horizon', url: 'https://horizonpublicservice.org/about-us/' },
     logo: { src: '/images/programs/builder-week-founders/horizon.png', alt: 'Horizon Institute logo' },
-    tint: 'rgba(58, 92, 196, 0.08)',
-    credentialBefore: 'Technical-policy researcher at CSET, who started ',
-    credentialAfter: '.',
-    story: 'He watched policy teams struggle to hire technical talent, and built the program to bring them in.',
+    before: ' was a technical-policy researcher at CSET watching policy teams struggle to hire technical talent, so he started ',
+    after: ' to bring them in.',
   },
   {
     slug: 'pibbss',
@@ -57,10 +51,8 @@ const BUILDERS: Builder[] = [
     },
     program: { name: 'PIBBSS', url: 'https://princint.ai/' },
     logo: { src: '/images/programs/builder-week-founders/pibbss.svg', alt: 'PIBBSS logo' },
-    tint: 'rgba(179, 71, 239, 0.08)',
-    credentialBefore: 'Complex-systems researcher at the Simon Institute, who co-founded ',
-    credentialAfter: '.',
-    story: 'She saw AI safety lacked diversity of expertise, and built a way to bring researchers from other fields in. Now, program director at ARIA.',
+    before: ' was a complex systems researcher at the Simon Institute, who saw that AI safety lacked diversity of expertise, so she co-founded ',
+    after: ' to bring researchers from other fields in. She’s now a program director at ARIA.',
   },
   {
     slug: 'arena',
@@ -70,10 +62,8 @@ const BUILDERS: Builder[] = [
     },
     program: { name: 'ARENA', url: 'https://www.arena.education/' },
     logo: { src: '/images/programs/builder-week-founders/arena.png', alt: 'ARENA logo' },
-    tint: 'rgba(124, 27, 179, 0.08)',
-    credentialBefore: 'Jane Street quant trying to break into AI safety research, who built ',
-    credentialAfter: '.',
-    story: 'He built the program he wished existed, to help others technically upskill into the field. Now, interp researcher at Google DeepMind.',
+    before: ' was a Jane Street quant trying to break into AI safety research who built ',
+    after: ' to help others technically upskill into the field. He’s now doing mech interp research at GDM.',
   },
   {
     slug: 'aisb',
@@ -83,10 +73,8 @@ const BUILDERS: Builder[] = [
     },
     program: { name: 'AI Security Bootcamp', url: 'https://aisb.dev/' },
     logo: { src: '/images/programs/builder-week-founders/aisb.svg', alt: 'AI Security Bootcamp logo' },
-    tint: 'rgba(46, 160, 28, 0.10)',
-    credentialBefore: 'Research engineer at Conjecture, who launched the ',
-    credentialAfter: '.',
-    story: 'He saw security professionals had no clear path into AI safety, and created one.',
+    before: ' was a research engineer at Conjecture, who saw security professionals had no clear path into AI safety, so he launched the ',
+    after: ' to create one.',
   },
   {
     slug: 'ml4good',
@@ -96,28 +84,23 @@ const BUILDERS: Builder[] = [
     },
     program: { name: 'ML4Good', url: 'https://ml4good.org/' },
     logo: { src: '/images/programs/builder-week-founders/ml4good.svg', alt: 'ML4Good logo' },
-    tint: 'rgba(212, 115, 15, 0.10)',
-    credentialBefore: 'ML engineer who built ',
-    credentialAfter: '.',
-    story: 'He saw coding bootcamps work for the tech industry, and brought the same model to AI safety.',
+    before: ' was an ML engineer who saw coding bootcamps work for the tech industry, and built ',
+    after: ' to bring talent into AI safety in the same way.',
   },
 ];
 
 const VISIBLE_COUNT = 3;
 
-const BuilderRow = ({ builder }: { builder: Builder }) => {
-  const NameTag = builder.founder.profileUrl ? 'a' : 'span';
-  const nameProps = builder.founder.profileUrl
-    ? { href: builder.founder.profileUrl, target: '_blank' as const, rel: 'noreferrer' }
-    : {};
+const styledLinkClass = 'font-semibold text-bluedot-navy underline underline-offset-2 hover:text-bluedot-normal';
 
+const BuilderRow = ({ builder }: { builder: Builder }) => {
   return (
-    <div className="grid grid-cols-1 bd-md:grid-cols-[220px_1fr] gap-5 bd-md:gap-14 py-7 bd-md:py-9 items-center border-t border-bluedot-navy/10 first:border-t-0">
+    <div className="grid grid-cols-1 bd-md:grid-cols-[140px_1fr] gap-5 bd-md:gap-12 py-7 bd-md:py-9 items-center border-t border-bluedot-navy/10 first:border-t-0">
       <a
         href={builder.program.url}
         target="_blank"
         rel="noreferrer"
-        className="flex items-center justify-center w-[220px] h-[130px]"
+        className="flex items-center justify-center w-[140px] h-[80px]"
         aria-label={`${builder.program.name} website`}
       >
         <img
@@ -126,31 +109,30 @@ const BuilderRow = ({ builder }: { builder: Builder }) => {
           className="max-w-full max-h-full object-contain"
         />
       </a>
-      <div className="flex flex-col gap-2 max-w-[560px]">
-        <NameTag
-          {...nameProps}
-          className={`text-size-lg font-bold text-bluedot-navy leading-tight ${
-            builder.founder.profileUrl ? 'no-underline hover:text-bluedot-normal' : ''
-          }`}
-        >
-          {builder.founder.name}
-        </NameTag>
-        <P className="text-size-sm leading-[1.55] text-bluedot-navy/80">
-          {builder.credentialBefore}
+      <P className="text-size-md leading-[1.6] text-bluedot-navy/85 max-w-[680px]">
+        {builder.founder.profileUrl ? (
           <a
-            href={builder.program.url}
+            href={builder.founder.profileUrl}
             target="_blank"
             rel="noreferrer"
-            className="font-semibold text-bluedot-navy underline underline-offset-2 hover:text-bluedot-normal"
+            className={styledLinkClass}
           >
-            {builder.program.name}
+            {builder.founder.name}
           </a>
-          {builder.credentialAfter}
-        </P>
-        <P className="text-size-xs leading-[1.65] text-bluedot-navy/65 mt-1">
-          {builder.story}
-        </P>
-      </div>
+        ) : (
+          <span className="font-semibold text-bluedot-navy">{builder.founder.name}</span>
+        )}
+        {builder.before}
+        <a
+          href={builder.program.url}
+          target="_blank"
+          rel="noreferrer"
+          className={styledLinkClass}
+        >
+          {builder.program.name}
+        </a>
+        {builder.after}
+      </P>
     </div>
   );
 };
@@ -163,14 +145,9 @@ const FieldBuildersSection = () => {
   return (
     <section className="section section-body builder-week-field-builders-section">
       <div className="w-full flex flex-col gap-7">
-        <div className="flex flex-col gap-3">
-          <H3 className={pageSectionHeadingClass}>
-            Most AI safety programs started with someone seeing a talent gap, and building a pathway.
-          </H3>
-          <P className="max-w-[62ch]">
-            They figured, &ldquo;I can just do the thing&rdquo; and <em>did it</em>.
-          </P>
-        </div>
+        <H3 className={`${pageSectionHeadingClass} max-w-[720px] text-balance`}>
+          Most AI safety programs started because someone saw a talent gap, and decided to do something about it.
+        </H3>
 
         <div className="flex flex-col border-t border-b border-bluedot-navy/10">
           {visibleBuilders.map((builder) => (
