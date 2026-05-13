@@ -25,10 +25,10 @@ import { protectedProcedure, router } from '../trpc';
 import { getRescheduleEligibleUnits } from './group-switching';
 
 export const myCoursesPageRouter = router({
-  // TODO this is very ugly! Make it more structured
   getOverview: protectedProcedure.query(async ({ ctx }) => {
     const { email } = ctx.auth;
 
+    // Step 1: Fetch data
     const courseRegistrations = await db.pg
       .select()
       .from(courseRegistrationTable.pg)
@@ -50,6 +50,9 @@ export const myCoursesPageRouter = router({
       return { courses: [], nextDiscussion: null };
     }
 
+    // 1a: Fan-out fetch by id, all derived from courseRegistrations
+
+    // courses + meetPersons.
     const courseIds = [...new Set(courseRegistrations.map((cr) => cr.courseId).filter((id): id is string => !!id))];
 
     const [courses, meetPersons] = await Promise.all([
@@ -65,11 +68,13 @@ export const myCoursesPageRouter = router({
       db.pg.select().from(meetPersonTable.pg).where(eq(meetPersonTable.pg.email, email)),
     ]);
 
+    // The user's own groups (needs meetPersons.groupsAsParticipant).
     const groupIds = [...new Set(meetPersons.flatMap((mp) => mp.groupsAsParticipant ?? []))];
     const groups: Group[] = groupIds.length > 0
       ? await db.pg.select().from(groupTable.pg).where(inArray(groupTable.pg.id, groupIds))
       : [];
 
+    // Facilitators (from groups), discussions (from meetPersons), rounds (from regs).
     const facilitatorIds = [...new Set(groups.flatMap((g) => g.facilitator ?? []))];
     const allExpectedDiscussionIds = [...new Set(meetPersons.flatMap((mp) => mp.expectedDiscussionsParticipant ?? []))];
     const allRoundIds = [...new Set(courseRegistrations.map((cr) => cr.roundId).filter((id): id is string => !!id))];
@@ -103,6 +108,7 @@ export const myCoursesPageRouter = router({
         : Promise.resolve([]),
     ]);
 
+    // Units (from discussions) + round-wide groups/discussions/courseRounds (for reschedule eligibility — see Step 3).
     const unitIds = [...new Set(discussions.map((d) => d.courseBuilderUnitRecordId).filter((id): id is string => !!id))];
     const meetPersonRoundIds = [...new Set(meetPersons.map((mp) => mp.round).filter((r): r is string => !!r))];
     const [units, allGroupsInRounds, allDiscussionsInRounds, courseRoundsForCapacity] = await Promise.all([
@@ -123,13 +129,15 @@ export const myCoursesPageRouter = router({
         : Promise.resolve([] as { id: string; maxParticipantsPerGroup: number | null }[]),
     ]);
 
-    const eligibleUnitsByMeetPersonId = new Map<string, Set<string>>();
+    // Step 2: Calculate synthetic results for main section
+    // 2a: Calculate units eligible for rescheduling
+    const unitsEligibleToRescheduleByMeetPersonId = new Map<string, Set<string>>();
     for (const mp of meetPersons) {
       if (!mp.round) continue;
       const groupsInRound = allGroupsInRounds.filter((g) => g.round === mp.round);
       const discussionsInRound = allDiscussionsInRounds.filter((d) => d.round === mp.round);
       const courseRound = courseRoundsForCapacity.find((r) => r.id === mp.round);
-      eligibleUnitsByMeetPersonId.set(mp.id, getRescheduleEligibleUnits({
+      unitsEligibleToRescheduleByMeetPersonId.set(mp.id, getRescheduleEligibleUnits({
         groups: groupsInRound,
         groupDiscussions: discussionsInRound,
         participantId: mp.id,
@@ -138,6 +146,7 @@ export const myCoursesPageRouter = router({
       }));
     }
 
+    // 2b: Build one row per course registration.
     const facilitatorById = new Map(facilitators.map((f) => [f.id, f]));
     const unitById = new Map(units.map((u) => [u.id, u] as const));
     const discussionById = new Map(discussions.map((d) => [d.id, d] as const));
@@ -171,7 +180,7 @@ export const myCoursesPageRouter = router({
       }
 
       const rescheduleEligibleUnits = meetPerson
-        ? Array.from(eligibleUnitsByMeetPersonId.get(meetPerson.id) ?? [])
+        ? Array.from(unitsEligibleToRescheduleByMeetPersonId.get(meetPerson.id) ?? [])
         : [];
 
       return [{
@@ -196,9 +205,7 @@ export const myCoursesPageRouter = router({
       }];
     });
 
-    // Globally soonest upcoming participant discussion across all the user's courses.
-    // Exclude dropped (non-deferred) registrations: we still show the row in the Past Courses
-    // tab for history, but their discussions shouldn't surface in the "next discussion" card.
+    // Step 3: Calculate results for NextDiscussionCard section
     const courseByDiscussionId = new Map<string, { slug: string; title: string }>();
     for (const c of perCourse) {
       const cr = c.courseRegistration;
@@ -208,10 +215,7 @@ export const myCoursesPageRouter = router({
       }
     }
 
-    // "Next" includes a discussion that's started but not yet ended (i.e. live now).
-    // We pick the soonest discussion that belongs to an eligible course — picking the
-    // globally-soonest first and then dropping it if the course was filtered out would
-    // suppress the card whenever an orphaned discussion sorts ahead of a real one.
+    // "Next" includes a discussion that's started but not yet ended (i.e. live now)
     const nowSec = Math.floor(Date.now() / 1000);
     const soonest = discussions
       .filter((d) => d.endDateTime > nowSec)
