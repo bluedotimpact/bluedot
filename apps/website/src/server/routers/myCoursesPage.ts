@@ -22,7 +22,7 @@ import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
-import { getRescheduleEligibleUnits } from './group-switching';
+import { getAvailableGroupsAndDiscussions } from './group-switching';
 
 export const myCoursesPageRouter = router({
   getOverview: protectedProcedure.query(async ({ ctx }) => {
@@ -134,16 +134,17 @@ export const myCoursesPageRouter = router({
     const unitsEligibleToRescheduleByMeetPersonId = new Map<string, Set<string>>();
     for (const mp of meetPersons) {
       if (!mp.round) continue;
-      const groupsInRound = allGroupsInRounds.filter((g) => g.round === mp.round);
-      const discussionsInRound = allDiscussionsInRounds.filter((d) => d.round === mp.round);
+      const allGroupsInRound = allGroupsInRounds.filter((g) => g.round === mp.round);
+      const allGroupDiscussionsInRound = allDiscussionsInRounds.filter((d) => d.round === mp.round);
       const courseRound = courseRoundsForCapacity.find((r) => r.id === mp.round);
-      unitsEligibleToRescheduleByMeetPersonId.set(mp.id, getRescheduleEligibleUnits({
-        groups: groupsInRound,
-        groupDiscussions: discussionsInRound,
+      const { rescheduleEligibleUnits } = getAvailableGroupsAndDiscussions({
+        allGroupsInRound,
+        allGroupDiscussionsInRound,
         participantId: mp.id,
         participantHumanOpinion: mp.humanOpinion ?? null,
         maxParticipants: courseRound?.maxParticipantsPerGroup ?? null,
-      }));
+      });
+      unitsEligibleToRescheduleByMeetPersonId.set(mp.id, new Set(rescheduleEligibleUnits));
     }
 
     // 2b: Build one row per course registration.
