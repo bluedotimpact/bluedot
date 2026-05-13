@@ -7,7 +7,7 @@ import {
 import { render, screen, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import MyBlueDotLayout from './MyBlueDotLayout';
-import { ROUTES } from '../lib/routes';
+import { ROUTES } from '../../lib/routes';
 
 vi.mock('next/router', () => ({
   useRouter: () => ({ pathname: '/account' }),

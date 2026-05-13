@@ -4,7 +4,7 @@ import {
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import { ROUTES } from '../lib/routes';
-import MyBlueDotLayout from '../components/MyBlueDotLayout';
+import MyBlueDotLayout from '../components/my-bluedot/MyBlueDotLayout';
 import ProfileNameEditor from '../components/settings/ProfileNameEditor';
 import PasswordSection from '../components/settings/PasswordSection';
 import { trpc } from '../utils/trpc';
