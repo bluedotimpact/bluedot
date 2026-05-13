@@ -95,12 +95,12 @@ const styledLinkClass = 'font-semibold text-bluedot-navy underline underline-off
 
 const BuilderRow = ({ builder }: { builder: Builder }) => {
   return (
-    <div className="grid grid-cols-1 bd-md:grid-cols-[220px_1fr] gap-5 bd-md:gap-14 py-7 bd-md:py-9 items-center border-t border-bluedot-navy/10 first:border-t-0">
+    <div className="grid grid-cols-1 bd-md:grid-cols-[140px_1fr] gap-5 bd-md:gap-12 py-7 bd-md:py-9 items-center border-t border-bluedot-navy/10 first:border-t-0">
       <a
         href={builder.program.url}
         target="_blank"
         rel="noreferrer"
-        className="flex items-center justify-center w-[220px] h-[130px]"
+        className="flex items-center justify-center w-[140px] h-[80px]"
         aria-label={`${builder.program.name} website`}
       >
         <img
@@ -109,7 +109,7 @@ const BuilderRow = ({ builder }: { builder: Builder }) => {
           className="max-w-full max-h-full object-contain"
         />
       </a>
-      <P className="text-size-sm leading-[1.65] text-bluedot-navy/85 max-w-[640px]">
+      <P className="text-size-md leading-[1.6] text-bluedot-navy/85 max-w-[680px]">
         {builder.founder.profileUrl ? (
           <a
             href={builder.founder.profileUrl}
