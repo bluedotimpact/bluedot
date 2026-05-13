@@ -35,11 +35,12 @@ export const myCoursesPageRouter = router({
       .where(and(
         eq(courseRegistrationTable.pg.email, email),
         or(
+          // Happy path: role === 'Participant'
           ne(courseRegistrationTable.pg.role, 'Facilitator'),
-          eq(courseRegistrationTable.pg.role, ''),
           isNull(courseRegistrationTable.pg.role),
         ),
         or(
+          // Happy path: decision === 'Accept'
           ne(courseRegistrationTable.pg.decision, 'Withdrawn'),
           isNull(courseRegistrationTable.pg.decision),
         ),
@@ -53,10 +54,9 @@ export const myCoursesPageRouter = router({
 
     const [courses, meetPersons] = await Promise.all([
       courseIds.length > 0
-        // Match legacy: only surface courses whose status is 'Active'. Archived/Past courses
+        // Only surface courses whose status is 'Active'. Archived/Past courses
         // have unmaintained course pages, so showing them in /my-courses funnels users into
-        // broken areas of the site. Filtering at the join means registrations whose course
-        // is non-Active just don't appear (the perCourse flatMap drops them when no course matches).
+        // broken areas of the site.
         ? db.pg.select().from(courseTable.pg).where(and(
           inArray(courseTable.pg.id, courseIds),
           eq(courseTable.pg.status, 'Active'),
@@ -197,19 +197,26 @@ export const myCoursesPageRouter = router({
     });
 
     // Globally soonest upcoming participant discussion across all the user's courses.
+    // Exclude dropped (non-deferred) registrations: we still show the row in the Past Courses
+    // tab for history, but their discussions shouldn't surface in the "next discussion" card.
     const courseByDiscussionId = new Map<string, { slug: string; title: string }>();
     for (const c of perCourse) {
+      const cr = c.courseRegistration;
+      if (cr.dropoutId?.length && !cr.deferredId?.length) continue;
       for (const d of c.discussions) {
         courseByDiscussionId.set(d.id, { slug: c.course.slug, title: c.course.title });
       }
     }
 
     // "Next" includes a discussion that's started but not yet ended (i.e. live now).
+    // We pick the soonest discussion that belongs to an eligible course — picking the
+    // globally-soonest first and then dropping it if the course was filtered out would
+    // suppress the card whenever an orphaned discussion sorts ahead of a real one.
     const nowSec = Math.floor(Date.now() / 1000);
-    const upcomingDiscussions = discussions
+    const soonest = discussions
       .filter((d) => d.endDateTime > nowSec)
-      .sort((a, b) => a.startDateTime - b.startDateTime);
-    const soonest = upcomingDiscussions[0];
+      .sort((a, b) => a.startDateTime - b.startDateTime)
+      .find((d) => courseByDiscussionId.has(d.id));
 
     let nextDiscussion: {
       courseSlug: string;
