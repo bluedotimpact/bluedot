@@ -7,26 +7,11 @@ const meta = {
   parameters: {
     layout: 'padded',
     viewport: { defaultViewport: 'lg' },
+    nextjs: { router: { pathname: '/my-courses' } },
   },
 } satisfies Meta<typeof MyBlueDotSidebar>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const ActiveMyCourses: Story = {
-  parameters: {
-    nextjs: { router: { pathname: '/my-courses' } },
-  },
-};
-
-export const ActiveAccount: Story = {
-  parameters: {
-    nextjs: { router: { pathname: '/account' } },
-  },
-};
-
-export const NoActiveMatch: Story = {
-  parameters: {
-    nextjs: { router: { pathname: '/nowhere' } },
-  },
-};
+export const Default: Story = {};
