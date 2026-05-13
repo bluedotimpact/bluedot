@@ -2,26 +2,24 @@ import {
   A, cn, Modal, P,
 } from '@bluedot/ui';
 import { type ReactNode, useState } from 'react';
-import { FaArrowRight, FaLock } from 'react-icons/fa6';
-import { COURSE_CONFIG } from '../../lib/constants';
+import { FaArrowRight } from 'react-icons/fa6';
+import { FiLock } from 'react-icons/fi';
+import { COURSE_CONFIG, FOAI_COURSE_SLUG } from '../../lib/constants';
 import { getActionPlanUrl } from '../../lib/utils';
 import type { CertificateData } from '../../server/routers/certificates';
 
+// Cohort-course gate. FoAI (self-paced) is handled separately at each callsite because the rule
+// there is simpler: only `has-certificate` is accessible.
 export const isCongratulationsAccessible = (data: CertificateData | undefined): boolean => {
   if (!data) return true;
   const { status } = data;
-  if (
+  return (
     status === 'not-authenticated'
     || status === 'not-enrolled'
     || status === 'not-eligible'
     || status === 'has-certificate'
-    || status === 'can-request'
     || (status === 'attendance-ineligible' && data.isLastDiscussionSoonOrPassed)
-  ) {
-    return true;
-  }
-
-  return false; // action-plan-pending (both states), is-facilitator
+  );
 };
 
 const CertificateRequirementsModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => (
@@ -43,6 +41,18 @@ const CertificateRequirementsModal = ({ isOpen, onClose }: { isOpen: boolean; on
   </Modal>
 );
 
+const LockedPanel = ({ label, subtitle, className }: {
+  label: string; subtitle: ReactNode; className?: string;
+}) => (
+  <div className={cn('flex items-center gap-3 rounded-[10px] bg-black/[0.04] px-3 py-4', className)}>
+    <div className="text-bluedot-navy/60 flex min-w-0 flex-1 flex-col gap-1">
+      <p className="text-size-sm leading-[1.5] font-bold">{label}</p>
+      <p className="text-size-xs leading-[1.5] font-normal">{subtitle}</p>
+    </div>
+    <FiLock className="text-bluedot-navy/40 size-5 shrink-0" />
+  </div>
+);
+
 export const SidebarCertificatePanel = ({
   courseTitle,
   courseSlug,
@@ -58,11 +68,22 @@ export const SidebarCertificatePanel = ({
   const congratsUrl = `/courses/${courseSlug}/congratulations`;
   const label = `${courseTitle} Certificate`;
   const status = certificateData?.status;
-  const isAccessible = isCongratulationsAccessible(certificateData);
 
   if (status === 'is-facilitator' || !certificateData) return null;
 
-  if (isAccessible) {
+  // FoAI is self-paced: only `has-certificate` gets a clickable CTA; every other state renders
+  // as a locked panel and the page itself redirects.
+  if (courseSlug === FOAI_COURSE_SLUG && status !== 'has-certificate') {
+    return (
+      <LockedPanel
+        label={label}
+        subtitle="Complete all exercises to unlock your certificate"
+        className={className}
+      />
+    );
+  }
+
+  if (isCongratulationsAccessible(certificateData)) {
     const defaultCtaOverride = (
       status === 'not-authenticated'
       || status === 'not-enrolled'
@@ -71,8 +92,6 @@ export const SidebarCertificatePanel = ({
     let subtitle = 'Join a facilitated cohort today';
     if (status === 'has-certificate') {
       subtitle = 'View your certificate';
-    } else if (status === 'can-request') {
-      subtitle = 'Request your certificate once you complete all exercises';
     } else if (status === 'attendance-ineligible') {
       subtitle = 'See what\'s next';
     }
@@ -119,10 +138,6 @@ export const SidebarCertificatePanel = ({
   ) {
     return (
       <div className={cn('flex flex-col gap-3', className)}>
-        <CertificateRequirementsModal
-          isOpen={isRequirementsModalOpen}
-          onClose={() => setIsRequirementsModalOpen(false)}
-        />
         <a
           href={getActionPlanUrl(certificateData.meetPersonId)}
           target="_blank"
@@ -132,21 +147,16 @@ export const SidebarCertificatePanel = ({
           <p className="text-size-sm min-w-0 flex-1 leading-[1.5] font-bold">Submit your project/action plan</p>
           <FaArrowRight className="size-5 shrink-0" />
         </a>
-        <div className="flex items-center gap-3 rounded-[10px] bg-black/[0.04] px-3 py-4">
-          <div className="text-bluedot-navy/60 flex min-w-0 flex-1 flex-col gap-1">
-            <p className="text-size-sm leading-[1.5] font-bold">{label}</p>
-            <p className="text-size-xs leading-[1.5] font-normal">Submit your project/action plan to claim</p>
-          </div>
-          <FaLock className="text-bluedot-navy/40 size-5 shrink-0" />
-        </div>
+        <LockedPanel label={label} subtitle="Submit your project/action plan to claim" />
       </div>
     );
   }
 
-  const subtitle: ReactNode
-    = status === 'action-plan-pending' && certificateData.hasSubmittedActionPlan ? (
-      'Action plan submitted — pending review'
-    ) : (
+  let subtitle: ReactNode;
+  if (status === 'action-plan-pending' && certificateData.hasSubmittedActionPlan) {
+    subtitle = 'Action plan submitted, pending review';
+  } else {
+    subtitle = (
       <span>
         {'Finish the course and '}
         <button type="button" className="cursor-pointer underline" onClick={() => setIsRequirementsModalOpen(true)}>
@@ -155,6 +165,7 @@ export const SidebarCertificatePanel = ({
         {' to unlock'}
       </span>
     );
+  }
 
   return (
     <>
@@ -162,13 +173,7 @@ export const SidebarCertificatePanel = ({
         isOpen={isRequirementsModalOpen}
         onClose={() => setIsRequirementsModalOpen(false)}
       />
-      <div className={cn('flex items-center gap-3 rounded-[10px] bg-black/[0.04] px-3 py-4', className)}>
-        <div className="text-bluedot-navy/60 flex min-w-0 flex-1 flex-col gap-1">
-          <p className="text-size-sm leading-[1.5] font-bold">{label}</p>
-          <p className="text-size-xs leading-[1.5] font-normal">{subtitle}</p>
-        </div>
-        <FaLock className="text-bluedot-navy/40 size-5 shrink-0" />
-      </div>
+      <LockedPanel label={label} subtitle={subtitle} className={className} />
     </>
   );
 };

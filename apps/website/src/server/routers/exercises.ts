@@ -17,7 +17,9 @@ import {
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import db from '../../lib/api/db';
+import { FOAI_COURSE_ID } from '../../lib/constants';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
+import { issueFoaiCertificateIfComplete } from './certificates';
 
 export const exercisesRouter = router({
   getExercise: publicProcedure
@@ -50,25 +52,35 @@ export const exercisesRouter = router({
         completedAt = null;
       } // else undefined = "don't change"
 
-      const exerciseResponse = await db.getFirst(exerciseResponseTable, {
-        filter: { exerciseId: input.exerciseId, email: ctx.auth.email },
-      });
+      // Fetch the exercise in parallel with the existing-response lookup so the FoAI auto-complete doesn't add latency.
+      const [existingResponse, exercise] = await Promise.all([
+        db.getFirst(exerciseResponseTable, {
+          filter: { exerciseId: input.exerciseId, email: ctx.auth.email },
+        }),
+        input.completed === true
+          ? db.getFirst(exerciseTable, { filter: { id: input.exerciseId }, sortBy: 'id' })
+          : Promise.resolve(undefined),
+      ]);
 
-      if (exerciseResponse) {
-        return db.update(exerciseResponseTable, {
-          id: exerciseResponse.id,
+      const exerciseResponse = existingResponse
+        ? await db.update(exerciseResponseTable, {
+          id: existingResponse.id,
           exerciseId: input.exerciseId,
           response: input.response,
-          completedAt: completedAt !== undefined ? completedAt : exerciseResponse.completedAt,
+          completedAt: completedAt !== undefined ? completedAt : existingResponse.completedAt,
+        })
+        : await db.insert(exerciseResponseTable, {
+          email: ctx.auth.email,
+          exerciseId: input.exerciseId,
+          response: input.response,
+          completedAt: completedAt ?? null,
         });
-      }
 
-      return db.insert(exerciseResponseTable, {
-        email: ctx.auth.email,
-        exerciseId: input.exerciseId,
-        response: input.response,
-        completedAt: completedAt ?? null,
-      });
+      const certificateIssued = exercise?.courseId === FOAI_COURSE_ID
+        ? await issueFoaiCertificateIfComplete(ctx.auth.email)
+        : false;
+
+      return { ...exerciseResponse, certificateIssued };
     }),
 
   getGroupExerciseResponses: protectedProcedure

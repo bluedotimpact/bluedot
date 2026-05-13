@@ -23,8 +23,24 @@ export const NotAuthenticated: Story = {
   },
 };
 
+export const NotAuthenticatedFoai: Story = {
+  args: {
+    courseTitle: 'Future of AI',
+    courseSlug: 'future-of-ai',
+    certificateData: { status: 'not-authenticated' },
+  },
+};
+
 export const NotEnrolled: Story = {
   args: {
+    certificateData: { status: 'not-enrolled' },
+  },
+};
+
+export const NotEnrolledFoai: Story = {
+  args: {
+    courseTitle: 'Future of AI',
+    courseSlug: 'future-of-ai',
     certificateData: { status: 'not-enrolled' },
   },
 };
@@ -35,9 +51,11 @@ export const NotEligible: Story = {
   },
 };
 
-export const CanRequest: Story = {
+export const ExercisesIncomplete: Story = {
   args: {
-    certificateData: { status: 'can-request' },
+    courseTitle: 'Future of AI',
+    courseSlug: 'future-of-ai',
+    certificateData: { status: 'exercises-incomplete' },
   },
 };
 

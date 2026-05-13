@@ -2,6 +2,7 @@ import {
   courseRegistrationTable,
   courseTable,
   exerciseResponseTable,
+  exerciseTable,
   groupTable,
   meetPersonTable,
 } from '@bluedot/db';
@@ -11,6 +12,7 @@ import {
   setupTestDb,
   testAuthContextLoggedIn, testDb,
 } from '../../__tests__/dbTestUtils';
+import { FOAI_COURSE_ID } from '../../lib/constants';
 
 setupTestDb();
 
@@ -141,6 +143,126 @@ describe('exercises.saveExerciseResponse', () => {
 
     expect(result.response).toBe('Updated answer');
     expect(result.completedAt).toBeTruthy();
+  });
+});
+
+describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
+  async function seedFoaiRegistration() {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-foai',
+      email: CALLER_EMAIL,
+      courseId: FOAI_COURSE_ID,
+      decision: 'Accept',
+    });
+  }
+
+  test('auto-issues a certificate when the final FOAI exercise is completed', async () => {
+    await seedFoaiRegistration();
+    await testDb.insert(exerciseTable, {
+      id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Reading reflection', exerciseNumber: '1',
+    });
+    await testDb.insert(exerciseTable, {
+      id: 'foai-ex-2', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Action plan', exerciseNumber: '2',
+    });
+    await testDb.insert(exerciseResponseTable, {
+      id: 'resp-1', email: CALLER_EMAIL, exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
+    });
+
+    const before = Math.floor(Date.now() / 1000);
+    const result = await caller.exercises.saveExerciseResponse({
+      exerciseId: 'foai-ex-2',
+      response: 'plan submitted',
+      completed: true,
+    });
+
+    expect(result.certificateIssued).toBe(true);
+
+    const reg = await testDb.get(courseRegistrationTable, { id: 'reg-foai' });
+    expect(reg.certificateId).toBe('reg-foai');
+    expect(reg.certificateCreatedAt).toBeGreaterThanOrEqual(before);
+  });
+
+  test('does not auto-issue when other FOAI exercises remain incomplete', async () => {
+    await seedFoaiRegistration();
+    await testDb.insert(exerciseTable, {
+      id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Ex 1', exerciseNumber: '1',
+    });
+    await testDb.insert(exerciseTable, {
+      id: 'foai-ex-2', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Ex 2', exerciseNumber: '2',
+    });
+
+    const result = await caller.exercises.saveExerciseResponse({
+      exerciseId: 'foai-ex-1',
+      response: 'done',
+      completed: true,
+    });
+
+    expect(result.certificateIssued).toBe(false);
+    const reg = await testDb.get(courseRegistrationTable, { id: 'reg-foai' });
+    expect(reg.certificateId).toBeFalsy();
+  });
+
+  test('does not auto-issue for non-FOAI courses', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-other', email: CALLER_EMAIL, courseId: 'rec-other', decision: 'Accept',
+    });
+    await testDb.insert(exerciseTable, {
+      id: 'other-ex-1', courseId: 'rec-other', status: 'Active', title: 'Other', exerciseNumber: '1',
+    });
+
+    const result = await caller.exercises.saveExerciseResponse({
+      exerciseId: 'other-ex-1',
+      response: 'done',
+      completed: true,
+    });
+
+    expect(result.certificateIssued).toBe(false);
+    const reg = await testDb.get(courseRegistrationTable, { id: 'reg-other' });
+    expect(reg.certificateId).toBeFalsy();
+  });
+
+  test('is a no-op when the certificate is already issued', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-foai',
+      email: CALLER_EMAIL,
+      courseId: FOAI_COURSE_ID,
+      decision: 'Accept',
+      certificateId: 'reg-foai',
+      certificateCreatedAt: 1700000000,
+    });
+    await testDb.insert(exerciseTable, {
+      id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Ex 1', exerciseNumber: '1',
+    });
+
+    const result = await caller.exercises.saveExerciseResponse({
+      exerciseId: 'foai-ex-1',
+      response: 'done',
+      completed: true,
+    });
+
+    expect(result.certificateIssued).toBe(false);
+    const reg = await testDb.get(courseRegistrationTable, { id: 'reg-foai' });
+    expect(reg.certificateCreatedAt).toBe(1700000000);
+  });
+
+  test('does not auto-issue when completed is false (un-marking)', async () => {
+    await seedFoaiRegistration();
+    await testDb.insert(exerciseTable, {
+      id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Ex 1', exerciseNumber: '1',
+    });
+    await testDb.insert(exerciseResponseTable, {
+      id: 'resp-1', email: CALLER_EMAIL, exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
+    });
+
+    const result = await caller.exercises.saveExerciseResponse({
+      exerciseId: 'foai-ex-1',
+      response: 'unmark',
+      completed: false,
+    });
+
+    expect(result.certificateIssued).toBe(false);
+    const reg = await testDb.get(courseRegistrationTable, { id: 'reg-foai' });
+    expect(reg.certificateId).toBeFalsy();
   });
 });
 

@@ -1,5 +1,5 @@
 import {
-  courseRegistrationTable, courseTable, exerciseResponseTable, exerciseTable, meetPersonTable, roundTable,
+  courseRegistrationTable, courseTable, meetPersonTable, roundTable,
 } from '@bluedot/db';
 import {
   describe, expect, test, vi,
@@ -132,94 +132,6 @@ describe('certificates.verifyOwnership', () => {
   });
 });
 
-describe('certificates.request (FOAI self-serve)', () => {
-  test('rejects unauthenticated callers', async () => {
-    await expect(createCaller(testAuthContextLoggedOut).certificates.request({ courseId: FOAI_COURSE_ID }))
-      .rejects.toMatchObject({ code: 'UNAUTHORIZED' });
-  });
-
-  test('throws NOT_FOUND when the user has no accepted registration for the course', async () => {
-    await expect(createCaller(testAuthContextLoggedIn).certificates.request({ courseId: FOAI_COURSE_ID }))
-      .rejects.toMatchObject({ code: 'NOT_FOUND' });
-  });
-
-  test('returns the existing registration unchanged if it already has a certificate', async () => {
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-foai',
-      email: 'test@example.com',
-      courseId: FOAI_COURSE_ID,
-      decision: 'Accept',
-      certificateId: 'reg-foai',
-      certificateCreatedAt: 1700000000,
-    });
-
-    const result = await createCaller(testAuthContextLoggedIn).certificates.request({ courseId: FOAI_COURSE_ID });
-    expect(result.certificateId).toBe('reg-foai');
-    expect(result.certificateCreatedAt).toBe(1700000000);
-  });
-
-  test('throws FORBIDDEN for non-FOAI courses (admin-issued only)', async () => {
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg1',
-      email: 'test@example.com',
-      courseId: 'rec-not-foai',
-      decision: 'Accept',
-    });
-
-    await expect(createCaller(testAuthContextLoggedIn).certificates.request({ courseId: 'rec-not-foai' }))
-      .rejects.toMatchObject({ code: 'FORBIDDEN' });
-  });
-
-  test('throws BAD_REQUEST when the FOAI course has no active exercises configured', async () => {
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID, decision: 'Accept',
-    });
-
-    await expect(createCaller(testAuthContextLoggedIn).certificates.request({ courseId: FOAI_COURSE_ID }))
-      .rejects.toMatchObject({ code: 'BAD_REQUEST', message: expect.stringMatching(/No exercises/) });
-  });
-
-  test('throws BAD_REQUEST listing the still-incomplete exercises', async () => {
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID, decision: 'Accept',
-    });
-    await testDb.insert(exerciseTable, {
-      id: 'ex1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Reading reflection', exerciseNumber: '1',
-    });
-    await testDb.insert(exerciseTable, {
-      id: 'ex2', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Action plan', exerciseNumber: '2',
-    });
-    // Only ex1 is completed
-    await testDb.insert(exerciseResponseTable, {
-      id: 'resp1', email: 'test@example.com', exerciseId: 'ex1', response: '...', completedAt: '2026-01-01',
-    });
-
-    await expect(createCaller(testAuthContextLoggedIn).certificates.request({ courseId: FOAI_COURSE_ID }))
-      .rejects.toMatchObject({
-        code: 'BAD_REQUEST',
-        message: expect.stringContaining('Action plan'),
-      });
-  });
-
-  test('issues the certificate when every active exercise has a completed response', async () => {
-    await testDb.insert(courseRegistrationTable, {
-      id: 'reg-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID, decision: 'Accept',
-    });
-    await testDb.insert(exerciseTable, {
-      id: 'ex1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Ex 1', exerciseNumber: '1',
-    });
-    await testDb.insert(exerciseResponseTable, {
-      id: 'resp1', email: 'test@example.com', exerciseId: 'ex1', response: '...', completedAt: '2026-01-01',
-    });
-
-    const before = Math.floor(Date.now() / 1000);
-    const result = await createCaller(testAuthContextLoggedIn).certificates.request({ courseId: FOAI_COURSE_ID });
-
-    expect(result.certificateId).toBe('reg-foai');
-    expect(result.certificateCreatedAt).toBeGreaterThanOrEqual(before);
-  });
-});
-
 describe('certificates.getStatus', () => {
   test('returns not-authenticated for unauthenticated callers', async () => {
     const result = await createCaller(testAuthContextLoggedOut).certificates.getStatus({ courseId: FOAI_COURSE_ID });
@@ -285,13 +197,13 @@ describe('certificates.getStatus', () => {
     expect(result).toMatchObject({ status: 'has-certificate', recipientName: '' });
   });
 
-  test('returns can-request for FOAI registrations without a certificate', async () => {
+  test('returns exercises-incomplete for FOAI registrations without a certificate', async () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-foai', email: 'test@example.com', courseId: FOAI_COURSE_ID, decision: 'Accept',
     });
 
     const result = await createCaller(testAuthContextLoggedIn).certificates.getStatus({ courseId: FOAI_COURSE_ID });
-    expect(result).toEqual({ status: 'can-request' });
+    expect(result).toEqual({ status: 'exercises-incomplete' });
   });
 
   test('returns not-eligible for non-FOAI registrations without a meetPerson record', async () => {

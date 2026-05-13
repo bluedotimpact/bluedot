@@ -30,7 +30,8 @@ const CERTIFICATE_STATUS_DESCRIPTIONS: Record<CertificateData['status'], string>
     'To receive your certificate, you need to submit an action plan/project and can\'t have missed more than one discussion.',
   'attendance-ineligible':
     'You missed too many discussions to be eligible for a certificate. Participants can miss at most one discussion.',
-  'can-request': 'Complete all exercises to unlock your certificate, then share your accomplishment on social media.',
+  'exercises-incomplete':
+    'Complete all exercises to unlock your certificate, then share your accomplishment on social media.',
   'is-facilitator': '',
   'has-certificate': '',
   'not-authenticated': 'Join a facilitated cohort to receive a certificate.',
@@ -198,16 +199,7 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
   const { data, isLoading, error, refetch } = trpc.certificates.getStatus.useQuery({ courseId });
   const [copied, setCopied] = useState(false);
 
-  const requestCertificateMutation = trpc.certificates.request.useMutation({
-    onSuccess: async () => {
-      await refetch();
-      if (typeof window !== 'undefined' && window.dataLayer && courseId === FOAI_COURSE_ID) {
-        window.dataLayer.push({ event: 'completers', course_slug: 'future-of-ai' });
-      }
-    },
-  });
-
-  if (isLoading || requestCertificateMutation.isPending) {
+  if (isLoading) {
     return (
       <div className="flex justify-center py-12">
         <ProgressDots />
@@ -215,14 +207,11 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
     );
   }
 
-  if (error != null || requestCertificateMutation.isError) {
+  if (error != null) {
     return (
       <div className="flex flex-col items-center gap-4">
-        <ErrorView error={error ?? requestCertificateMutation.error} />
-        <CTALinkOrButton
-          variant="primary"
-          onClick={() => (error ? refetch() : requestCertificateMutation.mutate({ courseId }))}
-        >
+        <ErrorView error={error} />
+        <CTALinkOrButton variant="primary" onClick={() => refetch()}>
           Retry
         </CTALinkOrButton>
       </div>
@@ -293,13 +282,7 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
   const description = data?.status ? CERTIFICATE_STATUS_DESCRIPTIONS[data.status] : null;
 
   let cta: React.ReactNode = null;
-  if (data?.status === 'can-request') {
-    cta = (
-      <CTALinkOrButton variant="primary" onClick={() => requestCertificateMutation.mutate({ courseId })}>
-        Download Certificate
-      </CTALinkOrButton>
-    );
-  } else if (data?.status === 'action-plan-pending') {
+  if (data?.status === 'action-plan-pending') {
     const actionPlanUrl = getActionPlanUrl(data.meetPersonId);
     cta = (
       <CTALinkOrButton

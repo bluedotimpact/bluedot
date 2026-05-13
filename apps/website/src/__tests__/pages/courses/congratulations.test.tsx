@@ -100,14 +100,43 @@ describe('CongratulationsPage', () => {
     });
   });
 
-  test('renders content when user can request certificate', async () => {
-    server.use(trpcMsw.certificates.getStatus.query(() => ({ status: 'can-request' as const })));
+  test('redirects when FOAI exercises are still incomplete', async () => {
+    server.use(trpcMsw.certificates.getStatus.query(() => ({ status: 'exercises-incomplete' as const })));
 
-    const { container } = render(<CongratulationsPage {...DEFAULT_PROPS} />, { wrapper: TrpcProvider });
+    render(<CongratulationsPage {...DEFAULT_PROPS} courseSlug="future-of-ai" />, { wrapper: TrpcProvider });
+
+    await waitFor(() => {
+      expect(mockReplace).toHaveBeenCalledWith('/courses/future-of-ai/1/1');
+    });
+  });
+
+  test('redirects FOAI learner who is not authenticated', async () => {
+    server.use(trpcMsw.certificates.getStatus.query(() => ({ status: 'not-authenticated' as const })));
+
+    render(<CongratulationsPage {...DEFAULT_PROPS} courseSlug="future-of-ai" />, { wrapper: TrpcProvider });
+
+    await waitFor(() => {
+      expect(mockReplace).toHaveBeenCalledWith('/courses/future-of-ai/1/1');
+    });
+  });
+
+  test('redirects FOAI learner who is not enrolled', async () => {
+    server.use(trpcMsw.certificates.getStatus.query(() => ({ status: 'not-enrolled' as const })));
+
+    render(<CongratulationsPage {...DEFAULT_PROPS} courseSlug="future-of-ai" />, { wrapper: TrpcProvider });
+
+    await waitFor(() => {
+      expect(mockReplace).toHaveBeenCalledWith('/courses/future-of-ai/1/1');
+    });
+  });
+
+  test('does not redirect non-FOAI learner who is not authenticated', async () => {
+    server.use(trpcMsw.certificates.getStatus.query(() => ({ status: 'not-authenticated' as const })));
+
+    render(<CongratulationsPage {...DEFAULT_PROPS} />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
       expect(mockReplace).not.toHaveBeenCalled();
-      expect(container.querySelector('.sidebar')).not.toBeNull();
     });
   });
 

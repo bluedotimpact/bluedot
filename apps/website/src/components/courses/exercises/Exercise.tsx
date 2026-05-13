@@ -10,6 +10,7 @@ import MultipleChoice from './MultipleChoice';
 import GroupResponses from './GroupResponses';
 import MarkdownExtendedRenderer from '../MarkdownExtendedRenderer';
 import { CheckmarkIcon } from '../../icons';
+import { FOAI_COURSE_SLUG } from '../../../lib/constants';
 import { trpc } from '../../../utils/trpc';
 import { optimisticallyUpdateCourseProgress, rollbackCourseProgress } from '../../../utils/optimisticCourseProgress';
 
@@ -60,9 +61,17 @@ const Exercise: React.FC<ExerciseProps> = ({
   );
 
   const saveResponseMutation = trpc.exercises.saveExerciseResponse.useMutation({
-    onSettled() {
+    onSettled(data) {
       utils.courses.getCourseProgress.invalidate({ courseSlug });
       utils.exercises.getExerciseResponse.invalidate({ exerciseId });
+      if (data?.certificateIssued) {
+        utils.certificates.getStatus.invalidate();
+        // certificateIssued is only true for FoAI auto-issuance (server-side gated), so the
+        // GA event fires here without an extra course check.
+        if (typeof window !== 'undefined' && window.dataLayer) {
+          window.dataLayer.push({ event: 'completers', course_slug: FOAI_COURSE_SLUG });
+        }
+      }
     },
     async onMutate(newData) {
       await utils.exercises.getExerciseResponse.cancel({ exerciseId });
