@@ -27,6 +27,7 @@ const mockAvailableGroups: DiscussionsAvailable = {
     },
   ],
   discussionsAvailable: {},
+  rescheduleEligibleUnits: [],
 };
 
 const meta = {

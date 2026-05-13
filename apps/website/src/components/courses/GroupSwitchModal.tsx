@@ -84,9 +84,9 @@ export default function GroupSwitchModal({
   const groups = availableGroupsAndDiscussions?.groupsAvailable ?? [];
   const discussions = availableGroupsAndDiscussions?.discussionsAvailable?.[selectedUnitNumber] ?? [];
 
+  const rescheduleEligibleUnits = new Set(availableGroupsAndDiscussions?.rescheduleEligibleUnits ?? []);
   const unitOptions = courseData?.units.map((u) => {
-    const unitDiscussions = availableGroupsAndDiscussions?.discussionsAvailable?.[u.unitNumber];
-    const hasAvailableDiscussions = unitDiscussions?.length;
+    const hasAvailableDiscussions = rescheduleEligibleUnits.has(u.unitNumber.toString());
 
     return {
       value: u.unitNumber.toString(),

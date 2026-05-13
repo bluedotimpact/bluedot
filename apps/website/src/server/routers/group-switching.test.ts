@@ -17,7 +17,7 @@ import {
 } from '../../__tests__/dbTestUtils';
 import {
   calculateGroupAvailability,
-  extractRescheduleEligibleUnits,
+  calculateRescheduleEligibleUnits,
   getRescheduleEligibleUnits,
 } from './group-switching';
 import { ONE_DAY_SECONDS } from '../../lib/constants';
@@ -1002,7 +1002,7 @@ describe('groupSwitching.switchGroup', () => {
 
 describe('extractRescheduleEligibleUnits', () => {
   it('returns units with at least one non-self discussion', () => {
-    const result = extractRescheduleEligibleUnits({
+    const result = calculateRescheduleEligibleUnits({
       3: [
         {
           discussion: createMockGroupDiscussion({ id: 'self' }), spotsLeftIfKnown: null, userIsParticipant: true, groupName: 'A',
@@ -1021,7 +1021,7 @@ describe('extractRescheduleEligibleUnits', () => {
   });
 
   it('returns empty set when nothing matches', () => {
-    expect(extractRescheduleEligibleUnits({})).toEqual(new Set());
+    expect(calculateRescheduleEligibleUnits({})).toEqual(new Set());
   });
 });
 
@@ -1088,7 +1088,7 @@ describe('getRescheduleEligibleUnits', () => {
       maxParticipants: null,
     });
 
-    const viaDirect = extractRescheduleEligibleUnits(calculateGroupAvailability({
+    const viaDirect = calculateRescheduleEligibleUnits(calculateGroupAvailability({
       groupDiscussions: discussions,
       groups: [groupSelf, groupAllowed],
       maxParticipants: null,
