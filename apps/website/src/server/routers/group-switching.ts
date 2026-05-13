@@ -147,29 +147,39 @@ export function calculateRescheduleEligibleUnits(discussionsAvailable: Discussio
   return eligible;
 }
 
-export function getRescheduleEligibleUnits({
-  groups,
-  groupDiscussions,
+/**
+ * Source of truth for the participant-facing "what can I switch into?" answer.
+ */
+export function getAvailableGroupsAndDiscussions({
+  allGroupsInRound,
+  allGroupDiscussionsInRound,
   participantId,
   participantHumanOpinion,
   maxParticipants,
 }: {
-  groups: Group[];
-  groupDiscussions: GroupDiscussion[];
+  allGroupsInRound: Group[];
+  allGroupDiscussionsInRound: GroupDiscussion[];
   participantId: string;
   participantHumanOpinion: string | null;
   maxParticipants: number | null | undefined;
-}): Set<string> {
-  const allowedGroups = getAllowedGroupsForParticipant({ allGroups: groups, participantId, participantHumanOpinion });
+}) {
+  const allowedGroups = getAllowedGroupsForParticipant({ allGroups: allGroupsInRound, participantId, participantHumanOpinion });
   const allowedGroupIds = new Set(allowedGroups.map((g) => g.id));
-  const allowedDiscussions = groupDiscussions.filter((d) => allowedGroupIds.has(d.group));
-  const { discussionsAvailable } = calculateGroupAvailability({
+  const allowedDiscussions = allGroupDiscussionsInRound.filter((d) => allowedGroupIds.has(d.group));
+
+  const { groupsAvailable, discussionsAvailable } = calculateGroupAvailability({
     groupDiscussions: allowedDiscussions,
     groups: allowedGroups,
     maxParticipants,
     participantId,
   });
-  return calculateRescheduleEligibleUnits(discussionsAvailable);
+
+  return {
+    allowedGroups,
+    groupsAvailable,
+    discussionsAvailable,
+    rescheduleEligibleUnits: [...calculateRescheduleEligibleUnits(discussionsAvailable)],
+  };
 }
 
 export const groupSwitchingRouter = router({
@@ -186,38 +196,28 @@ export const groupSwitchingRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: 'No course round found' });
       }
 
-      const allGroupsInRound = await db.scan(groupTable, { round: roundId });
-      const allowedGroups = getAllowedGroupsForParticipant({
-        allGroups: allGroupsInRound,
+      const [allGroupsInRound, allGroupDiscussionsInRound] = await Promise.all([
+        db.scan(groupTable, { round: roundId }),
+        db.scan(groupDiscussionTable, { round: roundId }),
+      ]);
+
+      const result = getAvailableGroupsAndDiscussions({
+        allGroupsInRound,
+        allGroupDiscussionsInRound,
         participantId: participant.id,
         participantHumanOpinion: participant.humanOpinion ?? null,
+        maxParticipants: courseRound.maxParticipantsPerGroup,
       });
 
-      if (allowedGroups.filter((g) => !(g.participants ?? []).includes(participant.id)).length === 0) {
+      if (result.allowedGroups.filter((g) => !(g.participants ?? []).includes(participant.id)).length === 0) {
         // eslint-disable-next-line no-console
         console.warn(`[Group switching] Warning for course registration ${participant.id}: No groups allowed to switch into. This is likely due to the "Who can switch into this group" field not including the participant's Human opinion value.`);
       }
 
-      const allowedGroupDiscussions = allowedGroups.length ? await db.scan(groupDiscussionTable, {
-        OR: allowedGroups.map((g) => ({ group: g.id })),
-      }) : [];
-
-      const maxParticipants = courseRound.maxParticipantsPerGroup;
-
-      const {
-        discussionsAvailable,
-        groupsAvailable,
-      } = calculateGroupAvailability({
-        groupDiscussions: allowedGroupDiscussions,
-        groups: allowedGroups,
-        maxParticipants,
-        participantId: participant.id,
-      });
-
       return {
-        groupsAvailable,
-        discussionsAvailable,
-        rescheduleEligibleUnits: [...calculateRescheduleEligibleUnits(discussionsAvailable)],
+        groupsAvailable: result.groupsAvailable,
+        discussionsAvailable: result.discussionsAvailable,
+        rescheduleEligibleUnits: result.rescheduleEligibleUnits,
       };
     }),
 
