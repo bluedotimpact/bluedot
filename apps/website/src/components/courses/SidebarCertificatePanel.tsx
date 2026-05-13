@@ -142,7 +142,7 @@ export const SidebarCertificatePanel = ({
 
   let subtitle: ReactNode;
   if (status === 'action-plan-pending' && certificateData.hasSubmittedActionPlan) {
-    subtitle = 'Action plan submitted - pending review';
+    subtitle = 'Action plan submitted, pending review';
   } else {
     subtitle = (
       <span>

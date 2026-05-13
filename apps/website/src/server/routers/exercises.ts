@@ -43,8 +43,9 @@ export const exercisesRouter = router({
       exerciseId: z.string().min(1),
       response: z.string(),
       completed: z.boolean().optional(),
-      // Lets the FOAI auto-issuance gate skip an exerciseTable read. When absent, auto-issuance
-      // is skipped and the user reloads to claim the cert.
+      // Caller passes this so we can decide whether to run FoAI auto-issuance without looking up
+      // the exercise's courseId. When absent, auto-issuance is skipped and the user reloads to
+      // claim the cert.
       courseId: z.string().optional(),
     }))
     .mutation(async ({ input, ctx }) => {
