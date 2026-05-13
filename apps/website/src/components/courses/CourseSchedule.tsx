@@ -1,5 +1,5 @@
 import {
-  addQueryParam, ProgressDots, useLatestUtmParams,
+  ProgressDots, useLatestUtmParams,
 } from '@bluedot/ui';
 import type { Course } from '@bluedot/db';
 import clsx from 'clsx';
@@ -9,7 +9,7 @@ import {
 } from 'react';
 import { CourseIcon } from './CourseIcon';
 import { COURSE_CONFIG } from '../../lib/constants';
-import { appendPosthogSessionIdPrefill } from '../../lib/appendPosthogSessionIdPrefill';
+import { buildApplicationUrl } from '../../lib/utils';
 import RoundGroup from '../shared/RoundGroup';
 import { trpc } from '../../utils/trpc';
 
@@ -223,10 +223,7 @@ const CourseScheduleCard = ({ course }: CourseScheduleCardProps) => {
   const { data: rounds, isLoading: roundsLoading } = trpc.courseRounds.getRoundsForCourse.useQuery({ courseSlug: course.slug });
   const { latestUtmParams } = useLatestUtmParams();
 
-  const baseApplicationUrl = course.applyUrl ?? '';
-  const applicationUrlWithUtm = appendPosthogSessionIdPrefill(latestUtmParams.utm_source && baseApplicationUrl
-    ? addQueryParam(baseApplicationUrl, 'prefill_Source', latestUtmParams.utm_source)
-    : baseApplicationUrl);
+  const applicationUrlWithUtm = buildApplicationUrl(course.applyUrl, latestUtmParams.utm_source);
 
   const hasIntense = rounds?.intense && rounds.intense.length > 0;
   const hasPartTime = rounds?.partTime && rounds.partTime.length > 0;

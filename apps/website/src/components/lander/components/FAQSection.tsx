@@ -97,7 +97,7 @@ const FAQSection = ({ id, title, items, background = 'white' }: FAQSectionProps)
                       </span>
                       <PlusToggleIcon
                         className={cn(
-                          'ease flex-shrink-0 text-[#001133] transition-transform duration-300',
+                          'ease flex-shrink-0 text-bluedot-darker transition-transform duration-300',
                           isOpen && 'rotate-45',
                         )}
                       />

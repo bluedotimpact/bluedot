@@ -206,7 +206,7 @@ const DropoutModal: React.FC<DropoutModalProps> = ({
 
       <div className="flex flex-col gap-2">
         <H1 className="text-size-md font-medium text-black">2. We'd love to hear why</H1>
-        <p className="text-size-xs text-[#666C80]">
+        <p className="text-size-xs text-charcoal-mid">
           Your feedback helps us improve the course. Thank you for participating.
         </p>
         <Textarea

@@ -7,14 +7,20 @@ import {
   afterEach,
 } from 'vitest';
 import { type AxiosError, type AxiosResponse } from 'axios';
-import {
+const mockGetSessionId = vi.fn<() => string | null>();
+vi.mock('posthog-js', () => ({
+  default: { get_session_id: () => mockGetSessionId() },
+}));
+
+const {
   parseZodValidationError,
   formatTime12HourClock,
   formatDateMonthAndDay,
   formatDateDayOfWeek,
   formatDateTimeRelative,
   getInitials,
-} from './utils';
+  buildApplicationUrl,
+} = await import('./utils');
 
 // Test constants
 const DEFAULT_ERROR = 'An error occurred';
@@ -310,5 +316,42 @@ describe('getInitials', () => {
     ['😀 Bob', '😀B'],
   ])('getInitials(%j) returns %j', (input, expected) => {
     expect(getInitials(input)).toBe(expected);
+  });
+});
+
+describe('buildApplicationUrl', () => {
+  beforeEach(() => {
+    mockGetSessionId.mockReturnValue(null);
+  });
+
+  it('returns empty string for null / undefined / empty base URL', () => {
+    expect(buildApplicationUrl(null, 'twitter')).toBe('');
+    expect(buildApplicationUrl(undefined, 'twitter')).toBe('');
+    expect(buildApplicationUrl('', 'twitter')).toBe('');
+  });
+
+  it('returns base URL unchanged when neither UTM source nor session ID is available', () => {
+    expect(buildApplicationUrl('https://example.com/apply', null)).toBe('https://example.com/apply');
+  });
+
+  it('appends prefill_Source when UTM source is provided', () => {
+    expect(buildApplicationUrl('https://example.com/apply', 'twitter')).toBe('https://example.com/apply?prefill_Source=twitter');
+  });
+
+  it('appends prefill_PostHog Session ID (URL-encoded) when session is available', () => {
+    mockGetSessionId.mockReturnValue('sess-123');
+    expect(buildApplicationUrl('https://example.com/apply', null))
+      .toBe('https://example.com/apply?prefill_PostHog%20Session%20ID=sess-123');
+  });
+
+  it('appends both UTM source and PostHog session ID when both are present', () => {
+    mockGetSessionId.mockReturnValue('sess-123');
+    expect(buildApplicationUrl('https://example.com/apply', 'twitter'))
+      .toBe('https://example.com/apply?prefill_Source=twitter&prefill_PostHog%20Session%20ID=sess-123');
+  });
+
+  it('preserves existing query params', () => {
+    expect(buildApplicationUrl('https://example.com/apply?foo=bar', 'twitter'))
+      .toBe('https://example.com/apply?foo=bar&prefill_Source=twitter');
   });
 });

@@ -539,6 +539,10 @@ export const meetPersonTable = pgAirtable('meet_person', {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldSaRaUdmezPh9gH',
     },
+    slackProfileUrl: {
+      pgColumn: text(),
+      airtableId: 'fldGhn89JZWlISRvc',
+    },
   },
 });
 
@@ -760,6 +764,10 @@ export const jobPostingTable = pgAirtable('job_posting', {
     linkPreviewImage: {
       pgColumn: text(),
       airtableId: 'fldXua1PI4iXLKCKm',
+    },
+    priority: {
+      pgColumn: text(),
+      airtableId: 'fld819hEjDV1DI0je',
     },
   },
 });

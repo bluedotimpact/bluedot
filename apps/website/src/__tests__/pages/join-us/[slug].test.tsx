@@ -46,6 +46,7 @@ const mockJob: JobPosting = {
   publicationStatus: 'Published',
   category: null,
   linkPreviewImage: null,
+  priority: null,
 };
 
 describe('JobPostingPage SSR/SEO', () => {

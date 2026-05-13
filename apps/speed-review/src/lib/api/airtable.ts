@@ -221,6 +221,77 @@ export const fetchApplications = async (
   };
 };
 
+export type PreviousApplication = {
+  id: string;
+  roundName: string;
+  humanOpinion: string;
+  decision: string;
+  createdAt: string;
+};
+
+const APPLICATION_EMAIL_FIELD = 'fld0g392xytratknm';
+const APPLICATION_ROUND_NAME_FIELD = 'fldQymBa7milTYP9q'; // [*] Round name formula
+const APPLICATION_HUMAN_OPINION_FIELD = 'fldOm6fJcqhq78M71';
+const APPLICATION_DECISION_FIELD = 'fldWVKY5EFAGSRcDT';
+const APPLICATION_CREATED_AT_FIELD = 'fldyZHM0qpgIkzo8c';
+const APPLICATION_DUPLICATE_FIELD = 'fld1KQjHFGoDZKf94';
+
+const fetchApplicationEmailAndRound = async (applicationId: string): Promise<{ email?: string; roundId?: string }> => {
+  const { records } = await fetchPage(
+    APPLICATIONS_URL,
+    {
+      filterByFormula: `RECORD_ID() = "${applicationId}"`,
+      returnFieldsByFieldId: 'true',
+    },
+    [APPLICATION_EMAIL_FIELD, 'fldYaHSLqnvBXyjur'],
+  );
+  const fields = records[0]?.fields ?? {};
+  const roundField = fields.fldYaHSLqnvBXyjur;
+  const roundId = Array.isArray(roundField) ? (roundField as string[])[0] : undefined;
+  return { email: str(fields[APPLICATION_EMAIL_FIELD]), roundId };
+};
+
+export const fetchApplicationHistory = async (applicationId: string): Promise<PreviousApplication[]> => {
+  const { email, roundId } = await fetchApplicationEmailAndRound(applicationId);
+  if (!email) return [];
+
+  const escaped = email.replace(/"/g, '\\"');
+  const records = await fetchAll(
+    APPLICATIONS_URL,
+    {
+      filterByFormula: `AND(LOWER({${APPLICATION_EMAIL_FIELD}}) = "${escaped.toLowerCase()}", NOT({${APPLICATION_DUPLICATE_FIELD}}))`,
+      returnFieldsByFieldId: 'true',
+    },
+    [
+      APPLICATION_ROUND_NAME_FIELD,
+      APPLICATION_HUMAN_OPINION_FIELD,
+      APPLICATION_DECISION_FIELD,
+      APPLICATION_CREATED_AT_FIELD,
+      'fldYaHSLqnvBXyjur',
+    ],
+  );
+
+  return records
+    .filter((r) => {
+      if (!roundId) return r.id !== applicationId;
+      const rounds = r.fields.fldYaHSLqnvBXyjur;
+      return !Array.isArray(rounds) || !(rounds as string[]).includes(roundId);
+    })
+    .map((r) => ({
+      id: r.id,
+      roundName: str(r.fields[APPLICATION_ROUND_NAME_FIELD]) ?? '',
+      humanOpinion: str(r.fields[APPLICATION_HUMAN_OPINION_FIELD]) ?? '',
+      decision: str(r.fields[APPLICATION_DECISION_FIELD]) ?? '',
+      createdAt: str(r.fields[APPLICATION_CREATED_AT_FIELD]) ?? '',
+    }))
+    .filter((a) => a.roundName !== '')
+    .sort((a, b) => {
+      if (a.createdAt < b.createdAt) return 1;
+      if (a.createdAt > b.createdAt) return -1;
+      return 0;
+    });
+};
+
 export type RoundStats = {
   total: number;
   evaluated: number;

@@ -103,6 +103,27 @@ export const Default: Story = {
   },
 };
 
+export const ManyUpcomingDiscussions: Story = {
+  args: {
+    courseRegistration: { ...mockCourseRegistration, role: 'Participant' },
+    upcomingDiscussions: Array.from({ length: 5 }, (_, index) => {
+      const unitNumber = index + 1;
+      return {
+        ...mockDiscussions['discussion-1']!,
+        id: `discussion-${unitNumber}`,
+        startDateTime: now + (unitNumber + 1) * 7 * 24 * ONE_HOUR_SECONDS,
+        endDateTime: now + (unitNumber + 1) * 7 * 24 * ONE_HOUR_SECONDS + ONE_HOUR_SECONDS,
+        unitNumber,
+        unitFallback: `${unitNumber}: Unit ${unitNumber}`,
+        unitRecord: {
+          unitNumber: unitNumber.toString(),
+          title: `Unit ${unitNumber}`,
+        } as GroupDiscussionWithGroupAndUnit['unitRecord'],
+      };
+    }),
+  },
+};
+
 export const Facilitator: Story = {
   args: {
     courseRegistration: { ...mockCourseRegistration, role: 'Facilitator' },

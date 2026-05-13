@@ -14,7 +14,7 @@ export type QuoteWithUrl = Quote & {
 export type QuoteSectionProps = {
   /** Array of quotes to display in the carousel */
   quotes: QuoteWithUrl[];
-  /** Background color for the quote card (only used by the `card` variant). Defaults to '#ECF0FF' */
+  /** Background color for the quote card (only used by the `card` variant). Defaults to `var(--bluedot-lightest)`. */
   cardBackgroundColor?: string;
   /** Accent color for the active navigation indicator. Defaults to bluedot-normal */
   accentColor?: string;
@@ -28,7 +28,7 @@ export type QuoteSectionProps = {
 // Design constants - these stay consistent across all courses
 const DEFAULT_COLORS = {
   background: '#FFFFFF',
-  cardBg: '#ECF0FF',
+  cardBg: 'var(--bluedot-lightest)',
   text: 'var(--bluedot-navy)',
   accent: 'var(--bluedot-normal)',
 };

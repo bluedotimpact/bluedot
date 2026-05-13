@@ -9,7 +9,7 @@ const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
     <div className={clsx('relative w-full', className)}>
       <Nav />
       {/* Main Hero Container */}
-      <div className="relative flex flex-col min-h-[653px] bd-md:max-[1023px]:min-h-[659px] min-[1024px]:max-[1279px]:min-h-[738px] min-[1280px]:max-[1439px]:min-h-[821px] min-[1440px]:min-h-[821px] w-full -scale-x-100">
+      <div className="relative flex flex-col min-h-[653px] bd-md:min-h-[659px] lg:min-h-[738px] xl:min-h-[821px] w-full -scale-x-100">
         <img
           src="/images/homepage/hero.webp"
           alt=""
@@ -19,21 +19,21 @@ const HomeHeroContent: React.FC<{ className?: string }> = ({ className }) => (
         />
 
         {/* Nav spacer */}
-        <div className="relative z-20 min-h-[60px] bd-md:max-[1023px]:min-h-[60px] lg:min-h-[76px] -scale-x-100" />
+        <div className="relative z-20 min-h-[60px] lg:min-h-[76px] -scale-x-100" />
 
         {/* Content Container */}
-        <div className="relative z-20 flex-1 flex flex-col justify-end px-5 py-12 bd-md:max-[1023px]:justify-center bd-md:max-[1023px]:px-8 bd-md:max-[1023px]:py-20 min-[1024px]:max-[1279px]:justify-center min-[1024px]:max-[1279px]:px-12 min-[1024px]:max-[1279px]:pt-32 min-[1024px]:max-[1279px]:pb-24 min-[1280px]:max-[1439px]:justify-start min-[1280px]:max-[1439px]:pt-40 min-[1280px]:max-[1439px]:pb-[120px] min-[1280px]:max-[1439px]:px-12 min-[1440px]:justify-center min-[1440px]:px-6 min-[1440px]:py-0 -scale-x-100">
+        <div className="relative z-20 flex-1 flex flex-col justify-end px-5 py-12 bd-md:justify-center bd-md:px-8 bd-md:py-20 lg:px-12 lg:pt-32 lg:pb-24 xl:justify-start xl:pt-40 xl:pb-[120px] min-[1440px]:justify-center min-[1440px]:px-6 min-[1440px]:py-0 -scale-x-100">
           <div className="w-full max-w-[1488px] mx-auto min-[1440px]:px-6">
             {/* Text container with responsive dimensions */}
-            <div className="w-full max-w-[280px] bd-md:max-[1023px]:max-w-[616px] bd-md:max-[1023px]:min-h-[348px] min-[1024px]:max-[1279px]:w-[768px] min-[1024px]:max-[1279px]:max-w-screen-md min-[1024px]:max-[1279px]:min-h-[347px] min-[1280px]:max-[1439px]:w-[768px] min-[1280px]:max-[1439px]:max-w-screen-md min-[1280px]:max-[1439px]:min-h-[374px] min-[1440px]:w-[900px] min-[1440px]:max-w-[900px] min-[1440px]:min-h-[374px] mx-auto flex flex-col justify-center items-center gap-8 text-center text-white">
+            <div className="w-full max-w-[280px] bd-md:max-w-[616px] bd-md:min-h-[348px] lg:w-[768px] lg:max-w-screen-md lg:min-h-[347px] xl:min-h-[374px] min-[1440px]:w-[900px] min-[1440px]:max-w-[900px] mx-auto flex flex-col justify-center items-center gap-8 text-center text-white">
               <H1
-                // eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: bespoke 5-breakpoint homepage hero ramp (40 → 56 → 64 → 72 → 72) tied to viewport-specific max-w values; can't compose into the 2-step responsive token chain
-                className="w-full text-[40px] bd-md:max-[1023px]:text-[56px] min-[1024px]:max-[1279px]:w-[682px] min-[1024px]:max-[1279px]:text-[64px] min-[1280px]:max-[1439px]:w-[682px] min-[1280px]:max-[1439px]:text-[72px] min-[1440px]:w-[682px] min-[1440px]:text-[72px] leading-[115%] font-normal slide-up-fade-in flex items-center tracking-[-1px] text-white"
+                // eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size -- deferred design pick: bespoke 4-breakpoint homepage hero ramp (40 → 56 → 64 → 72) tied to viewport-specific max-w values; can't compose into the 2-step responsive token chain
+                className="w-full text-[40px] bd-md:text-[56px] lg:w-[682px] lg:text-[64px] xl:text-[72px] leading-[115%] font-normal slide-up-fade-in flex items-center tracking-[-1px] text-white"
               >
                 We help you have a positive impact on the trajectory of AI
               </H1>
               <p
-                className="text-size-sm bd-md:max-[1023px]:text-size-md min-[1024px]:text-size-md leading-[155%] font-normal w-full max-w-[280px] bd-md:max-[1023px]:max-w-[616px] min-[1024px]:max-[1279px]:max-w-screen-md min-[1280px]:max-[1439px]:max-w-screen-md min-[1440px]:max-w-[900px] mx-auto tracking-[-0.005em]"
+                className="text-size-sm bd-md:text-size-md leading-[155%] font-normal w-full max-w-[280px] bd-md:max-w-[616px] lg:max-w-screen-md min-[1440px]:max-w-[900px] mx-auto tracking-[-0.005em]"
                 style={{
                   /* Tailwind doesn't support OpenType font-feature-settings for stylistic alternates */
                   fontFeatureSettings: '"ss02" on',

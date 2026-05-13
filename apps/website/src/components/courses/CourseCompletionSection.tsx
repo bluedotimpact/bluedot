@@ -1,10 +1,10 @@
 import {
-  addQueryParam, cn, Collapsible, H2, P, ProgressDots, useLatestUtmParams,
+  cn, Collapsible, H2, P, ProgressDots, useLatestUtmParams,
 } from '@bluedot/ui';
 import type { IconType } from 'react-icons';
 import { PiCertificate, PiChalkboardTeacher, PiUsersThree } from 'react-icons/pi';
 import { COURSE_CONFIG } from '../../lib/constants';
-import { appendPosthogSessionIdPrefill } from '../../lib/appendPosthogSessionIdPrefill';
+import { buildApplicationUrl } from '../../lib/utils';
 import { COURSE_INFORMATION_DETAILS } from '../../lib/courseInformationDetails';
 import { trpc } from '../../utils/trpc';
 import RoundGroup from '../shared/RoundGroup';
@@ -119,9 +119,7 @@ export default function CourseCompletionSection({
   }
 
   if (showEnrollmentCTA) {
-    const applicationUrlWithUtm = appendPosthogSessionIdPrefill(latestUtmParams.utm_source
-      ? addQueryParam(application.applicationUrl, 'prefill_Source', latestUtmParams.utm_source)
-      : application.applicationUrl);
+    const applicationUrlWithUtm = buildApplicationUrl(application.applicationUrl, latestUtmParams.utm_source);
 
     const info = COURSE_INFORMATION_DETAILS[courseSlug];
     const accentColor = COURSE_CONFIG[courseSlug]?.accentColor;

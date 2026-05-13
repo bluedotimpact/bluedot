@@ -8,7 +8,7 @@ export const PlayCircleIcon = ({ size = 16, className, ...props }: IconProps) =>
     fill="none"
     width={size}
     height={size}
-    className={cn('text-[#6A6F7A]', className)}
+    className={cn('text-charcoal-mid', className)}
     {...props}
   >
     <rect x="0.625" y="0.625" width="14.75" height="14.75" rx="7.375" stroke="currentColor" strokeWidth="1.25" />

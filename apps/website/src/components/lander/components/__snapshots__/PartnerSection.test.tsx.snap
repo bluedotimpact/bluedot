@@ -47,7 +47,7 @@ exports[`PartnerSection > renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="w-[0.5px] h-[210px] bg-[#231C57] opacity-20 flex-shrink-0"
+            class="w-[0.5px] h-[210px] bg-bluedot-navy opacity-20 flex-shrink-0"
           />
           <div
             class="flex flex-col w-[220px] h-[210px] gap-4 flex-shrink-0"
@@ -75,7 +75,7 @@ exports[`PartnerSection > renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="w-[0.5px] h-[210px] bg-[#231C57] opacity-20 flex-shrink-0"
+            class="w-[0.5px] h-[210px] bg-bluedot-navy opacity-20 flex-shrink-0"
           />
           <div
             class="flex flex-col w-[220px] h-[210px] gap-4 flex-shrink-0"
@@ -103,7 +103,7 @@ exports[`PartnerSection > renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="w-[0.5px] h-[210px] bg-[#231C57] opacity-20 flex-shrink-0"
+            class="w-[0.5px] h-[210px] bg-bluedot-navy opacity-20 flex-shrink-0"
           />
         </div>
         <div
@@ -137,7 +137,7 @@ exports[`PartnerSection > renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="w-[0.5px] h-[210px] bg-[#231C57] opacity-20 flex-shrink-0"
+            class="w-[0.5px] h-[210px] bg-bluedot-navy opacity-20 flex-shrink-0"
           />
           <div
             class="flex flex-col w-[220px] h-[210px] gap-4 flex-shrink-0"
@@ -166,7 +166,7 @@ exports[`PartnerSection > renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="w-[0.5px] h-[210px] bg-[#231C57] opacity-20 flex-shrink-0"
+            class="w-[0.5px] h-[210px] bg-bluedot-navy opacity-20 flex-shrink-0"
           />
           <div
             class="flex flex-col w-[220px] h-[210px] gap-4 flex-shrink-0"
@@ -195,7 +195,7 @@ exports[`PartnerSection > renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="w-[0.5px] h-[210px] bg-[#231C57] opacity-20 flex-shrink-0"
+            class="w-[0.5px] h-[210px] bg-bluedot-navy opacity-20 flex-shrink-0"
           />
         </div>
       </div>
@@ -282,7 +282,7 @@ exports[`PartnerSection > renders correctly 1`] = `
         class="col-span-1 md:col-span-2 lg:col-span-3"
       >
         <div
-          class="border-t border-[#231C57] opacity-20"
+          class="border-t border-bluedot-navy opacity-20"
         />
       </div>
     </div>

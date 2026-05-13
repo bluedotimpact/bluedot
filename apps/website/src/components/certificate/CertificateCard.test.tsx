@@ -56,5 +56,18 @@ describe('CertificateCard', () => {
       expect(screen.getByText('Issued')).toBeInTheDocument();
       expect(screen.getByText('Certificate ID')).toBeInTheDocument();
     });
+
+    test('reuses Technical AI Safety badge for the project certificate', () => {
+      render(<CertificateCard
+        {...defaultProps}
+        courseName="Technical AI Safety Project"
+        courseSlug="technical-ai-safety-project"
+      />);
+
+      expect(screen.getByAltText('Technical AI Safety Project Certificate Badge')).toHaveAttribute(
+        'src',
+        expect.stringContaining('technical-ai-safety.png'),
+      );
+    });
   });
 });

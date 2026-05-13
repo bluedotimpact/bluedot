@@ -11,7 +11,8 @@ import {
   FaRegCopy,
   FaXTwitter,
 } from 'react-icons/fa6';
-import { COURSE_CONFIG, FOAI_COURSE_ID } from '../../lib/constants';
+import { BLUEDOT_LINKEDIN_ORG_ID, COURSE_CONFIG, FOAI_COURSE_ID } from '../../lib/constants';
+import { getCertificateBadgePath } from '../../lib/certificateAssets';
 import { getCourseCtaColors } from '../../lib/courseCtaColors';
 import { ROUTES } from '../../lib/routes';
 import { getActionPlanUrl } from '../../lib/utils';
@@ -143,7 +144,7 @@ const primaryBtnClass
   = 'flex items-center justify-center gap-3 bg-bluedot-normal text-white rounded-md px-4 py-3 text-[14px] font-semibold tracking-[-0.35px] hover:opacity-90 transition-opacity no-underline whitespace-nowrap cursor-pointer';
 
 const outlinedBtnClass
-  = 'flex items-center justify-center gap-2.5 bg-white border border-[rgba(106,111,122,0.5)] text-bluedot-navy rounded-md px-4 py-3 text-[14px] font-medium hover:bg-slate-50 transition-colors no-underline whitespace-nowrap cursor-pointer';
+  = 'flex items-center justify-center gap-2.5 bg-white border border-charcoal-mid/50 text-bluedot-navy rounded-md px-4 py-3 text-[14px] font-medium hover:bg-slate-50 transition-colors no-underline whitespace-nowrap cursor-pointer';
 
 // --- Attendance ineligible card ---
 
@@ -157,9 +158,9 @@ const AttendanceIneligibleCard = ({
   const missed = numUnits - uniqueDiscussionAttendance;
 
   return (
-    <div className="flex w-full max-w-[640px] flex-col gap-2.5 rounded-md border border-[rgba(106,111,122,0.5)] bg-[#fcfbf9] px-5 py-6">
+    <div className="flex w-full max-w-[640px] flex-col gap-2.5 rounded-md border border-charcoal-mid/50 bg-bluedot-lightest px-5 py-6">
       <div className="flex items-center gap-3">
-        <FaCircleMinus className="size-8 shrink-0 text-[#62748E]" />
+        <FaCircleMinus className="size-8 shrink-0 text-charcoal-mid" />
         <span className="text-bluedot-navy text-size-sm leading-5 font-semibold">
           Certificate requirement not met
         </span>
@@ -182,15 +183,12 @@ const AttendanceIneligibleCard = ({
 type CertificateHeroProps = { courseId: string; courseSlug: string; courseTitle: string };
 
 const CertificatePreviewCard = ({ courseSlug, courseTitle }: { courseSlug: string; courseTitle: string }) => {
-  const badgeSrc
-    = courseSlug in COURSE_CONFIG
-      ? `/images/certificates/${courseSlug}.png`
-      : '/images/certificates/certificate-fallback-image.png';
+  const badgeSrc = getCertificateBadgePath(courseSlug);
 
   return (
     <div className="flex w-full max-w-[640px] flex-col items-center gap-4 rounded-lg border border-slate-200 bg-white px-6 py-10 shadow-sm">
       <img src={badgeSrc} alt="" className="h-[160px] w-auto object-contain" />
-      <p className="text-size-xxs font-medium tracking-[0.06em] text-[#62748E] uppercase">Professional Certification</p>
+      <p className="text-size-xxs font-medium tracking-[0.06em] text-charcoal-mid uppercase">Professional Certification</p>
       {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
       <p className="text-bluedot-navy text-center text-[28px] leading-tight font-semibold">{courseTitle}</p>
     </div>
@@ -221,13 +219,25 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
   }
 
   if (data?.status === 'has-certificate') {
-    const issuedDate = new Date(data.certificateCreatedAt * 1000).toLocaleDateString('en-US', {
+    const issuedAt = new Date(data.certificateCreatedAt * 1000);
+    const issuedDate = issuedAt.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
     });
 
     const certificateLink = `${SITE_URL}${addQueryParam(ROUTES.certification.url, 'id', data.certificateId)}`;
+
+    const linkedInCertParams = new URLSearchParams({
+      startTask: 'CERTIFICATION_NAME',
+      name: courseTitle,
+      organizationId: BLUEDOT_LINKEDIN_ORG_ID,
+      issueYear: String(issuedAt.getUTCFullYear()),
+      issueMonth: String(issuedAt.getUTCMonth() + 1),
+      certUrl: certificateLink,
+      certId: data.certificateId,
+    });
+    const linkedInCertUrl = `https://www.linkedin.com/profile/add?${linkedInCertParams.toString()}`;
 
     const handleCopyLink = async () => {
       try {
@@ -249,10 +259,16 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
           issuedDate={issuedDate}
           certificateId={data.certificateId}
         />
-        <button type="button" onClick={handleCopyLink} className={outlinedBtnClass}>
-          <FaLink className="size-4" />
-          {copied ? 'Link copied!' : 'Copy link'}
-        </button>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <a href={linkedInCertUrl} target="_blank" rel="noopener noreferrer" className={primaryBtnClass}>
+            <FaLinkedinIn className="size-4" />
+            Add certificate to LinkedIn
+          </a>
+          <button type="button" onClick={handleCopyLink} className={outlinedBtnClass}>
+            <FaLink className="size-4" />
+            {copied ? 'Link copied!' : 'Copy link'}
+          </button>
+        </div>
       </div>
     );
   }
@@ -283,7 +299,7 @@ const CertificateHeroAuthed = ({ courseId, courseSlug, courseTitle }: Certificat
   return (
     <div className="flex w-full flex-col items-center gap-6">
       <CertificatePreviewCard courseSlug={courseSlug} courseTitle={courseTitle} />
-      {description && <p className="max-w-[480px] text-center text-size-xs text-[#62748E]">{description}</p>}
+      {description && <p className="max-w-[480px] text-center text-size-xs text-charcoal-mid">{description}</p>}
       {cta}
     </div>
   );
@@ -297,7 +313,7 @@ const CertificateHero = ({ courseId, courseSlug, courseTitle }: CertificateHeroP
     return (
       <div className="flex w-full flex-col items-center gap-6">
         <CertificatePreviewCard courseSlug={courseSlug} courseTitle={courseTitle} />
-        <p className="max-w-[480px] text-center text-size-xs text-[#62748E]">
+        <p className="max-w-[480px] text-center text-size-xs text-charcoal-mid">
           Create a free account to earn your course certificate.
         </p>
         <CTALinkOrButton url={getLoginUrl(router.asPath)} variant="primary">

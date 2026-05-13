@@ -8,7 +8,7 @@ exports[`ListenToArticleButton > should render correctly 1`] = `
 >
   <svg
     aria-hidden="true"
-    class="text-[#6A6F7A] group-hover:text-bluedot-navy transition-colors duration-200"
+    class="text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200"
     fill="none"
     height="16"
     viewBox="0 0 16 16"
@@ -30,7 +30,7 @@ exports[`ListenToArticleButton > should render correctly 1`] = `
     />
   </svg>
   <span
-    class="text-size-xs font-medium leading-[140%] tracking-[-0.005em] text-[#6A6F7A] group-hover:text-bluedot-navy transition-colors duration-200"
+    class="text-size-xs font-medium leading-[140%] tracking-[-0.005em] text-charcoal-mid group-hover:text-bluedot-navy transition-colors duration-200"
   >
     Listen to article
   </span>

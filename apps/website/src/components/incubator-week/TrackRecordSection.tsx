@@ -9,7 +9,7 @@ const TrackRecordSection = () => {
 
         <div className="flex flex-col gap-5">
           <P>
-            Three cohorts in: 23 participants, 11 companies founded, 7 still going, $500k+ raised.
+            Three cohorts in: 23 participants, 11 companies founded, 7 still going, $1M+ raised.
           </P>
           <div className="flex flex-col gap-2">
             <P>Alumni include:</P>

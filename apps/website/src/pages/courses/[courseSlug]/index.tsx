@@ -1,5 +1,4 @@
 import {
-  addQueryParam,
   Breadcrumbs,
   CTALinkOrButton,
   useLatestUtmParams,
@@ -8,12 +7,13 @@ import Head from 'next/head';
 import { type GetStaticProps, type GetStaticPaths } from 'next';
 
 import { ROUTES } from '../../../lib/routes';
-import { ONE_MINUTE_SECONDS } from '../../../lib/constants';
+import { COURSE_CONFIG, ONE_MINUTE_SECONDS } from '../../../lib/constants';
 import { getCourseOgImage } from '../../../lib/courseOgImage';
-import { appendPosthogSessionIdPrefill } from '../../../lib/appendPosthogSessionIdPrefill';
+import { buildApplicationUrl } from '../../../lib/utils';
 import MarketingHero from '../../../components/MarketingHero';
 import PageNewsletter from '../../../components/PageNewsletter';
 import { PageListGroup, PageListRow } from '../../../components/PageListRow';
+import { CourseIcon } from '../../../components/courses/CourseIcon';
 import AiSafetyOpsLander from '../../../components/lander/AiSafetyOpsLander';
 import CourseLander from '../../../components/lander/CourseLander';
 import { createAgiStrategyContent } from '../../../components/lander/course-content/AgiStrategyContent';
@@ -142,15 +142,102 @@ const renderCoursePage = ({
     );
   }
 
+  if (COURSE_CONFIG[slug]?.externalCoursePage) {
+    return <ExternalCoursePage courseData={courseData} courseOgImage={courseOgImage} />;
+  }
+
   // Default case
   return <StandardCoursePage courseData={courseData} courseOgImage={courseOgImage} />;
 };
 
 const registerInterestUrl = 'https://web.miniextensions.com/aGd0mXnpcN1gfqlnYNZc';
 
+const ExternalCoursePage = ({ courseData, courseOgImage }: { courseData: CourseAndUnits; courseOgImage: string }) => {
+  if (!courseData.course) {
+    return null;
+  }
+
+  const { course, units } = courseData;
+  const externalCoursePage = COURSE_CONFIG[course.slug]?.externalCoursePage;
+  const firstUnit = units[0];
+  const curriculumUrl = firstUnit ? `/courses/${course.slug}/${firstUnit.unitNumber}/1` : undefined;
+
+  if (!externalCoursePage) {
+    return null;
+  }
+
+  return (
+    <div>
+      <Head>
+        <title>{`${course.title} | BlueDot Impact`}</title>
+        <meta name="description" content={course.shortDescription} />
+        <meta key="og:title" property="og:title" content={course.title} />
+        <meta key="og:description" property="og:description" content={course.shortDescription} />
+        <meta key="og:site_name" property="og:site_name" content="BlueDot Impact" />
+        <meta key="og:type" property="og:type" content="website" />
+        <meta key="og:url" property="og:url" content={`https://bluedot.org/courses/${encodeURIComponent(course.slug)}`} />
+        <meta key="og:image" property="og:image" content={courseOgImage} />
+        <meta key="og:image:width" property="og:image:width" content="1200" />
+        <meta key="og:image:height" property="og:image:height" content="630" />
+        <meta key="og:image:type" property="og:image:type" content="image/png" />
+        <meta key="og:image:alt" property="og:image:alt" content={`${course.title} course preview`} />
+      </Head>
+
+      <Breadcrumbs
+        route={{
+          title: course.title,
+          url: `/courses/${course.slug}`,
+          parentPages: [ROUTES.home, ROUTES.courses],
+        }}
+      />
+
+      <section className="section section-body">
+        <div className="w-full bd-md:max-w-text bd-md:mx-auto flex flex-col gap-8">
+          <div className="flex flex-col gap-5">
+            <CourseIcon courseSlug={course.slug} size="xlarge" className="rounded-xl" />
+            <div className="flex flex-col gap-4">
+              <p className="text-size-xxs leading-[14px] font-semibold text-bluedot-normal uppercase tracking-[0.5px]">
+                External course from {externalCoursePage.providerName}
+              </p>
+              <h1 className="text-size-xl bd-md:text-size-2xl leading-[1.15] font-semibold tracking-[-0.02em] text-bluedot-navy">
+                {course.title}
+              </h1>
+              <p className="text-size-md leading-[1.6] text-bluedot-navy/80">
+                {course.shortDescription}
+              </p>
+              <p className="text-size-sm leading-[1.6] text-bluedot-navy/70">
+                {externalCoursePage.summary}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-3">
+            {curriculumUrl && (
+              <CTALinkOrButton url={curriculumUrl} withChevron>
+                {externalCoursePage.curriculumCtaLabel}
+              </CTALinkOrButton>
+            )}
+            <CTALinkOrButton url={externalCoursePage.detailsUrl} target="_blank" variant="secondary">
+              {externalCoursePage.detailsCtaLabel}
+            </CTALinkOrButton>
+          </div>
+
+          <p className="text-size-xs leading-[1.6] text-bluedot-navy/60">
+            Questions about the course? Contact{' '}
+            <a href="mailto:online-course@digitalminds.cam" className="text-bluedot-normal underline">
+              online-course@digitalminds.cam
+            </a>
+            .
+          </p>
+        </div>
+      </section>
+    </div>
+  );
+};
+
 const StandardCoursePage = ({ courseData, courseOgImage }: { courseData: CourseAndUnits; courseOgImage: string }) => {
   const { latestUtmParams } = useLatestUtmParams();
-  const registerInterestUrlWithUtm = appendPosthogSessionIdPrefill(latestUtmParams.utm_source ? addQueryParam(registerInterestUrl, 'prefill_Source', latestUtmParams.utm_source) : registerInterestUrl);
+  const registerInterestUrlWithUtm = buildApplicationUrl(registerInterestUrl, latestUtmParams.utm_source);
 
   if (!courseData.course) {
     return null;

@@ -25,6 +25,7 @@ import { CertificateCard } from '../components/certificate/CertificateCard';
 import { CertificateCTA } from '../components/certificate/CertificateCTA';
 import { ONE_DAY_SECONDS, ONE_MINUTE_SECONDS } from '../lib/constants';
 import { getCourseCtaColors } from '../lib/courseCtaColors';
+import { getCertificateAssetSlug } from '../lib/certificateAssets';
 import { getCertificateData } from '../server/routers/certificates';
 
 type Certificate = Awaited<ReturnType<typeof getCertificateData>>;
@@ -231,7 +232,7 @@ const CertificatePage = ({
           {isOwner ? (
             <div className="flex flex-col items-center gap-6">
               <ShareButtons shareUrl={shareUrl} shareText={shareText} />
-              <p className="text-size-md leading-[26px] tracking-[-0.3125px] text-[#62748E] text-center">
+              <p className="text-size-md leading-[26px] tracking-[-0.3125px] text-charcoal-mid text-center">
                 Celebrate your achievement by sharing it with your professional network & friends.
               </p>
             </div>
@@ -272,16 +273,17 @@ export const getServerSideProps: GetServerSideProps<CertificatePageProps> = asyn
   try {
     const certificate = await getCertificateData(certificateId);
 
+    const linkPreviewAssetSlug = getCertificateAssetSlug(certificate.courseSlug) ?? certificate.courseSlug;
     const linkPreviewFsPath = path.join(
       process.cwd(),
       'public',
       'images',
       'certificates',
       'link-preview',
-      `${certificate.courseSlug}.png`,
+      `${linkPreviewAssetSlug}.png`,
     );
     const linkPreviewFilename = (await fileExists(linkPreviewFsPath))
-      ? `${certificate.courseSlug}.png`
+      ? `${linkPreviewAssetSlug}.png`
       : 'link-preview-fallback.png';
 
     // Fetch cohort data to display next cohort start date

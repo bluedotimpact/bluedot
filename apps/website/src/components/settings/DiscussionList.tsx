@@ -4,7 +4,7 @@ import {
   useCurrentTimeMs, cn,
 } from '@bluedot/ui';
 import { useState } from 'react';
-import { FaArrowRightArrowLeft, FaRightToBracket } from 'react-icons/fa6';
+import { FaArrowRightArrowLeft } from 'react-icons/fa6';
 import { PiCalendarDots } from 'react-icons/pi';
 import {
   buildGroupSlackChannelUrl, formatDateMonthAndDay, formatDateTimeRelative, formatTime12HourClock,
@@ -51,6 +51,9 @@ const DiscussionList = ({
     return <p className="text-size-sm text-gray-500 py-4">{emptyMessage}</p>;
   }
 
+  const showSeeAllButton = discussions.length > 3;
+  const showDropoutOrDeferralButton = !isFacilitator && !isPast;
+
   return (
     <div>
       {(showAll ? discussions : discussions.slice(0, 3)).map((discussion, index) => (
@@ -63,19 +66,35 @@ const DiscussionList = ({
           isFacilitator={isFacilitator}
           onOpenGroupSwitchModal={onOpenGroupSwitchModal}
           onOpenFacilitatorModal={onOpenFacilitatorModal}
-          onOpenDropoutModal={onOpenDropoutModal}
         />
       ))}
-      {discussions.length > 3 && (
-        <div className="pt-4 text-center">
-          <button
-            type="button"
-            onClick={() => setShowAll(!showAll)}
-            className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
-            aria-expanded={showAll}
-          >
-            {showAll ? 'Show less' : `See all (${discussions.length}) discussions`}
-          </button>
+      {(showSeeAllButton || showDropoutOrDeferralButton) && (
+        <div className="grid grid-cols-1 gap-3 pt-4 sm:grid-cols-[1fr_auto_1fr] sm:items-center">
+          <div className="hidden sm:block" />
+          <div className="justify-self-center">
+            {showSeeAllButton && (
+              <button
+                type="button"
+                onClick={() => setShowAll(!showAll)}
+                className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
+                aria-expanded={showAll}
+              >
+                {showAll ? 'Show less' : `See all (${discussions.length}) discussions`}
+              </button>
+            )}
+          </div>
+          <div className="sm:justify-self-end">
+            {showDropoutOrDeferralButton && (
+              <CTALinkOrButton
+                variant={BUTTON_STYLES.secondary.variant}
+                size="small"
+                className={cn('w-full sm:w-auto', BUTTON_STYLES.secondary.className)}
+                onClick={onOpenDropoutModal}
+              >
+                Defer or drop out
+              </CTALinkOrButton>
+            )}
+          </div>
         </div>
       )}
     </div>
@@ -92,7 +111,6 @@ type DiscussionListRowProps = {
   isFacilitator: boolean;
   onOpenGroupSwitchModal: (discussion: GroupDiscussionWithGroupAndUnit, switchType: SwitchType) => void;
   onOpenFacilitatorModal: (discussion: GroupDiscussionWithGroupAndUnit, modalType: FacilitatorModalType) => void;
-  onOpenDropoutModal: () => void;
 };
 
 const DiscussionListRow = ({
@@ -103,7 +121,6 @@ const DiscussionListRow = ({
   isFacilitator,
   onOpenGroupSwitchModal,
   onOpenFacilitatorModal,
-  onOpenDropoutModal,
 }: DiscussionListRowProps) => {
   const currentTimeMs = useCurrentTimeMs();
   const [isDownloadingCalendar, setIsDownloadingCalendar] = useState(false);
@@ -208,14 +225,6 @@ const DiscussionListRow = ({
       onClick: () => onOpenGroupSwitchModal(discussion, 'Switch group permanently'),
       isVisible: !isFacilitator && !isPast,
       overflowIcon: <FaArrowRightArrowLeft className="mx-auto size-[14px]" />,
-    },
-    {
-      id: 'dropout-or-deferral',
-      label: 'Request dropout or deferral',
-      variant: 'secondary',
-      isVisible: !isFacilitator && !isPast,
-      onClick: onOpenDropoutModal,
-      overflowIcon: <FaRightToBracket className="mx-auto size-[14px]" />,
     },
     {
       id: 'download-calendar',

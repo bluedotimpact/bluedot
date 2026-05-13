@@ -8,7 +8,7 @@ type SummaryCardProps = {
 export const SummaryCard: React.FC<SummaryCardProps> = ({ aiSummary, course }) => {
   const { role, domain, technicalAbility, topAchievement, commitment } = parseSummary(aiSummary);
 
-  const showTechnicalAbility = course === 'Technical AI Safety' && !!technicalAbility;
+  const showTechnicalAbility = (course === 'Technical AI Safety' || course === 'Technical AI Safety Project') && !!technicalAbility;
 
   return (
     <div className="bg-stone-800 border border-stone-700 rounded-lg p-3 sm:p-5 space-y-3">
