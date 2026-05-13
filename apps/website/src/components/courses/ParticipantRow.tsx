@@ -12,7 +12,6 @@ const ParticipantRow = ({ name, rightHandNode }: ParticipantRowProps) => (
     <div className="size-[30px] rounded-full bg-bluedot-normal flex items-center justify-center text-white text-size-xxs font-bold shrink-0">
       {getInitials(name)}
     </div>
-    {/* TODO add slack link */}
     <span className="flex-1 text-size-xs font-medium text-bluedot-navy truncate">{name}</span>
     {rightHandNode}
   </div>
