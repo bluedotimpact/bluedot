@@ -15,7 +15,7 @@ import { jobsRouter } from './jobs';
 import { lumaRouter } from './luma';
 import { meetPersonRouter } from './meet-person';
 import { missionsRouter } from './missions';
-import { myCoursesPageRouter } from './myCoursesPage';
+import { myBluedotRouter } from './my-bluedot';
 import { programsRouter } from './programs';
 import { resourcesRouter } from './resources';
 import { subscriptionPreferencesRouter } from './subscription-preferences';
@@ -40,8 +40,7 @@ export const appRouter = router({
   luma: lumaRouter,
   meetPerson: meetPersonRouter,
   missions: missionsRouter,
-  // TODO check if we really need a new router
-  myCoursesPage: myCoursesPageRouter,
+  myBluedot: myBluedotRouter,
   programs: programsRouter,
   resources: resourcesRouter,
   subscriptionPreferences: subscriptionPreferencesRouter,
