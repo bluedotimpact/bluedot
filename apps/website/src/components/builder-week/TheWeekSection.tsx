@@ -1,4 +1,4 @@
-import { P } from '@bluedot/ui';
+import { H3, H4, P } from '@bluedot/ui';
 import { pageSectionHeadingClass } from '../PageListRow';
 
 const SCHEDULE = [
@@ -23,7 +23,7 @@ const TheWeekSection = () => {
   return (
     <section className="section section-body builder-week-schedule-section">
       <div className="w-full flex flex-col gap-6">
-        <h3 className={pageSectionHeadingClass}>The week</h3>
+        <H3 className={pageSectionHeadingClass}>The week</H3>
 
         <ul className="flex flex-col divide-y divide-bluedot-navy/10 border-y border-bluedot-navy/10">
           {SCHEDULE.map((item) => (
@@ -37,9 +37,9 @@ const TheWeekSection = () => {
                 </span>
               </div>
               <div className="flex flex-col gap-2">
-                <h4 className="text-size-md font-semibold text-bluedot-navy">
+                <H4 className="text-size-md font-semibold text-bluedot-navy">
                   {item.title}
-                </h4>
+                </H4>
                 <P className="text-size-sm leading-[1.65] text-bluedot-navy/80">
                   {item.body}
                 </P>

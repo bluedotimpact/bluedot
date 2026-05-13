@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CTALinkOrButton, P } from '@bluedot/ui';
+import { CTALinkOrButton, H3, P } from '@bluedot/ui';
 import { pageSectionHeadingClass } from '../PageListRow';
 
 type Builder = {
@@ -164,9 +164,9 @@ const FieldBuildersSection = () => {
     <section className="section section-body builder-week-field-builders-section">
       <div className="w-full flex flex-col gap-7">
         <div className="flex flex-col gap-3">
-          <h3 className={pageSectionHeadingClass}>
+          <H3 className={pageSectionHeadingClass}>
             Most AI safety programs started with someone seeing a talent gap, and building a pathway.
-          </h3>
+          </H3>
           <P className="max-w-[62ch]">
             They figured, &ldquo;I can just do the thing&rdquo; and <em>did it</em>.
           </P>

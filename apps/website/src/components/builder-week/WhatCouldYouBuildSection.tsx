@@ -1,4 +1,4 @@
-import { P } from '@bluedot/ui';
+import { H3, H4, P } from '@bluedot/ui';
 import {
   PiFlask,
   PiGearSix,
@@ -41,7 +41,7 @@ const WhatCouldYouBuildSection = () => {
   return (
     <section className="section section-body builder-week-what-could-you-build-section">
       <div className="w-full flex flex-col gap-6">
-        <h3 className={pageSectionHeadingClass}>What could you build?</h3>
+        <H3 className={pageSectionHeadingClass}>What could you build?</H3>
         <div className="grid gap-5 grid-cols-1 bd-md:grid-cols-2 lg:grid-cols-3">
           {EXAMPLES.map(({ icon: Icon, title, description }) => (
             <div
@@ -52,9 +52,9 @@ const WhatCouldYouBuildSection = () => {
                 <Icon className="text-bluedot-navy" size={24} />
               </div>
               <div className="flex flex-col gap-1.5">
-                <h4 className="text-size-md font-semibold leading-tight text-bluedot-navy">
+                <H4 className="text-size-md font-semibold leading-tight text-bluedot-navy">
                   {title}
-                </h4>
+                </H4>
                 <P className="text-size-sm leading-[1.6] text-bluedot-navy/80">
                   {description}
                 </P>
@@ -66,9 +66,9 @@ const WhatCouldYouBuildSection = () => {
               <PiSparkle className="text-bluedot-navy" size={24} />
             </div>
             <div className="flex flex-col gap-1.5">
-              <h4 className="text-size-md font-semibold leading-tight text-bluedot-navy">
+              <H4 className="text-size-md font-semibold leading-tight text-bluedot-navy">
                 Your idea
-              </h4>
+              </H4>
               <P className="text-size-sm leading-[1.6] text-bluedot-navy/80">
                 Pitch us whatever you&apos;ve been sitting on. If it brings serious talent into AI safety, we want to hear it.
               </P>
