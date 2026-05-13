@@ -12,8 +12,8 @@ type DiscussionStatus = 'upcoming' | 'soon' | 'live' | 'attended' | 'absent';
 
 /**
  * One row-level action. `variant` decides where it surfaces:
- *   inline   — desktop inline button or pill. Folded into the mobile overflow menu.
- *   overflow — overflow menu only.
+ * - inline: desktop inline button or pill. Folded into the mobile overflow menu.
+ * - overflow: overflow menu only.
  * Pills (visual-only) just omit `overflow`.
  */
 export type CourseAction = {
