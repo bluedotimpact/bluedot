@@ -2,14 +2,24 @@ import type { GroupDiscussion, Unit } from '@bluedot/db';
 import type { Meta, StoryObj } from '@storybook/react';
 import DiscussionListRow from './DiscussionListRow';
 
-const APRIL_29_4PM = Math.floor(new Date('2026-04-29T16:00:00Z').getTime() / 1000);
+// Stories use real "now" — discussion start/end times are picked relative to it so each row
+// renders in the desired time-state branch (upcoming / soon / live / ended).
+const nowSec = Math.floor(Date.now() / 1000);
+const HOUR = 60 * 60;
 
-const discussion = {
+const baseDiscussion: GroupDiscussion = {
   id: 'disc-1',
-  startDateTime: APRIL_29_4PM,
+  startDateTime: nowSec + 2 * HOUR,
+  endDateTime: nowSec + 3 * HOUR,
   unitNumber: 4,
   zoomLink: 'https://zoom.us/j/000',
 } as unknown as GroupDiscussion;
+
+const at = (offsets: { start: number; end: number }): GroupDiscussion => ({
+  ...baseDiscussion,
+  startDateTime: nowSec + offsets.start,
+  endDateTime: nowSec + offsets.end,
+});
 
 const unit = {
   unitNumber: 4,
@@ -31,30 +41,36 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const baseArgs = {
-  discussion,
+  discussion: at({ start: 2 * HOUR, end: 3 * HOUR }),
   unit,
   courseSlug: 'technical-ai-safety',
+  isAttended: false,
   canReschedule: true,
   onReschedule: () => {},
 };
 
+const upcoming = at({ start: 2 * HOUR, end: 3 * HOUR });
+const soon = at({ start: 10 * 60, end: 70 * 60 });
+const live = at({ start: -10 * 60, end: 50 * 60 });
+const past = at({ start: -2 * HOUR, end: -HOUR });
+
 export const AllStates: Story = {
-  args: { ...baseArgs, status: 'upcoming' },
+  args: baseArgs,
   render: (args) => (
     <>
-      <DiscussionListRow {...args} status="upcoming" />
-      <DiscussionListRow {...args} status="soon" />
-      <DiscussionListRow {...args} status="live" />
-      <DiscussionListRow {...args} status="attended" />
-      <DiscussionListRow {...args} status="absent" />
-      <DiscussionListRow {...args} status="absent" canReschedule={false} />
+      <DiscussionListRow {...args} discussion={upcoming} />
+      <DiscussionListRow {...args} discussion={soon} />
+      <DiscussionListRow {...args} discussion={live} />
+      <DiscussionListRow {...args} discussion={past} isAttended />
+      <DiscussionListRow {...args} discussion={past} />
+      <DiscussionListRow {...args} discussion={past} canReschedule={false} />
     </>
   ),
 };
 
-export const Upcoming: Story = { args: { ...baseArgs, status: 'upcoming' } };
-export const Soon: Story = { args: { ...baseArgs, status: 'soon' } };
-export const Live: Story = { args: { ...baseArgs, status: 'live' } };
-export const Attended: Story = { args: { ...baseArgs, status: 'attended' } };
-export const Absent: Story = { args: { ...baseArgs, status: 'absent' } };
-export const AbsentNoReschedule: Story = { args: { ...baseArgs, status: 'absent', canReschedule: false } };
+export const Upcoming: Story = { args: { ...baseArgs, discussion: upcoming } };
+export const Soon: Story = { args: { ...baseArgs, discussion: soon } };
+export const Live: Story = { args: { ...baseArgs, discussion: live } };
+export const Attended: Story = { args: { ...baseArgs, discussion: past, isAttended: true } };
+export const Absent: Story = { args: { ...baseArgs, discussion: past } };
+export const AbsentNoReschedule: Story = { args: { ...baseArgs, discussion: past, canReschedule: false } };

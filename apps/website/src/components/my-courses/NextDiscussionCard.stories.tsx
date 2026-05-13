@@ -1,12 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { createMockGroupDiscussion, createMockUnit } from '../../__tests__/testUtils';
 import NextDiscussionCard from './NextDiscussionCard';
 
-const NextEyebrow = (
-  <>
-    <span className="hidden sm:inline">TECHNICAL AI SAFETY: </span>
-    UNIT 3
-  </>
-);
+const ONE_HOUR_SECS = 60 * 60;
+const nowSec = Math.floor(Date.now() / 1000);
+
+const unit = createMockUnit({ unitNumber: '3', title: 'Detecting danger' });
 
 const meta = {
   title: 'website/my-courses/NextDiscussionCard',
@@ -14,37 +13,53 @@ const meta = {
   parameters: { layout: 'padded' },
   tags: ['autodocs'],
   args: {
-    month: 'Apr',
-    day: 28,
-    title: 'Detecting danger',
-    datetimeLabel: 'Apr 28, 4:00 PM - 5:00 PM',
-    primaryHref: '/courses/technical-ai-safety/3/1',
-    onReschedule: () => {},
+    courseSlug: 'technical-ai-safety',
+    courseTitle: 'Technical AI Safety',
+    unit,
   },
 } satisfies Meta<typeof NextDiscussionCard>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const nextDiscussion = createMockGroupDiscussion({
+  startDateTime: nowSec + 26 * ONE_HOUR_SECS,
+  endDateTime: nowSec + 27 * ONE_HOUR_SECS,
+});
+
+const soonDiscussion = createMockGroupDiscussion({
+  startDateTime: nowSec + 16 * 60,
+  endDateTime: nowSec + 16 * 60 + ONE_HOUR_SECS,
+});
+
+const liveDiscussion = createMockGroupDiscussion({
+  startDateTime: nowSec - 10 * 60,
+  endDateTime: nowSec + 50 * 60,
+  zoomLink: 'https://zoom.us/j/123',
+});
+
 export const AllStates: Story = {
-  args: { state: 'next', eyebrow: NextEyebrow },
+  args: { discussion: nextDiscussion },
   render: (args) => (
-    <div className="flex flex-col gap-4">
-      <NextDiscussionCard {...args} state="next" eyebrow={NextEyebrow} />
-      <NextDiscussionCard {...args} state="soon" eyebrow="Starts in 16 minutes" />
-      <NextDiscussionCard {...args} state="live" eyebrow="LIVE" primaryHref="https://zoom.us/j/123" />
+    <div>
+      <h2 className="mb-3 text-size-sm font-semibold text-bluedot-navy">Next discussions</h2>
+      <div className="flex flex-col gap-3">
+        <NextDiscussionCard {...args} discussion={liveDiscussion} />
+        <NextDiscussionCard {...args} discussion={soonDiscussion} />
+        <NextDiscussionCard {...args} discussion={nextDiscussion} />
+      </div>
     </div>
   ),
 };
 
 export const Next: Story = {
-  args: { state: 'next', eyebrow: NextEyebrow },
+  args: { discussion: nextDiscussion },
 };
 
 export const StartingSoon: Story = {
-  args: { state: 'soon', eyebrow: 'Starts in 16 minutes' },
+  args: { discussion: soonDiscussion },
 };
 
 export const Live: Story = {
-  args: { state: 'live', eyebrow: 'LIVE', primaryHref: 'https://zoom.us/j/123' },
+  args: { discussion: liveDiscussion },
 };

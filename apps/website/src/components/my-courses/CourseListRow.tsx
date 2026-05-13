@@ -18,6 +18,7 @@ import DropoutModal from '../courses/DropoutModal';
 import GroupSwitchModal, { buildAvailabilityFormUrl, type SwitchType } from '../courses/GroupSwitchModal';
 import ViewParticipantsModal from '../courses/ViewParticipantsModal';
 import DiscussionList from './DiscussionList';
+import type { CourseAction } from './DiscussionListRow';
 
 export type CourseListRowProps = {
   courseRegistration: CourseRegistration;
@@ -116,17 +117,6 @@ const CourseListRow = ({
       <ChevronRightIcon className={`transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`} />
     </button>
   ) : null;
-
-  // All course-row actions, declared in one table. `variant` decides where it surfaces.
-  // - inline: inline button or pill on both viewports
-  // - overflow: only in the 3-dot overflow menu
-  type CourseAction = {
-    id: string;
-    isVisible: boolean;
-    variant: 'inline' | 'overflow';
-    inline?: ReactNode;
-    overflow?: OverflowMenuItemProps;
-  };
 
   const inProgressOrUpcoming = state === 'in-progress' || state === 'upcoming';
   const actions: CourseAction[] = [
