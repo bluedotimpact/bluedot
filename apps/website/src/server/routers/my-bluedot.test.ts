@@ -113,7 +113,7 @@ describe('myCoursesPage.getOverview', () => {
       participantsExpected: ['mp-p'],
     });
 
-    const result = await caller.myCoursesPage.getOverview();
+    const result = await caller.myBluedot.myCoursesPage();
 
     expect(result.nextDiscussion).not.toBeNull();
     expect(result.nextDiscussion?.discussion.id).toBe('disc-p');
@@ -215,7 +215,7 @@ describe('myCoursesPage.getOverview', () => {
       participantsExpected: ['mp-active'],
     });
 
-    const result = await caller.myCoursesPage.getOverview();
+    const result = await caller.myBluedot.myCoursesPage();
 
     expect(result.nextDiscussion).not.toBeNull();
     expect(result.nextDiscussion?.discussion.id).toBe('disc-active');
@@ -256,7 +256,7 @@ describe('myCoursesPage.getOverview', () => {
       roundStatus: 'Past',
     });
 
-    const result = await caller.myCoursesPage.getOverview();
+    const result = await caller.myBluedot.myCoursesPage();
     expect(result.courses.map((c) => c.course.slug)).toEqual(['active-course']);
   });
 
@@ -286,7 +286,7 @@ describe('myCoursesPage.getOverview', () => {
       await seedReg('reg-intensive', { courseId: 'course-tais', roundStatus: 'Future', roundId: 'round-intensive' });
       await seedReg('reg-parttime', { courseId: 'course-tais', roundStatus: 'Future', roundId: 'round-parttime' });
 
-      const result = await caller.myCoursesPage.getOverview();
+      const result = await caller.myBluedot.myCoursesPage();
       expect(result.courses).toHaveLength(2);
       expect(result.courses.map((c) => c.courseRegistration.id).sort()).toEqual(['reg-intensive', 'reg-parttime']);
     });
@@ -296,7 +296,7 @@ describe('myCoursesPage.getOverview', () => {
       await seedReg('reg-as-participant', { courseId: 'course-agi', role: 'Participant', roundId: 'round-1' });
       await seedReg('reg-as-facilitator', { courseId: 'course-agi', role: 'Facilitator', roundId: 'round-2' });
 
-      const result = await caller.myCoursesPage.getOverview();
+      const result = await caller.myBluedot.myCoursesPage();
       expect(result.courses).toHaveLength(1);
       expect(result.courses[0]?.courseRegistration.id).toBe('reg-as-participant');
     });
@@ -332,7 +332,7 @@ describe('myCoursesPage.getOverview', () => {
         participantsExpected: ['mp-dropped'],
       });
 
-      const result = await caller.myCoursesPage.getOverview();
+      const result = await caller.myBluedot.myCoursesPage();
       // Row preserved so it can land in the Past Courses tab with a Dropped pill + Apply again.
       expect(result.courses.map((c) => c.courseRegistration.id)).toEqual(['reg-dropped']);
       // But its discussion must not surface in the "Next discussion" card.
@@ -348,7 +348,7 @@ describe('myCoursesPage.getOverview', () => {
       // Successor registration: fresh row in the new round.
       await seedReg('reg-successor', { courseId: 'course-tais', roundStatus: 'Active' });
 
-      const result = await caller.myCoursesPage.getOverview();
+      const result = await caller.myBluedot.myCoursesPage();
       expect(result.courses.map((c) => c.courseRegistration.id).sort()).toEqual(['reg-deferred', 'reg-successor']);
     });
 
@@ -383,7 +383,7 @@ describe('myCoursesPage.getOverview', () => {
         facilitator: ['fac-full', 'fac-first-only', 'fac-blank'],
       });
 
-      const result = await caller.myCoursesPage.getOverview();
+      const result = await caller.myBluedot.myCoursesPage();
       expect(result.courses).toHaveLength(1);
       expect(result.courses[0]?.facilitatorNames.sort()).toEqual(['Firstonly', 'Full Name']);
     });
@@ -416,7 +416,7 @@ describe('myCoursesPage.getOverview', () => {
         courseBuilderUnitRecordId: 'rec-deleted-unit',
       });
 
-      const result = await caller.myCoursesPage.getOverview();
+      const result = await caller.myBluedot.myCoursesPage();
       expect(result.courses).toHaveLength(1);
       const row = result.courses[0]!;
       expect(row.discussions.map((d) => d.id)).toEqual(['disc-orphan-unit']);
@@ -461,7 +461,7 @@ describe('myCoursesPage.getOverview', () => {
         participantsExpected: ['mp-1'],
       });
 
-      const result = await caller.myCoursesPage.getOverview();
+      const result = await caller.myBluedot.myCoursesPage();
       expect(result.nextDiscussion?.discussion.id).toBe('disc-live');
     });
 
@@ -515,7 +515,7 @@ describe('myCoursesPage.getOverview', () => {
         participantsExpected: ['mp-y'],
       });
 
-      const result = await caller.myCoursesPage.getOverview();
+      const result = await caller.myBluedot.myCoursesPage();
       expect(result.nextDiscussion?.discussion.id).toBe('disc-x');
       expect(result.nextDiscussion?.courseSlug).toBe('course-x');
     });
@@ -591,80 +591,10 @@ describe('myCoursesPage.getOverview', () => {
         participantsExpected: ['someone-else'],
       });
 
-      const result = await caller.myCoursesPage.getOverview();
+      const result = await caller.myBluedot.myCoursesPage();
       const byRegId = Object.fromEntries(result.courses.map((c) => [c.courseRegistration.id, c]));
       expect(byRegId['reg-x']?.rescheduleEligibleUnits).toEqual(['1']);
       expect(byRegId['reg-y']?.rescheduleEligibleUnits).toEqual(['2']);
     });
-  });
-});
-
-describe('myCoursesPage.getGroupParticipants', () => {
-  test('throws NOT_FOUND when meetPersonId belongs to a different user', async () => {
-    await testDb.insert(meetPersonTable, {
-      id: 'mp-someone-else',
-      email: 'someone-else@example.com',
-      applicationsBaseRecordId: 'reg-someone-else',
-      round: 'round-1',
-      role: 'Participant',
-    });
-
-    await expect(caller.myCoursesPage.getGroupParticipants({ meetPersonId: 'mp-someone-else' }))
-      .rejects.toThrow('meetPerson not found');
-
-    // Same error for a meetPersonId that doesn't exist at all — the authz check covers both.
-    await expect(caller.myCoursesPage.getGroupParticipants({ meetPersonId: 'mp-does-not-exist' }))
-      .rejects.toThrow('meetPerson not found');
-  });
-
-  test('returns facilitators + co-participants, sorted alphabetically, excluding the caller', async () => {
-    await testDb.insert(meetPersonTable, {
-      id: 'mp-me',
-      email: CALLER_EMAIL,
-      applicationsBaseRecordId: 'reg-me',
-      round: 'round-1',
-      role: 'Participant',
-      groupsAsParticipant: ['group-1'],
-    });
-    await testDb.insert(meetPersonTable, {
-      id: 'mp-fac-zara', email: 'zara-fac@example.com', applicationsBaseRecordId: 'reg-fac-zara', round: 'round-1', role: 'Facilitator', name: 'Zara Facilitator',
-    });
-    await testDb.insert(meetPersonTable, {
-      id: 'mp-fac-alice', email: 'alice-fac@example.com', applicationsBaseRecordId: 'reg-fac-alice', round: 'round-1', role: 'Facilitator', name: 'Alice Facilitator',
-    });
-    await testDb.insert(meetPersonTable, {
-      id: 'mp-p-bob', email: 'bob@example.com', applicationsBaseRecordId: 'reg-p-bob', round: 'round-1', role: 'Participant', name: 'Bob Participant',
-    });
-    await testDb.insert(meetPersonTable, {
-      id: 'mp-p-yara', email: 'yara@example.com', applicationsBaseRecordId: 'reg-p-yara', round: 'round-1', role: 'Participant', name: 'Yara Participant',
-    });
-
-    await testDb.insert(groupTable, {
-      id: 'group-1',
-      groupName: 'My Group',
-      round: 'round-1',
-      participants: ['mp-me', 'mp-p-yara', 'mp-p-bob'],
-      facilitator: ['mp-fac-zara', 'mp-fac-alice'],
-    });
-
-    const result = await caller.myCoursesPage.getGroupParticipants({ meetPersonId: 'mp-me' });
-
-    expect(result.facilitators.map((p) => p.name)).toEqual(['Alice Facilitator', 'Zara Facilitator']);
-    expect(result.participants.map((p) => p.name)).toEqual(['Bob Participant', 'Yara Participant']);
-  });
-
-  test('returns empty lists when the caller has no group', async () => {
-    await testDb.insert(meetPersonTable, {
-      id: 'mp-me',
-      email: CALLER_EMAIL,
-      applicationsBaseRecordId: 'reg-me',
-      round: 'round-1',
-      role: 'Participant',
-      // No groupsAsParticipant
-    });
-
-    const result = await caller.myCoursesPage.getGroupParticipants({ meetPersonId: 'mp-me' });
-
-    expect(result).toEqual({ facilitators: [], participants: [] });
   });
 });

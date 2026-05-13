@@ -8,7 +8,7 @@ type ViewParticipantsModalProps = {
 };
 
 const ViewParticipantsModal = ({ meetPersonId, handleClose }: ViewParticipantsModalProps) => {
-  const { data, isLoading, error } = trpc.myCoursesPage.getGroupParticipants.useQuery({ meetPersonId });
+  const { data, isLoading, error } = trpc.meetPerson.getGroupParticipants.useQuery({ meetPersonId });
 
   const facilitators = data?.facilitators ?? [];
   const participants = data?.participants ?? [];

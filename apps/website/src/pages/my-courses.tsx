@@ -108,7 +108,7 @@ const MyCoursesPage = () => {
     );
   };
 
-  const { data, isLoading, error } = trpc.myCoursesPage.getOverview.useQuery();
+  const { data, isLoading, error } = trpc.myBluedot.myCoursesPage.useQuery();
 
   const buckets = useMemo(() => bucketCoursesByTab(data?.courses), [data?.courses]);
 
