@@ -4,10 +4,10 @@ import { trpc } from '../../utils/trpc';
 import { type ConfigurableGrantProgramSlug } from './grantPrograms';
 
 export const useGrantApplicationUrl = (program: ConfigurableGrantProgramSlug): string | undefined => {
-  const { data: programs } = trpc.programs.getAll.useQuery();
+  const { data } = trpc.programs.getBySlug.useQuery({ slug: program });
   const { latestUtmParams } = useLatestUtmParams();
 
-  const applicationUrl = programs?.find((p) => p.slug === program)?.applicationForm;
+  const applicationUrl = data?.applicationForm;
   if (!applicationUrl) return undefined;
 
   return buildApplicationUrl(applicationUrl, latestUtmParams.utm_source);
