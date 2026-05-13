@@ -158,8 +158,6 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
 
   test('auto-issues a certificate when the final FOAI exercise is completed', async () => {
     await seedFoaiRegistration();
-    // exerciseTable is needed by issueFoaiCertificateIfComplete to determine the full set of
-    // FOAI exercises; the courseId gate itself comes from the mutation input now.
     await testDb.insert(exerciseTable, {
       id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Reading reflection', exerciseNumber: '1',
     });
@@ -173,7 +171,6 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
     const before = Math.floor(Date.now() / 1000);
     const result = await caller.exercises.saveExerciseResponse({
       exerciseId: 'foai-ex-2',
-      courseId: FOAI_COURSE_ID,
       response: 'plan submitted',
       completed: true,
     });
@@ -196,7 +193,6 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
 
     const result = await caller.exercises.saveExerciseResponse({
       exerciseId: 'foai-ex-1',
-      courseId: FOAI_COURSE_ID,
       response: 'done',
       completed: true,
     });
@@ -213,7 +209,6 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
 
     const result = await caller.exercises.saveExerciseResponse({
       exerciseId: 'other-ex-1',
-      courseId: 'rec-other',
       response: 'done',
       completed: true,
     });
@@ -253,7 +248,6 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
 
     const result = await caller.exercises.saveExerciseResponse({
       exerciseId: 'foai-ex-1',
-      courseId: FOAI_COURSE_ID,
       response: 'done',
       completed: true,
     });
@@ -274,7 +268,6 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
 
     const result = await caller.exercises.saveExerciseResponse({
       exerciseId: 'foai-ex-1',
-      courseId: FOAI_COURSE_ID,
       response: 'unmark',
       completed: false,
     });

@@ -43,10 +43,6 @@ export const exercisesRouter = router({
       exerciseId: z.string().min(1),
       response: z.string(),
       completed: z.boolean().optional(),
-      // Caller passes this so we can decide whether to run FoAI auto-issuance without looking up
-      // the exercise's courseId. When absent, auto-issuance is skipped and the user reloads to
-      // claim the cert.
-      courseId: z.string().optional(),
     }))
     .mutation(async ({ input, ctx }) => {
       let completedAt: string | null | undefined;
@@ -56,9 +52,15 @@ export const exercisesRouter = router({
         completedAt = null;
       } // else undefined = "don't change"
 
-      const existingResponse = await db.getFirst(exerciseResponseTable, {
-        filter: { exerciseId: input.exerciseId, email: ctx.auth.email },
-      });
+      // Fetch the exercise in parallel with the existing-response lookup so the FoAI auto-complete doesn't add latency.
+      const [existingResponse, exercise] = await Promise.all([
+        db.getFirst(exerciseResponseTable, {
+          filter: { exerciseId: input.exerciseId, email: ctx.auth.email },
+        }),
+        input.completed === true
+          ? db.getFirst(exerciseTable, { filter: { id: input.exerciseId }, sortBy: 'id' })
+          : Promise.resolve(undefined),
+      ]);
 
       const exerciseResponse = existingResponse
         ? await db.update(exerciseResponseTable, {
@@ -74,7 +76,7 @@ export const exercisesRouter = router({
           completedAt: completedAt ?? null,
         });
 
-      const certificateIssued = input.completed === true && input.courseId === FOAI_COURSE_ID
+      const certificateIssued = exercise?.courseId === FOAI_COURSE_ID
         ? await issueFoaiCertificateIfComplete(ctx.auth.email)
         : false;
 

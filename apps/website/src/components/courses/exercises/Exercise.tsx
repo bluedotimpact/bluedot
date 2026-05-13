@@ -125,9 +125,6 @@ const Exercise: React.FC<ExerciseProps> = ({
         exerciseId,
         response: exerciseResponse,
         completed, // undefined means "don't change", backend preserves existing value
-        // Passed so the server can decide whether to run FoAI auto-issuance without re-fetching
-        // the exercise to learn its courseId.
-        courseId: exerciseData?.courseId ?? undefined,
       });
     } catch {
       // Rollback handled by onError
