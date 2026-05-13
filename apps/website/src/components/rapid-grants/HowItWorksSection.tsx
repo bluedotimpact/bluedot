@@ -2,7 +2,7 @@ import { P } from '@bluedot/ui';
 import { pageSectionHeadingClass } from '../PageListRow';
 import { useGrantApplicationUrl } from '../grants/useGrantApplicationUrl';
 
-const buildProcessSteps = (applicationUrl: string) => [
+const buildProcessSteps = (applicationUrl: string | undefined) => [
   {
     number: '01',
     title: 'Apply',

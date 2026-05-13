@@ -10,7 +10,7 @@ export type GrantStat = {
 
 export type GrantStatsAction = {
   label: string;
-  url: string;
+  url: string | undefined;
   onClick?: (e: React.BaseSyntheticEvent) => void;
 };
 
@@ -51,16 +51,18 @@ const GrantStatsStrip = ({
           ))}
         </div>
         <div className="flex flex-wrap gap-3">
-          <CTALinkOrButton
-            variant="primary"
-            withChevron
-            url={primary.url}
-            target="_blank"
-            onClick={primary.onClick}
-          >
-            {primary.label}
-          </CTALinkOrButton>
-          {secondaryAction && (
+          {primary.url && (
+            <CTALinkOrButton
+              variant="primary"
+              withChevron
+              url={primary.url}
+              target="_blank"
+              onClick={primary.onClick}
+            >
+              {primary.label}
+            </CTALinkOrButton>
+          )}
+          {secondaryAction?.url && (
             <CTALinkOrButton
               variant="secondary"
               withChevron
