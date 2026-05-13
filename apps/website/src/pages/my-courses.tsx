@@ -7,7 +7,7 @@ import MyBlueDotLayout from '../components/MyBlueDotLayout';
 import InactiveCourseBanners from '../components/courses/InactiveCourseBanners';
 import CourseList from '../components/my-courses/CourseList';
 import { classifyCourseRegistration, type CourseListRowProps } from '../components/my-courses/CourseListRow';
-import NextDiscussionSection from '../components/my-courses/NextDiscussionSection';
+import NextDiscussionCard from '../components/my-courses/NextDiscussionCard';
 import TabPills from '../components/my-courses/TabPills';
 import { ROUTES } from '../lib/routes';
 import { trpc } from '../utils/trpc';
@@ -154,12 +154,15 @@ const MyCoursesPage = () => {
           {!isLoading && !error && data && (
             <>
               {nextDiscussion && (
-                <NextDiscussionSection
-                  courseSlug={nextDiscussion.courseSlug}
-                  courseTitle={nextDiscussion.courseTitle}
-                  discussion={nextDiscussion.discussion}
-                  unit={nextDiscussion.unit}
-                />
+                <div>
+                  <h2 className="mb-3 text-size-sm font-semibold text-bluedot-navy">Next discussion</h2>
+                  <NextDiscussionCard
+                    courseSlug={nextDiscussion.courseSlug}
+                    courseTitle={nextDiscussion.courseTitle}
+                    discussion={nextDiscussion.discussion}
+                    unit={nextDiscussion.unit}
+                  />
+                </div>
               )}
               <TabPills
                 ariaLabel="Course filter"

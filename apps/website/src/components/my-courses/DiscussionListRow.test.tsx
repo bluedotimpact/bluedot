@@ -1,5 +1,5 @@
 import {
-  describe, test, expect, vi,
+  afterEach, beforeEach, describe, expect, test, vi,
 } from 'vitest';
 import {
   render, screen, fireEvent, waitFor,
@@ -10,7 +10,13 @@ import { createMockGroupDiscussion } from '../../__tests__/testUtils';
 import DiscussionListRow from './DiscussionListRow';
 import * as downloadModule from '../../lib/downloadCalendarFile';
 
-const discussion = createMockGroupDiscussion({
+const NOW = new Date('2026-04-28T15:00:00Z').getTime();
+const NOW_SEC = Math.floor(NOW / 1000);
+const HOUR = 60 * 60;
+
+type DisplayStatus = 'upcoming' | 'soon' | 'live' | 'attended' | 'absent';
+
+const baseDiscussion = createMockGroupDiscussion({
   id: 'disc-1',
   unitNumber: 4,
   zoomLink: 'https://zoom.us/j/000',
@@ -21,17 +27,53 @@ const unit = {
   title: 'Detecting danger',
 } as unknown as Unit;
 
-const renderRow = (overrides: Partial<React.ComponentProps<typeof DiscussionListRow>> = {}) => render(<ul>
-  <DiscussionListRow
-    discussion={discussion}
-    unit={unit}
-    courseSlug="technical-ai-safety"
-    status="upcoming"
-    canReschedule
-    onReschedule={() => {}}
-    {...overrides}
-  />
-</ul>);
+/**
+ * Translate the legacy `status` test fixture into the discussion/isAttended shape the row
+ * now takes. Each case picks start/end relative to a fixed fake-now so the row's internal
+ * time-state derivation lands on the desired branch.
+ */
+const propsForStatus = (
+  status: DisplayStatus,
+  discussion: GroupDiscussion = baseDiscussion,
+): { discussion: GroupDiscussion; isAttended: boolean } => {
+  switch (status) {
+    case 'upcoming':
+      return { discussion: { ...discussion, startDateTime: NOW_SEC + 2 * HOUR, endDateTime: NOW_SEC + 3 * HOUR }, isAttended: false };
+    case 'soon':
+      return { discussion: { ...discussion, startDateTime: NOW_SEC + 10 * 60, endDateTime: NOW_SEC + 70 * 60 }, isAttended: false };
+    case 'live':
+      return { discussion: { ...discussion, startDateTime: NOW_SEC - 10 * 60, endDateTime: NOW_SEC + 50 * 60 }, isAttended: false };
+    case 'attended':
+      return { discussion: { ...discussion, startDateTime: NOW_SEC - 2 * HOUR, endDateTime: NOW_SEC - HOUR }, isAttended: true };
+    case 'absent':
+    default:
+      return { discussion: { ...discussion, startDateTime: NOW_SEC - 2 * HOUR, endDateTime: NOW_SEC - HOUR }, isAttended: false };
+  }
+};
+
+const renderRow = ({
+  status = 'upcoming',
+  discussion = baseDiscussion,
+  ...overrides
+}: {
+  status?: DisplayStatus;
+  discussion?: GroupDiscussion;
+  unit?: Unit | null;
+  canReschedule?: boolean;
+  onReschedule?: () => void;
+} = {}) => {
+  const statusProps = propsForStatus(status, discussion);
+  return render(<ul>
+    <DiscussionListRow
+      unit={unit}
+      courseSlug="technical-ai-safety"
+      canReschedule
+      onReschedule={() => {}}
+      {...statusProps}
+      {...overrides}
+    />
+  </ul>);
+};
 
 /** Open the overflow menu inside the given viewport's container (the `hidden sm:flex` div for
  *  desktop, the `sm:hidden` div for mobile) and return its menu item labels. Returns [] when
@@ -47,6 +89,15 @@ const openOverflowAndGetLabels = (container: HTMLElement, instance: 'desktop' | 
 };
 
 describe('DiscussionListRow', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(NOW);
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   describe('Download calendar file visibility (regression: should NOT show on past states)', () => {
     test.each(['upcoming', 'soon', 'live'] as const)('shows on %s', (status) => {
       const { container } = renderRow({ status });
@@ -58,7 +109,7 @@ describe('DiscussionListRow', () => {
       { status: 'absent' as const, canReschedule: false },
     ])('hidden on $status (past event, calendar file is stale)', ({ status, canReschedule }) => {
       const { container } = renderRow({ status, canReschedule });
-      // No overflow-variant items → desktop overflow menu doesn't render at all.
+      // No overflow-variant items -> desktop overflow menu doesn't render at all.
       expect(container.querySelector('.sm\\:flex button[aria-label="Discussion actions"]')).toBeNull();
     });
   });
@@ -67,7 +118,7 @@ describe('DiscussionListRow', () => {
     // For each state, an action label rendered inline should NOT also appear in the desktop
     // overflow menu (and vice-versa). Mobile overflow legitimately mirrors inline content (since
     // the inline row is CSS-hidden at narrow widths), so it's excluded from this check.
-    const statesUnderTest: { status: React.ComponentProps<typeof DiscussionListRow>['status']; canReschedule: boolean }[] = [
+    const statesUnderTest: { status: DisplayStatus; canReschedule: boolean }[] = [
       { status: 'upcoming', canReschedule: true },
       { status: 'soon', canReschedule: true },
       { status: 'live', canReschedule: true },
@@ -110,14 +161,14 @@ describe('DiscussionListRow', () => {
     });
 
     test('hidden on live without zoomLink', () => {
-      const noZoom = { ...discussion, zoomLink: null } as GroupDiscussion;
+      const noZoom = { ...baseDiscussion, zoomLink: null } as GroupDiscussion;
       renderRow({ status: 'live', discussion: noZoom });
       expect(screen.queryByRole('link', { name: 'Join now' })).toBeNull();
     });
   });
 
   test('title falls back to "Discussion" plain text when unit and unitNumber are missing', () => {
-    const noUnitDiscussion = { ...discussion, unitNumber: null } as GroupDiscussion;
+    const noUnitDiscussion = { ...baseDiscussion, unitNumber: null } as GroupDiscussion;
     const { container } = renderRow({ unit: null, discussion: noUnitDiscussion });
     // Title is rendered as text, not as a link, when there's no unit number to link to.
     expect(screen.getByText('Discussion').tagName).toBe('P');
@@ -125,10 +176,29 @@ describe('DiscussionListRow', () => {
   });
 
   test('renders download-error alert when the calendar download throws', async () => {
+    // This test needs real timers for waitFor to resolve promise microtasks. We construct
+    // the discussion's start/end relative to real "now" so the row still reads as upcoming.
+    vi.useRealTimers();
     vi.spyOn(downloadModule, 'downloadDiscussionCalendarFile').mockRejectedValueOnce(new Error('boom'));
 
-    const { container } = renderRow({ status: 'upcoming' });
-    const overflowButton = container.querySelector('.sm\\:flex button[aria-label="Discussion actions"]') as HTMLButtonElement;
+    const realNowSec = Math.floor(Date.now() / 1000);
+    const upcomingDiscussion = {
+      ...baseDiscussion,
+      startDateTime: realNowSec + 2 * HOUR,
+      endDateTime: realNowSec + 3 * HOUR,
+    };
+    const { container } = render(<ul>
+      <DiscussionListRow
+        discussion={upcomingDiscussion}
+        unit={unit}
+        courseSlug="technical-ai-safety"
+        isAttended={false}
+        canReschedule
+        onReschedule={() => {}}
+      />
+    </ul>);
+
+    const overflowButton = container.querySelector('.sm\\:flex button[aria-label="Discussion actions"]')!;
     fireEvent.click(overflowButton);
     const downloadItem = Array.from(document.querySelectorAll('[role="menuitem"]'))
       .find((i) => i.textContent?.trim() === 'Download calendar file') as HTMLElement;
