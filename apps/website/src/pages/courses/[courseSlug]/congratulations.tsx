@@ -45,7 +45,7 @@ export default function CongratulationsPage({
   // FoAI is self-paced: the only valid entry to Congratulations is having earned the certificate.
   // Cohort courses use the shared `isCongratulationsAccessible` rules.
   const isAccessible = courseSlug === FOAI_COURSE_SLUG
-    ? !certificateData || certificateData.status === 'has-certificate'
+    ? certificateData?.status === 'has-certificate'
     : isCongratulationsAccessible(certificateData);
 
   if (!isAccessible) {
