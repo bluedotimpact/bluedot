@@ -3,6 +3,7 @@ import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
 import GrantStatsStrip from '../../components/grants/sections/GrantStatsStrip';
+import FieldBuildersSection from '../../components/builder-week/FieldBuildersSection';
 import TheWeekSection from '../../components/builder-week/TheWeekSection';
 import WhoYouAreSection from '../../components/builder-week/WhoYouAreSection';
 import WhatCouldYouBuildSection from '../../components/builder-week/WhatCouldYouBuildSection';
@@ -55,10 +56,11 @@ const BuilderWeekProgramPage = ({ programName, programDescription }: ProgramDeta
         stats={[
           { label: 'Cohort', value: 'v1' },
           { label: 'Runs', value: '8–12 June' },
-          { label: 'On the spot', value: '$5k' },
-          { label: 'Path to', value: '$200k total' },
+          { label: 'Funding', value: 'Up to $200k' },
+          { label: 'Covered', value: 'Flights, accom, meals' },
         ]}
       />
+      <FieldBuildersSection />
       <TheWeekSection />
       <WhoYouAreSection />
       <WhatCouldYouBuildSection />

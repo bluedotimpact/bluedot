@@ -1,11 +1,40 @@
+import { P } from '@bluedot/ui';
+import {
+  PiFlask,
+  PiGearSix,
+  PiMegaphone,
+  PiPencilSimple,
+  PiCompass,
+  PiSparkle,
+} from 'react-icons/pi';
 import { pageSectionHeadingClass } from '../PageListRow';
 
 const EXAMPLES = [
-  'A biosecurity stream for MATS or other fellowships',
-  'Bootcamps to bring in senior ops talent',
-  'Creator fellowships to generate greater public awareness on AI safety',
-  'Writing fellowships to translate complex ideas in AI safety for specific audiences',
-  'Fellowships to bring in particular experts into the field',
+  {
+    icon: PiFlask,
+    title: 'Biosecurity stream',
+    description: 'for MATS or other fellowships.',
+  },
+  {
+    icon: PiGearSix,
+    title: 'Ops bootcamps',
+    description: 'to bring in senior talent into the field for chief of staff, biz ops or other similar roles.',
+  },
+  {
+    icon: PiMegaphone,
+    title: 'Creator fellowships',
+    description: 'to generate greater public awareness on AI safety.',
+  },
+  {
+    icon: PiPencilSimple,
+    title: 'Writing fellowships',
+    description: 'to translate complex ideas in AI safety for specific audiences.',
+  },
+  {
+    icon: PiCompass,
+    title: 'Expert fellowships',
+    description: 'to bring particular experts into the field.',
+  },
 ];
 
 const WhatCouldYouBuildSection = () => {
@@ -13,11 +42,39 @@ const WhatCouldYouBuildSection = () => {
     <section className="section section-body builder-week-what-could-you-build-section">
       <div className="w-full flex flex-col gap-6">
         <h3 className={pageSectionHeadingClass}>What could you build?</h3>
-        <ul className="list-disc pl-6 flex flex-col gap-2">
-          {EXAMPLES.map((example) => (
-            <li key={example}>{example}</li>
+        <div className="grid gap-5 grid-cols-1 bd-md:grid-cols-2 lg:grid-cols-3">
+          {EXAMPLES.map(({ icon: Icon, title, description }) => (
+            <div
+              key={title}
+              className="flex flex-col gap-4 rounded-xl border border-bluedot-navy/10 bg-white p-6"
+            >
+              <div className="size-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-lighter/50">
+                <Icon className="text-bluedot-navy" size={24} />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <h4 className="text-size-md font-semibold leading-tight text-bluedot-navy">
+                  {title}
+                </h4>
+                <P className="text-size-sm leading-[1.6] text-bluedot-navy/80">
+                  {description}
+                </P>
+              </div>
+            </div>
           ))}
-        </ul>
+          <div className="flex flex-col gap-4 rounded-xl border-2 border-dashed border-bluedot-navy/20 bg-bluedot-lighter/20 p-6">
+            <div className="size-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-bluedot-lighter/60">
+              <PiSparkle className="text-bluedot-navy" size={24} />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <h4 className="text-size-md font-semibold leading-tight text-bluedot-navy">
+                Your idea
+              </h4>
+              <P className="text-size-sm leading-[1.6] text-bluedot-navy/80">
+                Pitch us whatever you&apos;ve been sitting on. If it brings serious talent into AI safety, we want to hear it.
+              </P>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
