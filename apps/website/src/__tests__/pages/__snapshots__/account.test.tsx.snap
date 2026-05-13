@@ -27,7 +27,6 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
               Home
             </a>
             <span
-              aria-hidden="true"
               class="breadcrumbs__separator mx-2"
             >
               &gt;
@@ -37,7 +36,7 @@ exports[`AccountSettingsPage > should render account settings page correctly 1`]
             class="breadcrumbs__item flex items-center"
           >
             <a
-              class="bluedot-a not-prose breadcrumbs__link no-underline opacity-50"
+              class="bluedot-a not-prose breadcrumbs__link no-underline"
               href="/account"
               tabindex="0"
             >
