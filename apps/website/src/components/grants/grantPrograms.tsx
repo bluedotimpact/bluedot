@@ -2,7 +2,7 @@ import type React from 'react';
 import type { FAQItem } from '../lander/components/FAQSection';
 
 export type GrantProgramStatus = 'Active' | 'On hiatus';
-export type GrantProgramSlug = 'rapid-grants' | 'career-transition-grant' | 'technical-ai-safety-project-sprint' | 'incubator-week' | 'advising';
+export type GrantProgramSlug = 'rapid-grants' | 'career-transition-grant' | 'technical-ai-safety-project-sprint' | 'incubator-week' | 'builder-week' | 'advising';
 
 export type GrantProgramTrack = 'Funding' | 'Build' | 'Launch';
 
@@ -22,6 +22,7 @@ export const RAPID_GRANT_APPLICATION_URL = 'https://airtable.com/appMVNtdBtvtJvu
 export const CAREER_TRANSITION_GRANT_APPLICATION_URL = 'https://airtable.com/appMVNtdBtvtJvu5E/pagyKD4M0wd0ci2gH/form';
 export const ONE_ON_ONE_ADVISING_APPLICATION_URL = 'https://web.miniextensions.com/elMoT4tTN0jx49tNB0cS';
 export const INCUBATOR_WEEK_APPLICATION_URL = 'https://airtable.com/appnJbsG1eWbAdEvf/pagA7JU8pPkkbDCOJ/form';
+export const BUILDER_WEEK_APPLICATION_URL = 'https://airtable.com/';
 
 export const GRANT_PROGRAMS: GrantProgramDefinition[] = [
   {
@@ -106,7 +107,7 @@ export const getGrantProgramViewTransitionStyle = (
 });
 
 /** Slugs that have a marketing page assembled from the shared section components. */
-export type ConfigurableGrantProgramSlug = 'rapid-grants' | 'career-transition-grant' | 'advising' | 'incubator-week';
+export type ConfigurableGrantProgramSlug = 'rapid-grants' | 'career-transition-grant' | 'advising' | 'incubator-week' | 'builder-week';
 
 export type GrantProgramSectionConfig = {
   applicationUrl: string;
@@ -226,6 +227,10 @@ export const GRANT_PROGRAM_SECTIONS: Record<ConfigurableGrantProgramSlug, GrantP
         answerText: 'We\'re a London-based nonprofit. Since 2022, we\'ve trained over 6,000 people. Our courses are the main entry point into the AI safety field, with alumni now working at OpenAI, Anthropic, DeepMind, the UK AI Safety Institute, and many more. Incubator Week is our program for the most entrepreneurial participants — the ones ready to build the organizations the world needs.',
       },
     ],
+  },
+  'builder-week': {
+    applicationUrl: BUILDER_WEEK_APPLICATION_URL,
+    faqItems: [],
   },
   advising: {
     applicationUrl: ONE_ON_ONE_ADVISING_APPLICATION_URL,
