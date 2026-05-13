@@ -20,6 +20,7 @@ const FALLBACK_NAME = 'Builder Week';
 const FALLBACK_DESCRIPTION = 'There are ~2k people working full-time on AI safety. The field needs thousands more. Fly to London for 5 days to design and launch a new pathway. $5k on the spot if your pitch lands. Up to $200k for the strongest programs.';
 const APPLICATION_DEADLINE = '1 June 2026';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
+const LINK_PREVIEW_IMAGE = `${SITE_URL}/images/programs/link-preview/builder-week.png`;
 
 const BuilderWeekProgramPage = ({ programName, programDescription }: ProgramDetailPageProps) => {
   const applicationUrl = useGrantApplicationUrl('builder-week');
@@ -37,9 +38,15 @@ const BuilderWeekProgramPage = ({ programName, programDescription }: ProgramDeta
         <meta property="og:title" content={`${programName} | BlueDot Impact`} />
         <meta property="og:description" content={programDescription} />
         <meta property="og:url" content={`${SITE_URL}/programs/builder-week`} />
+        <meta property="og:image" content={LINK_PREVIEW_IMAGE} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:alt" content={programDescription} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={`${programName} | BlueDot Impact`} />
         <meta name="twitter:description" content={programDescription} />
+        <meta name="twitter:image" content={LINK_PREVIEW_IMAGE} />
       </Head>
       <MarketingHero
         title={programName}
