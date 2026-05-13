@@ -206,6 +206,9 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-other', email: CALLER_EMAIL, courseId: 'rec-other', decision: 'Accept',
     });
+    await testDb.insert(exerciseTable, {
+      id: 'other-ex-1', courseId: 'rec-other', status: 'Active', title: 'Other', exerciseNumber: '1',
+    });
 
     const result = await caller.exercises.saveExerciseResponse({
       exerciseId: 'other-ex-1',
@@ -218,24 +221,6 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
     expect(reg.certificateId).toBeFalsy();
   });
 
-  test('skips auto-issue when courseId is omitted', async () => {
-    await seedFoaiRegistration();
-    await testDb.insert(exerciseTable, {
-      id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Ex 1', exerciseNumber: '1',
-    });
-    await testDb.insert(exerciseResponseTable, {
-      id: 'resp-1', email: CALLER_EMAIL, exerciseId: 'foai-ex-1', response: 'done', completedAt: '2026-01-01',
-    });
-
-    const result = await caller.exercises.saveExerciseResponse({
-      exerciseId: 'foai-ex-1',
-      response: 'done',
-      completed: true,
-    });
-
-    expect(result.certificateIssued).toBe(false);
-  });
-
   test('is a no-op when the certificate is already issued', async () => {
     await testDb.insert(courseRegistrationTable, {
       id: 'reg-foai',
@@ -244,6 +229,9 @@ describe('exercises.saveExerciseResponse — FOAI auto-certificate', () => {
       decision: 'Accept',
       certificateId: 'reg-foai',
       certificateCreatedAt: 1700000000,
+    });
+    await testDb.insert(exerciseTable, {
+      id: 'foai-ex-1', courseId: FOAI_COURSE_ID, status: 'Active', title: 'Ex 1', exerciseNumber: '1',
     });
 
     const result = await caller.exercises.saveExerciseResponse({
