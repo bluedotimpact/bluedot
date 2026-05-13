@@ -1,6 +1,4 @@
-import {
-  describe, test, expect, vi,
-} from 'vitest';
+import { describe, test, expect } from 'vitest';
 import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import type { CourseRegistration } from '@bluedot/db';

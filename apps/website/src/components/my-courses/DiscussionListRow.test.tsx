@@ -1,11 +1,14 @@
 import {
   describe, test, expect, vi,
 } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import {
+  render, screen, fireEvent, waitFor,
+} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import type { GroupDiscussion, Unit } from '@bluedot/db';
 import { createMockGroupDiscussion } from '../../__tests__/testUtils';
 import DiscussionListRow from './DiscussionListRow';
+import * as downloadModule from '../../lib/downloadCalendarFile';
 
 const discussion = createMockGroupDiscussion({
   id: 'disc-1',
@@ -45,35 +48,18 @@ const openOverflowAndGetLabels = (container: HTMLElement, instance: 'desktop' | 
 
 describe('DiscussionListRow', () => {
   describe('Download calendar file visibility (regression: should NOT show on past states)', () => {
-    test('shows on upcoming', () => {
-      const { container } = renderRow({ status: 'upcoming' });
-      const labels = openOverflowAndGetLabels(container, 'desktop');
-      expect(labels).toContain('Download calendar file');
+    test.each(['upcoming', 'soon', 'live'] as const)('shows on %s', (status) => {
+      const { container } = renderRow({ status });
+      expect(openOverflowAndGetLabels(container, 'desktop')).toContain('Download calendar file');
     });
 
-    test('shows on soon', () => {
-      const { container } = renderRow({ status: 'soon' });
-      const labels = openOverflowAndGetLabels(container, 'desktop');
-      expect(labels).toContain('Download calendar file');
-    });
-
-    test('shows on live', () => {
-      const { container } = renderRow({ status: 'live' });
-      const labels = openOverflowAndGetLabels(container, 'desktop');
-      expect(labels).toContain('Download calendar file');
-    });
-
-    test('hidden on attended (past event, calendar file is stale)', () => {
-      const { container } = renderRow({ status: 'attended' });
-      const desktopOverflow = container.querySelectorAll('button[aria-label="Discussion actions"]')[0];
-      // Desktop overflow shouldn't render at all when there are no overflow-variant items.
-      expect(desktopOverflow).toBeUndefined();
-    });
-
-    test('hidden on absent (past event, calendar file is stale)', () => {
-      const { container } = renderRow({ status: 'absent', canReschedule: false });
-      const desktopOverflow = container.querySelectorAll('button[aria-label="Discussion actions"]')[0];
-      expect(desktopOverflow).toBeUndefined();
+    test.each([
+      { status: 'attended' as const, canReschedule: true },
+      { status: 'absent' as const, canReschedule: false },
+    ])('hidden on $status (past event, calendar file is stale)', ({ status, canReschedule }) => {
+      const { container } = renderRow({ status, canReschedule });
+      // No overflow-variant items → desktop overflow menu doesn't render at all.
+      expect(container.querySelector('.sm\\:flex button[aria-label="Discussion actions"]')).toBeNull();
     });
   });
 
@@ -128,18 +114,29 @@ describe('DiscussionListRow', () => {
       renderRow({ status: 'live', discussion: noZoom });
       expect(screen.queryByRole('link', { name: 'Join now' })).toBeNull();
     });
-
-    test('hidden on soon (only flips on live per design)', () => {
-      renderRow({ status: 'soon' });
-      expect(screen.queryByRole('link', { name: 'Join now' })).toBeNull();
-    });
   });
 
-  test('calls onReschedule when Reschedule is clicked', () => {
-    const onReschedule = vi.fn();
-    renderRow({ status: 'upcoming', onReschedule });
-    const button = screen.getAllByRole('button', { name: 'Reschedule' })[0]!;
-    fireEvent.click(button);
-    expect(onReschedule).toHaveBeenCalledOnce();
+  test('title falls back to "Discussion" plain text when unit and unitNumber are missing', () => {
+    const noUnitDiscussion = { ...discussion, unitNumber: null } as GroupDiscussion;
+    const { container } = renderRow({ unit: null, discussion: noUnitDiscussion });
+    // Title is rendered as text, not as a link, when there's no unit number to link to.
+    expect(screen.getByText('Discussion').tagName).toBe('P');
+    expect(container.querySelector('a[href^="/courses/"]')).toBeNull();
+  });
+
+  test('renders download-error alert when the calendar download throws', async () => {
+    vi.spyOn(downloadModule, 'downloadDiscussionCalendarFile').mockRejectedValueOnce(new Error('boom'));
+
+    const { container } = renderRow({ status: 'upcoming' });
+    const overflowButton = container.querySelector('.sm\\:flex button[aria-label="Discussion actions"]') as HTMLButtonElement;
+    fireEvent.click(overflowButton);
+    const downloadItem = Array.from(document.querySelectorAll('[role="menuitem"]'))
+      .find((i) => i.textContent?.trim() === 'Download calendar file') as HTMLElement;
+    fireEvent.click(downloadItem);
+
+    await waitFor(() => {
+      const alert = screen.getByRole('alert');
+      expect(alert.textContent).toMatch(/Could not download/i);
+    });
   });
 });

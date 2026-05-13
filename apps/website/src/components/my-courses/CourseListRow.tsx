@@ -11,7 +11,9 @@ import { ChevronRightIcon } from '../icons';
 import { COURSE_CONFIG, FOAI_COURSE_SLUG } from '../../lib/constants';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
 import { ROUTES } from '../../lib/routes';
-import { buildApplicationUrl, buildGroupSlackChannelUrl, formatMonthAndDay, getActionPlanUrl } from '../../lib/utils';
+import {
+  buildApplicationUrl, buildGroupSlackChannelUrl, formatMonthAndDay, getActionPlanUrl,
+} from '../../lib/utils';
 import DropoutModal from '../courses/DropoutModal';
 import GroupSwitchModal, { buildAvailabilityFormUrl, type SwitchType } from '../courses/GroupSwitchModal';
 import ViewParticipantsModal from '../courses/ViewParticipantsModal';
