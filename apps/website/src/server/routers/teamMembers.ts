@@ -14,6 +14,15 @@ function getFirstImageUrl(imageAttachmentUrls: string | string[] | null): string
   return imageAttachmentUrls.split(' ')[0] ?? '';
 }
 
+function getAdvisorProfileDescription(advisorProfileDescription: string | null): string | undefined {
+  const trimmed = advisorProfileDescription?.trim();
+  if (!trimmed) {
+    return undefined;
+  }
+
+  return trimmed;
+}
+
 export const teamMembersRouter = router({
   getAll: publicProcedure
     .query(async () => {
@@ -45,6 +54,7 @@ export const teamMembersRouter = router({
           jobTitle: m.jobTitle,
           imageUrl: getFirstImageUrl(m.imagePublicUrls),
           url: m.url ?? undefined,
+          advisorProfileDescription: getAdvisorProfileDescription(m.advisorProfileDescription),
         }))
         .sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''));
     }),
