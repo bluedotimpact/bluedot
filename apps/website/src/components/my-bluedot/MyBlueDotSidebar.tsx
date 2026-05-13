@@ -2,6 +2,7 @@ import { ClickTarget } from '@bluedot/ui';
 import { useRouter } from 'next/router';
 
 const NAV_ITEMS = [
+  // TODO Facilitated Courses
   { label: 'My Courses', href: '/my-courses' },
   { label: 'Account', href: '/account' },
 ];
