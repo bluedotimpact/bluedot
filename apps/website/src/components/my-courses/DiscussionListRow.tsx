@@ -20,10 +20,10 @@ const DiscussionListRow = ({
   discussion, unit, courseSlug, status, canReschedule, onReschedule,
 }: DiscussionListRowProps) => {
   const [downloadError, setDownloadError] = useState<string | null>(null);
-  const [isDownloading, setIsDownloading] = useState(false);
+  const [isDownloadingCalendar, setIsDownloading] = useState(false);
 
-  const handleDownloadCalendar = async () => {
-    if (isDownloading) return;
+  const handleDownloadCalendarFile = async () => {
+    if (isDownloadingCalendar) return;
     try {
       setDownloadError(null);
       setIsDownloading(true);
@@ -38,9 +38,9 @@ const DiscussionListRow = ({
   const unitNumber = unit?.unitNumber ?? discussion.unitNumber;
   const unitLabel = unitNumber !== null ? `UNIT ${unitNumber}` : 'UNIT';
   const title = unit?.title ?? 'Discussion';
-  const prepareUrl = unitNumber !== null ? `/courses/${courseSlug}/${unitNumber}` : null;
+  const discussionPrepareLink = unitNumber !== null ? `/courses/${courseSlug}/${unitNumber}` : null;
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  const joinHref = discussion.zoomLink || undefined;
+  const discussionMeetLink = discussion.zoomLink || undefined;
 
   const isPast = status === 'attended' || status === 'absent';
   const isFutureLike = status === 'upcoming' || status === 'soon' || status === 'live';
@@ -68,11 +68,11 @@ const DiscussionListRow = ({
     },
     {
       id: 'join-now',
-      isVisible: status === 'live' && Boolean(joinHref),
+      isVisible: status === 'live' && Boolean(discussionMeetLink),
       variant: 'inline',
-      inline: joinHref ? <CTALinkOrButton variant="primary" size="small" url={joinHref} target="_blank">Join now</CTALinkOrButton> : null,
+      inline: discussionMeetLink ? <CTALinkOrButton variant="primary" size="small" url={discussionMeetLink} target="_blank">Join now</CTALinkOrButton> : null,
       overflow: {
-        id: 'join', label: 'Join now', href: joinHref ?? '', target: '_blank',
+        id: 'join', label: 'Join now', href: discussionMeetLink ?? '', target: '_blank',
       },
     },
     {
@@ -114,8 +114,8 @@ const DiscussionListRow = ({
       variant: 'overflow',
       overflow: {
         id: 'cal',
-        label: isDownloading ? 'Downloading…' : 'Download calendar file',
-        onAction: handleDownloadCalendar,
+        label: isDownloadingCalendar ? 'Downloading calendar file...' : 'Download calendar file',
+        onAction: handleDownloadCalendarFile,
       },
     },
   ];
@@ -137,9 +137,9 @@ const DiscussionListRow = ({
       <TimeWidget isLive={status === 'live'} dateTimeSeconds={discussion.startDateTime} />
       <div className="min-w-0 flex-1">
         <p className="text-size-xxs font-semibold text-bluedot-black">{unitLabel}</p>
-        {prepareUrl ? (
+        {discussionPrepareLink ? (
           <a
-            href={prepareUrl}
+            href={discussionPrepareLink}
             className="block text-size-sm font-semibold leading-[24px] text-bluedot-black no-underline w-fit transition-colors hover:text-bluedot-normal hover:underline underline-offset-2"
           >
             {title}
