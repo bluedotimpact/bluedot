@@ -180,7 +180,7 @@ const DiscussionListRow = ({
   );
 };
 
-const TimeWidget = ({ isLive, dateTimeSeconds }: { isLive: boolean; dateTimeSeconds: number; }) => (
+const TimeWidget = ({ isLive, dateTimeSeconds }: { isLive: boolean; dateTimeSeconds: number }) => (
   <div className="flex shrink-0 min-w-[85px] flex-col items-stretch overflow-hidden rounded-[5px] border border-color-divider">
     {isLive ? (
       <>

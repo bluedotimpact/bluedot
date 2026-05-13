@@ -3,7 +3,7 @@ import { ErrorSection, ProgressDots } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
-import MyBlueDotLayout from '../components/MyBlueDotLayout';
+import MyBlueDotLayout from '../components/my-bluedot/MyBlueDotLayout';
 import InactiveCourseBanners from '../components/courses/InactiveCourseBanners';
 import CourseList from '../components/my-courses/CourseList';
 import { classifyCourseRegistration, type CourseListRowProps } from '../components/my-courses/CourseListRow';
