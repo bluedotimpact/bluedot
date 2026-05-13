@@ -727,6 +727,105 @@ describe('groupSwitching.discussionsAvailable', () => {
 
     expect(result.groupsAvailable[0]!.spotsLeftIfKnown).toBeNull();
   });
+
+  test('returns rescheduleEligibleUnits for units with a non-self future discussion', async () => {
+    await seedCourseWithGroups();
+
+    // Unit 2: only the user's own group has a discussion (no alternative to switch into).
+    await testDb.insert(groupDiscussionTable, {
+      id: 'disc-a2',
+      group: 'group-a',
+      round: 'round-1',
+      unitNumber: 2,
+      unit: 'unit-2',
+      startDateTime: futureTimeSecs,
+      endDateTime: farFutureTimeSecs,
+      facilitators: ['facilitator-1'],
+      participantsExpected: ['participant-1', 'other-participant'],
+    });
+
+    const result = await caller.groupSwitching.discussionsAvailable({ roundId: 'round-1' });
+
+    // Unit 1 has Group B as an alternative → eligible.
+    // Unit 2 only has the user's own discussion → not eligible.
+    expect(result.rescheduleEligibleUnits).toEqual(['1']);
+  });
+
+  test('excludes units whose only alternative is in a humanOpinion-blocked group', async () => {
+    await testDb.insert(courseTable, {
+      id: 'course-1',
+      slug: 'test-course',
+      title: 'Test',
+      shortDescription: 'Test',
+      units: [],
+    });
+
+    await testDb.insert(roundTable, {
+      id: 'round-1',
+      title: 'Round 1',
+      course: 'course-1',
+      maxParticipantsPerGroup: 5,
+    });
+
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-1',
+      email: 'test@example.com',
+      courseId: 'course-1',
+      decision: 'Accept',
+    });
+
+    await testDb.insert(meetPersonTable, {
+      id: 'participant-1',
+      email: 'test@example.com',
+      applicationsBaseRecordId: 'reg-1',
+      round: 'round-1',
+      role: 'Participant',
+      humanOpinion: 'Strong yes',
+    });
+
+    // User's own group + an alternative gated to a different opinion.
+    await testDb.insert(groupTable, {
+      id: 'my-group',
+      groupName: 'My Group',
+      round: 'round-1',
+      participants: ['participant-1'],
+      whoCanSwitchIntoThisGroup: ['Strong yes'],
+    });
+
+    await testDb.insert(groupTable, {
+      id: 'blocked-group',
+      groupName: 'Blocked Group',
+      round: 'round-1',
+      participants: ['someone-else'],
+      whoCanSwitchIntoThisGroup: ['Weak yes'],
+    });
+
+    await testDb.insert(groupDiscussionTable, {
+      group: 'my-group',
+      round: 'round-1',
+      unitNumber: 1,
+      unit: 'unit-1',
+      startDateTime: futureTimeSecs,
+      endDateTime: farFutureTimeSecs,
+      facilitators: ['fac-1'],
+      participantsExpected: ['participant-1'],
+    });
+
+    await testDb.insert(groupDiscussionTable, {
+      group: 'blocked-group',
+      round: 'round-1',
+      unitNumber: 1,
+      unit: 'unit-1',
+      startDateTime: futureTimeSecs,
+      endDateTime: farFutureTimeSecs,
+      facilitators: ['fac-2'],
+      participantsExpected: ['someone-else'],
+    });
+
+    const result = await caller.groupSwitching.discussionsAvailable({ roundId: 'round-1' });
+
+    expect(result.rescheduleEligibleUnits).toEqual([]);
+  });
 });
 
 describe('groupSwitching.switchGroup', () => {

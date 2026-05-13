@@ -38,6 +38,7 @@ const mockAvailableGroups: DiscussionsAvailable = {
     },
   ],
   discussionsAvailable: {},
+  rescheduleEligibleUnits: [],
 };
 
 const mockNoSpotsGroups: DiscussionsAvailable = {
@@ -62,6 +63,7 @@ const mockNoSpotsGroups: DiscussionsAvailable = {
     },
   ],
   discussionsAvailable: {},
+  rescheduleEligibleUnits: [],
 };
 
 const mockManyGroups: DiscussionsAvailable = {
@@ -82,6 +84,7 @@ const mockManyGroups: DiscussionsAvailable = {
     spotsLeftIfKnown: i === 2 ? 0 : i + 1,
   })),
   discussionsAvailable: {},
+  rescheduleEligibleUnits: [],
 };
 
 const meta = {
@@ -120,6 +123,7 @@ export const NoAvailableGroups: Story = {
         trpcStorybookMsw.groupSwitching.discussionsAvailable.query(() => ({
           groupsAvailable: [],
           discussionsAvailable: {},
+          rescheduleEligibleUnits: [],
         })),
         trpcStorybookMsw.groupSwitching.switchGroup.mutation(() => null),
       ],
