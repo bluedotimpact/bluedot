@@ -17,13 +17,19 @@ import { protectedProcedure, publicProcedure, router } from '../trpc';
 import type { AppRouter } from './_app';
 
 async function areAllFoaiExercisesComplete(email: string): Promise<boolean> {
-  const [allExercises, exerciseResponses] = await Promise.all([
-    db.scan(exerciseTable, { courseId: FOAI_COURSE_ID, status: 'Active' }),
-    db.scan(exerciseResponseTable, { email }),
-  ]);
+  const allExercises = await db.scan(exerciseTable, { courseId: FOAI_COURSE_ID, status: 'Active' });
   if (allExercises.length === 0) {
     return false;
   }
+
+  // Scope the response scan to FoAI exercises so we don't pull every response this user has ever
+  // submitted (across all courses) just to check FoAI completion.
+  const exerciseResponses = await db.scan(exerciseResponseTable, {
+    AND: [
+      { email },
+      { OR: allExercises.map((exercise) => ({ exerciseId: exercise.id })) },
+    ],
+  });
 
   const completedExerciseIds = new Set(exerciseResponses
     .filter((resp) => resp.completedAt != null)
