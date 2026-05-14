@@ -118,7 +118,7 @@ export function calculateGroupAvailability({
   };
 }
 
-export function getAllowedGroupsForParticipant({
+function getAllowedGroupsForParticipant({
   allGroups,
   participantId,
   participantHumanOpinion,
@@ -136,7 +136,7 @@ export function getAllowedGroupsForParticipant({
   ));
 }
 
-export function calculateRescheduleEligibleUnits(discussionsAvailable: DiscussionsByUnit): Set<string> {
+function calculateRescheduleEligibleUnits(discussionsAvailable: DiscussionsByUnit): Set<string> {
   const eligible = new Set<string>();
   for (const [unitKey, list] of Object.entries(discussionsAvailable)) {
     if (list.some((d) => !d.userIsParticipant)) {
