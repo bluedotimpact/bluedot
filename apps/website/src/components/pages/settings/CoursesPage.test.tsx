@@ -6,7 +6,7 @@ import '@testing-library/jest-dom';
 import CoursesSettingsPage from '../../../pages/settings/courses';
 import { server, trpcMsw } from '../../../__tests__/trpcMswSetup';
 import { TrpcProvider } from '../../../__tests__/trpcProvider';
-import { createMockCourseRegistration, createMockCourse } from '../../../__tests__/testUtils';
+import { createMockCourse, createMockCourseRegistration } from '../../../__tests__/testUtils';
 
 type MockCourseListProps = {
   courses: { course: { title: string } }[];
@@ -46,6 +46,7 @@ describe('CoursesPage', () => {
         allowedImpersonationTargets: [],
       })),
       trpcMsw.courseRegistrations.getRoundStartDates.query(() => ({})),
+      trpcMsw.dropout.getStatusForUser.query(() => ({})),
     );
   });
 
@@ -176,26 +177,28 @@ describe('CoursesPage', () => {
         roundStatus: 'Active',
         certificateCreatedAt: null,
       }),
-      // Dropped out course (has dropoutId but no deferredId) - should be filtered out
+      // Dropped out course - should be filtered out
       createMockCourseRegistration({
         id: 'reg-2',
         courseId: 'course-2',
         roundStatus: 'Active',
         certificateCreatedAt: null,
-        dropoutId: ['dropout-1'],
       }),
-      // Deferred course (has deferredId but no dropoutId) - should appear
+      // Deferred course - should appear
       createMockCourseRegistration({
         id: 'reg-3',
         courseId: 'course-3',
         roundStatus: 'Active',
         certificateCreatedAt: null,
-        deferredId: ['deferred-1'],
       }),
     ];
 
     server.use(trpcMsw.courses.getAll.query(() => courses));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
+    server.use(trpcMsw.dropout.getStatusForUser.query(() => ({
+      'reg-2': { isDroppedOut: true, isDeferred: false },
+      'reg-3': { isDroppedOut: false, isDeferred: true },
+    })));
 
     render(<CoursesSettingsPage />, { wrapper: TrpcProvider });
 
@@ -226,12 +229,14 @@ describe('CoursesPage', () => {
         courseId: 'course-1',
         roundStatus: 'Past',
         certificateCreatedAt: 1672531200,
-        deferredId: ['deferred-1'],
       }),
     ];
 
     server.use(trpcMsw.courses.getAll.query(() => courses));
     server.use(trpcMsw.courseRegistrations.getAll.query(() => registrations));
+    server.use(trpcMsw.dropout.getStatusForUser.query(() => ({
+      'reg-1': { isDroppedOut: false, isDeferred: true },
+    })));
 
     render(<CoursesSettingsPage />, { wrapper: TrpcProvider });
 

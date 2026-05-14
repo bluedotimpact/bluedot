@@ -1348,15 +1348,6 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       pgColumn: boolean(),
       airtableId: 'fld1KQjHFGoDZKf94',
     },
-    // Join to 'dropout' table if the user has dropped out or deferred from a course
-    dropoutId: {
-      pgColumn: text().array(),
-      airtableId: 'fldaEk9K3m25Hs4Ga',
-    },
-    deferredId: {
-      pgColumn: text().array(),
-      airtableId: 'fldc7bNIkEyrMsQ4w',
-    },
   },
   deprecatedColumns: {
     lastVisitedUnitNumber: {
@@ -1367,6 +1358,16 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
     lastVisitedChunkIndex: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldqBkQC2fZLtPEZX',
+      deprecated: true,
+    },
+    dropoutId: {
+      pgColumn: text().array(),
+      airtableId: 'fldaEk9K3m25Hs4Ga',
+      deprecated: true,
+    },
+    deferredId: {
+      pgColumn: text().array(),
+      airtableId: 'fldc7bNIkEyrMsQ4w',
       deprecated: true,
     },
   },
