@@ -26,7 +26,7 @@ We're fans of [boring technology](https://boringtechnology.club/) — don't intr
   ```
 - Copy env files for every app you'll touch: `cp ~/code/bluedot/apps/<app>/.env.local apps/<app>/.env.local`. Don't invent placeholders — ask a teammate if a file is missing.
 - If the branch is more than a few hours old when you come back to it, rebase on `origin/master` again before pushing.
-- After the PR merges, clean up: `git worktree remove ../bluedot-worktrees/<slug>` and delete the local branch.
+- After the PR merges, clean up: from outside the worktree (e.g. `cd ~/code/bluedot`), run `git worktree remove ../bluedot-worktrees/<slug>` and delete the local branch. Add `--force` if you've decided to discard uncommitted local changes; the command refuses to remove a dirty worktree otherwise.
 
 ## Before you start a task
 
@@ -64,7 +64,7 @@ Mixing schema additions and consumer code in one PR breaks staging because the t
 
 - **Run the app's full test suite** (e.g. `cd apps/website && npm test`). Typecheck and lint do *not* catch test-context regressions — for example, adding a component that calls `useRouter()` to a page covered by an SSR/SEO test will pass typecheck and fail in CI.
 - Run lint and typecheck. After changes that touch shared types — especially `@bluedot/db` schema — also run `npx tsc --noEmit` from the workspace root. `npm test` won't catch fixture drift when a schema adds a required property.
-- **UI changes — run a viewport sweep.** Use a real browser (headless Playwright is fine) at 390 × 844, 768 × 1024, 1024 × 768, 1280 × 800, 1440 × 900, and 1920 × 1080. At each, check for horizontal scroll, overflowing content, broken sticky/fixed elements, and touch targets <44 px on mobile. Don't trust bbox numbers; re-check all four sides after a CSS fix, not just the one you changed. For full-bleed/desktop checks, screenshot at `vh ≥ 1800`.
+- **UI changes — run a viewport sweep.** Use a real browser (headless Playwright is fine) at 390 × 844, 768 × 1024, 1024 × 768, 1280 × 800, 1440 × 900, and 1920 × 1080. At each, check for horizontal scroll, overflowing content, broken sticky/fixed elements, and touch targets <44 px on mobile. Don't trust bounding-box measurements from dev tools — they round and lie about subpixel overflow; eyeball the rendered page. Re-check all four sides after a CSS fix, not just the one you changed. For full-bleed / desktop checks, screenshot at a viewport height of at least 1800 px so above-the-fold + below-the-fold land in one image.
 - **Prose surfaces — cap body text at ~65 ch.** For blog posts, course descriptions, about pages, long-form marketing copy, wrap body text in `max-w-prose` (≈65 ch) or `max-w-[70ch]`. Lines longer than ~80 characters are genuinely hard to read (Baymard / WCAG 1.4.8). Doesn't apply to headings, nav, table cells, code blocks, dashboard data, form labels, or hero taglines.
 - If you genuinely cannot run tests (e.g. missing credentials), say so loudly in the PR body — don't paper over it.
 
@@ -80,10 +80,10 @@ Don't wait for the human to ask. As soon as the PR is open (with screenshots emb
 
 1. Trigger Claude bot: `gh pr comment <N> --body "@claude review"`. Bake it into the same turn as `gh pr create` / `gh pr ready`.
 2. Greptile auto-reviews within ~5 min of PR open. Claude bot responds ~1–2 min after the trigger comment. CodeRabbit is rate-limited and often skips — that's fine.
-3. Poll for both bots' responses:
+3. Poll for both bots' responses. Pull `comments` **and** `reviews` — GitHub stores them as separate object types and Greptile posts as a review:
    ```bash
-   gh pr view <N> --json comments \
-     --jq '.comments[] | select(.author.login != "<your-gh-handle>" and .author.login != "render") | "\(.author.login): \(.body)"'
+   gh pr view <N> --json comments,reviews \
+     --jq '[.comments[], .reviews[]] | .[] | select(.author.login != "<your-gh-handle>" and .author.login != "render") | "\(.author.login): \(.body)"'
    ```
 4. Categorise every finding:
    - **P1 / critical / scale-inversion-class bugs** → fix in a follow-up commit on the same branch, push.
