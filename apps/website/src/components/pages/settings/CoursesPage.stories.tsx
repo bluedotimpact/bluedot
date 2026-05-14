@@ -183,6 +183,9 @@ const createHandlers = ({
       trpcStorybookMsw.courses.getAll.query(() => {
         throw new Error('Failed to fetch');
       }),
+      trpcStorybookMsw.dropout.getStatusForUser.query(() => {
+        throw new Error('Failed to fetch');
+      }),
     ];
   }
 
