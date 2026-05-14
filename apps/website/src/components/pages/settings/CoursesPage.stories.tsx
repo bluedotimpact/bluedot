@@ -15,6 +15,8 @@ import {
   createMockGroupDiscussion,
 } from '../../../__tests__/testUtils';
 
+type DropoutStatus = Record<string, { isDroppedOut: boolean; isDeferred: boolean }>;
+
 const meta: Meta<typeof CoursesSettingsPage> = {
   title: 'Settings/CoursesPage',
   component: CoursesSettingsPage,
@@ -72,7 +74,6 @@ const mockRegistrationDroppedOut = createMockCourseRegistration({
   courseId: 'course-1',
   roundStatus: 'Active',
   certificateCreatedAt: null,
-  dropoutId: ['dropout-1'], // Has dropoutId but no deferredId = dropped out
 });
 
 const mockRegistrationDeferred = createMockCourseRegistration({
@@ -80,8 +81,15 @@ const mockRegistrationDeferred = createMockCourseRegistration({
   courseId: 'course-2',
   roundStatus: 'Active',
   certificateCreatedAt: null,
-  deferredId: ['deferred-1'], // Has deferredId but no dropoutId = deferred
 });
+
+const mockDropoutStatusForDroppedReg: DropoutStatus = {
+  'reg-dropped': { isDroppedOut: true, isDeferred: false },
+};
+
+const mockDropoutStatusForDeferredReg: DropoutStatus = {
+  'reg-deferred': { isDroppedOut: false, isDeferred: true },
+};
 
 const mockRegistrationFuturePending = createMockCourseRegistration({
   id: 'reg-future-pending',
@@ -142,6 +150,7 @@ const mockDiscussion: GroupDiscussionWithGroupAndUnit = {
 const createHandlers = ({
   registrations = [],
   courses = [],
+  dropoutStatus = {},
   meetPerson = mockMeetPerson,
   discussions = [mockDiscussion],
   roundStartDates = {},
@@ -149,6 +158,7 @@ const createHandlers = ({
 }: {
   registrations?: CourseRegistration[];
   courses?: Course[];
+  dropoutStatus?: DropoutStatus;
   meetPerson?: MeetPerson | null;
   discussions?: GroupDiscussionWithGroupAndUnit[];
   roundStartDates?: Record<string, string | null>;
@@ -184,6 +194,7 @@ const createHandlers = ({
     userHandler,
     trpcStorybookMsw.courseRegistrations.getAll.query(() => registrations),
     trpcStorybookMsw.courses.getAll.query(() => courses),
+    trpcStorybookMsw.dropout.getStatusForUser.query(() => dropoutStatus),
     trpcStorybookMsw.meetPerson.getByCourseRegistrationId.query(() => meetPerson),
     trpcStorybookMsw.groupDiscussions.getByDiscussionIds.query(() => ({
       discussions,
@@ -272,6 +283,7 @@ export const WithDroppedOutCourse: Story = {
       handlers: createHandlers({
         registrations: [mockRegistrationDroppedOut],
         courses: [mockCourse1],
+        dropoutStatus: mockDropoutStatusForDroppedReg,
       }),
     },
   },
@@ -283,6 +295,7 @@ export const WithDeferredCourse: Story = {
       handlers: createHandlers({
         registrations: [mockRegistrationDeferred],
         courses: [mockCourse2],
+        dropoutStatus: mockDropoutStatusForDeferredReg,
       }),
     },
   },
@@ -299,6 +312,10 @@ export const MixedWithDropoutAndDeferred: Story = {
           mockRegistrationCompleted, // Normal completed course
         ],
         courses: [mockCourse1, mockCourse2],
+        dropoutStatus: {
+          ...mockDropoutStatusForDroppedReg,
+          ...mockDropoutStatusForDeferredReg,
+        },
       }),
     },
   },
