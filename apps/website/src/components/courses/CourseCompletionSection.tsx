@@ -106,7 +106,12 @@ export default function CourseCompletionSection({
     { enabled: shouldFetchRounds },
   );
 
-  const isLoading = isApplicationLoading || (shouldFetchRounds && (isRoundsLoading || !roundsData));
+  const { data: completerCountData, isLoading: isCompleterCountLoading } = trpc.courses.getCompleterCount.useQuery(
+    { courseId },
+    { enabled: shouldFetchRounds },
+  );
+
+  const isLoading = isApplicationLoading || (shouldFetchRounds && (isRoundsLoading || !roundsData || isCompleterCountLoading));
   const hasRounds = Boolean(roundsData && (roundsData.intense.length > 0 || roundsData.partTime.length > 0));
   const showEnrollmentCTA = shouldFetchRounds && !isRoundsLoading && hasRounds && application && roundsData;
 
