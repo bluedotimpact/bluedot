@@ -1,10 +1,46 @@
-import { courseRegistrationTable, dropoutTable } from '@bluedot/db';
+import {
+  arrayOverlaps, courseRegistrationTable, dropoutTable, eq,
+} from '@bluedot/db';
 import { TRPCError } from '@trpc/server';
 import z from 'zod';
 import db from '../../lib/api/db';
 import { protectedProcedure, router } from '../trpc';
 
 export const dropoutRouter = router({
+  getStatusForUser: protectedProcedure.query(async ({ ctx }) => {
+    const regs = await db.pg
+      .select({ id: courseRegistrationTable.pg.id })
+      .from(courseRegistrationTable.pg)
+      .where(eq(courseRegistrationTable.pg.email, ctx.auth.email));
+    const regIds = regs.map((r) => r.id);
+    if (regIds.length === 0) {
+      return {};
+    }
+
+    const dropouts = await db.pg
+      .select({ applicantId: dropoutTable.pg.applicantId, type: dropoutTable.pg.type })
+      .from(dropoutTable.pg)
+      .where(arrayOverlaps(dropoutTable.pg.applicantId, regIds));
+
+    const result: Record<string, { isDroppedOut: boolean; isDeferred: boolean }> = {};
+    for (const dropout of dropouts) {
+      for (const regId of dropout.applicantId ?? []) {
+        if (!regIds.includes(regId)) continue;
+        const existing = result[regId] ?? { isDroppedOut: false, isDeferred: false };
+        if (dropout.type === 'Deferral') {
+          existing.isDeferred = true;
+          existing.isDroppedOut = false;
+        } else if (!existing.isDeferred) {
+          existing.isDroppedOut = true;
+        }
+
+        result[regId] = existing;
+      }
+    }
+
+    return result;
+  }),
+
   dropoutOrDeferral: protectedProcedure
     .input(z.object({
       applicantId: z.string().min(1),
