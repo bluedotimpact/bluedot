@@ -41,7 +41,11 @@ const CoursesContent = () => {
 
   const { data: courses, isLoading: coursesLoading, error: coursesError } = trpc.courses.getAll.useQuery();
 
+  const { data: dropoutStatus, isLoading: dropoutsLoading, error: dropoutsError } = trpc.dropout.getStatusForUser.useQuery();
+
   const isCompleted = (reg: CourseRegistration) => reg.roundStatus !== 'Active' && reg.roundStatus !== 'Future';
+  const isDeferred = (reg: CourseRegistration) => dropoutStatus?.[reg.id]?.isDeferred ?? false;
+  const isDroppedOut = (reg: CourseRegistration) => dropoutStatus?.[reg.id]?.isDroppedOut ?? false;
 
   // Combine courses and enrollments
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
@@ -51,11 +55,7 @@ const CoursesContent = () => {
     // hide them once the round is active or past
     .filter((reg) => reg.decision !== 'Reject' || reg.roundStatus === 'Future')
     // Exclude dropped out courses (not deferrals)
-    .filter((reg) => {
-      // Dropped out means that we have a reference dropout record that is not a deferral
-      const isDroppedOut = reg.dropoutId?.length && !reg.deferredId?.length;
-      return !isDroppedOut;
-    })
+    .filter((reg) => !isDroppedOut(reg))
     .map((courseRegistration) => {
       const course = courses?.find((c) => c.id === courseRegistration.courseId);
       return course ? [{ course, courseRegistration }] : [];
@@ -76,7 +76,7 @@ const CoursesContent = () => {
 
   // Completed: past courses for participants (non-facilitators), excluding deferred courses
   const completedCourses = enrolledCourses
-    .filter(({ courseRegistration }) => isCompleted(courseRegistration) && courseRegistration.role !== 'Facilitator' && !courseRegistration.deferredId?.length)
+    .filter(({ courseRegistration }) => isCompleted(courseRegistration) && courseRegistration.role !== 'Facilitator' && !isDeferred(courseRegistration))
     // No-cert courses first (to nudge user to complete), then by completion date descending
     .sort((a, b) => {
       const aTime = a.courseRegistration.certificateCreatedAt ?? Infinity;
@@ -92,9 +92,9 @@ const CoursesContent = () => {
   // In-progress: Active courses (both participants and facilitators)
   const inProgressCourses = enrolledCourses.filter(({ courseRegistration }) => courseRegistration.roundStatus === 'Active');
 
-  const loading = courseRegistrationsLoading || coursesLoading;
+  const loading = courseRegistrationsLoading || coursesLoading || dropoutsLoading;
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  const error = courseRegistrationsError || coursesError;
+  const error = courseRegistrationsError || coursesError || dropoutsError;
 
   if (loading) return <ProgressDots />;
   if (error) return <ErrorSection error={error} />;
