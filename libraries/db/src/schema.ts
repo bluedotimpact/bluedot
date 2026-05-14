@@ -1349,28 +1349,6 @@ export const courseRegistrationTable = pgAirtable('course_registration', {
       airtableId: 'fld1KQjHFGoDZKf94',
     },
   },
-  deprecatedColumns: {
-    lastVisitedUnitNumber: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldTz0302G1aNX9uP',
-      deprecated: true,
-    },
-    lastVisitedChunkIndex: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldqBkQC2fZLtPEZX',
-      deprecated: true,
-    },
-    dropoutId: {
-      pgColumn: text().array(),
-      airtableId: 'fldaEk9K3m25Hs4Ga',
-      deprecated: true,
-    },
-    deferredId: {
-      pgColumn: text().array(),
-      airtableId: 'fldc7bNIkEyrMsQ4w',
-      deprecated: true,
-    },
-  },
 });
 
 export const userTable = pgAirtable('user', {
