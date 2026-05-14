@@ -17,8 +17,8 @@ type CourseCompletionSectionProps = {
   className?: string;
 };
 
-// TODO: replace with a real fetched count once the metric is available.
-const COMMUNITY_SIZE_LABEL = '2,847 professionals';
+const FALLBACK_COMMUNITY_LABEL = '8,000+ alumni';
+const FALLBACK_COMMUNITY_TAIL = 'across BlueDot Impact';
 
 const AVATAR_IMAGES = [
   '/images/graduates/adam.webp',
@@ -62,29 +62,35 @@ const FeatureCardItem = ({ card, accentColor }: { card: FeatureCard; accentColor
   </div>
 );
 
-const SocialProof = ({ accentColor }: { accentColor?: string }) => (
-  <div
-    className="inline-flex flex-col items-center gap-3 rounded-[24px] px-4 py-3 max-w-full sm:flex-row sm:rounded-full sm:py-2"
-    // 8-digit hex (#RRGGBBAA) — `1F` ≈ 12% opacity tint of the course accent.
-    style={{ backgroundColor: accentColor ? `${accentColor}1F` : undefined }}
-  >
-    <div className="flex -space-x-2 shrink-0">
-      {AVATAR_IMAGES.map((src) => (
-        <img
-          key={src}
-          src={src}
-          alt=""
-          className="size-6 rounded-full object-cover ring-2 ring-white"
-        />
-      ))}
+const SocialProof = ({ accentColor, completerCount }: { accentColor?: string; completerCount: number }) => {
+  const hasDynamicCount = completerCount > 0;
+  const label = hasDynamicCount ? `${completerCount.toLocaleString('en-US')} graduates` : FALLBACK_COMMUNITY_LABEL;
+  const tail = hasDynamicCount ? 'of this course' : FALLBACK_COMMUNITY_TAIL;
+
+  return (
+    <div
+      className="inline-flex flex-col items-center gap-3 rounded-[24px] px-4 py-3 max-w-full sm:flex-row sm:rounded-full sm:py-2"
+      // 8-digit hex (#RRGGBBAA) — `1F` ≈ 12% opacity tint of the course accent.
+      style={{ backgroundColor: accentColor ? `${accentColor}1F` : undefined }}
+    >
+      <div className="flex -space-x-2 shrink-0">
+        {AVATAR_IMAGES.map((src) => (
+          <img
+            key={src}
+            src={src}
+            alt=""
+            className="size-6 rounded-full object-cover ring-2 ring-white"
+          />
+        ))}
+      </div>
+      <p className="text-size-xs leading-[1.4] text-bluedot-navy text-center sm:text-left">
+        Join{' '}
+        <span className="font-semibold" style={{ color: accentColor }}>{label}</span>
+        {' '}{tail}
+      </p>
     </div>
-    <p className="text-size-xs leading-[1.4] text-bluedot-navy text-center sm:text-left">
-      Join{' '}
-      <span className="font-semibold" style={{ color: accentColor }}>{COMMUNITY_SIZE_LABEL}</span>
-      {' '}already enrolled
-    </p>
-  </div>
-);
+  );
+};
 
 // eslint-disable-next-line react/function-component-definition
 export default function CourseCompletionSection({
@@ -135,7 +141,7 @@ export default function CourseCompletionSection({
     return (
       <div className={cn('flex flex-col gap-8', className)}>
         <div className="flex flex-col items-center gap-8 py-4 text-center max-w-[640px] mx-auto">
-          <SocialProof accentColor={accentColor} />
+          <SocialProof accentColor={accentColor} completerCount={completerCountData?.count ?? 0} />
           <div className="flex flex-col gap-3">
             {/* eslint-disable-next-line @bluedot/custom/no-arbitrary-text-size */}
             <H2 className="font-bold text-[28px] md:text-[32px] leading-[1.3] tracking-[-0.015em] text-bluedot-navy">
