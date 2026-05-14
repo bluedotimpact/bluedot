@@ -1,6 +1,8 @@
 import {
   and,
   chunkTable,
+  count,
+  courseRegistrationTable,
   courseTable,
   desc,
   eq,
@@ -8,6 +10,8 @@ import {
   exerciseTable,
   inArray,
   isNotNull,
+  isNull,
+  or,
   resourceCompletionTable,
   unitResourceTable,
   unitTable,
@@ -212,6 +216,24 @@ export const coursesRouter = router({
   getAll: publicProcedure
     .query(async () => {
       return getAllActiveCourses();
+    }),
+
+  getCompleterCount: publicProcedure
+    .input(z.object({ courseId: z.string().min(1) }))
+    .query(async ({ input: { courseId } }) => {
+      const result = await db.pg
+        .select({ count: count() })
+        .from(courseRegistrationTable.pg)
+        .where(and(
+          eq(courseRegistrationTable.pg.courseId, courseId),
+          isNotNull(courseRegistrationTable.pg.certificateId),
+          or(
+            eq(courseRegistrationTable.pg.isDuplicate, false),
+            isNull(courseRegistrationTable.pg.isDuplicate),
+          ),
+        ));
+
+      return { count: result[0]?.count ?? 0 };
     }),
 
   getCurriculumMetadata: publicProcedure
