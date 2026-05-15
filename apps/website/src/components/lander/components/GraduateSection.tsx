@@ -33,7 +33,7 @@ const GraduateSection = () => {
 
           {/* Logos with scrolling */}
           <div className="w-full sm:flex-1 inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(90deg,transparent_0,_black_12.63%,_black_80.26%,transparent_100%)]">
-            <ul style={{ animationDuration: '20s' }} className="flex items-center justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll list-none">
+            <ul style={{ animationDuration: '35s' }} className="flex items-center justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll list-none">
               {logos.map((logo) => (
                 <li key={logo.src}>
                   {/* // Workaround for bug with camelcase `fetchPriority`: https://github.com/facebook/react/issues/25682 */}
@@ -41,7 +41,7 @@ const GraduateSection = () => {
                 </li>
               ))}
             </ul>
-            <ul style={{ animationDuration: '20s' }} className="flex items-center justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll list-none" aria-hidden="true">
+            <ul style={{ animationDuration: '35s' }} className="flex items-center justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll list-none" aria-hidden="true">
               {logos.map((logo) => (
                 <li key={logo.src}>
                   {/* // Workaround for bug with camelcase `fetchPriority`: https://github.com/facebook/react/issues/25682 */}
