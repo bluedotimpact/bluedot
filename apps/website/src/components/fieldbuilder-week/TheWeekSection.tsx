@@ -21,7 +21,7 @@ const SCHEDULE = [
 
 const TheWeekSection = () => {
   return (
-    <section className="section section-body builder-week-schedule-section">
+    <section className="section section-body fieldbuilder-week-schedule-section">
       <div className="w-full flex flex-col gap-6">
         <H3 className={pageSectionHeadingClass}>The week</H3>
 

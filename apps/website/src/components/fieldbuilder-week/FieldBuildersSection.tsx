@@ -28,7 +28,7 @@ const BUILDERS: Builder[] = [
       profileUrl: 'https://www.linkedin.com/in/ryan-kidd-1b0574a3/',
     },
     program: { name: 'MATS', url: 'https://www.matsprogram.org/' },
-    logo: { src: '/images/programs/builder-week-founders/mats.svg', alt: 'MATS logo' },
+    logo: { src: '/images/programs/fieldbuilder-week-founders/mats.svg', alt: 'MATS logo' },
     before: ' was a physics PhD doing independent alignment research at SERI who saw the shortage of excellent technical talent and co-founded ',
     after: ' to build the pipeline.',
   },
@@ -39,7 +39,7 @@ const BUILDERS: Builder[] = [
       profileUrl: 'https://www.linkedin.com/in/remco-zwetsloot-90994142/',
     },
     program: { name: 'Horizon', url: 'https://horizonpublicservice.org/about-us/' },
-    logo: { src: '/images/programs/builder-week-founders/horizon.png', alt: 'Horizon Institute logo' },
+    logo: { src: '/images/programs/fieldbuilder-week-founders/horizon.png', alt: 'Horizon Institute logo' },
     before: ' was a technical-policy researcher at CSET watching policy teams struggle to hire technical talent, so he started ',
     after: ' to bring them in.',
   },
@@ -50,7 +50,7 @@ const BUILDERS: Builder[] = [
       profileUrl: 'https://www.linkedin.com/in/nora-ammann-329396139/',
     },
     program: { name: 'PIBBSS', url: 'https://princint.ai/' },
-    logo: { src: '/images/programs/builder-week-founders/pibbss.svg', alt: 'PIBBSS logo' },
+    logo: { src: '/images/programs/fieldbuilder-week-founders/pibbss.svg', alt: 'PIBBSS logo' },
     before: ' was a complex systems researcher at the Simon Institute, who saw that AI safety lacked diversity of expertise, so she co-founded ',
     after: ' to bring researchers from other fields in. She’s now a program director at ARIA.',
   },
@@ -61,7 +61,7 @@ const BUILDERS: Builder[] = [
       profileUrl: 'https://www.perfectlynormal.co.uk/',
     },
     program: { name: 'ARENA', url: 'https://www.arena.education/' },
-    logo: { src: '/images/programs/builder-week-founders/arena.png', alt: 'ARENA logo' },
+    logo: { src: '/images/programs/fieldbuilder-week-founders/arena.png', alt: 'ARENA logo' },
     before: ' was a Jane Street quant trying to break into AI safety research who built ',
     after: ' to help others technically upskill into the field. He’s now doing mech interp research at GDM.',
   },
@@ -72,7 +72,7 @@ const BUILDERS: Builder[] = [
       profileUrl: 'https://www.linkedin.com/in/pranav-gade/',
     },
     program: { name: 'AI Security Bootcamp', url: 'https://aisb.dev/' },
-    logo: { src: '/images/programs/builder-week-founders/aisb.svg', alt: 'AI Security Bootcamp logo' },
+    logo: { src: '/images/programs/fieldbuilder-week-founders/aisb.svg', alt: 'AI Security Bootcamp logo' },
     before: ' was a research engineer at Conjecture, who saw security professionals had no clear path into AI safety, so he launched the ',
     after: ' to create one.',
   },
@@ -83,7 +83,7 @@ const BUILDERS: Builder[] = [
       profileUrl: 'https://www.linkedin.com/in/charbel-raphael-segerie/',
     },
     program: { name: 'ML4Good', url: 'https://ml4good.org/' },
-    logo: { src: '/images/programs/builder-week-founders/ml4good.svg', alt: 'ML4Good logo' },
+    logo: { src: '/images/programs/fieldbuilder-week-founders/ml4good.svg', alt: 'ML4Good logo' },
     before: ' was an ML engineer who saw coding bootcamps work for the tech industry, and built ',
     after: ' to bring talent into AI safety in the same way.',
   },
@@ -143,7 +143,7 @@ const FieldBuildersSection = () => {
   const hiddenCount = BUILDERS.length - VISIBLE_COUNT;
 
   return (
-    <section className="section section-body builder-week-field-builders-section">
+    <section className="section section-body fieldbuilder-week-field-builders-section">
       <div className="w-full flex flex-col gap-7">
         <H3 className={`${pageSectionHeadingClass} max-w-[720px] text-balance`}>
           Most AI safety programs started because someone saw a talent gap, and decided to do something about it.

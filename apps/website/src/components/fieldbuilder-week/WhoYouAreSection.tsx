@@ -3,7 +3,7 @@ import { pageSectionHeadingClass } from '../PageListRow';
 
 const WhoYouAreSection = () => {
   return (
-    <section className="section section-body builder-week-who-you-are-section">
+    <section className="section section-body fieldbuilder-week-who-you-are-section">
       <div className="w-full flex flex-col gap-6">
         <H3 className={pageSectionHeadingClass}>Who you are</H3>
         <P>
