@@ -10,9 +10,6 @@ const WhoYouAreSection = () => {
           You believe that we need <em>way</em> more skilled, motivated people in AI safety if the future is to go well.
         </P>
         <P>
-          You don&apos;t think of yourself as a &ldquo;field builder&rdquo;. Most of us don&apos;t.
-        </P>
-        <P>
           <strong>You&apos;re a problem-solver.</strong> You&apos;ve taken on challenges like this before. Maybe you started and scaled a student group, built a project people depend on, grew a community that outlasted you.
         </P>
         <P>
