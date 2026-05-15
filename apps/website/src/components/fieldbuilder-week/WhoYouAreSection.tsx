@@ -3,14 +3,11 @@ import { pageSectionHeadingClass } from '../PageListRow';
 
 const WhoYouAreSection = () => {
   return (
-    <section className="section section-body builder-week-who-you-are-section">
+    <section className="section section-body fieldbuilder-week-who-you-are-section">
       <div className="w-full flex flex-col gap-6">
         <H3 className={pageSectionHeadingClass}>Who you are</H3>
         <P>
           You believe that we need <em>way</em> more skilled, motivated people in AI safety if the future is to go well.
-        </P>
-        <P>
-          You don&apos;t think of yourself as a &ldquo;field builder&rdquo;. Most of us don&apos;t.
         </P>
         <P>
           <strong>You&apos;re a problem-solver.</strong> You&apos;ve taken on challenges like this before. Maybe you started and scaled a student group, built a project people depend on, grew a community that outlasted you.

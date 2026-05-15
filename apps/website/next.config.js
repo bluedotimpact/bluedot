@@ -44,6 +44,11 @@ module.exports = withDefaultBlueDotNextConfig({
         permanent: true,
       },
       {
+        source: '/programs/builder-week',
+        destination: '/programs/fieldbuilder-week',
+        permanent: true,
+      },
+      {
         source: '/mentor',
         destination: '/join-us/coach',
         permanent: true,
