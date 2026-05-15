@@ -32,7 +32,7 @@ const TrackRecordSection = () => {
               </li>
               <li>
                 <a href="https://www.linkedin.com/in/shay-yahal/" target="_blank" rel="noreferrer" className="underline hover:no-underline">Shay Yahal</a>
-                : enterprise AI security (stealth); paying customers, Redwood Research partnership
+                : enterprise AI safety (stealth); paying customers, Redwood Research partnership
               </li>
               <li>
                 <a href="https://www.linkedin.com/in/z-saber/" target="_blank" rel="noreferrer" className="underline hover:no-underline">Zac Saber</a>

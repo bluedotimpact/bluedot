@@ -51,7 +51,7 @@ const WhatThisIsForSection = () => {
               <li>Exona Lab: Founders met during the week; Pre-seed raised, 7-figure round in progress</li>
               <li>Jacob Arbeid: Quit AISI to found; Funding secured; $2.4M ARR pending</li>
               <li>Zac Saber: Dropped out of EF; now on long-horizon AI evals; met his co-founder Jacob Arbeid during Incubator Week</li>
-              <li>Shay Yahal: Enterprise AI security; Already has paying customers and partnership with Redwood Research</li>
+              <li>Shay Yahal: Enterprise AI safety; Already has paying customers and partnership with Redwood Research</li>
               <li>Lysander Mawby: Mechanistic interpretability; Just wrapped up the FR8 incubator ($100k at $5M val)</li>
             </ul>
           </div>
