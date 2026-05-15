@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
-import { H3, H4, P } from '@bluedot/ui';
+import {
+  A, H3, H4, P,
+} from '@bluedot/ui';
 import { pageSectionHeadingClass } from '../PageListRow';
 
 type ScheduleItem = {
@@ -24,7 +26,7 @@ const SCHEDULE: ScheduleItem[] = [
     title: 'Pitch',
     body: (
       <>
-        Strong pitches get $5k on the spot, up to $45k more after two weeks of progress, and a path to $200k total for the strongest programs. <a href="https://bluedot.org/programs/career-transition-grant" className="underline">Career transition grants</a> available.
+        Strong pitches get $5k on the spot, up to $45k more after two weeks of progress, and a path to $200k total for the strongest programs. <A href="/programs/career-transition-grant">Career transition grants</A> available.
       </>
     ),
   },
