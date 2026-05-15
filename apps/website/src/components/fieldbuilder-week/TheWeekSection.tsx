@@ -1,7 +1,16 @@
-import { H3, H4, P } from '@bluedot/ui';
+import type { ReactNode } from 'react';
+import {
+  A, H3, H4, P,
+} from '@bluedot/ui';
 import { pageSectionHeadingClass } from '../PageListRow';
 
-const SCHEDULE = [
+type ScheduleItem = {
+  cadence: string;
+  title: string;
+  body: ReactNode;
+};
+
+const SCHEDULE: ScheduleItem[] = [
   {
     cadence: 'Monday',
     title: 'Outcome and opportunities',
@@ -15,7 +24,11 @@ const SCHEDULE = [
   {
     cadence: 'Friday',
     title: 'Pitch',
-    body: 'Pitch to us. The conversations, the prototype, the signal. Where it goes from here. Strong pitches get $5k on the spot, up to $45k more after two weeks of progress, and a path to $200k total for the strongest programs.',
+    body: (
+      <>
+        Strong pitches get $5k on the spot, up to $45k more after two weeks of progress, and a path to $200k total for the strongest programs. <A href="/programs/career-transition-grant">Career transition grants</A> available.
+      </>
+    ),
   },
 ];
 
