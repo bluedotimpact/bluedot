@@ -16,9 +16,9 @@ import {
 } from '../../lib/programDetailPage';
 
 const PROGRAM_SLUG = 'builder-week';
-const FALLBACK_NAME = 'Builder Week';
+const FALLBACK_NAME = 'Fieldbuilder Week';
 const FALLBACK_DESCRIPTION = 'There are ~2k people working full-time on AI safety. The field needs thousands more. Fly to London for 5 days to design and launch a new pathway. $5k on the spot if your pitch lands. Up to $200k for the strongest programs.';
-const APPLICATION_DEADLINE = '1 June';
+const APPLICATION_DEADLINE = '27 May';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
 const LINK_PREVIEW_IMAGE = `${SITE_URL}/images/programs/link-preview/builder-week.png`;
 
