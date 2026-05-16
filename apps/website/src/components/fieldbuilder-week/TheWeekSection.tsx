@@ -14,19 +14,19 @@ const SCHEDULE: ScheduleItem[] = [
   {
     cadence: 'Monday',
     title: 'Outcome and opportunities',
-    body: 'Define the impact you\'re unlocking. Find the talent best placed to deliver it. Go talk to them.',
+    body: 'Identify the gaps in the AI safety talent landscape. Talk to them and map the opportunities to help them contribute.',
   },
   {
     cadence: 'Tue – Thu',
     title: 'Build and test',
-    body: 'Generate lots of ideas. Stress-test your assumptions with the cohort. Build and test your program with real people. Call experts. Iterate until it sticks.',
+    body: 'Generate lots of ideas. Stress-test your assumptions with the cohort and real people. Call experts.',
   },
   {
     cadence: 'Friday',
     title: 'Pitch',
     body: (
       <>
-        Strong pitches get $5k on the spot, up to $45k more after two weeks of progress, and a path to $200k total for the strongest programs. <A href="/programs/career-transition-grant">Career transition grants</A> available.
+        Pitch your program to us. Strong pitches get $5k on the spot, up to $45k more after two weeks of progress. We&apos;ll back the strongest programs to keep running with more funding and <A href="/programs/career-transition-grant">career transition grants</A>.
       </>
     ),
   },
