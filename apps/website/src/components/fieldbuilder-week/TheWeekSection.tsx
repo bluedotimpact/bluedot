@@ -36,7 +36,9 @@ const TheWeekSection = () => {
   return (
     <section className="section section-body fieldbuilder-week-schedule-section">
       <div className="w-full flex flex-col gap-6">
-        <H3 className={pageSectionHeadingClass}>The week</H3>
+        <H3 className={`${pageSectionHeadingClass} max-w-[720px] text-balance`}>
+          Incubator Week helps people found orgs. Fieldbuilder Week helps people found programs.
+        </H3>
 
         <ul className="flex flex-col divide-y divide-bluedot-navy/10 border-y border-bluedot-navy/10">
           {SCHEDULE.map((item) => (

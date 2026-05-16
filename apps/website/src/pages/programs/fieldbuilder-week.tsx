@@ -4,7 +4,6 @@ import Head from 'next/head';
 import MarketingHero from '../../components/MarketingHero';
 import GrantStatsStrip from '../../components/grants/sections/GrantStatsStrip';
 import FieldBuildersSection from '../../components/fieldbuilder-week/FieldBuildersSection';
-import IncubatorContrastQuote from '../../components/fieldbuilder-week/IncubatorContrastQuote';
 import TheWeekSection from '../../components/fieldbuilder-week/TheWeekSection';
 import WhoYouAreSection from '../../components/fieldbuilder-week/WhoYouAreSection';
 import WhatCouldYouBuildSection from '../../components/fieldbuilder-week/WhatCouldYouBuildSection';
@@ -68,7 +67,6 @@ const FieldbuilderWeekProgramPage = ({ programName, programDescription }: Progra
         ]}
       />
       <FieldBuildersSection />
-      <IncubatorContrastQuote />
       <TheWeekSection />
       <WhoYouAreSection />
       <WhatCouldYouBuildSection />
