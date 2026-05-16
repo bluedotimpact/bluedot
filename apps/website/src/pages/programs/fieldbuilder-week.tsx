@@ -68,7 +68,7 @@ const FieldbuilderWeekProgramPage = ({ programName, programDescription }: Progra
       />
       <FieldBuildersSection />
       <TheWeekSection />
-      <WhoYouAreSection />
+      <WhoYouAreSection applicationUrl={applicationUrl} />
       <WhatCouldYouBuildSection />
       <AboutBlueDotSection
         applicationUrl={applicationUrl}

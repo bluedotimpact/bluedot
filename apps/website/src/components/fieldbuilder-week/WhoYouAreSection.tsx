@@ -1,13 +1,14 @@
 import { A, H3, P } from '@bluedot/ui';
 import { pageSectionHeadingClass } from '../PageListRow';
-import { useGrantApplicationUrl } from '../grants/useGrantApplicationUrl';
 
-const WhoYouAreSection = () => {
-  const applicationUrl = useGrantApplicationUrl('fieldbuilder-week');
+type Props = {
+  applicationUrl: string | undefined;
+};
 
+const WhoYouAreSection = ({ applicationUrl }: Props) => {
   return (
     <section className="section section-body fieldbuilder-week-who-you-are-section">
-      <div className="w-full flex flex-col gap-6">
+      <div className="w-full max-w-prose flex flex-col gap-6">
         <H3 className={pageSectionHeadingClass}>Who you are</H3>
         <P>
           You believe that we need <em>way</em> more skilled, motivated people in AI safety if the future is to go well.
