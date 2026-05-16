@@ -1,11 +1,10 @@
 import { A, H3, P } from '@bluedot/ui';
 import { pageSectionHeadingClass } from '../PageListRow';
+import { useGrantApplicationUrl } from '../grants/useGrantApplicationUrl';
 
-type Props = {
-  applicationUrl: string | undefined;
-};
+const WhoYouAreSection = () => {
+  const applicationUrl = useGrantApplicationUrl('fieldbuilder-week');
 
-const WhoYouAreSection = ({ applicationUrl }: Props) => {
   return (
     <section className="section section-body fieldbuilder-week-who-you-are-section">
       <div className="w-full max-w-prose flex flex-col gap-6">
