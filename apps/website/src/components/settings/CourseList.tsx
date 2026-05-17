@@ -16,6 +16,7 @@ import type { GroupDiscussionWithGroupAndUnit } from '../../server/routers/group
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 import { getActionPlanUrl, formatMonthAndDay } from '../../lib/utils';
 import { FOAI_COURSE_SLUG } from '../../lib/constants';
+import DropoutModal from '../courses/DropoutModal';
 
 const CourseList = ({ courses, startExpanded = false, roundStartDates }: {
   courses: { course: Course; courseRegistration: CourseRegistration }[];
@@ -71,6 +72,7 @@ const CourseListRow = ({
   const [isExpanded, setIsExpanded] = useState(startExpanded);
   const currentTimeMs = useCurrentTimeMs();
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
+  const [dropoutModalOpen, setDropoutModalOpen] = useState(false);
 
   const isFuture = courseRegistration.roundStatus === 'Future';
 
@@ -130,6 +132,7 @@ const CourseListRow = ({
     isExpanded,
     isLoading,
     isFacilitatorRole,
+    onOpenDropoutModal: () => setDropoutModalOpen(true),
   });
 
   const subtitle = getSubtitle({
@@ -238,7 +241,8 @@ const CourseListRow = ({
             </div>
           </div>
           {/* Mobile CTA buttons */}
-          {!isExpanded && ctaButtons.length > 0 && (
+          {/* Keep Active-row CTAs visible while expanded because discussion details do not contain every row-level action. */}
+          {ctaButtons.length > 0 && (!isExpanded || courseRegistration.roundStatus === 'Active') && (
             <div className="flex gap-2 mt-4 sm:hidden" {...stopPropagation} role="presentation">
               {ctaButtons}
             </div>
@@ -266,6 +270,15 @@ const CourseListRow = ({
           roundId={meetPerson.round}
         />
       )}
+
+      {dropoutModalOpen && course.slug && (
+        <DropoutModal
+          applicantId={courseRegistration.id}
+          courseSlug={course.slug}
+          currentRoundId={courseRegistration.roundId ?? null}
+          handleClose={() => setDropoutModalOpen(false)}
+        />
+      )}
     </div>
   );
 };
@@ -287,6 +300,7 @@ const getCtaButtons = ({
   isExpanded,
   isLoading,
   isFacilitatorRole,
+  onOpenDropoutModal,
 }: {
   course: Course;
   courseRegistration: CourseRegistration;
@@ -296,7 +310,10 @@ const getCtaButtons = ({
   isExpanded: boolean;
   isLoading: boolean;
   isFacilitatorRole: boolean;
+  onOpenDropoutModal: () => void;
 }): ReactNode[] => {
+  const dropoutButton = getDropoutOrDeferralButton({ course, courseRegistration, onOpenDropoutModal });
+
   // Future courses: show availability + curriculum buttons
   if (courseRegistration.roundStatus === 'Future') {
     const buttons: ReactNode[] = [];
@@ -333,7 +350,7 @@ const getCtaButtons = ({
       </CTALinkOrButton>);
     }
 
-    return buttons;
+    return [...buttons, ...dropoutButton];
   }
 
   const feedbackFormUrl = meetPerson?.courseFeedbackForm;
@@ -411,7 +428,11 @@ const getCtaButtons = ({
       >
         {buttonText}
       </CTALinkOrButton>
-    )];
+    ), ...dropoutButton];
+  }
+
+  if (courseRegistration.roundStatus === 'Active') {
+    return dropoutButton;
   }
 
   if (courseRegistration.roundStatus === 'Past') {
@@ -469,6 +490,36 @@ const getCtaButtons = ({
   }
 
   return [];
+};
+
+const getDropoutOrDeferralButton = ({
+  course,
+  courseRegistration,
+  onOpenDropoutModal,
+}: {
+  course: Course;
+  courseRegistration: CourseRegistration;
+  onOpenDropoutModal: () => void;
+}): ReactNode[] => {
+  const canRequestDropoutOrDeferral = Boolean(course.slug)
+    && (courseRegistration.roundStatus === 'Active' || courseRegistration.roundStatus === 'Future')
+    && courseRegistration.decision !== 'Reject';
+
+  if (!canRequestDropoutOrDeferral) {
+    return [];
+  }
+
+  return [(
+    <CTALinkOrButton
+      key="dropout-or-deferral"
+      variant="outline-black"
+      size="small"
+      onClick={onOpenDropoutModal}
+      className="w-full sm:w-auto border-bluedot-darker"
+    >
+      Drop out or defer
+    </CTALinkOrButton>
+  )];
 };
 
 const getSubtitle = ({

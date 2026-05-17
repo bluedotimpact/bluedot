@@ -85,7 +85,7 @@ const CoursesContent = () => {
       return bTime - aTime;
     });
 
-  // Facilitated: past courses for facilitators (facilitators cannot defer)
+  // Facilitated: past courses for facilitators
   const facilitatedCourses = enrolledCourses
     .filter(({ courseRegistration }) => isCompleted(courseRegistration) && courseRegistration.role === 'Facilitator');
 

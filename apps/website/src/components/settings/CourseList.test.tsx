@@ -18,10 +18,25 @@ type MockCourseDetailsProps = {
   course: { title: string };
 };
 
+type MockDropoutModalProps = {
+  applicantId: string;
+  currentRoundId: string | null;
+  handleClose: () => void;
+};
+
 // Mock the CourseDetails component to avoid testing it here
 vi.mock('./CourseDetails', () => ({
   default: ({ course }: MockCourseDetailsProps) => (
     <div aria-label={`Expanded details for ${course.title}`}>Course Details Content</div>
+  ),
+}));
+
+vi.mock('../courses/DropoutModal', () => ({
+  default: ({ applicantId, currentRoundId, handleClose }: MockDropoutModalProps) => (
+    <div role="dialog" aria-label="Dropout or deferral modal">
+      {`Dropout modal for ${applicantId} in ${currentRoundId ?? 'no-round'}`}
+      <button type="button" onClick={handleClose}>Close modal</button>
+    </div>
   ),
 }));
 
@@ -131,6 +146,76 @@ describe('CourseList', () => {
     expect(certificateLinks[0]).toBeInTheDocument();
     const completedTexts = screen.getAllByText(/Completed on/);
     expect(completedTexts.length).toBeGreaterThan(0);
+  });
+
+  it('shows dropout or deferral action for active courses even without upcoming discussions', async () => {
+    const user = userEvent.setup();
+    const activeRegistration = {
+      ...mockCourseRegistration,
+      id: 'active-reg',
+      roundId: 'active-round',
+      roundStatus: 'Active',
+      certificateCreatedAt: null,
+    };
+
+    render(
+      <CourseList courses={[{ course: mockCourse, courseRegistration: activeRegistration }]} />,
+      { wrapper: TrpcProvider },
+    );
+
+    const dropoutButtons = await screen.findAllByRole('button', { name: 'Drop out or defer' });
+    expect(dropoutButtons.length).toBeGreaterThan(0);
+
+    await act(async () => {
+      await user.click(dropoutButtons[0]!);
+    });
+
+    expect(screen.getByRole('dialog', { name: 'Dropout or deferral modal' })).toHaveTextContent('Dropout modal for active-reg in active-round');
+  });
+
+  it('shows dropout or deferral action for upcoming non-rejected applications', () => {
+    const futureRegistration = {
+      ...mockCourseRegistration,
+      id: 'future-reg',
+      roundId: 'future-round',
+      roundStatus: 'Future',
+      decision: null,
+      certificateCreatedAt: null,
+    };
+
+    render(
+      <CourseList courses={[{ course: mockCourse, courseRegistration: futureRegistration }]} />,
+      { wrapper: TrpcProvider },
+    );
+
+    expect(screen.getAllByRole('button', { name: 'Drop out or defer' }).length).toBeGreaterThan(0);
+  });
+
+  it('does not show dropout or deferral action for rejected upcoming or past courses', () => {
+    const rejectedFutureRegistration = {
+      ...mockCourseRegistration,
+      id: 'rejected-future-reg',
+      roundStatus: 'Future',
+      decision: 'Reject',
+      certificateCreatedAt: null,
+    };
+    const pastRegistration = {
+      ...mockCourseRegistration,
+      id: 'past-reg',
+      roundStatus: 'Past',
+      certificateCreatedAt: null,
+    };
+
+    render(
+      <CourseList courses={[
+        { course: mockCourse, courseRegistration: rejectedFutureRegistration },
+        { course: createMockCourse({ id: 'course-2', title: 'Past Course', slug: 'past-course' }), courseRegistration: pastRegistration },
+      ]}
+      />,
+      { wrapper: TrpcProvider },
+    );
+
+    expect(screen.queryByRole('button', { name: 'Drop out or defer' })).not.toBeInTheDocument();
   });
 
   it('collapses and expands course details', async () => {
