@@ -29,8 +29,8 @@ const BUILDERS: Builder[] = [
     },
     program: { name: 'MATS', url: 'https://www.matsprogram.org/' },
     logo: { src: '/images/programs/fieldbuilder-week-founders/mats.svg', alt: 'MATS logo' },
-    before: ' was a physics PhD doing independent alignment research at SERI who saw the shortage of excellent technical talent and co-founded ',
-    after: ' to build the pipeline.',
+    before: ' was a physics PhD and SERI MATS pilot participant who saw how the program could grow to meet the shortage of technical alignment researchers. He sent the organisers a plan to scale it and now co-leads ',
+    after: '.',
   },
   {
     slug: 'horizon',
