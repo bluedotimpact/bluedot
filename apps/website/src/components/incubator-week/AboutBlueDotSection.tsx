@@ -3,10 +3,12 @@ import { pageSectionHeadingClass } from '../PageListRow';
 
 type Props = {
   applicationUrl: string | undefined;
-  applicationDeadline: string;
+  applicationDeadline?: string;
+  ctaLabel?: string;
 };
 
-const AboutBlueDotSection = ({ applicationUrl, applicationDeadline }: Props) => {
+const AboutBlueDotSection = ({ applicationUrl, applicationDeadline, ctaLabel }: Props) => {
+  const label = ctaLabel ?? (applicationDeadline ? `Apply by ${applicationDeadline}` : 'Apply now');
   return (
     <section className="section section-body incubator-week-about-bluedot-section">
       <div className="w-full flex flex-col gap-6">
@@ -21,7 +23,7 @@ const AboutBlueDotSection = ({ applicationUrl, applicationDeadline }: Props) => 
             url={applicationUrl}
             target="_blank"
           >
-            Apply by {applicationDeadline}
+            {label}
           </CTALinkOrButton>
         )}
       </div>
