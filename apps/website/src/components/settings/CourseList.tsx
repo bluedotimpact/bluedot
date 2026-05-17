@@ -517,7 +517,7 @@ const getDropoutOrDeferralButton = ({
       onClick={onOpenDropoutModal}
       className="w-full sm:w-auto border-bluedot-darker"
     >
-      Drop out or defer
+      Defer or drop out
     </CTALinkOrButton>
   )];
 };

@@ -30,15 +30,6 @@ vi.mock('../courses/GroupSwitchModal', () => ({
   ),
 }));
 
-vi.mock('../courses/DropoutModal', () => ({
-  default: ({ handleClose }: { handleClose: () => void }) => (
-    <div data-testid="dropout-modal">
-      <div>Dropout Modal</div>
-      <button type="button" onClick={handleClose}>Close Dropout Modal</button>
-    </div>
-  ),
-}));
-
 vi.mock('../../lib/downloadCalendarFile', () => ({
   downloadDiscussionCalendarFile: vi.fn(),
 }));
@@ -330,7 +321,7 @@ describe('CourseDetails: Participant view', () => {
     // This one should not have an href since it opens a modal
     expect(switchGroupPermanently).not.toHaveAttribute('href');
     expect(screen.queryByRole('menuitem', { name: 'Request dropout or deferral' })).not.toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Defer or drop out' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Defer or drop out' })).not.toBeInTheDocument();
 
     // Click "Switch group permanently" to verify it opens modal WITHOUT initial unit number
     await act(async () => {
@@ -344,7 +335,7 @@ describe('CourseDetails: Participant view', () => {
     expect(screen.getByText('Switch type: Switch group permanently')).toBeInTheDocument();
   });
 
-  it('shows dropout or deferral as a footer action on the see all discussions line', async () => {
+  it('keeps the see all discussions footer without dropout or deferral action', async () => {
     const user = userEvent.setup();
     const currentTimeMs = Date.now();
 
@@ -376,14 +367,13 @@ describe('CourseDetails: Participant view', () => {
       expect(screen.getByRole('button', { name: 'See all (5) discussions' })).toBeInTheDocument();
     });
 
-    const dropoutButton = screen.getByRole('button', { name: 'Defer or drop out' });
-    expect(dropoutButton).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Defer or drop out' })).not.toBeInTheDocument();
 
     await act(async () => {
-      await user.click(dropoutButton);
+      await user.click(screen.getByRole('button', { name: 'See all (5) discussions' }));
     });
 
-    expect(screen.getByTestId('dropout-modal')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Show less' })).toBeInTheDocument();
   });
 
   it('shows NOW/LIVE indicators when discussion is live', async () => {

@@ -30,7 +30,6 @@ export type DiscussionListProps = {
   isFacilitator: boolean;
   onOpenGroupSwitchModal: (discussion: GroupDiscussionWithGroupAndUnit, switchType: SwitchType) => void;
   onOpenFacilitatorModal: (discussion: GroupDiscussionWithGroupAndUnit, modalType: FacilitatorModalType) => void;
-  onOpenDropoutModal: () => void;
   isPast: boolean;
   emptyMessage: string;
 };
@@ -41,7 +40,6 @@ const DiscussionList = ({
   isFacilitator,
   onOpenGroupSwitchModal,
   onOpenFacilitatorModal,
-  onOpenDropoutModal,
   isPast,
   emptyMessage,
 }: DiscussionListProps) => {
@@ -52,7 +50,6 @@ const DiscussionList = ({
   }
 
   const showSeeAllButton = discussions.length > 3;
-  const showDropoutOrDeferralButton = !isFacilitator && !isPast;
 
   return (
     <div>
@@ -68,33 +65,16 @@ const DiscussionList = ({
           onOpenFacilitatorModal={onOpenFacilitatorModal}
         />
       ))}
-      {(showSeeAllButton || showDropoutOrDeferralButton) && (
-        <div className="grid grid-cols-1 gap-3 pt-4 sm:grid-cols-[1fr_auto_1fr] sm:items-center">
-          <div className="hidden sm:block" />
-          <div className="justify-self-center">
-            {showSeeAllButton && (
-              <button
-                type="button"
-                onClick={() => setShowAll(!showAll)}
-                className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
-                aria-expanded={showAll}
-              >
-                {showAll ? 'Show less' : `See all (${discussions.length}) discussions`}
-              </button>
-            )}
-          </div>
-          <div className="sm:justify-self-end">
-            {showDropoutOrDeferralButton && (
-              <CTALinkOrButton
-                variant={BUTTON_STYLES.secondary.variant}
-                size="small"
-                className={cn('w-full sm:w-auto', BUTTON_STYLES.secondary.className)}
-                onClick={onOpenDropoutModal}
-              >
-                Defer or drop out
-              </CTALinkOrButton>
-            )}
-          </div>
+      {showSeeAllButton && (
+        <div className="pt-4 text-center">
+          <button
+            type="button"
+            onClick={() => setShowAll(!showAll)}
+            className="text-size-sm font-medium text-bluedot-normal hover:text-blue-700 transition-colors cursor-pointer"
+            aria-expanded={showAll}
+          >
+            {showAll ? 'Show less' : `See all (${discussions.length}) discussions`}
+          </button>
         </div>
       )}
     </div>
