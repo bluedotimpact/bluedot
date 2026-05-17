@@ -4,7 +4,6 @@ import { useState } from 'react';
 import type { GroupDiscussionWithGroupAndUnit } from '../../server/routers/group-discussions';
 import GroupSwitchModal, { type SwitchType } from '../courses/GroupSwitchModal';
 import FacilitatorSwitchModal, { type FacilitatorModalType } from '../courses/FacilitatorSwitchModal';
-import DropoutModal from '../courses/DropoutModal';
 import DiscussionList from './DiscussionList';
 
 type CourseDetailsProps = {
@@ -36,7 +35,6 @@ const CourseDetails = ({
 
   const [groupSwitchModalOpen, setGroupSwitchModalOpen] = useState(false);
   const [facilitatorSwitchModalOpen, setFacilitatorSwitchModalOpen] = useState(false);
-  const [dropoutModalOpen, setDropoutModalOpen] = useState(false);
   const [selectedSwitchType, setSelectedSwitchType] = useState<SwitchType>('Switch group for one unit');
   const [selectedFacilitatorModalType, setSelectedFacilitatorModalType] = useState<FacilitatorModalType>('Update discussion time');
   const [activeTab, setActiveTab] = useState<'upcoming' | 'attended' | 'facilitated'>(getInitialTab());
@@ -54,10 +52,6 @@ const CourseDetails = ({
     setSelectedDiscussion(discussion);
     setSelectedFacilitatorModalType(modalType);
     setFacilitatorSwitchModalOpen(true);
-  };
-
-  const handleOpenDropoutModal = () => {
-    setDropoutModalOpen(true);
   };
 
   return (
@@ -122,7 +116,6 @@ const CourseDetails = ({
                     isFacilitator={isFacilitatorRole}
                     onOpenGroupSwitchModal={handleOpenGroupSwitch}
                     onOpenFacilitatorModal={handleOpenFacilitatorModal}
-                    onOpenDropoutModal={handleOpenDropoutModal}
                     isPast={false}
                     emptyMessage="No upcoming discussions"
                   />
@@ -134,7 +127,6 @@ const CourseDetails = ({
                     isFacilitator={isFacilitatorRole}
                     onOpenGroupSwitchModal={handleOpenGroupSwitch}
                     onOpenFacilitatorModal={handleOpenFacilitatorModal}
-                    onOpenDropoutModal={handleOpenDropoutModal}
                     isPast
                     emptyMessage="No attended discussions yet"
                   />
@@ -146,7 +138,6 @@ const CourseDetails = ({
                     isFacilitator={isFacilitatorRole}
                     onOpenGroupSwitchModal={handleOpenGroupSwitch}
                     onOpenFacilitatorModal={handleOpenFacilitatorModal}
-                    onOpenDropoutModal={handleOpenDropoutModal}
                     isPast
                     emptyMessage="No facilitated discussions yet"
                   />
@@ -179,14 +170,6 @@ const CourseDetails = ({
           roundId={selectedDiscussion.groupDetails.round}
           initialDiscussion={selectedDiscussion}
           initialModalType={selectedFacilitatorModalType}
-        />
-      )}
-      {dropoutModalOpen && (
-        <DropoutModal
-          applicantId={courseRegistration.id}
-          courseSlug={course.slug}
-          currentRoundId={courseRegistration.roundId ?? null}
-          handleClose={() => setDropoutModalOpen(false)}
         />
       )}
     </>

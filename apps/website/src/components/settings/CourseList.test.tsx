@@ -163,7 +163,7 @@ describe('CourseList', () => {
       { wrapper: TrpcProvider },
     );
 
-    const dropoutButtons = await screen.findAllByRole('button', { name: 'Drop out or defer' });
+    const dropoutButtons = await screen.findAllByRole('button', { name: 'Defer or drop out' });
     expect(dropoutButtons.length).toBeGreaterThan(0);
 
     await act(async () => {
@@ -188,7 +188,7 @@ describe('CourseList', () => {
       { wrapper: TrpcProvider },
     );
 
-    expect(screen.getAllByRole('button', { name: 'Drop out or defer' }).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole('button', { name: 'Defer or drop out' }).length).toBeGreaterThan(0);
   });
 
   it('does not show dropout or deferral action for rejected upcoming or past courses', () => {
@@ -215,7 +215,7 @@ describe('CourseList', () => {
       { wrapper: TrpcProvider },
     );
 
-    expect(screen.queryByRole('button', { name: 'Drop out or defer' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Defer or drop out' })).not.toBeInTheDocument();
   });
 
   it('collapses and expands course details', async () => {
