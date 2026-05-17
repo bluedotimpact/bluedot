@@ -21,6 +21,7 @@ type MockCourseDetailsProps = {
 type MockDropoutModalProps = {
   applicantId: string;
   currentRoundId: string | null;
+  handleClose: () => void;
 };
 
 // Mock the CourseDetails component to avoid testing it here
@@ -31,9 +32,10 @@ vi.mock('./CourseDetails', () => ({
 }));
 
 vi.mock('../courses/DropoutModal', () => ({
-  default: ({ applicantId, currentRoundId }: MockDropoutModalProps) => (
+  default: ({ applicantId, currentRoundId, handleClose }: MockDropoutModalProps) => (
     <div role="dialog" aria-label="Dropout or deferral modal">
       {`Dropout modal for ${applicantId} in ${currentRoundId ?? 'no-round'}`}
+      <button type="button" onClick={handleClose}>Close modal</button>
     </div>
   ),
 }));

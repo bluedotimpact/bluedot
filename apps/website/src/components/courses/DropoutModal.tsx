@@ -61,7 +61,9 @@ const DropoutModal: React.FC<DropoutModalProps> = ({
 
   const handleCloseWithInvalidation = () => {
     if (dropoutMutation.isSuccess) {
-      utils.meetPerson.getInactiveCourseRegistrations.invalidate();
+      void utils.meetPerson.getInactiveCourseRegistrations.invalidate();
+      void utils.dropout.getStatusForUser.invalidate();
+      void utils.courseRegistrations.getAll.invalidate();
     }
 
     handleClose();

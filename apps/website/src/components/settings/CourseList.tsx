@@ -241,6 +241,7 @@ const CourseListRow = ({
             </div>
           </div>
           {/* Mobile CTA buttons */}
+          {/* Keep Active-row CTAs visible while expanded because discussion details do not contain every row-level action. */}
           {ctaButtons.length > 0 && (!isExpanded || courseRegistration.roundStatus === 'Active') && (
             <div className="flex gap-2 mt-4 sm:hidden" {...stopPropagation} role="presentation">
               {ctaButtons}
