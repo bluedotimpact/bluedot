@@ -146,7 +146,7 @@ const FieldBuildersSection = () => {
     <section className="section section-body fieldbuilder-week-field-builders-section">
       <div className="w-full flex flex-col gap-7">
         <H3 className={`${pageSectionHeadingClass} max-w-[720px] text-balance`}>
-          Most AI safety programs started because someone saw a talent gap, and decided to do something about it.
+          Most AI safety programs started because someone saw a talent gap and decided to do something about it.
         </H3>
 
         <div className="flex flex-col border-t border-b border-bluedot-navy/10">

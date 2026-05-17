@@ -18,7 +18,7 @@ const EXAMPLES = [
   {
     icon: PiGearSix,
     title: 'Ops bootcamps',
-    description: 'to bring in senior talent into the field for chief of staff, biz ops or other similar roles.',
+    description: 'to bring in senior ops talent.',
   },
   {
     icon: PiMegaphone,
