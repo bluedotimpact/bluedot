@@ -17,7 +17,6 @@ import {
 
 const PROGRAM_SLUG = 'fieldbuilder-week';
 const FALLBACK_NAME = 'Fieldbuilder Week';
-const APPLICATION_DEADLINE = '27 May';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bluedot.org';
 const LINK_PREVIEW_IMAGE = `${SITE_URL}/images/programs/link-preview/fieldbuilder-week.png`;
 
@@ -56,12 +55,11 @@ const FieldbuilderWeekProgramPage = ({ programName, programDescription }: Progra
         program="fieldbuilder-week"
         compact
         primaryAction={{
-          label: `Apply by ${APPLICATION_DEADLINE}`,
+          label: 'Register interest',
           url: applicationUrl,
         }}
         stats={[
           { label: 'Cohort', value: 'v1' },
-          { label: 'Runs', value: '8–12 June' },
           { label: 'Funding', value: 'Up to $200k' },
           { label: 'Covered', value: 'Flights, accom, meals' },
         ]}
@@ -72,7 +70,7 @@ const FieldbuilderWeekProgramPage = ({ programName, programDescription }: Progra
       <WhatCouldYouBuildSection />
       <AboutBlueDotSection
         applicationUrl={applicationUrl}
-        applicationDeadline={APPLICATION_DEADLINE}
+        ctaLabel="Register interest"
       />
     </div>
   );
