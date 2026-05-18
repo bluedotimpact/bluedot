@@ -22,6 +22,21 @@ export const isCongratulationsAccessible = (data: CertificateData | undefined): 
   );
 };
 
+// Hides the panel and redirects the page when the only CTA we could offer is "join a cohort"
+// but no upcoming rounds exist for that course.
+export const shouldShowCongratulations = (data: CertificateData | undefined): boolean => {
+  if (!data) return true;
+  if (!isCongratulationsAccessible(data)) return false;
+  if (
+    (data.status === 'not-authenticated' || data.status === 'not-enrolled' || data.status === 'not-eligible')
+    && !data.hasUpcomingRounds
+  ) {
+    return false;
+  }
+
+  return true;
+};
+
 const CertificateRequirementsModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => (
   <Modal isOpen={isOpen} setIsOpen={(open) => !open && onClose()} title="Certificate requirement">
     <P>You must meet both requirements to receive a certificate at the end of the course:</P>
