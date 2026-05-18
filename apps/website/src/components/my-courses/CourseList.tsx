@@ -7,6 +7,9 @@ type CourseListProps = {
   onToggleExpand?: (id: string) => void;
 };
 
+export const courseListRowKey = (c: CourseListRowProps): string =>
+  `${c.courseRegistration.id}:${c.group?.id ?? ''}`;
+
 const CourseList = ({
   courses,
   emptyMessage = 'No courses to show.',
@@ -20,7 +23,7 @@ const CourseList = ({
   return (
     <div className="flex flex-col gap-6">
       {courses.map((c) => {
-        const { id } = c.courseRegistration;
+        const id = courseListRowKey(c);
         return (
           <CourseListRow
             key={id}

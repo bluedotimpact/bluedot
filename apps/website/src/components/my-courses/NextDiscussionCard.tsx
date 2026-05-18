@@ -1,26 +1,23 @@
-import type { GroupDiscussion, Unit } from '@bluedot/db';
+import type { Group, GroupDiscussion, Unit } from '@bluedot/db';
 import { CTALinkOrButton, useCurrentTimeMs } from '@bluedot/ui';
 import { useState, type ReactNode } from 'react';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 import { buildCourseUnitUrl, formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
 import GroupSwitchModal from '../courses/GroupSwitchModal';
+import { TimeWidget } from './DiscussionListRow';
 
 type DiscussionTimeState = ReturnType<typeof getDiscussionTimeState>;
 
-const formatEyebrow = (timeState: DiscussionTimeState, courseTitle: string, unitNumber: string | undefined, minutesUntil: number): ReactNode => {
+const formatEyebrow = (timeState: DiscussionTimeState, prefix: string, unitNumber: string | undefined, minutesUntil: number): ReactNode => {
   if (timeState === 'live') return 'LIVE';
   if (timeState === 'soon') {
     return minutesUntil === 1 ? 'Starts in 1 minute' : `Starts in ${minutesUntil} minutes`;
   }
 
-  // 'upcoming' or 'ended': show the course/unit eyebrow.
-  if (unitNumber === undefined) return courseTitle.toUpperCase();
-
-  return (
-    <>
-      {courseTitle.toUpperCase()}: UNIT {unitNumber}
-    </>
-  );
+  const unitText = unitNumber !== undefined ? `UNIT ${unitNumber}` : '';
+  if (!prefix) return unitText;
+  if (!unitText) return prefix.toUpperCase();
+  return `${prefix.toUpperCase()}: ${unitText}`;
 };
 
 const formatDatetimeLabel = (startSec: number, endSec: number) =>
@@ -39,11 +36,16 @@ const CalendarBadge = ({ month, day }: { month: string; day: number }) => (
   </div>
 );
 
+export type NextDiscussionCardMode = 'participant' | 'facilitator';
+
 export type NextDiscussionCardProps = {
+  mode?: NextDiscussionCardMode;
   courseSlug: string;
   courseTitle: string;
   discussion: GroupDiscussion;
   unit: Unit | null;
+  group?: Group | null;
+  facilitatorSubtitle?: string | null;
 };
 
 /**
@@ -51,7 +53,7 @@ export type NextDiscussionCardProps = {
  * modal state so callers can drop multiple into a list without extra wiring.
  */
 const NextDiscussionCard = ({
-  courseSlug, courseTitle, discussion, unit,
+  mode = 'participant', courseSlug, courseTitle, discussion, unit, group, facilitatorSubtitle,
 }: NextDiscussionCardProps) => {
   const [rescheduleOpen, setRescheduleOpen] = useState(false);
   const currentTimeMs = useCurrentTimeMs();
@@ -67,11 +69,17 @@ const NextDiscussionCard = ({
 
   const unitNumber = unit?.unitNumber;
   const titleHref = unit ? buildCourseUnitUrl({ courseSlug, unitNumber: unit.unitNumber }) : undefined;
+  const eyebrowPrefix = courseTitle;
 
   // Title always links to the unit page; the primary CTA flips to zoom when live.
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const primaryHref = isLive ? (discussion.zoomLink || undefined) : titleHref;
   const primaryLabel = isLive ? 'Join discussion' : 'Prep for discussion';
+
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  const discussionDocUrl = group?.discussionDoc || undefined;
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  const zoomLink = discussion.zoomLink || undefined;
 
   const roundId = discussion.round;
 
@@ -79,11 +87,13 @@ const NextDiscussionCard = ({
     <>
       <div className="flex flex-col gap-4 rounded-xl border border-color-divider bg-white p-5 sm:flex-row sm:items-center sm:gap-5 sm:p-6">
         <div className="flex w-full items-start gap-4 sm:flex-1 sm:items-center sm:gap-5">
-          <CalendarBadge month={month} day={day} />
+          {mode === 'facilitator'
+            ? <TimeWidget isLive={isLive} dateTimeSeconds={discussion.startDateTime} />
+            : <CalendarBadge month={month} day={day} />}
           <div className="flex min-w-0 flex-1 flex-col items-start gap-1">
             <div className="flex flex-col items-start">
               <p className="text-size-xxs font-semibold leading-[16px] text-bluedot-normal">
-                {formatEyebrow(timeState, courseTitle, unitNumber, minutesUntil)}
+                {formatEyebrow(timeState, eyebrowPrefix, unitNumber, minutesUntil)}
               </p>
               <h3 className="text-size-md font-semibold leading-[24px] text-bluedot-navy sm:text-size-lg sm:leading-[normal]">
                 {titleHref ? (
@@ -97,30 +107,23 @@ const NextDiscussionCard = ({
               </h3>
             </div>
             <p className="text-size-xs text-bluedot-navy">
-              {formatDatetimeLabel(discussion.startDateTime, discussion.endDateTime)}
+              {mode === 'facilitator'
+                ? (facilitatorSubtitle ?? '')
+                : formatDatetimeLabel(discussion.startDateTime, discussion.endDateTime)}
             </p>
           </div>
         </div>
         <div className="flex w-full gap-3 sm:w-auto sm:shrink-0 sm:items-center">
-          {roundId && (
-            <CTALinkOrButton
-              variant="secondary"
-              size="small"
-              onClick={() => setRescheduleOpen(true)}
-              className="text-size-xxs"
-            >
-              Reschedule
-            </CTALinkOrButton>
-          )}
-          <CTALinkOrButton
-            variant="primary"
-            size="small"
-            url={primaryHref}
-            target={isLive ? '_blank' : undefined}
-            className="flex-1 text-size-xxs sm:flex-none"
-          >
-            {primaryLabel}
-          </CTALinkOrButton>
+          {getActions({
+            mode,
+            isLive,
+            roundId,
+            primaryHref,
+            primaryLabel,
+            discussionDocUrl,
+            zoomLink,
+            onOpenReschedule: () => setRescheduleOpen(true),
+          })}
         </div>
       </div>
       {rescheduleOpen && roundId && (
@@ -131,6 +134,77 @@ const NextDiscussionCard = ({
           roundId={roundId}
         />
       )}
+    </>
+  );
+};
+
+type NextDiscussionActionContext = {
+  mode: NextDiscussionCardMode;
+  isLive: boolean;
+  roundId: string | null;
+  primaryHref: string | undefined;
+  primaryLabel: string;
+  discussionDocUrl: string | undefined;
+  zoomLink: string | undefined;
+  onOpenReschedule: () => void;
+};
+
+const getActions = (ctx: NextDiscussionActionContext): ReactNode => {
+  if (ctx.mode === 'facilitator') {
+    const { isLive, discussionDocUrl, zoomLink } = ctx;
+    return (
+      <>
+        <CTALinkOrButton
+          variant="secondary"
+          size="small"
+          url={discussionDocUrl}
+          target="_blank"
+          disabled={!discussionDocUrl}
+          className="text-size-xxs"
+        >
+          Open discussion doc
+        </CTALinkOrButton>
+        {isLive && (
+          <CTALinkOrButton
+            variant="primary"
+            size="small"
+            url={zoomLink}
+            target="_blank"
+            disabled={!zoomLink}
+            className="flex-1 text-size-xxs sm:flex-none"
+          >
+            Join discussion
+          </CTALinkOrButton>
+        )}
+      </>
+    );
+  }
+
+  const {
+    isLive, roundId, primaryHref, primaryLabel, onOpenReschedule,
+  } = ctx;
+
+  return (
+    <>
+      {roundId && (
+        <CTALinkOrButton
+          variant="secondary"
+          size="small"
+          onClick={onOpenReschedule}
+          className="text-size-xxs"
+        >
+          Reschedule
+        </CTALinkOrButton>
+      )}
+      <CTALinkOrButton
+        variant="primary"
+        size="small"
+        url={primaryHref}
+        target={isLive ? '_blank' : undefined}
+        className="flex-1 text-size-xxs sm:flex-none"
+      >
+        {primaryLabel}
+      </CTALinkOrButton>
     </>
   );
 };

@@ -4,11 +4,9 @@ import '@testing-library/jest-dom';
 import {
   createMockCourseRegistration, createMockGroup,
 } from '../../__tests__/testUtils';
-import CourseListRow, { classifyCourseRegistration, getSubtitle, type CourseListRowProps } from './CourseListRow';
+import CourseListRow, { classifyCourseRegistration, getSubtitle, type ParticipantRowProps } from './CourseListRow';
 
 describe('getSubtitle precedence', () => {
-  type SubtitleArgs = Parameters<typeof getSubtitle>[0];
-
   const renderText = (node: React.ReactNode): string => {
     if (node == null) return '';
     if (typeof node === 'string' || typeof node === 'number') return String(node);
@@ -19,231 +17,252 @@ describe('getSubtitle precedence', () => {
   const ROUND_START = '2026-03-10';
   const ROUND_END = '2026-03-17';
 
-  const subtitleArgs = (overrides: Partial<SubtitleArgs> = {}): SubtitleArgs => ({
-    courseRegistration: createMockCourseRegistration(),
-    group: createMockGroup({ startTimeUtc: new Date('2026-05-13T16:00:00Z').getTime() / 1000 }),
-    facilitatorNames: ['Shivam Arora'],
-    numUnits: null,
-    uniqueDiscussionAttendance: null,
-    isNotInGroup: false,
-    roundStartDate: null,
-    roundEndDate: null,
-    ...overrides,
-  });
+  type SubtitleArgs = Partial<ParticipantRowProps> & { isNotInGroup?: boolean };
+  const callGetSubtitle = (overrides: SubtitleArgs = {}) => {
+    const { isNotInGroup = false, ...rowOverrides } = overrides;
+    const row: ParticipantRowProps = {
+      mode: 'participant',
+      courseRegistration: createMockCourseRegistration(),
+      course: { slug: 'tais', title: 'TAIS', applyUrl: null },
+      group: createMockGroup({ startTimeUtc: new Date('2026-05-13T16:00:00Z').getTime() / 1000 }),
+      meetPersonId: null,
+      groupsAsParticipant: null,
+      roundId: null,
+      discussions: [],
+      attendedDiscussionIds: [],
+      units: {},
+      roundStartDate: null,
+      roundEndDate: null,
+      hasSubmittedFeedback: false,
+      isDroppedOut: false,
+      isDeferred: false,
+      facilitatorNames: ['Test Facilitator'],
+      rescheduleEligibleUnits: [],
+      numUnits: null,
+      uniqueDiscussionAttendance: null,
+      hasSubmittedActionPlan: false,
+      feedbackFormUrl: null,
+      ...rowOverrides,
+    };
+    return getSubtitle(row, { isNotInGroup });
+  };
 
   test('Future + Accept → status word + Course starts', () => {
-    expect(renderText(getSubtitle(subtitleArgs({
+    expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Accept' }),
       roundStartDate: ROUND_START,
-    })))).toBe('Application accepted! · Course starts 10 Mar');
+    }))).toBe('Application accepted! · Course starts 10 Mar');
   });
 
   test('Future + null decision → "Application in review"', () => {
-    expect(renderText(getSubtitle(subtitleArgs({
+    expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: null }),
       roundStartDate: ROUND_START,
-    })))).toBe('Application in review · Course starts 10 Mar');
+    }))).toBe('Application in review · Course starts 10 Mar');
   });
 
   test('Future + Reject → "Application rejected" (no "Course starts" addendum)', () => {
-    expect(renderText(getSubtitle(subtitleArgs({
+    expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Reject' }),
       roundStartDate: ROUND_START,
-    })))).toBe('Application rejected');
+    }))).toBe('Application rejected');
   });
 
   test('Future + no roundStartDate → status word only', () => {
-    expect(renderText(getSubtitle(subtitleArgs({
+    expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Accept' }),
       roundStartDate: null,
-    })))).toBe('Application accepted!');
+    }))).toBe('Application accepted!');
   });
 
   test('Past + cert (same month) → "Mar 10 – 17, 2026 · Facilitated by …"', () => {
-    expect(renderText(getSubtitle(subtitleArgs({
+    expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({
         roundStatus: 'Past', certificateCreatedAt: new Date('2026-04-01T00:00:00Z').getTime() / 1000,
       }),
       roundStartDate: ROUND_START,
       roundEndDate: ROUND_END,
-    })))).toBe('Mar 10 – 17, 2026 · Facilitated by Shivam Arora');
+    }))).toBe('Mar 10 – 17, 2026 · Facilitated by Test Facilitator');
   });
 
   test('Past + cert (cross-month) → "Mar 10 – Apr 17, 2026 · Facilitated by …"', () => {
-    expect(renderText(getSubtitle(subtitleArgs({
+    expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({
         roundStatus: 'Past', certificateCreatedAt: new Date('2026-04-20T00:00:00Z').getTime() / 1000,
       }),
       roundStartDate: '2026-03-10',
       roundEndDate: '2026-04-17',
-    })))).toBe('Mar 10 – Apr 17, 2026 · Facilitated by Shivam Arora');
+    }))).toBe('Mar 10 – Apr 17, 2026 · Facilitated by Test Facilitator');
   });
 
   test('Past + cert (cross-year) → "Dec 28, 2025 – Jan 5, 2026 · Facilitated by …"', () => {
-    expect(renderText(getSubtitle(subtitleArgs({
+    expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({
         roundStatus: 'Past', certificateCreatedAt: new Date('2026-01-10T00:00:00Z').getTime() / 1000,
       }),
       roundStartDate: '2025-12-28',
       roundEndDate: '2026-01-05',
-    })))).toBe('Dec 28, 2025 – Jan 5, 2026 · Facilitated by Shivam Arora');
+    }))).toBe('Dec 28, 2025 – Jan 5, 2026 · Facilitated by Test Facilitator');
   });
 
   test('Past + cert without facilitators → date range only', () => {
-    expect(renderText(getSubtitle(subtitleArgs({
+    expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({
         roundStatus: 'Past', certificateCreatedAt: new Date('2026-04-01T00:00:00Z').getTime() / 1000,
       }),
       roundStartDate: ROUND_START,
       roundEndDate: ROUND_END,
       facilitatorNames: [],
-    })))).toBe('Mar 10 – 17, 2026');
+    }))).toBe('Mar 10 – 17, 2026');
   });
 
   test('Past + cert without round dates → falls through (recurring schedule)', () => {
     // Defensive: if a cert exists but the round dates aren't loaded, skip the date-range
     // branch and fall to the recurring-schedule line rather than rendering nothing.
-    expect(renderText(getSubtitle(subtitleArgs({
+    expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({
         roundStatus: 'Past', certificateCreatedAt: new Date('2026-04-01T00:00:00Z').getTime() / 1000,
       }),
       roundStartDate: null,
       roundEndDate: null,
-    })))).toBe('Wednesdays, 4:00 PM · Facilitated by Shivam Arora');
+    }))).toBe('Wednesdays, 4:00 PM · Facilitated by Test Facilitator');
   });
 
   test('Past + no cert + round dates → date range · attendance', () => {
-    expect(renderText(getSubtitle(subtitleArgs({
+    expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Past', certificateCreatedAt: null }),
       roundStartDate: ROUND_START,
       roundEndDate: ROUND_END,
       numUnits: 8,
       uniqueDiscussionAttendance: 6,
-    })))).toBe('Mar 10 – 17, 2026 · You attended 6 out of 8 discussions');
+    }))).toBe('Mar 10 – 17, 2026 · You attended 6 out of 8 discussions');
   });
 
   test('Past + no cert + no round dates → attendance only', () => {
-    expect(renderText(getSubtitle(subtitleArgs({
+    expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Past', certificateCreatedAt: null }),
       numUnits: 8,
       uniqueDiscussionAttendance: 6,
-    })))).toBe('You attended 6 out of 8 discussions');
+    }))).toBe('You attended 6 out of 8 discussions');
   });
 
   test('Past + no cert + missing meetPerson data → empty (attendance suppressed when numUnits unknown)', () => {
-    expect(renderText(getSubtitle(subtitleArgs({
+    expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Past', certificateCreatedAt: null }),
       numUnits: null,
       uniqueDiscussionAttendance: null,
-    })))).toBe('');
+    }))).toBe('');
   });
 
   test('Past + no cert + numUnits=0 (FOAI self-paced) → empty (attendance suppressed)', () => {
-    expect(renderText(getSubtitle(subtitleArgs({
+    expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Past', certificateCreatedAt: null }),
       numUnits: 0,
       uniqueDiscussionAttendance: 0,
-    })))).toBe('');
+    }))).toBe('');
   });
 
   test('Dropped + round dates → date range only', () => {
-    expect(renderText(getSubtitle(subtitleArgs({
+    expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Active' }),
       isDroppedOut: true,
       roundStartDate: ROUND_START,
       roundEndDate: ROUND_END,
-    })))).toBe('Mar 10 – 17, 2026');
+    }))).toBe('Mar 10 – 17, 2026');
   });
 
   test('Dropped without round dates → no subtitle', () => {
-    expect(renderText(getSubtitle(subtitleArgs({
+    expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Active' }),
       isDroppedOut: true,
-    })))).toBe('');
+    }))).toBe('');
   });
 
-  test('Deferred (isDroppedOut + isDeferred) is NOT treated as dropped', () => {
-    // Deferred users may still have isDroppedOut set in some edge orderings; deferral wins.
-    expect(renderText(getSubtitle(subtitleArgs({
+  test('Deferred is NOT treated as dropped', () => {
+    // Deferred users have a deferral entry in the dropout table; they're a separate state from
+    // dropped and should fall through to the default branch. (Their next-round registration is
+    // the active one in /my-courses.)
+    expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Active' }),
       isDeferred: true,
       roundStartDate: ROUND_START,
       roundEndDate: ROUND_END,
-    })))).toBe('Wednesdays, 4:00 PM · Facilitated by Shivam Arora');
+    }))).toBe('Wednesdays, 4:00 PM · Facilitated by Test Facilitator');
   });
 
   test('isNotInGroup, no roundStartDate → "We\'re assigning you to a group" (no addendum)', () => {
-    expect(renderText(getSubtitle(subtitleArgs({
+    expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Active' }),
       group: null,
       isNotInGroup: true,
-    })))).toBe('We\'re assigning you to a group, you\'ll receive an email from us within the next few days');
+    }))).toBe('We\'re assigning you to a group, you\'ll receive an email from us within the next few days');
   });
 
   test('isNotInGroup with roundStartDate → adds " · Course starts {date}" (desktop-visible span)', () => {
-    expect(renderText(getSubtitle(subtitleArgs({
+    expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Active' }),
       group: null,
       isNotInGroup: true,
       roundStartDate: ROUND_START,
-    })))).toBe('We\'re assigning you to a group, you\'ll receive an email from us within the next few days · Course starts 10 Mar');
+    }))).toBe('We\'re assigning you to a group, you\'ll receive an email from us within the next few days · Course starts 10 Mar');
   });
 
   test('Active with group → recurring schedule', () => {
-    expect(renderText(getSubtitle(subtitleArgs({
+    expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Active' }),
-    })))).toBe('Wednesdays, 4:00 PM · Facilitated by Shivam Arora');
+    }))).toBe('Wednesdays, 4:00 PM · Facilitated by Test Facilitator');
   });
 
   test('Active without group/facilitators → empty', () => {
-    expect(renderText(getSubtitle(subtitleArgs({
+    expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Active' }),
       group: null,
       facilitatorNames: [],
-    })))).toBe('');
+    }))).toBe('');
   });
 
   test('Future precedence: even with no group, the application status wins', () => {
-    expect(renderText(getSubtitle(subtitleArgs({
+    expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Accept' }),
       group: null,
       isNotInGroup: true,
       roundStartDate: ROUND_START,
-    })))).toBe('Application accepted! · Course starts 10 Mar');
+    }))).toBe('Application accepted! · Course starts 10 Mar');
   });
 
   test('Future + Accept + dropped + round dates → dropped wins (date range, not "Application accepted!")', () => {
-    expect(renderText(getSubtitle(subtitleArgs({
+    expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Accept' }),
       isDroppedOut: true,
       roundStartDate: ROUND_START,
       roundEndDate: ROUND_END,
-    })))).toBe('Mar 10 – 17, 2026');
+    }))).toBe('Mar 10 – 17, 2026');
   });
 
   test('Future + Accept + dropped without roundEndDate → no subtitle', () => {
-    expect(renderText(getSubtitle(subtitleArgs({
+    expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Accept' }),
       isDroppedOut: true,
       roundStartDate: ROUND_START,
       roundEndDate: null,
-    })))).toBe('');
+    }))).toBe('');
   });
 
   test('Future + Reject + dropped + round dates → dropped wins (date range)', () => {
-    expect(renderText(getSubtitle(subtitleArgs({
+    expect(renderText(callGetSubtitle({
       courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Reject' }),
       isDroppedOut: true,
       roundStartDate: ROUND_START,
       roundEndDate: ROUND_END,
-    })))).toBe('Mar 10 – 17, 2026');
+    }))).toBe('Mar 10 – 17, 2026');
   });
 });
 
 describe('CourseListRow actions', () => {
-  const renderRow = (props: CourseListRowProps) => render(<CourseListRow {...props} />);
+  const renderRow = (props: ParticipantRowProps) => render(<CourseListRow {...props} />);
 
-  const baseProps = (overrides: Partial<CourseListRowProps> = {}): CourseListRowProps => ({
+  const baseProps = (overrides: Partial<ParticipantRowProps> = {}): ParticipantRowProps => ({
+    mode: 'participant',
     course: { slug: 'technical-ai-safety', title: 'Technical AI Safety', applyUrl: null },
     courseRegistration: createMockCourseRegistration({ roundStatus: 'Active' }),
     group: createMockGroup({
@@ -251,7 +270,7 @@ describe('CourseListRow actions', () => {
       slackChannelId: 'C01ABCDEF',
       discussionDoc: 'https://example.com/doc',
     }),
-    facilitatorNames: ['Shivam Arora'],
+    facilitatorNames: ['Test Facilitator'],
     meetPersonId: 'mp-default',
     groupsAsParticipant: ['group-default'],
     roundId: 'round-default',
@@ -265,9 +284,9 @@ describe('CourseListRow actions', () => {
     hasSubmittedActionPlan: false,
     feedbackFormUrl: null,
     hasSubmittedFeedback: false,
-    rescheduleEligibleUnits: [],
     isDroppedOut: false,
     isDeferred: false,
+    rescheduleEligibleUnits: [],
     isExpanded: false,
     onToggleExpand: () => {},
     ...overrides,
@@ -333,7 +352,7 @@ describe('CourseListRow actions', () => {
     });
   });
 
-  describe('Drop or defer course visibility', () => {
+  describe('Drop or defer course (regression: hidden on application states)', () => {
     test('shown on in-progress', () => {
       const { container } = renderRow(baseProps());
       expect(openOverflowItems(container)).toContain('Drop or defer course');
@@ -351,10 +370,10 @@ describe('CourseListRow actions', () => {
       expect(openOverflowItems(container)).not.toContain('Drop or defer course');
     });
 
-    test('shown on upcoming + null decision (in-review applicants can withdraw)', () => {
+    test('hidden on upcoming + null decision (legacy match: in-review applicants do not see drop)', () => {
       const upcomingPending = createMockCourseRegistration({ roundStatus: 'Future', decision: null });
       const { container } = renderRow(baseProps({ courseRegistration: upcomingPending }));
-      expect(openOverflowItems(container)).toContain('Drop or defer course');
+      expect(openOverflowItems(container)).not.toContain('Drop or defer course');
     });
 
     test('hidden on completed', () => {
@@ -380,7 +399,7 @@ describe('CourseListRow actions', () => {
   describe('no duplicate items across inline + overflow (regression)', () => {
     // Every action declares either `variant: 'inline'` or `variant: 'overflow'`, never both.
     // If a future change accidentally pushes the same action through both surfaces, this catches it.
-    const cases: { name: string; props: () => CourseListRowProps }[] = [
+    const cases: { name: string; props: () => ParticipantRowProps }[] = [
       { name: 'in-progress', props: () => baseProps() },
       {
         name: 'upcoming-accept',

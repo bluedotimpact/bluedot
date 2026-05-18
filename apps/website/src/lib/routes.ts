@@ -105,6 +105,12 @@ const myCourses: BluedotRoute = {
   parentPages: [home],
 };
 
+const facilitatedCourses: BluedotRoute = {
+  title: 'Facilitated Courses',
+  url: '/facilitated-courses',
+  parentPages: [home],
+};
+
 const subscriptionPreferences: BluedotRoute = {
   title: 'Subscription Preferences',
   url: '/subscription-preferences',
@@ -138,6 +144,7 @@ export const ROUTES = {
   profile,
   account,
   myCourses,
+  facilitatedCourses,
   subscriptionPreferences,
 } as const;
 

@@ -3,12 +3,15 @@ import {
 } from '@bluedot/ui';
 import type { GroupDiscussion, Unit } from '@bluedot/db';
 import { Fragment, useState, type ReactNode } from 'react';
+import { FaCheck } from 'react-icons/fa6';
 import { IoBan, IoCheckmark } from 'react-icons/io5';
 import { downloadDiscussionCalendarFile } from '../../lib/downloadCalendarFile';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
 import { formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
 
 type DiscussionStatus = 'upcoming' | 'soon' | 'live' | 'attended' | 'absent';
+
+export type DiscussionListRowMode = 'participant' | 'facilitator';
 
 /**
  * One row-level action. `variant` decides where it surfaces:
@@ -25,16 +28,22 @@ export type CourseAction = {
 };
 
 type DiscussionListRowProps = {
+  mode?: DiscussionListRowMode;
   discussion: GroupDiscussion;
   unit: Unit | null;
   courseSlug: string;
   isAttended: boolean;
   canReschedule: boolean;
   onReschedule: () => void;
+  onClickFacilitatorReschedule?: (discussion: GroupDiscussion) => void;
+  onClickFacilitatorAssignSubstitute?: (discussion: GroupDiscussion) => void;
+  onClickViewAttendees?: () => void;
 };
 
 const DiscussionListRow = ({
+  mode = 'participant',
   discussion, unit, courseSlug, isAttended, canReschedule, onReschedule,
+  onClickFacilitatorReschedule, onClickFacilitatorAssignSubstitute, onClickViewAttendees,
 }: DiscussionListRowProps) => {
   const currentTimeMs = useCurrentTimeMs();
   const timeState = getDiscussionTimeState({ discussion, currentTimeMs });
@@ -71,10 +80,109 @@ const DiscussionListRow = ({
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const discussionMeetLink = discussion.zoomLink || undefined;
 
+  const actions = getActions({
+    mode,
+    status,
+    discussion,
+    discussionMeetLink,
+    canReschedule,
+    isDownloadingCalendar,
+    onReschedule,
+    onDownloadCalendar: handleDownloadCalendarFile,
+    onClickFacilitatorReschedule,
+    onClickFacilitatorAssignSubstitute,
+    onClickViewAttendees,
+  });
+
+  const visible = actions.filter((a) => a.isVisible);
+  const inlineActions = visible.filter((a) => a.variant === 'inline');
+  const desktopOverflowItems = visible
+    .filter((a) => a.variant === 'overflow' && a.overflow)
+    .map((a) => a.overflow!);
+  // Mobile folds inline actions into the overflow menu; pills (no overflow) drop out naturally.
+  const mobileOverflowItems = visible
+    .map((a) => a.overflow)
+    .filter((o): o is OverflowMenuItemProps => !!o);
+
+  return (
+    <li className="flex items-center gap-5 py-4 not-last:border-b not-last:border-color-divider">
+      <TimeWidget isLive={status === 'live'} dateTimeSeconds={discussion.startDateTime} />
+      <div className="min-w-0 flex-1">
+        <p className="text-size-xxs font-semibold text-bluedot-black">{unitLabel}</p>
+        {discussionPrepareLink ? (
+          <a
+            href={discussionPrepareLink}
+            className="block text-size-sm font-semibold leading-[24px] text-bluedot-black no-underline w-fit transition-colors hover:text-bluedot-normal hover:underline underline-offset-2"
+          >
+            {title}
+          </a>
+        ) : (
+          <p className="text-size-sm font-semibold leading-[24px] text-bluedot-black">{title}</p>
+        )}
+        {downloadError && (
+          <p className="mt-1 text-size-xxs text-red-600" role="alert" aria-live="polite">{downloadError}</p>
+        )}
+      </div>
+      <div className="flex shrink-0 items-center gap-3">
+        {/* Desktop: inline buttons/pills + overflow menu containing only `overflow`-variant items. */}
+        <div className="hidden shrink-0 items-center gap-3 sm:flex">
+          {inlineActions.map((a) => <Fragment key={a.id}>{a.inline}</Fragment>)}
+          {desktopOverflowItems.length > 0 && (
+            <OverflowMenu ariaLabel="Discussion actions" items={desktopOverflowItems} />
+          )}
+        </div>
+        {/* Mobile: only the overflow menu, but it contains every action (inline buttons fold in). */}
+        <div className="sm:hidden">
+          {mobileOverflowItems.length > 0 && (
+            <OverflowMenu ariaLabel="Discussion actions" items={mobileOverflowItems} />
+          )}
+        </div>
+      </div>
+    </li>
+  );
+};
+
+export const TimeWidget = ({ isLive, dateTimeSeconds }: { isLive: boolean; dateTimeSeconds: number }) => (
+  <div className="flex shrink-0 min-w-[85px] flex-col items-stretch overflow-hidden rounded-[5px] border border-color-divider">
+    {isLive ? (
+      <>
+        <div className="px-3 py-1 text-center text-size-xs font-bold leading-[22px] text-bluedot-navy">NOW</div>
+        <div className="bg-bluedot-normal py-[3px] text-center text-size-xxs font-semibold leading-[16px] text-white">LIVE</div>
+      </>
+    ) : (
+      <div className="px-3 py-[7px] text-center text-bluedot-navy" aria-hidden>
+        <div className="text-size-xs font-semibold leading-[22px]">{formatDateMonthAndDay(dateTimeSeconds)}</div>
+        <div className="text-size-xxs font-medium leading-[16px] text-gray-500">{formatTime12HourClock(dateTimeSeconds)}</div>
+      </div>
+    )}
+  </div>
+);
+
+type DiscussionActionContext = {
+  mode: DiscussionListRowMode;
+  status: DiscussionStatus;
+  discussion: GroupDiscussion;
+  discussionMeetLink: string | undefined;
+  canReschedule: boolean;
+  isDownloadingCalendar: boolean;
+  onReschedule: () => void;
+  onDownloadCalendar: () => void | Promise<void>;
+  onClickFacilitatorReschedule?: (discussion: GroupDiscussion) => void;
+  onClickFacilitatorAssignSubstitute?: (discussion: GroupDiscussion) => void;
+  onClickViewAttendees?: () => void;
+};
+
+export const getActions = (ctx: DiscussionActionContext): CourseAction[] => {
+  if (ctx.mode === 'facilitator') return getFacilitatorActions(ctx);
+
+  const {
+    status, discussionMeetLink, canReschedule, isDownloadingCalendar,
+    onReschedule, onDownloadCalendar,
+  } = ctx;
   const isPast = status === 'attended' || status === 'absent';
   const isFutureLike = status === 'upcoming' || status === 'soon' || status === 'live';
 
-  const actions: CourseAction[] = [
+  return [
     {
       id: 'reschedule-upcoming',
       isVisible: isFutureLike,
@@ -127,73 +235,94 @@ const DiscussionListRow = ({
       overflow: {
         id: 'cal',
         label: isDownloadingCalendar ? 'Downloading calendar file...' : 'Download calendar file',
-        onAction: handleDownloadCalendarFile,
+        onAction: onDownloadCalendar,
       },
     },
   ];
-
-  const visible = actions.filter((a) => a.isVisible);
-  const inlineActions = visible.filter((a) => a.variant === 'inline');
-  const desktopOverflowItems = visible
-    .filter((a) => a.variant === 'overflow' && a.overflow)
-    .map((a) => a.overflow!);
-  // Mobile folds inline actions into the overflow menu; pills (no overflow) drop out naturally.
-  const mobileOverflowItems = visible
-    .map((a) => a.overflow)
-    .filter((o): o is OverflowMenuItemProps => !!o);
-
-  return (
-    <li className="flex items-center gap-5 py-4 not-last:border-b not-last:border-color-divider">
-      <TimeWidget isLive={status === 'live'} dateTimeSeconds={discussion.startDateTime} />
-      <div className="min-w-0 flex-1">
-        <p className="text-size-xxs font-semibold text-bluedot-black">{unitLabel}</p>
-        {discussionPrepareLink ? (
-          <a
-            href={discussionPrepareLink}
-            className="block text-size-sm font-semibold leading-[24px] text-bluedot-black no-underline w-fit transition-colors hover:text-bluedot-normal hover:underline underline-offset-2"
-          >
-            {title}
-          </a>
-        ) : (
-          <p className="text-size-sm font-semibold leading-[24px] text-bluedot-black">{title}</p>
-        )}
-        {downloadError && (
-          <p className="mt-1 text-size-xxs text-red-600" role="alert" aria-live="polite">{downloadError}</p>
-        )}
-      </div>
-      <div className="flex shrink-0 items-center gap-3">
-        {/* Desktop: inline buttons/pills + overflow menu containing only `overflow`-variant items. */}
-        <div className="hidden shrink-0 items-center gap-3 sm:flex">
-          {inlineActions.map((a) => <Fragment key={a.id}>{a.inline}</Fragment>)}
-          {desktopOverflowItems.length > 0 && (
-            <OverflowMenu ariaLabel="Discussion actions" items={desktopOverflowItems} />
-          )}
-        </div>
-        {/* Mobile: only the overflow menu, but it contains every action (inline buttons fold in). */}
-        <div className="sm:hidden">
-          {mobileOverflowItems.length > 0 && (
-            <OverflowMenu ariaLabel="Discussion actions" items={mobileOverflowItems} />
-          )}
-        </div>
-      </div>
-    </li>
-  );
 };
 
-const TimeWidget = ({ isLive, dateTimeSeconds }: { isLive: boolean; dateTimeSeconds: number }) => (
-  <div className="flex shrink-0 min-w-[85px] flex-col items-stretch overflow-hidden rounded-[5px] border border-color-divider">
-    {isLive ? (
-      <>
-        <div className="px-3 py-1 text-center text-size-xs font-bold leading-[22px] text-bluedot-navy">NOW</div>
-        <div className="bg-bluedot-normal py-[3px] text-center text-size-xxs font-semibold leading-[16px] text-white">LIVE</div>
-      </>
-    ) : (
-      <div className="px-3 py-[7px] text-center text-bluedot-navy" aria-hidden>
-        <div className="text-size-xs font-semibold leading-[22px]">{formatDateMonthAndDay(dateTimeSeconds)}</div>
-        <div className="text-size-xxs font-medium leading-[16px] text-gray-500">{formatTime12HourClock(dateTimeSeconds)}</div>
-      </div>
-    )}
-  </div>
-);
+const getFacilitatorActions = (ctx: DiscussionActionContext): CourseAction[] => {
+  const {
+    status, discussion, discussionMeetLink, isDownloadingCalendar,
+    onDownloadCalendar, onClickFacilitatorReschedule, onClickFacilitatorAssignSubstitute, onClickViewAttendees,
+  } = ctx;
+  const isPast = status === 'attended' || status === 'absent';
+  const attendingCount = discussion.participantsExpected?.length ?? 0;
+
+  return [
+    {
+      id: 'join-now-facilitator',
+      isVisible: status === 'live' && Boolean(discussionMeetLink),
+      variant: 'inline',
+      inline: discussionMeetLink ? (
+        <CTALinkOrButton variant="primary" size="small" url={discussionMeetLink} target="_blank">Join now</CTALinkOrButton>
+      ) : null,
+      overflow: {
+        id: 'join', label: 'Join now', href: discussionMeetLink ?? '', target: '_blank',
+      },
+    },
+    {
+      id: 'attending-pill',
+      isVisible: !isPast && status !== 'live',
+      variant: 'inline',
+      inline: (
+        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
+          {attendingCount} Attending
+        </span>
+      ),
+    },
+    {
+      id: 'facilitated-pill',
+      isVisible: isPast,
+      variant: 'inline',
+      inline: (
+        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
+          <FaCheck aria-hidden size={12} />
+          Facilitated
+        </span>
+      ),
+    },
+    {
+      id: 'view-attendees',
+      isVisible: Boolean(onClickViewAttendees),
+      variant: 'overflow',
+      overflow: {
+        id: 'view-attendees',
+        label: 'View attendees',
+        onAction: () => onClickViewAttendees?.(),
+      },
+    },
+    {
+      id: 'reschedule-one-off',
+      isVisible: !isPast && Boolean(onClickFacilitatorReschedule),
+      variant: 'overflow',
+      overflow: {
+        id: 'reschedule-one-off',
+        label: 'Reschedule',
+        onAction: () => onClickFacilitatorReschedule?.(discussion),
+      },
+    },
+    {
+      id: 'assign-substitute',
+      isVisible: !isPast && Boolean(onClickFacilitatorAssignSubstitute),
+      variant: 'overflow',
+      overflow: {
+        id: 'assign-substitute',
+        label: 'Change facilitator',
+        onAction: () => onClickFacilitatorAssignSubstitute?.(discussion),
+      },
+    },
+    {
+      id: 'calendar-facilitator',
+      isVisible: !isPast,
+      variant: 'overflow',
+      overflow: {
+        id: 'cal',
+        label: isDownloadingCalendar ? 'Downloading calendar file...' : 'Download calendar file',
+        onAction: onDownloadCalendar,
+      },
+    },
+  ];
+};
 
 export default DiscussionListRow;
