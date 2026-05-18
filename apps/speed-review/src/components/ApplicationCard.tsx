@@ -26,7 +26,12 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
     reasoning,
     applicationSource,
     utmSource,
-    previousCourses,
+    commitmentScore,
+    commitmentRationale,
+    impressivenessScore,
+    impressivenessRationale,
+    technicalSkillScore,
+    technicalSkillRationale,
   } = application;
 
   const subtitle = [jobTitle, organisation, careerLevel].filter(Boolean).join(' · ');
@@ -38,9 +43,6 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
           <h1 className="text-2xl font-bold text-stone-100">{name}</h1>
           {subtitle && (
             <p className="text-size-sm text-stone-400 mt-0.5">{subtitle}</p>
-          )}
-          {previousCourses && previousCourses.length > 0 && (
-            <p className="text-size-xs text-amber-400 mt-1">⟳ Previous participant: {previousCourses.join(', ')}</p>
           )}
         </div>
         <div className="flex items-center gap-2 shrink-0">
@@ -57,9 +59,26 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
         </div>
       </div>
 
-      {aiSummary && <SummaryCard aiSummary={aiSummary} course={course} />}
+      <PreviousApplicationsCard applicationId={application.id} course={course} />
 
-      <PreviousApplicationsCard applicationId={application.id} />
+      {(!!aiSummary
+        || commitmentScore !== undefined
+        || impressivenessScore !== undefined
+        || technicalSkillScore !== undefined
+        || !!commitmentRationale
+        || !!impressivenessRationale
+        || !!technicalSkillRationale) && (
+        <SummaryCard
+          aiSummary={aiSummary ?? ''}
+          course={course}
+          commitmentScore={commitmentScore}
+          commitmentRationale={commitmentRationale}
+          impressivenessScore={impressivenessScore}
+          impressivenessRationale={impressivenessRationale}
+          technicalSkillScore={technicalSkillScore}
+          technicalSkillRationale={technicalSkillRationale}
+        />
+      )}
 
       <div className="border border-stone-700 rounded-lg divide-y divide-stone-700 overflow-hidden">
         {([

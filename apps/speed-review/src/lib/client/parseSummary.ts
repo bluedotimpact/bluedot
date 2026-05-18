@@ -1,23 +1,19 @@
 export type ParsedSummary = {
-  role: string;
-  domain: string;
-  technicalAbility: string;
-  topAchievement: string;
-  commitment: string;
+  summary: string;
+  notable: string[];
 };
 
 export const parseSummary = (text: string): ParsedSummary => {
-  const extract = (label: string, nextLabel: string) => {
-    const regex = new RegExp(`${label}:\\s*(.+?)(?=${nextLabel}:|$)`, 's');
-    const match = text.match(regex);
-    return match?.[1]?.trim() ?? '';
-  };
-
+  const summaryMatch = /SUMMARY:\s*([\s\S]*?)(?=\n\s*NOTABLE:|$)/.exec(text);
+  const notableMatch = /NOTABLE:\s*([\s\S]*)$/.exec(text);
+  const notable = notableMatch
+    ? notableMatch[1]!
+      .split(/\n/)
+      .map((l) => l.replace(/^\s*[-•]\s*/, '').trim())
+      .filter(Boolean)
+    : [];
   return {
-    role: extract('ROLE', 'DOMAIN'),
-    domain: extract('DOMAIN', 'TECHNICAL ABILITY|TOP ACHIEVEMENT'),
-    technicalAbility: extract('TECHNICAL ABILITY', 'TOP ACHIEVEMENT'),
-    topAchievement: extract('TOP ACHIEVEMENT', 'COMMITMENT'),
-    commitment: extract('COMMITMENT', 'ZZZNOMATCH$'),
+    summary: summaryMatch?.[1]?.trim() ?? '',
+    notable,
   };
 };
