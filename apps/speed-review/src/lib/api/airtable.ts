@@ -1,5 +1,5 @@
 import env from './env';
-import { type Application } from '../client/types';
+import { type Application, type SortDirection } from '../client/types';
 
 const AIRTABLE_BASE = 'https://api.airtable.com/v0/appnJbsG1eWbAdEvf';
 const APPLICATIONS_URL = `${AIRTABLE_BASE}/tblXKnWoXK3R63F6D`;
@@ -32,7 +32,16 @@ const APPLICATION_FIELDS = [
   'fld1rOZGAHBRcdJcM', // [*] Full name
   'fldooZSRRtcLSKKvo', // [TAIS] Allow to move to AGISC
   'fldpYmO0PaZxRFL5v', // Previous courses (lookup)
+  'fldL5K79cFu6Bju2N', // Commitment score
+  'fldXdgD6to4gCs4Lj', // Commitment rationale
+  'fldcZWFBKtjOqX8A2', // Impressiveness score
+  'fldYcDjhWaLDL2RyT', // Impressiveness rationale
+  'fldtkropu9GZ7QLjr', // Technical skill score
+  'fld7qoZTSBPjY3gzl', // Technical skill rationale
+  'fldEPZ0UfYoypB1mp', // Total score
 ];
+
+const TOTAL_SCORE_FIELD_ID = 'fldEPZ0UfYoypB1mp';
 
 export type Round = { id: string; name: string; course: string };
 
@@ -54,6 +63,8 @@ type AirtableListResponse = {
 const str = (v: unknown): string | undefined => (
   typeof v === 'string' && v.length > 0 ? v : undefined
 );
+
+const num = (v: unknown): number | undefined => (typeof v === 'number' ? v : undefined);
 
 const url = (v: unknown): string | undefined => {
   const s = str(v);
@@ -100,16 +111,6 @@ const fetchAll = async (
   return all;
 };
 
-const shuffle = <T>(arr: T[]): T[] => {
-  const out = [...arr];
-  for (let i = out.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [out[i], out[j]] = [out[j]!, out[i]!];
-  }
-
-  return out;
-};
-
 const toApplication = (record: AirtableRecord): Application => {
   const f = record.fields;
   return {
@@ -132,6 +133,13 @@ const toApplication = (record: AirtableRecord): Application => {
     aiSummary: str(f.fldRXdZQ0rnuVOcl7),
     allowMoveToAgisc: !!f.fldooZSRRtcLSKKvo,
     previousCourses: Array.isArray(f.fldpYmO0PaZxRFL5v) ? [...new Set((f.fldpYmO0PaZxRFL5v as unknown[]).map(String).map((s) => s.trim()).filter(Boolean))] : undefined,
+    commitmentScore: num(f.fldL5K79cFu6Bju2N),
+    commitmentRationale: str(f.fldXdgD6to4gCs4Lj),
+    impressivenessScore: num(f.fldcZWFBKtjOqX8A2),
+    impressivenessRationale: str(f.fldYcDjhWaLDL2RyT),
+    technicalSkillScore: num(f.fldtkropu9GZ7QLjr),
+    technicalSkillRationale: str(f.fld7qoZTSBPjY3gzl),
+    totalScore: num(f.fldEPZ0UfYoypB1mp),
   };
 };
 
@@ -180,6 +188,7 @@ export const fetchRounds = async (): Promise<Round[]> => {
 export const fetchApplications = async (
   roundId: string,
   offset?: string,
+  sortDirection: SortDirection = 'desc',
 ): Promise<{ applications: Application[]; nextOffset?: string }> => {
   const collected: Application[] = [];
   // Airtable pagination can return the same record across internal pages when
@@ -196,6 +205,8 @@ export const fetchApplications = async (
         filterByFormula: 'AND({fldWVKY5EFAGSRcDT} = "", SEARCH("Participant", {fld7fzQNFhb7Oyy90}), NOT({fld1KQjHFGoDZKf94}), {fldRXdZQ0rnuVOcl7} != "")', // fld1KQjHFGoDZKf94 = Duplicate flag
         pageSize: String(AIRTABLE_PAGE_SIZE),
         returnFieldsByFieldId: 'true',
+        'sort[0][field]': TOTAL_SCORE_FIELD_ID,
+        'sort[0][direction]': sortDirection,
       },
       APPLICATION_FIELDS,
       currentOffset,
@@ -216,7 +227,7 @@ export const fetchApplications = async (
   }
 
   return {
-    applications: shuffle(collected),
+    applications: collected,
     nextOffset: currentOffset,
   };
 };

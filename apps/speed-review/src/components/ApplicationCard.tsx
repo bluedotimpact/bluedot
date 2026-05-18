@@ -27,6 +27,12 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
     applicationSource,
     utmSource,
     previousCourses,
+    commitmentScore,
+    commitmentRationale,
+    impressivenessScore,
+    impressivenessRationale,
+    technicalSkillScore,
+    technicalSkillRationale,
   } = application;
 
   const subtitle = [jobTitle, organisation, careerLevel].filter(Boolean).join(' · ');
@@ -57,7 +63,18 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
         </div>
       </div>
 
-      {aiSummary && <SummaryCard aiSummary={aiSummary} course={course} />}
+      {(!!aiSummary || commitmentScore !== undefined || impressivenessScore !== undefined || technicalSkillScore !== undefined) && (
+        <SummaryCard
+          aiSummary={aiSummary ?? ''}
+          course={course}
+          commitmentScore={commitmentScore}
+          commitmentRationale={commitmentRationale}
+          impressivenessScore={impressivenessScore}
+          impressivenessRationale={impressivenessRationale}
+          technicalSkillScore={technicalSkillScore}
+          technicalSkillRationale={technicalSkillRationale}
+        />
+      )}
 
       <PreviousApplicationsCard applicationId={application.id} />
 

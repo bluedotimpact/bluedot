@@ -4,7 +4,7 @@ import {
 import useAxios from 'axios-hooks';
 import { ProgressDots, withAuth } from '@bluedot/ui';
 import {
-  type Application, type RatedApplication, type RatingValue, toHumanOpinion, toDecision,
+  type Application, type RatedApplication, type RatingValue, type SortDirection, toHumanOpinion, toDecision,
 } from '../lib/client/types';
 import { type Round } from '../lib/api/airtable';
 import { ApplicationCard } from '../components/ApplicationCard';
@@ -35,12 +35,12 @@ const MILESTONE_MESSAGES: Record<number, string> = {
 
 type SessionState =
   | { status: 'picking-round' }
-  | { status: 'loading'; roundId: string; roundName: string; course: string }
-  | { status: 'reviewing'; roundId: string; roundName: string; course: string; queue: Application[]; seen: RatedApplication[]; timerPaused: boolean; startMs: number; nextOffset?: string }
-  | { status: 'complete'; roundId: string; roundName: string; course: string; rated: RatedApplication[]; totalMs: number; totalLoaded: number };
+  | { status: 'loading'; roundId: string; roundName: string; course: string; sortDirection: SortDirection }
+  | { status: 'reviewing'; roundId: string; roundName: string; course: string; sortDirection: SortDirection; queue: Application[]; seen: RatedApplication[]; timerPaused: boolean; startMs: number; nextOffset?: string }
+  | { status: 'complete'; roundId: string; roundName: string; course: string; sortDirection: SortDirection; rated: RatedApplication[]; totalMs: number; totalLoaded: number };
 
 type Action =
-  | { type: 'ROUND_SELECTED'; round: Round }
+  | { type: 'ROUND_SELECTED'; round: Round; sortDirection: SortDirection }
   | { type: 'LOADED'; applications: Application[]; nextOffset?: string }
   | { type: 'MORE_LOADED'; applications: Application[]; nextOffset?: string }
   | { type: 'RATE'; rating: RatingValue }
@@ -62,13 +62,14 @@ const reduce = (state: SessionState, action: Action): SessionState => {
       roundId: action.round.id,
       roundName: action.round.name,
       course: action.round.name.split('(')[0]?.trim() ?? '',
+      sortDirection: action.sortDirection,
     };
   }
 
   if (action.type === 'LOADED' && state.status === 'loading') {
     if (action.applications.length === 0) {
       return {
-        status: 'complete', roundId: state.roundId, roundName: state.roundName, course: state.course, rated: [], totalMs: 0, totalLoaded: 0,
+        status: 'complete', roundId: state.roundId, roundName: state.roundName, course: state.course, sortDirection: state.sortDirection, rated: [], totalMs: 0, totalLoaded: 0,
       };
     }
 
@@ -77,6 +78,7 @@ const reduce = (state: SessionState, action: Action): SessionState => {
       roundId: state.roundId,
       roundName: state.roundName,
       course: state.course,
+      sortDirection: state.sortDirection,
       queue: action.applications,
       seen: [],
       timerPaused: false,
@@ -116,6 +118,7 @@ const reduce = (state: SessionState, action: Action): SessionState => {
       roundId: state.roundId,
       roundName: state.roundName,
       course: state.course,
+      sortDirection: state.sortDirection,
       rated: state.seen,
       totalMs: Date.now() - state.startMs,
       totalLoaded: state.seen.length + state.queue.length,
@@ -152,6 +155,7 @@ const reduce = (state: SessionState, action: Action): SessionState => {
         roundId: state.roundId,
         roundName: state.roundName,
         course: state.course,
+        sortDirection: state.sortDirection,
         rated: newSeen,
         totalMs: Date.now() - state.startMs,
         totalLoaded: newSeen.length,
@@ -170,6 +174,7 @@ const reduce = (state: SessionState, action: Action): SessionState => {
         roundId: state.roundId,
         roundName: state.roundName,
         course: state.course,
+        sortDirection: state.sortDirection,
         rated: newSeen,
         totalMs: Date.now() - state.startMs,
         totalLoaded: newSeen.length,
@@ -186,14 +191,17 @@ const reduce = (state: SessionState, action: Action): SessionState => {
 
 type ApplicationLoaderProps = {
   round: string;
+  sortDirection: SortDirection;
   onLoaded: (applications: Application[], nextOffset?: string) => void;
   onError: (err: Error) => void;
 };
 
-const ApplicationLoader: React.FC<ApplicationLoaderProps> = ({ round, onLoaded, onError }) => {
+const ApplicationLoader: React.FC<ApplicationLoaderProps> = ({
+  round, sortDirection, onLoaded, onError,
+}) => {
   const [{ data, loading, error }] = useAxios<{ applications: Application[]; nextOffset?: string }>({
     method: 'get',
-    url: `/api/applications?round=${encodeURIComponent(round)}`,
+    url: `/api/applications?round=${encodeURIComponent(round)}&sortDirection=${encodeURIComponent(sortDirection)}`,
   }, { useCache: false });
 
   useEffect(() => {
@@ -310,16 +318,17 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
   const queueLength = state.status === 'reviewing' ? state.queue.length : 0;
   const nextOffset = state.status === 'reviewing' ? state.nextOffset : undefined;
   const roundId = state.status === 'reviewing' ? state.roundId : undefined;
+  const sortDirection = state.status === 'reviewing' ? state.sortDirection : undefined;
 
   useEffect(() => {
     if (state.status !== 'reviewing') return;
-    if (!nextOffset || !roundId) return;
+    if (!nextOffset || !roundId || !sortDirection) return;
     if (queueLength > PREFETCH_THRESHOLD) return;
     if (fetchingMoreRef.current) return;
 
     fetchingMoreRef.current = true;
 
-    authFetch(`/api/applications?round=${encodeURIComponent(roundId)}&offset=${encodeURIComponent(nextOffset)}`)
+    authFetch(`/api/applications?round=${encodeURIComponent(roundId)}&offset=${encodeURIComponent(nextOffset)}&sortDirection=${encodeURIComponent(sortDirection)}`)
       .then((r) => r.json())
       .then((data: { applications: Application[]; nextOffset?: string; error?: unknown }) => {
         if (data.error) {
@@ -335,7 +344,7 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
       .finally(() => {
         fetchingMoreRef.current = false;
       });
-  }, [state.status, queueLength, nextOffset, roundId]);
+  }, [state.status, queueLength, nextOffset, roundId, sortDirection]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -404,7 +413,7 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
   // ── Round picker ──────────────────────────────────────────────────────────
 
   if (state.status === 'picking-round') {
-    return <RoundPicker onSelect={(round) => dispatch({ type: 'ROUND_SELECTED', round })} />;
+    return <RoundPicker onSelect={(round, direction) => dispatch({ type: 'ROUND_SELECTED', round, sortDirection: direction })} />;
   }
 
   // ── Loading applications ──────────────────────────────────────────────────
@@ -413,6 +422,7 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
     return (
       <ApplicationLoader
         round={state.roundId}
+        sortDirection={state.sortDirection}
         onLoaded={handleLoaded}
         onError={handleLoadError}
       />
@@ -431,7 +441,7 @@ const SpeedReviewPage = (_props: { auth: unknown; setAuth: unknown }) => {
             rated={state.rated}
             totalMs={state.totalMs}
             onReset={() => dispatch({ type: 'RESET' })}
-            onReviewRound={(roundId, roundName) => dispatch({ type: 'ROUND_SELECTED', round: { id: roundId, name: roundName, course: state.course } })}
+            onReviewRound={(roundId, roundName) => dispatch({ type: 'ROUND_SELECTED', round: { id: roundId, name: roundName, course: state.course }, sortDirection: state.sortDirection })}
           />
         </div>
       </div>

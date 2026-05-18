@@ -18,7 +18,16 @@ export type Application = {
   aiSummary?: string;
   allowMoveToAgisc?: boolean;
   previousCourses?: string[];
+  commitmentScore?: number;
+  commitmentRationale?: string;
+  impressivenessScore?: number;
+  impressivenessRationale?: string;
+  technicalSkillScore?: number;
+  technicalSkillRationale?: string;
+  totalScore?: number;
 };
+
+export type SortDirection = 'desc' | 'asc';
 
 export type RatingValue = 'no' | 'neutral-accept' | 'neutral-reject' | 'yes' | 'strong-yes' | 'moved-to-agisc';
 
