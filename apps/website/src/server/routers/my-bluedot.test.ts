@@ -1,4 +1,5 @@
 import {
+  applicationsRoundTable,
   courseRegistrationTable,
   courseTable,
   groupDiscussionTable,
@@ -596,5 +597,411 @@ describe('myCoursesPage.getOverview', () => {
       expect(byRegId['reg-x']?.rescheduleEligibleUnits).toEqual(['1']);
       expect(byRegId['reg-y']?.rescheduleEligibleUnits).toEqual(['2']);
     });
+  });
+});
+
+describe('myBluedot.hasFacilitatorRegistrations', () => {
+  test('returns false when caller has no facilitator registrations', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-participant',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Participant',
+      roundStatus: 'Active',
+    });
+
+    const result = await caller.myBluedot.hasFacilitatorRegistrations();
+
+    expect(result).toEqual({ hasFacilitatorRegistrations: false });
+  });
+
+  test('returns true when caller has at least one facilitator registration', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-fac',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Facilitator',
+      roundStatus: 'Active',
+    });
+
+    const result = await caller.myBluedot.hasFacilitatorRegistrations();
+
+    expect(result).toEqual({ hasFacilitatorRegistrations: true });
+  });
+
+  test('ignores withdrawn facilitator registrations', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-withdrawn',
+      email: CALLER_EMAIL,
+      courseId: 'course-1',
+      role: 'Facilitator',
+      decision: 'Withdrawn',
+      roundStatus: 'Active',
+    });
+
+    const result = await caller.myBluedot.hasFacilitatorRegistrations();
+
+    expect(result).toEqual({ hasFacilitatorRegistrations: false });
+  });
+
+  test('ignores other users\' facilitator registrations', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-someone-else',
+      email: 'someone-else@example.com',
+      courseId: 'course-1',
+      role: 'Facilitator',
+      roundStatus: 'Active',
+    });
+
+    const result = await caller.myBluedot.hasFacilitatorRegistrations();
+
+    expect(result).toEqual({ hasFacilitatorRegistrations: false });
+  });
+});
+
+describe('myBluedot.facilitatedCoursesPage', () => {
+  const ROUND_ID = 'round-fac';
+  const GROUP_ID = 'group-fac';
+  const COURSE_ID = 'course-fac';
+  const MEET_PERSON_ID = 'mp-fac';
+  const REG_ID = 'reg-fac';
+
+  async function seedSingleGroupFacilitator(overrides?: { intensity?: string; startDate?: string; endDate?: string }) {
+    await testDb.insert(courseTable, {
+      id: COURSE_ID,
+      slug: 'technical-ai-safety',
+      title: 'Technical AI Safety',
+      shortDescription: 'tais',
+      units: [],
+      status: 'Active',
+    });
+    await testDb.insert(applicationsRoundTable, {
+      id: ROUND_ID,
+      firstDiscussionDate: overrides?.startDate ?? '2026-05-10',
+      lastDiscussionDate: overrides?.endDate ?? '2026-05-17',
+      intensity: overrides?.intensity ?? 'Intensive',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: REG_ID,
+      email: CALLER_EMAIL,
+      courseId: COURSE_ID,
+      role: 'Facilitator',
+      decision: 'Accept',
+      roundStatus: 'Active',
+      roundId: ROUND_ID,
+      roundName: 'Technical AI Safety (2026 May W18) - Intensive',
+    });
+    await testDb.insert(meetPersonTable, {
+      id: MEET_PERSON_ID,
+      email: CALLER_EMAIL,
+      applicationsBaseRecordId: REG_ID,
+      round: ROUND_ID,
+      role: 'Facilitator',
+      expectedDiscussionsFacilitator: ['disc-fac'],
+    });
+    await testDb.insert(groupTable, {
+      id: GROUP_ID,
+      groupName: 'Group 7',
+      groupNumber: 7,
+      round: ROUND_ID,
+      facilitator: [MEET_PERSON_ID],
+      participants: ['mp-p-a', 'mp-p-b'],
+    });
+    await testDb.insert(groupDiscussionTable, {
+      id: 'disc-fac',
+      group: GROUP_ID,
+      round: ROUND_ID,
+      startDateTime: inOneWeek,
+      endDateTime: inOneWeek + 60 * 60,
+      facilitators: [MEET_PERSON_ID],
+      participantsExpected: ['mp-p-a', 'mp-p-b'],
+    });
+  }
+
+  test('returns empty when caller has no facilitator registrations', async () => {
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-participant-only',
+      email: CALLER_EMAIL,
+      courseId: COURSE_ID,
+      role: 'Participant',
+      roundStatus: 'Active',
+    });
+
+    const result = await caller.myBluedot.facilitatedCoursesPage();
+
+    expect(result).toEqual({ courses: [], nextDiscussions: [] });
+  });
+
+  test('returns one row per (registration × facilitated group), with full Group and round metadata', async () => {
+    await seedSingleGroupFacilitator();
+
+    const result = await caller.myBluedot.facilitatedCoursesPage();
+
+    expect(result.courses).toHaveLength(1);
+    const [row] = result.courses;
+    expect(row?.mode).toBe('facilitator');
+    expect(row?.group?.id).toBe(GROUP_ID);
+    expect(row?.group?.groupNumber).toBe(7);
+    expect(row?.roundStartDate).toBe('2026-05-10');
+    expect(row?.roundEndDate).toBe('2026-05-17');
+    expect(row?.roundIntensity).toBe('Intensive');
+    expect(row?.discussions.map((d) => d.id)).toEqual(['disc-fac']);
+  });
+
+  test('fans out to one row per group when the facilitator runs multiple groups in one round', async () => {
+    await seedSingleGroupFacilitator();
+    await testDb.insert(groupTable, {
+      id: 'group-fac-2',
+      groupName: 'Group 8',
+      groupNumber: 8,
+      round: ROUND_ID,
+      facilitator: [MEET_PERSON_ID],
+      participants: ['mp-p-c'],
+    });
+    await testDb.insert(groupDiscussionTable, {
+      id: 'disc-fac-2',
+      group: 'group-fac-2',
+      round: ROUND_ID,
+      startDateTime: inOneWeek + 2 * 60 * 60,
+      endDateTime: inOneWeek + 3 * 60 * 60,
+      facilitators: [MEET_PERSON_ID],
+      participantsExpected: ['mp-p-c'],
+    });
+    await testDb.update(meetPersonTable, {
+      id: MEET_PERSON_ID,
+      expectedDiscussionsFacilitator: ['disc-fac', 'disc-fac-2'],
+    });
+
+    const result = await caller.myBluedot.facilitatedCoursesPage();
+
+    expect(result.courses).toHaveLength(2);
+    const rowForGroupFac = result.courses.find((c) => c.group?.id === GROUP_ID);
+    const rowForGroupFac2 = result.courses.find((c) => c.group?.id === 'group-fac-2');
+    expect(rowForGroupFac?.discussions.map((d) => d.id)).toEqual(['disc-fac']);
+    expect(rowForGroupFac2?.discussions.map((d) => d.id)).toEqual(['disc-fac-2']);
+  });
+
+  test('emits a pending-application row when caller has no meetPerson yet (Future + Accept)', async () => {
+    await testDb.insert(courseTable, {
+      id: COURSE_ID,
+      slug: 'tais',
+      title: 'TAIS',
+      shortDescription: 't',
+      units: [],
+      status: 'Active',
+    });
+    await testDb.insert(applicationsRoundTable, {
+      id: ROUND_ID,
+      firstDiscussionDate: '2026-06-08',
+      lastDiscussionDate: '2026-06-15',
+      intensity: 'Intensive',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: REG_ID,
+      email: CALLER_EMAIL,
+      courseId: COURSE_ID,
+      role: 'Facilitator',
+      decision: 'Accept',
+      roundStatus: 'Future',
+      roundId: ROUND_ID,
+      roundName: 'TAIS (2026 Jun W23) - Intensive',
+    });
+    // Deliberately no meetPerson row.
+
+    const result = await caller.myBluedot.facilitatedCoursesPage();
+
+    expect(result.courses).toHaveLength(1);
+    expect(result.courses[0]?.meetPersonId).toBeNull();
+    expect(result.courses[0]?.group).toBeNull();
+    expect(result.courses[0]?.roundIntensity).toBe('Intensive');
+  });
+
+  test('emits a pending-application row when caller has no meetPerson yet (Future + null decision)', async () => {
+    await testDb.insert(courseTable, {
+      id: COURSE_ID, slug: 'tais', title: 'TAIS', shortDescription: 't', units: [], status: 'Active',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: REG_ID,
+      email: CALLER_EMAIL,
+      courseId: COURSE_ID,
+      role: 'Facilitator',
+      decision: null,
+      roundStatus: 'Future',
+    });
+
+    const result = await caller.myBluedot.facilitatedCoursesPage();
+
+    expect(result.courses).toHaveLength(1);
+    expect(result.courses[0]?.meetPersonId).toBeNull();
+  });
+
+  test('drops Future + Reject facilitator regs without a meetPerson', async () => {
+    await testDb.insert(courseTable, {
+      id: COURSE_ID, slug: 'tais', title: 'TAIS', shortDescription: 't', units: [], status: 'Active',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: REG_ID,
+      email: CALLER_EMAIL,
+      courseId: COURSE_ID,
+      role: 'Facilitator',
+      decision: 'Reject',
+      roundStatus: 'Future',
+    });
+
+    const result = await caller.myBluedot.facilitatedCoursesPage();
+
+    expect(result.courses).toEqual([]);
+  });
+
+  test('drops Active/Past facilitator regs that are missing a meetPerson row', async () => {
+    await testDb.insert(courseTable, {
+      id: COURSE_ID, slug: 'tais', title: 'TAIS', shortDescription: 't', units: [], status: 'Active',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-active-no-mp',
+      email: CALLER_EMAIL,
+      courseId: COURSE_ID,
+      role: 'Facilitator',
+      decision: 'Accept',
+      roundStatus: 'Active',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-past-no-mp',
+      email: CALLER_EMAIL,
+      courseId: COURSE_ID,
+      role: 'Facilitator',
+      decision: 'Accept',
+      roundStatus: 'Past',
+    });
+
+    const result = await caller.myBluedot.facilitatedCoursesPage();
+
+    expect(result.courses).toEqual([]);
+  });
+
+  test('emits a pending-application row (group: null) when the facilitator has no group yet', async () => {
+    await testDb.insert(courseTable, {
+      id: COURSE_ID,
+      slug: 'technical-ai-safety',
+      title: 'Technical AI Safety',
+      shortDescription: 'tais',
+      units: [],
+      status: 'Active',
+    });
+    await testDb.insert(applicationsRoundTable, {
+      id: ROUND_ID,
+      firstDiscussionDate: '2026-05-10',
+      lastDiscussionDate: '2026-05-17',
+      intensity: 'Intensive',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: REG_ID,
+      email: CALLER_EMAIL,
+      courseId: COURSE_ID,
+      role: 'Facilitator',
+      decision: 'Accept',
+      roundStatus: 'Future',
+      roundId: ROUND_ID,
+      roundName: 'Technical AI Safety (2026 May W20) - Intensive',
+    });
+    await testDb.insert(meetPersonTable, {
+      id: MEET_PERSON_ID,
+      email: CALLER_EMAIL,
+      applicationsBaseRecordId: REG_ID,
+      round: ROUND_ID,
+      role: 'Facilitator',
+    });
+
+    const result = await caller.myBluedot.facilitatedCoursesPage();
+
+    expect(result.courses).toHaveLength(1);
+    expect(result.courses[0]?.group).toBeNull();
+    expect(result.courses[0]?.roundIntensity).toBe('Intensive');
+    expect(result.nextDiscussions).toEqual([]);
+  });
+
+  test('filters out withdrawn registrations', async () => {
+    await testDb.insert(courseTable, {
+      id: COURSE_ID,
+      slug: 'tais',
+      title: 't',
+      shortDescription: 't',
+      units: [],
+      status: 'Active',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: REG_ID,
+      email: CALLER_EMAIL,
+      courseId: COURSE_ID,
+      role: 'Facilitator',
+      decision: 'Withdrawn',
+      roundStatus: 'Active',
+    });
+
+    const result = await caller.myBluedot.facilitatedCoursesPage();
+
+    expect(result.courses).toEqual([]);
+  });
+
+  test('does not surface participant-role registrations', async () => {
+    await testDb.insert(courseTable, {
+      id: COURSE_ID,
+      slug: 'tais',
+      title: 't',
+      shortDescription: 't',
+      units: [],
+      status: 'Active',
+    });
+    await testDb.insert(courseRegistrationTable, {
+      id: REG_ID,
+      email: CALLER_EMAIL,
+      courseId: COURSE_ID,
+      role: 'Participant',
+      roundStatus: 'Active',
+    });
+
+    const result = await caller.myBluedot.facilitatedCoursesPage();
+
+    expect(result.courses).toEqual([]);
+  });
+
+  test('composes a facilitatorSubtitle from week + intensity + groupNumber for nextDiscussions', async () => {
+    await seedSingleGroupFacilitator({ intensity: 'Intensive' });
+
+    const result = await caller.myBluedot.facilitatedCoursesPage();
+
+    expect(result.nextDiscussions).toHaveLength(1);
+    expect(result.nextDiscussions[0]?.facilitatorSubtitle).toBe('Week 18 Intensive Group 7');
+    expect(result.nextDiscussions[0]?.group?.id).toBe(GROUP_ID);
+  });
+
+  test('orders nextDiscussions by start time, one per group', async () => {
+    await seedSingleGroupFacilitator();
+    await testDb.insert(groupTable, {
+      id: 'group-later',
+      groupName: 'Group 8',
+      groupNumber: 8,
+      round: ROUND_ID,
+      facilitator: [MEET_PERSON_ID],
+      participants: [],
+    });
+    // Group `later` has a discussion 2 hours after group-fac's.
+    await testDb.insert(groupDiscussionTable, {
+      id: 'disc-later',
+      group: 'group-later',
+      round: ROUND_ID,
+      startDateTime: inOneWeek + 2 * 60 * 60,
+      endDateTime: inOneWeek + 3 * 60 * 60,
+      facilitators: [MEET_PERSON_ID],
+      participantsExpected: [],
+    });
+    await testDb.update(meetPersonTable, {
+      id: MEET_PERSON_ID,
+      expectedDiscussionsFacilitator: ['disc-fac', 'disc-later'],
+    });
+
+    const result = await caller.myBluedot.facilitatedCoursesPage();
+
+    expect(result.nextDiscussions.map((n) => n.discussion.id)).toEqual(['disc-fac', 'disc-later']);
   });
 });

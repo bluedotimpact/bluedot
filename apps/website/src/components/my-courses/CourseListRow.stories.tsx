@@ -1,12 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import CourseListRow, { type CourseListRowProps } from './CourseListRow';
+import CourseListRow, { type CourseListRowProps, type FacilitatorRowProps, type ParticipantRowProps } from './CourseListRow';
 
 // Pinned "now" so date-relative content (next discussion, time states) is deterministic.
 const NOW_SEC = Math.floor(new Date('2026-05-06T09:00:00Z').getTime() / 1000);
 const wednesday4pm = NOW_SEC - (NOW_SEC % (7 * 24 * 60 * 60)) + (3 * 24 * 60 * 60) + (16 * 60 * 60); // a Wednesday at 16:00 UTC
 
-const stubProps = (overrides: Partial<CourseListRowProps> = {}): CourseListRowProps => ({
-  course: { slug: 'technical-ai-safety', title: 'Technical AI Safety' } as CourseListRowProps['course'],
+const stubProps = (overrides: Partial<ParticipantRowProps> = {}): ParticipantRowProps => ({
+  mode: 'participant',
+  course: { slug: 'technical-ai-safety', title: 'Technical AI Safety' } as ParticipantRowProps['course'],
   courseRegistration: {
     id: 'reg-default',
     roundStatus: 'Active',
@@ -16,9 +17,9 @@ const stubProps = (overrides: Partial<CourseListRowProps> = {}): CourseListRowPr
     certificateCreatedAt: null,
     certificateId: null,
     roundId: 'round-default',
-  } as CourseListRowProps['courseRegistration'],
-  group: { startTimeUtc: wednesday4pm, slackChannelId: null, discussionDoc: null },
-  facilitatorNames: ['Shivam Arora'],
+  } as ParticipantRowProps['courseRegistration'],
+  group: { startTimeUtc: wednesday4pm, slackChannelId: null, discussionDoc: null } as ParticipantRowProps['group'],
+  facilitatorNames: ['Test Facilitator'],
   meetPersonId: 'mp-default',
   groupsAsParticipant: ['group-default'],
   roundId: 'round-default',
@@ -38,11 +39,36 @@ const stubProps = (overrides: Partial<CourseListRowProps> = {}): CourseListRowPr
   ...overrides,
 });
 
+const stubFacilitator = (overrides: Partial<FacilitatorRowProps> = {}): FacilitatorRowProps => ({
+  mode: 'facilitator',
+  course: { slug: 'technical-ai-safety', title: 'Technical AI Safety', applyUrl: null },
+  courseRegistration: {
+    id: 'reg-fac-default',
+    roundStatus: 'Active',
+    decision: 'Accept',
+    roundId: 'round-fac-default',
+    roundName: 'Technical AI Safety (2026 Mar W18) - Intensive',
+  } as FacilitatorRowProps['courseRegistration'],
+  group: null,
+  meetPersonId: 'mp-fac-default',
+  roundId: 'round-fac-default',
+  discussions: [],
+  attendedDiscussionIds: [],
+  units: {},
+  roundStartDate: '2026-03-10',
+  roundEndDate: '2026-03-17',
+  roundIntensity: 'Intensive',
+  hasSubmittedFeedback: false,
+  isExpanded: false,
+  onToggleExpand: () => {},
+  ...overrides,
+});
+
 // In-progress (Active, accepted, in a group)
 const inProgressArgs = stubProps({
   courseRegistration: { ...stubProps().courseRegistration, id: 'reg-in-progress', roundStatus: 'Active' } as CourseListRowProps['courseRegistration'],
   course: { slug: 'technical-ai-safety', title: 'Technical AI Safety', applyUrl: null },
-  group: { startTimeUtc: wednesday4pm, slackChannelId: 'C01ABCDEF', discussionDoc: 'https://example.com/discussion-doc' },
+  group: { startTimeUtc: wednesday4pm, slackChannelId: 'C01ABCDEF', discussionDoc: 'https://example.com/discussion-doc' } as CourseListRowProps['group'],
 });
 
 // Upcoming (Future) + Accept
@@ -188,6 +214,108 @@ const droppedNoAttendanceArgs = stubProps({
   attendedDiscussionIds: [],
 });
 
+const wednesday2pmIntensive = NOW_SEC - (NOW_SEC % (7 * 24 * 60 * 60)) + (3 * 24 * 60 * 60) + (14 * 60 * 60);
+const monday2pmPartTime = NOW_SEC - (NOW_SEC % (7 * 24 * 60 * 60)) + (1 * 24 * 60 * 60) + (14 * 60 * 60);
+
+const facilitatorInProgressIntensiveArgs = stubFacilitator({
+  courseRegistration: {
+    id: 'reg-fac-intensive',
+    roundStatus: 'Active',
+    decision: 'Accept',
+    roundId: 'round-fac-intensive',
+    roundName: 'Technical AI Safety (2026 Mar W18) - Intensive',
+  } as FacilitatorRowProps['courseRegistration'],
+  course: { slug: 'technical-ai-safety', title: 'Technical AI Safety', applyUrl: null },
+  group: {
+    id: 'group-7', groupNumber: 7, groupName: 'Group 7', startTimeUtc: wednesday2pmIntensive, slackChannelId: 'C01ABCDEF', discussionDoc: 'https://example.com/discussion-doc',
+  } as FacilitatorRowProps['group'],
+  roundStartDate: '2026-03-10',
+  roundEndDate: '2026-03-17',
+  roundIntensity: 'Intensive',
+  meetPersonId: 'mp-fac-1',
+});
+
+const facilitatorInProgressPartTimeArgs = stubFacilitator({
+  courseRegistration: {
+    id: 'reg-fac-parttime',
+    roundStatus: 'Active',
+    decision: 'Accept',
+    roundId: 'round-fac-parttime',
+    roundName: 'AGI Strategy (2026 Mar W18) - Part-time',
+  } as FacilitatorRowProps['courseRegistration'],
+  course: { slug: 'agi-strategy', title: 'AGI Strategy', applyUrl: null },
+  group: {
+    id: 'group-10', groupNumber: 10, groupName: 'Group 10', startTimeUtc: monday2pmPartTime, slackChannelId: 'C01XYZ', discussionDoc: 'https://example.com/discussion-doc',
+  } as FacilitatorRowProps['group'],
+  roundStartDate: '2026-03-10',
+  roundEndDate: '2026-04-14',
+  roundIntensity: 'Part-time',
+  meetPersonId: 'mp-fac-2',
+});
+
+const facilitatorUpcomingArgs = stubFacilitator({
+  courseRegistration: {
+    id: 'reg-fac-upcoming',
+    roundStatus: 'Future',
+    decision: 'Accept',
+    roundId: 'round-fac-upcoming',
+    roundName: 'Technical AI Safety (2026 May W19) - Intensive',
+  } as FacilitatorRowProps['courseRegistration'],
+  course: { slug: 'technical-ai-safety', title: 'Technical AI Safety', applyUrl: null },
+  group: {
+    id: 'group-9', groupNumber: 9, groupName: 'Group 9', startTimeUtc: wednesday2pmIntensive, slackChannelId: 'C01ABC', discussionDoc: 'https://example.com/doc',
+  } as FacilitatorRowProps['group'],
+  roundStartDate: '2026-05-04',
+  roundEndDate: '2026-05-11',
+  roundIntensity: 'Intensive',
+  meetPersonId: 'mp-fac-3',
+});
+
+const facilitatorPendingArgs = stubFacilitator({
+  courseRegistration: {
+    id: 'reg-fac-pending',
+    roundStatus: 'Future',
+    decision: 'Accept',
+    roundId: 'round-fac-pending',
+    roundName: 'Technical AI Safety (2026 May W20) - Intensive',
+  } as FacilitatorRowProps['courseRegistration'],
+  course: { slug: 'technical-ai-safety', title: 'Technical AI Safety', applyUrl: null },
+  group: null,
+  roundStartDate: '2026-05-11',
+  roundEndDate: '2026-05-18',
+  roundIntensity: 'Intensive',
+  meetPersonId: 'mp-fac-pending',
+});
+
+const facilitatorPastNeedFeedbackArgs = stubFacilitator({
+  courseRegistration: {
+    id: 'reg-fac-past-need',
+    roundStatus: 'Past',
+    decision: 'Accept',
+    roundId: 'round-fac-past',
+    roundName: 'AGI Strategy (2026 Feb W08) - Part-time',
+  } as FacilitatorRowProps['courseRegistration'],
+  course: { slug: 'agi-strategy', title: 'AGI Strategy', applyUrl: null },
+  group: {
+    id: 'group-3', groupNumber: 3, groupName: 'Group 3', startTimeUtc: monday2pmPartTime, slackChannelId: 'C0123', discussionDoc: 'https://example.com/doc',
+  } as FacilitatorRowProps['group'],
+  roundStartDate: '2026-02-23',
+  roundEndDate: '2026-03-23',
+  roundIntensity: 'Part-time',
+  meetPersonId: 'mp-fac-past-1',
+  hasSubmittedFeedback: false,
+});
+
+const facilitatorPastFeedbackSubmittedArgs: FacilitatorRowProps = {
+  ...facilitatorPastNeedFeedbackArgs,
+  courseRegistration: {
+    ...facilitatorPastNeedFeedbackArgs.courseRegistration,
+    id: 'reg-fac-past-submitted',
+  },
+  meetPersonId: 'mp-fac-past-2',
+  hasSubmittedFeedback: true,
+};
+
 const meta = {
   title: 'website/my-courses/CourseListRow',
   component: CourseListRow,
@@ -214,12 +342,30 @@ const ALL = [
   { id: 'dropped-no-attendance', args: droppedNoAttendanceArgs },
 ];
 
+const ALL_FACILITATOR = [
+  { id: 'fac-in-progress-intensive', args: facilitatorInProgressIntensiveArgs },
+  { id: 'fac-in-progress-parttime', args: facilitatorInProgressPartTimeArgs },
+  { id: 'fac-upcoming', args: facilitatorUpcomingArgs },
+  { id: 'fac-pending', args: facilitatorPendingArgs },
+  { id: 'fac-past-need-feedback', args: facilitatorPastNeedFeedbackArgs },
+  { id: 'fac-past-feedback-submitted', args: facilitatorPastFeedbackSubmittedArgs },
+];
+
 // Convenience story to be able to skim through all states with no visual clutter
 export const AllStates: Story = {
   args: inProgressArgs,
   render: () => (
     <div className="flex flex-col gap-6">
       {ALL.map((row) => <CourseListRow key={row.id} {...row.args} />)}
+    </div>
+  ),
+};
+
+export const AllFacilitatorStates: Story = {
+  args: facilitatorInProgressIntensiveArgs,
+  render: () => (
+    <div className="flex flex-col gap-6">
+      {ALL_FACILITATOR.map((row) => <CourseListRow key={row.id} {...row.args} />)}
     </div>
   ),
 };
@@ -237,3 +383,10 @@ export const CompletedNoCertActionPlanSubmitted: Story = { args: completedNoCert
 export const CompletedNoCertFoai: Story = { args: completedNoCertFoaiArgs };
 export const Dropped: Story = { args: droppedArgs };
 export const DroppedNoAttendance: Story = { args: droppedNoAttendanceArgs };
+
+export const FacilitatorInProgressIntensive: Story = { args: facilitatorInProgressIntensiveArgs };
+export const FacilitatorInProgressPartTime: Story = { args: facilitatorInProgressPartTimeArgs };
+export const FacilitatorUpcoming: Story = { args: facilitatorUpcomingArgs };
+export const FacilitatorPending: Story = { args: facilitatorPendingArgs };
+export const FacilitatorPastNeedFeedback: Story = { args: facilitatorPastNeedFeedbackArgs };
+export const FacilitatorPastFeedbackSubmitted: Story = { args: facilitatorPastFeedbackSubmittedArgs };

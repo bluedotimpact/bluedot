@@ -25,6 +25,7 @@ export const ProfileLinks: React.FC<{
   const { openBugReport } = useBugReport();
 
   const { data: impersonationAccess } = trpc.admin.canImpersonate.useQuery();
+  const { data: user } = trpc.users.getUser.useQuery();
   const profileRef = useClickOutside(
     () => updateExpandedSections({ profile: false }),
     expandedSections.profile,
@@ -109,6 +110,14 @@ export const ProfileLinks: React.FC<{
           >
             Report a bug
           </button>
+          {user?.isAdmin && (
+            <A
+              href={ROUTES.legacySettingsCourses.url}
+              className={getNavLinkClasses()}
+              onClick={onToggleProfile}
+            >Courses (legacy)
+            </A>
+          )}
         </div>
       </div>
       {isImpersonateModalOpen && <UserSearchModal isOpen={isImpersonateModalOpen} onClose={() => setIsImpersonateModalOpen(false)} />}

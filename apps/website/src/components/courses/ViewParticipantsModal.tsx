@@ -3,12 +3,12 @@ import { trpc } from '../../utils/trpc';
 import ParticipantRow from './ParticipantRow';
 
 type ViewParticipantsModalProps = {
-  meetPersonId: string;
+  groupId: string;
   handleClose: () => void;
 };
 
-const ViewParticipantsModal = ({ meetPersonId, handleClose }: ViewParticipantsModalProps) => {
-  const { data, isLoading, error } = trpc.meetPerson.getGroupParticipants.useQuery({ meetPersonId });
+const ViewParticipantsModal = ({ groupId, handleClose }: ViewParticipantsModalProps) => {
+  const { data, isLoading, error } = trpc.meetPerson.getGroupParticipants.useQuery({ groupId });
 
   const facilitators = data?.facilitators ?? [];
   const participants = data?.participants ?? [];

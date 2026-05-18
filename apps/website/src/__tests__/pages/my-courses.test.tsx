@@ -2,12 +2,13 @@ import { describe, test, expect } from 'vitest';
 import type { CourseRegistration } from '@bluedot/db';
 import { createMockCourseRegistration } from '../testUtils';
 import { bucketCoursesByTab } from '../../pages/my-courses';
-import type { CourseListRowProps } from '../../components/my-courses/CourseListRow';
+import type { ParticipantRowProps } from '../../components/my-courses/CourseListRow';
 
 const makeRow = (
   crOverrides: Partial<CourseRegistration> = {},
-  rowOverrides: Partial<CourseListRowProps> = {},
-): CourseListRowProps => ({
+  rowOverrides: Partial<ParticipantRowProps> = {},
+): ParticipantRowProps => ({
+  mode: 'participant',
   courseRegistration: createMockCourseRegistration(crOverrides),
   course: { slug: 'technical-ai-safety', title: 'Technical AI Safety', applyUrl: null },
   group: null,

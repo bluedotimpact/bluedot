@@ -105,6 +105,30 @@ const myCourses: BluedotRoute = {
   parentPages: [home],
 };
 
+const facilitatedCourses: BluedotRoute = {
+  title: 'Facilitated Courses',
+  url: '/facilitated-courses',
+  parentPages: [home],
+};
+
+const legacySettings: BluedotRoute = {
+  title: 'Settings',
+  url: '/legacy/settings',
+  parentPages: [home],
+};
+
+const legacySettingsCourses: BluedotRoute = {
+  title: 'Courses',
+  url: '/legacy/settings/courses',
+  parentPages: [home, legacySettings],
+};
+
+const legacySettingsAccount: BluedotRoute = {
+  title: 'Account',
+  url: '/legacy/settings/account',
+  parentPages: [home, legacySettings],
+};
+
 const subscriptionPreferences: BluedotRoute = {
   title: 'Subscription Preferences',
   url: '/subscription-preferences',
@@ -138,6 +162,10 @@ export const ROUTES = {
   profile,
   account,
   myCourses,
+  facilitatedCourses,
+  legacySettings,
+  legacySettingsCourses,
+  legacySettingsAccount,
   subscriptionPreferences,
 } as const;
 

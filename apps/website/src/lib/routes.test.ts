@@ -5,16 +5,28 @@ describe('ROUTES configuration', () => {
   test('contains all required My BlueDot routes', () => {
     expect(ROUTES.account).toBeDefined();
     expect(ROUTES.myCourses).toBeDefined();
+    expect(ROUTES.facilitatedCourses).toBeDefined();
+    expect(ROUTES.legacySettings).toBeDefined();
+    expect(ROUTES.legacySettingsCourses).toBeDefined();
+    expect(ROUTES.legacySettingsAccount).toBeDefined();
   });
 
   test('My BlueDot routes have correct URLs', () => {
     expect(ROUTES.account.url).toBe('/account');
     expect(ROUTES.myCourses.url).toBe('/my-courses');
+    expect(ROUTES.facilitatedCourses.url).toBe('/facilitated-courses');
+    expect(ROUTES.legacySettings.url).toBe('/legacy/settings');
+    expect(ROUTES.legacySettingsCourses.url).toBe('/legacy/settings/courses');
+    expect(ROUTES.legacySettingsAccount.url).toBe('/legacy/settings/account');
   });
 
   test('My BlueDot routes have correct titles', () => {
     expect(ROUTES.account.title).toBe('Account');
     expect(ROUTES.myCourses.title).toBe('My Courses');
+    expect(ROUTES.facilitatedCourses.title).toBe('Facilitated Courses');
+    expect(ROUTES.legacySettings.title).toBe('Settings');
+    expect(ROUTES.legacySettingsCourses.title).toBe('Courses');
+    expect(ROUTES.legacySettingsAccount.title).toBe('Account');
   });
 
   test('My BlueDot routes have correct parent pages', () => {
@@ -23,6 +35,17 @@ describe('ROUTES configuration', () => {
 
     expect(ROUTES.myCourses.parentPages).toHaveLength(1);
     expect(ROUTES.myCourses.parentPages?.[0]).toBe(ROUTES.home);
+
+    expect(ROUTES.facilitatedCourses.parentPages).toHaveLength(1);
+    expect(ROUTES.facilitatedCourses.parentPages?.[0]).toBe(ROUTES.home);
+
+    expect(ROUTES.legacySettingsCourses.parentPages).toHaveLength(2);
+    expect(ROUTES.legacySettingsCourses.parentPages?.[0]).toBe(ROUTES.home);
+    expect(ROUTES.legacySettingsCourses.parentPages?.[1]).toBe(ROUTES.legacySettings);
+
+    expect(ROUTES.legacySettingsAccount.parentPages).toHaveLength(2);
+    expect(ROUTES.legacySettingsAccount.parentPages?.[0]).toBe(ROUTES.home);
+    expect(ROUTES.legacySettingsAccount.parentPages?.[1]).toBe(ROUTES.legacySettings);
   });
 
   test('all existing routes are preserved', () => {
