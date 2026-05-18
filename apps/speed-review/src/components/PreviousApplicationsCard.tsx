@@ -27,7 +27,7 @@ const courseFromRoundName = (roundName: string): string => roundName.split('(')[
 type Verdict =
   | { kind: 'accepted'; entry: PreviousApplication }
   | { kind: 'rejected'; entry: PreviousApplication }
-  | { kind: 'unrelated'; count: number }
+  | { kind: 'other'; count: number }
   | { kind: 'none' };
 
 const summarise = (history: PreviousApplication[], course: string): Verdict => {
@@ -38,7 +38,7 @@ const summarise = (history: PreviousApplication[], course: string): Verdict => {
   if (accepted) return { kind: 'accepted', entry: accepted };
   const rejected = inFamily.find((h) => h.decision === 'Reject');
   if (rejected) return { kind: 'rejected', entry: rejected };
-  return { kind: 'unrelated', count: history.length };
+  return { kind: 'other', count: history.length };
 };
 
 const opinionBadgeClass = (opinion: string): string => {
@@ -75,7 +75,7 @@ const BannerLabel: React.FC<{ verdict: Verdict }> = ({ verdict }) => {
     return <>↻ Previously rejected — {verdict.entry.roundName}</>;
   }
 
-  if (verdict.kind === 'unrelated') {
+  if (verdict.kind === 'other') {
     return <>↻ Previous applications ({verdict.count})</>;
   }
 
@@ -94,7 +94,15 @@ export const PreviousApplicationsCard: React.FC<PreviousApplicationsCardProps> =
     url: `/api/application-history?id=${encodeURIComponent(applicationId)}`,
   });
 
-  if (loading || error) return null;
+  if (loading) return null;
+
+  if (error) {
+    return (
+      <p className="text-size-xs text-red-400 px-1">
+        Couldn&apos;t load previous applications: {error.message}
+      </p>
+    );
+  }
 
   const history = data?.history ?? [];
   const verdict = summarise(history, course);

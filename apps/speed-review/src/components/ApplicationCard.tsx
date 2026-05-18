@@ -61,7 +61,13 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
 
       <PreviousApplicationsCard applicationId={application.id} course={course} />
 
-      {(!!aiSummary || commitmentScore !== undefined || impressivenessScore !== undefined || technicalSkillScore !== undefined) && (
+      {(!!aiSummary
+        || commitmentScore !== undefined
+        || impressivenessScore !== undefined
+        || technicalSkillScore !== undefined
+        || !!commitmentRationale
+        || !!impressivenessRationale
+        || !!technicalSkillRationale) && (
         <SummaryCard
           aiSummary={aiSummary ?? ''}
           course={course}

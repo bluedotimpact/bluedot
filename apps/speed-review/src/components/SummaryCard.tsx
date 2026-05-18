@@ -19,26 +19,39 @@ type SummaryCardProps = {
 
 const RATING_MAX = 5;
 
+const PillContents: React.FC<ScoreRow & { hasRationale: boolean }> = ({ label, score, hasRationale }) => (
+  <>
+    <span className="text-size-xs font-semibold uppercase tracking-wide text-stone-500">{label}</span>
+    <span className="flex items-center gap-2 shrink-0">
+      <span className="text-size-sm font-mono text-stone-100">
+        {score !== undefined ? `${score}/${RATING_MAX}` : '—'}
+      </span>
+      {hasRationale && (
+        <svg className="size-4 text-stone-500 transition-transform group-open:rotate-180 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      )}
+    </span>
+  </>
+);
+
 const ScorePill: React.FC<ScoreRow> = ({ label, score, rationale }) => {
   const hasRationale = !!rationale?.trim();
+
+  if (!hasRationale) {
+    return (
+      <div className="flex items-center justify-between gap-3 px-3 py-2 border border-stone-700 rounded-lg bg-stone-900">
+        <PillContents label={label} score={score} hasRationale={false} />
+      </div>
+    );
+  }
+
   return (
     <details className="group border border-stone-700 rounded-lg bg-stone-900">
       <summary className="flex items-center justify-between gap-3 px-3 py-2 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-        <span className="text-size-xs font-semibold uppercase tracking-wide text-stone-500">{label}</span>
-        <span className="flex items-center gap-2 shrink-0">
-          <span className="text-size-sm font-mono text-stone-100">
-            {score !== undefined ? `${score}/${RATING_MAX}` : '—'}
-          </span>
-          {hasRationale && (
-            <svg className="size-4 text-stone-500 transition-transform group-open:rotate-180 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          )}
-        </span>
+        <PillContents label={label} score={score} hasRationale />
       </summary>
-      {hasRationale && (
-        <p className="px-3 pb-3 text-size-sm text-stone-300 leading-relaxed whitespace-pre-wrap">{rationale}</p>
-      )}
+      <p className="px-3 pb-3 text-size-sm text-stone-300 leading-relaxed whitespace-pre-wrap">{rationale}</p>
     </details>
   );
 };
