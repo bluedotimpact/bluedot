@@ -111,7 +111,10 @@ describe('CongratulationsPage', () => {
   });
 
   test('redirects FOAI learner who is not authenticated', async () => {
-    server.use(trpcMsw.certificates.getStatus.query(() => ({ status: 'not-authenticated' as const })));
+    server.use(trpcMsw.certificates.getStatus.query(() => ({
+      status: 'not-authenticated' as const,
+      hasUpcomingRounds: false,
+    })));
 
     render(<CongratulationsPage {...DEFAULT_PROPS} courseSlug="future-of-ai" />, { wrapper: TrpcProvider });
 
@@ -121,7 +124,10 @@ describe('CongratulationsPage', () => {
   });
 
   test('redirects FOAI learner who is not enrolled', async () => {
-    server.use(trpcMsw.certificates.getStatus.query(() => ({ status: 'not-enrolled' as const })));
+    server.use(trpcMsw.certificates.getStatus.query(() => ({
+      status: 'not-enrolled' as const,
+      hasUpcomingRounds: false,
+    })));
 
     render(<CongratulationsPage {...DEFAULT_PROPS} courseSlug="future-of-ai" />, { wrapper: TrpcProvider });
 
@@ -130,13 +136,33 @@ describe('CongratulationsPage', () => {
     });
   });
 
-  test('does not redirect non-FOAI learner who is not authenticated', async () => {
-    server.use(trpcMsw.certificates.getStatus.query(() => ({ status: 'not-authenticated' as const })));
+  test('does not redirect non-FOAI learner who is not authenticated when upcoming rounds exist', async () => {
+    server.use(trpcMsw.certificates.getStatus.query(() => ({
+      status: 'not-authenticated' as const,
+      hasUpcomingRounds: true,
+    })));
 
     render(<CongratulationsPage {...DEFAULT_PROPS} />, { wrapper: TrpcProvider });
 
     await waitFor(() => {
       expect(mockReplace).not.toHaveBeenCalled();
+    });
+  });
+
+  test.each([
+    'not-authenticated',
+    'not-enrolled',
+    'not-eligible',
+  ] as const)('redirects non-FOAI learner with status %s when no upcoming rounds exist', async (status) => {
+    server.use(trpcMsw.certificates.getStatus.query(() => ({
+      status,
+      hasUpcomingRounds: false,
+    })));
+
+    render(<CongratulationsPage {...DEFAULT_PROPS} />, { wrapper: TrpcProvider });
+
+    await waitFor(() => {
+      expect(mockReplace).toHaveBeenCalledWith('/courses/test-course/1/1');
     });
   });
 

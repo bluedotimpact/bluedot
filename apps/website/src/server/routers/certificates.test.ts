@@ -1,5 +1,5 @@
 import {
-  courseRegistrationTable, courseTable, meetPersonTable, roundTable,
+  applicationsRoundTable, courseRegistrationTable, courseTable, meetPersonTable, roundTable,
 } from '@bluedot/db';
 import {
   describe, expect, test, vi,
@@ -133,14 +133,32 @@ describe('certificates.verifyOwnership', () => {
 });
 
 describe('certificates.getStatus', () => {
-  test('returns not-authenticated for unauthenticated callers', async () => {
+  test('returns not-authenticated with hasUpcomingRounds: false when none exist', async () => {
     const result = await createCaller(testAuthContextLoggedOut).certificates.getStatus({ courseId: FOAI_COURSE_ID });
-    expect(result).toEqual({ status: 'not-authenticated' });
+    expect(result).toEqual({ status: 'not-authenticated', hasUpcomingRounds: false });
   });
 
-  test('returns not-enrolled when the auth user has no accepted registration', async () => {
+  test('returns not-authenticated with hasUpcomingRounds: true when an upcoming round exists', async () => {
+    await testDb.insert(applicationsRoundTable, {
+      id: 'round-upcoming', courseId: FOAI_COURSE_ID, applicationDeadline: '2999-01-01',
+    });
+
+    const result = await createCaller(testAuthContextLoggedOut).certificates.getStatus({ courseId: FOAI_COURSE_ID });
+    expect(result).toEqual({ status: 'not-authenticated', hasUpcomingRounds: true });
+  });
+
+  test('treats a round with null applicationDeadline as upcoming', async () => {
+    await testDb.insert(applicationsRoundTable, {
+      id: 'round-tbd', courseId: FOAI_COURSE_ID, applicationDeadline: null,
+    });
+
+    const result = await createCaller(testAuthContextLoggedOut).certificates.getStatus({ courseId: FOAI_COURSE_ID });
+    expect(result).toEqual({ status: 'not-authenticated', hasUpcomingRounds: true });
+  });
+
+  test('returns not-enrolled with hasUpcomingRounds when the auth user has no accepted registration', async () => {
     const result = await createCaller(testAuthContextLoggedIn).certificates.getStatus({ courseId: FOAI_COURSE_ID });
-    expect(result).toEqual({ status: 'not-enrolled' });
+    expect(result).toEqual({ status: 'not-enrolled', hasUpcomingRounds: false });
   });
 
   test('returns has-certificate when the registration has a certificateId', async () => {
@@ -212,7 +230,7 @@ describe('certificates.getStatus', () => {
     });
 
     const result = await createCaller(testAuthContextLoggedIn).certificates.getStatus({ courseId: 'rec-other' });
-    expect(result).toEqual({ status: 'not-eligible' });
+    expect(result).toEqual({ status: 'not-eligible', hasUpcomingRounds: false });
   });
 
   test('returns action-plan-pending for non-FOAI Participants, with submission flag', async () => {
@@ -272,7 +290,7 @@ describe('certificates.getStatus', () => {
     });
 
     const result = await createCaller(testAuthContextLoggedIn).certificates.getStatus({ courseId: 'rec-other' });
-    expect(result).toEqual({ status: 'not-eligible' });
+    expect(result).toEqual({ status: 'not-eligible', hasUpcomingRounds: false });
   });
 
   test('returns attendance-ineligible when a participant misses more than one discussion', async () => {
