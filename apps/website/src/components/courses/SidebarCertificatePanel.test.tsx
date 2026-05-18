@@ -8,7 +8,7 @@ describe('SidebarCertificatePanel', () => {
     render(<SidebarCertificatePanel
       courseTitle="Introduction to Digital Minds"
       courseSlug="digital-minds"
-      certificateData={{ status: 'not-enrolled' }}
+      certificateData={{ status: 'not-enrolled', hasUpcomingRounds: true }}
     />);
 
     const link = screen.getByRole('link', { name: 'Learn more about this course' });
@@ -21,7 +21,7 @@ describe('SidebarCertificatePanel', () => {
     render(<SidebarCertificatePanel
       courseTitle="AGI Strategy"
       courseSlug="agi-strategy"
-      certificateData={{ status: 'not-enrolled' }}
+      certificateData={{ status: 'not-enrolled', hasUpcomingRounds: true }}
     />);
 
     const link = screen.getByRole('link', {
@@ -29,5 +29,19 @@ describe('SidebarCertificatePanel', () => {
     });
 
     expect(link).toHaveAttribute('href', '/courses/agi-strategy/congratulations');
+  });
+
+  test.each([
+    'not-authenticated',
+    'not-enrolled',
+    'not-eligible',
+  ] as const)('renders nothing when status is %s and no upcoming rounds exist', (status) => {
+    const { container } = render(<SidebarCertificatePanel
+      courseTitle="AGI Strategy"
+      courseSlug="agi-strategy"
+      certificateData={{ status, hasUpcomingRounds: false }}
+    />);
+
+    expect(container).toBeEmptyDOMElement();
   });
 });
