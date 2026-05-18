@@ -1,6 +1,7 @@
 import {
   courseRegistrationTable,
   courseTable,
+  dropoutTable,
   groupDiscussionTable,
   groupTable,
   meetPersonTable,
@@ -160,7 +161,11 @@ describe('myCoursesPage.getOverview', () => {
       decision: 'Accept',
       role: 'Participant',
       roundStatus: 'Active',
-      dropoutId: ['dropout-1'],
+    });
+    await testDb.insert(dropoutTable, {
+      id: 'dropout-1',
+      applicantId: ['reg-dropped'],
+      type: 'Drop out',
     });
 
     await testDb.insert(meetPersonTable, {
@@ -274,8 +279,6 @@ describe('myCoursesPage.getOverview', () => {
       role: 'Participant' | 'Facilitator' | null;
       roundStatus: 'Active' | 'Future' | 'Past' | null;
       roundId: string | null;
-      dropoutId: string[] | null;
-      deferredId: string[] | null;
     }> = {}) =>
       testDb.insert(courseRegistrationTable, {
         id, email: CALLER_EMAIL, decision: 'Accept', role: 'Participant', roundStatus: 'Active', ...opts,
@@ -301,11 +304,10 @@ describe('myCoursesPage.getOverview', () => {
       expect(result.courses[0]?.courseRegistration.id).toBe('reg-as-participant');
     });
 
-    test('Future + Accept + dropoutId keeps the row but excludes its discussions from nextDiscussion', async () => {
+    test('Future + Accept + dropped keeps the row but excludes its discussions from nextDiscussion', async () => {
       await seedCourse('course-tais');
-      await seedReg('reg-dropped', {
-        courseId: 'course-tais', roundStatus: 'Future', dropoutId: ['dropout-1'], deferredId: null,
-      });
+      await seedReg('reg-dropped', { courseId: 'course-tais', roundStatus: 'Future' });
+      await testDb.insert(dropoutTable, { id: 'dropout-1', applicantId: ['reg-dropped'], type: 'Drop out' });
 
       await testDb.insert(meetPersonTable, {
         id: 'mp-dropped',
@@ -341,10 +343,9 @@ describe('myCoursesPage.getOverview', () => {
 
     test('deferred row coexists with successor row (both appear)', async () => {
       await seedCourse('course-tais');
-      // Original registration: deferred away (both dropoutId AND deferredId set).
-      await seedReg('reg-deferred', {
-        courseId: 'course-tais', roundStatus: 'Past', dropoutId: ['dropout-1'], deferredId: ['defer-1'],
-      });
+      // Original registration: deferred away (one dropout row of type 'Deferral').
+      await seedReg('reg-deferred', { courseId: 'course-tais', roundStatus: 'Past' });
+      await testDb.insert(dropoutTable, { id: 'defer-1', applicantId: ['reg-deferred'], type: 'Deferral' });
       // Successor registration: fresh row in the new round.
       await seedReg('reg-successor', { courseId: 'course-tais', roundStatus: 'Active' });
 

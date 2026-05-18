@@ -26,6 +26,8 @@ const makeRow = (
   hasSubmittedActionPlan: false,
   feedbackFormUrl: null,
   hasSubmittedFeedback: false,
+  isDroppedOut: false,
+  isDeferred: false,
   ...rowOverrides,
 });
 
@@ -104,9 +106,12 @@ describe('bucketCoursesByTab', () => {
       const row = makeRow({
         roundStatus: rs,
         decision: d,
-        dropoutId: drop ? ['dropout-x'] : null,
-        deferredId: defer ? ['defer-x'] : null,
         certificateCreatedAt: cert ? 1234 : null,
+      }, {
+        // The aggregator now sources these from the dropout table, but for the bucketing logic
+        // we just need the resolved flags. Mirror the old "deferral wins" precedence.
+        isDroppedOut: drop && !defer,
+        isDeferred: defer,
       });
       const buckets = bucketCoursesByTab([row]);
       const allRows = [...buckets.inProgress, ...buckets.upcoming, ...buckets.pastCourses];

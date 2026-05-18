@@ -1,8 +1,10 @@
 import {
   and,
   applicationsRoundTable,
+  arrayOverlaps,
   courseRegistrationTable,
   courseTable,
+  dropoutTable,
   eq,
   type Group,
   type GroupDiscussion,
@@ -50,10 +52,11 @@ export const myBluedotRouter = router({
 
     // 1a: Fan-out fetch by id, all derived from courseRegistrations
 
-    // courses + meetPersons.
+    // courses + meetPersons + dropout/deferral status (replaces removed cr.dropoutId / cr.deferredId).
     const courseIds = [...new Set(courseRegistrations.map((cr) => cr.courseId).filter((id): id is string => !!id))];
+    const regIds = courseRegistrations.map((cr) => cr.id);
 
-    const [courses, meetPersons] = await Promise.all([
+    const [courses, meetPersons, dropouts] = await Promise.all([
       courseIds.length > 0
         // Only surface courses whose status is 'Active'. Archived/Past courses
         // have unmaintained course pages, so showing them in /my-courses funnels users into
@@ -64,7 +67,27 @@ export const myBluedotRouter = router({
         ))
         : Promise.resolve([]),
       db.pg.select().from(meetPersonTable.pg).where(eq(meetPersonTable.pg.email, email)),
+      db.pg
+        .select({ applicantId: dropoutTable.pg.applicantId, type: dropoutTable.pg.type })
+        .from(dropoutTable.pg)
+        .where(arrayOverlaps(dropoutTable.pg.applicantId, regIds)),
     ]);
+
+    const dropoutStatusByRegId = new Map<string, { isDroppedOut: boolean; isDeferred: boolean }>();
+    for (const d of dropouts) {
+      for (const regId of d.applicantId ?? []) {
+        if (!regIds.includes(regId)) continue;
+        const cur = dropoutStatusByRegId.get(regId) ?? { isDroppedOut: false, isDeferred: false };
+        if (d.type === 'Deferral') {
+          cur.isDeferred = true;
+          cur.isDroppedOut = false;
+        } else if (!cur.isDeferred) {
+          cur.isDroppedOut = true;
+        }
+
+        dropoutStatusByRegId.set(regId, cur);
+      }
+    }
 
     // The user's own groups (needs meetPersons.groupsAsParticipant).
     const groupIds = [...new Set(meetPersons.flatMap((mp) => mp.groupsAsParticipant ?? []))];
@@ -182,6 +205,8 @@ export const myBluedotRouter = router({
         ? Array.from(unitsEligibleToRescheduleByMeetPersonId.get(meetPerson.id) ?? [])
         : [];
 
+      const status = dropoutStatusByRegId.get(cr.id) ?? { isDroppedOut: false, isDeferred: false };
+
       return [{
         courseRegistration: cr,
         course,
@@ -201,14 +226,16 @@ export const myBluedotRouter = router({
         hasSubmittedActionPlan: (meetPerson?.projectSubmission?.length ?? 0) > 0,
         feedbackFormUrl: meetPerson?.courseFeedbackForm ?? null,
         hasSubmittedFeedback: (meetPerson?.courseFeedback?.length ?? 0) > 0,
+        isDroppedOut: status.isDroppedOut,
+        isDeferred: status.isDeferred,
       }];
     });
 
     // Step 3: Calculate results for NextDiscussionCard section
     const courseByDiscussionId = new Map<string, { slug: string; title: string }>();
     for (const c of perCourse) {
-      const cr = c.courseRegistration;
-      if (cr.dropoutId?.length && !cr.deferredId?.length) continue;
+      // Skip dropped-out registrations (but keep deferred — they still have a future track).
+      if (c.isDroppedOut && !c.isDeferred) continue;
       for (const d of c.discussions) {
         courseByDiscussionId.set(d.id, { slug: c.course.slug, title: c.course.title });
       }

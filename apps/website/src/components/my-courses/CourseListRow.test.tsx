@@ -1,7 +1,6 @@
 import { describe, test, expect } from 'vitest';
 import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import type { CourseRegistration } from '@bluedot/db';
 import {
   createMockCourseRegistration, createMockGroup,
 } from '../../__tests__/testUtils';
@@ -149,9 +148,8 @@ describe('getSubtitle precedence', () => {
 
   test('Dropped + round dates → date range only', () => {
     expect(renderText(getSubtitle(subtitleArgs({
-      courseRegistration: createMockCourseRegistration({
-        roundStatus: 'Active', dropoutId: ['drop_1'], deferredId: null,
-      }),
+      courseRegistration: createMockCourseRegistration({ roundStatus: 'Active' }),
+      isDroppedOut: true,
       roundStartDate: ROUND_START,
       roundEndDate: ROUND_END,
     })))).toBe('Mar 10 – 17, 2026');
@@ -159,20 +157,16 @@ describe('getSubtitle precedence', () => {
 
   test('Dropped without round dates → no subtitle', () => {
     expect(renderText(getSubtitle(subtitleArgs({
-      courseRegistration: createMockCourseRegistration({
-        roundStatus: 'Active', dropoutId: ['drop_1'], deferredId: null,
-      }),
+      courseRegistration: createMockCourseRegistration({ roundStatus: 'Active' }),
+      isDroppedOut: true,
     })))).toBe('');
   });
 
-  test('Deferred (dropoutId set with deferredId) is NOT treated as dropped', () => {
-    // Deferred users have both dropoutId and deferredId; they're a separate state from dropped
-    // and should fall through to the default branch. (Their next-round registration is the
-    // active one in /my-courses.)
+  test('Deferred (isDroppedOut + isDeferred) is NOT treated as dropped', () => {
+    // Deferred users may still have isDroppedOut set in some edge orderings; deferral wins.
     expect(renderText(getSubtitle(subtitleArgs({
-      courseRegistration: createMockCourseRegistration({
-        roundStatus: 'Active', dropoutId: ['drop_1'], deferredId: ['def_1'],
-      }),
+      courseRegistration: createMockCourseRegistration({ roundStatus: 'Active' }),
+      isDeferred: true,
       roundStartDate: ROUND_START,
       roundEndDate: ROUND_END,
     })))).toBe('Wednesdays, 4:00 PM · Facilitated by Shivam Arora');
@@ -218,31 +212,28 @@ describe('getSubtitle precedence', () => {
     })))).toBe('Application accepted! · Course starts 10 Mar');
   });
 
-  test('Future + Accept + dropoutId + round dates → dropped wins (date range, not "Application accepted!")', () => {
+  test('Future + Accept + dropped + round dates → dropped wins (date range, not "Application accepted!")', () => {
     expect(renderText(getSubtitle(subtitleArgs({
-      courseRegistration: createMockCourseRegistration({
-        roundStatus: 'Future', decision: 'Accept', dropoutId: ['drop_1'], deferredId: null,
-      }),
+      courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Accept' }),
+      isDroppedOut: true,
       roundStartDate: ROUND_START,
       roundEndDate: ROUND_END,
     })))).toBe('Mar 10 – 17, 2026');
   });
 
-  test('Future + Accept + dropoutId without roundEndDate → no subtitle', () => {
+  test('Future + Accept + dropped without roundEndDate → no subtitle', () => {
     expect(renderText(getSubtitle(subtitleArgs({
-      courseRegistration: createMockCourseRegistration({
-        roundStatus: 'Future', decision: 'Accept', dropoutId: ['drop_1'], deferredId: null,
-      }),
+      courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Accept' }),
+      isDroppedOut: true,
       roundStartDate: ROUND_START,
       roundEndDate: null,
     })))).toBe('');
   });
 
-  test('Future + Reject + dropoutId + round dates → dropped wins (date range)', () => {
+  test('Future + Reject + dropped + round dates → dropped wins (date range)', () => {
     expect(renderText(getSubtitle(subtitleArgs({
-      courseRegistration: createMockCourseRegistration({
-        roundStatus: 'Future', decision: 'Reject', dropoutId: ['drop_1'], deferredId: null,
-      }),
+      courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Reject' }),
+      isDroppedOut: true,
       roundStartDate: ROUND_START,
       roundEndDate: ROUND_END,
     })))).toBe('Mar 10 – 17, 2026');
@@ -275,6 +266,8 @@ describe('CourseListRow actions', () => {
     feedbackFormUrl: null,
     hasSubmittedFeedback: false,
     rescheduleEligibleUnits: [],
+    isDroppedOut: false,
+    isDeferred: false,
     isExpanded: false,
     onToggleExpand: () => {},
     ...overrides,
@@ -391,11 +384,8 @@ describe('CourseListRow actions', () => {
       {
         name: 'dropped',
         props: () => baseProps({
-          courseRegistration: createMockCourseRegistration({
-            roundStatus: 'Active',
-            dropoutId: ['dropout-1'] as unknown as CourseRegistration['dropoutId'],
-            deferredId: null,
-          }),
+          courseRegistration: createMockCourseRegistration({ roundStatus: 'Active' }),
+          isDroppedOut: true,
         }),
       },
     ];

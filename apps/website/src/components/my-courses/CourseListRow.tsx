@@ -39,6 +39,8 @@ export type CourseListRowProps = {
   hasSubmittedActionPlan: boolean;
   feedbackFormUrl: string | null;
   hasSubmittedFeedback: boolean;
+  isDroppedOut: boolean;
+  isDeferred: boolean;
   isExpanded?: boolean;
   onToggleExpand?: () => void;
 };
@@ -47,9 +49,10 @@ const CourseListRow = ({
   course, courseRegistration, group, facilitatorNames, discussions, attendedDiscussionIds, units, roundId,
   roundStartDate, roundEndDate, rescheduleEligibleUnits, meetPersonId, groupsAsParticipant,
   numUnits, uniqueDiscussionAttendance, hasSubmittedActionPlan, feedbackFormUrl, hasSubmittedFeedback,
+  isDroppedOut, isDeferred,
   isExpanded, onToggleExpand,
 }: CourseListRowProps) => {
-  const state = classifyCourseRegistration(courseRegistration);
+  const state = classifyCourseRegistration(courseRegistration, { isDroppedOut, isDeferred });
   const [dropoutModalOpen, setDropoutModalOpen] = useState(false);
   const [viewParticipantsModalOpen, setViewParticipantsModalOpen] = useState(false);
   const [groupSwitchModalProps, setGroupSwitchModalProps] = useState<{ initialUnitNumber: string; initialSwitchType: SwitchType } | null>(null);
@@ -66,6 +69,8 @@ const CourseListRow = ({
     numUnits,
     uniqueDiscussionAttendance,
     isNotInGroup,
+    isDroppedOut,
+    isDeferred,
     roundStartDate,
     roundEndDate,
   });
@@ -362,8 +367,11 @@ const CourseListRow = ({
   );
 };
 
-export const classifyCourseRegistration = (cr: CourseRegistration) => {
-  if (cr.dropoutId?.length && !cr.deferredId?.length) return 'dropped';
+export type DropoutStatus = { isDroppedOut: boolean; isDeferred: boolean };
+const NOT_DROPPED: DropoutStatus = { isDroppedOut: false, isDeferred: false };
+
+export const classifyCourseRegistration = (cr: CourseRegistration, status: DropoutStatus = NOT_DROPPED) => {
+  if (status.isDroppedOut && !status.isDeferred) return 'dropped';
   if (cr.roundStatus === 'Active') return 'in-progress';
   if (cr.roundStatus === 'Future') return 'upcoming';
   return 'completed';
@@ -404,6 +412,8 @@ export const getSubtitle = ({
   numUnits,
   uniqueDiscussionAttendance,
   isNotInGroup,
+  isDroppedOut = false,
+  isDeferred = false,
   roundStartDate,
   roundEndDate,
 }: {
@@ -413,6 +423,8 @@ export const getSubtitle = ({
   numUnits: number | null;
   uniqueDiscussionAttendance: number | null;
   isNotInGroup: boolean;
+  isDroppedOut?: boolean;
+  isDeferred?: boolean;
   roundStartDate: string | null;
   roundEndDate: string | null;
 }): ReactNode => {
@@ -431,7 +443,7 @@ export const getSubtitle = ({
     );
   };
 
-  const state = classifyCourseRegistration(courseRegistration);
+  const state = classifyCourseRegistration(courseRegistration, { isDroppedOut, isDeferred });
   const dateRange = roundStartDate && roundEndDate ? formatRoundDateRange(roundStartDate, roundEndDate) : null;
   const facilitatorDisplay = facilitatorNames.length > 0 ? `Facilitated by ${facilitatorNames.join(', ')}` : null;
 

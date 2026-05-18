@@ -11,8 +11,6 @@ const stubProps = (overrides: Partial<CourseListRowProps> = {}): CourseListRowPr
     id: 'reg-default',
     roundStatus: 'Active',
     decision: 'Accept',
-    dropoutId: null,
-    deferredId: null,
     certificateCreatedAt: null,
     certificateId: null,
     roundId: 'round-default',
@@ -33,6 +31,8 @@ const stubProps = (overrides: Partial<CourseListRowProps> = {}): CourseListRowPr
   feedbackFormUrl: null,
   hasSubmittedFeedback: false,
   rescheduleEligibleUnits: [],
+  isDroppedOut: false,
+  isDeferred: false,
   isExpanded: false,
   onToggleExpand: () => {},
   ...overrides,
@@ -169,9 +169,10 @@ const completedNoCertFoaiArgs = stubProps({
 // Dropped + had attended some discussions before dropping
 const droppedArgs = stubProps({
   courseRegistration: {
-    ...stubProps().courseRegistration, id: 'reg-dropped', roundStatus: 'Active', dropoutId: ['dropout-1'], deferredId: null,
+    ...stubProps().courseRegistration, id: 'reg-dropped', roundStatus: 'Active',
   } as CourseListRowProps['courseRegistration'],
   course: { slug: 'biosecurity', title: 'Biosecurity' } as CourseListRowProps['course'],
+  isDroppedOut: true,
   roundStartDate: '2026-03-10',
   roundEndDate: '2026-04-17',
   attendedDiscussionIds: ['disc-1', 'disc-2'],
@@ -180,9 +181,10 @@ const droppedArgs = stubProps({
 // Dropped + no prior attendance
 const droppedNoAttendanceArgs = stubProps({
   courseRegistration: {
-    ...stubProps().courseRegistration, id: 'reg-dropped-no-attendance', roundStatus: 'Active', dropoutId: ['dropout-2'], deferredId: null,
+    ...stubProps().courseRegistration, id: 'reg-dropped-no-attendance', roundStatus: 'Active',
   } as CourseListRowProps['courseRegistration'],
   course: { slug: 'biosecurity', title: 'Biosecurity' } as CourseListRowProps['course'],
+  isDroppedOut: true,
   roundStartDate: '2026-03-10',
   roundEndDate: '2026-04-17',
   attendedDiscussionIds: [],

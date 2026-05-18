@@ -1,4 +1,3 @@
-import type { CourseRegistration } from '@bluedot/db';
 import { ErrorSection, ProgressDots } from '@bluedot/ui';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -58,14 +57,15 @@ const sortByFinalDiscussionDesc = (courses: CourseListRowProps[]): CourseListRow
 };
 
 export const bucketCoursesByTab = (courses: CourseListRowProps[] | undefined): Record<CourseTab, CourseListRowProps[]> => {
-  const assignTab = (cr: CourseRegistration): CourseTab | null => {
-    if (cr.deferredId?.length) {
+  const assignTab = (row: CourseListRowProps): CourseTab | null => {
+    const { courseRegistration: cr, isDroppedOut, isDeferred } = row;
+    if (isDeferred) {
       if (cr.roundStatus === 'Active') return 'inProgress';
       if (cr.roundStatus === 'Future') return 'upcoming';
       return null;
     }
 
-    if (cr.dropoutId?.length) return 'pastCourses';
+    if (isDroppedOut) return 'pastCourses';
     if (cr.roundStatus === 'Active') return 'inProgress';
     if (cr.roundStatus === 'Future') return 'upcoming';
     return 'pastCourses';
@@ -77,7 +77,7 @@ export const bucketCoursesByTab = (courses: CourseListRowProps[] | undefined): R
 
   const buckets: Record<CourseTab, CourseListRowProps[]> = { inProgress: [], upcoming: [], pastCourses: [] };
   for (const row of eligible) {
-    const tab = assignTab(row.courseRegistration);
+    const tab = assignTab(row);
     if (tab) buckets[tab].push(row);
   }
 
@@ -90,7 +90,7 @@ export const bucketCoursesByTab = (courses: CourseListRowProps[] | undefined): R
 };
 
 const isAutoExpandCandidate = (course: CourseListRowProps): boolean => {
-  const state = classifyCourseRegistration(course.courseRegistration);
+  const state = classifyCourseRegistration(course.courseRegistration, { isDroppedOut: course.isDroppedOut, isDeferred: course.isDeferred });
   const canExpand = state !== 'dropped' || course.attendedDiscussionIds.length > 0;
   return canExpand && course.discussions.length > 0;
 };
