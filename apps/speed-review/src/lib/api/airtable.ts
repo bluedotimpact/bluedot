@@ -1,5 +1,5 @@
 import env from './env';
-import { type Application, type SortDirection } from '../client/types';
+import { type Application, type Direction } from '../client/types';
 
 const AIRTABLE_BASE = 'https://api.airtable.com/v0/appnJbsG1eWbAdEvf';
 const APPLICATIONS_URL = `${AIRTABLE_BASE}/tblXKnWoXK3R63F6D`;
@@ -185,10 +185,12 @@ export const fetchRounds = async (): Promise<Round[]> => {
 // Fetches applications for a round, filtered by round record ID server-side.
 // Airtable paginates in pages of AIRTABLE_PAGE_SIZE; we collect until we have
 // RESPONSE_PAGE_SIZE matches and return the Airtable offset for the next call.
+const BASE_FILTER = 'AND({fldWVKY5EFAGSRcDT} = "", SEARCH("Participant", {fld7fzQNFhb7Oyy90}), NOT({fld1KQjHFGoDZKf94}), {fldRXdZQ0rnuVOcl7} != "", {fldEPZ0UfYoypB1mp} != BLANK())';
+
 export const fetchApplications = async (
   roundId: string,
   offset?: string,
-  sortDirection: SortDirection = 'desc',
+  direction: Direction = 'top',
 ): Promise<{ applications: Application[]; nextOffset?: string }> => {
   const collected: Application[] = [];
   // Airtable pagination can return the same record across internal pages when
@@ -202,11 +204,11 @@ export const fetchApplications = async (
     const { records, nextOffset } = await fetchPage(
       APPLICATIONS_URL,
       {
-        filterByFormula: 'AND({fldWVKY5EFAGSRcDT} = "", SEARCH("Participant", {fld7fzQNFhb7Oyy90}), NOT({fld1KQjHFGoDZKf94}), {fldRXdZQ0rnuVOcl7} != "")', // fld1KQjHFGoDZKf94 = Duplicate flag
+        filterByFormula: BASE_FILTER,
         pageSize: String(AIRTABLE_PAGE_SIZE),
         returnFieldsByFieldId: 'true',
         'sort[0][field]': TOTAL_SCORE_FIELD_ID,
-        'sort[0][direction]': sortDirection,
+        'sort[0][direction]': direction === 'top' ? 'desc' : 'asc',
       },
       APPLICATION_FIELDS,
       currentOffset,

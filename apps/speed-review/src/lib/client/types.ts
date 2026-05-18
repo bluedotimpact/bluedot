@@ -27,7 +27,7 @@ export type Application = {
   totalScore?: number;
 };
 
-export type SortDirection = 'desc' | 'asc';
+export type Direction = 'top' | 'bottom';
 
 export type RatingValue = 'no' | 'neutral-accept' | 'neutral-reject' | 'yes' | 'strong-yes' | 'moved-to-agisc';
 

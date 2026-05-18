@@ -26,7 +26,6 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
     reasoning,
     applicationSource,
     utmSource,
-    previousCourses,
     commitmentScore,
     commitmentRationale,
     impressivenessScore,
@@ -45,9 +44,6 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
           {subtitle && (
             <p className="text-size-sm text-stone-400 mt-0.5">{subtitle}</p>
           )}
-          {previousCourses && previousCourses.length > 0 && (
-            <p className="text-size-xs text-amber-400 mt-1">⟳ Previous participant: {previousCourses.join(', ')}</p>
-          )}
         </div>
         <div className="flex items-center gap-2 shrink-0">
           {profileUrl && (
@@ -63,6 +59,8 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
         </div>
       </div>
 
+      <PreviousApplicationsCard applicationId={application.id} course={course} />
+
       {(!!aiSummary || commitmentScore !== undefined || impressivenessScore !== undefined || technicalSkillScore !== undefined) && (
         <SummaryCard
           aiSummary={aiSummary ?? ''}
@@ -75,8 +73,6 @@ export const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, p
           technicalSkillRationale={technicalSkillRationale}
         />
       )}
-
-      <PreviousApplicationsCard applicationId={application.id} />
 
       <div className="border border-stone-700 rounded-lg divide-y divide-stone-700 overflow-hidden">
         {([

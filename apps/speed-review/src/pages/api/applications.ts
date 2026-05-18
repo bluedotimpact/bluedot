@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { makeApiRoute } from '../../lib/api/makeApiRoute';
 import { fetchApplications } from '../../lib/api/airtable';
 import { requireAdmin } from '../../lib/api/requireAdmin';
-import { type SortDirection } from '../../lib/client/types';
+import { type Direction } from '../../lib/client/types';
 
 const ApplicationSchema = z.object({
   id: z.string(),
@@ -34,7 +34,7 @@ const ApplicationSchema = z.object({
   totalScore: z.number().optional(),
 });
 
-const parseSortDirection = (raw: unknown): SortDirection => (raw === 'asc' ? 'asc' : 'desc');
+const parseDirection = (raw: unknown): Direction => (raw === 'bottom' ? 'bottom' : 'top');
 
 export default makeApiRoute({
   requireAuth: true,
@@ -48,15 +48,15 @@ export default makeApiRoute({
   const round = typeof req.query.round === 'string' ? req.query.round : '';
   if (!round) throw new createHttpError.BadRequest('Missing required query param: round');
   const offset = typeof req.query.offset === 'string' ? req.query.offset : undefined;
-  const sortDirection = parseSortDirection(req.query.sortDirection);
+  const direction = parseDirection(req.query.direction);
   try {
-    return await fetchApplications(round, offset, sortDirection);
+    return await fetchApplications(round, offset, direction);
   } catch (err) {
     if (err instanceof Error && err.message.includes('LIST_RECORDS_ITERATOR_NOT_AVAILABLE')) {
       // Offset expired — restart pagination from the beginning.
       // The filter excludes already-decided applications, so this
       // will return the next batch of unreviewed ones.
-      return fetchApplications(round, undefined, sortDirection);
+      return fetchApplications(round, undefined, direction);
     }
 
     throw err;
