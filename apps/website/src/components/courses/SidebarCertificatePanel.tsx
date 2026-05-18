@@ -98,6 +98,15 @@ export const SidebarCertificatePanel = ({
     );
   }
 
+  // Unenrolled/unauthenticated users with no upcoming rounds: render nothing rather than
+  // surface a "join a cohort" CTA that leads nowhere.
+  if (
+    (status === 'not-authenticated' || status === 'not-enrolled' || status === 'not-eligible')
+    && !certificateData.hasUpcomingRounds
+  ) {
+    return null;
+  }
+
   if (isCongratulationsAccessible(certificateData)) {
     const defaultCtaOverride = (
       status === 'not-authenticated'
