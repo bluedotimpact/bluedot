@@ -188,24 +188,17 @@ const CourseListRow = (props: CourseListRowProps) => {
           </div>
           <div className="min-w-0 flex-1">
             {props.mode === 'facilitator' && (
-              <a
-                href={`/courses/${course.slug}`}
-                className="block text-size-xxs font-semibold uppercase tracking-wide text-bluedot-normal no-underline hover:underline underline-offset-2"
-              >
+              <p className="mb-1 text-size-xxs font-semibold uppercase tracking-wide text-bluedot-normal">
                 {course.title}
-              </a>
+              </p>
             )}
             <h3 className={`text-pretty font-semibold text-bluedot-navy text-size-md ${props.mode === 'facilitator' ? '' : 'sm:text-size-lg'}`}>
-              {props.mode === 'facilitator' ? (
-                getFacilitatorHeadline(props)
-              ) : (
-                <a
-                  href={`/courses/${course.slug}`}
-                  className="text-bluedot-navy no-underline transition-colors hover:text-bluedot-normal hover:underline underline-offset-2"
-                >
-                  {course.title}
-                </a>
-              )}
+              <a
+                href={`/courses/${course.slug}`}
+                className="text-bluedot-navy no-underline transition-colors hover:text-bluedot-normal hover:underline underline-offset-2"
+              >
+                {props.mode === 'facilitator' ? getFacilitatorHeadline(props) : course.title}
+              </a>
               {certEligibilityReason && (
                 <span className="ml-1.5 -translate-y-px inline-flex items-center align-middle">
                   <Tooltip content={certEligibilityReason} ariaLabel="Show certificate eligibility information" />
@@ -694,6 +687,7 @@ const getFacilitatorActions = (
           variant="primary"
           size="small"
           url={`/facilitator-feedback/${meetPersonId}`}
+          target="_blank"
           className="text-size-xxs"
         >
           {hasSubmittedFeedback ? 'Edit feedback' : 'Share feedback'}
