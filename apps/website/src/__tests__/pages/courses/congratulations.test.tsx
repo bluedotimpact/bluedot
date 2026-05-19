@@ -110,23 +110,18 @@ describe('CongratulationsPage', () => {
     });
   });
 
-  test('redirects FOAI learner who is not authenticated', async () => {
+  // FoAI uses its own gate (`status === 'has-certificate'`), independent of `hasUpcomingRounds`.
+  // Parameterising over `hasUpcomingRounds` proves FoAI behaviour doesn't accidentally couple
+  // to that field if someone refactors `shouldShowCongratulations`.
+  test.each([
+    ['not-authenticated', true],
+    ['not-authenticated', false],
+    ['not-enrolled', true],
+    ['not-enrolled', false],
+  ] as const)('redirects FOAI learner with status %s regardless of hasUpcomingRounds (=%s)', async (status, hasUpcomingRounds) => {
     server.use(trpcMsw.certificates.getStatus.query(() => ({
-      status: 'not-authenticated' as const,
-      hasUpcomingRounds: false,
-    })));
-
-    render(<CongratulationsPage {...DEFAULT_PROPS} courseSlug="future-of-ai" />, { wrapper: TrpcProvider });
-
-    await waitFor(() => {
-      expect(mockReplace).toHaveBeenCalledWith('/courses/future-of-ai/1/1');
-    });
-  });
-
-  test('redirects FOAI learner who is not enrolled', async () => {
-    server.use(trpcMsw.certificates.getStatus.query(() => ({
-      status: 'not-enrolled' as const,
-      hasUpcomingRounds: false,
+      status,
+      hasUpcomingRounds,
     })));
 
     render(<CongratulationsPage {...DEFAULT_PROPS} courseSlug="future-of-ai" />, { wrapper: TrpcProvider });
