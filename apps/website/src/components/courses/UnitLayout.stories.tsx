@@ -67,7 +67,7 @@ const handlers = [
     courseProgress: { totalCount: 0, completedCount: 0, percentage: 0 },
     chunkProgressByUnitNumber: {},
   })),
-  trpcStorybookMsw.certificates.getStatus.query(() => ({ status: 'not-eligible' as const })),
+  trpcStorybookMsw.certificates.getStatus.query(() => ({ status: 'not-eligible' as const, hasUpcomingRounds: false })),
 ];
 
 const meta: Meta<typeof UnitLayout> = {
