@@ -4,7 +4,7 @@ import type {
 import {
   CTALinkOrButton, OverflowMenu, Tooltip, type OverflowMenuItemProps, addQueryParam, useLatestUtmParams,
 } from '@bluedot/ui';
-import { Fragment, useState, type ReactNode } from 'react';
+import { Fragment, type ReactNode } from 'react';
 import { FaCheck, FaLock } from 'react-icons/fa6';
 import { IoBan } from 'react-icons/io5';
 import { ChevronRightIcon } from '../icons';
@@ -14,14 +14,10 @@ import { ROUTES } from '../../lib/routes';
 import {
   buildApplicationUrl, buildGroupSlackChannelUrl, formatMonthAndDay, getActionPlanUrl, parseWeekFromRoundName,
 } from '../../lib/utils';
-import DropoutModal from '../courses/DropoutModal';
-import FacilitatorSwitchModal, {
-  type FacilitatorModalType, type FacilitatorSwitchType,
-} from '../courses/FacilitatorSwitchModal';
-import GroupSwitchModal, { buildAvailabilityFormUrl, type SwitchType } from '../courses/GroupSwitchModal';
-import ViewParticipantsModal from '../courses/ViewParticipantsModal';
+import { buildAvailabilityFormUrl } from '../courses/GroupSwitchModal';
 import DiscussionList from './DiscussionList';
 import type { CourseAction } from './DiscussionListRow';
+import { useCourseModals, type CourseModalTriggers } from './useCourseModals';
 
 export type CourseListRowMode = 'participant' | 'facilitator';
 
@@ -68,15 +64,13 @@ const CourseListRow = (props: CourseListRowProps) => {
     hasSubmittedFeedback, isDroppedOut, isDeferred, isExpanded, onToggleExpand,
   } = props;
   const state = classifyCourseRegistration(courseRegistration, { isDroppedOut, isDeferred });
-  const [dropoutModalOpen, setDropoutModalOpen] = useState(false);
-  const [viewParticipantsModalOpen, setViewParticipantsModalOpen] = useState(false);
-  const [groupSwitchModalProps, setGroupSwitchModalProps] = useState<{ initialUnitNumber: string; initialSwitchType: SwitchType } | null>(null);
-  const [facilitatorSwitchProps, setFacilitatorSwitchProps] = useState<{
-    initialModalType: FacilitatorModalType;
-    initialSwitchType?: FacilitatorSwitchType;
-    initialDiscussion: { id: string; group: string } | null;
-    initialGroupId?: string;
-  } | null>(null);
+  const modals = useCourseModals({
+    courseSlug: course.slug,
+    courseRegistrationId: courseRegistration.id,
+    currentRoundId: courseRegistration.roundId ?? null,
+    switchRoundId: roundId,
+    groupId: group?.id ?? null,
+  });
   const { latestUtmParams } = useLatestUtmParams();
 
   const isFacilitatedCourse = course.slug !== FOAI_COURSE_SLUG;
@@ -143,17 +137,7 @@ const CourseListRow = (props: CourseListRowProps) => {
   const actions = getActions(props, {
     state, hasCert, showLockedCert, showActionPlan,
     certificateUrl, applyAgainUrl, docUrl, slackUrl,
-  }, {
-    onOpenDropout: () => setDropoutModalOpen(true),
-    onOpenViewParticipants: () => setViewParticipantsModalOpen(true),
-    onOpenGroupSwitch: (p) => setGroupSwitchModalProps(p),
-    onClickFacilitatorRescheduleRecurring: () => setFacilitatorSwitchProps({
-      initialModalType: 'Update discussion time',
-      initialSwitchType: 'Change permanently',
-      initialDiscussion: null,
-      initialGroupId: group?.id,
-    }),
-  });
+  }, modals.triggers);
 
   const visible = actions.filter((a) => a.isVisible);
   const inlineActions = visible.filter((a) => a.variant === 'inline');
@@ -256,53 +240,20 @@ const CourseListRow = (props: CourseListRowProps) => {
               courseSlug={course.slug}
               canReschedule={state !== 'dropped' && !hasCert}
               rescheduleEligibleUnits={props.mode === 'participant' ? props.rescheduleEligibleUnits : []}
-              onClickReschedule={({ unitNumber, switchType }) => setGroupSwitchModalProps({ initialUnitNumber: unitNumber ?? '1', initialSwitchType: switchType })}
-              onClickFacilitatorReschedule={(d) => setFacilitatorSwitchProps({
-                initialModalType: 'Update discussion time',
-                initialSwitchType: 'Change for one unit',
-                initialDiscussion: { id: d.id, group: d.group },
+              onClickReschedule={({ unitNumber, switchType }) => modals.triggers.openParticipantReschedule({
+                initialUnitNumber: unitNumber ?? '1',
+                initialSwitchType: switchType,
               })}
-              onClickFacilitatorAssignSubstitute={(d) => setFacilitatorSwitchProps({
-                initialModalType: 'Change facilitator',
-                initialDiscussion: { id: d.id, group: d.group },
-              })}
-              onClickViewAttendees={group ? () => setViewParticipantsModalOpen(true) : undefined}
+              onClickFacilitatorReschedule={(d) => modals.triggers.openFacilitatorRescheduleOneOff({ id: d.id, group: d.group })}
+              onClickFacilitatorAssignSubstitute={(d) => modals.triggers.openFacilitatorAssignSubstitute({ id: d.id, group: d.group })}
+              onClickViewAttendees={group ? modals.triggers.openViewParticipants : undefined}
             />
           ) : (
             <p className="px-5 py-4 text-size-xs text-gray-500 sm:px-6">No discussions to show.</p>
           )}
         </div>
       )}
-      {dropoutModalOpen && (
-        <DropoutModal
-          applicantId={courseRegistration.id}
-          courseSlug={course.slug}
-          currentRoundId={courseRegistration.roundId ?? null}
-          handleClose={() => setDropoutModalOpen(false)}
-        />
-      )}
-      {viewParticipantsModalOpen && group && (
-        <ViewParticipantsModal groupId={group.id} handleClose={() => setViewParticipantsModalOpen(false)} />
-      )}
-      {groupSwitchModalProps && roundId && (
-        <GroupSwitchModal
-          handleClose={() => setGroupSwitchModalProps(null)}
-          initialUnitNumber={groupSwitchModalProps.initialUnitNumber}
-          initialSwitchType={groupSwitchModalProps.initialSwitchType}
-          courseSlug={course.slug}
-          roundId={roundId}
-        />
-      )}
-      {facilitatorSwitchProps && roundId && (
-        <FacilitatorSwitchModal
-          handleClose={() => setFacilitatorSwitchProps(null)}
-          roundId={roundId}
-          initialDiscussion={facilitatorSwitchProps.initialDiscussion}
-          initialGroupId={facilitatorSwitchProps.initialGroupId}
-          initialModalType={facilitatorSwitchProps.initialModalType}
-          initialSwitchType={facilitatorSwitchProps.initialSwitchType}
-        />
-      )}
+      {modals.element}
     </div>
   );
 };
@@ -484,26 +435,19 @@ type ActionDerived = {
   slackUrl: string | null;
 };
 
-type ActionCallbacks = {
-  onOpenDropout: () => void;
-  onOpenViewParticipants: () => void;
-  onOpenGroupSwitch: (props: { initialUnitNumber: string; initialSwitchType: SwitchType }) => void;
-  onClickFacilitatorRescheduleRecurring: () => void;
-};
-
 export const getActions = (
   row: CourseListRowProps,
   derived: ActionDerived,
-  callbacks: ActionCallbacks,
+  triggers: CourseModalTriggers,
 ): CourseAction[] => {
-  if (row.mode === 'facilitator') return getFacilitatorActions(row, derived, callbacks);
-  return getParticipantActions(row, derived, callbacks);
+  if (row.mode === 'facilitator') return getFacilitatorActions(row, derived, triggers);
+  return getParticipantActions(row, derived, triggers);
 };
 
 const getParticipantActions = (
   row: ParticipantRowProps,
   derived: ActionDerived,
-  callbacks: ActionCallbacks,
+  triggers: CourseModalTriggers,
 ): CourseAction[] => {
   const {
     courseRegistration, group, hasSubmittedActionPlan, feedbackFormUrl, meetPersonId, rescheduleEligibleUnits,
@@ -511,7 +455,6 @@ const getParticipantActions = (
   const {
     state, hasCert, showLockedCert, showActionPlan, certificateUrl, applyAgainUrl, docUrl, slackUrl,
   } = derived;
-  const { onOpenDropout, onOpenViewParticipants, onOpenGroupSwitch } = callbacks;
   const inProgressOrUpcoming = state === 'in-progress' || state === 'upcoming';
 
   return [
@@ -608,7 +551,7 @@ const getParticipantActions = (
       isVisible: state !== 'dropped' && Boolean(group),
       variant: 'overflow',
       overflow: {
-        id: 'view-participants', label: 'View participants', onAction: onOpenViewParticipants,
+        id: 'view-participants', label: 'View participants', onAction: triggers.openViewParticipants,
       },
     },
     {
@@ -618,7 +561,7 @@ const getParticipantActions = (
       overflow: {
         id: 'switch-group-permanently',
         label: 'Switch group permanently',
-        onAction: () => onOpenGroupSwitch({ initialUnitNumber: '1', initialSwitchType: 'Switch group permanently' }),
+        onAction: () => triggers.openParticipantReschedule({ initialUnitNumber: '1', initialSwitchType: 'Switch group permanently' }),
       },
     },
     {
@@ -626,7 +569,7 @@ const getParticipantActions = (
       isVisible: state === 'in-progress' || (state === 'upcoming' && courseRegistration.decision === 'Accept'),
       variant: 'overflow',
       overflow: {
-        id: 'drop', label: 'Drop or defer course', onAction: onOpenDropout,
+        id: 'drop', label: 'Drop or defer course', onAction: triggers.openDropout,
       },
     },
   ];
@@ -635,13 +578,12 @@ const getParticipantActions = (
 const getFacilitatorActions = (
   row: FacilitatorRowProps,
   derived: ActionDerived,
-  callbacks: ActionCallbacks,
+  triggers: CourseModalTriggers,
 ): CourseAction[] => {
   const {
     courseRegistration, group, meetPersonId, hasSubmittedFeedback,
   } = row;
   const { state, docUrl, slackUrl } = derived;
-  const { onOpenViewParticipants, onClickFacilitatorRescheduleRecurring } = callbacks;
   const isPending = state === 'upcoming' && !group;
   const isActive = state === 'in-progress' || (state === 'upcoming' && Boolean(group));
   const isPast = state === 'completed';
@@ -715,7 +657,7 @@ const getFacilitatorActions = (
       isVisible: (isActive || isPast) && Boolean(group),
       variant: 'overflow',
       overflow: {
-        id: 'view-participants', label: 'View participants', onAction: onOpenViewParticipants,
+        id: 'view-participants', label: 'View participants', onAction: triggers.openViewParticipants,
       },
     },
     {
@@ -725,7 +667,7 @@ const getFacilitatorActions = (
       overflow: {
         id: 'reschedule-recurring',
         label: 'Update discussion time',
-        onAction: onClickFacilitatorRescheduleRecurring,
+        onAction: triggers.openFacilitatorRescheduleRecurring,
       },
     },
   ];
