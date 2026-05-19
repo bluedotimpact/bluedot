@@ -145,6 +145,17 @@ export const SidebarCertificatePanel = ({
     );
   }
 
+  // Reached here only when `shouldShowCongratulations` returned false. For the three "join a
+  // cohort" statuses that implies `!hasUpcomingRounds`, and we render nothing rather than fall
+  // through to the LockedPanel below.
+  if (
+    certificateData.status === 'not-authenticated'
+    || certificateData.status === 'not-enrolled'
+    || certificateData.status === 'not-eligible'
+  ) {
+    return null;
+  }
+
   // action-plan-pending + not yet submitted + open: two-panel layout
   if (
     status === 'action-plan-pending'
