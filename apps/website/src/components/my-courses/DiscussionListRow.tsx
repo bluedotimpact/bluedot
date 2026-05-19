@@ -187,14 +187,14 @@ export const getActions = (ctx: DiscussionActionContext): CourseAction[] => {
       id: 'reschedule-upcoming',
       isVisible: isFutureLike,
       variant: 'inline',
-      inline: <CTALinkOrButton variant="secondary" size="small" onClick={onReschedule}>Reschedule</CTALinkOrButton>,
+      inline: <CTALinkOrButton variant="secondary" size="small" onClick={onReschedule} className="text-size-xxs bd-md:text-size-xxs">Reschedule</CTALinkOrButton>,
       overflow: { id: 'reschedule', label: 'Reschedule', onAction: onReschedule },
     },
     {
       id: 'join-now',
       isVisible: status === 'live' && Boolean(discussionMeetLink),
       variant: 'inline',
-      inline: discussionMeetLink ? <CTALinkOrButton variant="primary" size="small" url={discussionMeetLink} target="_blank">Join now</CTALinkOrButton> : null,
+      inline: discussionMeetLink ? <CTALinkOrButton variant="primary" size="small" url={discussionMeetLink} target="_blank" className="text-size-xxs bd-md:text-size-xxs">Join now</CTALinkOrButton> : null,
       overflow: {
         id: 'join', label: 'Join now', href: discussionMeetLink ?? '', target: '_blank',
       },
@@ -225,7 +225,7 @@ export const getActions = (ctx: DiscussionActionContext): CourseAction[] => {
       id: 'reschedule-absent',
       isVisible: status === 'absent' && canReschedule,
       variant: 'inline',
-      inline: <CTALinkOrButton variant="primary" size="small" onClick={onReschedule}>Reschedule</CTALinkOrButton>,
+      inline: <CTALinkOrButton variant="primary" size="small" onClick={onReschedule} className="text-size-xxs bd-md:text-size-xxs">Reschedule</CTALinkOrButton>,
       overflow: { id: 'reschedule', label: 'Reschedule', onAction: onReschedule },
     },
     {
@@ -255,7 +255,7 @@ const getFacilitatorActions = (ctx: DiscussionActionContext): CourseAction[] => 
       isVisible: status === 'live' && Boolean(discussionMeetLink),
       variant: 'inline',
       inline: discussionMeetLink ? (
-        <CTALinkOrButton variant="primary" size="small" url={discussionMeetLink} target="_blank">Join now</CTALinkOrButton>
+        <CTALinkOrButton variant="primary" size="small" url={discussionMeetLink} target="_blank" className="text-size-xxs bd-md:text-size-xxs">Join now</CTALinkOrButton>
       ) : null,
       overflow: {
         id: 'join', label: 'Join now', href: discussionMeetLink ?? '', target: '_blank',
