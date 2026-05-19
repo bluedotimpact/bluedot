@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { loggedInStory, loggedOutStory } from '@bluedot/ui/src/utils/storybook';
 import { createMockChunk, createMockUnit } from '../../__tests__/testUtils';
 import { trpcStorybookMsw } from '../../__tests__/trpcMswSetup.browser';
+import type { BasicChunk } from '../../server/routers/courses';
 import UnitLayout, { type ChunkWithContent } from './UnitLayout';
 
 const mockUnits = [
@@ -49,15 +50,13 @@ const mockChunks: ChunkWithContent[] = [
   },
 ];
 
-const allUnitChunks: Record<string, { id: string; chunkTitle: string; chunkOrder: string; estimatedTime: number | null; chunkResources: string[] | null; chunkExercises: string[] | null }[]> = {};
+const allUnitChunks: Record<string, BasicChunk[]> = {};
 mockUnits.forEach((unit) => {
   allUnitChunks[unit.id] = mockChunks.map((chunk) => ({
     id: chunk.id,
     chunkTitle: chunk.chunkTitle,
     chunkOrder: chunk.chunkOrder,
     estimatedTime: chunk.estimatedTime,
-    chunkResources: chunk.chunkResources,
-    chunkExercises: chunk.chunkExercises,
   }));
 });
 

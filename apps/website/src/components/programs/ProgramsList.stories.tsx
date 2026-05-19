@@ -59,7 +59,19 @@ const samplePrograms: Programs = [
   },
 ];
 
-const meta = {
+const handlers = [
+  trpcStorybookMsw.programs.getAll.query(() => samplePrograms),
+  trpcStorybookMsw.grants.getRapidGrantStats.query(() => ({
+    count: 42,
+    totalAmountUsd: 184500,
+  })),
+  trpcStorybookMsw.grants.getCareerTransitionGrantStats.query(() => ({
+    count: 8,
+    totalAmountUsd: 360000,
+  })),
+];
+
+const meta: Meta<typeof ProgramsList> = {
   title: 'website/Programs/ProgramsList',
   component: ProgramsList,
   parameters: {
@@ -69,49 +81,20 @@ const meta = {
         component: 'The list of active programs shown on /programs. Each row gets a CTA to its program detail page. Funding programs get a live "$X deployed across N grants" meta line from `grants.getRapidGrantStats` / `grants.getCareerTransitionGrantStats`.',
       },
     },
+    msw: { handlers },
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof ProgramsList>;
+};
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {},
-  parameters: {
-    msw: {
-      handlers: [
-        trpcStorybookMsw.programs.getAll.query(() => samplePrograms),
-        trpcStorybookMsw.grants.getRapidGrantStats.query(() => ({
-          count: 42,
-          totalAmountUsd: 184500,
-        })),
-        trpcStorybookMsw.grants.getCareerTransitionGrantStats.query(() => ({
-          count: 8,
-          totalAmountUsd: 360000,
-        })),
-      ],
-    },
-  },
 };
 
 export const WithUtmCampaign: Story = {
   args: {
     utmCampaign: 'spring-2026',
-  },
-  parameters: {
-    msw: {
-      handlers: [
-        trpcStorybookMsw.programs.getAll.query(() => samplePrograms),
-        trpcStorybookMsw.grants.getRapidGrantStats.query(() => ({
-          count: 42,
-          totalAmountUsd: 184500,
-        })),
-        trpcStorybookMsw.grants.getCareerTransitionGrantStats.query(() => ({
-          count: 8,
-          totalAmountUsd: 360000,
-        })),
-      ],
-    },
   },
 };

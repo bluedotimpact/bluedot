@@ -57,10 +57,7 @@ export const Loading: Story = {
   parameters: {
     msw: {
       handlers: [
-        trpcStorybookMsw.teamMembers.getOneOnOneAdvisors.query(async () => {
-          await new Promise(() => {});
-          return [];
-        }),
+        trpcStorybookMsw.teamMembers.getOneOnOneAdvisors.query(() => new Promise(() => {})),
       ],
     },
   },

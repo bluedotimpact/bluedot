@@ -15,18 +15,16 @@ const meta = {
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <div style={{ minHeight: '200vh' }}>
-        <div style={{
-          height: '600px', background: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }}>
+      <div className="min-h-[200vh]">
+        <div className="min-h-[600px] flex items-center justify-center bg-color-canvas">
           Scroll down to reveal the SectionNav. It only appears once you scroll past ~500px.
         </div>
         <Story />
-        <div id="who" style={{ minHeight: '600px', padding: '40px' }}>Section: Who this is for</div>
-        <div id="outcomes" style={{ minHeight: '600px', padding: '40px' }}>Section: Outcomes</div>
-        <div id="structure" style={{ minHeight: '600px', padding: '40px' }}>Section: Structure</div>
-        <div id="pathways" style={{ minHeight: '600px', padding: '40px' }}>Section: Pathways</div>
-        <div id="faq" style={{ minHeight: '600px', padding: '40px' }}>Section: FAQ</div>
+        <div id="who" className="min-h-[600px] p-10">Section: Who this is for</div>
+        <div id="outcomes" className="min-h-[600px] p-10">Section: Outcomes</div>
+        <div id="structure" className="min-h-[600px] p-10">Section: Structure</div>
+        <div id="pathways" className="min-h-[600px] p-10">Section: Pathways</div>
+        <div id="faq" className="min-h-[600px] p-10">Section: FAQ</div>
       </div>
     ),
   ],
