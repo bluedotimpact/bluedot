@@ -32,7 +32,12 @@ We're fans of [boring technology](https://boringtechnology.club/) — don't intr
 
 - Look for existing components/utilities first. Most marketing primitives already live in `@bluedot/ui` or `apps/website/src/components/`. See `apps/website/README.md` → "Reusing existing components first".
 - Use design tokens (`text-size-md`, `bg-color-primary-accent`, `border-color-divider`, …), not raw Tailwind values like `text-[16px]` or `bg-bluedot-normal`. Tokens are documented in `apps/storybook/src/GettingStarted.mdx` and defined in `apps/website/src/globals.css`.
-- Check existing components in Storybook (`apps/storybook/` or [storybook.k8s.bluedot.org](https://storybook.k8s.bluedot.org)) before building new ones. If a new component would benefit from visual documentation (e.g. for design review or reuse by non-technical team members), ask the user if they'd like a Storybook story.
+- Check existing components in Storybook (`apps/storybook/` or [storybook.k8s.bluedot.org](https://storybook.k8s.bluedot.org)) before building new ones.
+- **Keep Storybook stories in sync with components.** When you touch a component, update its story in the same PR:
+  - **Add** a user-facing component (marketing/landing section, shared primitive, reusable UI piece) → add a `ComponentName.stories.tsx` alongside it with at least a `Default` story plus any variants the component supports. Skip stories for pure-logic/utility/admin-internal components or for components fully rendered inside an existing parent story (the parent's story covers them).
+  - **Modify** props or variants of a component that already has a story → update the story's `args` and add a new variant if you introduced one.
+  - **Remove** a component → delete its `.stories.tsx` in the same PR.
+  - When unsure whether a story is warranted (e.g. small internal component, ambiguous reuse), ask the user.
 - For non-trivial work, sketch a plan before editing.
 
 ## Coding rules

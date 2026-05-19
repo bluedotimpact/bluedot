@@ -21,7 +21,7 @@ const mockIntensiveRounds: Round[] = [
   {
     id: 'round-1',
     courseId: 'course-1',
-    courseTitle: 'AI Safety Fundamentals: Technical Alignment',
+    courseTitle: 'Technical AI Safety',
     courseSlug: 'technical-ai-safety',
     applyUrl: 'https://web.miniextensions.com/test-tas',
     intensity: 'intensive',
@@ -35,7 +35,7 @@ const mockIntensiveRounds: Round[] = [
   {
     id: 'round-2',
     courseId: 'course-2',
-    courseTitle: 'AI Safety Fundamentals: AI Governance',
+    courseTitle: 'AI Governance',
     courseSlug: 'governance',
     applyUrl: 'https://web.miniextensions.com/test-gov',
     intensity: 'intensive',
@@ -49,7 +49,7 @@ const mockIntensiveRounds: Round[] = [
   {
     id: 'round-3',
     courseId: 'course-3',
-    courseTitle: 'AGI Safety Fundamentals',
+    courseTitle: 'AGI Strategy',
     courseSlug: 'agi-strategy',
     applyUrl: 'https://web.miniextensions.com/test-agi',
     intensity: 'intensive',
@@ -66,7 +66,7 @@ const mockPartTimeRounds: Round[] = [
   {
     id: 'round-4',
     courseId: 'course-1',
-    courseTitle: 'AI Safety Fundamentals: Technical Alignment',
+    courseTitle: 'Technical AI Safety',
     courseSlug: 'technical-ai-safety',
     applyUrl: 'https://web.miniextensions.com/test-tas',
     intensity: 'part-time',
@@ -80,7 +80,7 @@ const mockPartTimeRounds: Round[] = [
   {
     id: 'round-5',
     courseId: 'course-2',
-    courseTitle: 'AI Safety Fundamentals: AI Governance',
+    courseTitle: 'AI Governance',
     courseSlug: 'governance',
     applyUrl: 'https://web.miniextensions.com/test-gov',
     intensity: 'part-time',
@@ -94,7 +94,7 @@ const mockPartTimeRounds: Round[] = [
   {
     id: 'round-6',
     courseId: 'course-4',
-    courseTitle: 'Biosecurity Fundamentals',
+    courseTitle: 'Biosecurity',
     courseSlug: 'biosecurity',
     applyUrl: 'https://web.miniextensions.com/test-bio',
     intensity: 'part-time',
