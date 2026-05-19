@@ -35,6 +35,23 @@ describe('SidebarCertificatePanel', () => {
     'not-authenticated',
     'not-enrolled',
     'not-eligible',
+  ] as const)('renders the join-cohort CTA when status is %s and upcoming rounds exist', (status) => {
+    render(<SidebarCertificatePanel
+      courseTitle="AGI Strategy"
+      courseSlug="agi-strategy"
+      certificateData={{ status, hasUpcomingRounds: true }}
+    />);
+
+    const link = screen.getByRole('link', {
+      name: /AGI Strategy Certificate Join a facilitated cohort today/i,
+    });
+    expect(link).toHaveAttribute('href', '/courses/agi-strategy/congratulations');
+  });
+
+  test.each([
+    'not-authenticated',
+    'not-enrolled',
+    'not-eligible',
   ] as const)('renders nothing when status is %s and no upcoming rounds exist', (status) => {
     const { container } = render(<SidebarCertificatePanel
       courseTitle="AGI Strategy"

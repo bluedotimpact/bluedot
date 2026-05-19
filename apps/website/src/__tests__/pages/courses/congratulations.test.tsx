@@ -136,9 +136,13 @@ describe('CongratulationsPage', () => {
     });
   });
 
-  test('does not redirect non-FOAI learner who is not authenticated when upcoming rounds exist', async () => {
+  test.each([
+    'not-authenticated',
+    'not-enrolled',
+    'not-eligible',
+  ] as const)('does not redirect non-FOAI learner with status %s when upcoming rounds exist', async (status) => {
     server.use(trpcMsw.certificates.getStatus.query(() => ({
-      status: 'not-authenticated' as const,
+      status,
       hasUpcomingRounds: true,
     })));
 
