@@ -118,6 +118,70 @@ export function calculateGroupAvailability({
   };
 }
 
+function getAllowedGroupsForParticipant({
+  allGroups,
+  participantId,
+  participantHumanOpinion,
+}: {
+  allGroups: Group[];
+  participantId: string;
+  participantHumanOpinion: string | null;
+}): Group[] {
+  const opinion = participantHumanOpinion && (VALID_HUMAN_OPINIONS as readonly string[]).includes(participantHumanOpinion)
+    ? participantHumanOpinion
+    : 'Neutral';
+  return allGroups.filter((group) => (
+    (group.participants ?? []).includes(participantId)
+    || (group.whoCanSwitchIntoThisGroup ?? []).includes(opinion)
+  ));
+}
+
+function calculateRescheduleEligibleUnits(discussionsAvailable: DiscussionsByUnit): Set<string> {
+  const eligible = new Set<string>();
+  for (const [unitKey, list] of Object.entries(discussionsAvailable)) {
+    if (list.some((d) => !d.userIsParticipant)) {
+      eligible.add(unitKey);
+    }
+  }
+
+  return eligible;
+}
+
+/**
+ * Source of truth for the participant-facing "what can I switch into?" answer.
+ */
+export function getAvailableGroupsAndDiscussions({
+  allGroupsInRound,
+  allGroupDiscussionsInRound,
+  participantId,
+  participantHumanOpinion,
+  maxParticipants,
+}: {
+  allGroupsInRound: Group[];
+  allGroupDiscussionsInRound: GroupDiscussion[];
+  participantId: string;
+  participantHumanOpinion: string | null;
+  maxParticipants: number | null | undefined;
+}) {
+  const allowedGroups = getAllowedGroupsForParticipant({ allGroups: allGroupsInRound, participantId, participantHumanOpinion });
+  const allowedGroupIds = new Set(allowedGroups.map((g) => g.id));
+  const allowedDiscussions = allGroupDiscussionsInRound.filter((d) => allowedGroupIds.has(d.group));
+
+  const { groupsAvailable, discussionsAvailable } = calculateGroupAvailability({
+    groupDiscussions: allowedDiscussions,
+    groups: allowedGroups,
+    maxParticipants,
+    participantId,
+  });
+
+  return {
+    allowedGroups,
+    groupsAvailable,
+    discussionsAvailable,
+    rescheduleEligibleUnits: [...calculateRescheduleEligibleUnits(discussionsAvailable)],
+  };
+}
+
 export const groupSwitchingRouter = router({
   discussionsAvailable: protectedProcedure
     .input(z.object({ roundId: z.string() }))
@@ -132,58 +196,28 @@ export const groupSwitchingRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: 'No course round found' });
       }
 
-      /**
-       * Get groups the user is allowed to switch to:
-       * 1. Get all the groups in this round of the course.
-       * 2. Match the participant's humanOpinion against each group's whoCanSwitchIntoThisGroup.
-       * 3. Always include groups the participant is already in.
-       */
-      const getGroupsAllowedToSwitchInto = async () => {
-        const allGroups = await db.scan(groupTable, { round: roundId });
-        const participantGroupIds = allGroups.filter((g) => (g.participants ?? []).includes(participant.id)).map((g) => g.id);
+      const [allGroupsInRound, allGroupDiscussionsInRound] = await Promise.all([
+        db.scan(groupTable, { round: roundId }),
+        db.scan(groupDiscussionTable, { round: roundId }),
+      ]);
 
-        // Explicitly allow groups the user is already in
-        const allowedGroupIds = new Set<string>(participantGroupIds);
+      const result = getAvailableGroupsAndDiscussions({
+        allGroupsInRound,
+        allGroupDiscussionsInRound,
+        participantId: participant.id,
+        participantHumanOpinion: participant.humanOpinion ?? null,
+        maxParticipants: courseRound.maxParticipantsPerGroup,
+      });
 
-        const opinion = participant.humanOpinion && (VALID_HUMAN_OPINIONS as readonly string[]).includes(participant.humanOpinion)
-          ? participant.humanOpinion
-          : 'Neutral';
-
-        for (const group of allGroups) {
-          if ((group.whoCanSwitchIntoThisGroup ?? []).includes(opinion)) {
-            allowedGroupIds.add(group.id);
-          }
-        }
-
-        return allGroups.filter((group) => allowedGroupIds.has(group.id));
-      };
-
-      const allowedGroups = await getGroupsAllowedToSwitchInto();
-
-      if (allowedGroups.filter((g) => !(g.participants ?? []).includes(participant.id)).length === 0) {
+      if (result.allowedGroups.filter((g) => !(g.participants ?? []).includes(participant.id)).length === 0) {
         // eslint-disable-next-line no-console
         console.warn(`[Group switching] Warning for course registration ${participant.id}: No groups allowed to switch into. This is likely due to the "Who can switch into this group" field not including the participant's Human opinion value.`);
       }
 
-      const allowedGroupDiscussions = allowedGroups.length ? await db.scan(groupDiscussionTable, {
-        OR: allowedGroups.map((g) => ({ group: g.id })),
-      }) : [];
-
-      const maxParticipants = courseRound.maxParticipantsPerGroup;
-
-      const {
-        discussionsAvailable,
-        groupsAvailable,
-      } = calculateGroupAvailability({
-        groupDiscussions: allowedGroupDiscussions,
-        groups: allowedGroups,
-        maxParticipants,
-        participantId: participant.id,
-      });
-
       return {
-        groupsAvailable,
-        discussionsAvailable,
+        groupsAvailable: result.groupsAvailable,
+        discussionsAvailable: result.discussionsAvailable,
+        rescheduleEligibleUnits: result.rescheduleEligibleUnits,
       };
     }),
 

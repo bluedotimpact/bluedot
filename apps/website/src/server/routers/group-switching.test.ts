@@ -15,7 +15,7 @@ import { createMockGroup, createMockGroupDiscussion } from '../../__tests__/test
 import {
   setupTestDb, createCaller, testAuthContextLoggedIn, testDb,
 } from '../../__tests__/dbTestUtils';
-import { calculateGroupAvailability } from './group-switching';
+import { calculateGroupAvailability, getAvailableGroupsAndDiscussions } from './group-switching';
 import { ONE_DAY_SECONDS } from '../../lib/constants';
 
 setupTestDb();
@@ -310,6 +310,80 @@ describe('calculateGroupAvailability', () => {
     // Should calculate based on 2 other participants: 5 - 2 = 3
     expect(result.groupsAvailable[0]?.spotsLeftIfKnown).toBe(3);
     expect(result.discussionsAvailable[String(discussions[0]!.unitNumber)]?.[0]?.spotsLeftIfKnown).toBe(3);
+  });
+});
+
+describe('getAvailableGroupsAndDiscussions', () => {
+  const futureSec = Math.floor(Date.now() / 1000) + ONE_DAY_SECONDS;
+  const participantId = 'participant-1';
+
+  test('filters groups, discussions, and reschedule-eligible units to humanOpinion-allowed groups', () => {
+    const ownGroup = createMockGroup({ id: 'g-own', participants: [participantId], whoCanSwitchIntoThisGroup: [] });
+    const allowedGroup = createMockGroup({ id: 'g-allowed', participants: [], whoCanSwitchIntoThisGroup: ['Strong yes'] });
+    const blockedGroup = createMockGroup({ id: 'g-blocked', participants: [], whoCanSwitchIntoThisGroup: ['Weak yes'] });
+
+    const discussions = [
+      createMockGroupDiscussion({
+        id: 'd-own', group: 'g-own', unitNumber: 1, participantsExpected: [participantId], startDateTime: futureSec, endDateTime: futureSec + 60,
+      }),
+      createMockGroupDiscussion({
+        id: 'd-allowed', group: 'g-allowed', unitNumber: 1, participantsExpected: [], startDateTime: futureSec, endDateTime: futureSec + 60,
+      }),
+      // Blocked group's discussion — should not appear anywhere in the output.
+      createMockGroupDiscussion({
+        id: 'd-blocked', group: 'g-blocked', unitNumber: 2, participantsExpected: [], startDateTime: futureSec, endDateTime: futureSec + 60,
+      }),
+    ];
+
+    const result = getAvailableGroupsAndDiscussions({
+      allGroupsInRound: [ownGroup, allowedGroup, blockedGroup],
+      allGroupDiscussionsInRound: discussions,
+      participantId,
+      participantHumanOpinion: 'Strong yes',
+      maxParticipants: 5,
+    });
+
+    expect(result.groupsAvailable.map((g) => g.group.id).sort()).toEqual(['g-allowed', 'g-own']);
+    expect(result.discussionsAvailable['1']?.map((d) => d.discussion.id).sort()).toEqual(['d-allowed', 'd-own']);
+    expect(result.discussionsAvailable['2']).toBeUndefined();
+    expect(result.rescheduleEligibleUnits).toEqual(['1']);
+  });
+
+  test('always includes the user\'s own group even when humanOpinion does not match', () => {
+    // User is a participant in g-own, but the group's whoCanSwitchIntoThisGroup excludes Strong yes.
+    // The own-group participation should win — the user must still be able to see their own group.
+    const ownGroup = createMockGroup({ id: 'g-own', participants: [participantId], whoCanSwitchIntoThisGroup: ['Weak yes'] });
+
+    const result = getAvailableGroupsAndDiscussions({
+      allGroupsInRound: [ownGroup],
+      allGroupDiscussionsInRound: [
+        createMockGroupDiscussion({
+          id: 'd-own', group: 'g-own', unitNumber: 1, participantsExpected: [participantId], startDateTime: futureSec, endDateTime: futureSec + 60,
+        }),
+      ],
+      participantId,
+      participantHumanOpinion: 'Strong yes',
+      maxParticipants: 5,
+    });
+
+    expect(result.allowedGroups.map((g) => g.id)).toEqual(['g-own']);
+    expect(result.groupsAvailable.map((g) => g.group.id)).toEqual(['g-own']);
+  });
+
+  test.each([null, 'TODO', 'Strong no'])('falls back to \'Neutral\' when humanOpinion is %j', (humanOpinion) => {
+    // Group requires Neutral; participant has null/invalid opinion. Should still match.
+    const neutralGroup = createMockGroup({ id: 'g-neutral', participants: [], whoCanSwitchIntoThisGroup: ['Neutral'] });
+    const strongYesGroup = createMockGroup({ id: 'g-strong', participants: [], whoCanSwitchIntoThisGroup: ['Strong yes'] });
+
+    const result = getAvailableGroupsAndDiscussions({
+      allGroupsInRound: [neutralGroup, strongYesGroup],
+      allGroupDiscussionsInRound: [],
+      participantId,
+      participantHumanOpinion: humanOpinion,
+      maxParticipants: 5,
+    });
+
+    expect(result.allowedGroups.map((g) => g.id)).toEqual(['g-neutral']);
   });
 });
 
@@ -726,6 +800,105 @@ describe('groupSwitching.discussionsAvailable', () => {
     const result = await caller.groupSwitching.discussionsAvailable({ roundId: 'round-1' });
 
     expect(result.groupsAvailable[0]!.spotsLeftIfKnown).toBeNull();
+  });
+
+  test('returns rescheduleEligibleUnits for units with a non-self future discussion', async () => {
+    await seedCourseWithGroups();
+
+    // Unit 2: only the user's own group has a discussion (no alternative to switch into).
+    await testDb.insert(groupDiscussionTable, {
+      id: 'disc-a2',
+      group: 'group-a',
+      round: 'round-1',
+      unitNumber: 2,
+      unit: 'unit-2',
+      startDateTime: futureTimeSecs,
+      endDateTime: farFutureTimeSecs,
+      facilitators: ['facilitator-1'],
+      participantsExpected: ['participant-1', 'other-participant'],
+    });
+
+    const result = await caller.groupSwitching.discussionsAvailable({ roundId: 'round-1' });
+
+    // Unit 1 has Group B as an alternative → eligible.
+    // Unit 2 only has the user's own discussion → not eligible.
+    expect(result.rescheduleEligibleUnits).toEqual(['1']);
+  });
+
+  test('excludes units whose only alternative is in a humanOpinion-blocked group', async () => {
+    await testDb.insert(courseTable, {
+      id: 'course-1',
+      slug: 'test-course',
+      title: 'Test',
+      shortDescription: 'Test',
+      units: [],
+    });
+
+    await testDb.insert(roundTable, {
+      id: 'round-1',
+      title: 'Round 1',
+      course: 'course-1',
+      maxParticipantsPerGroup: 5,
+    });
+
+    await testDb.insert(courseRegistrationTable, {
+      id: 'reg-1',
+      email: 'test@example.com',
+      courseId: 'course-1',
+      decision: 'Accept',
+    });
+
+    await testDb.insert(meetPersonTable, {
+      id: 'participant-1',
+      email: 'test@example.com',
+      applicationsBaseRecordId: 'reg-1',
+      round: 'round-1',
+      role: 'Participant',
+      humanOpinion: 'Strong yes',
+    });
+
+    // User's own group + an alternative gated to a different opinion.
+    await testDb.insert(groupTable, {
+      id: 'my-group',
+      groupName: 'My Group',
+      round: 'round-1',
+      participants: ['participant-1'],
+      whoCanSwitchIntoThisGroup: ['Strong yes'],
+    });
+
+    await testDb.insert(groupTable, {
+      id: 'blocked-group',
+      groupName: 'Blocked Group',
+      round: 'round-1',
+      participants: ['someone-else'],
+      whoCanSwitchIntoThisGroup: ['Weak yes'],
+    });
+
+    await testDb.insert(groupDiscussionTable, {
+      group: 'my-group',
+      round: 'round-1',
+      unitNumber: 1,
+      unit: 'unit-1',
+      startDateTime: futureTimeSecs,
+      endDateTime: farFutureTimeSecs,
+      facilitators: ['fac-1'],
+      participantsExpected: ['participant-1'],
+    });
+
+    await testDb.insert(groupDiscussionTable, {
+      group: 'blocked-group',
+      round: 'round-1',
+      unitNumber: 1,
+      unit: 'unit-1',
+      startDateTime: futureTimeSecs,
+      endDateTime: farFutureTimeSecs,
+      facilitators: ['fac-2'],
+      participantsExpected: ['someone-else'],
+    });
+
+    const result = await caller.groupSwitching.discussionsAvailable({ roundId: 'round-1' });
+
+    expect(result.rescheduleEligibleUnits).toEqual([]);
   });
 });
 

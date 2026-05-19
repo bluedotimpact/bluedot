@@ -121,6 +121,7 @@ const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
       },
     ],
   },
+  rescheduleEligibleUnits: ['1'],
 };
 
 describe('GroupSwitchModal', () => {
@@ -443,6 +444,7 @@ describe('GroupSwitchModal', () => {
           ],
           2: [], // Unit 2 has no upcoming discussions
         },
+        rescheduleEligibleUnits: ['1'],
       };
 
       // Override mock for this test
@@ -894,6 +896,7 @@ describe('GroupSwitchModal', () => {
           })),
         ],
       },
+      rescheduleEligibleUnits: ['1'],
     };
 
     test('shows first 3 options collapsed, then expands on click', async () => {

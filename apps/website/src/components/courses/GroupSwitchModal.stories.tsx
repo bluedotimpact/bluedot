@@ -112,6 +112,7 @@ const mockAvailableGroupsAndDiscussions: DiscussionsAvailable = {
       },
     ],
   },
+  rescheduleEligibleUnits: ['1', '2'],
 };
 
 const manyGroupNames = [
@@ -163,6 +164,7 @@ const mockManyGroupsData: DiscussionsAvailable = {
       })),
     ],
   },
+  rescheduleEligibleUnits: ['1'],
 };
 
 const meta = {
