@@ -99,9 +99,13 @@ export const SidebarCertificatePanel = ({
   }
 
   // Unenrolled/unauthenticated users with no upcoming rounds: render nothing rather than
-  // surface a "join a cohort" CTA that leads nowhere.
+  // surface a "join a cohort" CTA that leads nowhere. Discriminate on `certificateData.status`
+  // directly so TypeScript narrows the object to the variants that carry `hasUpcomingRounds`;
+  // the aliased `status` from `certificateData?.status` breaks that narrowing.
   if (
-    (status === 'not-authenticated' || status === 'not-enrolled' || status === 'not-eligible')
+    (certificateData.status === 'not-authenticated'
+      || certificateData.status === 'not-enrolled'
+      || certificateData.status === 'not-eligible')
     && !certificateData.hasUpcomingRounds
   ) {
     return null;
