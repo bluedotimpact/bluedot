@@ -953,11 +953,11 @@ export const careerTransitionGrantTable = pgAirtable('career_transition_grant', 
   columns: {
     firstName: {
       pgColumn: text(),
-      airtableId: 'flduZeVfCBVWhq0YM',
+      airtableId: 'fldWQsNeLnniYRtBC',
     },
     lastName: {
       pgColumn: text(),
-      airtableId: 'fldKQXPr9ZiQq9DVT',
+      airtableId: 'fld3NWPmPAUoh9ck2',
     },
     // Formula field that outputs a permanent (miniextension-hosted) URL for the Photo attachment.
     // Concatenates up to 5 URLs space-separated; consumers should take the first.
@@ -975,22 +975,22 @@ export const careerTransitionGrantTable = pgAirtable('career_transition_grant', 
     },
     profileUrl: {
       pgColumn: text(),
-      airtableId: 'fld2h9ghKvg79nayH',
+      airtableId: 'fldES5kHoR5kvuWKP',
     },
   },
 });
-/** Operational table. Only amount + status synced; grantee identifying info stays in Airtable. */
+/** Operational table. Synced view restricted to Approved + Agreement signed in Airtable; sum all records here for the granted-amount total. */
 export const careerTransitionGrantApplicationTable = pgAirtable('career_transition_grant_application', {
   baseId: CONTRACTOR_PAYMENTS_BASE_ID,
-  tableId: 'tblTBVFKyJNlvhfA6',
+  tableId: 'tblYkZrxApKMUe7uf',
   columns: {
     grantAmountUsd: {
       pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldkLVS7boXaC3sJT',
+      airtableId: 'fldFbvMJpX3r9eipG',
     },
     evaluationStatus: {
       pgColumn: text(),
-      airtableId: 'fldL3RXC6Yuwyng78',
+      airtableId: 'fld56iuBZpW1hZI6N',
     },
   },
 });
