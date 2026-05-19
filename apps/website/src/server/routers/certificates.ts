@@ -15,6 +15,7 @@ import env from '../../lib/api/env';
 import { FOAI_COURSE_ID, ONE_DAY_MS } from '../../lib/constants';
 import { protectedProcedure, publicProcedure, router } from '../trpc';
 import type { AppRouter } from './_app';
+import { hasUpcomingRoundsForCourseId } from './course-rounds';
 
 async function areAllFoaiExercisesComplete(email: string): Promise<boolean> {
   const allExercises = await db.scan(exerciseTable, { courseId: FOAI_COURSE_ID, status: 'Active' });
@@ -134,7 +135,8 @@ export const certificatesRouter = router({
 
   getStatus: publicProcedure.input(z.object({ courseId: z.string() })).query(async ({ ctx, input: { courseId } }) => {
     if (!ctx.auth) {
-      return { status: 'not-authenticated' } as const;
+      const hasUpcomingRounds = await hasUpcomingRoundsForCourseId(courseId);
+      return { status: 'not-authenticated', hasUpcomingRounds } as const;
     }
 
     const courseRegistration = await db.getFirst(courseRegistrationTable, {
@@ -142,7 +144,8 @@ export const certificatesRouter = router({
     });
 
     if (!courseRegistration) {
-      return { status: 'not-enrolled' } as const;
+      const hasUpcomingRounds = await hasUpcomingRoundsForCourseId(courseId);
+      return { status: 'not-enrolled', hasUpcomingRounds } as const;
     }
 
     if (courseRegistration.certificateId) {
@@ -164,7 +167,8 @@ export const certificatesRouter = router({
     });
 
     if (!meetPerson) {
-      return { status: 'not-eligible' } as const;
+      const hasUpcomingRounds = await hasUpcomingRoundsForCourseId(courseId);
+      return { status: 'not-eligible', hasUpcomingRounds } as const;
     }
 
     if (meetPerson.role === 'Participant') {
@@ -204,6 +208,7 @@ export const certificatesRouter = router({
       return { status: 'is-facilitator' } as const;
     }
 
-    return { status: 'not-eligible' } as const;
+    const hasUpcomingRounds = await hasUpcomingRoundsForCourseId(courseId);
+    return { status: 'not-eligible', hasUpcomingRounds } as const;
   }),
 });
