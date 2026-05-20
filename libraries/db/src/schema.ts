@@ -988,9 +988,12 @@ export const careerTransitionGrantApplicationTable = pgAirtable('career_transiti
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldFbvMJpX3r9eipG',
     },
+  },
+  deprecatedColumns: {
     evaluationStatus: {
       pgColumn: text(),
       airtableId: 'fld56iuBZpW1hZI6N',
+      deprecated: true,
     },
   },
 });
