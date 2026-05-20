@@ -1,5 +1,6 @@
 import type { CareerTransitionGrant, RapidGrant } from '@bluedot/db';
 import {
+  careerTransitionGrantApplicationTable,
   careerTransitionGrantTable,
   rapidGrantApplicationTable,
   rapidGrantTable,
@@ -10,6 +11,10 @@ import { publicProcedure, router } from '../trpc';
 export type GrantStats = {
   count: number;
   totalAmountUsd: number;
+};
+
+export type CareerTransitionGrantStats = GrantStats & {
+  averageDaysToDecision: number | null;
 };
 
 export type PublicRapidGrant = {
@@ -144,11 +149,19 @@ export const grantsRouter = router({
     };
   }),
 
-  // Stopgap: pg-sync left orphaned rows in `career_transition_grant_application` after
-  // the source-table swap, so reading from the table currently double-counts CTGs.
-  // Hardcoding the public-facing stat until the orphaned rows are cleaned up. Update
-  // when new CTGs are awarded; see https://github.com/bluedotimpact/bluedot/pull/2512.
-  getCareerTransitionGrantStats: publicProcedure.query((): GrantStats => {
-    return { count: 10, totalAmountUsd: 591000 };
+  // Master CTG table carries every status — count + funding-awarded filter to granted
+  // statuses, avg-days-to-decision averages all decided rows (rows where the
+  // [*] Time to decision (days) formula yielded a positive integer).
+  getCareerTransitionGrantStats: publicProcedure.query(async (): Promise<CareerTransitionGrantStats> => {
+    const all = await db.scan(careerTransitionGrantApplicationTable);
+    const granted = all.filter((g) => g.status === 'Approved' || g.status === 'Agreement signed');
+    const decided = all.filter((g) => (g.timeToDecisionDays ?? 0) > 0);
+    return {
+      count: granted.length,
+      totalAmountUsd: granted.reduce((sum, g) => sum + (g.grantAmountUsd ?? 0), 0),
+      averageDaysToDecision: decided.length
+        ? Math.round(decided.reduce((sum, g) => sum + (g.timeToDecisionDays ?? 0), 0) / decided.length)
+        : null,
+    };
   }),
 });

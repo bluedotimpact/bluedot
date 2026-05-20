@@ -72,7 +72,7 @@ beforeEach(() => {
   server.use(
     trpcMsw.programs.getAll.query(() => mockPrograms),
     trpcMsw.grants.getRapidGrantStats.query(() => ({ count: 104, totalAmountUsd: 105000 })),
-    trpcMsw.grants.getCareerTransitionGrantStats.query(() => ({ count: 1, totalAmountUsd: 67500 })),
+    trpcMsw.grants.getCareerTransitionGrantStats.query(() => ({ count: 1, totalAmountUsd: 67500, averageDaysToDecision: null })),
   );
 });
 

@@ -71,7 +71,7 @@ describe('MergedLadder', () => {
       trpcMsw.courses.getAll.query(() => mockCourses),
       trpcMsw.programs.getAll.query(() => mockPrograms),
       trpcMsw.grants.getRapidGrantStats.query(() => ({ totalAmountUsd: 0, count: 0 })),
-      trpcMsw.grants.getCareerTransitionGrantStats.query(() => ({ totalAmountUsd: 0, count: 0 })),
+      trpcMsw.grants.getCareerTransitionGrantStats.query(() => ({ totalAmountUsd: 0, count: 0, averageDaysToDecision: null })),
     );
   });
 

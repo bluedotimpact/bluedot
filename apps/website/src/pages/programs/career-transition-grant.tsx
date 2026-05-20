@@ -24,6 +24,7 @@ const CareerTransitionGrantPage = ({ programName, programDescription }: ProgramD
   const { data: stats } = trpc.grants.getCareerTransitionGrantStats.useQuery();
   const grantsMadeLabel = stats ? String(stats.count) : '—';
   const fundingAwardedLabel = stats ? formatAmountUsd(stats.totalAmountUsd) : '—';
+  const avgDaysToDecisionLabel = stats?.averageDaysToDecision != null ? `~${stats.averageDaysToDecision}` : '—';
 
   return (
     <div>
@@ -47,6 +48,7 @@ const CareerTransitionGrantPage = ({ programName, programDescription }: ProgramD
         stats={[
           { label: 'Grants made', value: grantsMadeLabel },
           { label: 'Funding awarded', value: fundingAwardedLabel },
+          { label: 'Avg days to decision', value: avgDaysToDecisionLabel },
         ]}
       />
       <WhatThisIsForSection />
