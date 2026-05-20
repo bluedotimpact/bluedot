@@ -1,6 +1,5 @@
 import type { CareerTransitionGrant, RapidGrant } from '@bluedot/db';
 import {
-  careerTransitionGrantApplicationTable,
   careerTransitionGrantTable,
   rapidGrantApplicationTable,
   rapidGrantTable,
@@ -145,13 +144,11 @@ export const grantsRouter = router({
     };
   }),
 
-  // The Airtable source view is pre-filtered to Approved + Agreement signed,
-  // so every row here counts toward the public grant total.
-  getCareerTransitionGrantStats: publicProcedure.query(async (): Promise<GrantStats> => {
-    const all = await db.scan(careerTransitionGrantApplicationTable);
-    return {
-      count: all.length,
-      totalAmountUsd: all.reduce((sum, g) => sum + (g.grantAmountUsd ?? 0), 0),
-    };
+  // Stopgap: pg-sync left orphaned rows in `career_transition_grant_application` after
+  // the source-table swap, so reading from the table currently double-counts CTGs.
+  // Hardcoding the public-facing stat until the orphaned rows are cleaned up. Update
+  // when new CTGs are awarded; see https://github.com/bluedotimpact/bluedot/pull/2512.
+  getCareerTransitionGrantStats: publicProcedure.query((): GrantStats => {
+    return { count: 10, totalAmountUsd: 591000 };
   }),
 });
