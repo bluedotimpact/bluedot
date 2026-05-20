@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { rapidGrantTable } from '@bluedot/db';
+import { careerTransitionGrantApplicationTable, rapidGrantTable } from '@bluedot/db';
 import { createCaller, setupTestDb, testDb } from '../../__tests__/dbTestUtils';
 
 setupTestDb();
@@ -127,13 +127,37 @@ describe('grants.getAllPublicRapidGrantees', () => {
 });
 
 describe('grants.getCareerTransitionGrantStats', () => {
-  // Hardcoded stopgap until the orphaned pg-sync rows are cleaned up. When the
-  // function reads from the table again, restore the data-driven tests from
-  // grants.test.ts in the PR #2512 history.
-  test('returns the hardcoded stopgap stats', async () => {
+  test('counts and sums only Approved + Agreement signed; averages all decided rows', async () => {
+    // Granted (Approved + Agreement signed) — counted in count + totalAmountUsd.
+    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 80000, status: 'Agreement signed', timeToDecisionDays: 10 });
+    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 60000, status: 'Approved', timeToDecisionDays: 20 });
+    // Rejected — excluded from count/total, but its decision time still feeds avg.
+    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 0, status: 'Rejected', timeToDecisionDays: 6 });
+    // Not yet decided (timeToDecisionDays = 0 or null) — excluded from avg.
+    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: null, status: 'TODO', timeToDecisionDays: 0 });
+    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: null, status: 'TODO', timeToDecisionDays: null });
+
     const caller = createCaller();
     const result = await caller.grants.getCareerTransitionGrantStats();
 
-    expect(result).toEqual({ count: 10, totalAmountUsd: 591000 });
+    // avg over [10, 20, 6] = 12
+    expect(result).toEqual({ count: 2, totalAmountUsd: 140000, averageDaysToDecision: 12 });
+  });
+
+  test('returns null avg when no rows have a positive decision time', async () => {
+    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 50000, status: 'Agreement signed', timeToDecisionDays: 0 });
+    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: null, status: 'TODO', timeToDecisionDays: null });
+
+    const caller = createCaller();
+    const result = await caller.grants.getCareerTransitionGrantStats();
+
+    expect(result).toEqual({ count: 1, totalAmountUsd: 50000, averageDaysToDecision: null });
+  });
+
+  test('returns zeros and null when the table is empty', async () => {
+    const caller = createCaller();
+    const result = await caller.grants.getCareerTransitionGrantStats();
+
+    expect(result).toEqual({ count: 0, totalAmountUsd: 0, averageDaysToDecision: null });
   });
 });
