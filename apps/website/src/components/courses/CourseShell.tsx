@@ -182,7 +182,7 @@ const CourseShell: React.FC<CourseShellProps> = ({
         const targetUnit = units.find((u) => Number(u.unitNumber) === targetUnitNumber);
         if (targetUnit) {
           event.preventDefault();
-          router.push(targetUnit.path);
+          router.push(`/courses/${targetUnit.courseSlug}/${targetUnit.unitNumber}`);
           onNavigate?.(`Navigated to Unit ${targetUnitNumber}: ${targetUnit.title}`);
         }
 

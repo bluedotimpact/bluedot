@@ -21,7 +21,7 @@ export const CourseUnitsSection = ({ units }: { units: Unit[] }) => {
                 description={unit.description || undefined}
                 title={unit.title}
                 unitNumber={unit.unitNumber}
-                url={unit.path}
+                url={`/courses/${unit.courseSlug}/${unit.unitNumber}`}
               />
             </div>
           ))}
