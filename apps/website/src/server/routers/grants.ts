@@ -145,12 +145,13 @@ export const grantsRouter = router({
     };
   }),
 
+  // The Airtable source view is pre-filtered to Approved + Agreement signed,
+  // so every row here counts toward the public grant total.
   getCareerTransitionGrantStats: publicProcedure.query(async (): Promise<GrantStats> => {
     const all = await db.scan(careerTransitionGrantApplicationTable);
-    const signed = all.filter((g) => g.evaluationStatus === 'Agreement signed');
     return {
-      count: signed.length,
-      totalAmountUsd: signed.reduce((sum, g) => sum + (g.grantAmountUsd ?? 0), 0),
+      count: all.length,
+      totalAmountUsd: all.reduce((sum, g) => sum + (g.grantAmountUsd ?? 0), 0),
     };
   }),
 });

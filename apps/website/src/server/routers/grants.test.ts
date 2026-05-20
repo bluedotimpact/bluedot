@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { rapidGrantTable } from '@bluedot/db';
+import { careerTransitionGrantApplicationTable, rapidGrantTable } from '@bluedot/db';
 import { createCaller, setupTestDb, testDb } from '../../__tests__/dbTestUtils';
 
 setupTestDb();
@@ -123,5 +123,28 @@ describe('grants.getAllPublicRapidGrantees', () => {
         monthLabel: undefined,
       },
     ]);
+  });
+});
+
+describe('grants.getCareerTransitionGrantStats', () => {
+  test('counts and sums every row from the synced application table without filtering by status', async () => {
+    // Source Airtable view is pre-filtered to Approved + Agreement signed,
+    // so the website should trust the sync and not filter again here.
+    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 80000 });
+    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 60000 });
+    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 35000 });
+    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: null });
+
+    const caller = createCaller();
+    const result = await caller.grants.getCareerTransitionGrantStats();
+
+    expect(result).toEqual({ count: 4, totalAmountUsd: 175000 });
+  });
+
+  test('returns zero when the table is empty', async () => {
+    const caller = createCaller();
+    const result = await caller.grants.getCareerTransitionGrantStats();
+
+    expect(result).toEqual({ count: 0, totalAmountUsd: 0 });
   });
 });
