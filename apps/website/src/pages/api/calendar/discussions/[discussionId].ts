@@ -88,8 +88,8 @@ export default makeApiRoute({
     : null;
 
   const siteOrigin = getSiteOrigin(req.headers.host, req.headers['x-forwarded-proto']);
-  const coursePath = unit?.path
-    ? new URL(unit.path, siteOrigin).toString()
+  const coursePath = unit
+    ? new URL(`/courses/${unit.courseSlug}/${unit.unitNumber}`, siteOrigin).toString()
     : null;
 
   const { filename, content } = createDiscussionCalendarIcs({
