@@ -986,11 +986,11 @@ export const careerTransitionGrantApplicationTable = pgAirtable('career_transiti
   columns: {
     grantAmountUsd: {
       pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldkLVS7boXaC3sJT',
+      airtableId: 'fldYhy8btQ5r8vRk0',
     },
     status: {
       pgColumn: text(),
-      airtableId: 'fldL3RXC6Yuwyng78',
+      airtableId: 'fldnfK6Wgb1CAuvFE',
     },
     timeToDecisionDays: {
       pgColumn: numeric({ mode: 'number' }),
