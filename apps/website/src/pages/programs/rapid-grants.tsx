@@ -19,7 +19,7 @@ import {
 
 const PROGRAM_SLUG = 'rapid-grants';
 const FALLBACK_NAME = 'Rapid Grants';
-const FALLBACK_DESCRIPTION = 'Funding for the BlueDot community to ship projects, run events, and do other concrete work on AI safety.';
+const FALLBACK_DESCRIPTION = 'Funding for the BlueDot community to ship projects, run events, and do other concrete work on AI safety and biosecurity.';
 
 const RapidGrantsPage = ({ programName, programDescription }: ProgramDetailPageProps) => {
   const { data: stats } = trpc.grants.getRapidGrantStats.useQuery();
