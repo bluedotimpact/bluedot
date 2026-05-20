@@ -13,9 +13,9 @@ const EXPECTATIONS = [
     body: 'Short async updates to your BlueDot point of contact on what you did, who you talked to, what you learned, and how your thinking is evolving.',
   },
   {
-    cadence: 'Quarterly',
+    cadence: 'Monthly',
     title: 'Check-in',
-    body: 'Every three months, a more structured conversation to review progress and discuss what support you need.',
+    body: 'Every month, a more structured conversation to review progress and discuss what support you need.',
   },
   {
     cadence: 'At the end',
