@@ -998,7 +998,7 @@ export const careerTransitionGrantApplicationTable = pgAirtable('career_transiti
     },
   },
 });
-/** Operational table. Only amount + decision + createdAt synced; applicant identifying info stays in Airtable. */
+/** Operational table. Only amount + decision + createdAt + decidedAt synced; applicant identifying info stays in Airtable. */
 export const rapidGrantApplicationTable = pgAirtable('rapid_grant_application', {
   baseId: CONTRACTOR_PAYMENTS_BASE_ID,
   tableId: 'tblS9NHgtwl7YaHiZ',
