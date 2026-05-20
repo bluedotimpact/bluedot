@@ -980,7 +980,7 @@ export const careerTransitionGrantTable = pgAirtable('career_transition_grant', 
   },
 });
 /** Master CTG applications table. All statuses present — code filters by status for the granted-amount total, and uses timeToDecisionDays for the avg-days-to-decision stat. */
-export const careerTransitionGrantApplicationTable = pgAirtable('career_transition_grant_application_v2', {
+export const careerTransitionGrantApplicationTable = pgAirtable('career_transition_grant_application', {
   baseId: APPLICATIONS_BASE_ID,
   tableId: 'tblh5zr4jRdrndKnC',
   columns: {
