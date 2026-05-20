@@ -18,7 +18,7 @@ import {
 
 const PROGRAM_SLUG = 'career-transition-grant';
 const FALLBACK_NAME = 'Career Transition Grants';
-const FALLBACK_DESCRIPTION = 'Funding and support to help you work full-time on AI safety.';
+const FALLBACK_DESCRIPTION = 'Funding and support to help you go full-time on AI safety and biosecurity.';
 
 const CareerTransitionGrantPage = ({ programName, programDescription }: ProgramDetailPageProps) => {
   const { data: stats } = trpc.grants.getCareerTransitionGrantStats.useQuery();
