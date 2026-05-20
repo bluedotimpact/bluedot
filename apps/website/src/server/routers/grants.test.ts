@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { careerTransitionGrantApplicationTable, rapidGrantTable } from '@bluedot/db';
+import { rapidGrantTable } from '@bluedot/db';
 import { createCaller, setupTestDb, testDb } from '../../__tests__/dbTestUtils';
 
 setupTestDb();
@@ -127,24 +127,13 @@ describe('grants.getAllPublicRapidGrantees', () => {
 });
 
 describe('grants.getCareerTransitionGrantStats', () => {
-  test('counts and sums every row from the synced application table without filtering by status', async () => {
-    // Source Airtable view is pre-filtered to Approved + Agreement signed,
-    // so the website should trust the sync and not filter again here.
-    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 80000 });
-    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 60000 });
-    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: 35000 });
-    await testDb.insert(careerTransitionGrantApplicationTable, { grantAmountUsd: null });
-
+  // Hardcoded stopgap until the orphaned pg-sync rows are cleaned up. When the
+  // function reads from the table again, restore the data-driven tests from
+  // grants.test.ts in the PR #2512 history.
+  test('returns the hardcoded stopgap stats', async () => {
     const caller = createCaller();
     const result = await caller.grants.getCareerTransitionGrantStats();
 
-    expect(result).toEqual({ count: 4, totalAmountUsd: 175000 });
-  });
-
-  test('returns zero when the table is empty', async () => {
-    const caller = createCaller();
-    const result = await caller.grants.getCareerTransitionGrantStats();
-
-    expect(result).toEqual({ count: 0, totalAmountUsd: 0 });
+    expect(result).toEqual({ count: 10, totalAmountUsd: 591000 });
   });
 });
