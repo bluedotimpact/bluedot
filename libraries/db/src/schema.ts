@@ -1015,6 +1015,10 @@ export const rapidGrantApplicationTable = pgAirtable('rapid_grant_application', 
       pgColumn: text(),
       airtableId: 'fldSEVGlsG4wcKk4k',
     },
+    decidedAt: {
+      pgColumn: text(),
+      airtableId: 'fldYSUC9oNUMrRiKr',
+    },
   },
 });
 
