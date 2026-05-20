@@ -979,21 +979,22 @@ export const careerTransitionGrantTable = pgAirtable('career_transition_grant', 
     },
   },
 });
-/** Operational table. Synced view restricted to Approved + Agreement signed in Airtable; sum all records here for the granted-amount total. */
-export const careerTransitionGrantApplicationTable = pgAirtable('career_transition_grant_application', {
-  baseId: CONTRACTOR_PAYMENTS_BASE_ID,
-  tableId: 'tblYkZrxApKMUe7uf',
+/** Master CTG applications table. All statuses present — code filters by status for the granted-amount total, and uses timeToDecisionDays for the avg-days-to-decision stat. */
+export const careerTransitionGrantApplicationTable = pgAirtable('career_transition_grant_application_v2', {
+  baseId: APPLICATIONS_BASE_ID,
+  tableId: 'tblh5zr4jRdrndKnC',
   columns: {
     grantAmountUsd: {
       pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldFbvMJpX3r9eipG',
+      airtableId: 'fldkLVS7boXaC3sJT',
     },
-  },
-  deprecatedColumns: {
-    evaluationStatus: {
+    status: {
       pgColumn: text(),
-      airtableId: 'fld56iuBZpW1hZI6N',
-      deprecated: true,
+      airtableId: 'fldL3RXC6Yuwyng78',
+    },
+    timeToDecisionDays: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fld7SiD8ShzS8sgis',
     },
   },
 });
