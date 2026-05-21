@@ -14,7 +14,7 @@ const buildDecisionBody = (averageHours: number | null | undefined, p90Days: num
   }
 
   const averageDays = Math.max(1, Math.round(averageHours / 24));
-  const averageLabel = averageDays === 1 ? 'within a day' : `in ~${averageDays} days`;
+  const averageLabel = averageDays === 1 ? 'within a day' : `in ${averageDays} days`;
   const tail = p90Days <= 7 ? 'within a week' : `within ${p90Days} days`;
   return `On average we reply ${averageLabel}, and 9 in 10 applicants hear back ${tail}.`;
 };
