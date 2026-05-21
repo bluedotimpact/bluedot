@@ -24,7 +24,7 @@ const CareerTransitionGrantPage = ({ programName, programDescription }: ProgramD
   const { data: stats } = trpc.grants.getCareerTransitionGrantStats.useQuery();
   const grantsMadeLabel = stats ? String(stats.count) : '—';
   const fundingAwardedLabel = stats ? formatAmountUsd(stats.totalAmountUsd) : '—';
-  const avgDaysToDecisionLabel = stats?.averageDaysToDecision != null ? `~${stats.averageDaysToDecision}` : '—';
+  const avgDaysToDecisionLabel = stats?.averageDaysToDecision != null ? String(stats.averageDaysToDecision) : '—';
 
   return (
     <div>
