@@ -300,6 +300,7 @@ export const myBluedotRouter = router({
   facilitatedCoursesPage: protectedProcedure.query(async ({ ctx }) => {
     const { email } = ctx.auth;
 
+    // Step 1: Fetch data
     const courseRegistrations = await db.pg
       .select()
       .from(courseRegistrationTable.pg)
@@ -321,7 +322,7 @@ export const myBluedotRouter = router({
       db.pg.select().from(meetPersonTable.pg).where(eq(meetPersonTable.pg.email, email)),
     ]);
 
-    const meetPersonIds = new Set(meetPersons.map((mp) => mp.id));
+    // Groups + discussions (from meetPersons), rounds (from regs).
     const meetPersonRoundIds = unique(meetPersons.map((mp) => mp.round));
     const expectedDiscussionIds = unique(meetPersons.flatMap((mp) => mp.expectedDiscussionsFacilitator ?? []));
 
@@ -335,8 +336,12 @@ export const myBluedotRouter = router({
       fetchApplicationsRoundsByIds(unique(courseRegistrations.map((cr) => cr.roundId))),
     ]);
 
-    const facilitatedGroups = allGroupsInRounds.filter((g) => (g.facilitator ?? []).some((id) => meetPersonIds.has(id)));
+    // Units (from discussions).
     const units = await fetchUnitsByIds(unique(allExpectedDiscussions.map((d) => d.courseBuilderUnitRecordId)));
+
+    // Step 2: Build one row per (registration × facilitated group)
+    const meetPersonIds = new Set(meetPersons.map((mp) => mp.id));
+    const facilitatedGroups = allGroupsInRounds.filter((g) => (g.facilitator ?? []).some((id) => meetPersonIds.has(id)));
 
     const roundById = new Map(roundRows.map((r) => [r.id, r] as const));
     const unitById = new Map(units.map((u) => [u.id, u] as const));
@@ -400,6 +405,7 @@ export const myBluedotRouter = router({
       });
     });
 
+    // Step 3: Calculate results for NextDiscussionCard section
     const nowSec = Math.floor(Date.now() / 1000);
     const nextDiscussions = perRow
       .flatMap((row) => {
