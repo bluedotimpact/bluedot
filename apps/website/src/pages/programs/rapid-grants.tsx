@@ -21,10 +21,20 @@ const PROGRAM_SLUG = 'rapid-grants';
 const FALLBACK_NAME = 'Rapid Grants';
 const FALLBACK_DESCRIPTION = 'Funding for the BlueDot community to ship projects, run events, and do other concrete work on AI safety and biosecurity.';
 
+// Formats the trimmed-mean hours-to-decision into a stat-strip value.
+// Rounds to whole days; floors at 1 day so a sub-24h average never reads "0 days".
+// Falls back to em-dash while loading or when there are no decided rows yet.
+const formatDecisionTime = (hours: number | null | undefined): string => {
+  if (hours === null || hours === undefined) return '—';
+  const days = Math.max(1, Math.round(hours / 24));
+  return days === 1 ? '1 day' : `${days} days`;
+};
+
 const RapidGrantsPage = ({ programName, programDescription }: ProgramDetailPageProps) => {
   const { data: stats } = trpc.grants.getRapidGrantStats.useQuery();
   const grantsMadeLabel = stats ? String(stats.count) : '—';
   const fundingGivenOutLabel = stats ? formatAmountUsd(stats.totalAmountUsd) : '—';
+  const decisionTimeLabel = formatDecisionTime(stats?.averageHoursToDecision);
 
   const scrollToGrantees = (e: React.BaseSyntheticEvent) => {
     e.preventDefault();
@@ -61,7 +71,7 @@ const RapidGrantsPage = ({ programName, programDescription }: ProgramDetailPageP
         compact
         stats={[
           { label: 'Typical grants', value: 'Up to $10k' },
-          { label: 'Decision time', value: '~5 working days' },
+          { label: 'Avg decision time', value: decisionTimeLabel },
           { label: 'Grants made', value: grantsMadeLabel },
           { label: 'Funding given', value: fundingGivenOutLabel },
         ]}

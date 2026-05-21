@@ -71,7 +71,9 @@ beforeEach(() => {
   (useRouter as unknown as Mock).mockReturnValue(mockRouter);
   server.use(
     trpcMsw.programs.getAll.query(() => mockPrograms),
-    trpcMsw.grants.getRapidGrantStats.query(() => ({ count: 104, totalAmountUsd: 105000 })),
+    trpcMsw.grants.getRapidGrantStats.query(() => ({
+      count: 104, totalAmountUsd: 105000, averageHoursToDecision: null, p90DaysToDecision: null,
+    })),
     trpcMsw.grants.getCareerTransitionGrantStats.query(() => ({ count: 1, totalAmountUsd: 67500, averageDaysToDecision: null })),
   );
 });
