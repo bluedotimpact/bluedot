@@ -1,8 +1,25 @@
 import { P } from '@bluedot/ui';
 import { pageSectionHeadingClass } from '../PageListRow';
 import { useGrantApplicationUrl } from '../grants/useGrantApplicationUrl';
+import { trpc } from '../../utils/trpc';
 
-const buildProcessSteps = (applicationUrl: string | undefined) => [
+const FALLBACK_DECISION_BODY = 'On average we reply within a day, and 9 in 10 applicants hear back within a week.';
+
+// Builds the "Get a decision" card body from live stats.
+// Average is the 10%-trimmed mean in hours (robust to outliers). p90 in days (rounded up).
+// Returns a stable fallback while tRPC is loading or when no decided rows exist yet.
+const buildDecisionBody = (averageHours: number | null | undefined, p90Days: number | null | undefined): string => {
+  if (averageHours === null || averageHours === undefined || p90Days === null || p90Days === undefined) {
+    return FALLBACK_DECISION_BODY;
+  }
+
+  const averageDays = Math.max(1, Math.round(averageHours / 24));
+  const averageLabel = averageDays === 1 ? 'within a day' : `in ~${averageDays} days`;
+  const tail = p90Days <= 7 ? 'within a week' : `within ${p90Days} days`;
+  return `On average we reply ${averageLabel}, and 9 in 10 applicants hear back ${tail}.`;
+};
+
+const buildProcessSteps = (applicationUrl: string | undefined, decisionBody: string) => [
   {
     number: '01',
     title: 'Apply',
@@ -12,7 +29,7 @@ const buildProcessSteps = (applicationUrl: string | undefined) => [
   {
     number: '02',
     title: 'Get a decision',
-    body: 'We usually reply within five working days.',
+    body: decisionBody,
   },
   {
     number: '03',
@@ -66,7 +83,9 @@ const StepCardBody = ({ number, title, body, eyebrowClass }: {
 
 const HowItWorksSection = () => {
   const applicationUrl = useGrantApplicationUrl('rapid-grants');
-  const processSteps = buildProcessSteps(applicationUrl);
+  const { data: stats } = trpc.grants.getRapidGrantStats.useQuery();
+  const decisionBody = buildDecisionBody(stats?.averageHoursToDecision, stats?.p90DaysToDecision);
+  const processSteps = buildProcessSteps(applicationUrl, decisionBody);
 
   return (
     <section className="section section-body rapid-grants-how-section">
