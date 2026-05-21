@@ -1,9 +1,17 @@
 import { describe, test, expect } from 'vitest';
-import { render, fireEvent, screen } from '@testing-library/react';
+import {
+  render, fireEvent, screen, waitFor,
+} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {
-  createMockCourseRegistration, createMockGroup,
+  courseTable, meetPersonTable, roundTable, userTable,
+} from '@bluedot/db';
+import {
+  createMockCourseRegistration, createMockGroup, createMockGroupDiscussion, createMockUnit,
 } from '../../__tests__/testUtils';
+import {
+  createTrpcDbProvider, setupTestDb, testAuthContextLoggedIn, testDb,
+} from '../../__tests__/dbTestUtils';
 import CourseListRow, { getSubtitle, type FacilitatorRowProps, type ParticipantRowProps } from './CourseListRow';
 import { classifyCourseRegistration } from './useCourseListRow';
 
@@ -636,5 +644,139 @@ describe('CourseListRow actions', () => {
       }));
       expect(screen.queryByLabelText('Show certificate eligibility information')).toBeNull();
     });
+  });
+});
+
+// Opening a modal from the row exercises the real modal against a PGlite-backed router, so we can
+// assert the row's info actually pre-fills the rendered modal (not just that props are wired).
+describe('CourseListRow modal pre-fill (real tRPC via PGlite)', () => {
+  setupTestDb();
+
+  const AUTH_EMAIL = testAuthContextLoggedIn.auth!.email;
+  const ROUND = 'round-1';
+  const GROUP = 'group-1';
+  const COURSE_ID = 'course-1';
+  const COURSE_SLUG = 'technical-ai-safety';
+
+  const renderInDb = (node: React.ReactElement) => render(node, { wrapper: createTrpcDbProvider(testAuthContextLoggedIn) });
+
+  const clickMenuItem = (button: Element | null, label: string) => {
+    fireEvent.click(button!);
+    const item = Array.from(document.querySelectorAll('[role="menuitem"]'))
+      .find((i) => i.textContent?.trim() === label) as HTMLElement;
+    fireEvent.click(item);
+  };
+
+  const facProps = (overrides: Partial<FacilitatorRowProps> = {}): FacilitatorRowProps => ({
+    mode: 'facilitator',
+    course: { slug: COURSE_SLUG, title: 'Technical AI Safety', applyUrl: null },
+    courseRegistration: createMockCourseRegistration({ roundStatus: 'Active', role: 'Facilitator' }),
+    group: createMockGroup({
+      id: GROUP, startTimeUtc: Math.floor(new Date('2026-05-13T16:00:00Z').getTime() / 1000), slackChannelId: 'C01', discussionDoc: 'https://example.com/doc',
+    }),
+    meetPersonId: 'mp-fac',
+    roundId: ROUND,
+    discussions: [],
+    attendedDiscussionIds: [],
+    units: {},
+    roundStartDate: '2026-05-04',
+    roundEndDate: '2026-05-11',
+    roundIntensity: 'Intensive',
+    hasSubmittedFeedback: false,
+    isDroppedOut: false,
+    isDeferred: false,
+    isExpanded: false,
+    onToggleExpand: () => {},
+    ...overrides,
+  });
+
+  const partProps = (overrides: Partial<ParticipantRowProps> = {}): ParticipantRowProps => ({
+    mode: 'participant',
+    course: { slug: COURSE_SLUG, title: 'Technical AI Safety', applyUrl: null },
+    courseRegistration: createMockCourseRegistration({ roundStatus: 'Active' }),
+    group: createMockGroup({
+      id: GROUP, startTimeUtc: Math.floor(new Date('2026-05-13T16:00:00Z').getTime() / 1000), slackChannelId: 'C01', discussionDoc: 'https://example.com/doc',
+    }),
+    facilitatorNames: ['Test Facilitator'],
+    meetPersonId: 'mp-part',
+    groupsAsParticipant: [GROUP],
+    roundId: ROUND,
+    discussions: [],
+    attendedDiscussionIds: [],
+    units: {},
+    roundStartDate: null,
+    roundEndDate: null,
+    numUnits: null,
+    uniqueDiscussionAttendance: null,
+    hasSubmittedActionPlan: false,
+    feedbackFormUrl: null,
+    hasSubmittedFeedback: false,
+    isDroppedOut: false,
+    isDeferred: false,
+    rescheduleEligibleUnits: ['1'],
+    isExpanded: false,
+    onToggleExpand: () => {},
+    ...overrides,
+  });
+
+  // discussionsAvailable / getFacilitatorsForRound both look up the caller's facilitator record for the round.
+  const seedFacilitator = () => testDb.insert(meetPersonTable, {
+    id: 'mp-fac', email: AUTH_EMAIL, round: ROUND, role: 'Facilitator', expectedDiscussionsFacilitator: [],
+  });
+
+  const seedParticipant = async () => {
+    await testDb.insert(userTable, { id: 'user-1', email: AUTH_EMAIL, name: 'Test User' });
+    await testDb.insert(courseTable, {
+      id: COURSE_ID, slug: COURSE_SLUG, title: 'Technical AI Safety', shortDescription: 'T', units: [],
+    });
+    await testDb.insert(roundTable, { id: ROUND, title: 'Round 1', course: COURSE_ID });
+    await testDb.insert(meetPersonTable, {
+      id: 'mp-part', email: AUTH_EMAIL, round: ROUND, role: 'Participant',
+    });
+  };
+
+  test('facilitator "Update discussion time" opens FacilitatorSwitchModal in that mode', async () => {
+    await seedFacilitator();
+    const { container } = renderInDb(<CourseListRow {...facProps()} />);
+
+    clickMenuItem(container.querySelector('.sm\\:flex button[aria-label="Course actions"]'), 'Update discussion time');
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /Select action type/i })).toHaveTextContent('Update discussion time');
+    });
+  });
+
+  test('facilitator discussion "Change facilitator" opens FacilitatorSwitchModal for that discussion', async () => {
+    await seedFacilitator();
+    const nowSec = Math.floor(Date.now() / 1000);
+    const discussion = createMockGroupDiscussion({
+      id: 'disc-1', group: GROUP, unitNumber: 1, startDateTime: nowSec + 3 * 3600, endDateTime: nowSec + 4 * 3600,
+    });
+    const { container } = renderInDb(<CourseListRow {...facProps({
+      isExpanded: true,
+      discussions: [discussion],
+      units: { 'disc-1': createMockUnit({ unitNumber: '1', title: 'Intro' }) },
+    })}
+    />);
+
+    // The discussion row (not the course header) surfaces "Change facilitator".
+    clickMenuItem(container.querySelector('button[aria-label="Discussion actions"]'), 'Change facilitator');
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /Select action type/i })).toHaveTextContent('Change facilitator');
+    });
+  });
+
+  test('participant "Switch group permanently" opens GroupSwitchModal with that switch type pre-selected', async () => {
+    await seedParticipant();
+    const { container } = renderInDb(<CourseListRow {...partProps()} />);
+
+    clickMenuItem(container.querySelector('.sm\\:flex button[aria-label="Course actions"]'), 'Switch group permanently');
+
+    // The form only renders once the modal's queries resolve.
+    await waitFor(() => {
+      expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
+    });
+    expect(screen.getByRole('button', { name: /Select action/i })).toHaveTextContent('Switch group permanently');
   });
 });
