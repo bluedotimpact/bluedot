@@ -4,7 +4,7 @@ import {
 } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {
-  courseTable, meetPersonTable, roundTable, userTable,
+  courseTable, meetPersonTable, roundTable, unitTable, userTable,
 } from '@bluedot/db';
 import {
   createMockCourseRegistration, createMockGroup, createMockGroupDiscussion, createMockUnit,
@@ -778,5 +778,31 @@ describe('CourseListRow modal pre-fill (real tRPC via PGlite)', () => {
       expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
     });
     expect(screen.getByRole('button', { name: /Select action/i })).toHaveTextContent('Switch group permanently');
+  });
+
+  test('participant discussion "Reschedule" opens GroupSwitchModal with the clicked unit pre-filled', async () => {
+    await seedParticipant();
+    await testDb.insert(unitTable, {
+      id: 'unit-2', courseId: COURSE_ID, courseTitle: 'Technical AI Safety', courseSlug: COURSE_SLUG, path: '/u2', title: 'AI Alignment', unitNumber: '2', description: 'D', unitStatus: 'Active', chunks: [],
+    });
+    const nowSec = Math.floor(Date.now() / 1000);
+    const discussion = createMockGroupDiscussion({
+      id: 'disc-1', group: GROUP, unitNumber: 2, startDateTime: nowSec + 3 * 3600, endDateTime: nowSec + 4 * 3600,
+    });
+    renderInDb(<CourseListRow {...partProps({
+      isExpanded: true,
+      discussions: [discussion],
+      units: { 'disc-1': createMockUnit({ unitNumber: '2', title: 'AI Alignment' }) },
+    })}
+    />);
+
+    // Upcoming discussion rows expose an inline "Reschedule" button.
+    fireEvent.click(screen.getAllByRole('button', { name: 'Reschedule' })[0]!);
+
+    await waitFor(() => {
+      expect(screen.getByLabelText('Reason for group switch request')).toBeInTheDocument();
+    });
+    expect(screen.getByRole('button', { name: /Select action/i })).toHaveTextContent('Switch group for one unit');
+    expect(screen.getByRole('button', { name: /Select unit/i })).toHaveTextContent('Unit 2');
   });
 });

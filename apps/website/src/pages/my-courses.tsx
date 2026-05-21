@@ -6,7 +6,7 @@ import MyBlueDotLayout from '../components/my-bluedot/MyBlueDotLayout';
 import InactiveCourseBanners from '../components/courses/InactiveCourseBanners';
 import CourseList, { courseListRowKey } from '../components/my-courses/CourseList';
 import { type CourseListRowProps } from '../components/my-courses/CourseListRow';
-import { classifyCourseRegistration } from '../components/my-courses/useCourseActions';
+import { classifyCourseRegistration } from '../components/my-courses/useCourseListRow';
 import NextDiscussionCard from '../components/my-courses/NextDiscussionCard';
 import TabPills from '../components/my-courses/TabPills';
 import { ROUTES } from '../lib/routes';

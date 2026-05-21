@@ -86,7 +86,7 @@ export const useCourseListRow = (row: CourseListRowProps): UseCourseActionsResul
   };
 };
 
-type CourseRowDerived = {
+type CourseRowDerivedState = {
   state: CourseRowState;
   hasCert: boolean;
   canExpand: boolean;
@@ -100,7 +100,7 @@ type CourseRowDerived = {
   slackUrl: string | null;
 };
 
-const deriveCourseRowState = (row: CourseListRowProps, utmSource: string | undefined): CourseRowDerived => {
+const deriveCourseRowState = (row: CourseListRowProps, utmSource: string | undefined): CourseRowDerivedState => {
   const {
     course, courseRegistration, group, meetPersonId, attendedDiscussionIds,
     hasSubmittedFeedback, isDroppedOut, isDeferred,
@@ -171,7 +171,7 @@ const deriveCourseRowState = (row: CourseListRowProps, utmSource: string | undef
 
 const getParticipantActions = (
   row: ParticipantRowProps,
-  derived: CourseRowDerived,
+  derived: CourseRowDerivedState,
   triggers: CourseModalTriggers,
 ): CourseAction[] => {
   const {
@@ -302,7 +302,7 @@ const getParticipantActions = (
 
 const getFacilitatorActions = (
   row: FacilitatorRowProps,
-  derived: CourseRowDerived,
+  derived: CourseRowDerivedState,
   triggers: CourseModalTriggers,
 ): CourseAction[] => {
   const {
