@@ -34,35 +34,11 @@ export type CourseModalTriggers = {
   openFacilitatorAssignSubstitute: (discussion: { id: string; group: string }) => void;
 };
 
-export const useCourseModals = (ctx: CourseModalsContext): {
-  triggers: CourseModalTriggers;
-  element: ReactNode;
-} => {
+export const useCourseModals = (ctx: CourseModalsContext): CourseModalTriggers & { element: ReactNode } => {
   const [dropoutOpen, setDropoutOpen] = useState(false);
   const [viewParticipantsOpen, setViewParticipantsOpen] = useState(false);
   const [groupSwitch, setGroupSwitch] = useState<GroupSwitchInitial | null>(null);
   const [facilitatorSwitch, setFacilitatorSwitch] = useState<FacilitatorSwitchInitial | null>(null);
-
-  const triggers: CourseModalTriggers = {
-    openDropout: () => setDropoutOpen(true),
-    openViewParticipants: () => setViewParticipantsOpen(true),
-    openParticipantReschedule: setGroupSwitch,
-    openFacilitatorRescheduleRecurring: () => setFacilitatorSwitch({
-      initialModalType: 'Update discussion time',
-      initialSwitchType: 'Change permanently',
-      initialDiscussion: null,
-      initialGroupId: ctx.groupId ?? undefined,
-    }),
-    openFacilitatorRescheduleOneOff: (discussion) => setFacilitatorSwitch({
-      initialModalType: 'Update discussion time',
-      initialSwitchType: 'Change for one unit',
-      initialDiscussion: discussion,
-    }),
-    openFacilitatorAssignSubstitute: (discussion) => setFacilitatorSwitch({
-      initialModalType: 'Change facilitator',
-      initialDiscussion: discussion,
-    }),
-  };
 
   const element = (
     <>
@@ -102,5 +78,25 @@ export const useCourseModals = (ctx: CourseModalsContext): {
     </>
   );
 
-  return { triggers, element };
+  return {
+    element,
+    openDropout: () => setDropoutOpen(true),
+    openViewParticipants: () => setViewParticipantsOpen(true),
+    openParticipantReschedule: setGroupSwitch,
+    openFacilitatorRescheduleRecurring: () => setFacilitatorSwitch({
+      initialModalType: 'Update discussion time',
+      initialSwitchType: 'Change permanently',
+      initialDiscussion: null,
+      initialGroupId: ctx.groupId ?? undefined,
+    }),
+    openFacilitatorRescheduleOneOff: (discussion) => setFacilitatorSwitch({
+      initialModalType: 'Update discussion time',
+      initialSwitchType: 'Change for one unit',
+      initialDiscussion: discussion,
+    }),
+    openFacilitatorAssignSubstitute: (discussion) => setFacilitatorSwitch({
+      initialModalType: 'Change facilitator',
+      initialDiscussion: discussion,
+    }),
+  };
 };

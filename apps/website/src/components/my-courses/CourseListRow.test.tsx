@@ -4,7 +4,8 @@ import '@testing-library/jest-dom';
 import {
   createMockCourseRegistration, createMockGroup,
 } from '../../__tests__/testUtils';
-import CourseListRow, { classifyCourseRegistration, getSubtitle, type ParticipantRowProps } from './CourseListRow';
+import CourseListRow, { getSubtitle, type FacilitatorRowProps, type ParticipantRowProps } from './CourseListRow';
+import { classifyCourseRegistration } from './useCourseActions';
 
 describe('getSubtitle precedence', () => {
   const renderText = (node: React.ReactNode): string => {
@@ -428,6 +429,164 @@ describe('CourseListRow actions', () => {
       const overflow = openOverflowItems(container);
       const overlap = inline.filter((l) => overflow.includes(l));
       expect(overlap).toEqual([]);
+    });
+  });
+
+  describe('facilitator mode', () => {
+    const renderFacRow = (p: FacilitatorRowProps) => render(<CourseListRow {...p} />);
+
+    const facProps = (overrides: Partial<FacilitatorRowProps> = {}): FacilitatorRowProps => ({
+      mode: 'facilitator',
+      course: { slug: 'technical-ai-safety', title: 'Technical AI Safety', applyUrl: null },
+      courseRegistration: createMockCourseRegistration({ roundStatus: 'Active', role: 'Facilitator' }),
+      group: createMockGroup({
+        startTimeUtc: Math.floor(new Date('2026-05-13T16:00:00Z').getTime() / 1000),
+        slackChannelId: 'C01ABCDEF',
+        discussionDoc: 'https://example.com/doc',
+      }),
+      meetPersonId: 'mp-fac',
+      roundId: 'round-fac',
+      discussions: [],
+      attendedDiscussionIds: [],
+      units: {},
+      roundStartDate: '2026-05-04',
+      roundEndDate: '2026-05-11',
+      roundIntensity: 'Intensive',
+      hasSubmittedFeedback: false,
+      isDroppedOut: false,
+      isDeferred: false,
+      isExpanded: false,
+      onToggleExpand: () => {},
+      ...overrides,
+    });
+
+    describe('Active (in-progress with group)', () => {
+      test('overflow contains the four header items', () => {
+        const { container } = renderFacRow(facProps());
+        const items = openOverflowItems(container);
+        expect(items).toEqual(expect.arrayContaining([
+          'Open discussion doc', 'Open Slack group', 'View participants', 'Update discussion time',
+        ]));
+      });
+
+      test('no participant-only overflow items', () => {
+        const { container } = renderFacRow(facProps());
+        const items = openOverflowItems(container);
+        expect(items).not.toContain('Drop or defer course');
+        expect(items).not.toContain('Switch group permanently');
+      });
+
+      test('no inline actions on the header itself', () => {
+        const { container } = renderFacRow(facProps());
+        const inline = inlineLabels(container);
+        expect(inline).toEqual([]);
+      });
+    });
+
+    describe('Update discussion time visibility', () => {
+      test('shown when active + group present', () => {
+        const { container } = renderFacRow(facProps());
+        expect(openOverflowItems(container)).toContain('Update discussion time');
+      });
+
+      test('hidden on pending (no group)', () => {
+        const { container } = renderFacRow(facProps({
+          courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Accept', role: 'Facilitator' }),
+          group: null,
+        }));
+        expect(openOverflowItems(container)).not.toContain('Update discussion time');
+      });
+
+      test('hidden on past', () => {
+        const { container } = renderFacRow(facProps({
+          courseRegistration: createMockCourseRegistration({ roundStatus: 'Past', role: 'Facilitator' }),
+        }));
+        expect(openOverflowItems(container)).not.toContain('Update discussion time');
+      });
+    });
+
+    describe('Pending application row (Future + no group)', () => {
+      const pending = (overrides: Partial<FacilitatorRowProps> = {}) => facProps({
+        courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Accept', role: 'Facilitator' }),
+        group: null,
+        ...overrides,
+      });
+
+      test('shows the "Application pending" pill', () => {
+        const { container } = renderFacRow(pending());
+        expect(container.textContent).toContain('Application pending');
+      });
+
+      test('shows "Share availability" CTA when none submitted', () => {
+        const { container } = renderFacRow(pending());
+        expect(inlineLabels(container)).toContain('Share availability');
+      });
+
+      test('flips to "Edit your availability" once submitted', () => {
+        const { container } = renderFacRow(pending({
+          courseRegistration: createMockCourseRegistration({
+            roundStatus: 'Future', decision: 'Accept', role: 'Facilitator', availabilityIntervalsUTC: '[[100,200]]',
+          }),
+        }));
+        expect(inlineLabels(container)).toContain('Edit your availability');
+      });
+
+      test('no overflow menu on pending rows', () => {
+        const { container } = renderFacRow(pending());
+        expect(openOverflowItems(container)).toEqual([]);
+      });
+
+      test('no availability CTA when application was rejected', () => {
+        const { container } = renderFacRow(pending({
+          courseRegistration: createMockCourseRegistration({ roundStatus: 'Future', decision: 'Reject', role: 'Facilitator' }),
+        }));
+        const labels = inlineLabels(container);
+        expect(labels).not.toContain('Share availability');
+        expect(labels).not.toContain('Edit your availability');
+      });
+    });
+
+    describe('Past row', () => {
+      const past = (overrides: Partial<FacilitatorRowProps> = {}) => facProps({
+        courseRegistration: createMockCourseRegistration({ roundStatus: 'Past', role: 'Facilitator' }),
+        ...overrides,
+      });
+
+      test('shows "Share feedback" CTA when none submitted', () => {
+        const { container } = renderFacRow(past());
+        expect(inlineLabels(container)).toContain('Share feedback');
+      });
+
+      test('flips to "Edit feedback" once submitted', () => {
+        const { container } = renderFacRow(past({ hasSubmittedFeedback: true }));
+        expect(inlineLabels(container)).toContain('Edit feedback');
+      });
+
+      test('hides the feedback CTA when there is no meetPersonId', () => {
+        const { container } = renderFacRow(past({ meetPersonId: null }));
+        const labels = inlineLabels(container);
+        expect(labels).not.toContain('Share feedback');
+        expect(labels).not.toContain('Edit feedback');
+      });
+
+      test('past overflow keeps doc/slack/participants but drops Update discussion time', () => {
+        const { container } = renderFacRow(past());
+        const items = openOverflowItems(container);
+        expect(items).toEqual(expect.arrayContaining(['Open discussion doc', 'Open Slack group', 'View participants']));
+        expect(items).not.toContain('Update discussion time');
+      });
+    });
+
+    describe('Active without a group (race condition between round start and assignment)', () => {
+      test('View participants hidden', () => {
+        const { container } = renderFacRow(facProps({ group: null }));
+        expect(openOverflowItems(container)).not.toContain('View participants');
+      });
+
+      test('Update discussion time hidden', () => {
+        const { container } = renderFacRow(facProps({ group: null }));
+        expect(openOverflowItems(container)).not.toContain('Update discussion time');
+      });
     });
   });
 });

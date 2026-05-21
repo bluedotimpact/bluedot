@@ -1,15 +1,8 @@
-import {
-  CTALinkOrButton, OverflowMenu, useCurrentTimeMs, type OverflowMenuItemProps,
-} from '@bluedot/ui';
+import { OverflowMenu, type OverflowMenuItemProps } from '@bluedot/ui';
 import type { GroupDiscussion, Unit } from '@bluedot/db';
-import { Fragment, useState, type ReactNode } from 'react';
-import { FaCheck } from 'react-icons/fa6';
-import { IoBan, IoCheckmark } from 'react-icons/io5';
-import { downloadDiscussionCalendarFile } from '../../lib/downloadCalendarFile';
-import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
+import { type ReactNode } from 'react';
 import { formatDateMonthAndDay, formatTime12HourClock } from '../../lib/utils';
-
-type DiscussionStatus = 'upcoming' | 'soon' | 'live' | 'attended' | 'absent';
+import { useDiscussionActions } from './useDiscussionActions';
 
 export type DiscussionListRowMode = 'participant' | 'facilitator';
 
@@ -45,64 +38,23 @@ const DiscussionListRow = ({
   discussion, unit, courseSlug, isAttended, canReschedule, onReschedule,
   onClickFacilitatorReschedule, onClickFacilitatorAssignSubstitute, onClickViewAttendees,
 }: DiscussionListRowProps) => {
-  const currentTimeMs = useCurrentTimeMs();
-  const timeState = getDiscussionTimeState({ discussion, currentTimeMs });
-
-  // Live wins over attended: suppress the Attended pill while a discussion is in progress so
-  // users can't read off "you're counted as attended" the moment they click Join.
-  let status: DiscussionStatus;
-  if (timeState === 'live') status = 'live';
-  else if (isAttended) status = 'attended';
-  else if (timeState === 'soon') status = 'soon';
-  else if (timeState === 'ended') status = 'absent';
-  else status = 'upcoming';
-
-  const [downloadError, setDownloadError] = useState<string | null>(null);
-  const [isDownloadingCalendar, setIsDownloading] = useState(false);
-
-  const handleDownloadCalendarFile = async () => {
-    if (isDownloadingCalendar) return;
-    try {
-      setDownloadError(null);
-      setIsDownloading(true);
-      await downloadDiscussionCalendarFile(discussion.id);
-    } catch {
-      setDownloadError('Could not download the calendar file. Please try again.');
-    } finally {
-      setIsDownloading(false);
-    }
-  };
-
-  const unitNumber = unit?.unitNumber ?? discussion.unitNumber;
-  const unitLabel = unitNumber !== null ? `UNIT ${unitNumber}` : 'UNIT';
-  const title = unit?.title ?? 'Discussion';
-  const discussionPrepareLink = unitNumber !== null ? `/courses/${courseSlug}/${unitNumber}` : null;
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  const discussionMeetLink = discussion.zoomLink || undefined;
-
-  const actions = getActions({
+  const {
+    status, inlineActions, desktopOverflowItems, mobileOverflowItems, downloadError,
+  } = useDiscussionActions({
     mode,
-    status,
     discussion,
-    discussionMeetLink,
+    isAttended,
     canReschedule,
-    isDownloadingCalendar,
     onReschedule,
-    onDownloadCalendar: handleDownloadCalendarFile,
     onClickFacilitatorReschedule,
     onClickFacilitatorAssignSubstitute,
     onClickViewAttendees,
   });
 
-  const visible = actions.filter((a) => a.isVisible);
-  const inlineActions = visible.filter((a) => a.variant === 'inline');
-  const desktopOverflowItems = visible
-    .filter((a) => a.variant === 'overflow' && a.overflow)
-    .map((a) => a.overflow!);
-  // Mobile folds inline actions into the overflow menu; pills (no overflow) drop out naturally.
-  const mobileOverflowItems = visible
-    .map((a) => a.overflow)
-    .filter((o): o is OverflowMenuItemProps => !!o);
+  const unitNumber = unit?.unitNumber ?? discussion.unitNumber;
+  const unitLabel = unitNumber !== null ? `UNIT ${unitNumber}` : 'UNIT';
+  const title = unit?.title ?? 'Discussion';
+  const discussionPrepareLink = unitNumber !== null ? `/courses/${courseSlug}/${unitNumber}` : null;
 
   return (
     <li className="flex items-center gap-5 py-4 not-last:border-b not-last:border-color-divider">
@@ -126,7 +78,7 @@ const DiscussionListRow = ({
       <div className="flex shrink-0 items-center gap-3">
         {/* Desktop: inline buttons/pills + overflow menu containing only `overflow`-variant items. */}
         <div className="hidden shrink-0 items-center gap-3 sm:flex">
-          {inlineActions.map((a) => <Fragment key={a.id}>{a.inline}</Fragment>)}
+          {inlineActions}
           {desktopOverflowItems.length > 0 && (
             <OverflowMenu ariaLabel="Discussion actions" items={desktopOverflowItems} />
           )}
@@ -157,172 +109,5 @@ export const TimeWidget = ({ isLive, dateTimeSeconds }: { isLive: boolean; dateT
     )}
   </div>
 );
-
-type DiscussionActionContext = {
-  mode: DiscussionListRowMode;
-  status: DiscussionStatus;
-  discussion: GroupDiscussion;
-  discussionMeetLink: string | undefined;
-  canReschedule: boolean;
-  isDownloadingCalendar: boolean;
-  onReschedule: () => void;
-  onDownloadCalendar: () => void | Promise<void>;
-  onClickFacilitatorReschedule?: (discussion: GroupDiscussion) => void;
-  onClickFacilitatorAssignSubstitute?: (discussion: GroupDiscussion) => void;
-  onClickViewAttendees?: () => void;
-};
-
-export const getActions = (ctx: DiscussionActionContext): CourseAction[] => {
-  if (ctx.mode === 'facilitator') return getFacilitatorActions(ctx);
-
-  const {
-    status, discussionMeetLink, canReschedule, isDownloadingCalendar,
-    onReschedule, onDownloadCalendar,
-  } = ctx;
-  const isPast = status === 'attended' || status === 'absent';
-  const isFutureLike = status === 'upcoming' || status === 'soon' || status === 'live';
-
-  return [
-    {
-      id: 'reschedule-upcoming',
-      isVisible: isFutureLike,
-      variant: 'inline',
-      inline: <CTALinkOrButton variant="secondary" size="small" onClick={onReschedule} className="text-size-xxs bd-md:text-size-xxs">Reschedule</CTALinkOrButton>,
-      overflow: { id: 'reschedule', label: 'Reschedule', onAction: onReschedule },
-    },
-    {
-      id: 'join-now',
-      isVisible: status === 'live' && Boolean(discussionMeetLink),
-      variant: 'inline',
-      inline: discussionMeetLink ? <CTALinkOrButton variant="primary" size="small" url={discussionMeetLink} target="_blank" className="text-size-xxs bd-md:text-size-xxs">Join now</CTALinkOrButton> : null,
-      overflow: {
-        id: 'join', label: 'Join now', href: discussionMeetLink ?? '', target: '_blank',
-      },
-    },
-    {
-      id: 'attended-pill',
-      isVisible: status === 'attended',
-      variant: 'inline',
-      inline: (
-        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-          <IoCheckmark aria-hidden size={14} />
-          Attended
-        </span>
-      ),
-    },
-    {
-      id: 'absent-pill',
-      isVisible: status === 'absent',
-      variant: 'inline',
-      inline: (
-        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-          <IoBan aria-hidden size={14} />
-          Absent
-        </span>
-      ),
-    },
-    {
-      id: 'reschedule-absent',
-      isVisible: status === 'absent' && canReschedule,
-      variant: 'inline',
-      inline: <CTALinkOrButton variant="primary" size="small" onClick={onReschedule} className="text-size-xxs bd-md:text-size-xxs">Reschedule</CTALinkOrButton>,
-      overflow: { id: 'reschedule', label: 'Reschedule', onAction: onReschedule },
-    },
-    {
-      id: 'calendar',
-      isVisible: !isPast,
-      variant: 'overflow',
-      overflow: {
-        id: 'cal',
-        label: isDownloadingCalendar ? 'Downloading calendar file...' : 'Download calendar file',
-        onAction: onDownloadCalendar,
-      },
-    },
-  ];
-};
-
-const getFacilitatorActions = (ctx: DiscussionActionContext): CourseAction[] => {
-  const {
-    status, discussion, discussionMeetLink, isDownloadingCalendar,
-    onDownloadCalendar, onClickFacilitatorReschedule, onClickFacilitatorAssignSubstitute, onClickViewAttendees,
-  } = ctx;
-  const isPast = status === 'attended' || status === 'absent';
-  const attendingCount = discussion.participantsExpected?.length ?? 0;
-
-  return [
-    {
-      id: 'join-now-facilitator',
-      isVisible: status === 'live' && Boolean(discussionMeetLink),
-      variant: 'inline',
-      inline: discussionMeetLink ? (
-        <CTALinkOrButton variant="primary" size="small" url={discussionMeetLink} target="_blank" className="text-size-xxs bd-md:text-size-xxs">Join now</CTALinkOrButton>
-      ) : null,
-      overflow: {
-        id: 'join', label: 'Join now', href: discussionMeetLink ?? '', target: '_blank',
-      },
-    },
-    {
-      id: 'attending-pill',
-      isVisible: !isPast && status !== 'live',
-      variant: 'inline',
-      inline: (
-        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-          {attendingCount} Attending
-        </span>
-      ),
-    },
-    {
-      id: 'facilitated-pill',
-      isVisible: isPast,
-      variant: 'inline',
-      inline: (
-        <span className="inline-flex h-9 items-center gap-1 rounded-full bg-bluedot-lighter/30 px-3 py-[7px] text-size-xxs font-medium text-bluedot-darker">
-          <FaCheck aria-hidden size={12} />
-          Facilitated
-        </span>
-      ),
-    },
-    {
-      id: 'view-attendees',
-      isVisible: Boolean(onClickViewAttendees),
-      variant: 'overflow',
-      overflow: {
-        id: 'view-attendees',
-        label: 'View attendees',
-        onAction: () => onClickViewAttendees?.(),
-      },
-    },
-    {
-      id: 'reschedule-one-off',
-      isVisible: !isPast && Boolean(onClickFacilitatorReschedule),
-      variant: 'overflow',
-      overflow: {
-        id: 'reschedule-one-off',
-        label: 'Reschedule',
-        onAction: () => onClickFacilitatorReschedule?.(discussion),
-      },
-    },
-    {
-      id: 'assign-substitute',
-      isVisible: !isPast && Boolean(onClickFacilitatorAssignSubstitute),
-      variant: 'overflow',
-      overflow: {
-        id: 'assign-substitute',
-        label: 'Change facilitator',
-        onAction: () => onClickFacilitatorAssignSubstitute?.(discussion),
-      },
-    },
-    {
-      id: 'calendar-facilitator',
-      isVisible: !isPast,
-      variant: 'overflow',
-      overflow: {
-        id: 'cal',
-        label: isDownloadingCalendar ? 'Downloading calendar file...' : 'Download calendar file',
-        onAction: onDownloadCalendar,
-      },
-    },
-  ];
-};
 
 export default DiscussionListRow;
