@@ -30,7 +30,7 @@ export const classifyCourseRegistration = (
   return 'completed';
 };
 
-export type DiscussionListCallbacks = {
+export type ModalCallbacks = {
   onClickReschedule: (input: { unitNumber: string | null; switchType: SwitchType }) => void;
   onClickFacilitatorReschedule: (discussion: GroupDiscussion) => void;
   onClickFacilitatorAssignSubstitute: (discussion: GroupDiscussion) => void;
@@ -45,10 +45,10 @@ export type UseCourseActionsResult = {
   certEligibilityReason: string | null;
   showApplicationTimelineTooltip: boolean;
   modalElement: ReactNode;
-  discussionListCallbacks: DiscussionListCallbacks;
+  modalCallbacks: ModalCallbacks;
 };
 
-export const useCourseActions = (row: CourseListRowProps): UseCourseActionsResult => {
+export const useCourseListRow = (row: CourseListRowProps): UseCourseActionsResult => {
   const { latestUtmParams } = useLatestUtmParams();
   const derived = deriveCourseRowState(row, latestUtmParams.utm_source);
   const modals = useCourseModals({
@@ -74,7 +74,7 @@ export const useCourseActions = (row: CourseListRowProps): UseCourseActionsResul
     certEligibilityReason: derived.certEligibilityReason,
     showApplicationTimelineTooltip: derived.showApplicationTimelineTooltip,
     modalElement: modals.element,
-    discussionListCallbacks: {
+    modalCallbacks: {
       onClickReschedule: ({ unitNumber, switchType }) => modals.openParticipantReschedule({
         initialUnitNumber: unitNumber ?? '1',
         initialSwitchType: switchType,
@@ -108,8 +108,10 @@ const deriveCourseRowState = (row: CourseListRowProps, utmSource: string | undef
   const state = classifyCourseRegistration(courseRegistration, { isDroppedOut, isDeferred });
   const hasCert = !!courseRegistration.certificateCreatedAt;
   const isFacilitatedCourse = course.slug !== FOAI_COURSE_SLUG;
+
   // Dropped rows can still expand if the user attended any discussions before dropping.
   const canExpand = state !== 'dropped' || attendedDiscussionIds.length > 0;
+
   const certificateUrl = courseRegistration.certificateId
     ? addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)
     : `/courses/${course.slug}`;

@@ -7,20 +7,9 @@ import { FaCheck } from 'react-icons/fa6';
 import { IoBan, IoCheckmark } from 'react-icons/io5';
 import { downloadDiscussionCalendarFile } from '../../lib/downloadCalendarFile';
 import { getDiscussionTimeState } from '../../lib/group-discussions/utils';
-import type { CourseAction, DiscussionListRowMode } from './DiscussionListRow';
+import type { CourseAction, DiscussionListRowProps } from './DiscussionListRow';
 
 export type DiscussionStatus = 'upcoming' | 'soon' | 'live' | 'attended' | 'absent';
-
-export type UseDiscussionActionsInput = {
-  mode: DiscussionListRowMode;
-  discussion: GroupDiscussion;
-  isAttended: boolean;
-  canReschedule: boolean;
-  onReschedule: () => void;
-  onClickFacilitatorReschedule?: (discussion: GroupDiscussion) => void;
-  onClickFacilitatorAssignSubstitute?: (discussion: GroupDiscussion) => void;
-  onClickViewAttendees?: () => void;
-};
 
 export type UseDiscussionActionsResult = {
   status: DiscussionStatus;
@@ -30,7 +19,7 @@ export type UseDiscussionActionsResult = {
   downloadError: string | null;
 };
 
-export const useDiscussionActions = (input: UseDiscussionActionsInput): UseDiscussionActionsResult => {
+export const useDiscussionActions = (input: DiscussionListRowProps): UseDiscussionActionsResult => {
   const currentTimeMs = useCurrentTimeMs();
   const status = deriveStatus(input.discussion, input.isAttended, currentTimeMs);
 
@@ -84,7 +73,7 @@ const deriveStatus = (discussion: GroupDiscussion, isAttended: boolean, currentT
   return 'upcoming';
 };
 
-type BuildInput = UseDiscussionActionsInput & {
+type BuildInput = DiscussionListRowProps & {
   status: DiscussionStatus;
   isDownloadingCalendar: boolean;
   onDownloadCalendar: () => void | Promise<void>;

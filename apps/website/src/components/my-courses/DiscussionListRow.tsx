@@ -20,7 +20,7 @@ export type CourseAction = {
   overflow?: OverflowMenuItemProps;
 };
 
-type DiscussionListRowProps = {
+export type DiscussionListRowProps = {
   mode?: DiscussionListRowMode;
   discussion: GroupDiscussion;
   unit: Unit | null;
@@ -33,23 +33,11 @@ type DiscussionListRowProps = {
   onClickViewAttendees?: () => void;
 };
 
-const DiscussionListRow = ({
-  mode = 'participant',
-  discussion, unit, courseSlug, isAttended, canReschedule, onReschedule,
-  onClickFacilitatorReschedule, onClickFacilitatorAssignSubstitute, onClickViewAttendees,
-}: DiscussionListRowProps) => {
+const DiscussionListRow = (row: DiscussionListRowProps) => {
+  const { discussion, unit, courseSlug } = row;
   const {
     status, inlineActions, desktopOverflowItems, mobileOverflowItems, downloadError,
-  } = useDiscussionActions({
-    mode,
-    discussion,
-    isAttended,
-    canReschedule,
-    onReschedule,
-    onClickFacilitatorReschedule,
-    onClickFacilitatorAssignSubstitute,
-    onClickViewAttendees,
-  });
+  } = useDiscussionActions(row);
 
   const unitNumber = unit?.unitNumber ?? discussion.unitNumber;
   const unitLabel = unitNumber !== null ? `UNIT ${unitNumber}` : 'UNIT';

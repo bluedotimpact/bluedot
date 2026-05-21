@@ -8,7 +8,7 @@ import { COURSE_CONFIG } from '../../lib/constants';
 import { COURSE_COLORS, type CourseColorSlug } from '../../lib/courseColors';
 import { formatMonthAndDay, parseWeekFromRoundName } from '../../lib/utils';
 import DiscussionList from './DiscussionList';
-import { classifyCourseRegistration, useCourseActions } from './useCourseActions';
+import { classifyCourseRegistration, useCourseListRow } from './useCourseListRow';
 
 export type CourseListRowMode = 'participant' | 'facilitator';
 
@@ -54,11 +54,10 @@ const CourseListRow = (row: CourseListRowProps) => {
     discussions, attendedDiscussionIds, units, isExpanded, onToggleExpand,
   } = row;
 
-  // TODO mixes actions per se with other stuff
   const {
-    inlineActions, overflowItems, state, canExpand, certEligibilityReason, showApplicationTimelineTooltip,
-    modalElement, discussionListCallbacks,
-  } = useCourseActions(row);
+    inlineActions, overflowItems, state, canExpand, certEligibilityReason,
+    showApplicationTimelineTooltip, modalElement, modalCallbacks,
+  } = useCourseListRow(row);
 
   const courseConfig = COURSE_CONFIG[course.slug];
   const tint = COURSE_COLORS[course.slug as CourseColorSlug]?.bright;
@@ -180,10 +179,10 @@ const CourseListRow = (row: CourseListRowProps) => {
               courseSlug={course.slug}
               canReschedule={state !== 'dropped' && !courseRegistration.certificateCreatedAt}
               rescheduleEligibleUnits={row.mode === 'participant' ? row.rescheduleEligibleUnits : []}
-              onClickReschedule={discussionListCallbacks.onClickReschedule}
-              onClickFacilitatorReschedule={discussionListCallbacks.onClickFacilitatorReschedule}
-              onClickFacilitatorAssignSubstitute={discussionListCallbacks.onClickFacilitatorAssignSubstitute}
-              onClickViewAttendees={discussionListCallbacks.onClickViewAttendees}
+              onClickReschedule={modalCallbacks.onClickReschedule}
+              onClickFacilitatorReschedule={modalCallbacks.onClickFacilitatorReschedule}
+              onClickFacilitatorAssignSubstitute={modalCallbacks.onClickFacilitatorAssignSubstitute}
+              onClickViewAttendees={modalCallbacks.onClickViewAttendees}
             />
           ) : (
             <p className="px-5 py-4 text-size-xs text-gray-500 sm:px-6">No discussions to show.</p>
@@ -239,6 +238,7 @@ export const getSubtitle = (
   { isNotInGroup }: { isNotInGroup: boolean },
 ): ReactNode => {
   if (row.mode === 'facilitator') return getFacilitatorSubtitle(row);
+
   return getParticipantSubtitle(row, isNotInGroup);
 };
 

@@ -26,6 +26,11 @@ const inOneWeek = nowSec + 7 * ONE_DAY;
 const inOneMonth = nowSec + 30 * ONE_DAY;
 
 describe('myCoursesPage.getOverview', () => {
+  test('returns empty result when caller has no registrations', async () => {
+    const result = await caller.myBluedot.myCoursesPage();
+    expect(result).toEqual({ courses: [], nextDiscussion: null });
+  });
+
   test('nextDiscussion ignores facilitated discussions, even when they are sooner', async () => {
     // User participates in course-p (next discussion in a month) and facilitates
     // course-f (next discussion in a week). nextDiscussion should be the participant one.

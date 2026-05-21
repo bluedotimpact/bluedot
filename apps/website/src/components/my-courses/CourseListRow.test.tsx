@@ -1,11 +1,11 @@
 import { describe, test, expect } from 'vitest';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {
   createMockCourseRegistration, createMockGroup,
 } from '../../__tests__/testUtils';
 import CourseListRow, { getSubtitle, type FacilitatorRowProps, type ParticipantRowProps } from './CourseListRow';
-import { classifyCourseRegistration } from './useCourseActions';
+import { classifyCourseRegistration } from './useCourseListRow';
 
 describe('getSubtitle precedence', () => {
   const renderText = (node: React.ReactNode): string => {
@@ -587,6 +587,54 @@ describe('CourseListRow actions', () => {
         const { container } = renderFacRow(facProps({ group: null }));
         expect(openOverflowItems(container)).not.toContain('Update discussion time');
       });
+    });
+  });
+
+  describe('participant certificate / action-plan states', () => {
+    test('completed + certificate + feedback outstanding → "Share feedback" to unlock (View certificate hidden)', () => {
+      const { container } = renderRow(baseProps({
+        courseRegistration: createMockCourseRegistration({
+          roundStatus: 'Past',
+          certificateCreatedAt: Math.floor(Date.now() / 1000),
+          certificateId: 'cert-1',
+        }),
+        hasSubmittedFeedback: false,
+        feedbackFormUrl: 'https://example.com/feedback',
+      }));
+      const labels = inlineLabels(container);
+      expect(labels.some((l) => l.includes('Share feedback'))).toBe(true);
+      expect(labels).not.toContain('View certificate');
+    });
+
+    test('completed + no certificate + action plan already submitted → "Action plan submitted"', () => {
+      const { container } = renderRow(baseProps({
+        courseRegistration: createMockCourseRegistration({ roundStatus: 'Past', certificateCreatedAt: null }),
+        meetPersonId: 'mp-1',
+        hasSubmittedActionPlan: true,
+      }));
+      expect(inlineLabels(container)).toContain('Action plan submitted');
+    });
+
+    test('in-progress + no certificate + missed too many discussions → certificate-eligibility tooltip shown', () => {
+      renderRow(baseProps({
+        courseRegistration: createMockCourseRegistration({ roundStatus: 'Active', certificateCreatedAt: null }),
+        meetPersonId: 'mp-1',
+        numUnits: 8,
+        uniqueDiscussionAttendance: 2,
+        hasSubmittedActionPlan: false,
+      }));
+      expect(screen.getByLabelText('Show certificate eligibility information')).toBeInTheDocument();
+    });
+
+    test('in-progress + attended enough + action plan submitted → no eligibility tooltip', () => {
+      renderRow(baseProps({
+        courseRegistration: createMockCourseRegistration({ roundStatus: 'Active', certificateCreatedAt: null }),
+        meetPersonId: 'mp-1',
+        numUnits: 8,
+        uniqueDiscussionAttendance: 8,
+        hasSubmittedActionPlan: true,
+      }));
+      expect(screen.queryByLabelText('Show certificate eligibility information')).toBeNull();
     });
   });
 });
