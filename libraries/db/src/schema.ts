@@ -1172,10 +1172,6 @@ export const unitResourceTable = pgAirtable('unit_resource', {
       pgColumn: text(),
       airtableId: 'fldJX4h1sTNkacKru',
     },
-    avgRating: {
-      pgColumn: numeric({ mode: 'number' }),
-      airtableId: 'fldOWWeymJQTwlfaY',
-    },
     syncedAudioUrl: {
       pgColumn: text().default(''), // For future github issue #1148
       airtableId: 'fldIqUoLYILUmMgY0',
@@ -1187,6 +1183,13 @@ export const unitResourceTable = pgAirtable('unit_resource', {
     autoNumberId: {
       pgColumn: numeric({ mode: 'number' }),
       airtableId: 'fldUOh3MNUIf0vnYb',
+    },
+  },
+  deprecatedColumns: {
+    avgRating: {
+      pgColumn: numeric({ mode: 'number' }),
+      airtableId: 'fldOWWeymJQTwlfaY',
+      deprecated: true,
     },
   },
 });
