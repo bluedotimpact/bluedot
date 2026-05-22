@@ -14,7 +14,15 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const ControlledDemo = ({ startHour, endHour, initial = {} }: { startHour?: number; endHour?: number; initial?: TimeAvailabilityMap }) => {
+const ControlledDemo = ({
+  startHour,
+  endHour,
+  initial = {},
+}: {
+  startHour?: number;
+  endHour?: number;
+  initial?: TimeAvailabilityMap;
+}) => {
   const [value, setValue] = useState<TimeAvailabilityMap>(initial);
   return (
     <div className="w-[600px]">
@@ -32,7 +40,7 @@ export const Default: Story = {
 
 export const BusinessHours: Story = {
   args: { value: {}, onChange: noop },
-  render: () => <ControlledDemo startHour={8} endHour={23} />,
+  render: () => <ControlledDemo startHour={8} endHour={17} />,
 };
 
 export const Prefilled: Story = {
