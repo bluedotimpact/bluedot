@@ -46,6 +46,7 @@ export {
   bugReportsTable,
   courseFeedbackTable,
   peerFeedbackTable,
+  vanityUrlsTable,
 } from './schema';
 
 // Type exports
@@ -91,6 +92,7 @@ export type {
   BugReport,
   CourseFeedback,
   PeerFeedback,
+  VanityUrl,
 } from './schema';
 
 export { getPgAirtableFromIds, PgAirtableTable } from './lib/db-core';
