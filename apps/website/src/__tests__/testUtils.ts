@@ -266,7 +266,6 @@ export const createMockResource = (overrides: Partial<UnitResource> = {}): UnitR
   coreFurtherMaybe: 'Core',
   readingOrder: null,
   unitId: 'unit-1',
-  avgRating: null,
   syncedAudioUrl: null,
   year: 2024,
   autoNumberId: 1,
