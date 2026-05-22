@@ -68,7 +68,7 @@ const NextDiscussionCard = ({
   const day = start.getDate();
 
   const unitNumber = unit?.unitNumber;
-  const titleHref = unit ? buildCourseUnitUrl({ courseSlug, unitNumber: unit.unitNumber }) : undefined;
+  const titleHref = unitNumber != null ? buildCourseUnitUrl({ courseSlug, unitNumber }) : undefined;
   const eyebrowPrefix = courseTitle;
 
   // Title always links to the unit page; the primary CTA flips to zoom when live.
