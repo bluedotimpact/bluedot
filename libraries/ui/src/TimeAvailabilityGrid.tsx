@@ -37,8 +37,30 @@ export type TimeAvailabilityMap = Record<number, boolean>;
 export type TimeAvailabilityGridProps = {
   value: TimeAvailabilityMap;
   onChange: (v: TimeAvailabilityMap) => void;
+  /**
+   * First hour shown in the grid (inclusive). Integer in [0, 23].
+   * Must be strictly less than `endHour`. Defaults to 0.
+   */
   startHour?: number;
+  /**
+   * Last hour shown in the grid (exclusive — labels go up to but do not include this hour as a cell row).
+   * Integer in [1, 24]. Must be strictly greater than `startHour`. Defaults to 24.
+   */
   endHour?: number;
+};
+
+const validateHourRange = (startHour: number, endHour: number) => {
+  if (!Number.isInteger(startHour) || startHour < 0 || startHour > 23) {
+    throw new Error(`TimeAvailabilityGrid: startHour must be an integer in [0, 23], got ${startHour}`);
+  }
+
+  if (!Number.isInteger(endHour) || endHour < 1 || endHour > 24) {
+    throw new Error(`TimeAvailabilityGrid: endHour must be an integer in [1, 24], got ${endHour}`);
+  }
+
+  if (startHour >= endHour) {
+    throw new Error(`TimeAvailabilityGrid: startHour (${startHour}) must be less than endHour (${endHour})`);
+  }
 };
 
 export const TimeAvailabilityGrid: React.FC<TimeAvailabilityGridProps> = ({
@@ -47,6 +69,7 @@ export const TimeAvailabilityGrid: React.FC<TimeAvailabilityGridProps> = ({
   startHour = 0,
   endHour = 24,
 }) => {
+  validateHourRange(startHour, endHour);
   const startUnit = (startHour * 60) / MINUTES_IN_UNIT;
   const endUnit = (endHour * 60) / MINUTES_IN_UNIT;
 
