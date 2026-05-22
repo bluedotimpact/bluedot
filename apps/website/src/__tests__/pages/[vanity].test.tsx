@@ -19,7 +19,6 @@ describe('vanity URL catch-all page', () => {
     vi.restoreAllMocks();
   });
 
-
   test('redirects with 307 to resolvedUrl on hit', async () => {
     await testDb.insert(vanityUrlsTable, {
       vanityName: 'minutephysics',
