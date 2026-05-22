@@ -30,6 +30,15 @@ export const classifyCourseRegistration = (
   return 'completed';
 };
 
+// Dropped rows can still expand if the user attended any discussions before dropping.
+const canExpandRow = (state: CourseRowState, attendedDiscussionIds: string[]): boolean =>
+  state !== 'dropped' || attendedDiscussionIds.length > 0;
+
+export const isAutoExpandCandidate = (row: CourseListRowProps): boolean => {
+  const state = classifyCourseRegistration(row.courseRegistration, { isDroppedOut: row.isDroppedOut, isDeferred: row.isDeferred });
+  return canExpandRow(state, row.attendedDiscussionIds) && row.discussions.length > 0;
+};
+
 export type ModalCallbacks = {
   onClickReschedule: (input: { unitNumber: string | null; switchType: SwitchType }) => void;
   onClickFacilitatorReschedule: (discussion: GroupDiscussion) => void;
@@ -109,8 +118,7 @@ const deriveCourseRowState = (row: CourseListRowProps, utmSource: string | undef
   const hasCert = !!courseRegistration.certificateCreatedAt;
   const isFacilitatedCourse = course.slug !== FOAI_COURSE_SLUG;
 
-  // Dropped rows can still expand if the user attended any discussions before dropping.
-  const canExpand = state !== 'dropped' || attendedDiscussionIds.length > 0;
+  const canExpand = canExpandRow(state, attendedDiscussionIds);
 
   const certificateUrl = courseRegistration.certificateId
     ? addQueryParam(ROUTES.certification.url, 'id', courseRegistration.certificateId)

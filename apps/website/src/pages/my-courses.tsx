@@ -6,7 +6,7 @@ import MyBlueDotLayout from '../components/my-bluedot/MyBlueDotLayout';
 import InactiveCourseBanners from '../components/courses/InactiveCourseBanners';
 import CourseList, { courseListRowKey } from '../components/my-courses/CourseList';
 import { type CourseListRowProps } from '../components/my-courses/CourseListRow';
-import { classifyCourseRegistration } from '../components/my-courses/useCourseListRow';
+import { isAutoExpandCandidate } from '../components/my-courses/useCourseListRow';
 import NextDiscussionCard from '../components/my-courses/NextDiscussionCard';
 import TabPills from '../components/my-courses/TabPills';
 import { ROUTES } from '../lib/routes';
@@ -88,12 +88,6 @@ export const bucketCoursesByTab = (courses: CourseListRowProps[] | undefined): R
     pastCourses: buckets.pastCourses
       .sort((a, b) => (b.courseRegistration.certificateCreatedAt ?? Infinity) - (a.courseRegistration.certificateCreatedAt ?? Infinity)),
   };
-};
-
-const isAutoExpandCandidate = (course: CourseListRowProps): boolean => {
-  const state = classifyCourseRegistration(course.courseRegistration, { isDroppedOut: course.isDroppedOut, isDeferred: course.isDeferred });
-  const canExpand = state !== 'dropped' || course.attendedDiscussionIds.length > 0;
-  return canExpand && course.discussions.length > 0;
 };
 
 const MyCoursesPage = () => {

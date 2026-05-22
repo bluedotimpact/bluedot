@@ -6,7 +6,7 @@ import { useMemo, useState } from 'react';
 import MyBlueDotLayout from '../components/my-bluedot/MyBlueDotLayout';
 import CourseList, { courseListRowKey } from '../components/my-courses/CourseList';
 import { type CourseListRowProps } from '../components/my-courses/CourseListRow';
-import { classifyCourseRegistration } from '../components/my-courses/useCourseListRow';
+import { isAutoExpandCandidate } from '../components/my-courses/useCourseListRow';
 import NextDiscussionCard from '../components/my-courses/NextDiscussionCard';
 import TabPills from '../components/my-courses/TabPills';
 import { ROUTES } from '../lib/routes';
@@ -62,11 +62,6 @@ export const bucketCoursesByTab = (courses: CourseListRowProps[] | undefined): R
     upcoming: sortByStartDateAsc(buckets.upcoming),
     pastCourses: sortByEndDateDesc(buckets.pastCourses),
   };
-};
-
-const isAutoExpandCandidate = (row: CourseListRowProps): boolean => {
-  const state = classifyCourseRegistration(row.courseRegistration);
-  return state !== 'dropped' && row.discussions.length > 0;
 };
 
 type NextDiscussionItem = { discussion: { startDateTime: number } };
