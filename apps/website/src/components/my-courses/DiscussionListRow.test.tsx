@@ -299,11 +299,11 @@ describe('DiscussionListRow', () => {
 
       clickOverflowItem(container, 'Reschedule');
       expect(onClickFacilitatorReschedule).toHaveBeenCalledTimes(1);
-      expect(onClickFacilitatorReschedule.mock.calls[0][0].id).toBe(baseDiscussion.id);
+      expect(onClickFacilitatorReschedule).toHaveBeenCalledWith(expect.objectContaining({ id: baseDiscussion.id }));
 
       clickOverflowItem(container, 'Change facilitator');
       expect(onClickFacilitatorAssignSubstitute).toHaveBeenCalledTimes(1);
-      expect(onClickFacilitatorAssignSubstitute.mock.calls[0][0].id).toBe(baseDiscussion.id);
+      expect(onClickFacilitatorAssignSubstitute).toHaveBeenCalledWith(expect.objectContaining({ id: baseDiscussion.id }));
     });
   });
 });
