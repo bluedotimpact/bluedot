@@ -99,18 +99,16 @@ npm run render-preview # render OG/preview images
 
 If you find yourself duplicating one of these, stop and reuse instead.
 
-### Use design tokens, not raw Tailwind values
+### Use named tokens/utilities, not raw colour or size literals
 
 The token system is documented in `apps/storybook/src/GettingStarted.mdx` (browse it via Storybook's "Getting Started" intro page).
 
 | Don't write | Write instead |
 | --- | --- |
+| `text-[#0037ff]`, `bg-[#f5f5f5]` (raw hex) | a named colour utility, e.g. `text-bluedot-navy`, `bg-color-primary-accent` |
 | `text-[16px]`, `text-[18px]`, `text-[24px]` | `text-size-sm`, `text-size-md`, `text-size-lg` |
-| `text-bluedot-navy/62` | `text-color-secondary-text` |
-| `bg-bluedot-normal` (primary accent) | `bg-color-primary-accent` |
-| `border-bluedot-lighter` | `border-color-divider` |
 
-If a token doesn't exist for what you need, add it to `globals.css` rather than inlining.
+Named palette utilities (`text-bluedot-navy`, including opacity like `text-bluedot-navy/60`) and semantic tokens (`bg-color-primary-accent`, `border-color-divider`) are both fine — use whichever reads more clearly. Exact pixel values for spacing (e.g. `gap-[3px]`) are sometimes OK.
 
 ### Creating a New Component
 
