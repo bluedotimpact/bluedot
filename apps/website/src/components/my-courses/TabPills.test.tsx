@@ -11,18 +11,18 @@ const TABS = [
 ] as const;
 
 describe('TabPills', () => {
-  test('renders one tab per entry and marks the active one', () => {
+  test('renders one pill per entry and marks the active one', () => {
     render(<TabPills ariaLabel="Course filter" tabs={TABS} value="upcoming" onChange={() => {}} />);
-    const tabs = screen.getAllByRole('tab');
-    expect(tabs).toHaveLength(3);
-    expect(screen.getByRole('tab', { name: 'Upcoming' }).getAttribute('aria-selected')).toBe('true');
-    expect(screen.getByRole('tab', { name: 'In Progress' }).getAttribute('aria-selected')).toBe('false');
+    const pills = screen.getAllByRole('button');
+    expect(pills).toHaveLength(3);
+    expect(screen.getByRole('button', { name: 'Upcoming' }).getAttribute('aria-pressed')).toBe('true');
+    expect(screen.getByRole('button', { name: 'In Progress' }).getAttribute('aria-pressed')).toBe('false');
   });
 
-  test('fires onChange with the clicked tab id', () => {
+  test('fires onChange with the clicked pill id', () => {
     const onChange = vi.fn();
     render(<TabPills ariaLabel="Course filter" tabs={TABS} value="inProgress" onChange={onChange} />);
-    fireEvent.click(screen.getByRole('tab', { name: 'Past Courses' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Past Courses' }));
     expect(onChange).toHaveBeenCalledWith('pastCourses');
   });
 });

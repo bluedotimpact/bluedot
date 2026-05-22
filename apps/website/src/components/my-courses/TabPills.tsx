@@ -17,8 +17,7 @@ const TabPill = <T extends string>({
 }: { tab: Tab<T>; isActive: boolean; onClick: () => void }) => (
   <button
     type="button"
-    role="tab"
-    aria-selected={isActive}
+    aria-pressed={isActive}
     onClick={onClick}
     className={`h-10 px-4 rounded-full border text-size-xs font-medium cursor-pointer transition-colors ${
       isActive
@@ -33,7 +32,7 @@ const TabPill = <T extends string>({
 const TabPills = <T extends string>({
   ariaLabel, tabs, value, onChange,
 }: TabPillsProps<T>) => (
-  <div role="tablist" aria-label={ariaLabel} className="flex gap-3">
+  <div role="group" aria-label={ariaLabel} className="flex gap-3">
     {tabs.map((tab) => (
       <TabPill
         key={tab.id}
