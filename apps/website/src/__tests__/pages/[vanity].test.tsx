@@ -1,7 +1,10 @@
 import { vanityUrlsTable } from '@bluedot/db';
 import type { GetServerSidePropsContext } from 'next';
-import { describe, expect, test } from 'vitest';
+import {
+  describe, expect, test, vi,
+} from 'vitest';
 import { getServerSideProps } from '../../pages/[vanity]';
+import db from '../../lib/api/db';
 import { setupTestDb, testDb } from '../dbTestUtils';
 
 setupTestDb();
@@ -76,5 +79,16 @@ describe('vanity URL catch-all page', () => {
 
     const result = await callGetServerSideProps('evil');
     expect(result).toEqual({ notFound: true });
+  });
+
+  test('falls back to notFound when the DB lookup throws', async () => {
+    const spy = vi.spyOn(db, 'getFirst').mockRejectedValueOnce(new Error('connection refused'));
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    const result = await callGetServerSideProps('anything');
+
+    expect(result).toEqual({ notFound: true });
+    spy.mockRestore();
+    consoleSpy.mockRestore();
   });
 });
