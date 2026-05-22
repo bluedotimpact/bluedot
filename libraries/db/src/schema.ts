@@ -1601,6 +1601,25 @@ export const peerFeedbackTable = pgAirtable('peer_feedback', {
   },
 });
 
+export const vanityUrlsTable = pgAirtable('vanity_urls', {
+  baseId: WEB_CONTENT_BASE_ID,
+  tableId: 'tblCPvMhgVp78Tghe',
+  columns: {
+    vanityName: {
+      pgColumn: text(),
+      airtableId: 'fldzB8XWT6X7ILYX0',
+    },
+    resolvedUrl: {
+      pgColumn: text(),
+      airtableId: 'fldPBSQtesb6Njx2k',
+    },
+    isActive: {
+      pgColumn: boolean(),
+      airtableId: 'fldTZCimYxTKe8MJv',
+    }
+  }
+});
+
 // Type exports for all tables
 export type Meta = InferSelectModel<typeof metaTable>;
 export type SyncMetadata = InferSelectModel<typeof syncMetadataTable>;
@@ -1642,3 +1661,4 @@ export type TeamMember = InferSelectModel<typeof teamMemberTable.pg>;
 export type BugReport = InferSelectModel<typeof bugReportsTable.pg>;
 export type CourseFeedback = InferSelectModel<typeof courseFeedbackTable.pg>;
 export type PeerFeedback = InferSelectModel<typeof peerFeedbackTable.pg>;
+export type VanityUrl = InferSelectModel<typeof vanityUrlsTable.pg>;
