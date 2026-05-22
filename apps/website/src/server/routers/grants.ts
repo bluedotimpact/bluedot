@@ -6,6 +6,7 @@ import {
   rapidGrantTable,
 } from '@bluedot/db';
 import db from '../../lib/api/db';
+import { sanitizeUrl } from '../../lib/sanitizeUrl';
 import { publicProcedure, router } from '../trpc';
 
 export type GrantStats = {
@@ -60,25 +61,6 @@ const trimmedMean = (values: number[], trimPct: number): number => {
   const cut = Math.floor(sorted.length * trimPct);
   const inner = sorted.slice(cut, sorted.length - cut);
   return inner.reduce((sum, v) => sum + v, 0) / inner.length;
-};
-
-const sanitizeUrl = (value: string | null): string | undefined => {
-  const trimmedValue = value?.trim();
-  if (!trimmedValue) {
-    return undefined;
-  }
-
-  try {
-    const parsedUrl = new URL(trimmedValue);
-
-    if (parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:') {
-      return parsedUrl.toString();
-    }
-  } catch {
-    return undefined;
-  }
-
-  return undefined;
 };
 
 // pgAirtable stores Airtable date columns as text; parse here and bucket
