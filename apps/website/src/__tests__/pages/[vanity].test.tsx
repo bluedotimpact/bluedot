@@ -1,7 +1,7 @@
 import { vanityUrlsTable } from '@bluedot/db';
 import type { GetServerSidePropsContext } from 'next';
 import {
-  describe, expect, test, vi,
+  afterEach, describe, expect, test, vi,
 } from 'vitest';
 import { getServerSideProps } from '../../pages/[vanity]';
 import db from '../../lib/api/db';
@@ -15,6 +15,11 @@ const callGetServerSideProps = (vanity: string) =>
   } as unknown as GetServerSidePropsContext);
 
 describe('vanity URL catch-all page', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+
   test('redirects with 307 to resolvedUrl on hit', async () => {
     await testDb.insert(vanityUrlsTable, {
       vanityName: 'minutephysics',
@@ -82,13 +87,11 @@ describe('vanity URL catch-all page', () => {
   });
 
   test('falls back to notFound when the DB lookup throws', async () => {
-    const spy = vi.spyOn(db, 'getFirst').mockRejectedValueOnce(new Error('connection refused'));
-    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    vi.spyOn(db, 'getFirst').mockRejectedValueOnce(new Error('connection refused'));
+    vi.spyOn(console, 'error').mockImplementation(() => {});
 
     const result = await callGetServerSideProps('anything');
 
     expect(result).toEqual({ notFound: true });
-    spy.mockRestore();
-    consoleSpy.mockRestore();
   });
 });
