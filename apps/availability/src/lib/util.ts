@@ -3,20 +3,6 @@ import * as wa from 'weekly-availabilities';
 export const MINUTES_IN_UNIT = 30;
 export const MINUTES_IN_WEEK = 10_080;
 
-export function snapToRect(
-  {
-    top, bottom, left, right,
-  }: { top: number; bottom: number; left: number; right: number },
-  { x, y }: { x: number; y: number },
-) {
-  return {
-    // eslint-disable-next-line no-nested-ternary
-    x: x < left ? left + 5 : x > right ? right - 5 : x,
-    // eslint-disable-next-line no-nested-ternary
-    y: y > bottom ? bottom - 5 : y < top ? top + 5 : y,
-  };
-}
-
 /**
  * Converts a weekly time availability map to intervals.
  * Each selected time slot becomes a 30-minute interval, then merged with unionSchedules.
