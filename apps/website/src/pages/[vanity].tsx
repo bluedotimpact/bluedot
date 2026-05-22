@@ -21,10 +21,20 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     return { notFound: true };
   }
 
-  const row = await db.getFirst(vanityUrlsTable, {
-    filter: { vanityName: slug },
-    sortBy: 'vanityName',
-  });
+  // Treat any DB failure as a miss so a transient outage degrades to 404 rather than 500,
+  // keeping the redirect path resilient for sponsorship traffic.
+  let row;
+  try {
+    row = await db.getFirst(vanityUrlsTable, {
+      filter: { vanityName: slug },
+      sortBy: 'vanityName',
+    });
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error('vanity_redirect_db_error', err);
+    vanityRedirectCounter.add(1, { status: 'miss' });
+    return { notFound: true };
+  }
 
   const destination = row?.isActive ? sanitizeUrl(row.resolvedUrl) : undefined;
   if (!destination) {
