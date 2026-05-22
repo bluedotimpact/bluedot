@@ -62,7 +62,7 @@ describe('vanity URL catch-all page', () => {
     expect(result).toEqual({ notFound: true });
   });
 
-  test('returns notFound for slugs with invalid characters', async () => {
+  test('returns notFound for unmatched slugs containing unusual characters', async () => {
     const result = await callGetServerSideProps('has spaces');
     expect(result).toEqual({ notFound: true });
   });

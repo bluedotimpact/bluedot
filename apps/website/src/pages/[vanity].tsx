@@ -5,8 +5,6 @@ import { metrics } from '@opentelemetry/api';
 import db from '../lib/api/db';
 import { sanitizeUrl } from '../lib/sanitizeUrl';
 
-const SLUG_REGEX = /^[a-z0-9-]+$/;
-
 const meter = metrics.getMeter('vanity-urls');
 const vanityRedirectCounter = meter.createCounter('vanity_redirect_total', {
   description:
@@ -19,7 +17,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const raw = typeof params?.vanity === 'string' ? params.vanity : '';
   const slug = raw.toLowerCase();
 
-  if (!SLUG_REGEX.test(slug)) {
+  if (!slug) {
     return { notFound: true };
   }
 
