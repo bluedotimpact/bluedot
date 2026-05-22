@@ -3,8 +3,20 @@ import {
   type FieldPath, type FieldValues, type UseControllerProps,
   useController,
 } from 'react-hook-form';
-import { CTALinkOrButton, TimeAvailabilityGrid } from '@bluedot/ui';
+import { CTALinkOrButton, TimeAvailabilityGrid, type TimeAvailabilityMap } from '@bluedot/ui';
 import type * as wa from 'weekly-availabilities';
+import { MINUTES_IN_WEEK } from '../lib/util';
+
+const toWeeklyTimeAvMap = (m: TimeAvailabilityMap): Record<wa.WeeklyTime, boolean> => {
+  for (const key of Object.keys(m)) {
+    const n = Number(key);
+    if (!Number.isInteger(n) || n < 0 || n >= MINUTES_IN_WEEK) {
+      throw new Error(`Invalid WeeklyTime key from grid: ${key}`);
+    }
+  }
+
+  return m as Record<wa.WeeklyTime, boolean>;
+};
 
 export type TimeAvailabilityInputProps<TFieldValues extends FieldValues, TName extends FieldPath<TFieldValues>> = {
   className?: string;
@@ -21,7 +33,7 @@ export const TimeAvailabilityInput = <
     <div className="sm:flex gap-4">
       <TimeAvailabilityGrid
         value={field.value}
-        onChange={(v) => field.onChange(v as Record<wa.WeeklyTime, boolean>)}
+        onChange={(v) => field.onChange(toWeeklyTimeAvMap(v))}
         startHour={show24 ? 0 : 8}
         endHour={show24 ? 24 : 23}
       />
