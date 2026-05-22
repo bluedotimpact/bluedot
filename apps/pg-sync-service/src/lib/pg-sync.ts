@@ -88,12 +88,13 @@ export async function initializeWebhooks(): Promise<void> {
         logger.error(`[initializeWebhooks] Failed to initialize webhook for base ${baseId}: ${msg}`);
       }
     });
-    if (failures.length > 0) {
-      slackAlert(env, [`[initializeWebhooks] ${failures.length}/${baseEntries.length} webhook(s) failed: ${failures.map((f) => f.baseId).join(', ')}`]);
+    const failedBaseIds = failures.map((f) => f.baseId).join(', ');
+    if (failures.length === baseEntries.length && baseEntries.length > 0) {
+      throw new Error(`All webhook initializations failed (${failedBaseIds})`);
     }
 
-    if (failures.length === baseEntries.length && baseEntries.length > 0) {
-      throw new Error('All webhook initializations failed');
+    if (failures.length > 0) {
+      slackAlert(env, [`[initializeWebhooks] ${failures.length}/${baseEntries.length} webhook(s) failed: ${failedBaseIds}`]);
     }
 
     logger.info(`[initializeWebhooks] Initialized ${Object.keys(webhookInstances).length}/${baseEntries.length} webhooks with field-level filtering`);
