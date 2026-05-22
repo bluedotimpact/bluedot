@@ -1616,8 +1616,8 @@ export const vanityUrlsTable = pgAirtable('vanity_urls', {
     isActive: {
       pgColumn: boolean(),
       airtableId: 'fldTZCimYxTKe8MJv',
-    }
-  }
+    },
+  },
 });
 
 // Type exports for all tables
