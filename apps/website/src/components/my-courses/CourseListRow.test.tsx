@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import {
   createMockCourseRegistration, createMockGroup,
 } from '../../__tests__/testUtils';
-import CourseListRow, { getSubtitle, type CourseListRowProps } from './CourseListRow';
+import CourseListRow, { classifyCourseRegistration, getSubtitle, type CourseListRowProps } from './CourseListRow';
 
 describe('getSubtitle precedence', () => {
   type SubtitleArgs = Parameters<typeof getSubtitle>[0];
@@ -361,6 +361,19 @@ describe('CourseListRow actions', () => {
       const completed = createMockCourseRegistration({ roundStatus: 'Past' });
       const { container } = renderRow(baseProps({ courseRegistration: completed }));
       expect(openOverflowItems(container)).not.toContain('Drop or defer course');
+    });
+  });
+
+  describe('Certificate visibility (regression: cert can exist before roundStatus flips to Past)', () => {
+    test('classifies as completed when a cert exists even while roundStatus is Active', () => {
+      const reg = createMockCourseRegistration({ roundStatus: 'Active', certificateCreatedAt: 1700000000 });
+      expect(classifyCourseRegistration(reg)).toBe('completed');
+    });
+
+    test('shows the View certificate button for a cert on an Active round', () => {
+      const reg = createMockCourseRegistration({ roundStatus: 'Active', certificateCreatedAt: 1700000000 });
+      const { container } = renderRow(baseProps({ courseRegistration: reg }));
+      expect(inlineLabels(container)).toContain('View certificate');
     });
   });
 

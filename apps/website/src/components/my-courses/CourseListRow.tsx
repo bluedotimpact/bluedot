@@ -372,6 +372,7 @@ const NOT_DROPPED: DropoutStatus = { isDroppedOut: false, isDeferred: false };
 
 export const classifyCourseRegistration = (cr: CourseRegistration, status: DropoutStatus = NOT_DROPPED) => {
   if (status.isDroppedOut && !status.isDeferred) return 'dropped';
+  if (cr.certificateCreatedAt) return 'completed';
   if (cr.roundStatus === 'Active') return 'in-progress';
   if (cr.roundStatus === 'Future') return 'upcoming';
   return 'completed';
