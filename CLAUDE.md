@@ -31,7 +31,7 @@ We're fans of [boring technology](https://boringtechnology.club/) — don't intr
 ## Before you start a task
 
 - Look for existing components/utilities first. Most marketing primitives already live in `@bluedot/ui` or `apps/website/src/components/`. See `apps/website/README.md` → "Reusing existing components first".
-- Use the project's named design tokens / utilities (`text-size-md`, `text-bluedot-navy`, `bg-color-primary-accent`, `border-color-divider`, …), not raw or arbitrary values like `text-[#0037ff]`. Exact pixel values like `gap-[3px]` are sometimes ok. Tokens are documented in `apps/storybook/src/GettingStarted.mdx` and defined in `apps/website/src/globals.css`.
+- Use the named `bluedot-*` palette utilities for colour (`text-bluedot-navy`, `bg-bluedot-normal`, including opacity like `text-bluedot-navy/60`) and the size tokens for type (`text-size-md`). Avoid raw hex (`text-[#0037ff]`) **and** the semantic `color-*` tokens (`bg-color-primary-accent`, `border-color-divider`). Exact pixel values like `gap-[3px]` are sometimes ok. Tokens are documented in `apps/storybook/src/GettingStarted.mdx` and defined in `apps/website/src/globals.css`.
 - Check existing components in Storybook (`apps/storybook/` or [storybook.k8s.bluedot.org](https://storybook.k8s.bluedot.org)) before building new ones. If a new component would benefit from visual documentation (e.g. for design review or reuse by non-technical team members), ask the user if they'd like a Storybook story.
 - For non-trivial work, sketch a plan before editing.
 
