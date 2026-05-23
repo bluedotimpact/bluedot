@@ -403,5 +403,14 @@ const getFacilitatorActions = (
         onAction: triggers.openFacilitatorRescheduleRecurring,
       },
     },
+    {
+      // Pending => no group. Once a facilitator has a group assigned, don't let them drop out (they would need to ask via Slack)
+      id: 'drop',
+      isVisible: isPending && courseRegistration.decision !== 'Reject',
+      variant: 'overflow',
+      overflow: {
+        id: 'drop', label: 'Drop or defer course', onAction: triggers.openDropout,
+      },
+    },
   ];
 };
