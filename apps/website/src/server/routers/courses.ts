@@ -228,10 +228,12 @@ export const coursesRouter = router({
       const allUnits = await db.scan(unitTable, { courseSlug, unitStatus: 'Active' });
       const unitIds = allUnits.map((u) => u.id);
 
-      const allChunks = await db.pg
-        .select()
-        .from(chunkTable.pg)
-        .where(and(eq(chunkTable.pg.status, 'Active'), inArray(chunkTable.pg.unitId, unitIds)));
+      const allChunks = unitIds.length > 0
+        ? await db.pg
+          .select()
+          .from(chunkTable.pg)
+          .where(and(eq(chunkTable.pg.status, 'Active'), inArray(chunkTable.pg.unitId, unitIds)))
+        : [];
 
       const referencedExerciseIds = allChunks.flatMap((c) => c.chunkExercises ?? []);
       const activeExerciseIds = new Set<string>();
