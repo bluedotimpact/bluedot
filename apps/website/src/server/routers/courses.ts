@@ -224,44 +224,49 @@ export const coursesRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: `Course "${courseSlug}" not found` });
       }
 
+      // 1. Fetch data
       const allUnits = await db.scan(unitTable, { courseSlug, unitStatus: 'Active' });
+      const unitIds = allUnits.map((u) => u.id);
 
-      // Fetch chunks by unitId (matching course page behavior) instead of using unit.chunks array
-      const unitMetadata = await Promise.all(allUnits.map(async (unit) => {
-        const chunks = await db.scan(chunkTable, { unitId: unit.id, status: 'Active' });
+      const allChunks = await db.pg
+        .select()
+        .from(chunkTable.pg)
+        .where(and(eq(chunkTable.pg.status, 'Active'), inArray(chunkTable.pg.unitId, unitIds)));
 
-        // Calculate duration:
-        // - Skip chunks with "Optional" in title (not required)
-        // - For "Option N:" chunks, take max (they're alternatives)
-        // - Sum the rest
-        const optionPattern = /option\s+\d+/i;
-        const optionalPattern = /optional/i;
+      const referencedExerciseIds = allChunks.flatMap((c) => c.chunkExercises ?? []);
+      const activeExerciseIds = new Set<string>();
+      if (referencedExerciseIds.length > 0) {
+        const activeExercises = await db.pg
+          .select({ id: exerciseTable.pg.id })
+          .from(exerciseTable.pg)
+          .where(and(
+            eq(exerciseTable.pg.status, 'Active'),
+            inArray(exerciseTable.pg.id, referencedExerciseIds),
+          ));
+        for (const e of activeExercises) activeExerciseIds.add(e.id);
+      }
+
+      // Calculate duration:
+      // - Skip chunks with "Optional" in title (not required)
+      // - For "Option N:" chunks, take max (they are alternatives)
+      // - Sum the rest
+      const optionPattern = /option\s+\d+/i;
+      const optionalPattern = /optional/i;
+
+      const unitMetadata = allUnits.map((unit) => {
+        const chunks = allChunks.filter((c) => c.unitId === unit.id);
 
         const requiredChunks = chunks.filter((c) => !optionalPattern.test(c.chunkTitle));
         const optionChunks = requiredChunks.filter((c) => optionPattern.test(c.chunkTitle));
         const regularChunks = requiredChunks.filter((c) => !optionPattern.test(c.chunkTitle));
-
         const optionMaxTime = optionChunks.length > 0
           ? Math.max(...optionChunks.map((c) => c.estimatedTime ?? 0))
           : 0;
         const regularTime = regularChunks.reduce((sum, c) => sum + (c.estimatedTime ?? 0), 0);
         const totalDuration = regularTime + optionMaxTime;
 
-        // Get all exercise IDs from active chunks
-        const allExerciseIds = chunks.flatMap((c) => c.chunkExercises ?? []);
-
-        // Count only active exercises
-        let exerciseCount = 0;
-        if (allExerciseIds.length > 0) {
-          const activeExercises = await db.pg
-            .select({ id: exerciseTable.pg.id })
-            .from(exerciseTable.pg)
-            .where(and(
-              eq(exerciseTable.pg.status, 'Active'),
-              inArray(exerciseTable.pg.id, allExerciseIds),
-            ));
-          exerciseCount = activeExercises.length;
-        }
+        const exerciseCount = [...new Set(chunks.flatMap((c) => c.chunkExercises ?? []))]
+          .filter((id) => activeExerciseIds.has(id)).length;
 
         return {
           unitId: unit.id,
@@ -269,7 +274,7 @@ export const coursesRouter = router({
           duration: totalDuration > 0 ? totalDuration : null,
           exerciseCount,
         };
-      }));
+      });
 
       return unitMetadata.sort((a, b) => Number(a.unitNumber) - Number(b.unitNumber));
     }),
