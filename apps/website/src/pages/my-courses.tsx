@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react';
 import MyBlueDotLayout from '../components/my-bluedot/MyBlueDotLayout';
 import InactiveCourseBanners from '../components/courses/InactiveCourseBanners';
 import CourseList, { courseListRowKey } from '../components/my-courses/CourseList';
+import EmptyCourseList, { type EmptyCourseListProps } from '../components/my-courses/EmptyCourseList';
 import { type CourseListRowProps } from '../components/my-courses/CourseListRow';
 import {
   TABS, type CourseTab, isCourseTab, isAutoExpandCandidate, bucketCoursesByTab as bucketRowsByTab,
@@ -16,10 +17,24 @@ import { trpc } from '../utils/trpc';
 
 const CURRENT_ROUTE = ROUTES.myCourses;
 
-const EMPTY_MESSAGE: Record<CourseTab, string> = {
-  inProgress: 'You are not enrolled in any active courses.',
-  upcoming: 'No upcoming courses to show.',
-  pastCourses: 'No past courses to show.',
+const BROWSE_COURSES = { label: 'Browse courses', href: ROUTES.courses.url };
+
+const EMPTY_STATE: Record<CourseTab, EmptyCourseListProps> = {
+  inProgress: {
+    title: 'No active courses',
+    description: 'You\'re not currently enrolled in any active courses.',
+    cta: BROWSE_COURSES,
+  },
+  upcoming: {
+    title: 'No upcoming courses',
+    description: 'You have no upcoming courses.',
+    cta: BROWSE_COURSES,
+  },
+  pastCourses: {
+    title: 'No past courses',
+    description: 'Courses you\'ve completed will appear here.',
+    cta: BROWSE_COURSES,
+  },
 };
 
 // Participants see rejected applications only while the round is still Future, and rows must have a
@@ -109,13 +124,16 @@ const MyCoursesPage = () => {
                 value={activeTab}
                 onChange={setActiveTab}
               />
-              <CourseList
-                key={activeTab}
-                courses={visibleCourses}
-                emptyMessage={EMPTY_MESSAGE[activeTab]}
-                expandedById={expandedById}
-                onToggleExpand={handleToggleExpand}
-              />
+              {visibleCourses.length === 0 ? (
+                <EmptyCourseList {...EMPTY_STATE[activeTab]} />
+              ) : (
+                <CourseList
+                  key={activeTab}
+                  courses={visibleCourses}
+                  expandedById={expandedById}
+                  onToggleExpand={handleToggleExpand}
+                />
+              )}
             </>
           )}
         </div>
