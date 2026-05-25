@@ -1,7 +1,6 @@
 import { cn } from '@bluedot/ui';
 import type { IconProps } from './types';
 
-// Empty-state illustration icon (two books). Natural size is 80×80; strokes use currentColor.
 type BooksIconProps = Omit<IconProps, 'size'> & { size?: number };
 
 export const BooksIcon = ({ size = 80, className, ...props }: BooksIconProps) => (
