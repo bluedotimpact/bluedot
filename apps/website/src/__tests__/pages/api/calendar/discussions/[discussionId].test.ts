@@ -150,8 +150,8 @@ describe('calendar discussion download api', () => {
         id: 'unit-2',
         unitNumber: '2',
         title: 'Key Concepts',
+        courseSlug: 'ai-safety',
         courseTitle: 'Introduction to AI Safety',
-        path: '/courses/ai-safety/2',
       }));
     vi.mocked(db.scan)
       .mockResolvedValueOnce([createMockMeetPerson({

@@ -10,7 +10,6 @@ const logos = [
   { src: '/images/third-party-logos/amnesty.webp', alt: 'Amnesty International' },
   { src: '/images/third-party-logos/time.webp', alt: 'Time' },
   { src: '/images/third-party-logos/nato.webp', alt: 'NATO' },
-  { src: '/images/third-party-logos/oecd.webp', alt: 'OECD' },
   { src: '/images/third-party-logos/hai.webp', alt: 'Stanford HAI' },
   { src: '/images/third-party-logos/apple.webp', alt: 'Apple' },
   { src: '/images/third-party-logos/harvard.webp', alt: 'Harvard Kennedy School' },

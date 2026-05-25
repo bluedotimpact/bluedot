@@ -39,7 +39,7 @@ const mockPrograms = [
     id: 'rec-rapid',
     name: 'Rapid grant',
     status: 'Active',
-    description: 'Funding for the BlueDot community to ship projects, run events, and do other concrete work on AI safety.',
+    description: 'Funding for the BlueDot community to ship projects, run events, and do other concrete work on AI safety and biosecurity.',
     applicationForm: 'https://example.com/rapid',
     category: 'Funding',
     slug: 'rapid-grants',
@@ -49,7 +49,7 @@ const mockPrograms = [
     id: 'rec-ct',
     name: 'Career transition grant',
     status: 'Active',
-    description: 'Funding and support to help you go full-time on AI safety.',
+    description: 'Funding and support to help you go full-time on AI safety and biosecurity.',
     applicationForm: 'https://example.com/ct',
     category: 'Funding',
     slug: 'career-transition-grant',
@@ -71,8 +71,10 @@ beforeEach(() => {
   (useRouter as unknown as Mock).mockReturnValue(mockRouter);
   server.use(
     trpcMsw.programs.getAll.query(() => mockPrograms),
-    trpcMsw.grants.getRapidGrantStats.query(() => ({ count: 104, totalAmountUsd: 105000 })),
-    trpcMsw.grants.getCareerTransitionGrantStats.query(() => ({ count: 1, totalAmountUsd: 67500 })),
+    trpcMsw.grants.getRapidGrantStats.query(() => ({
+      count: 104, totalAmountUsd: 105000, averageHoursToDecision: null, p90DaysToDecision: null,
+    })),
+    trpcMsw.grants.getCareerTransitionGrantStats.query(() => ({ count: 1, totalAmountUsd: 67500, averageDaysToDecision: null })),
   );
 });
 

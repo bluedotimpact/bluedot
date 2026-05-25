@@ -31,7 +31,7 @@ We're fans of [boring technology](https://boringtechnology.club/) — don't intr
 ## Before you start a task
 
 - Look for existing components/utilities first. Most marketing primitives already live in `@bluedot/ui` or `apps/website/src/components/`. See `apps/website/README.md` → "Reusing existing components first".
-- Use design tokens (`text-size-md`, `bg-color-primary-accent`, `border-color-divider`, …), not raw Tailwind values like `text-[16px]` or `bg-bluedot-normal`. Tokens are documented in `apps/storybook/src/GettingStarted.mdx` and defined in `apps/website/src/globals.css`.
+- Use the named `bluedot-*` palette utilities for colour (`text-bluedot-navy`, `bg-bluedot-normal`, including opacity like `text-bluedot-navy/60`) and the size tokens for type (`text-size-md`). Avoid raw hex (`text-[#0037ff]`) **and** the semantic `color-*` tokens (`bg-color-primary-accent`, `border-color-divider`). Exact pixel values like `gap-[3px]` are sometimes ok. Tokens are documented in `apps/storybook/src/GettingStarted.mdx` and defined in `apps/website/src/globals.css`.
 - Check existing components in Storybook (`apps/storybook/` or [storybook.k8s.bluedot.org](https://storybook.k8s.bluedot.org)) before building new ones.
 - **Keep Storybook stories in sync with components.** When you touch a component, update its story in the same PR:
   - **Add** a user-facing component (marketing/landing section, shared primitive, reusable UI piece) → add a `ComponentName.stories.tsx` alongside it with at least a `Default` story plus any variants the component supports. Skip stories for pure-logic/utility/admin-internal components or for components fully rendered inside an existing parent story (the parent's story covers them).
