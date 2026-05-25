@@ -18,6 +18,7 @@ export type { IconProps } from './types';
 
 export { ArrowDownIcon } from './ArrowDownIcon';
 export { ArrowRightIcon } from './ArrowRightIcon';
+export { BooksIcon } from './BooksIcon';
 export { CheckIcon } from './CheckIcon';
 export { CheckmarkIcon } from './CheckmarkIcon';
 export { ChevronRightIcon } from './ChevronRightIcon';

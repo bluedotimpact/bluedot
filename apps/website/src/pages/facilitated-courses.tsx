@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import MyBlueDotLayout from '../components/my-bluedot/MyBlueDotLayout';
 import CourseList, { courseListRowKey } from '../components/my-courses/CourseList';
+import EmptyCourseList, { type EmptyCourseListProps } from '../components/my-courses/EmptyCourseList';
 import {
   TABS, type CourseTab, isCourseTab, isAutoExpandCandidate, bucketCoursesByTab,
 } from '../components/my-courses/useCourseListRow';
@@ -14,10 +15,24 @@ import { trpc } from '../utils/trpc';
 
 const CURRENT_ROUTE = ROUTES.facilitatedCourses;
 
-const EMPTY_MESSAGE: Record<CourseTab, string> = {
-  inProgress: 'You are not facilitating any active courses.',
-  upcoming: 'No upcoming facilitator assignments.',
-  pastCourses: 'No past facilitator assignments.',
+const APPLY_TO_FACILITATE = { label: 'Apply now to facilitate', href: '/join-us/facilitate' };
+
+const EMPTY_STATE: Record<CourseTab, EmptyCourseListProps> = {
+  inProgress: {
+    title: 'No active courses',
+    description: 'You\'re not facilitating any active courses right now.',
+    cta: APPLY_TO_FACILITATE,
+  },
+  upcoming: {
+    title: 'No upcoming courses',
+    description: 'You have no upcoming facilitation assignments.',
+    cta: APPLY_TO_FACILITATE,
+  },
+  pastCourses: {
+    title: 'No past courses',
+    description: 'Courses you\'ve facilitated will appear here.',
+    cta: APPLY_TO_FACILITATE,
+  },
 };
 
 type NextDiscussionItem = { discussion: { startDateTime: number } };
@@ -120,13 +135,16 @@ const FacilitatedCoursesPage = () => {
                 value={activeTab}
                 onChange={setActiveTab}
               />
-              <CourseList
-                key={activeTab}
-                courses={visibleCourses}
-                emptyMessage={EMPTY_MESSAGE[activeTab]}
-                expandedById={expandedById}
-                onToggleExpand={handleToggleExpand}
-              />
+              {visibleCourses.length === 0 ? (
+                <EmptyCourseList {...EMPTY_STATE[activeTab]} />
+              ) : (
+                <CourseList
+                  key={activeTab}
+                  courses={visibleCourses}
+                  expandedById={expandedById}
+                  onToggleExpand={handleToggleExpand}
+                />
+              )}
             </>
           )}
         </div>
