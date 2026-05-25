@@ -821,7 +821,7 @@ describe('CourseListRow modal pre-fill (real tRPC via PGlite)', () => {
   test('participant discussion "Reschedule" opens GroupSwitchModal with the clicked unit pre-filled', async () => {
     await seedParticipant();
     await testDb.insert(unitTable, {
-      id: 'unit-2', courseId: COURSE_ID, courseTitle: 'Technical AI Safety', courseSlug: COURSE_SLUG, path: '/u2', title: 'AI Alignment', unitNumber: '2', description: 'D', unitStatus: 'Active', chunks: [],
+      id: 'unit-2', courseId: COURSE_ID, courseTitle: 'Technical AI Safety', courseSlug: COURSE_SLUG, title: 'AI Alignment', unitNumber: '2', description: 'D', unitStatus: 'Active', chunks: [],
     });
     const nowSec = Math.floor(Date.now() / 1000);
     const discussion = createMockGroupDiscussion({
